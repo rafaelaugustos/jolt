@@ -1,0 +1,63 @@
+import { describe, expect, it } from 'vitest'
+import { cubicBezier, resolveEasing, type EasingName } from '../src/easing.js'
+
+const names: EasingName[] = [
+  'linear',
+  'ease',
+  'easeIn',
+  'easeOut',
+  'easeInOut',
+  'circIn',
+  'circOut',
+  'circInOut',
+  'backIn',
+  'backOut',
+  'backInOut',
+  'anticipate',
+]
+
+function bezierPoint([x1, y1, x2, y2]: number[], t: number) {
+  const at = (a: number, b: number) =>
+    3 * (1 - t) ** 2 * t * a + 3 * (1 - t) * t ** 2 * b + t ** 3
+  return { x: at(x1!, x2!), y: at(y1!, y2!) }
+}
+
+describe('easing', () => {
+  it.each(names)('%s starts at 0 and ends at 1', (name) => {
+    const easing = resolveEasing(name)
+    expect(easing(0)).toBeCloseTo(0, 6)
+    expect(easing(1)).toBe(1)
+  })
+
+  it.each([
+    [0.25, 0.1, 0.25, 1],
+    [0.42, 0, 0.58, 1],
+    [0.34, 1.56, 0.64, 1],
+    [0.68, -0.6, 0.32, 1.6],
+  ])('solves cubic-bezier(%s, %s, %s, %s)', (...points) => {
+    const easing = cubicBezier(...(points as [number, number, number, number]))
+    for (let t = 0.05; t < 1; t += 0.05) {
+      const { x, y } = bezierPoint(points, t)
+      expect(easing(x)).toBeCloseTo(y, 5)
+    }
+  })
+
+  it('takes a cubic bezier as an array, or a function', () => {
+    expect(resolveEasing([0.42, 0, 0.58, 1])(0.5)).toBeCloseTo(0.5, 6)
+    const custom = (p: number) => p * p
+    expect(resolveEasing(custom)).toBe(custom)
+  })
+
+  it('overshoots with back easings and pulls back with anticipate', () => {
+    const backOut = resolveEasing('backOut')
+    const anticipate = resolveEasing('anticipate')
+    const samples = Array.from({ length: 99 }, (_, i) => (i + 1) / 100)
+
+    expect(Math.max(...samples.map(backOut))).toBeGreaterThan(1)
+    expect(Math.min(...samples.map(anticipate))).toBeLessThan(0)
+  })
+
+  it('rejects unknown names', () => {
+    expect(() => resolveEasing('bouncy' as EasingName)).toThrow('Unknown easing "bouncy"')
+  })
+})
