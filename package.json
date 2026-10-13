@@ -1,0 +1,65 @@
+{
+  "name": "@rafaelaugusto/jolt",
+  "version": "0.1.0-beta.0",
+  "description": "Native animations for NativeScript: presets, springs, keyframes and stagger in one call.",
+  "keywords": [
+    "nativescript",
+    "animation",
+    "animations",
+    "motion",
+    "spring",
+    "keyframes",
+    "ios",
+    "android"
+  ],
+  "author": "Rafael Augusto",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafaelaugustos/jolt.git"
+  },
+  "homepage": "https://github.com/rafaelaugustos/jolt#readme",
+  "bugs": "https://github.com/rafaelaugustos/jolt/issues",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "node -e \"fs.rmSync('dist', { recursive: true, force: true })\" && tsc -p tsconfig.build.json",
+    "dev": "tsc -p tsconfig.build.json --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "prepack": "npm run build"
+  },
+  "peerDependencies": {
+    "@nativescript/core": ">=8.9.0"
+  },
+  "devDependencies": {
+    "@nativescript/core": "^9.1.3",
+    "@nativescript/types-android": "^9.1.1",
+    "@nativescript/types-ios": "^9.1.3",
+    "prettier": "^3.9.10",
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.4"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
