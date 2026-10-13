@@ -1,0 +1,6 @@
+dist
+node_modules
+demo/App_Resources
+demo/platforms
+demo/hooks
+package-lock.json
