@@ -1,0 +1,162 @@
+Page {
+  background-color: #f4f4f5;
+  color: #18181b;
+}
+
+.content {
+  padding: 24 20 48 20;
+}
+
+.hero {
+  padding: 32 0 16 0;
+  horizontal-align: center;
+}
+
+.logo {
+  width: 72;
+  height: 72;
+  border-radius: 20;
+  background-color: #facc15;
+  color: #18181b;
+  font-size: 40;
+  font-weight: bold;
+  text-align: center;
+  horizontal-align: center;
+}
+
+.title {
+  margin-top: 16;
+  font-size: 34;
+  font-weight: bold;
+  text-align: center;
+}
+
+.muted {
+  color: #71717a;
+  text-align: center;
+}
+
+.section {
+  margin-top: 28;
+  padding: 20;
+  border-radius: 20;
+  background-color: #ffffff;
+}
+
+.section .muted {
+  text-align: left;
+  font-family: monospace;
+  font-size: 12;
+}
+
+.heading {
+  font-size: 20;
+  font-weight: bold;
+  margin-bottom: 4;
+}
+
+.stage {
+  margin: 16 0;
+  border-radius: 14;
+  background-color: #f4f4f5;
+}
+
+.card {
+  border-radius: 24;
+  background-color: #18181b;
+}
+
+.card-label {
+  color: #facc15;
+  font-size: 13;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.chip {
+  margin: 0 6 8 0;
+  padding: 6 12;
+  border-radius: 14;
+  background-color: #f4f4f5;
+  font-size: 13;
+}
+
+.chip.active {
+  background-color: #18181b;
+  color: #facc15;
+}
+
+.lane {
+  margin: 16 0;
+  padding: 4;
+  border-radius: 28;
+  background-color: #f4f4f5;
+}
+
+.ball {
+  border-radius: 24;
+  background-color: #facc15;
+}
+
+.button {
+  margin: 4;
+  padding: 10 0;
+  border-radius: 12;
+  background-color: #18181b;
+  color: #ffffff;
+  font-size: 15;
+  text-transform: none;
+}
+
+.list {
+  margin: 12 0;
+}
+
+.row {
+  margin-bottom: 6;
+  padding: 12 16;
+  border-radius: 12;
+  background-color: #f4f4f5;
+  font-size: 15;
+}
+
+.tiles {
+  margin-top: 16;
+}
+
+.tile {
+  margin: 4;
+  height: 96;
+  border-radius: 18;
+  background-color: #18181b;
+  color: #facc15;
+  font-weight: bold;
+  text-align: center;
+}
+
+.spinner {
+  width: 48;
+  height: 48;
+  border-radius: 24;
+  border-width: 4;
+  border-color: #e4e4e7;
+}
+
+.spinner-dot {
+  width: 10;
+  height: 10;
+  margin-top: 2;
+  border-radius: 5;
+  background-color: #18181b;
+  vertical-align: top;
+  horizontal-align: center;
+}
+
+.heart {
+  font-size: 48;
+  color: #ef4444;
+  text-align: center;
+  vertical-align: middle;
+  horizontal-align: center;
+}
