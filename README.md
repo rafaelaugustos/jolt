@@ -50,6 +50,8 @@ npm install @rafaelaugusto/jolt@next
 
 It's in beta for now, published under the `next` tag. Requires `@nativescript/core` 8.9 or later. It doesn't depend on a framework: it takes a view, or an element that holds one.
 
+On iOS 15+, Jolt requests up to 120 Hz on ProMotion displays. Set `CADisableMinimumFrameDurationOnPhone` to `true` in the app's `App_Resources/iOS/Info.plist` and rebuild to enable higher rates on iPhone. See the [iOS setup](https://jolt.rafaelaugusto.dev/guide/install#promotion-on-ios); the system still chooses the actual refresh rate.
+
 ## Animating
 
 `animate(target, keyframes, transition?)` takes a view and where to take it:

@@ -58,6 +58,17 @@ export function createIOSDriver(): Driver {
       }
 
       const animation = CAKeyframeAnimation.animationWithKeyPath(keyPaths[track.property])
+      // iOS 15+. The app must opt in through CADisableMinimumFrameDurationOnPhone.
+      if (animation.respondsToSelector('setPreferredFrameRateRange:')) {
+        const nativeView = view.nativeViewProtected as UIView
+        const screen = nativeView.window?.screen ?? UIScreen.mainScreen
+        const maximum = Math.min(120, screen.maximumFramesPerSecond)
+        animation.preferredFrameRateRange = CAFrameRateRangeMake(
+          Math.min(80, maximum),
+          maximum,
+          maximum,
+        )
+      }
       animation.values = NSArray.arrayWithArray(
         track.values.map((value) => (rotation ? radians(value) : value)),
       )
