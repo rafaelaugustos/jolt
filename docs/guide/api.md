@@ -19,6 +19,7 @@ What `animate()`, `sequence()` and the steps of a sequence return: `await` it, r
 - **Tweens**: `{ duration, ease, times }`.
 - **Timing**: `delay`, `repeat`, `repeatType: 'loop' | 'reverse'`, `stagger: number | { each, from }`.
 - **Per property**: any property name mapped to its own transition.
+- **Relative keyframes**: `{ relative: true }` adds translation/rotation offsets and multiplies scale/opacity by their starting values.
 
 ## Helpers
 

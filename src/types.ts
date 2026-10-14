@@ -34,6 +34,8 @@ export interface Stagger {
 export type AnimateOptions = Transition & {
   [K in keyof Keyframes]?: Transition | SpringName
 } & {
+  /** Offset translations/rotations and multiply scale/opacity by their values at the start. */
+  relative?: boolean
   /** With several targets, delays each one by this much more than the previous. */
   stagger?: number | Stagger
 }

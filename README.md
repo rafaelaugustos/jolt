@@ -74,6 +74,15 @@ animate(card, { x: [0, 100] }) // from 0, whatever x is now
 animate(card, { x: [null, 20, -20, null] }) // out and back to where it was
 ```
 
+With `relative: true`, translation and rotation keyframes are offsets from the current value. Scale and opacity keyframes multiply it instead. Each scale axis keeps its own base, and `null` still means the current value.
+
+```ts
+animate(card, { x: [0, -10, 10, 0] }, { relative: true }) // shake around its current x
+animate(card, { scale: [1, 1.06, 1] }, { relative: true }) // grow by 6% and return
+```
+
+The base is captured once when the view is ready and its tracks are created, before any delay or stagger. Repeats reuse that base. A relative step in a sequence resolves when the step starts; an unloaded view waits until it loads.
+
 The target can be a view, or anything that holds one: a NativeScript-Vue template ref, an Angular `ElementRef`.
 
 ```vue
@@ -87,7 +96,7 @@ const open = () => animate(card.value, 'popIn')
 </template>
 ```
 
-A view that isn't loaded yet takes its first keyframe right away and plays once it's on screen. Calling `animate(title, 'fadeInUp')` in `onMounted` doesn't flash the title before it fades in.
+A view that isn't loaded yet takes its first absolute keyframe right away and plays once it's on screen. Calling `animate(title, 'fadeInUp')` in `onMounted` doesn't flash the title before it fades in. Relative animations leave the view's values alone until it loads.
 
 ## Transitions
 
@@ -164,6 +173,8 @@ animate(spinner, 'spin', { repeat: Infinity })
 
 Directions follow animate.css: `fadeInUp` comes up from below, `fadeOutUp` leaves upwards. Each built-in preset is plain keyframes and a transition, listed in [`src/presets.ts`](./src/presets.ts) and exported as `presets`.
 
+Attention presets use `relative: true`: `shake` around `x: 40` returns to 40, `pulse` preserves the current scale, and `flash` returns to the current opacity. `spin` adds a full turn to the current rotation. Pass `{ relative: false }` to use their absolute keyframes instead. Enter and exit presets remain absolute.
+
 Options with timing only (`delay`, `repeat`, `stagger`) keep the preset's curves. Options with a curve (`duration`, `ease`, a spring) replace them:
 
 ```ts
@@ -218,7 +229,7 @@ await sequence([
 
 Each step takes the same arguments as `animate`, or is a function that starts an animation. A step starts once the previous one looks done: a spring that's close to its target and staying there counts, even if it's still settling, so steps don't wait on the last pixel. The whole sequence finishes once every step has.
 
-Views in later steps take their first keyframe when the sequence starts, so the title above stays hidden until its turn instead of showing up and disappearing.
+Views in later steps take their first absolute keyframe when the sequence starts, so the title above stays hidden until its turn instead of showing up and disappearing. Relative steps and `null` keyframes wait until their step starts to read the current value.
 
 ## Press
 

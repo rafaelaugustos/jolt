@@ -33,7 +33,13 @@ export function press(
       rest = Object.fromEntries(properties.map((p) => [p, readValue(view, p)]))
       animate(view, pressed, options ?? pressIn)
     } else if ((action === 'up' || action === 'cancel') && rest) {
-      animate(view, rest, options ?? release)
+      animate(
+        view,
+        rest,
+        typeof options === 'object'
+          ? { ...options, relative: false }
+          : (options ?? release),
+      )
       rest = undefined
     }
   }

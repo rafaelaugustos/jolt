@@ -54,4 +54,23 @@ describe('press', () => {
     expect(driver.played).toHaveLength(0)
     expect(view.listenerCount('touch')).toBe(0)
   })
+
+  it('restores absolute resting values after relative press feedback', () => {
+    const view = createView()
+    view.scaleX = 2
+    view.scaleY = 0.5
+    view.translateX = 40
+    press(view, { scale: 0.9, x: 10 }, { relative: true, duration: 100 })
+
+    view.touch('down')
+    expect(driver.last('scaleX').track.to).toBe(1.8)
+    expect(driver.last('scaleY').track.to).toBe(0.45)
+    expect(driver.last('x').track.to).toBe(50)
+
+    driver.advance(50)
+    view.touch('cancel')
+    expect(driver.last('scaleX').track.to).toBe(2)
+    expect(driver.last('scaleY').track.to).toBe(0.5)
+    expect(driver.last('x').track.to).toBe(40)
+  })
 })

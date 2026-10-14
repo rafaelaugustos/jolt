@@ -17,8 +17,9 @@ export type Step =
 /**
  * Plays steps one after the other. A step starts once the previous one looks
  * done: a spring is close to its target, even if it hasn't fully settled.
- * Views in later steps take their first keyframe right away, so a title that
- * fades in third doesn't show up before its turn.
+ * Views in later steps take their first absolute keyframe right away, so a title
+ * that fades in third doesn't show up before its turn. Relative and null keyframes
+ * read the current value when their step starts.
  *
  * ```ts
  * await sequence([
@@ -64,14 +65,16 @@ function applyStartingValues(steps: readonly Step[]) {
   const claimed = new Map<View, Set<Property>>()
   for (const step of steps) {
     if (typeof step === 'function') continue
-    const [target, animation] = step
-    const starts = startingValues(animation)
+    const [target, animation, options] = step
+    const starts = startingValues(animation, options)
 
     for (const view of toViews(target)) {
       let properties = claimed.get(view)
       if (!properties) claimed.set(view, (properties = new Set()))
 
-      const fresh = [...starts].filter(([property]) => !properties.has(property))
+      const fresh = [...starts].filter(
+        ([property, value]) => !properties.has(property) && value !== null,
+      )
       stopView(
         view,
         fresh.map(([property]) => property),

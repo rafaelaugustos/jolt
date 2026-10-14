@@ -28,6 +28,22 @@ animate(card, { x: [0, 100] }) // from 0, whatever x is now
 animate(card, { x: [null, 20, -20, null] }) // out and back to where it was
 ```
 
+## Relative keyframes
+
+Set `relative: true` to use the current values as the base:
+
+```ts
+animate(card, { x: [0, -10, 10, 0] }, { relative: true })
+animate(card, { scale: [1, 1.06, 1] }, { relative: true })
+animate(card, { y: 20 }, { relative: true }) // move 20 DIPs from its current y
+```
+
+Translation and rotation values are offsets. Scale and opacity values are factors: a scale of `1.06` grows each axis by 6%, preserving any difference between `scaleX` and `scaleY`. A value of `0` means the starting position for an offset, while `1` means the starting value for a factor. `null` always keeps the current value.
+
+Jolt captures the base once when the loaded view's tracks are created, before any delay or stagger. Repeats reuse the resolved keyframes. If another animation owns the property, the base comes from its current position on screen. A relative sequence step resolves when the step starts; it does not change or stop the target while an earlier step is playing.
+
+Relative keyframes work in custom presets too: put `relative: true` in the preset's `transition`. A call can override it with `relative: false`.
+
 ## Targets
 
 The target can be a view, or anything that holds one: a NativeScript-Vue template ref, an Angular `ElementRef`.
@@ -43,7 +59,7 @@ const open = () => animate(card.value, 'popIn')
 </template>
 ```
 
-A view that isn't loaded yet takes its first keyframe right away and plays once it's on screen. Calling `animate(title, 'fadeInUp')` in `onMounted` doesn't flash the title before it fades in.
+A view that isn't loaded yet takes its first absolute keyframe right away and plays once it's on screen. Calling `animate(title, 'fadeInUp')` in `onMounted` doesn't flash the title before it fades in. Relative animations leave the view's values alone until it loads, then resolve their keyframes from those values.
 
 ## What you get back
 
