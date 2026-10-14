@@ -64,9 +64,15 @@ export function animate(
   )
 }
 
-/** Stops every animation running on the view, leaving it where it is. */
-export function stop(target: Target | readonly Target[]) {
-  for (const view of toViews(target)) stopView(view)
+/** Stops all or selected properties at their current values. `scale` stops both axes. */
+export function stop(
+  target: Target | readonly Target[],
+  properties?: readonly (keyof Keyframes)[],
+) {
+  const expanded = properties?.flatMap<Property>((property) =>
+    property === 'scale' ? ['scaleX', 'scaleY'] : [property],
+  )
+  for (const view of toViews(target)) stopView(view, expanded)
 }
 
 /** Plays several animations as one: finished once they all are, and stopped together. */

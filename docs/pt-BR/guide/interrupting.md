@@ -9,7 +9,12 @@ const animation = animate(card, { x: 300 })
 animation.stop() // o card fica onde está
 
 stop(card) // para tudo que está rodando no card
+stop(card, ['x', 'scale']) // para a translação em x e os dois eixos de escala
 ```
+
+As propriedades selecionadas ficam no valor atual; as outras continuam animando. Também dá para parar `scaleX` e `scaleY` separadamente. Um array vazio não para nenhuma propriedade; sem o segundo argumento, todas param. Funciona com arrays de alvos também.
+
+Se parte de uma animação for parada, a promise `finished` resolve com `false` quando as propriedades restantes terminarem.
 
 ## Loops e o segundo plano
 

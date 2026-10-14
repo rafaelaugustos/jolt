@@ -3,7 +3,7 @@
 ## Animating
 
 - `animate(target, keyframes | preset, transition?)`
-- `stop(target)`
+- `stop(target, properties?)`
 - `sequence(steps)`
 - `press(target, pressed?, transition?)`
 

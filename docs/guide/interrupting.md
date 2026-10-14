@@ -9,7 +9,12 @@ const animation = animate(card, { x: 300 })
 animation.stop() // the card stays where it is
 
 stop(card) // stops everything running on the card
+stop(card, ['x', 'scale']) // stops translation on x and both scale axes
 ```
+
+Selected properties stay at their current values; the others keep animating. `scaleX` and `scaleY` can also be stopped separately. Pass an empty array to stop nothing, or omit it to stop everything. This works with arrays of targets too.
+
+If part of an animation is stopped, its `finished` promise resolves with `false` once its remaining properties finish.
 
 ## Loops and the background
 

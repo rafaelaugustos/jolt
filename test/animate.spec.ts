@@ -202,6 +202,86 @@ describe('stopping', () => {
     expect(await Promise.all([a, b])).toEqual([false, false])
   })
 
+  it('stops selected properties and waits for the others to finish', async () => {
+    const view = createView()
+    const animation = animate(
+      view,
+      { x: 100, scale: 2, opacity: 0 },
+      { duration: 100, ease: 'linear' },
+    )
+    const done = state(animation.finished)
+
+    driver.advance(25)
+    stop(view, ['x', 'scale'] as const)
+    await flush()
+
+    expect(view.translateX).toBe(25)
+    expect(view.scaleX).toBe(1.25)
+    expect(view.scaleY).toBe(1.25)
+    expect(driver.last('x').stopped).toBe(true)
+    expect(driver.last('scaleX').stopped).toBe(true)
+    expect(driver.last('scaleY').stopped).toBe(true)
+    expect(driver.last('opacity').stopped).toBe(false)
+    expect(done()).toBeUndefined()
+
+    driver.advance(75)
+    expect(await animation).toBe(false)
+    expect(view.opacity).toBe(0)
+  })
+
+  it('can stop one scale axis without stopping the other', async () => {
+    const view = createView()
+    const animation = animate(view, { scale: 2 }, { duration: 100, ease: 'linear' })
+
+    driver.advance(25)
+    stop(view, ['scaleX'])
+
+    expect(view.scaleX).toBe(1.25)
+    expect(driver.last('scaleX').stopped).toBe(true)
+    expect(driver.last('scaleY').stopped).toBe(false)
+
+    driver.advance(75)
+    expect(await animation).toBe(false)
+    expect(view.scaleY).toBe(2)
+  })
+
+  it('stops selected properties on several targets, including template refs', async () => {
+    const first = createView()
+    const second = createView()
+    const targets = [{ nativeView: first }, { nativeElement: second }] as const
+    const movement = animate(targets, { x: 100 }, { duration: 100, ease: 'linear' })
+    const fade = animate(targets, { opacity: 0 }, { duration: 100, ease: 'linear' })
+
+    driver.advance(25)
+    stop(targets, ['x'])
+
+    for (const view of [first, second]) {
+      expect(view.translateX).toBe(25)
+      expect(driver.last('x', view).stopped).toBe(true)
+      expect(driver.last('opacity', view).stopped).toBe(false)
+    }
+    expect(await movement).toBe(false)
+
+    driver.advance(75)
+    expect(await fade).toBe(true)
+  })
+
+  it.each([{ properties: [] }, { properties: ['rotate'] }] as const)(
+    'leaves animations running when no active property is selected: $properties',
+    async ({ properties }) => {
+      const view = createView()
+      const animation = animate(view, { x: 100 }, { duration: 100, ease: 'linear' })
+
+      driver.advance(25)
+      stop(view, properties)
+
+      expect(driver.last('x').stopped).toBe(false)
+
+      driver.advance(75)
+      expect(await animation).toBe(true)
+    },
+  )
+
   it('does nothing once finished', async () => {
     const view = createView()
     const animation = animate(view, { x: 100 }, { duration: 100 })
