@@ -14,6 +14,10 @@ animate(spinner, 'spin', { repeat: Infinity })
 
 As direções seguem o animate.css: `fadeInUp` sobe de baixo, `fadeOutUp` sai para cima. Cada preset embutido é só keyframes e uma transição, listados em [`src/presets.ts`](https://github.com/rafaelaugustos/jolt/blob/main/src/presets.ts) e exportados como `presets`.
 
+Os presets de atenção usam [keyframes relativos](./animating#keyframes-relativos). Um card em `x: 40` faz o shake em torno de 40 e volta para lá. `pulse`, `heartbeat`, `jelly` e `tada` preservam a escala atual de cada eixo; `flash` volta para a opacidade original. `spin` acrescenta uma volta completa à rotação atual.
+
+Passe `{ relative: false }` para usar os keyframes absolutos originais. Os presets de entrada e saída continuam absolutos.
+
 ## Mudando o tempo ou a curva de um preset
 
 Opções só de tempo (`delay`, `repeat`, `stagger`) mantêm as curvas do preset. Opções com curva (`duration`, `ease`, um spring) as substituem:

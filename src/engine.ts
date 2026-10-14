@@ -20,6 +20,7 @@ export interface Plan {
   /** `null` stands for the value the property has when the animation starts. */
   keyframes: readonly (number | null)[]
   transition: ResolvedTransition
+  relative?: boolean
 }
 
 interface Entry {
@@ -94,7 +95,7 @@ export class ViewAnimation implements Animation {
     const now = driver.now()
     const entries = entriesOf(this.view)
 
-    const tracks = plans.map(({ property, keyframes, transition }) => {
+    const tracks = plans.map(({ property, keyframes, transition, relative }) => {
       const previous = entries.get(property)
       let current: number
       let velocity = 0
@@ -108,7 +109,13 @@ export class ViewAnimation implements Animation {
       }
       return createTrack(
         property,
-        keyframes.map((value) => value ?? current),
+        keyframes.map((value) => {
+          if (value === null) return current
+          if (!relative) return value
+          return property === 'opacity' || property.startsWith('scale')
+            ? current * value
+            : current + value
+        }),
         transition,
         velocity,
       )
@@ -147,7 +154,8 @@ export class ViewAnimation implements Animation {
   }
 
   private waitForLoad(plans: readonly Plan[]) {
-    for (const { property, keyframes } of plans) {
+    for (const { property, keyframes, relative } of plans) {
+      if (relative) continue
       const first = keyframes[0]
       if (first !== null && first !== undefined) writeValue(this.view, property, first)
     }

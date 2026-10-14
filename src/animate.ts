@@ -29,6 +29,7 @@ interface Options {
   base: Transition
   overrides: Partial<Record<keyof Keyframes, Transition>>
   stagger: number | Stagger | undefined
+  relative: boolean | undefined
 }
 
 /**
@@ -46,10 +47,13 @@ export function animate(
   animation: Keyframes | PresetName,
   options?: AnimateOptions | SpringName,
 ): Animation {
-  const { keyframes, base, overrides, stagger } = prepare(animation, options)
+  const { keyframes, base, overrides, stagger, relative } = prepare(animation, options)
 
   if (!isList(target)) {
-    return new ViewAnimation(toView(target), plan(keyframes, base, overrides, 0))
+    return new ViewAnimation(
+      toView(target),
+      plan(keyframes, base, overrides, 0, relative),
+    )
   }
 
   const views = target.map(toView)
@@ -58,7 +62,13 @@ export function animate(
       (view, index) =>
         new ViewAnimation(
           view,
-          plan(keyframes, base, overrides, staggerDelay(stagger, index, views.length)),
+          plan(
+            keyframes,
+            base,
+            overrides,
+            staggerDelay(stagger, index, views.length),
+            relative,
+          ),
         ),
     ),
   )
@@ -122,25 +132,34 @@ function prepare(
       ? user.overrides
       : { ...own.overrides, ...user.overrides },
     stagger: user.stagger ?? own.stagger,
+    relative: user.relative ?? own.relative,
   }
 }
 
 function normalize(options: AnimateOptions | SpringName | undefined): Options {
-  if (options === undefined) return { base: {}, overrides: {}, stagger: undefined }
+  if (options === undefined)
+    return { base: {}, overrides: {}, stagger: undefined, relative: undefined }
   if (typeof options === 'string')
-    return { base: spring(options), overrides: {}, stagger: undefined }
+    return {
+      base: spring(options),
+      overrides: {},
+      stagger: undefined,
+      relative: undefined,
+    }
 
   const base: Record<string, unknown> = {}
   const overrides: Options['overrides'] = {}
   let stagger: Options['stagger']
+  let relative: Options['relative']
   for (const [key, value] of Object.entries(options)) {
     if (value === undefined) continue
     if (key === 'stagger') stagger = value as Options['stagger']
+    else if (key === 'relative') relative = value as Options['relative']
     else if (key === 'scale' || isProperty(key)) {
       overrides[key] = typeof value === 'string' ? spring(value as SpringName) : value
     } else base[key] = value
   }
-  return { base, overrides, stagger }
+  return { base, overrides, stagger, relative }
 }
 
 function plan(
@@ -148,6 +167,7 @@ function plan(
   base: Transition,
   overrides: Options['overrides'],
   offset: number,
+  relative = false,
 ): Plan[] {
   return expand(keyframes).map(([property, frames]) => {
     const override =
@@ -158,16 +178,20 @@ function plan(
       frames.length,
     )
     transition.delay += offset
-    return { property, keyframes: frames, transition }
+    return { property, keyframes: frames, transition, relative }
   })
 }
 
 /** Each property the animation touches, with the value it starts from when it sets one. */
-export function startingValues(animation: Keyframes | PresetName) {
-  const keyframes =
-    typeof animation === 'string' ? getPreset(animation).keyframes : animation
+export function startingValues(
+  animation: Keyframes | PresetName,
+  options?: AnimateOptions | SpringName,
+) {
+  const { keyframes, relative } = prepare(animation, options)
   if (!keyframes) throw new Error(`Unknown preset "${animation}".`)
-  return new Map(expand(keyframes).map(([property, [first]]) => [property, first!]))
+  return new Map(
+    expand(keyframes).map(([property, [first]]) => [property, relative ? null : first!]),
+  )
 }
 
 function expand(keyframes: Keyframes): [Property, (number | null)[]][] {

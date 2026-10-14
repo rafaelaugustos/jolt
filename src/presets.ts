@@ -80,28 +80,30 @@ export const presets = {
 
   pulse: {
     keyframes: { scale: [1, 1.06, 1] },
-    transition: { duration: 500, ease: 'easeInOut' },
+    transition: { duration: 500, ease: 'easeInOut', relative: true },
   },
   bounce: {
     keyframes: { y: [0, -18, 0, -8, 0] },
     transition: {
       duration: 650,
+      relative: true,
       times: [0, 0.3, 0.6, 0.8, 1],
       ease: ['easeOut', 'easeIn', 'easeOut', 'easeIn'],
     },
   },
   shake: {
     keyframes: { x: [0, -10, 10, -8, 8, -4, 4, 0] },
-    transition: { duration: 500, ease: 'easeInOut' },
+    transition: { duration: 500, ease: 'easeInOut', relative: true },
   },
   wiggle: {
     keyframes: { rotate: [0, -8, 8, -5, 5, 0] },
-    transition: { duration: 500, ease: 'easeInOut' },
+    transition: { duration: 500, ease: 'easeInOut', relative: true },
   },
   heartbeat: {
     keyframes: { scale: [1, 1.15, 1, 1.15, 1, 1] },
     transition: {
       duration: 1000,
+      relative: true,
       times: [0, 0.14, 0.28, 0.42, 0.7, 1],
       ease: 'easeInOut',
     },
@@ -113,24 +115,25 @@ export const presets = {
     },
     transition: {
       duration: 800,
+      relative: true,
       times: [0, 0.3, 0.4, 0.5, 0.65, 0.75, 1],
       ease: 'easeInOut',
     },
   },
   flash: {
     keyframes: { opacity: [1, 0, 1, 0, 1] },
-    transition: { duration: 800, ease: 'easeInOut' },
+    transition: { duration: 800, ease: 'easeInOut', relative: true },
   },
   tada: {
     keyframes: {
       scale: [1, 0.9, 0.9, 1.1, 1.1, 1.1, 1.1, 1.1, 1.1, 1.1, 1],
       rotate: [0, -3, -3, 3, -3, 3, -3, 3, -3, 3, 0],
     },
-    transition: { duration: 1000, ease: 'easeInOut' },
+    transition: { duration: 1000, ease: 'easeInOut', relative: true },
   },
   spin: {
     keyframes: { rotate: [0, 360] },
-    transition: { duration: 1000, ease: 'linear' },
+    transition: { duration: 1000, ease: 'linear', relative: true },
   },
 } satisfies Record<string, Preset>
 

@@ -28,6 +28,22 @@ animate(card, { x: [0, 100] }) // a partir de 0, seja qual for o x agora
 animate(card, { x: [null, 20, -20, null] }) // sai e volta para onde estava
 ```
 
+## Keyframes relativos
+
+Use `relative: true` para partir dos valores atuais:
+
+```ts
+animate(card, { x: [0, -10, 10, 0] }, { relative: true })
+animate(card, { scale: [1, 1.06, 1] }, { relative: true })
+animate(card, { y: 20 }, { relative: true }) // move 20 DIPs a partir do y atual
+```
+
+Translação e rotação usam deslocamentos. Escala e opacidade usam multiplicadores: uma escala de `1.06` aumenta cada eixo em 6%, preservando a diferença entre `scaleX` e `scaleY`. O valor `0` representa a posição inicial num deslocamento; `1` representa o valor inicial num multiplicador. `null` sempre mantém o valor atual.
+
+O Jolt captura a base uma vez, quando cria as curvas da view carregada, antes de qualquer delay ou stagger. As repetições reutilizam os keyframes calculados. Se outra animação estiver controlando a propriedade, a base vem da posição atual na tela. Uma etapa relativa numa sequência calcula seus valores quando chega a vez de tocar; ela não altera nem para o alvo enquanto uma etapa anterior estiver rodando.
+
+Também funciona em presets personalizados: coloque `relative: true` na `transition` do preset. Uma chamada pode substituir essa opção com `relative: false`.
+
 ## Alvos
 
 O alvo pode ser uma view, ou qualquer coisa que contenha uma: um template ref do NativeScript-Vue, um `ElementRef` do Angular.
@@ -43,7 +59,7 @@ const open = () => animate(card.value, 'popIn')
 </template>
 ```
 
-Uma view que ainda não carregou assume o primeiro keyframe na hora e toca quando aparece na tela. Chamar `animate(title, 'fadeInUp')` no `onMounted` não pisca o título antes do fade.
+Uma view que ainda não carregou assume o primeiro keyframe absoluto na hora e toca quando aparece na tela. Chamar `animate(title, 'fadeInUp')` no `onMounted` não pisca o título antes do fade. Animações relativas preservam os valores da view até ela carregar e só então calculam os keyframes a partir desses valores.
 
 ## O que você recebe de volta
 
