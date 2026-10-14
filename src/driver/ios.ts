@@ -5,6 +5,7 @@ import { after, type Driver } from './index.js'
 interface Handle {
   layers: CALayer[]
   key: string
+  onStop?: () => void
 }
 
 const keyPaths: Record<Property, string> = {
@@ -51,6 +52,7 @@ export function createIOSDriver(): Driver {
       const layers = layersOf(view)
       const key = `jolt:${track.property}`
       const rotation = track.property.startsWith('rotate')
+      const infinite = track.repeat === Infinity
       if (track.property === 'rotateX' || track.property === 'rotateY') {
         ensurePerspective(view, layers)
       }
@@ -63,22 +65,29 @@ export function createIOSDriver(): Driver {
       animation.duration = Math.max(track.duration, 1) / 1000
       animation.beginTime = (startedAt + track.delay) / 1000
       animation.fillMode = kCAFillModeBackwards
+      // Keep infinite loops when iOS removes animations on backgrounding.
+      // They are removed explicitly when stopped or replaced.
+      animation.removedOnCompletion = !infinite
       if (track.repeat > 0) {
         animation.autoreverses = track.reverse
         animation.repeatCount = track.reverse ? (track.repeat + 1) / 2 : track.repeat + 1
       }
 
       CATransaction.begin()
-      CATransaction.setCompletionBlock(onEnd)
+      // iOS completes the transaction on backgrounding even if the loop is retained.
+      if (!infinite) CATransaction.setCompletionBlock(onEnd)
       for (const layer of layers) layer.addAnimationForKey(animation, key)
       CATransaction.commit()
 
-      return { layers, key }
+      return { layers, key, onStop: infinite ? onEnd : undefined }
     },
 
     stop(_view, handle) {
-      const { layers, key } = handle as Handle
+      const playing = handle as Handle
+      const { layers, key, onStop } = playing
+      playing.onStop = undefined
       for (const layer of layers) layer.removeAnimationForKey(key)
+      onStop?.()
     },
 
     presented: () => undefined,
