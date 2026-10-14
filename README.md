@@ -15,6 +15,10 @@
   <a href="https://github.com/rafaelaugustos/jolt/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/@rafaelaugusto/jolt" alt="MIT license"></a>
 </p>
 
+<p align="center">
+  <a href="https://jolt.rafaelaugusto.dev">Documentation</a> · <a href="https://jolt.rafaelaugusto.dev/pt-BR/">Documentação em português</a>
+</p>
+
 ```ts
 import { animate } from '@rafaelaugusto/jolt'
 

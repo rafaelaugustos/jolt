@@ -1,0 +1,40 @@
+:root {
+  --vp-c-brand-1: #7a9a00;
+  --vp-c-brand-2: #a8c400;
+  --vp-c-brand-3: #dcf71d;
+  --vp-c-brand-soft: rgba(220, 247, 29, 0.22);
+  --vp-home-hero-name-color: #131222;
+  --vp-c-tip-1: var(--vp-c-brand-1);
+  --vp-c-tip-soft: var(--vp-c-brand-soft);
+  --vp-button-brand-text: #131222;
+  --vp-button-brand-bg: #dcf71d;
+  --vp-button-brand-border: #dcf71d;
+  --vp-button-brand-hover-text: #131222;
+  --vp-button-brand-hover-bg: #c6e019;
+  --vp-button-brand-hover-border: #c6e019;
+  --vp-button-brand-active-text: #131222;
+  --vp-button-brand-active-bg: #b0c916;
+  --vp-button-brand-active-border: #b0c916;
+}
+
+.dark {
+  --vp-c-brand-1: #dcf71d;
+  --vp-c-brand-2: #c6e019;
+  --vp-c-brand-3: #a8c400;
+  --vp-c-brand-soft: rgba(220, 247, 29, 0.16);
+  --vp-home-hero-name-color: #f1f3f7;
+  --vp-c-bg: #131222;
+  --vp-c-bg-alt: #0e0d1b;
+  --vp-c-bg-elv: #1b1a2d;
+  --vp-c-bg-soft: #1b1a2d;
+}
+
+.VPHero .image-src {
+  max-width: 300px;
+}
+
+@media (min-width: 960px) {
+  .VPHero .image-src {
+    max-width: 380px;
+  }
+}
