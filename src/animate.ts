@@ -7,7 +7,7 @@ import {
   type Animation,
   type Plan,
 } from './engine.js'
-import { presets, type PresetName } from './presets.js'
+import { getPreset, type PresetName } from './presets.js'
 import { isProperty, type Property } from './properties.js'
 import {
   hasCurve,
@@ -113,16 +113,15 @@ function prepare(
   const user = normalize(options)
   if (typeof animation !== 'string') return { keyframes: animation, ...user }
 
-  const preset = presets[animation]
-  if (!preset) throw new Error(`Unknown preset "${animation}".`)
+  const preset = getPreset(animation)
   const own = normalize(preset.transition)
   return {
-    keyframes: preset.keyframes as Keyframes,
+    keyframes: preset.keyframes,
     base: mergeTransitions(own.base, user.base),
     overrides: hasCurve(user.base)
       ? user.overrides
       : { ...own.overrides, ...user.overrides },
-    stagger: user.stagger,
+    stagger: user.stagger ?? own.stagger,
   }
 }
 
@@ -166,11 +165,9 @@ function plan(
 /** Each property the animation touches, with the value it starts from when it sets one. */
 export function startingValues(animation: Keyframes | PresetName) {
   const keyframes =
-    typeof animation === 'string' ? presets[animation]?.keyframes : animation
+    typeof animation === 'string' ? getPreset(animation).keyframes : animation
   if (!keyframes) throw new Error(`Unknown preset "${animation}".`)
-  return new Map(
-    expand(keyframes as Keyframes).map(([property, [first]]) => [property, first!]),
-  )
+  return new Map(expand(keyframes).map(([property, [first]]) => [property, first!]))
 }
 
 function expand(keyframes: Keyframes): [Property, (number | null)[]][] {
