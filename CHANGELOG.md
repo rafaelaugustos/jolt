@@ -2,12 +2,15 @@
 
 ## Unreleased
 
+## 0.1.0-beta.1 (2026-10-14)
+
 - Make attention presets relative to the view's current values, preserving existing position, rotation, scale and opacity. Custom animations can opt in with `relative: true`; `relative: false` keeps absolute keyframes.
 - Register custom presets with `definePreset` and extend `Presets` to use typed names in `animate()` and `sequence()`.
 - Stop selected properties with `stop(view, ['x', 'scale'])` while the others keep animating. `scale` stops both axes.
 - Keep infinite animations running after returning from the background on iOS. Their `finished` promise stays pending until they are stopped or replaced.
+- Add the documentation site with English and Portuguese guides.
 
-## 0.1.0-beta.0 (unreleased)
+## 0.1.0-beta.0 (2026-10-13)
 
 First release. It's a beta: the engine is covered by tests against a fake platform driver, and has been checked on the iOS simulator and the Android emulator, but hasn't been through real apps yet.
 
