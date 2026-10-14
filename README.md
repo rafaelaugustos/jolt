@@ -311,6 +311,8 @@ npm run build
 
 The tests run the engine against a fake platform driver ([`test/helpers.ts`](./test/helpers.ts)) with its own clock: it records the keyframes it would play and ends them when the clock passes their end.
 
+For on-device measurements, see the [iOS animation startup benchmark](./benchmarks/README.md).
+
 ### Releasing
 
 1. Bump `version` in `package.json` (`npm version <version> --no-git-tag-version`) and move the changes under it in `CHANGELOG.md`.

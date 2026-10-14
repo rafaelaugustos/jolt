@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "verbatimModuleSyntax": false,
+    "isolatedModules": false,
+    "lib": ["ES2023", "DOM"]
+  },
+  "include": ["*.ts"]
+}
