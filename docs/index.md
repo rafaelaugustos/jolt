@@ -2,7 +2,6 @@
 layout: home
 
 hero:
-  name: Jolt
   text: Make NativeScript move.
   tagline: Presets, springs, keyframes and stagger for NativeScript views, one call each. Computed once in JavaScript, played by the platform.
   image:
