@@ -1,6 +1,19 @@
-# Jolt
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/rafaelaugustos/jolt/main/.github/assets/logo-dark.png">
+    <img src="https://raw.githubusercontent.com/rafaelaugustos/jolt/main/.github/assets/logo.png" alt="Jolt" width="280">
+  </picture>
+</p>
 
-Native animations for [NativeScript](https://nativescript.org): presets, springs, keyframes and stagger, one call each.
+<p align="center">
+  Native animations for <a href="https://nativescript.org">NativeScript</a>: presets, springs, keyframes and stagger, one call each.
+</p>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/@rafaelaugusto/jolt"><img src="https://img.shields.io/npm/v/@rafaelaugusto/jolt/next?label=npm%40next" alt="npm"></a>
+  <a href="https://github.com/rafaelaugustos/jolt/actions/workflows/ci.yml"><img src="https://github.com/rafaelaugustos/jolt/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/rafaelaugustos/jolt/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/@rafaelaugusto/jolt" alt="MIT license"></a>
+</p>
 
 ```ts
 import { animate } from '@rafaelaugusto/jolt'
@@ -13,6 +26,17 @@ animate(rows, 'fadeInUp', { stagger: 40 })
 NativeScript's `view.animate()` covers the basics and stops there: one curve for every property, a `spring` curve with no settings, no keyframes, and a promise that rejects when the animation is cancelled. Anything richer ends up as platform code.
 
 Jolt computes the motion once, in JavaScript, when the animation starts, and hands it to the platform as keyframes: Core Animation on iOS, `ObjectAnimator` on Android. Nothing runs in JavaScript while it plays. Springs follow real physics, and an animation that interrupts another one starts from where the view is, at the speed it was going.
+
+## Features
+
+- [25 presets](#presets) to enter, exit and draw attention: `fadeInUp`, `popIn`, `shake`, `heartbeat`...
+- [Springs](#springs) described by feel (`bouncy`), by `bounce` and `duration`, or by stiffness, damping and mass.
+- [Keyframes and tweens](#tweens) with an easing per segment and exact keyframe times.
+- [Stagger](#several-views) across several views, from the first, the last or the center.
+- [Sequences](#sequences) that start each step once the previous one looks done.
+- [Press effects](#press) that follow the finger and let go when a scroll takes over.
+- [Interruptions](#interrupting-and-stopping) that pick up the value and velocity on screen, with no jump.
+- [Native playback](#how-it-works): Core Animation on iOS, `ObjectAnimator` on Android, nothing in JavaScript while it plays.
 
 ## Install
 
@@ -207,9 +231,9 @@ Each running property remembers its curve and start time, so Jolt knows the valu
 
 ## Not there yet
 
-- Only transforms and opacity. Colors, size and layout changes aren't animated yet.
-- No gestures: dragging something and letting it fly with its velocity is next.
-- No layout or shared element transitions.
+- Only transforms and opacity. Colors ([#12](https://github.com/rafaelaugustos/jolt/issues/12)), borders and shadows ([#13](https://github.com/rafaelaugustos/jolt/issues/13)), size and layout changes ([#21](https://github.com/rafaelaugustos/jolt/issues/21)) aren't animated yet.
+- No gestures: dragging something and letting it fly with its velocity is next ([#23](https://github.com/rafaelaugustos/jolt/issues/23)).
+- No layout or shared element transitions ([#21](https://github.com/rafaelaugustos/jolt/issues/21), [#24](https://github.com/rafaelaugustos/jolt/issues/24)).
 
 ## API
 
