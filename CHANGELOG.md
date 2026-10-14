@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Keep infinite animations running after returning from the background on iOS. Their `finished` promise stays pending until they are stopped or replaced.
+
 ## 0.1.0-beta.0 (unreleased)
 
 First release. It's a beta: the engine is covered by tests against a fake platform driver, and has been checked on the iOS simulator and the Android emulator, but hasn't been through real apps yet.
