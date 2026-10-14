@@ -22,8 +22,8 @@ O que `animate()`, `sequence()` e os passos de uma sequência retornam: espere c
 
 ## Helpers
 
-`presets`, `springs`, `cubicBezier`.
+`definePreset(name, preset)`, `presets`, `springs`, `cubicBezier`. Veja como registrar [presets personalizados](./presets#presets-personalizados) com nomes tipados.
 
 ## Tipos
 
-`Keyframes`, `Transition`, `Spring`, `Tween`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target` e o resto exportado pelo pacote.
+`Keyframes`, `Transition`, `Spring`, `Tween`, `Preset`, `Presets`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target` e o resto exportado pelo pacote.

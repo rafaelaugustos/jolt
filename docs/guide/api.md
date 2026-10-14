@@ -22,8 +22,8 @@ What `animate()`, `sequence()` and the steps of a sequence return: `await` it, r
 
 ## Helpers
 
-`presets`, `springs`, `cubicBezier`.
+`definePreset(name, preset)`, `presets`, `springs`, `cubicBezier`. See [custom presets](./presets#custom-presets) for registration and typed names.
 
 ## Types
 
-`Keyframes`, `Transition`, `Spring`, `Tween`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target` and the rest exported from the package.
+`Keyframes`, `Transition`, `Spring`, `Tween`, `Preset`, `Presets`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target` and the rest exported from the package.

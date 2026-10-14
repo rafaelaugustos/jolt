@@ -162,7 +162,7 @@ animate(spinner, 'spin', { repeat: Infinity })
 | Exit      | `fadeOut`, `fadeOutUp`, `fadeOutDown`, `fadeOutLeft`, `fadeOutRight`, `zoomOut`, `popOut`                |
 | Attention | `pulse`, `bounce`, `shake`, `wiggle`, `heartbeat`, `jelly`, `flash`, `tada`, `spin`                      |
 
-Directions follow animate.css: `fadeInUp` comes up from below, `fadeOutUp` leaves upwards. Every preset is plain keyframes and a transition, listed in [`src/presets.ts`](./src/presets.ts) and exported as `presets`.
+Directions follow animate.css: `fadeInUp` comes up from below, `fadeOutUp` leaves upwards. Each built-in preset is plain keyframes and a transition, listed in [`src/presets.ts`](./src/presets.ts) and exported as `presets`.
 
 Options with timing only (`delay`, `repeat`, `stagger`) keep the preset's curves. Options with a curve (`duration`, `ease`, a spring) replace them:
 
@@ -171,6 +171,29 @@ animate(card, 'fadeInUp', { delay: 100 }) // the preset's spring, 100ms later
 animate(card, 'fadeInUp', { duration: 600 }) // a 600ms tween instead
 animate(card, 'fadeInUp', 'bouncy') // a bouncy spring instead
 ```
+
+Register your own keyframes and transition with `definePreset`:
+
+```ts
+import { animate, definePreset } from '@rafaelaugusto/jolt'
+
+declare module '@rafaelaugusto/jolt' {
+  interface Presets {
+    cardIn: true
+  }
+}
+
+definePreset('cardIn', {
+  keyframes: { opacity: [0, 1], y: [40, 0] },
+  transition: { type: 'spring', bounce: 0.2, opacity: { duration: 150 } },
+})
+
+animate(card, 'cardIn')
+```
+
+Register presets during app startup, before using them in `animate()` or `sequence()`. The `Presets` declaration adds the name to TypeScript; it does not register anything at runtime. Custom presets follow the same timing and curve overrides as built-ins, including per-property options and `stagger`.
+
+Registering a custom name again replaces its definition for future animations. Built-in names cannot be replaced through `definePreset`, and the exported `presets` object continues to contain only the built-ins.
 
 ## Several views
 
@@ -250,7 +273,7 @@ Each running property remembers its curve and start time, so Jolt knows the valu
 
 **Animations** returned by them: `await`, `finished`, `stop()`.
 
-**Helpers**: `presets`, `springs`, `cubicBezier`, plus the types (`Keyframes`, `Transition`, `Spring`, `Tween`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target`...).
+**Helpers**: `definePreset`, `presets`, `springs`, `cubicBezier`, plus the types (`Keyframes`, `Transition`, `Spring`, `Tween`, `Preset`, `Presets`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target`...).
 
 ## Demo
 
