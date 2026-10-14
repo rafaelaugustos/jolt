@@ -2,6 +2,7 @@ import { defineConfig, type DefaultTheme } from 'vitepress'
 
 const site = 'https://jolt.rafaelaugusto.dev'
 const repo = 'https://github.com/rafaelaugustos/jolt'
+const cortex = '<a href="https://getcortexlabs.com/">Cortex Labs</a>'
 const npm = 'https://www.npmjs.com/package/@rafaelaugusto/jolt'
 
 function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.SidebarItem[] {
@@ -135,7 +136,7 @@ export default defineConfig({
         },
         footer: {
           message: 'Released under the MIT License.',
-          copyright: 'Rafael Augusto',
+          copyright: `Maintained by Rafael Augusto and ${cortex}`,
         },
       },
     },
@@ -170,7 +171,10 @@ export default defineConfig({
           quote: 'Esta página não está aqui.',
           linkText: 'Voltar ao início',
         },
-        footer: { message: 'Publicado sob a licença MIT.', copyright: 'Rafael Augusto' },
+        footer: {
+          message: 'Publicado sob a licença MIT.',
+          copyright: `Mantido por Rafael Augusto e ${cortex}`,
+        },
       },
     },
   },
