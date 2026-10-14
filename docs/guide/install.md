@@ -6,6 +6,19 @@ npm install @rafaelaugusto/jolt@next
 
 It's in beta for now, published under the `next` tag. Requires `@nativescript/core` 8.9 or later. It doesn't depend on a framework: it takes a view, or an element that holds one, so it works with NativeScript-Vue, Angular, Svelte or plain NativeScript.
 
+## ProMotion on iOS
+
+On iOS 15 and later, Jolt requests up to 120 Hz for its native animations, capped by the view's screen. To allow rates above 60 Hz on an iPhone, add this inside the root `<dict>` of `App_Resources/iOS/Info.plist` and rebuild the app:
+
+```xml
+<key>CADisableMinimumFrameDurationOnPhone</key>
+<true/>
+```
+
+This is a preference, not a fixed frame rate. iOS can choose a lower rate for power, thermal, or accessibility reasons. Older iOS versions keep the existing behavior, and 60 Hz screens receive a 60 Hz preference. See [Apple's ProMotion guide](https://developer.apple.com/documentation/quartzcore/optimizing-iphone-and-ipad-apps-to-support-promotion-displays).
+
+Curve samples and display frames are separate: Core Animation interpolates between Jolt's samples at the display's chosen rate. More samples are not required simply to render at 120 Hz.
+
 ## First animation
 
 ```vue

@@ -11,6 +11,7 @@ interface Transaction {
 
 interface NativeAnimation {
   removedOnCompletion: boolean
+  preferredFrameRateRange?: { minimum: number; maximum: number; preferred: number }
 }
 
 let transaction: Transaction
@@ -57,8 +58,20 @@ beforeEach(() => {
   vi.useFakeTimers()
   vi.stubGlobal('CACurrentMediaTime', () => now / 1000)
   vi.stubGlobal('CAKeyframeAnimation', {
-    animationWithKeyPath: () => ({ removedOnCompletion: true }),
+    animationWithKeyPath: () => ({
+      removedOnCompletion: true,
+      respondsToSelector: () => true,
+    }),
   })
+  vi.stubGlobal('UIScreen', { mainScreen: { maximumFramesPerSecond: 60 } })
+  vi.stubGlobal(
+    'CAFrameRateRangeMake',
+    (minimum: number, maximum: number, preferred: number) => ({
+      minimum,
+      maximum,
+      preferred,
+    }),
+  )
   vi.stubGlobal('NSArray', { arrayWithArray: (values: unknown[]) => values })
   vi.stubGlobal('kCAFillModeBackwards', 'backwards')
   vi.stubGlobal('CATransaction', {
@@ -86,6 +99,65 @@ function target() {
   }
   return { view, layer, shadow, background }
 }
+
+describe('iOS refresh rate preference', () => {
+  it('uses the view window screen and applies the hint to every track and shadow', async () => {
+    const { view, layer, shadow } = target()
+    Object.assign(view.nativeViewProtected!, {
+      window: { screen: { maximumFramesPerSecond: 120 } },
+    })
+    const animation = animate(
+      view,
+      { x: [0, 100], opacity: [0, 1] },
+      { delay: 100, repeat: Infinity },
+    )
+
+    for (const current of [layer, shadow]) {
+      expect(current.animations.size).toBe(2)
+      for (const entry of current.animations.values()) {
+        expect(entry.animation.preferredFrameRateRange).toEqual({
+          minimum: 80,
+          maximum: 120,
+          preferred: 120,
+        })
+      }
+    }
+    animation.stop()
+    expect(await animation).toBe(false)
+  })
+
+  it('falls back to the main screen and keeps the range within a 60 Hz display', async () => {
+    const { view, layer, shadow } = target()
+    const animation = animate(view, 'fadeInUp')
+    expect(layer.animations.get('jolt:y')?.animation.preferredFrameRateRange).toEqual({
+      minimum: 60,
+      maximum: 60,
+      preferred: 60,
+    })
+    layer.removeAutomaticAnimations()
+    shadow.removeAutomaticAnimations()
+    expect(await animation).toBe(true)
+  })
+
+  it('does not access newer APIs when the animation lacks the iOS 15 selector', async () => {
+    vi.stubGlobal('CAKeyframeAnimation', {
+      animationWithKeyPath: () => ({
+        removedOnCompletion: true,
+        respondsToSelector: () => false,
+      }),
+    })
+    vi.stubGlobal('CAFrameRateRangeMake', undefined)
+    vi.stubGlobal('UIScreen', undefined)
+    const { view, layer, shadow } = target()
+    const animation = animate(view, 'fadeInUp')
+    expect(
+      layer.animations.get('jolt:y')?.animation.preferredFrameRateRange,
+    ).toBeUndefined()
+    layer.removeAutomaticAnimations()
+    shadow.removeAutomaticAnimations()
+    expect(await animation).toBe(true)
+  })
+})
 
 describe('iOS background loops', () => {
   it.each(['loop', 'reverse'] as const)(

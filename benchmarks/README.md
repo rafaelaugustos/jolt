@@ -4,6 +4,8 @@ Measures the synchronous cost of `animate(rows, 'fadeInUp', { stagger: 30 })` on
 
 The first [device results](./results/2026-10-14-ios-startup.md) show medians of about 21 ms for 50 rows and 53–54 ms for 200 rows on an iPhone 17 Pro.
 
+The [ProMotion sampling comparison](./results/promotion-sampling.md) separately checks how 60 and 120 curve samples per second approximate fast springs.
+
 ## Run on a device
 
 Use a Mac with the NativeScript CLI, Xcode, an iPhone with Developer Mode enabled, and a development signing team. The demo must have its `App_Resources` configured, as for a normal iOS build. If missing, copy `App_Resources` from a fresh `ns create` TypeScript app; this repository does not track those generated resources.
