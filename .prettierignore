@@ -4,3 +4,5 @@ demo/App_Resources
 demo/platforms
 demo/hooks
 package-lock.json
+docs/.vitepress/cache
+docs/.vitepress/dist
