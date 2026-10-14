@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Stop selected properties with `stop(view, ['x', 'scale'])` while the others keep animating. `scale` stops both axes.
 - Keep infinite animations running after returning from the background on iOS. Their `finished` promise stays pending until they are stopped or replaced.
 
 ## 0.1.0-beta.0 (unreleased)
