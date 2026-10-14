@@ -321,4 +321,4 @@ Publishing authenticates with the `NPM_TOKEN` secret, or with [trusted publishin
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](./LICENSE). Maintained by Rafael Augusto and [Cortex Labs](https://getcortexlabs.com/).
