@@ -73,6 +73,21 @@ export class View extends Observable {
 export const isAndroid = false
 export const isIOS = true
 
+export class Color {
+  constructor(public value: string) {
+    if (!Color.isValid(value)) throw new Error('Invalid color')
+  }
+  static isValid(value: unknown) {
+    return (
+      typeof value === 'string' &&
+      /^(#[\da-f]{3,8}|white|red|blue|transparent)$/i.test(value)
+    )
+  }
+  get ios() {
+    return { CGColor: this.value }
+  }
+}
+
 export const Application = {
   ios: {
     observers: new Map<() => void, string>(),

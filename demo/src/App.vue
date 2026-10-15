@@ -9,6 +9,7 @@ import Stagger from './components/Stagger.vue'
 import Symbols from './components/Symbols.vue'
 import Shimmer from './components/Shimmer.vue'
 import Haptics from './components/Haptics.vue'
+import Particles from './components/Particles.vue'
 
 const logo = ref()
 const title = ref()
@@ -45,6 +46,7 @@ onMounted(() => {
           <Symbols />
           <Shimmer />
           <Haptics />
+          <Particles />
           <Loops />
         </StackLayout>
       </ScrollView>
