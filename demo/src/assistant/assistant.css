@@ -1,0 +1,320 @@
+.assistant-page {
+  background-image: linear-gradient(
+    165deg,
+    #b3d8cb 0%,
+    #d4dcb9 33%,
+    #f0cf94 62%,
+    #c5a5b8 100%
+  );
+  color: #20231f;
+}
+
+.assistant-shell {
+  font-size: 15;
+}
+
+.assistant-header {
+  margin: 4 24 8;
+}
+
+.assistant-header-title {
+  text-align: center;
+  vertical-align: middle;
+  font-size: 15;
+  font-weight: 600;
+}
+
+.assistant-round-button {
+  width: 44;
+  height: 44;
+  border-radius: 22;
+  background-color: rgba(255, 255, 246, 0.48);
+  vertical-align: middle;
+}
+
+.assistant-dark-button {
+  width: 54;
+  height: 54;
+  border-radius: 27;
+  background-color: #272b2b;
+  horizontal-align: center;
+  vertical-align: middle;
+}
+
+.assistant-greeting {
+  margin: 20 24 0;
+  font-size: 38;
+  font-weight: 600;
+  letter-spacing: -0.035;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.assistant-tools {
+  margin: 0;
+  vertical-align: middle;
+}
+
+.assistant-tool-card {
+  height: 156;
+  margin: 0;
+  padding: 27 4 16;
+  border-radius: 20;
+  background-image: linear-gradient(180deg, #fffdf3, #f5e7d7);
+}
+
+.assistant-tool-icon {
+  width: 50;
+  height: 50;
+  border-radius: 25;
+  horizontal-align: center;
+  margin-bottom: 13;
+}
+
+.assistant-tool-title {
+  font-size: 15;
+  font-weight: 600;
+  text-align: center;
+}
+
+.assistant-search-ring {
+  width: 70;
+  height: 70;
+  border-radius: 35;
+  background-color: transparent;
+  horizontal-align: center;
+  vertical-align: middle;
+  margin-bottom: 8;
+}
+
+.assistant-search {
+  width: 58;
+  height: 58;
+  border-radius: 29;
+  border-width: 1;
+  border-color: #858786;
+}
+
+.assistant-orb-stage {
+  vertical-align: top;
+  margin-top: 62;
+}
+
+.assistant-listening {
+  font-size: 14;
+  color: #555b4c;
+  text-align: center;
+  margin-bottom: 18;
+}
+
+.assistant-orb {
+  width: 286;
+  height: 286;
+  horizontal-align: center;
+}
+
+.assistant-transcript {
+  margin: 28 30 18;
+  font-size: 21;
+  letter-spacing: -0.035;
+  text-align: center;
+  vertical-align: bottom;
+}
+
+.assistant-voice-controls {
+  margin: 0 24 8;
+}
+
+.assistant-pause {
+  width: 36;
+  height: 44;
+  border-radius: 18;
+  horizontal-align: left;
+}
+
+.assistant-mic-ring {
+  width: 66;
+  height: 66;
+  border-radius: 33;
+  background-color: transparent;
+  horizontal-align: center;
+  vertical-align: middle;
+}
+
+.assistant-messages {
+  padding: 16 24 20;
+}
+
+.assistant-user-bubble {
+  width: 276;
+  padding: 17 18;
+  margin-bottom: 20;
+  border-radius: 20 20 4 20;
+  background-color: #2b2e25;
+  color: #f6f4e9;
+  horizontal-align: right;
+  font-size: 15;
+}
+
+.assistant-reply-row {
+  margin-bottom: 20;
+}
+
+.assistant-avatar {
+  width: 32;
+  height: 40;
+  border-radius: 16;
+  background-image: linear-gradient(150deg, #e9cfef, #bb8fd4);
+  vertical-align: top;
+  margin-top: 3;
+}
+
+.assistant-reply-bubble {
+  background-color: rgba(255, 251, 226, 0.66);
+  border-radius: 6 18 18 18;
+  padding: 17 16;
+  font-size: 15;
+}
+
+.assistant-documents {
+  margin-top: 7;
+}
+
+.assistant-document {
+  height: 112;
+  margin-right: 5;
+  padding: 13 10 10;
+  border-radius: 16;
+  background-color: rgba(255, 248, 237, 0.6);
+}
+
+.assistant-document-icon {
+  width: 36;
+  height: 36;
+  border-radius: 18;
+  horizontal-align: center;
+  margin-bottom: 8;
+}
+
+.assistant-document-name {
+  text-align: center;
+  font-size: 11;
+  color: #555346;
+}
+
+.assistant-audio-bubble {
+  width: 260;
+  height: 50;
+  padding: 0 14;
+  margin-bottom: 20;
+  border-radius: 17 17 4 17;
+  background-color: #2b2e25;
+  horizontal-align: right;
+}
+
+.assistant-wave-bar {
+  width: 2;
+  margin-right: 2;
+  border-radius: 1;
+  background-color: #e7e4d7;
+  vertical-align: middle;
+}
+
+.assistant-audio-time {
+  color: #f6f4e9;
+  font-size: 12;
+  margin-right: 12;
+  vertical-align: middle;
+}
+
+.assistant-composer {
+  margin: 4 20 18;
+}
+
+.assistant-input-pill {
+  height: 48;
+  padding-right: 14;
+  border-radius: 24;
+  background-color: rgba(255, 249, 237, 0.62);
+  vertical-align: middle;
+}
+
+.assistant-message-input {
+  border-width: 0;
+  background-color: transparent;
+  placeholder-color: #8b827b;
+  color: #292b28;
+  font-size: 14;
+  padding: 0;
+  margin: 0;
+}
+
+.assistant-composer-send {
+  width: 48;
+  height: 48;
+  border-radius: 24;
+}
+
+.assistant-overlay {
+  background-color: rgba(31, 37, 31, 0.22);
+}
+
+.assistant-info-card {
+  margin: 24;
+  padding: 30 24 18;
+  border-radius: 28;
+  background-color: #faf5e8;
+  vertical-align: middle;
+}
+
+.assistant-info-title {
+  margin-top: 20;
+  font-size: 28;
+  font-weight: 600;
+  letter-spacing: -0.035;
+  text-align: center;
+}
+
+.assistant-info-copy {
+  margin: 14 0 24;
+  color: #67695d;
+  text-align: center;
+  font-size: 16;
+}
+
+.assistant-info-action {
+  padding: 17 16;
+  border-radius: 24;
+  background-color: #292e29;
+  color: #faf5e8;
+  text-align: center;
+  font-weight: 600;
+}
+
+.assistant-info-close {
+  padding: 18 16 8;
+  text-align: center;
+}
+
+.assistant-document-caption {
+  text-align: center;
+  color: #67695d;
+  margin-bottom: 24;
+}
+
+.assistant-warmth {
+  background-image: linear-gradient(165deg, #acd7cc 0%, #edd59f 58%, #d0a5ae 100%);
+  opacity: 0.1;
+}
+.assistant-search-halo {
+  width: 70;
+  height: 70;
+  border-radius: 35;
+  background-color: rgba(50, 47, 48, 0.18);
+}
+.assistant-mic-halo {
+  width: 66;
+  height: 66;
+  border-radius: 33;
+  background-color: rgba(235, 205, 217, 0.7);
+}

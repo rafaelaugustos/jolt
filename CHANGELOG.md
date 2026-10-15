@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add an interactive iOS assistant demo with animated text, spring-driven tool cards, voice and chat transitions, document previews and a replay of the full flow. Keep the animation playground available on both platforms.
+
 ## 0.1.0-beta.3 (2026-10-15)
 
 - Keep Android sequence arrivals and interrupted velocity on the native animation clock, respecting animator duration scale, delays, repeats and disabled animations.
