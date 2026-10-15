@@ -2,6 +2,8 @@ export { animate, stop } from './animate.js'
 export { sequence } from './sequence.js'
 export type { Step } from './sequence.js'
 export { press } from './press.js'
+export { shimmer } from './shimmer.js'
+export type { ShimmerOptions } from './shimmer.js'
 export { symbolEffect } from './symbol-effect.js'
 export type {
   SymbolEffect,

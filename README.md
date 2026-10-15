@@ -40,6 +40,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Sequences](#sequences) that start each step once the previous one looks done.
 - [Press effects](#press) that follow the finger and let go when a scroll takes over.
 - [SF Symbol effects](#sf-symbols) and animated icon replacement on iOS 17+.
+- [Shimmer](#shimmer) for loading placeholders on iOS.
 - [Interruptions](#interrupting-and-stopping) that pick up the value and velocity on screen, with no jump.
 - [Native playback](#how-it-works): Core Animation on iOS, `ObjectAnimator` on Android, nothing in JavaScript while it plays.
 
@@ -257,6 +258,17 @@ Takes a NativeScript `Image` with a `sys://` source, or a ref holding one. Suppo
 
 Effects require iOS 17+. Earlier iOS versions and Reduce Motion skip decorative effects and replace icons immediately. Android calls resolve with `false` without changing the image. See [SF Symbol effects](https://jolt.rafaelaugusto.dev/guide/symbol-effects) for options and lifecycle behavior.
 
+## Shimmer
+
+```ts
+import { shimmer } from '@rafaelaugusto/jolt'
+
+const stopShimmer = shimmer(placeholder, { duration: 1500 })
+stopShimmer() // when the content is ready
+```
+
+A native gradient mask sweeps across the placeholder and its children. It follows layout changes, preserves existing masks and releases native resources while the view is unloaded, resuming on load. Reduce Motion keeps the placeholder static. iOS only for now; Android calls return a no-op cleanup function. See the [shimmer guide](https://jolt.rafaelaugusto.dev/guide/shimmer).
+
 ## Interrupting and stopping
 
 Starting an animation on a property that's already animating takes it over: the new one starts from the value on screen, with the same velocity, so a card can change its mind halfway without a jump. Other properties of the previous animation keep going.
@@ -296,15 +308,15 @@ Each running property remembers its curve and start time, so Jolt knows the valu
 
 ## API
 
-**Animating**: `animate(target, keyframes | preset, transition?)`, `stop(target, properties?)`, `sequence(steps)`, `press(target, pressed?, transition?)`, `symbolEffect(image, effect, options?)`.
+**Animating**: `animate(target, keyframes | preset, transition?)`, `stop(target, properties?)`, `sequence(steps)`, `press(target, pressed?, transition?)`, `symbolEffect(image, effect, options?)`, `shimmer(target, options?)`.
 
-**Animations** returned by them: `await`, `finished`, `stop()`.
+**Animations** from `animate()`, `sequence()` and `symbolEffect()`: `await`, `finished`, `stop()`. `press()` and `shimmer()` return cleanup functions.
 
 **Helpers**: `definePreset`, `presets`, `springs`, `cubicBezier`, plus the types (`Keyframes`, `Transition`, `Spring`, `Tween`, `Preset`, `Presets`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target`...).
 
 ## Demo
 
-[`demo/`](./demo) is a NativeScript-Vue app with every preset, the three springs on a ball you can interrupt, stagger, press effects, SF Symbols on iOS, loops and a sequence on launch.
+[`demo/`](./demo) is a NativeScript-Vue app with every preset, the three springs on a ball you can interrupt, stagger, press effects, SF Symbols and shimmer on iOS, loops and a sequence on launch.
 
 With the [NativeScript CLI](https://docs.nativescript.org/setup/) installed:
 
