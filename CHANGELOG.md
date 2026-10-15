@@ -2,10 +2,10 @@
 
 ## Unreleased
 
+## 0.1.0-beta.5 (2026-10-15)
+
 - Add `pause()`, `play()` and writable `progress` to `animate()` and `decay()`, with native clocks, controlled interruption, delayed and repeated timelines, grouped stagger, unload cleanup and paused haptics. Add a slider demo and English/Portuguese playback guides. Layers keep their own timing on iOS; Android animations share one native elapsed-time marker while active.
-
 - Animate uniform `borderRadius` and `borderWidth` on iOS and Android, iOS outer-shadow opacity, radius and offsets, and Android elevation and translation Z. Preserve interruption, selective stop and native playback. Add a morph demo and English/Portuguese guides with geometry and layout limits. Rebuild Android to include the new native target.
-
 - Add an Android busy-JavaScript demo and repeatable benchmark comparing Jolt, `withLayer()` and a native reveal, with the same 300 ms CPU task on the main thread or a worker. Document the UI-thread limit and worker mitigation in English and Portuguese.
 
 ## 0.1.0-beta.4 (2026-10-15)
