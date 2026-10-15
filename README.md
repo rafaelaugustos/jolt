@@ -363,7 +363,7 @@ Before playing, the final values are set on the NativeScript view, like `view.an
 
 On Android, opacity animations temporarily cache hardware-accelerated containers with children in a hardware layer. Jolt waits for the fade to start and restores the layer on completion, stop, replacement or unload. Existing app-configured layers are preserved; empty, unmeasured and larger-than-screen containers are skipped. See the [fade-layer benchmark](./benchmarks/android-fade.md) for measurement and memory tradeoffs.
 
-Each running property remembers its curve and start time, so Jolt knows the value and velocity of any property at any moment without asking the platform. That's what lets an interruption pick up the motion where it was. On Android, where an animator starts on the next frame, it reads the value on screen instead.
+Each running property remembers its curve and start time. On Android, interruptions read the displayed value and the animator's current play time, so inherited velocity follows the system's animator duration scale. Early spring arrivals use a native timing marker with completion callbacks only; other sequences advance on native completion. Delays, repeats and disabled animations follow the same platform clock, without JavaScript running per frame.
 
 ## Not there yet
 

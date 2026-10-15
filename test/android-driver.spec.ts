@@ -1,13 +1,17 @@
 import { Utils } from '@nativescript/core'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { animate, stop } from '../src/index.js'
+import { animate, sequence, stop } from '../src/index.js'
 import { setDriver } from '../src/driver/index.js'
 import { createAndroidDriver } from '../src/driver/android.js'
-import { createView } from './helpers.js'
+import { createView, flush, state } from './helpers.js'
+import { createTrack } from '../src/track.js'
+import { resolveTransition } from '../src/transition.js'
 
 let createDescriptor: PropertyDescriptor | undefined
 let time: number
 let animators: NativeAnimator[]
+let markers: NativeMarker[]
+let durationScale: number
 
 class NativeView {
   cameraDistance = 8000
@@ -84,11 +88,21 @@ class NativeAnimator {
     onAnimationRepeat(): void
   }
   delay = 0
+  duration = 0
+  playTime = 0
   started = false
-  constructor(readonly view: NativeView) {
+  constructor(
+    readonly view: NativeView,
+    readonly holders: { frames: { value: number }[] }[] = [],
+  ) {
     animators.push(this)
   }
-  setDuration() {}
+  setDuration(duration: number) {
+    this.duration = duration
+  }
+  getCurrentPlayTime() {
+    return this.playTime
+  }
   setStartDelay(delay: number) {
     this.delay = delay
   }
@@ -101,6 +115,7 @@ class NativeAnimator {
   start() {
     this.cameraAtStart = this.view.cameraDistance
     if (this.delay === 0) this.begin()
+    if (durationScale === 0) this.finish()
   }
   begin() {
     this.started = true
@@ -116,10 +131,40 @@ class NativeAnimator {
   }
 }
 
+class NativeMarker {
+  duration = 0
+  active = false
+  listener!: NativeAnimator['listener']
+  constructor() {
+    markers.push(this)
+  }
+  setDuration(duration: number) {
+    this.duration = duration
+  }
+  addListener(listener: NativeAnimator['listener']) {
+    this.listener = listener
+  }
+  start() {
+    this.active = true
+    if (durationScale === 0) this.finish()
+  }
+  finish() {
+    this.active = false
+    this.listener.onAnimationEnd()
+  }
+  cancel() {
+    this.active = false
+    this.listener.onAnimationCancel()
+    this.listener.onAnimationEnd()
+  }
+}
+
 beforeEach(() => {
   vi.useFakeTimers()
   time = 1000
   animators = []
+  markers = []
+  durationScale = 1
   createDescriptor = Object.getOwnPropertyDescriptor(Array, 'create')
   Object.defineProperty(Array, 'create', {
     configurable: true,
@@ -147,9 +192,15 @@ beforeEach(() => {
         ofKeyframe: (property: string, frames: unknown[]) => ({ property, frames }),
       },
       ObjectAnimator: {
-        ofPropertyValuesHolder: (view: NativeView) => new NativeAnimator(view),
+        ofPropertyValuesHolder: (view: NativeView, holders: NativeAnimator['holders']) =>
+          new NativeAnimator(view, holders),
       },
-      ValueAnimator: { INFINITE: -1, REVERSE: 2, RESTART: 1 },
+      ValueAnimator: {
+        INFINITE: -1,
+        REVERSE: 2,
+        RESTART: 1,
+        ofFloat: () => new NativeMarker(),
+      },
       Animator: {
         AnimatorListener: class {
           constructor(listener: NativeAnimator['listener']) {
@@ -335,6 +386,132 @@ function target(perspective = 1000) {
   view.nativeViewProtected = native
   return { view, native }
 }
+
+describe('Android animation clock', () => {
+  it.each([0.5, 1, 2])('inherits the velocity at native time at %sx', async (scale) => {
+    durationScale = scale
+    const { view, native } = target()
+    const transition = resolveTransition({ duration: 1000, ease: 'easeIn' }, 'rotate', 2)
+    const previous = createTrack('rotate', [0, 100], transition, 0)
+    const first = animate(view, { rotate: 100 }, { duration: 1000, ease: 'easeIn' })
+    animators[0]!.playTime = 250
+    time += 250 * scale
+    native.rotation = previous.valueAt(250)
+    const second = animate(view, { rotate: 0 }, 'bouncy')
+    const expected = createTrack(
+      'rotate',
+      [native.rotation, 0],
+      resolveTransition({ type: 'spring', duration: 550, bounce: 0.4 }, 'rotate', 2),
+      previous.velocityAt(250),
+    )
+    expect(animators[1]!.holders[0]!.frames.map((frame) => frame.value)).toEqual(
+      expected.values,
+    )
+    expect(await first).toBe(false)
+    second.stop()
+    expect(await second).toBe(false)
+  })
+
+  it('includes delay and reverse iterations in native elapsed time', () => {
+    const driver = createAndroidDriver()
+    const { view } = target()
+    const track = createTrack(
+      'rotate',
+      [0, 100],
+      resolveTransition(
+        { duration: 1000, delay: 200, repeat: 3, repeatType: 'reverse', ease: 'linear' },
+        'rotate',
+        2,
+      ),
+      0,
+    )
+    const handle = driver.play(view, track, time, () => {})
+    expect(driver.elapsed!(handle)).toBe(0)
+    animators[0]!.begin()
+    animators[0]!.playTime = 1250
+    expect(driver.elapsed!(handle)).toBe(1450)
+    expect(track.velocityAt(driver.elapsed!(handle))).toBeCloseTo(-100)
+    driver.stop(view, handle)
+  })
+
+  it('uses native elapsed time when no presentation value is available on stop', async () => {
+    const driver = createAndroidDriver()
+    driver.presented = () => undefined
+    setDriver(driver)
+    const { view } = target()
+    const animation = animate(
+      view,
+      { rotate: 100 },
+      { duration: 1000, delay: 100, ease: 'linear' },
+    )
+    time += 900
+    animation.stop()
+    expect(view.rotate).toBe(0)
+    expect(await animation).toBe(false)
+    const next = animate(
+      view,
+      { rotate: 100 },
+      { duration: 1000, delay: 100, ease: 'linear' },
+    )
+    animators[1]!.begin()
+    animators[1]!.playTime = 250
+    time += 500
+    next.stop()
+    expect(view.rotate).toBeCloseTo(25)
+  })
+
+  it('waits for native spring arrival rather than an unscaled JS timer', async () => {
+    const a = target().view
+    const b = target().view
+    const animation = sequence([
+      [a, { rotate: 100 }, 'bouncy'],
+      [b, { rotate: 90 }, { duration: 100 }],
+    ])
+    expect(markers).toHaveLength(1)
+    expect(markers[0]!.duration).toBeLessThan(animators[0]!.duration)
+    await vi.advanceTimersByTimeAsync(10000)
+    expect(animators).toHaveLength(1)
+    markers[0]!.finish()
+    await flush()
+    expect(animators).toHaveLength(2)
+    animators.forEach((animator) => animator.finish())
+    expect(await animation).toBe(true)
+  })
+
+  it('cancels arrival markers when stopped and ignores late native completion', async () => {
+    const animation = sequence([
+      [target().view, { rotate: 100 }, 'bouncy'],
+      [target().view, 'fadeIn'],
+    ])
+    animation.stop()
+    expect(markers[0]!.active).toBe(false)
+    markers[0]!.finish()
+    await flush()
+    expect(animators).toHaveLength(1)
+    expect(await animation).toBe(false)
+  })
+
+  it('finishes tweens on native completion without allocating arrival markers', async () => {
+    const animation = animate(target().view, { rotate: 100 }, { duration: 400 })
+    const done = state(animation.finished)
+    await vi.advanceTimersByTimeAsync(4000)
+    expect(done()).toBeUndefined()
+    expect(markers).toHaveLength(0)
+    animators[0]!.finish()
+    expect(await animation).toBe(true)
+  })
+
+  it('finishes a multi-property sequence immediately when system animations are disabled', async () => {
+    durationScale = 0
+    const animation = sequence([
+      [target().view, { rotate: 100, opacity: 0.2 }, 'bouncy'],
+      [target().view, { rotate: 0 }, { duration: 400, delay: 500 }],
+    ])
+    expect(await animation).toBe(true)
+    expect(animators).toHaveLength(3)
+    expect(markers).toHaveLength(0)
+  })
+})
 
 describe('Android 3D perspective', () => {
   it.each(['rotateX', 'rotateY'] as const)(
