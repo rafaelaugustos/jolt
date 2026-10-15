@@ -2,7 +2,7 @@
 
 ## Animating
 
-- `animate(target, keyframes | preset, transition?)` — [colors](./colors)
+- `animate(target, keyframes | preset, transition?)` — [colors](./colors), [corners, borders and shadows](./decorations)
 - [`decay(target, velocity, options?)`](./decay)
 - `stop(target, properties?)`
 - `sequence(steps)`

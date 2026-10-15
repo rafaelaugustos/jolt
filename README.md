@@ -35,6 +35,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 
 - [25 presets](#presets) to enter, exit and draw attention: `fadeInUp`, `popIn`, `shake`, `heartbeat`...
 - [Springs](#springs) described by feel (`bouncy`), by `bounce` and `duration`, or by stiffness, damping and mass.
+- [Corners, borders and shadows](#corners-borders-and-shadows) with native playback and selective stopping.
 - [Colors](#colors) for backgrounds, borders and text, interpolated in OKLab on iOS and Android.
 - [Decay](#decay) from a release velocity, with optional snap points.
 - [Keyframes and tweens](#tweens) with an easing per segment and exact keyframe times.
@@ -112,6 +113,14 @@ const open = () => animate(card.value, 'popIn')
 ```
 
 A view that isn't loaded yet takes its first absolute keyframe right away and plays once it's on screen. Calling `animate(title, 'fadeInUp')` in `onMounted` doesn't flash the title before it fades in. Relative animations leave the view's values alone until it loads.
+
+## Corners, borders and shadows
+
+```ts
+animate(card, { borderRadius: 40, borderWidth: 6 }, { duration: 800 })
+```
+
+Uniform circular borders work on iOS and Android. On iOS, configure one outer `boxShadow` and animate `shadowOpacity`, `shadowRadius` (half Core's CSS blur radius), `shadowOffsetX` and `shadowOffsetY`. On Android, animate `elevation` and `translationZ` for native shadows. Dimensions use DIPs; interruption, springs, repeats and selective stop work as usual. Border width animates the stroke while content uses the final layout. Clip paths, nonuniform geometry and Android radius changes with CSS shadows are rejected. Rebuild Android after upgrading. See the [guide and platform limits](https://jolt.rafaelaugusto.dev/guide/decorations).
 
 ## Colors
 
@@ -419,7 +428,7 @@ Each running property remembers its curve and start time. On Android, interrupti
 
 ## Not there yet
 
-- `animate()` covers transforms, opacity and solid colors. Border widths, corner radii and shadows ([#13](https://github.com/rafaelaugustos/jolt/issues/13)), size and layout changes ([#21](https://github.com/rafaelaugustos/jolt/issues/21)) aren't animated yet.
+- `animate()` supports transforms, opacity, colors, uniform corners and borders, and platform shadows. Size and layout changes ([#21](https://github.com/rafaelaugustos/jolt/issues/21)) aren't animated yet.
 - Gesture tracking and drag constraints are next ([#23](https://github.com/rafaelaugustos/jolt/issues/23)); `decay()` supplies the motion after release.
 - No layout or shared element transitions ([#21](https://github.com/rafaelaugustos/jolt/issues/21), [#24](https://github.com/rafaelaugustos/jolt/issues/24)).
 

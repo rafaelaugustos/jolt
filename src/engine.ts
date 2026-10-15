@@ -133,6 +133,7 @@ export class ViewAnimation implements Animation {
     })
 
     for (const track of tracks) writeValue(this.view, track.property, track.to)
+    driver.sync?.(this.view)
 
     for (const track of tracks) {
       if (track.end === 0) continue
@@ -226,6 +227,7 @@ function release(entry: Entry, now: number, commit: boolean) {
     const value =
       driver.presented(view, property) ?? entry.track.valueAt(elapsedOf(entry, now))
     writeValue(view, property, value)
+    driver.sync?.(view, property)
   }
   driver.stop(view, entry.handle)
   entry.owner.ended(false)

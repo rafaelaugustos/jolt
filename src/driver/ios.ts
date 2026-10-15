@@ -1,3 +1,9 @@
+import { isDecorationProperty } from '../decoration.js'
+import {
+  playIOSDecoration,
+  presentedIOSDecoration,
+  syncIOSDecoration,
+} from './ios-decoration.js'
 import type { View } from '@nativescript/core'
 import type { NumericProperty } from '../properties.js'
 import { isColorProperty } from '../color.js'
@@ -9,6 +15,7 @@ interface Handle {
   key: string
   onStop?: () => void
   color?: ReturnType<typeof playIOSColor>
+  decoration?: ReturnType<typeof playIOSDecoration>
 }
 
 const keyPaths: Record<NumericProperty, string> = {
@@ -52,6 +59,12 @@ export function createIOSDriver(): Driver {
     now: () => CACurrentMediaTime() * 1000,
 
     play(view, track, startedAt, onEnd): Handle {
+      if (isDecorationProperty(track.property))
+        return {
+          layers: [],
+          key: '',
+          decoration: playIOSDecoration(view, track, startedAt, onEnd),
+        }
       if (isColorProperty(track.property))
         return { layers: [], key: '', color: playIOSColor(view, track, startedAt, onEnd) }
       const layers = layersOf(view)
@@ -101,6 +114,10 @@ export function createIOSDriver(): Driver {
     stop(_view, handle) {
       const playing = handle as Handle
       const { layers, key, onStop } = playing
+      if (playing.decoration) {
+        playing.decoration.stop()
+        return
+      }
       if (playing.color) {
         playing.color.stop()
         return
@@ -110,8 +127,14 @@ export function createIOSDriver(): Driver {
       onStop?.()
     },
 
+    sync: syncIOSDecoration,
+
     presented: (view, property) =>
-      isColorProperty(property) ? presentedIOSColor(view, property) : undefined,
+      isDecorationProperty(property)
+        ? presentedIOSDecoration(view, property)
+        : isColorProperty(property)
+          ? presentedIOSColor(view, property)
+          : undefined,
 
     after,
   }

@@ -70,6 +70,43 @@ export class View extends Observable {
   get borderColor() {
     return this.borderTopColor!
   }
+  borderTopLeftRadius = 0
+  borderTopRightRadius = 0
+  borderBottomRightRadius = 0
+  borderBottomLeftRadius = 0
+  borderTopWidth = 0
+  borderRightWidth = 0
+  borderBottomWidth = 0
+  borderLeftWidth = 0
+  set borderRadius(value: number) {
+    this.borderTopLeftRadius =
+      this.borderTopRightRadius =
+      this.borderBottomRightRadius =
+      this.borderBottomLeftRadius =
+        value
+  }
+  get borderRadius() {
+    return this.borderTopLeftRadius
+  }
+  set borderWidth(value: number) {
+    this.borderTopWidth =
+      this.borderRightWidth =
+      this.borderBottomWidth =
+      this.borderLeftWidth =
+        value
+  }
+  get borderWidth() {
+    return this.borderTopWidth
+  }
+  androidElevation = 0
+  boxShadow: {
+    color: CoreColor
+    inset: boolean
+    offsetX: number
+    offsetY: number
+    blurRadius?: number
+    spreadRadius?: number
+  }[] = []
   opacity = 1
   translateX = 0
   translateY = 0

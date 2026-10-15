@@ -332,3 +332,187 @@ describe('iOS color layers', () => {
     expect(view.listenerCount('unloaded')).toBe(0)
   })
 })
+
+describe('iOS decorations', () => {
+  it('animates only root border geometry and freezes presentation values', async () => {
+    const { view, layer, shadow } = target()
+    const animation = animate(
+      view,
+      { borderRadius: [0, 40], borderWidth: [2, 8], x: [0, 80] },
+      { duration: 1000 },
+    )
+    expect(layer.animations.has('jolt:borderRadius')).toBe(true)
+    expect(shadow.animations.has('jolt:borderRadius')).toBe(false)
+    Object.assign(layer, { cornerRadius: 17, borderWidth: 3.5 })
+    stop(view, ['borderRadius', 'borderWidth'])
+    expect(view.borderRadius).toBe(17)
+    expect(view.borderWidth).toBe(3.5)
+    expect(layer.animations.has('jolt:x')).toBe(true)
+    layer.removeAutomaticAnimations()
+    shadow.removeAutomaticAnimations()
+    expect(await animation).toBe(false)
+  })
+  it('keeps the original timeline when Core refreshes decoration layers', async () => {
+    const { view, layer } = target()
+    const animation = animate(
+      view,
+      { borderRadius: [8, 40] },
+      { delay: 200, duration: 1000 },
+    )
+    const previous = layer.animations.get('jolt:borderRadius')!.owner
+    now += 400
+    view.style.notify({ eventName: 'backgroundInternalChange', object: view.style })
+    await flush()
+    complete(previous)
+    expect(state(animation.finished)()).toBeUndefined()
+    expect(layer.animations.has('jolt:borderRadius')).toBe(true)
+    view.notify({ eventName: 'unloaded', object: view })
+    expect(await animation).toBe(false)
+    expect(layer.animations.size).toBe(0)
+    expect(view.listenerCount('layoutChanged')).toBe(0)
+  })
+  it('cancels an incompatible external restyle', async () => {
+    const { view, layer } = target()
+    const animation = animate(view, { borderWidth: 8 })
+    view.style.notify({ eventName: 'borderTopWidthChange', object: view.style })
+    await flush()
+    expect(await animation).toBe(false)
+    expect(layer.animations.size).toBe(0)
+  })
+})
+
+describe('iOS shadow geometry', () => {
+  function shadows() {
+    const { view, layer } = target()
+    const shadow = new Layer()
+    const mask = new Layer()
+    Object.assign(layer, { cornerRadius: 8 })
+    Object.assign(shadow, {
+      mask,
+      shadowOpacity: 0.2,
+      shadowRadius: 4,
+      shadowOffset: { width: 0, height: 4 },
+    })
+    Object.assign(view.nativeViewProtected!, {
+      bounds: { origin: { x: 0, y: 0 }, size: { width: 180, height: 120 } },
+      outerShadowContainerLayer: {
+        sublayers: { count: 1, firstObject: shadow, objectAtIndex: () => shadow },
+      },
+    })
+    view.boxShadow = [
+      {
+        color: new Color('#33000000'),
+        offsetX: 0,
+        offsetY: 4,
+        blurRadius: 8,
+        inset: false,
+      },
+    ]
+    vi.stubGlobal('CGSizeMake', (width: number, height: number) => ({ width, height }))
+    vi.stubGlobal('CGRectInset', (rect: any, x: number, y: number) => ({
+      origin: { x: rect.origin.x + x, y: rect.origin.y + y },
+      size: { width: rect.size.width - x * 2, height: rect.size.height - y * 2 },
+    }))
+    vi.stubGlobal('CGPathCreateMutable', () => [])
+    for (const name of [
+      'CGPathMoveToPoint',
+      'CGPathAddLineToPoint',
+      'CGPathAddCurveToPoint',
+      'CGPathAddPath',
+      'CGPathAddRect',
+      'CGPathCloseSubpath',
+    ])
+      vi.stubGlobal(name, (path: any[], ...args: unknown[]) => path.push([name, ...args]))
+    return { view, layer, shadow, mask }
+  }
+  it('moves the shadow and its cutout with radius while keeping opacity on its own layer', async () => {
+    const { view, layer, shadow, mask } = shadows()
+    const animation = animate(
+      view,
+      {
+        borderRadius: [0, 40],
+        shadowOpacity: [0.2, 0],
+        shadowOffsetX: -12,
+        shadowOffsetY: 20,
+      },
+      { duration: 1000 },
+    )
+    expect(layer.animations.has('jolt:borderRadius')).toBe(true)
+    expect(shadow.animations.has('jolt:borderRadius')).toBe(true)
+    expect(mask.animations.has('jolt:borderRadius')).toBe(true)
+    expect(layer.animations.has('jolt:shadowOpacity')).toBe(false)
+    expect((shadow as any).shadowOpacity).toBe(0)
+    expect((shadow as any).shadowOffset).toEqual({ width: -12, height: 20 })
+    Object.assign(shadow, { shadowOffset: { width: -5, height: 11 } })
+    stop(view, ['shadowOffsetX'])
+    expect(view.boxShadow[0]!.offsetX).toBe(-5)
+    expect(shadow.animations.has('jolt:shadowOffsetY')).toBe(true)
+    animation.stop()
+    expect(await animation).toBe(false)
+    expect(mask.animations.size).toBe(0)
+  })
+  it('preserves a geometry animation through a uniform color change', async () => {
+    const { view, layer } = shadows()
+    const animation = animate(view, { borderRadius: 40 })
+    view.borderColor = new Color('red')
+    view.style.notify({ eventName: 'borderTopColorChange', object: view.style })
+    await flush()
+    expect(layer.animations.has('jolt:borderRadius')).toBe(true)
+    animation.stop()
+    expect(await animation).toBe(false)
+  })
+  it('keeps a zero shadow endpoint across a later Core redraw and releases the repair on color changes', async () => {
+    const { view, shadow } = shadows()
+    const draw = vi.fn(() => Object.assign(shadow, { shadowOpacity: 1 }))
+    Object.assign(view, { _redrawNativeBackground: draw })
+    const animation = animate(view, { shadowOpacity: 0 }, { duration: 100 })
+    await flush()
+    shadow.removeAutomaticAnimations()
+    expect(await animation).toBe(true)
+    ;(view as any)._redrawNativeBackground()
+    expect(draw).toHaveBeenCalledOnce()
+    await flush()
+    expect((shadow as any).shadowOpacity).toBe(0)
+    view.boxShadow[0]!.color = new Color('#80000000')
+    view.style.notify({ eventName: 'boxShadowChange', object: view.style })
+    await flush()
+    expect(view.listenerCount('layoutChanged')).toBe(0)
+    expect((view as any)._redrawNativeBackground).toBe(draw)
+  })
+  it('does not reapply an old endpoint while freezing shadow opacity', async () => {
+    const { view, shadow } = shadows()
+    let model = view.boxShadow
+    Object.defineProperty(view, 'boxShadow', {
+      get: () => model,
+      set: (value) => {
+        model = value
+        Object.assign(shadow, { shadowOpacity: (value[0].color.argb >>> 24) / 255 })
+      },
+    })
+    const animation = animate(view, { shadowOpacity: 0.8 }, { duration: 1000 })
+    Object.assign(shadow, { shadowOpacity: 0.35 })
+    stop(view, ['shadowOpacity'])
+    expect((shadow as any).shadowOpacity).toBeCloseTo(0.35, 2)
+    expect(await animation).toBe(false)
+  })
+  it('keeps capped corners and shadow paths on matching samples, including radius zero', async () => {
+    const { view, layer, shadow } = shadows()
+    const animation = animate(
+      view,
+      { borderRadius: [0, 120] },
+      { duration: 1000, ease: 'linear' },
+    )
+    const corner = layer.animations.get('jolt:borderRadius')!.animation as any
+    const path = shadow.animations.get('jolt:borderRadius')!.animation as any
+    expect(corner.keyTimes).toHaveLength(61)
+    expect(corner.values[0]).toBe(0)
+    expect(corner.values[30]).toBe(60)
+    expect(corner.values[60]).toBe(60)
+    expect(path.values[30][0]).toEqual(['CGPathMoveToPoint', null, 60, 0])
+    expect(path.values[0].map((command: any[]) => command[0])).toEqual(
+      path.values[60].map((command: any[]) => command[0]),
+    )
+    animation.stop()
+    expect(await animation).toBe(false)
+  })
+})

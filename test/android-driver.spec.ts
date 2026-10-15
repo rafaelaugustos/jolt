@@ -7,6 +7,12 @@ import { createView, flush, state } from './helpers.js'
 import { createTrack } from '../src/track.js'
 import { resolveTransition } from '../src/transition.js'
 
+vi.mock('@nativescript/core', async () => ({
+  ...(await import('./shims/core.js')),
+  isAndroid: true,
+  isIOS: false,
+}))
+
 let createDescriptor: PropertyDescriptor | undefined
 let time: number
 let animators: NativeAnimator[]
@@ -88,6 +94,33 @@ class ColorTarget extends NativeView {
   }
   getColor() {
     return this.color
+  }
+}
+
+class DecorationTarget extends NativeView {
+  supported = true
+  acquired = false
+  constructor(
+    readonly native: NativeView,
+    readonly property: number,
+    private value: number,
+  ) {
+    super()
+  }
+  getValue() {
+    return this.value
+  }
+  setValue(value: number) {
+    this.value = value
+  }
+  isSupported() {
+    return this.supported
+  }
+  acquire() {
+    this.acquired = true
+  }
+  release() {
+    this.acquired = false
   }
 }
 
@@ -238,7 +271,7 @@ beforeEach(() => {
       },
     },
   })
-  vi.stubGlobal('org', { rafaelaugusto: { jolt: { ColorTarget } } })
+  vi.stubGlobal('org', { rafaelaugusto: { jolt: { ColorTarget, DecorationTarget } } })
   setDriver(createAndroidDriver())
 })
 
@@ -662,5 +695,63 @@ describe('Android native color target', () => {
     view.notify({ eventName: 'unloaded' })
     expect(await animation).toBe(false)
     expect(view.listenerCount('unloaded')).toBe(0)
+  })
+})
+
+describe('Android decorations', () => {
+  it('hands DIP samples to a native float target and freezes its actual value', async () => {
+    const { view } = container()
+    const animation = animate(
+      view,
+      { borderRadius: [8, 40], borderWidth: [2, 8] },
+      { delay: 100, duration: 1000 },
+    )
+    const target = animators[0]!.view as DecorationTarget
+    expect(target.property).toBe(0)
+    expect(target.getValue()).toBe(24)
+    expect(animators[0]!.holders[0]!.frames.at(-1)!.value).toBe(120)
+    expect(animators[0]!.delay).toBe(100)
+    target.setValue(60)
+    stop(view, ['borderRadius'])
+    expect(view.borderRadius).toBe(20)
+    expect(target.acquired).toBe(false)
+    expect((animators[1]!.view as DecorationTarget).acquired).toBe(true)
+    animators[1]!.finish()
+    expect(await animation).toBe(false)
+  })
+  it('balances Z ownership on unload and reports skipped native helpers', async () => {
+    const { view } = container()
+    const animation = animate(view, { elevation: [2, 24], translationZ: [0, 8] })
+    const targets = animators.map((animator) => animator.view as DecorationTarget)
+    expect(targets.map((target) => target.property)).toEqual([2, 3])
+    view.notify({ eventName: 'unloaded', object: view })
+    expect(await animation).toBe(false)
+    expect(targets.every((target) => !target.acquired)).toBe(true)
+    expect(view.listenerCount('unloaded')).toBe(0)
+    vi.stubGlobal('org', undefined)
+    expect(await animate(view, { borderRadius: 12 })).toBe(false)
+    expect(view.borderRadius).toBe(12)
+  })
+  it('rejects iOS shadow fields and cached CSS shadow geometry on Android', () => {
+    const { view } = container()
+    expect(() => animate(view, { shadowRadius: 12 })).toThrow(/iOS/)
+    view.boxShadow = [{ color: new Color('black'), offsetX: 0, offsetY: 4, inset: false }]
+    expect(() => animate(view, { borderRadius: 24 })).toThrow(/elevation shadows/)
+    expect(animators).toHaveLength(0)
+  })
+  it('reapplies other native presentations after committing a stopped border to Core', async () => {
+    const { view } = container()
+    const animation = animate(
+      view,
+      { borderRadius: [8, 40], borderWidth: [2, 8] },
+      { duration: 1000 },
+    )
+    const radius = animators[0]!.view as DecorationTarget
+    radius.setValue(60)
+    const restore = vi.spyOn(radius, 'setValue')
+    stop(view, ['borderWidth'])
+    expect(restore).toHaveBeenLastCalledWith(60)
+    animation.stop()
+    expect(await animation).toBe(false)
   })
 })

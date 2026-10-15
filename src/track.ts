@@ -1,3 +1,4 @@
+import { clampDecoration, isDecorationProperty } from './decoration.js'
 import { linear } from './easing.js'
 import { solveDecay } from './decay.js'
 import { precision, type Property } from './properties.js'
@@ -72,7 +73,7 @@ export function createTrack(
     return reverse && iteration % 2 === 1 ? [duration - local, -1] : [local, 1]
   }
 
-  return {
+  const track: Track = {
     property,
     delay,
     duration,
@@ -93,6 +94,13 @@ export function createTrack(
       const [time, direction] = localTime(elapsed)
       return motion.velocity(time) * direction
     },
+  }
+  if (!isDecorationProperty(property)) return track
+  return {
+    ...track,
+    values: track.values.map((value) => clampDecoration(property, value)),
+    to: clampDecoration(property, track.to),
+    valueAt: (elapsed) => clampDecoration(property, track.valueAt(elapsed)),
   }
 }
 

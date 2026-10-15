@@ -1,5 +1,6 @@
 import { resolveEasing, type Easing, type EasingFunction } from './easing.js'
 import type { Property } from './properties.js'
+import { isDecorationProperty } from './decoration.js'
 import { isColorProperty } from './color.js'
 import { springPhysics, type SpringPhysics } from './spring.js'
 
@@ -106,6 +107,7 @@ export function resolveTransition(
       : hasCurve(transition) ||
           property === 'opacity' ||
           isColorProperty(property) ||
+          isDecorationProperty(property) ||
           keyframes > 2
         ? 'tween'
         : 'spring')
@@ -135,7 +137,8 @@ export function resolveTransition(
   if (
     duration < 0 ||
     Number.isNaN(duration) ||
-    (isColorProperty(property) && !Number.isFinite(duration))
+    ((isColorProperty(property) || isDecorationProperty(property)) &&
+      !Number.isFinite(duration))
   ) {
     throw new RangeError(`Invalid duration: ${duration}.`)
   }

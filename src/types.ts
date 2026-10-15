@@ -11,6 +11,21 @@ export interface Keyframes {
   /** Uniform starting edge colors; widths and radii may differ. */
   borderColor?: ColorKeyframes
   color?: ColorKeyframes
+  /** Uniform circular corners, in DIPs. */
+  borderRadius?: KeyframeValue
+  /** Uniform visual border width, in DIPs. Content layout uses the final width. */
+  borderWidth?: KeyframeValue
+  /** iOS: opacity of one existing boxShadow, from 0 to 1. */
+  shadowOpacity?: KeyframeValue
+  /** iOS: native blur radius in DIPs (half Core's boxShadow blurRadius). */
+  shadowRadius?: KeyframeValue
+  /** iOS: offset of one existing boxShadow, in DIPs. */
+  shadowOffsetX?: KeyframeValue
+  shadowOffsetY?: KeyframeValue
+  /** Android: base elevation in DIPs. */
+  elevation?: KeyframeValue
+  /** Android: dynamic Z offset in DIPs. Native state changes may replace it. */
+  translationZ?: KeyframeValue
   opacity?: KeyframeValue
   /** Same as `translateX`, in DIPs. */
   x?: KeyframeValue
