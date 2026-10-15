@@ -25,6 +25,19 @@ export interface Keyframes {
 export type Target =
   View | { readonly nativeView: View } | { readonly nativeElement: View }
 
+/** Translation velocities in DIPs per second. Omitted axes keep their current motion. */
+export interface DecayVelocity {
+  x?: number
+  y?: number
+}
+
+export interface DecayOptions {
+  /** Velocity multiplier per millisecond, between 0 and 1 exclusively. Defaults to 0.998. */
+  friction?: number
+  /** Spring to the closest stop to the projected landing, shared or set per axis. */
+  snap?: readonly number[] | { x?: readonly number[]; y?: readonly number[] }
+}
+
 export interface Stagger {
   /** Milliseconds between one target and the next. */
   each: number

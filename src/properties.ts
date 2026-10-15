@@ -25,7 +25,7 @@ const defaults: Record<Property, number> = {
   rotateY: 0,
 }
 
-/** How close to its target a spring has to be to count as settled. */
+/** How close to its target a spring or decay has to be to count as settled. */
 export const precision: Record<Property, number> = {
   opacity: 0.002,
   x: 0.25,

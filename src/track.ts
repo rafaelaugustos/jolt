@@ -1,6 +1,7 @@
 import { linear } from './easing.js'
+import { solveDecay } from './decay.js'
 import { precision, type Property } from './properties.js'
-import { solveSpring } from './spring.js'
+import { solveSpring, springPhysics } from './spring.js'
 import type { Curve, ResolvedTransition } from './transition.js'
 
 /**
@@ -37,6 +38,7 @@ interface Motion {
 }
 
 const SAMPLES_PER_SECOND = 60
+const MAX_DECAY_SAMPLES = 6000
 const ARRIVAL_TOLERANCE = 0.05
 
 export function createTrack(
@@ -48,7 +50,9 @@ export function createTrack(
   const motion =
     curve.type === 'spring'
       ? spring(property, keyframes, curve, velocity)
-      : tween(keyframes, curve)
+      : curve.type === 'decay'
+        ? decay(property, keyframes[0]!, curve)
+        : tween(keyframes, curve)
   const { duration } = motion
   const first = motion.values[0]!
   const last = motion.values.at(-1)!
@@ -75,7 +79,11 @@ export function createTrack(
     values: motion.values,
     to: !finite || endsBackwards ? first : last,
     end,
-    arrival: curve.type === 'spring' && repeat === 0 ? delay + arrival(motion) : end,
+    arrival:
+      (curve.type === 'spring' || (curve.type === 'decay' && curve.snap !== undefined)) &&
+      repeat === 0
+        ? delay + arrival(motion)
+        : end,
     valueAt: (elapsed) => motion.position(localTime(elapsed)[0]),
     velocityAt: (elapsed) => {
       if (elapsed <= delay || elapsed >= end) return 0
@@ -83,6 +91,37 @@ export function createTrack(
       return motion.velocity(time) * direction
     },
   }
+}
+
+function decay(
+  property: Property,
+  from: number,
+  curve: Extract<Curve, { type: 'decay' }>,
+): Motion {
+  const motion = solveDecay(from, curve.velocity, curve.friction, precision[property])
+  if (curve.snap) {
+    const to = curve.snap.reduce((closest, stop) =>
+      Math.abs(stop - motion.to) < Math.abs(closest - motion.to) ? stop : closest,
+    )
+    return spring(
+      property,
+      [from, to],
+      { type: 'spring', physics: springPhysics({}), velocity: curve.velocity },
+      0,
+    )
+  }
+
+  const steps = Math.max(
+    1,
+    Math.min(MAX_DECAY_SAMPLES, Math.ceil((motion.duration / 1000) * SAMPLES_PER_SECOND)),
+  )
+  const times: number[] = []
+  const values: number[] = []
+  for (let i = 0; i <= steps; i++) {
+    times.push(i / steps)
+    values.push(motion.position((i / steps) * motion.duration))
+  }
+  return { ...motion, times, values }
 }
 
 function arrival({ times, values, duration }: Motion) {

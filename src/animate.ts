@@ -1,4 +1,5 @@
 import { View } from '@nativescript/core'
+import { DEFAULT_FRICTION, solveDecay } from './decay.js'
 import {
   arrivalOf,
   setArrival,
@@ -9,7 +10,7 @@ import {
 } from './engine.js'
 import { getPreset, type PresetName } from './presets.js'
 import { resolveHaptic, type Haptic } from './haptics.js'
-import { isProperty, type Property } from './properties.js'
+import { isProperty, precision, type Property } from './properties.js'
 import {
   hasCurve,
   mergeTransitions,
@@ -20,6 +21,8 @@ import {
 } from './transition.js'
 import type {
   AnimateOptions,
+  DecayOptions,
+  DecayVelocity,
   Keyframes,
   KeyframeValue,
   Stagger,
@@ -80,6 +83,77 @@ export function animate(
         ),
     ),
   )
+}
+
+/** Starts at the current translation and slows down from a velocity in DIPs per second. */
+export function decay(
+  target: Target | readonly Target[],
+  velocity: DecayVelocity,
+  options: DecayOptions = {},
+): Animation {
+  const friction = options.friction ?? DEFAULT_FRICTION
+  if (!Number.isFinite(friction) || friction <= 0 || friction >= 1) {
+    throw new RangeError('Decay friction must be between 0 and 1 exclusively.')
+  }
+
+  const stops = (values: readonly number[] | undefined) => {
+    if (values === undefined) return undefined
+    if (
+      !Array.isArray(values) ||
+      values.length === 0 ||
+      ![...values].every(Number.isFinite)
+    ) {
+      throw new RangeError('Decay snap needs a nonempty array of finite positions.')
+    }
+    return [...values]
+  }
+  const snap = options.snap
+  if (
+    snap !== undefined &&
+    !Array.isArray(snap) &&
+    (snap === null ||
+      typeof snap !== 'object' ||
+      Object.keys(snap).some((key) => key !== 'x' && key !== 'y'))
+  ) {
+    throw new TypeError('Decay snap must be an array or an object with x and y stops.')
+  }
+  const shared = Array.isArray(snap)
+  const perAxis = snap as { x?: readonly number[]; y?: readonly number[] } | undefined
+  const snapped = shared ? stops(snap) : undefined
+  const snapX = shared ? snapped : stops(perAxis?.x)
+  const snapY = shared ? snapped : stops(perAxis?.y)
+
+  const plans = Object.entries(velocity).flatMap<Plan>(([property, value]) => {
+    if (property !== 'x' && property !== 'y') {
+      throw new Error(`Can't decay "${property}". Use x or y.`)
+    }
+    if (value === undefined) return []
+    if (!Number.isFinite(value)) {
+      throw new RangeError(`Invalid decay velocity for "${property}".`)
+    }
+    // Validate every axis before handing any plans to the engine.
+    solveDecay(0, value, friction, precision[property])
+    return [
+      {
+        property,
+        keyframes: [null, null],
+        transition: {
+          curve: {
+            type: 'decay',
+            friction,
+            velocity: value,
+            snap: property === 'x' ? snapX : snapY,
+          },
+          delay: 0,
+          repeat: 0,
+          reverse: false,
+        },
+      },
+    ]
+  })
+  const views = toViews(target)
+  if (plans.length === 0) return group([])
+  return group(views.map((view) => new ViewAnimation(view, plans)))
 }
 
 /** Stops all or selected properties at their current values. `scale` stops both axes. */
