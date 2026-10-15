@@ -42,6 +42,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [SF Symbol effects](#sf-symbols) and animated icon replacement on iOS 17+.
 - [Shimmer](#shimmer) for loading placeholders on iOS.
 - [Haptics](#haptics) at arrival or at marked points in an animation on iOS.
+- [Particles and confetti](#particles-and-confetti) on iOS.
 - [Interruptions](#interrupting-and-stopping) that pick up the value and velocity on screen, with no jump.
 - [Native playback](#how-it-works): Core Animation on iOS, `ObjectAnimator` on Android, nothing in JavaScript while it plays.
 
@@ -279,6 +280,18 @@ animate(button, 'bounce', { haptic: { style: 'light', times: [0.6, 1] } })
 
 Choose `light`, `medium` or `heavy`. By default, one impact fires when the animation visually arrives. Explicit points can mark each landing of a bounce. Delays and stagger follow the animation; interruptions, stopping and unloading cancel pending feedback. iOS only for now. See the [haptics guide](https://jolt.rafaelaugusto.dev/guide/haptics) for timing and device behavior.
 
+## Particles and confetti
+
+```ts
+import { confetti, particles } from '@rafaelaugusto/jolt'
+
+confetti(button, { count: 80, colors: ['#facc15', '#ef4444', '#3b82f6'] })
+const stopSnow = particles(scene, { source: 'top', angle: 90, velocity: 45 })
+stopSnow() // remove the emitter and its particles
+```
+
+Confetti bursts into the target's window and cleans itself up. `particles()` adds an emitter to the view for snow, sparks, bubbles or other effects. Both use Core Animation without JavaScript per frame, respect Reduce Motion and stop on unload. iOS only for now. See the [particles guide](https://jolt.rafaelaugusto.dev/guide/particles).
+
 ## Interrupting and stopping
 
 Starting an animation on a property that's already animating takes it over: the new one starts from the value on screen, with the same velocity, so a card can change its mind halfway without a jump. Other properties of the previous animation keep going.
@@ -318,15 +331,15 @@ Each running property remembers its curve and start time, so Jolt knows the valu
 
 ## API
 
-**Animating**: `animate(target, keyframes | preset, transition?)`, `stop(target, properties?)`, `sequence(steps)`, `press(target, pressed?, transition?)`, `symbolEffect(image, effect, options?)`, `shimmer(target, options?)`.
+**Animating**: `animate(target, keyframes | preset, transition?)`, `stop(target, properties?)`, `sequence(steps)`, `press(target, pressed?, transition?)`, `symbolEffect(image, effect, options?)`, `shimmer(target, options?)`, `confetti(target, options?)`, `particles(target, options?)`.
 
-**Animations** from `animate()`, `sequence()` and `symbolEffect()`: `await`, `finished`, `stop()`. `press()` and `shimmer()` return cleanup functions.
+**Animations** from `animate()`, `sequence()` and `symbolEffect()`: `await`, `finished`, `stop()`. `press()`, `shimmer()`, `confetti()` and `particles()` return cleanup functions.
 
 **Helpers**: `definePreset`, `presets`, `springs`, `cubicBezier`, plus the types (`Keyframes`, `Transition`, `Spring`, `Tween`, `Preset`, `Presets`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target`...).
 
 ## Demo
 
-[`demo/`](./demo) is a NativeScript-Vue app with every preset, the three springs on a ball you can interrupt, stagger, press effects, SF Symbols, shimmer and haptics on iOS, loops and a sequence on launch.
+[`demo/`](./demo) is a NativeScript-Vue app with every preset, the three springs on a ball you can interrupt, stagger, press effects, SF Symbols, shimmer, haptics and particles on iOS, loops and a sequence on launch.
 
 With the [NativeScript CLI](https://docs.nativescript.org/setup/) installed:
 
