@@ -76,6 +76,8 @@ animate(card, { opacity: 0.5, y: -20 })
 | `rotate`             | degrees                                  |
 | `rotateX`, `rotateY` | degrees, with perspective                |
 
+3D rotations and flip presets use the view's `perspective` on both platforms (NativeScript defaults to 1000 DIPs). Set `card.perspective = 600` for stronger depth. Android applies the display density when configuring its camera distance; it keeps the perspective when a rotation ends or stops at an angle.
+
 A single value animates from wherever the view is. An array is a list of keyframes, and `null` stands for the current value:
 
 ```ts
