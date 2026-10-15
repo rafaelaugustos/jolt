@@ -10,6 +10,7 @@ import Symbols from './components/Symbols.vue'
 import Shimmer from './components/Shimmer.vue'
 import Haptics from './components/Haptics.vue'
 import Particles from './components/Particles.vue'
+import Loaders from './components/Loaders.vue'
 
 const logo = ref()
 const title = ref()
@@ -45,6 +46,7 @@ onMounted(() => {
           <Press />
           <Symbols />
           <Shimmer />
+          <Loaders />
           <Haptics />
           <Particles />
           <Loops />
