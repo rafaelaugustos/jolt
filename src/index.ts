@@ -9,6 +9,8 @@ export { shimmer } from './shimmer.js'
 export type { ShimmerOptions } from './shimmer.js'
 export { loader } from './loader.js'
 export type { LoaderOptions, LoaderStyle } from './loader.js'
+export { reveal, conceal } from './reveal.js'
+export type { RevealOptions, ConcealOptions } from './reveal.js'
 export { symbolEffect } from './symbol-effect.js'
 export type {
   SymbolEffect,
