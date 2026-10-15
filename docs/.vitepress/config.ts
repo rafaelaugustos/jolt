@@ -39,6 +39,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('haptics', 'haptics'),
         page('particles', 'particles'),
         page('interrupting', 'interrupting'),
+        page('androidBusy', 'android-performance'),
       ],
     },
     {
@@ -76,6 +77,7 @@ const en = {
   haptics: 'Haptics',
   particles: 'Particles and confetti',
   interrupting: 'Interrupting and stopping',
+  androidBusy: 'Busy JavaScript on Android',
   api: 'API',
   internals: 'How it works',
   limits: 'Not there yet',
@@ -105,6 +107,7 @@ const pt = {
   haptics: 'Feedback tátil',
   particles: 'Partículas e confete',
   interrupting: 'Interrompendo e parando',
+  androidBusy: 'JavaScript ocupado no Android',
   api: 'API',
   internals: 'Como funciona',
   limits: 'O que ainda não existe',
