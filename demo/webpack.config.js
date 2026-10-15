@@ -12,16 +12,37 @@ module.exports = (env) => {
       // sharing this app's copy of NativeScript
       .set('@nativescript/core', resolve(__dirname, 'node_modules/@nativescript/core'))
 
-    if (env.benchmark) {
-      if (!env.ios || env.hmr || process.env.JOLT_BENCHMARK !== '1') {
-        throw new Error('Use JOLT_BENCHMARK=1 with --env.benchmark --no-hmr on iOS.')
+    if (env.benchmark || env.fadeBenchmark) {
+      if (
+        env.hmr ||
+        process.env.JOLT_BENCHMARK !== '1' ||
+        (env.benchmark && !env.ios) ||
+        (env.fadeBenchmark && !env.android) ||
+        (env.benchmark && env.fadeBenchmark)
+      ) {
+        throw new Error(
+          'Use JOLT_BENCHMARK=1 and --no-hmr with --env.benchmark on iOS or --env.fadeBenchmark on Android.',
+        )
       }
       config
         .entry('bundle')
         .clear()
         .add('@nativescript/core/globals/index')
         .add('@nativescript/core/bundle-entry-points')
-        .add(resolve(__dirname, '../benchmarks/ios-startup.ts'))
+        .add(
+          resolve(
+            __dirname,
+            env.fadeBenchmark
+              ? '../benchmarks/android-fade.ts'
+              : '../benchmarks/ios-startup.ts',
+          ),
+        )
+      if (env.android) {
+        config
+          .entry('bundle')
+          .add('@nativescript/core/ui/frame')
+          .add('@nativescript/core/ui/frame/activity')
+      }
       config.plugin('jolt-benchmark').use(require('webpack').DefinePlugin, [
         {
           __BENCHMARK_BUILD__: JSON.stringify({
@@ -35,7 +56,19 @@ module.exports = (env) => {
             }).trim(),
             jolt: require('../package.json').version,
             core: require('@nativescript/core/package.json').version,
-            runtime: require('@nativescript/ios/package.json').version,
+            runtime: require(
+              env.android
+                ? '@nativescript/android/package.json'
+                : '@nativescript/ios/package.json',
+            ).version,
+            driverSha256: require('crypto')
+              .createHash('sha256')
+              .update(
+                require('fs').readFileSync(
+                  resolve(__dirname, '../src/driver/android.ts'),
+                ),
+              )
+              .digest('hex'),
             bundleMode: config.get('mode'),
             builtAt: new Date().toISOString(),
           }),

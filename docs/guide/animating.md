@@ -19,6 +19,12 @@ animate(card, { opacity: 0.5, y: -20 })
 
 Only transforms and opacity for now. Colors, size and layout changes are [not there yet](./not-there-yet).
 
+## Android fades
+
+For opacity animations, Jolt temporarily caches containers with children in a hardware layer when hardware acceleration is active. It starts at the end of any delay, keeps the cache across repeats, and restores the original layer on completion, stop, replacement or unload. This can reduce drawing work for static content such as cards with images.
+
+App-configured hardware or software layers are left untouched. Empty containers, views without measured bounds, and containers wider or taller than the display are skipped. The size limit avoids caching entire oversized content trees. Hardware textures use graphics memory; constantly changing content still invalidates its cache. See the [Android fade benchmark](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/android-fade.md).
+
 ## 3D perspective
 
 `rotateX`, `rotateY`, `flipInX` and `flipInY` use the view's `perspective` on both platforms. NativeScript defaults to 1000 DIPs; a smaller positive distance gives a stronger perspective:

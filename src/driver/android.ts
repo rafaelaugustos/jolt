@@ -4,6 +4,44 @@ import { after, type Driver } from './index.js'
 
 type NativeView = android.view.View
 
+interface Handle {
+  cancel(): void
+}
+
+/** Own only layers we create; keep app-configured hardware/software layers and paints intact. */
+function fadeLayer(view: View, nativeView: NativeView): (() => void) | undefined {
+  const { View, ViewGroup } = android.view
+  if (
+    !view.isLoaded ||
+    view.nativeViewProtected !== nativeView ||
+    !(nativeView instanceof ViewGroup) ||
+    nativeView.getChildCount() === 0 ||
+    !nativeView.isHardwareAccelerated() ||
+    nativeView.getLayerType() !== View.LAYER_TYPE_NONE
+  )
+    return undefined
+
+  // Do not cache an entire oversized scrolling/content tree into a GPU texture.
+  const { widthPixels, heightPixels } = nativeView.getResources().getDisplayMetrics()
+  const width = nativeView.getWidth()
+  const height = nativeView.getHeight()
+  if (width <= 0 || height <= 0 || width > widthPixels || height > heightPixels)
+    return undefined
+
+  nativeView.setLayerType(View.LAYER_TYPE_HARDWARE, null)
+  let active = true
+  const restore = () => {
+    if (!active) return
+    active = false
+    view.off('unloaded', restore)
+    if (nativeView.getLayerType() === View.LAYER_TYPE_HARDWARE) {
+      nativeView.setLayerType(View.LAYER_TYPE_NONE, null)
+    }
+  }
+  view.on('unloaded', restore)
+  return restore
+}
+
 const accessors: Record<
   Property,
   { get(view: NativeView): number; set(view: NativeView, value: number): void }
@@ -62,6 +100,13 @@ export function createAndroidDriver(): Driver {
         nativeView,
         holders,
       )
+      let cancelled = false
+      let ended = false
+      let restoreLayer: (() => void) | undefined
+      const releaseLayer = () => {
+        restoreLayer?.()
+        restoreLayer = undefined
+      }
       animator.setDuration(Math.max(track.duration, 1))
       animator.setStartDelay(track.delay)
       animator.setInterpolator(interpolator)
@@ -79,10 +124,24 @@ export function createAndroidDriver(): Driver {
       }
       animator.addListener(
         new android.animation.Animator.AnimatorListener({
-          onAnimationStart() {},
+          onAnimationStart() {
+            if (
+              !cancelled &&
+              !ended &&
+              track.property === 'opacity' &&
+              track.values.some((value) => value !== track.values[0])
+            )
+              restoreLayer = fadeLayer(view, nativeView)
+          },
           onAnimationRepeat() {},
-          onAnimationCancel() {},
+          onAnimationCancel() {
+            cancelled = true
+            releaseLayer()
+          },
           onAnimationEnd() {
+            if (ended) return
+            ended = true
+            releaseLayer()
             onEnd()
           },
         }),
@@ -90,11 +149,18 @@ export function createAndroidDriver(): Driver {
 
       accessors[track.property].set(nativeView, track.values[0]! * scale)
       animator.start()
-      return animator
+      return {
+        cancel() {
+          // Cancel before native callbacks: Android can send onStart while cancelling a delay.
+          cancelled = true
+          releaseLayer()
+          animator.cancel()
+        },
+      } satisfies Handle
     },
 
     stop(_view, handle) {
-      ;(handle as android.animation.ObjectAnimator).cancel()
+      ;(handle as Handle).cancel()
     },
 
     presented(view, property) {
