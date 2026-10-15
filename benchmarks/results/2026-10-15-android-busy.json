@@ -1,0 +1,920 @@
+{
+  "device": {
+    "serial": "emulator-5582",
+    "collectedAt": "2026-10-15T08:41:01.124Z",
+    "fingerprint": "google/sdk_gphone64_arm64/emu64a:15/AE3A.240806.043/12960925:userdebug/dev-keys",
+    "emulator": true,
+    "benchmark": {
+      "build": {
+        "commit": "8fa5ed2f68cbf6f1e87f983d3916045785bebbd5",
+        "dirty": false,
+        "jolt": "0.1.0-beta.4",
+        "core": "9.1.3",
+        "runtime": "9.1.1",
+        "driverSha256": "636e5e2557a9e9db05a5f387d278e67901de98d3bf9d87e53933e08bfd333ff7",
+        "busySourcesSha256": "08ec4c05a0edf6d24b58de4b8640c84ad2ff741e75d424ebec5d15807529e00d",
+        "bundleMode": "production",
+        "builtAt": "2026-10-15T08:36:14.011Z"
+      },
+      "phase": "ready",
+      "lifecyclePassed": true,
+      "duration": 1800,
+      "workMs": 300,
+      "workDelayMs": 400,
+      "bounds": {
+        "jolt": {
+          "x": 445,
+          "y": 395,
+          "width": 189,
+          "height": 189
+        },
+        "layered": {
+          "x": 445,
+          "y": 774,
+          "width": 189,
+          "height": 189
+        },
+        "reveal": {
+          "x": 445,
+          "y": 1153,
+          "width": 189,
+          "height": 189
+        }
+      },
+      "sdk": 35,
+      "device": "sdk_gphone64_arm64",
+      "debuggable": false
+    }
+  },
+  "summary": [
+    {
+      "id": "1-idle",
+      "mode": "idle",
+      "startedAt": 7298678,
+      "workMs": 302,
+      "workerOffMainThread": null,
+      "joltRotationDuringWork": 60,
+      "withLayerRotationDuringWork": 60,
+      "samples": 109,
+      "maxUiFrameGapMs": 16.666666,
+      "maxGapAcrossWorkMs": 16.666666,
+      "maxRecordedFrameMs": 19.814393
+    },
+    {
+      "id": "2-main",
+      "mode": "main",
+      "startedAt": 7301036,
+      "workMs": 300,
+      "workerOffMainThread": null,
+      "joltRotationDuringWork": 0,
+      "withLayerRotationDuringWork": 0,
+      "samples": 91,
+      "maxUiFrameGapMs": 316.666654,
+      "maxGapAcrossWorkMs": 316.666654,
+      "maxRecordedFrameMs": 18.892993
+    },
+    {
+      "id": "3-worker",
+      "mode": "worker",
+      "startedAt": 7303409,
+      "workMs": 300,
+      "workerOffMainThread": true,
+      "joltRotationDuringWork": 63.400001525878906,
+      "withLayerRotationDuringWork": 63.400001525878906,
+      "samples": 109,
+      "maxUiFrameGapMs": 16.666666,
+      "maxGapAcrossWorkMs": 16.666666,
+      "maxRecordedFrameMs": 21.42397
+    },
+    {
+      "id": "4-worker",
+      "mode": "worker",
+      "startedAt": 7305794,
+      "workMs": 300,
+      "workerOffMainThread": true,
+      "joltRotationDuringWork": 60.00000762939453,
+      "withLayerRotationDuringWork": 60.00000762939453,
+      "samples": 108,
+      "maxUiFrameGapMs": 33.333332,
+      "maxGapAcrossWorkMs": 16.666666,
+      "maxRecordedFrameMs": 31.290569
+    },
+    {
+      "id": "5-idle",
+      "mode": "idle",
+      "startedAt": 7308153,
+      "workMs": 302,
+      "workerOffMainThread": null,
+      "joltRotationDuringWork": 60.00000762939453,
+      "withLayerRotationDuringWork": 60.00000762939453,
+      "samples": 109,
+      "maxUiFrameGapMs": 16.666666,
+      "maxGapAcrossWorkMs": 16.666666,
+      "maxRecordedFrameMs": 19.537235
+    },
+    {
+      "id": "6-main",
+      "mode": "main",
+      "startedAt": 7310503,
+      "workMs": 300,
+      "workerOffMainThread": null,
+      "joltRotationDuringWork": 0,
+      "withLayerRotationDuringWork": 0,
+      "samples": 91,
+      "maxUiFrameGapMs": 316.666654,
+      "maxGapAcrossWorkMs": 316.666654,
+      "maxRecordedFrameMs": 19.436011
+    },
+    {
+      "id": "7-main",
+      "mode": "main",
+      "startedAt": 7312858,
+      "workMs": 300,
+      "workerOffMainThread": null,
+      "joltRotationDuringWork": 0,
+      "withLayerRotationDuringWork": 0,
+      "samples": 91,
+      "maxUiFrameGapMs": 299.999988,
+      "maxGapAcrossWorkMs": 299.999988,
+      "maxRecordedFrameMs": 330.546143
+    },
+    {
+      "id": "8-worker",
+      "mode": "worker",
+      "startedAt": 7315227,
+      "workMs": 300,
+      "workerOffMainThread": true,
+      "joltRotationDuringWork": 60,
+      "withLayerRotationDuringWork": 60,
+      "samples": 108,
+      "maxUiFrameGapMs": 33.333332,
+      "maxGapAcrossWorkMs": 16.666666,
+      "maxRecordedFrameMs": 27.390117
+    },
+    {
+      "id": "9-idle",
+      "mode": "idle",
+      "startedAt": 7317555,
+      "workMs": 301,
+      "workerOffMainThread": null,
+      "joltRotationDuringWork": 60.00000762939453,
+      "withLayerRotationDuringWork": 60.00000762939453,
+      "samples": 109,
+      "maxUiFrameGapMs": 16.666666,
+      "maxGapAcrossWorkMs": 16.666666,
+      "maxRecordedFrameMs": 19.690154
+    }
+  ],
+  "reports": [
+    {
+      "build": {
+        "commit": "8fa5ed2f68cbf6f1e87f983d3916045785bebbd5",
+        "dirty": false,
+        "jolt": "0.1.0-beta.4",
+        "core": "9.1.3",
+        "runtime": "9.1.1",
+        "driverSha256": "636e5e2557a9e9db05a5f387d278e67901de98d3bf9d87e53933e08bfd333ff7",
+        "busySourcesSha256": "08ec4c05a0edf6d24b58de4b8640c84ad2ff741e75d424ebec5d15807529e00d",
+        "bundleMode": "production",
+        "builtAt": "2026-10-15T08:36:14.011Z"
+      },
+      "phase": "done",
+      "lifecyclePassed": true,
+      "duration": 1800,
+      "workMs": 300,
+      "workDelayMs": 400,
+      "bounds": {
+        "jolt": {
+          "x": 445,
+          "y": 395,
+          "width": 189,
+          "height": 189
+        },
+        "layered": {
+          "x": 445,
+          "y": 774,
+          "width": 189,
+          "height": 189
+        },
+        "reveal": {
+          "x": 445,
+          "y": 1153,
+          "width": 189,
+          "height": 189
+        }
+      },
+      "sdk": 35,
+      "device": "sdk_gphone64_arm64",
+      "debuggable": false,
+      "mode": "idle",
+      "result": {
+        "mode": "idle",
+        "startedAt": 7298678,
+        "completedAt": 7300498,
+        "mainThreadId": 4991,
+        "workStartedAt": 7299083,
+        "workReturnedAt": 7299385,
+        "work": {
+          "elapsedMs": 302,
+          "checksum": 0,
+          "threadId": 4991
+        },
+        "beforeWork": {
+          "jolt": 76.80000305175781,
+          "withLayer": 76.80000305175781,
+          "layer": 2
+        },
+        "afterWork": {
+          "jolt": 136.8000030517578,
+          "withLayer": 136.8000030517578,
+          "layer": 2
+        },
+        "layerAfter": 0
+      }
+    },
+    {
+      "build": {
+        "commit": "8fa5ed2f68cbf6f1e87f983d3916045785bebbd5",
+        "dirty": false,
+        "jolt": "0.1.0-beta.4",
+        "core": "9.1.3",
+        "runtime": "9.1.1",
+        "driverSha256": "636e5e2557a9e9db05a5f387d278e67901de98d3bf9d87e53933e08bfd333ff7",
+        "busySourcesSha256": "08ec4c05a0edf6d24b58de4b8640c84ad2ff741e75d424ebec5d15807529e00d",
+        "bundleMode": "production",
+        "builtAt": "2026-10-15T08:36:14.011Z"
+      },
+      "phase": "done",
+      "lifecyclePassed": true,
+      "duration": 1800,
+      "workMs": 300,
+      "workDelayMs": 400,
+      "bounds": {
+        "jolt": {
+          "x": 445,
+          "y": 395,
+          "width": 189,
+          "height": 189
+        },
+        "layered": {
+          "x": 445,
+          "y": 774,
+          "width": 189,
+          "height": 189
+        },
+        "reveal": {
+          "x": 445,
+          "y": 1153,
+          "width": 189,
+          "height": 189
+        }
+      },
+      "sdk": 35,
+      "device": "sdk_gphone64_arm64",
+      "debuggable": false,
+      "mode": "main",
+      "result": {
+        "mode": "main",
+        "startedAt": 7301036,
+        "completedAt": 7302845,
+        "mainThreadId": 4991,
+        "workStartedAt": 7301439,
+        "workReturnedAt": 7301739,
+        "work": {
+          "elapsedMs": 300,
+          "checksum": 805025792,
+          "threadId": 4991
+        },
+        "beforeWork": {
+          "jolt": 76.80000305175781,
+          "withLayer": 76.80000305175781,
+          "layer": 2
+        },
+        "afterWork": {
+          "jolt": 76.80000305175781,
+          "withLayer": 76.80000305175781,
+          "layer": 2
+        },
+        "layerAfter": 0
+      }
+    },
+    {
+      "build": {
+        "commit": "8fa5ed2f68cbf6f1e87f983d3916045785bebbd5",
+        "dirty": false,
+        "jolt": "0.1.0-beta.4",
+        "core": "9.1.3",
+        "runtime": "9.1.1",
+        "driverSha256": "636e5e2557a9e9db05a5f387d278e67901de98d3bf9d87e53933e08bfd333ff7",
+        "busySourcesSha256": "08ec4c05a0edf6d24b58de4b8640c84ad2ff741e75d424ebec5d15807529e00d",
+        "bundleMode": "production",
+        "builtAt": "2026-10-15T08:36:14.011Z"
+      },
+      "phase": "done",
+      "lifecyclePassed": true,
+      "duration": 1800,
+      "workMs": 300,
+      "workDelayMs": 400,
+      "bounds": {
+        "jolt": {
+          "x": 445,
+          "y": 395,
+          "width": 189,
+          "height": 189
+        },
+        "layered": {
+          "x": 445,
+          "y": 774,
+          "width": 189,
+          "height": 189
+        },
+        "reveal": {
+          "x": 445,
+          "y": 1153,
+          "width": 189,
+          "height": 189
+        }
+      },
+      "sdk": 35,
+      "device": "sdk_gphone64_arm64",
+      "debuggable": false,
+      "mode": "worker",
+      "result": {
+        "mode": "worker",
+        "startedAt": 7303409,
+        "completedAt": 7305213,
+        "mainThreadId": 4991,
+        "workStartedAt": 7303813,
+        "workReturnedAt": 7304116,
+        "work": {
+          "type": "done",
+          "elapsedMs": 300,
+          "checksum": -28807168,
+          "threadId": 5172
+        },
+        "beforeWork": {
+          "jolt": 76.5999984741211,
+          "withLayer": 76.5999984741211,
+          "layer": 2
+        },
+        "afterWork": {
+          "jolt": 140,
+          "withLayer": 140,
+          "layer": 2
+        },
+        "layerAfter": 0
+      }
+    },
+    {
+      "build": {
+        "commit": "8fa5ed2f68cbf6f1e87f983d3916045785bebbd5",
+        "dirty": false,
+        "jolt": "0.1.0-beta.4",
+        "core": "9.1.3",
+        "runtime": "9.1.1",
+        "driverSha256": "636e5e2557a9e9db05a5f387d278e67901de98d3bf9d87e53933e08bfd333ff7",
+        "busySourcesSha256": "08ec4c05a0edf6d24b58de4b8640c84ad2ff741e75d424ebec5d15807529e00d",
+        "bundleMode": "production",
+        "builtAt": "2026-10-15T08:36:14.011Z"
+      },
+      "phase": "done",
+      "lifecyclePassed": true,
+      "duration": 1800,
+      "workMs": 300,
+      "workDelayMs": 400,
+      "bounds": {
+        "jolt": {
+          "x": 445,
+          "y": 395,
+          "width": 189,
+          "height": 189
+        },
+        "layered": {
+          "x": 445,
+          "y": 774,
+          "width": 189,
+          "height": 189
+        },
+        "reveal": {
+          "x": 445,
+          "y": 1153,
+          "width": 189,
+          "height": 189
+        }
+      },
+      "sdk": 35,
+      "device": "sdk_gphone64_arm64",
+      "debuggable": false,
+      "mode": "worker",
+      "result": {
+        "mode": "worker",
+        "startedAt": 7305794,
+        "completedAt": 7307613,
+        "mainThreadId": 4991,
+        "workStartedAt": 7306197,
+        "workReturnedAt": 7306499,
+        "work": {
+          "type": "done",
+          "elapsedMs": 300,
+          "checksum": -591364096,
+          "threadId": 5210
+        },
+        "beforeWork": {
+          "jolt": 76.5999984741211,
+          "withLayer": 76.5999984741211,
+          "layer": 2
+        },
+        "afterWork": {
+          "jolt": 136.60000610351562,
+          "withLayer": 136.60000610351562,
+          "layer": 2
+        },
+        "layerAfter": 0
+      }
+    },
+    {
+      "build": {
+        "commit": "8fa5ed2f68cbf6f1e87f983d3916045785bebbd5",
+        "dirty": false,
+        "jolt": "0.1.0-beta.4",
+        "core": "9.1.3",
+        "runtime": "9.1.1",
+        "driverSha256": "636e5e2557a9e9db05a5f387d278e67901de98d3bf9d87e53933e08bfd333ff7",
+        "busySourcesSha256": "08ec4c05a0edf6d24b58de4b8640c84ad2ff741e75d424ebec5d15807529e00d",
+        "bundleMode": "production",
+        "builtAt": "2026-10-15T08:36:14.011Z"
+      },
+      "phase": "done",
+      "lifecyclePassed": true,
+      "duration": 1800,
+      "workMs": 300,
+      "workDelayMs": 400,
+      "bounds": {
+        "jolt": {
+          "x": 445,
+          "y": 395,
+          "width": 189,
+          "height": 189
+        },
+        "layered": {
+          "x": 445,
+          "y": 774,
+          "width": 189,
+          "height": 189
+        },
+        "reveal": {
+          "x": 445,
+          "y": 1153,
+          "width": 189,
+          "height": 189
+        }
+      },
+      "sdk": 35,
+      "device": "sdk_gphone64_arm64",
+      "debuggable": false,
+      "mode": "idle",
+      "result": {
+        "mode": "idle",
+        "startedAt": 7308153,
+        "completedAt": 7309963,
+        "mainThreadId": 4991,
+        "workStartedAt": 7308555,
+        "workReturnedAt": 7308857,
+        "work": {
+          "elapsedMs": 302,
+          "checksum": 0,
+          "threadId": 4991
+        },
+        "beforeWork": {
+          "jolt": 76.5999984741211,
+          "withLayer": 76.5999984741211,
+          "layer": 2
+        },
+        "afterWork": {
+          "jolt": 136.60000610351562,
+          "withLayer": 136.60000610351562,
+          "layer": 2
+        },
+        "layerAfter": 0
+      }
+    },
+    {
+      "build": {
+        "commit": "8fa5ed2f68cbf6f1e87f983d3916045785bebbd5",
+        "dirty": false,
+        "jolt": "0.1.0-beta.4",
+        "core": "9.1.3",
+        "runtime": "9.1.1",
+        "driverSha256": "636e5e2557a9e9db05a5f387d278e67901de98d3bf9d87e53933e08bfd333ff7",
+        "busySourcesSha256": "08ec4c05a0edf6d24b58de4b8640c84ad2ff741e75d424ebec5d15807529e00d",
+        "bundleMode": "production",
+        "builtAt": "2026-10-15T08:36:14.011Z"
+      },
+      "phase": "done",
+      "lifecyclePassed": true,
+      "duration": 1800,
+      "workMs": 300,
+      "workDelayMs": 400,
+      "bounds": {
+        "jolt": {
+          "x": 445,
+          "y": 395,
+          "width": 189,
+          "height": 189
+        },
+        "layered": {
+          "x": 445,
+          "y": 774,
+          "width": 189,
+          "height": 189
+        },
+        "reveal": {
+          "x": 445,
+          "y": 1153,
+          "width": 189,
+          "height": 189
+        }
+      },
+      "sdk": 35,
+      "device": "sdk_gphone64_arm64",
+      "debuggable": false,
+      "mode": "main",
+      "result": {
+        "mode": "main",
+        "startedAt": 7310503,
+        "completedAt": 7312312,
+        "mainThreadId": 4991,
+        "workStartedAt": 7310907,
+        "workReturnedAt": 7311206,
+        "work": {
+          "elapsedMs": 300,
+          "checksum": 3036715008,
+          "threadId": 4991
+        },
+        "beforeWork": {
+          "jolt": 76.5999984741211,
+          "withLayer": 76.5999984741211,
+          "layer": 2
+        },
+        "afterWork": {
+          "jolt": 76.5999984741211,
+          "withLayer": 76.5999984741211,
+          "layer": 2
+        },
+        "layerAfter": 0
+      }
+    },
+    {
+      "build": {
+        "commit": "8fa5ed2f68cbf6f1e87f983d3916045785bebbd5",
+        "dirty": false,
+        "jolt": "0.1.0-beta.4",
+        "core": "9.1.3",
+        "runtime": "9.1.1",
+        "driverSha256": "636e5e2557a9e9db05a5f387d278e67901de98d3bf9d87e53933e08bfd333ff7",
+        "busySourcesSha256": "08ec4c05a0edf6d24b58de4b8640c84ad2ff741e75d424ebec5d15807529e00d",
+        "bundleMode": "production",
+        "builtAt": "2026-10-15T08:36:14.011Z"
+      },
+      "phase": "done",
+      "lifecyclePassed": true,
+      "duration": 1800,
+      "workMs": 300,
+      "workDelayMs": 400,
+      "bounds": {
+        "jolt": {
+          "x": 445,
+          "y": 395,
+          "width": 189,
+          "height": 189
+        },
+        "layered": {
+          "x": 445,
+          "y": 774,
+          "width": 189,
+          "height": 189
+        },
+        "reveal": {
+          "x": 445,
+          "y": 1153,
+          "width": 189,
+          "height": 189
+        }
+      },
+      "sdk": 35,
+      "device": "sdk_gphone64_arm64",
+      "debuggable": false,
+      "mode": "main",
+      "result": {
+        "mode": "main",
+        "startedAt": 7312858,
+        "completedAt": 7314666,
+        "mainThreadId": 4991,
+        "workStartedAt": 7313260,
+        "workReturnedAt": 7313560,
+        "work": {
+          "elapsedMs": 300,
+          "checksum": 2479097856,
+          "threadId": 4991
+        },
+        "beforeWork": {
+          "jolt": 76.5999984741211,
+          "withLayer": 76.5999984741211,
+          "layer": 2
+        },
+        "afterWork": {
+          "jolt": 76.5999984741211,
+          "withLayer": 76.5999984741211,
+          "layer": 2
+        },
+        "layerAfter": 0
+      }
+    },
+    {
+      "build": {
+        "commit": "8fa5ed2f68cbf6f1e87f983d3916045785bebbd5",
+        "dirty": false,
+        "jolt": "0.1.0-beta.4",
+        "core": "9.1.3",
+        "runtime": "9.1.1",
+        "driverSha256": "636e5e2557a9e9db05a5f387d278e67901de98d3bf9d87e53933e08bfd333ff7",
+        "busySourcesSha256": "08ec4c05a0edf6d24b58de4b8640c84ad2ff741e75d424ebec5d15807529e00d",
+        "bundleMode": "production",
+        "builtAt": "2026-10-15T08:36:14.011Z"
+      },
+      "phase": "done",
+      "lifecyclePassed": true,
+      "duration": 1800,
+      "workMs": 300,
+      "workDelayMs": 400,
+      "bounds": {
+        "jolt": {
+          "x": 445,
+          "y": 395,
+          "width": 189,
+          "height": 189
+        },
+        "layered": {
+          "x": 445,
+          "y": 774,
+          "width": 189,
+          "height": 189
+        },
+        "reveal": {
+          "x": 445,
+          "y": 1153,
+          "width": 189,
+          "height": 189
+        }
+      },
+      "sdk": 35,
+      "device": "sdk_gphone64_arm64",
+      "debuggable": false,
+      "mode": "worker",
+      "result": {
+        "mode": "worker",
+        "startedAt": 7315227,
+        "completedAt": 7317029,
+        "mainThreadId": 4991,
+        "workStartedAt": 7315631,
+        "workReturnedAt": 7315932,
+        "work": {
+          "type": "done",
+          "elapsedMs": 300,
+          "checksum": 1814757376,
+          "threadId": 5363
+        },
+        "beforeWork": {
+          "jolt": 80,
+          "withLayer": 80,
+          "layer": 2
+        },
+        "afterWork": {
+          "jolt": 140,
+          "withLayer": 140,
+          "layer": 2
+        },
+        "layerAfter": 0
+      }
+    },
+    {
+      "build": {
+        "commit": "8fa5ed2f68cbf6f1e87f983d3916045785bebbd5",
+        "dirty": false,
+        "jolt": "0.1.0-beta.4",
+        "core": "9.1.3",
+        "runtime": "9.1.1",
+        "driverSha256": "636e5e2557a9e9db05a5f387d278e67901de98d3bf9d87e53933e08bfd333ff7",
+        "busySourcesSha256": "08ec4c05a0edf6d24b58de4b8640c84ad2ff741e75d424ebec5d15807529e00d",
+        "bundleMode": "production",
+        "builtAt": "2026-10-15T08:36:14.011Z"
+      },
+      "phase": "done",
+      "lifecyclePassed": true,
+      "duration": 1800,
+      "workMs": 300,
+      "workDelayMs": 400,
+      "bounds": {
+        "jolt": {
+          "x": 445,
+          "y": 395,
+          "width": 189,
+          "height": 189
+        },
+        "layered": {
+          "x": 445,
+          "y": 774,
+          "width": 189,
+          "height": 189
+        },
+        "reveal": {
+          "x": 445,
+          "y": 1153,
+          "width": 189,
+          "height": 189
+        }
+      },
+      "sdk": 35,
+      "device": "sdk_gphone64_arm64",
+      "debuggable": false,
+      "mode": "idle",
+      "result": {
+        "mode": "idle",
+        "startedAt": 7317555,
+        "completedAt": 7319362,
+        "mainThreadId": 4991,
+        "workStartedAt": 7317957,
+        "workReturnedAt": 7318258,
+        "work": {
+          "elapsedMs": 301,
+          "checksum": 0,
+          "threadId": 4991
+        },
+        "beforeWork": {
+          "jolt": 76.5999984741211,
+          "withLayer": 76.5999984741211,
+          "layer": 2
+        },
+        "afterWork": {
+          "jolt": 136.60000610351562,
+          "withLayer": 136.60000610351562,
+          "layer": 2
+        },
+        "layerAfter": 0
+      }
+    }
+  ],
+  "visualControl": {
+    "decodedFrames": 186,
+    "frameRate": 60,
+    "bothRotationsStationaryWhileRevealGrows": 16,
+    "observedSeconds": 0.26666666666666666,
+    "frames": [
+      {
+        "frame": 100,
+        "timeSeconds": 1.6666666666666667,
+        "joltChangedPixels": 5,
+        "withLayerChangedPixels": 0,
+        "revealChangedPixels": 486,
+        "revealPixels": 3160,
+        "revealIncrease": 486
+      },
+      {
+        "frame": 102,
+        "timeSeconds": 1.7,
+        "joltChangedPixels": 0,
+        "withLayerChangedPixels": 0,
+        "revealChangedPixels": 245,
+        "revealPixels": 3405,
+        "revealIncrease": 245
+      },
+      {
+        "frame": 103,
+        "timeSeconds": 1.7166666666666666,
+        "joltChangedPixels": 0,
+        "withLayerChangedPixels": 0,
+        "revealChangedPixels": 272,
+        "revealPixels": 3677,
+        "revealIncrease": 272
+      },
+      {
+        "frame": 104,
+        "timeSeconds": 1.7333333333333334,
+        "joltChangedPixels": 0,
+        "withLayerChangedPixels": 0,
+        "revealChangedPixels": 277,
+        "revealPixels": 3954,
+        "revealIncrease": 277
+      },
+      {
+        "frame": 105,
+        "timeSeconds": 1.75,
+        "joltChangedPixels": 0,
+        "withLayerChangedPixels": 0,
+        "revealChangedPixels": 269,
+        "revealPixels": 4223,
+        "revealIncrease": 269
+      },
+      {
+        "frame": 106,
+        "timeSeconds": 1.7666666666666666,
+        "joltChangedPixels": 0,
+        "withLayerChangedPixels": 0,
+        "revealChangedPixels": 568,
+        "revealPixels": 4791,
+        "revealIncrease": 568
+      },
+      {
+        "frame": 107,
+        "timeSeconds": 1.7833333333333334,
+        "joltChangedPixels": 0,
+        "withLayerChangedPixels": 0,
+        "revealChangedPixels": 346,
+        "revealPixels": 5137,
+        "revealIncrease": 346
+      },
+      {
+        "frame": 108,
+        "timeSeconds": 1.8,
+        "joltChangedPixels": 0,
+        "withLayerChangedPixels": 0,
+        "revealChangedPixels": 301,
+        "revealPixels": 5438,
+        "revealIncrease": 301
+      },
+      {
+        "frame": 109,
+        "timeSeconds": 1.8166666666666667,
+        "joltChangedPixels": 0,
+        "withLayerChangedPixels": 0,
+        "revealChangedPixels": 313,
+        "revealPixels": 5751,
+        "revealIncrease": 313
+      },
+      {
+        "frame": 110,
+        "timeSeconds": 1.8333333333333333,
+        "joltChangedPixels": 0,
+        "withLayerChangedPixels": 0,
+        "revealChangedPixels": 369,
+        "revealPixels": 6120,
+        "revealIncrease": 369
+      },
+      {
+        "frame": 111,
+        "timeSeconds": 1.85,
+        "joltChangedPixels": 0,
+        "withLayerChangedPixels": 0,
+        "revealChangedPixels": 328,
+        "revealPixels": 6448,
+        "revealIncrease": 328
+      },
+      {
+        "frame": 112,
+        "timeSeconds": 1.8666666666666667,
+        "joltChangedPixels": 0,
+        "withLayerChangedPixels": 0,
+        "revealChangedPixels": 361,
+        "revealPixels": 6809,
+        "revealIncrease": 361
+      },
+      {
+        "frame": 113,
+        "timeSeconds": 1.8833333333333333,
+        "joltChangedPixels": 0,
+        "withLayerChangedPixels": 0,
+        "revealChangedPixels": 382,
+        "revealPixels": 7191,
+        "revealIncrease": 382
+      },
+      {
+        "frame": 114,
+        "timeSeconds": 1.9,
+        "joltChangedPixels": 0,
+        "withLayerChangedPixels": 0,
+        "revealChangedPixels": 329,
+        "revealPixels": 7520,
+        "revealIncrease": 329
+      },
+      {
+        "frame": 115,
+        "timeSeconds": 1.9166666666666667,
+        "joltChangedPixels": 0,
+        "withLayerChangedPixels": 0,
+        "revealChangedPixels": 421,
+        "revealPixels": 7941,
+        "revealIncrease": 421
+      },
+      {
+        "frame": 116,
+        "timeSeconds": 1.9333333333333333,
+        "joltChangedPixels": 0,
+        "withLayerChangedPixels": 0,
+        "revealChangedPixels": 433,
+        "revealPixels": 8374,
+        "revealIncrease": 433
+      }
+    ],
+    "method": "Screenrecord decoded at 60 fps; orange and purple mask changes below 50 pixels while green area increases above 50 pixels between frames. Recording is separate from the primary frame trials."
+  }
+}

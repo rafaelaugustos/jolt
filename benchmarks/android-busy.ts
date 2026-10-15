@@ -160,10 +160,10 @@ Application.run({
         )
         check(layered.android.getLayerType() === 0, 'Cancelled trial leaked a layer.')
         jolt.rotate = 0
-      layered.rotate = 0
-      jolt.android.setRotation(0)
-      layered.android.setRotation(0)
-      const bounds = Object.fromEntries(
+        layered.rotate = 0
+        jolt.android.setRotation(0)
+        layered.android.setRotation(0)
+        const bounds = Object.fromEntries(
           Object.entries({ jolt, layered, reveal }).map(([name, view]) => {
             const location = Array.create('int', 2)
             view.android.getLocationOnScreen(location)

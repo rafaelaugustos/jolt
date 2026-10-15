@@ -1,5 +1,7 @@
 # Android playback during busy JavaScript
 
+The [recorded emulator diagnostic](./results/2026-10-15-android-busy.md) includes all nine reports and native timing samples.
+
 This diagnostic compares the Jolt `spin` preset and the same native rotation through `ViewPropertyAnimator.withLayer()`. A public Android circular reveal runs alongside them as a distinct native effect. Each animation lasts 1800 ms. At 400 ms, the app either waits, blocks main-runtime JavaScript for 300 ms, or runs the same CPU loop in a worker.
 
 Worker startup finishes before animation setup. No JavaScript callback samples or drives frames during playback. Native rotations are read immediately before and after work; the benchmark also records the worker's native thread ID and verifies layer cleanup and cancellation.
