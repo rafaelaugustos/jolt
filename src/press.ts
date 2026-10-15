@@ -1,4 +1,5 @@
-import type { EventData, TouchGestureEventData } from '@nativescript/core'
+import { Color, type EventData, type TouchGestureEventData } from '@nativescript/core'
+import { isColorProperty } from './color.js'
 import { animate, toView } from './animate.js'
 import { isProperty, readValue, type Property } from './properties.js'
 import type { SpringName, Transition } from './transition.js'
@@ -30,7 +31,12 @@ export function press(
   const onTouch = (event: EventData) => {
     const { action } = event as TouchGestureEventData
     if (action === 'down' && !rest && view.isEnabled !== false) {
-      rest = Object.fromEntries(properties.map((p) => [p, readValue(view, p)]))
+      rest = Object.fromEntries(
+        properties.map((p) => [
+          p,
+          isColorProperty(p) ? new Color(readValue(view, p)) : readValue(view, p),
+        ]),
+      )
       animate(view, pressed, options ?? pressIn)
     } else if ((action === 'up' || action === 'cancel') && rest) {
       animate(

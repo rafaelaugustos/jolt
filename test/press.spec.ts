@@ -1,8 +1,18 @@
+import { Color } from '@nativescript/core'
 import { describe, expect, it } from 'vitest'
 import { animate, press } from '../src/index.js'
 import { createView, driver } from './helpers.js'
 
 describe('press', () => {
+  it('restores color objects after a colored press', () => {
+    const view = createView()
+    view.backgroundColor = new Color('red')
+    press(view, { backgroundColor: 'blue' })
+    view.touch('down')
+    driver.advance(50)
+    view.touch('up')
+    expect(driver.last('backgroundColor').track.to).toBe(0xffff0000)
+  })
   it('scales down while pressed and back when released', () => {
     const view = createView()
     press(view)

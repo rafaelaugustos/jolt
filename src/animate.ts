@@ -1,4 +1,10 @@
 import { View } from '@nativescript/core'
+import {
+  isColorProperty,
+  parseColor,
+  validateColorTarget,
+  type ColorKeyframes,
+} from './color.js'
 import { DEFAULT_FRICTION, solveDecay } from './decay.js'
 import {
   arrivalOf,
@@ -59,14 +65,20 @@ export function animate(
   const feedback = resolveHaptic(haptic)
 
   if (!isList(target)) {
+    const view = toView(target)
+    for (const property of Object.keys(keyframes))
+      if (isColorProperty(property)) validateColorTarget(view, property)
     return new ViewAnimation(
-      toView(target),
+      view,
       plan(keyframes, base, overrides, 0, relative),
       feedback,
     )
   }
 
   const views = target.map(toView)
+  for (const view of views)
+    for (const property of Object.keys(keyframes))
+      if (isColorProperty(property)) validateColorTarget(view, property)
   return group(
     views.map(
       (view, index) =>
@@ -282,7 +294,10 @@ export function startingValues(
   const { keyframes, relative } = prepare(animation, options)
   if (!keyframes) throw new Error(`Unknown preset "${animation}".`)
   return new Map(
-    expand(keyframes).map(([property, [first]]) => [property, relative ? null : first!]),
+    expand(keyframes).map(([property, [first]]) => [
+      property,
+      relative && !isColorProperty(property) ? null : first!,
+    ]),
   )
 }
 
@@ -290,7 +305,7 @@ function expand(keyframes: Keyframes): [Property, (number | null)[]][] {
   const expanded: [Property, (number | null)[]][] = []
   for (const [key, value] of Object.entries(keyframes) as [
     keyof Keyframes,
-    KeyframeValue | undefined,
+    KeyframeValue | ColorKeyframes | undefined,
   ][]) {
     if (value === undefined) continue
     if (key !== 'scale' && !isProperty(key)) throw new Error(`Can't animate "${key}".`)
@@ -304,7 +319,18 @@ function expand(keyframes: Keyframes): [Property, (number | null)[]][] {
   return expanded
 }
 
-function toKeyframes(property: Property, value: KeyframeValue): (number | null)[] {
+function toKeyframes(
+  property: Property,
+  value: KeyframeValue | ColorKeyframes,
+): (number | null)[] {
+  if (isColorProperty(property)) {
+    const frames = Array.isArray(value) ? [...value] : [null, value]
+    if (!frames.length) throw new TypeError(`Empty color keyframes for "${property}".`)
+    if (frames.length === 1) frames.unshift(null)
+    return frames.map((frame) => (frame === null ? null : parseColor(frame)))
+  }
+  if (typeof value !== 'number' && !Array.isArray(value))
+    throw new TypeError(`Invalid numeric keyframes for "${property}".`)
   const frames = typeof value === 'number' ? [null, value] : [...value]
   if (frames.length === 1) frames.unshift(null)
   if (

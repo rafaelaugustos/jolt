@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { animate } from '../src/index.js'
+import { Color } from '@nativescript/core'
+import { animate, stop } from '../src/index.js'
 import { setDriver } from '../src/driver/index.js'
 import { createIOSDriver } from '../src/driver/ios.js'
 import { createView, flush, state } from './helpers.js'
@@ -19,6 +20,15 @@ let now: number
 
 /** Models Core Animation's removal and transaction completion, not its rendering. */
 class Layer {
+  backgroundColor: unknown
+  borderColor: unknown
+  fillColor: unknown
+  presentationLayer() {
+    return this
+  }
+  convertTimeFromLayer(time: number) {
+    return time
+  }
   animations = new Map<string, { animation: NativeAnimation; owner: Transaction }>()
 
   addAnimationForKey(animation: NativeAnimation, key: string) {
@@ -72,10 +82,12 @@ beforeEach(() => {
       preferred,
     }),
   )
+  vi.stubGlobal('UIColor', { colorWithCGColor: (CGColor: unknown) => ({ CGColor }) })
   vi.stubGlobal('NSArray', { arrayWithArray: (values: unknown[]) => values })
   vi.stubGlobal('kCAFillModeBackwards', 'backwards')
   vi.stubGlobal('CATransaction', {
     begin: () => (transaction = { pending: 0 }),
+    setDisableActions() {},
     setCompletionBlock: (callback: () => void) => (transaction.completion = callback),
     commit() {},
   })
@@ -223,5 +235,100 @@ describe('iOS background loops', () => {
     expect(view.translateX).toBe(100)
     expect(layer.animations.size).toBe(0)
     expect(shadow.animations.size).toBe(0)
+  })
+})
+
+describe('iOS color layers', () => {
+  it('animates the root background and shape border without tinting the shadow', async () => {
+    const { view, layer, shadow } = target()
+    const border = new Layer()
+    Object.assign(view.nativeViewProtected!, { borderLayer: border })
+    const animation = animate(
+      view,
+      { backgroundColor: ['red', 'blue'], borderColor: ['red', 'white'] },
+      { duration: 1000 },
+    )
+    expect(layer.animations.has('jolt:backgroundColor')).toBe(true)
+    expect(border.animations.has('jolt:borderColor')).toBe(true)
+    expect(shadow.animations.size).toBe(0)
+    expect(layer.backgroundColor).toBe(0xff0000ff)
+    expect(border.fillColor).toBe(0xffffffff)
+    layer.backgroundColor = 0xff123456
+    stop(view, ['backgroundColor'])
+    expect(view.backgroundColor?.argb).toBe(0xff123456)
+    expect(border.animations.size).toBe(1)
+    border.removeAutomaticAnimations()
+    expect(await animation).toBe(false)
+    expect(view.listenerCount('unloaded')).toBe(0)
+    expect(view.style.listenerCount('backgroundColorChange')).toBe(0)
+  })
+  it('samples the track when a color is stopped before CA commits its first frame', async () => {
+    const { view, layer } = target()
+    Object.assign(layer, { presentationLayer: () => null })
+    const animation = animate(
+      view,
+      { backgroundColor: ['red', 'blue'] },
+      { duration: 1000, ease: 'linear' },
+    )
+    animation.stop()
+    expect(view.backgroundColor?.argb).toBe(0xffff0000)
+    expect(await animation).toBe(false)
+  })
+
+  it('follows a rebuilt border layer without settling or stopping sibling colors', async () => {
+    const { view, layer } = target()
+    const previous = new Layer()
+    Object.assign(view.nativeViewProtected!, { borderLayer: previous })
+    const animation = animate(
+      view,
+      { borderColor: ['red', 'blue'], backgroundColor: ['white', 'red'] },
+      { duration: 1000 },
+    )
+    const done = state(animation.finished)
+    const replacement = new Layer()
+    Object.assign(view.nativeViewProtected!, { borderLayer: replacement })
+    view.style.notify({ eventName: 'backgroundInternalChange' })
+    await flush()
+    expect(previous.animations.size).toBe(0)
+    expect(replacement.animations.has('jolt:borderColor')).toBe(true)
+    expect(layer.animations.has('jolt:backgroundColor')).toBe(true)
+    expect(done()).toBeUndefined()
+    layer.removeAutomaticAnimations()
+    replacement.removeAutomaticAnimations()
+    expect(await animation).toBe(true)
+  })
+
+  it('cancels an externally recolored edge and releases its listeners', async () => {
+    const { view, layer } = target()
+    const animation = animate(view, { borderColor: ['red', 'blue'] }, { duration: 1000 })
+    view.borderTopColor = new Color('white')
+    view.style.notify({ eventName: 'borderTopColorChange' })
+    await flush()
+    expect(await animation).toBe(false)
+    expect(view.borderTopColor.argb).toBe(0xffffffff)
+    expect(layer.animations.size).toBe(0)
+    expect(view.style.listenerCount('borderTopColorChange')).toBe(0)
+  })
+  it('preserves image backgrounds by skipping the color layer', async () => {
+    const { view, layer } = target()
+    view.backgroundImage = 'image.png'
+    const animation = animate(view, { backgroundColor: 'blue' })
+    expect(await animation).toBe(false)
+    expect(layer.animations.size).toBe(0)
+    expect(view.backgroundColor?.argb).toBe(0xff0000ff)
+    expect(view.listenerCount('unloaded')).toBe(0)
+  })
+
+  it('releases infinite colors on unload', async () => {
+    const { view, layer } = target()
+    const animation = animate(
+      view,
+      { backgroundColor: ['red', 'blue'] },
+      { repeat: Infinity },
+    )
+    view.notify({ eventName: 'unloaded' })
+    expect(await animation).toBe(false)
+    expect(layer.animations.size).toBe(0)
+    expect(view.listenerCount('unloaded')).toBe(0)
   })
 })

@@ -4,6 +4,7 @@ import { playHaptics, type HapticOptions } from './haptics.js'
 import { readValue, writeValue, type Property } from './properties.js'
 import { createTrack, type Track } from './track.js'
 import type { ResolvedTransition } from './transition.js'
+import { isColorProperty } from './color.js'
 
 export interface Animation extends PromiseLike<boolean> {
   /**
@@ -112,13 +113,16 @@ export class ViewAnimation implements Animation {
         velocity = previous.track.velocityAt(elapsed)
         release(previous, now, false)
       } else {
-        current = readValue(this.view, property)
+        current =
+          (isColorProperty(property)
+            ? driver.presented(this.view, property)
+            : undefined) ?? readValue(this.view, property)
       }
       return createTrack(
         property,
         keyframes.map((value) => {
           if (value === null) return current
-          if (!relative) return value
+          if (!relative || isColorProperty(property)) return value
           return property === 'opacity' || property.startsWith('scale')
             ? current * value
             : current + value
@@ -147,11 +151,11 @@ export class ViewAnimation implements Animation {
     this.haptics = playHaptics(this.view, tracks, this.haptic, driver, now)
 
     for (const entry of this.entries) {
-      entry.handle = driver.play(this.view, entry.track, now, () => {
+      entry.handle = driver.play(this.view, entry.track, now, (finished = true) => {
         if (entry.done) return
         entry.done = true
         forget(entry)
-        this.ended(true)
+        this.ended(finished)
       })
     }
 
@@ -164,7 +168,7 @@ export class ViewAnimation implements Animation {
 
   private waitForLoad(plans: readonly Plan[]) {
     for (const { property, keyframes, relative } of plans) {
-      if (relative) continue
+      if (relative && !isColorProperty(property)) continue
       const first = keyframes[0]
       if (first !== null && first !== undefined) writeValue(this.view, property, first)
     }

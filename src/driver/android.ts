@@ -1,6 +1,8 @@
 import { Utils, type View } from '@nativescript/core'
-import type { Property } from '../properties.js'
+import type { NumericProperty } from '../properties.js'
 import type { Driver } from './index.js'
+import { isColorProperty } from '../color.js'
+import { playAndroidColor, presentedAndroidColor } from './android-color.js'
 
 type NativeView = android.view.View
 
@@ -44,7 +46,7 @@ function fadeLayer(view: View, nativeView: NativeView): (() => void) | undefined
 }
 
 const accessors: Record<
-  Property,
+  NumericProperty,
   { get(view: NativeView): number; set(view: NativeView, value: number): void }
 > = {
   opacity: { get: (v) => v.getAlpha(), set: (v, value) => v.setAlpha(value) },
@@ -57,7 +59,7 @@ const accessors: Record<
   rotateY: { get: (v) => v.getRotationY(), set: (v, value) => v.setRotationY(value) },
 }
 
-const unit = (property: Property) =>
+const unit = (property: NumericProperty) =>
   property === 'x' || property === 'y' ? Utils.layout.getDisplayDensity() : 1
 
 export function createAndroidDriver(): Driver {
@@ -71,13 +73,14 @@ export function createAndroidDriver(): Driver {
     rotate: View.ROTATION,
     rotateX: View.ROTATION_X,
     rotateY: View.ROTATION_Y,
-  } satisfies Record<Property, unknown>
+  } satisfies Record<NumericProperty, unknown>
   const interpolator = new android.view.animation.LinearInterpolator()
 
   return {
     now: () => android.os.SystemClock.uptimeMillis(),
 
     play(view, track, _startedAt, onEnd) {
+      if (isColorProperty(track.property)) return playAndroidColor(view, track, onEnd)
       const nativeView = view.nativeViewProtected as NativeView
       const scale = unit(track.property)
 
@@ -170,6 +173,7 @@ export function createAndroidDriver(): Driver {
     elapsed: (handle) => (handle as Handle).elapsed(),
 
     presented(view, property) {
+      if (isColorProperty(property)) return presentedAndroidColor(view, property)
       const nativeView = view.nativeViewProtected as NativeView | undefined
       return nativeView ? accessors[property].get(nativeView) / unit(property) : undefined
     },

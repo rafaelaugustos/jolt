@@ -1,3 +1,4 @@
+import { stopIOSColorText } from './driver/ios-color.js'
 import { Application, Label, isIOS } from '@nativescript/core'
 import { textProperty, formattedTextProperty } from '@nativescript/core/ui/text-base'
 import { toView } from './animate.js'
@@ -119,6 +120,7 @@ class TextAnimation implements Animation {
     this.finished = new Promise((resolve) => {
       this.resolve = resolve
     })
+    if (isIOS) stopIOSColorText(view)
     this.formatted = view.formattedText
     running.set(view, this)
     if (!isIOS) {

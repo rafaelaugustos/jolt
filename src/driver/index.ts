@@ -8,7 +8,12 @@ export interface Driver {
   /** Milliseconds, on the clock the platform's animations run on. */
   now(): number
   /** Starts the track at `startedAt + track.delay` and calls `onEnd` once, however it ends. */
-  play(view: View, track: Track, startedAt: number, onEnd: () => void): unknown
+  play(
+    view: View,
+    track: Track,
+    startedAt: number,
+    onEnd: (finished?: boolean) => void,
+  ): unknown
   stop(view: View, handle: unknown): void
   /** Track time, including its delay, when the native clock differs from `now()`. */
   elapsed?(handle: unknown): number

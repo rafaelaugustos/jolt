@@ -1,0 +1,7 @@
+// Applied by the NativeScript app. Preserve fields used by the native color target.
+def joltDependency = nativescriptDependencies.find { it.name == '@rafaelaugusto/jolt' }
+if (joltDependency != null) {
+    android.buildTypes.all {
+        proguardFile new File(rootDir, "${joltDependency.directory}/platforms/android/proguard-rules.pro")
+    }
+}

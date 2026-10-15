@@ -17,7 +17,7 @@ animate(card, { opacity: 0.5, y: -20 })
 | `rotate`             | graus                                        |
 | `rotateX`, `rotateY` | graus, com perspectiva                       |
 
-Só transforms e opacidade por enquanto. Cores, tamanho e mudanças de layout [ainda não existem](./not-there-yet).
+Cores de fundo, borda e texto também são suportadas. Veja [Cores](./colors). Tamanho e mudanças de layout [ainda não existem](./not-there-yet).
 
 ## Fades no Android
 

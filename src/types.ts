@@ -1,11 +1,16 @@
 import type { View } from '@nativescript/core'
 import type { Haptic } from './haptics.js'
 import type { SpringName, Transition } from './transition.js'
+import type { ColorKeyframes } from './color.js'
 
 /** A value to animate to, or keyframes. `null` stands for the value the view has when the animation starts. */
 export type KeyframeValue = number | readonly (number | null)[]
 
 export interface Keyframes {
+  backgroundColor?: ColorKeyframes
+  /** Uniform starting edge colors; widths and radii may differ. */
+  borderColor?: ColorKeyframes
+  color?: ColorKeyframes
   opacity?: KeyframeValue
   /** Same as `translateX`, in DIPs. */
   x?: KeyframeValue

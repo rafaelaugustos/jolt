@@ -28,4 +28,5 @@ export type { Spring, SpringName, Timing, Transition, Tween } from './transition
 export { cubicBezier } from './easing.js'
 export type { CubicBezier, Easing, EasingFunction, EasingName } from './easing.js'
 export type { Animation } from './engine.js'
+export type { ColorValue, ColorKeyframes } from './color.js'
 export type * from './types.js'

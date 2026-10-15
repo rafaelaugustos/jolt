@@ -25,6 +25,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
       items: [
         page('transitions', 'transitions'),
         page('decay', 'decay'),
+        page('colors', 'colors'),
         page('presets', 'presets'),
         page('stagger', 'stagger'),
         page('sequences', 'sequences'),
@@ -61,6 +62,7 @@ const en = {
   demo: 'Demo app',
   transitions: 'Springs and tweens',
   decay: 'Decay and snapping',
+  colors: 'Colors',
   presets: 'Presets',
   stagger: 'Several views',
   sequences: 'Sequences',
@@ -89,6 +91,7 @@ const pt = {
   demo: 'Aplicativo de demonstração',
   transitions: 'Springs e tweens',
   decay: 'Desaceleração e encaixe',
+  colors: 'Cores',
   presets: 'Presets',
   stagger: 'Várias views',
   sequences: 'Sequências',

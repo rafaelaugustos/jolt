@@ -1,5 +1,6 @@
 import { resolveEasing, type Easing, type EasingFunction } from './easing.js'
 import type { Property } from './properties.js'
+import { isColorProperty } from './color.js'
 import { springPhysics, type SpringPhysics } from './spring.js'
 
 export interface Timing {
@@ -102,7 +103,10 @@ export function resolveTransition(
     transition.type ??
     (springKeys.some((key) => (transition as Spring)[key] !== undefined)
       ? 'spring'
-      : hasCurve(transition) || property === 'opacity' || keyframes > 2
+      : hasCurve(transition) ||
+          property === 'opacity' ||
+          isColorProperty(property) ||
+          keyframes > 2
         ? 'tween'
         : 'spring')
 
@@ -128,7 +132,11 @@ export function resolveTransition(
 
   const tween = transition as Tween
   const duration = tween.duration ?? DEFAULT_DURATION
-  if (duration < 0 || Number.isNaN(duration)) {
+  if (
+    duration < 0 ||
+    Number.isNaN(duration) ||
+    (isColorProperty(property) && !Number.isFinite(duration))
+  ) {
     throw new RangeError(`Invalid duration: ${duration}.`)
   }
 
