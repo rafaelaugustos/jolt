@@ -9,7 +9,7 @@ The samples go to the platform in one go:
 
 Before playing, the final values are set on the NativeScript view, like `view.animate()` does, so `view.translateX` already holds the target while the animation runs. Stopping writes back the values on screen.
 
-Each running property remembers its curve and start time, so Jolt knows the value and velocity of any property at any moment without asking the platform. That's what lets an interruption pick up the motion where it was. On Android, where an animator starts on the next frame, it reads the value on screen instead.
+Each running property remembers its curve and start time. On Android, interruptions read the displayed value and the animator's current play time, so inherited velocity follows the system's animator duration scale. Early spring arrivals use a native timing marker with completion callbacks only; other sequences advance on native completion. Delays, repeats and disabled animations follow the same platform clock, without JavaScript running per frame.
 
 ## Tests
 

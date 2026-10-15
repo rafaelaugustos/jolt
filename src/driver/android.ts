@@ -1,11 +1,12 @@
 import { Utils, type View } from '@nativescript/core'
 import type { Property } from '../properties.js'
-import { after, type Driver } from './index.js'
+import type { Driver } from './index.js'
 
 type NativeView = android.view.View
 
 interface Handle {
   cancel(): void
+  elapsed(): number
 }
 
 /** Own only layers we create; keep app-configured hardware/software layers and paints intact. */
@@ -102,6 +103,7 @@ export function createAndroidDriver(): Driver {
       )
       let cancelled = false
       let ended = false
+      let started = false
       let restoreLayer: (() => void) | undefined
       const releaseLayer = () => {
         restoreLayer?.()
@@ -125,6 +127,7 @@ export function createAndroidDriver(): Driver {
       animator.addListener(
         new android.animation.Animator.AnimatorListener({
           onAnimationStart() {
+            started = true
             if (
               !cancelled &&
               !ended &&
@@ -150,6 +153,7 @@ export function createAndroidDriver(): Driver {
       accessors[track.property].set(nativeView, track.values[0]! * scale)
       animator.start()
       return {
+        elapsed: () => (started ? track.delay + animator.getCurrentPlayTime() : 0),
         cancel() {
           // Cancel before native callbacks: Android can send onStart while cancelling a delay.
           cancelled = true
@@ -163,11 +167,41 @@ export function createAndroidDriver(): Driver {
       ;(handle as Handle).cancel()
     },
 
+    elapsed: (handle) => (handle as Handle).elapsed(),
+
     presented(view, property) {
       const nativeView = view.nativeViewProtected as NativeView | undefined
       return nativeView ? accessors[property].get(nativeView) / unit(property) : undefined
     },
 
-    after,
+    after(ms, callback) {
+      // A native marker follows animator duration scale, including changes during playback.
+      // Only completion crosses the bridge; there is no JavaScript update listener.
+      const values = Array.create('float', 2)
+      values[0] = 0
+      values[1] = 1
+      const marker = android.animation.ValueAnimator.ofFloat(values)
+      marker.setDuration(ms)
+      let active = true
+      marker.addListener(
+        new android.animation.Animator.AnimatorListener({
+          onAnimationStart() {},
+          onAnimationRepeat() {},
+          onAnimationCancel() {
+            active = false
+          },
+          onAnimationEnd() {
+            if (!active) return
+            active = false
+            callback()
+          },
+        }),
+      )
+      marker.start()
+      return () => {
+        active = false
+        marker.cancel()
+      }
+    },
   }
 }

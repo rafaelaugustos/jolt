@@ -9,7 +9,7 @@ As amostras vão para a plataforma de uma vez:
 
 Antes de tocar, os valores finais são definidos na view do NativeScript, como o `view.animate()` faz, então `view.translateX` já contém o alvo enquanto a animação roda. Parar escreve de volta os valores na tela.
 
-Cada propriedade em andamento lembra a própria curva e o instante de início, então o Jolt sabe o valor e a velocidade de qualquer propriedade a qualquer momento sem perguntar à plataforma. É isso que permite a uma interrupção continuar o movimento de onde estava. No Android, onde um animator começa no frame seguinte, ele lê o valor na tela no lugar.
+Cada propriedade em andamento guarda sua curva e o instante de início. No Android, as interrupções leem o valor na tela e o tempo atual do animator, então a velocidade herdada acompanha a escala de duração das animações do sistema. A chegada antecipada dos springs usa um marcador de tempo nativo com callbacks apenas na conclusão; as demais sequências avançam na conclusão nativa. Delays, repetições e animações desativadas seguem o mesmo relógio da plataforma, sem JavaScript por frame.
 
 ## Testes
 

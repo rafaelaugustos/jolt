@@ -107,7 +107,7 @@ export class ViewAnimation implements Animation {
       let current: number
       let velocity = 0
       if (previous) {
-        const elapsed = now - previous.startedAt
+        const elapsed = elapsedOf(previous, now)
         current = driver.presented(this.view, property) ?? previous.track.valueAt(elapsed)
         velocity = previous.track.velocityAt(elapsed)
         release(previous, now, false)
@@ -157,7 +157,7 @@ export class ViewAnimation implements Animation {
 
     const arrival = Math.max(...this.entries.map((entry) => entry.track.arrival))
     if (this.pending === 0) this.settle()
-    else if (Number.isFinite(arrival)) {
+    else if (Number.isFinite(arrival) && tracks.some((track) => track.end > arrival)) {
       this.cancelArrival = driver.after(arrival, this.arrive)
     }
   }
@@ -220,9 +220,13 @@ function release(entry: Entry, now: number, commit: boolean) {
   forget(entry)
   if (commit) {
     const value =
-      driver.presented(view, property) ?? entry.track.valueAt(now - entry.startedAt)
+      driver.presented(view, property) ?? entry.track.valueAt(elapsedOf(entry, now))
     writeValue(view, property, value)
   }
   driver.stop(view, entry.handle)
   entry.owner.ended(false)
+}
+
+function elapsedOf(entry: Entry, now: number) {
+  return getDriver().elapsed?.(entry.handle) ?? now - entry.startedAt
 }

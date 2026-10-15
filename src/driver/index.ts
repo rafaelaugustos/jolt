@@ -10,9 +10,11 @@ export interface Driver {
   /** Starts the track at `startedAt + track.delay` and calls `onEnd` once, however it ends. */
   play(view: View, track: Track, startedAt: number, onEnd: () => void): unknown
   stop(view: View, handle: unknown): void
+  /** Track time, including its delay, when the native clock differs from `now()`. */
+  elapsed?(handle: unknown): number
   /** The value on screen, when the platform knows it better than the track does. */
   presented(view: View, property: Property): number | undefined
-  /** Calls back after `ms` on the same clock, and returns a function that cancels it. */
+  /** Calls back after `ms` of animation time, respecting platform speed settings. */
   after(ms: number, callback: () => void): () => void
 }
 
