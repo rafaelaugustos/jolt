@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add `scrollLinked()` on iOS and Android to scrub one paused animation from a ScrollView offset, with clamped or descending DIP ranges, horizontal support, restored offsets and unload cleanup. Add a parallax heading and fixed-title crossfade to the playground, plus English and Portuguese guides.
+- Keep exact paused endpoints visible on iOS instead of wrapping to the first frame, including colors, decorations, reverse repeats and shorter properties in a longer timeline.
+
 ## 0.1.0-beta.5 (2026-10-15)
 
 - Add `pause()`, `play()` and writable `progress` to `animate()` and `decay()`, with native clocks, controlled interruption, delayed and repeated timelines, grouped stagger, unload cleanup and paused haptics. Add a slider demo and English/Portuguese playback guides. Layers keep their own timing on iOS; Android animations share one native elapsed-time marker while active.

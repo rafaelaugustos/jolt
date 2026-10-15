@@ -84,7 +84,13 @@ beforeEach(() => {
     }),
   )
   vi.stubGlobal('UIColor', { colorWithCGColor: (CGColor: unknown) => ({ CGColor }) })
-  vi.stubGlobal('NSArray', { arrayWithArray: (values: unknown[]) => values })
+  vi.stubGlobal('NSArray', {
+    arrayWithArray: (values: unknown[]) =>
+      Object.defineProperties([...values], {
+        count: { value: values.length },
+        objectAtIndex: { value: (index: number) => values[index] },
+      }),
+  })
   vi.stubGlobal('kCAFillModeBackwards', 'backwards')
   vi.stubGlobal('CATransaction', {
     begin: () => (transaction = { pending: 0 }),
@@ -551,16 +557,91 @@ describe('iOS playback controls', () => {
     const { view, layer } = target()
     const animation = animate(view, { borderRadius: [0, 40] }, { duration: 1000 })
     const previous = layer.animations.get('jolt:borderRadius')!.owner
+    const originalValues = (layer.animations.get('jolt:borderRadius')!.animation as any)
+      .values
     animation.pause()
     animation.progress = 1
     complete(previous)
     layer.background()
     expect(state(animation.finished)()).toBeUndefined()
     expect(layer.animations.has('jolt:borderRadius')).toBe(true)
+    expect((layer.animations.get('jolt:borderRadius')!.animation as any).values).toEqual([
+      40, 40,
+    ])
     animation.progress = 0.2
+    expect((layer.animations.get('jolt:borderRadius')!.animation as any).values).toEqual(
+      originalValues,
+    )
     animation.play()
     layer.removeAutomaticAnimations()
     expect(await animation).toBe(true)
+  })
+  it.each([false, true])(
+    'holds exact endpoints across numeric, color and decoration tracks, reverse=%s',
+    (reverse) => {
+      const { view, layer } = target()
+      view.backgroundColor = new Color('red')
+      const animation = animate(
+        view,
+        {
+          x: [0, 100],
+          opacity: [1, 0],
+          backgroundColor: ['red', 'blue'],
+          borderRadius: [8, 40],
+        },
+        {
+          duration: 1000,
+          ease: 'linear',
+          repeat: 1,
+          repeatType: reverse ? 'reverse' : 'loop',
+        },
+      )
+      animation.pause()
+      animation.progress = 1
+      for (const [property, endpoint] of [
+        ['x', reverse ? 0 : 100],
+        ['opacity', reverse ? 1 : 0],
+        ['backgroundColor', new Color(reverse ? 'red' : 'blue').argb],
+        ['borderRadius', reverse ? 8 : 40],
+      ] as const) {
+        const copy = layer.animations.get(`jolt:${property}`)!.animation as any
+        expect(copy.values).toEqual([endpoint, endpoint])
+        expect(copy.repeatCount).toBe(0)
+        expect(copy.autoreverses).toBe(false)
+        expect(copy.timeOffset).toBe(0)
+        expect(copy.speed).toBe(0)
+        expect(copy.removedOnCompletion).toBe(false)
+      }
+      animation.progress = 0.25
+      const copy = layer.animations.get('jolt:x')!.animation as any
+      expect(copy.values).toEqual([0, 100])
+      expect(copy.timeOffset).toBe(0.5)
+      expect(copy.repeatCount).toBe(reverse ? 1 : 2)
+      animation.stop()
+    },
+  )
+  it('holds a shorter property at its exact endpoint beyond its own duration', () => {
+    const { view, layer } = target()
+    const animation = animate(
+      view,
+      { x: [0, 100], opacity: [1, 0] },
+      {
+        duration: 2000,
+        ease: 'linear',
+        opacity: { duration: 500, ease: 'linear' },
+      },
+    )
+    animation.pause()
+    animation.progress = 0.5
+    expect((layer.animations.get('jolt:opacity')!.animation as any).values).toEqual([
+      0, 0,
+    ])
+    expect((layer.animations.get('jolt:x')!.animation as any).values).toEqual([0, 100])
+    animation.progress = 0.1
+    expect((layer.animations.get('jolt:opacity')!.animation as any).values).toEqual([
+      1, 0,
+    ])
+    animation.stop()
   })
   it('takes over a scrubbed color before CA has committed its new presentation', async () => {
     const { view, layer } = target()

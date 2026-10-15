@@ -234,13 +234,13 @@ export function playIOSDecoration(
         animation.values = NSArray.arrayWithArray(values)
         animation.keyTimes = NSArray.arrayWithArray(times)
         animation.duration = Math.max(1, track.duration) / 1000
-        timing.configure(animation, layer)
         if (track.repeat > 0) {
           animation.autoreverses = track.reverse
           animation.repeatCount = track.reverse
             ? (track.repeat + 1) / 2
             : track.repeat + 1
         }
+        timing.configure(animation, layer)
         if (animation.respondsToSelector('setPreferredFrameRateRange:')) {
           const max = Math.min(
             120,

@@ -49,3 +49,5 @@ This is a local UI demo. It does not record speech, search files, play audio or 
 The orb uses one transparent bitmap. [`liquid()`](./liquid) deforms its texture with a native repeating warp while `animate()` controls its scale, rotation, position and opacity. Pause freezes both motions. The colored folds come from the artwork; this is texture deformation rather than a fluid simulation.
 
 The playground also includes [playback controls](./playback): pause a card, choose a frame with a slider, and continue, with an independent pulse running beside it.
+
+The [scroll-linked header](./scroll-linked) moves and fades the large heading as the main ScrollView advances, revealing a fixed compact title. Scrolling back restores it.

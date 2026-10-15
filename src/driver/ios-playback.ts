@@ -21,7 +21,7 @@ export function iosPlayback(track: Track, startedAt: number) {
       anchor = CACurrentMediaTime() * 1000
       paused = hold
     },
-    configure(animation: CAAnimation, layer: CALayer) {
+    configure(animation: CAKeyframeAnimation, layer: CALayer) {
       const now = CACurrentMediaTime()
       const position = elapsed()
       animation.speed = paused ? 0 : 1
@@ -32,6 +32,20 @@ export function iosPlayback(track: Track, startedAt: number) {
       )
       animation.fillMode = paused ? 'both' : kCAFillModeBackwards
       animation.removedOnCompletion = !paused && track.repeat !== Infinity
+      // With speed 0, CA folds an exact duration boundary back to the first
+      // frame. Hold the actual endpoint with a constant copy, also when a
+      // shorter property waits at its end while another one is being scrubbed.
+      if (paused && Number.isFinite(track.end) && position >= track.end) {
+        const values = animation.values!
+        const index = track.reverse && track.repeat % 2 === 1 ? 0 : values.count - 1
+        const value = values.objectAtIndex(index)
+        animation.values = NSArray.arrayWithArray([value, value])
+        animation.keyTimes = NSArray.arrayWithArray([0, 1])
+        animation.duration = 1
+        animation.repeatCount = 0
+        animation.autoreverses = false
+        animation.timeOffset = 0
+      }
     },
   }
 }

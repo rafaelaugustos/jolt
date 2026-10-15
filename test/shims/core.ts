@@ -156,6 +156,12 @@ export class Label extends TextBase {
 export const isAndroid = false
 export const isIOS = true
 
+export class ScrollView extends View {
+  static scrollEvent = 'scroll'
+  horizontalOffset = 0
+  verticalOffset = 0
+}
+
 export class Color {
   value: string | number
   argb: number
