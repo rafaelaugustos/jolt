@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add iOS `loader()` indicators with dots, bars and ring styles, native replication, layout updates and a static Reduce Motion fallback.
+
 ## 0.1.0-beta.2 (2026-10-14)
 
 - Add iOS `confetti()` and configurable `particles()` emitters, with native playback, automatic burst cleanup and Reduce Motion support.

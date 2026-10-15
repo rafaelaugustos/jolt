@@ -8,6 +8,7 @@
 - `press(target, pressed?, transition?)`
 - [`symbolEffect(image, effect, options?)`](./symbol-effects) — iOS SF Symbols.
 - [`shimmer(target, options?)`](./shimmer) — iOS loading placeholders; returns a cleanup function.
+- [`loader(target, options?)`](./loaders) — iOS dots, bars and ring indicators; returns a cleanup function.
 - [`confetti(target, options?)`, `particles(target, options?)`](./particles) — iOS particle effects; return cleanup functions.
 
 `target` is a view or anything holding one (a template ref, an `ElementRef`). `animate()`, `stop()` and sequence steps also accept arrays of targets.
@@ -32,4 +33,4 @@ What `animate()`, `sequence()` and the steps of a sequence return: `await` it, r
 
 ## Types
 
-`Keyframes`, `Transition`, `Spring`, `Tween`, `Preset`, `Presets`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target`, `SymbolEffect`, `SymbolEffectName`, `SymbolEffectOptions`, `ShimmerOptions`, `Haptic`, `HapticOptions`, `HapticStyle`, `ConfettiOptions`, `ParticleOptions` and the rest exported from the package.
+`Keyframes`, `Transition`, `Spring`, `Tween`, `Preset`, `Presets`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target`, `SymbolEffect`, `SymbolEffectName`, `SymbolEffectOptions`, `ShimmerOptions`, `LoaderOptions`, `LoaderStyle`, `Haptic`, `HapticOptions`, `HapticStyle`, `ConfettiOptions`, `ParticleOptions` and the rest exported from the package.

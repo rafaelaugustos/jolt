@@ -41,6 +41,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Press effects](#press) that follow the finger and let go when a scroll takes over.
 - [SF Symbol effects](#sf-symbols) and animated icon replacement on iOS 17+.
 - [Shimmer](#shimmer) for loading placeholders on iOS.
+- [Loaders](#loaders) with dots, bars and ring styles on iOS.
 - [Haptics](#haptics) at arrival or at marked points in an animation on iOS.
 - [Particles and confetti](#particles-and-confetti) on iOS.
 - [Interruptions](#interrupting-and-stopping) that pick up the value and velocity on screen, with no jump.
@@ -271,6 +272,17 @@ stopShimmer() // when the content is ready
 
 A native gradient mask sweeps across the placeholder and its children. It follows layout changes, preserves existing masks and releases native resources while the view is unloaded, resuming on load. Reduce Motion keeps the placeholder static. iOS only for now; Android calls return a no-op cleanup function. See the [shimmer guide](https://jolt.rafaelaugusto.dev/guide/shimmer).
 
+## Loaders
+
+```ts
+import { loader } from '@rafaelaugusto/jolt'
+
+const stopLoading = loader(slot, { style: 'dots', color: '#71717a', size: 48 })
+stopLoading() // when the content is ready
+```
+
+Choose `dots`, `bars` or `ring`. Each indicator uses one native animation replicated across a layer, fits inside its target and stays centered as the target resizes. Reduce Motion shows a static indicator. Unloading releases native resources; loading resumes until explicitly stopped. iOS only for now. See the [loaders guide](https://jolt.rafaelaugusto.dev/guide/loaders).
+
 ## Haptics
 
 ```ts
@@ -331,15 +343,15 @@ Each running property remembers its curve and start time, so Jolt knows the valu
 
 ## API
 
-**Animating**: `animate(target, keyframes | preset, transition?)`, `stop(target, properties?)`, `sequence(steps)`, `press(target, pressed?, transition?)`, `symbolEffect(image, effect, options?)`, `shimmer(target, options?)`, `confetti(target, options?)`, `particles(target, options?)`.
+**Animating**: `animate(target, keyframes | preset, transition?)`, `stop(target, properties?)`, `sequence(steps)`, `press(target, pressed?, transition?)`, `symbolEffect(image, effect, options?)`, `shimmer(target, options?)`, `loader(target, options?)`, `confetti(target, options?)`, `particles(target, options?)`.
 
-**Animations** from `animate()`, `sequence()` and `symbolEffect()`: `await`, `finished`, `stop()`. `press()`, `shimmer()`, `confetti()` and `particles()` return cleanup functions.
+**Animations** from `animate()`, `sequence()` and `symbolEffect()`: `await`, `finished`, `stop()`. `press()`, `shimmer()`, `loader()`, `confetti()` and `particles()` return cleanup functions.
 
 **Helpers**: `definePreset`, `presets`, `springs`, `cubicBezier`, plus the types (`Keyframes`, `Transition`, `Spring`, `Tween`, `Preset`, `Presets`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target`...).
 
 ## Demo
 
-[`demo/`](./demo) is a NativeScript-Vue app with every preset, the three springs on a ball you can interrupt, stagger, press effects, SF Symbols, shimmer, haptics and particles on iOS, loops and a sequence on launch.
+[`demo/`](./demo) is a NativeScript-Vue app with every preset, the three springs on a ball you can interrupt, stagger, press effects, SF Symbols, shimmer, loaders, haptics and particles on iOS, loops and a sequence on launch.
 
 With the [NativeScript CLI](https://docs.nativescript.org/setup/) installed:
 

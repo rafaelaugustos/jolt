@@ -7,6 +7,8 @@ export { confetti, particles } from './particles.js'
 export type { ConfettiOptions, ParticleOptions } from './particles.js'
 export { shimmer } from './shimmer.js'
 export type { ShimmerOptions } from './shimmer.js'
+export { loader } from './loader.js'
+export type { LoaderOptions, LoaderStyle } from './loader.js'
 export { symbolEffect } from './symbol-effect.js'
 export type {
   SymbolEffect,
