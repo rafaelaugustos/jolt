@@ -12,6 +12,7 @@ import { readValue, writeValue, type Property } from './properties.js'
 import { createTrack, type Track } from './track.js'
 import type { ResolvedTransition } from './transition.js'
 import { isColorProperty } from './color.js'
+import type { PreparedPath, PathProperty } from './path.js'
 
 export interface Animation extends PromiseLike<boolean> {
   /**
@@ -30,6 +31,7 @@ export interface Plan {
   keyframes: readonly (number | null)[]
   transition: ResolvedTransition
   relative?: boolean
+  path?: PreparedPath
 }
 
 interface Entry {
@@ -320,7 +322,7 @@ export class ViewAnimation implements PlaybackAnimation {
     const now = driver.now()
     const entries = entriesOf(this.view)
 
-    const tracks = plans.map(({ property, keyframes, transition, relative }) => {
+    const tracks = plans.map(({ property, keyframes, transition, relative, path }) => {
       const previous = entries.get(property)
       let current: number
       let velocity = 0
@@ -335,6 +337,12 @@ export class ViewAnimation implements PlaybackAnimation {
             ? driver.presented(this.view, property)
             : undefined) ?? readValue(this.view, property)
       }
+      if (path)
+        return path.track(
+          property as PathProperty,
+          relative ? current : 0,
+          transition.delay,
+        )
       return createTrack(
         property,
         keyframes.map((value) => {

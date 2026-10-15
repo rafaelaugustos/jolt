@@ -81,3 +81,5 @@ Uma view que ainda não carregou assume o primeiro keyframe absoluto na hora e t
 ## O que você recebe de volta
 
 O `animate()` retorna uma animação que você pode esperar com `await`. Ela resolve com `true` quando tocou até o fim, e `false` quando foi parada ou substituída. Nunca rejeita. Veja [Interrompendo e parando](./interrupting).
+
+Use [`path` e `orient`](./paths) para seguir uma curva SVG com translação nativa e rotação opcional pela tangente.

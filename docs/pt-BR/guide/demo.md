@@ -53,3 +53,5 @@ O playground também inclui [controles de reprodução](./playback): pause um ca
 O [cabeçalho ligado ao scroll](./scroll-linked) se move e desaparece conforme o ScrollView principal avança, revelando um título compacto fixo. Voltar o scroll restaura o cabeçalho.
 
 A [demo de timelines](./sequences) compara entradas sobrepostas, chegadas uma a uma e tempos fixos, com controles para repetir e parar.
+
+O [playground de paths](./paths) segue uma curva cúbica ou uma órbita com arcos, com orientação, repetição, pausa/continuação e parada.

@@ -53,3 +53,5 @@ The playground also includes [playback controls](./playback): pause a card, choo
 The [scroll-linked header](./scroll-linked) moves and fades the large heading as the main ScrollView advances, revealing a fixed compact title. Scrolling back restores it.
 
 The [timeline demo](./sequences) compares overlapping entrances, one-at-a-time arrivals and fixed start times, with replay and stop controls.
+
+The [path playground](./paths) follows a cubic curve or an arc-based orbit, with orientation, replay, pause/resume and stop controls.

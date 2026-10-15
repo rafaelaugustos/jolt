@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add SVG motion paths to `animate()` with optional tangent orientation, shared arc-length progress, tween/spring timing, native translation/rotation tracks, playback controls and relative/staggered targets on iOS and Android. Support line, Bézier and arc commands with bounded geometry work; add a flight/orbit demo and English/Portuguese guides.
+
 - Add `at` positions to `sequence()`: signed offsets from the previous arrival, `"<"` for its start, and absolute milliseconds. Preserve early spring arrivals, native Android duration scale, stagger, loading, interruption and cancellation of future steps. Add a timeline demo and English/Portuguese guides.
 
 - Add `scrollLinked()` on iOS and Android to scrub one paused animation from a ScrollView offset, with clamped or descending DIP ranges, horizontal support, restored offsets and unload cleanup. Add a parallax heading and fixed-title crossfade to the playground, plus English and Portuguese guides.
