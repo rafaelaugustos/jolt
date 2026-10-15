@@ -82,6 +82,7 @@ export class View extends Observable {
 
 export const textProperty = { setNative: Symbol('text:setNative') }
 export const formattedTextProperty = { setNative: Symbol('formattedText:setNative') }
+export const tintColorProperty = { setNative: Symbol('tintColor:setNative') }
 
 export class Label extends View {
   text = 'Jolt'
@@ -138,7 +139,12 @@ export class Image extends View {
   loadMode = 'sync'
   isLoading = false
   imageSource: ImageSource | undefined
-  private source = ''
+  private source = '';
+
+  [tintColorProperty.setNative](value: unknown) {
+    const native = this.nativeViewProtected as { image: { renderingMode: number } | null }
+    if (native?.image) native.image.renderingMode = value ? 2 : 0
+  }
 
   get src() {
     return this.source

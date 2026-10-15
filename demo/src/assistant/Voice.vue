@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { Animation } from '@rafaelaugusto/jolt'
+import { liquid, type Animation, type LiquidEffect } from '@rafaelaugusto/jolt'
 import type { EventData, View } from '@nativescript/core'
 import { onBeforeUnmount, onMounted, ref } from 'nativescript-vue'
 import Icon from './Icon.vue'
@@ -7,11 +7,16 @@ import { Motion, reducedMotion } from './motion'
 const emit = defineEmits<{ chat: []; interact: [] }>()
 const paused = ref(false)
 const orb = ref()
-const light = ref()
 const ring = ref()
 const motion = new Motion()
 const breathing = new Motion()
 let copy: Animation | undefined
+let flow: LiquidEffect | undefined
+function startFlow(event: EventData) {
+  flow?.stop()
+  flow = liquid(event.object as View, { intensity: 0.9, duration: 7200 })
+  if (paused.value) flow.pause()
+}
 function transcribe(event: EventData) {
   if (copy) return
   copy = motion.text(event.object as View, {
@@ -34,11 +39,6 @@ function breathe() {
     { duration: 5200, repeat: Infinity, ease: 'easeInOut' },
   )
   breathing.play(
-    light.value,
-    { opacity: [0.15, 0.32, 0.15], scale: [1, 1.07, 1], rotate: [0, -15, 0] },
-    { duration: 3800, repeat: Infinity, ease: 'easeInOut' },
-  )
-  breathing.play(
     ring.value,
     { scale: [null, 1.12, 1], opacity: [null, 0.55, 1] },
     { duration: 1600, repeat: Infinity, ease: 'easeInOut' },
@@ -50,7 +50,11 @@ function togglePause() {
   if (paused.value) {
     breathing.cancel()
     copy?.stop()
-  } else breathe()
+    flow?.pause()
+  } else {
+    flow?.resume()
+    breathe()
+  }
 }
 onMounted(async () => {
   motion.play(
@@ -63,6 +67,7 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   motion.dispose()
   breathing.dispose()
+  flow?.stop()
 })
 defineExpose({ togglePause, paused })
 </script>
@@ -74,15 +79,9 @@ defineExpose({ togglePause, paused })
         <Image
           src="~/assistant/assets/voice-orb.png"
           stretch="aspectFit"
-          opacity="0.84"
+          opacity="0.96"
           accessible="false"
-        />
-        <Image
-          ref="light"
-          src="~/assistant/assets/voice-orb.png"
-          stretch="aspectFit"
-          opacity="0.15"
-          accessible="false"
+          @loaded="startFlow"
         />
       </GridLayout>
     </StackLayout>

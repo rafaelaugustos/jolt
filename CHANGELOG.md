@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add iOS `liquid()` texture deformation for raster images, with native looping, pause/resume, image restoration, lifecycle cleanup and Reduce Motion support. Use it on the assistant's voice orb.
 - Add an interactive iOS assistant demo with animated text, spring-driven tool cards, voice and chat transitions, document previews and a replay of the full flow. Keep the animation playground available on both platforms.
 
 ## 0.1.0-beta.3 (2026-10-15)
