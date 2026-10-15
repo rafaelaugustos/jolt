@@ -1,4 +1,5 @@
 import type { View } from '@nativescript/core'
+import type { Haptic } from './haptics.js'
 import type { SpringName, Transition } from './transition.js'
 
 /** A value to animate to, or keyframes. `null` stands for the value the view has when the animation starts. */
@@ -38,4 +39,6 @@ export type AnimateOptions = Transition & {
   relative?: boolean
   /** With several targets, delays each one by this much more than the previous. */
   stagger?: number | Stagger
+  /** iOS impact feedback at arrival, or at explicit points in a finite animation. */
+  haptic?: Haptic
 }

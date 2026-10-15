@@ -41,6 +41,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Press effects](#press) that follow the finger and let go when a scroll takes over.
 - [SF Symbol effects](#sf-symbols) and animated icon replacement on iOS 17+.
 - [Shimmer](#shimmer) for loading placeholders on iOS.
+- [Haptics](#haptics) at arrival or at marked points in an animation on iOS.
 - [Interruptions](#interrupting-and-stopping) that pick up the value and velocity on screen, with no jump.
 - [Native playback](#how-it-works): Core Animation on iOS, `ObjectAnimator` on Android, nothing in JavaScript while it plays.
 
@@ -269,6 +270,15 @@ stopShimmer() // when the content is ready
 
 A native gradient mask sweeps across the placeholder and its children. It follows layout changes, preserves existing masks and releases native resources while the view is unloaded, resuming on load. Reduce Motion keeps the placeholder static. iOS only for now; Android calls return a no-op cleanup function. See the [shimmer guide](https://jolt.rafaelaugusto.dev/guide/shimmer).
 
+## Haptics
+
+```ts
+animate(card, { y: 0 }, { type: 'spring', haptic: 'light' })
+animate(button, 'bounce', { haptic: { style: 'light', times: [0.6, 1] } })
+```
+
+Choose `light`, `medium` or `heavy`. By default, one impact fires when the animation visually arrives. Explicit points can mark each landing of a bounce. Delays and stagger follow the animation; interruptions, stopping and unloading cancel pending feedback. iOS only for now. See the [haptics guide](https://jolt.rafaelaugusto.dev/guide/haptics) for timing and device behavior.
+
 ## Interrupting and stopping
 
 Starting an animation on a property that's already animating takes it over: the new one starts from the value on screen, with the same velocity, so a card can change its mind halfway without a jump. Other properties of the previous animation keep going.
@@ -316,7 +326,7 @@ Each running property remembers its curve and start time, so Jolt knows the valu
 
 ## Demo
 
-[`demo/`](./demo) is a NativeScript-Vue app with every preset, the three springs on a ball you can interrupt, stagger, press effects, SF Symbols and shimmer on iOS, loops and a sequence on launch.
+[`demo/`](./demo) is a NativeScript-Vue app with every preset, the three springs on a ball you can interrupt, stagger, press effects, SF Symbols, shimmer and haptics on iOS, loops and a sequence on launch.
 
 With the [NativeScript CLI](https://docs.nativescript.org/setup/) installed:
 

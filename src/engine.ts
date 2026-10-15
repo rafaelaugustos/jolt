@@ -1,5 +1,6 @@
 import type { View } from '@nativescript/core'
 import { getDriver } from './driver/index.js'
+import { playHaptics, type HapticOptions } from './haptics.js'
 import { readValue, writeValue, type Property } from './properties.js'
 import { createTrack, type Track } from './track.js'
 import type { ResolvedTransition } from './transition.js'
@@ -56,10 +57,12 @@ export class ViewAnimation implements Animation {
   private cancelWait: (() => void) | undefined
   private arrive!: () => void
   private cancelArrival: (() => void) | undefined
+  private haptics: ReturnType<typeof playHaptics>
 
   constructor(
     readonly view: View,
     plans: readonly Plan[],
+    private readonly haptic?: HapticOptions,
   ) {
     this.finished = new Promise((resolve) => (this.resolve = resolve))
     setArrival(this, new Promise<void>((resolve) => (this.arrive = resolve)))
@@ -77,6 +80,7 @@ export class ViewAnimation implements Animation {
   stop() {
     if (this.settled) return
     this.cancelWait?.()
+    this.haptics?.cancel()
     const now = getDriver().now()
     for (const entry of this.entries) {
       if (!entry.done) release(entry, now, true)
@@ -86,7 +90,10 @@ export class ViewAnimation implements Animation {
   }
 
   ended(finished: boolean) {
-    if (!finished) this.complete = false
+    if (!finished) {
+      this.complete = false
+      this.haptics?.cancel()
+    }
     if (--this.pending === 0) this.settle()
   }
 
@@ -137,6 +144,8 @@ export class ViewAnimation implements Animation {
       this.pending++
     }
 
+    this.haptics = playHaptics(this.view, tracks, this.haptic, driver, now)
+
     for (const entry of this.entries) {
       entry.handle = driver.play(this.view, entry.track, now, () => {
         if (entry.done) return
@@ -174,6 +183,9 @@ export class ViewAnimation implements Animation {
     if (this.settled) return
     this.settled = true
     this.cancelArrival?.()
+    if (this.complete) this.haptics?.finish()
+    else this.haptics?.cancel()
+    this.haptics = undefined
     this.arrive()
     this.resolve(this.complete)
   }

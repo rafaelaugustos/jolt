@@ -8,6 +8,7 @@ import {
   type Plan,
 } from './engine.js'
 import { getPreset, type PresetName } from './presets.js'
+import { resolveHaptic, type Haptic } from './haptics.js'
 import { isProperty, type Property } from './properties.js'
 import {
   hasCurve,
@@ -30,6 +31,7 @@ interface Options {
   overrides: Partial<Record<keyof Keyframes, Transition>>
   stagger: number | Stagger | undefined
   relative: boolean | undefined
+  haptic: Haptic | undefined
 }
 
 /**
@@ -47,12 +49,17 @@ export function animate(
   animation: Keyframes | PresetName,
   options?: AnimateOptions | SpringName,
 ): Animation {
-  const { keyframes, base, overrides, stagger, relative } = prepare(animation, options)
+  const { keyframes, base, overrides, stagger, relative, haptic } = prepare(
+    animation,
+    options,
+  )
+  const feedback = resolveHaptic(haptic)
 
   if (!isList(target)) {
     return new ViewAnimation(
       toView(target),
       plan(keyframes, base, overrides, 0, relative),
+      feedback,
     )
   }
 
@@ -69,6 +76,7 @@ export function animate(
             staggerDelay(stagger, index, views.length),
             relative,
           ),
+          feedback,
         ),
     ),
   )
@@ -133,33 +141,43 @@ function prepare(
       : { ...own.overrides, ...user.overrides },
     stagger: user.stagger ?? own.stagger,
     relative: user.relative ?? own.relative,
+    haptic: user.haptic ?? own.haptic,
   }
 }
 
 function normalize(options: AnimateOptions | SpringName | undefined): Options {
   if (options === undefined)
-    return { base: {}, overrides: {}, stagger: undefined, relative: undefined }
+    return {
+      base: {},
+      overrides: {},
+      stagger: undefined,
+      relative: undefined,
+      haptic: undefined,
+    }
   if (typeof options === 'string')
     return {
       base: spring(options),
       overrides: {},
       stagger: undefined,
       relative: undefined,
+      haptic: undefined,
     }
 
   const base: Record<string, unknown> = {}
   const overrides: Options['overrides'] = {}
   let stagger: Options['stagger']
   let relative: Options['relative']
+  let haptic: Options['haptic']
   for (const [key, value] of Object.entries(options)) {
     if (value === undefined) continue
     if (key === 'stagger') stagger = value as Options['stagger']
     else if (key === 'relative') relative = value as Options['relative']
+    else if (key === 'haptic') haptic = value as Options['haptic']
     else if (key === 'scale' || isProperty(key)) {
       overrides[key] = typeof value === 'string' ? spring(value as SpringName) : value
     } else base[key] = value
   }
-  return { base, overrides, stagger, relative }
+  return { base, overrides, stagger, relative, haptic }
 }
 
 function plan(
