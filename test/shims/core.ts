@@ -38,6 +38,7 @@ export class Observable {
 }
 
 export class View extends Observable {
+  style = new Observable()
   isLoaded = true
   isEnabled = true
   nativeViewProtected: object | undefined = {}
@@ -71,6 +72,19 @@ export class View extends Observable {
 
 export const isAndroid = false
 export const isIOS = true
+
+export const Application = {
+  ios: {
+    observers: new Map<() => void, string>(),
+    addNotificationObserver(name: string, callback: () => void) {
+      this.observers.set(callback, name)
+      return callback
+    },
+    removeNotificationObserver(callback: () => void, _name: string) {
+      this.observers.delete(callback)
+    },
+  },
+}
 
 export class ImageSource {
   constructor(public ios: { name: string; symbolImage: boolean } | null) {}
