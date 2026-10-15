@@ -46,6 +46,7 @@ onUnmounted(stop)
       textWrap="true"
       textAlignment="center"
       backgroundColor="#27272a"
+      color="#facc15"
       borderRadius="16"
     />
     <Label class="muted" :text="status" marginTop="12" />
