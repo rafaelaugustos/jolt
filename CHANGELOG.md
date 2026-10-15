@@ -1,12 +1,13 @@
 # Changelog
 
-## Unreleased
+## 0.1.0-beta.2 (2026-10-14)
 
 - Add iOS `confetti()` and configurable `particles()` emitters, with native playback, automatic burst cleanup and Reduce Motion support.
 - Add opt-in iOS haptic feedback at animation arrival or explicit progress points, with cancellation on interruption, stop and unload.
 - Add `shimmer()` for iOS loading placeholders, with native looping, layout updates, mask preservation and Reduce Motion support.
 - Add `symbolEffect()` for iOS 17+ SF Symbols: bounce, pulse, scale, variable color and animated replacement, with native completion and cancellation.
 - Request up to 120 Hz for native iOS animations on compatible displays. iPhone apps must enable `CADisableMinimumFrameDurationOnPhone` in Info.plist; iOS chooses the actual refresh rate.
+- Add an on-device iOS startup benchmark for 50 and 200 staggered views, with recorded iPhone measurements.
 
 ## 0.1.0-beta.1 (2026-10-14)
 
