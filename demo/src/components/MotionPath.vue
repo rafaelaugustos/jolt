@@ -130,7 +130,7 @@ onUnmounted(() => {
       >
         <GridLayout
           backgroundColor="#5f4bda"
-          clipPath="polygon(0% 0%, 100% 50%, 0% 100%, 25% 50%)"
+          :style="{ clipPath: 'polygon(0% 0%, 100% 50%, 0% 100%, 25% 50%)' }"
         />
       </GridLayout>
     </GridLayout>
