@@ -12,16 +12,16 @@ module.exports = (env) => {
       // sharing this app's copy of NativeScript
       .set('@nativescript/core', resolve(__dirname, 'node_modules/@nativescript/core'))
 
-    if (env.benchmark || env.fadeBenchmark) {
+    if (env.benchmark || env.fadeBenchmark || env.busyBenchmark) {
       if (
         env.hmr ||
         process.env.JOLT_BENCHMARK !== '1' ||
         (env.benchmark && !env.ios) ||
-        (env.fadeBenchmark && !env.android) ||
-        (env.benchmark && env.fadeBenchmark)
+        ((env.fadeBenchmark || env.busyBenchmark) && !env.android) ||
+        [env.benchmark, env.fadeBenchmark, env.busyBenchmark].filter(Boolean).length !== 1
       ) {
         throw new Error(
-          'Use JOLT_BENCHMARK=1 and --no-hmr with --env.benchmark on iOS or --env.fadeBenchmark on Android.',
+          'Use JOLT_BENCHMARK=1 and --no-hmr with --env.benchmark on iOS or --env.fadeBenchmark or --env.busyBenchmark on Android.',
         )
       }
       config
@@ -32,9 +32,11 @@ module.exports = (env) => {
         .add(
           resolve(
             __dirname,
-            env.fadeBenchmark
-              ? '../benchmarks/android-fade.ts'
-              : '../benchmarks/ios-startup.ts',
+            env.busyBenchmark
+              ? '../benchmarks/android-busy.ts'
+              : env.fadeBenchmark
+                ? '../benchmarks/android-fade.ts'
+                : '../benchmarks/ios-startup.ts',
           ),
         )
       if (env.android) {
@@ -69,6 +71,23 @@ module.exports = (env) => {
                 ),
               )
               .digest('hex'),
+            busySourcesSha256: env.busyBenchmark
+              ? require('crypto')
+                  .createHash('sha256')
+                  .update(
+                    [
+                      'src/busy-trial.ts',
+                      'src/busy-work.ts',
+                      'src/workers/busy.worker.ts',
+                      '../benchmarks/android-busy.ts',
+                    ]
+                      .map((path) =>
+                        require('fs').readFileSync(resolve(__dirname, path), 'utf8'),
+                      )
+                      .join('\n'),
+                  )
+                  .digest('hex')
+              : undefined,
             bundleMode: config.get('mode'),
             builtAt: new Date().toISOString(),
           }),

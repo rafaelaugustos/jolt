@@ -411,6 +411,8 @@ Solid [colors](#colors) use CGColor keyframes on iOS and int keyframes through a
 
 Before playing, the final values are set on the NativeScript view, like `view.animate()` does, so `view.translateX` already holds the target while the animation runs. Stopping writes back the values on screen.
 
+Native playback does not isolate Android View animations from a blocked UI thread. Main-runtime JavaScript shares that thread, and `withLayer()` only caches drawing. Move suitable CPU work to a Worker and keep view updates small. See the [busy JavaScript guide](https://jolt.rafaelaugusto.dev/guide/android-performance) and [Android diagnostic](./benchmarks/android-busy.md).
+
 On Android, opacity animations temporarily cache hardware-accelerated containers with children in a hardware layer. Jolt waits for the fade to start and restores the layer on completion, stop, replacement or unload. Existing app-configured layers are preserved; empty, unmeasured and larger-than-screen containers are skipped. See the [fade-layer benchmark](./benchmarks/android-fade.md) for measurement and memory tradeoffs.
 
 Each running property remembers its curve and start time. On Android, interruptions read the displayed value and the animator's current play time, so inherited velocity follows the system's animator duration scale. Early spring arrivals use a native timing marker with completion callbacks only; other sequences advance on native completion. Delays, repeats and disabled animations follow the same platform clock, without JavaScript running per frame.
