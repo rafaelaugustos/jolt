@@ -19,6 +19,8 @@ animate(card, { opacity: 0.5, y: -20 })
 
 Background, border and text colors are also supported. See [Colors](./colors). See [corners, borders and shadows](./decorations) for numeric decoration properties. Size and layout changes are [not there yet](./not-there-yet).
 
+Use [`path` and `orient`](./paths) to follow an SVG curve with native translation and optional tangent rotation.
+
 ## Android fades
 
 For opacity animations, Jolt temporarily caches containers with children in a hardware layer when hardware acceleration is active. It starts at the end of any delay, keeps the cache across repeats, and restores the original layer on completion, stop, replacement or unload. This can reduce drawing work for static content such as cards with images.

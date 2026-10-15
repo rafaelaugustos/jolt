@@ -5,6 +5,7 @@ import {
 } from './decoration.js'
 import { playbackGroup } from './playback-group.js'
 import type { PlaybackAnimation } from './playback.js'
+import { preparePath, type PreparedPath } from './path.js'
 import { View } from '@nativescript/core'
 import {
   isColorProperty,
@@ -38,13 +39,14 @@ import type {
   DecayVelocity,
   Keyframes,
   KeyframeValue,
+  KeyframeProperty,
   Stagger,
   Target,
 } from './types.js'
 
 interface Options {
   base: Transition
-  overrides: Partial<Record<keyof Keyframes, Transition>>
+  overrides: Partial<Record<KeyframeProperty | 'path', Transition>>
   stagger: number | Stagger | undefined
   relative: boolean | undefined
   haptic: Haptic | undefined
@@ -65,7 +67,7 @@ export function animate(
   animation: Keyframes | PresetName,
   options?: AnimateOptions | SpringName,
 ): PlaybackAnimation {
-  const { keyframes, base, overrides, stagger, relative, haptic } = prepare(
+  const { keyframes, base, overrides, stagger, relative, haptic, path } = prepare(
     animation,
     options,
   )
@@ -78,7 +80,7 @@ export function animate(
       else if (isDecorationProperty(property)) validateDecorationTarget(view, property)
     return new ViewAnimation(
       view,
-      plan(keyframes, base, overrides, 0, relative),
+      plan(keyframes, base, overrides, 0, relative, path),
       feedback,
     )
   }
@@ -88,22 +90,18 @@ export function animate(
     for (const property of Object.keys(keyframes))
       if (isColorProperty(property)) validateColorTarget(view, property)
       else if (isDecorationProperty(property)) validateDecorationTarget(view, property)
-  return playbackGroup(
-    views.map(
-      (view, index) =>
-        new ViewAnimation(
-          view,
-          plan(
-            keyframes,
-            base,
-            overrides,
-            staggerDelay(stagger, index, views.length),
-            relative,
-          ),
-          feedback,
-          true,
-        ),
+  const plans = views.map((_, index) =>
+    plan(
+      keyframes,
+      base,
+      overrides,
+      staggerDelay(stagger, index, views.length),
+      relative,
+      path,
     ),
+  )
+  return playbackGroup(
+    views.map((view, index) => new ViewAnimation(view, plans[index]!, feedback, true)),
   )
 }
 
@@ -183,7 +181,7 @@ export function decay(
 /** Stops all or selected properties at their current values. `scale` stops both axes. */
 export function stop(
   target: Target | readonly Target[],
-  properties?: readonly (keyof Keyframes)[],
+  properties?: readonly KeyframeProperty[],
 ) {
   const expanded = properties?.flatMap<Property>((property) =>
     property === 'scale' ? ['scaleX', 'scaleY'] : [property],
@@ -223,6 +221,17 @@ function isList<T>(target: T | readonly T[]): target is readonly T[] {
 }
 
 function prepare(
+  animation: Keyframes | PresetName,
+  options?: AnimateOptions | SpringName,
+) {
+  const prepared = resolveAnimation(animation, options)
+  return {
+    ...prepared,
+    path: preparePath(prepared.keyframes, prepared.base, prepared.overrides),
+  }
+}
+
+function resolveAnimation(
   animation: Keyframes | PresetName,
   options?: AnimateOptions | SpringName,
 ) {
@@ -271,7 +280,7 @@ function normalize(options: AnimateOptions | SpringName | undefined): Options {
     if (key === 'stagger') stagger = value as Options['stagger']
     else if (key === 'relative') relative = value as Options['relative']
     else if (key === 'haptic') haptic = value as Options['haptic']
-    else if (key === 'scale' || isProperty(key)) {
+    else if (key === 'path' || key === 'scale' || isProperty(key)) {
       overrides[key] = typeof value === 'string' ? spring(value as SpringName) : value
     } else base[key] = value
   }
@@ -284,8 +293,25 @@ function plan(
   overrides: Options['overrides'],
   offset: number,
   relative = false,
+  path?: PreparedPath,
 ): Plan[] {
-  return expand(keyframes).map(([property, frames]) => {
+  return expand(keyframes, path).map(([property, frames]) => {
+    if (path?.properties.includes(property as 'x' | 'y' | 'rotate')) {
+      if (
+        !Number.isFinite(path.transition.delay + offset) ||
+        path.transition.delay + offset < 0
+      )
+        throw new RangeError(
+          'Path delays, including stagger, must be finite and nonnegative.',
+        )
+      return {
+        property,
+        keyframes: frames,
+        transition: { ...path.transition, delay: path.transition.delay + offset },
+        relative,
+        path,
+      }
+    }
     const override =
       overrides[property] ?? (property.startsWith('scale') ? overrides.scale : undefined)
     const transition = resolveTransition(
@@ -303,31 +329,36 @@ export function startingValues(
   animation: Keyframes | PresetName,
   options?: AnimateOptions | SpringName,
 ) {
-  const { keyframes, relative } = prepare(animation, options)
+  const { keyframes, relative, path } = prepare(animation, options)
   if (!keyframes) throw new Error(`Unknown preset "${animation}".`)
   return new Map(
-    expand(keyframes).map(([property, [first]]) => [
+    expand(keyframes, path).map(([property, [first]]) => [
       property,
       relative && !isColorProperty(property) ? null : first!,
     ]),
   )
 }
 
-function expand(keyframes: Keyframes): [Property, (number | null)[]][] {
+function expand(
+  keyframes: Keyframes,
+  path?: PreparedPath,
+): [Property, (number | null)[]][] {
   const expanded: [Property, (number | null)[]][] = []
-  for (const [key, value] of Object.entries(keyframes) as [
-    keyof Keyframes,
-    KeyframeValue | ColorKeyframes | undefined,
-  ][]) {
-    if (value === undefined) continue
+  for (const [key, value] of Object.entries(keyframes)) {
+    if (value === undefined || key === 'path' || key === 'orient') continue
     if (key !== 'scale' && !isProperty(key)) throw new Error(`Can't animate "${key}".`)
 
     const properties: Property[] = key === 'scale' ? ['scaleX', 'scaleY'] : [key]
     for (const property of properties) {
       if (key === 'scale' && keyframes[property] !== undefined) continue
-      expanded.push([property, toKeyframes(property, value)])
+      expanded.push([
+        property,
+        toKeyframes(property, value as KeyframeValue | ColorKeyframes),
+      ])
     }
   }
+  for (const [property, value] of path?.starts ?? [])
+    expanded.push([property, [value, value]])
   return expanded
 }
 

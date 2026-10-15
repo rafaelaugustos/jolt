@@ -2,7 +2,7 @@
 
 ## Animando
 
-- `animate(target, keyframes | preset, transition?)` — [cores](./colors), [cantos, bordas e sombras](./decorations)
+- `animate(target, keyframes | preset, transition?)` — [paths](./paths), [cores](./colors), [cantos, bordas e sombras](./decorations)
 - [`decay(target, velocity, options?)`](./decay)
 - `stop(target, properties?)`
 - [`sequence(steps)`](./sequences) — passos sobrepostos e posições fixas.
@@ -40,4 +40,4 @@ O que `animate()`, `decay()`, `sequence()` e os passos de uma sequência retorna
 
 ## Tipos
 
-`Step`, `SequenceOptions`, `SequencePosition`, `ScrollLinkedOptions`, `ColorValue`, `ColorKeyframes`, `Keyframes`, `Transition`, `Spring`, `Tween`, `Preset`, `Presets`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target`, `DecayVelocity`, `DecayOptions`, `SymbolEffect`, `SymbolEffectName`, `SymbolEffectOptions`, `ShimmerOptions`, `LiquidOptions`, `LiquidEffect`, `LoaderOptions`, `LoaderStyle`, `TextOptions`, `RevealOptions`, `ConcealOptions`, `Haptic`, `HapticOptions`, `HapticStyle`, `ConfettiOptions`, `ParticleOptions` e o resto exportado pelo pacote.
+`Step`, `SequenceOptions`, `SequencePosition`, `KeyframeProperty`, `ScrollLinkedOptions`, `ColorValue`, `ColorKeyframes`, `Keyframes`, `Transition`, `Spring`, `Tween`, `Preset`, `Presets`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target`, `DecayVelocity`, `DecayOptions`, `SymbolEffect`, `SymbolEffectName`, `SymbolEffectOptions`, `ShimmerOptions`, `LiquidOptions`, `LiquidEffect`, `LoaderOptions`, `LoaderStyle`, `TextOptions`, `RevealOptions`, `ConcealOptions`, `Haptic`, `HapticOptions`, `HapticStyle`, `ConfettiOptions`, `ParticleOptions` e o resto exportado pelo pacote.

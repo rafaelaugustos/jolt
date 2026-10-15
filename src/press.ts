@@ -1,7 +1,7 @@
 import { Color, type EventData, type TouchGestureEventData } from '@nativescript/core'
 import { isColorProperty } from './color.js'
-import { animate, toView } from './animate.js'
-import { isProperty, readValue, type Property } from './properties.js'
+import { animate, startingValues, toView } from './animate.js'
+import { readValue } from './properties.js'
 import type { SpringName, Transition } from './transition.js'
 import type { AnimateOptions, Keyframes, Target } from './types.js'
 
@@ -23,9 +23,7 @@ export function press(
   options?: AnimateOptions | SpringName,
 ): () => void {
   const view = toView(target)
-  const properties = Object.keys(pressed).flatMap((key): Property[] =>
-    key === 'scale' ? ['scaleX', 'scaleY'] : isProperty(key) ? [key] : [],
-  )
+  const properties = [...startingValues(pressed, options).keys()]
   let rest: Keyframes | undefined
 
   const onTouch = (event: EventData) => {

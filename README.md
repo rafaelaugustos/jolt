@@ -36,6 +36,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [25 presets](#presets) to enter, exit and draw attention: `fadeInUp`, `popIn`, `shake`, `heartbeat`...
 - [Springs](#springs) described by feel (`bouncy`), by `bounce` and `duration`, or by stiffness, damping and mass.
 - [Corners, borders and shadows](#corners-borders-and-shadows) with native playback and selective stopping.
+- [Motion paths](#motion-along-a-path) with optional tangent orientation on iOS and Android.
 - [Colors](#colors) for backgrounds, borders and text, interpolated in OKLab on iOS and Android.
 - [Decay](#decay) from a release velocity, with optional snap points.
 - [Keyframes and tweens](#tweens) with an easing per segment and exact keyframe times.
@@ -115,6 +116,18 @@ const open = () => animate(card.value, 'popIn')
 ```
 
 A view that isn't loaded yet takes its first absolute keyframe right away and plays once it's on screen. Calling `animate(title, 'fadeInUp')` in `onMounted` doesn't flash the title before it fades in. Relative animations leave the view's values alone until it loads.
+
+## Motion along a path
+
+```ts
+animate(
+  plane,
+  { path: 'M0 0 C80 -120 200 -120 280 0', orient: true },
+  { duration: 1200, ease: 'linear' },
+)
+```
+
+SVG coordinates are translations in DIPs. `orient: true` aligns artwork facing +X with the forward tangent. One shared progression drives native `x`, `y` and optional `rotate` tracks, with arc-length sampling, tweens, springs, delay, repeats, stagger, relative offsets and playback controls. Paths own those coordinates; use a `path` transition override to time them together. Parsing and sampling happen once; no JavaScript runs per frame. See the [path guide](https://jolt.rafaelaugusto.dev/guide/paths) for SVG commands, orientation and geometry limits.
 
 ## Corners, borders and shadows
 

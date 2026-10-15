@@ -7,6 +7,10 @@ import type { ColorKeyframes } from './color.js'
 export type KeyframeValue = number | readonly (number | null)[]
 
 export interface Keyframes {
+  /** One continuous SVG path, expressed as translation coordinates in DIPs. */
+  path?: string
+  /** Face the path's forward tangent (+X artwork). Requires path. */
+  orient?: boolean
   backgroundColor?: ColorKeyframes
   /** Uniform starting edge colors; widths and radii may differ. */
   borderColor?: ColorKeyframes
@@ -41,6 +45,9 @@ export interface Keyframes {
   rotateY?: KeyframeValue
 }
 
+/** Properties that can be timed or stopped independently. A path owns x/y and optionally rotate. */
+export type KeyframeProperty = Exclude<keyof Keyframes, 'path' | 'orient'>
+
 /** A view, or anything that holds one: a NativeScript-Vue element, an Angular `ElementRef`. */
 export type Target =
   View | { readonly nativeView: View } | { readonly nativeElement: View }
@@ -66,7 +73,7 @@ export interface Stagger {
 }
 
 export type AnimateOptions = Transition & {
-  [K in keyof Keyframes]?: Transition | SpringName
+  [K in KeyframeProperty | 'path']?: Transition | SpringName
 } & {
   /** Offset translations/rotations and multiply scale/opacity by their values at the start. */
   relative?: boolean
