@@ -18,6 +18,7 @@ import BusyJs from './BusyJs.vue'
 import Colors from './Colors.vue'
 import Decorations from './Decorations.vue'
 import Playback from './Playback.vue'
+import Timeline from './Timeline.vue'
 
 const logo = ref()
 const title = ref()
@@ -78,6 +79,7 @@ onUnmounted(() => unlink.forEach((cleanup) => cleanup()))
           <Label ref="tagline" class="muted" text="Native animations for NativeScript" />
         </StackLayout>
 
+        <Timeline />
         <Playback />
         <Decorations />
         <BusyJs />

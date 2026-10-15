@@ -17,7 +17,7 @@ export interface Animation extends PromiseLike<boolean> {
   /**
    * Resolves with `true` once the animation played to the end, or with `false`
    * if it was stopped, superseded or skipped.
-   * Never rejects.
+   * Playback cancellation never rejects; sequences can reject setup/callback errors.
    */
   readonly finished: Promise<boolean>
   /** Stops playback. Each effect documents whether it preserves or restores its visual state. */
@@ -48,6 +48,21 @@ const revisions = new WeakMap<View, Map<Property, symbol>>()
 
 const running = new WeakMap<View, Map<Property, Entry>>()
 const arrivals = new WeakMap<Animation, Promise<unknown>>()
+
+/** Internal forecast for starting a timeline step before another one arrives. */
+export interface ArrivalTiming {
+  read(): { remaining: number | undefined; paused: boolean; arrived: boolean }
+  subscribe(callback: () => void): () => void
+}
+const arrivalTimings = new WeakMap<Animation, ArrivalTiming>()
+
+export function arrivalTimingOf(animation: Animation) {
+  return arrivalTimings.get(animation)
+}
+
+export function setArrivalTiming(animation: Animation, timing: ArrivalTiming) {
+  arrivalTimings.set(animation, timing)
+}
 
 /**
  * Resolves once the animation looks done, which for a spring is well before
@@ -83,6 +98,10 @@ export class ViewAnimation implements PlaybackAnimation {
   private idleListener: (() => void) | undefined
   private readyListener: (() => void) | undefined
   private readonly endless: boolean
+  private readonly timingListeners = new Set<() => void>()
+  private timingChanged() {
+    for (const callback of [...this.timingListeners]) callback()
+  }
 
   get paused() {
     return this._paused
@@ -136,6 +155,7 @@ export class ViewAnimation implements PlaybackAnimation {
     this.cancelArrival?.()
     this.haptics?.pause()
     if (this.started) this.controlTracks(this.time(), 'pause')
+    this.timingChanged()
   }
   play() {
     if (this.settled || !this._paused) return
@@ -148,6 +168,7 @@ export class ViewAnimation implements PlaybackAnimation {
       this.haptics?.play()
       if (this.pending === 0) this.becameIdle()
     }
+    this.timingChanged()
   }
   seekTime(time: number) {
     if (this.settled) return
@@ -173,6 +194,7 @@ export class ViewAnimation implements PlaybackAnimation {
     this.scheduleArrival()
     this.haptics?.seek()
     if (this.pending === 0) this.becameIdle()
+    this.timingChanged()
   }
   elapsed(entry: Entry, now: number) {
     return this.controlled
@@ -203,10 +225,12 @@ export class ViewAnimation implements PlaybackAnimation {
     if (remaining <= 0) {
       this.arrived = true
       this.arrive()
+      this.timingChanged()
     } else
       this.cancelArrival = getDriver().after(remaining, () => {
         this.arrived = true
         this.arrive()
+        this.timingChanged()
       })
   }
   private becameIdle() {
@@ -248,6 +272,17 @@ export class ViewAnimation implements PlaybackAnimation {
     )
     this.finished = new Promise((resolve) => (this.resolve = resolve))
     setArrival(this, new Promise<void>((resolve) => (this.arrive = resolve)))
+    setArrivalTiming(this, {
+      read: () => ({
+        remaining: this.started ? Math.max(0, this.arrival - this.time()) : undefined,
+        paused: this._paused,
+        arrived: this.arrived || this.settled,
+      }),
+      subscribe: (callback) => {
+        this.timingListeners.add(callback)
+        return () => this.timingListeners.delete(callback)
+      },
+    })
     if (view.isLoaded && view.nativeViewProtected) this.start(plans)
     else this.waitForLoad(plans)
   }
@@ -357,6 +392,7 @@ export class ViewAnimation implements PlaybackAnimation {
     } else if (this._paused) this.controlTracks(0, 'pause')
     this.scheduleArrival()
     this.readyListener?.()
+    this.timingChanged()
     if (this.pending === 0) this.becameIdle()
   }
 
@@ -388,6 +424,7 @@ export class ViewAnimation implements PlaybackAnimation {
     this.haptics = undefined
     this.arrive()
     this.resolve(this.complete)
+    this.timingChanged()
   }
 }
 

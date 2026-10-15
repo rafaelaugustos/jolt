@@ -1,4 +1,10 @@
-import { arrivalOf, setArrival, type ViewAnimation } from './engine.js'
+import {
+  arrivalOf,
+  arrivalTimingOf,
+  setArrival,
+  setArrivalTiming,
+  type ViewAnimation,
+} from './engine.js'
 import { getDriver } from './driver/index.js'
 import { createClock, type PlaybackClock } from './playback.js'
 import { validateProgress, type PlaybackAnimation } from './playback.js'
@@ -104,6 +110,33 @@ export function playbackGroup(children: readonly ViewAnimation[]): PlaybackAnima
     then: (onfulfilled, onrejected) => finished.then(onfulfilled, onrejected),
   }
   setArrival(animation, Promise.all(children.map(arrivalOf)))
+  const listeners = new Set<() => void>()
+  const timings = children.map((child) => arrivalTimingOf(child)!)
+  const notify = () => {
+    for (const callback of [...listeners]) callback()
+  }
+  const unsubscribe = timings.map((timing) => timing.subscribe(notify))
+  setArrivalTiming(animation, {
+    read() {
+      const states = timings.map((timing) => timing.read())
+      return {
+        arrived: settled || states.every((state) => state.arrived),
+        paused: paused || states.some((state) => state.paused && !state.arrived),
+        remaining: states.some((state) => !state.arrived && state.remaining === undefined)
+          ? undefined
+          : Math.max(0, ...states.map((state) => (state.arrived ? 0 : state.remaining!))),
+      }
+    },
+    subscribe(callback) {
+      listeners.add(callback)
+      return () => listeners.delete(callback)
+    },
+  })
+  void finished.then(() => {
+    unsubscribe.forEach((off) => off())
+    notify()
+    listeners.clear()
+  })
   ensureClock()
   finishIfIdle()
   return animation

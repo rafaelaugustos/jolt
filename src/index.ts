@@ -1,6 +1,6 @@
 export { animate, decay, stop } from './animate.js'
 export { sequence } from './sequence.js'
-export type { Step } from './sequence.js'
+export type { Step, SequenceOptions, SequencePosition } from './sequence.js'
 export { press } from './press.js'
 export { scrollLinked } from './scroll-linked.js'
 export type { ScrollLinkedOptions } from './scroll-linked.js'

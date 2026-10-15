@@ -40,7 +40,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Decay](#decay) from a release velocity, with optional snap points.
 - [Keyframes and tweens](#tweens) with an easing per segment and exact keyframe times.
 - [Stagger](#several-views) across several views, from the first, the last or the center.
-- [Sequences](#sequences) that start each step once the previous one looks done.
+- [Sequences](#sequences) with overlapping arrivals, shared starts and absolute timeline positions.
 - [Press effects](#press) that follow the finger and let go when a scroll takes over.
 - [Text entrances](#text) by letter or word on iOS, preserving the Label’s layout and accessibility.
 - [SF Symbol effects](#sf-symbols) and animated icon replacement on iOS 17+.
@@ -289,6 +289,19 @@ await sequence([
 Each step takes the same arguments as `animate`, or is a function that starts an animation. A step starts once the previous one looks done: a spring that's close to its target and staying there counts, even if it's still settling, so steps don't wait on the last pixel. The whole sequence finishes once every step has.
 
 Views in later steps take their first absolute keyframe when the sequence starts, so the title above stays hidden until its turn instead of showing up and disappearing. Relative steps and `null` keyframes wait until their step starts to read the current value.
+
+Use `at` to change the timing:
+
+```ts
+sequence([
+  [logo, 'popIn'],
+  [title, 'fadeInUp', { at: '-150' }],
+  [buttons, 'fadeIn', { at: '<' }],
+  [footer, 'fadeIn', { at: 900 }],
+])
+```
+
+A signed string offsets the previous arrival (`'-150'` before, `'+100'` after), `'<'` shares its activation, and a number selects absolute milliseconds. Each step's own delay still applies. Negative offsets use loaded tracks' spring/stagger arrival forecasts; absolute steps are independent. `stop()` cancels future launches and stops every started step. Position timers respect Android animator duration scale. JavaScript runs at step boundaries, so blocked JS can delay a launch. See [timelines](https://jolt.rafaelaugusto.dev/guide/sequences) for callback forecasts, interruption and loading behavior.
 
 ## Press
 
