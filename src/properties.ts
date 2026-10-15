@@ -1,9 +1,15 @@
 import { Color, type View } from '@nativescript/core'
+import {
+  isDecorationProperty,
+  readDecoration,
+  writeDecoration,
+  type DecorationProperty,
+} from './decoration.js'
 import { isColorProperty, readColor, type ColorProperty } from './color.js'
 
 export type NumericProperty =
   'opacity' | 'x' | 'y' | 'scaleX' | 'scaleY' | 'rotate' | 'rotateX' | 'rotateY'
-export type Property = NumericProperty | ColorProperty
+export type Property = NumericProperty | ColorProperty | DecorationProperty
 
 const viewKeys = {
   opacity: 'opacity',
@@ -29,6 +35,14 @@ const defaults: Record<NumericProperty, number> = {
 
 /** How close to its target a spring or decay has to be to count as settled. */
 export const precision: Record<Property, number> = {
+  borderRadius: 0.1,
+  borderWidth: 0.1,
+  shadowOpacity: 0.002,
+  shadowRadius: 0.1,
+  shadowOffsetX: 0.1,
+  shadowOffsetY: 0.1,
+  elevation: 0.1,
+  translationZ: 0.1,
   backgroundColor: 0.002,
   borderColor: 0.002,
   color: 0.002,
@@ -43,11 +57,12 @@ export const precision: Record<Property, number> = {
 }
 
 export function isProperty(key: string): key is Property {
-  return key in viewKeys || isColorProperty(key)
+  return Object.hasOwn(viewKeys, key) || isColorProperty(key) || isDecorationProperty(key)
 }
 
 export function readValue(view: View, property: Property): number {
   if (isColorProperty(property)) return readColor(view, property)
+  if (isDecorationProperty(property)) return readDecoration(view, property)
   const value = view[viewKeys[property]]
   return typeof value === 'number' && !Number.isNaN(value) ? value : defaults[property]
 }
@@ -57,5 +72,6 @@ export function writeValue(view: View, property: Property, value: number) {
     view[property] = new Color(value)
     return
   }
+  if (isDecorationProperty(property)) return writeDecoration(view, property, value)
   view[viewKeys[property]] = value
 }

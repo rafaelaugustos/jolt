@@ -1,3 +1,5 @@
+import { getDriver } from './driver/index.js'
+import { isDecorationProperty, validateDecorationTarget } from './decoration.js'
 import type { View } from '@nativescript/core'
 import { animate, startingValues, toViews } from './animate.js'
 import { arrivalOf, setArrival, stopView, type Animation } from './engine.js'
@@ -69,6 +71,8 @@ function applyStartingValues(steps: readonly Step[]) {
     const starts = startingValues(animation, options)
 
     for (const view of toViews(target)) {
+      for (const property of starts.keys())
+        if (isDecorationProperty(property)) validateDecorationTarget(view, property)
       let properties = claimed.get(view)
       if (!properties) claimed.set(view, (properties = new Set()))
 
@@ -82,6 +86,7 @@ function applyStartingValues(steps: readonly Step[]) {
       for (const [property, value] of fresh) {
         if (value !== null) writeValue(view, property, value)
       }
+      getDriver().sync?.(view)
       for (const property of starts.keys()) properties.add(property)
     }
   }

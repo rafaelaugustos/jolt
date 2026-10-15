@@ -14,6 +14,11 @@ interface ColorHandle {
 }
 const playing = new WeakMap<View, Map<ColorProperty, ColorHandle>>()
 
+export function syncAndroidColor(view: View) {
+  for (const handle of playing.get(view)?.values() ?? [])
+    handle.target.setColor(handle.target.getColor())
+}
+
 export function presentedAndroidColor(view: View, property: ColorProperty): number {
   const active = playing.get(view)?.get(property)
   if (active) return active.target.getColor() >>> 0

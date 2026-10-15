@@ -1,8 +1,18 @@
+import { isDecorationProperty } from '../decoration.js'
+import {
+  syncAndroidDecoration,
+  playAndroidDecoration,
+  presentedAndroidDecoration,
+} from './android-decoration.js'
 import { Utils, type View } from '@nativescript/core'
 import type { NumericProperty } from '../properties.js'
 import type { Driver } from './index.js'
 import { isColorProperty } from '../color.js'
-import { playAndroidColor, presentedAndroidColor } from './android-color.js'
+import {
+  playAndroidColor,
+  presentedAndroidColor,
+  syncAndroidColor,
+} from './android-color.js'
 
 type NativeView = android.view.View
 
@@ -80,6 +90,8 @@ export function createAndroidDriver(): Driver {
     now: () => android.os.SystemClock.uptimeMillis(),
 
     play(view, track, _startedAt, onEnd) {
+      if (isDecorationProperty(track.property))
+        return playAndroidDecoration(view, track, onEnd)
       if (isColorProperty(track.property)) return playAndroidColor(view, track, onEnd)
       const nativeView = view.nativeViewProtected as NativeView
       const scale = unit(track.property)
@@ -170,9 +182,16 @@ export function createAndroidDriver(): Driver {
       ;(handle as Handle).cancel()
     },
 
+    sync(view) {
+      syncAndroidDecoration(view)
+      syncAndroidColor(view)
+    },
+
     elapsed: (handle) => (handle as Handle).elapsed(),
 
     presented(view, property) {
+      if (isDecorationProperty(property))
+        return presentedAndroidDecoration(view, property)
       if (isColorProperty(property)) return presentedAndroidColor(view, property)
       const nativeView = view.nativeViewProtected as NativeView | undefined
       return nativeView ? accessors[property].get(nativeView) / unit(property) : undefined

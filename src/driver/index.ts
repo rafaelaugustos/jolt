@@ -15,6 +15,8 @@ export interface Driver {
     onEnd: (finished?: boolean) => void,
   ): unknown
   stop(view: View, handle: unknown): void
+  /** Reapply native presentation after a Core model write rebuilds its drawable/layers. */
+  sync?(view: View, excluding?: Property): void
   /** Track time, including its delay, when the native clock differs from `now()`. */
   elapsed?(handle: unknown): number
   /** The value on screen, when the platform knows it better than the track does. */

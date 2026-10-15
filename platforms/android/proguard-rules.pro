@@ -4,3 +4,4 @@
 -keepclassmembers class org.nativescript.widgets.BoxShadowDrawable {
     public android.graphics.drawable.Drawable getWrappedDrawable();
 }
+-keep class org.rafaelaugusto.jolt.DecorationTarget { *; }

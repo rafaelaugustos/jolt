@@ -1,3 +1,8 @@
+import {
+  isDecorationProperty,
+  validateDecorationTarget,
+  validateDecorationFrames,
+} from './decoration.js'
 import { View } from '@nativescript/core'
 import {
   isColorProperty,
@@ -68,6 +73,7 @@ export function animate(
     const view = toView(target)
     for (const property of Object.keys(keyframes))
       if (isColorProperty(property)) validateColorTarget(view, property)
+      else if (isDecorationProperty(property)) validateDecorationTarget(view, property)
     return new ViewAnimation(
       view,
       plan(keyframes, base, overrides, 0, relative),
@@ -79,6 +85,7 @@ export function animate(
   for (const view of views)
     for (const property of Object.keys(keyframes))
       if (isColorProperty(property)) validateColorTarget(view, property)
+      else if (isDecorationProperty(property)) validateDecorationTarget(view, property)
   return group(
     views.map(
       (view, index) =>
@@ -339,6 +346,7 @@ function toKeyframes(
   ) {
     throw new Error(`Invalid keyframes for "${property}": ${JSON.stringify(value)}.`)
   }
+  if (isDecorationProperty(property)) validateDecorationFrames(property, frames)
   return frames
 }
 

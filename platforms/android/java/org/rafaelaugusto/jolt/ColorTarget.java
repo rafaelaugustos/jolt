@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
 /** ObjectAnimator target. All frame updates stay in native code. */
 public final class ColorTarget {
     private static final String BORDER = "org.nativescript.widgets.BorderDrawable";
-    private static final Field[] FIELDS = fields();
+    static final Field[] FIELDS = fields();
     private static final String SHADOW = "org.nativescript.widgets.BoxShadowDrawable";
     private static final Method UNWRAP = unwrapMethod();
     private final WeakReference<View> view;
@@ -49,7 +49,7 @@ public final class ColorTarget {
         }
     }
 
-    private Drawable background(View nativeView) {
+    static Drawable background(View nativeView) {
         Drawable drawable = nativeView.getBackground();
         // Avoid reflective method lookups and exceptions in the frame loop.
         if (drawable != null && drawable.getClass().getName().equals(SHADOW) && UNWRAP != null) {
