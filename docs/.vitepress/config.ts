@@ -17,6 +17,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('introduction', ''),
         page('install', 'install'),
         page('animating', 'animating'),
+        page('demo', 'demo'),
       ],
     },
     {
@@ -56,6 +57,7 @@ const en = {
   introduction: 'What Jolt is',
   install: 'Install',
   animating: 'Animating',
+  demo: 'Demo app',
   transitions: 'Springs and tweens',
   decay: 'Decay and snapping',
   presets: 'Presets',
@@ -82,6 +84,7 @@ const pt = {
   introduction: 'O que é o Jolt',
   install: 'Instalação',
   animating: 'Animando',
+  demo: 'Aplicativo de demonstração',
   transitions: 'Springs e tweens',
   decay: 'Desaceleração e encaixe',
   presets: 'Presets',
