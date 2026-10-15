@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+## 0.1.0-beta.3 (2026-10-15)
+
 - Keep Android sequence arrivals and interrupted velocity on the native animation clock, respecting animator duration scale, delays, repeats and disabled animations.
 - Temporarily cache eligible Android containers in hardware layers during opacity animations, restoring them on completion, stop, replacement or unload. Preserve app-configured layers and skip oversized content trees.
 - Apply the view's perspective and display density to Android X/Y rotation animations, including flips ending at zero.
