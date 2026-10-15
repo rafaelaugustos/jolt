@@ -7,6 +7,7 @@
 - Add `decay()` with exponential translation, projected snap points and shared interruption and stopping with `animate()`.
 - Add iOS `reveal()` and `conceal()` with circular masks, native completion, continuous reversal and Reduce Motion support.
 - Add iOS `loader()` indicators with dots, bars and ring styles, native replication, layout updates and a static Reduce Motion fallback.
+- Add iOS `animateText()` entrances by composed letter or word, with native glyph playback, one accessible Label, cancellation and Reduce Motion support.
 
 ## 0.1.0-beta.2 (2026-10-14)
 

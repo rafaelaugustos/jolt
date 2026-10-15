@@ -40,6 +40,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Stagger](#several-views) across several views, from the first, the last or the center.
 - [Sequences](#sequences) that start each step once the previous one looks done.
 - [Press effects](#press) that follow the finger and let go when a scroll takes over.
+- [Text entrances](#text) by letter or word on iOS, preserving the Label’s layout and accessibility.
 - [SF Symbol effects](#sf-symbols) and animated icon replacement on iOS 17+.
 - [Shimmer](#shimmer) for loading placeholders on iOS.
 - [Loaders](#loaders) with dots, bars and ring styles on iOS.
@@ -310,6 +311,17 @@ await conceal(details, { to: { x: 40, y: 40 } })
 ```
 
 A native circle reveals the view's content or contracts to hide it. Reversing continues from the circle on screen. Existing masks are restored when the effect ends; conceal finishes with `visibility = 'hidden'`, preserving layout space. Reduce Motion applies the final visibility immediately. iOS only for now. See the [circular reveal guide](https://jolt.rafaelaugusto.dev/guide/reveal) for cancellation and layout behavior.
+
+## Text
+
+```ts
+import { animateText } from '@rafaelaugusto/jolt'
+
+await animateText(title)
+await animateText(title, { by: 'word', stagger: 100 })
+```
+
+Reveal an iOS Label letter by letter or a word at a time. TextKit keeps the complete text layout, including wrapped lines, attributed styles and composed emoji. Core Animation plays temporary glyph images while the original Label remains the single accessibility element. Stop restores the full text; Reduce Motion skips the entrance. See the [text guide](https://jolt.rafaelaugusto.dev/guide/text) for options and limits.
 
 ## Haptics
 

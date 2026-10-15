@@ -24,6 +24,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Stagger](./stagger) across several views, from the first, the last or the center.
 - [Sequences](./sequences) that start each step once the previous one looks done.
 - [Press effects](./press) that follow the finger and let go when a scroll takes over.
+- [Text entrances](./text) by letter or word on iOS, keeping one accessible Label.
 - [Interruptions](./interrupting) that pick up the value and velocity on screen, with no jump.
 - [Native playback](./how-it-works): Core Animation on iOS, `ObjectAnimator` on Android, nothing in JavaScript while it plays.
 
