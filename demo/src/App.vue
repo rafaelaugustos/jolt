@@ -8,6 +8,7 @@ import Springs from './components/Springs.vue'
 import Stagger from './components/Stagger.vue'
 import Symbols from './components/Symbols.vue'
 import Shimmer from './components/Shimmer.vue'
+import Haptics from './components/Haptics.vue'
 
 const logo = ref()
 const title = ref()
@@ -43,6 +44,7 @@ onMounted(() => {
           <Press />
           <Symbols />
           <Shimmer />
+          <Haptics />
           <Loops />
         </StackLayout>
       </ScrollView>
