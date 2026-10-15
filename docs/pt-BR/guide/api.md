@@ -6,6 +6,7 @@
 - `stop(target, properties?)`
 - `sequence(steps)`
 - `press(target, pressed?, transition?)`
+- [`symbolEffect(image, effect, options?)`](./symbol-effects) — SF Symbols no iOS.
 
 `target` é uma view, um array de views, ou qualquer coisa que contenha uma (um template ref, um `ElementRef`).
 
@@ -27,4 +28,4 @@ O que `animate()`, `sequence()` e os passos de uma sequência retornam: espere c
 
 ## Tipos
 
-`Keyframes`, `Transition`, `Spring`, `Tween`, `Preset`, `Presets`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target` e o resto exportado pelo pacote.
+`Keyframes`, `Transition`, `Spring`, `Tween`, `Preset`, `Presets`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target`, `SymbolEffect`, `SymbolEffectName`, `SymbolEffectOptions` e o resto exportado pelo pacote.

@@ -6,6 +6,7 @@ import Presets from './components/Presets.vue'
 import Press from './components/Press.vue'
 import Springs from './components/Springs.vue'
 import Stagger from './components/Stagger.vue'
+import Symbols from './components/Symbols.vue'
 
 const logo = ref()
 const title = ref()
@@ -39,6 +40,7 @@ onMounted(() => {
           <Springs />
           <Stagger />
           <Press />
+          <Symbols />
           <Loops />
         </StackLayout>
       </ScrollView>
