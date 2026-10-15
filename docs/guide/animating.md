@@ -19,6 +19,17 @@ animate(card, { opacity: 0.5, y: -20 })
 
 Only transforms and opacity for now. Colors, size and layout changes are [not there yet](./not-there-yet).
 
+## 3D perspective
+
+`rotateX`, `rotateY`, `flipInX` and `flipInY` use the view's `perspective` on both platforms. NativeScript defaults to 1000 DIPs; a smaller positive distance gives a stronger perspective:
+
+```ts
+card.perspective = 600
+animate(card, { rotateY: [-60, 0] })
+```
+
+Android converts this distance using the display density before starting the native animator. The perspective stays in place when a rotation finishes or stops at an angle.
+
 ## Keyframes
 
 A single value animates from wherever the view is. An array is a list of keyframes, and `null` stands for the current value:

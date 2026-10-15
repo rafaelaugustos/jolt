@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Apply the view's perspective and display density to Android X/Y rotation animations, including flips ending at zero.
 - Add `decay()` with exponential translation, projected snap points and shared interruption and stopping with `animate()`.
 - Add iOS `reveal()` and `conceal()` with circular masks, native completion, continuous reversal and Reduce Motion support.
 - Add iOS `loader()` indicators with dots, bars and ring styles, native replication, layout updates and a static Reduce Motion fallback.

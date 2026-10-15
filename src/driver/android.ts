@@ -42,6 +42,12 @@ export function createAndroidDriver(): Driver {
       const nativeView = view.nativeViewProtected as NativeView
       const scale = unit(track.property)
 
+      if (track.property === 'rotateX' || track.property === 'rotateY') {
+        nativeView.setCameraDistance(
+          (view.perspective || 300) * Utils.layout.getDisplayDensity(),
+        )
+      }
+
       const keyframes = Array.create(android.animation.Keyframe, track.values.length)
       track.values.forEach((value, i) => {
         keyframes[i] = android.animation.Keyframe.ofFloat(track.times[i]!, value * scale)
