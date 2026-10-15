@@ -23,6 +23,8 @@ As opções de `animate()` também aceitam [`haptic`](./haptics): `light`, `medi
 
 O que `animate()`, `decay()`, `sequence()` e os passos de uma sequência retornam: espere com `await`, leia `finished`, ou chame `stop()`. Resolve com `true` quando tocou até o fim e `false` quando foi parada ou substituída, e nunca rejeita.
 
+`animate()` e `decay()` retornam [`PlaybackAnimation`](./playback): o ciclo de vida básico mais `pause()`, `play()`, `progress` gravável e `paused`/`duration` somente para leitura. Sequências e efeitos mantêm o contrato básico de `Animation`.
+
 ## Transições
 
 - **Springs**: `'smooth' | 'snappy' | 'bouncy'`, `{ bounce, duration, velocity }` ou `{ stiffness, damping, mass, velocity }`.

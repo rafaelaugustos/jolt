@@ -19,3 +19,5 @@ Se parte de uma animação for parada, a promise `finished` resolve com `false` 
 ## Loops e o segundo plano
 
 Repetições infinitas continuam tocando nativamente. No iOS, o Core Animation descarta as animações quando o app vai para o segundo plano; o Jolt as inicia de novo quando ele volta.
+
+Para pausar e escolher o frame de uma animação, veja [pausa e controle de progresso](./playback).

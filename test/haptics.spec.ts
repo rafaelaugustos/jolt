@@ -62,7 +62,8 @@ describe('haptics', () => {
     expect(impacts).toHaveLength(0)
     driver.advance(1)
     expect(impacts).toEqual([{ at: 1000 + arrival, style: 0 }])
-    expect(view.listenerCount('unloaded')).toBe(0)
+    // The animation still owns its settling tail and unload cleanup.
+    expect(view.listenerCount('unloaded')).toBe(1)
     driver.advance(end)
     expect(await animation).toBe(true)
     expect(impacts).toHaveLength(1)
@@ -333,5 +334,45 @@ describe('haptics', () => {
     driver.advance(200)
     expect(view.listenerCount('unloaded')).toBe(0)
     expect(allocations).toBe(0)
+  })
+})
+
+describe('haptics with playback controls', () => {
+  it('holds feedback through pause and schedules the remaining points after play', async () => {
+    const animation = animate(
+      target(),
+      { x: [0, 100] },
+      { duration: 1000, ease: 'linear', haptic: { style: 'light', times: [0.3, 0.8] } },
+    )
+    driver.advance(200)
+    animation.pause()
+    driver.advance(500)
+    expect(impacts).toHaveLength(0)
+    animation.play()
+    driver.advance(100)
+    expect(impacts).toHaveLength(1)
+    driver.advance(500)
+    expect(impacts).toHaveLength(2)
+    driver.advance(200)
+    expect(await animation).toBe(true)
+  })
+  it('skips points crossed by a seek and never replays consumed feedback', async () => {
+    const animation = animate(
+      target(),
+      { x: [0, 100] },
+      { duration: 1000, ease: 'linear', haptic: { style: 'light', times: [0.3, 0.8] } },
+    )
+    animation.pause()
+    animation.progress = 0.5
+    expect(impacts).toHaveLength(0)
+    animation.play()
+    driver.advance(300)
+    expect(impacts).toHaveLength(1)
+    animation.pause()
+    animation.progress = 0.1
+    animation.play()
+    driver.advance(900)
+    expect(impacts).toHaveLength(1)
+    expect(await animation).toBe(true)
   })
 })

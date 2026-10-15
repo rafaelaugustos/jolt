@@ -47,3 +47,5 @@ Native animation handles, stage timers and touch bindings belong to each mounted
 This is a local UI demo. It does not record speech, search files, play audio or contact a service. Document previews and the 37-second waveform are simulated; typed messages last only for the current app session.
 
 The orb uses one transparent bitmap. [`liquid()`](./liquid) deforms its texture with a native repeating warp while `animate()` controls its scale, rotation, position and opacity. Pause freezes both motions. The colored folds come from the artwork; this is texture deformation rather than a fluid simulation.
+
+The playground also includes [playback controls](./playback): pause a card, choose a frame with a slider, and continue, with an independent pulse running beside it.

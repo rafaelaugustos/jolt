@@ -1,3 +1,4 @@
+import { iosPlayback } from './ios-playback.js'
 import { isDecorationProperty } from '../decoration.js'
 import {
   playIOSDecoration,
@@ -11,11 +12,9 @@ import { playIOSColor, presentedIOSColor } from './ios-color.js'
 import { after, type Driver } from './index.js'
 
 interface Handle {
-  layers: CALayer[]
-  key: string
-  onStop?: () => void
-  color?: ReturnType<typeof playIOSColor>
-  decoration?: ReturnType<typeof playIOSDecoration>
+  stop(): void
+  elapsed(): number
+  control(elapsed: number, paused: boolean): void
 }
 
 const keyPaths: Record<NumericProperty, string> = {
@@ -60,13 +59,9 @@ export function createIOSDriver(): Driver {
 
     play(view, track, startedAt, onEnd): Handle {
       if (isDecorationProperty(track.property))
-        return {
-          layers: [],
-          key: '',
-          decoration: playIOSDecoration(view, track, startedAt, onEnd),
-        }
+        return playIOSDecoration(view, track, startedAt, onEnd)
       if (isColorProperty(track.property))
-        return { layers: [], key: '', color: playIOSColor(view, track, startedAt, onEnd) }
+        return playIOSColor(view, track, startedAt, onEnd)
       const layers = layersOf(view)
       const key = `jolt:${track.property}`
       const rotation = track.property.startsWith('rotate')
@@ -75,57 +70,78 @@ export function createIOSDriver(): Driver {
         ensurePerspective(view, layers)
       }
 
-      const animation = CAKeyframeAnimation.animationWithKeyPath(keyPaths[track.property])
-      // iOS 15+. The app must opt in through CADisableMinimumFrameDurationOnPhone.
-      if (animation.respondsToSelector('setPreferredFrameRateRange:')) {
-        const nativeView = view.nativeViewProtected as UIView
-        const screen = nativeView.window?.screen ?? UIScreen.mainScreen
-        const maximum = Math.min(120, screen.maximumFramesPerSecond)
-        animation.preferredFrameRateRange = CAFrameRateRangeMake(
-          Math.min(80, maximum),
-          maximum,
-          maximum,
+      const timing = iosPlayback(track, startedAt)
+      let stopped = false,
+        generation = 0
+      const attach = () => {
+        const instance = ++generation
+        const animation = CAKeyframeAnimation.animationWithKeyPath(
+          keyPaths[track.property as NumericProperty],
         )
-      }
-      animation.values = NSArray.arrayWithArray(
-        track.values.map((value) => (rotation ? radians(value) : value)),
-      )
-      animation.keyTimes = NSArray.arrayWithArray(track.times as number[])
-      animation.duration = Math.max(track.duration, 1) / 1000
-      animation.beginTime = (startedAt + track.delay) / 1000
-      animation.fillMode = kCAFillModeBackwards
-      // Keep infinite loops when iOS removes animations on backgrounding.
-      // They are removed explicitly when stopped or replaced.
-      animation.removedOnCompletion = !infinite
-      if (track.repeat > 0) {
-        animation.autoreverses = track.reverse
-        animation.repeatCount = track.reverse ? (track.repeat + 1) / 2 : track.repeat + 1
-      }
+        // iOS 15+. The app must opt in through CADisableMinimumFrameDurationOnPhone.
+        if (animation.respondsToSelector('setPreferredFrameRateRange:')) {
+          const nativeView = view.nativeViewProtected as UIView
+          const screen = nativeView.window?.screen ?? UIScreen.mainScreen
+          const maximum = Math.min(120, screen.maximumFramesPerSecond)
+          animation.preferredFrameRateRange = CAFrameRateRangeMake(
+            Math.min(80, maximum),
+            maximum,
+            maximum,
+          )
+        }
+        animation.values = NSArray.arrayWithArray(
+          track.values.map((value) => (rotation ? radians(value) : value)),
+        )
+        animation.keyTimes = NSArray.arrayWithArray(track.times as number[])
+        animation.duration = Math.max(track.duration, 1) / 1000
+        // Keep infinite loops when iOS removes animations on backgrounding.
+        // They are removed explicitly when stopped or replaced.
+        if (track.repeat > 0) {
+          animation.autoreverses = track.reverse
+          animation.repeatCount = track.reverse
+            ? (track.repeat + 1) / 2
+            : track.repeat + 1
+        }
 
-      CATransaction.begin()
-      // iOS completes the transaction on backgrounding even if the loop is retained.
-      if (!infinite) CATransaction.setCompletionBlock(onEnd)
-      for (const layer of layers) layer.addAnimationForKey(animation, key)
-      CATransaction.commit()
-
-      return { layers, key, onStop: infinite ? onEnd : undefined }
+        CATransaction.begin()
+        if (!timing.paused && !infinite)
+          CATransaction.setCompletionBlock(() => {
+            if (stopped || instance !== generation) return
+            stopped = true
+            onEnd()
+          })
+        for (const layer of layers) {
+          timing.configure(animation, layer)
+          layer.addAnimationForKey(animation, key)
+        }
+        CATransaction.commit()
+      }
+      attach()
+      return {
+        elapsed: timing.elapsed,
+        control(time, paused) {
+          if (!stopped) {
+            timing.control(time, paused)
+            attach()
+          }
+        },
+        stop() {
+          if (stopped) return
+          stopped = true
+          generation++
+          for (const layer of layers) layer.removeAnimationForKey(key)
+          onEnd(false)
+        },
+      }
     },
 
     stop(_view, handle) {
-      const playing = handle as Handle
-      const { layers, key, onStop } = playing
-      if (playing.decoration) {
-        playing.decoration.stop()
-        return
-      }
-      if (playing.color) {
-        playing.color.stop()
-        return
-      }
-      playing.onStop = undefined
-      for (const layer of layers) layer.removeAnimationForKey(key)
-      onStop?.()
+      ;(handle as Handle).stop()
     },
+    control(_view, handle, elapsed, paused) {
+      ;(handle as Handle).control(elapsed, paused)
+    },
+    elapsed: (handle) => (handle as Handle).elapsed(),
 
     sync: syncIOSDecoration,
 

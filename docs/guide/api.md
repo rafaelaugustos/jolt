@@ -23,6 +23,8 @@
 
 What `animate()`, `decay()`, `sequence()` and the steps of a sequence return: `await` it, read `finished`, or call `stop()`. It resolves with `true` when it played to the end and `false` when it was stopped or taken over, and never rejects.
 
+`animate()` and `decay()` return [`PlaybackAnimation`](./playback): the base lifecycle plus `pause()`, `play()`, writable `progress`, and readonly `paused`/`duration`. Sequence and effect handles keep the base `Animation` contract.
+
 ## Transitions
 
 - **Springs**: `'smooth' | 'snappy' | 'bouncy'`, `{ bounce, duration, velocity }` or `{ stiffness, damping, mass, velocity }`.

@@ -1,3 +1,4 @@
+import type { PlaybackClock, PlaybackCommand } from '../playback.js'
 import { isAndroid, type View } from '@nativescript/core'
 import type { Property } from '../properties.js'
 import type { Track } from '../track.js'
@@ -15,6 +16,16 @@ export interface Driver {
     onEnd: (finished?: boolean) => void,
   ): unknown
   stop(view: View, handle: unknown): void
+  /** A native elapsed-time marker when system animation speed affects time. */
+  clock?(duration: number): PlaybackClock
+  /** Move only this native track to an elapsed time, optionally holding it. */
+  control?(
+    view: View,
+    handle: unknown,
+    elapsed: number,
+    paused: boolean,
+    command?: PlaybackCommand,
+  ): void
   /** Reapply native presentation after a Core model write rebuilds its drawable/layers. */
   sync?(view: View, excluding?: Property): void
   /** Track time, including its delay, when the native clock differs from `now()`. */

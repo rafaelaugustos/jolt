@@ -142,6 +142,16 @@ class NativeAnimator {
   delay = 0
   duration = 0
   playTime = 0
+  paused = false
+  pause() {
+    this.paused = true
+  }
+  resume() {
+    this.paused = false
+  }
+  setCurrentPlayTime(value: number) {
+    this.playTime = value
+  }
   started = false
   constructor(
     readonly view: NativeView,
@@ -184,6 +194,20 @@ class NativeAnimator {
 }
 
 class NativeMarker {
+  repeatCount = 0
+  playTime = 0
+  setRepeatCount(value: number) {
+    this.repeatCount = value
+  }
+  getCurrentPlayTime() {
+    return this.playTime
+  }
+  pause() {
+    this.active = false
+  }
+  resume() {
+    this.active = true
+  }
   duration = 0
   active = false
   listener!: NativeAnimator['listener']
@@ -202,12 +226,12 @@ class NativeMarker {
   }
   finish() {
     this.active = false
-    this.listener.onAnimationEnd()
+    this.listener?.onAnimationEnd()
   }
   cancel() {
     this.active = false
-    this.listener.onAnimationCancel()
-    this.listener.onAnimationEnd()
+    this.listener?.onAnimationCancel()
+    this.listener?.onAnimationEnd()
   }
 }
 
@@ -301,7 +325,7 @@ describe('Android fade layers', () => {
     const { view, native } = container()
     const animation = animate(view, { opacity: 0.2 }, { duration: 400 })
     expect(native.layerType).toBe(2)
-    expect(view.listenerCount('unloaded')).toBe(1)
+    expect(view.listenerCount('unloaded')).toBe(2)
     animators[0]!.finish()
     expect(await animation).toBe(true)
     expect(native.layerChanges).toEqual([2, 0])
@@ -529,11 +553,11 @@ describe('Android animation clock', () => {
       [a, { rotate: 100 }, 'bouncy'],
       [b, { rotate: 90 }, { duration: 100 }],
     ])
-    expect(markers).toHaveLength(1)
-    expect(markers[0]!.duration).toBeLessThan(animators[0]!.duration)
+    expect(markers).toHaveLength(2)
+    expect(markers[1]!.duration).toBeLessThan(animators[0]!.duration)
     await vi.advanceTimersByTimeAsync(10000)
     expect(animators).toHaveLength(1)
-    markers[0]!.finish()
+    markers[1]!.finish()
     await flush()
     expect(animators).toHaveLength(2)
     animators.forEach((animator) => animator.finish())
@@ -546,8 +570,8 @@ describe('Android animation clock', () => {
       [target().view, 'fadeIn'],
     ])
     animation.stop()
-    expect(markers[0]!.active).toBe(false)
-    markers[0]!.finish()
+    expect(markers[1]!.active).toBe(false)
+    markers[1]!.finish()
     await flush()
     expect(animators).toHaveLength(1)
     expect(await animation).toBe(false)
@@ -558,7 +582,7 @@ describe('Android animation clock', () => {
     const done = state(animation.finished)
     await vi.advanceTimersByTimeAsync(4000)
     expect(done()).toBeUndefined()
-    expect(markers).toHaveLength(0)
+    expect(markers.filter((marker) => marker.repeatCount !== -1)).toHaveLength(0)
     animators[0]!.finish()
     expect(await animation).toBe(true)
   })
@@ -571,7 +595,7 @@ describe('Android animation clock', () => {
     ])
     expect(await animation).toBe(true)
     expect(animators).toHaveLength(3)
-    expect(markers).toHaveLength(0)
+    expect(markers.filter((marker) => marker.repeatCount !== -1)).toHaveLength(0)
   })
 })
 
@@ -753,5 +777,60 @@ describe('Android decorations', () => {
     expect(restore).toHaveBeenLastCalledWith(60)
     animation.stop()
     expect(await animation).toBe(false)
+  })
+})
+
+describe('Android playback controls', () => {
+  it('pauses and resumes the native animator without restarting it', async () => {
+    const { view } = container()
+    const animation = animate(view, { opacity: [1, 0] }, { duration: 1000 })
+    const native = animators[0]!
+    markers[0]!.playTime = 400
+    native.playTime = 400
+    const cancel = vi.spyOn(native, 'cancel')
+    animation.pause()
+    expect(native.paused).toBe(true)
+    expect(animation.progress).toBe(0.4)
+    animation.play()
+    expect(native.paused).toBe(false)
+    expect(cancel).not.toHaveBeenCalled()
+    native.finish()
+    expect(await animation).toBe(true)
+    expect(markers[0]!.active).toBe(false)
+  })
+  it('seeks through repeats while paused and can rewind into a delay', async () => {
+    const { view } = container()
+    const animation = animate(
+      view,
+      { opacity: [1, 0] },
+      { duration: 1000, delay: 200, repeat: 1, repeatType: 'reverse' },
+    )
+    animation.pause()
+    animation.progress = 0.75
+    expect(animators[0]!.playTime).toBe(1450)
+    expect(animators[0]!.delay).toBe(0)
+    expect(animators[0]!.paused).toBe(true)
+    animation.progress = 0
+    expect(animators[0]!.delay).toBe(200)
+    animation.stop()
+    expect(await animation).toBe(false)
+  })
+  it('shares and releases one native clock across independent animations', async () => {
+    const a = animate(container().view, { opacity: 0 }, { duration: 1000 })
+    const b = animate(container().view, { opacity: 0 }, { duration: 2000 })
+    expect(markers).toHaveLength(1)
+    a.pause()
+    expect(markers[0]!.active).toBe(true)
+    b.pause()
+    expect(markers[0]!.active).toBe(false)
+    a.play()
+    expect(markers).toHaveLength(2)
+    expect(markers[0]!.active).toBe(false)
+    expect(markers[1]!.active).toBe(true)
+    a.stop()
+    b.stop()
+    expect(await a).toBe(false)
+    expect(await b).toBe(false)
+    expect(markers.every((marker) => !marker.active)).toBe(true)
   })
 })

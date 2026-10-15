@@ -2,6 +2,7 @@ import { Color, type View } from '@nativescript/core'
 import { colorProperty } from '@nativescript/core/ui/styling/style-properties'
 import { formattedTextProperty, textProperty } from '@nativescript/core/ui/text-base'
 import { readColor, type ColorProperty } from '../color.js'
+import { iosPlayback } from './ios-playback.js'
 import type { Track } from '../track.js'
 
 type TextView = View & {
@@ -18,6 +19,8 @@ type PaintLayer = {
 }
 type NativeView = UIView & { borderLayer?: CAShapeLayer }
 interface ColorHandle {
+  elapsed(): number
+  control(elapsed: number, paused: boolean): void
   stop(): void
   presented(): number | undefined
 }
@@ -35,8 +38,8 @@ export function presentedIOSColor(
   view: View,
   property: ColorProperty,
 ): number | undefined {
-  const current = playing.get(view)?.get(property)?.presented()
-  if (current !== undefined) return current
+  const active = playing.get(view)?.get(property)
+  if (active) return active.presented()
   if (property === 'color' && !view.color) {
     const label = labelOf(view)
     if (label?.textColor) return Color.fromIosColor(label.textColor).argb >>> 0
@@ -56,6 +59,7 @@ export function playIOSColor(
   startedAt: number,
   onEnd: (finished?: boolean) => void,
 ): ColorHandle {
+  const timing = iosPlayback(track, startedAt)
   const property = track.property as ColorProperty
   let target: PaintLayer | undefined
   let restore: (() => void) | undefined
@@ -107,11 +111,21 @@ export function playIOSColor(
   }
   const handle: ColorHandle = {
     stop: cancel,
+    elapsed: timing.elapsed,
+    control(time, paused) {
+      if (!stopped) {
+        timing.control(time, paused)
+        attach()
+      }
+    },
     presented() {
+      // A new CA copy commits at the end of the turn. After controls, the engine
+      // clock is authoritative even before presentationLayer catches up.
+      if (timing.controlled) return undefined
       if (!target) return track.values[0]
       const layer = target.layer.presentationLayer()
       // Before CA commits its first frame, the model already contains the target.
-      if (!layer) return track.valueAt(CACurrentMediaTime() * 1000 - startedAt)
+      if (!layer) return track.valueAt(timing.elapsed())
       const color = (layer as unknown as Record<string, interop.Pointer | null>)[
         target.path
       ]
@@ -189,12 +203,7 @@ export function playIOSColor(
     )
     animation.keyTimes = NSArray.arrayWithArray(track.times as number[])
     animation.duration = Math.max(track.duration, 1) / 1000
-    animation.beginTime = layer.convertTimeFromLayer(
-      (startedAt + track.delay) / 1000,
-      null,
-    )
-    animation.fillMode = kCAFillModeBackwards
-    animation.removedOnCompletion = track.repeat !== Infinity
+    timing.configure(animation, layer)
     if (animation.respondsToSelector('setPreferredFrameRateRange:')) {
       const maximum = Math.min(
         120,
@@ -212,7 +221,7 @@ export function playIOSColor(
       animation.repeatCount = track.reverse ? (track.repeat + 1) / 2 : track.repeat + 1
     }
     CATransaction.begin()
-    if (track.repeat !== Infinity)
+    if (!timing.paused && track.repeat !== Infinity)
       CATransaction.setCompletionBlock(() => {
         if (!stopped && instance === generation) {
           cleanup()

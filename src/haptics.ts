@@ -48,6 +48,7 @@ export function playHaptics(
   options: HapticOptions | undefined,
   driver: Driver,
   startedAt: number,
+  elapsedTime = () => driver.now() - startedAt,
 ) {
   if (!isIOS || !options || typeof UIImpactFeedbackGenerator === 'undefined') return
   const moving = tracks.filter(
@@ -69,6 +70,7 @@ export function playHaptics(
   let generator: UIImpactFeedbackGenerator | undefined =
     UIImpactFeedbackGenerator.alloc().initWithStyle(styles[options.style])
   const native = view.nativeViewProtected as UIView
+  let paused = false
   let next = 0
   let cancelPrepare: (() => void) | undefined
   let cancelImpact: (() => void) | undefined
@@ -79,6 +81,11 @@ export function playHaptics(
     !!native.window &&
     UIApplication.sharedApplication.applicationState === 0 // UIApplicationState.Active
 
+  const cancelTimers = () => {
+    cancelPrepare?.()
+    cancelImpact?.()
+    cancelPrepare = cancelImpact = undefined
+  }
   const cancel = () => {
     cancelPrepare?.()
     cancelImpact?.()
@@ -88,7 +95,7 @@ export function playHaptics(
   }
 
   const fire = (tolerance = 0) => {
-    const elapsed = driver.now() - startedAt
+    const elapsed = elapsedTime()
     // A busy UI thread can delay timers. Drop stale impacts instead of replaying
     // several old taps at once when it becomes responsive again.
     while (next < offsets.length && offsets[next]! <= elapsed + tolerance) {
@@ -98,8 +105,9 @@ export function playHaptics(
   }
 
   const schedule = () => {
+    if (paused) return
     if (!generator || next === offsets.length) return cancel()
-    const remaining = startedAt + offsets[next]! - driver.now()
+    const remaining = offsets[next]! - elapsedTime()
     if (active()) generator.prepare()
     if (remaining > PREPARE_AHEAD) {
       cancelPrepare = driver.after(remaining - PREPARE_AHEAD, () => {
@@ -116,6 +124,21 @@ export function playHaptics(
   schedule()
   return {
     cancel,
+    pause() {
+      paused = true
+      cancelTimers()
+    },
+    play() {
+      if (paused) {
+        paused = false
+        schedule()
+      }
+    },
+    seek() {
+      cancelTimers()
+      while (next < offsets.length && offsets[next]! <= elapsedTime()) next++
+      schedule()
+    },
     finish() {
       // Native completion may beat the timer at the final keyframe by a frame.
       fire(COMPLETION_TOLERANCE)

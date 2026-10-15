@@ -17,6 +17,7 @@ import Text from './Text.vue'
 import BusyJs from './BusyJs.vue'
 import Colors from './Colors.vue'
 import Decorations from './Decorations.vue'
+import Playback from './Playback.vue'
 
 const logo = ref()
 const title = ref()
@@ -40,6 +41,7 @@ onMounted(() => {
         <Label ref="tagline" class="muted" text="Native animations for NativeScript" />
       </StackLayout>
 
+      <Playback />
       <Decorations />
       <BusyJs />
       <Colors />

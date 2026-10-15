@@ -19,3 +19,5 @@ If part of an animation is stopped, its `finished` promise resolves with `false`
 ## Loops and the background
 
 Infinite repeats keep playing natively. On iOS, Core Animation drops animations when the app goes to the background; Jolt starts them again when it comes back.
+
+For holding an animation and choosing its frame, see [pause, play and scrub](./playback).

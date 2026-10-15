@@ -7,14 +7,17 @@ import {
   validateDecorationTarget,
   type DecorationProperty,
 } from '../decoration.js'
+import { iosPlayback } from './ios-playback.js'
 import type { Track } from '../track.js'
 
 type NativeView = UIView & { outerShadowContainerLayer?: CALayer }
 type Binding = { layer: CALayer; path: string; values: unknown[] }
 interface Handle {
+  elapsed(): number
+  control(elapsed: number, paused: boolean): void
   track: Track
   stop(): void
-  presented(): number
+  presented(): number | undefined
   attach(): void
 }
 const playing = new WeakMap<View, Map<DecorationProperty, Handle>>()
@@ -41,6 +44,7 @@ export function playIOSDecoration(
   startedAt: number,
   onEnd: (finished?: boolean) => void,
 ): Handle {
+  const timing = iosPlayback(track, startedAt)
   const property = track.property as Exclude<
     DecorationProperty,
     'elevation' | 'translationZ'
@@ -110,10 +114,18 @@ export function playIOSDecoration(
   const handle: Handle = {
     track,
     stop: cancel,
+    elapsed: timing.elapsed,
+    control(time, paused) {
+      if (!stopped) {
+        timing.control(time, paused)
+        handle.attach()
+      }
+    },
     presented() {
+      if (timing.controlled) return undefined
       const binding = bindings[0]
       const layer = binding?.layer.presentationLayer()
-      if (!layer) return track.valueAt(CACurrentMediaTime() * 1000 - startedAt)
+      if (!layer) return track.valueAt(timing.elapsed())
       if (property === 'shadowOffsetX') return layer.shadowOffset.width
       if (property === 'shadowOffsetY') return layer.shadowOffset.height
       return (layer as unknown as Record<string, number>)[paths[property]]!
@@ -202,7 +214,7 @@ export function playIOSDecoration(
       }
       CATransaction.begin()
       CATransaction.setDisableActions(true)
-      if (track.repeat !== Infinity)
+      if (!timing.paused && track.repeat !== Infinity)
         CATransaction.setCompletionBlock(() => {
           if (stopped || generation !== instance) return
           cleanup()
@@ -222,9 +234,7 @@ export function playIOSDecoration(
         animation.values = NSArray.arrayWithArray(values)
         animation.keyTimes = NSArray.arrayWithArray(times)
         animation.duration = Math.max(1, track.duration) / 1000
-        animation.beginTime = (startedAt + track.delay) / 1000
-        animation.fillMode = kCAFillModeBackwards
-        animation.removedOnCompletion = track.repeat !== Infinity
+        timing.configure(animation, layer)
         if (track.repeat > 0) {
           animation.autoreverses = track.reverse
           animation.repeatCount = track.reverse
