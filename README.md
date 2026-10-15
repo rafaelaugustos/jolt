@@ -35,6 +35,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 
 - [25 presets](#presets) to enter, exit and draw attention: `fadeInUp`, `popIn`, `shake`, `heartbeat`...
 - [Springs](#springs) described by feel (`bouncy`), by `bounce` and `duration`, or by stiffness, damping and mass.
+- [Decay](#decay) from a release velocity, with optional snap points.
 - [Keyframes and tweens](#tweens) with an easing per segment and exact keyframe times.
 - [Stagger](#several-views) across several views, from the first, the last or the center.
 - [Sequences](#sequences) that start each step once the previous one looks done.
@@ -164,6 +165,19 @@ animate(
 ```
 
 `delay` is in milliseconds, and the view takes the first keyframe during it. `repeat` is how many more times to play, `Infinity` until stopped. `repeatType: 'reverse'` plays every other repeat backwards. Repeats play natively too.
+
+## Decay
+
+```ts
+import { decay } from '@rafaelaugusto/jolt'
+
+decay(card, { x: 600 }) // DIPs per second
+decay(card, { x: 600 }, { friction: 0.998, snap: [0, 320] })
+```
+
+Starts from the current translation and slows down exponentially. `friction` multiplies velocity per millisecond; smaller values stop sooner. `snap` projects the landing and springs directly to the closest stop, preserving the supplied velocity. Use `{ snap: { x: [0, 320], y: [-200, 0] } }` for independent axes.
+
+Shares interruption, `stop()` and awaitable completion with `animate()`. Both platforms use native keyframes with no JavaScript per frame. See the [decay guide](https://jolt.rafaelaugusto.dev/guide/decay).
 
 ## Presets
 
@@ -336,7 +350,7 @@ If part of an animation is stopped, its `finished` promise resolves with `false`
 
 ## How it works
 
-When an animation starts, Jolt resolves where each property starts from (the value on screen, or the keyframes you gave), and computes the whole curve: easing, keyframes, spring physics. It samples the curve 60 times per second of motion, and keeps keyframe times exact. Linear segments aren't sampled at all.
+When an animation starts, Jolt resolves where each property starts from (the value on screen, or the keyframes you gave), and computes the whole curve: easing, keyframes, spring physics and exponential decay. It samples the curve 60 times per second of motion, and keeps keyframe times exact. Linear segments aren't sampled at all. Very long free decays cap sampling at 6,001 keyframes.
 
 The samples go to the platform in one go:
 
@@ -350,20 +364,20 @@ Each running property remembers its curve and start time, so Jolt knows the valu
 ## Not there yet
 
 - `animate()` covers transforms and opacity. Colors ([#12](https://github.com/rafaelaugustos/jolt/issues/12)), borders and shadows ([#13](https://github.com/rafaelaugustos/jolt/issues/13)), size and layout changes ([#21](https://github.com/rafaelaugustos/jolt/issues/21)) aren't animated yet.
-- No gestures: dragging something and letting it fly with its velocity is next ([#23](https://github.com/rafaelaugustos/jolt/issues/23)).
+- Gesture tracking and drag constraints are next ([#23](https://github.com/rafaelaugustos/jolt/issues/23)); `decay()` supplies the motion after release.
 - No layout or shared element transitions ([#21](https://github.com/rafaelaugustos/jolt/issues/21), [#24](https://github.com/rafaelaugustos/jolt/issues/24)).
 
 ## API
 
-**Animating**: `animate(target, keyframes | preset, transition?)`, `stop(target, properties?)`, `sequence(steps)`, `press(target, pressed?, transition?)`, `symbolEffect(image, effect, options?)`, `shimmer(target, options?)`, `loader(target, options?)`, `reveal(target, options?)`, `conceal(target, options?)`, `confetti(target, options?)`, `particles(target, options?)`.
+**Animating**: `animate(target, keyframes | preset, transition?)`, `decay(target, velocity, options?)`, `stop(target, properties?)`, `sequence(steps)`, `press(target, pressed?, transition?)`, `symbolEffect(image, effect, options?)`, `shimmer(target, options?)`, `loader(target, options?)`, `reveal(target, options?)`, `conceal(target, options?)`, `confetti(target, options?)`, `particles(target, options?)`.
 
-**Animations** from `animate()`, `sequence()`, `symbolEffect()`, `reveal()` and `conceal()`: `await`, `finished`, `stop()`. `press()`, `shimmer()`, `loader()`, `confetti()` and `particles()` return cleanup functions.
+**Animations** from `animate()`, `decay()`, `sequence()`, `symbolEffect()`, `reveal()` and `conceal()`: `await`, `finished`, `stop()`. `press()`, `shimmer()`, `loader()`, `confetti()` and `particles()` return cleanup functions.
 
 **Helpers**: `definePreset`, `presets`, `springs`, `cubicBezier`, plus the types (`Keyframes`, `Transition`, `Spring`, `Tween`, `Preset`, `Presets`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target`...).
 
 ## Demo
 
-[`demo/`](./demo) is a NativeScript-Vue app with every preset, the three springs on a ball you can interrupt, stagger, press effects, SF Symbols, shimmer, loaders, circular reveals, haptics and particles on iOS, loops and a sequence on launch.
+[`demo/`](./demo) is a NativeScript-Vue app with every preset, the three springs on a ball you can interrupt, decay and snapping, stagger, press effects, SF Symbols, shimmer, loaders, circular reveals, haptics and particles on iOS, loops and a sequence on launch.
 
 With the [NativeScript CLI](https://docs.nativescript.org/setup/) installed:
 

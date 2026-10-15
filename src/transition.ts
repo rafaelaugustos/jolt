@@ -52,6 +52,12 @@ export type Curve =
       times: readonly number[] | undefined
     }
   | { type: 'spring'; physics: SpringPhysics; velocity: number | undefined }
+  | {
+      type: 'decay'
+      friction: number
+      velocity: number
+      snap: readonly number[] | undefined
+    }
 
 export interface ResolvedTransition {
   curve: Curve

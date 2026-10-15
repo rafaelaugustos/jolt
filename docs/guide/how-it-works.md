@@ -1,6 +1,6 @@
 # How it works
 
-When an animation starts, Jolt resolves where each property starts from (the value on screen, or the keyframes you gave), and computes the whole curve: easing, keyframes, spring physics. It samples the curve 60 times per second of motion, and keeps keyframe times exact. Linear segments aren't sampled at all.
+When an animation starts, Jolt resolves where each property starts from (the value on screen, or the keyframes you gave), and computes the whole curve: easing, keyframes, spring physics and exponential decay. It samples the curve 60 times per second of motion, and keeps keyframe times exact. Linear segments aren't sampled at all. Very long free decays cap sampling at 6,001 keyframes.
 
 The samples go to the platform in one go:
 

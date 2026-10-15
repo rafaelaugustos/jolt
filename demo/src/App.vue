@@ -5,6 +5,7 @@ import Loops from './components/Loops.vue'
 import Presets from './components/Presets.vue'
 import Press from './components/Press.vue'
 import Springs from './components/Springs.vue'
+import Decay from './components/Decay.vue'
 import Stagger from './components/Stagger.vue'
 import Symbols from './components/Symbols.vue'
 import Shimmer from './components/Shimmer.vue'
@@ -43,6 +44,7 @@ onMounted(() => {
 
           <Presets />
           <Springs />
+          <Decay />
           <Stagger />
           <Press />
           <Symbols />

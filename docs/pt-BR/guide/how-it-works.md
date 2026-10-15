@@ -1,6 +1,6 @@
 # Como funciona
 
-Quando uma animação começa, o Jolt resolve de onde cada propriedade parte (o valor na tela, ou os keyframes que você deu), e calcula a curva inteira: easing, keyframes, física do spring. Ele amostra a curva 60 vezes por segundo de movimento, e mantém os tempos dos keyframes exatos. Trechos lineares não são amostrados.
+Quando uma animação começa, o Jolt resolve de onde cada propriedade parte (o valor na tela, ou os keyframes que você deu), e calcula a curva inteira: easing, keyframes, física do spring e desaceleração exponencial. Ele amostra a curva 60 vezes por segundo de movimento, e mantém os tempos dos keyframes exatos. Trechos lineares não são amostrados. Decays livres muito longos limitam a amostragem a 6.001 keyframes.
 
 As amostras vão para a plataforma de uma vez:
 
