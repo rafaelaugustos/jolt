@@ -3,6 +3,7 @@ import { solveDecay } from './decay.js'
 import { precision, type Property } from './properties.js'
 import { solveSpring, springPhysics } from './spring.js'
 import type { Curve, ResolvedTransition } from './transition.js'
+import { colorMixer, isColorProperty, type ColorProperty } from './color.js'
 
 /**
  * One property animated over time. The curve is computed here and sampled,
@@ -44,9 +45,11 @@ const ARRIVAL_TOLERANCE = 0.05
 export function createTrack(
   property: Property,
   keyframes: readonly number[],
-  { curve, delay, repeat, reverse }: ResolvedTransition,
+  transition: ResolvedTransition,
   velocity: number,
 ): Track {
+  if (isColorProperty(property)) return colorTrack(property, keyframes, transition)
+  const { curve, delay, repeat, reverse } = transition
   const motion =
     curve.type === 'spring'
       ? spring(property, keyframes, curve, velocity)
@@ -90,6 +93,58 @@ export function createTrack(
       const [time, direction] = localTime(elapsed)
       return motion.velocity(time) * direction
     },
+  }
+}
+
+function colorTrack(
+  property: ColorProperty,
+  colors: readonly number[],
+  transition: ResolvedTransition,
+): Track {
+  const progress = createTrack(
+    'opacity',
+    colors.map((_, i) => i),
+    transition,
+    0,
+  )
+  const mixes = colors.slice(1).map((color, i) => colorMixer(colors[i]!, color))
+  const colorAt = (position: number) => {
+    const p = Math.max(0, Math.min(colors.length - 1, position))
+    const segment = Math.min(mixes.length - 1, Math.floor(p))
+    return mixes[segment]!(p - segment)
+  }
+  // Linear timing still needs intermediate colors: native RGB interpolation is
+  // only the short bridge between these perceptually spaced samples.
+  const steps = Math.max(
+    1,
+    Math.min(
+      MAX_DECAY_SAMPLES,
+      Math.ceil((progress.duration / 1000) * SAMPLES_PER_SECOND),
+    ),
+  )
+  const times = [
+    ...new Set([
+      ...progress.times,
+      ...Array.from({ length: steps + 1 }, (_, i) => i / steps),
+    ]),
+  ].sort((a, b) => a - b)
+  return {
+    ...progress,
+    property,
+    times,
+    values: times.map((time) =>
+      colorAt(
+        time === 0
+          ? progress.values[0]!
+          : time === 1
+            ? progress.values.at(-1)!
+            : progress.valueAt(progress.delay + time * progress.duration),
+      ),
+    ),
+    to: colorAt(progress.to),
+    valueAt: (elapsed) => colorAt(progress.valueAt(elapsed)),
+    // Packed colors have no scalar velocity to carry into another spring.
+    velocityAt: () => 0,
   }
 }
 
@@ -185,7 +240,13 @@ function tween(
     const steps =
       easing === linear || from === to
         ? 1
-        : Math.max(1, Math.ceil(((span * duration) / 1000) * SAMPLES_PER_SECOND))
+        : Math.max(
+            1,
+            Math.min(
+              MAX_DECAY_SAMPLES,
+              Math.ceil(((span * duration) / 1000) * SAMPLES_PER_SECOND),
+            ),
+          )
     for (let step = 1; step <= steps; step++) {
       times.push(start + (span * step) / steps)
       values.push(step === steps ? to : from + (to - from) * easing(step / steps))

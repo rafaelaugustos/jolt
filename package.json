@@ -32,7 +32,10 @@
   },
   "files": [
     "dist",
-    "src"
+    "src",
+    "platforms/android/java",
+    "platforms/android/include.gradle",
+    "platforms/android/proguard-rules.pro"
   ],
   "sideEffects": false,
   "scripts": {
@@ -66,5 +69,11 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "nativescript": {
+    "platforms": {
+      "android": "8.9.0",
+      "ios": "8.9.0"
+    }
   }
 }

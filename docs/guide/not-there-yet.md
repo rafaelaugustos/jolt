@@ -1,6 +1,6 @@
 # Not there yet
 
-- `animate()` covers transforms and opacity. Colors ([#12](https://github.com/rafaelaugustos/jolt/issues/12)), borders and shadows ([#13](https://github.com/rafaelaugustos/jolt/issues/13)), size and layout changes ([#21](https://github.com/rafaelaugustos/jolt/issues/21)) aren't animated yet.
+- `animate()` covers transforms, opacity and solid colors. Border widths, corner radii and shadows ([#13](https://github.com/rafaelaugustos/jolt/issues/13)), size and layout changes ([#21](https://github.com/rafaelaugustos/jolt/issues/21)) aren't animated yet.
 - Gesture tracking and drag constraints are next ([#23](https://github.com/rafaelaugustos/jolt/issues/23)); `decay()` supplies the motion after release.
 - No layout or shared element transitions ([#21](https://github.com/rafaelaugustos/jolt/issues/21), [#24](https://github.com/rafaelaugustos/jolt/issues/24)).
 

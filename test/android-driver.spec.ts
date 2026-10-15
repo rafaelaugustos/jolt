@@ -1,4 +1,4 @@
-import { Utils } from '@nativescript/core'
+import { Color, Utils } from '@nativescript/core'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { animate, sequence, stop } from '../src/index.js'
 import { setDriver } from '../src/driver/index.js'
@@ -69,6 +69,25 @@ class NativeView {
   }
   getAlpha() {
     return this.alpha
+  }
+}
+
+class ColorTarget extends NativeView {
+  constructor(
+    readonly native: NativeView,
+    readonly property: number,
+    private color: number,
+  ) {
+    super()
+  }
+  isSupported() {
+    return true
+  }
+  setColor(color: number) {
+    this.color = color
+  }
+  getColor() {
+    return this.color
   }
 }
 
@@ -186,10 +205,19 @@ beforeEach(() => {
       ViewGroup: NativeGroup,
       animation: { LinearInterpolator: class {} },
     },
+    widget: { TextView: class {} },
     animation: {
-      Keyframe: { ofFloat: (offset: number, value: number) => ({ offset, value }) },
+      ArgbEvaluator: class {},
+      Keyframe: {
+        ofFloat: (offset: number, value: number) => ({ offset, value }),
+        ofInt: (offset: number, value: number) => ({ offset, value }),
+      },
       PropertyValuesHolder: {
-        ofKeyframe: (property: string, frames: unknown[]) => ({ property, frames }),
+        ofKeyframe: (property: string, frames: unknown[]) => ({
+          property,
+          frames,
+          setEvaluator() {},
+        }),
       },
       ObjectAnimator: {
         ofPropertyValuesHolder: (view: NativeView, holders: NativeAnimator['holders']) =>
@@ -210,6 +238,7 @@ beforeEach(() => {
       },
     },
   })
+  vi.stubGlobal('org', { rafaelaugusto: { jolt: { ColorTarget } } })
   setDriver(createAndroidDriver())
 })
 
@@ -580,5 +609,58 @@ describe('Android 3D perspective', () => {
     expect(animators[1]!.cameraAtStart).toBe(2100)
     second.stop()
     expect(await second).toBe(false)
+  })
+})
+
+describe('Android native color target', () => {
+  it('uses int keyframes and a native setter, and reads the visible color on stop', async () => {
+    const { view } = container()
+    const animation = animate(
+      view,
+      { backgroundColor: ['red', 'blue'] },
+      { duration: 1000, ease: 'linear' },
+    )
+    const native = animators[0]!
+    const target = native.view as ColorTarget
+    expect(target).toBeInstanceOf(ColorTarget)
+    expect(native.holders[0]!.frames[0]!.value).toBe(0xffff0000 | 0)
+    expect(native.holders[0]!.frames.at(-1)!.value).toBe(0xff0000ff | 0)
+    target.setColor(0xff8c53a2 | 0)
+    native.playTime = 500
+    stop(view, ['backgroundColor'])
+    expect(view.backgroundColor?.argb).toBe(0xff8c53a2)
+    expect(await animation).toBe(false)
+    expect(view.listenerCount('unloaded')).toBe(0)
+    expect(view.style.listenerCount('backgroundColorChange')).toBe(0)
+  })
+  it('settles with the final model color if native code has not been installed', async () => {
+    vi.stubGlobal('org', undefined)
+    const { view } = container()
+    const animation = animate(view, { backgroundColor: 'blue' })
+    expect(await animation).toBe(false)
+    expect(view.backgroundColor?.argb).toBe(0xff0000ff)
+    expect(animators).toHaveLength(0)
+    expect(view.listenerCount('unloaded')).toBe(0)
+  })
+  it('cancels only the changed color and preserves an external value', async () => {
+    const { view } = container()
+    const animation = animate(view, { borderColor: ['red', 'blue'] }, { duration: 1000 })
+    view.borderTopColor = new Color('white')
+    view.style.notify({ eventName: 'borderTopColorChange' })
+    await flush()
+    expect(await animation).toBe(false)
+    expect(view.borderTopColor.argb).toBe(0xffffffff)
+    expect(view.style.listenerCount('borderTopColorChange')).toBe(0)
+  })
+  it('settles an infinite color when its view unloads', async () => {
+    const { view } = container()
+    const animation = animate(
+      view,
+      { backgroundColor: ['red', 'blue'] },
+      { repeat: Infinity, delay: 100 },
+    )
+    view.notify({ eventName: 'unloaded' })
+    expect(await animation).toBe(false)
+    expect(view.listenerCount('unloaded')).toBe(0)
   })
 })

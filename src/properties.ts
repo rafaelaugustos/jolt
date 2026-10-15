@@ -1,7 +1,9 @@
-import type { View } from '@nativescript/core'
+import { Color, type View } from '@nativescript/core'
+import { isColorProperty, readColor, type ColorProperty } from './color.js'
 
-export type Property =
+export type NumericProperty =
   'opacity' | 'x' | 'y' | 'scaleX' | 'scaleY' | 'rotate' | 'rotateX' | 'rotateY'
+export type Property = NumericProperty | ColorProperty
 
 const viewKeys = {
   opacity: 'opacity',
@@ -12,9 +14,9 @@ const viewKeys = {
   rotate: 'rotate',
   rotateX: 'rotateX',
   rotateY: 'rotateY',
-} as const satisfies Record<Property, keyof View>
+} as const satisfies Record<NumericProperty, keyof View>
 
-const defaults: Record<Property, number> = {
+const defaults: Record<NumericProperty, number> = {
   opacity: 1,
   x: 0,
   y: 0,
@@ -27,6 +29,9 @@ const defaults: Record<Property, number> = {
 
 /** How close to its target a spring or decay has to be to count as settled. */
 export const precision: Record<Property, number> = {
+  backgroundColor: 0.002,
+  borderColor: 0.002,
+  color: 0.002,
   opacity: 0.002,
   x: 0.25,
   y: 0.25,
@@ -38,14 +43,19 @@ export const precision: Record<Property, number> = {
 }
 
 export function isProperty(key: string): key is Property {
-  return key in viewKeys
+  return key in viewKeys || isColorProperty(key)
 }
 
 export function readValue(view: View, property: Property): number {
+  if (isColorProperty(property)) return readColor(view, property)
   const value = view[viewKeys[property]]
   return typeof value === 'number' && !Number.isNaN(value) ? value : defaults[property]
 }
 
 export function writeValue(view: View, property: Property, value: number) {
+  if (isColorProperty(property)) {
+    view[property] = new Color(value)
+    return
+  }
   view[viewKeys[property]] = value
 }

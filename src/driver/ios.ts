@@ -1,14 +1,17 @@
 import type { View } from '@nativescript/core'
-import type { Property } from '../properties.js'
+import type { NumericProperty } from '../properties.js'
+import { isColorProperty } from '../color.js'
+import { playIOSColor, presentedIOSColor } from './ios-color.js'
 import { after, type Driver } from './index.js'
 
 interface Handle {
   layers: CALayer[]
   key: string
   onStop?: () => void
+  color?: ReturnType<typeof playIOSColor>
 }
 
-const keyPaths: Record<Property, string> = {
+const keyPaths: Record<NumericProperty, string> = {
   opacity: 'opacity',
   x: 'transform.translation.x',
   y: 'transform.translation.y',
@@ -49,6 +52,8 @@ export function createIOSDriver(): Driver {
     now: () => CACurrentMediaTime() * 1000,
 
     play(view, track, startedAt, onEnd): Handle {
+      if (isColorProperty(track.property))
+        return { layers: [], key: '', color: playIOSColor(view, track, startedAt, onEnd) }
       const layers = layersOf(view)
       const key = `jolt:${track.property}`
       const rotation = track.property.startsWith('rotate')
@@ -96,12 +101,17 @@ export function createIOSDriver(): Driver {
     stop(_view, handle) {
       const playing = handle as Handle
       const { layers, key, onStop } = playing
+      if (playing.color) {
+        playing.color.stop()
+        return
+      }
       playing.onStop = undefined
       for (const layer of layers) layer.removeAnimationForKey(key)
       onStop?.()
     },
 
-    presented: () => undefined,
+    presented: (view, property) =>
+      isColorProperty(property) ? presentedIOSColor(view, property) : undefined,
 
     after,
   }

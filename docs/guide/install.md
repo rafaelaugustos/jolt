@@ -6,6 +6,8 @@ npm install @rafaelaugusto/jolt@next
 
 It's in beta for now, published under the `next` tag. Requires `@nativescript/core` 8.9 or later. It doesn't depend on a framework: it takes a view, or an element that holds one, so it works with NativeScript-Vue, Angular, Svelte or plain NativeScript.
 
+Android color animations include a small Java helper. Rebuild the native app after installing or upgrading Jolt; a JavaScript-only update cannot install native code.
+
 ## ProMotion on iOS
 
 On iOS 15 and later, Jolt requests up to 120 Hz for its native animations, capped by the view's screen. To allow rates above 60 Hz on an iPhone, add this inside the root `<dict>` of `App_Resources/iOS/Info.plist` and rebuild the app:

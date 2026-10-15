@@ -14,6 +14,7 @@ import Particles from './Particles.vue'
 import Loaders from './Loaders.vue'
 import Reveal from './Reveal.vue'
 import Text from './Text.vue'
+import Colors from './Colors.vue'
 
 const logo = ref()
 const title = ref()
@@ -37,6 +38,7 @@ onMounted(() => {
         <Label ref="tagline" class="muted" text="Native animations for NativeScript" />
       </StackLayout>
 
+      <Colors />
       <Presets />
       <Springs />
       <Decay />

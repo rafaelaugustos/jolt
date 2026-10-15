@@ -1,3 +1,4 @@
+import type { Color as CoreColor } from '@nativescript/core'
 /**
  * A small stand-in for @nativescript/core: views with the properties Jolt
  * animates, events, and a `loaded` state like the real ones.
@@ -53,6 +54,22 @@ export class View extends Observable {
     this.style.notify({ eventName: 'visibilityChange', object: this.style })
   }
 
+  backgroundColor: CoreColor | undefined
+  color: CoreColor | undefined
+  borderTopColor: CoreColor | undefined
+  borderRightColor: CoreColor | undefined
+  borderBottomColor: CoreColor | undefined
+  borderLeftColor: CoreColor | undefined
+  set borderColor(value: CoreColor) {
+    this.borderTopColor =
+      this.borderRightColor =
+      this.borderBottomColor =
+      this.borderLeftColor =
+        value
+  }
+  get borderColor() {
+    return this.borderTopColor!
+  }
   opacity = 1
   translateX = 0
   translateY = 0
@@ -84,7 +101,10 @@ export const textProperty = { setNative: Symbol('text:setNative') }
 export const formattedTextProperty = { setNative: Symbol('formattedText:setNative') }
 export const tintColorProperty = { setNative: Symbol('tintColor:setNative') }
 
-export class Label extends View {
+export const colorProperty = { sourceKey: Symbol('color:source') }
+export class TextBase extends View {}
+export class Button extends TextBase {}
+export class Label extends TextBase {
   text = 'Jolt'
   formattedText: (Observable & { toString(): string }) | undefined;
   [textProperty.setNative](_value: unknown) {
@@ -100,14 +120,42 @@ export const isAndroid = false
 export const isIOS = true
 
 export class Color {
-  constructor(public value: string) {
+  value: string | number
+  argb: number
+  constructor(value: string | number) {
+    this.value = value
+    if (typeof value === 'number') {
+      this.argb = value >>> 0
+      return
+    }
     if (!Color.isValid(value)) throw new Error('Invalid color')
+    const named: Record<string, string> = {
+      white: '#ffffff',
+      black: '#000000',
+      red: '#ff0000',
+      blue: '#0000ff',
+      green: '#008000',
+      transparent: '#00000000',
+    }
+    let hex = (named[value.toLowerCase()] ?? value).slice(1)
+    if (hex.length === 3)
+      hex = hex
+        .split('')
+        .map((c) => c + c)
+        .join('')
+    if (hex.length === 6) hex = 'ff' + hex
+    this.argb = parseInt(hex, 16) >>> 0
   }
   static isValid(value: unknown) {
     return (
       typeof value === 'string' &&
-      /^(#[\da-f]{3,8}|white|red|blue|transparent)$/i.test(value)
+      /^(#[\da-f]{3}|#[\da-f]{6}|#[\da-f]{8}|white|black|red|blue|green|transparent)$/i.test(
+        value,
+      )
     )
+  }
+  static fromIosColor(value: { CGColor: string | number }) {
+    return new Color(value.CGColor)
   }
   get ios() {
     return { CGColor: this.value }

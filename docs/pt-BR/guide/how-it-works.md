@@ -1,11 +1,13 @@
 # Como funciona
 
-Quando uma animação começa, o Jolt resolve de onde cada propriedade parte (o valor na tela, ou os keyframes que você deu), e calcula a curva inteira: easing, keyframes, física do spring e desaceleração exponencial. Ele amostra a curva 60 vezes por segundo de movimento, e mantém os tempos dos keyframes exatos. Trechos lineares não são amostrados. Decays livres muito longos limitam a amostragem a 6.001 keyframes.
+Quando uma animação começa, o Jolt resolve de onde cada propriedade parte (o valor na tela, ou os keyframes que você deu), e calcula a curva inteira: easing, keyframes, física do spring e desaceleração exponencial. Ele amostra a curva 60 vezes por segundo de movimento, e mantém os tempos dos keyframes exatos. Trechos numéricos lineares usam só os extremos. Segmentos longos de tween e decays livres limitam a amostragem a 6.001 keyframes. Cores acrescentam amostras intermediárias em OKLab mesmo com timing linear.
 
 As amostras vão para a plataforma de uma vez:
 
 - **iOS**: um `CAKeyframeAnimation` por propriedade na layer da view (`opacity`, `transform.translation.x`, `transform.scale.y`, `transform.rotation.z`...). O Core Animation os compõe, então `x` e `scale` podem pertencer a animações diferentes, e os toca no render server.
 - **Android**: um `ObjectAnimator` por propriedade com `Keyframe`s e um interpolador linear, nos `alpha`, `translationX`, `scaleY`, `rotation`... da view.
+
+[Cores](./colors) sólidas usam keyframes de CGColor no iOS e keyframes inteiros através de um alvo Java nativo no Android. No iOS, o texto usa uma máscara alfa do UILabel para manter a posição dos caracteres enquanto a camada de cor anima.
 
 Antes de tocar, os valores finais são definidos na view do NativeScript, como o `view.animate()` faz, então `view.translateX` já contém o alvo enquanto a animação roda. Parar escreve de volta os valores na tela.
 

@@ -35,6 +35,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 
 - [25 presets](#presets) to enter, exit and draw attention: `fadeInUp`, `popIn`, `shake`, `heartbeat`...
 - [Springs](#springs) described by feel (`bouncy`), by `bounce` and `duration`, or by stiffness, damping and mass.
+- [Colors](#colors) for backgrounds, borders and text, interpolated in OKLab on iOS and Android.
 - [Decay](#decay) from a release velocity, with optional snap points.
 - [Keyframes and tweens](#tweens) with an easing per segment and exact keyframe times.
 - [Stagger](#several-views) across several views, from the first, the last or the center.
@@ -69,14 +70,15 @@ On iOS 15+, Jolt requests up to 120 Hz on ProMotion displays. Set `CADisableMini
 animate(card, { opacity: 0.5, y: -20 })
 ```
 
-| Property             | Unit                                     |
-| -------------------- | ---------------------------------------- |
-| `opacity`            |                                          |
-| `x`, `y`             | DIPs, same as `translateX`, `translateY` |
-| `scale`              | sets `scaleX` and `scaleY` together      |
-| `scaleX`, `scaleY`   |                                          |
-| `rotate`             | degrees                                  |
-| `rotateX`, `rotateY` | degrees, with perspective                |
+| Property                                  | Unit                                     |
+| ----------------------------------------- | ---------------------------------------- |
+| `opacity`                                 |                                          |
+| `x`, `y`                                  | DIPs, same as `translateX`, `translateY` |
+| `scale`                                   | sets `scaleX` and `scaleY` together      |
+| `scaleX`, `scaleY`                        |                                          |
+| `rotate`                                  | degrees                                  |
+| `rotateX`, `rotateY`                      | degrees, with perspective                |
+| `backgroundColor`, `borderColor`, `color` | NativeScript color string or `Color`     |
 
 3D rotations and flip presets use the view's `perspective` on both platforms (NativeScript defaults to 1000 DIPs). Set `card.perspective = 600` for stronger depth. Android applies the display density when configuring its camera distance; it keeps the perspective when a rotation ends or stops at an angle.
 
@@ -111,9 +113,29 @@ const open = () => animate(card.value, 'popIn')
 
 A view that isn't loaded yet takes its first absolute keyframe right away and plays once it's on screen. Calling `animate(title, 'fadeInUp')` in `onMounted` doesn't flash the title before it fades in. Relative animations leave the view's values alone until it loads.
 
+## Colors
+
+```ts
+animate(
+  card,
+  {
+    backgroundColor: '#263b27',
+    borderColor: ['#b6ee64', '#e5a1ff'],
+    color: '#f4caff',
+  },
+  { duration: 800 },
+)
+```
+
+Color strings and NativeScript `Color` objects work as targets or keyframes; `null` starts from the visible color. Colors interpolate in premultiplied OKLab and stay absolute with `relative: true`. Interruptions, repeats and `stop(card, ['backgroundColor'])` use the same API as transforms. Colors default to a 300 ms tween.
+
+`borderColor` requires the same starting color on every edge; widths and corner radii may differ. Text color supports Label and Button on iOS, and TextBase on Android. Explicit formatted-span colors stay intact. On iOS, text uses a native alpha-mask layer preserving UILabel's layout; emoji, attachments, text shadows and masks above four million pixels keep the final model color and resolve `false`. Edits, restyling and unloading cancel text playback and restore the current text. Gradients and images themselves are not interpolated. iOS background-color playback on an image background is skipped to preserve Core’s rasterized image; the final model color is applied. See the [color guide](https://jolt.rafaelaugusto.dev/guide/colors).
+
+Android includes a Java animation target; rebuild the native app after installing or upgrading Jolt.
+
 ## Transitions
 
-The third argument says how to get there. Without one, transforms move with a spring and `opacity` eases over 300ms. Keyframes tween.
+The third argument says how to get there. Without one, transforms move with a spring and opacity and colors ease over 300ms. Keyframes tween.
 
 ### Springs
 
@@ -378,12 +400,14 @@ If part of an animation is stopped, its `finished` promise resolves with `false`
 
 ## How it works
 
-When an animation starts, Jolt resolves where each property starts from (the value on screen, or the keyframes you gave), and computes the whole curve: easing, keyframes, spring physics and exponential decay. It samples the curve 60 times per second of motion, and keeps keyframe times exact. Linear segments aren't sampled at all. Very long free decays cap sampling at 6,001 keyframes.
+When an animation starts, Jolt resolves where each property starts from (the value on screen, or the keyframes you gave), and computes the whole curve: easing, keyframes, spring physics and exponential decay. It samples the curve 60 times per second of motion, and keeps keyframe times exact. Linear numeric segments use only their endpoints. Long tween segments and free decays cap sampling at 6,001 keyframes. Color tracks add intermediate OKLab samples even with linear timing.
 
 The samples go to the platform in one go:
 
 - **iOS**: a `CAKeyframeAnimation` per property on the view's layer (`opacity`, `transform.translation.x`, `transform.scale.y`, `transform.rotation.z`...). Core Animation composes them, so `x` and `scale` can belong to different animations, and plays them in the render server.
 - **Android**: an `ObjectAnimator` per property with `Keyframe`s and a linear interpolator, on the view's `alpha`, `translationX`, `scaleY`, `rotation`...
+
+Solid [colors](#colors) use CGColor keyframes on iOS and int keyframes through a native Java target on Android. iOS text uses a UILabel alpha mask so glyph positions stay fixed while the color layer animates.
 
 Before playing, the final values are set on the NativeScript view, like `view.animate()` does, so `view.translateX` already holds the target while the animation runs. Stopping writes back the values on screen.
 
@@ -393,7 +417,7 @@ Each running property remembers its curve and start time. On Android, interrupti
 
 ## Not there yet
 
-- `animate()` covers transforms and opacity. Colors ([#12](https://github.com/rafaelaugustos/jolt/issues/12)), borders and shadows ([#13](https://github.com/rafaelaugustos/jolt/issues/13)), size and layout changes ([#21](https://github.com/rafaelaugustos/jolt/issues/21)) aren't animated yet.
+- `animate()` covers transforms, opacity and solid colors. Border widths, corner radii and shadows ([#13](https://github.com/rafaelaugustos/jolt/issues/13)), size and layout changes ([#21](https://github.com/rafaelaugustos/jolt/issues/21)) aren't animated yet.
 - Gesture tracking and drag constraints are next ([#23](https://github.com/rafaelaugustos/jolt/issues/23)); `decay()` supplies the motion after release.
 - No layout or shared element transitions ([#21](https://github.com/rafaelaugustos/jolt/issues/21), [#24](https://github.com/rafaelaugustos/jolt/issues/24)).
 
