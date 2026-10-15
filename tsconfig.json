@@ -19,6 +19,7 @@
     "types": [
       "@nativescript/types-ios",
       "@nativescript/types-ios/lib/ios/objc-x86_64/objc!Symbols",
+      "@nativescript/types-ios/lib/ios/objc-x86_64/objc!SpriteKit",
       "@nativescript/types-android"
     ]
   },

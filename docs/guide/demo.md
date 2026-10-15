@@ -46,4 +46,4 @@ Native animation handles, stage timers and touch bindings belong to each mounted
 
 This is a local UI demo. It does not record speech, search files, play audio or contact a service. Document previews and the 37-second waveform are simulated; typed messages last only for the current app session.
 
-The orb is a transparent bitmap animated with scale, rotation, position and opacity. Its colored folds are part of the illustration. Fluid deformation would require a shader that Jolt does not currently provide.
+The orb uses one transparent bitmap. [`liquid()`](./liquid) deforms its texture with a native repeating warp while `animate()` controls its scale, rotation, position and opacity. Pause freezes both motions. The colored folds come from the artwork; this is texture deformation rather than a fluid simulation.

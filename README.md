@@ -43,6 +43,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Text entrances](#text) by letter or word on iOS, preserving the Label’s layout and accessibility.
 - [SF Symbol effects](#sf-symbols) and animated icon replacement on iOS 17+.
 - [Shimmer](#shimmer) for loading placeholders on iOS.
+- [Liquid images](#liquid-images) with native texture deformation on iOS.
 - [Loaders](#loaders) with dots, bars and ring styles on iOS.
 - [Circular reveal](#circular-reveal) to show or hide content from a point on iOS.
 - [Haptics](#haptics) at arrival or at marked points in an animation on iOS.
@@ -290,6 +291,19 @@ stopShimmer() // when the content is ready
 
 A native gradient mask sweeps across the placeholder and its children. It follows layout changes, preserves existing masks and releases native resources while the view is unloaded, resuming on load. Reduce Motion keeps the placeholder static. iOS only for now; Android calls return a no-op cleanup function. See the [shimmer guide](https://jolt.rafaelaugusto.dev/guide/shimmer).
 
+## Liquid images
+
+```ts
+import { liquid } from '@rafaelaugusto/jolt'
+
+const flow = liquid(orb, { intensity: 0.9, duration: 7200 })
+flow.pause()
+flow.resume()
+flow.stop()
+```
+
+Parts of the image move relative to each other through a native repeating texture warp. Transparency and stretch are preserved; pause freezes the current shape and stop restores the original image. Reduce Motion keeps the image static. iOS only; Android returns an inert handle. See the [liquid image guide](https://jolt.rafaelaugusto.dev/guide/liquid).
+
 ## Loaders
 
 ```ts
@@ -385,7 +399,9 @@ Each running property remembers its curve and start time. On Android, interrupti
 
 ## API
 
-**Animating**: `animate(target, keyframes | preset, transition?)`, `decay(target, velocity, options?)`, `stop(target, properties?)`, `sequence(steps)`, `press(target, pressed?, transition?)`, `symbolEffect(image, effect, options?)`, `shimmer(target, options?)`, `loader(target, options?)`, `reveal(target, options?)`, `conceal(target, options?)`, `confetti(target, options?)`, `particles(target, options?)`.
+**Animating**: `animate(target, keyframes | preset, transition?)`, `decay(target, velocity, options?)`, `stop(target, properties?)`, `sequence(steps)`, `press(target, pressed?, transition?)`, `symbolEffect(image, effect, options?)`, `shimmer(target, options?)`, `liquid(image, options?)`, `loader(target, options?)`, `reveal(target, options?)`, `conceal(target, options?)`, `confetti(target, options?)`, `particles(target, options?)`.
+
+`liquid()` returns a `LiquidEffect` with `pause()`, `resume()` and `stop()`.
 
 **Animations** from `animate()`, `decay()`, `sequence()`, `symbolEffect()`, `reveal()` and `conceal()`: `await`, `finished`, `stop()`. `press()`, `shimmer()`, `loader()`, `confetti()` and `particles()` return cleanup functions.
 

@@ -46,4 +46,4 @@ Cada tela cuida dos seus handles de animação, temporizadores de etapas e vínc
 
 Esta é uma demo local de interface. Ela não grava voz, busca arquivos, reproduz áudio nem acessa um serviço. As prévias de documentos e a onda de áudio de 37 segundos são simuladas. As mensagens digitadas duram apenas durante a sessão do app.
 
-A esfera é uma imagem transparente animada com escala, rotação, posição e opacidade. As dobras coloridas fazem parte da ilustração. Uma deformação fluida precisaria de um shader que o Jolt ainda não oferece.
+A esfera usa uma única imagem transparente. [`liquid()`](./liquid) deforma sua textura com uma malha animada nativa, enquanto `animate()` controla escala, rotação, posição e opacidade. A pausa congela os dois movimentos. As dobras coloridas vêm da arte; o efeito deforma a textura, sem simular um fluido.
