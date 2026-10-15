@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add iOS `reveal()` and `conceal()` with circular masks, native completion, continuous reversal and Reduce Motion support.
 - Add iOS `loader()` indicators with dots, bars and ring styles, native replication, layout updates and a static Reduce Motion fallback.
 
 ## 0.1.0-beta.2 (2026-10-14)

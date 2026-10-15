@@ -42,6 +42,16 @@ export class View extends Observable {
   isLoaded = true
   isEnabled = true
   nativeViewProtected: object | undefined = {}
+  private visible: 'visible' | 'hidden' | 'collapse' = 'visible'
+
+  get visibility() {
+    return this.visible
+  }
+  set visibility(value: 'visible' | 'hidden' | 'collapse') {
+    if (value === this.visible) return
+    this.visible = value
+    this.style.notify({ eventName: 'visibilityChange', object: this.style })
+  }
 
   opacity = 1
   translateX = 0

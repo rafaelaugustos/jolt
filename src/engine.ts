@@ -12,7 +12,7 @@ export interface Animation extends PromiseLike<boolean> {
    * Never rejects.
    */
   readonly finished: Promise<boolean>
-  /** Stops playback. Property animations keep their current values; symbol effects are removed. */
+  /** Stops playback. Each effect documents whether it preserves or restores its visual state. */
   stop(): void
 }
 

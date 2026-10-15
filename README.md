@@ -42,6 +42,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [SF Symbol effects](#sf-symbols) and animated icon replacement on iOS 17+.
 - [Shimmer](#shimmer) for loading placeholders on iOS.
 - [Loaders](#loaders) with dots, bars and ring styles on iOS.
+- [Circular reveal](#circular-reveal) to show or hide content from a point on iOS.
 - [Haptics](#haptics) at arrival or at marked points in an animation on iOS.
 - [Particles and confetti](#particles-and-confetti) on iOS.
 - [Interruptions](#interrupting-and-stopping) that pick up the value and velocity on screen, with no jump.
@@ -283,6 +284,17 @@ stopLoading() // when the content is ready
 
 Choose `dots`, `bars` or `ring`. Each indicator uses one native animation replicated across a layer, fits inside its target and stays centered as the target resizes. Reduce Motion shows a static indicator. Unloading releases native resources; loading resumes until explicitly stopped. iOS only for now. See the [loaders guide](https://jolt.rafaelaugusto.dev/guide/loaders).
 
+## Circular reveal
+
+```ts
+import { reveal, conceal } from '@rafaelaugusto/jolt'
+
+await reveal(details, { from: { x: 40, y: 40 }, duration: 500 })
+await conceal(details, { to: { x: 40, y: 40 } })
+```
+
+A native circle reveals the view's content or contracts to hide it. Reversing continues from the circle on screen. Existing masks are restored when the effect ends; conceal finishes with `visibility = 'hidden'`, preserving layout space. Reduce Motion applies the final visibility immediately. iOS only for now. See the [circular reveal guide](https://jolt.rafaelaugusto.dev/guide/reveal) for cancellation and layout behavior.
+
 ## Haptics
 
 ```ts
@@ -343,15 +355,15 @@ Each running property remembers its curve and start time, so Jolt knows the valu
 
 ## API
 
-**Animating**: `animate(target, keyframes | preset, transition?)`, `stop(target, properties?)`, `sequence(steps)`, `press(target, pressed?, transition?)`, `symbolEffect(image, effect, options?)`, `shimmer(target, options?)`, `loader(target, options?)`, `confetti(target, options?)`, `particles(target, options?)`.
+**Animating**: `animate(target, keyframes | preset, transition?)`, `stop(target, properties?)`, `sequence(steps)`, `press(target, pressed?, transition?)`, `symbolEffect(image, effect, options?)`, `shimmer(target, options?)`, `loader(target, options?)`, `reveal(target, options?)`, `conceal(target, options?)`, `confetti(target, options?)`, `particles(target, options?)`.
 
-**Animations** from `animate()`, `sequence()` and `symbolEffect()`: `await`, `finished`, `stop()`. `press()`, `shimmer()`, `loader()`, `confetti()` and `particles()` return cleanup functions.
+**Animations** from `animate()`, `sequence()`, `symbolEffect()`, `reveal()` and `conceal()`: `await`, `finished`, `stop()`. `press()`, `shimmer()`, `loader()`, `confetti()` and `particles()` return cleanup functions.
 
 **Helpers**: `definePreset`, `presets`, `springs`, `cubicBezier`, plus the types (`Keyframes`, `Transition`, `Spring`, `Tween`, `Preset`, `Presets`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target`...).
 
 ## Demo
 
-[`demo/`](./demo) is a NativeScript-Vue app with every preset, the three springs on a ball you can interrupt, stagger, press effects, SF Symbols, shimmer, loaders, haptics and particles on iOS, loops and a sequence on launch.
+[`demo/`](./demo) is a NativeScript-Vue app with every preset, the three springs on a ball you can interrupt, stagger, press effects, SF Symbols, shimmer, loaders, circular reveals, haptics and particles on iOS, loops and a sequence on launch.
 
 With the [NativeScript CLI](https://docs.nativescript.org/setup/) installed:
 
