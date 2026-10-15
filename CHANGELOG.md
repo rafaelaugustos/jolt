@@ -2,8 +2,9 @@
 
 ## Unreleased
 
-- Animate background, border and text colors on iOS and Android through `animate()`, with OKLab interpolation, native keyframes, interruption and selective stopping. Add a palette demo and native Android color target.
+## 0.1.0-beta.4 (2026-10-15)
 
+- Animate background, border and text colors on iOS and Android through `animate()`, with OKLab interpolation, native keyframes, interruption and selective stopping. Add a palette demo and native Android color target. Rebuild Android apps after upgrading to include the native code.
 - Add iOS `liquid()` texture deformation for raster images, with native looping, pause/resume, image restoration, lifecycle cleanup and Reduce Motion support. Use it on the assistant's voice orb.
 - Add an interactive iOS assistant demo with animated text, spring-driven tool cards, voice and chat transitions, document previews and a replay of the full flow. Keep the animation playground available on both platforms.
 
