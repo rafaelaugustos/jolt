@@ -1,5 +1,7 @@
 # iOS animation startup
 
+For the separate Android container-opacity measurement, see the [fade-layer benchmark](./android-fade.md).
+
 Measures the synchronous cost of `animate(rows, 'fadeInUp', { stagger: 30 })` on 50 and 200 loaded rows. This is the workload from [#11](https://github.com/rafaelaugustos/jolt/issues/11). `fadeInUp` uses two tracks per row: opacity and vertical translation.
 
 The first [device results](./results/2026-10-14-ios-startup.md) show medians of about 21 ms for 50 rows and 53–54 ms for 200 rows on an iPhone 17 Pro.

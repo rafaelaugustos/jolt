@@ -361,6 +361,8 @@ The samples go to the platform in one go:
 
 Before playing, the final values are set on the NativeScript view, like `view.animate()` does, so `view.translateX` already holds the target while the animation runs. Stopping writes back the values on screen.
 
+On Android, opacity animations temporarily cache hardware-accelerated containers with children in a hardware layer. Jolt waits for the fade to start and restores the layer on completion, stop, replacement or unload. Existing app-configured layers are preserved; empty, unmeasured and larger-than-screen containers are skipped. See the [fade-layer benchmark](./benchmarks/android-fade.md) for measurement and memory tradeoffs.
+
 Each running property remembers its curve and start time, so Jolt knows the value and velocity of any property at any moment without asking the platform. That's what lets an interruption pick up the motion where it was. On Android, where an animator starts on the next frame, it reads the value on screen instead.
 
 ## Not there yet

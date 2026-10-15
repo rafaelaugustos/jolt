@@ -1,0 +1,640 @@
+{
+  "device": {
+    "serial": "emulator-5582",
+    "collectedAt": "2026-10-15T03:07:12.563Z",
+    "fingerprint": "google/sdk_gphone64_arm64/emu64a:15/AE3A.240806.043/12960925:userdebug/dev-keys",
+    "emulator": true,
+    "gpu": [
+      "GLES: Google (Google Inc. (Google)), Android Emulator OpenGL ES Translator (ANGLE (Google, Vulkan 1.2.0 (SwiftShader Device (LLVM 10.0.0) (0x0000C0DE)), SwiftShader driver-5.0.0)), OpenGL ES 3.1 (OpenGL ES 3.1.0 (ANGLE 2.1.1 git hash: fbf66f49c7cc))"
+    ],
+    "benchmark": {
+      "build": {
+        "commit": "3fa78119273aea10edba025bb9aebd5ba88020e1",
+        "dirty": true,
+        "jolt": "0.1.0-beta.2",
+        "core": "9.1.3",
+        "runtime": "9.1.1",
+        "driverSha256": "4772f8e8c93a6cb098942d80d83feabd5d38d4f1c2ce3977970bec0cc01bdc46",
+        "bundleMode": "production",
+        "builtAt": "2026-10-15T03:05:18.121Z"
+      },
+      "phase": "ready",
+      "lifecyclePassed": true,
+      "device": "sdk_gphone64_arm64",
+      "os": "15",
+      "sdk": 35,
+      "density": 2.625,
+      "debuggable": false,
+      "boundsPixels": {
+        "width": 840,
+        "height": 945
+      },
+      "duration": 1200,
+      "repeat": 5
+    }
+  },
+  "nativeReports": [
+    {
+      "id": "1-baseline",
+      "mode": "baseline",
+      "startedAt": 508627,
+      "completedAt": 515847,
+      "layerDuring": 0,
+      "layerAfter": 0
+    },
+    {
+      "id": "2-hardware",
+      "mode": "hardware",
+      "startedAt": 517051,
+      "completedAt": 524260,
+      "layerDuring": 2,
+      "layerAfter": 0
+    },
+    {
+      "id": "3-hardware",
+      "mode": "hardware",
+      "startedAt": 525579,
+      "completedAt": 532798,
+      "layerDuring": 2,
+      "layerAfter": 0
+    },
+    {
+      "id": "4-baseline",
+      "mode": "baseline",
+      "startedAt": 534059,
+      "completedAt": 541277,
+      "layerDuring": 0,
+      "layerAfter": 0
+    },
+    {
+      "id": "5-baseline",
+      "mode": "baseline",
+      "startedAt": 542445,
+      "completedAt": 549660,
+      "layerDuring": 0,
+      "layerAfter": 0
+    },
+    {
+      "id": "6-hardware",
+      "mode": "hardware",
+      "startedAt": 550844,
+      "completedAt": 558061,
+      "layerDuring": 2,
+      "layerAfter": 0
+    }
+  ],
+  "runs": [
+    {
+      "id": "1-baseline",
+      "mode": "baseline",
+      "activation": {
+        "samples": 67,
+        "frameMs": {
+          "count": 67,
+          "median": 41.584162,
+          "p95": 150.761424,
+          "max": 185.106213
+        },
+        "drawMs": {
+          "count": 67,
+          "median": 0.007208,
+          "p95": 0.011625,
+          "max": 1.051417
+        },
+        "commandMs": {
+          "count": 67,
+          "median": 6.835209,
+          "p95": 11.381792,
+          "max": 90.628375
+        },
+        "missedDeadlines": 9,
+        "gfxinfo": [
+          "Total frames rendered: 67",
+          "Janky frames: 9 (13.43%)",
+          "50th percentile: 27ms",
+          "90th percentile: 48ms",
+          "95th percentile: 113ms",
+          "99th percentile: 150ms",
+          "50th gpu percentile: 18ms",
+          "90th gpu percentile: 25ms",
+          "95th gpu percentile: 4950ms",
+          "99th gpu percentile: 4950ms",
+          "Total frames rendered: 67",
+          "Janky frames: 9 (13.43%)",
+          "50th percentile: 27ms",
+          "90th percentile: 48ms",
+          "95th percentile: 113ms",
+          "99th percentile: 150ms",
+          "50th gpu percentile: 18ms",
+          "90th gpu percentile: 25ms",
+          "95th gpu percentile: 4950ms",
+          "99th gpu percentile: 4950ms"
+        ]
+      },
+      "steady": {
+        "samples": 120,
+        "frameMs": {
+          "count": 120,
+          "median": 45.119395,
+          "p95": 72.728514,
+          "max": 104.766307
+        },
+        "drawMs": {
+          "count": 120,
+          "median": 0.007333,
+          "p95": 0.010916,
+          "max": 1.023417
+        },
+        "commandMs": {
+          "count": 120,
+          "median": 7.2312505,
+          "p95": 11.087583,
+          "max": 15.491625
+        },
+        "missedDeadlines": 9,
+        "gfxinfo": [
+          "Total frames rendered: 257",
+          "Janky frames: 22 (8.56%)",
+          "50th percentile: 29ms",
+          "90th percentile: 42ms",
+          "95th percentile: 48ms",
+          "99th percentile: 73ms",
+          "50th gpu percentile: 18ms",
+          "90th gpu percentile: 24ms",
+          "95th gpu percentile: 4950ms",
+          "99th gpu percentile: 4950ms",
+          "Total frames rendered: 257",
+          "Janky frames: 22 (8.56%)",
+          "50th percentile: 29ms",
+          "90th percentile: 42ms",
+          "95th percentile: 48ms",
+          "99th percentile: 73ms",
+          "50th gpu percentile: 18ms",
+          "90th gpu percentile: 24ms",
+          "95th gpu percentile: 4950ms",
+          "99th gpu percentile: 4950ms"
+        ]
+      }
+    },
+    {
+      "id": "2-hardware",
+      "mode": "hardware",
+      "activation": {
+        "samples": 74,
+        "frameMs": {
+          "count": 74,
+          "median": 17.1127745,
+          "p95": 79.190582,
+          "max": 117.783586
+        },
+        "drawMs": {
+          "count": 74,
+          "median": 0.0068335,
+          "p95": 0.012459,
+          "max": 0.185542
+        },
+        "commandMs": {
+          "count": 74,
+          "median": 5.605062,
+          "p95": 17.219625,
+          "max": 66.760125
+        },
+        "missedDeadlines": 8,
+        "gfxinfo": [
+          "Total frames rendered: 74",
+          "Janky frames: 8 (10.81%)",
+          "50th percentile: 17ms",
+          "90th percentile: 44ms",
+          "95th percentile: 61ms",
+          "99th percentile: 101ms",
+          "50th gpu percentile: 16ms",
+          "90th gpu percentile: 22ms",
+          "95th gpu percentile: 25ms",
+          "99th gpu percentile: 4950ms",
+          "Total frames rendered: 74",
+          "Janky frames: 8 (10.81%)",
+          "50th percentile: 17ms",
+          "90th percentile: 44ms",
+          "95th percentile: 61ms",
+          "99th percentile: 101ms",
+          "50th gpu percentile: 16ms",
+          "90th gpu percentile: 22ms",
+          "95th gpu percentile: 25ms",
+          "99th gpu percentile: 4950ms"
+        ]
+      },
+      "steady": {
+        "samples": 120,
+        "frameMs": {
+          "count": 120,
+          "median": 42.724855500000004,
+          "p95": 59.416838,
+          "max": 70.190877
+        },
+        "drawMs": {
+          "count": 120,
+          "median": 0.0066665000000000006,
+          "p95": 0.010208,
+          "max": 0.295208
+        },
+        "commandMs": {
+          "count": 120,
+          "median": 6.5647085,
+          "p95": 9.235708,
+          "max": 14.866875
+        },
+        "missedDeadlines": 3,
+        "gfxinfo": [
+          "Total frames rendered: 252",
+          "Janky frames: 20 (7.94%)",
+          "50th percentile: 29ms",
+          "90th percentile: 44ms",
+          "95th percentile: 48ms",
+          "99th percentile: 53ms",
+          "50th gpu percentile: 18ms",
+          "90th gpu percentile: 23ms",
+          "95th gpu percentile: 4950ms",
+          "99th gpu percentile: 4950ms",
+          "Total frames rendered: 252",
+          "Janky frames: 20 (7.94%)",
+          "50th percentile: 29ms",
+          "90th percentile: 44ms",
+          "95th percentile: 48ms",
+          "99th percentile: 53ms",
+          "50th gpu percentile: 18ms",
+          "90th gpu percentile: 23ms",
+          "95th gpu percentile: 4950ms",
+          "99th gpu percentile: 4950ms"
+        ]
+      }
+    },
+    {
+      "id": "3-hardware",
+      "mode": "hardware",
+      "activation": {
+        "samples": 81,
+        "frameMs": {
+          "count": 81,
+          "median": 17.218969,
+          "p95": 35.61202,
+          "max": 63.082022
+        },
+        "drawMs": {
+          "count": 81,
+          "median": 0.007583,
+          "p95": 0.011125,
+          "max": 0.241375
+        },
+        "commandMs": {
+          "count": 81,
+          "median": 5.740042,
+          "p95": 8.5095,
+          "max": 10.436375
+        },
+        "missedDeadlines": 4,
+        "gfxinfo": [
+          "Total frames rendered: 81",
+          "Janky frames: 4 (4.94%)",
+          "50th percentile: 17ms",
+          "90th percentile: 26ms",
+          "95th percentile: 30ms",
+          "99th percentile: 38ms",
+          "50th gpu percentile: 11ms",
+          "90th gpu percentile: 20ms",
+          "95th gpu percentile: 23ms",
+          "99th gpu percentile: 4950ms",
+          "Total frames rendered: 81",
+          "Janky frames: 4 (4.94%)",
+          "50th percentile: 17ms",
+          "90th percentile: 26ms",
+          "95th percentile: 30ms",
+          "99th percentile: 38ms",
+          "50th gpu percentile: 11ms",
+          "90th gpu percentile: 20ms",
+          "95th gpu percentile: 23ms",
+          "99th gpu percentile: 4950ms"
+        ]
+      },
+      "steady": {
+        "samples": 120,
+        "frameMs": {
+          "count": 120,
+          "median": 42.9609655,
+          "p95": 58.752869,
+          "max": 60.555532
+        },
+        "drawMs": {
+          "count": 120,
+          "median": 0.0073124999999999996,
+          "p95": 0.027834,
+          "max": 0.30375
+        },
+        "commandMs": {
+          "count": 120,
+          "median": 6.5034375,
+          "p95": 8.856833,
+          "max": 12.733
+        },
+        "missedDeadlines": 3,
+        "gfxinfo": [
+          "Total frames rendered: 267",
+          "Janky frames: 11 (4.12%)",
+          "50th percentile: 27ms",
+          "90th percentile: 36ms",
+          "95th percentile: 42ms",
+          "99th percentile: 57ms",
+          "50th gpu percentile: 18ms",
+          "90th gpu percentile: 21ms",
+          "95th gpu percentile: 23ms",
+          "99th gpu percentile: 4950ms",
+          "Total frames rendered: 267",
+          "Janky frames: 11 (4.12%)",
+          "50th percentile: 27ms",
+          "90th percentile: 36ms",
+          "95th percentile: 42ms",
+          "99th percentile: 57ms",
+          "50th gpu percentile: 18ms",
+          "90th gpu percentile: 21ms",
+          "95th gpu percentile: 23ms",
+          "99th gpu percentile: 4950ms"
+        ]
+      }
+    },
+    {
+      "id": "4-baseline",
+      "mode": "baseline",
+      "activation": {
+        "samples": 79,
+        "frameMs": {
+          "count": 79,
+          "median": 17.358893,
+          "p95": 26.979404,
+          "max": 29.251864
+        },
+        "drawMs": {
+          "count": 79,
+          "median": 0.008208,
+          "p95": 0.010042,
+          "max": 0.080041
+        },
+        "commandMs": {
+          "count": 79,
+          "median": 6.544958,
+          "p95": 8.93525,
+          "max": 16.587792
+        },
+        "missedDeadlines": 2,
+        "gfxinfo": [
+          "Total frames rendered: 79",
+          "Janky frames: 2 (2.53%)",
+          "50th percentile: 17ms",
+          "90th percentile: 24ms",
+          "95th percentile: 25ms",
+          "99th percentile: 28ms",
+          "50th gpu percentile: 10ms",
+          "90th gpu percentile: 18ms",
+          "95th gpu percentile: 19ms",
+          "99th gpu percentile: 22ms",
+          "Total frames rendered: 79",
+          "Janky frames: 2 (2.53%)",
+          "50th percentile: 17ms",
+          "90th percentile: 24ms",
+          "95th percentile: 25ms",
+          "99th percentile: 28ms",
+          "50th gpu percentile: 10ms",
+          "90th gpu percentile: 18ms",
+          "95th gpu percentile: 19ms",
+          "99th gpu percentile: 22ms"
+        ]
+      },
+      "steady": {
+        "samples": 120,
+        "frameMs": {
+          "count": 120,
+          "median": 43.4563565,
+          "p95": 59.520518,
+          "max": 70.963055
+        },
+        "drawMs": {
+          "count": 120,
+          "median": 0.006916500000000001,
+          "p95": 0.009417,
+          "max": 0.146542
+        },
+        "commandMs": {
+          "count": 120,
+          "median": 6.2115,
+          "p95": 10.4575,
+          "max": 15.08875
+        },
+        "missedDeadlines": 5,
+        "gfxinfo": [
+          "Total frames rendered: 267",
+          "Janky frames: 15 (5.62%)",
+          "50th percentile: 28ms",
+          "90th percentile: 40ms",
+          "95th percentile: 44ms",
+          "99th percentile: 57ms",
+          "50th gpu percentile: 18ms",
+          "90th gpu percentile: 22ms",
+          "95th gpu percentile: 24ms",
+          "99th gpu percentile: 4950ms",
+          "Total frames rendered: 267",
+          "Janky frames: 15 (5.62%)",
+          "50th percentile: 28ms",
+          "90th percentile: 40ms",
+          "95th percentile: 44ms",
+          "99th percentile: 57ms",
+          "50th gpu percentile: 18ms",
+          "90th gpu percentile: 22ms",
+          "95th gpu percentile: 24ms",
+          "99th gpu percentile: 4950ms"
+        ]
+      }
+    },
+    {
+      "id": "5-baseline",
+      "mode": "baseline",
+      "activation": {
+        "samples": 79,
+        "frameMs": {
+          "count": 79,
+          "median": 17.121655,
+          "p95": 17.856716,
+          "max": 19.284326
+        },
+        "drawMs": {
+          "count": 79,
+          "median": 0.007042,
+          "p95": 0.009417,
+          "max": 0.106291
+        },
+        "commandMs": {
+          "count": 79,
+          "median": 4.721334,
+          "p95": 7.685958,
+          "max": 9.754625
+        },
+        "missedDeadlines": 2,
+        "gfxinfo": [
+          "Total frames rendered: 79",
+          "Janky frames: 2 (2.53%)",
+          "50th percentile: 17ms",
+          "90th percentile: 17ms",
+          "95th percentile: 17ms",
+          "99th percentile: 19ms",
+          "50th gpu percentile: 12ms",
+          "90th gpu percentile: 17ms",
+          "95th gpu percentile: 17ms",
+          "99th gpu percentile: 17ms",
+          "Total frames rendered: 79",
+          "Janky frames: 2 (2.53%)",
+          "50th percentile: 17ms",
+          "90th percentile: 17ms",
+          "95th percentile: 17ms",
+          "99th percentile: 19ms",
+          "50th gpu percentile: 12ms",
+          "90th gpu percentile: 17ms",
+          "95th gpu percentile: 17ms",
+          "99th gpu percentile: 17ms"
+        ]
+      },
+      "steady": {
+        "samples": 120,
+        "frameMs": {
+          "count": 120,
+          "median": 46.0415025,
+          "p95": 104.185593,
+          "max": 164.634765
+        },
+        "drawMs": {
+          "count": 120,
+          "median": 0.0078335,
+          "p95": 0.063667,
+          "max": 5.435167
+        },
+        "commandMs": {
+          "count": 120,
+          "median": 6.925438,
+          "p95": 17.401334,
+          "max": 36.357792
+        },
+        "missedDeadlines": 20,
+        "gfxinfo": [
+          "Total frames rendered: 247",
+          "Janky frames: 27 (10.93%)",
+          "50th percentile: 29ms",
+          "90th percentile: 48ms",
+          "95th percentile: 57ms",
+          "99th percentile: 97ms",
+          "50th gpu percentile: 18ms",
+          "90th gpu percentile: 24ms",
+          "95th gpu percentile: 4950ms",
+          "99th gpu percentile: 4950ms",
+          "Total frames rendered: 247",
+          "Janky frames: 27 (10.93%)",
+          "50th percentile: 29ms",
+          "90th percentile: 48ms",
+          "95th percentile: 57ms",
+          "99th percentile: 97ms",
+          "50th gpu percentile: 18ms",
+          "90th gpu percentile: 24ms",
+          "95th gpu percentile: 4950ms",
+          "99th gpu percentile: 4950ms"
+        ]
+      }
+    },
+    {
+      "id": "6-hardware",
+      "mode": "hardware",
+      "activation": {
+        "samples": 77,
+        "frameMs": {
+          "count": 77,
+          "median": 40.661747,
+          "p95": 61.231519,
+          "max": 66.059517
+        },
+        "drawMs": {
+          "count": 77,
+          "median": 0.00725,
+          "p95": 0.013208,
+          "max": 0.244875
+        },
+        "commandMs": {
+          "count": 77,
+          "median": 5.220291,
+          "p95": 9.235459,
+          "max": 20.459542
+        },
+        "missedDeadlines": 5,
+        "gfxinfo": [
+          "Total frames rendered: 77",
+          "Janky frames: 5 (6.49%)",
+          "50th percentile: 24ms",
+          "90th percentile: 34ms",
+          "95th percentile: 42ms",
+          "99th percentile: 61ms",
+          "50th gpu percentile: 17ms",
+          "90th gpu percentile: 19ms",
+          "95th gpu percentile: 20ms",
+          "99th gpu percentile: 4950ms",
+          "Total frames rendered: 77",
+          "Janky frames: 5 (6.49%)",
+          "50th percentile: 24ms",
+          "90th percentile: 34ms",
+          "95th percentile: 42ms",
+          "99th percentile: 61ms",
+          "50th gpu percentile: 17ms",
+          "90th gpu percentile: 19ms",
+          "95th gpu percentile: 20ms",
+          "99th gpu percentile: 4950ms"
+        ]
+      },
+      "steady": {
+        "samples": 120,
+        "frameMs": {
+          "count": 120,
+          "median": 26.792391000000002,
+          "p95": 85.025287,
+          "max": 106.702546
+        },
+        "drawMs": {
+          "count": 120,
+          "median": 0.007792,
+          "p95": 0.012083,
+          "max": 3.953583
+        },
+        "commandMs": {
+          "count": 120,
+          "median": 6.3195625,
+          "p95": 13.355666,
+          "max": 19.920917
+        },
+        "missedDeadlines": 15,
+        "gfxinfo": [
+          "Total frames rendered: 228",
+          "Janky frames: 48 (21.05%)",
+          "50th percentile: 28ms",
+          "90th percentile: 61ms",
+          "95th percentile: 77ms",
+          "99th percentile: 93ms",
+          "50th gpu percentile: 19ms",
+          "90th gpu percentile: 4950ms",
+          "95th gpu percentile: 4950ms",
+          "99th gpu percentile: 4950ms",
+          "Total frames rendered: 228",
+          "Janky frames: 48 (21.05%)",
+          "50th percentile: 28ms",
+          "90th percentile: 61ms",
+          "95th percentile: 77ms",
+          "99th percentile: 93ms",
+          "50th gpu percentile: 19ms",
+          "90th gpu percentile: 4950ms",
+          "95th gpu percentile: 4950ms",
+          "99th gpu percentile: 4950ms"
+        ]
+      }
+    }
+  ]
+}

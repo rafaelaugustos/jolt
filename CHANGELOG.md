@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Temporarily cache eligible Android containers in hardware layers during opacity animations, restoring them on completion, stop, replacement or unload. Preserve app-configured layers and skip oversized content trees.
 - Apply the view's perspective and display density to Android X/Y rotation animations, including flips ending at zero.
 - Add `decay()` with exponential translation, projected snap points and shared interruption and stopping with `animate()`.
 - Add iOS `reveal()` and `conceal()` with circular masks, native completion, continuous reversal and Reduce Motion support.
