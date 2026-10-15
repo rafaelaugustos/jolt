@@ -203,7 +203,6 @@ export function playIOSColor(
     )
     animation.keyTimes = NSArray.arrayWithArray(track.times as number[])
     animation.duration = Math.max(track.duration, 1) / 1000
-    timing.configure(animation, layer)
     if (animation.respondsToSelector('setPreferredFrameRateRange:')) {
       const maximum = Math.min(
         120,
@@ -220,6 +219,7 @@ export function playIOSColor(
       animation.autoreverses = track.reverse
       animation.repeatCount = track.reverse ? (track.repeat + 1) / 2 : track.repeat + 1
     }
+    timing.configure(animation, layer)
     CATransaction.begin()
     if (!timing.paused && track.repeat !== Infinity)
       CATransaction.setCompletionBlock(() => {

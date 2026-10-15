@@ -50,6 +50,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Circular reveal](#circular-reveal) to show or hide content from a point on iOS.
 - [Haptics](#haptics) at arrival or at marked points in an animation on iOS.
 - [Particles and confetti](#particles-and-confetti) on iOS.
+- [Scroll-linked animations](#scroll-linked-animations) for parallax and collapsing headers.
 - [Playback controls](#pause-play-and-scrub) to pause, continue and scrub a finite timeline.
 - [Interruptions](#interrupting-and-stopping) that pick up the value and velocity on screen, with no jump.
 - [Native playback](#how-it-works): Core Animation on iOS, `ObjectAnimator` on Android, nothing in JavaScript while it plays.
@@ -389,6 +390,21 @@ stopSnow() // remove the emitter and its particles
 ```
 
 Confetti bursts into the target's window and cleans itself up. `particles()` adds an emitter to the view for snow, sparks, bubbles or other effects. Both use Core Animation without JavaScript per frame, respect Reduce Motion and stop on unload. iOS only for now. See the [particles guide](https://jolt.rafaelaugusto.dev/guide/particles).
+
+## Scroll-linked animations
+
+```ts
+import { scrollLinked } from '@rafaelaugusto/jolt'
+
+const unlink = scrollLinked(
+  scrollView,
+  header,
+  { y: [0, -60], opacity: [1, 0] },
+  { range: [0, 120] },
+)
+```
+
+A paused native animation follows the ScrollView offset in DIPs, with linear interpolation and clamped progress. Scrolling backward restores earlier frames. Use `axis: 'x'` for horizontal scrolling; descending ranges reverse the mapping. `unlink()` freezes the current frame and removes the binding; unloading either view also cleans it up. Scroll events update progress through JavaScript, so this binding needs the main thread to remain available. See the [guide](https://jolt.rafaelaugusto.dev/guide/scroll-linked).
 
 ## Pause, play and scrub
 

@@ -49,3 +49,5 @@ Esta é uma demo local de interface. Ela não grava voz, busca arquivos, reprodu
 A esfera usa uma única imagem transparente. [`liquid()`](./liquid) deforma sua textura com uma malha animada nativa, enquanto `animate()` controla escala, rotação, posição e opacidade. A pausa congela os dois movimentos. As dobras coloridas vêm da arte; o efeito deforma a textura, sem simular um fluido.
 
 O playground também inclui [controles de reprodução](./playback): pause um card, escolha o frame no slider e continue, com um pulso independente ao lado.
+
+O [cabeçalho ligado ao scroll](./scroll-linked) se move e desaparece conforme o ScrollView principal avança, revelando um título compacto fixo. Voltar o scroll restaura o cabeçalho.
