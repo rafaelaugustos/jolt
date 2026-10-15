@@ -50,6 +50,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Circular reveal](#circular-reveal) to show or hide content from a point on iOS.
 - [Haptics](#haptics) at arrival or at marked points in an animation on iOS.
 - [Particles and confetti](#particles-and-confetti) on iOS.
+- [Playback controls](#pause-play-and-scrub) to pause, continue and scrub a finite timeline.
 - [Interruptions](#interrupting-and-stopping) that pick up the value and velocity on screen, with no jump.
 - [Native playback](#how-it-works): Core Animation on iOS, `ObjectAnimator` on Android, nothing in JavaScript while it plays.
 
@@ -388,6 +389,17 @@ stopSnow() // remove the emitter and its particles
 ```
 
 Confetti bursts into the target's window and cleans itself up. `particles()` adds an emitter to the view for snow, sparks, bubbles or other effects. Both use Core Animation without JavaScript per frame, respect Reduce Motion and stop on unload. iOS only for now. See the [particles guide](https://jolt.rafaelaugusto.dev/guide/particles).
+
+## Pause, play and scrub
+
+```ts
+const animation = animate(card, 'flipInY')
+animation.pause()
+animation.progress = 0.4
+animation.play()
+```
+
+`animate()` and `decay()` return a `PlaybackAnimation` with `pause()`, `play()`, `progress`, `paused` and `duration`. Progress runs from 0 to 1 across delays, repeats and stagger. It preserves the paused/playing state; a paused endpoint can scrub backward. Other animations on the same view keep moving. Infinite loops support pause/play but reject progress. Completed and stopped handles remain terminal. Sequence and effect handles keep their existing controls. See [playback](https://jolt.rafaelaugusto.dev/guide/playback) for lifecycle, haptics and gesture examples.
 
 ## Interrupting and stopping
 

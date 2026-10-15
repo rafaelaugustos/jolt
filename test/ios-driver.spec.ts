@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { colorMixer } from '../src/color.js'
 import { Color } from '@nativescript/core'
 import { animate, stop } from '../src/index.js'
 import { setDriver } from '../src/driver/index.js'
@@ -514,5 +515,74 @@ describe('iOS shadow geometry', () => {
     )
     animation.stop()
     expect(await animation).toBe(false)
+  })
+})
+
+describe('iOS playback controls', () => {
+  it('freezes and seeks CAAnimation clocks while preserving layer speed and another track', async () => {
+    const { view, layer } = target()
+    Object.assign(layer, { speed: 1 })
+    const a = animate(view, { x: [0, 100] }, { duration: 1000 })
+    const b = animate(view, { opacity: [1, 0] }, { duration: 2000 })
+    const previous = layer.animations.get('jolt:x')!.owner
+    now += 200
+    a.pause()
+    complete(previous)
+    const held = layer.animations.get('jolt:x')!.animation as any
+    expect(held.speed).toBe(0)
+    expect(held.timeOffset).toBeCloseTo(0.2)
+    expect(held.removedOnCompletion).toBe(false)
+    expect((layer as any).speed).toBe(1)
+    expect((layer.animations.get('jolt:opacity')!.animation as any).speed).toBe(1)
+    a.progress = 0.4
+    expect((layer.animations.get('jolt:x')!.animation as any).timeOffset).toBeCloseTo(0.4)
+    now += 3000
+    expect(a.progress).toBeCloseTo(0.4)
+    a.play()
+    const resumed = layer.animations.get('jolt:x')!.animation as any
+    expect(resumed.speed).toBe(1)
+    expect(resumed.timeOffset).toBe(0)
+    expect(resumed.beginTime).toBeCloseTo(now / 1000 - 0.4)
+    a.stop()
+    b.stop()
+    expect(await a).toBe(false)
+  })
+  it('keeps a paused endpoint retained and ignores stale completion callbacks', async () => {
+    const { view, layer } = target()
+    const animation = animate(view, { borderRadius: [0, 40] }, { duration: 1000 })
+    const previous = layer.animations.get('jolt:borderRadius')!.owner
+    animation.pause()
+    animation.progress = 1
+    complete(previous)
+    layer.background()
+    expect(state(animation.finished)()).toBeUndefined()
+    expect(layer.animations.has('jolt:borderRadius')).toBe(true)
+    animation.progress = 0.2
+    animation.play()
+    layer.removeAutomaticAnimations()
+    expect(await animation).toBe(true)
+  })
+  it('takes over a scrubbed color before CA has committed its new presentation', async () => {
+    const { view, layer } = target()
+    view.backgroundColor = new Color('red')
+    const first = animate(
+      view,
+      { backgroundColor: ['red', 'blue'] },
+      { duration: 1000, ease: 'linear' },
+    )
+    first.pause()
+    first.progress = 0.4
+    layer.backgroundColor = 'red' // the previous presentation is still visible in this turn
+    const second = animate(
+      view,
+      { backgroundColor: 'white' },
+      { duration: 1000, ease: 'linear' },
+    )
+    const next = layer.animations.get('jolt:backgroundColor')!.animation as any
+    expect(next.values[0]).toBe(
+      colorMixer(new Color('red').argb, new Color('blue').argb)(0.4),
+    )
+    second.stop()
+    expect(await first).toBe(false)
   })
 })

@@ -6,6 +6,8 @@ import {
   validateDecorationTarget,
   type DecorationProperty,
 } from '../decoration.js'
+import { androidPlayback, type AndroidPlayback } from './android-playback.js'
+import type { PlaybackCommand } from '../playback.js'
 import type { Track } from '../track.js'
 interface NativeTarget {
   getValue(): number
@@ -15,6 +17,7 @@ interface NativeTarget {
   release(): void
 }
 interface Handle {
+  control(elapsed: number, paused: boolean, command?: PlaybackCommand): void
   cancel(): void
   elapsed(): number
   target: NativeTarget
@@ -62,6 +65,7 @@ export function playAndroidDecoration(
     onEnd(false)
     return {
       cancel() {},
+      control() {},
       elapsed: () => 0,
       target: {
         getValue: () => track.to * density,
@@ -100,8 +104,7 @@ export function playAndroidDecoration(
         : android.animation.ValueAnimator.RESTART,
     )
   }
-  let stopped = false,
-    started = false
+  let stopped = false
   const changes = [
     ...radiusKeys,
     ...widthKeys,
@@ -118,10 +121,11 @@ export function playAndroidDecoration(
     target.release()
     if (playing.get(view)?.get(property) === handle) playing.get(view)?.delete(property)
   }
+  let player: AndroidPlayback | undefined
   const cancel = () => {
     if (!stopped) {
       cleanup()
-      animator.cancel()
+      player?.cancel()
       onEnd(false)
     }
   }
@@ -147,36 +151,29 @@ export function playAndroidDecoration(
   }
   const handle: Handle = {
     target,
-    elapsed: () => (started ? track.delay + animator.getCurrentPlayTime() : 0),
+    elapsed: () => player?.elapsed() ?? 0,
+    control(time, paused, command) {
+      player?.control(time, paused, command)
+    },
     cancel() {
       cleanup()
-      animator.cancel()
+      player?.cancel()
     },
   }
   const entries = playing.get(view) ?? new Map<DecorationProperty, Handle>()
   playing.set(view, entries)
   entries.set(property, handle)
-  animator.addListener(
-    new android.animation.Animator.AnimatorListener({
-      onAnimationStart() {
-        started = true
-      },
-      onAnimationRepeat() {},
-      onAnimationCancel() {},
-      onAnimationEnd() {
-        if (!stopped) {
-          cleanup()
-          onEnd()
-        }
-      },
-    }),
-  )
   view.on('unloaded', cancel)
   for (const event of changes) view.style.on(event, external)
   if (target.isSupported()) {
     target.acquire()
     target.setValue(track.values[0]! * density)
-    animator.start()
+    player = androidPlayback(animator, track, () => {
+      if (!stopped) {
+        cleanup()
+        onEnd()
+      }
+    })
   } else {
     cleanup()
     onEnd(false)

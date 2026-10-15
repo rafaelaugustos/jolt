@@ -11,6 +11,9 @@ export interface Played {
   startedAt: number
   /** The view's values when the track was handed to the platform. */
   snapshot: Record<string, number>
+  held?: boolean
+  offset?: number
+  controlledAt?: number
   stopped: boolean
   ended: boolean
   onEnd: () => void
@@ -50,6 +53,13 @@ export class FakeDriver implements Driver {
     end(played)
   }
 
+  control(_view: CoreView, handle: unknown, elapsed: number, paused: boolean) {
+    const played = handle as Played
+    played.offset = elapsed
+    played.controlledAt = this.time
+    played.held = paused
+  }
+
   presented(): number | undefined {
     return undefined
   }
@@ -71,7 +81,13 @@ export class FakeDriver implements Driver {
       }
     }
     for (const played of this.played) {
-      if (!played.ended && this.time >= played.startedAt + played.track.end) end(played)
+      if (
+        !played.ended &&
+        !played.held &&
+        (played.offset ?? 0) + this.time - (played.controlledAt ?? played.startedAt) >=
+          played.track.end
+      )
+        end(played)
     }
   }
 

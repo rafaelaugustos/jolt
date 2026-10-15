@@ -3,6 +3,8 @@ import {
   validateDecorationTarget,
   validateDecorationFrames,
 } from './decoration.js'
+import { playbackGroup } from './playback-group.js'
+import type { PlaybackAnimation } from './playback.js'
 import { View } from '@nativescript/core'
 import {
   isColorProperty,
@@ -62,7 +64,7 @@ export function animate(
   target: Target | readonly Target[],
   animation: Keyframes | PresetName,
   options?: AnimateOptions | SpringName,
-): Animation {
+): PlaybackAnimation {
   const { keyframes, base, overrides, stagger, relative, haptic } = prepare(
     animation,
     options,
@@ -86,7 +88,7 @@ export function animate(
     for (const property of Object.keys(keyframes))
       if (isColorProperty(property)) validateColorTarget(view, property)
       else if (isDecorationProperty(property)) validateDecorationTarget(view, property)
-  return group(
+  return playbackGroup(
     views.map(
       (view, index) =>
         new ViewAnimation(
@@ -99,6 +101,7 @@ export function animate(
             relative,
           ),
           feedback,
+          true,
         ),
     ),
   )
@@ -109,7 +112,7 @@ export function decay(
   target: Target | readonly Target[],
   velocity: DecayVelocity,
   options: DecayOptions = {},
-): Animation {
+): PlaybackAnimation {
   const friction = options.friction ?? DEFAULT_FRICTION
   if (!Number.isFinite(friction) || friction <= 0 || friction >= 1) {
     throw new RangeError('Decay friction must be between 0 and 1 exclusively.')
@@ -171,8 +174,10 @@ export function decay(
     ]
   })
   const views = toViews(target)
-  if (plans.length === 0) return group([])
-  return group(views.map((view) => new ViewAnimation(view, plans)))
+  if (plans.length === 0) return playbackGroup([])
+  return playbackGroup(
+    views.map((view) => new ViewAnimation(view, plans, undefined, true)),
+  )
 }
 
 /** Stops all or selected properties at their current values. `scale` stops both axes. */

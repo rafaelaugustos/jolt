@@ -1,3 +1,8 @@
+import {
+  androidPlayback,
+  androidClockFactory,
+  type AndroidPlayback,
+} from './android-playback.js'
 import { isDecorationProperty } from '../decoration.js'
 import {
   syncAndroidDecoration,
@@ -16,10 +21,7 @@ import {
 
 type NativeView = android.view.View
 
-interface Handle {
-  cancel(): void
-  elapsed(): number
-}
+type Handle = AndroidPlayback
 
 /** Own only layers we create; keep app-configured hardware/software layers and paints intact. */
 function fadeLayer(view: View, nativeView: NativeView): (() => void) | undefined {
@@ -84,10 +86,15 @@ export function createAndroidDriver(): Driver {
     rotateX: View.ROTATION_X,
     rotateY: View.ROTATION_Y,
   } satisfies Record<NumericProperty, unknown>
+  const clock = androidClockFactory()
   const interpolator = new android.view.animation.LinearInterpolator()
 
   return {
     now: () => android.os.SystemClock.uptimeMillis(),
+    clock,
+    control(_view, handle, elapsed, paused, command) {
+      ;(handle as Handle).control(elapsed, paused, command)
+    },
 
     play(view, track, _startedAt, onEnd) {
       if (isDecorationProperty(track.property))
@@ -116,9 +123,6 @@ export function createAndroidDriver(): Driver {
         nativeView,
         holders,
       )
-      let cancelled = false
-      let ended = false
-      let started = false
       let restoreLayer: (() => void) | undefined
       const releaseLayer = () => {
         restoreLayer?.()
@@ -139,43 +143,20 @@ export function createAndroidDriver(): Driver {
             : android.animation.ValueAnimator.RESTART,
         )
       }
-      animator.addListener(
-        new android.animation.Animator.AnimatorListener({
-          onAnimationStart() {
-            started = true
-            if (
-              !cancelled &&
-              !ended &&
-              track.property === 'opacity' &&
-              track.values.some((value) => value !== track.values[0])
-            )
-              restoreLayer = fadeLayer(view, nativeView)
-          },
-          onAnimationRepeat() {},
-          onAnimationCancel() {
-            cancelled = true
-            releaseLayer()
-          },
-          onAnimationEnd() {
-            if (ended) return
-            ended = true
-            releaseLayer()
-            onEnd()
-          },
-        }),
-      )
-
       accessors[track.property].set(nativeView, track.values[0]! * scale)
-      animator.start()
-      return {
-        elapsed: () => (started ? track.delay + animator.getCurrentPlayTime() : 0),
-        cancel() {
-          // Cancel before native callbacks: Android can send onStart while cancelling a delay.
-          cancelled = true
-          releaseLayer()
-          animator.cancel()
+      return androidPlayback(
+        animator,
+        track,
+        onEnd,
+        () => {
+          if (
+            track.property === 'opacity' &&
+            track.values.some((value) => value !== track.values[0])
+          )
+            restoreLayer = fadeLayer(view, nativeView)
         },
-      } satisfies Handle
+        releaseLayer,
+      )
     },
 
     stop(_view, handle) {

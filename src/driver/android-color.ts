@@ -1,5 +1,7 @@
 import { type View } from '@nativescript/core'
 import { readColor, type ColorProperty } from '../color.js'
+import { androidPlayback, type AndroidPlayback } from './android-playback.js'
+import type { PlaybackCommand } from '../playback.js'
 import type { Track } from '../track.js'
 
 interface NativeTarget {
@@ -8,6 +10,7 @@ interface NativeTarget {
   isSupported(): boolean
 }
 interface ColorHandle {
+  control(elapsed: number, paused: boolean, command?: PlaybackCommand): void
   cancel(): void
   elapsed(): number
   target: NativeTarget
@@ -67,6 +70,7 @@ export function playAndroidColor(
     onEnd(false)
     return {
       cancel() {},
+      control() {},
       elapsed: () => 0,
       target: {
         getColor: () => readColor(view, property),
@@ -103,7 +107,6 @@ export function playAndroidColor(
     )
   }
   let stopped = false,
-    started = false,
     queued = false
   const cleanup = () => {
     if (stopped) return
@@ -116,10 +119,11 @@ export function playAndroidColor(
     for (const name of changes) view.style.off(name, invalidate)
     if (playing.get(view)?.get(property) === handle) playing.get(view)?.delete(property)
   }
+  let player: AndroidPlayback | undefined
   const cancel = () => {
     if (stopped) return
     cleanup()
-    animator.cancel()
+    player?.cancel()
     onEnd(false)
   }
   const invalidate = () => {
@@ -132,30 +136,18 @@ export function playAndroidColor(
   }
   const handle: ColorHandle = {
     target,
-    elapsed: () => (started ? track.delay + animator.getCurrentPlayTime() : 0),
+    elapsed: () => player?.elapsed() ?? 0,
+    control(time, paused, command) {
+      player?.control(time, paused, command)
+    },
     cancel() {
       cleanup()
-      animator.cancel()
+      player?.cancel()
     },
   }
   let entries = playing.get(view)
   if (!entries) playing.set(view, (entries = new Map()))
   entries.set(property, handle)
-  animator.addListener(
-    new android.animation.Animator.AnimatorListener({
-      onAnimationStart() {
-        started = true
-      },
-      onAnimationRepeat() {},
-      onAnimationCancel() {},
-      onAnimationEnd() {
-        if (!stopped) {
-          cleanup()
-          onEnd()
-        }
-      },
-    }),
-  )
   view.on('unloaded', cancel)
   if (property === 'color') {
     view.on('textChange', invalidate)
@@ -164,7 +156,12 @@ export function playAndroidColor(
   for (const name of changes) view.style.on(name, invalidate)
   if (target.isSupported()) {
     target.setColor(track.values[0]! | 0)
-    animator.start()
+    player = androidPlayback(animator, track, () => {
+      if (!stopped) {
+        cleanup()
+        onEnd()
+      }
+    })
   } else {
     cleanup()
     onEnd(false)
