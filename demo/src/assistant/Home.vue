@@ -18,6 +18,7 @@ const fan = ref()
 const motion = new Motion()
 const carousel = new Motion()
 const cards = new Map<number, View>()
+const offsets = new Map<number, number>()
 let width = 0
 let entered = false
 let panStart = 1
@@ -42,6 +43,13 @@ function place(enter = false) {
   const step = Math.min(134, width * 0.335)
   for (const [index, card] of cards) {
     const delta = offset(index)
+    const previous = offsets.get(index)
+    const wrapped = previous !== undefined && Math.abs(delta - previous) > 3
+    const arriving = wrapped && Math.abs(delta) <= 2
+    // Wrap behind the fan instead of sending the hidden card across the screen.
+    const end = wrapped && Math.abs(delta) > 2 ? Math.sign(previous!) * 3 : delta
+    const start = Math.sign(delta) * 3
+    offsets.set(index, delta)
     card.width = cardWidth
     card.left = (width - cardWidth) / 2
     card.top = 24
@@ -49,9 +57,21 @@ function place(enter = false) {
     carousel.play(
       card,
       {
-        x: enter ? [delta * step * 0.7, delta * step] : delta * step,
-        y: enter ? [110 + Math.abs(delta) * 16, delta * delta * 22] : delta * delta * 22,
-        rotate: enter ? [delta * 24, delta * 16] : delta * 16,
+        x: enter
+          ? [delta * step * 0.7, delta * step]
+          : arriving
+            ? [start * step, end * step]
+            : end * step,
+        y: enter
+          ? [110 + Math.abs(delta) * 16, delta * delta * 22]
+          : arriving
+            ? [198, end * end * 22]
+            : end * end * 22,
+        rotate: enter
+          ? [delta * 24, delta * 16]
+          : arriving
+            ? [start * 16, end * 16]
+            : end * 16,
         opacity: enter ? [0, Math.abs(delta) > 2 ? 0 : 1] : Math.abs(delta) > 2 ? 0 : 1,
         scale: enter ? [0.8, 1 - Math.abs(delta) * 0.04] : 1 - Math.abs(delta) * 0.04,
       },
@@ -106,6 +126,7 @@ onBeforeUnmount(() => {
   motion.dispose()
   carousel.dispose()
   cards.clear()
+  offsets.clear()
 })
 defineExpose({ select, selected })
 </script>
