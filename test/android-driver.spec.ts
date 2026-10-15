@@ -474,6 +474,60 @@ function target(perspective = 1000) {
 }
 
 describe('Android animation clock', () => {
+  it.each([0.5, 2])(
+    'uses native markers for overlapping and simultaneous steps at %sx',
+    async (scale) => {
+      durationScale = scale
+      const animation = sequence([
+        [target().view, { rotate: [0, 100] }, { duration: 1000, ease: 'linear' }],
+        [target().view, 'fadeIn', { duration: 100, at: '-150' }],
+        [target().view, 'fadeIn', { duration: 100, at: '<' }],
+      ])
+      const overlap = markers.find((marker) => marker.duration === 850)!
+      expect(overlap.active).toBe(true)
+      await vi.advanceTimersByTimeAsync(10000)
+      expect(animators).toHaveLength(1)
+      overlap.finish()
+      await flush()
+      expect(animators).toHaveLength(3)
+      animation.stop()
+      expect(await animation).toBe(false)
+      expect(markers.every((marker) => !marker.active)).toBe(true)
+    },
+  )
+
+  it('runs absolute offsets on animation time and releases them when stopped', async () => {
+    durationScale = 2
+    const animation = sequence([
+      [target().view, 'fadeIn', { duration: 100, at: 200 }],
+      [target().view, 'fadeIn', { duration: 100, at: 500 }],
+    ])
+    expect(markers.some((marker) => marker.duration === 200)).toBe(true)
+    expect(markers.some((marker) => marker.duration === 500)).toBe(true)
+    await vi.advanceTimersByTimeAsync(10000)
+    expect(animators).toHaveLength(0)
+    markers.find((marker) => marker.duration === 200)!.finish()
+    expect(animators).toHaveLength(1)
+    animation.stop()
+    expect(await animation).toBe(false)
+    expect(markers.every((marker) => !marker.active)).toBe(true)
+    markers.find((marker) => marker.duration === 500)!.finish()
+    expect(animators).toHaveLength(1)
+  })
+
+  it('advances positioned steps immediately with animations disabled', async () => {
+    durationScale = 0
+    const animation = sequence([
+      [target().view, 'fadeIn', { duration: 1000, at: 500 }],
+      [target().view, 'fadeIn', { duration: 100, at: '-150' }],
+      [target().view, 'fadeIn', { duration: 100, at: '<' }],
+      [target().view, 'fadeIn', { duration: 100, at: '+300' }],
+    ])
+    expect(await animation).toBe(true)
+    expect(animators).toHaveLength(4)
+    expect(markers.every((marker) => !marker.active)).toBe(true)
+  })
+
   it.each([0.5, 1, 2])('inherits the velocity at native time at %sx', async (scale) => {
     durationScale = scale
     const { view, native } = target()
