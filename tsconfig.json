@@ -16,7 +16,11 @@
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
-    "types": ["@nativescript/types-ios", "@nativescript/types-android"]
+    "types": [
+      "@nativescript/types-ios",
+      "@nativescript/types-ios/lib/ios/objc-x86_64/objc!Symbols",
+      "@nativescript/types-android"
+    ]
   },
   "include": ["src", "test"]
 }

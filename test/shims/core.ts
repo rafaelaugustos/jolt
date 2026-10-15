@@ -72,6 +72,38 @@ export class View extends Observable {
 export const isAndroid = false
 export const isIOS = true
 
+export class ImageSource {
+  constructor(public ios: { name: string; symbolImage: boolean } | null) {}
+
+  static fromSystemImageSync(name: string) {
+    return name === 'missing' ? null : new ImageSource({ name, symbolImage: true })
+  }
+}
+
+export class Image extends View {
+  loadMode = 'sync'
+  isLoading = false
+  imageSource: ImageSource | undefined
+  private source = ''
+
+  get src() {
+    return this.source
+  }
+
+  set src(value: string) {
+    if (this.source === value) return
+    this.source = value
+    this.imageSource = ImageSource.fromSystemImageSync(value.slice(6)) ?? undefined
+    const native = this.nativeViewProtected as { image: unknown } | undefined
+    if (native) {
+      native.image = null
+      native.image = this.imageSource?.ios
+    }
+    this.notify({ eventName: 'imageSourceChange', object: this })
+    this.notify({ eventName: 'srcChange', object: this })
+  }
+}
+
 export const Utils = {
   layout: { getDisplayDensity: () => 1 },
 }

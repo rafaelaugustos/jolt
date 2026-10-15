@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add `symbolEffect()` for iOS 17+ SF Symbols: bounce, pulse, scale, variable color and animated replacement, with native completion and cancellation.
 - Request up to 120 Hz for native iOS animations on compatible displays. iPhone apps must enable `CADisableMinimumFrameDurationOnPhone` in Info.plist; iOS chooses the actual refresh rate.
 
 ## 0.1.0-beta.1 (2026-10-14)

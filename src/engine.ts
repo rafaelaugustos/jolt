@@ -7,11 +7,11 @@ import type { ResolvedTransition } from './transition.js'
 export interface Animation extends PromiseLike<boolean> {
   /**
    * Resolves with `true` once the animation played to the end, or with `false`
-   * if it was stopped or another animation took over one of its properties.
+   * if it was stopped, superseded or skipped.
    * Never rejects.
    */
   readonly finished: Promise<boolean>
-  /** Stops where it is. The view keeps the values it had at that moment. */
+  /** Stops playback. Property animations keep their current values; symbol effects are removed. */
   stop(): void
 }
 

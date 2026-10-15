@@ -39,6 +39,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Stagger](#several-views) across several views, from the first, the last or the center.
 - [Sequences](#sequences) that start each step once the previous one looks done.
 - [Press effects](#press) that follow the finger and let go when a scroll takes over.
+- [SF Symbol effects](#sf-symbols) and animated icon replacement on iOS 17+.
 - [Interruptions](#interrupting-and-stopping) that pick up the value and velocity on screen, with no jump.
 - [Native playback](#how-it-works): Core Animation on iOS, `ObjectAnimator` on Android, nothing in JavaScript while it plays.
 
@@ -243,6 +244,19 @@ press(tile, { scale: 0.9, rotate: -4 }, 'bouncy')
 
 Animates to the given values while a finger is down, and back to where the view was once it lifts, or once the touch is cancelled by a scroll taking over. Views with `isEnabled` set to `false` don't react. It returns a function that removes the effect.
 
+## SF Symbols
+
+```ts
+import { symbolEffect } from '@rafaelaugusto/jolt'
+
+symbolEffect(bell, 'bounce')
+symbolEffect(favorite, { replace: 'sys://heart.fill' })
+```
+
+Takes a NativeScript `Image` with a `sys://` source, or a ref holding one. Supports `bounce`, `pulse`, `scale` and `variableColor`, with native playback, completion and cancellation. Replacement keeps the Image's source in sync. Scale holds until stopped; bounce, pulse and variable color can repeat with `{ repeat: true }`.
+
+Effects require iOS 17+. Earlier iOS versions and Reduce Motion skip decorative effects and replace icons immediately. Android calls resolve with `false` without changing the image. See [SF Symbol effects](https://jolt.rafaelaugusto.dev/guide/symbol-effects) for options and lifecycle behavior.
+
 ## Interrupting and stopping
 
 Starting an animation on a property that's already animating takes it over: the new one starts from the value on screen, with the same velocity, so a card can change its mind halfway without a jump. Other properties of the previous animation keep going.
@@ -276,13 +290,13 @@ Each running property remembers its curve and start time, so Jolt knows the valu
 
 ## Not there yet
 
-- Only transforms and opacity. Colors ([#12](https://github.com/rafaelaugustos/jolt/issues/12)), borders and shadows ([#13](https://github.com/rafaelaugustos/jolt/issues/13)), size and layout changes ([#21](https://github.com/rafaelaugustos/jolt/issues/21)) aren't animated yet.
+- `animate()` covers transforms and opacity. Colors ([#12](https://github.com/rafaelaugustos/jolt/issues/12)), borders and shadows ([#13](https://github.com/rafaelaugustos/jolt/issues/13)), size and layout changes ([#21](https://github.com/rafaelaugustos/jolt/issues/21)) aren't animated yet.
 - No gestures: dragging something and letting it fly with its velocity is next ([#23](https://github.com/rafaelaugustos/jolt/issues/23)).
 - No layout or shared element transitions ([#21](https://github.com/rafaelaugustos/jolt/issues/21), [#24](https://github.com/rafaelaugustos/jolt/issues/24)).
 
 ## API
 
-**Animating**: `animate(target, keyframes | preset, transition?)`, `stop(target, properties?)`, `sequence(steps)`, `press(target, pressed?, transition?)`.
+**Animating**: `animate(target, keyframes | preset, transition?)`, `stop(target, properties?)`, `sequence(steps)`, `press(target, pressed?, transition?)`, `symbolEffect(image, effect, options?)`.
 
 **Animations** returned by them: `await`, `finished`, `stop()`.
 
@@ -290,7 +304,7 @@ Each running property remembers its curve and start time, so Jolt knows the valu
 
 ## Demo
 
-[`demo/`](./demo) is a NativeScript-Vue app with every preset, the three springs on a ball you can interrupt, stagger, press effects, loops and a sequence on launch.
+[`demo/`](./demo) is a NativeScript-Vue app with every preset, the three springs on a ball you can interrupt, stagger, press effects, SF Symbols on iOS, loops and a sequence on launch.
 
 With the [NativeScript CLI](https://docs.nativescript.org/setup/) installed:
 
