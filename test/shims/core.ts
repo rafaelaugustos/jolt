@@ -80,6 +80,21 @@ export class View extends Observable {
   }
 }
 
+export const textProperty = { setNative: Symbol('text:setNative') }
+export const formattedTextProperty = { setNative: Symbol('formattedText:setNative') }
+
+export class Label extends View {
+  text = 'Jolt'
+  formattedText: (Observable & { toString(): string }) | undefined;
+  [textProperty.setNative](_value: unknown) {
+    ;(this.nativeViewProtected as { text: string }).text = this.text
+  }
+  [formattedTextProperty.setNative](_value: unknown) {
+    ;(this.nativeViewProtected as { text: string }).text =
+      this.formattedText?.toString() ?? ''
+  }
+}
+
 export const isAndroid = false
 export const isIOS = true
 

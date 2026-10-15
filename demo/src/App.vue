@@ -13,6 +13,7 @@ import Haptics from './components/Haptics.vue'
 import Particles from './components/Particles.vue'
 import Loaders from './components/Loaders.vue'
 import Reveal from './components/Reveal.vue'
+import Text from './components/Text.vue'
 
 const logo = ref()
 const title = ref()
@@ -51,6 +52,7 @@ onMounted(() => {
           <Shimmer />
           <Loaders />
           <Reveal />
+          <Text />
           <Haptics />
           <Particles />
           <Loops />
