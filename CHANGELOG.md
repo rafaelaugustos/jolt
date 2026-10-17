@@ -2,12 +2,17 @@
 
 ## Unreleased
 
+## 0.1.0-beta.6 (2026-10-17)
+
+- Add `configure({ reducedMotion })` with `'user'` (default), `'always'` and `'never'`. With Reduce Motion on iOS or Remove animations on Android, translation, scale, rotation, paths, decorations and decay now jump to their end values while opacity and colors still animate; set `'never'` to keep the previous behavior. The iOS effects follow the same preference. Add the controls to the playground and English/Portuguese guides.
+- Add `configure({ timeScale })` to slow down or speed up every engine animation on iOS and Android: durations, delays, stagger, sequence positions and spring time stretch together, keyframe density follows playback time, and interruptions keep the value and velocity on screen. Add speed controls to the playground and English/Portuguese guides.
+- Add `rollTo()` to change a Label's number and roll only the digits that differ, aligned on the units digit, with a spring, optional stagger and an automatic or explicit direction. Play it with temporary glyph layers on iOS and a native span animator on Android, keep the final text and accessibility in the label throughout, and request tabular figures. Add a balance demo and English/Portuguese guides. Rebuild Android apps to include the native class.
+- Animate text on Android with `animateText()`: spans that only affect drawing fade and lift each letter or word under one native animator, while the TextView keeps its layout, truncation, formatted-text spans and accessible text. Disabled animators skip the entrance like Reduce Motion. Rebuild Android apps after upgrading to include the native class.
+- Add the `@rafaelaugusto/jolt/vue` entry for NativeScript-Vue 3: `v-animate` plays on mount and on value changes, `v-press` wraps `press()`, and `JoltTransition` animates children in and out through Vue's `BaseTransition`, keeping the element until the leave settles. Register with `app.use()` or import per component; the core stays framework free. Add a playground section and English/Portuguese guides.
+- Add `followKeyboard()` to lift a view by its overlap with the software keyboard at the platform's own timing: iOS uses the keyboard notification's duration and curve, and Android 11+ follows the IME frame by frame through a native `WindowInsetsAnimation` callback that works with `adjustResize` and `adjustPan`. The effect writes `translateY`, stops Jolt animations on `y` first and returns a cleanup function. Add a composer to the playground and English/Portuguese guides. Rebuild Android apps to include the native class.
 - Add `animateItems()` to play an entrance on ListView rows as they appear, restarting recycled rows or settling them at the end values once an item was shown with `once`. Rows are matched through `itemLoading` and the list's realized views, so CollectionView and sectioned lists work too. Add a list demo and English/Portuguese guides.
-
 - Add SVG motion paths to `animate()` with optional tangent orientation, shared arc-length progress, tween/spring timing, native translation/rotation tracks, playback controls and relative/staggered targets on iOS and Android. Support line, Bézier and arc commands with bounded geometry work; add a flight/orbit demo and English/Portuguese guides.
-
 - Add `at` positions to `sequence()`: signed offsets from the previous arrival, `"<"` for its start, and absolute milliseconds. Preserve early spring arrivals, native Android duration scale, stagger, loading, interruption and cancellation of future steps. Add a timeline demo and English/Portuguese guides.
-
 - Add `scrollLinked()` on iOS and Android to scrub one paused animation from a ScrollView offset, with clamped or descending DIP ranges, horizontal support, restored offsets and unload cleanup. Add a parallax heading and fixed-title crossfade to the playground, plus English and Portuguese guides.
 - Keep exact paused endpoints visible on iOS instead of wrapping to the first frame, including colors, decorations, reverse repeats and shorter properties in a longer timeline.
 
