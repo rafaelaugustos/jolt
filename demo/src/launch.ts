@@ -26,6 +26,19 @@ export function launchArgument(name: string): string | undefined {
   return undefined
 }
 
+/** Runs `callback` once the arguments can be read: now on iOS, after the activity exists on Android. */
+export function onLaunch(callback: () => void) {
+  if (isAndroid && !Application.android.startActivity) {
+    const launched = () => {
+      Application.off(Application.launchEvent, launched)
+      callback()
+    }
+    Application.on(Application.launchEvent, launched)
+    return
+  }
+  callback()
+}
+
 export function findView(
   root: View,
   predicate: (view: View) => boolean,

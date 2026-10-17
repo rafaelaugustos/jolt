@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { EventData, View } from '@nativescript/core'
+import { isIOS, type EventData, type View } from '@nativescript/core'
 import { onBeforeUnmount, ref } from 'nativescript-vue'
 import type { AnimateValue } from '@rafaelaugusto/jolt/vue'
 import Icon from './Icon.vue'
@@ -21,7 +21,8 @@ const rise: AnimateValue = [
 ]
 let pending: 'close' | 'action' | undefined
 function modal(event: EventData) {
-  ;((event.object as View).nativeViewProtected as UIView).accessibilityViewIsModal = true
+  if (isIOS)
+    ((event.object as View).nativeViewProtected as UIView).accessibilityViewIsModal = true
 }
 function dismiss(result: 'close' | 'action') {
   if (pending) return

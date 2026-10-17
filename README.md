@@ -563,9 +563,9 @@ Each running property remembers its curve and start time. On Android, interrupti
 
 ## Demo
 
-[`demo/`](./demo) opens an interactive assistant on iOS: a fan of document tools, a voice screen with letter-by-letter text, and a staged conversation with document previews and a rolling countdown, with the screens cross-fading through the Vue entry. Open **Help → Watch demo** to replay the flow. The orb is an animated illustration; speech, documents and audio are sample data.
+[`demo/`](./demo) opens an interactive assistant on iOS and Android: a fan of document tools, a voice screen with letter-by-letter text, and a staged conversation with document previews and a rolling countdown, with the screens cross-fading through the Vue entry. Open **Help → Watch demo** to replay the flow. The orb is an animated illustration; speech, documents and audio are sample data.
 
-Android opens the animation playground. The same playground is available on iOS with `--playground`, including presets, interruptible springs, decay, text, press effects and the native iOS helpers. See the [demo guide](./docs/guide/demo.md) for preview arguments and implementation notes.
+The animation playground opens with `--playground` on iOS and `--es playground true` on Android, with presets, interruptible springs, decay, text, press effects, list rows, the keyboard composer and the native iOS helpers. See the [demo guide](./docs/guide/demo.md) for preview arguments and implementation notes.
 
 With the [NativeScript CLI](https://docs.nativescript.org/setup/) installed:
 
