@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { Application } from '@nativescript/core'
+import { Application, isIOS } from '@nativescript/core'
 import { computed, onBeforeUnmount, onMounted, ref } from 'nativescript-vue'
 import type { AnimateValue } from '@rafaelaugusto/jolt/vue'
 import Home from './Home.vue'
@@ -7,7 +7,7 @@ import Voice from './Voice.vue'
 import Chat from './Chat.vue'
 import Icon from './Icon.vue'
 import Sheet from './Sheet.vue'
-import { Motion } from './motion'
+import { Motion, dismissKeyboard } from './motion'
 import { sentMessages } from './data'
 type Screen = 'home' | 'voice' | 'chat'
 const props = withDefaults(
@@ -48,9 +48,7 @@ function settled() {
 async function navigate(destination: Screen, automated = false) {
   if (!automated) stopTour()
   panel.value = null
-  ;(Application.getRootView()?.nativeViewProtected as UIView | undefined)?.endEditing(
-    true,
-  )
+  dismissKeyboard(Application.getRootView())
   if (destination === screen.value) return
   settled()
   const arrived = new Promise<void>((resolve) => (settle = resolve))
@@ -126,10 +124,11 @@ function foreground() {
 let observer: unknown
 onMounted(() => {
   startAmbient()
-  observer = Application.ios.addNotificationObserver(
-    UIAccessibilityReduceMotionStatusDidChangeNotification,
-    resetScene,
-  )
+  if (isIOS)
+    observer = Application.ios.addNotificationObserver(
+      UIAccessibilityReduceMotionStatusDidChangeNotification,
+      resetScene,
+    )
   Application.on(Application.suspendEvent, background)
   Application.on(Application.resumeEvent, foreground)
   if (props.autoplay) void playDemo()

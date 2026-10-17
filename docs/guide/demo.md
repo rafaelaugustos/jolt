@@ -1,6 +1,6 @@
 # Demo app
 
-The NativeScript-Vue app in [`demo/`](https://github.com/rafaelaugustos/jolt/tree/main/demo) uses the local Jolt build. On iOS it opens an assistant with three screens:
+The NativeScript-Vue app in [`demo/`](https://github.com/rafaelaugustos/jolt/tree/main/demo) uses the local Jolt build. On iOS and Android it opens an assistant with three screens:
 
 - **Home:** a letter-by-letter greeting, spring-driven document cards and a pulsing search button. Tap a card or swipe across the fan to change the selection. The search button opens Voice.
 - **Voice:** a floating orb, a staggered transcript and pause/resume controls. Tap the microphone to open Chat.
@@ -23,7 +23,9 @@ npm install
 ns run ios
 ```
 
-Android opens the animation playground with `ns run android`, including the text entrance section. The iOS playground includes the same sections plus iOS-only helpers.
+`ns run android` opens the same assistant. Its icons come from the Material Icons font instead of SF Symbols, the system adjusts the window for the keyboard instead of a keyboard observer, and the orb keeps its breathing motion without the liquid deformation.
+
+The animation playground opens with `--playground` on iOS and `--es playground true` on Android. Both include every section; the iOS one adds the iOS-only helpers.
 
 For an installed iOS Simulator build, pass a preview argument when launching:
 
@@ -32,6 +34,14 @@ xcrun simctl launch booted org.nativescript.jolt --autoplay
 xcrun simctl launch booted org.nativescript.jolt --screen=voice
 xcrun simctl launch booted org.nativescript.jolt --screen=chat
 xcrun simctl launch booted org.nativescript.jolt --playground
+```
+
+On Android the same names go in as string extras of the start intent:
+
+```sh
+adb shell am start -n org.nativescript.jolt/com.tns.NativeScriptActivity --es autoplay true
+adb shell am start -n org.nativescript.jolt/com.tns.NativeScriptActivity --es screen chat
+adb shell am start -n org.nativescript.jolt/com.tns.NativeScriptActivity --es playground true
 ```
 
 Terminate the running app before launching with different arguments. Without arguments, the assistant opens Home.
@@ -44,10 +54,10 @@ xcrun simctl launch booted org.nativescript.jolt --playground --section=rolling 
 xcrun simctl launch booted org.nativescript.jolt --screen=home "--tap=Help,Watch demo" --every=2000
 ```
 
-On Android the package opens the playground directly and the same names go in as string extras:
+The Android form adds `playground`:
 
 ```sh
-adb shell am start -n org.nativescript.jolt/com.tns.NativeScriptActivity --es section text --es tap Letters
+adb shell am start -n org.nativescript.jolt/com.tns.NativeScriptActivity --es playground true --es section text --es tap Letters
 adb shell am start -n org.nativescript.jolt/com.tns.NativeScriptActivity --es tap "Help,Watch demo"
 ```
 
@@ -61,7 +71,9 @@ Native animation handles and stage timers belong to each mounted screen. Unmount
 
 This is a local UI demo. It does not record speech, search files, play audio or contact a service. Document previews and the 37-second waveform are simulated; typed messages last only for the current app session.
 
-The orb uses one transparent bitmap. [`liquid()`](./liquid) deforms its texture with a native repeating warp while `animate()` controls its scale, rotation, position and opacity. Pause freezes both motions. The colored folds come from the artwork; this is texture deformation rather than a fluid simulation.
+The orb uses one transparent bitmap. On iOS, [`liquid()`](./liquid) deforms its texture with a native repeating warp while `animate()` controls its scale, rotation, position and opacity; on Android only the `animate()` motion plays. Pause freezes both motions. The colored folds come from the artwork; this is texture deformation rather than a fluid simulation.
+
+The iOS icons are SF Symbols. On Android, `Icon.vue` draws the Material Icons glyph of the same meaning from a font bundled with the demo (Apache License 2.0).
 
 The tuning section at the top of the playground sets the global [time scale and reduced-motion preference](./configure), so every section below can be watched in slow motion or with transforms jumping to their end.
 
