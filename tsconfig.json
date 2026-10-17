@@ -5,7 +5,8 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "paths": {
-      "@rafaelaugusto/jolt": ["./src/index.ts"]
+      "@rafaelaugusto/jolt": ["./src/index.ts"],
+      "@rafaelaugusto/jolt/vue": ["./src/vue/index.ts"]
     },
     "strict": true,
     "noUncheckedIndexedAccess": true,

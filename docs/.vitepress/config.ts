@@ -49,6 +49,10 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
       ],
     },
     {
+      text: t.frameworks,
+      items: [page('vue', 'vue')],
+    },
+    {
       text: t.reference,
       items: [
         page('api', 'api'),
@@ -62,6 +66,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
 const en = {
   start: 'Start',
   motion: 'Motion',
+  frameworks: 'Frameworks',
   reference: 'Reference',
   introduction: 'What Jolt is',
   install: 'Install',
@@ -90,6 +95,7 @@ const en = {
   scrollLinked: 'Scroll-linked animations',
   keyboard: 'Follow the keyboard',
   androidBusy: 'Busy JavaScript on Android',
+  vue: 'Vue',
   api: 'API',
   internals: 'How it works',
   limits: 'Not there yet',
@@ -98,6 +104,7 @@ const en = {
 const pt = {
   start: 'Começo',
   motion: 'Movimento',
+  frameworks: 'Frameworks',
   reference: 'Referência',
   introduction: 'O que é o Jolt',
   install: 'Instalação',
@@ -126,6 +133,7 @@ const pt = {
   scrollLinked: 'Animações ligadas ao scroll',
   keyboard: 'Acompanhar o teclado',
   androidBusy: 'JavaScript ocupado no Android',
+  vue: 'Vue',
   api: 'API',
   internals: 'Como funciona',
   limits: 'O que ainda não existe',

@@ -16,6 +16,7 @@ export default defineConfig({
       '@nativescript/core': fileURLToPath(
         new URL('./test/shims/core.ts', import.meta.url),
       ),
+      'nativescript-vue': fileURLToPath(new URL('./test/shims/vue.ts', import.meta.url)),
     },
   },
   test: {

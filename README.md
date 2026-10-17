@@ -44,6 +44,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [List rows](#list-rows) that play an entrance as they scroll into view, every time or once per item.
 - [Sequences](#sequences) with overlapping arrivals, shared starts and absolute timeline positions.
 - [Press effects](#press) that follow the finger and let go when a scroll takes over.
+- [Vue directives and a transition component](#vue) from the optional `@rafaelaugusto/jolt/vue` entry.
 - [Text entrances](#text) by letter or word on iOS, preserving the Label’s layout and accessibility.
 - [SF Symbol effects](#sf-symbols) and animated icon replacement on iOS 17+.
 - [Shimmer](#shimmer) for loading placeholders on iOS.
@@ -118,6 +119,24 @@ const open = () => animate(card.value, 'popIn')
 ```
 
 A view that isn't loaded yet takes its first absolute keyframe right away and plays once it's on screen. Calling `animate(title, 'fadeInUp')` in `onMounted` doesn't flash the title before it fades in. Relative animations leave the view's values alone until it loads.
+
+## Vue
+
+```vue
+<script setup lang="ts">
+import { JoltTransition, vAnimate, vPress } from '@rafaelaugusto/jolt/vue'
+</script>
+
+<template>
+  <Label v-animate="'fadeInUp'" text="Hello" />
+  <GridLayout v-press="{ scale: 0.95 }" />
+  <JoltTransition enter="popIn" leave="fadeOut">
+    <Label v-if="saved" text="Saved" />
+  </JoltTransition>
+</template>
+```
+
+`@rafaelaugusto/jolt/vue` is a separate entry point for NativeScript-Vue 3, so the core stays framework free. `v-animate` plays when the element mounts and again when its value changes, `v-press` is `press()` for templates, and `JoltTransition` wraps Vue's `BaseTransition` so a view can animate out before `v-if` removes it. Register everything with `app.use(Jolt)` or import what a component needs. See the [Vue guide](https://jolt.rafaelaugusto.dev/guide/vue).
 
 ## Motion along a path
 

@@ -10,7 +10,8 @@
     "spring",
     "keyframes",
     "ios",
-    "android"
+    "android",
+    "vue"
   ],
   "author": "Rafael Augusto",
   "license": "MIT",
@@ -27,6 +28,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./vue": {
+      "types": "./dist/vue/index.d.ts",
+      "default": "./dist/vue/index.js"
     },
     "./package.json": "./package.json"
   },
@@ -53,12 +58,19 @@
     "prepack": "npm run build"
   },
   "peerDependencies": {
-    "@nativescript/core": ">=8.9.0"
+    "@nativescript/core": ">=8.9.0",
+    "nativescript-vue": ">=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "nativescript-vue": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@nativescript/core": "^9.1.3",
     "@nativescript/types-android": "^9.1.1",
     "@nativescript/types-ios": "^9.1.3",
+    "nativescript-vue": "3.1.2",
     "prettier": "^3.9.10",
     "typescript": "^7.0.2",
     "vitepress": "^1.6.4",

@@ -4,7 +4,7 @@
 npm install @rafaelaugusto/jolt@next
 ```
 
-Por enquanto está em beta, publicado sob a tag `next`. Requer `@nativescript/core` 8.9 ou mais novo. Não depende de framework: recebe uma view, ou um elemento que contém uma, então funciona com NativeScript-Vue, Angular, Svelte ou NativeScript puro.
+Por enquanto está em beta, publicado sob a tag `next`. Requer `@nativescript/core` 8.9 ou mais novo. Não depende de framework: recebe uma view, ou um elemento que contém uma, então funciona com NativeScript-Vue, Angular, Svelte ou NativeScript puro. Apps NativeScript-Vue também podem importar `@rafaelaugusto/jolt/vue` para [diretivas e um componente de transição](./vue).
 
 As animações de cores no Android incluem um pequeno helper Java. Recompile o app nativo após instalar ou atualizar o Jolt; uma atualização só de JavaScript não instala código nativo.
 
