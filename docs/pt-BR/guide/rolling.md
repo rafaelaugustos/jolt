@@ -2,6 +2,11 @@
 
 Troque um número e deixe os dígitos que mudaram rolarem até o lugar:
 
+<div class="clips">
+<Clip name="rolling-ios" caption="Dígitos rolando no iOS." />
+<Clip name="rolling-android" caption="Dígitos rolando no Android." />
+</div>
+
 ```ts
 import { rollTo } from '@rafaelaugusto/jolt'
 

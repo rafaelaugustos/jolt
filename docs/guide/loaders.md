@@ -2,6 +2,8 @@
 
 Add a loading indicator to an empty view:
 
+<Clip name="loaders" caption="Dots, bars and a ring." />
+
 ```ts
 import { loader } from '@rafaelaugusto/jolt'
 

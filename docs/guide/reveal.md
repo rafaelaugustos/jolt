@@ -2,6 +2,8 @@
 
 Reveal content from a point, or conceal it with the reverse effect:
 
+<Clip name="reveal" caption="A circular reveal and conceal." />
+
 ```ts
 import { reveal, conceal } from '@rafaelaugusto/jolt'
 

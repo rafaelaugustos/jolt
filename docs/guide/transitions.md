@@ -2,6 +2,8 @@
 
 The third argument of `animate()` says how to get there. Without one, transforms move with a spring and `opacity` eases over 300ms. Keyframes tween.
 
+<Clip name="springs" caption="The three named springs on an interruptible ball." />
+
 ## Springs
 
 ```ts

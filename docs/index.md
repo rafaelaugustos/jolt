@@ -33,3 +33,8 @@ features:
   - title: Interruptions without a jump
     details: A new animation on a moving property starts from the value on screen, at the speed it was going.
 ---
+
+<div class="clips">
+<Clip name="assistant-flow" caption="The demo assistant on iOS. Every movement is a Jolt call." />
+<Clip name="presets" caption="Presets, springs and stagger in the playground." />
+</div>

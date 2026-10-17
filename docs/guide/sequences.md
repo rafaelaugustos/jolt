@@ -2,6 +2,8 @@
 
 Without a position, each step starts once the previous one looks done:
 
+<Clip name="timeline" caption="Overlapping steps and steps in order." />
+
 ```ts
 await sequence([
   [logo, 'popIn'],

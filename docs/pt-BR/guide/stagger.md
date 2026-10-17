@@ -2,6 +2,8 @@
 
 Passe um array para animá-las juntas, e `stagger` para começar uma depois da outra:
 
+<Clip name="stagger" caption="Linhas entrando com stagger de 50 ms." />
+
 ```ts
 animate(rows, 'fadeInUp', { stagger: 40 })
 animate(tiles, 'popIn', { stagger: { each: 30, from: 'center' } })

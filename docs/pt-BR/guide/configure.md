@@ -2,6 +2,8 @@
 
 `configure()` altera configurações globais. Cada uma vale para as animações que começam depois da chamada; o que já está tocando mantém seu tempo. Valores inválidos lançam erro antes de qualquer mudança.
 
+<Clip name="tuning" caption="O playground a um quinto da velocidade." />
+
 ```ts
 import { configure } from '@rafaelaugusto/jolt'
 

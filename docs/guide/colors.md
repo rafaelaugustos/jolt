@@ -2,6 +2,8 @@
 
 Background, border and text colors use `animate()` on iOS and Android:
 
+<Clip name="colors" caption="Background and text colors interpolated in OKLab." />
+
 ```ts
 animate(
   card,

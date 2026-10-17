@@ -2,6 +2,8 @@
 
 `symbolEffect()` plays Apple's native symbol effects on an `Image`. Use an SF Symbol source such as `sys://bell.fill`.
 
+<Clip name="symbols" caption="Bounce, pulse and replace on SF Symbols." />
+
 ```ts
 import { symbolEffect } from '@rafaelaugusto/jolt'
 

@@ -2,6 +2,8 @@
 
 Move a composer, a button or a toolbar with the software keyboard:
 
+<Clip name="keyboard" caption="The composer following the keyboard on Android." />
+
 ```ts
 import { followKeyboard } from '@rafaelaugusto/jolt'
 

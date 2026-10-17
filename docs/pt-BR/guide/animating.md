@@ -2,6 +2,8 @@
 
 `animate(target, keyframes, transition?)` recebe uma view e para onde levá-la:
 
+<Clip name="loops" caption="Um spinner e um heartbeat em repetição." />
+
 ```ts
 animate(card, { opacity: 0.5, y: -20 })
 ```

@@ -6,6 +6,8 @@ import Jolt from '@rafaelaugusto/jolt/vue'
 createApp(App).use(Jolt).start()
 ```
 
+<Clip name="vue" caption="JoltTransition removendo e restaurando uma linha, v-animate trocando a entrada." />
+
 O núcleo recebe uma view ou um elemento que contém uma, então `animate(card.value, 'popIn')` já funciona a partir de um template ref. `@rafaelaugusto/jolt/vue` acrescenta o lado do template: `v-animate`, `v-press` e um componente `<JoltTransition>` para views que aparecem e somem. Precisa do NativeScript-Vue 3 e só é carregado pelos apps que o importam.
 
 ## Registro
