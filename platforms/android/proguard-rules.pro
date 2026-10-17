@@ -9,3 +9,5 @@
 -keep class org.rafaelaugusto.jolt.KeyboardFollower$* { *; }
 -keep class org.rafaelaugusto.jolt.TextReveal { *; }
 -keep class org.rafaelaugusto.jolt.TextReveal$* { *; }
+-keep class org.rafaelaugusto.jolt.NumberRoll { *; }
+-keep class org.rafaelaugusto.jolt.NumberRoll$* { *; }

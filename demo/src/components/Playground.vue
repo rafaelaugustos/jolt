@@ -18,6 +18,7 @@ import Particles from './Particles.vue'
 import Loaders from './Loaders.vue'
 import Reveal from './Reveal.vue'
 import Text from './Text.vue'
+import Rolling from './Rolling.vue'
 import BusyJs from './BusyJs.vue'
 import Colors from './Colors.vue'
 import Decorations from './Decorations.vue'
@@ -118,6 +119,7 @@ onUnmounted(() => {
         <Loaders />
         <Reveal />
         <Text />
+        <Rolling />
         <Haptics />
         <Particles />
         <Loops />

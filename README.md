@@ -46,6 +46,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Press effects](#press) that follow the finger and let go when a scroll takes over.
 - [Vue directives and a transition component](#vue) from the optional `@rafaelaugusto/jolt/vue` entry.
 - [Text entrances](#text) by letter or word on iOS and Android, preserving the Label’s layout and accessibility.
+- [Rolling numbers](#rolling-numbers) that slide only the changed digits in and out, on iOS and Android.
 - [SF Symbol effects](#sf-symbols) and animated icon replacement on iOS 17+.
 - [Shimmer](#shimmer) for loading placeholders on iOS.
 - [Liquid images](#liquid-images) with native texture deformation on iOS.
@@ -425,6 +426,16 @@ await animateText(title, { by: 'word', stagger: 100 })
 ```
 
 Reveal a Label letter by letter or a word at a time. On iOS, TextKit keeps the complete text layout, including wrapped lines, attributed styles and composed emoji, and Core Animation plays temporary glyph images. On Android, spans that only affect drawing fade and lift each piece under one native animator, keeping the TextView's text, line breaks and truncation. The original Label remains the single accessibility element. Stop restores the full text; Reduce Motion and Android's Remove animations skip the entrance. Rebuild Android apps after upgrading to include the native class. See the [text guide](https://jolt.rafaelaugusto.dev/guide/text) for options and limits.
+
+## Rolling numbers
+
+```ts
+import { rollTo } from '@rafaelaugusto/jolt'
+
+await rollTo(balance, 1249.9, { format: (value) => value.toFixed(2) })
+```
+
+Change a Label's number and only the digits that differ roll: each one slides out while its replacement slides in on a spring. Positions align on the units digit, so `99` becomes `100` by rolling two digits and adding one. The label holds the final text from the first frame; glyph layers on iOS and a native span animator on Android do the drawing, and tabular figures keep the width stable. Rebuild Android after upgrading. See the [rolling numbers guide](https://jolt.rafaelaugusto.dev/guide/rolling) for options and limits.
 
 ## Haptics
 
