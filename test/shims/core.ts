@@ -42,6 +42,7 @@ export class View extends Observable {
   style = new Observable()
   isLoaded = true
   isEnabled = true
+  bindingContext: unknown
   nativeViewProtected: object | undefined = {}
   private visible: 'visible' | 'hidden' | 'collapse' = 'visible'
 
@@ -160,6 +161,46 @@ export class ScrollView extends View {
   static scrollEvent = 'scroll'
   horizontalOffset = 0
   verticalOffset = 0
+}
+
+export class ListView extends View {
+  static itemLoadingEvent = 'itemLoading'
+  items: unknown[] = []
+  children: View[] = []
+
+  _getDataItem(index: number) {
+    return this.items[index]
+  }
+
+  _getDataItemInSection(section: number, index: number) {
+    return (this.items[section] as { items: unknown[] }).items[index]
+  }
+
+  eachChildView(callback: (view: View) => boolean) {
+    for (const child of [...this.children]) if (!callback(child)) break
+  }
+
+  /**
+   * Like core: a recycled view is handed to itemLoading, and a cell without one
+   * gets a fresh view created and bound after the event.
+   */
+  realize(index: number, view?: View, section?: number) {
+    const args: EventData & { index: number; view?: View; section?: number } = {
+      eventName: ListView.itemLoadingEvent,
+      object: this,
+      index,
+      view,
+    }
+    if (section !== undefined) args.section = section
+    this.notify(args)
+    const row = args.view ?? new View()
+    row.bindingContext =
+      section === undefined
+        ? this._getDataItem(index)
+        : this._getDataItemInSection(section, index)
+    if (!this.children.includes(row)) this.children.push(row)
+    return row
+  }
 }
 
 export class Color {

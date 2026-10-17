@@ -54,4 +54,6 @@ O [cabeçalho ligado ao scroll](./scroll-linked) se move e desaparece conforme o
 
 A [demo de timelines](./sequences) compara entradas sobrepostas, chegadas uma a uma e tempos fixos, com controles para repetir e parar.
 
+A [demo de linhas de lista](./lists) rola sessenta linhas que aparecem com fade, com um botão para animar cada item só uma vez e outro que troca os itens por novos.
+
 O [playground de paths](./paths) segue uma curva cúbica ou uma órbita com arcos, com orientação, repetição, pausa/continuação e parada.
