@@ -2,6 +2,8 @@
 
 `configure()` changes global settings. Each one applies to animations that start after the call; what is already playing keeps its timing. Invalid values throw before anything changes.
 
+<Clip name="tuning" caption="The playground at one fifth of the speed." />
+
 ```ts
 import { configure } from '@rafaelaugusto/jolt'
 

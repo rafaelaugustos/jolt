@@ -2,6 +2,8 @@
 
 Cores de fundo, borda e texto usam `animate()` no iOS e no Android:
 
+<Clip name="colors" caption="Cores de fundo e texto interpoladas em OKLab." />
+
 ```ts
 animate(
   card,

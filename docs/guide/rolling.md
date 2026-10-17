@@ -2,6 +2,11 @@
 
 Change a number and let the digits that differ roll into place:
 
+<div class="clips">
+<Clip name="rolling-ios" caption="Digits rolling on iOS." />
+<Clip name="rolling-android" caption="Digits rolling on Android." />
+</div>
+
 ```ts
 import { rollTo } from '@rafaelaugusto/jolt'
 

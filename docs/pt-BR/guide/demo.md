@@ -2,6 +2,16 @@
 
 O app NativeScript-Vue em [`demo/`](https://github.com/rafaelaugustos/jolt/tree/main/demo) usa o build local do Jolt. No iOS e no Android, ele abre um assistente com três telas:
 
+<div class="clips">
+<Clip name="assistant-flow" caption="O assistente repetindo o fluxo no simulador iOS." />
+<Clip name="assistant-flow-android" caption="O mesmo fluxo no emulador Android." />
+</div>
+
+<div class="clips">
+<Clip name="assistant-chat" caption="O balão de áudio em contagem regressiva com rollTo() no iOS." />
+<Clip name="assistant-chat-android" caption="A contagem regressiva no Android." />
+</div>
+
 - **Home:** saudação letra por letra, cartões de ferramentas com springs e botão de busca pulsando. Toque num cartão ou deslize pelo leque para mudar a seleção. A busca abre Voice.
 - **Voice:** esfera flutuante, transcrição com stagger e controles de pausa e retomada. O microfone abre Chat.
 - **Chat:** mensagens e cartões de documentos entram em etapas. Abra a prévia de um documento, toque a prévia da onda de áudio e veja o tempo rolar segundo a segundo, ou envie uma mensagem. As mensagens enviadas ficam na memória ao trocar de tela.

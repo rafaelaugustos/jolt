@@ -2,6 +2,8 @@
 
 Passe uma faixa de luz pelo placeholder enquanto o conteúdo carrega:
 
+<Clip name="shimmer" caption="Shimmer sobre placeholders de carregamento." />
+
 ```ts
 import { shimmer } from '@rafaelaugusto/jolt'
 

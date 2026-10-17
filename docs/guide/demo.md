@@ -2,6 +2,16 @@
 
 The NativeScript-Vue app in [`demo/`](https://github.com/rafaelaugustos/jolt/tree/main/demo) uses the local Jolt build. On iOS and Android it opens an assistant with three screens:
 
+<div class="clips">
+<Clip name="assistant-flow" caption="The assistant replaying its flow on the iOS simulator." />
+<Clip name="assistant-flow-android" caption="The same flow on the Android emulator." />
+</div>
+
+<div class="clips">
+<Clip name="assistant-chat" caption="The audio bubble counting down with rollTo() on iOS." />
+<Clip name="assistant-chat-android" caption="The countdown on Android." />
+</div>
+
 - **Home:** a letter-by-letter greeting, spring-driven document cards and a pulsing search button. Tap a card or swipe across the fan to change the selection. The search button opens Voice.
 - **Voice:** a floating orb, a staggered transcript and pause/resume controls. Tap the microphone to open Chat.
 - **Chat:** messages and document cards enter in stages. Open a document preview, play the waveform preview and watch its time roll down second by second, or send a message. Sent messages stay in memory while you switch screens.

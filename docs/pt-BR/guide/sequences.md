@@ -2,6 +2,8 @@
 
 Sem uma posição, cada passo começa quando o anterior parece pronto:
 
+<Clip name="timeline" caption="Passos sobrepostos e passos em ordem." />
+
 ```ts
 await sequence([
   [logo, 'popIn'],

@@ -2,6 +2,8 @@
 
 Adicione um indicador de carregamento a uma view vazia:
 
+<Clip name="loaders" caption="Pontos, barras e um anel." />
+
 ```ts
 import { loader } from '@rafaelaugusto/jolt'
 

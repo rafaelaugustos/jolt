@@ -2,6 +2,11 @@
 
 Reveal a title letter by letter, or a word at a time:
 
+<div class="clips">
+<Clip name="text-ios" caption="Letter and word entrances on iOS." />
+<Clip name="text-android" caption="The same entrances on Android." />
+</div>
+
 ```ts
 import { animateText } from '@rafaelaugusto/jolt'
 

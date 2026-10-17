@@ -6,6 +6,8 @@ animate(card, 'shake', { delay: 200 })
 animate(spinner, 'spin', { repeat: Infinity })
 ```
 
+<Clip name="presets" caption="fadeInUp, popIn e shake no playground." />
+
 |         |                                                                                                          |
 | ------- | -------------------------------------------------------------------------------------------------------- |
 | Entrada | `fadeIn`, `fadeInUp`, `fadeInDown`, `fadeInLeft`, `fadeInRight`, `zoomIn`, `popIn`, `flipInX`, `flipInY` |

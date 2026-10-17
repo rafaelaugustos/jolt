@@ -2,6 +2,8 @@
 
 Mostre o conteúdo a partir de um ponto ou o oculte com o efeito inverso:
 
+<Clip name="reveal" caption="Revelação e ocultação circulares." />
+
 ```ts
 import { reveal, conceal } from '@rafaelaugusto/jolt'
 

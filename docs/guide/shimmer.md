@@ -2,6 +2,8 @@
 
 Sweep a light band across a loading placeholder:
 
+<Clip name="shimmer" caption="A shimmer over loading placeholders." />
+
 ```ts
 import { shimmer } from '@rafaelaugusto/jolt'
 

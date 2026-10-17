@@ -2,6 +2,8 @@
 
 Dê uma velocidade à view e deixe ela desacelerar, como um card depois de um deslize:
 
+<Clip name="decay" caption="Uma desaceleração livre e outra com encaixe." />
+
 ```ts
 import { decay } from '@rafaelaugusto/jolt'
 

@@ -2,6 +2,8 @@
 
 Bordas uniformes usam `animate()` no iOS e no Android:
 
+<Clip name="decorations" caption="Raio, borda e sombra mudando juntos." />
+
 ```ts
 card.borderRadius = 8
 card.borderWidth = 2

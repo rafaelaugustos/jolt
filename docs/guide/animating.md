@@ -2,6 +2,8 @@
 
 `animate(target, keyframes, transition?)` takes a view and where to take it:
 
+<Clip name="loops" caption="A spinner and a heartbeat on repeat." />
+
 ```ts
 animate(card, { opacity: 0.5, y: -20 })
 ```

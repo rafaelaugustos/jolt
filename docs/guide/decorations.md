@@ -2,6 +2,8 @@
 
 Uniform borders use the same `animate()` API on iOS and Android:
 
+<Clip name="decorations" caption="Corner radius, border and shadow morphing together." />
+
 ```ts
 card.borderRadius = 8
 card.borderWidth = 2

@@ -38,3 +38,15 @@
     max-width: 380px;
   }
 }
+
+.vp-doc .clips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  margin: 24px 0;
+}
+
+.vp-doc .clips .clip {
+  margin: 0;
+}

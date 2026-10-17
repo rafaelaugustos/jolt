@@ -8,6 +8,8 @@ animate(
 )
 ```
 
+<Clip name="paths" caption="A curve and an orbit with tangent orientation." />
+
 `path` supplies translation coordinates in **DIPs**, relative to the view's untransformed layout position. Positive X points right; positive Y points down. The example arches upward and ends 280 DIPs to the right. It does not resize or reflow the view, or animate the layout-owned native position.
 
 ## Timing and orientation

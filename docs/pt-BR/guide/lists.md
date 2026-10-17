@@ -2,6 +2,8 @@
 
 Toque uma entrada em cada linha de uma `ListView` conforme ela aparece no scroll:
 
+<Clip name="lists-android" caption="Linhas aparecendo com fade enquanto a lista rola, no Android." />
+
 ```ts
 import { animateItems } from '@rafaelaugusto/jolt'
 
