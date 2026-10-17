@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { confetti, particles } from '../src/index.js'
-import { createView, flush } from './helpers.js'
+import { createView, driver, flush } from './helpers.js'
 import { Application } from './shims/core.js'
 
 const platform = vi.hoisted(() => ({ isIOS: true }))
@@ -95,7 +95,7 @@ beforeEach(() => {
   reduced = false
   created = []
   vi.useFakeTimers()
-  vi.stubGlobal('UIAccessibilityIsReduceMotionEnabled', () => reduced)
+  vi.spyOn(driver, 'reducedMotion').mockImplementation(() => reduced)
   vi.stubGlobal('UIAccessibilityReduceMotionStatusDidChangeNotification', 'reduce-motion')
   vi.stubGlobal('CATransaction', { begin() {}, commit() {}, setDisableActions() {} })
   vi.stubGlobal('CAEmitterLayer', {

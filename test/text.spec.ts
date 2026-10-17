@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { animateText, configure, sequence, type Animation } from '../src/index.js'
 import { mergeGlyphRanges } from '../src/text-layout.js'
 import { Application, Label, Observable, Utils } from './shims/core.js'
-import { createView, flush, state } from './helpers.js'
+import { createView, driver, flush, state } from './helpers.js'
 const platform = vi.hoisted(() => ({ isIOS: true }))
 const layout = vi.hoisted(() => ({ supported: true, pieces: 3, call: vi.fn() }))
 vi.mock('@nativescript/core', async (importOriginal) => ({
@@ -109,7 +109,6 @@ beforeEach(() => {
   layout.call.mockClear()
   vi.useFakeTimers()
   vi.stubGlobal('UILabel', NativeLabel)
-  vi.stubGlobal('UIAccessibilityIsReduceMotionEnabled', () => false)
   vi.stubGlobal('UIAccessibilityReduceMotionStatusDidChangeNotification', 'reduce-motion')
   vi.stubGlobal('CATransaction', {
     begin: vi.fn(),
@@ -320,16 +319,31 @@ describe('text entrance', () => {
   it('skips decorative playback for Reduce Motion and zero duration', async () => {
     const { view, native } = target()
     expect(await start(view, { duration: 0, delay: 1000 })).toBe(true)
-    vi.stubGlobal('UIAccessibilityIsReduceMotionEnabled', () => true)
+    driver.reduced = true
     expect(await start(view)).toBe(true)
     expect(layout.call).not.toHaveBeenCalled()
     expect(native.text).toBe(view.text)
+  })
+  it('follows the configured reduced-motion preference', async () => {
+    const { view, native } = target()
+    configure({ reducedMotion: 'always' })
+    expect(await start(view)).toBe(true)
+    expect(layout.call).not.toHaveBeenCalled()
+    configure({ reducedMotion: 'never' })
+    driver.reduced = true
+    const handle = start(view)
+    await flush()
+    expect(native.text).toBe('')
+    for (const callback of [...Application.ios.observers.keys()]) callback()
+    expect(native.text).toBe('')
+    complete(native)
+    expect(await handle).toBe(true)
   })
   it('restores text immediately when Reduce Motion is enabled during playback', async () => {
     const { view, native } = target()
     const handle = start(view)
     await flush()
-    vi.stubGlobal('UIAccessibilityIsReduceMotionEnabled', () => true)
+    driver.reduced = true
     for (const callback of [...Application.ios.observers.keys()]) callback()
     expect(await handle).toBe(true)
     expect(native.text).toBe(view.text)
@@ -554,19 +568,11 @@ describe('Android text entrance', () => {
     expect(await start(plain.view)).toBe(false)
     expect(reveals).toHaveLength(0)
   })
-  it('skips playback when animators are disabled', async () => {
-    animators.enabled = false
+  it('skips playback when the platform reduces motion', async () => {
+    driver.reduced = true
     const { view } = label()
     expect(await start(view, { delay: 1000 })).toBe(true)
     expect(reveals).toHaveLength(0)
-  })
-  it('ignores the animator setting below Android 8', async () => {
-    animators.enabled = false
-    animators.sdk = 25
-    const { view } = label()
-    start(view)
-    await flush()
-    expect(reveals).toHaveLength(1)
   })
   it('completes an empty label through the native callback', async () => {
     const { view } = label()

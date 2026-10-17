@@ -207,5 +207,19 @@ export function createAndroidDriver(): Driver {
         marker.cancel()
       }
     },
+
+    reducedMotion() {
+      // Remove animations sets the animator duration scale to zero.
+      if (android.os.Build.VERSION.SDK_INT >= 26)
+        return !android.animation.ValueAnimator.areAnimatorsEnabled()
+      const { Global } = android.provider.Settings
+      return (
+        Global.getFloat(
+          Utils.android.getApplicationContext().getContentResolver(),
+          Global.ANIMATOR_DURATION_SCALE,
+          1,
+        ) === 0
+      )
+    },
   }
 }

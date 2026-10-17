@@ -26,6 +26,7 @@ export interface Played {
  */
 export class FakeDriver implements Driver {
   time = 1000
+  reduced = false
   played: Played[] = []
   private timers: { at: number; callback: () => void; done: boolean }[] = []
 
@@ -63,6 +64,10 @@ export class FakeDriver implements Driver {
 
   presented(): number | undefined {
     return undefined
+  }
+
+  reducedMotion() {
+    return this.reduced
   }
 
   after(ms: number, callback: () => void) {
@@ -119,7 +124,7 @@ export let driver: FakeDriver
 beforeEach(() => {
   driver = new FakeDriver()
   setDriver(driver)
-  configure({ timeScale: 1 })
+  configure({ timeScale: 1, reducedMotion: 'user' })
 })
 
 afterEach(() => setDriver(undefined))

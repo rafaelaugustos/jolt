@@ -3,6 +3,7 @@ import { toView } from './animate.js'
 import { resolveEasing } from './easing.js'
 import type { Animation } from './engine.js'
 import type { Target } from './types.js'
+import { reducedMotion } from './config.js'
 
 export interface RevealOptions {
   /** Circle origin in DIPs from the target's top-left corner. Defaults to its center. */
@@ -243,14 +244,13 @@ class CircularAnimation implements Animation {
   }
 
   private motionChanged = () => {
-    if (UIAccessibilityIsReduceMotionEnabled()) this.end(true)
+    if (reducedMotion()) this.end(true)
   }
 
   private update() {
     if (!this.opening && !this.inherited && this.view.visibility !== 'visible')
       return this.end(true, true)
-    if (this.duration === 0 || UIAccessibilityIsReduceMotionEnabled())
-      return this.end(true)
+    if (this.duration === 0 || reducedMotion()) return this.end(true)
     if (this.waitingForLoad || !this.view.isLoaded) return
     const native = this.view.nativeViewProtected as MaskedView | undefined
     if (this.shape) {

@@ -2,6 +2,7 @@ import { Image, ImageSource, isIOS } from '@nativescript/core'
 import { toView } from './animate.js'
 import type { Animation } from './engine.js'
 import type { Target } from './types.js'
+import { reducedMotion } from './config.js'
 
 export type SymbolEffectName = 'bounce' | 'pulse' | 'scale' | 'variableColor'
 
@@ -121,7 +122,7 @@ class SymbolAnimation implements Animation {
       return
     this.started = true
     const native = (this.native = view.nativeViewProtected as UIImageView)
-    const reducedMotion = UIAccessibilityIsReduceMotionEnabled()
+    const reduced = reducedMotion()
 
     if (typeof effect !== 'string') {
       // Resolve first so a symbol absent on this OS doesn't clear the current image.
@@ -145,7 +146,7 @@ class SymbolAnimation implements Animation {
       const image = native.image
       if (!image) return this.end(false)
       if (
-        reducedMotion ||
+        reduced ||
         !previous?.symbolImage ||
         !native.respondsToSelector(
           'setSymbolImage:withContentTransition:options:completion:',
@@ -165,7 +166,7 @@ class SymbolAnimation implements Animation {
     }
 
     if (
-      reducedMotion ||
+      reduced ||
       !native.image?.symbolImage ||
       !native.respondsToSelector('addSymbolEffect:options:animated:completion:')
     )

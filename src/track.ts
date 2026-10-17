@@ -5,7 +5,7 @@ import { precision, type Property } from './properties.js'
 import { solveSpring, springPhysics } from './spring.js'
 import type { Curve, ResolvedTransition } from './transition.js'
 import { colorMixer, isColorProperty, type ColorProperty } from './color.js'
-import { timeScale } from './config.js'
+import { reducedMotion, timeScale } from './config.js'
 
 /**
  * One property animated over time. The curve is computed here and sampled,
@@ -52,6 +52,11 @@ export function createTrack(
 ): Track {
   if (isColorProperty(property)) return colorTrack(property, keyframes, transition)
   const { curve, repeat, reverse } = transition
+  if (property !== 'opacity' && reducedMotion())
+    return instantTrack(
+      property,
+      restingValue(property, keyframes, curve, repeat, reverse),
+    )
   const slowdown = 1 / timeScale()
   const delay = transition.delay * slowdown
   const motion = slow(
@@ -107,6 +112,50 @@ export function createTrack(
     to: clampDecoration(property, track.to),
     valueAt: (elapsed) => clampDecoration(property, track.valueAt(elapsed)),
   }
+}
+
+/** Already at its end: the engine writes the value and plays nothing. */
+export function instantTrack(property: Property, value: number): Track {
+  const to = isDecorationProperty(property) ? clampDecoration(property, value) : value
+  return {
+    property,
+    delay: 0,
+    duration: 0,
+    repeat: 0,
+    reverse: false,
+    times: [0, 1],
+    values: [to, to],
+    to,
+    end: 0,
+    arrival: 0,
+    valueAt: () => to,
+    velocityAt: () => 0,
+  }
+}
+
+function restingValue(
+  property: Property,
+  keyframes: readonly number[],
+  curve: Curve,
+  repeat: number,
+  reverse: boolean,
+) {
+  const first = keyframes[0]!
+  if (!Number.isFinite(repeat) || (reverse && repeat % 2 === 1)) return first
+  if (curve.type !== 'decay') return keyframes.at(-1)!
+  const landing = solveDecay(
+    first,
+    curve.velocity,
+    curve.friction,
+    precision[property],
+  ).to
+  return curve.snap ? closest(curve.snap, landing) : landing
+}
+
+function closest(stops: readonly number[], target: number) {
+  return stops.reduce((best, stop) =>
+    Math.abs(stop - target) < Math.abs(best - target) ? stop : best,
+  )
 }
 
 function colorTrack(
@@ -191,12 +240,9 @@ function decay(
 ): Motion {
   const motion = solveDecay(from, curve.velocity, curve.friction, precision[property])
   if (curve.snap) {
-    const to = curve.snap.reduce((closest, stop) =>
-      Math.abs(stop - motion.to) < Math.abs(closest - motion.to) ? stop : closest,
-    )
     return spring(
       property,
-      [from, to],
+      [from, closest(curve.snap, motion.to)],
       { type: 'spring', physics: springPhysics({}), velocity: curve.velocity },
       0,
       density,

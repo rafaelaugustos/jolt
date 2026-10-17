@@ -48,7 +48,7 @@ Esta é uma demo local de interface. Ela não grava voz, busca arquivos, reprodu
 
 A esfera usa uma única imagem transparente. [`liquid()`](./liquid) deforma sua textura com uma malha animada nativa, enquanto `animate()` controla escala, rotação, posição e opacidade. A pausa congela os dois movimentos. As dobras coloridas vêm da arte; o efeito deforma a textura, sem simular um fluido.
 
-A seção de ajustes no topo do playground define a [escala de tempo](./configure) global, para ver todas as seções abaixo em câmera lenta.
+A seção de ajustes no topo do playground define a [escala de tempo e a preferência de redução de movimento](./configure) globais, para ver todas as seções abaixo em câmera lenta ou com as transformações pulando direto para o fim.
 
 O playground também inclui [controles de reprodução](./playback): pause um card, escolha o frame no slider e continue, com um pulso independente ao lado.
 

@@ -1,6 +1,7 @@
 import { Application, Color, isIOS, type View } from '@nativescript/core'
 import { toView } from './animate.js'
 import type { Target } from './types.js'
+import { reducedMotion } from './config.js'
 
 export interface ConfettiOptions {
   /** Approximate number of particles in the burst. Defaults to 80. */
@@ -78,8 +79,7 @@ function start(target: Target, settings: Settings, overlay: boolean): () => void
   const view = toView(target)
   const running = overlay ? bursts : emitters
   running.get(view)?.()
-  if (!isIOS || settings.rate === 0 || UIAccessibilityIsReduceMotionEnabled())
-    return () => {}
+  if (!isIOS || settings.rate === 0 || reducedMotion()) return () => {}
   return new Emitter(view, settings, overlay, running).stop
 }
 
@@ -191,12 +191,12 @@ class Emitter {
   }
 
   private motionChanged = () => {
-    if (UIAccessibilityIsReduceMotionEnabled()) this.stop()
+    if (reducedMotion()) this.stop()
   }
 
   private update() {
     if (!this.view.isLoaded) return
-    if (UIAccessibilityIsReduceMotionEnabled()) return this.stop()
+    if (reducedMotion()) return this.stop()
     const native = this.view.nativeViewProtected as UIView | undefined
     const window = native?.window
     if (this.layer && (!native || !window)) return this.stop()

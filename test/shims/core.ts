@@ -312,4 +312,5 @@ export class Image extends View {
 
 export const Utils = {
   layout: { getDisplayDensity: () => 1 },
+  android: { getApplicationContext: () => ({ getContentResolver: () => 'resolver' }) },
 }

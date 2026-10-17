@@ -1,6 +1,7 @@
 import { Application, Label, Utils, isAndroid, isIOS } from '@nativescript/core'
 import { toView } from './animate.js'
 import type { Animation } from './engine.js'
+import { reducedMotion } from './config.js'
 import { completion, forgetCompletion, watchLabel } from './label.js'
 import { diffFromEnd, type Grapheme } from './roll-diff.js'
 import { textLayer, type TextPiece } from './text-layout.js'
@@ -120,16 +121,6 @@ function currentText(view: Label): string {
   return view.text ?? ''
 }
 
-function reduced() {
-  if (isIOS) return UIAccessibilityIsReduceMotionEnabled()
-  if (isAndroid)
-    return (
-      android.os.Build.VERSION.SDK_INT >= 26 &&
-      !android.animation.ValueAnimator.areAnimatorsEnabled()
-    )
-  return false
-}
-
 function springTrack(shift: number, { duration, bounce }: Options) {
   return createTrack(
     'y',
@@ -229,7 +220,7 @@ class RollAnimation implements Animation {
       this.end(false)
       return
     }
-    if (reduced()) {
+    if (reducedMotion()) {
       this.end(true)
       return
     }
@@ -250,7 +241,7 @@ class RollAnimation implements Animation {
   stop = () => this.end(false)
   private changed = () => this.end(false)
   private motionChanged = () => {
-    if (reduced()) this.end(true)
+    if (reducedMotion()) this.end(true)
   }
   private layoutChanged = () => {
     if (!this.container) return this.schedule()
@@ -272,7 +263,7 @@ class RollAnimation implements Animation {
     })
   }
   private start() {
-    if (reduced()) return this.end(true)
+    if (reducedMotion()) return this.end(true)
     if (this.view.visibility !== 'visible') return this.end(false)
     if (isIOS) this.startIOS()
     else this.startAndroid()

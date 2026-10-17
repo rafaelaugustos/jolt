@@ -18,6 +18,7 @@ interface NativeAnimation {
 
 let transaction: Transaction
 let now: number
+let reduced: boolean
 
 /** Models Core Animation's removal and transaction completion, not its rendering. */
 class Layer {
@@ -66,8 +67,10 @@ function complete(owner: Transaction) {
 
 beforeEach(() => {
   now = 1000
+  reduced = false
   vi.useFakeTimers()
   vi.stubGlobal('CACurrentMediaTime', () => now / 1000)
+  vi.stubGlobal('UIAccessibilityIsReduceMotionEnabled', () => reduced)
   vi.stubGlobal('CAKeyframeAnimation', {
     animationWithKeyPath: () => ({
       removedOnCompletion: true,
@@ -665,5 +668,14 @@ describe('iOS playback controls', () => {
     )
     second.stop()
     expect(await first).toBe(false)
+  })
+})
+
+describe('iOS reduced motion', () => {
+  it('reports the system Reduce Motion setting', () => {
+    const driver = createIOSDriver()
+    expect(driver.reducedMotion!()).toBe(false)
+    reduced = true
+    expect(driver.reducedMotion!()).toBe(true)
   })
 })

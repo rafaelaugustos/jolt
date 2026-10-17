@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { createTrack } from '../src/track.js'
 import { resolveTransition, type Transition } from '../src/transition.js'
 import type { Property } from '../src/properties.js'
+import './helpers.js'
 
 function track(
   keyframes: number[],

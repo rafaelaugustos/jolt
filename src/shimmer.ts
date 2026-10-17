@@ -1,6 +1,7 @@
 import { Application, isIOS, type View } from '@nativescript/core'
 import { toView } from './animate.js'
 import type { Target } from './types.js'
+import { reducedMotion } from './config.js'
 
 export interface ShimmerOptions {
   /** Milliseconds per sweep. Defaults to 1500. */
@@ -98,7 +99,7 @@ class Shimmer {
       UIAccessibilityReduceMotionStatusDidChangeNotification,
       this.update,
     )
-    if (UIAccessibilityIsReduceMotionEnabled()) return this.remove()
+    if (reducedMotion()) return this.remove()
     const bounds = native.layer.bounds
     if (bounds.size.width <= 0 || bounds.size.height <= 0) return this.remove()
     if (this.native && this.native !== native) this.remove()

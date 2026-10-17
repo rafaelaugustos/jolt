@@ -18,6 +18,7 @@ let time: number
 let animators: NativeAnimator[]
 let markers: NativeMarker[]
 let durationScale: number
+let sdk: number
 
 class NativeView {
   cameraDistance = 8000
@@ -155,7 +156,7 @@ class NativeAnimator {
   started = false
   constructor(
     readonly view: NativeView,
-    readonly holders: { frames: { value: number }[] }[] = [],
+    readonly holders: { property?: string; frames: { value: number }[] }[] = [],
   ) {
     animators.push(this)
   }
@@ -241,6 +242,7 @@ beforeEach(() => {
   animators = []
   markers = []
   durationScale = 1
+  sdk = 34
   createDescriptor = Object.getOwnPropertyDescriptor(Array, 'create')
   Object.defineProperty(Array, 'create', {
     configurable: true,
@@ -248,7 +250,19 @@ beforeEach(() => {
   })
   vi.spyOn(Utils.layout, 'getDisplayDensity').mockReturnValue(3)
   vi.stubGlobal('android', {
-    os: { SystemClock: { uptimeMillis: () => time } },
+    os: {
+      SystemClock: { uptimeMillis: () => time },
+      Build: { VERSION: { SDK_INT: sdk } },
+    },
+    provider: {
+      Settings: {
+        Global: {
+          ANIMATOR_DURATION_SCALE: 'animator_duration_scale',
+          getFloat: (_resolver: unknown, name: string, fallback: number) =>
+            name === 'animator_duration_scale' ? durationScale : fallback,
+        },
+      },
+    },
     view: {
       View: {
         ROTATION_X: 'rotationX',
@@ -285,6 +299,7 @@ beforeEach(() => {
         REVERSE: 2,
         RESTART: 1,
         ofFloat: () => new NativeMarker(),
+        areAnimatorsEnabled: () => durationScale !== 0,
       },
       Animator: {
         AnimatorListener: class {
@@ -641,15 +656,32 @@ describe('Android animation clock', () => {
     expect(await animation).toBe(true)
   })
 
-  it('finishes a multi-property sequence immediately when system animations are disabled', async () => {
+  it('jumps transforms and finishes fades immediately when system animations are disabled', async () => {
     durationScale = 0
+    const first = target()
+    const second = target()
     const animation = sequence([
-      [target().view, { rotate: 100, opacity: 0.2 }, 'bouncy'],
-      [target().view, { rotate: 0 }, { duration: 400, delay: 500 }],
+      [first.view, { rotate: 100, opacity: 0.2 }, 'bouncy'],
+      [second.view, { rotate: 0 }, { duration: 400, delay: 500 }],
     ])
+    expect(first.view.rotate).toBe(100)
     expect(await animation).toBe(true)
-    expect(animators).toHaveLength(3)
+    expect(animators).toHaveLength(1)
+    expect(animators[0]!.holders[0]!.property).toBe('alpha')
     expect(markers.filter((marker) => marker.repeatCount !== -1)).toHaveLength(0)
+  })
+})
+
+describe('Android reduced motion', () => {
+  it('reads the animator switch on Android 8 and the duration scale before it', () => {
+    const driver = createAndroidDriver()
+    expect(driver.reducedMotion!()).toBe(false)
+    durationScale = 0
+    expect(driver.reducedMotion!()).toBe(true)
+    sdk = 25
+    expect(driver.reducedMotion!()).toBe(true)
+    durationScale = 0.5
+    expect(driver.reducedMotion!()).toBe(false)
   })
 })
 

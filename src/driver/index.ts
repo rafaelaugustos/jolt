@@ -34,6 +34,8 @@ export interface Driver {
   presented(view: View, property: Property): number | undefined
   /** Calls back after `ms` of animation time, respecting platform speed settings. */
   after(ms: number, callback: () => void): () => void
+  /** The platform's accessibility setting: Reduce Motion on iOS, Remove animations on Android. */
+  reducedMotion?(): boolean
 }
 
 export function after(ms: number, callback: () => void) {

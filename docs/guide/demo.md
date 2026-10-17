@@ -48,7 +48,7 @@ This is a local UI demo. It does not record speech, search files, play audio or 
 
 The orb uses one transparent bitmap. [`liquid()`](./liquid) deforms its texture with a native repeating warp while `animate()` controls its scale, rotation, position and opacity. Pause freezes both motions. The colored folds come from the artwork; this is texture deformation rather than a fluid simulation.
 
-The tuning section at the top of the playground sets the global [time scale](./configure), so every section below can be watched in slow motion.
+The tuning section at the top of the playground sets the global [time scale and reduced-motion preference](./configure), so every section below can be watched in slow motion or with transforms jumping to their end.
 
 The playground also includes [playback controls](./playback): pause a card, choose a frame with a slider, and continue, with an independent pulse running beside it.
 

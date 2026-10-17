@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { conceal, reveal, type Animation } from '../src/index.js'
-import { createView, flush, state } from './helpers.js'
+import { createView, driver, flush, state } from './helpers.js'
 import { Application } from './shims/core.js'
 
 const platform = vi.hoisted(() => ({ isIOS: true }))
@@ -88,7 +88,7 @@ beforeEach(() => {
   platform.isIOS = true
   reduced = false
   now = 100
-  vi.stubGlobal('UIAccessibilityIsReduceMotionEnabled', () => reduced)
+  vi.spyOn(driver, 'reducedMotion').mockImplementation(() => reduced)
   vi.stubGlobal('UIAccessibilityReduceMotionStatusDidChangeNotification', 'reduce-motion')
   vi.stubGlobal('CATransaction', {
     begin: vi.fn(),

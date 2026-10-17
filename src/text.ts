@@ -2,7 +2,7 @@ import { stopIOSColorText } from './driver/ios-color.js'
 import { Application, Label, Utils, isAndroid, isIOS } from '@nativescript/core'
 import { textProperty, formattedTextProperty } from '@nativescript/core/ui/text-base'
 import { toView } from './animate.js'
-import { timeScale } from './config.js'
+import { reducedMotion, timeScale } from './config.js'
 import type { Animation } from './engine.js'
 import { completion, forgetCompletion, watchLabel } from './label.js'
 import { textLayer } from './text-layout.js'
@@ -75,7 +75,7 @@ class TextAnimation implements Animation {
       this.end(false)
       return
     }
-    if (options.duration === 0 || reduceMotion()) {
+    if (options.duration === 0 || reducedMotion()) {
       this.end(true)
       return
     }
@@ -96,7 +96,7 @@ class TextAnimation implements Animation {
   stop = () => this.end(false)
   private changed = () => this.end(false, true)
   private motionChanged = () => {
-    if (reduceMotion()) this.end(true)
+    if (reducedMotion()) this.end(true)
   }
   private layoutChanged = () => {
     if (isAndroid) {
@@ -135,7 +135,7 @@ class TextAnimation implements Animation {
     })
   }
   private start() {
-    if (this.options.duration === 0 || reduceMotion()) return this.end(true)
+    if (this.options.duration === 0 || reducedMotion()) return this.end(true)
     if (this.view.visibility !== 'visible') return this.end(false)
     if (isAndroid) return this.startAndroid()
     const native = this.view.nativeViewProtected as UILabel | undefined
@@ -276,13 +276,4 @@ class TextAnimation implements Animation {
     this.originalAttributed = null
     this.resolve(finished)
   }
-}
-
-function reduceMotion() {
-  if (isAndroid)
-    return (
-      android.os.Build.VERSION.SDK_INT >= 26 &&
-      !android.animation.ValueAnimator.areAnimatorsEnabled()
-    )
-  return UIAccessibilityIsReduceMotionEnabled()
 }

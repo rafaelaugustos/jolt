@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { animate, configure, decay, sequence } from '../src/index.js'
+import { animate, configure, decay, press, sequence } from '../src/index.js'
 import { createView, driver, flush } from './helpers.js'
 
 describe('configure', () => {
@@ -129,5 +129,151 @@ describe('time scale', () => {
     driver.advance(1)
     await flush()
     expect(started()).toEqual([a, b, c, d])
+  })
+})
+
+describe('reduced motion', () => {
+  it('validates the preference without changing the current one', () => {
+    expect(() => configure({ reducedMotion: 'sometimes' as never })).toThrow(TypeError)
+    expect(() => configure({ reducedMotion: 'always', timeScale: 0 })).toThrow(RangeError)
+    animate(createView(), { x: 100 })
+    expect(driver.played).toHaveLength(1)
+  })
+
+  it('jumps transforms and decorations to their end while opacity and colors fade', async () => {
+    configure({ reducedMotion: 'always' })
+    const view = createView()
+    const animation = animate(
+      view,
+      {
+        x: 100,
+        scale: 0.5,
+        rotate: 90,
+        borderRadius: 20,
+        opacity: 0,
+        backgroundColor: '#ff0000',
+      },
+      { duration: 300 },
+    )
+    expect(driver.played.map((p) => p.track.property)).toEqual([
+      'opacity',
+      'backgroundColor',
+    ])
+    expect(view.translateX).toBe(100)
+    expect(view.scaleX).toBe(0.5)
+    expect(view.scaleY).toBe(0.5)
+    expect(view.rotate).toBe(90)
+    expect(view.borderRadius).toBe(20)
+    expect(animation.duration).toBe(300)
+    driver.advance(300)
+    expect(await animation).toBe(true)
+  })
+
+  it('resolves right away when nothing is left to animate', async () => {
+    configure({ reducedMotion: 'always' })
+    const view = createView()
+    const animation = animate(view, { y: -40 }, 'bouncy')
+    expect(driver.played).toHaveLength(0)
+    expect(view.translateY).toBe(-40)
+    expect(animation.duration).toBe(0)
+    expect(await animation).toBe(true)
+  })
+
+  it('follows the platform setting by default and only when asked', () => {
+    const view = createView()
+    animate(view, { x: 100 })
+    expect(driver.played).toHaveLength(1)
+    driver.reduced = true
+    animate(view, { x: 200 })
+    expect(driver.played).toHaveLength(1)
+    expect(driver.played[0]!.stopped).toBe(true)
+    expect(view.translateX).toBe(200)
+    configure({ reducedMotion: 'never' })
+    animate(view, { x: 300 })
+    expect(driver.played).toHaveLength(2)
+  })
+
+  it('leaves loops and attention presets at rest', async () => {
+    configure({ reducedMotion: 'always' })
+    const view = createView()
+    view.translateX = 5
+    expect(await animate(view, 'shake')).toBe(true)
+    expect(view.translateX).toBe(5)
+    const loop = animate(
+      view,
+      { y: [0, 10, -10, 0] },
+      { duration: 400, repeat: Infinity },
+    )
+    expect(await loop).toBe(true)
+    expect(view.translateY).toBe(0)
+    const back = animate(
+      view,
+      { rotate: [0, 90] },
+      { duration: 200, repeat: 1, repeatType: 'reverse' },
+    )
+    expect(await back).toBe(true)
+    expect(view.rotate).toBe(0)
+    expect(driver.played).toHaveLength(0)
+  })
+
+  it('lands decay on its projected stop', async () => {
+    const view = createView()
+    decay(view, { x: 1000 })
+    const landing = driver.last('x').track.to
+    configure({ reducedMotion: 'always' })
+    const other = createView()
+    expect(await decay(other, { x: 1000 })).toBe(true)
+    expect(other.translateX).toBeCloseTo(landing)
+    const snapped = createView()
+    expect(await decay(snapped, { x: 1000 }, { snap: [0, 300, 900] })).toBe(true)
+    expect(snapped.translateX).toBe(
+      Math.abs(landing - 300) < Math.abs(landing - 900) ? 300 : 900,
+    )
+    expect(driver.played).toHaveLength(1)
+  })
+
+  it('jumps motion paths to their end pose', async () => {
+    configure({ reducedMotion: 'always' })
+    const view = createView()
+    const flight = animate(
+      view,
+      { path: 'M0 0 L100 50', orient: true },
+      { duration: 1000 },
+    )
+    expect(await flight).toBe(true)
+    expect(driver.played).toHaveLength(0)
+    expect(view.translateX).toBe(100)
+    expect(view.translateY).toBe(50)
+    expect(view.rotate).toBeCloseTo(26.565, 2)
+  })
+
+  it('snaps press feedback and moves sequences on immediately', async () => {
+    configure({ reducedMotion: 'always' })
+    const button = createView()
+    press(button)
+    button.touch('down')
+    expect(button.scaleX).toBe(0.96)
+    button.touch('up')
+    expect(button.scaleX).toBe(1)
+    expect(driver.played).toHaveLength(0)
+    const a = createView()
+    const b = createView()
+    const steps = sequence([
+      [a, { x: 100 }, { duration: 300 }],
+      [[b, a], 'fadeInUp', { stagger: 100 }],
+    ])
+    await flush()
+    expect(a.translateX).toBe(100)
+    expect(b.translateY).toBe(0)
+    expect(driver.played.map((p) => p.track.property)).toEqual(['opacity', 'opacity'])
+    driver.advance(1000)
+    expect(await steps).toBe(true)
+  })
+
+  it('keeps the time scale for what still animates', () => {
+    configure({ timeScale: 0.5, reducedMotion: 'always' })
+    animate(createView(), { x: 100, opacity: 0 }, { duration: 300 })
+    expect(driver.played).toHaveLength(1)
+    expect(driver.last('opacity').track.duration).toBe(600)
   })
 })
