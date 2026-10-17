@@ -339,6 +339,25 @@ export function startingValues(
   )
 }
 
+/** Each property the animation touches, with the value it leaves behind when that is known up front. */
+export function endingValues(
+  animation: Keyframes | PresetName,
+  options?: AnimateOptions | SpringName,
+) {
+  const { keyframes, base, overrides, relative, path } = prepare(animation, options)
+  return new Map(
+    plan(keyframes, base, overrides, 0, relative, path).map(
+      ({ property, keyframes: frames, transition, path: owned }) => {
+        const finite = Number.isFinite(transition.repeat)
+        const backwards = transition.reverse && finite && transition.repeat % 2 === 1
+        const unknown = owned !== undefined || (relative && !isColorProperty(property))
+        const frame = !finite || backwards ? frames[0] : frames.at(-1)
+        return [property, unknown ? null : frame!]
+      },
+    ),
+  )
+}
+
 function expand(
   keyframes: Keyframes,
   path?: PreparedPath,

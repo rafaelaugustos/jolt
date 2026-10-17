@@ -7,6 +7,7 @@ import Press from './Press.vue'
 import Springs from './Springs.vue'
 import Decay from './Decay.vue'
 import Stagger from './Stagger.vue'
+import ListItems from './ListItems.vue'
 import Symbols from './Symbols.vue'
 import Shimmer from './Shimmer.vue'
 import Haptics from './Haptics.vue'
@@ -90,6 +91,7 @@ onUnmounted(() => unlink.forEach((cleanup) => cleanup()))
         <Springs />
         <Decay />
         <Stagger />
+        <ListItems />
         <Press />
         <Symbols />
         <Shimmer />

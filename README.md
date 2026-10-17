@@ -41,6 +41,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Decay](#decay) from a release velocity, with optional snap points.
 - [Keyframes and tweens](#tweens) with an easing per segment and exact keyframe times.
 - [Stagger](#several-views) across several views, from the first, the last or the center.
+- [List rows](#list-rows) that play an entrance as they scroll into view, every time or once per item.
 - [Sequences](#sequences) with overlapping arrivals, shared starts and absolute timeline positions.
 - [Press effects](#press) that follow the finger and let go when a scroll takes over.
 - [Text entrances](#text) by letter or word on iOS, preserving the Label’s layout and accessibility.
@@ -288,6 +289,15 @@ animate(tiles, 'popIn', { stagger: { each: 30, from: 'center' } })
 ```
 
 `from` is `'first'` (the default), `'last'`, `'center'` or an index.
+
+## List rows
+
+```ts
+const unlink = animateItems(listView, 'fadeInUp')
+animateItems(listView, 'fadeInUp', { once: true })
+```
+
+Each row of a `ListView` plays the entrance as the list hands it out. Rows are recycled while you scroll, so a row reused for another item starts the entrance again, or settles at the end values when that item was already shown and `once` is set. Items are tracked by object identity, or by index for primitives. The return value removes the effect and settles every row; unloading the list does the same. See the [list guide](https://jolt.rafaelaugusto.dev/guide/lists) for CollectionView and sectioned lists.
 
 ## Sequences
 

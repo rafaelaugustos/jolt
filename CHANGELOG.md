@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add `animateItems()` to play an entrance on ListView rows as they appear, restarting recycled rows or settling them at the end values once an item was shown with `once`. Rows are matched through `itemLoading` and the list's realized views, so CollectionView and sectioned lists work too. Add a list demo and English/Portuguese guides.
+
 - Add SVG motion paths to `animate()` with optional tangent orientation, shared arc-length progress, tween/spring timing, native translation/rotation tracks, playback controls and relative/staggered targets on iOS and Android. Support line, Bézier and arc commands with bounded geometry work; add a flight/orbit demo and English/Portuguese guides.
 
 - Add `at` positions to `sequence()`: signed offsets from the previous arrival, `"<"` for its start, and absolute milliseconds. Preserve early spring arrivals, native Android duration scale, stagger, loading, interruption and cancellation of future steps. Add a timeline demo and English/Portuguese guides.
