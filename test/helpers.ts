@@ -1,5 +1,6 @@
 import type { View as CoreView } from '@nativescript/core'
 import { afterEach, beforeEach } from 'vitest'
+import { configure } from '../src/config.js'
 import { setDriver, type Driver } from '../src/driver/index.js'
 import type { Property } from '../src/properties.js'
 import type { Track } from '../src/track.js'
@@ -25,6 +26,7 @@ export interface Played {
  */
 export class FakeDriver implements Driver {
   time = 1000
+  reduced = false
   played: Played[] = []
   private timers: { at: number; callback: () => void; done: boolean }[] = []
 
@@ -62,6 +64,10 @@ export class FakeDriver implements Driver {
 
   presented(): number | undefined {
     return undefined
+  }
+
+  reducedMotion() {
+    return this.reduced
   }
 
   after(ms: number, callback: () => void) {
@@ -118,6 +124,7 @@ export let driver: FakeDriver
 beforeEach(() => {
   driver = new FakeDriver()
   setDriver(driver)
+  configure({ timeScale: 1, reducedMotion: 'user' })
 })
 
 afterEach(() => setDriver(undefined))

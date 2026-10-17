@@ -3,7 +3,7 @@ import { rollTo, type Animation, type RollOptions } from '../src/index.js'
 import { diffFromEnd, graphemes } from '../src/roll-diff.js'
 import type { TextPiece } from '../src/text-layout.js'
 import { Application, Label, Observable, Utils } from './shims/core.js'
-import { createView, flush, state } from './helpers.js'
+import { createView, driver, flush, state } from './helpers.js'
 const platform = vi.hoisted(() => ({ isIOS: true, isAndroid: false }))
 const layout = vi.hoisted(() => ({ supported: true, call: vi.fn() }))
 vi.mock('@nativescript/core', async (importOriginal) => ({
@@ -591,14 +591,14 @@ describe('rolling numbers on iOS', () => {
   })
   it('shows the final text at once under Reduce Motion', async () => {
     const { view, native } = target('1')
-    vi.stubGlobal('UIAccessibilityIsReduceMotionEnabled', () => true)
+    driver.reduced = true
     expect(await roll(view, 2)).toBe(true)
     expect(native.text).toBe('2')
     expect(layout.call).not.toHaveBeenCalled()
-    vi.stubGlobal('UIAccessibilityIsReduceMotionEnabled', () => false)
+    driver.reduced = false
     const handle = roll(view, 3)
     await flush()
-    vi.stubGlobal('UIAccessibilityIsReduceMotionEnabled', () => true)
+    driver.reduced = true
     for (const callback of [...Application.ios.observers.keys()]) callback()
     expect(await handle).toBe(true)
     expect(native.textColor?.name).toBe('ink')
@@ -703,19 +703,11 @@ describe('rolling numbers on Android', () => {
   })
   it('skips playback when animators are disabled and when only old digits remain', async () => {
     const { view, native } = androidTarget('12')
-    vi.stubGlobal('android', {
-      widget: { TextView: NativeTextView },
-      animation: { ValueAnimator: { areAnimatorsEnabled: () => false } },
-      os: { Build: { VERSION: { SDK_INT: 34 } } },
-    })
+    driver.reduced = true
     expect(await roll(view, 13)).toBe(true)
     expect(NumberRoll.instances).toHaveLength(0)
     expect(native.getText().toString()).toBe('13')
-    vi.stubGlobal('android', {
-      widget: { TextView: NativeTextView },
-      animation: { ValueAnimator: { areAnimatorsEnabled: () => true } },
-      os: { Build: { VERSION: { SDK_INT: 34 } } },
-    })
+    driver.reduced = false
     expect(await roll(view, '')).toBe(true)
     expect(NumberRoll.instances).toHaveLength(0)
   })

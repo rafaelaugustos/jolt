@@ -153,5 +153,7 @@ export function createIOSDriver(): Driver {
           : undefined,
 
     after,
+
+    reducedMotion: () => UIAccessibilityIsReduceMotionEnabled(),
   }
 }

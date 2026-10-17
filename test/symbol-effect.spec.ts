@@ -1,7 +1,7 @@
 import { Image, ImageSource } from '@nativescript/core'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { symbolEffect, type Animation, type SymbolEffect } from '../src/index.js'
-import { createView } from './helpers.js'
+import { createView, driver } from './helpers.js'
 
 const platform = vi.hoisted(() => ({ isIOS: true }))
 vi.mock('@nativescript/core', async (importOriginal) => ({
@@ -60,7 +60,6 @@ function target(loaded = true) {
 
 beforeEach(() => {
   platform.isIOS = true
-  vi.stubGlobal('UIAccessibilityIsReduceMotionEnabled', () => false)
   for (const name of ['Bounce', 'Pulse', 'Scale', 'VariableColor']) {
     vi.stubGlobal(`NSSymbol${name}Effect`, { effect: () => ({ name }) })
   }
@@ -312,7 +311,6 @@ describe('symbol effect fallbacks', () => {
     const { image, native } = target()
     native.supportsEffects = false
     vi.unstubAllGlobals()
-    vi.stubGlobal('UIAccessibilityIsReduceMotionEnabled', () => false)
     expect(await play(image, 'bounce')).toBe(false)
     expect(await play(image, { replace: 'sys://heart.fill' })).toBe(true)
     expect(image.src).toBe('sys://heart.fill')
@@ -322,7 +320,7 @@ describe('symbol effect fallbacks', () => {
   })
 
   it('skips decorative motion and replaces immediately with Reduce Motion', async () => {
-    vi.stubGlobal('UIAccessibilityIsReduceMotionEnabled', () => true)
+    driver.reduced = true
     const { image, native } = target()
     expect(await play(image, 'bounce')).toBe(false)
     expect(await play(image, { replace: 'sys://heart.fill' })).toBe(true)

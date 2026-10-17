@@ -3,6 +3,7 @@ import { tintColorProperty } from '@nativescript/core/ui/image'
 import { toView } from './animate.js'
 import { liquidGrid } from './liquid-grid.js'
 import type { Target } from './types.js'
+import { reducedMotion } from './config.js'
 
 export interface LiquidOptions {
   /** Amount of internal deformation, from 0 to 1. Defaults to 0.7. */
@@ -134,7 +135,7 @@ class Liquid implements LiquidEffect {
       !this.image.isLoaded ||
       this.image.visibility !== 'visible' ||
       this.image.tintColor ||
-      UIAccessibilityIsReduceMotionEnabled()
+      reducedMotion()
     )
       return this.remove()
     const native = this.image.nativeViewProtected as UIImageView | undefined

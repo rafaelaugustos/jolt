@@ -1,6 +1,7 @@
 import { Application, Color, isIOS, type View } from '@nativescript/core'
 import { toView } from './animate.js'
 import type { Target } from './types.js'
+import { reducedMotion } from './config.js'
 
 export type LoaderStyle = 'dots' | 'bars' | 'ring'
 
@@ -160,7 +161,7 @@ class Loader {
           0,
         )
       }
-      const reduced = UIAccessibilityIsReduceMotionEnabled()
+      const reduced = reducedMotion()
       item.opacity = style === 'ring' ? 0.35 : 1
       if (reduced && this.animating) {
         item.removeAnimationForKey(key)
