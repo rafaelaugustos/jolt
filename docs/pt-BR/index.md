@@ -33,3 +33,8 @@ features:
   - title: Interrupções sem pulo
     details: Uma animação nova numa propriedade em movimento começa do valor na tela, na velocidade em que ia.
 ---
+
+<div class="clips">
+<Clip name="assistant-flow" caption="O assistente da demo no iOS. Cada movimento é uma chamada do Jolt." />
+<Clip name="presets" caption="Presets, springs e stagger no playground." />
+</div>

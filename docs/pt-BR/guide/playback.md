@@ -2,6 +2,8 @@
 
 `animate()` e `decay()` retornam uma `PlaybackAnimation`. Pause, escolha o progresso e continue:
 
+<Clip name="playback" caption="Play e pause numa timeline em andamento." />
+
 ```ts
 const animation = animate(card, 'flipInY')
 animation.pause()

@@ -2,6 +2,8 @@
 
 Play an entrance on each row of a `ListView` as it scrolls into view:
 
+<Clip name="lists-android" caption="Rows fading in as the list scrolls, on Android." />
+
 ```ts
 import { animateItems } from '@rafaelaugusto/jolt'
 

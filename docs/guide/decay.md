@@ -2,6 +2,8 @@
 
 Give a view a velocity and let it slow down, like a card after a fling:
 
+<Clip name="decay" caption="A free decay, then one that snaps." />
+
 ```ts
 import { decay } from '@rafaelaugusto/jolt'
 

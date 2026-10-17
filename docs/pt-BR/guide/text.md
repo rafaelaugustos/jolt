@@ -2,6 +2,11 @@
 
 Revele um título letra por letra, ou uma palavra de cada vez:
 
+<div class="clips">
+<Clip name="text-ios" caption="Entradas por letra e por palavra no iOS." />
+<Clip name="text-android" caption="As mesmas entradas no Android." />
+</div>
+
 ```ts
 import { animateText } from '@rafaelaugusto/jolt'
 
