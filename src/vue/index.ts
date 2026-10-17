@@ -1,0 +1,189 @@
+import {
+  BaseTransition,
+  defineComponent,
+  h,
+  type App,
+  type BaseTransitionProps,
+  type NSVElement,
+  type ObjectDirective,
+  type PropType,
+} from 'nativescript-vue'
+import {
+  animate,
+  press,
+  type AnimateOptions,
+  type Keyframes,
+  type PlaybackAnimation,
+  type PresetName,
+  type SpringName,
+} from '../index.js'
+
+type Host = NSVElement
+type Options = AnimateOptions | SpringName
+
+/** A preset name or keyframes, alone or paired with a transition. */
+export type AnimateValue =
+  PresetName | Keyframes | readonly [animation: PresetName | Keyframes, options?: Options]
+
+/** The pressed keyframes, alone or paired with a transition. */
+export type PressValue = Keyframes | readonly [pressed: Keyframes, options?: Options]
+
+export interface TransitionProps {
+  /** Played when the child is inserted. */
+  enter?: AnimateValue
+  /** Played before the child is removed. */
+  leave?: AnimateValue
+  /** Also play `enter` on the first render. */
+  appear?: boolean
+  mode?: 'in-out' | 'out-in' | 'default'
+}
+
+const animations = new WeakMap<object, PlaybackAnimation>()
+const removers = new WeakMap<object, () => void>()
+
+function split<T>(
+  value: T | readonly [T, Options?],
+): [animation: T, options: Options | undefined] {
+  return Array.isArray(value)
+    ? [value[0] as T, value[1] as Options | undefined]
+    : [value as T, undefined]
+}
+
+function same(a: unknown, b: unknown): boolean {
+  if (Object.is(a, b)) return true
+  if (typeof a !== 'object' || typeof b !== 'object' || a === null || b === null)
+    return false
+  if (Array.isArray(a) !== Array.isArray(b)) return false
+  const keys = Object.keys(a)
+  return (
+    keys.length === Object.keys(b).length &&
+    keys.every((key) =>
+      same((a as Record<string, unknown>)[key], (b as Record<string, unknown>)[key]),
+    )
+  )
+}
+
+function play(el: Host, value: AnimateValue) {
+  const [animation, options] = split<PresetName | Keyframes>(value)
+  const handle = animate(el, animation, options)
+  animations.set(el, handle)
+  return handle
+}
+
+function cancel(el: Host) {
+  animations.get(el)?.stop()
+  animations.delete(el)
+}
+
+function attach(el: Host, value: PressValue | undefined) {
+  const [pressed, options] = value === undefined ? [] : split<Keyframes>(value)
+  removers.set(el, press(el, pressed, options))
+}
+
+/**
+ * Plays an animation when the element mounts, and again whenever the value changes.
+ *
+ * ```vue
+ * <Label v-animate="'fadeInUp'" />
+ * <Label v-animate="['popIn', { delay: 200 }]" />
+ * ```
+ */
+export const vAnimate: ObjectDirective<Host, AnimateValue> = {
+  mounted(el, { value }) {
+    play(el, value)
+  },
+  updated(el, { value, oldValue }) {
+    if (!same(value, oldValue)) play(el, value)
+  },
+  unmounted: cancel,
+}
+
+/**
+ * Press feedback while a finger is on the element.
+ *
+ * ```vue
+ * <GridLayout v-press />
+ * <GridLayout v-press="{ scale: 0.95 }" />
+ * ```
+ */
+export const vPress: ObjectDirective<Host, PressValue | undefined> = {
+  mounted(el, { value }) {
+    attach(el, value)
+  },
+  updated(el, { value, oldValue }) {
+    if (same(value, oldValue)) return
+    removers.get(el)?.()
+    attach(el, value)
+  },
+  unmounted(el) {
+    removers.get(el)?.()
+    removers.delete(el)
+  },
+}
+
+/** The hooks `JoltTransition` hands to Vue's `BaseTransition`. */
+export function transitionHooks(props: TransitionProps): BaseTransitionProps<Host> {
+  const run = (value: AnimateValue | undefined) => (el: Host, done: () => void) => {
+    if (value === undefined) {
+      done()
+      return
+    }
+    const handle = play(el, value)
+    void handle.finished.then(() => {
+      if (animations.get(el) === handle) animations.delete(el)
+      done()
+    })
+  }
+  const hooks: BaseTransitionProps<Host> = {
+    onEnter: run(props.enter),
+    onEnterCancelled: cancel,
+    onLeave: run(props.leave),
+    onLeaveCancelled: cancel,
+  }
+  if (props.appear) {
+    hooks.onAppear = hooks.onEnter
+    hooks.onAppearCancelled = cancel
+  }
+  return hooks
+}
+
+const value = {
+  type: [String, Object, Array] as PropType<AnimateValue>,
+  default: undefined,
+}
+
+/**
+ * Animates a child in and out. Vue keeps the element until the leave animation settles.
+ *
+ * ```vue
+ * <JoltTransition enter="popIn" leave="fadeOut">
+ *   <Label v-if="visible" text="Saved" />
+ * </JoltTransition>
+ * ```
+ */
+export const JoltTransition = defineComponent({
+  name: 'JoltTransition',
+  props: {
+    enter: value,
+    leave: value,
+    appear: Boolean,
+    mode: { type: String as PropType<TransitionProps['mode']>, default: undefined },
+  },
+  setup(props, { slots }) {
+    return () =>
+      h(
+        BaseTransition,
+        { ...transitionHooks(props), mode: props.mode, appear: props.appear },
+        slots,
+      )
+  },
+})
+
+/** Registers `v-animate`, `v-press` and `JoltTransition` on the app. */
+export function install(app: App) {
+  app.directive('animate', vAnimate)
+  app.directive('press', vPress)
+  app.component('JoltTransition', JoltTransition)
+}
+
+export default { install }

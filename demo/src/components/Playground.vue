@@ -6,6 +6,7 @@ import Loops from './Loops.vue'
 import Presets from './Presets.vue'
 import Press from './Press.vue'
 import Keyboard from './Keyboard.vue'
+import VueAdapter from './VueAdapter.vue'
 import Springs from './Springs.vue'
 import Decay from './Decay.vue'
 import Stagger from './Stagger.vue'
@@ -111,6 +112,7 @@ onUnmounted(() => {
         <ListItems />
         <Press />
         <Keyboard :shown="composer" @toggle="composer = !composer" />
+        <VueAdapter />
         <Symbols />
         <Shimmer />
         <Loaders />
