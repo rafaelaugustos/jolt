@@ -1,9 +1,11 @@
 <script lang="ts" setup>
+import type { EventData, TextField, View } from '@nativescript/core'
 import { onMounted, onUnmounted, ref } from 'nativescript-vue'
-import { scrollLinked, sequence } from '@rafaelaugusto/jolt'
+import { followKeyboard, scrollLinked, sequence } from '@rafaelaugusto/jolt'
 import Loops from './Loops.vue'
 import Presets from './Presets.vue'
 import Press from './Press.vue'
+import Keyboard from './Keyboard.vue'
 import Springs from './Springs.vue'
 import Decay from './Decay.vue'
 import Stagger from './Stagger.vue'
@@ -28,7 +30,19 @@ const tagline = ref()
 const scroll = ref()
 const hero = ref()
 const compact = ref()
+const composer = ref(false)
+const message = ref('')
+const field = ref()
 let unlink: (() => void)[] = []
+let unfollow: (() => void) | undefined
+
+function composerLoaded(event: EventData) {
+  unfollow = followKeyboard(event.object as View)
+}
+function send() {
+  message.value = ''
+  ;(field.value?.nativeView as TextField | undefined)?.dismissSoftInput()
+}
 
 // the page isn't on screen yet: Jolt applies the first keyframes now and plays once it is
 onMounted(() => {
@@ -51,11 +65,14 @@ onMounted(() => {
     [[title.value, tagline.value], 'fadeInUp', { stagger: 80 }],
   ])
 })
-onUnmounted(() => unlink.forEach((cleanup) => cleanup()))
+onUnmounted(() => {
+  unlink.forEach((cleanup) => cleanup())
+  unfollow?.()
+})
 </script>
 
 <template>
-  <GridLayout rows="48, *">
+  <GridLayout rows="48, *, auto">
     <GridLayout columns="*, auto" padding="0 20" backgroundColor="#ffffff">
       <Label
         ref="compact"
@@ -93,6 +110,7 @@ onUnmounted(() => unlink.forEach((cleanup) => cleanup()))
         <Stagger />
         <ListItems />
         <Press />
+        <Keyboard :shown="composer" @toggle="composer = !composer" />
         <Symbols />
         <Shimmer />
         <Loaders />
@@ -103,5 +121,22 @@ onUnmounted(() => unlink.forEach((cleanup) => cleanup()))
         <Loops />
       </StackLayout>
     </ScrollView>
+    <GridLayout
+      v-if="composer"
+      row="2"
+      columns="*, auto"
+      class="composer"
+      @loaded="composerLoaded"
+    >
+      <TextField
+        ref="field"
+        v-model="message"
+        class="composer-input"
+        hint="Type a message"
+        returnKeyType="send"
+        @returnPress="send"
+      />
+      <Button col="1" class="button" text="Send" @tap="send" />
+    </GridLayout>
   </GridLayout>
 </template>

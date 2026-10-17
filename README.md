@@ -53,6 +53,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Haptics](#haptics) at arrival or at marked points in an animation on iOS.
 - [Particles and confetti](#particles-and-confetti) on iOS.
 - [Scroll-linked animations](#scroll-linked-animations) for parallax and collapsing headers.
+- [Keyboard following](#follow-the-keyboard) for composers that rise with the keyboard, at its speed and curve.
 - [Playback controls](#pause-play-and-scrub) to pause, continue and scrub a finite timeline.
 - [Interruptions](#interrupting-and-stopping) that pick up the value and velocity on screen, with no jump.
 - [Native playback](#how-it-works): Core Animation on iOS, `ObjectAnimator` on Android, nothing in JavaScript while it plays.
@@ -441,6 +442,16 @@ const unlink = scrollLinked(
 ```
 
 A paused native animation follows the ScrollView offset in DIPs, with linear interpolation and clamped progress. Scrolling backward restores earlier frames. Use `axis: 'x'` for horizontal scrolling; descending ranges reverse the mapping. `unlink()` freezes the current frame and removes the binding; unloading either view also cleans it up. Scroll events update progress through JavaScript, so this binding needs the main thread to remain available. See the [guide](https://jolt.rafaelaugusto.dev/guide/scroll-linked).
+
+## Follow the keyboard
+
+```ts
+import { followKeyboard } from '@rafaelaugusto/jolt'
+
+const release = followKeyboard(composer)
+```
+
+The view rises by exactly the distance the keyboard would cover it, with the keyboard's own duration and curve, and settles back when it hides. On iOS the keyboard notifications drive a `UIView` animation; on Android 11+ a native `WindowInsetsAnimation` callback moves the view on every frame, with and without `adjustResize`. The view's `translateY` is written so later animations start from the position on screen. Rebuild Android after upgrading. See the [guide](https://jolt.rafaelaugusto.dev/guide/keyboard).
 
 ## Pause, play and scrub
 

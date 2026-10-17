@@ -52,6 +52,8 @@ The playground also includes [playback controls](./playback): pause a card, choo
 
 The [scroll-linked header](./scroll-linked) moves and fades the large heading as the main ScrollView advances, revealing a fixed compact title. Scrolling back restores it.
 
+The Keyboard section shows a composer pinned to the bottom of the playground; [`followKeyboard()`](./keyboard) lifts it with the software keyboard and lets it back down when the keyboard hides.
+
 The [timeline demo](./sequences) compares overlapping entrances, one-at-a-time arrivals and fixed start times, with replay and stop controls.
 
 The [list rows demo](./lists) scrolls sixty rows that fade in as they appear, with a toggle for animating each item once and a button that swaps in new items.

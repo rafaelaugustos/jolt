@@ -127,6 +127,27 @@ Page {
   margin-top: 16;
 }
 
+.note {
+  margin-top: 12;
+  color: #52525b;
+  font-size: 14;
+}
+
+.composer {
+  padding: 10 16;
+  background-color: #ffffff;
+  border-top-width: 1;
+  border-top-color: #e4e4e7;
+}
+
+.composer-input {
+  margin: 4 8 4 0;
+  padding: 10 14;
+  border-radius: 12;
+  background-color: #f4f4f5;
+  font-size: 15;
+}
+
 .tile {
   margin: 4;
   height: 96;
