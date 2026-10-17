@@ -16,4 +16,23 @@ declare namespace org.rafaelaugusto.jolt {
       })
     }
   }
+  class TextReveal {
+    constructor(
+      view: android.widget.TextView,
+      byWord: boolean,
+      duration: number,
+      stagger: number,
+      delay: number,
+      offset: number,
+      callback: TextReveal.Callback,
+    )
+    isSupported(): boolean
+    start(): void
+    cancel(): void
+  }
+  namespace TextReveal {
+    class Callback {
+      constructor(implementation: { onEnd(finished: boolean): void })
+    }
+  }
 }

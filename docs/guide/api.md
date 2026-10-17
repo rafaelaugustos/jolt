@@ -15,7 +15,7 @@
 - [`liquid(image, options?)`](./liquid) — iOS texture deformation; returns a `LiquidEffect` with `pause()`, `resume()` and `stop()`.
 - [`loader(target, options?)`](./loaders) — iOS dots, bars and ring indicators; returns a cleanup function.
 - [`reveal(target, options?)`, `conceal(target, options?)`](./reveal) — iOS circular visibility transitions; return an `Animation`.
-- [`animateText(label, options?)`](./text) — iOS letter-by-letter or word-by-word entrances; returns an `Animation`.
+- [`animateText(label, options?)`](./text) — letter-by-letter or word-by-word entrances on iOS and Android; returns an `Animation`.
 - [`confetti(target, options?)`, `particles(target, options?)`](./particles) — iOS particle effects; return cleanup functions.
 
 `target` is a view or anything holding one (a template ref, an `ElementRef`). `animate()`, `decay()`, `stop()` and sequence steps also accept arrays of targets.

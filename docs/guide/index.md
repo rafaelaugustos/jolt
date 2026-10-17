@@ -25,7 +25,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Sequences](./sequences) that start each step once the previous one looks done.
 - [Press effects](./press) that follow the finger and let go when a scroll takes over.
 - [Vue directives and a transition component](./vue) from the optional `@rafaelaugusto/jolt/vue` entry.
-- [Text entrances](./text) by letter or word on iOS, keeping one accessible Label.
+- [Text entrances](./text) by letter or word on iOS and Android, keeping one accessible Label.
 - [Interruptions](./interrupting) that pick up the value and velocity on screen, with no jump.
 - [Native playback](./how-it-works): Core Animation on iOS, `ObjectAnimator` on Android, nothing in JavaScript while it plays.
 
