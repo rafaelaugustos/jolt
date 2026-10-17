@@ -23,7 +23,7 @@ npm install
 ns run ios
 ```
 
-Android opens the animation playground with `ns run android`. The iOS playground includes the same sections plus iOS-only helpers.
+Android opens the animation playground with `ns run android`, including the text entrance section. The iOS playground includes the same sections plus iOS-only helpers.
 
 For an installed iOS Simulator build, pass a preview argument when launching:
 

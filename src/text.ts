@@ -1,5 +1,5 @@
 import { stopIOSColorText } from './driver/ios-color.js'
-import { Application, Label, isIOS } from '@nativescript/core'
+import { Application, Label, Utils, isAndroid, isIOS } from '@nativescript/core'
 import { textProperty, formattedTextProperty } from '@nativescript/core/ui/text-base'
 import { toView } from './animate.js'
 import type { Animation } from './engine.js'
@@ -47,7 +47,7 @@ const styleEvents = [
   'borderBottomWidthChange',
 ]
 
-/** Reveals the text of an iOS Label without splitting its layout or accessibility element. */
+/** Reveals the text of a Label without splitting its layout or accessibility element. */
 export function animateText(target: Target, options: TextOptions = {}): Animation {
   const config: Options = {
     by: options.by ?? 'letter',
@@ -103,7 +103,8 @@ class TextAnimation implements Animation {
   private readonly formatted: Label['formattedText']
   private settled = false
   private queued = false
-  private native: UILabel | undefined
+  private native: UILabel | android.widget.TextView | undefined
+  private reveal: org.rafaelaugusto.jolt.TextReveal | undefined
   private bounds: CGRect | undefined
   private layer: CALayer | undefined
   private originalText: string | null = null
@@ -123,11 +124,11 @@ class TextAnimation implements Animation {
     if (isIOS) stopIOSColorText(view)
     this.formatted = view.formattedText
     running.set(view, this)
-    if (!isIOS) {
+    if (!isIOS && !isAndroid) {
       this.end(false)
       return
     }
-    if (options.duration === 0 || UIAccessibilityIsReduceMotionEnabled()) {
+    if (options.duration === 0 || reduceMotion()) {
       this.end(true)
       return
     }
@@ -151,9 +152,14 @@ class TextAnimation implements Animation {
   stop = () => this.end(false)
   private changed = () => this.end(false, true)
   private motionChanged = () => {
-    if (UIAccessibilityIsReduceMotionEnabled()) this.end(true)
+    if (reduceMotion()) this.end(true)
   }
   private layoutChanged = () => {
+    if (isAndroid) {
+      if (!this.reveal) this.schedule()
+      else if (this.view.nativeViewProtected !== this.native) this.stop()
+      return
+    }
     const native = this.view.nativeViewProtected as UILabel | undefined
     const a = this.bounds
     const b = native?.bounds
@@ -176,7 +182,7 @@ class TextAnimation implements Animation {
     this.queued = true
     void Promise.resolve().then(() => {
       this.queued = false
-      if (this.settled || this.layer || !this.view.isLoaded) return
+      if (this.settled || this.layer || this.reveal || !this.view.isLoaded) return
       try {
         this.start()
       } catch {
@@ -185,9 +191,9 @@ class TextAnimation implements Animation {
     })
   }
   private start() {
-    if (this.options.duration === 0 || UIAccessibilityIsReduceMotionEnabled())
-      return this.end(true)
+    if (this.options.duration === 0 || reduceMotion()) return this.end(true)
     if (this.view.visibility !== 'visible') return this.end(false)
+    if (isAndroid) return this.startAndroid()
     const native = this.view.nativeViewProtected as UILabel | undefined
     if (!(native instanceof UILabel) || !native.window) return
     if (native.bounds.size.width <= 0 || native.bounds.size.height <= 0) return
@@ -247,10 +253,44 @@ class TextAnimation implements Animation {
       CATransaction.commit()
     }
   }
+  private startAndroid() {
+    const native = this.view.nativeViewProtected as android.widget.TextView | undefined
+    if (!(native instanceof android.widget.TextView)) return this.end(false)
+    const { by, duration, stagger, delay, y } = this.options
+    let reveal: org.rafaelaugusto.jolt.TextReveal
+    try {
+      reveal = new org.rafaelaugusto.jolt.TextReveal(
+        native,
+        by === 'word',
+        Math.round(duration),
+        Math.round(stagger),
+        Math.round(delay),
+        y * Utils.layout.getDisplayDensity(),
+        new org.rafaelaugusto.jolt.TextReveal.Callback({
+          onEnd: (finished: boolean) => {
+            if (this.reveal !== reveal) return
+            this.reveal = undefined
+            this.end(finished)
+          },
+        }),
+      )
+    } catch {
+      // A JS-only update cannot install the native plugin. Keep the label as it is.
+      return this.end(false)
+    }
+    if (!reveal.isSupported()) return this.end(false)
+    this.native = native
+    this.reveal = reveal
+    reveal.start()
+  }
   private end(finished: boolean, refresh = false) {
     if (this.settled) return
     this.settled = true
-    const { view, native, layer } = this
+    const { view, layer } = this
+    const native = this.native as UILabel | undefined
+    const reveal = this.reveal
+    this.reveal = undefined
+    reveal?.cancel()
     view.off('loaded', this.schedule)
     view.off('layoutChanged', this.layoutChanged)
     view.off('unloaded', this.stop)
@@ -295,4 +335,13 @@ class TextAnimation implements Animation {
     this.originalAttributed = null
     this.resolve(finished)
   }
+}
+
+function reduceMotion() {
+  if (isAndroid)
+    return (
+      android.os.Build.VERSION.SDK_INT >= 26 &&
+      !android.animation.ValueAnimator.areAnimatorsEnabled()
+    )
+  return UIAccessibilityIsReduceMotionEnabled()
 }

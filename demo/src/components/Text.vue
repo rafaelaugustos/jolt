@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import { isIOS } from '@nativescript/core'
 import { onUnmounted, ref } from 'nativescript-vue'
 import { animateText, type Animation } from '@rafaelaugusto/jolt'
 const title = ref()
@@ -27,7 +26,7 @@ onUnmounted(stop)
 </script>
 
 <template>
-  <StackLayout v-if="isIOS" class="section">
+  <StackLayout class="section">
     <Label class="heading" text="Text" />
     <Label
       class="muted"

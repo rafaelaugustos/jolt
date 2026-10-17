@@ -9,9 +9,12 @@ await animateText(title)
 await animateText(title, { by: 'word', stagger: 100 })
 ```
 
-O alvo deve ser uma `Label` do NativeScript, ou um template ref / `ElementRef` que contenha uma. O TextKit calcula o layout do texto inteiro antes de o Jolt separar os glifos em layers temporárias com imagens. Espaços, quebras de linha, alinhamento e estilos do texto formatado ficam no lugar. Caracteres compostos, como letras acentuadas e emoji unidos, continuam juntos; letras que compartilham uma ligatura animam juntas.
+O alvo deve ser uma `Label` do NativeScript, ou um template ref / `ElementRef` que contenha uma. Espaços, quebras de linha, alinhamento e estilos do texto formatado ficam no lugar. Caracteres compostos, como letras acentuadas e emoji unidos, continuam juntos.
 
-Cada parte aparece com fade e se move até sua linha de base original. O Core Animation toca o efeito sem callbacks JavaScript por frame. A Label original mantém seu layout e seu elemento de acessibilidade, com o texto acessível completo durante toda a animação. As layers temporárias não criam elementos acessíveis.
+Cada parte aparece com fade e se move até sua linha de base original. A Label original mantém seu layout e seu elemento de acessibilidade, com o texto acessível completo durante toda a animação, e nada roda em JavaScript a cada frame.
+
+- **iOS:** o TextKit calcula o layout do texto inteiro antes de o Jolt separar os glifos em layers temporárias com imagens, que o Core Animation reproduz. Letras que compartilham uma ligatura animam juntas. As layers temporárias não criam elementos acessíveis.
+- **Android:** spans que só afetam o desenho aplicam fade e deslocamento a cada parte, com um único animator nativo. A TextView mantém seu texto, quebras de linha, truncamento e os spans do texto formatado; nada é medido de novo.
 
 ## Opções
 
@@ -36,10 +39,12 @@ await sequence([() => animateText(title), () => animate(button, 'fadeIn')])
 
 Retorna uma `Animation`: você pode usar `await`, ler `finished` ou chamar `stop()`. A conclusão nativa resolve com `true`. Parar restaura o texto inteiro e resolve com `false`. Iniciar outro `animateText()` na mesma Label cancela a entrada anterior e recomeça.
 
-Unload, troca da view nativa, mudanças no texto/estilo ou redimensionamento dos bounds cancelam a reprodução e removem as layers temporárias. Mudanças do app no texto e no rótulo acessível são preservadas. Reduzir Movimento pula a entrada; ativá-lo durante a reprodução restaura o texto inteiro imediatamente e resolve com `true`.
+Unload, troca da view nativa ou mudanças no texto/estilo cancelam a reprodução e restauram o texto inteiro; no iOS, redimensionar os bounds também. Mudanças do app no texto e no rótulo acessível são preservadas. Reduzir Movimento no iOS e Remover animações no Android (animators desativados) pulam a entrada; ativar Reduzir Movimento durante a reprodução restaura o texto inteiro imediatamente e resolve com `true`.
 
 ## Escopo
 
-iOS por enquanto. No Android, a chamada resolve com `false` e mantém a Label intacta.
+O efeito foi pensado para títulos e trechos curtos. Acima de 256 partes, a Label mantém o texto original e resolve com `false`. Texto vazio conclui imediatamente.
 
-O efeito foi pensado para títulos e trechos curtos. Labels com texto truncado, anexos embutidos ou redução automática da fonte mantêm o texto original e resolvem com `false`. O mesmo vale acima de 256 partes ou quando as imagens ultrapassariam quatro milhões de pixels (cerca de 16 MB em RGBA). Texto vazio conclui imediatamente. Mudanças de Dynamic Type que afetam o layout cancelam a entrada; a Label normal passa a usar o layout atualizado.
+No iOS, Labels com texto truncado, anexos embutidos ou redução automática da fonte mantêm o texto original e resolvem com `false`. O mesmo vale quando as imagens ultrapassariam quatro milhões de pixels (cerca de 16 MB em RGBA). Mudanças de Dynamic Type que afetam o layout cancelam a entrada; a Label normal passa a usar o layout atualizado.
+
+No Android, reconstrua o app depois de atualizar para incluir a classe nativa; sem ela, a chamada resolve com `false` e mantém o texto. Texto truncado é animado como aparece na tela, e letras dos dois lados de uma divisão perdem a ligatura enquanto a entrada toca.

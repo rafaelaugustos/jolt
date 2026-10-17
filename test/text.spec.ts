@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { animateText, sequence, type Animation } from '../src/index.js'
 import { mergeGlyphRanges } from '../src/text-layout.js'
-import { Application, Label, Observable } from './shims/core.js'
+import { Application, Label, Observable, Utils } from './shims/core.js'
 import { createView, flush, state } from './helpers.js'
 const platform = vi.hoisted(() => ({ isIOS: true }))
 const layout = vi.hoisted(() => ({ supported: true, pieces: 3, call: vi.fn() }))
@@ -9,6 +9,9 @@ vi.mock('@nativescript/core', async (importOriginal) => ({
   ...(await importOriginal<object>()),
   get isIOS() {
     return platform.isIOS
+  },
+  get isAndroid() {
+    return !platform.isIOS
   },
 }))
 vi.mock('../src/text-layout.js', async (importOriginal) => ({
@@ -317,13 +320,12 @@ describe('text entrance', () => {
     expect(native.text).toBe(view.text)
     expect(native.layer.children).toHaveLength(0)
   })
-  it.each(['unsupported', 'hidden', 'android', 'error'] as const)(
+  it.each(['unsupported', 'hidden', 'error'] as const)(
     'leaves the original label for %s',
     async (reason) => {
       const { view, native } = target()
       if (reason === 'unsupported') layout.supported = false
       if (reason === 'hidden') view.visibility = 'hidden'
-      if (reason === 'android') platform.isIOS = false
       if (reason === 'error')
         layout.call.mockImplementationOnce(() => {
           throw new Error('Snapshot failed')
@@ -354,6 +356,209 @@ describe('text entrance', () => {
     await flush()
     expect(b.native.text).toBe('')
     complete(b.native)
+    expect(await handle).toBe(true)
+  })
+})
+describe('Android text entrance', () => {
+  const reveals: NativeReveal[] = []
+  const animators = { enabled: true, sdk: 34 }
+  const support = { value: true }
+  class NativeTextView {}
+  class NativeReveal {
+    static Callback = class {
+      constructor(readonly implementation: { onEnd(finished: boolean): void }) {}
+    }
+    readonly options: unknown[]
+    readonly callback: { onEnd(finished: boolean): void }
+    started = false
+    cancelled = false
+    constructor(...args: unknown[]) {
+      this.options = args.slice(0, 6)
+      this.callback = (
+        args[6] as { implementation: { onEnd(finished: boolean): void } }
+      ).implementation
+      reveals.push(this)
+    }
+    isSupported() {
+      return support.value
+    }
+    start() {
+      this.started = true
+    }
+    cancel() {
+      this.cancelled = true
+      this.callback.onEnd(false)
+    }
+    finish() {
+      this.callback.onEnd(true)
+    }
+  }
+  function label() {
+    const view = new Label()
+    view.text = 'Olá 👩🏽‍💻'
+    const native = new NativeTextView()
+    view.nativeViewProtected = native
+    return { view: view as Label & import('@nativescript/core').Label, native }
+  }
+  beforeEach(() => {
+    platform.isIOS = false
+    reveals.length = 0
+    animators.enabled = true
+    animators.sdk = 34
+    support.value = true
+    vi.stubGlobal('android', {
+      widget: { TextView: NativeTextView },
+      os: {
+        Build: {
+          VERSION: {
+            get SDK_INT() {
+              return animators.sdk
+            },
+          },
+        },
+      },
+      animation: { ValueAnimator: { areAnimatorsEnabled: () => animators.enabled } },
+    })
+    vi.stubGlobal('org', { rafaelaugusto: { jolt: { TextReveal: NativeReveal } } })
+  })
+  afterEach(() => vi.restoreAllMocks())
+
+  it('plays the native span reveal with options converted to pixels', async () => {
+    vi.spyOn(Utils.layout, 'getDisplayDensity').mockReturnValue(2)
+    const { view, native } = label()
+    const handle = start(
+      { nativeView: view },
+      { by: 'word', duration: 600, stagger: 80, delay: 200, y: -8 },
+    )
+    const done = state(handle.finished)
+    await flush()
+    const [reveal] = reveals
+    expect(reveal!.options).toEqual([native, true, 600, 80, 200, -16])
+    expect(reveal!.started).toBe(true)
+    expect(view.text).toBe('Olá 👩🏽‍💻')
+    await vi.advanceTimersByTimeAsync(10000)
+    expect(done()).toBeUndefined()
+    reveal!.finish()
+    expect(await handle).toBe(true)
+    expect(reveal!.cancelled).toBe(false)
+    expect(view.listenerCount('textChange')).toBe(0)
+  })
+  it('uses letters, rounded times and the display density by default', async () => {
+    const { view, native } = label()
+    start(view, { stagger: 35.4 })
+    await flush()
+    expect(reveals[0]!.options).toEqual([native, false, 400, 35, 0, 12])
+  })
+  it('cancels the native reveal on stop', async () => {
+    const { view } = label()
+    const handle = start(view)
+    await flush()
+    handle.stop()
+    expect(reveals[0]!.cancelled).toBe(true)
+    expect(await handle).toBe(false)
+    expect(view.listenerCount('unloaded')).toBe(0)
+  })
+  it.each(['textChange', 'formattedTextChange', 'unloaded'] as const)(
+    'cancels on %s',
+    async (eventName) => {
+      const { view } = label()
+      const handle = start(view)
+      await flush()
+      event(view, eventName)
+      expect(reveals[0]!.cancelled).toBe(true)
+      expect(await handle).toBe(false)
+    },
+  )
+  it('cancels after a style change and when the native view is replaced', async () => {
+    const a = label()
+    const first = start(a.view)
+    await flush()
+    event(a.view.style, 'fontInternalChange')
+    expect(await first).toBe(false)
+    const b = label()
+    const second = start(b.view)
+    await flush()
+    b.view.nativeViewProtected = new NativeTextView()
+    event(b.view, 'layoutChanged')
+    expect(await second).toBe(false)
+    expect(reveals.map((reveal) => reveal.cancelled)).toEqual([true, true])
+  })
+  it('keeps playing through layout changes of the same view', async () => {
+    const { view } = label()
+    const handle = start(view)
+    await flush()
+    event(view, 'layoutChanged')
+    await flush()
+    expect(reveals).toHaveLength(1)
+    expect(reveals[0]!.cancelled).toBe(false)
+    reveals[0]!.finish()
+    expect(await handle).toBe(true)
+  })
+  it('waits for the label to load', async () => {
+    const { view } = label()
+    Object.assign(view, { isLoaded: false })
+    const handle = start(view)
+    await flush()
+    expect(reveals).toHaveLength(0)
+    Object.assign(view, { isLoaded: true })
+    event(view, 'loaded')
+    await flush()
+    expect(reveals).toHaveLength(1)
+    reveals[0]!.finish()
+    expect(await handle).toBe(true)
+  })
+  it('replaces a running reveal and ignores its late completion', async () => {
+    const { view } = label()
+    const first = start(view)
+    await flush()
+    const second = start(view, { by: 'word' })
+    await flush()
+    expect(await first).toBe(false)
+    expect(reveals[0]!.cancelled).toBe(true)
+    expect(reveals[1]!.options[1]).toBe(true)
+    const done = state(second.finished)
+    reveals[0]!.finish()
+    await flush()
+    expect(done()).toBeUndefined()
+    reveals[1]!.finish()
+    expect(await second).toBe(true)
+  })
+  it('leaves the label alone when the native reveal is unsupported', async () => {
+    support.value = false
+    const { view } = label()
+    expect(await start(view)).toBe(false)
+    expect(reveals[0]!.started).toBe(false)
+  })
+  it('resolves false without the native class or a TextView', async () => {
+    vi.stubGlobal('org', {})
+    const { view } = label()
+    expect(await start(view)).toBe(false)
+    vi.stubGlobal('org', { rafaelaugusto: { jolt: { TextReveal: NativeReveal } } })
+    const plain = label()
+    plain.view.nativeViewProtected = {}
+    expect(await start(plain.view)).toBe(false)
+    expect(reveals).toHaveLength(0)
+  })
+  it('skips playback when animators are disabled', async () => {
+    animators.enabled = false
+    const { view } = label()
+    expect(await start(view, { delay: 1000 })).toBe(true)
+    expect(reveals).toHaveLength(0)
+  })
+  it('ignores the animator setting below Android 8', async () => {
+    animators.enabled = false
+    animators.sdk = 25
+    const { view } = label()
+    start(view)
+    await flush()
+    expect(reveals).toHaveLength(1)
+  })
+  it('completes an empty label through the native callback', async () => {
+    const { view } = label()
+    view.text = ''
+    const handle = start(view)
+    await flush()
+    reveals[0]!.finish()
     expect(await handle).toBe(true)
   })
 })
