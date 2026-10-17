@@ -25,6 +25,7 @@ import Decorations from './Decorations.vue'
 import Playback from './Playback.vue'
 import Timeline from './Timeline.vue'
 import MotionPath from './MotionPath.vue'
+import Tuning from './Tuning.vue'
 
 const logo = ref()
 const title = ref()
@@ -100,6 +101,7 @@ onUnmounted(() => {
           <Label ref="tagline" class="muted" text="Native animations for NativeScript" />
         </StackLayout>
 
+        <Tuning />
         <MotionPath />
         <Timeline />
         <Playback />

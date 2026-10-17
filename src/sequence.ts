@@ -1,3 +1,4 @@
+import { timeScale } from './config.js'
 import { getDriver } from './driver/index.js'
 import { isDecorationProperty, validateDecorationTarget } from './decoration.js'
 import type { View } from '@nativescript/core'
@@ -55,6 +56,7 @@ export function sequence(steps: readonly Step[]): Animation {
   applyStartingValues(prepared.map(({ step }) => step))
 
   const driver = getDriver()
+  const slowdown = 1 / timeScale()
   // Absolute positions share the platform clock, including Android duration scale.
   const clock = prepared.some(({ position }) => typeof position === 'number')
     ? (driver.clock?.(Infinity) ?? createClock(() => driver.now()))
@@ -132,9 +134,12 @@ export function sequence(steps: readonly Step[]): Animation {
   for (let index = 0; index < states.length; index++) {
     const { position } = states[index]!
     const begin = () => launch(index)
-    if (typeof position === 'number') wait(position - clock!.time(), begin)
+    if (typeof position === 'number') wait(position * slowdown - clock!.time(), begin)
     else if (index === 0)
-      wait(typeof position === 'object' ? Math.max(0, position.offset) : 0, begin)
+      wait(
+        typeof position === 'object' ? Math.max(0, position.offset) * slowdown : 0,
+        begin,
+      )
     else {
       const previous = states[index - 1]!
       const follow = () => {
@@ -143,7 +148,7 @@ export function sequence(steps: readonly Step[]): Animation {
           begin()
           return
         }
-        const offset = position?.offset ?? 0
+        const offset = (position?.offset ?? 0) * slowdown
         if (offset < 0) {
           const timing = arrivalTimingOf(previous.animation)
           if (!timing) {

@@ -1,4 +1,5 @@
 import { parsePath, type MotionPath } from './svg-path.js'
+import { timeScale } from './config.js'
 import { createTrack, type Track } from './track.js'
 import {
   mergeTransitions,
@@ -52,9 +53,10 @@ export function preparePath(
     properties,
     starts: new Map(properties.map((property) => [property, first[property]])),
     transition,
-    track(property, offset, delay) {
+    track(property, offset, requested) {
       motion ??= sample(geometry, transition, orient)
       const { progress, times, frames } = motion
+      const delay = requested / timeScale()
       const shift = delay - progress.delay
       const pose = (time: number) =>
         geometry.at(progress.valueAt(time - shift))[property] + offset

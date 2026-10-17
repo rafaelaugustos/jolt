@@ -1,5 +1,6 @@
 import type { View as CoreView } from '@nativescript/core'
 import { afterEach, beforeEach } from 'vitest'
+import { configure } from '../src/config.js'
 import { setDriver, type Driver } from '../src/driver/index.js'
 import type { Property } from '../src/properties.js'
 import type { Track } from '../src/track.js'
@@ -118,6 +119,7 @@ export let driver: FakeDriver
 beforeEach(() => {
   driver = new FakeDriver()
   setDriver(driver)
+  configure({ timeScale: 1 })
 })
 
 afterEach(() => setDriver(undefined))

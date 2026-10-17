@@ -57,6 +57,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Scroll-linked animations](#scroll-linked-animations) for parallax and collapsing headers.
 - [Keyboard following](#follow-the-keyboard) for composers that rise with the keyboard, at its speed and curve.
 - [Playback controls](#pause-play-and-scrub) to pause, continue and scrub a finite timeline.
+- [Time scale](#time-scale) to slow every animation down while tuning, on both platforms.
 - [Interruptions](#interrupting-and-stopping) that pick up the value and velocity on screen, with no jump.
 - [Native playback](#how-it-works): Core Animation on iOS, `ObjectAnimator` on Android, nothing in JavaScript while it plays.
 
@@ -493,6 +494,16 @@ animation.play()
 ```
 
 `animate()` and `decay()` return a `PlaybackAnimation` with `pause()`, `play()`, `progress`, `paused` and `duration`. Progress runs from 0 to 1 across delays, repeats and stagger. It preserves the paused/playing state; a paused endpoint can scrub backward. Other animations on the same view keep moving. Infinite loops support pause/play but reject progress. Completed and stopped handles remain terminal. Sequence and effect handles keep their existing controls. See [playback](https://jolt.rafaelaugusto.dev/guide/playback) for lifecycle, haptics and gesture examples.
+
+## Time scale
+
+```ts
+import { configure } from '@rafaelaugusto/jolt'
+
+configure({ timeScale: 0.2 }) // everything five times slower
+```
+
+Tuning a spring at full speed is guesswork. The scale applies to every engine animation started after the call, on iOS and Android alike: durations, delays, stagger, sequence positions and spring time stretch together, keyframes stay dense, and an interruption still picks up the value and velocity on screen. Native loops such as shimmer and loaders keep their own timing. See the [guide](https://jolt.rafaelaugusto.dev/guide/configure).
 
 ## Interrupting and stopping
 

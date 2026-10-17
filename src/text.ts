@@ -2,6 +2,7 @@ import { stopIOSColorText } from './driver/ios-color.js'
 import { Application, Label, Utils, isAndroid, isIOS } from '@nativescript/core'
 import { textProperty, formattedTextProperty } from '@nativescript/core/ui/text-base'
 import { toView } from './animate.js'
+import { timeScale } from './config.js'
 import type { Animation } from './engine.js'
 import { completion, forgetCompletion, watchLabel } from './label.js'
 import { textLayer } from './text-layout.js'
@@ -143,12 +144,12 @@ class TextAnimation implements Animation {
     const prepared = textLayer(native, this.options.by)
     if (!prepared) return this.end(false)
     if (!prepared.layer?.sublayers?.count) return this.end(true)
+    const slowdown = 1 / timeScale()
+    const duration = this.options.duration * slowdown
+    const stagger = this.options.stagger * slowdown
+    const delay = this.options.delay * slowdown
     if (
-      !Number.isFinite(
-        this.options.delay +
-          this.options.duration +
-          (prepared.layer.sublayers.count - 1) * this.options.stagger,
-      )
+      !Number.isFinite(delay + duration + (prepared.layer.sublayers.count - 1) * stagger)
     )
       return this.end(false)
     this.native = native
@@ -158,7 +159,7 @@ class TextAnimation implements Animation {
     this.originalAttributed = native.attributedText
     this.accessibility = native.accessibilityLabel
     this.temporaryAccessibility = this.accessibility ?? prepared.text
-    const { duration, delay, stagger, y } = this.options
+    const { y } = this.options
     const start = CACurrentMediaTime()
     CATransaction.begin()
     CATransaction.setDisableActions(true)

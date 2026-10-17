@@ -5,6 +5,7 @@ import { precision, type Property } from './properties.js'
 import { solveSpring, springPhysics } from './spring.js'
 import type { Curve, ResolvedTransition } from './transition.js'
 import { colorMixer, isColorProperty, type ColorProperty } from './color.js'
+import { timeScale } from './config.js'
 
 /**
  * One property animated over time. The curve is computed here and sampled,
@@ -50,13 +51,17 @@ export function createTrack(
   velocity: number,
 ): Track {
   if (isColorProperty(property)) return colorTrack(property, keyframes, transition)
-  const { curve, delay, repeat, reverse } = transition
-  const motion =
+  const { curve, repeat, reverse } = transition
+  const slowdown = 1 / timeScale()
+  const delay = transition.delay * slowdown
+  const motion = slow(
     curve.type === 'spring'
-      ? spring(property, keyframes, curve, velocity)
+      ? spring(property, keyframes, curve, velocity * slowdown, slowdown)
       : curve.type === 'decay'
-        ? decay(property, keyframes[0]!, curve)
-        : tween(keyframes, curve)
+        ? decay(property, keyframes[0]!, curve, slowdown)
+        : tween(keyframes, curve, slowdown),
+    slowdown,
+  )
   const { duration } = motion
   const first = motion.values[0]!
   const last = motion.values.at(-1)!
@@ -156,10 +161,33 @@ function colorTrack(
   }
 }
 
+/** Plays the same trajectory over a longer or shorter time. */
+function slow(motion: Motion, factor: number): Motion {
+  if (factor === 1) return motion
+  return {
+    ...motion,
+    duration: motion.duration * factor,
+    position: (time) => motion.position(time / factor),
+    velocity: (time) => motion.velocity(time / factor) / factor,
+  }
+}
+
+/** Keyframes per second of playback, so slowed curves stay smooth. */
+function samples(duration: number, density: number) {
+  return Math.max(
+    1,
+    Math.min(
+      MAX_DECAY_SAMPLES,
+      Math.ceil(((duration * density) / 1000) * SAMPLES_PER_SECOND),
+    ),
+  )
+}
+
 function decay(
   property: Property,
   from: number,
   curve: Extract<Curve, { type: 'decay' }>,
+  density: number,
 ): Motion {
   const motion = solveDecay(from, curve.velocity, curve.friction, precision[property])
   if (curve.snap) {
@@ -171,13 +199,11 @@ function decay(
       [from, to],
       { type: 'spring', physics: springPhysics({}), velocity: curve.velocity },
       0,
+      density,
     )
   }
 
-  const steps = Math.max(
-    1,
-    Math.min(MAX_DECAY_SAMPLES, Math.ceil((motion.duration / 1000) * SAMPLES_PER_SECOND)),
-  )
+  const steps = samples(motion.duration, density)
   const times: number[] = []
   const values: number[] = []
   for (let i = 0; i <= steps; i++) {
@@ -201,6 +227,7 @@ function spring(
   [from, to]: readonly number[],
   curve: Extract<Curve, { type: 'spring' }>,
   velocity: number,
+  density: number,
 ): Motion {
   const motion = solveSpring(
     curve.physics,
@@ -209,7 +236,7 @@ function spring(
     curve.velocity ?? velocity,
     precision[property],
   )
-  const steps = Math.max(1, Math.ceil((motion.duration / 1000) * SAMPLES_PER_SECOND))
+  const steps = samples(motion.duration, density)
   const times: number[] = []
   const values: number[] = []
   for (let i = 0; i <= steps; i++) {
@@ -222,6 +249,7 @@ function spring(
 function tween(
   keyframes: readonly number[],
   curve: Extract<Curve, { type: 'tween' }>,
+  density: number,
 ): Motion {
   const { duration, ease } = curve
   const offsets = curve.times ?? keyframes.map((_, i) => i / (keyframes.length - 1))
@@ -245,16 +273,7 @@ function tween(
     const from = keyframes[i]!
     const to = keyframes[i + 1]!
     const easing = ease[i]!
-    const steps =
-      easing === linear || from === to
-        ? 1
-        : Math.max(
-            1,
-            Math.min(
-              MAX_DECAY_SAMPLES,
-              Math.ceil(((span * duration) / 1000) * SAMPLES_PER_SECOND),
-            ),
-          )
+    const steps = easing === linear || from === to ? 1 : samples(span * duration, density)
     for (let step = 1; step <= steps; step++) {
       times.push(start + (span * step) / steps)
       values.push(step === steps ? to : from + (to - from) * easing(step / steps))

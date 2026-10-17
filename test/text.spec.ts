@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { animateText, sequence, type Animation } from '../src/index.js'
+import { animateText, configure, sequence, type Animation } from '../src/index.js'
 import { mergeGlyphRanges } from '../src/text-layout.js'
 import { Application, Label, Observable, Utils } from './shims/core.js'
 import { createView, flush, state } from './helpers.js'
@@ -180,6 +180,21 @@ describe('text entrance', () => {
     expect(native.text).toBe(view.text)
     expect(native.accessibilityLabel).toBeNull()
     expect(native.layer.children).toHaveLength(0)
+  })
+  it('stretches its timing with the global time scale', async () => {
+    configure({ timeScale: 0.5 })
+    const { view, native } = target()
+    const handle = start(view, { duration: 600, stagger: 80, delay: 200 })
+    await flush()
+    const pieces = native.layer.children[0]!.children
+    pieces.forEach((piece, i) => {
+      const group = piece.animations.get('jolt:text')
+      expect(group.beginTime).toBeCloseTo(100.4 + i * 0.16)
+      expect(group.duration).toBe(1.2)
+      expect(group.animations[0].duration).toBe(1.2)
+    })
+    complete(native)
+    expect(await handle).toBe(true)
   })
   it('restores attributed text and a custom accessibility label on stop', async () => {
     const { view, native } = target()
