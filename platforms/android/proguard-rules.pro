@@ -5,3 +5,5 @@
     public android.graphics.drawable.Drawable getWrappedDrawable();
 }
 -keep class org.rafaelaugusto.jolt.DecorationTarget { *; }
+-keep class org.rafaelaugusto.jolt.KeyboardFollower { *; }
+-keep class org.rafaelaugusto.jolt.KeyboardFollower$* { *; }

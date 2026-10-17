@@ -52,6 +52,8 @@ O playground também inclui [controles de reprodução](./playback): pause um ca
 
 O [cabeçalho ligado ao scroll](./scroll-linked) se move e desaparece conforme o ScrollView principal avança, revelando um título compacto fixo. Voltar o scroll restaura o cabeçalho.
 
+A seção Keyboard mostra um campo de mensagem preso ao rodapé do playground; [`followKeyboard()`](./keyboard) o ergue junto com o teclado virtual e o devolve ao lugar quando o teclado some.
+
 A [demo de timelines](./sequences) compara entradas sobrepostas, chegadas uma a uma e tempos fixos, com controles para repetir e parar.
 
 A [demo de linhas de lista](./lists) rola sessenta linhas que aparecem com fade, com um botão para animar cada item só uma vez e outro que troca os itens por novos.
