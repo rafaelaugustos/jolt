@@ -143,8 +143,22 @@ export const colorProperty = { sourceKey: Symbol('color:source') }
 export class TextBase extends View {}
 export class Button extends TextBase {}
 export class Label extends TextBase {
-  text = 'Jolt'
-  formattedText: (Observable & { toString(): string }) | undefined;
+  private content = 'Jolt'
+  formattedText: (Observable & { toString(): string }) | undefined
+  get text() {
+    return this.content
+  }
+  set text(value: string) {
+    if (value === this.content) return
+    this.content = value
+    const native = this.nativeViewProtected as
+      { text?: string; setText?(value: string): void } | undefined
+    if (native && !this.formattedText) {
+      if (typeof native.setText === 'function') native.setText(value)
+      else if ('text' in native) native.text = value
+    }
+    this.notify({ eventName: 'textChange', object: this, propertyName: 'text', value })
+  }
   [textProperty.setNative](_value: unknown) {
     ;(this.nativeViewProtected as { text: string }).text = this.text
   }

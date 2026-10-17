@@ -3,6 +3,7 @@ import { Application, Label, Utils, isAndroid, isIOS } from '@nativescript/core'
 import { textProperty, formattedTextProperty } from '@nativescript/core/ui/text-base'
 import { toView } from './animate.js'
 import type { Animation } from './engine.js'
+import { completion, forgetCompletion, watchLabel } from './label.js'
 import { textLayer } from './text-layout.js'
 import type { Target } from './types.js'
 
@@ -20,32 +21,6 @@ export interface TextOptions {
 }
 type Options = Required<TextOptions>
 const running = new WeakMap<Label, TextAnimation>()
-const callbacks = new WeakMap<NSObject, (finished: boolean) => void>()
-let Delegate: typeof NSObject | undefined
-const styleEvents = [
-  'fontInternalChange',
-  'colorChange',
-  'textAlignmentChange',
-  'textDecorationChange',
-  'textTransformChange',
-  'letterSpacingChange',
-  'lineHeightChange',
-  'textShadowChange',
-  'textStrokeChange',
-  'whiteSpaceChange',
-  'textOverflowChange',
-  'maxLinesChange',
-  'paddingLeftChange',
-  'paddingRightChange',
-  'paddingTopChange',
-  'paddingBottomChange',
-  'visibilityChange',
-  'directionChange',
-  'borderLeftWidthChange',
-  'borderRightWidthChange',
-  'borderTopWidthChange',
-  'borderBottomWidthChange',
-]
 
 /** Reveals the text of a Label without splitting its layout or accessibility element. */
 export function animateText(target: Target, options: TextOptions = {}): Animation {
@@ -69,42 +44,14 @@ export function animateText(target: Target, options: TextOptions = {}): Animatio
   return new TextAnimation(view, config)
 }
 
-function completion(
-  callback: (finished: boolean) => void,
-): NSObject & CAAnimationDelegate {
-  if (!Delegate) {
-    const base = NSObject as typeof NSObject & {
-      extend(
-        methods: object,
-        options: { protocols: unknown[]; name: string },
-      ): typeof NSObject
-    }
-    Delegate = base.extend(
-      {
-        animationDidStopFinished(
-          this: NSObject,
-          _animation: CAAnimation,
-          finished: boolean,
-        ) {
-          callbacks.get(this)?.(finished)
-        },
-      },
-      { protocols: [CAAnimationDelegate], name: 'JoltTextAnimationDelegate' },
-    )
-  }
-  const delegate = Delegate.new()
-  callbacks.set(delegate, callback)
-  return delegate
-}
-
 class TextAnimation implements Animation {
   readonly finished: Promise<boolean>
   private resolve!: (finished: boolean) => void
-  private readonly formatted: Label['formattedText']
   private settled = false
   private queued = false
   private native: UILabel | android.widget.TextView | undefined
   private reveal: org.rafaelaugusto.jolt.TextReveal | undefined
+  private unwatch: (() => void) | undefined
   private bounds: CGRect | undefined
   private layer: CALayer | undefined
   private originalText: string | null = null
@@ -122,7 +69,6 @@ class TextAnimation implements Animation {
       this.resolve = resolve
     })
     if (isIOS) stopIOSColorText(view)
-    this.formatted = view.formattedText
     running.set(view, this)
     if (!isIOS && !isAndroid) {
       this.end(false)
@@ -135,10 +81,7 @@ class TextAnimation implements Animation {
     view.on('loaded', this.schedule)
     view.on('layoutChanged', this.layoutChanged)
     view.on('unloaded', this.stop)
-    view.on('textChange', this.changed)
-    view.on('formattedTextChange', this.changed)
-    this.formatted?.on('propertyChange', this.changed)
-    for (const event of styleEvents) view.style.on(event, this.changed)
+    this.unwatch = watchLabel(view, this.changed)
     this.schedule()
   }
 
@@ -294,17 +237,14 @@ class TextAnimation implements Animation {
     view.off('loaded', this.schedule)
     view.off('layoutChanged', this.layoutChanged)
     view.off('unloaded', this.stop)
-    view.off('textChange', this.changed)
-    view.off('formattedTextChange', this.changed)
-    this.formatted?.off('propertyChange', this.changed)
-    for (const event of styleEvents) view.style.off(event, this.changed)
+    this.unwatch?.()
     if (running.get(view) === this) running.delete(view)
     if (this.observer)
       Application.ios.removeNotificationObserver(
         this.observer,
         UIAccessibilityReduceMotionStatusDidChangeNotification,
       )
-    if (this.delegate) callbacks.delete(this.delegate)
+    if (this.delegate) forgetCompletion(this.delegate)
     if (native && layer) {
       CATransaction.begin()
       CATransaction.setDisableActions(true)

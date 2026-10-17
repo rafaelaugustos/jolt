@@ -1,6 +1,12 @@
 /** TextKit lays out the complete string before any glyphs are separated. */
 type Insets = { top: number; left: number; bottom: number; right: number }
 type NativeLabel = UILabel & { padding?: Insets; borderThickness?: Insets }
+/** The characters one piece draws, as UTF-16 offsets into the label text. */
+export interface TextPiece {
+  text: string
+  location: number
+  length: number
+}
 const MAX_PIECES = 256
 const MAX_PIXELS = 4_000_000
 
@@ -30,7 +36,7 @@ export function textLayer(native: NativeLabel, by: 'letter' | 'word') {
   if (native.adjustsFontSizeToFitWidth) return undefined
   const original = native.attributedText
   const text = original?.string ?? native.text ?? ''
-  if (!text.trim()) return { text, layer: undefined }
+  if (!text.trim()) return { text, layer: undefined, pieces: [] as TextPiece[] }
   const string = NSString.stringWithString(text)
   const full = { location: 0, length: string.length }
   const attributed = original
@@ -169,11 +175,17 @@ export function textLayer(native: NativeLabel, by: 'letter' | 'word') {
   )
   if (attachments) return undefined
   const shadowColor = native.shadowColor
+  const drawn: TextPiece[] = []
   try {
     native.shadowColor = null
     for (const { range, rect } of pieces) {
       const fragment = NSMutableAttributedString.alloc().initWithAttributedString(hidden)
       const characters = manager.characterRangeForGlyphRangeActualGlyphRange(range, null)
+      drawn.push({
+        text: string.substringWithRange(characters),
+        location: characters.location,
+        length: characters.length,
+      })
       attributed.enumerateAttributesInRangeOptionsUsingBlock(
         characters,
         0 as NSAttributedStringEnumerationOptions,
@@ -212,5 +224,5 @@ export function textLayer(native: NativeLabel, by: 'letter' | 'word') {
     else native.text = text
     native.shadowColor = shadowColor
   }
-  return { text, layer }
+  return { text, layer, pieces: drawn }
 }
