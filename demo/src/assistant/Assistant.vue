@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import { Application, type EventData, type View } from '@nativescript/core'
-import { computed, nextTick, onBeforeUnmount, onMounted, ref } from 'nativescript-vue'
+import { Application } from '@nativescript/core'
+import { computed, onBeforeUnmount, onMounted, ref } from 'nativescript-vue'
+import type { AnimateValue } from '@rafaelaugusto/jolt/vue'
 import Home from './Home.vue'
 import Voice from './Voice.vue'
 import Chat from './Chat.vue'
@@ -9,13 +10,11 @@ import Sheet from './Sheet.vue'
 import { Motion } from './motion'
 import { sentMessages } from './data'
 type Screen = 'home' | 'voice' | 'chat'
-type Scene = { id: number; name: Screen }
 const props = withDefaults(
   defineProps<{ initialScreen?: Screen; autoplay?: boolean }>(),
   { initialScreen: 'home', autoplay: false },
 )
 const screen = ref<Screen>(props.autoplay ? 'voice' : props.initialScreen)
-const scenes = ref<Scene[]>([{ id: 0, name: screen.value }])
 const panel = ref<'help' | 'profile' | null>(null)
 const playing = ref(false)
 const revision = ref(0)
@@ -24,25 +23,27 @@ const title = computed(() =>
 )
 const heading = ref()
 const warmth = ref()
-const views = new Map<number, View>()
-const components = new Map<number, unknown>()
+const current = ref()
+const enter: AnimateValue = [
+  { opacity: [0, 1], y: [12, 0] },
+  { duration: 260, ease: [0.25, 0.1, 0.25, 1] },
+]
+const leave: AnimateValue = [
+  { opacity: 0, y: -6 },
+  { duration: 160, ease: 'easeIn' },
+]
 const navigation = new Motion()
 const tour = new Motion()
 const ambient = new Motion()
-let nextId = 0
-let observer: unknown
-let transitioning = false
+let settle: (() => void) | undefined
 let suspended = false
 function stopTour() {
   tour.cancel()
   playing.value = false
 }
-function register(id: number, event: EventData) {
-  views.set(id, event.object as View)
-}
-function component(id: number, instance: unknown) {
-  if (instance) components.set(id, instance)
-  else components.delete(id)
+function settled() {
+  settle?.()
+  settle = undefined
 }
 async function navigate(destination: Screen, automated = false) {
   if (!automated) stopTour()
@@ -50,47 +51,17 @@ async function navigate(destination: Screen, automated = false) {
   ;(Application.getRootView()?.nativeViewProtected as UIView | undefined)?.endEditing(
     true,
   )
-  if (destination === screen.value && !transitioning) return
-  navigation.cancel()
-  const token = navigation.token
-  transitioning = true
-  const previous = scenes.value.at(-1)
-  const entering = { id: ++nextId, name: destination }
-  // Keep one outgoing scene, even when a second tap interrupts a transition.
-  scenes.value = previous ? [previous, entering] : [entering]
+  if (destination === screen.value) return
+  settled()
+  const arrived = new Promise<void>((resolve) => (settle = resolve))
   screen.value = destination
-  await nextTick()
-  const incoming = views.get(entering.id)
-  if (!incoming || !navigation.current(token)) return
-  const outgoing = previous ? views.get(previous.id) : undefined
-  const animations = [
-    navigation.play(
-      incoming,
-      { opacity: [0, 1], y: [destination === 'home' ? 18 : 10, 0], scale: [0.99, 1] },
-      { duration: 380, ease: [0.25, 0.1, 0.25, 1] },
-    ),
-  ]
-  if (outgoing) {
-    outgoing.isUserInteractionEnabled = false
-    animations.push(
-      navigation.play(
-        outgoing,
-        { opacity: 0, y: -8, scale: 1.015 },
-        { duration: 260, ease: 'easeIn' },
-      ),
-    )
-  }
   if (heading.value)
     navigation.play(
       heading.value,
       { opacity: [0, 1], y: [3, 0] },
       { duration: 260, delay: 80 },
     )
-  await Promise.all(animations)
-  if (!navigation.current(token)) return
-  scenes.value = [entering]
-  for (const id of views.keys()) if (id !== entering.id) views.delete(id)
-  transitioning = false
+  await arrived
 }
 async function playDemo() {
   stopTour()
@@ -99,9 +70,10 @@ async function playDemo() {
   navigation.cancel()
   const token = tour.token
   playing.value = true
-  screen.value = 'voice'
-  scenes.value = [{ id: ++nextId, name: 'voice' }]
-  transitioning = false
+  if (screen.value !== 'voice') {
+    await navigate('voice', true)
+    if (!tour.current(token)) return
+  }
   if (!(await tour.wait(4100)) || !tour.current(token)) return
   await navigate('chat', true)
   if (!tour.current(token) || !(await tour.wait(2800))) return
@@ -113,9 +85,9 @@ async function playDemo() {
     [750, 4],
   ]) {
     if (!(await tour.wait(delay!)) || !tour.current(token)) return
-    const home = components.get(scenes.value.at(-1)!.id) as
-      { select(index: number, manual: boolean): void } | undefined
-    home?.select(index!, false)
+    const home = current.value as
+      { select?(index: number, manual: boolean): void } | undefined
+    home?.select?.(index!, false)
   }
   if (!(await tour.wait(800)) || !tour.current(token)) return
   await navigate('voice', true)
@@ -137,10 +109,7 @@ function resetScene() {
   stopTour()
   navigation.cancel()
   ambient.cancel()
-  ambient.refreshPress()
   revision.value++
-  scenes.value = [{ id: ++nextId, name: screen.value }]
-  transitioning = false
   startAmbient()
 }
 function background() {
@@ -154,6 +123,7 @@ function foreground() {
   suspended = false
   resetScene()
 }
+let observer: unknown
 onMounted(() => {
   startAmbient()
   observer = Application.ios.addNotificationObserver(
@@ -165,11 +135,10 @@ onMounted(() => {
   if (props.autoplay) void playDemo()
 })
 onBeforeUnmount(() => {
+  settled()
   navigation.dispose()
   tour.dispose()
   ambient.dispose()
-  views.clear()
-  components.clear()
   Application.off(Application.suspendEvent, background)
   Application.off(Application.resumeEvent, foreground)
   if (observer)
@@ -178,16 +147,7 @@ onBeforeUnmount(() => {
       UIAccessibilityReduceMotionStatusDidChangeNotification,
     )
 })
-defineExpose({
-  navigate,
-  playDemo,
-  openPanel,
-  stopTour,
-  screen,
-  playing,
-  scenes,
-  components,
-})
+defineExpose({ navigate, playDemo, openPanel, stopTour, screen, playing, current })
 </script>
 <template>
   <GridLayout class="assistant-shell" rows="64, *" iosOverflowSafeArea="false">
@@ -203,7 +163,7 @@ defineExpose({
         accessible="true"
         accessibilityRole="button"
         :accessibilityLabel="screen === 'home' ? 'Help' : 'Back to home'"
-        @loaded="ambient.press"
+        v-press="{ scale: 0.94 }"
         @tap="screen === 'home' ? openPanel('help') : navigate('home')"
       >
         <Icon
@@ -218,7 +178,7 @@ defineExpose({
         accessible="true"
         accessibilityRole="button"
         :accessibilityLabel="screen === 'chat' ? 'Go to home' : 'Your profile'"
-        @loaded="ambient.press"
+        v-press="{ scale: 0.94 }"
         @tap="screen === 'chat' ? navigate('home') : openPanel('profile')"
       >
         <Icon
@@ -227,32 +187,32 @@ defineExpose({
         />
       </GridLayout>
     </GridLayout>
-    <GridLayout
-      v-for="scene in scenes"
-      :key="`${scene.id}:${revision}`"
-      row="1"
-      @loaded="register(scene.id, $event)"
-      @unloaded="views.delete(scene.id)"
-    >
+    <JoltTransition mode="out-in" :enter="enter" :leave="leave" @after-enter="settled">
       <Home
-        v-if="scene.name === 'home'"
-        :ref="(instance) => component(scene.id, instance)"
+        v-if="screen === 'home'"
+        :key="`home:${revision}`"
+        ref="current"
+        row="1"
         @voice="navigate('voice')"
         @interact="stopTour"
       />
       <Voice
-        v-else-if="scene.name === 'voice'"
-        :ref="(instance) => component(scene.id, instance)"
+        v-else-if="screen === 'voice'"
+        :key="`voice:${revision}`"
+        ref="current"
+        row="1"
         @chat="navigate('chat')"
         @interact="stopTour"
       />
       <Chat
         v-else
-        :ref="(instance) => component(scene.id, instance)"
+        :key="`chat:${revision}`"
+        ref="current"
+        row="1"
         @voice="navigate('voice')"
         @interact="stopTour"
       />
-    </GridLayout>
+    </JoltTransition>
     <Sheet
       v-if="panel"
       :key="panel"

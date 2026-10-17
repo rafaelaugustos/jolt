@@ -4,9 +4,9 @@ The NativeScript-Vue app in [`demo/`](https://github.com/rafaelaugustos/jolt/tre
 
 - **Home:** a letter-by-letter greeting, spring-driven document cards and a pulsing search button. Tap a card or swipe across the fan to change the selection. The search button opens Voice.
 - **Voice:** a floating orb, a staggered transcript and pause/resume controls. Tap the microphone to open Chat.
-- **Chat:** messages and document cards enter in stages. Open a document preview, toggle the waveform preview or send a message. Sent messages stay in memory while you switch screens.
+- **Chat:** messages and document cards enter in stages. Open a document preview, play the waveform preview and watch its time roll down second by second, or send a message. Sent messages stay in memory while you switch screens.
 
-Open the question-mark button on Home, then **Watch demo**, to replay Voice → Chat → Home → Voice. Navigation, swiping, sending a message or opening a preview interrupts the replay.
+Screens change through a short cross-fade, one leaving before the next enters. Open the question-mark button on Home, then **Watch demo**, to replay Voice → Chat → Home → Voice. Navigation, swiping, sending a message or opening a preview interrupts the replay.
 
 ## Run
 
@@ -36,11 +36,26 @@ xcrun simctl launch booted org.nativescript.jolt --playground
 
 Terminate the running app before launching with different arguments. Without arguments, the assistant opens Home.
 
+Two more arguments help a review or a recording reach a point without touching the screen. `--tap=<text>[,<text>...]` works in both demos: it fires the tap of the first view whose text or accessibility label equals each entry, climbing to the nearest ancestor with a tap handler, one every `--every` milliseconds (1200 by default). `--section=<heading>` is for the playground and scrolls to the first section whose heading starts with that text, ignoring case:
+
+```sh
+xcrun simctl launch booted org.nativescript.jolt --playground --section=text --tap=Letters
+xcrun simctl launch booted org.nativescript.jolt --playground --section=rolling "--tap=+ 1.10,Random" --every=2000
+xcrun simctl launch booted org.nativescript.jolt --screen=home "--tap=Help,Watch demo" --every=2000
+```
+
+On Android the package opens the playground directly and the same names go in as string extras:
+
+```sh
+adb shell am start -n org.nativescript.jolt/com.tns.NativeScriptActivity --es section text --es tap Letters
+adb shell am start -n org.nativescript.jolt/com.tns.NativeScriptActivity --es tap "Help,Watch demo"
+```
+
 ## Motion
 
-The assistant uses public Jolt APIs: `animate()` for transforms and opacity, `animateText()` for the greeting and transcript, and `press()` for touch feedback. Card selection snaps on release; it does not bind animation progress to the gesture.
+The assistant uses public Jolt APIs: `animate()` for transforms and opacity, `animateText()` for the greeting and transcript, [`rollTo()`](./rolling) for the audio countdown, and the [Vue entry](./vue) for the rest: `v-press` on every button, and `JoltTransition` for the screen changes (`mode="out-in"`) and for the document sheet, which fades out before Vue removes it. Card selection snaps on release; it does not bind animation progress to the gesture.
 
-Native animation handles, stage timers and touch bindings belong to each mounted screen. Unmounting or suspending the app cancels its work. Returning to the foreground rebuilds the current screen. Reduce Motion displays text immediately, removes movement and disables decorative loops; a setting change refreshes the current screen.
+Native animation handles and stage timers belong to each mounted screen. Unmounting or suspending the app cancels its work. Returning to the foreground rebuilds the current screen. Reduce Motion is Jolt's job through the default [`reducedMotion: 'user'`](./configure): text appears immediately, transforms jump and fades still play. The demo only adds content decisions on top, showing the staged chat at once and skipping its decorative loops; a setting change refreshes the current screen.
 
 ## Sample content
 

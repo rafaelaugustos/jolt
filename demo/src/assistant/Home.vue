@@ -177,7 +177,7 @@ defineExpose({ select, selected })
         accessible="true"
         accessibilityRole="button"
         accessibilityLabel="Start voice conversation"
-        @loaded="motion.press"
+        v-press="{ scale: 0.94 }"
         @tap="emit('voice')"
       >
         <Icon name="magnifyingglass" :size="26" color="#f9f5e9" />

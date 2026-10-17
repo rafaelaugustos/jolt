@@ -1,9 +1,7 @@
-import { Application, View, isIOS, type EventData } from '@nativescript/core'
+import { Application, View, isIOS } from '@nativescript/core'
 import {
   animate,
   animateText,
-  press,
-  stop,
   type Animation,
   type AnimateOptions,
   type Keyframes,
@@ -12,16 +10,16 @@ import {
 } from '@rafaelaugusto/jolt'
 
 export type Element<T extends View = View> = { nativeView: T }
+/** For content decisions only; Jolt already reduces the animations themselves. */
 export const reducedMotion = () => isIOS && UIAccessibilityIsReduceMotionEnabled()
 export function viewOf<T extends View = View>(element: Element<T> | T | undefined) {
   return element instanceof View ? element : element?.nativeView
 }
 
-/** Own the finite animations, native loops, waits and touch bindings of one mounted screen. */
+/** Own the finite animations, native loops and waits of one mounted screen. */
 export class Motion {
   private animations = new Set<Animation>()
   private waits = new Set<() => void>()
-  private touches = new Map<View, () => void>()
   private disposed = false
   private generation = 0
   constructor() {
@@ -47,15 +45,7 @@ export class Motion {
     values: Keyframes,
     options: AnimateOptions = {},
   ) {
-    return this.track(
-      animate(
-        target,
-        values,
-        reducedMotion()
-          ? { type: 'tween', duration: 0, relative: options.relative }
-          : options,
-      ),
-    )
+    return this.track(animate(target, values, options))
   }
   text(target: Target, options: TextOptions = {}) {
     return this.track(animateText(target, options))
@@ -75,19 +65,6 @@ export class Motion {
       this.waits.add(cancel)
     })
   }
-  press = (event: EventData) => {
-    const view = event.object as View
-    if (this.disposed || this.touches.has(view)) return
-    this.touches.set(view, reducedMotion() ? () => {} : press(view, { scale: 0.94 }))
-  }
-  refreshPress() {
-    for (const [view, cleanup] of this.touches) {
-      cleanup()
-      stop(view, ['scale'])
-      view.scaleX = view.scaleY = 1
-      this.touches.set(view, reducedMotion() ? () => {} : press(view, { scale: 0.94 }))
-    }
-  }
   cancel = () => {
     this.generation++
     for (const cancel of [...this.waits]) cancel()
@@ -98,10 +75,5 @@ export class Motion {
     Application.off(Application.suspendEvent, this.cancel)
     this.disposed = true
     this.cancel()
-    for (const [view, cleanup] of this.touches) {
-      cleanup()
-      stop(view, ['scale'])
-    }
-    this.touches.clear()
   }
 }
