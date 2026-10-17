@@ -105,7 +105,7 @@ defineExpose({ togglePause, paused })
         accessible="true"
         accessibilityRole="button"
         :accessibilityLabel="paused ? 'Resume voice preview' : 'Pause voice preview'"
-        @loaded="motion.press"
+        v-press="{ scale: 0.94 }"
         @tap="togglePause"
       >
         <Icon :name="paused ? 'play' : 'pause'" :size="17" />
@@ -117,7 +117,7 @@ defineExpose({ togglePause, paused })
           accessible="true"
           accessibilityRole="button"
           accessibilityLabel="Finish voice preview and open chat"
-          @loaded="motion.press"
+          v-press="{ scale: 0.94 }"
           @tap="emit('chat')"
           ><Icon name="mic" :size="25" color="#fffaf2"
         /></GridLayout>

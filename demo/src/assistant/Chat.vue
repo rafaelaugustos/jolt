@@ -6,6 +6,7 @@ import {
   type View,
 } from '@nativescript/core'
 import { nextTick, onBeforeUnmount, onMounted, ref } from 'nativescript-vue'
+import { rollTo } from '@rafaelaugusto/jolt'
 import Icon from './Icon.vue'
 import Sheet from './Sheet.vue'
 import { Motion, reducedMotion, viewOf } from './motion'
@@ -15,11 +16,13 @@ const message = ref('')
 const root = ref()
 const messages = ref()
 const scroll = ref()
+const clock = ref()
 const keyboardInset = ref(0)
 const selectedDocument = ref<string | null>(null)
 const showAudio = ref(reducedMotion())
 const showSummary = ref(reducedMotion())
 const playingAudio = ref(false)
+const remaining = ref(37)
 const motion = new Motion()
 const waves = new Motion()
 const waveViews = new Map<number, View>()
@@ -27,6 +30,8 @@ let observer: unknown
 let follow = false
 let ready = false
 const ease = [0.37, 0, 0.63, 1] as const
+const length = 37
+const time = (seconds: number) => `00:${String(seconds).padStart(2, '0')}`
 function entered(event: EventData) {
   motion.play(
     event.object as View,
@@ -51,7 +56,6 @@ function documentEntered(index: number, event: EventData) {
       opacity: { duration: 300 },
     },
   )
-  motion.press(event)
 }
 async function toggleAudio() {
   emit('interact')
@@ -60,6 +64,7 @@ async function toggleAudio() {
     return
   }
   playingAudio.value = true
+  remaining.value = length
   waves.cancel()
   if (!reducedMotion())
     for (const [index, view] of waveViews)
@@ -73,12 +78,23 @@ async function toggleAudio() {
           ease: 'easeInOut',
         },
       )
-  if (await waves.wait(37000)) stopAudio()
+  while (remaining.value > 0) {
+    if (!(await waves.wait(1000))) return
+    remaining.value--
+    waves.track(
+      rollTo(clock.value, time(remaining.value), { direction: 'down', duration: 450 }),
+    )
+  }
+  stopAudio()
 }
 function stopAudio() {
   playingAudio.value = false
   waves.cancel()
   for (const view of waveViews.values()) view.scaleY = 1
+  if (remaining.value !== length) {
+    remaining.value = length
+    motion.track(rollTo(clock.value, time(length), { duration: 450 }))
+  }
 }
 function preview(title: string) {
   emit('interact')
@@ -162,6 +178,7 @@ defineExpose({
   closeDocument,
   toggleAudio,
   playingAudio,
+  remaining,
   showAudio,
   showSummary,
   selectedDocument,
@@ -219,6 +236,7 @@ defineExpose({
                 accessible="true"
                 accessibilityRole="button"
                 :accessibilityLabel="`Preview ${document.title}`"
+                v-press="{ scale: 0.94 }"
                 @loaded="documentEntered(index, $event)"
                 @tap="preview(document.title)"
               >
@@ -244,7 +262,7 @@ defineExpose({
           accessibilityRole="button"
           :accessibilityLabel="
             playingAudio
-              ? 'Stop voice message preview'
+              ? `Stop voice message preview, ${remaining} seconds left`
               : 'Play voice message preview, 37 seconds'
           "
           @loaded="entered"
@@ -263,7 +281,7 @@ defineExpose({
               @loaded="waveViews.set(index, $event.object)"
             />
           </StackLayout>
-          <Label col="1" text="00:37" class="assistant-audio-time" />
+          <Label ref="clock" col="1" text="00:37" class="assistant-audio-time" />
           <Icon
             col="2"
             :name="playingAudio ? 'pause.fill' : 'play.fill'"
@@ -302,7 +320,7 @@ defineExpose({
           accessible="true"
           accessibilityRole="button"
           accessibilityLabel="Browse example documents"
-          @loaded="motion.press"
+          v-press="{ scale: 0.94 }"
           @tap="preview('Your documents')"
           ><Icon name="plus" :size="20"
         /></GridLayout>
@@ -323,7 +341,7 @@ defineExpose({
         accessible="true"
         accessibilityRole="button"
         :accessibilityLabel="message.trim() ? 'Send message' : 'Open voice conversation'"
-        @loaded="motion.press"
+        v-press="{ scale: 0.94 }"
         @tap="message.trim() ? send() : emit('voice')"
         ><Icon :name="message.trim() ? 'arrow.up' : 'mic'" :size="23" color="#fffaf2"
       /></GridLayout>

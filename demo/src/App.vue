@@ -1,17 +1,22 @@
 <script lang="ts" setup>
-import { isIOS } from '@nativescript/core'
-import { ref } from 'nativescript-vue'
+import { isIOS, type EventData, type View } from '@nativescript/core'
+import { onUnmounted, ref } from 'nativescript-vue'
 import Assistant from './assistant/Assistant.vue'
 import Playground from './components/Playground.vue'
-const args = isIOS ? NSProcessInfo.processInfo.arguments : undefined
-const playground = !isIOS || (args?.containsObject('--playground') ?? false)
-const autoplay = args?.containsObject('--autoplay') ?? false
-const initialScreen = args?.containsObject('--screen=chat')
-  ? 'chat'
-  : args?.containsObject('--screen=voice')
-    ? 'voice'
-    : 'home'
+import { launchArgument, runLaunchTaps } from './launch'
+type Screen = 'home' | 'voice' | 'chat'
+const playground = !isIOS || launchArgument('playground') !== undefined
+const autoplay = launchArgument('autoplay') !== undefined
+const requested = launchArgument('screen')
+const initialScreen: Screen =
+  requested === 'chat' || requested === 'voice' ? requested : 'home'
 const assistant = ref()
+let stopTaps: (() => void) | undefined
+function pageLoaded(event: EventData) {
+  stopTaps?.()
+  stopTaps = runLaunchTaps(event.object as View)
+}
+onUnmounted(() => stopTaps?.())
 defineExpose({ assistant })
 </script>
 <template>
@@ -20,6 +25,7 @@ defineExpose({ assistant })
       actionBarHidden="true"
       statusBarStyle="dark"
       :class="playground ? '' : 'assistant-page'"
+      @loaded="pageLoaded"
     >
       <Playground v-if="playground" />
       <Assistant

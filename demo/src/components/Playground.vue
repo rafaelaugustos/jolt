@@ -1,7 +1,15 @@
 <script lang="ts" setup>
-import type { EventData, TextField, View } from '@nativescript/core'
+import {
+  Label,
+  StackLayout,
+  type EventData,
+  type ScrollView,
+  type TextField,
+  type View,
+} from '@nativescript/core'
 import { onMounted, onUnmounted, ref } from 'nativescript-vue'
 import { followKeyboard, scrollLinked, sequence } from '@rafaelaugusto/jolt'
+import { launchArgument } from '../launch'
 import Loops from './Loops.vue'
 import Presets from './Presets.vue'
 import Press from './Press.vue'
@@ -33,11 +41,35 @@ const tagline = ref()
 const scroll = ref()
 const hero = ref()
 const compact = ref()
+const content = ref()
 const composer = ref(false)
 const message = ref('')
 const field = ref()
 let unlink: (() => void)[] = []
 let unfollow: (() => void) | undefined
+let jumped = false
+
+function jump() {
+  const section = launchArgument('section')?.toLowerCase()
+  const host = content.value?.nativeView as StackLayout | undefined
+  if (jumped || !section || !host) return
+  let target: View | undefined
+  host.eachChildView((child) => {
+    const heading = child instanceof StackLayout ? child.getChildAt(0) : undefined
+    if (heading instanceof Label && heading.text?.toLowerCase().startsWith(section))
+      target = child
+    return !target
+  })
+  if (!target || target.getActualSize().height <= 0) return
+  jumped = true
+  ;(scroll.value.nativeView as ScrollView).scrollToVerticalOffset(
+    target.getLocationRelativeTo(host).y - 4,
+    false,
+  )
+}
+function laidOut() {
+  setTimeout(jump)
+}
 
 function composerLoaded(event: EventData) {
   unfollow = followKeyboard(event.object as View)
@@ -94,7 +126,7 @@ onUnmounted(() => {
       />
     </GridLayout>
     <ScrollView ref="scroll" row="1">
-      <StackLayout class="content">
+      <StackLayout ref="content" class="content" @layoutChanged="laidOut">
         <StackLayout ref="hero" class="hero">
           <Label ref="logo" class="logo" text="J" />
           <Label ref="title" class="title" text="Jolt" />
