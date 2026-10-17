@@ -8,6 +8,8 @@ animate(
 )
 ```
 
+<Clip name="paths" caption="Uma curva e uma órbita com orientação pela tangente." />
+
 `path` fornece coordenadas de translação em **DIPs**, relativas à posição de layout da view sem transformações. X positivo aponta para a direita; Y positivo, para baixo. O exemplo sobe em arco e termina 280 DIPs à direita. Ele não redimensiona nem reorganiza a view e não anima a posição nativa controlada pelo layout.
 
 ## Timing e orientação

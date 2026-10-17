@@ -2,6 +2,8 @@
 
 ## Confete
 
+<Clip name="particles" caption="Confete a partir de um ponto." />
+
 ```ts
 import { confetti } from '@rafaelaugusto/jolt'
 

@@ -2,6 +2,8 @@
 
 Mova um campo de mensagem, um botão ou uma barra de ferramentas junto com o teclado virtual:
 
+<Clip name="keyboard" caption="O composer acompanhando o teclado no Android." />
+
 ```ts
 import { followKeyboard } from '@rafaelaugusto/jolt'
 

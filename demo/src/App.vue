@@ -1,17 +1,23 @@
 <script lang="ts" setup>
-import { isIOS, type EventData, type View } from '@nativescript/core'
+import type { EventData, View } from '@nativescript/core'
 import { onUnmounted, ref } from 'nativescript-vue'
 import Assistant from './assistant/Assistant.vue'
 import Playground from './components/Playground.vue'
-import { launchArgument, runLaunchTaps } from './launch'
+import { launchArgument, onLaunch, runLaunchTaps } from './launch'
 type Screen = 'home' | 'voice' | 'chat'
-const playground = !isIOS || launchArgument('playground') !== undefined
-const autoplay = launchArgument('autoplay') !== undefined
-const requested = launchArgument('screen')
-const initialScreen: Screen =
-  requested === 'chat' || requested === 'voice' ? requested : 'home'
+const launched = ref(false)
+const playground = ref(false)
+const autoplay = ref(false)
+const initialScreen = ref<Screen>('home')
 const assistant = ref()
 let stopTaps: (() => void) | undefined
+onLaunch(() => {
+  playground.value = launchArgument('playground') !== undefined
+  autoplay.value = launchArgument('autoplay') !== undefined
+  const requested = launchArgument('screen')
+  initialScreen.value = requested === 'chat' || requested === 'voice' ? requested : 'home'
+  launched.value = true
+})
 function pageLoaded(event: EventData) {
   stopTaps?.()
   stopTaps = runLaunchTaps(event.object as View)
@@ -27,9 +33,9 @@ defineExpose({ assistant })
       :class="playground ? '' : 'assistant-page'"
       @loaded="pageLoaded"
     >
-      <Playground v-if="playground" />
+      <Playground v-if="launched && playground" />
       <Assistant
-        v-else
+        v-else-if="launched"
         ref="assistant"
         :initialScreen="initialScreen"
         :autoplay="autoplay"
