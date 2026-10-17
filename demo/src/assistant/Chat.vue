@@ -1,15 +1,18 @@
 <script lang="ts" setup>
 import {
   Application,
+  isAndroid,
+  isIOS,
   type EventData,
   type ScrollView,
+  type TouchGestureEventData,
   type View,
 } from '@nativescript/core'
 import { nextTick, onBeforeUnmount, onMounted, ref } from 'nativescript-vue'
 import { rollTo } from '@rafaelaugusto/jolt'
 import Icon from './Icon.vue'
 import Sheet from './Sheet.vue'
-import { Motion, reducedMotion, viewOf } from './motion'
+import { Motion, dismissKeyboard, reducedMotion, viewOf } from './motion'
 import { documents, sentMessages, transcript, waveform } from './data'
 const emit = defineEmits<{ voice: []; interact: [] }>()
 const message = ref('')
@@ -98,7 +101,7 @@ function stopAudio() {
 }
 function preview(title: string) {
   emit('interact')
-  ;(viewOf(root.value)?.nativeViewProtected as UIView | undefined)?.endEditing(true)
+  dismissKeyboard(viewOf(root.value))
   selectedDocument.value = title
 }
 function closeDocument() {
@@ -119,8 +122,12 @@ function scrollBottom() {
   view?.scrollToVerticalOffset(view.scrollableHeight, false)
 }
 function scrolled(event: EventData) {
+  if (!isIOS) return
   const native = (event.object as ScrollView).nativeViewProtected as UIScrollView
   if (native.dragging || native.tracking) emit('interact')
+}
+function touched(event: TouchGestureEventData) {
+  if (isAndroid && event.action === 'down') emit('interact')
 }
 function layout() {
   if (follow) {
@@ -139,20 +146,21 @@ onMounted(async () => {
       opacity: { duration: 500, ease },
     },
   )
-  observer = Application.ios.addNotificationObserver(
-    UIKeyboardWillChangeFrameNotification,
-    (notification) => {
-      const view = viewOf(root.value)
-      if (!view?.isLoaded) return
-      const frame = notification.userInfo?.objectForKey(UIKeyboardFrameEndUserInfoKey)
-        ?.CGRectValue as CGRect
-      if (!frame) return
-      keyboardInset.value = Math.max(
-        0,
-        view.getLocationOnScreen().y + view.getActualSize().height - frame.origin.y,
-      )
-    },
-  )
+  if (isIOS)
+    observer = Application.ios.addNotificationObserver(
+      UIKeyboardWillChangeFrameNotification,
+      (notification) => {
+        const view = viewOf(root.value)
+        if (!view?.isLoaded) return
+        const frame = notification.userInfo?.objectForKey(UIKeyboardFrameEndUserInfoKey)
+          ?.CGRectValue as CGRect
+        if (!frame) return
+        keyboardInset.value = Math.max(
+          0,
+          view.getLocationOnScreen().y + view.getActualSize().height - frame.origin.y,
+        )
+      },
+    )
   if (!showAudio.value) {
     if (!(await motion.wait(900))) return
     showAudio.value = true
@@ -193,7 +201,12 @@ defineExpose({
     class="assistant-chat"
     :paddingBottom="keyboardInset"
   >
-    <ScrollView ref="scroll" scrollBarIndicatorVisible="false" @scroll="scrolled">
+    <ScrollView
+      ref="scroll"
+      scrollBarIndicatorVisible="false"
+      @scroll="scrolled"
+      @touch="touched"
+    >
       <StackLayout ref="messages" class="assistant-messages" @layoutChanged="layout">
         <Label
           class="assistant-user-bubble"

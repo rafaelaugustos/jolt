@@ -1,4 +1,4 @@
-import { Application, View, isIOS } from '@nativescript/core'
+import { Application, Utils, View, isAndroid, isIOS } from '@nativescript/core'
 import {
   animate,
   animateText,
@@ -11,9 +11,23 @@ import {
 
 export type Element<T extends View = View> = { nativeView: T }
 /** For content decisions only; Jolt already reduces the animations themselves. */
-export const reducedMotion = () => isIOS && UIAccessibilityIsReduceMotionEnabled()
+export function reducedMotion() {
+  if (isIOS) return UIAccessibilityIsReduceMotionEnabled()
+  if (isAndroid)
+    return (
+      android.os.Build.VERSION.SDK_INT >= 26 &&
+      !android.animation.ValueAnimator.areAnimatorsEnabled()
+    )
+  return false
+}
 export function viewOf<T extends View = View>(element: Element<T> | T | undefined) {
   return element instanceof View ? element : element?.nativeView
+}
+export function dismissKeyboard(view: View | undefined) {
+  const native = view?.nativeViewProtected
+  if (!native) return
+  if (isIOS) (native as UIView).endEditing(true)
+  else if (isAndroid) Utils.dismissSoftInput(native as android.view.View)
 }
 
 /** Own the finite animations, native loops and waits of one mounted screen. */

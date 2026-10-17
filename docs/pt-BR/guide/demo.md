@@ -1,6 +1,6 @@
 # Aplicativo de demonstração
 
-O app NativeScript-Vue em [`demo/`](https://github.com/rafaelaugustos/jolt/tree/main/demo) usa o build local do Jolt. No iOS, ele abre um assistente com três telas:
+O app NativeScript-Vue em [`demo/`](https://github.com/rafaelaugustos/jolt/tree/main/demo) usa o build local do Jolt. No iOS e no Android, ele abre um assistente com três telas:
 
 - **Home:** saudação letra por letra, cartões de ferramentas com springs e botão de busca pulsando. Toque num cartão ou deslize pelo leque para mudar a seleção. A busca abre Voice.
 - **Voice:** esfera flutuante, transcrição com stagger e controles de pausa e retomada. O microfone abre Chat.
@@ -23,7 +23,9 @@ npm install
 ns run ios
 ```
 
-No Android, `ns run android` abre o playground de animações, incluindo a seção de entrada de texto. No iOS, o playground tem as mesmas seções e os helpers exclusivos da plataforma.
+`ns run android` abre o mesmo assistente. Os ícones vêm da fonte Material Icons no lugar dos SF Symbols, o sistema ajusta a janela para o teclado em vez de um observador de teclado, e a esfera mantém a respiração sem a deformação líquida.
+
+O playground de animações abre com `--playground` no iOS e `--es playground true` no Android. Os dois têm todas as seções; o do iOS acrescenta os helpers exclusivos da plataforma.
 
 Com o build instalado no simulador iOS, passe um argumento ao abrir o app:
 
@@ -32,6 +34,14 @@ xcrun simctl launch booted org.nativescript.jolt --autoplay
 xcrun simctl launch booted org.nativescript.jolt --screen=voice
 xcrun simctl launch booted org.nativescript.jolt --screen=chat
 xcrun simctl launch booted org.nativescript.jolt --playground
+```
+
+No Android os mesmos nomes entram como extras de texto da intent inicial:
+
+```sh
+adb shell am start -n org.nativescript.jolt/com.tns.NativeScriptActivity --es autoplay true
+adb shell am start -n org.nativescript.jolt/com.tns.NativeScriptActivity --es screen chat
+adb shell am start -n org.nativescript.jolt/com.tns.NativeScriptActivity --es playground true
 ```
 
 Encerre o app antes de abrir com outros argumentos. Sem argumentos, o assistente começa na Home.
@@ -44,10 +54,10 @@ xcrun simctl launch booted org.nativescript.jolt --playground --section=rolling 
 xcrun simctl launch booted org.nativescript.jolt --screen=home "--tap=Help,Watch demo" --every=2000
 ```
 
-No Android o pacote abre o playground direto, e os mesmos nomes entram como extras de texto:
+A forma Android acrescenta `playground`:
 
 ```sh
-adb shell am start -n org.nativescript.jolt/com.tns.NativeScriptActivity --es section text --es tap Letters
+adb shell am start -n org.nativescript.jolt/com.tns.NativeScriptActivity --es playground true --es section text --es tap Letters
 adb shell am start -n org.nativescript.jolt/com.tns.NativeScriptActivity --es tap "Help,Watch demo"
 ```
 
@@ -61,7 +71,9 @@ Cada tela cuida dos seus handles de animação e temporizadores de etapas. Desmo
 
 Esta é uma demo local de interface. Ela não grava voz, busca arquivos, reproduz áudio nem acessa um serviço. As prévias de documentos e a onda de áudio de 37 segundos são simuladas. As mensagens digitadas duram apenas durante a sessão do app.
 
-A esfera usa uma única imagem transparente. [`liquid()`](./liquid) deforma sua textura com uma malha animada nativa, enquanto `animate()` controla escala, rotação, posição e opacidade. A pausa congela os dois movimentos. As dobras coloridas vêm da arte; o efeito deforma a textura, sem simular um fluido.
+A esfera usa uma única imagem transparente. No iOS, [`liquid()`](./liquid) deforma sua textura com uma malha animada nativa, enquanto `animate()` controla escala, rotação, posição e opacidade; no Android só o movimento do `animate()` toca. A pausa congela os dois movimentos. As dobras coloridas vêm da arte; o efeito deforma a textura, sem simular um fluido.
+
+Os ícones do iOS são SF Symbols. No Android, `Icon.vue` desenha o glifo equivalente da fonte Material Icons, empacotada com a demo (licença Apache 2.0).
 
 A seção de ajustes no topo do playground define a [escala de tempo e a preferência de redução de movimento](./configure) globais, para ver todas as seções abaixo em câmera lenta ou com as transformações pulando direto para o fim.
 
