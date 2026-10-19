@@ -145,6 +145,9 @@ const pt = {
   limits: 'O que ainda não existe',
 }
 
+const analytics = 'G-P4W61P3EV0'
+const tagManager = 'GTM-T586LWZD'
+
 export default defineConfig({
   title: 'Jolt',
   description:
@@ -153,11 +156,37 @@ export default defineConfig({
   lastUpdated: true,
   sitemap: { hostname: site },
   head: [
+    [
+      'script',
+      {},
+      `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${tagManager}');`,
+    ],
     ['link', { rel: 'icon', type: 'image/png', href: '/icon.png' }],
     ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }],
     ['meta', { name: 'theme-color', content: '#dcf71d' }],
     ['meta', { property: 'og:image', content: `${site}/logo.png` }],
+    [
+      'script',
+      { async: '', src: `https://www.googletagmanager.com/gtag/js?id=${analytics}` },
+    ],
+    [
+      'script',
+      {},
+      `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${analytics}');`,
+    ],
   ],
+  transformHtml: (code) =>
+    code.replace(
+      '<body>',
+      `<body><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=${tagManager}" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>`,
+    ),
   themeConfig: {
     logo: '/icon.png',
     search: {
