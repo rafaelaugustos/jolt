@@ -2,6 +2,8 @@
 
 Adicione um impacto quando a animação chegar ao destino:
 
+<Clip name="haptics-ios" caption="Animações de chegada e bounce no simulador iOS. O vídeo não reproduz feedback tátil; para senti-lo é necessário um iPhone físico compatível." />
+
 ```ts
 animate(card, { y: 0 }, { type: 'spring', haptic: 'light' })
 ```

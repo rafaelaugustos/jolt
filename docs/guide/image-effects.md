@@ -2,6 +2,8 @@
 
 `imageEffect()` adds ripple, touch distortion and dissolve to a NativeScript `Image`. These APIs require a native rebuild after installing the package. They operate on loaded raster images, not arbitrary view trees, SVG, video or animated images.
 
+<Clip name="image-effects-ios" caption="Ripple, touch distortion and dissolve on a raster fixture using Metal in the iOS simulator." />
+
 ```ts
 import { imageEffect } from '@rafaelaugusto/jolt'
 

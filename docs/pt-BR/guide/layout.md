@@ -2,6 +2,8 @@
 
 `animateLayout(container)` anima a próxima mudança de layout dos filhos diretos de um container. Uma linha nova abre espaço, remover um card fecha a lacuna e reorganizar views existentes move cada uma até sua nova posição. Adicionado na beta.9.
 
+<Clip name="layout-ios" caption="Inserção, remoção, reorganização e expansão de cards nativos no simulador iOS." />
+
 ```ts
 import { animateLayout } from '@rafaelaugusto/jolt'
 

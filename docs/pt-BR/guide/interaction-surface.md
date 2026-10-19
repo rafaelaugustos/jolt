@@ -2,6 +2,8 @@
 
 `interactionSurface(target)` mantém a geometria nativa de toque alinhada às transformações e à opacidade animadas pelo Jolt em uma view e seus descendentes. Adicionado na beta.8. **Recompile o app iOS** para incluir o novo helper nativo.
 
+<Clip name="interaction-surface-ios" caption="Um toque na posição visível do card azul o expande durante a reorganização lenta. Simulador iOS; o layout ativa a geometria interativa." />
+
 ```ts
 import { animate, drag, interactionSurface } from '@rafaelaugusto/jolt'
 

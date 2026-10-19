@@ -2,6 +2,8 @@
 
 Crie a animação uma vez e deixe um `ScrollView` escolher o frame:
 
+<Clip name="scroll-linked-ios" caption="A rolagem recolhe o cabeçalho, revela o título compacto e depois restaura o estado inicial. Simulador iOS." />
+
 ```ts
 import { scrollLinked } from '@rafaelaugusto/jolt'
 

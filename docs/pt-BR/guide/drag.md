@@ -2,6 +2,8 @@
 
 `drag()` acompanha um dedo, limita a translação e usa a velocidade da soltura em uma animação nativa. Adicionado na beta.8.
 
+<Clip name="drag-ios" caption="Arrastos reais com soltura limitada, rubberband e três pontos de encaixe no simulador iOS." />
+
 ```ts
 import { drag } from '@rafaelaugusto/jolt'
 

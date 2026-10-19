@@ -2,6 +2,8 @@
 
 `liquid()` gives an iOS `Image` a slow, continuous deformation. Parts of the texture move relative to each other while the image's boundary stays fixed.
 
+<Clip name="liquid-ios" caption="The voice orb deforms, pauses and resumes in the iOS simulator. The demo also animates its overall scale and rotation." />
+
 ```ts
 import { liquid } from '@rafaelaugusto/jolt'
 

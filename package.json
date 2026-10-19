@@ -56,7 +56,8 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "docs:check-media": "node scripts/check-docs-media.mjs"
   },
   "peerDependencies": {
     "@nativescript/core": ">=8.9.0",

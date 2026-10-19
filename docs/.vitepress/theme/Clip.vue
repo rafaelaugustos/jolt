@@ -10,6 +10,7 @@ withDefaults(defineProps<{ name: string; caption?: string; width?: number }>(), 
     <video
       :src="`/media/${name}.mp4`"
       :width="width"
+      controls
       autoplay
       loop
       muted
