@@ -159,6 +159,13 @@ async function run(view: Label) {
   await wait(250)
   near(actualX(view), resisted)
   check(cancelled === 1 && released === 0, 'Cancelled gesture launched release')
+  begin(view)
+  await wait(60)
+  near(actualX(view), resisted)
+  pan(view, 2, -10)
+  await wait(60)
+  check(actualX(view) < resisted && actualX(view) > 100, 'Rubberband regrab jumped')
+  controller.cancel()
   pass()
 
   stage = 'scope suspension cancels release; resume accepts fresh pan'

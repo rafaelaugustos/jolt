@@ -4,7 +4,7 @@ Validation for issue #23, recorded on 2026-10-19 against the implementation base
 
 | Layer                     | Environment                                                                      | Result                                                                                                                                  |
 | ------------------------- | -------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| Unit/type coverage        | Node 22.23.3; 38 test files                                                      | 704 tests passed, including 27 drag tests; typecheck passed                                                                             |
+| Unit/type coverage        | Node 22.23.3; 38 test files                                                      | 706 tests passed, including 29 drag tests; typecheck passed                                                                             |
 | Native lifecycle/playback | Android 16 / API 36, arm64 emulator, production release build                    | 8 checks passed                                                                                                                         |
 | Native lifecycle/playback | iPhone 17 simulator, iOS 26.0, production release build                          | 8 checks passed                                                                                                                         |
 | Actual Android gestures   | Normal Vue demo; ADB touch/swipe injection                                       | 6 flows passed                                                                                                                          |
@@ -20,7 +20,7 @@ The eight checks cover:
 
 1. Velocity selects a farther snap; native release stays within hard bounds.
 2. Grabbing a running native release preserves its visible position and cancels completion.
-3. Cancelling rubberbanded contact freezes it without launching a release.
+3. Cancelling rubberbanded contact freezes it without launching a release; regrabbing that overscrolled pose preserves its visible position.
 4. Scope suspension cancels release and removes input; resume accepts a fresh pan.
 5. Native unload/reload removes and recreates observers while preserving controller reuse.
 6. Reduced Motion keeps direct input, then settles immediately.

@@ -11,6 +11,7 @@ import { DragInput } from './drag-input.js'
 import {
   clampDrag,
   resistDrag,
+  resumeDrag,
   solveDragRelease,
   type DragCurve,
 } from './drag-physics.js'
@@ -314,6 +315,13 @@ class DragController implements Drag {
       }
       this.active = true
       this.last = { ...this.origin, velocityX: 0, velocityY: 0 }
+      for (const axis of this.config.axes) {
+        const curve = this.config.curves[axis]
+        if (!curve.rubberband) continue
+        const resumed = resumeDrag(this.origin[axis], curve.bounds, this.lengths[axis])
+        this.origin[axis] = resumed.origin
+        this.lengths[axis] = resumed.length
+      }
       this.input.read(event, this.view)
       this.emit(() => this.config.callbacks.onStart?.({ ...this.last }))
     }

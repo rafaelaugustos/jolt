@@ -98,6 +98,39 @@ describe('drag release physics', () => {
 })
 
 describe('drag controller', () => {
+  it('regrabs a cancelled rubberbanded position without applying resistance twice', () => {
+    const view = createView()
+    const controller = drag(view, {
+      axis: 'x',
+      bounds: { left: 0, right: 100 },
+      rubberband: true,
+    })
+    begin(view)
+    pan(view, 2, 180)
+    const before = view.translateX
+    controller.cancel()
+    begin(view)
+    expect(view.translateX).toBeCloseTo(before)
+    pan(view, 2, -10)
+    expect(view.translateX).toBeLessThan(before)
+    expect(view.translateX).toBeGreaterThan(100)
+    controller.dispose()
+  })
+  it('regrabs an external position beyond the normal resistance range continuously', () => {
+    const view = createView()
+    view.translateX = 500
+    const controller = drag(view, {
+      axis: 'x',
+      bounds: { left: 0, right: 100 },
+      rubberband: true,
+    })
+    begin(view)
+    expect(view.translateX).toBeCloseTo(500)
+    pan(view, 2, -10)
+    expect(view.translateX).toBeLessThan(500)
+    expect(view.translateX).toBeGreaterThan(490)
+    controller.dispose()
+  })
   it('keeps only the latest owner when replacement cancels into another drag', () => {
     const view = createView()
     let latest: ReturnType<typeof drag> | undefined

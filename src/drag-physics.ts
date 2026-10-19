@@ -24,6 +24,20 @@ export function resistDrag(
   return edge + (distance / (1 + Math.abs(distance) / length)) * 0.55
 }
 
+/** Recover the finger-space origin when grabbing an already rubberbanded pose. */
+export function resumeDrag(
+  value: number,
+  bounds: readonly [number, number],
+  length: number,
+) {
+  const edge = clampDrag(value, bounds)
+  const distance = value - edge
+  // A native edge spring or external owner can exceed the usual resistance range.
+  // Expand it for this gesture so every finite visible pose has a stable inverse.
+  length = Math.max(length, Math.abs(distance) * 4)
+  return { origin: edge + distance / (0.55 - Math.abs(distance) / length), length }
+}
+
 export function dragDestination(from: number, curve: DragCurve) {
   const projected = solveDecay(from, curve.velocity, curve.friction, 0.25).to
   if (curve.snap)
