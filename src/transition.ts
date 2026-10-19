@@ -3,6 +3,7 @@ import type { Property } from './properties.js'
 import { isDecorationProperty } from './decoration.js'
 import { isColorProperty } from './color.js'
 import { springPhysics, type SpringPhysics } from './spring.js'
+import type { DragCurve } from './drag-physics.js'
 
 export interface Timing {
   /** Milliseconds to wait before starting. The first keyframe is applied right away. */
@@ -47,6 +48,7 @@ export const springs: Record<SpringName, Spring> = {
 }
 
 export type Curve =
+  | DragCurve
   | {
       type: 'tween'
       duration: number

@@ -39,6 +39,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Motion paths](#motion-along-a-path) with optional tangent orientation on iOS and Android.
 - [Colors](#colors) for backgrounds, borders and text, interpolated in OKLab on iOS and Android.
 - [Motion scopes and states](https://jolt.rafaelaugusto.dev/guide/motion-controllers) for component cleanup and coordinated visual states.
+- [Drag](https://jolt.rafaelaugusto.dev/guide/drag) with bounds, snap points, rubberband and native release physics.
 - [Decay](#decay) from a release velocity, with optional snap points.
 - [Keyframes and tweens](#tweens) with an easing per segment and exact keyframe times.
 - [Stagger](#several-views) across several views, from the first, the last or the center.
@@ -551,12 +552,14 @@ Each running property remembers its curve and start time. On Android, interrupti
 ## Not there yet
 
 - `animate()` supports transforms, opacity, colors, uniform corners and borders, and platform shadows. Size and layout changes ([#21](https://github.com/rafaelaugustos/jolt/issues/21)) aren't animated yet.
-- Gesture tracking and drag constraints are next ([#23](https://github.com/rafaelaugustos/jolt/issues/23)); `decay()` supplies the motion after release.
+- Gesture composition and nested-scroll handoff remain separate work ([#51](https://github.com/rafaelaugustos/jolt/issues/51)).
 - No layout or shared element transitions ([#21](https://github.com/rafaelaugustos/jolt/issues/21), [#24](https://github.com/rafaelaugustos/jolt/issues/24)).
 
 ## API
 
-**Animating**: `animate(target, keyframes | preset, transition?)`, `decay(target, velocity, options?)`, `stop(target, properties?)`, `sequence(steps)`, `press(target, pressed?, transition?)`, `symbolEffect(image, effect, options?)`, `shimmer(target, options?)`, `liquid(image, options?)`, `loader(target, options?)`, `reveal(target, options?)`, `conceal(target, options?)`, `confetti(target, options?)`, `particles(target, options?)`.
+**Animating**: `animate(target, keyframes | preset, transition?)`, `decay(target, velocity, options?)`, `stop(target, properties?)`, `sequence(steps)`, `press(target, pressed?, transition?)`, `drag(target, options?)`, `symbolEffect(image, effect, options?)`, `shimmer(target, options?)`, `liquid(image, options?)`, `loader(target, options?)`, `reveal(target, options?)`, `conceal(target, options?)`, `confetti(target, options?)`, `particles(target, options?)`.
+
+`drag()` returns a controller with `position`, `dragging`, `settling`, `cancel()`, `pause()`, `play()` and `dispose()`. `motionScope().drag()` owns it through component lifecycle.
 
 `liquid()` returns a `LiquidEffect` with `pause()`, `resume()` and `stop()`.
 

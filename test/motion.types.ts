@@ -1,4 +1,4 @@
-import { motionScope, motionStates } from '../src/index.js'
+import { drag, motionScope, motionStates, type DragRelease } from '../src/index.js'
 import type { View } from '@nativescript/core'
 declare const icon: View
 declare const label: View
@@ -23,3 +23,20 @@ states.to('idle', { repeat: Infinity })
 motionStates({ icon }, { idle: { icon: { x: 0 }, typo: { x: 10 } } })
 // @ts-expect-error misspelled property is rejected even beside a valid property
 motionStates({ icon }, { idle: { icon: { x: 0, typo: 10 } } })
+const dragged = scope.drag(icon, {
+  axis: 'y',
+  bounds: { top: 0, bottom: 200 },
+  snap: [0, 100, 200],
+})
+dragged.cancel()
+// @ts-expect-error bounds are numeric DIPs
+drag(icon, { bounds: { right: '100%' } })
+// @ts-expect-error only supported axis names
+drag(icon, { axis: 'horizontal' })
+drag(label, {
+  onRelease(event: DragRelease) {
+    void event.animation.finished.then((completed: boolean) => completed)
+    // @ts-expect-error release targets are readonly snapshots
+    event.target.x = 1
+  },
+})

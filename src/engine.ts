@@ -436,6 +436,17 @@ export class ViewAnimation implements PlaybackAnimation {
   }
 }
 
+/** Current native presentation when available, otherwise the active curve or model. */
+export function currentValue(view: View, property: Property): number {
+  const entry = running.get(view)?.get(property)
+  if (!entry) return readValue(view, property)
+  const driver = getDriver()
+  return (
+    driver.presented(view, property) ??
+    entry.track.valueAt(elapsedOf(entry, driver.now()))
+  )
+}
+
 /** Stops whatever is animating these properties of the view, or all of them. */
 export function stopView(view: View, properties?: readonly Property[]) {
   const tokens = revisions.get(view)

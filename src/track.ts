@@ -1,6 +1,7 @@
 import { clampDecoration, isDecorationProperty } from './decoration.js'
 import { linear } from './easing.js'
 import { solveDecay } from './decay.js'
+import { solveDragRelease } from './drag-physics.js'
 import { precision, type Property } from './properties.js'
 import { solveSpring, springPhysics } from './spring.js'
 import type { Curve, ResolvedTransition } from './transition.js'
@@ -62,9 +63,11 @@ export function createTrack(
   const motion = slow(
     curve.type === 'spring'
       ? spring(property, keyframes, curve, velocity * slowdown, slowdown)
-      : curve.type === 'decay'
-        ? decay(property, keyframes[0]!, curve, slowdown)
-        : tween(keyframes, curve, slowdown),
+      : curve.type === 'drag'
+        ? dragMotion(keyframes[0]!, curve, slowdown)
+        : curve.type === 'decay'
+          ? decay(property, keyframes[0]!, curve, slowdown)
+          : tween(keyframes, curve, slowdown),
     slowdown,
   )
   const { duration } = motion
@@ -94,7 +97,9 @@ export function createTrack(
     to: !finite || endsBackwards ? first : last,
     end,
     arrival:
-      (curve.type === 'spring' || (curve.type === 'decay' && curve.snap !== undefined)) &&
+      (curve.type === 'spring' ||
+        curve.type === 'drag' ||
+        (curve.type === 'decay' && curve.snap !== undefined)) &&
       repeat === 0
         ? delay + arrival(motion)
         : end,
@@ -142,6 +147,7 @@ function restingValue(
 ) {
   const first = keyframes[0]!
   if (!Number.isFinite(repeat) || (reverse && repeat % 2 === 1)) return first
+  if (curve.type === 'drag') return solveDragRelease(first, curve).to
   if (curve.type !== 'decay') return keyframes.at(-1)!
   const landing = solveDecay(
     first,
@@ -230,6 +236,21 @@ function samples(duration: number, density: number) {
       Math.ceil(((duration * density) / 1000) * SAMPLES_PER_SECOND),
     ),
   )
+}
+
+function dragMotion(
+  from: number,
+  curve: Extract<Curve, { type: 'drag' }>,
+  density: number,
+): Motion {
+  const motion = solveDragRelease(from, curve)
+  const steps = samples(motion.duration, density)
+  const times = Array.from({ length: steps + 1 }, (_, i) => i / steps)
+  return {
+    ...motion,
+    times,
+    values: times.map((time) => motion.position(time * motion.duration)),
+  }
 }
 
 function decay(
