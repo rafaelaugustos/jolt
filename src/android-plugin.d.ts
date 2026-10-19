@@ -1,4 +1,82 @@
 declare namespace org.rafaelaugusto.jolt {
+  class PhotoZoom {
+    constructor(
+      image: android.widget.ImageView,
+      viewport: android.view.View,
+      bitmapWidth: number,
+      bitmapHeight: number,
+      minimum: number,
+      maximum: number,
+      doubleTap: number,
+      dismiss: boolean,
+      reduced: boolean,
+      backdrop: android.view.View | null,
+      chrome: android.view.View | null,
+      previousTouch: android.view.View.OnTouchListener | null,
+      previousImageTouch: android.view.View.OnTouchListener | null,
+      listener: PhotoZoom.Listener,
+    )
+    getX(): number
+    getY(): number
+    getScale(): number
+    getDismissProgress(): number
+    isDismissPending(): boolean
+    zoom(scale: number, x: number, y: number, animated: boolean): void
+    reset(animated: boolean): void
+    requestDismiss(): void
+    setReduced(value: boolean): void
+    setActive(value: boolean): void
+    stop(): void
+  }
+  namespace PhotoZoom {
+    class Listener {
+      constructor(implementation: {
+        onDismiss(
+          x: number,
+          y: number,
+          scale: number,
+          velocity: number,
+          progress: number,
+        ): void
+        onSettled(x: number, y: number, scale: number): void
+      })
+    }
+  }
+  class ImageEffect {
+    constructor(
+      image: android.widget.ImageView,
+      source: android.graphics.Bitmap | null,
+      destination: android.graphics.Bitmap | null,
+      geometry: androidNative.Array<number>,
+      mode: number,
+      x: number,
+      y: number,
+      amplitude: number,
+      radius: number,
+      duration: number,
+      seed: number,
+      previousTouch: android.view.View.OnTouchListener | null,
+      listener: ImageEffect.Listener,
+    )
+    isSupported(): boolean
+    getFailureReason(): string
+    getProgress(): number
+    getFrames(): number
+    getTextureBytes(): number
+    getLongestFrameNanos(): number
+    play(endpoint: number): void
+    pause(): void
+    resume(): void
+    seek(progress: number): void
+    finish(endpoint: number): void
+    stop(): void
+    stopPreservingImage(): void
+  }
+  namespace ImageEffect {
+    class Listener {
+      constructor(implementation: { onEnd(completed: boolean, progress: number): void })
+    }
+  }
   class KeyboardFollower {
     constructor(
       view: android.view.View,

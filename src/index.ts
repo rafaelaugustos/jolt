@@ -15,6 +15,15 @@ export { shimmer } from './shimmer.js'
 export type { ShimmerOptions } from './shimmer.js'
 export { liquid } from './liquid.js'
 export type { LiquidOptions, LiquidEffect } from './liquid.js'
+export { imageEffect } from './image-effect.js'
+export type {
+  ImageEffect,
+  ImageEffectName,
+  ImageEffectOptions,
+  ImageEffectDiagnostics,
+} from './image-effect.js'
+export { zoomable } from './zoomable.js'
+export type { Zoomable, ZoomableOptions, ZoomState, PhotoDismissal } from './zoomable.js'
 export { loader } from './loader.js'
 export type { LoaderOptions, LoaderStyle } from './loader.js'
 export { reveal, conceal } from './reveal.js'

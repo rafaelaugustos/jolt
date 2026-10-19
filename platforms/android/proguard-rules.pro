@@ -11,3 +11,7 @@
 -keep class org.rafaelaugusto.jolt.TextReveal$* { *; }
 -keep class org.rafaelaugusto.jolt.NumberRoll { *; }
 -keep class org.rafaelaugusto.jolt.NumberRoll$* { *; }
+-keep class org.rafaelaugusto.jolt.ImageEffect { *; }
+-keep class org.rafaelaugusto.jolt.ImageEffect$* { *; }
+-keep class org.rafaelaugusto.jolt.PhotoZoom { *; }
+-keep class org.rafaelaugusto.jolt.PhotoZoom$* { *; }

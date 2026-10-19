@@ -50,6 +50,8 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [SF Symbol effects](#sf-symbols) and animated icon replacement on iOS 17+.
 - [Shimmer](#shimmer) for loading placeholders on iOS.
 - [Liquid images](#liquid-images) with native texture deformation on iOS.
+- [Image effects](https://jolt.rafaelaugusto.dev/guide/image-effects): ripple, touch distortion and dissolve with native Metal/AGSL rendering and explicit fallback.
+- [Photo zoom and pan](https://jolt.rafaelaugusto.dev/guide/photo-zoom): native pinch, double tap, bounds and vertical dismissal intents.
 - [Loaders](#loaders) with dots, bars and ring styles on iOS.
 - [Circular reveal](#circular-reveal) to show or hide content from a point on iOS.
 - [Haptics](#haptics) at arrival or at marked points in an animation on iOS.

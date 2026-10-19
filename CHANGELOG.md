@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add native `imageEffect()` ripple, touch distortion and deterministic dissolve for raster images, with playback controls, lifecycle cleanup and reduced-motion fallback. Uses Metal on iOS and AGSL on Android 13+.
+- Add optional native `zoomable()` photo gestures with focal pinch, double-tap zoom, bounded pan, dismissal intents, accessible programmatic controls and lifecycle cleanup.
+- Coordinate image ownership across `liquid()`, `imageEffect()` and `zoomable()`; replacing an image controller disposes the previous one.
+
 ## 0.1.0-beta.6 (2026-10-17)
 
 - Add `configure({ reducedMotion })` with `'user'` (default), `'always'` and `'never'`. With Reduce Motion on iOS or Remove animations on Android, translation, scale, rotation, paths, decorations and decay now jump to their end values while opacity and colors still animate; set `'never'` to keep the previous behavior. The iOS effects follow the same preference. Add the controls to the playground and English/Portuguese guides.

@@ -1,0 +1,5 @@
+module JoltMotion {
+    header "JoltImageEffect.h"
+    header "JoltPhotoZoom.h"
+    export *
+}

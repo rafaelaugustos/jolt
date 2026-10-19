@@ -35,6 +35,8 @@ import Timeline from './Timeline.vue'
 import MotionPath from './MotionPath.vue'
 import Tuning from './Tuning.vue'
 
+const emit = defineEmits<{ imageLab: [] }>()
+
 const logo = ref()
 const title = ref()
 const tagline = ref()
@@ -134,6 +136,7 @@ onUnmounted(() => {
         </StackLayout>
 
         <Tuning />
+        <Button text="Image effects and photo zoom" @tap="emit('imageLab')" />
         <MotionPath />
         <Timeline />
         <Playback />

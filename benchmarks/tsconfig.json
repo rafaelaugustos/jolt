@@ -6,5 +6,5 @@
     "isolatedModules": false,
     "lib": ["ES2023", "DOM"]
   },
-  "include": ["*.ts", "../src/android-plugin.d.ts"]
+  "include": ["*.ts", "../src/android-plugin.d.ts", "../src/ios-plugin.d.ts"]
 }

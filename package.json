@@ -38,6 +38,7 @@
   "files": [
     "dist",
     "src",
+    "platforms/ios",
     "platforms/android/java",
     "platforms/android/include.gradle",
     "platforms/android/proguard-rules.pro"
