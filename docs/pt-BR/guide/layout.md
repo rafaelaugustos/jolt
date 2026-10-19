@@ -1,6 +1,6 @@
 # Mudanças de layout
 
-`animateLayout(container)` anima a próxima mudança de layout dos filhos diretos de um container. Uma linha nova abre espaço, remover um card fecha a lacuna e reorganizar views existentes move cada uma até sua nova posição. Disponível na próxima versão após a beta.8.
+`animateLayout(container)` anima a próxima mudança de layout dos filhos diretos de um container. Uma linha nova abre espaço, remover um card fecha a lacuna e reorganizar views existentes move cada uma até sua nova posição. Adicionado na beta.9.
 
 ```ts
 import { animateLayout } from '@rafaelaugusto/jolt'
