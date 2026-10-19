@@ -28,6 +28,7 @@ export class FakeDriver implements Driver {
   time = 1000
   reduced = false
   played: Played[] = []
+  private layouts: { view: View; callback: () => void; done: boolean }[] = []
   private timers: { at: number; callback: () => void; done: boolean }[] = []
 
   now() {
@@ -76,6 +77,29 @@ export class FakeDriver implements Driver {
     return () => {
       timer.done = true
     }
+  }
+
+  layoutFrame(view: CoreView) {
+    const { left, top, right, bottom } = (view as unknown as View).layoutBounds
+    return { x: left, y: top, width: right - left, height: bottom - top }
+  }
+  afterLayout(view: CoreView, callback: () => void) {
+    const hook = { view: view as unknown as View, callback, done: false }
+    this.layouts.push(hook)
+    return () => {
+      hook.done = true
+    }
+  }
+  layout() {
+    for (const hook of [...this.layouts]) {
+      if (!hook.done) {
+        hook.done = true
+        hook.callback()
+      }
+    }
+  }
+  get pendingLayouts() {
+    return this.layouts.filter((hook) => !hook.done).length
   }
 
   advance(ms: number) {

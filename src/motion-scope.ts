@@ -1,6 +1,8 @@
 import { animate, decay } from './animate.js'
 import { press } from './press.js'
 import { drag } from './drag.js'
+import { animateLayout, type LayoutOptions } from './layout.js'
+import type { SpringName } from './transition.js'
 import { sequence } from './sequence.js'
 import {
   motionStates,
@@ -31,6 +33,7 @@ export interface MotionScope {
   readonly suspended: boolean
   /** Owned handles/subscriptions, including suspended subscription factories. */
   readonly size: number
+  animateLayout: typeof animateLayout
   animate: typeof animate
   decay: typeof decay
   sequence: typeof sequence
@@ -174,6 +177,17 @@ export function motionScope(): MotionScope {
     },
     get size() {
       return entries.size
+    },
+    animateLayout(
+      container: Target,
+      changeOrOptions?: (() => void) | LayoutOptions | SpringName,
+      options?: LayoutOptions | SpringName,
+    ) {
+      return startOwned(() =>
+        typeof changeOrOptions === 'function'
+          ? animateLayout(container, changeOrOptions, options)
+          : animateLayout(container, changeOrOptions),
+      )
     },
     animate(...args) {
       return startOwned(() => animate(...args))

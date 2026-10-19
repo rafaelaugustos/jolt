@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased
+
+- Add `animateLayout()` and `motionScope().animateLayout()` for direct-child insertion, removal, reorder and resize using native FLIP playback. Preserve existing transforms, coordinate rapid changes, settle temporary offsets on cancellation, and retain newer animation owners. Include optional size scaling and opacity entrances, Reduced Motion, lifecycle cleanup, an interactive Vue demo and English/Portuguese guides. Recycled lists and retained exit animations remain separate work.
+- Keep iOS interactive geometry correct when NativeScript assigns a new layout frame while a transform animates toward identity; remove instance hooks when the tracks finish.
+
 ## 0.1.0-beta.8 (2026-10-19)
 
 - Add `interactionSurface()` to keep native touch geometry aligned with animated content. Opt-in iOS playback updates actual transforms/opacity through a shared native display link; Android keeps its existing native property driver. Preserve native controls, clipping and gesture delivery; support playback controls and cancellation. Enable it in the drag demo and add OS touch/lifecycle probes and English/Portuguese guides. Rebuild iOS apps to include the native helper.

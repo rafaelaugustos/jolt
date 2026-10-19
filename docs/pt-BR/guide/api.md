@@ -4,6 +4,7 @@
 
 - `animate(target, keyframes | preset, transition?)` — [paths](./paths), [cores](./colors), [cantos, bordas e sombras](./decorations)
 - [`interactionSurface(target)`](./interaction-surface) — alinha a geometria nativa de toque de uma subárvore animada.
+- [`animateLayout(container, change?, options?)`](./layout) — anima o próximo layout dos filhos diretos de um container.
 - [`motionScope()`](./motion-controllers) — agrupa animações, subscriptions e ciclo de vida.
 - [`motionStates(targets, definitions, options?)`](./motion-controllers#estados-nomeados) — estados visuais nomeados com interrupção.
 - [`decay(target, velocity, options?)`](./decay)

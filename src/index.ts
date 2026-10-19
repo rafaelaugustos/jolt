@@ -64,3 +64,6 @@ export type {
   MotionValues,
   StateTransition,
 } from './motion-states.js'
+
+export { animateLayout } from './layout.js'
+export type { LayoutOptions } from './layout.js'

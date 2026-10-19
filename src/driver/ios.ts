@@ -12,6 +12,7 @@ import { isColorProperty } from '../color.js'
 import { playIOSColor, presentedIOSColor } from './ios-color.js'
 import { after, type Driver } from './index.js'
 import { hasInteractionSurface } from '../interaction-surface.js'
+import { retainInteractiveLayout } from './ios-layout.js'
 
 interface Handle {
   stop(): void
@@ -72,28 +73,36 @@ export function createIOSDriver(): Driver {
           throw new Error('Rebuild the iOS app to enable Jolt interaction surfaces.')
         if (track.property === 'rotateX' || track.property === 'rotateY')
           ensurePerspective(view, layers)
+        const releaseLayout = retainInteractiveLayout(view)
         const suspend = () => stopView(view, [track.property])
         const completed = (finished: boolean) => {
           Application.off(Application.suspendEvent, suspend)
+          releaseLayout()
           onEnd(finished)
         }
-        const native =
-          JoltInteractiveAnimation.startViewLayersKeyPathValuesTimesDurationDelayRepeatReverseFinalValueStartedAtCompletion(
-            view.nativeViewProtected,
-            NSArray.arrayWithArray(layers),
-            keyPaths[track.property as NumericProperty],
-            NSArray.arrayWithArray(
-              track.values.map((value) => (rotation ? radians(value) : value)),
-            ),
-            NSArray.arrayWithArray(track.times as number[]),
-            track.duration,
-            track.delay,
-            track.repeat,
-            track.reverse,
-            rotation ? radians(track.to) : track.to,
-            startedAt,
-            completed,
-          )
+        let native: JoltInteractiveAnimation
+        try {
+          native =
+            JoltInteractiveAnimation.startViewLayersKeyPathValuesTimesDurationDelayRepeatReverseFinalValueStartedAtCompletion(
+              view.nativeViewProtected,
+              NSArray.arrayWithArray(layers),
+              keyPaths[track.property as NumericProperty],
+              NSArray.arrayWithArray(
+                track.values.map((value) => (rotation ? radians(value) : value)),
+              ),
+              NSArray.arrayWithArray(track.times as number[]),
+              track.duration,
+              track.delay,
+              track.repeat,
+              track.reverse,
+              rotation ? radians(track.to) : track.to,
+              startedAt,
+              completed,
+            )
+        } catch (error) {
+          releaseLayout()
+          throw error
+        }
         Application.on(Application.suspendEvent, suspend)
         return {
           elapsed: () => native.elapsed,
@@ -199,6 +208,40 @@ export function createIOSDriver(): Driver {
       )
       if (value === null || value === undefined) return undefined
       return property.startsWith('rotate') ? (value * 180) / Math.PI : Number(value)
+    },
+
+    layoutFrame(view) {
+      const native = view.nativeViewProtected as UIView | undefined
+      if (!native) return undefined
+      const { width, height } = native.bounds.size
+      const { position, anchorPoint } = native.layer
+      return {
+        x: position.x - width * anchorPoint.x,
+        y: position.y - height * anchorPoint.y,
+        width,
+        height,
+      }
+    },
+
+    afterLayout(view, callback) {
+      const original = view.layout
+      const descriptor = Object.getOwnPropertyDescriptor(view, 'layout')
+      let active = true
+      const detach = () => {
+        active = false
+        if (view.layout !== wrapper) return
+        if (descriptor) Object.defineProperty(view, 'layout', descriptor)
+        else delete (view as Partial<View>).layout
+      }
+      const wrapper: View['layout'] = function (this: View, ...args) {
+        original.apply(this, args)
+        if (active) {
+          detach()
+          callback()
+        }
+      }
+      view.layout = wrapper
+      return detach
     },
 
     after,

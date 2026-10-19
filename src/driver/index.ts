@@ -5,6 +5,13 @@ import type { Track } from '../track.js'
 import { createAndroidDriver } from './android.js'
 import { createIOSDriver } from './ios.js'
 
+export interface LayoutFrame {
+  x: number
+  y: number
+  width: number
+  height: number
+}
+
 export interface Driver {
   /** Milliseconds, on the clock the platform's animations run on. */
   now(): number
@@ -34,6 +41,10 @@ export interface Driver {
   presented(view: View, property: Property): number | undefined
   /** Calls back after `ms` of animation time, respecting platform speed settings. */
   after(ms: number, callback: () => void): () => void
+  /** Untransformed native layout bounds in parent DIPs. */
+  layoutFrame?(view: View): LayoutFrame | undefined
+  /** One callback after layout, before drawing; caller requests layout and owns cancellation. */
+  afterLayout?(view: View, callback: () => void): () => void
   /** The platform's accessibility setting: Reduce Motion on iOS, Remove animations on Android. */
   reducedMotion?(): boolean
 }

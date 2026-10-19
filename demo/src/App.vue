@@ -5,12 +5,14 @@ import Assistant from './assistant/Assistant.vue'
 import Playground from './components/Playground.vue'
 import ImageLab from './components/ImageLab.vue'
 import DragLab from './components/DragLab.vue'
+import LayoutLab from './components/LayoutLab.vue'
 import { launchArgument, onLaunch, runLaunchTaps } from './launch'
 type Screen = 'home' | 'voice' | 'chat'
 const launched = ref(false)
 const playground = ref(false)
 const imageLab = ref(false)
 const dragLab = ref(false)
+const layoutLab = ref(false)
 const autoplay = ref(false)
 const initialScreen = ref<Screen>('home')
 const assistant = ref()
@@ -18,6 +20,7 @@ let stopTaps: (() => void) | undefined
 onLaunch(() => {
   imageLab.value = launchArgument('image-lab') !== undefined
   dragLab.value = launchArgument('drag-lab') !== undefined
+  layoutLab.value = launchArgument('layout-lab') !== undefined
   playground.value = launchArgument('playground') !== undefined
   autoplay.value = launchArgument('autoplay') !== undefined
   const requested = launchArgument('screen')
@@ -31,6 +34,7 @@ function pageLoaded(event: EventData) {
 function backToPlayground() {
   imageLab.value = false
   dragLab.value = false
+  layoutLab.value = false
   playground.value = true
 }
 onUnmounted(() => stopTaps?.())
@@ -44,12 +48,14 @@ defineExpose({ assistant })
       :class="playground ? '' : 'assistant-page'"
       @loaded="pageLoaded"
     >
-      <DragLab v-if="launched && dragLab" @back="backToPlayground" />
+      <LayoutLab v-if="launched && layoutLab" @back="backToPlayground" />
+      <DragLab v-else-if="launched && dragLab" @back="backToPlayground" />
       <ImageLab v-else-if="launched && imageLab" @back="backToPlayground" />
       <Playground
         v-else-if="launched && playground"
         @imageLab="imageLab = true"
         @dragLab="dragLab = true"
+        @layoutLab="layoutLab = true"
       />
       <Assistant
         v-else-if="launched"

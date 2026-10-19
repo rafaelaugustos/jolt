@@ -40,6 +40,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Colors](#colors) for backgrounds, borders and text, interpolated in OKLab on iOS and Android.
 - [Motion scopes and states](https://jolt.rafaelaugusto.dev/guide/motion-controllers) for component cleanup and coordinated visual states.
 - [Animated touch targets](https://jolt.rafaelaugusto.dev/guide/interaction-surface) with an opt-in native interaction surface.
+- [Layout changes](https://jolt.rafaelaugusto.dev/guide/layout): insertion, removal, reorder and resize of container children.
 - [Drag](https://jolt.rafaelaugusto.dev/guide/drag) with bounds, snap points, rubberband and native release physics.
 - [Decay](#decay) from a release velocity, with optional snap points.
 - [Keyframes and tweens](#tweens) with an easing per segment and exact keyframe times.
@@ -559,6 +560,8 @@ Each running property remembers its curve and start time. On Android, interrupti
 ## API
 
 **Animating**: `animate(target, keyframes | preset, transition?)`, `decay(target, velocity, options?)`, `stop(target, properties?)`, `sequence(steps)`, `press(target, pressed?, transition?)`, `drag(target, options?)`, `symbolEffect(image, effect, options?)`, `shimmer(target, options?)`, `liquid(image, options?)`, `loader(target, options?)`, `reveal(target, options?)`, `conceal(target, options?)`, `confetti(target, options?)`, `particles(target, options?)`.
+
+`animateLayout(container, change?, options?)` animates the next layout of direct children; `motionScope().animateLayout()` owns it through component lifecycle. Cancellation settles temporary offsets into the final layout.
 
 `interactionSurface(target)` opts a view/subtree into native touch geometry during animation; returns `{ disposed, dispose() }`. Register before playback; rebuild iOS after upgrading.
 

@@ -21,7 +21,8 @@ module.exports = (env) => {
       env.motionChecks ||
       env.dragChecks ||
       env.interactionChecks ||
-      env.interactionLifecycle
+      env.interactionLifecycle ||
+      env.layoutChecks
     ) {
       if (
         env.hmr ||
@@ -36,10 +37,11 @@ module.exports = (env) => {
           env.dragChecks,
           env.interactionChecks,
           env.interactionLifecycle,
+          env.layoutChecks,
         ].filter(Boolean).length !== 1
       ) {
         throw new Error(
-          'Use JOLT_BENCHMARK=1 and --no-hmr with --env.benchmark on iOS or --env.fadeBenchmark or --env.busyBenchmark on Android, or --env.motionChecks, --env.dragChecks, --env.interactionChecks or --env.interactionLifecycle on either platform.',
+          'Use JOLT_BENCHMARK=1 and --no-hmr with --env.benchmark on iOS or --env.fadeBenchmark or --env.busyBenchmark on Android, or --env.motionChecks, --env.dragChecks, --env.interactionChecks or --env.interactionLifecycle or --env.layoutChecks on either platform.',
         )
       }
       config
@@ -50,19 +52,21 @@ module.exports = (env) => {
         .add(
           resolve(
             __dirname,
-            env.interactionLifecycle
-              ? '../benchmarks/interaction-lifecycle.ts'
-              : env.interactionChecks
-                ? '../benchmarks/interaction-probe.ts'
-                : env.dragChecks
-                  ? '../benchmarks/drag-lifecycle.ts'
-                  : env.motionChecks
-                    ? '../benchmarks/motion-lifecycle.ts'
-                    : env.busyBenchmark
-                      ? '../benchmarks/android-busy.ts'
-                      : env.fadeBenchmark
-                        ? '../benchmarks/android-fade.ts'
-                        : '../benchmarks/ios-startup.ts',
+            env.layoutChecks
+              ? '../benchmarks/layout-lifecycle.ts'
+              : env.interactionLifecycle
+                ? '../benchmarks/interaction-lifecycle.ts'
+                : env.interactionChecks
+                  ? '../benchmarks/interaction-probe.ts'
+                  : env.dragChecks
+                    ? '../benchmarks/drag-lifecycle.ts'
+                    : env.motionChecks
+                      ? '../benchmarks/motion-lifecycle.ts'
+                      : env.busyBenchmark
+                        ? '../benchmarks/android-busy.ts'
+                        : env.fadeBenchmark
+                          ? '../benchmarks/android-fade.ts'
+                          : '../benchmarks/ios-startup.ts',
           ),
         )
       if (env.android) {
