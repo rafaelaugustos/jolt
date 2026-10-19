@@ -13,6 +13,8 @@
 - [`symbolEffect(image, effect, options?)`](./symbol-effects) — iOS SF Symbols.
 - [`shimmer(target, options?)`](./shimmer) — iOS loading placeholders; returns a cleanup function.
 - [`liquid(image, options?)`](./liquid) — iOS texture deformation; returns a `LiquidEffect` with `pause()`, `resume()` and `stop()`.
+- [`imageEffect(image, name, options?)`](./image-effects) — native ripple, touch distortion and deterministic dissolve; playback controls and explicit compatibility fallback.
+- [`zoomable(image, options?)`](./photo-zoom) — native photo pinch, double-tap zoom, bounded pan and optional dismissal intents.
 - [`loader(target, options?)`](./loaders) — iOS dots, bars and ring indicators; returns a cleanup function.
 - [`reveal(target, options?)`, `conceal(target, options?)`](./reveal) — iOS circular visibility transitions; return an `Animation`.
 - [`animateText(label, options?)`](./text) — letter-by-letter or word-by-word entrances on iOS and Android; returns an `Animation`.

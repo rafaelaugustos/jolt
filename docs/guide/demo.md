@@ -37,6 +37,8 @@ ns run ios
 
 The animation playground opens with `--playground` on iOS and `--es playground true` on Android. Both include every section; the iOS one adds the iOS-only helpers.
 
+Open **Image effects and photo zoom** in the playground for ripple, distortion, dissolve and the native photo viewer. Launch it directly with `--image-lab=effects` or `--image-lab=zoom` on iOS; use `--es image-lab effects` or `--es image-lab zoom` on Android. The fixture has a colored grid and a transparent destination corner so displacement, cropping and alpha are visible. The viewer includes zoom/reset/close buttons, cancellation and repeated reattachment controls.
+
 For an installed iOS Simulator build, pass a preview argument when launching:
 
 ```sh

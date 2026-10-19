@@ -1,0 +1,13 @@
+// Run from demo/platforms/android after building the image lab.
+def testSources = new File(initscript.sourceFile.parentFile, '.')
+allprojects {
+    afterEvaluate { project ->
+        if (project.plugins.hasPlugin('com.android.application')) {
+            project.android.defaultConfig.testInstrumentationRunner = 'org.rafaelaugusto.jolt.tests.ImageInteractionTest'
+            project.android.sourceSets.androidTest.java.srcDirs = [testSources]
+            project.tasks.matching { it.name == 'compileDebugAndroidTestJavaWithJavac' }.configureEach {
+                mustRunAfter(project.tasks.named('buildMetadata'))
+            }
+        }
+    }
+}

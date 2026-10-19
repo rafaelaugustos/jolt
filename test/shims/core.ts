@@ -39,6 +39,11 @@ export class Observable {
 }
 
 export class View extends Observable {
+  parent: View | undefined
+  actualSize = { width: 200, height: 200 }
+  getActualSize() {
+    return this.actualSize
+  }
   style = new Observable()
   isLoaded = true
   isEnabled = true
@@ -260,7 +265,9 @@ export class Color {
   }
 }
 
-export const Application = {
+export const Application = Object.assign(new Observable(), {
+  suspendEvent: 'suspend',
+  resumeEvent: 'resume',
   ios: {
     observers: new Map<() => void, string>(),
     addNotificationObserver(name: string, callback: () => void) {
@@ -271,10 +278,17 @@ export const Application = {
       this.observers.delete(callback)
     },
   },
-}
+})
 
 export class ImageSource {
+  width = 200
+  height = 100
+  rotationAngle = 0
   constructor(public ios: { name: string; symbolImage: boolean } | null) {}
+
+  getNativeSource() {
+    return this.ios
+  }
 
   static fromSystemImageSync(name: string) {
     return name === 'missing' ? null : new ImageSource({ name, symbolImage: true })

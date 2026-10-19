@@ -4,6 +4,7 @@ import { toView } from './animate.js'
 import { liquidGrid } from './liquid-grid.js'
 import type { Target } from './types.js'
 import { reducedMotion } from './config.js'
+import { ownImage } from './image-owner.js'
 
 export interface LiquidOptions {
   /** Amount of internal deformation, from 0 to 1. Defaults to 0.7. */
@@ -50,6 +51,7 @@ export function liquid(target: Target, options: LiquidOptions = {}): LiquidEffec
 }
 
 class Liquid implements LiquidEffect {
+  private releaseOwnership: (() => void) | undefined
   private stopped = false
   private queued = false
   private pausedByUser = false
@@ -69,6 +71,7 @@ class Liquid implements LiquidEffect {
     private readonly image: Image,
     private readonly settings: Required<LiquidOptions>,
   ) {
+    this.releaseOwnership = ownImage(image, this.stop)
     running.set(image, this)
     for (const event of ['loaded', 'layoutChanged', 'imageSourceChange', 'stretchChange'])
       image.on(event, this.schedule)
@@ -93,6 +96,7 @@ class Liquid implements LiquidEffect {
   stop = () => {
     if (this.stopped) return
     this.stopped = true
+    this.releaseOwnership?.()
     for (const event of ['loaded', 'layoutChanged', 'imageSourceChange', 'stretchChange'])
       this.image.off(event, this.schedule)
     this.image.off('unloaded', this.unloaded)
