@@ -1,6 +1,6 @@
 # Arrastar, desacelerar e encaixar
 
-`drag()` acompanha um dedo, limita a translação e usa a velocidade da soltura em uma animação nativa. Disponível na próxima versão após a beta.7.
+`drag()` acompanha um dedo, limita a translação e usa a velocidade da soltura em uma animação nativa. Adicionado na beta.8.
 
 ```ts
 import { drag } from '@rafaelaugusto/jolt'
@@ -71,3 +71,5 @@ O acompanhamento usa eventos síncronos de pan do NativeScript na main thread e 
 Use pai e ancestrais sem transformações para coordenadas equivalentes entre Android e iOS. Esta API não coordena gestos concorrentes, scroll aninhado, reordenação ou um bottom sheet completo. A arbitragem do NativeScript/SO continua valendo: o scroll pai pode cancelar o drag e reconhecedores iOS podem atuar simultaneamente. A demo usa uma tela sem scroll para o painel vertical. Composição e passagem de controle entre gestos estão na [#51](https://github.com/rafaelaugustos/jolt/issues/51).
 
 Abra **Drag, fling and snap** no playground, ou use `--drag-lab` no iOS / `--es drag-lab true` no Android. A demo inclui card com desaceleração, painel com três pontos, pause/resume, unmount/remount e Reduced Motion.
+
+Para manter o conteúdo interativo durante a soltura nativa, registre uma [superfície de interação](./interaction-surface) no container antes de iniciar a animação. A demo de drag já usa esse registro.

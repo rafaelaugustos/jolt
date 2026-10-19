@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.1.0-beta.8 (2026-10-19)
+
+- Add `interactionSurface()` to keep native touch geometry aligned with animated content. Opt-in iOS playback updates actual transforms/opacity through a shared native display link; Android keeps its existing native property driver. Preserve native controls, clipping and gesture delivery; support playback controls and cancellation. Enable it in the drag demo and add OS touch/lifecycle probes and English/Portuguese guides. Rebuild iOS apps to include the native helper.
 
 - Add `drag()` and `motionScope().drag()` with axis constraints, bounds, velocity-based snap selection, rubberband, bounded decay, native release keyframes, callbacks, cancellation and reload/scope lifecycle. Add card/panel demos and English/Portuguese guides. Tracking uses synchronous JS pan updates; gesture composition and nested-scroll handoff remain separate work.
 - Add `motionScope()` ownership for animations and subscriptions, pause/resume, recycling reset and idempotent disposal; add Vue `useMotionScope()` lifecycle integration.

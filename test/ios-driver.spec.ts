@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { colorMixer } from '../src/color.js'
 import { Color } from '@nativescript/core'
-import { animate, stop } from '../src/index.js'
+import { animate, stop, interactionSurface } from '../src/index.js'
 import { setDriver } from '../src/driver/index.js'
 import { createIOSDriver } from '../src/driver/ios.js'
 import { createView, flush, state } from './helpers.js'
@@ -121,6 +121,78 @@ function target() {
   }
   return { view, layer, shadow, background }
 }
+
+describe('opt-in iOS interaction playback', () => {
+  it('does not call the native geometry bridge before a view has native backing', () => {
+    const view = createView()
+    view.nativeViewProtected = undefined
+    const sync = vi.fn(),
+      presented = vi.fn()
+    vi.stubGlobal('JoltInteractiveAnimation', {
+      syncViewExcluding: sync,
+      valueForViewKeyPath: presented,
+    })
+    const driver = createIOSDriver()
+    driver.sync!(view)
+    expect(driver.presented(view, 'x')).toBeUndefined()
+    expect(sync).not.toHaveBeenCalled()
+    expect(presented).not.toHaveBeenCalled()
+  })
+  it('keeps the default CA driver outside the surface and routes only its subtree natively', async () => {
+    const root = createView(),
+      inside = target(),
+      outside = target()
+    inside.view.parent = root
+    const surface = interactionSurface(root)
+    let completeNative: (completed: boolean) => void = () => {}
+    const native = {
+      elapsed: 50,
+      controlPaused: vi.fn(),
+      cancel: vi.fn(() => completeNative(false)),
+    }
+    const start = vi.fn((...args: unknown[]) => {
+      completeNative = args.at(-1) as (completed: boolean) => void
+      return native
+    })
+    const sync = vi.fn()
+    vi.stubGlobal('JoltInteractiveAnimation', {
+      startViewLayersKeyPathValuesTimesDurationDelayRepeatReverseFinalValueStartedAtCompletion:
+        start,
+      syncViewExcluding: sync,
+      valueForViewKeyPath: () => null,
+    })
+    const interactive = animate(inside.view, { x: 100 }, { duration: 1000 })
+    const normal = animate(outside.view, { x: 100 }, { duration: 1000 })
+    expect(start).toHaveBeenCalledTimes(1)
+    expect(start.mock.calls[0]![1]).toEqual([inside.layer, inside.shadow])
+    expect(inside.layer.animations.size).toBe(0)
+    expect(outside.layer.animations.has('jolt:x')).toBe(true)
+    interactive.pause()
+    interactive.progress = 0.5
+    expect(native.controlPaused).toHaveBeenLastCalledWith(500, true)
+    surface.dispose()
+    interactive.play()
+    expect(native.controlPaused).toHaveBeenLastCalledWith(500, false)
+    interactive.stop()
+    normal.stop()
+    expect(await interactive).toBe(false)
+    expect(native.cancel).toHaveBeenCalledTimes(1)
+    const after = animate(inside.view, { x: 40 })
+    expect(start).toHaveBeenCalledTimes(1)
+    expect(inside.layer.animations.has('jolt:x')).toBe(true)
+    after.stop()
+  })
+  it('reads interactive native presentation and converts rotations back to degrees', () => {
+    const { view } = target()
+    const driver = createIOSDriver()
+    vi.stubGlobal('JoltInteractiveAnimation', {
+      valueForViewKeyPath: (_view: unknown, key: string) =>
+        key === 'transform.rotation.z' ? Math.PI / 2 : 42,
+    })
+    expect(driver.presented(view, 'x')).toBe(42)
+    expect(driver.presented(view, 'rotate')).toBe(90)
+  })
+})
 
 describe('iOS refresh rate preference', () => {
   it('uses the view window screen and applies the hint to every track and shadow', async () => {

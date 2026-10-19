@@ -1,6 +1,6 @@
 # Drag, fling and snap
 
-`drag()` follows a single finger, constrains translation and carries release velocity into a native animation. Available from the next release after beta.7.
+`drag()` follows a single finger, constrains translation and carries release velocity into a native animation. Added in beta.8.
 
 ```ts
 import { drag } from '@rafaelaugusto/jolt'
@@ -72,3 +72,5 @@ Tracking uses NativeScript's synchronous main-thread pan callbacks and JavaScrip
 Use an untransformed parent/ancestor chain for matching Android/iOS translation coordinates. This API does not coordinate competing gestures or nested scrolling, perform reorder hit testing, or provide a production bottom sheet. NativeScript/OS gesture arbitration still applies: a parent scroll may take over and cancel a drag, and iOS recognizers may run simultaneously. The demo places the vertical panel on a dedicated non-scrolling screen. Gesture composition and nested-scroll handoff are tracked separately in [#51](https://github.com/rafaelaugustos/jolt/issues/51).
 
 Open **Drag, fling and snap** in the playground, or launch with `--drag-lab` on iOS / `--es drag-lab true` on Android. The demo includes bounded card decay, a panel with three stops, pause/resume, unmount/remount and Reduced Motion.
+
+For content that must stay interactive during native release, register an [interaction surface](./interaction-surface) on its container before starting playback. This is enabled in the drag demo.

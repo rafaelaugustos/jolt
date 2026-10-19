@@ -1,3 +1,25 @@
+declare class JoltInteractiveAnimation extends NSObject {
+  static startViewLayersKeyPathValuesTimesDurationDelayRepeatReverseFinalValueStartedAtCompletion(
+    view: UIView,
+    layers: NSArray<CALayer>,
+    keyPath: string,
+    values: NSArray<number>,
+    times: NSArray<number>,
+    duration: number,
+    delay: number,
+    repeat: number,
+    reverse: boolean,
+    finalValue: number,
+    startedAt: number,
+    completion: (completed: boolean) => void,
+  ): JoltInteractiveAnimation
+  static syncViewExcluding(view: UIView, keyPath: string | null): void
+  static valueForViewKeyPath(view: UIView, keyPath: string): number | null
+  static activeCount(): number
+  readonly elapsed: number
+  controlPaused(elapsed: number, paused: boolean): void
+  cancel(): void
+}
 declare class JoltImageEffect extends NSObject {
   stopPreservingImage(): void
   static createWithViewDestinationModeOriginXOriginYAmplitudeRadiusDurationSeedListener(
