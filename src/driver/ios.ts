@@ -5,11 +5,13 @@ import {
   presentedIOSDecoration,
   syncIOSDecoration,
 } from './ios-decoration.js'
-import type { View } from '@nativescript/core'
+import { Application, type View } from '@nativescript/core'
+import { stopView } from '../engine.js'
 import type { NumericProperty } from '../properties.js'
 import { isColorProperty } from '../color.js'
 import { playIOSColor, presentedIOSColor } from './ios-color.js'
 import { after, type Driver } from './index.js'
+import { hasInteractionSurface } from '../interaction-surface.js'
 
 interface Handle {
   stop(): void
@@ -65,6 +67,40 @@ export function createIOSDriver(): Driver {
       const layers = layersOf(view)
       const key = `jolt:${track.property}`
       const rotation = track.property.startsWith('rotate')
+      if (hasInteractionSurface(view)) {
+        if (typeof JoltInteractiveAnimation === 'undefined')
+          throw new Error('Rebuild the iOS app to enable Jolt interaction surfaces.')
+        if (track.property === 'rotateX' || track.property === 'rotateY')
+          ensurePerspective(view, layers)
+        const suspend = () => stopView(view, [track.property])
+        const completed = (finished: boolean) => {
+          Application.off(Application.suspendEvent, suspend)
+          onEnd(finished)
+        }
+        const native =
+          JoltInteractiveAnimation.startViewLayersKeyPathValuesTimesDurationDelayRepeatReverseFinalValueStartedAtCompletion(
+            view.nativeViewProtected,
+            NSArray.arrayWithArray(layers),
+            keyPaths[track.property as NumericProperty],
+            NSArray.arrayWithArray(
+              track.values.map((value) => (rotation ? radians(value) : value)),
+            ),
+            NSArray.arrayWithArray(track.times as number[]),
+            track.duration,
+            track.delay,
+            track.repeat,
+            track.reverse,
+            rotation ? radians(track.to) : track.to,
+            startedAt,
+            completed,
+          )
+        Application.on(Application.suspendEvent, suspend)
+        return {
+          elapsed: () => native.elapsed,
+          control: (time, paused) => native.controlPaused(time, paused),
+          stop: () => native.cancel(),
+        }
+      }
       const infinite = track.repeat === Infinity
       if (track.property === 'rotateX' || track.property === 'rotateY') {
         ensurePerspective(view, layers)
@@ -143,14 +179,27 @@ export function createIOSDriver(): Driver {
     },
     elapsed: (handle) => (handle as Handle).elapsed(),
 
-    sync: syncIOSDecoration,
+    sync(view, excluding) {
+      syncIOSDecoration(view, excluding)
+      if (view.nativeViewProtected && typeof JoltInteractiveAnimation !== 'undefined')
+        JoltInteractiveAnimation.syncViewExcluding(
+          view.nativeViewProtected,
+          excluding ? (keyPaths[excluding as NumericProperty] ?? null) : null,
+        )
+    },
 
-    presented: (view, property) =>
-      isDecorationProperty(property)
-        ? presentedIOSDecoration(view, property)
-        : isColorProperty(property)
-          ? presentedIOSColor(view, property)
-          : undefined,
+    presented(view, property) {
+      if (isDecorationProperty(property)) return presentedIOSDecoration(view, property)
+      if (isColorProperty(property)) return presentedIOSColor(view, property)
+      if (!view.nativeViewProtected || typeof JoltInteractiveAnimation === 'undefined')
+        return undefined
+      const value = JoltInteractiveAnimation.valueForViewKeyPath(
+        view.nativeViewProtected,
+        keyPaths[property],
+      )
+      if (value === null || value === undefined) return undefined
+      return property.startsWith('rotate') ? (value * 180) / Math.PI : Number(value)
+    },
 
     after,
 

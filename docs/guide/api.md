@@ -3,6 +3,7 @@
 ## Animating
 
 - `animate(target, keyframes | preset, transition?)` — [paths](./paths), [colors](./colors), [corners, borders and shadows](./decorations)
+- [`interactionSurface(target)`](./interaction-surface) — opt into native touch geometry for an animated subtree.
 - [`motionScope()`](./motion-controllers) — own animation handles, subscriptions and component lifecycle.
 - [`motionStates(targets, definitions, options?)`](./motion-controllers#named-visual-states) — coordinated, interruptible named visual states.
 - [`decay(target, velocity, options?)`](./decay)

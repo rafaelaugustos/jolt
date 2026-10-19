@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'nativescript-vue'
 import { useMotionScope } from '@rafaelaugusto/jolt/vue'
+import { interactionSurface } from '@rafaelaugusto/jolt'
 import type { DragEvent, DragRelease } from '@rafaelaugusto/jolt'
 const scope = useMotionScope()
+const surface = ref()
 const card = ref(),
   panel = ref()
 const status = ref('Drag the card or panel')
@@ -20,6 +22,7 @@ function toggle() {
   status.value = paused.value ? 'Paused' : 'Drag the card or panel'
 }
 onMounted(() => {
+  scope.use(() => interactionSurface(surface.value))
   scope.drag(card.value, {
     axis: 'x',
     bounds: { left: -90, right: 90 },
@@ -40,7 +43,7 @@ onMounted(() => {
 })
 </script>
 <template>
-  <StackLayout>
+  <StackLayout ref="surface">
     <Label text="Fling the card · bounded decay" class="muted" />
     <GridLayout height="130" backgroundColor="#edf1e8" borderRadius="18" marginTop="8">
       <GridLayout
