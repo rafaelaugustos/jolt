@@ -2,6 +2,9 @@ import {
   BaseTransition,
   defineComponent,
   h,
+  onUnmounted,
+  onActivated,
+  onDeactivated,
   type App,
   type BaseTransitionProps,
   type NSVElement,
@@ -9,8 +12,9 @@ import {
   type PropType,
 } from 'nativescript-vue'
 import {
-  animate,
   press,
+  motionScope,
+  type MotionScope,
   type AnimateOptions,
   type Keyframes,
   type PlaybackAnimation,
@@ -39,6 +43,7 @@ export interface TransitionProps {
 }
 
 const animations = new WeakMap<object, PlaybackAnimation>()
+const scopes = new WeakMap<object, MotionScope>()
 const removers = new WeakMap<object, () => void>()
 
 function split<T>(
@@ -65,13 +70,16 @@ function same(a: unknown, b: unknown): boolean {
 
 function play(el: Host, value: AnimateValue) {
   const [animation, options] = split<PresetName | Keyframes>(value)
-  const handle = animate(el, animation, options)
+  let scope = scopes.get(el)
+  if (!scope) scopes.set(el, (scope = motionScope()))
+  const handle = scope.animate(el, animation, options)
   animations.set(el, handle)
   return handle
 }
 
 function cancel(el: Host) {
-  animations.get(el)?.stop()
+  scopes.get(el)?.dispose()
+  scopes.delete(el)
   animations.delete(el)
 }
 
@@ -187,3 +195,12 @@ export function install(app: App) {
 }
 
 export default { install }
+
+/** Call in setup(): suspend cached components and dispose only on actual unmount. */
+export function useMotionScope(): MotionScope {
+  const scope = motionScope()
+  onUnmounted(() => scope.dispose())
+  onDeactivated(() => scope.suspend())
+  onActivated(() => scope.resume())
+  return scope
+}

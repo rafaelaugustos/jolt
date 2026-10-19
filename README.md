@@ -38,6 +38,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Corners, borders and shadows](#corners-borders-and-shadows) with native playback and selective stopping.
 - [Motion paths](#motion-along-a-path) with optional tangent orientation on iOS and Android.
 - [Colors](#colors) for backgrounds, borders and text, interpolated in OKLab on iOS and Android.
+- [Motion scopes and states](https://jolt.rafaelaugusto.dev/guide/motion-controllers) for component cleanup and coordinated visual states.
 - [Decay](#decay) from a release velocity, with optional snap points.
 - [Keyframes and tweens](#tweens) with an easing per segment and exact keyframe times.
 - [Stagger](#several-views) across several views, from the first, the last or the center.

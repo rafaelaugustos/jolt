@@ -67,6 +67,15 @@ export function animate(
   animation: Keyframes | PresetName,
   options?: AnimateOptions | SpringName,
 ): PlaybackAnimation {
+  return prepareAnimation(target, animation, options)()
+}
+
+/** Validate and snapshot a complete animation before changing any view ownership. */
+export function prepareAnimation(
+  target: Target | readonly Target[],
+  animation: Keyframes | PresetName,
+  options?: AnimateOptions | SpringName,
+): () => PlaybackAnimation {
   const { keyframes, base, overrides, stagger, relative, haptic, path } = prepare(
     animation,
     options,
@@ -78,11 +87,8 @@ export function animate(
     for (const property of Object.keys(keyframes))
       if (isColorProperty(property)) validateColorTarget(view, property)
       else if (isDecorationProperty(property)) validateDecorationTarget(view, property)
-    return new ViewAnimation(
-      view,
-      plan(keyframes, base, overrides, 0, relative, path),
-      feedback,
-    )
+    const plans = plan(keyframes, base, overrides, 0, relative, path)
+    return () => new ViewAnimation(view, plans, feedback)
   }
 
   const views = target.map(toView)
@@ -100,9 +106,10 @@ export function animate(
       path,
     ),
   )
-  return playbackGroup(
-    views.map((view, index) => new ViewAnimation(view, plans[index]!, feedback, true)),
-  )
+  return () =>
+    playbackGroup(
+      views.map((view, index) => new ViewAnimation(view, plans[index]!, feedback, true)),
+    )
 }
 
 /** Starts at the current translation and slows down from a velocity in DIPs per second. */

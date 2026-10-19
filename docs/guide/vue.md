@@ -10,6 +10,10 @@ createApp(App).use(Jolt).start()
 
 The core takes a view or an element that holds one, so `animate(card.value, 'popIn')` already works from a template ref. `@rafaelaugusto/jolt/vue` adds the template side: `v-animate`, `v-press` and a `<JoltTransition>` component for views that come and go. It needs NativeScript-Vue 3 and is only loaded by apps that import it.
 
+## Scoped component motion
+
+Use [`useMotionScope()`](./motion-controllers#vue-lifecycle) inside setup to own animations and subscriptions until unmount, with KeepAlive suspension/resume.
+
 ## Registering
 
 `app.use(Jolt)` registers the two directives and the component for every template. A component can also import just what it uses. In `<script setup>`, importing `vAnimate` and `vPress` under those names makes `v-animate` and `v-press` available in that template:

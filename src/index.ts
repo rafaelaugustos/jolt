@@ -50,3 +50,13 @@ export type { PlaybackAnimation } from './playback.js'
 export type { Animation } from './engine.js'
 export type { ColorValue, ColorKeyframes } from './color.js'
 export type * from './types.js'
+export { motionScope } from './motion-scope.js'
+export type { MotionScope, MotionResource } from './motion-scope.js'
+export { motionStates } from './motion-states.js'
+export type {
+  MotionStates,
+  MotionStatesOptions,
+  MotionState,
+  MotionValues,
+  StateTransition,
+} from './motion-states.js'
