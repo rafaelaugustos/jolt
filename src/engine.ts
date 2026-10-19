@@ -447,6 +447,24 @@ export function currentValue(view: View, property: Property): number {
   )
 }
 
+/** Internal property ownership marker; layout cleanup must preserve newer animations. */
+export function propertyRevision(view: View, property: Property) {
+  return revisions.get(view)?.get(property)
+}
+
+/** Sample an existing owner at layout time, without stealing an animation started meanwhile. */
+export function captureValue(view: View, property: Property): () => number | undefined {
+  const token = propertyRevision(view, property)
+  const entry = running.get(view)?.get(property)
+  const initial = currentValue(view, property)
+  return () => {
+    if (propertyRevision(view, property) !== token) return undefined
+    if (entry && running.get(view)?.get(property) === entry)
+      return currentValue(view, property)
+    return entry?.finished ? entry.track.to : initial
+  }
+}
+
 /** Stops whatever is animating these properties of the view, or all of them. */
 export function stopView(view: View, properties?: readonly Property[]) {
   const tokens = revisions.get(view)

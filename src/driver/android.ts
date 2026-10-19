@@ -178,6 +178,44 @@ export function createAndroidDriver(): Driver {
       return nativeView ? accessors[property].get(nativeView) / unit(property) : undefined
     },
 
+    layoutFrame(view) {
+      const native = view.nativeViewProtected as android.view.View | undefined
+      if (!native) return undefined
+      const dip = Utils.layout.toDeviceIndependentPixels
+      return {
+        x: dip(native.getLeft()),
+        y: dip(native.getTop()),
+        width: dip(native.getWidth()),
+        height: dip(native.getHeight()),
+      }
+    },
+
+    afterLayout(view, callback) {
+      const native = view.nativeViewProtected as android.view.View
+      const observer = native.getViewTreeObserver()
+      let active = true
+      const detach = () => {
+        if (!active) return
+        active = false
+        if (observer.isAlive()) observer.removeOnPreDrawListener(listener)
+        else {
+          const current = native.getViewTreeObserver()
+          if (current.isAlive()) current.removeOnPreDrawListener(listener)
+        }
+      }
+      const listener = new android.view.ViewTreeObserver.OnPreDrawListener({
+        onPreDraw() {
+          if (active) {
+            detach()
+            callback()
+          }
+          return true
+        },
+      })
+      observer.addOnPreDrawListener(listener)
+      return detach
+    },
+
     after(ms, callback) {
       // A native marker follows animator duration scale, including changes during playback.
       // Only completion crosses the bridge; there is no JavaScript update listener.

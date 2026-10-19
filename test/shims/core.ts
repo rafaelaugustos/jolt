@@ -122,6 +122,21 @@ export class View extends Observable {
   rotateX = 0
   rotateY = 0
 
+  originX = 0.5
+  originY = 0.5
+  children: View[] = []
+  layoutBounds = { left: 0, top: 0, right: 0, bottom: 0 }
+  layoutRequests = 0
+  requestLayout() {
+    this.layoutRequests++
+  }
+  get isCollapsed() {
+    return this.visibility === 'collapse'
+  }
+  eachChildView(callback: (view: View) => boolean) {
+    for (const child of [...this.children]) if (!callback(child)) break
+  }
+
   /** Turns this into a view that hasn't been loaded yet. */
   unload() {
     this.isLoaded = false
@@ -185,7 +200,6 @@ export class ScrollView extends View {
 export class ListView extends View {
   static itemLoadingEvent = 'itemLoading'
   items: unknown[] = []
-  children: View[] = []
 
   _getDataItem(index: number) {
     return this.items[index]
@@ -193,10 +207,6 @@ export class ListView extends View {
 
   _getDataItemInSection(section: number, index: number) {
     return (this.items[section] as { items: unknown[] }).items[index]
-  }
-
-  eachChildView(callback: (view: View) => boolean) {
-    for (const child of [...this.children]) if (!callback(child)) break
   }
 
   /**
@@ -325,6 +335,9 @@ export class Image extends View {
 }
 
 export const Utils = {
-  layout: { getDisplayDensity: () => 1 },
+  layout: {
+    getDisplayDensity: () => 1,
+    toDeviceIndependentPixels: (value: number) => value,
+  },
   android: { getApplicationContext: () => ({ getContentResolver: () => 'resolver' }) },
 }
