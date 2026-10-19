@@ -2,6 +2,8 @@
 
 Starting an animation on a property that's already animating takes it over: the new one starts from the value on screen, with the same velocity, so a card can change its mind halfway without a jump. Other properties of the previous animation keep going.
 
+<Clip name="interrupting-ios" caption="Repeated taps reverse an in-flight spring. Real iOS simulator playback at one-fifth speed to make the handoff visible." />
+
 `animate()` returns an animation you can `await`. It resolves with `true` when it played to the end, and `false` when it was stopped or taken over. It never rejects.
 
 ```ts

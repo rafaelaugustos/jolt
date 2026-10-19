@@ -2,6 +2,8 @@
 
 Build an animation once, then let a `ScrollView` choose its frame:
 
+<Clip name="scroll-linked-ios" caption="Real scrolling collapses the large heading and reveals the compact title, then restores it. iOS simulator." />
+
 ```ts
 import { scrollLinked } from '@rafaelaugusto/jolt'
 

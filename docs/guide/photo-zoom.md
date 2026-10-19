@@ -2,6 +2,8 @@
 
 `zoomable()` gives a NativeScript `Image` native pinch, double-tap zoom, bounded pan and optional vertical dismissal. It preserves the same image view. Pointer processing, focal-point math, transforms and settling run in native code on both platforms.
 
+<Clip name="photo-zoom-ios" caption="Pinch, pan, double-tap zoom, reset and cancelled dismissal in the iOS simulator." />
+
 ```ts
 import { zoomable } from '@rafaelaugusto/jolt'
 

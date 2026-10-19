@@ -2,6 +2,8 @@
 
 `motionScope()` dá a uma página, componente ou item reciclado um dono para animações e subscriptions. `motionStates()` coordena estados visuais nomeados entre várias views, com interrupção. Os dois reutilizam os drivers nativos existentes, sem adicionar um loop JavaScript por frame.
 
+<Clip name="motion-controllers-ios" caption="Estados de upload, erro, nova tentativa e sucesso, controles do scope e montagem/desmontagem no simulador iOS." />
+
 ## Controle do ciclo de vida
 
 ```ts

@@ -2,6 +2,8 @@
 
 `interactionSurface(target)` keeps native touch geometry aligned with Jolt's animated transforms and opacity in a view subtree. Added in beta.8. **Rebuild the iOS app** after installing the new native helper.
 
+<Clip name="interaction-surface-ios" caption="A coordinate tap on the moving blue card expands it during a slow reorder. iOS simulator; layout playback opts into interactive geometry." />
+
 ```ts
 import { animate, drag, interactionSurface } from '@rafaelaugusto/jolt'
 

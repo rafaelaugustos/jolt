@@ -2,6 +2,8 @@
 
 `zoomable()` adiciona pinch, zoom por toque duplo, pan com limites e fechamento vertical opcional a uma `Image`. Mantém a mesma view e processa gestos, ponto focal, transformações e retorno ao repouso nativamente no iOS e Android.
 
+<Clip name="photo-zoom-ios" caption="Pinça, arrasto, zoom por toque duplo, reset e cancelamento do fechamento no simulador iOS." />
+
 ```ts
 import { zoomable } from '@rafaelaugusto/jolt'
 

@@ -2,6 +2,8 @@
 
 Jolt computes its keyframes once and plays them natively. That removes JavaScript work from each animation frame, but Android's `ObjectAnimator` still updates View properties on the UI thread. In a normal NativeScript app, main-runtime JavaScript shares that thread. A long synchronous task can stop transforms, opacity and color playback until the task returns.
 
+<Clip name="android-performance" caption="Normal playback, a 300 ms JavaScript block and the same work in a worker on an Android 16 emulator. A visual diagnostic, not a device performance guarantee." />
+
 `ViewPropertyAnimator.withLayer()` does not move this work to RenderThread. It caches the view's drawing in a hardware layer, restores the previous layer afterward, and still uses a `ValueAnimator` to update properties. Jolt's existing opacity layer cache reduces drawing work; it cannot make a blocked UI thread responsive. See the Android source for [`withLayer()` and property updates](https://android.googlesource.com/platform/frameworks/base/+/refs/heads/main/core/java/android/view/ViewPropertyAnimator.java).
 
 ## Try it

@@ -2,6 +2,8 @@
 
 `animateLayout(container)` animates the next layout change of a container's direct children. A new row makes room, removing a card closes the gap, and reordering existing views moves them into their new positions. Added in beta.9.
 
+<Clip name="layout-ios" caption="Inserting, removing, reordering and expanding native cards in the iOS simulator." />
+
 ```ts
 import { animateLayout } from '@rafaelaugusto/jolt'
 

@@ -2,6 +2,8 @@
 
 O Jolt calcula os keyframes uma vez e os reproduz nativamente. Isso elimina JavaScript por frame da animação, mas o `ObjectAnimator` do Android continua atualizando as propriedades das Views na UI thread. Em um app NativeScript comum, o JavaScript do runtime principal compartilha essa thread. Uma tarefa síncrona longa pode parar transforms, opacidade e cores até terminar.
 
+<Clip name="android-performance" caption="Reprodução normal, bloqueio de 300 ms no JavaScript e o mesmo trabalho em um worker no emulador Android 16. Diagnóstico visual, não uma garantia de desempenho em aparelhos." />
+
 `ViewPropertyAnimator.withLayer()` não leva esse trabalho para a RenderThread. Ele guarda o desenho da view em uma camada de hardware, restaura a camada anterior depois e continua usando um `ValueAnimator` para atualizar propriedades. O cache de opacidade existente no Jolt reduz o custo de desenho; ele não torna uma UI thread bloqueada responsiva. Veja o código do Android para [`withLayer()` e a atualização das propriedades](https://android.googlesource.com/platform/frameworks/base/+/refs/heads/main/core/java/android/view/ViewPropertyAnimator.java).
 
 ## Experimente

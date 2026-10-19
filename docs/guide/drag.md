@@ -2,6 +2,8 @@
 
 `drag()` follows a single finger, constrains translation and carries release velocity into a native animation. Added in beta.8.
 
+<Clip name="drag-ios" caption="Real drags with bounded release, rubberband and three panel snap points in the iOS simulator." />
+
 ```ts
 import { drag } from '@rafaelaugusto/jolt'
 
