@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add `drag()` and `motionScope().drag()` with axis constraints, bounds, velocity-based snap selection, rubberband, bounded decay, native release keyframes, callbacks, cancellation and reload/scope lifecycle. Add card/panel demos and English/Portuguese guides. Tracking uses synchronous JS pan updates; gesture composition and nested-scroll handoff remain separate work.
 - Add `motionScope()` ownership for animations and subscriptions, pause/resume, recycling reset and idempotent disposal; add Vue `useMotionScope()` lifecycle integration.
 - Add `motionStates()` with inferred names, absolute visual targets, coordinated interruption and cancellation, plus an upload/retry demo and English/Portuguese guides.
 - Clean up active press feedback and older disjoint `v-animate` tracks at unmount without cancelling newer owners.

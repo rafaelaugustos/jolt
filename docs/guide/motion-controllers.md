@@ -17,7 +17,7 @@ motion.use(() => zoomable(photo, { viewport }))
 motion.dispose()
 ```
 
-The scope has `animate()`, `decay()`, `sequence()`, `press()` and `states()` helpers. `add(handle)` adopts any cleanup function or object exposing `stop()` or `dispose()`; `dispose()` takes precedence when both exist. A resource belongs to one scope. Duplicate `add()` calls in that scope do not duplicate cleanup. Animation handles with `finished` promises are released from the scope when they settle.
+The scope has `animate()`, `decay()`, `sequence()`, `press()`, `drag()` and `states()` helpers. `add(handle)` adopts any cleanup function or object exposing `stop()` or `dispose()`; `dispose()` takes precedence when both exist. A resource belongs to one scope. Duplicate `add()` calls in that scope do not duplicate cleanup. Animation handles with `finished` promises are released from the scope when they settle.
 
 Disposal is idempotent. It cancels delayed and not-yet-loaded animations, scheduled sequence steps, native playback and registered subscriptions. Cancelled animation handles resolve `false`. Disposal stops owned handles rather than calling `stop(view)`, so newer or unrelated animations owned elsewhere survive. All cleanups run even if one throws; their errors are reported together as an `AggregateError`.
 
@@ -31,6 +31,8 @@ Only registered work is owned. For a timer, for example, register `motion.add(()
 | `resume()`  | Resumes only playback paused by the scope and recreates `use()` subscriptions. Cancelled sequences do not restart.                                            |
 | `reset()`   | Disposes all current work while retaining a reusable scope. Call before assigning a recycled cell a new item identity, then register its new work.            |
 | `dispose()` | Permanently ends ownership. Starting or registering more work throws.                                                                                         |
+
+Drag controllers cancel their contact/release on scope suspension and accept new gestures on resume. See [drag lifecycle](./drag#ownership-and-lifecycle).
 
 `use(setup)` returns an idempotent remover. Registering a subscription while suspended defers setup until resume. Other helpers and `add()` reject new work while suspended. Configure ongoing playback through the scope while it is suspended; do not manually resume its individual handles.
 

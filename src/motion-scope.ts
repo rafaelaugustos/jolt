@@ -1,5 +1,6 @@
 import { animate, decay } from './animate.js'
 import { press } from './press.js'
+import { drag } from './drag.js'
 import { sequence } from './sequence.js'
 import {
   motionStates,
@@ -34,6 +35,7 @@ export interface MotionScope {
   decay: typeof decay
   sequence: typeof sequence
   press: typeof press
+  drag: typeof drag
   states<
     T extends Record<string, Target>,
     const S extends Record<string, MotionState<keyof T>>,
@@ -184,6 +186,9 @@ export function motionScope(): MotionScope {
     },
     press(...args) {
       return scope.use(() => press(...args))
+    },
+    drag(...args) {
+      return startOwned(() => drag(...args))
     },
     states(targets, definitions, options) {
       return startOwned(() => motionStates(targets, definitions, options))

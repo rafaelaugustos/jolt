@@ -9,6 +9,7 @@
 - `stop(target, properties?)`
 - [`sequence(steps)`](./sequences) — overlapping steps and fixed positions.
 - `press(target, pressed?, transition?)`
+- [`drag(target, options?)`](./drag)
 - [`scrollLinked(scrollView, target, keyframes, { range, axis? })`](./scroll-linked) — returns a cleanup function.
 - [`animateItems(list, keyframes | preset, options?)`](./lists) — rows as they appear, with `once`; returns a cleanup function.
 - [`followKeyboard(target, options?)`](./keyboard) — moves a view with the keyboard on iOS and Android 11+; returns a cleanup function.

@@ -17,7 +17,7 @@ motion.use(() => zoomable(photo, { viewport }))
 motion.dispose()
 ```
 
-O escopo oferece `animate()`, `decay()`, `sequence()`, `press()` e `states()`. `add(handle)` registra uma função de limpeza ou objeto com `stop()` ou `dispose()`; se ambos existirem, usa `dispose()`. Cada recurso pertence a um único escopo. Registrar o mesmo recurso novamente no mesmo escopo não duplica a limpeza. Animações com uma promise `finished` deixam o escopo quando terminam.
+O escopo oferece `animate()`, `decay()`, `sequence()`, `press()`, `drag()` e `states()`. `add(handle)` registra uma função de limpeza ou objeto com `stop()` ou `dispose()`; se ambos existirem, usa `dispose()`. Cada recurso pertence a um único escopo. Registrar o mesmo recurso novamente no mesmo escopo não duplica a limpeza. Animações com uma promise `finished` deixam o escopo quando terminam.
 
 `dispose()` é idempotente e cancela animações aguardando carregamento, delays, passos futuros de sequências, playback e subscriptions registradas. Handles cancelados resolvem `false`. O escopo encerra seus próprios handles; animações de outros donos na mesma view continuam. Se uma limpeza lançar erro, as demais ainda executam e os erros são reunidos em um `AggregateError`.
 
@@ -35,6 +35,8 @@ Só o trabalho registrado pertence ao escopo. Para um timer, use `motion.add(() 
 `use(setup)` retorna uma função idempotente para remover a subscription. Durante suspensão, novos registros via `use()` aguardam `resume()` para executar a factory. Outros helpers e `add()` rejeitam trabalho novo enquanto suspensos. Não retome manualmente handles individuais durante a suspensão do escopo.
 
 O evento nativo `unloaded` não destrói o escopo. O comportamento de unload de cada animação/efeito continua valendo: animações comuns são canceladas e não reiniciam automaticamente ao recarregar. O escopo permanece reutilizável. Suspenda páginas/componentes mantidos em cache e destrua no unmount real. `size`, `suspended` e `disposed` ajudam a inspecionar o ciclo de vida; `size` conta recursos registrados, não memória de GPU.
+
+Controllers de drag cancelam o gesto e a soltura quando o escopo suspende, e aceitam gestos novos ao retomar. Veja [o ciclo de vida do drag](./drag#ciclo-de-vida).
 
 ## Integração Vue
 

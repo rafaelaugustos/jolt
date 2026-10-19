@@ -9,6 +9,7 @@
 - `stop(target, properties?)`
 - [`sequence(steps)`](./sequences) — passos sobrepostos e posições fixas.
 - `press(target, pressed?, transition?)`
+- [`drag(target, options?)`](./drag)
 - [`scrollLinked(scrollView, target, keyframes, { range, axis? })`](./scroll-linked) — retorna uma função de limpeza.
 - [`animateItems(list, keyframes | preset, options?)`](./lists) — linhas conforme aparecem, com `once`; retorna uma função de limpeza.
 - [`followKeyboard(target, options?)`](./keyboard) — move uma view junto com o teclado no iOS e no Android 11+; retorna uma função de limpeza.

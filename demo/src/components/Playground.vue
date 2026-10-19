@@ -36,7 +36,7 @@ import MotionPath from './MotionPath.vue'
 import Tuning from './Tuning.vue'
 import MotionStates from './MotionStates.vue'
 
-const emit = defineEmits<{ imageLab: [] }>()
+const emit = defineEmits<{ imageLab: []; dragLab: [] }>()
 
 const logo = ref()
 const title = ref()
@@ -138,6 +138,7 @@ onUnmounted(() => {
 
         <Tuning />
         <MotionStates />
+        <Button text="Drag, fling and snap" @tap="emit('dragLab')" />
         <Button text="Image effects and photo zoom" @tap="emit('imageLab')" />
         <MotionPath />
         <Timeline />
