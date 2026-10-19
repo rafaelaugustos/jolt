@@ -3,6 +3,8 @@
 ## Animating
 
 - `animate(target, keyframes | preset, transition?)` — [paths](./paths), [colors](./colors), [corners, borders and shadows](./decorations)
+- [`motionScope()`](./motion-controllers) — own animation handles, subscriptions and component lifecycle.
+- [`motionStates(targets, definitions, options?)`](./motion-controllers#named-visual-states) — coordinated, interruptible named visual states.
 - [`decay(target, velocity, options?)`](./decay)
 - `stop(target, properties?)`
 - [`sequence(steps)`](./sequences) — overlapping steps and fixed positions.

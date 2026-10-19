@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Add `motionScope()` ownership for animations and subscriptions, pause/resume, recycling reset and idempotent disposal; add Vue `useMotionScope()` lifecycle integration.
+- Add `motionStates()` with inferred names, absolute visual targets, coordinated interruption and cancellation, plus an upload/retry demo and English/Portuguese guides.
+- Clean up active press feedback and older disjoint `v-animate` tracks at unmount without cancelling newer owners.
+
 ## 0.1.0-beta.7 (2026-10-19)
 
 - Add native `imageEffect()` ripple, touch distortion and deterministic dissolve for raster images, with playback controls, lifecycle cleanup and reduced-motion fallback. Uses Metal on iOS and AGSL on Android 13+.

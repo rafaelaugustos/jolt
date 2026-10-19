@@ -22,3 +22,10 @@ export function h(
 export function defineComponent<T>(options: T) {
   return options
 }
+
+export const unmountHooks: (() => void)[] = []
+export const activateHooks: (() => void)[] = []
+export const deactivateHooks: (() => void)[] = []
+export const onUnmounted = (callback: () => void) => unmountHooks.push(callback)
+export const onActivated = (callback: () => void) => activateHooks.push(callback)
+export const onDeactivated = (callback: () => void) => deactivateHooks.push(callback)

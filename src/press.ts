@@ -1,6 +1,7 @@
 import { Color, type EventData, type TouchGestureEventData } from '@nativescript/core'
 import { isColorProperty } from './color.js'
 import { animate, startingValues, toView } from './animate.js'
+import type { PlaybackAnimation } from './playback.js'
 import { readValue } from './properties.js'
 import type { SpringName, Transition } from './transition.js'
 import type { AnimateOptions, Keyframes, Target } from './types.js'
@@ -25,6 +26,7 @@ export function press(
   const view = toView(target)
   const properties = [...startingValues(pressed, options).keys()]
   let rest: Keyframes | undefined
+  let active: PlaybackAnimation | undefined
 
   const onTouch = (event: EventData) => {
     const { action } = event as TouchGestureEventData
@@ -35,9 +37,9 @@ export function press(
           isColorProperty(p) ? new Color(readValue(view, p)) : readValue(view, p),
         ]),
       )
-      animate(view, pressed, options ?? pressIn)
+      active = animate(view, pressed, options ?? pressIn)
     } else if ((action === 'up' || action === 'cancel') && rest) {
-      animate(
+      active = animate(
         view,
         rest,
         typeof options === 'object'
@@ -48,6 +50,16 @@ export function press(
     }
   }
 
+  const cancel = () => {
+    active?.stop()
+    active = undefined
+    rest = undefined
+  }
   view.on('touch', onTouch)
-  return () => view.off('touch', onTouch)
+  view.on('unloaded', cancel)
+  return () => {
+    view.off('touch', onTouch)
+    view.off('unloaded', cancel)
+    cancel()
+  }
 }

@@ -14,16 +14,18 @@ module.exports = (env) => {
       .set('@nativescript/core', resolve(__dirname, 'node_modules/@nativescript/core'))
       .set('nativescript-vue', resolve(__dirname, 'node_modules/nativescript-vue'))
 
-    if (env.benchmark || env.fadeBenchmark || env.busyBenchmark) {
+    if (env.benchmark || env.fadeBenchmark || env.busyBenchmark || env.motionChecks) {
       if (
         env.hmr ||
         process.env.JOLT_BENCHMARK !== '1' ||
         (env.benchmark && !env.ios) ||
         ((env.fadeBenchmark || env.busyBenchmark) && !env.android) ||
-        [env.benchmark, env.fadeBenchmark, env.busyBenchmark].filter(Boolean).length !== 1
+        [env.benchmark, env.fadeBenchmark, env.busyBenchmark, env.motionChecks].filter(
+          Boolean,
+        ).length !== 1
       ) {
         throw new Error(
-          'Use JOLT_BENCHMARK=1 and --no-hmr with --env.benchmark on iOS or --env.fadeBenchmark or --env.busyBenchmark on Android.',
+          'Use JOLT_BENCHMARK=1 and --no-hmr with --env.benchmark on iOS or --env.fadeBenchmark or --env.busyBenchmark on Android, or --env.motionChecks on either platform.',
         )
       }
       config
@@ -34,11 +36,13 @@ module.exports = (env) => {
         .add(
           resolve(
             __dirname,
-            env.busyBenchmark
-              ? '../benchmarks/android-busy.ts'
-              : env.fadeBenchmark
-                ? '../benchmarks/android-fade.ts'
-                : '../benchmarks/ios-startup.ts',
+            env.motionChecks
+              ? '../benchmarks/motion-lifecycle.ts'
+              : env.busyBenchmark
+                ? '../benchmarks/android-busy.ts'
+                : env.fadeBenchmark
+                  ? '../benchmarks/android-fade.ts'
+                  : '../benchmarks/ios-startup.ts',
           ),
         )
       if (env.android) {

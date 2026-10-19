@@ -234,3 +234,31 @@ describe('install', () => {
     expect(JoltVue.install).toBe(install)
   })
 })
+
+describe('useMotionScope', () => {
+  it('pauses cached components and disposes only on actual unmount', async () => {
+    const { useMotionScope } = await import('../src/vue/index.js')
+    const { unmountHooks, activateHooks, deactivateHooks } =
+      await import('./shims/vue.js')
+    const scope = useMotionScope(),
+      view = createView()
+    const result = scope.animate(view, { x: 100 }, { duration: 1000 })
+    deactivateHooks.splice(0).forEach((hook) => hook())
+    expect(scope.suspended).toBe(true)
+    expect(scope.disposed).toBe(false)
+    activateHooks.splice(0).forEach((hook) => hook())
+    expect(scope.suspended).toBe(false)
+    unmountHooks.splice(0).forEach((hook) => hook())
+    expect(await result).toBe(false)
+    expect(scope.disposed).toBe(true)
+  })
+  it('v-animate unmount cancels older disjoint tracks owned by that element', () => {
+    const { view, el } = element()
+    vAnimate.mounted!(el, binding<AnimateValue>({ x: 100 }), vnode, vnode)
+    const x = driver.last('x')
+    vAnimate.updated!(el, binding<AnimateValue>({ y: 100 }, { x: 100 }), vnode, vnode)
+    vAnimate.unmounted!(el, binding<AnimateValue>({ y: 100 }), vnode, vnode)
+    expect(x.stopped).toBe(true)
+    expect(driver.last('y', view).stopped).toBe(true)
+  })
+})
