@@ -2,9 +2,13 @@
 
 ## Unreleased
 
+## 0.1.0-beta.7 (2026-10-19)
+
 - Add native `imageEffect()` ripple, touch distortion and deterministic dissolve for raster images, with playback controls, lifecycle cleanup and reduced-motion fallback. Uses Metal on iOS and AGSL on Android 13+.
 - Add optional native `zoomable()` photo gestures with focal pinch, double-tap zoom, bounded pan, dismissal intents, accessible programmatic controls and lifecycle cleanup.
 - Coordinate image ownership across `liquid()`, `imageEffect()` and `zoomable()`; replacing an image controller disposes the previous one.
+- Add the optional image lab and standalone photo viewer demo, including native gesture checks, transparent/mixed-aspect fixtures and English/Portuguese guides. Rebuild native iOS and Android apps after upgrading to include the new native classes.
+- Bring the assistant demo to Android and expand the playground and demo recordings.
 
 ## 0.1.0-beta.6 (2026-10-17)
 
