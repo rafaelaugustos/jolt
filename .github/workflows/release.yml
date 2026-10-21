@@ -1,7 +1,8 @@
 name: Release
 
 # Publishing a GitHub release publishes the package to npm.
-# Pre-releases go out under the `next` tag, everything else under `latest`.
+# Pre-releases go out under the `next` tag, and under `latest` too until a
+# stable version is out. Everything else goes out under `latest`.
 on:
   release:
     types: [published]
@@ -42,3 +43,15 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           DIST_TAG: ${{ github.event.release.prerelease && 'next' || 'latest' }}
         run: npm publish --provenance --access public --tag "$DIST_TAG"
+
+      - name: Point latest at the newest pre-release
+        if: github.event.release.prerelease
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          name=$(node -p "require('./package.json').name")
+          version=$(node -p "require('./package.json').version")
+          latest=$(npm view "$name" dist-tags.latest)
+          if [[ "$latest" == *-* && "$latest" != "$version" ]]; then
+            npm dist-tag add "$name@$version" latest
+          fi
