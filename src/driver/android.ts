@@ -58,6 +58,23 @@ function fadeLayer(view: View, nativeView: NativeView): (() => void) | undefined
   return restore
 }
 
+/**
+ * A translucent view is drawn into a buffer of its own size, which cuts off children
+ * that draw outside it. Fade those children one by one instead.
+ */
+function keepOverflow(nativeView: NativeView) {
+  if (
+    android.os.Build.VERSION.SDK_INT >= 24 &&
+    nativeView instanceof android.view.ViewGroup &&
+    !nativeView.getClipChildren() &&
+    nativeView.getHasOverlappingRendering()
+  ) {
+    nativeView.forceHasOverlappingRendering(false)
+    // The render node only picks the flag up when the view draws again.
+    nativeView.invalidate()
+  }
+}
+
 const accessors: Record<
   NumericProperty,
   { get(view: NativeView): number; set(view: NativeView, value: number): void }
@@ -144,6 +161,8 @@ export function createAndroidDriver(): Driver {
             : android.animation.ValueAnimator.RESTART,
         )
       }
+      if (track.property === 'opacity' && track.values.some((value) => value < 1))
+        keepOverflow(nativeView)
       accessors[track.property].set(nativeView, track.values[0]! * scale)
       return androidPlayback(
         animator,

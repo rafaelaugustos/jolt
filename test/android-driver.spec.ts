@@ -128,11 +128,24 @@ class DecorationTarget extends NativeView {
 class NativeGroup extends NativeView {
   children = 3
   clipChildren = true
+  overlapping = true
+  forced: boolean[] = []
   getChildCount() {
     return this.children
   }
   getClipChildren() {
     return this.clipChildren
+  }
+  getHasOverlappingRendering() {
+    return this.overlapping
+  }
+  forceHasOverlappingRendering(value: boolean) {
+    this.overlapping = value
+    this.forced.push(value)
+  }
+  invalidated = 0
+  invalidate() {
+    this.invalidated++
   }
 }
 
@@ -324,6 +337,43 @@ function container() {
   view.nativeViewProtected = native
   return { view, native }
 }
+
+describe('Android fades of containers that let children overflow', () => {
+  it('fades the children one by one so nothing outside the container is cut off', async () => {
+    const { view, native } = container()
+    native.clipChildren = false
+    const animation = animate(view, { opacity: 0.15 }, { duration: 400 })
+    expect(native.forced).toEqual([false])
+    expect(native.invalidated).toBe(1)
+    animators[0]!.finish()
+    expect(await animation).toBe(true)
+    expect(native.overlapping).toBe(false)
+  })
+
+  it('leaves clipping containers, opaque tracks, old Android and settled views alone', async () => {
+    const clipped = container()
+    const opaque = container()
+    opaque.native.clipChildren = false
+    const settled = container()
+    settled.native.clipChildren = false
+    settled.native.overlapping = false
+    const animations = [
+      animate(clipped.view, { opacity: 0.2 }),
+      animate(opaque.view, { opacity: [1, 1] }, { duration: 400 }),
+      animate(settled.view, { opacity: 0.2 }),
+    ]
+    ;(
+      globalThis as unknown as { android: typeof android }
+    ).android.os.Build.VERSION.SDK_INT = 23
+    const old = container()
+    old.native.clipChildren = false
+    animations.push(animate(old.view, { opacity: 0.2 }))
+    for (const animator of animators) animator.finish()
+    await Promise.all(animations)
+    for (const { native } of [clipped, opaque, settled, old])
+      expect(native.forced).toEqual([])
+  })
+})
 
 describe('Android fade layers', () => {
   it.each([
