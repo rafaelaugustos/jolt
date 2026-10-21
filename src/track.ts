@@ -421,6 +421,7 @@ function tween(
   curve: Extract<Curve, { type: 'tween' }>,
   density: number,
 ): Motion {
+  if (curve.track && curve.track !== linear) return easedTrack(keyframes, curve, density)
   const { duration, ease } = curve
   const offsets = curve.times ?? keyframes.map((_, i) => i / (keyframes.length - 1))
 
@@ -456,5 +457,42 @@ function tween(
     velocity: (time) => (position(time + 0.5) - position(time - 0.5)) * 1000,
     times,
     values,
+  }
+}
+
+/** One easing over the whole timeline, then straight lines between keyframes, sampled evenly in time. */
+function easedTrack(
+  keyframes: readonly number[],
+  curve: Extract<Curve, { type: 'tween' }>,
+  density: number,
+): Motion {
+  const { duration, track: ease = linear } = curve
+  const offsets = curve.times ?? keyframes.map((_, i) => i / (keyframes.length - 1))
+  const last = keyframes.length - 1
+
+  // Like `interpolate`, an easing past 0 or 1 extends the first or last segment.
+  const at = (progress: number) => {
+    let i = 0
+    while (i < last - 1 && progress > offsets[i + 1]!) i++
+    const start = offsets[i]!
+    const span = offsets[i + 1]! - start
+    const from = keyframes[i]!
+    const to = keyframes[i + 1]!
+    if (span <= 0) return progress < start ? from : to
+    return from + ((to - from) * (progress - start)) / span
+  }
+  const position = (time: number) =>
+    at(ease(duration > 0 ? Math.min(Math.max(time / duration, 0), 1) : 1))
+
+  const steps = samples(duration, density)
+  const times = Array.from({ length: steps + 1 }, (_, i) => i / steps)
+  return {
+    duration,
+    position,
+    velocity: (time) => (position(time + 0.5) - position(time - 0.5)) * 1000,
+    times,
+    values: times.map((time, i) =>
+      i === steps ? keyframes[last]! : position(time * duration),
+    ),
   }
 }

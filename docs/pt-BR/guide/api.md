@@ -42,7 +42,7 @@ O que `animate()`, `decay()`, `sequence()` e os passos de uma sequência retorna
 ## Transições
 
 - **Springs**: `'smooth' | 'snappy' | 'bouncy'`, `{ bounce, duration, velocity }` ou `{ stiffness, damping, mass, velocity }`.
-- **Tweens**: `{ duration, ease, times }`.
+- **Tweens**: `{ duration, ease, times, easeTrack }`.
 - **Tempo**: `delay`, `repeat`, `repeatType: 'loop' | 'reverse'`, `repeatDelay`, `stagger: number | { each, from }`.
 - **Por propriedade**: qualquer nome de propriedade mapeado para a própria transição.
 - **Keyframes relativos**: `{ relative: true }` soma deslocamentos de translação/rotação e multiplica escala/opacidade pelos valores iniciais.

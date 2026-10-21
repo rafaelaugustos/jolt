@@ -33,6 +33,18 @@ animate(
 
 Tweens take 300ms and `easeOut` unless told otherwise. `ease` takes `linear`, `ease`, `easeIn`, `easeOut`, `easeInOut`, `circIn`, `circOut`, `circInOut`, `backIn`, `backOut`, `backInOut`, `anticipate`, a cubic bezier (`[0.2, 0, 0, 1]`) or any function from 0..1 to a value. With keyframes, pass one per segment. `times` places each keyframe between 0 and 1.
 
+With `easeTrack: true`, one `ease` runs over the whole track instead, and the value moves in straight lines between keyframes, the way React Native's `interpolate` places its output range on an eased value:
+
+```ts
+animate(
+  spark,
+  { y: [0, -30, -12, 0] },
+  { duration: 900, ease: 'easeOut', easeTrack: true, times: [0, 0.4, 0.7, 1] },
+)
+```
+
+An easing that overshoots, like `backOut`, extends the first or last segment, as `interpolate` does with `extrapolate: 'extend'`. `easeTrack` takes a single `ease` and applies to tweens only.
+
 Custom easing functions run once, when the animation starts, like springs do. They don't cost anything per frame.
 
 ## Per property
