@@ -1,4 +1,4 @@
-export { animate, decay, stop } from './animate.js'
+export { animate, decay, set, stop } from './animate.js'
 export { sequence } from './sequence.js'
 export type { Step, SequenceOptions, SequencePosition } from './sequence.js'
 export { press } from './press.js'

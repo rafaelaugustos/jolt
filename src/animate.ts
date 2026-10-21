@@ -42,6 +42,7 @@ import type {
   KeyframeProperty,
   Stagger,
   Target,
+  Values,
 } from './types.js'
 
 interface Options {
@@ -194,6 +195,30 @@ export function stop(
     property === 'scale' ? ['scaleX', 'scaleY'] : [property],
   )
   for (const view of toViews(target)) stopView(view, expanded)
+}
+
+/**
+ * Applies values at once, stopping whatever animates those properties.
+ * `scale` sets both axes. A view that isn't loaded yet gets them right away.
+ *
+ * ```ts
+ * set(logo, { opacity: 1, scale: 1, y: 0 })
+ * ```
+ */
+export function set(target: Target | readonly Target[], values: Values): void {
+  if (values === null || typeof values !== 'object' || Array.isArray(values))
+    throw new TypeError('set() takes an object of values.')
+  const keyframes: Record<string, unknown> = {}
+  for (const [key, value] of Object.entries(values)) {
+    if (value === undefined) continue
+    if (key !== 'scale' && !isProperty(key)) throw new Error(`Can't set "${key}".`)
+    if (value === null || Array.isArray(value))
+      throw new TypeError(
+        `set() takes one value per property, got ${String(value)} for "${key}".`,
+      )
+    keyframes[key] = [value, value]
+  }
+  animate(target, keyframes as Keyframes, { duration: 0 })
 }
 
 /** Plays several animations as one: finished once they all are, and stopped together. */

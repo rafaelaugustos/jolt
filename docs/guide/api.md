@@ -9,6 +9,7 @@
 - [`motionStates(targets, definitions, options?)`](./motion-controllers#named-visual-states) — coordinated, interruptible named visual states.
 - [`decay(target, velocity, options?)`](./decay)
 - `stop(target, properties?)`
+- [`set(target, values)`](./interrupting#setting-values-without-animating) — applies values at once and stops what animates them.
 - [`sequence(steps)`](./sequences) — overlapping steps and fixed positions.
 - `press(target, pressed?, transition?)`
 - [`drag(target, options?)`](./drag)
@@ -27,7 +28,7 @@
 - [`rollTo(label, value, options?)`](./rolling) — rolling digits on iOS and Android; returns an `Animation`.
 - [`confetti(target, options?)`, `particles(target, options?)`](./particles) — iOS particle effects; return cleanup functions.
 
-`target` is a view or anything holding one (a template ref, an `ElementRef`). `animate()`, `decay()`, `stop()` and sequence steps also accept arrays of targets.
+`target` is a view or anything holding one (a template ref, an `ElementRef`). `animate()`, `decay()`, `stop()`, `set()` and sequence steps also accept arrays of targets.
 
 `animate()` options also accept [`haptic`](./haptics): `light`, `medium`, `heavy`, `{ style, times }`, or `false`. Feedback is iOS only.
 

@@ -18,6 +18,17 @@ As propriedades selecionadas ficam no valor atual; as outras continuam animando.
 
 Se parte de uma animação for parada, a promise `finished` resolve com `false` quando as propriedades restantes terminarem.
 
+## Aplicar valores sem animar
+
+`set()` posiciona uma view sem animar, para o layout com movimento reduzido, para zerar algo antes de um loop ou para um estado que só precisa estar lá:
+
+```ts
+set(logo, { opacity: 1, scale: 1, y: 0 })
+set(card, { backgroundColor: '#fff' })
+```
+
+Recebe um valor por propriedade, com as mesmas propriedades do `animate()`, incluindo cores e decorações. O que estiver animando essas propriedades para, e o `finished` dele resolve com `false`; as outras propriedades continuam animando. O próximo `animate()` começa do valor aplicado, sem velocidade. Uma view que ainda não carregou recebe os valores na hora, e eles valem mais que uma animação que ainda espera essa view carregar.
+
 ## Loops e o segundo plano
 
 Repetições infinitas continuam tocando nativamente. No iOS, o Core Animation descarta as animações quando o app vai para o segundo plano; o Jolt as inicia de novo quando ele volta.
