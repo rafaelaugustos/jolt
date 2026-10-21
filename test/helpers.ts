@@ -71,6 +71,19 @@ export class FakeDriver implements Driver {
     return this.reduced
   }
 
+  watchers = new Set<() => void>()
+  watchReducedMotion(callback: () => void) {
+    this.watchers.add(callback)
+    return () => {
+      this.watchers.delete(callback)
+    }
+  }
+  /** Flips the platform setting and tells whoever watches it. */
+  setReduced(value: boolean) {
+    this.reduced = value
+    for (const watcher of [...this.watchers]) watcher()
+  }
+
   after(ms: number, callback: () => void) {
     const timer = { at: this.time + ms, callback, done: false }
     this.timers.push(timer)

@@ -42,7 +42,7 @@ export type {
   SymbolEffectName,
   SymbolEffectOptions,
 } from './symbol-effect.js'
-export { configure } from './config.js'
+export { configure, onReducedMotion, reducedMotion } from './config.js'
 export type { JoltConfig } from './config.js'
 export { definePreset, presets } from './presets.js'
 export type { Preset, PresetName, Presets } from './presets.js'

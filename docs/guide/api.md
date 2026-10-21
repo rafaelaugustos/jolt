@@ -52,12 +52,12 @@ What `animate()`, `decay()`, `sequence()` and the steps of a sequence return: `a
 
 ## Vue
 
-`@rafaelaugusto/jolt/vue` is a separate entry point for NativeScript-Vue 3: `vAnimate` (`v-animate`), `vPress` (`v-press`), `JoltTransition`, `transitionHooks(props)` and `install(app)`, also the default export for `app.use()`. Types: `AnimateValue`, `PressValue`, `TransitionProps`. See the [Vue guide](./vue).
+`@rafaelaugusto/jolt/vue` is a separate entry point for NativeScript-Vue 3: `vAnimate` (`v-animate`), `vPress` (`v-press`), `JoltTransition`, `transitionHooks(props)`, `useMotionScope()`, `useReducedMotion()` and `install(app)`, also the default export for `app.use()`. Types: `AnimateValue`, `PressValue`, `TransitionProps`. See the [Vue guide](./vue).
 
 ## Types
 
 `Step`, `SequenceOptions`, `SequencePosition`, `JoltConfig`, `KeyframeProperty`, `ScrollLinkedOptions`, `KeyboardOptions`, `ItemsOptions`, `ColorValue`, `ColorKeyframes`, `Keyframes`, `Transition`, `Spring`, `Tween`, `Preset`, `Presets`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target`, `DecayVelocity`, `DecayOptions`, `SymbolEffect`, `SymbolEffectName`, `SymbolEffectOptions`, `ShimmerOptions`, `LiquidOptions`, `LiquidEffect`, `LoaderOptions`, `LoaderStyle`, `TextOptions`, `RollOptions`, `RevealOptions`, `ConcealOptions`, `Haptic`, `HapticOptions`, `HapticStyle`, `ConfettiOptions`, `ParticleOptions` and the rest exported from the package.
 [`configure({ timeScale })`](./configure) sets global playback speed for animations started afterwards.
-[`configure({ timeScale, reducedMotion })`](./configure) sets the global playback speed and the reduced-motion preference (`'user'`, `'always'` or `'never'`) for animations started afterwards.
+[`configure({ timeScale, reducedMotion })`](./configure) sets the global playback speed and the reduced-motion preference (`'user'`, `'always'` or `'never'`) for animations started afterwards. [`reducedMotion()` and `onReducedMotion(callback)`](./configure#reading-the-preference) read and watch that preference.
 
 ## Types

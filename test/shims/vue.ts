@@ -29,3 +29,5 @@ export const deactivateHooks: (() => void)[] = []
 export const onUnmounted = (callback: () => void) => unmountHooks.push(callback)
 export const onActivated = (callback: () => void) => activateHooks.push(callback)
 export const onDeactivated = (callback: () => void) => deactivateHooks.push(callback)
+export const shallowRef = <T>(value: T) => ({ value })
+export const readonly = <T>(value: T) => value

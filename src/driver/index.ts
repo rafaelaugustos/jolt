@@ -47,6 +47,8 @@ export interface Driver {
   afterLayout?(view: View, callback: () => void): () => void
   /** The platform's accessibility setting: Reduce Motion on iOS, Remove animations on Android. */
   reducedMotion?(): boolean
+  /** Calls back when that setting may have changed; returns a cleanup function. */
+  watchReducedMotion?(callback: () => void): () => void
 }
 
 export function after(ms: number, callback: () => void) {

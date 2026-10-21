@@ -14,6 +14,23 @@ The core takes a view or an element that holds one, so `animate(card.value, 'pop
 
 Use [`useMotionScope()`](./motion-controllers#vue-lifecycle) inside setup to own animations and subscriptions until unmount, with KeepAlive suspension/resume.
 
+## Reduced motion
+
+`useReducedMotion()` returns a read-only ref that follows [the reduced-motion preference](./configure#reading-the-preference) until the component unmounts:
+
+```vue
+<script setup lang="ts">
+import { useReducedMotion } from '@rafaelaugusto/jolt/vue'
+
+const reduced = useReducedMotion()
+</script>
+
+<template>
+  <Image v-if="reduced" src="~/assets/still.png" />
+  <Splash v-else />
+</template>
+```
+
 ## Registering
 
 `app.use(Jolt)` registers the two directives and the component for every template. A component can also import just what it uses. In `<script setup>`, importing `vAnimate` and `vPress` under those names makes `v-animate` and `v-press` available in that template:

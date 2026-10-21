@@ -512,7 +512,7 @@ configure({ reducedMotion: 'always' }) // transforms jump, opacity still fades
 
 Tuning a spring at full speed is guesswork. The scale applies to every engine animation started after the call, on iOS and Android alike: durations, delays, stagger, sequence positions and spring time stretch together, keyframes stay dense, and an interruption still picks up the value and velocity on screen. Native loops such as shimmer and loaders keep their own timing.
 
-With Reduce Motion on iOS or Remove animations on Android, translations, scale, rotation, paths, decorations and decay jump to their end values while opacity and colors still animate. `'user'` is the default; `'always'` and `'never'` override the platform for the whole library. See the [guide](https://jolt.rafaelaugusto.dev/guide/configure).
+With Reduce Motion on iOS or Remove animations on Android, translations, scale, rotation, paths, decorations and decay jump to their end values while opacity and colors still animate. `'user'` is the default; `'always'` and `'never'` override the platform for the whole library. `reducedMotion()` reads the result, `onReducedMotion(callback)` watches it, and `useReducedMotion()` from `/vue` keeps a ref in sync. See the [guide](https://jolt.rafaelaugusto.dev/guide/configure).
 
 ## Interrupting and stopping
 

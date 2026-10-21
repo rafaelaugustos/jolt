@@ -750,4 +750,21 @@ describe('iOS reduced motion', () => {
     reduced = true
     expect(driver.reducedMotion!()).toBe(true)
   })
+
+  it('watches the Reduce Motion notification until cleanup', async () => {
+    const { Application } = await import('@nativescript/core')
+    const { observers } = Application.ios as unknown as {
+      observers: Map<() => void, string>
+    }
+    vi.stubGlobal(
+      'UIAccessibilityReduceMotionStatusDidChangeNotification',
+      'reduceMotionChanged',
+    )
+    const callback = vi.fn()
+    const off = createIOSDriver().watchReducedMotion!(callback)
+
+    expect(observers.get(callback)).toBe('reduceMotionChanged')
+    off()
+    expect(observers.has(callback)).toBe(false)
+  })
 })
