@@ -58,3 +58,15 @@ animate(
 ```
 
 `delay` é em milissegundos, e a view assume o primeiro keyframe durante ele. `repeat` é quantas vezes a mais tocar, `Infinity` até ser parada. `repeatType: 'reverse'` toca cada repetição alternada de trás para frente. As repetições também tocam nativamente.
+
+`repeatDelay` segura o valor final por essa quantidade de milissegundos antes de cada repetição. A primeira vez não espera, nem o fim da última. Com `'reverse'` a espera acontece nas duas pontas:
+
+```ts
+animate(
+  z,
+  { y: [0, -40], opacity: [0, 1] },
+  { duration: 1200, repeat: Infinity, repeatDelay: 1800 },
+)
+```
+
+A espera faz parte dos keyframes nativos, então não custa JavaScript enquanto toca. Parar durante a espera deixa a view no valor segurado.

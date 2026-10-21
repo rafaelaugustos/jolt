@@ -245,6 +245,18 @@ animate(
 
 `delay` is in milliseconds, and the view takes the first keyframe during it. `repeat` is how many more times to play, `Infinity` until stopped. `repeatType: 'reverse'` plays every other repeat backwards. Repeats play natively too.
 
+`repeatDelay` holds the end value for that many milliseconds before each repeat. The first play doesn't wait, and neither does the end of the last one. With `'reverse'` it waits at both ends:
+
+```ts
+animate(
+  z,
+  { y: [0, -40], opacity: [0, 1] },
+  { duration: 1200, repeat: Infinity, repeatDelay: 1800 },
+)
+```
+
+The wait is part of the native keyframes, so it costs no JavaScript while it plays. Stopping during the wait leaves the view at the held value.
+
 ## Decay
 
 ```ts

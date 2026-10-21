@@ -52,15 +52,15 @@ export function createTrack(
   velocity: number,
 ): Track {
   if (isColorProperty(property)) return colorTrack(property, keyframes, transition)
-  const { curve, repeat, reverse } = transition
+  const { curve } = transition
   if (property !== 'opacity' && reducedMotion())
     return instantTrack(
       property,
-      restingValue(property, keyframes, curve, repeat, reverse),
+      restingValue(property, keyframes, curve, transition.repeat, transition.reverse),
     )
   const slowdown = 1 / timeScale()
   const delay = transition.delay * slowdown
-  const motion = slow(
+  const played = slow(
     curve.type === 'spring'
       ? spring(property, keyframes, curve, velocity * slowdown, slowdown)
       : curve.type === 'drag'
@@ -69,6 +69,12 @@ export function createTrack(
           ? decay(property, keyframes[0]!, curve, slowdown)
           : tween(keyframes, curve, slowdown),
     slowdown,
+  )
+  const { motion, repeat, reverse } = pauseBetweenRepeats(
+    played,
+    transition.repeat,
+    transition.reverse,
+    (transition.repeatDelay ?? 0) * slowdown,
   )
   const { duration } = motion
   const first = motion.values[0]!
@@ -100,7 +106,7 @@ export function createTrack(
       (curve.type === 'spring' ||
         curve.type === 'drag' ||
         (curve.type === 'decay' && curve.snap !== undefined)) &&
-      repeat === 0
+      transition.repeat === 0
         ? delay + arrival(motion)
         : end,
     valueAt: (elapsed) => motion.position(localTime(elapsed)[0]),
@@ -213,6 +219,103 @@ function colorTrack(
     valueAt: (elapsed) => colorAt(progress.valueAt(elapsed)),
     // Packed colors have no scalar velocity to carry into another spring.
     velocityAt: () => 0,
+  }
+}
+
+/**
+ * Holds the end value for `pause` ms before each repeat, inside the keyframes, so both
+ * platforms play it natively. Finite repeats are laid out one after another, with no
+ * wait after the last; endless ones loop a cycle that waits at each turn.
+ */
+function pauseBetweenRepeats(
+  motion: Motion,
+  repeat: number,
+  reverse: boolean,
+  pause: number,
+): { motion: Motion; repeat: number; reverse: boolean } {
+  if (pause <= 0 || repeat <= 0 || motion.duration === 0)
+    return { motion, repeat, reverse }
+  type Segment = { kind: 'forward' | 'backward' | 'hold'; duration: number }
+  const play = (backward: boolean): Segment => ({
+    kind: backward ? 'backward' : 'forward',
+    duration: motion.duration,
+  })
+  const hold: Segment = { kind: 'hold', duration: pause }
+  const segments: Segment[] = []
+  if (Number.isFinite(repeat))
+    for (let i = 0; i <= repeat; i++) {
+      if (i > 0) segments.push(hold)
+      segments.push(play(reverse && i % 2 === 1))
+    }
+  else segments.push(play(false), hold, ...(reverse ? [play(true), hold] : []))
+
+  const total = segments.reduce((sum, segment) => sum + segment.duration, 0)
+  const starts = segments.map((_, i) =>
+    segments.slice(0, i).reduce((sum, segment) => sum + segment.duration, 0),
+  )
+  const last = motion.values.length - 1
+  const endOf = (i: number) => {
+    const segment = segments[i]!
+    if (segment.kind === 'forward') return motion.values[last]!
+    if (segment.kind === 'backward') return motion.values[0]!
+    return endOf(i - 1)
+  }
+  // A loop jumps back to its start at the end of the hold, not across it.
+  const jump = Math.min(1, pause / 10)
+
+  const times: number[] = []
+  const values: number[] = []
+  segments.forEach((segment, i) => {
+    const start = starts[i]!
+    if (segment.kind === 'hold') {
+      const held = endOf(i - 1)
+      const next = segments[i + 1]
+      const jumps =
+        next !== undefined &&
+        (next.kind === 'forward' ? motion.values[0] : motion.values[last]) !== held
+      times.push((start + segment.duration - (jumps ? jump : 0)) / total)
+      values.push(held)
+      return
+    }
+    for (let k = 0; k <= last; k++) {
+      const index = segment.kind === 'forward' ? k : last - k
+      const offset = motion.times[index]!
+      const time = segment.kind === 'forward' ? offset : 1 - offset
+      if (k === 0 && i > 0 && values.at(-1) === motion.values[index]) continue
+      times.push((start + time * motion.duration) / total)
+      values.push(motion.values[index]!)
+    }
+  })
+
+  const locate = (time: number) => {
+    let i = 0
+    while (i < segments.length - 1 && time >= starts[i + 1]!) i++
+    return [i, time - starts[i]!] as const
+  }
+  return {
+    motion: {
+      duration: total,
+      times,
+      values,
+      position: (time) => {
+        const [i, local] = locate(Math.max(0, Math.min(total, time)))
+        const segment = segments[i]!
+        if (segment.kind === 'hold') return endOf(i - 1)
+        return motion.position(
+          segment.kind === 'forward' ? local : motion.duration - local,
+        )
+      },
+      velocity: (time) => {
+        const [i, local] = locate(Math.max(0, Math.min(total, time)))
+        const segment = segments[i]!
+        if (segment.kind === 'hold') return 0
+        return segment.kind === 'forward'
+          ? motion.velocity(local)
+          : -motion.velocity(motion.duration - local)
+      },
+    },
+    repeat: Number.isFinite(repeat) ? 0 : Infinity,
+    reverse: false,
   }
 }
 

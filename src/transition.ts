@@ -12,6 +12,8 @@ export interface Timing {
   repeat?: number
   /** `reverse` plays every other repeat backwards. */
   repeatType?: 'loop' | 'reverse'
+  /** Milliseconds to hold the end value before each repeat. The first play doesn't wait. */
+  repeatDelay?: number
 }
 
 export interface Tween extends Timing {
@@ -68,11 +70,12 @@ export interface ResolvedTransition {
   delay: number
   repeat: number
   reverse: boolean
+  repeatDelay?: number
 }
 
 const springKeys = ['stiffness', 'damping', 'mass', 'bounce', 'velocity'] as const
 const curveKeys = ['type', 'duration', 'ease', 'times', ...springKeys] as const
-const timingKeys = ['delay', 'repeat', 'repeatType'] as const
+const timingKeys = ['delay', 'repeat', 'repeatType', 'repeatDelay'] as const
 
 export const DEFAULT_DURATION = 300
 
@@ -119,7 +122,15 @@ export function resolveTransition(
   if (delay < 0 || Number.isNaN(delay)) throw new RangeError(`Invalid delay: ${delay}.`)
   if (repeat < 0 || Number.isNaN(repeat))
     throw new RangeError(`Invalid repeat: ${repeat}.`)
-  const timing = { delay, repeat, reverse: transition.repeatType === 'reverse' }
+  const repeatDelay = transition.repeatDelay ?? 0
+  if (!Number.isFinite(repeatDelay) || repeatDelay < 0)
+    throw new RangeError(`Invalid repeat delay: ${repeatDelay}.`)
+  const timing = {
+    delay,
+    repeat,
+    reverse: transition.repeatType === 'reverse',
+    ...(repeatDelay > 0 && repeat > 0 && { repeatDelay }),
+  }
 
   if (type === 'spring') {
     if (keyframes > 2) {
