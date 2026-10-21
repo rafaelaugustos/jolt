@@ -31,6 +31,7 @@ function fadeLayer(view: View, nativeView: NativeView): (() => void) | undefined
     view.nativeViewProtected !== nativeView ||
     !(nativeView instanceof ViewGroup) ||
     nativeView.getChildCount() === 0 ||
+    !nativeView.getClipChildren() ||
     !nativeView.isHardwareAccelerated() ||
     nativeView.getLayerType() !== View.LAYER_TYPE_NONE
   )
