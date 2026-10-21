@@ -25,7 +25,7 @@ Cores de fundo, borda e texto também são suportadas. Veja [Cores](./colors). V
 
 Nas animações de opacidade, o Jolt usa temporariamente uma camada de hardware para containers com filhos quando a aceleração está ativa. A camada começa depois do atraso, permanece nas repetições e é restaurada ao terminar, parar, substituir a animação ou descarregar a view. Isso pode reduzir o trabalho de desenho em conteúdo estático, como cards com imagens.
 
-Camadas de hardware ou software já configuradas pelo app são preservadas. Containers vazios, views sem tamanho medido e containers mais largos ou altos que a tela não recebem essa otimização. O limite evita colocar árvores de conteúdo muito grandes numa textura. As texturas usam memória gráfica; conteúdo que muda constantemente continua invalidando o cache. Veja o [benchmark de fades no Android](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/android-fade.md).
+Camadas de hardware ou software já configuradas pelo app são preservadas. Containers vazios, views sem tamanho medido e containers mais largos ou altos que a tela não recebem essa otimização. O limite evita colocar árvores de conteúdo muito grandes numa textura. Containers com `setClipChildren(false)` também ficam de fora: a camada tem o tamanho da view, e os filhos desenhados fora dela seriam cortados durante o fade. As texturas usam memória gráfica; conteúdo que muda constantemente continua invalidando o cache. Veja o [benchmark de fades no Android](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/android-fade.md).
 
 ## Perspectiva 3D
 

@@ -127,8 +127,12 @@ class DecorationTarget extends NativeView {
 
 class NativeGroup extends NativeView {
   children = 3
+  clipChildren = true
   getChildCount() {
     return this.children
+  }
+  getClipChildren() {
+    return this.clipChildren
   }
 }
 
@@ -451,22 +455,25 @@ describe('Android fade layers', () => {
     expect(native.layerChanges).toEqual([2, 1])
   })
 
-  it('skips empty groups, software rendering, constant opacity and non-opacity tracks', async () => {
+  it('skips empty, overflowing and software-rendered groups, constant opacity and non-opacity tracks', async () => {
     const empty = container()
     empty.native.children = 0
     const software = container()
     software.native.hardwareAccelerated = false
+    const overflowing = container()
+    overflowing.native.clipChildren = false
     const constant = container()
     const rotating = container()
     const animations = [
       animate(empty.view, { opacity: 0.2 }),
       animate(software.view, { opacity: 0.2 }),
+      animate(overflowing.view, { opacity: 0.2 }),
       animate(constant.view, { opacity: [1, 1] }, { duration: 400 }),
       animate(rotating.view, { rotateY: 45 }),
     ]
     for (const animator of animators) animator.finish()
-    expect(await Promise.all(animations)).toEqual([true, true, true, true])
-    for (const { native } of [empty, software, constant, rotating])
+    expect(await Promise.all(animations)).toEqual([true, true, true, true, true])
+    for (const { native } of [empty, software, overflowing, constant, rotating])
       expect(native.layerChanges).toEqual([])
   })
 })
