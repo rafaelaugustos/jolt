@@ -18,6 +18,17 @@ Selected properties stay at their current values; the others keep animating. `sc
 
 If part of an animation is stopped, its `finished` promise resolves with `false` once its remaining properties finish.
 
+## Setting values without animating
+
+`set()` places a view without animating it, for a reduced-motion layout, a reset before a loop, or a state that should simply be there:
+
+```ts
+set(logo, { opacity: 1, scale: 1, y: 0 })
+set(card, { backgroundColor: '#fff' })
+```
+
+It takes one value per property, with the same properties as `animate()`, including colors and decorations. Whatever animates those properties stops, and its `finished` resolves with `false`; other properties keep animating. The next `animate()` starts from the set value with no velocity. A view that isn't loaded yet gets the values right away, and they win over an animation that is still waiting for that view to load.
+
 ## Loops and the background
 
 Infinite repeats keep playing natively. On iOS, Core Animation drops animations when the app goes to the background; Jolt starts them again when it comes back.

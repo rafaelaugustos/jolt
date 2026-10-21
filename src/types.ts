@@ -48,6 +48,11 @@ export interface Keyframes {
 /** Properties that can be timed or stopped independently. A path owns x/y and optionally rotate. */
 export type KeyframeProperty = Exclude<keyof Keyframes, 'path' | 'orient'>
 
+/** One value per property, as `set()` applies them. */
+export type Values = {
+  [K in KeyframeProperty]?: Exclude<Keyframes[K], readonly unknown[]>
+}
+
 /** A view, or anything that holds one: a NativeScript-Vue element, an Angular `ElementRef`. */
 export type Target =
   View | { readonly nativeView: View } | { readonly nativeElement: View }

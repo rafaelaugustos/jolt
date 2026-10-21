@@ -532,6 +532,14 @@ Selected properties stay at their current values; the others keep animating. `sc
 
 If part of an animation is stopped, its `finished` promise resolves with `false` once its remaining properties finish.
 
+`set()` places a view without animating it, and stops whatever animates those properties:
+
+```ts
+set(logo, { opacity: 1, scale: 1, y: 0 })
+```
+
+It takes one value per property, the same properties as `animate()`. The next animation starts from there. See [setting values](https://jolt.rafaelaugusto.dev/guide/interrupting#setting-values-without-animating).
+
 ## How it works
 
 When an animation starts, Jolt resolves where each property starts from (the value on screen, or the keyframes you gave), and computes the whole curve: easing, keyframes, spring physics and exponential decay. It samples the curve 60 times per second of motion, and keeps keyframe times exact. Linear numeric segments use only their endpoints. Long tween segments and free decays cap sampling at 6,001 keyframes. Color tracks add intermediate OKLab samples even with linear timing.
