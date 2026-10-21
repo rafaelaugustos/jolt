@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest'
-import { animate, configure, decay, press, sequence } from '../src/index.js'
+import {
+  animate,
+  configure,
+  decay,
+  onReducedMotion,
+  press,
+  reducedMotion,
+  sequence,
+} from '../src/index.js'
 import { createView, driver, flush } from './helpers.js'
 
 describe('configure', () => {
@@ -275,5 +283,77 @@ describe('reduced motion', () => {
     animate(createView(), { x: 100, opacity: 0 }, { duration: 300 })
     expect(driver.played).toHaveLength(1)
     expect(driver.last('opacity').track.duration).toBe(600)
+  })
+})
+
+describe('reading and watching reduced motion', () => {
+  it('follows the platform with user and overrides it with always and never', () => {
+    expect(reducedMotion()).toBe(false)
+    driver.reduced = true
+    expect(reducedMotion()).toBe(true)
+    configure({ reducedMotion: 'never' })
+    expect(reducedMotion()).toBe(false)
+    driver.reduced = false
+    configure({ reducedMotion: 'always' })
+    expect(reducedMotion()).toBe(true)
+  })
+
+  it('calls back when the platform setting or configure() changes the value', () => {
+    const seen: boolean[] = []
+    const off = onReducedMotion((reduced) => seen.push(reduced))
+
+    driver.setReduced(true)
+    driver.setReduced(true)
+    configure({ reducedMotion: 'user' })
+    configure({ reducedMotion: 'never' })
+    driver.setReduced(false)
+    configure({ reducedMotion: 'always' })
+
+    expect(seen).toEqual([true, false, true])
+    off()
+  })
+
+  it('watches the platform only while someone listens', () => {
+    const first = onReducedMotion(() => {})
+    const second = onReducedMotion(() => {})
+    expect(driver.watchers.size).toBe(1)
+
+    first()
+    first()
+    expect(driver.watchers.size).toBe(1)
+    second()
+    expect(driver.watchers.size).toBe(0)
+  })
+
+  it('stops calling back after cleanup, even for the same callback added twice', () => {
+    const seen: boolean[] = []
+    const callback = (reduced: boolean) => seen.push(reduced)
+    const off = onReducedMotion(callback)
+    const again = onReducedMotion(callback)
+
+    driver.setReduced(true)
+    off()
+    driver.setReduced(false)
+    again()
+    driver.setReduced(true)
+
+    expect(seen).toEqual([true, true, false])
+  })
+
+  it('starts from the value at subscription time', () => {
+    driver.reduced = true
+    const seen: boolean[] = []
+    const off = onReducedMotion((reduced) => seen.push(reduced))
+
+    driver.setReduced(true)
+    driver.setReduced(false)
+
+    expect(seen).toEqual([false])
+    off()
+  })
+
+  it('rejects anything but a callback', () => {
+    expect(() => onReducedMotion(undefined as never)).toThrow(TypeError)
+    expect(driver.watchers.size).toBe(0)
   })
 })

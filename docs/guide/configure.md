@@ -56,4 +56,22 @@ Infinite repeats and the attention presets stay at rest instead of looping. The 
 
 On iOS the setting comes from `UIAccessibilityIsReduceMotionEnabled()`. On Android, Remove animations sets the animator duration scale to zero, which Jolt reads through `ValueAnimator.areAnimatorsEnabled()` on Android 8 and later, and from the global setting before that.
 
-To handle the setting yourself, choose `never` and read it in the app.
+## Reading the preference
+
+A screen can do more than skip motion: show a still illustration, or drop a splash entirely. Read the same preference Jolt uses:
+
+```ts
+import { onReducedMotion, reducedMotion } from '@rafaelaugusto/jolt'
+
+reducedMotion() // true or false, right now
+const off = onReducedMotion((reduced) => {
+  // called with the new value when it changes
+})
+off()
+```
+
+`reducedMotion()` reports what Jolt applies: the platform setting with `user`, `true` with `always`, `false` with `never`. `onReducedMotion()` calls back only when that value changes, from `configure()` or from the platform. On iOS the change arrives right away, through Reduce Motion's notification, including toggles from Control Center. Android has no broadcast for it, and the setting can only change in Settings, so Jolt checks again when the app comes back to the foreground.
+
+In Vue, [`useReducedMotion()`](./vue#reduced-motion) gives a ref that stays up to date until the component unmounts.
+
+To play everything and still decide yourself, choose `never` and read the platform setting in the app.

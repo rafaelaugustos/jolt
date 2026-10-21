@@ -56,4 +56,22 @@ Repetições infinitas e os presets de atenção ficam parados em vez de entrar 
 
 No iOS, a configuração vem de `UIAccessibilityIsReduceMotionEnabled()`. No Android, Remover animações zera a escala de duração dos animators, que o Jolt lê com `ValueAnimator.areAnimatorsEnabled()` a partir do Android 8 e pela configuração global antes disso.
 
-Para tratar a configuração por conta própria, escolha `never` e leia o valor no app.
+## Lendo a preferência
+
+Uma tela pode fazer mais do que pular o movimento: mostrar uma ilustração parada ou dispensar o splash. Leia a mesma preferência que o Jolt usa:
+
+```ts
+import { onReducedMotion, reducedMotion } from '@rafaelaugusto/jolt'
+
+reducedMotion() // true ou false, agora
+const off = onReducedMotion((reduced) => {
+  // chamado com o novo valor quando ele muda
+})
+off()
+```
+
+`reducedMotion()` informa o que o Jolt aplica: a configuração da plataforma com `user`, `true` com `always` e `false` com `never`. `onReducedMotion()` só chama de volta quando esse valor muda, pelo `configure()` ou pela plataforma. No iOS a mudança chega na hora, pela notificação do Reduzir Movimento, inclusive quando ele é ligado pela Central de Controle. O Android não avisa, e a configuração só muda nos Ajustes, então o Jolt confere de novo quando o app volta para o primeiro plano.
+
+No Vue, [`useReducedMotion()`](./vue#movimento-reduzido) devolve um ref que fica atualizado até o componente desmontar.
+
+Para tocar tudo e ainda decidir por conta própria, escolha `never` e leia a configuração da plataforma no app.

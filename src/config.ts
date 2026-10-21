@@ -11,6 +11,9 @@ export interface JoltConfig {
 }
 
 const settings: Required<JoltConfig> = { timeScale: 1, reducedMotion: 'user' }
+const listeners = new Set<(reduced: boolean) => void>()
+let reported = false
+let unwatch: (() => void) | undefined
 const preferences: readonly JoltConfig['reducedMotion'][] = ['user', 'always', 'never']
 
 /**
@@ -32,7 +35,10 @@ export function configure(options: JoltConfig): void {
       `Reduced motion must be 'user', 'always' or 'never', got ${String(reducedMotion)}.`,
     )
   if (timeScale !== undefined) settings.timeScale = timeScale
-  if (reducedMotion !== undefined) settings.reducedMotion = reducedMotion
+  if (reducedMotion !== undefined) {
+    settings.reducedMotion = reducedMotion
+    changed()
+  }
 }
 
 export function timeScale(): number {
@@ -43,4 +49,36 @@ export function timeScale(): number {
 export function reducedMotion(): boolean {
   if (settings.reducedMotion === 'user') return getDriver().reducedMotion?.() ?? false
   return settings.reducedMotion === 'always'
+}
+
+/**
+ * Calls back with the new value whenever `reducedMotion()` changes, from `configure()`
+ * or the platform setting. Returns a cleanup function.
+ *
+ * ```ts
+ * const off = onReducedMotion((reduced) => (illustration.visibility = reduced ? 'visible' : 'collapse'))
+ * ```
+ */
+export function onReducedMotion(callback: (reduced: boolean) => void): () => void {
+  if (typeof callback !== 'function')
+    throw new TypeError('onReducedMotion() takes a callback.')
+  const listener = (reduced: boolean) => callback(reduced)
+  if (listeners.size === 0) {
+    reported = reducedMotion()
+    unwatch = getDriver().watchReducedMotion?.(changed)
+  }
+  listeners.add(listener)
+  return () => {
+    if (!listeners.delete(listener) || listeners.size > 0) return
+    unwatch?.()
+    unwatch = undefined
+  }
+}
+
+function changed() {
+  if (listeners.size === 0) return
+  const reduced = reducedMotion()
+  if (reduced === reported) return
+  reported = reduced
+  for (const listener of [...listeners]) listener(reduced)
 }

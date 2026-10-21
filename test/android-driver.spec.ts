@@ -690,6 +690,18 @@ describe('Android reduced motion', () => {
     durationScale = 0.5
     expect(driver.reducedMotion!()).toBe(false)
   })
+
+  it('checks again whenever the app comes back to the foreground', async () => {
+    const { Application } = await import('@nativescript/core')
+    const callback = vi.fn()
+    const off = createAndroidDriver().watchReducedMotion!(callback)
+
+    Application.notify({ eventName: Application.resumeEvent, object: Application })
+    expect(callback).toHaveBeenCalledTimes(1)
+    off()
+    Application.notify({ eventName: Application.resumeEvent, object: Application })
+    expect(callback).toHaveBeenCalledTimes(1)
+  })
 })
 
 describe('Android 3D perspective', () => {

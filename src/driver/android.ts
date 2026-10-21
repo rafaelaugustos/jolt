@@ -9,7 +9,7 @@ import {
   playAndroidDecoration,
   presentedAndroidDecoration,
 } from './android-decoration.js'
-import { Utils, type View } from '@nativescript/core'
+import { Application, Utils, type View } from '@nativescript/core'
 import type { NumericProperty } from '../properties.js'
 import type { Driver } from './index.js'
 import { isColorProperty } from '../color.js'
@@ -259,6 +259,12 @@ export function createAndroidDriver(): Driver {
           1,
         ) === 0
       )
+    },
+
+    watchReducedMotion(callback) {
+      // Android has no broadcast for the animator scale; it can only change in Settings.
+      Application.on(Application.resumeEvent, callback)
+      return () => Application.off(Application.resumeEvent, callback)
     },
   }
 }

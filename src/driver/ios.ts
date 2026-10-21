@@ -247,5 +247,11 @@ export function createIOSDriver(): Driver {
     after,
 
     reducedMotion: () => UIAccessibilityIsReduceMotionEnabled(),
+
+    watchReducedMotion(callback) {
+      const name = UIAccessibilityReduceMotionStatusDidChangeNotification
+      const observer = Application.ios.addNotificationObserver(name, callback)
+      return () => Application.ios.removeNotificationObserver(observer, name)
+    },
   }
 }

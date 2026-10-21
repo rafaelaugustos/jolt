@@ -10,6 +10,7 @@ import JoltVue, {
   type PressValue,
 } from '../src/vue/index.js'
 import { BaseTransition, rendered } from './shims/vue.js'
+import { configure } from '../src/index.js'
 import { createView, driver, flush } from './helpers.js'
 
 type Hook = (el: NSVElement, done: () => void) => void
@@ -260,5 +261,24 @@ describe('useMotionScope', () => {
     vAnimate.unmounted!(el, binding<AnimateValue>({ y: 100 }), vnode, vnode)
     expect(x.stopped).toBe(true)
     expect(driver.last('y', view).stopped).toBe(true)
+  })
+})
+
+describe('useReducedMotion', () => {
+  it('follows the setting until the component unmounts', async () => {
+    const { useReducedMotion } = await import('../src/vue/index.js')
+    const { unmountHooks } = await import('./shims/vue.js')
+    const reduced = useReducedMotion()
+    expect(reduced.value).toBe(false)
+
+    driver.setReduced(true)
+    expect(reduced.value).toBe(true)
+    configure({ reducedMotion: 'never' })
+    expect(reduced.value).toBe(false)
+
+    unmountHooks.splice(0).forEach((hook) => hook())
+    configure({ reducedMotion: 'always' })
+    expect(reduced.value).toBe(false)
+    expect(driver.watchers.size).toBe(0)
   })
 })

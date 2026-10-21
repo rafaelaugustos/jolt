@@ -5,15 +5,20 @@ import {
   onUnmounted,
   onActivated,
   onDeactivated,
+  readonly,
+  shallowRef,
   type App,
   type BaseTransitionProps,
   type NSVElement,
   type ObjectDirective,
   type PropType,
+  type Ref,
 } from 'nativescript-vue'
 import {
   press,
   motionScope,
+  onReducedMotion,
+  reducedMotion,
   type MotionScope,
   type AnimateOptions,
   type Keyframes,
@@ -203,4 +208,12 @@ export function useMotionScope(): MotionScope {
   onDeactivated(() => scope.suspend())
   onActivated(() => scope.resume())
   return scope
+}
+
+/** Call in setup(): whether motion is reduced, kept up to date until the component unmounts. */
+export function useReducedMotion(): Readonly<Ref<boolean>> {
+  const reduced = shallowRef(reducedMotion())
+  const off = onReducedMotion((value) => (reduced.value = value))
+  onUnmounted(off)
+  return readonly(reduced)
 }

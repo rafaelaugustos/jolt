@@ -14,6 +14,23 @@ O núcleo recebe uma view ou um elemento que contém uma, então `animate(card.v
 
 Use [`useMotionScope()`](./motion-controllers#integracao-vue) dentro de setup para controlar animações e subscriptions até o unmount, com suspensão/retomada no KeepAlive.
 
+## Movimento reduzido
+
+`useReducedMotion()` devolve um ref somente leitura que acompanha [a preferência de movimento reduzido](./configure#lendo-a-preferencia) até o componente desmontar:
+
+```vue
+<script setup lang="ts">
+import { useReducedMotion } from '@rafaelaugusto/jolt/vue'
+
+const reduced = useReducedMotion()
+</script>
+
+<template>
+  <Image v-if="reduced" src="~/assets/still.png" />
+  <Splash v-else />
+</template>
+```
+
 ## Registro
 
 `app.use(Jolt)` registra as duas diretivas e o componente para todos os templates. Um componente também pode importar só o que usa. Em `<script setup>`, importar `vAnimate` e `vPress` com esses nomes deixa `v-animate` e `v-press` disponíveis naquele template:
