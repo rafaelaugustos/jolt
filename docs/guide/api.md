@@ -16,6 +16,7 @@
 - [`scrollLinked(scrollView, target, keyframes, { range, axis? })`](./scroll-linked) — returns a cleanup function.
 - [`animateItems(list, keyframes | preset, options?)`](./lists) — rows as they appear, with `once`; returns a cleanup function.
 - [`followKeyboard(target, options?)`](./keyboard) — moves a view with the keyboard on iOS and Android 11+; returns a cleanup function.
+- [`onKeyboard(callback)`](./keyboard#keyboard-state) — how much of the window the keyboard covers, with its timing; returns a cleanup function.
 - [`symbolEffect(image, effect, options?)`](./symbol-effects) — iOS SF Symbols.
 - [`shimmer(target, options?)`](./shimmer) — iOS loading placeholders; returns a cleanup function.
 - [`liquid(image, options?)`](./liquid) — iOS texture deformation; returns a `LiquidEffect` with `pause()`, `resume()` and `stop()`.
@@ -52,7 +53,7 @@ What `animate()`, `decay()`, `sequence()` and the steps of a sequence return: `a
 
 ## Vue
 
-`@rafaelaugusto/jolt/vue` is a separate entry point for NativeScript-Vue 3: `vAnimate` (`v-animate`), `vPress` (`v-press`), `JoltTransition`, `transitionHooks(props)`, `useMotionScope()`, `useReducedMotion()` and `install(app)`, also the default export for `app.use()`. Types: `AnimateValue`, `PressValue`, `TransitionProps`. See the [Vue guide](./vue).
+`@rafaelaugusto/jolt/vue` is a separate entry point for NativeScript-Vue 3: `vAnimate` (`v-animate`), `vPress` (`v-press`), `JoltTransition`, `transitionHooks(props)`, `useMotionScope()`, `useReducedMotion()`, `useKeyboard()` and `install(app)`, also the default export for `app.use()`. Types: `AnimateValue`, `PressValue`, `TransitionProps`. See the [Vue guide](./vue).
 
 ## Types
 

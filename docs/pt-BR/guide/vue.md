@@ -31,6 +31,24 @@ const reduced = useReducedMotion()
 </template>
 ```
 
+## Teclado
+
+`useKeyboard()` devolve um ref somente leitura com [o estado do teclado](./keyboard#estado-do-teclado), atualizado até o componente desmontar:
+
+```vue
+<script setup lang="ts">
+import { useKeyboard } from '@rafaelaugusto/jolt/vue'
+
+const keyboard = useKeyboard()
+</script>
+
+<template>
+  <ScrollView>
+    <StackLayout :paddingBottom="keyboard.height">...</StackLayout>
+  </ScrollView>
+</template>
+```
+
 ## Registro
 
 `app.use(Jolt)` registra as duas diretivas e o componente para todos os templates. Um componente também pode importar só o que usa. Em `<script setup>`, importar `vAnimate` e `vPress` com esses nomes deixa `v-animate` e `v-press` disponíveis naquele template:

@@ -31,6 +31,24 @@ const reduced = useReducedMotion()
 </template>
 ```
 
+## Keyboard
+
+`useKeyboard()` returns a read-only ref with [the keyboard state](./keyboard#keyboard-state), kept up to date until the component unmounts:
+
+```vue
+<script setup lang="ts">
+import { useKeyboard } from '@rafaelaugusto/jolt/vue'
+
+const keyboard = useKeyboard()
+</script>
+
+<template>
+  <ScrollView>
+    <StackLayout :paddingBottom="keyboard.height">...</StackLayout>
+  </ScrollView>
+</template>
+```
+
 ## Registering
 
 `app.use(Jolt)` registers the two directives and the component for every template. A component can also import just what it uses. In `<script setup>`, importing `vAnimate` and `vPress` under those names makes `v-animate` and `v-press` available in that template:

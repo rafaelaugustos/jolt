@@ -49,8 +49,8 @@ function target(top?: number) {
 function keyboard(top: number, duration = 0.25, curve = 7) {
   const values: Record<string, unknown> = {
     frame: { CGRectValue: rect(top, WINDOW_HEIGHT - top) },
-    duration: { doubleValue: duration },
-    curve: { integerValue: curve },
+    duration,
+    curve,
   }
   const notification = { userInfo: { objectForKey: (key: string) => values[key] } }
   for (const [callback, name] of Application.ios.observers)
@@ -122,6 +122,22 @@ describe('followKeyboard on iOS', () => {
     keyboard(500)
     expect(view.translateY).toBe(-316)
     expect(animations).toHaveLength(2)
+    release()
+  })
+
+  it('also reads the duration and curve from NSNumber objects', () => {
+    const { view } = target()
+    const release = followKeyboard(view)
+    const values: Record<string, unknown> = {
+      frame: { CGRectValue: rect(600, WINDOW_HEIGHT - 600) },
+      duration: { doubleValue: 0.25 },
+      curve: { doubleValue: 7 },
+    }
+    const notification = { userInfo: { objectForKey: (key: string) => values[key] } }
+    for (const [callback, name] of Application.ios.observers)
+      if (name === 'keyboard') (callback as (n: unknown) => void)(notification)
+    expect(view.translateY).toBe(-216)
+    expect(animations).toEqual([{ duration: 0.25, delay: 0, options: (7 << 16) | 4 }])
     release()
   })
 

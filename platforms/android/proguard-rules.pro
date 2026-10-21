@@ -7,6 +7,8 @@
 -keep class org.rafaelaugusto.jolt.DecorationTarget { *; }
 -keep class org.rafaelaugusto.jolt.KeyboardFollower { *; }
 -keep class org.rafaelaugusto.jolt.KeyboardFollower$* { *; }
+-keep class org.rafaelaugusto.jolt.KeyboardObserver { *; }
+-keep class org.rafaelaugusto.jolt.KeyboardObserver$* { *; }
 -keep class org.rafaelaugusto.jolt.TextReveal { *; }
 -keep class org.rafaelaugusto.jolt.TextReveal$* { *; }
 -keep class org.rafaelaugusto.jolt.NumberRoll { *; }
