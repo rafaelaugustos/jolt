@@ -1,4 +1,4 @@
-import { resolveEasing, type Easing, type EasingFunction } from './easing.js'
+import { linear, resolveEasing, type Easing, type EasingFunction } from './easing.js'
 import type { Property } from './properties.js'
 import { isDecorationProperty } from './decoration.js'
 import { isColorProperty } from './color.js'
@@ -24,6 +24,11 @@ export interface Tween extends Timing {
   ease?: Easing | readonly Easing[]
   /** Where each keyframe sits, from 0 to 1. Evenly spaced by default. */
   times?: readonly number[]
+  /**
+   * Run one `ease` over the whole track instead of each segment, with straight lines
+   * between keyframes, like React Native's `interpolate`.
+   */
+  easeTrack?: boolean
 }
 
 export interface Spring extends Timing {
@@ -56,6 +61,8 @@ export type Curve =
       duration: number
       ease: readonly EasingFunction[]
       times: readonly number[] | undefined
+      /** One easing over the whole track; `ease` is then linear per segment. */
+      track?: EasingFunction
     }
   | { type: 'spring'; physics: SpringPhysics; velocity: number | undefined }
   | {
@@ -74,7 +81,14 @@ export interface ResolvedTransition {
 }
 
 const springKeys = ['stiffness', 'damping', 'mass', 'bounce', 'velocity'] as const
-const curveKeys = ['type', 'duration', 'ease', 'times', ...springKeys] as const
+const curveKeys = [
+  'type',
+  'duration',
+  'ease',
+  'times',
+  'easeTrack',
+  ...springKeys,
+] as const
 const timingKeys = ['delay', 'repeat', 'repeatType', 'repeatDelay'] as const
 
 export const DEFAULT_DURATION = 300
@@ -133,6 +147,8 @@ export function resolveTransition(
   }
 
   if (type === 'spring') {
+    if ((transition as Tween).easeTrack)
+      throw new TypeError('easeTrack applies to tweens, not springs.')
     if (keyframes > 2) {
       throw new Error(
         `A spring goes from one value to another, but "${property}" has ${keyframes} keyframes. Use a tween for keyframes.`,
@@ -158,6 +174,10 @@ export function resolveTransition(
 
   const segments = keyframes - 1
   const ease = tween.ease ?? 'easeOut'
+  if (tween.easeTrack && isEasingList(ease))
+    throw new TypeError(
+      'easeTrack runs one easing over the whole track; pass a single ease.',
+    )
   const eases = isEasingList(ease) ? ease : Array.from({ length: segments }, () => ease)
   if (eases.length !== segments) {
     throw new Error(
@@ -179,6 +199,13 @@ export function resolveTransition(
     }
   }
 
+  if (tween.easeTrack) {
+    const track = resolveEasing(ease as Easing)
+    return {
+      ...timing,
+      curve: { type, duration, ease: eases.map(() => linear), times, track },
+    }
+  }
   return {
     ...timing,
     curve: { type, duration, ease: eases.map(resolveEasing), times },
