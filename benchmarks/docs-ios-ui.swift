@@ -41,6 +41,35 @@ final class DocsTests: XCTestCase {
         start.press(forDuration: 0.15, thenDragTo: start.withOffset(CGVector(dx: x, dy: y)), withVelocity: .slow, thenHoldForDuration: 0.15)
         Thread.sleep(forTimeInterval: 0.8)
     }
+    func testKeyboard() throws {
+        launch(["--playground", "--section=keyboard"], "Show composer")
+        try record("keyboard-ios") {
+            tap("Show composer")
+            let field = app.textFields.firstMatch
+            XCTAssertTrue(field.waitForExistence(timeout: 5), app.debugDescription)
+            field.tap()
+            XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "Keyboard · ")).firstMatch.waitForExistence(timeout: 5))
+            Thread.sleep(forTimeInterval: 1.2)
+            app.typeText("On my way")
+            Thread.sleep(forTimeInterval: 0.6)
+            tap("Send", wait: 1.5)
+            XCTAssertTrue(app.staticTexts["Keyboard hidden"].waitForExistence(timeout: 5))
+        }
+    }
+    func testPauses() throws {
+        launch(["--playground", "--section=pauses"], "Play pauses")
+        try record("repeat-delay-ios") {
+            tap("Play pauses", wait: 7.5)
+            tap("Stop pauses")
+        }
+    }
+    func testTrackEasing() throws {
+        launch(["--playground", "--section=track"], "Bounce")
+        try record("ease-track-ios") {
+            tap("Bounce", wait: 2.2)
+            tap("Bounce", wait: 2.2)
+        }
+    }
     func testLayout() throws {
         launch(["--layout-lab"], "layout-card-1")
         try record("layout-ios") {

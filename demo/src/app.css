@@ -184,6 +184,27 @@ Page {
   horizontal-align: center;
 }
 
+.sleep {
+  color: #18181b;
+  font-size: 22;
+  font-weight: bold;
+  horizontal-alignment: left;
+  vertical-alignment: bottom;
+  margin-bottom: 24;
+}
+
+.pause-lane {
+  margin: 0 12;
+  vertical-alignment: center;
+}
+
+.caption {
+  color: #52525b;
+  font-size: 13;
+  text-align: center;
+  margin-bottom: 8;
+}
+
 .glow-halo {
   border-radius: 84;
   background-color: rgba(250, 204, 21, 0.35);
@@ -192,4 +213,15 @@ Page {
 .glow-dot {
   border-radius: 32;
   background-color: #18181b;
+}
+
+.keyboard-badge {
+  margin-top: 12;
+  padding: 10 14;
+  border-radius: 12;
+  background-color: #18181b;
+  color: #facc15;
+  font-size: 14;
+  font-weight: bold;
+  text-align: center;
 }

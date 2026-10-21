@@ -43,6 +43,8 @@ animate(
 )
 ```
 
+<Clip name="ease-track-ios" caption="On the iOS simulator, the same keyframes and times with easeOut on each segment (left) and over the whole track (right). Real-time playback." />
+
 An easing that overshoots, like `backOut`, extends the first or last segment, as `interpolate` does with `extrapolate: 'extend'`. `easeTrack` takes a single `ease` and applies to tweens only.
 
 Custom easing functions run once, when the animation starts, like springs do. They don't cost anything per frame.
@@ -80,5 +82,7 @@ animate(
   { duration: 1200, repeat: Infinity, repeatDelay: 1800 },
 )
 ```
+
+<Clip name="repeat-delay-ios" caption="On the iOS simulator, each z rests 900 ms between floats and the ball waits 700 ms at both ends of a reversed loop. Real-time playback." />
 
 The wait is part of the native keyframes, so it costs no JavaScript while it plays. Stopping during the wait leaves the view at the held value.
