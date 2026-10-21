@@ -278,7 +278,13 @@ export class Color {
 export const Application = Object.assign(new Observable(), {
   suspendEvent: 'suspend',
   resumeEvent: 'resume',
+  launchEvent: 'launch',
+  android: {
+    foregroundActivity: undefined as unknown,
+    startActivity: undefined as unknown,
+  },
   ios: {
+    window: undefined as unknown,
     observers: new Map<() => void, string>(),
     addNotificationObserver(name: string, callback: () => void) {
       this.observers.set(callback, name)

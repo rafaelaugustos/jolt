@@ -1,5 +1,7 @@
 import { Application, Utils, isAndroid, isIOS, type View } from '@nativescript/core'
 import { stop, toView } from './animate.js'
+import type { EasingFunction, EasingName } from './easing.js'
+import type { Spring, Transition } from './transition.js'
 import type { Target } from './types.js'
 
 export interface KeyboardOptions {
@@ -7,7 +9,160 @@ export interface KeyboardOptions {
   offset?: number
 }
 
+export interface KeyboardState {
+  /** Whether a docked software keyboard covers part of the window. */
+  readonly visible: boolean
+  /** DIPs of the window the keyboard covers, from its bottom edge. Zero when hidden or floating. */
+  readonly height: number
+  /** Milliseconds the keyboard takes to get there. Zero when it changes at once. */
+  readonly duration: number
+  /** The keyboard's own timing, to pass to `animate()` and move in step with it. */
+  readonly transition: Transition
+}
+
 const BEGIN_FROM_CURRENT_STATE = 4
+const IOS_KEYBOARD_CURVE = 7
+// Measured: Core Animation plays the keyboard's spring (stiffness 1000, mass 3) critically damped in 500 ms.
+const iosKeyboard: Spring = {
+  type: 'spring',
+  stiffness: 1000,
+  mass: 3,
+  damping: 2 * Math.sqrt(3000),
+}
+const iosCurves: readonly EasingName[] = ['easeInOut', 'easeIn', 'easeOut', 'linear']
+const hidden: KeyboardState = Object.freeze({
+  visible: false,
+  height: 0,
+  duration: 0,
+  transition: { duration: 0 },
+})
+
+const listeners = new Set<(keyboard: KeyboardState) => void>()
+let state = hidden
+let unwatch: (() => void) | undefined
+
+/**
+ * Calls back whenever the keyboard shows, hides or changes height, with how much
+ * of the window it covers and its timing. Returns a cleanup function.
+ *
+ * ```ts
+ * const off = onKeyboard(({ visible, transition }) => {
+ *   animate(header, { scale: visible ? 0.8 : 1 }, transition)
+ * })
+ * ```
+ */
+export function onKeyboard(callback: (keyboard: KeyboardState) => void): () => void {
+  if (typeof callback !== 'function')
+    throw new TypeError('onKeyboard() takes a callback.')
+  const listener = (keyboard: KeyboardState) => callback(keyboard)
+  if (listeners.size === 0) {
+    state = hidden
+    unwatch = isIOS ? watchIOS() : isAndroid ? watchAndroid() : undefined
+  }
+  listeners.add(listener)
+  return () => {
+    if (!listeners.delete(listener) || listeners.size > 0) return
+    unwatch?.()
+    unwatch = undefined
+  }
+}
+
+/** The last state reported while someone listens. */
+export function currentKeyboard(): KeyboardState {
+  return state
+}
+
+function update(height: number, duration: number, transition: Transition) {
+  if (height === state.height) return
+  state = Object.freeze({ visible: height > 0, height, duration, transition })
+  for (const listener of [...listeners]) listener(state)
+}
+
+function watchIOS() {
+  const name = UIKeyboardWillChangeFrameNotification
+  const observer = Application.ios.addNotificationObserver(
+    name,
+    (notification: NSNotification) => {
+      const info = notification.userInfo
+      const window = Application.ios.window
+      const end = info?.objectForKey(UIKeyboardFrameEndUserInfoKey)?.CGRectValue as
+        CGRect | undefined
+      if (!info || !window || !end) return
+      const frame = window.convertRectFromWindow(end, null)
+      const bottom = window.bounds.size.height
+      const docked =
+        frame.size.height > 0 &&
+        frame.origin.y < bottom &&
+        frame.origin.y + frame.size.height >= bottom - 0.5
+      const reported = numberIn(info, UIKeyboardAnimationDurationUserInfoKey) * 1000
+      const curve = numberIn(info, UIKeyboardAnimationCurveUserInfoKey)
+      const height = docked ? bottom - frame.origin.y : 0
+      if (!reported) return update(height, 0, { duration: 0 })
+      if (curve === IOS_KEYBOARD_CURVE) return update(height, 500, iosKeyboard)
+      update(height, reported, {
+        duration: reported,
+        ease: iosCurves[curve] ?? 'easeInOut',
+      })
+    },
+  )
+  return () => Application.ios.removeNotificationObserver(observer, name)
+}
+
+function watchAndroid() {
+  if (android.os.Build.VERSION.SDK_INT < 30) return undefined
+  const density = Utils.layout.getDisplayDensity()
+  let observer: org.rafaelaugusto.jolt.KeyboardObserver | undefined
+  let stopped = false
+  const attach = () => {
+    Application.off(Application.launchEvent, attach)
+    if (stopped || observer) return
+    const activity =
+      Application.android.foregroundActivity ?? Application.android.startActivity
+    const root = activity?.getWindow()?.getDecorView()
+    if (!root) return
+    try {
+      observer = new org.rafaelaugusto.jolt.KeyboardObserver(
+        root,
+        new org.rafaelaugusto.jolt.KeyboardObserver.Listener({
+          onChange: (height, duration, curve) =>
+            update(
+              height / density,
+              duration,
+              duration
+                ? { duration, ease: curve ? sampled(curve) : 'linear' }
+                : { duration: 0 },
+            ),
+        }),
+      )
+    } catch {
+      // A JS-only update cannot install the native plugin.
+      return
+    }
+    observer.attach()
+    const height = observer.height() / density
+    if (height > 0) state = Object.freeze({ ...hidden, visible: true, height })
+  }
+  if (Application.android.foregroundActivity ?? Application.android.startActivity)
+    attach()
+  else Application.on(Application.launchEvent, attach)
+  return () => {
+    stopped = true
+    Application.off(Application.launchEvent, attach)
+    observer?.detach()
+    observer = undefined
+  }
+}
+
+function sampled(curve: ArrayLike<number>): EasingFunction {
+  const values = Array.from({ length: curve.length }, (_, i) => curve[i]!)
+  const last = values.length - 1
+  if (last < 1) return (progress) => progress
+  return (progress) => {
+    const position = Math.min(Math.max(progress, 0), 1) * last
+    const index = Math.min(Math.floor(position), last - 1)
+    return values[index]! + (values[index + 1]! - values[index]!) * (position - index)
+  }
+}
 
 /**
  * Lifts the view by its overlap with the software keyboard, at the keyboard's
@@ -55,12 +210,9 @@ function followIOS(view: View, offset: number) {
     const apply = () => {
       view.translateY = overlap ? -overlap : 0
     }
-    const duration = info.objectForKey(UIKeyboardAnimationDurationUserInfoKey)
-      ?.doubleValue as number | undefined
+    const duration = numberIn(info, UIKeyboardAnimationDurationUserInfoKey)
     if (!duration) return apply()
-    const curve =
-      (info.objectForKey(UIKeyboardAnimationCurveUserInfoKey)?.integerValue as
-        number | undefined) ?? 0
+    const curve = numberIn(info, UIKeyboardAnimationCurveUserInfoKey)
     // The keyboard's curve is private; shifted into the options it still applies.
     UIView.animateWithDurationDelayOptionsAnimationsCompletion(
       duration,
@@ -129,4 +281,11 @@ function followAndroid(view: View, offset: number) {
   view.on('unloaded', cleanup)
   if (view.isLoaded) attach()
   return cleanup
+}
+
+/** The runtime hands NSNumber values over as plain numbers. */
+function numberIn(info: NSDictionary<unknown, unknown>, key: string): number {
+  const value = info.objectForKey(key) as number | NSNumber | null | undefined
+  if (typeof value === 'number') return value
+  return value?.doubleValue ?? 0
 }

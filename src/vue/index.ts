@@ -17,8 +17,10 @@ import {
 import {
   press,
   motionScope,
+  onKeyboard,
   onReducedMotion,
   reducedMotion,
+  type KeyboardState,
   type MotionScope,
   type AnimateOptions,
   type Keyframes,
@@ -26,6 +28,7 @@ import {
   type PresetName,
   type SpringName,
 } from '../index.js'
+import { currentKeyboard } from '../keyboard.js'
 
 type Host = NSVElement
 type Options = AnimateOptions | SpringName
@@ -216,4 +219,13 @@ export function useReducedMotion(): Readonly<Ref<boolean>> {
   const off = onReducedMotion((value) => (reduced.value = value))
   onUnmounted(off)
   return readonly(reduced)
+}
+
+/** Call in setup(): the keyboard's state, kept up to date until the component unmounts. */
+export function useKeyboard(): Readonly<Ref<KeyboardState>> {
+  const keyboard = shallowRef<KeyboardState>(currentKeyboard())
+  const off = onKeyboard((next) => (keyboard.value = next))
+  keyboard.value = currentKeyboard()
+  onUnmounted(off)
+  return readonly(keyboard) as Readonly<Ref<KeyboardState>>
 }

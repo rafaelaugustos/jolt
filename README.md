@@ -490,6 +490,16 @@ const release = followKeyboard(composer)
 
 The view rises by exactly the distance the keyboard would cover it, with the keyboard's own duration and curve, and settles back when it hides. On iOS the keyboard notifications drive a `UIView` animation; on Android 11+ a native `WindowInsetsAnimation` callback moves the view on every frame, with and without `adjustResize`. The view's `translateY` is written so later animations start from the position on screen. Rebuild Android after upgrading. See the [guide](https://jolt.rafaelaugusto.dev/guide/keyboard).
 
+To react in other ways, `onKeyboard()` reports how much of the window the keyboard covers, with a transition that moves in step with it:
+
+```ts
+const off = onKeyboard(({ visible, transition }) => {
+  animate(header, { scale: visible ? 0.8 : 1 }, transition)
+})
+```
+
+`useKeyboard()` from `/vue` keeps a ref in sync until unmount.
+
 ## Pause, play and scrub
 
 ```ts

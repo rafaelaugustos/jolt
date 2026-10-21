@@ -94,6 +94,19 @@ declare namespace org.rafaelaugusto.jolt {
       })
     }
   }
+  class KeyboardObserver {
+    constructor(root: android.view.View, listener: KeyboardObserver.Listener)
+    attach(): void
+    detach(): void
+    height(): number
+  }
+  namespace KeyboardObserver {
+    class Listener {
+      constructor(implementation: {
+        onChange(height: number, duration: number, curve: ArrayLike<number> | null): void
+      })
+    }
+  }
   class TextReveal {
     constructor(
       view: android.widget.TextView,
