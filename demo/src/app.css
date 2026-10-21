@@ -183,3 +183,13 @@ Page {
   vertical-align: middle;
   horizontal-align: center;
 }
+
+.glow-halo {
+  border-radius: 84;
+  background-color: rgba(250, 204, 21, 0.35);
+}
+
+.glow-dot {
+  border-radius: 32;
+  background-color: #18181b;
+}

@@ -11,6 +11,7 @@ import { onMounted, onUnmounted, ref } from 'nativescript-vue'
 import { followKeyboard, scrollLinked, sequence } from '@rafaelaugusto/jolt'
 import { launchArgument } from '../launch'
 import Loops from './Loops.vue'
+import FadeOverflow from './FadeOverflow.vue'
 import Presets from './Presets.vue'
 import Press from './Press.vue'
 import Keyboard from './Keyboard.vue'
@@ -164,6 +165,7 @@ onUnmounted(() => {
         <Haptics />
         <Particles />
         <Loops />
+        <FadeOverflow />
       </StackLayout>
     </ScrollView>
     <GridLayout

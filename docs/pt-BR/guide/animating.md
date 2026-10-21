@@ -27,6 +27,10 @@ Nas animações de opacidade, o Jolt usa temporariamente uma camada de hardware 
 
 Camadas de hardware ou software já configuradas pelo app são preservadas. Containers vazios, views sem tamanho medido e containers mais largos ou altos que a tela não recebem essa otimização. O limite evita colocar árvores de conteúdo muito grandes numa textura. Containers com `setClipChildren(false)` também ficam de fora: a camada tem o tamanho da view, e os filhos desenhados fora dela seriam cortados durante o fade. As texturas usam memória gráfica; conteúdo que muda constantemente continua invalidando o cache. Veja o [benchmark de fades no Android](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/android-fade.md).
 
+O Android também desenha qualquer view translúcida num buffer do tamanho dela, o que corta os filhos desenhados fora, mesmo quando o container não os corta. Para containers com `setClipChildren(false)`, o Jolt desliga esse buffer com `forceHasOverlappingRendering(false)` a partir do Android 7, então um brilho ou uma sombra que vaza mantém a forma durante o fade. Os filhos passam a desbotar um a um: onde dois se sobrepõem, o de baixo aparece por trás.
+
+<Clip name="fade-overflow-android" caption="Um halo maior que o container mantém a forma enquanto o container some e volta, no emulador Android." />
+
 ## Perspectiva 3D
 
 `rotateX`, `rotateY`, `flipInX` e `flipInY` usam a `perspective` da view nas duas plataformas. O padrão do NativeScript é 1000 DIPs; uma distância positiva menor dá uma perspectiva mais forte:
