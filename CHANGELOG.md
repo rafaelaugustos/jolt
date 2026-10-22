@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.0-beta.13 (2026-10-22)
+
+- Observe motion values and their numeric/color derivations with `subscribe()`, using one shared observation clock and opt-in JavaScript callbacks. Add scope-owned subscriptions and document how they differ from native view bindings.
+- Add named additive layers to scalar motion values, preserving the base animation while a pulse or offset runs. Compose before derived mappings, preserve short pulses over long animations, and keep bound views aligned with the source clock.
+- Accept descending input ranges in `to()`, including numeric/color mappings and chained derivations, with defined duplicate-stop behavior and clearer validation.
+- Add `playbackProgress(animation)` to derive values, bind views or subscribe to an existing finite animation's progress without an application polling loop.
+- Add `timeline()` to pause and resume views, motion values, image effects, nested timelines and native properties together, including pending and overlapping steps. Motion-value animations now expose playback controls. Arbitrary whole-timeline scrubbing remains unsupported.
+- Add the optional `@rafaelaugusto/jolt/native` entry and `@rafaelaugusto/jolt-native` runtime package for registered external native properties. Include MapKit coordinate/camera adapters, Android MapLibre coordinate/camera adapters, and SceneKit node/camera position and orientation. Install the optional package and rebuild the native app to use them; MapLibre remains a separate app dependency and SceneKit is iOS-only.
+- Preserve explicitly paused iOS view/image animations through the temporary root-view unload caused by backgrounding, while keeping normal navigation cleanup.
+- Document the rolling-label height investigation: explicit `rows="auto"` fixes the model's implicit GridLayout row constraints; the rolling engine did not cause the inflated height.
+- Add thirteen inspected native recordings across iOS and Android, plus native playback/binding/lifecycle checks and English/Portuguese guides. Native property setters remove per-frame JavaScript callbacks but still share the UI thread; opted-in subscriptions execute in JavaScript.
+
 ## 0.1.0-beta.12 (2026-10-22)
 
 - Add motion values: `motionValue(initial)` is a number that animates natively and drives every view property bound to it with `bind(views, bindings)`. `to(input, output)` maps it like React Native's `interpolate`, to numbers or colors. `animate()`, `set()` and `stop()` take a value, interruptions carry its velocity to every bound view, and a value outlives its views. Add `useMotionValue()` and `useBinding()` to `/vue`.

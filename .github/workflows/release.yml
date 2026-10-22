@@ -1,6 +1,6 @@
 name: Release
 
-# Publishing a GitHub release publishes the package to npm.
+# Publishing a GitHub release publishes both packages to npm.
 # Pre-releases go out under the `next` tag, and under `latest` too until a
 # stable version is out. Everything else goes out under `latest`.
 on:
@@ -25,7 +25,7 @@ jobs:
       - run: npm install --global npm@11
       - run: npm ci
 
-      - name: Check the tag matches package.json
+      - name: Check the tag matches both packages
         env:
           TAG: ${{ github.event.release.tag_name }}
         run: |
@@ -34,24 +34,19 @@ jobs:
             echo "Release tag $TAG doesn't match package.json ($version)"
             exit 1
           fi
+          native_version="v$(node -p "require('./packages/native/package.json').version")"
+          if [ "$TAG" != "$native_version" ]; then
+            echo "Release tag $TAG doesn't match the native plugin ($native_version)"
+            exit 1
+          fi
 
       - run: npm run typecheck
       - run: npm test
+      - run: npm run docs:check-media
+      - run: npm run docs:build
 
       - name: Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           DIST_TAG: ${{ github.event.release.prerelease && 'next' || 'latest' }}
-        run: npm publish --provenance --access public --tag "$DIST_TAG"
-
-      - name: Point latest at the newest pre-release
-        if: github.event.release.prerelease
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          name=$(node -p "require('./package.json').name")
-          version=$(node -p "require('./package.json').version")
-          latest=$(npm view "$name" dist-tags.latest)
-          if [[ "$latest" == *-* && "$latest" != "$version" ]]; then
-            npm dist-tag add "$name@$version" latest
-          fi
+        run: node scripts/publish-packages.mjs

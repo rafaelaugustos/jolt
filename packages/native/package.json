@@ -1,6 +1,6 @@
 {
   "name": "@rafaelaugusto/jolt-native",
-  "version": "0.1.0-beta.12",
+  "version": "0.1.0-beta.13",
   "description": "Optional compiled property adapters for Jolt (MapKit, MapLibre and SceneKit).",
   "license": "MIT",
   "type": "module",
@@ -14,7 +14,7 @@
   ],
   "sideEffects": false,
   "peerDependencies": {
-    "@rafaelaugusto/jolt": ">=0.1.0-beta.12",
+    "@rafaelaugusto/jolt": ">=0.1.0-beta.13",
     "@nativescript/core": ">=8.9.0"
   },
   "nativescript": {
