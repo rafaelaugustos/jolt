@@ -5,6 +5,7 @@ import type { Animation } from './engine.js'
 import type { PlaybackAnimation } from './playback.js'
 import type { KeyframeProperty, Keyframes, Target, Values } from './types.js'
 import type { View } from '@nativescript/core'
+import { mergeTransitions, springs } from './transition.js'
 import type { Spring, Tween, SpringName } from './transition.js'
 import type { MotionScope } from './motion-scope.js'
 
@@ -21,12 +22,17 @@ export type MotionDefinitions<T, S> = S & {
     [K in keyof S[N]]: Record<Exclude<keyof S[N][K], KeyframeProperty>, never>
   }
 }
-export type StateTransition =
+type StateCurve =
   | SpringName
   | Omit<Spring, 'repeat' | 'repeatType'>
   | Omit<Tween, 'repeat' | 'repeatType'>
-export interface MotionStatesOptions {
-  transition?: StateTransition
+/** One transition for every target, or a main one with some targets set apart by name. */
+export type StateTransition<T extends string = string> =
+  | StateCurve
+  | (Exclude<StateCurve, SpringName> &
+      (string extends T ? unknown : { [K in T]?: StateCurve }))
+export interface MotionStatesOptions<T extends string = string> {
+  transition?: StateTransition<T>
   scope?: MotionScope
 }
 export interface MotionStates<S extends string = string, T extends string = string> {
@@ -35,7 +41,7 @@ export interface MotionStates<S extends string = string, T extends string = stri
   readonly settled: S | undefined
   readonly disposed: boolean
   readonly paused: boolean
-  to(state: S, transition?: StateTransition): Animation
+  to(state: S, transition?: StateTransition<T>): Animation
   /**
    * Point a target at a new view, or at none with `null`. The new view takes the current
    * state at once, or joins the transition in progress from where it is.
@@ -56,7 +62,7 @@ export function motionStates<
 >(
   targets: T,
   definitions: MotionDefinitions<T, S>,
-  options: MotionStatesOptions = {},
+  options: MotionStatesOptions<Extract<keyof T, string>> = {},
 ): MotionStates<Extract<keyof S, string>, Extract<keyof T, string>> {
   type Name = Extract<keyof S, string>
   type Slot = Extract<keyof T, string>
@@ -69,8 +75,13 @@ export function motionStates<
   const assigned = [...views.values()].filter(Boolean)
   if (new Set(assigned).size !== assigned.length)
     throw new TypeError('Motion state targets must refer to distinct views.')
+  for (const name of views.keys())
+    if (curveKeys.has(name))
+      throw new TypeError(
+        `A motion target can't be named "${name}", like a transition option.`,
+      )
   const states = new Map<string, [string, Keyframes][]>()
-  const defaults = normalize(options.transition)
+  const defaults = normalize(options.transition, views)
   for (const [name, state] of Object.entries(definitions)) {
     if (!state || typeof state !== 'object' || Array.isArray(state))
       throw new TypeError(`Invalid motion state "${name}".`)
@@ -95,8 +106,8 @@ export function motionStates<
         Object.assign(frames, { [property]: value })
       }
       // Validate every definition up front without claiming any native property.
-      if (view) prepareAnimation(view, frames, defaults)
-      else endingValues(frames, defaults)
+      if (view) prepareAnimation(view, frames, timingFor(defaults, target))
+      else endingValues(frames, timingFor(defaults, target))
       rows.push([target, frames])
     }
     states.set(name, rows)
@@ -106,8 +117,7 @@ export function motionStates<
   let disposed = false
   let paused = false
   let active:
-    | { handle: Animation; children: PlaybackAnimation[]; timing: StateTransition }
-    | undefined
+    { handle: Animation; children: PlaybackAnimation[]; timing: Timing } | undefined
   const refs = new Map<string, (view: Target | null) => void>()
   const framesFor = (state: Name | undefined, target: string) =>
     state === undefined
@@ -130,10 +140,10 @@ export function motionStates<
       if (disposed) throw new Error('Motion states controller is disposed.')
       const rows = states.get(name)
       if (!rows) throw new TypeError(`Unknown motion state "${name}".`)
-      const timing = transition === undefined ? defaults : normalize(transition)
+      const timing = normalize(transition, views, defaults)
       const prepared = rows.flatMap(([target, frames]) => {
         const view = views.get(target)
-        return view ? [prepareAnimation(view, frames, timing)] : []
+        return view ? [prepareAnimation(view, frames, timingFor(timing, target))] : []
       })
       const previous = active
       const children: PlaybackAnimation[] = []
@@ -188,12 +198,13 @@ export function motionStates<
       if (view)
         for (const [, rows] of states)
           for (const [slot, frames] of rows)
-            if (slot === target) prepareAnimation(view, frames, defaults)
+            if (slot === target)
+              prepareAnimation(view, frames, timingFor(defaults, target))
       views.set(target, view)
       const frames = view ? framesFor(current, target) : undefined
       if (!view || !frames) return
       if (active) {
-        const child = prepareAnimation(view, frames, active.timing)()
+        const child = prepareAnimation(view, frames, timingFor(active.timing, target))()
         active.children.push(child)
         if (paused) child.pause()
       } else set(view, frames as Values)
@@ -231,8 +242,59 @@ export function motionStates<
   return options.scope ? options.scope.add(controller) : controller
 }
 
-function normalize(transition: StateTransition | undefined): StateTransition {
-  if (transition === undefined) return 'snappy'
+const curveKeys = new Set([
+  'type',
+  'delay',
+  'duration',
+  'ease',
+  'times',
+  'stiffness',
+  'damping',
+  'mass',
+  'bounce',
+  'velocity',
+])
+
+type Curve = Exclude<StateCurve, SpringName>
+interface Timing {
+  readonly main: StateCurve
+  readonly targets: ReadonlyMap<string, StateCurve>
+}
+
+/** The transition one target plays: its own merged over the main one, or the main one. */
+function timingFor(timing: Timing, target: string): StateCurve {
+  const own = timing.targets.get(target)
+  if (own === undefined) return timing.main
+  const main = typeof timing.main === 'string' ? springs[timing.main] : timing.main
+  return mergeTransitions(main, typeof own === 'string' ? springs[own] : own) as Curve
+}
+
+const snappy: Timing = { main: 'snappy', targets: new Map() }
+
+/** A transition that only names targets keeps the fallback for everything else. */
+function normalize(
+  transition: StateTransition | undefined,
+  targets: ReadonlyMap<string, unknown>,
+  fallback = snappy,
+): Timing {
+  if (transition === undefined) return fallback
+  if (typeof transition === 'string')
+    return { main: curve(transition), targets: new Map() }
+  if (!transition || typeof transition !== 'object')
+    throw new TypeError('Invalid state transition.')
+  const main: Record<string, unknown> = {}
+  const own = new Map<string, StateCurve>()
+  for (const [key, value] of Object.entries(transition)) {
+    if (targets.has(key)) {
+      if (value !== undefined) own.set(key, curve(value as StateCurve))
+    } else main[key] = value
+  }
+  if (own.size && !Object.keys(main).length)
+    return { main: fallback.main, targets: new Map([...fallback.targets, ...own]) }
+  return { main: curve(main as Curve), targets: own }
+}
+
+function curve(transition: StateCurve): StateCurve {
   if (typeof transition === 'string') {
     if (!['smooth', 'snappy', 'bouncy'].includes(transition))
       throw new TypeError('Unknown state spring.')
@@ -240,20 +302,8 @@ function normalize(transition: StateTransition | undefined): StateTransition {
   }
   if (!transition || typeof transition !== 'object')
     throw new TypeError('Invalid state transition.')
-  const allowed = new Set([
-    'type',
-    'delay',
-    'duration',
-    'ease',
-    'times',
-    'stiffness',
-    'damping',
-    'mass',
-    'bounce',
-    'velocity',
-  ])
   for (const key of Object.keys(transition))
-    if (!allowed.has(key))
+    if (!curveKeys.has(key))
       throw new TypeError(`State transitions do not support "${key}".`)
   if (
     transition.duration !== undefined &&

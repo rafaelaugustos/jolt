@@ -41,7 +41,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Motion values](#motion-values): one value driving several properties and views, mapped like `interpolate`.
 - [Layered motion](#layered-motion): several animations on one property, added or multiplied.
 - [Gradients](#gradients): native linear, radial and conic gradients with animated colors, angle, center and radius.
-- [Motion scopes and states](https://jolt.rafaelaugusto.dev/guide/motion-controllers) for component cleanup and coordinated visual states.
+- [Motion scopes and states](https://jolt.rafaelaugusto.dev/guide/motion-controllers) for component cleanup and coordinated visual states, with a transition per target.
 - [Animated touch targets](https://jolt.rafaelaugusto.dev/guide/interaction-surface) with an opt-in native interaction surface.
 - [Layout changes](https://jolt.rafaelaugusto.dev/guide/layout): insertion, removal, reorder and resize of container children.
 - [Drag](https://jolt.rafaelaugusto.dev/guide/drag) with bounds, snap points, rubberband and native release physics, moving the view or a motion value.

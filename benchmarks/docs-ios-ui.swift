@@ -190,6 +190,15 @@ final class DocsTests: XCTestCase {
             tap("Play curves", wait: 1.6)
         }
     }
+    func testStateTransitions() throws {
+        launch(["--playground", "--section=per-target"], "Hide splash")
+        try record("state-transitions-ios") {
+            tap("Hide splash", wait: 0.9)
+            tap("Show splash", wait: 1.8)
+            tap("Hide splash", wait: 0.9)
+            tap("Show splash", wait: 1.8)
+        }
+    }
     func testStates() throws {
         launch(["--playground", "--section=motion"], "Upload")
         try record("motion-controllers-ios") {

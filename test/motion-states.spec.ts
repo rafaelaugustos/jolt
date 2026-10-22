@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { animate, motionScope, motionStates } from '../src/index.js'
+import {
+  animate,
+  motionScope,
+  motionStates,
+  type MotionStatesOptions,
+} from '../src/index.js'
 import { createView, driver, flush, state } from './helpers.js'
 
 describe('motion states', () => {
@@ -288,5 +293,94 @@ describe('motion states with recreated views', () => {
     expect(logo.opacity).toBe(1)
     scope.dispose()
     expect(control.disposed).toBe(true)
+  })
+})
+
+describe('per-target state transitions', () => {
+  const create = (options?: MotionStatesOptions<'logo' | 'stroke'>) => {
+    const logo = createView(),
+      stroke = createView()
+    stroke.opacity = 0
+    const control = motionStates(
+      { logo, stroke },
+      {
+        hidden: { logo: { x: 0 }, stroke: { opacity: 0 } },
+        shown: { logo: { x: 100 }, stroke: { opacity: 1 } },
+      },
+      options,
+    )
+    return { logo, stroke, control }
+  }
+
+  it('give a named target its own transition, merged over the main one', async () => {
+    const { logo, stroke, control } = create()
+    const shown = control.to('shown', {
+      type: 'spring',
+      bounce: 0.2,
+      stroke: { duration: 600, ease: 'linear', delay: 250 },
+    })
+    expect(driver.last('x', logo).track.duration).not.toBe(600)
+    const fade = driver.last('opacity', stroke).track
+    expect(fade.delay).toBe(250)
+    expect(fade.duration).toBe(600)
+    expect(fade.valueAt(550)).toBeCloseTo(0.5)
+    driver.advance(10000)
+    expect(await shown).toBe(true)
+    expect(control.settled).toBe('shown')
+  })
+
+  it('merge a tween target over a tween key by key, and take a spring name', () => {
+    const { logo, stroke, control } = create()
+    control.to('shown', {
+      duration: 800,
+      ease: 'linear',
+      stroke: { delay: 200 },
+      logo: 'bouncy',
+    })
+    const fade = driver.last('opacity', stroke).track
+    expect(fade.delay).toBe(200)
+    expect(fade.valueAt(600)).toBeCloseTo(0.5)
+    expect(driver.last('x', logo).track.duration).not.toBe(800)
+  })
+
+  it("keep the controller's transition when a call only names targets", () => {
+    const { logo, stroke, control } = create({
+      transition: { duration: 400, ease: 'linear', stroke: { delay: 100 } },
+    })
+    control.to('shown')
+    expect(driver.last('opacity', stroke).track.delay).toBe(100)
+    control.to('hidden', { logo: { delay: 50 } })
+    expect(driver.last('x', logo).track.delay).toBe(50)
+    expect(driver.last('x', logo).track.duration).toBe(400)
+    const fade = driver.last('opacity', stroke).track
+    expect(fade.delay).toBe(100)
+    expect(fade.duration).toBe(400)
+  })
+
+  it('use the target transition for a view that joins a transition in progress', () => {
+    const logo = createView()
+    const control = motionStates(
+      { logo, stroke: null },
+      { shown: { logo: { x: 100 }, stroke: { opacity: 1 } } },
+    )
+    control.to('shown', { duration: 300, stroke: { duration: 900, ease: 'linear' } })
+    const stroke = createView()
+    stroke.opacity = 0
+    control.attach('stroke', stroke)
+    expect(driver.last('opacity', stroke).track.duration).toBe(900)
+  })
+
+  it('reject targets named like options and unknown keys in a target transition', () => {
+    expect(() => motionStates({ delay: createView() }, { a: {} })).toThrow(
+      'named "delay"',
+    )
+    const { control } = create()
+    expect(() => control.to('shown', { stroke: { logo: 'snappy' } as never })).toThrow(
+      'do not support "logo"',
+    )
+    expect(() => control.to('shown', { stroke: 'wobbly' as never })).toThrow(
+      'Unknown state spring',
+    )
+    expect(control.current).toBeUndefined()
   })
 })

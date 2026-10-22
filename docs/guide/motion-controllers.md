@@ -84,6 +84,42 @@ Or construct `motionStates(targets, definitions, { scope, transition })` directl
 
 States contain absolute numeric/color endpoints. They do not accept keyframe arrays, paths, relative offsets or loops. A transition accepts a spring name or finite tween/spring configuration, including delay. `to(name, transition)` overrides the controller's transition for that request. Use `sequence()` separately for timed choreography.
 
+### A transition per target
+
+A transition can set targets apart by name, the way `animate()` options name properties. In this splash, one controller springs the logo in, draws the stroke with a tween 250 ms later and fades the title in last:
+
+```ts
+const splash = motionStates(
+  { logo, stroke, title },
+  {
+    hidden: {
+      logo: { opacity: 0, scale: 0.5 },
+      stroke: { scaleX: 0 },
+      title: { opacity: 0, y: 12 },
+    },
+    shown: {
+      logo: { opacity: 1, scale: 1 },
+      stroke: { scaleX: 1 },
+      title: { opacity: 1, y: 0 },
+    },
+  },
+)
+
+splash.to('shown', {
+  type: 'spring',
+  bounce: 0.4,
+  duration: 600,
+  stroke: { duration: 650, ease: 'cubicOut', delay: 250 },
+  title: { duration: 400, ease: 'easeOut', delay: 500 },
+})
+```
+
+<Clip name="state-transitions-ios" caption="One state controller springs the logo in, draws the stroke with a delayed tween and fades the title in last, on the iOS simulator. Real-time playback." />
+
+A target's transition merges with the main one like a [per-property transition](./transitions#per-property): over a tween it changes only what it sets, over a spring it replaces the curve, and it keeps the main delay unless it sets its own. It can also be a spring name. A transition that only names targets keeps the controller's transition for the others, and the controller's `transition` option takes target names too. A view attached during a transition joins it with its target's transition. A target can't be named like a transition option (`delay`, `duration`, `ease`...). The returned `Animation`, `current`, `settled`, `pause()` and `stop()` still cover every target.
+
+<Clip name="state-transitions-android" caption="The same splash on the Android emulator. Real-time playback." />
+
 Every target is validated before the new state changes ownership. Replacement tracks start before old handles are cancelled, letting the native engine inherit current presentation values and spring velocity. Properties owned by the old transition but omitted from the new state stop at their visible values; unrelated external properties keep running. Define a property's endpoint in every relevant state if it should return to a resting value. An empty state freezes the previous transition. Each target name must identify a distinct view.
 
 A superseded, stopped or disposed transition resolves `false`, including rapid transitions under reduced motion. Awaited callbacks still run: check the boolean before applying completion side effects. `current` is the latest requested state; `settled` is the last successfully completed state, not a live measurement of the view. `stop()` cancels current work; `pause()/play()` control it; `dispose()` also prevents future transitions. Scope suspension pauses an owned state controller. Retargeting that paused controller keeps the replacement paused.

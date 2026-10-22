@@ -45,7 +45,7 @@ export interface MotionScope {
   >(
     targets: T,
     definitions: MotionDefinitions<T, S>,
-    options?: Omit<MotionStatesOptions, 'scope'>,
+    options?: Omit<MotionStatesOptions<Extract<keyof T, string>>, 'scope'>,
   ): MotionStates<Extract<keyof S, string>, Extract<keyof T, string>>
   /** Adopt an existing handle. Completed animations are released automatically. */
   add<T extends MotionResource>(resource: T): T

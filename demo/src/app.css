@@ -205,6 +205,22 @@ Page {
   margin-bottom: 8;
 }
 
+.splash-stroke {
+  width: 120;
+  height: 8;
+  margin-top: 14;
+  border-radius: 4;
+  background-color: #18181b;
+}
+
+.splash-title {
+  margin-top: 10;
+  color: #18181b;
+  font-size: 20;
+  font-weight: bold;
+  text-align: center;
+}
+
 .easing-name {
   color: #52525b;
   font-size: 13;

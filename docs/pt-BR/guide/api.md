@@ -6,7 +6,7 @@
 - [`interactionSurface(target)`](./interaction-surface) — alinha a geometria nativa de toque de uma subárvore animada.
 - [`animateLayout(container, change?, options?)`](./layout) — anima o próximo layout dos filhos diretos de um container.
 - [`motionScope()`](./motion-controllers) — agrupa animações, subscriptions e ciclo de vida.
-- [`motionStates(targets, definitions, options?)`](./motion-controllers#estados-nomeados) — estados visuais nomeados com interrupção; [`attach()` e `ref()`](./motion-controllers#views-que-voltam) mantêm o estado em views recriadas.
+- [`motionStates(targets, definitions, options?)`](./motion-controllers#estados-nomeados) — estados visuais nomeados com interrupção; [`attach()` e `ref()`](./motion-controllers#views-que-voltam) mantêm o estado em views recriadas, e uma transição pode [separar alvos](./motion-controllers#uma-transicao-por-alvo).
 - [`motionValue(initial)`, `bind(target, bindings)`](./motion-values) — um valor controlando várias propriedades e views; `animate()`, `set()` e `stop()` também aceitam um valor. [`scrollValue(scrollView, { axis? })`](./motion-values#offsets-de-rolagem) é um offset de rolagem como valor.
 - [`decay(target, velocity, options?)`](./decay)
 - [`gradient(target, options)`](./gradients) — gradientes nativos lineares, radiais e cônicos; retorna um `Gradient` com `animate()`, `set()`, `stop()` e `remove()`.
