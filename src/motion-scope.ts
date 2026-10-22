@@ -4,7 +4,7 @@ import { drag } from './drag.js'
 import { gradient } from './gradient.js'
 import { animateLayout, type LayoutOptions } from './layout.js'
 import type { SpringName } from './transition.js'
-import { sequence } from './sequence.js'
+import { sequence, timeline } from './sequence.js'
 import {
   motionStates,
   type MotionState,
@@ -38,6 +38,7 @@ export interface MotionScope {
   animate: typeof animate
   decay: typeof decay
   sequence: typeof sequence
+  timeline: typeof timeline
   press: typeof press
   drag: typeof drag
   /** Removed with the scope; suspending it stops a gradient animation where it is. */
@@ -196,6 +197,9 @@ export function motionScope(): MotionScope {
       startOwned(() => animate(...args))) as typeof animate,
     decay(...args) {
       return startOwned(() => decay(...args))
+    },
+    timeline(...args) {
+      return startOwned(() => timeline(...args))
     },
     sequence(...args) {
       return startOwned(() => sequence(...args))

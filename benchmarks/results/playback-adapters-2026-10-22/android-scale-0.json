@@ -1,0 +1,12 @@
+{
+  "platform": "android",
+  "systemScale": 0,
+  "measurements": {},
+  "passed": true,
+  "results": [
+    {
+      "name": "Animator duration scale 0",
+      "passed": true
+    }
+  ]
+}

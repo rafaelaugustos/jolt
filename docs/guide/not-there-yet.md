@@ -1,7 +1,9 @@
 # Not there yet
 
-- `animate()` supports uniform [corners, borders and platform shadows](./decorations). Size and layout changes ([#21](https://github.com/rafaelaugustos/jolt/issues/21)) aren't animated yet.
-- General-purpose gesture tracking and drag constraints remain planned ([#23](https://github.com/rafaelaugustos/jolt/issues/23)); `decay()` supplies motion after release. The optional [photo zoom controller](./photo-zoom) handles image-specific pinch, pan and dismissal.
-- No layout or shared element transitions ([#21](https://github.com/rafaelaugustos/jolt/issues/21), [#24](https://github.com/rafaelaugustos/jolt/issues/24)).
+- [Layout changes](./layout), [drag constraints](./drag), [motion values](./motion-values), [observable playback](./playback) and [joint timeline controls](./sequences) are available. They have different native execution and lifecycle contracts; see their guides.
+- Shared element transitions between screens remain planned ([#24](https://github.com/rafaelaugustos/jolt/issues/24)).
+- General-purpose multi-finger gesture composition remains outside `drag()`; [photo zoom](./photo-zoom) provides its own pinch, pan and dismissal controller.
+- [External property adapters](./native-properties) require an optional native plugin. The reference 3D camera uses SceneKit on iOS; there is no bundled Android 3D renderer adapter. MapKit and MapLibre camera units are distinct.
+- Timelines pause and resume their participants, but do not offer arbitrary aggregate scrubbing of callbacks or one-shot effects. Native writes do not isolate a renderer from main-thread JavaScript.
 
-The [issues](https://github.com/rafaelaugustos/jolt/issues) list what's planned, from motion values and gesture composition to a bottom sheet and shared elements.
+The [issues](https://github.com/rafaelaugustos/jolt/issues) track upcoming work and integrations.

@@ -14,6 +14,9 @@
 - [`gradient(target, options)`](./gradients) — native linear, radial and conic gradients; returns a `Gradient` with `animate()`, `set()`, `stop()` and `remove()`. [`motionScope().gradient()` and `v-gradient`](./gradients#scopes-and-vue) own it for a scope or a template.
 - `stop(target, properties?)`
 - [`set(target, values)`](./interrupting#setting-values-without-animating) — applies values at once and stops what animates them.
+- [`playbackProgress(animation)`](./playback) — read-only, observable progress on an existing animation’s clock.
+- [`timeline(steps)`](./sequences) — pause and resume active and pending steps together.
+- [`@rafaelaugusto/jolt/native`](./native-properties) — optional property registry, native maps and SceneKit cameras.
 - [`sequence(steps)`](./sequences) — overlapping steps and fixed positions.
 - `press(target, pressed?, transition?)`
 - [`drag(target, options?)`](./drag) — with `value`, the gesture drives a [motion value](./motion-values#dragging) instead of the view.

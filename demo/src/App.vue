@@ -6,6 +6,7 @@ import Playground from './components/Playground.vue'
 import ImageLab from './components/ImageLab.vue'
 import DragLab from './components/DragLab.vue'
 import DragValues from './components/DragValues.vue'
+import PlaybackLab from './components/PlaybackLab.vue'
 import LayoutLab from './components/LayoutLab.vue'
 import { launchArgument, onLaunch, runLaunchTaps } from './launch'
 type Screen = 'home' | 'voice' | 'chat'
@@ -15,6 +16,7 @@ const imageLab = ref(false)
 const dragLab = ref(false)
 const dragValues = ref(false)
 const layoutLab = ref(false)
+const playbackLab = ref(false)
 const autoplay = ref(false)
 const initialScreen = ref<Screen>('home')
 const assistant = ref()
@@ -23,6 +25,7 @@ onLaunch(() => {
   imageLab.value = launchArgument('image-lab') !== undefined
   dragLab.value = launchArgument('drag-lab') !== undefined
   dragValues.value = launchArgument('drag-values') !== undefined
+  playbackLab.value = launchArgument('playback-lab') !== undefined
   layoutLab.value = launchArgument('layout-lab') !== undefined
   playground.value = launchArgument('playground') !== undefined
   autoplay.value = launchArgument('autoplay') !== undefined
@@ -39,6 +42,7 @@ function backToPlayground() {
   dragLab.value = false
   dragValues.value = false
   layoutLab.value = false
+  playbackLab.value = false
   playground.value = true
 }
 onUnmounted(() => stopTaps?.())
@@ -48,11 +52,13 @@ defineExpose({ assistant })
   <Frame
     ><Page
       actionBarHidden="true"
-      statusBarStyle="dark"
+      :statusBarStyle="playbackLab ? 'light' : 'dark'"
+      :androidStatusBarBackground="playbackLab ? '#101827' : undefined"
       :class="playground ? '' : 'assistant-page'"
       @loaded="pageLoaded"
     >
-      <LayoutLab v-if="launched && layoutLab" @back="backToPlayground" />
+      <PlaybackLab v-if="launched && playbackLab" @back="backToPlayground" />
+      <LayoutLab v-else-if="launched && layoutLab" @back="backToPlayground" />
       <DragLab v-else-if="launched && dragLab" @back="backToPlayground" />
       <DragValues v-else-if="launched && dragValues" @back="backToPlayground" />
       <ImageLab v-else-if="launched && imageLab" @back="backToPlayground" />
@@ -62,6 +68,7 @@ defineExpose({ assistant })
         @dragLab="dragLab = true"
         @dragValues="dragValues = true"
         @layoutLab="layoutLab = true"
+        @playbackLab="playbackLab = true"
       />
       <Assistant
         v-else-if="launched"

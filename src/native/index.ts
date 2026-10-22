@@ -1,0 +1,16 @@
+export { registerNativeProperty, checkNativeProperty } from '../native-property.js'
+export type { NativeProperty, NativePropertyDefinition } from '../native-property.js'
+export type { NativeSink } from '../native-property-driver.js'
+export {
+  mapKitCoordinate,
+  mapKitCamera,
+  mapLibreCoordinate,
+  mapLibreCamera,
+  sceneKitPose,
+} from '../native-properties.js'
+export type {
+  Coordinate,
+  MapKitCamera,
+  MapLibreCamera,
+  ScenePose,
+} from '../native-properties.js'

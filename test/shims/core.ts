@@ -282,6 +282,7 @@ export const Trace = {
 }
 
 export const Application = Object.assign(new Observable(), {
+  suspended: false,
   suspendEvent: 'suspend',
   resumeEvent: 'resume',
   launchEvent: 'launch',

@@ -1,5 +1,34 @@
 # Pausar, retomar e controlar o progresso
 
+## Observando a reprodução
+
+`playbackProgress(animation)` expõe o relógio de uma animação finita existente como [valor derivado](./motion-values) somente para leitura. Oferece `get()`, `to()` e `subscribe()` e pode alimentar alvos nativos com `bind()`. Dispensa timer no aplicativo e uma segunda animação:
+
+```ts
+const drive = animate(car, { path: route }, { duration: 8000, ease: 'linear' })
+const progress = playbackProgress(drive)
+const releaseBar = bind(bar, { scaleX: progress })
+const releaseNumber = progress.subscribe((p) => {
+  remainingMeters.value = Math.ceil(routeMeters * (1 - p))
+})
+drive.pause() // congela o carro, a ligação e o valor observado
+drive.play()
+// Ao destruir: releaseBar(); releaseNumber(); drive.stop()
+```
+
+A fórmula de distância supõe um caminho com velocidade constante, como na demo. Progresso de reprodução representa tempo da timeline, não posição com easing nem distância geográfica. Com easing, pausas no caminho ou coordenadas geográficas, mapeie o progresso pela função de parâmetro/comprimento real da rota.
+
+<Clip name="controlled-playback-ios" caption="Distância observável e barra seguem o carro; uma timeline pausa carro, pulso, ripple e checkpoint atrasado. Simulador iOS, em tempo real." />
+<Clip name="controlled-playback-android" caption="O mesmo progresso e controle conjunto no emulador Android. Reprodução nativa real com toques reais." />
+
+O valor segue o mesmo relógio nativo, incluindo delays, stagger, repeat/reverse, câmera lenta e a escala de animação Android. Seek o atualiza sem mudar o estado pausado/em reprodução. Antes do carregamento, lê zero ou um progresso explicitamente solicitado e ainda pendente. Conclusão lê um; cancelamento mantém a posição parada. Uma animação instantânea concluída lê um. Animações infinitas e timelines cuja duração ainda é desconhecida rejeitam progresso normalizado.
+
+Ligações nativas compilam tracks sem quadros de observação JavaScript. Assinantes ativam a fonte JavaScript compartilhada dos motion values: callbacks só rodam quando JavaScript pode executar, agrupam mudanças e recebem o valor atual depois de um bloqueio. O valor final fica legível antes de `finished` resolver, mas a notificação final pode chegar no quadro seguinte, depois da promise. Cancele a assinatura quando terminar; scopes podem gerenciá-la. Uma fonte pausada ou encerrada não mantém observação contínua.
+
+`animate(motionValue, ...)` agora também retorna `PlaybackAnimation`. Os controles afetam somente aquele canal: pausar a base não pausa uma camada aditiva independente. Use [`timeline()`](./sequences#controle-conjunto) para controlá-los juntos. Parar uma camada ativa continua removendo sua contribuição; pausar a preserva.
+
+## Controles individuais
+
 `animate()` e `decay()` retornam uma `PlaybackAnimation`. Pause, escolha o progresso e continue:
 
 <Clip name="playback" caption="Play e pause numa timeline em andamento." />
@@ -66,3 +95,5 @@ Os haptics aguardam a pausa e retomam nos pontos restantes. Um seek pula silenci
 No iOS, cada `CAAnimation` tem sua velocidade e seu offset de tempo. O relógio da layer permanece intacto, inclusive nas camadas de cores e sombras do Core. Substituir uma cópia de CA durante um comando não encerra a promise por um callback antigo.
 
 No Android, pausa e retomada usam os animadores existentes. O seek reposiciona os keyframes, incluindo fases de atraso e repetição. Animações ativas compartilham um marcador nativo de tempo para respeitar a velocidade de animação do sistema. O Jolt remove esse marcador quando todos pausam e cria outro ao retomar, evitando a correção tardia do relógio pausado do Android; ele é liberado quando o último proprietário termina. Nenhum marcador chama JavaScript por frame. A [limitação da UI thread](./android-performance) continua valendo.
+
+Se o aplicativo pausar explicitamente antes de ir para segundo plano, as views preservam essa pausa durante o descarregamento temporário que o NativeScript faz no iOS. A retomada continua explícita. Um descarregamento de navegação em primeiro plano continua cancelando a animação.

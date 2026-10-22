@@ -6,7 +6,7 @@ import {
   type ViewAnimation,
 } from './engine.js'
 import { getDriver } from './driver/index.js'
-import { createClock, type PlaybackClock } from './playback.js'
+import { createClock, registerPlayback, type PlaybackClock } from './playback.js'
 import { validateProgress, type PlaybackAnimation } from './playback.js'
 
 /** Staggered views share a finite time range. Shorter children remain seekable
@@ -17,6 +17,7 @@ export function playbackGroup(children: readonly ViewAnimation[]): PlaybackAnima
   let finalProgress: number | undefined
   let clock: PlaybackClock | undefined
   let pendingProgress: number | undefined
+  let changed = () => {}
   const duration = () => Math.max(0, ...children.map((child) => child.duration))
   const ensureClock = () => {
     if (clock || settled || children.some((child) => !child.ready)) return
@@ -44,6 +45,7 @@ export function playbackGroup(children: readonly ViewAnimation[]): PlaybackAnima
     clock?.seek(total * value)
     for (const child of children) child.seekTime(total * value)
     finishIfIdle()
+    changed()
   }
   for (const child of children) {
     child.onIdle(finishIfIdle)
@@ -52,6 +54,7 @@ export function playbackGroup(children: readonly ViewAnimation[]): PlaybackAnima
       if (pendingProgress !== undefined && children.every((child) => child.ready))
         seek(pendingProgress)
       finishIfIdle()
+      changed()
     })
   }
   const finished = Promise.all(children.map((child) => child.finished)).then(
@@ -63,6 +66,7 @@ export function playbackGroup(children: readonly ViewAnimation[]): PlaybackAnima
           : 0
       settled = true
       clock?.cancel()
+      changed()
       return results.every(Boolean)
     },
   )
@@ -91,6 +95,7 @@ export function playbackGroup(children: readonly ViewAnimation[]): PlaybackAnima
         paused = true
         clock?.pause()
         children.forEach((child) => child.pause())
+        changed()
       }
     },
     play() {
@@ -99,6 +104,7 @@ export function playbackGroup(children: readonly ViewAnimation[]): PlaybackAnima
         clock?.play()
         children.forEach((child) => child.play())
         finishIfIdle()
+        changed()
       }
     },
     stop() {
@@ -106,9 +112,19 @@ export function playbackGroup(children: readonly ViewAnimation[]): PlaybackAnima
       settled = true
       clock?.cancel()
       children.forEach((child) => child.stop())
+      changed()
     },
     then: (onfulfilled, onrejected) => finished.then(onfulfilled, onrejected),
   }
+  changed = registerPlayback(animation, () => ({
+    position: pendingProgress,
+    time: finalProgress === undefined ? (clock?.time() ?? 0) : finalProgress * duration(),
+    duration: duration(),
+    paused,
+    ready: children.every((child) => child.ready),
+    settled,
+    completed: finalProgress === 1,
+  }))
   setArrival(animation, Promise.all(children.map(arrivalOf)))
   const listeners = new Set<() => void>()
   const timings = children.map((child) => arrivalTimingOf(child)!)

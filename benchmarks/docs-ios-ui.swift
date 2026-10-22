@@ -41,6 +41,58 @@ final class DocsTests: XCTestCase {
         start.press(forDuration: 0.15, thenDragTo: start.withOffset(CGVector(dx: x, dy: y)), withVelocity: .slow, thenHoldForDuration: 0.15)
         Thread.sleep(forTimeInterval: 0.8)
     }
+    func testControlledBackground() throws {
+        launch(["--playback-lab=timeline"], "Play scene")
+        tap("Play scene", wait: 1)
+        XCUIDevice.shared.press(.home)
+        Thread.sleep(forTimeInterval: 1)
+        app.activate()
+        XCTAssertTrue(app.staticTexts["Paused"].waitForExistence(timeout: 5))
+        let percent=app.staticTexts.matching(NSPredicate(format: "label MATCHES %@", "^[0-9]+%$")).firstMatch
+        let held=percent.label
+        Thread.sleep(forTimeInterval: 1)
+        XCTAssertEqual(percent.label,held)
+        tap("Resume scene", wait: 1)
+        XCTAssertTrue(app.staticTexts["Finished"].waitForExistence(timeout: 15), app.debugDescription)
+        XCTAssertEqual(app.staticTexts.matching(NSPredicate(format: "label MATCHES %@", "^[0-9]+%$")).firstMatch.label,"100%",app.debugDescription)
+        tap("Stop scene")
+    }
+    func testNativePropertyChecks() throws {
+        launch(["--playback-lab=timeline"], "Run native checks")
+        tap("Run native checks", wait: 1)
+        XCTAssertTrue(app.staticTexts["10 native checks passed"].waitForExistence(timeout: 30), app.debugDescription)
+    }
+    func testControlledPlayback() throws {
+        launch(["--playback-lab=timeline"], "Play scene")
+        try record("controlled-playback-ios") {
+            tap("Play scene", wait: 1.8)
+            tap("Pause scene", wait: 2.0)
+            XCTAssertTrue(app.staticTexts["Paused"].exists)
+            tap("Resume scene", wait: 3.0)
+            tap("Pause scene", wait: 1.2)
+            tap("Resume scene", wait: 4.0)
+            XCTAssertTrue(app.staticTexts["Finished"].waitForExistence(timeout: 10), app.debugDescription)
+        }
+    }
+    func testNativeMap() throws {
+        launch(["--playback-lab=map"], "Play scene")
+        Thread.sleep(forTimeInterval: 3)
+        try record("native-map-ios") {
+            tap("Play scene", wait: 2.0)
+            tap("Pause scene", wait: 1.7)
+            tap("Resume scene", wait: 7.0)
+            XCTAssertTrue(app.staticTexts["Finished"].waitForExistence(timeout: 10), app.debugDescription)
+        }
+    }
+    func testNativeCamera() throws {
+        launch(["--playback-lab=scene"], "Play scene")
+        try record("native-camera-ios") {
+            tap("Play scene", wait: 2.0)
+            tap("Pause scene", wait: 1.7)
+            tap("Resume scene", wait: 7.0)
+            XCTAssertTrue(app.staticTexts["Finished"].waitForExistence(timeout: 10), app.debugDescription)
+        }
+    }
     func testKeyboard() throws {
         launch(["--playground", "--section=keyboard"], "Show composer")
         try record("keyboard-ios") {

@@ -33,7 +33,11 @@
       "types": "./dist/vue/index.d.ts",
       "default": "./dist/vue/index.js"
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./native": {
+      "types": "./dist/native/index.d.ts",
+      "default": "./dist/native/index.js"
+    }
   },
   "files": [
     "dist",

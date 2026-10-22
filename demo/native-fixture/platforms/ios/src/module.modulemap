@@ -1,0 +1,4 @@
+module JoltNativeFixture {
+    header "JoltRevealView.h"
+    export *
+}

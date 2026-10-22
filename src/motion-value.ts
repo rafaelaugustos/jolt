@@ -20,14 +20,7 @@ import {
   validateDecorationTarget,
 } from './decoration.js'
 import { getDriver } from './driver/index.js'
-import {
-  setArrival,
-  setBase,
-  stopBase,
-  ViewAnimation,
-  type Animation,
-  type Plan,
-} from './engine.js'
+import { setBase, stopBase, ViewAnimation, type Animation, type Plan } from './engine.js'
 import { linear } from './easing.js'
 import { isProperty, type Property } from './properties.js'
 import { createTrack, instantTrack, type Track } from './track.js'
@@ -39,7 +32,8 @@ import {
   type Transition,
 } from './transition.js'
 import type { KeyframeProperty, Target } from './types.js'
-import type { PlaybackClock } from './playback.js'
+import { playbackSource, type PlaybackAnimation, type PlaybackClock } from './playback.js'
+import { TimedAnimation } from './timed-animation.js'
 import { valueTrack } from './value-track.js'
 import {
   ValueObservers,
@@ -102,11 +96,9 @@ interface Run {
   readonly track: Track
   readonly base: number
   readonly span: number
-  readonly animation: Animation
+  readonly animation: TimedAnimation
   readonly startedAt: number
-  readonly clock?: PlaybackClock
-  readonly settle: (finished: boolean) => void
-  readonly cancel: () => void
+  readonly clock?: Pick<PlaybackClock, 'time'>
 }
 
 type Presentation = Pick<Run, 'track' | 'base' | 'span' | 'startedAt' | 'clock'>
@@ -147,6 +139,7 @@ class Derived {
 
 class Root extends Derived {
   readonly bindings = new Set<Binding>()
+  readonly listeners = new Set<() => void>()
   readonly observers = new ValueObservers((time) => this.raw(time))
   private readonly rests = new Map<string, number>()
   private readonly runs = new Map<string, Run>()
@@ -185,14 +178,14 @@ class Root extends Derived {
 
   private velocity(key: string): number {
     const run = this.runs.get(key)
-    if (!run) return 0
+    if (!run || run.animation.paused) return 0
     return run.span * run.track.velocityAt(this.runTime(run))
   }
 
   animate(
     target: number | readonly (number | null)[],
     transition: ValueAnimationOptions | SpringName = {},
-  ): Animation {
+  ): PlaybackAnimation {
     const options: ValueAnimationOptions =
       typeof transition === 'string' ? springOf(transition) : transition
     const key = options.layer === undefined ? '' : layerName(options.layer)
@@ -226,74 +219,55 @@ class Root extends Derived {
   }
 
   /** Plays a track sampled in the value's own units, such as a drag release. */
-  play(track: Track): Animation {
+  play(track: Track): PlaybackAnimation {
     this.halt('')
     return track.end === 0 ? this.jump(track.to, '') : this.start(track, 0, 1, '')
   }
 
-  private jump(value: number, key: string): Animation {
-    const { animation, settle } = this.handle(key)
+  private jump(value: number, key: string): PlaybackAnimation {
     this.rests.set(key, value)
     this.sync()
-    settle(true)
-    setArrival(animation, Promise.resolve())
+    const animation = new TimedAnimation(
+      0,
+      0,
+      () => {},
+      () => {},
+    )
+    animation.start()
     return animation
   }
 
-  private handle(key: string) {
-    let settle!: (finished: boolean) => void
-    const finished = new Promise<boolean>((resolve) => (settle = resolve))
-    const animation: Animation = {
-      finished,
-      stop: () => {
-        if (this.runs.get(key)?.animation === animation) this.stopChannel(key)
-      },
-      then: (onfulfilled, onrejected) => finished.then(onfulfilled, onrejected),
-    }
-    return { animation, settle }
-  }
-
-  private start(track: Track, base: number, span: number, key: string): Animation {
-    const { animation, settle } = this.handle(key)
-    let arrive: () => void = () => {}
-    let run: Run | undefined
+  private start(
+    track: Track,
+    base: number,
+    span: number,
+    key: string,
+  ): PlaybackAnimation {
     const driver = getDriver()
-    const clock = driver.clock?.(track.end)
-    setArrival(animation, new Promise<void>((resolve) => (arrive = resolve)))
-    const timers = [
-      Number.isFinite(track.end)
-        ? driver.after(track.end, () => {
-            if (this.runs.get(key) !== run) return
-            this.rests.set(key, base + span * track.to)
-            this.runs.delete(key)
-            run?.cancel()
-            this.sync()
-            arrive()
-            settle(true)
-          })
-        : undefined,
-      Number.isFinite(track.arrival)
-        ? driver.after(track.arrival, () => arrive())
-        : undefined,
-    ]
-    run = {
+    const animation = new TimedAnimation(
+      track.end,
+      track.arrival,
+      () => this.sync(),
+      (completed) => {
+        if (this.runs.get(key)?.animation !== animation) return
+        const held = base + span * track.valueAt(animation.time)
+        this.runs.delete(key)
+        if (!completed && key !== '') this.rests.delete(key)
+        else this.rests.set(key, completed ? base + span * track.to : held)
+        this.sync()
+      },
+    )
+    const run: Run = {
       track,
       base,
       span,
       animation,
       startedAt: driver.now(),
-      clock,
-      settle: (completed) => {
-        arrive()
-        settle(completed)
-      },
-      cancel: () => {
-        timers.forEach((cancel) => cancel?.())
-        clock?.cancel()
-      },
+      clock: { time: () => animation.time },
     }
     this.runs.set(key, run)
     this.sync()
+    animation.start()
     return animation
   }
 
@@ -343,7 +317,9 @@ class Root extends Derived {
     const now = getDriver().now()
     let rest = 0
     for (const [key, value] of this.rests) if (!this.runs.has(key)) rest += value
-    const runs = [...this.runs.values()]
+    const runs = [...this.runs.values()].filter((run) => !run.animation.paused)
+    for (const [key, run] of this.runs)
+      if (run.animation.paused) rest += this.part(key, now)
     if (!runs.length) this.presentation = undefined
     else if (runs.length === 1) {
       const run = runs[0]!
@@ -369,7 +345,12 @@ class Root extends Derived {
         clock?.cancel()
       }
     }
+    this.changed()
+  }
+
+  protected changed() {
     for (const binding of this.bindings) binding.sync()
+    for (const listener of [...this.listeners]) listener()
     this.observers.changed(this.running)
   }
 
@@ -432,16 +413,19 @@ class Root extends Derived {
     return this.presentation ? this.runTime(this.presentation) : 0
   }
 
+  get paused(): boolean {
+    return this.runs.size > 0 && !this.running
+  }
+
   get running(): boolean {
-    return this.runs.size > 0
+    return [...this.runs.values()].some((run) => !run.animation.paused)
   }
 
   private halt(key: string) {
     const run = this.runs.get(key)
     if (!run) return
     this.runs.delete(key)
-    run.cancel()
-    run.settle(false)
+    run.animation.stop()
   }
 }
 
@@ -550,7 +534,9 @@ function attach(view: View, property: Property, source: Derived) {
       // Native keyframe setup can take time, especially for a composite track on Android.
       // Catch up after construction so each binding joins the source's current phase.
       const elapsed = root.elapsed()
-      if (elapsed > 1 && animation.duration > 0) animation.seekTime(elapsed)
+      if (root.paused) animation.pause()
+      if ((elapsed > 1 || root.paused) && animation.duration > 0)
+        animation.seekTime(elapsed)
       binding.animation = animation
     },
   }
@@ -565,6 +551,118 @@ function attach(view: View, property: Property, source: Derived) {
       release(binding)
       binding.animation?.stop()
     }
+  }
+}
+
+/** A read-only value on an existing finite animation's clock. No second animation or timer. */
+export function playbackProgress(animation: Animation): DerivedValue {
+  const source = playbackSource(animation)
+  if (!Number.isFinite(source.read().duration))
+    throw new RangeError('Progress requires a finite animation.')
+  const root = new PlaybackValue(source)
+  return new Derived(root, (value) => value, false) as unknown as DerivedValue
+}
+
+class PlaybackValue extends Root {
+  constructor(private readonly playback: ReturnType<typeof playbackSource>) {
+    super(0)
+    const source = playback
+    const off = source.subscribe(() => {
+      this.changed()
+      if (source.read().settled) off()
+    })
+    if (source.read().settled) off()
+    this.observers.changed(this.running)
+  }
+
+  override raw() {
+    const state = this.playback.read()
+    return (
+      state.position ??
+      (state.completed
+        ? 1
+        : state.duration > 0
+          ? Math.max(0, Math.min(1, state.time / state.duration))
+          : 0)
+    )
+  }
+
+  override get running() {
+    const state = this.playback.read()
+    return state.ready && !state.settled && !state.paused && state.duration > 0
+  }
+
+  override get paused() {
+    return this.playback.read().paused
+  }
+  override elapsed() {
+    return this.playback.read().time
+  }
+
+  override plan(binding: Binding): Plan {
+    const state = this.playback.read()
+    if (!state.ready || state.settled || state.duration === 0)
+      return {
+        property: binding.property,
+        keyframes: [],
+        transition: still,
+        track: () => instantTrack(binding.property, binding.read(this.raw())),
+      }
+    // Bypass timeScale: the source duration is already in platform playback milliseconds.
+    const duration = state.duration
+    const at = (ms: number) => binding.read(Math.max(0, Math.min(1, ms / duration)))
+    const track: Track = {
+      property: binding.property,
+      delay: 0,
+      duration,
+      repeat: 0,
+      reverse: false,
+      times: [0, 1],
+      values: [at(0), at(duration)],
+      to: at(duration),
+      end: duration,
+      arrival: duration,
+      valueAt: at,
+      velocityAt: (ms) => (at(ms + 0.5) - at(ms - 0.5)) * 1000,
+    }
+    // Piecewise/color derivations need intermediate samples, not only the two endpoints.
+    const steps = Math.max(1, Math.min(6000, Math.ceil((duration * 60) / 1000)))
+    const times = Array.from({ length: steps + 1 }, (_, i) => i / steps)
+    return {
+      property: binding.property,
+      keyframes: [],
+      transition: still,
+      track: () =>
+        reducedMotion() &&
+        binding.property !== 'opacity' &&
+        !isColorProperty(binding.property)
+          ? instantTrack(binding.property, at(duration))
+          : { ...track, times, values: times.map((time) => at(time * duration)) },
+    }
+  }
+}
+
+/** Internal native-adapter bridge. Mappings are sampled at boundaries, never per frame. */
+export function valuePlayback(source: DerivedValue) {
+  if (!(source instanceof Derived) || source.color)
+    throw new TypeError('A native binding needs a numeric Jolt value.')
+  const { root, read } = source
+  return {
+    snapshot() {
+      return {
+        track: root.plan({ property: 'opacity', read } as Binding).track!(),
+        elapsed: root.elapsed(),
+        paused: root.paused,
+        running: root.running,
+        value: read(root.raw()),
+      }
+    },
+    subscribe(listener: () => void) {
+      root.listeners.add(listener)
+      return () => {
+        root.listeners.delete(listener)
+      }
+    },
   }
 }
 

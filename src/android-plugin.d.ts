@@ -209,3 +209,40 @@ declare namespace org.rafaelaugusto.jolt {
     }
   }
 }
+
+declare namespace org.rafaelaugusto.jolt {
+  class PropertySink extends java.lang.Object {
+    static scalar(target: any, getter: string, setter: string): PropertySink
+    getDimensions(): number
+    isAlive(): boolean
+    isCompiled(): boolean
+    read(): native.Array<number>
+    write(values: native.Array<number>): void
+    dispose(): void
+  }
+  class MapLibrePropertySink extends PropertySink {
+    constructor(target: any, camera: boolean)
+  }
+  class PropertyPlayer extends java.lang.Object {
+    constructor(
+      sink: PropertySink,
+      times: native.Array<number>,
+      values: native.Array<number>,
+      finalValue: native.Array<number>,
+      duration: number,
+      delay: number,
+      repeat: number,
+      reverse: boolean,
+      listener: PropertyPlayer.Listener,
+    )
+    static activeCount(): number
+    getFrames(): number
+    control(time: number, paused: boolean): void
+    cancel(): void
+  }
+  namespace PropertyPlayer {
+    class Listener extends java.lang.Object {
+      constructor(implementation: { onEnd(completed: boolean): void })
+    }
+  }
+}

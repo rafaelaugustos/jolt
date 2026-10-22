@@ -1,3 +1,6 @@
+export { timeline } from './sequence.js'
+export type { TimelineAnimation, TimelineStep, PlayableAnimation } from './sequence.js'
+export { playbackProgress } from './motion-value.js'
 export { animate, decay, set, stop } from './animate.js'
 export { bind, motionValue, scrollValue } from './motion-value.js'
 export type {

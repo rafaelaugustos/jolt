@@ -1,5 +1,46 @@
 # Sequências e timelines
 
+## Controle conjunto
+
+`timeline(steps)` aceita as mesmas tuplas de views e posições de `sequence()`, além de tuplas de motion values e fábricas com controle de reprodução:
+
+```ts
+const scene = timeline([
+  [car, { path: route, orient: true }, { duration: 8000, ease: 'linear' }],
+  [pulse, 1, { duration: 1000, repeat: 7, repeatType: 'reverse', at: '<' }],
+  { at: 0, run: () => imageEffect(image, 'ripple', { duration: 8000 }) },
+  [checkpoint, 'fadeIn', { at: 4000 }],
+])
+scene.pause()
+scene.play()
+await scene.finished
+```
+
+<Clip name="controlled-playback-ios" caption="Um controle pausa movimentos ativos, ripple e um checkpoint futuro, e retoma o tempo restante de todos. Simulador iOS, em tempo real." />
+<Clip name="controlled-playback-android" caption="Pausa e retomada conjunta da timeline com entrada real no emulador Android, em tempo real." />
+
+A pausa congela participantes ativos e lançamentos futuros, incluindo intervalos e sobreposições. A retomada continua da mesma posição, sem reiniciar efeitos nem contar o tempo de relógio durante a pausa. Os dois comandos são idempotentes. Stop cancela o trabalho ativo e pendente, resolve `finished` com false e é definitivo. Um scope pode criar `scope.timeline(steps)` ou adotar o handle retornado.
+
+Participantes precisam de `pause()`, `play()` e `paused`, além do ciclo de vida de animação. Animações de views, motion values, timelines aninhadas, efeitos de imagem e [propriedades nativas externas](./native-properties) oferecem isso. Funções de limpeza como `shimmer()` e animações básicas como `animateText()` não oferecem. Um callback que retorna um participante incompatível rejeita `finished` e limpa o trabalho já iniciado e pendente. A fábrica roda na ativação, portanto suas capacidades só podem ser inspecionadas quando retorna. Efeitos colaterais externos são responsabilidade do autor da fábrica.
+
+| Participante                               | Pausa/retomada conjunta    | Duração                                          |
+| ------------------------------------------ | -------------------------- | ------------------------------------------------ |
+| View/path `animate()` e `decay()`          | Sim                        | Finita ou infinita                               |
+| `animate(motionValue)` e camadas escalares | Sim                        | Finita ou infinita                               |
+| `imageEffect()`                            | Sim                        | Finita; distortion infinita                      |
+| Adaptador nativo `.animate()`              | Sim                        | Finita ou infinita                               |
+| Timeline aninhada                          | Sim                        | Pode ser desconhecida até ativar todos os passos |
+| Factory personalizada                      | Exige contrato de playback | Opcional; sem ela não há progresso agregado      |
+| `animateText()` e funções de limpeza       | Não; use `sequence()`      | Não aplicável                                    |
+
+A timeline não oferece um setter genérico de seek: callbacks, haptics e efeitos guiados por toque não podem ser rebobinados juntos com segurança. `duration` fica `undefined` até todos os passos estarem ativos, prontos e declararem duração; depois é o maior término agendado, ou Infinity para trabalho infinito. `playbackProgress(scene)` funciona quando essa duração é finita. Observe a trilha principal finita quando a composição também contiver efeitos infinitos ou ainda não planejados. Retorne handles novos nas fábricas: adotar handles já em execução não rebobina nem realinha seu passado.
+
+O pai retoma somente os filhos que ele pausou. Um filho pausado independentemente permanece pausado; handles parados/concluídos continuam encerrados. Seek ou atrasos manuais em filhos podem invalidar o término calculado; controle a cena pelo pai ao usar progresso agregado. Interrupções mantêm as regras de chegada/posse da sequência e tornam a conclusão final false.
+
+Tracks nativos continuam com reprodução nativa. JavaScript roda nas ativações e nos comandos; se estiver bloqueado, pode atrasar uma nova fábrica. Isso não promete execução nativa de callbacks arbitrários. O aplicativo pode pausar no background e retomar explicitamente, como na demo.
+
+## Reprodução sequencial
+
 Sem uma posição, cada passo começa quando o anterior parece pronto:
 
 <Clip name="timeline" caption="Passos sobrepostos e passos em ordem." />

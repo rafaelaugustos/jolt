@@ -43,6 +43,7 @@ export interface ImageEffectDiagnostics {
 export interface ImageEffect extends Animation {
   readonly effect: ImageEffectName
   readonly paused: boolean
+  readonly duration: number
   /** Finite progress; distortion rejects seeking because it follows native touch input. */
   progress: number
   readonly diagnostics: Readonly<ImageEffectDiagnostics>
@@ -157,7 +158,7 @@ class Effect implements ImageEffect {
     for (const event of ['loaded', 'layoutChanged']) image.on(event, this.schedule)
     for (const event of ['imageSourceChange', 'stretchChange'])
       image.on(event, this.changed)
-    image.on('unloaded', this.stop)
+    image.on('unloaded', this.unloaded)
     image.style.on('visibilityChange', this.visible)
     for (const event of surfaceChanges) image.style.on(event, this.changed)
     Application.on(Application.suspendEvent, this.suspend)
@@ -177,6 +178,9 @@ class Effect implements ImageEffect {
   }
   get paused() {
     return this.userPaused
+  }
+  get duration() {
+    return this.effect === 'distortion' ? Infinity : this.options.duration
   }
   get progress() {
     return this.renderer?.progress ?? this.position
@@ -240,7 +244,7 @@ class Effect implements ImageEffect {
     for (const event of ['loaded', 'layoutChanged']) this.image.off(event, this.schedule)
     for (const event of ['imageSourceChange', 'stretchChange'])
       this.image.off(event, this.changed)
-    this.image.off('unloaded', this.stop)
+    this.image.off('unloaded', this.unloaded)
     this.image.style.off('visibilityChange', this.visible)
     for (const event of surfaceChanges) this.image.style.off(event, this.changed)
     Application.off(Application.suspendEvent, this.suspend)
@@ -271,6 +275,10 @@ class Effect implements ImageEffect {
   private suspend = () => {
     this.suspended = true
     this.renderer?.pause()
+  }
+  private unloaded = () => {
+    if (Application.suspended && this.userPaused) return
+    this.stop()
   }
   private resume = () => {
     this.suspended = false
