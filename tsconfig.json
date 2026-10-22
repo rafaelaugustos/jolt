@@ -6,7 +6,8 @@
     "moduleResolution": "bundler",
     "paths": {
       "@rafaelaugusto/jolt": ["./src/index.ts"],
-      "@rafaelaugusto/jolt/vue": ["./src/vue/index.ts"]
+      "@rafaelaugusto/jolt/vue": ["./src/vue/index.ts"],
+      "@rafaelaugusto/jolt/native": ["./src/native/index.ts"]
     },
     "strict": true,
     "noUncheckedIndexedAccess": true,

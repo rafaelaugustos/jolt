@@ -1,5 +1,34 @@
 # Pause, play and scrub
 
+## Observing playback
+
+`playbackProgress(animation)` exposes an existing finite animation's clock as a read-only [derived value](./motion-values). It supports `get()`, `to()` and `subscribe()` and can drive native `bind()` targets. No application timer and no second animation are needed:
+
+```ts
+const drive = animate(car, { path: route }, { duration: 8000, ease: 'linear' })
+const progress = playbackProgress(drive)
+const releaseBar = bind(bar, { scaleX: progress })
+const releaseNumber = progress.subscribe((p) => {
+  remainingMeters.value = Math.ceil(routeMeters * (1 - p))
+})
+drive.pause() // holds the car, binding and observed value
+drive.play()
+// At destruction: releaseBar(); releaseNumber(); drive.stop()
+```
+
+This distance formula assumes a constant-speed path, as in the demo. Playback progress is elapsed timeline time, not eased position or geographical distance. With easing, pauses along a path or geographic coordinates, map progress through the route's actual parameter/length function instead.
+
+<Clip name="controlled-playback-ios" caption="Observable distance and bar follow a car, while one timeline pauses the car, pulse, ripple and delayed checkpoint. iOS simulator, real-time playback." />
+<Clip name="controlled-playback-android" caption="The same progress and joint playback controls on an Android emulator. Real native playback with actual taps." />
+
+The value follows the same native clock, including delays, stagger, repeat/reverse, slow motion and Android animator duration scale. A seek updates it without changing whether playback is paused. Before load it reads zero, or a pending explicitly requested progress. Completion reads one; cancellation retains the stopped position. A zero-duration completed animation reads one. Infinite animations and timelines whose duration is still unknown reject normalized progress.
+
+Native bindings compile tracks without JavaScript observation frames. Subscribers opt into the shared JavaScript notification source from motion values; callbacks run only when JavaScript can execute, coalesce changes and deliver the current value after a stall. The current value is readable before `finished` resolves, but a final subscription notification can arrive on the next frame after that promise. Unsubscribe when finished; scopes can own subscriptions. A paused or settled source has no continuous observation work.
+
+`animate(motionValue, ...)` now also returns `PlaybackAnimation`. Controls affect that channel alone: pausing the base does not pause an independent additive layer. Use [`timeline()`](./sequences#joint-playback) to control them together. Stopping an active layer still removes its contribution; pausing preserves it.
+
+## Individual controls
+
 `animate()` and `decay()` return a `PlaybackAnimation`. Pause it, set its progress, then continue:
 
 <Clip name="playback" caption="Play and pause on a running timeline." />
@@ -66,3 +95,5 @@ Haptics wait through a pause and resume with the remaining timeline. Seeking sil
 On iOS, each `CAAnimation` has its own speed and time offset. Jolt leaves the layer's timing untouched, including the layers that Core uses for colors and shadows. Replacing a CA copy during a control command cannot settle the original promise through a stale completion callback.
 
 On Android, native pause/resume controls the existing animators. A seek repositions their keyframes, including delay and repeat phases. Active animations share one native elapsed-time marker to respect the system animator duration scale. Jolt removes that marker when every owner pauses and starts a fresh one on resume, avoiding Android's paused-clock correction; it is released after the last owner settles. None of these markers calls JavaScript per frame. Android's UI-thread limitation still [applies](./android-performance).
+
+When the app explicitly pauses before entering the background, views retain that pause through NativeScript’s temporary iOS root unload. Resuming remains explicit. A foreground navigation unload still cancels playback.

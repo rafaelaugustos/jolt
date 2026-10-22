@@ -1,0 +1,6 @@
+def dependency = nativescriptDependencies.find { it.name == '@rafaelaugusto/jolt-native' }
+if (dependency != null) {
+    android.buildTypes.all {
+        proguardFile new File(rootDir, "${dependency.directory}/platforms/android/proguard-rules.pro")
+    }
+}

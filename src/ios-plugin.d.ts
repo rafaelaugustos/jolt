@@ -79,3 +79,36 @@ declare class JoltPhotoZoom extends NSObject {
   layout(): void
   stop(): void
 }
+
+declare class JoltPropertySink extends NSObject {
+  static scalarTargetKeyPath(target: NSObject, keyPath: string): JoltPropertySink
+  readonly dimensions: number
+  readonly alive: boolean
+  readonly compiled: boolean
+  read(): NSArray<number>
+  write(values: NSArray<number>): void
+  dispose(): void
+}
+declare class JoltPropertyPlayer extends NSObject {
+  static startSinkTimesValuesFinalValueDurationDelayRepeatReverseCompletion(
+    sink: JoltPropertySink,
+    times: NSArray<number>,
+    values: NSArray<number>,
+    finalValue: NSArray<number>,
+    duration: number,
+    delay: number,
+    repeat: number,
+    reverse: boolean,
+    completion: (completed: boolean) => void,
+  ): JoltPropertyPlayer
+  readonly elapsed: number
+  readonly frames: number
+  static activeCount(): number
+  controlPaused(time: number, paused: boolean): void
+  cancel(): void
+}
+declare class JoltReferenceProperties extends NSObject {
+  static mapCoordinate(target: NSObject): JoltPropertySink
+  static mapCamera(target: NSObject): JoltPropertySink
+  static scenePose(target: NSObject): JoltPropertySink
+}

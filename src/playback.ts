@@ -23,6 +23,47 @@ export interface PlaybackClock {
   cancel(): void
 }
 
+/** Boundary notifications, never frame callbacks. Consumers sample this same clock. */
+export interface PlaybackState {
+  readonly position?: number
+  readonly time: number
+  readonly duration: number
+  readonly paused: boolean
+  readonly ready: boolean
+  readonly settled: boolean
+  readonly completed: boolean
+}
+
+const sources = new WeakMap<
+  Animation,
+  {
+    read(): PlaybackState
+    listeners: Set<() => void>
+  }
+>()
+
+export function registerPlayback(animation: Animation, read: () => PlaybackState) {
+  const source = { read, listeners: new Set<() => void>() }
+  sources.set(animation, source)
+  return () => {
+    for (const listener of [...source.listeners]) listener()
+  }
+}
+
+export function playbackSource(animation: Animation) {
+  const source = sources.get(animation)
+  if (!source) throw new TypeError('This animation does not expose a playback clock.')
+  return {
+    read: source.read,
+    subscribe(listener: () => void) {
+      source.listeners.add(listener)
+      return () => {
+        source.listeners.delete(listener)
+      }
+    },
+  }
+}
+
 /** Read only on user commands; there is no frame loop in JavaScript. */
 export function createClock(now: () => number, initial = 0): PlaybackClock {
   let offset = initial

@@ -1,0 +1,14 @@
+{
+  "platform": "android",
+  "systemScale": 2,
+  "measurements": {
+    "scaledPresentationLagMs": 21.499999344348904
+  },
+  "passed": true,
+  "results": [
+    {
+      "name": "Animator duration scale 2",
+      "passed": true
+    }
+  ]
+}

@@ -79,7 +79,7 @@ export function animate(
   value: MotionValue,
   to: number | readonly (number | null)[],
   transition?: ValueAnimationOptions | SpringName,
-): Animation
+): PlaybackAnimation
 export function animate(
   target: Target | readonly Target[],
   animation: Keyframes | PresetName,

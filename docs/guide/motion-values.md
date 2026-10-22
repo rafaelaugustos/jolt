@@ -49,7 +49,7 @@ A mapped number can be mapped again. Color outputs bind to `backgroundColor`, `b
 
 ## Animating and setting
 
-`animate(value, to, transition)` takes a number or keyframes and the same transitions as `animate()`: tweens, springs, `repeat`, `repeatType`, `repeatDelay`, `delay` and `easeTrack`. It returns an [`Animation`](./api#animations). Jolt samples the value's curve once, maps it through each binding, and plays one native track per bound property, all started together. Native bindings need no per-frame JavaScript callbacks.
+`animate(value, to, transition)` takes a number or keyframes and the same transitions as `animate()`: tweens, springs, `repeat`, `repeatType`, `repeatDelay`, `delay` and `easeTrack`. It returns a [`PlaybackAnimation`](./playback), including pause, play and finite progress. Jolt samples the value's curve once, maps it through each binding, and plays one native track per bound property, all started together. Native bindings need no per-frame JavaScript callbacks.
 
 ```ts
 animate(progress, 1, 'snappy')
@@ -115,7 +115,7 @@ Value layers always add, including when a binding maps the result to scale, opac
 
 <Clip name="value-layers-ios" caption="A charge pulse adds to position, scale and color while the base keeps moving; retargeting, removing the pulse and resetting, on the iOS simulator. The gray dot shows the base alone. Real-time playback." />
 
-Each name owns its animation and velocity. Retargeting that name replaces only that layer; animating without `layer` replaces only the base. A completed layer holds its final contribution until removed. The returned `Animation` supports `finished`, `stop()` and `await`, without playback controls. Stopping an active layer's handle removes its contribution; stopping the base handle holds the base and leaves layers running. A settled handle does nothing.
+Each name owns its animation and velocity. Retargeting that name replaces only that layer; animating without `layer` replaces only the base. A completed layer holds its final contribution until removed. The returned `PlaybackAnimation` also supports pause, play and finite progress for that channel; pausing holds its contribution while other channels continue. Stopping an active layer's handle removes its contribution; stopping the base handle holds the base and leaves layers running. A settled handle does nothing.
 
 ```ts
 stop(charge, { layer: 'pulse' }) // removes even a completed contribution

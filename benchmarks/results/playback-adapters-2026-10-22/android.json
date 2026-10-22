@@ -1,0 +1,57 @@
+{
+  "platform": "android",
+  "systemScale": 1,
+  "measurements": {
+    "layerBindingPresentationLag": 0.035420011749267566,
+    "slowMotionPresentationLagMs": 15.99999141693118,
+    "busyJS": {
+      "blockedMs": 181,
+      "nativeValueBefore": 0.11333333700895308,
+      "nativeValueAfter": 0.11333333700895308,
+      "setupCalls": 43
+    }
+  },
+  "passed": true,
+  "results": [
+    {
+      "name": "Native tween / pause / seek / resume",
+      "passed": true
+    },
+    {
+      "name": "Native value bindings / layers / no observer frames",
+      "passed": true
+    },
+    {
+      "name": "Observable progress follows source and cancellation",
+      "passed": true
+    },
+    {
+      "name": "Timeline holds pending launches and native participants",
+      "passed": true
+    },
+    {
+      "name": "Native spring / interruption / isolated owners",
+      "passed": true
+    },
+    {
+      "name": "Slow motion and reduced motion",
+      "passed": true
+    },
+    {
+      "name": "Scope disposal preserves unrelated native properties",
+      "passed": true
+    },
+    {
+      "name": "Invalidated native target cancels and releases the player",
+      "passed": true
+    },
+    {
+      "name": "Native binding samples once; busy-JS behavior is measured",
+      "passed": true
+    },
+    {
+      "name": "Repeated ownership and disposal returns to baseline",
+      "passed": true
+    }
+  ]
+}

@@ -49,6 +49,27 @@ afterEach(() => {
   vi.unstubAllGlobals()
 })
 describe('native image effects', () => {
+  it('retains an explicitly paused renderer during the background root unload', async () => {
+    const target = image(),
+      effect = start(target, 'ripple')
+    await flush()
+    effect.pause()
+    try {
+      Application.suspended = true
+      Application.notify({ eventName: 'suspend' })
+      target.notify({ eventName: 'unloaded' })
+      expect(backend.stop).not.toHaveBeenCalled()
+    } finally {
+      Application.suspended = false
+    }
+    Application.notify({ eventName: 'resume' })
+    target.notify({ eventName: 'loaded' })
+    effect.play()
+    expect(factory.create).toHaveBeenCalledOnce()
+    target.notify({ eventName: 'unloaded' })
+    expect(await effect.finished).toBe(false)
+    expect(backend.stop).toHaveBeenCalledOnce()
+  })
   it('waits for an initially missing source without cancelling the pending effect', async () => {
     const target = image()
     target.imageSource = undefined as never

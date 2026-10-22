@@ -49,7 +49,7 @@ Um número mapeado pode ser mapeado de novo. Saídas de cor se ligam a `backgrou
 
 ## Animando e aplicando
 
-`animate(value, to, transition)` recebe um número ou keyframes e as mesmas transições do `animate()`: tweens, molas, `repeat`, `repeatType`, `repeatDelay`, `delay` e `easeTrack`. Devolve uma [`Animation`](./api#animacoes). O Jolt amostra a curva do valor uma vez, mapeia por cada ligação e toca um track nativo por propriedade ligada, todos começando juntos. As ligações nativas dispensam callbacks por quadro em JavaScript.
+`animate(value, to, transition)` recebe um número ou keyframes e as mesmas transições do `animate()`: tweens, molas, `repeat`, `repeatType`, `repeatDelay`, `delay` e `easeTrack`. Devolve uma [`PlaybackAnimation`](./playback), incluindo pausa, retomada e progresso finito. O Jolt amostra a curva do valor uma vez, mapeia por cada ligação e toca um track nativo por propriedade ligada, todos começando juntos. As ligações nativas dispensam callbacks por quadro em JavaScript.
 
 ```ts
 animate(progress, 1, 'snappy')
@@ -115,7 +115,7 @@ Camadas de valores sempre somam, inclusive quando um binding mapeia o resultado 
 
 <Clip name="value-layers-ios" caption="Um pulso de carga soma à posição, escala e cor enquanto a base continua; mudança de destino, remoção do pulso e reset, no simulador iOS. O ponto cinza mostra somente a base. Reprodução em tempo real." />
 
-Cada nome tem sua animação e velocidade. Alterar o destino daquele nome substitui somente aquela camada; animar sem `layer` substitui somente a base. Uma camada concluída mantém sua contribuição final até ser removida. O `Animation` retornado oferece `finished`, `stop()` e `await`, sem controles de reprodução. Parar o handle de uma camada ativa remove sua contribuição; parar o handle da base congela a base e mantém as camadas. Um handle já encerrado não faz nada.
+Cada nome tem sua animação e velocidade. Alterar o destino daquele nome substitui somente aquela camada; animar sem `layer` substitui somente a base. Uma camada concluída mantém sua contribuição final até ser removida. O `PlaybackAnimation` retornado também oferece pausa, retomada e progresso finito daquele canal; a pausa mantém sua contribuição enquanto os outros continuam. Parar o handle de uma camada ativa remove sua contribuição; parar o handle da base congela a base e mantém as camadas. Um handle já encerrado não faz nada.
 
 ```ts
 stop(charge, { layer: 'pulse' }) // remove inclusive uma contribuição concluída

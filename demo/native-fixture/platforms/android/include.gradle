@@ -1,0 +1,1 @@
+dependencies { implementation 'org.maplibre.gl:android-sdk:11.8.0' }

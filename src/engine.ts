@@ -1,11 +1,12 @@
 import {
   createClock,
+  registerPlayback,
   validateProgress,
   type PlaybackAnimation,
   type PlaybackClock,
   type PlaybackCommand,
 } from './playback.js'
-import type { View } from '@nativescript/core'
+import { Application, type View } from '@nativescript/core'
 import { getDriver } from './driver/index.js'
 import { playHaptics, type HapticOptions } from './haptics.js'
 import { readValue, writeValue, type Property } from './properties.js'
@@ -109,7 +110,9 @@ export class ViewAnimation implements PlaybackAnimation {
   private readyListener: (() => void) | undefined
   private readonly endless: boolean
   private readonly timingListeners = new Set<() => void>()
+  private readonly playbackChanged: () => void
   private timingChanged() {
+    this.playbackChanged()
     for (const callback of [...this.timingListeners]) callback()
   }
 
@@ -142,6 +145,7 @@ export class ViewAnimation implements PlaybackAnimation {
     if (this.settled) return
     if (!this.started) {
       this.pendingProgress = value
+      this.timingChanged()
       return
     }
     this.seekTime(this.duration * value)
@@ -280,7 +284,12 @@ export class ViewAnimation implements PlaybackAnimation {
     getDriver().stop(this.view, handle)
     this.playEntry(entry, elapsed)
   }
-  private unloaded = () => this.stop()
+  private unloaded = () => {
+    // NativeScript unloads the root view when iOS enters the background.
+    // An explicitly paused owner can resume after that temporary unload.
+    if (this._paused && Application.suspended) return
+    this.stop()
+  }
 
   constructor(
     readonly view: View,
@@ -295,6 +304,18 @@ export class ViewAnimation implements PlaybackAnimation {
           !Number.isFinite(plan.transition.curve.duration)),
     )
     this.finished = new Promise((resolve) => (this.resolve = resolve))
+    this.playbackChanged = registerPlayback(this, () => ({
+      position: this.pendingProgress,
+      time:
+        this.pendingProgress === undefined
+          ? this.time()
+          : this.pendingProgress * this.duration,
+      duration: this.duration,
+      paused: this._paused,
+      ready: this.ready,
+      settled: this.settled,
+      completed: this.settled && this.complete,
+    }))
     setArrival(this, new Promise<void>((resolve) => (this.arrive = resolve)))
     setArrivalTiming(this, {
       read: () => ({

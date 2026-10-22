@@ -1,5 +1,46 @@
 # Sequences and timelines
 
+## Joint playback
+
+`timeline(steps)` accepts the same view tuples and positions as `sequence()`, plus motion-value tuples and playable factories:
+
+```ts
+const scene = timeline([
+  [car, { path: route, orient: true }, { duration: 8000, ease: 'linear' }],
+  [pulse, 1, { duration: 1000, repeat: 7, repeatType: 'reverse', at: '<' }],
+  { at: 0, run: () => imageEffect(image, 'ripple', { duration: 8000 }) },
+  [checkpoint, 'fadeIn', { at: 4000 }],
+])
+scene.pause()
+scene.play()
+await scene.finished
+```
+
+<Clip name="controlled-playback-ios" caption="One pause control freezes active motion, a ripple and a future checkpoint, then resumes their remaining timing. iOS simulator, real time." />
+<Clip name="controlled-playback-android" caption="Joint timeline pause and resume with actual input on an Android emulator, in real time." />
+
+Pause holds running participants and future launches, including gaps and overlaps. Play resumes from that position without restarting effects or counting the paused wall-clock interval. Both commands are idempotent. Stop cancels active and pending work, resolves `finished` with false, and remains terminal. A scope can create `scope.timeline(steps)` or own the returned handle.
+
+Participants must expose `pause()`, `play()` and `paused` as well as the animation lifecycle. View animations, motion-value animations, nested timelines, image effects and [native property animations](./native-properties) support this. Cleanup functions such as `shimmer()` and base-only animations such as `animateText()` do not. Unsupported callback results reject `finished` and clean up already-started and pending work. Factories run at activation, so their capabilities cannot be inspected before they return. Their unrelated side effects are the factory author's responsibility.
+
+| Participant                              | Joint pause/resume                   | Duration                                      |
+| ---------------------------------------- | ------------------------------------ | --------------------------------------------- |
+| View/path `animate()` and `decay()`      | Yes                                  | Finite or infinite                            |
+| `animate(motionValue)` and scalar layers | Yes                                  | Finite or infinite                            |
+| `imageEffect()`                          | Yes                                  | Finite; distortion is infinite                |
+| Native adapter `.animate()`              | Yes                                  | Finite or infinite                            |
+| Nested timeline                          | Yes                                  | Can remain unknown until every step activates |
+| Custom factory                           | Must implement the playback contract | Optional; aggregate progress requires it      |
+| `animateText()` and cleanup functions    | No; use `sequence()`                 | Not applicable                                |
+
+The timeline does not offer a generic seek setter: callbacks, haptics and touch-driven effects cannot safely be rewound as a group. `duration` is `undefined` until every step is active, ready and declares a duration, then the maximum scheduled end (or Infinity for endless work). `playbackProgress(scene)` is available once this duration is finite. Observe a known finite main track when the composition also contains endless or still-unplanned effects. Use fresh handles in factories; adopting already-running handles does not rewind or realign their past playback.
+
+A parent resumes only children it paused. An independently paused child remains paused, and stopped/finished handles stay terminal. Independent child seeking or manual delays can invalidate the timeline's calculated end; control the scene through its parent when using aggregate progress. Child interruption preserves the existing sequence arrival/ownership rules and makes final completion false.
+
+Native tracks retain native playback. JavaScript runs at activation and control boundaries, so blocked JavaScript can delay a new factory's launch. This API does not claim native execution of arbitrary callbacks. App owners can pause on background and resume explicitly, as the demo does.
+
+## Sequential playback
+
 Without a position, each step starts once the previous one looks done:
 
 <Clip name="timeline" caption="Overlapping steps and steps in order." />

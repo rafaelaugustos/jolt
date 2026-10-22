@@ -57,6 +57,7 @@ const emit = defineEmits<{
   dragLab: []
   dragValues: []
   layoutLab: []
+  playbackLab: []
 }>()
 
 const logo = ref()
@@ -166,6 +167,7 @@ onUnmounted(() => {
         <MotionStates />
         <StateTransitions />
         <Remount />
+        <Button text="Playback, maps and 3D" @tap="emit('playbackLab')" />
         <Button text="Layout changes" @tap="emit('layoutLab')" />
         <Button text="Drag, fling and snap" @tap="emit('dragLab')" />
         <Button text="Drag a motion value" @tap="emit('dragValues')" />

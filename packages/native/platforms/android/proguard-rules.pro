@@ -1,0 +1,13 @@
+-keep class org.rafaelaugusto.jolt.PropertySink { *; }
+-keep class org.rafaelaugusto.jolt.PropertySink$* { *; }
+-keep class org.rafaelaugusto.jolt.PropertyPlayer { *; }
+-keep class org.rafaelaugusto.jolt.PropertyPlayer$* { *; }
+-keep class org.rafaelaugusto.jolt.MapLibrePropertySink { *; }
+# Optional MapLibre adapters cache these SDK methods/fields by name.
+-keep class org.maplibre.android.geometry.LatLng { *; }
+-keep class org.maplibre.android.camera.CameraPosition { *; }
+-keep class org.maplibre.android.camera.CameraPosition$Builder { *; }
+-keep class org.maplibre.android.camera.CameraUpdate { *; }
+-keep class org.maplibre.android.camera.CameraUpdateFactory { *; }
+-keepclassmembers class org.maplibre.android.maps.MapLibreMap { public *** getCameraPosition(...); public void moveCamera(...); }
+-keepclassmembers class org.maplibre.android.annotations.Marker { public *** getPosition(...); public void setPosition(...); }
