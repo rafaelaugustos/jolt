@@ -14,7 +14,14 @@ export { press } from './press.js'
 export { interactionSurface } from './interaction-surface.js'
 export type { InteractionSurface } from './interaction-surface.js'
 export { drag } from './drag.js'
-export type { Drag, DragOptions, DragPoint, DragEvent, DragRelease } from './drag.js'
+export type {
+  Drag,
+  DragOptions,
+  DragValueOptions,
+  DragPoint,
+  DragEvent,
+  DragRelease,
+} from './drag.js'
 export { scrollLinked } from './scroll-linked.js'
 export type { ScrollLinkedOptions } from './scroll-linked.js'
 export { animateItems } from './items.js'

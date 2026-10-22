@@ -27,6 +27,17 @@ Por padrão, os limites são rígidos durante o gesto e a soltura. Com `rubberba
 
 O gesto começa na translação atual e interrompe somente os eixos habilitados, preservando a posição visível. Outras propriedades continuam animando. Tocar durante a soltura interrompe essa animação imediatamente; se o toque não virar pan, a posição fica congelada. As opções são copiadas. Para atualizar limites após uma mudança de layout, descarte e recrie o controller.
 
+## Controlando um valor de movimento
+
+Com `value`, o gesto move um [valor de movimento](./motion-values#arrastando) em vez da view, então um sheet pode controlar a página atrás dele, um fundo e o que mais estiver ligado a esse valor. O eixo é `'x'` ou `'y'`, e limites e pontos de encaixe ficam nas unidades do valor:
+
+```ts
+const y = motionValue(380)
+bind(sheet, { y })
+bind(backdrop, { opacity: y.to([0, 380], [0.5, 0]) })
+drag(sheet, { axis: 'y', value: y, bounds: { top: 0, bottom: 380 }, snap: [0, 190, 380] })
+```
+
 ## Eventos
 
 ```ts

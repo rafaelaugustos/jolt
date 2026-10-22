@@ -14,7 +14,7 @@
 - [`set(target, values)`](./interrupting#setting-values-without-animating) — applies values at once and stops what animates them.
 - [`sequence(steps)`](./sequences) — overlapping steps and fixed positions.
 - `press(target, pressed?, transition?)`
-- [`drag(target, options?)`](./drag)
+- [`drag(target, options?)`](./drag) — with `value`, the gesture drives a [motion value](./motion-values#dragging) instead of the view.
 - [`scrollLinked(scrollView, target, keyframes, { range, axis? })`](./scroll-linked) — returns a cleanup function.
 - [`animateItems(list, keyframes | preset, options?)`](./lists) — rows as they appear, with `once`; returns a cleanup function.
 - [`followKeyboard(target, options?)`](./keyboard) — moves a view with the keyboard on iOS and Android 11+; returns a cleanup function.

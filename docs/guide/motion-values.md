@@ -102,6 +102,37 @@ Scroll events arrive in JavaScript, as for [`scrollLinked()`](./scroll-linked). 
 
 <Clip name="scroll-values-android" caption="The same header following the list on the Android emulator. Real-time playback." />
 
+## Dragging
+
+`drag(view, { axis, value })` writes the finger's position into a value instead of moving the view, then plays the release on the value. Everything bound to it follows the finger and the fling together. The gesture is read on the view you pass; bind that view too if it should move:
+
+```ts
+import { bind, drag, motionValue } from '@rafaelaugusto/jolt'
+
+const closed = 380
+const y = motionValue(closed)
+bind(sheet, { y })
+bind(page, { scale: y.to([0, closed], [0.9, 1]) })
+bind(backdrop, { opacity: y.to([0, closed], [0.5, 0]) })
+bind(hint, { opacity: y.to([closed / 2, closed], [0, 1]) })
+
+drag(sheet, {
+  axis: 'y',
+  value: y,
+  bounds: { top: 0, bottom: closed },
+  snap: [0, closed / 2, closed],
+  rubberband: true,
+})
+```
+
+<Clip name="drag-values-ios" caption="One draggable sheet drives a motion value that scales the page, darkens the backdrop and fades the hint, with snap points, rubberband and the same value animated by a button, on the iOS simulator. Real-time playback." />
+
+`axis` is `'x'` or `'y'`. Bounds, snap points and the dragged axis in events are in the value's units; the other axis reads 0. Everything else works as in [`drag()`](./drag): rubberband, friction, callbacks and the controller. The release is the same curve, sampled once and played natively by every bound property, with nothing in JavaScript until it ends. `onRelease` receives an [`Animation`](./api#animations) rather than a `PlaybackAnimation`. Touching the view during a release, or during `animate(value, ...)`, stops the value where it is, and the gesture carries on from there.
+
+Each pan event writes the bound properties directly. With six bound properties, an event costs about the same as writing them by hand in `onMove`: around 0.8 ms on the iOS simulator and 0.25 to 0.35 ms on the Android emulator; see the [measurements](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/drag-values.md). In Vue, start the drag from `useMotionScope()` in `onMounted`, as the demo's **Drag values** screen does.
+
+<Clip name="drag-values-android" caption="The same sheet on the Android emulator, with real flings in both directions and a grab while the button animation is still running. Real-time playback." />
+
 ## What comes next
 
-Values compose with [layers](./layers) on the same property. Gestures that write into values, and native evaluation where measurements call for it, are planned in the [motion values RFC](https://github.com/rafaelaugustos/jolt/issues/152).
+Values compose with [layers](./layers) on the same property. Native evaluation, where measurements call for it, is planned in the [motion values RFC](https://github.com/rafaelaugustos/jolt/issues/152).

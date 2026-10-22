@@ -21,9 +21,12 @@ import {
   setBase,
   stopBase,
   ViewAnimation,
+  type Animation,
   type Plan,
 } from './engine.js'
+import { asRoot, isMotionValue, type MotionValue } from './motion-value.js'
 import type { PlaybackAnimation } from './playback.js'
+import { createTrack } from './track.js'
 import type { Target } from './types.js'
 
 export interface DragPoint {
@@ -35,10 +38,10 @@ export interface DragEvent extends DragPoint {
   readonly velocityX: number
   readonly velocityY: number
 }
-export interface DragRelease extends DragEvent {
+export interface DragRelease<A extends Animation = PlaybackAnimation> extends DragEvent {
   readonly target: DragPoint
   /** False on interruption/cancellation. Check before applying completion effects. */
-  readonly animation: PlaybackAnimation
+  readonly animation: A
 }
 export interface DragOptions {
   /** Defaults to both. One finger only. */
@@ -57,6 +60,17 @@ export interface DragOptions {
   onCancel?: (event: DragEvent) => void
   onSettle?: (position: DragPoint) => void
 }
+/** Drags a motion value instead of the view. Bounds and snap points are in the value's units. */
+export interface DragValueOptions extends Omit<
+  DragOptions,
+  'axis' | 'snap' | 'onRelease'
+> {
+  /** Takes the position on every move and plays the release; bind views to it to follow. */
+  value: MotionValue
+  axis: 'x' | 'y'
+  snap?: readonly number[]
+  onRelease?: (event: DragRelease<Animation>) => void
+}
 export interface Drag {
   readonly dragging: boolean
   readonly settling: boolean
@@ -73,22 +87,28 @@ export interface Drag {
 }
 
 type Axis = 'x' | 'y'
+type Root = ReturnType<typeof asRoot>
 interface Settings {
   axes: Axis[]
   curves: Record<Axis, DragCurve>
-  callbacks: Pick<
-    DragOptions,
-    'onStart' | 'onMove' | 'onRelease' | 'onCancel' | 'onSettle'
-  >
+  value: Root | undefined
+  callbacks: Pick<DragOptions, 'onStart' | 'onMove' | 'onCancel' | 'onSettle'> & {
+    onRelease?: (event: DragRelease<Animation>) => void
+  }
 }
 const owners = new WeakMap<View, Drag>()
 
-function settings(options: DragOptions): Settings {
+function settings(options: DragOptions | DragValueOptions): Settings {
   if (!options || typeof options !== 'object')
     throw new TypeError('Drag options must be an object.')
   const axis = options.axis ?? 'both'
   if (!['x', 'y', 'both'].includes(axis))
     throw new TypeError('Drag axis must be x, y or both.')
+  const value = 'value' in options ? options.value : undefined
+  if (value !== undefined && !isMotionValue(value))
+    throw new TypeError('Drag value must be a motion value.')
+  if (value !== undefined && axis === 'both')
+    throw new TypeError('Dragging a motion value needs axis "x" or "y".')
   const friction = options.friction ?? DEFAULT_FRICTION
   if (!Number.isFinite(friction) || friction <= 0 || friction >= 1)
     throw new RangeError('Drag friction must be between 0 and 1 exclusively.')
@@ -158,18 +178,23 @@ function settings(options: DragOptions): Settings {
   const callbacks = {
     onStart: options.onStart,
     onMove: options.onMove,
-    onRelease: options.onRelease,
+    onRelease: options.onRelease as Settings['callbacks']['onRelease'],
     onCancel: options.onCancel,
     onSettle: options.onSettle,
   }
   for (const callback of Object.values(callbacks))
     if (callback !== undefined && typeof callback !== 'function')
       throw new TypeError('Drag callbacks must be functions.')
-  return { axes, curves, callbacks }
+  return { axes, curves, value: value && asRoot(value), callbacks }
 }
 
-/** Main-thread pan updates; release physics play through Jolt's native animation drivers. */
-export function drag(target: Target, options: DragOptions = {}): Drag {
+/**
+ * Main-thread pan updates; release physics play through Jolt's native animation drivers.
+ * With `value`, the gesture drives a motion value and the views bound to it.
+ */
+export function drag(target: Target, options: DragValueOptions): Drag
+export function drag(target: Target, options?: DragOptions): Drag
+export function drag(target: Target, options: DragOptions | DragValueOptions = {}): Drag {
   const view = toView(target)
   const config = settings(options) // Invalid replacements leave the existing owner intact.
   const previous = owners.get(view)
@@ -193,7 +218,7 @@ class DragController implements Drag {
   private attached = false
   private blocked = false
   private generation = 0
-  private release: PlaybackAnimation | undefined
+  private release: Animation | undefined
   private input = new DragInput()
   private origin = { x: 0, y: 0 }
   private last: DragEvent = { x: 0, y: 0, velocityX: 0, velocityY: 0 }
@@ -221,6 +246,8 @@ class DragController implements Drag {
     return this.destroyed
   }
   get position(): DragPoint {
+    const value = this.config.value
+    if (value) return { x: 0, y: 0, [this.config.axes[0]!]: value.raw() }
     return { x: currentValue(this.view, 'x'), y: currentValue(this.view, 'y') }
   }
   cancel = () => {
@@ -309,9 +336,15 @@ class DragController implements Drag {
       this.cancel()
       if (!this.attached || this.destroyed || this.disabled) return
       this.blocked = false
-      // Claim just the enabled axes, preserving the native presentation on takeover.
-      stopBase(this.view, this.config.axes)
-      this.origin = { x: baseValue(this.view, 'x'), y: baseValue(this.view, 'y') }
+      const value = this.config.value
+      if (value) {
+        value.stop()
+        this.origin = this.position
+      } else {
+        // Claim just the enabled axes, preserving the native presentation on takeover.
+        stopBase(this.view, this.config.axes)
+        this.origin = { x: baseValue(this.view, 'x'), y: baseValue(this.view, 'y') }
+      }
       const size =
         (this.view.parent as View | undefined)?.getActualSize() ??
         this.view.getActualSize()
@@ -352,8 +385,11 @@ class DragController implements Drag {
           : clampDrag(raw, curve.bounds)
         if (axis === 'x') vx = input.velocityX * resistance
         else vy = input.velocityY * resistance
-        stopBase(this.view, [axis])
-        setBase(this.view, axis, position[axis])
+        if (this.config.value) this.config.value.set(position[axis])
+        else {
+          stopBase(this.view, [axis])
+          setBase(this.view, axis, position[axis])
+        }
       }
       this.last = { ...position, velocityX: vx, velocityY: vy }
       if (event.state !== 3)
@@ -389,7 +425,11 @@ class DragController implements Drag {
         transition: { curve, delay: 0, repeat: 0, reverse: false },
       }
     })
-    const animation = new ViewAnimation(this.view, plans)
+    const [axis] = this.config.axes
+    const value = this.config.value
+    const animation = value
+      ? value.play(createTrack(axis!, [event[axis!]], plans[0]!.transition, 0))
+      : new ViewAnimation(this.view, plans)
     this.release = animation
     void animation.finished.then((finished) => {
       if (generation !== this.generation || this.destroyed) return

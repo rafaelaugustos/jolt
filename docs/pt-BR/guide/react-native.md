@@ -72,7 +72,7 @@ bind(sheet, { y: progress.to([0, 1], [200, 0]) })
 animate(progress, 1, origamiSpring())
 ```
 
-O `to()` segura as pontas por padrão, enquanto o `interpolate` estende; passe `{ clamp: false }` para o `extrapolate: 'extend'`. Um valor que só controla uma view ao longo de uma linha do tempo também pode ser keyframes simples: o `inputRange` vira `times`, o `outputRange` vira os keyframes, e `easeTrack: true` aplica o easing da animação ao track inteiro. Veja [easing do track](./transitions#tweens). Um valor controlado pela rolagem é o [`scrollLinked()`](./scroll-linked), e um controlado por gesto é o [`drag()`](./drag).
+O `to()` segura as pontas por padrão, enquanto o `interpolate` estende; passe `{ clamp: false }` para o `extrapolate: 'extend'`. Um valor que só controla uma view ao longo de uma linha do tempo também pode ser keyframes simples: o `inputRange` vira `times`, o `outputRange` vira os keyframes, e `easeTrack: true` aplica o easing da animação ao track inteiro. Veja [easing do track](./transitions#tweens). Um valor controlado pela rolagem é o [`scrollLinked()`](./scroll-linked), e um controlado por um gesto de pan é o [`drag()` com `value`](./motion-values#arrastando).
 
 ## Somar e multiplicar valores
 
@@ -92,4 +92,5 @@ animate(logo, { scale: [1, 1.15, 1] }, { duration: 300, layer: 'kick' }) // mult
 | eventos de `Keyboard` e o timing do `keyboardWillShow` | [`onKeyboard()`](./keyboard#estado-do-teclado) e `followKeyboard()`                                        |
 | `AccessibilityInfo.isReduceMotionEnabled()`            | [`reducedMotion()` e `onReducedMotion()`](./configure#lendo-a-preferencia)                                 |
 | `Animated.event` no `onScroll`                         | [`scrollValue()`](./motion-values#offsets-de-rolagem) com `bind()`, ou [`scrollLinked()`](./scroll-linked) |
+| `PanResponder` escrevendo num `Animated.Value`         | [`drag()` com `value`](./motion-values#arrastando), soltura incluída                                       |
 | um valor que sobrevive à view remontada                | [estados com `attach()`](./motion-controllers#views-que-voltam)                                            |

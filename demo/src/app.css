@@ -312,6 +312,42 @@ Page {
   color: #facc15;
 }
 
+.drag-values-page {
+  padding: 20;
+}
+
+.drag-values-title {
+  margin-bottom: 14;
+  color: #18181b;
+  font-size: 22;
+  font-weight: bold;
+}
+
+.drag-values-row {
+  height: 44;
+  margin-bottom: 10;
+  border-radius: 12;
+  background-color: #f4f4f5;
+}
+
+.drag-values-hint {
+  margin-top: 14;
+  color: #a1a1aa;
+  font-size: 13;
+  text-align: center;
+}
+
+.drag-values-sheet-title {
+  margin: 18 0 14;
+}
+
+.drag-values-track {
+  height: 48;
+  margin: 0 20 10;
+  border-radius: 12;
+  background-color: #27272a;
+}
+
 .layers-card {
   border-radius: 22;
   background-color: #18181b;

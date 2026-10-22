@@ -102,6 +102,37 @@ Os eventos de rolagem chegam no JavaScript, como no [`scrollLinked()`](./scroll-
 
 <Clip name="scroll-values-android" caption="O mesmo cabeçalho seguindo a lista no emulador Android. Velocidade real." />
 
+## Arrastando
+
+`drag(view, { axis, value })` escreve a posição do dedo num valor em vez de mover a view, e depois toca a soltura no valor. Tudo o que está ligado a ele segue o dedo e o arremesso junto. O gesto é lido na view que você passa; ligue essa view também se ela deve se mover:
+
+```ts
+import { bind, drag, motionValue } from '@rafaelaugusto/jolt'
+
+const closed = 380
+const y = motionValue(closed)
+bind(sheet, { y })
+bind(page, { scale: y.to([0, closed], [0.9, 1]) })
+bind(backdrop, { opacity: y.to([0, closed], [0.5, 0]) })
+bind(hint, { opacity: y.to([closed / 2, closed], [0, 1]) })
+
+drag(sheet, {
+  axis: 'y',
+  value: y,
+  bounds: { top: 0, bottom: closed },
+  snap: [0, closed / 2, closed],
+  rubberband: true,
+})
+```
+
+<Clip name="drag-values-ios" caption="Um sheet arrastável controla um valor de movimento que escala a página, escurece o fundo e apaga a dica, com pontos de encaixe, rubberband e o mesmo valor animado por um botão, no simulador iOS. Velocidade real." />
+
+`axis` é `'x'` ou `'y'`. Limites, pontos de encaixe e o eixo arrastado nos eventos ficam nas unidades do valor; o outro eixo vem 0. O resto funciona como no [`drag()`](./drag): rubberband, atrito, callbacks e o controller. A soltura é a mesma curva, calculada uma vez e tocada nativamente por cada propriedade ligada, sem nada no JavaScript até terminar. O `onRelease` recebe uma [`Animation`](./api#animacoes) em vez de uma `PlaybackAnimation`. Tocar na view durante a soltura, ou durante um `animate(value, ...)`, para o valor onde ele está, e o gesto continua dali.
+
+Cada evento de pan escreve as propriedades ligadas direto. Com seis propriedades ligadas, um evento custa mais ou menos o mesmo que escrevê-las à mão no `onMove`: cerca de 0,8 ms no simulador iOS e de 0,25 a 0,35 ms no emulador Android; veja as [medições](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/drag-values.md). No Vue, comece o arrasto a partir do `useMotionScope()` no `onMounted`, como faz a tela **Drag values** do demo.
+
+<Clip name="drag-values-android" caption="O mesmo sheet no emulador Android, com arremessos reais nas duas direções e uma pegada enquanto a animação do botão ainda roda. Velocidade real." />
+
 ## O que vem depois
 
-Os valores se combinam com [camadas](./layers) na mesma propriedade. Gestos que escrevem em valores, e cálculo nativo onde as medições pedirem, estão planejados no [RFC de valores de movimento](https://github.com/rafaelaugustos/jolt/issues/152).
+Os valores se combinam com [camadas](./layers) na mesma propriedade. O cálculo nativo, onde as medições pedirem, está planejado no [RFC de valores de movimento](https://github.com/rafaelaugustos/jolt/issues/152).

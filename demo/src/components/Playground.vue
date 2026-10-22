@@ -45,7 +45,12 @@ import Layers from './Layers.vue'
 import ScrollValues from './ScrollValues.vue'
 import Remount from './Remount.vue'
 
-const emit = defineEmits<{ imageLab: []; dragLab: []; layoutLab: [] }>()
+const emit = defineEmits<{
+  imageLab: []
+  dragLab: []
+  dragValues: []
+  layoutLab: []
+}>()
 
 const logo = ref()
 const title = ref()
@@ -153,6 +158,7 @@ onUnmounted(() => {
         <Remount />
         <Button text="Layout changes" @tap="emit('layoutLab')" />
         <Button text="Drag, fling and snap" @tap="emit('dragLab')" />
+        <Button text="Drag a motion value" @tap="emit('dragValues')" />
         <Button text="Image effects and photo zoom" @tap="emit('imageLab')" />
         <MotionPath />
         <Timeline />
