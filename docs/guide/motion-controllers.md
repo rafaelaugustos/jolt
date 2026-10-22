@@ -89,3 +89,31 @@ Every target is validated before the new state changes ownership. Replacement tr
 A superseded, stopped or disposed transition resolves `false`, including rapid transitions under reduced motion. Awaited callbacks still run: check the boolean before applying completion side effects. `current` is the latest requested state; `settled` is the last successfully completed state, not a live measurement of the view. `stop()` cancels current work; `pause()/play()` control it; `dispose()` also prevents future transitions. Scope suspension pauses an owned state controller. Retargeting that paused controller keeps the replacement paused.
 
 The playground's **Motion states & scopes** example provides upload, cancel, retry, success/error, pause/resume and unmount/remount controls. Its owner is `useMotionScope()`; use the global Reduce Motion toggle to exercise immediate transitions. Native lifecycle probes are documented in [the benchmark directory](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/motion-lifecycle.md).
+
+## Views that come back
+
+A view inside `v-if`, or a layout that swaps between a compact and a full version, is a new view each time it appears. On its own it starts from its template values: a logo that faded in comes back invisible. A state controller can outlive its views instead. Start a target with `null` and attach views as they come and go:
+
+```vue
+<script setup lang="ts">
+const stage = useMotionScope().states(
+  { logo: null },
+  {
+    hidden: { logo: { opacity: 0, scale: 0.6 } },
+    shown: { logo: { opacity: 1, scale: 1 } },
+  },
+)
+onMounted(() => stage.to('shown'))
+</script>
+
+<template>
+  <Label v-if="compact" :ref="stage.ref('logo')" class="small" text="J" />
+  <Label v-else :ref="stage.ref('logo')" text="J" />
+</template>
+```
+
+`attach(target, view)` points a target at a new view, or at none with `null`. A view that arrives after its state settled takes that state's values at once, with no animation, through [`set()`](./interrupting#setting-values-without-animating). One that arrives during a transition joins it from where it is, with the same timing. `ref(target)` returns one stable callback per target for a template ref: Vue calls it with the element on mount and `null` on unmount. A function created in the template would be called again on every render.
+
+An empty target is skipped by `to()` and remembered for when a view arrives. Its definitions are still validated up front. A view that unmounts during a transition cancels its part, so that transition resolves `false`.
+
+<Clip name="recreated-views-ios" caption="On the iOS simulator, switching the layout recreates both logos. The one attached to the states comes back shown, or hidden after Hide logo; the one with only an entrance comes back invisible. Real-time playback." />

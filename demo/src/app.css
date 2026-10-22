@@ -225,3 +225,22 @@ Page {
   font-weight: bold;
   text-align: center;
 }
+
+.remount-logo {
+  width: 72;
+  height: 72;
+  border-radius: 20;
+  background-color: #18181b;
+  color: #facc15;
+  font-size: 34;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.remount-logo.small {
+  width: 44;
+  height: 44;
+  border-radius: 12;
+  font-size: 20;
+}

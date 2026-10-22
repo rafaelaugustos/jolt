@@ -40,13 +40,13 @@ export interface MotionScope {
   press: typeof press
   drag: typeof drag
   states<
-    T extends Record<string, Target>,
+    T extends Record<string, Target | null>,
     const S extends Record<string, MotionState<keyof T>>,
   >(
     targets: T,
     definitions: MotionDefinitions<T, S>,
     options?: Omit<MotionStatesOptions, 'scope'>,
-  ): MotionStates<Extract<keyof S, string>>
+  ): MotionStates<Extract<keyof S, string>, Extract<keyof T, string>>
   /** Adopt an existing handle. Completed animations are released automatically. */
   add<T extends MotionResource>(resource: T): T
   /** Attach a subscription, detach on suspension, and recreate on resume. */

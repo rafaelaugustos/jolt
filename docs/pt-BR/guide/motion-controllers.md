@@ -88,3 +88,31 @@ Os alvos são validados antes de alterar quem controla as propriedades. Novas tr
 Uma transição substituída, interrompida ou descartada resolve `false`, inclusive em trocas rápidas com movimento reduzido. Callbacks de promises ainda executam: confira o booleano antes de aplicar efeitos de conclusão. `current` indica o estado solicitado; `settled`, o último concluído com sucesso, não uma medição contínua. `stop()` cancela a transição; `pause()/play()` controlam playback; `dispose()` também impede novas transições. O escopo pausa controllers registrados durante suspensão; mudar o destino de um controller pausado mantém a nova transição pausada.
 
 O playground **Motion states & scopes** inclui upload, cancelar, tentar novamente, sucesso/erro, pausar/retomar e desmontar/remontar. Usa `useMotionScope()` e respeita o controle global de movimento reduzido. Os testes nativos estão descritos no [diretório de benchmarks](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/motion-lifecycle.md).
+
+## Views que voltam
+
+Uma view dentro de `v-if`, ou um layout que alterna entre uma versão compacta e uma completa, é uma view nova a cada vez que aparece. Sozinha, ela começa dos valores do template: um logo que apareceu com fade volta invisível. Um controller de estados pode durar mais que as views. Comece o alvo com `null` e ligue as views conforme elas vêm e vão:
+
+```vue
+<script setup lang="ts">
+const stage = useMotionScope().states(
+  { logo: null },
+  {
+    hidden: { logo: { opacity: 0, scale: 0.6 } },
+    shown: { logo: { opacity: 1, scale: 1 } },
+  },
+)
+onMounted(() => stage.to('shown'))
+</script>
+
+<template>
+  <Label v-if="compact" :ref="stage.ref('logo')" class="small" text="J" />
+  <Label v-else :ref="stage.ref('logo')" text="J" />
+</template>
+```
+
+`attach(target, view)` aponta um alvo para uma view nova, ou para nenhuma com `null`. Uma view que chega depois de o estado assentar recebe os valores desse estado na hora, sem animação, pelo [`set()`](./interrupting#aplicar-valores-sem-animar). Uma que chega durante uma transição entra nela a partir de onde está, com o mesmo timing. `ref(target)` devolve um callback estável por alvo para usar como template ref: o Vue chama com o elemento ao montar e com `null` ao desmontar. Uma função criada no template seria chamada de novo a cada render.
+
+Um alvo vazio é ignorado pelo `to()` e lembrado para quando uma view chegar. As definições dele continuam sendo validadas na criação. Uma view que desmonta durante uma transição cancela a parte dela, então essa transição resolve `false`.
+
+<Clip name="recreated-views-ios" caption="No simulador iOS, trocar o layout recria os dois logos. O ligado aos estados volta visível, ou escondido depois de Hide logo; o que só tem entrada volta invisível. Velocidade real." />
