@@ -1,0 +1,160 @@
+{
+  "passed": true,
+  "mode": "all",
+  "metadata": {
+    "model": "sdk_gphone64_arm64",
+    "manufacturer": "Google",
+    "sdk": 36,
+    "release": "16",
+    "scale": 0.5,
+    "hapticsEnabled": 1,
+    "hasVibrator": true,
+    "density": 2.625
+  },
+  "results": [
+    {
+      "name": "Native styles and single tween arrival",
+      "passed": true,
+      "requests": [
+        {
+          "at": 189147,
+          "effect": 4,
+          "accepted": true,
+          "xPixels": 210,
+          "yPixels": 0
+        },
+        {
+          "at": 189360,
+          "effect": 6,
+          "accepted": true,
+          "xPixels": 210,
+          "yPixels": 0
+        },
+        {
+          "at": 189577,
+          "effect": 0,
+          "accepted": true,
+          "xPixels": 210,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Explicit points track native visual position",
+      "passed": true,
+      "requests": [
+        {
+          "at": 189860,
+          "effect": 4,
+          "accepted": true,
+          "xPixels": 70.19999694824219,
+          "yPixels": 0
+        },
+        {
+          "at": 190027,
+          "effect": 4,
+          "accepted": true,
+          "xPixels": 170.39999389648438,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Spring impact precedes settling completion",
+      "passed": true,
+      "requests": [
+        {
+          "at": 190510,
+          "effect": 0,
+          "accepted": true,
+          "xPixels": 219.11361694335938,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Pause and seek preserve one-shot consumption",
+      "passed": true,
+      "requests": [
+        {
+          "at": 191260,
+          "effect": 4,
+          "accepted": true,
+          "xPixels": 175,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Timeline pause includes pending steps and feedback",
+      "passed": true,
+      "requests": [
+        {
+          "at": 192444,
+          "effect": 4,
+          "accepted": true,
+          "xPixels": 210,
+          "yPixels": 0
+        },
+        {
+          "at": 192677,
+          "effect": 0,
+          "accepted": true,
+          "xPixels": 0,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Interruption and scope disposal cancel pending feedback",
+      "passed": true,
+      "requests": []
+    },
+    {
+      "name": "View-disabled feedback is declined without forced fallback",
+      "passed": true,
+      "requests": [
+        {
+          "at": 193877,
+          "effect": 4,
+          "accepted": false,
+          "xPixels": 210,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "False, stationary and zero-duration animations stay silent",
+      "passed": true,
+      "requests": []
+    },
+    {
+      "name": "Slow motion retains the visual clock",
+      "passed": true,
+      "requests": [
+        {
+          "at": 194727,
+          "effect": 4,
+          "accepted": true,
+          "xPixels": 210,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Busy UI thread does not replay stale feedback",
+      "passed": true,
+      "requests": []
+    },
+    {
+      "name": "Unload/reload cannot revive pending feedback",
+      "passed": true,
+      "requests": []
+    },
+    {
+      "name": "Repeated cancellation leaves no later requests",
+      "passed": true,
+      "requests": []
+    }
+  ]
+}

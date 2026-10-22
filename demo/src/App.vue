@@ -8,6 +8,7 @@ import DragLab from './components/DragLab.vue'
 import DragValues from './components/DragValues.vue'
 import PlaybackLab from './components/PlaybackLab.vue'
 import LayoutLab from './components/LayoutLab.vue'
+import Haptics from './components/Haptics.vue'
 import { launchArgument, onLaunch, runLaunchTaps } from './launch'
 type Screen = 'home' | 'voice' | 'chat'
 const launched = ref(false)
@@ -17,6 +18,7 @@ const dragLab = ref(false)
 const dragValues = ref(false)
 const layoutLab = ref(false)
 const playbackLab = ref(false)
+const hapticsLab = ref(false)
 const autoplay = ref(false)
 const initialScreen = ref<Screen>('home')
 const assistant = ref()
@@ -26,6 +28,7 @@ onLaunch(() => {
   dragLab.value = launchArgument('drag-lab') !== undefined
   dragValues.value = launchArgument('drag-values') !== undefined
   playbackLab.value = launchArgument('playback-lab') !== undefined
+  hapticsLab.value = launchArgument('haptics-lab') !== undefined
   layoutLab.value = launchArgument('layout-lab') !== undefined
   playground.value = launchArgument('playground') !== undefined
   autoplay.value = launchArgument('autoplay') !== undefined
@@ -54,10 +57,11 @@ defineExpose({ assistant })
       actionBarHidden="true"
       :statusBarStyle="playbackLab ? 'light' : 'dark'"
       :androidStatusBarBackground="playbackLab ? '#101827' : undefined"
-      :class="playground ? '' : 'assistant-page'"
+      :class="playground || hapticsLab ? '' : 'assistant-page'"
       @loaded="pageLoaded"
     >
-      <PlaybackLab v-if="launched && playbackLab" @back="backToPlayground" />
+      <ScrollView v-if="launched && hapticsLab"><Haptics /></ScrollView>
+      <PlaybackLab v-else-if="launched && playbackLab" @back="backToPlayground" />
       <LayoutLab v-else-if="launched && layoutLab" @back="backToPlayground" />
       <DragLab v-else-if="launched && dragLab" @back="backToPlayground" />
       <DragValues v-else-if="launched && dragValues" @back="backToPlayground" />

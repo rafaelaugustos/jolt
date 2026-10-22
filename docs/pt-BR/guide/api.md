@@ -38,7 +38,7 @@
 
 `target` é uma view ou qualquer coisa que contenha uma (um template ref, um `ElementRef`). `animate()`, `decay()`, `stop()`, `set()` e os passos de uma sequência também aceitam arrays de alvos.
 
-As opções de `animate()` também aceitam [`haptic`](./haptics): `light`, `medium`, `heavy`, `{ style, times }` ou `false`. O feedback funciona só no iOS.
+As opções de `animate()` também aceitam [`haptic`](./haptics): `light`, `medium`, `heavy`, `{ style, times }` ou `false`. O feedback funciona no iOS e no Android, respeitando as configurações do aparelho.
 
 ## Animações
 

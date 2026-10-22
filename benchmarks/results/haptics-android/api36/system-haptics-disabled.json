@@ -1,0 +1,166 @@
+{
+  "passed": true,
+  "mode": "all",
+  "metadata": {
+    "model": "sdk_gphone64_arm64",
+    "manufacturer": "Google",
+    "sdk": 36,
+    "release": "16",
+    "scale": 1,
+    "hapticsEnabled": 0,
+    "hasVibrator": true,
+    "density": 2.625
+  },
+  "results": [
+    {
+      "name": "Native styles and single tween arrival",
+      "passed": true,
+      "requests": [
+        {
+          "at": 274249,
+          "effect": 4,
+          "accepted": true,
+          "xPixels": 210,
+          "yPixels": 0
+        },
+        {
+          "at": 274610,
+          "effect": 6,
+          "accepted": true,
+          "xPixels": 210,
+          "yPixels": 0
+        },
+        {
+          "at": 274977,
+          "effect": 0,
+          "accepted": true,
+          "xPixels": 210,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Explicit points track native visual position",
+      "passed": true,
+      "requests": [
+        {
+          "at": 275360,
+          "effect": 4,
+          "accepted": true,
+          "xPixels": 65.0999984741211,
+          "yPixels": 0
+        },
+        {
+          "at": 275710,
+          "effect": 4,
+          "accepted": true,
+          "xPixels": 170.10000610351562,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Spring impact precedes settling completion",
+      "passed": true,
+      "requests": [
+        {
+          "at": 276510,
+          "effect": 0,
+          "accepted": true,
+          "xPixels": 219.11361694335938,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Pause and seek preserve one-shot consumption",
+      "passed": true,
+      "requests": [
+        {
+          "at": 277810,
+          "effect": 4,
+          "accepted": true,
+          "xPixels": 171.0333251953125,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Timeline pause includes pending steps and feedback",
+      "passed": true,
+      "requests": [
+        {
+          "at": 279960,
+          "effect": 4,
+          "accepted": true,
+          "xPixels": 210,
+          "yPixels": 0
+        },
+        {
+          "at": 280393,
+          "effect": 0,
+          "accepted": true,
+          "xPixels": 0,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Interruption and scope disposal cancel pending feedback",
+      "passed": true,
+      "requests": []
+    },
+    {
+      "name": "View-disabled feedback is declined without forced fallback",
+      "passed": true,
+      "requests": [
+        {
+          "at": 282443,
+          "effect": 4,
+          "accepted": false,
+          "xPixels": 210,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "False, stationary and zero-duration animations stay silent",
+      "passed": true,
+      "requests": []
+    },
+    {
+      "name": "Slow motion retains the visual clock",
+      "passed": true,
+      "requests": [
+        {
+          "at": 283793,
+          "effect": 4,
+          "accepted": true,
+          "xPixels": 210,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Busy UI thread does not replay stale feedback",
+      "passed": true,
+      "requests": []
+    },
+    {
+      "name": "Unload/reload cannot revive pending feedback",
+      "passed": true,
+      "requests": []
+    },
+    {
+      "name": "Repeated cancellation leaves no later requests",
+      "passed": true,
+      "requests": []
+    }
+  ],
+  "systemValidation": {
+    "acknowledgedRequests": 10,
+    "hapticFeedbackEnabled": 0,
+    "hapticFeedbackIntensity": 0,
+    "evidence": "VibratorManager: every new app TOUCH request ignored_for_settings"
+  }
+}

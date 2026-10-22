@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "mode": "all",
+  "metadata": {
+    "model": "ASUS_Z017DC",
+    "manufacturer": "asus",
+    "sdk": 26,
+    "release": "8.0.0",
+    "scale": 0,
+    "hapticsEnabled": 1,
+    "hasVibrator": true,
+    "density": 3
+  },
+  "results": [
+    {
+      "name": "Scale zero with forced normal motion stays silent",
+      "passed": true,
+      "requests": []
+    }
+  ]
+}
