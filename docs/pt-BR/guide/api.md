@@ -8,6 +8,7 @@
 - [`motionScope()`](./motion-controllers) — agrupa animações, subscriptions e ciclo de vida.
 - [`motionStates(targets, definitions, options?)`](./motion-controllers#estados-nomeados) — estados visuais nomeados com interrupção; [`attach()` e `ref()`](./motion-controllers#views-que-voltam) mantêm o estado em views recriadas.
 - [`decay(target, velocity, options?)`](./decay)
+- [`gradient(target, options)`](./gradients) — gradientes nativos lineares, radiais e cônicos; retorna um `Gradient` com `animate()`, `set()`, `stop()` e `remove()`.
 - `stop(target, properties?)`
 - [`set(target, values)`](./interrupting#aplicar-valores-sem-animar) — aplica valores na hora e para o que estiver animando essas propriedades.
 - [`sequence(steps)`](./sequences) — passos sobrepostos e posições fixas.
