@@ -8,6 +8,8 @@ Anime coordenadas de mapas e câmeras SceneKit sem criar um laço por quadro em 
 
 ## Instalação opcional
 
+Disponível desde o Jolt **0.1.0-beta.13**, com o pacote nativo opcional na mesma versão.
+
 Instale `@rafaelaugusto/jolt-native` junto com o Jolt e recompile o aplicativo nativo. O registro JavaScript fica na entrada `/native`; os fontes compilados e os frameworks MapKit/SceneKit ficam exclusivamente nesse plugin opcional. Apps com somente o pacote principal não incluem esses helpers. A ausência do plugin produz um erro explícito ao criar uma propriedade.
 
 ```sh

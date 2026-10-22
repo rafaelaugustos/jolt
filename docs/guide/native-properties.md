@@ -8,6 +8,8 @@ Animate a map coordinate or a SceneKit camera without writing a JavaScript frame
 
 ## Optional installation
 
+Available since Jolt **0.1.0-beta.13**, with a matching optional native runtime package.
+
 Install `@rafaelaugusto/jolt-native` alongside Jolt and rebuild the native application. The JavaScript registry lives in the `/native` entry; compiled sources and MapKit/SceneKit framework linkage live exclusively in this optional plugin. Apps with only the main package do not include those helpers. Creating a property without the plugin reports an explicit error.
 
 ```sh
