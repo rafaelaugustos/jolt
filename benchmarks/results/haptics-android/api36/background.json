@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "mode": "background",
+  "metadata": {
+    "model": "sdk_gphone64_arm64",
+    "manufacturer": "Google",
+    "sdk": 36,
+    "release": "16",
+    "scale": 1,
+    "hapticsEnabled": 1,
+    "hasVibrator": true,
+    "density": 2.625
+  },
+  "results": [
+    {
+      "name": "Real Home/background/foreground drops feedback",
+      "passed": true,
+      "requests": []
+    }
+  ]
+}

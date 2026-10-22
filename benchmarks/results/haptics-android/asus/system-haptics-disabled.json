@@ -1,0 +1,165 @@
+{
+  "passed": true,
+  "mode": "all",
+  "metadata": {
+    "model": "ASUS_Z017DC",
+    "manufacturer": "asus",
+    "sdk": 26,
+    "release": "8.0.0",
+    "scale": 1,
+    "hapticsEnabled": 0,
+    "hasVibrator": true,
+    "density": 3
+  },
+  "results": [
+    {
+      "name": "Native styles and single tween arrival",
+      "passed": true,
+      "requests": [
+        {
+          "at": 3379609,
+          "effect": 4,
+          "accepted": false,
+          "xPixels": 240,
+          "yPixels": 0
+        },
+        {
+          "at": 3379982,
+          "effect": 6,
+          "accepted": false,
+          "xPixels": 240,
+          "yPixels": 0
+        },
+        {
+          "at": 3380349,
+          "effect": 0,
+          "accepted": false,
+          "xPixels": 240,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Explicit points track native visual position",
+      "passed": true,
+      "requests": [
+        {
+          "at": 3380751,
+          "effect": 4,
+          "accepted": false,
+          "xPixels": 74.74285888671875,
+          "yPixels": 0
+        },
+        {
+          "at": 3381099,
+          "effect": 4,
+          "accepted": false,
+          "xPixels": 195.08572387695312,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Spring impact precedes settling completion",
+      "passed": true,
+      "requests": [
+        {
+          "at": 3381919,
+          "effect": 0,
+          "accepted": false,
+          "xPixels": 250.33389282226562,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Pause and seek preserve one-shot consumption",
+      "passed": true,
+      "requests": [
+        {
+          "at": 3383254,
+          "effect": 4,
+          "accepted": false,
+          "xPixels": 195.73333740234375,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Timeline pause includes pending steps and feedback",
+      "passed": true,
+      "requests": [
+        {
+          "at": 3385459,
+          "effect": 4,
+          "accepted": false,
+          "xPixels": 240,
+          "yPixels": 0
+        },
+        {
+          "at": 3385896,
+          "effect": 0,
+          "accepted": false,
+          "xPixels": 0,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Interruption and scope disposal cancel pending feedback",
+      "passed": true,
+      "requests": []
+    },
+    {
+      "name": "View-disabled feedback is declined without forced fallback",
+      "passed": true,
+      "requests": [
+        {
+          "at": 3388001,
+          "effect": 4,
+          "accepted": false,
+          "xPixels": 240,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "False, stationary and zero-duration animations stay silent",
+      "passed": true,
+      "requests": []
+    },
+    {
+      "name": "Slow motion retains the visual clock",
+      "passed": true,
+      "requests": [
+        {
+          "at": 3389371,
+          "effect": 4,
+          "accepted": false,
+          "xPixels": 240,
+          "yPixels": 0
+        }
+      ]
+    },
+    {
+      "name": "Busy UI thread does not replay stale feedback",
+      "passed": true,
+      "requests": []
+    },
+    {
+      "name": "Unload/reload cannot revive pending feedback",
+      "passed": true,
+      "requests": []
+    },
+    {
+      "name": "Repeated cancellation leaves no later requests",
+      "passed": true,
+      "requests": []
+    }
+  ],
+  "systemValidation": {
+    "acknowledgedRequests": 0,
+    "hapticFeedbackEnabled": 0,
+    "evidence": "Every performHapticFeedback call returned false"
+  }
+}

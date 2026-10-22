@@ -326,7 +326,7 @@ describe('haptics', () => {
     expect(impacts).toHaveLength(1)
   })
 
-  it('does not touch iOS APIs or add timers for Android', () => {
+  it('does not touch iOS APIs or add timers on an unsupported platform', () => {
     platform.isIOS = false
     vi.unstubAllGlobals()
     const view = target()

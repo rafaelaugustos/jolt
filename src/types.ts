@@ -84,7 +84,7 @@ export type AnimateOptions = Transition & {
   relative?: boolean
   /** With several targets, delays each one by this much more than the previous. */
   stagger?: number | Stagger
-  /** iOS impact feedback at arrival, or at explicit points in a finite animation. */
+  /** Native haptic feedback at arrival, or at explicit points in a finite animation. */
   haptic?: Haptic
   /**
    * Plays on a named layer, on top of the property's other animations instead of replacing

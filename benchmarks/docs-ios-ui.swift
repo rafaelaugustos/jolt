@@ -369,14 +369,23 @@ final class DocsTests: XCTestCase {
         }
     }
     func testHaptics() throws {
-        launch(["--playground", "--section=haptics"], "light")
+        launch(["--haptics-lab"], "light")
         try record("haptics-ios") {
             tap("light"); tap("medium"); tap("heavy")
-            // The playground also has an offscreen SF Symbol named Bounce.
-            let bounce = app.buttons.matching(identifier: "Bounce").allElementsBoundByIndex.first { $0.isHittable }
-            XCTAssertNotNil(bounce)
-            bounce?.tap()
-            Thread.sleep(forTimeInterval: 1.4)
+            tap("Bounce", wait: 1.4)
+            tap("Tween", wait: 0.1)
+            tap("Pause", wait: 0.3)
+            XCTAssertTrue(app.staticTexts["Paused"].exists)
+            let percent = app.staticTexts.matching(NSPredicate(format: "label MATCHES %@", "^[0-9]+%$")).firstMatch
+            let held = percent.label
+            Thread.sleep(forTimeInterval: 0.7)
+            XCTAssertEqual(percent.label, held)
+            tap("Seek 70%", wait: 0.2)
+            tap("Rewind 10%", wait: 0.2)
+            tap("Resume", wait: 2.2)
+            XCTAssertTrue(app.staticTexts["Finished"].exists)
+            tap("Stagger", wait: 1.2)
+            tap("No feedback", wait: 2.4)
             XCTAssertTrue(app.staticTexts["Haptics"].isHittable)
         }
     }

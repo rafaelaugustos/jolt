@@ -64,7 +64,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Photo zoom and pan](https://jolt.rafaelaugusto.dev/guide/photo-zoom): native pinch, double tap, bounds and vertical dismissal intents.
 - [Loaders](#loaders) with dots, bars and ring styles on iOS.
 - [Circular reveal](#circular-reveal) to show or hide content from a point on iOS.
-- [Haptics](#haptics) at arrival or at marked points in an animation on iOS.
+- [Haptics](#haptics) at arrival or at marked points in an animation on iOS and Android.
 - [Particles and confetti](#particles-and-confetti) on iOS.
 - [Scroll-linked animations](#scroll-linked-animations) for parallax and collapsing headers.
 - [Keyboard following](#follow-the-keyboard) for composers that rise with the keyboard, at its speed and curve.
@@ -527,7 +527,7 @@ animate(card, { y: 0 }, { type: 'spring', haptic: 'light' })
 animate(button, 'bounce', { haptic: { style: 'light', times: [0.6, 1] } })
 ```
 
-Choose `light`, `medium` or `heavy`. By default, one impact fires when the animation visually arrives. Explicit points can mark each landing of a bounce. Delays and stagger follow the animation; interruptions, stopping and unloading cancel pending feedback. iOS only for now. See the [haptics guide](https://jolt.rafaelaugusto.dev/guide/haptics) for timing and device behavior.
+Choose `light`, `medium` or `heavy`. By default, one impact fires when the animation visually arrives. Explicit points can mark each landing of a bounce. Delays and stagger follow the animation; interruptions, stopping and unloading cancel pending feedback. Supported on iOS and Android, respecting device settings. See the [haptics guide](https://jolt.rafaelaugusto.dev/guide/haptics) for timing, platform mappings and physical-device behavior.
 
 ## Particles and confetti
 

@@ -457,11 +457,17 @@ export class ViewAnimation implements PlaybackAnimation {
       createClock(() => driver.now())
     if (this._paused) this.clock.pause()
     this.view.on('unloaded', this.unloaded)
-    this.haptics = playHaptics(this.view, tracks, this.haptic, driver, now, () =>
-      this.time(),
-    )
-    if (this._paused) this.haptics?.pause()
     for (const entry of this.entries) this.playEntry(entry)
+    // Register discrete feedback after the visual animators. Android dispatches
+    // these callbacks in registration order within a frame: feedback should see
+    // that frame's updated pose, not the preceding frame's position.
+    // Scale-zero native playback may already have completed synchronously.
+    if (!this.settled) {
+      this.haptics = playHaptics(this.view, tracks, this.haptic, driver, now, () =>
+        this.time(),
+      )
+      if (this._paused) this.haptics?.pause()
+    }
     if (this.pendingProgress !== undefined) {
       const progress = this.pendingProgress
       this.pendingProgress = undefined

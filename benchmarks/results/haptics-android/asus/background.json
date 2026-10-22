@@ -1,0 +1,21 @@
+{
+  "passed": true,
+  "mode": "background",
+  "metadata": {
+    "model": "ASUS_Z017DC",
+    "manufacturer": "asus",
+    "sdk": 26,
+    "release": "8.0.0",
+    "scale": 1,
+    "hapticsEnabled": 1,
+    "hasVibrator": true,
+    "density": 3
+  },
+  "results": [
+    {
+      "name": "Real Home/background/foreground drops feedback",
+      "passed": true,
+      "requests": []
+    }
+  ]
+}
