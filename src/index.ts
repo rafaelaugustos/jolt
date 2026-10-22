@@ -42,6 +42,13 @@ export type {
   SymbolEffectName,
   SymbolEffectOptions,
 } from './symbol-effect.js'
+export { gradient } from './gradient.js'
+export type {
+  Gradient,
+  GradientOptions,
+  GradientType,
+  GradientValues,
+} from './gradient.js'
 export { configure, onReducedMotion, reducedMotion } from './config.js'
 export type { JoltConfig } from './config.js'
 export { definePreset, presets } from './presets.js'

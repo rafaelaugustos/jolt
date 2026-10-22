@@ -91,6 +91,15 @@ final class DocsTests: XCTestCase {
             tap("Toss springs", wait: 1.8)
         }
     }
+    func testGradients() throws {
+        launch(["--playground", "--section=gradients"], "Play gradients")
+        try record("gradients-ios") {
+            tap("Play gradients", wait: 4)
+            tap("Swap colors", wait: 1.4)
+            tap("Swap colors", wait: 1.4)
+            tap("Stop gradients", wait: 1)
+        }
+    }
     func testLayout() throws {
         launch(["--layout-lab"], "layout-card-1")
         try record("layout-ios") {

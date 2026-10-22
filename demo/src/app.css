@@ -253,3 +253,21 @@ Page {
 .rn-lane {
   margin: 4 0;
 }
+
+.gradient-row {
+  margin: 16 0;
+}
+
+.gradient-card {
+  margin: 0 4;
+  border-radius: 18;
+  background-color: #18181b;
+}
+
+.gradient-label {
+  color: #ffffff;
+  font-size: 13;
+  font-weight: bold;
+  vertical-alignment: bottom;
+  margin: 0 0 10 12;
+}

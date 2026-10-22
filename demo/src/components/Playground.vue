@@ -33,6 +33,7 @@ import Text from './Text.vue'
 import Rolling from './Rolling.vue'
 import BusyJs from './BusyJs.vue'
 import Colors from './Colors.vue'
+import Gradients from './Gradients.vue'
 import Decorations from './Decorations.vue'
 import Playback from './Playback.vue'
 import Timeline from './Timeline.vue'
@@ -153,6 +154,7 @@ onUnmounted(() => {
         <Decorations />
         <BusyJs />
         <Colors />
+        <Gradients />
         <Presets />
         <Springs />
         <FromReactNative />

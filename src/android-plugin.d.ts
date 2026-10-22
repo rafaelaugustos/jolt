@@ -94,6 +94,35 @@ declare namespace org.rafaelaugusto.jolt {
       })
     }
   }
+  class GradientLayer extends android.graphics.drawable.Drawable {
+    constructor(type: number)
+    setCorner(radius: number): void
+    paint(
+      colors: native.Array<number>,
+      stops: native.Array<number>,
+      angle: number,
+      x: number,
+      y: number,
+      radius: number,
+    ): void
+    play(
+      times: native.Array<number>,
+      colors: native.Array<number>,
+      stops: native.Array<number>,
+      geometry: native.Array<number>,
+      duration: number,
+      delay: number,
+      repeat: number,
+      reverse: boolean,
+      listener: GradientLayer.Listener,
+    ): void
+    cancel(): void
+  }
+  namespace GradientLayer {
+    class Listener {
+      constructor(implementation: { onEnd(finished: boolean): void })
+    }
+  }
   class KeyboardObserver {
     constructor(root: android.view.View, listener: KeyboardObserver.Listener)
     attach(): void
