@@ -38,6 +38,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Corners, borders and shadows](#corners-borders-and-shadows) with native playback and selective stopping.
 - [Motion paths](#motion-along-a-path) with optional tangent orientation on iOS and Android.
 - [Colors](#colors) for backgrounds, borders and text, interpolated in OKLab on iOS and Android.
+- [Motion values](#motion-values): one value driving several properties and views, mapped like `interpolate`.
 - [Gradients](#gradients): native linear, radial and conic gradients with animated colors, angle, center and radius.
 - [Motion scopes and states](https://jolt.rafaelaugusto.dev/guide/motion-controllers) for component cleanup and coordinated visual states.
 - [Animated touch targets](https://jolt.rafaelaugusto.dev/guide/interaction-surface) with an opt-in native interaction surface.
@@ -186,6 +187,19 @@ Color strings and NativeScript `Color` objects work as targets or keyframes; `nu
 `borderColor` requires the same starting color on every edge; widths and corner radii may differ. Text color supports Label and Button on iOS, and TextBase on Android. Explicit formatted-span colors stay intact. On iOS, text uses a native alpha-mask layer preserving UILabel's layout; emoji, attachments, text shadows and masks above four million pixels keep the final model color and resolve `false`. Edits, restyling and unloading cancel text playback and restore the current text. Gradients and images themselves are not interpolated. iOS background-color playback on an image background is skipped to preserve Core’s rasterized image; the final model color is applied. See the [color guide](https://jolt.rafaelaugusto.dev/guide/colors).
 
 Android includes a Java animation target; rebuild the native app after installing or upgrading Jolt.
+
+## Motion values
+
+```ts
+import { animate, bind, motionValue } from '@rafaelaugusto/jolt'
+
+const progress = motionValue(0)
+bind(backdrop, { opacity: progress.to([0, 1], [0, 0.45]) })
+bind(sheet, { y: progress.to([0, 1], [200, 0]) })
+animate(progress, 1, 'snappy')
+```
+
+One value drives several properties and views on one native clock, mapped with `to()` like React Native's `interpolate`, to numbers or colors. Interruptions carry the value and its velocity to every bound view, `set()` and `stop()` take a value, and a value outlives its views. In Vue, `useMotionValue()` and `useBinding()` handle the lifecycle. See the [guide](https://jolt.rafaelaugusto.dev/guide/motion-values).
 
 ## Gradients
 

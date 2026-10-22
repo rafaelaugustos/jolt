@@ -189,9 +189,8 @@ export function motionScope(): MotionScope {
           : animateLayout(container, changeOrOptions),
       )
     },
-    animate(...args) {
-      return startOwned(() => animate(...args))
-    },
+    animate: ((...args: Parameters<typeof animate>) =>
+      startOwned(() => animate(...args))) as typeof animate,
     decay(...args) {
       return startOwned(() => decay(...args))
     },

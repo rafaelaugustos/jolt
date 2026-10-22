@@ -100,6 +100,15 @@ final class DocsTests: XCTestCase {
             tap("Stop gradients", wait: 1)
         }
     }
+    func testMotionValues() throws {
+        launch(["--playground", "--section=motion values"], "Open sheet")
+        try record("motion-values-ios") {
+            tap("Open sheet", wait: 1.3)
+            tap("Close sheet", wait: 1.3)
+            tap("Open sheet", wait: 1.3)
+            tap("Close sheet", wait: 1.3)
+        }
+    }
     func testLayout() throws {
         launch(["--layout-lab"], "layout-card-1")
         try record("layout-ios") {

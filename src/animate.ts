@@ -23,6 +23,12 @@ import {
   type Plan,
 } from './engine.js'
 import { getPreset, type PresetName } from './presets.js'
+import {
+  asRoot,
+  detachBindings,
+  isMotionValue,
+  type MotionValue,
+} from './motion-value.js'
 import { resolveHaptic, type Haptic } from './haptics.js'
 import { isProperty, precision, type Property } from './properties.js'
 import {
@@ -55,20 +61,40 @@ interface Options {
 
 /**
  * Animates one view, or several. Takes keyframes or the name of a preset,
- * and a transition or the name of a spring.
+ * and a transition or the name of a spring. A motion value animates to a number.
  *
  * ```ts
  * animate(card, 'fadeInUp')
  * animate(card, { scale: 1.1, rotate: [0, 90] }, 'bouncy')
  * animate(rows, 'fadeInUp', { stagger: 40 })
+ * animate(progress, 1, 'snappy')
  * ```
  */
+export function animate(
+  value: MotionValue,
+  to: number | readonly (number | null)[],
+  transition?: Transition | SpringName,
+): Animation
 export function animate(
   target: Target | readonly Target[],
   animation: Keyframes | PresetName,
   options?: AnimateOptions | SpringName,
-): PlaybackAnimation {
-  return prepareAnimation(target, animation, options)()
+): PlaybackAnimation
+export function animate(
+  target: Target | readonly Target[] | MotionValue,
+  animation: Keyframes | PresetName | number | readonly (number | null)[],
+  options?: AnimateOptions | SpringName,
+): PlaybackAnimation | Animation {
+  if (isMotionValue(target))
+    return asRoot(target).animate(
+      animation as number | readonly (number | null)[],
+      options as Transition | SpringName | undefined,
+    )
+  return prepareAnimation(
+    target as Target | readonly Target[],
+    animation as Keyframes | PresetName,
+    options,
+  )()
 }
 
 /** Validate and snapshot a complete animation before changing any view ownership. */
@@ -89,7 +115,13 @@ export function prepareAnimation(
       if (isColorProperty(property)) validateColorTarget(view, property)
       else if (isDecorationProperty(property)) validateDecorationTarget(view, property)
     const plans = plan(keyframes, base, overrides, 0, relative, path)
-    return () => new ViewAnimation(view, plans, feedback)
+    return () => {
+      detachBindings(
+        view,
+        plans.map(({ property }) => property),
+      )
+      return new ViewAnimation(view, plans, feedback)
+    }
   }
 
   const views = target.map(toView)
@@ -109,7 +141,13 @@ export function prepareAnimation(
   )
   return () =>
     playbackGroup(
-      views.map((view, index) => new ViewAnimation(view, plans[index]!, feedback, true)),
+      views.map((view, index) => {
+        detachBindings(
+          view,
+          plans[index]!.map(({ property }) => property),
+        )
+        return new ViewAnimation(view, plans[index]!, feedback, true)
+      }),
     )
 }
 
@@ -186,15 +224,25 @@ export function decay(
   )
 }
 
-/** Stops all or selected properties at their current values. `scale` stops both axes. */
+/**
+ * Stops all or selected properties at their current values. `scale` stops both axes.
+ * A motion value stops where it is, and so do the views bound to it.
+ */
+export function stop(value: MotionValue): void
 export function stop(
   target: Target | readonly Target[],
   properties?: readonly KeyframeProperty[],
+): void
+export function stop(
+  target: Target | readonly Target[] | MotionValue,
+  properties?: readonly KeyframeProperty[],
 ) {
+  if (isMotionValue(target)) return asRoot(target).stop()
   const expanded = properties?.flatMap<Property>((property) =>
     property === 'scale' ? ['scaleX', 'scaleY'] : [property],
   )
-  for (const view of toViews(target)) stopView(view, expanded)
+  for (const view of toViews(target as Target | readonly Target[]))
+    stopView(view, expanded)
 }
 
 /**
@@ -205,7 +253,13 @@ export function stop(
  * set(logo, { opacity: 1, scale: 1, y: 0 })
  * ```
  */
-export function set(target: Target | readonly Target[], values: Values): void {
+export function set(value: MotionValue, to: number): void
+export function set(target: Target | readonly Target[], values: Values): void
+export function set(
+  target: Target | readonly Target[] | MotionValue,
+  values: Values | number,
+) {
+  if (isMotionValue(target)) return asRoot(target).set(values as number)
   if (values === null || typeof values !== 'object' || Array.isArray(values))
     throw new TypeError('set() takes an object of values.')
   const keyframes: Record<string, unknown> = {}
@@ -218,7 +272,7 @@ export function set(target: Target | readonly Target[], values: Values): void {
       )
     keyframes[key] = [value, value]
   }
-  animate(target, keyframes as Keyframes, { duration: 0 })
+  animate(target as Target | readonly Target[], keyframes as Keyframes, { duration: 0 })
 }
 
 /** Plays several animations as one: finished once they all are, and stopped together. */

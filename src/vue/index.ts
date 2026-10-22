@@ -17,8 +17,14 @@ import {
 import {
   press,
   motionScope,
+  bind,
+  motionValue,
   onKeyboard,
   onReducedMotion,
+  stop,
+  type Bindings,
+  type MotionValue,
+  type Target,
   reducedMotion,
   type KeyboardState,
   type MotionScope,
@@ -228,4 +234,31 @@ export function useKeyboard(): Readonly<Ref<KeyboardState>> {
   keyboard.value = currentKeyboard()
   onUnmounted(off)
   return readonly(keyboard) as Readonly<Ref<KeyboardState>>
+}
+
+/** Call in setup(): a motion value that stops when the component unmounts. */
+export function useMotionValue(initial = 0): MotionValue {
+  const value = motionValue(initial)
+  onUnmounted(() => stop(value))
+  return value
+}
+
+/**
+ * Call in setup(): a template ref that binds motion values to the element on mount
+ * and releases them on unmount. A recreated element picks the values up again.
+ */
+export function useBinding(bindings: Bindings): (element: Target | null) => void {
+  let element: Target | null = null
+  let release: (() => void) | undefined
+  onUnmounted(() => {
+    release?.()
+    release = undefined
+  })
+  return (next) => {
+    if (next === element) return
+    release?.()
+    release = undefined
+    element = next
+    if (next) release = bind(next, bindings)
+  }
 }

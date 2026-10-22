@@ -37,40 +37,42 @@ animate(card, { x: 100 }, origamiSpring({ friction: 3, tension: 40 }))
 
 ## Composition
 
-| React Native                          | Jolt                                                                     |
-| ------------------------------------- | ------------------------------------------------------------------------ |
-| `Animated.sequence([...])`            | [`sequence([...])`](./sequences)                                         |
-| `Animated.parallel([...])`            | one `animate()` with several properties, or steps with `at: '<'`         |
-| `Animated.stagger(60, [...])`         | `animate(views, ..., { stagger: 60 })`                                   |
-| `Animated.delay(200)`                 | `delay: 200`, or a step `at: '+200'`                                     |
-| `Animated.loop(anim)`                 | `repeat: Infinity`                                                       |
-| `Animated.loop(anim, { iterations })` | `repeat: iterations - 1`                                                 |
-| `loop(sequence([delay(d), anim]))`    | `repeat: Infinity, repeatDelay: d`                                       |
-| `.start(({ finished }) => ...)`       | `await animate(...)` resolves with `finished`                            |
-| `value.stopAnimation()`               | `stop(view, ['x'])`                                                      |
-| `value.setValue(v)`                   | [`set(view, { x: v })`](./interrupting#setting-values-without-animating) |
+| React Native                          | Jolt                                                                                         |
+| ------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `Animated.sequence([...])`            | [`sequence([...])`](./sequences)                                                             |
+| `Animated.parallel([...])`            | one `animate()` with several properties, or steps with `at: '<'`                             |
+| `Animated.stagger(60, [...])`         | `animate(views, ..., { stagger: 60 })`                                                       |
+| `Animated.delay(200)`                 | `delay: 200`, or a step `at: '+200'`                                                         |
+| `Animated.loop(anim)`                 | `repeat: Infinity`                                                                           |
+| `Animated.loop(anim, { iterations })` | `repeat: iterations - 1`                                                                     |
+| `loop(sequence([delay(d), anim]))`    | `repeat: Infinity, repeatDelay: d`                                                           |
+| `.start(({ finished }) => ...)`       | `await animate(...)` resolves with `finished`                                                |
+| `value.stopAnimation()`               | `stop(view, ['x'])`                                                                          |
+| `value.setValue(v)`                   | `set(value, v)`, or [`set(view, { x: v })`](./interrupting#setting-values-without-animating) |
 
-## interpolate
+## Animated.Value and interpolate
 
-A value that runs from 0 to 1 and drives a property through `interpolate` is a keyframe track. The input range becomes `times`, the output range becomes the keyframes, and the easing of the driving animation applies to the whole track with `easeTrack: true`:
+`Animated.Value` is a [motion value](./motion-values), and `interpolate` is `to()`. Binding the mapped values replaces passing them in `style`:
 
 ```ts
 // React Native
-const y = progress.interpolate({
-  inputRange: [0, 0.4, 0.7, 1],
-  outputRange: [0, -30, -12, 0],
-})
-Animated.timing(progress, { toValue: 1, duration: 900, easing: Easing.out(Easing.ease) })
+const progress = useRef(new Animated.Value(0)).current
+const style = {
+  opacity: progress.interpolate({ inputRange: [0, 1], outputRange: [0, 0.45] }),
+  transform: [
+    { translateY: progress.interpolate({ inputRange: [0, 1], outputRange: [200, 0] }) },
+  ],
+}
+Animated.spring(progress, { toValue: 1, useNativeDriver: true }).start()
 
 // Jolt
-animate(
-  spark,
-  { y: [0, -30, -12, 0] },
-  { duration: 900, ease: 'easeOut', easeTrack: true, times: [0, 0.4, 0.7, 1] },
-)
+const progress = motionValue(0)
+bind(backdrop, { opacity: progress.to([0, 1], [0, 0.45]) })
+bind(sheet, { y: progress.to([0, 1], [200, 0]) })
+animate(progress, 1, origamiSpring())
 ```
 
-One value driving several properties becomes one `animate()` with each property's keyframes on the same `times`. See [track easing](./transitions#tweens). A value driven by a scroll offset is [`scrollLinked()`](./scroll-linked), and one driven by a gesture is [`drag()`](./drag). Live values shared by several views without a timeline are not available yet.
+`to()` clamps by default, while `interpolate` extends; pass `{ clamp: false }` for `extrapolate: 'extend'`. A value that only drives one view along a timeline can also be plain keyframes: the input range becomes `times`, the output range the keyframes, and `easeTrack: true` runs the driving animation's easing over the whole track. See [track easing](./transitions#tweens). A value driven by a scroll offset is [`scrollLinked()`](./scroll-linked), and one driven by a gesture is [`drag()`](./drag).
 
 ## Adding and multiplying values
 
