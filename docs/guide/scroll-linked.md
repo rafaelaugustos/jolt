@@ -62,3 +62,5 @@ Each scroll event synchronously sets one `progress` value on the paused animatio
 The playback drivers still seek each property they own: this is not a single native bridge call for an arbitrary number of properties. iOS applies the corresponding paused Core Animation copies; Android repositions native animators. Scroll delivery and progress updates need JavaScript on the main thread. This is not a native scroll timeline that can keep following input while JavaScript is blocked; Android's [UI-thread limitation](./android-performance) still applies.
 
 The playground uses the main ScrollView to move and fade the large heading while revealing a fixed compact title. Both directions use this public API.
+
+To drive several views from one offset, or to map it through ranges per property, use [`scrollValue()`](./motion-values#scroll-offsets) with `bind()`. It writes the bound properties directly and costs about half as much per event on Android.

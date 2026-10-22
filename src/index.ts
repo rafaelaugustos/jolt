@@ -1,11 +1,12 @@
 export { animate, decay, set, stop } from './animate.js'
-export { bind, motionValue } from './motion-value.js'
+export { bind, motionValue, scrollValue } from './motion-value.js'
 export type {
   Bindings,
   DerivedColor,
   DerivedValue,
   MapOptions,
   MotionValue,
+  ScrollValue,
 } from './motion-value.js'
 export { sequence } from './sequence.js'
 export type { Step, SequenceOptions, SequencePosition } from './sequence.js'

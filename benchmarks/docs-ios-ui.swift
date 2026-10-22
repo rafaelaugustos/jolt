@@ -121,6 +121,14 @@ final class DocsTests: XCTestCase {
             tap("Rest", wait: 1)
         }
     }
+    func testScrollValues() throws {
+        launch(["--playground", "--section=scroll values"], "Track 3")
+        try record("scroll-values-ios") {
+            drag(app.staticTexts["Track 3"], x: 0, y: -150)
+            drag(app.staticTexts["Track 6"], x: 0, y: -150)
+            drag(app.staticTexts["Track 8"], x: 0, y: 260)
+        }
+    }
     func testLayout() throws {
         launch(["--layout-lab"], "layout-card-1")
         try record("layout-ios") {

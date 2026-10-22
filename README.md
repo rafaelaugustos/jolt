@@ -200,7 +200,7 @@ bind(sheet, { y: progress.to([0, 1], [200, 0]) })
 animate(progress, 1, 'snappy')
 ```
 
-One value drives several properties and views on one native clock, mapped with `to()` like React Native's `interpolate`, to numbers or colors. Interruptions carry the value and its velocity to every bound view, `set()` and `stop()` take a value, and a value outlives its views. In Vue, `useMotionValue()` and `useBinding()` handle the lifecycle. See the [guide](https://jolt.rafaelaugusto.dev/guide/motion-values).
+One value drives several properties and views on one native clock, mapped with `to()` like React Native's `interpolate`, to numbers or colors. Interruptions carry the value and its velocity to every bound view, `set()` and `stop()` take a value, and a value outlives its views. `scrollValue(scrollView)` turns a scroll offset into a value that bindings follow. In Vue, `useMotionValue()`, `useScrollValue()` and `useBinding()` handle the lifecycle. See the [guide](https://jolt.rafaelaugusto.dev/guide/motion-values).
 
 ## Layered motion
 

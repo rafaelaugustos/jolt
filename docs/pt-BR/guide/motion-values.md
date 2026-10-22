@@ -68,6 +68,40 @@ const toggle = (open: boolean) => animate(progress, open ? 1 : 0, 'snappy')
 
 <Clip name="motion-values-android" caption="O mesmo sheet no emulador Android, incluindo um toque no meio do caminho que faz as três views virarem juntas. Velocidade real." />
 
+## Offsets de rolagem
+
+`scrollValue(scrollView)` é o offset de um ScrollView como um valor, em DIPs. Ligue-o como qualquer valor de movimento; cada evento de rolagem escreve as propriedades ligadas direto, sem animação no meio:
+
+```ts
+import { bind, scrollValue } from '@rafaelaugusto/jolt'
+
+const offset = scrollValue(scroll)
+bind(header, { y: offset.to([0, 90], [0, -64]) })
+bind(title, { scale: offset.to([0, 90], [1, 0.72]), y: offset.to([0, 90], [0, 30]) })
+bind(subtitle, { opacity: offset.to([0, 50], [1, 0]) })
+bind(progress, { scaleX: offset.to([0, 700], [0, 1]) })
+```
+
+<Clip name="scroll-values-ios" caption="Rolar a lista recolhe o cabeçalho, encolhe o título, apaga o subtítulo e enche a barra de progresso, no simulador iOS. Velocidade real." />
+
+`{ axis: 'x' }` segue o offset horizontal. O valor começa do offset atual, e `offset.ref(scrollView)` passa a seguir outro ScrollView, ou nenhum com `null`. `offset.dispose()` para de seguir e deixa as views ligadas onde estão. No Vue, `useScrollValue()` devolve um valor cujo `ref` vai no template ref do ScrollView, e para junto com o componente:
+
+```vue
+<script setup lang="ts">
+const offset = useScrollValue()
+const header = useBinding({ y: offset.to([0, 90], [0, -64]) })
+</script>
+
+<template>
+  <ScrollView :ref="offset.ref">...</ScrollView>
+  <GridLayout :ref="header" />
+</template>
+```
+
+Os eventos de rolagem chegam no JavaScript, como no [`scrollLinked()`](./scroll-linked). Com cinco propriedades ligadas, um evento custa cerca de 0,25 a 0,3 ms no simulador iOS e no emulador Android, cerca de metade da configuração equivalente com `scrollLinked()` no Android; veja as [medições](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-values.md).
+
+<Clip name="scroll-values-android" caption="O mesmo cabeçalho seguindo a lista no emulador Android. Velocidade real." />
+
 ## O que vem depois
 
-Aqui os valores são movidos por linhas do tempo, e se combinam com [camadas](./layers) na mesma propriedade. Valores que seguem o dedo ou a rolagem a partir do código nativo estão planejados no [RFC de valores de movimento](https://github.com/rafaelaugustos/jolt/issues/152).
+Os valores se combinam com [camadas](./layers) na mesma propriedade. Gestos que escrevem em valores, e cálculo nativo onde as medições pedirem, estão planejados no [RFC de valores de movimento](https://github.com/rafaelaugustos/jolt/issues/152).

@@ -7,7 +7,7 @@
 - [`animateLayout(container, change?, options?)`](./layout) — animate the next layout of a container’s direct children.
 - [`motionScope()`](./motion-controllers) — own animation handles, subscriptions and component lifecycle.
 - [`motionStates(targets, definitions, options?)`](./motion-controllers#named-visual-states) — coordinated, interruptible named visual states; [`attach()` and `ref()`](./motion-controllers#views-that-come-back) keep them on views that are recreated.
-- [`motionValue(initial)`, `bind(target, bindings)`](./motion-values) — one value driving several properties and views; `animate()`, `set()` and `stop()` take a value too.
+- [`motionValue(initial)`, `bind(target, bindings)`](./motion-values) — one value driving several properties and views; `animate()`, `set()` and `stop()` take a value too. [`scrollValue(scrollView, { axis? })`](./motion-values#scroll-offsets) is a scroll offset as a value.
 - [`decay(target, velocity, options?)`](./decay)
 - [`gradient(target, options)`](./gradients) — native linear, radial and conic gradients; returns a `Gradient` with `animate()`, `set()`, `stop()` and `remove()`.
 - `stop(target, properties?)`
@@ -56,7 +56,7 @@ What `animate()`, `decay()`, `sequence()` and the steps of a sequence return: `a
 
 ## Vue
 
-`@rafaelaugusto/jolt/vue` is a separate entry point for NativeScript-Vue 3: `vAnimate` (`v-animate`), `vPress` (`v-press`), `JoltTransition`, `transitionHooks(props)`, `useMotionScope()`, `useReducedMotion()`, `useKeyboard()`, `useMotionValue()`, `useBinding()` and `install(app)`, also the default export for `app.use()`. Types: `AnimateValue`, `PressValue`, `TransitionProps`. See the [Vue guide](./vue).
+`@rafaelaugusto/jolt/vue` is a separate entry point for NativeScript-Vue 3: `vAnimate` (`v-animate`), `vPress` (`v-press`), `JoltTransition`, `transitionHooks(props)`, `useMotionScope()`, `useReducedMotion()`, `useKeyboard()`, `useMotionValue()`, `useBinding()`, `useScrollValue()` and `install(app)`, also the default export for `app.use()`. Types: `AnimateValue`, `PressValue`, `TransitionProps`. See the [Vue guide](./vue).
 
 ## Types
 

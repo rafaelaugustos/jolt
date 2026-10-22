@@ -85,11 +85,11 @@ animate(logo, { scale: [1, 1.15, 1] }, { duration: 300, layer: 'kick' }) // mult
 
 ## Platform APIs
 
-| React Native                                    | Jolt                                                                            |
-| ----------------------------------------------- | ------------------------------------------------------------------------------- |
-| `useNativeDriver: true`                         | always: every animation plays natively                                          |
-| `LayoutAnimation`                               | [`animateLayout()`](./layout)                                                   |
-| `Keyboard` events and `keyboardWillShow` timing | [`onKeyboard()`](./keyboard#keyboard-state) and `followKeyboard()`              |
-| `AccessibilityInfo.isReduceMotionEnabled()`     | [`reducedMotion()` and `onReducedMotion()`](./configure#reading-the-preference) |
-| `Animated.event` on `onScroll`                  | [`scrollLinked()`](./scroll-linked)                                             |
-| a value that outlives a remounted view          | [motion states with `attach()`](./motion-controllers#views-that-come-back)      |
+| React Native                                    | Jolt                                                                                                    |
+| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `useNativeDriver: true`                         | always: every animation plays natively                                                                  |
+| `LayoutAnimation`                               | [`animateLayout()`](./layout)                                                                           |
+| `Keyboard` events and `keyboardWillShow` timing | [`onKeyboard()`](./keyboard#keyboard-state) and `followKeyboard()`                                      |
+| `AccessibilityInfo.isReduceMotionEnabled()`     | [`reducedMotion()` and `onReducedMotion()`](./configure#reading-the-preference)                         |
+| `Animated.event` on `onScroll`                  | [`scrollValue()`](./motion-values#scroll-offsets) with `bind()`, or [`scrollLinked()`](./scroll-linked) |
+| a value that outlives a remounted view          | [motion states with `attach()`](./motion-controllers#views-that-come-back)                              |
