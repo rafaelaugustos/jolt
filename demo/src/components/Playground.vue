@@ -38,6 +38,7 @@ import Timeline from './Timeline.vue'
 import MotionPath from './MotionPath.vue'
 import Tuning from './Tuning.vue'
 import MotionStates from './MotionStates.vue'
+import Remount from './Remount.vue'
 
 const emit = defineEmits<{ imageLab: []; dragLab: []; layoutLab: [] }>()
 
@@ -141,6 +142,7 @@ onUnmounted(() => {
 
         <Tuning />
         <MotionStates />
+        <Remount />
         <Button text="Layout changes" @tap="emit('layoutLab')" />
         <Button text="Drag, fling and snap" @tap="emit('dragLab')" />
         <Button text="Image effects and photo zoom" @tap="emit('imageLab')" />

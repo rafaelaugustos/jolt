@@ -6,7 +6,7 @@
 - [`interactionSurface(target)`](./interaction-surface) — opt into native touch geometry for an animated subtree.
 - [`animateLayout(container, change?, options?)`](./layout) — animate the next layout of a container’s direct children.
 - [`motionScope()`](./motion-controllers) — own animation handles, subscriptions and component lifecycle.
-- [`motionStates(targets, definitions, options?)`](./motion-controllers#named-visual-states) — coordinated, interruptible named visual states.
+- [`motionStates(targets, definitions, options?)`](./motion-controllers#named-visual-states) — coordinated, interruptible named visual states; [`attach()` and `ref()`](./motion-controllers#views-that-come-back) keep them on views that are recreated.
 - [`decay(target, velocity, options?)`](./decay)
 - `stop(target, properties?)`
 - [`set(target, values)`](./interrupting#setting-values-without-animating) — applies values at once and stops what animates them.

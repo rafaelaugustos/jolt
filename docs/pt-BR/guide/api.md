@@ -6,7 +6,7 @@
 - [`interactionSurface(target)`](./interaction-surface) — alinha a geometria nativa de toque de uma subárvore animada.
 - [`animateLayout(container, change?, options?)`](./layout) — anima o próximo layout dos filhos diretos de um container.
 - [`motionScope()`](./motion-controllers) — agrupa animações, subscriptions e ciclo de vida.
-- [`motionStates(targets, definitions, options?)`](./motion-controllers#estados-nomeados) — estados visuais nomeados com interrupção.
+- [`motionStates(targets, definitions, options?)`](./motion-controllers#estados-nomeados) — estados visuais nomeados com interrupção; [`attach()` e `ref()`](./motion-controllers#views-que-voltam) mantêm o estado em views recriadas.
 - [`decay(target, velocity, options?)`](./decay)
 - `stop(target, properties?)`
 - [`set(target, values)`](./interrupting#aplicar-valores-sem-animar) — aplica valores na hora e para o que estiver animando essas propriedades.

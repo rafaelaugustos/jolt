@@ -40,3 +40,9 @@ drag(label, {
     event.target.x = 1
   },
 })
+const later = motionStates({ icon: null, label }, { idle: { icon: { scale: 1 } } })
+later.attach('icon', icon)
+later.attach('icon', null)
+later.ref('label')({ nativeView: label })
+// @ts-expect-error unknown attached target
+later.attach('missing', icon)

@@ -70,6 +70,18 @@ final class DocsTests: XCTestCase {
             tap("Bounce", wait: 2.2)
         }
     }
+    func testRecreated() throws {
+        launch(["--playground", "--section=recreated"], "Switch layout")
+        try record("recreated-views-ios") {
+            Thread.sleep(forTimeInterval: 0.6)
+            tap("Switch layout", wait: 1.2)
+            tap("Switch layout", wait: 1.2)
+            tap("Hide logo", wait: 1.2)
+            tap("Switch layout", wait: 1.2)
+            tap("Show logo", wait: 1.5)
+            XCTAssertTrue(app.buttons["Hide logo"].exists)
+        }
+    }
     func testLayout() throws {
         launch(["--layout-lab"], "layout-card-1")
         try record("layout-ios") {

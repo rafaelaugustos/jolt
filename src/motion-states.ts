@@ -1,9 +1,10 @@
-import { prepareAnimation, toView } from './animate.js'
+import { endingValues, prepareAnimation, set, toView } from './animate.js'
 import { isColorProperty, type ColorValue } from './color.js'
 import { isProperty } from './properties.js'
 import type { Animation } from './engine.js'
 import type { PlaybackAnimation } from './playback.js'
-import type { KeyframeProperty, Keyframes, Target } from './types.js'
+import type { KeyframeProperty, Keyframes, Target, Values } from './types.js'
+import type { View } from '@nativescript/core'
 import type { Spring, Tween, SpringName } from './transition.js'
 import type { MotionScope } from './motion-scope.js'
 
@@ -28,13 +29,20 @@ export interface MotionStatesOptions {
   transition?: StateTransition
   scope?: MotionScope
 }
-export interface MotionStates<S extends string = string> {
+export interface MotionStates<S extends string = string, T extends string = string> {
   /** Latest requested state, not a claim that playback has finished. */
   readonly current: S | undefined
   readonly settled: S | undefined
   readonly disposed: boolean
   readonly paused: boolean
   to(state: S, transition?: StateTransition): Animation
+  /**
+   * Point a target at a new view, or at none with `null`. The new view takes the current
+   * state at once, or joins the transition in progress from where it is.
+   */
+  attach(target: T, view: Target | null): void
+  /** A stable callback for a template ref: attaches the element and detaches it on unmount. */
+  ref(target: T): (view: Target | null) => void
   pause(): void
   play(): void
   stop(): void
@@ -43,28 +51,33 @@ export interface MotionStates<S extends string = string> {
 
 /** Coordinated named targets. Omitted properties freeze when leaving their previous state. */
 export function motionStates<
-  T extends Record<string, Target>,
+  T extends Record<string, Target | null>,
   const S extends Record<string, MotionState<keyof T>>,
 >(
   targets: T,
   definitions: MotionDefinitions<T, S>,
   options: MotionStatesOptions = {},
-): MotionStates<Extract<keyof S, string>> {
+): MotionStates<Extract<keyof S, string>, Extract<keyof T, string>> {
   type Name = Extract<keyof S, string>
-  const views = new Map(
-    Object.entries(targets).map(([name, target]) => [name, toView(target)]),
+  type Slot = Extract<keyof T, string>
+  const views = new Map<string, View | null>(
+    Object.entries(targets).map(([name, target]) => [
+      name,
+      target === null ? null : toView(target),
+    ]),
   )
-  if (new Set(views.values()).size !== views.size)
+  const assigned = [...views.values()].filter(Boolean)
+  if (new Set(assigned).size !== assigned.length)
     throw new TypeError('Motion state targets must refer to distinct views.')
-  const states = new Map<string, [Target, Keyframes][]>()
+  const states = new Map<string, [string, Keyframes][]>()
   const defaults = normalize(options.transition)
   for (const [name, state] of Object.entries(definitions)) {
     if (!state || typeof state !== 'object' || Array.isArray(state))
       throw new TypeError(`Invalid motion state "${name}".`)
-    const rows: [Target, Keyframes][] = []
+    const rows: [string, Keyframes][] = []
     for (const [target, values] of Object.entries(state)) {
+      if (!views.has(target)) throw new TypeError(`Unknown motion target "${target}".`)
       const view = views.get(target)
-      if (!view) throw new TypeError(`Unknown motion target "${target}".`)
       if (!values || typeof values !== 'object' || Array.isArray(values))
         throw new TypeError(`Invalid motion values for "${target}".`)
       const frames: Keyframes = {}
@@ -82,8 +95,9 @@ export function motionStates<
         Object.assign(frames, { [property]: value })
       }
       // Validate every definition up front without claiming any native property.
-      prepareAnimation(view, frames, defaults)
-      rows.push([view, frames])
+      if (view) prepareAnimation(view, frames, defaults)
+      else endingValues(frames, defaults)
+      rows.push([target, frames])
     }
     states.set(name, rows)
   }
@@ -91,8 +105,15 @@ export function motionStates<
   let settled: Name | undefined
   let disposed = false
   let paused = false
-  let active: { handle: Animation; children: PlaybackAnimation[] } | undefined
-  const controller: MotionStates<Name> = {
+  let active:
+    | { handle: Animation; children: PlaybackAnimation[]; timing: StateTransition }
+    | undefined
+  const refs = new Map<string, (view: Target | null) => void>()
+  const framesFor = (state: Name | undefined, target: string) =>
+    state === undefined
+      ? undefined
+      : states.get(state)!.find(([slot]) => slot === target)?.[1]
+  const controller: MotionStates<Name, Slot> = {
     get current() {
       return current
     },
@@ -110,9 +131,10 @@ export function motionStates<
       const rows = states.get(name)
       if (!rows) throw new TypeError(`Unknown motion state "${name}".`)
       const timing = transition === undefined ? defaults : normalize(transition)
-      const prepared = rows.map(([view, frames]) =>
-        prepareAnimation(view, frames, timing),
-      )
+      const prepared = rows.flatMap(([target, frames]) => {
+        const view = views.get(target)
+        return view ? [prepareAnimation(view, frames, timing)] : []
+      })
       const previous = active
       const children: PlaybackAnimation[] = []
       // Start replacements first: the engine transfers visible position AND velocity.
@@ -148,11 +170,43 @@ export function motionStates<
         },
         then: (resolve, reject) => finished.then(resolve, reject),
       }
-      active = { handle, children }
+      active = { handle, children, timing }
       current = name
       // Also cancels old, omitted properties, without touching the new owners.
       previous?.handle.stop()
       return handle
+    },
+    attach(target, next) {
+      if (disposed) throw new Error('Motion states controller is disposed.')
+      if (!views.has(target)) throw new TypeError(`Unknown motion target "${target}".`)
+      const view = next === null ? null : toView(next)
+      if (views.get(target) === view) return
+      if (view)
+        for (const [other, assignedView] of views)
+          if (other !== target && assignedView === view)
+            throw new TypeError('Motion state targets must refer to distinct views.')
+      if (view)
+        for (const [, rows] of states)
+          for (const [slot, frames] of rows)
+            if (slot === target) prepareAnimation(view, frames, defaults)
+      views.set(target, view)
+      const frames = view ? framesFor(current, target) : undefined
+      if (!view || !frames) return
+      if (active) {
+        const child = prepareAnimation(view, frames, active.timing)()
+        active.children.push(child)
+        if (paused) child.pause()
+      } else set(view, frames as Values)
+    },
+    ref(target) {
+      let callback = refs.get(target)
+      if (!callback) {
+        callback = (view) => {
+          if (!disposed) controller.attach(target, view)
+        }
+        refs.set(target, callback)
+      }
+      return callback
     },
     pause() {
       if (disposed || paused) return

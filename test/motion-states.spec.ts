@@ -156,3 +156,137 @@ describe('motion states', () => {
     expect(view.translateX).toBeCloseTo(expected)
   })
 })
+
+describe('motion states with recreated views', () => {
+  const definitions = {
+    hidden: { logo: { opacity: 0, scale: 0.8 } },
+    shown: { logo: { opacity: 1, scale: 1 } },
+  }
+
+  it('starts without a view and gives the current state to the one that arrives', async () => {
+    const control = motionStates({ logo: null }, definitions)
+    expect(await control.to('shown')).toBe(true)
+    expect(control.settled).toBe('shown')
+
+    const logo = createView()
+    logo.opacity = 0
+    control.attach('logo', logo)
+
+    expect(logo.opacity).toBe(1)
+    expect(logo.scaleX).toBe(1)
+    expect(driver.played).toHaveLength(0)
+    control.dispose()
+  })
+
+  it('applies the settled state to a recreated view without animating', async () => {
+    const first = createView()
+    const control = motionStates({ logo: first }, definitions)
+    const shown = control.to('shown', { duration: 300 })
+    driver.advance(300)
+    expect(await shown).toBe(true)
+    const played = driver.played.length
+
+    const second = createView()
+    second.opacity = 0
+    second.scaleX = second.scaleY = 0.8
+    control.attach('logo', second)
+
+    expect(second.opacity).toBe(1)
+    expect(second.scaleY).toBe(1)
+    expect(driver.played).toHaveLength(played)
+    control.dispose()
+  })
+
+  it('joins a transition in progress from where the new view is', () => {
+    const control = motionStates({ logo: createView() }, definitions)
+    control.to('shown', { duration: 400, ease: 'linear' })
+    control.pause()
+
+    const next = createView()
+    next.opacity = 0.2
+    control.attach('logo', next)
+
+    const track = driver.last('opacity', next).track
+    expect(track.values[0]).toBe(0.2)
+    expect(track.to).toBe(1)
+    expect(track.duration).toBe(400)
+    expect(driver.last('opacity', next).held).toBe(true)
+    control.dispose()
+  })
+
+  it('leaves an empty slot out of transitions and remembers it for later', async () => {
+    const control = motionStates(
+      { logo: createView(), badge: null },
+      {
+        hidden: { logo: { opacity: 0 }, badge: { opacity: 0 } },
+      },
+    )
+    const hidden = control.to('hidden', { duration: 100 })
+    expect(driver.played.map((p) => p.track.property)).toEqual(['opacity'])
+    driver.advance(100)
+    expect(await hidden).toBe(true)
+
+    const badge = createView()
+    control.attach('badge', badge)
+    expect(badge.opacity).toBe(0)
+    control.dispose()
+  })
+
+  it('detaches with null, ignores the same view and rejects a view another target owns', () => {
+    const logo = createView()
+    const badge = createView()
+    const control = motionStates(
+      { logo, badge: null },
+      {
+        shown: { logo: { opacity: 1 }, badge: { opacity: 1 } },
+      },
+    )
+    control.attach('logo', logo)
+    expect(driver.played).toHaveLength(0)
+    expect(() => control.attach('badge', logo)).toThrow(/distinct views/)
+    expect(() => control.attach('missing' as never, badge)).toThrow(
+      /Unknown motion target/,
+    )
+
+    control.attach('logo', null)
+    control.to('shown')
+    expect(driver.played.map((p) => p.view)).toEqual([])
+    control.dispose()
+    expect(() => control.attach('logo', logo)).toThrow(/disposed/)
+  })
+
+  it('hands out one stable ref callback per target', () => {
+    const control = motionStates({ logo: null }, definitions)
+    const ref = control.ref('logo')
+    expect(control.ref('logo')).toBe(ref)
+
+    control.to('shown')
+    const logo = createView()
+    logo.opacity = 0
+    ref({ nativeView: logo })
+    expect(logo.opacity).toBe(1)
+    ref(null)
+    control.dispose()
+    expect(() => ref(createView())).not.toThrow()
+  })
+
+  it('still validates definitions for targets that start empty', () => {
+    expect(() =>
+      motionStates({ logo: null }, {
+        broken: { logo: { opacity: Number.NaN } },
+      } as never),
+    ).toThrow(/finite endpoint/)
+  })
+
+  it('works through a scope', async () => {
+    const scope = motionScope()
+    const control = scope.states({ logo: null }, definitions)
+    await control.to('shown')
+    const logo = createView()
+    logo.opacity = 0
+    control.attach('logo', logo)
+    expect(logo.opacity).toBe(1)
+    scope.dispose()
+    expect(control.disposed).toBe(true)
+  })
+})
