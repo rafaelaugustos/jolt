@@ -128,7 +128,7 @@ set(charge, 0) // cancels all channels and replaces the value
 
 Dragging a motion value changes only its base. Bounds, snap points, controller position and drag events use base units; additive layers can move the combined result beyond those bounds. A layer keeps playing during the drag and release. Scroll values remain read-only inputs and do not expose animation layers.
 
-Bindings play a compiled native composition. It is rebuilt on channel changes and drag input, not on every frame. Endless integer-millisecond periods use a common native loop up to 30 seconds; longer or fractional combinations use finite windows, normally four seconds, rebuilt at their boundaries. Native clocks keep each channel's phase. Opting into `subscribe()` additionally schedules JavaScript notifications.
+Bindings play a compiled native composition. It is rebuilt on channel changes and drag input, not on every frame. Endless integer-millisecond periods use a common native loop up to 30 seconds; longer or fractional combinations, and finite compositions longer than four seconds, use windows rebuilt at their boundaries. Native clocks keep each channel's phase. Opting into `subscribe()` additionally schedules JavaScript notifications.
 
 <Clip name="value-layers-android" caption="The same base and additive pulse, with retargeting and cleanup, on the Android emulator. The gray dot shows the base alone. Real-time playback." />
 

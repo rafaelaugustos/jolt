@@ -215,6 +215,32 @@ describe('layers on motion values', () => {
     expect(driver.frames.size).toBe(0)
   })
 
+  it('preserves short pulses over a minutes-long finite base without undersampling', () => {
+    const progress = value(),
+      view = createView()
+    bind(view, { x: progress })
+    animate(progress, 100, { duration: 240_000, ease: 'linear' })
+    animate(progress, [0, 10, 0], {
+      duration: 200,
+      ease: 'linear',
+      repeat: 99,
+      layer: 'pulse',
+    })
+    const first = driver.last('x', view).track
+    expect(first.duration).toBe(4000)
+    expect(first.times.length).toBe(241)
+    // The uploaded samples must retain the first 100 ms peak, not just valueAt().
+    const peak = first.times.findIndex(
+      (time) => Math.abs(time * first.duration - 100) < 0.001,
+    )
+    expect(first.values[peak]).toBeCloseTo(10 + 100 / 2400)
+    driver.advance(4100)
+    const next = driver.last('x', view).track
+    expect(next.duration).toBe(4000)
+    expect(next.values[0]).toBeCloseTo(progress.get())
+    expect(driver.frames.size).toBe(0)
+  })
+
   it('lets a late view join and follow the base after layer completion', () => {
     const progress = value(),
       view = createView().unload()

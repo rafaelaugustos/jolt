@@ -25,7 +25,8 @@ export function valueTrack(parts: readonly ValuePart[], rest: number) {
   if (finite <= 0 && !periods.length)
     return { track: instantTrack('x', value(0)), windowed: false }
   const loop = finite <= 0 && periods.length ? commonPeriod(periods) : undefined
-  const duration = finite > 0 ? finite : (loop ?? 4000)
+  // Bound finite compositions too: a minutes-long base must not undersample a short pulse.
+  const duration = finite > 0 ? Math.min(finite, 4000) : (loop ?? 4000)
   const steps = Math.max(1, Math.min(6000, Math.ceil((duration * 60) / 1000)))
   const times = Array.from({ length: steps + 1 }, (_, i) => i / steps)
   const values = times.map((time) => value(time * duration))
@@ -52,7 +53,9 @@ export function valueTrack(parts: readonly ValuePart[], rest: number) {
   }
   return {
     track,
-    windowed: !endless && parts.some(({ track }) => !Number.isFinite(track.end)),
+    windowed:
+      finite > duration ||
+      (!endless && parts.some(({ track }) => !Number.isFinite(track.end))),
   }
 }
 

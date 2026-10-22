@@ -10,7 +10,7 @@ Validation for #172–175, based on beta.12 (`8e665db`). This change adds subscr
 
 ## Automated coverage
 
-`npm test`: 957 tests, 55 files, passing in 2.80s with the default timeout. Type checking and library build pass. During concurrent native builds, the unrelated CPU-heavy liquid field test exceeded its 5s timeout; a run with a 15s timeout and the final default run both passed without relaxing assertions.
+`npm test`: 958 tests, 55 files, passing with the default timeout. Type checking and library build pass. During concurrent native builds, the unrelated CPU-heavy liquid field test exceeded its 5s timeout; a run with a 15s timeout and the final default run both passed without relaxing assertions.
 
 New tests cover ascending/descending equivalence, duplicate stops, colors, chains, clamping/extrapolation, native track mappings, one shared subscription frame source, coalescing, reentrant writes, exceptions, unsubscribe during delivery, app/scope lifecycle, no idle frames, reduced motion and native playback clocks with system duration scaling. Value layer tests cover independent interruption/velocity, composition before nonlinear/clamped mappings, held contributions, stop/set, scope disposal, drag base ownership, infinite periods and fractional/long composition windows.
 
@@ -27,7 +27,7 @@ python3 benchmarks/motion-values-android.py EMULATOR_SERIAL /tmp/JoltModelRecord
 
 The observer scene uses a manually created CALayer on iOS and a raw `android.view.View` on Android. Neither is a NativeScript view binding. A bound NativeScript view and that external object follow the same scalar; detach freezes only the external object, reattach catches up, and stop holds both. JavaScript listeners are opt-in and do not run while JavaScript is blocked.
 
-The layer scene compares a base reference with a value driving position, scale and color. It starts and removes a charge pulse while the base continues, retargets the base with the pulse active, and resets both values. Native composition uses a common loop up to 30 seconds for integer periods; longer/fractional combinations rebuild windows at their boundaries. These rebuilds are JavaScript work, without a per-frame JS mixer.
+The layer scene compares a base reference with a value driving position, scale and color. It starts and removes a charge pulse while the base continues, retargets the base with the pulse active, and resets both values. Native composition uses a common loop up to 30 seconds for integer periods; longer/fractional combinations and finite compositions over four seconds rebuild windows at their boundaries. A minutes-long base therefore retains 60 Hz sampling for short pulses. These rebuilds are JavaScript work, without a per-frame JS mixer.
 
 ## Observer cost and native lifecycle
 

@@ -128,7 +128,7 @@ set(charge, 0) // cancela todos os canais e substitui o valor
 
 Arrastar um motion value altera somente sua base. Limites, pontos de encaixe, posição do controlador e eventos do gesto usam unidades da base; as camadas podem levar o resultado combinado além desses limites. A camada continua durante o arraste e a soltura. Valores de scroll continuam sendo entradas somente de leitura e não oferecem camadas de animação.
 
-Os bindings reproduzem uma composição nativa compilada. Ela é reconstruída nas alterações dos canais e nos eventos de arraste, não a cada quadro. Períodos infinitos com milissegundos inteiros usam um loop nativo comum de até 30 segundos; combinações maiores ou fracionárias usam janelas finitas, normalmente de quatro segundos, reconstruídas nas bordas. Relógios nativos preservam a fase de cada canal. Usar `subscribe()` acrescenta notificações em JavaScript.
+Os bindings reproduzem uma composição nativa compilada. Ela é reconstruída nas alterações dos canais e nos eventos de arraste, não a cada quadro. Períodos infinitos com milissegundos inteiros usam um loop nativo comum de até 30 segundos; combinações maiores ou fracionárias, e composições finitas de mais de quatro segundos, usam janelas reconstruídas nas bordas. Relógios nativos preservam a fase de cada canal. Usar `subscribe()` acrescenta notificações em JavaScript.
 
 <Clip name="value-layers-android" caption="A mesma base e pulso aditivo, com mudança de destino e limpeza, no emulador Android. O ponto cinza mostra somente a base. Reprodução em tempo real." />
 
