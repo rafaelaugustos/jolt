@@ -15,6 +15,7 @@ export type EasingName =
   | 'backOut'
   | 'backInOut'
   | 'anticipate'
+  | `${'quad' | 'cubic' | 'quart' | 'quint' | 'sine' | 'expo'}${'In' | 'Out' | 'InOut'}`
 
 export type Easing = EasingName | CubicBezier | EasingFunction
 
@@ -73,6 +74,13 @@ const mirror =
   (p) =>
     p <= 0.5 ? easing(2 * p) / 2 : (2 - easing(2 * (1 - p))) / 2
 
+const family = <N extends string>(name: N, easeIn: EasingFunction) =>
+  ({
+    [`${name}In`]: easeIn,
+    [`${name}Out`]: reverse(easeIn),
+    [`${name}InOut`]: mirror(easeIn),
+  }) as Record<`${N}${'In' | 'Out' | 'InOut'}`, EasingFunction>
+
 const easings: Record<EasingName, EasingFunction> = {
   linear,
   ease: cubicBezier(0.25, 0.1, 0.25, 1),
@@ -87,6 +95,12 @@ const easings: Record<EasingName, EasingFunction> = {
   backInOut: mirror(backIn),
   anticipate: (p) =>
     p <= 0.5 ? backIn(2 * p) / 2 : p >= 1 ? 1 : 1 - Math.pow(2, 10 - 20 * p) / 2,
+  ...family('quad', (p) => p ** 2),
+  ...family('cubic', (p) => p ** 3),
+  ...family('quart', (p) => p ** 4),
+  ...family('quint', (p) => p ** 5),
+  ...family('sine', (p) => (p >= 1 ? 1 : 1 - Math.cos((p * Math.PI) / 2))),
+  ...family('expo', (p) => (p <= 0 ? 0 : 2 ** (10 * p - 10))),
 }
 
 export function resolveEasing(easing: Easing): EasingFunction {

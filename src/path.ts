@@ -2,6 +2,7 @@ import { parsePath, type MotionPath } from './svg-path.js'
 import { reducedMotion, timeScale } from './config.js'
 import { createTrack, instantTrack, type Track } from './track.js'
 import {
+  fitTransition,
   mergeTransitions,
   resolveTransition,
   type Transition,
@@ -37,7 +38,7 @@ export function preparePath(
   const geometry = parsePath(keyframes.path)
   const orient = keyframes.orient === true
   const transition = resolveTransition(
-    overrides.path ? mergeTransitions(base, overrides.path) : base,
+    fitTransition(overrides.path ? mergeTransitions(base, overrides.path) : base, 2),
     'opacity',
     2,
   )

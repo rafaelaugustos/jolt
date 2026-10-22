@@ -182,6 +182,14 @@ final class DocsTests: XCTestCase {
             XCTAssertTrue(app.staticTexts["Closed"].waitForExistence(timeout: 3))
         }
     }
+    func testEasingCurves() throws {
+        launch(["--playground", "--section=easing curves"], "Play curves")
+        try record("easing-curves-ios") {
+            tap("Play curves", wait: 1.6)
+            tap("Play curves", wait: 1.6)
+            tap("Play curves", wait: 1.6)
+        }
+    }
     func testStates() throws {
         launch(["--playground", "--section=motion"], "Upload")
         try record("motion-controllers-ios") {

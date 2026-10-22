@@ -12,7 +12,7 @@ Animated.timing(opacity, { toValue: 1, duration: 500, useNativeDriver: true }).s
 animate(card, { opacity: 1 }, { duration: 500, ease: 'easeInOut' })
 ```
 
-O `Animated.timing` usa 500 ms e `Easing.inOut(Easing.ease)` por padrão, que fica muito próximo do `easeInOut` do Jolt. Os tweens do Jolt usam 300 ms e `easeOut`, então passe os dois quando o port precisar ficar igual. `Easing.bezier(x1, y1, x2, y2)` vira `cubicBezier(x1, y1, x2, y2)` ou o array `[x1, y1, x2, y2]`, e qualquer função de easing continua funcionando.
+O `Animated.timing` usa 500 ms e `Easing.inOut(Easing.ease)` por padrão, que fica muito próximo do `easeInOut` do Jolt. Os tweens do Jolt usam 300 ms e `easeOut`, então passe os dois quando o port precisar ficar igual. `Easing.bezier(x1, y1, x2, y2)` vira `cubicBezier(x1, y1, x2, y2)` ou o array `[x1, y1, x2, y2]`, e qualquer função de easing continua funcionando. `Easing.quad`, `Easing.cubic`, `Easing.poly(4)`, `Easing.poly(5)`, `Easing.sin` e `Easing.exp` são as curvas `quad`, `cubic`, `quart`, `quint`, `sine` e `expo`: sozinhas elas fazem ease na entrada (`'cubicIn'`), `Easing.out(Easing.cubic)` é `'cubicOut'` e `Easing.inOut(Easing.cubic)` é `'cubicInOut'`.
 
 ## Molas
 

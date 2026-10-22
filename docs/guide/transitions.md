@@ -31,7 +31,11 @@ animate(
 )
 ```
 
-Tweens take 300ms and `easeOut` unless told otherwise. `ease` takes `linear`, `ease`, `easeIn`, `easeOut`, `easeInOut`, `circIn`, `circOut`, `circInOut`, `backIn`, `backOut`, `backInOut`, `anticipate`, a cubic bezier (`[0.2, 0, 0, 1]`) or any function from 0..1 to a value. With keyframes, pass one per segment. `times` places each keyframe between 0 and 1.
+**A tween takes 300 ms with `easeOut` unless told otherwise.** That's shorter than React Native's `Animated.timing` (500 ms, ease in and out) and starts faster than CSS's `ease`, so pass both when a port has to match.
+
+`ease` takes `linear`, `ease`, `easeIn`, `easeOut`, `easeInOut`, `circIn`, `circOut`, `circInOut`, `backIn`, `backOut`, `backInOut`, `anticipate`, the `quad`, `cubic`, `quart`, `quint`, `sine` and `expo` curves with `In`, `Out` or `InOut` (`'cubicOut'`), a cubic bezier (`[0.2, 0, 0, 1]`) or any function from 0..1 to a value. With keyframes, pass one per segment. `times` places each keyframe between 0 and 1.
+
+<Clip name="easing-curves-ios" caption="Six named curves over 900 ms, and a logo whose opacity sets only times and keeps the main duration and easing, on the iOS simulator. Real-time playback." />
 
 With `easeTrack: true`, one `ease` runs over the whole track instead, and the value moves in straight lines between keyframes, the way React Native's `interpolate` places its output range on an eased value:
 
@@ -53,13 +57,20 @@ Custom easing functions run once, when the animation starts, like springs do. Th
 
 ```ts
 animate(
+  logo,
+  { scale: [0.6, 1.08, 1], opacity: [0, 1, 1] },
+  { duration: 900, ease: 'easeInOut', opacity: { times: [0, 0.3, 1] } },
+)
+animate(
   card,
   { y: 0, opacity: 1 },
   { type: 'spring', bounce: 0.3, opacity: { duration: 150 } },
 )
 ```
 
-A property's transition replaces the curve, and keeps the timing (`delay`, `repeat`) of the main one unless it sets its own.
+Over a tween, a property's transition changes only what it sets: the logo's opacity keeps the 900 ms `easeInOut` and only places its keyframes. Over a spring, or when it is a spring itself, it replaces the curve, so the card's opacity gets a 150 ms tween. Either way, it keeps the timing (`delay`, `repeat`) of the main one unless it sets its own. `times` and per-segment easings taken from the main transition are left out when they don't fit the property's keyframes. Options passed to a [preset](./presets) merge the same way, so `animate(card, 'heartbeat', { duration: 1600 })` keeps the beat's rhythm.
+
+<Clip name="easing-curves-android" caption="The same curves and logo on the Android emulator. Real-time playback." />
 
 ## Timing
 

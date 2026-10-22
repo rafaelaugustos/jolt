@@ -31,7 +31,11 @@ animate(
 )
 ```
 
-Tweens duram 300ms com `easeOut` a menos que se diga o contrário. `ease` aceita `linear`, `ease`, `easeIn`, `easeOut`, `easeInOut`, `circIn`, `circOut`, `circInOut`, `backIn`, `backOut`, `backInOut`, `anticipate`, um cubic bezier (`[0.2, 0, 0, 1]`) ou qualquer função de 0..1 para um valor. Com keyframes, passe um por trecho. `times` posiciona cada keyframe entre 0 e 1.
+**Um tween dura 300 ms com `easeOut` a menos que se diga o contrário.** É mais curto que o `Animated.timing` do React Native (500 ms, com ease na entrada e na saída) e arranca mais rápido que o `ease` do CSS, então passe os dois quando um port precisar ficar igual.
+
+`ease` aceita `linear`, `ease`, `easeIn`, `easeOut`, `easeInOut`, `circIn`, `circOut`, `circInOut`, `backIn`, `backOut`, `backInOut`, `anticipate`, as curvas `quad`, `cubic`, `quart`, `quint`, `sine` e `expo` com `In`, `Out` ou `InOut` (`'cubicOut'`), um cubic bezier (`[0.2, 0, 0, 1]`) ou qualquer função de 0..1 para um valor. Com keyframes, passe um por trecho. `times` posiciona cada keyframe entre 0 e 1.
+
+<Clip name="easing-curves-ios" caption="Seis curvas nomeadas em 900 ms, e um logo cuja opacidade define só times e mantém a duração e o easing principais, no simulador iOS. Velocidade real." />
 
 Com `easeTrack: true`, um único `ease` vale para o track inteiro, e o valor anda em linha reta entre os keyframes, do jeito que o `interpolate` do React Native posiciona o `outputRange` sobre um valor com easing:
 
@@ -53,13 +57,20 @@ Funções de easing customizadas rodam uma vez, quando a animação começa, com
 
 ```ts
 animate(
+  logo,
+  { scale: [0.6, 1.08, 1], opacity: [0, 1, 1] },
+  { duration: 900, ease: 'easeInOut', opacity: { times: [0, 0.3, 1] } },
+)
+animate(
   card,
   { y: 0, opacity: 1 },
   { type: 'spring', bounce: 0.3, opacity: { duration: 150 } },
 )
 ```
 
-A transição de uma propriedade substitui a curva, e mantém o tempo (`delay`, `repeat`) da principal a menos que defina o próprio.
+Sobre um tween, a transição de uma propriedade muda só o que ela define: a opacidade do logo mantém os 900 ms com `easeInOut` e só posiciona seus keyframes. Sobre um spring, ou quando ela mesma é um spring, ela substitui a curva, então a opacidade do card ganha um tween de 150 ms. Nos dois casos, ela mantém o tempo (`delay`, `repeat`) da principal a menos que defina o próprio. `times` e easings por trecho herdados da transição principal ficam de fora quando não batem com os keyframes da propriedade. Opções passadas para um [preset](./presets) se combinam do mesmo jeito, então `animate(card, 'heartbeat', { duration: 1600 })` mantém o ritmo da batida.
+
+<Clip name="easing-curves-android" caption="As mesmas curvas e o mesmo logo no emulador Android. Velocidade real." />
 
 ## Tempo
 

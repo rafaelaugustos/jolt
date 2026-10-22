@@ -35,6 +35,7 @@ import { layerable } from './mixer.js'
 import { isProperty, precision, type Property } from './properties.js'
 import {
   hasCurve,
+  fitTransition,
   mergeTransitions,
   resolveTransition,
   springs,
@@ -423,7 +424,7 @@ function plan(
     const override =
       overrides[property] ?? (property.startsWith('scale') ? overrides.scale : undefined)
     const transition = resolveTransition(
-      override ? mergeTransitions(base, override) : base,
+      fitTransition(override ? mergeTransitions(base, override) : base, frames.length),
       property,
       frames.length,
     )
