@@ -207,6 +207,12 @@ final class DocsTests: XCTestCase {
             tap("Next mood", wait: 1.2)
         }
     }
+    func testRandomPauses() throws {
+        launch(["--playground", "--section=random pauses"], "Stop idling")
+        try record("random-pauses-ios") {
+            Thread.sleep(forTimeInterval: 30)
+        }
+    }
     func testStates() throws {
         launch(["--playground", "--section=motion"], "Upload")
         try record("motion-controllers-ios") {

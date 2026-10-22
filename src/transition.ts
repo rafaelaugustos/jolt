@@ -12,9 +12,14 @@ export interface Timing {
   repeat?: number
   /** `reverse` plays every other repeat backwards. */
   repeatType?: 'loop' | 'reverse'
-  /** Milliseconds to hold the end value before each repeat. The first play doesn't wait. */
-  repeatDelay?: number
+  /**
+   * Milliseconds to hold the end value before each repeat. The first play doesn't wait.
+   * `[min, max]` draws a new pause for each repeat.
+   */
+  repeatDelay?: number | RepeatDelayRange
 }
+
+export type RepeatDelayRange = readonly [min: number, max: number]
 
 export interface Tween extends Timing {
   type?: 'tween'
@@ -107,7 +112,9 @@ export interface ResolvedTransition {
   delay: number
   repeat: number
   reverse: boolean
-  repeatDelay?: number
+  repeatDelay?: number | RepeatDelayRange
+  /** Draws the pauses of a `repeatDelay` range; tracks of one animation share it. */
+  seed?: number
 }
 
 const springKeys = ['stiffness', 'damping', 'mass', 'bounce', 'velocity'] as const
@@ -209,13 +216,23 @@ export function resolveTransition(
   if (repeat < 0 || Number.isNaN(repeat))
     throw new RangeError(`Invalid repeat: ${repeat}.`)
   const repeatDelay = transition.repeatDelay ?? 0
-  if (!Number.isFinite(repeatDelay) || repeatDelay < 0)
-    throw new RangeError(`Invalid repeat delay: ${repeatDelay}.`)
+  const [shortest, longest] =
+    typeof repeatDelay === 'number' ? [repeatDelay, repeatDelay] : repeatDelay
+  if (
+    (typeof repeatDelay !== 'number' &&
+      (!Array.isArray(repeatDelay) || repeatDelay.length !== 2)) ||
+    !Number.isFinite(shortest) ||
+    !Number.isFinite(longest) ||
+    shortest! < 0 ||
+    shortest! > longest!
+  )
+    throw new RangeError(`Invalid repeat delay: ${JSON.stringify(repeatDelay)}.`)
   const timing = {
     delay,
     repeat,
     reverse: transition.repeatType === 'reverse',
-    ...(repeatDelay > 0 && repeat > 0 && { repeatDelay }),
+    ...(longest! > 0 && repeat > 0 && { repeatDelay }),
+    ...(longest! > shortest! && repeat > 0 && { seed: Math.random() }),
   }
 
   if (type === 'spring') {

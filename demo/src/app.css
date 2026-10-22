@@ -205,6 +205,25 @@ Page {
   margin-bottom: 8;
 }
 
+.mascot {
+  border-radius: 28;
+  background-color: #facc15;
+}
+
+.mascot-eyes {
+  horizontal-alignment: center;
+  vertical-alignment: center;
+  margin-top: -6;
+}
+
+.mascot-eye {
+  width: 12;
+  height: 22;
+  margin: 0 9;
+  border-radius: 6;
+  background-color: #18181b;
+}
+
 .gradient-banner {
   margin: 16 0;
   border-radius: 20;

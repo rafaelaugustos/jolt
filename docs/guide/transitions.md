@@ -97,3 +97,19 @@ animate(
 <Clip name="repeat-delay-ios" caption="On the iOS simulator, each z rests 900 ms between floats and the ball waits 700 ms at both ends of a reversed loop. Real-time playback." />
 
 The wait is part of the native keyframes, so it costs no JavaScript while it plays. Stopping during the wait leaves the view at the held value.
+
+A range, `repeatDelay: [min, max]`, draws a new wait before each repeat, so an idle loop like a blink doesn't land on a beat:
+
+```ts
+animate(
+  eyes,
+  { scaleY: [1, 0.1, 1] },
+  { duration: 160, repeat: Infinity, repeatDelay: [1000, 4000] },
+)
+```
+
+<Clip name="random-pauses-ios" caption="On the iOS simulator, the left mascot blinks and glances after the same pause every time, and the right one after pauses drawn between 1 and 4 seconds. Real-time playback." />
+
+The waits are drawn when the animation starts and built into the native keyframes. A finite `repeat` draws one per repeat. An endless loop draws sixteen cycles and loops them natively, so the pattern repeats only after those sixteen, with no JavaScript between repeats. All the properties and views of one `animate()` call share the same waits, so `scaleX` and `scaleY`, or both eyes, stay together. Separate calls draw their own.
+
+<Clip name="random-pauses-android" caption="The same two mascots on the Android emulator. Real-time playback." />

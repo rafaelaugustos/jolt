@@ -316,7 +316,7 @@ animate(
 )
 ```
 
-The wait is part of the native keyframes, so it costs no JavaScript while it plays. Stopping during the wait leaves the view at the held value.
+The wait is part of the native keyframes, so it costs no JavaScript while it plays. Stopping during the wait leaves the view at the held value. A range, `repeatDelay: [1000, 4000]`, draws a new wait before each repeat; an endless loop draws sixteen and loops them natively.
 
 ## Decay
 

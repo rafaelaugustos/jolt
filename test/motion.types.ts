@@ -1,4 +1,10 @@
-import { drag, motionScope, motionStates, type DragRelease } from '../src/index.js'
+import {
+  animate,
+  drag,
+  motionScope,
+  motionStates,
+  type DragRelease,
+} from '../src/index.js'
 import type { View } from '@nativescript/core'
 declare const icon: View
 declare const label: View
@@ -53,3 +59,10 @@ motionStates({ icon, label }, { idle: {} }, { transition: { label: { duration: 2
 states.to('idle', { duration: 300, missing: { delay: 100 } })
 // @ts-expect-error a target's transition can't name other targets
 states.to('idle', { label: { icon: 'snappy' } })
+animate(
+  icon,
+  { scaleY: [1, 0.1, 1] },
+  { duration: 180, repeat: Infinity, repeatDelay: [2000, 6000] },
+)
+// @ts-expect-error a range has a minimum and a maximum
+animate(icon, { scaleY: [1, 0.1, 1] }, { repeat: Infinity, repeatDelay: [1, 2, 3] })
