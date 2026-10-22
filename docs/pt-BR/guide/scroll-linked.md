@@ -62,3 +62,5 @@ Cada evento de scroll define um único valor de `progress` na animação pausada
 Os drivers ainda reposicionam cada propriedade que possuem: isso não vira uma única chamada à ponte nativa para qualquer quantidade de propriedades. O iOS aplica as cópias pausadas do Core Animation; o Android reposiciona os animadores nativos. A entrega do scroll e a atualização do progresso precisam de JavaScript na thread principal. Não é uma timeline de scroll nativa capaz de seguir a entrada com o JavaScript bloqueado; o [limite da UI thread no Android](./android-performance) continua valendo.
 
 O playground usa o ScrollView principal para mover e apagar o cabeçalho grande enquanto revela um título compacto fixo. Os dois sentidos usam esta API pública.
+
+Para controlar várias views com um offset, ou mapeá-lo por faixas em cada propriedade, use [`scrollValue()`](./motion-values#offsets-de-rolagem) com `bind()`. Ele escreve as propriedades ligadas direto e custa cerca de metade por evento no Android.

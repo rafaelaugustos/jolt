@@ -51,7 +51,7 @@ const keyboard = useKeyboard()
 
 ## Valores de movimento
 
-`useMotionValue()` cria um [valor de movimento](./motion-values) que para quando o componente desmonta, e `useBinding()` devolve um template ref que liga esse valor a um elemento:
+`useMotionValue()` cria um [valor de movimento](./motion-values) que para quando o componente desmonta, `useScrollValue()` segue um ScrollView pelo `ref` dele, e `useBinding()` devolve um template ref que liga um valor a um elemento:
 
 ```vue
 <script setup lang="ts">

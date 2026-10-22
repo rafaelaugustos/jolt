@@ -19,11 +19,13 @@ import {
   motionScope,
   bind,
   motionValue,
+  scrollValue,
   onKeyboard,
   onReducedMotion,
   stop,
   type Bindings,
   type MotionValue,
+  type ScrollValue,
   type Target,
   reducedMotion,
   type KeyboardState,
@@ -261,4 +263,14 @@ export function useBinding(bindings: Bindings): (element: Target | null) => void
     element = next
     if (next) release = bind(next, bindings)
   }
+}
+
+/**
+ * Call in setup(): a scroll offset as a value. Pass its `ref` to the ScrollView's
+ * template ref; it stops following when the component unmounts.
+ */
+export function useScrollValue(options?: { axis?: 'x' | 'y' }): ScrollValue {
+  const value = scrollValue(null, options)
+  onUnmounted(() => value.dispose())
+  return value
 }

@@ -316,3 +316,35 @@ Page {
   border-radius: 22;
   background-color: #18181b;
 }
+
+.scroll-stage {
+  background-color: #ffffff;
+}
+
+.scroll-list {
+  padding: 152 12 12 12;
+}
+
+.scroll-header {
+  background-color: #18181b;
+  border-radius: 14 14 0 0;
+}
+
+.scroll-titles {
+  margin: 0 0 16 18;
+}
+
+.scroll-title {
+  color: #facc15;
+  font-size: 30;
+  font-weight: bold;
+}
+
+.scroll-subtitle {
+  color: #a1a1aa;
+  font-size: 13;
+}
+
+.scroll-bar {
+  background-color: #facc15;
+}

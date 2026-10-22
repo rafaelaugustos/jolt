@@ -1,4 +1,10 @@
-import { Color, type View } from '@nativescript/core'
+import {
+  Color,
+  ScrollView,
+  type EventData,
+  type ScrollEventData,
+  type View,
+} from '@nativescript/core'
 import { toViews } from './animate.js'
 import {
   colorMixer,
@@ -14,7 +20,14 @@ import {
   validateDecorationTarget,
 } from './decoration.js'
 import { getDriver } from './driver/index.js'
-import { setArrival, ViewAnimation, type Animation, type Plan } from './engine.js'
+import {
+  setArrival,
+  setBase,
+  stopBase,
+  ViewAnimation,
+  type Animation,
+  type Plan,
+} from './engine.js'
 import { linear } from './easing.js'
 import { isProperty, type Property } from './properties.js'
 import { createTrack, instantTrack, type Track } from './track.js'
@@ -284,6 +297,10 @@ class Root extends Derived {
     return this.run ? getDriver().now() - this.run.startedAt : 0
   }
 
+  get running(): boolean {
+    return this.run !== undefined
+  }
+
   private halt() {
     const run = this.run
     if (!run) return
@@ -373,6 +390,21 @@ function attach(view: View, property: Property, source: Derived) {
     read: source.read,
     sync() {
       if (!view.isLoaded || !view.nativeViewProtected) return
+      if (!root.running) {
+        // A value at rest writes straight through, so scroll offsets cost one write per event.
+        binding.animation?.stop()
+        binding.animation = undefined
+        stopBase(view, [property])
+        const value = source.read(root.raw())
+        setBase(
+          view,
+          property,
+          isDecorationProperty(property) ? clampDecoration(property, value) : value,
+        )
+        if (isColorProperty(property) || isDecorationProperty(property))
+          getDriver().sync?.(view)
+        return
+      }
       const elapsed = root.elapsed()
       const animation = new ViewAnimation(view, [root.plan(binding)])
       if (elapsed > 1 && animation.duration > 0) animation.seekTime(elapsed)
@@ -455,4 +487,58 @@ function mapping(
 function springOf(name: SpringName): Transition {
   if (!Object.hasOwn(springs, name)) throw new Error(`Unknown spring "${name}".`)
   return springs[name]
+}
+
+/** A number that follows a scroll view's offset. Bind it like a motion value. */
+export interface ScrollValue extends DerivedValue {
+  /** Follows this scroll view instead, or none with `null`. Stable, so it works as a template ref. */
+  readonly ref: (scrollView: Target | null) => void
+  /** Stops following; bound views stay where they are. */
+  dispose(): void
+}
+
+/**
+ * The scroll offset of a ScrollView, in DIPs, as a value that bindings follow.
+ *
+ * ```ts
+ * const offset = scrollValue(scroll)
+ * bind(header, { y: offset.to([0, 120], [0, -60]), opacity: offset.to([0, 80], [1, 0]) })
+ * ```
+ */
+export function scrollValue(
+  scrollView?: Target | null,
+  options: { axis?: 'x' | 'y' } = {},
+): ScrollValue {
+  const axis = options.axis ?? 'y'
+  if (axis !== 'x' && axis !== 'y') throw new TypeError('Scroll axis must be "x" or "y".')
+  const root = new Root(0)
+  let source: ScrollView | undefined
+  const read = () => {
+    if (!source) return
+    const offset = axis === 'x' ? source.horizontalOffset : source.verticalOffset
+    if (Number.isFinite(offset) && offset !== root.raw()) root.set(offset)
+  }
+  const onScroll = (event: EventData) => {
+    const { scrollX, scrollY } = event as ScrollEventData
+    const offset = axis === 'x' ? scrollX : scrollY
+    if (Number.isFinite(offset) && offset !== root.raw()) root.set(offset)
+  }
+  const detach = () => {
+    source?.off(ScrollView.scrollEvent, onScroll)
+    source?.off('loaded', read)
+    source = undefined
+  }
+  const ref = (target: Target | null) => {
+    const next = target === null ? undefined : toViews(target)[0]
+    if (next === source) return
+    if (next !== undefined && !(next instanceof ScrollView))
+      throw new TypeError('scrollValue() follows a NativeScript ScrollView.')
+    detach()
+    source = next
+    source?.on(ScrollView.scrollEvent, onScroll)
+    source?.on('loaded', read)
+    read()
+  }
+  if (scrollView) ref(scrollView)
+  return Object.assign(root as unknown as DerivedValue, { ref, dispose: detach })
 }

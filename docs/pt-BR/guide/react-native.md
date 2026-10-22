@@ -85,11 +85,11 @@ animate(logo, { scale: [1, 1.15, 1] }, { duration: 300, layer: 'kick' }) // mult
 
 ## APIs da plataforma
 
-| React Native                                           | Jolt                                                                       |
-| ------------------------------------------------------ | -------------------------------------------------------------------------- |
-| `useNativeDriver: true`                                | sempre: toda animação toca nativamente                                     |
-| `LayoutAnimation`                                      | [`animateLayout()`](./layout)                                              |
-| eventos de `Keyboard` e o timing do `keyboardWillShow` | [`onKeyboard()`](./keyboard#estado-do-teclado) e `followKeyboard()`        |
-| `AccessibilityInfo.isReduceMotionEnabled()`            | [`reducedMotion()` e `onReducedMotion()`](./configure#lendo-a-preferencia) |
-| `Animated.event` no `onScroll`                         | [`scrollLinked()`](./scroll-linked)                                        |
-| um valor que sobrevive à view remontada                | [estados com `attach()`](./motion-controllers#views-que-voltam)            |
+| React Native                                           | Jolt                                                                                                       |
+| ------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| `useNativeDriver: true`                                | sempre: toda animação toca nativamente                                                                     |
+| `LayoutAnimation`                                      | [`animateLayout()`](./layout)                                                                              |
+| eventos de `Keyboard` e o timing do `keyboardWillShow` | [`onKeyboard()`](./keyboard#estado-do-teclado) e `followKeyboard()`                                        |
+| `AccessibilityInfo.isReduceMotionEnabled()`            | [`reducedMotion()` e `onReducedMotion()`](./configure#lendo-a-preferencia)                                 |
+| `Animated.event` no `onScroll`                         | [`scrollValue()`](./motion-values#offsets-de-rolagem) com `bind()`, ou [`scrollLinked()`](./scroll-linked) |
+| um valor que sobrevive à view remontada                | [estados com `attach()`](./motion-controllers#views-que-voltam)                                            |

@@ -42,6 +42,7 @@ import Tuning from './Tuning.vue'
 import MotionStates from './MotionStates.vue'
 import MotionValues from './MotionValues.vue'
 import Layers from './Layers.vue'
+import ScrollValues from './ScrollValues.vue'
 import Remount from './Remount.vue'
 
 const emit = defineEmits<{ imageLab: []; dragLab: []; layoutLab: [] }>()
@@ -147,6 +148,7 @@ onUnmounted(() => {
         <Tuning />
         <MotionValues />
         <Layers />
+        <ScrollValues />
         <MotionStates />
         <Remount />
         <Button text="Layout changes" @tap="emit('layoutLab')" />

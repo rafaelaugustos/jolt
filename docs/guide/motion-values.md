@@ -68,6 +68,40 @@ const toggle = (open: boolean) => animate(progress, open ? 1 : 0, 'snappy')
 
 <Clip name="motion-values-android" caption="The same sheet on the Android emulator, including a tap mid-way that turns all three views around together. Real-time playback." />
 
+## Scroll offsets
+
+`scrollValue(scrollView)` is a ScrollView's offset as a value, in DIPs. Bind it like any motion value; each scroll event writes the bound properties directly, with no animation in between:
+
+```ts
+import { bind, scrollValue } from '@rafaelaugusto/jolt'
+
+const offset = scrollValue(scroll)
+bind(header, { y: offset.to([0, 90], [0, -64]) })
+bind(title, { scale: offset.to([0, 90], [1, 0.72]), y: offset.to([0, 90], [0, 30]) })
+bind(subtitle, { opacity: offset.to([0, 50], [1, 0]) })
+bind(progress, { scaleX: offset.to([0, 700], [0, 1]) })
+```
+
+<Clip name="scroll-values-ios" caption="Scrolling the list collapses the header, shrinks the title, fades the subtitle and fills the progress bar, on the iOS simulator. Real-time playback." />
+
+`{ axis: 'x' }` follows the horizontal offset. The value starts from the current offset, and `offset.ref(scrollView)` follows another ScrollView, or none with `null`. `offset.dispose()` stops following and leaves bound views where they are. In Vue, `useScrollValue()` returns a value whose `ref` goes on the ScrollView's template ref, and stops with the component:
+
+```vue
+<script setup lang="ts">
+const offset = useScrollValue()
+const header = useBinding({ y: offset.to([0, 90], [0, -64]) })
+</script>
+
+<template>
+  <ScrollView :ref="offset.ref">...</ScrollView>
+  <GridLayout :ref="header" />
+</template>
+```
+
+Scroll events arrive in JavaScript, as for [`scrollLinked()`](./scroll-linked). With five bound properties, one event costs about 0.25 to 0.3 ms on the iOS simulator and the Android emulator, about half of the equivalent `scrollLinked()` setup on Android; see the [measurements](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-values.md).
+
+<Clip name="scroll-values-android" caption="The same header following the list on the Android emulator. Real-time playback." />
+
 ## What comes next
 
-Values here are driven by timelines, and they compose with [layers](./layers) on the same property. Values that follow a finger or a scroll offset from native code are planned in the [motion values RFC](https://github.com/rafaelaugustos/jolt/issues/152).
+Values compose with [layers](./layers) on the same property. Gestures that write into values, and native evaluation where measurements call for it, are planned in the [motion values RFC](https://github.com/rafaelaugustos/jolt/issues/152).
