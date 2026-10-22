@@ -13,6 +13,7 @@ import { launchArgument } from '../launch'
 import Loops from './Loops.vue'
 import Pauses from './Pauses.vue'
 import TrackEasing from './TrackEasing.vue'
+import GradientDirective from './GradientDirective.vue'
 import EasingCurves from './EasingCurves.vue'
 import FadeOverflow from './FadeOverflow.vue'
 import Presets from './Presets.vue'
@@ -170,6 +171,7 @@ onUnmounted(() => {
         <BusyJs />
         <Colors />
         <Gradients />
+        <GradientDirective />
         <Presets />
         <Springs />
         <FromReactNative />

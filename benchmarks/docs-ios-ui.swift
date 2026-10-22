@@ -199,6 +199,14 @@ final class DocsTests: XCTestCase {
             tap("Show splash", wait: 1.8)
         }
     }
+    func testGradientDirective() throws {
+        launch(["--playground", "--section=gradient directive"], "Next mood")
+        try record("gradient-directive-ios") {
+            tap("Next mood", wait: 1.2)
+            tap("Next mood", wait: 1.2)
+            tap("Next mood", wait: 1.2)
+        }
+    }
     func testStates() throws {
         launch(["--playground", "--section=motion"], "Upload")
         try record("motion-controllers-ios") {

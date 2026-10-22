@@ -45,6 +45,33 @@ Colors mix in OKLab, like [color animations](./colors), and keep their count whi
 
 `remove()` takes the gradient off the view. Unloading the view stops the animation in progress.
 
+## Scopes and Vue
+
+`motionScope().gradient(target, options)` returns the same `Gradient` and removes it when the scope is disposed. Suspending the scope stops an animation in progress where it is and keeps the gradient. In Vue, `useMotionScope()` ties it to the component:
+
+```ts
+const scope = useMotionScope()
+onMounted(() => scope.gradient(card.value, { type: 'linear', colors: warm, angle: 135 }))
+```
+
+The `v-gradient` directive does the same from a template. It paints the gradient when the element mounts, animates to the new values when they change, and removes it on unmount. Pair the options with a transition or a spring name to time the changes:
+
+```vue
+<GridLayout v-gradient="{ type: 'linear', colors: ['#18181B', '#3F3F46'], angle: 135 }" />
+<GridLayout
+  v-gradient="[
+    { type: 'linear', colors: mood.colors, angle: mood.angle },
+    { duration: 700 },
+  ]"
+/>
+```
+
+<Clip name="gradient-directive-ios" caption="A v-gradient banner animating its colors and angle as its value changes, on the iOS simulator. Real-time playback." />
+
+A change in the number of colors applies at once, since a gradient keeps its color count while animating. A change of `type` replaces the gradient. Values are compared by content, so an object written in the template doesn't restart the animation on every render.
+
+<Clip name="gradient-directive-android" caption="The same banner on the Android emulator. Real-time playback." />
+
 ## Platforms
 
 On iOS the gradient is a `CAGradientLayer` at the back of the view's layer, with Core Animation keyframes for its colors, locations and points. On Android it is a drawable stacked on the view's own background, and a native animator interpolates the sampled frames; nothing runs in JavaScript while it plays. Rebuild the Android app after upgrading so the native class is included.

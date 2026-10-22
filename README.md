@@ -224,7 +224,7 @@ const glow = gradient(card, {
 glow.animate({ center: { x: 0.7, y: 0.7 }, radius: 0.9 }, { duration: 1400 })
 ```
 
-Native linear, radial and conic gradients behind a layout's children, which NativeScript's CSS doesn't have beyond a static `linear-gradient`. Colors, stops, angle, center and radius animate with springs, tweens and repeats: a `CAGradientLayer` with Core Animation keyframes on iOS, a native drawable and animator on Android. Rebuild Android after upgrading. See the [guide](https://jolt.rafaelaugusto.dev/guide/gradients).
+Native linear, radial and conic gradients behind a layout's children, which NativeScript's CSS doesn't have beyond a static `linear-gradient`. Colors, stops, angle, center and radius animate with springs, tweens and repeats: a `CAGradientLayer` with Core Animation keyframes on iOS, a native drawable and animator on Android. `motionScope().gradient()` removes it with the scope, and `v-gradient` paints and animates one from a Vue template. Rebuild Android after upgrading. See the [guide](https://jolt.rafaelaugusto.dev/guide/gradients).
 
 ## Transitions
 

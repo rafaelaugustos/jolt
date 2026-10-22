@@ -8,7 +8,7 @@ createApp(App).use(Jolt).start()
 
 <Clip name="vue" caption="JoltTransition removing and restoring a row, v-animate changing its entrance." />
 
-The core takes a view or an element that holds one, so `animate(card.value, 'popIn')` already works from a template ref. `@rafaelaugusto/jolt/vue` adds the template side: `v-animate`, `v-press` and a `<JoltTransition>` component for views that come and go. It needs NativeScript-Vue 3 and is only loaded by apps that import it.
+The core takes a view or an element that holds one, so `animate(card.value, 'popIn')` already works from a template ref. `@rafaelaugusto/jolt/vue` adds the template side: `v-animate`, `v-press`, `v-gradient` and a `<JoltTransition>` component for views that come and go. It needs NativeScript-Vue 3 and is only loaded by apps that import it.
 
 ## Scoped component motion
 
@@ -66,11 +66,11 @@ const sheet = useBinding({ y: progress.to([0, 1], [200, 0]) })
 
 ## Registering
 
-`app.use(Jolt)` registers the two directives and the component for every template. A component can also import just what it uses. In `<script setup>`, importing `vAnimate` and `vPress` under those names makes `v-animate` and `v-press` available in that template:
+`app.use(Jolt)` registers the three directives and the component for every template. A component can also import just what it uses. In `<script setup>`, importing `vAnimate`, `vPress` and `vGradient` under those names makes `v-animate`, `v-press` and `v-gradient` available in that template:
 
 ```vue
 <script setup lang="ts">
-import { JoltTransition, vAnimate, vPress } from '@rafaelaugusto/jolt/vue'
+import { JoltTransition, vAnimate, vGradient, vPress } from '@rafaelaugusto/jolt/vue'
 </script>
 ```
 
@@ -96,6 +96,19 @@ When the value changes, the element animates again, picking up the value and vel
 ```
 
 The same as [`press()`](./press): the view animates to the pressed values while a finger is on it, and back once it lifts or a scroll takes over. Without a value it scales to 0.96. A changed value replaces the effect; unmounting removes it.
+
+## v-gradient
+
+```vue
+<GridLayout
+  v-gradient="{ type: 'radial', colors: ['#A78BFA', '#0F172A'], radius: 0.8 }"
+/>
+<GridLayout
+  v-gradient="[{ type: 'linear', colors: mood.colors, angle: mood.angle }, 'smooth']"
+/>
+```
+
+The same as [`gradient()`](./gradients#scopes-and-vue): a native gradient behind the element's children, painted on mount, animated to new values when they change and removed on unmount.
 
 ## JoltTransition
 

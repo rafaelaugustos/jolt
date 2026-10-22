@@ -15,6 +15,7 @@ import {
   type Ref,
 } from 'nativescript-vue'
 import {
+  gradient,
   press,
   motionScope,
   bind,
@@ -35,6 +36,9 @@ import {
   type PlaybackAnimation,
   type PresetName,
   type SpringName,
+  type Gradient,
+  type GradientOptions,
+  type Transition,
 } from '../index.js'
 import { currentKeyboard } from '../keyboard.js'
 
@@ -44,6 +48,11 @@ type Options = AnimateOptions | SpringName
 /** A preset name or keyframes, alone or paired with a transition. */
 export type AnimateValue =
   PresetName | Keyframes | readonly [animation: PresetName | Keyframes, options?: Options]
+
+/** The gradient, alone or paired with the transition for later changes. */
+export type GradientValue =
+  | GradientOptions
+  | readonly [gradient: GradientOptions, transition?: Transition | SpringName]
 
 /** The pressed keyframes, alone or paired with a transition. */
 export type PressValue = Keyframes | readonly [pressed: Keyframes, options?: Options]
@@ -61,6 +70,7 @@ export interface TransitionProps {
 const animations = new WeakMap<object, PlaybackAnimation>()
 const scopes = new WeakMap<object, MotionScope>()
 const removers = new WeakMap<object, () => void>()
+const gradients = new WeakMap<object, { gradient: Gradient; colors: number }>()
 
 function split<T>(
   value: T | readonly [T, Options?],
@@ -145,6 +155,47 @@ export const vPress: ObjectDirective<Host, PressValue | undefined> = {
   },
 }
 
+function paint(el: Host, value: GradientValue, animated: boolean) {
+  const [options, transition] = (Array.isArray(value) ? value : [value]) as [
+    GradientOptions,
+    (Transition | SpringName)?,
+  ]
+  const current = gradients.get(el)
+  const colors = options.colors.length
+  if (current && current.gradient.type === options.type) {
+    const { type, ...values } = options
+    if (animated && current.colors === colors)
+      current.gradient.animate(values, transition)
+    else current.gradient.set(values)
+    current.colors = colors
+    return
+  }
+  current?.gradient.remove()
+  gradients.set(el, { gradient: gradient(el, options), colors })
+}
+
+/**
+ * Paints a native gradient behind the element, and animates to the new values when they change.
+ * A change of type, or of the number of colors, applies at once.
+ *
+ * ```vue
+ * <GridLayout v-gradient="{ type: 'linear', colors: ['#18181B', '#3F3F46'], angle: 135 }" />
+ * <GridLayout v-gradient="[{ type: 'linear', colors: active ? hot : cold }, 'snappy']" />
+ * ```
+ */
+export const vGradient: ObjectDirective<Host, GradientValue> = {
+  mounted(el, { value }) {
+    paint(el, value, false)
+  },
+  updated(el, { value, oldValue }) {
+    if (!same(value, oldValue)) paint(el, value, true)
+  },
+  unmounted(el) {
+    gradients.get(el)?.gradient.remove()
+    gradients.delete(el)
+  },
+}
+
 /** The hooks `JoltTransition` hands to Vue's `BaseTransition`. */
 export function transitionHooks(props: TransitionProps): BaseTransitionProps<Host> {
   const run = (value: AnimateValue | undefined) => (el: Host, done: () => void) => {
@@ -203,10 +254,11 @@ export const JoltTransition = defineComponent({
   },
 })
 
-/** Registers `v-animate`, `v-press` and `JoltTransition` on the app. */
+/** Registers `v-animate`, `v-press`, `v-gradient` and `JoltTransition` on the app. */
 export function install(app: App) {
   app.directive('animate', vAnimate)
   app.directive('press', vPress)
+  app.directive('gradient', vGradient)
   app.component('JoltTransition', JoltTransition)
 }
 
