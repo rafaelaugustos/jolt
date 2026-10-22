@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.0-beta.11 (2026-10-21)
+
+- Add `gradient(view, options)` for native linear, radial and conic gradients behind a layout's children, with animated colors, stops, angle, center and radius on springs, tweens and repeats. Angles follow CSS and colors mix in OKLab. iOS uses a `CAGradientLayer` with Core Animation keyframes; Android uses a new native drawable and animator. Rebuild Android apps to include it.
+- Keep motion state when a view is recreated: `motionStates` targets can start as `null`, `attach(target, view)` gives a new view the current state at once or joins the transition in progress, and `ref(target)` returns a stable callback for template refs.
+- Add `origamiSpring({ friction, tension })` with React Native's Origami conversion and defaults, and a guide for coming from React Native Animated.
+- Record demos for gradients, recreated views and Origami springs on the iOS simulator and the Android emulator.
+
 ## 0.1.0-beta.10 (2026-10-21)
 
 - Add `set(target, values)` to apply values at once, stopping whatever animates those properties, so the next animation starts from them. Works with colors, decorations, several targets and views that aren't loaded yet.
