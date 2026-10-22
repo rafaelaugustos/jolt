@@ -134,6 +134,7 @@ export function prepareAnimation(
     for (const property of Object.keys(keyframes))
       if (isColorProperty(property)) validateColorTarget(view, property)
       else if (isDecorationProperty(property)) validateDecorationTarget(view, property)
+  const seed = Math.random()
   const plans = views.map((_, index) =>
     plan(
       keyframes,
@@ -143,6 +144,7 @@ export function prepareAnimation(
       relative,
       path,
       layer,
+      seed,
     ),
   )
   return () =>
@@ -397,6 +399,7 @@ function plan(
   relative = false,
   path?: PreparedPath,
   layer?: string,
+  seed = Math.random(),
 ): Plan[] {
   if (layer !== undefined && path)
     throw new Error("A path owns x and y; it can't play on a layer.")
@@ -429,6 +432,7 @@ function plan(
       frames.length,
     )
     transition.delay += offset
+    if (transition.seed !== undefined) transition.seed = seed
     return { property, keyframes: frames, transition, relative, layer }
   })
 }

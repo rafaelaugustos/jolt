@@ -72,6 +72,7 @@ export type { Preset, PresetName, Presets } from './presets.js'
 export { origamiSpring, springs } from './transition.js'
 export type {
   OrigamiSpring,
+  RepeatDelayRange,
   Spring,
   SpringName,
   Timing,

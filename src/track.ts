@@ -4,7 +4,7 @@ import { solveDecay } from './decay.js'
 import { solveDragRelease } from './drag-physics.js'
 import { precision, type Property } from './properties.js'
 import { solveSpring, springPhysics } from './spring.js'
-import type { Curve, ResolvedTransition } from './transition.js'
+import type { Curve, RepeatDelayRange, ResolvedTransition } from './transition.js'
 import { colorMixer, isColorProperty, type ColorProperty } from './color.js'
 import { reducedMotion, timeScale } from './config.js'
 
@@ -74,7 +74,9 @@ export function createTrack(
     played,
     transition.repeat,
     transition.reverse,
-    (transition.repeatDelay ?? 0) * slowdown,
+    transition.repeatDelay ?? 0,
+    slowdown,
+    transition.seed,
   )
   const { duration } = motion
   const first = motion.values[0]!
@@ -222,32 +224,44 @@ function colorTrack(
   }
 }
 
+/** An endless loop with drawn pauses plays this many of them, then starts over. */
+const DRAWN_CYCLES = 16
+
 /**
- * Holds the end value for `pause` ms before each repeat, inside the keyframes, so both
+ * Holds the end value for `delay` ms before each repeat, inside the keyframes, so both
  * platforms play it natively. Finite repeats are laid out one after another, with no
- * wait after the last; endless ones loop a cycle that waits at each turn.
+ * wait after the last; endless ones loop a cycle that waits at each turn,
+ * or DRAWN_CYCLES cycles when the waits are drawn from a range.
  */
 function pauseBetweenRepeats(
   motion: Motion,
   repeat: number,
   reverse: boolean,
-  pause: number,
+  delay: number | RepeatDelayRange,
+  slowdown: number,
+  seed = Math.random(),
 ): { motion: Motion; repeat: number; reverse: boolean } {
-  if (pause <= 0 || repeat <= 0 || motion.duration === 0)
+  const [shortest, longest] = typeof delay === 'number' ? [delay, delay] : delay
+  if (longest <= 0 || repeat <= 0 || motion.duration === 0)
     return { motion, repeat, reverse }
+  const draw = random(seed)
+  const pause = () => (shortest + draw() * (longest - shortest)) * slowdown
   type Segment = { kind: 'forward' | 'backward' | 'hold'; duration: number }
   const play = (backward: boolean): Segment => ({
     kind: backward ? 'backward' : 'forward',
     duration: motion.duration,
   })
-  const hold: Segment = { kind: 'hold', duration: pause }
+  const hold = (): Segment => ({ kind: 'hold', duration: pause() })
   const segments: Segment[] = []
   if (Number.isFinite(repeat))
     for (let i = 0; i <= repeat; i++) {
-      if (i > 0) segments.push(hold)
+      if (i > 0) segments.push(hold())
       segments.push(play(reverse && i % 2 === 1))
     }
-  else segments.push(play(false), hold, ...(reverse ? [play(true), hold] : []))
+  else {
+    const cycles = shortest === longest ? (reverse ? 2 : 1) : DRAWN_CYCLES
+    for (let i = 0; i < cycles; i++) segments.push(play(reverse && i % 2 === 1), hold())
+  }
 
   const total = segments.reduce((sum, segment) => sum + segment.duration, 0)
   const starts = segments.map((_, i) =>
@@ -260,8 +274,6 @@ function pauseBetweenRepeats(
     if (segment.kind === 'backward') return motion.values[0]!
     return endOf(i - 1)
   }
-  // A loop jumps back to its start at the end of the hold, not across it.
-  const jump = Math.min(1, pause / 10)
 
   const times: number[] = []
   const values: number[] = []
@@ -273,7 +285,9 @@ function pauseBetweenRepeats(
       const jumps =
         next !== undefined &&
         (next.kind === 'forward' ? motion.values[0] : motion.values[last]) !== held
-      times.push((start + segment.duration - (jumps ? jump : 0)) / total)
+      // A loop jumps back to its start at the end of the hold, not across it.
+      const jump = jumps ? Math.min(1, segment.duration / 10) : 0
+      times.push((start + segment.duration - jump) / total)
       values.push(held)
       return
     }
@@ -316,6 +330,17 @@ function pauseBetweenRepeats(
     },
     repeat: Number.isFinite(repeat) ? 0 : Infinity,
     reverse: false,
+  }
+}
+
+/** Mulberry32: the same seed draws the same pauses for every track of one animation. */
+function random(seed: number) {
+  let state = Math.floor(seed * 2 ** 32) >>> 0
+  return () => {
+    state = (state + 0x6d2b79f5) >>> 0
+    let t = Math.imul(state ^ (state >>> 15), state | 1)
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
+    return ((t ^ (t >>> 14)) >>> 0) / 2 ** 32
   }
 }
 

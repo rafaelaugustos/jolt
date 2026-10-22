@@ -13,6 +13,7 @@ import { launchArgument } from '../launch'
 import Loops from './Loops.vue'
 import Pauses from './Pauses.vue'
 import TrackEasing from './TrackEasing.vue'
+import RandomPauses from './RandomPauses.vue'
 import GradientDirective from './GradientDirective.vue'
 import EasingCurves from './EasingCurves.vue'
 import FadeOverflow from './FadeOverflow.vue'
@@ -191,6 +192,7 @@ onUnmounted(() => {
         <Particles />
         <Loops />
         <Pauses />
+        <RandomPauses />
         <TrackEasing />
         <EasingCurves />
         <FadeOverflow />

@@ -97,3 +97,19 @@ animate(
 <Clip name="repeat-delay-ios" caption="No simulador iOS, cada z descansa 900 ms entre as subidas e a bola espera 700 ms nas duas pontas de um loop reverso. Velocidade real." />
 
 A espera faz parte dos keyframes nativos, então não custa JavaScript enquanto toca. Parar durante a espera deixa a view no valor segurado.
+
+Um intervalo, `repeatDelay: [min, max]`, sorteia uma nova espera antes de cada repetição, para que um loop ocioso como uma piscada não caia sempre no mesmo ritmo:
+
+```ts
+animate(
+  eyes,
+  { scaleY: [1, 0.1, 1] },
+  { duration: 160, repeat: Infinity, repeatDelay: [1000, 4000] },
+)
+```
+
+<Clip name="random-pauses-ios" caption="No simulador iOS, o mascote da esquerda pisca e olha para o lado depois da mesma pausa toda vez, e o da direita depois de pausas sorteadas entre 1 e 4 segundos. Velocidade real." />
+
+As esperas são sorteadas quando a animação começa e entram nos keyframes nativos. Um `repeat` finito sorteia uma por repetição. Um loop infinito sorteia dezesseis ciclos e os repete nativamente, então o padrão só se repete depois desses dezesseis, sem JavaScript entre as repetições. Todas as propriedades e views de uma mesma chamada de `animate()` compartilham as mesmas esperas, então `scaleX` e `scaleY`, ou os dois olhos, ficam juntos. Chamadas separadas sorteiam as suas.
+
+<Clip name="random-pauses-android" caption="Os mesmos dois mascotes no emulador Android. Velocidade real." />

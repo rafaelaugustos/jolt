@@ -145,3 +145,94 @@ describe('repeatDelay', () => {
     expect(color.valueAt(150)).toBe(color.valueAt(100))
   })
 })
+
+describe('repeatDelay ranges', () => {
+  /** The pauses a track holds for, in order, from its sampled keyframes. */
+  function pauses(result: ReturnType<typeof track>) {
+    const total = result.end === Infinity ? result.duration : result.end
+    const held: number[] = []
+    for (let i = 1; i < result.times.length; i++) {
+      const span = (result.times[i]! - result.times[i - 1]!) * total
+      if (result.values[i] === result.values[i - 1] && span > 1) held.push(span)
+    }
+    return held
+  }
+
+  it('draws a new pause within the range before each finite repeat', () => {
+    const result = track({ ...linear, repeat: 5, repeatDelay: [200, 600] })
+    const drawn = pauses(result)
+    expect(drawn).toHaveLength(5)
+    for (const pause of drawn) {
+      expect(pause).toBeGreaterThanOrEqual(199)
+      expect(pause).toBeLessThanOrEqual(601)
+    }
+    expect(new Set(drawn.map(Math.round)).size).toBeGreaterThan(1)
+    // Each hold hands over to the next play 1 ms before it ends.
+    const held = drawn.reduce((a, b) => a + b, 0)
+    expect(result.end - (600 + held)).toBeCloseTo(drawn.length, 5)
+    expect(result.to).toBe(100)
+    nativeTimesAreValid(result)
+  })
+
+  it('loops sixteen drawn cycles natively when repeating forever', () => {
+    const result = track({ ...linear, repeat: Infinity, repeatDelay: [200, 600] })
+    expect(result.repeat).toBe(Infinity)
+    const drawn = pauses(result)
+    expect(drawn.length).toBeGreaterThanOrEqual(15)
+    expect(new Set(drawn.map(Math.round)).size).toBeGreaterThan(8)
+    expect(result.duration).toBeGreaterThan(16 * (100 + 200))
+    expect(result.duration).toBeLessThan(16 * (100 + 600))
+    nativeTimesAreValid(result)
+
+    const reversed = track({
+      ...linear,
+      repeat: Infinity,
+      repeatType: 'reverse',
+      repeatDelay: [200, 600],
+    })
+    expect(reversed.values[0]).toBe(0)
+    expect(reversed.values.at(-1)).toBe(0)
+    expect(reversed.values).toContain(100)
+  })
+
+  it('shares the drawn pauses between the properties of one animation', () => {
+    const view = createView()
+    animate(
+      view,
+      { scale: [1, 0.2, 1], opacity: [1, 0.4, 1] },
+      { ...linear, repeat: Infinity, repeatDelay: [500, 3000] },
+    )
+    const scaleX = driver.last('scaleX').track
+    const scaleY = driver.last('scaleY').track
+    const opacity = driver.last('opacity').track
+    expect(scaleY.times).toEqual(scaleX.times)
+    expect(opacity.duration).toBe(scaleX.duration)
+
+    const other = createView()
+    animate(
+      other,
+      { scale: [1, 0.2, 1] },
+      { ...linear, repeat: Infinity, repeatDelay: [500, 3000] },
+    )
+    expect(driver.last('scaleX', other).track.duration).not.toBe(scaleX.duration)
+
+    const [left, right] = [createView(), createView()]
+    animate(
+      [left, right],
+      { scaleY: [1, 0.1, 1] },
+      { ...linear, repeat: Infinity, repeatDelay: [500, 3000] },
+    )
+    expect(driver.last('scaleY', right).track.times).toEqual(
+      driver.last('scaleY', left).track.times,
+    )
+  })
+
+  it('treats an even range like a fixed wait and rejects bad ranges', () => {
+    const even = track({ ...linear, repeat: 2, repeatDelay: [50, 50] })
+    expect(even.end).toBe(400)
+    for (const repeatDelay of [[600, 200], [-1, 5], [1], [0, Infinity]])
+      expect(() =>
+        track({ ...linear, repeat: 2, repeatDelay: repeatDelay as never }),
+      ).toThrow('Invalid repeat delay')
+  })
+})
