@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.0-beta.10 (2026-10-21)
+
+- Add `set(target, values)` to apply values at once, stopping whatever animates those properties, so the next animation starts from them. Works with colors, decorations, several targets and views that aren't loaded yet.
+- Export `reducedMotion()` and add `onReducedMotion(callback)` to read and watch the preference Jolt applies, following `configure()`, Reduce Motion's notification on iOS and a fresh check on resume on Android. Add `useReducedMotion()` to `/vue`.
+- Add `onKeyboard(callback)` and `useKeyboard()` in `/vue`, reporting how much of the window the keyboard covers, its duration and a transition that moves in step with it: the keyboard's own spring on iOS, measured on the simulator, and the IME animation's sampled interpolator on Android 11+ through a new native observer. Rebuild Android apps to include it.
+- Animate `followKeyboard()` on iOS: the keyboard notification's duration and curve arrive as plain numbers, and the view used to jump to its position instead of moving with the keyboard.
+- Add `repeatDelay` to hold the end value between repeats, never before the first play or after the last, and at both ends with `repeatType: 'reverse'`. The wait is part of the native keyframes.
+- Add `easeTrack: true` to run one `ease` over a whole keyframe track with straight lines between keyframes, like React Native's `interpolate`.
+- Keep children that draw outside a fading Android container visible: skip the hardware layer for containers with `setClipChildren(false)` and turn off their overlapping-rendering buffer on Android 7+, so a glow larger than its container stays round during and after the fade.
+- Move npm's `latest` tag along with each pre-release until a stable version is out.
+- Record demos for the keyboard state, repeat delay, track easing and fade overflow, plus the guides that had no recording, in English and Portuguese, and require a recording for every visual change.
+
 ## 0.1.0-beta.9 (2026-10-19)
 
 - Add `animateLayout()` and `motionScope().animateLayout()` for direct-child insertion, removal, reorder and resize using native FLIP playback. Preserve existing transforms, coordinate rapid changes, settle temporary offsets on cancellation, and retain newer animation owners. Include optional size scaling and opacity entrances, Reduced Motion, lifecycle cleanup, an interactive Vue demo and English/Portuguese guides. Recycled lists and retained exit animations remain separate work.
