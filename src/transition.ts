@@ -54,6 +54,36 @@ export const springs: Record<SpringName, Spring> = {
   bouncy: { type: 'spring', duration: 550, bounce: 0.4 },
 }
 
+export interface OrigamiSpring {
+  /** React Native's default is 7. */
+  friction?: number
+  /** React Native's default is 40. */
+  tension?: number
+}
+
+/**
+ * The spring React Native's `Animated.spring` plays for `friction` and `tension`,
+ * converted with the same Origami formulas.
+ *
+ * ```ts
+ * animate(card, { x: 100 }, origamiSpring({ friction: 7, tension: 40 }))
+ * ```
+ */
+export function origamiSpring({
+  friction = 7,
+  tension = 40,
+}: OrigamiSpring = {}): Spring {
+  if (!Number.isFinite(friction) || !Number.isFinite(tension))
+    throw new RangeError('Origami friction and tension must be finite.')
+  const stiffness = (tension - 30) * 3.62 + 194
+  const damping = (friction - 8) * 3 + 25
+  if (stiffness <= 0 || damping < 0)
+    throw new RangeError(
+      `Origami tension ${tension} and friction ${friction} give no spring (stiffness ${stiffness}, damping ${damping}).`,
+    )
+  return { type: 'spring', stiffness, damping, mass: 1 }
+}
+
 export type Curve =
   | DragCurve
   | {

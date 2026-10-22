@@ -206,6 +206,8 @@ animate(card, { y: 0 }, { stiffness: 300, damping: 20, mass: 1 })
 
 `bounce` goes from -1 to 1: 0 settles without overshooting, higher values bounce more, negative values settle more slowly. `duration` is how long the spring feels, the same model as SwiftUI. Or describe it with `stiffness`, `damping` and `mass`. A spring starts with the velocity of the animation it interrupts, unless you pass `velocity` (units per second).
 
+Coming from React Native, `origamiSpring({ friction: 7, tension: 40 })` gives the spring `Animated.spring` plays for `friction` and `tension`. See [From React Native Animated](https://jolt.rafaelaugusto.dev/guide/react-native) for the rest of the mapping.
+
 ### Tweens
 
 ```ts

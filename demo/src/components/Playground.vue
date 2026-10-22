@@ -19,6 +19,7 @@ import Press from './Press.vue'
 import Keyboard from './Keyboard.vue'
 import VueAdapter from './VueAdapter.vue'
 import Springs from './Springs.vue'
+import FromReactNative from './FromReactNative.vue'
 import Decay from './Decay.vue'
 import Stagger from './Stagger.vue'
 import ListItems from './ListItems.vue'
@@ -154,6 +155,7 @@ onUnmounted(() => {
         <Colors />
         <Presets />
         <Springs />
+        <FromReactNative />
         <Decay />
         <Stagger />
         <ListItems />
