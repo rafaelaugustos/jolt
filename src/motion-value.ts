@@ -39,11 +39,21 @@ import {
   type Transition,
 } from './transition.js'
 import type { KeyframeProperty, Target } from './types.js'
+import type { PlaybackClock } from './playback.js'
+import { valueTrack } from './value-track.js'
+import {
+  ValueObservers,
+  type SubscribeOptions,
+  type ValueListener,
+} from './value-observers.js'
 
 export interface MapOptions {
   /** Hold the first and last outputs outside the input range. Defaults to `true`. */
   clamp?: boolean
 }
+
+/** Named motion value layers add scalar offsets before derived mappings. */
+export type ValueAnimationOptions = Transition & { layer?: string }
 
 declare const motionValueBrand: unique symbol
 
@@ -51,7 +61,9 @@ declare const motionValueBrand: unique symbol
 export interface DerivedValue {
   /** The value now, while it animates too. */
   get(): number
-  /** Maps through input and output ranges, like React Native's `interpolate`. */
+  /** Observe changes in JavaScript on the native frame clock. Unsubscribe when finished. */
+  subscribe(listener: ValueListener<number>, options?: SubscribeOptions): () => void
+  /** Maps through ascending or descending input ranges, like React Native's `interpolate`. */
   to(
     input: readonly number[],
     output: readonly number[],
@@ -63,6 +75,8 @@ export interface DerivedValue {
 /** A color derived from a motion value, for `backgroundColor`, `borderColor` or `color`. */
 export interface DerivedColor {
   get(): Color
+  /** Observe mapped color changes in JavaScript on the native frame clock. */
+  subscribe(listener: ValueListener<Color>, options?: SubscribeOptions): () => void
 }
 
 /** A number that animates natively and drives every view property bound to it. */
@@ -90,9 +104,12 @@ interface Run {
   readonly span: number
   readonly animation: Animation
   readonly startedAt: number
+  readonly clock?: PlaybackClock
   readonly settle: (finished: boolean) => void
   readonly cancel: () => void
 }
+
+type Presentation = Pick<Run, 'track' | 'base' | 'span' | 'startedAt' | 'clock'>
 
 const bound = new WeakMap<View, Map<Property, Binding>>()
 
@@ -112,6 +129,10 @@ class Derived {
     return this.color ? new Color(value) : value
   }
 
+  subscribe(listener: ValueListener<number | Color>, options?: SubscribeOptions) {
+    return this.root.observers.subscribe(this.read, this.color, listener, options)
+  }
+
   to(
     input: readonly number[],
     output: readonly (number | ColorValue)[],
@@ -126,46 +147,70 @@ class Derived {
 
 class Root extends Derived {
   readonly bindings = new Set<Binding>()
-  private current: number
-  private run: Run | undefined
+  readonly observers = new ValueObservers((time) => this.raw(time))
+  private readonly rests = new Map<string, number>()
+  private readonly runs = new Map<string, Run>()
+  private presentation: Presentation | undefined
+  private cancelPresentation: (() => void) | undefined
 
   constructor(initial: number) {
     super(undefined, (value) => value, false)
     if (!Number.isFinite(initial))
       throw new RangeError(`A motion value starts from a finite number, got ${initial}.`)
-    this.current = initial
+    this.rests.set('', initial)
   }
 
-  raw(): number {
-    const run = this.run
-    if (!run) return this.current
-    return run.base + run.span * run.track.valueAt(getDriver().now() - run.startedAt)
+  raw(time = getDriver().now()): number {
+    let result = 0
+    for (const key of new Set([...this.rests.keys(), ...this.runs.keys()]))
+      result += this.part(key, time)
+    return result
   }
 
-  private velocity(): number {
-    const run = this.run
+  /** Drag input owns only the base; bounds and snap points stay in base units. */
+  base(): number {
+    return this.part('')
+  }
+
+  private part(key: string, time = getDriver().now()): number {
+    const run = this.runs.get(key)
+    return run
+      ? run.base + run.span * run.track.valueAt(this.runTime(run, time))
+      : (this.rests.get(key) ?? 0)
+  }
+
+  private runTime(run: Presentation, time = getDriver().now()) {
+    return run.clock?.time() ?? time - run.startedAt
+  }
+
+  private velocity(key: string): number {
+    const run = this.runs.get(key)
     if (!run) return 0
-    return run.span * run.track.velocityAt(getDriver().now() - run.startedAt)
+    return run.span * run.track.velocityAt(this.runTime(run))
   }
 
   animate(
     target: number | readonly (number | null)[],
-    transition: Transition | SpringName = {},
+    transition: ValueAnimationOptions | SpringName = {},
   ): Animation {
-    const from = this.raw()
+    const options: ValueAnimationOptions =
+      typeof transition === 'string' ? springOf(transition) : transition
+    const key = options.layer === undefined ? '' : layerName(options.layer)
+    const from = this.part(key)
     const frames = (typeof target === 'number' ? [null, target] : [...target]).map(
       (frame) => (frame === null ? from : frame),
     )
     if (frames.length < 2) frames.unshift(from)
     if (frames.some((frame) => typeof frame !== 'number' || !Number.isFinite(frame)))
       throw new RangeError(`Invalid motion value keyframes: ${JSON.stringify(target)}.`)
-    const options = typeof transition === 'string' ? springOf(transition) : transition
     const resolved = resolveTransition(options, 'x', frames.length)
     const base = Math.min(...frames)
     const span = Math.max(...frames) - base
-    const velocity = this.velocity()
-    this.halt()
-    if (span === 0) return this.jump(frames.at(-1)!)
+    const velocity = this.velocity(key)
+    if (span === 0) {
+      this.halt(key)
+      return this.jump(frames.at(-1)!, key)
+    }
 
     // Sampled in the value's own range so springs settle relative to the distance.
     const track = createTrack(
@@ -174,49 +219,55 @@ class Root extends Derived {
       resolved,
       velocity / span,
     )
-    return this.start(track, base, span)
+    this.halt(key)
+    return track.end === 0
+      ? this.jump(base + span * track.to, key)
+      : this.start(track, base, span, key)
   }
 
   /** Plays a track sampled in the value's own units, such as a drag release. */
   play(track: Track): Animation {
-    this.halt()
-    return track.end === 0 ? this.jump(track.to) : this.start(track, 0, 1)
+    this.halt('')
+    return track.end === 0 ? this.jump(track.to, '') : this.start(track, 0, 1, '')
   }
 
-  private jump(value: number): Animation {
-    const { animation, settle } = this.handle()
-    this.current = value
-    for (const binding of this.bindings) binding.sync()
+  private jump(value: number, key: string): Animation {
+    const { animation, settle } = this.handle(key)
+    this.rests.set(key, value)
+    this.sync()
     settle(true)
     setArrival(animation, Promise.resolve())
     return animation
   }
 
-  private handle() {
+  private handle(key: string) {
     let settle!: (finished: boolean) => void
     const finished = new Promise<boolean>((resolve) => (settle = resolve))
     const animation: Animation = {
       finished,
       stop: () => {
-        if (this.run?.animation === animation) this.stop()
+        if (this.runs.get(key)?.animation === animation) this.stopChannel(key)
       },
       then: (onfulfilled, onrejected) => finished.then(onfulfilled, onrejected),
     }
     return { animation, settle }
   }
 
-  private start(track: Track, base: number, span: number): Animation {
-    const { animation, settle } = this.handle()
+  private start(track: Track, base: number, span: number, key: string): Animation {
+    const { animation, settle } = this.handle(key)
     let arrive: () => void = () => {}
     let run: Run | undefined
     const driver = getDriver()
+    const clock = driver.clock?.(track.end)
     setArrival(animation, new Promise<void>((resolve) => (arrive = resolve)))
     const timers = [
       Number.isFinite(track.end)
         ? driver.after(track.end, () => {
-            if (this.run !== run) return
-            this.current = base + span * track.to
-            this.run = undefined
+            if (this.runs.get(key) !== run) return
+            this.rests.set(key, base + span * track.to)
+            this.runs.delete(key)
+            run?.cancel()
+            this.sync()
             arrive()
             settle(true)
           })
@@ -225,48 +276,113 @@ class Root extends Derived {
         ? driver.after(track.arrival, () => arrive())
         : undefined,
     ]
-    this.run = run = {
+    run = {
       track,
       base,
       span,
       animation,
       startedAt: driver.now(),
+      clock,
       settle: (completed) => {
         arrive()
         settle(completed)
       },
-      cancel: () => timers.forEach((cancel) => cancel?.()),
+      cancel: () => {
+        timers.forEach((cancel) => cancel?.())
+        clock?.cancel()
+      },
     }
-    for (const binding of this.bindings) binding.sync()
+    this.runs.set(key, run)
+    this.sync()
     return animation
   }
 
   set(value: number) {
     if (!Number.isFinite(value))
       throw new RangeError(`A motion value takes a finite number, got ${value}.`)
-    this.halt()
-    this.current = value
-    for (const binding of this.bindings) binding.sync()
+    for (const key of [...this.runs.keys()]) this.halt(key)
+    this.rests.clear()
+    this.rests.set('', value)
+    this.sync()
   }
 
-  stop() {
-    if (!this.run) return
+  setBase(value: number) {
+    if (!Number.isFinite(value))
+      throw new RangeError('A motion value takes a finite number.')
+    this.halt('')
+    this.rests.set('', value)
+    this.sync()
+  }
+
+  stopBase() {
+    this.stopChannel('')
+  }
+
+  stop(layer?: string) {
+    if (layer !== undefined) return this.stopChannel(layerName(layer))
+    if (!this.runs.size && this.rests.size === 1) return
     const value = this.raw()
-    this.halt()
-    this.current = value
+    for (const key of [...this.runs.keys()]) this.halt(key)
+    this.rests.clear()
+    this.rests.set('', value)
+    this.sync()
+  }
+
+  private stopChannel(key: string) {
+    if (!this.runs.has(key) && (key === '' || !this.rests.has(key))) return
+    const held = this.part(key)
+    this.halt(key)
+    if (key === '') this.rests.set(key, held)
+    else this.rests.delete(key)
+    this.sync()
+  }
+
+  private sync() {
+    this.cancelPresentation?.()
+    this.cancelPresentation = undefined
+    const now = getDriver().now()
+    let rest = 0
+    for (const [key, value] of this.rests) if (!this.runs.has(key)) rest += value
+    const runs = [...this.runs.values()]
+    if (!runs.length) this.presentation = undefined
+    else if (runs.length === 1) {
+      const run = runs[0]!
+      this.presentation = { ...run, base: run.base + rest }
+    } else {
+      const { track, windowed } = valueTrack(
+        runs.map((run) => ({
+          track: run.track,
+          base: run.base,
+          span: run.span,
+          elapsed: this.runTime(run, now),
+        })),
+        rest,
+      )
+      const driver = getDriver()
+      const clock = driver.clock?.(track.end)
+      this.presentation = { track, base: 0, span: 1, startedAt: now, clock }
+      const cancelWindow = windowed
+        ? driver.after(track.end, () => this.sync())
+        : undefined
+      this.cancelPresentation = () => {
+        cancelWindow?.()
+        clock?.cancel()
+      }
+    }
     for (const binding of this.bindings) binding.sync()
+    this.observers.changed(this.running)
   }
 
   /** The plan that plays this value's run, mapped, on one bound property. */
   plan(binding: Binding): Plan {
-    const run = this.run
+    const run = this.presentation
     const { property, read } = binding
     const write = (value: number) =>
       isDecorationProperty(property)
         ? clampDecoration(property, read(value))
         : read(value)
     if (!run) {
-      const value = write(this.current)
+      const value = write(this.raw())
       return {
         property,
         keyframes: [],
@@ -313,20 +429,26 @@ class Root extends Derived {
   }
 
   elapsed(): number {
-    return this.run ? getDriver().now() - this.run.startedAt : 0
+    return this.presentation ? this.runTime(this.presentation) : 0
   }
 
   get running(): boolean {
-    return this.run !== undefined
+    return this.runs.size > 0
   }
 
-  private halt() {
-    const run = this.run
+  private halt(key: string) {
+    const run = this.runs.get(key)
     if (!run) return
-    this.run = undefined
+    this.runs.delete(key)
     run.cancel()
     run.settle(false)
   }
+}
+
+function layerName(name: string): string {
+  if (typeof name !== 'string' || !name.length)
+    throw new TypeError('A layer is named by a nonempty string.')
+  return name
 }
 
 const still: ResolvedTransition = {
@@ -424,8 +546,10 @@ function attach(view: View, property: Property, source: Derived) {
           getDriver().sync?.(view)
         return
       }
-      const elapsed = root.elapsed()
       const animation = new ViewAnimation(view, [root.plan(binding)])
+      // Native keyframe setup can take time, especially for a composite track on Android.
+      // Catch up after construction so each binding joins the source's current phase.
+      const elapsed = root.elapsed()
       if (elapsed > 1 && animation.duration > 0) animation.seekTime(elapsed)
       binding.animation = animation
     },
@@ -472,12 +596,22 @@ function mapping(
     throw new RangeError(
       `to() has ${input.length} inputs but ${output.length} outputs; give one output per input.`,
     )
+  if (input.some((value) => !Number.isFinite(value)))
+    throw new RangeError('to() inputs must all be finite numbers.')
+  const descending = input[input.length - 1]! < input[0]!
   if (
     input.some(
-      (value, i) => !Number.isFinite(value) || value < (input[i - 1] ?? -Infinity),
+      (value, i) => i > 0 && (descending ? value > input[i - 1]! : value < input[i - 1]!),
     )
   )
-    throw new RangeError('to() inputs must be finite and never decrease.')
+    throw new RangeError(
+      'to() inputs must be monotonic (ascending or descending); ranges cannot change direction.',
+    )
+  // Normalize pairs together, without changing caller-owned arrays or duplicate-stop rules.
+  if (descending) {
+    input = [...input].reverse()
+    output = [...output].reverse()
+  }
   const color = typeof output[0] !== 'number'
   const numbers = color ? output.map((value) => parseColor(value)) : (output as number[])
   if (

@@ -48,6 +48,30 @@ With `tabular` on, Jolt asks the native label for tabular figures: the number-sp
 
 The roll uses the label bounds at the moment it starts. When the digit count changes, the label's own width changes on the next layout pass, which shifts centered and right-aligned text. A left-aligned label with tabular figures, or a fixed width, gives the cleanest result.
 
+## Auto height inside a StackLayout
+
+Declare `rows="auto"` on the surrounding `GridLayout` when the row should fit its text. A grid without row definitions can stretch its implicit row to the available height, and a horizontal `StackLayout` can pass that height to its label. `rollTo()` does not add layout children: its native drawing overlays do not determine the label's measured height.
+
+```vue
+<StackLayout>
+  <GridLayout rows="auto" columns="auto,auto,*,auto">
+    <StackLayout orientation="horizontal">
+      <Label ref="range" text="312" fontSize="40" minWidth="180" />
+    </StackLayout>
+    <Label col="1" text="mi" verticalAlignment="middle" />
+    <Label col="3" text="78%" verticalAlignment="middle" />
+  </GridLayout>
+</StackLayout>
+```
+
+The width here reserves room for changing digit counts; the height remains automatic. The paired demo compares animated and plain labels at 40 and 64 DIP font sizes, including growing/shrinking numbers and cancellation. The iOS check also verifies that the rolling overlay exists during playback and is removed afterward.
+
+The [model investigation](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/model-motion-values.md) reproduced a 554 pt label **before** calling `rollTo()`. Adding `rows="auto"` reduced it to 48.7 pt before and after the call, with the same Inter Display font and no fixed height. A narrow label may still fall back to the final text when old or new glyphs are truncated; reserve enough width when the rolling effect is required.
+
+<Clip name="rolling-layout-ios" caption="Animated and plain text retain matching automatic heights through digit changes and cancellation, on the iOS simulator. Width is reserved; no fixed height. Real-time playback." />
+
+<Clip name="rolling-layout-android" caption="Animated and plain text retain matching automatic heights through digit changes and cancellation, on the Android emulator. Width is reserved; no fixed height. Real-time playback." />
+
 ## Stopping and changes
 
 ```ts

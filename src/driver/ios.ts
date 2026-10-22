@@ -13,6 +13,7 @@ import { playIOSColor, presentedIOSColor } from './ios-color.js'
 import { after, type Driver } from './index.js'
 import { hasInteractionSurface } from '../interaction-surface.js'
 import { retainInteractiveLayout } from './ios-layout.js'
+import { frame } from './frame.js'
 
 interface Handle {
   stop(): void
@@ -59,6 +60,7 @@ function ensurePerspective(view: View, layers: CALayer[]) {
 export function createIOSDriver(): Driver {
   return {
     now: () => CACurrentMediaTime() * 1000,
+    frame,
 
     play(view, track, startedAt, onEnd): Handle {
       if (isDecorationProperty(track.property))

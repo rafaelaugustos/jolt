@@ -34,6 +34,7 @@ import Loaders from './Loaders.vue'
 import Reveal from './Reveal.vue'
 import Text from './Text.vue'
 import Rolling from './Rolling.vue'
+import RollingLayout from './RollingLayout.vue'
 import BusyJs from './BusyJs.vue'
 import Colors from './Colors.vue'
 import Gradients from './Gradients.vue'
@@ -44,6 +45,8 @@ import MotionPath from './MotionPath.vue'
 import Tuning from './Tuning.vue'
 import MotionStates from './MotionStates.vue'
 import MotionValues from './MotionValues.vue'
+import ValueObservers from './ValueObservers.vue'
+import ValueLayers from './ValueLayers.vue'
 import StateTransitions from './StateTransitions.vue'
 import Layers from './Layers.vue'
 import ScrollValues from './ScrollValues.vue'
@@ -156,6 +159,8 @@ onUnmounted(() => {
 
         <Tuning />
         <MotionValues />
+        <ValueObservers />
+        <ValueLayers />
         <Layers />
         <ScrollValues />
         <MotionStates />
@@ -188,6 +193,7 @@ onUnmounted(() => {
         <Reveal />
         <Text />
         <Rolling />
+        <RollingLayout />
         <Haptics />
         <Particles />
         <Loops />

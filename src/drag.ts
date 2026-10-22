@@ -247,7 +247,7 @@ class DragController implements Drag {
   }
   get position(): DragPoint {
     const value = this.config.value
-    if (value) return { x: 0, y: 0, [this.config.axes[0]!]: value.raw() }
+    if (value) return { x: 0, y: 0, [this.config.axes[0]!]: value.base() }
     return { x: currentValue(this.view, 'x'), y: currentValue(this.view, 'y') }
   }
   cancel = () => {
@@ -338,7 +338,7 @@ class DragController implements Drag {
       this.blocked = false
       const value = this.config.value
       if (value) {
-        value.stop()
+        value.stopBase()
         this.origin = this.position
       } else {
         // Claim just the enabled axes, preserving the native presentation on takeover.
@@ -385,7 +385,7 @@ class DragController implements Drag {
           : clampDrag(raw, curve.bounds)
         if (axis === 'x') vx = input.velocityX * resistance
         else vy = input.velocityY * resistance
-        if (this.config.value) this.config.value.set(position[axis])
+        if (this.config.value) this.config.value.setBase(position[axis])
         else {
           stopBase(this.view, [axis])
           setBase(this.view, axis, position[axis])

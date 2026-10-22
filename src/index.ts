@@ -7,7 +7,9 @@ export type {
   MapOptions,
   MotionValue,
   ScrollValue,
+  ValueAnimationOptions,
 } from './motion-value.js'
+export type { SubscribeOptions, ValueListener } from './value-observers.js'
 export { sequence } from './sequence.js'
 export type { Step, SequenceOptions, SequencePosition } from './sequence.js'
 export { press } from './press.js'

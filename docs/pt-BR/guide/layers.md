@@ -48,3 +48,7 @@ Um arrasto mantém as camadas: enquanto você arrasta, um tremor ou um pulso na 
 ## Como toca
 
 Enquanto uma propriedade tem camadas, o Jolt toca a base e as camadas como um único track nativo composto. Ele amostra a composição quando algo muda: uma animação começa, termina, pausa, é buscada ou parada, ou um arrasto move a base. Nada roda em JavaScript entre esses momentos. Camadas infinitas viram um loop nativo no mínimo múltiplo comum dos períodos delas, até 30 segundos; acima disso, a composição é amostrada de novo a cada poucos segundos. Quando a última camada some e não acrescenta nada, a propriedade volta a ser uma animação simples.
+
+## Motion values
+
+[`animate(value, target, { layer })`](./motion-values#camadas-em-um-valor) soma contribuições escalares antes dos mapeamentos derivados. Camadas de valores usam zero como neutro, inclusive ao mapear para escala ou opacidade. Veja o guia de motion values para parada, arraste e composição nativa.

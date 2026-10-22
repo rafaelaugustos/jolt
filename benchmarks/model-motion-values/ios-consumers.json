@@ -1,0 +1,57 @@
+{
+  "platform": "iOS",
+  "version": "26.0",
+  "nativeOnly": {
+    "observerFrames": 0
+  },
+  "observers": [
+    {
+      "sources": 1,
+      "frames": 30,
+      "callbacks": 30,
+      "meanBatchMs": 0.0684291660785675,
+      "p95BatchMs": 0.11387503147125244
+    },
+    {
+      "sources": 8,
+      "frames": 31,
+      "callbacks": 248,
+      "meanBatchMs": 0.09047984500085154,
+      "p95BatchMs": 0.16229170560836792
+    },
+    {
+      "sources": 32,
+      "frames": 30,
+      "callbacks": 960,
+      "meanBatchMs": 0.253722220659256,
+      "p95BatchMs": 0.3917083740234375
+    }
+  ],
+  "composition": [
+    {
+      "phase": "finite-base",
+      "expected": 75.37799851860318,
+      "actual": 75.38316725997821
+    },
+    {
+      "phase": "base-completed",
+      "expected": 52.3600583344698,
+      "actual": 52.36224263906479
+    },
+    {
+      "phase": "before-window",
+      "expected": 14.98644756345015,
+      "actual": 14.98476711428476
+    },
+    {
+      "phase": "after-window",
+      "expected": 2.775154071508565,
+      "actual": 2.74197858319025
+    }
+  ],
+  "status": "Passed value consumer checks",
+  "background": {
+    "callbacksAtSuspend": 28,
+    "callbacksAtResume": 28
+  }
+}

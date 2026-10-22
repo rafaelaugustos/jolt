@@ -121,6 +121,42 @@ final class DocsTests: XCTestCase {
             tap("Rest", wait: 1)
         }
     }
+    func testValueConsumerChecks() throws {
+        launch(["--playground", "--section=value observers", "--value-observer-checks"], "Play observers")
+        XCTAssertTrue(app.staticTexts["Background check ready"].waitForExistence(timeout: 25), app.debugDescription)
+        XCUIDevice.shared.press(.home)
+        Thread.sleep(forTimeInterval: 1.5)
+        app.activate()
+        XCTAssertTrue(app.staticTexts["Passed value consumer checks"].waitForExistence(timeout: 8), app.debugDescription)
+    }
+    func testValueObservers() throws {
+        launch(["--playground", "--section=value observers"], "Play observers")
+        try record("value-observers-ios") {
+            tap("Play observers", wait: 3.2)
+            tap("Detach observer", wait: 2.4)
+            tap("Attach observer", wait: 3.2)
+            tap("Stop observers", wait: 1)
+        }
+    }
+    func testRollingLayout() throws {
+        launch(["--playground", "--section=rolling auto size"], "Check auto height")
+        try record("rolling-layout-ios") {
+            tap("Check auto height", wait: 0.5)
+            XCTAssertTrue(app.staticTexts["Passed 18 layout checks"].waitForExistence(timeout: 25), app.debugDescription)
+        }
+    }
+    func testValueLayers() throws {
+        launch(["--playground", "--section=value layers"], "Start base")
+        try record("value-layers-ios") {
+            tap("Start base", wait: 1.3)
+            tap("Add charge pulse", wait: 2.5)
+            tap("Retarget base", wait: 1)
+            tap("Remove charge pulse", wait: 1.3)
+            tap("Retarget base", wait: 1)
+            tap("Add charge pulse", wait: 2)
+            tap("Reset values", wait: 1)
+        }
+    }
     func testScrollValues() throws {
         launch(["--playground", "--section=scroll values"], "Track 3")
         try record("scroll-values-ios") {

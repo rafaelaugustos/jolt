@@ -1,0 +1,57 @@
+{
+  "platform": "Android",
+  "version": "16",
+  "nativeOnly": {
+    "observerFrames": 0
+  },
+  "observers": [
+    {
+      "sources": 1,
+      "frames": 8,
+      "callbacks": 8,
+      "meanBatchMs": 0.49439050001092255,
+      "p95BatchMs": 2.9178329999558628
+    },
+    {
+      "sources": 8,
+      "frames": 22,
+      "callbacks": 168,
+      "meanBatchMs": 0.18581059092486446,
+      "p95BatchMs": 0.45325000025331974
+    },
+    {
+      "sources": 32,
+      "frames": 24,
+      "callbacks": 768,
+      "meanBatchMs": 0.7963020833170352,
+      "p95BatchMs": 5.443124999757856
+    }
+  ],
+  "composition": [
+    {
+      "phase": "finite-base",
+      "expected": 73.47107142857142,
+      "actual": 73.89053780691964
+    },
+    {
+      "phase": "base-completed",
+      "expected": 52.6,
+      "actual": 50.650001162574405
+    },
+    {
+      "phase": "before-window",
+      "expected": 13.187950318807104,
+      "actual": 14.927568708147321
+    },
+    {
+      "phase": "after-window",
+      "expected": 5.663810916904925,
+      "actual": 4.030702136811756
+    }
+  ],
+  "status": "Passed value consumer checks",
+  "background": {
+    "callbacksAtSuspend": 15,
+    "callbacksAtResume": 15
+  }
+}

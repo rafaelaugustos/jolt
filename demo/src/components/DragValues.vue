@@ -11,12 +11,13 @@ const stops: Record<number, string> = {
   [closed]: 'Closed',
 }
 const y = useMotionValue(closed)
+const progress = y.to([closed, 0], [0, 1])
 const page = useBinding({
-  scale: y.to([0, closed], [0.9, 1]),
-  y: y.to([0, closed], [-14, 0]),
+  scale: progress.to([0, 1], [1, 0.9]),
+  y: progress.to([0, 1], [0, -14]),
 })
-const backdrop = useBinding({ opacity: y.to([0, closed], [0.5, 0]) })
-const hint = useBinding({ opacity: y.to([closed / 2, closed], [0, 1]) })
+const backdrop = useBinding({ opacity: progress.to([0, 1], [0, 0.5]) })
+const hint = useBinding({ opacity: y.to([closed, closed / 2], [1, 0]) })
 const scope = useMotionScope()
 const sheet = ref()
 const status = ref('Closed')

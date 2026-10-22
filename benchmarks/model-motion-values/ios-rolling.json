@@ -1,0 +1,151 @@
+{
+  "platform": "iOS",
+  "version": "26.0",
+  "status": "Passed 18 layout checks",
+  "results": [
+    {
+      "size": 40,
+      "text": "312",
+      "phase": "during",
+      "rolling": 48,
+      "plain": 48,
+      "overlays": 1
+    },
+    {
+      "size": 40,
+      "text": "312",
+      "phase": "after",
+      "rolling": 48,
+      "plain": 48,
+      "overlays": 0
+    },
+    {
+      "size": 40,
+      "text": "999",
+      "phase": "during",
+      "rolling": 48,
+      "plain": 48,
+      "overlays": 1
+    },
+    {
+      "size": 40,
+      "text": "999",
+      "phase": "after",
+      "rolling": 48,
+      "plain": 48,
+      "overlays": 0
+    },
+    {
+      "size": 40,
+      "text": "1000",
+      "phase": "during",
+      "rolling": 48,
+      "plain": 48,
+      "overlays": 1
+    },
+    {
+      "size": 40,
+      "text": "1000",
+      "phase": "after",
+      "rolling": 48,
+      "plain": 48,
+      "overlays": 0
+    },
+    {
+      "size": 40,
+      "text": "7",
+      "phase": "during",
+      "rolling": 48,
+      "plain": 48,
+      "overlays": 1
+    },
+    {
+      "size": 40,
+      "text": "7",
+      "phase": "after",
+      "rolling": 48,
+      "plain": 48,
+      "overlays": 0
+    },
+    {
+      "size": 40,
+      "text": "42",
+      "phase": "after",
+      "rolling": 48,
+      "plain": 48,
+      "overlays": 0
+    },
+    {
+      "size": 64,
+      "text": "312",
+      "phase": "during",
+      "rolling": 76.66666666666667,
+      "plain": 76.66666666666667,
+      "overlays": 1
+    },
+    {
+      "size": 64,
+      "text": "312",
+      "phase": "after",
+      "rolling": 76.66666666666667,
+      "plain": 76.66666666666667,
+      "overlays": 0
+    },
+    {
+      "size": 64,
+      "text": "999",
+      "phase": "during",
+      "rolling": 76.66666666666667,
+      "plain": 76.66666666666667,
+      "overlays": 1
+    },
+    {
+      "size": 64,
+      "text": "999",
+      "phase": "after",
+      "rolling": 76.66666666666667,
+      "plain": 76.66666666666667,
+      "overlays": 0
+    },
+    {
+      "size": 64,
+      "text": "1000",
+      "phase": "during",
+      "rolling": 76.66666666666667,
+      "plain": 76.66666666666667,
+      "overlays": 1
+    },
+    {
+      "size": 64,
+      "text": "1000",
+      "phase": "after",
+      "rolling": 76.66666666666667,
+      "plain": 76.66666666666667,
+      "overlays": 0
+    },
+    {
+      "size": 64,
+      "text": "7",
+      "phase": "during",
+      "rolling": 76.66666666666667,
+      "plain": 76.66666666666667,
+      "overlays": 1
+    },
+    {
+      "size": 64,
+      "text": "7",
+      "phase": "after",
+      "rolling": 76.66666666666667,
+      "plain": 76.66666666666667,
+      "overlays": 0
+    },
+    {
+      "size": 64,
+      "text": "42",
+      "phase": "after",
+      "rolling": 76.66666666666667,
+      "plain": 76.66666666666667,
+      "overlays": 0
+    }
+  ]
+}

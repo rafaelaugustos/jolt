@@ -275,6 +275,12 @@ export class Color {
   }
 }
 
+export const Trace = {
+  write(_message: string, _category: string, _type?: number) {},
+  categories: { Error: 'Error' },
+  messageType: { error: 1 },
+}
+
 export const Application = Object.assign(new Observable(), {
   suspendEvent: 'suspend',
   resumeEvent: 'resume',

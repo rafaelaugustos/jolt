@@ -17,7 +17,7 @@ animate(progress, 1, 'snappy')
 
 ## Mapeando
 
-`to(input, output)` mapeia um valor por faixas de entrada e de saída, como o `interpolate` do React Native: em trechos lineares, segurando a primeira e a última saída fora da faixa de entrada. Passe `{ clamp: false }` para estender o primeiro e o último trecho, e assim o passo além do ponto de uma mola chega até a view. As entradas não podem diminuir, e há uma saída por entrada.
+`to(input, output)` mapeia um valor por faixas de entrada e de saída, como o `interpolate` do React Native: em trechos lineares, segurando as saídas dos extremos fora da faixa de entrada. Passe `{ clamp: false }` para estender os trechos dos extremos, permitindo que o avanço além do destino de uma mola chegue até a view. As entradas podem aumentar ou diminuir, mas não podem mudar de direção. Devem ser finitas, com pelo menos duas entradas e uma saída por entrada.
 
 ```ts
 const y = progress.to([0, 0.4, 1], [600, 120, 0])
@@ -25,11 +25,31 @@ const tint = progress.to([0, 1], ['#18181B', '#FACC15']) // cores se misturam em
 const bounce = progress.to([0, 1], [0, 300], { clamp: false })
 ```
 
+Para um sheet cujo offset vai de `closed` até `0`, mapeie essa direção diretamente. Cada saída continua associada à sua entrada, inclusive nas cores:
+
+```ts
+const closed = 380
+const offset = motionValue(closed)
+const open = offset.to([closed, 0], [0, 1])
+bind(sheet, { y: offset })
+bind(page, { scale: open.to([0, 1], [1, 0.9]) })
+bind(backdrop, { opacity: open.to([0, 1], [0, 0.5]) })
+animate(offset, 0, 'snappy')
+```
+
+O resultado equivale a `offset.to([0, closed], [1, 0])`, sem alterar seus arrays. A extrapolação numérica funciona nas duas direções; cores sempre respeitam os limites. Faixas inválidas como `[0, 1, 0]` lançam erro na chamada de `to()`.
+
+<Clip name="descending-values-ios" caption="Uma faixa decrescente de offset controla o fundo e a escala da página, incluindo mapeamentos encadeados, arraste e soltura com mola, no simulador iOS. Velocidade real." />
+
+<Clip name="descending-values-android" caption="Faixas decrescentes, mapeamentos encadeados e gestos reais na folha, no emulador Android. Reprodução em tempo real." />
+
+Entradas repetidas preservam o comportamento de degrau existente, considerando os pares em ordem crescente: exatamente numa parada repetida interna, vale a saída do trecho inferior; logo acima, vale a última saída daquela parada. O clamp tem prioridade nos extremos. Uma faixa com todas as entradas iguais mantém a primeira saída até a parada, inclusive, e a última acima dela; com `clamp: false`, exatamente na parada o resultado passa a ser a segunda saída.
+
 Um número mapeado pode ser mapeado de novo. Saídas de cor se ligam a `backgroundColor`, `borderColor` e `color`; saídas numéricas se ligam a todo o resto que o `animate()` aceita, e `scale` define os dois eixos. Um valor também pode ser ligado direto: `bind(dot, { x: offset })`.
 
 ## Animando e aplicando
 
-`animate(value, to, transition)` recebe um número ou keyframes e as mesmas transições do `animate()`: tweens, molas, `repeat`, `repeatType`, `repeatDelay`, `delay` e `easeTrack`. Devolve uma [`Animation`](./api#animacoes). O Jolt amostra a curva do valor uma vez, mapeia por cada ligação e toca um track nativo por propriedade ligada, todos começando juntos. Nada roda em JavaScript enquanto eles tocam.
+`animate(value, to, transition)` recebe um número ou keyframes e as mesmas transições do `animate()`: tweens, molas, `repeat`, `repeatType`, `repeatDelay`, `delay` e `easeTrack`. Devolve uma [`Animation`](./api#animacoes). O Jolt amostra a curva do valor uma vez, mapeia por cada ligação e toca um track nativo por propriedade ligada, todos começando juntos. As ligações nativas dispensam callbacks por quadro em JavaScript.
 
 ```ts
 animate(progress, 1, 'snappy')
@@ -40,6 +60,77 @@ animate(pulse, 1, { duration: 900, repeat: Infinity, repeatType: 'reverse' })
 Uma animação que interrompe outra começa do valor na tela, com a velocidade dele, então todas as views ligadas viram juntas. `set(value, número)` aplica um valor a todas as views ligadas na hora. `stop(value)` segura o valor e as views onde estão. `value.get()` lê o valor agora, inclusive durante a animação.
 
 Com [redução de movimento](./configure#reducao-de-movimento), transformações ligadas pulam para o fim enquanto opacidade e cores continuam animando. A [escala de tempo](./configure#escala-de-tempo) vale uma vez, na curva do valor.
+
+## Observando fora das views
+
+`value.subscribe((valor, tempo) => ...)` acompanha um valor pelo JavaScript, incluindo derivações numéricas, cores e valores de rolagem. Entrega o valor atual imediatamente e devolve uma função de cancelamento que pode ser chamada mais de uma vez. Passe `{ immediate: false }` para receber somente as próximas mudanças.
+
+```ts
+const release = progress.subscribe((value, time) => {
+  // Por exemplo, atualize uma pose no SceneKit ou um renderizador nativo próprio.
+  stage.setProgress(value)
+})
+const releaseColor = progress.to([0, 1], ['black', 'white']).subscribe((color) => {
+  stage.setTint(color)
+})
+
+// Controle de ciclo de vida, incluindo suspensão e retomada do escopo:
+scope.use(() => progress.subscribe((value) => stage.setProgress(value)))
+release()
+releaseColor()
+```
+
+As atualizações compartilham uma fonte de quadros baseada no agendamento CADisplayLink/Choreographer do NativeScript. Cada lote captura todas as fontes observadas antes de chamar os listeners e fornece o mesmo instante do relógio nativo, em milissegundos. Chamadas repetidas de `set()` antes de um quadro entregam somente o valor mais recente; saídas mapeadas que não mudaram não notificam. Conclusão e parada entregam o valor final no próximo quadro, se ele mudou. Uma escrita feita dentro de um callback entra no próximo lote.
+
+Os callbacks executam JavaScript. Eles podem controlar objetos fora das views do NativeScript, mas não executam enquanto essa thread JavaScript estiver bloqueada. Isso é separado do [adaptador de propriedades nativas planejado](https://github.com/rafaelaugustos/jolt/issues/62). As ligações nativas das views continuam tocando independentemente desses callbacks.
+
+Cancelar a assinatura tem efeito inclusive durante a entrega e não interrompe a animação. A fonte de quadros fica ociosa depois que as fontes observadas se estabilizam e as escritas pendentes são entregues. Em segundo plano, a entrega para; ao voltar, lê o valor atual sem reproduzir os quadros perdidos. Erros de listeners vão para o trace de erros do NativeScript e não interrompem os demais. Use `scope.use()` ou chame a função devolvida quando o consumidor for destruído.
+
+Com redução de movimento, o track escalar preserva seu tempo; transformações ligadas podem já estar no destino enquanto assinantes e cores ainda acompanham o escalar. Consumidores externos devem respeitar `reducedMotion()` ao aplicar movimento espacial. A escala de duração dos animadores do sistema Android continua valendo nos relógios nativos, inclusive com animadores desativados.
+
+<Clip name="value-observers-ios" caption="Uma view vinculada e um CALayer externo seguem o mesmo valor; remoção e reconexão da assinatura no simulador iOS. Callbacks executam em JavaScript. Reprodução em tempo real." />
+
+<Clip name="value-observers-android" caption="Uma view vinculada e uma View Android direta seguem o mesmo valor, com remoção, reconexão e parada, no emulador Android. Callbacks executam em JavaScript. Reprodução em tempo real." />
+
+## Camadas em um valor
+
+Uma camada nomeada soma um deslocamento escalar ao motion value **antes** dos mapeamentos. A animação base mantém seu tempo e sua velocidade enquanto um pulso de carga altera todos os consumidores juntos:
+
+```ts
+const charge = motionValue(0)
+bind(car, {
+  y: charge.to([0, 1], [0, -20]),
+  scale: charge.to([0, 1], [1, 1.08]),
+  backgroundColor: charge.to([0, 1], ['#14b8a6', '#6366f1']),
+})
+animate(charge, 1, { duration: 4000 })
+animate(charge, [0, 0.12, -0.12, 0], {
+  duration: 1200,
+  repeat: Infinity,
+  layer: 'pulse',
+})
+```
+
+Camadas de valores sempre somam, inclusive quando um binding mapeia o resultado para escala, opacidade ou cor. Seu valor neutro é `0`. Isso difere das [camadas em propriedades de views](./layers), que multiplicam escala e opacidade. Clamping, mapeamentos por trechos e mistura de cores recebem o escalar combinado; `get()` e `subscribe()` recebem a mesma composição.
+
+<Clip name="value-layers-ios" caption="Um pulso de carga soma à posição, escala e cor enquanto a base continua; mudança de destino, remoção do pulso e reset, no simulador iOS. O ponto cinza mostra somente a base. Reprodução em tempo real." />
+
+Cada nome tem sua animação e velocidade. Alterar o destino daquele nome substitui somente aquela camada; animar sem `layer` substitui somente a base. Uma camada concluída mantém sua contribuição final até ser removida. O `Animation` retornado oferece `finished`, `stop()` e `await`, sem controles de reprodução. Parar o handle de uma camada ativa remove sua contribuição; parar o handle da base congela a base e mantém as camadas. Um handle já encerrado não faz nada.
+
+```ts
+stop(charge, { layer: 'pulse' }) // remove inclusive uma contribuição concluída
+// Ou anime a contribuição de volta a zero antes:
+await animate(charge, 0, { duration: 250, layer: 'pulse' })
+stop(charge, { layer: 'pulse' })
+stop(charge) // congela a composição como nova base e limpa as camadas
+set(charge, 0) // cancela todos os canais e substitui o valor
+```
+
+Arrastar um motion value altera somente sua base. Limites, pontos de encaixe, posição do controlador e eventos do gesto usam unidades da base; as camadas podem levar o resultado combinado além desses limites. A camada continua durante o arraste e a soltura. Valores de scroll continuam sendo entradas somente de leitura e não oferecem camadas de animação.
+
+Os bindings reproduzem uma composição nativa compilada. Ela é reconstruída nas alterações dos canais e nos eventos de arraste, não a cada quadro. Períodos infinitos com milissegundos inteiros usam um loop nativo comum de até 30 segundos; combinações maiores ou fracionárias usam janelas finitas, normalmente de quatro segundos, reconstruídas nas bordas. Relógios nativos preservam a fase de cada canal. Usar `subscribe()` acrescenta notificações em JavaScript.
+
+<Clip name="value-layers-android" caption="A mesma base e pulso aditivo, com mudança de destino e limpeza, no emulador Android. O ponto cinza mostra somente a base. Reprodução em tempo real." />
 
 ## Ligando
 

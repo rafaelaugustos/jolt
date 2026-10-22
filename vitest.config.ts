@@ -4,6 +4,9 @@ import { defineConfig } from 'vitest/config'
 export default defineConfig({
   resolve: {
     alias: {
+      '@nativescript/core/animation-frame': fileURLToPath(
+        new URL('./test/shims/frame.ts', import.meta.url),
+      ),
       '@nativescript/core/ui/styling/style-properties': fileURLToPath(
         new URL('./test/shims/core.ts', import.meta.url),
       ),

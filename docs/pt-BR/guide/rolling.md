@@ -48,6 +48,30 @@ Com `tabular` ligado, o Jolt pede algarismos tabulares à label nativa: o recurs
 
 O roll usa os bounds da Label no momento em que começa. Quando a quantidade de dígitos muda, a largura da própria Label muda no próximo layout, o que desloca textos centralizados e alinhados à direita. Uma Label alinhada à esquerda com algarismos tabulares, ou com largura fixa, dá o resultado mais limpo.
 
+## Altura automática dentro de StackLayout
+
+Declare `rows="auto"` no `GridLayout` que contém a linha quando ela deve acompanhar a altura do texto. Um grid sem definição de linhas pode esticar sua linha implícita até a altura disponível, e um `StackLayout` horizontal pode repassar essa altura ao rótulo. `rollTo()` não acrescenta filhos ao layout: suas sobreposições nativas de desenho não determinam a altura medida da Label.
+
+```vue
+<StackLayout>
+  <GridLayout rows="auto" columns="auto,auto,*,auto">
+    <StackLayout orientation="horizontal">
+      <Label ref="range" text="312" fontSize="40" minWidth="180" />
+    </StackLayout>
+    <Label col="1" text="mi" verticalAlignment="middle" />
+    <Label col="3" text="78%" verticalAlignment="middle" />
+  </GridLayout>
+</StackLayout>
+```
+
+A largura reserva espaço para mudanças na quantidade de dígitos; a altura continua automática. A demo compara rótulos animados e estáticos com fontes de 40 e 64 DIP, incluindo números que crescem/encolhem e cancelamento. No iOS, também verifica se a sobreposição dos dígitos existe durante a reprodução e é removida depois.
+
+A [investigação do modelo](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/model-motion-values.md) reproduziu um rótulo de 554 pt **antes** de chamar `rollTo()`. Acrescentar `rows="auto"` reduziu a altura para 48,7 pt antes e depois da chamada, com a mesma fonte Inter Display e sem altura fixa. Um rótulo estreito ainda pode mostrar diretamente o texto final quando os glifos antigos ou novos ficam truncados; reserve largura suficiente quando precisar do efeito de rolagem.
+
+<Clip name="rolling-layout-ios" caption="Texto animado e estático mantêm alturas automáticas equivalentes durante mudanças de dígitos e cancelamento, no simulador iOS. Há largura reservada, sem altura fixa. Reprodução em tempo real." />
+
+<Clip name="rolling-layout-android" caption="Texto animado e estático mantêm alturas automáticas equivalentes durante mudanças de dígitos e cancelamento, no emulador Android. Há largura reservada, sem altura fixa. Reprodução em tempo real." />
+
 ## Parada e mudanças
 
 ```ts
