@@ -5,6 +5,7 @@ import { gradient, type Gradient } from '@rafaelaugusto/jolt'
 const linear = ref()
 const radial = ref()
 const conic = ref()
+const strip = ref()
 const playing = ref(false)
 const swapped = ref(false)
 let glows: Gradient[] = []
@@ -25,12 +26,17 @@ onMounted(() => {
       type: 'conic',
       colors: ['#22D3EE', '#A855F7', '#F43F5E', '#22D3EE'],
     }),
+    gradient(strip.value, {
+      type: 'linear',
+      colors: ['#F43F5E', '#F59E0B', '#22C55E'],
+      angle: 135,
+    }),
   ]
 })
 onUnmounted(() => glows.forEach((glow) => glow.remove()))
 
 function toggle() {
-  const [line, light, sweep] = glows
+  const [line, light, sweep, band] = glows
   if (playing.value) {
     glows.forEach((glow) => glow.stop())
   } else {
@@ -43,6 +49,10 @@ function toggle() {
       { duration: 1400, ease: 'easeInOut', repeat: Infinity, repeatType: 'reverse' },
     )
     sweep!.animate({ angle: 360 }, { duration: 2000, ease: 'linear', repeat: Infinity })
+    band!.animate(
+      { angle: 45 },
+      { duration: 1600, ease: 'easeInOut', repeat: Infinity, repeatType: 'reverse' },
+    )
   }
   playing.value = !playing.value
 }
@@ -72,6 +82,10 @@ function swap() {
       <GridLayout ref="conic" col="2" class="gradient-card">
         <Label class="gradient-label" text="conic" />
       </GridLayout>
+    </GridLayout>
+
+    <GridLayout ref="strip" class="gradient-strip" height="64">
+      <Label class="gradient-label" text="linear 135° on a wide view" />
     </GridLayout>
 
     <GridLayout columns="*, *">

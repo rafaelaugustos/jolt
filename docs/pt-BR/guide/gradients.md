@@ -15,7 +15,7 @@ const glow = gradient(card, {
 glow.animate({ center: { x: 0.7, y: 0.7 }, radius: 0.9 }, { duration: 1400 })
 ```
 
-<Clip name="gradients-ios" caption="O ângulo de um linear, uma luz radial se movendo e um cônico girando, depois as cores do linear trocadas, no simulador iOS. Velocidade real." />
+<Clip name="gradients-ios" caption="O ângulo de um linear, uma luz radial se movendo, um cônico girando e uma faixa linear numa view larga, depois as cores do linear trocadas, no simulador iOS. Velocidade real." />
 
 ## Tipos e valores
 
@@ -27,7 +27,7 @@ glow.animate({ center: { x: 0.7, y: 0.7 }, radius: 0.9 }, { duration: 1400 })
 | `center` | `radial` e `conic`: frações da largura e da altura da view; `{ x: 0.5, y: 0.5 }` por padrão                                                                                                 |
 | `radius` | `radial`: fração do lado menor da view; 0.5 por padrão alcança as bordas mais próximas                                                                                                      |
 
-Um gradiente linear passa pelo centro e é longo o bastante para os cantos receberem a primeira e a última cor, como no CSS. Valores que um tipo não usa ficam guardados, então trocar entre eles depois é só outro `set()`.
+Um gradiente linear passa pelo centro e é longo o bastante para os cantos receberem a primeira e a última cor, como no CSS. As faixas ficam perpendiculares ao ângulo em views de qualquer formato, nas duas plataformas. Valores que um tipo não usa ficam guardados, então trocar entre eles depois é só outro `set()`.
 
 ## Animando
 
@@ -51,4 +51,4 @@ No iOS o gradiente é uma `CAGradientLayer` no fundo da camada da view, com keyf
 
 O gradiente cobre a cor de fundo da view e segue um `borderRadius` uniforme. Ele fica atrás dos filhos de um layout. Numa view que desenha o próprio conteúdo, como um `Label`, ele cobre esse conteúdo: coloque o gradiente num layout em volta dela.
 
-<Clip name="gradients-android" caption="Os mesmos três gradientes e a troca de cores no emulador Android. Velocidade real." />
+<Clip name="gradients-android" caption="Os mesmos gradientes e a troca de cores no emulador Android. Velocidade real." />

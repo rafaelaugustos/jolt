@@ -345,10 +345,16 @@ export function gradientPoints(
   const sin = Math.sin(radians)
   const cos = Math.cos(radians)
   if (type === 'linear') {
-    const length = Math.abs(width * sin) + Math.abs(height * cos)
-    const dx = width > 0 ? (sin * length) / (2 * width) : 0
-    const dy = height > 0 ? (-cos * length) / (2 * height) : 0
-    return { start: { x: 0.5 - dx, y: 0.5 - dy }, end: { x: 0.5 + dx, y: 0.5 + dy } }
+    // Core Animation keeps an axial gradient's bands square to its line in unit space, so
+    // on a box that isn't square the line leans to keep them square to `angle` on screen.
+    const ux = height > 0 ? sin / height : 0
+    const uy = width > 0 ? -cos / width : 0
+    const squared = ux * ux + uy * uy
+    const reach = squared > 0 ? (Math.abs(ux) + Math.abs(uy)) / (2 * squared) : 0
+    return {
+      start: { x: 0.5 - ux * reach, y: 0.5 - uy * reach },
+      end: { x: 0.5 + ux * reach, y: 0.5 + uy * reach },
+    }
   }
   const center = { x: frame.x, y: frame.y }
   const shorter = Math.min(width, height)
