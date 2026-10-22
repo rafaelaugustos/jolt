@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from 'nativescript-vue'
-import { gradient, type Gradient } from '@rafaelaugusto/jolt'
+import { onMounted, ref } from 'nativescript-vue'
+import type { Gradient } from '@rafaelaugusto/jolt'
+import { useMotionScope } from '@rafaelaugusto/jolt/vue'
+
+const scope = useMotionScope()
 
 const linear = ref()
 const radial = ref()
@@ -15,25 +18,24 @@ const cool = ['#22D3EE', '#6366F1']
 
 onMounted(() => {
   glows = [
-    gradient(linear.value, { type: 'linear', colors: warm, angle: 135 }),
-    gradient(radial.value, {
+    scope.gradient(linear.value, { type: 'linear', colors: warm, angle: 135 }),
+    scope.gradient(radial.value, {
       type: 'radial',
       colors: ['#A78BFA', '#0F172A'],
       center: { x: 0.3, y: 0.3 },
       radius: 0.45,
     }),
-    gradient(conic.value, {
+    scope.gradient(conic.value, {
       type: 'conic',
       colors: ['#22D3EE', '#A855F7', '#F43F5E', '#22D3EE'],
     }),
-    gradient(strip.value, {
+    scope.gradient(strip.value, {
       type: 'linear',
       colors: ['#F43F5E', '#F59E0B', '#22C55E'],
       angle: 135,
     }),
   ]
 })
-onUnmounted(() => glows.forEach((glow) => glow.remove()))
 
 function toggle() {
   const [line, light, sweep, band] = glows
@@ -69,7 +71,7 @@ function swap() {
     <Label
       class="muted"
       textWrap="true"
-      text="gradient(card, { type: 'radial', colors, radius })"
+      text="scope.gradient(card, { type: 'radial', colors, radius })"
     />
 
     <GridLayout columns="*, *, *" class="gradient-row" height="130">

@@ -9,7 +9,7 @@
 - [`motionStates(targets, definitions, options?)`](./motion-controllers#estados-nomeados) — estados visuais nomeados com interrupção; [`attach()` e `ref()`](./motion-controllers#views-que-voltam) mantêm o estado em views recriadas, e uma transição pode [separar alvos](./motion-controllers#uma-transicao-por-alvo).
 - [`motionValue(initial)`, `bind(target, bindings)`](./motion-values) — um valor controlando várias propriedades e views; `animate()`, `set()` e `stop()` também aceitam um valor. [`scrollValue(scrollView, { axis? })`](./motion-values#offsets-de-rolagem) é um offset de rolagem como valor.
 - [`decay(target, velocity, options?)`](./decay)
-- [`gradient(target, options)`](./gradients) — gradientes nativos lineares, radiais e cônicos; retorna um `Gradient` com `animate()`, `set()`, `stop()` e `remove()`.
+- [`gradient(target, options)`](./gradients) — gradientes nativos lineares, radiais e cônicos; retorna um `Gradient` com `animate()`, `set()`, `stop()` e `remove()`. [`motionScope().gradient()` e `v-gradient`](./gradients#escopos-e-vue) cuidam dele por um escopo ou um template.
 - `stop(target, properties?)`
 - [`set(target, values)`](./interrupting#aplicar-valores-sem-animar) — aplica valores na hora e para o que estiver animando essas propriedades.
 - [`sequence(steps)`](./sequences) — passos sobrepostos e posições fixas.

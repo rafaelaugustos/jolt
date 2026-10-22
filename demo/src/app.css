@@ -205,6 +205,19 @@ Page {
   margin-bottom: 8;
 }
 
+.gradient-banner {
+  margin: 16 0;
+  border-radius: 20;
+}
+
+.gradient-banner-label {
+  color: #ffffff;
+  font-size: 24;
+  font-weight: bold;
+  text-align: center;
+  vertical-alignment: middle;
+}
+
 .splash-stroke {
   width: 120;
   height: 8;

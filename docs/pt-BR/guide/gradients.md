@@ -45,6 +45,33 @@ As cores se misturam em OKLab, como nas [animações de cor](./colors), e mantê
 
 `remove()` tira o gradiente da view. Descarregar a view para a animação em andamento.
 
+## Escopos e Vue
+
+`motionScope().gradient(target, options)` devolve o mesmo `Gradient` e o remove quando o escopo é descartado. Suspender o escopo para uma animação em andamento onde ela está e mantém o gradiente. No Vue, o `useMotionScope()` amarra o gradiente ao componente:
+
+```ts
+const scope = useMotionScope()
+onMounted(() => scope.gradient(card.value, { type: 'linear', colors: warm, angle: 135 }))
+```
+
+A diretiva `v-gradient` faz o mesmo a partir do template. Ela pinta o gradiente quando o elemento é montado, anima até os novos valores quando eles mudam e remove o gradiente ao desmontar. Passe as opções em par com uma transição ou o nome de um spring para controlar o tempo das mudanças:
+
+```vue
+<GridLayout v-gradient="{ type: 'linear', colors: ['#18181B', '#3F3F46'], angle: 135 }" />
+<GridLayout
+  v-gradient="[
+    { type: 'linear', colors: mood.colors, angle: mood.angle },
+    { duration: 700 },
+  ]"
+/>
+```
+
+<Clip name="gradient-directive-ios" caption="Um banner com v-gradient animando as cores e o ângulo quando o valor muda, no simulador iOS. Velocidade real." />
+
+Uma mudança no número de cores é aplicada na hora, já que um gradiente mantém a quantidade de cores enquanto anima. Uma mudança de `type` substitui o gradiente. Os valores são comparados pelo conteúdo, então um objeto escrito no template não reinicia a animação a cada render.
+
+<Clip name="gradient-directive-android" caption="O mesmo banner no emulador Android. Velocidade real." />
+
 ## Plataformas
 
 No iOS o gradiente é uma `CAGradientLayer` no fundo da camada da view, com keyframes do Core Animation para as cores, as posições e os pontos. No Android é um drawable empilhado sobre o fundo da própria view, e um animator nativo interpola os quadros amostrados; nada roda em JavaScript enquanto ele toca. Recompile o app Android depois de atualizar para incluir a classe nativa.

@@ -8,7 +8,7 @@ createApp(App).use(Jolt).start()
 
 <Clip name="vue" caption="JoltTransition removendo e restaurando uma linha, v-animate trocando a entrada." />
 
-O núcleo recebe uma view ou um elemento que contém uma, então `animate(card.value, 'popIn')` já funciona a partir de um template ref. `@rafaelaugusto/jolt/vue` acrescenta o lado do template: `v-animate`, `v-press` e um componente `<JoltTransition>` para views que aparecem e somem. Precisa do NativeScript-Vue 3 e só é carregado pelos apps que o importam.
+O núcleo recebe uma view ou um elemento que contém uma, então `animate(card.value, 'popIn')` já funciona a partir de um template ref. `@rafaelaugusto/jolt/vue` acrescenta o lado do template: `v-animate`, `v-press`, `v-gradient` e um componente `<JoltTransition>` para views que aparecem e somem. Precisa do NativeScript-Vue 3 e só é carregado pelos apps que o importam.
 
 ## Movimento com escopo
 
@@ -66,11 +66,11 @@ const sheet = useBinding({ y: progress.to([0, 1], [200, 0]) })
 
 ## Registro
 
-`app.use(Jolt)` registra as duas diretivas e o componente para todos os templates. Um componente também pode importar só o que usa. Em `<script setup>`, importar `vAnimate` e `vPress` com esses nomes deixa `v-animate` e `v-press` disponíveis naquele template:
+`app.use(Jolt)` registra as três diretivas e o componente para todos os templates. Um componente também pode importar só o que usa. Em `<script setup>`, importar `vAnimate`, `vPress` e `vGradient` com esses nomes deixa `v-animate`, `v-press` e `v-gradient` disponíveis naquele template:
 
 ```vue
 <script setup lang="ts">
-import { JoltTransition, vAnimate, vPress } from '@rafaelaugusto/jolt/vue'
+import { JoltTransition, vAnimate, vGradient, vPress } from '@rafaelaugusto/jolt/vue'
 </script>
 ```
 
@@ -96,6 +96,19 @@ Quando o valor muda, o elemento anima de novo, pegando o valor e a velocidade na
 ```
 
 O mesmo que [`press()`](./press): a view anima até os valores pressionados enquanto um dedo está sobre ela, e volta quando ele levanta ou um scroll assume. Sem valor, escala para 0.96. Um valor diferente substitui o efeito; desmontar o elemento remove o efeito.
+
+## v-gradient
+
+```vue
+<GridLayout
+  v-gradient="{ type: 'radial', colors: ['#A78BFA', '#0F172A'], radius: 0.8 }"
+/>
+<GridLayout
+  v-gradient="[{ type: 'linear', colors: mood.colors, angle: mood.angle }, 'smooth']"
+/>
+```
+
+O mesmo que [`gradient()`](./gradients#escopos-e-vue): um gradiente nativo atrás dos filhos do elemento, pintado ao montar, animado até os novos valores quando eles mudam e removido ao desmontar.
 
 ## JoltTransition
 
