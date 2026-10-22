@@ -29,7 +29,19 @@ For opacity animations, Jolt temporarily caches containers with children in a ha
 
 App-configured hardware or software layers are left untouched. Empty containers, views without measured bounds, and containers wider or taller than the display are skipped. The size limit avoids caching entire oversized content trees. Containers with `setClipChildren(false)` are skipped too: the layer is the size of the view, so children drawn outside it would be cut off during the fade. Hardware textures use graphics memory; constantly changing content still invalidates its cache. See the [Android fade benchmark](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/android-fade.md).
 
-Android also draws any translucent view into a buffer of its own size, which cuts off children drawn outside it even when the container doesn't clip them. For containers with `setClipChildren(false)`, Jolt turns that buffer off with `forceHasOverlappingRendering(false)` on Android 7 and later, so a glow or a shadow that overflows keeps its shape while it fades. The children then fade one by one: where two of them overlap, the one below shows through.
+Android also draws a translucent view into a buffer of its own size, which cuts off children drawn outside it even when the container doesn't clip them. No setting makes that buffer larger: while a view fades, Android's renderer turns it into a layer exactly as big as the view. For containers with `setClipChildren(false)`, Jolt turns that buffer off with `forceHasOverlappingRendering(false)` on Android 7 and later, so a glow or a shadow that overflows keeps its shape while it fades. The children then fade one by one: where two of them overlap, the one below shows through.
+
+To fade content that both overlaps and draws outside its container as one image, fade a container that holds all of it. Make the faded view as large as the glow, with the content centered inside, so nothing overflows it:
+
+```xml
+<!-- The glow fits inside the view that fades, so the dot never shows it through. -->
+<GridLayout ref="badge" width="168" height="168">
+  <Label class="glow" width="168" height="168" borderRadius="84" />
+  <Label class="dot" width="64" height="64" borderRadius="32" />
+</GridLayout>
+```
+
+Animating `badge` then fades the glow and the dot together, on Android and iOS alike.
 
 <Clip name="fade-overflow-android" caption="A halo larger than its container keeps its shape while the container fades out and back in, on the Android emulator." />
 

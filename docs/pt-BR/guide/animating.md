@@ -27,7 +27,19 @@ Nas animações de opacidade, o Jolt usa temporariamente uma camada de hardware 
 
 Camadas de hardware ou software já configuradas pelo app são preservadas. Containers vazios, views sem tamanho medido e containers mais largos ou altos que a tela não recebem essa otimização. O limite evita colocar árvores de conteúdo muito grandes numa textura. Containers com `setClipChildren(false)` também ficam de fora: a camada tem o tamanho da view, e os filhos desenhados fora dela seriam cortados durante o fade. As texturas usam memória gráfica; conteúdo que muda constantemente continua invalidando o cache. Veja o [benchmark de fades no Android](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/android-fade.md).
 
-O Android também desenha qualquer view translúcida num buffer do tamanho dela, o que corta os filhos desenhados fora, mesmo quando o container não os corta. Para containers com `setClipChildren(false)`, o Jolt desliga esse buffer com `forceHasOverlappingRendering(false)` a partir do Android 7, então um brilho ou uma sombra que vaza mantém a forma durante o fade. Os filhos passam a desbotar um a um: onde dois se sobrepõem, o de baixo aparece por trás.
+O Android também desenha uma view translúcida num buffer do tamanho dela, o que corta os filhos desenhados fora, mesmo quando o container não os corta. Nenhuma configuração aumenta esse buffer: enquanto uma view esmaece, o renderizador do Android a transforma numa camada exatamente do tamanho dela. Para containers com `setClipChildren(false)`, o Jolt desliga esse buffer com `forceHasOverlappingRendering(false)` a partir do Android 7, então um brilho ou uma sombra que vaza mantém a forma durante o fade. Os filhos passam a desbotar um a um: onde dois se sobrepõem, o de baixo aparece por trás.
+
+Para esmaecer como uma imagem só um conteúdo que se sobrepõe e também desenha fora do container, esmaeça um container que contenha tudo. Deixe a view que esmaece do tamanho do brilho, com o conteúdo centralizado dentro, para que nada vaze dela:
+
+```xml
+<!-- O brilho cabe na view que esmaece, então o ponto nunca deixa ele aparecer. -->
+<GridLayout ref="badge" width="168" height="168">
+  <Label class="glow" width="168" height="168" borderRadius="84" />
+  <Label class="dot" width="64" height="64" borderRadius="32" />
+</GridLayout>
+```
+
+Animar `badge` esmaece o brilho e o ponto juntos, no Android e no iOS.
 
 <Clip name="fade-overflow-android" caption="Um halo maior que o container mantém a forma enquanto o container some e volta, no emulador Android." />
 
