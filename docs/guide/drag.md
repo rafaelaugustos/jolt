@@ -27,6 +27,17 @@ Hard bounds are the default: tracking and release stay inside the limits. With `
 
 An existing translation is preserved when tracking starts. A new gesture interrupts the selected axes at their current presentation; other properties keep animating. Touching during a release stops that release immediately. If the touch never becomes a pan, the view remains at that position. Configure bounds/snap before creation; options are copied. Dispose and recreate to change them after layout changes.
 
+## Driving a motion value
+
+With `value`, the gesture moves a [motion value](./motion-values#dragging) instead of the view, so one sheet can drive the page behind it, a backdrop and anything else bound to that value. The axis is `'x'` or `'y'`, and bounds and snap points are in the value's units:
+
+```ts
+const y = motionValue(380)
+bind(sheet, { y })
+bind(backdrop, { opacity: y.to([0, 380], [0.5, 0]) })
+drag(sheet, { axis: 'y', value: y, bounds: { top: 0, bottom: 380 }, snap: [0, 190, 380] })
+```
+
 ## Events
 
 ```ts

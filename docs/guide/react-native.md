@@ -72,7 +72,7 @@ bind(sheet, { y: progress.to([0, 1], [200, 0]) })
 animate(progress, 1, origamiSpring())
 ```
 
-`to()` clamps by default, while `interpolate` extends; pass `{ clamp: false }` for `extrapolate: 'extend'`. A value that only drives one view along a timeline can also be plain keyframes: the input range becomes `times`, the output range the keyframes, and `easeTrack: true` runs the driving animation's easing over the whole track. See [track easing](./transitions#tweens). A value driven by a scroll offset is [`scrollLinked()`](./scroll-linked), and one driven by a gesture is [`drag()`](./drag).
+`to()` clamps by default, while `interpolate` extends; pass `{ clamp: false }` for `extrapolate: 'extend'`. A value that only drives one view along a timeline can also be plain keyframes: the input range becomes `times`, the output range the keyframes, and `easeTrack: true` runs the driving animation's easing over the whole track. See [track easing](./transitions#tweens). A value driven by a scroll offset is [`scrollLinked()`](./scroll-linked), and one driven by a pan gesture is [`drag()` with `value`](./motion-values#dragging).
 
 ## Adding and multiplying values
 
@@ -92,4 +92,5 @@ animate(logo, { scale: [1, 1.15, 1] }, { duration: 300, layer: 'kick' }) // mult
 | `Keyboard` events and `keyboardWillShow` timing | [`onKeyboard()`](./keyboard#keyboard-state) and `followKeyboard()`                                      |
 | `AccessibilityInfo.isReduceMotionEnabled()`     | [`reducedMotion()` and `onReducedMotion()`](./configure#reading-the-preference)                         |
 | `Animated.event` on `onScroll`                  | [`scrollValue()`](./motion-values#scroll-offsets) with `bind()`, or [`scrollLinked()`](./scroll-linked) |
+| `PanResponder` writing into an `Animated.Value` | [`drag()` with `value`](./motion-values#dragging), release included                                     |
 | a value that outlives a remounted view          | [motion states with `attach()`](./motion-controllers#views-that-come-back)                              |

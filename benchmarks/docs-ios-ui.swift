@@ -159,6 +159,29 @@ final class DocsTests: XCTestCase {
             XCTAssertTrue(app.staticTexts["Panel settled · 0"].waitForExistence(timeout: 5))
         }
     }
+    func testDragValues() throws {
+        launch(["--drag-values"], "Drag sheet")
+        try record("drag-values-ios") {
+            func pull(_ y: CGFloat) {
+                let start = app.staticTexts["Now playing"].firstMatch.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+                start.press(forDuration: 0.15, thenDragTo: start.withOffset(CGVector(dx: 0, dy: y)), withVelocity: .slow, thenHoldForDuration: 0.15)
+                Thread.sleep(forTimeInterval: 1)
+            }
+            pull(-190)
+            XCTAssertTrue(app.staticTexts["Half way"].waitForExistence(timeout: 3))
+            pull(-190)
+            XCTAssertTrue(app.staticTexts["Open"].waitForExistence(timeout: 3))
+            pull(150)
+            XCTAssertTrue(app.staticTexts["Half way"].waitForExistence(timeout: 3))
+            pull(260)
+            XCTAssertTrue(app.staticTexts["Closed"].waitForExistence(timeout: 3))
+            tap("Toggle sheet", wait: 1.2)
+            pull(-120)
+            XCTAssertTrue(app.staticTexts["Open"].waitForExistence(timeout: 3))
+            tap("Toggle sheet", wait: 2)
+            XCTAssertTrue(app.staticTexts["Closed"].waitForExistence(timeout: 3))
+        }
+    }
     func testStates() throws {
         launch(["--playground", "--section=motion"], "Upload")
         try record("motion-controllers-ios") {

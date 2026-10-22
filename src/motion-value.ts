@@ -88,6 +88,7 @@ interface Run {
   readonly track: Track
   readonly base: number
   readonly span: number
+  readonly animation: Animation
   readonly startedAt: number
   readonly settle: (finished: boolean) => void
   readonly cancel: () => void
@@ -164,25 +165,7 @@ class Root extends Derived {
     const span = Math.max(...frames) - base
     const velocity = this.velocity()
     this.halt()
-
-    let settle!: (finished: boolean) => void
-    const finished = new Promise<boolean>((resolve) => (settle = resolve))
-    let arrive: () => void = () => {}
-    let run: Run | undefined
-    const animation: Animation = {
-      finished,
-      stop: () => {
-        if (run && this.run === run) this.stop()
-      },
-      then: (onfulfilled, onrejected) => finished.then(onfulfilled, onrejected),
-    }
-    if (span === 0) {
-      this.current = frames.at(-1)!
-      for (const binding of this.bindings) binding.sync()
-      settle(true)
-      setArrival(animation, Promise.resolve())
-      return animation
-    }
+    if (span === 0) return this.jump(frames.at(-1)!)
 
     // Sampled in the value's own range so springs settle relative to the distance.
     const track = createTrack(
@@ -191,6 +174,41 @@ class Root extends Derived {
       resolved,
       velocity / span,
     )
+    return this.start(track, base, span)
+  }
+
+  /** Plays a track sampled in the value's own units, such as a drag release. */
+  play(track: Track): Animation {
+    this.halt()
+    return track.end === 0 ? this.jump(track.to) : this.start(track, 0, 1)
+  }
+
+  private jump(value: number): Animation {
+    const { animation, settle } = this.handle()
+    this.current = value
+    for (const binding of this.bindings) binding.sync()
+    settle(true)
+    setArrival(animation, Promise.resolve())
+    return animation
+  }
+
+  private handle() {
+    let settle!: (finished: boolean) => void
+    const finished = new Promise<boolean>((resolve) => (settle = resolve))
+    const animation: Animation = {
+      finished,
+      stop: () => {
+        if (this.run?.animation === animation) this.stop()
+      },
+      then: (onfulfilled, onrejected) => finished.then(onfulfilled, onrejected),
+    }
+    return { animation, settle }
+  }
+
+  private start(track: Track, base: number, span: number): Animation {
+    const { animation, settle } = this.handle()
+    let arrive: () => void = () => {}
+    let run: Run | undefined
     const driver = getDriver()
     setArrival(animation, new Promise<void>((resolve) => (arrive = resolve)))
     const timers = [
@@ -211,6 +229,7 @@ class Root extends Derived {
       track,
       base,
       span,
+      animation,
       startedAt: driver.now(),
       settle: (completed) => {
         arrive()

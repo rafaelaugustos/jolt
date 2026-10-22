@@ -44,7 +44,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Motion scopes and states](https://jolt.rafaelaugusto.dev/guide/motion-controllers) for component cleanup and coordinated visual states.
 - [Animated touch targets](https://jolt.rafaelaugusto.dev/guide/interaction-surface) with an opt-in native interaction surface.
 - [Layout changes](https://jolt.rafaelaugusto.dev/guide/layout): insertion, removal, reorder and resize of container children.
-- [Drag](https://jolt.rafaelaugusto.dev/guide/drag) with bounds, snap points, rubberband and native release physics.
+- [Drag](https://jolt.rafaelaugusto.dev/guide/drag) with bounds, snap points, rubberband and native release physics, moving the view or a motion value.
 - [Decay](#decay) from a release velocity, with optional snap points.
 - [Keyframes and tweens](#tweens) with an easing per segment and exact keyframe times.
 - [Stagger](#several-views) across several views, from the first, the last or the center.
@@ -200,7 +200,7 @@ bind(sheet, { y: progress.to([0, 1], [200, 0]) })
 animate(progress, 1, 'snappy')
 ```
 
-One value drives several properties and views on one native clock, mapped with `to()` like React Native's `interpolate`, to numbers or colors. Interruptions carry the value and its velocity to every bound view, `set()` and `stop()` take a value, and a value outlives its views. `scrollValue(scrollView)` turns a scroll offset into a value that bindings follow. In Vue, `useMotionValue()`, `useScrollValue()` and `useBinding()` handle the lifecycle. See the [guide](https://jolt.rafaelaugusto.dev/guide/motion-values).
+One value drives several properties and views on one native clock, mapped with `to()` like React Native's `interpolate`, to numbers or colors. Interruptions carry the value and its velocity to every bound view, `set()` and `stop()` take a value, and a value outlives its views. `scrollValue(scrollView)` turns a scroll offset into a value that bindings follow, and `drag(view, { axis, value })` writes a gesture and its release into one. In Vue, `useMotionValue()`, `useScrollValue()` and `useBinding()` handle the lifecycle. See the [guide](https://jolt.rafaelaugusto.dev/guide/motion-values).
 
 ## Layered motion
 

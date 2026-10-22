@@ -1,5 +1,13 @@
 import type { View } from '@nativescript/core'
-import { animate, bind, motionValue, set, stop, type Animation } from '../src/index.js'
+import {
+  animate,
+  bind,
+  drag,
+  motionValue,
+  set,
+  stop,
+  type Animation,
+} from '../src/index.js'
 declare const sheet: View
 const progress = motionValue(0)
 const y = progress.to([0, 1], [600, 0])
@@ -21,3 +29,22 @@ tint.to([0, 1], [0, 1])
 bind(sheet, { x: tint })
 // @ts-expect-error color properties take colors
 bind(sheet, { color: y })
+drag(sheet, {
+  axis: 'y',
+  value: progress,
+  snap: [0, 600],
+  onRelease: ({ animation }) => void animation.then((done: boolean) => done),
+})
+// @ts-expect-error a dragged value moves along one axis
+drag(sheet, { axis: 'both', value: progress })
+// @ts-expect-error a derived value follows its source; drag the source
+drag(sheet, { axis: 'y', value: y })
+// @ts-expect-error snap points of a value are one list
+drag(sheet, { axis: 'y', value: progress, snap: { y: [0, 600] } })
+drag(sheet, {
+  axis: 'y',
+  value: progress,
+  // @ts-expect-error a value's release has no playback controls yet
+  onRelease: ({ animation }) => animation.pause(),
+})
+drag(sheet, { onRelease: ({ animation }) => animation.pause() })
