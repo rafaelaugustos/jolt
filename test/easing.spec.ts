@@ -14,6 +14,10 @@ const names: EasingName[] = [
   'backOut',
   'backInOut',
   'anticipate',
+  ...(['quad', 'cubic', 'quart', 'quint', 'sine', 'expo'] as const).flatMap(
+    (family) =>
+      [`${family}In`, `${family}Out`, `${family}InOut`] as const satisfies EasingName[],
+  ),
 ]
 
 function bezierPoint([x1, y1, x2, y2]: number[], t: number) {
@@ -55,6 +59,23 @@ describe('easing', () => {
 
     expect(Math.max(...samples.map(backOut))).toBeGreaterThan(1)
     expect(Math.min(...samples.map(anticipate))).toBeLessThan(0)
+  })
+
+  it('matches the standard polynomial, sine and expo curves', () => {
+    for (const p of [0.1, 0.25, 0.5, 0.75, 0.9]) {
+      expect(resolveEasing('quadIn')(p)).toBeCloseTo(p * p, 9)
+      expect(resolveEasing('cubicOut')(p)).toBeCloseTo(1 - (1 - p) ** 3, 9)
+      expect(resolveEasing('quartIn')(p)).toBeCloseTo(p ** 4, 9)
+      expect(resolveEasing('quintOut')(p)).toBeCloseTo(1 - (1 - p) ** 5, 9)
+      expect(resolveEasing('sineInOut')(p)).toBeCloseTo(
+        -(Math.cos(Math.PI * p) - 1) / 2,
+        9,
+      )
+      expect(resolveEasing('expoOut')(p)).toBeCloseTo(1 - 2 ** (-10 * p), 9)
+    }
+    expect(resolveEasing('cubicInOut')(0.25)).toBeCloseTo(4 * 0.25 ** 3, 9)
+    expect(resolveEasing('cubicInOut')(0.75)).toBeCloseTo(1 - (-2 * 0.75 + 2) ** 3 / 2, 9)
+    expect(resolveEasing('expoIn')(0)).toBe(0)
   })
 
   it('rejects unknown names', () => {

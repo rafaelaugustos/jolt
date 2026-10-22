@@ -205,6 +205,19 @@ Page {
   margin-bottom: 8;
 }
 
+.easing-name {
+  color: #52525b;
+  font-size: 13;
+  vertical-alignment: middle;
+}
+
+.easing-rail {
+  height: 2;
+  margin: 0 10;
+  background-color: #d4d4d8;
+  vertical-alignment: middle;
+}
+
 .glow-halo {
   border-radius: 84;
   background-color: rgba(250, 204, 21, 0.35);

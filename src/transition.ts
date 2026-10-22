@@ -137,11 +137,53 @@ export function timingOf(transition: Transition): Timing {
   return timing
 }
 
-/** Timing merges key by key, the curve is taken whole from whichever side has one. */
+const isSpring = (transition: Transition) =>
+  transition.type === 'spring' ||
+  springKeys.some((key) => (transition as Spring)[key] !== undefined)
+
+/** Curve keys a merged transition took from the main one rather than from its override. */
+const inherited = new WeakMap<Transition, ReadonlySet<string>>()
+
+/**
+ * Timing merges key by key. Over a tween, a curve that stays a tween merges key by key too;
+ * otherwise the curve is taken whole from whichever side has one.
+ */
 export function mergeTransitions(base: Transition, override: Transition): Transition {
-  return hasCurve(override)
-    ? { ...timingOf(base), ...override }
-    : { ...base, ...timingOf(override) }
+  if (!hasCurve(override)) {
+    const merged = { ...base, ...timingOf(override) }
+    const taken = inherited.get(base)
+    if (taken) inherited.set(merged, taken)
+    return merged
+  }
+  if (!hasCurve(base) || isSpring(base) || isSpring(override))
+    return { ...timingOf(base), ...override }
+  const merged = { ...base, ...override } as Transition
+  const own = override as Record<string, unknown>
+  inherited.set(
+    merged,
+    new Set(
+      curveKeys.filter(
+        (key) =>
+          (base as Record<string, unknown>)[key] !== undefined && own[key] === undefined,
+      ),
+    ),
+  )
+  return merged
+}
+
+/** Drops inherited `times` and per-segment easings that don't fit this property's keyframes. */
+export function fitTransition(transition: Transition, keyframes: number): Transition {
+  const taken = inherited.get(transition)
+  if (!taken) return transition
+  const tween = { ...transition } as Tween
+  const segments = (ease: Tween['ease']) =>
+    ease !== undefined && isEasingList(ease) ? ease.length : undefined
+  if (taken.has('times') && tween.times && tween.times.length !== keyframes)
+    delete tween.times
+  if (taken.has('ease') && (segments(tween.ease) ?? keyframes - 1) !== keyframes - 1)
+    delete tween.ease
+  if (taken.has('easeTrack') && segments(tween.ease) !== undefined) delete tween.easeTrack
+  return tween
 }
 
 export function resolveTransition(

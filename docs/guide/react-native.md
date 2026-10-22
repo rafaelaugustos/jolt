@@ -12,7 +12,7 @@ Animated.timing(opacity, { toValue: 1, duration: 500, useNativeDriver: true }).s
 animate(card, { opacity: 1 }, { duration: 500, ease: 'easeInOut' })
 ```
 
-`Animated.timing` defaults to 500 ms and `Easing.inOut(Easing.ease)`, which is very close to Jolt's `easeInOut`. Jolt tweens default to 300 ms and `easeOut`, so pass both when a port should look the same. `Easing.bezier(x1, y1, x2, y2)` becomes `cubicBezier(x1, y1, x2, y2)` or the array `[x1, y1, x2, y2]`, and any easing function still works.
+`Animated.timing` defaults to 500 ms and `Easing.inOut(Easing.ease)`, which is very close to Jolt's `easeInOut`. Jolt tweens default to 300 ms and `easeOut`, so pass both when a port should look the same. `Easing.bezier(x1, y1, x2, y2)` becomes `cubicBezier(x1, y1, x2, y2)` or the array `[x1, y1, x2, y2]`, and any easing function still works. `Easing.quad`, `Easing.cubic`, `Easing.poly(4)`, `Easing.poly(5)`, `Easing.sin` and `Easing.exp` are the `quad`, `cubic`, `quart`, `quint`, `sine` and `expo` curves: on their own they ease in (`'cubicIn'`), `Easing.out(Easing.cubic)` is `'cubicOut'` and `Easing.inOut(Easing.cubic)` is `'cubicInOut'`.
 
 ## Springs
 

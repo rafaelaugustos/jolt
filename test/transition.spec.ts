@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest'
+import { animate } from '../src/index.js'
 import { springPhysics } from '../src/spring.js'
-import { mergeTransitions, resolveTransition, springs } from '../src/transition.js'
+import {
+  fitTransition,
+  mergeTransitions,
+  resolveTransition,
+  springs,
+} from '../src/transition.js'
+import { createView, driver } from './helpers.js'
 
 describe('resolveTransition', () => {
   it('springs transforms and fades opacity by default', () => {
@@ -52,10 +59,41 @@ describe('resolveTransition', () => {
 })
 
 describe('mergeTransitions', () => {
-  it('takes the curve whole from the override', () => {
+  it('takes the curve whole over a spring, or when the override is a spring', () => {
     expect(
       mergeTransitions({ type: 'spring', bounce: 0.4, delay: 100 }, { duration: 200 }),
     ).toEqual({ delay: 100, duration: 200 })
+    expect(
+      mergeTransitions({ duration: 900, ease: 'easeInOut' }, { bounce: 0.3 }),
+    ).toEqual({ bounce: 0.3 })
+    expect(mergeTransitions({ delay: 100 }, { times: [0, 0.5, 1] })).toEqual({
+      delay: 100,
+      times: [0, 0.5, 1],
+    })
+  })
+
+  it('merges a tween over a tween key by key', () => {
+    expect(
+      mergeTransitions({ duration: 900, ease: 'easeInOut' }, { times: [0, 0.3, 1] }),
+    ).toEqual({ duration: 900, ease: 'easeInOut', times: [0, 0.3, 1] })
+    expect(
+      mergeTransitions({ duration: 900, ease: 'easeInOut' }, { ease: 'linear' }),
+    ).toEqual({ duration: 900, ease: 'linear' })
+  })
+
+  it("drops inherited times and easings that don't fit the keyframes", () => {
+    const merged = mergeTransitions(
+      { duration: 600, ease: ['easeOut', 'easeIn'], times: [0, 0.3, 1] },
+      { duration: 200 },
+    )
+    expect(fitTransition(merged, 3)).toEqual({
+      duration: 200,
+      ease: ['easeOut', 'easeIn'],
+      times: [0, 0.3, 1],
+    })
+    expect(fitTransition(merged, 2)).toEqual({ duration: 200 })
+    const own = { duration: 600, times: [0, 0.3, 1] }
+    expect(fitTransition(own, 2)).toBe(own)
   })
 
   it('merges timing into the base curve', () => {
@@ -66,5 +104,54 @@ describe('mergeTransitions', () => {
       delay: 50,
       repeat: 1,
     })
+  })
+})
+
+describe('per-property transitions', () => {
+  it('keep the main tween duration and ease when they only set times', () => {
+    const view = createView()
+    animate(
+      view,
+      { scale: [0.8, 1.05, 1], opacity: [0, 1, 1] },
+      { duration: 900, ease: 'linear', opacity: { times: [0, 0.3, 1] } },
+    )
+    const fade = driver.last('opacity').track
+    expect(fade.duration).toBe(900)
+    expect(fade.valueAt(135)).toBeCloseTo(0.5)
+    expect(fade.valueAt(270)).toBeCloseTo(1)
+  })
+
+  it('still replace the curve over a spring', () => {
+    const view = createView()
+    animate(
+      view,
+      { y: 0, opacity: 1 },
+      { type: 'spring', bounce: 0.3, opacity: { duration: 150 } },
+    )
+    expect(driver.last('opacity').track.duration).toBe(150)
+  })
+
+  it('leave out inherited times that belong to other keyframes', () => {
+    const view = createView()
+    animate(
+      view,
+      { x: [0, 100, 50], opacity: [0, 1] },
+      { duration: 600, times: [0, 0.3, 1], ease: 'linear', opacity: { ease: 'linear' } },
+    )
+    expect(driver.last('x').track.valueAt(180)).toBeCloseTo(100)
+    expect(driver.last('opacity').track.valueAt(300)).toBeCloseTo(0.5)
+  })
+
+  it("keep a preset's shape when its duration changes", () => {
+    const view = createView()
+    animate(view, 'heartbeat', { duration: 2000 })
+    const beat = driver.last('scaleX').track
+    expect(beat.duration).toBe(2000)
+    expect(beat.valueAt(280)).toBeCloseTo(1.15)
+
+    const card = createView()
+    animate(card, 'popOut', { duration: 900 })
+    expect(driver.last('scaleX', card).track.valueAt(270)).toBeCloseTo(1.08)
+    expect(driver.last('opacity', card).track.duration).toBe(900)
   })
 })
