@@ -244,3 +244,12 @@ Page {
   border-radius: 12;
   font-size: 20;
 }
+
+.rn-caption {
+  text-align: left;
+  margin: 8 0 0 4;
+}
+
+.rn-lane {
+  margin: 4 0;
+}

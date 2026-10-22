@@ -82,6 +82,15 @@ final class DocsTests: XCTestCase {
             XCTAssertTrue(app.buttons["Hide logo"].exists)
         }
     }
+    func testReactNative() throws {
+        launch(["--playground", "--section=from react"], "Toss springs")
+        try record("react-native-ios") {
+            tap("Toss springs", wait: 1.8)
+            tap("Toss springs", wait: 1.8)
+            tap("Toss springs", wait: 0.25)
+            tap("Toss springs", wait: 1.8)
+        }
+    }
     func testLayout() throws {
         launch(["--layout-lab"], "layout-card-1")
         try record("layout-ios") {

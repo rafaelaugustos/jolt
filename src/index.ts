@@ -46,8 +46,15 @@ export { configure, onReducedMotion, reducedMotion } from './config.js'
 export type { JoltConfig } from './config.js'
 export { definePreset, presets } from './presets.js'
 export type { Preset, PresetName, Presets } from './presets.js'
-export { springs } from './transition.js'
-export type { Spring, SpringName, Timing, Transition, Tween } from './transition.js'
+export { origamiSpring, springs } from './transition.js'
+export type {
+  OrigamiSpring,
+  Spring,
+  SpringName,
+  Timing,
+  Transition,
+  Tween,
+} from './transition.js'
 export { cubicBezier } from './easing.js'
 export type { CubicBezier, Easing, EasingFunction, EasingName } from './easing.js'
 export type { PlaybackAnimation } from './playback.js'

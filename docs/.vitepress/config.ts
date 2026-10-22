@@ -18,6 +18,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('install', 'install'),
         page('animating', 'animating'),
         page('demo', 'demo'),
+        page('reactNative', 'react-native'),
       ],
     },
     {
@@ -80,6 +81,7 @@ const en = {
   install: 'Install',
   animating: 'Animating',
   demo: 'Demo app',
+  reactNative: 'From React Native Animated',
   transitions: 'Springs and tweens',
   decay: 'Decay and snapping',
   colors: 'Colors',
@@ -126,6 +128,7 @@ const pt = {
   install: 'Instalação',
   animating: 'Animando',
   demo: 'Aplicativo de demonstração',
+  reactNative: 'Vindo do Animated do React Native',
   transitions: 'Springs e tweens',
   decay: 'Desaceleração e encaixe',
   colors: 'Cores',
