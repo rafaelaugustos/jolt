@@ -32,6 +32,8 @@ export interface Plan {
   transition: ResolvedTransition
   relative?: boolean
   path?: PreparedPath
+  /** A track that is already sampled, like a motion value mapped onto a property. */
+  track?: () => Track
 }
 
 interface Entry {
@@ -322,7 +324,8 @@ export class ViewAnimation implements PlaybackAnimation {
     const now = driver.now()
     const entries = entriesOf(this.view)
 
-    const tracks = plans.map(({ property, keyframes, transition, relative, path }) => {
+    const tracks = plans.map((plan) => {
+      const { property, keyframes, transition, relative, path } = plan
       const previous = entries.get(property)
       let current: number
       let velocity = 0
@@ -337,6 +340,7 @@ export class ViewAnimation implements PlaybackAnimation {
             ? driver.presented(this.view, property)
             : undefined) ?? readValue(this.view, property)
       }
+      if (plan.track) return plan.track()
       if (path)
         return path.track(
           property as PathProperty,

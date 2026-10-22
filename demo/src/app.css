@@ -271,3 +271,43 @@ Page {
   vertical-alignment: bottom;
   margin: 0 0 10 12;
 }
+
+.values-stage {
+  background-color: #e4e4e7;
+}
+
+.values-page {
+  margin: 16;
+  border-radius: 16;
+  background-color: #ffffff;
+}
+
+.values-backdrop {
+  background-color: #000000;
+}
+
+.values-sheet {
+  border-radius: 20 20 0 0;
+  background-color: #18181b;
+}
+
+.values-handle {
+  width: 40;
+  height: 5;
+  margin-top: 10;
+  border-radius: 3;
+  background-color: #52525b;
+  vertical-alignment: top;
+}
+
+.values-title {
+  color: #a1a1aa;
+  font-size: 15;
+  font-weight: bold;
+  text-align: center;
+  vertical-alignment: center;
+}
+
+.values-sheet .values-title {
+  color: #facc15;
+}

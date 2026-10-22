@@ -40,6 +40,7 @@ import Timeline from './Timeline.vue'
 import MotionPath from './MotionPath.vue'
 import Tuning from './Tuning.vue'
 import MotionStates from './MotionStates.vue'
+import MotionValues from './MotionValues.vue'
 import Remount from './Remount.vue'
 
 const emit = defineEmits<{ imageLab: []; dragLab: []; layoutLab: [] }>()
@@ -143,6 +144,7 @@ onUnmounted(() => {
         </StackLayout>
 
         <Tuning />
+        <MotionValues />
         <MotionStates />
         <Remount />
         <Button text="Layout changes" @tap="emit('layoutLab')" />

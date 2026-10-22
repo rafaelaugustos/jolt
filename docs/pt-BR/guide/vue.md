@@ -49,6 +49,21 @@ const keyboard = useKeyboard()
 </template>
 ```
 
+## Valores de movimento
+
+`useMotionValue()` cria um [valor de movimento](./motion-values) que para quando o componente desmonta, e `useBinding()` devolve um template ref que liga esse valor a um elemento:
+
+```vue
+<script setup lang="ts">
+const progress = useMotionValue(0)
+const sheet = useBinding({ y: progress.to([0, 1], [200, 0]) })
+</script>
+
+<template>
+  <GridLayout :ref="sheet" />
+</template>
+```
+
 ## Registro
 
 `app.use(Jolt)` registra as duas diretivas e o componente para todos os templates. Um componente também pode importar só o que usa. Em `<script setup>`, importar `vAnimate` e `vPress` com esses nomes deixa `v-animate` e `v-press` disponíveis naquele template:
