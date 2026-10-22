@@ -293,6 +293,12 @@ Page {
   background-color: #18181b;
 }
 
+.gradient-strip {
+  margin: 0 4 16;
+  border-radius: 18;
+  background-color: #18181b;
+}
+
 .gradient-label {
   color: #ffffff;
   font-size: 13;

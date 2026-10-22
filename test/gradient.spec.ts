@@ -222,10 +222,32 @@ describe('gradient geometry', () => {
     expect(right.start.x).toBeCloseTo(0)
     expect(right.end.x).toBeCloseTo(1)
     const diagonal = gradientPoints('linear', frame(45), 200, 100)
-    expect(diagonal.start.x).toBeCloseTo(0.125)
-    expect(diagonal.start.y).toBeCloseTo(1.25)
-    expect(diagonal.end.x).toBeCloseTo(0.875)
-    expect(diagonal.end.y).toBeCloseTo(-0.25)
+    expect(diagonal.start.x).toBeCloseTo(-0.1)
+    expect(diagonal.start.y).toBeCloseTo(0.8)
+    expect(diagonal.end.x).toBeCloseTo(1.1)
+    expect(diagonal.end.y).toBeCloseTo(0.2)
+  })
+
+  it('keeps linear bands square to the angle on a box that is not square', () => {
+    // Core Animation's axial gradient: progress is the projection onto the line in unit space.
+    for (const [angle, width, height] of [
+      [135, 330, 120],
+      [45, 200, 100],
+      [200, 120, 300],
+    ] as const) {
+      const { start, end } = gradientPoints('linear', frame(angle), width, height)
+      const line = { x: end.x - start.x, y: end.y - start.y }
+      const at = (x: number, y: number) =>
+        ((x / width - start.x) * line.x + (y / height - start.y) * line.y) /
+        (line.x ** 2 + line.y ** 2)
+      const corners = [at(0, 0), at(width, 0), at(0, height), at(width, height)]
+      expect(Math.min(...corners)).toBeCloseTo(0)
+      expect(Math.max(...corners)).toBeCloseTo(1)
+      const radians = (angle * Math.PI) / 180
+      const along = { x: Math.cos(radians), y: Math.sin(radians) }
+      const center = at(width / 2, height / 2)
+      expect(at(width / 2 + 40 * along.x, height / 2 + 40 * along.y)).toBeCloseTo(center)
+    }
   })
 
   it('measures a radial radius on the shorter side and points a conic start up at 0°', () => {
