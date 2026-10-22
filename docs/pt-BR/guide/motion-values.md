@@ -70,4 +70,4 @@ const toggle = (open: boolean) => animate(progress, open ? 1 : 0, 'snappy')
 
 ## O que vem depois
 
-Aqui os valores são movidos por linhas do tempo. Valores que seguem o dedo ou a rolagem a partir do código nativo, e várias animações em camadas na mesma propriedade, estão planejados no [RFC de valores de movimento](https://github.com/rafaelaugustos/jolt/issues/152).
+Aqui os valores são movidos por linhas do tempo, e se combinam com [camadas](./layers) na mesma propriedade. Valores que seguem o dedo ou a rolagem a partir do código nativo estão planejados no [RFC de valores de movimento](https://github.com/rafaelaugustos/jolt/issues/152).

@@ -5,7 +5,7 @@ import {
   type TouchGestureEventData,
   type View,
 } from '@nativescript/core'
-import { stop, toView } from './animate.js'
+import { toView } from './animate.js'
 import { DEFAULT_FRICTION } from './decay.js'
 import { DragInput } from './drag-input.js'
 import {
@@ -15,9 +15,15 @@ import {
   solveDragRelease,
   type DragCurve,
 } from './drag-physics.js'
-import { currentValue, ViewAnimation, type Plan } from './engine.js'
+import {
+  baseValue,
+  currentValue,
+  setBase,
+  stopBase,
+  ViewAnimation,
+  type Plan,
+} from './engine.js'
 import type { PlaybackAnimation } from './playback.js'
-import { readValue, writeValue } from './properties.js'
 import type { Target } from './types.js'
 
 export interface DragPoint {
@@ -304,8 +310,8 @@ class DragController implements Drag {
       if (!this.attached || this.destroyed || this.disabled) return
       this.blocked = false
       // Claim just the enabled axes, preserving the native presentation on takeover.
-      stop(this.view, this.config.axes)
-      this.origin = { x: readValue(this.view, 'x'), y: readValue(this.view, 'y') }
+      stopBase(this.view, this.config.axes)
+      this.origin = { x: baseValue(this.view, 'x'), y: baseValue(this.view, 'y') }
       const size =
         (this.view.parent as View | undefined)?.getActualSize() ??
         this.view.getActualSize()
@@ -346,8 +352,8 @@ class DragController implements Drag {
           : clampDrag(raw, curve.bounds)
         if (axis === 'x') vx = input.velocityX * resistance
         else vy = input.velocityY * resistance
-        stop(this.view, [axis])
-        writeValue(this.view, axis, position[axis])
+        stopBase(this.view, [axis])
+        setBase(this.view, axis, position[axis])
       }
       this.last = { ...position, velocityX: vx, velocityY: vy }
       if (event.state !== 3)

@@ -86,4 +86,9 @@ export type AnimateOptions = Transition & {
   stagger?: number | Stagger
   /** iOS impact feedback at arrival, or at explicit points in a finite animation. */
   haptic?: Haptic
+  /**
+   * Plays on a named layer, on top of the property's other animations instead of replacing
+   * them. Translations and rotations add; scale and opacity multiply.
+   */
+  layer?: string
 }

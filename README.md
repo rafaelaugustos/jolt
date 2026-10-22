@@ -39,6 +39,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Motion paths](#motion-along-a-path) with optional tangent orientation on iOS and Android.
 - [Colors](#colors) for backgrounds, borders and text, interpolated in OKLab on iOS and Android.
 - [Motion values](#motion-values): one value driving several properties and views, mapped like `interpolate`.
+- [Layered motion](#layered-motion): several animations on one property, added or multiplied.
 - [Gradients](#gradients): native linear, radial and conic gradients with animated colors, angle, center and radius.
 - [Motion scopes and states](https://jolt.rafaelaugusto.dev/guide/motion-controllers) for component cleanup and coordinated visual states.
 - [Animated touch targets](https://jolt.rafaelaugusto.dev/guide/interaction-surface) with an opt-in native interaction surface.
@@ -200,6 +201,15 @@ animate(progress, 1, 'snappy')
 ```
 
 One value drives several properties and views on one native clock, mapped with `to()` like React Native's `interpolate`, to numbers or colors. Interruptions carry the value and its velocity to every bound view, `set()` and `stop()` take a value, and a value outlives its views. In Vue, `useMotionValue()` and `useBinding()` handle the lifecycle. See the [guide](https://jolt.rafaelaugusto.dev/guide/motion-values).
+
+## Layered motion
+
+```ts
+animate(card, { x: 120 }, 'snappy') // the base
+animate(card, 'shake', { layer: 'feedback' }) // on top of it
+```
+
+A layer plays next to a property's other animations instead of replacing them: translations and rotations add, scale and opacity multiply. A shake rides on a drag, a pulse keeps breathing while the card moves, and `stop(card, ['x'], { layer: 'feedback' })` takes one layer away. While a property has layers, they play as one composite native track, sampled again only when something changes. See the [guide](https://jolt.rafaelaugusto.dev/guide/layers).
 
 ## Gradients
 

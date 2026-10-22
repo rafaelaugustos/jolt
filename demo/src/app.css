@@ -311,3 +311,8 @@ Page {
 .values-sheet .values-title {
   color: #facc15;
 }
+
+.layers-card {
+  border-radius: 22;
+  background-color: #18181b;
+}

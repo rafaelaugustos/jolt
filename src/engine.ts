@@ -13,6 +13,7 @@ import { createTrack, type Track } from './track.js'
 import type { ResolvedTransition } from './transition.js'
 import { isColorProperty } from './color.js'
 import type { PreparedPath, PathProperty } from './path.js'
+import { BASE, identity, MixHandle, mixFor, mixOf, mixesOf } from './mixer.js'
 
 export interface Animation extends PromiseLike<boolean> {
   /**
@@ -34,10 +35,15 @@ export interface Plan {
   path?: PreparedPath
   /** A track that is already sampled, like a motion value mapped onto a property. */
   track?: () => Track
+  /** A named layer composed with the property's base instead of replacing it. */
+  layer?: string
 }
 
 interface Entry {
   readonly track: Track
+  /** The property, or the property and its layer. */
+  readonly key: string
+  readonly layer?: string
   readonly startedAt: number
   readonly owner: ViewAnimation
   handle: unknown
@@ -50,7 +56,7 @@ interface Entry {
 
 const revisions = new WeakMap<View, Map<Property, symbol>>()
 
-const running = new WeakMap<View, Map<Property, Entry>>()
+const running = new WeakMap<View, Map<string, Entry>>()
 const arrivals = new WeakMap<Animation, Promise<unknown>>()
 
 /** Internal forecast for starting a timeline step before another one arrives. */
@@ -190,7 +196,7 @@ export class ViewAnimation implements PlaybackAnimation {
         entry.done = false
         entry.finished = false
         this.pending++
-        entriesOf(this.view).set(entry.track.property, entry)
+        entriesOf(this.view).set(entry.key, entry)
         this.playEntry(entry, position)
       }
     }
@@ -201,9 +207,9 @@ export class ViewAnimation implements PlaybackAnimation {
     this.timingChanged()
   }
   elapsed(entry: Entry, now: number) {
-    return this.controlled
-      ? this.time()
-      : (getDriver().elapsed?.(entry.handle) ?? now - entry.startedAt)
+    if (this.controlled) return this.time()
+    if (entry.handle instanceof MixHandle) return entry.handle.elapsed()
+    return getDriver().elapsed?.(entry.handle) ?? now - entry.startedAt
   }
   private time() {
     return this.clock?.time() ?? 0
@@ -211,8 +217,10 @@ export class ViewAnimation implements PlaybackAnimation {
   private controlTracks(position: number, command: PlaybackCommand = 'seek') {
     const driver = getDriver()
     for (const entry of this.entries)
-      if (!entry.done)
-        driver.control?.(this.view, entry.handle, position, this._paused, command)
+      if (entry.done) continue
+      else if (entry.handle instanceof MixHandle)
+        entry.handle.control(position, this._paused)
+      else driver.control?.(this.view, entry.handle, position, this._paused, command)
   }
   private scheduleArrival() {
     this.cancelArrival?.()
@@ -246,19 +254,31 @@ export class ViewAnimation implements PlaybackAnimation {
     const initial = entry.generation === 0
     const instance = ++entry.generation
     const driver = getDriver()
-    entry.handle = driver.play(
-      this.view,
-      entry.track,
-      initial ? entry.startedAt : driver.now() - elapsed,
-      (finished = true) => {
-        if (entry.done || instance !== entry.generation) return
-        entry.done = true
-        entry.finished = finished
-        entry.completedValue = readValue(this.view, entry.track.property)
-        forget(entry)
-        this.ended(finished)
-      },
-    )
+    const startedAt = initial ? entry.startedAt : driver.now() - elapsed
+    const onEnd = (finished = true) => {
+      if (entry.done || instance !== entry.generation) return
+      entry.done = true
+      entry.finished = finished
+      entry.completedValue = readValue(this.view, entry.track.property)
+      forget(entry)
+      this.ended(finished)
+    }
+    const { property } = entry.track
+    const mix =
+      entry.layer !== undefined ? mixing(this.view, property) : mixOf(this.view, property)
+    entry.handle = mix
+      ? mix.adopt(entry.layer ?? BASE, entry.track, startedAt, onEnd)
+      : driver.play(this.view, entry.track, startedAt, onEnd)
+  }
+
+  /** Moves a natively playing entry into its property's mix, without restarting it. */
+  rehome(entry: Entry) {
+    if (entry.done || entry.handle instanceof MixHandle) return
+    const elapsed = this.elapsed(entry, getDriver().now())
+    const handle = entry.handle
+    entry.generation++
+    getDriver().stop(this.view, handle)
+    this.playEntry(entry, elapsed)
   }
   private unloaded = () => this.stop()
 
@@ -324,54 +344,78 @@ export class ViewAnimation implements PlaybackAnimation {
     const now = driver.now()
     const entries = entriesOf(this.view)
 
-    const tracks = plans.map((plan) => {
-      const { property, keyframes, transition, relative, path } = plan
-      const previous = entries.get(property)
+    const made = plans.map((plan) => {
+      const { property, keyframes, transition, relative, path, layer } = plan
+      const key = layer === undefined ? property : `${property}#${layer}`
+      const mixed = layer !== undefined || mixOf(this.view, property) !== undefined
+      const previous = entries.get(key)
       let current: number
       let velocity = 0
       if (previous) {
         const elapsed = elapsedOf(previous, now)
-        current = driver.presented(this.view, property) ?? previous.track.valueAt(elapsed)
+        current =
+          (mixed ? undefined : driver.presented(this.view, property)) ??
+          previous.track.valueAt(elapsed)
         velocity = previous.owner.paused ? 0 : previous.track.velocityAt(elapsed)
         release(previous, now, false)
+      } else if (mixed) {
+        current =
+          mixOf(this.view, property)?.rest(layer ?? BASE) ??
+          (layer === undefined ? readValue(this.view, property) : identity(property))
       } else {
         current =
           (isColorProperty(property)
             ? driver.presented(this.view, property)
             : undefined) ?? readValue(this.view, property)
       }
-      if (plan.track) return plan.track()
-      if (path)
-        return path.track(
-          property as PathProperty,
-          relative ? current : 0,
-          transition.delay,
+      const build = () => {
+        if (plan.track) return plan.track()
+        if (path)
+          return path.track(
+            property as PathProperty,
+            relative ? current : 0,
+            transition.delay,
+          )
+        return createTrack(
+          property,
+          keyframes.map((value) => {
+            if (value === null) return current
+            if (layer !== undefined || !relative || isColorProperty(property))
+              return value
+            return property === 'opacity' || property.startsWith('scale')
+              ? current * value
+              : current + value
+          }),
+          transition,
+          velocity,
         )
-      return createTrack(
-        property,
-        keyframes.map((value) => {
-          if (value === null) return current
-          if (!relative || isColorProperty(property)) return value
-          return property === 'opacity' || property.startsWith('scale')
-            ? current * value
-            : current + value
-        }),
-        transition,
-        velocity,
-      )
+      }
+      return { track: build(), key, layer }
     })
+    const tracks = made.map(({ track }) => track)
 
-    for (const track of tracks) writeValue(this.view, track.property, track.to)
+    for (const { track, layer } of made) {
+      const mix =
+        layer !== undefined
+          ? mixing(this.view, track.property)
+          : mixOf(this.view, track.property)
+      if (!mix) writeValue(this.view, track.property, track.to)
+      else if (track.end === 0) mix.setRest(layer ?? BASE, track.to)
+    }
     driver.sync?.(this.view)
 
-    for (const track of tracks) {
-      let tokens = revisions.get(this.view)
-      if (!tokens) revisions.set(this.view, (tokens = new Map()))
+    for (const { track, key, layer } of made) {
       const token = Symbol(track.property)
-      tokens.set(track.property, token)
+      if (layer === undefined) {
+        let tokens = revisions.get(this.view)
+        if (!tokens) revisions.set(this.view, (tokens = new Map()))
+        tokens.set(track.property, token)
+      }
       if (track.end === 0) continue
       const entry: Entry = {
         track,
+        key,
+        layer,
         startedAt: now,
         owner: this,
         handle: undefined,
@@ -380,7 +424,7 @@ export class ViewAnimation implements PlaybackAnimation {
         generation: 0,
         token,
       }
-      entries.set(track.property, entry)
+      entries.set(key, entry)
       this.entries.push(entry)
       this.pending++
     }
@@ -409,8 +453,8 @@ export class ViewAnimation implements PlaybackAnimation {
   }
 
   private waitForLoad(plans: readonly Plan[]) {
-    for (const { property, keyframes, relative } of plans) {
-      if (relative && !isColorProperty(property)) continue
+    for (const { property, keyframes, relative, layer } of plans) {
+      if (layer !== undefined || (relative && !isColorProperty(property))) continue
       const first = keyframes[0]
       if (first !== null && first !== undefined) writeValue(this.view, property, first)
     }
@@ -442,6 +486,8 @@ export class ViewAnimation implements PlaybackAnimation {
 
 /** Current native presentation when available, otherwise the active curve or model. */
 export function currentValue(view: View, property: Property): number {
+  const mix = mixOf(view, property)
+  if (mix) return mix.value()
   const entry = running.get(view)?.get(property)
   if (!entry) return readValue(view, property)
   const driver = getDriver()
@@ -469,17 +515,67 @@ export function captureValue(view: View, property: Property): () => number | und
   }
 }
 
-/** Stops whatever is animating these properties of the view, or all of them. */
+/** Stops whatever is animating these properties of the view, or all of them, layers included. */
 export function stopView(view: View, properties?: readonly Property[]) {
   const tokens = revisions.get(view)
   for (const property of properties ?? tokens?.keys() ?? [])
     tokens?.set(property, Symbol(property))
+  for (const mix of mixesOf(view))
+    if (!properties || properties.includes(mix.property)) mix.freeze()
   const entries = running.get(view)
   if (!entries) return
   const now = getDriver().now()
-  for (const [property, entry] of [...entries]) {
-    if (!properties || properties.includes(property)) release(entry, now, true)
+  for (const entry of [...entries.values()]) {
+    if (!properties || properties.includes(entry.track.property))
+      release(entry, now, true)
   }
+}
+
+/** Stops the regular animations of these properties and leaves their layers running. */
+export function stopBase(view: View, properties: readonly Property[]) {
+  const tokens = revisions.get(view)
+  for (const property of properties) tokens?.set(property, Symbol(property))
+  const now = getDriver().now()
+  for (const property of properties) {
+    const entry = running.get(view)?.get(property)
+    if (entry) release(entry, now, true)
+  }
+}
+
+/** Stops one layer and takes away what it adds, also after it finished. */
+export function stopLayer(view: View, layer: string, properties?: readonly Property[]) {
+  const now = getDriver().now()
+  for (const entry of [...(running.get(view)?.values() ?? [])])
+    if (
+      entry.layer === layer &&
+      (!properties || properties.includes(entry.track.property))
+    )
+      release(entry, now, true)
+  for (const mix of mixesOf(view))
+    if (!properties || properties.includes(mix.property))
+      mix.setRest(layer, identity(mix.property))
+}
+
+/** Writes a property's base value, under its layers when it has any. */
+export function setBase(view: View, property: Property, value: number) {
+  const mix = mixOf(view, property)
+  if (mix) mix.setRest(BASE, value)
+  else writeValue(view, property, value)
+}
+
+/** A property's base value, without what its layers add. */
+export function baseValue(view: View, property: Property): number {
+  return mixOf(view, property)?.rest(BASE) ?? readValue(view, property)
+}
+
+/** The property's mix, created on its first layer; a base playing natively moves into it. */
+function mixing(view: View, property: Property) {
+  const existing = mixOf(view, property)
+  if (existing) return existing
+  const mix = mixFor(view, property)
+  const base = running.get(view)?.get(property)
+  if (base) base.owner.rehome(base)
+  return mix
 }
 
 function entriesOf(view: View) {
@@ -490,7 +586,7 @@ function entriesOf(view: View) {
 
 function forget(entry: Entry) {
   const entries = running.get(entry.owner.view)
-  if (entries?.get(entry.track.property) === entry) entries.delete(entry.track.property)
+  if (entries?.get(entry.key) === entry) entries.delete(entry.key)
 }
 
 function release(entry: Entry, now: number, commit: boolean) {
@@ -499,6 +595,11 @@ function release(entry: Entry, now: number, commit: boolean) {
   const { property } = entry.track
   entry.done = true
   forget(entry)
+  if (entry.handle instanceof MixHandle) {
+    entry.handle.mix.detach(entry.layer ?? BASE, commit)
+    entry.owner.ended(false)
+    return
+  }
   if (commit) {
     const value =
       driver.presented(view, property) ?? entry.track.valueAt(elapsedOf(entry, now))
