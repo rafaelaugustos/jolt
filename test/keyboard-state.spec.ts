@@ -276,13 +276,58 @@ describe('onKeyboard on Android', () => {
     off()
   })
 
-  it('does nothing below Android 11 or without the native plugin', () => {
+  it('reads the visible frame below Android 11, with the measured timing', () => {
     sdk = 29
-    listen().off()
-    vi.stubGlobal('org', { rafaelaugusto: { jolt: {} } })
-    sdk = 34
-    const { off } = listen()
+    const frames: { root: object; listener: { onChange(height: number): void } }[] = []
+    class Frame {
+      constructor(
+        readonly root: object,
+        readonly listener: { onChange(height: number): void },
+      ) {
+        frames.push(this)
+      }
+      attach() {}
+      detach() {}
+      height() {
+        return 0
+      }
+      static Listener = class {
+        constructor(implementation: Frame['listener']) {
+          return implementation
+        }
+      }
+    }
+    vi.stubGlobal('org', { rafaelaugusto: { jolt: { KeyboardFrame: Frame } } })
+    const { seen, off } = listen()
     expect(Observer.instances).toHaveLength(0)
+    expect(frames[0]?.root).toBe(decor)
+    frames[0]!.listener.onChange(900)
+    frames[0]!.listener.onChange(0)
+    expect(seen).toEqual([
+      {
+        visible: true,
+        height: 300,
+        duration: 150,
+        transition: { duration: 150, ease: 'quadOut' },
+      },
+      {
+        visible: false,
+        height: 0,
+        duration: 150,
+        transition: { duration: 150, ease: 'quadIn' },
+      },
+    ])
     off()
+  })
+
+  it('does nothing without the native plugin', () => {
+    vi.stubGlobal('org', { rafaelaugusto: { jolt: {} } })
+    for (const version of [29, 34]) {
+      sdk = version
+      const { seen, off } = listen()
+      expect(seen).toEqual([])
+      off()
+    }
+    expect(Observer.instances).toHaveLength(0)
   })
 })

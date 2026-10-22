@@ -17,7 +17,7 @@
 - [`drag(target, options?)`](./drag) — with `value`, the gesture drives a [motion value](./motion-values#dragging) instead of the view.
 - [`scrollLinked(scrollView, target, keyframes, { range, axis? })`](./scroll-linked) — returns a cleanup function.
 - [`animateItems(list, keyframes | preset, options?)`](./lists) — rows as they appear, with `once`; returns a cleanup function.
-- [`followKeyboard(target, options?)`](./keyboard) — moves a view with the keyboard on iOS and Android 11+; returns a cleanup function.
+- [`followKeyboard(target, options?)`](./keyboard) — moves a view with the keyboard on iOS and Android 7+; returns a cleanup function.
 - [`onKeyboard(callback)`](./keyboard#keyboard-state) — how much of the window the keyboard covers, with its timing; returns a cleanup function.
 - [`symbolEffect(image, effect, options?)`](./symbol-effects) — iOS SF Symbols.
 - [`shimmer(target, options?)`](./shimmer) — iOS loading placeholders; returns a cleanup function.
