@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs'
 import { defineConfig, type DefaultTheme } from 'vitepress'
 
 const site = 'https://jolt.rafaelaugusto.dev'
@@ -186,7 +187,7 @@ export default defineConfig({
   description:
     'Native animations for NativeScript: presets, springs, keyframes and stagger, one call each.',
   cleanUrls: true,
-  lastUpdated: true,
+  lastUpdated: existsSync('.git'),
   sitemap: { hostname: site },
   head: [
     [
