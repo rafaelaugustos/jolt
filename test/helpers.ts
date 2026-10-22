@@ -27,12 +27,20 @@ export interface Played {
 export class FakeDriver implements Driver {
   time = 1000
   reduced = false
+  readonly frames = new Set<() => void>()
   played: Played[] = []
   private layouts: { view: View; callback: () => void; done: boolean }[] = []
   private timers: { at: number; callback: () => void; done: boolean }[] = []
 
   now() {
     return this.time
+  }
+
+  frame(callback: () => void) {
+    this.frames.add(callback)
+    return () => {
+      this.frames.delete(callback)
+    }
   }
 
   play(view: CoreView, track: Track, startedAt: number, onEnd: () => void) {
@@ -132,6 +140,9 @@ export class FakeDriver implements Driver {
       )
         end(played)
     }
+    const frames = [...this.frames]
+    this.frames.clear()
+    for (const callback of frames) callback()
   }
 
   /** The latest track played for that property. */

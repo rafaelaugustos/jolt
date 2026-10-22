@@ -12,6 +12,7 @@ import {
 import { Application, Utils, type View } from '@nativescript/core'
 import type { NumericProperty } from '../properties.js'
 import type { Driver } from './index.js'
+import { frame } from './frame.js'
 import { isColorProperty } from '../color.js'
 import {
   playAndroidColor,
@@ -109,6 +110,7 @@ export function createAndroidDriver(): Driver {
 
   return {
     now: () => android.os.SystemClock.uptimeMillis(),
+    frame,
     clock,
     control(_view, handle, elapsed, paused, command) {
       ;(handle as Handle).control(elapsed, paused, command)

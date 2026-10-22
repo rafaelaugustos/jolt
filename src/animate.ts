@@ -29,6 +29,7 @@ import {
   detachBindings,
   isMotionValue,
   type MotionValue,
+  type ValueAnimationOptions,
 } from './motion-value.js'
 import { resolveHaptic, type Haptic } from './haptics.js'
 import { layerable } from './mixer.js'
@@ -77,7 +78,7 @@ interface Options {
 export function animate(
   value: MotionValue,
   to: number | readonly (number | null)[],
-  transition?: Transition | SpringName,
+  transition?: ValueAnimationOptions | SpringName,
 ): Animation
 export function animate(
   target: Target | readonly Target[],
@@ -92,7 +93,7 @@ export function animate(
   if (isMotionValue(target))
     return asRoot(target).animate(
       animation as number | readonly (number | null)[],
-      options as Transition | SpringName | undefined,
+      options as ValueAnimationOptions | SpringName | undefined,
     )
   return prepareAnimation(
     target as Target | readonly Target[],
@@ -237,7 +238,7 @@ export function decay(
  * Stops all or selected properties at their current values. `scale` stops both axes.
  * A motion value stops where it is, and so do the views bound to it.
  */
-export function stop(value: MotionValue): void
+export function stop(value: MotionValue, options?: { layer?: string }): void
 export function stop(
   target: Target | readonly Target[],
   properties?: readonly KeyframeProperty[],
@@ -245,11 +246,16 @@ export function stop(
 ): void
 export function stop(
   target: Target | readonly Target[] | MotionValue,
-  properties?: readonly KeyframeProperty[],
+  properties?: readonly KeyframeProperty[] | { layer?: string },
   options?: { layer?: string },
 ) {
-  if (isMotionValue(target)) return asRoot(target).stop()
-  const expanded = properties?.flatMap<Property>((property) =>
+  if (isMotionValue(target))
+    return asRoot(target).stop((properties as { layer?: string } | undefined)?.layer)
+  if (properties && !Array.isArray(properties))
+    throw new TypeError('View properties must be an array.')
+  const expanded = (
+    properties as readonly KeyframeProperty[] | undefined
+  )?.flatMap<Property>((property) =>
     property === 'scale' ? ['scaleX', 'scaleY'] : [property],
   )
   for (const view of toViews(target as Target | readonly Target[]))

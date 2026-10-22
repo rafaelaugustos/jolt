@@ -15,6 +15,8 @@ export interface LayoutFrame {
 export interface Driver {
   /** Milliseconds, on the clock the platform's animations run on. */
   now(): number
+  /** One native animation frame; returns an idempotent cancellation function. */
+  frame(callback: () => void): () => void
   /** Starts the track at `startedAt + track.delay` and calls `onEnd` once, however it ends. */
   play(
     view: View,

@@ -221,7 +221,7 @@ describe('motion values', () => {
     const view = createView()
     expect(() => motionValue(Number.NaN)).toThrow(RangeError)
     expect(() => progress.to([0, 1], [0])).toThrow(/one output per input/)
-    expect(() => progress.to([1, 0], [0, 1])).toThrow(/never decrease/)
+    expect(() => progress.to([0, 1, 0], [0, 1, 0])).toThrow(/cannot change direction/)
     expect(() =>
       (progress.to([0, 1], ['red', 'blue']) as never as typeof progress).to(
         [0, 1],
