@@ -83,6 +83,42 @@ Também é possível criar `motionStates(targets, definitions, { scope, transiti
 
 Cada estado contém destinos absolutos numéricos ou de cor. Não aceita arrays de keyframes, paths, deslocamentos relativos ou loops. A transição aceita nome de spring ou configuração finita de tween/spring, incluindo delay. `to(nome, transição)` substitui a configuração para aquela chamada. Use `sequence()` separadamente para coreografias temporizadas.
 
+### Uma transição por alvo
+
+Uma transição pode separar alvos pelo nome, do jeito que as opções do `animate()` nomeiam propriedades. Neste splash, um único controller faz o logo entrar com spring, desenha o traço com um tween 250 ms depois e mostra o título por último:
+
+```ts
+const splash = motionStates(
+  { logo, stroke, title },
+  {
+    hidden: {
+      logo: { opacity: 0, scale: 0.5 },
+      stroke: { scaleX: 0 },
+      title: { opacity: 0, y: 12 },
+    },
+    shown: {
+      logo: { opacity: 1, scale: 1 },
+      stroke: { scaleX: 1 },
+      title: { opacity: 1, y: 0 },
+    },
+  },
+)
+
+splash.to('shown', {
+  type: 'spring',
+  bounce: 0.4,
+  duration: 600,
+  stroke: { duration: 650, ease: 'cubicOut', delay: 250 },
+  title: { duration: 400, ease: 'easeOut', delay: 500 },
+})
+```
+
+<Clip name="state-transitions-ios" caption="Um único controller de estados faz o logo entrar com spring, desenha o traço com um tween atrasado e mostra o título por último, no simulador iOS. Velocidade real." />
+
+A transição de um alvo se combina com a principal como uma [transição por propriedade](./transitions#por-propriedade): sobre um tween ela muda só o que define, sobre um spring ela substitui a curva, e mantém o delay principal a menos que defina o próprio. Ela também pode ser o nome de um spring. Uma transição que só nomeia alvos mantém a transição do controller para os outros, e a opção `transition` do controller também aceita nomes de alvo. Uma view anexada durante uma transição entra nela com a transição do seu alvo. Um alvo não pode ter o nome de uma opção de transição (`delay`, `duration`, `ease`...). A `Animation` devolvida, `current`, `settled`, `pause()` e `stop()` continuam valendo para todos os alvos.
+
+<Clip name="state-transitions-android" caption="O mesmo splash no emulador Android. Velocidade real." />
+
 Os alvos são validados antes de alterar quem controla as propriedades. Novas tracks começam antes do cancelamento dos handles anteriores, permitindo herdar posição apresentada e velocidade da spring. Propriedades do estado anterior omitidas no novo param no valor visível; propriedades externas continuam. Declare um destino em cada estado relevante se a propriedade deve voltar ao repouso. Um estado vazio congela a transição anterior. Nomes de alvo diferentes precisam apontar para views distintas.
 
 Uma transição substituída, interrompida ou descartada resolve `false`, inclusive em trocas rápidas com movimento reduzido. Callbacks de promises ainda executam: confira o booleano antes de aplicar efeitos de conclusão. `current` indica o estado solicitado; `settled`, o último concluído com sucesso, não uma medição contínua. `stop()` cancela a transição; `pause()/play()` controlam playback; `dispose()` também impede novas transições. O escopo pausa controllers registrados durante suspensão; mudar o destino de um controller pausado mantém a nova transição pausada.

@@ -42,6 +42,7 @@ import MotionPath from './MotionPath.vue'
 import Tuning from './Tuning.vue'
 import MotionStates from './MotionStates.vue'
 import MotionValues from './MotionValues.vue'
+import StateTransitions from './StateTransitions.vue'
 import Layers from './Layers.vue'
 import ScrollValues from './ScrollValues.vue'
 import Remount from './Remount.vue'
@@ -156,6 +157,7 @@ onUnmounted(() => {
         <Layers />
         <ScrollValues />
         <MotionStates />
+        <StateTransitions />
         <Remount />
         <Button text="Layout changes" @tap="emit('layoutLab')" />
         <Button text="Drag, fling and snap" @tap="emit('dragLab')" />

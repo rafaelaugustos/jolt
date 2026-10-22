@@ -46,3 +46,10 @@ later.attach('icon', null)
 later.ref('label')({ nativeView: label })
 // @ts-expect-error unknown attached target
 later.attach('missing', icon)
+states.to('idle', { duration: 300, label: { delay: 100 } })
+states.to('idle', { type: 'spring', bounce: 0.2, icon: 'bouncy' })
+motionStates({ icon, label }, { idle: {} }, { transition: { label: { duration: 200 } } })
+// @ts-expect-error per-target keys are target names
+states.to('idle', { duration: 300, missing: { delay: 100 } })
+// @ts-expect-error a target's transition can't name other targets
+states.to('idle', { label: { icon: 'snappy' } })

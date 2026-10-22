@@ -6,7 +6,7 @@
 - [`interactionSurface(target)`](./interaction-surface) — opt into native touch geometry for an animated subtree.
 - [`animateLayout(container, change?, options?)`](./layout) — animate the next layout of a container’s direct children.
 - [`motionScope()`](./motion-controllers) — own animation handles, subscriptions and component lifecycle.
-- [`motionStates(targets, definitions, options?)`](./motion-controllers#named-visual-states) — coordinated, interruptible named visual states; [`attach()` and `ref()`](./motion-controllers#views-that-come-back) keep them on views that are recreated.
+- [`motionStates(targets, definitions, options?)`](./motion-controllers#named-visual-states) — coordinated, interruptible named visual states; [`attach()` and `ref()`](./motion-controllers#views-that-come-back) keep them on views that are recreated, and a transition can [set targets apart](./motion-controllers#a-transition-per-target).
 - [`motionValue(initial)`, `bind(target, bindings)`](./motion-values) — one value driving several properties and views; `animate()`, `set()` and `stop()` take a value too. [`scrollValue(scrollView, { axis? })`](./motion-values#scroll-offsets) is a scroll offset as a value.
 - [`decay(target, velocity, options?)`](./decay)
 - [`gradient(target, options)`](./gradients) — native linear, radial and conic gradients; returns a `Gradient` with `animate()`, `set()`, `stop()` and `remove()`.
