@@ -76,7 +76,12 @@ animate(progress, 1, origamiSpring())
 
 ## Adding and multiplying values
 
-`Animated.add` and `Animated.multiply` combine two animations on one property. In Jolt each property has one owner at a time, so nest views instead: the outer view takes one animation, the inner view the other. A scale on the parent and a scale on the child multiply; translations add.
+`Animated.add` and `Animated.multiply` combine two animations on one property. In Jolt, play the second one on a [layer](./layers): translations and rotations add, scale and opacity multiply.
+
+```ts
+animate(logo, { scale: [1, 1.04, 1] }, { duration: 1200, repeat: Infinity }) // the base
+animate(logo, { scale: [1, 1.15, 1] }, { duration: 300, layer: 'kick' }) // multiplied on top
+```
 
 ## Platform APIs
 

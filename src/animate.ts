@@ -17,6 +17,7 @@ import { DEFAULT_FRICTION, solveDecay } from './decay.js'
 import {
   arrivalOf,
   setArrival,
+  stopLayer,
   stopView,
   ViewAnimation,
   type Animation,
@@ -30,6 +31,7 @@ import {
   type MotionValue,
 } from './motion-value.js'
 import { resolveHaptic, type Haptic } from './haptics.js'
+import { layerable } from './mixer.js'
 import { isProperty, precision, type Property } from './properties.js'
 import {
   hasCurve,
@@ -57,6 +59,7 @@ interface Options {
   stagger: number | Stagger | undefined
   relative: boolean | undefined
   haptic: Haptic | undefined
+  layer?: string
 }
 
 /**
@@ -103,7 +106,7 @@ export function prepareAnimation(
   animation: Keyframes | PresetName,
   options?: AnimateOptions | SpringName,
 ): () => PlaybackAnimation {
-  const { keyframes, base, overrides, stagger, relative, haptic, path } = prepare(
+  const { keyframes, base, overrides, stagger, relative, haptic, path, layer } = prepare(
     animation,
     options,
   )
@@ -114,12 +117,13 @@ export function prepareAnimation(
     for (const property of Object.keys(keyframes))
       if (isColorProperty(property)) validateColorTarget(view, property)
       else if (isDecorationProperty(property)) validateDecorationTarget(view, property)
-    const plans = plan(keyframes, base, overrides, 0, relative, path)
+    const plans = plan(keyframes, base, overrides, 0, relative, path, layer)
     return () => {
-      detachBindings(
-        view,
-        plans.map(({ property }) => property),
-      )
+      if (layer === undefined)
+        detachBindings(
+          view,
+          plans.map(({ property }) => property),
+        )
       return new ViewAnimation(view, plans, feedback)
     }
   }
@@ -137,15 +141,17 @@ export function prepareAnimation(
       staggerDelay(stagger, index, views.length),
       relative,
       path,
+      layer,
     ),
   )
   return () =>
     playbackGroup(
       views.map((view, index) => {
-        detachBindings(
-          view,
-          plans[index]!.map(({ property }) => property),
-        )
+        if (layer === undefined)
+          detachBindings(
+            view,
+            plans[index]!.map(({ property }) => property),
+          )
         return new ViewAnimation(view, plans[index]!, feedback, true)
       }),
     )
@@ -232,17 +238,20 @@ export function stop(value: MotionValue): void
 export function stop(
   target: Target | readonly Target[],
   properties?: readonly KeyframeProperty[],
+  options?: { layer?: string },
 ): void
 export function stop(
   target: Target | readonly Target[] | MotionValue,
   properties?: readonly KeyframeProperty[],
+  options?: { layer?: string },
 ) {
   if (isMotionValue(target)) return asRoot(target).stop()
   const expanded = properties?.flatMap<Property>((property) =>
     property === 'scale' ? ['scaleX', 'scaleY'] : [property],
   )
   for (const view of toViews(target as Target | readonly Target[]))
-    stopView(view, expanded)
+    if (options?.layer !== undefined) stopLayer(view, options.layer, expanded)
+    else stopView(view, expanded)
 }
 
 /**
@@ -335,6 +344,7 @@ function resolveAnimation(
     stagger: user.stagger ?? own.stagger,
     relative: user.relative ?? own.relative,
     haptic: user.haptic ?? own.haptic,
+    layer: user.layer,
   }
 }
 
@@ -361,16 +371,21 @@ function normalize(options: AnimateOptions | SpringName | undefined): Options {
   let stagger: Options['stagger']
   let relative: Options['relative']
   let haptic: Options['haptic']
+  let layer: Options['layer']
   for (const [key, value] of Object.entries(options)) {
     if (value === undefined) continue
-    if (key === 'stagger') stagger = value as Options['stagger']
+    if (key === 'layer') {
+      if (typeof value !== 'string' || !value)
+        throw new TypeError('A layer is named by a nonempty string.')
+      layer = value
+    } else if (key === 'stagger') stagger = value as Options['stagger']
     else if (key === 'relative') relative = value as Options['relative']
     else if (key === 'haptic') haptic = value as Options['haptic']
     else if (key === 'path' || key === 'scale' || isProperty(key)) {
       overrides[key] = typeof value === 'string' ? spring(value as SpringName) : value
     } else base[key] = value
   }
-  return { base, overrides, stagger, relative, haptic }
+  return { base, overrides, stagger, relative, haptic, layer }
 }
 
 function plan(
@@ -380,8 +395,15 @@ function plan(
   offset: number,
   relative = false,
   path?: PreparedPath,
+  layer?: string,
 ): Plan[] {
+  if (layer !== undefined && path)
+    throw new Error("A path owns x and y; it can't play on a layer.")
   return expand(keyframes, path).map(([property, frames]) => {
+    if (layer !== undefined && !layerable(property))
+      throw new Error(
+        `Layers apply to x, y, scale, rotation and opacity; "${property}" has a single owner.`,
+      )
     if (path?.properties.includes(property as 'x' | 'y' | 'rotate')) {
       if (
         !Number.isFinite(path.transition.delay + offset) ||
@@ -406,7 +428,7 @@ function plan(
       frames.length,
     )
     transition.delay += offset
-    return { property, keyframes: frames, transition, relative }
+    return { property, keyframes: frames, transition, relative, layer }
   })
 }
 
@@ -415,8 +437,10 @@ export function startingValues(
   animation: Keyframes | PresetName,
   options?: AnimateOptions | SpringName,
 ) {
-  const { keyframes, relative, path } = prepare(animation, options)
+  const { keyframes, relative, path, layer } = prepare(animation, options)
   if (!keyframes) throw new Error(`Unknown preset "${animation}".`)
+  if (layer !== undefined)
+    return new Map(expand(keyframes, path).map(([property]) => [property, null]))
   return new Map(
     expand(keyframes, path).map(([property, [first]]) => [
       property,

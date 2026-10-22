@@ -109,6 +109,18 @@ final class DocsTests: XCTestCase {
             tap("Close sheet", wait: 1.3)
         }
     }
+    func testLayers() throws {
+        launch(["--playground", "--section=layers"], "Breathe")
+        try record("layers-ios") {
+            tap("Breathe", wait: 1.2)
+            tap("Move", wait: 0.9)
+            tap("Shake", wait: 0.9)
+            tap("Move", wait: 0.9)
+            tap("Shake", wait: 0.9)
+            drag(app.staticTexts["Drag me"], x: 70, y: 0)
+            tap("Rest", wait: 1)
+        }
+    }
     func testLayout() throws {
         launch(["--layout-lab"], "layout-card-1")
         try record("layout-ios") {

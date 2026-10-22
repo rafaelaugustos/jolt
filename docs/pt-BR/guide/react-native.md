@@ -76,7 +76,12 @@ O `to()` segura as pontas por padrão, enquanto o `interpolate` estende; passe `
 
 ## Somar e multiplicar valores
 
-`Animated.add` e `Animated.multiply` combinam duas animações numa propriedade. No Jolt cada propriedade tem um dono por vez, então aninhe views: a view de fora recebe uma animação e a de dentro, a outra. Uma escala no pai e uma no filho se multiplicam; translações se somam.
+`Animated.add` e `Animated.multiply` combinam duas animações numa propriedade. No Jolt, toque a segunda numa [camada](./layers): translações e rotações se somam, escala e opacidade se multiplicam.
+
+```ts
+animate(logo, { scale: [1, 1.04, 1] }, { duration: 1200, repeat: Infinity }) // a base
+animate(logo, { scale: [1, 1.15, 1] }, { duration: 300, layer: 'kick' }) // multiplicada por cima
+```
 
 ## APIs da plataforma
 

@@ -70,4 +70,4 @@ const toggle = (open: boolean) => animate(progress, open ? 1 : 0, 'snappy')
 
 ## What comes next
 
-Values here are driven by timelines. Values that follow a finger or a scroll offset from native code, and several animations layered on one property, are planned in the [motion values RFC](https://github.com/rafaelaugustos/jolt/issues/152).
+Values here are driven by timelines, and they compose with [layers](./layers) on the same property. Values that follow a finger or a scroll offset from native code are planned in the [motion values RFC](https://github.com/rafaelaugustos/jolt/issues/152).

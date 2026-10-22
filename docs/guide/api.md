@@ -46,6 +46,7 @@ What `animate()`, `decay()`, `sequence()` and the steps of a sequence return: `a
 - **Springs**: `'smooth' | 'snappy' | 'bouncy'`, `{ bounce, duration, velocity }` or `{ stiffness, damping, mass, velocity }`.
 - **Tweens**: `{ duration, ease, times, easeTrack }`.
 - **Timing**: `delay`, `repeat`, `repeatType: 'loop' | 'reverse'`, `repeatDelay`, `stagger: number | { each, from }`.
+- **Layers**: [`layer: 'name'`](./layers) plays on top of the property's other animations; `stop(target, properties, { layer })` stops one layer.
 - **Per property**: any property name mapped to its own transition.
 - **Relative keyframes**: `{ relative: true }` adds translation/rotation offsets and multiplies scale/opacity by their starting values.
 
