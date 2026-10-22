@@ -37,6 +37,8 @@ O Jolt observa `UIKeyboardWillChangeFrameNotification`, que cobre aparecer, sumi
 
 Teclados físicos e mudanças com duração zero aplicam a nova posição imediatamente.
 
+<Clip name="keyboard-ios" caption="No simulador iOS, o composer sobe com o teclado e volta quando ele fecha, enquanto onKeyboard() encolhe o selo na própria mola do teclado. Velocidade real." />
+
 ## Android
 
 A partir do Android 11, o sistema informa o progresso do teclado a cada frame por meio de `WindowInsetsAnimation`. O Jolt instala um callback nativo na view, então o trabalho por frame roda em Java e nada passa pelo JavaScript enquanto o teclado se move. O callback mede a view antes e depois do layout feito para o teclado, por isso funciona com `adjustResize` (a view já fica acima do teclado pelo layout e só o movimento é suavizado) e com `adjustPan` e `adjustNothing` (a view é deslocada pela sobreposição). O JavaScript é chamado uma vez quando o movimento começa e uma vez quando ele se acomoda.
@@ -56,6 +58,8 @@ const off = onKeyboard(({ visible, height, duration, transition }) => {
   animate(header, { scale: visible ? 0.8 : 1 }, transition)
 })
 ```
+
+<Clip name="keyboard-state-android" caption="No emulador Android, onKeyboard() informa 336 DIPs e os 285 ms do teclado, e o selo encolhe na própria curva do teclado enquanto o composer o acompanha. Velocidade real." />
 
 | Campo        | Significado                                                                             |
 | ------------ | --------------------------------------------------------------------------------------- |

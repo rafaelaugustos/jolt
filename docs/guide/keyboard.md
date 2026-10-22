@@ -37,6 +37,8 @@ Jolt observes `UIKeyboardWillChangeFrameNotification`, which covers showing, hid
 
 Hardware keyboards and zero-duration changes apply the new position immediately.
 
+<Clip name="keyboard-ios" caption="On the iOS simulator, the composer rises with the keyboard and settles back when it hides, while onKeyboard() shrinks the badge on the keyboard's own spring. Real-time playback." />
+
 ## Android
 
 Android 11 and later report the keyboard's progress on every frame through `WindowInsetsAnimation`. Jolt installs a native callback on the view, so the per-frame work runs in Java and nothing crosses to JavaScript while the keyboard moves. The callback measures the view before and after the layout for the keyboard, so it works with `adjustResize` (the view is already laid out above the keyboard and only the motion is smoothed) as well as with `adjustPan` and `adjustNothing` (the view is translated by its overlap). JavaScript is called once when the motion starts and once when it settles.
@@ -56,6 +58,8 @@ const off = onKeyboard(({ visible, height, duration, transition }) => {
   animate(header, { scale: visible ? 0.8 : 1 }, transition)
 })
 ```
+
+<Clip name="keyboard-state-android" caption="On the Android emulator, onKeyboard() reports 336 DIPs and the keyboard's 285 ms, and the badge shrinks along the keyboard's own curve while the composer follows it. Real-time playback." />
 
 | Field        | Meaning                                                                               |
 | ------------ | ------------------------------------------------------------------------------------- |
