@@ -45,7 +45,9 @@ A partir do Android 11, o sistema informa o progresso do teclado a cada frame po
 
 A activity do app precisa ter `android:windowSoftInputMode` definido, como o template do NativeScript já faz com `adjustResize`, para a janela receber os insets do teclado. Recompile o app Android depois de atualizar para incluir a classe nativa.
 
-Abaixo do Android 11 a chamada não faz nada e retorna uma limpeza vazia; o comportamento de redimensionamento da plataforma continua.
+Do Android 7 ao 10 não existe progresso a cada frame. Nessas versões, o Jolt lê o teclado pelo frame visível da janela a cada layout. Quando um layout feito para o teclado move a view, o Jolt a devolve para onde estava e a anima até o lugar dela acima do teclado, no tempo de costume do teclado: cerca de 150 ms, desacelerando ao abrir e acelerando ao fechar, como medido num emulador com Android 9. Isso cobre o `adjustResize`, em que o layout já sobe a view, e o `adjustPan` e o `adjustNothing`, em que a view é deslocada pela sobreposição. A animação é uma animação nativa comum do Jolt, iniciada uma vez por mudança.
+
+<Clip name="keyboard-android-9" caption="Num emulador com Android 9, o composer sobe de onde o layout o colocou até ficar acima do teclado e volta quando ele fecha, enquanto onKeyboard() informa 297 DIPs e os 150 ms medidos. Velocidade real." />
 
 ## Estado do teclado
 
@@ -70,7 +72,7 @@ const off = onKeyboard(({ visible, height, duration, transition }) => {
 
 O callback roda quando a altura coberta muda: ao abrir, ao fechar, ao trocar para um teclado mais alto. Um teclado flutuante ou desencaixado no iPad não cobre nada e informa `visible: false`. Todos os listeners compartilham um único observador, removido com a última limpeza.
 
-No iOS o teclado se move numa mola que o Core Animation toca criticamente amortecida em 500 ms; `transition` é essa mola (`stiffness: 1000`, `mass: 3`). O iOS só avisa das mudanças do teclado quando elas acontecem, então um teclado que já estava aberto quando o primeiro listener se inscreveu aparece na próxima mudança. No Android 11 ou mais novo, um callback nativo na janela lê a duração do teclado e amostra o interpolador dele, então `transition` segue a mesma curva. Um teclado já aberto é conhecido desde o início. Abaixo do Android 11 nada é informado.
+No iOS o teclado se move numa mola que o Core Animation toca criticamente amortecida em 500 ms; `transition` é essa mola (`stiffness: 1000`, `mass: 3`). O iOS só avisa das mudanças do teclado quando elas acontecem, então um teclado que já estava aberto quando o primeiro listener se inscreveu aparece na próxima mudança. No Android 11 ou mais novo, um callback nativo na janela lê a duração do teclado e amostra o interpolador dele, então `transition` segue a mesma curva. Um teclado já aberto é conhecido desde o início. Do Android 7 ao 10, a altura vem do frame visível da janela, `duration` é 150 e `transition` é um `quadOut` de 150 ms quando o teclado abre e um `quadIn` quando ele fecha, o tempo medido num emulador com Android 9; a altura inclui a barra de navegação abaixo do teclado, como no Android 11.
 
 No Vue, [`useKeyboard()`](./vue#teclado) devolve um ref que fica atualizado até o componente desmontar.
 

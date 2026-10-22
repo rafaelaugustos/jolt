@@ -136,6 +136,33 @@ declare namespace org.rafaelaugusto.jolt {
       })
     }
   }
+  class KeyboardFrame {
+    constructor(root: android.view.View, listener: KeyboardFrame.Listener)
+    attach(): void
+    detach(): void
+    height(): number
+  }
+  namespace KeyboardFrame {
+    class Listener {
+      constructor(implementation: { onChange(height: number): void })
+    }
+  }
+  class KeyboardFrameFollower {
+    constructor(
+      view: android.view.View,
+      offset: number,
+      listener: KeyboardFrameFollower.Listener,
+    )
+    attach(): void
+    detach(): void
+  }
+  namespace KeyboardFrameFollower {
+    class Listener {
+      constructor(implementation: {
+        onMove(from: number, to: number, keyboard: number): void
+      })
+    }
+  }
   class TextReveal {
     constructor(
       view: android.widget.TextView,

@@ -17,7 +17,7 @@
 - [`drag(target, options?)`](./drag) — com `value`, o gesto controla um [valor de movimento](./motion-values#arrastando) em vez da view.
 - [`scrollLinked(scrollView, target, keyframes, { range, axis? })`](./scroll-linked) — retorna uma função de limpeza.
 - [`animateItems(list, keyframes | preset, options?)`](./lists) — linhas conforme aparecem, com `once`; retorna uma função de limpeza.
-- [`followKeyboard(target, options?)`](./keyboard) — move uma view junto com o teclado no iOS e no Android 11+; retorna uma função de limpeza.
+- [`followKeyboard(target, options?)`](./keyboard) — move uma view junto com o teclado no iOS e no Android 7+; retorna uma função de limpeza.
 - [`onKeyboard(callback)`](./keyboard#estado-do-teclado) — quanto da janela o teclado cobre, com o timing dele; retorna uma função de limpeza.
 - [`symbolEffect(image, effect, options?)`](./symbol-effects) — SF Symbols no iOS.
 - [`shimmer(target, options?)`](./shimmer) — placeholders de carregamento no iOS; retorna uma função de limpeza.

@@ -1,7 +1,7 @@
 import { Application, Utils, isAndroid, isIOS, type View } from '@nativescript/core'
-import { stop, toView } from './animate.js'
+import { animate, stop, toView } from './animate.js'
 import type { EasingFunction, EasingName } from './easing.js'
-import type { Spring, Transition } from './transition.js'
+import type { Spring, Transition, Tween } from './transition.js'
 import type { Target } from './types.js'
 
 export interface KeyboardOptions {
@@ -30,6 +30,12 @@ const iosKeyboard: Spring = {
   damping: 2 * Math.sqrt(3000),
 }
 const iosCurves: readonly EasingName[] = ['easeInOut', 'easeIn', 'easeOut', 'linear']
+// Before Android 11 nothing reports the keyboard's timing. Measured on an Android 9 emulator,
+// its window fades and slides into place in about 150 ms, decelerating, and leaves as quickly.
+const LEGACY_DURATION = 150
+const legacyShow: Tween = { duration: LEGACY_DURATION, ease: 'quadOut' }
+const legacyHide: Tween = { duration: LEGACY_DURATION, ease: 'quadIn' }
+const legacy = () => isAndroid && android.os.Build.VERSION.SDK_INT < 30
 const hidden: KeyboardState = Object.freeze({
   visible: false,
   height: 0,
@@ -109,9 +115,11 @@ function watchIOS() {
 }
 
 function watchAndroid() {
-  if (android.os.Build.VERSION.SDK_INT < 30) return undefined
   const density = Utils.layout.getDisplayDensity()
-  let observer: org.rafaelaugusto.jolt.KeyboardObserver | undefined
+  let observer:
+    | org.rafaelaugusto.jolt.KeyboardObserver
+    | org.rafaelaugusto.jolt.KeyboardFrame
+    | undefined
   let stopped = false
   const attach = () => {
     Application.off(Application.launchEvent, attach)
@@ -121,19 +129,31 @@ function watchAndroid() {
     const root = activity?.getWindow()?.getDecorView()
     if (!root) return
     try {
-      observer = new org.rafaelaugusto.jolt.KeyboardObserver(
-        root,
-        new org.rafaelaugusto.jolt.KeyboardObserver.Listener({
-          onChange: (height, duration, curve) =>
-            update(
-              height / density,
-              duration,
-              duration
-                ? { duration, ease: curve ? sampled(curve) : 'linear' }
-                : { duration: 0 },
-            ),
-        }),
-      )
+      observer = legacy()
+        ? new org.rafaelaugusto.jolt.KeyboardFrame(
+            root,
+            new org.rafaelaugusto.jolt.KeyboardFrame.Listener({
+              onChange: (height) =>
+                update(
+                  height / density,
+                  LEGACY_DURATION,
+                  height ? legacyShow : legacyHide,
+                ),
+            }),
+          )
+        : new org.rafaelaugusto.jolt.KeyboardObserver(
+            root,
+            new org.rafaelaugusto.jolt.KeyboardObserver.Listener({
+              onChange: (height, duration, curve) =>
+                update(
+                  height / density,
+                  duration,
+                  duration
+                    ? { duration, ease: curve ? sampled(curve) : 'linear' }
+                    : { duration: 0 },
+                ),
+            }),
+          )
     } catch {
       // A JS-only update cannot install the native plugin.
       return
@@ -241,7 +261,7 @@ function followIOS(view: View, offset: number) {
 }
 
 function followAndroid(view: View, offset: number) {
-  if (android.os.Build.VERSION.SDK_INT < 30) return () => {}
+  if (legacy()) return followLegacy(view, offset)
   const density = Utils.layout.getDisplayDensity()
   let disposed = false
   let follower: org.rafaelaugusto.jolt.KeyboardFollower | undefined
@@ -274,6 +294,51 @@ function followAndroid(view: View, offset: number) {
     if (follower) {
       follower.detach()
       follower = undefined
+      view.translateY = 0
+    }
+  }
+  view.on('loaded', attach)
+  view.on('unloaded', cleanup)
+  if (view.isLoaded) attach()
+  return cleanup
+}
+
+/** Android 7 to 10: no frame-by-frame progress, so the view animates with the keyboard's usual timing. */
+function followLegacy(view: View, offset: number) {
+  const density = Utils.layout.getDisplayDensity()
+  let disposed = false
+  let follower: org.rafaelaugusto.jolt.KeyboardFrameFollower | undefined
+  const attach = () => {
+    if (disposed || follower) return
+    const native = view.nativeViewProtected as android.view.View | undefined
+    if (!native) return
+    try {
+      follower = new org.rafaelaugusto.jolt.KeyboardFrameFollower(
+        native,
+        offset * density,
+        new org.rafaelaugusto.jolt.KeyboardFrameFollower.Listener({
+          onMove: (from, to, keyboard) => {
+            stop(view, ['y'])
+            view.translateY = from / density
+            animate(view, { y: to / density }, keyboard ? legacyShow : legacyHide)
+          },
+        }),
+      )
+    } catch {
+      // A JS-only update cannot install the native plugin. Leave the platform's resize in place.
+      return
+    }
+    follower.attach()
+  }
+  const cleanup = () => {
+    if (disposed) return
+    disposed = true
+    view.off('loaded', attach)
+    view.off('unloaded', cleanup)
+    if (follower) {
+      follower.detach()
+      follower = undefined
+      stop(view, ['y'])
       view.translateY = 0
     }
   }

@@ -45,7 +45,9 @@ Android 11 and later report the keyboard's progress on every frame through `Wind
 
 The app's activity needs `android:windowSoftInputMode` set, as the NativeScript template already does with `adjustResize`, for the window to receive keyboard insets. Rebuild the Android app after upgrading so the native class is included.
 
-Below Android 11 the call does nothing and returns a no-op cleanup; the platform's own resize behavior remains.
+Android 7 to 10 have no frame-by-frame progress. There, Jolt reads the keyboard from the window's visible frame on every layout. When a layout for the keyboard moves the view, Jolt puts it back where it was and animates it to its place above the keyboard, at the keyboard's usual timing: about 150 ms, decelerating as it shows and accelerating as it hides, as measured on an Android 9 emulator. That covers `adjustResize`, where the layout already lifts the view, and `adjustPan` and `adjustNothing`, where the view is translated by its overlap. The animation is a regular native Jolt animation, started once per change.
+
+<Clip name="keyboard-android-9" caption="On an Android 9 emulator, the composer rises from where the layout moved it to above the keyboard and settles back when it hides, while onKeyboard() reports 297 DIPs and the measured 150 ms. Real-time playback." />
 
 ## Keyboard state
 
@@ -70,7 +72,7 @@ const off = onKeyboard(({ visible, height, duration, transition }) => {
 
 The callback runs when the covered height changes: showing, hiding, switching to a taller keyboard. A floating or undocked iPad keyboard covers nothing and reports `visible: false`. All listeners share one observer, removed with the last cleanup.
 
-On iOS the keyboard moves on a spring that Core Animation plays critically damped in 500 ms; `transition` is that spring (`stiffness: 1000`, `mass: 3`). iOS reports keyboard changes only as they happen, so a keyboard already open when the first listener subscribes is reported at its next change. On Android 11 and later, a native callback on the window reads the keyboard's duration and samples its interpolator, so `transition` follows the same curve. A keyboard already open is known from the start. Below Android 11 nothing is reported.
+On iOS the keyboard moves on a spring that Core Animation plays critically damped in 500 ms; `transition` is that spring (`stiffness: 1000`, `mass: 3`). iOS reports keyboard changes only as they happen, so a keyboard already open when the first listener subscribes is reported at its next change. On Android 11 and later, a native callback on the window reads the keyboard's duration and samples its interpolator, so `transition` follows the same curve. A keyboard already open is known from the start. On Android 7 to 10, the height comes from the window's visible frame, `duration` is 150 and `transition` is a 150 ms `quadOut` as the keyboard shows and `quadIn` as it hides, the timing measured on an Android 9 emulator; the height includes the navigation bar below the keyboard, as it does on Android 11.
 
 In Vue, [`useKeyboard()`](./vue#keyboard) gives a ref that stays up to date until the component unmounts.
 

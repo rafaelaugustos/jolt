@@ -300,13 +300,62 @@ describe('followKeyboard on Android', () => {
     expect(Follower.instances).toHaveLength(1)
   })
 
-  it('does nothing below Android 11', () => {
+  it('below Android 11, animates from where the layout moved the view with the measured timing', () => {
     sdk = 29
+    const legacy: {
+      native: object
+      offset: number
+      listener: { onMove(from: number, to: number, keyboard: number): void }
+      attached: boolean
+    }[] = []
+    class FrameFollower {
+      attached = false
+      constructor(
+        readonly native: object,
+        readonly offset: number,
+        readonly listener: { onMove(from: number, to: number, keyboard: number): void },
+      ) {
+        legacy.push(this)
+      }
+      attach() {
+        this.attached = true
+      }
+      detach() {
+        this.attached = false
+      }
+      static Listener = class {
+        constructor(implementation: FrameFollower['listener']) {
+          return implementation
+        }
+      }
+    }
+    vi.stubGlobal('org', {
+      rafaelaugusto: {
+        jolt: { KeyboardFollower: Follower, KeyboardFrameFollower: FrameFollower },
+      },
+    })
     const view = createView()
-    const release = followKeyboard(view)
+    const release = followKeyboard(view, { offset: 4 })
     expect(Follower.instances).toHaveLength(0)
-    expect(view.listenerCount('loaded')).toBe(0)
+    const [follower] = legacy
+    expect(follower?.native).toBe(view.nativeViewProtected)
+    expect(follower?.offset).toBe(12)
+    expect(follower?.attached).toBe(true)
+
+    follower!.listener.onMove(600, -150, 900)
+    const up = driver.last('y').track
+    expect(up.values[0]).toBe(200)
+    expect(up.to).toBe(-50)
+    expect(up.duration).toBe(150)
+    expect(view.translateY).toBe(-50)
+
+    follower!.listener.onMove(-450, 0, 0)
+    expect(driver.last('y').track.values[0]).toBe(-150)
+    expect(driver.last('y').track.to).toBe(0)
+
     release()
+    expect(follower?.attached).toBe(false)
+    expect(view.translateY).toBe(0)
   })
 
   it('does nothing without the native plugin', () => {
