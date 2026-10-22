@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.1.0-beta.12 (2026-10-22)
+
+- Add motion values: `motionValue(initial)` is a number that animates natively and drives every view property bound to it with `bind(views, bindings)`. `to(input, output)` maps it like React Native's `interpolate`, to numbers or colors. `animate()`, `set()` and `stop()` take a value, interruptions carry its velocity to every bound view, and a value outlives its views. Add `useMotionValue()` and `useBinding()` to `/vue`.
+- Add layered motion on one property: `animate(view, keyframes, { layer })` plays on top of the property's other animations, translations and rotations adding and scale and opacity multiplying, and `stop(view, properties, { layer })` takes one layer away. While a property has layers they play as one composite native track. `drag()` works with layers.
+- Add `scrollValue(scrollView, { axis })` and `useScrollValue()` in `/vue`: a ScrollView's offset as a value that bindings follow. A value at rest now writes its bound properties directly, one write per property per event.
+- Add `drag(view, { axis, value })` to drive a motion value with a gesture instead of moving the view. The release plays natively on every bound view, and grabbing during a release or an `animate(value)` stops the value where it is.
+- Let a per-property transition over a tween change only what it sets, so `opacity: { times }` keeps the main duration and easing instead of falling back to 300 ms. Options passed to a preset merge the same way, so a preset with a new duration keeps its rhythm. Over a spring, a property's transition still replaces the curve.
+- Add the `quad`, `cubic`, `quart`, `quint`, `sine` and `expo` easings with `In`, `Out` and `InOut` variants, and lead the transitions guide with the 300 ms `easeOut` tween default.
+- Let a `motionStates` transition set targets apart by name, so one controller can spring one target in while another tweens in later.
+- Add the `v-gradient` directive and `motionScope().gradient()`, which removes the gradient with the scope.
+- Keep iOS linear gradient bands square to the angle on views that aren't square, matching Android and CSS.
+- Report the keyboard with `onKeyboard()` and move views with `followKeyboard()` on Android 7 to 10, from the window's visible frame and the keyboard's measured timing. Rebuild Android apps to include the new native classes.
+- Accept a `[min, max]` range in `repeatDelay` to draw a new wait before each repeat. An endless loop draws sixteen and loops them natively, and every property and view of one `animate()` call shares the draw.
+- Explain why a group that draws outside its bounds can't fade as one image on Android, and how to fade it as one by fading a larger container.
+- Record demos for motion values, layers, scroll values, drag values, easing curves, per-target transitions, gradients, the gradient directive, the Android 9 keyboard and random pauses on the iOS simulator and the Android emulators.
+
 ## 0.1.0-beta.11 (2026-10-21)
 
 - Add `gradient(view, options)` for native linear, radial and conic gradients behind a layout's children, with animated colors, stops, angle, center and radius on springs, tweens and repeats. Angles follow CSS and colors mix in OKLab. iOS uses a `CAGradientLayer` with Core Animation keyframes; Android uses a new native drawable and animator. Rebuild Android apps to include it.
