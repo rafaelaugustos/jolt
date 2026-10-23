@@ -4,6 +4,10 @@ NS_ASSUME_NONNULL_BEGIN
 + (JoltPropertySink *)mapCoordinate:(NSObject *)annotation;
 + (JoltPropertySink *)mapCamera:(NSObject *)mapView;
 + (JoltPropertySink *)scenePose:(NSObject *)node;
++ (JoltPropertySink *)sceneFieldOfView:(NSObject *)camera;
+/** Diagnostic counts for camera FOV sinks and writes; native camera targets are weak. */
++ (NSUInteger)sceneCameraSinkCount;
++ (NSUInteger)sceneCameraWriteCount;
 + (JoltPropertySink *)sceneLightIntensity:(NSObject *)light;
 + (JoltPropertySink *)sceneLightColor:(NSObject *)light;
 + (JoltPropertySink *)sceneMaterialTransparency:(NSObject *)material;

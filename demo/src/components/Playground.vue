@@ -60,6 +60,7 @@ const emit = defineEmits<{
   layoutLab: []
   playbackLab: []
   sceneLighting: []
+  sceneCamera: []
 }>()
 
 const logo = ref()
@@ -170,6 +171,7 @@ onUnmounted(() => {
         <StateTransitions />
         <Remount />
         <Button text="SceneKit lighting and materials" @tap="emit('sceneLighting')" />
+        <Button text="SceneKit camera field of view" @tap="emit('sceneCamera')" />
         <Button text="Playback, maps and 3D" @tap="emit('playbackLab')" />
         <Button text="Layout changes" @tap="emit('layoutLab')" />
         <Button text="Drag, fling and snap" @tap="emit('dragLab')" />

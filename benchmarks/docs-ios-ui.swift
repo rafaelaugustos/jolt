@@ -411,6 +411,45 @@ final class DocsTests: XCTestCase {
             tap("Confetti", wait: 2.5)
         }
     }
+    func testSceneCameraChecks() throws {
+        launch(["--scene-camera"], "Check camera")
+        tapScene("Check camera", wait: 0.1)
+        XCTAssertTrue(app.staticTexts["Camera checks passed"].waitForExistence(timeout: 90), app.debugDescription)
+    }
+    func testSceneCameraBackground() throws {
+        launch(["--scene-camera", "--camera-checks=background"], "Check camera")
+        tapScene("Check camera", wait: 0.1)
+        XCTAssertTrue(app.staticTexts["Camera background ready"].waitForExistence(timeout: 10))
+        XCUIDevice.shared.press(.home)
+        Thread.sleep(forTimeInterval: 1.5)
+        app.activate()
+        XCTAssertTrue(app.staticTexts["Camera checks passed"].waitForExistence(timeout: 20), app.debugDescription)
+    }
+    func testSceneCameraNavigation() throws {
+        launch(["--scene-camera"], "Zoom in")
+        for _ in 0..<5 {
+            tapScene("Zoom in", wait: 0.2)
+            tapScene("Leave camera", wait: 0.3)
+            XCTAssertTrue(app.staticTexts["Camera scene disposed."].exists)
+            tapScene("Enter camera", wait: 0.2)
+        }
+    }
+    func testSceneCamera() throws {
+        launch(["--scene-camera"], "Zoom in")
+        try record("scene-camera-ios") {
+            tapScene("Zoom in", wait: 3)
+            tapScene("Pause camera", wait: 0.8)
+            XCTAssertTrue(app.staticTexts["Camera, paint and light paused."].exists)
+            tapScene("Resume camera", wait: 1)
+            tapScene("Zoom out", wait: 1.8)
+            tapScene("Swap source", wait: 1.2)
+            tapScene("Seek camera", wait: 1.4)
+            tapScene("Leave camera", wait: 0.5)
+            XCTAssertTrue(app.staticTexts["Camera scene disposed."].exists)
+            tapScene("Enter camera", wait: 0.5)
+            tapScene("Zoom in", wait: 6.2)
+        }
+    }
     func testSceneAppearanceChecks() throws {
         launch(["--scene-lighting"], "Check SceneKit")
         tap("Check SceneKit", wait: 0.1)

@@ -84,6 +84,8 @@ Mappings must be pure: do not perform side effects or read changing application 
 | `mapLibreCamera`     | MapLibre `MapLibreMap`             | Coordinate, `zoom` level, `tilt`/`bearing` in degrees          | Android  |
 | `sceneKitPose`       | `SCNNode`, including a camera node | `{ position: [x,y,z], orientation: [x,y,z,w] }`                | iOS      |
 
+For perspective camera zoom, use [`sceneKitFieldOfView(camera)`](./scene-camera): an `SCNCamera` angle in 1–179 degrees, with native playback and motion-value binding. This adapter requires newer core/native builds than beta.14 and a native rebuild.
+
 The five [SceneKit appearance adapters](./scene-lighting#properties-and-units) accept `SCNLight` or `SCNMaterial`: `sceneKitLightIntensity`, `sceneKitLightColor`, `sceneKitMaterialTransparency`, `sceneKitMaterialDiffuse` and `sceneKitMaterialEmission`. All are iOS-only.
 
 The core package retains its NativeScript 8.9+ minimum; reference demos are checked with NativeScript 9.1 on iOS 26 and Android 16. MapLibre is optional and must be added to the application separately; the demo pins `org.maplibre.gl:android-sdk:11.8.0`. This is not a claim of support for every version or map plugin. SceneKit has no Android adapter. A compiled Android renderer integration can implement the same property contract.
