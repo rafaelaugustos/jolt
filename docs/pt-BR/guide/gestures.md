@@ -1,5 +1,7 @@
 # Gestos nativos e transferência para scroll
 
+Disponível desde a **0.1.0-beta.16**, no pacote principal. Recompile o app nativo após atualizar. Não exige o plugin opcional de propriedades nativas.
+
 `gestures()` compõe pan, pinch e rotação em uma `GestureSurface`, um `GridLayout` do NativeScript com processamento nativo de entrada. As saídas são somente leitura e funcionam com `bind()`, mapeamentos numéricos `to()` e `springValue()`. Reconhecimento, acompanhamento dos dedos e atualização dos bindings não exigem callbacks JavaScript a cada movimento.
 
 Importe essa API opcional de `@rafaelaugusto/jolt/gestures` e recompile o app nativo após atualizar.

@@ -17,6 +17,8 @@ Cada propriedade em andamento guarda sua curva e o instante de início. No Andro
 
 [`springValue()`](./live-springs) usa um caminho ao vivo separado: estado persistente em C/Java, um callback nativo de display compartilhado e composição nativa de mapeamentos/camadas. Ele não reconstrói animações de keyframes a cada atualização de alvo. Os callbacks compartilham a thread de UI; não isolam o movimento de JavaScript ocupado no render server. Animações de alvo fixo mantêm o caminho amostrado descrito acima.
 
+A entrada opcional [`gestures()`](./gestures) reconhece pan/pinch/rotação e coordena o ScrollView em código nativo. Os valores retidos alimentam bindings sem callback JS por movimento; callbacks solicitados e listeners existentes do Core ainda executam JavaScript. Reconhecimento e springs ao vivo compartilham a thread de UI.
+
 ## Testes
 
 Os testes rodam a engine contra um driver de plataforma falso ([`test/helpers.ts`](https://github.com/rafaelaugustos/jolt/blob/main/test/helpers.ts)) com o próprio relógio: ele registra os keyframes que tocaria e os encerra quando o relógio passa do fim. Os drivers de iOS e Android são checados pelos tipos contra as tipagens das plataformas.

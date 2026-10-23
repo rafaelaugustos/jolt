@@ -1,5 +1,7 @@
 # Native gestures and scroll handoff
 
+Available since **0.1.0-beta.16**, in the core package. Rebuild the native app after upgrading. No optional native-property plugin is needed.
+
 `gestures()` composes pan, pinch and rotation on a `GestureSurface`, a NativeScript `GridLayout` with a native input boundary. Its read-only outputs work with `bind()`, numeric `to()` mappings and `springValue()`. Recognition, pointer tracking and bound output updates do not require JavaScript callbacks for each movement.
 
 Import this optional API from `@rafaelaugusto/jolt/gestures` and rebuild the native app after upgrading.

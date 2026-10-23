@@ -7,7 +7,7 @@
 Disponível desde a **0.1.0-beta.15**. Instale versões correspondentes do core e do plugin e recompile o app nativo:
 
 ```sh
-npm install @rafaelaugusto/jolt@0.1.0-beta.15 @rafaelaugusto/jolt-native@0.1.0-beta.15
+npm install @rafaelaugusto/jolt@0.1.0-beta.16 @rafaelaugusto/jolt-native@0.1.0-beta.16
 ```
 
 O mínimo continua NativeScript 8.9 e iOS 13; a validação nativa usou Core 9.1.3, runtime 9.1.0 e simulador iOS 26.

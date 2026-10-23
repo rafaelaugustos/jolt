@@ -1,5 +1,7 @@
 # Springs that follow a moving target
 
+Available since **0.1.0-beta.16**, in the core package. Rebuild the native app after upgrading. No optional native-property plugin is needed.
+
 `springValue()` retains a native spring's position and velocity while its target changes. Retargeting updates the existing node; it does not rebuild a keyframe animation. A follower can drive another follower without a JavaScript subscription between them.
 
 ```ts

@@ -1,11 +1,14 @@
 # Changelog
 
-## Unreleased
+## 0.1.0-beta.16 (2026-10-23)
 
 - Add the optional `@rafaelaugusto/jolt/gestures` entry with `GestureSurface` and `gestures()`: simultaneous native pan/pinch/rotation, single/double-tap arbitration, axis thresholds, pointer rebasing and handoff with a descendant vertical Core ScrollView. Read-only outputs bind to views and live spring followers; native settling preserves release velocity and supports updated bounds, cancellation and scope cleanup. Include six reviewed iOS/Android recordings and English/Portuguese guides. Rebuild native apps; third-party list adapters and arbitrary external recognizer graphs are not included.
 - Preserve the layout origin of iOS views with a nonzero initial live binding when NativeScript lays out or resizes them. Add a native regression that measures their actual location.
 
 - Add `springValue()` with retained native position/velocity, follower chains, numeric mappings, transform/opacity bindings and named layers. The live path uses native display callbacks; fixed-target animations retain their existing playback path. Include scoped cleanup, rest/wake behavior, reduced motion, bounded delayed-frame integration, native checks and reviewed iOS/Android demo recordings in English/Portuguese guides. Rebuild the native app to include the new core classes.
+
+- Add a native CI gate with production JavaScript on iOS simulators and Android emulators: 11 behavior groups, 20 real-size checks and a deliberate geometry failure that must be detected.
+- Refresh the website, installation instructions and English/Portuguese guides with eight new reviewed native recordings.
 
 ## 0.1.0-beta.15 (2026-10-23)
 

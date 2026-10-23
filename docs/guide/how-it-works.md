@@ -17,6 +17,8 @@ Each running property remembers its curve and start time. On Android, interrupti
 
 [`springValue()`](./live-springs) uses a separate live path: persistent C/Java spring state, a shared native display callback, and native mappings/layer composition. It does not rebuild keyframe animations on each target update. These callbacks share the UI thread; they are not render-server isolation from busy JavaScript. Fixed-target animations keep the sampled path described above.
 
+The optional [`gestures()`](./gestures) entry recognizes pan/pinch/rotation and coordinates the ScrollView in native code. Retained outputs drive bindings without a JS callback for each movement; requested callbacks and existing Core listeners still execute JavaScript. Recognition and live springs share the UI thread.
+
 ## Tests
 
 The tests run the engine against a fake platform driver ([`test/helpers.ts`](https://github.com/rafaelaugustos/jolt/blob/main/test/helpers.ts)) with its own clock: it records the keyframes it would play and ends them when the clock passes their end. The iOS and Android drivers are type-checked against the platform typings.
