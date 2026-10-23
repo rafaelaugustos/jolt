@@ -3,6 +3,7 @@ import { press } from './press.js'
 import { drag } from './drag.js'
 import { gradient } from './gradient.js'
 import { animateLayout, type LayoutOptions } from './layout.js'
+import { animateSize, type SizeDimensions, type SizeOptions } from './size.js'
 import type { SpringName } from './transition.js'
 import { sequence, timeline } from './sequence.js'
 import {
@@ -35,6 +36,7 @@ export interface MotionScope {
   /** Owned handles/subscriptions, including suspended subscription factories. */
   readonly size: number
   animateLayout: typeof animateLayout
+  animateSize: typeof animateSize
   animate: typeof animate
   decay: typeof decay
   sequence: typeof sequence
@@ -195,6 +197,18 @@ export function motionScope(): MotionScope {
     },
     animate: ((...args: Parameters<typeof animate>) =>
       startOwned(() => animate(...args))) as typeof animate,
+    animateSize(
+      target: Target,
+      dimensions: SizeDimensions,
+      changeOrOptions?: (() => void) | SizeOptions | SpringName,
+      options?: SizeOptions | SpringName,
+    ) {
+      return startOwned(() =>
+        typeof changeOrOptions === 'function'
+          ? animateSize(target, dimensions, changeOrOptions, options)
+          : animateSize(target, dimensions, changeOrOptions),
+      )
+    },
     decay(...args) {
       return startOwned(() => decay(...args))
     },

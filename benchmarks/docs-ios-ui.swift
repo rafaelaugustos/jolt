@@ -59,6 +59,49 @@ final class DocsTests: XCTestCase {
             tap("Stop orbit", wait: 1)
         }
     }
+    func testSize() throws {
+        launch(["--size-lab"], "Expand")
+        try record("size-ios") {
+            tap("Expand", wait: 1.4)
+            tap("Width", wait: 1.4)
+            tap("Width", wait: 1.4)
+            tap("Content", wait: 1.4)
+            tap("Content", wait: 1.4)
+            tap("Collapse", wait: 1.4)
+            tap("Speed 1x", wait: 0.2)
+            tap("Expand", wait: 0.8)
+            tap("Pause", wait: 0.7)
+            let following = app.descendants(matching: .any)["Following row"].firstMatch
+            XCTAssertTrue(following.exists, app.debugDescription)
+            following.tap()
+            XCTAssertTrue(app.staticTexts["Following row tapped 1"].exists, app.debugDescription)
+            tap("Resume", wait: 0.5)
+            tap("Collapse", wait: 4.6)
+            tap("Speed 0.25x", wait: 0.2)
+            tap("Stack", wait: 0.3)
+            tap("Expand", wait: 1.4)
+            XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "Settled")).firstMatch.waitForExistence(timeout: 10), app.debugDescription)
+            following.tap()
+            XCTAssertTrue(app.staticTexts["Following row tapped 2"].exists, app.debugDescription)
+            Thread.sleep(forTimeInterval: 3)
+        }
+    }
+    func testSizeChecks() throws {
+        launch(["--size-lab"], "Run size checks")
+        tap("Run size checks", wait: 0.1)
+        XCTAssertTrue(app.staticTexts["PASS · 20 native size checks"].waitForExistence(timeout: 60), app.debugDescription)
+    }
+    func testSizeRotation() throws {
+        launch(["--size-lab"], "Expand")
+        tap("Expand", wait: 0.4)
+        XCUIDevice.shared.orientation = .landscapeLeft
+        Thread.sleep(forTimeInterval: 1.5)
+        XCUIDevice.shared.orientation = .portrait
+        Thread.sleep(forTimeInterval: 1.5)
+        XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "Settled")).firstMatch.exists, app.debugDescription)
+        tap("Collapse", wait: 1.5)
+        XCTAssertTrue(app.buttons["Expand"].isHittable)
+    }
     func testOpacityRotationFade() throws {
         launch(["--opacity-rotation", "--ghost-pattern=fade"], "Play orbit")
         try record("opacity-rotation-fade-ios") {

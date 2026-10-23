@@ -1,6 +1,6 @@
 # Motion scopes and states
 
-Use `motionScope()` to give a page, component or recycled item one owner for its animations and subscriptions. Use `motionStates()` to move several views between named, interruptible visual states. Both use the existing native animation drivers; neither adds a JavaScript frame loop.
+Use `motionScope()` to give a page, component or recycled item one owner for its animations and subscriptions. Use `motionStates()` to move several views between named, interruptible visual states. Both use the existing native animation drivers; neither adds a JavaScript frame loop. Scope ownership does not change execution: resources such as [`animateSize()`](./size) retain their documented per-frame JS layout cost.
 
 <Clip name="motion-controllers-ios" caption="Upload, error, retry and success states, scope controls and unmount/remount in the iOS simulator." />
 

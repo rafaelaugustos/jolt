@@ -1,5 +1,7 @@
 # Ainda não
 
+- [Transições reais de width/height/auto](./size) estão disponíveis para StackLayout/GridLayout, inclusive dentro de ScrollView. Executam layout em JS por frame; distribuição flex, células recicladas e shared elements ficam fora dessa API.
+
 - [Animação de layout](./layout), [drag com limites](./drag), [motion values](./motion-values), [progresso observável](./playback) e [controle conjunto de timelines](./sequences) estão disponíveis. Os contratos de execução nativa e ciclo de vida variam; consulte os guias.
 - Transições de elementos compartilhados entre telas continuam planejadas ([#24](https://github.com/rafaelaugustos/jolt/issues/24)).
 - A composição geral de gestos com vários dedos está fora de `drag()`; [photo zoom](./photo-zoom) oferece seu próprio controlador de pinch, pan e dispensa.

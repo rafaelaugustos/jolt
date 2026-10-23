@@ -14,6 +14,7 @@ import Particles from './components/Particles.vue'
 import SceneLighting from './components/SceneLighting.vue'
 import SceneCamera from './components/SceneCamera.vue'
 import OpacityRotation from './components/OpacityRotation.vue'
+import SizeLab from './components/SizeLab.vue'
 import { launchArgument, onLaunch, runLaunchTaps } from './launch'
 type Screen = 'home' | 'voice' | 'chat'
 const launched = ref(false)
@@ -29,6 +30,7 @@ const particleLab = ref(false)
 const sceneLighting = ref(false)
 const sceneCamera = ref(false)
 const opacityRotation = ref(false)
+const sizeLab = ref(false)
 const autoplay = ref(false)
 const initialScreen = ref<Screen>('home')
 const assistant = ref()
@@ -44,6 +46,7 @@ onLaunch(() => {
   sceneLighting.value = launchArgument('scene-lighting') !== undefined
   sceneCamera.value = launchArgument('scene-camera') !== undefined
   opacityRotation.value = launchArgument('opacity-rotation') !== undefined
+  sizeLab.value = launchArgument('size-lab') !== undefined
   layoutLab.value = launchArgument('layout-lab') !== undefined
   playground.value = launchArgument('playground') !== undefined
   autoplay.value = launchArgument('autoplay') !== undefined
@@ -56,6 +59,7 @@ function pageLoaded(event: EventData) {
   stopTaps = runLaunchTaps(event.object as View)
 }
 function backToPlayground() {
+  sizeLab.value = false
   imageLab.value = false
   dragLab.value = false
   dragValues.value = false
@@ -86,7 +90,8 @@ defineExpose({ assistant })
       "
       @loaded="pageLoaded"
     >
-      <OpacityRotation v-if="launched && opacityRotation" />
+      <SizeLab v-if="launched && sizeLab" @back="backToPlayground" />
+      <OpacityRotation v-else-if="launched && opacityRotation" />
       <ScrollView v-else-if="launched && sceneCamera"
         ><SceneCamera @back="backToPlayground"
       /></ScrollView>
@@ -107,6 +112,7 @@ defineExpose({ assistant })
         @dragLab="dragLab = true"
         @dragValues="dragValues = true"
         @layoutLab="layoutLab = true"
+        @sizeLab="sizeLab = true"
         @playbackLab="playbackLab = true"
         @sceneLighting="sceneLighting = true"
         @sceneCamera="sceneCamera = true"

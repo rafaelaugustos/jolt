@@ -34,6 +34,8 @@ Só os filhos diretos são acompanhados. Para mover os vizinhos de um container 
 
 ## Tamanho e conteúdo
 
+Para mudanças reais de largura/altura, tamanho intrínseco `auto` e reorganização contínua de texto, use [`animateSize()`](./size). O layout por frame e o contrato de cancelamento são diferentes desta API de FLIP.
+
 O padrão `size: 'scale'` escala das dimensões anteriores para as novas, respeitando translação, escala e origem existentes. O layout calcula o tamanho final uma vez. Texto, cantos e conteúdo ficam temporariamente esticados; isso não é uma redistribuição contínua do texto.
 
 Use `size: false` para aplicar o tamanho novo imediatamente e animar apenas as mudanças de posição:

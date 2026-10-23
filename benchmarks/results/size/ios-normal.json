@@ -1,0 +1,62 @@
+{
+  "status": "passed",
+  "platform": "iOS",
+  "os": "26.0",
+  "passed": [
+    "stack: native intermediate bounds, siblings and hit bounds",
+    "stack: fixed \u2192 auto \u2192 content-driven auto",
+    "stack: interrupted reversal and combined auto",
+    "stack: late content and font resizing retarget",
+    "stack: parent resizing retargets auto",
+    "stack: pause/resume",
+    "stack: hold, restore and external ownership",
+    "stack: scope, unload/reload and reduced motion",
+    "stack: zero and min/max",
+    "stack: bounded spring overshoot",
+    "grid: native intermediate bounds, siblings and hit bounds",
+    "grid: fixed \u2192 auto \u2192 content-driven auto",
+    "grid: interrupted reversal and combined auto",
+    "grid: late content and font resizing retarget",
+    "grid: parent resizing retargets auto",
+    "grid: pause/resume",
+    "grid: hold, restore and external ownership",
+    "grid: scope, unload/reload and reduced motion",
+    "grid: zero and min/max",
+    "grid: bounded spring overshoot"
+  ],
+  "stage": "grid: controls and ownership",
+  "samples": [
+    {
+      "kind": "stack",
+      "middle": {
+        "width": 253.33333333333334,
+        "height": 107.33333333333333
+      },
+      "native": true
+    },
+    {
+      "kind": "grid",
+      "middle": {
+        "width": 252,
+        "height": 111
+      },
+      "native": true
+    }
+  ],
+  "count": 20,
+  "rootMeasure": {
+    "calls": 2048,
+    "totalMs": 677.9079998377711,
+    "p50Ms": 0.3429999924264848,
+    "p95Ms": 0.7430000114254653,
+    "maxMs": 1.8829999607987702
+  },
+  "rootLayout": {
+    "calls": 1358,
+    "totalMs": 652.4239988066256,
+    "p50Ms": 0.3179999766871333,
+    "p95Ms": 1.3209999888204038,
+    "maxMs": 2.7760000084526837
+  },
+  "contentSizeCategory": "large"
+}

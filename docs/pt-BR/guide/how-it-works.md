@@ -13,6 +13,8 @@ Antes de tocar, os valores finais são definidos na view do NativeScript, como o
 
 Cada propriedade em andamento guarda sua curva e o instante de início. No Android, as interrupções leem o valor na tela e o tempo atual do animator, então a velocidade herdada acompanha a escala de duração das animações do sistema. A chegada antecipada dos springs usa um marcador de tempo nativo com callbacks apenas na conclusão; as demais sequências avançam na conclusão nativa. Delays, repetições e animações desativadas seguem o mesmo relógio da plataforma, sem JavaScript por frame.
 
+[`animateSize()`](./size) tem outro caminho de execução: dimensões reais e reorganização do texto exigem medição/layout do NativeScript na thread de UI em cada frame. Seu callback de frame pertence à biblioteca e executa JavaScript; não é playback no render server. `animateLayout()` continua medindo uma vez e usando tracks nativos de transform. Subscribers de motion values, eventos de scroll e ativação de callbacks de timeline também mantêm seus custos documentados de JS.
+
 ## Testes
 
 Os testes rodam a engine contra um driver de plataforma falso ([`test/helpers.ts`](https://github.com/rafaelaugustos/jolt/blob/main/test/helpers.ts)) com o próprio relógio: ele registra os keyframes que tocaria e os encerra quando o relógio passa do fim. Os drivers de iOS e Android são checados pelos tipos contra as tipagens das plataformas.

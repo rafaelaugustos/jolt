@@ -58,6 +58,7 @@ const emit = defineEmits<{
   dragLab: []
   dragValues: []
   layoutLab: []
+  sizeLab: []
   playbackLab: []
   sceneLighting: []
   sceneCamera: []
@@ -174,6 +175,7 @@ onUnmounted(() => {
         <Button text="SceneKit camera field of view" @tap="emit('sceneCamera')" />
         <Button text="Playback, maps and 3D" @tap="emit('playbackLab')" />
         <Button text="Layout changes" @tap="emit('layoutLab')" />
+        <Button text="Real dimensions" @tap="emit('sizeLab')" />
         <Button text="Drag, fling and snap" @tap="emit('dragLab')" />
         <Button text="Drag a motion value" @tap="emit('dragValues')" />
         <Button text="Image effects and photo zoom" @tap="emit('imageLab')" />

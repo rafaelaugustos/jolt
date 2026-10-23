@@ -1,0 +1,56 @@
+{
+  "date": "2026-10-23",
+  "baseCommit": "eebf569575232b7a292499eb34bdf09b482d0dce",
+  "sourceSHA256": {
+    "src/size.ts": "689355759d1f0a85ad91c15056b4e05a99fbad09b3feeb332cddea0a985b8681",
+    "src/size-layout.ts": "33fcda6de85feb274774584b92ba665c863c10863889a3a95d06ec5b6afa87bf",
+    "src/motion-scope.ts": "458f8dea0caaf86e03e8d4ee74668734378131fd6edde27916a07c28c690650a",
+    "benchmarks/size-checks.ts": "e43adac71545d57e9260eb55b4aa36ee7ada3c1ebdff4e411e06a07d2430dcf2",
+    "demo/src/components/SizeLab.vue": "f41bafac3042b19add1e1b496d3cb961182d9f37a0e82d8f02209f012d11c674"
+  },
+  "iosXCTest": {
+    "tests": ["testSize", "testSizeChecks", "testSizeRotation"],
+    "failures": 0,
+    "fontChecks": {
+      "contentSize": "extra-extra-extra-large",
+      "tests": ["testSizeChecks"],
+      "failures": 0
+    },
+    "finalRecording": {
+      "tests": ["testSize"],
+      "failures": 0,
+      "assertion": "GridLayout settles and following row responds to an OS tap before recording ends"
+    }
+  },
+  "androidSettings": [
+    "font_scale 1.0",
+    "font_scale 1.3",
+    "animator_duration_scale 1",
+    "animator_duration_scale 2",
+    "animator_duration_scale 0",
+    "rotation 0\u21921\u21920"
+  ],
+  "runtime": {
+    "core": "9.1.3",
+    "ios": "9.1.0",
+    "android": "9.1.1"
+  },
+  "recordings": {
+    "size-ios": {
+      "sha256": "5555bfd432eaf2e6730ba755f04072b00f55b4d4fc1d6cedbbeed2fc23cc441c",
+      "durationSeconds": 30.3,
+      "codec_name": "h264",
+      "width": 640,
+      "height": 1392,
+      "nb_frames": "909"
+    },
+    "size-android": {
+      "sha256": "d18b359561512415fd5355b903ed5c908864a239d3614527533687630645480f",
+      "durationSeconds": 24.733333,
+      "codec_name": "h264",
+      "width": 640,
+      "height": 1422,
+      "nb_frames": "742"
+    }
+  }
+}

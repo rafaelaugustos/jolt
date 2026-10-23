@@ -29,7 +29,7 @@ animate(rows, 'fadeInUp', { stagger: 40 })
 
 NativeScript's `view.animate()` covers the basics and stops there: one curve for every property, a `spring` curve with no settings, no keyframes, and a promise that rejects when the animation is cancelled. Anything richer ends up as platform code.
 
-Jolt computes the motion once, in JavaScript, when the animation starts, and hands it to the platform as keyframes: Core Animation on iOS, `ObjectAnimator` on Android. Those default view tracks play without per-frame JavaScript. Opt-in subscribers, gesture input and timeline step activation retain their documented [execution limits](https://jolt.rafaelaugusto.dev/guide/how-it-works). Springs follow real physics, and an animation that interrupts another one starts from where the view is, at the speed it was going.
+Jolt computes the motion once, in JavaScript, when the animation starts, and hands it to the platform as keyframes: Core Animation on iOS, `ObjectAnimator` on Android. Those default view tracks play without per-frame JavaScript. Real-size layout, opt-in subscribers, gesture input and timeline step activation retain their documented [execution limits](https://jolt.rafaelaugusto.dev/guide/how-it-works). Springs follow real physics, and an animation that interrupts another one starts from where the view is, at the speed it was going.
 
 ## Features
 
@@ -44,6 +44,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Motion scopes and states](https://jolt.rafaelaugusto.dev/guide/motion-controllers) for component cleanup and coordinated visual states, with a transition per target.
 - [Animated touch targets](https://jolt.rafaelaugusto.dev/guide/interaction-surface) with an opt-in native interaction surface.
 - [Layout changes](https://jolt.rafaelaugusto.dev/guide/layout): insertion, removal, reorder and resize of container children.
+- [Real dimensions](https://jolt.rafaelaugusto.dev/guide/size): animate width, height and auto with text reflow and moving siblings.
 - [Drag](https://jolt.rafaelaugusto.dev/guide/drag) with bounds, snap points, rubberband and native release physics, moving the view or a motion value.
 - [Decay](#decay) from a release velocity, with optional snap points.
 - [Keyframes and tweens](#tweens) with an easing per segment and exact keyframe times.
@@ -647,15 +648,17 @@ Each running property remembers its curve and start time. On Android, interrupti
 
 ## Not there yet
 
-- `animate()` supports transforms, opacity, colors, uniform corners and borders, and platform shadows. Size and layout changes ([#21](https://github.com/rafaelaugustos/jolt/issues/21)) aren't animated yet.
+- `animate()` supports transforms, opacity, colors, uniform corners and borders, and platform shadows. [`animateSize()`](https://jolt.rafaelaugusto.dev/guide/size) adds real width/height/auto transitions with per-frame JS layout; [`animateLayout()`](https://jolt.rafaelaugusto.dev/guide/layout) animates layout changes through FLIP transforms.
 - Gesture composition and nested-scroll handoff remain separate work ([#51](https://github.com/rafaelaugustos/jolt/issues/51)).
-- No layout or shared element transitions ([#21](https://github.com/rafaelaugustos/jolt/issues/21), [#24](https://github.com/rafaelaugustos/jolt/issues/24)).
+- Shared-element navigation remains planned ([#24](https://github.com/rafaelaugustos/jolt/issues/24)).
 
 ## API
 
 **Animating**: `animate(target, keyframes | preset, transition?)`, `decay(target, velocity, options?)`, `stop(target, properties?)`, `sequence(steps)`, `press(target, pressed?, transition?)`, `drag(target, options?)`, `symbolEffect(image, effect, options?)`, `shimmer(target, options?)`, `liquid(image, options?)`, `loader(target, options?)`, `reveal(target, options?)`, `conceal(target, options?)`, `confetti(target, options?)`, `particles(target, options?)`.
 
 `animateLayout(container, change?, options?)` animates the next layout of direct children; `motionScope().animateLayout()` owns it through component lifecycle. Cancellation settles temporary offsets into the final layout.
+
+`animateSize(view, dimensions, change?, options?)` animates actual width/height/auto in StackLayout/GridLayout, including inside ScrollView. Its `SizeAnimation` supports pause/resume, stop and restoring the original declarations. It runs JS measurement/layout each frame. `motionScope().animateSize()` owns its lifecycle. See the [guide and native videos](https://jolt.rafaelaugusto.dev/guide/size).
 
 `interactionSurface(target)` opts a view/subtree into native touch geometry during animation; returns `{ disposed, dispose() }`. Register before playback; rebuild iOS after upgrading.
 
