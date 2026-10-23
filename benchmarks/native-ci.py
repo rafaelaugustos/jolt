@@ -86,7 +86,7 @@ def main():
     parser.add_argument("--device", required=True, help="Explicit simulator UUID or adb serial")
     parser.add_argument("--app", type=pathlib.Path)
     parser.add_argument("--output", type=pathlib.Path, default=ROOT / "benchmarks/native-app/results")
-    parser.add_argument("--boot-timeout", type=int, default=180, help="Remaining iOS boot wait in seconds; CI starts boot before building")
+    parser.add_argument("--boot-timeout", type=int, default=180, help="iOS simulator boot readiness timeout in seconds")
     args = parser.parse_args()
     if args.boot_timeout <= 0:
         parser.error("--boot-timeout must be positive")
