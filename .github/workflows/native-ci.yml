@@ -54,8 +54,8 @@ jobs:
           cache-dependency-path: |
             package-lock.json
             benchmarks/native-app/package-lock.json
-      - run: npm ci && npm run build && npm run benchmark:typecheck
-      - run: python3 -m unittest discover -s benchmarks -p 'test_native_ci*.py'
+      # Typechecks and host tests run once in CI; device jobs only build and probe.
+      - run: npm ci && npm run build
       - run: npm ci && npm run prepare:resources
         working-directory: benchmarks/native-app
       - name: Build production JavaScript for iOS Simulator
@@ -93,7 +93,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v5
         with:
           cache-read-only: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork }}
-      - run: npm ci && npm run build && npm run benchmark:typecheck
+      - run: npm ci && npm run build
       - run: npm ci && npm run prepare:resources
         working-directory: benchmarks/native-app
       - name: Install compile SDK and emulator tools
