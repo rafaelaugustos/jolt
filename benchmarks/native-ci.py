@@ -22,8 +22,8 @@ CHECKS = [
 ]
 
 
-def command(*args, required=True):
-    result = subprocess.run(args, text=True, capture_output=True, timeout=60)
+def command(*args, required=True, timeout=60):
+    result = subprocess.run(args, text=True, capture_output=True, timeout=timeout)
     if required and result.returncode:
         raise RuntimeError(f"{args}: {result.stdout}\n{result.stderr}")
     return result.stdout
@@ -75,7 +75,8 @@ def main():
         args.app = candidates[0]
     if ios:
         command("xcrun", "simctl", "boot", device, required=False)
-        command("xcrun", "simctl", "bootstatus", device, "-b")
+        print(f"Waiting for simulator {device} to finish its first boot", flush=True)
+        command("xcrun", "simctl", "bootstatus", device, "-b", timeout=300)
         command("xcrun", "simctl", "install", device, str(args.app))
         container = pathlib.Path(command("xcrun", "simctl", "get_app_container", device, APP_ID, "data").strip())
 
