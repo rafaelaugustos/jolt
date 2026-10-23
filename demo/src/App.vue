@@ -17,6 +17,7 @@ import OpacityRotation from './components/OpacityRotation.vue'
 import SizeLab from './components/SizeLab.vue'
 import LiveSprings from './components/LiveSprings.vue'
 import GestureLab from './components/GestureLab.vue'
+import BottomSheetLab from './components/BottomSheetLab.vue'
 import { launchArgument, onLaunch, runLaunchTaps } from './launch'
 type Screen = 'home' | 'voice' | 'chat'
 const launched = ref(false)
@@ -35,6 +36,7 @@ const opacityRotation = ref(false)
 const sizeLab = ref(false)
 const liveSprings = ref(false)
 const gestureLab = ref(false)
+const bottomSheetLab = ref(false)
 const autoplay = ref(false)
 const initialScreen = ref<Screen>('home')
 const assistant = ref()
@@ -53,6 +55,7 @@ onLaunch(() => {
   sizeLab.value = launchArgument('size-lab') !== undefined
   liveSprings.value = launchArgument('live-springs') !== undefined
   gestureLab.value = launchArgument('gesture-lab') !== undefined
+  bottomSheetLab.value = launchArgument('bottom-sheet') !== undefined
   layoutLab.value = launchArgument('layout-lab') !== undefined
   playground.value = launchArgument('playground') !== undefined
   autoplay.value = launchArgument('autoplay') !== undefined
@@ -68,6 +71,7 @@ function backToPlayground() {
   sizeLab.value = false
   liveSprings.value = false
   gestureLab.value = false
+  bottomSheetLab.value = false
   imageLab.value = false
   dragLab.value = false
   dragValues.value = false
@@ -98,7 +102,8 @@ defineExpose({ assistant })
       "
       @loaded="pageLoaded"
     >
-      <GestureLab v-if="launched && gestureLab" @back="backToPlayground" />
+      <BottomSheetLab v-if="launched && bottomSheetLab" @back="backToPlayground" />
+      <GestureLab v-else-if="launched && gestureLab" @back="backToPlayground" />
       <LiveSprings v-else-if="launched && liveSprings" @back="backToPlayground" />
       <SizeLab v-else-if="launched && sizeLab" @back="backToPlayground" />
       <OpacityRotation v-else-if="launched && opacityRotation" />
@@ -125,6 +130,7 @@ defineExpose({ assistant })
         @sizeLab="sizeLab = true"
         @liveSprings="liveSprings = true"
         @gestureLab="gestureLab = true"
+        @bottomSheetLab="bottomSheetLab = true"
         @playbackLab="playbackLab = true"
         @sceneLighting="sceneLighting = true"
         @sceneCamera="sceneCamera = true"

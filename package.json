@@ -41,6 +41,10 @@
     "./native": {
       "types": "./dist/native/index.d.ts",
       "default": "./dist/native/index.js"
+    },
+    "./bottom-sheet": {
+      "types": "./dist/bottom-sheet/index.d.ts",
+      "default": "./dist/bottom-sheet/index.js"
     }
   },
   "files": [

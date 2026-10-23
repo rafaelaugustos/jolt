@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add the optional `@rafaelaugusto/jolt/bottom-sheet` in-page recipe: native drag/scroll handoff, content and percentage snaps, spring interruption, keyboard following, backdrop/back dismissal, accessibility actions and lifecycle cleanup. Include real iOS/Android recordings and English/Portuguese guides. Native contact callbacks require rebuilding the app; this entry is not in beta.16.
+
 ## 0.1.0-beta.16 (2026-10-23)
 
 - Add the optional `@rafaelaugusto/jolt/gestures` entry with `GestureSurface` and `gestures()`: simultaneous native pan/pinch/rotation, single/double-tap arbitration, axis thresholds, pointer rebasing and handoff with a descendant vertical Core ScrollView. Read-only outputs bind to views and live spring followers; native settling preserves release velocity and supports updated bounds, cancellation and scope cleanup. Include six reviewed iOS/Android recordings and English/Portuguese guides. Rebuild native apps; third-party list adapters and arbitrary external recognizer graphs are not included.

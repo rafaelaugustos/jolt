@@ -36,3 +36,19 @@ NSString *JoltGestureTrace(CGPoint center) {
     NSError *error = nil;
     return [record synthesizeWithError:&error] ? nil : error.localizedDescription ?: @"XCTest event synthesis failed";
 }
+
+// A fast release followed by a stationary contact before the spring can settle.
+NSString *JoltSheetInterrupt(CGPoint handle) {
+    Class pathClass = NSClassFromString(@"XCPointerEventPath"), recordClass = NSClassFromString(@"XCSynthesizedEventRecord");
+    if (!pathClass || !recordClass) return @"XCTest pointer-path interfaces are unavailable";
+    id first = [[pathClass alloc] initForTouchAtPoint:handle offset:0];
+    for (int i = 1; i <= 6; i++)
+        [first moveToPoint:CGPointMake(handle.x, handle.y - i * 16) atOffset:i * .02];
+    [first liftUpAtOffset:.13];
+    id second = [[pathClass alloc] initForTouchAtPoint:handle offset:.17];
+    [second liftUpAtOffset:.75];
+    id record = [[recordClass alloc] initWithName:@"Jolt sheet fling interrupted by stationary touch" interfaceOrientation:UIInterfaceOrientationPortrait];
+    [record addPointerEventPath:first]; [record addPointerEventPath:second];
+    NSError *error = nil;
+    return [record synthesizeWithError:&error] ? nil : error.localizedDescription ?: @"XCTest event synthesis failed";
+}

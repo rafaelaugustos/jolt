@@ -11,6 +11,7 @@ export interface GestureSettings {
   rotate: boolean
   tap: boolean
   doubleTap: boolean
+  contactEvents: boolean
   minX: number
   maxX: number
   minY: number
@@ -43,6 +44,13 @@ export function createGestureDriver(
   if (isIOS) {
     if (typeof JoltGestureSession === 'undefined')
       throw new Error('Rebuild the native app to use gestures().')
+    if (
+      options.contactEvents &&
+      typeof JoltGestureSession.supportsContactEvents !== 'function'
+    )
+      throw new Error(
+        'Rebuild the native app to use gesture contact events and bottomSheet().',
+      )
     const [x, y, scale, rotation] = nodes as [
       JoltLiveSpring,
       JoltLiveSpring,
@@ -91,6 +99,13 @@ export function createGestureDriver(
       },
     }
   }
+  if (
+    options.contactEvents &&
+    typeof org.rafaelaugusto.jolt.GestureSession.supportsContactEvents !== 'function'
+  )
+    throw new Error(
+      'Rebuild the native app to use gesture contact events and bottomSheet().',
+    )
   const [x, y, scale, rotation] = nodes as [
     org.rafaelaugusto.jolt.LiveSpring,
     org.rafaelaugusto.jolt.LiveSpring,

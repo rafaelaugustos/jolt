@@ -53,6 +53,10 @@ export interface GesturesOptions {
   spring?: Pick<SpringValueOptions, 'stiffness' | 'damping' | 'mass'>
   /** A descendant, vertical NativeScript ScrollView. Other list plugins are not supported. */
   scrollView?: ScrollView
+  /** First contact, before pan recognition; useful when a touch interrupts a spring. */
+  onContactStart?: (event: GestureEvent) => void
+  /** Last contact released or cancelled, including a touch that never becomes a pan. */
+  onContactEnd?: (event: GestureEvent) => void
   onStart?: (event: GestureEvent) => void
   onEnd?: (event: GestureEvent) => void
   onCancel?: (event: GestureEvent) => void
@@ -106,7 +110,15 @@ function settings(options: GesturesOptions): GestureSettings {
       throw new TypeError(`Gesture ${key} must be boolean or an options object.`)
   if (options.rotate !== undefined && typeof options.rotate !== 'boolean')
     throw new TypeError('Gesture rotate must be boolean.')
-  for (const key of ['onStart', 'onEnd', 'onCancel', 'onTap', 'onDoubleTap'] as const)
+  for (const key of [
+    'onStart',
+    'onEnd',
+    'onCancel',
+    'onTap',
+    'onDoubleTap',
+    'onContactStart',
+    'onContactEnd',
+  ] as const)
     if (options[key] !== undefined && typeof options[key] !== 'function')
       throw new TypeError(`Gesture ${key} must be a function.`)
   const pan = typeof options.pan === 'object' ? options.pan : {}
@@ -123,6 +135,7 @@ function settings(options: GesturesOptions): GestureSettings {
     rotate: !!options.rotate,
     tap: !!options.onTap,
     doubleTap: !!options.onDoubleTap,
+    contactEvents: !!(options.onContactStart || options.onContactEnd),
     minScale: pinch.min ?? 0.25,
     maxScale: pinch.max ?? 4,
   }
@@ -201,6 +214,8 @@ export function gestures(
       options.onCancel,
       options.onTap,
       options.onDoubleTap,
+      options.onContactStart,
+      options.onContactEnd,
     ][state]
     try {
       handler?.(event)

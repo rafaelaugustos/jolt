@@ -25,7 +25,7 @@ static double clamp(double value, double minimum, double maximum) { return MAX(m
 @property(nonatomic) JoltLiveSpring *x, *y, *scale, *rotation;
 @property(nonatomic) double minX, maxX, minY, maxY, minScale, maxScale, velocityX, velocityY, scrollPosition;
 @property(nonatomic, readwrite) BOOL active;
-@property(nonatomic) BOOL enabled, disposed, contact, fromScroll, adjusting, ending;
+@property(nonatomic) BOOL enabled, disposed, contactEvents, contact, fromScroll, adjusting, ending;
 @property(nonatomic, copy) void (^onState)(NSInteger, double, double);
 - (void)touchStarted:(UITouch *)touch;
 - (void)finish:(BOOL)cancelled;
@@ -77,6 +77,7 @@ static double clamp(double value, double minimum, double maximum) { return MAX(m
 @end
 
 @implementation JoltGestureSession
++ (BOOL)supportsContactEvents { return YES; }
 + (instancetype)attach:(UIView *)surface scroll:(UIScrollView *)scroll x:(JoltLiveSpring *)x y:(JoltLiveSpring *)y scale:(JoltLiveSpring *)scale rotation:(JoltLiveSpring *)rotation options:(NSString *)options onState:(void (^)(NSInteger,double,double))onState {
     NSDictionary *config = [NSJSONSerialization JSONObjectWithData:[options dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
     JoltGestureSession *s = [self new]; s.surface = surface; s.scroll = scroll; s.x = x; s.y = y; s.scale = scale; s.rotation = rotation;
@@ -91,6 +92,7 @@ static double clamp(double value, double minimum, double maximum) { return MAX(m
     [s.tap requireGestureRecognizerToFail:s.doubleTap];
     for (UIGestureRecognizer *g in @[s.pan, s.pinch, s.rotate, s.tap, s.doubleTap]) { g.delegate = s; [surface addGestureRecognizer:g]; }
     s.pinch.enabled = [config[@"pinch"] boolValue]; s.rotate.enabled = [config[@"rotate"] boolValue];
+    s.contactEvents = [config[@"contactEvents"] boolValue];
     s.tap.enabled = [config[@"tap"] boolValue]; s.doubleTap.enabled = [config[@"doubleTap"] boolValue];
     // NativeScript's scroll delegate is forwarded, never replaced with a JS per-frame bridge.
     if (scroll) { s.previousDelegate = scroll.delegate; scroll.delegate = s; }
@@ -116,6 +118,7 @@ static double clamp(double value, double minimum, double maximum) { return MAX(m
     self.scrollPosition = MAX(-self.scroll.adjustedContentInset.top, self.scroll.contentOffset.y);
     self.velocityX = self.velocityY = 0;
     for (JoltLiveSpring *node in @[self.x, self.y, self.scale, self.rotation]) [node releaseInput:node.position velocity:0];
+    if (self.contactEvents) [self emit:6];
 }
 - (void)emit:(NSInteger)state { if (!self.disposed && self.onState) self.onState(state, self.velocityX, self.velocityY); }
 - (void)begin {
@@ -178,12 +181,14 @@ static double clamp(double value, double minimum, double maximum) { return MAX(m
     if ([self.previousDelegate respondsToSelector:_cmd]) [self.previousDelegate scrollViewWillEndDragging:scroll withVelocity:velocity targetContentOffset:target];
 }
 - (void)finish:(BOOL)cancelled {
+    BOOL hadContact = self.contact;
     self.contact = NO;
-    if (!self.active) return;
+    if (!self.active) { if (hadContact && self.contactEvents) [self emit:7]; return; }
     self.active = NO;
     for (JoltLiveSpring *node in @[self.x, self.y, self.scale, self.rotation]) [node releaseInput:node.position velocity:0];
     self.ending = !cancelled;
     @try { [self emit:cancelled ? 3 : 2]; } @finally { self.ending = NO; }
+    if (hadContact && self.contactEvents) [self emit:7];
 }
 - (void)cancel {
     if (self.active) [self finish:YES];

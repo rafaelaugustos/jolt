@@ -4,6 +4,7 @@
 NS_ASSUME_NONNULL_BEGIN
 @interface JoltGestureSession : NSObject
 @property(nonatomic, readonly) BOOL active;
++ (BOOL)supportsContactEvents;
 + (instancetype)attach:(UIView *)surface scroll:(nullable UIScrollView *)scroll
                      x:(JoltLiveSpring *)x y:(JoltLiveSpring *)y scale:(JoltLiveSpring *)scale rotation:(JoltLiveSpring *)rotation
                options:(NSString *)options onState:(void (^)(NSInteger, double, double))onState;
