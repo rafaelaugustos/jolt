@@ -6,3 +6,7 @@ demo/hooks
 package-lock.json
 docs/.vitepress/cache
 docs/.vitepress/dist
+benchmarks/native-app/App_Resources
+benchmarks/native-app/platforms
+benchmarks/native-app/hooks
+benchmarks/native-app/results
