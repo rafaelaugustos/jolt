@@ -47,7 +47,7 @@ jobs:
       - run: npm ci && npm run prepare:resources
         working-directory: benchmarks/native-app
       - name: Build production JavaScript for iOS Simulator
-        timeout-minutes: 5
+        timeout-minutes: 6
         run: npx ns build ios --env.production --no-hmr --for-device false --release
         working-directory: benchmarks/native-app
       - name: Start the iOS simulator
