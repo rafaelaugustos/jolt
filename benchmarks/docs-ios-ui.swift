@@ -41,6 +41,45 @@ final class DocsTests: XCTestCase {
         start.press(forDuration: 0.15, thenDragTo: start.withOffset(CGVector(dx: x, dy: y)), withVelocity: .slow, thenHoldForDuration: 0.15)
         Thread.sleep(forTimeInterval: 0.8)
     }
+    func testOpacityRotation() throws {
+        launch(["--opacity-rotation"], "Play orbit")
+        try record("opacity-rotation-svg-parent-ios") {
+            tap("Play orbit", wait: 12)
+            tap("Stop orbit", wait: 1)
+        }
+        tap("Fade child")
+        try record("opacity-rotation-svg-child-ios") {
+            tap("Play orbit", wait: 8)
+            tap("Stop orbit", wait: 1)
+        }
+        tap("Use plain views")
+        tap("Fade container")
+        try record("opacity-rotation-plain-parent-ios") {
+            tap("Play orbit", wait: 8)
+            tap("Stop orbit", wait: 1)
+        }
+    }
+    func testOpacityRotationFade() throws {
+        launch(["--opacity-rotation", "--ghost-pattern=fade"], "Play orbit")
+        try record("opacity-rotation-fade-ios") {
+            for _ in 0..<5 { tap("Play orbit", wait: 1.4) }
+            tap("Stop orbit")
+        }
+    }
+    func testOpacityRotationSplash() throws {
+        launch(["--opacity-rotation"], "Replay splash")
+        try record("opacity-rotation-splash-ios") {
+            for _ in 0..<10 { tap("Replay splash", wait: 1) }
+            tap("Stop orbit")
+        }
+    }
+    func testOpacityRotationSlow() throws {
+        launch(["--opacity-rotation"], "Slow motion")
+        try record("opacity-rotation-slow-ios") {
+            tap("Slow motion", wait: 10)
+            tap("Stop orbit")
+        }
+    }
     func testControlledBackground() throws {
         launch(["--playback-lab=timeline"], "Play scene")
         tap("Play scene", wait: 1)

@@ -1,0 +1,38 @@
+{
+  "os": "26.0",
+  "model": "iPhone",
+  "observations": [
+    {
+      "svg": true,
+      "childFade": false,
+      "pattern": "pulse",
+      "timeScale": 0.2,
+      "layers": [
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:rotate\",\n    \"jolt:opacity\"\n)"
+        },
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:rotate\",\n    \"jolt:opacity\"\n)"
+        },
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:rotate\",\n    \"jolt:opacity\"\n)"
+        },
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:opacity\",\n    \"jolt:rotate\"\n)"
+        }
+      ]
+    }
+  ]
+}

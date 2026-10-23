@@ -43,6 +43,14 @@ Animar `badge` esmaece o brilho e o ponto juntos, no Android e no iOS.
 
 <Clip name="fade-overflow-android" caption="Um halo maior que o container mantém a forma enquanto o container some e volta, no emulador Android." />
 
+## Investigando opacidade com rotação no iOS
+
+A [issue #134](https://github.com/rafaelaugustos/jolt/issues/134) acompanha um relato de cópias de uma imagem vizinha quando um contêiner muda de opacidade e gira enquanto seu filho desenha fora dos limites. O demo inclui uma cena de reprodução com SVG e controles para aplicar o fade no contêiner ou no filho, usar views comuns, câmera lenta e repetir o splash.
+
+<Clip name="opacity-rotation-ios" caption="Cena de investigação no simulador iPhone 17, iOS 26.0, em velocidade normal: os SVGs ultrapassam quatro contêineres que giram e mudam de opacidade. A imagem azul vizinha permanece parada. As cópias fantasmas não apareceram nesta gravação; ela não comprova uma correção nem validação em aparelho físico." />
+
+Veja os [passos de reprodução e as evidências](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/ios-opacity-rotation.md). A issue continua aberta até termos um caso que reproduza o defeito. O driver iOS do Jolt não foi alterado para forçar rasterização ou desativar a opacidade de grupo por causa deste relato.
+
 ## Perspectiva 3D
 
 `rotateX`, `rotateY`, `flipInX` e `flipInY` usam a `perspective` da view nas duas plataformas. O padrão do NativeScript é 1000 DIPs; uma distância positiva menor dá uma perspectiva mais forte:

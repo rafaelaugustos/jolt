@@ -1,0 +1,62 @@
+[
+  {
+    "file": "opacity-rotation-fade-ios.mov",
+    "frames": 659,
+    "markerBounds": [483, 859, 759, 1135],
+    "maxOutsidePixels": 2,
+    "bluePixelsRange": [45928, 48062],
+    "anomalousFrames": [],
+    "duration": 11.458333,
+    "sha256": "766c20aa46da991284b9b122fd0ed258ea644cc469d86507d0b59072ec217d0b"
+  },
+  {
+    "file": "opacity-rotation-plain-parent-ios.mov",
+    "frames": 566,
+    "markerBounds": [483, 859, 759, 1135],
+    "maxOutsidePixels": 0,
+    "bluePixelsRange": [35224, 48062],
+    "anomalousFrames": [],
+    "duration": 10.038333,
+    "sha256": "29ecc3cb53e88c120fde4d0e3848fd3b2ffe28982a294a42910a6ca670670b2b"
+  },
+  {
+    "file": "opacity-rotation-slow-ios.mov",
+    "frames": 689,
+    "markerBounds": [483, 859, 759, 1135],
+    "maxOutsidePixels": 0,
+    "bluePixelsRange": [46088, 48062],
+    "anomalousFrames": [],
+    "duration": 12.023333,
+    "sha256": "e6b88bb920b83c02c3cb4974603a819d529b005a7a7422d8b74918b2342dec1f"
+  },
+  {
+    "file": "opacity-rotation-splash-ios.mov",
+    "frames": 762,
+    "markerBounds": [483, 859, 759, 1135],
+    "maxOutsidePixels": 2,
+    "bluePixelsRange": [46440, 48062],
+    "anomalousFrames": [],
+    "duration": 17.57,
+    "sha256": "45ec7dd9f775d21310945bac8e9800799fe608794a87f6f34926997e2c11f0a8"
+  },
+  {
+    "file": "opacity-rotation-svg-child-ios.mov",
+    "frames": 565,
+    "markerBounds": [483, 859, 759, 1135],
+    "maxOutsidePixels": 0,
+    "bluePixelsRange": [46132, 48062],
+    "anomalousFrames": [],
+    "duration": 9.988333,
+    "sha256": "bb1aac956af87f851c6e1eb68bd60b131b7781f8ab49f4a5ffb2e24437efe5fa"
+  },
+  {
+    "file": "opacity-rotation-svg-parent-ios.mov",
+    "frames": 808,
+    "markerBounds": [483, 859, 759, 1135],
+    "maxOutsidePixels": 0,
+    "bluePixelsRange": [46104, 48062],
+    "anomalousFrames": [],
+    "duration": 14.066667,
+    "sha256": "15896fef09a21e3803652065b2f346523166940789fe4df9a704694e2b4c4ea0"
+  }
+]
