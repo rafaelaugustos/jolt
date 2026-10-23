@@ -29,7 +29,8 @@ jobs:
   ios:
     needs: changes
     if: ${{ !cancelled() && needs.changes.outputs.native != 'false' }}
-    runs-on: macos-26
+    # The standard Intel runner has 14 GB RAM for concurrent simulator/build work.
+    runs-on: macos-26-intel
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
