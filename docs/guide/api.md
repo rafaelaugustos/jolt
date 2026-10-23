@@ -9,6 +9,7 @@
 - [`motionScope()`](./motion-controllers) — own animation handles, subscriptions and component lifecycle.
 - [`motionStates(targets, definitions, options?)`](./motion-controllers#named-visual-states) — coordinated, interruptible named visual states; [`attach()` and `ref()`](./motion-controllers#views-that-come-back) keep them on views that are recreated, and a transition can [set targets apart](./motion-controllers#a-transition-per-target).
 - [`motionValue(initial)`, `bind(target, bindings)`](./motion-values) — one value driving several properties and views; `animate()`, `set()` and `stop()` take a value too. [`scrollValue(scrollView, { axis? })`](./motion-values#scroll-offsets) is a scroll offset as a value.
+- [`springValue(source, options?)`](./live-springs) — retained native followers with position/velocity continuity, native chains, numeric mappings and transform/opacity layers. Dispose the subscription with its owning scope.
 - [`value.subscribe(listener, { immediate? })`](./motion-values#observing-outside-views) — observe numbers, derived colors and scroll values in JavaScript; returns unsubscribe.
 - [`animate(value, target, { layer })`, `stop(value, { layer })`](./motion-values#layers-on-a-value) — additive scalar layers before mappings.
 - [`decay(target, velocity, options?)`](./decay)

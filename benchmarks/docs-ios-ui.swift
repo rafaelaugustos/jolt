@@ -86,6 +86,26 @@ final class DocsTests: XCTestCase {
             Thread.sleep(forTimeInterval: 3)
         }
     }
+    func testLiveSprings() throws {
+        launch(["--live-springs"], "Target right")
+        try record("live-springs-ios") {
+            tap("Target right", wait: 0.25)
+            tap("Target left", wait: 1.2)
+            let lanes = app.descendants(matching: .any)["Spring lanes"].firstMatch
+            XCTAssertTrue(lanes.exists, app.debugDescription)
+            let left = lanes.coordinate(withNormalizedOffset: CGVector(dx: 0.12, dy: 0.12))
+            let right = lanes.coordinate(withNormalizedOffset: CGVector(dx: 0.85, dy: 0.12))
+            left.press(forDuration: 0.1, thenDragTo: right, withVelocity: .slow, thenHoldForDuration: 0.1)
+            right.press(forDuration: 0.1, thenDragTo: left, withVelocity: .fast, thenHoldForDuration: 0.1)
+            tap("Target right", wait: 0.2)
+            tap("Shake follower", wait: 1.5)
+            tap("Toggle reduced motion", wait: 0.2)
+            tap("Target left", wait: 0.7)
+            tap("Target right", wait: 0.7)
+            tap("Toggle reduced motion", wait: 0.2)
+            tap("Target left", wait: 2)
+        }
+    }
     func testSizeChecks() throws {
         launch(["--size-lab"], "Run size checks")
         tap("Run size checks", wait: 0.1)

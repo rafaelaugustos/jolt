@@ -22,6 +22,7 @@ import {
   type PlaybackAnimation,
 } from '@rafaelaugusto/jolt'
 import { runSizeChecks } from './size-checks'
+import { runLiveSpringChecks } from './live-spring-checks'
 
 declare const __NATIVE_CI_BUILD__: Record<string, unknown>
 const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms))
@@ -227,6 +228,11 @@ async function run(view: Label, other: Label, host: StackLayout, status: Label) 
   await wait(120)
   near('reduced x', read(view, 'x'), 100, 2)
   configure({ reducedMotion: 'never' })
+  pass()
+
+  await reset()
+  stage = 'live native spring followers and layers'
+  samples.push(...(await runLiveSpringChecks(view, other)))
   pass()
 
   stage = 'real dimensions in StackLayout and GridLayout'

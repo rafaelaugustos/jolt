@@ -1,4 +1,5 @@
 import { iosPlayback } from './ios-playback.js'
+import { syncLiveSprings } from '../live-spring-driver.js'
 import { isDecorationProperty } from '../decoration.js'
 import {
   playIOSDecoration,
@@ -197,6 +198,7 @@ export function createIOSDriver(): Driver {
           view.nativeViewProtected,
           excluding ? (keyPaths[excluding as NumericProperty] ?? null) : null,
         )
+      syncLiveSprings(view)
     },
 
     presented(view, property) {

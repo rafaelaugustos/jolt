@@ -1,5 +1,7 @@
 # Motion values
 
+For a retained spring that follows a changing value, see [`springValue()`](./live-springs).
+
 A motion value is a number that animates natively and drives every view property bound to it. One value can move a sheet, darken a backdrop and shrink the page behind it, all on one native clock:
 
 ```ts

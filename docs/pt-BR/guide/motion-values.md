@@ -1,5 +1,7 @@
 # Valores de movimento
 
+Para um spring persistente que segue um valor variável, veja [`springValue()`](./live-springs).
+
 Um valor de movimento é um número que anima nativamente e controla toda propriedade de view ligada a ele. Um único valor pode mover um sheet, escurecer o fundo e encolher a página por trás, tudo no mesmo relógio nativo:
 
 ```ts

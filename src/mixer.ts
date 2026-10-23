@@ -2,6 +2,7 @@ import type { View } from '@nativescript/core'
 import { getDriver } from './driver/index.js'
 import { readValue, writeValue, type Property } from './properties.js'
 import type { Track } from './track.js'
+import type { LiveInput } from './live-spring-driver.js'
 
 /** The channel of regular animations; layers are named next to it. */
 export const BASE = ''
@@ -67,6 +68,7 @@ export function mixFor(view: View, property: Property): Mix {
 
 /** One property of one view: a base and named layers, played natively as one composite track. */
 export class Mix {
+  private live: { read(): number; layers(inputs: readonly LiveInput[]): void } | undefined
   private readonly rests = new Map<string, number>()
   private readonly channels = new Map<string, Channel>()
   private native: unknown
@@ -80,10 +82,25 @@ export class Mix {
   }
 
   rest(key: string): number {
+    if (key === BASE && this.live) return this.live.read()
     return (
       this.rests.get(key) ??
       (key === BASE ? readValue(this.view, this.property) : identity(this.property))
     )
+  }
+
+  attachLive(base: {
+    read(): number
+    layers(inputs: readonly LiveInput[]): void
+  }): () => void {
+    this.live = base
+    this.compose()
+    return () => {
+      if (this.live !== base) return
+      this.rests.set(BASE, base.read())
+      this.live = undefined
+      this.compose()
+    }
   }
 
   setRest(key: string, value: number) {
@@ -192,6 +209,31 @@ export class Mix {
     const previous = this.native
     this.native = undefined
 
+    if (this.live) {
+      if (previous !== undefined) driver.stop(this.view, previous)
+      const layers: LiveInput[] = []
+      for (const key of new Set([...this.rests.keys(), ...this.channels.keys()])) {
+        if (key === BASE) continue
+        const channel = this.channels.get(key)
+        const value = this.part(key, now, now)
+        const track = channel?.track
+        layers.push({
+          value,
+          running: !!channel && !channel.paused,
+          elapsed: this.elapsed(key, now),
+          duration: track?.duration ?? 0,
+          delay: track?.delay ?? 0,
+          repeat: track ? (Number.isFinite(track.repeat) ? track.repeat : -1) : 0,
+          reverse: track?.reverse ?? false,
+          to: track?.to ?? value,
+          times: track?.times ?? [],
+          values: track?.values ?? [],
+        })
+      }
+      this.live.layers(layers)
+      return
+    }
+
     let finite = 0
     const periods: number[] = []
     for (const [key, channel] of this.channels) {
@@ -245,7 +287,7 @@ export class Mix {
   }
 
   private dissolve() {
-    if (this.channels.size) return
+    if (this.live || this.channels.size) return
     for (const [key, value] of this.rests)
       if (key !== BASE && value !== identity(this.property)) return
     const properties = mixes.get(this.view)

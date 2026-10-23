@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add `springValue()` with retained native position/velocity, follower chains, numeric mappings, transform/opacity bindings and named layers. The live path uses native display callbacks; fixed-target animations retain their existing playback path. Include scoped cleanup, rest/wake behavior, reduced motion, bounded delayed-frame integration, native checks and reviewed iOS/Android demo recordings in English/Portuguese guides. Rebuild the native app to include the new core classes.
+
 ## 0.1.0-beta.15 (2026-10-23)
 
 - Add `animateSize()` for real width, height and intrinsic `auto` transitions in StackLayout/GridLayout, including inside ScrollView. Text reflows and neighboring controls follow the actual bounds. Support combined axes, content changes, interrupted retargeting, pause/resume, hold/restore cancellation, motion scopes and Reduced Motion. This API performs JavaScript measurement/layout on the UI thread each frame; existing `animateLayout()` keeps its FLIP behavior.

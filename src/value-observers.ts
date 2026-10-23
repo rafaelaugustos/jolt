@@ -81,10 +81,13 @@ export class ValueObservers {
   private readonly observers = new Set<Observer>()
   private running = false
 
-  constructor(private readonly read: (time: number) => number) {}
+  constructor(
+    private readonly read: (time: number) => number,
+    private readonly isRunning?: () => boolean,
+  ) {}
 
   get active() {
-    return this.running && this.observers.size > 0
+    return (this.isRunning?.() ?? this.running) && this.observers.size > 0
   }
 
   subscribe(
@@ -115,6 +118,13 @@ export class ValueObservers {
       pending.add(this)
       schedule()
     }
+  }
+
+  clear() {
+    this.observers.clear()
+    pending.delete(this)
+    this.running = false
+    schedule()
   }
 
   snapshot(time: number): () => void {

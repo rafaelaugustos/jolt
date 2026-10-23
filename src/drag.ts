@@ -428,7 +428,7 @@ class DragController implements Drag {
     const [axis] = this.config.axes
     const value = this.config.value
     const animation = value
-      ? value.play(createTrack(axis!, [event[axis!]], plans[0]!.transition, 0))
+      ? value.playTrack(createTrack(axis!, [event[axis!]], plans[0]!.transition, 0))
       : new ViewAnimation(this.view, plans)
     this.release = animation
     void animation.finished.then((finished) => {

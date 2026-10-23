@@ -1,3 +1,36 @@
+declare class JoltLiveSpring extends NSObject {
+  static createStiffnessDampingMassRestDeltaRestSpeedReduced(
+    initial: number,
+    stiffness: number,
+    damping: number,
+    mass: number,
+    restDelta: number,
+    restSpeed: number,
+    reduced: boolean,
+  ): JoltLiveSpring
+  static activeCount(): number
+  static nodeCount(): number
+  static sync(view: UIView): void
+  readonly position: number
+  readonly velocity: number
+  readonly moving: boolean
+  followMappings(source: JoltLiveSpring, mappings: string): void
+  updateInput(snapshot: string): void
+  setTarget(value: number): void
+  setReduced(value: boolean): void
+  setPaused(value: boolean): void
+  bindPropertyMappings(
+    view: UIView,
+    property: string,
+    mappings: string,
+  ): JoltLiveSpringBinding
+  dispose(): void
+}
+declare class JoltLiveSpringBinding extends NSObject {
+  readonly value: number
+  setLayers(inputs: string): void
+  cancel(): void
+}
 declare class JoltInteractiveAnimation extends NSObject {
   static startViewLayersKeyPathValuesTimesDurationDelayRepeatReverseFinalValueStartedAtCompletion(
     view: UIView,
