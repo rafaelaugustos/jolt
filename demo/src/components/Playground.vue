@@ -38,6 +38,7 @@ import RollingLayout from './RollingLayout.vue'
 import BusyJs from './BusyJs.vue'
 import Colors from './Colors.vue'
 import Gradients from './Gradients.vue'
+import GradientValues from './GradientValues.vue'
 import Decorations from './Decorations.vue'
 import Playback from './Playback.vue'
 import Timeline from './Timeline.vue'
@@ -180,6 +181,7 @@ onUnmounted(() => {
         <Colors />
         <Gradients />
         <GradientDirective />
+        <GradientValues />
         <Presets />
         <Springs />
         <FromReactNative />

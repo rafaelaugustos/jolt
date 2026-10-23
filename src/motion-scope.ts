@@ -41,7 +41,7 @@ export interface MotionScope {
   timeline: typeof timeline
   press: typeof press
   drag: typeof drag
-  /** Removed with the scope; suspending it stops a gradient animation where it is. */
+  /** Removed with the scope; suspension holds bindings until resume and stops concrete playback. */
   gradient: typeof gradient
   states<
     T extends Record<string, Target | null>,
@@ -213,7 +213,14 @@ export function motionScope(): MotionScope {
     gradient(target, options) {
       assertActive()
       const made = gradient(target, options)
-      scope.add({ pause: () => made.stop(), play() {}, dispose: () => made.remove() })
+      scope.add({
+        get paused() {
+          return made.suspended
+        },
+        pause: () => made.suspend(),
+        play: () => made.resume(),
+        dispose: () => made.remove(),
+      })
       return made
     },
     states(targets, definitions, options) {

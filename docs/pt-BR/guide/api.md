@@ -11,7 +11,7 @@
 - [`value.subscribe(listener, { immediate? })`](./motion-values#observando-fora-das-views) — observa números, cores derivadas e valores de scroll em JavaScript; retorna a função para cancelar a assinatura.
 - [`animate(value, target, { layer })`, `stop(value, { layer })`](./motion-values#camadas-em-um-valor) — camadas escalares aditivas antes dos mapeamentos.
 - [`decay(target, velocity, options?)`](./decay)
-- [`gradient(target, options)`](./gradients) — gradientes nativos lineares, radiais e cônicos; retorna um `Gradient` com `animate()`, `set()`, `stop()` e `remove()`. [`motionScope().gradient()` e `v-gradient`](./gradients#escopos-e-vue) cuidam dele por um escopo ou um template.
+- [`gradient(target, options)`](./gradients) — gradientes nativos lineares, radiais e cônicos com componentes estáticos e motion values (`GradientBindings`); retorna um `Gradient` com `bind()`, `animate()`, `set()`, `stop()`, `suspend()`, `resume()`, `suspended` e `remove()`. [`motionScope().gradient()` e `v-gradient`](./gradients#escopos-e-vue) cuidam dele por um escopo ou um template.
 - `stop(target, properties?)`
 - [`set(target, values)`](./interrupting#aplicar-valores-sem-animar) — aplica valores na hora e para o que estiver animando essas propriedades.
 - [`playbackProgress(animation)`](./playback) — progresso observável somente para leitura no relógio da animação existente.

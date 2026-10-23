@@ -47,7 +47,8 @@ export function iosGradient(view: View, type: GradientType): GradientPainter {
     CATransaction.setDisableActions(true)
     if (layer.superlayer !== host.layer) host.layer.insertSublayerAtIndex(layer, 0)
     layer.frame = host.layer.bounds
-    layer.cornerRadius = host.layer.cornerRadius
+    layer.cornerRadius =
+      typeof view.borderRadius === 'number' ? view.borderRadius : host.layer.cornerRadius
     if (current) {
       const model = values(current)
       layer.colors = model.colors
@@ -59,9 +60,13 @@ export function iosGradient(view: View, type: GradientType): GradientPainter {
   }
   view.on('loaded', attach)
   view.on('layoutChanged', attach)
+  view.style.on('borderTopLeftRadiusChange', attach)
 
   return {
     paint(frame) {
+      layer.speed = 1
+      layer.timeOffset = 0
+      layer.beginTime = 0
       current = frame
       generation++
       for (const key of keys) layer.removeAnimationForKey(`jolt:gradient:${key}`)
@@ -73,7 +78,14 @@ export function iosGradient(view: View, type: GradientType): GradientPainter {
       attach()
       const sampled = frames.map(values)
       const now = CACurrentMediaTime()
+      const parentTime = () =>
+        layer.superlayer?.convertTimeFromLayer(CACurrentMediaTime(), null) ??
+        CACurrentMediaTime()
       CATransaction.begin()
+      CATransaction.setDisableActions(true)
+      layer.speed = 1
+      layer.timeOffset = 0
+      layer.beginTime = layer.superlayer?.convertTimeFromLayer(now, null) ?? now
       if (timing.repeat !== Infinity)
         CATransaction.setCompletionBlock(() => {
           if (instance === generation) onEnd(true)
@@ -83,7 +95,7 @@ export function iosGradient(view: View, type: GradientType): GradientPainter {
         animation.values = NSArray.arrayWithArray(sampled.map((value) => value[key]))
         animation.keyTimes = NSArray.arrayWithArray(times as number[])
         animation.duration = Math.max(timing.duration, 1) / 1000
-        animation.beginTime = layer.convertTimeFromLayer(now + timing.delay / 1000, null)
+        animation.beginTime = Math.max(0.000001, timing.delay / 1000)
         animation.fillMode = kCAFillModeBackwards
         if (timing.repeat > 0) {
           animation.autoreverses = timing.reverse
@@ -95,6 +107,15 @@ export function iosGradient(view: View, type: GradientType): GradientPainter {
       }
       CATransaction.commit()
       return {
+        control(elapsed, paused) {
+          if (instance !== generation) return
+          CATransaction.begin()
+          CATransaction.setDisableActions(true)
+          layer.speed = paused ? 0 : 1
+          layer.timeOffset = paused ? elapsed / 1000 : 0
+          layer.beginTime = paused ? 0 : parentTime() - elapsed / 1000
+          CATransaction.commit()
+        },
         cancel() {
           if (instance !== generation) return
           generation++
@@ -107,6 +128,7 @@ export function iosGradient(view: View, type: GradientType): GradientPainter {
       generation++
       view.off('loaded', attach)
       view.off('layoutChanged', attach)
+      view.style.off('borderTopLeftRadiusChange', attach)
       layer.removeAllAnimations()
       layer.removeFromSuperlayer()
     },

@@ -40,6 +40,8 @@ import {
   type GradientOptions,
   type Transition,
 } from '../index.js'
+import { isDerived } from '../motion-value.js'
+import { prepareGradient, type GradientValues } from '../gradient.js'
 import { currentKeyboard } from '../keyboard.js'
 
 type Host = NSVElement
@@ -70,7 +72,10 @@ export interface TransitionProps {
 const animations = new WeakMap<object, PlaybackAnimation>()
 const scopes = new WeakMap<object, MotionScope>()
 const removers = new WeakMap<object, () => void>()
-const gradients = new WeakMap<object, { gradient: Gradient; colors: number }>()
+const gradients = new WeakMap<
+  object,
+  { gradient: Gradient; colors: number; release?: () => void }
+>()
 
 function split<T>(
   value: T | readonly [T, Options?],
@@ -82,6 +87,7 @@ function split<T>(
 
 function same(a: unknown, b: unknown): boolean {
   if (Object.is(a, b)) return true
+  if (isDerived(a) || isDerived(b)) return false
   if (typeof a !== 'object' || typeof b !== 'object' || a === null || b === null)
     return false
   if (Array.isArray(a) !== Array.isArray(b)) return false
@@ -161,17 +167,35 @@ function paint(el: Host, value: GradientValue, animated: boolean) {
     (Transition | SpringName)?,
   ]
   const current = gradients.get(el)
+  prepareGradient(options)
   const colors = options.colors.length
+  const hasBindings = [
+    options.angle,
+    options.radius,
+    options.center?.x,
+    options.center?.y,
+    ...options.colors,
+    ...(options.stops ?? []),
+  ].some(isDerived)
   if (current && current.gradient.type === options.type) {
     const { type, ...values } = options
-    if (animated && current.colors === colors)
-      current.gradient.animate(values, transition)
-    else current.gradient.set(values)
+    const previous = current.release
+    if (hasBindings) current.release = current.gradient.bind(values)
+    else {
+      if (animated && current.colors === colors)
+        current.gradient.animate(values as GradientValues, transition)
+      else current.gradient.set(values as GradientValues)
+      current.release = undefined
+    }
+    previous?.()
     current.colors = colors
     return
   }
   current?.gradient.remove()
-  gradients.set(el, { gradient: gradient(el, options), colors })
+  // Track directive ownership explicitly, including bindings omitted on a later update.
+  const made = gradient(el, options)
+  const release = hasBindings ? made.bind(options) : undefined
+  gradients.set(el, { gradient: made, colors, release })
 }
 
 /**

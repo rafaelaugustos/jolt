@@ -1,6 +1,6 @@
 import type { NSVElement } from 'nativescript-vue'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { motionScope } from '../src/index.js'
+import { motionScope, motionValue, set } from '../src/index.js'
 import { setGradientPainter, type GradientFrame } from '../src/gradient.js'
 import { install, vGradient, type GradientValue } from '../src/vue/index.js'
 import { createView } from './helpers.js'
@@ -80,6 +80,52 @@ describe('v-gradient', () => {
     expect(removed).toBe(2)
   })
 
+  it('keeps values opaque, replaces only new directive bindings and removes omitted ones', () => {
+    const el = element(),
+      value = motionValue(0.2),
+      replacement = motionValue(0.5)
+    const first: GradientValue = {
+      type: 'radial',
+      colors: ['red', 'blue'],
+      angle: value,
+      center: { x: value },
+    }
+    vGradient.mounted!(el, binding(first), vnode, vnode)
+    vGradient.updated!(el, binding({ ...first }, first), vnode, vnode)
+    const next: GradientValue = {
+      type: 'radial',
+      colors: ['red', 'blue'],
+      angle: replacement,
+    }
+    vGradient.updated!(el, binding(next, first), vnode, vnode)
+    set(value, 1)
+    set(replacement, 0.8)
+    expect(painted.at(-1)).toMatchObject({ angle: 0.8, x: 0.2 })
+    vGradient.unmounted!(el, binding(next), vnode, vnode)
+    const count = painted.length
+    set(replacement, 1)
+    expect(painted.length).toBe(count)
+  })
+
+  it('validates a new type before removing the working bound gradient', () => {
+    const el = element(),
+      value = motionValue(0.2)
+    const first: GradientValue = { type: 'radial', colors: ['red', 'blue'], angle: value }
+    vGradient.mounted!(el, binding(first), vnode, vnode)
+    expect(() =>
+      vGradient.updated!(
+        el,
+        binding({ type: 'conic', colors: ['red'] }, first),
+        vnode,
+        vnode,
+      ),
+    ).toThrow()
+    expect(removed).toBe(0)
+    set(value, 0.6)
+    expect(painted.at(-1)!.angle).toBe(0.6)
+    vGradient.unmounted!(el, binding(first), vnode, vnode)
+  })
+
   it('is registered by the plugin', () => {
     const directives: Record<string, unknown> = {}
     install({
@@ -103,6 +149,23 @@ describe('motionScope().gradient', () => {
     scope.dispose()
     expect(removed).toBe(1)
     expect(() => glow.animate({ angle: 0 })).toThrow()
+  })
+
+  it('does not resume a gradient that was already suspended manually', () => {
+    const scope = motionScope()
+    const value = motionValue(0)
+    const glow = scope.gradient(createView(), {
+      type: 'linear',
+      colors: ['red', 'blue'],
+      angle: value,
+    })
+    glow.suspend()
+    scope.suspend()
+    scope.resume()
+    expect(glow.suspended).toBe(true)
+    glow.resume()
+    expect(glow.suspended).toBe(false)
+    scope.dispose()
   })
 
   it('refuses to start in a disposed scope', () => {

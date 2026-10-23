@@ -28,8 +28,10 @@ export function androidGradient(
   }
   let stack: android.graphics.drawable.LayerDrawable | undefined
   let queued = false
+  let removed = false
 
   const wrap = () => {
+    if (removed) return
     const native = view.nativeViewProtected as android.view.View | undefined
     if (!native) return
     const corner = typeof view.borderRadius === 'number' ? view.borderRadius : 0
@@ -87,6 +89,9 @@ export function androidGradient(
         }),
       )
       return {
+        control(elapsed, paused) {
+          if (active) layer.control(Math.round(elapsed), paused)
+        },
         cancel() {
           if (!active) return
           active = false
@@ -96,10 +101,12 @@ export function androidGradient(
       }
     },
     remove() {
+      if (removed) return
+      removed = true
       view.off('loaded', wrap)
       view.style.off('backgroundInternalChange', rewrap)
       view.style.off('borderTopLeftRadiusChange', rewrap)
-      layer.cancel()
+      layer.dispose()
       const native = view.nativeViewProtected as android.view.View | undefined
       if (native && stack && native.getBackground() === stack)
         native.setBackground(stack.getDrawable(0))
