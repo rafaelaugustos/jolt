@@ -69,6 +69,7 @@ export type {
   GradientOptions,
   GradientType,
   GradientValues,
+  GradientBindings,
 } from './gradient.js'
 export { configure, onReducedMotion, reducedMotion } from './config.js'
 export type { JoltConfig } from './config.js'

@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "platform": "iOS",
+  "version": "26.0",
+  "model": "iPhone",
+  "observerFrames": 0,
+  "results": [
+    {
+      "name": "Real background/foreground reattaches without duplicate subscriptions",
+      "passed": true,
+      "samples": [
+        {
+          "event": "suspend",
+          "listeners": 0,
+          "suspended": true
+        },
+        {
+          "event": "resume",
+          "listeners": 0
+        },
+        {
+          "phase": "foreground",
+          "expected": 0.48423624999821185,
+          "nativeViewX": 48.426514863967896,
+          "gradient": {
+            "x": 0.39055966563373806,
+            "y": 0.5094403343662619,
+            "angle": 168.32628968711523,
+            "radius": 0.5421330546947817,
+            "stops": [0.24527983281686905, 1],
+            "colors": [3197139911, 4279310375],
+            "corner": 18,
+            "samples": 4
+          }
+        }
+      ]
+    }
+  ]
+}

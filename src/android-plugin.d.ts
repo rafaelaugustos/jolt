@@ -116,6 +116,14 @@ declare namespace org.rafaelaugusto.jolt {
       reverse: boolean,
       listener: GradientLayer.Listener,
     ): void
+    control(elapsed: number, paused: boolean): void
+    isPlaying(): boolean
+    getGeometry(): native.Array<number>
+    getCorner(): number
+    getStops(): native.Array<number>
+    getColors(): native.Array<number>
+    getSampleCount(): number
+    dispose(): void
     cancel(): void
   }
   namespace GradientLayer {

@@ -368,6 +368,45 @@ final class DocsTests: XCTestCase {
             tap("bouncy", wait: 2)
         }
     }
+    func testGradientValues() throws {
+        launch(["--gradient-values"], "Travel")
+        try record("gradient-values-ios") {
+            let thumb = app.descendants(matching: .any)["Drag light"].firstMatch
+            drag(thumb, x: 150, y: 0)
+            tap("Travel", wait: 0.5)
+            tap("Pulse", wait: 0.2)
+            tap("Pause", wait: 0.4)
+            XCTAssertTrue(app.staticTexts["Paused"].exists)
+            tap("Seek 70%", wait: 0.4)
+            tap("Resume", wait: 1.1)
+            tap("Travel", wait: 0.5)
+            tap("Hold", wait: 0.6)
+            tap("Follow", wait: 0.5)
+            tap("Switch type", wait: 0.5)
+            tap("Rebind", wait: 0.4)
+            tap("Resize", wait: 0.5)
+            tap("Travel", wait: 3.2)
+        }
+    }
+    func testGradientValueChecks() throws {
+        launch(["--gradient-values"], "Run checks")
+        tap("Run checks", wait: 0.1)
+        XCTAssertTrue(app.staticTexts["12 gradient checks passed"].waitForExistence(timeout: 90), app.debugDescription)
+    }
+    func testGradientValueBackground() throws {
+        launch(["--gradient-values", "--gradient-checks=background"], "Run checks")
+        tap("Run checks", wait: 0.6)
+        XCTAssertTrue(app.staticTexts["Background ready"].waitForExistence(timeout: 10))
+        XCUIDevice.shared.press(.home)
+        Thread.sleep(forTimeInterval: 1.5)
+        app.activate()
+        XCTAssertTrue(app.staticTexts["1 gradient checks passed"].waitForExistence(timeout: 20), app.debugDescription)
+    }
+    func testGradientValueReduced() throws {
+        launch(["--gradient-values", "--gradient-checks=reduced"], "Run checks")
+        tap("Run checks", wait: 0.1)
+        XCTAssertTrue(app.staticTexts["1 gradient checks passed"].waitForExistence(timeout: 20), app.debugDescription)
+    }
     func testHaptics() throws {
         launch(["--haptics-lab"], "light")
         try record("haptics-ios") {

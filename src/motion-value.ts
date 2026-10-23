@@ -409,6 +409,12 @@ class Root extends Derived {
     return { property, keyframes: [], transition, track: mapped }
   }
 
+  /** Capture the current native presentation clock, even if a later command replaces it. */
+  captureTime(): () => number {
+    const run = this.presentation
+    return run ? () => this.runTime(run) : () => 0
+  }
+
   elapsed(): number {
     return this.presentation ? this.runTime(this.presentation) : 0
   }
@@ -595,6 +601,9 @@ class PlaybackValue extends Root {
   override get paused() {
     return this.playback.read().paused
   }
+  override captureTime() {
+    return () => this.playback.read().time
+  }
   override elapsed() {
     return this.playback.read().time
   }
@@ -640,6 +649,40 @@ class PlaybackValue extends Root {
           : { ...track, times, values: times.map((time) => at(time * duration)) },
     }
   }
+}
+
+/** Internal compound-binding bridge. One raw snapshot per root keeps sibling mappings coherent. */
+export function valueSource(source: DerivedValue | DerivedColor, color: boolean) {
+  if (!(source instanceof Derived) || source.color !== color)
+    throw new TypeError(
+      `Gradient component needs a ${color ? 'color' : 'numeric'} Jolt value.`,
+    )
+  const { root, read } = source
+  return {
+    identity: root,
+    read,
+    snapshot() {
+      return {
+        track: root.plan({ property: 'opacity', read: (value) => value } as Binding)
+          .track!(),
+        elapsed: root.elapsed(),
+        time: root.captureTime(),
+        running: root.running,
+        value: root.raw(),
+      }
+    },
+    subscribe(listener: () => void) {
+      root.listeners.add(listener)
+      return () => {
+        root.listeners.delete(listener)
+      }
+    },
+  }
+}
+
+/** Treat values as opaque identities in declarative option comparisons. */
+export function isDerived(value: unknown): value is DerivedValue | DerivedColor {
+  return value instanceof Derived
 }
 
 /** Internal native-adapter bridge. Mappings are sampled at boundaries, never per frame. */

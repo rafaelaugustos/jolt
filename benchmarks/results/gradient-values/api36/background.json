@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "platform": "Android",
+  "version": "16",
+  "model": "sdk_gphone64_arm64",
+  "observerFrames": 0,
+  "results": [
+    {
+      "name": "Real background/foreground reattaches without duplicate subscriptions",
+      "passed": true,
+      "samples": [
+        {
+          "event": "suspend",
+          "listeners": 0,
+          "suspended": true
+        },
+        {
+          "event": "resume",
+          "listeners": 1
+        },
+        {
+          "phase": "foreground",
+          "expected": 0.2445,
+          "nativeViewX": 24.324999128069198,
+          "gradient": {
+            "x": 0.24639999866485596,
+            "y": 0.6535999774932861,
+            "angle": 73.20000457763672,
+            "radius": 0.421999990940094,
+            "stops": [0.17319999635219574, 1],
+            "colors": [2680252317, 4279310375],
+            "corner": 18,
+            "samples": 241
+          }
+        }
+      ]
+    }
+  ]
+}

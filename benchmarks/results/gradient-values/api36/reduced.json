@@ -1,0 +1,54 @@
+{
+  "passed": true,
+  "platform": "Android",
+  "version": "16",
+  "model": "sdk_gphone64_arm64",
+  "observerFrames": 0,
+  "results": [
+    {
+      "name": "Reduced motion keeps destination geometry and animated colors/stops",
+      "passed": true,
+      "samples": [
+        {
+          "type": "linear",
+          "gradient": {
+            "x": 0.699999988079071,
+            "y": 0.20000000298023224,
+            "angle": 300,
+            "radius": 0.800000011920929,
+            "stops": [0.17885714769363403, 1],
+            "colors": [2713545121, 4279310375],
+            "corner": 18,
+            "samples": 43
+          }
+        },
+        {
+          "type": "radial",
+          "gradient": {
+            "x": 0.699999988079071,
+            "y": 0.20000000298023224,
+            "angle": 300,
+            "radius": 0.800000011920929,
+            "stops": [0.17842857539653778, 1],
+            "colors": [2713545121, 4279310375],
+            "corner": 18,
+            "samples": 43
+          }
+        },
+        {
+          "type": "conic",
+          "gradient": {
+            "x": 0.699999988079071,
+            "y": 0.20000000298023224,
+            "angle": 300,
+            "radius": 0.800000011920929,
+            "stops": [0.17842857539653778, 1],
+            "colors": [2713545121, 4279310375],
+            "corner": 18,
+            "samples": 43
+          }
+        }
+      ]
+    }
+  ]
+}

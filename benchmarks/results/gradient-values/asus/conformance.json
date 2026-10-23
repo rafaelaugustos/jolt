@@ -1,0 +1,394 @@
+{
+  "passed": true,
+  "platform": "Android",
+  "version": "8.0.0",
+  "model": "ASUS_Z017DC",
+  "observerFrames": 0,
+  "results": [
+    {
+      "name": "Mixed values and native color/alpha",
+      "passed": true,
+      "samples": [
+        {
+          "phase": "set-half",
+          "expected": 0.5,
+          "nativeViewX": 50,
+          "gradient": {
+            "x": 0.4000000059604645,
+            "y": 0.5,
+            "angle": 150,
+            "radius": 0.550000011920929,
+            "stops": [0.25, 1],
+            "colors": [3230497994, 4279310375],
+            "corner": 18,
+            "samples": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "Autonomous native synchronization and zero observer frames",
+      "passed": true,
+      "samples": [
+        {
+          "phase": "playing-0",
+          "expected": 0.17833333333333334,
+          "nativeViewX": 16.666666666666668,
+          "gradient": {
+            "x": 0.20000000298023224,
+            "y": 0.699999988079071,
+            "angle": 50,
+            "radius": 0.38333332538604736,
+            "stops": [0.15000000596046448, 1],
+            "colors": [2513656459, 4279310375],
+            "corner": 18,
+            "samples": 73
+          }
+        },
+        {
+          "phase": "playing-1",
+          "expected": 0.34833333333333333,
+          "nativeViewX": 33.416666666666664,
+          "gradient": {
+            "x": 0.3005000054836273,
+            "y": 0.5995000004768372,
+            "angle": 100.25,
+            "radius": 0.4670833349227905,
+            "stops": [0.20024999976158142, 1],
+            "colors": [2863559087, 4279310375],
+            "corner": 18,
+            "samples": 73
+          }
+        },
+        {
+          "phase": "playing-2",
+          "expected": 0.5216666666666666,
+          "nativeViewX": 51.5,
+          "gradient": {
+            "x": 0.4089999794960022,
+            "y": 0.4910000264644623,
+            "angle": 154.5,
+            "radius": 0.5575000047683716,
+            "stops": [0.25450000166893005, 1],
+            "colors": [3247078604, 4279310375],
+            "corner": 18,
+            "samples": 73
+          }
+        },
+        {
+          "phase": "playing-3",
+          "expected": 0.6925,
+          "nativeViewX": 68.25,
+          "gradient": {
+            "x": 0.5094999670982361,
+            "y": 0.390500009059906,
+            "angle": 204.75,
+            "radius": 0.6412500143051147,
+            "stops": [0.304749995470047, 1],
+            "colors": [3597304545, 4279310375],
+            "corner": 18,
+            "samples": 73
+          }
+        },
+        {
+          "phase": "finished",
+          "expected": 1,
+          "nativeViewX": 100,
+          "gradient": {
+            "x": 0.699999988079071,
+            "y": 0.20000000298023224,
+            "angle": 300,
+            "radius": 0.800000011920929,
+            "stops": [0.4000000059604645, 1],
+            "colors": [4278225151, 4279310375],
+            "corner": 18,
+            "samples": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "Pause, seek, rewind and resume of the source",
+      "passed": true,
+      "samples": [
+        {
+          "phase": "seek",
+          "expected": 0.7,
+          "nativeViewX": 70,
+          "gradient": {
+            "x": 0.5199999809265137,
+            "y": 0.3799999952316284,
+            "angle": 210,
+            "radius": 0.6499999761581421,
+            "stops": [0.3100000023841858, 1],
+            "colors": [3647374307, 4279310375],
+            "corner": 18,
+            "samples": 0
+          }
+        },
+        {
+          "phase": "resumed",
+          "expected": 0.4141666666666667,
+          "nativeViewX": 40.916666666666664,
+          "gradient": {
+            "x": 0.34550002217292786,
+            "y": 0.5544999837875366,
+            "angle": 122.75,
+            "radius": 0.5045832991600037,
+            "stops": [0.2227500081062317, 1],
+            "colors": [3030349499, 4279310375],
+            "corner": 18,
+            "samples": 59
+          }
+        }
+      ]
+    },
+    {
+      "name": "Scalar layers and interruption keep sibling components coherent",
+      "passed": true,
+      "samples": [
+        {
+          "phase": "pulse",
+          "expected": 0.4672142857142857,
+          "nativeViewX": 41.47142791748047,
+          "gradient": {
+            "x": 0.3735579550266266,
+            "y": 0.5264420509338379,
+            "angle": 136.7789764404297,
+            "radius": 0.5279650092124939,
+            "stops": [0.23677897453308105, 1],
+            "colors": [3130423747, 4279310375],
+            "corner": 18,
+            "samples": 74
+          }
+        },
+        {
+          "phase": "base-after-pulse",
+          "expected": 0.5921428571428572,
+          "nativeViewX": 56.071431477864586,
+          "gradient": {
+            "x": 0.4364285469055176,
+            "y": 0.4635714292526245,
+            "angle": 168.2142791748047,
+            "radius": 0.5803571343421936,
+            "stops": [0.26821428537368774, 1],
+            "colors": [3347152850, 4279310375],
+            "corner": 18,
+            "samples": 40
+          }
+        },
+        {
+          "phase": "interrupted",
+          "expected": 0.4,
+          "nativeViewX": 40,
+          "gradient": {
+            "x": 0.3400000035762787,
+            "y": 0.5600000023841858,
+            "angle": 120,
+            "radius": 0.5,
+            "stops": [0.2199999988079071, 1],
+            "colors": [3013703354, 4279310375],
+            "corner": 18,
+            "samples": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "Component replacement and structural color changes",
+      "passed": true,
+      "samples": [
+        {
+          "phase": "new-owner",
+          "expected": 0.6,
+          "nativeViewX": 60,
+          "gradient": {
+            "x": 0.46000000834465027,
+            "y": 0.4399999976158142,
+            "angle": 54,
+            "radius": 0.6000000238418579,
+            "stops": [0.2800000011920929, 1],
+            "colors": [3430580439, 4279310375],
+            "corner": 18,
+            "samples": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "Resize and corners preserve native bindings",
+      "passed": true,
+      "samples": [
+        {
+          "phase": "resized",
+          "expected": 0.315,
+          "nativeViewX": 30.666666666666668,
+          "gradient": {
+            "x": 0.25099998712539673,
+            "y": 0.6489999890327454,
+            "angle": 75.5,
+            "radius": 0.4258333444595337,
+            "stops": [0.17549999058246613, 1],
+            "colors": [2696964254, 4279310375],
+            "corner": 28,
+            "samples": 63
+          }
+        }
+      ]
+    },
+    {
+      "name": "Scope suspension holds then catches up to the source",
+      "passed": true,
+      "samples": [
+        {
+          "phase": "scope-resumed",
+          "expected": 0.43857142857142856,
+          "nativeViewX": 42.64285786946615,
+          "gradient": {
+            "x": 0.363571435213089,
+            "y": 0.5364285707473755,
+            "angle": 131.78570556640625,
+            "radius": 0.5196428298950195,
+            "stops": [0.23178571462631226, 1],
+            "colors": [3097065921, 4279310375],
+            "corner": 18,
+            "samples": 54
+          }
+        }
+      ]
+    },
+    {
+      "name": "Unload/reload and repeated bind/remove restore resources",
+      "passed": true,
+      "samples": [
+        {
+          "phase": "reloaded",
+          "expected": 0.3,
+          "nativeViewX": 30,
+          "gradient": {
+            "x": 0.2800000011920929,
+            "y": 0.6200000047683716,
+            "angle": 90,
+            "radius": 0.44999998807907104,
+            "stops": [0.1899999976158142, 1],
+            "colors": [2796907944, 4279310375],
+            "corner": 18,
+            "samples": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "Linear, radial and conic native geometry",
+      "passed": true,
+      "samples": [
+        {
+          "phase": "linear",
+          "expected": 0.4,
+          "nativeViewX": 40,
+          "gradient": {
+            "x": 0.3400000035762787,
+            "y": 0.5600000023841858,
+            "angle": 120,
+            "radius": 0.5,
+            "stops": [0.2199999988079071, 1],
+            "colors": [3013703354, 4279310375],
+            "corner": 18,
+            "samples": 0
+          }
+        },
+        {
+          "phase": "radial",
+          "expected": 0.4,
+          "nativeViewX": 40,
+          "gradient": {
+            "x": 0.3400000035762787,
+            "y": 0.5600000023841858,
+            "angle": 120,
+            "radius": 0.5,
+            "stops": [0.2199999988079071, 1],
+            "colors": [3013703354, 4279310375],
+            "corner": 18,
+            "samples": 0
+          }
+        },
+        {
+          "phase": "conic",
+          "expected": 0.4,
+          "nativeViewX": 40,
+          "gradient": {
+            "x": 0.3400000035762787,
+            "y": 0.5600000023841858,
+            "angle": 120,
+            "radius": 0.5,
+            "stops": [0.2199999988079071, 1],
+            "colors": [3013703354, 4279310375],
+            "corner": 18,
+            "samples": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "Derived playback progress follows its existing animation",
+      "passed": true,
+      "samples": [
+        {
+          "gradient": {
+            "x": 0.6499999761581421,
+            "y": 0.5,
+            "angle": 180,
+            "radius": 0.5,
+            "stops": [0, 1],
+            "colors": [4294901760, 4278190335],
+            "corner": 18,
+            "samples": 0
+          },
+          "view": 65
+        }
+      ]
+    },
+    {
+      "name": "Busy UI thread has no JavaScript paint/observer backlog",
+      "passed": true,
+      "samples": [
+        {
+          "phase": "after-block",
+          "expected": 0.38,
+          "nativeViewX": 37.583333333333336,
+          "gradient": {
+            "x": 0.3254999816417694,
+            "y": 0.5744999647140503,
+            "angle": 112.75,
+            "radius": 0.4879166781902313,
+            "stops": [0.21275000274181366, 1],
+            "colors": [2963698870, 4279310375],
+            "corner": 18,
+            "samples": 73
+          }
+        }
+      ]
+    },
+    {
+      "name": "Long compound playback reuses source phase at window boundaries",
+      "passed": true,
+      "samples": [
+        {
+          "phase": "after-window",
+          "expected": 0.8877083333333333,
+          "nativeViewX": 88.41666666666667,
+          "gradient": {
+            "x": 0.6283749938011169,
+            "y": 0.27162498235702515,
+            "angle": 264.1875,
+            "radius": 0.7403125166893005,
+            "stops": [0.3641875088214874, 1],
+            "colors": [4030498805, 4279310375],
+            "corner": 18,
+            "samples": 49
+          }
+        }
+      ]
+    }
+  ]
+}

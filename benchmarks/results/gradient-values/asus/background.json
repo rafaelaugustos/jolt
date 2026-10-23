@@ -1,0 +1,30 @@
+{
+  "passed": true,
+  "platform": "Android",
+  "version": "8.0.0",
+  "model": "ASUS_Z017DC",
+  "observerFrames": 0,
+  "results": [
+    {
+      "name": "Real background/foreground reattaches without duplicate subscriptions",
+      "passed": true,
+      "samples": [
+        {
+          "phase": "foreground",
+          "expected": 0.335375,
+          "nativeViewX": 32.787498474121094,
+          "gradient": {
+            "x": 0.30070000886917114,
+            "y": 0.5993000268936157,
+            "angle": 100.3499984741211,
+            "radius": 0.4672499895095825,
+            "stops": [0.20035000145435333, 1],
+            "colors": [2863559087, 4279310375],
+            "corner": 18,
+            "samples": 241
+          }
+        }
+      ]
+    }
+  ]
+}

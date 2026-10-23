@@ -11,7 +11,7 @@
 - [`value.subscribe(listener, { immediate? })`](./motion-values#observing-outside-views) — observe numbers, derived colors and scroll values in JavaScript; returns unsubscribe.
 - [`animate(value, target, { layer })`, `stop(value, { layer })`](./motion-values#layers-on-a-value) — additive scalar layers before mappings.
 - [`decay(target, velocity, options?)`](./decay)
-- [`gradient(target, options)`](./gradients) — native linear, radial and conic gradients; returns a `Gradient` with `animate()`, `set()`, `stop()` and `remove()`. [`motionScope().gradient()` and `v-gradient`](./gradients#scopes-and-vue) own it for a scope or a template.
+- [`gradient(target, options)`](./gradients) — native linear, radial and conic gradients with mixed static/motion-value components (`GradientBindings`); returns a `Gradient` with `bind()`, `animate()`, `set()`, `stop()`, `suspend()`, `resume()`, `suspended` and `remove()`. [`motionScope().gradient()` and `v-gradient`](./gradients#scopes-and-vue) own it for a scope or a template.
 - `stop(target, properties?)`
 - [`set(target, values)`](./interrupting#setting-values-without-animating) — applies values at once and stops what animates them.
 - [`playbackProgress(animation)`](./playback) — read-only, observable progress on an existing animation’s clock.

@@ -108,11 +108,40 @@ public final class GradientLayer extends android.graphics.drawable.Drawable {
         animation.start();
     }
 
+    /** Rejoin the source position. Binding windows include delays in their frames. */
+    public void control(long elapsed, boolean paused) {
+        if (animator == null) return;
+        animator.setCurrentPlayTime(Math.max(0, elapsed - animator.getStartDelay()));
+        if (paused) animator.pause(); else animator.resume();
+    }
+
+    public boolean isPlaying() { return animator != null; }
+    public float getCorner() { return corner; }
+    public float[] getGeometry() { return geometry.clone(); }
+    public float[] getStops() { return stops.clone(); }
+    public int[] getColors() { return colors.clone(); }
+    public int getSampleCount() { return times == null ? 0 : times.length; }
+
+    public void dispose() {
+        cancel();
+        colors = new int[0];
+        stops = new float[0];
+        setCallback(null);
+    }
+
     public void cancel() {
         ValueAnimator running = animator;
         animator = null;
         listener = null;
-        if (running != null) running.cancel();
+        if (running != null) {
+            running.removeAllUpdateListeners();
+            running.removeAllListeners();
+            running.cancel();
+        }
+        times = null;
+        frameColors = null;
+        frameStops = null;
+        frameGeometry = null;
     }
 
     private void apply(float fraction) {
