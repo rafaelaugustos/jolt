@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "platform": "Android",
+  "version": "8.0.0",
+  "model": "ASUS_Z017DC",
+  "sdk": 26,
+  "density": 3,
+  "animatorScale": 1,
+  "observerFrames": 0,
+  "activeAfter": 0,
+  "results": [
+    {
+      "name": "Animator scale zero cancels natively while Jolt motion is forced on",
+      "passed": true,
+      "samples": [
+        {
+          "live": 0,
+          "peak": 139,
+          "capacity": 0,
+          "emitted": 139,
+          "skipped": 0,
+          "time": 2.327,
+          "frames": 136,
+          "draws": 136,
+          "updateMeanMs": 0.6843355073529412,
+          "drawMeanMs": 0.4644424264705882,
+          "frameMs": {
+            "p50": 16.711623,
+            "p95": 16.717447,
+            "max": 66.713939,
+            "count": 135
+          },
+          "stopped": true,
+          "observing": false
+        }
+      ]
+    }
+  ]
+}

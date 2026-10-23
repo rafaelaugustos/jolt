@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "platform": "Android",
+  "version": "8.0.0",
+  "model": "ASUS_Z017DC",
+  "sdk": 26,
+  "density": 3,
+  "animatorScale": 0.5,
+  "observerFrames": 0,
+  "activeAfter": 0,
+  "results": [
+    {
+      "name": "Animator scale 0.5: coherent wall-time emission and lifetime",
+      "passed": true,
+      "samples": [
+        {
+          "elapsed": 741,
+          "live": 0,
+          "peak": 30,
+          "capacity": 0,
+          "emitted": 40,
+          "skipped": 0,
+          "time": 0.704,
+          "frames": 42,
+          "draws": 41,
+          "updateMeanMs": 0.6833829523809524,
+          "drawMeanMs": 0.23554119512195124,
+          "frameMs": {
+            "p50": 16.702157,
+            "p95": 16.747808,
+            "max": 17.089846,
+            "count": 41
+          },
+          "stopped": true,
+          "observing": false
+        }
+      ]
+    }
+  ]
+}

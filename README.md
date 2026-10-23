@@ -65,7 +65,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Loaders](#loaders) with dots, bars and ring styles on iOS.
 - [Circular reveal](#circular-reveal) to show or hide content from a point on iOS.
 - [Haptics](#haptics) at arrival or at marked points in an animation on iOS and Android.
-- [Particles and confetti](#particles-and-confetti) on iOS.
+- [Particles and confetti](#particles-and-confetti) on iOS and Android.
 - [Scroll-linked animations](#scroll-linked-animations) for parallax and collapsing headers.
 - [Keyboard following](#follow-the-keyboard) for composers that rise with the keyboard, at its speed and curve.
 - [Playback controls](#pause-play-and-scrub) to pause, continue and scrub a finite timeline.
@@ -539,7 +539,7 @@ const stopSnow = particles(scene, { source: 'top', angle: 90, velocity: 45 })
 stopSnow() // remove the emitter and its particles
 ```
 
-Confetti bursts into the target's window and cleans itself up. `particles()` adds an emitter to the view for snow, sparks, bubbles or other effects. Both use Core Animation without JavaScript per frame, respect Reduce Motion and stop on unload. iOS only for now. See the [particles guide](https://jolt.rafaelaugusto.dev/guide/particles).
+Confetti bursts into the target's window and cleans itself up. `particles()` adds an emitter for snow, sparks, bubbles or finite effects. Both use native playback without JS simulation/painting per frame: Core Animation on iOS, a bounded Java simulation and Canvas drawable on Android. They respect reduced motion and cancel on unload/backgrounding. Android drawing shares the UI thread; rebuild the app after upgrading. See the [guide and native videos](https://jolt.rafaelaugusto.dev/guide/particles).
 
 ## Scroll-linked animations
 

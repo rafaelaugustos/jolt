@@ -1,4 +1,52 @@
 declare namespace org.rafaelaugusto.jolt {
+  class ParticleEmitter {
+    constructor(
+      target: android.view.View,
+      overlay: boolean,
+      colors: native.Array<number>,
+      shape: number,
+      source: number,
+      rate: number,
+      lifetimeMs: number,
+      size: number,
+      velocity: number,
+      velocityRange: number,
+      angle: number,
+      spread: number,
+      gravity: number,
+      spin: number,
+      spinRange: number,
+      fade: boolean,
+      durationMs: number,
+      listener: ParticleEmitter.Listener,
+    )
+    start(): void
+    refresh(cornerPixels: number): void
+    stop(): void
+    static getActiveCount(): number
+    isStopped(): boolean
+    getLiveCount(): number
+    getPeakCount(): number
+    getCapacity(): number
+    getEmittedCount(): number
+    getSkippedCount(): number
+    getFrameCount(): number
+    getDrawCount(): number
+    getWorkNanos(): number
+    getDrawNanos(): number
+    getDensity(): number
+    getTimeSeconds(): number
+    isObserving(): boolean
+    getOriginInWindow(): native.Array<number>
+    getParticle(index: number): native.Array<number>
+    getFrameIntervals(): native.Array<number>
+    getBounds(): android.graphics.Rect
+  }
+  namespace ParticleEmitter {
+    class Listener {
+      constructor(implementation: { onEnd(): void })
+    }
+  }
   class PhotoZoom {
     constructor(
       image: android.widget.ImageView,

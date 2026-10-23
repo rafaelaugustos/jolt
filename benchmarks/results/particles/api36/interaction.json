@@ -1,0 +1,5 @@
+{
+  "passed": true,
+  "touchPassThrough": ["snow", "rings", "window confetti"],
+  "touches": 3
+}

@@ -1,0 +1,323 @@
+{
+  "passed": true,
+  "platform": "Android",
+  "version": "8.0.0",
+  "model": "ASUS_Z017DC",
+  "sdk": 26,
+  "density": 3,
+  "animatorScale": 1,
+  "observerFrames": 0,
+  "activeAfter": 0,
+  "results": [
+    {
+      "name": "Circle/ring/rectangle, native colors and density-scaled raster size",
+      "passed": true,
+      "samples": [
+        {
+          "shape": "circle",
+          "density": 3,
+          "width": 48,
+          "height": 48,
+          "center": 4294901760,
+          "live": 1,
+          "peak": 1,
+          "capacity": 1,
+          "emitted": 1,
+          "skipped": 0,
+          "time": 0.165,
+          "frames": 8,
+          "draws": 9,
+          "updateMeanMs": 0.483697875,
+          "drawMeanMs": 0.09098955555555556,
+          "frameMs": {
+            "p50": 16.69886,
+            "p95": 16.698979,
+            "max": 16.698979,
+            "count": 7
+          },
+          "stopped": false,
+          "observing": true
+        },
+        {
+          "shape": "ring",
+          "density": 3,
+          "width": 48,
+          "height": 48,
+          "center": 0,
+          "live": 1,
+          "peak": 1,
+          "capacity": 1,
+          "emitted": 1,
+          "skipped": 0,
+          "time": 0.173,
+          "frames": 12,
+          "draws": 13,
+          "updateMeanMs": 0.4564409166666667,
+          "drawMeanMs": 2.8561782307692307,
+          "frameMs": {
+            "p50": 16.700372,
+            "p95": 17.095955,
+            "max": 17.095955,
+            "count": 11
+          },
+          "stopped": false,
+          "observing": true
+        },
+        {
+          "shape": "rectangle",
+          "density": 3,
+          "width": 34,
+          "height": 52,
+          "center": 4294901760,
+          "live": 1,
+          "peak": 1,
+          "capacity": 1,
+          "emitted": 1,
+          "skipped": 0,
+          "time": 0.18,
+          "frames": 12,
+          "draws": 13,
+          "updateMeanMs": 0.6261108333333333,
+          "drawMeanMs": 0.1403243846153846,
+          "frameMs": {
+            "p50": 16.696338,
+            "p95": 16.744738,
+            "max": 16.744738,
+            "count": 11
+          },
+          "stopped": false,
+          "observing": true
+        }
+      ]
+    },
+    {
+      "name": "Native rate/lifetime, finite emission and automatic buffer disposal",
+      "passed": true,
+      "samples": [
+        {
+          "live": 30,
+          "peak": 30,
+          "capacity": 30,
+          "emitted": 30,
+          "skipped": 0,
+          "time": 0.409,
+          "frames": 25,
+          "draws": 25,
+          "updateMeanMs": 1.1150125199999998,
+          "drawMeanMs": 0.64716448,
+          "frameMs": {
+            "p50": 16.694964,
+            "p95": 17.080504,
+            "max": 17.18683,
+            "count": 24
+          },
+          "stopped": false,
+          "observing": true
+        },
+        {
+          "live": 0,
+          "peak": 30,
+          "capacity": 0,
+          "emitted": 30,
+          "skipped": 0,
+          "time": 0.792,
+          "frames": 48,
+          "draws": 48,
+          "updateMeanMs": 1.0070540833333335,
+          "drawMeanMs": 0.4616655416666667,
+          "frameMs": {
+            "p50": 16.695672,
+            "p95": 16.870476,
+            "max": 17.18683,
+            "count": 47
+          },
+          "stopped": true,
+          "observing": false
+        }
+      ]
+    },
+    {
+      "name": "Center/top/bottom sources, resize and physical units",
+      "passed": true,
+      "samples": [
+        {
+          "source": "center",
+          "particle": [90, 51.28609085083008, 18.540000915527344],
+          "live": 3,
+          "peak": 3,
+          "capacity": 16,
+          "emitted": 3,
+          "skipped": 0,
+          "time": 0.338,
+          "frames": 20,
+          "draws": 20,
+          "updateMeanMs": 0.6906822,
+          "drawMeanMs": 0.12825,
+          "frameMs": {
+            "p50": 16.712155,
+            "p95": 17.181249,
+            "max": 17.181249,
+            "count": 19
+          },
+          "stopped": false,
+          "observing": true
+        },
+        {
+          "source": "top",
+          "particle": [2.9660511016845703, 6.596640110015869, 19.440000534057617],
+          "live": 3,
+          "peak": 3,
+          "capacity": 16,
+          "emitted": 3,
+          "skipped": 0,
+          "time": 0.341,
+          "frames": 21,
+          "draws": 21,
+          "updateMeanMs": 0.6358481904761905,
+          "drawMeanMs": 0.06865080952380953,
+          "frameMs": {
+            "p50": 16.711001,
+            "p95": 16.714629,
+            "max": 16.714629,
+            "count": 20
+          },
+          "stopped": false,
+          "observing": true
+        },
+        {
+          "source": "bottom",
+          "particle": [126.97461700439453, 95.97603607177734, 17.639999389648438],
+          "live": 3,
+          "peak": 3,
+          "capacity": 16,
+          "emitted": 3,
+          "skipped": 0,
+          "time": 0.331,
+          "frames": 20,
+          "draws": 20,
+          "updateMeanMs": 0.5589817,
+          "drawMeanMs": 0.0511381,
+          "frameMs": {
+            "p50": 16.712135,
+            "p95": 16.713901,
+            "max": 16.713901,
+            "count": 19
+          },
+          "stopped": false,
+          "observing": true
+        }
+      ]
+    },
+    {
+      "name": "Confetti window origin after scroll/transforms; previous burst stays fixed",
+      "passed": true,
+      "samples": [
+        {
+          "before": [540, 704],
+          "after": [582, 614],
+          "density": 3
+        }
+      ]
+    },
+    {
+      "name": "Independent emitter/burst ownership and stale cleanup",
+      "passed": true,
+      "samples": []
+    },
+    {
+      "name": "Unload/reload, zero size and detached native views cancel without replay",
+      "passed": true,
+      "samples": []
+    },
+    {
+      "name": "Calls before load/size wait; scope disposal cancels pending/native work",
+      "passed": true,
+      "samples": []
+    },
+    {
+      "name": "Reduced motion changes cancel active effects and skip new ones",
+      "passed": true,
+      "samples": []
+    },
+    {
+      "name": "Busy JavaScript stalls native UI drawing but never emits an expired backlog",
+      "passed": true,
+      "samples": [
+        {
+          "before": 8,
+          "afterBlock": 8,
+          "live": 0,
+          "peak": 13,
+          "capacity": 0,
+          "emitted": 13,
+          "skipped": 17,
+          "time": 0.893,
+          "frames": 9,
+          "draws": 8,
+          "updateMeanMs": 0.392662,
+          "drawMeanMs": 0.12929725,
+          "frameMs": {
+            "p50": 16.707453,
+            "p95": 750.040087,
+            "max": 750.040087,
+            "count": 8
+          },
+          "stopped": true,
+          "observing": false
+        }
+      ]
+    },
+    {
+      "name": "Ordinary native frame pacing and peak population",
+      "passed": true,
+      "samples": [
+        {
+          "live": 121,
+          "peak": 121,
+          "capacity": 150,
+          "emitted": 121,
+          "skipped": 0,
+          "time": 4.048,
+          "frames": 242,
+          "draws": 242,
+          "updateMeanMs": 0.34538545867768594,
+          "drawMeanMs": 0.43040438016528926,
+          "frameMs": {
+            "p50": 16.718918,
+            "p95": 16.731657,
+            "max": 17.129761,
+            "count": 241
+          },
+          "stopped": false,
+          "observing": true
+        }
+      ]
+    },
+    {
+      "name": "Stress 10000 live particles remains bounded and releases native resources",
+      "passed": true,
+      "samples": [
+        {
+          "live": 10000,
+          "peak": 10000,
+          "capacity": 10000,
+          "emitted": 35630,
+          "skipped": 0,
+          "time": 3.563,
+          "frames": 38,
+          "draws": 38,
+          "updateMeanMs": 0.872431552631579,
+          "drawMeanMs": 10.18747652631579,
+          "frameMs": {
+            "p50": 100.212622,
+            "p95": 167.047628,
+            "max": 167.092418,
+            "count": 37
+          },
+          "stopped": false,
+          "observing": true
+        }
+      ]
+    }
+  ]
+}

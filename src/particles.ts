@@ -1,7 +1,8 @@
-import { Application, Color, isIOS, type View } from '@nativescript/core'
+import { Application, Color, isAndroid, isIOS, type View } from '@nativescript/core'
 import { toView } from './animate.js'
 import type { Target } from './types.js'
-import { reducedMotion } from './config.js'
+import { onReducedMotion, reducedMotion } from './config.js'
+import { androidParticles } from './driver/android-particles.js'
 
 export interface ConfettiOptions {
   /** Approximate number of particles in the burst. Defaults to 80. */
@@ -38,7 +39,10 @@ export interface ParticleOptions {
   duration?: number
 }
 
-type Settings = Required<Omit<ParticleOptions, 'duration'>> & { duration?: number }
+export type ParticleSettings = Required<Omit<ParticleOptions, 'duration'>> & {
+  duration?: number
+}
+type Settings = ParticleSettings
 const bursts = new WeakMap<View, () => void>()
 const emitters = new WeakMap<View, () => void>()
 const palette = ['#facc15', '#ef4444', '#3b82f6', '#22c55e', '#a855f7']
@@ -46,7 +50,7 @@ const textures = new Map<Settings['shape'], UIImage>()
 const radians = (degrees: number) => (degrees * Math.PI) / 180
 const BURST_DURATION = 200
 
-/** Bursts from the target's center into its window. iOS only; returns immediate cleanup. */
+/** Bursts from the target's center into its window. Returns immediate cleanup. */
 export function confetti(target: Target, options: ConfettiOptions = {}): () => void {
   const count = number('count', options.count ?? 80, 0, 10000)
   if (!Number.isInteger(count)) throw new RangeError('Particle count must be an integer.')
@@ -70,7 +74,7 @@ export function confetti(target: Target, options: ConfettiOptions = {}): () => v
   return start(target, settings, true)
 }
 
-/** Adds a native particle emitter to the target. iOS only; returns immediate cleanup. */
+/** Adds a native particle emitter to the target. Returns immediate cleanup. */
 export function particles(target: Target, options: ParticleOptions = {}): () => void {
   return start(target, resolve(options), false)
 }
@@ -79,7 +83,9 @@ function start(target: Target, settings: Settings, overlay: boolean): () => void
   const view = toView(target)
   const running = overlay ? bursts : emitters
   running.get(view)?.()
-  if (!isIOS || settings.rate === 0 || reducedMotion()) return () => {}
+  if (settings.rate === 0 || reducedMotion()) return () => {}
+  if (isAndroid) return androidParticles(view, settings, overlay, running)
+  if (!isIOS) return () => {}
   return new Emitter(view, settings, overlay, running).stop
 }
 
@@ -141,7 +147,7 @@ class Emitter {
   private native: UIView | undefined
   private window: UIWindow | undefined
   private timer: ReturnType<typeof setTimeout> | undefined
-  private observer: ReturnType<typeof Application.ios.addNotificationObserver> | undefined
+  private unwatch: (() => void) | undefined
 
   constructor(
     private readonly view: View,
@@ -153,6 +159,8 @@ class Emitter {
     view.on('loaded', this.schedule)
     view.on('layoutChanged', this.schedule)
     view.on('unloaded', this.stop)
+    Application.on(Application.suspendEvent, this.stop)
+    this.unwatch = onReducedMotion(this.motionChanged)
     this.schedule()
   }
 
@@ -162,17 +170,14 @@ class Emitter {
     this.view.off('loaded', this.schedule)
     this.view.off('layoutChanged', this.schedule)
     this.view.off('unloaded', this.stop)
+    Application.off(Application.suspendEvent, this.stop)
     if (this.running.get(this.view) === this.stop) this.running.delete(this.view)
     if (this.timer !== undefined) clearTimeout(this.timer)
-    if (this.observer)
-      Application.ios.removeNotificationObserver(
-        this.observer,
-        UIAccessibilityReduceMotionStatusDidChangeNotification,
-      )
+    this.unwatch?.()
     this.layer?.removeAllAnimations()
     this.layer?.removeFromSuperlayer()
     this.layer = this.native = this.window = undefined
-    this.timer = this.observer = undefined
+    this.timer = this.unwatch = undefined
   }
 
   private schedule = () => {
@@ -232,10 +237,6 @@ class Emitter {
             ),
             window,
           )
-        this.observer = Application.ios.addNotificationObserver(
-          UIAccessibilityReduceMotionStatusDidChangeNotification,
-          this.motionChanged,
-        )
         if (this.settings.duration !== undefined) {
           // The render server stops emission even if JS is blocked. The timer
           // only removes the empty layer after the last particles have expired.

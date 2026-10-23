@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "platform": "Android",
+  "version": "8.0.0",
+  "model": "ASUS_Z017DC",
+  "sdk": 26,
+  "density": 3,
+  "animatorScale": 1,
+  "observerFrames": 0,
+  "activeAfter": 0,
+  "results": [
+    {
+      "name": "Real background cancels without replay or backlog",
+      "passed": true,
+      "samples": [
+        {
+          "event": "suspend",
+          "live": 0,
+          "peak": 176,
+          "capacity": 0,
+          "emitted": 176,
+          "skipped": 0,
+          "time": 2.938,
+          "frames": 173,
+          "draws": 173,
+          "updateMeanMs": 0.6214469075144509,
+          "drawMeanMs": 0.4718512427745664,
+          "frameMs": {
+            "p50": 16.708162,
+            "p95": 16.712666,
+            "max": 66.712162,
+            "count": 172
+          },
+          "stopped": true,
+          "observing": false
+        }
+      ]
+    }
+  ]
+}

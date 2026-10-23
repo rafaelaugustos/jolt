@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "platform": "Android",
+  "version": "16",
+  "model": "sdk_gphone64_arm64",
+  "sdk": 36,
+  "density": 2.625,
+  "animatorScale": 0.5,
+  "observerFrames": 0,
+  "activeAfter": 0,
+  "results": [
+    {
+      "name": "Animator scale 0.5: coherent wall-time emission and lifetime",
+      "passed": true,
+      "samples": [
+        {
+          "elapsed": 711,
+          "live": 0,
+          "peak": 30,
+          "capacity": 0,
+          "emitted": 40,
+          "skipped": 0,
+          "time": 0.687,
+          "frames": 42,
+          "draws": 42,
+          "updateMeanMs": 0.14469645238095238,
+          "drawMeanMs": 0.02166157142857143,
+          "frameMs": {
+            "p50": 16.666666,
+            "p95": 16.666666,
+            "max": 16.666666,
+            "count": 41
+          },
+          "stopped": true,
+          "observing": false
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { confetti, particles } from '../src/index.js'
+import { confetti, particles, configure, motionScope } from '../src/index.js'
 import { createView, driver, flush } from './helpers.js'
 import { Application } from './shims/core.js'
 
@@ -87,7 +87,7 @@ async function layout(view: ReturnType<typeof createView>) {
 }
 function reduceMotion(value: boolean) {
   reduced = value
-  for (const callback of Application.ios.observers.keys()) callback()
+  driver.setReduced(value)
 }
 
 beforeEach(() => {
@@ -433,7 +433,7 @@ describe('particle lifecycle and validation', () => {
     expect(created).toHaveLength(2)
   })
 
-  it('does not use native APIs, timers or listeners on Android', async () => {
+  it('does not use native APIs, timers or listeners on unsupported platforms', async () => {
     platform.isIOS = false
     vi.unstubAllGlobals()
     const { view } = target()
@@ -443,5 +443,34 @@ describe('particle lifecycle and validation', () => {
     expect(created).toHaveLength(0)
     expect(view.listenerCount('loaded')).toBe(0)
     expect(vi.getTimerCount()).toBe(0)
+  })
+
+  it('cancels both effects on app suspension without replaying them on resume', async () => {
+    const { view, native, window } = target()
+    start(view)
+    burst(view)
+    await flush()
+    Application.notify({ eventName: Application.suspendEvent })
+    expect(native.layer.sublayers).toHaveLength(0)
+    expect(window.layer.sublayers).toHaveLength(0)
+    Application.notify({ eventName: Application.resumeEvent })
+    await layout(view)
+    expect(created).toHaveLength(2)
+  })
+
+  it('responds to configure while running and releases scope-owned resources', async () => {
+    const { view, native } = target()
+    start(view)
+    await flush()
+    configure({ reducedMotion: 'always' })
+    expect(native.layer.sublayers).toHaveLength(0)
+    configure({ reducedMotion: 'never' })
+    const scope = motionScope()
+    scope.use(() => start(view))
+    await flush()
+    expect(native.layer.sublayers).toHaveLength(1)
+    scope.dispose()
+    expect(native.layer.sublayers).toHaveLength(0)
+    expect(driver.watchers.size).toBe(0)
   })
 })

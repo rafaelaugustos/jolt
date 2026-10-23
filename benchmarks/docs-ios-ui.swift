@@ -388,6 +388,29 @@ final class DocsTests: XCTestCase {
             tap("Travel", wait: 3.2)
         }
     }
+    func testParticles() throws {
+        launch(["--particle-lab"], "Snow")
+        try record("particles-ios") {
+            tap("Snow", wait: 3)
+            tap("Touch 0", wait: 0.2)
+            XCTAssertTrue(app.buttons["Touch 1"].exists)
+            tap("Resize", wait: 0.6)
+            tap("Bubbles", wait: 3)
+            tap("Touch 1", wait: 0.2)
+            XCTAssertTrue(app.buttons["Touch 2"].exists)
+            tap("Sparks", wait: 2)
+            tap("Finite", wait: 2.4)
+            tap("Confetti", wait: 0.3)
+            tap("Touch 2", wait: 0.3)
+            XCTAssertTrue(app.buttons["Touch 3"].exists)
+            tap("Stop", wait: 0.4)
+            tap("Motion on", wait: 0.3)
+            tap("Snow", wait: 0.5)
+            XCTAssertTrue(app.staticTexts["Reduced motion: effects removed."].exists)
+            tap("Motion off", wait: 0.3)
+            tap("Confetti", wait: 2.5)
+        }
+    }
     func testGradientValueChecks() throws {
         launch(["--gradient-values"], "Run checks")
         tap("Run checks", wait: 0.1)
