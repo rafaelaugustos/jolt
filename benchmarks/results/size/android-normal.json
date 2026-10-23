@@ -1,0 +1,65 @@
+{
+  "status": "passed",
+  "platform": "Android",
+  "os": "16",
+  "passed": [
+    "stack: native intermediate bounds, siblings and hit bounds",
+    "stack: fixed \u2192 auto \u2192 content-driven auto",
+    "stack: interrupted reversal and combined auto",
+    "stack: late content and font resizing retarget",
+    "stack: parent resizing retargets auto",
+    "stack: pause/resume",
+    "stack: hold, restore and external ownership",
+    "stack: scope, unload/reload and reduced motion",
+    "stack: zero and min/max",
+    "stack: bounded spring overshoot",
+    "grid: native intermediate bounds, siblings and hit bounds",
+    "grid: fixed \u2192 auto \u2192 content-driven auto",
+    "grid: interrupted reversal and combined auto",
+    "grid: late content and font resizing retarget",
+    "grid: parent resizing retargets auto",
+    "grid: pause/resume",
+    "grid: hold, restore and external ownership",
+    "grid: scope, unload/reload and reduced motion",
+    "grid: zero and min/max",
+    "grid: bounded spring overshoot"
+  ],
+  "stage": "grid: controls and ownership",
+  "samples": [
+    {
+      "kind": "stack",
+      "middle": {
+        "width": 251.8095238095238,
+        "height": 111.61904761904762
+      },
+      "native": true
+    },
+    {
+      "kind": "grid",
+      "middle": {
+        "width": 252.95238095238096,
+        "height": 109.33333333333333
+      },
+      "native": true
+    }
+  ],
+  "count": 20,
+  "rootMeasure": {
+    "calls": 1418,
+    "totalMs": 161.83999999429943,
+    "p50Ms": 0.07100000038917642,
+    "p95Ms": 0.30800000013186946,
+    "maxMs": 4.035999999814521
+  },
+  "rootLayout": {
+    "calls": 709,
+    "totalMs": 72.05899999553367,
+    "p50Ms": 0.052999999752501026,
+    "p95Ms": 0.2110000000357104,
+    "maxMs": 5.097000000205298
+  },
+  "settings": {
+    "fontScale": 1,
+    "animatorDurationScale": 1
+  }
+}

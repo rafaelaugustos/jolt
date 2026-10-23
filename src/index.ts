@@ -104,3 +104,5 @@ export type {
 
 export { animateLayout } from './layout.js'
 export type { LayoutOptions } from './layout.js'
+export { animateSize } from './size.js'
+export type { SizeAnimation, SizeDimensions, SizeOptions } from './size.js'

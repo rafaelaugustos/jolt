@@ -13,6 +13,8 @@ Before playing, the final values are set on the NativeScript view, like `view.an
 
 Each running property remembers its curve and start time. On Android, interruptions read the displayed value and the animator's current play time, so inherited velocity follows the system's animator duration scale. Early spring arrivals use a native timing marker with completion callbacks only; other sequences advance on native completion. Delays, repeats and disabled animations follow the same platform clock, without JavaScript running per frame.
 
+[`animateSize()`](./size) has a different execution path: real dimensions and text reflow require NativeScript measurement/layout on the UI thread each frame. Its library-owned frame callback runs JavaScript; it is not render-server playback. `animateLayout()` still measures once and uses native transform tracks. Opt-in motion-value subscribers, scroll input and timeline callback activation also retain their documented JS costs.
+
 ## Tests
 
 The tests run the engine against a fake platform driver ([`test/helpers.ts`](https://github.com/rafaelaugustos/jolt/blob/main/test/helpers.ts)) with its own clock: it records the keyframes it would play and ends them when the clock passes their end. The iOS and Android drivers are type-checked against the platform typings.

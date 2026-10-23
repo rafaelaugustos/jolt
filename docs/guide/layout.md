@@ -34,6 +34,8 @@ Only direct children are tracked. To move a container's neighbours when it grows
 
 ## Size and content
 
+For actual width/height changes, intrinsic `auto` sizes and continuous text reflow, use [`animateSize()`](./size). Its per-frame layout and cancellation contract differ from this FLIP API.
+
 The default `size: 'scale'` scales from the old dimensions to the new dimensions, respecting the view's existing translation, scale and origin. Layout itself computes its final size once. Scaling temporarily stretches text, corners and other content; it is not continuous text reflow.
 
 Use `size: false` to apply the new size immediately while animating positional changes:

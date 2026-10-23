@@ -1,0 +1,14 @@
+{
+  "platform": "Android",
+  "serial": "emulator-5582",
+  "input": "ADB OS taps",
+  "passed": [
+    "width-height-auto",
+    "content growth/shrink",
+    "pause/resume",
+    "following row hit at intermediate bounds",
+    "interrupted reversal",
+    "GridLayout"
+  ],
+  "pausedFollowingBoundsPx": [53, 1107, 1027, 1238]
+}

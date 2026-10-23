@@ -1,6 +1,6 @@
 # Escopos e estados de movimento
 
-`motionScope()` dá a uma página, componente ou item reciclado um dono para animações e subscriptions. `motionStates()` coordena estados visuais nomeados entre várias views, com interrupção. Os dois reutilizam os drivers nativos existentes, sem adicionar um loop JavaScript por frame.
+`motionScope()` dá a uma página, componente ou item reciclado um dono para animações e subscriptions. `motionStates()` coordena estados visuais nomeados entre várias views, com interrupção. Os dois reutilizam os drivers nativos existentes, sem adicionar um loop JavaScript por frame. Ownership pelo scope não muda a execução: recursos como [`animateSize()`](./size) mantêm seu custo documentado de layout em JS por frame.
 
 <Clip name="motion-controllers-ios" caption="Estados de upload, erro, nova tentativa e sucesso, controles do scope e montagem/desmontagem no simulador iOS." />
 
