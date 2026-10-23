@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "platform": "Android",
+  "version": "16",
+  "model": "sdk_gphone64_arm64",
+  "sdk": 36,
+  "density": 2.625,
+  "animatorScale": 1,
+  "observerFrames": 0,
+  "activeAfter": 0,
+  "results": [
+    {
+      "name": "Animator scale zero cancels natively while Jolt motion is forced on",
+      "passed": true,
+      "samples": [
+        {
+          "live": 0,
+          "peak": 146,
+          "capacity": 0,
+          "emitted": 146,
+          "skipped": 0,
+          "time": 2.447,
+          "frames": 146,
+          "draws": 146,
+          "updateMeanMs": 0.13557075342465755,
+          "drawMeanMs": 0.051579883561643836,
+          "frameMs": {
+            "p50": 16.666666,
+            "p95": 16.666666,
+            "max": 33.333332,
+            "count": 145
+          },
+          "stopped": true,
+          "observing": false
+        }
+      ]
+    }
+  ]
+}

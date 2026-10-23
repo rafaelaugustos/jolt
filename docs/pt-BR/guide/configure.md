@@ -70,7 +70,7 @@ const off = onReducedMotion((reduced) => {
 off()
 ```
 
-`reducedMotion()` informa o que o Jolt aplica: a configuração da plataforma com `user`, `true` com `always` e `false` com `never`. `onReducedMotion()` só chama de volta quando esse valor muda, pelo `configure()` ou pela plataforma. No iOS a mudança chega na hora, pela notificação do Reduzir Movimento, inclusive quando ele é ligado pela Central de Controle. O Android não avisa, e a configuração só muda nos Ajustes, então o Jolt confere de novo quando o app volta para o primeiro plano.
+`reducedMotion()` informa o que o Jolt aplica: a configuração da plataforma com `user`, `true` com `always` e `false` com `never`. `onReducedMotion()` só chama de volta quando esse valor muda, pelo `configure()` ou pela plataforma. No iOS a mudança chega na hora, pela notificação do Reduzir Movimento, inclusive quando ele é ligado pela Central de Controle. No Android, o observador geral confere a configuração quando o app volta para o primeiro plano. As partículas também têm um observador nativo da escala de animação: escala zero cancela o efeito imediatamente, inclusive com `never`. Veja a política de tempo em [partículas](./particles).
 
 No Vue, [`useReducedMotion()`](./vue#movimento-reduzido) devolve um ref que fica atualizado até o componente desmontar.
 

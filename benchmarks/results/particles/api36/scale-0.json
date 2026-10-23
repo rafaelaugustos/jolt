@@ -1,0 +1,23 @@
+{
+  "passed": true,
+  "platform": "Android",
+  "version": "16",
+  "model": "sdk_gphone64_arm64",
+  "sdk": 36,
+  "density": 2.625,
+  "animatorScale": 0,
+  "observerFrames": 0,
+  "activeAfter": 0,
+  "results": [
+    {
+      "name": "Animator scale 0: coherent wall-time emission and lifetime",
+      "passed": true,
+      "samples": [
+        {
+          "active": 0,
+          "forcedMotion": true
+        }
+      ]
+    }
+  ]
+}

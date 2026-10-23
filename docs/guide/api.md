@@ -34,7 +34,7 @@
 - [`animateText(label, options?)`](./text) — letter-by-letter or word-by-word entrances on iOS and Android; returns an `Animation`.
 - [`animateText(label, options?)`](./text) — iOS letter-by-letter or word-by-word entrances; returns an `Animation`.
 - [`rollTo(label, value, options?)`](./rolling) — rolling digits on iOS and Android; returns an `Animation`.
-- [`confetti(target, options?)`, `particles(target, options?)`](./particles) — iOS particle effects; return cleanup functions.
+- [`confetti(target, options?)`, `particles(target, options?)`](./particles) — native iOS/Android particle effects; return cleanup functions. No JS simulation or paint callback per frame; Android drawing shares the UI thread.
 
 `target` is a view or anything holding one (a template ref, an `ElementRef`). `animate()`, `decay()`, `stop()`, `set()` and sequence steps also accept arrays of targets.
 

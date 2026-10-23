@@ -10,6 +10,7 @@ import PlaybackLab from './components/PlaybackLab.vue'
 import LayoutLab from './components/LayoutLab.vue'
 import Haptics from './components/Haptics.vue'
 import GradientValues from './components/GradientValues.vue'
+import Particles from './components/Particles.vue'
 import { launchArgument, onLaunch, runLaunchTaps } from './launch'
 type Screen = 'home' | 'voice' | 'chat'
 const launched = ref(false)
@@ -21,6 +22,7 @@ const layoutLab = ref(false)
 const playbackLab = ref(false)
 const hapticsLab = ref(false)
 const gradientValues = ref(false)
+const particleLab = ref(false)
 const autoplay = ref(false)
 const initialScreen = ref<Screen>('home')
 const assistant = ref()
@@ -32,6 +34,7 @@ onLaunch(() => {
   playbackLab.value = launchArgument('playback-lab') !== undefined
   hapticsLab.value = launchArgument('haptics-lab') !== undefined
   gradientValues.value = launchArgument('gradient-values') !== undefined
+  particleLab.value = launchArgument('particle-lab') !== undefined
   layoutLab.value = launchArgument('layout-lab') !== undefined
   playground.value = launchArgument('playground') !== undefined
   autoplay.value = launchArgument('autoplay') !== undefined
@@ -60,10 +63,13 @@ defineExpose({ assistant })
       actionBarHidden="true"
       :statusBarStyle="playbackLab ? 'light' : 'dark'"
       :androidStatusBarBackground="playbackLab ? '#101827' : undefined"
-      :class="playground || hapticsLab || gradientValues ? '' : 'assistant-page'"
+      :class="
+        playground || hapticsLab || gradientValues || particleLab ? '' : 'assistant-page'
+      "
       @loaded="pageLoaded"
     >
-      <ScrollView v-if="launched && gradientValues"><GradientValues /></ScrollView>
+      <ScrollView v-if="launched && particleLab"><Particles /></ScrollView>
+      <ScrollView v-else-if="launched && gradientValues"><GradientValues /></ScrollView>
       <ScrollView v-else-if="launched && hapticsLab"><Haptics /></ScrollView>
       <PlaybackLab v-else-if="launched && playbackLab" @back="backToPlayground" />
       <LayoutLab v-else-if="launched && layoutLab" @back="backToPlayground" />

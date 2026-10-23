@@ -21,3 +21,8 @@ jobs:
       - run: npm test
       - run: npm run build
       - run: npm run benchmark:typecheck
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 17
+      - run: sh benchmarks/android-particle-tests/run.sh

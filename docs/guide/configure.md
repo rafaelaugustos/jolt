@@ -70,7 +70,7 @@ const off = onReducedMotion((reduced) => {
 off()
 ```
 
-`reducedMotion()` reports what Jolt applies: the platform setting with `user`, `true` with `always`, `false` with `never`. `onReducedMotion()` calls back only when that value changes, from `configure()` or from the platform. On iOS the change arrives right away, through Reduce Motion's notification, including toggles from Control Center. Android has no broadcast for it, and the setting can only change in Settings, so Jolt checks again when the app comes back to the foreground.
+`reducedMotion()` reports what Jolt applies: the platform setting with `user`, `true` with `always`, `false` with `never`. `onReducedMotion()` calls back only when that value changes, from `configure()` or from the platform. On iOS the change arrives right away, through Reduce Motion's notification, including toggles from Control Center. The general Android observer checks again when the app returns to the foreground. [Particles](./particles#platforms-and-timing) also observe animator scale natively: changing it to zero cancels active effects immediately, including when Jolt's preference is `never`.
 
 In Vue, [`useReducedMotion()`](./vue#reduced-motion) gives a ref that stays up to date until the component unmounts.
 

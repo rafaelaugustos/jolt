@@ -1,0 +1,40 @@
+{
+  "passed": true,
+  "platform": "Android",
+  "version": "16",
+  "model": "sdk_gphone64_arm64",
+  "sdk": 36,
+  "density": 2.625,
+  "animatorScale": 1,
+  "observerFrames": 0,
+  "activeAfter": 0,
+  "results": [
+    {
+      "name": "Real background cancels without replay or backlog",
+      "passed": true,
+      "samples": [
+        {
+          "event": "suspend",
+          "live": 0,
+          "peak": 150,
+          "capacity": 0,
+          "emitted": 150,
+          "skipped": 0,
+          "time": 2.515,
+          "frames": 151,
+          "draws": 151,
+          "updateMeanMs": 0.16010758278145695,
+          "drawMeanMs": 0.05629273509933776,
+          "frameMs": {
+            "p50": 16.666666,
+            "p95": 16.666666,
+            "max": 16.666666,
+            "count": 150
+          },
+          "stopped": true,
+          "observing": false
+        }
+      ]
+    }
+  ]
+}

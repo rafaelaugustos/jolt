@@ -34,7 +34,7 @@
 - [`animateText(label, options?)`](./text) — entrada de texto por letra ou palavra no iOS e no Android; retorna uma `Animation`.
 - [`animateText(label, options?)`](./text) — entrada de texto por letra ou palavra no iOS; retorna uma `Animation`.
 - [`rollTo(label, value, options?)`](./rolling) — dígitos rolando no iOS e no Android; retorna uma `Animation`.
-- [`confetti(target, options?)`, `particles(target, options?)`](./particles) — efeitos de partículas no iOS; retornam funções de limpeza.
+- [`confetti(target, options?)`, `particles(target, options?)`](./particles) — efeitos nativos de partículas no iOS e Android; retornam funções de limpeza.
 
 `target` é uma view ou qualquer coisa que contenha uma (um template ref, um `ElementRef`). `animate()`, `decay()`, `stop()`, `set()` e os passos de uma sequência também aceitam arrays de alvos.
 

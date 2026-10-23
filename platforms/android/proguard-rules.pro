@@ -19,3 +19,5 @@
 -keep class org.rafaelaugusto.jolt.PhotoZoom$* { *; }
 -keep class org.rafaelaugusto.jolt.GradientLayer { *; }
 -keep class org.rafaelaugusto.jolt.GradientLayer$* { *; }
+-keep class org.rafaelaugusto.jolt.ParticleEmitter { *; }
+-keep class org.rafaelaugusto.jolt.ParticleEmitter$* { *; }
