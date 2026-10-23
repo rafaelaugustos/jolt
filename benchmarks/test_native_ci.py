@@ -2,6 +2,10 @@ import copy
 import importlib.util
 import pathlib
 import unittest
+from unittest.mock import patch
+import subprocess
+import contextlib
+import io
 
 spec = importlib.util.spec_from_file_location("native_ci", pathlib.Path(__file__).with_name("native-ci.py"))
 probe = importlib.util.module_from_spec(spec)
@@ -29,6 +33,24 @@ class ReportValidation(unittest.TestCase):
         for change in [dict(status="passed"), dict(stage="initial layout"), dict(error="watchdog"), dict(samples=[dict(property="x", actual=0, expected=160)]), dict(checks=[probe.CHECKS[0]])]:
             with self.subTest(change=change), self.assertRaises(AssertionError):
                 self.validate({**copy.deepcopy(report), **change}, True)
+
+
+class BoundedCommands(unittest.TestCase):
+    def test_timeout_keeps_partial_boot_output_and_failure(self):
+        output = io.StringIO()
+        failure = subprocess.TimeoutExpired(['simctl'], 3, output=b'Waiting for SpringBoard')
+        probe.TIMINGS.clear()
+        with patch.object(probe.subprocess, 'run', side_effect=failure), contextlib.redirect_stdout(output):
+            with self.assertRaises(subprocess.TimeoutExpired), probe.phase('simulator-ready'):
+                probe.command('simctl', timeout=3)
+        self.assertIn('Waiting for SpringBoard', output.getvalue())
+        self.assertEqual(probe.TIMINGS[-1]['status'], 'failed')
+
+    def test_optional_diagnostics_cannot_mask_probe_failure(self):
+        failure = subprocess.TimeoutExpired(['simctl'], 10)
+        with patch.object(probe.subprocess, 'run', side_effect=failure):
+            result = probe.command('simctl', required=False, timeout=10)
+        self.assertIn('Optional diagnostic command failed', result)
 
 
 if __name__ == "__main__":

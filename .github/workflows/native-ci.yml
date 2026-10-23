@@ -2,8 +2,6 @@ name: Native CI
 
 on:
   pull_request:
-  push:
-    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -14,11 +12,41 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  ios:
-    runs-on: macos-26
-    timeout-minutes: 35
+  changes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      native: ${{ steps.scope.outputs.native }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 2
+      - id: scope
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: python3 benchmarks/native-ci-changes.py
+
+  ios:
+    needs: changes
+    if: ${{ !cancelled() && needs.changes.outputs.native != 'false' }}
+    runs-on: macos-26
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+      - name: Start simulator while dependencies and app build
+        timeout-minutes: 1
+        run: |
+          python3 - <<'PY'
+          import json, os, subprocess
+          devices = json.loads(subprocess.check_output(['xcrun', 'simctl', 'list', 'devices', 'available', '--json'], timeout=20))
+          phones = [d for runtime, group in devices['devices'].items() if '.iOS-' in runtime for d in group if d['name'].startswith('iPhone')]
+          device = next((d for d in phones if d['state'] == 'Booted'), phones[0])
+          with open(os.environ['GITHUB_ENV'], 'a') as env:
+              env.write(f"JOLT_SIMULATOR={device['udid']}\n")
+          if device['state'] != 'Booted':
+              subprocess.run(['xcrun', 'simctl', 'boot', device['udid']], check=True, timeout=30)
+          print(f"Started {device['name']} ({device['udid']}); boot readiness is checked before installation.")
+          PY
       - uses: actions/setup-node@v7
         with:
           node-version: 22
@@ -27,32 +55,28 @@ jobs:
             package-lock.json
             benchmarks/native-app/package-lock.json
       - run: npm ci && npm run build && npm run benchmark:typecheck
-      - run: python3 -m unittest discover -s benchmarks -p 'test_native_ci.py'
+      - run: python3 -m unittest discover -s benchmarks -p 'test_native_ci*.py'
       - run: npm ci && npm run prepare:resources
         working-directory: benchmarks/native-app
       - name: Build production JavaScript for iOS Simulator
+        timeout-minutes: 5
         run: npx ns build ios --env.production --no-hmr --for-device false --release
         working-directory: benchmarks/native-app
-      - name: Select available iPhone simulator
-        run: |
-          python3 - <<'PY'
-          import json, os, subprocess
-          devices = json.loads(subprocess.check_output(['xcrun', 'simctl', 'list', 'devices', 'available', '--json']))
-          device = next(d['udid'] for runtime, group in devices['devices'].items() if '.iOS-' in runtime for d in group if d['name'].startswith('iPhone'))
-          with open(os.environ['GITHUB_ENV'], 'a') as env:
-              env.write(f'JOLT_SIMULATOR={device}\n')
-          PY
       - name: Native measurements and negative control
+        timeout-minutes: 5
         run: python3 benchmarks/native-ci.py ios --device "$JOLT_SIMULATOR"
       - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: native-ios
           path: benchmarks/native-app/results/
+          retention-days: 7
 
   android:
+    needs: changes
+    if: ${{ !cancelled() && needs.changes.outputs.native != 'false' }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 35
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -66,17 +90,25 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
+      - uses: gradle/actions/setup-gradle@v5
+        with:
+          cache-read-only: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork }}
       - run: npm ci && npm run build && npm run benchmark:typecheck
       - run: npm ci && npm run prepare:resources
         working-directory: benchmarks/native-app
       - name: Install compile SDK
         run: '"$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-36" "build-tools;36.0.0"'
+      - name: Build production JavaScript for Android
+        timeout-minutes: 5
+        run: npx ns build android --env.production --no-hmr
+        working-directory: benchmarks/native-app
       - name: Enable KVM
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
-      - name: Build and run native measurements with negative control
+      - name: Boot emulator and run native measurements with negative control
+        timeout-minutes: 5
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
@@ -84,9 +116,11 @@ jobs:
           target: google_apis
           profile: pixel_6
           disable-animations: false
-          script: cd benchmarks/native-app && npx ns build android --env.production --no-hmr && cd ../.. && python3 benchmarks/native-ci.py android --device emulator-5554
+          emulator-boot-timeout: 180
+          script: python3 benchmarks/native-ci.py android --device emulator-5554
       - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: native-android
           path: benchmarks/native-app/results/
+          retention-days: 7

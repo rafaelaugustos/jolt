@@ -1,6 +1,16 @@
 # Native CI
 
-The `Native CI` workflow builds a small, isolated app from this checkout and runs it on an iOS simulator and an Android emulator for every pull request and push to `main`. It uses production JavaScript with HMR disabled. Android's native shell is debuggable so `adb run-as` can retrieve the reports; this does not validate R8 or a signed release APK.
+The `Native CI` workflow builds a small, isolated app from this checkout and runs it on an iOS simulator and an Android emulator for pull requests that can affect native behavior. It uses production JavaScript with HMR disabled. Android's native shell is debuggable so `adb run-as` can retrieve the reports; this does not validate R8 or a signed release APK.
+
+## When it runs and time limits
+
+A small Linux job compares the PR merge tree with its base. Changes confined to documentation, media, JS unit tests or the docs workflow skip the two native jobs. Source, dependencies, fixture/build configuration and unknown files still run both platforms. The workflow itself always reports a result, avoiding a required check stuck pending because of workflow-level path filtering. If classification fails, native checks still run. Manual dispatch always runs the full suite.
+
+Native checks run before merge, without an automatic duplicate on every push to `main`. The ordinary JS CI and docs deployment still run on `main`. A direct push that bypasses a PR needs a manual Native CI dispatch; release maintainers can also dispatch it for an additional check of the merged commit.
+
+Each native job has a **10-minute execution limit**, down from 35. This does not bound time waiting for a GitHub-hosted runner. iOS starts booting immediately after checkout, overlapping initialization with dependency installation and compilation. The probe allows 180 seconds of remaining boot wait and 120 seconds to install. Android caches Gradle dependencies, builds before allocating the emulator, and allows 180 seconds for emulator boot. Build and device-test steps each have a 5-minute ceiling within the job's overall limit. No test assertion is retried or skipped to meet the budget.
+
+The same 11 groups, 20 dimension checks and exact negative control remain required. `timings.json` records simulator readiness, installation, app launch and probe durations, including a failed phase; command timeouts retain partial output. Optional diagnostic commands are limited to 10 seconds each. These limits fail a stalled run rather than turning incomplete checks into a pass.
 
 The probe reads iOS **presentation layers**, without falling back to model layers, and Android native view getters. It checks combined transforms and opacity, intermediate playback, pause/resume, interruption, shared motion-value bindings, scope cleanup, unload/reload, reduced motion, and the existing 20 StackLayout/GridLayout dimension checks. Position tolerances are 2–3 DIP (6 DIP during interruption), scale/opacity 0.04, and rotation 2°. Timing checks allow a broad intermediate window; this is a correctness gate, not a performance benchmark or a physical-device test.
 
@@ -16,7 +26,7 @@ Dependencies and native templates are pinned in `native-app/package-lock.json`. 
 npm ci
 npm run build
 npm run benchmark:typecheck
-python3 -m unittest discover -s benchmarks -p 'test_native_ci.py'
+python3 -m unittest discover -s benchmarks -p 'test_native_ci*.py'
 cd benchmarks/native-app
 npm ci
 npm run prepare:resources
@@ -31,7 +41,15 @@ Reports, native logs, and a final diagnostic screenshot are written to `benchmar
 
 ## Português
 
-O workflow `Native CI` compila um app isolado a partir do checkout e executa os testes em simulador iOS e emulador Android em cada PR e push para `main`. O JavaScript usa produção, sem HMR. No Android, o shell nativo permite depuração para extrair os relatórios com `adb run-as`; o teste não valida R8 nem APK assinado de release.
+O workflow `Native CI` compila um app isolado a partir do checkout e executa os testes em simulador iOS e emulador Android nas PRs que podem afetar comportamento nativo. O JavaScript usa produção, sem HMR. No Android, o shell nativo permite depuração para extrair os relatórios com `adb run-as`; o teste não valida R8 nem APK assinado de release.
+
+Um job Linux compara a árvore proposta com sua base. Alterações somente em documentação, mídia, testes unitários JS ou workflow de docs pulam os jobs nativos; código, dependências, configuração de build/fixture e arquivos desconhecidos continuam executando ambos. O workflow sempre reporta um resultado, e uma falha na classificação não impede os testes nativos. A execução manual roda a suíte completa.
+
+O CI nativo roda antes do merge, sem repetir automaticamente em cada push para `main`. O CI JS e o deploy de docs continuam rodando na `main`. Um push direto que não passa por PR exige disparar o Native CI manualmente; também é possível fazê-lo para conferir um commit de release já integrado.
+
+Cada job nativo tem **limite de execução de 10 minutos**, antes 35. A fila de runners do GitHub não está incluída nesse limite. O iOS começa o boot logo após o checkout, enquanto instala dependências e compila; depois espera no máximo 180 segundos restantes pelo boot e 120 pela instalação. O Android reutiliza dependências Gradle, compila antes de iniciar o emulador e limita seu boot a 180 segundos. Build e testes no dispositivo têm teto de 5 minutos por etapa, dentro do limite total. Não há retry nem remoção de assertions para caber no orçamento.
+
+Permanecem os 11 grupos, 20 testes de dimensões e o controle negativo exato. `timings.json` registra a duração de cada fase, inclusive falhas, e os timeouts preservam a saída parcial dos comandos. Diagnósticos opcionais têm limite de 10 segundos por comando.
 
 O probe lê a **presentation layer** do iOS e os getters nativos do Android. Valida transformações combinadas, opacidade, posições intermediárias, pausa/retomada, interrupção, motion values compartilhados, limpeza de escopo, unload/reload, redução de movimento e os 20 testes existentes de dimensões em StackLayout/GridLayout. As tolerâncias são 2–3 DIP para posições (6 DIP na interrupção), 0,04 para escala/opacidade e 2° para rotação. É uma verificação de comportamento em simulador, sem promessa de desempenho ou cobertura de aparelhos físicos.
 
