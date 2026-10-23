@@ -1,5 +1,7 @@
 # Contributing
 
+The [native CI probe](benchmarks/native-ci.md) runs real iOS/Android measurements and a negative control on pull requests. See its guide for local reproduction and diagnostic artifacts.
+
 ## A visual feature is complete only with a recording
 
 For each new visual feature or visible behavior change:
