@@ -2,7 +2,7 @@
 
 Issue: [#134](https://github.com/rafaelaugustos/jolt/issues/134).
 
-**Status: not reproduced on the iOS 26.0 simulator. No library fix claimed. Physical-device reproduction is still pending.** Keep #134 open: a passing reconstruction cannot establish that the original rendering defect was fixed.
+**Conclusion: the reported ghost copies are not reproducible in the six tested scenarios on the iOS 26.0 simulator.** Close #134 as not reproducible, retaining this fixture and the evidence for a future regression. This is a triage resolution, not a claim that a renderer bug was fixed. A new failing scene or recording should reopen the investigation.
 
 The original report combines opacity and rotation on a container with overflowing children and a neighboring image. A previous plain-view attempt did not reproduce it. This probe adds the missing `@nativescript-community/ui-svg` renderer and radial SVGs similar to those used for the original halo, flash and ember heads. It uses an asymmetric blue PNG as the stationary sibling so a copied image is distinguishable from the orange animation. It does not copy the original application's artwork.
 
@@ -55,7 +55,7 @@ xcrun devicectl device process launch --device YOUR_DEVICE_ID --terminate-existi
   org.nativescript.jolt.benchmark --opacity-rotation
 ```
 
-Repeat the same normal-speed, child-fade, plain-view, splash and slow-motion comparisons and record the device model, iOS build and footage. No physical iPhone was connected for this investigation. If it fails, preserve the original video and scene before changing `shouldRasterize` or `allowsGroupOpacity`; compare a direct Core Animation implementation to Jolt, then reduce the failing case. Changing those flags without a failure to compare against would not establish a fix.
+Repeat the same normal-speed, child-fade, plain-view, splash and slow-motion comparisons and record the device model, iOS build and footage. The simulator results below do not include physical-device validation. On 2026-10-23, a signed build was produced and installed on an iPhone 17 Pro with iOS 27.2; the device initially refused launch while locked. Build and installation success do not validate rendering on that device. If it fails, preserve the original video and scene before changing `shouldRasterize` or `allowsGroupOpacity`; compare a direct Core Animation implementation to Jolt, then reduce the failing case. Changing those flags without a failure to compare against would not establish a fix.
 
 ## Recorded result — 2026-10-22
 

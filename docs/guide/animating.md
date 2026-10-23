@@ -51,7 +51,7 @@ Animating `badge` then fades the glow and the dot together, on Android and iOS a
 
 <Clip name="opacity-rotation-ios" caption="Investigation scene on the iPhone 17 simulator, iOS 26.0, at normal speed: SVG children overflow four containers that fade and rotate. The blue sibling stays still. The reported ghost copies did not reproduce in this recording; this is not evidence of a fix or physical-device validation." />
 
-See the [reproduction steps and evidence](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/ios-opacity-rotation.md). The issue remains open pending a reproducible failing case. Jolt's iOS driver has not been changed to force rasterization or disable group opacity for this report.
+See the [reproduction steps and evidence](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/ios-opacity-rotation.md). The recorded scenarios did not reproduce the report; the investigation is concluded as not reproducible within that coverage. A failing case should reopen it. Jolt's iOS driver has not been changed to force rasterization or disable group opacity for this report.
 
 ## 3D perspective
 

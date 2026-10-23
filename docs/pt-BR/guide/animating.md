@@ -49,7 +49,7 @@ A [issue #134](https://github.com/rafaelaugustos/jolt/issues/134) acompanha um r
 
 <Clip name="opacity-rotation-ios" caption="Cena de investigação no simulador iPhone 17, iOS 26.0, em velocidade normal: os SVGs ultrapassam quatro contêineres que giram e mudam de opacidade. A imagem azul vizinha permanece parada. As cópias fantasmas não apareceram nesta gravação; ela não comprova uma correção nem validação em aparelho físico." />
 
-Veja os [passos de reprodução e as evidências](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/ios-opacity-rotation.md). A issue continua aberta até termos um caso que reproduza o defeito. O driver iOS do Jolt não foi alterado para forçar rasterização ou desativar a opacidade de grupo por causa deste relato.
+Veja os [passos de reprodução e as evidências](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/ios-opacity-rotation.md). Os cenários gravados não reproduziram o relato; a investigação foi concluída como não reproduzível nessa cobertura. Um caso que falhe deve reabrir a investigação. O driver iOS do Jolt não foi alterado para forçar rasterização ou desativar a opacidade de grupo por causa deste relato.
 
 ## Perspectiva 3D
 
