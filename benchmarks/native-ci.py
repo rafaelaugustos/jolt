@@ -23,8 +23,13 @@ CHECKS = [
 ]
 
 
-def command(*args, required=True):
-    result = subprocess.run(args, text=True, capture_output=True, timeout=60)
+def command(*args, required=True, timeout=60):
+    try:
+        result = subprocess.run(args, text=True, capture_output=True, timeout=timeout)
+    except (OSError, subprocess.TimeoutExpired) as error:
+        if required:
+            raise
+        return f"Optional diagnostic command failed: {args}: {error}\n"
     if required and result.returncode:
         raise RuntimeError(f"{args}: {result.stdout}\n{result.stderr}")
     return result.stdout
@@ -76,8 +81,9 @@ def main():
         args.app = candidates[0]
     if ios:
         command("xcrun", "simctl", "boot", device, required=False)
-        command("xcrun", "simctl", "bootstatus", device, "-b")
-        command("xcrun", "simctl", "install", device, str(args.app))
+        print(f"Waiting for simulator {device} to finish its first boot", flush=True)
+        command("xcrun", "simctl", "bootstatus", device, "-b", timeout=300)
+        command("xcrun", "simctl", "install", device, str(args.app), timeout=180)
         container = pathlib.Path(command("xcrun", "simctl", "get_app_container", device, APP_ID, "data").strip())
 
         def read(name):
@@ -133,8 +139,11 @@ def main():
         else:
             logs = command("adb", "-s", device, "logcat", "-d", "-t", "3000", required=False)
             with (args.output / "screen.png").open("wb") as screenshot:
-                subprocess.run(["adb", "-s", device, "exec-out", "screencap", "-p"], stdout=screenshot, timeout=30)
-            command("adb", "-s", device, "shell", "am", "force-stop", APP_ID)
+                try:
+                    subprocess.run(["adb", "-s", device, "exec-out", "screencap", "-p"], stdout=screenshot, timeout=30)
+                except (OSError, subprocess.TimeoutExpired) as error:
+                    logs += f"\nOptional screenshot failed: {error}\n"
+            command("adb", "-s", device, "shell", "am", "force-stop", APP_ID, required=False)
         (args.output / "native.log").write_text(logs)
 
 

@@ -71,15 +71,12 @@ jobs:
         working-directory: benchmarks/native-app
       - name: Install compile SDK
         run: '"$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-36" "build-tools;36.0.0"'
-      - name: Build production JavaScript with debuggable native shell
-        run: npx ns build android --env.production --no-hmr
-        working-directory: benchmarks/native-app
       - name: Enable KVM
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
-      - name: Native measurements and negative control
+      - name: Build and run native measurements with negative control
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 35
@@ -87,7 +84,7 @@ jobs:
           target: google_apis
           profile: pixel_6
           disable-animations: false
-          script: python3 benchmarks/native-ci.py android --device emulator-5554
+          script: cd benchmarks/native-app && npx ns build android --env.production --no-hmr && cd ../.. && python3 benchmarks/native-ci.py android --device emulator-5554
       - uses: actions/upload-artifact@v7
         if: always()
         with:
