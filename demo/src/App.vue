@@ -13,6 +13,7 @@ import GradientValues from './components/GradientValues.vue'
 import Particles from './components/Particles.vue'
 import SceneLighting from './components/SceneLighting.vue'
 import SceneCamera from './components/SceneCamera.vue'
+import OpacityRotation from './components/OpacityRotation.vue'
 import { launchArgument, onLaunch, runLaunchTaps } from './launch'
 type Screen = 'home' | 'voice' | 'chat'
 const launched = ref(false)
@@ -27,6 +28,7 @@ const gradientValues = ref(false)
 const particleLab = ref(false)
 const sceneLighting = ref(false)
 const sceneCamera = ref(false)
+const opacityRotation = ref(false)
 const autoplay = ref(false)
 const initialScreen = ref<Screen>('home')
 const assistant = ref()
@@ -41,6 +43,7 @@ onLaunch(() => {
   particleLab.value = launchArgument('particle-lab') !== undefined
   sceneLighting.value = launchArgument('scene-lighting') !== undefined
   sceneCamera.value = launchArgument('scene-camera') !== undefined
+  opacityRotation.value = launchArgument('opacity-rotation') !== undefined
   layoutLab.value = launchArgument('layout-lab') !== undefined
   playground.value = launchArgument('playground') !== undefined
   autoplay.value = launchArgument('autoplay') !== undefined
@@ -69,7 +72,7 @@ defineExpose({ assistant })
   <Frame
     ><Page
       actionBarHidden="true"
-      :statusBarStyle="playbackLab ? 'light' : 'dark'"
+      :statusBarStyle="playbackLab || opacityRotation ? 'light' : 'dark'"
       :androidStatusBarBackground="playbackLab ? '#101827' : undefined"
       :class="
         playground ||
@@ -83,7 +86,8 @@ defineExpose({ assistant })
       "
       @loaded="pageLoaded"
     >
-      <ScrollView v-if="launched && sceneCamera"
+      <OpacityRotation v-if="launched && opacityRotation" />
+      <ScrollView v-else-if="launched && sceneCamera"
         ><SceneCamera @back="backToPlayground"
       /></ScrollView>
       <ScrollView v-else-if="launched && sceneLighting"

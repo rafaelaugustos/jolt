@@ -1,0 +1,166 @@
+{
+  "os": "26.0",
+  "model": "iPhone",
+  "observations": [
+    {
+      "svg": true,
+      "childFade": false,
+      "pattern": "fade",
+      "timeScale": 1,
+      "layers": [
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:rotate\",\n    \"jolt:opacity\"\n)"
+        },
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:rotate\",\n    \"jolt:opacity\"\n)"
+        },
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:opacity\",\n    \"jolt:rotate\"\n)"
+        },
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:rotate\",\n    \"jolt:opacity\"\n)"
+        }
+      ]
+    },
+    {
+      "svg": true,
+      "childFade": false,
+      "pattern": "fade",
+      "timeScale": 1,
+      "layers": [
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:rotate\",\n    \"jolt:opacity\"\n)"
+        },
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:rotate\",\n    \"jolt:opacity\"\n)"
+        },
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:rotate\",\n    \"jolt:opacity\"\n)"
+        },
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:rotate\",\n    \"jolt:opacity\"\n)"
+        }
+      ]
+    },
+    {
+      "svg": true,
+      "childFade": false,
+      "pattern": "fade",
+      "timeScale": 1,
+      "layers": [
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:opacity\",\n    \"jolt:rotate\"\n)"
+        },
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:opacity\",\n    \"jolt:rotate\"\n)"
+        },
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:rotate\",\n    \"jolt:opacity\"\n)"
+        },
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:rotate\",\n    \"jolt:opacity\"\n)"
+        }
+      ]
+    },
+    {
+      "svg": true,
+      "childFade": false,
+      "pattern": "fade",
+      "timeScale": 1,
+      "layers": [
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:opacity\",\n    \"jolt:rotate\"\n)"
+        },
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:opacity\",\n    \"jolt:rotate\"\n)"
+        },
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:rotate\",\n    \"jolt:opacity\"\n)"
+        },
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:rotate\",\n    \"jolt:opacity\"\n)"
+        }
+      ]
+    },
+    {
+      "svg": true,
+      "childFade": false,
+      "pattern": "fade",
+      "timeScale": 1,
+      "layers": [
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:rotate\",\n    \"jolt:opacity\"\n)"
+        },
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:rotate\",\n    \"jolt:opacity\"\n)"
+        },
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:rotate\",\n    \"jolt:opacity\"\n)"
+        },
+        {
+          "clips": false,
+          "rasterize": false,
+          "groupOpacity": true,
+          "keys": "(\n    \"jolt:rotate\",\n    \"jolt:opacity\"\n)"
+        }
+      ]
+    }
+  ]
+}

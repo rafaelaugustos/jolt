@@ -4,11 +4,12 @@
   "main": "src/app.ts",
   "version": "1.0.0",
   "dependencies": {
+    "@nativescript-community/ui-svg": "0.2.28",
     "@nativescript/core": "~9.1.1",
-    "nativescript-vue": "3.1.2",
     "@rafaelaugusto/jolt": "file:..",
     "@rafaelaugusto/jolt-native": "file:../packages/native",
-    "jolt-native-fixture": "file:./native-fixture"
+    "jolt-native-fixture": "file:./native-fixture",
+    "nativescript-vue": "3.1.2"
   },
   "devDependencies": {
     "@nativescript/android": "9.1.1",

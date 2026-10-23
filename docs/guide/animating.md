@@ -45,6 +45,14 @@ Animating `badge` then fades the glow and the dot together, on Android and iOS a
 
 <Clip name="fade-overflow-android" caption="A halo larger than its container keeps its shape while the container fades out and back in, on the Android emulator." />
 
+## Investigating iOS opacity with rotation
+
+[Issue #134](https://github.com/rafaelaugustos/jolt/issues/134) tracks a report of copies of a neighboring image when one container fades and rotates while its child draws outside its bounds. The demo includes an SVG reproduction scene with switches for fading the container or the child, plain views, slow motion, and repeated splash playback.
+
+<Clip name="opacity-rotation-ios" caption="Investigation scene on the iPhone 17 simulator, iOS 26.0, at normal speed: SVG children overflow four containers that fade and rotate. The blue sibling stays still. The reported ghost copies did not reproduce in this recording; this is not evidence of a fix or physical-device validation." />
+
+See the [reproduction steps and evidence](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/ios-opacity-rotation.md). The recorded scenarios did not reproduce the report; the investigation is concluded as not reproducible within that coverage. A failing case should reopen it. Jolt's iOS driver has not been changed to force rasterization or disable group opacity for this report.
+
 ## 3D perspective
 
 `rotateX`, `rotateY`, `flipInX` and `flipInY` use the view's `perspective` on both platforms. NativeScript defaults to 1000 DIPs; a smaller positive distance gives a stronger perspective:
