@@ -6,6 +6,8 @@ The probe reads iOS **presentation layers**, without falling back to model layer
 
 After the baseline, a second launch intentionally expects 160 DIP at a native midpoint of 60 DIP. CI accepts this negative control only when that exact assertion fails and the measured midpoint is still within tolerance. Each launch has a unique ID, and the host checks the source commit, production mode, platform, and complete check list. Old reports, missing checks, crashes, and watchdog timeouts cannot turn into a passing run.
 
+The baseline also checks retained live spring chains, reversal continuity, scope suspension, native layer composition, animated sources, rest/wake and disposal. See [live spring validation](./live-springs.md) for the solver checks and limits.
+
 Dependencies and native templates are pinned in `native-app/package-lock.json`. Webpack is pinned to 5.101.3 because NativeScript's worker loader uses the `webpack/lib/dependencies/WorkerDependency` layout. Generated resources and builds stay inside the fixture, separate from `demo`. Node 22, Python 3, and a working NativeScript platform toolchain are required.
 
 ```sh
@@ -32,5 +34,7 @@ O workflow `Native CI` compila um app isolado a partir do checkout e executa os 
 O probe lê a **presentation layer** do iOS e os getters nativos do Android. Valida transformações combinadas, opacidade, posições intermediárias, pausa/retomada, interrupção, motion values compartilhados, limpeza de escopo, unload/reload, redução de movimento e os 20 testes existentes de dimensões em StackLayout/GridLayout. As tolerâncias são 2–3 DIP para posições (6 DIP na interrupção), 0,04 para escala/opacidade e 2° para rotação. É uma verificação de comportamento em simulador, sem promessa de desempenho ou cobertura de aparelhos físicos.
 
 Uma segunda execução espera propositalmente 160 DIP onde a posição medida deve ser 60 DIP. Só essa falha específica é aceita como controle negativo. IDs únicos, commit, modo de produção, plataforma e lista completa de testes impedem que um relatório antigo ou incompleto passe. Os comandos acima também servem para execução local. Use dispositivos dedicados com ID explícito e compile uma plataforma de cada vez. O runner deixa o dispositivo ligado para inspeção e ajusta as escalas de animação do emulador Android para 1.
+
+O baseline também valida cadeias de springs retidos, continuidade nas reversões, suspensão do escopo, composição nativa de camadas, fontes animadas, repouso/retomada e descarte. A [validação dos springs](./live-springs.md) descreve os testes dos solvers e seus limites.
 
 Os artefatos `native-ios` e `native-android` guardam JSON, logs e uma captura final, inclusive em falhas. A captura final costuma mostrar a falha esperada do controle negativo; o resultado normal está em `baseline.json`. As gravações existentes continuam nos guias EN/PT. Qualquer mudança de comportamento visual público continua exigindo gravação nativa revisada conforme `CONTRIBUTING.md`.

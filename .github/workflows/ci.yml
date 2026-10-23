@@ -26,3 +26,4 @@ jobs:
           distribution: temurin
           java-version: 17
       - run: sh benchmarks/android-particle-tests/run.sh
+      - run: python3 benchmarks/live-spring-tests/test_solver.py

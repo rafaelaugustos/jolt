@@ -1,4 +1,5 @@
 import {
+  Application,
   Color,
   ScrollView,
   type EventData,
@@ -13,7 +14,16 @@ import {
   validateColorTarget,
   type ColorValue,
 } from './color.js'
-import { reducedMotion } from './config.js'
+import { onReducedMotion, reducedMotion, timeScale } from './config.js'
+import { springPhysics, type SpringParams } from './spring.js'
+import { mixFor } from './mixer.js'
+import {
+  liveSpringDriver,
+  syncLiveSprings,
+  type LiveNode,
+  type LiveMapping,
+  type LiveBinding,
+} from './live-spring-driver.js'
 import {
   clampDecoration,
   isDecorationProperty,
@@ -22,7 +32,7 @@ import {
 import { getDriver } from './driver/index.js'
 import { setBase, stopBase, ViewAnimation, type Animation, type Plan } from './engine.js'
 import { linear } from './easing.js'
-import { isProperty, type Property } from './properties.js'
+import { isProperty, type NumericProperty, type Property } from './properties.js'
 import { createTrack, instantTrack, type Track } from './track.js'
 import {
   resolveTransition,
@@ -89,6 +99,7 @@ interface Binding {
   readonly root: Root
   readonly read: (value: number) => number
   animation?: ViewAnimation
+  cleanup?: () => void
   sync(): void
 }
 
@@ -110,6 +121,7 @@ class Derived {
     private readonly source: Root | undefined,
     readonly read: (value: number) => number,
     readonly color: boolean,
+    readonly mappings: readonly LiveMapping[] = [],
   ) {}
 
   get root(): Root {
@@ -132,15 +144,36 @@ class Derived {
   ): Derived {
     if (this.color) throw new TypeError('A color cannot be mapped again.')
     const map = mapping(input, output, options)
+    if (this.root instanceof SpringRoot && map.color)
+      throw new TypeError(
+        'Live spring bindings currently support numeric transforms and opacity.',
+      )
     const read = this.read
-    return new Derived(this.root, (value) => map.read(read(value)), map.color)
+    return new Derived(
+      this.root,
+      (value) => map.read(read(value)),
+      map.color,
+      map.color
+        ? []
+        : [
+            ...this.mappings,
+            {
+              input: [...map.input],
+              output: [...map.numbers],
+              clamp: options?.clamp !== false,
+            },
+          ],
+    )
   }
 }
 
 class Root extends Derived {
   readonly bindings = new Set<Binding>()
   readonly listeners = new Set<() => void>()
-  readonly observers = new ValueObservers((time) => this.raw(time))
+  readonly observers = new ValueObservers(
+    (time) => this.raw(time),
+    () => this.running,
+  )
   private readonly rests = new Map<string, number>()
   private readonly runs = new Map<string, Run>()
   private presentation: Presentation | undefined
@@ -219,7 +252,7 @@ class Root extends Derived {
   }
 
   /** Plays a track sampled in the value's own units, such as a drag release. */
-  play(track: Track): PlaybackAnimation {
+  playTrack(track: Track): PlaybackAnimation {
     this.halt('')
     return track.end === 0 ? this.jump(track.to, '') : this.start(track, 0, 1, '')
   }
@@ -435,6 +468,197 @@ class Root extends Derived {
   }
 }
 
+export interface SpringValueOptions extends SpringParams {
+  /** Initial follower position. Defaults to the source's current value. */
+  initial?: number
+  /** Absolute source units. Defaults to 0.001. */
+  restDelta?: number
+  /** Source units per second. Defaults to 0.01. */
+  restSpeed?: number
+}
+
+/** A retained native follower. Settling does not dispose its source subscription. */
+export interface SpringValue extends DerivedValue {
+  readonly disposed: boolean
+  readonly moving: boolean
+  readonly paused: boolean
+  /** Hold position and velocity while retaining the current source target. */
+  pause(): void
+  /** Resume from the held state toward the current source. */
+  play(): void
+  /** Current velocity in source units per second. */
+  getVelocity(): number
+  dispose(): void
+}
+
+class SpringRoot extends Root {
+  readonly node: LiveNode
+  private releaseSource: () => void = () => {}
+  private releaseReduced: () => void = () => {}
+  private ended = false
+  private held = false
+  private background = false
+  private suspend = () => {
+    this.background = true
+    this.updatePause()
+  }
+  private resume = () => {
+    this.background = false
+    this.updatePause()
+  }
+
+  constructor(source: Derived, options: SpringValueOptions) {
+    const initial = options.initial ?? (source.get() as number)
+    const instant = options.duration === 0
+    const params = springPhysics(instant ? { ...options, duration: undefined } : options)
+    const speed = timeScale()
+    const physics = {
+      stiffness: params.stiffness * speed * speed,
+      damping: params.damping * speed,
+      mass: params.mass,
+      restDelta: options.restDelta ?? 0.001,
+      restSpeed: options.restSpeed ?? 0.01,
+    }
+    for (const [key, value] of Object.entries(physics))
+      if (!Number.isFinite(value) || (key === 'damping' ? value < 0 : value <= 0))
+        throw new RangeError(`Invalid springValue ${key}: ${value}.`)
+    if (
+      options.duration !== undefined &&
+      (!Number.isFinite(options.duration) || options.duration < 0)
+    )
+      throw new RangeError('springValue duration must be finite and nonnegative.')
+    if (options.bounce !== undefined && !Number.isFinite(options.bounce))
+      throw new RangeError('springValue bounce must be finite.')
+    super(initial)
+    this.node = liveSpringDriver().create(initial, physics, instant || reducedMotion())
+    const root = source.root
+    try {
+      let update: () => void
+      if (root instanceof SpringRoot) {
+        if (root.disposed) throw new Error('Cannot follow a disposed spring value.')
+        this.node.follow(root.node, source.mappings)
+        update = () => this.notify()
+      } else {
+        const playback = valuePlayback(source as unknown as DerivedValue)
+        update = () => {
+          if (!root.running) {
+            this.node.update({
+              value: source.get() as number,
+              running: false,
+              elapsed: 0,
+              duration: 0,
+              delay: 0,
+              repeat: 0,
+              reverse: false,
+              to: 0,
+              times: [],
+              values: [],
+            })
+            this.notify()
+            return
+          }
+          const { track, elapsed, running, value } = playback.snapshot()
+          this.node.update({
+            value,
+            elapsed,
+            running,
+            duration: track.duration,
+            delay: track.delay,
+            repeat: Number.isFinite(track.repeat) ? track.repeat : -1,
+            reverse: track.reverse,
+            to: track.to,
+            times: track.times,
+            values: track.values,
+          })
+          this.notify()
+        }
+      }
+      root.listeners.add(update)
+      this.releaseSource = () => {
+        root.listeners.delete(update)
+      }
+      this.releaseReduced = onReducedMotion((reduced) => {
+        this.node.reduced(instant || reduced)
+        this.notify()
+      })
+      Application.on(Application.suspendEvent, this.suspend)
+      Application.on(Application.resumeEvent, this.resume)
+      update()
+    } catch (error) {
+      this.dispose()
+      throw error
+    }
+  }
+  override raw(): number {
+    return this.node?.position() ?? super.raw()
+  }
+  override get running(): boolean {
+    return !this.ended && (this.node?.moving() ?? false)
+  }
+  get moving(): boolean {
+    return this.running
+  }
+  get disposed(): boolean {
+    return this.ended
+  }
+  override get paused(): boolean {
+    return this.held
+  }
+  pause() {
+    if (!this.ended) {
+      this.held = true
+      this.updatePause()
+    }
+  }
+  play() {
+    if (!this.ended) {
+      this.held = false
+      this.updatePause()
+    }
+  }
+  private updatePause() {
+    this.node.paused(this.held || this.background)
+    this.notify()
+  }
+  getVelocity(): number {
+    return this.ended ? 0 : this.node.velocity()
+  }
+  override plan(): Plan {
+    throw new TypeError(
+      'A live spring cannot be sampled as a fixed track. Bind it to transforms or opacity.',
+    )
+  }
+  private notify() {
+    this.observers.changed(this.running)
+    for (const listener of [...this.listeners]) listener()
+  }
+  dispose() {
+    if (this.ended) return
+    this.ended = true
+    this.releaseSource()
+    this.releaseReduced()
+    Application.off(Application.suspendEvent, this.suspend)
+    Application.off(Application.resumeEvent, this.resume)
+    for (const binding of [...this.bindings]) release(binding)
+    this.node.dispose()
+    this.observers.clear()
+    for (const listener of [...this.listeners]) listener()
+    this.listeners.clear()
+  }
+}
+
+/** Follow changing targets without rebuilding sampled animation tracks. Dispose with the owning scope. */
+export function springValue(
+  source: DerivedValue,
+  options: SpringValueOptions = {},
+): SpringValue {
+  if (!(source instanceof Derived) || source.color)
+    throw new TypeError('springValue() needs a numeric Jolt motion value.')
+  if (!options || typeof options !== 'object')
+    throw new TypeError('springValue() options must be an object.')
+  return new SpringRoot(source, options) as unknown as SpringValue
+}
+
 function layerName(name: string): string {
   if (typeof name !== 'string' || !name.length)
     throw new TypeError('A layer is named by a nonempty string.')
@@ -462,7 +686,7 @@ export function motionValue(initial = 0): MotionValue {
 }
 
 export function isMotionValue(target: unknown): target is MotionValue {
-  return target instanceof Root
+  return target instanceof Root && !(target instanceof SpringRoot)
 }
 
 export function asRoot(value: MotionValue): Root {
@@ -490,6 +714,13 @@ export function bind(target: Target | readonly Target[], bindings: Bindings): ()
       key === 'scale' ? ['scaleX', 'scaleY'] : isProperty(key) ? [key] : []
     if (!properties.length) throw new Error(`Can't bind "${key}".`)
     for (const property of properties) {
+      if (source.root instanceof SpringRoot) {
+        if (source.root.disposed) throw new Error('Cannot bind a disposed spring value.')
+        if (isColorProperty(property) || isDecorationProperty(property))
+          throw new TypeError(
+            'Live spring bindings currently support numeric transforms and opacity.',
+          )
+      }
       if (isColorProperty(property) !== source.color)
         throw new TypeError(
           source.color
@@ -504,9 +735,14 @@ export function bind(target: Target | readonly Target[], bindings: Bindings): ()
       if (isColorProperty(property)) validateColorTarget(view, property)
       else if (isDecorationProperty(property)) validateDecorationTarget(view, property)
 
-  const made = views.flatMap((view) =>
-    entries.map(([property, source]) => attach(view, property, source)),
-  )
+  const made: (() => void)[] = []
+  try {
+    for (const view of views)
+      for (const [property, source] of entries) made.push(attach(view, property, source))
+  } catch (error) {
+    for (const cleanup of made.reverse()) cleanup()
+    throw error
+  }
   return () => made.forEach((release) => release())
 }
 
@@ -514,6 +750,8 @@ function attach(view: View, property: Property, source: Derived) {
   const existing = bound.get(view)?.get(property)
   if (existing) release(existing)
   const root = source.root
+  if (root instanceof SpringRoot)
+    return attachSpring(view, property as NumericProperty, source, root)
   const binding: Binding = {
     view,
     property,
@@ -551,12 +789,72 @@ function attach(view: View, property: Property, source: Derived) {
   properties.set(property, binding)
   root.bindings.add(binding)
   view.on('loaded', binding.sync)
-  binding.sync()
+  try {
+    binding.sync()
+  } catch (error) {
+    release(binding)
+    throw error
+  }
   return () => {
     if (root.bindings.has(binding)) {
       release(binding)
       binding.animation?.stop()
     }
+  }
+}
+
+function attachSpring(
+  view: View,
+  property: NumericProperty,
+  source: Derived,
+  root: SpringRoot,
+) {
+  let native: LiveBinding | undefined
+  let releaseMix: (() => void) | undefined
+  const detach = () => {
+    if (!native) return
+    native.cancel()
+    releaseMix?.()
+    releaseMix = undefined
+    native = undefined
+    syncLiveSprings(view)
+  }
+  const binding: Binding = {
+    view,
+    property,
+    root,
+    read: source.read,
+    sync() {
+      if (!view.isLoaded || !view.nativeViewProtected || root.disposed) return
+      detach()
+      stopBase(view, [property])
+      native = root.node.bind(view, property, source.mappings)
+      const handle = native
+      releaseMix = mixFor(view, property).attachLive({
+        read: () => handle.value(),
+        layers: (layers) => handle.layers(layers),
+      })
+      syncLiveSprings(view)
+    },
+    cleanup() {
+      view.off('unloaded', detach)
+      detach()
+    },
+  }
+  let properties = bound.get(view)
+  if (!properties) bound.set(view, (properties = new Map()))
+  properties.set(property, binding)
+  root.bindings.add(binding)
+  view.on('loaded', binding.sync)
+  view.on('unloaded', detach)
+  try {
+    binding.sync()
+  } catch (error) {
+    release(binding)
+    throw error
+  }
+  return () => {
+    if (root.bindings.has(binding)) release(binding)
   }
 }
 
@@ -714,6 +1012,7 @@ function release(binding: Binding) {
   binding.view.off('loaded', binding.sync)
   const properties = bound.get(binding.view)
   if (properties?.get(binding.property) === binding) properties.delete(binding.property)
+  binding.cleanup?.()
 }
 
 /** A regular animation on a bound property takes it over; the value keeps its other bindings. */
@@ -775,7 +1074,7 @@ function mapping(
     if (mixers) return mixers[i]!(Math.min(1, Math.max(0, t)))
     return numbers[i]! + (numbers[i + 1]! - numbers[i]!) * t
   }
-  return { read, color }
+  return { read, color, input, numbers }
 }
 
 function springOf(name: SpringName): Transition {

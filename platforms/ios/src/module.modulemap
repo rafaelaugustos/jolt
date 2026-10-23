@@ -2,5 +2,6 @@ module JoltMotion {
     header "JoltImageEffect.h"
     header "JoltPhotoZoom.h"
     header "JoltInteractiveAnimation.h"
+    header "JoltLiveSpring.h"
     export *
 }

@@ -15,6 +15,10 @@ Each running property remembers its curve and start time. On Android, interrupti
 
 [`animateSize()`](./size) has a different execution path: real dimensions and text reflow require NativeScript measurement/layout on the UI thread each frame. Its library-owned frame callback runs JavaScript; it is not render-server playback. `animateLayout()` still measures once and uses native transform tracks. Opt-in motion-value subscribers, scroll input and timeline callback activation also retain their documented JS costs.
 
+[`springValue()`](./live-springs) uses a separate live path: persistent C/Java spring state, a shared native display callback, and native mappings/layer composition. It does not rebuild keyframe animations on each target update. These callbacks share the UI thread; they are not render-server isolation from busy JavaScript. Fixed-target animations keep the sampled path described above.
+
 ## Tests
 
 The tests run the engine against a fake platform driver ([`test/helpers.ts`](https://github.com/rafaelaugustos/jolt/blob/main/test/helpers.ts)) with its own clock: it records the keyframes it would play and ends them when the clock passes their end. The iOS and Android drivers are type-checked against the platform typings.
+
+The native CI fixture also reads presentation-layer/view values on iOS and Android, checks actual dimensions and live follower lifecycle, and verifies an intentional geometry failure. C and Java spring kernels are compiled and compared in deterministic trajectory tests.

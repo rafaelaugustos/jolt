@@ -4,6 +4,7 @@ import {
   type AndroidPlayback,
 } from './android-playback.js'
 import { isDecorationProperty } from '../decoration.js'
+import { syncLiveSprings } from '../live-spring-driver.js'
 import {
   syncAndroidDecoration,
   playAndroidDecoration,
@@ -188,6 +189,7 @@ export function createAndroidDriver(): Driver {
     sync(view) {
       syncAndroidDecoration(view)
       syncAndroidColor(view)
+      syncLiveSprings(view)
     },
 
     elapsed: (handle) => (handle as Handle).elapsed(),

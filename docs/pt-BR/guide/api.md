@@ -9,6 +9,7 @@
 - [`motionScope()`](./motion-controllers) — agrupa animações, subscriptions e ciclo de vida.
 - [`motionStates(targets, definitions, options?)`](./motion-controllers#estados-nomeados) — estados visuais nomeados com interrupção; [`attach()` e `ref()`](./motion-controllers#views-que-voltam) mantêm o estado em views recriadas, e uma transição pode [separar alvos](./motion-controllers#uma-transicao-por-alvo).
 - [`motionValue(initial)`, `bind(target, bindings)`](./motion-values) — um valor controlando várias propriedades e views; `animate()`, `set()` e `stop()` também aceitam um valor. [`scrollValue(scrollView, { axis? })`](./motion-values#offsets-de-rolagem) é um offset de rolagem como valor.
+- [`springValue(source, options?)`](./live-springs) — seguidores nativos com continuidade de posição/velocidade, cadeias, mapeamentos numéricos e camadas de transformação/opacidade. Descarte a assinatura com seu escopo.
 - [`value.subscribe(listener, { immediate? })`](./motion-values#observando-fora-das-views) — observa números, cores derivadas e valores de scroll em JavaScript; retorna a função para cancelar a assinatura.
 - [`animate(value, target, { layer })`, `stop(value, { layer })`](./motion-values#camadas-em-um-valor) — camadas escalares aditivas antes dos mapeamentos.
 - [`decay(target, velocity, options?)`](./decay)

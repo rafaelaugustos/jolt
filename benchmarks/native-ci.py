@@ -18,6 +18,7 @@ CHECKS = [
     "scope disposal cancels native work",
     "unload and reload release the old animation",
     "reduced motion settles spatial animation",
+    "live native spring followers and layers",
     "real dimensions in StackLayout and GridLayout",
 ]
 

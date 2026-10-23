@@ -1,4 +1,35 @@
 declare namespace org.rafaelaugusto.jolt {
+  class LiveSpring {
+    constructor(
+      initial: number,
+      stiffness: number,
+      damping: number,
+      mass: number,
+      restDelta: number,
+      restSpeed: number,
+      reduced: boolean,
+    )
+    static activeCount(): number
+    static nodeCount(): number
+    static sync(view: android.view.View): void
+    getPosition(): number
+    getVelocity(): number
+    isMoving(): boolean
+    follow(source: LiveSpring, mappings: string): void
+    updateInput(snapshot: string): void
+    setTarget(value: number): void
+    setReduced(value: boolean): void
+    setPaused(value: boolean): void
+    bind(view: android.view.View, property: string, mappings: string): LiveSpring.Binding
+    dispose(): void
+  }
+  namespace LiveSpring {
+    class Binding {
+      getValue(): number
+      setLayers(inputs: string): void
+      cancel(): void
+    }
+  }
   class ParticleEmitter {
     constructor(
       target: android.view.View,
