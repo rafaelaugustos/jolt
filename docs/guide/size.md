@@ -2,6 +2,8 @@
 
 `animateSize()` changes a view's actual `width` and `height`, including transitions to and from `auto`. Text reflows, icons retain their proportions, and siblings move through ordinary NativeScript layout. Use it for expanding cards and accordions.
 
+Available since **0.1.0-beta.15** in the core package. No optional native-property plugin is needed.
+
 <Clip name="size-ios" caption="Real width/height, intrinsic content changes, pause, reversal and a tappable following row in the iPhone 17 simulator, iOS 26.0. The controls explicitly select 0.25× speed for the interruption segment; video timing is unchanged." />
 <Clip name="size-android" caption="The native Android 16 emulator demo: width and height reflow, content-driven auto sizing, pause/resume, interruption and GridLayout. Slow motion is selected in the app; these are real ADB touches." />
 

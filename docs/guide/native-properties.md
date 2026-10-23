@@ -84,7 +84,7 @@ Mappings must be pure: do not perform side effects or read changing application 
 | `mapLibreCamera`     | MapLibre `MapLibreMap`             | Coordinate, `zoom` level, `tilt`/`bearing` in degrees          | Android  |
 | `sceneKitPose`       | `SCNNode`, including a camera node | `{ position: [x,y,z], orientation: [x,y,z,w] }`                | iOS      |
 
-For perspective camera zoom, use [`sceneKitFieldOfView(camera)`](./scene-camera): an `SCNCamera` angle in 1–179 degrees, with native playback and motion-value binding. This adapter requires newer core/native builds than beta.14 and a native rebuild.
+For perspective camera zoom, use [`sceneKitFieldOfView(camera)`](./scene-camera): an `SCNCamera` angle in 1–179 degrees, with native playback and motion-value binding. This adapter requires matching core/native versions **0.1.0-beta.15** or newer and a native rebuild.
 
 The five [SceneKit appearance adapters](./scene-lighting#properties-and-units) accept `SCNLight` or `SCNMaterial`: `sceneKitLightIntensity`, `sceneKitLightColor`, `sceneKitMaterialTransparency`, `sceneKitMaterialDiffuse` and `sceneKitMaterialEmission`. All are iOS-only.
 

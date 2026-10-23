@@ -31,6 +31,8 @@ NativeScript's `view.animate()` covers the basics and stops there: one curve for
 
 Jolt computes the motion once, in JavaScript, when the animation starts, and hands it to the platform as keyframes: Core Animation on iOS, `ObjectAnimator` on Android. Those default view tracks play without per-frame JavaScript. Real-size layout, opt-in subscribers, gesture input and timeline step activation retain their documented [execution limits](https://jolt.rafaelaugusto.dev/guide/how-it-works). Springs follow real physics, and an animation that interrupts another one starts from where the view is, at the speed it was going.
 
+The [beta.15 release](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-beta.15) adds real width/height/auto animation and SceneKit camera field of view. Install `@rafaelaugusto/jolt@0.1.0-beta.15`; for external native properties, also install matching `@rafaelaugusto/jolt-native@0.1.0-beta.15` and rebuild the native app.
+
 ## Features
 
 - [25 presets](#presets) to enter, exit and draw attention: `fadeInUp`, `popIn`, `shake`, `heartbeat`...

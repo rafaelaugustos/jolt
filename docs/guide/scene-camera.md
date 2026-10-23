@@ -4,7 +4,13 @@
 
 <Clip name="scene-camera-ios" caption="iPhone 17 simulator, iOS 26: real SceneKit playback and XCTest taps. A fixed camera zooms from 70° toward 32° while paint and light change; pause/resume, reversal, source replacement, child seeking and scene recreation. Real time, on the main thread; simulator footage." />
 
-This feature requires matching core/native builds containing the adapter and a native app rebuild. Published **beta.14 binaries do not contain it**. The platform minimum remains NativeScript 8.9 and iOS 13; native validation used Core 9.1.3, runtime 9.1.0 and an iOS 26 simulator.
+Available since **0.1.0-beta.15**. Install matching core/native versions and rebuild the native app:
+
+```sh
+npm install @rafaelaugusto/jolt@0.1.0-beta.15 @rafaelaugusto/jolt-native@0.1.0-beta.15
+```
+
+The platform minimum remains NativeScript 8.9 and iOS 13; native validation used Core 9.1.3, runtime 9.1.0 and an iOS 26 simulator.
 
 ## A camera angle in degrees
 
