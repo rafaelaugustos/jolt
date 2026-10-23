@@ -10,7 +10,7 @@ See [SceneKit lights and materials](./scene-lighting) for typed intensity, color
 
 ## Optional installation
 
-Available since Jolt **0.1.0-beta.13**, with a matching optional native runtime package.
+The registry, map and camera-pose adapters are available since Jolt **0.1.0-beta.13**. [SceneKit lights and materials](./scene-lighting) require **0.1.0-beta.14** or newer. Use matching core and optional native runtime versions.
 
 Install `@rafaelaugusto/jolt-native` alongside Jolt and rebuild the native application. The JavaScript registry lives in the `/native` entry; compiled sources and MapKit/SceneKit framework linkage live exclusively in this optional plugin. Apps with only the main package do not include those helpers. Creating a property without the plugin reports an explicit error.
 

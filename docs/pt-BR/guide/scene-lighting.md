@@ -2,6 +2,12 @@
 
 Anime intensidade/cor de luz, transparência de material e cores sólidas de diffuse/emission pelo [contrato de propriedades nativas](./native-properties). Os adaptadores são **exclusivos do iOS** e exigem o plugin opcional `@rafaelaugusto/jolt-native` e uma recompilação nativa. Não incluem renderer 3D Android, mistura de texturas ou uniforms de shaders.
 
+Disponível desde a **0.1.0-beta.14**. Instale versões correspondentes do core e do runtime nativo opcional e recompile o aplicativo iOS:
+
+```sh
+npm install @rafaelaugusto/jolt@0.1.0-beta.14 @rafaelaugusto/jolt-native@0.1.0-beta.14
+```
+
 <Clip name="scene-lighting-ios" caption="Simulador iPhone 17, iOS 26: renderização SceneKit real e toques do XCTest. Câmera, pintura, vidro e iluminação compartilham bindings nativos; uma camada escalar de carga soma um pulso enquanto a base continua. Inclui pausa/retomada, seek nos playbacks filhos e descarte/recriação da cena. Reprodução em tempo real na thread principal; não é gravação de aparelho físico." />
 
 ## Propriedades e unidades

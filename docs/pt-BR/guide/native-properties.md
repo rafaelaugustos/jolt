@@ -8,7 +8,7 @@ Anime coordenadas de mapas, câmeras, luzes e materiais de cor sólida SceneKit 
 
 ## Instalação opcional
 
-Disponível desde o Jolt **0.1.0-beta.13**, com o pacote nativo opcional na mesma versão.
+O registro e os adaptadores de mapas e pose de câmera estão disponíveis desde o Jolt **0.1.0-beta.13**. [Luzes e materiais SceneKit](./scene-lighting) exigem **0.1.0-beta.14** ou mais recente. Use o core e o pacote nativo opcional na mesma versão.
 
 Instale `@rafaelaugusto/jolt-native` junto com o Jolt e recompile o aplicativo nativo. O registro JavaScript fica na entrada `/native`; os fontes compilados e os frameworks MapKit/SceneKit ficam exclusivamente nesse plugin opcional. Apps com somente o pacote principal não incluem esses helpers. A ausência do plugin produz um erro explícito ao criar uma propriedade.
 

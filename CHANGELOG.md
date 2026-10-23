@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.0-beta.14 (2026-10-22)
+
+- Add Android haptics at spring arrival or explicit playback points, respecting system/view feedback settings, pause/resume, seek, interruption, reduced motion and Animator duration scale. Native timing markers dispatch discrete JS boundary callbacks; there is no haptic frame loop. Styles depend on device hardware and are not calibrated intensity levels.
+- Bind gradient angle, center, radius, colors and stops to motion/derived values and observable playback on iOS and Android. Share source timing, support scalar layers and scope lifecycle, and extend the Vue directive. Native playback uses bounded sampled windows; setup, gestures and window rebuilds still use JavaScript.
+- Add native Android `particles()` and `confetti()` with circles, rings and rectangles, continuous/finite emission, gravity, spin, resize and window-relative bursts. Native simulation and cleanup require no per-frame JS callback. Preserve touch input, cancel on background/unload/reduced motion, and respect disabled Android animators. Rebuild Android apps to include the bundled Java classes and bridge metadata.
+- Add five iOS SceneKit adapters in `@rafaelaugusto/jolt/native`: light intensity/color, material transparency and solid diffuse/emission colors. Support common playback, shared motion-value bindings, scalar charge layers, timeline controls and explicit scope lifecycle. Validate native targets/contents, preserve shared-property ownership and disable implicit SceneKit actions. Install matching `@rafaelaugusto/jolt-native` beta.14 and rebuild; camera FOV, textures and Android 3D renderer adapters are not included.
+- Document native execution and lifecycle limits, including UI-thread contention, gradient sampling windows, hardware-dependent haptics and SceneKit model-value reads. Add eight new inspected recordings and refresh the iOS haptics recording, with English/Portuguese guides and physical Android, emulator and iOS simulator validation reports.
+
 ## 0.1.0-beta.13 (2026-10-22)
 
 - Observe motion values and their numeric/color derivations with `subscribe()`, using one shared observation clock and opt-in JavaScript callbacks. Add scope-owned subscriptions and document how they differ from native view bindings.
