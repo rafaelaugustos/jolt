@@ -96,8 +96,9 @@ jobs:
       - run: npm ci && npm run build && npm run benchmark:typecheck
       - run: npm ci && npm run prepare:resources
         working-directory: benchmarks/native-app
-      - name: Install compile SDK
-        run: '"$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-36" "build-tools;36.0.0"'
+      - name: Install compile SDK and emulator tools
+        # NativeScript validates `emulator -help` even for a build without a running device.
+        run: '"$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-36" "build-tools;36.0.0" "emulator"'
       - name: Build production JavaScript for Android
         timeout-minutes: 5
         run: npx ns build android --env.production --no-hmr
