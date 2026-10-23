@@ -78,6 +78,9 @@ try:
             temporary.replace(control/'ack.json')
         if runner.returncode:
             raise RuntimeError('XCTest failed; inspect '+str(output/'xctest.log'))
+        if 'testGestureNavigation' in methods:
+            from gesture_navigation import verify_navigation
+            verify_navigation('ios', serial)
 finally:
     if recorder and recorder.poll() is None:
         recorder.send_signal(signal.SIGINT)

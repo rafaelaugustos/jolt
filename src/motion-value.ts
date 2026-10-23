@@ -628,7 +628,7 @@ class SpringRoot extends Root {
       'A live spring cannot be sampled as a fixed track. Bind it to transforms or opacity.',
     )
   }
-  private notify() {
+  notify() {
     this.observers.changed(this.running)
     for (const listener of [...this.listeners]) listener()
   }
@@ -657,6 +657,14 @@ export function springValue(
   if (!options || typeof options !== 'object')
     throw new TypeError('springValue() options must be an object.')
   return new SpringRoot(source, options) as unknown as SpringValue
+}
+
+/** Internal boundary notification for values driven directly by native input. */
+export function liveValueInput(value: DerivedValue) {
+  if (!(value instanceof Derived) || !(value.root instanceof SpringRoot))
+    throw new TypeError('Native input requires a live value.')
+  const root = value.root
+  return { node: root.node, changed: () => root.notify() }
 }
 
 function layerName(name: string): string {

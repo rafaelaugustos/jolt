@@ -49,7 +49,7 @@ public final class LiveSpring {
     private SampledInput input;
     private boolean direct = true;
     private double targetValue;
-    private boolean moving, reduced, disposed, paused;
+    private boolean moving, reduced, disposed, paused, inputHeld;
 
     public LiveSpring(double initial, double stiffness, double damping, double mass,
                       double restDelta, double restSpeed, boolean reduced) {
@@ -84,6 +84,16 @@ public final class LiveSpring {
         direct = true; targetValue = value; input = null;
         wake();
     }
+    public void holdInput(double value, double velocity) {
+        if (disposed) return;
+        inputHeld = true; direct = true; targetValue = value; input = null;
+        state.position = value; state.velocity = velocity; moving = true;
+        apply(); schedule();
+    }
+    public void releaseInput(double target, double velocity) {
+        if (disposed) return;
+        inputHeld = false; state.velocity = velocity; setTarget(target);
+    }
     public void setReduced(boolean value) { reduced = value; wake(); }
     public void setPaused(boolean value) {
         paused = value;
@@ -96,7 +106,7 @@ public final class LiveSpring {
         schedule();
     }
     private void step(double now, double dt) {
-        if (disposed || paused) return;
+        if (disposed || paused || inputHeld) return;
         double target = source == null ? (direct ? targetValue : input.value(now)) : map(source.state.position, sourceMaps);
         boolean inputMoving = source == null ? !direct && input.running(now) : source.moving;
         if (reduced) { state.position = target; state.velocity = 0; }

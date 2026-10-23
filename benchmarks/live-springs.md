@@ -18,10 +18,10 @@ The Live springs native demo was recorded with actual touch interaction on both 
 
 Scalar retargeting uses a direct native setter and retains its existing node and bindings. The C/Java solver step does not allocate a track. Animated source snapshots and changes to layer membership still allocate boundary data. The native-node count assertion does not establish zero total heap allocation; there is no physical-device allocation or frame-time profile in this report.
 
-Both live schedulers execute on the UI thread. They do not isolate movement from busy JavaScript on that thread. The demo's touch input also enters JavaScript. Native gesture recognition/scroll handoff is separate work. Native chains and bindings do not require a per-frame JavaScript observer; explicit `subscribe()` does. These results do not claim physical-device 120 Hz performance, R8 coverage, or support for live color/decoration/compound-adapter bindings.
+Both live schedulers execute on the UI thread. They do not isolate movement from busy JavaScript on that thread. The demo's touch input also enters JavaScript. Native gesture recognition/scroll handoff has its own [validation report](./gestures.md). Native chains and bindings do not require a per-frame JavaScript observer; explicit `subscribe()` does. These results do not claim physical-device 120 Hz performance, R8 coverage, or support for live color/decoration/compound-adapter bindings.
 
 ## Português
 
 Os testes compilam os solvers de produção C/Java, comparam trajetórias e validam a integração nativa em simulador iOS e emulador Android. A cadeia de três seguidores foi exercitada com reversões, pausa, fonte animada, camada independente, repouso, retomada e descarte. A simulação de passos de 60/120 Hz não é uma medição em aparelho físico.
 
-As gravações revisadas dos dois demos estão nos guias EN/PT. A atualização escalar mantém o mesmo nó nativo e não reconstrói tracks; isso não é uma promessa de zero alocações totais. Callbacks nativos ao vivo usam a thread de UI, e os eventos de toque desse demo ainda passam por JavaScript. Composição de gestos e transferência para scroll permanecem trabalho separado.
+As gravações revisadas dos dois demos estão nos guias EN/PT. A atualização escalar mantém o mesmo nó nativo e não reconstrói tracks; isso não é uma promessa de zero alocações totais. Callbacks nativos ao vivo usam a thread de UI, e os eventos de toque desse demo ainda passam por JavaScript. Composição de gestos e transferência para scroll têm um [relatório próprio](./gestures.md).

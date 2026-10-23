@@ -23,6 +23,7 @@ import {
 } from '@rafaelaugusto/jolt'
 import { runSizeChecks } from './size-checks'
 import { runLiveSpringChecks } from './live-spring-checks'
+import { runGestureLifecycleChecks } from './gesture-lifecycle-checks'
 
 declare const __NATIVE_CI_BUILD__: Record<string, unknown>
 const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms))
@@ -233,6 +234,10 @@ async function run(view: Label, other: Label, host: StackLayout, status: Label) 
   await reset()
   stage = 'live native spring followers and layers'
   samples.push(...(await runLiveSpringChecks(view, other)))
+  pass()
+
+  stage = 'native gesture values and scroll delegate lifecycle'
+  samples.push(await runGestureLifecycleChecks(host))
   pass()
 
   stage = 'real dimensions in StackLayout and GridLayout'

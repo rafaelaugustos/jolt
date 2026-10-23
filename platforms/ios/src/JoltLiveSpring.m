@@ -44,7 +44,7 @@ static double inputValue(NSDictionary *input, double anchor, double now) {
 }
 @property(nonatomic) double stiffness, damping, mass, restDelta, restSpeed;
 @property(nonatomic, readwrite) BOOL moving;
-@property(nonatomic) BOOL reduced, paused, disposed, direct;
+@property(nonatomic) BOOL reduced, paused, disposed, direct, inputHeld;
 @property(nonatomic) double targetValue;
 @property(nonatomic, nullable) JoltLiveSpring *source;
 @property(nonatomic) NSArray *sourceMaps;
@@ -129,6 +129,17 @@ static double previousFrame;
     if (self.disposed) return;
     self.direct = YES; self.targetValue = value; self.input = nil; [self wake];
 }
+- (void)holdInput:(double)value velocity:(double)velocity {
+    if (self.disposed) return;
+    self.inputHeld = YES; self.direct = YES; self.targetValue = value; self.input = nil;
+    _state = (JoltSpringState){value, velocity}; self.moving = YES;
+    [CATransaction begin]; [CATransaction setDisableActions:YES]; [self apply]; [CATransaction commit];
+    [JoltLiveSpring schedule];
+}
+- (void)releaseInput:(double)target velocity:(double)velocity {
+    if (self.disposed) return;
+    self.inputHeld = NO; _state.velocity = velocity; [self setTarget:target];
+}
 - (void)setReduced:(BOOL)value { _reduced = value; [self wake]; }
 - (void)setPaused:(BOOL)value {
     _paused = value;
@@ -144,7 +155,7 @@ static double previousFrame;
     [JoltLiveSpring schedule];
 }
 - (void)step:(double)now seconds:(double)seconds {
-    if (self.disposed || self.paused) return;
+    if (self.disposed || self.paused || self.inputHeld) return;
     double target = self.source ? mapped(self.source.position, self.sourceMaps) : (self.direct ? self.targetValue : inputValue(self.input, self.anchor, now));
     BOOL inputMoving = self.source ? self.source.moving : (!self.direct && inputRunning(self.input, self.anchor, now));
     if (self.reduced) _state = (JoltSpringState){target, 0};

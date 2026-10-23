@@ -19,6 +19,7 @@ CHECKS = [
     "unload and reload release the old animation",
     "reduced motion settles spatial animation",
     "live native spring followers and layers",
+    "native gesture values and scroll delegate lifecycle",
     "real dimensions in StackLayout and GridLayout",
 ]
 

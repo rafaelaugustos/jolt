@@ -86,6 +86,66 @@ final class DocsTests: XCTestCase {
             Thread.sleep(forTimeInterval: 3)
         }
     }
+    func testGestureNavigation() throws {
+        launch(["--gesture-lab", "--gesture-navigation-check"], "Photo")
+        let surface = app.descendants(matching: .any)["Photo gesture surface"].firstMatch
+        drag(surface, x: 80, y: -30)
+        XCTAssertFalse(app.buttons["Photo"].exists, app.debugDescription)
+        XCTAssertTrue(app.buttons["Native gestures"].exists, app.debugDescription)
+    }
+    func testGestureComposition() throws {
+        launch(["--gesture-lab"], "Photo")
+        try record("gesture-composition-ios") {
+            let surface = app.descendants(matching: .any)["Photo gesture surface"].firstMatch
+            XCTAssertTrue(surface.exists, app.debugDescription)
+            XCTAssertNil(JoltGestureTrace(CGPoint(x: surface.frame.midX, y: surface.frame.midY)))
+            Thread.sleep(forTimeInterval: 0.6)
+            let state = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "x ")).firstMatch
+            XCTAssertTrue(state.exists, app.debugDescription)
+            print("JOLT_NATIVE_GESTURE_TRACE \(state.label)")
+            let components = state.label.components(separatedBy: " · ")
+            XCTAssertEqual(components.count, 4, state.label)
+            if components.count == 4 {
+                let x = Double(components[0].dropFirst(2)) ?? .nan
+                let scale = Double(components[2].dropFirst(6)) ?? .nan
+                let rotation = Double(components[3].dropFirst(7).dropLast()) ?? .nan
+                XCTAssertTrue((35...75).contains(x), state.label)
+                XCTAssertTrue((1.25...1.6).contains(scale), state.label)
+                XCTAssertTrue((20...40).contains(rotation), state.label)
+            }
+            tap("Reset", wait: 0.3)
+            drag(surface, x: 65, y: -45)
+            surface.pinch(withScale: 1.5, velocity: 1)
+            surface.rotate(.pi / 5, withVelocity: 1)
+            Thread.sleep(forTimeInterval: 0.7)
+            tap("Reset", wait: 0.3)
+            surface.tap()
+            Thread.sleep(forTimeInterval: 0.8)
+            XCTAssertTrue(app.staticTexts["Single tap 1 · double taps 0"].exists, app.debugDescription)
+            XCTAssertTrue(app.staticTexts["Existing tap listener: 1"].exists, app.debugDescription)
+            surface.doubleTap()
+            Thread.sleep(forTimeInterval: 0.8)
+            XCTAssertTrue(app.staticTexts["Double tap 1 · single taps 1"].exists, app.debugDescription)
+        }
+        tap("Carousel")
+        try record("gesture-carousel-ios") {
+            let surface = app.descendants(matching: .any)["Horizontal carousel"].firstMatch
+            drag(surface, x: 70, y: 0)
+            drag(surface, x: 0, y: -160)
+            app.scrollViews["Outer list"].swipeDown()
+        }
+        tap("Sheet")
+        try record("gesture-handoff-ios") {
+            let list = app.scrollViews["Inner list"]
+            XCTAssertTrue(list.exists, app.debugDescription)
+            let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.68))
+            start.press(forDuration: 0.15, thenDragTo: start.withOffset(CGVector(dx: 0, dy: -330)), withVelocity: .slow, thenHoldForDuration: 0.2)
+            Thread.sleep(forTimeInterval: 0.6)
+            let upper = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.42))
+            upper.press(forDuration: 0.15, thenDragTo: upper.withOffset(CGVector(dx: 0, dy: 330)), withVelocity: .slow, thenHoldForDuration: 0.2)
+            Thread.sleep(forTimeInterval: 0.6)
+        }
+    }
     func testLiveSprings() throws {
         launch(["--live-springs"], "Target right")
         try record("live-springs-ios") {

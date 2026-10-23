@@ -34,6 +34,10 @@
       "default": "./dist/vue/index.js"
     },
     "./package.json": "./package.json",
+    "./gestures": {
+      "types": "./dist/gestures/index.d.ts",
+      "default": "./dist/gestures/index.js"
+    },
     "./native": {
       "types": "./dist/native/index.d.ts",
       "default": "./dist/native/index.js"

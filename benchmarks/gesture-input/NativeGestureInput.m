@@ -1,0 +1,38 @@
+#import "NativeGestureInput.h"
+#import <UIKit/UIKit.h>
+
+// XCTest has no public API for a moving, rotating two-pointer path. These private
+// test-runner interfaces are discovered dynamically and never linked into Jolt.
+@interface NSObject (JoltTestInput)
+- (instancetype)initForTouchAtPoint:(CGPoint)point offset:(double)offset;
+- (void)moveToPoint:(CGPoint)point atOffset:(double)offset;
+- (void)liftUpAtOffset:(double)offset;
+- (instancetype)initWithName:(NSString *)name interfaceOrientation:(NSInteger)orientation;
+- (void)addPointerEventPath:(id)path;
+- (BOOL)synthesizeWithError:(NSError **)error;
+@end
+
+NSString *JoltGestureTrace(CGPoint center) {
+    Class pathClass = NSClassFromString(@"XCPointerEventPath"), recordClass = NSClassFromString(@"XCSynthesizedEventRecord");
+    if (!pathClass || !recordClass) return @"XCTest pointer-path interfaces are unavailable";
+    id first = [[pathClass alloc] initForTouchAtPoint:CGPointMake(center.x - 40, center.y) offset:0];
+    CGPoint p = CGPointMake(center.x - 24, center.y - 8);
+    [first moveToPoint:p atOffset:.3];
+    id second = [[pathClass alloc] initForTouchAtPoint:CGPointMake(p.x + 80, p.y) offset:.4];
+    CGPoint a = p, b = CGPointMake(p.x + 80, p.y);
+    for (int index = 1; index <= 30; index++) {
+        double t = index / 30.0, angle = t * M_PI / 6, radius = 40 * (1 + .5 * t);
+        CGPoint c = CGPointMake(p.x + 40 + 32 * t, p.y - 20 * t);
+        a = CGPointMake(c.x - cos(angle) * radius, c.y - sin(angle) * radius);
+        b = CGPointMake(c.x + cos(angle) * radius, c.y + sin(angle) * radius);
+        [first moveToPoint:a atOffset:.4 + t]; [second moveToPoint:b atOffset:.4 + t];
+    }
+    [second liftUpAtOffset:1.45];
+    [first moveToPoint:CGPointMake(a.x + 16, a.y + 8) atOffset:1.8];
+    [first liftUpAtOffset:1.85];
+    id record = [[recordClass alloc] initWithName:@"Jolt simultaneous pan pinch rotation" interfaceOrientation:UIInterfaceOrientationPortrait];
+    [record addPointerEventPath:first]; [record addPointerEventPath:second];
+    if (![record respondsToSelector:@selector(synthesizeWithError:)]) return @"XCTest event synthesis is unavailable";
+    NSError *error = nil;
+    return [record synthesizeWithError:&error] ? nil : error.localizedDescription ?: @"XCTest event synthesis failed";
+}

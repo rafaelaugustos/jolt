@@ -1,5 +1,6 @@
 import { isAndroid, type View } from '@nativescript/core'
 import type { NumericProperty } from './properties.js'
+import { retainInteractiveLayout } from './driver/ios-layout.js'
 
 export interface LiveMapping {
   input: readonly number[]
@@ -71,6 +72,12 @@ const handles = new WeakMap<
   LiveNode,
   org.rafaelaugusto.jolt.LiveSpring | JoltLiveSpring
 >()
+/** Internal native input connection; never exposes handles through the public value API. */
+export function nativeLiveNode(node: LiveNode) {
+  const handle = handles.get(node)
+  if (!handle) throw new Error('A gesture needs a native live value node.')
+  return handle
+}
 const nativeDriver: LiveSpringDriver = {
   create(initial, physics, reduced) {
     const { stiffness, damping, mass, restDelta, restSpeed } = physics
@@ -141,15 +148,25 @@ const nativeDriver: LiveSpringDriver = {
       reduced: (value) => native.setReduced(value),
       paused: (value) => native.setPaused(value),
       bind(view, property, maps) {
-        const binding = native.bindPropertyMappings(
-          view.nativeViewProtected,
-          property,
-          JSON.stringify(maps),
-        )
+        const releaseLayout = retainInteractiveLayout(view)
+        let binding: JoltLiveSpringBinding
+        try {
+          binding = native.bindPropertyMappings(
+            view.nativeViewProtected,
+            property,
+            JSON.stringify(maps),
+          )
+        } catch (error) {
+          releaseLayout()
+          throw error
+        }
         return {
           value: () => binding.value,
           layers: (inputs) => binding.setLayers(JSON.stringify(inputs)),
-          cancel: () => binding.cancel(),
+          cancel: () => {
+            binding.cancel()
+            releaseLayout()
+          },
         }
       },
       dispose: () => native.dispose(),
