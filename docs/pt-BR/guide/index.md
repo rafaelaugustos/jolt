@@ -14,7 +14,7 @@ animate(rows, 'fadeInUp', { stagger: 40 })
 
 O `view.animate()` do NativeScript cobre o básico e para por aí: uma curva para todas as propriedades, uma curva `spring` sem ajustes, nenhum keyframe, e uma promise que rejeita quando a animação é cancelada. Qualquer coisa mais rica acaba virando código de plataforma.
 
-O Jolt calcula o movimento uma vez, em JavaScript, quando a animação começa, e entrega à plataforma como keyframes: Core Animation no iOS, `ObjectAnimator` no Android. Nada roda em JavaScript enquanto ela toca. Os springs seguem física de verdade, e uma animação que interrompe outra começa de onde a view está, na velocidade em que ia.
+O Jolt calcula o movimento uma vez, em JavaScript, quando a animação começa, e entrega à plataforma como keyframes: Core Animation no iOS, `ObjectAnimator` no Android. As tracks padrão de views tocam sem JavaScript por frame. Layout com dimensões reais, assinaturas opcionais e entrada de gestos têm seus próprios [limites de execução](./how-it-works). Os springs seguem física de verdade, e uma animação que interrompe outra começa de onde a view está, na velocidade em que ia.
 
 ## O que ele cobre
 
@@ -27,7 +27,10 @@ O Jolt calcula o movimento uma vez, em JavaScript, quando a animação começa, 
 - [Diretivas e um componente de transição para Vue](./vue) na entrada opcional `@rafaelaugusto/jolt/vue`.
 - [Entrada de texto](./text) por letra ou palavra no iOS e no Android, mantendo uma única Label acessível.
 - [Interrupções](./interrupting) que pegam o valor e a velocidade na tela, sem pulo.
-- [Reprodução nativa](./how-it-works): Core Animation no iOS, `ObjectAnimator` no Android, nada em JavaScript enquanto toca.
+- [Reprodução nativa](./how-it-works): Core Animation no iOS e `ObjectAnimator` no Android nas tracks padrão de views; os custos de execução são documentados por API.
+
+- [Dimensões reais](./size): anime width, height e auto enquanto o texto se reorganiza e os vizinhos se movem.
+- [Campo de visão da câmera SceneKit](./scene-camera): coordene zoom em perspectiva com motion values no iOS.
 
 ## Por onde começar
 

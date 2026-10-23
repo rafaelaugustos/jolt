@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.0-beta.15 (2026-10-23)
+
+- Add `animateSize()` for real width, height and intrinsic `auto` transitions in StackLayout/GridLayout, including inside ScrollView. Text reflows and neighboring controls follow the actual bounds. Support combined axes, content changes, interrupted retargeting, pause/resume, hold/restore cancellation, motion scopes and Reduced Motion. This API performs JavaScript measurement/layout on the UI thread each frame; existing `animateLayout()` keeps its FLIP behavior.
+- Add the iOS `sceneKitFieldOfView(camera)` adapter for perspective camera angles, with native playback, motion-value bindings, timeline coordination, ownership validation and lifecycle cleanup. Requires matching core/native beta.15 packages and a native app rebuild. Orthographic/custom projections are unsupported; native writes share the main thread.
+- Add an SVG opacity/rotation reproduction and regression evidence for iOS. The reported neighboring-image copies were not reproducible in the tested scenarios; this release does not claim a driver fix for that report.
+- Include four inspected native recordings with English/Portuguese guides and validation reports. Refresh the website's release highlights, installation instructions and execution-cost descriptions.
+
 ## 0.1.0-beta.14 (2026-10-22)
 
 - Add Android haptics at spring arrival or explicit playback points, respecting system/view feedback settings, pause/resume, seek, interruption, reduced motion and Animator duration scale. Native timing markers dispatch discrete JS boundary callbacks; there is no haptic frame loop. Styles depend on device hardware and are not calibrated intensity levels.

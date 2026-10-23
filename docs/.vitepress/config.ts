@@ -1,5 +1,6 @@
 import { existsSync } from 'node:fs'
 import { defineConfig, type DefaultTheme } from 'vitepress'
+import { version } from '../../package.json'
 
 const site = 'https://jolt.rafaelaugusto.dev'
 const repo = 'https://github.com/rafaelaugustos/jolt'
@@ -267,6 +268,7 @@ gtag('config', '${analytics}');`,
           { text: 'Guide', link: '/guide/' },
           { text: 'API', link: '/guide/api' },
           { text: 'Releases', link: `${repo}/releases` },
+          { text: `v${version}`, link: `${repo}/releases/tag/v${version}` },
         ],
         sidebar: { '/guide/': sidebar('', en) },
         outline: { level: [2, 3], label: 'On this page' },
@@ -291,6 +293,7 @@ gtag('config', '${analytics}');`,
           { text: 'Guia', link: '/pt-BR/guide/' },
           { text: 'API', link: '/pt-BR/guide/api' },
           { text: 'Versões', link: `${repo}/releases` },
+          { text: `v${version}`, link: `${repo}/releases/tag/v${version}` },
         ],
         sidebar: { '/pt-BR/guide/': sidebar('/pt-BR', pt) },
         outline: { level: [2, 3], label: 'Nesta página' },

@@ -19,7 +19,7 @@ animate(card, { opacity: 0.5, y: -20 })
 | `rotate`             | graus                                        |
 | `rotateX`, `rotateY` | graus, com perspectiva                       |
 
-Cores de fundo, borda e texto também são suportadas. Veja [Cores](./colors). Veja [cantos, bordas e sombras](./decorations) para propriedades numéricas de decoração. Tamanho e mudanças de layout [ainda não existem](./not-there-yet).
+Cores de fundo, borda e texto também são suportadas. Veja [Cores](./colors). Veja [cantos, bordas e sombras](./decorations) para propriedades numéricas de decoração. Use [`animateSize()`](./size) para transições reais de width/height/auto com reorganização do texto, ou [`animateLayout()`](./layout) para transições de layout com FLIP.
 
 ## Fades no Android
 

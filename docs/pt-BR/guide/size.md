@@ -2,6 +2,8 @@
 
 `animateSize()` altera a `width` e a `height` reais de uma view, incluindo transições de e para `auto`. O texto quebra linha, os ícones preservam as proporções e os vizinhos se movem pelo layout normal do NativeScript. Use em cards expansíveis e accordions.
 
+Disponível desde a **0.1.0-beta.15** no pacote principal. Não exige o plugin opcional de propriedades nativas.
+
 <Clip name="size-ios" caption="Largura/altura reais, mudanças de conteúdo intrínseco, pausa, inversão e toque na linha seguinte no simulador iPhone 17, iOS 26.0. Os controles selecionam explicitamente velocidade 0,25× no trecho de interrupção; o tempo do vídeo foi preservado." />
 <Clip name="size-android" caption="Demo nativo no emulador Android 16: reorganização por largura/altura, auto pelo conteúdo, pausa/retomada, interrupção e GridLayout. A câmera lenta é selecionada no app; os toques são reais, via ADB." />
 

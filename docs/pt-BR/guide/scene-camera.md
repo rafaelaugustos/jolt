@@ -4,7 +4,13 @@
 
 <Clip name="scene-camera-ios" caption="Simulador iPhone 17, iOS 26: reprodução SceneKit real e toques do XCTest. A câmera fixa aproxima o enquadramento de 70° para 32° enquanto pintura e luz mudam; pausa/retomada, reversão, troca de fonte, seek dos filhos e recriação da cena. Tempo real na thread principal; gravação de simulador." />
 
-O recurso exige builds correspondentes do core e do plugin que incluam o adaptador, além da recompilação do app nativo. Os binários publicados da **beta.14 ainda não o incluem**. O mínimo continua NativeScript 8.9 e iOS 13; a validação nativa usou Core 9.1.3, runtime 9.1.0 e simulador iOS 26.
+Disponível desde a **0.1.0-beta.15**. Instale versões correspondentes do core e do plugin e recompile o app nativo:
+
+```sh
+npm install @rafaelaugusto/jolt@0.1.0-beta.15 @rafaelaugusto/jolt-native@0.1.0-beta.15
+```
+
+O mínimo continua NativeScript 8.9 e iOS 13; a validação nativa usou Core 9.1.3, runtime 9.1.0 e simulador iOS 26.
 
 ## Ângulo da câmera em graus
 

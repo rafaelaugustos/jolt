@@ -8,6 +8,8 @@ Por enquanto está em beta, publicado sob a tag `next`. Requer `@nativescript/co
 
 As animações de cores no Android incluem um pequeno helper Java. Recompile o app nativo após instalar ou atualizar o Jolt; uma atualização só de JavaScript não instala código nativo.
 
+A versão atual é **0.1.0-beta.15**. Para fixá-la, use `npm install @rafaelaugusto/jolt@0.1.0-beta.15`. Para [adaptadores de propriedades nativas externas](./native-properties), instale também `@rafaelaugusto/jolt-native@0.1.0-beta.15` e recompile o aplicativo nativo.
+
 ## ProMotion no iOS
 
 No iOS 15 ou mais novo, o Jolt solicita até 120 Hz para suas animações nativas, respeitando o limite da tela da view. Para permitir taxas acima de 60 Hz no iPhone, adicione isto dentro do `<dict>` principal de `App_Resources/iOS/Info.plist` e recompile o app:

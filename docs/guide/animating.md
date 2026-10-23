@@ -19,7 +19,7 @@ animate(card, { opacity: 0.5, y: -20 })
 | `rotate`             | degrees                                  |
 | `rotateX`, `rotateY` | degrees, with perspective                |
 
-Background, border and text colors are also supported. See [Colors](./colors). See [corners, borders and shadows](./decorations) for numeric decoration properties. Size and layout changes are [not there yet](./not-there-yet).
+Background, border and text colors are also supported. See [Colors](./colors). See [corners, borders and shadows](./decorations) for numeric decoration properties. Use [`animateSize()`](./size) for real width/height/auto transitions with text reflow, or [`animateLayout()`](./layout) for FLIP layout transitions.
 
 Use [`path` and `orient`](./paths) to follow an SVG curve with native translation and optional tangent rotation.
 
