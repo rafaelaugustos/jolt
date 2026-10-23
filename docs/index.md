@@ -32,6 +32,12 @@ features:
     details: Steps that start when the previous one looks done, staggers from the first, the last or the center, and press effects that let go when a scroll takes over.
   - title: Interruptions without a jump
     details: A new animation on a moving property starts from the value on screen, at the speed it was going.
+  - title: Live springs
+    details: Native followers retain position and velocity across target changes, with mappings, layers and scoped cleanup.
+    link: /guide/live-springs
+  - title: Native gestures
+    details: Combine pan, pinch and rotation. Coordinate axes with a list and transfer a drag between a panel and its ScrollView.
+    link: /guide/gestures
   - title: Real dimensions
     details: Animate width, height and auto. Text reflows and neighboring controls move with the changing bounds. Uses JavaScript layout each frame.
     link: /guide/size
@@ -40,9 +46,18 @@ features:
     link: /guide/scene-camera
 ---
 
-## New in 0.1.0-beta.15
+## New in 0.1.0-beta.16
 
-[Real dimensions](/guide/size) for expanding cards and [SceneKit camera field of view](/guide/scene-camera) for coordinated perspective zoom. [Install the release](/guide/install) or read the [release notes](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-beta.15).
+[Live springs](/guide/live-springs) follow moving targets; [native gestures](/guide/gestures) combine pan, pinch and rotation and transfer a drag to a ScrollView. CI now checks native behavior on iOS and Android. [Install the release](/guide/install) or read the [release notes](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-beta.16).
+
+<div class="clips">
+<Clip name="live-springs-ios" caption="Native followers with reversals and an independent layer. Actual interaction on an iOS simulator; this demo's touch events enter JavaScript." />
+<Clip name="live-springs-android" caption="The same spring chain with reversals and reduced motion on an Android emulator. This is not a physical-device performance measurement." />
+<Clip name="gesture-composition-ios" caption="Simultaneous pan, pinch and rotation followed by single and double taps. Actual OS input on an iOS simulator." />
+<Clip name="gesture-handoff-android" caption="One drag expands the panel and scrolls its content; the reverse drag returns to the panel without lifting the finger. Android emulator, vertical Core ScrollView." />
+</div>
+
+## Dimensions and camera
 
 <div class="clips">
 <Clip name="size-ios" caption="Real width/height and auto sizing, with text reflow, interruption and working touch targets. iPhone 17 simulator, iOS 26; the app selects 0.25× speed for the interruption segment." />

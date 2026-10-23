@@ -1,5 +1,7 @@
 # Springs que seguem um alvo móvel
 
+Disponível desde a **0.1.0-beta.16**, no pacote principal. Recompile o app nativo após atualizar. Não exige o plugin opcional de propriedades nativas.
+
 `springValue()` mantém a posição e a velocidade de um spring nativo enquanto o alvo muda. Atualizar o alvo modifica o nó existente, sem reconstruir uma animação de keyframes. Um seguidor pode alimentar outro sem uma assinatura JavaScript entre eles.
 
 ```ts

@@ -8,7 +8,7 @@ Por enquanto está em beta, publicado sob a tag `next`. Requer `@nativescript/co
 
 As animações de cores no Android incluem um pequeno helper Java. Recompile o app nativo após instalar ou atualizar o Jolt; uma atualização só de JavaScript não instala código nativo.
 
-A versão atual é **0.1.0-beta.15**. Para fixá-la, use `npm install @rafaelaugusto/jolt@0.1.0-beta.15`. Para [adaptadores de propriedades nativas externas](./native-properties), instale também `@rafaelaugusto/jolt-native@0.1.0-beta.15` e recompile o aplicativo nativo.
+A versão atual é **0.1.0-beta.16**. Para fixá-la, use `npm install @rafaelaugusto/jolt@0.1.0-beta.16`. Para [adaptadores de propriedades nativas externas](./native-properties), instale também `@rafaelaugusto/jolt-native@0.1.0-beta.16` e recompile o aplicativo nativo.
 
 ## ProMotion no iOS
 

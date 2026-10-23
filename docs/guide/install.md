@@ -8,7 +8,7 @@ It's in beta for now, published under the `next` tag. Requires `@nativescript/co
 
 Android color animations include a small Java helper. Rebuild the native app after installing or upgrading Jolt; a JavaScript-only update cannot install native code.
 
-The current release is **0.1.0-beta.15**. To pin it, use `npm install @rafaelaugusto/jolt@0.1.0-beta.15`. For [external native property adapters](./native-properties), install matching `@rafaelaugusto/jolt-native@0.1.0-beta.15` and rebuild the native application.
+The current release is **0.1.0-beta.16**. To pin it, use `npm install @rafaelaugusto/jolt@0.1.0-beta.16`. For [external native property adapters](./native-properties), install matching `@rafaelaugusto/jolt-native@0.1.0-beta.16` and rebuild the native application.
 
 ## ProMotion on iOS
 

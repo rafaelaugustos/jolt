@@ -32,6 +32,12 @@ features:
     details: Passos que começam quando o anterior parece pronto, staggers a partir do primeiro, do último ou do centro, e efeitos de press que soltam quando um scroll assume.
   - title: Interrupções sem pulo
     details: Uma animação nova numa propriedade em movimento começa do valor na tela, na velocidade em que ia.
+  - title: Springs ao vivo
+    details: Seguidores nativos mantêm posição e velocidade entre mudanças de alvo, com mapeamentos, camadas e descarte por escopo.
+    link: /pt-BR/guide/live-springs
+  - title: Gestos nativos
+    details: Combine pan, pinch e rotação. Coordene o eixo com uma lista e transfira o arrasto entre um painel e seu ScrollView.
+    link: /pt-BR/guide/gestures
   - title: Dimensões reais
     details: Anime width, height e auto. O texto se reorganiza e os controles vizinhos acompanham os limites reais. Usa layout em JavaScript por frame.
     link: /pt-BR/guide/size
@@ -40,9 +46,18 @@ features:
     link: /pt-BR/guide/scene-camera
 ---
 
-## Novidades da 0.1.0-beta.15
+## Novidades da 0.1.0-beta.16
 
-[Dimensões reais](/pt-BR/guide/size) para cards expansíveis e [campo de visão da câmera SceneKit](/pt-BR/guide/scene-camera) para zoom coordenado em perspectiva. [Instale a versão](/pt-BR/guide/install) ou leia as [notas do release](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-beta.15).
+[Springs ao vivo](/pt-BR/guide/live-springs) acompanham alvos em movimento; [gestos nativos](/pt-BR/guide/gestures) combinam pan, pinch e rotação e transferem o arrasto para o ScrollView. O CI agora valida comportamento nativo em iOS e Android. [Instale a versão](/pt-BR/guide/install) ou leia as [notas do release](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-beta.16).
+
+<div class="clips">
+<Clip name="live-springs-ios" caption="Seguidores nativos com inversões e uma camada independente. Interação real no simulador iOS; os eventos de toque desta demo passam por JavaScript." />
+<Clip name="live-springs-android" caption="A mesma cadeia de springs com inversões e redução de movimento no emulador Android. Não é uma medição de desempenho em aparelho físico." />
+<Clip name="gesture-composition-ios" caption="Pan, pinch e rotação simultâneos, seguidos de toques simples e duplos. Entrada real do SO no simulador iOS." />
+<Clip name="gesture-handoff-android" caption="Um arrasto expande o painel e rola seu conteúdo; o arrasto inverso retorna ao painel sem soltar o dedo. Emulador Android, ScrollView vertical do Core." />
+</div>
+
+## Dimensões e câmera
 
 <div class="clips">
 <Clip name="size-ios" caption="Width/height e auto reais, com reorganização do texto, interrupção e alvos de toque funcionais. Simulador iPhone 17, iOS 26; o app seleciona velocidade 0,25× no trecho de interrupção." />
