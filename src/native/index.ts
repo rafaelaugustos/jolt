@@ -14,3 +14,10 @@ export type {
   MapLibreCamera,
   ScenePose,
 } from '../native-properties.js'
+export {
+  sceneKitLightIntensity,
+  sceneKitLightColor,
+  sceneKitMaterialTransparency,
+  sceneKitMaterialDiffuse,
+  sceneKitMaterialEmission,
+} from '../scene-appearance.js'

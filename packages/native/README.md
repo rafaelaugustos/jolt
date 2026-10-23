@@ -6,7 +6,9 @@ Optional NativeScript plugin for `@rafaelaugusto/jolt/native`. Install this pack
 npm install @rafaelaugusto/jolt @rafaelaugusto/jolt-native
 ```
 
-Includes compiled scalar/compound playback, MapKit and SceneKit sinks on iOS, and a MapLibre sink on Android. It does not install MapLibre; the app chooses its SDK version. Reference demo: MapLibre Android 11.8.0, NativeScript 9.1, iOS 26 / Android 16. Minimum NativeScript 8.9; native helper APIs require iOS 13+ / Android API 23+ (the app/runtime or SDK may require newer).
+Includes compiled scalar/compound playback, MapKit and SceneKit pose/light/material sinks on iOS, and a MapLibre sink on Android. It does not install MapLibre; the app chooses its SDK version. Reference demo: MapLibre Android 11.8.0, NativeScript 9.1, iOS 26 / Android 16. Minimum NativeScript 8.9; native helper APIs require iOS 13+ / Android API 23+ (the app/runtime or SDK may require newer).
+
+SceneKit appearance supports light intensity/color and material transparency/solid diffuse/emission colors; textures are rejected. See the [lighting guide](https://jolt.rafaelaugusto.dev/guide/scene-lighting) for interpolation and lifecycle limits.
 
 See the [native properties guide](https://jolt.rafaelaugusto.dev/guide/native-properties) for capabilities, authoring, ownership and execution limits.
 

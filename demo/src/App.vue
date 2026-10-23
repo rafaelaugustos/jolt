@@ -11,6 +11,7 @@ import LayoutLab from './components/LayoutLab.vue'
 import Haptics from './components/Haptics.vue'
 import GradientValues from './components/GradientValues.vue'
 import Particles from './components/Particles.vue'
+import SceneLighting from './components/SceneLighting.vue'
 import { launchArgument, onLaunch, runLaunchTaps } from './launch'
 type Screen = 'home' | 'voice' | 'chat'
 const launched = ref(false)
@@ -23,6 +24,7 @@ const playbackLab = ref(false)
 const hapticsLab = ref(false)
 const gradientValues = ref(false)
 const particleLab = ref(false)
+const sceneLighting = ref(false)
 const autoplay = ref(false)
 const initialScreen = ref<Screen>('home')
 const assistant = ref()
@@ -35,6 +37,7 @@ onLaunch(() => {
   hapticsLab.value = launchArgument('haptics-lab') !== undefined
   gradientValues.value = launchArgument('gradient-values') !== undefined
   particleLab.value = launchArgument('particle-lab') !== undefined
+  sceneLighting.value = launchArgument('scene-lighting') !== undefined
   layoutLab.value = launchArgument('layout-lab') !== undefined
   playground.value = launchArgument('playground') !== undefined
   autoplay.value = launchArgument('autoplay') !== undefined
@@ -52,6 +55,7 @@ function backToPlayground() {
   dragValues.value = false
   layoutLab.value = false
   playbackLab.value = false
+  sceneLighting.value = false
   playground.value = true
 }
 onUnmounted(() => stopTaps?.())
@@ -64,11 +68,16 @@ defineExpose({ assistant })
       :statusBarStyle="playbackLab ? 'light' : 'dark'"
       :androidStatusBarBackground="playbackLab ? '#101827' : undefined"
       :class="
-        playground || hapticsLab || gradientValues || particleLab ? '' : 'assistant-page'
+        playground || hapticsLab || gradientValues || particleLab || sceneLighting
+          ? ''
+          : 'assistant-page'
       "
       @loaded="pageLoaded"
     >
-      <ScrollView v-if="launched && particleLab"><Particles /></ScrollView>
+      <ScrollView v-if="launched && sceneLighting"
+        ><SceneLighting @back="backToPlayground"
+      /></ScrollView>
+      <ScrollView v-else-if="launched && particleLab"><Particles /></ScrollView>
       <ScrollView v-else-if="launched && gradientValues"><GradientValues /></ScrollView>
       <ScrollView v-else-if="launched && hapticsLab"><Haptics /></ScrollView>
       <PlaybackLab v-else-if="launched && playbackLab" @back="backToPlayground" />
@@ -83,6 +92,7 @@ defineExpose({ assistant })
         @dragValues="dragValues = true"
         @layoutLab="layoutLab = true"
         @playbackLab="playbackLab = true"
+        @sceneLighting="sceneLighting = true"
       />
       <Assistant
         v-else-if="launched"

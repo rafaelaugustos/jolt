@@ -16,7 +16,7 @@
 - [`set(target, values)`](./interrupting#aplicar-valores-sem-animar) — aplica valores na hora e para o que estiver animando essas propriedades.
 - [`playbackProgress(animation)`](./playback) — progresso observável somente para leitura no relógio da animação existente.
 - [`timeline(steps)`](./sequences) — pausa e retoma juntos os passos ativos e pendentes.
-- [`@rafaelaugusto/jolt/native`](./native-properties) — registro opcional de propriedades, mapas nativos e câmeras SceneKit.
+- [`@rafaelaugusto/jolt/native`](./native-properties) — registro opcional de propriedades, mapas nativos e câmeras, [luzes e materiais SceneKit](./scene-lighting).
 - [`sequence(steps)`](./sequences) — passos sobrepostos e posições fixas.
 - `press(target, pressed?, transition?)`
 - [`drag(target, options?)`](./drag) — com `value`, o gesto controla um [valor de movimento](./motion-values#arrastando) em vez da view.

@@ -111,4 +111,11 @@ declare class JoltReferenceProperties extends NSObject {
   static mapCoordinate(target: NSObject): JoltPropertySink
   static mapCamera(target: NSObject): JoltPropertySink
   static scenePose(target: NSObject): JoltPropertySink
+  static sceneLightIntensity(target: NSObject): JoltPropertySink
+  static sceneLightColor(target: NSObject): JoltPropertySink
+  static sceneMaterialTransparency(target: NSObject): JoltPropertySink
+  static sceneMaterialDiffuse(target: NSObject): JoltPropertySink
+  static sceneMaterialEmission(target: NSObject): JoltPropertySink
+  static sceneAppearanceSinkCount(): number
+  static sceneAppearanceWriteCount(): number
 }

@@ -1,6 +1,6 @@
 # Propriedades nativas externas
 
-Anime coordenadas de mapas e câmeras SceneKit sem criar um laço por quadro em JavaScript. A entrada opcional `@rafaelaugusto/jolt/native` oferece registro de propriedades, reprodução nativa compilada e adaptadores de referência. Importar a entrada principal JavaScript não inicializa esse registro nem carrega um SDK de mapas.
+Anime coordenadas de mapas, câmeras, luzes e materiais de cor sólida SceneKit sem criar um laço por quadro em JavaScript. A entrada opcional `@rafaelaugusto/jolt/native` oferece registro de propriedades, reprodução nativa compilada e adaptadores de referência. Importar a entrada principal JavaScript não inicializa esse registro nem carrega um SDK de mapas.
 
 <Clip name="native-map-ios" caption="Annotation e câmera MapKit, pausadas e retomadas juntas no simulador iOS. Escritas nativas das propriedades, em tempo real." />
 <Clip name="native-map-android" caption="Marcador e câmera MapLibre 11.8.0 no emulador Android. O SDK é dependência da demo; escritas nativas das propriedades, em tempo real." />
@@ -81,6 +81,8 @@ O mapeamento deve ser puro, sem efeitos colaterais nem leituras de estado extern
 | `mapLibreCoordinate` | `Marker` do MapLibre                   | `{ latitude, longitude }`, graus                             | Android    |
 | `mapLibreCamera`     | `MapLibreMap`                          | Coordenada, nível `zoom`, `tilt`/`bearing` em graus          | Android    |
 | `sceneKitPose`       | `SCNNode`, incluindo o nó da câmera    | `{ position: [x,y,z], orientation: [x,y,z,w] }`              | iOS        |
+
+Os cinco [adaptadores de aparência SceneKit](./scene-lighting#propriedades-e-unidades) aceitam `SCNLight` ou `SCNMaterial`: `sceneKitLightIntensity`, `sceneKitLightColor`, `sceneKitMaterialTransparency`, `sceneKitMaterialDiffuse` e `sceneKitMaterialEmission`. Todos são exclusivos do iOS; o guia inclui demo nativa e migração do loop JS por frame.
 
 O pacote mantém NativeScript 8.9+ como mínimo; as demos de referência são verificadas com NativeScript 9.1, iOS 26 e Android 16. MapLibre é opcional e deve ser adicionado ao aplicativo; a demo fixa `org.maplibre.gl:android-sdk:11.8.0`. Isso não representa suporte automático a todas as versões ou plugins de mapas. SceneKit não tem adaptador Android. Um renderer Android compilado pode implementar o mesmo contrato.
 
