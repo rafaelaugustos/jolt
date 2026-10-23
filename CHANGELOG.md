@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add optional iOS SceneKit environment-intensity and typed shader-modifier uniform adapters. Support scalar/vector schemas, native playback, shared value bindings, per-uniform ownership and source invalidation. Include a real native demo, recording and EN/PT guides; requires rebuilding the matching optional native plugin.
+
 ## 0.1.0-beta.16 (2026-10-23)
 
 - Add the optional `@rafaelaugusto/jolt/gestures` entry with `GestureSurface` and `gestures()`: simultaneous native pan/pinch/rotation, single/double-tap arbitration, axis thresholds, pointer rebasing and handoff with a descendant vertical Core ScrollView. Read-only outputs bind to views and live spring followers; native settling preserves release velocity and supports updated bounds, cancellation and scope cleanup. Include six reviewed iOS/Android recordings and English/Portuguese guides. Rebuild native apps; third-party list adapters and arbitrary external recognizer graphs are not included.

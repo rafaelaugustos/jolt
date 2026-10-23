@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "mode": "all",
+  "platform": "ios",
+  "os": "26.0",
+  "runId": "1792797368790",
+  "passed": true,
+  "observerFrames": 0,
+  "results": [
+    {
+      "name": "environment multipliers change rendered illumination and preserve images",
+      "passed": true,
+      "samples": [
+        {
+          "value": 0,
+          "luminance": 0.04985521369485284
+        },
+        {
+          "value": 0.45,
+          "luminance": 0.1510269048713221
+        },
+        {
+          "value": 1.6,
+          "luminance": 0.24477906020220463
+        },
+        {
+          "value": 4,
+          "luminance": 0.3508671246936285
+        }
+      ]
+    },
+    {
+      "name": "shared source advances native environment and scalar/vector uniforms without double easing",
+      "passed": true,
+      "samples": [
+        {
+          "environment": 1.024999976158142,
+          "cabin": 0.5,
+          "tint": [0.5, 0.5, 0.5]
+        }
+      ]
+    },
+    {
+      "name": "invalid schemas and values do not replace a valid owner",
+      "passed": true,
+      "samples": []
+    },
+    {
+      "name": "independent uniforms and older disposal preserve the replacement owner",
+      "passed": true,
+      "samples": []
+    },
+    {
+      "name": "float2 and float4 geometry inputs round-trip coherently",
+      "passed": true,
+      "samples": []
+    },
+    {
+      "name": "shader replacement invalidates playback and requires a fresh adapter",
+      "passed": true,
+      "samples": []
+    },
+    {
+      "name": "missing initialization, invalid values, conditional schemas and custom programs",
+      "passed": true,
+      "samples": []
+    },
+    {
+      "name": "environment image replacement and removal preserve intensity ownership",
+      "passed": true,
+      "samples": []
+    },
+    {
+      "name": "derived and playback-progress sources work; retained live sources reject without fallback",
+      "passed": true,
+      "samples": []
+    },
+    {
+      "name": "compiled sinks do not retain scene or material targets",
+      "passed": true,
+      "samples": []
+    },
+    {
+      "name": "explicit Reduced Motion policy and time scale",
+      "passed": true,
+      "samples": []
+    }
+  ]
+}

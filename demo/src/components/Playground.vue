@@ -62,6 +62,7 @@ const emit = defineEmits<{
   liveSprings: []
   gestureLab: []
   playbackLab: []
+  sceneShader: []
   sceneLighting: []
   sceneCamera: []
 }>()
@@ -173,6 +174,7 @@ onUnmounted(() => {
         <MotionStates />
         <StateTransitions />
         <Remount />
+        <Button text="SceneKit environment and shaders" @tap="emit('sceneShader')" />
         <Button text="SceneKit lighting and materials" @tap="emit('sceneLighting')" />
         <Button text="SceneKit camera field of view" @tap="emit('sceneCamera')" />
         <Button text="Playback, maps and 3D" @tap="emit('playbackLab')" />

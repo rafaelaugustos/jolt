@@ -73,3 +73,5 @@ What `animate()`, `decay()`, `sequence()` and the steps of a sequence return: `a
 [`configure({ timeScale, reducedMotion })`](./configure) sets the global playback speed and the reduced-motion preference (`'user'`, `'always'` or `'never'`) for animations started afterwards. [`reducedMotion()` and `onReducedMotion(callback)`](./configure#reading-the-preference) read and watch that preference.
 
 ## Types
+
+- [SceneKit environment and shader inputs](./scene-shaders) — beta.17 preview: native illumination and typed scalar/vector uniforms.

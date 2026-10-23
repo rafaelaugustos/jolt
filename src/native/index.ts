@@ -22,3 +22,9 @@ export {
   sceneKitMaterialDiffuse,
   sceneKitMaterialEmission,
 } from '../scene-appearance.js'
+export { sceneKitEnvironmentIntensity, sceneKitUniform } from '../scene-shader.js'
+export type {
+  SceneUniformType,
+  SceneUniformValue,
+  SceneUniformOptions,
+} from '../scene-shader.js'
