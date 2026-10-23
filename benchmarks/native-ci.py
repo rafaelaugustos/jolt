@@ -82,7 +82,7 @@ def main():
         command("xcrun", "simctl", "boot", device, required=False)
         print(f"Waiting for simulator {device} to finish its first boot", flush=True)
         command("xcrun", "simctl", "bootstatus", device, "-b", timeout=300)
-        command("xcrun", "simctl", "install", device, str(args.app))
+        command("xcrun", "simctl", "install", device, str(args.app), timeout=180)
         container = pathlib.Path(command("xcrun", "simctl", "get_app_container", device, APP_ID, "data").strip())
 
         def read(name):
