@@ -4,6 +4,7 @@
 - Shared element transitions between screens remain planned ([#24](https://github.com/rafaelaugustos/jolt/issues/24)).
 - General-purpose multi-finger gesture composition remains outside `drag()`; [photo zoom](./photo-zoom) provides its own pinch, pan and dismissal controller.
 - [External property adapters](./native-properties) require an optional native plugin. Camera pose and [light/solid-material adapters](./scene-lighting) use SceneKit on iOS; there is no bundled Android 3D renderer adapter. MapKit and MapLibre camera units are distinct.
+- A dedicated native SceneKit camera field-of-view (FOV) adapter remains planned ([#190](https://github.com/rafaelaugustos/jolt/issues/190)). Camera pose covers position and orientation; FOV has not yet received its own validated adapter.
 - Timelines pause and resume their participants, but do not offer arbitrary aggregate scrubbing of callbacks or one-shot effects. Native writes do not isolate a renderer from main-thread JavaScript.
 
 The [issues](https://github.com/rafaelaugustos/jolt/issues) track upcoming work and integrations.
