@@ -29,12 +29,22 @@ jobs:
   ios:
     needs: changes
     if: ${{ !cancelled() && needs.changes.outputs.native != 'false' }}
-    # The standard Intel runner has 14 GB RAM for concurrent simulator/build work.
-    runs-on: macos-26-intel
+    runs-on: macos-26
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
-      - name: Start simulator while dependencies and app build
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            benchmarks/native-app/package-lock.json
+      # Typechecks and host tests run once in CI; device jobs only build and probe.
+      - run: npm ci && npm run build
+      - run: npm ci && npm run prepare:resources
+        working-directory: benchmarks/native-app
+      - name: Start simulator while the native app builds
         timeout-minutes: 2
         run: |
           python3 - <<'PY'
@@ -48,17 +58,6 @@ jobs:
               subprocess.run(['xcrun', 'simctl', 'boot', device['udid']], check=True, timeout=30)
           print(f"Started {device['name']} ({device['udid']}); boot readiness is checked before installation.")
           PY
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: |
-            package-lock.json
-            benchmarks/native-app/package-lock.json
-      # Typechecks and host tests run once in CI; device jobs only build and probe.
-      - run: npm ci && npm run build
-      - run: npm ci && npm run prepare:resources
-        working-directory: benchmarks/native-app
       - name: Build production JavaScript for iOS Simulator
         timeout-minutes: 5
         run: npx ns build ios --env.production --no-hmr --for-device false --release
