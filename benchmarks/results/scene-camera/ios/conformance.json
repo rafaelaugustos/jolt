@@ -1,0 +1,137 @@
+{
+  "passed": true,
+  "platform": "iOS",
+  "version": "26.0",
+  "model": "iPhone",
+  "mode": "all",
+  "observerFrames": 0,
+  "activeBefore": 0,
+  "activeAfter": 0,
+  "sinksBefore": 0,
+  "sinksAfter": 0,
+  "results": [
+    {
+      "name": "Native target, range and projection validation preserve existing ownership",
+      "passed": true,
+      "samples": [
+        {
+          "customPreserved": true,
+          "sinksAfterRejection": 1
+        }
+      ]
+    },
+    {
+      "name": "Degree-linear playback, seeking and reversal disable implicit SceneKit easing",
+      "passed": true,
+      "samples": [
+        {
+          "held": 59.965518951416016,
+          "reversalStart": 46.41303634643555,
+          "reversalMid": 63.206520080566406,
+          "animationKeys": 0
+        }
+      ]
+    },
+    {
+      "name": "Projected geometry follows FOV, direction and actual viewport resize",
+      "passed": true,
+      "samples": [
+        {
+          "wideProjectedWidth": 38.434844970703125,
+          "closeProjectedWidth": 85.35513305664062,
+          "ratio": 2.2207747454608544,
+          "horizontalProjectedWidth": 102.99520874023438,
+          "afterResize": 102.99520874023438,
+          "viewportHeight": 210
+        }
+      ]
+    },
+    {
+      "name": "Lens coupling and shared camera wrappers preserve property ownership",
+      "passed": true,
+      "samples": [
+        {
+          "lensAt60Degrees": 31.176914536239792,
+          "handoff": 39.59775161743164,
+          "changedSensorFov": 29.15312957763672
+        }
+      ]
+    },
+    {
+      "name": "Derived and playback bindings share light/paint timing without JS observers",
+      "passed": true,
+      "samples": [
+        {
+          "fov": 66.13710021972656,
+          "progress": 0.35201079165935517
+        }
+      ]
+    },
+    {
+      "name": "Timeline controls FOV and light while pose remains independent",
+      "passed": true,
+      "samples": [
+        {
+          "pausedFov": 65.95288848876953,
+          "resumedFov": 62.19121551513672,
+          "pausedIntensity": 600.6917916536331,
+          "resumedIntensity": 694.4991666944697
+        }
+      ]
+    },
+    {
+      "name": "Orthographic/custom projection changes stop native playback without overwriting app state",
+      "passed": true,
+      "samples": [
+        {
+          "kind": "orthographic",
+          "heldAngle": 57.73979949951172,
+          "projectionPreserved": true
+        },
+        {
+          "kind": "custom",
+          "heldAngle": 57.31709289550781,
+          "projectionPreserved": true
+        }
+      ]
+    },
+    {
+      "name": "Spatial reduced motion, timeScale and bounded spring overshoot",
+      "passed": true,
+      "samples": [
+        {
+          "destination": 1,
+          "min": 1,
+          "max": 179
+        },
+        {
+          "destination": 179,
+          "min": 1,
+          "max": 179
+        }
+      ]
+    },
+    {
+      "name": "Repeated scope suspension/disposal and weak camera targets return to baseline",
+      "passed": true,
+      "samples": [
+        {
+          "lifetimes": 20,
+          "weakCameraReleased": true
+        }
+      ]
+    },
+    {
+      "name": "Busy JS stalls the shared UI thread and native playback catches up",
+      "passed": true,
+      "samples": [
+        {
+          "blockedMilliseconds": 300,
+          "writesDuringBlock": 0,
+          "fov": 55.01216125488281,
+          "progress": 0.38451510419448215
+        }
+      ]
+    }
+  ]
+}

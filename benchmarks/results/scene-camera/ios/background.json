@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "platform": "iOS",
+  "version": "26.0",
+  "model": "iPhone",
+  "mode": "background",
+  "observerFrames": 0,
+  "activeBefore": 0,
+  "activeAfter": 0,
+  "sinksBefore": 0,
+  "sinksAfter": 0,
+  "results": [
+    {
+      "name": "Real background suspension holds FOV; explicit resume continues",
+      "passed": true,
+      "samples": [
+        {
+          "held": 57.083282470703125,
+          "resumed": 55.709625244140625,
+          "writesWhileSuspended": 0
+        }
+      ]
+    }
+  ]
+}

@@ -82,6 +82,8 @@ O mapeamento deve ser puro, sem efeitos colaterais nem leituras de estado extern
 | `mapLibreCamera`     | `MapLibreMap`                          | Coordenada, nível `zoom`, `tilt`/`bearing` em graus          | Android    |
 | `sceneKitPose`       | `SCNNode`, incluindo o nó da câmera    | `{ position: [x,y,z], orientation: [x,y,z,w] }`              | iOS        |
 
+Para zoom de câmera em perspectiva, use [`sceneKitFieldOfView(camera)`](./scene-camera): ângulo de uma `SCNCamera` entre 1–179 graus, com playback nativo e binding a motion values. Esse adaptador exige builds do core/plugin posteriores à beta.14 e recompilação nativa.
+
 Os cinco [adaptadores de aparência SceneKit](./scene-lighting#propriedades-e-unidades) aceitam `SCNLight` ou `SCNMaterial`: `sceneKitLightIntensity`, `sceneKitLightColor`, `sceneKitMaterialTransparency`, `sceneKitMaterialDiffuse` e `sceneKitMaterialEmission`. Todos são exclusivos do iOS; o guia inclui demo nativa e migração do loop JS por frame.
 
 O pacote mantém NativeScript 8.9+ como mínimo; as demos de referência são verificadas com NativeScript 9.1, iOS 26 e Android 16. MapLibre é opcional e deve ser adicionado ao aplicativo; a demo fixa `org.maplibre.gl:android-sdk:11.8.0`. Isso não representa suporte automático a todas as versões ou plugins de mapas. SceneKit não tem adaptador Android. Um renderer Android compilado pode implementar o mesmo contrato.

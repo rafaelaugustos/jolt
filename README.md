@@ -52,7 +52,7 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 - [Sequences](#sequences) with overlapping arrivals, shared starts and absolute timeline positions.
 - [Controlled timelines](https://jolt.rafaelaugusto.dev/guide/sequences) pause and resume views, motion values and image effects together.
 - [Observable playback progress](https://jolt.rafaelaugusto.dev/guide/playback) feeds native bindings and opt-in subscribers from the original clock.
-- [Native property adapters](https://jolt.rafaelaugusto.dev/guide/native-properties) for maps and SceneKit cameras, lights and solid-color materials, through the optional `@rafaelaugusto/jolt-native` plugin.
+- [Native property adapters](https://jolt.rafaelaugusto.dev/guide/native-properties) for maps and SceneKit camera pose/[field of view](https://jolt.rafaelaugusto.dev/guide/scene-camera), lights and solid-color materials, through the optional `@rafaelaugusto/jolt-native` plugin.
 - [Press effects](#press) that follow the finger and let go when a scroll takes over.
 - [Vue directives and a transition component](#vue) from the optional `@rafaelaugusto/jolt/vue` entry.
 - [Text entrances](#text) by letter or word on iOS and Android, preserving the Label’s layout and accessibility.

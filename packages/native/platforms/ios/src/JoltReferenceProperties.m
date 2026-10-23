@@ -48,6 +48,61 @@ static double longitude(double value) { return fmod(fmod(value+180,360)+360,360)
     [SCNTransaction commit];
 }
 @end
+// A standalone SCNCamera has no presentation getter. Read its current model FOV,
+// and make each Jolt write immediate, just as for the appearance adapters below.
+static NSUInteger cameraSinks, cameraWrites;
+static BOOL validFieldOfView(double value) { return isfinite(value) && value >= 1 && value <= 179; }
+static BOOL automaticPerspective(SCNCamera *camera) {
+    if (!camera || camera.usesOrthographicProjection || !validFieldOfView(camera.fieldOfView)) return NO;
+    if (camera.projectionDirection != SCNCameraProjectionDirectionVertical && camera.projectionDirection != SCNCameraProjectionDirectionHorizontal) return NO;
+    // A custom projectionTransform ignores viewport size. Inspect two projections
+    // through the public API without mutating the target or allocating a second camera.
+    // Checking only one matrix would accept a custom matrix equal to that viewport's
+    // automatic projection, which a fieldOfView write would silently replace.
+    SCNMatrix4 square = [camera projectionTransformWithViewportSize:CGSizeMake(100, 100)];
+    SCNMatrix4 wide = [camera projectionTransformWithViewportSize:CGSizeMake(200, 100)];
+    return isfinite(square.m11) && isfinite(square.m22) && isfinite(wide.m11) && isfinite(wide.m22)
+        && square.m11 > 0 && square.m22 > 0 && !SCNMatrix4EqualToMatrix4(square, wide);
+}
+@interface JoltSceneCameraSink : JoltPropertySink
+@property(nonatomic) BOOL released;
++ (instancetype)camera:(NSObject *)target;
+@end
+@implementation JoltSceneCameraSink
++ (instancetype)camera:(NSObject *)target {
+    NSParameterAssert(NSThread.isMainThread);
+    if (![target isKindOfClass:SCNCamera.class])
+        [NSException raise:NSInvalidArgumentException format:@"Jolt field of view requires an SCNCamera, not its SCNNode"];
+    if (!automaticPerspective((SCNCamera *)target))
+        [NSException raise:NSInvalidArgumentException format:@"Jolt field of view requires an automatic perspective camera with an angle in 1..179 degrees; orthographic and custom projection matrices are unsupported"];
+    JoltSceneCameraSink *sink = [[self alloc] initWithTarget:target dimensions:1];
+    cameraSinks++;
+    return sink;
+}
+- (BOOL)alive { return automaticPerspective((SCNCamera *)self.target); }
+- (NSArray<NSNumber *> *)read {
+    NSParameterAssert(NSThread.isMainThread);
+    if (!self.alive) [NSException raise:NSInvalidArgumentException format:@"Jolt camera is no longer a supported perspective target"];
+    return @[@([(SCNCamera *)self.target fieldOfView])];
+}
+- (void)write:(NSArray<NSNumber *> *)values {
+    NSParameterAssert(NSThread.isMainThread);
+    if (!self.alive) [NSException raise:NSInvalidArgumentException format:@"Jolt will not overwrite an unsupported camera projection"];
+    if (values.count != 1 || !validFieldOfView(values[0].doubleValue))
+        [NSException raise:NSInvalidArgumentException format:@"Jolt field of view needs one finite angle in 1..179 degrees"];
+    [SCNTransaction begin]; [SCNTransaction setDisableActions:YES];
+    @try {
+        [(SCNCamera *)self.target setFieldOfView:values[0].doubleValue];
+        cameraWrites++;
+    } @finally { [SCNTransaction commit]; }
+}
+- (void)dispose {
+    if (!self.released) { self.released = YES; cameraSinks--; }
+    [super dispose];
+}
+- (void)dealloc { if (!self.released) cameraSinks--; }
+@end
+
 // Appearance is read from the model: SceneKit exposes presentationNode, but no public
 // presentation object for a standalone SCNLight/SCNMaterial. Our immediate writes keep
 // the model current. Apps must remove competing animations before transferring control.
@@ -160,6 +215,9 @@ static CGColorRef copySceneColor(id value) CF_RETURNS_RETAINED {
 @end
 
 @implementation JoltReferenceProperties
++ (JoltPropertySink *)sceneFieldOfView:(NSObject *)camera { return [JoltSceneCameraSink camera:camera]; }
++ (NSUInteger)sceneCameraSinkCount { return cameraSinks; }
++ (NSUInteger)sceneCameraWriteCount { return cameraWrites; }
 + (JoltPropertySink *)sceneLightIntensity:(NSObject *)light { return [JoltSceneAppearanceSink target:light kind:JoltSceneIntensity]; }
 + (JoltPropertySink *)sceneLightColor:(NSObject *)light { return [JoltSceneAppearanceSink target:light kind:JoltSceneLightColor]; }
 + (JoltPropertySink *)sceneMaterialTransparency:(NSObject *)material { return [JoltSceneAppearanceSink target:material kind:JoltSceneTransparency]; }

@@ -108,6 +108,9 @@ declare class JoltPropertyPlayer extends NSObject {
   cancel(): void
 }
 declare class JoltReferenceProperties extends NSObject {
+  static sceneFieldOfView(camera: NSObject): JoltPropertySink
+  static sceneCameraSinkCount(): number
+  static sceneCameraWriteCount(): number
   static mapCoordinate(target: NSObject): JoltPropertySink
   static mapCamera(target: NSObject): JoltPropertySink
   static scenePose(target: NSObject): JoltPropertySink

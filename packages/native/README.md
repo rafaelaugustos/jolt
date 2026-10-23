@@ -13,3 +13,5 @@ SceneKit appearance supports light intensity/color and material transparency/sol
 See the [native properties guide](https://jolt.rafaelaugusto.dev/guide/native-properties) for capabilities, authoring, ownership and execution limits.
 
 Release maintainers: publish this optional package together with compatible core releases (`npm publish` from this directory). Build and pack the core at the repository root. The demo uses local file dependencies and never needs the package published for validation.
+
+SceneKit perspective camera field-of-view bindings use `sceneKitFieldOfView(camera)` from the core `/native` entry. See the [camera guide](https://jolt.rafaelaugusto.dev/guide/scene-camera) for projection, lens ownership and lifecycle limits. Requires matching updated core/native builds and a native app rebuild; beta.14 binaries lack this adapter.
