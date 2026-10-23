@@ -15,10 +15,37 @@ concurrency:
 
 jobs:
   ios:
-    runs-on: macos-26
-    timeout-minutes: 35
+    # The macos-26 ARM image repeatedly stalls before the app can launch.
+    runs-on: macos-15-intel
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v7
+      - name: Boot a dedicated iOS 26.2 simulator before building
+        timeout-minutes: 4
+        run: |
+          sudo xcode-select -s /Applications/Xcode_26.3.app/Contents/Developer
+          xcodebuild -version
+          python3 - <<'PYBOOT'
+          import os, pathlib, subprocess
+          output = pathlib.Path('benchmarks/native-app/results')
+          output.mkdir(parents=True, exist_ok=True)
+          runtime = 'com.apple.CoreSimulator.SimRuntime.iOS-26-2'
+          device = subprocess.check_output([
+              'xcrun', 'simctl', 'create', 'Jolt Native CI',
+              'com.apple.CoreSimulator.SimDeviceType.iPhone-16', runtime,
+          ], text=True, timeout=30).strip()
+          with open(os.environ['GITHUB_ENV'], 'a') as env:
+              env.write(f'JOLT_SIMULATOR={device}\n')
+          with (output / 'simulator-boot.log').open('w') as log:
+              try:
+                  subprocess.run(['xcrun', 'simctl', 'boot', device], check=True,
+                                 stdout=log, stderr=subprocess.STDOUT, timeout=30)
+                  subprocess.run(['xcrun', 'simctl', 'bootstatus', device, '-b'],
+                                 check=True, stdout=log, stderr=subprocess.STDOUT, timeout=180)
+              finally:
+                  log.flush()
+                  print((output / 'simulator-boot.log').read_text(), flush=True)
+          PYBOOT
       - uses: actions/setup-node@v7
         with:
           node-version: 22
@@ -31,18 +58,11 @@ jobs:
       - run: npm ci && npm run prepare:resources
         working-directory: benchmarks/native-app
       - name: Build production JavaScript for iOS Simulator
+        timeout-minutes: 5
         run: npx ns build ios --env.production --no-hmr --for-device false --release
         working-directory: benchmarks/native-app
-      - name: Select available iPhone simulator
-        run: |
-          python3 - <<'PY'
-          import json, os, subprocess
-          devices = json.loads(subprocess.check_output(['xcrun', 'simctl', 'list', 'devices', 'available', '--json']))
-          device = next(d['udid'] for runtime, group in devices['devices'].items() if '.iOS-' in runtime for d in group if d['name'].startswith('iPhone'))
-          with open(os.environ['GITHUB_ENV'], 'a') as env:
-              env.write(f'JOLT_SIMULATOR={device}\n')
-          PY
       - name: Native measurements and negative control
+        timeout-minutes: 3
         run: python3 benchmarks/native-ci.py ios --device "$JOLT_SIMULATOR"
       - uses: actions/upload-artifact@v7
         if: always()
