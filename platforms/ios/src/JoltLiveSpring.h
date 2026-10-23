@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)follow:(JoltLiveSpring *)source mappings:(NSString *)mappings;
 - (void)updateInput:(NSString *)snapshot;
 - (void)setTarget:(double)value;
+- (void)holdInput:(double)value velocity:(double)velocity;
+- (void)releaseInput:(double)target velocity:(double)velocity;
 - (void)setReduced:(BOOL)value;
 - (void)setPaused:(BOOL)value;
 - (JoltLiveSpringBinding *)bind:(UIView *)view property:(NSString *)property mappings:(NSString *)mappings;

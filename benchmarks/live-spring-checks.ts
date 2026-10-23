@@ -1,4 +1,4 @@
-import { isIOS, type View } from '@nativescript/core'
+import { GridLayout, Label, isIOS, type View } from '@nativescript/core'
 import {
   animate,
   bind,
@@ -27,10 +27,31 @@ export async function runLiveSpringChecks(first: View, second: View) {
   const three = scope.add(springValue(two, { stiffness: 260, damping: 24 }))
   scope.use(() => bind(first, { x: three }))
   scope.use(() => bind(second, { y: one.to([0, 120], [0, 60]) }))
+  const layoutProbe = new Label()
+  layoutProbe.width = 40
+  layoutProbe.height = 20
+  layoutProbe.horizontalAlignment = 'left'
+  layoutProbe.verticalAlignment = 'top'
+  layoutProbe.marginLeft = 7
+  layoutProbe.marginTop = 11
+  const layoutValue = scope.add(springValue(motionValue(90), { duration: 0 }))
+  scope.use(() => bind(layoutProbe, { x: layoutValue }))
+  const parent = first.parent as GridLayout
+  parent.addChild(layoutProbe)
   try {
+    await wait(80)
+    for (const width of [40, 65]) {
+      layoutProbe.width = width
+      await wait(80)
+      const position = layoutProbe.getLocationRelativeTo(parent)
+      assert(
+        position && Math.abs(position.x - 97) < 1,
+        `Layout shifted the live binding base: ${position?.x}`,
+      )
+    }
     assert(
-      nativeCount() === baseline + 3,
-      'Follower chain did not retain three native nodes',
+      nativeCount() === baseline + 4,
+      'Follower chain and layout probe did not retain four native nodes',
     )
     set(pointer, 120)
     await wait(240)
@@ -163,6 +184,7 @@ export async function runLiveSpringChecks(first: View, second: View) {
     }
   } finally {
     scope.dispose()
+    parent.removeChild(layoutProbe)
     configure({ reducedMotion: 'never' })
   }
   await wait(80)

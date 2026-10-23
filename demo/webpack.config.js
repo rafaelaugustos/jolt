@@ -9,6 +9,10 @@ module.exports = (env) => {
     config.resolve.alias
       // Jolt from this repository: run `npm run dev` at the root
       .set('@rafaelaugusto/jolt$', resolve(__dirname, '../dist/index.js'))
+      .set(
+        '@rafaelaugusto/jolt/gestures$',
+        resolve(__dirname, '../dist/gestures/index.js'),
+      )
       .set('@rafaelaugusto/jolt/native$', resolve(__dirname, '../dist/native/index.js'))
       .set('@rafaelaugusto/jolt/vue$', resolve(__dirname, '../dist/vue/index.js'))
       // sharing this app's copy of NativeScript and Vue

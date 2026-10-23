@@ -1,4 +1,32 @@
 declare namespace org.rafaelaugusto.jolt {
+  class GestureSurface extends org.nativescript.widgets.GridLayout {
+    constructor(context: android.content.Context)
+  }
+  class GestureSession {
+    constructor(
+      surface: GestureSurface,
+      scroll: android.view.View | null,
+      x: LiveSpring,
+      y: LiveSpring,
+      scale: LiveSpring,
+      rotation: LiveSpring,
+      options: string,
+      listener: GestureSession.Listener,
+    )
+    isActive(): boolean
+    cancel(): void
+    setEnabled(value: boolean): void
+    settle(x: number, y: number, scale: number, rotation: number, animated: boolean): void
+    updateBounds(left: number, right: number, top: number, bottom: number): void
+    dispose(): void
+  }
+  namespace GestureSession {
+    class Listener {
+      constructor(implementation: {
+        onState(state: number, velocityX: number, velocityY: number): void
+      })
+    }
+  }
   class LiveSpring {
     constructor(
       initial: number,

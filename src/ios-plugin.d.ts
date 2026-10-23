@@ -1,3 +1,28 @@
+declare class JoltGestureSession extends NSObject {
+  static attachScrollXYScaleRotationOptionsOnState(
+    surface: UIView,
+    scroll: UIScrollView | null,
+    x: JoltLiveSpring,
+    y: JoltLiveSpring,
+    scale: JoltLiveSpring,
+    rotation: JoltLiveSpring,
+    options: string,
+    onState: (state: number, velocityX: number, velocityY: number) => void,
+  ): JoltGestureSession
+  readonly active: boolean
+  cancel(): void
+  refreshScrollDelegate(): void
+  setEnabled(value: boolean): void
+  settleXYScaleRotationAnimated(
+    x: number,
+    y: number,
+    scale: number,
+    rotation: number,
+    animated: boolean,
+  ): void
+  updateLeftRightTopBottom(left: number, right: number, top: number, bottom: number): void
+  dispose(): void
+}
 declare class JoltLiveSpring extends NSObject {
   static createStiffnessDampingMassRestDeltaRestSpeedReduced(
     initial: number,

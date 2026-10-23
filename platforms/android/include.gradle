@@ -1,3 +1,12 @@
+// Compile against the host's widgets; the app already packages NativeScript core.
+dependencies {
+    compileOnly 'androidx.core:core:1.13.0'
+    if (project.hasProperty('tempBuild')) {
+        def widgets = new File(project.ext.USER_PROJECT_ROOT, 'node_modules/@nativescript/core/platforms/android/widgets-release.aar')
+        compileOnly files(zipTree(widgets).matching { include 'classes.jar' })
+    }
+}
+
 // Applied by the NativeScript app. Preserve fields used by the native color target.
 def joltDependency = nativescriptDependencies.find { it.name == '@rafaelaugusto/jolt' }
 if (joltDependency != null) {
