@@ -34,11 +34,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Start simulator while dependencies and app build
-        timeout-minutes: 1
+        timeout-minutes: 2
         run: |
           python3 - <<'PY'
           import json, os, subprocess
-          devices = json.loads(subprocess.check_output(['xcrun', 'simctl', 'list', 'devices', 'available', '--json'], timeout=20))
+          devices = json.loads(subprocess.check_output(['xcrun', 'simctl', 'list', 'devices', 'available', '--json'], timeout=60))
           phones = [d for runtime, group in devices['devices'].items() if '.iOS-' in runtime for d in group if d['name'].startswith('iPhone')]
           device = next((d for d in phones if d['state'] == 'Booted'), phones[0])
           with open(os.environ['GITHUB_ENV'], 'a') as env:
