@@ -70,7 +70,7 @@ jobs:
       - run: npm ci && npm run prepare:resources
         working-directory: benchmarks/native-app
       - name: Install compile SDK
-        run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
+        run: '"$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-36" "build-tools;36.0.0"'
       - name: Build production JavaScript with debuggable native shell
         run: npx ns build android --env.production --no-hmr
         working-directory: benchmarks/native-app
