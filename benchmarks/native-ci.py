@@ -23,7 +23,12 @@ CHECKS = [
 
 
 def command(*args, required=True, timeout=60):
-    result = subprocess.run(args, text=True, capture_output=True, timeout=timeout)
+    try:
+        result = subprocess.run(args, text=True, capture_output=True, timeout=timeout)
+    except (OSError, subprocess.TimeoutExpired) as error:
+        if required:
+            raise
+        return f"Optional diagnostic command failed: {args}: {error}\n"
     if required and result.returncode:
         raise RuntimeError(f"{args}: {result.stdout}\n{result.stderr}")
     return result.stdout
@@ -133,8 +138,11 @@ def main():
         else:
             logs = command("adb", "-s", device, "logcat", "-d", "-t", "3000", required=False)
             with (args.output / "screen.png").open("wb") as screenshot:
-                subprocess.run(["adb", "-s", device, "exec-out", "screencap", "-p"], stdout=screenshot, timeout=30)
-            command("adb", "-s", device, "shell", "am", "force-stop", APP_ID)
+                try:
+                    subprocess.run(["adb", "-s", device, "exec-out", "screencap", "-p"], stdout=screenshot, timeout=30)
+                except (OSError, subprocess.TimeoutExpired) as error:
+                    logs += f"\nOptional screenshot failed: {error}\n"
+            command("adb", "-s", device, "shell", "am", "force-stop", APP_ID, required=False)
         (args.output / "native.log").write_text(logs)
 
 
