@@ -1,0 +1,24 @@
+{
+  "passed": true,
+  "platform": "iOS",
+  "version": "26.0",
+  "model": "iPhone",
+  "mode": "background",
+  "observerFrames": 0,
+  "activeBefore": 0,
+  "activeAfter": 0,
+  "sinksBefore": 0,
+  "sinksAfter": 0,
+  "results": [
+    {
+      "name": "Real background pauses owned work; explicit resume preserves continuity",
+      "passed": true,
+      "samples": [
+        {
+          "paused": 927.093253326416,
+          "writesWhileSuspended": 0
+        }
+      ]
+    }
+  ]
+}

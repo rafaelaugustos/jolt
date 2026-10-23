@@ -1,0 +1,119 @@
+{
+  "passed": true,
+  "platform": "iOS",
+  "version": "26.0",
+  "model": "iPhone",
+  "mode": "all",
+  "observerFrames": 0,
+  "activeBefore": 0,
+  "activeAfter": 0,
+  "sinksBefore": 0,
+  "sinksAfter": 0,
+  "results": [
+    {
+      "name": "Reject wrong targets, textures/images/numbers/nil/patterns without mutation",
+      "passed": true,
+      "samples": []
+    },
+    {
+      "name": "Ranges, independent properties and native scalar set/get",
+      "passed": true,
+      "samples": [
+        {
+          "intensity": 1500,
+          "transparency": 0.4000000059604645
+        }
+      ]
+    },
+    {
+      "name": "UIColor/CGColor grayscale and Display P3 convert to sRGB, alpha and OKLab samples",
+      "passed": true,
+      "samples": [
+        {
+          "actual": 3227864770,
+          "expected": 3227864770
+        },
+        {
+          "actual": 3227864770,
+          "expected": 3227864770
+        },
+        {
+          "actual": 3227864770,
+          "expected": 3227864770
+        }
+      ]
+    },
+    {
+      "name": "Native tween, pause/seek/resume and current-value interruption without second easing",
+      "passed": true,
+      "samples": [
+        {
+          "quarter": 750.9664999842644,
+          "elapsedProgress": 0.6211965417265892,
+          "before": 1111.4285833034664,
+          "interruptedMidpoint": 705.7142916517332,
+          "animationKeys": 0
+        }
+      ]
+    },
+    {
+      "name": "Shared material identity and stale wrapper disposal preserve newer work",
+      "passed": true,
+      "samples": []
+    },
+    {
+      "name": "Binding replacement validates maps before interrupting; texture replacement invalidates natively",
+      "passed": true,
+      "samples": []
+    },
+    {
+      "name": "Shared/derived values and observable playback control native appearance without JS frames",
+      "passed": true,
+      "samples": [
+        {
+          "intensity": 1120.2391666546464,
+          "transparency": 0.6278427243232727
+        }
+      ]
+    },
+    {
+      "name": "Scalar charge layer adds while the base keeps advancing",
+      "passed": true,
+      "samples": [
+        {
+          "peak": 1169.1313490205794,
+          "baseAtPeak": 0.3012172135338187,
+          "after": 1052.0115364715457,
+          "baseAfter": 0.5520386458560824
+        }
+      ]
+    },
+    {
+      "name": "Timeline controls light and material together; disposal returns to baseline",
+      "passed": true,
+      "samples": []
+    },
+    {
+      "name": "Reduced motion retains appearance timing while spatial pose jumps",
+      "passed": true,
+      "samples": []
+    },
+    {
+      "name": "Weak target release and repeated scene ownership do not retain players/sinks",
+      "passed": true,
+      "samples": []
+    },
+    {
+      "name": "Busy JS shares the UI thread; native writes resume with elapsed time",
+      "passed": true,
+      "samples": [
+        {
+          "blockedMilliseconds": 400,
+          "writesDuringBlock": 0,
+          "value": 974.9221527921811,
+          "progress": 0.4834472222129504
+        }
+      ]
+    }
+  ]
+}

@@ -411,6 +411,53 @@ final class DocsTests: XCTestCase {
             tap("Confetti", wait: 2.5)
         }
     }
+    func testSceneAppearanceChecks() throws {
+        launch(["--scene-lighting"], "Check SceneKit")
+        tap("Check SceneKit", wait: 0.1)
+        XCTAssertTrue(app.staticTexts["Scene checks passed"].waitForExistence(timeout: 90), app.debugDescription)
+    }
+    func testSceneAppearanceBackground() throws {
+        launch(["--scene-lighting", "--scene-checks=background"], "Check SceneKit")
+        tap("Check SceneKit", wait: 0.1)
+        XCTAssertTrue(app.staticTexts["Scene background ready"].waitForExistence(timeout: 10))
+        XCUIDevice.shared.press(.home)
+        Thread.sleep(forTimeInterval: 1.5)
+        app.activate()
+        XCTAssertTrue(app.staticTexts["Scene checks passed"].waitForExistence(timeout: 20), app.debugDescription)
+    }
+    func tapScene(_ title: String, wait: Double = 0.8) {
+        let element = app.buttons[title]
+        XCTAssertTrue(element.exists, app.debugDescription)
+        element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap()
+        Thread.sleep(forTimeInterval: wait)
+    }
+    func testSceneNavigation() throws {
+        launch(["--scene-lighting"], "Play scene")
+        for _ in 0..<5 {
+            tapScene("Play scene", wait: 0.2)
+            tapScene("Charge pulse", wait: 0.2)
+            tapScene("Leave scene", wait: 0.3)
+            XCTAssertTrue(app.staticTexts["Scene disposed."].exists)
+            tapScene("Enter scene", wait: 0.2)
+        }
+    }
+    func testSceneAppearance() throws {
+        launch(["--scene-lighting"], "Play scene")
+        try record("scene-lighting-ios") {
+            tapScene("Play scene", wait: 2.2)
+            tapScene("Charge pulse", wait: 2.2)
+            tapScene("Pause scene", wait: 1.0)
+            XCTAssertTrue(app.staticTexts["Paused together."].exists)
+            tapScene("Resume scene", wait: 1.4)
+            tapScene("Remove pulse", wait: 0.5)
+            tapScene("Seek 50%", wait: 1.0)
+            tapScene("Leave scene", wait: 0.6)
+            XCTAssertTrue(app.staticTexts["Scene disposed."].exists)
+            tapScene("Enter scene", wait: 0.6)
+            tapScene("Play scene", wait: 2.0)
+            tapScene("Charge pulse", wait: 2.2)
+        }
+    }
     func testGradientValueChecks() throws {
         launch(["--gradient-values"], "Run checks")
         tap("Run checks", wait: 0.1)
