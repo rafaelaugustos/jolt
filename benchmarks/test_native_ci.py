@@ -5,6 +5,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 spec = importlib.util.spec_from_file_location("native_ci", pathlib.Path(__file__).with_name("native-ci.py"))
 probe = importlib.util.module_from_spec(spec)
@@ -29,6 +30,37 @@ class LaunchDiagnostics(unittest.TestCase):
                                      "import time; print('launch started', flush=True); time.sleep(30)",
                                      timeout=1)
             self.assertIn("launch started", log.read_text())
+
+
+class LaunchRetry(unittest.TestCase):
+    def launch(self, hung_launches):
+        calls = []
+
+        def logged_command(log, *args, timeout=60):
+            calls.append(args)
+            if sum(c[2] == "launch" for c in calls) <= hung_launches:
+                raise subprocess.TimeoutExpired(args, timeout)
+
+        def command(*args, **kwargs):
+            calls.append(args)
+            return ""
+
+        with mock.patch.object(probe, "logged_command", logged_command), \
+                mock.patch.object(probe, "command", command), \
+                mock.patch.object(probe.time, "sleep"):
+            probe.launch_ios("udid", probe.APP_ID, pathlib.Path("/results"), "baseline", "--run=fresh", timeout=5)
+        return calls
+
+    def test_terminates_and_relaunches_after_a_hung_launch(self):
+        calls = self.launch(hung_launches=2)
+        self.assertEqual([c[2] for c in calls], ["launch", "terminate", "launch", "terminate", "launch"])
+        for call in calls:
+            self.assertIn(probe.APP_ID, call)
+        self.assertTrue(all(c[-1] == "--run=fresh" for c in calls if c[2] == "launch"))
+
+    def test_gives_up_after_the_last_hung_launch(self):
+        with self.assertRaises(subprocess.TimeoutExpired):
+            self.launch(hung_launches=3)
 
 
 class ReportValidation(unittest.TestCase):

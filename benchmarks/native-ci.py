@@ -3,6 +3,7 @@
 import argparse
 import json
 import pathlib
+import shutil
 import subprocess
 import time
 import uuid
@@ -48,11 +49,20 @@ def logged_command(log_path, *args, timeout=60):
             print(log_path.read_text(), flush=True)
 
 
-def launch_ios(device, bundle_id, output, name, *args, timeout=300):
-    logged_command(output / f"{name}-launch.log", "xcrun", "simctl", "launch",
-                   f"--stdout={output / (name + '-stdout.log')}",
-                   f"--stderr={output / (name + '-stderr.log')}",
-                   device, bundle_id, *args, timeout=timeout)
+def launch_ios(device, bundle_id, output, name, *args, timeout=300, attempts=3):
+    """Relaunch when simctl hangs before the process exists; probe assertions never rerun."""
+    for attempt in range(1, attempts + 1):
+        try:
+            return logged_command(output / f"{name}-launch.log", "xcrun", "simctl", "launch",
+                                  f"--stdout={output / (name + '-stdout.log')}",
+                                  f"--stderr={output / (name + '-stderr.log')}",
+                                  device, bundle_id, *args, timeout=timeout)
+        except subprocess.TimeoutExpired:
+            if attempt == attempts:
+                raise
+            print(f"Launch {attempt} of {bundle_id} hung; terminating it before launching again", flush=True)
+            command("xcrun", "simctl", "terminate", device, bundle_id, required=False, timeout=30)
+            time.sleep(5)
 
 
 def validate(report, run_id, commit, platform, negative=False):
@@ -103,7 +113,7 @@ def main():
     if ios:
         command("xcrun", "simctl", "boot", device, required=False)
         print(f"Waiting for simulator {device} to finish its first boot", flush=True)
-        command("xcrun", "simctl", "bootstatus", device, "-b", timeout=300)
+        command("xcrun", "simctl", "bootstatus", device, "-b", timeout=600)
         command("xcrun", "simctl", "install", device, str(args.app), timeout=180)
         container = pathlib.Path(command("xcrun", "simctl", "get_app_container", device, APP_ID, "data").strip())
 
@@ -141,7 +151,7 @@ def main():
                 launch_ios(device, APP_ID, args.output, name, *launch_args)
             else:
                 command(*launch)
-            deadline = time.monotonic() + 120
+            deadline = time.monotonic() + 180
             report = None
             while time.monotonic() < deadline:
                 raw = read("jolt-native-ci.json")
@@ -164,9 +174,11 @@ def main():
     finally:
         if ios:
             command("xcrun", "simctl", "io", device, "screenshot", str(args.output / "screen.png"), required=False)
-            logs = command("xcrun", "simctl", "spawn", device, "log", "show", "--last", "10m", "--style", "compact", "--info", "--debug", "--predicate", 'process == "nativeapp" OR process == "SpringBoard" OR process == "runningboardd" OR process == "launchd_sim" OR process == "Preferences"', required=False)
+            logs = command("xcrun", "simctl", "spawn", device, "log", "show", "--last", "10m", "--style", "compact", "--info", "--predicate", 'process == "nativeapp" OR process == "SpringBoard" OR process == "runningboardd" OR process == "launchd_sim" OR process == "Preferences"', required=False, timeout=120)
             processes = command("xcrun", "simctl", "spawn", device, "launchctl", "list", required=False, timeout=15)
             (args.output / "simulator-processes.log").write_text(processes)
+            for crash in pathlib.Path.home().glob("Library/Logs/DiagnosticReports/nativeapp*"):
+                shutil.copy(crash, args.output / crash.name)
             command("xcrun", "simctl", "terminate", device, APP_ID, required=False)
         else:
             logs = command("adb", "-s", device, "logcat", "-d", "-t", "3000", required=False)
