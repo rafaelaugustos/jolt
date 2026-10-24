@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { examples } from './catalog'
 import { palette } from './theme'
 import { usePreviewI18n } from './i18n'
 import { ref, onUnmounted } from 'nativescript-vue'
@@ -206,7 +207,7 @@ async function reveal(event: EventData) {
         </GridLayout>
         <GridLayout columns="*,auto">
           <Label
-            :text="t('54 WAYS TO FEEL SOMETHING')"
+            :text="t(`${examples.length} WAYS TO FEEL SOMETHING`)"
             fontSize="9"
             letterSpacing=".1"
             :color="palette.subtle"

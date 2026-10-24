@@ -4,5 +4,6 @@ module JoltMotion {
     header "JoltInteractiveAnimation.h"
     header "JoltLiveSpring.h"
     header "JoltGestureSession.h"
+    header "JoltReorderSession.h"
     export *
 }

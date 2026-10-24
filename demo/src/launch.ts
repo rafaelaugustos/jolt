@@ -46,7 +46,7 @@ export function findView(
   if (predicate(root)) return root
   let found: View | undefined
   root.eachChildView((child) => {
-    found = findView(child, predicate)
+    if (!found) found = findView(child, predicate)
     return !found
   })
   return found

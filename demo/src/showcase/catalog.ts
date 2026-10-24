@@ -1,5 +1,6 @@
 import MotionStudio from './MotionStudio.vue'
 import { markRaw } from 'nativescript-vue'
+import ReorderLab from '../components/ReorderLab.vue'
 import Decay from '../components/Decay.vue'
 import Stagger from '../components/Stagger.vue'
 import MotionPath from '../components/MotionPath.vue'
@@ -409,6 +410,15 @@ export const examples = [
     description: 'A little choreography for your content.',
     component: markRaw(ListItems),
     full: false,
+    ios: false,
+  },
+  {
+    id: 'reorder',
+    title: 'Reorder a list',
+    category: 'Layout',
+    description: 'Hold a handle. Make room for a favourite.',
+    component: markRaw(ReorderLab),
+    full: true,
     ios: false,
   },
   {

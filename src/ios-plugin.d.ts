@@ -1,3 +1,19 @@
+declare class JoltReorderHandle extends UIButton {
+  onMove: ((direction: number) => void) | null
+}
+declare class JoltReorderSession extends NSObject {
+  static attachOptionsOnState(
+    list: UITableView,
+    options: string,
+    callback: (state: number, index: number, toIndex: number) => void,
+  ): JoltReorderSession
+  readonly active: boolean
+  registerHandle(view: UIView): void
+  setEnabled(enabled: boolean): void
+  setReducedMotion(reduced: boolean): void
+  cancel(): void
+  dispose(): void
+}
 declare class JoltGestureSession extends NSObject {
   static supportsContactEvents(): boolean
   static attachScrollXYScaleRotationOptionsOnState(

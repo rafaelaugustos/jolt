@@ -1,6 +1,6 @@
 # Demo app
 
-The NativeScript-Vue app in [`demo/`](https://github.com/rafaelaugustos/jolt/tree/main/demo) uses the local Jolt build. A normal launch opens **Jolt Motion Studio**: an animated brand splash, a moving home, and a searchable collection of 54 experiments grouped by Motion, Touch, Visual, Type, Layout, State and SceneKit.
+The NativeScript-Vue app in [`demo/`](https://github.com/rafaelaugustos/jolt/tree/main/demo) uses the local Jolt build. A normal launch opens **Jolt Motion Studio**: an animated brand splash, a moving home, and a searchable collection of 55 experiments grouped by Motion, Touch, Visual, Type, Layout, State and SceneKit.
 
 <Clip name="showcase-splash-ios" caption="Real iOS 26 simulator cold launch: the system launch screen leads into the native animated brand splash and Studio. Captured without XCTest launch synchronization; original timing. Not physical-device performance evidence." />
 
@@ -26,7 +26,7 @@ The native artwork and animation stages retain their own palettes; changing the 
 
 Studio follows the phone language by default: Portuguese uses Brazilian Portuguese, and other languages use English. Tap **Language** at the top of Studio to choose **Follow device**, **English**, or **Português**. Changes apply immediately and the choice persists after closing the app. Choosing **Follow device** removes the override; the preferred language is read again when the app resumes.
 
-The splash, collection, all 54 experiment presentations, controls, status messages and accessibility labels are localized. Search accepts translated or English names, with or without accents. Rolling account numbers use the selected language’s separators. Animation API identifiers such as `popIn` remain unchanged; the isolated technical playground keeps its English fixtures.
+The splash, collection, all 55 experiment presentations, controls, status messages and accessibility labels are localized. Search accepts translated or English names, with or without accents. Rolling account numbers use the selected language’s separators. Animation API identifiers such as `popIn` remain unchanged; the isolated technical playground keeps its English fixtures.
 
 <Clip name="showcase-language-ios" caption="iOS 26 simulator: real XCTest taps switch English → Portuguese, search for camera without an accent, operate the native camera lens, and switch back to English. Original timing. Separate native checks verify persistence and automatic language selection using iOS preferred-language launch settings; this does not validate Android or a physical device." />
 
@@ -181,3 +181,5 @@ The [timeline demo](./sequences) compares overlapping entrances, one-at-a-time a
 The [list rows demo](./lists) scrolls sixty rows that fade in as they appear, with a toggle for animating each item once and a button that swaps in new items.
 
 The [path playground](./paths) follows a cubic curve or an arc-based orbit, with orientation, replay, pause/resume and stop controls.
+
+<Clip name="reorder-pt-ios" caption="New in this checkout: the 55th experiment, list reordering, in Portuguese on the iOS simulator. Real drag, native neighbour movement and the button alternative." />
