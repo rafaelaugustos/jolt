@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+import { usePreviewI18n } from '../showcase/i18n'
 import { isIOS } from '@nativescript/core'
 import { onMounted, onUnmounted, ref } from 'nativescript-vue'
 import { shimmer } from '@rafaelaugusto/jolt'
+const { t } = usePreviewI18n()
 
 const placeholder = ref()
 const running = ref(false)
@@ -25,7 +27,7 @@ defineProps<{ embedded?: boolean }>()
   <StackLayout v-if="embedded" class="exhibit">
     <GridLayout class="ex-stage"
       ><Label
-        text="SOMETHING GOOD IS ON ITS WAY"
+        :text="t('SOMETHING GOOD IS ON ITS WAY')"
         class="ex-kicker"
         verticalAlignment="top" /><StackLayout
         ref="placeholder"
@@ -59,29 +61,29 @@ defineProps<{ embedded?: boolean }>()
             backgroundColor="#5F7459"
             borderRadius="4" /></GridLayout></StackLayout
       ><Label
-        text="A little anticipation."
+        :text="t('A little anticipation.')"
         class="ex-copy"
         verticalAlignment="bottom" /></GridLayout
     ><StackLayout class="ex-controls"
       ><GridLayout columns="*,*"
         ><Button
           col="0"
-          :text="running ? 'Stop shimmer' : 'Start shimmer'"
+          :text="t(running ? 'Stop shimmer' : 'Start shimmer')"
           @tap="toggle"
           class="ex-primary" /><Button
           col="1"
-          text="Resize"
+          :text="t('Resize')"
           @tap="narrow = !narrow" /></GridLayout></StackLayout
     ><Label
-      text="The light follows the whole card, even as it changes size."
+      :text="t('The light follows the whole card, even as it changes size.')"
       class="ex-note"
       textWrap="true"
     />
   </StackLayout>
   <template v-else>
     <StackLayout v-if="isIOS" class="section">
-      <Label class="heading" text="Shimmer" />
-      <Label class="muted" text="const stop = shimmer(placeholder)" />
+      <Label class="heading" :text="t('Shimmer')" />
+      <Label class="muted" :text="t('const stop = shimmer(placeholder)')" />
 
       <StackLayout class="skeleton-stage">
         <GridLayout
@@ -109,10 +111,10 @@ defineProps<{ embedded?: boolean }>()
       <GridLayout columns="*, *">
         <Button
           class="button"
-          :text="running ? 'Stop shimmer' : 'Start shimmer'"
+          :text="t(running ? 'Stop shimmer' : 'Start shimmer')"
           @tap="toggle"
         />
-        <Button col="1" class="button" text="Resize" @tap="narrow = !narrow" />
+        <Button col="1" class="button" :text="t('Resize')" @tap="narrow = !narrow" />
       </GridLayout>
     </StackLayout>
   </template>

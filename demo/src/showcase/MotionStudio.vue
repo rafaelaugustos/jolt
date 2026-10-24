@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { usePreviewI18n } from './i18n'
 import { computed, onUnmounted, ref } from 'nativescript-vue'
 import { isIOS } from '@nativescript/core'
 import {
@@ -9,6 +10,7 @@ import {
   type SpringName,
   type Animation,
 } from '@rafaelaugusto/jolt'
+const { t } = usePreviewI18n()
 const props = defineProps<{ mode: string }>()
 const springNames: SpringName[] = ['smooth', 'snappy', 'bouncy']
 const spring = computed(() => props.mode === 'springs')
@@ -115,7 +117,7 @@ function freeze() {
       padding="24"
     >
       <GridLayout columns="*,auto"
-        ><Label text="THE FEELING OF PHYSICS" class="motion-kicker" /><Label
+        ><Label :text="t('THE FEELING OF PHYSICS')" class="motion-kicker" /><Label
           col="1"
           text="↔"
           color="#CBE991"
@@ -145,12 +147,12 @@ function freeze() {
       </GridLayout>
       <GridLayout row="2" columns="*,auto"
         ><Label
-          :text="selected.toUpperCase()"
+          :text="t(selected.toUpperCase())"
           color="#E5F0DC"
           fontSize="24"
           fontWeight="bold" /><Label
           col="1"
-          text="NO TWO MOVES ALIKE"
+          :text="t('NO TWO MOVES ALIKE')"
           class="motion-kicker"
           verticalAlignment="middle"
       /></GridLayout>
@@ -163,7 +165,7 @@ function freeze() {
       padding="25"
     >
       <Label
-        text="A SMALL ENTRANCE. A BIG PERSONALITY."
+        :text="t('A SMALL ENTRANCE. A BIG PERSONALITY.')"
         class="motion-kicker light"
         verticalAlignment="top"
       />
@@ -185,7 +187,7 @@ function freeze() {
         />
         <Label
           row="1"
-          text="Good&#10;things&#10;move."
+          :text="t('Good\nthings\nmove.')"
           fontSize="38"
           fontWeight="bold"
           textWrap="true"
@@ -193,7 +195,7 @@ function freeze() {
           verticalAlignment="middle"
         />
         <GridLayout row="2" columns="*,auto"
-          ><Label :text="selected" color="#BCB0CC" fontSize="10" /><Label
+          ><Label :text="t(selected)" color="#BCB0CC" fontSize="10" /><Label
             col="1"
             text="↗"
             color="#E3FC62"
@@ -204,7 +206,7 @@ function freeze() {
     <GridLayout v-else-if="colors" height="340">
       <Label
         ref="card"
-        text="Make&#10;room for&#10;color."
+        :text="t('Make\nroom for\ncolor.')"
         textWrap="true"
         fontSize="48"
         fontWeight="bold"
@@ -216,7 +218,7 @@ function freeze() {
         borderRadius="28"
       />
       <Label
-        :text="`PALETTE / ${paletteName.toUpperCase()}`"
+        :text="t(`PALETTE / ${paletteName.toUpperCase()}`)"
         fontSize="10"
         letterSpacing=".12"
         margin="28"
@@ -226,7 +228,7 @@ function freeze() {
     </GridLayout>
     <GridLayout v-else height="340" backgroundColor="#EDE6DC" borderRadius="28">
       <Label
-        text="FORM FOLLOWS FEELING"
+        :text="t('FORM FOLLOWS FEELING')"
         class="motion-kicker light"
         verticalAlignment="top"
         margin="24"
@@ -244,7 +246,7 @@ function freeze() {
         marginTop="22"
       >
         <Label
-          text="Stay&#10;in shape."
+          :text="t('Stay\nin shape.')"
           textWrap="true"
           fontSize="31"
           color="#E0EDCE"
@@ -258,19 +260,21 @@ function freeze() {
       <GridLayout columns="*,auto" marginBottom="13"
         ><Label
           :text="
-            spring
-              ? 'Pick a personality'
-              : preset
-                ? 'Make an entrance'
-                : colors
-                  ? 'Change the mood'
-                  : 'Play with the shape'
+            t(
+              spring
+                ? 'Pick a personality'
+                : preset
+                  ? 'Make an entrance'
+                  : colors
+                    ? 'Change the mood'
+                    : 'Play with the shape',
+            )
           "
           fontSize="19"
           color="#30372F"
           fontWeight="bold" /><Label
           col="1"
-          text="TRY IT"
+          :text="t('TRY IT')"
           fontSize="9"
           color="#8D9485"
           verticalAlignment="middle"
@@ -281,7 +285,7 @@ function freeze() {
           v-for="(name, i) in springNames"
           :key="name"
           :col="i * 2"
-          :text="name"
+          :text="t(name)"
           :class="selected === name ? 'motion-choice selected' : 'motion-choice'"
           @tap="toss(name)"
       /></GridLayout>
@@ -290,13 +294,13 @@ function freeze() {
           ><Label
             v-for="name in names"
             :key="name"
-            :text="name"
+            :text="t(name)"
             :class="selected === name ? 'motion-preset selected' : 'motion-preset'"
             @tap="play(name)"
             accessibilityRole="button"
-            :accessibilityLabel="`Play ${name}`" /></WrapLayout
+            :accessibilityLabel="t(`Play ${name}`)" /></WrapLayout
         ><Label
-          :text="expanded ? 'Show essentials ↑' : 'Explore every preset ↓'"
+          :text="t(expanded ? 'Show essentials ↑' : 'Explore every preset ↓')"
           class="motion-link"
           @tap="expanded = !expanded"
           accessibilityRole="button"
@@ -306,20 +310,20 @@ function freeze() {
           v-for="(p, i) in palettes"
           :key="p.name"
           :col="i * 2"
-          :text="p.name"
+          :text="t(p.name)"
           :class="paletteName === p.name ? 'motion-choice selected' : 'motion-choice'"
           @tap="palette(i)"
       /></GridLayout>
       <GridLayout v-else columns="*,12,*"
-        ><Button text="Morph" class="motion-choice selected" @tap="morph" /><Button
+        ><Button :text="t('Morph')" class="motion-choice selected" @tap="morph" /><Button
           col="2"
-          text="Stop here"
+          :text="t('Stop here')"
           class="motion-choice"
           @tap="freeze"
       /></GridLayout>
       <Label
         v-if="!preset"
-        :text="status"
+        :text="t(status)"
         textWrap="true"
         fontSize="13"
         color="#818878"

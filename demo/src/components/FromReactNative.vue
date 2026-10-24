@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+import { usePreviewI18n } from '../showcase/i18n'
 import type { View } from '@nativescript/core'
 import { ref } from 'nativescript-vue'
 import { animate, origamiSpring, type OrigamiSpring } from '@rafaelaugusto/jolt'
+const { t } = usePreviewI18n()
 
 const BALL = 40
 
@@ -28,16 +30,16 @@ defineProps<{ embedded?: boolean }>()
   <StackLayout v-if="embedded" class="exhibit">
     <GridLayout class="ex-stage"
       ><Label
-        text="A STUDY IN PERSONALITY"
+        :text="t('A STUDY IN PERSONALITY')"
         class="ex-kicker"
         verticalAlignment="top" /><StackLayout marginTop="35"
         ><StackLayout v-for="({ label }, i) in configs" :key="label" marginBottom="10"
           ><GridLayout columns="*,auto" height="16"
             ><Label
-              :text="['BALANCED', 'PLAYFUL', 'COMPOSED'][i]"
+              :text="t(['BALANCED', 'PLAYFUL', 'COMPOSED'][i])"
               class="ex-kicker" /><Label
               col="1"
-              :text="label"
+              :text="t(label)"
               color="#798F6F"
               fontSize="9" /></GridLayout
           ><GridLayout :ref="(el) => (lanes[i] = el as never)" height="54"
@@ -58,22 +60,26 @@ defineProps<{ embedded?: boolean }>()
       ><GridLayout columns="*"
         ><Button
           col="0"
-          text="Toss springs"
+          :text="t('Toss springs')"
           @tap="toss"
           class="ex-primary" /></GridLayout></StackLayout
     ><Label
-      text="Three spring settings, side by side. Pick the feeling you like."
+      :text="t('Three spring settings, side by side. Pick the feeling you like.')"
       class="ex-note"
       textWrap="true"
     />
   </StackLayout>
   <template v-else>
     <StackLayout class="section">
-      <Label class="heading" text="From React Native" />
-      <Label class="muted" textWrap="true" text="origamiSpring({ friction, tension })" />
+      <Label class="heading" :text="t('From React Native')" />
+      <Label
+        class="muted"
+        textWrap="true"
+        :text="t('origamiSpring({ friction, tension })')"
+      />
 
       <StackLayout v-for="({ label }, i) in configs" :key="label">
-        <Label class="caption rn-caption" :text="label" />
+        <Label class="caption rn-caption" :text="t(label)" />
         <GridLayout
           :ref="(el) => (lanes[i] = el as never)"
           class="lane rn-lane"
@@ -92,9 +98,13 @@ defineProps<{ embedded?: boolean }>()
       <Label
         class="note"
         textWrap="true"
-        text="The springs Animated.spring plays for friction and tension, converted with the same Origami formulas."
+        :text="
+          t(
+            'The springs Animated.spring plays for friction and tension, converted with the same Origami formulas.',
+          )
+        "
       />
-      <Button class="button" text="Toss springs" @tap="toss" />
+      <Button class="button" :text="t('Toss springs')" @tap="toss" />
     </StackLayout>
   </template>
 </template>

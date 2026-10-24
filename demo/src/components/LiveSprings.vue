@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { usePreviewI18n } from '../showcase/i18n'
 const props = defineProps<{ embedded?: boolean }>()
 import {
   Color,
@@ -18,6 +19,7 @@ import {
   springValue,
   type DerivedValue,
 } from '@rafaelaugusto/jolt'
+const { t } = usePreviewI18n()
 
 defineEmits<{ back: [] }>()
 const scope = motionScope()
@@ -50,8 +52,9 @@ function mount(event: EventData) {
     lane.borderRadius = 20
     GridLayout.setRow(lane, index)
     const dot = new Label()
-    dot.text =
-      index === 0 ? '◎' : props.embedded ? ['', '↗', '✦', '◉'][index]! : String(index)
+    dot.text = t(
+      index === 0 ? '◎' : props.embedded ? ['', '↗', '✦', '◉'][index]! : String(index),
+    )
     dot.fontSize = 20
     dot.fontWeight = 'bold'
     dot.color = new Color(props.embedded ? '#34472F' : 'white')
@@ -64,6 +67,7 @@ function mount(event: EventData) {
     dot.horizontalAlignment = 'left'
     dot.marginLeft = 16
     dot.automationText = index === 0 ? 'Spring target' : `Follower ${index}`
+    dot.accessibilityLabel = t(dot.automationText)
     lane.addChild(dot)
     stage.addChild(lane)
     scope.use(() => bind(dot, { x: values[index]! }))
@@ -104,7 +108,7 @@ onUnmounted(() => {
       borderRadius="28"
       padding="18"
       ><GridLayout columns="*,auto" margin="4 4 22"
-        ><Label text="FOLLOW THE FEELING" class="ex-kicker" /><Label
+        ><Label :text="t('FOLLOW THE FEELING')" class="ex-kicker" /><Label
           col="1"
           text="↔"
           color="#E3FC62"
@@ -120,38 +124,43 @@ onUnmounted(() => {
         @touch="touch" /></GridLayout
     ><StackLayout row="1" class="ex-controls" marginTop="16"
       ><GridLayout columns="*,*,*"
-        ><Button text="Left" automationText="Target left" @tap="move(0)" /><Button
+        ><Button :text="t('Left')" automationText="Target left" @tap="move(0)" /><Button
           col="1"
-          text="Right"
+          :text="t('Right')"
           class="ex-primary"
           automationText="Target right"
           @tap="move(range())" /><Button
           col="2"
-          text="Shake"
+          :text="t('Shake')"
           automationText="Shake follower"
           @tap="shake" /></GridLayout
       ><Button
-        :text="reduced ? 'Reduced motion: on' : 'Reduced motion: off'"
+        :text="t(reduced ? 'Reduced motion: on' : 'Reduced motion: off')"
         automationText="Toggle reduced motion"
         @tap="toggleReduced" /></StackLayout
-    ><Label row="2" :text="status" class="ex-note" textWrap="true" />
+    ><Label row="2" :text="t(status)" class="ex-note" textWrap="true" />
   </GridLayout>
   <template v-else>
     <GridLayout rows="auto,auto,auto,auto,auto,*" padding="24" backgroundColor="#F8F7F2">
       <GridLayout v-if="!props.embedded" columns="*,auto" marginBottom="28">
         <Label
-          text="JOLT / LIVE SPRINGS"
+          :text="t('JOLT / LIVE SPRINGS')"
           fontSize="12"
           fontWeight="bold"
           color="#667078"
           verticalAlignment="middle"
         />
-        <Button col="1" text="Back" @tap="$emit('back')" />
+        <Button col="1" :text="t('Back')" @tap="$emit('back')" />
       </GridLayout>
       <StackLayout v-if="!props.embedded" row="1" marginBottom="24">
-        <Label text="Follow the lead." fontSize="34" fontWeight="bold" color="#252B35" />
         <Label
-          text="Change direction. Keep the momentum."
+          :text="t('Follow the lead.')"
+          fontSize="34"
+          fontWeight="bold"
+          color="#252B35"
+        />
+        <Label
+          :text="t('Change direction. Keep the momentum.')"
           fontSize="16"
           marginTop="8"
           color="#667078"
@@ -168,18 +177,23 @@ onUnmounted(() => {
         @touch="touch"
       />
       <GridLayout row="3" columns="*,*,*" marginTop="12">
-        <Button text="Left" automationText="Target left" @tap="move(0)" />
-        <Button col="1" text="Right" automationText="Target right" @tap="move(range())" />
-        <Button col="2" text="Shake" automationText="Shake follower" @tap="shake" />
+        <Button :text="t('Left')" automationText="Target left" @tap="move(0)" />
+        <Button
+          col="1"
+          :text="t('Right')"
+          automationText="Target right"
+          @tap="move(range())"
+        />
+        <Button col="2" :text="t('Shake')" automationText="Shake follower" @tap="shake" />
       </GridLayout>
       <StackLayout row="4" marginTop="12">
         <Button
-          :text="reduced ? 'Reduced motion: on' : 'Reduced motion: off'"
+          :text="t(reduced ? 'Reduced motion: on' : 'Reduced motion: off')"
           automationText="Toggle reduced motion"
           @tap="toggleReduced"
         />
         <Label
-          :text="status"
+          :text="t(status)"
           fontSize="14"
           color="#667078"
           textWrap="true"

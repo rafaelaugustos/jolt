@@ -1,6 +1,8 @@
 <script lang="ts" setup>
+import { usePreviewI18n } from '../showcase/i18n'
 import { ref } from 'nativescript-vue'
 import { animate, type Stagger } from '@rafaelaugusto/jolt'
+const { t } = usePreviewI18n()
 
 const rows = ref([])
 const items = ['Inbox', 'Starred', 'Snoozed', 'Sent', 'Drafts']
@@ -15,7 +17,7 @@ defineProps<{ embedded?: boolean }>()
   <StackLayout v-if="embedded" class="exhibit">
     <GridLayout class="ex-stage"
       ><Label
-        text="YOUR DAILY ROTATION"
+        :text="t('YOUR DAILY ROTATION')"
         class="ex-kicker"
         verticalAlignment="top" /><StackLayout marginTop="26"
         ><GridLayout
@@ -29,25 +31,27 @@ defineProps<{ embedded?: boolean }>()
           backgroundColor="#314339"
           padding="8 12"
           ><Label
-            :text="['01', '02', '03', '04', '05'][i]"
+            :text="t(['01', '02', '03', '04', '05'][i])"
             color="#94A681"
             fontSize="11"
             verticalAlignment="middle" /><Label
             col="1"
             :text="
-              [
-                'First light',
-                'Slow mornings',
-                'Golden hour',
-                'After the rain',
-                'Night drive',
-              ][i]
+              t(
+                [
+                  'First light',
+                  'Slow mornings',
+                  'Golden hour',
+                  'After the rain',
+                  'Night drive',
+                ][i],
+              )
             "
             color="#ECF0E2"
             fontSize="16"
             verticalAlignment="middle" /><Label
             col="2"
-            :text="['3:42', '4:18', '2:56', '5:01', '3:20'][i]"
+            :text="t(['3:42', '4:18', '2:56', '5:01', '3:20'][i])"
             fontSize="10"
             color="#9EAF9B"
             verticalAlignment="middle" /></GridLayout></StackLayout></GridLayout
@@ -55,37 +59,37 @@ defineProps<{ embedded?: boolean }>()
       ><GridLayout columns="*,*"
         ><Button
           col="0"
-          text="From the top"
+          :text="t('From the top')"
           @tap="replay({ each: 100 })"
           class="ex-primary" /><Button
           col="1"
-          text="From the center"
+          :text="t('From the center')"
           @tap="replay({ each: 100, from: 'center' })" /></GridLayout></StackLayout
     ><Label
-      text="Five arrivals. One effortless rhythm."
+      :text="t('Five arrivals. One effortless rhythm.')"
       class="ex-note"
       textWrap="true"
     />
   </StackLayout>
   <template v-else>
     <StackLayout class="section">
-      <Label class="heading" text="Stagger" />
+      <Label class="heading" :text="t('Stagger')" />
       <Label
         class="muted"
         textWrap="true"
-        text="animate(rows, 'fadeInLeft', { stagger: 50 })"
+        :text="t('animate(rows, \'fadeInLeft\', { stagger: 50 })')"
       />
 
       <StackLayout class="list">
-        <Label v-for="item in items" :key="item" ref="rows" class="row" :text="item" />
+        <Label v-for="item in items" :key="item" ref="rows" class="row" :text="t(item)" />
       </StackLayout>
 
       <GridLayout columns="*, *">
-        <Button class="button" text="From the top" @tap="replay({ each: 50 })" />
+        <Button class="button" :text="t('From the top')" @tap="replay({ each: 50 })" />
         <Button
           col="1"
           class="button"
-          text="From the center"
+          :text="t('From the center')"
           @tap="replay({ each: 50, from: 'center' })"
         />
       </GridLayout>

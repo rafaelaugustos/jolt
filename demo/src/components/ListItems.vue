@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+import { usePreviewI18n } from '../showcase/i18n'
 import { isAndroid, type EventData, type ListView } from '@nativescript/core'
 import { onUnmounted, ref } from 'nativescript-vue'
 import { animateItems } from '@rafaelaugusto/jolt'
+const { t } = usePreviewI18n()
 
 const once = ref(false)
 const items = ref(rows())
@@ -47,9 +49,9 @@ defineProps<{ embedded?: boolean }>()
   <StackLayout v-if="embedded" class="exhibit">
     <GridLayout rows="auto,*" class="ex-stage" height="420" padding="18"
       ><GridLayout columns="*,auto" marginBottom="18"
-        ><Label text="ON REPEAT" class="ex-kicker" /><Label
+        ><Label :text="t('ON REPEAT')" class="ex-kicker" /><Label
           col="1"
-          text="60 TRACKS"
+          :text="t('60 TRACKS')"
           class="ex-kicker" /></GridLayout
       ><ListView
         row="1"
@@ -57,7 +59,7 @@ defineProps<{ embedded?: boolean }>()
         separatorColor="transparent"
         backgroundColor="#202C28"
         @loaded="loaded"
-        accessibilityLabel="Animated playlist"
+        :accessibilityLabel="t('Animated playlist')"
         ><template #default="{ item }"
           ><GridLayout columns="50,*,auto" height="74" padding="8 0"
             ><GridLayout
@@ -66,14 +68,14 @@ defineProps<{ embedded?: boolean }>()
               borderRadius="12"
               :backgroundColor="['#D3DC9E', '#C6B2DC', '#DCA78B'][item.index % 3]"
               ><Label
-                :text="['✦', '◉', '↗'][item.index % 3]"
+                :text="t(['✦', '◉', '↗'][item.index % 3])"
                 fontSize="26"
                 color="#394833"
                 textAlignment="center"
                 verticalAlignment="middle" /></GridLayout
             ><StackLayout col="1" verticalAlignment="middle" marginLeft="12"
-              ><Label :text="item.track" color="#E3EADA" fontSize="16" /><Label
-                :text="`Jolt Sessions / ${String(item.index + 1).padStart(2, '0')}`"
+              ><Label :text="t(item.track)" color="#E3EADA" fontSize="16" /><Label
+                :text="t(`Jolt Sessions / ${String(item.index + 1).padStart(2, '0')}`)"
                 color="#7F9476"
                 fontSize="10"
                 marginTop="4" /></StackLayout
@@ -87,25 +89,25 @@ defineProps<{ embedded?: boolean }>()
       ><GridLayout columns="*,*"
         ><Button
           col="0"
-          :text="once ? 'Once: on' : 'Once: off'"
+          :text="t(once ? 'Once: on' : 'Once: off')"
           @tap="toggleOnce"
           class="ex-primary" /><Button
           col="1"
-          text="New items"
+          :text="t('New items')"
           @tap="reset" /></GridLayout></StackLayout
     ><Label
-      text="Scroll to discover the next track. Each one gets its own entrance."
+      :text="t('Scroll to discover the next track. Each one gets its own entrance.')"
       class="ex-note"
       textWrap="true"
     />
   </StackLayout>
   <template v-else>
     <StackLayout class="section">
-      <Label class="heading" text="List rows" />
+      <Label class="heading" :text="t('List rows')" />
       <Label
         class="muted"
         textWrap="true"
-        :text="`animateItems(list, 'fadeInUp', { once: ${once} })`"
+        :text="t(`animateItems(list, 'fadeInUp', { once: ${once} })`)"
       />
 
       <ListView
@@ -116,17 +118,17 @@ defineProps<{ embedded?: boolean }>()
         @loaded="loaded"
       >
         <template #default="{ item }">
-          <Label class="row" :text="item.title" />
+          <Label class="row" :text="t(item.title)" />
         </template>
       </ListView>
 
       <GridLayout columns="*, *">
         <Button
           class="button"
-          :text="once ? 'Once: on' : 'Once: off'"
+          :text="t(once ? 'Once: on' : 'Once: off')"
           @tap="toggleOnce"
         />
-        <Button col="1" class="button" text="New items" @tap="reset" />
+        <Button col="1" class="button" :text="t('New items')" @tap="reset" />
       </GridLayout>
     </StackLayout>
   </template>

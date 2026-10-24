@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { usePreviewI18n } from '../showcase/i18n'
 import {
   Color,
   Image,
@@ -20,6 +21,7 @@ import {
   type Gestures,
 } from '@rafaelaugusto/jolt/gestures'
 import { launchArgument } from '../launch'
+const { t } = usePreviewI18n()
 
 const props = defineProps<{ embedded?: boolean }>()
 const emit = defineEmits<{ back: [] }>()
@@ -40,7 +42,7 @@ let taps = 0,
   doubles = 0
 function label(text: string, size = 17) {
   const view = new Label()
-  view.text = text
+  view.text = t(text)
   view.fontSize = size
   view.color = new Color('#263345')
   view.textWrap = true
@@ -60,6 +62,7 @@ function select(name: string) {
   if (name === 'Photo') {
     const surface = new GestureSurface()
     surface.automationText = 'Photo gesture surface'
+    surface.accessibilityLabel = t('Photo gesture surface')
     surface.backgroundColor = new Color(props.embedded ? '#DCE3D4' : '#E8EDF6')
     const card = new GridLayout()
     card.width = 170
@@ -80,7 +83,7 @@ function select(name: string) {
       photo.src = '~/assets/studio/cove.png'
       photo.stretch = 'aspectFill'
       card.addChild(photo)
-      title.text = 'THE LONG WAY HOME'
+      title.text = t('THE LONG WAY HOME')
       title.fontSize = 15
       title.textAlignment = 'left'
       title.verticalAlignment = 'bottom'
@@ -134,6 +137,7 @@ function select(name: string) {
   } else if (name === 'Carousel') {
     const scroll = new ScrollView()
     scroll.automationText = 'Outer list'
+    scroll.accessibilityLabel = t('Outer list')
     const content = new StackLayout()
     content.addChild(
       label(
@@ -146,6 +150,7 @@ function select(name: string) {
     surface.marginTop = 24
     surface.backgroundColor = new Color('#E6EDE7')
     surface.automationText = 'Horizontal carousel'
+    surface.accessibilityLabel = t('Horizontal carousel')
     const card = label(
       props.embedded ? 'GO SOMEWHERE\nSLOW.  ↗' : '←  SLIDE SIDEWAYS  →',
       props.embedded ? 28 : 20,
@@ -186,6 +191,7 @@ function select(name: string) {
     surface.backgroundColor = new Color('#E8E5F0')
     surface.borderRadius = 24
     surface.automationText = 'Handoff panel'
+    surface.accessibilityLabel = t('Handoff panel')
     const header = label(
       props.embedded ? 'Your saved places  ↑↓' : '↕  PANEL · DRAG OR SCROLL',
       18,
@@ -195,12 +201,13 @@ function select(name: string) {
     surface.addChild(header)
     const scroll = new ScrollView()
     scroll.automationText = 'Inner list'
+    scroll.accessibilityLabel = t('Inner list')
     GridLayout.setRow(scroll, 1)
     const content = new StackLayout()
     for (let i = 1; i <= 18; i++) {
       const row = label(
         props.embedded
-          ? `${String(i).padStart(2, '0')}   ${['Hidden cove', 'The old town', 'Along the coast'][i % 3]}`
+          ? `${String(i).padStart(2, '0')}   ${t(['Hidden cove', 'The old town', 'Along the coast'][i % 3])}`
           : `Result ${i} · keep your finger down`,
       )
       row.height = 64
@@ -262,15 +269,15 @@ onUnmounted(() => {
   <GridLayout v-if="embedded" class="exhibit" rows="auto,*,auto,auto">
     <GridLayout columns="*,*,*" class="ex-controls" marginBottom="14"
       ><Button
-        text="Photo"
+        :text="t('Photo')"
         :class="{ 'ex-primary': selected === 'Photo' }"
         @tap="select('Photo')" /><Button
         col="1"
-        text="Carousel"
+        :text="t('Carousel')"
         :class="{ 'ex-primary': selected === 'Carousel' }"
         @tap="select('Carousel')" /><Button
         col="2"
-        text="Sheet"
+        :text="t('Sheet')"
         :class="{ 'ex-primary': selected === 'Sheet' }"
         @tap="select('Sheet')" /></GridLayout
     ><GridLayout
@@ -280,47 +287,47 @@ onUnmounted(() => {
       clipToBounds="true"
       @loaded="mount"
     /><GridLayout row="2" columns="*,*" class="ex-controls" marginTop="16"
-      ><Button text="Reset" @tap="reset" /><Button
+      ><Button :text="t('Reset')" @tap="reset" /><Button
         col="1"
-        text="Pause / resume"
+        :text="t('Pause / resume')"
         @tap="pause" /></GridLayout
-    ><Label row="3" :text="status" class="ex-note" textWrap="true" />
+    ><Label row="3" :text="t(status)" class="ex-note" textWrap="true" />
   </GridLayout>
   <template v-else>
     <GridLayout rows="auto,auto,auto,*,auto,auto" padding="24" backgroundColor="#F8F7F2">
       <GridLayout v-if="!props.embedded" columns="*,auto" marginBottom="12">
         <Label
-          text="JOLT / GESTURES"
+          :text="t('JOLT / GESTURES')"
           fontSize="12"
           fontWeight="bold"
           color="#657080"
           verticalAlignment="middle"
         />
-        <Button col="1" text="Back" @tap="$emit('back')" />
+        <Button col="1" :text="t('Back')" @tap="$emit('back')" />
       </GridLayout>
       <Label
         v-if="!props.embedded"
         row="1"
-        text="Move together."
+        :text="t('Move together.')"
         fontSize="32"
         fontWeight="bold"
         color="#263345"
         marginBottom="16"
       />
       <GridLayout row="2" columns="*,*,*" marginBottom="16">
-        <Button text="Photo" @tap="select('Photo')" />
-        <Button col="1" text="Carousel" @tap="select('Carousel')" />
-        <Button col="2" text="Sheet" @tap="select('Sheet')" />
+        <Button :text="t('Photo')" @tap="select('Photo')" />
+        <Button col="1" :text="t('Carousel')" @tap="select('Carousel')" />
+        <Button col="2" :text="t('Sheet')" @tap="select('Sheet')" />
       </GridLayout>
       <GridLayout row="3" id="gesture-stage" @loaded="mount" />
       <GridLayout row="4" columns="*,*" marginTop="16">
-        <Button text="Reset" @tap="reset" />
-        <Button col="1" text="Pause / resume" @tap="pause" />
+        <Button :text="t('Reset')" @tap="reset" />
+        <Button col="1" :text="t('Pause / resume')" @tap="pause" />
       </GridLayout>
       <StackLayout row="5" height="76" marginTop="12">
-        <Label :text="status" textWrap="true" color="#657080" fontSize="14" />
+        <Label :text="t(status)" textWrap="true" color="#657080" fontSize="14" />
         <Label
-          :text="`Existing tap listener: ${coreTaps}`"
+          :text="t(`Existing tap listener: ${coreTaps}`)"
           color="#657080"
           fontSize="12"
           marginTop="8"

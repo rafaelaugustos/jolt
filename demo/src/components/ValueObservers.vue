@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { usePreviewI18n } from '../showcase/i18n'
 import { Color, Utils, isIOS, type EventData, type View } from '@nativescript/core'
 import { onUnmounted, ref } from 'nativescript-vue'
 import { animate, set, stop } from '@rafaelaugusto/jolt'
@@ -6,6 +7,7 @@ import { useBinding, useMotionScope, useMotionValue } from '@rafaelaugusto/jolt/
 
 import { launchArgument } from '../launch'
 import { checkValueConsumers } from '../../../benchmarks/value-consumers'
+const { t } = usePreviewI18n()
 
 const diagnostics = ref('')
 let checking = false
@@ -103,10 +105,10 @@ defineProps<{ embedded?: boolean }>()
   <StackLayout v-if="embedded" class="exhibit">
     <GridLayout class="ex-stage"
       ><Label
-        text="TWO SIGNALS. ONE SOURCE."
+        :text="t('TWO SIGNALS. ONE SOURCE.')"
         class="ex-kicker"
         verticalAlignment="top" /><Label
-        text="Stay in sync."
+        :text="t('Stay in sync.')"
         class="ex-title"
         textWrap="true"
         verticalAlignment="top"
@@ -117,7 +119,7 @@ defineProps<{ embedded?: boolean }>()
         marginBottom="12"
       >
         <GridLayout columns="*,auto"
-          ><Label text="BOUND VIEW" class="ex-kicker" /><Label
+          ><Label :text="t('BOUND VIEW')" class="ex-kicker" /><Label
             col="1"
             text="●"
             color="#B9ABEF"
@@ -131,12 +133,12 @@ defineProps<{ embedded?: boolean }>()
             borderRadius="12"
             backgroundColor="#C4B3EE"
             horizontalAlignment="left"
-            accessibilityLabel="Bound signal"
+            :accessibilityLabel="t('Bound signal')"
         /></GridLayout>
         <GridLayout row="2" columns="*,auto"
-          ><Label text="OBSERVED NATIVE OBJECT" class="ex-kicker" /><Label
+          ><Label :text="t('OBSERVED NATIVE OBJECT')" class="ex-kicker" /><Label
             col="1"
-            :text="following ? 'LINKED' : 'DETACHED'"
+            :text="t(following ? 'LINKED' : 'DETACHED')"
             fontSize="9"
             color="#81C3B0"
         /></GridLayout>
@@ -146,40 +148,40 @@ defineProps<{ embedded?: boolean }>()
           width="244"
           @loaded="loaded"
           @unloaded="unloaded"
-          accessibilityLabel="Observed signal"
+          :accessibilityLabel="t('Observed signal')"
           ><Label height="1" backgroundColor="#485A43"
         /></GridLayout> </GridLayout></GridLayout
     ><StackLayout class="ex-controls"
       ><GridLayout columns="*,*"
         ><Button
           col="0"
-          :text="playing ? 'Restart observers' : 'Play observers'"
+          :text="t(playing ? 'Restart observers' : 'Play observers')"
           @tap="play"
           class="ex-primary" /><Button
           col="1"
-          text="Stop observers"
+          :text="t('Stop observers')"
           @tap="rest" /></GridLayout
       ><GridLayout columns="*"
         ><Button
           col="0"
-          :text="following ? 'Detach observer' : 'Attach observer'"
+          :text="t(following ? 'Detach observer' : 'Attach observer')"
           @tap="toggleFollow" /></GridLayout></StackLayout
     ><Label
-      text="Unlink the lower signal while the upper one keeps moving."
+      :text="t('Unlink the lower signal while the upper one keeps moving.')"
       class="ex-note"
       textWrap="true"
     />
   </StackLayout>
   <template v-else>
     <StackLayout class="section">
-      <Label class="heading" text="Value observers" />
-      <Label v-if="diagnostics" :text="diagnostics" textWrap="true" />
+      <Label class="heading" :text="t('Value observers')" />
+      <Label v-if="diagnostics" :text="t(diagnostics)" textWrap="true" />
       <Label
         class="muted"
-        text="A view binding and a separate native object follow the same value."
+        :text="t('A view binding and a separate native object follow the same value.')"
         textWrap="true"
       />
-      <Label text="Bound view" marginTop="16" />
+      <Label :text="t('Bound view')" marginTop="16" />
       <GridLayout height="40" width="244" horizontalAlignment="left">
         <Label
           :ref="dot"
@@ -190,7 +192,7 @@ defineProps<{ embedded?: boolean }>()
           horizontalAlignment="left"
         />
       </GridLayout>
-      <Label text="Native object" />
+      <Label :text="t('Native object')" />
       <GridLayout
         height="40"
         width="244"
@@ -201,14 +203,14 @@ defineProps<{ embedded?: boolean }>()
       <GridLayout columns="*,*" marginTop="12">
         <Button
           class="button"
-          :text="playing ? 'Restart observers' : 'Play observers'"
+          :text="t(playing ? 'Restart observers' : 'Play observers')"
           @tap="play"
         />
-        <Button col="1" class="button" text="Stop observers" @tap="rest" />
+        <Button col="1" class="button" :text="t('Stop observers')" @tap="rest" />
       </GridLayout>
       <Button
         class="button"
-        :text="following ? 'Detach observer' : 'Attach observer'"
+        :text="t(following ? 'Detach observer' : 'Attach observer')"
         @tap="toggleFollow"
       />
     </StackLayout>

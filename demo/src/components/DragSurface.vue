@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { usePreviewI18n } from '../showcase/i18n'
 import { onMounted, ref } from 'nativescript-vue'
 import { useMotionScope } from '@rafaelaugusto/jolt/vue'
 import { interactionSurface } from '@rafaelaugusto/jolt'
 import type { DragEvent, DragRelease } from '@rafaelaugusto/jolt'
+const { t } = usePreviewI18n()
 const scope = useMotionScope()
 const surface = ref()
 const card = ref(),
@@ -10,10 +12,10 @@ const card = ref(),
 const status = ref('Drag the card or panel')
 const paused = ref(false)
 const track = (name: string, event: DragEvent) => {
-  status.value = `${name} · ${Math.round(event.x)}, ${Math.round(event.y)}`
+  status.value = `${t(name)} · ${Math.round(event.x)}, ${Math.round(event.y)}`
 }
 const released = (name: string, event: DragRelease) => {
-  status.value = `${name} → ${Math.round(event.target.x)}, ${Math.round(event.target.y)}`
+  status.value = `${t(name)} → ${Math.round(event.target.x)}, ${Math.round(event.target.y)}`
 }
 function toggle() {
   paused.value = !paused.value
@@ -48,7 +50,7 @@ defineProps<{ embedded?: boolean }>()
     <StackLayout ref="surface"
       ><GridLayout height="196" backgroundColor="#E2E8D7" borderRadius="28" padding="20"
         ><Label
-          text="A LITTLE ROOM TO ROAM"
+          :text="t('A LITTLE ROOM TO ROAM')"
           color="#7A886B"
           fontSize="9"
           letterSpacing=".1"
@@ -58,11 +60,11 @@ defineProps<{ embedded?: boolean }>()
           height="104"
           borderRadius="22"
           backgroundColor="#344E38"
-          accessibilityLabel="Drag card"
+          :accessibilityLabel="t('Drag card')"
           marginTop="20"
           ><StackLayout verticalAlignment="middle"
             ><Label text="↔" fontSize="38" color="#E3FC62" textAlignment="center" /><Label
-              text="LET IT SLIDE"
+              :text="t('LET IT SLIDE')"
               fontSize="8"
               color="#D4E2C1"
               textAlignment="center"
@@ -88,31 +90,31 @@ defineProps<{ embedded?: boolean }>()
           verticalAlignment="top"
           borderRadius="22"
           backgroundColor="#635274"
-          accessibilityLabel="Drag panel"
+          :accessibilityLabel="t('Drag panel')"
           padding="14"
           ><Label
             width="36"
             height="4"
             borderRadius="2"
             backgroundColor="#B8A4D1" /><Label
-            text="Find your place."
+            :text="t('Find your place.')"
             color="#F2EAF8"
             fontSize="20"
             fontWeight="bold"
             textAlignment="center"
             marginTop="16" /></StackLayout></GridLayout
-      ><Label :text="status" class="ex-note" textWrap="true" /><StackLayout
+      ><Label :text="t(status)" class="ex-note" textWrap="true" /><StackLayout
         class="ex-controls"
         ><GridLayout columns="*"
           ><Button
             col="0"
-            :text="paused ? 'Resume drag' : 'Pause drag'"
+            :text="t(paused ? 'Resume drag' : 'Pause drag')"
             @tap="toggle" /></GridLayout></StackLayout
     ></StackLayout>
   </StackLayout>
   <template v-else>
     <StackLayout ref="surface">
-      <Label text="Fling the card · bounded decay" class="muted" />
+      <Label :text="t('Fling the card · bounded decay')" class="muted" />
       <GridLayout height="130" backgroundColor="#edf1e8" borderRadius="18" marginTop="8">
         <GridLayout
           ref="card"
@@ -120,7 +122,7 @@ defineProps<{ embedded?: boolean }>()
           height="82"
           borderRadius="18"
           backgroundColor="#334b29"
-          accessibilityLabel="Drag card"
+          :accessibilityLabel="t('Drag card')"
         >
           <Label
             text="↔"
@@ -131,7 +133,11 @@ defineProps<{ embedded?: boolean }>()
           />
         </GridLayout>
       </GridLayout>
-      <Label text="Slide the panel · three snap points" class="muted" marginTop="14" />
+      <Label
+        :text="t('Slide the panel · three snap points')"
+        class="muted"
+        marginTop="14"
+      />
       <GridLayout height="248" marginTop="8" backgroundColor="#e9edf4" borderRadius="18">
         <StackLayout
           ref="panel"
@@ -140,20 +146,20 @@ defineProps<{ embedded?: boolean }>()
           verticalAlignment="top"
           borderRadius="18"
           backgroundColor="#243e61"
-          accessibilityLabel="Drag panel"
+          :accessibilityLabel="t('Drag panel')"
           padding="16"
         >
           <GridLayout width="40" height="5" backgroundColor="#bdd6ff" borderRadius="3" />
           <Label
-            text="Pull me up or down"
+            :text="t('Pull me up or down')"
             color="white"
             horizontalAlignment="center"
             marginTop="14"
           />
         </StackLayout>
       </GridLayout>
-      <Label :text="status" textWrap="true" marginTop="12" />
-      <Button :text="paused ? 'Resume drag' : 'Pause drag'" @tap="toggle" />
+      <Label :text="t(status)" textWrap="true" marginTop="12" />
+      <Button :text="t(paused ? 'Resume drag' : 'Pause drag')" @tap="toggle" />
     </StackLayout>
   </template>
 </template>

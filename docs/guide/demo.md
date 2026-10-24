@@ -12,6 +12,18 @@ Home animations stop when navigating away. Detail pages mount only the selected 
 
 The iOS app resources now live in the repository, including the **Jolt** display name and icon. Launching from the installed icon opens Studio without special arguments. The app requires Core 9.1.3+ and installs `vue-router-ns@0.1.0-rc.2` for this preview.
 
+## Language
+
+Studio follows the phone language by default: Portuguese uses Brazilian Portuguese, and other languages use English. Tap **Language** at the top of Studio to choose **Follow device**, **English**, or **Português**. Changes apply immediately and the choice persists after closing the app. Choosing **Follow device** removes the override; the preferred language is read again when the app resumes.
+
+The splash, collection, all 54 experiment presentations, controls, status messages and accessibility labels are localized. Search accepts translated or English names, with or without accents. Rolling account numbers use the selected language’s separators. Animation API identifiers such as `popIn` remain unchanged; the isolated technical playground keeps its English fixtures.
+
+<Clip name="showcase-language-ios" caption="iOS 26 simulator: real XCTest taps switch English → Portuguese, search for camera without an accent, operate the native camera lens, and switch back to English. Original timing. Separate native checks verify persistence and automatic language selection using iOS preferred-language launch settings; this does not validate Android or a physical device." />
+
+<Clip name="showcase-portuguese-ios" caption="All 54 collection entries in Brazilian Portuguese on the iOS 26 simulator, with representative native interactions. A montage of separate captures at their original speed, including the optional local car model. Not every technical control is exercised." />
+
+<Clip name="showcase-splash-pt-ios" caption="Real cold launch in Portuguese on the iOS 26 simulator, including the animated splash and localized Studio. Original timing, captured separately from XCTest startup synchronization." />
+
 ## Motion Studio interiors
 
 The collection now presents each experiment as an interactive composition: a playlist for stagger, an account for rolling digits, a record player for drag values, tactile cards for press feedback, and coordinated signals for value bindings. The four automotive entries keep their SceneKit studio. The showcase has a focused set of controls; the isolated playground still exposes the detailed probes and technical options.

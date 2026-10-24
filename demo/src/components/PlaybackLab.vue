@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { usePreviewI18n } from '../showcase/i18n'
 import { Application, isIOS, type EventData, type View } from '@nativescript/core'
 import { ref, onUnmounted } from 'nativescript-vue'
 import {
@@ -27,6 +28,7 @@ import { NativeMapDemo, NativeSceneDemo } from '../native-demo'
 import { StudioScene } from '../showcase/studio-scene'
 import { checkPlaybackAdapters } from '../../../benchmarks/playback-adapters'
 import { launchArgument } from '../launch'
+const { t, locale } = usePreviewI18n()
 
 const emit = defineEmits<{ back: [] }>()
 const mode = ref(launchArgument('playback-lab') || 'timeline')
@@ -281,26 +283,29 @@ const props = defineProps<{ embedded?: boolean }>()
   >
     <GridLayout v-if="!props.embedded" columns="*,auto" marginBottom="12">
       <StackLayout
-        ><Label text="One clock. Every detail." fontSize="24" fontWeight="bold" /><Label
-          text="Native playback · Jolt"
+        ><Label
+          :text="t('One clock. Every detail.')"
+          fontSize="24"
+          fontWeight="bold" /><Label
+          :text="t('Native playback · Jolt')"
           color="#9caec7"
           marginTop="4"
       /></StackLayout>
-      <Button col="1" text="Back" @tap="emit('back')" />
+      <Button col="1" :text="t('Back')" @tap="emit('back')" />
     </GridLayout>
     <GridLayout row="1" columns="*,*,*" marginBottom="16">
       <Button
-        text="Timeline"
+        :text="t('Timeline')"
         :class="{ active: props.embedded && mode === 'timeline' }"
         @tap="select('timeline')"
       /><Button
         col="1"
-        text="Native map"
+        :text="t('Native map')"
         :class="{ active: props.embedded && mode === 'map' }"
         @tap="select('map')"
       /><Button
         col="2"
-        text="3D camera"
+        :text="t('3D camera')"
         :class="{ active: props.embedded && mode === 'scene' }"
         @tap="select('scene')"
       />
@@ -314,8 +319,8 @@ const props = defineProps<{ embedded?: boolean }>()
       >
         <GridLayout columns="*,auto" marginBottom="8"
           ><StackLayout
-            ><Label text="THE LONG WAY HOME" class="ex-kicker" /><Label
-              text="Enjoy the journey."
+            ><Label :text="t('THE LONG WAY HOME')" class="ex-kicker" /><Label
+              :text="t('Enjoy the journey.')"
               color="#F1F1DF"
               fontSize="23"
               fontWeight="bold"
@@ -331,7 +336,11 @@ const props = defineProps<{ embedded?: boolean }>()
           borderRadius="24"
         >
           <SVGView
-            src="~/assets/studio/journey.svg"
+            :src="
+              locale === 'pt-BR'
+                ? '~/assets/studio/journey-pt.svg'
+                : '~/assets/studio/journey.svg'
+            "
             width="300"
             height="300"
             stretch="aspectFit"
@@ -368,7 +377,7 @@ const props = defineProps<{ embedded?: boolean }>()
           /></GridLayout>
           <Label
             ref="delayed"
-            text="HALFWAY THERE  ↗"
+            :text="t('HALFWAY THERE  ↗')"
             opacity="0"
             color="#E3FC62"
             fontSize="9"
@@ -388,14 +397,19 @@ const props = defineProps<{ embedded?: boolean }>()
               scaleX="0"
               backgroundColor="#E3FC62" /></GridLayout
           ><GridLayout columns="*,auto" marginTop="9"
-            ><Label text="01  STUDIO" class="ex-kicker" /><Label
+            ><Label :text="t('01  STUDIO')" class="ex-kicker" /><Label
               col="1"
-              text="02  THE WATERFRONT"
+              :text="t('02  THE WATERFRONT')"
               class="ex-kicker" /></GridLayout
         ></StackLayout>
       </GridLayout>
       <StackLayout v-else-if="mode === 'timeline'" padding="20">
-        <Label text="PICKUP ROUTE" color="#95a9c5" fontSize="12" marginBottom="16" />
+        <Label
+          :text="t('PICKUP ROUTE')"
+          color="#95a9c5"
+          fontSize="12"
+          marginBottom="16"
+        />
         <GridLayout height="140" width="264" horizontalAlignment="left">
           <GridLayout
             width="230"
@@ -433,7 +447,7 @@ const props = defineProps<{ embedded?: boolean }>()
         /></GridLayout>
         <Label
           ref="delayed"
-          text="Halfway checkpoint"
+          :text="t('Halfway checkpoint')"
           opacity="0"
           color="#4fe2b0"
           marginBottom="12"
@@ -445,7 +459,11 @@ const props = defineProps<{ embedded?: boolean }>()
           stretch="aspectFill"
         />
         <Label
-          text="Car, pulse and ripple pause together. The checkpoint waits for timeline time."
+          :text="
+            t(
+              'Car, pulse and ripple pause together. The checkpoint waits for timeline time.',
+            )
+          "
           textWrap="true"
           color="#95a9c5"
           marginTop="12"
@@ -465,41 +483,41 @@ const props = defineProps<{ embedded?: boolean }>()
     </GridLayout>
     <GridLayout row="3" columns="*,auto" marginTop="16" marginBottom="12">
       <StackLayout
-        ><Label :text="status" fontSize="20" /><Label
-          :text="
+        ><Label :text="t(status)" fontSize="20" /><Label
+          :text="t(
             mode === 'timeline'
               ? props.embedded
                 ? 'Every detail, on the same clock.'
                 : `${meters} m remaining · constant speed`
-              : props.embedded && mode === 'scene'
+              : props.embedded &amp;&amp; mode === 'scene'
                 ? 'A new angle. The same moment.'
                 : props.embedded
                   ? 'A city, seen in motion.'
                   : 'Native property adapter'
-          "
+          )"
           color="#95a9c5"
           marginTop="5"
       /></StackLayout>
       <Label
         col="1"
-        :text="`${percentage}%`"
+        :text="t(`${percentage}%`)"
         fontSize="28"
         :color="props.embedded ? '#E3FC62' : '#4fe2b0'"
       />
     </GridLayout>
     <GridLayout row="4" columns="*,*,*">
       <Button
-        text="Play scene"
+        :text="t('Play scene')"
         :isEnabled="mode === 'timeline' || ready"
         @tap="play"
       /><Button
         col="1"
-        :text="paused ? 'Resume scene' : 'Pause scene'"
+        :text="t(paused ? 'Resume scene' : 'Pause scene')"
         @tap="toggle"
-      /><Button col="2" text="Stop scene" @tap="stop" />
+      /><Button col="2" :text="t('Stop scene')" @tap="stop" />
     </GridLayout>
     <GridLayout v-if="!props.embedded" row="5" ref="checksHost" height="40"
-      ><Button text="Run native checks" :isEnabled="!checking" @tap="checks"
+      ><Button :text="t('Run native checks')" :isEnabled="!checking" @tap="checks"
     /></GridLayout>
   </GridLayout>
 </template>

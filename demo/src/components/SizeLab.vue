@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { usePreviewI18n } from '../showcase/i18n'
 import {
   Color,
   GridLayout,
@@ -17,6 +18,7 @@ import {
   type SizeDimensions,
 } from '@rafaelaugusto/jolt'
 import { runSizeChecks } from '../../../benchmarks/size-checks'
+const { t } = usePreviewI18n()
 
 defineEmits<{ back: [] }>()
 const scope = motionScope()
@@ -42,6 +44,7 @@ function mount(event: EventData) {
   card = new StackLayout()
   card.id = 'size-card'
   card.automationText = 'Size card'
+  card.accessibilityLabel = t('Size card')
   card.backgroundColor = new Color(props.embedded ? '#344D37' : '#E4EEFF')
   card.borderRadius = 22
   card.padding = 20
@@ -51,29 +54,30 @@ function mount(event: EventData) {
   card.verticalAlignment = 'top'
   card.clipToBounds = true
   const title = new Label()
-  title.text = 'Made to fit.'
+  title.text = t('Made to fit.')
   title.fontSize = 27
   title.fontWeight = 'bold'
   title.color = new Color(props.embedded ? '#EDF2DE' : '#153561')
   card.addChild(title)
   body = new Label()
-  body.text = copy
+  body.text = t(copy)
   body.fontSize = 17
   body.textWrap = true
   body.marginTop = 18
   body.color = new Color(props.embedded ? '#BCCCAE' : '#315277')
   card.addChild(body)
   const icon = new Label()
-  icon.text = '●  Natural size, every frame'
+  icon.text = t('●  Natural size, every frame')
   icon.fontSize = 15
   icon.marginTop = 18
   icon.color = new Color(props.embedded ? '#E3FC62' : '#1764DA')
   card.addChild(icon)
   const neighbour = new Button()
-  neighbour.text = props.embedded
-    ? 'Room for something else.  ↗'
-    : 'Tap the following row'
+  neighbour.text = t(
+    props.embedded ? 'Room for something else.  ↗' : 'Tap the following row',
+  )
   neighbour.automationText = 'Following row'
+  neighbour.accessibilityLabel = t('Following row')
   neighbour.height = 50
   neighbour.borderRadius = 16
   neighbour.backgroundColor = new Color(props.embedded ? '#C8D9AD' : '#1764DA')
@@ -116,9 +120,11 @@ function run(dimensions: SizeDimensions, change?: () => void) {
 function content() {
   long = !long
   run({ height: 'auto' }, () => {
-    body.text = long
-      ? `${copy}\n\nContent can arrive while the animation is running. Jolt measures the new destination and continues from the current size.`
-      : copy
+    body.text = t(
+      long
+        ? `${copy}\n\nContent can arrive while the animation is running. Jolt measures the new destination and continues from the current size.`
+        : copy,
+    )
   })
 }
 function width() {
@@ -163,7 +169,7 @@ const props = defineProps<{ embedded?: boolean }>()
     <GridLayout rows="auto,*" borderRadius="28" backgroundColor="#E4E8DA" padding="20"
       ><GridLayout columns="*,auto" marginBottom="24"
         ><Label
-          text="MAKE A LITTLE ROOM"
+          :text="t('MAKE A LITTLE ROOM')"
           fontSize="9"
           color="#798568"
           letterSpacing=".1" /><Label
@@ -182,24 +188,27 @@ const props = defineProps<{ embedded?: boolean }>()
           @loaded="mount" /></ScrollView></GridLayout
     ><StackLayout row="1" class="ex-controls" marginTop="16"
       ><GridLayout columns="*,*,*"
-        ><Button text="Expand" @tap="run({ height: 'auto' })" class="ex-primary" /><Button
+        ><Button
+          :text="t('Expand')"
+          @tap="run({ height: 'auto' })"
+          class="ex-primary" /><Button
           col="1"
-          text="Collapse"
+          :text="t('Collapse')"
           @tap="run({ height: 86 })" /><Button
           col="2"
-          text="Width"
+          :text="t('Width')"
           @tap="width" /></GridLayout
       ><GridLayout columns="*,*,*"
-        ><Button text="Content" @tap="content" /><Button
+        ><Button :text="t('Content')" @tap="content" /><Button
           col="1"
-          :text="paused ? 'Resume' : 'Pause'"
+          :text="t(paused ? 'Resume' : 'Pause')"
           @tap="pause" /><Button
           col="2"
-          text="Stop"
+          :text="t('Stop')"
           @tap="animation?.stop()" /></GridLayout></StackLayout
     ><Label
       row="2"
-      :text="status"
+      :text="t(status)"
       automationText="Size status"
       class="ex-note"
       textWrap="true"
@@ -208,16 +217,21 @@ const props = defineProps<{ embedded?: boolean }>()
   <template v-else>
     <GridLayout rows="auto,auto,*,auto" backgroundColor="#F6F8FC" padding="16 20">
       <StackLayout v-if="!props.embedded">
-        <Label text="REAL DIMENSIONS" fontSize="11" letterSpacing="0.2" color="#1764DA" />
         <Label
-          text="Space that moves."
+          :text="t('REAL DIMENSIONS')"
+          fontSize="11"
+          letterSpacing="0.2"
+          color="#1764DA"
+        />
+        <Label
+          :text="t('Space that moves.')"
           fontSize="30"
           fontWeight="bold"
           color="#152C48"
           marginTop="8"
         />
         <Label
-          text="Width, height &amp; auto. No stretched content."
+          :text="t('Width, height &amp; auto. No stretched content.')"
           fontSize="14"
           color="#60738D"
           marginTop="8"
@@ -226,19 +240,19 @@ const props = defineProps<{ embedded?: boolean }>()
       </StackLayout>
       <StackLayout row="1" marginTop="16" marginBottom="12">
         <GridLayout columns="*,*,*">
-          <Button text="Expand" @tap="run({ height: 'auto' })" />
-          <Button col="1" text="Collapse" @tap="run({ height: 86 })" />
-          <Button col="2" text="Width" @tap="width" />
+          <Button :text="t('Expand')" @tap="run({ height: 'auto' })" />
+          <Button col="1" :text="t('Collapse')" @tap="run({ height: 86 })" />
+          <Button col="2" :text="t('Width')" @tap="width" />
         </GridLayout>
         <GridLayout columns="*,*,*">
-          <Button text="Content" @tap="content" />
-          <Button col="1" :text="paused ? 'Resume' : 'Pause'" @tap="pause" />
-          <Button col="2" text="Stop" @tap="animation?.stop()" />
+          <Button :text="t('Content')" @tap="content" />
+          <Button col="1" :text="t(paused ? 'Resume' : 'Pause')" @tap="pause" />
+          <Button col="2" :text="t('Stop')" @tap="animation?.stop()" />
         </GridLayout>
         <GridLayout columns="*,*,*">
-          <Button :text="grid ? 'Grid' : 'Stack'" @tap="grid = !grid" />
-          <Button col="1" :text="slow ? 'Speed 0.25x' : 'Speed 1x'" @tap="speed" />
-          <Button col="2" :text="reduced ? 'Reduced' : 'System'" @tap="motion" />
+          <Button :text="t(grid ? 'Grid' : 'Stack')" @tap="grid = !grid" />
+          <Button col="1" :text="t(slow ? 'Speed 0.25x' : 'Speed 1x')" @tap="speed" />
+          <Button col="2" :text="t(reduced ? 'Reduced' : 'System')" @tap="motion" />
         </GridLayout>
       </StackLayout>
       <ScrollView row="2">
@@ -252,17 +266,17 @@ const props = defineProps<{ embedded?: boolean }>()
       </ScrollView>
       <StackLayout row="3" marginTop="8">
         <Label
-          :text="status"
+          :text="t(status)"
           automationText="Size status"
           fontSize="12"
           color="#60738D"
           textWrap="true"
         />
         <GridLayout :columns="props.embedded ? '*' : '*,*'">
-          <Button v-if="!props.embedded" text="Back" @tap="$emit('back')" />
+          <Button v-if="!props.embedded" :text="t('Back')" @tap="$emit('back')" />
           <Button
             :col="props.embedded ? 0 : 1"
-            :text="checking ? 'Checking…' : 'Run size checks'"
+            :text="t(checking ? 'Checking…' : 'Run size checks')"
             @tap="checks"
           />
         </GridLayout>

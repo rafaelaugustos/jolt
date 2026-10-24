@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { usePreviewI18n } from '../showcase/i18n'
 import { ref } from 'nativescript-vue'
 import { animate } from '@rafaelaugusto/jolt'
 import { useBinding, useMotionValue } from '@rafaelaugusto/jolt/vue'
+const { t } = usePreviewI18n()
 
 const progress = useMotionValue(0)
 const page = useBinding({ scale: progress.to([0, 1], [1, 0.92]) })
@@ -21,16 +23,16 @@ defineProps<{ embedded?: boolean }>()
     <GridLayout class="ex-stage" padding="0" clipToBounds="true" height="360"
       ><GridLayout :ref="page" backgroundColor="#DCE6CC" borderRadius="25" padding="25"
         ><Label
-          text="THE WEEKEND EDIT"
+          :text="t('THE WEEKEND EDIT')"
           color="#6F7F5C"
           fontSize="9"
           letterSpacing=".12"
           verticalAlignment="top" /><Label
-          text="Less rush.&#10;More room."
+          :text="t('Less rush.\nMore room.')"
           class="ex-light-title"
           textWrap="true"
           verticalAlignment="middle" /><Label
-          text="A FEW THINGS WORTH SAVING  ↗"
+          :text="t('A FEW THINGS WORTH SAVING  ↗')"
           color="#6F7F5C"
           fontSize="9"
           verticalAlignment="bottom" /></GridLayout
@@ -48,11 +50,11 @@ defineProps<{ embedded?: boolean }>()
           backgroundColor="#9F9E8F"
           verticalAlignment="top" /><StackLayout verticalAlignment="middle"
           ><Label
-            text="Make it a slow day."
+            :text="t('Make it a slow day.')"
             fontSize="24"
             fontWeight="bold"
             color="#3F4A37" /><Label
-            text="Saved to your weekend collection."
+            :text="t('Saved to your weekend collection.')"
             fontSize="12"
             color="#7D826E"
             marginTop="12" /></StackLayout></GridLayout></GridLayout
@@ -60,27 +62,27 @@ defineProps<{ embedded?: boolean }>()
       ><GridLayout columns="*"
         ><Button
           col="0"
-          :text="open ? 'Close sheet' : 'Open sheet'"
+          :text="t(open ? 'Close sheet' : 'Open sheet')"
           @tap="toggle"
           class="ex-primary" /></GridLayout></StackLayout
     ><Label
-      text="One movement connects the page, the shade and the sheet."
+      :text="t('One movement connects the page, the shade and the sheet.')"
       class="ex-note"
       textWrap="true"
     />
   </StackLayout>
   <template v-else>
     <StackLayout class="section">
-      <Label class="heading" text="Motion values" />
+      <Label class="heading" :text="t('Motion values')" />
       <Label
         class="muted"
         textWrap="true"
-        text="bind(sheet, { y: progress.to([0, 1], [200, 0]) })"
+        :text="t('bind(sheet, { y: progress.to([0, 1], [200, 0]) })')"
       />
 
       <GridLayout class="stage values-stage" height="300">
         <GridLayout :ref="page" class="values-page">
-          <Label class="values-title" text="Page" />
+          <Label class="values-title" :text="t('Page')" />
         </GridLayout>
         <GridLayout :ref="backdrop" class="values-backdrop" opacity="0" />
         <GridLayout
@@ -90,16 +92,24 @@ defineProps<{ embedded?: boolean }>()
           verticalAlignment="bottom"
         >
           <Label class="values-handle" />
-          <Label class="values-title" text="Sheet" />
+          <Label class="values-title" :text="t('Sheet')" />
         </GridLayout>
       </GridLayout>
 
       <Label
         class="note"
         textWrap="true"
-        text="One value drives the page scale, the backdrop and the sheet on one native clock. Tap again mid-way and all three turn around together."
+        :text="
+          t(
+            'One value drives the page scale, the backdrop and the sheet on one native clock. Tap again mid-way and all three turn around together.',
+          )
+        "
       />
-      <Button class="button" :text="open ? 'Close sheet' : 'Open sheet'" @tap="toggle" />
+      <Button
+        class="button"
+        :text="t(open ? 'Close sheet' : 'Open sheet')"
+        @tap="toggle"
+      />
     </StackLayout>
   </template>
 </template>

@@ -1,6 +1,8 @@
 <script lang="ts" setup>
+import { usePreviewI18n } from '../showcase/i18n'
 import { ref } from 'nativescript-vue'
 import { animate } from '@rafaelaugusto/jolt'
+const { t } = usePreviewI18n()
 
 const each = ref()
 const whole = ref()
@@ -18,7 +20,7 @@ defineProps<{ embedded?: boolean }>()
   <StackLayout v-if="embedded" class="exhibit">
     <GridLayout class="ex-stage"
       ><Label
-        text="SAME STEPS. DIFFERENT FEELING."
+        :text="t('SAME STEPS. DIFFERENT FEELING.')"
         class="ex-kicker"
         verticalAlignment="top" /><GridLayout
         columns="*,*"
@@ -46,34 +48,34 @@ defineProps<{ embedded?: boolean }>()
           verticalAlignment="bottom"
           marginBottom="24" /><Label
           row="1"
-          text="EACH SEGMENT"
+          :text="t('EACH SEGMENT')"
           class="ex-kicker"
           textAlignment="center" /><Label
           row="1"
           col="1"
-          text="WHOLE TRACK"
+          :text="t('WHOLE TRACK')"
           class="ex-kicker"
           textAlignment="center" /></GridLayout></GridLayout
     ><StackLayout class="ex-controls"
       ><GridLayout columns="*"
         ><Button
           col="0"
-          text="Bounce"
+          :text="t('Bounce')"
           @tap="play"
           class="ex-primary" /></GridLayout></StackLayout
     ><Label
-      text="Watch how the same bounce changes when easing spans the whole track."
+      :text="t('Watch how the same bounce changes when easing spans the whole track.')"
       class="ex-note"
       textWrap="true"
     />
   </StackLayout>
   <template v-else>
     <StackLayout class="section">
-      <Label class="heading" text="Track easing" />
+      <Label class="heading" :text="t('Track easing')" />
       <Label
         class="muted"
         textWrap="true"
-        text="{ ease: 'easeOut', easeTrack: true, times: [0, 0.4, 0.7, 1] }"
+        :text="t('{ ease: \'easeOut\', easeTrack: true, times: [0, 0.4, 0.7, 1] }')"
       />
 
       <GridLayout columns="*, *" rows="*, auto" class="stage" height="170">
@@ -94,16 +96,20 @@ defineProps<{ embedded?: boolean }>()
           verticalAlignment="bottom"
           marginBottom="8"
         />
-        <Label row="1" class="caption" text="Each segment" />
-        <Label row="1" col="1" class="caption" text="Whole track" />
+        <Label row="1" class="caption" :text="t('Each segment')" />
+        <Label row="1" col="1" class="caption" :text="t('Whole track')" />
       </GridLayout>
 
       <Label
         class="note"
         textWrap="true"
-        text="Same keyframes and times. On the right, one easeOut runs over the whole bounce, like React Native's interpolate."
+        :text="
+          t(
+            'Same keyframes and times. On the right, one easeOut runs over the whole bounce, like React Native\'s interpolate.',
+          )
+        "
       />
-      <Button class="button" text="Bounce" @tap="play" />
+      <Button class="button" :text="t('Bounce')" @tap="play" />
     </StackLayout>
   </template>
 </template>

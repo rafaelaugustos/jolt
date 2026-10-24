@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { usePreviewI18n } from '../showcase/i18n'
 import { onMounted, ref } from 'nativescript-vue'
 import type { PlaybackAnimation, RepeatDelayRange, Target } from '@rafaelaugusto/jolt'
 import { useMotionScope } from '@rafaelaugusto/jolt/vue'
+const { t } = usePreviewI18n()
 
 const scope = useMotionScope()
 const fixed = ref()
@@ -49,10 +51,10 @@ defineProps<{ embedded?: boolean }>()
   <StackLayout v-if="embedded" class="exhibit">
     <GridLayout class="ex-stage"
       ><Label
-        text="A LITTLE MORE HUMAN"
+        :text="t('A LITTLE MORE HUMAN')"
         class="ex-kicker"
         verticalAlignment="top" /><Label
-        text="Meet the&#10;daydreamers."
+        :text="t('Meet the\ndaydreamers.')"
         class="ex-title"
         textWrap="true"
         verticalAlignment="top"
@@ -102,13 +104,13 @@ defineProps<{ embedded?: boolean }>()
               margin="0 8" /></StackLayout></GridLayout
         ><Label
           row="1"
-          text="THE PLANNER"
+          :text="t('THE PLANNER')"
           class="ex-kicker"
           textAlignment="center"
           marginTop="12" /><Label
           row="1"
           col="1"
-          text="THE DREAMER"
+          :text="t('THE DREAMER')"
           class="ex-kicker"
           textAlignment="center"
           marginTop="12" /></GridLayout></GridLayout
@@ -116,22 +118,22 @@ defineProps<{ embedded?: boolean }>()
       ><GridLayout columns="*"
         ><Button
           col="0"
-          :text="running ? 'Stop idling' : 'Start idling'"
+          :text="t(running ? 'Stop idling' : 'Start idling')"
           @tap="toggle"
           class="ex-primary" /></GridLayout></StackLayout
     ><Label
-      text="One blinks on schedule. The other takes its time."
+      :text="t('One blinks on schedule. The other takes its time.')"
       class="ex-note"
       textWrap="true"
     />
   </StackLayout>
   <template v-else>
     <StackLayout class="section">
-      <Label class="heading" text="Random pauses" />
+      <Label class="heading" :text="t('Random pauses')" />
       <Label
         class="muted"
         textWrap="true"
-        text="{ repeat: Infinity, repeatDelay: [1000, 4000] }"
+        :text="t('{ repeat: Infinity, repeatDelay: [1000, 4000] }')"
       />
 
       <GridLayout columns="*, *" rows="*, auto" class="stage" height="190">
@@ -147,18 +149,22 @@ defineProps<{ embedded?: boolean }>()
             <Label class="mascot-eye" />
           </StackLayout>
         </GridLayout>
-        <Label row="1" class="caption" text="repeatDelay: 2500" />
-        <Label row="1" col="1" class="caption" text="repeatDelay: [1000, 4000]" />
+        <Label row="1" class="caption" :text="t('repeatDelay: 2500')" />
+        <Label row="1" col="1" class="caption" :text="t('repeatDelay: [1000, 4000]')" />
       </GridLayout>
 
       <Label
         class="note"
         textWrap="true"
-        text="Left: the same pause before every blink and glance. Right: a new pause drawn for each repeat, still one native loop."
+        :text="
+          t(
+            'Left: the same pause before every blink and glance. Right: a new pause drawn for each repeat, still one native loop.',
+          )
+        "
       />
       <Button
         class="button"
-        :text="running ? 'Stop idling' : 'Start idling'"
+        :text="t(running ? 'Stop idling' : 'Start idling')"
         @tap="toggle"
       />
     </StackLayout>

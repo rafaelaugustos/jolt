@@ -233,20 +233,20 @@
   "testCorrection": "The first targeted run used an invalid XCTest frame-position assertion for a Core Animation presentation-layer animation. It was replaced with visibility checks plus inspection of native footage; testExhibitCorrections then passed. Only recordings from the passing rerun are included for those nine examples.",
   "clips": {
     "showcase-splash-ios.mp4": {
-      "seconds": 5.2,
-      "bytes": 238705,
-      "sha256": "c093698a567ea8474b3ff564160e3664aa9fbb6e85770168e24997071baae383",
+      "seconds": 6.2,
+      "bytes": 242727,
+      "sha256": "687766a8c9da23966f43d477fe0973e172416f440c1b01dc079d722574bd695e",
       "encoding": "h264, yuv420p, 420×914, 30/1 fps",
       "fullDecode": "passed",
-      "capture": "recorded for this revision"
+      "capture": "refreshed for localization; see showcase-language-review.json"
     },
     "showcase-ios.mp4": {
-      "seconds": 28.2,
-      "bytes": 953209,
-      "sha256": "8664e8350cc0402ca7a764ea596a430da3bfabc1af4dee7c746b100347f2594e",
+      "seconds": 28.366667,
+      "bytes": 926574,
+      "sha256": "052827de1987f8f9f2adaf98dc528549fe8a94f66a9d31879d951b8d03319afe",
       "encoding": "h264, yuv420p, 420×914, 30/1 fps",
       "fullDecode": "passed",
-      "capture": "recorded for this revision"
+      "capture": "refreshed for localization; see showcase-language-review.json"
     },
     "showcase-springs-ios.mp4": {
       "seconds": 4.533333,

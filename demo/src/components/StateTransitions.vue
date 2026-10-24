@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { usePreviewI18n } from '../showcase/i18n'
 import { onMounted, ref } from 'nativescript-vue'
 import { useMotionScope } from '@rafaelaugusto/jolt/vue'
+const { t } = usePreviewI18n()
 
 const scope = useMotionScope()
 const splash = scope.states(
@@ -41,7 +43,7 @@ defineProps<{ embedded?: boolean }>()
   <StackLayout v-if="embedded" class="exhibit">
     <GridLayout class="ex-stage" height="390"
       ><Label
-        text="AN ENTRANCE IN THREE ACTS"
+        :text="t('AN ENTRANCE IN THREE ACTS')"
         class="ex-kicker"
         verticalAlignment="top" /><StackLayout verticalAlignment="middle"
         ><GridLayout
@@ -62,7 +64,7 @@ defineProps<{ embedded?: boolean }>()
           originX="0"
           scaleX="0" /><Label
           :ref="splash.ref('title')"
-          text="Good things&#10;are in motion."
+          :text="t('Good things\nare in motion.')"
           fontSize="35"
           fontWeight="bold"
           color="#EAF0E0"
@@ -70,7 +72,7 @@ defineProps<{ embedded?: boolean }>()
           textAlignment="center"
           opacity="0" /></StackLayout
       ><Label
-        text="01  SPRING     02  DRAW     03  ARRIVE"
+        :text="t('01  SPRING     02  DRAW     03  ARRIVE')"
         class="ex-kicker"
         textAlignment="center"
         verticalAlignment="bottom" /></GridLayout
@@ -78,38 +80,51 @@ defineProps<{ embedded?: boolean }>()
       ><GridLayout columns="*"
         ><Button
           col="0"
-          :text="shown ? 'Hide splash' : 'Show splash'"
+          :text="t(shown ? 'Hide splash' : 'Show splash')"
           @tap="toggle"
           class="ex-primary" /></GridLayout></StackLayout
     ><Label
-      text="One state change. Three carefully timed arrivals."
+      :text="t('One state change. Three carefully timed arrivals.')"
       class="ex-note"
       textWrap="true"
     />
   </StackLayout>
   <template v-else>
     <StackLayout class="section">
-      <Label class="heading" text="Per-target transitions" />
+      <Label class="heading" :text="t('Per-target transitions')" />
       <Label
         class="muted"
         textWrap="true"
-        text="splash.to('shown', { bounce: 0.4, stroke: { duration: 650, delay: 250 } })"
+        :text="
+          t(
+            'splash.to(\'shown\', { bounce: 0.4, stroke: { duration: 650, delay: 250 } })',
+          )
+        "
       />
 
       <StackLayout class="stage" height="190" padding="24 0">
-        <Label :ref="splash.ref('logo')" class="logo" text="J" opacity="0" />
+        <Label :ref="splash.ref('logo')" class="logo" :text="t('J')" opacity="0" />
         <Label :ref="splash.ref('stroke')" class="splash-stroke" originX="0" scaleX="0" />
-        <Label :ref="splash.ref('title')" class="splash-title" text="Jolt" opacity="0" />
+        <Label
+          :ref="splash.ref('title')"
+          class="splash-title"
+          :text="t('Jolt')"
+          opacity="0"
+        />
       </StackLayout>
 
       <Label
         class="note"
         textWrap="true"
-        text="One controller: the logo springs in, the stroke draws with a tween 250 ms later and the title fades in last."
+        :text="
+          t(
+            'One controller: the logo springs in, the stroke draws with a tween 250 ms later and the title fades in last.',
+          )
+        "
       />
       <Button
         class="button"
-        :text="shown ? 'Hide splash' : 'Show splash'"
+        :text="t(shown ? 'Hide splash' : 'Show splash')"
         @tap="toggle"
       />
     </StackLayout>

@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { usePreviewI18n } from './i18n'
 import { ref, onUnmounted } from 'nativescript-vue'
 import { isIOS, type EventData, type View } from '@nativescript/core'
 import { followKeyboard, configure } from '@rafaelaugusto/jolt'
 import { useRoute, useRouter } from 'vue-router-ns'
 import { examples } from './catalog'
+const { t, locale } = usePreviewI18n()
 const route = useRoute(),
   router = useRouter()
 const example = examples.find((e) => e.id === route.params.id)
@@ -50,11 +52,11 @@ onUnmounted(clean)
           verticalAlignment="middle"
           @tap="router.back()"
           accessibilityRole="button"
-          accessibilityLabel="Back to collection"
+          :accessibilityLabel="t('Back to collection')"
         />
         <Label
           col="1"
-          :text="example?.category.toUpperCase() || 'COLLECTION'"
+          :text="t(example?.category || 'Collection').toUpperCase()"
           class="studio-eyebrow"
           horizontalAlignment="center"
           verticalAlignment="middle"
@@ -69,12 +71,12 @@ onUnmounted(clean)
       </GridLayout>
       <StackLayout row="1" padding="12 24 20"
         ><Label
-          :text="example?.title || 'Not found'"
+          :text="t(example?.title || 'Not found')"
           fontSize="32"
           fontWeight="bold"
           :color="atelier ? '#E7EEF1' : '#20242D'"
           textWrap="true" /><Label
-          :text="example?.description || 'Go back to choose an experiment.'"
+          :text="t(example?.description || 'Go back to choose an experiment.')"
           fontSize="14"
           color="#7C8076"
           textWrap="true"
@@ -83,11 +85,15 @@ onUnmounted(clean)
       <StackLayout v-if="example?.ios && !isIOS" row="2" padding="24"
         ><Label
           :text="
-            example.category === 'SceneKit' ? 'Made for SceneKit' : 'Available on iOS'
+            t(example.category === 'SceneKit' ? 'Made for SceneKit' : 'Available on iOS')
           "
           fontSize="24"
           fontWeight="bold" /><Label
-          text="Open this experiment on iOS. There is plenty more to explore in the collection."
+          :text="
+            t(
+              'Open this experiment on iOS. There is plenty more to explore in the collection.',
+            )
+          "
           textWrap="true"
           marginTop="12"
       /></StackLayout>
@@ -100,6 +106,7 @@ onUnmounted(clean)
         ><component
           v-if="mounted"
           :is="example.component"
+          :key="locale"
           :mode="example.id"
           :embedded="true"
           @back="router.back()"
@@ -109,12 +116,13 @@ onUnmounted(clean)
           ><component
             v-if="mounted"
             :is="example.component"
+            :key="locale"
             :mode="example.id"
             :embedded="true"
             :shown="composer"
             @toggle="composer = !composer"
             @back="router.back()" /><Label
-            text="Yours to play with."
+            :text="t('Yours to play with.')"
             class="studio-eyebrow"
             textAlignment="center"
             margin="28 0" /></StackLayout
@@ -127,10 +135,10 @@ onUnmounted(clean)
         @loaded="keyboardLoaded"
         ><TextField
           v-model="message"
-          hint="Try the keyboard…"
+          :hint="t('Try the keyboard…')"
           class="composer-input" /><Button
           col="1"
-          text="Done"
+          :text="t('Done')"
           class="button"
           @tap="composer = false"
       /></GridLayout>

@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+import { usePreviewI18n } from '../showcase/i18n'
 import { ref } from 'nativescript-vue'
 import type { View } from '@nativescript/core'
 import { animate, type EasingName } from '@rafaelaugusto/jolt'
+const { t } = usePreviewI18n()
 
 const curves: EasingName[] = [
   'quadOut',
@@ -37,7 +39,7 @@ defineProps<{ embedded?: boolean }>()
   <StackLayout v-if="embedded" class="exhibit">
     <GridLayout class="ex-stage"
       ><GridLayout columns="*,auto" verticalAlignment="top"
-        ><Label text="SIX WAYS TO ARRIVE" class="ex-kicker" /><Image
+        ><Label :text="t('SIX WAYS TO ARRIVE')" class="ex-kicker" /><Image
           ref="logo"
           col="1"
           src="~/assets/jolt-mark.png"
@@ -46,7 +48,7 @@ defineProps<{ embedded?: boolean }>()
       ><StackLayout verticalAlignment="bottom"
         ><GridLayout v-for="(name, i) in curves" :key="name" columns="72,*" height="42"
           ><Label
-            :text="name"
+            :text="t(name)"
             fontSize="11"
             color="#A6B89D"
             verticalAlignment="middle" /><GridLayout col="1"
@@ -63,24 +65,28 @@ defineProps<{ embedded?: boolean }>()
       ><GridLayout columns="*"
         ><Button
           col="0"
-          text="Play curves"
+          :text="t('Play curves')"
           @tap="play"
           class="ex-primary" /></GridLayout></StackLayout
     ><Label
-      text="Same distance. Same duration. Six distinct personalities."
+      :text="t('Same distance. Same duration. Six distinct personalities.')"
       class="ex-note"
       textWrap="true"
     />
   </StackLayout>
   <template v-else>
     <StackLayout class="section">
-      <Label class="heading" text="Easing curves" />
-      <Label class="muted" textWrap="true" text="ease: 'cubicOut' · opacity: { times }" />
+      <Label class="heading" :text="t('Easing curves')" />
+      <Label
+        class="muted"
+        textWrap="true"
+        :text="t('ease: \'cubicOut\' · opacity: { times }')"
+      />
 
       <GridLayout columns="*, auto" class="stage" padding="12 16">
         <StackLayout>
           <GridLayout v-for="(name, i) in curves" :key="name" columns="76, *" height="30">
-            <Label :text="name" class="easing-name" />
+            <Label :text="t(name)" class="easing-name" />
             <GridLayout col="1">
               <Label class="easing-rail" />
               <Label
@@ -93,15 +99,19 @@ defineProps<{ embedded?: boolean }>()
             </GridLayout>
           </GridLayout>
         </StackLayout>
-        <Label ref="logo" col="1" class="logo" text="J" marginLeft="16" />
+        <Label ref="logo" col="1" class="logo" :text="t('J')" marginLeft="16" />
       </GridLayout>
 
       <Label
         class="note"
         textWrap="true"
-        text="Six named curves over 900 ms. The J's opacity only sets times, so it keeps the 900 ms easeInOut and is fully visible by 30%."
+        :text="
+          t(
+            'Six named curves over 900 ms. The J\'s opacity only sets times, so it keeps the 900 ms easeInOut and is fully visible by 30%.',
+          )
+        "
       />
-      <Button class="button" text="Play curves" @tap="play" />
+      <Button class="button" :text="t('Play curves')" @tap="play" />
     </StackLayout>
   </template>
 </template>

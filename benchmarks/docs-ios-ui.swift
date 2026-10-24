@@ -203,6 +203,159 @@ final class DocsTests: XCTestCase {
         }
     }
 
+    func languageLaunch(_ language: String, _ ready: String, _ extra: [String] = []) {
+        launch(["-AppleLanguages", "(" + language + ")", "--showcase-audit"] + extra, ready)
+    }
+    func selectLanguage(_ value: String) {
+        tap("language-settings")
+        tap("language-" + value)
+        tap("language-back")
+    }
+    func testShowcaseLanguage() throws {
+        languageLaunch("en", "language-settings")
+        selectLanguage("en")
+        try record("showcase-language-ios") {
+            tap("language-settings")
+            tap("language-pt-BR")
+            XCTAssertTrue(app.staticTexts["Idioma atual: Português"].firstMatch.exists)
+            tap("language-back")
+            tap("Coleção")
+            let search = app.textFields["Buscar exemplos"].firstMatch
+            search.tap(); search.typeText("camera\n")
+            XCTAssertTrue(app.descendants(matching: .any)["Abrir Lente da câmera"].firstMatch.exists)
+            tap("Abrir Lente da câmera")
+            tap("Selecionar Ampla", wait: 2.5)
+            tap("Selecionar Detalhe", wait: 2.5)
+            tap("Voltar à coleção")
+            tap("Estúdio")
+            tap("language-settings")
+            tap("language-en")
+            tap("language-back")
+            XCTAssertTrue(app.staticTexts["Collection"].firstMatch.exists)
+        }
+        selectLanguage("system")
+    }
+    func testShowcaseLocaleDefaults() throws {
+        languageLaunch("en", "language-settings")
+        selectLanguage("system")
+        languageLaunch("pt-BR", "Coleção")
+        selectLanguage("en")
+        languageLaunch("pt-BR", "Collection")
+        selectLanguage("pt-BR")
+        languageLaunch("en", "Coleção")
+        selectLanguage("system")
+        languageLaunch("en", "Collection")
+        languageLaunch("pt-PT", "Coleção")
+        languageLaunch("fr-FR", "Collection")
+    }
+
+    func testShowcasePortugueseCollection() throws {
+        languageLaunch("pt-BR", "language-settings")
+        selectLanguage("system")
+        let examples: [(String, String)] = [
+            ("springs", "Molas"),
+            ("presets", "Presets"),
+            ("decay", "Inércia"),
+            ("stagger", "Em sequência"),
+            ("motion-path", "Trajetórias"),
+            ("timeline", "Sequências"),
+            ("playback", "Reprodução"),
+            ("loops", "Repetições"),
+            ("pauses", "Pausas"),
+            ("random-pauses", "Ritmo orgânico"),
+            ("track-easing", "Curva do percurso"),
+            ("easing-curves", "Curvas de movimento"),
+            ("tuning", "Ajustes de movimento"),
+            ("press", "Resposta ao toque"),
+            ("gesture-lab", "Gestos nativos"),
+            ("live-springs", "Molas conectadas"),
+            ("drag-lab", "Arrastar e encaixar"),
+            ("drag-values", "Arrastar um valor"),
+            ("keyboard", "Teclado"),
+            ("haptics", "Háptica"),
+            ("colors", "Cores"),
+            ("gradients", "Gradientes"),
+            ("gradient-directive", "Diretiva de gradiente"),
+            ("gradient-values", "Valores de gradiente"),
+            ("decorations", "Formas e detalhes"),
+            ("shimmer", "Brilho deslizante"),
+            ("particles", "Partículas"),
+            ("loaders", "Indicadores de espera"),
+            ("reveal", "Revelações"),
+            ("image-lab", "Imagens e zoom"),
+            ("opacity-rotation", "Rastros de luz"),
+            ("fade-overflow", "Transparência e limites"),
+            ("text", "Texto animado"),
+            ("rolling", "Números rolando"),
+            ("rolling-layout", "Layout dos números"),
+            ("symbols", "Símbolos"),
+            ("layout-lab", "Mudanças de layout"),
+            ("size-lab", "Dimensões reais"),
+            ("list-items", "Listas"),
+            ("scroll-values", "Valores de rolagem"),
+            ("remount", "Remontagem"),
+            ("motion-values", "Valores de movimento"),
+            ("value-observers", "Observadores de valores"),
+            ("value-layers", "Camadas de valores"),
+            ("layers", "Camadas de animação"),
+            ("motion-states", "Estados de movimento"),
+            ("state-transitions", "Transições de estado"),
+            ("busy-js", "JavaScript ocupado"),
+            ("vue-adapter", "Integração com Vue"),
+            ("from-react-native", "Comparação de molas"),
+            ("scene-shader", "Ambiente e shaders"),
+            ("scene-lighting", "Luzes e materiais"),
+            ("scene-camera", "Lente da câmera"),
+            ("playback-lab", "Mapas e 3D"),
+        ]
+        for (id, title) in examples {
+            languageLaunch("pt-BR", title, ["--showcase-example=" + id])
+            try record("showcase-pt-" + id) {
+                switch id {
+                case "springs": tap("elástica", wait: 1)
+                case "gradient-directive": tap("Próximo clima", wait: 1)
+                case "gesture-lab": tap("Carrossel"); tap("Painel")
+                case "rolling": tap("+ 1,10", wait: 1.5)
+                case "rolling-layout": tap("Próxima distância", wait: 1.2)
+                case "motion-states": tap("Enviar"); tap("Sucesso", wait: 1)
+                case "image-lab": tap("Ondas", wait: 1.5)
+                case "playback-lab": tap("Reproduzir", wait: 2.5)
+                case "scene-camera": tap("Selecionar Detalhe", wait: 2.5)
+                case "scene-lighting": tap("Selecionar Hora dourada", wait: 2.5)
+                case "scene-shader": tap("Selecionar Cabine", wait: 2.5)
+                default: break
+                }
+            }
+            XCTAssertEqual(app.state, .runningForeground, id)
+        }
+        languageLaunch("en", "Collection")
+    }
+
+    func testShowcasePortuguesePolish() throws {
+        languageLaunch("pt-BR", "Rastros de luz", ["--showcase-example=opacity-rotation"])
+        try record("showcase-pt-opacity-rotation") {
+            tap("Reiniciar", wait: 1.5)
+        }
+        languageLaunch("pt-BR", "Dimensões reais", ["--showcase-example=size-lab"])
+        try record("showcase-pt-size-lab") {
+            XCTAssertTrue(app.staticTexts["StackLayout · dimensões reais"].firstMatch.exists)
+        }
+        languageLaunch("pt-BR", "JavaScript ocupado", ["--showcase-example=busy-js"])
+        try record("showcase-pt-busy-js") { }
+        languageLaunch("pt-BR", "Mapas e 3D", ["--showcase-example=playback-lab"])
+        try record("showcase-pt-playback-lab") { tap("Reproduzir", wait: 2.5) }
+        languageLaunch("en", "Collection")
+    }
+
+    func testShowcasePortugueseWrapping() throws {
+        languageLaunch("pt-BR", "JavaScript ocupado", ["--showcase-example=busy-js"])
+        try record("showcase-pt-busy-js") {
+            let title = app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "Siga em")).firstMatch
+            XCTAssertGreaterThan(title.frame.height, 70, "Both translated title lines must be visible")
+        }
+        languageLaunch("en", "Collection")
+    }
+
     func testShowcaseAudit() throws {
         let examples: [(String, String)] = [
             ("springs", "Springs"),

@@ -1,6 +1,6 @@
 # Motion Studio artwork
 
-`journey.svg` is original vector artwork drawn in code for the coordinated timeline.
+`journey.svg` is original vector artwork drawn in code for the coordinated timeline. `journey-pt.svg` uses the same geometry with a Portuguese map caption.
 
 `cove.png` and `dunes.png` are generated editorial illustrations, created with the built-in image generation tool for the showcase. They are local sample artwork, not photographs of an identified location. The original generated images were resized to a 1200-pixel long edge for the app. The isolated image-effect test fixtures remain unchanged.
 

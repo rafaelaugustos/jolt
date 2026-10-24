@@ -1,6 +1,8 @@
 <script lang="ts" setup>
+import { usePreviewI18n } from '../showcase/i18n'
 import { onMounted, onUnmounted, ref } from 'nativescript-vue'
 import { press } from '@rafaelaugusto/jolt'
+const { t } = usePreviewI18n()
 
 const plain = ref()
 const dim = ref()
@@ -29,12 +31,12 @@ defineProps<{ embedded?: boolean }>()
         borderRadius="28"
         padding="24"
         accessibilityRole="button"
-        accessibilityLabel="Press softly"
+        :accessibilityLabel="t('Press softly')"
         ><Label
-          text="A LITTLE CONNECTION"
+          :text="t('A LITTLE CONNECTION')"
           class="ex-kicker"
           verticalAlignment="top" /><Label
-          text="Press play."
+          :text="t('Press play.')"
           fontSize="39"
           fontWeight="bold"
           color="#E3FC62"
@@ -51,9 +53,9 @@ defineProps<{ embedded?: boolean }>()
         borderRadius="28"
         padding="20"
         accessibilityRole="button"
-        accessibilityLabel="Dim on press"
+        :accessibilityLabel="t('Dim on press')"
         ><Label text="☾" fontSize="64" color="#715A83" verticalAlignment="top" /><Label
-          text="Lights down."
+          :text="t('Lights down.')"
           fontSize="20"
           fontWeight="bold"
           color="#59476A"
@@ -67,33 +69,33 @@ defineProps<{ embedded?: boolean }>()
         borderRadius="28"
         padding="20"
         accessibilityRole="button"
-        accessibilityLabel="Tilt on press"
+        :accessibilityLabel="t('Tilt on press')"
         ><Label text="✦" fontSize="64" color="#986F51" verticalAlignment="top" /><Label
-          text="A little twist."
+          :text="t('A little twist.')"
           fontSize="20"
           fontWeight="bold"
           color="#77513C"
           verticalAlignment="bottom"
           textWrap="true" /></GridLayout></GridLayout
     ><Label
-      text="Hold each card. Let go. Notice the way it comes back."
+      :text="t('Hold each card. Let go. Notice the way it comes back.')"
       class="ex-note"
       textWrap="true"
     />
   </StackLayout>
   <template v-else>
     <StackLayout class="section">
-      <Label class="heading" text="Press" />
+      <Label class="heading" :text="t('Press')" />
       <Label
         class="muted"
         textWrap="true"
-        text="press(card), press(card, { scale: 0.94, opacity: 0.6 })"
+        :text="t('press(card), press(card, { scale: 0.94, opacity: 0.6 })')"
       />
 
       <GridLayout columns="*, *, *" class="tiles">
-        <Label ref="plain" class="tile" text="press()" />
-        <Label ref="dim" col="1" class="tile" text="dim" />
-        <Label ref="tilt" col="2" class="tile" text="tilt" />
+        <Label ref="plain" class="tile" :text="t('press()')" />
+        <Label ref="dim" col="1" class="tile" :text="t('dim')" />
+        <Label ref="tilt" col="2" class="tile" :text="t('tilt')" />
       </GridLayout>
     </StackLayout>
   </template>

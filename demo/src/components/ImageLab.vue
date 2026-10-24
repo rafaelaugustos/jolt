@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { usePreviewI18n } from '../showcase/i18n'
 import {
   ImageSource,
   isAndroid,
@@ -19,6 +20,7 @@ import {
   type Zoomable,
 } from '@rafaelaugusto/jolt'
 import { launchArgument } from '../launch'
+const { t } = usePreviewI18n()
 
 const props = defineProps<{ embedded?: boolean }>()
 const emit = defineEmits<{ back: [] }>()
@@ -59,7 +61,7 @@ function stop() {
 }
 function describe() {
   if (effect)
-    status.value = `${effect.effect} · ${effect.diagnostics.backend} · ${Math.round(effect.progress * 100)}%`
+    status.value = `${t(effect.effect)} · ${effect.diagnostics.backend} · ${Math.round(effect.progress * 100)}%`
 }
 function run(
   name: 'ripple' | 'distortion' | 'dissolve',
@@ -81,7 +83,7 @@ function run(
   void Promise.resolve().then(describe)
   void active.finished.then((completed) => {
     if (effect !== active) return
-    status.value = `${name} · ${active.diagnostics.backend} · ${completed ? 'finished' : 'stopped'}${active.diagnostics.detail ? ' · ' + active.diagnostics.detail : ''}`
+    status.value = `${t(name)} · ${active.diagnostics.backend} · ${t(completed ? 'finished' : 'stopped')}${active.diagnostics.detail ? ' · ' + active.diagnostics.detail : ''}`
     report('JOLT_IMAGE_EFFECT', { effect: name, completed, ...active.diagnostics })
   })
 }
@@ -209,12 +211,12 @@ onUnmounted(() => {
   <GridLayout v-if="embedded" class="exhibit" rows="auto,*,auto,auto">
     <GridLayout columns="*,*" class="ex-controls" marginBottom="12"
       ><Button
-        text="Effects"
+        :text="t('Effects')"
         :class="{ 'ex-primary': mode === 'effects' }"
         @tap="select('effects')"
-        accessibilityLabel="Image effects" /><Button
+        :accessibilityLabel="t('Image effects')" /><Button
         col="1"
-        text="Photo zoom"
+        :text="t('Photo zoom')"
         :class="{ 'ex-primary': mode === 'zoom' }"
         @tap="select('zoom')" /></GridLayout
     ><GridLayout
@@ -230,43 +232,47 @@ onUnmounted(() => {
         :stretch="size"
         @loaded="loaded"
         @tap="tapRipple"
-        accessibilityLabel="Landscape, pinch to zoom or use the zoom controls" /></GridLayout
-    ><Button v-else row="1" text="Reopen photo" @tap="reopen" /><StackLayout
+        :accessibilityLabel="
+          t('Landscape, pinch to zoom or use the zoom controls')
+        " /></GridLayout
+    ><Button v-else row="1" :text="t('Reopen photo')" @tap="reopen" /><StackLayout
       row="2"
       class="ex-controls"
       marginTop="16"
       ><GridLayout v-if="mode === 'effects'" columns="*,*,*"
-        ><Button text="Ripple" @tap="run('ripple')" class="ex-primary" /><Button
+        ><Button :text="t('Ripple')" @tap="run('ripple')" class="ex-primary" /><Button
           col="1"
-          text="Drag warp"
+          :text="t('Drag warp')"
           @tap="run('distortion')" /><Button
           col="2"
-          text="Dissolve"
+          :text="t('Dissolve')"
           @tap="run('dissolve')" /></GridLayout
       ><GridLayout v-else columns="*,*,*"
-        ><Button text="Zoom in" @tap="zoomIn" class="ex-primary" /><Button
+        ><Button :text="t('Zoom in')" @tap="zoomIn" class="ex-primary" /><Button
           col="1"
-          text="Reset zoom"
+          :text="t('Reset zoom')"
           @tap="zoom?.reset()" /><Button
           col="2"
-          text="Close photo"
+          :text="t('Close photo')"
           @tap="zoom?.requestDismiss()" /></GridLayout
       ><GridLayout v-if="mode === 'effects'" columns="*,*,*"
-        ><Button text="Pause" @tap="pause" /><Button
+        ><Button :text="t('Pause')" @tap="pause" /><Button
           col="1"
-          text="Play"
-          @tap="play" /><Button col="2" text="Restore" @tap="clear" /></GridLayout
+          :text="t('Play')"
+          @tap="play" /><Button col="2" :text="t('Restore')" @tap="clear" /></GridLayout
       ><GridLayout v-else columns="*,*"
-        ><Button text="Cancel close" @tap="cancelDismiss" /><Button
+        ><Button :text="t('Cancel close')" @tap="cancelDismiss" /><Button
           col="1"
-          text="Accept close"
+          :text="t('Accept close')"
           @tap="acceptDismiss" /></GridLayout></StackLayout
     ><Label
       row="3"
       :text="
-        mode === 'effects'
-          ? 'Tap a point in the image. Watch the surface respond.'
-          : 'Pinch, pan or double-tap to get closer.'
+        t(
+          mode === 'effects'
+            ? 'Tap a point in the image. Watch the surface respond.'
+            : 'Pinch, pan or double-tap to get closer.',
+        )
       "
       class="ex-note"
       textWrap="true"
@@ -276,25 +282,25 @@ onUnmounted(() => {
     <GridLayout rows="auto,auto,*,auto,auto" backgroundColor="#fafafa" padding="12">
       <Label
         v-if="!props.embedded"
-        text="Jolt · Image interactions"
+        :text="t('Jolt · Image interactions')"
         fontSize="23"
         fontWeight="bold"
         color="#18181b"
         marginBottom="8"
-        accessibilityLabel="Back to animation playground"
+        :accessibilityLabel="t('Back to animation playground')"
         @tap="emit('back')"
       />
       <GridLayout row="1" columns="*,*" marginBottom="8">
         <Button
-          text="Effects"
+          :text="t('Effects')"
           @tap="select('effects')"
-          accessibilityLabel="Image effects"
+          :accessibilityLabel="t('Image effects')"
         />
         <Button
           col="1"
-          text="Photo zoom"
+          :text="t('Photo zoom')"
           @tap="select('zoom')"
-          accessibilityLabel="Photo zoom"
+          :accessibilityLabel="t('Photo zoom')"
         />
       </GridLayout>
       <GridLayout
@@ -314,53 +320,58 @@ onUnmounted(() => {
           borderColor="#ef5598"
           :padding="decorated ? 12 : 0"
           :backgroundColor="decorated ? '#352452' : 'transparent'"
-          accessibilityLabel="Color grid, pinch to zoom or use the zoom controls"
+          :accessibilityLabel="t('Color grid, pinch to zoom or use the zoom controls')"
           @loaded="loaded"
           @tap="tapRipple"
         />
       </GridLayout>
-      <Button v-else row="2" text="Reopen photo" @tap="reopen" />
+      <Button v-else row="2" :text="t('Reopen photo')" @tap="reopen" />
       <StackLayout row="3" marginTop="8">
         <GridLayout v-if="mode === 'effects'" rows="auto,auto" columns="*,*,*">
-          <Button text="Ripple" @tap="run('ripple')" />
-          <Button col="1" text="Drag warp" @tap="run('distortion')" />
-          <Button col="2" text="Dissolve" @tap="run('dissolve')" />
-          <Button row="1" text="Pause" @tap="pause" />
-          <Button row="1" col="1" text="Play" @tap="play" />
-          <Button row="1" col="2" text="Reverse" @tap="reverse" />
+          <Button :text="t('Ripple')" @tap="run('ripple')" />
+          <Button col="1" :text="t('Drag warp')" @tap="run('distortion')" />
+          <Button col="2" :text="t('Dissolve')" @tap="run('dissolve')" />
+          <Button row="1" :text="t('Pause')" @tap="pause" />
+          <Button row="1" col="1" :text="t('Play')" @tap="play" />
+          <Button row="1" col="2" :text="t('Reverse')" @tap="reverse" />
         </GridLayout>
         <GridLayout v-else rows="auto,auto" columns="*,*,*">
-          <Button text="Zoom in" @tap="zoomIn" />
-          <Button col="1" text="Reset zoom" @tap="zoom?.reset()" />
-          <Button col="2" text="Close photo" @tap="zoom?.requestDismiss()" />
-          <Button row="1" text="Cancel close" @tap="cancelDismiss" />
-          <Button row="1" col="1" text="Accept close" @tap="acceptDismiss" />
-          <Button row="1" col="2" text="Reattach" @tap="attachZoom" />
+          <Button :text="t('Zoom in')" @tap="zoomIn" />
+          <Button col="1" :text="t('Reset zoom')" @tap="zoom?.reset()" />
+          <Button col="2" :text="t('Close photo')" @tap="zoom?.requestDismiss()" />
+          <Button row="1" :text="t('Cancel close')" @tap="cancelDismiss" />
+          <Button row="1" col="1" :text="t('Accept close')" @tap="acceptDismiss" />
+          <Button row="1" col="2" :text="t('Reattach')" @tap="attachZoom" />
         </GridLayout>
         <GridLayout columns="*,*,*">
-          <Button text="Restore" @tap="clear" />
+          <Button :text="t('Restore')" @tap="clear" />
           <Button
             col="1"
-            :text="reduced ? 'Motion off' : 'Motion on'"
+            :text="t(reduced ? 'Motion off' : 'Motion on')"
             @tap="toggleReduced"
           />
-          <Button v-if="mode === 'effects'" col="2" text="Scrub 50%" @tap="middle" />
-          <Button v-else col="2" text="Open viewer route" @tap="openViewer" />
+          <Button
+            v-if="mode === 'effects'"
+            col="2"
+            :text="t('Scrub 50%')"
+            @tap="middle"
+          />
+          <Button v-else col="2" :text="t('Open viewer route')" @tap="openViewer" />
         </GridLayout>
         <GridLayout v-if="mode === 'effects'" columns="*,*,*,*">
-          <Button text="Prepare ripple" @tap="run('ripple', undefined, true)" />
-          <Button col="1" :text="`Stretch: ${size}`" @tap="stretch" />
+          <Button :text="t('Prepare ripple')" @tap="run('ripple', undefined, true)" />
+          <Button col="1" :text="t(`Stretch: ${size}`)" @tap="stretch" />
           <Button
             col="2"
-            :text="decorated ? 'Corners on' : 'Corners off'"
+            :text="t(decorated ? 'Corners on' : 'Corners off')"
             @tap="decorated = !decorated"
           />
-          <Button col="3" text="Swap source" @tap="replaceSource" />
+          <Button col="3" :text="t('Swap source')" @tap="replaceSource" />
         </GridLayout>
       </StackLayout>
       <Label
         row="4"
-        :text="status"
+        :text="t(status)"
         fontSize="12"
         color="#52525b"
         textWrap="true"

@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { usePreviewI18n } from '../showcase/i18n'
 import { onMounted, ref } from 'nativescript-vue'
 import { animate, drag } from '@rafaelaugusto/jolt'
 import { useMotionScope } from '@rafaelaugusto/jolt/vue'
+const { t } = usePreviewI18n()
 
 const scope = useMotionScope()
 const card = ref()
@@ -46,7 +48,7 @@ defineProps<{ embedded?: boolean }>()
   <StackLayout v-if="embedded" class="exhibit">
     <GridLayout class="ex-stage"
       ><Label
-        text="INDEPENDENT MOVES. ONE FEELING."
+        :text="t('INDEPENDENT MOVES. ONE FEELING.')"
         class="ex-kicker"
         verticalAlignment="top" /><GridLayout
         width="220"
@@ -64,62 +66,66 @@ defineProps<{ embedded?: boolean }>()
         height="144"
         borderRadius="24"
         backgroundColor="#C5B3E6"
-        accessibilityLabel="Drag layered card"
+        :accessibilityLabel="t('Drag layered card')"
         ><StackLayout verticalAlignment="middle"
           ><Label text="✦" fontSize="68" color="#594C72" textAlignment="center" /><Label
-            text="MAKE YOUR MOVE"
+            :text="t('MAKE YOUR MOVE')"
             fontSize="8"
             color="#594C72"
             letterSpacing=".05"
             textAlignment="center"
             marginTop="8" /></StackLayout></GridLayout
       ><Label
-        text="DRAG / SHAKE / BREATHE"
+        :text="t('DRAG / SHAKE / BREATHE')"
         class="ex-kicker"
         verticalAlignment="bottom"
         textAlignment="center" /></GridLayout
     ><StackLayout class="ex-controls"
       ><GridLayout columns="*,*,*"
-        ><Button col="0" text="Move" @tap="move" class="ex-primary" /><Button
+        ><Button col="0" :text="t('Move')" @tap="move" class="ex-primary" /><Button
           col="1"
-          text="Shake"
+          :text="t('Shake')"
           @tap="shake" /><Button
           col="2"
-          :text="breathing ? 'Rest' : 'Breathe'"
+          :text="t(breathing ? 'Rest' : 'Breathe')"
           @tap="breathe" /></GridLayout></StackLayout
     ><Label
-      text="Drag the card while the other movements play on top."
+      :text="t('Drag the card while the other movements play on top.')"
       class="ex-note"
       textWrap="true"
     />
   </StackLayout>
   <template v-else>
     <StackLayout class="section">
-      <Label class="heading" text="Layers" />
+      <Label class="heading" :text="t('Layers')" />
       <Label
         class="muted"
         textWrap="true"
-        text="animate(card, 'shake', { layer: 'feedback' })"
+        :text="t('animate(card, \'shake\', { layer: \'feedback\' })')"
       />
 
       <GridLayout class="stage" height="170">
         <GridLayout ref="card" class="layers-card" width="120" height="96">
-          <Label class="card-label" text="Drag me" />
+          <Label class="card-label" :text="t('Drag me')" />
         </GridLayout>
       </GridLayout>
 
       <Label
         class="note"
         textWrap="true"
-        text="Move and drag own the base. Shake and Breathe play on their own layers, on top of whatever the base is doing."
+        :text="
+          t(
+            'Move and drag own the base. Shake and Breathe play on their own layers, on top of whatever the base is doing.',
+          )
+        "
       />
       <GridLayout columns="*, *, *">
-        <Button class="button" text="Move" @tap="move" />
-        <Button col="1" class="button" text="Shake" @tap="shake" />
+        <Button class="button" :text="t('Move')" @tap="move" />
+        <Button col="1" class="button" :text="t('Shake')" @tap="shake" />
         <Button
           col="2"
           class="button"
-          :text="breathing ? 'Rest' : 'Breathe'"
+          :text="t(breathing ? 'Rest' : 'Breathe')"
           @tap="breathe"
         />
       </GridLayout>

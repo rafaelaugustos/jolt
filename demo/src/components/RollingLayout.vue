@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { usePreviewI18n } from '../showcase/i18n'
 import {
   Device,
   Utils,
@@ -9,11 +10,12 @@ import {
 } from '@nativescript/core'
 import { nextTick, onUnmounted, ref } from 'nativescript-vue'
 import { rollTo, type Animation } from '@rafaelaugusto/jolt'
+const { t } = usePreviewI18n()
 
 let distanceIndex = 0
 function nextDistance() {
   const distance = [999, 1000, 7, 300][distanceIndex++ % 4]!
-  label(plain).text = String(distance)
+  label(plain).text = t(String(distance))
   current = rollTo(label(rolling), distance, { duration: 900, stagger: 40 })
 }
 const rolling = ref()
@@ -49,7 +51,7 @@ async function check() {
     }
     const result = {
       size: size.value,
-      text: animated.text,
+      text: t(animated.text),
       phase,
       rolling: animated.getMeasuredHeight() / density,
       plain: baseline.getMeasuredHeight() / density,
@@ -73,7 +75,7 @@ async function check() {
         if (!alive) return
         const animated = label(rolling),
           baseline = label(plain)
-        baseline.text = String(value)
+        baseline.text = t(String(value))
         current = rollTo(animated, value, { duration: 650, stagger: 40 })
         await wait(120)
         if (!alive) return
@@ -83,7 +85,7 @@ async function check() {
         await wait(60)
         measure('after')
       }
-      label(plain).text = '42'
+      label(plain).text = t('42')
       current = rollTo(label(rolling), 42, { duration: 650 })
       await wait(120)
       current.stop()
@@ -125,10 +127,10 @@ defineProps<{ embedded?: boolean }>()
   <StackLayout v-if="embedded" class="exhibit">
     <GridLayout class="ex-stage" height="380"
       ><Label
-        text="ROOM FOR THE NEXT MILE"
+        :text="t('ROOM FOR THE NEXT MILE')"
         class="ex-kicker"
         verticalAlignment="top" /><StackLayout verticalAlignment="middle"
-        ><Label text="Range remaining" color="#B4C2A7" fontSize="15" /><GridLayout
+        ><Label :text="t('Range remaining')" color="#B4C2A7" fontSize="15" /><GridLayout
           columns="auto,auto,*"
           rows="auto"
           marginTop="12"
@@ -139,7 +141,7 @@ defineProps<{ embedded?: boolean }>()
             fontWeight="300"
             color="#E3FC62" /><Label
             col="1"
-            text="mi"
+            :text="t('mi')"
             fontSize="20"
             color="#8BA276"
             verticalAlignment="middle"
@@ -154,37 +156,39 @@ defineProps<{ embedded?: boolean }>()
             fontWeight="300"
             color="#AFBE9E" /><Label
             col="1"
-            text="mi"
+            :text="t('mi')"
             fontSize="20"
             color="#8BA276"
             verticalAlignment="middle"
             marginLeft="12" /></GridLayout
         ><Label
-          text="THE SAME SPACE. A DIFFERENT ARRIVAL."
+          :text="t('THE SAME SPACE. A DIFFERENT ARRIVAL.')"
           class="ex-kicker"
           marginTop="14" /></StackLayout></GridLayout
     ><StackLayout class="ex-controls"
       ><GridLayout columns="*,*"
         ><Button
           col="0"
-          text="Next distance"
+          :text="t('Next distance')"
           @tap="nextDistance"
           class="ex-primary" /><Button
           col="1"
-          text="Larger type"
+          :text="t('Larger type')"
           @tap="size = size === 40 ? 64 : 40" /></GridLayout></StackLayout
     ><Label
-      text="Digits change. The surrounding layout keeps its composure."
+      :text="t('Digits change. The surrounding layout keeps its composure.')"
       class="ex-note"
       textWrap="true"
     />
   </StackLayout>
   <template v-else>
     <StackLayout class="section">
-      <Label class="heading" text="Rolling auto size" />
+      <Label class="heading" :text="t('Rolling auto size')" />
       <Label
         class="muted"
-        text="Both rows size themselves to the text. Digits roll above; plain text below."
+        :text="
+          t('Both rows size themselves to the text. Digits roll above; plain text below.')
+        "
         textWrap="true"
       />
       <GridLayout
@@ -203,7 +207,7 @@ defineProps<{ embedded?: boolean }>()
             letterSpacing="-0.04"
           />
         </StackLayout>
-        <Label col="1" text="mi" verticalAlignment="middle" marginLeft="8" />
+        <Label col="1" :text="t('mi')" verticalAlignment="middle" marginLeft="8" />
         <Label col="3" text="78% ▰" verticalAlignment="middle" marginRight="8" />
       </GridLayout>
       <GridLayout
@@ -222,11 +226,16 @@ defineProps<{ embedded?: boolean }>()
             letterSpacing="-0.04"
           />
         </StackLayout>
-        <Label col="1" text="mi" verticalAlignment="middle" marginLeft="8" />
+        <Label col="1" :text="t('mi')" verticalAlignment="middle" marginLeft="8" />
         <Label col="3" text="78% ▰" verticalAlignment="middle" marginRight="8" />
       </GridLayout>
-      <Label :text="status" textWrap="true" class="muted" marginTop="12" />
-      <Button class="button" text="Check auto height" :isEnabled="!busy" @tap="check" />
+      <Label :text="t(status)" textWrap="true" class="muted" marginTop="12" />
+      <Button
+        class="button"
+        :text="t('Check auto height')"
+        :isEnabled="!busy"
+        @tap="check"
+      />
     </StackLayout>
   </template>
 </template>

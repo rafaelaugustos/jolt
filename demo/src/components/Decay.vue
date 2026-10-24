@@ -1,6 +1,8 @@
 <script lang="ts" setup>
+import { usePreviewI18n } from '../showcase/i18n'
 import { onUnmounted, ref } from 'nativescript-vue'
 import { animate, decay, stop, type Animation } from '@rafaelaugusto/jolt'
+const { t } = usePreviewI18n()
 
 const BALL = 48
 const lane = ref()
@@ -44,8 +46,11 @@ defineProps<{ embedded?: boolean }>()
 <template>
   <StackLayout v-if="embedded" class="exhibit">
     <GridLayout class="ex-stage"
-      ><Label text="01 / INERTIA STUDY" class="ex-kicker" verticalAlignment="top" /><Label
-        text="Nothing moves.&#10;Until you do."
+      ><Label
+        :text="t('01 / INERTIA STUDY')"
+        class="ex-kicker"
+        verticalAlignment="top" /><Label
+        :text="t('Nothing moves.\nUntil you do.')"
         class="ex-title"
         textWrap="true"
         verticalAlignment="top"
@@ -76,34 +81,38 @@ defineProps<{ embedded?: boolean }>()
             textAlignment="center"
             verticalAlignment="middle" /></GridLayout></GridLayout
       ><GridLayout columns="*,auto" verticalAlignment="bottom"
-        ><Label text="IMPULSE" class="ex-kicker" /><Label
+        ><Label :text="t('IMPULSE')" class="ex-kicker" /><Label
           col="1"
-          text="REST"
+          :text="t('REST')"
           class="ex-kicker" /></GridLayout></GridLayout
     ><StackLayout class="ex-controls"
       ><GridLayout columns="*,*"
         ><Button
           col="0"
-          text="Free decay"
+          :text="t('Free decay')"
           @tap="launch(false)"
           class="ex-primary" /><Button
           col="1"
-          text="Snap"
+          :text="t('Snap')"
           @tap="launch(true)" /></GridLayout
       ><GridLayout columns="*,*"
-        ><Button col="0" text="Return" @tap="returnHome" /><Button
+        ><Button col="0" :text="t('Return')" @tap="returnHome" /><Button
           col="1"
-          text="Stop"
+          :text="t('Stop')"
           @tap="stopMotion" /></GridLayout></StackLayout
-    ><Label :text="status" class="ex-note" textWrap="true" />
+    ><Label :text="t(status)" class="ex-note" textWrap="true" />
   </StackLayout>
   <template v-else>
     <StackLayout class="section">
-      <Label class="heading" text="Decay" />
+      <Label class="heading" :text="t('Decay')" />
       <Label
         class="muted"
         textWrap="true"
-        text="Launch freely or spring to the closest stop. Return interrupts either motion."
+        :text="
+          t(
+            'Launch freely or spring to the closest stop. Return interrupts either motion.',
+          )
+        "
       />
       <GridLayout ref="lane" class="lane" height="56">
         <Label
@@ -114,14 +123,14 @@ defineProps<{ embedded?: boolean }>()
           horizontalAlignment="left"
         />
       </GridLayout>
-      <Label class="muted" :text="status" />
+      <Label class="muted" :text="t(status)" />
       <GridLayout columns="*, *">
-        <Button class="button" text="Free decay" @tap="launch(false)" />
-        <Button col="1" class="button" text="Snap" @tap="launch(true)" />
+        <Button class="button" :text="t('Free decay')" @tap="launch(false)" />
+        <Button col="1" class="button" :text="t('Snap')" @tap="launch(true)" />
       </GridLayout>
       <GridLayout columns="*, *">
-        <Button class="button" text="Return" @tap="returnHome" />
-        <Button col="1" class="button" text="Stop" @tap="stopMotion" />
+        <Button class="button" :text="t('Return')" @tap="returnHome" />
+        <Button col="1" class="button" :text="t('Stop')" @tap="stopMotion" />
       </GridLayout>
     </StackLayout>
   </template>

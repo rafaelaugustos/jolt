@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { usePreviewI18n } from '../showcase/i18n'
 import { isAndroid, View } from '@nativescript/core'
 import { onUnmounted, ref } from 'nativescript-vue'
 import { BusyTrial, type BusyMode } from '../busy-trial'
+const { t } = usePreviewI18n()
 
 const jolt = ref()
 const layered = ref()
@@ -46,16 +48,16 @@ defineProps<{ embedded?: boolean }>()
   <StackLayout v-if="embedded && !isAndroid" class="exhibit">
     <GridLayout class="ex-stage"
       ><Label
-        text="ANDROID EXPERIMENT"
+        :text="t('ANDROID EXPERIMENT')"
         class="ex-kicker"
         verticalAlignment="top" /><StackLayout verticalAlignment="middle"
-        ><Label text="Keep moving." class="ex-title" /><GridLayout
+        ><Label :text="t('Keep moving.')" class="ex-title" textWrap="true" /><GridLayout
           columns="*,12,*"
           height="96"
           marginTop="30"
           ><GridLayout borderRadius="20" backgroundColor="#364D39"
             ><Label
-              text="JS"
+              :text="t('JS')"
               fontSize="30"
               color="#C4D6AD"
               textAlignment="center"
@@ -68,26 +70,34 @@ defineProps<{ embedded?: boolean }>()
               textAlignment="center"
               verticalAlignment="middle" /></GridLayout></GridLayout></StackLayout
       ><Label
-        text="Same work. Two different paths."
+        :text="t('Same work. Two different paths.')"
         class="ex-copy"
         verticalAlignment="bottom" /></GridLayout
     ><Label
-      text="Made for Android. Open this experiment there to compare JavaScript work on the main thread and a worker."
+      :text="
+        t(
+          'Made for Android. Open this experiment there to compare JavaScript work on the main thread and a worker.',
+        )
+      "
       class="ex-note"
       textWrap="true"
     />
   </StackLayout>
   <template v-else>
     <StackLayout v-if="isAndroid" class="section">
-      <Label class="heading" text="Busy JavaScript" />
-      <Label class="muted" text="Same work. Main thread or worker." textWrap="true" />
+      <Label class="heading" :text="t('Busy JavaScript')" />
+      <Label
+        class="muted"
+        :text="t('Same work. Main thread or worker.')"
+        textWrap="true"
+      />
       <GridLayout columns="*, *, *" rows="90, auto" class="stage">
         <GridLayout ref="jolt" width="48" height="48" backgroundColor="#f59e0b"
-          ><Label text="J" fontSize="30" fontWeight="bold" textAlignment="center"
+          ><Label :text="t('J')" fontSize="30" fontWeight="bold" textAlignment="center"
         /></GridLayout>
         <GridLayout ref="layered" col="1" width="48" height="48" backgroundColor="#8b5cf6"
           ><Label
-            text="L"
+            :text="t('L')"
             fontSize="30"
             fontWeight="bold"
             textAlignment="center"
@@ -96,31 +106,41 @@ defineProps<{ embedded?: boolean }>()
         <GridLayout col="2" width="64" height="64" backgroundColor="#e4e4e7"
           ><GridLayout ref="reveal" backgroundColor="#22c55e"
         /></GridLayout>
-        <Label row="1" text="Jolt" fontSize="11" textAlignment="center" />
-        <Label row="1" col="1" text="withLayer" fontSize="11" textAlignment="center" />
-        <Label row="1" col="2" text="Reveal" fontSize="11" textAlignment="center" />
+        <Label row="1" :text="t('Jolt')" fontSize="11" textAlignment="center" />
+        <Label
+          row="1"
+          col="1"
+          :text="t('withLayer')"
+          fontSize="11"
+          textAlignment="center"
+        />
+        <Label row="1" col="2" :text="t('Reveal')" fontSize="11" textAlignment="center" />
       </GridLayout>
       <GridLayout columns="*, *, *">
-        <Button class="button" text="Play" :isEnabled="!busy" @tap="play('idle')" />
+        <Button class="button" :text="t('Play')" :isEnabled="!busy" @tap="play('idle')" />
         <Button
           class="button"
           col="1"
-          text="Block JS"
+          :text="t('Block JS')"
           :isEnabled="!busy"
           @tap="play('main')"
         />
         <Button
           class="button"
           col="2"
-          text="Worker"
+          :text="t('Worker')"
           :isEnabled="!busy"
           @tap="play('worker')"
         />
       </GridLayout>
-      <Label class="muted" :text="status" textWrap="true" />
+      <Label class="muted" :text="t(status)" textWrap="true" />
       <Label
         class="muted"
-        text="A hardware layer caches drawing. It does not unblock the main thread. Workers cannot update views directly."
+        :text="
+          t(
+            'A hardware layer caches drawing. It does not unblock the main thread. Workers cannot update views directly.',
+          )
+        "
         textWrap="true"
         marginTop="8"
       />

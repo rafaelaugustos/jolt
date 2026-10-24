@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { usePreviewI18n } from '../showcase/i18n'
 import { ref } from 'nativescript-vue'
 import { useMotionScope } from '@rafaelaugusto/jolt/vue'
 import type { Animation } from '@rafaelaugusto/jolt'
+const { t } = usePreviewI18n()
 const scope = useMotionScope()
 const list = ref()
 const cards = ref([1, 2, 3])
@@ -52,18 +54,18 @@ defineProps<{ embedded?: boolean }>()
   <StackLayout v-if="embedded" class="exhibit">
     <StackLayout class="ex-controls"
       ><GridLayout columns="*,*,*"
-        ><Button col="0" text="Insert" @tap="insert" class="ex-primary" /><Button
+        ><Button col="0" :text="t('Insert')" @tap="insert" class="ex-primary" /><Button
           col="1"
-          text="Remove"
+          :text="t('Remove')"
           @tap="remove" /><Button
           col="2"
-          text="Reverse"
+          :text="t('Reverse')"
           @tap="reverse" /></GridLayout></StackLayout
     ><StackLayout ref="list" marginTop="18"
       ><GridLayout
         v-for="card in cards"
         :key="card"
-        :accessibilityLabel="`Layout card ${card}`"
+        :accessibilityLabel="t(`Layout card ${card}`)"
         :accessibilityIdentifier="`layout-card-${card}`"
         columns="56,*,auto"
         :width="expanded === card ? 300 : 260"
@@ -76,24 +78,24 @@ defineProps<{ embedded?: boolean }>()
         @tap="expand(card)"
         accessibilityRole="button"
         ><Label
-          :text="['✦', '◉', '↗'][(card - 1) % 3]"
+          :text="t(['✦', '◉', '↗'][(card - 1) % 3])"
           fontSize="40"
           :color="['#5D7449', '#78628E', '#9A7356'][(card - 1) % 3]"
           verticalAlignment="middle" /><StackLayout col="1" verticalAlignment="middle"
           ><Label
-            :text="['Make room.', 'Stay curious.', 'Go somewhere.'][(card - 1) % 3]"
+            :text="t(['Make room.', 'Stay curious.', 'Go somewhere.'][(card - 1) % 3])"
             fontSize="18"
             fontWeight="bold"
             color="#34412E" /><Label
             v-if="expanded === card"
-            text="A little more space&#10;for something good."
+            :text="t('A little more space\nfor something good.')"
             textWrap="true"
             fontSize="12"
             color="#74816A"
             marginTop="12" /></StackLayout
         ><Label
           col="2"
-          :text="expanded === card ? '−' : '+'"
+          :text="t(expanded === card ? '−' : '+')"
           fontSize="20"
           color="#76816B"
           verticalAlignment="middle" /></GridLayout></StackLayout
@@ -101,13 +103,13 @@ defineProps<{ embedded?: boolean }>()
       ><GridLayout columns="*,*"
         ><Button
           col="0"
-          :text="slow ? 'Normal layout' : 'Slow layout'"
+          :text="t(slow ? 'Normal layout' : 'Slow layout')"
           @tap="slow = !slow" /><Button
           col="1"
-          text="Stop layout"
+          :text="t('Stop layout')"
           @tap="stop" /></GridLayout></StackLayout
     ><Label
-      text="Tap a card to make room. Add, remove or rearrange the collection."
+      :text="t('Tap a card to make room. Add, remove or rearrange the collection.')"
       class="ex-note"
       textWrap="true"
     />
@@ -116,21 +118,21 @@ defineProps<{ embedded?: boolean }>()
     <StackLayout>
       <Label
         class="muted"
-        text="Insert, reorder or tap a card to resize it."
+        :text="t('Insert, reorder or tap a card to resize it.')"
         textWrap="true"
       />
       <GridLayout columns="*,*,*">
-        <Button text="Insert" @tap="insert" :isEnabled="cards.length < 5" />
-        <Button col="1" text="Remove" @tap="remove" :isEnabled="cards.length > 1" />
-        <Button col="2" text="Reverse" @tap="reverse" />
+        <Button :text="t('Insert')" @tap="insert" :isEnabled="cards.length < 5" />
+        <Button col="1" :text="t('Remove')" @tap="remove" :isEnabled="cards.length > 1" />
+        <Button col="2" :text="t('Reverse')" @tap="reverse" />
       </GridLayout>
-      <Label :text="status" accessibilityIdentifier="layout-status" class="note" />
+      <Label :text="t(status)" accessibilityIdentifier="layout-status" class="note" />
       <StackLayout ref="list" marginTop="12" horizontalAlignment="left">
         <Button
           v-for="card in cards"
           :key="card"
-          :text="`Card ${card}`"
-          :accessibilityLabel="`Layout card ${card}`"
+          :text="t(`Card ${card}`)"
+          :accessibilityLabel="t(`Layout card ${card}`)"
           :accessibilityIdentifier="`layout-card-${card}`"
           :width="expanded === card ? 300 : 240"
           :height="expanded === card ? 100 : 54"
@@ -143,17 +145,21 @@ defineProps<{ embedded?: boolean }>()
         />
       </StackLayout>
       <GridLayout columns="*,*" marginTop="12">
-        <Button :text="slow ? 'Normal layout' : 'Slow layout'" @tap="slow = !slow" />
-        <Button col="1" text="Stop layout" @tap="stop" />
+        <Button :text="t(slow ? 'Normal layout' : 'Slow layout')" @tap="slow = !slow" />
+        <Button col="1" :text="t('Stop layout')" @tap="stop" />
       </GridLayout>
       <Button
-        :text="scaleSize ? 'Size: scale' : 'Size: instant'"
+        :text="t(scaleSize ? 'Size: scale' : 'Size: instant')"
         @tap="scaleSize = !scaleSize"
       />
       <Label
         class="note"
         textWrap="true"
-        text="Scale smooths size changes and temporarily stretches content. Instant size only animates the other cards moving into place."
+        :text="
+          t(
+            'Scale smooths size changes and temporarily stretches content. Instant size only animates the other cards moving into place.',
+          )
+        "
       />
     </StackLayout>
   </template>

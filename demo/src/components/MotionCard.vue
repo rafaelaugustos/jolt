@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { usePreviewI18n } from '../showcase/i18n'
 import { onMounted, ref } from 'nativescript-vue'
 import { useMotionScope } from '@rafaelaugusto/jolt/vue'
 import type { MotionStates } from '@rafaelaugusto/jolt'
+const { t } = usePreviewI18n()
 const scope = useMotionScope()
 const icon = ref(),
   label = ref(),
@@ -62,12 +64,12 @@ defineProps<{ embedded?: boolean }>()
   <StackLayout v-if="embedded" class="exhibit">
     <GridLayout ref="card" class="ex-stage" backgroundColor="#263b27"
       ><Label
-        text="FROM IDEA TO EVERYWHERE"
+        :text="t('FROM IDEA TO EVERYWHERE')"
         class="ex-kicker"
         verticalAlignment="top" /><StackLayout verticalAlignment="middle"
         ><Label ref="icon" text="↑" fontSize="62" color="#B6EE64" /><Label
           ref="label"
-          text="Your next&#10;big idea."
+          :text="t('Your next\nbig idea.')"
           fontSize="34"
           fontWeight="bold"
           color="#F3F4E9"
@@ -77,27 +79,31 @@ defineProps<{ embedded?: boolean }>()
         ><GridLayout height="4" backgroundColor="#49604a"
           ><GridLayout ref="progress" backgroundColor="#b6ee64" originX="0" /></GridLayout
         ><Label
-          :text="status"
+          :text="t(status)"
           fontSize="11"
           color="#C3D1B9"
           marginTop="14"
           textWrap="true" /></StackLayout></GridLayout
     ><StackLayout class="ex-controls"
       ><GridLayout columns="*,*,*"
-        ><Button col="0" text="Upload" @tap="to('sending')" class="ex-primary" /><Button
+        ><Button
+          col="0"
+          :text="t('Upload')"
+          @tap="to('sending')"
+          class="ex-primary" /><Button
           col="1"
-          text="Success"
+          :text="t('Success')"
           @tap="to('success')" /><Button
           col="2"
-          text="Error"
+          :text="t('Error')"
           @tap="to('error')" /></GridLayout
       ><GridLayout columns="*,*,*"
-        ><Button col="0" text="Cancel" @tap="to('idle')" /><Button
+        ><Button col="0" :text="t('Cancel')" @tap="to('idle')" /><Button
           col="1"
-          text="Retry"
+          :text="t('Retry')"
           @tap="to('sending')" /><Button
           col="2"
-          :text="suspended ? 'Resume scope' : 'Pause scope'"
+          :text="t(suspended ? 'Resume scope' : 'Pause scope')"
           @tap="suspend" /></GridLayout
     ></StackLayout>
   </StackLayout>
@@ -119,7 +125,7 @@ defineProps<{ embedded?: boolean }>()
         />
         <Label
           ref="label"
-          text="Your next big idea"
+          :text="t('Your next big idea')"
           fontSize="20"
           color="white"
           marginTop="8"
@@ -132,19 +138,19 @@ defineProps<{ embedded?: boolean }>()
             originX="0"
           />
         </GridLayout>
-        <Label :text="status" color="#d8e3d8" marginTop="12" />
+        <Label :text="t(status)" color="#d8e3d8" marginTop="12" />
       </StackLayout>
       <GridLayout columns="*,*,*,*" marginTop="8">
-        <Button text="Upload" @tap="to('sending')" />
-        <Button col="1" text="Cancel" @tap="to('idle')" />
-        <Button col="2" text="Success" @tap="to('success')" />
-        <Button col="3" text="Error" @tap="to('error')" />
+        <Button :text="t('Upload')" @tap="to('sending')" />
+        <Button col="1" :text="t('Cancel')" @tap="to('idle')" />
+        <Button col="2" :text="t('Success')" @tap="to('success')" />
+        <Button col="3" :text="t('Error')" @tap="to('error')" />
       </GridLayout>
       <GridLayout columns="*,*">
-        <Button text="Retry" @tap="to('sending')" />
+        <Button :text="t('Retry')" @tap="to('sending')" />
         <Button
           col="1"
-          :text="suspended ? 'Resume scope' : 'Pause scope'"
+          :text="t(suspended ? 'Resume scope' : 'Pause scope')"
           @tap="suspend"
         />
       </GridLayout>

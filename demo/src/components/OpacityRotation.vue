@@ -1,8 +1,10 @@
 <script lang="ts" setup>
+import { usePreviewI18n } from '../showcase/i18n'
 import { Device, isIOS, knownFolders, type View } from '@nativescript/core'
 import { onUnmounted, ref } from 'nativescript-vue'
 import { animate, configure, set, stop, type Animation } from '@rafaelaugusto/jolt'
 import { launchArgument } from '../launch'
+const { t } = usePreviewI18n()
 
 const svg = (size: number, strength: number) =>
   `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 100 100"><defs><radialGradient id="glow"><stop offset="0" stop-color="#fff6df" stop-opacity="${strength}"/><stop offset=".28" stop-color="#ffb547" stop-opacity="${strength * 0.95}"/><stop offset="1" stop-color="#ff6200" stop-opacity="0"/></radialGradient></defs><circle cx="50" cy="50" r="50" fill="url(#glow)"/></svg>`
@@ -139,7 +141,7 @@ const props = defineProps<{ embedded?: boolean }>()
   <StackLayout v-if="embedded" class="exhibit">
     <GridLayout class="ex-stage" backgroundColor="#211C1A" height="340" padding="12"
       ><Label
-        text="AFTERGLOW / LIGHT IN MOTION"
+        :text="t('AFTERGLOW / LIGHT IN MOTION')"
         class="ex-kicker"
         verticalAlignment="top"
       />
@@ -232,26 +234,30 @@ const props = defineProps<{ embedded?: boolean }>()
       </GridLayout> </GridLayout
     ><StackLayout class="ex-controls"
       ><GridLayout columns="*,*,*"
-        ><Button col="0" text="Play orbit" @tap="play()" class="ex-primary" /><Button
+        ><Button
+          col="0"
+          :text="t('Play orbit')"
+          @tap="play()"
+          class="ex-primary" /><Button
           col="1"
-          text="Replay splash"
+          :text="t('Replay splash')"
           @tap="play(true)" /><Button
           col="2"
-          text="Stop orbit"
+          :text="t('Stop orbit')"
           @tap="reset" /></GridLayout
       ><GridLayout columns="*,*,*"
         ><Button
           col="0"
-          :text="childFade ? 'Fade parent' : 'Fade child'"
+          :text="t(childFade ? 'Fade parent' : 'Fade child')"
           @tap="toggleFade" /><Button
           col="1"
-          :text="useSVG ? 'Plain views' : 'SVG views'"
+          :text="t(useSVG ? 'Plain views' : 'SVG views')"
           @tap="toggleContent" /><Button
           col="2"
-          :text="slow ? 'Normal' : 'Slow motion'"
+          :text="t(slow ? 'Normal' : 'Slow motion')"
           @tap="toggleSpeed" /></GridLayout></StackLayout
     ><Label
-      text="An orbit of light, with room to glow."
+      :text="t('An orbit of light, with room to glow.')"
       class="ex-note"
       textWrap="true"
     />
@@ -260,13 +266,17 @@ const props = defineProps<{ embedded?: boolean }>()
     <StackLayout class="opacity-rotation" backgroundColor="#0d0404" padding="24">
       <Label
         v-if="!props.embedded"
-        text="Opacity + rotation"
+        :text="t('Opacity + rotation')"
         color="#fff6df"
         fontSize="26"
         marginTop="16"
       />
       <Label
-        :text="`${useSVG ? 'SVG' : 'Plain'} overflow · fade on ${childFade ? 'child' : 'container'}`"
+        :text="
+          t(
+            `${useSVG ? 'SVG' : 'Plain'} overflow · fade on ${childFade ? 'child' : 'container'}`,
+          )
+        "
         color="#ffb547"
         fontSize="15"
         marginTop="12"
@@ -358,13 +368,16 @@ const props = defineProps<{ embedded?: boolean }>()
           />
         </AbsoluteLayout>
       </GridLayout>
-      <Label :text="status" color="#fff6df" textAlignment="center" marginBottom="12" />
-      <Button text="Play orbit" @tap="play()" />
-      <Button text="Replay splash" @tap="play(true)" />
-      <Button text="Stop orbit" @tap="reset" />
-      <Button :text="childFade ? 'Fade container' : 'Fade child'" @tap="toggleFade" />
-      <Button :text="useSVG ? 'Use plain views' : 'Use SVG views'" @tap="toggleContent" />
-      <Button :text="slow ? 'Normal speed' : 'Slow motion'" @tap="toggleSpeed" />
+      <Label :text="t(status)" color="#fff6df" textAlignment="center" marginBottom="12" />
+      <Button :text="t('Play orbit')" @tap="play()" />
+      <Button :text="t('Replay splash')" @tap="play(true)" />
+      <Button :text="t('Stop orbit')" @tap="reset" />
+      <Button :text="t(childFade ? 'Fade container' : 'Fade child')" @tap="toggleFade" />
+      <Button
+        :text="t(useSVG ? 'Use plain views' : 'Use SVG views')"
+        @tap="toggleContent"
+      />
+      <Button :text="t(slow ? 'Normal speed' : 'Slow motion')" @tap="toggleSpeed" />
     </StackLayout>
   </template>
 </template>

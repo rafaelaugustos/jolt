@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+import { usePreviewI18n } from '../showcase/i18n'
 import { isAndroid, type EventData, type View } from '@nativescript/core'
 import { ref } from 'nativescript-vue'
 import { animate } from '@rafaelaugusto/jolt'
+const { t } = usePreviewI18n()
 
 const glow = ref()
 const faded = ref(false)
@@ -31,7 +33,7 @@ defineProps<{ embedded?: boolean }>()
   <StackLayout v-if="embedded" class="exhibit">
     <GridLayout class="ex-stage"
       ><Label
-        text="LIGHT WITHOUT LIMITS"
+        :text="t('LIGHT WITHOUT LIMITS')"
         class="ex-kicker"
         verticalAlignment="top" /><AbsoluteLayout
         ref="glow"
@@ -63,26 +65,30 @@ defineProps<{ embedded?: boolean }>()
           borderRadius="32"
           backgroundColor="#E3FC62" /></AbsoluteLayout
       ><Label
-        text="Let your light spill over."
+        :text="t('Let your light spill over.')"
         class="ex-copy"
         verticalAlignment="bottom" /></GridLayout
     ><StackLayout class="ex-controls"
       ><GridLayout columns="*"
         ><Button
           col="0"
-          :text="faded ? 'Fade in' : 'Fade out'"
+          :text="t(faded ? 'Fade in' : 'Fade out')"
           @tap="toggle"
           class="ex-primary" /></GridLayout></StackLayout
     ><Label
-      text="The halo reaches beyond its frame. The whole glow fades as one."
+      :text="t('The halo reaches beyond its frame. The whole glow fades as one.')"
       class="ex-note"
       textWrap="true"
     />
   </StackLayout>
   <template v-else>
     <StackLayout class="section">
-      <Label class="heading" text="Fade overflow" />
-      <Label class="muted" textWrap="true" text="animate(glow, { opacity: 0.15 })" />
+      <Label class="heading" :text="t('Fade overflow')" />
+      <Label
+        class="muted"
+        textWrap="true"
+        :text="t('animate(glow, { opacity: 0.15 })')"
+      />
 
       <GridLayout class="stage" height="200">
         <AbsoluteLayout
@@ -100,9 +106,13 @@ defineProps<{ embedded?: boolean }>()
       <Label
         class="note"
         textWrap="true"
-        text="The halo is larger than the container that fades. It stays round for the whole fade."
+        :text="
+          t(
+            'The halo is larger than the container that fades. It stays round for the whole fade.',
+          )
+        "
       />
-      <Button class="button" :text="faded ? 'Fade in' : 'Fade out'" @tap="toggle" />
+      <Button class="button" :text="t(faded ? 'Fade in' : 'Fade out')" @tap="toggle" />
     </StackLayout>
   </template>
 </template>

@@ -1,6 +1,8 @@
 <script lang="ts" setup>
+import { usePreviewI18n } from '../showcase/i18n'
 import { ref } from 'nativescript-vue'
 import { animate, set, type Animation } from '@rafaelaugusto/jolt'
+const { t } = usePreviewI18n()
 
 const sleep = [ref(), ref(), ref()]
 const pill = ref()
@@ -43,8 +45,11 @@ defineProps<{ embedded?: boolean }>()
 <template>
   <StackLayout v-if="embedded" class="exhibit">
     <GridLayout class="ex-stage"
-      ><Label text="ROOM TO BREATHE" class="ex-kicker" verticalAlignment="top" /><Label
-        text="Rest is part&#10;of the rhythm."
+      ><Label
+        :text="t('ROOM TO BREATHE')"
+        class="ex-kicker"
+        verticalAlignment="top" /><Label
+        :text="t('Rest is part\nof the rhythm.')"
         class="ex-title"
         textWrap="true"
         verticalAlignment="top"
@@ -54,7 +59,7 @@ defineProps<{ embedded?: boolean }>()
             v-for="(z, i) in sleep"
             :key="i"
             :ref="z"
-            text="z"
+            :text="t('z')"
             fontSize="32"
             fontWeight="bold"
             color="#C6B0F0"
@@ -85,18 +90,22 @@ defineProps<{ embedded?: boolean }>()
       ><GridLayout columns="*"
         ><Button
           col="0"
-          :text="running ? 'Stop pauses' : 'Play pauses'"
+          :text="t(running ? 'Stop pauses' : 'Play pauses')"
           @tap="toggle"
           class="ex-primary" /></GridLayout></StackLayout
-    ><Label text="Float. Pause. Come back for more." class="ex-note" textWrap="true" />
+    ><Label
+      :text="t('Float. Pause. Come back for more.')"
+      class="ex-note"
+      textWrap="true"
+    />
   </StackLayout>
   <template v-else>
     <StackLayout class="section">
-      <Label class="heading" text="Pauses" />
+      <Label class="heading" :text="t('Pauses')" />
       <Label
         class="muted"
         textWrap="true"
-        text="{ repeat: Infinity, repeatDelay: 900 }"
+        :text="t('{ repeat: Infinity, repeatDelay: 900 }')"
       />
 
       <GridLayout columns="*, *" class="stage" height="140">
@@ -106,7 +115,7 @@ defineProps<{ embedded?: boolean }>()
             :key="i"
             :ref="z"
             class="sleep"
-            text="z"
+            :text="t('z')"
             opacity="0"
             :marginLeft="i * 18"
           />
@@ -125,11 +134,13 @@ defineProps<{ embedded?: boolean }>()
       <Label
         class="note"
         textWrap="true"
-        text="Each z rests 900 ms between floats. The pill waits 700 ms at both ends."
+        :text="
+          t('Each z rests 900 ms between floats. The pill waits 700 ms at both ends.')
+        "
       />
       <Button
         class="button"
-        :text="running ? 'Stop pauses' : 'Play pauses'"
+        :text="t(running ? 'Stop pauses' : 'Play pauses')"
         @tap="toggle"
       />
     </StackLayout>

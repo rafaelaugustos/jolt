@@ -1,6 +1,8 @@
 <script lang="ts" setup>
+import { usePreviewI18n } from '../showcase/i18n'
 import { computed, onMounted, onUnmounted, ref } from 'nativescript-vue'
 import { animate, type PlaybackAnimation } from '@rafaelaugusto/jolt'
+const { t } = usePreviewI18n()
 const plane = ref()
 const stage = ref()
 const span = ref(280)
@@ -101,7 +103,7 @@ defineProps<{ embedded?: boolean }>()
   <StackLayout v-if="embedded" class="exhibit">
     <GridLayout class="ex-stage"
       ><Label
-        text="THE SCENIC ROUTE"
+        :text="t('THE SCENIC ROUTE')"
         class="ex-kicker"
         verticalAlignment="top" /><GridLayout
         ref="stage"
@@ -115,7 +117,7 @@ defineProps<{ embedded?: boolean }>()
           backgroundColor="#35483B"
           verticalAlignment="top"
           marginTop="18" /><Label
-          text="N"
+          :text="t('N')"
           fontSize="10"
           color="#8B9C7C"
           verticalAlignment="top"
@@ -145,36 +147,40 @@ defineProps<{ embedded?: boolean }>()
               clipPath: 'polygon(0% 0%, 100% 50%, 0% 100%, 25% 50%)',
             }" /></GridLayout></GridLayout
       ><Label
-        :text="mode === 'curve' ? 'Take a different path.' : 'Come full circle.'"
+        :text="t(mode === 'curve' ? 'Take a different path.' : 'Come full circle.')"
         fontSize="23"
         fontWeight="bold"
         color="#E6ECD9"
         verticalAlignment="bottom" /></GridLayout
     ><StackLayout class="ex-controls"
       ><GridLayout columns="*,*,*"
-        ><Button col="0" text="Curve" @tap="choose('curve')" class="ex-primary" /><Button
+        ><Button
+          col="0"
+          :text="t('Curve')"
+          @tap="choose('curve')"
+          class="ex-primary" /><Button
           col="1"
-          text="Orbit"
+          :text="t('Orbit')"
           @tap="choose('orbit')" /><Button
           col="2"
-          :text="orient ? 'Orient: on' : 'Orient: off'"
+          :text="t(orient ? 'Orient: on' : 'Orient: off')"
           @tap="toggleOrient" /></GridLayout
       ><GridLayout columns="*,*,*"
-        ><Button col="0" text="Replay" @tap="replay" /><Button
+        ><Button col="0" :text="t('Replay')" @tap="replay" /><Button
           col="1"
-          :text="paused ? 'Resume' : 'Pause'"
+          :text="t(paused ? 'Resume' : 'Pause')"
           @tap="togglePause" /><Button
           col="2"
-          text="Stop"
+          :text="t('Stop')"
           @tap="freeze" /></GridLayout></StackLayout
-    ><Label :text="status" class="ex-note" textWrap="true" />
+    ><Label :text="t(status)" class="ex-note" textWrap="true" />
   </StackLayout>
   <template v-else>
     <StackLayout class="section" @unloaded="freeze">
-      <Label class="heading" text="Motion along a path" />
+      <Label class="heading" :text="t('Motion along a path')" />
       <Label
         class="muted"
-        text="A curve or an orbit. Pause anywhere along the way."
+        :text="t('A curve or an orbit. Pause anywhere along the way.')"
         textWrap="true"
       />
       <GridLayout ref="stage" class="stage" height="225" @layoutChanged="layout">
@@ -208,26 +214,26 @@ defineProps<{ embedded?: boolean }>()
         </GridLayout>
       </GridLayout>
       <GridLayout columns="*, *, *">
-        <Button class="button" text="Curve" @tap="choose('curve')" />
-        <Button col="1" class="button" text="Orbit" @tap="choose('orbit')" />
+        <Button class="button" :text="t('Curve')" @tap="choose('curve')" />
+        <Button col="1" class="button" :text="t('Orbit')" @tap="choose('orbit')" />
         <Button
           col="2"
           class="button"
-          :text="orient ? 'Orient: on' : 'Orient: off'"
+          :text="t(orient ? 'Orient: on' : 'Orient: off')"
           @tap="toggleOrient"
         />
       </GridLayout>
       <GridLayout columns="*, *, *">
-        <Button class="button" text="Replay" @tap="replay" />
+        <Button class="button" :text="t('Replay')" @tap="replay" />
         <Button
           col="1"
           class="button"
-          :text="paused ? 'Resume' : 'Pause'"
+          :text="t(paused ? 'Resume' : 'Pause')"
           @tap="togglePause"
         />
-        <Button col="2" class="button" text="Stop" @tap="freeze" />
+        <Button col="2" class="button" :text="t('Stop')" @tap="freeze" />
       </GridLayout>
-      <Label class="muted" :text="status" textWrap="true" />
+      <Label class="muted" :text="t(status)" textWrap="true" />
     </StackLayout>
   </template>
 </template>

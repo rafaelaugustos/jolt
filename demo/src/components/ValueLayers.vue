@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { usePreviewI18n } from '../showcase/i18n'
 import { ref } from 'nativescript-vue'
 import { set, stop } from '@rafaelaugusto/jolt'
 import { useBinding, useMotionScope, useMotionValue } from '@rafaelaugusto/jolt/vue'
+const { t } = usePreviewI18n()
 
 const motion = useMotionScope()
 const signal = useMotionValue(0)
@@ -63,15 +65,17 @@ defineProps<{ embedded?: boolean }>()
   <StackLayout v-if="embedded" class="exhibit">
     <GridLayout class="ex-stage"
       ><Label
-        text="A LITTLE EXTRA ENERGY"
+        :text="t('A LITTLE EXTRA ENERGY')"
         class="ex-kicker"
         verticalAlignment="top" /><Label
-        text="Build on&#10;the feeling."
+        :text="t('Build on\nthe feeling.')"
         class="ex-title"
         textWrap="true"
         verticalAlignment="top"
         marginTop="32" /><StackLayout verticalAlignment="bottom"
-        ><Label text="BASELINE" class="ex-kicker" /><GridLayout width="244" height="48"
+        ><Label :text="t('BASELINE')" class="ex-kicker" /><GridLayout
+          width="244"
+          height="48"
           ><Label height="1" backgroundColor="#475B42" /><Label
             :ref="base"
             width="24"
@@ -79,7 +83,7 @@ defineProps<{ embedded?: boolean }>()
             borderRadius="12"
             backgroundColor="#A9BA94"
             horizontalAlignment="left" /></GridLayout
-        ><Label text="BASE + CHARGE" class="ex-kicker" marginTop="12" /><GridLayout
+        ><Label :text="t('BASE + CHARGE')" class="ex-kicker" marginTop="12" /><GridLayout
           width="244"
           height="48"
           ><Label height="1" backgroundColor="#475B42" /><Label
@@ -90,33 +94,37 @@ defineProps<{ embedded?: boolean }>()
             horizontalAlignment="left" /></GridLayout></StackLayout></GridLayout
     ><StackLayout class="ex-controls"
       ><GridLayout columns="*,*"
-        ><Button col="0" text="Start base" @tap="start" class="ex-primary" /><Button
+        ><Button col="0" :text="t('Start base')" @tap="start" class="ex-primary" /><Button
           col="1"
-          text="Retarget base"
+          :text="t('Retarget base')"
           @tap="retarget" /></GridLayout
       ><GridLayout columns="*,*"
         ><Button
           col="0"
-          :text="pulsing ? 'Remove charge pulse' : 'Add charge pulse'"
+          :text="t(pulsing ? 'Remove charge pulse' : 'Add charge pulse')"
           @tap="pulse" /><Button
           col="1"
-          text="Reset values"
+          :text="t('Reset values')"
           @tap="reset" /></GridLayout></StackLayout
     ><Label
-      text="Add a pulse to position, color and scale — while the journey continues."
+      :text="t('Add a pulse to position, color and scale — while the journey continues.')"
       class="ex-note"
       textWrap="true"
     />
   </StackLayout>
   <template v-else>
     <StackLayout class="section">
-      <Label class="heading" text="Value layers" />
+      <Label class="heading" :text="t('Value layers')" />
       <Label
         class="muted"
-        text="The base keeps moving while a charge pulse adds to position, scale and color."
+        :text="
+          t(
+            'The base keeps moving while a charge pulse adds to position, scale and color.',
+          )
+        "
         textWrap="true"
       />
-      <Label text="Base reference" marginTop="16" />
+      <Label :text="t('Base reference')" marginTop="16" />
       <GridLayout width="244" height="48" horizontalAlignment="left">
         <Label
           :ref="base"
@@ -127,7 +135,7 @@ defineProps<{ embedded?: boolean }>()
           horizontalAlignment="left"
         />
       </GridLayout>
-      <Label text="Base + charge pulse" />
+      <Label :text="t('Base + charge pulse')" />
       <GridLayout width="244" height="56" horizontalAlignment="left">
         <Label
           :ref="layered"
@@ -138,16 +146,16 @@ defineProps<{ embedded?: boolean }>()
         />
       </GridLayout>
       <GridLayout columns="*,*" marginTop="12">
-        <Button text="Start base" class="button" @tap="start" />
-        <Button col="1" text="Retarget base" class="button" @tap="retarget" />
+        <Button :text="t('Start base')" class="button" @tap="start" />
+        <Button col="1" :text="t('Retarget base')" class="button" @tap="retarget" />
       </GridLayout>
       <GridLayout columns="*,*">
         <Button
-          :text="pulsing ? 'Remove charge pulse' : 'Add charge pulse'"
+          :text="t(pulsing ? 'Remove charge pulse' : 'Add charge pulse')"
           class="button"
           @tap="pulse"
         />
-        <Button col="1" text="Reset values" class="button" @tap="reset" />
+        <Button col="1" :text="t('Reset values')" class="button" @tap="reset" />
       </GridLayout>
     </StackLayout>
   </template>

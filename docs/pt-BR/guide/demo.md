@@ -12,6 +12,18 @@ As animações da home param ao sair da página. Cada detalhe monta apenas o exp
 
 Os recursos iOS agora ficam no repositório, incluindo o nome **Jolt** e o ícone. Abrir pelo ícone instalado entra no Studio sem argumentos especiais. Este preview requer Core 9.1.3+ e instala `vue-router-ns@0.1.0-rc.2`.
 
+## Idioma
+
+O Studio segue o idioma do celular por padrão: português usa a tradução brasileira, e os demais idiomas usam inglês. Toque em **Idioma** no topo do Studio para escolher **Idioma do celular**, **English** ou **Português**. A mudança acontece na hora e a escolha permanece depois de fechar o app. **Idioma do celular** remove a preferência manual; o app consulta novamente o idioma ao voltar ao primeiro plano.
+
+Splash, coleção, apresentação dos 54 experimentos, controles, mensagens de estado e rótulos de acessibilidade estão traduzidos. A busca aceita nomes em português ou inglês, com ou sem acento. Os números da conta usam os separadores do idioma escolhido. Identificadores das APIs, como `popIn`, continuam iguais; o playground técnico isolado mantém seus textos de teste em inglês.
+
+<Clip name="showcase-language-ios" caption="Simulador iOS 26: toques reais do XCTest trocam inglês → português, buscam camera sem acento, operam a lente nativa e voltam ao inglês. Tempo original. Testes nativos separados verificam persistência e seleção automática com os ajustes de idioma preferido do iOS na abertura; não validam Android nem aparelho físico." />
+
+<Clip name="showcase-portuguese-ios" caption="As 54 entradas da coleção em português brasileiro no simulador iOS 26, com interações nativas representativas. Montagem de capturas separadas na velocidade original, incluindo o carro local opcional. Nem todos os controles técnicos são exercitados." />
+
+<Clip name="showcase-splash-pt-ios" caption="Abertura real em português no simulador iOS 26, incluindo splash animado e Studio traduzido. Tempo original; captura separada da sincronização inicial do XCTest." />
+
 ## Telas do Motion Studio
 
 Cada exemplo agora tem uma composição interativa: playlist para stagger, conta para os números, toca-discos para drag values, cartões táteis para press e sinais coordenados para bindings. Os quatro exemplos automotivos mantêm o estúdio SceneKit. O showcase oferece os controles principais; o playground isolado continua com os probes e opções técnicas detalhadas.

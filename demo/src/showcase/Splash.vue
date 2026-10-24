@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { usePreviewI18n } from './i18n'
 import { ref, onUnmounted } from 'nativescript-vue'
 import { animate, motionScope, reducedMotion } from '@rafaelaugusto/jolt'
 import { useRouter } from 'vue-router-ns'
 import type { EventData, View } from '@nativescript/core'
+const { t } = usePreviewI18n()
 const emit = defineEmits<{ done: [] }>()
 const router = useRouter()
 const mark = ref(),
@@ -85,7 +87,7 @@ async function reveal(event: EventData) {
     <GridLayout rows="auto,*,auto" padding="56 30 38">
       <GridLayout columns="*,auto">
         <Label
-          text="JOLT®"
+          :text="t('JOLT®')"
           color="#E3FC62"
           fontSize="12"
           fontWeight="bold"
@@ -93,7 +95,7 @@ async function reveal(event: EventData) {
         />
         <Label
           col="1"
-          text="NATIVE MOTION STUDIO"
+          :text="t('NATIVE MOTION STUDIO')"
           color="#91A095"
           fontSize="9"
           letterSpacing=".14"
@@ -166,13 +168,13 @@ async function reveal(event: EventData) {
               width="100"
               height="110"
               stretch="aspectFit"
-              accessibilityLabel="Jolt logo"
+              :accessibilityLabel="t('Jolt logo')"
             />
           </GridLayout>
         </GridLayout>
         <Label
           ref="word"
-          text="jolt."
+          :text="t('jolt.')"
           fontSize="112"
           fontWeight="bold"
           letterSpacing="-.065"
@@ -182,13 +184,13 @@ async function reveal(event: EventData) {
         />
         <StackLayout ref="caption" marginTop="5">
           <Label
-            text="Made to move you."
+            :text="t('Made to move you.')"
             color="#C5CFC4"
             fontSize="19"
             textAlignment="center"
           />
           <Label
-            text="TOUCH  /  FEEL  /  REPEAT"
+            :text="t('TOUCH  /  FEEL  /  REPEAT')"
             color="#819086"
             fontSize="9"
             letterSpacing=".22"
@@ -203,7 +205,7 @@ async function reveal(event: EventData) {
         </GridLayout>
         <GridLayout columns="*,auto">
           <Label
-            text="54 WAYS TO FEEL SOMETHING"
+            :text="t('54 WAYS TO FEEL SOMETHING')"
             fontSize="9"
             letterSpacing=".1"
             color="#91A095"
@@ -212,7 +214,7 @@ async function reveal(event: EventData) {
         </GridLayout>
         <Label
           v-if="failed"
-          text="Could not open the collection. Please restart Jolt."
+          :text="t('Could not open the collection. Please restart Jolt.')"
           textWrap="true"
           color="#F6F5F0"
           marginTop="12"
