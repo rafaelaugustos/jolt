@@ -1,7 +1,9 @@
 <script lang="ts" setup>
+import { usePreviewI18n } from '../showcase/i18n'
 import { onMounted, onUnmounted, ref } from 'nativescript-vue'
 import type { TouchGestureEventData } from '@nativescript/core'
 import { animate, type PlaybackAnimation } from '@rafaelaugusto/jolt'
+const { t } = usePreviewI18n()
 const card = ref()
 const marker = ref()
 let pulse: PlaybackAnimation | undefined
@@ -74,50 +76,102 @@ onUnmounted(() => {
   current?.stop()
   pulse?.stop()
 })
+defineProps<{ embedded?: boolean }>()
 </script>
 <template>
-  <StackLayout class="section">
-    <Label class="heading" text="Playback controls" />
-    <Label
-      class="muted"
-      text="Pause and scrub a native animation. Other views keep moving."
-      textWrap="true"
-    />
-    <GridLayout columns="20, *" marginTop="8"
-      ><Label ref="marker" text="●" color="#b6ee64" /><Label
-        col="1"
-        class="muted"
-        text="Independent animation"
-    /></GridLayout>
-    <GridLayout height="190" marginTop="12" backgroundColor="#eeeeea">
-      <GridLayout
+  <StackLayout v-if="embedded" class="exhibit">
+    <GridLayout class="ex-stage"
+      ><Label
+        :text="t('A MOMENT, HELD')"
+        class="ex-kicker"
+        verticalAlignment="top" /><GridLayout
         ref="card"
         width="110"
-        height="110"
+        height="140"
         borderRadius="8"
         backgroundColor="#263b27"
-      >
-        <Label
-          text="Jolt"
-          color="#d5ff91"
-          fontSize="24"
-          textAlignment="center"
-          verticalAlignment="middle"
-        />
-      </GridLayout>
-    </GridLayout>
-    <Slider
+        ><StackLayout verticalAlignment="middle"
+          ><Label
+            :text="t('PLAY')"
+            fontSize="28"
+            fontWeight="bold"
+            color="#E3FC62"
+            textAlignment="center" /><Label
+            :text="t('IT YOUR WAY')"
+            fontSize="9"
+            color="#D6E0CB"
+            letterSpacing=".1"
+            textAlignment="center"
+            marginTop="8" /></StackLayout></GridLayout
+      ><GridLayout columns="20,*" verticalAlignment="bottom"
+        ><Label ref="marker" text="●" color="#E3FC62" /><Label
+          col="1"
+          :text="t('A SEPARATE HEARTBEAT')"
+          class="ex-kicker" /></GridLayout></GridLayout
+    ><Slider
       :value="slider"
       minValue="0"
       maxValue="100"
       @valueChange="scrub"
       @touch="touch"
-    />
-    <GridLayout columns="*, *, *">
-      <Button class="button" text="Play" @tap="play" />
-      <Button col="1" class="button" text="Pause" @tap="pause" />
-      <Button col="2" class="button" text="Stop" @tap="freeze" />
-    </GridLayout>
-    <Label class="muted" :text="status" textWrap="true" />
+      :accessibilityLabel="t('Playback position')"
+      color="#344C32"
+      backgroundColor="#E3E6D9"
+    /><StackLayout class="ex-controls"
+      ><GridLayout columns="*,*,*"
+        ><Button col="0" :text="t('Play')" @tap="play" class="ex-primary" /><Button
+          col="1"
+          :text="t('Pause')"
+          @tap="pause" /><Button
+          col="2"
+          :text="t('Stop')"
+          @tap="freeze" /></GridLayout></StackLayout
+    ><Label :text="t(status)" class="ex-note" textWrap="true" />
   </StackLayout>
+  <template v-else>
+    <StackLayout class="section">
+      <Label class="heading" :text="t('Playback controls')" />
+      <Label
+        class="muted"
+        :text="t('Pause and scrub a native animation. Other views keep moving.')"
+        textWrap="true"
+      />
+      <GridLayout columns="20, *" marginTop="8"
+        ><Label ref="marker" text="●" color="#b6ee64" /><Label
+          col="1"
+          class="muted"
+          :text="t('Independent animation')"
+      /></GridLayout>
+      <GridLayout height="190" marginTop="12" backgroundColor="#eeeeea">
+        <GridLayout
+          ref="card"
+          width="110"
+          height="110"
+          borderRadius="8"
+          backgroundColor="#263b27"
+        >
+          <Label
+            :text="t('Jolt')"
+            color="#d5ff91"
+            fontSize="24"
+            textAlignment="center"
+            verticalAlignment="middle"
+          />
+        </GridLayout>
+      </GridLayout>
+      <Slider
+        :value="slider"
+        minValue="0"
+        maxValue="100"
+        @valueChange="scrub"
+        @touch="touch"
+      />
+      <GridLayout columns="*, *, *">
+        <Button class="button" :text="t('Play')" @tap="play" />
+        <Button col="1" class="button" :text="t('Pause')" @tap="pause" />
+        <Button col="2" class="button" :text="t('Stop')" @tap="freeze" />
+      </GridLayout>
+      <Label class="muted" :text="t(status)" textWrap="true" />
+    </StackLayout>
+  </template>
 </template>

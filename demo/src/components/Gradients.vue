@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { usePreviewI18n } from '../showcase/i18n'
 import { onMounted, ref } from 'nativescript-vue'
 import type { Gradient } from '@rafaelaugusto/jolt'
 import { useMotionScope } from '@rafaelaugusto/jolt/vue'
+const { t } = usePreviewI18n()
 
 const scope = useMotionScope()
 
@@ -63,40 +65,90 @@ function swap() {
   swapped.value = !swapped.value
   glows[0]!.animate({ colors: swapped.value ? cool : warm }, { duration: 700 })
 }
+defineProps<{ embedded?: boolean }>()
 </script>
 
 <template>
-  <StackLayout class="section">
-    <Label class="heading" text="Gradients" />
-    <Label
-      class="muted"
+  <StackLayout v-if="embedded" class="exhibit">
+    <GridLayout class="ex-stage" padding="10" height="370"
+      ><GridLayout rows="*,12,104"
+        ><GridLayout ref="linear" borderRadius="22" padding="22"
+          ><Label
+            :text="t('Chasing\nthe light.')"
+            class="ex-title"
+            textWrap="true"
+            verticalAlignment="middle" /><Label
+            :text="t('01 / LINEAR')"
+            fontSize="9"
+            color="#FFFFFF"
+            verticalAlignment="bottom" /></GridLayout
+        ><GridLayout row="2" columns="*,10,*"
+          ><GridLayout ref="radial" borderRadius="22" padding="14"
+            ><Label
+              :text="t('02 / RADIAL')"
+              color="#D9DDF1"
+              fontSize="9"
+              verticalAlignment="bottom" /></GridLayout
+          ><GridLayout ref="conic" col="2" borderRadius="22" padding="14"
+            ><GridLayout
+              width="52"
+              height="52"
+              borderRadius="26"
+              backgroundColor="#222838" /><Label
+              :text="t('03 / CONIC')"
+              color="#FFFFFF"
+              fontSize="9"
+              verticalAlignment="bottom" /></GridLayout></GridLayout></GridLayout></GridLayout
+    ><GridLayout ref="strip" height="8" borderRadius="4" margin="-12 12 20" /><StackLayout
+      class="ex-controls"
+      ><GridLayout columns="*,*"
+        ><Button
+          col="0"
+          :text="t(playing ? 'Stop gradients' : 'Play gradients')"
+          @tap="toggle"
+          class="ex-primary" /><Button
+          col="1"
+          :text="t('Swap colors')"
+          @tap="swap" /></GridLayout></StackLayout
+    ><Label
+      :text="t('A moving horizon. A wandering light. A spectrum in orbit.')"
+      class="ex-note"
       textWrap="true"
-      text="scope.gradient(card, { type: 'radial', colors, radius })"
     />
-
-    <GridLayout columns="*, *, *" class="gradient-row" height="130">
-      <GridLayout ref="linear" class="gradient-card">
-        <Label class="gradient-label" text="linear" />
-      </GridLayout>
-      <GridLayout ref="radial" col="1" class="gradient-card">
-        <Label class="gradient-label" text="radial" />
-      </GridLayout>
-      <GridLayout ref="conic" col="2" class="gradient-card">
-        <Label class="gradient-label" text="conic" />
-      </GridLayout>
-    </GridLayout>
-
-    <GridLayout ref="strip" class="gradient-strip" height="64">
-      <Label class="gradient-label" text="linear 135° on a wide view" />
-    </GridLayout>
-
-    <GridLayout columns="*, *">
-      <Button
-        class="button"
-        :text="playing ? 'Stop gradients' : 'Play gradients'"
-        @tap="toggle"
-      />
-      <Button col="1" class="button" text="Swap colors" @tap="swap" />
-    </GridLayout>
   </StackLayout>
+  <template v-else>
+    <StackLayout class="section">
+      <Label class="heading" :text="t('Gradients')" />
+      <Label
+        class="muted"
+        textWrap="true"
+        :text="t('scope.gradient(card, { type: \'radial\', colors, radius })')"
+      />
+
+      <GridLayout columns="*, *, *" class="gradient-row" height="130">
+        <GridLayout ref="linear" class="gradient-card">
+          <Label class="gradient-label" :text="t('linear')" />
+        </GridLayout>
+        <GridLayout ref="radial" col="1" class="gradient-card">
+          <Label class="gradient-label" :text="t('radial')" />
+        </GridLayout>
+        <GridLayout ref="conic" col="2" class="gradient-card">
+          <Label class="gradient-label" :text="t('conic')" />
+        </GridLayout>
+      </GridLayout>
+
+      <GridLayout ref="strip" class="gradient-strip" height="64">
+        <Label class="gradient-label" :text="t('linear 135° on a wide view')" />
+      </GridLayout>
+
+      <GridLayout columns="*, *">
+        <Button
+          class="button"
+          :text="t(playing ? 'Stop gradients' : 'Play gradients')"
+          @tap="toggle"
+        />
+        <Button col="1" class="button" :text="t('Swap colors')" @tap="swap" />
+      </GridLayout>
+    </StackLayout>
+  </template>
 </template>

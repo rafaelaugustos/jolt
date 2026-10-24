@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { usePreviewI18n } from './i18n'
 import { ref, onUnmounted } from 'nativescript-vue'
 import { animate, motionScope, reducedMotion } from '@rafaelaugusto/jolt'
 import { useRouter } from 'vue-router-ns'
 import { examples } from './catalog'
+const { t, locale } = usePreviewI18n()
 const router = useRouter()
 const left = ref(),
   right = ref(),
@@ -64,21 +66,30 @@ function collection(category = 'All') {
               stretch="aspectFit"
               horizontalAlignment="left"
             />
-            <Label col="1" text="jolt." class="studio-wordmark" />
+            <Label col="1" :text="t('jolt.')" class="studio-wordmark" />
             <Label
               col="2"
-              text="MOTION STUDIO"
-              class="studio-eyebrow"
+              :text="'◎  ' + t('Language')"
+              fontSize="12"
+              color="#344936"
+              backgroundColor="#E8EBDD"
+              padding="12 14"
+              borderRadius="18"
               verticalAlignment="middle"
+              @tap="router.push('/language')"
+              accessibilityRole="button"
+              :accessibilityLabel="t('Language settings')"
+              automationText="language-settings"
             />
           </GridLayout>
           <Label
-            text="Small details.&#10;Big feelings."
+            :text="t('Small details.\nBig feelings.')"
             class="studio-display"
+            :fontSize="locale === 'pt-BR' ? 36 : 42"
             textWrap="true"
           />
           <Label
-            text="A collection of things that move you."
+            :text="t('A collection of things that move you.')"
             class="studio-subtitle"
             margin="12 0 24"
             textWrap="true"
@@ -90,10 +101,10 @@ function collection(category = 'All') {
             clipToBounds="true"
             @tap="open('springs')"
             accessibilityRole="button"
-            accessibilityLabel="Play with springs"
+            :accessibilityLabel="t('Play with springs')"
           >
             <Label
-              text="01 / THE ART OF FEELING"
+              :text="t('01 / THE ART OF FEELING')"
               color="#B5BBC2"
               fontSize="9"
               letterSpacing=".14"
@@ -165,12 +176,12 @@ function collection(category = 'All') {
               />
             </GridLayout>
             <GridLayout columns="*,auto" verticalAlignment="bottom" margin="0 22 19">
-              <Label text="Touch. Feel. Repeat." color="#FCFCF7" fontSize="13" />
+              <Label :text="t('Touch. Feel. Repeat.')" color="#FCFCF7" fontSize="13" />
               <Label col="1" text="↗" color="#E3FC62" fontSize="20" />
             </GridLayout>
           </GridLayout>
           <GridLayout columns="*,auto" margin="28 0 15">
-            <Label text="Start with a feeling" class="studio-section-title" />
+            <Label :text="t('Start with a feeling')" class="studio-section-title" />
             <Label
               col="1"
               text="01 — 02"
@@ -185,7 +196,7 @@ function collection(category = 'All') {
               backgroundColor="#E9E7F2"
               @tap="open('springs')"
               accessibilityRole="button"
-              accessibilityLabel="Open Springs"
+              :accessibilityLabel="t('Open Springs')"
             >
               <GridLayout height="52" marginBottom="18">
                 <Label
@@ -204,13 +215,17 @@ function collection(category = 'All') {
                   marginLeft="38"
                 />
               </GridLayout>
-              <Label text="Springs" class="studio-card-title" />
+              <Label :text="t('Springs')" class="studio-card-title" />
               <Label
-                text="A little bounce. A lot of life."
+                :text="t('A little bounce. A lot of life.')"
                 textWrap="true"
                 class="studio-card-copy"
               />
-              <Label text="PLAY WITH IT  ↗" class="studio-small-action" marginTop="18" />
+              <Label
+                :text="t('PLAY WITH IT  ↗')"
+                class="studio-small-action"
+                marginTop="18"
+              />
             </StackLayout>
             <StackLayout
               col="2"
@@ -218,7 +233,7 @@ function collection(category = 'All') {
               backgroundColor="#E7EDD8"
               @tap="open('gesture-lab')"
               accessibilityRole="button"
-              accessibilityLabel="Open Native gestures"
+              :accessibilityLabel="t('Open Native gestures')"
             >
               <GridLayout height="52" marginBottom="18">
                 <Label
@@ -240,13 +255,17 @@ function collection(category = 'All') {
                   marginLeft="35"
                 />
               </GridLayout>
-              <Label text="Gestures" class="studio-card-title" />
+              <Label :text="t('Gestures')" class="studio-card-title" />
               <Label
-                text="Go on. Make the first move."
+                :text="t('Go on. Make the first move.')"
                 textWrap="true"
                 class="studio-card-copy"
               />
-              <Label text="GET HANDS ON  ↗" class="studio-small-action" marginTop="18" />
+              <Label
+                :text="t('GET HANDS ON  ↗')"
+                class="studio-small-action"
+                marginTop="18"
+              />
             </StackLayout>
           </GridLayout>
           <GridLayout
@@ -254,15 +273,15 @@ function collection(category = 'All') {
             class="studio-explore"
             @tap="collection()"
             accessibilityRole="button"
-            accessibilityLabel="Explore all examples"
+            :accessibilityLabel="t('Explore all examples')"
           >
             <StackLayout
               ><Label
-                text="The whole collection"
+                :text="t('The whole collection')"
                 fontSize="19"
                 fontWeight="bold"
                 color="#20242D" /><Label
-                :text="`${examples.length} experiments. Endless possibilities.`"
+                :text="t(`${examples.length} experiments. Endless possibilities.`)"
                 fontSize="12"
                 color="#575D4A"
                 marginTop="6"
@@ -276,29 +295,29 @@ function collection(category = 'All') {
             />
           </GridLayout>
           <GridLayout columns="*,auto" marginTop="28"
-            ><Label text="BUILT WITH JOLT" class="studio-eyebrow" /><Label
+            ><Label :text="t('BUILT WITH JOLT')" class="studio-eyebrow" /><Label
               col="1"
-              text="Native by nature."
+              :text="t('Native by nature.')"
               class="studio-eyebrow"
           /></GridLayout>
         </StackLayout>
       </ScrollView>
       <GridLayout row="1" columns="*,*" class="studio-bottom">
         <Label
-          text="◉  Studio"
+          :text="t('◉  Studio')"
           class="studio-tab-active"
           verticalAlignment="middle"
           textAlignment="center"
         />
         <Label
           col="1"
-          text="▦  Collection"
+          :text="t('▦  Collection')"
           class="studio-tab"
           verticalAlignment="middle"
           textAlignment="center"
           @tap="collection()"
           accessibilityRole="button"
-          accessibilityLabel="Collection"
+          :accessibilityLabel="t('Collection')"
         />
       </GridLayout>
     </GridLayout>

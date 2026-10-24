@@ -157,3 +157,91 @@
   color: #fff6df;
   min-height: 42;
 }
+
+/* The collection uses composed, interactive exhibits. Legacy fixtures keep their own UI. */
+.exhibit {
+  padding: 0 12 12;
+}
+.ex-stage {
+  height: 340;
+  border-radius: 28;
+  background-color: #202c28;
+  padding: 24;
+  margin-bottom: 22;
+}
+.ex-kicker {
+  color: #9eafa2;
+  font-size: 9;
+  letter-spacing: 0.16;
+}
+.ex-title {
+  color: #f4f5eb;
+  font-size: 39;
+  font-weight: bold;
+  letter-spacing: -0.035;
+}
+.ex-copy {
+  color: #b8c6ba;
+  font-size: 13;
+}
+.ex-small {
+  color: #879387;
+  font-size: 10;
+}
+.ex-note {
+  color: #777f72;
+  font-size: 13;
+  margin: 16 2 0;
+}
+.ex-controls Button,
+.ex-button {
+  background-color: #e4e8dd;
+  color: #34432e;
+  border-radius: 16;
+  height: 48;
+  font-size: 13;
+  padding: 0 10;
+  margin: 4;
+  text-transform: none;
+}
+.ex-controls Button.ex-primary,
+.ex-primary {
+  background-color: #283b2d;
+  color: #e3fc62;
+}
+.ex-link {
+  color: #727c6b;
+  font-size: 12;
+  padding: 16 4 8;
+}
+.ex-pill {
+  color: #d5e7bd;
+  background-color: #344739;
+  border-radius: 12;
+  font-size: 10;
+  padding: 8 12;
+}
+.ex-divider {
+  height: 1;
+  background-color: #405044;
+}
+.ex-orb {
+  background-color: #e3fc62;
+  border-radius: 24;
+}
+.ex-light-title {
+  color: #25372c;
+  font-size: 32;
+  font-weight: bold;
+  letter-spacing: -0.03;
+}
+.ex-light-copy {
+  color: #69795f;
+  font-size: 13;
+}
+.ex-label {
+  color: #33412e;
+  font-size: 18;
+  font-weight: bold;
+  margin: 0 4 10;
+}

@@ -10,20 +10,42 @@ O [Vue Router NS](https://vue-router-ns.rafaelaugusto.dev/guide/splash) conduz h
 
 As animações da home param ao sair da página. Cada detalhe monta apenas o experimento escolhido e o libera ao sair. Controles de tempo do exemplo voltam ao padrão ao deixar o detalhe; experimentos exclusivos do SceneKit mostram uma mensagem de disponibilidade no Android. Esta gravação valida a nova apresentação no iOS; não representa validação nativa no Android.
 
-Os recursos iOS agora ficam no repositório, incluindo o nome **Jolt** e o ícone. Abrir pelo ícone instalado entra na coleção sem argumentos especiais. Este preview requer Core 9.1.3+ e instala `vue-router-ns@0.1.0-rc.2`.
+Os recursos iOS agora ficam no repositório, incluindo o nome **Jolt** e o ícone. Abrir pelo ícone instalado entra no Studio sem argumentos especiais. Este preview requer Core 9.1.3+ e instala `vue-router-ns@0.1.0-rc.2`.
+
+## Idioma
+
+O Studio segue o idioma do celular por padrão: português usa a tradução brasileira, e os demais idiomas usam inglês. Toque em **Idioma** no topo do Studio para escolher **Idioma do celular**, **English** ou **Português**. A mudança acontece na hora e a escolha permanece depois de fechar o app. **Idioma do celular** remove a preferência manual; o app consulta novamente o idioma ao voltar ao primeiro plano.
+
+Splash, coleção, apresentação dos 54 experimentos, controles, mensagens de estado e rótulos de acessibilidade estão traduzidos. A busca aceita nomes em português ou inglês, com ou sem acento. Os números da conta usam os separadores do idioma escolhido. Identificadores das APIs, como `popIn`, continuam iguais; o playground técnico isolado mantém seus textos de teste em inglês.
+
+<Clip name="showcase-language-ios" caption="Simulador iOS 26: toques reais do XCTest trocam inglês → português, buscam camera sem acento, operam a lente nativa e voltam ao inglês. Tempo original. Testes nativos separados verificam persistência e seleção automática com os ajustes de idioma preferido do iOS na abertura; não validam Android nem aparelho físico." />
+
+<Clip name="showcase-portuguese-ios" caption="As 54 entradas da coleção em português brasileiro no simulador iOS 26, com interações nativas representativas. Montagem de capturas separadas na velocidade original, incluindo o carro local opcional. Nem todos os controles técnicos são exercitados." />
+
+<Clip name="showcase-splash-pt-ios" caption="Abertura real em português no simulador iOS 26, incluindo splash animado e Studio traduzido. Tempo original; captura separada da sincronização inicial do XCTest." />
 
 ## Telas do Motion Studio
 
-Springs, presets, cores e decoração têm palcos interativos próprios. Os demais experimentos compartilham a tipografia, o espaçamento e os controles da coleção; as telas de gestos e live springs usam o cabeçalho da coleção quando abertas nela.
+Cada exemplo agora tem uma composição interativa: playlist para stagger, conta para os números, toca-discos para drag values, cartões táteis para press e sinais coordenados para bindings. Os quatro exemplos automotivos mantêm o estúdio SceneKit. O showcase oferece os controles principais; o playground isolado continua com os probes e opções técnicas detalhadas.
+
+O splash abre com anéis em expansão, um detalhe em órbita, a marca Jolt e a entrada do nome antes de revelar o Studio. Ele respeita Movimento Reduzido e aguarda a rota inicial. As imagens da galeria e do cartão de gestos são artes editoriais geradas e incluídas no app; os testes de imagem preservam seus quadriculados originais. São demonstrações de movimento, sem serviço bancário, música ou viagem.
 
 <div class="clips">
-<Clip name="showcase-springs-ios" caption="Simulador iOS 26: toques reais interrompem a spring e mudam sua resposta durante o movimento. Velocidade original." />
-<Clip name="showcase-presets-ios" caption="Simulador iOS 26: pop, shake, bounce e pulse no pôster nativo. Toques reais do XCTest; velocidade original." />
-<Clip name="showcase-colors-ios" caption="Simulador iOS 26: fundo, texto e borda interpolam juntos entre três paletas. Velocidade original." />
-<Clip name="showcase-forms-ios" caption="Simulador iOS 26: cantos, borda, rotação e sombra animados, incluindo interrupção durante a transição. Velocidade original." />
+<Clip name="showcase-springs-ios" caption="Simulador iOS 26: toques interrompem a mola e transferem o movimento para outra resposta. Tempo original." />
+<Clip name="showcase-presets-ios" caption="Simulador iOS 26: pop, shake, bounce e pulse no pôster nativo. Toques reais; tempo original." />
+<Clip name="showcase-colors-ios" caption="Simulador iOS 26: fundo, letras e borda interpolam entre três paletas. Tempo original." />
+<Clip name="showcase-forms-ios" caption="Simulador iOS 26: cantos, borda, rotação e sombra, incluindo parada durante a transição. Tempo original." />
 </div>
 
-<Clip name="showcase-interiors-ios" caption="Simulador iOS 26: interações nativas em drag values, layout, dimensões, efeitos de imagem, playback e light trails, além da mensagem do exemplo exclusivo de Android. Capturas unidas entre exemplos, sem alterar o tempo das interações. Light trails seleciona explicitamente o modo de câmera lenta 0,2× do app. Não comprova desempenho em aparelho físico." />
+As montagens abaixo unem capturas nativas separadas entre exemplos. Todas as interações usam entrada real do XCTest no simulador iOS 26, mantendo o tempo original. Não comprovam desempenho em aparelho físico nem comportamento no Android.
+
+<Clip name="showcase-motion-ios" caption="Momentum, stagger, trajetórias, timelines, playback, loops, pausas, tempo orgânico, easing e configurações de movimento. O exemplo de configurações seleciona explicitamente meia velocidade e Movimento Reduzido." />
+<Clip name="showcase-touch-ios" caption="Pressionar e segurar, molas encadeadas, folha musical arrastável, pedidos de háptica, gestos na foto, carrossel/scroll, drag/snap e compositor que acompanha o teclado. O simulador mostra pedidos de háptica, sem comprovar vibração física." />
+<Clip name="showcase-visual-ios" caption="Gradientes linear/radial/conic, atmosferas e valores reativos, shimmer, partículas, loaders, reveals, fade/overflow e rastros de luz. Reveal seleciona 1600 ms; os rastros selecionam explicitamente a câmera lenta do app." />
+<Clip name="showcase-type-ios" caption="Letras e palavras animadas, valores rolando, mudanças na quantidade de dígitos e tamanho da fonte, e efeitos nativos de SF Symbols." />
+<Clip name="showcase-layout-ios" caption="Inserir, reordenar e redimensionar cartões, dimensões reais, remontagem, linhas animadas e cabeçalho de álbum ligado ao scroll nativo." />
+<Clip name="showcase-state-ios" caption="Folha e fundo coordenados, observadores, camadas de valores e movimentos, estados de envio, transições por alvo, diretivas Vue e comparação de molas. Busy JavaScript exibe somente sua disponibilidade no Android." />
+<Clip name="showcase-images-ios" caption="Ripple e dissolve reais nas artes incluídas no app, seguidos de zoom nativo e reset. Simulador iOS 26; tempo original." />
 
 ### Estúdio automotivo · iOS
 
@@ -34,6 +56,16 @@ Os três experimentos SceneKit compartilham um estúdio com reflexos. **Camera l
 <Clip name="showcase-lighting-ios" caption="Simulador iOS 26: luz diurna, estúdio quente, pintura cobre e iluminação noturna. Modelo detalhado local; velocidade original." />
 <Clip name="showcase-shaders-ios" caption="Simulador iOS 26: ambiente e uniforms dos shaders do vidro e dos faróis dirigidos por um motion value compartilhado. Modelo detalhado local; velocidade original. Demonstra aparência, não o interior da cabine nem simulação de fluidos." />
 </div>
+
+**Maps & 3D → Timeline** percorre uma rota curva em uma orla ilustrada. A viagem, o pulso do destino, o progresso e o checkpoint atrasado compartilham a timeline e pausam juntos. A aba Native map continua animando o adaptador do mapa real.
+
+<Clip name="showcase-journey-ios" caption="Simulador iOS 26: nova viagem coordenada, pausa/retomada, mapa nativo e retorno à câmera automotiva. Entrada real do XCTest; tempo original; o carro usa o modelo local opcional." />
+
+**Maps & 3D → 3D camera** usa o mesmo estúdio automotivo no Motion Studio. O adaptador nativo de pose move a câmera entre dois ângulos do carro, com pausa, retomada, parada e replay. Trocar de aba zera o progresso exibido e recria os bindings da cena ao voltar.
+
+<Clip name="showcase-camera-orbit-ios" caption="Simulador iOS 26: a aba real de câmera em Maps & 3D, movendo ao redor do carro detalhado, pausando/retomando, repetindo, parando e voltando de Timeline. Toques reais do XCTest; velocidade original; modelo local opcional. Não comprova desempenho em aparelho físico." />
+
+<Clip name="showcase-native-reentry-ios" caption="Simulador iOS 26: abertura e reabertura das quatro entradas automotivas na mesma sessão do app. Cada retorno monta o estúdio nativo novamente, incluindo a aba 3D camera. Navegação real do XCTest; modelo detalhado local; velocidade original." />
 
 O carro detalhado das gravações é um recurso local do projeto separado `jolt-car`. Ele **não é distribuído neste repositório** enquanto sua origem e os termos de redistribuição não estiverem registrados. Para usar localmente um modelo autorizado com os mesmos materiais, coloque-o em `demo/App_Resources/iOS/preview-car.usdz`; sem ele, o demo usa um carro procedural. O ambiente do estúdio é desenhado em código. Estes vídeos de simulador não comprovam desempenho em aparelho físico.
 

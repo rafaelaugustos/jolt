@@ -1,8 +1,10 @@
 <script lang="ts" setup>
+import { usePreviewI18n } from '../showcase/i18n'
 import { Device, isIOS, knownFolders, type View } from '@nativescript/core'
 import { onUnmounted, ref } from 'nativescript-vue'
 import { animate, configure, set, stop, type Animation } from '@rafaelaugusto/jolt'
 import { launchArgument } from '../launch'
+const { t } = usePreviewI18n()
 
 const svg = (size: number, strength: number) =>
   `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 100 100"><defs><radialGradient id="glow"><stop offset="0" stop-color="#fff6df" stop-opacity="${strength}"/><stop offset=".28" stop-color="#ffb547" stop-opacity="${strength * 0.95}"/><stop offset="1" stop-color="#ff6200" stop-opacity="0"/></radialGradient></defs><circle cx="50" cy="50" r="50" fill="url(#glow)"/></svg>`
@@ -136,115 +138,248 @@ const props = defineProps<{ embedded?: boolean }>()
 </script>
 
 <template>
-  <StackLayout class="opacity-rotation" backgroundColor="#0d0404" padding="24">
-    <Label
-      v-if="!props.embedded"
-      text="Opacity + rotation"
-      color="#fff6df"
-      fontSize="26"
-      marginTop="16"
-    />
-    <Label
-      :text="`${useSVG ? 'SVG' : 'Plain'} overflow · fade on ${childFade ? 'child' : 'container'}`"
-      color="#ffb547"
-      fontSize="15"
-      marginTop="12"
-    />
-    <GridLayout height="320" marginTop="16" clipToBounds="false">
-      <AbsoluteLayout width="168" height="160" clipToBounds="false">
-        <SVGView
-          v-if="useSVG"
-          ref="halo"
-          :src="haloSVG"
-          left="-24.3"
-          top="-41.2"
-          width="228"
-          height="228"
-          opacity="0"
-          stretch="aspectFit"
-        />
-        <ContentView
-          v-else
-          ref="halo"
-          left="-24.3"
-          top="-41.2"
-          width="228"
-          height="228"
-          opacity="0"
-          backgroundColor="#ff6200"
-          borderRadius="114"
-        />
-        <Image
-          :src="props.embedded ? '~/assets/jolt-mark.png' : '~/assets/ghost-marker.png'"
-          left="44.7"
-          top="27.8"
-          width="90"
-          height="90"
-          stretch="fill"
-        />
-        <AbsoluteLayout
-          v-for="(size, i) in emberSizes"
-          :key="i"
-          :ref="(el: NativeElement | null) => remember(el, i, orbits)"
-          left="26.7"
-          top="9.8"
-          width="126"
-          height="126"
-          clipToBounds="false"
-        >
+  <StackLayout v-if="embedded" class="exhibit">
+    <GridLayout class="ex-stage" backgroundColor="#211C1A" height="340" padding="12"
+      ><Label
+        :text="t('AFTERGLOW / LIGHT IN MOTION')"
+        class="ex-kicker"
+        verticalAlignment="top"
+      />
+      <GridLayout height="300" marginTop="0" clipToBounds="false">
+        <AbsoluteLayout width="168" height="160" clipToBounds="false">
           <SVGView
             v-if="useSVG"
-            :ref="(el: NativeElement | null) => remember(el, i, heads)"
-            :src="headSVG"
-            :left="126 - size / 2"
-            :top="63 - size / 2"
-            :width="size"
-            :height="size"
+            ref="halo"
+            :src="haloSVG"
+            left="-24.3"
+            top="-41.2"
+            width="228"
+            height="228"
+            opacity="0"
             stretch="aspectFit"
           />
           <ContentView
             v-else
-            :ref="(el: NativeElement | null) => remember(el, i, heads)"
-            :left="126 - size / 2"
-            :top="63 - size / 2"
-            :width="size"
-            :height="size"
-            backgroundColor="#ffb547"
-            :borderRadius="size / 2"
+            ref="halo"
+            left="-24.3"
+            top="-41.2"
+            width="228"
+            height="228"
+            opacity="0"
+            backgroundColor="#ff6200"
+            borderRadius="114"
+          />
+          <Image
+            :src="props.embedded ? '~/assets/jolt-mark.png' : '~/assets/ghost-marker.png'"
+            left="44.7"
+            top="27.8"
+            width="90"
+            height="90"
+            stretch="fill"
+          />
+          <AbsoluteLayout
+            v-for="(size, i) in emberSizes"
+            :key="i"
+            :ref="(el: NativeElement | null) => remember(el, i, orbits)"
+            left="26.7"
+            top="9.8"
+            width="126"
+            height="126"
+            clipToBounds="false"
+          >
+            <SVGView
+              v-if="useSVG"
+              :ref="(el: NativeElement | null) => remember(el, i, heads)"
+              :src="headSVG"
+              :left="126 - size / 2"
+              :top="63 - size / 2"
+              :width="size"
+              :height="size"
+              stretch="aspectFit"
+            />
+            <ContentView
+              v-else
+              :ref="(el: NativeElement | null) => remember(el, i, heads)"
+              :left="126 - size / 2"
+              :top="63 - size / 2"
+              :width="size"
+              :height="size"
+              backgroundColor="#ffb547"
+              :borderRadius="size / 2"
+            />
+          </AbsoluteLayout>
+          <SVGView
+            v-if="useSVG"
+            ref="flash"
+            :src="flashSVG"
+            left="65.7"
+            top="-9.2"
+            width="48"
+            height="48"
+            opacity="0"
+            stretch="aspectFit"
+          />
+          <ContentView
+            v-else
+            ref="flash"
+            left="65.7"
+            top="-9.2"
+            width="48"
+            height="48"
+            opacity="0"
+            backgroundColor="#fff6df"
+            borderRadius="24"
           />
         </AbsoluteLayout>
-        <SVGView
-          v-if="useSVG"
-          ref="flash"
-          :src="flashSVG"
-          left="65.7"
-          top="-9.2"
-          width="48"
-          height="48"
-          opacity="0"
-          stretch="aspectFit"
-        />
-        <ContentView
-          v-else
-          ref="flash"
-          left="65.7"
-          top="-9.2"
-          width="48"
-          height="48"
-          opacity="0"
-          backgroundColor="#fff6df"
-          borderRadius="24"
-        />
-      </AbsoluteLayout>
-    </GridLayout>
-    <Label :text="status" color="#fff6df" textAlignment="center" marginBottom="12" />
-    <Button text="Play orbit" @tap="play()" />
-    <Button text="Replay splash" @tap="play(true)" />
-    <Button text="Stop orbit" @tap="reset" />
-    <Button :text="childFade ? 'Fade container' : 'Fade child'" @tap="toggleFade" />
-    <Button :text="useSVG ? 'Use plain views' : 'Use SVG views'" @tap="toggleContent" />
-    <Button :text="slow ? 'Normal speed' : 'Slow motion'" @tap="toggleSpeed" />
+      </GridLayout> </GridLayout
+    ><StackLayout class="ex-controls"
+      ><GridLayout columns="*,*,*"
+        ><Button
+          col="0"
+          :text="t('Play orbit')"
+          @tap="play()"
+          class="ex-primary" /><Button
+          col="1"
+          :text="t('Replay splash')"
+          @tap="play(true)" /><Button
+          col="2"
+          :text="t('Stop orbit')"
+          @tap="reset" /></GridLayout
+      ><GridLayout columns="*,*,*"
+        ><Button
+          col="0"
+          :text="t(childFade ? 'Fade parent' : 'Fade child')"
+          @tap="toggleFade" /><Button
+          col="1"
+          :text="t(useSVG ? 'Plain views' : 'SVG views')"
+          @tap="toggleContent" /><Button
+          col="2"
+          :text="t(slow ? 'Normal' : 'Slow motion')"
+          @tap="toggleSpeed" /></GridLayout></StackLayout
+    ><Label
+      :text="t('An orbit of light, with room to glow.')"
+      class="ex-note"
+      textWrap="true"
+    />
   </StackLayout>
+  <template v-else>
+    <StackLayout class="opacity-rotation" backgroundColor="#0d0404" padding="24">
+      <Label
+        v-if="!props.embedded"
+        :text="t('Opacity + rotation')"
+        color="#fff6df"
+        fontSize="26"
+        marginTop="16"
+      />
+      <Label
+        :text="
+          t(
+            `${useSVG ? 'SVG' : 'Plain'} overflow · fade on ${childFade ? 'child' : 'container'}`,
+          )
+        "
+        color="#ffb547"
+        fontSize="15"
+        marginTop="12"
+      />
+      <GridLayout height="320" marginTop="16" clipToBounds="false">
+        <AbsoluteLayout width="168" height="160" clipToBounds="false">
+          <SVGView
+            v-if="useSVG"
+            ref="halo"
+            :src="haloSVG"
+            left="-24.3"
+            top="-41.2"
+            width="228"
+            height="228"
+            opacity="0"
+            stretch="aspectFit"
+          />
+          <ContentView
+            v-else
+            ref="halo"
+            left="-24.3"
+            top="-41.2"
+            width="228"
+            height="228"
+            opacity="0"
+            backgroundColor="#ff6200"
+            borderRadius="114"
+          />
+          <Image
+            :src="props.embedded ? '~/assets/jolt-mark.png' : '~/assets/ghost-marker.png'"
+            left="44.7"
+            top="27.8"
+            width="90"
+            height="90"
+            stretch="fill"
+          />
+          <AbsoluteLayout
+            v-for="(size, i) in emberSizes"
+            :key="i"
+            :ref="(el: NativeElement | null) => remember(el, i, orbits)"
+            left="26.7"
+            top="9.8"
+            width="126"
+            height="126"
+            clipToBounds="false"
+          >
+            <SVGView
+              v-if="useSVG"
+              :ref="(el: NativeElement | null) => remember(el, i, heads)"
+              :src="headSVG"
+              :left="126 - size / 2"
+              :top="63 - size / 2"
+              :width="size"
+              :height="size"
+              stretch="aspectFit"
+            />
+            <ContentView
+              v-else
+              :ref="(el: NativeElement | null) => remember(el, i, heads)"
+              :left="126 - size / 2"
+              :top="63 - size / 2"
+              :width="size"
+              :height="size"
+              backgroundColor="#ffb547"
+              :borderRadius="size / 2"
+            />
+          </AbsoluteLayout>
+          <SVGView
+            v-if="useSVG"
+            ref="flash"
+            :src="flashSVG"
+            left="65.7"
+            top="-9.2"
+            width="48"
+            height="48"
+            opacity="0"
+            stretch="aspectFit"
+          />
+          <ContentView
+            v-else
+            ref="flash"
+            left="65.7"
+            top="-9.2"
+            width="48"
+            height="48"
+            opacity="0"
+            backgroundColor="#fff6df"
+            borderRadius="24"
+          />
+        </AbsoluteLayout>
+      </GridLayout>
+      <Label :text="t(status)" color="#fff6df" textAlignment="center" marginBottom="12" />
+      <Button :text="t('Play orbit')" @tap="play()" />
+      <Button :text="t('Replay splash')" @tap="play(true)" />
+      <Button :text="t('Stop orbit')" @tap="reset" />
+      <Button :text="t(childFade ? 'Fade container' : 'Fade child')" @tap="toggleFade" />
+      <Button
+        :text="t(useSVG ? 'Use plain views' : 'Use SVG views')"
+        @tap="toggleContent"
+      />
+      <Button :text="t(slow ? 'Normal speed' : 'Slow motion')" @tap="toggleSpeed" />
+    </StackLayout>
+  </template>
 </template>
 
 <style scoped>

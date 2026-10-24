@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { usePreviewI18n } from './i18n'
 import { computed, ref } from 'nativescript-vue'
 import { isIOS } from '@nativescript/core'
 import { useRoute, useRouter } from 'vue-router-ns'
 import { categories, examples } from './catalog'
+import { searchText } from './locale'
+const { t } = usePreviewI18n()
 const route = useRoute(),
   router = useRouter()
 const selected = ref(String(route.query.category || 'All')),
@@ -11,9 +14,9 @@ const filtered = computed(() =>
   examples.filter(
     (e) =>
       (selected.value === 'All' || e.category === selected.value) &&
-      `${e.title} ${e.description} ${e.category}`
-        .toLowerCase()
-        .includes(search.value.toLowerCase().trim()),
+      searchText(
+        `${e.title} ${e.description} ${e.category} ${t(e.title)} ${t(e.description)} ${t(e.category)}`,
+      ).includes(searchText(search.value)),
   ),
 )
 const colors: Record<string, string> = {
@@ -42,15 +45,15 @@ function open(id: string) {
   <Page actionBarHidden="true" backgroundColor="#F6F5F0" statusBarStyle="dark">
     <GridLayout rows="auto,auto,auto,*,72">
       <StackLayout padding="18 24 0">
-        <Label text="THE MOTION COLLECTION" class="studio-eyebrow" />
+        <Label :text="t('THE MOTION COLLECTION')" class="studio-eyebrow" />
         <GridLayout columns="*,auto" margin="7 0 16"
           ><Label
-            text="Find your flow."
+            :text="t('Find your flow.')"
             fontSize="34"
             fontWeight="bold"
             color="#20242D" /><Label
             col="1"
-            :text="String(examples.length).padStart(2, '0')"
+            :text="t(String(examples.length).padStart(2, '0'))"
             fontSize="18"
             color="#818778"
             verticalAlignment="middle"
@@ -68,8 +71,8 @@ function open(id: string) {
         <TextField
           col="1"
           v-model="search"
-          hint="Search something that moves…"
-          accessibilityLabel="Search examples"
+          :hint="t('Search something that moves…')"
+          :accessibilityLabel="t('Search examples')"
           returnKeyType="done"
           @returnPress="$event.object.dismissSoftInput()"
           fontSize="14"
@@ -90,18 +93,24 @@ function open(id: string) {
           <Label
             v-for="category in categories"
             :key="category"
-            :text="category"
+            :text="t(category)"
             :class="selected === category ? 'studio-filter selected' : 'studio-filter'"
             @tap="selected = category"
             accessibilityRole="button"
-            :accessibilityLabel="`Filter ${category}`"
+            :accessibilityLabel="t(`Filter ${category}`)"
           />
         </StackLayout>
       </ScrollView>
       <ScrollView row="3" scrollBarIndicatorVisible="false">
         <StackLayout padding="8 24 28">
           <Label
-            :text="`${filtered.length} EXPERIMENTS TO EXPLORE`"
+            :text="
+              t(
+                filtered.length === 1
+                  ? '1 EXPERIMENT TO EXPLORE'
+                  : `${filtered.length} EXPERIMENTS TO EXPLORE`,
+              )
+            "
             class="studio-eyebrow"
             margin="0 0 12"
           />
@@ -112,10 +121,10 @@ function open(id: string) {
             class="studio-example-row"
             @tap="open(example.id)"
             accessibilityRole="button"
-            :accessibilityLabel="`Open ${example.title}`"
+            :accessibilityLabel="t(`Open ${example.title}`)"
           >
             <Label
-              :text="glyphs[example.category]"
+              :text="t(glyphs[example.category])"
               :backgroundColor="colors[example.category]"
               width="44"
               height="48"
@@ -128,17 +137,17 @@ function open(id: string) {
             />
             <StackLayout col="1" padding="2 8"
               ><Label
-                :text="example.title"
+                :text="t(example.title)"
                 fontSize="17"
                 fontWeight="bold"
                 color="#20242D" /><Label
-                :text="example.description"
+                :text="t(example.description)"
                 fontSize="12"
                 color="#7C8076"
                 textWrap="true"
                 marginTop="5" /><Label
                 v-if="example.ios && !isIOS"
-                text="Available on iOS"
+                :text="t('Available on iOS')"
                 fontSize="10"
                 color="#7C8076"
                 marginTop="4"
@@ -153,11 +162,11 @@ function open(id: string) {
           </GridLayout>
           <StackLayout v-if="!filtered.length" padding="40 12"
             ><Label
-              text="A little less specific?"
+              :text="t('A little less specific?')"
               fontSize="22"
               fontWeight="bold"
               textAlignment="center" /><Label
-              text="Try a different word or category."
+              :text="t('Try a different word or category.')"
               textAlignment="center"
               marginTop="10"
               color="#7C8076"
@@ -166,15 +175,15 @@ function open(id: string) {
       </ScrollView>
       <GridLayout row="4" columns="*,*" class="studio-bottom"
         ><Label
-          text="◉  Studio"
+          :text="t('◉  Studio')"
           class="studio-tab"
           verticalAlignment="middle"
           textAlignment="center"
           @tap="router.back()"
           accessibilityRole="button"
-          accessibilityLabel="Studio" /><Label
+          :accessibilityLabel="t('Studio')" /><Label
           col="1"
-          text="▦  Collection"
+          :text="t('▦  Collection')"
           class="studio-tab-active"
           verticalAlignment="middle"
           textAlignment="center"

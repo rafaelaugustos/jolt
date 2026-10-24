@@ -1,4 +1,5 @@
 import { Color, View } from '@nativescript/core'
+import type { ScenePose } from '@rafaelaugusto/jolt/native'
 
 const vector = (x: number, y: number, z: number) => new SCNVector3({ x, y, z })
 export function studioEnvironment(warm = false): UIImage {
@@ -40,6 +41,13 @@ export class StudioScene extends View {
   signal!: SCNMaterial
   keyLight!: SCNLight
   detailedModel = false
+  cameraPose(position: ScenePose['position']): ScenePose {
+    const node = SCNNode.node()
+    node.position = vector(...position)
+    node.lookAt(vector(0, 0.35, 0))
+    const q = node.orientation
+    return { position, orientation: [q.x, q.y, q.z, q.w] }
+  }
   createNativeView() {
     return SCNView.alloc().initWithFrameOptions(CGRectZero, null)
   }

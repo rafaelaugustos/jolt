@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import { usePreviewI18n } from '../showcase/i18n'
 import {
   Color,
+  Image,
   File,
   GridLayout,
   Label,
@@ -19,6 +21,7 @@ import {
   type Gestures,
 } from '@rafaelaugusto/jolt/gestures'
 import { launchArgument } from '../launch'
+const { t } = usePreviewI18n()
 
 const props = defineProps<{ embedded?: boolean }>()
 const emit = defineEmits<{ back: [] }>()
@@ -39,7 +42,7 @@ let taps = 0,
   doubles = 0
 function label(text: string, size = 17) {
   const view = new Label()
-  view.text = text
+  view.text = t(text)
   view.fontSize = size
   view.color = new Color('#263345')
   view.textWrap = true
@@ -59,7 +62,8 @@ function select(name: string) {
   if (name === 'Photo') {
     const surface = new GestureSurface()
     surface.automationText = 'Photo gesture surface'
-    surface.backgroundColor = new Color('#E8EDF6')
+    surface.accessibilityLabel = t('Photo gesture surface')
+    surface.backgroundColor = new Color(props.embedded ? '#DCE3D4' : '#E8EDF6')
     const card = new GridLayout()
     card.width = 170
     card.height = 200
@@ -70,6 +74,22 @@ function select(name: string) {
     title.fontWeight = 'bold'
     title.textAlignment = 'center'
     title.verticalAlignment = 'middle'
+    if (props.embedded) {
+      card.width = 208
+      card.height = 278
+      card.clipToBounds = true
+      card.borderRadius = 22
+      const photo = new Image()
+      photo.src = '~/assets/studio/cove.png'
+      photo.stretch = 'aspectFill'
+      card.addChild(photo)
+      title.text = t('THE LONG WAY HOME')
+      title.fontSize = 15
+      title.textAlignment = 'left'
+      title.verticalAlignment = 'bottom'
+      title.backgroundColor = new Color('#CC20392D')
+      title.padding = 16
+    }
     card.addChild(title)
     surface.addChild(card)
     host.addChild(surface)
@@ -111,18 +131,30 @@ function select(name: string) {
     }
     surface.on('tap', existingTap)
     scope.add(() => surface.off('tap', existingTap))
-    status.value = 'Pan, pinch and rotate together. Single tap waits for double tap.'
+    status.value = props.embedded
+      ? 'Move, pinch and turn the photograph. Make it yours.'
+      : 'Pan, pinch and rotate together. Single tap waits for double tap.'
   } else if (name === 'Carousel') {
     const scroll = new ScrollView()
     scroll.automationText = 'Outer list'
+    scroll.accessibilityLabel = t('Outer list')
     const content = new StackLayout()
-    content.addChild(label('Vertical list · swipe up to scroll', 20))
+    content.addChild(
+      label(
+        props.embedded ? 'The weekend collection' : 'Vertical list · swipe up to scroll',
+        22,
+      ),
+    )
     const surface = new GestureSurface()
     surface.height = 180
     surface.marginTop = 24
     surface.backgroundColor = new Color('#E6EDE7')
     surface.automationText = 'Horizontal carousel'
-    const card = label('←  SLIDE SIDEWAYS  →', 20)
+    surface.accessibilityLabel = t('Horizontal carousel')
+    const card = label(
+      props.embedded ? 'GO SOMEWHERE\nSLOW.  ↗' : '←  SLIDE SIDEWAYS  →',
+      props.embedded ? 28 : 20,
+    )
     card.width = 260
     card.height = 120
     card.backgroundColor = new Color('#8BB89B')
@@ -132,7 +164,13 @@ function select(name: string) {
     surface.addChild(card)
     content.addChild(surface)
     for (let i = 1; i <= 12; i++) {
-      const row = label(`List item ${i} · native scroll`)
+      const row = label(
+        props.embedded
+          ? ['A quieter kind of morning', 'The scenic route', 'Somewhere by the sea'][
+              i % 3
+            ]!
+          : `List item ${i} · native scroll`,
+      )
       row.height = 70
       row.padding = 20
       content.addChild(row)
@@ -153,16 +191,25 @@ function select(name: string) {
     surface.backgroundColor = new Color('#E8E5F0')
     surface.borderRadius = 24
     surface.automationText = 'Handoff panel'
-    const header = label('↕  PANEL · DRAG OR SCROLL', 18)
+    surface.accessibilityLabel = t('Handoff panel')
+    const header = label(
+      props.embedded ? 'Your saved places  ↑↓' : '↕  PANEL · DRAG OR SCROLL',
+      18,
+    )
     header.textAlignment = 'center'
     header.verticalAlignment = 'middle'
     surface.addChild(header)
     const scroll = new ScrollView()
     scroll.automationText = 'Inner list'
+    scroll.accessibilityLabel = t('Inner list')
     GridLayout.setRow(scroll, 1)
     const content = new StackLayout()
     for (let i = 1; i <= 18; i++) {
-      const row = label(`Result ${i} · keep your finger down`)
+      const row = label(
+        props.embedded
+          ? `${String(i).padStart(2, '0')}   ${t(['Hidden cove', 'The old town', 'Along the coast'][i % 3])}`
+          : `Result ${i} · keep your finger down`,
+      )
       row.height = 64
       row.padding = 18
       row.backgroundColor = new Color(i % 2 ? '#F7F4FB' : '#EEEBF4')
@@ -219,44 +266,73 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <GridLayout rows="auto,auto,auto,*,auto,auto" padding="24" backgroundColor="#F8F7F2">
-    <GridLayout v-if="!props.embedded" columns="*,auto" marginBottom="12">
-      <Label
-        text="JOLT / GESTURES"
-        fontSize="12"
-        fontWeight="bold"
-        color="#657080"
-        verticalAlignment="middle"
-      />
-      <Button col="1" text="Back" @tap="$emit('back')" />
-    </GridLayout>
-    <Label
-      v-if="!props.embedded"
+  <GridLayout v-if="embedded" class="exhibit" rows="auto,*,auto,auto">
+    <GridLayout columns="*,*,*" class="ex-controls" marginBottom="14"
+      ><Button
+        :text="t('Photo')"
+        :class="{ 'ex-primary': selected === 'Photo' }"
+        @tap="select('Photo')" /><Button
+        col="1"
+        :text="t('Carousel')"
+        :class="{ 'ex-primary': selected === 'Carousel' }"
+        @tap="select('Carousel')" /><Button
+        col="2"
+        :text="t('Sheet')"
+        :class="{ 'ex-primary': selected === 'Sheet' }"
+        @tap="select('Sheet')" /></GridLayout
+    ><GridLayout
       row="1"
-      text="Move together."
-      fontSize="32"
-      fontWeight="bold"
-      color="#263345"
-      marginBottom="16"
-    />
-    <GridLayout row="2" columns="*,*,*" marginBottom="16">
-      <Button text="Photo" @tap="select('Photo')" />
-      <Button col="1" text="Carousel" @tap="select('Carousel')" />
-      <Button col="2" text="Sheet" @tap="select('Sheet')" />
-    </GridLayout>
-    <GridLayout row="3" id="gesture-stage" @loaded="mount" />
-    <GridLayout row="4" columns="*,*" marginTop="16">
-      <Button text="Reset" @tap="reset" />
-      <Button col="1" text="Pause / resume" @tap="pause" />
-    </GridLayout>
-    <StackLayout row="5" height="76" marginTop="12">
-      <Label :text="status" textWrap="true" color="#657080" fontSize="14" />
-      <Label
-        :text="`Existing tap listener: ${coreTaps}`"
-        color="#657080"
-        fontSize="12"
-        marginTop="8"
-      />
-    </StackLayout>
+      id="gesture-stage"
+      borderRadius="28"
+      clipToBounds="true"
+      @loaded="mount"
+    /><GridLayout row="2" columns="*,*" class="ex-controls" marginTop="16"
+      ><Button :text="t('Reset')" @tap="reset" /><Button
+        col="1"
+        :text="t('Pause / resume')"
+        @tap="pause" /></GridLayout
+    ><Label row="3" :text="t(status)" class="ex-note" textWrap="true" />
   </GridLayout>
+  <template v-else>
+    <GridLayout rows="auto,auto,auto,*,auto,auto" padding="24" backgroundColor="#F8F7F2">
+      <GridLayout v-if="!props.embedded" columns="*,auto" marginBottom="12">
+        <Label
+          :text="t('JOLT / GESTURES')"
+          fontSize="12"
+          fontWeight="bold"
+          color="#657080"
+          verticalAlignment="middle"
+        />
+        <Button col="1" :text="t('Back')" @tap="$emit('back')" />
+      </GridLayout>
+      <Label
+        v-if="!props.embedded"
+        row="1"
+        :text="t('Move together.')"
+        fontSize="32"
+        fontWeight="bold"
+        color="#263345"
+        marginBottom="16"
+      />
+      <GridLayout row="2" columns="*,*,*" marginBottom="16">
+        <Button :text="t('Photo')" @tap="select('Photo')" />
+        <Button col="1" :text="t('Carousel')" @tap="select('Carousel')" />
+        <Button col="2" :text="t('Sheet')" @tap="select('Sheet')" />
+      </GridLayout>
+      <GridLayout row="3" id="gesture-stage" @loaded="mount" />
+      <GridLayout row="4" columns="*,*" marginTop="16">
+        <Button :text="t('Reset')" @tap="reset" />
+        <Button col="1" :text="t('Pause / resume')" @tap="pause" />
+      </GridLayout>
+      <StackLayout row="5" height="76" marginTop="12">
+        <Label :text="t(status)" textWrap="true" color="#657080" fontSize="14" />
+        <Label
+          :text="t(`Existing tap listener: ${coreTaps}`)"
+          color="#657080"
+          fontSize="12"
+          marginTop="8"
+        />
+      </StackLayout>
+    </GridLayout>
+  </template>
 </template>
