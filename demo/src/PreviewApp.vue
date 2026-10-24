@@ -35,4 +35,9 @@ onLaunch(() => {
   ready.value = true
 })
 </script>
-<template><Legacy v-if="ready && legacy" /><Showcase v-else-if="ready" /></template>
+<template>
+  <GridLayout backgroundColor="#F6F5F0" iosOverflowSafeArea="true">
+    <!-- Keep a native root while Android resolves its launch arguments. -->
+    <Legacy v-if="ready && legacy" /><Showcase v-else-if="ready" />
+  </GridLayout>
+</template>

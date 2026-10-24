@@ -33,7 +33,8 @@ public final class NativeGestureInput {
             long hold = args.length > 4 ? Long.parseLong(args[4]) : 200;
             down = SystemClock.uptimeMillis(); send(MotionEvent.ACTION_DOWN, cx, cy);
             SystemClock.sleep(600);
-            for (int i = 1; i <= 35; i++) send(MotionEvent.ACTION_MOVE, cx, cy + (endY - cy) * i / 35f);
+            int steps = args[2].equals("reorder-fast") ? 4 : 35;
+            for (int i = 1; i <= steps; i++) send(MotionEvent.ACTION_MOVE, cx, cy + (endY - cy) * i / steps);
             SystemClock.sleep(hold);
             send(args[2].equals("reorder-cancel") ? MotionEvent.ACTION_CANCEL : MotionEvent.ACTION_UP, cx, endY);
             return;

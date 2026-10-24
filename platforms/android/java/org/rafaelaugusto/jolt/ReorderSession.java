@@ -28,9 +28,9 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
         final SpringState spring = new SpringState(0, 0);
         Cell(View view, int index) { this.translation = view.getTranslationY(); this.alpha = view.getAlpha(); this.index = index; }
     }
-    private final ListView list;
+    final ListView list;
+    private final ReorderSurface surface;
     private final Listener listener;
-    private final View.OnTouchListener previousTouch;
     private final WeakHashMap<View, Cell> cells = new WeakHashMap<>();
     private final Set<View> handles = Collections.newSetFromMap(new WeakHashMap<View, Boolean>());
     private final float density, edgeSize, edgeSpeed, slop;
@@ -45,8 +45,8 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
     private Bitmap bitmap;
     private ValueAnimator drop;
 
-    public ReorderSession(ListView list, String options, View.OnTouchListener previousTouch, Listener listener) {
-        this.list = list; this.listener = listener; this.previousTouch = previousTouch;
+    public ReorderSession(ReorderSurface surface, ListView list, String options, Listener listener) {
+        this.surface = surface; this.list = list; this.listener = listener;
         density = list.getResources().getDisplayMetrics().density;
         slop = ViewConfiguration.get(list.getContext()).getScaledTouchSlop();
         try {
@@ -55,19 +55,13 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
             edgeSpeed = (float)config.getDouble("edgeSpeed") * density;
             reduced = config.getBoolean("reducedMotion"); handlesOnly = config.getBoolean("handles");
         } catch (Exception error) { throw new IllegalArgumentException(error); }
-        list.setOnTouchListener(this); list.addOnLayoutChangeListener(this); list.addOnAttachStateChangeListener(this);
+        surface.setSession(this); list.addOnLayoutChangeListener(this); list.addOnAttachStateChangeListener(this);
     }
     public boolean isActive() { return active; }
     public void registerHandle(View view) {
         if (!disposed && view != null) {
             handles.add(view);
-            if (view instanceof ReorderHandle) ((ReorderHandle)view).setSession(this);
         }
-    }
-    boolean handleTouch(View handle, MotionEvent event) {
-        Rect rect = new Rect(); handle.getDrawingRect(rect); list.offsetDescendantRectToMyCoords(handle, rect);
-        MotionEvent local = MotionEvent.obtain(event); local.offsetLocation(rect.left, rect.top);
-        boolean result = onTouch(list, local); local.recycle(); return result;
     }
     private boolean inHandle(float x, float y) {
         if (!handlesOnly) return true;
@@ -83,7 +77,7 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
         return false;
     }
     @Override public boolean onTouch(View view, MotionEvent event) {
-        if (disposed) return previousTouch != null && previousTouch.onTouch(view, event);
+        if (disposed) return false;
         int action = event.getActionMasked();
         if (action == MotionEvent.ACTION_DOWN) {
             cancel();
@@ -102,7 +96,7 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
         if (action == MotionEvent.ACTION_UP) { clearPending(); if (active && !settling) drop(); }
         else if (action == MotionEvent.ACTION_CANCEL) { clearPending(); if (active) finish(false, 0); }
         if (owned) return true;
-        return previousTouch != null && previousTouch.onTouch(view, event);
+        return false;
     }
     private void clearPending() { pending = false; list.removeCallbacks(activate); }
     private void emit(int state, int detail) { if (!disposed && listener != null) listener.onState(state, from, detail); }
@@ -124,8 +118,8 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
         from = target = index; active = true; settling = false; remainder = 0; generation++;
         // Stop the ListView's pending click/scroll, retaining this pointer stream.
         MotionEvent cancel = MotionEvent.obtain(0, 0, MotionEvent.ACTION_CANCEL, pointerX, pointerY, 0);
-        list.onTouchEvent(cancel); if (previousTouch != null) previousTouch.onTouch(list, cancel); cancel.recycle();
-        if (list.getParent() != null) list.getParent().requestDisallowInterceptTouchEvent(true);
+        list.onTouchEvent(cancel); cancel.recycle();
+        if (surface.getParent() != null) surface.getParent().requestDisallowInterceptTouchEvent(true);
         previousTime = System.nanoTime();
         emit(1, from);
         if (!active || disposed) return;
@@ -199,7 +193,7 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
         if (bitmap != null) { bitmap.recycle(); bitmap = null; }
         for (View view : new ArrayList<>(cells.keySet())) restore(view, cells.get(view));
         cells.clear();
-        if (list.getParent() != null) list.getParent().requestDisallowInterceptTouchEvent(false);
+        if (surface.getParent() != null) surface.getParent().requestDisallowInterceptTouchEvent(false);
         emit(commit ? 2 : 3, commit ? target : detail);
     }
     public void cancel() { clearPending(); finish(false, 0); }
@@ -212,9 +206,8 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
     @Override public void onViewAttachedToWindow(View view) {}
     public void dispose() {
         if (disposed) return;
-        cancel(); disposed = true; list.setOnTouchListener(previousTouch);
+        cancel(); disposed = true; surface.setSession(null);
         list.removeOnLayoutChangeListener(this); list.removeOnAttachStateChangeListener(this);
-        for (View view : handles) if (view instanceof ReorderHandle) ((ReorderHandle)view).setSession(null);
         handles.clear();
     }
 }

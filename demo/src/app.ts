@@ -1,6 +1,6 @@
 import { createApp, registerElement } from 'nativescript-vue'
 import { SVGView } from '@nativescript-community/ui-svg'
-import { ReorderHandle } from '@rafaelaugusto/jolt/reorder'
+import { ReorderHandle, ReorderSurface } from '@rafaelaugusto/jolt/reorder'
 import Jolt from '@rafaelaugusto/jolt/vue'
 import App from './PreviewApp.vue'
 import { router } from './showcase/router'
@@ -10,6 +10,7 @@ import './native-elements'
 
 registerElement('SVGView', () => SVGView)
 registerElement('ReorderHandle', () => ReorderHandle)
+registerElement('ReorderSurface', () => ReorderSurface)
 const app = createApp(App).use(Jolt).use(router)
 // Opt-in native audit: collect Vue setup/lifecycle failures for every routed example.
 // This does not install an observer or run in the ordinary preview.

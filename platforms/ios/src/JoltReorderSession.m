@@ -17,7 +17,8 @@
 @end
 
 @interface JoltReorderCellState : NSObject
-@property(nonatomic) CGAffineTransform transform;
+@property(nonatomic) CATransform3D transform;
+@property(nonatomic) BOOL cellClips, contentClips;
 @property(nonatomic) CGFloat alpha, offset;
 @property(nonatomic) NSInteger index;
 @end
@@ -117,8 +118,9 @@
     [self update];
 }
 - (void)restore:(UITableViewCell *)cell state:(JoltReorderCellState *)state {
-    [cell.layer removeAnimationForKey:@"jolt.reorder"];
-    cell.transform = state.transform; cell.alpha = state.alpha; state.offset = 0;
+    [cell.contentView.layer removeAnimationForKey:@"jolt.reorder"];
+    cell.contentView.layer.sublayerTransform = state.transform; cell.alpha = state.alpha; state.offset = 0;
+    cell.clipsToBounds = state.cellClips; cell.contentView.clipsToBounds = state.contentClips;
 }
 - (void)update {
     if (!self.active || self.settling) return;
@@ -146,18 +148,22 @@
         UITableViewCell *cell = [list cellForRowAtIndexPath:path]; if (!cell) continue;
         JoltReorderCellState *state = [self.cells objectForKey:cell];
         if (state && state.index != path.row) { [self restore:cell state:state]; [self.cells removeObjectForKey:cell]; state = nil; }
-        if (!state) { state = [JoltReorderCellState new]; state.transform = cell.transform; state.alpha = cell.alpha; state.index = path.row; [self.cells setObject:state forKey:cell]; }
+        if (!state) { state = [JoltReorderCellState new]; state.transform = cell.contentView.layer.sublayerTransform; state.cellClips = cell.clipsToBounds; state.contentClips = cell.contentView.clipsToBounds; state.alpha = cell.alpha; state.index = path.row; [self.cells setObject:state forKey:cell]; }
+        cell.clipsToBounds = NO; cell.contentView.clipsToBounds = NO;
         cell.alpha = path.row == self.from ? 0 : state.alpha;
         CGFloat offset = path.row > self.from && path.row <= self.target ? -self.height : path.row < self.from && path.row >= self.target ? self.height : 0;
         if (fabs(offset - state.offset) < .01) continue;
-        CGFloat previous = ((CALayer *)cell.layer.presentationLayer ?: cell.layer).affineTransform.ty;
-        state.offset = offset; cell.transform = CGAffineTransformTranslate(state.transform, 0, offset);
-        [cell.layer removeAnimationForKey:@"jolt.reorder"];
+        // UITableView owns cell/contentView frames. Move only the contents of
+        // the layer so height estimation and recycling cannot corrupt geometry.
+        CALayer *layer = cell.contentView.layer;
+        CATransform3D previous = ((CALayer *)layer.presentationLayer ?: layer).sublayerTransform;
+        state.offset = offset; layer.sublayerTransform = CATransform3DTranslate(state.transform, 0, offset, 0);
+        [layer removeAnimationForKey:@"jolt.reorder"];
         if (!self.reduced) {
-            CASpringAnimation *spring = [CASpringAnimation animationWithKeyPath:@"transform.translation.y"];
+            CASpringAnimation *spring = [CASpringAnimation animationWithKeyPath:@"sublayerTransform"];
             spring.mass = 1; spring.stiffness = 360; spring.damping = 34;
-            spring.fromValue = @(previous); spring.toValue = @(cell.transform.ty); spring.duration = spring.settlingDuration;
-            [cell.layer addAnimation:spring forKey:@"jolt.reorder"];
+            spring.fromValue = [NSValue valueWithCATransform3D:previous]; spring.toValue = [NSValue valueWithCATransform3D:layer.sublayerTransform]; spring.duration = spring.settlingDuration;
+            [layer addAnimation:spring forKey:@"jolt.reorder"];
         }
     }
 }

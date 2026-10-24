@@ -1,0 +1,598 @@
+{
+  "initial": {
+    "platform": "android",
+    "active": null,
+    "moves": [],
+    "cancellations": [],
+    "cells": [
+      {
+        "index": 0,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 1,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 2,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 3,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 4,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 5,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      }
+    ],
+    "result": "",
+    "itemCount": 200,
+    "uniqueKeys": true,
+    "firstKeys": ["track-1", "track-2", "track-3", "track-4", "track-5", "track-6"]
+  },
+  "drop": {
+    "platform": "android",
+    "active": null,
+    "moves": [
+      {
+        "key": "track-1",
+        "beforeKey": "track-5",
+        "fromIndex": 0,
+        "toIndex": 3
+      }
+    ],
+    "cancellations": [],
+    "cells": [
+      {
+        "index": 0,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 1,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 2,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 3,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 4,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 5,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      }
+    ],
+    "result": "",
+    "itemCount": 200,
+    "uniqueKeys": true,
+    "firstKeys": ["track-2", "track-3", "track-4", "track-1", "track-5", "track-6"]
+  },
+  "recycled": {
+    "platform": "android",
+    "active": null,
+    "moves": [
+      {
+        "key": "track-2",
+        "beforeKey": "track-20",
+        "fromIndex": 1,
+        "toIndex": 18
+      }
+    ],
+    "cancellations": [],
+    "cells": [
+      {
+        "index": 13,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 14,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 15,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 16,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 17,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 18,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      }
+    ],
+    "result": "",
+    "itemCount": 200,
+    "uniqueKeys": true,
+    "firstKeys": ["track-1", "track-3", "track-4", "track-5", "track-6", "track-7"]
+  },
+  "reverse-fast": {
+    "platform": "android",
+    "active": null,
+    "moves": [
+      {
+        "key": "track-2",
+        "beforeKey": "track-20",
+        "fromIndex": 1,
+        "toIndex": 18
+      },
+      {
+        "key": "track-2",
+        "beforeKey": "track-6",
+        "fromIndex": 18,
+        "toIndex": 4
+      }
+    ],
+    "cancellations": [],
+    "cells": [
+      {
+        "index": 4,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 5,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 6,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 7,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 8,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 9,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      }
+    ],
+    "result": "",
+    "itemCount": 200,
+    "uniqueKeys": true,
+    "firstKeys": ["track-1", "track-3", "track-4", "track-5", "track-2", "track-6"]
+  },
+  "Cancel next": {
+    "platform": "android",
+    "active": null,
+    "moves": [],
+    "cancellations": [
+      {
+        "key": "track-1",
+        "reason": "cancelled"
+      }
+    ],
+    "cells": [
+      {
+        "index": 0,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 1,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 2,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 3,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 4,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      }
+    ],
+    "result": "Native state clean",
+    "itemCount": 200,
+    "uniqueKeys": true,
+    "firstKeys": ["track-1", "track-2", "track-3", "track-4", "track-5", "track-6"]
+  },
+  "Remove next": {
+    "platform": "android",
+    "active": null,
+    "moves": [],
+    "cancellations": [
+      {
+        "key": "track-1",
+        "reason": "removed"
+      }
+    ],
+    "cells": [
+      {
+        "index": 0,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 1,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 2,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 3,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 4,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      }
+    ],
+    "result": "Native state clean",
+    "itemCount": 199,
+    "uniqueKeys": true,
+    "firstKeys": ["track-2", "track-3", "track-4", "track-5", "track-6", "track-7"]
+  },
+  "Resize next": {
+    "platform": "android",
+    "active": null,
+    "moves": [],
+    "cancellations": [
+      {
+        "key": "track-1",
+        "reason": "geometry-changed"
+      }
+    ],
+    "cells": [
+      {
+        "index": 0,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 1,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 2,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      }
+    ],
+    "result": "Native state clean",
+    "itemCount": 200,
+    "uniqueKeys": true,
+    "firstKeys": ["track-1", "track-2", "track-3", "track-4", "track-5", "track-6"]
+  },
+  "os-cancel": {
+    "platform": "android",
+    "active": null,
+    "moves": [],
+    "cancellations": [
+      {
+        "key": "track-1",
+        "reason": "cancelled"
+      }
+    ],
+    "cells": [
+      {
+        "index": 0,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 1,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 2,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 3,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 4,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      }
+    ],
+    "result": "Native state clean",
+    "itemCount": 200,
+    "uniqueKeys": true,
+    "firstKeys": ["track-1", "track-2", "track-3", "track-4", "track-5", "track-6"]
+  },
+  "reduced": {
+    "platform": "android",
+    "active": null,
+    "moves": [
+      {
+        "key": "track-1",
+        "beforeKey": "track-3",
+        "fromIndex": 0,
+        "toIndex": 1
+      }
+    ],
+    "cancellations": [],
+    "cells": [
+      {
+        "index": 0,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 1,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 2,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 3,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 4,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      }
+    ],
+    "result": "Native state clean",
+    "itemCount": 200,
+    "uniqueKeys": true,
+    "firstKeys": ["track-2", "track-1", "track-3", "track-4", "track-5", "track-6"]
+  },
+  "accessibility-actions": {
+    "platform": "android",
+    "active": null,
+    "moves": [
+      {
+        "key": "track-1",
+        "beforeKey": "track-3",
+        "fromIndex": 0,
+        "toIndex": 1
+      },
+      {
+        "key": "track-1",
+        "beforeKey": "track-4",
+        "fromIndex": 1,
+        "toIndex": 2
+      }
+    ],
+    "cancellations": [],
+    "cells": [
+      {
+        "index": 0,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 1,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 2,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 3,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 4,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      }
+    ],
+    "result": "Native state clean",
+    "itemCount": 200,
+    "uniqueKeys": true,
+    "firstKeys": ["track-2", "track-3", "track-1", "track-4", "track-5", "track-6"]
+  },
+  "keyboard": {
+    "platform": "android",
+    "active": null,
+    "moves": [
+      {
+        "key": "track-1",
+        "beforeKey": "track-3",
+        "fromIndex": 0,
+        "toIndex": 1
+      },
+      {
+        "key": "track-1",
+        "beforeKey": "track-4",
+        "fromIndex": 1,
+        "toIndex": 2
+      }
+    ],
+    "cancellations": [],
+    "cells": [
+      {
+        "index": 0,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 1,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 2,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 3,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 4,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      }
+    ],
+    "result": "Native state clean",
+    "itemCount": 200,
+    "uniqueKeys": true,
+    "firstKeys": ["track-2", "track-3", "track-1", "track-4", "track-5", "track-6"]
+  },
+  "final": {
+    "platform": "android",
+    "active": null,
+    "moves": [],
+    "cancellations": [],
+    "cells": [
+      {
+        "index": 0,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 1,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 2,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      },
+      {
+        "index": 3,
+        "alpha": 1,
+        "offset": 0,
+        "height": 316
+      },
+      {
+        "index": 4,
+        "alpha": 1,
+        "offset": 0,
+        "height": 264
+      }
+    ],
+    "result": "Native state clean",
+    "itemCount": 200,
+    "uniqueKeys": true,
+    "firstKeys": ["track-1", "track-2", "track-3", "track-4", "track-5", "track-6"]
+  }
+}

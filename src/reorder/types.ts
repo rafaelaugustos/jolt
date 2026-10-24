@@ -79,6 +79,9 @@ export interface ReorderAdapter<T> {
     reducedMotion: boolean
     accessibility: { moveUp: string; moveDown: string }
     event(event: ReorderNativeEvent): void
-    move(index: number, direction: -1 | 1): void
+    /** Returns the moved identity; resolve it again after the app updates data. */
+    move(index: number, direction: -1 | 1): ReorderKey | undefined
+    keyAt(index: number): ReorderKey | undefined
+    indexOf(key: ReorderKey): number
   }): ReorderAdapterDriver
 }

@@ -41,16 +41,19 @@ final class DocsTests: XCTestCase {
         start.press(forDuration: 0.15, thenDragTo: start.withOffset(CGVector(dx: x, dy: y)), withVelocity: .slow, thenHoldForDuration: 0.15)
         Thread.sleep(forTimeInterval: 0.8)
     }
-    func reorderDrag(_ id: String, toY: CGFloat, hold: TimeInterval = 0.2) {
+    func reorderDrag(_ id: String, toY: CGFloat, hold: TimeInterval = 0.2, fast: Bool = false) {
         let handle = app.descendants(matching: .any)[id].firstMatch
         XCTAssertTrue(handle.exists, app.debugDescription)
-        let start = handle.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
-        let destination = app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: handle.frame.midX, dy: toY))
-        start.press(forDuration: 0.55, thenDragTo: destination, withVelocity: .slow, thenHoldForDuration: hold)
+        // A dropped handle may be partially clipped at an edge. Touch its visible area.
+        let visible = handle.frame.intersection(app.descendants(matching: .any)["reorder-list"].firstMatch.frame)
+        XCTAssertFalse(visible.isEmpty, app.debugDescription)
+        let start = app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: visible.midX, dy: visible.midY))
+        let destination = app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: visible.midX, dy: toY))
+        start.press(forDuration: 0.55, thenDragTo: destination, withVelocity: fast ? .fast : .slow, thenHoldForDuration: hold)
         Thread.sleep(forTimeInterval: 0.6)
     }
     func testReorder() throws {
-        launch(["--reorder-lab"], "reorder-list")
+        launch(["--reorder-lab", "--reorder-audit"], "reorder-list")
         try record("reorder-ios") {
             let list = app.descendants(matching: .any)["reorder-list"].firstMatch
             reorderDrag("handle-track-1", toY: list.frame.minY + 320)
@@ -59,7 +62,7 @@ final class DocsTests: XCTestCase {
             tap("reorder-down")
             tap("reorder-reset")
             reorderDrag("handle-track-2", toY: list.frame.maxY - 18, hold: 2.5)
-            list.swipeDown()
+            reorderDrag("handle-track-2", toY: list.frame.minY + 18, hold: 1.5, fast: true)
             tap("reorder-reset")
         }
     }
@@ -76,10 +79,63 @@ final class DocsTests: XCTestCase {
         tap("Verify native")
         XCTAssertTrue(app.staticTexts["Native state clean"].exists)
         tap("reorder-reset")
+        tap("Resize next")
+        reorderDrag("handle-track-1", toY: list.frame.minY + 150, hold: 1)
+        tap("Verify native")
+        XCTAssertTrue(app.staticTexts["Native state clean"].exists)
+        tap("reorder-reset")
         tap("Reduce motion")
         reorderDrag("handle-track-1", toY: list.frame.minY + 180)
         tap("Verify native")
         XCTAssertTrue(app.staticTexts["Native state clean"].exists)
+    }
+
+    func testReorderActions() throws {
+        launch(["--reorder-lab", "--reorder-checks"], "reorder-list")
+        tap("reorder-reset")
+        tap("Move action")
+        tap("Move action")
+        XCTAssertEqual(app.staticTexts["reorder-status"].label, "First light · position 3", app.debugDescription)
+        tap("reorder-reset")
+        tap("handle-track-1")
+        app.typeKey(XCUIKeyboardKey.downArrow.rawValue, modifierFlags: .option)
+        Thread.sleep(forTimeInterval: 0.8)
+        app.typeKey(XCUIKeyboardKey.downArrow.rawValue, modifierFlags: .option)
+        Thread.sleep(forTimeInterval: 0.8)
+        XCTAssertEqual(app.staticTexts["reorder-status"].label, "First light · position 3", app.debugDescription)
+        tap("Verify native")
+        XCTAssertTrue(app.staticTexts["Native state clean"].exists)
+    }
+
+    func testReorderFast() throws {
+        launch(["--reorder-lab", "--reorder-checks"], "reorder-list")
+        tap("Verify native")
+        XCTAssertTrue(app.staticTexts["Native state clean"].exists)
+        let list = app.descendants(matching: .any)["reorder-list"].firstMatch
+        reorderDrag("handle-track-2", toY: list.frame.maxY - 18, hold: 2.5, fast: true)
+        let before = app.staticTexts["reorder-status"].label
+        let position = Int(before.components(separatedBy: "position ").last ?? "") ?? 0
+        XCTAssertGreaterThan(position, 10, before)
+        tap("Verify native")
+        XCTAssertTrue(app.staticTexts["Native state clean"].exists)
+        reorderDrag("handle-track-2", toY: list.frame.minY + 18, hold: 1.5, fast: true)
+        let after = app.staticTexts["reorder-status"].label
+        XCTAssertLessThan(Int(after.components(separatedBy: "position ").last ?? "") ?? 200, position, after)
+        tap("Verify native")
+        XCTAssertTrue(app.staticTexts["Native state clean"].exists)
+    }
+
+    func testReorderPortuguese() throws {
+        languageLaunch("pt-BR", "language-settings")
+        selectLanguage("system")
+        languageLaunch("pt-BR", "reorder-list", ["--showcase-example=reorder"])
+        try record("reorder-pt-ios") {
+            XCTAssertTrue(app.staticTexts["Seu ritmo. Sua ordem."].exists, app.debugDescription)
+            let list = app.descendants(matching: .any)["reorder-list"].firstMatch
+            reorderDrag("handle-track-1", toY: list.frame.minY + 220)
+            tap("reorder-up")
+            tap("reorder-reset")
+        }
     }
 
     // Each clip is real native input in the embedded collection presentation.

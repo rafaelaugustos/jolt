@@ -12,6 +12,10 @@ import { itemKeys, moveAt } from '../src/reorder/model.js'
 vi.mock('../src/driver/index.js', () => ({
   getDriver: () => ({ reducedMotion: () => false, watchReducedMotion: () => () => {} }),
 }))
+vi.mock('@nativescript/core', async (original) => {
+  const core = await original<typeof import('./shims/core.js')>()
+  return { ...core, GridLayout: class extends core.View {} }
+})
 
 type Item = { id: string; height: number }
 const cleanups: (() => void)[] = []

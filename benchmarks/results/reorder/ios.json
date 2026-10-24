@@ -1,0 +1,99 @@
+{
+  "platform": "ios",
+  "device": "JoltSizeReview",
+  "runtime": "iOS 26.0 simulator",
+  "date": "2026-10-24",
+  "tests": [
+    {
+      "name": "testReorderFast",
+      "status": "passed",
+      "seconds": 23.896,
+      "run": "jolt-reorder-ios-centre"
+    },
+    {
+      "name": "testReorderCancellation",
+      "status": "passed",
+      "seconds": 59.801,
+      "run": "jolt-reorder-ios-geometry"
+    },
+    {
+      "name": "testReorder",
+      "status": "passed",
+      "seconds": 52.931,
+      "run": "jolt-reorder-ios-release-review"
+    },
+    {
+      "name": "testReorderActions",
+      "status": "passed",
+      "seconds": 43.946,
+      "run": "jolt-reorder-ios-release-review"
+    },
+    {
+      "name": "testReorderPortuguese",
+      "status": "passed",
+      "seconds": 30.45,
+      "run": "jolt-reorder-ios-release-review"
+    }
+  ],
+  "checkpoint": "After repeated native Option+Down commands",
+  "nativeState": {
+    "platform": "ios",
+    "active": null,
+    "moves": [
+      {
+        "key": "track-1",
+        "beforeKey": "track-3",
+        "fromIndex": 0,
+        "toIndex": 1
+      },
+      {
+        "key": "track-1",
+        "beforeKey": "track-4",
+        "fromIndex": 1,
+        "toIndex": 2
+      }
+    ],
+    "cancellations": [],
+    "cells": [
+      {
+        "index": 0,
+        "alpha": 1,
+        "offset": 0,
+        "geometryError": 0,
+        "height": 100
+      },
+      {
+        "index": 1,
+        "alpha": 1,
+        "offset": 0,
+        "geometryError": 0,
+        "height": 100
+      },
+      {
+        "index": 2,
+        "alpha": 1,
+        "offset": 0,
+        "geometryError": 0,
+        "height": 120
+      },
+      {
+        "index": 3,
+        "alpha": 1,
+        "offset": 0,
+        "geometryError": 0,
+        "height": 120
+      },
+      {
+        "index": 4,
+        "alpha": 1,
+        "offset": 0,
+        "geometryError": 0,
+        "height": 100
+      }
+    ],
+    "result": "Native state clean",
+    "itemCount": 200,
+    "uniqueKeys": true,
+    "firstKeys": ["track-2", "track-3", "track-1", "track-4", "track-5", "track-6"]
+  }
+}

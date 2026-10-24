@@ -1,4 +1,7 @@
 declare namespace org.rafaelaugusto.jolt {
+  class ReorderSurface extends org.nativescript.widgets.GridLayout {
+    constructor(context: android.content.Context)
+  }
   class ReorderHandle extends android.widget.Button {
     constructor(context: android.content.Context)
     setMoveListener(listener: ReorderHandle.MoveListener | null): void
@@ -10,9 +13,9 @@ declare namespace org.rafaelaugusto.jolt {
   }
   class ReorderSession {
     constructor(
+      surface: ReorderSurface,
       list: android.widget.ListView,
       options: string,
-      previousTouch: android.view.View.OnTouchListener | null,
       listener: ReorderSession.Listener,
     )
     isActive(): boolean

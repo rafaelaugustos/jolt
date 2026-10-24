@@ -849,4 +849,32 @@ export const portuguese: Record<string, string> = {
     'Uma camada de hardware guarda o desenho em cache. Ela não libera a thread principal. Workers não podem atualizar views diretamente.',
   '1 EXPERIMENT TO EXPLORE': '1 EXPERIMENTO PARA EXPLORAR',
   'StackLayout · actual layout dimensions': 'StackLayout · dimensões reais',
+  'Reorder a list': 'Reordenar listas',
+  'Hold a handle. Make room for a favourite.':
+    'Segure uma alça. Abra espaço para sua favorita.',
+  'Your rhythm. Your order.': 'Seu ritmo. Sua ordem.',
+  '{0} TRACKS': '{0} FAIXAS',
+  'Open water': 'Mar aberto',
+  'Soft landing': 'Pouso suave',
+  'A little further': 'Um pouco além',
+  'A little space to slow down.\nStay for one more song.':
+    'Um espaço para desacelerar.\nFique por mais uma música.',
+  'Something good is on its way.': 'Algo bom está a caminho.',
+  'The weekend sessions.': 'As sessões do fim de semana.',
+  'A good mix. Your own order.': 'Uma boa seleção. Na sua ordem.',
+  'Find a new place. Let go when it feels right.':
+    'Encontre um novo lugar. Solte quando quiser.',
+  'Right where it belongs.': 'Exatamente no seu lugar.',
+  'Order kept. Try another place.': 'Ordem mantida. Experimente outro lugar.',
+  '{0} · position {1}': '{0} · posição {1}',
+  '{0} · selected': '{0} · selecionada',
+  'Reorder {0}, track {1}': 'Reordenar {0}, faixa {1}',
+  'Move up': 'Mover para cima',
+  'Move down': 'Mover para baixo',
+  '↑ Move up': '↑ Subir',
+  '↓ Move down': '↓ Descer',
+  'Start over': 'Recomeçar',
+  'Hold and drag, or use move up and move down. Option or Alt plus arrow keys also moves this track.':
+    'Segure e arraste, ou use as ações de subir e descer. Option ou Alt com as setas também move esta faixa.',
+  '{0} WAYS TO FEEL SOMETHING': '{0} JEITOS DE SENTIR ALGO',
 }

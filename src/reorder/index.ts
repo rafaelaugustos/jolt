@@ -14,6 +14,7 @@ import type {
 
 export { coreListAdapter }
 export { ReorderHandle } from './handle.js'
+export { ReorderSurface } from './surface.js'
 export type * from './types.js'
 
 const owners = new WeakMap<View, { dispose(): void }>()
@@ -157,7 +158,15 @@ export function reorder<T, K extends ReorderKey = ReorderKey>(
       move: (index, direction) => {
         keys = read()
         const key = keys[index]
-        if (key !== undefined) moveTo(key, index + direction)
+        return key !== undefined && moveTo(key, index + direction) ? key : undefined
+      },
+      keyAt: (index) => keys[index],
+      indexOf: (key) => {
+        try {
+          return read().indexOf(key as K)
+        } catch {
+          return -1
+        }
       },
     })
     driver.setEnabled(!paused)
@@ -178,6 +187,7 @@ export function reorder<T, K extends ReorderKey = ReorderKey>(
       return disposed
     },
     move(key, beforeKey) {
+      if (disposed || paused) return false
       const current = read(),
         from = current.indexOf(key)
       if (from < 0 || beforeKey === key) return false
@@ -185,9 +195,11 @@ export function reorder<T, K extends ReorderKey = ReorderKey>(
       return before < 0 ? false : moveTo(key, before > from ? before - 1 : before)
     },
     moveUp(key) {
+      if (disposed || paused) return false
       return moveTo(key, read().indexOf(key) - 1)
     },
     moveDown(key) {
+      if (disposed || paused) return false
       return moveTo(key, read().indexOf(key) + 1)
     },
     cancel: () => cancel('cancelled'),

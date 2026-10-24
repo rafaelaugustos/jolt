@@ -25,3 +25,4 @@
 -keep class org.rafaelaugusto.jolt.ReorderSession$* { *; }
 -keep class org.rafaelaugusto.jolt.ReorderHandle { *; }
 -keep class org.rafaelaugusto.jolt.ReorderHandle$* { *; }
+-keep class org.rafaelaugusto.jolt.ReorderSurface { *; }

@@ -24,7 +24,8 @@ try:
     subprocess.run(['ruby', str(repo/'benchmarks/docs-ios-ui.rb'), str(output/'project')], check=True)
     command = ['xcodebuild', 'test', '-project', str(output/'project/DocsTests.xcodeproj'),
                '-scheme', 'DocsTests', '-destination', 'platform=iOS Simulator,id='+serial,
-               '-parallel-testing-enabled', 'NO', '-derivedDataPath', str(output/'build'),
+               '-parallel-testing-enabled', 'NO', '-collect-test-diagnostics', 'never',
+               '-derivedDataPath', str(output/'build'),
                '-resultBundlePath', str(output/('result-'+str(int(time.time()))+'.xcresult')),
                'CODE_SIGNING_ALLOWED=NO']
     command += ['-only-testing:DocsTests/DocsTests/'+method for method in methods]
