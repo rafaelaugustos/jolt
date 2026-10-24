@@ -1,6 +1,18 @@
 # Demo app
 
-The NativeScript-Vue app in [`demo/`](https://github.com/rafaelaugustos/jolt/tree/main/demo) uses the local Jolt build. On iOS and Android it opens an assistant with three screens:
+The NativeScript-Vue app in [`demo/`](https://github.com/rafaelaugustos/jolt/tree/main/demo) uses the local Jolt build. A normal launch opens **Jolt Motion Studio**: an animated brand splash, a moving home, and a searchable collection of 54 experiments grouped by Motion, Touch, Visual, Type, Layout, State and SceneKit.
+
+<Clip name="showcase-ios" caption="Real iOS 26 simulator recording: cold launch and animated splash, springs, native gestures, category filtering, search, SceneKit playback and return navigation. Actual XCTest input; original timing. The final cold relaunch also verifies the default destination. Not physical-device performance evidence." />
+
+[Vue Router NS](https://vue-router-ns.rafaelaugusto.dev/guide/splash) drives the home, collection and example pages through native page stacks. Back returns to the existing search/filter state. The first page mounts underneath the splash; the splash never enters navigation history. Jolt animates its logo, wordmark and exit, and skips those animations for Reduced Motion. The iOS system launch screen uses the same solid background before JavaScript starts.
+
+Home animations stop when navigating away. Detail pages mount only the selected experiment and release it when leaving. Demo-specific timing controls reset on leaving a detail, and SceneKit-only experiments show an availability message on Android. This walkthrough validates the new shell on iOS; it is not Android native-validation evidence.
+
+The iOS app resources now live in the repository, including the **Jolt** display name and icon. Launching from the installed icon opens the collection without special arguments. The app requires Core 9.1.3+ and installs `vue-router-ns@0.1.0-rc.2` for this preview.
+
+## Assistant example
+
+The earlier assistant is still available with `--screen=home` (iOS) or `--es screen home` (Android). It has three screens:
 
 <div class="clips">
 <Clip name="assistant-flow" caption="The assistant replaying its flow on the iOS simulator." />
@@ -33,9 +45,9 @@ npm install
 ns run ios
 ```
 
-`ns run android` opens the same assistant. Its icons come from the Material Icons font instead of SF Symbols, the system adjusts the window for the keyboard instead of a keyboard observer, and the orb keeps its breathing motion without the liquid deformation.
+`ns run android` opens the collection. In the assistant example, icons come from the Material Icons font instead of SF Symbols, the system adjusts the window for the keyboard instead of a keyboard observer, and the orb keeps its breathing motion without the liquid deformation.
 
-The animation playground opens with `--playground` on iOS and `--es playground true` on Android. Both include every section; the iOS one adds the iOS-only helpers.
+The animation playground opens with `--playground` on iOS and `--es playground true` on Android. This retains the earlier single-page gallery for isolated recordings and probes; normal launches use Motion Studio.
 
 Open **Image effects and photo zoom** in the playground for ripple, distortion, dissolve and the native photo viewer. Launch it directly with `--image-lab=effects` or `--image-lab=zoom` on iOS; use `--es image-lab effects` or `--es image-lab zoom` on Android. The fixture has a colored grid and a transparent destination corner so displacement, cropping and alpha are visible. The viewer includes zoom/reset/close buttons, cancellation and repeated reattachment controls.
 

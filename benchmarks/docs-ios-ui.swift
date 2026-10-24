@@ -41,6 +41,54 @@ final class DocsTests: XCTestCase {
         start.press(forDuration: 0.15, thenDragTo: start.withOffset(CGVector(dx: x, dy: y)), withVelocity: .slow, thenHoldForDuration: 0.15)
         Thread.sleep(forTimeInterval: 0.8)
     }
+    func testShowcaseIconLaunch() throws {
+        app.terminate()
+        XCUIDevice.shared.press(.home)
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        let icon = springboard.icons["Jolt"].firstMatch
+        XCTAssertTrue(icon.waitForExistence(timeout: 10))
+        for _ in 0..<3 {
+            if icon.isHittable { break }
+            springboard.swipeLeft()
+        }
+        XCTAssertTrue(icon.isHittable)
+        icon.tap()
+        XCTAssertTrue(app.staticTexts["Small details.\nBig feelings."].waitForExistence(timeout: 15), app.debugDescription)
+    }
+
+    func testShowcase() throws {
+        app.terminate()
+        app.launchArguments = []
+        try record("showcase-ios") {
+            app.launch()
+            XCTAssertTrue(app.staticTexts["Small details.\nBig feelings."].waitForExistence(timeout: 15), app.debugDescription)
+            Thread.sleep(forTimeInterval: 1)
+            tap("Open Springs")
+            tap("bouncy", wait: 0.25)
+            tap("snappy", wait: 1)
+            tap("Back to collection")
+            tap("Collection")
+            tap("Filter Touch")
+            tap("Open Native gestures")
+            let surface = app.descendants(matching: .any)["Photo gesture surface"].firstMatch
+            if surface.exists { drag(surface, x: 45, y: 35) }
+            tap("Back to collection")
+            tap("Filter All")
+            let search = app.textFields["Search examples"]
+            search.tap()
+            search.typeText("shader\n")
+            tap("Open Environment & shaders")
+            tap("Enter cabin", wait: 2.8)
+            tap("Back to collection")
+            tap("Studio")
+        }
+        // A cold launch without arguments must still enter the new collection.
+        app.terminate()
+        app.launchArguments = []
+        app.launch()
+        XCTAssertTrue(app.staticTexts["Small details.\nBig feelings."].waitForExistence(timeout: 15), app.debugDescription)
+    }
+
     func testSceneShaderChecks() throws {
         launch(["--scene-shader", "--shader-checks=all"], "Check uniforms")
         XCTAssertTrue(app.staticTexts["Shader checks passed"].waitForExistence(timeout: 35), app.debugDescription)

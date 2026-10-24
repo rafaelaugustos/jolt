@@ -4,7 +4,8 @@ coverage/
 *.tgz
 .DS_Store
 
-demo/App_Resources/
+demo/App_Resources/*
+!demo/App_Resources/iOS/
 demo/platforms/
 demo/hooks/
 demo/node_modules/

@@ -1,6 +1,18 @@
 # Aplicativo de demonstração
 
-O app NativeScript-Vue em [`demo/`](https://github.com/rafaelaugustos/jolt/tree/main/demo) usa o build local do Jolt. No iOS e no Android, ele abre um assistente com três telas:
+O app NativeScript-Vue em [`demo/`](https://github.com/rafaelaugustos/jolt/tree/main/demo) usa o build local do Jolt. A abertura normal entra no **Jolt Motion Studio**: splash animado da marca, home em movimento e coleção pesquisável de 54 experimentos, organizados em Motion, Touch, Visual, Type, Layout, State e SceneKit.
+
+<Clip name="showcase-ios" caption="Gravação real no simulador iOS 26: abertura e splash animado, springs, gestos nativos, filtros, busca, reprodução SceneKit e navegação de volta. Interações reais do XCTest, sem mudar a velocidade. A reabertura final também verifica o destino padrão. Não é evidência de desempenho em aparelho físico." />
+
+O [Vue Router NS](https://vue-router-ns.rafaelaugusto.dev/guide/splash) conduz home, coleção e exemplos usando pilhas nativas de páginas. Voltar preserva a busca e o filtro da coleção. A primeira página monta por baixo do splash, que não entra no histórico. O Jolt anima logo, nome e saída, pulando essas animações com Movimento Reduzido. A tela de abertura do sistema no iOS usa o mesmo fundo sólido antes de o JavaScript iniciar.
+
+As animações da home param ao sair da página. Cada detalhe monta apenas o experimento escolhido e o libera ao sair. Controles de tempo do exemplo voltam ao padrão ao deixar o detalhe; experimentos exclusivos do SceneKit mostram uma mensagem de disponibilidade no Android. Esta gravação valida a nova apresentação no iOS; não representa validação nativa no Android.
+
+Os recursos iOS agora ficam no repositório, incluindo o nome **Jolt** e o ícone. Abrir pelo ícone instalado entra na coleção sem argumentos especiais. Este preview requer Core 9.1.3+ e instala `vue-router-ns@0.1.0-rc.2`.
+
+## Exemplo do assistente
+
+O assistente anterior continua disponível com `--screen=home` no iOS ou `--es screen home` no Android. Ele tem três telas:
 
 <div class="clips">
 <Clip name="assistant-flow" caption="O assistente repetindo o fluxo no simulador iOS." />
@@ -33,9 +45,9 @@ npm install
 ns run ios
 ```
 
-`ns run android` abre o mesmo assistente. Os ícones vêm da fonte Material Icons no lugar dos SF Symbols, o sistema ajusta a janela para o teclado em vez de um observador de teclado, e a esfera mantém a respiração sem a deformação líquida.
+`ns run android` abre a coleção. No exemplo do assistente, os ícones vêm da fonte Material Icons no lugar dos SF Symbols, o sistema ajusta a janela para o teclado em vez de um observador de teclado, e a esfera mantém a respiração sem a deformação líquida.
 
-O playground de animações abre com `--playground` no iOS e `--es playground true` no Android. Os dois têm todas as seções; o do iOS acrescenta os helpers exclusivos da plataforma.
+O playground de animações abre com `--playground` no iOS e `--es playground true` no Android. Essa entrada preserva a galeria anterior em uma página para gravações e probes; aberturas normais usam o Motion Studio.
 
 Abra **Image effects and photo zoom** no playground para testar ripple, distorção, dissolve e o viewer de fotos. Para abrir diretamente, use `--image-lab=effects` ou `--image-lab=zoom` no iOS; no Android, `--es image-lab effects` ou `--es image-lab zoom`. A grade colorida e o canto transparente do destino ajudam a conferir deformação, recorte e alpha. O viewer inclui botões acessíveis de zoom/reset/fechar, cancelamento e reanexação.
 

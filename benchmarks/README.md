@@ -10,7 +10,7 @@ The [ProMotion sampling comparison](./results/promotion-sampling.md) separately 
 
 ## Run on a device
 
-Use a Mac with the NativeScript CLI, Xcode, an iPhone with Developer Mode enabled, and a development signing team. The demo must have its `App_Resources` configured, as for a normal iOS build. If missing, copy `App_Resources` from a fresh `ns create` TypeScript app; this repository does not track those generated resources.
+Use a Mac with the NativeScript CLI, Xcode, an iPhone with Developer Mode enabled, and a development signing team. The demo tracks its iOS `App_Resources`, including the Jolt icon and launch screen. Configure signing locally for a physical device. Android template resources remain generated separately.
 
 ```sh
 # Repository root

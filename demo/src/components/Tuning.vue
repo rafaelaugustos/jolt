@@ -42,7 +42,7 @@ function play() {
     <Label
       class="muted"
       textWrap="true"
-      text="Applies to every section below. Tap the card to compare."
+      text="Tap the card to compare speed and Reduced Motion."
     />
 
     <GridLayout class="stage" height="160">
