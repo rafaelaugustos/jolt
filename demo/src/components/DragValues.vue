@@ -40,11 +40,12 @@ function toggle() {
   status.value = stops[to]!
   animate(y, to, 'snappy')
 }
+const props = defineProps<{ embedded?: boolean }>()
 </script>
 
 <template>
   <GridLayout rows="auto,*,auto" padding="12 20" backgroundColor="white">
-    <GridLayout columns="auto,*">
+    <GridLayout v-if="!props.embedded" columns="auto,*">
       <Button text="Back" @tap="$emit('back')" />
       <Label col="1" text="Drag values" class="heading" verticalAlignment="middle" />
     </GridLayout>

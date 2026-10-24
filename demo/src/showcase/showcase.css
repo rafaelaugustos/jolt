@@ -1,0 +1,159 @@
+.studio-wordmark {
+  color: #20242d;
+  font-size: 29;
+  font-weight: bold;
+  vertical-align: middle;
+}
+.studio-eyebrow {
+  color: #818576;
+  font-size: 9;
+  letter-spacing: 0.12;
+}
+.studio-display {
+  color: #20242d;
+  font-size: 42;
+  font-weight: bold;
+  letter-spacing: -0.04;
+}
+.studio-subtitle {
+  color: #7b8074;
+  font-size: 15;
+}
+.studio-section-title {
+  color: #20242d;
+  font-size: 20;
+  font-weight: bold;
+}
+.studio-feature {
+  border-radius: 23;
+  padding: 19 18;
+}
+.studio-card-title {
+  color: #20242d;
+  font-size: 21;
+  font-weight: bold;
+}
+.studio-card-copy {
+  color: #686c64;
+  font-size: 12;
+  margin-top: 7;
+}
+.studio-small-action {
+  color: #42483b;
+  font-size: 9;
+  font-weight: bold;
+  letter-spacing: 0.06;
+}
+.studio-explore {
+  background-color: #e3fc62;
+  border-radius: 22;
+  padding: 23 20;
+  margin-top: 18;
+}
+.studio-bottom {
+  background-color: #f6f5f0;
+  border-top-width: 1;
+  border-top-color: #e2e4d9;
+  padding: 4 24;
+}
+.studio-tab {
+  color: #858a7d;
+  font-size: 14;
+}
+.studio-tab-active {
+  color: #20242d;
+  font-weight: bold;
+  font-size: 14;
+}
+.studio-filter {
+  background-color: #eaeae3;
+  color: #707668;
+  border-radius: 16;
+  padding: 9 15;
+  margin: 0 7 14 0;
+  font-size: 12;
+}
+.studio-filter.selected {
+  background-color: #20242d;
+  color: #e3fc62;
+}
+.studio-example-row {
+  padding: 17 0;
+  border-bottom-width: 1;
+  border-bottom-color: #e4e6dc;
+}
+.studio-example-page .section {
+  background-color: #ffffff;
+  margin-top: 0;
+  border-radius: 24;
+  padding: 22 18;
+}
+.studio-example-page .stage {
+  background-color: #f1f2eb;
+}
+.studio-example-page .button {
+  background-color: #20242d;
+  color: #e3fc62;
+  border-radius: 14;
+  font-size: 13;
+}
+.studio-example-page .ball {
+  background-color: #bfdc40;
+}
+.studio-example-page .heading {
+  font-size: 18;
+}
+
+/* The collection supplies the page heading; example interiors share its rhythm. */
+.studio-example-page .section > .heading {
+  visibility: collapse;
+}
+.studio-example-page .section > .muted {
+  font-family: sans-serif;
+  font-size: 13;
+  color: #7b8274;
+  margin-bottom: 6;
+}
+.studio-example-page .section {
+  background-color: #f0f0e9;
+  padding: 22 18;
+}
+.studio-example-page .stage {
+  background-color: #e3e8dc;
+  border-radius: 22;
+  margin: 22 0;
+}
+.studio-example-page .chip {
+  background-color: #e3e7dc;
+  color: #68715f;
+  padding: 10 13;
+  border-radius: 14;
+}
+.studio-example-page .chip.active {
+  background-color: #303a2d;
+  color: #e3fc62;
+}
+.studio-example-page .note {
+  color: #7b8274;
+  font-size: 13;
+}
+.studio-example-page .button {
+  min-height: 42;
+  margin: 5 3;
+}
+
+.studio-example-page Button {
+  background-color: #e1e6d9;
+  color: #47573a;
+  border-radius: 14;
+  font-size: 13;
+  text-transform: none;
+  margin: 4;
+  min-height: 40;
+}
+
+.studio-example-page .opacity-rotation Button {
+  background-color: #302b24;
+  color: #fff6df;
+  min-height: 42;
+}

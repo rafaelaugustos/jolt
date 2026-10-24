@@ -39,6 +39,7 @@ async function play(mode: BusyMode) {
   }
 }
 onUnmounted(() => trial?.dispose())
+const props = defineProps<{ embedded?: boolean }>()
 </script>
 
 <template>
@@ -87,6 +88,36 @@ onUnmounted(() => trial?.dispose())
       text="A hardware layer caches drawing. It does not unblock the main thread. Workers cannot update views directly."
       textWrap="true"
       marginTop="8"
+    />
+  </StackLayout>
+  <StackLayout v-else-if="props.embedded" class="section" padding="28">
+    <Label
+      text="Made for Android"
+      fontSize="24"
+      fontWeight="bold"
+      color="#303A2D"
+      textWrap="true"
+    />
+    <Label
+      text="Same work. Two different paths."
+      fontSize="17"
+      color="#526347"
+      marginTop="16"
+      textWrap="true"
+    />
+    <Label
+      text="This experiment compares Android's main thread with a worker while native views animate. Open it on Android to run the comparison."
+      fontSize="15"
+      color="#69725F"
+      marginTop="12"
+      textWrap="true"
+    />
+    <Label
+      text="There is more to explore in the collection."
+      fontSize="13"
+      color="#7B8274"
+      marginTop="24"
+      textWrap="true"
     />
   </StackLayout>
 </template>
