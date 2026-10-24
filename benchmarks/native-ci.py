@@ -111,7 +111,8 @@ def main():
                 command("adb", "-s", device, "shell", "am", "force-stop", APP_ID)
                 launch = ["adb", "-s", device, "shell", "am", "start", "-n", f"{APP_ID}/com.tns.NativeScriptActivity", "--es", "run", run_id, "--ez", "inject-failure", str(negative).lower()]
             print(f"Running {args.platform} {name}: {run_id}", flush=True)
-            command(*launch)
+            # First launch on a fresh iOS simulator can take several minutes.
+            command(*launch, timeout=300 if ios else 60)
             deadline = time.monotonic() + 120
             report = None
             while time.monotonic() < deadline:

@@ -17,7 +17,7 @@ jobs:
   ios:
     # The macos-26 ARM image repeatedly stalls before the app can launch.
     runs-on: macos-15-intel
-    timeout-minutes: 20
+    timeout-minutes: 50
     steps:
       - uses: actions/checkout@v7
       - name: Boot a dedicated iOS 26.2 simulator before building
@@ -62,7 +62,7 @@ jobs:
         run: npx ns build ios --env.production --no-hmr --for-device false --release
         working-directory: benchmarks/native-app
       - name: Native measurements and negative control
-        timeout-minutes: 3
+        timeout-minutes: 25
         run: python3 benchmarks/native-ci.py ios --device "$JOLT_SIMULATOR"
       - uses: actions/upload-artifact@v7
         if: always()
