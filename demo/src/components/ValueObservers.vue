@@ -96,48 +96,121 @@ function rest() {
 }
 
 onUnmounted(unloaded)
+defineProps<{ embedded?: boolean }>()
 </script>
 
 <template>
-  <StackLayout class="section">
-    <Label class="heading" text="Value observers" />
-    <Label v-if="diagnostics" :text="diagnostics" textWrap="true" />
-    <Label
-      class="muted"
-      text="A view binding and a separate native object follow the same value."
+  <StackLayout v-if="embedded" class="exhibit">
+    <GridLayout class="ex-stage"
+      ><Label
+        text="TWO SIGNALS. ONE SOURCE."
+        class="ex-kicker"
+        verticalAlignment="top" /><Label
+        text="Stay in sync."
+        class="ex-title"
+        textWrap="true"
+        verticalAlignment="top"
+        marginTop="35" /><GridLayout
+        rows="20,54,26,40"
+        height="140"
+        verticalAlignment="bottom"
+        marginBottom="12"
+      >
+        <GridLayout columns="*,auto"
+          ><Label text="BOUND VIEW" class="ex-kicker" /><Label
+            col="1"
+            text="●"
+            color="#B9ABEF"
+            fontSize="12"
+        /></GridLayout>
+        <GridLayout row="1" width="244" height="54"
+          ><Label height="1" backgroundColor="#485A43" /><Label
+            :ref="dot"
+            width="24"
+            height="24"
+            borderRadius="12"
+            backgroundColor="#C4B3EE"
+            horizontalAlignment="left"
+            accessibilityLabel="Bound signal"
+        /></GridLayout>
+        <GridLayout row="2" columns="*,auto"
+          ><Label text="OBSERVED NATIVE OBJECT" class="ex-kicker" /><Label
+            col="1"
+            :text="following ? 'LINKED' : 'DETACHED'"
+            fontSize="9"
+            color="#81C3B0"
+        /></GridLayout>
+        <GridLayout
+          row="3"
+          height="40"
+          width="244"
+          @loaded="loaded"
+          @unloaded="unloaded"
+          accessibilityLabel="Observed signal"
+          ><Label height="1" backgroundColor="#485A43"
+        /></GridLayout> </GridLayout></GridLayout
+    ><StackLayout class="ex-controls"
+      ><GridLayout columns="*,*"
+        ><Button
+          col="0"
+          :text="playing ? 'Restart observers' : 'Play observers'"
+          @tap="play"
+          class="ex-primary" /><Button
+          col="1"
+          text="Stop observers"
+          @tap="rest" /></GridLayout
+      ><GridLayout columns="*"
+        ><Button
+          col="0"
+          :text="following ? 'Detach observer' : 'Attach observer'"
+          @tap="toggleFollow" /></GridLayout></StackLayout
+    ><Label
+      text="Unlink the lower signal while the upper one keeps moving."
+      class="ex-note"
       textWrap="true"
     />
-    <Label text="Bound view" marginTop="16" />
-    <GridLayout height="40" width="244" horizontalAlignment="left">
+  </StackLayout>
+  <template v-else>
+    <StackLayout class="section">
+      <Label class="heading" text="Value observers" />
+      <Label v-if="diagnostics" :text="diagnostics" textWrap="true" />
       <Label
-        :ref="dot"
-        width="24"
-        height="24"
-        borderRadius="12"
-        backgroundColor="#6366f1"
-        horizontalAlignment="left"
+        class="muted"
+        text="A view binding and a separate native object follow the same value."
+        textWrap="true"
       />
-    </GridLayout>
-    <Label text="Native object" />
-    <GridLayout
-      height="40"
-      width="244"
-      horizontalAlignment="left"
-      @loaded="loaded"
-      @unloaded="unloaded"
-    />
-    <GridLayout columns="*,*" marginTop="12">
+      <Label text="Bound view" marginTop="16" />
+      <GridLayout height="40" width="244" horizontalAlignment="left">
+        <Label
+          :ref="dot"
+          width="24"
+          height="24"
+          borderRadius="12"
+          backgroundColor="#6366f1"
+          horizontalAlignment="left"
+        />
+      </GridLayout>
+      <Label text="Native object" />
+      <GridLayout
+        height="40"
+        width="244"
+        horizontalAlignment="left"
+        @loaded="loaded"
+        @unloaded="unloaded"
+      />
+      <GridLayout columns="*,*" marginTop="12">
+        <Button
+          class="button"
+          :text="playing ? 'Restart observers' : 'Play observers'"
+          @tap="play"
+        />
+        <Button col="1" class="button" text="Stop observers" @tap="rest" />
+      </GridLayout>
       <Button
         class="button"
-        :text="playing ? 'Restart observers' : 'Play observers'"
-        @tap="play"
+        :text="following ? 'Detach observer' : 'Attach observer'"
+        @tap="toggleFollow"
       />
-      <Button col="1" class="button" text="Stop observers" @tap="rest" />
-    </GridLayout>
-    <Button
-      class="button"
-      :text="following ? 'Detach observer' : 'Attach observer'"
-      @tap="toggleFollow"
-    />
-  </StackLayout>
+    </StackLayout>
+  </template>
 </template>

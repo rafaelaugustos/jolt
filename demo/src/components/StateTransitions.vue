@@ -34,28 +34,84 @@ function toggle() {
 }
 
 onMounted(toggle)
+defineProps<{ embedded?: boolean }>()
 </script>
 
 <template>
-  <StackLayout class="section">
-    <Label class="heading" text="Per-target transitions" />
-    <Label
-      class="muted"
+  <StackLayout v-if="embedded" class="exhibit">
+    <GridLayout class="ex-stage" height="390"
+      ><Label
+        text="AN ENTRANCE IN THREE ACTS"
+        class="ex-kicker"
+        verticalAlignment="top" /><StackLayout verticalAlignment="middle"
+        ><GridLayout
+          :ref="splash.ref('logo')"
+          width="84"
+          height="94"
+          backgroundColor="#E3FC62"
+          borderRadius="24"
+          opacity="0"
+          rotate="-8"
+          ><Image src="~/assets/jolt-mark.png" width="62" height="70" /></GridLayout
+        ><Label
+          :ref="splash.ref('stroke')"
+          width="150"
+          height="2"
+          backgroundColor="#C4B3EC"
+          margin="24 0"
+          originX="0"
+          scaleX="0" /><Label
+          :ref="splash.ref('title')"
+          text="Good things&#10;are in motion."
+          fontSize="35"
+          fontWeight="bold"
+          color="#EAF0E0"
+          textWrap="true"
+          textAlignment="center"
+          opacity="0" /></StackLayout
+      ><Label
+        text="01  SPRING     02  DRAW     03  ARRIVE"
+        class="ex-kicker"
+        textAlignment="center"
+        verticalAlignment="bottom" /></GridLayout
+    ><StackLayout class="ex-controls"
+      ><GridLayout columns="*"
+        ><Button
+          col="0"
+          :text="shown ? 'Hide splash' : 'Show splash'"
+          @tap="toggle"
+          class="ex-primary" /></GridLayout></StackLayout
+    ><Label
+      text="One state change. Three carefully timed arrivals."
+      class="ex-note"
       textWrap="true"
-      text="splash.to('shown', { bounce: 0.4, stroke: { duration: 650, delay: 250 } })"
     />
-
-    <StackLayout class="stage" height="190" padding="24 0">
-      <Label :ref="splash.ref('logo')" class="logo" text="J" opacity="0" />
-      <Label :ref="splash.ref('stroke')" class="splash-stroke" originX="0" scaleX="0" />
-      <Label :ref="splash.ref('title')" class="splash-title" text="Jolt" opacity="0" />
-    </StackLayout>
-
-    <Label
-      class="note"
-      textWrap="true"
-      text="One controller: the logo springs in, the stroke draws with a tween 250 ms later and the title fades in last."
-    />
-    <Button class="button" :text="shown ? 'Hide splash' : 'Show splash'" @tap="toggle" />
   </StackLayout>
+  <template v-else>
+    <StackLayout class="section">
+      <Label class="heading" text="Per-target transitions" />
+      <Label
+        class="muted"
+        textWrap="true"
+        text="splash.to('shown', { bounce: 0.4, stroke: { duration: 650, delay: 250 } })"
+      />
+
+      <StackLayout class="stage" height="190" padding="24 0">
+        <Label :ref="splash.ref('logo')" class="logo" text="J" opacity="0" />
+        <Label :ref="splash.ref('stroke')" class="splash-stroke" originX="0" scaleX="0" />
+        <Label :ref="splash.ref('title')" class="splash-title" text="Jolt" opacity="0" />
+      </StackLayout>
+
+      <Label
+        class="note"
+        textWrap="true"
+        text="One controller: the logo springs in, the stroke draws with a tween 250 ms later and the title fades in last."
+      />
+      <Button
+        class="button"
+        :text="shown ? 'Hide splash' : 'Show splash'"
+        @tap="toggle"
+      />
+    </StackLayout>
+  </template>
 </template>

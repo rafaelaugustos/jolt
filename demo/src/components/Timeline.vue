@@ -45,73 +45,136 @@ onUnmounted(() => {
   generation++
   freeze()
 })
+defineProps<{ embedded?: boolean }>()
 </script>
 
 <template>
-  <StackLayout class="section" @unloaded="freeze">
-    <Label class="heading" text="Overlapping timelines" />
-    <Label
-      class="muted"
-      text="The same entrance, with three different rhythms."
-      textWrap="true"
-    />
-    <StackLayout class="stage" padding="20" height="260">
-      <Label
+  <StackLayout v-if="embedded" class="exhibit">
+    <GridLayout class="ex-stage"
+      ><Label
         ref="badge"
-        text="J"
-        width="52"
-        height="52"
-        borderRadius="16"
-        backgroundColor="#dcf71d"
-        color="#17230d"
-        fontSize="28"
-        fontWeight="bold"
+        text="↗"
+        fontSize="38"
+        color="#E3FC62"
+        width="64"
+        height="64"
+        borderWidth="1"
+        borderColor="#657C47"
+        borderRadius="32"
         textAlignment="center"
-        horizontalAlignment="center"
-      />
-      <Label
+        horizontalAlignment="left"
+        verticalAlignment="top" /><Label
         ref="title"
-        text="A little choreography"
-        fontSize="22"
-        fontWeight="bold"
-        textAlignment="center"
-        marginTop="16"
-      />
-      <Label
-        ref="caption"
-        text="Let the next idea arrive a little sooner."
-        class="muted"
-        textAlignment="center"
+        text="Your next&#10;great escape."
+        class="ex-title"
         textWrap="true"
-        marginTop="8"
-      />
-      <GridLayout ref="actions" columns="*, *" marginTop="20">
-        <Label
-          text="Continue"
-          textAlignment="center"
-          backgroundColor="#18181b"
-          color="#ffffff"
-          borderRadius="12"
-          padding="10"
-          marginRight="4"
-        />
-        <Label
+        verticalAlignment="middle" /><Label
+        ref="caption"
+        text="A little closer to somewhere new."
+        class="ex-copy"
+        verticalAlignment="bottom"
+        marginBottom="62" /><GridLayout
+        ref="actions"
+        columns="*,auto"
+        height="44"
+        verticalAlignment="bottom"
+        backgroundColor="#E3FC62"
+        borderRadius="14"
+        padding="0 16"
+        ><Label
+          text="LET’S GO SOMEWHERE"
+          color="#2C3C29"
+          fontSize="10"
+          letterSpacing=".08"
+          verticalAlignment="middle" /><Label
           col="1"
-          text="Save for later"
-          textAlignment="center"
-          backgroundColor="#ffffff"
-          borderRadius="12"
-          padding="10"
-          marginLeft="4"
-        />
-      </GridLayout>
-    </StackLayout>
-    <GridLayout columns="*, *, *">
-      <Button class="button" text="Overlap" @tap="replay('overlap')" />
-      <Button col="1" class="button" text="In order" @tap="replay('sequential')" />
-      <Button col="2" class="button" text="Fixed times" @tap="replay('fixed')" />
-    </GridLayout>
-    <Button class="button" text="Stop" @tap="freeze" />
-    <Label class="muted" :text="status" textWrap="true" />
+          text="↗"
+          fontSize="24"
+          color="#2C3C29"
+          verticalAlignment="middle" /></GridLayout></GridLayout
+    ><StackLayout class="ex-controls"
+      ><GridLayout columns="*,*,*"
+        ><Button
+          col="0"
+          text="Overlap"
+          @tap="replay('overlap')"
+          class="ex-primary" /><Button
+          col="1"
+          text="In order"
+          @tap="replay('sequential')" /><Button
+          col="2"
+          text="Fixed times"
+          @tap="replay('fixed')" /></GridLayout
+      ><GridLayout columns="*"
+        ><Button col="0" text="Stop" @tap="freeze" /></GridLayout></StackLayout
+    ><Label :text="status" class="ex-note" textWrap="true" />
   </StackLayout>
+  <template v-else>
+    <StackLayout class="section" @unloaded="freeze">
+      <Label class="heading" text="Overlapping timelines" />
+      <Label
+        class="muted"
+        text="The same entrance, with three different rhythms."
+        textWrap="true"
+      />
+      <StackLayout class="stage" padding="20" height="260">
+        <Label
+          ref="badge"
+          text="J"
+          width="52"
+          height="52"
+          borderRadius="16"
+          backgroundColor="#dcf71d"
+          color="#17230d"
+          fontSize="28"
+          fontWeight="bold"
+          textAlignment="center"
+          horizontalAlignment="center"
+        />
+        <Label
+          ref="title"
+          text="A little choreography"
+          fontSize="22"
+          fontWeight="bold"
+          textAlignment="center"
+          marginTop="16"
+        />
+        <Label
+          ref="caption"
+          text="Let the next idea arrive a little sooner."
+          class="muted"
+          textAlignment="center"
+          textWrap="true"
+          marginTop="8"
+        />
+        <GridLayout ref="actions" columns="*, *" marginTop="20">
+          <Label
+            text="Continue"
+            textAlignment="center"
+            backgroundColor="#18181b"
+            color="#ffffff"
+            borderRadius="12"
+            padding="10"
+            marginRight="4"
+          />
+          <Label
+            col="1"
+            text="Save for later"
+            textAlignment="center"
+            backgroundColor="#ffffff"
+            borderRadius="12"
+            padding="10"
+            marginLeft="4"
+          />
+        </GridLayout>
+      </StackLayout>
+      <GridLayout columns="*, *, *">
+        <Button class="button" text="Overlap" @tap="replay('overlap')" />
+        <Button col="1" class="button" text="In order" @tap="replay('sequential')" />
+        <Button col="2" class="button" text="Fixed times" @tap="replay('fixed')" />
+      </GridLayout>
+      <Button class="button" text="Stop" @tap="freeze" />
+      <Label class="muted" :text="status" textWrap="true" />
+    </StackLayout>
+  </template>
 </template>

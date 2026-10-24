@@ -74,50 +74,102 @@ onUnmounted(() => {
   current?.stop()
   pulse?.stop()
 })
+defineProps<{ embedded?: boolean }>()
 </script>
 <template>
-  <StackLayout class="section">
-    <Label class="heading" text="Playback controls" />
-    <Label
-      class="muted"
-      text="Pause and scrub a native animation. Other views keep moving."
-      textWrap="true"
-    />
-    <GridLayout columns="20, *" marginTop="8"
-      ><Label ref="marker" text="●" color="#b6ee64" /><Label
-        col="1"
-        class="muted"
-        text="Independent animation"
-    /></GridLayout>
-    <GridLayout height="190" marginTop="12" backgroundColor="#eeeeea">
-      <GridLayout
+  <StackLayout v-if="embedded" class="exhibit">
+    <GridLayout class="ex-stage"
+      ><Label
+        text="A MOMENT, HELD"
+        class="ex-kicker"
+        verticalAlignment="top" /><GridLayout
         ref="card"
         width="110"
-        height="110"
+        height="140"
         borderRadius="8"
         backgroundColor="#263b27"
-      >
-        <Label
-          text="Jolt"
-          color="#d5ff91"
-          fontSize="24"
-          textAlignment="center"
-          verticalAlignment="middle"
-        />
-      </GridLayout>
-    </GridLayout>
-    <Slider
+        ><StackLayout verticalAlignment="middle"
+          ><Label
+            text="PLAY"
+            fontSize="28"
+            fontWeight="bold"
+            color="#E3FC62"
+            textAlignment="center" /><Label
+            text="IT YOUR WAY"
+            fontSize="9"
+            color="#D6E0CB"
+            letterSpacing=".1"
+            textAlignment="center"
+            marginTop="8" /></StackLayout></GridLayout
+      ><GridLayout columns="20,*" verticalAlignment="bottom"
+        ><Label ref="marker" text="●" color="#E3FC62" /><Label
+          col="1"
+          text="A SEPARATE HEARTBEAT"
+          class="ex-kicker" /></GridLayout></GridLayout
+    ><Slider
       :value="slider"
       minValue="0"
       maxValue="100"
       @valueChange="scrub"
       @touch="touch"
-    />
-    <GridLayout columns="*, *, *">
-      <Button class="button" text="Play" @tap="play" />
-      <Button col="1" class="button" text="Pause" @tap="pause" />
-      <Button col="2" class="button" text="Stop" @tap="freeze" />
-    </GridLayout>
-    <Label class="muted" :text="status" textWrap="true" />
+      accessibilityLabel="Playback position"
+      color="#344C32"
+      backgroundColor="#E3E6D9"
+    /><StackLayout class="ex-controls"
+      ><GridLayout columns="*,*,*"
+        ><Button col="0" text="Play" @tap="play" class="ex-primary" /><Button
+          col="1"
+          text="Pause"
+          @tap="pause" /><Button
+          col="2"
+          text="Stop"
+          @tap="freeze" /></GridLayout></StackLayout
+    ><Label :text="status" class="ex-note" textWrap="true" />
   </StackLayout>
+  <template v-else>
+    <StackLayout class="section">
+      <Label class="heading" text="Playback controls" />
+      <Label
+        class="muted"
+        text="Pause and scrub a native animation. Other views keep moving."
+        textWrap="true"
+      />
+      <GridLayout columns="20, *" marginTop="8"
+        ><Label ref="marker" text="●" color="#b6ee64" /><Label
+          col="1"
+          class="muted"
+          text="Independent animation"
+      /></GridLayout>
+      <GridLayout height="190" marginTop="12" backgroundColor="#eeeeea">
+        <GridLayout
+          ref="card"
+          width="110"
+          height="110"
+          borderRadius="8"
+          backgroundColor="#263b27"
+        >
+          <Label
+            text="Jolt"
+            color="#d5ff91"
+            fontSize="24"
+            textAlignment="center"
+            verticalAlignment="middle"
+          />
+        </GridLayout>
+      </GridLayout>
+      <Slider
+        :value="slider"
+        minValue="0"
+        maxValue="100"
+        @valueChange="scrub"
+        @touch="touch"
+      />
+      <GridLayout columns="*, *, *">
+        <Button class="button" text="Play" @tap="play" />
+        <Button col="1" class="button" text="Pause" @tap="pause" />
+        <Button col="2" class="button" text="Stop" @tap="freeze" />
+      </GridLayout>
+      <Label class="muted" :text="status" textWrap="true" />
+    </StackLayout>
+  </template>
 </template>

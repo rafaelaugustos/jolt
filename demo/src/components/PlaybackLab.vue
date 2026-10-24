@@ -109,7 +109,12 @@ function play() {
         run: () => {
           drive = animate(
             car.value,
-            { path: 'M0 0 L230 0 L230 80 L0 80', orient: true },
+            {
+              path: props.embedded
+                ? 'M0 170 C45 170 55 100 110 100 S200 40 230 0'
+                : 'M0 0 L230 0 L230 80 L0 80',
+              orient: true,
+            },
             { duration, ease: 'linear' },
           )
           observe(drive)
@@ -121,11 +126,19 @@ function play() {
         1,
         { duration: 1000, ease: 'sineInOut', repeat: 7, repeatType: 'reverse', at: 0 },
       ],
-      {
-        at: 0,
-        run: () =>
-          imageEffect(effect.value, 'ripple', { duration, amplitude: 14, radius: 140 }),
-      },
+      ...(props.embedded
+        ? []
+        : [
+            {
+              at: 0,
+              run: () =>
+                imageEffect(effect.value, 'ripple', {
+                  duration,
+                  amplitude: 14,
+                  radius: 140,
+                }),
+            },
+          ]),
       [delayed.value, { opacity: [0, 1] }, { duration: 500, at: 4000 }],
     ])
   } else if (mode.value === 'map' && marker && camera) {
@@ -260,10 +273,11 @@ const props = defineProps<{ embedded?: boolean }>()
 <template>
   <GridLayout
     class="playback-lab"
+    :class="{ 'showcase-playback': props.embedded }"
     rows="auto,auto,*,auto,auto,auto"
     :backgroundColor="props.embedded ? '#151E26' : '#101827'"
     color="#edf2ff"
-    padding="20"
+    :padding="props.embedded ? 12 : 20"
   >
     <GridLayout v-if="!props.embedded" columns="*,auto" marginBottom="12">
       <StackLayout
@@ -292,7 +306,95 @@ const props = defineProps<{ embedded?: boolean }>()
       />
     </GridLayout>
     <GridLayout row="2" borderRadius="16" clipToBounds="true" backgroundColor="#1d2b40">
-      <StackLayout v-if="mode === 'timeline'" padding="20">
+      <GridLayout
+        v-if="mode === 'timeline' &amp;&amp; props.embedded"
+        rows="auto,*,auto"
+        backgroundColor="#202D28"
+        padding="16"
+      >
+        <GridLayout columns="*,auto" marginBottom="8"
+          ><StackLayout
+            ><Label text="THE LONG WAY HOME" class="ex-kicker" /><Label
+              text="Enjoy the journey."
+              color="#F1F1DF"
+              fontSize="23"
+              fontWeight="bold"
+              marginTop="5" /></StackLayout
+          ><Label col="1" text="↗" fontSize="32" color="#E3FC62"
+        /></GridLayout>
+        <GridLayout
+          row="1"
+          width="300"
+          height="300"
+          verticalAlignment="middle"
+          clipToBounds="true"
+          borderRadius="24"
+        >
+          <SVGView
+            src="~/assets/studio/journey.svg"
+            width="300"
+            height="300"
+            stretch="aspectFit"
+          />
+          <Label
+            ref="halo"
+            width="24"
+            height="24"
+            borderRadius="12"
+            backgroundColor="#E7AE91"
+            horizontalAlignment="left"
+            verticalAlignment="top"
+            marginLeft="250"
+            marginTop="40"
+            opacity=".3"
+          />
+          <GridLayout
+            ref="car"
+            width="30"
+            height="30"
+            horizontalAlignment="left"
+            verticalAlignment="top"
+            marginLeft="17"
+            marginTop="37"
+            translateY="170"
+            borderRadius="15"
+            backgroundColor="#E3FC62"
+            ><Label
+              text="➤"
+              fontSize="18"
+              color="#26372B"
+              textAlignment="center"
+              verticalAlignment="middle"
+          /></GridLayout>
+          <Label
+            ref="delayed"
+            text="HALFWAY THERE  ↗"
+            opacity="0"
+            color="#E3FC62"
+            fontSize="9"
+            backgroundColor="#202D28"
+            padding="8 12"
+            borderRadius="12"
+            horizontalAlignment="center"
+            verticalAlignment="bottom"
+            marginBottom="18"
+          />
+        </GridLayout>
+        <StackLayout row="2" marginTop="8"
+          ><GridLayout height="3" backgroundColor="#43513D"
+            ><Label
+              ref="bar"
+              originX="0"
+              scaleX="0"
+              backgroundColor="#E3FC62" /></GridLayout
+          ><GridLayout columns="*,auto" marginTop="9"
+            ><Label text="01  STUDIO" class="ex-kicker" /><Label
+              col="1"
+              text="02  THE WATERFRONT"
+              class="ex-kicker" /></GridLayout
+        ></StackLayout>
+      </GridLayout>
+      <StackLayout v-else-if="mode === 'timeline'" padding="20">
         <Label text="PICKUP ROUTE" color="#95a9c5" fontSize="12" marginBottom="16" />
         <GridLayout height="140" width="264" horizontalAlignment="left">
           <GridLayout
@@ -366,15 +468,24 @@ const props = defineProps<{ embedded?: boolean }>()
         ><Label :text="status" fontSize="20" /><Label
           :text="
             mode === 'timeline'
-              ? `${meters} m remaining · constant speed`
+              ? props.embedded
+                ? 'Every detail, on the same clock.'
+                : `${meters} m remaining · constant speed`
               : props.embedded && mode === 'scene'
                 ? 'A new angle. The same moment.'
-                : 'Native property adapter'
+                : props.embedded
+                  ? 'A city, seen in motion.'
+                  : 'Native property adapter'
           "
           color="#95a9c5"
           marginTop="5"
       /></StackLayout>
-      <Label col="1" :text="`${percentage}%`" fontSize="28" color="#4fe2b0" />
+      <Label
+        col="1"
+        :text="`${percentage}%`"
+        fontSize="28"
+        :color="props.embedded ? '#E3FC62' : '#4fe2b0'"
+      />
     </GridLayout>
     <GridLayout row="4" columns="*,*,*">
       <Button
@@ -387,7 +498,7 @@ const props = defineProps<{ embedded?: boolean }>()
         @tap="toggle"
       /><Button col="2" text="Stop scene" @tap="stop" />
     </GridLayout>
-    <GridLayout row="5" ref="checksHost" height="40"
+    <GridLayout v-if="!props.embedded" row="5" ref="checksHost" height="40"
       ><Button text="Run native checks" :isEnabled="!checking" @tap="checks"
     /></GridLayout>
   </GridLayout>
@@ -401,6 +512,11 @@ const props = defineProps<{ embedded?: boolean }>()
   font-size: 12;
   padding: 8 5;
   margin: 3;
+}
+.playback-lab.showcase-playback Button {
+  background-color: #2e4137;
+  color: #dce5d4;
+  border-radius: 14;
 }
 .playback-lab Button.active {
   background-color: #e3fc62;

@@ -10,20 +10,30 @@ The NativeScript-Vue app in [`demo/`](https://github.com/rafaelaugustos/jolt/tre
 
 Home animations stop when navigating away. Detail pages mount only the selected experiment and release it when leaving. Demo-specific timing controls reset on leaving a detail, and SceneKit-only experiments show an availability message on Android. This walkthrough validates the new shell on iOS; it is not Android native-validation evidence.
 
-The iOS app resources now live in the repository, including the **Jolt** display name and icon. Launching from the installed icon opens the collection without special arguments. The app requires Core 9.1.3+ and installs `vue-router-ns@0.1.0-rc.2` for this preview.
+The iOS app resources now live in the repository, including the **Jolt** display name and icon. Launching from the installed icon opens Studio without special arguments. The app requires Core 9.1.3+ and installs `vue-router-ns@0.1.0-rc.2` for this preview.
 
 ## Motion Studio interiors
 
-Springs, presets, colors and decorations each have a dedicated interactive stage. The remaining experiments share the collection's typography, spacing and controls; the embedded gesture and live-spring pages use the collection header.
+The collection now presents each experiment as an interactive composition: a playlist for stagger, an account for rolling digits, a record player for drag values, tactile cards for press feedback, and coordinated signals for value bindings. The four automotive entries keep their SceneKit studio. The showcase has a focused set of controls; the isolated playground still exposes the detailed probes and technical options.
+
+The splash opens with expanding rings, an orbiting accent, the Jolt mark and a staggered wordmark before revealing Studio. It respects Reduced Motion and waits for the initial route. The images in the gallery and gesture card are generated editorial artwork bundled with the app; the image tests still use their original grid fixtures. These are motion demonstrations, not a banking, music or travel service.
 
 <div class="clips">
-<Clip name="showcase-springs-ios" caption="iOS 26 simulator: real taps interrupt the spring and hand off to a different response. Original timing." />
-<Clip name="showcase-presets-ios" caption="iOS 26 simulator: pop, shake, bounce and pulse on the native poster. Real XCTest taps; original timing." />
-<Clip name="showcase-colors-ios" caption="iOS 26 simulator: background, lettering and border interpolate together through three palettes. Original timing." />
-<Clip name="showcase-forms-ios" caption="iOS 26 simulator: animated corners, border, rotation and shadow, including stopping mid-transition. Original timing." />
+<Clip name="showcase-springs-ios" caption="iOS 26 simulator: taps interrupt the spring and hand off to another response. Original timing." />
+<Clip name="showcase-presets-ios" caption="iOS 26 simulator: pop, shake, bounce and pulse on the native poster. Real taps; original timing." />
+<Clip name="showcase-colors-ios" caption="iOS 26 simulator: background, lettering and border interpolate through three palettes. Original timing." />
+<Clip name="showcase-forms-ios" caption="iOS 26 simulator: corners, border, rotation and shadow, including stopping mid-transition. Original timing." />
 </div>
 
-<Clip name="showcase-interiors-ios" caption="iOS 26 simulator: native interactions in drag values, layout, dimensions, image effects, playback and light trails, plus the Android-only experiment message. Separate captures joined between examples; interaction timing unchanged. Light trails explicitly selects the app’s 0.2× slow-motion mode. No physical-device performance claim." />
+The following montages join separate native captures between examples. All interactions use real XCTest input on the iOS 26 simulator; playback timing is unchanged. They do not establish physical-device performance or Android behavior.
+
+<Clip name="showcase-motion-ios" caption="Momentum, stagger, paths, timelines, playback, loops, pauses, organic timing, track easing, easing curves and motion settings. The settings example explicitly selects half speed and Reduced Motion." />
+<Clip name="showcase-touch-ios" caption="Press-and-hold feedback, live springs, a draggable music sheet, haptic requests, photo gestures, carousel/scroll handoff, drag/snap and a keyboard-following composer. A simulator shows haptic requests, not physical vibration." />
+<Clip name="showcase-visual-ios" caption="Linear/radial/conic gradients, reactive gradient moods and values, shimmer, particles, loaders, reveals, fade/overflow and light trails. Reveal explicitly selects 1600 ms; light trails explicitly selects the app’s slow-motion mode." />
+<Clip name="showcase-type-ios" caption="Animated letters and words, rolling amounts, changes in digit count and type size, and native SF Symbol effects." />
+<Clip name="showcase-layout-ios" caption="Inserting/reordering/resizing cards, actual layout dimensions, remounting, animated list rows and an album header linked to native scrolling." />
+<Clip name="showcase-state-ios" caption="A coordinated sheet/backdrop, observers, value layers, layered motion, upload states, per-target transitions, Vue directives and spring comparison. Busy JavaScript shows its Android availability message only." />
+<Clip name="showcase-images-ios" caption="Real ripple and dissolve effects on the bundled artwork, followed by native photo zoom and reset. iOS 26 simulator; original timing." />
 
 ### Automotive studio · iOS
 
@@ -34,6 +44,10 @@ The three SceneKit experiments share a reflective studio. **Camera lens** animat
 <Clip name="showcase-lighting-ios" caption="iOS 26 simulator: daylight, warm studio light, copper paint and night lighting. Local detailed model; original timing." />
 <Clip name="showcase-shaders-ios" caption="iOS 26 simulator: environment and glass/headlamp shader uniforms driven by a shared motion value. Local detailed model; original timing. This demonstrates shading, not a cabin interior or fluid simulation." />
 </div>
+
+**Maps & 3D → Timeline** follows a curved route through an illustrated waterfront. Travel, destination pulse, progress and the delayed checkpoint share the timeline and pause together. The Native map tab still animates the real map adapter.
+
+<Clip name="showcase-journey-ios" caption="iOS 26 simulator: the redesigned coordinated journey, pause/resume, the native map and return to the automotive camera. Real XCTest input; original timing; the car uses the optional local model." />
 
 **Maps & 3D → 3D camera** uses the same automotive studio in Motion Studio. Its native pose adapter moves the camera between two views of the car, with pause, resume, stop and replay. Switching tabs resets the displayed progress and recreates the scene bindings when returning.
 

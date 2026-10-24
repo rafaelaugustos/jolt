@@ -56,48 +56,99 @@ function reset() {
   set(reference, 0)
   set(signal, 0)
 }
+defineProps<{ embedded?: boolean }>()
 </script>
 
 <template>
-  <StackLayout class="section">
-    <Label class="heading" text="Value layers" />
-    <Label
-      class="muted"
-      text="The base keeps moving while a charge pulse adds to position, scale and color."
+  <StackLayout v-if="embedded" class="exhibit">
+    <GridLayout class="ex-stage"
+      ><Label
+        text="A LITTLE EXTRA ENERGY"
+        class="ex-kicker"
+        verticalAlignment="top" /><Label
+        text="Build on&#10;the feeling."
+        class="ex-title"
+        textWrap="true"
+        verticalAlignment="top"
+        marginTop="32" /><StackLayout verticalAlignment="bottom"
+        ><Label text="BASELINE" class="ex-kicker" /><GridLayout width="244" height="48"
+          ><Label height="1" backgroundColor="#475B42" /><Label
+            :ref="base"
+            width="24"
+            height="24"
+            borderRadius="12"
+            backgroundColor="#A9BA94"
+            horizontalAlignment="left" /></GridLayout
+        ><Label text="BASE + CHARGE" class="ex-kicker" marginTop="12" /><GridLayout
+          width="244"
+          height="48"
+          ><Label height="1" backgroundColor="#475B42" /><Label
+            :ref="layered"
+            width="24"
+            height="24"
+            borderRadius="12"
+            horizontalAlignment="left" /></GridLayout></StackLayout></GridLayout
+    ><StackLayout class="ex-controls"
+      ><GridLayout columns="*,*"
+        ><Button col="0" text="Start base" @tap="start" class="ex-primary" /><Button
+          col="1"
+          text="Retarget base"
+          @tap="retarget" /></GridLayout
+      ><GridLayout columns="*,*"
+        ><Button
+          col="0"
+          :text="pulsing ? 'Remove charge pulse' : 'Add charge pulse'"
+          @tap="pulse" /><Button
+          col="1"
+          text="Reset values"
+          @tap="reset" /></GridLayout></StackLayout
+    ><Label
+      text="Add a pulse to position, color and scale — while the journey continues."
+      class="ex-note"
       textWrap="true"
     />
-    <Label text="Base reference" marginTop="16" />
-    <GridLayout width="244" height="48" horizontalAlignment="left">
-      <Label
-        :ref="base"
-        width="24"
-        height="24"
-        borderRadius="12"
-        backgroundColor="#a1a1aa"
-        horizontalAlignment="left"
-      />
-    </GridLayout>
-    <Label text="Base + charge pulse" />
-    <GridLayout width="244" height="56" horizontalAlignment="left">
-      <Label
-        :ref="layered"
-        width="24"
-        height="24"
-        borderRadius="12"
-        horizontalAlignment="left"
-      />
-    </GridLayout>
-    <GridLayout columns="*,*" marginTop="12">
-      <Button text="Start base" class="button" @tap="start" />
-      <Button col="1" text="Retarget base" class="button" @tap="retarget" />
-    </GridLayout>
-    <GridLayout columns="*,*">
-      <Button
-        :text="pulsing ? 'Remove charge pulse' : 'Add charge pulse'"
-        class="button"
-        @tap="pulse"
-      />
-      <Button col="1" text="Reset values" class="button" @tap="reset" />
-    </GridLayout>
   </StackLayout>
+  <template v-else>
+    <StackLayout class="section">
+      <Label class="heading" text="Value layers" />
+      <Label
+        class="muted"
+        text="The base keeps moving while a charge pulse adds to position, scale and color."
+        textWrap="true"
+      />
+      <Label text="Base reference" marginTop="16" />
+      <GridLayout width="244" height="48" horizontalAlignment="left">
+        <Label
+          :ref="base"
+          width="24"
+          height="24"
+          borderRadius="12"
+          backgroundColor="#a1a1aa"
+          horizontalAlignment="left"
+        />
+      </GridLayout>
+      <Label text="Base + charge pulse" />
+      <GridLayout width="244" height="56" horizontalAlignment="left">
+        <Label
+          :ref="layered"
+          width="24"
+          height="24"
+          borderRadius="12"
+          horizontalAlignment="left"
+        />
+      </GridLayout>
+      <GridLayout columns="*,*" marginTop="12">
+        <Button text="Start base" class="button" @tap="start" />
+        <Button col="1" text="Retarget base" class="button" @tap="retarget" />
+      </GridLayout>
+      <GridLayout columns="*,*">
+        <Button
+          :text="pulsing ? 'Remove charge pulse' : 'Add charge pulse'"
+          class="button"
+          @tap="pulse"
+        />
+        <Button col="1" text="Reset values" class="button" @tap="reset" />
+      </GridLayout>
+    </StackLayout>
+  </template>
 </template>

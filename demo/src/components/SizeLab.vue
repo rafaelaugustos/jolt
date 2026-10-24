@@ -42,11 +42,11 @@ function mount(event: EventData) {
   card = new StackLayout()
   card.id = 'size-card'
   card.automationText = 'Size card'
-  card.backgroundColor = new Color('#E4EEFF')
+  card.backgroundColor = new Color(props.embedded ? '#344D37' : '#E4EEFF')
   card.borderRadius = 22
   card.padding = 20
   card.marginBottom = 12
-  card.height = 86
+  card.height = props.embedded ? 220 : 86
   card.horizontalAlignment = 'left'
   card.verticalAlignment = 'top'
   card.clipToBounds = true
@@ -54,28 +54,30 @@ function mount(event: EventData) {
   title.text = 'Made to fit.'
   title.fontSize = 27
   title.fontWeight = 'bold'
-  title.color = new Color('#153561')
+  title.color = new Color(props.embedded ? '#EDF2DE' : '#153561')
   card.addChild(title)
   body = new Label()
   body.text = copy
   body.fontSize = 17
   body.textWrap = true
   body.marginTop = 18
-  body.color = new Color('#315277')
+  body.color = new Color(props.embedded ? '#BCCCAE' : '#315277')
   card.addChild(body)
   const icon = new Label()
   icon.text = '●  Natural size, every frame'
   icon.fontSize = 15
   icon.marginTop = 18
-  icon.color = new Color('#1764DA')
+  icon.color = new Color(props.embedded ? '#E3FC62' : '#1764DA')
   card.addChild(icon)
   const neighbour = new Button()
-  neighbour.text = 'Tap the following row'
+  neighbour.text = props.embedded
+    ? 'Room for something else.  ↗'
+    : 'Tap the following row'
   neighbour.automationText = 'Following row'
   neighbour.height = 50
   neighbour.borderRadius = 16
-  neighbour.backgroundColor = new Color('#1764DA')
-  neighbour.color = new Color('white')
+  neighbour.backgroundColor = new Color(props.embedded ? '#C8D9AD' : '#1764DA')
+  neighbour.color = new Color(props.embedded ? '#3F5535' : 'white')
   neighbour.on('tap', () => {
     status.value = `Following row tapped ${++taps}`
   })
@@ -157,61 +159,114 @@ onUnmounted(() => {
 const props = defineProps<{ embedded?: boolean }>()
 </script>
 <template>
-  <GridLayout rows="auto,auto,*,auto" backgroundColor="#F6F8FC" padding="16 20">
-    <StackLayout v-if="!props.embedded">
-      <Label text="REAL DIMENSIONS" fontSize="11" letterSpacing="0.2" color="#1764DA" />
-      <Label
-        text="Space that moves."
-        fontSize="30"
-        fontWeight="bold"
-        color="#152C48"
-        marginTop="8"
-      />
-      <Label
-        text="Width, height &amp; auto. No stretched content."
-        fontSize="14"
-        color="#60738D"
-        marginTop="8"
-        textWrap="true"
-      />
-    </StackLayout>
-    <StackLayout row="1" marginTop="16" marginBottom="12">
-      <GridLayout columns="*,*,*">
-        <Button text="Expand" @tap="run({ height: 'auto' })" />
-        <Button col="1" text="Collapse" @tap="run({ height: 86 })" />
-        <Button col="2" text="Width" @tap="width" />
-      </GridLayout>
-      <GridLayout columns="*,*,*">
-        <Button text="Content" @tap="content" />
-        <Button col="1" :text="paused ? 'Resume' : 'Pause'" @tap="pause" />
-        <Button col="2" text="Stop" @tap="animation?.stop()" />
-      </GridLayout>
-      <GridLayout columns="*,*,*">
-        <Button :text="grid ? 'Grid' : 'Stack'" @tap="grid = !grid" />
-        <Button col="1" :text="slow ? 'Speed 0.25x' : 'Speed 1x'" @tap="speed" />
-        <Button col="2" :text="reduced ? 'Reduced' : 'System'" @tap="motion" />
-      </GridLayout>
-    </StackLayout>
-    <ScrollView row="2">
-      <GridLayout v-if="grid" rows="auto,auto" verticalAlignment="top" @loaded="mount" />
-      <StackLayout v-else verticalAlignment="top" @loaded="mount" />
-    </ScrollView>
-    <StackLayout row="3" marginTop="8">
-      <Label
-        :text="status"
-        automationText="Size status"
-        fontSize="12"
-        color="#60738D"
-        textWrap="true"
-      />
-      <GridLayout :columns="props.embedded ? '*' : '*,*'">
-        <Button v-if="!props.embedded" text="Back" @tap="$emit('back')" />
-        <Button
-          :col="props.embedded ? 0 : 1"
-          :text="checking ? 'Checking…' : 'Run size checks'"
-          @tap="checks"
-        />
-      </GridLayout>
-    </StackLayout>
+  <GridLayout v-if="embedded" class="exhibit" rows="*,auto,auto">
+    <GridLayout rows="auto,*" borderRadius="28" backgroundColor="#E4E8DA" padding="20"
+      ><GridLayout columns="*,auto" marginBottom="24"
+        ><Label
+          text="MAKE A LITTLE ROOM"
+          fontSize="9"
+          color="#798568"
+          letterSpacing=".1" /><Label
+          col="1"
+          text="↔"
+          color="#596D41"
+          fontSize="23" /></GridLayout
+      ><ScrollView row="1"
+        ><GridLayout
+          v-if="grid"
+          rows="auto,auto"
+          verticalAlignment="top"
+          @loaded="mount" /><StackLayout
+          v-else
+          verticalAlignment="top"
+          @loaded="mount" /></ScrollView></GridLayout
+    ><StackLayout row="1" class="ex-controls" marginTop="16"
+      ><GridLayout columns="*,*,*"
+        ><Button text="Expand" @tap="run({ height: 'auto' })" class="ex-primary" /><Button
+          col="1"
+          text="Collapse"
+          @tap="run({ height: 86 })" /><Button
+          col="2"
+          text="Width"
+          @tap="width" /></GridLayout
+      ><GridLayout columns="*,*,*"
+        ><Button text="Content" @tap="content" /><Button
+          col="1"
+          :text="paused ? 'Resume' : 'Pause'"
+          @tap="pause" /><Button
+          col="2"
+          text="Stop"
+          @tap="animation?.stop()" /></GridLayout></StackLayout
+    ><Label
+      row="2"
+      :text="status"
+      automationText="Size status"
+      class="ex-note"
+      textWrap="true"
+    />
   </GridLayout>
+  <template v-else>
+    <GridLayout rows="auto,auto,*,auto" backgroundColor="#F6F8FC" padding="16 20">
+      <StackLayout v-if="!props.embedded">
+        <Label text="REAL DIMENSIONS" fontSize="11" letterSpacing="0.2" color="#1764DA" />
+        <Label
+          text="Space that moves."
+          fontSize="30"
+          fontWeight="bold"
+          color="#152C48"
+          marginTop="8"
+        />
+        <Label
+          text="Width, height &amp; auto. No stretched content."
+          fontSize="14"
+          color="#60738D"
+          marginTop="8"
+          textWrap="true"
+        />
+      </StackLayout>
+      <StackLayout row="1" marginTop="16" marginBottom="12">
+        <GridLayout columns="*,*,*">
+          <Button text="Expand" @tap="run({ height: 'auto' })" />
+          <Button col="1" text="Collapse" @tap="run({ height: 86 })" />
+          <Button col="2" text="Width" @tap="width" />
+        </GridLayout>
+        <GridLayout columns="*,*,*">
+          <Button text="Content" @tap="content" />
+          <Button col="1" :text="paused ? 'Resume' : 'Pause'" @tap="pause" />
+          <Button col="2" text="Stop" @tap="animation?.stop()" />
+        </GridLayout>
+        <GridLayout columns="*,*,*">
+          <Button :text="grid ? 'Grid' : 'Stack'" @tap="grid = !grid" />
+          <Button col="1" :text="slow ? 'Speed 0.25x' : 'Speed 1x'" @tap="speed" />
+          <Button col="2" :text="reduced ? 'Reduced' : 'System'" @tap="motion" />
+        </GridLayout>
+      </StackLayout>
+      <ScrollView row="2">
+        <GridLayout
+          v-if="grid"
+          rows="auto,auto"
+          verticalAlignment="top"
+          @loaded="mount"
+        />
+        <StackLayout v-else verticalAlignment="top" @loaded="mount" />
+      </ScrollView>
+      <StackLayout row="3" marginTop="8">
+        <Label
+          :text="status"
+          automationText="Size status"
+          fontSize="12"
+          color="#60738D"
+          textWrap="true"
+        />
+        <GridLayout :columns="props.embedded ? '*' : '*,*'">
+          <Button v-if="!props.embedded" text="Back" @tap="$emit('back')" />
+          <Button
+            :col="props.embedded ? 0 : 1"
+            :text="checking ? 'Checking…' : 'Run size checks'"
+            @tap="checks"
+          />
+        </GridLayout>
+      </StackLayout>
+    </GridLayout>
+  </template>
 </template>

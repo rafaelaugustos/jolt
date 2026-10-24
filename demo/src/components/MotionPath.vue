@@ -94,66 +94,140 @@ onUnmounted(() => {
   generation++
   freeze()
 })
+defineProps<{ embedded?: boolean }>()
 </script>
 
 <template>
-  <StackLayout class="section" @unloaded="freeze">
-    <Label class="heading" text="Motion along a path" />
-    <Label
-      class="muted"
-      text="A curve or an orbit. Pause anywhere along the way."
-      textWrap="true"
-    />
-    <GridLayout ref="stage" class="stage" height="225" @layoutChanged="layout">
-      <GridLayout
-        v-for="(dot, index) in dots"
-        :key="index"
-        width="4"
-        height="4"
-        borderRadius="2"
-        backgroundColor="#b8b8bf"
-        horizontalAlignment="left"
-        verticalAlignment="top"
-        marginLeft="22"
-        marginTop="160"
-        :translateX="dot.x"
-        :translateY="dot.y"
+  <StackLayout v-if="embedded" class="exhibit">
+    <GridLayout class="ex-stage"
+      ><Label
+        text="THE SCENIC ROUTE"
+        class="ex-kicker"
+        verticalAlignment="top" /><GridLayout
+        ref="stage"
+        height="225"
+        @layoutChanged="layout"
+        verticalAlignment="middle"
+        ><GridLayout
+          width="112"
+          height="112"
+          borderRadius="56"
+          backgroundColor="#35483B"
+          verticalAlignment="top"
+          marginTop="18" /><Label
+          text="N"
+          fontSize="10"
+          color="#8B9C7C"
+          verticalAlignment="top"
+          horizontalAlignment="center" /><Label
+          v-for="(dot, index) in dots"
+          :key="index"
+          width="4"
+          height="4"
+          borderRadius="2"
+          backgroundColor="#8D9C6D"
+          horizontalAlignment="left"
+          verticalAlignment="top"
+          marginLeft="22"
+          marginTop="160"
+          :translateX="dot.x"
+          :translateY="dot.y" /><GridLayout
+          ref="plane"
+          width="24"
+          height="24"
+          horizontalAlignment="left"
+          verticalAlignment="top"
+          marginLeft="12"
+          marginTop="150"
+          ><GridLayout
+            backgroundColor="#E3FC62"
+            :style="{
+              clipPath: 'polygon(0% 0%, 100% 50%, 0% 100%, 25% 50%)',
+            }" /></GridLayout></GridLayout
+      ><Label
+        :text="mode === 'curve' ? 'Take a different path.' : 'Come full circle.'"
+        fontSize="23"
+        fontWeight="bold"
+        color="#E6ECD9"
+        verticalAlignment="bottom" /></GridLayout
+    ><StackLayout class="ex-controls"
+      ><GridLayout columns="*,*,*"
+        ><Button col="0" text="Curve" @tap="choose('curve')" class="ex-primary" /><Button
+          col="1"
+          text="Orbit"
+          @tap="choose('orbit')" /><Button
+          col="2"
+          :text="orient ? 'Orient: on' : 'Orient: off'"
+          @tap="toggleOrient" /></GridLayout
+      ><GridLayout columns="*,*,*"
+        ><Button col="0" text="Replay" @tap="replay" /><Button
+          col="1"
+          :text="paused ? 'Resume' : 'Pause'"
+          @tap="togglePause" /><Button
+          col="2"
+          text="Stop"
+          @tap="freeze" /></GridLayout></StackLayout
+    ><Label :text="status" class="ex-note" textWrap="true" />
+  </StackLayout>
+  <template v-else>
+    <StackLayout class="section" @unloaded="freeze">
+      <Label class="heading" text="Motion along a path" />
+      <Label
+        class="muted"
+        text="A curve or an orbit. Pause anywhere along the way."
+        textWrap="true"
       />
-      <GridLayout
-        ref="plane"
-        width="24"
-        height="24"
-        horizontalAlignment="left"
-        verticalAlignment="top"
-        marginLeft="12"
-        marginTop="150"
-      >
+      <GridLayout ref="stage" class="stage" height="225" @layoutChanged="layout">
         <GridLayout
-          backgroundColor="#5f4bda"
-          :style="{ clipPath: 'polygon(0% 0%, 100% 50%, 0% 100%, 25% 50%)' }"
+          v-for="(dot, index) in dots"
+          :key="index"
+          width="4"
+          height="4"
+          borderRadius="2"
+          backgroundColor="#b8b8bf"
+          horizontalAlignment="left"
+          verticalAlignment="top"
+          marginLeft="22"
+          marginTop="160"
+          :translateX="dot.x"
+          :translateY="dot.y"
+        />
+        <GridLayout
+          ref="plane"
+          width="24"
+          height="24"
+          horizontalAlignment="left"
+          verticalAlignment="top"
+          marginLeft="12"
+          marginTop="150"
+        >
+          <GridLayout
+            backgroundColor="#5f4bda"
+            :style="{ clipPath: 'polygon(0% 0%, 100% 50%, 0% 100%, 25% 50%)' }"
+          />
+        </GridLayout>
+      </GridLayout>
+      <GridLayout columns="*, *, *">
+        <Button class="button" text="Curve" @tap="choose('curve')" />
+        <Button col="1" class="button" text="Orbit" @tap="choose('orbit')" />
+        <Button
+          col="2"
+          class="button"
+          :text="orient ? 'Orient: on' : 'Orient: off'"
+          @tap="toggleOrient"
         />
       </GridLayout>
-    </GridLayout>
-    <GridLayout columns="*, *, *">
-      <Button class="button" text="Curve" @tap="choose('curve')" />
-      <Button col="1" class="button" text="Orbit" @tap="choose('orbit')" />
-      <Button
-        col="2"
-        class="button"
-        :text="orient ? 'Orient: on' : 'Orient: off'"
-        @tap="toggleOrient"
-      />
-    </GridLayout>
-    <GridLayout columns="*, *, *">
-      <Button class="button" text="Replay" @tap="replay" />
-      <Button
-        col="1"
-        class="button"
-        :text="paused ? 'Resume' : 'Pause'"
-        @tap="togglePause"
-      />
-      <Button col="2" class="button" text="Stop" @tap="freeze" />
-    </GridLayout>
-    <Label class="muted" :text="status" textWrap="true" />
-  </StackLayout>
+      <GridLayout columns="*, *, *">
+        <Button class="button" text="Replay" @tap="replay" />
+        <Button
+          col="1"
+          class="button"
+          :text="paused ? 'Resume' : 'Pause'"
+          @tap="togglePause"
+        />
+        <Button col="2" class="button" text="Stop" @tap="freeze" />
+      </GridLayout>
+      <Label class="muted" :text="status" textWrap="true" />
+    </StackLayout>
+  </template>
 </template>

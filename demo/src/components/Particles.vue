@@ -116,67 +116,118 @@ onUnmounted(() => {
   scope.dispose()
   if (reduced.value) configure({ reducedMotion: 'user' })
 })
+defineProps<{ embedded?: boolean }>()
 </script>
 
 <template>
-  <StackLayout class="section">
-    <Label class="heading" text="Particles" />
-    <Label
-      class="muted"
-      text="Native snow, sparks, bubbles and confetti."
-      textWrap="true"
-    />
+  <StackLayout v-if="embedded" class="exhibit">
     <GridLayout
       ref="stage"
-      class="particle-stage"
-      :height="tall ? 270 : 210"
+      class="ex-stage"
+      :height="tall ? 420 : 350"
+      backgroundColor="#1E2532"
       accessibilityLabel="Particle stage"
-    >
-      <Label
-        :text="label"
-        color="#71717a"
-        horizontalAlignment="center"
-        verticalAlignment="middle"
-      />
-      <Button
-        class="button"
+      ><Label
+        text="SMALL MOMENTS / BIG FEELINGS"
+        class="ex-kicker"
+        verticalAlignment="top" /><StackLayout verticalAlignment="middle"
+        ><Label
+          text="Make a&#10;little magic."
+          class="ex-title"
+          textWrap="true"
+          textAlignment="center" /><Label
+          :text="label.toUpperCase()"
+          color="#B7AECE"
+          letterSpacing=".15"
+          fontSize="10"
+          textAlignment="center"
+          marginTop="18" /></StackLayout
+      ><Button
         :text="`Touch ${taps}`"
-        width="100"
-        height="38"
+        color="#DDD3F4"
+        backgroundColor="#383348"
+        borderRadius="16"
+        height="36"
+        width="108"
+        fontSize="11"
         verticalAlignment="bottom"
-        marginBottom="10"
-        @tap="taps++"
-      />
-    </GridLayout>
-    <GridLayout columns="*, *, *">
-      <Button class="button" text="Snow" @tap="play('Snow')" />
-      <Button col="1" class="button" text="Sparks" @tap="play('Sparks')" />
-      <Button col="2" class="button" text="Bubbles" @tap="play('Bubbles')" />
-    </GridLayout>
-    <GridLayout columns="*, *, *">
-      <Button ref="celebrate" class="button" text="Confetti" @tap="burst" />
-      <Button col="1" class="button" text="Finite" @tap="play('Finite')" />
-      <Button col="2" class="button" text="Stop" @tap="stop" />
-    </GridLayout>
-    <GridLayout columns="*, *, *">
-      <Button class="button" text="Resize" @tap="tall = !tall" />
-      <Button
+        @tap="taps++" /></GridLayout
+    ><StackLayout class="ex-controls"
+      ><GridLayout columns="*,*,*"
+        ><Button col="0" text="Snow" @tap="play('Snow')" class="ex-primary" /><Button
+          col="1"
+          text="Sparks"
+          @tap="play('Sparks')" /><Button
+          col="2"
+          text="Bubbles"
+          @tap="play('Bubbles')" /></GridLayout></StackLayout
+    ><GridLayout columns="*,*,*" class="ex-controls"
+      ><Button ref="celebrate" text="Confetti" @tap="burst" /><Button
         col="1"
-        class="button"
-        :text="reduced ? 'Motion off' : 'Motion on'"
-        @tap="motion"
-      />
-      <Button
-        v-if="isAndroid"
-        col="2"
-        class="button"
-        text="Run checks"
-        :isEnabled="!checking"
-        @tap="checks"
-      />
-    </GridLayout>
-    <Label :text="status" class="muted" textWrap="true" marginTop="12" />
+        text="Finite"
+        @tap="play('Finite')" /><Button col="2" text="Stop" @tap="stop" /></GridLayout
+    ><Label :text="status" class="ex-note" textWrap="true" />
   </StackLayout>
+  <template v-else>
+    <StackLayout class="section">
+      <Label class="heading" text="Particles" />
+      <Label
+        class="muted"
+        text="Native snow, sparks, bubbles and confetti."
+        textWrap="true"
+      />
+      <GridLayout
+        ref="stage"
+        class="particle-stage"
+        :height="tall ? 270 : 210"
+        accessibilityLabel="Particle stage"
+      >
+        <Label
+          :text="label"
+          color="#71717a"
+          horizontalAlignment="center"
+          verticalAlignment="middle"
+        />
+        <Button
+          class="button"
+          :text="`Touch ${taps}`"
+          width="100"
+          height="38"
+          verticalAlignment="bottom"
+          marginBottom="10"
+          @tap="taps++"
+        />
+      </GridLayout>
+      <GridLayout columns="*, *, *">
+        <Button class="button" text="Snow" @tap="play('Snow')" />
+        <Button col="1" class="button" text="Sparks" @tap="play('Sparks')" />
+        <Button col="2" class="button" text="Bubbles" @tap="play('Bubbles')" />
+      </GridLayout>
+      <GridLayout columns="*, *, *">
+        <Button ref="celebrate" class="button" text="Confetti" @tap="burst" />
+        <Button col="1" class="button" text="Finite" @tap="play('Finite')" />
+        <Button col="2" class="button" text="Stop" @tap="stop" />
+      </GridLayout>
+      <GridLayout columns="*, *, *">
+        <Button class="button" text="Resize" @tap="tall = !tall" />
+        <Button
+          col="1"
+          class="button"
+          :text="reduced ? 'Motion off' : 'Motion on'"
+          @tap="motion"
+        />
+        <Button
+          v-if="isAndroid"
+          col="2"
+          class="button"
+          text="Run checks"
+          :isEnabled="!checking"
+          @tap="checks"
+        />
+      </GridLayout>
+      <Label :text="status" class="muted" textWrap="true" marginTop="12" />
+    </StackLayout>
+  </template>
 </template>
 
 <style scoped>

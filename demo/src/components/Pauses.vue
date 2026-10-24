@@ -37,45 +37,101 @@ function toggle() {
   }
   running.value = !running.value
 }
+defineProps<{ embedded?: boolean }>()
 </script>
 
 <template>
-  <StackLayout class="section">
-    <Label class="heading" text="Pauses" />
-    <Label class="muted" textWrap="true" text="{ repeat: Infinity, repeatDelay: 900 }" />
-
-    <GridLayout columns="*, *" class="stage" height="140">
-      <GridLayout paddingLeft="28">
-        <Label
-          v-for="(z, i) in sleep"
-          :key="i"
-          :ref="z"
-          class="sleep"
-          text="z"
-          opacity="0"
-          :marginLeft="i * 18"
-        />
-      </GridLayout>
-      <GridLayout col="1" class="lane pause-lane" height="48">
-        <Label
-          ref="pill"
-          class="ball"
-          width="40"
-          height="40"
-          horizontalAlignment="left"
-        />
-      </GridLayout>
-    </GridLayout>
-
-    <Label
-      class="note"
-      textWrap="true"
-      text="Each z rests 900 ms between floats. The pill waits 700 ms at both ends."
-    />
-    <Button
-      class="button"
-      :text="running ? 'Stop pauses' : 'Play pauses'"
-      @tap="toggle"
-    />
+  <StackLayout v-if="embedded" class="exhibit">
+    <GridLayout class="ex-stage"
+      ><Label text="ROOM TO BREATHE" class="ex-kicker" verticalAlignment="top" /><Label
+        text="Rest is part&#10;of the rhythm."
+        class="ex-title"
+        textWrap="true"
+        verticalAlignment="top"
+        marginTop="38" /><GridLayout columns="*,*" height="100" verticalAlignment="bottom"
+        ><GridLayout
+          ><Label
+            v-for="(z, i) in sleep"
+            :key="i"
+            :ref="z"
+            text="z"
+            fontSize="32"
+            fontWeight="bold"
+            color="#C6B0F0"
+            opacity="0"
+            :marginLeft="i * 22"
+            verticalAlignment="bottom" /><Label
+            text="☾"
+            fontSize="50"
+            color="#C6B0F0"
+            horizontalAlignment="left"
+            verticalAlignment="bottom" /></GridLayout
+        ><GridLayout
+          col="1"
+          width="128"
+          height="48"
+          backgroundColor="#34493C"
+          borderRadius="24"
+          verticalAlignment="bottom"
+          ><Label
+            ref="pill"
+            width="40"
+            height="40"
+            borderRadius="20"
+            backgroundColor="#E3FC62"
+            horizontalAlignment="left"
+            marginLeft="2" /></GridLayout></GridLayout></GridLayout
+    ><StackLayout class="ex-controls"
+      ><GridLayout columns="*"
+        ><Button
+          col="0"
+          :text="running ? 'Stop pauses' : 'Play pauses'"
+          @tap="toggle"
+          class="ex-primary" /></GridLayout></StackLayout
+    ><Label text="Float. Pause. Come back for more." class="ex-note" textWrap="true" />
   </StackLayout>
+  <template v-else>
+    <StackLayout class="section">
+      <Label class="heading" text="Pauses" />
+      <Label
+        class="muted"
+        textWrap="true"
+        text="{ repeat: Infinity, repeatDelay: 900 }"
+      />
+
+      <GridLayout columns="*, *" class="stage" height="140">
+        <GridLayout paddingLeft="28">
+          <Label
+            v-for="(z, i) in sleep"
+            :key="i"
+            :ref="z"
+            class="sleep"
+            text="z"
+            opacity="0"
+            :marginLeft="i * 18"
+          />
+        </GridLayout>
+        <GridLayout col="1" class="lane pause-lane" height="48">
+          <Label
+            ref="pill"
+            class="ball"
+            width="40"
+            height="40"
+            horizontalAlignment="left"
+          />
+        </GridLayout>
+      </GridLayout>
+
+      <Label
+        class="note"
+        textWrap="true"
+        text="Each z rests 900 ms between floats. The pill waits 700 ms at both ends."
+      />
+      <Button
+        class="button"
+        :text="running ? 'Stop pauses' : 'Play pauses'"
+        @tap="toggle"
+      />
+    </StackLayout>
+  </template>
 </template>

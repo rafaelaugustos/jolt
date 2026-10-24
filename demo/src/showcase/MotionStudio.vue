@@ -109,7 +109,7 @@ function freeze() {
     <GridLayout
       v-if="spring"
       rows="auto,*,auto"
-      height="310"
+      height="340"
       backgroundColor="#202B29"
       borderRadius="28"
       padding="24"
@@ -157,7 +157,7 @@ function freeze() {
     </GridLayout>
     <GridLayout
       v-else-if="preset"
-      height="310"
+      height="340"
       borderRadius="28"
       backgroundColor="#E9E5EF"
       padding="25"
@@ -170,8 +170,8 @@ function freeze() {
       <GridLayout
         ref="card"
         rows="auto,*,auto"
-        width="188"
-        height="220"
+        width="208"
+        height="248"
         borderRadius="22"
         backgroundColor="#292333"
         padding="20"
@@ -186,7 +186,7 @@ function freeze() {
         <Label
           row="1"
           text="Good&#10;things&#10;move."
-          fontSize="34"
+          fontSize="38"
           fontWeight="bold"
           textWrap="true"
           color="#E8E0F0"
@@ -224,7 +224,7 @@ function freeze() {
         verticalAlignment="bottom"
       />
     </GridLayout>
-    <GridLayout v-else height="310" backgroundColor="#EDE6DC" borderRadius="28">
+    <GridLayout v-else height="340" backgroundColor="#EDE6DC" borderRadius="28">
       <Label
         text="FORM FOLLOWS FEELING"
         class="motion-kicker light"
@@ -233,8 +233,8 @@ function freeze() {
       />
       <GridLayout
         ref="card"
-        width="198"
-        height="196"
+        width="216"
+        height="216"
         borderRadius="24"
         backgroundColor="#354A3F"
         borderWidth="2"

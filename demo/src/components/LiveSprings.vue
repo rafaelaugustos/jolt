@@ -39,19 +39,22 @@ function mount(event: EventData) {
     values.push(next)
     source = next
   }
-  const colors = ['#252B35', '#2464D9', '#C85475', '#D58523']
+  const colors = props.embedded
+    ? ['#E3FC62', '#BCD4A5', '#C0AFE7', '#E7AD91']
+    : ['#252B35', '#2464D9', '#C85475', '#D58523']
   for (let index = 0; index < 4; index++) {
     const lane = new GridLayout()
     lane.height = 60
     lane.marginBottom = 12
-    lane.backgroundColor = new Color('#EAE9E4')
+    lane.backgroundColor = new Color(props.embedded ? '#304337' : '#EAE9E4')
     lane.borderRadius = 20
     GridLayout.setRow(lane, index)
     const dot = new Label()
-    dot.text = index === 0 ? '◎' : String(index)
+    dot.text =
+      index === 0 ? '◎' : props.embedded ? ['', '↗', '✦', '◉'][index]! : String(index)
     dot.fontSize = 20
     dot.fontWeight = 'bold'
-    dot.color = new Color('white')
+    dot.color = new Color(props.embedded ? '#34472F' : 'white')
     dot.backgroundColor = new Color(colors[index]!)
     dot.width = 44
     dot.height = 44
@@ -93,54 +96,96 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <GridLayout rows="auto,auto,auto,auto,auto,*" padding="24" backgroundColor="#F8F7F2">
-    <GridLayout v-if="!props.embedded" columns="*,auto" marginBottom="28">
-      <Label
-        text="JOLT / LIVE SPRINGS"
-        fontSize="12"
-        fontWeight="bold"
-        color="#667078"
-        verticalAlignment="middle"
-      />
-      <Button col="1" text="Back" @tap="$emit('back')" />
-    </GridLayout>
-    <StackLayout v-if="!props.embedded" row="1" marginBottom="24">
-      <Label text="Follow the lead." fontSize="34" fontWeight="bold" color="#252B35" />
-      <Label
-        text="Change direction. Keep the momentum."
-        fontSize="16"
-        marginTop="8"
-        color="#667078"
-        textWrap="true"
-      />
-    </StackLayout>
+  <GridLayout v-if="embedded" class="exhibit" rows="*,auto,auto">
     <GridLayout
-      row="2"
-      id="spring-stage"
-      automationText="Spring lanes"
-      rows="72,72,72,72"
-      height="288"
-      @loaded="mount"
-      @touch="touch"
-    />
-    <GridLayout row="3" columns="*,*,*" marginTop="12">
-      <Button text="Left" automationText="Target left" @tap="move(0)" />
-      <Button col="1" text="Right" automationText="Target right" @tap="move(range())" />
-      <Button col="2" text="Shake" automationText="Shake follower" @tap="shake" />
-    </GridLayout>
-    <StackLayout row="4" marginTop="12">
-      <Button
+      row="0"
+      rows="auto,*"
+      backgroundColor="#202C28"
+      borderRadius="28"
+      padding="18"
+      ><GridLayout columns="*,auto" margin="4 4 22"
+        ><Label text="FOLLOW THE FEELING" class="ex-kicker" /><Label
+          col="1"
+          text="↔"
+          color="#E3FC62"
+          fontSize="24" /></GridLayout
+      ><GridLayout
+        row="1"
+        id="spring-stage"
+        automationText="Spring lanes"
+        rows="72,72,72,72"
+        height="288"
+        verticalAlignment="middle"
+        @loaded="mount"
+        @touch="touch" /></GridLayout
+    ><StackLayout row="1" class="ex-controls" marginTop="16"
+      ><GridLayout columns="*,*,*"
+        ><Button text="Left" automationText="Target left" @tap="move(0)" /><Button
+          col="1"
+          text="Right"
+          class="ex-primary"
+          automationText="Target right"
+          @tap="move(range())" /><Button
+          col="2"
+          text="Shake"
+          automationText="Shake follower"
+          @tap="shake" /></GridLayout
+      ><Button
         :text="reduced ? 'Reduced motion: on' : 'Reduced motion: off'"
         automationText="Toggle reduced motion"
-        @tap="toggleReduced"
-      />
-      <Label
-        :text="status"
-        fontSize="14"
-        color="#667078"
-        textWrap="true"
-        marginTop="16"
-      />
-    </StackLayout>
+        @tap="toggleReduced" /></StackLayout
+    ><Label row="2" :text="status" class="ex-note" textWrap="true" />
   </GridLayout>
+  <template v-else>
+    <GridLayout rows="auto,auto,auto,auto,auto,*" padding="24" backgroundColor="#F8F7F2">
+      <GridLayout v-if="!props.embedded" columns="*,auto" marginBottom="28">
+        <Label
+          text="JOLT / LIVE SPRINGS"
+          fontSize="12"
+          fontWeight="bold"
+          color="#667078"
+          verticalAlignment="middle"
+        />
+        <Button col="1" text="Back" @tap="$emit('back')" />
+      </GridLayout>
+      <StackLayout v-if="!props.embedded" row="1" marginBottom="24">
+        <Label text="Follow the lead." fontSize="34" fontWeight="bold" color="#252B35" />
+        <Label
+          text="Change direction. Keep the momentum."
+          fontSize="16"
+          marginTop="8"
+          color="#667078"
+          textWrap="true"
+        />
+      </StackLayout>
+      <GridLayout
+        row="2"
+        id="spring-stage"
+        automationText="Spring lanes"
+        rows="72,72,72,72"
+        height="288"
+        @loaded="mount"
+        @touch="touch"
+      />
+      <GridLayout row="3" columns="*,*,*" marginTop="12">
+        <Button text="Left" automationText="Target left" @tap="move(0)" />
+        <Button col="1" text="Right" automationText="Target right" @tap="move(range())" />
+        <Button col="2" text="Shake" automationText="Shake follower" @tap="shake" />
+      </GridLayout>
+      <StackLayout row="4" marginTop="12">
+        <Button
+          :text="reduced ? 'Reduced motion: on' : 'Reduced motion: off'"
+          automationText="Toggle reduced motion"
+          @tap="toggleReduced"
+        />
+        <Label
+          :text="status"
+          fontSize="14"
+          color="#667078"
+          textWrap="true"
+          marginTop="16"
+        />
+      </StackLayout>
+    </GridLayout>
+  </template>
 </template>

@@ -41,6 +41,168 @@ final class DocsTests: XCTestCase {
         start.press(forDuration: 0.15, thenDragTo: start.withOffset(CGVector(dx: x, dy: y)), withVelocity: .slow, thenHoldForDuration: 0.15)
         Thread.sleep(forTimeInterval: 0.8)
     }
+    // Each clip is real native input in the embedded collection presentation.
+    // Keep the isolated playground fixture recordings independent of this art direction.
+    func exhibit(_ id: String, _ ready: String, _ actions: [(String, Double)]) throws {
+        launch(["--showcase-example=" + id, "--showcase-audit"], ready)
+        let before = XCTAttachment(screenshot: app.screenshot())
+        before.name = "exhibit-" + id + "-before"
+        before.lifetime = .keepAlways
+        add(before)
+        try record("exhibit-" + id) {
+            for (label, delay) in actions { tap(label, wait: delay) }
+        }
+        let after = XCTAttachment(screenshot: app.screenshot())
+        after.name = "exhibit-" + id + "-after"
+        after.lifetime = .keepAlways
+        add(after)
+        XCTAssertEqual(app.state, .runningForeground, id)
+    }
+    func testExhibitMotion() throws {
+        try exhibit("decay", "Free decay", [("Free decay", 1.2), ("Return", 1), ("Snap", 1.5)])
+        try exhibit("stagger", "From the top", [("From the top", 1.4), ("From the center", 1.4)])
+        try exhibit("motion-path", "Curve", [("Curve", 1), ("Pause", 0.8), ("Resume", 1), ("Orbit", 2.5)])
+        try exhibit("timeline", "Overlap", [("Overlap", 2), ("In order", 3)])
+        try exhibit("playback", "Play", [("Play", 1), ("Pause", 0.8), ("Play", 2.5)])
+        try exhibit("loops", "Play", [("Play", 3), ("Stop", 0.6)])
+        try exhibit("pauses", "Play pauses", [("Play pauses", 3.5), ("Stop pauses", 0.6)])
+        try exhibit("random-pauses", "Stop idling", [("Stop idling", 0.6), ("Start idling", 5)])
+        try exhibit("track-easing", "Bounce", [("Bounce", 1.7), ("Bounce", 1.7)])
+        try exhibit("easing-curves", "Play curves", [("Play curves", 1.2), ("Play curves", 1.2)])
+        try exhibit("tuning", "Playback speed", [("½×", 0.4), ("Play at selected speed", 2), ("Always", 0.4), ("Play at selected speed", 0.8)])
+    }
+    func testExhibitVisual() throws {
+        try exhibit("gradients", "Play gradients", [("Play gradients", 2.5), ("Swap colors", 1.2), ("Stop gradients", 0.5)])
+        try exhibit("gradient-directive", "Next mood", [("Next mood", 1.2), ("Next mood", 1.2)])
+        try exhibit("gradient-values", "Travel", [("Travel", 1.4), ("Pause", 0.8), ("Resume", 1.7), ("Pulse", 1.2)])
+        try exhibit("shimmer", "Stop shimmer", [("Resize", 1.4), ("Resize", 1.4), ("Stop shimmer", 0.5)])
+        try exhibit("particles", "Snow", [("Snow", 2), ("Sparks", 1.5), ("Confetti", 1.8), ("Stop", 0.4)])
+        try exhibit("loaders", "Stop loaders", [("Resize", 1.5), ("Resize", 1.5)])
+        try exhibit("reveal", "Conceal", [("Duration: 500 ms", 0.4), ("Conceal", 1.7), ("Reveal", 1.7)])
+        try exhibit("fade-overflow", "Fade out", [("Fade out", 1.3), ("Fade in", 1.3)])
+        try exhibit("opacity-rotation", "Play orbit", [("Play orbit", 2.6), ("Slow motion", 2.5), ("Stop orbit", 0.5)])
+    }
+    func testExhibitType() throws {
+        try exhibit("text", "Letters", [("Letters", 1.8), ("Words", 1.8)])
+        try exhibit("rolling", "+ 1.10", [("+ 1.10", 1), ("Stagger: off", 0.4), ("Random", 1.7)])
+        try exhibit("rolling-layout", "Next distance", [("Next distance", 1.2), ("Next distance", 1.2), ("Larger type", 0.5), ("Next distance", 1.2)])
+        try exhibit("symbols", "Bounce", [("Bounce", 1), ("Pulse", 1), ("Scale", 1), ("Variable color", 1), ("Replace", 1)])
+    }
+    func testExhibitState() throws {
+        try exhibit("motion-values", "Open sheet", [("Open sheet", 1.2), ("Close sheet", 1.2)])
+        try exhibit("value-observers", "Play observers", [("Play observers", 1), ("Detach observer", 1), ("Attach observer", 1.5), ("Stop observers", 0.5)])
+        try exhibit("value-layers", "Start base", [("Start base", 1), ("Add charge pulse", 1.5), ("Retarget base", 1.5), ("Reset values", 0.5)])
+        try exhibit("layers", "Move", [("Breathe", 0.7), ("Move", 0.7), ("Shake", 1), ("Rest", 0.6)])
+        try exhibit("motion-states", "Upload", [("Upload", 1), ("Error", 1), ("Retry", 1), ("Success", 1)])
+        try exhibit("state-transitions", "Hide splash", [("Hide splash", 0.7), ("Show splash", 1.8)])
+        try exhibit("busy-js", "Busy JavaScript", [])
+        try exhibit("vue-adapter", "Hide row", [("Press with Vue", 0.7), ("Tilt with Vue", 0.7), ("Hide row", 0.7), ("Show row", 1), ("Change entrance", 1)])
+        try exhibit("from-react-native", "Toss springs", [("Toss springs", 1.5), ("Toss springs", 1.5)])
+    }
+    func testExhibitLayout() throws {
+        try exhibit("layout-lab", "Insert", [("Insert", 0.7), ("Reverse", 0.7), ("Layout card 1", 1), ("Remove", 0.7)])
+        try exhibit("size-lab", "Expand", [("Collapse", 1.2), ("Expand", 1.2), ("Width", 1.2), ("Content", 1.2)])
+        try exhibit("remount", "Switch layout", [("Switch layout", 1), ("Hide logo", 0.8), ("Show logo", 0.8), ("Switch layout", 1)])
+        launch(["--showcase-example=list-items", "--showcase-audit"], "New items")
+        try record("exhibit-list-items") {
+            let list = app.descendants(matching: .any)["Animated playlist"].firstMatch
+            list.swipeUp(); Thread.sleep(forTimeInterval: 1)
+            list.swipeUp(); Thread.sleep(forTimeInterval: 1)
+            tap("New items", wait: 1)
+        }
+        let list = XCTAttachment(screenshot: app.screenshot()); list.name = "exhibit-list-items"; list.lifetime = .keepAlways; add(list)
+        launch(["--showcase-example=scroll-values", "--showcase-audit"], "Scroll values")
+        try record("exhibit-scroll-values") {
+            let list = app.descendants(matching: .any)["Scroll album tracks"].firstMatch
+            list.swipeUp(); Thread.sleep(forTimeInterval: 1)
+            list.swipeDown(); Thread.sleep(forTimeInterval: 1)
+        }
+        let scroll = XCTAttachment(screenshot: app.screenshot()); scroll.name = "exhibit-scroll-values"; scroll.lifetime = .keepAlways; add(scroll)
+    }
+    func testExhibitTouch() throws {
+        launch(["--showcase-example=press", "--showcase-audit"], "Press softly")
+        try record("exhibit-press") {
+            for name in ["Press softly", "Dim on press", "Tilt on press"] {
+                app.descendants(matching: .any)[name].firstMatch.press(forDuration: 0.6)
+                Thread.sleep(forTimeInterval: 0.7)
+            }
+        }
+        try exhibit("live-springs", "Target right", [("Target right", 0.7), ("Target left", 0.7), ("Target right", 0.3), ("Shake follower", 1.3)])
+        try exhibit("drag-values", "Toggle sheet", [("Toggle sheet", 1.2), ("Toggle sheet", 1.2)])
+        try exhibit("haptics", "light", [("light", 1.2), ("Bounce", 1.6), ("Stagger", 1.2)])
+        launch(["--showcase-example=gesture-lab", "--showcase-audit"], "Photo")
+        try record("exhibit-gesture-lab") {
+            let surface = app.descendants(matching: .any)["Photo gesture surface"].firstMatch
+            drag(surface, x: 50, y: 25)
+            surface.pinch(withScale: 1.25, velocity: 1)
+            Thread.sleep(forTimeInterval: 0.8)
+            tap("Reset")
+            tap("Carousel")
+            drag(app.descendants(matching: .any)["Horizontal carousel"].firstMatch, x: -60, y: 0)
+            tap("Sheet")
+            drag(app.descendants(matching: .any)["Handoff panel"].firstMatch, x: 0, y: -130)
+        }
+        launch(["--showcase-example=drag-lab", "--showcase-audit"], "Drag card")
+        try record("exhibit-drag-lab") {
+            drag(app.descendants(matching: .any)["Drag card"].firstMatch, x: 75, y: 0)
+            drag(app.descendants(matching: .any)["Drag panel"].firstMatch, x: 0, y: 95)
+            tap("Pause drag")
+            tap("Resume drag")
+        }
+        launch(["--showcase-example=keyboard", "--showcase-audit"], "Show composer")
+        try record("exhibit-keyboard") {
+            tap("Show composer")
+            let field = app.textFields["Try the keyboard…"].firstMatch
+            XCTAssertTrue(field.exists)
+            field.tap(); field.typeText("Make something good.")
+            Thread.sleep(forTimeInterval: 1)
+            tap("Done")
+        }
+    }
+    func testExhibitImageAndMap() throws {
+        try exhibit("image-lab", "Ripple", [("Ripple", 1.6), ("Dissolve", 2.7), ("Restore", 0.5), ("Photo zoom", 0.5), ("Zoom in", 1.2), ("Reset zoom", 1)])
+        try exhibit("playback-lab", "Play scene", [("Play scene", 2.3), ("Pause scene", 0.8), ("Resume scene", 6.2), ("Native map", 1.4), ("Play scene", 3), ("Stop scene", 0.5), ("3D camera", 1.5)])
+    }
+
+    func testExhibitCorrections() throws {
+        try exhibit("opacity-rotation", "Play orbit", [("Play orbit", 2.6), ("Slow motion", 2.5), ("Stop orbit", 0.5)])
+        try exhibit("loops", "Play", [("Play", 3), ("Stop", 0.6)])
+        try exhibit("haptics", "light", [("light", 1.2), ("Bounce", 1.6), ("Stagger", 1.2)])
+        try exhibit("rolling-layout", "Next distance", [("Next distance", 1.2), ("Next distance", 1.2), ("Larger type", 0.5), ("Next distance", 1.2)])
+        try exhibit("vue-adapter", "Hide row", [("Press with Vue", 0.7), ("Tilt with Vue", 0.7), ("Hide row", 0.7), ("Show row", 1), ("Change entrance", 1)])
+        try exhibit("from-react-native", "Toss springs", [("Toss springs", 1.5), ("Toss springs", 1.5)])
+        launch(["--showcase-example=value-observers", "--showcase-audit"], "Play observers")
+        let bound = app.descendants(matching: .any)["Bound signal"].firstMatch
+        XCTAssertTrue(bound.isHittable, "Both signals must remain visible in the stage")
+        try record("exhibit-value-observers") {
+            tap("Play observers", wait: 0.6)
+            // Core Animation moves presentation layers; XCTest frame reports model geometry.
+            // Assert the layout here and inspect actual motion in the native recording.
+            XCTAssertTrue(bound.isHittable)
+            XCTAssertTrue(app.staticTexts["OBSERVED NATIVE OBJECT"].firstMatch.isHittable)
+            tap("Detach observer", wait: 1)
+            tap("Attach observer", wait: 1.5)
+            tap("Stop observers")
+        }
+        launch(["--showcase-example=gesture-lab", "--showcase-audit"], "Photo")
+        try record("exhibit-gesture-lab") {
+            let surface = app.descendants(matching: .any)["Photo gesture surface"].firstMatch
+            drag(surface, x: 50, y: 25)
+            surface.pinch(withScale: 1.25, velocity: 1)
+            Thread.sleep(forTimeInterval: 0.8)
+            tap("Reset"); tap("Carousel")
+            drag(app.descendants(matching: .any)["Horizontal carousel"].firstMatch, x: -60, y: 0)
+            tap("Sheet")
+            drag(app.descendants(matching: .any)["Handoff panel"].firstMatch, x: 0, y: -130)
+        }
+        launch(["--showcase-example=drag-lab", "--showcase-audit"], "Drag card")
+        try record("exhibit-drag-lab") {
+            drag(app.descendants(matching: .any)["Drag card"].firstMatch, x: 75, y: 0)
+            drag(app.descendants(matching: .any)["Drag panel"].firstMatch, x: 0, y: 95)
+            tap("Pause drag"); tap("Resume drag")
+        }
+    }
+
     func testShowcaseAudit() throws {
         let examples: [(String, String)] = [
             ("springs", "Springs"),

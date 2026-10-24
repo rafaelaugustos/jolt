@@ -7,7 +7,7 @@ import { examples } from './catalog'
 const route = useRoute(),
   router = useRouter()
 const example = examples.find((e) => e.id === route.params.id)
-const atelier = !!example?.ios && isIOS
+const atelier = example?.category === 'SceneKit' && !!example?.ios && isIOS
 const mounted = ref(true),
   composer = ref(false),
   message = ref('')
@@ -81,7 +81,12 @@ onUnmounted(clean)
           marginTop="7"
       /></StackLayout>
       <StackLayout v-if="example?.ios && !isIOS" row="2" padding="24"
-        ><Label text="Made for SceneKit" fontSize="24" fontWeight="bold" /><Label
+        ><Label
+          :text="
+            example.category === 'SceneKit' ? 'Made for SceneKit' : 'Available on iOS'
+          "
+          fontSize="24"
+          fontWeight="bold" /><Label
           text="Open this experiment on iOS. There is plenty more to explore in the collection."
           textWrap="true"
           marginTop="12"

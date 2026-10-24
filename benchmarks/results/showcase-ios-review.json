@@ -1,143 +1,22 @@
 {
   "date": "2026-10-23",
   "platform": "iOS 26 Simulator; iPhone 17 and iPhone 17 Pro",
-  "baseCommit": "c7cea5252489e41417d8cc0fa3025d50758aa8da",
-  "scope": "Jolt Motion Studio presentation; library engine and CI workflows unchanged",
+  "baseCommit": "4b66e09da5a57330d832d6f7eead18f262675f19",
+  "scope": "Redesign the 50 non-automotive collection presentations, Maps & 3D timeline, and animated launch. Preserve the three SceneKit studio entries and the isolated playground. Library engine and CI workflows unchanged.",
   "routeAudit": {
-    "count": 54,
+    "directRoutes": 51,
     "vueErrors": 0,
-    "screenshotsReviewed": 54,
     "routes": {
-      "springs": {
-        "errors": []
-      },
-      "presets": {
-        "errors": []
-      },
-      "decay": {
-        "errors": []
-      },
-      "stagger": {
-        "errors": []
-      },
-      "motion-path": {
-        "errors": []
-      },
-      "timeline": {
-        "errors": []
-      },
-      "playback": {
-        "errors": []
-      },
-      "loops": {
-        "errors": []
-      },
-      "pauses": {
-        "errors": []
-      },
-      "random-pauses": {
-        "errors": []
-      },
-      "track-easing": {
+      "from-react-native": {
         "errors": []
       },
       "easing-curves": {
         "errors": []
       },
-      "tuning": {
-        "errors": []
-      },
-      "press": {
-        "errors": []
-      },
-      "gesture-lab": {
-        "errors": []
-      },
-      "live-springs": {
-        "errors": []
-      },
-      "drag-lab": {
-        "errors": []
-      },
-      "drag-values": {
-        "errors": []
-      },
-      "keyboard": {
-        "errors": []
-      },
-      "haptics": {
-        "errors": []
-      },
-      "colors": {
-        "errors": []
-      },
-      "gradients": {
-        "errors": []
-      },
-      "gradient-directive": {
-        "errors": []
-      },
-      "gradient-values": {
-        "errors": []
-      },
-      "decorations": {
-        "errors": []
-      },
-      "shimmer": {
-        "errors": []
-      },
-      "particles": {
-        "errors": []
-      },
-      "loaders": {
-        "errors": []
-      },
-      "reveal": {
-        "errors": []
-      },
-      "image-lab": {
-        "errors": []
-      },
-      "opacity-rotation": {
-        "errors": []
-      },
-      "fade-overflow": {
-        "errors": []
-      },
-      "text": {
-        "errors": []
-      },
-      "rolling": {
-        "errors": []
-      },
-      "rolling-layout": {
-        "errors": []
-      },
-      "symbols": {
-        "errors": []
-      },
-      "layout-lab": {
-        "errors": []
-      },
-      "size-lab": {
-        "errors": []
-      },
-      "list-items": {
-        "errors": []
-      },
-      "scroll-values": {
-        "errors": []
-      },
-      "remount": {
-        "errors": []
-      },
       "motion-values": {
         "errors": []
       },
-      "value-observers": {
-        "errors": []
-      },
-      "value-layers": {
+      "random-pauses": {
         "errors": []
       },
       "layers": {
@@ -146,146 +25,364 @@
       "motion-states": {
         "errors": []
       },
-      "state-transitions": {
-        "errors": []
-      },
-      "busy-js": {
+      "scroll-values": {
         "errors": []
       },
       "vue-adapter": {
         "errors": []
       },
-      "from-react-native": {
+      "list-items": {
         "errors": []
       },
-      "scene-shader": {
+      "fade-overflow": {
         "errors": []
       },
-      "scene-lighting": {
+      "layout-lab": {
         "errors": []
       },
-      "scene-camera": {
+      "drag-values": {
+        "errors": []
+      },
+      "loaders": {
+        "errors": []
+      },
+      "live-springs": {
+        "errors": []
+      },
+      "remount": {
+        "errors": []
+      },
+      "gradients": {
+        "errors": []
+      },
+      "image-lab": {
+        "errors": []
+      },
+      "track-easing": {
         "errors": []
       },
       "playback-lab": {
         "errors": []
+      },
+      "size-lab": {
+        "errors": []
+      },
+      "keyboard": {
+        "errors": []
+      },
+      "decay": {
+        "errors": []
+      },
+      "press": {
+        "errors": []
+      },
+      "opacity-rotation": {
+        "errors": []
+      },
+      "shimmer": {
+        "errors": []
+      },
+      "gradient-values": {
+        "errors": []
+      },
+      "gradient-directive": {
+        "errors": []
+      },
+      "rolling-layout": {
+        "errors": []
+      },
+      "tuning": {
+        "errors": []
+      },
+      "rolling": {
+        "errors": []
+      },
+      "drag-lab": {
+        "errors": []
+      },
+      "stagger": {
+        "errors": []
+      },
+      "motion-path": {
+        "errors": []
+      },
+      "gesture-lab": {
+        "errors": []
+      },
+      "loops": {
+        "errors": []
+      },
+      "text": {
+        "errors": []
+      },
+      "symbols": {
+        "errors": []
+      },
+      "busy-js": {
+        "errors": []
+      },
+      "playback": {
+        "errors": []
+      },
+      "particles": {
+        "errors": []
+      },
+      "reveal": {
+        "errors": []
+      },
+      "timeline": {
+        "errors": []
+      },
+      "value-observers": {
+        "errors": []
+      },
+      "haptics": {
+        "errors": []
+      },
+      "value-layers": {
+        "errors": []
+      },
+      "pauses": {
+        "errors": []
+      },
+      "state-transitions": {
+        "errors": []
+      },
+      "springs": {
+        "errors": []
+      },
+      "presets": {
+        "errors": []
+      },
+      "colors": {
+        "errors": []
+      },
+      "decorations": {
+        "errors": []
       }
+    },
+    "automotiveEntries": {
+      "routes": ["scene-shader", "scene-lighting", "scene-camera"],
+      "method": "Actual collection navigation and repeated reopening in testShowcaseNativeReentry; not a new cold-launch audit of these three routes.",
+      "sessionErrors": []
     }
   },
-  "interactiveScenes": {
-    "scene-camera": {
-      "errors": []
-    },
-    "scene-lighting": {
-      "errors": []
-    },
-    "scene-shader": {
-      "errors": []
-    },
-    "springs": {
-      "errors": []
-    },
-    "presets": {
-      "errors": []
-    },
-    "colors": {
-      "errors": []
-    },
-    "decorations": {
-      "errors": []
-    }
-  },
-  "targetedInteriorReview": [
-    "busy-js",
-    "drag-lab",
-    "drag-values",
-    "layout-lab",
-    "size-lab",
-    "image-lab",
-    "playback-lab",
-    "opacity-rotation"
-  ],
   "nativeChecks": {
-    "testShowcaseAudit": "passed",
-    "testAtelier": "passed",
-    "testMotionStudio": "passed",
-    "testShowcase": "passed",
-    "testShowcaseIconLaunch": "passed",
-    "testShowcaseInteriors": "passed",
-    "testShowcaseTrails": "passed",
-    "testShowcaseCameraOrbit": "passed",
-    "testShowcaseNativeReentry": "passed",
-    "testShowcasePlaybackTimeline": "passed"
+    "testExhibitImageAndMap": {
+      "result": "passed",
+      "seconds": 48.67
+    },
+    "testExhibitLayout": {
+      "result": "passed",
+      "seconds": 74.08
+    },
+    "testExhibitMotion": {
+      "result": "passed",
+      "seconds": 143.767
+    },
+    "testExhibitState": {
+      "result": "passed",
+      "seconds": 113.296
+    },
+    "testExhibitTouch": {
+      "result": "passed",
+      "seconds": 98.6
+    },
+    "testExhibitType": {
+      "result": "passed",
+      "seconds": 53.185
+    },
+    "testExhibitVisual": {
+      "result": "passed",
+      "seconds": 119.18
+    },
+    "testMotionStudio": {
+      "result": "passed",
+      "seconds": 52.227
+    },
+    "testShowcase": {
+      "result": "passed",
+      "seconds": 34.173
+    },
+    "testShowcaseNativeReentry": {
+      "result": "passed",
+      "seconds": 43.066
+    },
+    "testShowcaseCameraOrbit": {
+      "result": "passed",
+      "seconds": 51.337
+    },
+    "testShowcaseIconLaunch": {
+      "result": "passed",
+      "seconds": 6.341
+    },
+    "testExhibitCorrections": {
+      "result": "passed",
+      "seconds": 129.839
+    }
   },
+  "recordingWorkflow": "Local/manual XCTest with actual OS taps, presses, pan, pinch, scroll and keyboard input. These documentation recordings are not added to Actions. Separate simctl recording captures the unmasked cold-launch splash. Montages join clips without changing playback speed.",
   "reviewFindingsFixed": [
-    "Resume after seeking now resumes the individually paused native handle; seeking is disabled after completion.",
-    "Android-only Busy JavaScript shows an availability message on iOS.",
-    "Embedded examples use a single navigation header.",
-    "Light trails scrolls to every control, uses readable dark controls and shows the Jolt mark.",
-    "Maps & 3D now reuses the automotive studio instead of the old block-car fixture.",
-    "Routed native examples can reopen without duplicate element-registration errors."
+    "Explicit layout heights keep haptics and spring-comparison lanes visible.",
+    "Rolling layout preserves automatic number sizing while changing digit count and font size.",
+    "Both bound and observed signals remain visible; the footage demonstrates movement and observer detachment.",
+    "Shortened Light trails controls avoid truncation; decorative glyphs use non-emoji symbols.",
+    "Splash accent and loop path fit inside their stages.",
+    "Native elements register once at app startup so automotive routes can reopen."
   ],
-  "splash": "The XCTest walkthrough masks the launch animation during startup synchronization. A separate unaltered simctl recording demonstrates the normal animated cold launch.",
+  "testCorrection": "The first targeted run used an invalid XCTest frame-position assertion for a Core Animation presentation-layer animation. It was replaced with visibility checks plus inspection of native footage; testExhibitCorrections then passed. Only recordings from the passing rerun are included for those nine examples.",
   "clips": {
-    "showcase-atelier-ios.mp4": {
-      "seconds": 12.966667,
-      "encoding": "H.264, yuv420p, 420×914, 30 fps",
-      "fullDecode": "passed"
-    },
-    "showcase-colors-ios.mp4": {
-      "seconds": 6.366667,
-      "encoding": "H.264, yuv420p, 420×914, 30 fps",
-      "fullDecode": "passed"
-    },
-    "showcase-forms-ios.mp4": {
-      "seconds": 7.033333,
-      "encoding": "H.264, yuv420p, 420×914, 30 fps",
-      "fullDecode": "passed"
-    },
-    "showcase-interiors-ios.mp4": {
-      "seconds": 29.166667,
-      "encoding": "H.264, yuv420p, 420×914, 30 fps",
-      "fullDecode": "passed"
+    "showcase-splash-ios.mp4": {
+      "seconds": 5.2,
+      "bytes": 238705,
+      "sha256": "c093698a567ea8474b3ff564160e3664aa9fbb6e85770168e24997071baae383",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed",
+      "capture": "recorded for this revision"
     },
     "showcase-ios.mp4": {
-      "seconds": 27.4,
-      "encoding": "H.264, yuv420p, 420×914, 30 fps",
-      "fullDecode": "passed"
+      "seconds": 28.2,
+      "bytes": 953209,
+      "sha256": "8664e8350cc0402ca7a764ea596a430da3bfabc1af4dee7c746b100347f2594e",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed",
+      "capture": "recorded for this revision"
+    },
+    "showcase-springs-ios.mp4": {
+      "seconds": 4.533333,
+      "bytes": 54578,
+      "sha256": "a31b44835931aa7043a69072defc1e72c1ab08eff330f74a58266cc5a2403eb6",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed",
+      "capture": "recorded for this revision"
+    },
+    "showcase-presets-ios.mp4": {
+      "seconds": 5.433333,
+      "bytes": 72893,
+      "sha256": "bfaa1e91c296d0d5d39e7f0725aa2db8ff23d47184f1a4fa89a5935d30f6d430",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed",
+      "capture": "recorded for this revision"
+    },
+    "showcase-colors-ios.mp4": {
+      "seconds": 6.833333,
+      "bytes": 60950,
+      "sha256": "b0aabe8dec412857437c2fdef73b2f1ed3691802c0907b917d5ac031a1524fd8",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed",
+      "capture": "recorded for this revision"
+    },
+    "showcase-forms-ios.mp4": {
+      "seconds": 7.433333,
+      "bytes": 85414,
+      "sha256": "28949eda407ea8a9aa8d77b6d39b742df922111fcaf392fc0752b4ed834f05a6",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed",
+      "capture": "recorded for this revision"
+    },
+    "showcase-motion-ios.mp4": {
+      "seconds": 66.166667,
+      "bytes": 538827,
+      "sha256": "bca71f0289a1ba470f717d27c083a8cb88e912d5c2d0c518c64466d4ba218492",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed",
+      "capture": "recorded for this revision"
+    },
+    "showcase-touch-ios.mp4": {
+      "seconds": 47.8,
+      "bytes": 620146,
+      "sha256": "c075ad1ad78b7680a17566ce8ba67027a6bd9c24913bfeaea07e89cdff9dd54a",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed",
+      "capture": "recorded for this revision"
+    },
+    "showcase-visual-ios.mp4": {
+      "seconds": 56.866667,
+      "bytes": 740968,
+      "sha256": "ad6db34203e6f11ca87e203a695f21c92412222fb5dfbb366448a74f5f9faf1f",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed",
+      "capture": "recorded for this revision"
+    },
+    "showcase-type-ios.mp4": {
+      "seconds": 23.266667,
+      "bytes": 165100,
+      "sha256": "c525d15eb2a9195aa28c86bd01133d87abf6f31b99b9e0af090e69e6a911f476",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed",
+      "capture": "recorded for this revision"
+    },
+    "showcase-layout-ios.mp4": {
+      "seconds": 37.433333,
+      "bytes": 685965,
+      "sha256": "7384a334b9231a6ce2e0ef901fa6b7364f47b5d9fbd2f0a2aa1744fde7666d1b",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed",
+      "capture": "recorded for this revision"
+    },
+    "showcase-state-ios.mp4": {
+      "seconds": 48.166667,
+      "bytes": 424968,
+      "sha256": "e2ff28bb5d068fba856437e08d64ebcf101aca2477243012a26b83c40bdf9e88",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed",
+      "capture": "recorded for this revision"
+    },
+    "showcase-images-ios.mp4": {
+      "seconds": 11.766667,
+      "bytes": 1237507,
+      "sha256": "b7a110fa1d5b7cb44f3c582ed224e42b1cad421b5de7fb843ba7e97a09674fbc",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed",
+      "capture": "recorded for this revision"
+    },
+    "showcase-atelier-ios.mp4": {
+      "seconds": 12.966667,
+      "bytes": 275128,
+      "sha256": "87d4248b1700207f398f26b270d4ca8f6dda5b27fb54272399fe082539f05259",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed",
+      "capture": "retained, unchanged automotive presentation"
     },
     "showcase-lighting-ios.mp4": {
       "seconds": 11.733333,
-      "encoding": "H.264, yuv420p, 420×914, 30 fps",
-      "fullDecode": "passed"
-    },
-    "showcase-presets-ios.mp4": {
-      "seconds": 5.7,
-      "encoding": "H.264, yuv420p, 420×914, 30 fps",
-      "fullDecode": "passed"
+      "bytes": 172430,
+      "sha256": "1cab9a491513fcc4162f697d0423d85b822cc12ba4518d9f89ab3e454775faa9",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed",
+      "capture": "retained, unchanged automotive presentation"
     },
     "showcase-shaders-ios.mp4": {
       "seconds": 11.766667,
-      "encoding": "H.264, yuv420p, 420×914, 30 fps",
-      "fullDecode": "passed"
+      "bytes": 166922,
+      "sha256": "6600782b599b34b3486b5719a1acbabe80b9d7dfb83db17cbfca2e4f47ca926f",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed",
+      "capture": "retained, unchanged automotive presentation"
     },
-    "showcase-splash-ios.mp4": {
-      "seconds": 4.233333,
-      "encoding": "H.264, yuv420p, 420×914, 30 fps",
-      "fullDecode": "passed"
-    },
-    "showcase-springs-ios.mp4": {
-      "seconds": 4.1,
-      "encoding": "H.264, yuv420p, 420×914, 30 fps",
-      "fullDecode": "passed"
+    "showcase-journey-ios.mp4": {
+      "seconds": 22.8,
+      "bytes": 800404,
+      "sha256": "b150504b67b51c3bb28a9b35f32738ce85452603d18bdb2785071ac7bdc8104d",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed",
+      "capture": "recorded for this revision"
     },
     "showcase-camera-orbit-ios.mp4": {
-      "seconds": 21.733333,
-      "encoding": "H.264, yuv420p, 420×914, 30 fps",
-      "fullDecode": "passed"
+      "seconds": 22.0,
+      "bytes": 400363,
+      "sha256": "020a46e0ab1cf181ed9f33408a895d290c31efa945e89d14ec5868b721c22f3c",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed",
+      "capture": "recorded for this revision"
     },
     "showcase-native-reentry-ios.mp4": {
-      "seconds": 26.1,
-      "encoding": "H.264, yuv420p, 420×914, 30 fps",
-      "fullDecode": "passed"
+      "seconds": 27.766667,
+      "bytes": 852807,
+      "sha256": "8e34c9516c1f4db0faaaf62a2a38df0a7446518fdb0ce7b4f06574ec4358c724",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed",
+      "capture": "recorded for this revision"
     }
   },
   "validation": [
@@ -294,29 +391,14 @@
     "benchmark TypeScript",
     "Prettier for changed source/docs",
     "git diff --check",
-    "docs:check-media: 50 guides per language, 111 recordings",
+    "docs:check-media",
     "docs:build"
   ],
   "limits": [
-    "Route audit covers mounting and screenshots, not every possible interaction in all 54 examples.",
-    "New recordings are iOS simulator evidence; Android and physical devices were not tested in this presentation pass.",
+    "Native verification and new recordings cover iOS simulators, not Android or physical devices.",
+    "Representative interactions and all 54 collection entries were reviewed; not every optional technical probe was exercised.",
+    "Busy JavaScript shows an availability composition on iOS; the Android experiment retains its existing presentation.",
+    "Simulator haptic requests do not demonstrate physical vibration.",
     "The detailed car is a local asset from jolt-car and is not redistributed in Git; the repository has a procedural fallback."
-  ],
-  "cameraTabFollowUp": {
-    "date": "2026-10-23",
-    "entry": "Collection → Maps & 3D → 3D camera",
-    "checks": [
-      "detailed studio is mounted",
-      "active tab can be tapped again without disabling playback",
-      "paused progress stays fixed",
-      "resume completes at 100%",
-      "stop and replay",
-      "background and foreground resume",
-      "Timeline / Native map / 3D tab teardown and rebinding",
-      "return to collection and reopen Maps & 3D",
-      "reopen all four automotive entries and Haptics in one app session"
-    ],
-    "vueErrors": [],
-    "registration": "Native elements register once at application startup, not on each component mount."
-  }
+  ]
 }

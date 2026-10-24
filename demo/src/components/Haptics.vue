@@ -157,99 +157,178 @@ onUnmounted(() => {
   cancel()
   scope.dispose()
 })
+defineProps<{ embedded?: boolean }>()
 </script>
 
 <template>
-  <StackLayout v-if="isIOS || isAndroid" class="section">
-    <Label class="heading" text="Haptics" />
-    <Label
-      class="muted"
-      textWrap="true"
-      text="Feel each arrival on a physical device. Tap again to interrupt; only the new arrival gets feedback."
-    />
-    <GridLayout ref="lane" class="lane" height="56">
-      <HapticProbe
-        ref="ball"
-        class="ball"
-        width="48"
-        height="48"
-        horizontalAlignment="left"
-      />
-    </GridLayout>
-    <GridLayout columns="*, *, *">
-      <Button
-        v-for="(style, index) in styles"
+  <StackLayout v-if="embedded" class="exhibit">
+    <GridLayout class="ex-stage"
+      ><Label
+        text="A FEELING YOU CAN TOUCH"
+        class="ex-kicker"
+        verticalAlignment="top" /><StackLayout marginTop="34"
+        ><GridLayout columns="*,auto" height="16"
+          ><Label text="THE ARRIVAL" class="ex-kicker" /><Label
+            col="1"
+            :text="`${progress}%`"
+            color="#E3FC62"
+            fontSize="12" /></GridLayout
+        ><GridLayout ref="lane" height="70"
+          ><Label height="1" backgroundColor="#4A6142" /><HapticProbe
+            ref="ball"
+            width="48"
+            height="48"
+            borderRadius="24"
+            backgroundColor="#E3FC62"
+            horizontalAlignment="left" /></GridLayout
+        ><GridLayout height="100"
+          ><Label
+            height="1"
+            backgroundColor="#4A6142"
+            verticalAlignment="bottom" /><HapticProbe
+            ref="bouncing"
+            width="48"
+            height="48"
+            borderRadius="24"
+            backgroundColor="#C5B3EA"
+            verticalAlignment="bottom" /></GridLayout
+        ><GridLayout columns="*,*,*" height="58" marginTop="12"
+          ><HapticProbe
+            ref="first"
+            width="24"
+            height="24"
+            borderRadius="12"
+            backgroundColor="#E8B294"
+            verticalAlignment="bottom" /><HapticProbe
+            ref="second"
+            col="1"
+            width="24"
+            height="24"
+            borderRadius="12"
+            backgroundColor="#E8B294"
+            verticalAlignment="bottom" /><HapticProbe
+            ref="third"
+            col="2"
+            width="24"
+            height="24"
+            borderRadius="12"
+            backgroundColor="#E8B294"
+            verticalAlignment="bottom" /></GridLayout></StackLayout></GridLayout
+    ><GridLayout columns="*,*,*" class="ex-controls"
+      ><Button
+        v-for="(style, i) in styles"
         :key="style"
-        :col="index"
-        class="button"
+        :col="i"
         :text="style"
         @tap="toss(style)"
-      />
-    </GridLayout>
-    <Label class="muted" text="Two bounces, two light taps." />
-    <GridLayout class="lane" height="80">
-      <HapticProbe
-        ref="bouncing"
-        class="ball"
-        width="48"
-        height="48"
-        verticalAlignment="bottom"
-      />
-    </GridLayout>
-    <GridLayout columns="*, *">
-      <Button class="button" text="Bounce" @tap="jump" />
-      <Button col="1" class="button" text="Stop" @tap="cancel" />
-    </GridLayout>
-    <GridLayout columns="*, *, *" height="52">
-      <HapticProbe
-        ref="first"
-        class="ball"
-        width="24"
-        height="24"
-        verticalAlignment="bottom"
-      />
-      <HapticProbe
-        ref="second"
-        col="1"
-        class="ball"
-        width="24"
-        height="24"
-        verticalAlignment="bottom"
-      />
-      <HapticProbe
-        ref="third"
-        col="2"
-        class="ball"
-        width="24"
-        height="24"
-        verticalAlignment="bottom"
-      />
-    </GridLayout>
-    <GridLayout columns="*, *, *">
-      <Button class="button" text="Tween" @tap="tween()" />
-      <Button col="1" class="button" text="Stagger" @tap="stagger" />
-      <Button col="2" class="button" text="No feedback" @tap="tween(false)" />
-    </GridLayout>
-    <GridLayout columns="*, *, *">
-      <Button class="button" :text="paused ? 'Resume' : 'Pause'" @tap="togglePause" />
-      <Button col="1" class="button" text="Seek 70%" @tap="seek(0.7)" />
-      <Button col="2" class="button" text="Rewind 10%" @tap="seek(0.1)" />
-    </GridLayout>
-    <Label :text="status" class="muted" textWrap="true" />
-    <Label :text="`${progress}%`" class="muted" />
-    <Label
-      v-if="isAndroid"
-      class="muted"
+        :class="{ 'ex-primary': i === 0 }" /></GridLayout
+    ><StackLayout class="ex-controls"
+      ><GridLayout columns="*,*,*"
+        ><Button col="0" text="Bounce" @tap="jump" /><Button
+          col="1"
+          text="Stagger"
+          @tap="stagger" /><Button
+          col="2"
+          text="Stop"
+          @tap="cancel" /></GridLayout></StackLayout
+    ><Label
+      text="Use a physical device to feel the taps. The simulator shows the movement."
+      class="ex-note"
       textWrap="true"
-      text="A white flash marks a feedback request, not proof of vibration. Device settings decide whether it is felt."
     />
-    <Button
-      v-if="isAndroid"
-      class="button"
-      text="Run haptic checks"
-      :isEnabled="!checking"
-      @tap="checks"
-    />
-    <StackLayout v-if="isAndroid" ref="checksHost" height="44" />
   </StackLayout>
+  <template v-else>
+    <StackLayout v-if="isIOS || isAndroid" class="section">
+      <Label class="heading" text="Haptics" />
+      <Label
+        class="muted"
+        textWrap="true"
+        text="Feel each arrival on a physical device. Tap again to interrupt; only the new arrival gets feedback."
+      />
+      <GridLayout ref="lane" class="lane" height="56">
+        <HapticProbe
+          ref="ball"
+          class="ball"
+          width="48"
+          height="48"
+          horizontalAlignment="left"
+        />
+      </GridLayout>
+      <GridLayout columns="*, *, *">
+        <Button
+          v-for="(style, index) in styles"
+          :key="style"
+          :col="index"
+          class="button"
+          :text="style"
+          @tap="toss(style)"
+        />
+      </GridLayout>
+      <Label class="muted" text="Two bounces, two light taps." />
+      <GridLayout class="lane" height="80">
+        <HapticProbe
+          ref="bouncing"
+          class="ball"
+          width="48"
+          height="48"
+          verticalAlignment="bottom"
+        />
+      </GridLayout>
+      <GridLayout columns="*, *">
+        <Button class="button" text="Bounce" @tap="jump" />
+        <Button col="1" class="button" text="Stop" @tap="cancel" />
+      </GridLayout>
+      <GridLayout columns="*, *, *" height="52">
+        <HapticProbe
+          ref="first"
+          class="ball"
+          width="24"
+          height="24"
+          verticalAlignment="bottom"
+        />
+        <HapticProbe
+          ref="second"
+          col="1"
+          class="ball"
+          width="24"
+          height="24"
+          verticalAlignment="bottom"
+        />
+        <HapticProbe
+          ref="third"
+          col="2"
+          class="ball"
+          width="24"
+          height="24"
+          verticalAlignment="bottom"
+        />
+      </GridLayout>
+      <GridLayout columns="*, *, *">
+        <Button class="button" text="Tween" @tap="tween()" />
+        <Button col="1" class="button" text="Stagger" @tap="stagger" />
+        <Button col="2" class="button" text="No feedback" @tap="tween(false)" />
+      </GridLayout>
+      <GridLayout columns="*, *, *">
+        <Button class="button" :text="paused ? 'Resume' : 'Pause'" @tap="togglePause" />
+        <Button col="1" class="button" text="Seek 70%" @tap="seek(0.7)" />
+        <Button col="2" class="button" text="Rewind 10%" @tap="seek(0.1)" />
+      </GridLayout>
+      <Label :text="status" class="muted" textWrap="true" />
+      <Label :text="`${progress}%`" class="muted" />
+      <Label
+        v-if="isAndroid"
+        class="muted"
+        textWrap="true"
+        text="A white flash marks a feedback request, not proof of vibration. Device settings decide whether it is felt."
+      />
+      <Button
+        v-if="isAndroid"
+        class="button"
+        text="Run haptic checks"
+        :isEnabled="!checking"
+        @tap="checks"
+      />
+      <StackLayout v-if="isAndroid" ref="checksHost" height="44" />
+    </StackLayout>
+  </template>
 </template>

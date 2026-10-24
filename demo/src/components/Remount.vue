@@ -25,39 +25,96 @@ function toggle() {
   shown.value = !shown.value
   stage.to(shown.value ? 'shown' : 'hidden')
 }
+defineProps<{ embedded?: boolean }>()
 </script>
 
 <template>
-  <StackLayout class="section">
-    <Label class="heading" text="Recreated views" />
-    <Label class="muted" textWrap="true" text=":ref=&quot;stage.ref('logo')&quot;" />
-
-    <GridLayout v-if="compact" columns="*, *" class="stage" height="150">
-      <Label :ref="logo" class="remount-logo small" text="J" opacity="0" />
-      <Label ref="plain" col="1" class="remount-logo small" text="J" opacity="0" />
-    </GridLayout>
-    <GridLayout v-else columns="*, *" class="stage" height="150">
-      <Label :ref="logo" class="remount-logo" text="J" opacity="0" />
-      <Label ref="plain" col="1" class="remount-logo" text="J" opacity="0" />
-    </GridLayout>
-    <GridLayout columns="*, *">
-      <Label class="caption" text="States" />
-      <Label col="1" class="caption" text="Entrance only" />
-    </GridLayout>
-
-    <Label
-      class="note"
+  <StackLayout v-if="embedded" class="exhibit">
+    <GridLayout class="ex-stage"
+      ><Label
+        text="SOME THINGS STAY WITH YOU"
+        class="ex-kicker"
+        verticalAlignment="top" /><GridLayout
+        :key="compact ? 'compact' : 'roomy'"
+        columns="*,*"
+        rows="*,auto"
+        verticalAlignment="middle"
+        height="200"
+        ><GridLayout
+          :ref="logo"
+          :width="compact ? 66 : 100"
+          :height="compact ? 82 : 120"
+          backgroundColor="#E3FC62"
+          borderRadius="22"
+          opacity="0"
+          ><Image src="~/assets/jolt-mark.png" width="50" height="60" /></GridLayout
+        ><GridLayout
+          ref="plain"
+          col="1"
+          :width="compact ? 66 : 100"
+          :height="compact ? 82 : 120"
+          backgroundColor="#C1B0E3"
+          borderRadius="22"
+          opacity="0"
+          ><Image src="~/assets/jolt-mark.png" width="50" height="60" /></GridLayout
+        ><Label row="1" text="REMEMBERS" class="ex-kicker" textAlignment="center" /><Label
+          row="1"
+          col="1"
+          text="STARTS OVER"
+          class="ex-kicker"
+          textAlignment="center" /></GridLayout
+      ><Label
+        text="New view. Same feeling."
+        class="ex-copy"
+        verticalAlignment="bottom" /></GridLayout
+    ><StackLayout class="ex-controls"
+      ><GridLayout columns="*,*"
+        ><Button
+          col="0"
+          text="Switch layout"
+          @tap="compact = !compact"
+          class="ex-primary" /><Button
+          col="1"
+          :text="shown ? 'Hide logo' : 'Show logo'"
+          @tap="toggle" /></GridLayout></StackLayout
+    ><Label
+      text="Recreate the cards. The state-bound one remembers where it belongs."
+      class="ex-note"
       textWrap="true"
-      text="Switching the layout creates new views. The one attached to the states comes back as it was; the other comes back with its template opacity."
     />
-    <GridLayout columns="*, *">
-      <Button class="button" text="Switch layout" @tap="compact = !compact" />
-      <Button
-        col="1"
-        class="button"
-        :text="shown ? 'Hide logo' : 'Show logo'"
-        @tap="toggle"
-      />
-    </GridLayout>
   </StackLayout>
+  <template v-else>
+    <StackLayout class="section">
+      <Label class="heading" text="Recreated views" />
+      <Label class="muted" textWrap="true" text=":ref=&quot;stage.ref('logo')&quot;" />
+
+      <GridLayout v-if="compact" columns="*, *" class="stage" height="150">
+        <Label :ref="logo" class="remount-logo small" text="J" opacity="0" />
+        <Label ref="plain" col="1" class="remount-logo small" text="J" opacity="0" />
+      </GridLayout>
+      <GridLayout v-else columns="*, *" class="stage" height="150">
+        <Label :ref="logo" class="remount-logo" text="J" opacity="0" />
+        <Label ref="plain" col="1" class="remount-logo" text="J" opacity="0" />
+      </GridLayout>
+      <GridLayout columns="*, *">
+        <Label class="caption" text="States" />
+        <Label col="1" class="caption" text="Entrance only" />
+      </GridLayout>
+
+      <Label
+        class="note"
+        textWrap="true"
+        text="Switching the layout creates new views. The one attached to the states comes back as it was; the other comes back with its template opacity."
+      />
+      <GridLayout columns="*, *">
+        <Button class="button" text="Switch layout" @tap="compact = !compact" />
+        <Button
+          col="1"
+          class="button"
+          :text="shown ? 'Hide logo' : 'Show logo'"
+          @tap="toggle"
+        />
+      </GridLayout>
+    </StackLayout>
+  </template>
 </template>
