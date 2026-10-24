@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useThemeReveal } from './theme-reveal'
+import { palette, themeClass, statusBarStyle } from './theme'
 import { useRouter } from 'vue-router-ns'
 import { locale, preference, setLanguage, t } from './i18n'
 import type { LanguagePreference } from './locale'
@@ -18,18 +20,33 @@ const options: {
   { value: 'en', title: 'English', subtitle: 'English', glyph: 'Aa' },
   { value: 'pt-BR', title: 'Português', subtitle: 'Português do Brasil', glyph: 'Ãa' },
 ]
+const themeReveal = useThemeReveal()
 </script>
 <template>
-  <Page actionBarHidden="true" backgroundColor="#F6F5F0" statusBarStyle="dark">
-    <GridLayout rows="60,*">
+  <Page
+    actionBarHidden="true"
+    @navigatedTo="themeReveal.enter"
+    @navigatingFrom="themeReveal.leave"
+    :backgroundColor="palette.background"
+    :color="palette.text"
+    :class="themeClass"
+    :statusBarStyle="statusBarStyle"
+    :androidStatusBarBackground="palette.background"
+  >
+    <GridLayout
+      rows="60,*"
+      :backgroundColor="palette.background"
+      @loaded="themeReveal.loaded"
+      @unloaded="themeReveal.unloaded"
+    >
       <GridLayout columns="auto,*,auto" padding="8 24">
         <Label
           text="←"
           width="40"
           height="40"
           borderRadius="20"
-          backgroundColor="#E9EAE2"
-          color="#20242D"
+          :backgroundColor="palette.surface"
+          :color="palette.text"
           fontSize="24"
           textAlignment="center"
           verticalAlignment="middle"
@@ -51,6 +68,7 @@ const options: {
           width="25"
           height="29"
           stretch="aspectFit"
+          :tintColor="palette.text"
         />
       </GridLayout>
       <ScrollView row="1" scrollBarIndicatorVisible="false">
@@ -59,7 +77,7 @@ const options: {
             :text="t('Make yourself\nat home.')"
             fontSize="42"
             fontWeight="bold"
-            color="#20242D"
+            :color="palette.text"
             letterSpacing="-.045"
             textWrap="true"
           />
@@ -76,7 +94,9 @@ const options: {
             padding="20 18"
             marginBottom="12"
             borderRadius="24"
-            :backgroundColor="preference === option.value ? '#24392D' : '#E9ECE1'"
+            :backgroundColor="
+              preference === option.value ? palette.selected : palette.surface
+            "
             @tap="setLanguage(option.value)"
             accessibilityRole="button"
             :accessibilityLabel="
@@ -87,7 +107,9 @@ const options: {
             <Label
               :text="option.glyph"
               fontSize="24"
-              :color="preference === option.value ? '#E3FC62' : '#788767'"
+              :color="
+                preference === option.value ? palette.selectedText : palette.controlText
+              "
               verticalAlignment="middle"
             />
             <StackLayout col="1" paddingRight="8">
@@ -95,14 +117,16 @@ const options: {
                 :text="t(option.title)"
                 fontSize="18"
                 fontWeight="bold"
-                :color="preference === option.value ? '#F4F4E7' : '#24392D'"
+                :color="preference === option.value ? palette.selectedText : palette.text"
                 textWrap="true"
               />
               <Label
                 v-if="option.value === 'system'"
                 :text="t(option.subtitle)"
                 fontSize="12"
-                :color="preference === option.value ? '#B9C9AE' : '#73806A'"
+                :color="
+                  preference === option.value ? palette.selectedMuted : palette.muted
+                "
                 marginTop="6"
                 textWrap="true"
               />
@@ -110,7 +134,9 @@ const options: {
                 v-else-if="option.value === 'pt-BR'"
                 text="Brasil"
                 fontSize="12"
-                :color="preference === option.value ? '#B9C9AE' : '#73806A'"
+                :color="
+                  preference === option.value ? palette.selectedMuted : palette.muted
+                "
                 marginTop="6"
               />
             </StackLayout>
@@ -118,27 +144,27 @@ const options: {
               col="2"
               :text="preference === option.value ? '✓' : '○'"
               fontSize="21"
-              :color="preference === option.value ? '#E3FC62' : '#849374'"
+              :color="preference === option.value ? palette.selectedText : palette.subtle"
               verticalAlignment="middle"
             />
           </GridLayout>
           <StackLayout
             marginTop="18"
             padding="18 20"
-            backgroundColor="#F0E7DA"
+            :backgroundColor="palette.peach"
             borderRadius="20"
           >
             <Label
               :text="t(`Currently using ${locale === 'pt-BR' ? 'Português' : 'English'}`)"
               fontSize="14"
               fontWeight="bold"
-              color="#65523D"
+              :color="palette.text"
               textWrap="true"
             />
             <Label
               :text="t('Changes apply immediately.')"
               fontSize="13"
-              color="#81725E"
+              :color="palette.muted"
               marginTop="8"
               textWrap="true"
             />

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useThemeReveal } from './theme-reveal'
+import { palette, themeClass, statusBarStyle } from './theme'
 import { usePreviewI18n } from './i18n'
 import { ref, onUnmounted } from 'nativescript-vue'
 import { animate, motionScope, reducedMotion } from '@rafaelaugusto/jolt'
@@ -14,6 +16,7 @@ function stop() {
   scope.dispose()
 }
 function start() {
+  themeReveal.enter()
   stop()
   scope = motionScope()
   if (reducedMotion()) return
@@ -46,24 +49,38 @@ function open(id: string) {
 function collection(category = 'All') {
   void router.push({ name: 'collection', query: { category } })
 }
+const themeReveal = useThemeReveal()
+function leave() {
+  stop()
+  themeReveal.leave()
+}
 </script>
 <template>
   <Page
     actionBarHidden="true"
-    backgroundColor="#F6F5F0"
-    statusBarStyle="dark"
+    :backgroundColor="palette.background"
+    :color="palette.text"
+    :class="themeClass"
+    :statusBarStyle="statusBarStyle"
+    :androidStatusBarBackground="palette.background"
     @navigatedTo="start"
-    @navigatingFrom="stop"
+    @navigatingFrom="leave"
   >
-    <GridLayout rows="*,72">
+    <GridLayout
+      rows="*,72"
+      :backgroundColor="palette.background"
+      @loaded="themeReveal.loaded"
+      @unloaded="themeReveal.unloaded"
+    >
       <ScrollView row="0" scrollBarIndicatorVisible="false">
         <StackLayout padding="12 24 28">
-          <GridLayout columns="36,*,auto" height="44" marginBottom="26">
+          <GridLayout columns="36,*,auto,auto" height="44" marginBottom="26">
             <Image
               src="~/assets/jolt-mark.png"
               width="27"
               height="31"
               stretch="aspectFit"
+              :tintColor="palette.text"
               horizontalAlignment="left"
             />
             <Label col="1" :text="t('jolt.')" class="studio-wordmark" />
@@ -71,8 +88,8 @@ function collection(category = 'All') {
               col="2"
               :text="'◎  ' + t('Language')"
               fontSize="12"
-              color="#344936"
-              backgroundColor="#E8EBDD"
+              :color="palette.controlText"
+              :backgroundColor="palette.surface"
               padding="12 14"
               borderRadius="18"
               verticalAlignment="middle"
@@ -80,6 +97,23 @@ function collection(category = 'All') {
               accessibilityRole="button"
               :accessibilityLabel="t('Language settings')"
               automationText="language-settings"
+            />
+            <Label
+              col="3"
+              text="◐"
+              fontSize="23"
+              width="44"
+              height="44"
+              marginLeft="8"
+              borderRadius="22"
+              :backgroundColor="palette.surface"
+              :color="palette.controlText"
+              textAlignment="center"
+              verticalAlignment="middle"
+              @tap="router.push('/appearance')"
+              accessibilityRole="button"
+              :accessibilityLabel="t('Appearance settings')"
+              automationText="appearance-settings"
             />
           </GridLayout>
           <Label
@@ -193,7 +227,7 @@ function collection(category = 'All') {
             <StackLayout
               col="0"
               class="studio-feature"
-              backgroundColor="#E9E7F2"
+              :backgroundColor="palette.lavender"
               @tap="open('springs')"
               accessibilityRole="button"
               :accessibilityLabel="t('Open Springs')"
@@ -230,7 +264,7 @@ function collection(category = 'All') {
             <StackLayout
               col="2"
               class="studio-feature"
-              backgroundColor="#E7EDD8"
+              :backgroundColor="palette.sage"
               @tap="open('gesture-lab')"
               accessibilityRole="button"
               :accessibilityLabel="t('Open Native gestures')"

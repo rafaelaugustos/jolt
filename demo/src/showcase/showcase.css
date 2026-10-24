@@ -1,26 +1,57 @@
+.studio-theme {
+  --studio-background: #f6f5f0;
+  --studio-text: #20242d;
+  --studio-muted: #687260;
+  --studio-subtle: #77816d;
+  --studio-surface: #eaeae3;
+  --studio-raised: #f0f0e9;
+  --studio-border: #dde2d5;
+  --studio-control: #e4e8dd;
+  --studio-control-text: #34432e;
+}
+.studio-dark {
+  --studio-background: #151c1a;
+  --studio-text: #eff3e9;
+  --studio-muted: #b0bba8;
+  --studio-subtle: #9aa98f;
+  --studio-surface: #28332c;
+  --studio-raised: #202a24;
+  --studio-border: #3c493e;
+  --studio-control: #303e33;
+  --studio-control-text: #dce7d0;
+}
+.studio-theme .composer {
+  background-color: var(--studio-raised);
+  border-top-color: var(--studio-border);
+}
+.studio-theme .composer-input {
+  background-color: var(--studio-surface);
+  color: var(--studio-text);
+}
+
 .studio-wordmark {
-  color: #20242d;
+  color: var(--studio-text, #20242d);
   font-size: 29;
   font-weight: bold;
   vertical-align: middle;
 }
 .studio-eyebrow {
-  color: #818576;
+  color: var(--studio-subtle, #818576);
   font-size: 9;
   letter-spacing: 0.12;
 }
 .studio-display {
-  color: #20242d;
+  color: var(--studio-text, #20242d);
   font-size: 42;
   font-weight: bold;
   letter-spacing: -0.04;
 }
 .studio-subtitle {
-  color: #7b8074;
+  color: var(--studio-muted, #7b8074);
   font-size: 15;
 }
 .studio-section-title {
-  color: #20242d;
+  color: var(--studio-text, #20242d);
   font-size: 20;
   font-weight: bold;
 }
@@ -29,17 +60,17 @@
   padding: 19 18;
 }
 .studio-card-title {
-  color: #20242d;
+  color: var(--studio-text, #20242d);
   font-size: 21;
   font-weight: bold;
 }
 .studio-card-copy {
-  color: #686c64;
+  color: var(--studio-muted, #686c64);
   font-size: 12;
   margin-top: 7;
 }
 .studio-small-action {
-  color: #42483b;
+  color: var(--studio-control-text, #42483b);
   font-size: 9;
   font-weight: bold;
   letter-spacing: 0.06;
@@ -51,23 +82,23 @@
   margin-top: 18;
 }
 .studio-bottom {
-  background-color: #f6f5f0;
+  background-color: var(--studio-background, #f6f5f0);
   border-top-width: 1;
-  border-top-color: #e2e4d9;
+  border-top-color: var(--studio-border, #e2e4d9);
   padding: 4 24;
 }
 .studio-tab {
-  color: #858a7d;
+  color: var(--studio-subtle, #858a7d);
   font-size: 14;
 }
 .studio-tab-active {
-  color: #20242d;
+  color: var(--studio-text, #20242d);
   font-weight: bold;
   font-size: 14;
 }
 .studio-filter {
-  background-color: #eaeae3;
-  color: #707668;
+  background-color: var(--studio-surface, #eaeae3);
+  color: var(--studio-muted, #707668);
   border-radius: 16;
   padding: 9 15;
   margin: 0 7 14 0;
@@ -80,7 +111,7 @@
 .studio-example-row {
   padding: 17 0;
   border-bottom-width: 1;
-  border-bottom-color: #e4e6dc;
+  border-bottom-color: var(--studio-border, #e4e6dc);
 }
 .studio-example-page .section {
   background-color: #ffffff;
@@ -111,21 +142,21 @@
 .studio-example-page .section > .muted {
   font-family: sans-serif;
   font-size: 13;
-  color: #7b8274;
+  color: var(--studio-muted, #7b8274);
   margin-bottom: 6;
 }
 .studio-example-page .section {
-  background-color: #f0f0e9;
+  background-color: var(--studio-raised, #f0f0e9);
   padding: 22 18;
 }
 .studio-example-page .stage {
-  background-color: #e3e8dc;
+  background-color: var(--studio-surface, #e3e8dc);
   border-radius: 22;
   margin: 22 0;
 }
 .studio-example-page .chip {
-  background-color: #e3e7dc;
-  color: #68715f;
+  background-color: var(--studio-control, #e3e7dc);
+  color: var(--studio-control-text, #68715f);
   padding: 10 13;
   border-radius: 14;
 }
@@ -134,7 +165,7 @@
   color: #e3fc62;
 }
 .studio-example-page .note {
-  color: #7b8274;
+  color: var(--studio-muted, #7b8274);
   font-size: 13;
 }
 .studio-example-page .button {
@@ -143,8 +174,8 @@
 }
 
 .studio-example-page Button {
-  background-color: #e1e6d9;
-  color: #47573a;
+  background-color: var(--studio-control, #e1e6d9);
+  color: var(--studio-control-text, #47573a);
   border-radius: 14;
   font-size: 13;
   text-transform: none;
@@ -189,14 +220,14 @@
   font-size: 10;
 }
 .ex-note {
-  color: #777f72;
+  color: var(--studio-muted, #777f72);
   font-size: 13;
   margin: 16 2 0;
 }
 .ex-controls Button,
 .ex-button {
-  background-color: #e4e8dd;
-  color: #34432e;
+  background-color: var(--studio-control, #e4e8dd);
+  color: var(--studio-control-text, #34432e);
   border-radius: 16;
   height: 48;
   font-size: 13;
@@ -210,7 +241,7 @@
   color: #e3fc62;
 }
 .ex-link {
-  color: #727c6b;
+  color: var(--studio-muted, #727c6b);
   font-size: 12;
   padding: 16 4 8;
 }
@@ -240,7 +271,7 @@
   font-size: 13;
 }
 .ex-label {
-  color: #33412e;
+  color: var(--studio-text, #33412e);
   font-size: 18;
   font-weight: bold;
   margin: 0 4 10;
