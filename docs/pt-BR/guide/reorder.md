@@ -2,9 +2,7 @@
 
 Segure a alça de uma linha, mova pela lista e solte. Os vizinhos abrem espaço enquanto a lista rola perto das bordas. A linha levantada permanece em uma cópia nativa mesmo depois que sua célula original sai da área visível e é reciclada.
 
-::: warning Prévia de desenvolvimento
-Este entry point opcional está sendo preparado para a próxima versão. Ele não existe no runtime publicado da beta.16. Compile o Jolt deste checkout e recompile o app nativo; uma atualização só de JavaScript não instala as classes de entrada e renderização.
-:::
+Disponível desde a **0.1.0-beta.17**, no pacote principal. Instale `@rafaelaugusto/jolt@0.1.0-beta.17` e recompile o app para incluir as classes de entrada e renderização. Não exige o plugin opcional de propriedades nativas.
 
 <Clip name="reorder-ios" caption="Simulador iOS, entrada real pelo XCTest: arraste entre linhas de alturas diferentes, mova com botões e segure na borda inferior para atravessar células recicladas. Velocidade original; não é uma gravação de aparelho físico." />
 

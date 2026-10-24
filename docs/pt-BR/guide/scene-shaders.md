@@ -2,9 +2,7 @@
 
 `sceneKitEnvironmentIntensity(scene)` anima a iluminação do ambiente. `sceneKitUniform(target, name, options)` anima uma entrada escalar ou vetorial declarada no shader da aplicação. São adaptadores opcionais para iOS, importados de `@rafaelaugusto/jolt/native`.
 
-::: warning Prévia de desenvolvimento
-Preparado para a beta.17; não está nos pacotes publicados da beta.16. Compile os pacotes principal e `@rafaelaugusto/jolt-native` deste checkout e recompile o app nativo. Atualizar somente JavaScript não instala os novos adaptadores compilados.
-:::
+Disponível desde a **0.1.0-beta.17**. Instale `@rafaelaugusto/jolt@0.1.0-beta.17` e `@rafaelaugusto/jolt-native@0.1.0-beta.17` e recompile o app nativo. Atualizar somente JavaScript não instala os adaptadores compilados.
 
 A base nativa exige iOS 13+ e NativeScript 8.9+; o runtime/app escolhido pode exigir versões mais novas. Não há renderização SceneKit no Android.
 

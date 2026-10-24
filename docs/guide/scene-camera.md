@@ -7,7 +7,7 @@
 Available since **0.1.0-beta.15**. Install matching core/native versions and rebuild the native app:
 
 ```sh
-npm install @rafaelaugusto/jolt@0.1.0-beta.16 @rafaelaugusto/jolt-native@0.1.0-beta.16
+npm install @rafaelaugusto/jolt@0.1.0-beta.17 @rafaelaugusto/jolt-native@0.1.0-beta.17
 ```
 
 The platform minimum remains NativeScript 8.9 and iOS 13; native validation used Core 9.1.3, runtime 9.1.0 and an iOS 26 simulator.

@@ -76,4 +76,4 @@ O que `animate()`, `decay()`, `sequence()` e os passos de uma sequência retorna
 
 ## Tipos
 
-- [Ambiente e parâmetros de shader SceneKit](./scene-shaders) — prévia da beta.17: iluminação nativa e uniforms escalares/vetoriais tipados.
+- [Ambiente e parâmetros de shader SceneKit](./scene-shaders) — iluminação nativa e uniforms escalares/vetoriais tipados.

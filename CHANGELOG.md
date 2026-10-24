@@ -2,8 +2,15 @@
 
 ## Unreleased
 
-- Add the optional `@rafaelaugusto/jolt/bottom-sheet` in-page recipe: native drag/scroll handoff, content and percentage snaps, spring interruption, keyboard following, backdrop/back dismissal, accessibility actions and lifecycle cleanup. Include real iOS/Android recordings and English/Portuguese guides. Native contact callbacks require rebuilding the app; this entry is not in beta.16.
+## 0.1.0-beta.17 (2026-10-24)
+
+- Add the optional `@rafaelaugusto/jolt/bottom-sheet` in-page recipe: native drag/scroll handoff, content and percentage snaps, spring interruption, keyboard following, backdrop/back dismissal, accessibility actions and lifecycle cleanup. Include real iOS/Android recordings and English/Portuguese guides. Native contact callbacks require rebuilding the app.
 - Add optional iOS SceneKit environment-intensity and typed shader-modifier uniform adapters. Support scalar/vector schemas, native playback, shared value bindings, per-uniform ownership and source invalidation. Include a real native demo, recording and EN/PT guides; requires rebuilding the matching optional native plugin.
+
+- Add the optional `@rafaelaugusto/jolt/reorder` entry for flat vertical Core ListView lists with variable heights: native long-press snapshots, neighbour springs and edge autoscroll through recycled cells, stable keys and one application-owned commit. Include cancellation/removal/resize handling, Reduced Motion, native accessibility actions, Option/Alt+arrow commands and real iOS/Android recordings. Rebuild the native app.
+- Redesign the Jolt preview with an animated splash, 55 examples, English/Portuguese selected from the device or in-app settings, and light/dark/system appearance. Preserve a native root during Android startup.
+- Update the iOS CI runner to overlap simulator first boot with setup and compilation, and bound launch diagnostics. Remove the obsolete GitHub Pages deployment workflow.
+- Include English/Portuguese guides and reviewed native recordings for the new features, with native validation reports for bottom sheet, SceneKit shader inputs and reordering.
 
 ## 0.1.0-beta.16 (2026-10-23)
 
