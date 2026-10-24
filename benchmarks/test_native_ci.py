@@ -1,11 +1,34 @@
 import copy
 import importlib.util
 import pathlib
+import subprocess
+import sys
+import tempfile
 import unittest
 
 spec = importlib.util.spec_from_file_location("native_ci", pathlib.Path(__file__).with_name("native-ci.py"))
 probe = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(probe)
+
+
+class LaunchDiagnostics(unittest.TestCase):
+    def test_keeps_output_and_propagates_launch_failure(self):
+        with tempfile.TemporaryDirectory() as directory:
+            log = pathlib.Path(directory) / "launch.log"
+            with self.assertRaises(subprocess.CalledProcessError) as error:
+                probe.logged_command(log, sys.executable, "-c",
+                                     "import sys; print('launch rejected', flush=True); sys.exit(7)")
+            self.assertEqual(error.exception.returncode, 7)
+            self.assertIn("launch rejected", log.read_text())
+
+    def test_keeps_partial_output_and_propagates_timeout(self):
+        with tempfile.TemporaryDirectory() as directory:
+            log = pathlib.Path(directory) / "launch.log"
+            with self.assertRaises(subprocess.TimeoutExpired):
+                probe.logged_command(log, sys.executable, "-c",
+                                     "import time; print('launch started', flush=True); time.sleep(30)",
+                                     timeout=1)
+            self.assertIn("launch started", log.read_text())
 
 
 class ReportValidation(unittest.TestCase):

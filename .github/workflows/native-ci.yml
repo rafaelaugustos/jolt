@@ -20,11 +20,29 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v7
-      - name: Boot a dedicated iOS 26.2 simulator before building
-        timeout-minutes: 10
+      - name: Select Xcode 26.3
         run: |
           sudo xcode-select -s /Applications/Xcode_26.3.app/Contents/Developer
           xcodebuild -version
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            benchmarks/native-app/package-lock.json
+      - run: npm ci && npm run build && npm run benchmark:typecheck
+      - run: python3 -m unittest discover -s benchmarks -p 'test_native_ci.py'
+      - run: npm ci && npm run prepare:resources
+        working-directory: benchmarks/native-app
+      - name: Build production JavaScript for iOS Simulator
+        timeout-minutes: 20
+        run: npx ns build ios --env.production --no-hmr --for-device false --release
+        working-directory: benchmarks/native-app
+      # Keep simulator services idle until compilation releases the runner resources.
+      - name: Boot a dedicated iOS 26.2 simulator after building
+        timeout-minutes: 10
+        run: |
           python3 - <<'PYBOOT'
           import os, pathlib, subprocess
           output = pathlib.Path('benchmarks/native-app/results')
@@ -46,21 +64,6 @@ jobs:
                   log.flush()
                   print((output / 'simulator-boot.log').read_text(), flush=True)
           PYBOOT
-      - uses: actions/setup-node@v7
-        with:
-          node-version: 22
-          cache: npm
-          cache-dependency-path: |
-            package-lock.json
-            benchmarks/native-app/package-lock.json
-      - run: npm ci && npm run build && npm run benchmark:typecheck
-      - run: python3 -m unittest discover -s benchmarks -p 'test_native_ci.py'
-      - run: npm ci && npm run prepare:resources
-        working-directory: benchmarks/native-app
-      - name: Build production JavaScript for iOS Simulator
-        timeout-minutes: 20
-        run: npx ns build ios --env.production --no-hmr --for-device false --release
-        working-directory: benchmarks/native-app
       - name: Native measurements and negative control
         timeout-minutes: 25
         run: python3 benchmarks/native-ci.py ios --device "$JOLT_SIMULATOR"
