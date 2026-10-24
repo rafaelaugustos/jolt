@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Application, Color, isIOS, type EventData } from '@nativescript/core'
-import { computed, onUnmounted, ref, registerElement } from 'nativescript-vue'
+import { computed, onUnmounted, ref } from 'nativescript-vue'
 import {
   animate,
   motionValue,
@@ -17,7 +17,6 @@ import {
   type NativeProperty,
 } from '@rafaelaugusto/jolt/native'
 import { StudioScene, studioEnvironment } from './studio-scene'
-registerElement('StudioScene', () => StudioScene)
 const props = defineProps<{ mode: string }>()
 const lensMode = computed(() => props.mode === 'scene-camera')
 const lightMode = computed(() => props.mode === 'scene-lighting')

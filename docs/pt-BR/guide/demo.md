@@ -35,6 +35,12 @@ Os três experimentos SceneKit compartilham um estúdio com reflexos. **Camera l
 <Clip name="showcase-shaders-ios" caption="Simulador iOS 26: ambiente e uniforms dos shaders do vidro e dos faróis dirigidos por um motion value compartilhado. Modelo detalhado local; velocidade original. Demonstra aparência, não o interior da cabine nem simulação de fluidos." />
 </div>
 
+**Maps & 3D → 3D camera** usa o mesmo estúdio automotivo no Motion Studio. O adaptador nativo de pose move a câmera entre dois ângulos do carro, com pausa, retomada, parada e replay. Trocar de aba zera o progresso exibido e recria os bindings da cena ao voltar.
+
+<Clip name="showcase-camera-orbit-ios" caption="Simulador iOS 26: a aba real de câmera em Maps & 3D, movendo ao redor do carro detalhado, pausando/retomando, repetindo, parando e voltando de Timeline. Toques reais do XCTest; velocidade original; modelo local opcional. Não comprova desempenho em aparelho físico." />
+
+<Clip name="showcase-native-reentry-ios" caption="Simulador iOS 26: abertura e reabertura das quatro entradas automotivas na mesma sessão do app. Cada retorno monta o estúdio nativo novamente, incluindo a aba 3D camera. Navegação real do XCTest; modelo detalhado local; velocidade original." />
+
 O carro detalhado das gravações é um recurso local do projeto separado `jolt-car`. Ele **não é distribuído neste repositório** enquanto sua origem e os termos de redistribuição não estiverem registrados. Para usar localmente um modelo autorizado com os mesmos materiais, coloque-o em `demo/App_Resources/iOS/preview-car.usdz`; sem ele, o demo usa um carro procedural. O ambiente do estúdio é desenhado em código. Estes vídeos de simulador não comprovam desempenho em aparelho físico.
 
 ## Exemplo do assistente

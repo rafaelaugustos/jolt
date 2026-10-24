@@ -5,6 +5,7 @@ import App from './PreviewApp.vue'
 import { router } from './showcase/router'
 import { launchArgument } from './launch'
 import { knownFolders } from '@nativescript/core'
+import './native-elements'
 
 registerElement('SVGView', () => SVGView)
 const app = createApp(App).use(Jolt).use(router)

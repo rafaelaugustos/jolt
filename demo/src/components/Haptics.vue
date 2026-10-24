@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { isAndroid, isIOS, type LayoutBase } from '@nativescript/core'
-import { onUnmounted, ref, registerElement } from 'nativescript-vue'
+import { onUnmounted, ref } from 'nativescript-vue'
 import {
   animate,
   motionScope,
@@ -12,8 +12,6 @@ import {
 import { HapticProbe } from '../haptic-probe'
 import { checkAndroidHaptics } from '../../../benchmarks/haptics'
 import { launchArgument } from '../launch'
-
-registerElement('HapticProbe', () => HapticProbe)
 
 const lane = ref()
 const ball = ref()

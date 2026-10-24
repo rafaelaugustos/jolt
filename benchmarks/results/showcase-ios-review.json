@@ -212,13 +212,18 @@
     "testShowcase": "passed",
     "testShowcaseIconLaunch": "passed",
     "testShowcaseInteriors": "passed",
-    "testShowcaseTrails": "passed"
+    "testShowcaseTrails": "passed",
+    "testShowcaseCameraOrbit": "passed",
+    "testShowcaseNativeReentry": "passed",
+    "testShowcasePlaybackTimeline": "passed"
   },
   "reviewFindingsFixed": [
     "Resume after seeking now resumes the individually paused native handle; seeking is disabled after completion.",
     "Android-only Busy JavaScript shows an availability message on iOS.",
     "Embedded examples use a single navigation header.",
-    "Light trails scrolls to every control, uses readable dark controls and shows the Jolt mark."
+    "Light trails scrolls to every control, uses readable dark controls and shows the Jolt mark.",
+    "Maps & 3D now reuses the automotive studio instead of the old block-car fixture.",
+    "Routed native examples can reopen without duplicate element-registration errors."
   ],
   "splash": "The XCTest walkthrough masks the launch animation during startup synchronization. A separate unaltered simctl recording demonstrates the normal animated cold launch.",
   "clips": {
@@ -238,7 +243,7 @@
       "fullDecode": "passed"
     },
     "showcase-interiors-ios.mp4": {
-      "seconds": 29.4,
+      "seconds": 29.166667,
       "encoding": "H.264, yuv420p, 420×914, 30 fps",
       "fullDecode": "passed"
     },
@@ -271,6 +276,16 @@
       "seconds": 4.1,
       "encoding": "H.264, yuv420p, 420×914, 30 fps",
       "fullDecode": "passed"
+    },
+    "showcase-camera-orbit-ios.mp4": {
+      "seconds": 21.733333,
+      "encoding": "H.264, yuv420p, 420×914, 30 fps",
+      "fullDecode": "passed"
+    },
+    "showcase-native-reentry-ios.mp4": {
+      "seconds": 26.1,
+      "encoding": "H.264, yuv420p, 420×914, 30 fps",
+      "fullDecode": "passed"
     }
   },
   "validation": [
@@ -279,12 +294,29 @@
     "benchmark TypeScript",
     "Prettier for changed source/docs",
     "git diff --check",
-    "docs:check-media: 50 guides per language, 109 recordings",
+    "docs:check-media: 50 guides per language, 111 recordings",
     "docs:build"
   ],
   "limits": [
     "Route audit covers mounting and screenshots, not every possible interaction in all 54 examples.",
     "New recordings are iOS simulator evidence; Android and physical devices were not tested in this presentation pass.",
     "The detailed car is a local asset from jolt-car and is not redistributed in Git; the repository has a procedural fallback."
-  ]
+  ],
+  "cameraTabFollowUp": {
+    "date": "2026-10-23",
+    "entry": "Collection → Maps & 3D → 3D camera",
+    "checks": [
+      "detailed studio is mounted",
+      "active tab can be tapped again without disabling playback",
+      "paused progress stays fixed",
+      "resume completes at 100%",
+      "stop and replay",
+      "background and foreground resume",
+      "Timeline / Native map / 3D tab teardown and rebinding",
+      "return to collection and reopen Maps & 3D",
+      "reopen all four automotive entries and Haptics in one app session"
+    ],
+    "vueErrors": [],
+    "registration": "Native elements register once at application startup, not on each component mount."
+  }
 }

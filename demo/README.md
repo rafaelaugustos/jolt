@@ -22,17 +22,17 @@ Build a release simulator app with `JOLT_BENCHMARK=1`, install it on an explicit
 python3 benchmarks/docs-record-ios.py SIMULATOR_UUID /tmp/jolt-showcase testShowcase
 ```
 
-The test starts without arguments, records the splash and browsing flow, exercises springs/gestures/SceneKit, and verifies another cold launch. The reviewed iOS clip is embedded in both demo guides. New shell validation is iOS simulator evidence, not an Android or physical-device performance claim.
+The test starts without arguments, records the browsing flow, exercises springs/gestures/SceneKit, and verifies another cold launch. A separate simulator recording captures the splash without XCTest launch synchronization. The reviewed iOS clip is embedded in both demo guides. New shell validation is iOS simulator evidence, not an Android or physical-device performance claim.
 
 ## Studio interiors and local review
 
-`MotionStudio.vue` supplies the spring, preset, color and decoration stages. `SceneStudio.vue` shares a native SceneKit stage across camera, lighting and shader examples, with native property adapters and lifecycle disposal. It optionally loads `App_Resources/iOS/preview-car.usdz` from a local authorized copy of the separate `jolt-car` project. That asset is ignored and not redistributed; without it the demo renders a procedural car. Studio lighting is generated in code.
+`MotionStudio.vue` supplies the spring, preset, color and decoration stages. `SceneStudio.vue` shares a native SceneKit stage across camera, lighting and shader examples, with native property adapters and lifecycle disposal. It optionally loads `App_Resources/iOS/preview-car.usdz` from a local authorized copy of the separate `jolt-car` project. That asset is ignored and not redistributed; without it the demo renders a procedural car. Studio lighting is generated in code. The collection’s Maps & 3D camera tab reuses this studio and animates the camera pose; the isolated legacy fixture retains its simpler geometry.
 
 Run the visual checks locally on a dedicated simulator (these are not added to CI):
 
 ```sh
 python3 benchmarks/docs-record-ios.py SIMULATOR_UUID /tmp/jolt-studio-audit testShowcaseAudit
-python3 benchmarks/docs-record-ios.py SIMULATOR_UUID /tmp/jolt-studio-recordings testAtelier testMotionStudio testShowcase testShowcaseIconLaunch testShowcaseInteriors
+python3 benchmarks/docs-record-ios.py SIMULATOR_UUID /tmp/jolt-studio-recordings testAtelier testMotionStudio testShowcase testShowcaseIconLaunch testShowcaseInteriors testShowcaseCameraOrbit testShowcaseNativeReentry
 ```
 
-The audit cold-opens all 54 routes and retains a screenshot per example. `--showcase-audit` writes Vue lifecycle errors to `Documents/jolt-showcase-audit.json`; inspect that report as well as XCTest results. Use `--showcase-example=scene-camera` to open a route directly for review. Normal icon launches still open Studio. The interaction suite records seven dedicated detail clips, a montage of other interiors, and the walkthrough; captions in both demo guides distinguish the local model and simulator evidence.
+The audit cold-opens all 54 routes and retains a screenshot per example. `--showcase-audit` writes Vue lifecycle errors to `Documents/jolt-showcase-audit.json`; inspect that report as well as XCTest results. Use `--showcase-example=scene-camera` to open a route directly for review. Normal icon launches still open Studio. Native element registration lives in `src/native-elements.ts` and runs once per process, so reopening routed examples does not register the same view twice. The interaction suite records dedicated detail clips, camera playback, scene reentry, a montage of other interiors, and the walkthrough; captions in both demo guides distinguish the local model and simulator evidence.

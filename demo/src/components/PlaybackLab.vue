@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Application, isIOS, type EventData, type View } from '@nativescript/core'
-import { ref, onUnmounted, registerElement } from 'nativescript-vue'
+import { ref, onUnmounted } from 'nativescript-vue'
 import {
   animate,
   bind,
@@ -24,11 +24,10 @@ import {
   type ScenePose,
 } from '@rafaelaugusto/jolt/native'
 import { NativeMapDemo, NativeSceneDemo } from '../native-demo'
+import { StudioScene } from '../showcase/studio-scene'
 import { checkPlaybackAdapters } from '../../../benchmarks/playback-adapters'
 import { launchArgument } from '../launch'
 
-registerElement('NativeMapDemo', () => NativeMapDemo)
-registerElement('NativeSceneDemo', () => NativeSceneDemo)
 const emit = defineEmits<{ back: [] }>()
 const mode = ref(launchArgument('playback-lab') || 'timeline')
 const status = ref('Ready'),
@@ -63,6 +62,8 @@ const endPose: ScenePose = {
     Math.cos(0.4) * Math.cos(0.15),
   ],
 }
+let cameraStart = startPose,
+  cameraEnd = endPose
 function clear() {
   scope.reset()
   scene = undefined
@@ -70,9 +71,12 @@ function clear() {
   paused.value = false
 }
 function select(next: string) {
+  if (mode.value === next) return
   clear()
   mode.value = next
   status.value = 'Ready'
+  percentage.value = 0
+  meters.value = 100
   ready.value = false
 }
 function observe(animation: PlaybackAnimation) {
@@ -152,12 +156,12 @@ function play() {
       },
     ])
   } else if (pose) {
-    pose.set(startPose)
+    pose.set(cameraStart)
     scene = scope.timeline([
       {
         at: 0,
         run: () => {
-          drive = pose!.animate(endPose, { duration, ease: 'sineInOut' })
+          drive = pose!.animate(cameraEnd, { duration, ease: 'sineInOut' })
           observe(drive)
           return drive
         },
@@ -217,7 +221,20 @@ function mapUnloaded() {
 }
 function sceneLoaded(event: EventData) {
   if (!isIOS) return
-  pose ??= sceneKitPose((event.object as NativeSceneDemo).camera)
+  if (pose) {
+    ready.value = true
+    return
+  }
+  const view = event.object as NativeSceneDemo | StudioScene
+  if (view instanceof StudioScene) {
+    cameraStart = view.cameraPose([4.2, 2.1, 4.6])
+    cameraEnd = view.cameraPose([-3.6, 1.8, 4.8])
+  } else {
+    cameraStart = startPose
+    cameraEnd = endPose
+  }
+  pose = sceneKitPose(view.camera)
+  pose.set(cameraStart)
   ready.value = true
 }
 function sceneUnloaded() {
@@ -244,7 +261,7 @@ const props = defineProps<{ embedded?: boolean }>()
   <GridLayout
     class="playback-lab"
     rows="auto,auto,*,auto,auto,auto"
-    backgroundColor="#101827"
+    :backgroundColor="props.embedded ? '#151E26' : '#101827'"
     color="#edf2ff"
     padding="20"
   >
@@ -258,11 +275,21 @@ const props = defineProps<{ embedded?: boolean }>()
       <Button col="1" text="Back" @tap="emit('back')" />
     </GridLayout>
     <GridLayout row="1" columns="*,*,*" marginBottom="16">
-      <Button text="Timeline" @tap="select('timeline')" /><Button
+      <Button
+        text="Timeline"
+        :class="{ active: props.embedded && mode === 'timeline' }"
+        @tap="select('timeline')"
+      /><Button
         col="1"
         text="Native map"
+        :class="{ active: props.embedded && mode === 'map' }"
         @tap="select('map')"
-      /><Button col="2" text="3D camera" @tap="select('scene')" />
+      /><Button
+        col="2"
+        text="3D camera"
+        :class="{ active: props.embedded && mode === 'scene' }"
+        @tap="select('scene')"
+      />
     </GridLayout>
     <GridLayout row="2" borderRadius="16" clipToBounds="true" backgroundColor="#1d2b40">
       <StackLayout v-if="mode === 'timeline'" padding="20">
@@ -327,6 +354,11 @@ const props = defineProps<{ embedded?: boolean }>()
         @loaded="mapLoaded"
         @unloaded="mapUnloaded"
       />
+      <PlaybackStudioScene
+        v-else-if="props.embedded && isIOS"
+        @loaded="sceneLoaded"
+        @unloaded="sceneUnloaded"
+      />
       <NativeSceneDemo v-else @loaded="sceneLoaded" @unloaded="sceneUnloaded" />
     </GridLayout>
     <GridLayout row="3" columns="*,auto" marginTop="16" marginBottom="12">
@@ -335,7 +367,9 @@ const props = defineProps<{ embedded?: boolean }>()
           :text="
             mode === 'timeline'
               ? `${meters} m remaining · constant speed`
-              : 'Native property adapter'
+              : props.embedded && mode === 'scene'
+                ? 'A new angle. The same moment.'
+                : 'Native property adapter'
           "
           color="#95a9c5"
           marginTop="5"
@@ -367,5 +401,9 @@ const props = defineProps<{ embedded?: boolean }>()
   font-size: 12;
   padding: 8 5;
   margin: 3;
+}
+.playback-lab Button.active {
+  background-color: #e3fc62;
+  color: #202b29;
 }
 </style>

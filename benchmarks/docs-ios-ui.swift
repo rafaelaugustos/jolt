@@ -208,6 +208,95 @@ final class DocsTests: XCTestCase {
         }
     }
 
+    func testShowcasePlaybackTimeline() throws {
+        launch(["--showcase-audit"], "Collection")
+        tap("Collection")
+        let search = app.textFields["Search examples"]
+        search.tap()
+        search.typeText("Maps\n")
+        tap("Open Maps & 3D")
+        try record("showcase-detail-playback-lab") {
+            tap("Play scene", wait: 1.8)
+        }
+        tap("3D camera")
+        XCTAssertTrue(app.descendants(matching: .any)["Jolt automotive studio"].firstMatch.exists)
+    }
+
+    func testShowcaseNativeReentry() throws {
+        launch(["--showcase-audit"], "Collection")
+        tap("Collection")
+        let search = app.textFields["Search examples"]
+        search.tap()
+        search.typeText("SceneKit\n")
+        try record("showcase-native-reentry-ios") {
+            for title in ["Camera lens", "Lights & materials", "Environment & shaders", "Camera lens", "Maps & 3D", "Maps & 3D"] {
+                tap("Open " + title, wait: 1.5)
+                if title == "Maps & 3D" { tap("3D camera", wait: 1.5) }
+                XCTAssertTrue(app.descendants(matching: .any)["Jolt automotive studio"].firstMatch.exists, title + " must mount its native scene")
+                tap("Back to collection", wait: 0.5)
+            }
+        }
+        search.tap()
+        search.typeText(String(repeating: XCUIKeyboardKey.delete.rawValue, count: 8) + "Haptics\n")
+        for _ in 0..<2 {
+            tap("Open Haptics")
+            XCTAssertTrue(app.buttons["light"].exists)
+            tap("Back to collection")
+        }
+    }
+
+    func testShowcaseCameraOrbit() throws {
+        launch(["--showcase-audit"], "Collection")
+        tap("Collection")
+        let search = app.textFields["Search examples"]
+        search.tap()
+        search.typeText("Maps\n")
+        tap("Open Maps & 3D")
+        tap("3D camera")
+        XCTAssertTrue(app.descendants(matching: .any)["Jolt automotive studio"].firstMatch.exists)
+        tap("3D camera", wait: 0.2)
+        XCTAssertTrue(app.buttons["Play scene"].isEnabled, "Selecting the active tab must keep playback ready")
+        try record("showcase-camera-orbit-ios") {
+            tap("Play scene", wait: 1.5)
+            tap("Pause scene", wait: 0.2)
+            let progress = app.staticTexts.matching(NSPredicate(format: "label ENDSWITH %@", "%")).firstMatch
+            let held = progress.label
+            XCTAssertNotEqual(held, "0%")
+            Thread.sleep(forTimeInterval: 1)
+            XCTAssertEqual(progress.label, held, "Progress must stay still while paused")
+            tap("Resume scene", wait: 7)
+            XCTAssertTrue(app.staticTexts["Finished"].exists)
+            tap("Play scene", wait: 0.8)
+            tap("Stop scene", wait: 0.4)
+            XCTAssertTrue(app.staticTexts["Stopped"].exists)
+            tap("Timeline", wait: 0.4)
+            XCTAssertTrue(app.staticTexts["0%"].exists)
+            tap("3D camera", wait: 0.5)
+            XCTAssertTrue(app.descendants(matching: .any)["Jolt automotive studio"].firstMatch.exists)
+            tap("Play scene", wait: 1.5)
+            tap("Pause scene", wait: 0.5)
+        }
+        tap("Play scene", wait: 0.8)
+        XCUIDevice.shared.press(.home)
+        Thread.sleep(forTimeInterval: 0.5)
+        app.activate()
+        XCTAssertTrue(app.buttons["Resume scene"].waitForExistence(timeout: 10))
+        tap("Resume scene", wait: 1)
+        tap("Stop scene")
+        // Exercise native-view disposal and rebinding across all three tabs.
+        tap("Native map", wait: 0.5)
+        XCTAssertTrue(app.staticTexts["0%"].exists)
+        tap("3D camera", wait: 0.5)
+        XCTAssertTrue(app.descendants(matching: .any)["Jolt automotive studio"].firstMatch.exists)
+        tap("Play scene", wait: 0.7)
+        tap("Stop scene")
+        tap("Back to collection")
+        XCTAssertTrue(app.descendants(matching: .any)["Open Maps & 3D"].firstMatch.exists)
+        tap("Open Maps & 3D")
+        tap("3D camera")
+        XCTAssertTrue(app.descendants(matching: .any)["Jolt automotive studio"].firstMatch.exists)
+    }
+
     func testShowcaseIconLaunch() throws {
         app.terminate()
         XCUIDevice.shared.press(.home)

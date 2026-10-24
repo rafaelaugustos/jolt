@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Application, isIOS, knownFolders, type EventData } from '@nativescript/core'
-import { ref, onUnmounted, registerElement } from 'nativescript-vue'
+import { ref, onUnmounted } from 'nativescript-vue'
 import {
   animate,
   motionValue,
@@ -12,7 +12,6 @@ import { sceneKitEnvironmentIntensity, sceneKitUniform } from '@rafaelaugusto/jo
 import { NativeShaderDemo, studioImage } from '../scene-shader'
 import { checkSceneShader } from '../../../benchmarks/scene-shader'
 import { launchArgument } from '../launch'
-registerElement('NativeShaderDemo', () => NativeShaderDemo)
 const emit = defineEmits<{ back: [] }>()
 const visible = ref(true),
   checking = ref(false),

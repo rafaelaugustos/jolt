@@ -6,7 +6,7 @@ import {
   knownFolders,
   type EventData,
 } from '@nativescript/core'
-import { onUnmounted, ref, registerElement } from 'nativescript-vue'
+import { onUnmounted, ref } from 'nativescript-vue'
 import {
   animate,
   set,
@@ -28,7 +28,6 @@ import {
 import { NativeLightingDemo } from '../scene-lighting'
 import { checkSceneAppearance } from '../../../benchmarks/scene-appearance'
 import { launchArgument } from '../launch'
-registerElement('NativeLightingDemo', () => NativeLightingDemo)
 const emit = defineEmits<{ back: [] }>()
 const visible = ref(true),
   checking = ref(false),
