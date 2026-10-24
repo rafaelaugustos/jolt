@@ -41,6 +41,52 @@ final class DocsTests: XCTestCase {
         start.press(forDuration: 0.15, thenDragTo: start.withOffset(CGVector(dx: x, dy: y)), withVelocity: .slow, thenHoldForDuration: 0.15)
         Thread.sleep(forTimeInterval: 0.8)
     }
+    func testBottomSheet() throws {
+        launch(["--bottom-sheet"], "Open stays")
+        defer { XCUIDevice.shared.orientation = .portrait }
+        try record("bottom-sheet-ios") {
+            tap("Open stays")
+            tap("Content")
+            tap("More stays")
+            tap("Open stays")
+            let handle = app.descendants(matching: .any)["Stays sheet"].firstMatch
+            XCTAssertNil(JoltSheetInterrupt(CGPoint(x: handle.frame.midX, y: handle.frame.midY)))
+            Thread.sleep(forTimeInterval: 1)
+            XCTAssertTrue(handle.isHittable)
+            tap("Open stays")
+            let before = handle.frame.minY
+            let start = app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: app.frame.midX, dy: handle.frame.maxY + 130))
+            start.press(forDuration: 0.1, thenDragTo: start.withOffset(CGVector(dx: 0, dy: -420)), withVelocity: .slow, thenHoldForDuration: 0.1)
+            Thread.sleep(forTimeInterval: 0.8)
+            XCTAssertLessThan(handle.frame.minY, before - 150)
+            let list = app.scrollViews["Stay results"]
+            list.swipeUp()
+            Thread.sleep(forTimeInterval: 0.6)
+            list.swipeDown()
+            let upper = app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: app.frame.midX, dy: handle.frame.maxY + 150))
+            upper.press(forDuration: 0.1, thenDragTo: upper.withOffset(CGVector(dx: 0, dy: 380)), withVelocity: .slow, thenHoldForDuration: 0.1)
+            Thread.sleep(forTimeInterval: 0.8)
+            tap("Open stays")
+            let field = app.textFields["Trip note"]
+            field.tap()
+            field.typeText("A calm weekend")
+            XCTAssertTrue(field.isHittable)
+            app.keyboards.buttons["Done"].tap()
+            Thread.sleep(forTimeInterval: 0.8)
+            tap("Close")
+            tap("Open stays")
+            tap("Close")
+        }
+        tap("Open stays")
+        XCUIDevice.shared.orientation = .landscapeLeft
+        Thread.sleep(forTimeInterval: 1)
+        XCTAssertTrue(app.textFields["Trip note"].isHittable)
+        XCTAssertEqual(app.textFields["Trip note"].value as? String, "A calm weekend")
+        XCUIDevice.shared.orientation = .portrait
+        Thread.sleep(forTimeInterval: 1)
+        tap("Close")
+    }
+
     func testShowcaseAudit() throws {
         let examples: [(String, String)] = [
             ("springs", "Springs"),

@@ -16,9 +16,25 @@ concurrency:
 jobs:
   ios:
     runs-on: macos-26
-    timeout-minutes: 35
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v7
+      # A simulator's first boot migrates data for minutes; start it now so dependency setup and compilation absorb that wait.
+      - name: Start booting a preinstalled iPhone simulator
+        timeout-minutes: 5
+        run: |
+          python3 - <<'PY'
+          import json, os, subprocess
+          devices = json.loads(subprocess.check_output(
+              ['xcrun', 'simctl', 'list', 'devices', 'available', '--json'], timeout=120))
+          device = next(d for runtime, group in sorted(devices['devices'].items()) if '.iOS-' in runtime
+                        for d in group if d['name'].startswith('iPhone'))
+          if device['state'] != 'Booted':
+              subprocess.run(['xcrun', 'simctl', 'boot', device['udid']], check=True, timeout=120)
+          with open(os.environ['GITHUB_ENV'], 'a') as env:
+              env.write(f"JOLT_SIMULATOR={device['udid']}\n")
+          print(f"Booting {device['name']} ({device['udid']}) in the background", flush=True)
+          PY
       - uses: actions/setup-node@v7
         with:
           node-version: 22
@@ -31,18 +47,17 @@ jobs:
       - run: npm ci && npm run prepare:resources
         working-directory: benchmarks/native-app
       - name: Build production JavaScript for iOS Simulator
+        timeout-minutes: 15
         run: npx ns build ios --env.production --no-hmr --for-device false --release
         working-directory: benchmarks/native-app
-      - name: Select available iPhone simulator
+      - name: Wait for the simulator to finish its first boot
+        timeout-minutes: 12
         run: |
-          python3 - <<'PY'
-          import json, os, subprocess
-          devices = json.loads(subprocess.check_output(['xcrun', 'simctl', 'list', 'devices', 'available', '--json']))
-          device = next(d['udid'] for runtime, group in devices['devices'].items() if '.iOS-' in runtime for d in group if d['name'].startswith('iPhone'))
-          with open(os.environ['GITHUB_ENV'], 'a') as env:
-              env.write(f'JOLT_SIMULATOR={device}\n')
-          PY
+          mkdir -p benchmarks/native-app/results
+          xcrun simctl bootstatus "$JOLT_SIMULATOR" -b > benchmarks/native-app/results/simulator-boot.log 2>&1
+          tail -n 3 benchmarks/native-app/results/simulator-boot.log
       - name: Native measurements and negative control
+        timeout-minutes: 25
         run: python3 benchmarks/native-ci.py ios --device "$JOLT_SIMULATOR"
       - uses: actions/upload-artifact@v7
         if: always()

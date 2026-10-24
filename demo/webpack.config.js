@@ -13,6 +13,10 @@ module.exports = (env) => {
         '@rafaelaugusto/jolt/gestures$',
         resolve(__dirname, '../dist/gestures/index.js'),
       )
+      .set(
+        '@rafaelaugusto/jolt/bottom-sheet$',
+        resolve(__dirname, '../dist/bottom-sheet/index.js'),
+      )
       .set('@rafaelaugusto/jolt/native$', resolve(__dirname, '../dist/native/index.js'))
       .set('@rafaelaugusto/jolt/vue$', resolve(__dirname, '../dist/vue/index.js'))
       // sharing this app's copy of NativeScript and Vue

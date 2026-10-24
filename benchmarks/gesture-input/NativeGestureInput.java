@@ -34,6 +34,15 @@ public final class NativeGestureInput {
             down = SystemClock.uptimeMillis(); send(MotionEvent.ACTION_DOWN, cx, cy); send(MotionEvent.ACTION_UP, cx, cy);
             return;
         }
+        if (args.length > 2 && args[2].equals("sheet-interrupt")) {
+            down = SystemClock.uptimeMillis(); send(MotionEvent.ACTION_DOWN, cx, cy);
+            for (int i = 1; i <= 6; i++) send(MotionEvent.ACTION_MOVE, cx, cy - i * 36);
+            send(MotionEvent.ACTION_UP, cx, cy - 216);
+            SystemClock.sleep(30);
+            down = SystemClock.uptimeMillis(); send(MotionEvent.ACTION_DOWN, cx, cy);
+            SystemClock.sleep(580); send(MotionEvent.ACTION_UP, cx, cy);
+            return;
+        }
         boolean cancel = args.length > 2 && args[2].equals("cancel");
         down = SystemClock.uptimeMillis();
         float x = cx - 100, y = cy;

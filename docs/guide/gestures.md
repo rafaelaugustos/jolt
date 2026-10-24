@@ -97,3 +97,5 @@ This integration was tested with NativeScript core **9.1.3**, iOS runtime **9.1.
 In Vue, register `GestureSurface` with `registerElement('GestureSurface', () => GestureSurface)` before mounting the app, and adopt the controller with `useMotionScope().add(...)`. Add bindings with `useBinding()` or the scope's `use()` helper. The demo is available under **Native gestures** in the playground or with `--gesture-lab` on iOS / `--es gesture-lab true` on Android.
 
 Native input and live springs still execute on the UI thread. Busy JavaScript on that thread can delay them. Explicit callbacks, existing Core listeners and `subscribe()` retain their JavaScript costs. The multi-touch injectors live only in the recording harness; they are not shipped as application code.
+
+`onContactStart` and `onContactEnd` report the first and last contact, including a touch that never becomes a pan. They are opt-in and require a native rebuild. The [bottom-sheet recipe](./bottom-sheet) uses them to settle a touch-interrupted spring without intercepting taps on text fields.
