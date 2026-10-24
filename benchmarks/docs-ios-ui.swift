@@ -41,6 +41,42 @@ final class DocsTests: XCTestCase {
         start.press(forDuration: 0.15, thenDragTo: start.withOffset(CGVector(dx: x, dy: y)), withVelocity: .slow, thenHoldForDuration: 0.15)
         Thread.sleep(forTimeInterval: 0.8)
     }
+    func testSceneShaderChecks() throws {
+        launch(["--scene-shader", "--shader-checks=all"], "Check uniforms")
+        XCTAssertTrue(app.staticTexts["Shader checks passed"].waitForExistence(timeout: 35), app.debugDescription)
+    }
+    func testSceneShaderBackground() throws {
+        launch(["--scene-shader", "--shader-checks=background"], "Check uniforms")
+        XCTAssertTrue(app.staticTexts["Shader background ready"].waitForExistence(timeout: 10), app.debugDescription)
+        XCUIDevice.shared.press(.home)
+        Thread.sleep(forTimeInterval: 1.5)
+        app.activate()
+        XCTAssertTrue(app.staticTexts["Shader checks passed"].waitForExistence(timeout: 15), app.debugDescription)
+    }
+    func testSceneShader() throws {
+        launch(["--scene-shader"], "Enter cabin")
+        try record("scene-shaders-ios") {
+            tap("Enter cabin", wait: 1.2)
+            tap("Pause scene", wait: 1)
+            XCTAssertTrue(app.staticTexts["Paused."].exists)
+            tap("Seek 50%", wait: 1)
+            tap("Resume scene", wait: 2)
+            tap("Studio light", wait: 3)
+            tap("Swap environment", wait: 1)
+            tap("Enter cabin", wait: 3)
+            tap("Leave scene", wait: 0.5)
+            XCTAssertTrue(app.staticTexts["Scene disposed."].exists)
+            tap("Enter scene", wait: 1)
+            tap("Enter cabin", wait: 3)
+        }
+        for _ in 0..<4 {
+            tap("Leave scene", wait: 0.2)
+            XCTAssertTrue(app.staticTexts["Scene disposed."].exists)
+            tap("Enter scene", wait: 0.3)
+            tap("Enter cabin", wait: 0.2)
+        }
+        tap("Leave scene")
+    }
     func testOpacityRotation() throws {
         launch(["--opacity-rotation"], "Play orbit")
         try record("opacity-rotation-svg-parent-ios") {

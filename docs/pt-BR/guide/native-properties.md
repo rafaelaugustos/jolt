@@ -1,5 +1,7 @@
 # Propriedades nativas externas
 
+Veja [ambiente e parâmetros de shader](./scene-shaders) para os adaptadores de iluminação e uniforms previstos para a beta.17.
+
 Anime coordenadas de mapas, câmeras, luzes e materiais de cor sólida SceneKit sem criar um laço por quadro em JavaScript. A entrada opcional `@rafaelaugusto/jolt/native` oferece registro de propriedades, reprodução nativa compilada e adaptadores de referência. Importar a entrada principal JavaScript não inicializa esse registro nem carrega um SDK de mapas.
 
 <Clip name="native-map-ios" caption="Annotation e câmera MapKit, pausadas e retomadas juntas no simulador iOS. Escritas nativas das propriedades, em tempo real." />

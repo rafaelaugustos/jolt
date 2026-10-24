@@ -73,3 +73,5 @@ O que `animate()`, `decay()`, `sequence()` e os passos de uma sequência retorna
 [`configure({ timeScale, reducedMotion })`](./configure) define a velocidade global e a preferência de redução de movimento (`'user'`, `'always'` ou `'never'`) das animações iniciadas depois da chamada. [`reducedMotion()` e `onReducedMotion(callback)`](./configure#lendo-a-preferencia) leem e acompanham essa preferência.
 
 ## Tipos
+
+- [Ambiente e parâmetros de shader SceneKit](./scene-shaders) — prévia da beta.17: iluminação nativa e uniforms escalares/vetoriais tipados.

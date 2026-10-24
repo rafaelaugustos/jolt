@@ -56,10 +56,16 @@ const owners = new WeakMap<object, Map<string, Owner>>()
 export function registerNativeProperty<T>(
   definition: NativePropertyDefinition<T>,
 ): (target: object) => NativeProperty<T> {
-  if (!/^[\w.-]+\/[\w.-]+$/.test(definition.name))
-    throw new TypeError('Native property names must be namespaced: plugin/property.')
+  validateDefinition(definition)
   if (definitions.has(definition.name))
     throw new Error(`Native property "${definition.name}" is already registered.`)
+  definitions.add(definition.name)
+  return (target) => new PropertyTarget(target, definition)
+}
+
+function validateDefinition<T>(definition: NativePropertyDefinition<T>) {
+  if (!/^[\w.-]+\/[\w.-]+$/.test(definition.name))
+    throw new TypeError('Native property names must be namespaced: plugin/property.')
   if (
     !definition.units.length ||
     definition.units.some((unit) => typeof unit !== 'string' || !unit)
@@ -76,8 +82,15 @@ export function registerNativeProperty<T>(
     typeof definition.decode !== 'function'
   )
     throw new TypeError('A native property needs create(), encode() and decode().')
-  definitions.add(definition.name)
-  return (target) => new PropertyTarget(target, definition)
+}
+
+/** Internal factory for per-target schemas; identity still shares the registry ownership map. */
+export function nativePropertyTarget<T>(
+  target: object,
+  definition: NativePropertyDefinition<T>,
+): NativeProperty<T> {
+  validateDefinition(definition)
+  return new PropertyTarget(target, definition)
 }
 
 class PropertyTarget<T> implements NativeProperty<T> {

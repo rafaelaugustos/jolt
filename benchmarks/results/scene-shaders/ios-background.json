@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "mode": "background",
+  "platform": "ios",
+  "os": "26.0",
+  "runId": "1792797542138",
+  "passed": true,
+  "observerFrames": 0,
+  "results": [
+    {
+      "name": "background pauses native writes and explicit resume continues",
+      "passed": true,
+      "samples": []
+    }
+  ]
+}

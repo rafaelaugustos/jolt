@@ -13,6 +13,7 @@ import GradientValues from './components/GradientValues.vue'
 import Particles from './components/Particles.vue'
 import SceneLighting from './components/SceneLighting.vue'
 import SceneCamera from './components/SceneCamera.vue'
+import SceneShader from './components/SceneShader.vue'
 import OpacityRotation from './components/OpacityRotation.vue'
 import SizeLab from './components/SizeLab.vue'
 import LiveSprings from './components/LiveSprings.vue'
@@ -30,6 +31,7 @@ const hapticsLab = ref(false)
 const gradientValues = ref(false)
 const particleLab = ref(false)
 const sceneLighting = ref(false)
+const sceneShader = ref(false)
 const sceneCamera = ref(false)
 const opacityRotation = ref(false)
 const sizeLab = ref(false)
@@ -48,6 +50,7 @@ onLaunch(() => {
   gradientValues.value = launchArgument('gradient-values') !== undefined
   particleLab.value = launchArgument('particle-lab') !== undefined
   sceneLighting.value = launchArgument('scene-lighting') !== undefined
+  sceneShader.value = launchArgument('scene-shader') !== undefined
   sceneCamera.value = launchArgument('scene-camera') !== undefined
   opacityRotation.value = launchArgument('opacity-rotation') !== undefined
   sizeLab.value = launchArgument('size-lab') !== undefined
@@ -74,6 +77,7 @@ function backToPlayground() {
   layoutLab.value = false
   playbackLab.value = false
   sceneLighting.value = false
+  sceneShader.value = false
   sceneCamera.value = false
   playground.value = true
 }
@@ -84,13 +88,14 @@ defineExpose({ assistant })
   <Frame
     ><Page
       actionBarHidden="true"
-      :statusBarStyle="playbackLab || opacityRotation ? 'light' : 'dark'"
+      :statusBarStyle="playbackLab || opacityRotation || sceneShader ? 'light' : 'dark'"
       :androidStatusBarBackground="playbackLab ? '#101827' : undefined"
       :class="
         playground ||
         hapticsLab ||
         gradientValues ||
         particleLab ||
+        sceneShader ||
         sceneLighting ||
         sceneCamera
           ? ''
@@ -102,6 +107,9 @@ defineExpose({ assistant })
       <LiveSprings v-else-if="launched && liveSprings" @back="backToPlayground" />
       <SizeLab v-else-if="launched && sizeLab" @back="backToPlayground" />
       <OpacityRotation v-else-if="launched && opacityRotation" />
+      <ScrollView v-else-if="launched && sceneShader"
+        ><SceneShader @back="backToPlayground"
+      /></ScrollView>
       <ScrollView v-else-if="launched && sceneCamera"
         ><SceneCamera @back="backToPlayground"
       /></ScrollView>
@@ -128,6 +136,7 @@ defineExpose({ assistant })
         @playbackLab="playbackLab = true"
         @sceneLighting="sceneLighting = true"
         @sceneCamera="sceneCamera = true"
+        @sceneShader="sceneShader = true"
       />
       <Assistant
         v-else-if="launched"

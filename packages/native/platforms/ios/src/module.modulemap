@@ -1,5 +1,6 @@
 module JoltNativeProperties {
     header "JoltPropertyPlayer.h"
     header "JoltReferenceProperties.h"
+    header "JoltSceneShaderProperties.h"
     export *
 }
