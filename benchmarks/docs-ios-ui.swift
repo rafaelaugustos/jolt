@@ -86,6 +86,222 @@ final class DocsTests: XCTestCase {
         Thread.sleep(forTimeInterval: 1)
         tap("Close")
     }
+
+    func testShowcaseAudit() throws {
+        let examples: [(String, String)] = [
+            ("springs", "Springs"),
+            ("presets", "Presets"),
+            ("decay", "Momentum"),
+            ("stagger", "Stagger"),
+            ("motion-path", "Motion paths"),
+            ("timeline", "Timelines"),
+            ("playback", "Playback"),
+            ("loops", "Loops"),
+            ("pauses", "Pauses"),
+            ("random-pauses", "Organic timing"),
+            ("track-easing", "Track easing"),
+            ("easing-curves", "Easing curves"),
+            ("tuning", "Motion settings"),
+            ("press", "Press feedback"),
+            ("gesture-lab", "Native gestures"),
+            ("live-springs", "Live springs"),
+            ("drag-lab", "Drag & snap"),
+            ("drag-values", "Drag a value"),
+            ("keyboard", "Keyboard"),
+            ("haptics", "Haptics"),
+            ("colors", "Colors"),
+            ("gradients", "Gradients"),
+            ("gradient-directive", "Gradient directive"),
+            ("gradient-values", "Gradient values"),
+            ("decorations", "Decorations"),
+            ("shimmer", "Shimmer"),
+            ("particles", "Particles"),
+            ("loaders", "Loaders"),
+            ("reveal", "Reveals"),
+            ("image-lab", "Images & zoom"),
+            ("opacity-rotation", "Light trails"),
+            ("fade-overflow", "Fade & overflow"),
+            ("text", "Animated text"),
+            ("rolling", "Rolling numbers"),
+            ("rolling-layout", "Rolling layout"),
+            ("symbols", "Symbols"),
+            ("layout-lab", "Layout changes"),
+            ("size-lab", "Real dimensions"),
+            ("list-items", "Lists"),
+            ("scroll-values", "Scroll values"),
+            ("remount", "Remount"),
+            ("motion-values", "Motion values"),
+            ("value-observers", "Value observers"),
+            ("value-layers", "Value layers"),
+            ("layers", "Animation layers"),
+            ("motion-states", "Motion states"),
+            ("state-transitions", "State transitions"),
+            ("busy-js", "Busy JavaScript"),
+            ("vue-adapter", "Vue integration"),
+            ("from-react-native", "Spring comparison"),
+            ("scene-shader", "Environment & shaders"),
+            ("scene-lighting", "Lights & materials"),
+            ("scene-camera", "Camera lens"),
+            ("playback-lab", "Maps & 3D")
+        ]
+        for (id, title) in examples {
+            app.terminate()
+            app.launchArguments = ["--showcase-example=" + id, "--showcase-audit"]
+            app.launch()
+            XCTAssertTrue(app.staticTexts[title].firstMatch.waitForExistence(timeout: 15), id + " " + app.debugDescription)
+            Thread.sleep(forTimeInterval: 0.8)
+            let screenshot = XCTAttachment(screenshot: app.screenshot())
+            screenshot.name = id
+            screenshot.lifetime = .keepAlways
+            add(screenshot)
+        }
+    }
+
+    func testAtelier() throws {
+        launch(["--showcase-example=scene-camera", "--showcase-audit"], "Select Portrait")
+        try record("showcase-atelier-ios") {
+            tap("Select Wide", wait: 2.6)
+            tap("Select Detail", wait: 0)
+            tap("Hold halfway")
+            tap("Resume motion", wait: 1.5)
+            tap("Sage finish", wait: 1.2)
+            tap("Select Portrait", wait: 2.6)
+        }
+        launch(["--showcase-example=scene-lighting", "--showcase-audit"], "Select Daylight")
+        try record("showcase-lighting-ios") {
+            tap("Select Golden hour", wait: 2.4)
+            tap("Copper finish", wait: 1.3)
+            tap("Select Midnight", wait: 2.4)
+            tap("Select Daylight", wait: 2.4)
+        }
+        launch(["--showcase-example=scene-shader", "--showcase-audit"], "Select Studio")
+        try record("showcase-shaders-ios") {
+            tap("Select Cabin", wait: 2.4)
+            tap("Select After dark", wait: 2.4)
+            tap("Silver finish", wait: 1.3)
+            tap("Select Studio", wait: 2.4)
+        }
+    }
+
+    func testMotionStudio() throws {
+        launch(["--showcase-example=springs", "--showcase-audit"], "bouncy")
+        try record("showcase-springs-ios") {
+            tap("bouncy", wait: 0.2)
+            tap("snappy", wait: 0.2)
+            tap("smooth", wait: 0.5)
+            tap("bouncy", wait: 1.3)
+        }
+        launch(["--showcase-example=presets", "--showcase-audit"], "Play popIn")
+        try record("showcase-presets-ios") {
+            tap("Play popIn")
+            tap("Play shake")
+            tap("Play bounce")
+            tap("Play pulse")
+        }
+        launch(["--showcase-example=colors", "--showcase-audit"], "Orchid")
+        try record("showcase-colors-ios") {
+            tap("Orchid", wait: 1.6)
+            tap("Sky", wait: 1.6)
+            tap("Moss", wait: 1.6)
+        }
+        launch(["--showcase-example=decorations", "--showcase-audit"], "Morph")
+        try record("showcase-forms-ios") {
+            tap("Morph", wait: 1.8)
+            tap("Morph", wait: 0.6)
+            tap("Stop here", wait: 1)
+            tap("Morph", wait: 1.8)
+        }
+    }
+
+    func testShowcaseInteriors() throws {
+        let examples: [(String, String, String)] = [
+            ("busy-js", "Made for Android", ""),
+            ("drag-lab", "Unmount drags", ""),
+            ("drag-values", "Toggle sheet", "Toggle sheet"),
+            ("layout-lab", "Insert", "Insert"),
+            ("size-lab", "Expand", "Expand"),
+            ("image-lab", "Ripple", "Ripple"),
+            ("playback-lab", "Play scene", "Play scene"),
+            ("opacity-rotation", "Play orbit", "Play orbit")
+        ]
+        for (id, ready, action) in examples {
+            launch(["--showcase-example=" + id, "--showcase-audit"], ready)
+            try record("showcase-detail-" + id) {
+                if !action.isEmpty { tap(action, wait: 1.8) }
+                if id == "opacity-rotation" {
+                    app.swipeUp()
+                    tap("Slow motion", wait: 1)
+                    tap("Stop orbit")
+                }
+                if id == "drag-values" { tap("Toggle sheet", wait: 1) }
+                if id == "layout-lab" { tap("Reverse", wait: 1) }
+                if id == "size-lab" { tap("Collapse", wait: 1) }
+                let screenshot = XCTAttachment(screenshot: app.screenshot())
+                screenshot.name = id
+                screenshot.lifetime = .keepAlways
+                add(screenshot)
+            }
+        }
+    }
+
+    func testShowcaseTrails() throws {
+        launch(["--showcase-example=opacity-rotation", "--showcase-audit"], "Play orbit")
+        try record("showcase-detail-opacity-rotation") {
+            tap("Play orbit", wait: 1.8)
+            app.swipeUp()
+            tap("Slow motion", wait: 1)
+            tap("Stop orbit")
+        }
+    }
+
+    func testShowcaseIconLaunch() throws {
+        app.terminate()
+        XCUIDevice.shared.press(.home)
+        let springboard = XCUIApplication(bundleIdentifier: "com.apple.springboard")
+        let icon = springboard.icons["Jolt"].firstMatch
+        XCTAssertTrue(icon.waitForExistence(timeout: 10))
+        for _ in 0..<3 {
+            if icon.isHittable { break }
+            springboard.swipeLeft()
+        }
+        XCTAssertTrue(icon.isHittable)
+        icon.tap()
+        XCTAssertTrue(app.staticTexts["Small details.\nBig feelings."].waitForExistence(timeout: 15), app.debugDescription)
+    }
+
+    func testShowcase() throws {
+        app.terminate()
+        app.launchArguments = []
+        try record("showcase-ios") {
+            app.launch()
+            XCTAssertTrue(app.staticTexts["Small details.\nBig feelings."].waitForExistence(timeout: 15), app.debugDescription)
+            Thread.sleep(forTimeInterval: 1)
+            tap("Open Springs")
+            tap("bouncy", wait: 0.25)
+            tap("snappy", wait: 1)
+            tap("Back to collection")
+            tap("Collection")
+            tap("Filter Touch")
+            tap("Open Native gestures")
+            let surface = app.descendants(matching: .any)["Photo gesture surface"].firstMatch
+            if surface.exists { drag(surface, x: 45, y: 35) }
+            tap("Back to collection")
+            tap("Filter All")
+            let search = app.textFields["Search examples"]
+            search.tap()
+            search.typeText("shader\n")
+            tap("Open Environment & shaders")
+            tap("Select Cabin", wait: 2.8)
+            tap("Back to collection")
+            tap("Studio")
+        }
+        // A cold launch without arguments must still enter the new collection.
+        app.terminate()
+        app.launchArguments = []
+        app.launch()
+        XCTAssertTrue(app.staticTexts["Small details.\nBig feelings."].waitForExistence(timeout: 15), app.debugDescription)
+    }
+
     func testSceneShaderChecks() throws {
         launch(["--scene-shader", "--shader-checks=all"], "Check uniforms")
         XCTAssertTrue(app.staticTexts["Shader checks passed"].waitForExistence(timeout: 35), app.debugDescription)

@@ -1,0 +1,290 @@
+{
+  "date": "2026-10-23",
+  "platform": "iOS 26 Simulator; iPhone 17 and iPhone 17 Pro",
+  "baseCommit": "c7cea5252489e41417d8cc0fa3025d50758aa8da",
+  "scope": "Jolt Motion Studio presentation; library engine and CI workflows unchanged",
+  "routeAudit": {
+    "count": 54,
+    "vueErrors": 0,
+    "screenshotsReviewed": 54,
+    "routes": {
+      "springs": {
+        "errors": []
+      },
+      "presets": {
+        "errors": []
+      },
+      "decay": {
+        "errors": []
+      },
+      "stagger": {
+        "errors": []
+      },
+      "motion-path": {
+        "errors": []
+      },
+      "timeline": {
+        "errors": []
+      },
+      "playback": {
+        "errors": []
+      },
+      "loops": {
+        "errors": []
+      },
+      "pauses": {
+        "errors": []
+      },
+      "random-pauses": {
+        "errors": []
+      },
+      "track-easing": {
+        "errors": []
+      },
+      "easing-curves": {
+        "errors": []
+      },
+      "tuning": {
+        "errors": []
+      },
+      "press": {
+        "errors": []
+      },
+      "gesture-lab": {
+        "errors": []
+      },
+      "live-springs": {
+        "errors": []
+      },
+      "drag-lab": {
+        "errors": []
+      },
+      "drag-values": {
+        "errors": []
+      },
+      "keyboard": {
+        "errors": []
+      },
+      "haptics": {
+        "errors": []
+      },
+      "colors": {
+        "errors": []
+      },
+      "gradients": {
+        "errors": []
+      },
+      "gradient-directive": {
+        "errors": []
+      },
+      "gradient-values": {
+        "errors": []
+      },
+      "decorations": {
+        "errors": []
+      },
+      "shimmer": {
+        "errors": []
+      },
+      "particles": {
+        "errors": []
+      },
+      "loaders": {
+        "errors": []
+      },
+      "reveal": {
+        "errors": []
+      },
+      "image-lab": {
+        "errors": []
+      },
+      "opacity-rotation": {
+        "errors": []
+      },
+      "fade-overflow": {
+        "errors": []
+      },
+      "text": {
+        "errors": []
+      },
+      "rolling": {
+        "errors": []
+      },
+      "rolling-layout": {
+        "errors": []
+      },
+      "symbols": {
+        "errors": []
+      },
+      "layout-lab": {
+        "errors": []
+      },
+      "size-lab": {
+        "errors": []
+      },
+      "list-items": {
+        "errors": []
+      },
+      "scroll-values": {
+        "errors": []
+      },
+      "remount": {
+        "errors": []
+      },
+      "motion-values": {
+        "errors": []
+      },
+      "value-observers": {
+        "errors": []
+      },
+      "value-layers": {
+        "errors": []
+      },
+      "layers": {
+        "errors": []
+      },
+      "motion-states": {
+        "errors": []
+      },
+      "state-transitions": {
+        "errors": []
+      },
+      "busy-js": {
+        "errors": []
+      },
+      "vue-adapter": {
+        "errors": []
+      },
+      "from-react-native": {
+        "errors": []
+      },
+      "scene-shader": {
+        "errors": []
+      },
+      "scene-lighting": {
+        "errors": []
+      },
+      "scene-camera": {
+        "errors": []
+      },
+      "playback-lab": {
+        "errors": []
+      }
+    }
+  },
+  "interactiveScenes": {
+    "scene-camera": {
+      "errors": []
+    },
+    "scene-lighting": {
+      "errors": []
+    },
+    "scene-shader": {
+      "errors": []
+    },
+    "springs": {
+      "errors": []
+    },
+    "presets": {
+      "errors": []
+    },
+    "colors": {
+      "errors": []
+    },
+    "decorations": {
+      "errors": []
+    }
+  },
+  "targetedInteriorReview": [
+    "busy-js",
+    "drag-lab",
+    "drag-values",
+    "layout-lab",
+    "size-lab",
+    "image-lab",
+    "playback-lab",
+    "opacity-rotation"
+  ],
+  "nativeChecks": {
+    "testShowcaseAudit": "passed",
+    "testAtelier": "passed",
+    "testMotionStudio": "passed",
+    "testShowcase": "passed",
+    "testShowcaseIconLaunch": "passed",
+    "testShowcaseInteriors": "passed",
+    "testShowcaseTrails": "passed"
+  },
+  "reviewFindingsFixed": [
+    "Resume after seeking now resumes the individually paused native handle; seeking is disabled after completion.",
+    "Android-only Busy JavaScript shows an availability message on iOS.",
+    "Embedded examples use a single navigation header.",
+    "Light trails scrolls to every control, uses readable dark controls and shows the Jolt mark."
+  ],
+  "splash": "The XCTest walkthrough masks the launch animation during startup synchronization. A separate unaltered simctl recording demonstrates the normal animated cold launch.",
+  "clips": {
+    "showcase-atelier-ios.mp4": {
+      "seconds": 12.966667,
+      "encoding": "H.264, yuv420p, 420×914, 30 fps",
+      "fullDecode": "passed"
+    },
+    "showcase-colors-ios.mp4": {
+      "seconds": 6.366667,
+      "encoding": "H.264, yuv420p, 420×914, 30 fps",
+      "fullDecode": "passed"
+    },
+    "showcase-forms-ios.mp4": {
+      "seconds": 7.033333,
+      "encoding": "H.264, yuv420p, 420×914, 30 fps",
+      "fullDecode": "passed"
+    },
+    "showcase-interiors-ios.mp4": {
+      "seconds": 29.4,
+      "encoding": "H.264, yuv420p, 420×914, 30 fps",
+      "fullDecode": "passed"
+    },
+    "showcase-ios.mp4": {
+      "seconds": 27.4,
+      "encoding": "H.264, yuv420p, 420×914, 30 fps",
+      "fullDecode": "passed"
+    },
+    "showcase-lighting-ios.mp4": {
+      "seconds": 11.733333,
+      "encoding": "H.264, yuv420p, 420×914, 30 fps",
+      "fullDecode": "passed"
+    },
+    "showcase-presets-ios.mp4": {
+      "seconds": 5.7,
+      "encoding": "H.264, yuv420p, 420×914, 30 fps",
+      "fullDecode": "passed"
+    },
+    "showcase-shaders-ios.mp4": {
+      "seconds": 11.766667,
+      "encoding": "H.264, yuv420p, 420×914, 30 fps",
+      "fullDecode": "passed"
+    },
+    "showcase-splash-ios.mp4": {
+      "seconds": 4.233333,
+      "encoding": "H.264, yuv420p, 420×914, 30 fps",
+      "fullDecode": "passed"
+    },
+    "showcase-springs-ios.mp4": {
+      "seconds": 4.1,
+      "encoding": "H.264, yuv420p, 420×914, 30 fps",
+      "fullDecode": "passed"
+    }
+  },
+  "validation": [
+    "iOS release simulator build",
+    "demo TypeScript",
+    "benchmark TypeScript",
+    "Prettier for changed source/docs",
+    "git diff --check",
+    "docs:check-media: 50 guides per language, 109 recordings",
+    "docs:build"
+  ],
+  "limits": [
+    "Route audit covers mounting and screenshots, not every possible interaction in all 54 examples.",
+    "New recordings are iOS simulator evidence; Android and physical devices were not tested in this presentation pass.",
+    "The detailed car is a local asset from jolt-car and is not redistributed in Git; the repository has a procedural fallback."
+  ]
+}

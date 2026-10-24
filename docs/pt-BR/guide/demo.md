@@ -1,6 +1,45 @@
 # Aplicativo de demonstração
 
-O app NativeScript-Vue em [`demo/`](https://github.com/rafaelaugustos/jolt/tree/main/demo) usa o build local do Jolt. No iOS e no Android, ele abre um assistente com três telas:
+O app NativeScript-Vue em [`demo/`](https://github.com/rafaelaugustos/jolt/tree/main/demo) usa o build local do Jolt. A abertura normal entra no **Jolt Motion Studio**: splash animado da marca, home em movimento e coleção pesquisável de 54 experimentos, organizados em Motion, Touch, Visual, Type, Layout, State e SceneKit.
+
+<Clip name="showcase-splash-ios" caption="Abertura real no simulador iOS 26: a tela do sistema dá lugar ao splash animado nativo da marca e ao Studio. Captura sem a sincronização de abertura do XCTest; velocidade original. Não comprova desempenho em aparelho físico." />
+
+<Clip name="showcase-ios" caption="Gravação real no simulador iOS 26: springs, gestos nativos, filtros, busca, reprodução SceneKit e navegação de volta. Interações reais do XCTest, sem mudar a velocidade. A reabertura e o ícone instalado também são verificados fora deste vídeo." />
+
+O [Vue Router NS](https://vue-router-ns.rafaelaugusto.dev/guide/splash) conduz home, coleção e exemplos usando pilhas nativas de páginas. Voltar preserva a busca e o filtro da coleção. A primeira página monta por baixo do splash, que não entra no histórico. O Jolt anima logo, nome e saída, pulando essas animações com Movimento Reduzido. A tela de abertura do sistema no iOS usa o mesmo fundo sólido antes de o JavaScript iniciar.
+
+As animações da home param ao sair da página. Cada detalhe monta apenas o experimento escolhido e o libera ao sair. Controles de tempo do exemplo voltam ao padrão ao deixar o detalhe; experimentos exclusivos do SceneKit mostram uma mensagem de disponibilidade no Android. Esta gravação valida a nova apresentação no iOS; não representa validação nativa no Android.
+
+Os recursos iOS agora ficam no repositório, incluindo o nome **Jolt** e o ícone. Abrir pelo ícone instalado entra na coleção sem argumentos especiais. Este preview requer Core 9.1.3+ e instala `vue-router-ns@0.1.0-rc.2`.
+
+## Telas do Motion Studio
+
+Springs, presets, cores e decoração têm palcos interativos próprios. Os demais experimentos compartilham a tipografia, o espaçamento e os controles da coleção; as telas de gestos e live springs usam o cabeçalho da coleção quando abertas nela.
+
+<div class="clips">
+<Clip name="showcase-springs-ios" caption="Simulador iOS 26: toques reais interrompem a spring e mudam sua resposta durante o movimento. Velocidade original." />
+<Clip name="showcase-presets-ios" caption="Simulador iOS 26: pop, shake, bounce e pulse no pôster nativo. Toques reais do XCTest; velocidade original." />
+<Clip name="showcase-colors-ios" caption="Simulador iOS 26: fundo, texto e borda interpolam juntos entre três paletas. Velocidade original." />
+<Clip name="showcase-forms-ios" caption="Simulador iOS 26: cantos, borda, rotação e sombra animados, incluindo interrupção durante a transição. Velocidade original." />
+</div>
+
+<Clip name="showcase-interiors-ios" caption="Simulador iOS 26: interações nativas em drag values, layout, dimensões, efeitos de imagem, playback e light trails, além da mensagem do exemplo exclusivo de Android. Capturas unidas entre exemplos, sem alterar o tempo das interações. Light trails seleciona explicitamente o modo de câmera lenta 0,2× do app. Não comprova desempenho em aparelho físico." />
+
+### Estúdio automotivo · iOS
+
+Os três experimentos SceneKit compartilham um estúdio com reflexos. **Camera lens** anima o campo de visão sem mover a câmera. **Lights & materials** muda iluminação e pintura. **Environment & shaders** liga um motion value à intensidade do ambiente, à luz principal, a um uniform de aparência do vidro e à cor dos faróis. São adaptadores nativos do Jolt; JavaScript escolhe o destino e troca a imagem do ambiente no toque, sem observador atualizando propriedades SceneKit a cada frame.
+
+<div class="clips">
+<Clip name="showcase-atelier-ios" caption="Simulador iOS 26: transições de lente, seek até a metade, retomada e mudança de pintura. Renderização SceneKit nativa e interação real do XCTest; modelo detalhado local; velocidade original." />
+<Clip name="showcase-lighting-ios" caption="Simulador iOS 26: luz diurna, estúdio quente, pintura cobre e iluminação noturna. Modelo detalhado local; velocidade original." />
+<Clip name="showcase-shaders-ios" caption="Simulador iOS 26: ambiente e uniforms dos shaders do vidro e dos faróis dirigidos por um motion value compartilhado. Modelo detalhado local; velocidade original. Demonstra aparência, não o interior da cabine nem simulação de fluidos." />
+</div>
+
+O carro detalhado das gravações é um recurso local do projeto separado `jolt-car`. Ele **não é distribuído neste repositório** enquanto sua origem e os termos de redistribuição não estiverem registrados. Para usar localmente um modelo autorizado com os mesmos materiais, coloque-o em `demo/App_Resources/iOS/preview-car.usdz`; sem ele, o demo usa um carro procedural. O ambiente do estúdio é desenhado em código. Estes vídeos de simulador não comprovam desempenho em aparelho físico.
+
+## Exemplo do assistente
+
+O assistente anterior continua disponível com `--screen=home` no iOS ou `--es screen home` no Android. Ele tem três telas:
 
 <div class="clips">
 <Clip name="assistant-flow" caption="O assistente repetindo o fluxo no simulador iOS." />
@@ -33,9 +72,9 @@ npm install
 ns run ios
 ```
 
-`ns run android` abre o mesmo assistente. Os ícones vêm da fonte Material Icons no lugar dos SF Symbols, o sistema ajusta a janela para o teclado em vez de um observador de teclado, e a esfera mantém a respiração sem a deformação líquida.
+`ns run android` abre a coleção. No exemplo do assistente, os ícones vêm da fonte Material Icons no lugar dos SF Symbols, o sistema ajusta a janela para o teclado em vez de um observador de teclado, e a esfera mantém a respiração sem a deformação líquida.
 
-O playground de animações abre com `--playground` no iOS e `--es playground true` no Android. Os dois têm todas as seções; o do iOS acrescenta os helpers exclusivos da plataforma.
+O playground de animações abre com `--playground` no iOS e `--es playground true` no Android. Essa entrada preserva a galeria anterior em uma página para gravações e probes; aberturas normais usam o Motion Studio.
 
 Abra **Image effects and photo zoom** no playground para testar ripple, distorção, dissolve e o viewer de fotos. Para abrir diretamente, use `--image-lab=effects` ou `--image-lab=zoom` no iOS; no Android, `--es image-lab effects` ou `--es image-lab zoom`. A grade colorida e o canto transparente do destino ajudam a conferir deformação, recorte e alpha. O viewer inclui botões acessíveis de zoom/reset/fechar, cancelamento e reanexação.
 
@@ -56,7 +95,7 @@ adb shell am start -n org.nativescript.jolt/com.tns.NativeScriptActivity --es sc
 adb shell am start -n org.nativescript.jolt/com.tns.NativeScriptActivity --es playground true
 ```
 
-Encerre o app antes de abrir com outros argumentos. Sem argumentos, o assistente começa na Home.
+Encerre o app antes de abrir com outros argumentos. Sem argumentos, o app abre o Motion Studio. Use `--screen=home` para o assistente.
 
 Mais dois argumentos ajudam uma revisão ou uma gravação a chegar a um ponto sem tocar na tela. `--tap=<texto>[,<texto>...]` funciona nos dois demos: dispara o toque da primeira view cujo texto ou rótulo de acessibilidade é igual a cada item, subindo até o ancestral mais próximo com um handler de toque, um a cada `--every` milissegundos (1200 por padrão). `--section=<título>` é do playground e rola até a primeira seção cujo título começa com esse texto, sem diferenciar maiúsculas:
 

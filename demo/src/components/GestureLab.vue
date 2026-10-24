@@ -20,6 +20,7 @@ import {
 } from '@rafaelaugusto/jolt/gestures'
 import { launchArgument } from '../launch'
 
+const props = defineProps<{ embedded?: boolean }>()
 const emit = defineEmits<{ back: [] }>()
 const navigationCheck = launchArgument('gesture-navigation-check') !== undefined
 const nodeCount = () =>
@@ -63,8 +64,8 @@ function select(name: string) {
     card.width = 170
     card.height = 200
     card.borderRadius = 24
-    card.backgroundColor = new Color('#4168B5')
-    const title = label('NORTH\n↗\nSTUDIO', 26)
+    card.backgroundColor = new Color(props.embedded ? '#3E5143' : '#4168B5')
+    const title = label(props.embedded ? 'MOVE\n↗\nWITH ME' : 'NORTH\n↗\nSTUDIO', 26)
     title.color = new Color('white')
     title.fontWeight = 'bold'
     title.textAlignment = 'center'
@@ -219,7 +220,7 @@ onUnmounted(() => {
 
 <template>
   <GridLayout rows="auto,auto,auto,*,auto,auto" padding="24" backgroundColor="#F8F7F2">
-    <GridLayout columns="*,auto" marginBottom="12">
+    <GridLayout v-if="!props.embedded" columns="*,auto" marginBottom="12">
       <Label
         text="JOLT / GESTURES"
         fontSize="12"
@@ -230,6 +231,7 @@ onUnmounted(() => {
       <Button col="1" text="Back" @tap="$emit('back')" />
     </GridLayout>
     <Label
+      v-if="!props.embedded"
       row="1"
       text="Move together."
       fontSize="32"

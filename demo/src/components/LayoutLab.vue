@@ -10,10 +10,11 @@ function toggleReduced() {
   configure({ reducedMotion: reduced.value ? 'always' : 'user' })
 }
 onUnmounted(() => configure({ reducedMotion: 'user' }))
+const props = defineProps<{ embedded?: boolean }>()
 </script>
 <template>
   <GridLayout rows="auto,*,auto" padding="12 20" backgroundColor="white">
-    <GridLayout columns="auto,*">
+    <GridLayout v-if="!props.embedded" columns="auto,*">
       <Button text="Back" @tap="$emit('back')" />
       <Label col="1" text="Layout changes" class="heading" verticalAlignment="middle" />
     </GridLayout>

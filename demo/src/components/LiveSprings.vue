@@ -1,4 +1,5 @@
 <script setup lang="ts">
+const props = defineProps<{ embedded?: boolean }>()
 import {
   Color,
   GridLayout,
@@ -93,7 +94,7 @@ onUnmounted(() => {
 
 <template>
   <GridLayout rows="auto,auto,auto,auto,auto,*" padding="24" backgroundColor="#F8F7F2">
-    <GridLayout columns="*,auto" marginBottom="28">
+    <GridLayout v-if="!props.embedded" columns="*,auto" marginBottom="28">
       <Label
         text="JOLT / LIVE SPRINGS"
         fontSize="12"
@@ -103,7 +104,7 @@ onUnmounted(() => {
       />
       <Button col="1" text="Back" @tap="$emit('back')" />
     </GridLayout>
-    <StackLayout row="1" marginBottom="24">
+    <StackLayout v-if="!props.embedded" row="1" marginBottom="24">
       <Label text="Follow the lead." fontSize="34" fontWeight="bold" color="#252B35" />
       <Label
         text="Change direction. Keep the momentum."

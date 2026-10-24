@@ -154,10 +154,11 @@ onUnmounted(() => {
   scope.dispose()
   configure({ timeScale: 1, reducedMotion: 'user' })
 })
+const props = defineProps<{ embedded?: boolean }>()
 </script>
 <template>
   <GridLayout rows="auto,auto,*,auto" backgroundColor="#F6F8FC" padding="16 20">
-    <StackLayout>
+    <StackLayout v-if="!props.embedded">
       <Label text="REAL DIMENSIONS" fontSize="11" letterSpacing="0.2" color="#1764DA" />
       <Label
         text="Space that moves."
@@ -203,10 +204,10 @@ onUnmounted(() => {
         color="#60738D"
         textWrap="true"
       />
-      <GridLayout columns="*,*">
-        <Button text="Back" @tap="$emit('back')" />
+      <GridLayout :columns="props.embedded ? '*' : '*,*'">
+        <Button v-if="!props.embedded" text="Back" @tap="$emit('back')" />
         <Button
-          col="1"
+          :col="props.embedded ? 0 : 1"
           :text="checking ? 'Checking…' : 'Run size checks'"
           @tap="checks"
         />

@@ -132,11 +132,18 @@ onUnmounted(() => {
   reset()
   configure({ timeScale: 1 })
 })
+const props = defineProps<{ embedded?: boolean }>()
 </script>
 
 <template>
   <StackLayout class="opacity-rotation" backgroundColor="#0d0404" padding="24">
-    <Label text="Opacity + rotation" color="#fff6df" fontSize="26" marginTop="16" />
+    <Label
+      v-if="!props.embedded"
+      text="Opacity + rotation"
+      color="#fff6df"
+      fontSize="26"
+      marginTop="16"
+    />
     <Label
       :text="`${useSVG ? 'SVG' : 'Plain'} overflow · fade on ${childFade ? 'child' : 'container'}`"
       color="#ffb547"
@@ -168,7 +175,7 @@ onUnmounted(() => {
           borderRadius="114"
         />
         <Image
-          src="~/assets/ghost-marker.png"
+          :src="props.embedded ? '~/assets/jolt-mark.png' : '~/assets/ghost-marker.png'"
           left="44.7"
           top="27.8"
           width="90"

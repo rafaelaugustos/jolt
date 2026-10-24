@@ -4,7 +4,8 @@ coverage/
 *.tgz
 .DS_Store
 
-demo/App_Resources/
+demo/App_Resources/*
+!demo/App_Resources/iOS/
 demo/platforms/
 demo/hooks/
 demo/node_modules/
@@ -22,3 +23,6 @@ __pycache__/
 platforms/android/*.aar
 packages/native/platforms/android/*.aar
 demo/native-fixture/platforms/android/*.aar
+
+# Local showcase model; provenance is recorded before redistribution.
+demo/App_Resources/iOS/preview-car.usdz
