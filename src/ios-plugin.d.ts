@@ -181,3 +181,18 @@ declare class JoltReferenceProperties extends NSObject {
   static sceneAppearanceSinkCount(): number
   static sceneAppearanceWriteCount(): number
 }
+
+declare class JoltSceneShaderProperties extends NSObject {
+  static environmentError(
+    scene: NSObject,
+    error: interop.Reference<NSError>,
+  ): JoltPropertySink | null
+  static uniformNameConfigurationError(
+    target: NSObject,
+    name: string,
+    configuration: string,
+    error: interop.Reference<NSError>,
+  ): JoltPropertySink | null
+  static sinkCount(): number
+  static writeCount(): number
+}

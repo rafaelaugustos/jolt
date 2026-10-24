@@ -3,6 +3,7 @@
 ## Unreleased
 
 - Add the optional `@rafaelaugusto/jolt/bottom-sheet` in-page recipe: native drag/scroll handoff, content and percentage snaps, spring interruption, keyboard following, backdrop/back dismissal, accessibility actions and lifecycle cleanup. Include real iOS/Android recordings and English/Portuguese guides. Native contact callbacks require rebuilding the app; this entry is not in beta.16.
+- Add optional iOS SceneKit environment-intensity and typed shader-modifier uniform adapters. Support scalar/vector schemas, native playback, shared value bindings, per-uniform ownership and source invalidation. Include a real native demo, recording and EN/PT guides; requires rebuilding the matching optional native plugin.
 
 ## 0.1.0-beta.16 (2026-10-23)
 

@@ -1,5 +1,7 @@
 # External native properties
 
+See [environment and shader inputs](./scene-shaders) for the unreleased beta.17 illumination and typed uniform adapters.
+
 Animate a map coordinate, SceneKit camera, light or solid-color material without writing a JavaScript frame loop. The optional `@rafaelaugusto/jolt/native` entry supplies a property registry, compiled native playback and reference adapters. Importing the main JavaScript entry does not initialize this registry or load a map SDK.
 
 <Clip name="native-map-ios" caption="MapKit annotation and camera, paused and resumed together on an iOS simulator. Native property writes; real-time playback." />

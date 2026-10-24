@@ -15,3 +15,5 @@ See the [native properties guide](https://jolt.rafaelaugusto.dev/guide/native-pr
 Release maintainers: publish this optional package together with compatible core releases (`npm publish` from this directory). Build and pack the core at the repository root. The demo uses local file dependencies and never needs the package published for validation.
 
 SceneKit perspective camera field-of-view bindings use `sceneKitFieldOfView(camera)` from the core `/native` entry. See the [camera guide](https://jolt.rafaelaugusto.dev/guide/scene-camera) for projection, lens ownership and lifecycle limits. Available since beta.15. Install matching core/native versions and rebuild the native app to include this adapter.
+
+Development preview for beta.17: `sceneKitEnvironmentIntensity(scene)` and `sceneKitUniform(target, name, options)` add native environment and literal Metal shader-modifier inputs on iOS 13+. They require the new compiled runtime and a native app rebuild. The [environment/shader guide](https://jolt.rafaelaugusto.dev/guide/scene-shaders) documents float/vector schemas, ranges, ownership, Reduced Motion and unsupported live sources/SCNProgram buffers.
