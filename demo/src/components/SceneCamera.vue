@@ -6,7 +6,7 @@ import {
   knownFolders,
   type EventData,
 } from '@nativescript/core'
-import { onUnmounted, ref, registerElement } from 'nativescript-vue'
+import { onUnmounted, ref } from 'nativescript-vue'
 import {
   animate,
   motionValue,
@@ -24,7 +24,6 @@ import {
 import { NativeLightingDemo } from '../scene-lighting'
 import { checkSceneCamera } from '../../../benchmarks/scene-camera'
 import { launchArgument } from '../launch'
-registerElement('NativeCameraDemo', () => NativeLightingDemo)
 const emit = defineEmits<{ back: [] }>()
 const visible = ref(true),
   checking = ref(false)

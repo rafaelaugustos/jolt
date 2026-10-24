@@ -292,7 +292,7 @@ export const examples = [
     description: 'Make the wait feel lighter.',
     component: markRaw(Shimmer),
     full: false,
-    ios: false,
+    ios: true,
   },
   {
     id: 'particles',
@@ -310,7 +310,7 @@ export const examples = [
     description: 'Keep the anticipation moving.',
     component: markRaw(Loaders),
     full: false,
-    ios: false,
+    ios: true,
   },
   {
     id: 'reveal',
@@ -319,7 +319,7 @@ export const examples = [
     description: 'Let the next thing unfold.',
     component: markRaw(Reveal),
     full: false,
-    ios: false,
+    ios: true,
   },
   {
     id: 'image-lab',
@@ -382,7 +382,7 @@ export const examples = [
     description: 'Give an icon a little character.',
     component: markRaw(Symbols),
     full: false,
-    ios: false,
+    ios: true,
   },
   {
     id: 'layout-lab',

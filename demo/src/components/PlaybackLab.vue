@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import { usePreviewI18n } from '../showcase/i18n'
 import { Application, isIOS, type EventData, type View } from '@nativescript/core'
-import { ref, onUnmounted, registerElement } from 'nativescript-vue'
+import { ref, onUnmounted } from 'nativescript-vue'
 import {
   animate,
   bind,
@@ -24,11 +25,11 @@ import {
   type ScenePose,
 } from '@rafaelaugusto/jolt/native'
 import { NativeMapDemo, NativeSceneDemo } from '../native-demo'
+import { StudioScene } from '../showcase/studio-scene'
 import { checkPlaybackAdapters } from '../../../benchmarks/playback-adapters'
 import { launchArgument } from '../launch'
+const { t, locale } = usePreviewI18n()
 
-registerElement('NativeMapDemo', () => NativeMapDemo)
-registerElement('NativeSceneDemo', () => NativeSceneDemo)
 const emit = defineEmits<{ back: [] }>()
 const mode = ref(launchArgument('playback-lab') || 'timeline')
 const status = ref('Ready'),
@@ -63,6 +64,8 @@ const endPose: ScenePose = {
     Math.cos(0.4) * Math.cos(0.15),
   ],
 }
+let cameraStart = startPose,
+  cameraEnd = endPose
 function clear() {
   scope.reset()
   scene = undefined
@@ -70,9 +73,12 @@ function clear() {
   paused.value = false
 }
 function select(next: string) {
+  if (mode.value === next) return
   clear()
   mode.value = next
   status.value = 'Ready'
+  percentage.value = 0
+  meters.value = 100
   ready.value = false
 }
 function observe(animation: PlaybackAnimation) {
@@ -105,7 +111,12 @@ function play() {
         run: () => {
           drive = animate(
             car.value,
-            { path: 'M0 0 L230 0 L230 80 L0 80', orient: true },
+            {
+              path: props.embedded
+                ? 'M0 170 C45 170 55 100 110 100 S200 40 230 0'
+                : 'M0 0 L230 0 L230 80 L0 80',
+              orient: true,
+            },
             { duration, ease: 'linear' },
           )
           observe(drive)
@@ -117,11 +128,19 @@ function play() {
         1,
         { duration: 1000, ease: 'sineInOut', repeat: 7, repeatType: 'reverse', at: 0 },
       ],
-      {
-        at: 0,
-        run: () =>
-          imageEffect(effect.value, 'ripple', { duration, amplitude: 14, radius: 140 }),
-      },
+      ...(props.embedded
+        ? []
+        : [
+            {
+              at: 0,
+              run: () =>
+                imageEffect(effect.value, 'ripple', {
+                  duration,
+                  amplitude: 14,
+                  radius: 140,
+                }),
+            },
+          ]),
       [delayed.value, { opacity: [0, 1] }, { duration: 500, at: 4000 }],
     ])
   } else if (mode.value === 'map' && marker && camera) {
@@ -152,12 +171,12 @@ function play() {
       },
     ])
   } else if (pose) {
-    pose.set(startPose)
+    pose.set(cameraStart)
     scene = scope.timeline([
       {
         at: 0,
         run: () => {
-          drive = pose!.animate(endPose, { duration, ease: 'sineInOut' })
+          drive = pose!.animate(cameraEnd, { duration, ease: 'sineInOut' })
           observe(drive)
           return drive
         },
@@ -217,7 +236,20 @@ function mapUnloaded() {
 }
 function sceneLoaded(event: EventData) {
   if (!isIOS) return
-  pose ??= sceneKitPose((event.object as NativeSceneDemo).camera)
+  if (pose) {
+    ready.value = true
+    return
+  }
+  const view = event.object as NativeSceneDemo | StudioScene
+  if (view instanceof StudioScene) {
+    cameraStart = view.cameraPose([4.2, 2.1, 4.6])
+    cameraEnd = view.cameraPose([-3.6, 1.8, 4.8])
+  } else {
+    cameraStart = startPose
+    cameraEnd = endPose
+  }
+  pose = sceneKitPose(view.camera)
+  pose.set(cameraStart)
   ready.value = true
 }
 function sceneUnloaded() {
@@ -243,30 +275,141 @@ const props = defineProps<{ embedded?: boolean }>()
 <template>
   <GridLayout
     class="playback-lab"
+    :class="{ 'showcase-playback': props.embedded }"
     rows="auto,auto,*,auto,auto,auto"
-    backgroundColor="#101827"
+    :backgroundColor="props.embedded ? '#151E26' : '#101827'"
     color="#edf2ff"
-    padding="20"
+    :padding="props.embedded ? 12 : 20"
   >
     <GridLayout v-if="!props.embedded" columns="*,auto" marginBottom="12">
       <StackLayout
-        ><Label text="One clock. Every detail." fontSize="24" fontWeight="bold" /><Label
-          text="Native playback · Jolt"
+        ><Label
+          :text="t('One clock. Every detail.')"
+          fontSize="24"
+          fontWeight="bold" /><Label
+          :text="t('Native playback · Jolt')"
           color="#9caec7"
           marginTop="4"
       /></StackLayout>
-      <Button col="1" text="Back" @tap="emit('back')" />
+      <Button col="1" :text="t('Back')" @tap="emit('back')" />
     </GridLayout>
     <GridLayout row="1" columns="*,*,*" marginBottom="16">
-      <Button text="Timeline" @tap="select('timeline')" /><Button
+      <Button
+        :text="t('Timeline')"
+        :class="{ active: props.embedded && mode === 'timeline' }"
+        @tap="select('timeline')"
+      /><Button
         col="1"
-        text="Native map"
+        :text="t('Native map')"
+        :class="{ active: props.embedded && mode === 'map' }"
         @tap="select('map')"
-      /><Button col="2" text="3D camera" @tap="select('scene')" />
+      /><Button
+        col="2"
+        :text="t('3D camera')"
+        :class="{ active: props.embedded && mode === 'scene' }"
+        @tap="select('scene')"
+      />
     </GridLayout>
     <GridLayout row="2" borderRadius="16" clipToBounds="true" backgroundColor="#1d2b40">
-      <StackLayout v-if="mode === 'timeline'" padding="20">
-        <Label text="PICKUP ROUTE" color="#95a9c5" fontSize="12" marginBottom="16" />
+      <GridLayout
+        v-if="mode === 'timeline' &amp;&amp; props.embedded"
+        rows="auto,*,auto"
+        backgroundColor="#202D28"
+        padding="16"
+      >
+        <GridLayout columns="*,auto" marginBottom="8"
+          ><StackLayout
+            ><Label :text="t('THE LONG WAY HOME')" class="ex-kicker" /><Label
+              :text="t('Enjoy the journey.')"
+              color="#F1F1DF"
+              fontSize="23"
+              fontWeight="bold"
+              marginTop="5" /></StackLayout
+          ><Label col="1" text="↗" fontSize="32" color="#E3FC62"
+        /></GridLayout>
+        <GridLayout
+          row="1"
+          width="300"
+          height="300"
+          verticalAlignment="middle"
+          clipToBounds="true"
+          borderRadius="24"
+        >
+          <SVGView
+            :src="
+              locale === 'pt-BR'
+                ? '~/assets/studio/journey-pt.svg'
+                : '~/assets/studio/journey.svg'
+            "
+            width="300"
+            height="300"
+            stretch="aspectFit"
+          />
+          <Label
+            ref="halo"
+            width="24"
+            height="24"
+            borderRadius="12"
+            backgroundColor="#E7AE91"
+            horizontalAlignment="left"
+            verticalAlignment="top"
+            marginLeft="250"
+            marginTop="40"
+            opacity=".3"
+          />
+          <GridLayout
+            ref="car"
+            width="30"
+            height="30"
+            horizontalAlignment="left"
+            verticalAlignment="top"
+            marginLeft="17"
+            marginTop="37"
+            translateY="170"
+            borderRadius="15"
+            backgroundColor="#E3FC62"
+            ><Label
+              text="➤"
+              fontSize="18"
+              color="#26372B"
+              textAlignment="center"
+              verticalAlignment="middle"
+          /></GridLayout>
+          <Label
+            ref="delayed"
+            :text="t('HALFWAY THERE  ↗')"
+            opacity="0"
+            color="#E3FC62"
+            fontSize="9"
+            backgroundColor="#202D28"
+            padding="8 12"
+            borderRadius="12"
+            horizontalAlignment="center"
+            verticalAlignment="bottom"
+            marginBottom="18"
+          />
+        </GridLayout>
+        <StackLayout row="2" marginTop="8"
+          ><GridLayout height="3" backgroundColor="#43513D"
+            ><Label
+              ref="bar"
+              originX="0"
+              scaleX="0"
+              backgroundColor="#E3FC62" /></GridLayout
+          ><GridLayout columns="*,auto" marginTop="9"
+            ><Label :text="t('01  STUDIO')" class="ex-kicker" /><Label
+              col="1"
+              :text="t('02  THE WATERFRONT')"
+              class="ex-kicker" /></GridLayout
+        ></StackLayout>
+      </GridLayout>
+      <StackLayout v-else-if="mode === 'timeline'" padding="20">
+        <Label
+          :text="t('PICKUP ROUTE')"
+          color="#95a9c5"
+          fontSize="12"
+          marginBottom="16"
+        />
         <GridLayout height="140" width="264" horizontalAlignment="left">
           <GridLayout
             width="230"
@@ -304,7 +447,7 @@ const props = defineProps<{ embedded?: boolean }>()
         /></GridLayout>
         <Label
           ref="delayed"
-          text="Halfway checkpoint"
+          :text="t('Halfway checkpoint')"
           opacity="0"
           color="#4fe2b0"
           marginBottom="12"
@@ -316,7 +459,11 @@ const props = defineProps<{ embedded?: boolean }>()
           stretch="aspectFill"
         />
         <Label
-          text="Car, pulse and ripple pause together. The checkpoint waits for timeline time."
+          :text="
+            t(
+              'Car, pulse and ripple pause together. The checkpoint waits for timeline time.',
+            )
+          "
           textWrap="true"
           color="#95a9c5"
           marginTop="12"
@@ -327,34 +474,50 @@ const props = defineProps<{ embedded?: boolean }>()
         @loaded="mapLoaded"
         @unloaded="mapUnloaded"
       />
+      <PlaybackStudioScene
+        v-else-if="props.embedded && isIOS"
+        @loaded="sceneLoaded"
+        @unloaded="sceneUnloaded"
+      />
       <NativeSceneDemo v-else @loaded="sceneLoaded" @unloaded="sceneUnloaded" />
     </GridLayout>
     <GridLayout row="3" columns="*,auto" marginTop="16" marginBottom="12">
       <StackLayout
-        ><Label :text="status" fontSize="20" /><Label
-          :text="
+        ><Label :text="t(status)" fontSize="20" /><Label
+          :text="t(
             mode === 'timeline'
-              ? `${meters} m remaining · constant speed`
-              : 'Native property adapter'
-          "
+              ? props.embedded
+                ? 'Every detail, on the same clock.'
+                : `${meters} m remaining · constant speed`
+              : props.embedded &amp;&amp; mode === 'scene'
+                ? 'A new angle. The same moment.'
+                : props.embedded
+                  ? 'A city, seen in motion.'
+                  : 'Native property adapter'
+          )"
           color="#95a9c5"
           marginTop="5"
       /></StackLayout>
-      <Label col="1" :text="`${percentage}%`" fontSize="28" color="#4fe2b0" />
+      <Label
+        col="1"
+        :text="t(`${percentage}%`)"
+        fontSize="28"
+        :color="props.embedded ? '#E3FC62' : '#4fe2b0'"
+      />
     </GridLayout>
     <GridLayout row="4" columns="*,*,*">
       <Button
-        text="Play scene"
+        :text="t('Play scene')"
         :isEnabled="mode === 'timeline' || ready"
         @tap="play"
       /><Button
         col="1"
-        :text="paused ? 'Resume scene' : 'Pause scene'"
+        :text="t(paused ? 'Resume scene' : 'Pause scene')"
         @tap="toggle"
-      /><Button col="2" text="Stop scene" @tap="stop" />
+      /><Button col="2" :text="t('Stop scene')" @tap="stop" />
     </GridLayout>
-    <GridLayout row="5" ref="checksHost" height="40"
-      ><Button text="Run native checks" :isEnabled="!checking" @tap="checks"
+    <GridLayout v-if="!props.embedded" row="5" ref="checksHost" height="40"
+      ><Button :text="t('Run native checks')" :isEnabled="!checking" @tap="checks"
     /></GridLayout>
   </GridLayout>
 </template>
@@ -367,5 +530,14 @@ const props = defineProps<{ embedded?: boolean }>()
   font-size: 12;
   padding: 8 5;
   margin: 3;
+}
+.playback-lab.showcase-playback Button {
+  background-color: #2e4137;
+  color: #dce5d4;
+  border-radius: 14;
+}
+.playback-lab Button.active {
+  background-color: #e3fc62;
+  color: #202b29;
 }
 </style>

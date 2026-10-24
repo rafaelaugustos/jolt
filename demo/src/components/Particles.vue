@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { usePreviewI18n } from '../showcase/i18n'
 import { isAndroid, type LayoutBase } from '@nativescript/core'
 import { onUnmounted, ref } from 'nativescript-vue'
 import {
@@ -10,6 +11,7 @@ import {
 } from '@rafaelaugusto/jolt'
 import { checkParticles } from '../../../benchmarks/particles'
 import { launchArgument } from '../launch'
+const { t } = usePreviewI18n()
 
 const stage = ref()
 const celebrate = ref()
@@ -116,67 +118,125 @@ onUnmounted(() => {
   scope.dispose()
   if (reduced.value) configure({ reducedMotion: 'user' })
 })
+defineProps<{ embedded?: boolean }>()
 </script>
 
 <template>
-  <StackLayout class="section">
-    <Label class="heading" text="Particles" />
-    <Label
-      class="muted"
-      text="Native snow, sparks, bubbles and confetti."
-      textWrap="true"
-    />
+  <StackLayout v-if="embedded" class="exhibit">
     <GridLayout
       ref="stage"
-      class="particle-stage"
-      :height="tall ? 270 : 210"
-      accessibilityLabel="Particle stage"
-    >
-      <Label
-        :text="label"
-        color="#71717a"
-        horizontalAlignment="center"
-        verticalAlignment="middle"
-      />
-      <Button
-        class="button"
-        :text="`Touch ${taps}`"
-        width="100"
-        height="38"
+      class="ex-stage"
+      :height="tall ? 420 : 350"
+      backgroundColor="#1E2532"
+      :accessibilityLabel="t('Particle stage')"
+      ><Label
+        :text="t('SMALL MOMENTS / BIG FEELINGS')"
+        class="ex-kicker"
+        verticalAlignment="top" /><StackLayout verticalAlignment="middle"
+        ><Label
+          :text="t('Make a\nlittle magic.')"
+          class="ex-title"
+          textWrap="true"
+          textAlignment="center" /><Label
+          :text="t(label.toUpperCase())"
+          color="#B7AECE"
+          letterSpacing=".15"
+          fontSize="10"
+          textAlignment="center"
+          marginTop="18" /></StackLayout
+      ><Button
+        :text="t(`Touch ${taps}`)"
+        color="#DDD3F4"
+        backgroundColor="#383348"
+        borderRadius="16"
+        height="36"
+        width="108"
+        fontSize="11"
         verticalAlignment="bottom"
-        marginBottom="10"
-        @tap="taps++"
-      />
-    </GridLayout>
-    <GridLayout columns="*, *, *">
-      <Button class="button" text="Snow" @tap="play('Snow')" />
-      <Button col="1" class="button" text="Sparks" @tap="play('Sparks')" />
-      <Button col="2" class="button" text="Bubbles" @tap="play('Bubbles')" />
-    </GridLayout>
-    <GridLayout columns="*, *, *">
-      <Button ref="celebrate" class="button" text="Confetti" @tap="burst" />
-      <Button col="1" class="button" text="Finite" @tap="play('Finite')" />
-      <Button col="2" class="button" text="Stop" @tap="stop" />
-    </GridLayout>
-    <GridLayout columns="*, *, *">
-      <Button class="button" text="Resize" @tap="tall = !tall" />
-      <Button
+        @tap="taps++" /></GridLayout
+    ><StackLayout class="ex-controls"
+      ><GridLayout columns="*,*,*"
+        ><Button
+          col="0"
+          :text="t('Snow')"
+          @tap="play('Snow')"
+          class="ex-primary" /><Button
+          col="1"
+          :text="t('Sparks')"
+          @tap="play('Sparks')" /><Button
+          col="2"
+          :text="t('Bubbles')"
+          @tap="play('Bubbles')" /></GridLayout></StackLayout
+    ><GridLayout columns="*,*,*" class="ex-controls"
+      ><Button ref="celebrate" :text="t('Confetti')" @tap="burst" /><Button
         col="1"
-        class="button"
-        :text="reduced ? 'Motion off' : 'Motion on'"
-        @tap="motion"
-      />
-      <Button
-        v-if="isAndroid"
+        :text="t('Finite')"
+        @tap="play('Finite')" /><Button
         col="2"
-        class="button"
-        text="Run checks"
-        :isEnabled="!checking"
-        @tap="checks"
-      />
-    </GridLayout>
-    <Label :text="status" class="muted" textWrap="true" marginTop="12" />
+        :text="t('Stop')"
+        @tap="stop" /></GridLayout
+    ><Label :text="t(status)" class="ex-note" textWrap="true" />
   </StackLayout>
+  <template v-else>
+    <StackLayout class="section">
+      <Label class="heading" :text="t('Particles')" />
+      <Label
+        class="muted"
+        :text="t('Native snow, sparks, bubbles and confetti.')"
+        textWrap="true"
+      />
+      <GridLayout
+        ref="stage"
+        class="particle-stage"
+        :height="tall ? 270 : 210"
+        :accessibilityLabel="t('Particle stage')"
+      >
+        <Label
+          :text="t(label)"
+          color="#71717a"
+          horizontalAlignment="center"
+          verticalAlignment="middle"
+        />
+        <Button
+          class="button"
+          :text="t(`Touch ${taps}`)"
+          width="100"
+          height="38"
+          verticalAlignment="bottom"
+          marginBottom="10"
+          @tap="taps++"
+        />
+      </GridLayout>
+      <GridLayout columns="*, *, *">
+        <Button class="button" :text="t('Snow')" @tap="play('Snow')" />
+        <Button col="1" class="button" :text="t('Sparks')" @tap="play('Sparks')" />
+        <Button col="2" class="button" :text="t('Bubbles')" @tap="play('Bubbles')" />
+      </GridLayout>
+      <GridLayout columns="*, *, *">
+        <Button ref="celebrate" class="button" :text="t('Confetti')" @tap="burst" />
+        <Button col="1" class="button" :text="t('Finite')" @tap="play('Finite')" />
+        <Button col="2" class="button" :text="t('Stop')" @tap="stop" />
+      </GridLayout>
+      <GridLayout columns="*, *, *">
+        <Button class="button" :text="t('Resize')" @tap="tall = !tall" />
+        <Button
+          col="1"
+          class="button"
+          :text="t(reduced ? 'Motion off' : 'Motion on')"
+          @tap="motion"
+        />
+        <Button
+          v-if="isAndroid"
+          col="2"
+          class="button"
+          :text="t('Run checks')"
+          :isEnabled="!checking"
+          @tap="checks"
+        />
+      </GridLayout>
+      <Label :text="t(status)" class="muted" textWrap="true" marginTop="12" />
+    </StackLayout>
+  </template>
 </template>
 
 <style scoped>

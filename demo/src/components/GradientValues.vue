@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { usePreviewI18n } from '../showcase/i18n'
 import { type LayoutBase } from '@nativescript/core'
 import { computed, onMounted, onUnmounted, ref } from 'nativescript-vue'
 import {
@@ -12,6 +13,7 @@ import {
 } from '@rafaelaugusto/jolt'
 import { checkGradientValues } from '../../../benchmarks/gradient-values'
 import { launchArgument } from '../launch'
+const { t } = usePreviewI18n()
 
 const offset = motionValue(0)
 const progress = offset.to([0, 220], [0, 1], { clamp: false })
@@ -139,101 +141,182 @@ async function checks() {
     checking.value = false
   }
 }
+defineProps<{ embedded?: boolean }>()
 </script>
 
 <template>
-  <StackLayout class="section" backgroundColor="#10172b" padding="20" marginTop="0">
-    <Label
-      text="A light that follows you"
-      color="white"
-      fontSize="23"
-      fontWeight="bold"
+  <StackLayout v-if="embedded" class="exhibit">
+    <GridLayout class="ex-stage" height="400" backgroundColor="#151C2D" padding="14"
+      ><Label
+        :text="t('LIGHT, AT YOUR FINGERTIPS')"
+        class="ex-kicker"
+        verticalAlignment="top" /><GridLayout rows="104,12,*" marginTop="28"
+        ><GridLayout columns="*,12,*"
+          ><GridLayout ref="linear" borderRadius="20" /><GridLayout
+            col="2"
+            v-gradient="directive"
+            borderRadius="20"
+            ><Label
+              :text="t(conic ? '◉' : '↗')"
+              fontSize="44"
+              color="#F5EEFF"
+              textAlignment="center"
+              verticalAlignment="middle" /></GridLayout></GridLayout
+        ><GridLayout
+          row="2"
+          ref="halo"
+          borderRadius="24"
+          backgroundColor="#182238"
+          :height="wide ? 190 : 230"
+          ><Label
+            :text="t('Drag the light.')"
+            fontSize="26"
+            fontWeight="bold"
+            color="#D4DDEB"
+            margin="20"
+            verticalAlignment="top" /><GridLayout
+            ref="thumb"
+            width="42"
+            height="42"
+            borderRadius="21"
+            backgroundColor="#FFFFFF"
+            horizontalAlignment="left"
+            marginLeft="12"
+            :accessibilityLabel="t('Drag light')"
+            ><Label
+              text="↔"
+              fontSize="22"
+              color="#465262"
+              textAlignment="center"
+              verticalAlignment="middle" /></GridLayout></GridLayout></GridLayout></GridLayout
+    ><StackLayout class="ex-controls"
+      ><GridLayout columns="*,*,*"
+        ><Button col="0" :text="t('Travel')" @tap="travel" class="ex-primary" /><Button
+          col="1"
+          :text="t(paused ? 'Resume' : 'Pause')"
+          @tap="pause" /><Button col="2" :text="t('Pulse')" @tap="pulse" /></GridLayout
+      ><GridLayout columns="*,*,*"
+        ><Button col="0" :text="t(suspended ? 'Follow' : 'Hold')" @tap="suspend" /><Button
+          col="1"
+          :text="t('Switch type')"
+          @tap="conic = !conic" /><Button
+          col="2"
+          :text="t('Resize')"
+          @tap="wide = !wide" /></GridLayout></StackLayout
+    ><Label :text="t(status)" class="ex-note" textWrap="true" /><StackLayout
+      ref="checksHost"
     />
-    <Label
-      text="One movement. Three gradients."
-      color="#a9b7ce"
-      fontSize="13"
-      marginTop="4"
-      marginBottom="18"
-    />
-    <GridLayout columns="*,12,*" height="96" marginBottom="12">
-      <GridLayout ref="linear" borderRadius="18"
-        ><Label
-          text="LINEAR"
-          color="white"
-          fontSize="11"
-          margin="12"
-          verticalAlignment="bottom"
-      /></GridLayout>
-      <GridLayout col="2" v-gradient="directive" borderRadius="18"
-        ><Label
-          :text="conic ? 'CONIC · VUE' : 'LINEAR · VUE'"
-          color="white"
-          fontSize="11"
-          margin="12"
-          verticalAlignment="bottom"
-      /></GridLayout>
-    </GridLayout>
-    <GridLayout
-      ref="halo"
-      :height="wide ? 190 : 230"
-      borderRadius="22"
-      backgroundColor="#172239"
-      marginBottom="14"
-    >
+  </StackLayout>
+  <template v-else>
+    <StackLayout class="section" backgroundColor="#10172b" padding="20" marginTop="0">
       <Label
-        text="RADIAL"
-        color="#bed0e6"
-        fontSize="11"
-        margin="14"
-        verticalAlignment="top"
+        :text="t('A light that follows you')"
+        color="white"
+        fontSize="23"
+        fontWeight="bold"
       />
+      <Label
+        :text="t('One movement. Three gradients.')"
+        color="#a9b7ce"
+        fontSize="13"
+        marginTop="4"
+        marginBottom="18"
+      />
+      <GridLayout columns="*,12,*" height="96" marginBottom="12">
+        <GridLayout ref="linear" borderRadius="18"
+          ><Label
+            :text="t('LINEAR')"
+            color="white"
+            fontSize="11"
+            margin="12"
+            verticalAlignment="bottom"
+        /></GridLayout>
+        <GridLayout col="2" v-gradient="directive" borderRadius="18"
+          ><Label
+            :text="t(conic ? 'CONIC · VUE' : 'LINEAR · VUE')"
+            color="white"
+            fontSize="11"
+            margin="12"
+            verticalAlignment="bottom"
+        /></GridLayout>
+      </GridLayout>
       <GridLayout
-        ref="thumb"
-        width="42"
-        height="42"
-        borderRadius="21"
-        backgroundColor="white"
-        horizontalAlignment="left"
-        marginLeft="16"
-        accessibilityLabel="Drag light"
+        ref="halo"
+        :height="wide ? 190 : 230"
+        borderRadius="22"
+        backgroundColor="#172239"
+        marginBottom="14"
       >
         <Label
-          text="↔"
-          color="#354261"
-          fontSize="22"
-          textAlignment="center"
-          verticalAlignment="middle"
+          :text="t('RADIAL')"
+          color="#bed0e6"
+          fontSize="11"
+          margin="14"
+          verticalAlignment="top"
+        />
+        <GridLayout
+          ref="thumb"
+          width="42"
+          height="42"
+          borderRadius="21"
+          backgroundColor="white"
+          horizontalAlignment="left"
+          marginLeft="16"
+          :accessibilityLabel="t('Drag light')"
+        >
+          <Label
+            text="↔"
+            color="#354261"
+            fontSize="22"
+            textAlignment="center"
+            verticalAlignment="middle"
+          />
+        </GridLayout>
+      </GridLayout>
+      <GridLayout columns="*,*,*">
+        <Button class="button" :text="t('Travel')" @tap="travel" />
+        <Button
+          col="1"
+          class="button"
+          :text="t(paused ? 'Resume' : 'Pause')"
+          @tap="pause"
+        />
+        <Button
+          col="2"
+          class="button"
+          :text="t('Seek 70%')"
+          @tap="run && (run.progress = 0.7)"
         />
       </GridLayout>
-    </GridLayout>
-    <GridLayout columns="*,*,*">
-      <Button class="button" text="Travel" @tap="travel" />
-      <Button col="1" class="button" :text="paused ? 'Resume' : 'Pause'" @tap="pause" />
-      <Button col="2" class="button" text="Seek 70%" @tap="run && (run.progress = 0.7)" />
-    </GridLayout>
-    <GridLayout columns="*,*,*">
-      <Button class="button" text="Pulse" @tap="pulse" />
-      <Button
-        col="1"
-        class="button"
-        :text="suspended ? 'Follow' : 'Hold'"
-        @tap="suspend"
+      <GridLayout columns="*,*,*">
+        <Button class="button" :text="t('Pulse')" @tap="pulse" />
+        <Button
+          col="1"
+          class="button"
+          :text="t(suspended ? 'Follow' : 'Hold')"
+          @tap="suspend"
+        />
+        <Button col="2" class="button" :text="t('Resize')" @tap="wide = !wide" />
+      </GridLayout>
+      <GridLayout columns="*,*,*">
+        <Button class="button" :text="t('Switch type')" @tap="conic = !conic" />
+        <Button col="1" class="button" :text="t('Rebind')" @tap="rebind" />
+        <Button
+          col="2"
+          class="button"
+          :text="t('Run checks')"
+          :isEnabled="!checking"
+          @tap="checks"
+        />
+      </GridLayout>
+      <Label
+        :text="t(status)"
+        color="#bdcbe2"
+        fontSize="11"
+        textWrap="true"
+        marginTop="10"
       />
-      <Button col="2" class="button" text="Resize" @tap="wide = !wide" />
-    </GridLayout>
-    <GridLayout columns="*,*,*">
-      <Button class="button" text="Switch type" @tap="conic = !conic" />
-      <Button col="1" class="button" text="Rebind" @tap="rebind" />
-      <Button
-        col="2"
-        class="button"
-        text="Run checks"
-        :isEnabled="!checking"
-        @tap="checks"
-      />
-    </GridLayout>
-    <Label :text="status" color="#bdcbe2" fontSize="11" textWrap="true" marginTop="10" />
-    <StackLayout ref="checksHost" />
-  </StackLayout>
+      <StackLayout ref="checksHost" />
+    </StackLayout>
+  </template>
 </template>

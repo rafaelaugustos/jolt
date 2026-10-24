@@ -2,6 +2,7 @@
 import { ref } from 'nativescript-vue'
 import Legacy from './App.vue'
 import Showcase from './showcase/Showcase.vue'
+import { enablePreviewLanguage } from './showcase/i18n'
 import { launchArgument, onLaunch } from './launch'
 const ready = ref(false),
   legacy = ref(false)
@@ -29,6 +30,7 @@ onLaunch(() => {
     'gesture-lab',
     'bottom-sheet',
   ].some((name) => launchArgument(name) !== undefined)
+  enablePreviewLanguage(!legacy.value)
   ready.value = true
 })
 </script>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
+import { usePreviewI18n } from './i18n'
 import { Application, Color, isIOS, type EventData } from '@nativescript/core'
-import { computed, onUnmounted, ref, registerElement } from 'nativescript-vue'
+import { computed, onUnmounted, ref } from 'nativescript-vue'
 import {
   animate,
   motionValue,
@@ -17,7 +18,7 @@ import {
   type NativeProperty,
 } from '@rafaelaugusto/jolt/native'
 import { StudioScene, studioEnvironment } from './studio-scene'
-registerElement('StudioScene', () => StudioScene)
+const { t } = usePreviewI18n()
 const props = defineProps<{ mode: string }>()
 const lensMode = computed(() => props.mode === 'scene-camera')
 const lightMode = computed(() => props.mode === 'scene-lighting')
@@ -173,11 +174,16 @@ onUnmounted(() => {
         margin="12 24"
         isUserInteractionEnabled="false"
       >
-        <Label text="JOLT / ATELIER" color="#748493" fontSize="9" letterSpacing=".16" />
+        <Label
+          :text="t('JOLT / ATELIER')"
+          color="#748493"
+          fontSize="9"
+          letterSpacing=".16"
+        />
         <Label
           col="1"
           :text="
-            lensMode ? `${angle}° / ${selected.toUpperCase()}` : selected.toUpperCase()
+            t(lensMode ? `${angle}° / ${selected.toUpperCase()}` : selected.toUpperCase())
           "
           color="#DCECAD"
           fontSize="10"
@@ -185,7 +191,7 @@ onUnmounted(() => {
         />
       </GridLayout>
       <Label
-        :text="caption"
+        :text="t(caption)"
         color="#95A3AE"
         fontSize="12"
         textWrap="true"
@@ -198,7 +204,7 @@ onUnmounted(() => {
     <StackLayout row="1" class="atelier-panel">
       <GridLayout columns="*,auto" marginBottom="16"
         ><Label
-          :text="lensMode ? 'Choose your lens' : 'Set the atmosphere'"
+          :text="t(lensMode ? 'Choose your lens' : 'Set the atmosphere')"
           color="#F0F3EF"
           fontSize="20"
           fontWeight="bold" /><Label
@@ -216,24 +222,24 @@ onUnmounted(() => {
           :class="selected === stop ? 'atelier-stop selected' : 'atelier-stop'"
           @tap="choose(index)"
           accessibilityRole="button"
-          :accessibilityLabel="`Select ${stop}`"
+          :accessibilityLabel="t(`Select ${stop}`)"
         >
           <Label
-            :text="lensMode ? ['70°', '48°', '32°'][index] : ['◐', '◒', '●'][index]"
+            :text="t(lensMode ? ['70°', '48°', '32°'][index] : ['◐', '◒', '●'][index])"
             fontSize="24"
             marginBottom="5"
           />
-          <Label :text="stop" fontSize="11" />
+          <Label :text="t(stop)" fontSize="11" />
         </StackLayout>
       </GridLayout>
       <GridLayout columns="*,auto,auto,auto" margin="20 0 16">
         <StackLayout
           ><Label
-            text="BODY FINISH"
+            :text="t('BODY FINISH')"
             fontSize="9"
             color="#6E7E87"
             letterSpacing=".1" /><Label
-            :text="finish"
+            :text="t(finish)"
             fontSize="13"
             color="#DCE3E3"
             marginTop="5"
@@ -245,7 +251,7 @@ onUnmounted(() => {
           :borderColor="finish === 'Silver' ? '#E3FC62' : '#283440'"
           @tap="color('Silver', '#CBD5DD')"
           accessibilityRole="button"
-          accessibilityLabel="Silver finish"
+          :accessibilityLabel="t('Silver finish')"
         />
         <Label
           col="2"
@@ -254,7 +260,7 @@ onUnmounted(() => {
           :borderColor="finish === 'Sage' ? '#E3FC62' : '#283440'"
           @tap="color('Sage', '#516D60')"
           accessibilityRole="button"
-          accessibilityLabel="Sage finish"
+          :accessibilityLabel="t('Sage finish')"
         />
         <Label
           col="3"
@@ -263,19 +269,19 @@ onUnmounted(() => {
           :borderColor="finish === 'Copper' ? '#E3FC62' : '#283440'"
           @tap="color('Copper', '#9C5744')"
           accessibilityRole="button"
-          accessibilityLabel="Copper finish"
+          :accessibilityLabel="t('Copper finish')"
         />
       </GridLayout>
       <GridLayout columns="*,12,*">
         <Button
-          :text="paused ? 'Resume motion' : 'Pause motion'"
+          :text="t(paused ? 'Resume motion' : 'Pause motion')"
           class="atelier-control"
           @tap="pause"
           :isEnabled="ready"
         />
         <Button
           col="2"
-          text="Hold halfway"
+          :text="t('Hold halfway')"
           :isEnabled="active"
           :opacity="active ? 1 : 0.45"
           class="atelier-control"

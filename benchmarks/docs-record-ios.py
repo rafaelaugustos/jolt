@@ -63,6 +63,7 @@ try:
                             break
                 if not started:
                     raise RuntimeError('Simulator recording did not start')
+                subprocess.run(['xcrun', 'simctl', 'io', serial, 'screenshot', str(output/(name+'-before.png'))], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                 print('Recording '+name, flush=True)
             elif cue['action'] == 'stop':
                 assert recorder is not None
@@ -70,6 +71,7 @@ try:
                 recorder.communicate(timeout=20)
                 assert recorder.returncode == 0, 'Recorder failed'
                 recorder = None
+                subprocess.run(['xcrun', 'simctl', 'io', serial, 'screenshot', str(output/(name+'-after.png'))], check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
                 print('Saved '+name, flush=True)
             else:
                 raise ValueError(cue)

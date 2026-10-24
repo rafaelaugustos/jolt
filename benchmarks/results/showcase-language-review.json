@@ -1,0 +1,340 @@
+{
+  "date": "2026-10-24",
+  "baseCommit": "b375a23dacde6b8a43862e014256006054df119a",
+  "scope": "English / Brazilian Portuguese throughout the routed preview; phone-language default and a persistent in-app choice. Isolated playground fixtures remain English.",
+  "platform": "iOS 26 simulators: iPhone 17 and iPhone 17 Pro",
+  "preferences": {
+    "default": "system",
+    "choices": ["system", "en", "pt-BR"],
+    "storage": "ApplicationSettings: jolt.showcase.language; system removes the override",
+    "nativeCases": [
+      "Automatic pt-BR → Portuguese",
+      "Automatic pt-PT → Portuguese",
+      "Automatic en → English",
+      "Unsupported fr-FR → English",
+      "Explicit English persists over a Portuguese iOS preferred language after relaunch",
+      "Explicit Portuguese persists over an English iOS preferred language after relaunch",
+      "Returning to system removes the explicit preference"
+    ],
+    "systemLanguageEvidence": "Real iOS preferred-language settings supplied via -AppleLanguages on app launch; no global simulator or user-device language change."
+  },
+  "unitTests": {
+    "file": "test/showcase-locale.spec.ts",
+    "passed": 5,
+    "coverage": [
+      "language fallback and invalid saved values",
+      "dynamic text and nested labels",
+      "message parameter parity",
+      "all 54 catalog titles/categories/descriptions",
+      "accent-insensitive search"
+    ]
+  },
+  "nativeChecks": {
+    "testShowcaseLanguage": {
+      "result": "passed",
+      "seconds": 36.883
+    },
+    "testShowcaseLocaleDefaults": {
+      "result": "passed",
+      "seconds": 51.273
+    },
+    "testShowcasePortugueseCollection": {
+      "result": "passed",
+      "seconds": 459.669
+    },
+    "testShowcase": {
+      "result": "passed",
+      "seconds": 33.34
+    },
+    "testShowcasePortuguesePolish": {
+      "result": "passed",
+      "seconds": 40.997
+    },
+    "testShowcasePortugueseWrapping": {
+      "result": "passed",
+      "seconds": 12.041
+    }
+  },
+  "routeAudit": {
+    "count": 54,
+    "vueErrors": 0,
+    "routes": {
+      "springs": {
+        "title": "Molas",
+        "errors": []
+      },
+      "presets": {
+        "title": "Presets",
+        "errors": []
+      },
+      "decay": {
+        "title": "Inércia",
+        "errors": []
+      },
+      "stagger": {
+        "title": "Em sequência",
+        "errors": []
+      },
+      "motion-path": {
+        "title": "Trajetórias",
+        "errors": []
+      },
+      "timeline": {
+        "title": "Sequências",
+        "errors": []
+      },
+      "playback": {
+        "title": "Reprodução",
+        "errors": []
+      },
+      "loops": {
+        "title": "Repetições",
+        "errors": []
+      },
+      "pauses": {
+        "title": "Pausas",
+        "errors": []
+      },
+      "random-pauses": {
+        "title": "Ritmo orgânico",
+        "errors": []
+      },
+      "track-easing": {
+        "title": "Curva do percurso",
+        "errors": []
+      },
+      "easing-curves": {
+        "title": "Curvas de movimento",
+        "errors": []
+      },
+      "tuning": {
+        "title": "Ajustes de movimento",
+        "errors": []
+      },
+      "press": {
+        "title": "Resposta ao toque",
+        "errors": []
+      },
+      "gesture-lab": {
+        "title": "Gestos nativos",
+        "errors": []
+      },
+      "live-springs": {
+        "title": "Molas conectadas",
+        "errors": []
+      },
+      "drag-lab": {
+        "title": "Arrastar e encaixar",
+        "errors": []
+      },
+      "drag-values": {
+        "title": "Arrastar um valor",
+        "errors": []
+      },
+      "keyboard": {
+        "title": "Teclado",
+        "errors": []
+      },
+      "haptics": {
+        "title": "Háptica",
+        "errors": []
+      },
+      "colors": {
+        "title": "Cores",
+        "errors": []
+      },
+      "gradients": {
+        "title": "Gradientes",
+        "errors": []
+      },
+      "gradient-directive": {
+        "title": "Diretiva de gradiente",
+        "errors": []
+      },
+      "gradient-values": {
+        "title": "Valores de gradiente",
+        "errors": []
+      },
+      "decorations": {
+        "title": "Formas e detalhes",
+        "errors": []
+      },
+      "shimmer": {
+        "title": "Brilho deslizante",
+        "errors": []
+      },
+      "particles": {
+        "title": "Partículas",
+        "errors": []
+      },
+      "loaders": {
+        "title": "Indicadores de espera",
+        "errors": []
+      },
+      "reveal": {
+        "title": "Revelações",
+        "errors": []
+      },
+      "image-lab": {
+        "title": "Imagens e zoom",
+        "errors": []
+      },
+      "opacity-rotation": {
+        "title": "Rastros de luz",
+        "errors": []
+      },
+      "fade-overflow": {
+        "title": "Transparência e limites",
+        "errors": []
+      },
+      "text": {
+        "title": "Texto animado",
+        "errors": []
+      },
+      "rolling": {
+        "title": "Números rolando",
+        "errors": []
+      },
+      "rolling-layout": {
+        "title": "Layout dos números",
+        "errors": []
+      },
+      "symbols": {
+        "title": "Símbolos",
+        "errors": []
+      },
+      "layout-lab": {
+        "title": "Mudanças de layout",
+        "errors": []
+      },
+      "size-lab": {
+        "title": "Dimensões reais",
+        "errors": []
+      },
+      "list-items": {
+        "title": "Listas",
+        "errors": []
+      },
+      "scroll-values": {
+        "title": "Valores de rolagem",
+        "errors": []
+      },
+      "remount": {
+        "title": "Remontagem",
+        "errors": []
+      },
+      "motion-values": {
+        "title": "Valores de movimento",
+        "errors": []
+      },
+      "value-observers": {
+        "title": "Observadores de valores",
+        "errors": []
+      },
+      "value-layers": {
+        "title": "Camadas de valores",
+        "errors": []
+      },
+      "layers": {
+        "title": "Camadas de animação",
+        "errors": []
+      },
+      "motion-states": {
+        "title": "Estados de movimento",
+        "errors": []
+      },
+      "state-transitions": {
+        "title": "Transições de estado",
+        "errors": []
+      },
+      "busy-js": {
+        "title": "JavaScript ocupado",
+        "errors": []
+      },
+      "vue-adapter": {
+        "title": "Integração com Vue",
+        "errors": []
+      },
+      "from-react-native": {
+        "title": "Comparação de molas",
+        "errors": []
+      },
+      "scene-shader": {
+        "title": "Ambiente e shaders",
+        "errors": []
+      },
+      "scene-lighting": {
+        "title": "Luzes e materiais",
+        "errors": []
+      },
+      "scene-camera": {
+        "title": "Lente da câmera",
+        "errors": []
+      },
+      "playback-lab": {
+        "title": "Mapas e 3D",
+        "errors": []
+      }
+    }
+  },
+  "visualReview": [
+    "English ↔ Portuguese switch, localized search, camera controls, and returning to Studio",
+    "All 54 Portuguese presentations recorded and reviewed",
+    "Portuguese number separators in Rolling numbers",
+    "Short Light trails action, wrapped Busy JavaScript headline, localized size status and map SVG caption",
+    "Separate unmasked English and Portuguese cold-launch splash recordings"
+  ],
+  "clips": {
+    "showcase-language-ios.mp4": {
+      "seconds": 23.466667,
+      "bytes": 758745,
+      "sha256": "61869b76f49f68cf9c99557d65519077aa0ac677744c0629f9106bf22a52a5c2",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed"
+    },
+    "showcase-portuguese-ios.mp4": {
+      "seconds": 70.133333,
+      "bytes": 1641606,
+      "sha256": "5c8d246f85a4a3d8ceecbac99ce994c2c009a127302a8b6c97fd105f587777e8",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed"
+    },
+    "showcase-splash-pt-ios.mp4": {
+      "seconds": 6.2,
+      "bytes": 262532,
+      "sha256": "8145f8e2b9bc8a552b3464374ee4d31af7fdc1ba07fea7ce5ac467be64a4e846",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed"
+    },
+    "showcase-splash-ios.mp4": {
+      "seconds": 6.2,
+      "bytes": 242727,
+      "sha256": "687766a8c9da23966f43d477fe0973e172416f440c1b01dc079d722574bd695e",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed"
+    },
+    "showcase-ios.mp4": {
+      "seconds": 28.366667,
+      "bytes": 926574,
+      "sha256": "052827de1987f8f9f2adaf98dc528549fe8a94f66a9d31879d951b8d03319afe",
+      "encoding": "h264, yuv420p, 420×914, 30/1 fps",
+      "fullDecode": "passed"
+    }
+  },
+  "validation": [
+    "iOS release simulator build",
+    "root, demo and benchmark TypeScript",
+    "5 locale unit tests",
+    "6 distinct local native UI methods",
+    "changed-file formatting and git diff checks",
+    "docs:check-media: 50 guides per language, 121 recordings",
+    "docs:build"
+  ],
+  "limits": [
+    "New native validation is on iOS simulators, not Android or physical devices.",
+    "54-entry review covers representative interactions, not every optional probe.",
+    "All native UI recording tests are local/manual; no Actions jobs or timeouts were added.",
+    "Portuguese variants share Brazilian Portuguese copy; unsupported system languages use English.",
+    "The detailed car is an optional local asset excluded from Git; clean checkouts use the procedural fallback."
+  ]
+}
