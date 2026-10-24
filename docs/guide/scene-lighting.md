@@ -5,7 +5,7 @@ Animate light intensity/color, material transparency, and solid diffuse/emission
 Available since **0.1.0-beta.14**. Install matching core and optional native runtime versions, then rebuild the iOS application:
 
 ```sh
-npm install @rafaelaugusto/jolt@0.1.0-beta.16 @rafaelaugusto/jolt-native@0.1.0-beta.16
+npm install @rafaelaugusto/jolt@0.1.0-beta.17 @rafaelaugusto/jolt-native@0.1.0-beta.17
 ```
 
 <Clip name="scene-lighting-ios" caption="iPhone 17 simulator, iOS 26: real SceneKit rendering and XCTest taps. Camera, paint, glass and lighting share native bindings; a scalar charge layer adds a pulse while the base continues. Includes pause/resume, child playback seeking and scene disposal/recreation. Real-time playback on the main thread; no physical-device claim." />

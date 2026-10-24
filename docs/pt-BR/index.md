@@ -46,9 +46,18 @@ features:
     link: /pt-BR/guide/scene-camera
 ---
 
-## Novidades da 0.1.0-beta.16
+## Novidades da 0.1.0-beta.17
 
-[Springs ao vivo](/pt-BR/guide/live-springs) acompanham alvos em movimento; [gestos nativos](/pt-BR/guide/gestures) combinam pan, pinch e rotação e transferem o arrasto para o ScrollView. O CI agora valida comportamento nativo em iOS e Android. [Instale a versão](/pt-BR/guide/install) ou leia as [notas do release](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-beta.16).
+[Bottom sheet](/pt-BR/guide/bottom-sheet) coordena arrasto, scroll e teclado; [reordenação de listas](/pt-BR/guide/reorder) move itens entre células recicladas com rolagem automática nativa. No iOS, [ambiente e shaders](/pt-BR/guide/scene-shaders) recebem intensidade e uniforms tipados pelo player nativo. O [preview](/pt-BR/guide/demo) reúne 55 exemplos, português/inglês e temas claro/escuro. [Instale a versão](/pt-BR/guide/install) ou leia as [notas do release](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-beta.17).
+
+<div class="clips">
+<Clip name="bottom-sheet-ios" caption="Arrasto, transferência para o scroll, crescimento do conteúdo e teclado. Entrada real via XCTest em simulador iOS 26." />
+<Clip name="reorder-android" caption="Reordenação de 200 itens com rolagem automática e reciclagem de células. Toques reais do SO em emulador Android, na velocidade original." />
+<Clip name="scene-shaders-ios" caption="Iluminação ambiente e parâmetros escalares/vetoriais do shader pelo player nativo SceneKit. Toques reais em simulador iOS; não é uma medição em aparelho físico." />
+<Clip name="showcase-appearance-ios" caption="Preview Jolt com temas claro/escuro e transição circular. Gravação real do simulador iOS." />
+</div>
+
+## Springs ao vivo e gestos nativos
 
 <div class="clips">
 <Clip name="live-springs-ios" caption="Seguidores nativos com inversões e uma camada independente. Interação real no simulador iOS; os eventos de toque desta demo passam por JavaScript." />

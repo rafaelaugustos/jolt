@@ -76,4 +76,4 @@ What `animate()`, `decay()`, `sequence()` and the steps of a sequence return: `a
 
 ## Types
 
-- [SceneKit environment and shader inputs](./scene-shaders) — beta.17 preview: native illumination and typed scalar/vector uniforms.
+- [SceneKit environment and shader inputs](./scene-shaders) — native illumination and typed scalar/vector uniforms.
