@@ -202,11 +202,13 @@ onUnmounted(() => {
   stop()
   configure({ reducedMotion: 'user' })
 })
+const props = defineProps<{ embedded?: boolean }>()
 </script>
 
 <template>
   <GridLayout rows="auto,auto,*,auto,auto" backgroundColor="#fafafa" padding="12">
     <Label
+      v-if="!props.embedded"
       text="Jolt · Image interactions"
       fontSize="23"
       fontWeight="bold"

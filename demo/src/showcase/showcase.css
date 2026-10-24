@@ -103,3 +103,57 @@
 .studio-example-page .heading {
   font-size: 18;
 }
+
+/* The collection supplies the page heading; example interiors share its rhythm. */
+.studio-example-page .section > .heading {
+  visibility: collapse;
+}
+.studio-example-page .section > .muted {
+  font-family: sans-serif;
+  font-size: 13;
+  color: #7b8274;
+  margin-bottom: 6;
+}
+.studio-example-page .section {
+  background-color: #f0f0e9;
+  padding: 22 18;
+}
+.studio-example-page .stage {
+  background-color: #e3e8dc;
+  border-radius: 22;
+  margin: 22 0;
+}
+.studio-example-page .chip {
+  background-color: #e3e7dc;
+  color: #68715f;
+  padding: 10 13;
+  border-radius: 14;
+}
+.studio-example-page .chip.active {
+  background-color: #303a2d;
+  color: #e3fc62;
+}
+.studio-example-page .note {
+  color: #7b8274;
+  font-size: 13;
+}
+.studio-example-page .button {
+  min-height: 42;
+  margin: 5 3;
+}
+
+.studio-example-page Button {
+  background-color: #e1e6d9;
+  color: #47573a;
+  border-radius: 14;
+  font-size: 13;
+  text-transform: none;
+  margin: 4;
+  min-height: 40;
+}
+
+.studio-example-page .opacity-rotation Button {
+  background-color: #302b24;
+  color: #fff6df;
+  min-height: 42;
+}

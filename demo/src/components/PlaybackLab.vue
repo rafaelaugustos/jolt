@@ -238,6 +238,7 @@ onUnmounted(() => {
   scope.dispose()
   Application.off(Application.suspendEvent, suspend)
 })
+const props = defineProps<{ embedded?: boolean }>()
 </script>
 <template>
   <GridLayout
@@ -247,7 +248,7 @@ onUnmounted(() => {
     color="#edf2ff"
     padding="20"
   >
-    <GridLayout columns="*,auto" marginBottom="12">
+    <GridLayout v-if="!props.embedded" columns="*,auto" marginBottom="12">
       <StackLayout
         ><Label text="One clock. Every detail." fontSize="24" fontWeight="bold" /><Label
           text="Native playback · Jolt"

@@ -7,6 +7,7 @@ import { examples } from './catalog'
 const route = useRoute(),
   router = useRouter()
 const example = examples.find((e) => e.id === route.params.id)
+const atelier = !!example?.ios && isIOS
 const mounted = ref(true),
   composer = ref(false),
   message = ref('')
@@ -29,8 +30,8 @@ onUnmounted(clean)
 <template>
   <Page
     actionBarHidden="true"
-    backgroundColor="#F6F5F0"
-    statusBarStyle="dark"
+    :backgroundColor="atelier ? '#0B1016' : '#F6F5F0'"
+    :statusBarStyle="atelier ? 'light' : 'dark'"
     class="studio-example-page"
     @navigatedTo="mounted = true"
     @navigatedFrom="leave"
@@ -42,7 +43,8 @@ onUnmounted(clean)
           width="38"
           height="38"
           borderRadius="19"
-          backgroundColor="#E9EAE2"
+          :backgroundColor="atelier ? '#1B2831' : '#E9EAE2'"
+          :color="atelier ? '#D9E5E9' : '#20242D'"
           fontSize="24"
           textAlignment="center"
           verticalAlignment="middle"
@@ -70,7 +72,7 @@ onUnmounted(clean)
           :text="example?.title || 'Not found'"
           fontSize="32"
           fontWeight="bold"
-          color="#20242D"
+          :color="atelier ? '#E7EEF1' : '#20242D'"
           textWrap="true" /><Label
           :text="example?.description || 'Go back to choose an experiment.'"
           fontSize="14"
@@ -88,15 +90,22 @@ onUnmounted(clean)
         v-else-if="example?.full"
         row="2"
         borderRadius="24"
-        margin="0 12 12"
+        :margin="atelier ? '0' : '0 12 12'"
         clipToBounds="true"
-        ><component v-if="mounted" :is="example.component" @back="router.back()"
+        ><component
+          v-if="mounted"
+          :is="example.component"
+          :mode="example.id"
+          :embedded="true"
+          @back="router.back()"
       /></GridLayout>
       <ScrollView v-else-if="example" row="2" scrollBarIndicatorVisible="false"
         ><StackLayout padding="0 12 28"
           ><component
             v-if="mounted"
             :is="example.component"
+            :mode="example.id"
+            :embedded="true"
             :shown="composer"
             @toggle="composer = !composer"
             @back="router.back()" /><Label

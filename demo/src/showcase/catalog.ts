@@ -1,6 +1,5 @@
+import MotionStudio from './MotionStudio.vue'
 import { markRaw } from 'nativescript-vue'
-import Springs from '../components/Springs.vue'
-import Presets from '../components/Presets.vue'
 import Decay from '../components/Decay.vue'
 import Stagger from '../components/Stagger.vue'
 import MotionPath from '../components/MotionPath.vue'
@@ -19,11 +18,9 @@ import DragLab from '../components/DragLab.vue'
 import DragValues from '../components/DragValues.vue'
 import Keyboard from '../components/Keyboard.vue'
 import Haptics from '../components/Haptics.vue'
-import Colors from '../components/Colors.vue'
 import Gradients from '../components/Gradients.vue'
 import GradientDirective from '../components/GradientDirective.vue'
 import GradientValues from '../components/GradientValues.vue'
-import Decorations from '../components/Decorations.vue'
 import Shimmer from '../components/Shimmer.vue'
 import Particles from '../components/Particles.vue'
 import Loaders from '../components/Loaders.vue'
@@ -49,9 +46,7 @@ import StateTransitions from '../components/StateTransitions.vue'
 import BusyJs from '../components/BusyJs.vue'
 import VueAdapter from '../components/VueAdapter.vue'
 import FromReactNative from '../components/FromReactNative.vue'
-import SceneShader from '../components/SceneShader.vue'
-import SceneLighting from '../components/SceneLighting.vue'
-import SceneCamera from '../components/SceneCamera.vue'
+import SceneStudio from './SceneStudio.vue'
 import PlaybackLab from '../components/PlaybackLab.vue'
 
 export const categories = [
@@ -70,7 +65,7 @@ export const examples = [
     title: 'Springs',
     category: 'Motion',
     description: 'Interrupt it. It keeps its momentum.',
-    component: markRaw(Springs),
+    component: markRaw(MotionStudio),
     full: false,
     ios: false,
   },
@@ -79,7 +74,7 @@ export const examples = [
     title: 'Presets',
     category: 'Motion',
     description: 'Small entrances with a big personality.',
-    component: markRaw(Presets),
+    component: markRaw(MotionStudio),
     full: false,
     ios: false,
   },
@@ -250,7 +245,7 @@ export const examples = [
     title: 'Colors',
     category: 'Visual',
     description: 'Move through color, beautifully.',
-    component: markRaw(Colors),
+    component: markRaw(MotionStudio),
     full: false,
     ios: false,
   },
@@ -286,7 +281,7 @@ export const examples = [
     title: 'Decorations',
     category: 'Visual',
     description: 'Corners, borders and shadows in motion.',
-    component: markRaw(Decorations),
+    component: markRaw(MotionStudio),
     full: false,
     ios: false,
   },
@@ -341,7 +336,7 @@ export const examples = [
     category: 'Visual',
     description: 'Opacity and rotation, in orbit.',
     component: markRaw(OpacityRotation),
-    full: true,
+    full: false,
     ios: false,
   },
   {
@@ -520,8 +515,8 @@ export const examples = [
     title: 'Environment & shaders',
     category: 'SceneKit',
     description: 'One studio. A whole new atmosphere.',
-    component: markRaw(SceneShader),
-    full: false,
+    component: markRaw(SceneStudio),
+    full: true,
     ios: true,
   },
   {
@@ -529,8 +524,8 @@ export const examples = [
     title: 'Lights & materials',
     category: 'SceneKit',
     description: 'Shape the light. Change the mood.',
-    component: markRaw(SceneLighting),
-    full: false,
+    component: markRaw(SceneStudio),
+    full: true,
     ios: true,
   },
   {
@@ -538,8 +533,8 @@ export const examples = [
     title: 'Camera lens',
     category: 'SceneKit',
     description: 'A new perspective, in one movement.',
-    component: markRaw(SceneCamera),
-    full: false,
+    component: markRaw(SceneStudio),
+    full: true,
     ios: true,
   },
   {
