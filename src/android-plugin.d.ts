@@ -1,4 +1,34 @@
 declare namespace org.rafaelaugusto.jolt {
+  class ReorderHandle extends android.widget.Button {
+    constructor(context: android.content.Context)
+    setMoveListener(listener: ReorderHandle.MoveListener | null): void
+  }
+  namespace ReorderHandle {
+    class MoveListener {
+      constructor(implementation: { move(direction: number): void })
+    }
+  }
+  class ReorderSession {
+    constructor(
+      list: android.widget.ListView,
+      options: string,
+      previousTouch: android.view.View.OnTouchListener | null,
+      listener: ReorderSession.Listener,
+    )
+    isActive(): boolean
+    registerHandle(view: android.view.View): void
+    setEnabled(enabled: boolean): void
+    setReducedMotion(reduced: boolean): void
+    cancel(): void
+    dispose(): void
+  }
+  namespace ReorderSession {
+    class Listener {
+      constructor(implementation: {
+        onState(state: number, index: number, toIndex: number): void
+      })
+    }
+  }
   class GestureSurface extends org.nativescript.widgets.GridLayout {
     constructor(context: android.content.Context)
   }

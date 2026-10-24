@@ -28,6 +28,7 @@ onLaunch(() => {
     'live-springs',
     'gesture-lab',
     'bottom-sheet',
+    'reorder-lab',
   ].some((name) => launchArgument(name) !== undefined)
   ready.value = true
 })

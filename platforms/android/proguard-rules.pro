@@ -21,3 +21,7 @@
 -keep class org.rafaelaugusto.jolt.GradientLayer$* { *; }
 -keep class org.rafaelaugusto.jolt.ParticleEmitter { *; }
 -keep class org.rafaelaugusto.jolt.ParticleEmitter$* { *; }
+-keep class org.rafaelaugusto.jolt.ReorderSession { *; }
+-keep class org.rafaelaugusto.jolt.ReorderSession$* { *; }
+-keep class org.rafaelaugusto.jolt.ReorderHandle { *; }
+-keep class org.rafaelaugusto.jolt.ReorderHandle$* { *; }

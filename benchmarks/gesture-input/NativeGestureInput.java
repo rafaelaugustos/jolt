@@ -28,6 +28,16 @@ public final class NativeGestureInput {
         manager = type.getMethod("getInstance").invoke(null);
         inject = type.getMethod("injectInputEvent", InputEvent.class, int.class);
         float cx = Float.parseFloat(args[0]), cy = Float.parseFloat(args[1]);
+        if (args.length > 3 && args[2].startsWith("reorder")) {
+            float endY = Float.parseFloat(args[3]);
+            long hold = args.length > 4 ? Long.parseLong(args[4]) : 200;
+            down = SystemClock.uptimeMillis(); send(MotionEvent.ACTION_DOWN, cx, cy);
+            SystemClock.sleep(600);
+            for (int i = 1; i <= 35; i++) send(MotionEvent.ACTION_MOVE, cx, cy + (endY - cy) * i / 35f);
+            SystemClock.sleep(hold);
+            send(args[2].equals("reorder-cancel") ? MotionEvent.ACTION_CANCEL : MotionEvent.ACTION_UP, cx, endY);
+            return;
+        }
         if (args.length > 2 && args[2].equals("double")) {
             down = SystemClock.uptimeMillis(); send(MotionEvent.ACTION_DOWN, cx, cy); send(MotionEvent.ACTION_UP, cx, cy);
             SystemClock.sleep(70);

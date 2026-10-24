@@ -45,6 +45,10 @@
     "./bottom-sheet": {
       "types": "./dist/bottom-sheet/index.d.ts",
       "default": "./dist/bottom-sheet/index.js"
+    },
+    "./reorder": {
+      "types": "./dist/reorder/index.d.ts",
+      "default": "./dist/reorder/index.js"
     }
   },
   "files": [

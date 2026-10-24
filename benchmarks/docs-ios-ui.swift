@@ -41,6 +41,46 @@ final class DocsTests: XCTestCase {
         start.press(forDuration: 0.15, thenDragTo: start.withOffset(CGVector(dx: x, dy: y)), withVelocity: .slow, thenHoldForDuration: 0.15)
         Thread.sleep(forTimeInterval: 0.8)
     }
+    func reorderDrag(_ id: String, toY: CGFloat, hold: TimeInterval = 0.2) {
+        let handle = app.descendants(matching: .any)[id].firstMatch
+        XCTAssertTrue(handle.exists, app.debugDescription)
+        let start = handle.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+        let destination = app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: handle.frame.midX, dy: toY))
+        start.press(forDuration: 0.55, thenDragTo: destination, withVelocity: .slow, thenHoldForDuration: hold)
+        Thread.sleep(forTimeInterval: 0.6)
+    }
+    func testReorder() throws {
+        launch(["--reorder-lab"], "reorder-list")
+        try record("reorder-ios") {
+            let list = app.descendants(matching: .any)["reorder-list"].firstMatch
+            reorderDrag("handle-track-1", toY: list.frame.minY + 320)
+            XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label CONTAINS 'position' ")).firstMatch.exists, app.debugDescription)
+            tap("reorder-up")
+            tap("reorder-down")
+            tap("reorder-reset")
+            reorderDrag("handle-track-2", toY: list.frame.maxY - 18, hold: 2.5)
+            list.swipeDown()
+            tap("reorder-reset")
+        }
+    }
+    func testReorderCancellation() throws {
+        launch(["--reorder-lab", "--reorder-checks"], "reorder-list")
+        let list = app.descendants(matching: .any)["reorder-list"].firstMatch
+        tap("Cancel next")
+        reorderDrag("handle-track-1", toY: list.frame.minY + 150, hold: 1)
+        tap("Verify native")
+        XCTAssertTrue(app.staticTexts["Native state clean"].exists)
+        tap("Remove next")
+        reorderDrag("handle-track-1", toY: list.frame.minY + 150, hold: 1)
+        XCTAssertTrue(app.staticTexts["199 TRACKS"].exists)
+        tap("Verify native")
+        XCTAssertTrue(app.staticTexts["Native state clean"].exists)
+        tap("reorder-reset")
+        tap("Reduce motion")
+        reorderDrag("handle-track-1", toY: list.frame.minY + 180)
+        tap("Verify native")
+        XCTAssertTrue(app.staticTexts["Native state clean"].exists)
+    }
     func testBottomSheet() throws {
         launch(["--bottom-sheet"], "Open stays")
         defer { XCUIDevice.shared.orientation = .portrait }
