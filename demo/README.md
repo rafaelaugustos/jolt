@@ -14,6 +14,12 @@ ns run ios
 
 The showcase source is in `src/showcase`: `catalog.ts` owns the experiment inventory; the router owns three native page routes; `Showcase.vue` keeps the first page mounted behind the splash. Reusable examples stay in `src/components`. Native route lifecycle stops the home animation scope and unmounts detail experiments on departure.
 
+## Appearance
+
+The ◐ control in the Studio header opens Light, Dark and System options. System is the default; explicit choices persist locally. Navigation chrome, search, typography and experiment controls update without remounting example components. Illustration/animation stages keep their authored colors. iOS theme changes use Jolt’s circular reveal over a temporary snapshot of the outgoing appearance, starting at the selected control (or page center for system changes). Navigation, suspension and replacement transitions clean up the mask and snapshot. Reduced Motion and Android use immediate changes.
+
+Validate the appearance flow on a dedicated simulator with `testShowcaseAppearance` using the recorder below. It also checks relaunch persistence, live system changes and Portuguese labels. Recording handshakes are scoped by simulator UUID, so another worktree can record on a different device.
+
 ## Native walkthrough
 
 Build a release simulator app with `JOLT_BENCHMARK=1`, install it on an explicitly selected simulator, then run:

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { useThemeReveal } from './theme-reveal'
+import { palette, themeClass, statusBarStyle, useThemedInput } from './theme'
 import { usePreviewI18n } from './i18n'
 import { ref, onUnmounted } from 'nativescript-vue'
 import { isIOS, type EventData, type View } from '@nativescript/core'
@@ -6,6 +8,7 @@ import { followKeyboard, configure } from '@rafaelaugusto/jolt'
 import { useRoute, useRouter } from 'vue-router-ns'
 import { examples } from './catalog'
 const { t, locale } = usePreviewI18n()
+const inputTheme = useThemedInput()
 const route = useRoute(),
   router = useRouter()
 const example = examples.find((e) => e.id === route.params.id)
@@ -28,25 +31,38 @@ function leave() {
   clean()
 }
 onUnmounted(clean)
+const themeReveal = useThemeReveal()
+function enter() {
+  mounted.value = true
+  themeReveal.enter()
+}
 </script>
 <template>
   <Page
     actionBarHidden="true"
-    :backgroundColor="atelier ? '#0B1016' : '#F6F5F0'"
-    :statusBarStyle="atelier ? 'light' : 'dark'"
-    class="studio-example-page"
-    @navigatedTo="mounted = true"
+    :backgroundColor="palette.background"
+    :color="palette.text"
+    :androidStatusBarBackground="palette.background"
+    :statusBarStyle="statusBarStyle"
+    :class="[themeClass, 'studio-example-page']"
+    @navigatedTo="enter"
+    @navigatingFrom="themeReveal.leave"
     @navigatedFrom="leave"
   >
-    <GridLayout rows="60,auto,*,auto">
+    <GridLayout
+      rows="60,auto,*,auto"
+      :backgroundColor="palette.background"
+      @loaded="themeReveal.loaded"
+      @unloaded="themeReveal.unloaded"
+    >
       <GridLayout columns="auto,*,auto" padding="8 24">
         <Label
           text="←"
           width="38"
           height="38"
           borderRadius="19"
-          :backgroundColor="atelier ? '#1B2831' : '#E9EAE2'"
-          :color="atelier ? '#D9E5E9' : '#20242D'"
+          :backgroundColor="palette.surface"
+          :color="palette.text"
           fontSize="24"
           textAlignment="center"
           verticalAlignment="middle"
@@ -67,6 +83,7 @@ onUnmounted(clean)
           width="23"
           height="27"
           stretch="aspectFit"
+          :tintColor="palette.text"
         />
       </GridLayout>
       <StackLayout row="1" padding="12 24 20"
@@ -74,11 +91,11 @@ onUnmounted(clean)
           :text="t(example?.title || 'Not found')"
           fontSize="32"
           fontWeight="bold"
-          :color="atelier ? '#E7EEF1' : '#20242D'"
+          :color="palette.text"
           textWrap="true" /><Label
           :text="t(example?.description || 'Go back to choose an experiment.')"
           fontSize="14"
-          color="#7C8076"
+          :color="palette.muted"
           textWrap="true"
           marginTop="7"
       /></StackLayout>
@@ -135,6 +152,8 @@ onUnmounted(clean)
         @loaded="keyboardLoaded"
         ><TextField
           v-model="message"
+          @loaded="inputTheme.loaded"
+          @unloaded="inputTheme.unloaded"
           :hint="t('Try the keyboard…')"
           class="composer-input" /><Button
           col="1"

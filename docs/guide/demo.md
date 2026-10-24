@@ -12,6 +12,16 @@ Home animations stop when navigating away. Detail pages mount only the selected 
 
 The iOS app resources now live in the repository, including the **Jolt** display name and icon. Launching from the installed icon opens Studio without special arguments. The app requires Core 9.1.3+ and installs `vue-router-ns@0.1.0-rc.2` for this preview.
 
+## Light, dark or your device
+
+Tap **◐** in the Studio header to choose **Light**, **Dark**, or **System**. The choice updates the splash, Studio, collection, search, language page and experiment controls immediately, and stays saved after closing the app. **System** follows the device’s appearance, including changes while the app is open.
+
+On iOS, a circular Jolt reveal opens the new theme from the selected control, with the previous appearance underneath. System changes reveal from the center of the visible page. Reduced Motion applies the final theme immediately; Android currently switches immediately because circular reveal is iOS-only.
+
+The native artwork and animation stages retain their own palettes; changing the interface theme does not restart a running experiment or change its animation settings.
+
+<Clip name="showcase-appearance-ios" caption="iOS 26.2 simulator: real XCTest taps reveal light → dark from the selected control, browse and search the collection, play with springs, return to light, then follow live system appearance changes. Original timing. Additional native checks verify persistence after relaunch and Portuguese labels. This does not establish Android or physical-device validation." />
+
 ## Language
 
 Studio follows the phone language by default: Portuguese uses Brazilian Portuguese, and other languages use English. Tap **Language** at the top of Studio to choose **Follow device**, **English**, or **Português**. Changes apply immediately and the choice persists after closing the app. Choosing **Follow device** removes the override; the preferred language is read again when the app resumes.
