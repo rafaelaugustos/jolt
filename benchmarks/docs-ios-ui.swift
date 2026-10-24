@@ -3,7 +3,7 @@ import XCTest
 /// Real OS input against the installed normal demo. The host records each named interval.
 final class DocsTests: XCTestCase {
     let app = XCUIApplication(bundleIdentifier: "org.nativescript.jolt.benchmark")
-    let control = URL(fileURLWithPath: "/tmp/jolt-docs-recording-control")
+    let control = URL(fileURLWithPath: "/tmp/jolt-docs-recording-control-" + (ProcessInfo.processInfo.environment["SIMULATOR_UDID"] ?? "unknown"))
 
     func cue(_ action: String, _ name: String) throws {
         let id = UUID().uuidString
@@ -307,6 +307,102 @@ final class DocsTests: XCTestCase {
         tap("language-settings")
         tap("language-" + value)
         tap("language-back")
+    }
+    func testShowcaseAppearance() throws {
+        try cue("appearance", "light")
+        languageLaunch("en", "appearance-settings")
+        selectLanguage("en")
+        tap("appearance-settings")
+        tap("appearance-light")
+        XCTAssertTrue(app.staticTexts["appearance-current"].label.contains("Light"))
+        try record("showcase-appearance-ios") {
+            tap("appearance-dark", wait: 1.4)
+            XCTAssertTrue(app.staticTexts["appearance-current"].label.contains("Dark"))
+            tap("appearance-back")
+            tap("Collection")
+            let search = app.textFields["Search examples"].firstMatch
+            search.tap(); search.typeText("spring\n")
+            tap("Open Springs")
+            tap("bouncy", wait: 1.5)
+            tap("Back to collection")
+            tap("Studio")
+            tap("appearance-settings")
+            tap("appearance-light", wait: 1.4)
+            tap("appearance-back")
+            tap("appearance-settings")
+            tap("appearance-system", wait: 1)
+            try cue("appearance", "dark")
+            Thread.sleep(forTimeInterval: 1.5)
+            XCTAssertTrue(app.staticTexts["appearance-current"].label.contains("Dark"))
+            try cue("appearance", "light")
+            Thread.sleep(forTimeInterval: 1.5)
+            XCTAssertTrue(app.staticTexts["appearance-current"].label.contains("Light"))
+        }
+        // The manual choice survives relaunch and overrides a different system appearance.
+        tap("appearance-dark")
+        languageLaunch("en", "appearance-settings")
+        tap("appearance-settings")
+        XCTAssertTrue(app.staticTexts["appearance-current"].label.contains("Dark"))
+        tap("appearance-system")
+        XCTAssertTrue(app.staticTexts["appearance-current"].label.contains("Light"))
+        tap("appearance-back")
+        selectLanguage("pt-BR")
+        tap("appearance-settings")
+        tap("appearance-dark")
+        XCTAssertTrue(app.staticTexts["appearance-current"].label.contains("escura"))
+        let shot = XCTAttachment(screenshot: app.screenshot())
+        shot.name = "appearance-portuguese-dark"
+        shot.lifetime = .keepAlways
+        add(shot)
+        tap("appearance-system")
+        tap("appearance-back")
+        selectLanguage("system")
+    }
+    func testShowcaseAppearanceReentry() throws {
+        languageLaunch("en", "appearance-settings")
+        selectLanguage("en")
+        tap("appearance-settings"); tap("appearance-system")
+        XCUIDevice.shared.press(.home)
+        try cue("appearance", "dark")
+        app.activate()
+        let resumedTheme = XCTNSPredicateExpectation(
+            predicate: NSPredicate(format: "label CONTAINS %@", "Dark"),
+            object: app.staticTexts["appearance-current"]
+        )
+        XCTAssertEqual(XCTWaiter.wait(for: [resumedTheme], timeout: 5), .completed)
+        tap("appearance-light", wait: 0)
+        tap("appearance-dark", wait: 0)
+        tap("appearance-back")
+        tap("Collection")
+        tap("Open Springs")
+        tap("bouncy")
+        tap("Back to collection"); tap("Studio")
+        tap("appearance-settings"); tap("appearance-system")
+        try cue("appearance", "light")
+        Thread.sleep(forTimeInterval: 1)
+        XCTAssertTrue(app.staticTexts["appearance-current"].label.contains("Light"))
+        tap("appearance-back")
+        selectLanguage("system")
+    }
+    func testShowcaseDarkScreens() throws {
+        languageLaunch("en", "appearance-settings")
+        selectLanguage("en")
+        tap("appearance-settings"); tap("appearance-dark"); tap("appearance-back")
+        let home = XCTAttachment(screenshot: app.screenshot())
+        home.name = "dark-home"; home.lifetime = .keepAlways; add(home)
+        for id in ["springs", "presets", "scene-camera", "rolling", "gesture-lab", "keyboard", "gradients", "motion-states"] {
+            languageLaunch("en", "Back to collection", ["--showcase-example=" + id])
+            Thread.sleep(forTimeInterval: 1)
+            let shot = XCTAttachment(screenshot: app.screenshot())
+            shot.name = "dark-" + id; shot.lifetime = .keepAlways; add(shot)
+        }
+        languageLaunch("en", "appearance-settings")
+        tap("language-settings")
+        let language = XCTAttachment(screenshot: app.screenshot())
+        language.name = "dark-language"; language.lifetime = .keepAlways; add(language)
+        tap("language-back")
+        tap("appearance-settings"); tap("appearance-system"); tap("appearance-back")
+        selectLanguage("system")
     }
     func testShowcaseLanguage() throws {
         languageLaunch("en", "language-settings")

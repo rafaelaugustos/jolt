@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { palette } from './theme'
 import { usePreviewI18n } from './i18n'
 import { computed, onUnmounted, ref } from 'nativescript-vue'
 import { isIOS } from '@nativescript/core'
@@ -271,12 +272,12 @@ function freeze() {
             )
           "
           fontSize="19"
-          color="#30372F"
+          :color="palette.text"
           fontWeight="bold" /><Label
           col="1"
           :text="t('TRY IT')"
           fontSize="9"
-          color="#8D9485"
+          :color="palette.subtle"
           verticalAlignment="middle"
           letterSpacing=".1"
       /></GridLayout>
@@ -326,7 +327,7 @@ function freeze() {
         :text="t(status)"
         textWrap="true"
         fontSize="13"
-        color="#818878"
+        :color="palette.muted"
         margin="18 2 0"
       />
     </StackLayout>
@@ -342,8 +343,8 @@ function freeze() {
   color: #8a8191;
 }
 .motion-choice {
-  background-color: #e4e8dd;
-  color: #69725f;
+  background-color: var(--studio-control, #e4e8dd);
+  color: var(--studio-control-text, #69725f);
   border-radius: 15;
   padding: 13 0;
   margin: 0;
@@ -358,8 +359,8 @@ function freeze() {
   margin: 0 8 9 0;
   padding: 12 15;
   border-radius: 15;
-  background-color: #e8e4ec;
-  color: #71647e;
+  background-color: var(--studio-surface, #e8e4ec);
+  color: var(--studio-control-text, #71647e);
   font-size: 13;
 }
 .motion-preset.selected {
@@ -367,7 +368,7 @@ function freeze() {
   color: #ede0ff;
 }
 .motion-link {
-  color: #817889;
+  color: var(--studio-muted, #817889);
   font-size: 12;
   padding: 10 0;
 }

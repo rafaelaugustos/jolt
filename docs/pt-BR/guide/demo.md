@@ -12,6 +12,16 @@ As animações da home param ao sair da página. Cada detalhe monta apenas o exp
 
 Os recursos iOS agora ficam no repositório, incluindo o nome **Jolt** e o ícone. Abrir pelo ícone instalado entra no Studio sem argumentos especiais. Este preview requer Core 9.1.3+ e instala `vue-router-ns@0.1.0-rc.2`.
 
+## Claro, escuro ou o tema do dispositivo
+
+Toque em **◐** no cabeçalho do Studio para escolher **Claro**, **Escuro** ou **Sistema**. A escolha atualiza imediatamente a abertura, o Studio, a coleção, a busca, a página de idioma e os controles dos exemplos, e fica salva depois de fechar o app. **Sistema** acompanha a aparência do dispositivo, inclusive quando ela muda com o app aberto.
+
+No iOS, o reveal circular do Jolt abre o novo tema a partir do controle escolhido, mantendo a aparência anterior por baixo. Mudanças do sistema usam o centro da página visível. Com Reduzir Movimento, o tema final é aplicado imediatamente; no Android, a troca também é imediata porque o reveal circular é exclusivo do iOS.
+
+As ilustrações e os palcos das animações mantêm suas próprias paletas; mudar o tema da interface não reinicia um exemplo em execução nem altera suas configurações de animação.
+
+<Clip name="showcase-appearance-ios" caption="Simulador iOS 26.2: toques reais via XCTest revelam claro → escuro a partir do controle escolhido, navegam e buscam na coleção, interagem com as molas, voltam ao claro e acompanham mudanças de aparência do sistema ao vivo. Velocidade original. Verificações nativas adicionais validam persistência após reabrir o app e textos em português. Não representa validação no Android ou em aparelho físico." />
+
 ## Idioma
 
 O Studio segue o idioma do celular por padrão: português usa a tradução brasileira, e os demais idiomas usam inglês. Toque em **Idioma** no topo do Studio para escolher **Idioma do celular**, **English** ou **Português**. A mudança acontece na hora e a escolha permanece depois de fechar o app. **Idioma do celular** remove a preferência manual; o app consulta novamente o idioma ao voltar ao primeiro plano.

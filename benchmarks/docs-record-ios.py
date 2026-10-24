@@ -14,7 +14,7 @@ import time
 serial, destination, *methods = sys.argv[1:]
 output = Path(destination).resolve()
 output.mkdir(parents=True, exist_ok=True)
-control = Path('/tmp/jolt-docs-recording-control')
+control = Path('/tmp/jolt-docs-recording-control-' + serial)
 # An exclusive directory also prevents two recording runs sharing cue files.
 control.mkdir()
 repo = Path(__file__).resolve().parent.parent
@@ -44,7 +44,10 @@ try:
             seen = cue['id']
             name = cue['name']
             assert name.replace('-', '').isalnum()
-            if cue['action'] == 'start':
+            if cue['action'] == 'appearance':
+                assert name in ('light', 'dark')
+                subprocess.run(['xcrun', 'simctl', 'ui', serial, 'appearance', name], check=True)
+            elif cue['action'] == 'start':
                 assert recorder is None
                 path = output/(name+'.mov')
                 if path.exists():

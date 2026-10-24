@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { examples } from './catalog'
+import { palette } from './theme'
 import { usePreviewI18n } from './i18n'
 import { ref, onUnmounted } from 'nativescript-vue'
 import { animate, motionScope, reducedMotion } from '@rafaelaugusto/jolt'
@@ -80,7 +81,7 @@ async function reveal(event: EventData) {
 </script>
 <template>
   <GridLayout
-    backgroundColor="#151C1A"
+    :backgroundColor="palette.background"
     iosOverflowSafeArea="true"
     @loaded="reveal"
     clipToBounds="true"
@@ -97,7 +98,7 @@ async function reveal(event: EventData) {
         <Label
           col="1"
           :text="t('NATIVE MOTION STUDIO')"
-          color="#91A095"
+          :color="palette.subtle"
           fontSize="9"
           letterSpacing=".14"
           verticalAlignment="middle"
@@ -126,7 +127,7 @@ async function reveal(event: EventData) {
               height="220"
               borderRadius="110"
               borderWidth="1"
-              borderColor="#344138"
+              :borderColor="palette.border"
             />
             <Label
               width="20"
@@ -179,20 +180,20 @@ async function reveal(event: EventData) {
           fontSize="112"
           fontWeight="bold"
           letterSpacing="-.065"
-          color="#F6F5F0"
+          :color="palette.text"
           textAlignment="center"
           marginTop="-30"
         />
         <StackLayout ref="caption" marginTop="5">
           <Label
             :text="t('Made to move you.')"
-            color="#C5CFC4"
+            :color="palette.muted"
             fontSize="19"
             textAlignment="center"
           />
           <Label
             :text="t('TOUCH  /  FEEL  /  REPEAT')"
-            color="#819086"
+            :color="palette.subtle"
             fontSize="9"
             letterSpacing=".22"
             textAlignment="center"
@@ -201,7 +202,7 @@ async function reveal(event: EventData) {
         </StackLayout>
       </StackLayout>
       <StackLayout row="2">
-        <GridLayout height="2" backgroundColor="#354239" marginBottom="18">
+        <GridLayout height="2" :backgroundColor="palette.border" marginBottom="18">
           <Label ref="line" height="2" backgroundColor="#E3FC62" originX="0" />
         </GridLayout>
         <GridLayout columns="*,auto">
@@ -209,7 +210,7 @@ async function reveal(event: EventData) {
             :text="t(`${examples.length} WAYS TO FEEL SOMETHING`)"
             fontSize="9"
             letterSpacing=".1"
-            color="#91A095"
+            :color="palette.subtle"
           />
           <Label col="1" text="↗" fontSize="20" color="#E3FC62" />
         </GridLayout>
@@ -217,7 +218,7 @@ async function reveal(event: EventData) {
           v-if="failed"
           :text="t('Could not open the collection. Please restart Jolt.')"
           textWrap="true"
-          color="#F6F5F0"
+          :color="palette.text"
           marginTop="12"
         />
       </StackLayout>

@@ -29,7 +29,7 @@ python3 benchmarks/docs-record-ios.py YOUR_SIMULATOR_UUID /tmp/JoltDocsRecording
 python3 benchmarks/docs-record-ios.py YOUR_SIMULATOR_UUID /tmp/JoltDocsRecordings testLayout
 ```
 
-XCTest injects real touches and gestures. The host starts/stops `simctl recordVideo` around each named scene using a handshake; launch/setup screens are excluded. The exclusive `/tmp/jolt-docs-recording-control` directory prevents concurrent recording sessions. Raw footage and the XCTest result bundle remain in the output directory. If forcibly interrupted, verify no runner is active before removing a stale control directory.
+XCTest injects real touches and gestures. The host starts/stops `simctl recordVideo` around each named scene using a handshake; launch/setup screens are excluded. The exclusive `/tmp/jolt-docs-recording-control-SIMULATOR_UUID` directory prevents concurrent recording sessions on the same device while allowing separate worktrees to record on separate simulators. Raw footage and the XCTest result bundle remain in the output directory. If forcibly interrupted, verify no runner is active before removing a stale control directory.
 
 The Android runner records the Busy JavaScript comparison with real ADB taps and restores the device's original touch-indicator setting:
 

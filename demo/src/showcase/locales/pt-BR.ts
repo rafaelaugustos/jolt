@@ -877,4 +877,15 @@ export const portuguese: Record<string, string> = {
   'Hold and drag, or use move up and move down. Option or Alt plus arrow keys also moves this track.':
     'Segure e arraste, ou use as ações de subir e descer. Option ou Alt com as setas também move esta faixa.',
   '{0} WAYS TO FEEL SOMETHING': '{0} JEITOS DE SENTIR ALGO',
+  Appearance: 'Aparência',
+  'Appearance settings': 'Ajustes de aparência',
+  Light: 'Claro',
+  Dark: 'Escuro',
+  'A different light.\nStill your Studio.': 'Uma nova luz.\nO mesmo Studio.',
+  'Set the mood for your collection.': 'Escolha o clima da sua coleção.',
+  'A little light. A fresh perspective.': 'Mais luz. Um novo olhar.',
+  'Less glare. The same spark.': 'Menos brilho. A mesma energia.',
+  'Follow your device’s appearance.': 'Acompanhe a aparência do dispositivo.',
+  'Dark appearance is on.': 'A aparência escura está ativa.',
+  'Light appearance is on.': 'A aparência clara está ativa.',
 }
