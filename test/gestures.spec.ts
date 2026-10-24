@@ -75,6 +75,24 @@ const create = (...args: Parameters<typeof gestures>) => {
   return control
 }
 describe('native gesture ownership', () => {
+  it('opts into first and last contact callbacks without treating a tap as a pan', () => {
+    const start = vi.fn(),
+      end = vi.fn(),
+      pan = vi.fn()
+    create(new GestureSurface(), {
+      pan: true,
+      onContactStart: start,
+      onContactEnd: end,
+      onStart: pan,
+    })
+    expect(factory.create.mock.calls.at(-1)![3].contactEvents).toBe(true)
+    emit(6, 0, 0)
+    emit(7, 0, 0)
+    expect(start).toHaveBeenCalledOnce()
+    expect(end).toHaveBeenCalledOnce()
+    expect(pan).not.toHaveBeenCalled()
+    expect(() => create(new GestureSurface(), { onContactEnd: true as never })).toThrow()
+  })
   it('owns retained values, validates replacement before disposing the previous session, and releases listeners', () => {
     const surface = new GestureSurface()
     const first = create(surface, { pan: true })

@@ -18,7 +18,7 @@ public final class GestureSession {
     private final GestureDetector taps;
     private final double density, threshold, failOffset;
     private final int axis;
-    private final boolean pinch, rotate, tapEnabled, doubleEnabled;
+    private final boolean pinch, rotate, tapEnabled, doubleEnabled, contactEvents;
     private double minX, maxX, minY, maxY, minScale, maxScale;
     private double downX, downY, lastX, lastY, lastSpan, lastAngle, velocityX, velocityY;
     private boolean enabled = true, disposed, active, rejected, fromScroll, contact, ending;
@@ -34,6 +34,7 @@ public final class GestureSession {
             axis = config.getInt("axis"); threshold = config.getDouble("threshold"); failOffset = config.getDouble("failOffset");
             pinch = config.getBoolean("pinch"); rotate = config.getBoolean("rotate");
             tapEnabled = config.getBoolean("tap"); doubleEnabled = config.getBoolean("doubleTap");
+            contactEvents = config.optBoolean("contactEvents", false);
             minX = config.getDouble("minX"); maxX = config.getDouble("maxX"); minY = config.getDouble("minY"); maxY = config.getDouble("maxY");
             minScale = config.getDouble("minScale"); maxScale = config.getDouble("maxScale");
         } catch (JSONException error) { throw new IllegalArgumentException(error); }
@@ -46,6 +47,7 @@ public final class GestureSession {
         if (!doubleEnabled) taps.setOnDoubleTapListener(null);
         surface.setSession(this);
     }
+    public static boolean supportsContactEvents() { return true; }
     public boolean isActive() { return active; }
     boolean intercepts() { return enabled && active && !fromScroll; }
     boolean accepts(View target) { return enabled && !disposed && target == scroll; }
@@ -73,6 +75,7 @@ public final class GestureSession {
                 fromScroll = bounds.contains((int)event.getX(), (int)event.getY());
             }
             rebase(event, -1); downX = lastX; downY = lastY;
+            if (contactEvents) emit(6);
         }
         if (!contact) return;
         if (velocity != null) {
@@ -153,15 +156,17 @@ public final class GestureSession {
         return y.getPosition() > minY + .01 || vy < 0 && !scroll.canScrollVertically(-1);
     }
     private void finish(boolean cancelled) {
+        boolean hadContact = contact;
         contact = false;
         if (velocity != null) { velocity.recycle(); velocity = null; }
-        if (!active) return;
+        if (!active) { if (hadContact && contactEvents) emit(7); return; }
         active = false;
         x.releaseInput(x.getPosition(), 0); y.releaseInput(y.getPosition(), 0);
         scale.releaseInput(scale.getPosition(), 0); rotation.releaseInput(rotation.getPosition(), 0);
         if (surface.getParent() != null) surface.getParent().requestDisallowInterceptTouchEvent(false);
         ending = !cancelled;
         try { emit(cancelled ? 3 : 2); } finally { ending = false; }
+        if (hadContact && contactEvents) emit(7);
     }
     public void cancel() {
         if (active) finish(true);

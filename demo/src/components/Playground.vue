@@ -61,6 +61,7 @@ const emit = defineEmits<{
   sizeLab: []
   liveSprings: []
   gestureLab: []
+  bottomSheetLab: []
   playbackLab: []
   sceneShader: []
   sceneLighting: []
@@ -182,6 +183,7 @@ onUnmounted(() => {
         <Button text="Real dimensions" @tap="emit('sizeLab')" />
         <Button text="Live springs" @tap="emit('liveSprings')" />
         <Button text="Native gestures" @tap="emit('gestureLab')" />
+        <Button text="Bottom sheet" @tap="emit('bottomSheetLab')" />
         <Button text="Drag, fling and snap" @tap="emit('dragLab')" />
         <Button text="Drag a motion value" @tap="emit('dragValues')" />
         <Button text="Image effects and photo zoom" @tap="emit('imageLab')" />

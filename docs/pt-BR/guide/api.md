@@ -11,6 +11,7 @@
 - [`motionValue(initial)`, `bind(target, bindings)`](./motion-values) — um valor controlando várias propriedades e views; `animate()`, `set()` e `stop()` também aceitam um valor. [`scrollValue(scrollView, { axis? })`](./motion-values#offsets-de-rolagem) é um offset de rolagem como valor.
 - [`springValue(source, options?)`](./live-springs) — seguidores nativos com continuidade de posição/velocidade, cadeias, mapeamentos numéricos e camadas de transformação/opacidade. Descarte a assinatura com seu escopo.
 - [`gestures(surface, options?)`](./gestures) e `GestureSurface` — pan/pinch/rotação nativos, relações entre taps e transferência para ScrollView do core, no entry point opcional `@rafaelaugusto/jolt/gestures`.
+- [`bottomSheet(panel, options)`](./bottom-sheet) — sheet opcional dentro da página, com transferência nativa para scroll, snaps dinâmicos, teclado e ações acessíveis.
 - [`value.subscribe(listener, { immediate? })`](./motion-values#observando-fora-das-views) — observa números, cores derivadas e valores de scroll em JavaScript; retorna a função para cancelar a assinatura.
 - [`animate(value, target, { layer })`, `stop(value, { layer })`](./motion-values#camadas-em-um-valor) — camadas escalares aditivas antes dos mapeamentos.
 - [`decay(target, velocity, options?)`](./decay)

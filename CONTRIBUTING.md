@@ -11,6 +11,7 @@ For each new visual feature or visible behavior change:
 3. Watch the clip and inspect representative frames. Confirm the effect is visible, the controls are readable, and the recording does not show errors or unrelated setup. Tests and screenshots are supporting evidence, not replacements for a video.
 4. Save a compact H.264 MP4 in `docs/public/media/` and embed it with `<Clip name="..." caption="..." />` in the matching English and Portuguese guides. Captions identify the behavior and platform. Clearly identify slow motion and effects video cannot convey, such as haptics.
 5. Run `npm run docs:check-media` and `npm run docs:build`. Do not close the issue or prepare the release before the clips are included. Keep existing recordings current when the visible behavior changes.
+6. Attach the reviewed recordings directly to the PR description with playable video players, labeled by platform and behavior. Use `gh pr edit YOUR_PR --attach ./docs/public/media/YOUR_RECORDING.mp4` (repeat `--attach` for multiple platforms), then verify the published description. A link to the repository file alone does not meet this review requirement.
 
 The CI media check requires every visual guide in both languages to have a captioned clip, verifies the referenced MP4 files, and checks language parity. Its explicit exemptions cover setup, architecture, API navigation and planned work. A new guide requires media by default. This check cannot judge whether a video actually demonstrates the feature; human/agent visual review remains required.
 

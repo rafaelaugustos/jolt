@@ -8,7 +8,8 @@
       "@rafaelaugusto/jolt": ["./src/index.ts"],
       "@rafaelaugusto/jolt/vue": ["./src/vue/index.ts"],
       "@rafaelaugusto/jolt/gestures": ["./src/gestures/index.ts"],
-      "@rafaelaugusto/jolt/native": ["./src/native/index.ts"]
+      "@rafaelaugusto/jolt/native": ["./src/native/index.ts"],
+      "@rafaelaugusto/jolt/bottom-sheet": ["./src/bottom-sheet/index.ts"]
     },
     "strict": true,
     "noUncheckedIndexedAccess": true,

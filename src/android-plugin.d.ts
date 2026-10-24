@@ -3,6 +3,7 @@ declare namespace org.rafaelaugusto.jolt {
     constructor(context: android.content.Context)
   }
   class GestureSession {
+    static supportsContactEvents(): boolean
     constructor(
       surface: GestureSurface,
       scroll: android.view.View | null,

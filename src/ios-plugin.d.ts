@@ -1,4 +1,5 @@
 declare class JoltGestureSession extends NSObject {
+  static supportsContactEvents(): boolean
   static attachScrollXYScaleRotationOptionsOnState(
     surface: UIView,
     scroll: UIScrollView | null,
