@@ -1,6 +1,6 @@
 # Interaction replay validation
 
-This is the initial stage of #63: an interrupted spring and a cancelled single-pointer drag. The scroll-to-sheet replay adapter remains subsequent work in that issue. No new GitHub workflow is added. The existing native baseline includes one bounded replay group and retains its 90-second app watchdog.
+The initial cases are an interrupted spring and a cancelled single-pointer drag. [Scroll-to-sheet handoff validation](./scroll-handoff.md) completes the third case from #63. No new GitHub workflow is added. The existing native baseline includes one bounded replay group and retains its 90-second app watchdog.
 
 The frozen spring checkpoints use the independent closed-form solution of mass 1, stiffness 170 and damping 26 (underdamped angular frequency 1). It reverses from target 180 to 20 at 96 ms, asserting position and velocity immediately before and after that exact boundary. The trace includes a 288 ms frame gap and a settled checkpoint. The drag fixture asserts cancellation holds position, ignores subsequent move/end, survives suspend/resume and releases all owned resources.
 
@@ -42,6 +42,6 @@ The native driver wrapper temporarily replaces Jolt's global driver. Run in an i
 
 ## Português
 
-Etapa inicial da #63: spring interrompido e drag cancelado, com checkpoints fixos, relógio controlado, probes de apresentação nativa e controle negativo. O handoff scroll→sheet ainda precisa de adaptador próprio e a issue permanece aberta. A validação aproveita o job existente, sem workflow novo nem espera pelo tempo real de repouso.
+Casos iniciais da #63: spring interrompido e drag cancelado, com checkpoints fixos, relógio controlado, probes de apresentação nativa e controle negativo. O [adaptador scroll→sheet](./scroll-handoff.md) completa o terceiro caso. A validação aproveita o job existente, sem workflow novo nem espera pelo tempo real de repouso.
 
 Os comandos acima reproduzem testes e vídeos com entrada real do SO. Os relatórios registram posições nativas, velocidade/repouso do motor e zero recursos após descarte. A referência aceita pelo preview é fixa entre replays; a captura bruta de apresentação fica separada por causa da latência de início dos animadores nativos. O JSON não inclui texto digitado ou imagens. Os limites e a fronteira entre replay semântico e teste do reconhecedor estão no [guia em português](../docs/pt-BR/guide/interaction-replay.md).

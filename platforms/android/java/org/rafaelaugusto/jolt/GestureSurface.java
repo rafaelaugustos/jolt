@@ -13,6 +13,7 @@ public final class GestureSurface extends org.nativescript.widgets.GridLayout im
     private final NestedScrollingParentHelper nested = new NestedScrollingParentHelper(this);
     public GestureSurface(Context context) { super(context); }
     public void setSession(GestureSession value) { session = value; }
+    public boolean hasSession() { return session != null; }
     @Override public boolean dispatchTouchEvent(MotionEvent event) {
         GestureSession current = session;
         if (current != null) current.before(event);

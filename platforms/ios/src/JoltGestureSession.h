@@ -5,6 +5,11 @@ NS_ASSUME_NONNULL_BEGIN
 @interface JoltGestureSession : NSObject
 @property(nonatomic, readonly) BOOL active;
 + (BOOL)supportsContactEvents;
+// Development-only semantic input. Requires the isolated "replay" option.
++ (BOOL)supportsScrollReplay;
++ (BOOL)hasSession:(UIView *)surface;
+- (void)replayScroll:(NSInteger)phase delta:(double)delta velocity:(double)velocity;
+- (void)replayScrollOffset:(double)offset;
 + (instancetype)attach:(UIView *)surface scroll:(nullable UIScrollView *)scroll
                      x:(JoltLiveSpring *)x y:(JoltLiveSpring *)y scale:(JoltLiveSpring *)scale rotation:(JoltLiveSpring *)rotation
                options:(NSString *)options onState:(void (^)(NSInteger, double, double))onState;

@@ -27,10 +27,16 @@ import { runInteractionReplayChecks } from '../../../benchmarks/interaction-repl
 import spring from '../../../benchmarks/traces/interrupted-spring.json'
 import { usePreviewI18n } from '../showcase/i18n'
 import { launchArgument } from '../launch'
+import ScrollHandoffReplayLab from './ScrollHandoffReplayLab.vue'
 
 defineProps<{ embedded?: boolean }>()
 defineEmits(['back'])
 const { t } = usePreviewI18n()
+const handoff = ref(launchArgument('scroll-handoff') !== undefined)
+function openHandoff() {
+  finish()
+  handoff.value = true
+}
 const recording = ref(false),
   busy = ref(false),
   count = ref(0),
@@ -248,7 +254,8 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <GridLayout rows="auto,*,auto,auto" padding="20" backgroundColor="#F1EEE7">
+  <ScrollHandoffReplayLab v-if="handoff" @back="handoff = false" />
+  <GridLayout v-else rows="auto,*,auto,auto" padding="20" backgroundColor="#F1EEE7">
     <StackLayout marginBottom="18">
       <Label
         :text="t('THE MOTION ARCHIVE')"
@@ -423,6 +430,15 @@ onUnmounted(() => {
       </GridLayout>
     </StackLayout>
     <StackLayout row="3" marginTop="8">
+      <Button
+        :text="t('Scroll → sheet')"
+        automationText="open-handoff"
+        :isEnabled="!busy"
+        @tap="openHandoff"
+        height="32"
+        fontSize="11"
+        color="#49355B"
+      />
       <Label
         :text="t('Replay uses recorded time, not wall-clock speed.')"
         textAlignment="center"

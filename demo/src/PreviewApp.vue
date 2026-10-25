@@ -32,6 +32,7 @@ onLaunch(() => {
     'reorder-lab',
     'shared-layout',
     'interaction-replay',
+    'scroll-handoff',
   ].some((name) => launchArgument(name) !== undefined)
   enablePreviewLanguage(!legacy.value)
   ready.value = true

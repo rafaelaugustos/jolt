@@ -12,7 +12,7 @@ The baseline also checks retained live spring chains, reversal continuity, scope
 
 The baseline now includes 12 groups, plus the 20 dimension checks. Gesture checks cover retained values, bounds retargeting without a velocity reset, scope cancellation, native node cleanup and existing ScrollView delegate/listener preservation. A live-binding regression probe measures the actual location of a translated view before and after its first layout and a later width change. Actual OS multi-touch/scroll recordings run separately; see [gesture validation](./gestures.md).
 
-The recorded-interaction group replays two frozen traces against the controlled engine and native presentation, then rejects a deliberately wrong checkpoint. It adds no workflow or real-time settling wait. Failure artifacts include the trace/report JSON and expected/observed SVG, retrieved only for the current run ID. See [interaction replay](./interaction-replay.md).
+The recorded-interaction group replays three frozen traces against the controlled engine and native presentation, then rejects a deliberately wrong checkpoint. It adds no workflow or real-time settling wait. Failure artifacts include the trace/report JSON and expected/observed SVG, retrieved only for the current run ID. See [interaction replay](./interaction-replay.md).
 
 Dependencies and native templates are pinned in `native-app/package-lock.json`. Webpack is pinned to 5.101.3 because NativeScript's worker loader uses the `webpack/lib/dependencies/WorkerDependency` layout. Generated resources and builds stay inside the fixture, separate from `demo`. Node 22, Python 3, and a working NativeScript platform toolchain are required.
 
@@ -47,4 +47,6 @@ O baseline inclui 12 grupos, além dos 20 testes de dimensões. Os testes de ges
 
 Os artefatos `native-ios` e `native-android` guardam JSON, logs e uma captura final, inclusive em falhas. A captura final costuma mostrar a falha esperada do controle negativo; o resultado normal está em `baseline.json`. As gravações existentes continuam nos guias EN/PT. Qualquer mudança de comportamento visual público continua exigindo gravação nativa revisada conforme `CONTRIBUTING.md`.
 
-O grupo de replay executa dois traces fixos no motor controlado e na apresentação nativa, além de rejeitar um checkpoint propositalmente errado. Usa o job existente, sem espera pelo tempo real de repouso. Falhas incluem JSON e gráfico SVG, coletados apenas para o ID da execução atual. Veja a [validação do replay](./interaction-replay.md).
+O grupo de replay executa três traces fixos no motor controlado e na apresentação nativa, além de rejeitar um checkpoint propositalmente errado. Usa o job existente, sem espera pelo tempo real de repouso. Falhas incluem JSON e gráfico SVG, coletados apenas para o ID da execução atual. Veja a [validação do replay](./interaction-replay.md).
+
+The scroll→sheet portion exercises the production native gesture consumption code and takes about 3 seconds locally (including an independent reference and native negative control). It checks both positions, cancellation, contact rebasing and fractional-pixel accumulation; see [handoff validation](./scroll-handoff.md).

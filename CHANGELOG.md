@@ -2,7 +2,9 @@
 
 ## Unreleased
 
-- Add optional development interaction traces and controlled-clock replay under `@rafaelaugusto/jolt/testing` and `/testing/native`. Cover interrupted springs and cancelled drags, native presentation tolerances, cleanup, deterministic seeds and failure plots. Preserve incoming spring velocity at the exact handoff instant. Include the 57th bilingual preview, native recordings and a bounded group in the existing native CI; the scroll-to-sheet replay adapter remains a subsequent stage of #63.
+- Complete scroll-to-sheet interaction replay with an independent headless contract and the production native consumption policy on iOS/Android. Capture numeric OS contacts, check both owners and cancellation, preserve fractional Android deltas, audit disposal and reject an intentionally wrong scroll checkpoint. Extend preview 57 with EN/PT controls and reviewed videos; reuse the existing native CI group. Rebuild the native app.
+
+- Add optional development interaction traces and controlled-clock replay under `@rafaelaugusto/jolt/testing` and `/testing/native`. Cover interrupted springs and cancelled drags, native presentation tolerances, cleanup, deterministic seeds and failure plots. Preserve incoming spring velocity at the exact handoff instant. Include the 57th bilingual preview, native recordings and a bounded group in the existing native CI.
 
 - Add the optional `@rafaelaugusto/jolt/shared-layout` entry for stable identities within one page: native image/container snapshots, window-relative geometry and corner clips, content crossfades and rapid reversal. Include lifecycle/fallback cleanup, Reduced Motion, the 56th bilingual preview experiment, and real iOS/Android recordings. Rebuild the native app.
 - Defer the Android preview’s initial system-appearance lookup until its Application context is available on cold launch.
