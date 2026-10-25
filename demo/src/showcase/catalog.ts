@@ -1,3 +1,4 @@
+import PredictiveBackLab from '../components/PredictiveBackLab.vue'
 import SharedNavigationLab from '../components/SharedNavigationLab.vue'
 import InteractiveNavigationLab from '../components/InteractiveNavigationLab.vue'
 import MotionInspectorLab from '../components/MotionInspectorLab.vue'
@@ -67,6 +68,15 @@ export const categories = [
   'SceneKit',
 ] as const
 export const examples = [
+  {
+    id: 'predictive-back',
+    title: 'Predictive back',
+    category: 'Touch',
+    description: 'A little room to change your mind.',
+    component: markRaw(PredictiveBackLab),
+    full: true,
+    ios: false,
+  },
   {
     id: 'springs',
     title: 'Springs',

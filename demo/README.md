@@ -2,7 +2,7 @@
 
 The normal app entry opens the branded showcase: splash, Studio, searchable Collection, and 54 individual experiments. It uses the local Jolt build and `vue-router-ns@0.1.0-rc.2`; no launch argument is needed. The assistant remains an explicit `--screen=home` example and `--playground` preserves the older all-in-one page for probes.
 
-Build the library from the repository root, install `demo` dependencies, and run with NativeScript CLI. iOS resources (display name, icons and launch screen) are tracked. Android template resources are still generated locally, as in the existing demo workflow. Build native platforms sequentially in a shared demo directory.
+Build the library from the repository root, install `demo` dependencies, and run with NativeScript CLI. iOS resources (display name, icons and launch screen) are tracked. The Android manifest is tracked and opts into predictive back; other Android template resources are generated locally. Build native platforms sequentially in a shared demo directory.
 
 ```sh
 npm ci

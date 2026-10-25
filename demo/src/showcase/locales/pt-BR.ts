@@ -1,5 +1,24 @@
 // English source messages → Brazilian Portuguese. Keep numbered placeholders intact.
 export const portuguese: Record<string, string> = {
+  'Predictive back': 'Voltar com prévia',
+  'A little room to change your mind.': 'Um espaço para mudar de ideia.',
+  'AFTER HOURS / 062': 'FIM DE TARDE / 062',
+  'Chase the quiet.': 'Siga a calmaria.',
+  'Open the dunes': 'Abrir as dunas',
+  'The last light.': 'A última luz.',
+  'No rush to leave.': 'Sem pressa de ir.',
+  'Open the dunes. Swipe from either edge to return.':
+    'Abra as dunas. Deslize de uma das bordas para voltar.',
+  'Try this on Android 14 or later with gesture navigation.':
+    'Experimente no Android 14 ou superior com navegação por gestos.',
+  'Stay a while. Your place is saved.': 'Fique mais. Seu lugar está guardado.',
+  'Back to the dunes': 'Voltar às dunas',
+  'THE SLOW HOURS': 'AS HORAS CALMAS',
+  'A softer kind\nof escape.': 'Um jeito leve\nde escapar.',
+  'GOLDEN HOUR': 'HORA DOURADA',
+  'Stay. Or drift away.': 'Fique. Ou siga a brisa.',
+  'Swipe in from either edge. Pull back to stay.':
+    'Deslize de uma das bordas. Retorne à borda para ficar.',
   'Interactive navigation': 'Navegação interativa',
   'A way back that follows your hand.': 'A volta acompanha a sua mão.',
   'FIELD NOTES / 061': 'DIÁRIO DE BORDO / 061',

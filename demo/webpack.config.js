@@ -31,6 +31,10 @@ module.exports = (env) => {
         '@rafaelaugusto/jolt/interactive-navigation$',
         resolve(__dirname, '../dist/interactive-navigation/index.js'),
       )
+      .set(
+        '@rafaelaugusto/jolt/predictive-back$',
+        resolve(__dirname, '../dist/predictive-back/index.js'),
+      )
       .set('@rafaelaugusto/jolt/testing$', resolve(__dirname, '../dist/testing/index.js'))
       .set(
         '@rafaelaugusto/jolt/testing/native$',

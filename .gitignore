@@ -6,6 +6,13 @@ coverage/
 
 demo/App_Resources/*
 !demo/App_Resources/iOS/
+!demo/App_Resources/Android/
+demo/App_Resources/Android/*
+!demo/App_Resources/Android/src/
+demo/App_Resources/Android/src/*
+!demo/App_Resources/Android/src/main/
+demo/App_Resources/Android/src/main/*
+!demo/App_Resources/Android/src/main/AndroidManifest.xml
 demo/platforms/
 demo/hooks/
 demo/node_modules/

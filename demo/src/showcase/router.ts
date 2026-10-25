@@ -1,6 +1,7 @@
 import { createRouter } from 'vue-router-ns'
 import SharedNavigationDetail from './SharedNavigationDetail.vue'
 import InteractiveNavigationDetail from './InteractiveNavigationDetail.vue'
+import PredictiveBackDetail from './PredictiveBackDetail.vue'
 import Home from './Home.vue'
 import Collection from './Collection.vue'
 import Example from './Example.vue'
@@ -9,6 +10,11 @@ import Appearance from './Appearance.vue'
 
 export const router = createRouter({
   routes: [
+    {
+      path: '/predictive-back',
+      name: 'predictive-back-detail',
+      component: PredictiveBackDetail,
+    },
     {
       path: '/interactive-navigation',
       name: 'interactive-navigation-detail',

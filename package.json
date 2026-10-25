@@ -73,6 +73,10 @@
     "./interactive-navigation": {
       "types": "./dist/interactive-navigation/index.d.ts",
       "default": "./dist/interactive-navigation/index.js"
+    },
+    "./predictive-back": {
+      "types": "./dist/predictive-back/index.d.ts",
+      "default": "./dist/predictive-back/index.js"
     }
   },
   "files": [

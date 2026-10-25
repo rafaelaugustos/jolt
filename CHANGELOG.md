@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add optional `@rafaelaugusto/jolt/predictive-back` for Android 14+: system-owned edge progress and commit decisions, native Jolt spring settlement, one guarded application commit, reduced motion and lifecycle cleanup. Include the 62nd bilingual preview, real Android recordings and a tracked demo manifest opt-in. Rebuild the native application.
+
 - Add optional `@rafaelaugusto/jolt/interactive-navigation` for iOS Frame pages: native edge-swipe progress, cancellable return and velocity-preserving Jolt spring completion through Core's existing delegate. Include router integration, nested-entry cleanup, reduced motion, the 61st bilingual preview and real iOS recordings. Rebuild the native app. Shared-element morphs, arbitrary modals and Android predictive back remain separate.
 
 - Stabilize native curve sampling checks by waiting past NativeScript's initial macrotask and two display callbacks before reading a held presentation. Preserve the 0.28-DIP assertion and negative controls; add bounded cancellation/timeout tests and structured seek diagnostics to native CI reports. Animation drivers and curve generation are unchanged.
