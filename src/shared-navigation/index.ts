@@ -1,4 +1,5 @@
-import { Application, Image, type Frame, type Page, type View } from '@nativescript/core'
+import { Application, Image, type Frame, type Page } from '@nativescript/core'
+import { find, radius, supportedImage } from './targets.js'
 import { reducedMotion, onReducedMotion } from '../config.js'
 import { getDriver } from '../driver/index.js'
 import { capture, captureNavigationImage, type Flight } from '../shared-layout/native.js'
@@ -21,6 +22,8 @@ export interface SharedNavigationOptions extends SharedLayoutOptions {
   navigationTimeout?: number
 }
 export interface SharedNavigationRequest {
+  /** Optional lower per-flight budget when another native presentation retains pixels. */
+  maxSnapshotPixels?: number
   /** Match exactly one sharedTransitionTag on each page in this Frame. */
   tag: string
   /** Called once, after capture. Pass these options to Frame.navigate/router.push/back. */
@@ -38,35 +41,15 @@ export interface SharedNavigation {
   navigate(request: SharedNavigationRequest): SharedNavigationAnimation
   dispose(): void
 }
-const scopes = new WeakMap<Frame, SharedNavigation>()
+import { navigationScopes as scopes } from './scope.js'
+export { sharedNavigationEntry } from './entry.js'
+export type {
+  SharedNavigationEntry,
+  SharedNavigationEntryOptions,
+  SharedNavigationEntryEvent,
+  SharedNavigationRouteOptions,
+} from './entry.js'
 const routeOptions = Object.freeze({ animated: false as const })
-
-function find(page: Page | undefined, tag: string): View[] {
-  const matches: View[] = []
-  const visit = (view: View) => {
-    // Nested Frames own their own identities and navigation.
-    if (view !== page && (view.typeName === 'Frame' || view.typeName === 'Page')) return
-    if (view.sharedTransitionTag === tag && !view.sharedTransitionIgnore)
-      matches.push(view)
-    view.eachChildView((child) => {
-      visit(child)
-      return true
-    })
-  }
-  if (page) visit(page)
-  return matches
-}
-const radius = (view: View) =>
-  typeof view.borderRadius === 'number' ? view.borderRadius : 0
-function supportedImage(view: View): view is Image {
-  return (
-    view instanceof Image &&
-    !!view.imageSource &&
-    !view.isLoading &&
-    (view.stretch === 'aspectFill' || view.stretch === 'aspectFit') &&
-    !view.tintColor
-  )
-}
 
 /** Programmatic, same-Frame navigation. Core owns routes; Jolt owns a bounded native overlay. */
 export function sharedNavigation(
@@ -100,6 +83,16 @@ export function sharedNavigation(
         throw new TypeError('A nonempty sharedTransitionTag is required.')
       if (typeof request.navigate !== 'function')
         throw new TypeError('A navigation callback is required.')
+      const requestedBudget = request.maxSnapshotPixels ?? budget
+      if (
+        !Number.isSafeInteger(requestedBudget) ||
+        requestedBudget <= 0 ||
+        requestedBudget > 32_000_000
+      )
+        throw new RangeError(
+          'maxSnapshotPixels must be a positive integer at most 32000000.',
+        )
+      const flightBudget = Math.min(budget, requestedBudget)
       const transition = timing(request.transition ?? defaultTiming)
       if (state !== 'idle')
         return {
@@ -215,7 +208,12 @@ export function sharedNavigation(
                   finish('unavailable', 'content-mismatch')
                   return
                 }
-                const geometry = flight.prepare(target, image, radius(target), budget)
+                const geometry = flight.prepare(
+                  target,
+                  image,
+                  radius(target),
+                  flightBudget,
+                )
                 if (!geometry) {
                   finish('unavailable', 'unsupported-target')
                   return
@@ -255,8 +253,8 @@ export function sharedNavigation(
         else {
           try {
             flight = image
-              ? captureNavigationImage(source!, radius(source!), budget)
-              : capture(source!, false, radius(source!), budget)
+              ? captureNavigationImage(source!, radius(source!), flightBudget)
+              : capture(source!, false, radius(source!), flightBudget)
             if (!flight) unavailable = 'unsupported-source'
           } catch {
             unavailable = 'native-unavailable'

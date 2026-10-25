@@ -9,5 +9,7 @@
 - (NSString *)prepare:(UIView *)view image:(BOOL)image radius:(double)radius maxPixels:(double)maxPixels;
 - (BOOL)freeze:(double)maxPixels;
 - (void)play:(NSString *)configuration onEnd:(void (^)(BOOL))onEnd;
+- (BOOL)beginInteractive:(NSString *)geometry;
+- (void)updateInteractive:(double)progress;
 - (void)dispose;
 @end

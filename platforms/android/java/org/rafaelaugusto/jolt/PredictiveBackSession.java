@@ -22,6 +22,8 @@ public final class PredictiveBackSession extends OnBackPressedCallback implement
     private final View view;
     private final OnBackPressedDispatcherOwner owner;
     private Listener listener;
+    private SharedNavigationScene sharedScene;
+    public void setSharedScene(SharedNavigationScene scene) { if(captured || disposed)throw new IllegalStateException("Attach shared presentation before back begins."); sharedScene=scene; }
     private final SpringState spring = new SpringState(0, 0);
     private final double stiffness, damping, mass;
     private final float density, dx, dy, sx, sy, opacity, rotation;
@@ -87,6 +89,7 @@ public final class PredictiveBackSession extends OnBackPressedCallback implement
     private void capture() {
         if (captured) return;
         captured = true; active++;
+        if(sharedScene!=null && !reduced)sharedScene.begin();
         baseX = view.getTranslationX(); baseY = view.getTranslationY();
         baseSX = view.getScaleX(); baseSY = view.getScaleY(); baseAlpha = view.getAlpha(); baseRotation = view.getRotation();
         width = view.getWidth(); height = view.getHeight();
@@ -96,6 +99,7 @@ public final class PredictiveBackSession extends OnBackPressedCallback implement
         if (!captured) return;
         view.setTranslationX(baseX); view.setTranslationY(baseY);
         view.setScaleX(baseSX); view.setScaleY(baseSY); view.setAlpha(baseAlpha); view.setRotation(baseRotation);
+        if(sharedScene!=null)sharedScene.finish();
         captured = false; active--;
     }
     @Override public void handleOnBackStarted(BackEventCompat event) {
@@ -138,13 +142,14 @@ public final class PredictiveBackSession extends OnBackPressedCallback implement
     }
     private void apply() {
         double p = reduced ? 0 : Math.max(0, Math.min(1, spring.position));
+        if(sharedScene!=null && sharedScene.isAnimating()){sharedScene.render(p);return;}
         float direction = mirror && edge == BackEventCompat.EDGE_RIGHT ? -1 : 1;
         view.setTranslationX(baseX + (float)p * dx * direction); view.setTranslationY(baseY + (float)p * dy);
         view.setScaleX(baseSX * (float)(1 + (sx - 1) * p)); view.setScaleY(baseSY * (float)(1 + (sy - 1) * p));
         view.setAlpha(baseAlpha * (float)(1 + (opacity - 1) * p)); view.setRotation(baseRotation + (float)p * rotation * direction);
     }
     private boolean validGeometry() {
-        return view.isAttachedToWindow() && view.getWidth() == width && view.getHeight() == height &&
+        return (sharedScene==null || sharedScene.validActive()) && view.isAttachedToWindow() && view.getWidth() == width && view.getHeight() == height &&
             view.getRootView().getWidth() == rootWidth && view.getRootView().getHeight() == rootHeight;
     }
     private void schedule() {
@@ -188,7 +193,7 @@ public final class PredictiveBackSession extends OnBackPressedCallback implement
     }
     public void dispose() {
         if (disposed) return;
-        disposed = true; unschedule(); restore(); disconnect(); phase = 0; emit(7); listener = null;
+        disposed = true; unschedule(); restore(); disconnect(); phase = 0; emit(7); listener = null; sharedScene = null;
     }
     @Override public void onViewDetachedFromWindow(View v) {
         if (phase == 4) { restore(); disconnect(); } else dispose();

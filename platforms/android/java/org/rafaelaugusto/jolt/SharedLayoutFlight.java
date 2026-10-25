@@ -18,7 +18,8 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
     private Bitmap source, target;
     private float sourceWidth, sourceHeight, targetWidth, targetHeight;
-    private boolean sourceImage, targetImage, disposed, running, navigationImage;
+    private boolean sourceImage, targetImage, disposed, running, navigationImage, borrowedTarget;
+    private double[] interactiveStart, interactiveEnd;
     private View destination;
     private final double[] pose = new double[10], velocity = new double[10];
     private double[][] times, values;
@@ -73,6 +74,7 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
         catch (OutOfMemoryError error) { return null; }
         int visibility=view.getVisibility();
         try { view.setVisibility(VISIBLE); view.draw(new Canvas(bitmap)); }
+        catch (RuntimeException | OutOfMemoryError error) { bitmap.recycle(); return null; }
         finally { view.setVisibility(visibility); }
         return bitmap;
     }
@@ -135,6 +137,40 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
         destination=view; destinationFrame=rect; hide(view);
         try { return new JSONArray(new double[]{rect.left/density,rect.top/density,rect.width()/density,rect.height()/density,radius*rect.width()/view.getWidth()}).toString(); } catch(JSONException error) { throw new IllegalStateException(error); }
     }
+    static final class Anchor {
+        Bitmap bitmap; boolean image; double[] geometry; float width,height;
+        void dispose() { if(!image && bitmap!=null)bitmap.recycle(); bitmap=null; }
+        long pixels() { return bitmap==null?0:(long)bitmap.getWidth()*bitmap.getHeight(); }
+    }
+    static Anchor anchor(View view, boolean image, double radius, double budget) {
+        if(view==null || !(view.getRootView() instanceof ViewGroup) || view.getVisibility()!=VISIBLE)return null;
+        SharedLayoutFlight probe=new SharedLayoutFlight(view);
+        RectF rect=probe.geometry(view); if(!probe.visibleBounds(view,rect))return null;
+        Anchor a=new Anchor(); a.image=image; a.width=rect.width(); a.height=rect.height();
+        if(image) {
+            a.geometry=probe.navigationGeometry(view,radius); if(a.geometry==null)return null;
+            a.bitmap=((BitmapDrawable)((ImageView)view).getDrawable()).getBitmap();
+            if(a.pixels()>budget)return null;
+        } else {
+            a.bitmap=probe.snapshot(view,(long)budget); if(a.bitmap==null)return null;
+            a.geometry=new double[]{rect.left/probe.density,rect.top/probe.density,rect.width()/probe.density,rect.height()/probe.density,radius*rect.width()/view.getWidth()};
+        }
+        return a;
+    }
+    boolean prepareAnchor(Anchor anchor, double budget) {
+        if(disposed || anchor==null || anchor.bitmap==null || navigationImage!=anchor.image || pixels()+anchor.pixels()>budget)return false;
+        if(navigationImage && Math.abs((double)source.getWidth()/source.getHeight()-(double)anchor.bitmap.getWidth()/anchor.bitmap.getHeight())>.001)return false;
+        target=anchor.bitmap; borrowedTarget=true; targetWidth=anchor.width; targetHeight=anchor.height; targetImage=false;
+        interactiveStart=pose.clone(); interactiveEnd=pose.clone();
+        for(int i=0;i<anchor.geometry.length;i++)interactiveEnd[i<5?i:i+1]=anchor.geometry[i];
+        interactiveEnd[5]=1; return true;
+    }
+    void updateInteractive(double progress) {
+        if(disposed || interactiveStart==null)return;
+        double p=Math.max(0,Math.min(1,Double.isFinite(progress)?progress:0));
+        for(int i=0;i<pose.length;i++)pose[i]=interactiveStart[i]+(interactiveEnd[i]-interactiveStart[i])*p;
+        invalidate();
+    }
     public boolean freeze(double maxPixels) {
         if(disposed) return false;
         if(running) evaluate(android.os.SystemClock.uptimeMillis());
@@ -144,7 +180,7 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
         Bitmap bitmap;
         try { bitmap=Bitmap.createBitmap(w,h,Bitmap.Config.ARGB_8888); } catch(OutOfMemoryError error) { return false; }
         Canvas canvas=new Canvas(bitmap); canvas.translate((float)-pose[0]*density,(float)-pose[1]*density); render(canvas);
-        if(source!=null) source.recycle(); if(target!=null) target.recycle();
+        if(source!=null && !navigationImage) source.recycle(); if(target!=null && !borrowedTarget) target.recycle();
         source=bitmap; target=null; sourceWidth=(float)pose[2]*density; sourceHeight=(float)pose[3]*density; sourceImage=false; pose[5]=0;
         destination=null; invalidate(); return true;
     }
@@ -207,6 +243,6 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
         if(disposed)return; disposed=true; running=false; listener=null;
         Choreographer.getInstance().removeFrameCallback(this); root.getOverlay().remove(this); active--;
         for(Map.Entry<View,Integer> entry:hidden.entrySet()) if(entry.getKey().getVisibility()==INVISIBLE)entry.getKey().setVisibility(entry.getValue()); hidden.clear();
-        if(!navigationImage) { if(source!=null)source.recycle(); if(target!=null)target.recycle(); } source=null;target=null;destination=null;
+        if(!navigationImage) { if(source!=null)source.recycle(); if(target!=null && !borrowedTarget)target.recycle(); } source=null;target=null;destination=null;
     }
 }

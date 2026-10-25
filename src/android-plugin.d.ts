@@ -446,6 +446,7 @@ declare namespace org.rafaelaugusto.jolt {
 
 declare namespace org.rafaelaugusto.jolt {
   class PredictiveBackSession {
+    setSharedScene(scene: SharedNavigationScene): void
     static attach(
       view: android.view.View,
       options: string,
@@ -468,5 +469,26 @@ declare namespace org.rafaelaugusto.jolt {
         onState(state: number, progress: number, velocity: number, edge: number): void
       })
     }
+  }
+}
+
+declare namespace org.rafaelaugusto.jolt {
+  class SharedNavigationScene {
+    getFailureReason(): string
+    pixels(): number
+    static capture(
+      source: android.view.View,
+      page: android.view.View,
+      image: boolean,
+      radius: number,
+      budget: number,
+    ): SharedNavigationScene | null
+    static retainedCount(): number
+    static activeCount(): number
+    static retainedPixelCount(): number
+    bind(view: android.view.View, radius: number): void
+    validSource(): boolean
+    isAnimating(): boolean
+    dispose(): void
   }
 }

@@ -2,6 +2,7 @@ import { createRouter } from 'vue-router-ns'
 import SharedNavigationDetail from './SharedNavigationDetail.vue'
 import InteractiveNavigationDetail from './InteractiveNavigationDetail.vue'
 import PredictiveBackDetail from './PredictiveBackDetail.vue'
+import SharedEntryDetail from './SharedEntryDetail.vue'
 import Home from './Home.vue'
 import Collection from './Collection.vue'
 import Example from './Example.vue'
@@ -10,6 +11,11 @@ import Appearance from './Appearance.vue'
 
 export const router = createRouter({
   routes: [
+    {
+      path: '/shared-entry/:mode',
+      name: 'shared-entry-detail',
+      component: SharedEntryDetail,
+    },
     {
       path: '/predictive-back',
       name: 'predictive-back-detail',

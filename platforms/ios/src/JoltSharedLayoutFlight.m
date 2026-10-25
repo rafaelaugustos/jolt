@@ -2,7 +2,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface JoltSharedLayoutFlight () {
-    double _pose[10], _velocity[10];
+    double _pose[10], _velocity[10], _interactiveStart[10], _interactiveEnd[10];
 }
 @property(nonatomic) BOOL navigationImage;
 @property(nonatomic,weak) UIWindow *host;
@@ -142,6 +142,22 @@ static BOOL JoltSharedUnsupported(UIView *view) {
     for(NSDictionary *track in self.tracks)self.duration=MAX(self.duration,[[track[@"times"] lastObject] doubleValue]);
     self.onEnd=onEnd; self.started=CACurrentMediaTime()*1000;
     self.clock=[CADisplayLink displayLinkWithTarget:self selector:@selector(tick:)]; [self.clock addToRunLoop:NSRunLoop.mainRunLoop forMode:NSRunLoopCommonModes];
+}
+- (BOOL)beginInteractive:(NSString *)geometry {
+    if(self.disposed || self.clock || !geometry)return NO;
+    NSArray *target=[NSJSONSerialization JSONObjectWithData:[geometry dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+    if(![target isKindOfClass:NSArray.class] || target.count!=(self.navigationImage?9:5))return NO;
+    for(id value in target)if(![value isKindOfClass:NSNumber.class] || !isfinite([value doubleValue]))return NO;
+    for(int i=0;i<10;i++) { _interactiveStart[i]=_pose[i]; _interactiveEnd[i]=_pose[i]; }
+    for(int i=0;i<target.count;i++)_interactiveEnd[i<5?i:i+1]=[target[i] doubleValue];
+    _interactiveEnd[5]=1;
+    return YES;
+}
+- (void)updateInteractive:(double)progress {
+    if(self.disposed)return;
+    double p=MAX(0,MIN(1,isfinite(progress)?progress:0));
+    for(int i=0;i<10;i++)_pose[i]=_interactiveStart[i]+(_interactiveEnd[i]-_interactiveStart[i])*p;
+    [self setNeedsDisplay];
 }
 - (void)evaluate:(double)now {
     double elapsed=MAX(0,now-self.started);

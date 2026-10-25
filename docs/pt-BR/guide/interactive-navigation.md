@@ -58,4 +58,4 @@ Redução de movimento desabilita o gesto e conclui imediatamente a animação p
 
 Mantenha o conteúdo visual da página anterior montado enquanto ela estiver no histórico: a volta interativa mostra essa página **antes** de `navigatedTo`. Reconstruir tudo apenas nesse evento deixa a prévia vazia.
 
-Esta API anima páginas inteiras do Frame. Não acrescenta morph interativo de elementos à [navegação compartilhada](./shared-navigation), modais nativos arbitrários, gesto em tela inteira nem realização automática de views recicladas. Ofereça o botão de voltar como alternativa acessível. Veja a [validação nativa](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/interactive-navigation.md).
+Por padrão, esta API anima páginas inteiras do Frame. Para imagem/cartão com o mesmo progresso nativo, use a composição [gestos compartilhados](./shared-gestures). Modais nativos arbitrários, gesto em tela inteira e realização automática de views recicladas continuam fora deste contrato. Ofereça o botão de voltar como alternativa acessível. Veja a [validação nativa](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/interactive-navigation.md).

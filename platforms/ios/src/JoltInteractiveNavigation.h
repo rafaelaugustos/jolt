@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly) BOOL interactive;
 @property(nonatomic, readonly) double progress;
 @property(nonatomic, readonly) double velocity;
+@property(nonatomic) BOOL sharedEnabled;
+- (BOOL)prepareSharedFrom:(UIView *)from to:(UIView *)to image:(BOOL)image fromRadius:(double)fromRadius toRadius:(double)toRadius maxPixels:(double)maxPixels;
 - (void)prepareOperation:(NSInteger)operation presented:(UIViewController *)presented reduced:(BOOL)reduced timeScale:(double)timeScale;
 - (void)sync;
 - (void)cancel;

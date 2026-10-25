@@ -2,7 +2,7 @@
 
 `sharedNavigation(frame)` conecta **uma imagem estática ou um card simples** entre duas páginas no mesmo Frame do NativeScript. Uma camada nativa anima posição, tamanho e recorte arredondado. Imagens também interpolam o retângulo do conteúdo, inclusive de `aspectFill` para `aspectFit`. O conteúdo dos cards faz crossfade sem esticar o texto.
 
-Disponível neste checkout para a próxima beta; **não faz parte da beta.18**. Recompile o aplicativo nativo depois de instalar esta versão. Esta é a primeira entrega da [#24](https://github.com/rafaelaugustos/jolt/issues/24): ida e volta programáticas. Dismiss interativo no iOS, predictive back no Android e galerias recicladas continuam separados.
+Disponível neste checkout para a próxima beta; **não faz parte da beta.18**. Recompile o aplicativo nativo depois de instalar esta versão. Esta é a primeira entrega da [#24](https://github.com/rafaelaugustos/jolt/issues/24): ida e volta programáticas. Para volta interativa nativa de imagem/cartão no iOS e Android 14+, use [gestos compartilhados](./shared-gestures). Galerias recicladas continuam para outra etapa.
 
 <Clip name="shared-navigation-ios" caption="Simulador iOS 26.2: toques reais via XCTest abrem uma foto e um card de passe diário, depois voltam pelo vue-router-ns. Reprodução nativa do Jolt na velocidade original. Não é medição de desempenho em aparelho físico." />
 <Clip name="shared-navigation-pt-ios" caption="Simulador iOS 26.2: a mesma navegação da foto e do card em português, com toques reais via XCTest e velocidade original." />
@@ -92,3 +92,5 @@ Rotação, movimento/unload do destino, outra navegação, suspensão do app, at
 A preparação pode chamar JavaScript. A reprodução usa tracks amostradas do Jolt em `CADisplayLink` / `Choreographer`, sem callback JavaScript nem cópia de bitmap por frame. A integração usa as tags e a fronteira de navegação do Frame, em vez do helper de timing de `SharedTransition`, cujo spring/recorte por plataforma não representa este contrato de forma equivalente. **Não** é um adaptador do zoom do UIKit no iOS 18 e não equipara seus parâmetros internos à física do Jolt.
 
 O orçamento combinado padrão é de 8 milhões de pixels (cerca de 32 MB RGBA), com máximo de 32 milhões. As esperas têm prazo e a reprodução nativa tem limite de 30 segundos. Descarte o controlador ao abandonar o Frame; seu unload faz isso automaticamente. Para mudanças dentro da mesma página, use [shared-layout](./shared-layout).
+
+Para imagens/cartões ligados ao gesto nativo de voltar em páginas estáveis, use [gestos compartilhados](./shared-gestures).

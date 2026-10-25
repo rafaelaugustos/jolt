@@ -58,4 +58,4 @@ The `state` is `ready`, `animating`, `idle`, `dragging`, `finishing`, `cancellin
 
 Keep the previous page's visible content mounted while it is in the Frame's back stack: interactive return previews it **before** `navigatedTo`. Rebuilding everything only on that event produces an empty preview.
 
-This API animates whole Frame pages. It does not add interactive shared-element morphs to [shared navigation](./shared-navigation), arbitrary native modals, full-screen swipe gestures, or automatic realization of recycled views. Use a normal back button as an accessible alternative. See [native validation](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/interactive-navigation.md).
+By default this API animates whole Frame pages. For image/card motion on the same native progress, use the [shared gestures](./shared-gestures) composition. Arbitrary native modals, full-screen swipe gestures and automatic realization of recycled views remain outside this contract. Use a normal back button as an accessible alternative. See [native validation](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/interactive-navigation.md).

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add `sharedNavigationEntry` in the optional shared-navigation entry: native interactive image/card return on stable iOS and Android 14+ pages, cancellable gestures, guarded single commits, bounded snapshots and lifecycle cleanup. Include the 63rd bilingual preview and real EN/PT iOS/Android recordings. Rebuild the native app. Recycled/offscreen targets and gallery coordination remain follow-ups to #24.
+
 - Add optional `@rafaelaugusto/jolt/predictive-back` for Android 14+: system-owned edge progress and commit decisions, native Jolt spring settlement, one guarded application commit, reduced motion and lifecycle cleanup. Include the 62nd bilingual preview, real Android recordings and a tracked demo manifest opt-in. Rebuild the native application.
 
 - Add optional `@rafaelaugusto/jolt/interactive-navigation` for iOS Frame pages: native edge-swipe progress, cancellable return and velocity-preserving Jolt spring completion through Core's existing delegate. Include router integration, nested-entry cleanup, reduced motion, the 61st bilingual preview and real iOS recordings. Rebuild the native app. Shared-element morphs, arbitrary modals and Android predictive back remain separate.

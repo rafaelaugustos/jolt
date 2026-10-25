@@ -2,7 +2,7 @@
 
 `sharedNavigation(frame)` connects **one static image or plain card** across two pages in the same NativeScript Frame. A single native overlay carries its position, size and rounded clip; images also interpolate their displayed content rectangle, including `aspectFill` → `aspectFit`. Card contents crossfade without stretching text.
 
-Available in this checkout for the next beta; **not included in beta.18**. Rebuild the native application after installing this version. This is the first delivery of [#24](https://github.com/rafaelaugustos/jolt/issues/24): programmatic forward/back navigation. Interactive iOS dismiss, Android predictive back and recycled galleries remain separate work.
+Available in this checkout for the next beta; **not included in beta.18**. Rebuild the native application after installing this version. This is the first delivery of [#24](https://github.com/rafaelaugustos/jolt/issues/24): programmatic forward/back navigation. For native interactive image/card return on iOS and Android 14+, use [shared gestures](./shared-gestures). Recycled galleries remain follow-up work.
 
 <Clip name="shared-navigation-ios" caption="iOS 26.2 simulator: real XCTest taps open a photo and a plain day-pass card, then return through vue-router-ns. Native Jolt playback; original speed. Not physical-device performance evidence." />
 <Clip name="shared-navigation-pt-ios" caption="iOS 26.2 simulator: the same photo/card navigation in Portuguese, using real XCTest taps and original timing." />
@@ -92,3 +92,5 @@ Rotation, destination movement/unload, another navigation, app suspension, reduc
 Preparation can call JavaScript. Playback uses sampled Jolt tracks on native `CADisplayLink` / Android `Choreographer`, with no JavaScript callback or bitmap copy per frame. This uses Core's tags and Frame navigation boundary rather than Core's `SharedTransition` timing helper, whose platform-specific spring/crop behavior cannot express this contract consistently. It is **not** an adapter around iOS 18 UIKit zoom, and it makes no claim that opaque UIKit spring parameters equal Jolt physics.
 
 The default combined capture budget is 8 million pixels (about 32 MB RGBA), capped at 32 million. Each wait is bounded; native playback is capped at 30 seconds. Dispose the owner when abandoning the Frame; Frame unload disposes it automatically. Use the [shared-layout API](./shared-layout) for changes within one page.
+
+For image/card motion tied to native back gestures on stable pages, use [shared gestures](./shared-gestures).
