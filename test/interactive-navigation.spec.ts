@@ -6,7 +6,7 @@ import {
 } from '../src/interactive-navigation/index.js'
 import { configure } from '../src/config.js'
 import { View } from './shims/core.js'
-import './helpers.js'
+import { driver, flush } from './helpers.js'
 
 vi.mock('@nativescript/core', async (original) => {
   const core = await original<typeof import('./shims/core.js')>()
@@ -35,6 +35,8 @@ let begins: () => boolean, event: (event: number) => void
 let native: {
   interactive: boolean
   sharedEnabled?: boolean
+  sharedDeferred?: boolean
+  completeSharedPreparation: ReturnType<typeof vi.fn>
   prepareSharedFromToImageFromRadiusToRadiusMaxPixels: ReturnType<typeof vi.fn>
   prepareOperationPresentedReducedTimeScale: ReturnType<typeof vi.fn>
   sync: ReturnType<typeof vi.fn>
@@ -45,6 +47,7 @@ beforeEach(() => {
   configure({ reducedMotion: 'never' })
   native = {
     interactive: false,
+    completeSharedPreparation: vi.fn(),
     prepareSharedFromToImageFromRadiusToRadiusMaxPixels: vi.fn(() => true),
     prepareOperationPresentedReducedTimeScale: vi.fn(),
     sync: vi.fn(),
@@ -156,6 +159,65 @@ describe('interactive Frame entry ownership', () => {
     )
   })
 
+  it('defers return presentation until the current cell is resolved after layout', async () => {
+    let release!: (v: any) => void
+    const f = fixture({
+      shared: {
+        tag: 'photo',
+        returnTarget: { key: '42', resolve: () => new Promise((r) => (release = r)) },
+      },
+    })
+    const current = Object.assign(new View(), { sharedTransitionTag: 'photo' })
+    f.from.children = [current]
+    f.page.children = [Object.assign(new View(), { sharedTransitionTag: 'photo' })]
+    f.push()
+    f.transition.iosNavigatedController!(f.nav, 2, f.page.ios, f.from.ios)
+    event(8)
+    expect(native.sharedDeferred).toBe(true)
+    expect(native.completeSharedPreparation).not.toHaveBeenCalled()
+    driver.layout()
+    await flush()
+    release(current)
+    await flush()
+    driver.layout()
+    await flush()
+    expect(
+      native.prepareSharedFromToImageFromRadiusToRadiusMaxPixels,
+    ).toHaveBeenLastCalledWith(
+      f.page.children[0]!.nativeViewProtected,
+      current.nativeViewProtected,
+      false,
+      0,
+      0,
+      8_000_000,
+    )
+    expect(native.completeSharedPreparation).toHaveBeenCalledOnce()
+  })
+  it('ignores a return resolver that settles after native cancellation', async () => {
+    let release!: (v: any) => void
+    const f = fixture({
+      shared: {
+        tag: 'photo',
+        returnTarget: { key: '42', resolve: () => new Promise((r) => (release = r)) },
+      },
+    })
+    const current = Object.assign(new View(), { sharedTransitionTag: 'photo' })
+    f.from.children = [current]
+    f.push()
+    f.transition.iosNavigatedController!(f.nav, 2, f.page.ios, f.from.ios)
+    event(8)
+    driver.layout()
+    await flush()
+    event(6)
+    release(current)
+    await flush()
+    driver.layout()
+    await flush()
+    expect(native.completeSharedPreparation).not.toHaveBeenCalled()
+    expect(
+      native.prepareSharedFromToImageFromRadiusToRadiusMaxPixels,
+    ).not.toHaveBeenCalled()
+  })
   it('uses Core transition hooks without replacing its navigation delegate', () => {
     const f = fixture(),
       delegate = f.nav.delegate

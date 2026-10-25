@@ -1,3 +1,4 @@
+import ReturnPhotoDetail from './ReturnPhotoDetail.vue'
 import { createRouter } from 'vue-router-ns'
 import SharedNavigationDetail from './SharedNavigationDetail.vue'
 import InteractiveNavigationDetail from './InteractiveNavigationDetail.vue'
@@ -11,6 +12,7 @@ import Appearance from './Appearance.vue'
 
 export const router = createRouter({
   routes: [
+    { path: '/return-photo/:key', name: 'return-photo', component: ReturnPhotoDetail },
     {
       path: '/shared-entry/:mode',
       name: 'shared-entry-detail',

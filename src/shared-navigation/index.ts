@@ -1,8 +1,18 @@
+import { ReturnScope } from './return-signal.js'
 import { Application, Image, type Frame, type Page } from '@nativescript/core'
 import { find, radius, supportedImage } from './targets.js'
 import { reducedMotion, onReducedMotion } from '../config.js'
 import { getDriver } from '../driver/index.js'
 import { capture, captureNavigationImage, type Flight } from '../shared-layout/native.js'
+import {
+  resolveReturnTarget,
+  validateReturnTarget,
+  focusReturnTarget,
+  type SharedReturnTarget,
+} from './return-target.js'
+export { resolveListTarget } from './return-target.js'
+export type { SharedReturnSignal } from './return-signal.js'
+export type { SharedReturnContext, SharedReturnTarget } from './return-target.js'
 import { timing, tracks } from '../shared-layout/timing.js'
 import type {
   SharedLayoutOptions,
@@ -22,6 +32,12 @@ export interface SharedNavigationOptions extends SharedLayoutOptions {
   navigationTimeout?: number
 }
 export interface SharedNavigationRequest {
+  /** Resolve the current return view after the destination page has been mounted. */
+  returnTarget?: SharedReturnTarget
+  /** Retain the visible source page while the return target is realized (within the pixel budget). */
+  holdSource?: boolean
+  /** Called after native capture, before route mutation; useful for releasing a held viewer pose. */
+  onCaptured?: () => void
   /** Optional lower per-flight budget when another native presentation retains pixels. */
   maxSnapshotPixels?: number
   /** Match exactly one sharedTransitionTag on each page in this Frame. */
@@ -83,6 +99,7 @@ export function sharedNavigation(
         throw new TypeError('A nonempty sharedTransitionTag is required.')
       if (typeof request.navigate !== 'function')
         throw new TypeError('A navigation callback is required.')
+      validateReturnTarget(request.returnTarget)
       const requestedBudget = request.maxSnapshotPixels ?? budget
       if (
         !Number.isSafeInteger(requestedBudget) ||
@@ -108,9 +125,13 @@ export function sharedNavigation(
       const finished = new Promise<SharedNavigationResult>((resolve) => {
         settle = resolve
       })
+      const targetScope = new ReturnScope()
+      let resolvedTarget: import('@nativescript/core').View | undefined
+      let fallbackRunning = false
       let ended = false,
         navigated = false,
         navigationStarted = false
+      let detachIdentity: (() => void) | undefined
       let flight: Flight | undefined, detach: (() => void) | undefined
       let timer: ReturnType<typeof setTimeout> | undefined
       let destination: Page | undefined
@@ -122,9 +143,29 @@ export function sharedNavigation(
         error?: unknown,
       ) => {
         if (ended) return
+        if (
+          !fallbackRunning &&
+          flight?.fade &&
+          navigated &&
+          status === 'unavailable' &&
+          request.returnTarget &&
+          !targetScope.signal.aborted &&
+          !reducedMotion()
+        ) {
+          fallbackRunning = true
+          targetScope.abort()
+          detach?.()
+          detach = undefined
+          if (timer !== undefined) clearTimeout(timer)
+          timer = setTimeout(() => finish(status, reason, error), 500)
+          flight.fade(180, () => finish(status, reason, error))
+          return
+        }
         ended = true
+        targetScope.abort()
         if (timer !== undefined) clearTimeout(timer)
         detach?.()
+        detachIdentity?.()
         frame.off('navigatingTo', navigating)
         frame.off('navigatedTo', arrived)
         destination?.off('unloaded', targetUnloaded)
@@ -132,6 +173,14 @@ export function sharedNavigation(
         flight = undefined
         cancel = undefined
         if (state !== 'disposed') state = 'idle'
+        if (navigated && destination && request.returnTarget) {
+          let target = resolvedTarget
+          if (!target)
+            try {
+              target = request.returnTarget.fallbackFocus?.(destination)
+            } catch {}
+          focusReturnTarget(destination, target)
+        }
         settle({
           status,
           navigated,
@@ -152,7 +201,7 @@ export function sharedNavigation(
         if (navigationStarted) finish('cancelled', 'navigation-interrupted')
         navigationStarted = true
       }
-      const sources = find(sourcePage, request.tag)
+      const sources = find(sourcePage, request.tag, true)
       const source = sources[0]
       const image = source instanceof Image
       const imageSrc = image ? source.src : undefined
@@ -165,19 +214,43 @@ export function sharedNavigation(
           finish('unavailable', 'route-unchanged')
           return
         }
-        if (unavailable) {
+        if (unavailable && !request.returnTarget) {
           finish('unavailable', unavailable)
           return
         }
-        if (!destination || !flight) {
+        if (!destination || (!flight && !request.returnTarget)) {
           finish('unavailable', 'missing-target')
           return
         }
         destination.on('unloaded', targetUnloaded)
-        bound(layoutTimeout, 'unavailable', 'layout-timeout')
+        bound(
+          request.returnTarget
+            ? (request.returnTarget.timeout ?? 1500) + 100
+            : layoutTimeout,
+          'unavailable',
+          'layout-timeout',
+        )
         // Vue can mount the returning page's contents in its navigatedTo hook.
-        void Promise.resolve().then(() => {
+        void Promise.resolve().then(async () => {
           if (ended || !destination) return
+          if (request.returnTarget) {
+            const result = await resolveReturnTarget(
+              request.returnTarget,
+              request.tag,
+              destination,
+              targetScope.signal,
+            )
+            if (ended || targetScope.signal.aborted) return
+            resolvedTarget = result.view
+            if (result.reason) {
+              finish('unavailable', result.reason)
+              return
+            }
+            if (unavailable || !flight) {
+              finish('unavailable', unavailable ?? 'unsupported-source')
+              return
+            }
+          }
           try {
             const driver = getDriver()
             if (!driver.afterLayout) {
@@ -187,7 +260,7 @@ export function sharedNavigation(
             detach = driver.afterLayout(destination, () => {
               if (ended || !flight) return
               try {
-                const targets = find(destination, request.tag)
+                const targets = find(destination, request.tag, true)
                 if (targets.length !== 1) {
                   finish(
                     'unavailable',
@@ -196,6 +269,10 @@ export function sharedNavigation(
                   return
                 }
                 const target = targets[0]!
+                if (request.returnTarget && target !== resolvedTarget) {
+                  finish('unavailable', 'stale-target')
+                  return
+                }
                 if (
                   image &&
                   (!supportedImage(target) ||
@@ -207,6 +284,18 @@ export function sharedNavigation(
                 if (!image && target instanceof Image) {
                   finish('unavailable', 'content-mismatch')
                   return
+                }
+                const identityChanged = () =>
+                  finish('cancelled', 'target-identity-changed')
+                const identityEvents = [
+                  'bindingContextChange',
+                  'sharedTransitionTagChange',
+                  'imageSourceChange',
+                  'unloaded',
+                ]
+                for (const event of identityEvents) target.on(event, identityChanged)
+                detachIdentity = () => {
+                  for (const event of identityEvents) target.off(event, identityChanged)
                 }
                 const geometry = flight.prepare(
                   target,
@@ -256,10 +345,19 @@ export function sharedNavigation(
               ? captureNavigationImage(source!, radius(source!), flightBudget)
               : capture(source!, false, radius(source!), flightBudget)
             if (!flight) unavailable = 'unsupported-source'
+            else if (
+              request.holdSource &&
+              !flight.holdPage?.(sourcePage!, flightBudget)
+            ) {
+              flight.dispose()
+              flight = undefined
+              unavailable = 'unsupported-source-page'
+            }
           } catch {
             unavailable = 'native-unavailable'
           }
         }
+        if (flight) request.onCaptured?.()
         frame.on('navigatingTo', navigating)
         frame.on('navigatedTo', arrived)
         bound(navigationTimeout, 'unavailable', 'navigation-timeout')

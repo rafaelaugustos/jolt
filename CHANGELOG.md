@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Resolve shared return targets by stable item key after scrolling, recycling and reordering, with bounded async preparation, cancellation, deleted-item fade and current-item accessibility focus. Add a Core ListView adapter, the 64th bilingual preview and real EN/PT native recordings. Android resolves the live destination after system commitment; iOS defers the shared pair until ready. Rebuild the native app. Physical-device acceptance remains open in #24.
+
 - Add `sharedNavigationEntry` in the optional shared-navigation entry: native interactive image/card return on stable iOS and Android 14+ pages, cancellable gestures, guarded single commits, bounded snapshots and lifecycle cleanup. Include the 63rd bilingual preview and real EN/PT iOS/Android recordings. Rebuild the native app. Recycled/offscreen targets and gallery coordination remain follow-ups to #24.
 
 - Add optional `@rafaelaugusto/jolt/predictive-back` for Android 14+: system-owned edge progress and commit decisions, native Jolt spring settlement, one guarded application commit, reduced motion and lifecycle cleanup. Include the 62nd bilingual preview, real Android recordings and a tracked demo manifest opt-in. Rebuild the native application.

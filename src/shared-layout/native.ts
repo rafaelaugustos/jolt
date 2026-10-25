@@ -4,6 +4,8 @@ export interface Flight {
   pixels(): number
   state(): string
   prepare(view: View, image: boolean, radius: number, budget: number): string | null
+  holdPage?(page: View, budget: number): boolean
+  fade?(duration: number, complete: (finished: boolean) => void): void
   freeze(budget: number): boolean
   play(tracks: string, complete: (finished: boolean) => void): void
   dispose(): void
@@ -25,6 +27,9 @@ export function capture(
     )
     if (!flight) return
     return {
+      holdPage: (page, budget) =>
+        flight.holdPageMaxPixels(page.nativeViewProtected, budget),
+      fade: (duration, done) => flight.fadeOnEnd(duration, done),
       pixels: () => flight.pixels(),
       state: () => flight.state(),
       prepare: (target, image, radius, budget) =>
@@ -44,6 +49,12 @@ export function capture(
   const flight = Native.capture(view.nativeViewProtected, image, radius, budget)
   if (!flight) return
   return {
+    holdPage: (page, budget) => flight.holdPage(page.nativeViewProtected, budget),
+    fade: (duration, done) =>
+      flight.fade(
+        duration,
+        new org.rafaelaugusto.jolt.SharedLayoutFlight.Listener({ onEnd: done }),
+      ),
     pixels: () => flight.pixels(),
     state: () => flight.state(),
     prepare: (target, image, radius, budget) =>
@@ -77,6 +88,9 @@ export function captureNavigationImage(
     )
     if (!flight) return
     return {
+      holdPage: (page, budget) =>
+        flight.holdPageMaxPixels(page.nativeViewProtected, budget),
+      fade: (duration, done) => flight.fadeOnEnd(duration, done),
       pixels: () => flight.pixels(),
       state: () => flight.state(),
       prepare: (target, _image, radius, budget) =>
@@ -96,6 +110,12 @@ export function captureNavigationImage(
   const flight = Native.captureNavigationImage(view.nativeViewProtected, radius, budget)
   if (!flight) return
   return {
+    holdPage: (page, budget) => flight.holdPage(page.nativeViewProtected, budget),
+    fade: (duration, done) =>
+      flight.fade(
+        duration,
+        new org.rafaelaugusto.jolt.SharedLayoutFlight.Listener({ onEnd: done }),
+      ),
     pixels: () => flight.pixels(),
     state: () => flight.state(),
     prepare: (target, _image, radius, budget) =>

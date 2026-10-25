@@ -1,11 +1,21 @@
 import { Image, type Page, type View } from '@nativescript/core'
 
-export function find(page: Page | undefined, tag: string): View[] {
+export function attached(view: View): boolean {
+  if (!view.nativeViewProtected) return false
+  return typeof view.getLocationInWindow === 'function'
+    ? view.getLocationInWindow() !== undefined
+    : view.isLoaded
+}
+export function find(page: Page | undefined, tag: string, attachedOnly = false): View[] {
   const matches: View[] = []
   const visit = (view: View) => {
     // Nested Frames own their own identities and navigation.
     if (view !== page && (view.typeName === 'Frame' || view.typeName === 'Page')) return
-    if (view.sharedTransitionTag === tag && !view.sharedTransitionIgnore)
+    if (
+      view.sharedTransitionTag === tag &&
+      !view.sharedTransitionIgnore &&
+      (!attachedOnly || attached(view))
+    )
       matches.push(view)
     view.eachChildView((child) => {
       visit(child)

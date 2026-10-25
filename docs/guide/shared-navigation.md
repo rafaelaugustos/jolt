@@ -2,7 +2,7 @@
 
 `sharedNavigation(frame)` connects **one static image or plain card** across two pages in the same NativeScript Frame. A single native overlay carries its position, size and rounded clip; images also interpolate their displayed content rectangle, including `aspectFill` → `aspectFit`. Card contents crossfade without stretching text.
 
-Available in this checkout for the next beta; **not included in beta.18**. Rebuild the native application after installing this version. This is the first delivery of [#24](https://github.com/rafaelaugustos/jolt/issues/24): programmatic forward/back navigation. For native interactive image/card return on iOS and Android 14+, use [shared gestures](./shared-gestures). Recycled galleries remain follow-up work.
+Available in this checkout for the next beta; **not included in beta.18**. Rebuild the native application after installing this version. This is the first delivery of [#24](https://github.com/rafaelaugustos/jolt/issues/24): programmatic forward/back navigation. For native interactive image/card return on iOS and Android 14+, use [shared gestures](./shared-gestures). For recycled/offscreen list cells, add a [return-target resolver](./return-targets).
 
 <Clip name="shared-navigation-ios" caption="iOS 26.2 simulator: real XCTest taps open a photo and a plain day-pass card, then return through vue-router-ns. Native Jolt playback; original speed. Not physical-device performance evidence." />
 <Clip name="shared-navigation-pt-ios" caption="iOS 26.2 simulator: the same photo/card navigation in Portuguese, using real XCTest taps and original timing." />

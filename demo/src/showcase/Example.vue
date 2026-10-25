@@ -29,9 +29,12 @@ function clean() {
 function leave() {
   // An interactive pop previews the retained page before navigatedTo commits.
   if (
-    ['interactive-navigation', 'predictive-back', 'shared-entry'].includes(
-      example?.id ?? '',
-    )
+    [
+      'interactive-navigation',
+      'predictive-back',
+      'shared-entry',
+      'return-targets',
+    ].includes(example?.id ?? '')
   )
     return
   mounted.value = false

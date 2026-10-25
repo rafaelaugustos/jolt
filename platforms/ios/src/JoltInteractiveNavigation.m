@@ -21,7 +21,8 @@
 @property(nonatomic) NSInteger operation;
 @property(nonatomic) NSNumber *pendingEnd;
 @property(nonatomic, readwrite) BOOL interactive;
-@property(nonatomic) BOOL reduced, settling, committed, disposed, suppressed;
+@property(nonatomic) BOOL reduced, settling, committed, disposed, suppressed, sharedPending;
+@property(nonatomic) double pendingStarted, rawProgress, gestureOffset;
 @end
 
 @implementation JoltInteractiveNavigation
@@ -71,7 +72,7 @@ static NSUInteger active = 0, recognizers = 0;
 }
 - (void)pan:(UIScreenEdgePanGestureRecognizer *)pan {
     if (pan.state == UIGestureRecognizerStateBegan) {
-        self.pendingEnd = nil;
+        self.pendingEnd = nil;self.rawProgress=0;self.gestureOffset=0;
         self.interactive = YES;
         if (self.onEvent) self.onEvent(2); // JS enters Core's interactive state and invokes its pop callback once.
         // UIKit may deliver startInteractiveTransition on the next main-loop turn.
@@ -81,10 +82,12 @@ static NSUInteger active = 0, recognizers = 0;
     double width = MAX(1, self.context ? self.bounds.size.width : self.navigation.view.bounds.size.width);
     double progress = MAX(0, MIN(1, [pan translationInView:self.navigation.view].x * self.direction / width));
     double velocity = [pan velocityInView:self.navigation.view].x * self.direction / width;
-    _spring = (JoltSpringState){progress, velocity};
+    self.rawProgress=progress;
+    double mapped=self.sharedPending?0:MAX(0,MIN(1,(progress-self.gestureOffset)/MAX(.01,1-self.gestureOffset)));
+    _spring = (JoltSpringState){mapped, velocity/MAX(.01,1-self.gestureOffset)};
     if (self.context) {
-        [self render:progress];
-        [self.context updateInteractiveTransition:progress];
+        [self render:_spring.position];
+        [self.context updateInteractiveTransition:_spring.position];
     }
     if (pan.state == UIGestureRecognizerStateEnded || pan.state == UIGestureRecognizerStateCancelled || pan.state == UIGestureRecognizerStateFailed) {
         BOOL finish = pan.state == UIGestureRecognizerStateEnded && progress + velocity * .16 > .5;
@@ -110,8 +113,12 @@ static NSUInteger active = 0, recognizers = 0;
     UIView *container = context.containerView;
     if (self.operation == UINavigationControllerOperationPush) [container addSubview:self.toView];
     else [container insertSubview:self.toView belowSubview:self.fromView];
-    [self.toView setNeedsLayout]; [self.toView layoutIfNeeded];
+    [self.toView setNeedsLayout];
+    // A recycled page may still be rebuilding its JS-backed data source. Let
+    // the deferred provider cross Core's layout boundary before forcing UIKit.
+    if(!self.sharedDeferred)[self.toView layoutIfNeeded];
     self.bounds = container.bounds;
+    self.sharedPending=self.sharedDeferred;self.pendingStarted=CACurrentMediaTime();
     // One setup callback after UIKit lays out both pages; subsequent progress stays native.
     if(self.sharedEnabled && self.onEvent)self.onEvent(8);
     self.shade = [[UIView alloc] initWithFrame:self.bounds];
@@ -124,7 +131,7 @@ static NSUInteger active = 0, recognizers = 0;
 - (void)startInteractiveTransition:(id<UIViewControllerContextTransitioning>)context {
     JoltSpringState held = _spring;
     [self prepare:context];
-    _spring = held; [self render:_spring.position];
+    _spring = self.sharedPending?(JoltSpringState){0,held.velocity}:held; [self render:_spring.position];
     [context updateInteractiveTransition:MAX(0, MIN(1, _spring.position))];
     [self startLink]; // Monitors resize/suspension while the finger is held; no JS display callbacks.
     if (self.pendingEnd || self.disposed) {
@@ -141,10 +148,17 @@ static NSUInteger active = 0, recognizers = 0;
     double p = MAX(0, MIN(1, progress)), width = self.bounds.size.width * self.direction;
     BOOL push = self.operation == UINavigationControllerOperationPush;
     [CATransaction begin]; [CATransaction setDisableActions:YES];
-    if(self.sharedFlight) {
+    if(self.sharedPending) {
+        self.fromView.transform=self.fromTransform;self.toView.transform=self.toTransform;self.fromView.alpha=self.fromAlpha;self.toView.alpha=self.toAlpha;self.shade.alpha=0;
+    } else if(self.sharedFlight) {
         self.fromView.alpha = self.fromAlpha * (push ? 1 : 1-p); self.toView.alpha = self.toAlpha * (push ? p : 1);
         self.shade.alpha = 0;
         [self.sharedFlight updateInteractive:p];
+    } else if(self.sharedDeferred && !push) {
+        // A missing/deleted recycled target fades to the live collection. Do
+        // not translate its table while Core is realizing replacement cells.
+        self.fromView.alpha=self.fromAlpha*(1-p);self.toView.alpha=self.toAlpha;
+        self.shade.alpha=0;
     } else {
         self.fromView.transform = CGAffineTransformConcat(self.fromTransform, CGAffineTransformMakeTranslation(width * (push ? -.25 * p : p), 0));
         self.toView.transform = CGAffineTransformConcat(self.toTransform, CGAffineTransformMakeTranslation(width * (push ? 1 - p : -.25 * (1 - p)), 0));
@@ -158,6 +172,13 @@ static NSUInteger active = 0, recognizers = 0;
     NSString *geometry=image?[flight prepareNavigationImage:to radius:toRadius maxPixels:maxPixels]:[flight prepare:to image:NO radius:toRadius maxPixels:maxPixels];
     if(!geometry || ![flight beginInteractive:geometry]) { [flight dispose]; return NO; }
     self.sharedFlight=flight; return YES;
+}
+- (void)completeSharedPreparation {
+    if(!self.context || !self.sharedPending)return;
+    self.sharedPending=NO;self.gestureOffset=self.rawProgress;
+    _spring.position=0;self.started=CACurrentMediaTime();self.previous=self.started;
+    [self render:0];
+    if(self.settling && self.reduced)[self finish];
 }
 - (void)startLink {
     if (self.link || !self.context) return;
@@ -179,11 +200,14 @@ static NSUInteger active = 0, recognizers = 0;
     }
     if (!self.context) return; // An observer may synchronously cancel/dispose at the release boundary.
     self.started = CACurrentMediaTime(); self.previous = self.started;
-    if (self.reduced || self.disposed) { [self finish]; return; }
+    if (self.sharedPending && !finish){self.sharedPending=NO;[self finish];return;}
+    if ((self.reduced && !self.sharedPending) || self.disposed) { [self finish]; return; }
     [self startLink];
 }
 - (void)tick:(CADisplayLink *)link {
     if (!CGRectEqualToRect(self.bounds, self.context.containerView.bounds) || !self.context.containerView.window) { [self cancel]; return; }
+    if(self.sharedFlight && ![self.sharedFlight destinationIsStable]) { [self cancel]; return; }
+    if(self.sharedPending){if(CACurrentMediaTime()-self.pendingStarted>5.1)[self completeSharedPreparation];else return;}
     if (!self.settling) return;
     double now = CACurrentMediaTime(), seconds = MAX(0, now - self.previous); self.previous = now;
     _spring = JoltSpringAdvance(_spring, self.target, self.stiffness * self.timeScale * self.timeScale, self.damping * self.timeScale, self.mass, seconds);
@@ -196,6 +220,7 @@ static NSUInteger active = 0, recognizers = 0;
     if (!self.context) return;
     [self.link invalidate]; self.link = nil;
     BOOL completed = self.committed, interactive = self.interactive;
+    self.sharedPending=NO;
     _spring = (JoltSpringState){completed ? 1 : 0, 0}; [self render:_spring.position];
     self.fromView.transform = self.fromTransform; self.toView.transform = self.toTransform;
     self.fromView.alpha = self.fromAlpha; self.toView.alpha = self.toAlpha;

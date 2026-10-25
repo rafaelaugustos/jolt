@@ -408,6 +408,8 @@ declare namespace org.rafaelaugusto.jolt {
 
 declare namespace org.rafaelaugusto.jolt {
   class SharedLayoutFlight extends android.view.View {
+    holdPage(page: android.view.View, maxPixels: number): boolean
+    fade(duration: number, listener: SharedLayoutFlight.Listener): void
     static captureNavigationImage(
       view: android.view.View,
       radius: number,

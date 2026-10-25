@@ -19,6 +19,7 @@ import { nativeBackSessions } from '../predictive-back/presentation.js'
 import { springs, type Spring } from '../transition.js'
 import { timing } from '../shared-layout/timing.js'
 import { find, radius, supportedImage } from './targets.js'
+import { validateReturnTarget, type SharedReturnTarget } from './return-target.js'
 import { navigationScopes } from './scope.js'
 import {
   sharedNavigation,
@@ -46,6 +47,9 @@ export interface SharedNavigationEntryEvent {
 }
 export interface SharedNavigationEntryOptions {
   tag: string
+  returnTarget?: SharedReturnTarget
+  /** Gate an iOS edge return when another interaction owns the image. */
+  canBegin?: () => boolean
   /** Route owner. Map a rejected router navigation to false. Called once per committed back. */
   back(options: SharedNavigationRouteOptions): boolean | void | Promise<boolean | void>
   spring?:
@@ -74,6 +78,9 @@ export function sharedNavigationEntry(
 ): SharedNavigationEntry {
   if (!options || typeof options.tag !== 'string' || !options.tag.trim())
     throw new TypeError('A nonempty sharedTransitionTag is required.')
+  validateReturnTarget(options.returnTarget)
+  if (options.canBegin !== undefined && typeof options.canBegin !== 'function')
+    throw new TypeError('canBegin must be a function.')
   if (typeof options.back !== 'function')
     throw new TypeError('A back callback is required.')
   const input =
@@ -202,7 +209,7 @@ export function sharedNavigationEntry(
     }
     android = predictiveBack(
       page,
-      { opacity: [1, 1] },
+      options.returnTarget ? { scale: [1, 0.96], y: [0, 24] } : { opacity: [1, 1] },
       {
         spring: options.spring,
         commitTimeout: timeout,
@@ -210,7 +217,7 @@ export function sharedNavigationEntry(
           if (frame.currentPage !== page) return false
           backInFlight = true
           try {
-            return await options.back(opts)
+            return options.returnTarget ? await resolvedBack() : await options.back(opts)
           } finally {
             backInFlight = false
           }
@@ -258,6 +265,36 @@ export function sharedNavigationEntry(
     if (scene) nativeBackSessions.get(android)?.setSharedScene(scene)
     if (!android.supported) unavailable('unsupported-platform')
   }
+  async function resolvedBack(): Promise<boolean> {
+    const existing = navigationScopes.get(frame)
+    const owner =
+      existing ??
+      sharedNavigation(frame, {
+        transition,
+        navigationTimeout: timeout,
+        maxSnapshotPixels: budget,
+      })
+    const owned = !existing
+    // Preserve a caller-owned Frame controller; only release the controller created here.
+    try {
+      const operation = owner.navigate({
+        tag: options.tag,
+        returnTarget: options.returnTarget,
+        holdSource: true,
+        transition,
+        navigate: (opts) => options.back(opts),
+      })
+      flight = operation
+      const result = await operation.finished
+      if (result.status === 'completed') shared = { status: 'ready' }
+      else unavailable(result.reason ?? 'return-unavailable')
+      return result.navigated
+    } finally {
+      flight = undefined
+      if (owned) owner.dispose()
+    }
+  }
+
   function arrived() {
     if (opening && isIOS && ios && !ios.supported && frame.currentPage !== sourcePage) {
       completeOpen({
@@ -302,7 +339,7 @@ export function sharedNavigationEntry(
           reason: 'source-changed',
           navigated: false,
         })
-      const sources = find(sourcePage, options.tag)
+      const sources = find(sourcePage, options.tag, true)
       originalSource = sources.length === 1 ? sources[0] : undefined
       originalStamp = originalSource ? sourceStamp(originalSource, sourcePage) : undefined
       used = true
@@ -324,7 +361,12 @@ export function sharedNavigationEntry(
         if (isIOS) {
           ios = interactiveNavigation(frame, {
             spring: options.spring,
-            shared: { tag: options.tag, maxSnapshotPixels: budget },
+            shared: {
+              tag: options.tag,
+              maxSnapshotPixels: budget,
+              ...(options.returnTarget ? { returnTarget: options.returnTarget } : {}),
+            },
+            canBegin: options.canBegin,
             onState(event) {
               if (state === 'disposed') return
               if (event.shared) shared = event.shared
@@ -385,13 +427,14 @@ export function sharedNavigationEntry(
               },
             )
         } else {
-          const matches = find(sourcePage, options.tag),
+          const matches = find(sourcePage, options.tag, true),
             source = matches[0]
           if (reducedMotion()) unavailable('reduced-motion')
           else if (matches.length !== 1)
             unavailable(matches.length ? 'duplicate-source' : 'missing-source')
           else if (source instanceof Image && !supportedImage(source))
             unavailable('unsupported-image')
+          else if (options.returnTarget) unavailable('target-resolved-on-return')
           else if (isAndroid && androidVersionSupported()) {
             try {
               scene =
@@ -456,7 +499,9 @@ export function sharedNavigationEntry(
         .then(() =>
           state === 'disposed'
             ? false
-            : options.back(isIOS && ios?.supported ? {} : { animated: false }),
+            : options.returnTarget && !ios?.supported
+              ? resolvedBack()
+              : options.back(isIOS && ios?.supported ? {} : { animated: false }),
         )
         .then(
           (result) => {
@@ -493,6 +538,7 @@ export function sharedNavigationEntry(
         flight?.cancel()
         control.dispose()
       } else {
+        flight?.cancel()
         ios?.cancel()
         android?.cancel()
       }
@@ -544,7 +590,7 @@ function androidVersionSupported() {
 }
 
 // Reject a changed static source before the first visual frame, including layout writes
-// waiting for the covered page to be realized. Recycled/offscreen resolution is a later adapter.
+// waiting for the covered page to be realized. Dynamic return targets resolve separately.
 function sourceStamp(view: View, page: Page): string {
   const keys = [
     'width',

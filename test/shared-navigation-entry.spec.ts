@@ -365,6 +365,56 @@ describe('shared Android native composition', () => {
   beforeEach(() => {
     platform.ios = false
   })
+  it('resolves a dynamic target only on commit and never retains a stale source scene', async () => {
+    const returnTarget = { key: 'item-7', resolve: vi.fn() },
+      f = fixture({ returnTarget })
+    f.control.open(() => {})
+    await f.finishAndroid()
+    expect(org.rafaelaugusto.jolt.SharedNavigationScene.capture).not.toHaveBeenCalled()
+    expect(bridge.setSharedScene).not.toHaveBeenCalled()
+    androidEvent({ state: 'tracking' })
+    androidEvent({ state: 'idle', outcome: 'cancelled' })
+    expect(forward.navigate).toHaveBeenCalledOnce()
+    expect(f.back).not.toHaveBeenCalled()
+    f.control.back()
+    f.control.back()
+    const request = forward.navigate.mock.calls[1][0]
+    expect(request).toMatchObject({ returnTarget, holdSource: true })
+    request.navigate({ animated: false })
+    forwardDone({ status: 'completed', navigated: true })
+    await flush()
+    await flush()
+    expect(f.back).toHaveBeenCalledExactlyOnceWith({ animated: false })
+    expect(f.control.state).toBe('disposed')
+    expect(forward.dispose).toHaveBeenCalledTimes(2)
+  })
+  it('preserves a borrowed owner when a dynamic return fails before it starts', async () => {
+    const f = fixture({ returnTarget: { key: 'item-7', resolve: () => undefined } })
+    f.control.open(() => {})
+    await f.finishAndroid()
+    forward.dispose.mockClear()
+    navigationScopes.set(f.frame as unknown as Frame, forward)
+    forward.navigate.mockImplementationOnce(() => {
+      throw Error('capture failed')
+    })
+    const commit = vi.mocked(predictiveBack).mock.calls[0]![2].commit
+    await expect(commit({ animated: false })).rejects.toThrow('capture failed')
+    expect(forward.dispose).not.toHaveBeenCalled()
+    expect(f.back).not.toHaveBeenCalled()
+    navigationScopes.delete(f.frame as unknown as Frame)
+  })
+  it('releases pending return work on explicit cancellation', async () => {
+    const f = fixture({ returnTarget: { key: 'item-7', resolve: () => undefined } })
+    f.control.open(() => {})
+    await f.finishAndroid()
+    f.control.back()
+    const operation = forward.navigate.mock.results[1].value
+    f.control.cancel()
+    expect(operation.cancel).toHaveBeenCalledOnce()
+    expect(android.cancel).toHaveBeenCalledOnce()
+    forwardDone({ status: 'cancelled', navigated: false })
+    await flush()
+  })
   it('retains the return scene before pushing, budgets it with the flight and binds native input after completion', async () => {
     const f = fixture()
     const navigate = vi.fn()

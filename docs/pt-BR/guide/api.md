@@ -7,6 +7,7 @@
 - [**recordInteraction / replayInteraction**](./interaction-replay) — traces opcionais de desenvolvimento, replay com relógio controlado e probes nativos de regressão. Disponível desde a beta.18.
 - [**sharedLayout(container, options)**](./shared-layout) — identidades compartilhadas na mesma página, snapshots nativos, crossfade e interrupção. Disponível desde a beta.18.
 - [**sharedNavigationEntry(frame, options)**](./shared-gestures) — imagem/cartão durante a volta interativa nativa em páginas estáveis de iOS e Android 14+. Próxima beta; não incluído na beta.18.
+- [**resolveListTarget(context, options)**](./return-targets) — resolução limitada da célula atual por chave estável após reciclagem, rolagem ou reordenação. Próxima beta; não incluído na beta.18.
 - [**sharedNavigation(frame, options)**](./shared-navigation) — movimento nativo de imagem/card entre rotas programáticas, tags por Frame e fallback com prazo. Próxima beta; fora da beta.18.
 - [**interactiveNavigation(frame, options)**](./interactive-navigation) — volta de página pela borda no iOS, com cancelamento, spring com velocidade e histórico do Core/router. Próxima beta; fora da beta.18.
 - [**predictiveBack(view, values, options)**](./predictive-back) — progresso nativo do gesto de voltar no Android 14+, cancelamento com spring e um commit com guard. Próxima beta; fora da beta.18.
