@@ -86,6 +86,10 @@ export class ValueObservers {
     private readonly isRunning?: () => boolean,
   ) {}
 
+  get size() {
+    return this.observers.size
+  }
+
   get active() {
     return (this.isRunning?.() ?? this.running) && this.observers.size > 0
   }

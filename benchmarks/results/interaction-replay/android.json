@@ -1,0 +1,666 @@
+{
+  "platform": "android",
+  "source": "feat/interaction-replay working tree based on 9d70479",
+  "status": "passed",
+  "cases": [
+    {
+      "name": "interrupted-spring",
+      "native": false,
+      "passed": true,
+      "remainingResources": 0,
+      "maxPositionErrorDIP": 9.155486608847241e-5,
+      "maxVelocityErrorDIPPerSecond": 0.03315013925364596,
+      "observations": [
+        {
+          "at": 0,
+          "id": "card",
+          "expected": {
+            "position": 0,
+            "velocity": 0,
+            "settled": false
+          },
+          "observed": {
+            "position": 0,
+            "velocity": -0.03315013925364596,
+            "settled": false
+          },
+          "positionError": 0,
+          "velocityError": 0.03315013925364596,
+          "passed": true
+        },
+        {
+          "at": 32,
+          "id": "card",
+          "expected": {
+            "position": 11.929914,
+            "velocity": 645.848683,
+            "settled": false
+          },
+          "observed": {
+            "position": 11.929913570491529,
+            "velocity": 645.83134649981,
+            "settled": false
+          },
+          "positionError": 4.2950847145561966e-7,
+          "velocityError": 0.017336500190026527,
+          "passed": true
+        },
+        {
+          "at": 80,
+          "id": "card",
+          "expected": {
+            "position": 50.485477,
+            "velocity": 864.334416,
+            "settled": false
+          },
+          "observed": {
+            "position": 50.48547737285611,
+            "velocity": 864.3287866216332,
+            "settled": false
+          },
+          "positionError": 3.728561068783165e-7,
+          "velocityError": 0.005629378366847959,
+          "passed": true
+        },
+        {
+          "at": 96,
+          "id": "card",
+          "expected": {
+            "position": 64.173546,
+            "velocity": 842.026704,
+            "settled": false
+          },
+          "observed": {
+            "position": 64.1735457654407,
+            "velocity": 842.0231249821297,
+            "settled": false
+          },
+          "positionError": 2.3455929465399095e-7,
+          "velocityError": 0.0035790178702654885,
+          "passed": true
+        },
+        {
+          "at": 96,
+          "id": "card",
+          "expected": {
+            "position": 64.173546,
+            "velocity": 842.026704,
+            "settled": false
+          },
+          "observed": {
+            "position": 64.1735457654407,
+            "velocity": 842.0490130270839,
+            "settled": false
+          },
+          "positionError": 2.3455929465399095e-7,
+          "velocityError": 0.022309027083906585,
+          "passed": true
+        },
+        {
+          "at": 112,
+          "id": "card",
+          "expected": {
+            "position": 74.277725,
+            "velocity": 443.983171,
+            "settled": false
+          },
+          "observed": {
+            "position": 74.27767831737742,
+            "velocity": 444.00022573163704,
+            "settled": false
+          },
+          "positionError": 4.668262258178402e-5,
+          "velocityError": 0.01705473163701754,
+          "passed": true
+        },
+        {
+          "at": 144,
+          "id": "card",
+          "expected": {
+            "position": 80.051126,
+            "velocity": -23.834275,
+            "settled": false
+          },
+          "observed": {
+            "position": 80.05103444513391,
+            "velocity": -23.82443754413846,
+            "settled": false
+          },
+          "positionError": 9.155486608847241e-5,
+          "velocityError": 0.009837455861543276,
+          "passed": true
+        },
+        {
+          "at": 432,
+          "id": "card",
+          "expected": {
+            "position": 26.448201,
+            "velocity": -67.06158,
+            "settled": false
+          },
+          "observed": {
+            "position": 26.44818581557017,
+            "velocity": -67.06165477762413,
+            "settled": false
+          },
+          "positionError": 1.5184429830839008e-5,
+          "velocityError": 7.477762412122502e-5,
+          "passed": true
+        },
+        {
+          "at": 800,
+          "id": "card",
+          "expected": {
+            "position": 20.100749,
+            "velocity": -1.198321,
+            "settled": false
+          },
+          "observed": {
+            "position": 20.100748478679293,
+            "velocity": -1.1983251360663625,
+            "settled": false
+          },
+          "positionError": 5.213207074916681e-7,
+          "velocityError": 4.136066362514512e-6,
+          "passed": true
+        },
+        {
+          "at": 2500,
+          "id": "card",
+          "expected": {
+            "position": 20,
+            "velocity": 0,
+            "settled": true
+          },
+          "observed": {
+            "position": 20,
+            "velocity": 0,
+            "settled": true
+          },
+          "positionError": 0,
+          "velocityError": 0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "interrupted-spring",
+      "native": true,
+      "passed": true,
+      "remainingResources": 0,
+      "maxPositionErrorDIP": 0.10307768178013355,
+      "maxVelocityErrorDIPPerSecond": 0.03315013925364596,
+      "observations": [
+        {
+          "at": 0,
+          "id": "card",
+          "expected": {
+            "position": 0,
+            "velocity": 0,
+            "settled": false
+          },
+          "observed": {
+            "position": 0,
+            "velocity": -0.03315013925364596,
+            "settled": false
+          },
+          "positionError": 0,
+          "velocityError": 0.03315013925364596,
+          "passed": true
+        },
+        {
+          "at": 32,
+          "id": "card",
+          "expected": {
+            "position": 11.929914,
+            "velocity": 645.848683,
+            "settled": false
+          },
+          "observed": {
+            "position": 12.032991681780134,
+            "velocity": 645.83134649981,
+            "settled": false
+          },
+          "positionError": 0.10307768178013355,
+          "velocityError": 0.017336500190026527,
+          "passed": true
+        },
+        {
+          "at": 80,
+          "id": "card",
+          "expected": {
+            "position": 50.485477,
+            "velocity": 864.334416,
+            "settled": false
+          },
+          "observed": {
+            "position": 50.487601143973215,
+            "velocity": 864.3287866216332,
+            "settled": false
+          },
+          "positionError": 0.002124143973212256,
+          "velocityError": 0.005629378366847959,
+          "passed": true
+        },
+        {
+          "at": 96,
+          "id": "card",
+          "expected": {
+            "position": 64.173546,
+            "velocity": 842.026704,
+            "settled": false
+          },
+          "observed": {
+            "position": 64.13746861049107,
+            "velocity": 842.0231249821297,
+            "settled": false
+          },
+          "positionError": 0.036077389508932356,
+          "velocityError": 0.0035790178702654885,
+          "passed": true
+        },
+        {
+          "at": 96,
+          "id": "card",
+          "expected": {
+            "position": 64.173546,
+            "velocity": 842.026704,
+            "settled": false
+          },
+          "observed": {
+            "position": 64.17354329427083,
+            "velocity": 842.0490130270839,
+            "settled": false
+          },
+          "positionError": 2.7057291731580335e-6,
+          "velocityError": 0.022309027083906585,
+          "passed": true
+        },
+        {
+          "at": 112,
+          "id": "card",
+          "expected": {
+            "position": 74.277725,
+            "velocity": 443.983171,
+            "settled": false
+          },
+          "observed": {
+            "position": 74.21946498325893,
+            "velocity": 444.00022573163704,
+            "settled": false
+          },
+          "positionError": 0.05826001674107317,
+          "velocityError": 0.01705473163701754,
+          "passed": true
+        },
+        {
+          "at": 144,
+          "id": "card",
+          "expected": {
+            "position": 80.051126,
+            "velocity": -23.834275,
+            "settled": false
+          },
+          "observed": {
+            "position": 79.97276669456845,
+            "velocity": -23.82443754413846,
+            "settled": false
+          },
+          "positionError": 0.07835930543154745,
+          "velocityError": 0.009837455861543276,
+          "passed": true
+        },
+        {
+          "at": 432,
+          "id": "card",
+          "expected": {
+            "position": 26.448201,
+            "velocity": -67.06158,
+            "settled": false
+          },
+          "observed": {
+            "position": 26.469058082217263,
+            "velocity": -67.06165477762413,
+            "settled": false
+          },
+          "positionError": 0.02085708221726179,
+          "velocityError": 7.477762412122502e-5,
+          "passed": true
+        },
+        {
+          "at": 800,
+          "id": "card",
+          "expected": {
+            "position": 20.100749,
+            "velocity": -1.198321,
+            "settled": false
+          },
+          "observed": {
+            "position": 20.100989932105655,
+            "velocity": -1.1983251360663625,
+            "settled": false
+          },
+          "positionError": 0.0002409321056546787,
+          "velocityError": 4.136066362514512e-6,
+          "passed": true
+        },
+        {
+          "at": 2500,
+          "id": "card",
+          "expected": {
+            "position": 20,
+            "velocity": 0,
+            "settled": true
+          },
+          "observed": {
+            "position": 20,
+            "velocity": 0,
+            "settled": true
+          },
+          "positionError": 0,
+          "velocityError": 0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "cancelled-drag",
+      "native": false,
+      "passed": true,
+      "remainingResources": 0,
+      "maxPositionErrorDIP": 0,
+      "maxVelocityErrorDIPPerSecond": 0,
+      "observations": [
+        {
+          "at": 0,
+          "id": "card",
+          "expected": {
+            "position": 0,
+            "velocity": 0,
+            "settled": false
+          },
+          "observed": {
+            "position": 0,
+            "velocity": 0,
+            "settled": false
+          },
+          "positionError": 0,
+          "velocityError": 0,
+          "passed": true
+        },
+        {
+          "at": 16,
+          "id": "card",
+          "expected": {
+            "position": 50,
+            "velocity": 3125,
+            "settled": false
+          },
+          "observed": {
+            "position": 50,
+            "velocity": 3125,
+            "settled": false
+          },
+          "positionError": 0,
+          "velocityError": 0,
+          "passed": true
+        },
+        {
+          "at": 32,
+          "id": "card",
+          "expected": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "observed": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "positionError": 0,
+          "velocityError": 0,
+          "passed": true
+        },
+        {
+          "at": 48,
+          "id": "card",
+          "expected": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "observed": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "positionError": 0,
+          "velocityError": 0,
+          "passed": true
+        },
+        {
+          "at": 64,
+          "id": "card",
+          "expected": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "observed": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "positionError": 0,
+          "velocityError": 0,
+          "passed": true
+        },
+        {
+          "at": 96,
+          "id": "card",
+          "expected": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "observed": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "positionError": 0,
+          "velocityError": 0,
+          "passed": true
+        },
+        {
+          "at": 240,
+          "id": "card",
+          "expected": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "observed": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "positionError": 0,
+          "velocityError": 0,
+          "passed": true
+        },
+        {
+          "at": 600,
+          "id": "card",
+          "expected": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "observed": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "positionError": 0,
+          "velocityError": 0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "name": "cancelled-drag",
+      "native": true,
+      "passed": true,
+      "remainingResources": 0,
+      "maxPositionErrorDIP": 0,
+      "maxVelocityErrorDIPPerSecond": 0,
+      "observations": [
+        {
+          "at": 0,
+          "id": "card",
+          "expected": {
+            "position": 0,
+            "velocity": 0,
+            "settled": false
+          },
+          "observed": {
+            "position": 0,
+            "velocity": 0,
+            "settled": false
+          },
+          "positionError": 0,
+          "velocityError": 0,
+          "passed": true
+        },
+        {
+          "at": 16,
+          "id": "card",
+          "expected": {
+            "position": 50,
+            "velocity": 3125,
+            "settled": false
+          },
+          "observed": {
+            "position": 50,
+            "velocity": 3125,
+            "settled": false
+          },
+          "positionError": 0,
+          "velocityError": 0,
+          "passed": true
+        },
+        {
+          "at": 32,
+          "id": "card",
+          "expected": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "observed": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "positionError": 0,
+          "velocityError": 0,
+          "passed": true
+        },
+        {
+          "at": 48,
+          "id": "card",
+          "expected": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "observed": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "positionError": 0,
+          "velocityError": 0,
+          "passed": true
+        },
+        {
+          "at": 64,
+          "id": "card",
+          "expected": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "observed": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "positionError": 0,
+          "velocityError": 0,
+          "passed": true
+        },
+        {
+          "at": 96,
+          "id": "card",
+          "expected": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "observed": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "positionError": 0,
+          "velocityError": 0,
+          "passed": true
+        },
+        {
+          "at": 240,
+          "id": "card",
+          "expected": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "observed": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "positionError": 0,
+          "velocityError": 0,
+          "passed": true
+        },
+        {
+          "at": 600,
+          "id": "card",
+          "expected": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "observed": {
+            "position": 50,
+            "velocity": 0,
+            "settled": true
+          },
+          "positionError": 0,
+          "velocityError": 0,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "negativeControl": {
+    "passed": true,
+    "errors": [
+      "card at 0 ms: position error 80, velocity error 0.03315013925364596, settled false (expected false)."
+    ],
+    "remainingResources": 0
+  }
+}

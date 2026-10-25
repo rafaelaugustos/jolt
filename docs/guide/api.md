@@ -2,6 +2,7 @@
 
 ## Animating
 
+- [**recordInteraction / replayInteraction**](./interaction-replay) — optional development traces, controlled-clock replay and native regression probes. Initial beta.18 preview.
 - [**sharedLayout(container, options)**](./shared-layout) — optional same-page shared identities, native snapshots, crossfades and interruption. Development preview for beta.18.
 - `animate(target, keyframes | preset, transition?)` — [paths](./paths), [colors](./colors), [corners, borders and shadows](./decorations)
 - [`interactionSurface(target)`](./interaction-surface) — opt into native touch geometry for an animated subtree.

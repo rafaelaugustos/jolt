@@ -1,3 +1,4 @@
+import InteractionReplayLab from '../components/InteractionReplayLab.vue'
 import SharedLayoutLab from '../components/SharedLayoutLab.vue'
 import MotionStudio from './MotionStudio.vue'
 import { markRaw } from 'nativescript-vue'
@@ -411,6 +412,15 @@ export const examples = [
     description: 'A little choreography for your content.',
     component: markRaw(ListItems),
     full: false,
+    ios: false,
+  },
+  {
+    id: 'interaction-replay',
+    title: 'Interaction replay',
+    category: 'State',
+    description: 'Keep the moment. Catch the regression.',
+    component: markRaw(InteractionReplayLab),
+    full: true,
     ios: false,
   },
   {

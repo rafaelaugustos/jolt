@@ -52,6 +52,41 @@ final class DocsTests: XCTestCase {
         start.press(forDuration: 0.55, thenDragTo: destination, withVelocity: fast ? .fast : .slow, thenHoldForDuration: hold)
         Thread.sleep(forTimeInterval: 0.6)
     }
+    func testInteractionReplayChecks() throws {
+        launch(["--interaction-replay", "--replay-checks"], "replay-card")
+        XCTAssertTrue(app.staticTexts["Native regressions passed"].waitForExistence(timeout: 25), app.debugDescription)
+    }
+    func testInteractionReplay() throws {
+        launch(["--interaction-replay"], "replay-card")
+        try record("interaction-replay-ios") {
+            tap("record-spring", wait: 0.3)
+            tap("replay-right", wait: 0.1)
+            tap("replay-left", wait: 1.7)
+            tap("replay-finish", wait: 0.3)
+            tap("replay-run", wait: 0.2)
+            XCTAssertTrue(app.staticTexts["Replay matched"].waitForExistence(timeout: 30), app.debugDescription)
+            tap("replay-break", wait: 0.2)
+            XCTAssertTrue(app.staticTexts["Regression caught"].waitForExistence(timeout: 30), app.debugDescription)
+            tap("record-drag", wait: 0.3)
+            drag(app.descendants(matching: .any)["replay-card"].firstMatch, x: 150, y: 0)
+            tap("replay-finish", wait: 0.3)
+            tap("replay-run", wait: 0.2)
+            XCTAssertTrue(app.staticTexts["Replay matched"].waitForExistence(timeout: 30), app.debugDescription)
+        }
+    }
+    func testInteractionReplayPortuguese() throws {
+        languageLaunch("pt-BR", "language-settings")
+        selectLanguage("system")
+        languageLaunch("pt-BR", "replay-card", ["--showcase-example=interaction-replay"])
+        try record("interaction-replay-pt-ios") {
+            tap("record-spring", wait: 0.3)
+            tap("replay-right", wait: 0.3)
+            tap("replay-left", wait: 1.7)
+            tap("replay-finish", wait: 0.3)
+            tap("replay-run", wait: 0.2)
+            XCTAssertTrue(app.staticTexts["Replay conferido"].waitForExistence(timeout: 30), app.debugDescription)
+        }
+    }
     func testSharedLayout() throws {
         launch(["--shared-layout", "--shared-layout-audit"], "shared-toggle")
         try record("shared-layout-ios") {

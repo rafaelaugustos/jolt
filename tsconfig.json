@@ -11,7 +11,9 @@
       "@rafaelaugusto/jolt/native": ["./src/native/index.ts"],
       "@rafaelaugusto/jolt/bottom-sheet": ["./src/bottom-sheet/index.ts"],
       "@rafaelaugusto/jolt/reorder": ["./src/reorder/index.ts"],
-      "@rafaelaugusto/jolt/shared-layout": ["./src/shared-layout/index.ts"]
+      "@rafaelaugusto/jolt/shared-layout": ["./src/shared-layout/index.ts"],
+      "@rafaelaugusto/jolt/testing": ["./src/testing/index.ts"],
+      "@rafaelaugusto/jolt/testing/native": ["./src/testing/native.ts"]
     },
     "strict": true,
     "noUncheckedIndexedAccess": true,
@@ -27,7 +29,8 @@
       "@nativescript/types-ios/lib/ios/objc-x86_64/objc!Symbols",
       "@nativescript/types-ios/lib/ios/objc-x86_64/objc!SpriteKit",
       "@nativescript/types-android"
-    ]
+    ],
+    "resolveJsonModule": true
   },
   "include": ["src", "test"]
 }

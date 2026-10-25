@@ -10,7 +10,9 @@ After the baseline, a second launch intentionally expects 160 DIP at a native mi
 
 The baseline also checks retained live spring chains, reversal continuity, scope suspension, native layer composition, animated sources, rest/wake and disposal. See [live spring validation](./live-springs.md) for the solver checks and limits.
 
-The baseline now includes 11 groups, plus the 20 dimension checks. Gesture checks cover retained values, bounds retargeting without a velocity reset, scope cancellation, native node cleanup and existing ScrollView delegate/listener preservation. A live-binding regression probe measures the actual location of a translated view before and after its first layout and a later width change. Actual OS multi-touch/scroll recordings run separately; see [gesture validation](./gestures.md).
+The baseline now includes 12 groups, plus the 20 dimension checks. Gesture checks cover retained values, bounds retargeting without a velocity reset, scope cancellation, native node cleanup and existing ScrollView delegate/listener preservation. A live-binding regression probe measures the actual location of a translated view before and after its first layout and a later width change. Actual OS multi-touch/scroll recordings run separately; see [gesture validation](./gestures.md).
+
+The recorded-interaction group replays two frozen traces against the controlled engine and native presentation, then rejects a deliberately wrong checkpoint. It adds no workflow or real-time settling wait. Failure artifacts include the trace/report JSON and expected/observed SVG, retrieved only for the current run ID. See [interaction replay](./interaction-replay.md).
 
 Dependencies and native templates are pinned in `native-app/package-lock.json`. Webpack is pinned to 5.101.3 because NativeScript's worker loader uses the `webpack/lib/dependencies/WorkerDependency` layout. Generated resources and builds stay inside the fixture, separate from `demo`. Node 22, Python 3, and a working NativeScript platform toolchain are required.
 
@@ -41,6 +43,8 @@ Uma segunda execução espera propositalmente 160 DIP onde a posição medida de
 
 O baseline também valida cadeias de springs retidos, continuidade nas reversões, suspensão do escopo, composição nativa de camadas, fontes animadas, repouso/retomada e descarte. A [validação dos springs](./live-springs.md) descreve os testes dos solvers e seus limites.
 
-O baseline inclui 11 grupos, além dos 20 testes de dimensões. Os testes de gestos validam valores retidos, atualização de limites sem zerar velocidade, suspensão, descarte e preservação do delegate/listener existente do ScrollView. Uma regressão de binding mede a localização real da view traduzida antes/depois do primeiro layout e de uma mudança de largura. Os testes com entrada multitouch do SO e as gravações são separados: veja a [validação de gestos](./gestures.md).
+O baseline inclui 12 grupos, além dos 20 testes de dimensões. Os testes de gestos validam valores retidos, atualização de limites sem zerar velocidade, suspensão, descarte e preservação do delegate/listener existente do ScrollView. Uma regressão de binding mede a localização real da view traduzida antes/depois do primeiro layout e de uma mudança de largura. Os testes com entrada multitouch do SO e as gravações são separados: veja a [validação de gestos](./gestures.md).
 
 Os artefatos `native-ios` e `native-android` guardam JSON, logs e uma captura final, inclusive em falhas. A captura final costuma mostrar a falha esperada do controle negativo; o resultado normal está em `baseline.json`. As gravações existentes continuam nos guias EN/PT. Qualquer mudança de comportamento visual público continua exigindo gravação nativa revisada conforme `CONTRIBUTING.md`.
+
+O grupo de replay executa dois traces fixos no motor controlado e na apresentação nativa, além de rejeitar um checkpoint propositalmente errado. Usa o job existente, sem espera pelo tempo real de repouso. Falhas incluem JSON e gráfico SVG, coletados apenas para o ID da execução atual. Veja a [validação do replay](./interaction-replay.md).

@@ -1,0 +1,216 @@
+{
+  "version": 1,
+  "seed": 57,
+  "settings": {
+    "timeScale": 1,
+    "reducedMotion": false
+  },
+  "metadata": {
+    "platform": "test",
+    "os": "deterministic",
+    "model": "reference-graph",
+    "refreshRate": 60,
+    "density": 1,
+    "width": 360,
+    "height": 640
+  },
+  "motions": [
+    {
+      "id": "card",
+      "kind": "drag",
+      "axis": "x",
+      "initial": 0,
+      "stiffness": 170,
+      "damping": 26,
+      "mass": 1,
+      "min": 0,
+      "max": 240,
+      "snap": [0, 240]
+    }
+  ],
+  "entries": [
+    {
+      "at": 0,
+      "input": {
+        "type": "gesture",
+        "id": "card",
+        "phase": "begin",
+        "x": 0,
+        "y": 0,
+        "velocityX": 0,
+        "velocityY": 0,
+        "pointers": [0]
+      }
+    },
+    {
+      "at": 0,
+      "id": "card",
+      "expected": {
+        "position": 0,
+        "velocity": 0,
+        "settled": false
+      },
+      "tolerance": {
+        "position": 3,
+        "velocity": 30
+      }
+    },
+    {
+      "at": 16,
+      "input": {
+        "type": "gesture",
+        "id": "card",
+        "phase": "move",
+        "x": 50,
+        "y": 0,
+        "velocityX": 3125,
+        "velocityY": 0,
+        "pointers": [0]
+      }
+    },
+    {
+      "at": 16,
+      "id": "card",
+      "expected": {
+        "position": 50,
+        "velocity": 3125,
+        "settled": false
+      },
+      "tolerance": {
+        "position": 3,
+        "velocity": 30
+      }
+    },
+    {
+      "at": 32,
+      "input": {
+        "type": "gesture",
+        "id": "card",
+        "phase": "cancel",
+        "x": 50,
+        "y": 0,
+        "velocityX": 0,
+        "velocityY": 0,
+        "pointers": [0]
+      }
+    },
+    {
+      "at": 32,
+      "id": "card",
+      "expected": {
+        "position": 50,
+        "velocity": 0,
+        "settled": true
+      },
+      "tolerance": {
+        "position": 3,
+        "velocity": 30
+      }
+    },
+    {
+      "at": 48,
+      "input": {
+        "type": "gesture",
+        "id": "card",
+        "phase": "move",
+        "x": 90,
+        "y": 0,
+        "velocityX": 2500,
+        "velocityY": 0,
+        "pointers": [0]
+      }
+    },
+    {
+      "at": 48,
+      "id": "card",
+      "expected": {
+        "position": 50,
+        "velocity": 0,
+        "settled": true
+      },
+      "tolerance": {
+        "position": 3,
+        "velocity": 30
+      }
+    },
+    {
+      "at": 64,
+      "input": {
+        "type": "gesture",
+        "id": "card",
+        "phase": "end",
+        "x": 90,
+        "y": 0,
+        "velocityX": 0,
+        "velocityY": 0,
+        "pointers": []
+      }
+    },
+    {
+      "at": 64,
+      "id": "card",
+      "expected": {
+        "position": 50,
+        "velocity": 0,
+        "settled": true
+      },
+      "tolerance": {
+        "position": 3,
+        "velocity": 30
+      }
+    },
+    {
+      "at": 96,
+      "input": {
+        "type": "lifecycle",
+        "state": "suspend"
+      }
+    },
+    {
+      "at": 96,
+      "id": "card",
+      "expected": {
+        "position": 50,
+        "velocity": 0,
+        "settled": true
+      },
+      "tolerance": {
+        "position": 3,
+        "velocity": 30
+      }
+    },
+    {
+      "at": 240,
+      "input": {
+        "type": "lifecycle",
+        "state": "resume"
+      }
+    },
+    {
+      "at": 240,
+      "id": "card",
+      "expected": {
+        "position": 50,
+        "velocity": 0,
+        "settled": true
+      },
+      "tolerance": {
+        "position": 3,
+        "velocity": 30
+      }
+    },
+    {
+      "at": 600,
+      "id": "card",
+      "expected": {
+        "position": 50,
+        "velocity": 0,
+        "settled": true
+      },
+      "tolerance": {
+        "position": 3,
+        "velocity": 30
+      }
+    }
+  ]
+}

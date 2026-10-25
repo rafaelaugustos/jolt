@@ -81,7 +81,7 @@ The [beta.17 release](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0
 - [Interruptions](#interrupting-and-stopping) that pick up the value and velocity on screen, with no jump.
 - [Native playback](#how-it-works): Core Animation on iOS, `ObjectAnimator` on Android, nothing in JavaScript while it plays.
 
-**Development preview:** this checkout includes [same-page shared layouts](./docs/guide/shared-layout.md), planned for beta.18. Rebuild the native app to try it; published beta.17 does not include this entry.
+**Development preview:** this checkout includes [same-page shared layouts](./docs/guide/shared-layout.md), and [interaction replay tools](./docs/guide/interaction-replay.md), planned for beta.18. Rebuild the native app to try it; published beta.17 does not include this entry.
 
 ## Install
 
@@ -681,7 +681,7 @@ Each running property remembers its curve and start time. On Android, interrupti
 
 ## Demo
 
-[`demo/`](./demo) now opens **Jolt Motion Studio**: a branded animated splash, a moving home, and 56 searchable experiments with category filters and native page navigation through Vue Router NS. The iOS preview includes the Jolt name and icon; launching normally always opens the collection. See the [native walkthrough](./docs/guide/demo.md).
+[`demo/`](./demo) now opens **Jolt Motion Studio**: a branded animated splash, a moving home, and 57 searchable experiments with category filters and native page navigation through Vue Router NS. The iOS preview includes the Jolt name and icon; launching normally always opens the collection. See the [native walkthrough](./docs/guide/demo.md).
 
 The assistant remains available through `--screen=home` on iOS or `--es screen home` on Android: a fan of document tools, a voice screen with letter-by-letter text, and a staged conversation with document previews and a rolling countdown, with the screens cross-fading through the Vue entry. Open **Help → Watch demo** to replay the flow. The orb is an animated illustration; speech, documents and audio are sample data.
 
