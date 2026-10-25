@@ -69,6 +69,8 @@ Os intervalos têm no máximo 100 ms de playback. Cada segmento amostrado limita
 
 O experimento **58 — Precisão das curvas** traz a comparação e os probes nativos. Eles verificam posições nativas em instantes lógicos de 60/120 Hz; o seek no Android usa milissegundos inteiros, registrados separadamente do tempo solicitado. Isso não certifica renderização física a 120 Hz. Veja [medições, limites e reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/curve-sampling.md).
 
+O probe nativo pausa em cada instante, espera passar a tarefa inicial de agendamento do NativeScript e dois callbacks de display, e então compara uma leitura da apresentação com a curva. Mantém a tolerância de 0,28 DIP e um prazo limitado; não repete um valor errado até passar. Relatórios de falha do CI incluem a etapa do seek, o relógio e as observações nativas recentes.
+
 ## Por propriedade
 
 ```ts

@@ -3,6 +3,7 @@ import { getDriver } from '../dist/driver/index.js'
 import { createTrack, type Track } from '../dist/track.js'
 import { resolveTransition } from '../dist/transition.js'
 import { nativeTracePosition } from '@rafaelaugusto/jolt/testing/native'
+import { waitForPresentation } from './native-presentation'
 
 export function samplingTrack(fast: boolean) {
   return createTrack(
@@ -29,21 +30,42 @@ export async function runCurveSamplingChecks(
 ) {
   const driver = getDriver(),
     start = driver.now()
-  if (!driver.control) throw new Error('A seekable native driver is required.')
-  const present = () =>
-    new Promise<void>((resolve, reject) => {
-      let cancel = () => {}
-      const timer = setTimeout(() => {
-        cancel()
-        reject(new Error('Sampling presentation timed out.'))
-      }, 1500)
-      cancel = driver.frame(() => {
-        cancel = driver.frame(() => {
-          clearTimeout(timer)
-          resolve()
-        })
-      })
+  let context: object = {},
+    lastWaitMs = 0,
+    presentationWaitMs = 0
+  const recent: object[] = []
+  const frames: object[] = []
+  const snapshot = (phase: string) => {
+    if (!isIOS) return
+    const layer = (view.nativeViewProtected as UIView).layer
+    const animation = layer.animationForKey('jolt:x') as CAKeyframeAnimation | null
+    frames.push({
+      phase,
+      at: driver.now(),
+      context,
+      actual: nativeTracePosition(view, 'x'),
+      model: Number(layer.valueForKeyPath('transform.translation.x')),
+      elapsed: active ? driver.elapsed?.(active) : undefined,
+      animation: animation
+        ? {
+            speed: animation.speed,
+            offset: animation.timeOffset,
+            duration: animation.duration,
+            begin: animation.beginTime,
+            from: animation.values?.firstObject,
+            to: animation.values?.lastObject,
+          }
+        : null,
     })
+    if (frames.length > 16) frames.shift()
+  }
+  if (!driver.control) throw new Error('A seekable native driver is required.')
+  const present = async () => {
+    const start = driver.now()
+    await waitForPresentation(driver.frame, signal)
+    lastWaitMs = driver.now() - start
+    presentationWaitMs += lastWaitMs
+  }
   const observations: {
     hz: number
     at: number
@@ -53,6 +75,14 @@ export async function runCurveSamplingChecks(
     error: number
   }[] = []
   const assertPosition = (actual: number, expected: number) => {
+    recent.push({
+      ...context,
+      actual,
+      expected,
+      elapsed: active ? driver.elapsed?.(active) : undefined,
+      waitMs: lastWaitMs,
+    })
+    if (recent.length > 8) recent.shift()
     if (!Number.isFinite(actual) || Math.abs(actual - expected) > 0.28)
       throw new Error(`Native sampling error: ${actual} versus ${expected}`)
   }
@@ -95,6 +125,14 @@ export async function runCurveSamplingChecks(
       if (signal?.aborted) throw new Error('Sampling check cancelled.')
       const requestedAt = (i * 1000) / 120
       const at = isIOS ? requestedAt : Math.trunc(requestedAt)
+      context = {
+        phase: 'curve',
+        requestedAt,
+        at,
+        expected: track.valueAt(at),
+        duration: track.duration,
+        paused: true,
+      }
       driver.control(view, active, at, true, 'seek')
       await present()
       const actual = nativeTracePosition(view, 'x'),
@@ -120,10 +158,18 @@ export async function runCurveSamplingChecks(
     }
     // Resume with the visible value and the source curve's interruption velocity.
     const at = isIOS ? (1000 / 120) * 7 : Math.trunc((1000 / 120) * 7)
+    context = {
+      phase: 'interruption source',
+      requestedAt: (1000 / 120) * 7,
+      at,
+      duration: track.duration,
+      paused: true,
+    }
     driver.control(view, active, at, true, 'seek')
     await present()
     const visible = nativeTracePosition(view, 'x'),
       incoming = track.velocityAt(at)
+    assertPosition(visible, track.valueAt(at))
     const replacement = createTrack(
       'x',
       [visible, 0],
@@ -134,14 +180,29 @@ export async function runCurveSamplingChecks(
       throw new Error('Interruption velocity changed.')
     stop()
     active = driver.play(view, replacement, driver.now(), () => {})
+    context = {
+      phase: 'replacement start',
+      at: 0,
+      expected: visible,
+      duration: replacement.duration,
+      paused: true,
+    }
     driver.control(view, active, 0, true, 'seek')
     await present()
     assertPosition(nativeTracePosition(view, 'x'), visible)
+    context = {
+      phase: 'replacement end',
+      at: replacement.duration,
+      expected: 0,
+      duration: replacement.duration,
+      paused: true,
+    }
     driver.control(view, active, replacement.duration, true, 'seek')
     await present()
     assertPosition(nativeTracePosition(view, 'x'), 0)
     let negativeControl = false
     try {
+      context = { ...context, phase: 'negative control' }
       assertPosition(nativeTracePosition(view, 'x'), 8)
     } catch {
       negativeControl = true
@@ -149,6 +210,7 @@ export async function runCurveSamplingChecks(
     if (!negativeControl) throw new Error('Sampling negative control did not fail.')
     return {
       status: 'passed',
+      kind: 'curve-sampling',
       platform: isIOS ? 'ios' : 'android',
       os: Device.osVersion,
       density: Screen.mainScreen.scale,
@@ -161,8 +223,18 @@ export async function runCurveSamplingChecks(
       preparation,
       interruption: { incoming, received: replacement.velocityAt(0) },
       negativeControl,
+      presentation: { callbacksPerSeek: 3, timeoutMs: 1500, waitMs: presentationWaitMs },
       durationMs: driver.now() - start,
     }
+  } catch (error) {
+    try {
+      snapshot('failure')
+    } catch (captureError) {
+      frames.push({ captureError: String(captureError) })
+    }
+    throw Object.assign(error instanceof Error ? error : new Error(String(error)), {
+      diagnostic: { kind: 'curve-sampling', context, recent, frames, lastWaitMs },
+    })
   } finally {
     stop()
   }

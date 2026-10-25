@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Stabilize native curve sampling checks by waiting past NativeScript's initial macrotask and two display callbacks before reading a held presentation. Preserve the 0.28-DIP assertion and negative controls; add bounded cancellation/timeout tests and structured seek diagnostics to native CI reports. Animation drivers and curve generation are unchanged.
+
 ## 0.1.0-beta.18 (2026-10-25)
 
 - Publish matching core and optional native packages with 59 bilingual preview examples and reviewed iOS/Android recordings. Rebuild the native application after upgrading.
