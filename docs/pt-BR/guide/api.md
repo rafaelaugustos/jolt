@@ -7,6 +7,7 @@
 - [**recordInteraction / replayInteraction**](./interaction-replay) — traces opcionais de desenvolvimento, replay com relógio controlado e probes nativos de regressão. Disponível desde a beta.18.
 - [**sharedLayout(container, options)**](./shared-layout) — identidades compartilhadas na mesma página, snapshots nativos, crossfade e interrupção. Disponível desde a beta.18.
 - [**sharedNavigation(frame, options)**](./shared-navigation) — movimento nativo de imagem/card entre rotas programáticas, tags por Frame e fallback com prazo. Próxima beta; fora da beta.18.
+- [**interactiveNavigation(frame, options)**](./interactive-navigation) — volta de página pela borda no iOS, com cancelamento, spring com velocidade e histórico do Core/router. Próxima beta; fora da beta.18.
 - `animate(target, keyframes | preset, transition?)` — [paths](./paths), [cores](./colors), [cantos, bordas e sombras](./decorations)
 - [`interactionSurface(target)`](./interaction-surface) — alinha a geometria nativa de toque de uma subárvore animada.
 - [`animateLayout(container, change?, options?)`](./layout) — anima o próximo layout dos filhos diretos de um container.

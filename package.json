@@ -69,6 +69,10 @@
     "./shared-navigation": {
       "types": "./dist/shared-navigation/index.d.ts",
       "default": "./dist/shared-navigation/index.js"
+    },
+    "./interactive-navigation": {
+      "types": "./dist/interactive-navigation/index.d.ts",
+      "default": "./dist/interactive-navigation/index.js"
     }
   },
   "files": [

@@ -4,3 +4,4 @@
 NSString * _Nullable JoltGestureTrace(CGPoint center);
 
 NSString * _Nullable JoltSheetInterrupt(CGPoint handle);
+NSString * _Nullable JoltNavigationFlick(CGPoint start, CGFloat distance);

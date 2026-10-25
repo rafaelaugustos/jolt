@@ -257,3 +257,27 @@ declare class JoltSharedLayoutFlight extends UIView {
   playOnEnd(configuration: string, onEnd: (completed: boolean) => void): void
   dispose(): void
 }
+declare class JoltInteractiveNavigation extends NSObject {
+  static attachStiffnessDampingMassShouldBeginOnEvent(
+    nav: UINavigationController,
+    stiffness: number,
+    damping: number,
+    mass: number,
+    shouldBegin: () => boolean,
+    onEvent: (event: number) => void,
+  ): JoltInteractiveNavigation
+  static activeCount(): number
+  static recognizerCount(): number
+  readonly interactive: boolean
+  readonly progress: number
+  readonly velocity: number
+  prepareOperationPresentedReducedTimeScale(
+    operation: number,
+    presented: UIViewController,
+    reduced: boolean,
+    timeScale: number,
+  ): void
+  sync(): void
+  cancel(): void
+  disposeRestoringSwipe(enabled: boolean): void
+}

@@ -15,7 +15,10 @@
       "@rafaelaugusto/jolt/testing": ["./src/testing/index.ts"],
       "@rafaelaugusto/jolt/testing/native": ["./src/testing/native.ts"],
       "@rafaelaugusto/jolt/inspector": ["./src/inspector/index.ts"],
-      "@rafaelaugusto/jolt/shared-navigation": ["./src/shared-navigation/index.ts"]
+      "@rafaelaugusto/jolt/shared-navigation": ["./src/shared-navigation/index.ts"],
+      "@rafaelaugusto/jolt/interactive-navigation": [
+        "./src/interactive-navigation/index.ts"
+      ]
     },
     "strict": true,
     "noUncheckedIndexedAccess": true,

@@ -12,6 +12,25 @@
 - (BOOL)synthesizeWithError:(NSError **)error;
 @end
 
+// Public XCTest drag helpers decelerate before lifting. This OS path keeps moving
+// until release, so the navigation test actually exercises velocity projection.
+NSString *JoltNavigationFlick(CGPoint start, CGFloat distance) {
+    Class pathClass = NSClassFromString(@"XCPointerEventPath"), recordClass = NSClassFromString(@"XCSynthesizedEventRecord");
+    if (!pathClass || !recordClass) return @"XCTest pointer-path interfaces are unavailable";
+    id path = [[pathClass alloc] initForTouchAtPoint:start offset:0];
+    // Establish edge recognition before accelerating; the last part tests release
+    // velocity, independently of UIKit's initial edge-intent threshold.
+    [path moveToPoint:CGPointMake(start.x + 12, start.y) atOffset:.2];
+    [path moveToPoint:CGPointMake(start.x + 24, start.y) atOffset:.35];
+    for (int i = 1; i <= 8; i++)
+        [path moveToPoint:CGPointMake(start.x + 24 + (distance - 24) * i / 8, start.y) atOffset:.35 + i * .012];
+    [path liftUpAtOffset:.451];
+    id record = [[recordClass alloc] initWithName:@"Jolt navigation edge flick" interfaceOrientation:UIInterfaceOrientationPortrait];
+    [record addPointerEventPath:path];
+    NSError *error = nil;
+    return [record synthesizeWithError:&error] ? nil : error.localizedDescription ?: @"XCTest event synthesis failed";
+}
+
 NSString *JoltGestureTrace(CGPoint center) {
     Class pathClass = NSClassFromString(@"XCPointerEventPath"), recordClass = NSClassFromString(@"XCSynthesizedEventRecord");
     if (!pathClass || !recordClass) return @"XCTest pointer-path interfaces are unavailable";
