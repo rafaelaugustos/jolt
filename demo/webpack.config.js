@@ -23,6 +23,10 @@ module.exports = (env) => {
         '@rafaelaugusto/jolt/shared-layout$',
         resolve(__dirname, '../dist/shared-layout/index.js'),
       )
+      .set(
+        '@rafaelaugusto/jolt/shared-navigation$',
+        resolve(__dirname, '../dist/shared-navigation/index.js'),
+      )
       .set('@rafaelaugusto/jolt/testing$', resolve(__dirname, '../dist/testing/index.js'))
       .set(
         '@rafaelaugusto/jolt/testing/native$',

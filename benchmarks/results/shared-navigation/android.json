@@ -1,0 +1,63 @@
+{
+  "platform": "Android emulator, API 36",
+  "input": "real ADB taps",
+  "physicalDevice": false,
+  "results": [
+    {
+      "status": "completed",
+      "navigated": true
+    },
+    {
+      "status": "completed",
+      "navigated": true
+    },
+    {
+      "status": "completed",
+      "navigated": true
+    },
+    {
+      "status": "completed",
+      "navigated": true
+    },
+    {
+      "status": "completed",
+      "navigated": true
+    },
+    {
+      "status": "completed",
+      "navigated": true
+    },
+    {
+      "status": "unavailable",
+      "navigated": true,
+      "reason": "missing-target"
+    },
+    {
+      "status": "unavailable",
+      "navigated": true,
+      "reason": "missing-source"
+    },
+    {
+      "status": "unavailable",
+      "navigated": true,
+      "reason": "reduced-motion"
+    },
+    {
+      "status": "unavailable",
+      "navigated": true,
+      "reason": "reduced-motion"
+    }
+  ],
+  "state": "idle",
+  "nativeActive": 0,
+  "visible": [
+    {
+      "tag": "cove",
+      "visible": true
+    },
+    {
+      "tag": "pass",
+      "visible": true
+    }
+  ]
+}

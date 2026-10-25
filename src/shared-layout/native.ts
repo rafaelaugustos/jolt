@@ -57,3 +57,55 @@ export function capture(
     dispose: () => flight.dispose(),
   }
 }
+
+/** Static decoded Image content; native crop coordinates animate with the moving clip. */
+export function captureNavigationImage(
+  view: View,
+  radius: number,
+  budget: number,
+): Flight | undefined {
+  if (isIOS) {
+    if (
+      typeof JoltSharedLayoutFlight === 'undefined' ||
+      !JoltSharedLayoutFlight.captureNavigationImageRadiusMaxPixels
+    )
+      throw new Error('Rebuild the native app to use sharedNavigation().')
+    const flight = JoltSharedLayoutFlight.captureNavigationImageRadiusMaxPixels(
+      view.nativeViewProtected,
+      radius,
+      budget,
+    )
+    if (!flight) return
+    return {
+      pixels: () => flight.pixels(),
+      state: () => flight.state(),
+      prepare: (target, _image, radius, budget) =>
+        flight.prepareNavigationImageRadiusMaxPixels(
+          target.nativeViewProtected,
+          radius,
+          budget,
+        ),
+      freeze: () => false,
+      play: (json, done) => flight.playOnEnd(json, done),
+      dispose: () => flight.dispose(),
+    }
+  }
+  const Native = org.rafaelaugusto.jolt.SharedLayoutFlight
+  if (!Native?.captureNavigationImage)
+    throw new Error('Rebuild the native app to use sharedNavigation().')
+  const flight = Native.captureNavigationImage(view.nativeViewProtected, radius, budget)
+  if (!flight) return
+  return {
+    pixels: () => flight.pixels(),
+    state: () => flight.state(),
+    prepare: (target, _image, radius, budget) =>
+      flight.prepareNavigationImage(target.nativeViewProtected, radius, budget),
+    freeze: () => false,
+    play: (json, done) =>
+      flight.play(
+        json,
+        new org.rafaelaugusto.jolt.SharedLayoutFlight.Listener({ onEnd: done }),
+      ),
+    dispose: () => flight.dispose(),
+  }
+}

@@ -1,5 +1,26 @@
 // English source messages → Brazilian Portuguese. Keep numbered placeholders intact.
 export const portuguese: Record<string, string> = {
+  'Shared navigation': 'Navegação compartilhada',
+  'A new page. The same connection.': 'Outra página. A mesma conexão.',
+  'SOMEWHERE SLOW': 'SEM PRESSA',
+  'A change of scenery.': 'Mude de paisagem.',
+  'Open the cove': 'Abrir a enseada',
+  'Salt in the air. Nothing on the clock.': 'Maresia no ar. Sem hora para voltar.',
+  'Open the day pass': 'Abrir o passe do dia',
+  'YOUR DAY PASS': 'SEU PASSE DO DIA',
+  'One day, all yours.': 'Um dia só seu.',
+  'Tap a place. Keep the connection.': 'Toque em um lugar. Mantenha a conexão.',
+  'Connected, there and back.': 'Conectados, na ida e na volta.',
+  'No target. The route still works.': 'Sem destino visual. A rota continua.',
+  'Reduced motion. Same destination.': 'Menos movimento. Mesmo destino.',
+  'Back to the places': 'Voltar aos lugares',
+  'THE ART OF GETTING AWAY': 'A ARTE DE DESACELERAR',
+  'One day,\nall yours.': 'Um dia,\nsó seu.',
+  'A quiet cove. A long lunch.\nNo next thing.':
+    'Uma enseada. Um almoço demorado.\nSem próximo compromisso.',
+  'Find your own pace. We saved you a place.': 'Encontre seu ritmo. Guardamos seu lugar.',
+  'A LITTLE CLOSER TO NOW': 'UM POUCO MAIS PERTO DO AGORA',
+
   'THE FEELING OF PHYSICS': 'A FÍSICA QUE SE SENTE',
   'NO TWO MOVES ALIKE': 'CADA MOVIMENTO É ÚNICO',
   'A SMALL ENTRANCE. A BIG PERSONALITY.': 'UMA PEQUENA ENTRADA. MUITA PERSONALIDADE.',

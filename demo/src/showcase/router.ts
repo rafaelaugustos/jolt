@@ -1,4 +1,5 @@
 import { createRouter } from 'vue-router-ns'
+import SharedNavigationDetail from './SharedNavigationDetail.vue'
 import Home from './Home.vue'
 import Collection from './Collection.vue'
 import Example from './Example.vue'
@@ -7,6 +8,11 @@ import Appearance from './Appearance.vue'
 
 export const router = createRouter({
   routes: [
+    {
+      path: '/shared-navigation/:mode',
+      name: 'shared-navigation-detail',
+      component: SharedNavigationDetail,
+    },
     { path: '/', name: 'home', component: Home },
     { path: '/appearance', name: 'appearance', component: Appearance },
     { path: '/language', name: 'language', component: Language },
