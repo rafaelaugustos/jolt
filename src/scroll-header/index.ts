@@ -1,4 +1,12 @@
-import { Application, ListView, LayoutBase, View, Trace, isIOS } from '@nativescript/core'
+import {
+  Application,
+  ListView,
+  Label,
+  LayoutBase,
+  View,
+  Trace,
+  isIOS,
+} from '@nativescript/core'
 import { bind, motionValue, springValue, type SpringValue } from '../motion-value.js'
 import { set } from '../animate.js'
 import { reducedMotion, onReducedMotion } from '../config.js'
@@ -40,7 +48,7 @@ export interface ScrollHeaderOptions {
   stretch?: boolean
   /** Stable data keys, excluding spacer row zero. Required by preserveAnchor(). */
   keys?: () => readonly string[]
-  diagnostic?: View
+  diagnostic?: Label
   onState?: (state: ScrollHeaderSnapshot) => void
 }
 export interface ScrollHeader {
@@ -88,6 +96,8 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
     )
   if (!options || typeof options.setSpacerHeight !== 'function')
     throw new TypeError('Provide setSpacerHeight() for list row zero.')
+  if (options.diagnostic !== undefined && !(options.diagnostic instanceof Label))
+    throw new TypeError('diagnostic must be a Core Label.')
   const { header, artwork, title, toolbar, toolbarTitle, section } = options
   if (
     ![header, artwork, title, toolbar, toolbarTitle, section].every(

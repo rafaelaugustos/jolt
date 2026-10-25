@@ -156,6 +156,9 @@ describe('scrollHeader geometry and ownership', () => {
     s.title.parent = s.header
     Object.assign(s.list, { sectioned: true })
     expect(s.start).toThrow(/flat Core ListView/)
+    Object.assign(s.list, { sectioned: false })
+    Object.assign(s.options, { diagnostic: new View() })
+    expect(s.start).toThrow(/Core Label/)
   })
   it('measures a real spacer and leaves an already-scrolled list in place at attachment', async () => {
     const s = scene()
