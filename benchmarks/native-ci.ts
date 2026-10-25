@@ -96,6 +96,10 @@ function save(status: 'running' | 'passed' | 'failed', error?: unknown) {
     samples,
     injected,
     error: error === undefined ? undefined : String(error),
+    diagnostic:
+      error && typeof error === 'object' && 'diagnostic' in error
+        ? error.diagnostic
+        : undefined,
     build: __NATIVE_CI_BUILD__,
     platform: Device.os,
     os: Device.osVersion,

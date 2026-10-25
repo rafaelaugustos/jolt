@@ -69,6 +69,8 @@ Intervals are at most 100 ms of playback. Each sampled segment has a 6,000-inter
 
 Experiment **58 — Curve precision** includes the comparison and native probes. The probes inspect native positions at 60/120 Hz logical timestamps; Android seek uses integer milliseconds, recorded separately from the requested time. This does not certify physical 120 Hz rendering. See [measurements, limits and reproduction](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/curve-sampling.md).
 
+The native probe pauses at each timestamp, waits beyond NativeScript's initial scheduling task and two display callbacks, then compares one presentation read with the curve. It keeps the 0.28-DIP tolerance and a bounded timeout; it does not retry a wrong value until it passes. Failed CI reports include the seek phase, clock and recent native observations.
+
 ## Per property
 
 ```ts

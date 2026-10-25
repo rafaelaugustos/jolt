@@ -33,6 +33,16 @@ Build the [native CI fixture](./native-ci.md) and normal demo sequentially. The 
 
 Native tolerances are 0.28 DIP (0.25 sampling budget plus 0.03 floating-point/probe margin). The artifact also reports density-adjusted pixel error and median native setup cost for fixed/adaptive point sets. The benchmark creates and stops both kinds of real native animations; it does not estimate native preparation from JS array length.
 
+### Presentation timing regression (#216)
+
+The beta.18 check reproduced the iOS 26.2 CI failure locally (`87.7765` versus `0`) and failed again during investigation (`91.1694` versus `0`), while other runs passed. Its two nested `driver.frame()` callbacks did not necessarily cross two display ticks: NativeScript Core 9.1.3's `animation-frame/index.js` schedules the first request outside a frame through `queueMacrotask`; only nested requests use its native FPS callback. The original artifact did not retain enough seek state to establish which native transaction was stale.
+
+The check now uses three nested callbacks, allowing at least two display ticks before one presentation read. This removes the incorrect scheduling assumption without polling until a value matches, replaying an assertion, relaxing tolerance, or modifying production playback. It is a bounded sampling barrier, not proof of GPU scan-out. The existing 1,500-ms timeout remains; cancellation and scheduling errors release queued work. Every comparison, including the intentionally wrong expected position, still asserts the observed native value.
+
+Failures retain `diagnostic` in `baseline.json`: seek phase, requested/effective time, held state, track duration, elapsed clock, the last eight comparisons and a failure-time iOS animation/presentation snapshot. Model values are labeled separately and never substitute for missing presentation. Capture errors cannot replace the original assertion. Success reports identify `kind: curve-sampling` and include accumulated presentation wait time.
+
+The regression tests exercise the initial macrotask, the first native callback before an update, subsequent presentation, a persistently wrong value, stalled display, cancellation and scheduling failure. Local iOS 26.2 and Android results are recorded in [`results/ios-presentation/`](./results/ios-presentation/). The existing native CI group/job remains; no rerun loop, emulator or workflow was added. The existing recordings remain representative because the visible animation and its controls are unchanged.
+
 ```sh
 python3 benchmarks/docs-record-ios.py YOUR_SIMULATOR_UUID /tmp/JoltSamplingIOS testCurveSampling testCurveSamplingPortuguese
 python3 benchmarks/curve-sampling-android.py YOUR_EMULATOR_SERIAL /tmp/JoltSamplingAndroid
