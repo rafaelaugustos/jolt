@@ -52,6 +52,42 @@ final class DocsTests: XCTestCase {
         start.press(forDuration: 0.55, thenDragTo: destination, withVelocity: fast ? .fast : .slow, thenHoldForDuration: hold)
         Thread.sleep(forTimeInterval: 0.6)
     }
+    func testGravity() throws {
+        languageLaunch("en", "language-settings"); selectLanguage("system")
+        languageLaunch("en", "gravity-lab", ["--showcase-example=gravity"])
+        try record("gravity-ios") {
+            tap("gravity-drop", wait: 3.8)
+            tap("gravity-toss", wait: 0.2)
+            tap("gravity-pause", wait: 0.7)
+            tap("gravity-pause", wait: 1.2)
+            tap("gravity-return", wait: 0.8)
+            tap("gravity-mood-0", wait: 2)
+            tap("gravity-mood-2", wait: 1.2)
+            tap("gravity-reduce"); tap("gravity-drop")
+        }
+        tap("gravity-reduce")
+    }
+    func testGravityChecks() throws {
+        languageLaunch("en", "gravity-lab", ["--showcase-example=gravity", "--gravity-audit"])
+        tap("gravity-drop", wait: 0.15)
+        tap("gravity-pause", wait: 0.4)
+        tap("gravity-snapshot")
+        tap("gravity-pause", wait: 0.2)
+        tap("gravity-snapshot")
+        tap("gravity-return", wait: 0.8)
+        tap("gravity-snapshot")
+        tap("gravity-mood-2", wait: 1)
+        tap("gravity-snapshot")
+        tap("gravity-toss", wait: 1.5)
+        tap("gravity-snapshot")
+        tap("gravity-reduce"); tap("gravity-drop"); tap("gravity-snapshot")
+        tap("gravity-reduce"); tap("gravity-mood-1", wait: 0.1)
+        XCUIDevice.shared.press(.home); Thread.sleep(forTimeInterval: 0.6)
+        app.activate(); Thread.sleep(forTimeInterval: 0.4)
+        tap("gravity-snapshot")
+        tap("Back to collection")
+        XCTAssertFalse(app.descendants(matching: .any)["gravity-lab"].firstMatch.exists)
+    }
     func sensorDemo(_ language: String) throws {
         languageLaunch(language, "language-settings")
         selectLanguage("system")

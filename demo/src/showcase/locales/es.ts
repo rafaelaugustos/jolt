@@ -1,5 +1,19 @@
 // English source messages → Spanish. Keep numbered placeholders intact.
 export const spanish: Record<string, string> = {
+  'A softer landing': 'Un aterrizaje suave',
+  'Let go. Find your balance.': 'Suelta. Encuentra tu equilibrio.',
+  'Extra bounce': 'Más rebote',
+  'No bounce': 'Sin rebote',
+  'Ready to let go.': 'Listo para soltar.',
+  'Every bounce, a little quieter.': 'Cada rebote, un poco más de calma.',
+  'A fresh start, with the same momentum.': 'Un nuevo comienzo, con el mismo impulso.',
+  'THE FALLING CLUB': 'EL CLUB DE LA CAÍDA',
+  'A LITTLE SPACE TO FALL.': 'UN ESPACIO PARA CAER.',
+  'GROUND / 00': 'SUELO / 00',
+  'Let it fall': 'Dejar caer',
+  'Toss up': 'Lanzar arriba',
+  'Return to the top': 'Volver arriba',
+
   'Reduce motion': 'Reducir movimiento',
   'Motion on': 'Activar movimiento',
 

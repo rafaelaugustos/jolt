@@ -1,5 +1,19 @@
 // English source messages → Simplified Chinese. Keep numbered placeholders intact.
 export const chinese: Record<string, string> = {
+  'A softer landing': '轻柔落地',
+  'Let go. Find your balance.': '放手，找到平衡。',
+  'Extra bounce': '更多弹跳',
+  'No bounce': '不弹跳',
+  'Ready to let go.': '准备好放手。',
+  'Every bounce, a little quieter.': '每次弹跳，都更平静。',
+  'A fresh start, with the same momentum.': '带着同样的动量，重新开始。',
+  'THE FALLING CLUB': '自由落体俱乐部',
+  'A LITTLE SPACE TO FALL.': '留一点下落的空间。',
+  'GROUND / 00': '地面 / 00',
+  'Let it fall': '让它落下',
+  'Toss up': '向上抛',
+  'Return to the top': '回到顶部',
+
   'Reduce motion': '减少动态效果',
   'Motion on': '开启动效',
 

@@ -25,6 +25,7 @@
 - [`reorder(list, options)`](./reorder) — optional flat Core ListView reordering with stable keys, variable heights, native edge scrolling and keyboard/accessibility moves.
 - [`value.subscribe(listener, { immediate? })`](./motion-values#observing-outside-views) — observe numbers, derived colors and scroll values in JavaScript; returns unsubscribe.
 - [`animate(value, target, { layer })`, `stop(value, { layer })`](./motion-values#layers-on-a-value) — additive scalar layers before mappings.
+- [`animate(target, { y }, { type: 'gravity' })`](./gravity) — ballistic fall and bounce to one fixed landing.
 - [`decay(target, velocity, options?)`](./decay)
 - [`gradient(target, options)`](./gradients) — native linear, radial and conic gradients with mixed static/motion-value components (`GradientBindings`); returns a `Gradient` with `bind()`, `animate()`, `set()`, `stop()`, `suspend()`, `resume()`, `suspended` and `remove()`. [`motionScope().gradient()` and `v-gradient`](./gradients#scopes-and-vue) own it for a scope or a template.
 - `stop(target, properties?)`

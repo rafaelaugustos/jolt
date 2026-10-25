@@ -1,3 +1,4 @@
+import GravityLab from '../components/GravityLab.vue'
 import SensorLab from '../components/SensorLab.vue'
 import ScrollHeaderLab from '../components/ScrollHeaderLab.vue'
 import ReturnTargetsLab from '../components/ReturnTargetsLab.vue'
@@ -73,6 +74,15 @@ export const categories = [
   'SceneKit',
 ] as const
 export const examples = [
+  {
+    id: 'gravity',
+    title: 'A softer landing',
+    category: 'Motion',
+    description: 'Let go. Find your balance.',
+    component: markRaw(GravityLab),
+    full: true,
+    ios: false,
+  },
   {
     id: 'device-sensors',
     title: 'Move the light',

@@ -278,6 +278,12 @@ class Root extends Derived {
     const base = Math.min(...frames)
     const span = Math.max(...frames) - base
     const velocity = this.velocity(key)
+    if (resolved.curve.type === 'gravity') {
+      // Acceleration and velocity belong to the value's units, not normalized progress.
+      const track = createTrack('x', frames, resolved, velocity)
+      this.halt(key)
+      return track.end === 0 ? this.jump(track.to, key) : this.start(track, 0, 1, key)
+    }
     if (span === 0) {
       this.halt(key)
       return this.jump(frames.at(-1)!, key)

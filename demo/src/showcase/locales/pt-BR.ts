@@ -1,5 +1,19 @@
 // English source messages → Brazilian Portuguese. Keep numbered placeholders intact.
 export const portuguese: Record<string, string> = {
+  'A softer landing': 'Um pouso mais suave',
+  'Let go. Find your balance.': 'Solte. Encontre seu equilíbrio.',
+  'Extra bounce': 'Mais quique',
+  'No bounce': 'Sem quique',
+  'Ready to let go.': 'Pronto para soltar.',
+  'Every bounce, a little quieter.': 'A cada quique, um pouco mais de calma.',
+  'A fresh start, with the same momentum.': 'Um novo começo, com o mesmo impulso.',
+  'THE FALLING CLUB': 'O CLUBE DA QUEDA',
+  'A LITTLE SPACE TO FALL.': 'UM ESPAÇO PARA CAIR.',
+  'GROUND / 00': 'CHÃO / 00',
+  'Let it fall': 'Deixe cair',
+  'Toss up': 'Jogar para cima',
+  'Return to the top': 'Voltar ao topo',
+
   'Reduce motion': 'Reduzir movimento',
   'Motion on': 'Ativar movimento',
 
