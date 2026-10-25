@@ -18,7 +18,8 @@
       "@rafaelaugusto/jolt/shared-navigation": ["./src/shared-navigation/index.ts"],
       "@rafaelaugusto/jolt/interactive-navigation": [
         "./src/interactive-navigation/index.ts"
-      ]
+      ],
+      "@rafaelaugusto/jolt/predictive-back": ["./src/predictive-back/index.ts"]
     },
     "strict": true,
     "noUncheckedIndexedAccess": true,

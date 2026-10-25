@@ -1,0 +1,797 @@
+{
+  "platform": "Android 16 / API 36 emulator; real OS input",
+  "checks": [
+    {
+      "check": "attached",
+      "state": "idle",
+      "commits": 0,
+      "callbacks": 1,
+      "progressEvents": 0
+    },
+    {
+      "check": "left cancel",
+      "state": "idle",
+      "commits": 0,
+      "callbacks": 1,
+      "progressEvents": 76
+    },
+    {
+      "check": "right cancel",
+      "state": "idle",
+      "commits": 0,
+      "callbacks": 1,
+      "progressEvents": 150
+    },
+    {
+      "check": "right commit",
+      "state": "disposed",
+      "commits": 1,
+      "callbacks": 0,
+      "progressEvents": 193
+    },
+    {
+      "check": "router guard rejects",
+      "state": "idle",
+      "commits": 2,
+      "callbacks": 1,
+      "progressEvents": 238
+    },
+    {
+      "check": "cancel held gesture",
+      "state": "idle",
+      "commits": 2,
+      "callbacks": 1,
+      "progressEvents": 252
+    },
+    {
+      "check": "hardware back",
+      "state": "disposed",
+      "commits": 3,
+      "callbacks": 0,
+      "progressEvents": 252
+    },
+    {
+      "check": "reduced motion",
+      "state": "disposed",
+      "commits": 4,
+      "callbacks": 0,
+      "progressEvents": 298
+    },
+    {
+      "check": "keyboard first",
+      "state": "idle",
+      "commits": 4,
+      "callbacks": 1,
+      "progressEvents": 298
+    },
+    {
+      "check": "gesture after keyboard",
+      "state": "disposed",
+      "commits": 5,
+      "callbacks": 0,
+      "progressEvents": 343
+    },
+    {
+      "check": "disabled delegates to router",
+      "state": "disposed",
+      "commits": 5,
+      "callbacks": 0,
+      "progressEvents": 343
+    },
+    {
+      "check": "explicit disposal",
+      "state": "disposed",
+      "commits": 5,
+      "callbacks": 0,
+      "progressEvents": 343
+    },
+    {
+      "check": "resume and commit",
+      "state": "disposed",
+      "commits": 6,
+      "callbacks": 0,
+      "progressEvents": 390
+    }
+  ],
+  "report": {
+    "page": "predictive-back",
+    "state": "disposed",
+    "supported": true,
+    "callbacks": 0,
+    "active": 0,
+    "progressEvents": 390,
+    "transform": [0, 0, 1, 1, 1, 0],
+    "commits": 6,
+    "events": [
+      {
+        "state": "tracking",
+        "edge": "left"
+      },
+      {
+        "state": "cancelling",
+        "edge": "left",
+        "release": {
+          "progress": 0,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "idle",
+        "edge": "left",
+        "outcome": "cancelled"
+      },
+      {
+        "state": "tracking",
+        "edge": "right"
+      },
+      {
+        "state": "cancelling",
+        "edge": "right",
+        "release": {
+          "progress": 0,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "idle",
+        "edge": "right",
+        "outcome": "cancelled"
+      },
+      {
+        "state": "tracking",
+        "edge": "right"
+      },
+      {
+        "state": "finishing",
+        "edge": "right",
+        "release": {
+          "progress": 0.43665093183517456,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "committing",
+        "edge": "right"
+      },
+      {
+        "state": "idle",
+        "edge": "right",
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "edge": "right"
+      },
+      {
+        "state": "tracking",
+        "edge": "left"
+      },
+      {
+        "state": "finishing",
+        "edge": "left",
+        "release": {
+          "progress": 0.43643301725387573,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "committing",
+        "edge": "left"
+      },
+      {
+        "state": "cancelling",
+        "edge": "left",
+        "release": {
+          "progress": 1,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "idle",
+        "edge": "left",
+        "outcome": "cancelled",
+        "reason": "rejected"
+      },
+      {
+        "state": "tracking",
+        "edge": "left"
+      },
+      {
+        "state": "cancelling",
+        "edge": "left",
+        "release": {
+          "progress": 0.1024659276008606,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "idle",
+        "edge": "left",
+        "outcome": "cancelled"
+      },
+      {
+        "state": "tracking"
+      },
+      {
+        "state": "finishing",
+        "release": {
+          "progress": 0,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "committing"
+      },
+      {
+        "state": "idle",
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed"
+      },
+      {
+        "state": "tracking",
+        "edge": "left"
+      },
+      {
+        "state": "finishing",
+        "edge": "left",
+        "release": {
+          "progress": 0.4385624825954437,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "committing",
+        "edge": "left"
+      },
+      {
+        "state": "idle",
+        "edge": "left",
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "edge": "left"
+      },
+      {
+        "state": "tracking",
+        "edge": "left"
+      },
+      {
+        "state": "finishing",
+        "edge": "left",
+        "release": {
+          "progress": 0.43425291776657104,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "committing",
+        "edge": "left"
+      },
+      {
+        "state": "idle",
+        "edge": "left",
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "edge": "left"
+      },
+      {
+        "state": "disposed"
+      },
+      {
+        "state": "disposed"
+      },
+      {
+        "state": "disposed"
+      },
+      {
+        "state": "tracking",
+        "edge": "left"
+      },
+      {
+        "state": "finishing",
+        "edge": "left",
+        "release": {
+          "progress": 0.4385624825954437,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "committing",
+        "edge": "left"
+      },
+      {
+        "state": "idle",
+        "edge": "left",
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "edge": "left"
+      }
+    ],
+    "snapshots": [
+      {
+        "page": "predictive-back",
+        "state": "idle",
+        "supported": true,
+        "callbacks": 1,
+        "active": 0,
+        "progressEvents": 0,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "tracking",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 0,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "cancelling",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 76,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "idle",
+        "supported": true,
+        "callbacks": 1,
+        "active": 0,
+        "progressEvents": 76,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "tracking",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 76,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "cancelling",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 150,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "idle",
+        "supported": true,
+        "callbacks": 1,
+        "active": 0,
+        "progressEvents": 150,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "tracking",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 150,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "finishing",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 193,
+        "transform": [
+          -32.09384536743164, 16.04692268371582, 0.9563348889350891, 0.9563348889350891,
+          1, -0.26199057698249817
+        ]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "committing",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 193,
+        "transform": [
+          -73.5, 36.75, 0.8999999761581421, 0.8999999761581421, 1, -0.6000000238418579
+        ]
+      },
+      {
+        "page": "predictive-back",
+        "state": "disposed",
+        "supported": true,
+        "callbacks": 0,
+        "active": 0,
+        "progressEvents": 193,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-back",
+        "state": "disposed",
+        "supported": true,
+        "callbacks": 0,
+        "active": 0,
+        "progressEvents": 193,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-back",
+        "state": "idle",
+        "supported": true,
+        "callbacks": 1,
+        "active": 0,
+        "progressEvents": 193,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "tracking",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 193,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "finishing",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 238,
+        "transform": [
+          32.07782745361328, 16.03891372680664, 0.9563567042350769, 0.9563567042350769, 1,
+          0.26185983419418335
+        ]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "committing",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 238,
+        "transform": [
+          73.5, 36.75, 0.8999999761581421, 0.8999999761581421, 1, 0.6000000238418579
+        ]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "cancelling",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 238,
+        "transform": [
+          73.5, 36.75, 0.8999999761581421, 0.8999999761581421, 1, 0.6000000238418579
+        ]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "idle",
+        "supported": true,
+        "callbacks": 1,
+        "active": 0,
+        "progressEvents": 238,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "tracking",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 238,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "cancelling",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 252,
+        "transform": [
+          7.531245708465576, 3.765622854232788, 0.9897534251213074, 0.9897534251213074, 1,
+          0.06147955730557442
+        ]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "idle",
+        "supported": true,
+        "callbacks": 1,
+        "active": 0,
+        "progressEvents": 252,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "tracking",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 252,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "finishing",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 252,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "committing",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 252,
+        "transform": [
+          73.5, 36.75, 0.8999999761581421, 0.8999999761581421, 1, 0.6000000238418579
+        ]
+      },
+      {
+        "page": "predictive-back",
+        "state": "disposed",
+        "supported": true,
+        "callbacks": 0,
+        "active": 0,
+        "progressEvents": 252,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-back",
+        "state": "disposed",
+        "supported": true,
+        "callbacks": 0,
+        "active": 0,
+        "progressEvents": 252,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-back",
+        "state": "idle",
+        "supported": true,
+        "callbacks": 1,
+        "active": 0,
+        "progressEvents": 252,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "tracking",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 252,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "finishing",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 298,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "committing",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 298,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-back",
+        "state": "disposed",
+        "supported": true,
+        "callbacks": 0,
+        "active": 0,
+        "progressEvents": 298,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-back",
+        "state": "disposed",
+        "supported": true,
+        "callbacks": 0,
+        "active": 0,
+        "progressEvents": 298,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-back",
+        "state": "idle",
+        "supported": true,
+        "callbacks": 1,
+        "active": 0,
+        "progressEvents": 298,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "tracking",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 298,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "finishing",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 343,
+        "transform": [
+          31.91758918762207, 15.958794593811035, 0.9565746784210205, 0.9565746784210205,
+          1, 0.2605517506599426
+        ]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "committing",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 343,
+        "transform": [
+          73.5, 36.75, 0.8999999761581421, 0.8999999761581421, 1, 0.6000000238418579
+        ]
+      },
+      {
+        "page": "predictive-back",
+        "state": "disposed",
+        "supported": true,
+        "callbacks": 0,
+        "active": 0,
+        "progressEvents": 343,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-back",
+        "state": "disposed",
+        "supported": true,
+        "callbacks": 0,
+        "active": 0,
+        "progressEvents": 343,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-back",
+        "state": "idle",
+        "supported": true,
+        "callbacks": 1,
+        "active": 0,
+        "progressEvents": 343,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "disposed",
+        "supported": true,
+        "callbacks": 0,
+        "active": 0,
+        "progressEvents": 343,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-back",
+        "state": "idle",
+        "supported": true,
+        "callbacks": 1,
+        "active": 0,
+        "progressEvents": 343,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "disposed",
+        "supported": true,
+        "callbacks": 0,
+        "active": 0,
+        "progressEvents": 343,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-back",
+        "state": "idle",
+        "supported": true,
+        "callbacks": 1,
+        "active": 0,
+        "progressEvents": 343,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "disposed",
+        "supported": true,
+        "callbacks": 0,
+        "active": 0,
+        "progressEvents": 343,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "idle",
+        "supported": true,
+        "callbacks": 1,
+        "active": 0,
+        "progressEvents": 343,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "tracking",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 343,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "finishing",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 390,
+        "transform": [
+          32.23434066772461, 16.117170333862305, 0.9561437368392944, 0.9561437368392944,
+          1, 0.26313748955726624
+        ]
+      },
+      {
+        "page": "predictive-detail-page",
+        "state": "committing",
+        "supported": true,
+        "callbacks": 1,
+        "active": 1,
+        "progressEvents": 390,
+        "transform": [
+          73.5, 36.75, 0.8999999761581421, 0.8999999761581421, 1, 0.6000000238418579
+        ]
+      },
+      {
+        "page": "predictive-back",
+        "state": "disposed",
+        "supported": true,
+        "callbacks": 0,
+        "active": 0,
+        "progressEvents": 390,
+        "transform": [0, 0, 1, 1, 1, 0]
+      },
+      {
+        "page": "predictive-back",
+        "state": "disposed",
+        "supported": true,
+        "callbacks": 0,
+        "active": 0,
+        "progressEvents": 390,
+        "transform": [0, 0, 1, 1, 1, 0]
+      }
+    ]
+  }
+}

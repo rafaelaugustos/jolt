@@ -443,3 +443,30 @@ declare namespace org.rafaelaugusto.jolt {
     }
   }
 }
+
+declare namespace org.rafaelaugusto.jolt {
+  class PredictiveBackSession {
+    static attach(
+      view: android.view.View,
+      options: string,
+      listener: PredictiveBackSession.Listener,
+    ): PredictiveBackSession | null
+    static callbackCount(): number
+    static activeCount(): number
+    static progressEventCount(): number
+    getProgress(): number
+    setInputEnabled(enabled: boolean): void
+    setMotion(reduced: boolean, timeScale: number): void
+    handleOnBackPressed(): void
+    completeCommit(accepted: boolean): void
+    cancel(): void
+    dispose(): void
+  }
+  namespace PredictiveBackSession {
+    class Listener {
+      constructor(implementation: {
+        onState(state: number, progress: number, velocity: number, edge: number): void
+      })
+    }
+  }
+}

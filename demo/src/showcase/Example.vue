@@ -28,7 +28,7 @@ function clean() {
 }
 function leave() {
   // An interactive pop previews the retained page before navigatedTo commits.
-  if (example?.id === 'interactive-navigation') return
+  if (['interactive-navigation', 'predictive-back'].includes(example?.id ?? '')) return
   mounted.value = false
   clean()
 }
