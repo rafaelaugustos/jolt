@@ -228,6 +228,8 @@ declare class JoltSceneShaderProperties extends NSObject {
 }
 
 declare class JoltSharedLayoutFlight extends UIView {
+  holdPageMaxPixels(page: UIView, maxPixels: number): boolean
+  fadeOnEnd(duration: number, onEnd: (completed: boolean) => void): void
   static captureNavigationImageRadiusMaxPixels(
     view: UIView,
     radius: number,
@@ -259,6 +261,8 @@ declare class JoltSharedLayoutFlight extends UIView {
 }
 declare class JoltInteractiveNavigation extends NSObject {
   sharedEnabled: boolean
+  sharedDeferred: boolean
+  completeSharedPreparation(): void
   prepareSharedFromToImageFromRadiusToRadiusMaxPixels(
     from: UIView,
     to: UIView,

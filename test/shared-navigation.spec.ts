@@ -22,6 +22,8 @@ class Flight {
     })
   pixels = () => 20_000
   prepare = vi.fn((): string | null => JSON.stringify([30, 40, 220, 300, 24]))
+  holdPage = vi.fn(() => true)
+  fade = vi.fn((_duration: number, done: (finished: boolean) => void) => done(true))
   freeze = () => false
   done: (completed: boolean) => void = () => {}
   play = vi.fn((_json: string, done: (completed: boolean) => void) => {
@@ -88,6 +90,61 @@ describe('shared navigation route and overlay ownership', () => {
     expect(f.control.state).toBe('idle')
     expect(f.frame.listenerCount('navigatedTo')).toBe(0)
     expect(navigate).toHaveBeenCalledTimes(1)
+  })
+  it('holds the source while resolving the current return cell and releases all listeners', async () => {
+    const f = fixture()
+    let release!: (view: any) => void
+    const operation = f.control.navigate({
+      tag: 'photo',
+      holdSource: true,
+      returnTarget: { key: '42', resolve: () => new Promise((r) => (release = r)) },
+      navigate: f.commit,
+    })
+    expect(flight.holdPage).toHaveBeenCalledWith(f.from, 8_000_000)
+    await f.layout()
+    expect(flight.prepare).not.toHaveBeenCalled()
+    release(f.target)
+    await f.layout()
+    await f.layout()
+    await f.layout()
+    expect(flight.prepare).toHaveBeenCalled()
+    flight.done(true)
+    expect(await operation.finished).toMatchObject({
+      status: 'completed',
+      navigated: true,
+    })
+    expect(f.target.listenerCount('bindingContextChange')).toBe(0)
+  })
+  it('fades the retained source on missing return without another route operation', async () => {
+    const f = fixture(),
+      navigate = vi.fn(f.commit)
+    const operation = f.control.navigate({
+      tag: 'photo',
+      holdSource: true,
+      returnTarget: { key: '42', resolve: () => undefined },
+      navigate,
+    })
+    await f.layout()
+    await f.layout()
+    expect(await operation.finished).toMatchObject({
+      status: 'unavailable',
+      reason: 'missing-target',
+      navigated: true,
+    })
+    expect(flight.fade).toHaveBeenCalledOnce()
+    expect(navigate).toHaveBeenCalledOnce()
+    expect(flight.dispose).toHaveBeenCalledOnce()
+  })
+  it('ends a flight if its destination cell is rebound during playback', async () => {
+    const f = fixture()
+    const operation = f.control.navigate({ tag: 'photo', navigate: f.commit })
+    await f.layout()
+    f.target.notify({ eventName: 'bindingContextChange' })
+    expect(await operation.finished).toMatchObject({
+      status: 'cancelled',
+      reason: 'target-identity-changed',
+    })
+    expect(flight.dispose).toHaveBeenCalledOnce()
   })
   it('refuses concurrent taps without invoking another route', async () => {
     const f = fixture(),

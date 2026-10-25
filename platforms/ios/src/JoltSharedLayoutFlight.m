@@ -4,7 +4,9 @@
 @interface JoltSharedLayoutFlight () {
     double _pose[10], _velocity[10], _interactiveStart[10], _interactiveEnd[10];
 }
-@property(nonatomic) BOOL navigationImage;
+@property(nonatomic) BOOL navigationImage, fading;
+@property(nonatomic) UIImage *pageImage;
+@property(nonatomic) CGRect pageFrame;
 @property(nonatomic,weak) UIWindow *host;
 @property(nonatomic,weak) UIView *destination;
 @property(nonatomic) NSMapTable<UIView *, NSNumber *> *hiddenViews;
@@ -18,11 +20,11 @@
 @property(nonatomic,copy) void (^onEnd)(BOOL);
 @end
 static NSInteger JoltSharedActive = 0;
-static BOOL JoltSharedUnsupported(UIView *view) {
+static BOOL JoltSharedUnsupportedContent(UIView *view, BOOL allowScrolling) {
     NSString *name=NSStringFromClass(view.class), *layer=NSStringFromClass(view.layer.class);
     for(NSString *type in @[@"WKWebView",@"SCNView",@"SKView",@"MTKView",@"GLKView",@"UIVisualEffectView"]) if([view isKindOfClass:NSClassFromString(type)])return YES;
-    if([view isKindOfClass:UIScrollView.class] || [layer containsString:@"Metal"] || [layer containsString:@"EAGL"] || [layer containsString:@"Player"] || [name containsString:@"Video"])return YES;
-    for(UIView *child in view.subviews)if(JoltSharedUnsupported(child))return YES;
+    if((!allowScrolling && [view isKindOfClass:UIScrollView.class]) || [layer containsString:@"Metal"] || [layer containsString:@"EAGL"] || [layer containsString:@"Player"] || [name containsString:@"Video"])return YES;
+    for(UIView *child in view.subviews)if(JoltSharedUnsupportedContent(child, allowScrolling))return YES;
     return NO;
 }
 @implementation JoltSharedLayoutFlight
@@ -50,7 +52,7 @@ static BOOL JoltSharedUnsupported(UIView *view) {
 }
 - (UIImage *)snapshot:(UIView *)view budget:(double)budget presentation:(BOOL)presentation {
     CGFloat scale=self.host.screen.scale;
-    if(ceil(view.bounds.size.width*scale)*ceil(view.bounds.size.height*scale)>budget || JoltSharedUnsupported(view))return nil;
+    if(ceil(view.bounds.size.width*scale)*ceil(view.bounds.size.height*scale)>budget || JoltSharedUnsupportedContent(view, NO))return nil;
     BOOL hidden=view.hidden; view.hidden=NO;
     UIGraphicsImageRendererFormat *format=[UIGraphicsImageRendererFormat defaultFormat]; format.scale=scale; format.opaque=NO;
     UIGraphicsImageRenderer *renderer=[[UIGraphicsImageRenderer alloc]initWithSize:view.bounds.size format:format];
@@ -109,8 +111,24 @@ static BOOL JoltSharedUnsupported(UIView *view) {
     return [[NSString alloc]initWithData:[NSJSONSerialization dataWithJSONObject:pose options:0 error:nil] encoding:NSUTF8StringEncoding];
 }
 
+- (BOOL)holdPage:(UIView *)page maxPixels:(double)maxPixels {
+    if(self.disposed || self.pageImage || page.window!=self.host || JoltSharedUnsupportedContent(page, YES))return NO;
+    CGRect frame=[self geometry:page presentation:YES];if(CGRectIsNull(frame))return NO;
+    CGFloat scale=self.host.screen.scale;
+    if(ceil(page.bounds.size.width*scale)*ceil(page.bounds.size.height*scale)+self.pixels>maxPixels)return NO;
+    // Visible page only: UITableView/UIScrollView layers render their realized cells.
+    UIGraphicsImageRendererFormat *format=[UIGraphicsImageRendererFormat defaultFormat];format.scale=scale;format.opaque=NO;
+    UIGraphicsImageRenderer *renderer=[[UIGraphicsImageRenderer alloc]initWithSize:page.bounds.size format:format];
+    self.pageImage=[renderer imageWithActions:^(UIGraphicsImageRendererContext *context){[page.layer renderInContext:context.CGContext];}];
+    self.pageFrame=frame;return self.pageImage!=nil;
+}
+- (void)fade:(double)duration onEnd:(void (^)(BOOL))onEnd {
+    if(self.disposed){if(onEnd)onEnd(NO);return;}
+    [self.clock invalidate];self.fading=YES;self.duration=MAX(1,MIN(500,duration));self.started=CACurrentMediaTime()*1000;self.onEnd=onEnd;
+    self.clock=[CADisplayLink displayLinkWithTarget:self selector:@selector(tick:)];[self.clock addToRunLoop:NSRunLoop.mainRunLoop forMode:NSRunLoopCommonModes];
+}
 - (double)pixels {
-    return (self.sourceImage?CGImageGetWidth(self.sourceImage.CGImage)*CGImageGetHeight(self.sourceImage.CGImage):0)+(self.targetImage?CGImageGetWidth(self.targetImage.CGImage)*CGImageGetHeight(self.targetImage.CGImage):0);
+    return (self.pageImage?CGImageGetWidth(self.pageImage.CGImage)*CGImageGetHeight(self.pageImage.CGImage):0)+(self.sourceImage?CGImageGetWidth(self.sourceImage.CGImage)*CGImageGetHeight(self.sourceImage.CGImage):0)+(self.targetImage?CGImageGetWidth(self.targetImage.CGImage)*CGImageGetHeight(self.targetImage.CGImage):0);
 }
 - (NSString *)state {
     NSMutableArray *pose=[NSMutableArray new],*velocity=[NSMutableArray new];
@@ -159,6 +177,12 @@ static BOOL JoltSharedUnsupported(UIView *view) {
     for(int i=0;i<10;i++)_pose[i]=_interactiveStart[i]+(_interactiveEnd[i]-_interactiveStart[i])*p;
     [self setNeedsDisplay];
 }
+- (BOOL)destinationIsStable {
+    if(self.disposed || !self.destination || self.destination.window!=self.host)return NO;
+    // Page opacity is intentionally animated by the transition; compare geometry only.
+    CGRect current=[self.destination convertRect:self.destination.bounds toView:self.host], target=self.targetFrame;
+    return fabs(current.origin.x-target.origin.x)<=1 && fabs(current.origin.y-target.origin.y)<=1 && fabs(current.size.width-target.size.width)<=1 && fabs(current.size.height-target.size.height)<=1;
+}
 - (void)evaluate:(double)now {
     double elapsed=MAX(0,now-self.started);
     for(int k=0;k<(self.navigationImage?10:6);k++) {
@@ -170,6 +194,7 @@ static BOOL JoltSharedUnsupported(UIView *view) {
     }
 }
 - (void)tick:(CADisplayLink *)clock {
+    if(self.fading){double p=MIN(1,(CACurrentMediaTime()*1000-self.started)/self.duration);self.alpha=1-p;if(p>=1)[self end:YES];return;}
     CGRect frame=[self geometry:self.destination presentation:NO]; CGRect target=self.targetFrame;
     if(!CGSizeEqualToSize(self.host.bounds.size,self.viewport) || CGRectIsNull(frame) || fabs(frame.origin.x-target.origin.x)>1 || fabs(frame.origin.y-target.origin.y)>1 || fabs(frame.size.width-target.size.width)>1 || fabs(frame.size.height-target.size.height)>1) { [self end:NO]; return; }
     double now=CACurrentMediaTime()*1000; [self evaluate:now]; [self setNeedsDisplay]; if(now-self.started>=self.duration)[self end:YES];
@@ -182,6 +207,7 @@ static BOOL JoltSharedUnsupported(UIView *view) {
     [image drawInRect:CGRectMake(CGRectGetMidX(box)-drawn.width/2,CGRectGetMidY(box)-drawn.height/2,drawn.width,drawn.height) blendMode:blend alpha:alpha];
 }
 - (void)render {
+    if(self.pageImage)[self.pageImage drawInRect:self.pageFrame blendMode:kCGBlendModeNormal alpha:1-MAX(0,MIN(1,_pose[5]))];
     CGRect box=CGRectMake(_pose[0],_pose[1],MAX(.1,_pose[2]),MAX(.1,_pose[3]));
     CGFloat radius=MAX(0,MIN(_pose[4],MIN(box.size.width,box.size.height)/2)); CGContextRef context=UIGraphicsGetCurrentContext(); CGContextSaveGState(context);
     [[UIBezierPath bezierPathWithRoundedRect:box cornerRadius:radius]addClip]; CGFloat mix=MAX(0,MIN(1,_pose[5]));
@@ -197,6 +223,6 @@ static BOOL JoltSharedUnsupported(UIView *view) {
 - (void)dispose {
     if(self.disposed)return; self.disposed=YES; [self.clock invalidate]; self.clock=nil; self.onEnd=nil;
     for(UIView *view in self.hiddenViews)if(view.hidden)view.hidden=[[self.hiddenViews objectForKey:view]boolValue]; [self.hiddenViews removeAllObjects];
-    [self removeFromSuperview]; self.sourceImage=nil; self.targetImage=nil; self.destination=nil; JoltSharedActive--;
+    [self removeFromSuperview]; self.sourceImage=nil; self.targetImage=nil; self.pageImage=nil; self.destination=nil; JoltSharedActive--;
 }
 @end

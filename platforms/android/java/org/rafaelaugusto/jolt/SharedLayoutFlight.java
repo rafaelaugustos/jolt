@@ -16,7 +16,9 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
     private final Map<View,Integer> hidden = new WeakHashMap<>();
     private static final PorterDuffXfermode ADD = new PorterDuffXfermode(PorterDuff.Mode.ADD);
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
-    private Bitmap source, target;
+    private Bitmap source, target, pageBitmap;
+    private RectF pageFrame;
+    private boolean fading;
     private float sourceWidth, sourceHeight, targetWidth, targetHeight;
     private boolean sourceImage, targetImage, disposed, running, navigationImage, borrowedTarget;
     private double[] interactiveStart, interactiveEnd;
@@ -38,10 +40,13 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
     }
     public static int activeCount() { return active; }
     private static boolean unsupported(View view) {
-        if (view instanceof SurfaceView || view instanceof TextureView || view instanceof WebView || view instanceof android.widget.AbsListView || view instanceof android.widget.ScrollView) return true;
+        return unsupported(view, false);
+    }
+    private static boolean unsupported(View view, boolean allowScrolling) {
+        if (view instanceof SurfaceView || view instanceof TextureView || view instanceof WebView || (!allowScrolling && (view instanceof android.widget.AbsListView || view instanceof android.widget.ScrollView))) return true;
         if (view instanceof ViewGroup) {
             ViewGroup group = (ViewGroup)view;
-            for (int i=0;i<group.getChildCount();i++) if (unsupported(group.getChildAt(i))) return true;
+            for (int i=0;i<group.getChildCount();i++) if (unsupported(group.getChildAt(i), allowScrolling)) return true;
         }
         return false;
     }
@@ -123,7 +128,20 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
         try { return new JSONArray(geometry).toString(); } catch(JSONException error) { throw new IllegalStateException(error); }
     }
 
-    public double pixels() { return (source==null?0:(long)source.getWidth()*source.getHeight())+(target==null?0:(long)target.getWidth()*target.getHeight()); }
+    public boolean holdPage(View page,double maxPixels) {
+        if(disposed || pageBitmap!=null || page==null || unsupported(page, true))return false;
+        RectF frame=geometry(page);if(frame==null)return false;
+        long pixels=(long)page.getWidth()*page.getHeight();if(pixels<=0 || pixels+pixels()>maxPixels)return false;
+        try {pageBitmap=Bitmap.createBitmap(page.getWidth(),page.getHeight(),Bitmap.Config.ARGB_8888);page.draw(new Canvas(pageBitmap));}
+        catch(RuntimeException | OutOfMemoryError error){if(pageBitmap!=null)pageBitmap.recycle();pageBitmap=null;return false;}
+        pageFrame=frame;return true;
+    }
+    public void fade(double milliseconds,Listener callback) {
+        if(disposed){if(callback!=null)callback.onEnd(false);return;}
+        Choreographer.getInstance().removeFrameCallback(this);fading=true;running=true;duration=Math.max(1,Math.min(500,milliseconds));started=android.os.SystemClock.uptimeMillis();listener=callback;
+        Choreographer.getInstance().postFrameCallback(this);
+    }
+    public double pixels() { return (pageBitmap==null?0:(long)pageBitmap.getWidth()*pageBitmap.getHeight())+(source==null?0:(long)source.getWidth()*source.getHeight())+(target==null?0:(long)target.getWidth()*target.getHeight()); }
     public String state() {
         try { JSONObject out=new JSONObject(); out.put("pose",new JSONArray(java.util.Arrays.copyOf(pose,navigationImage?10:6))); out.put("velocity",new JSONArray(java.util.Arrays.copyOf(velocity,navigationImage?10:5))); return out.toString(); }
         catch (JSONException error) { throw new IllegalStateException(error); }
@@ -211,6 +229,7 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
     }
     @Override public void doFrame(long nanos) {
         if(!running || disposed)return;
+        if(fading){double p=Math.min(1,(android.os.SystemClock.uptimeMillis()-started)/duration);setAlpha((float)(1-p));if(p>=1)end(true);else Choreographer.getInstance().postFrameCallback(this);return;}
         RectF frame=geometry(destination);
         if(root.getWidth()!=rootWidth || root.getHeight()!=rootHeight || frame==null || Math.abs(frame.left-destinationFrame.left)>1 || Math.abs(frame.top-destinationFrame.top)>1 || Math.abs(frame.width()-destinationFrame.width())>1 || Math.abs(frame.height()-destinationFrame.height())>1) { end(false); return; }
         double now=android.os.SystemClock.uptimeMillis(); evaluate(now); invalidate();
@@ -224,6 +243,7 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
         paint.setAlpha(Math.round(alpha*255)); canvas.drawBitmap(bitmap,null,new RectF(box.centerX()-w/2,box.centerY()-h/2,box.centerX()+w/2,box.centerY()+h/2),paint);
     }
     private void render(Canvas canvas) {
+        if(pageBitmap!=null){paint.setAlpha((int)Math.round((1-Math.max(0,Math.min(1,pose[5])))*255));canvas.drawBitmap(pageBitmap,null,pageFrame,paint);}
         RectF box=new RectF((float)pose[0]*density,(float)pose[1]*density,(float)(pose[0]+Math.max(.1,pose[2]))*density,(float)(pose[1]+Math.max(.1,pose[3]))*density);
         float radius=(float)Math.max(0,Math.min(pose[4]*density,Math.min(box.width(),box.height())/2));
         Path path=new Path(); path.addRoundRect(box,radius,radius,Path.Direction.CW); int save=canvas.save(); canvas.clipPath(path);
@@ -243,6 +263,6 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
         if(disposed)return; disposed=true; running=false; listener=null;
         Choreographer.getInstance().removeFrameCallback(this); root.getOverlay().remove(this); active--;
         for(Map.Entry<View,Integer> entry:hidden.entrySet()) if(entry.getKey().getVisibility()==INVISIBLE)entry.getKey().setVisibility(entry.getValue()); hidden.clear();
-        if(!navigationImage) { if(source!=null)source.recycle(); if(target!=null && !borrowedTarget)target.recycle(); } source=null;target=null;destination=null;
+        if(!navigationImage) { if(source!=null)source.recycle(); if(target!=null && !borrowedTarget)target.recycle(); } source=null;target=null;destination=null;if(pageBitmap!=null)pageBitmap.recycle();pageBitmap=null;
     }
 }

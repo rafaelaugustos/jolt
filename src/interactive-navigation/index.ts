@@ -1,3 +1,4 @@
+import { ReturnScope } from '../shared-navigation/return-signal.js'
 import {
   Application,
   Image,
@@ -11,6 +12,12 @@ import {
   type Page,
   type NavigationData,
 } from '@nativescript/core'
+import {
+  resolveReturnTarget,
+  validateReturnTarget,
+  focusReturnTarget,
+  type SharedReturnTarget,
+} from '../shared-navigation/return-target.js'
 import { find, radius, supportedImage } from '../shared-navigation/targets.js'
 import { onReducedMotion, reducedMotion, timeScale } from '../config.js'
 import { springPhysics } from '../spring.js'
@@ -27,7 +34,7 @@ export interface InteractiveNavigationEvent {
 }
 export interface InteractiveNavigationOptions {
   /** Optional stable image/card identity in the two pages. Unsupported pairs use normal page motion. */
-  shared?: { tag: string; maxSnapshotPixels?: number }
+  shared?: { tag: string; maxSnapshotPixels?: number; returnTarget?: SharedReturnTarget }
   /** Same physics as Jolt's live springs. Default smooth; settling is bounded at 3 s. */
   spring?:
     | keyof typeof springs
@@ -58,6 +65,7 @@ export function interactiveNavigation(
     (typeof options.shared.tag !== 'string' || !options.shared.tag.trim())
   )
     throw new TypeError('A nonempty sharedTransitionTag is required.')
+  validateReturnTarget(options.shared?.returnTarget)
   const budget = options.shared?.maxSnapshotPixels ?? 8_000_000
   if (!Number.isSafeInteger(budget) || budget <= 0 || budget > 32_000_000)
     throw new RangeError('maxSnapshotPixels must be a positive integer at most 32000000.')
@@ -88,15 +96,62 @@ export function interactiveNavigation(
   let transitioning = false
   let fromPage: Page | undefined, toPage: Page | undefined
   let shared: InteractiveNavigationEvent['shared']
+  let targetScope: ReturnScope | undefined
+  let detachTarget: (() => void) | undefined
+  let resolvedReturn: import('@nativescript/core').View | undefined
+  let returning = false
   const originalPage = frame.currentPage
   function prepareShared() {
+    if (!native || !options.shared) return
+    if (returning && options.shared.returnTarget && toPage) {
+      targetScope?.abort()
+      detachTarget?.()
+      detachTarget = undefined
+      const scope = (targetScope = new ReturnScope())
+      resolvedReturn = undefined
+      const targetPage = toPage,
+        owner = native,
+        sharedOptions = options.shared
+      void resolveReturnTarget(
+        sharedOptions.returnTarget!,
+        sharedOptions.tag,
+        targetPage,
+        scope.signal,
+      ).then((result) => {
+        if (scope.signal.aborted || state === 'disposed' || native !== owner) return
+        if (result.view) {
+          resolvedReturn = result.view
+          installShared()
+          const target = result.view
+          const invalidated = () => {
+            shared = { status: 'unavailable', reason: 'target-invalidated' }
+            owner.cancel()
+          }
+          const events = [
+            'bindingContextChange',
+            'sharedTransitionTagChange',
+            'imageSourceChange',
+            'unloaded',
+          ]
+          for (const event of events) target.on(event, invalidated)
+          detachTarget = () => {
+            for (const event of events) target.off(event, invalidated)
+          }
+        } else shared = { status: 'unavailable', reason: result.reason }
+        owner.completeSharedPreparation()
+      })
+      return
+    }
+    installShared()
+  }
+  function installShared() {
     if (!native || !options.shared) return
     const unavailable = (reason: string) => {
       shared = { status: 'unavailable', reason }
     }
     if (reducedMotion()) return unavailable('reduced-motion')
-    const sources = find(fromPage, options.shared.tag),
-      targets = find(toPage, options.shared.tag)
+    const sources = find(fromPage, options.shared.tag, true),
+      targets = find(toPage, options.shared.tag, true)
     if (sources.length !== 1)
       return unavailable(sources.length ? 'duplicate-source' : 'missing-source')
     if (targets.length !== 1)
@@ -151,7 +206,10 @@ export function interactiveNavigation(
       )
     }
   }
-  const cancel = () => native?.cancel()
+  const cancel = () => {
+    targetScope?.abort()
+    native?.cancel()
+  }
   const unload = () => control.dispose()
   const shown = () => native?.sync()
   const swipeChanged = () => {
@@ -198,6 +256,7 @@ export function interactiveNavigation(
       fromPage = pages.find((candidate) => candidate?.ios === from)
       toPage = pages.find((candidate) => candidate?.ios === to)
       shared = undefined
+      returning = operation !== 1
       transitioning = true
       if (!native) {
         native = JoltInteractiveNavigation.attachStiffnessDampingMassShouldBeginOnEvent(
@@ -244,6 +303,18 @@ export function interactiveNavigation(
               )
             } else if (event === 0) emit('animating')
             else {
+              targetScope?.abort()
+              targetScope = undefined
+              detachTarget?.()
+              detachTarget = undefined
+              if (returning && event !== 6 && toPage && options.shared?.returnTarget) {
+                let focus = resolvedReturn
+                if (!focus)
+                  try {
+                    focus = options.shared.returnTarget.fallbackFocus?.(toPage)
+                  } catch {}
+                focusReturnTarget(toPage, focus)
+              }
               transitioning = false
               SharedTransition.updateState(this.id, {
                 interactiveBegan: false,
@@ -259,6 +330,7 @@ export function interactiveNavigation(
         )
       }
       if (options.shared) native.sharedEnabled = true
+      native.sharedDeferred = !!(returning && options.shared?.returnTarget)
       native.prepareOperationPresentedReducedTimeScale(
         operation,
         page.ios,
@@ -282,6 +354,10 @@ export function interactiveNavigation(
     cancel,
     dispose() {
       if (state === 'disposed') return
+      targetScope?.abort()
+      targetScope = undefined
+      detachTarget?.()
+      detachTarget = undefined
       // Complete UIKit's context before releasing Core's interactive state.
       native?.disposeRestoringSwipe(
         !!page?.enableSwipeBackNavigation && frame.canGoBack(),

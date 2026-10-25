@@ -269,6 +269,39 @@ final class DocsTests: XCTestCase {
         tap("interactive-back", wait: 1.2)
         XCTAssertTrue(app.descendants(matching: .any)["interactive-open"].firstMatch.exists, app.debugDescription)
     }
+    func returnTargetStory() throws {
+        tap("collection-place-1", wait: 1.0)
+        tap("collection-move", wait: 0.4)
+        edgeBack(0.3)
+        XCTAssertTrue(app.descendants(matching: .any)["collection-detail-image"].firstMatch.exists, app.debugDescription)
+        edgeBack(0.8)
+        let returned=app.descendants(matching: .any)["collection-place-1"].firstMatch
+        XCTAssertTrue(returned.waitForExistence(timeout: 4) && returned.isHittable, app.debugDescription)
+        tap("collection-place-1", wait: 1.0)
+        tap("collection-remove", wait: 0.3)
+        tap("collection-back", wait: 1.4)
+        XCTAssertTrue(app.descendants(matching: .any)["collection-grid"].firstMatch.exists, app.debugDescription)
+        XCTAssertFalse(app.descendants(matching: .any)["collection-place-1"].firstMatch.exists, app.debugDescription)
+    }
+    func testReturnTargets() throws {
+        languageLaunch("en", "language-settings"); selectLanguage("en")
+        languageLaunch("en", "collection-place-1", ["--showcase-example=return-targets"])
+        try record("return-targets-ios") { try returnTargetStory() }
+    }
+    func testReturnTargetsChecks() throws {
+        launch(["--showcase-example=return-targets", "--collection-audit"], "collection-place-1")
+        try returnTargetStory()
+        tap("collection-reset")
+        tap("collection-reduce")
+        tap("collection-place-1")
+        tap("collection-back")
+        XCTAssertTrue(app.descendants(matching: .any)["collection-place-1"].firstMatch.isHittable, app.debugDescription)
+    }
+    func testReturnTargetsPortuguese() throws {
+        languageLaunch("pt-BR", "language-settings"); selectLanguage("system")
+        languageLaunch("pt-BR", "collection-place-1", ["--showcase-example=return-targets"])
+        try record("return-targets-pt-ios") { try returnTargetStory() }
+    }
     func sharedEntryStory() throws {
         tap("shared-entry-photo", wait: 1.1)
         edgeBack(0.3)
