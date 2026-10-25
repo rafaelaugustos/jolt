@@ -269,6 +269,45 @@ final class DocsTests: XCTestCase {
         tap("interactive-back", wait: 1.2)
         XCTAssertTrue(app.descendants(matching: .any)["interactive-open"].firstMatch.exists, app.debugDescription)
     }
+    func sharedEntryStory() throws {
+        tap("shared-entry-photo", wait: 1.1)
+        edgeBack(0.3)
+        XCTAssertTrue(app.descendants(matching: .any)["shared-entry-detail-image"].firstMatch.exists, app.debugDescription)
+        edgeBack(0.8)
+        XCTAssertTrue(app.descendants(matching: .any)["shared-entry-photo"].firstMatch.exists, app.debugDescription)
+        tap("shared-entry-pass", wait: 1.1)
+        edgeBack(0.3)
+        XCTAssertTrue(app.descendants(matching: .any)["shared-entry-detail-pass"].firstMatch.exists, app.debugDescription)
+        tap("shared-entry-back", wait: 1.1)
+    }
+    func testSharedEntry() throws {
+        languageLaunch("en", "language-settings"); selectLanguage("en")
+        languageLaunch("en", "shared-entry-photo", ["--showcase-example=shared-entry"])
+        try record("shared-entry-ios") { try sharedEntryStory() }
+    }
+    func testSharedEntryPortuguese() throws {
+        languageLaunch("pt-BR", "language-settings"); selectLanguage("system")
+        languageLaunch("pt-BR", "shared-entry-photo", ["--showcase-example=shared-entry"])
+        try record("shared-entry-pt-ios") { try sharedEntryStory() }
+    }
+    func testSharedEntryChecks() throws {
+        languageLaunch("en", "language-settings"); selectLanguage("en")
+        languageLaunch("en", "shared-entry-photo", ["--showcase-example=shared-entry", "--shared-entry-audit"])
+        try sharedEntryStory()
+        tap("shared-entry-photo", wait: 1.1)
+        tap("shared-entry-lock", wait: 0.2);edgeBack(0.8)
+        XCTAssertTrue(app.descendants(matching: .any)["shared-entry-detail-image"].firstMatch.exists)
+        tap("shared-entry-lock", wait: 0.2)
+        tap("shared-entry-cancel", wait: 0.2);edgeBack(0.8)
+        XCTAssertTrue(app.descendants(matching: .any)["shared-entry-detail-image"].firstMatch.exists)
+        tap("shared-entry-move-return", wait: 0.2);edgeBack(0.8)
+        tap("shared-entry-missing", wait: 0.2);tap("shared-entry-photo", wait: 1.1);tap("shared-entry-back", wait: 1.1)
+        tap("shared-entry-missing", wait: 0.2);tap("shared-entry-reduce", wait: 0.2)
+        tap("shared-entry-photo", wait: 0.7);tap("shared-entry-back", wait: 0.7)
+        tap("shared-entry-reduce", wait: 0.2);tap("shared-entry-photo", wait: 1.1)
+        tap("shared-entry-dispose", wait: 0.2);tap("shared-entry-back", wait: 1.1)
+        XCTAssertTrue(app.descendants(matching: .any)["shared-entry-photo"].firstMatch.exists)
+    }
     func testSharedNavigation() throws {
         languageLaunch("en", "language-settings")
         selectLanguage("en")

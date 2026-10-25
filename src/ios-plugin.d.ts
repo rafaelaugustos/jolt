@@ -258,6 +258,15 @@ declare class JoltSharedLayoutFlight extends UIView {
   dispose(): void
 }
 declare class JoltInteractiveNavigation extends NSObject {
+  sharedEnabled: boolean
+  prepareSharedFromToImageFromRadiusToRadiusMaxPixels(
+    from: UIView,
+    to: UIView,
+    image: boolean,
+    fromRadius: number,
+    toRadius: number,
+    maxPixels: number,
+  ): boolean
   static attachStiffnessDampingMassShouldBeginOnEvent(
     nav: UINavigationController,
     stiffness: number,

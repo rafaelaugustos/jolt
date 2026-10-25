@@ -1,5 +1,6 @@
 import {
   Application,
+  Image,
   isIOS,
   SharedTransition,
   Transition,
@@ -10,6 +11,7 @@ import {
   type Page,
   type NavigationData,
 } from '@nativescript/core'
+import { find, radius, supportedImage } from '../shared-navigation/targets.js'
 import { onReducedMotion, reducedMotion, timeScale } from '../config.js'
 import { springPhysics } from '../spring.js'
 import { springs, type Spring } from '../transition.js'
@@ -19,10 +21,13 @@ export type InteractiveNavigationState =
 export interface InteractiveNavigationEvent {
   state: InteractiveNavigationState
   outcome?: 'completed' | 'cancelled'
+  shared?: { status: 'ready' | 'unavailable'; reason?: string }
   /** Present on finishing/cancelling. Velocity is page widths per second. */
   release?: Readonly<{ progress: number; velocity: number }>
 }
 export interface InteractiveNavigationOptions {
+  /** Optional stable image/card identity in the two pages. Unsupported pairs use normal page motion. */
+  shared?: { tag: string; maxSnapshotPixels?: number }
   /** Same physics as Jolt's live springs. Default smooth; settling is bounded at 3 s. */
   spring?:
     | keyof typeof springs
@@ -48,6 +53,14 @@ export function interactiveNavigation(
   frame: Frame,
   options: InteractiveNavigationOptions = {},
 ): InteractiveNavigation {
+  if (
+    options.shared &&
+    (typeof options.shared.tag !== 'string' || !options.shared.tag.trim())
+  )
+    throw new TypeError('A nonempty sharedTransitionTag is required.')
+  const budget = options.shared?.maxSnapshotPixels ?? 8_000_000
+  if (!Number.isSafeInteger(budget) || budget <= 0 || budget > 32_000_000)
+    throw new RangeError('maxSnapshotPixels must be a positive integer at most 32000000.')
   const input =
     typeof options.spring === 'string' ? springs[options.spring] : options.spring
   if (options.spring !== undefined && !input)
@@ -73,6 +86,47 @@ export function interactiveNavigation(
   let candidate: Page | undefined
   let start: (() => void) | undefined
   let transitioning = false
+  let fromPage: Page | undefined, toPage: Page | undefined
+  let shared: InteractiveNavigationEvent['shared']
+  const originalPage = frame.currentPage
+  function prepareShared() {
+    if (!native || !options.shared) return
+    const unavailable = (reason: string) => {
+      shared = { status: 'unavailable', reason }
+    }
+    if (reducedMotion()) return unavailable('reduced-motion')
+    const sources = find(fromPage, options.shared.tag),
+      targets = find(toPage, options.shared.tag)
+    if (sources.length !== 1)
+      return unavailable(sources.length ? 'duplicate-source' : 'missing-source')
+    if (targets.length !== 1)
+      return unavailable(targets.length ? 'duplicate-target' : 'missing-target')
+    const source = sources[0]!,
+      target = targets[0]!,
+      image = source instanceof Image
+    if (
+      image &&
+      (!supportedImage(source) ||
+        !supportedImage(target) ||
+        (source.src !== target.src && source.imageSource !== target.imageSource))
+    )
+      return unavailable('unsupported-image')
+    if (!image && target instanceof Image) return unavailable('content-mismatch')
+    try {
+      shared = native.prepareSharedFromToImageFromRadiusToRadiusMaxPixels(
+        source.nativeViewProtected,
+        target.nativeViewProtected,
+        image,
+        radius(source),
+        radius(target),
+        budget,
+      )
+        ? { status: 'ready' }
+        : { status: 'unavailable', reason: 'unsupported-geometry' }
+    } catch {
+      unavailable('native-unavailable')
+    }
+  }
   let transition: NavigationTransition | undefined
   let releaseMotion: (() => void) | undefined
   const emit = (
@@ -85,6 +139,7 @@ export function interactiveNavigation(
     try {
       options.onState?.({
         state,
+        ...(shared ? { shared } : {}),
         ...(outcome ? { outcome } : {}),
         ...(release ? { release } : {}),
       })
@@ -124,7 +179,7 @@ export function interactiveNavigation(
     override iosNavigatedController(
       nav: UINavigationController,
       operation: number,
-      _from: UIViewController,
+      from: UIViewController,
       to: UIViewController,
     ) {
       if (state === 'disposed' || nav !== frame.ios.controller) return undefined
@@ -135,6 +190,14 @@ export function interactiveNavigation(
         page.on('enableSwipeBackNavigationChange', swipeChanged)
       }
       if (!page) return undefined
+      const pages = [
+        originalPage,
+        page,
+        ...frame.backStack.map((entry) => entry.resolvedPage),
+      ]
+      fromPage = pages.find((candidate) => candidate?.ios === from)
+      toPage = pages.find((candidate) => candidate?.ios === to)
+      shared = undefined
       transitioning = true
       if (!native) {
         native = JoltInteractiveNavigation.attachStiffnessDampingMassShouldBeginOnEvent(
@@ -160,6 +223,10 @@ export function interactiveNavigation(
           },
           (event) => {
             if (state === 'disposed') return
+            if (event === 8) {
+              prepareShared()
+              return
+            }
             if (event === 2) {
               transitioning = true
               frame.transitionId = this.id
@@ -191,6 +258,7 @@ export function interactiveNavigation(
           },
         )
       }
+      if (options.shared) native.sharedEnabled = true
       native.prepareOperationPresentedReducedTimeScale(
         operation,
         page.ios,
@@ -231,6 +299,8 @@ export function interactiveNavigation(
       start = undefined
       page = undefined
       candidate = undefined
+      fromPage = undefined
+      toPage = undefined
     },
   }
   if (supported) {

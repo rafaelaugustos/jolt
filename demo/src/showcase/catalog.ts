@@ -1,3 +1,4 @@
+import SharedEntryLab from '../components/SharedEntryLab.vue'
 import PredictiveBackLab from '../components/PredictiveBackLab.vue'
 import SharedNavigationLab from '../components/SharedNavigationLab.vue'
 import InteractiveNavigationLab from '../components/InteractiveNavigationLab.vue'
@@ -68,6 +69,15 @@ export const categories = [
   'SceneKit',
 ] as const
 export const examples = [
+  {
+    id: 'shared-entry',
+    title: 'Shared gestures',
+    category: 'Layout',
+    description: 'One image. Every part of the journey.',
+    component: markRaw(SharedEntryLab),
+    full: true,
+    ios: false,
+  },
   {
     id: 'predictive-back',
     title: 'Predictive back',

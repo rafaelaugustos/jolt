@@ -31,3 +31,5 @@
 -keep class org.rafaelaugusto.jolt.SharedLayoutFlight$* { *; }
 -keep class org.rafaelaugusto.jolt.PredictiveBackSession { *; }
 -keep class org.rafaelaugusto.jolt.PredictiveBackSession$* { *; }
+
+-keep class org.rafaelaugusto.jolt.SharedNavigationScene { *; }

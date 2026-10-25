@@ -1,5 +1,6 @@
 #import "JoltInteractiveNavigation.h"
 #import "JoltSpringState.h"
+#import "JoltSharedLayoutFlight.h"
 
 @interface JoltInteractiveNavigation () {
     JoltSpringState _spring;
@@ -12,6 +13,8 @@
 @property(nonatomic) id<UIViewControllerContextTransitioning> context;
 @property(nonatomic) UIView *fromView, *toView, *shade;
 @property(nonatomic) CGAffineTransform fromTransform, toTransform;
+@property(nonatomic) CGFloat fromAlpha, toAlpha;
+@property(nonatomic) JoltSharedLayoutFlight *sharedFlight;
 @property(nonatomic) CGRect bounds;
 @property(nonatomic) CADisplayLink *link;
 @property(nonatomic) double stiffness, damping, mass, started, previous, target, direction, timeScale;
@@ -102,12 +105,15 @@ static NSUInteger active = 0, recognizers = 0;
     self.fromView = [context viewForKey:UITransitionContextFromViewKey] ?: from.view;
     self.toView = [context viewForKey:UITransitionContextToViewKey] ?: to.view;
     self.fromTransform = self.fromView.transform; self.toTransform = self.toView.transform;
+    self.fromAlpha = self.fromView.alpha; self.toAlpha = self.toView.alpha;
     self.toView.frame = [context finalFrameForViewController:to];
     UIView *container = context.containerView;
     if (self.operation == UINavigationControllerOperationPush) [container addSubview:self.toView];
     else [container insertSubview:self.toView belowSubview:self.fromView];
     [self.toView setNeedsLayout]; [self.toView layoutIfNeeded];
     self.bounds = container.bounds;
+    // One setup callback after UIKit lays out both pages; subsequent progress stays native.
+    if(self.sharedEnabled && self.onEvent)self.onEvent(8);
     self.shade = [[UIView alloc] initWithFrame:self.bounds];
     self.shade.backgroundColor = UIColor.blackColor;
     self.shade.userInteractionEnabled = NO; self.shade.isAccessibilityElement = NO;
@@ -135,10 +141,23 @@ static NSUInteger active = 0, recognizers = 0;
     double p = MAX(0, MIN(1, progress)), width = self.bounds.size.width * self.direction;
     BOOL push = self.operation == UINavigationControllerOperationPush;
     [CATransaction begin]; [CATransaction setDisableActions:YES];
-    self.fromView.transform = CGAffineTransformConcat(self.fromTransform, CGAffineTransformMakeTranslation(width * (push ? -.25 * p : p), 0));
-    self.toView.transform = CGAffineTransformConcat(self.toTransform, CGAffineTransformMakeTranslation(width * (push ? 1 - p : -.25 * (1 - p)), 0));
-    self.shade.alpha = .16 * (push ? p : 1 - p);
+    if(self.sharedFlight) {
+        self.fromView.alpha = self.fromAlpha * (push ? 1 : 1-p); self.toView.alpha = self.toAlpha * (push ? p : 1);
+        self.shade.alpha = 0;
+        [self.sharedFlight updateInteractive:p];
+    } else {
+        self.fromView.transform = CGAffineTransformConcat(self.fromTransform, CGAffineTransformMakeTranslation(width * (push ? -.25 * p : p), 0));
+        self.toView.transform = CGAffineTransformConcat(self.toTransform, CGAffineTransformMakeTranslation(width * (push ? 1 - p : -.25 * (1 - p)), 0));
+        self.shade.alpha = .16 * (push ? p : 1 - p);
+    }
     [CATransaction commit];
+}
+- (BOOL)prepareSharedFrom:(UIView *)from to:(UIView *)to image:(BOOL)image fromRadius:(double)fromRadius toRadius:(double)toRadius maxPixels:(double)maxPixels {
+    if(!self.context || self.reduced || self.sharedFlight || !from || !to)return NO;
+    JoltSharedLayoutFlight *flight=image?[JoltSharedLayoutFlight captureNavigationImage:from radius:fromRadius maxPixels:maxPixels]:[JoltSharedLayoutFlight capture:from image:NO radius:fromRadius maxPixels:maxPixels];
+    NSString *geometry=image?[flight prepareNavigationImage:to radius:toRadius maxPixels:maxPixels]:[flight prepare:to image:NO radius:toRadius maxPixels:maxPixels];
+    if(!geometry || ![flight beginInteractive:geometry]) { [flight dispose]; return NO; }
+    self.sharedFlight=flight; return YES;
 }
 - (void)startLink {
     if (self.link || !self.context) return;
@@ -179,6 +198,8 @@ static NSUInteger active = 0, recognizers = 0;
     BOOL completed = self.committed, interactive = self.interactive;
     _spring = (JoltSpringState){completed ? 1 : 0, 0}; [self render:_spring.position];
     self.fromView.transform = self.fromTransform; self.toView.transform = self.toTransform;
+    self.fromView.alpha = self.fromAlpha; self.toView.alpha = self.toAlpha;
+    [self.sharedFlight dispose]; self.sharedFlight = nil;
     [self.shade removeFromSuperview]; self.shade = nil;
     id<UIViewControllerContextTransitioning> context = self.context;
     self.context = nil; self.fromView = nil; self.toView = nil;

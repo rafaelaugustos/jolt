@@ -1,0 +1,1989 @@
+{
+  "platform": "Android 16 / API 36 emulator; real OS input",
+  "checks": [
+    {
+      "check": "image attached",
+      "state": "idle",
+      "backCalls": 0,
+      "retained": 1
+    },
+    {
+      "check": "image left cancel",
+      "state": "idle",
+      "backCalls": 0,
+      "retained": 1
+    },
+    {
+      "check": "image right cancel",
+      "state": "idle",
+      "backCalls": 0,
+      "retained": 1
+    },
+    {
+      "check": "image right commit",
+      "state": "disposed",
+      "backCalls": 1,
+      "retained": 0
+    },
+    {
+      "check": "card cancel",
+      "state": "idle",
+      "backCalls": 1,
+      "retained": 1
+    },
+    {
+      "check": "card button commit",
+      "state": "disposed",
+      "backCalls": 2,
+      "retained": 0
+    },
+    {
+      "check": "router rejects",
+      "state": "idle",
+      "backCalls": 3,
+      "retained": 1
+    },
+    {
+      "check": "cancel held gesture",
+      "state": "idle",
+      "backCalls": 3,
+      "retained": 1
+    },
+    {
+      "check": "changed static source fallback",
+      "state": "disposed",
+      "backCalls": 4,
+      "retained": 0
+    },
+    {
+      "check": "missing target fallback",
+      "state": "disposed",
+      "backCalls": 5,
+      "retained": 0
+    },
+    {
+      "check": "reduced motion",
+      "state": "disposed",
+      "backCalls": 6,
+      "retained": 0
+    },
+    {
+      "check": "explicit disposal",
+      "state": "disposed",
+      "backCalls": 6,
+      "retained": 0
+    },
+    {
+      "check": "suspension releases snapshots",
+      "state": "disposed",
+      "backCalls": 6,
+      "retained": 0
+    }
+  ],
+  "report": {
+    "state": "disposed",
+    "page": "shared-entry-detail",
+    "depth": 1,
+    "visible": [
+      {
+        "tag": "interactive-cove",
+        "visible": true
+      },
+      {
+        "tag": "interactive-pass",
+        "visible": true
+      },
+      {
+        "tag": "interactive-cove",
+        "visible": true
+      }
+    ],
+    "flights": 0,
+    "active": 0,
+    "inputs": 0,
+    "retained": 0,
+    "pixels": 0,
+    "delegatePreserved": true,
+    "backCalls": 6,
+    "events": [
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "tracking",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "cancelling",
+        "shared": {
+          "status": "ready"
+        },
+        "release": {
+          "progress": 0,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        },
+        "outcome": "cancelled"
+      },
+      {
+        "state": "tracking",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "cancelling",
+        "shared": {
+          "status": "ready"
+        },
+        "release": {
+          "progress": 0,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        },
+        "outcome": "cancelled"
+      },
+      {
+        "state": "tracking",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "finishing",
+        "shared": {
+          "status": "ready"
+        },
+        "release": {
+          "progress": 0.4380687475204468,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "committing",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        },
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "tracking",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "cancelling",
+        "shared": {
+          "status": "ready"
+        },
+        "release": {
+          "progress": 0,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        },
+        "outcome": "cancelled"
+      },
+      {
+        "state": "finishing",
+        "shared": {
+          "status": "ready"
+        },
+        "release": {
+          "progress": 0,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "committing",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        },
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "tracking",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "finishing",
+        "shared": {
+          "status": "ready"
+        },
+        "release": {
+          "progress": 0.4385624825954437,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "committing",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "cancelling",
+        "shared": {
+          "status": "ready"
+        },
+        "release": {
+          "progress": 1,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        },
+        "outcome": "cancelled"
+      },
+      {
+        "state": "tracking",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "cancelling",
+        "shared": {
+          "status": "ready"
+        },
+        "release": {
+          "progress": 0.0693618431687355,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        },
+        "outcome": "cancelled"
+      },
+      {
+        "state": "tracking",
+        "shared": {
+          "status": "unavailable",
+          "reason": "source-invalidated"
+        }
+      },
+      {
+        "state": "finishing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "source-invalidated"
+        },
+        "release": {
+          "progress": 0.4385624825954437,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "committing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "source-invalidated"
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "source-invalidated"
+        },
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "unavailable",
+          "reason": "source-invalidated"
+        }
+      },
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "missing-target"
+        }
+      },
+      {
+        "state": "finishing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "missing-target"
+        },
+        "release": {
+          "progress": 0,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "committing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "missing-target"
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "missing-target"
+        },
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "unavailable",
+          "reason": "missing-target"
+        }
+      },
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "reduced-motion"
+        }
+      },
+      {
+        "state": "tracking",
+        "shared": {
+          "status": "unavailable",
+          "reason": "reduced-motion"
+        }
+      },
+      {
+        "state": "finishing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "reduced-motion"
+        },
+        "release": {
+          "progress": 0.43827134370803833,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "committing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "reduced-motion"
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "reduced-motion"
+        },
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "unavailable",
+          "reason": "reduced-motion"
+        }
+      },
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "ready"
+        }
+      }
+    ],
+    "snapshots": [
+      {
+        "state": "opening",
+        "page": "shared-entry",
+        "depth": 0,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": false
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "active": 0,
+        "inputs": 0,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "idle",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "idle",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "tracking",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "active": 1,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "cancelling",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "active": 1,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "idle",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "tracking",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "active": 1,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "cancelling",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "active": 1,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "idle",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "tracking",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "active": 1,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "finishing",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "active": 1,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "committing",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "active": 1,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "disposed",
+        "page": "shared-entry",
+        "depth": 0,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 0,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "disposed",
+        "page": "shared-entry",
+        "depth": 0,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 0,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "opening",
+        "page": "shared-entry",
+        "depth": 0,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "active": 0,
+        "inputs": 0,
+        "retained": 1,
+        "pixels": 2757600,
+        "delegatePreserved": true
+      },
+      {
+        "state": "idle",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 2757600,
+        "delegatePreserved": true
+      },
+      {
+        "state": "idle",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 2757600,
+        "delegatePreserved": true
+      },
+      {
+        "state": "tracking",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "active": 1,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 2757600,
+        "delegatePreserved": true
+      },
+      {
+        "state": "cancelling",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "active": 1,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 2757600,
+        "delegatePreserved": true
+      },
+      {
+        "state": "idle",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 2757600,
+        "delegatePreserved": true
+      },
+      {
+        "state": "finishing",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "active": 1,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 2757600,
+        "delegatePreserved": true
+      },
+      {
+        "state": "committing",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "active": 1,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 2757600,
+        "delegatePreserved": true
+      },
+      {
+        "state": "disposed",
+        "page": "shared-entry",
+        "depth": 0,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 0,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "disposed",
+        "page": "shared-entry",
+        "depth": 0,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 0,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "opening",
+        "page": "shared-entry",
+        "depth": 0,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": false
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "active": 0,
+        "inputs": 0,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "idle",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "idle",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "tracking",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "active": 1,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "finishing",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "active": 1,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "committing",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "active": 1,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "cancelling",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "active": 1,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "idle",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "tracking",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "active": 1,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "cancelling",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "active": 1,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "idle",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "tracking",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "finishing",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "committing",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "disposed",
+        "page": "shared-entry",
+        "depth": 0,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 0,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "disposed",
+        "page": "shared-entry",
+        "depth": 0,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 0,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "opening",
+        "page": "shared-entry",
+        "depth": 0,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": false
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "active": 0,
+        "inputs": 0,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "idle",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "idle",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "finishing",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "committing",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "disposed",
+        "page": "shared-entry",
+        "depth": 0,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 0,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "disposed",
+        "page": "shared-entry",
+        "depth": 0,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 0,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "opening",
+        "page": "shared-entry",
+        "depth": 0,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 0,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "idle",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "idle",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "tracking",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "finishing",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "committing",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "disposed",
+        "page": "shared-entry",
+        "depth": 0,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 0,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "disposed",
+        "page": "shared-entry",
+        "depth": 0,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 0,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "opening",
+        "page": "shared-entry",
+        "depth": 0,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": false
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "active": 0,
+        "inputs": 0,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "idle",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "idle",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "disposed",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 0,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      },
+      {
+        "state": "opening",
+        "page": "shared-entry",
+        "depth": 0,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": false
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "active": 0,
+        "inputs": 0,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "idle",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "idle",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 1,
+        "retained": 1,
+        "pixels": 3552000,
+        "delegatePreserved": true
+      },
+      {
+        "state": "disposed",
+        "page": "shared-entry-detail",
+        "depth": 1,
+        "visible": [
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          },
+          {
+            "tag": "interactive-pass",
+            "visible": true
+          },
+          {
+            "tag": "interactive-cove",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "active": 0,
+        "inputs": 0,
+        "retained": 0,
+        "pixels": 0,
+        "delegatePreserved": true
+      }
+    ]
+  }
+}

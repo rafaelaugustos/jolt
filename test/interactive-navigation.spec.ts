@@ -34,6 +34,8 @@ const handles: InteractiveNavigation[] = []
 let begins: () => boolean, event: (event: number) => void
 let native: {
   interactive: boolean
+  sharedEnabled?: boolean
+  prepareSharedFromToImageFromRadiusToRadiusMaxPixels: ReturnType<typeof vi.fn>
   prepareOperationPresentedReducedTimeScale: ReturnType<typeof vi.fn>
   sync: ReturnType<typeof vi.fn>
   cancel: ReturnType<typeof vi.fn>
@@ -43,6 +45,7 @@ beforeEach(() => {
   configure({ reducedMotion: 'never' })
   native = {
     interactive: false,
+    prepareSharedFromToImageFromRadiusToRadiusMaxPixels: vi.fn(() => true),
     prepareOperationPresentedReducedTimeScale: vi.fn(),
     sync: vi.fn(),
     cancel: vi.fn(),
@@ -94,6 +97,65 @@ function fixture(options: Parameters<typeof interactiveNavigation>[1] = {}) {
   return { frame, page, from, nav, control, transition, start, push }
 }
 describe('interactive Frame entry ownership', () => {
+  it('prepares one shared pair at the native layout boundary and carries its readiness with release events', () => {
+    const onState = vi.fn(),
+      f = fixture({ shared: { tag: 'photo' }, onState })
+    f.from.children = [Object.assign(new View(), { sharedTransitionTag: 'photo' })]
+    f.page.children = [Object.assign(new View(), { sharedTransitionTag: 'photo' })]
+    f.push()
+    event(8)
+    expect(native.sharedEnabled).toBe(true)
+    expect(
+      native.prepareSharedFromToImageFromRadiusToRadiusMaxPixels,
+    ).toHaveBeenCalledExactlyOnceWith(
+      f.from.children[0]!.nativeViewProtected,
+      f.page.children[0]!.nativeViewProtected,
+      false,
+      0,
+      0,
+      8_000_000,
+    )
+    event(3)
+    expect(onState).toHaveBeenLastCalledWith(
+      expect.objectContaining({ state: 'finishing', shared: { status: 'ready' } }),
+    )
+  })
+  it('does not hide either endpoint when source identities are ambiguous', () => {
+    const onState = vi.fn(),
+      f = fixture({ shared: { tag: 'photo' }, onState })
+    f.from.children = [
+      Object.assign(new View(), { sharedTransitionTag: 'photo' }),
+      Object.assign(new View(), { sharedTransitionTag: 'photo' }),
+    ]
+    f.page.children = [Object.assign(new View(), { sharedTransitionTag: 'photo' })]
+    f.push()
+    event(8)
+    event(3)
+    expect(
+      native.prepareSharedFromToImageFromRadiusToRadiusMaxPixels,
+    ).not.toHaveBeenCalled()
+    expect(onState).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        shared: { status: 'unavailable', reason: 'duplicate-source' },
+      }),
+    )
+  })
+  it('keeps UIKit navigation alive when native geometry cannot be shared', () => {
+    const onState = vi.fn(),
+      f = fixture({ shared: { tag: 'photo' }, onState })
+    f.from.children = [Object.assign(new View(), { sharedTransitionTag: 'photo' })]
+    f.page.children = [Object.assign(new View(), { sharedTransitionTag: 'photo' })]
+    native.prepareSharedFromToImageFromRadiusToRadiusMaxPixels.mockReturnValue(false)
+    f.push()
+    event(8)
+    event(3)
+    expect(onState).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        shared: { status: 'unavailable', reason: 'unsupported-geometry' },
+      }),
+    )
+  })
+
   it('uses Core transition hooks without replacing its navigation delegate', () => {
     const f = fixture(),
       delegate = f.nav.delegate

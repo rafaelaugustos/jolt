@@ -1,4 +1,5 @@
 import { isAndroid, Trace, type View } from '@nativescript/core'
+import { nativeBackSessions } from './presentation.js'
 import { onReducedMotion, reducedMotion, timeScale } from '../config.js'
 import { springPhysics } from '../spring.js'
 import { springs, type Spring } from '../transition.js'
@@ -187,6 +188,7 @@ export function predictiveBack(
     view.off('unloaded', unload)
     if (owners.get(view) === control) owners.delete(view)
     native = undefined
+    nativeBackSessions.delete(control)
     emit('disposed')
   }
   const unload = () => {
@@ -268,6 +270,7 @@ export function predictiveBack(
         }),
       ) ?? undefined
     supported = !!native
+    if (native) nativeBackSessions.set(control, native)
   }
   owners.set(view, control)
   view.on('unloaded', unload)

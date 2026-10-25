@@ -1,5 +1,14 @@
 // English source messages → Brazilian Portuguese. Keep numbered placeholders intact.
 export const portuguese: Record<string, string> = {
+  'Shared gestures': 'Gestos compartilhados',
+  'One image. Every part of the journey.': 'Uma imagem. Cada etapa do caminho.',
+  'ONE CONTINUOUS THING / 063': 'UMA SÓ CONEXÃO / 063',
+  'Keep the connection.': 'Mantenha a conexão.',
+  'Pull from the edge. Keep the connection.': 'Puxe pela borda. Mantenha a conexão.',
+  'Open a place. Bring it back by hand.': 'Abra um lugar. Traga de volta com a mão.',
+  'Changed your mind. Still connected.': 'Mudou de ideia. A conexão continua.',
+  'One connection, all the way back.': 'Uma conexão, até a volta.',
+  'A simple return. Nothing left behind.': 'Uma volta simples. Nada fica para trás.',
   'Predictive back': 'Voltar com prévia',
   'A little room to change your mind.': 'Um espaço para mudar de ideia.',
   'AFTER HOURS / 062': 'FIM DE TARDE / 062',
