@@ -75,6 +75,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('configure', 'configure'),
         page('scrollLinked', 'scroll-linked'),
         page('scrollHeader', 'scroll-header'),
+        page('sensor', 'device-sensors'),
         page('keyboard', 'keyboard'),
         page('androidBusy', 'android-performance'),
       ],

@@ -1,5 +1,25 @@
 // English source messages → Brazilian Portuguese. Keep numbered placeholders intact.
 export const portuguese: Record<string, string> = {
+  'Reduce motion': 'Reduzir movimento',
+  'Motion on': 'Ativar movimento',
+
+  'Move the light': 'Mova a luz',
+  'A little tilt. A whole new perspective.': 'Uma leve inclinação. Uma nova perspectiva.',
+  MERIDIAN: 'MERIDIAN',
+  'A DIFFERENT ANGLE': 'UM NOVO ÂNGULO',
+  'Changes everything.': 'Muda tudo.',
+  'Meridian card. Tilt your phone to move the light.':
+    'Cartão Meridian. Incline o celular para mover a luz.',
+  'Motion preview · simulated input': 'Prévia de movimento · entrada simulada',
+  'Motion unavailable on this device.': 'Sensores indisponíveis neste dispositivo.',
+  'Motion is unavailable. Try the preview.':
+    'Sensores indisponíveis. Experimente a prévia.',
+  'A moment of stillness.': 'Um instante de calma.',
+  'Move your phone. Follow the light.': 'Mova o celular. Siga a luz.',
+  'One movement. Layers of depth.': 'Um movimento. Camadas de profundidade.',
+  'Preview movement': 'Ver movimento',
+  Recenter: 'Centralizar',
+
   'Playing {0}': 'Reproduzindo {0}',
   'Made to scroll': 'Feito para rolar',
   'One scroll. Everything in its place.': 'Uma rolagem. Tudo no seu lugar.',

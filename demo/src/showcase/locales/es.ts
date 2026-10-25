@@ -1,5 +1,26 @@
 // English source messages → Spanish. Keep numbered placeholders intact.
 export const spanish: Record<string, string> = {
+  'Reduce motion': 'Reducir movimiento',
+  'Motion on': 'Activar movimiento',
+
+  'Move the light': 'Mueve la luz',
+  'A little tilt. A whole new perspective.':
+    'Una leve inclinación. Una nueva perspectiva.',
+  MERIDIAN: 'MERIDIAN',
+  'A DIFFERENT ANGLE': 'UN NUEVO ÁNGULO',
+  'Changes everything.': 'Lo cambia todo.',
+  'Meridian card. Tilt your phone to move the light.':
+    'Tarjeta Meridian. Inclina el teléfono para mover la luz.',
+  'Motion preview · simulated input': 'Vista previa · entrada simulada',
+  'Motion unavailable on this device.': 'Sensores no disponibles en este dispositivo.',
+  'Motion is unavailable. Try the preview.':
+    'Sensores no disponibles. Prueba la vista previa.',
+  'A moment of stillness.': 'Un momento de calma.',
+  'Move your phone. Follow the light.': 'Mueve el teléfono. Sigue la luz.',
+  'One movement. Layers of depth.': 'Un movimiento. Capas de profundidad.',
+  'Preview movement': 'Ver movimiento',
+  Recenter: 'Centrar',
+
   'Playing {0}': 'Reproduciendo {0}',
   'Made to scroll': 'Hecho para deslizar',
   'One scroll. Everything in its place.': 'Un gesto. Todo en su lugar.',

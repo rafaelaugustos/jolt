@@ -1,1 +1,1 @@
-OTHER_LDFLAGS = $(inherited) -framework Metal -framework MetalKit
+OTHER_LDFLAGS = $(inherited) -framework Metal -framework MetalKit -framework CoreMotion

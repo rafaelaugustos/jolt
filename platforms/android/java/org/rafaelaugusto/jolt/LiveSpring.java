@@ -49,7 +49,7 @@ public final class LiveSpring {
     private SampledInput input;
     private boolean direct = true;
     private double targetValue;
-    private boolean moving, reduced, disposed, paused, inputHeld;
+    private boolean moving, reduced, disposed, paused, inputHeld, sensorInput;
 
     public LiveSpring(double initial, double stiffness, double damping, double mass,
                       double restDelta, double restSpeed, boolean reduced) {
@@ -76,17 +76,23 @@ public final class LiveSpring {
         if (disposed) return;
         try { input = new SampledInput(new JSONObject(snapshot)); }
         catch (JSONException error) { throw new IllegalArgumentException(error); }
-        direct = false;
+        sensorInput = false; direct = false;
         wake();
+    }
+    public void setSensorInput(double value) {
+        if (disposed || !Double.isFinite(value) || (sensorInput && inputHeld && state.position == value)) return;
+        sensorInput = true; inputHeld = true; direct = true; targetValue = value; input = null;
+        state.position = value; state.velocity = 0; moving = false;
+        schedule();
     }
     public void setTarget(double value) {
         if (disposed) return;
-        direct = true; targetValue = value; input = null;
+        sensorInput = false; direct = true; targetValue = value; input = null;
         wake();
     }
     public void holdInput(double value, double velocity) {
         if (disposed) return;
-        inputHeld = true; direct = true; targetValue = value; input = null;
+        sensorInput = false; inputHeld = true; direct = true; targetValue = value; input = null;
         state.position = value; state.velocity = velocity; moving = true;
         apply(); schedule();
     }
@@ -100,7 +106,8 @@ public final class LiveSpring {
         if (value) moving = false; else wake();
     }
     private void wake() {
-        if (disposed || paused) return;
+        // Sensor inputs are held data; policy changes must not start an endless frame clock.
+        if (disposed || paused || sensorInput) return;
         moving = true;
         if (reduced) { step(SystemClock.uptimeMillis(), 0); apply(); }
         schedule();

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add optional native rotation/gravity sources through `@rafaelaugusto/jolt/sensors`, with shared hardware subscriptions, demand-driven collection, frame coalescing, quaternion/interface coordinates, scope lifecycle and native spring bindings. Add the localized **Move the light** preview and explicit native sensor test-input playback. Physical-device sensor/performance validation and other sensor types remain tracked in #114.
+
 - Translate all 1,079 preview messages into Spanish and Simplified Chinese, including catalog/search, controls, accessibility, status text and the map illustration. Extend automatic phone-language selection and the saved language picker to four languages.
 
 - Add `scrollHeader()` for flat Core ListView: a measured collapsing hero, native parallax/title handoff, pinned section, anchored resizing/insertion and lifecycle cleanup. Include the 66th bilingual preview and real EN/PT iOS/Android recordings. Fixed data rows plus a spacer are the initial supported adapter; physical-device acceptance remains open in #116. Rebuild the native app.

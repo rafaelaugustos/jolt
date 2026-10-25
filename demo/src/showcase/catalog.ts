@@ -1,3 +1,4 @@
+import SensorLab from '../components/SensorLab.vue'
 import ScrollHeaderLab from '../components/ScrollHeaderLab.vue'
 import ReturnTargetsLab from '../components/ReturnTargetsLab.vue'
 import GalleryLab from '../components/GalleryLab.vue'
@@ -72,6 +73,15 @@ export const categories = [
   'SceneKit',
 ] as const
 export const examples = [
+  {
+    id: 'device-sensors',
+    title: 'Move the light',
+    category: 'Motion',
+    description: 'A little tilt. A whole new perspective.',
+    component: markRaw(SensorLab),
+    full: true,
+    ios: false,
+  },
   {
     id: 'scroll-header',
     title: 'Made to scroll',

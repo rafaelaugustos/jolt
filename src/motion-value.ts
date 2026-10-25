@@ -135,7 +135,17 @@ class Derived {
   }
 
   subscribe(listener: ValueListener<number | Color>, options?: SubscribeOptions) {
-    return this.root.observers.subscribe(this.read, this.color, listener, options)
+    const release = this.root.retainConsumer()
+    try {
+      const stop = this.root.observers.subscribe(this.read, this.color, listener, options)
+      return () => {
+        stop()
+        release()
+      }
+    } catch (error) {
+      release()
+      throw error
+    }
   }
 
   to(
@@ -169,6 +179,31 @@ class Derived {
 }
 
 class Root extends Derived {
+  private consumers = 0
+  readonly demandListeners = new Set<(active: boolean) => void>()
+  get demanded() {
+    return this.consumers > 0
+  }
+  retainConsumer(): () => void {
+    this.consumers++
+    try {
+      this.demandChanged()
+    } catch (error) {
+      this.consumers--
+      this.demandChanged()
+      throw error
+    }
+    let ended = false
+    return () => {
+      if (ended) return
+      ended = true
+      this.consumers--
+      this.demandChanged()
+    }
+  }
+  protected demandChanged() {
+    for (const listener of [...this.demandListeners]) listener(this.demanded)
+  }
   readonly bindings = new Set<Binding>()
   readonly listeners = new Set<() => void>()
   readonly observers = new ValueObservers(
@@ -502,6 +537,32 @@ export interface SpringValue extends DerivedValue {
 }
 
 class SpringRoot extends Root {
+  private releaseDemand: (() => void) | undefined
+  externalActive = false
+  protected override demandChanged() {
+    const active = this.demanded && !this.ended && !this.held && !this.background
+    if (active && !this.releaseDemand) {
+      // A source status callback may synchronously suspend or dispose this follower.
+      this.releaseDemand = () => {}
+      let release: () => void
+      try {
+        release = this.input.root.retainConsumer()
+      } catch (error) {
+        this.releaseDemand = undefined
+        throw error
+      }
+      this.releaseDemand = release
+      if (!this.demanded || this.ended || this.held || this.background) {
+        this.releaseDemand = undefined
+        release()
+      }
+    } else if (!active && this.releaseDemand) {
+      const release = this.releaseDemand
+      this.releaseDemand = undefined
+      release()
+    }
+    super.demandChanged()
+  }
   readonly node: LiveNode
   private releaseSource: () => void = () => {}
   private releaseReduced: () => void = () => {}
@@ -607,7 +668,12 @@ class SpringRoot extends Root {
     return this.node?.position() ?? super.raw()
   }
   override get running(): boolean {
-    return !this.ended && (this.node?.moving() ?? false)
+    return (
+      !this.ended &&
+      !this.held &&
+      !this.background &&
+      (this.externalActive || (this.node?.moving() ?? false))
+    )
   }
   get moving(): boolean {
     return this.running
@@ -632,6 +698,7 @@ class SpringRoot extends Root {
   }
   private updatePause() {
     this.node.paused(this.held || this.background)
+    this.demandChanged()
     this.notify()
   }
   getVelocity(): number {
@@ -649,6 +716,7 @@ class SpringRoot extends Root {
   dispose() {
     if (this.ended) return
     this.ended = true
+    this.demandChanged()
     this.releaseSource()
     this.releaseReduced()
     Application.off(Application.suspendEvent, this.suspend)
@@ -678,7 +746,21 @@ export function liveValueInput(value: DerivedValue) {
   if (!(value instanceof Derived) || !(value.root instanceof SpringRoot))
     throw new TypeError('Native input requires a live value.')
   const root = value.root
-  return { node: root.node, changed: () => root.notify() }
+  return {
+    node: root.node,
+    changed: () => root.notify(),
+    active(value: boolean) {
+      root.externalActive = value
+      root.notify()
+    },
+    demand(listener: (active: boolean) => void) {
+      root.demandListeners.add(listener)
+      listener(root.demanded)
+      return () => {
+        root.demandListeners.delete(listener)
+      }
+    },
+  }
 }
 
 function layerName(name: string): string {
@@ -834,12 +916,15 @@ function attachSpring(
 ) {
   let native: LiveBinding | undefined
   let releaseMix: (() => void) | undefined
+  let releaseDemand: (() => void) | undefined
   const detach = () => {
     if (!native) return
     native.cancel()
     releaseMix?.()
     releaseMix = undefined
     native = undefined
+    releaseDemand?.()
+    releaseDemand = undefined
     syncLiveSprings(view)
   }
   const binding: Binding = {
@@ -854,6 +939,12 @@ function attachSpring(
       stopBase(view, [property])
       native = root.node.bind(view, property, source.mappings)
       const handle = native
+      const retained = root.retainConsumer()
+      if (native !== handle || root.disposed) {
+        retained()
+        return
+      }
+      releaseDemand = retained
       releaseMix = mixFor(view, property).attachLive({
         read: () => handle.value(),
         layers: (layers) => handle.layers(layers),

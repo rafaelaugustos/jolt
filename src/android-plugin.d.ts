@@ -1,4 +1,26 @@
 declare namespace org.rafaelaugusto.jolt {
+  class SensorSource {
+    constructor(
+      context: android.content.Context,
+      kind: string,
+      options: string,
+      listener: SensorSource.Listener,
+    )
+    static activeCount(): number
+    static sourceCount(): number
+    connect(node: LiveSpring, index: number): void
+    setEnabled(active: boolean, paused: boolean): void
+    snapshot(): string
+    recenter(): void
+    replay(trace: string): void
+    dispose(): void
+  }
+  namespace SensorSource {
+    class Listener {
+      constructor(implementation: { changed(): void })
+    }
+  }
+
   class ScrollHeader {
     constructor(
       list: android.widget.ListView,

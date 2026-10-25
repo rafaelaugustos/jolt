@@ -1,5 +1,24 @@
 // English source messages → Simplified Chinese. Keep numbered placeholders intact.
 export const chinese: Record<string, string> = {
+  'Reduce motion': '减少动态效果',
+  'Motion on': '开启动效',
+
+  'Move the light': '让光随你而动',
+  'A little tilt. A whole new perspective.': '轻轻一倾，换个视角。',
+  MERIDIAN: 'MERIDIAN',
+  'A DIFFERENT ANGLE': '换个角度',
+  'Changes everything.': '一切皆不同。',
+  'Meridian card. Tilt your phone to move the light.':
+    'Meridian 卡片。倾斜手机，让光影随之移动。',
+  'Motion preview · simulated input': '动作预览 · 模拟输入',
+  'Motion unavailable on this device.': '此设备不支持动作感应。',
+  'Motion is unavailable. Try the preview.': '动作感应不可用。试试预览。',
+  'A moment of stillness.': '静享片刻。',
+  'Move your phone. Follow the light.': '移动手机，追随光影。',
+  'One movement. Layers of depth.': '一个动作，层层深度。',
+  'Preview movement': '预览动作',
+  Recenter: '重新居中',
+
   'Playing {0}': '正在播放 {0}',
   'Made to scroll': '为滚动而生',
   'One scroll. Everything in its place.': '一次滚动，一切井然有序。',

@@ -8,6 +8,7 @@ module.exports = (env) => {
   webpack.chainWebpack((config) => {
     config.resolve.alias
       // Jolt from this repository: run `npm run dev` at the root
+      .set('@rafaelaugusto/jolt/sensors$', resolve(__dirname, '../dist/sensors/index.js'))
       .set('@rafaelaugusto/jolt$', resolve(__dirname, '../dist/index.js'))
       .set(
         '@rafaelaugusto/jolt/gestures$',

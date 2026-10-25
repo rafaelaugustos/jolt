@@ -1,3 +1,18 @@
+declare class JoltSensorSource extends NSObject {
+  static createOptionsOnState(
+    kind: string,
+    options: string,
+    changed: () => void,
+  ): JoltSensorSource
+  static activeCount(): number
+  static sourceCount(): number
+  connectIndex(node: JoltLiveSpring, index: number): void
+  setEnabledPaused(active: boolean, paused: boolean): void
+  snapshot(): string
+  recenter(): void
+  replay(trace: string): void
+  dispose(): void
+}
 declare class JoltScrollHeader extends NSObject {
   static attachNodeTitleToolbarTitleToolbarDiagnosticOptionsOnState(
     list: UITableView,
