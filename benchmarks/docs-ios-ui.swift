@@ -52,6 +52,45 @@ final class DocsTests: XCTestCase {
         start.press(forDuration: 0.55, thenDragTo: destination, withVelocity: fast ? .fast : .slow, thenHoldForDuration: hold)
         Thread.sleep(forTimeInterval: 0.6)
     }
+    func sensorDemo(_ language: String) throws {
+        languageLaunch(language, "language-settings")
+        selectLanguage("system")
+        languageLaunch(language, "sensor-lab", ["--showcase-example=device-sensors"])
+        try record("device-sensors-ios" + (language == "en" ? "" : "-pt")) {
+            tap("sensor-preview", wait: 3)
+            tap("sensor-pause", wait: 1.5)
+            tap("sensor-pause", wait: 3)
+            tap("sensor-center", wait: 1.5)
+            tap("sensor-reduce", wait: 1)
+            tap("sensor-reduce", wait: 2)
+        }
+    }
+    func testDeviceSensors() throws { try sensorDemo("en") }
+    func testDeviceSensorsPortuguese() throws { try sensorDemo("pt-BR") }
+    func testDeviceSensorChecks() throws {
+        languageLaunch("en", "sensor-lab", ["--showcase-example=device-sensors", "--sensors-audit"])
+        tap("sensor-preview", wait: 2)
+        tap("sensor-snapshot")
+        tap("sensor-busy", wait: 0.2)
+        tap("sensor-pause", wait: 1)
+        tap("sensor-snapshot")
+        tap("sensor-pause", wait: 1)
+        tap("sensor-snapshot")
+        tap("sensor-reduce", wait: 1)
+        tap("sensor-snapshot")
+        tap("sensor-reduce")
+        tap("sensor-preview", wait: 1)
+        XCUIDevice.shared.press(.home)
+        Thread.sleep(forTimeInterval: 1)
+        app.activate()
+        Thread.sleep(forTimeInterval: 1)
+        tap("sensor-snapshot")
+        tap("sensor-center")
+        tap("sensor-snapshot")
+        app.descendants(matching: .any)["Back to collection"].firstMatch.tap()
+        Thread.sleep(forTimeInterval: 1)
+        XCTAssertFalse(app.descendants(matching: .any)["sensor-lab"].firstMatch.exists)
+    }
     func scrollHeaderDemo(_ language: String) throws {
         languageLaunch(language, "language-settings")
         selectLanguage("system")

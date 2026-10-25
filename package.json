@@ -77,6 +77,10 @@
     "./predictive-back": {
       "types": "./dist/predictive-back/index.d.ts",
       "default": "./dist/predictive-back/index.js"
+    },
+    "./sensors": {
+      "types": "./dist/sensors/index.d.ts",
+      "default": "./dist/sensors/index.js"
     }
   },
   "files": [

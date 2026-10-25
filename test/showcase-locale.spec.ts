@@ -65,7 +65,7 @@ describe('preview language', () => {
     const messages = [
       ...catalogSource.matchAll(/(?:title|category|description): '([^']*)'/g),
     ].map((match) => match[1]!)
-    expect(messages.length).toBe(66 * 3)
+    expect(messages.length).toBe(67 * 3)
     for (const dictionary of Object.values(dictionaries)) {
       expect(Object.keys(dictionary).sort()).toEqual(Object.keys(portuguese).sort())
       for (const message of messages) expect(dictionary[message], message).toBeDefined()

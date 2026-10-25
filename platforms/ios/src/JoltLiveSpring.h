@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)sync:(UIView *)view;
 - (void)follow:(JoltLiveSpring *)source mappings:(NSString *)mappings;
 - (void)updateInput:(NSString *)snapshot;
+- (void)setSensorInput:(double)value;
 - (void)setTarget:(double)value;
 - (void)holdInput:(double)value velocity:(double)velocity;
 - (void)releaseInput:(double)target velocity:(double)velocity;

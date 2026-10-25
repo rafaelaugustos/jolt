@@ -44,7 +44,7 @@ static double inputValue(NSDictionary *input, double anchor, double now) {
 }
 @property(nonatomic) double stiffness, damping, mass, restDelta, restSpeed;
 @property(nonatomic, readwrite) BOOL moving;
-@property(nonatomic) BOOL reduced, paused, disposed, direct, inputHeld;
+@property(nonatomic) BOOL reduced, paused, disposed, direct, inputHeld, sensorDriven;
 @property(nonatomic) double targetValue;
 @property(nonatomic, nullable) JoltLiveSpring *source;
 @property(nonatomic) NSArray *sourceMaps;
@@ -123,15 +123,21 @@ static double previousFrame;
 }
 - (void)updateInput:(NSString *)snapshot {
     if (self.disposed) return;
-    self.input = decode(snapshot); self.direct = NO; self.anchor = CACurrentMediaTime() * 1000; [self wake];
+    self.sensorDriven = NO; self.input = decode(snapshot); self.direct = NO; self.anchor = CACurrentMediaTime() * 1000; [self wake];
+}
+- (void)setSensorInput:(double)value {
+    if (self.disposed || !isfinite(value) || (self.sensorDriven && self.inputHeld && _state.position == value)) return;
+    self.sensorDriven = YES; self.inputHeld = YES; self.direct = YES; self.targetValue = value; self.input = nil;
+    _state = (JoltSpringState){value, 0}; self.moving = NO;
+    [JoltLiveSpring schedule];
 }
 - (void)setTarget:(double)value {
     if (self.disposed) return;
-    self.direct = YES; self.targetValue = value; self.input = nil; [self wake];
+    self.sensorDriven = NO; self.direct = YES; self.targetValue = value; self.input = nil; [self wake];
 }
 - (void)holdInput:(double)value velocity:(double)velocity {
     if (self.disposed) return;
-    self.inputHeld = YES; self.direct = YES; self.targetValue = value; self.input = nil;
+    self.sensorDriven = NO; self.inputHeld = YES; self.direct = YES; self.targetValue = value; self.input = nil;
     _state = (JoltSpringState){value, velocity}; self.moving = YES;
     [CATransaction begin]; [CATransaction setDisableActions:YES]; [self apply]; [CATransaction commit];
     [JoltLiveSpring schedule];
@@ -146,7 +152,8 @@ static double previousFrame;
     if (value) self.moving = NO; else [self wake];
 }
 - (void)wake {
-    if (self.disposed || self.paused) return;
+    // Sensor inputs are held data, not springs. A policy change must not wake an endless clock.
+    if (self.disposed || self.paused || self.sensorDriven) return;
     self.moving = YES;
     if (self.reduced) {
         [self step:CACurrentMediaTime() * 1000 seconds:0];
