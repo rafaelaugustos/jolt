@@ -23,6 +23,7 @@ import {
 } from '@rafaelaugusto/jolt'
 import { runInteractionReplayChecks } from './interaction-replay-checks'
 import { runScrollHandoffChecks } from './scroll-handoff-checks'
+import { runMotionInspectorChecks } from './motion-inspector-checks'
 import { runCurveSamplingChecks } from './curve-sampling-checks'
 import { runSizeChecks } from './size-checks'
 import { runLiveSpringChecks } from './live-spring-checks'
@@ -245,6 +246,7 @@ async function run(view: Label, other: Label, host: StackLayout, status: Label) 
 
   stage = 'recorded interaction replay and negative control'
   samples.push(await runCurveSamplingChecks(view))
+  samples.push(await runMotionInspectorChecks(view))
   samples.push(await runInteractionReplayChecks(view, runId))
   samples.push(await runScrollHandoffChecks(host, runId))
   pass()

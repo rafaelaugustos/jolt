@@ -81,6 +81,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
       items: [
         page('api', 'api'),
         page('interactionReplay', 'interaction-replay'),
+        page('motionInspector', 'motion-inspector'),
         page('internals', 'how-it-works'),
         page('limits', 'not-there-yet'),
       ],
@@ -144,6 +145,7 @@ const en = {
   androidBusy: 'Busy JavaScript on Android',
   vue: 'Vue',
   interactionReplay: 'Interaction replay',
+  motionInspector: 'Motion inspector',
   api: 'API',
   internals: 'How it works',
   limits: 'Not there yet',
@@ -205,6 +207,7 @@ const pt = {
   androidBusy: 'JavaScript ocupado no Android',
   vue: 'Vue',
   interactionReplay: 'Replay de interações',
+  motionInspector: 'Inspetor de movimento',
   api: 'API',
   internals: 'Como funciona',
   limits: 'O que ainda não existe',

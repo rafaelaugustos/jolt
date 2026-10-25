@@ -34,6 +34,7 @@ onLaunch(() => {
     'interaction-replay',
     'scroll-handoff',
     'curve-sampling',
+    'motion-inspector',
   ].some((name) => launchArgument(name) !== undefined)
   enablePreviewLanguage(!legacy.value)
   ready.value = true

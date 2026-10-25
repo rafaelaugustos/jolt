@@ -1,3 +1,13 @@
+declare class JoltMotionProbe extends NSObject {
+  static startViewCapacityHertz(
+    view: UIView,
+    capacity: number,
+    hertz: number,
+  ): JoltMotionProbe
+  static activeCount(): number
+  drain(): string
+  dispose(): void
+}
 declare class JoltReorderHandle extends UIButton {
   onMove: ((direction: number) => void) | null
 }

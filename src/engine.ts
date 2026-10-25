@@ -529,6 +529,22 @@ export function propertyRevision(view: View, property: Property) {
   return revisions.get(view)?.get(property)
 }
 
+/** Internal read-only diagnostics. No observers or frame hooks are installed. */
+export function inspectViewMotion(view: View) {
+  const now = getDriver().now()
+  return [...(running.get(view)?.values() ?? [])].map((entry) => ({
+    owner: entry.owner,
+    handle: entry.handle,
+    key: entry.key,
+    property: entry.track.property,
+    layer: entry.layer,
+    track: entry.track,
+    // A development hook may inspect while playEntry is still obtaining its handle.
+    elapsed: entry.handle === undefined ? 0 : elapsedOf(entry, now),
+    paused: entry.owner.paused,
+  }))
+}
+
 /** Sample an existing owner at layout time, without stealing an animation started meanwhile. */
 export function captureValue(view: View, property: Property): () => number | undefined {
   const token = propertyRevision(view, property)
