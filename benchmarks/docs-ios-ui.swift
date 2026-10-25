@@ -186,6 +186,44 @@ final class DocsTests: XCTestCase {
             XCTAssertTrue(app.staticTexts["Replay conferido"].waitForExistence(timeout: 30), app.debugDescription)
         }
     }
+    func testSharedNavigation() throws {
+        languageLaunch("en", "language-settings")
+        selectLanguage("en")
+        languageLaunch("en", "navigation-photo", ["--showcase-example=shared-navigation"])
+        try record("shared-navigation-ios") {
+            tap("navigation-photo", wait: 1.8)
+            tap("navigation-back", wait: 1.8)
+            XCTAssertEqual(app.staticTexts["navigation-result"].firstMatch.label, "Connected, there and back.", app.debugDescription)
+            tap("navigation-pass", wait: 1.8)
+            tap("navigation-back", wait: 1.8)
+            XCTAssertEqual(app.staticTexts["navigation-result"].firstMatch.label, "Connected, there and back.", app.debugDescription)
+        }
+        languageLaunch("en", "navigation-photo", ["--showcase-example=shared-navigation", "--shared-navigation-audit"])
+        tap("navigation-photo", wait: 1.8)
+        tap("navigation-move-return", wait: 0.2)
+        tap("navigation-back", wait: 1.8)
+        XCTAssertEqual(app.staticTexts["navigation-result"].firstMatch.label, "Connected, there and back.", app.debugDescription)
+        tap("navigation-missing", wait: 0.2)
+        tap("navigation-photo", wait: 1.0)
+        tap("navigation-back", wait: 1.0)
+        tap("navigation-missing", wait: 0.2)
+        tap("navigation-reduce", wait: 0.2)
+        tap("navigation-photo", wait: 1.0)
+        tap("navigation-back", wait: 1.0)
+        XCTAssertEqual(app.staticTexts["navigation-result"].firstMatch.label, "Reduced motion. Same destination.", app.debugDescription)
+    }
+    func testSharedNavigationPortuguese() throws {
+        languageLaunch("pt-BR", "language-settings")
+        selectLanguage("system")
+        languageLaunch("pt-BR", "navigation-photo", ["--showcase-example=shared-navigation"])
+        try record("shared-navigation-pt-ios") {
+            tap("navigation-photo", wait: 1.8)
+            tap("navigation-back", wait: 1.8)
+            XCTAssertEqual(app.staticTexts["navigation-result"].firstMatch.label, "Conectados, na ida e na volta.", app.debugDescription)
+            tap("navigation-pass", wait: 1.8)
+            tap("navigation-back", wait: 1.8)
+        }
+    }
     func testSharedLayout() throws {
         launch(["--shared-layout", "--shared-layout-audit"], "shared-toggle")
         try record("shared-layout-ios") {

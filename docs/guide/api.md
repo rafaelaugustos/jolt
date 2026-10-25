@@ -6,6 +6,7 @@
 
 - [**recordInteraction / replayInteraction**](./interaction-replay) — optional development traces, controlled-clock replay and native regression probes. Available since beta.18.
 - [**sharedLayout(container, options)**](./shared-layout) — optional same-page shared identities, native snapshots, crossfades and interruption. Available since beta.18.
+- [**sharedNavigation(frame, options)**](./shared-navigation) — optional native image/card motion across programmatic routes, scoped tags and bounded fallback. Next beta; not in beta.18.
 - `animate(target, keyframes | preset, transition?)` — [paths](./paths), [colors](./colors), [corners, borders and shadows](./decorations)
 - [`interactionSurface(target)`](./interaction-surface) — opt into native touch geometry for an animated subtree.
 - [`animateLayout(container, change?, options?)`](./layout) — animate the next layout of a container’s direct children.

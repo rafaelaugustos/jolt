@@ -19,6 +19,7 @@ import { reducedMotion, timeScale } from '../config.js'
 import { DragInput } from '../drag-input.js'
 import { onKeyboard } from '../keyboard.js'
 import { ReplayClock } from './clock.js'
+import { waitForPresentation } from './presentation.js'
 import { replayInteraction, type ReplayAdapter, type ReplayReport } from './replay.js'
 import {
   parseTrace,
@@ -351,20 +352,7 @@ export async function replayWithDriver(
   )
   const present =
     options.present ??
-    (() =>
-      new Promise<void>((resolve, reject) => {
-        let cancel = () => {}
-        const timer = setTimeout(() => {
-          cancel()
-          reject(new Error('Native replay presentation timed out.'))
-        }, 1500)
-        cancel = previous.frame(() => {
-          cancel = previous.frame(() => {
-            clearTimeout(timer)
-            resolve()
-          })
-        })
-      }))
+    (() => waitForPresentation((callback) => previous.frame(callback), options.signal))
   replaying = true
   setDriver(clock)
   try {

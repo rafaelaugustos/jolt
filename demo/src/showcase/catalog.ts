@@ -1,3 +1,4 @@
+import SharedNavigationLab from '../components/SharedNavigationLab.vue'
 import MotionInspectorLab from '../components/MotionInspectorLab.vue'
 import CurveSamplingLab from '../components/CurveSamplingLab.vue'
 import InteractionReplayLab from '../components/InteractionReplayLab.vue'
@@ -422,6 +423,15 @@ export const examples = [
     category: 'State',
     description: 'Keep the moment. Catch the regression.',
     component: markRaw(InteractionReplayLab),
+    full: true,
+    ios: false,
+  },
+  {
+    id: 'shared-navigation',
+    title: 'Shared navigation',
+    category: 'Layout',
+    description: 'A new page. The same connection.',
+    component: markRaw(SharedNavigationLab),
     full: true,
     ios: false,
   },

@@ -1,6 +1,8 @@
 package org.rafaelaugusto.jolt;
 
 import android.graphics.*;
+import android.graphics.drawable.BitmapDrawable;
+import android.widget.ImageView;
 import android.view.*;
 import android.webkit.WebView;
 import org.json.*;
@@ -16,9 +18,9 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
     private Bitmap source, target;
     private float sourceWidth, sourceHeight, targetWidth, targetHeight;
-    private boolean sourceImage, targetImage, disposed, running;
+    private boolean sourceImage, targetImage, disposed, running, navigationImage;
     private View destination;
-    private final double[] pose = new double[6], velocity = new double[5];
+    private final double[] pose = new double[10], velocity = new double[10];
     private double[][] times, values;
     private double duration, started;
     private RectF destinationFrame;
@@ -88,9 +90,40 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
         f.pose[0]=rect.left/f.density; f.pose[1]=rect.top/f.density; f.pose[2]=rect.width()/f.density; f.pose[3]=rect.height()/f.density; f.pose[4]=radius*rect.width()/view.getWidth();
         f.hide(view); f.root.getOverlay().add(f); active++; return f;
     }
+
+    private double[] navigationGeometry(View view, double radius) {
+        if(!(view instanceof ImageView)) return null;
+        ImageView image=(ImageView)view;
+        if(!(image.getDrawable() instanceof BitmapDrawable) || image.getColorFilter()!=null || image.getPaddingLeft()!=0 || image.getPaddingTop()!=0 || image.getPaddingRight()!=0 || image.getPaddingBottom()!=0) return null;
+        if(image.getScaleType()!=ImageView.ScaleType.FIT_CENTER && image.getScaleType()!=ImageView.ScaleType.CENTER_CROP) return null;
+        Bitmap bitmap=((BitmapDrawable)image.getDrawable()).getBitmap(); if(bitmap==null || bitmap.isRecycled())return null;
+        RectF rect=geometry(view); if(!visibleBounds(view,rect))return null;
+        double scale=image.getScaleType()==ImageView.ScaleType.CENTER_CROP?Math.max(rect.width()/bitmap.getWidth(),rect.height()/bitmap.getHeight()):Math.min(rect.width()/bitmap.getWidth(),rect.height()/bitmap.getHeight());
+        double w=bitmap.getWidth()*scale,h=bitmap.getHeight()*scale;
+        return new double[]{rect.left/density,rect.top/density,rect.width()/density,rect.height()/density,radius*rect.width()/view.getWidth(),(rect.width()-w)/2/density,(rect.height()-h)/2/density,w/density,h/density};
+    }
+    public static SharedLayoutFlight captureNavigationImage(View view, double radius, double maxPixels) {
+        if(!(view.getRootView() instanceof ViewGroup) || view.getVisibility()!=VISIBLE)return null;
+        SharedLayoutFlight f=new SharedLayoutFlight(view);
+        double[] pose=f.navigationGeometry(view,radius); if(pose==null)return null;
+        Bitmap image=((BitmapDrawable)((ImageView)view).getDrawable()).getBitmap();
+        if((long)image.getWidth()*image.getHeight()>maxPixels)return null;
+        f.navigationImage=true; f.source=image;
+        for(int i=0;i<9;i++)f.pose[i<5?i:i+1]=pose[i];
+        f.hide(view); f.root.getOverlay().add(f); active++; return f;
+    }
+    public String prepareNavigationImage(View view, double radius, double maxPixels) {
+        if(disposed || !navigationImage || view.getVisibility()!=VISIBLE)return null;
+        double[] geometry=navigationGeometry(view,radius); if(geometry==null)return null;
+        Bitmap image=((BitmapDrawable)((ImageView)view).getDrawable()).getBitmap();
+        if((long)image.getWidth()*image.getHeight()+pixels()>maxPixels || Math.abs((double)image.getWidth()/image.getHeight()-(double)source.getWidth()/source.getHeight())>.001)return null;
+        target=image; destination=view; destinationFrame=geometry(view); hide(view);
+        try { return new JSONArray(geometry).toString(); } catch(JSONException error) { throw new IllegalStateException(error); }
+    }
+
     public double pixels() { return (source==null?0:(long)source.getWidth()*source.getHeight())+(target==null?0:(long)target.getWidth()*target.getHeight()); }
     public String state() {
-        try { JSONObject out=new JSONObject(); out.put("pose",new JSONArray(pose)); out.put("velocity",new JSONArray(velocity)); return out.toString(); }
+        try { JSONObject out=new JSONObject(); out.put("pose",new JSONArray(java.util.Arrays.copyOf(pose,navigationImage?10:6))); out.put("velocity",new JSONArray(java.util.Arrays.copyOf(velocity,navigationImage?10:5))); return out.toString(); }
         catch (JSONException error) { throw new IllegalStateException(error); }
     }
     public String prepare(View view, boolean image, double radius, double maxPixels) {
@@ -119,8 +152,8 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
         if(disposed) return;
         try {
             JSONObject config=new JSONObject(json); JSONArray tracks=config.getJSONArray("tracks");
-            times=new double[6][]; values=new double[6][]; duration=0;
-            for(int k=0;k<6;k++) {
+            int count=navigationImage?10:6; times=new double[count][]; values=new double[count][]; duration=0;
+            for(int k=0;k<(navigationImage?10:6);k++) {
                 JSONObject track=tracks.getJSONObject(k); JSONArray t=track.getJSONArray("times"),v=track.getJSONArray("values");
                 times[k]=new double[t.length()]; values[k]=new double[v.length()];
                 for(int j=0;j<t.length();j++){times[k][j]=t.getDouble(j);values[k][j]=v.getDouble(j);}
@@ -132,12 +165,12 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
     }
     private void evaluate(double now) {
         double elapsed=Math.max(0,now-started);
-        for(int k=0;k<6;k++) {
+        for(int k=0;k<(navigationImage?10:6);k++) {
             double[] t=times[k],v=values[k]; int j=1;
             while(j<t.length-1 && t[j]<elapsed)j++;
             double span=t[j]-t[j-1], fraction=span<=0?1:Math.max(0,Math.min(1,(elapsed-t[j-1])/span));
             pose[k]=v[j-1]+(v[j]-v[j-1])*fraction;
-            if(k<5) velocity[k]=elapsed>=t[t.length-1]||span<=0?0:(v[j]-v[j-1])*1000/span;
+            if(k!=5) velocity[k]=elapsed>=t[t.length-1]||span<=0?0:(v[j]-v[j-1])*1000/span;
         }
     }
     @Override public void doFrame(long nanos) {
@@ -158,6 +191,11 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
         RectF box=new RectF((float)pose[0]*density,(float)pose[1]*density,(float)(pose[0]+Math.max(.1,pose[2]))*density,(float)(pose[1]+Math.max(.1,pose[3]))*density);
         float radius=(float)Math.max(0,Math.min(pose[4]*density,Math.min(box.width(),box.height())/2));
         Path path=new Path(); path.addRoundRect(box,radius,radius,Path.Direction.CW); int save=canvas.save(); canvas.clipPath(path);
+        if(navigationImage) {
+            paint.setAlpha(255);
+            canvas.drawBitmap(source,null,new RectF(box.left+(float)pose[6]*density,box.top+(float)pose[7]*density,box.left+(float)(pose[6]+Math.max(.1,pose[8]))*density,box.top+(float)(pose[7]+Math.max(.1,pose[9]))*density),paint);
+            canvas.restoreToCount(save); return;
+        }
         int composite=canvas.saveLayer(box,null);
         float mix=(float)Math.max(0,Math.min(1,pose[5]));
         bitmap(canvas,source,sourceWidth,sourceHeight,sourceImage,1-mix,box);
@@ -169,6 +207,6 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
         if(disposed)return; disposed=true; running=false; listener=null;
         Choreographer.getInstance().removeFrameCallback(this); root.getOverlay().remove(this); active--;
         for(Map.Entry<View,Integer> entry:hidden.entrySet()) if(entry.getKey().getVisibility()==INVISIBLE)entry.getKey().setVisibility(entry.getValue()); hidden.clear();
-        if(source!=null)source.recycle(); if(target!=null)target.recycle(); source=null;target=null;destination=null;
+        if(!navigationImage) { if(source!=null)source.recycle(); if(target!=null)target.recycle(); } source=null;target=null;destination=null;
     }
 }

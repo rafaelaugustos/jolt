@@ -228,6 +228,16 @@ declare class JoltSceneShaderProperties extends NSObject {
 }
 
 declare class JoltSharedLayoutFlight extends UIView {
+  static captureNavigationImageRadiusMaxPixels(
+    view: UIView,
+    radius: number,
+    maxPixels: number,
+  ): JoltSharedLayoutFlight | null
+  prepareNavigationImageRadiusMaxPixels(
+    view: UIView,
+    radius: number,
+    maxPixels: number,
+  ): string | null
   static captureImageRadiusMaxPixels(
     view: UIView,
     image: boolean,

@@ -408,6 +408,16 @@ declare namespace org.rafaelaugusto.jolt {
 
 declare namespace org.rafaelaugusto.jolt {
   class SharedLayoutFlight extends android.view.View {
+    static captureNavigationImage(
+      view: android.view.View,
+      radius: number,
+      maxPixels: number,
+    ): SharedLayoutFlight | null
+    prepareNavigationImage(
+      view: android.view.View,
+      radius: number,
+      maxPixels: number,
+    ): string | null
     static capture(
       view: android.view.View,
       image: boolean,

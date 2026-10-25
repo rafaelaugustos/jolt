@@ -65,6 +65,10 @@
     "./inspector": {
       "types": "./dist/inspector/index.d.ts",
       "default": "./dist/inspector/index.js"
+    },
+    "./shared-navigation": {
+      "types": "./dist/shared-navigation/index.d.ts",
+      "default": "./dist/shared-navigation/index.js"
     }
   },
   "files": [

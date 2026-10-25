@@ -1,6 +1,8 @@
 #import <UIKit/UIKit.h>
 @interface JoltSharedLayoutFlight : UIView
 + (instancetype)capture:(UIView *)view image:(BOOL)image radius:(double)radius maxPixels:(double)maxPixels;
++ (instancetype)captureNavigationImage:(UIView *)view radius:(double)radius maxPixels:(double)maxPixels;
+- (NSString *)prepareNavigationImage:(UIView *)view radius:(double)radius maxPixels:(double)maxPixels;
 + (NSInteger)activeCount;
 - (double)pixels;
 - (NSString *)state;

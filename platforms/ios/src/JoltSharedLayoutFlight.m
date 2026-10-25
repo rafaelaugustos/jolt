@@ -2,8 +2,9 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface JoltSharedLayoutFlight () {
-    double _pose[6], _velocity[5];
+    double _pose[10], _velocity[10];
 }
+@property(nonatomic) BOOL navigationImage;
 @property(nonatomic,weak) UIWindow *host;
 @property(nonatomic,weak) UIView *destination;
 @property(nonatomic) NSMapTable<UIView *, NSNumber *> *hiddenViews;
@@ -72,12 +73,48 @@ static BOOL JoltSharedUnsupported(UIView *view) {
     flight.opaque=NO; flight.backgroundColor=UIColor.clearColor; flight.userInteractionEnabled=NO; flight.accessibilityElementsHidden=YES;
     [flight hide:view]; [flight.host addSubview:flight]; JoltSharedActive++; return flight;
 }
+
+// Use the decoded image, not a cropped view snapshot: preserve content when
+// aspectFill thumbnails open into aspectFit details (and vice versa).
+- (NSArray *)navigationGeometry:(UIImageView *)view radius:(double)radius presentation:(BOOL)presentation {
+    if(![view isKindOfClass:UIImageView.class] || !view.image || view.image.images.count || view.image.renderingMode==UIImageRenderingModeAlwaysTemplate ||
+       (view.contentMode!=UIViewContentModeScaleAspectFit && view.contentMode!=UIViewContentModeScaleAspectFill))return nil;
+    CGRect rect=[self geometry:view presentation:presentation]; if(![self visibleBounds:view frame:rect])return nil;
+    CGSize image=view.image.size;
+    if(image.width<=0 || image.height<=0)return nil;
+    double scale=view.contentMode==UIViewContentModeScaleAspectFill?MAX(rect.size.width/image.width,rect.size.height/image.height):MIN(rect.size.width/image.width,rect.size.height/image.height);
+    double w=image.width*scale,h=image.height*scale;
+    return @[@(rect.origin.x),@(rect.origin.y),@(rect.size.width),@(rect.size.height),@(radius*rect.size.width/view.bounds.size.width),@((rect.size.width-w)/2),@((rect.size.height-h)/2),@(w),@(h)];
+}
++ (instancetype)captureNavigationImage:(UIView *)view radius:(double)radius maxPixels:(double)maxPixels {
+    if(!view.window || view.hidden)return nil;
+    JoltSharedLayoutFlight *flight=[[self alloc]initWithFrame:view.window.bounds];
+    flight.host=view.window; flight.viewport=view.window.bounds.size; flight.hiddenViews=[NSMapTable weakToStrongObjectsMapTable];
+    NSArray *pose=[flight navigationGeometry:(UIImageView *)view radius:radius presentation:YES]; if(!pose)return nil;
+    UIImage *image=((UIImageView *)view).image;
+    if(!image.CGImage || (double)CGImageGetWidth(image.CGImage)*CGImageGetHeight(image.CGImage)>maxPixels)return nil;
+    flight.navigationImage=YES; flight.sourceImage=image;
+    for(int i=0;i<9;i++)flight->_pose[i<5?i:i+1]=[pose[i] doubleValue];
+    flight.opaque=NO; flight.backgroundColor=UIColor.clearColor; flight.userInteractionEnabled=NO; flight.accessibilityElementsHidden=YES;
+    [flight hide:view]; [flight.host addSubview:flight]; JoltSharedActive++; return flight;
+}
+- (NSString *)prepareNavigationImage:(UIView *)view radius:(double)radius maxPixels:(double)maxPixels {
+    if(self.disposed || !self.navigationImage || view.hidden)return nil;
+    NSArray *pose=[self navigationGeometry:(UIImageView *)view radius:radius presentation:NO]; if(!pose)return nil;
+    UIImage *image=((UIImageView *)view).image;
+    if(!image.CGImage || (double)CGImageGetWidth(image.CGImage)*CGImageGetHeight(image.CGImage)+self.pixels>maxPixels)return nil;
+    // Both endpoints must describe the same aspect ratio; unsupported swaps fall back.
+    if(fabs(image.size.width/image.size.height-self.sourceImage.size.width/self.sourceImage.size.height)>.001)return nil;
+    self.targetImage=image; self.destination=view; self.targetFrame=[self geometry:view presentation:NO]; [self hide:view];
+    return [[NSString alloc]initWithData:[NSJSONSerialization dataWithJSONObject:pose options:0 error:nil] encoding:NSUTF8StringEncoding];
+}
+
 - (double)pixels {
     return (self.sourceImage?CGImageGetWidth(self.sourceImage.CGImage)*CGImageGetHeight(self.sourceImage.CGImage):0)+(self.targetImage?CGImageGetWidth(self.targetImage.CGImage)*CGImageGetHeight(self.targetImage.CGImage):0);
 }
 - (NSString *)state {
     NSMutableArray *pose=[NSMutableArray new],*velocity=[NSMutableArray new];
-    for(int i=0;i<6;i++)[pose addObject:@(_pose[i])]; for(int i=0;i<5;i++)[velocity addObject:@(_velocity[i])];
+    for(int i=0;i<(self.navigationImage?10:6);i++)[pose addObject:@(_pose[i])]; for(int i=0;i<(self.navigationImage?10:5);i++)[velocity addObject:@(_velocity[i])];
     return [[NSString alloc]initWithData:[NSJSONSerialization dataWithJSONObject:@{@"pose":pose,@"velocity":velocity} options:0 error:nil] encoding:NSUTF8StringEncoding];
 }
 - (NSString *)prepare:(UIView *)view image:(BOOL)image radius:(double)radius maxPixels:(double)maxPixels {
@@ -108,12 +145,12 @@ static BOOL JoltSharedUnsupported(UIView *view) {
 }
 - (void)evaluate:(double)now {
     double elapsed=MAX(0,now-self.started);
-    for(int k=0;k<6;k++) {
+    for(int k=0;k<(self.navigationImage?10:6);k++) {
         NSArray *times=self.tracks[k][@"times"],*values=self.tracks[k][@"values"]; NSUInteger j=1;
         while(j<times.count-1 && [times[j] doubleValue]<elapsed)j++;
         double span=[times[j] doubleValue]-[times[j-1] doubleValue]; double fraction=span<=0?1:MAX(0,MIN(1,(elapsed-[times[j-1] doubleValue])/span));
         _pose[k]=[values[j-1] doubleValue]+([values[j] doubleValue]-[values[j-1] doubleValue])*fraction;
-        if(k<5)_velocity[k]=elapsed>=[times.lastObject doubleValue]||span<=0?0:([values[j] doubleValue]-[values[j-1] doubleValue])*1000/span;
+        if(k!=5)_velocity[k]=elapsed>=[times.lastObject doubleValue]||span<=0?0:([values[j] doubleValue]-[values[j-1] doubleValue])*1000/span;
     }
 }
 - (void)tick:(CADisplayLink *)clock {
@@ -132,6 +169,10 @@ static BOOL JoltSharedUnsupported(UIView *view) {
     CGRect box=CGRectMake(_pose[0],_pose[1],MAX(.1,_pose[2]),MAX(.1,_pose[3]));
     CGFloat radius=MAX(0,MIN(_pose[4],MIN(box.size.width,box.size.height)/2)); CGContextRef context=UIGraphicsGetCurrentContext(); CGContextSaveGState(context);
     [[UIBezierPath bezierPathWithRoundedRect:box cornerRadius:radius]addClip]; CGFloat mix=MAX(0,MIN(1,_pose[5]));
+    if(self.navigationImage) {
+        CGRect content=CGRectMake(box.origin.x+_pose[6],box.origin.y+_pose[7],MAX(.1,_pose[8]),MAX(.1,_pose[9]));
+        [self.sourceImage drawInRect:content]; CGContextRestoreGState(context); return;
+    }
     CGContextBeginTransparencyLayer(context,NULL);
     [self drawImage:self.sourceImage size:self.sourceSize scales:self.sourceScales alpha:1-mix box:box blend:kCGBlendModeNormal]; [self drawImage:self.targetImage size:self.targetSize scales:self.targetScales alpha:mix box:box blend:kCGBlendModePlusLighter];
     CGContextEndTransparencyLayer(context); CGContextRestoreGState(context);

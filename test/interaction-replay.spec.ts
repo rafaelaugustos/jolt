@@ -13,7 +13,7 @@ import {
   type InteractionTrace,
 } from '../src/testing/index.js'
 import { motionTraceGraph, ReplayClock, replayWithDriver } from '../src/testing/native.js'
-import { createView, driver } from './helpers.js'
+import { createView, driver, flush } from './helpers.js'
 
 function fixture(name = 'interrupted-spring') {
   return parseTrace(name === 'interrupted-spring' ? springFixture : dragFixture)
@@ -181,6 +181,36 @@ describe('actual engine replay on a controllable driver', () => {
     )
     expect(report.passed).toBe(true)
     expect(received).toEqual(inputs)
+  })
+  it('reads native settled state after the bootstrap task and two display ticks', async () => {
+    const trace = fixture()
+    trace.entries = [
+      {
+        at: 0,
+        id: trace.motions[0]!.id,
+        expected: { position: 0, velocity: 0, settled: true },
+        tolerance: { position: 0, velocity: 0 },
+      },
+    ]
+    let settled = false
+    const read = vi.fn(() => ({ position: 0, velocity: 0, settled }))
+    const result = replayWithDriver(
+      trace,
+      () => ({ input() {}, read, dispose() {}, resources: () => 0 }),
+      { native: true },
+    )
+    await flush()
+    driver.advance(0) // NativeScript's initial macrotask; not a display callback.
+    await flush()
+    driver.advance(16) // RAF can run before the native spring commits its rest state.
+    await flush()
+    expect(read).not.toHaveBeenCalled()
+    settled = true
+    driver.advance(16)
+    expect((await result).passed).toBe(true)
+    expect(read).toHaveBeenCalledTimes(1)
+    expect(driver.frames.size).toBe(0)
+    expect(getDriver()).toBe(driver)
   })
   it('restores the original driver and disposes bindings when native presentation fails', async () => {
     const view = createView()
