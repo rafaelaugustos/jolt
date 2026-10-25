@@ -1,4 +1,5 @@
 import SharedNavigationLab from '../components/SharedNavigationLab.vue'
+import InteractiveNavigationLab from '../components/InteractiveNavigationLab.vue'
 import MotionInspectorLab from '../components/MotionInspectorLab.vue'
 import CurveSamplingLab from '../components/CurveSamplingLab.vue'
 import InteractionReplayLab from '../components/InteractionReplayLab.vue'
@@ -425,6 +426,15 @@ export const examples = [
     component: markRaw(InteractionReplayLab),
     full: true,
     ios: false,
+  },
+  {
+    id: 'interactive-navigation',
+    title: 'Interactive navigation',
+    category: 'Layout',
+    description: 'A way back that follows your hand.',
+    component: markRaw(InteractiveNavigationLab),
+    full: true,
+    ios: true,
   },
   {
     id: 'shared-navigation',

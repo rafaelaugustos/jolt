@@ -1,0 +1,709 @@
+{
+  "events": [
+    {
+      "state": "animating"
+    },
+    {
+      "state": "idle"
+    },
+    {
+      "state": "dragging"
+    },
+    {
+      "state": "cancelling",
+      "release": {
+        "progress": 0.22885572139303484,
+        "velocity": 0.33830845779021185
+      }
+    },
+    {
+      "state": "idle",
+      "outcome": "cancelled"
+    },
+    {
+      "state": "dragging"
+    },
+    {
+      "state": "cancelling",
+      "release": {
+        "progress": 0.22885572139303484,
+        "velocity": 0.33830845779021185
+      }
+    },
+    {
+      "state": "idle",
+      "outcome": "cancelled"
+    },
+    {
+      "state": "dragging"
+    },
+    {
+      "state": "cancelling",
+      "release": {
+        "progress": 0.22885572139303484,
+        "velocity": 0.35820895530728303
+      }
+    },
+    {
+      "state": "idle",
+      "outcome": "cancelled"
+    },
+    {
+      "state": "dragging"
+    },
+    {
+      "state": "cancelling",
+      "release": {
+        "progress": 0.09867330016583747,
+        "velocity": 0
+      }
+    },
+    {
+      "state": "idle",
+      "outcome": "cancelled"
+    },
+    {
+      "state": "animating"
+    },
+    {
+      "state": "idle"
+    },
+    {
+      "state": "dragging"
+    },
+    {
+      "state": "cancelling",
+      "release": {
+        "progress": 0.22885572139303484,
+        "velocity": 0.35820895530728303
+      }
+    },
+    {
+      "state": "idle",
+      "outcome": "cancelled"
+    },
+    {
+      "state": "dragging"
+    },
+    {
+      "state": "finishing",
+      "release": {
+        "progress": 0.7636815920398009,
+        "velocity": 0.3370302168389426
+      }
+    },
+    {
+      "state": "idle",
+      "outcome": "completed"
+    },
+    {
+      "state": "disposed"
+    },
+    {
+      "state": "dragging"
+    },
+    {
+      "state": "finishing",
+      "release": {
+        "progress": 0.7636815920398009,
+        "velocity": 0.3333333334109475
+      }
+    },
+    {
+      "state": "idle",
+      "outcome": "completed"
+    },
+    {
+      "state": "disposed"
+    },
+    {
+      "state": "animating"
+    },
+    {
+      "state": "idle"
+    },
+    {
+      "state": "animating"
+    },
+    {
+      "state": "idle"
+    },
+    {
+      "state": "disposed"
+    },
+    {
+      "state": "animating"
+    },
+    {
+      "state": "idle"
+    },
+    {
+      "state": "animating"
+    },
+    {
+      "state": "idle"
+    },
+    {
+      "state": "disposed"
+    },
+    {
+      "state": "animating"
+    },
+    {
+      "state": "idle"
+    },
+    {
+      "state": "dragging"
+    },
+    {
+      "state": "finishing",
+      "release": {
+        "progress": 0.26451077943615253,
+        "velocity": 3.03386412845113
+      }
+    },
+    {
+      "state": "idle",
+      "outcome": "completed"
+    },
+    {
+      "state": "disposed"
+    },
+    {
+      "state": "animating"
+    },
+    {
+      "state": "idle"
+    },
+    {
+      "state": "disposed"
+    }
+  ],
+  "snapshots": [
+    {
+      "event": {
+        "state": "animating"
+      },
+      "page": "interactive-navigation",
+      "stackDepth": 0,
+      "nativeActive": 1,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "idle"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "dragging"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "cancelling",
+        "release": {
+          "progress": 0.22885572139303484,
+          "velocity": 0.33830845779021185
+        }
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 1,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 92, 0]
+    },
+    {
+      "event": {
+        "state": "idle",
+        "outcome": "cancelled"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "dragging"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "cancelling",
+        "release": {
+          "progress": 0.22885572139303484,
+          "velocity": 0.33830845779021185
+        }
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 1,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 92, 0]
+    },
+    {
+      "event": {
+        "state": "idle",
+        "outcome": "cancelled"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "dragging"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "cancelling",
+        "release": {
+          "progress": 0.22885572139303484,
+          "velocity": 0.35820895530728303
+        }
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 1,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 92, 0]
+    },
+    {
+      "event": {
+        "state": "idle",
+        "outcome": "cancelled"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "dragging"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "cancelling",
+        "release": {
+          "progress": 0.09867330016583747,
+          "velocity": 0
+        }
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "idle",
+        "outcome": "cancelled"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "animating"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 1,
+      "recognizers": 2,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "idle"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 2,
+      "nativeActive": 0,
+      "recognizers": 2,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "dragging"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 2,
+      "nativeActive": 0,
+      "recognizers": 2,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "cancelling",
+        "release": {
+          "progress": 0.22885572139303484,
+          "velocity": 0.35820895530728303
+        }
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 2,
+      "nativeActive": 1,
+      "recognizers": 2,
+      "transform": [1, 0, 0, 1, 92, 0]
+    },
+    {
+      "event": {
+        "state": "idle",
+        "outcome": "cancelled"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 2,
+      "nativeActive": 0,
+      "recognizers": 2,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "dragging"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 2,
+      "nativeActive": 0,
+      "recognizers": 2,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "finishing",
+        "release": {
+          "progress": 0.7636815920398009,
+          "velocity": 0.3370302168389426
+        }
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 2,
+      "nativeActive": 1,
+      "recognizers": 2,
+      "transform": [1, 0, 0, 1, 306.99999999999994, 0]
+    },
+    {
+      "event": {
+        "state": "idle",
+        "outcome": "completed"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 0,
+      "recognizers": 2,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "disposed"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "dragging"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "finishing",
+        "release": {
+          "progress": 0.7636815920398009,
+          "velocity": 0.3333333334109475
+        }
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 1,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 306.99999999999994, 0]
+    },
+    {
+      "event": {
+        "state": "idle",
+        "outcome": "completed"
+      },
+      "page": "interactive-navigation",
+      "stackDepth": 0,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "disposed"
+      },
+      "page": "interactive-navigation",
+      "stackDepth": 0,
+      "nativeActive": 0,
+      "recognizers": 0,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "animating"
+      },
+      "page": "interactive-navigation",
+      "stackDepth": 0,
+      "nativeActive": 1,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "idle"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "animating"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 1,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "idle"
+      },
+      "page": "interactive-navigation",
+      "stackDepth": 0,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "disposed"
+      },
+      "page": "interactive-navigation",
+      "stackDepth": 0,
+      "nativeActive": 0,
+      "recognizers": 0,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "animating"
+      },
+      "page": "interactive-navigation",
+      "stackDepth": 0,
+      "nativeActive": 1,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "idle"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "animating"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 1,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "idle"
+      },
+      "page": "interactive-navigation",
+      "stackDepth": 0,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "disposed"
+      },
+      "page": "interactive-navigation",
+      "stackDepth": 0,
+      "nativeActive": 0,
+      "recognizers": 0,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "animating"
+      },
+      "page": "interactive-navigation",
+      "stackDepth": 0,
+      "nativeActive": 1,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "idle"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "dragging"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "finishing",
+        "release": {
+          "progress": 0.26451077943615253,
+          "velocity": 3.03386412845113
+        }
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 1,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 106.33333333333331, 0]
+    },
+    {
+      "event": {
+        "state": "idle",
+        "outcome": "completed"
+      },
+      "page": "interactive-navigation",
+      "stackDepth": 0,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "disposed"
+      },
+      "page": "interactive-navigation",
+      "stackDepth": 0,
+      "nativeActive": 0,
+      "recognizers": 0,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "animating"
+      },
+      "page": "interactive-navigation",
+      "stackDepth": 0,
+      "nativeActive": 1,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "idle"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 0,
+      "recognizers": 1,
+      "transform": [1, 0, 0, 1, 0, 0]
+    },
+    {
+      "event": {
+        "state": "disposed"
+      },
+      "page": "interactive-detail-page",
+      "stackDepth": 1,
+      "nativeActive": 0,
+      "recognizers": 0,
+      "transform": [1, 0, 0, 1, 0, 0]
+    }
+  ],
+  "state": "disposed",
+  "page": "interactive-detail-page",
+  "backStack": ["interactive-navigation"],
+  "nativeActive": 0,
+  "recognizers": 0,
+  "delegatePreserved": true,
+  "transform": {},
+  "environment": {
+    "platform": "iOS simulator",
+    "os": "26.2",
+    "device": "iPhone 17",
+    "core": "9.1.3",
+    "router": "0.1.0-rc.2",
+    "build": "Release, HMR disabled",
+    "input": "XCTest OS touches; test-runner pointer path for moving release",
+    "date": "2026-10-25"
+  },
+  "verification": {
+    "xctest": "testInteractiveNavigationChecks passed",
+    "cancelledGestures": 5,
+    "committedGestures": 3,
+    "finalButtonBack": "Source page visible (XCTest assertion after native owner disposal)",
+    "settledTransforms": "identity",
+    "delegatePreserved": true
+  }
+}

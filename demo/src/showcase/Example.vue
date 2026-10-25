@@ -27,6 +27,8 @@ function clean() {
   configure({ reducedMotion: 'user', timeScale: 1 })
 }
 function leave() {
+  // An interactive pop previews the retained page before navigatedTo commits.
+  if (example?.id === 'interactive-navigation') return
   mounted.value = false
   clean()
 }
@@ -39,6 +41,7 @@ function enter() {
 </script>
 <template>
   <Page
+    :id="example?.id"
     actionBarHidden="true"
     :backgroundColor="palette.background"
     :color="palette.text"

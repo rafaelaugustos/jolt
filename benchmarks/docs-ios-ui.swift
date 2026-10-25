@@ -186,6 +186,89 @@ final class DocsTests: XCTestCase {
             XCTAssertTrue(app.staticTexts["Replay conferido"].waitForExistence(timeout: 30), app.debugDescription)
         }
     }
+    func edgeBack(_ fraction: CGFloat) {
+        let origin = app.coordinate(withNormalizedOffset: .zero)
+        let start = origin.withOffset(CGVector(dx: 2, dy: app.frame.height * 0.53))
+        let end = origin.withOffset(CGVector(dx: app.frame.width * fraction, dy: app.frame.height * 0.53))
+        start.press(forDuration: 0.1, thenDragTo: end, withVelocity: .slow, thenHoldForDuration: 0.35)
+        Thread.sleep(forTimeInterval: 1)
+    }
+    func testInteractiveNavigation() throws {
+        languageLaunch("en", "language-settings")
+        selectLanguage("en")
+        languageLaunch("en", "interactive-open", ["--showcase-example=interactive-navigation"])
+        try record("interactive-navigation-ios") {
+            tap("interactive-open", wait: 1.2)
+            edgeBack(0.3)
+            XCTAssertEqual(app.staticTexts["interactive-detail-result"].label, "Changed your mind. Still here.", app.debugDescription)
+            edgeBack(0.8)
+            XCTAssertEqual(app.staticTexts["interactive-result"].label, "Back, on your terms.", app.debugDescription)
+            tap("interactive-open", wait: 1.2)
+            tap("interactive-back", wait: 1.2)
+            XCTAssertTrue(app.descendants(matching: .any)["interactive-open"].firstMatch.exists)
+        }
+    }
+    func testInteractiveNavigationPortuguese() throws {
+        languageLaunch("pt-BR", "language-settings")
+        selectLanguage("system")
+        languageLaunch("pt-BR", "interactive-open", ["--showcase-example=interactive-navigation"])
+        try record("interactive-navigation-pt-ios") {
+            tap("interactive-open", wait: 1.2)
+            edgeBack(0.3)
+            XCTAssertEqual(app.staticTexts["interactive-detail-result"].label, "Mudou de ideia. Continua aqui.", app.debugDescription)
+            edgeBack(0.8)
+            XCTAssertEqual(app.staticTexts["interactive-result"].label, "De volta, do seu jeito.", app.debugDescription)
+            tap("interactive-open", wait: 1.2)
+            tap("interactive-back", wait: 1.2)
+        }
+    }
+    func testInteractiveNavigationFlick() throws {
+        launch(["--showcase-example=interactive-navigation", "--interactive-navigation-audit"], "interactive-open")
+        tap("interactive-open", wait: 1.2)
+        XCTAssertNil(JoltNavigationFlick(CGPoint(x: 2, y: app.frame.height * 0.53), app.frame.width * 0.3))
+        Thread.sleep(forTimeInterval: 1)
+        XCTAssertTrue(app.descendants(matching: .any)["interactive-open"].firstMatch.exists, app.debugDescription)
+    }
+    func testInteractiveNavigationChecks() throws {
+        languageLaunch("en", "language-settings")
+        selectLanguage("en")
+        languageLaunch("en", "interactive-open", ["--showcase-example=interactive-navigation", "--interactive-navigation-audit"])
+        tap("interactive-open", wait: 1.2)
+        for _ in 0..<3 {
+            edgeBack(0.27)
+            XCTAssertEqual(app.staticTexts["interactive-detail-result"].label, "Changed your mind. Still here.", app.debugDescription)
+        }
+        tap("interactive-lock", wait: 0.2)
+        edgeBack(0.8)
+        XCTAssertTrue(app.descendants(matching: .any)["interactive-back"].firstMatch.exists, app.debugDescription)
+        tap("interactive-lock", wait: 0.2)
+        tap("interactive-cancel-next", wait: 0.2)
+        edgeBack(0.8)
+        XCTAssertEqual(app.staticTexts["interactive-detail-result"].label, "Changed your mind. Still here.", app.debugDescription)
+        tap("interactive-nested", wait: 1.2)
+        edgeBack(0.27)
+        XCTAssertTrue(app.descendants(matching: .any)["interactive-back"].firstMatch.exists, app.debugDescription)
+        edgeBack(0.8)
+        XCTAssertTrue(app.descendants(matching: .any)["interactive-back"].firstMatch.exists, app.debugDescription)
+        edgeBack(0.8)
+        XCTAssertEqual(app.staticTexts["interactive-result"].label, "Back, on your terms.", app.debugDescription)
+        tap("interactive-open", wait: 1.2)
+        tap("interactive-back", wait: 1.2)
+        tap("interactive-reduce", wait: 0.2)
+        tap("interactive-open", wait: 0.6)
+        edgeBack(0.8)
+        XCTAssertTrue(app.descendants(matching: .any)["interactive-back"].firstMatch.exists, app.debugDescription)
+        tap("interactive-back", wait: 0.6)
+        tap("interactive-reduce", wait: 0.2)
+        tap("interactive-open", wait: 1.2)
+        XCTAssertNil(JoltNavigationFlick(CGPoint(x: 2, y: app.frame.height * 0.53), app.frame.width * 0.3))
+        Thread.sleep(forTimeInterval: 1)
+        XCTAssertTrue(app.descendants(matching: .any)["interactive-open"].firstMatch.exists, app.debugDescription)
+        tap("interactive-open", wait: 1.2)
+        tap("interactive-dispose", wait: 0.3)
+        tap("interactive-back", wait: 1.2)
+        XCTAssertTrue(app.descendants(matching: .any)["interactive-open"].firstMatch.exists, app.debugDescription)
+    }
     func testSharedNavigation() throws {
         languageLaunch("en", "language-settings")
         selectLanguage("en")

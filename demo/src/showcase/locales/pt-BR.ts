@@ -1,5 +1,23 @@
 // English source messages → Brazilian Portuguese. Keep numbered placeholders intact.
 export const portuguese: Record<string, string> = {
+  'Interactive navigation': 'Navegação interativa',
+  'A way back that follows your hand.': 'A volta acompanha a sua mão.',
+  'FIELD NOTES / 061': 'DIÁRIO DE BORDO / 061',
+  'Follow the tide.': 'Siga a maré.',
+  'Explore the coast': 'Explore a costa',
+  'A little further. A little slower.': 'Um pouco além. Um pouco mais devagar.',
+  'Take a look. Come back your way.': 'Dê uma olhada. Volte do seu jeito.',
+  'Open the coast, then drag from the left edge.':
+    'Abra a costa e arraste a partir da borda esquerda.',
+  'Your pace. Your way back.': 'Seu ritmo. Seu jeito de voltar.',
+  'Changed your mind. Still here.': 'Mudou de ideia. Continua aqui.',
+  'Back, on your terms.': 'De volta, do seu jeito.',
+  'Back to the coast': 'Voltar à costa',
+  'OUT OF OFFICE': 'FORA DO ESCRITÓRIO',
+  'Stay a\nlittle longer.': 'Fique mais\num pouco.',
+  'Nothing is final until you let go.': 'Você decide quando soltar.',
+  'Drag a little to peek. Go further to return.':
+    'Arraste um pouco para espiar. Vá além para voltar.',
   'Shared navigation': 'Navegação compartilhada',
   'A new page. The same connection.': 'Outra página. A mesma conexão.',
   'SOMEWHERE SLOW': 'SEM PRESSA',
