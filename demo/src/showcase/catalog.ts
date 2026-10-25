@@ -1,3 +1,4 @@
+import CurveSamplingLab from '../components/CurveSamplingLab.vue'
 import InteractionReplayLab from '../components/InteractionReplayLab.vue'
 import SharedLayoutLab from '../components/SharedLayoutLab.vue'
 import MotionStudio from './MotionStudio.vue'
@@ -574,6 +575,15 @@ export const examples = [
     description: 'Take motion beyond the interface.',
     component: markRaw(PlaybackLab),
     full: true,
+    ios: false,
+  },
+  {
+    id: 'curve-sampling',
+    title: 'Curve precision',
+    category: 'Motion',
+    description: 'Every curve. Just enough detail.',
+    component: markRaw(CurveSamplingLab),
+    full: false,
     ios: false,
   },
 ]

@@ -1,5 +1,6 @@
 import { clampDecoration, isDecorationProperty } from './decoration.js'
-import { linear } from './easing.js'
+import { isBuiltinEasing, linear } from './easing.js'
+import { sampleCurve, type SampledCurve } from './sampling.js'
 import { solveDecay } from './decay.js'
 import { solveDragRelease } from './drag-physics.js'
 import { precision, type Property } from './properties.js'
@@ -28,6 +29,8 @@ export interface Track {
   readonly end: number
   /** When it looks done: a spring is close to its target and stays there, long before it settles. */
   readonly arrival: number
+  /** Setup diagnostics; absent on exact linear tracks and compound representations. */
+  readonly sampling?: SampledCurve['sampling']
   valueAt(elapsed: number): number
   /** Units per second. */
   velocityAt(elapsed: number): number
@@ -39,6 +42,7 @@ interface Motion {
   velocity(time: number): number
   times: number[]
   values: number[]
+  sampling?: SampledCurve['sampling']
 }
 
 const SAMPLES_PER_SECOND = 60
@@ -64,10 +68,10 @@ export function createTrack(
     curve.type === 'spring'
       ? spring(property, keyframes, curve, velocity * slowdown, slowdown)
       : curve.type === 'drag'
-        ? dragMotion(keyframes[0]!, curve, slowdown)
+        ? dragMotion(property, keyframes[0]!, curve, slowdown)
         : curve.type === 'decay'
           ? decay(property, keyframes[0]!, curve, slowdown)
-          : tween(keyframes, curve, slowdown),
+          : tween(property, keyframes, curve, slowdown),
     slowdown,
   )
   const { motion, repeat, reverse } = pauseBetweenRepeats(
@@ -102,6 +106,7 @@ export function createTrack(
     reverse,
     times: motion.times,
     values: motion.values,
+    sampling: motion.sampling,
     to: !finite || endsBackwards ? first : last,
     end,
     arrival:
@@ -372,18 +377,31 @@ function samples(duration: number, density: number) {
   )
 }
 
+function samplingProjection(property: Property) {
+  return isDecorationProperty(property)
+    ? {
+        apply: (value: number) => clampDecoration(property, value),
+        breaks: property === 'shadowOpacity' ? [0, 1] : [0],
+      }
+    : undefined
+}
+
 function dragMotion(
+  property: Property,
   from: number,
   curve: Extract<Curve, { type: 'drag' }>,
   density: number,
 ): Motion {
   const motion = solveDragRelease(from, curve)
-  const steps = samples(motion.duration, density)
-  const times = Array.from({ length: steps + 1 }, (_, i) => i / steps)
   return {
     ...motion,
-    times,
-    values: times.map((time) => motion.position(time * motion.duration)),
+    ...sampleCurve({
+      duration: motion.duration,
+      position: motion.position,
+      tolerance: precision[property],
+      projection: samplingProjection(property),
+      slowdown: density,
+    }),
   }
 }
 
@@ -404,23 +422,32 @@ function decay(
     )
   }
 
-  const steps = samples(motion.duration, density)
-  const times: number[] = []
-  const values: number[] = []
-  for (let i = 0; i <= steps; i++) {
-    times.push(i / steps)
-    values.push(motion.position((i / steps) * motion.duration))
+  return {
+    ...motion,
+    ...sampleCurve({
+      duration: motion.duration,
+      position: motion.position,
+      tolerance: precision[property],
+      projection: samplingProjection(property),
+      errorBound: motion.interpolationError,
+      slowdown: density,
+    }),
   }
-  return { ...motion, times, values }
 }
 
-function arrival({ times, values, duration }: Motion) {
-  const target = values.at(-1)!
-  const tolerance =
-    Math.max(...values.map((value) => Math.abs(value - target))) * ARRIVAL_TOLERANCE
-  let i = values.length - 1
-  while (i > 0 && Math.abs(values[i - 1]! - target) <= tolerance) i--
-  return times[i]! * duration
+function arrival({ position, values, duration }: Motion) {
+  // Sequence timing is a compatibility contract, independent of the native representation.
+  // Retain the previous 60 Hz arrival grid without allocating its keyframe arrays.
+  const steps = samples(duration, 1),
+    target = values.at(-1)!
+  let distance = 0
+  for (let i = 0; i < steps; i++)
+    distance = Math.max(distance, Math.abs(position((i / steps) * duration) - target))
+  const tolerance = distance * ARRIVAL_TOLERANCE
+  let i = steps
+  while (i > 0 && Math.abs(position(((i - 1) / steps) * duration) - target) <= tolerance)
+    i--
+  return (i / steps) * duration
 }
 
 function spring(
@@ -437,22 +464,27 @@ function spring(
     curve.velocity ?? velocity,
     precision[property],
   )
-  const steps = samples(motion.duration, density)
-  const times: number[] = []
-  const values: number[] = []
-  for (let i = 0; i <= steps; i++) {
-    times.push(i / steps)
-    values.push(i === steps ? to! : motion.position((i / steps) * motion.duration))
+  return {
+    ...motion,
+    ...sampleCurve({
+      duration: motion.duration,
+      position: motion.position,
+      tolerance: precision[property],
+      projection: samplingProjection(property),
+      errorBound: motion.interpolationError,
+      slowdown: density,
+    }),
   }
-  return { ...motion, times, values }
 }
 
 function tween(
+  property: Property,
   keyframes: readonly number[],
   curve: Extract<Curve, { type: 'tween' }>,
   density: number,
 ): Motion {
-  if (curve.track && curve.track !== linear) return easedTrack(keyframes, curve, density)
+  if (curve.track && curve.track !== linear)
+    return easedTrack(property, keyframes, curve, density)
   const { duration, ease } = curve
   const offsets = curve.times ?? keyframes.map((_, i) => i / (keyframes.length - 1))
 
@@ -469,16 +501,45 @@ function tween(
 
   const times = [0]
   const values = [keyframes[0]!]
+  let sampling: SampledCurve['sampling'] | undefined
   for (let i = 0; i < keyframes.length - 1; i++) {
     const start = offsets[i]!
     const span = offsets[i + 1]! - start
     const from = keyframes[i]!
     const to = keyframes[i + 1]!
     const easing = ease[i]!
-    const steps = easing === linear || from === to ? 1 : samples(span * duration, density)
-    for (let step = 1; step <= steps; step++) {
-      times.push(start + (span * step) / steps)
-      values.push(step === steps ? to : from + (to - from) * easing(step / steps))
+    if (easing === linear || from === to || span === 0 || duration === 0) {
+      times.push(start + span)
+      values.push(to)
+    } else {
+      const sampled = sampleCurve({
+        duration: span * duration,
+        slowdown: density,
+        tolerance: precision[property],
+        projection: samplingProjection(property),
+        custom: !isBuiltinEasing(easing),
+        position: (t) =>
+          t >= span * duration ? to : from + (to - from) * easing(t / (span * duration)),
+      })
+      sampling = sampling
+        ? {
+            ...sampled.sampling,
+            method:
+              sampling.method === 'uniform-fallback'
+                ? sampling.method
+                : sampled.sampling.method,
+            reason: sampling.reason ?? sampled.sampling.reason,
+            evaluations: sampling.evaluations + sampled.sampling.evaluations,
+          }
+        : sampled.sampling
+      for (let j = 1; j < sampled.times.length; j++) {
+        times.push(
+          j === sampled.times.length - 1
+            ? offsets[i + 1]!
+            : start + span * sampled.times[j]!,
+        )
+        values.push(sampled.values[j]!)
+      }
     }
   }
 
@@ -488,11 +549,13 @@ function tween(
     velocity: (time) => (position(time + 0.5) - position(time - 0.5)) * 1000,
     times,
     values,
+    sampling,
   }
 }
 
-/** One easing over the whole timeline, then straight lines between keyframes, sampled evenly in time. */
+/** One easing over the whole timeline, retaining crossings of piecewise keyframe seams. */
 function easedTrack(
+  property: Property,
   keyframes: readonly number[],
   curve: Extract<Curve, { type: 'tween' }>,
   density: number,
@@ -515,15 +578,45 @@ function easedTrack(
   const position = (time: number) =>
     at(ease(duration > 0 ? Math.min(Math.max(time / duration, 0), 1) : 1))
 
-  const steps = samples(duration, density)
-  const times = Array.from({ length: steps + 1 }, (_, i) => i / steps)
+  // Invert each logical knot separately: even adjacent knots making a very narrow
+  // pulse must survive. Custom functions may have undetected crossings; see sampling limits.
+  const breakpoints: number[] = []
+  const probes = 64
+  const eased = Array.from({ length: probes + 1 }, (_, i) => ease(i / probes))
+  for (const offset of offsets.slice(1, -1)) {
+    for (let i = 0; i < probes; i++) {
+      const left = eased[i]!,
+        right = eased[i + 1]!
+      if (
+        offset < Math.min(left, right) ||
+        offset > Math.max(left, right) ||
+        left === right
+      )
+        continue
+      let a = i / probes,
+        b = (i + 1) / probes
+      for (let step = 0; step < 40; step++) {
+        const mid = (a + b) / 2,
+          value = ease(mid)
+        if (value < offset === left < right) a = mid
+        else b = mid
+      }
+      breakpoints.push(((a + b) / 2) * duration)
+    }
+  }
+  const sampled = sampleCurve({
+    duration,
+    slowdown: density,
+    tolerance: precision[property],
+    projection: samplingProjection(property),
+    custom: !isBuiltinEasing(ease),
+    breakpoints,
+    position: (t) => (t >= duration ? keyframes[last]! : position(t)),
+  })
   return {
     duration,
     position,
     velocity: (time) => (position(time + 0.5) - position(time - 0.5)) * 1000,
-    times,
-    values: times.map((time, i) =>
-      i === steps ? keyframes[last]! : position(time * duration),
-    ),
+    ...sampled,
   }
 }

@@ -56,6 +56,33 @@ final class DocsTests: XCTestCase {
         launch(["--interaction-replay", "--replay-checks"], "replay-card")
         XCTAssertTrue(app.staticTexts["Native regressions passed"].waitForExistence(timeout: 25), app.debugDescription)
     }
+    func testCurveSampling() throws {
+        launch(["--curve-sampling"], "sampling-play")
+        let dot = app.descendants(matching: .any)["sampling-adaptive"].firstMatch
+        XCTAssertGreaterThan(dot.frame.height, 20, app.debugDescription)
+        XCTAssertLessThan(dot.frame.maxY, app.buttons["sampling-play"].firstMatch.frame.minY, app.debugDescription)
+        try record("curve-sampling-ios") {
+            tap("sampling-play", wait: 1.8)
+            tap("sampling-play", wait: 1.8)
+            tap("sampling-slow", wait: 0.4)
+            tap("sampling-play", wait: 4.3)
+            tap("sampling-fast", wait: 0.4)
+            tap("sampling-play", wait: 1.8)
+        }
+        tap("sampling-checks", wait: 0.2)
+        XCTAssertTrue(app.staticTexts["Native precision checked"].waitForExistence(timeout: 25), app.debugDescription)
+    }
+    func testCurveSamplingPortuguese() throws {
+        languageLaunch("pt-BR", "language-settings")
+        selectLanguage("system")
+        languageLaunch("pt-BR", "sampling-play", ["--showcase-example=curve-sampling"])
+        XCTAssertTrue(app.buttons["sampling-play"].firstMatch.isHittable, app.debugDescription)
+        tap("sampling-play", wait: 2)
+        tap("sampling-slow", wait: 0.4)
+        XCTAssertTrue(app.staticTexts["Movimento suave"].exists, app.debugDescription)
+        tap("sampling-checks", wait: 0.2)
+        XCTAssertTrue(app.staticTexts["Precisão nativa conferida"].waitForExistence(timeout: 25), app.debugDescription)
+    }
     func testScrollHandoffReplay() throws {
         launch(["--scroll-handoff"], "handoff-record")
         try record("scroll-handoff-replay-ios") {

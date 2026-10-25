@@ -1,6 +1,6 @@
 # Aplicativo de demonstração
 
-O app NativeScript-Vue em [`demo/`](https://github.com/rafaelaugustos/jolt/tree/main/demo) usa o build local do Jolt. A abertura normal entra no **Jolt Motion Studio**: splash animado da marca, home em movimento e coleção pesquisável de 57 experimentos, organizados em Motion, Touch, Visual, Type, Layout, State e SceneKit.
+O app NativeScript-Vue em [`demo/`](https://github.com/rafaelaugustos/jolt/tree/main/demo) usa o build local do Jolt. A abertura normal entra no **Jolt Motion Studio**: splash animado da marca, home em movimento e coleção pesquisável de 58 experimentos, organizados em Motion, Touch, Visual, Type, Layout, State e SceneKit.
 
 <Clip name="showcase-splash-ios" caption="Abertura real no simulador iOS 26: a tela do sistema dá lugar ao splash animado nativo da marca e ao Studio. Captura sem a sincronização de abertura do XCTest; velocidade original. Não comprova desempenho em aparelho físico." />
 
@@ -26,7 +26,7 @@ As ilustrações e os palcos das animações mantêm suas próprias paletas; mud
 
 O Studio segue o idioma do celular por padrão: português usa a tradução brasileira, e os demais idiomas usam inglês. Toque em **Idioma** no topo do Studio para escolher **Idioma do celular**, **English** ou **Português**. A mudança acontece na hora e a escolha permanece depois de fechar o app. **Idioma do celular** remove a preferência manual; o app consulta novamente o idioma ao voltar ao primeiro plano.
 
-Splash, coleção, apresentação dos 57 experimentos, controles, mensagens de estado e rótulos de acessibilidade estão traduzidos. A busca aceita nomes em português ou inglês, com ou sem acento. Os números da conta usam os separadores do idioma escolhido. Identificadores das APIs, como `popIn`, continuam iguais; o playground técnico isolado mantém seus textos de teste em inglês.
+Splash, coleção, apresentação dos 58 experimentos, controles, mensagens de estado e rótulos de acessibilidade estão traduzidos. A busca aceita nomes em português ou inglês, com ou sem acento. Os números da conta usam os separadores do idioma escolhido. Identificadores das APIs, como `popIn`, continuam iguais; o playground técnico isolado mantém seus textos de teste em inglês.
 
 <Clip name="showcase-language-ios" caption="Simulador iOS 26: toques reais do XCTest trocam inglês → português, buscam camera sem acento, operam a lente nativa e voltam ao inglês. Tempo original. Testes nativos separados verificam persistência e seleção automática com os ajustes de idioma preferido do iOS na abertura; não validam Android nem aparelho físico." />
 
@@ -187,3 +187,5 @@ O [playground de paths](./paths) segue uma curva cúbica ou uma órbita com arco
 [Layouts compartilhados](./shared-layout) é o experimento 56 deste checkout: indicador de abas e capa de álbum atravessando árvores de views diferentes.
 
 [Replay de interações](./interaction-replay) é o experimento 57: grave um spring ou drag cancelado, aceite uma referência fixa do motor, reproduza no probe nativo e detecte um checkpoint propositalmente errado.
+
+[Precisão das curvas](./transitions#keyframes-adaptativos) é o experimento 58: compare o playback nativo adaptativo com o de taxa fixa, veja a quantidade de pontos e execute as verificações de precisão nativa.

@@ -1,0 +1,293 @@
+{
+  "node": "v22.23.3",
+  "referenceStepMs": 0.1,
+  "notes": "Host numerical and retained-JS-heap measurements with GC; not native allocation or display frame-rate measurements. Timing excludes transition resolution.",
+  "results": [
+    {
+      "name": "gentle 300 DIP",
+      "property": "x",
+      "configuration": {
+        "frames": [0, 300],
+        "transition": {
+          "type": "spring",
+          "duration": 600,
+          "bounce": 0
+        },
+        "velocity": 0
+      },
+      "durationMs": 909,
+      "arrivalMs": 462.7636363636363,
+      "initialVelocity": -0.028709594118936366,
+      "keyframes": 56,
+      "scalarPayloadBytes": 896,
+      "maxError": 0.9437513390645422,
+      "preparationMedianMs": 0.0026110000000000044,
+      "retainedHeapBytesPerTrack": 2399.344,
+      "checksum": 196168
+    },
+    {
+      "name": "bouncy 300 DIP",
+      "property": "x",
+      "configuration": {
+        "frames": [0, 300],
+        "transition": {
+          "type": "spring",
+          "duration": 550,
+          "bounce": 0.4
+        },
+        "velocity": 0
+      },
+      "durationMs": 984,
+      "arrivalMs": 459.2,
+      "initialVelocity": -0.02236363513929973,
+      "keyframes": 61,
+      "scalarPayloadBytes": 976,
+      "maxError": 1.1719251958996564,
+      "preparationMedianMs": 0.005766918000000004,
+      "retainedHeapBytesPerTrack": 2443.248,
+      "checksum": 213683
+    },
+    {
+      "name": "fast 300 DIP",
+      "property": "x",
+      "configuration": {
+        "frames": [0, 300],
+        "transition": {
+          "type": "spring",
+          "duration": 200,
+          "bounce": 0.4
+        },
+        "velocity": 0
+      },
+      "durationMs": 367,
+      "arrivalMs": 175.52173913043478,
+      "initialVelocity": -0.4650909369274814,
+      "keyframes": 24,
+      "scalarPayloadBytes": 384,
+      "maxError": 6.788312006682272,
+      "preparationMedianMs": 0.0020965819999999836,
+      "retainedHeapBytesPerTrack": 1802.664,
+      "checksum": 84072
+    },
+    {
+      "name": "interrupted 3000 DIP/s",
+      "property": "x",
+      "configuration": {
+        "frames": [0, 300],
+        "transition": {
+          "type": "spring",
+          "duration": 400,
+          "bounce": 0.3
+        },
+        "velocity": 3000
+      },
+      "durationMs": 684,
+      "arrivalMs": 276.85714285714283,
+      "initialVelocity": 2999.961782492562,
+      "keyframes": 43,
+      "scalarPayloadBytes": 688,
+      "maxError": 0.7192356260431723,
+      "preparationMedianMs": 0.003946665999999994,
+      "retainedHeapBytesPerTrack": 1818.744,
+      "checksum": 150629
+    },
+    {
+      "name": "underdamped long tail",
+      "property": "x",
+      "configuration": {
+        "frames": [0, 300],
+        "transition": {
+          "type": "spring",
+          "stiffness": 100,
+          "damping": 3,
+          "mass": 1
+        },
+        "velocity": 0
+      },
+      "durationMs": 4659,
+      "arrivalMs": 1963.4357142857143,
+      "initialVelocity": -0.0037499910376936896,
+      "keyframes": 281,
+      "scalarPayloadBytes": 4496,
+      "maxError": 1.0086270472064602,
+      "preparationMedianMs": 0.02714216600000003,
+      "retainedHeapBytesPerTrack": 6842.592,
+      "checksum": 984343
+    },
+    {
+      "name": "overdamped",
+      "property": "x",
+      "configuration": {
+        "frames": [0, 300],
+        "transition": {
+          "type": "spring",
+          "duration": 500,
+          "bounce": -0.5
+        },
+        "velocity": 0
+      },
+      "durationMs": 2134,
+      "arrivalMs": 926.3875968992248,
+      "initialVelocity": -0.09922282737306887,
+      "keyframes": 130,
+      "scalarPayloadBytes": 2080,
+      "maxError": 1.0830148714463896,
+      "preparationMedianMs": 0.007251666,
+      "retainedHeapBytesPerTrack": 3402.184,
+      "checksum": 455390
+    },
+    {
+      "name": "slow ease 4 seconds",
+      "property": "x",
+      "configuration": {
+        "frames": [0, 300],
+        "transition": {
+          "duration": 4000,
+          "ease": "easeInOut"
+        },
+        "velocity": 0
+      },
+      "durationMs": 4000,
+      "arrivalMs": 4000,
+      "initialVelocity": 0,
+      "keyframes": 241,
+      "scalarPayloadBytes": 3856,
+      "maxError": 0.0028890977599758116,
+      "preparationMedianMs": 0.00322366599999998,
+      "retainedHeapBytesPerTrack": 6768.064,
+      "checksum": 844223
+    },
+    {
+      "name": "sharp circle",
+      "property": "x",
+      "configuration": {
+        "frames": [0, 300],
+        "transition": {
+          "duration": 180,
+          "ease": "circIn"
+        },
+        "velocity": 0
+      },
+      "durationMs": 180,
+      "arrivalMs": 180,
+      "initialVelocity": 0,
+      "keyframes": 12,
+      "scalarPayloadBytes": 192,
+      "maxError": 32.35130865802188,
+      "preparationMedianMs": 0.0005190000000000055,
+      "retainedHeapBytesPerTrack": 1136.096,
+      "checksum": 42036
+    },
+    {
+      "name": "explicit keyframes",
+      "property": "x",
+      "configuration": {
+        "frames": [0, 300, -50, 0],
+        "transition": {
+          "duration": 1800,
+          "ease": ["easeIn", "backOut", "easeOut"],
+          "times": [0, 0.13, 0.72, 1]
+        },
+        "velocity": 0
+      },
+      "durationMs": 1800,
+      "arrivalMs": 1800,
+      "initialVelocity": 0,
+      "keyframes": 111,
+      "scalarPayloadBytes": 1776,
+      "maxError": 0.5659826303875951,
+      "preparationMedianMs": 0.0027342499999999745,
+      "retainedHeapBytesPerTrack": 3104.064,
+      "checksum": 388833
+    },
+    {
+      "name": "opacity",
+      "property": "opacity",
+      "configuration": {
+        "frames": [0, 1],
+        "transition": {
+          "type": "spring",
+          "duration": 200,
+          "bounce": 0.4
+        },
+        "velocity": 0
+      },
+      "durationMs": 359,
+      "arrivalMs": 179.5,
+      "initialVelocity": -0.0015503031233210507,
+      "keyframes": 23,
+      "scalarPayloadBytes": 368,
+      "maxError": 0.023474082004333832,
+      "preparationMedianMs": 0.0023774159999999257,
+      "retainedHeapBytesPerTrack": 1818.12,
+      "checksum": 80569
+    },
+    {
+      "name": "scale",
+      "property": "scaleX",
+      "configuration": {
+        "frames": [0.5, 1.5],
+        "transition": {
+          "type": "spring",
+          "duration": 200,
+          "bounce": 0.4
+        },
+        "velocity": 0
+      },
+      "durationMs": 367,
+      "arrivalMs": 175.52173913043478,
+      "initialVelocity": -0.0015503031233210507,
+      "keyframes": 24,
+      "scalarPayloadBytes": 384,
+      "maxError": 0.022627706688941207,
+      "preparationMedianMs": 0.002380832000000055,
+      "retainedHeapBytesPerTrack": 1850.544,
+      "checksum": 84072
+    },
+    {
+      "name": "rotation",
+      "property": "rotate",
+      "configuration": {
+        "frames": [0, 180],
+        "transition": {
+          "type": "spring",
+          "duration": 200,
+          "bounce": 0.4
+        },
+        "velocity": 0
+      },
+      "durationMs": 467,
+      "arrivalMs": 177.13793103448276,
+      "initialVelocity": -0.27905456215648883,
+      "keyframes": 30,
+      "scalarPayloadBytes": 480,
+      "maxError": 4.134622924837135,
+      "preparationMedianMs": 0.003188918000000058,
+      "retainedHeapBytesPerTrack": 1818.544,
+      "checksum": 105090
+    },
+    {
+      "name": "custom oscillation",
+      "property": "x",
+      "configuration": {
+        "frames": [0, 300],
+        "transition": {
+          "duration": 1200
+        },
+        "velocity": 0
+      },
+      "durationMs": 1200,
+      "arrivalMs": 1200,
+      "initialVelocity": 0,
+      "keyframes": 73,
+      "scalarPayloadBytes": 1168,
+      "maxError": 4.019237886466897,
+      "preparationMedianMs": 0.001630667999999787,
+      "retainedHeapBytesPerTrack": 2224.096,
+      "checksum": 255719
+    }
+  ],
+  "source": "dbdfbe0, unmodified sampler",
+  "capturedAt": "2026-10-25",
+  "host": "Apple Silicon macOS, Node 22.23.3"
+}

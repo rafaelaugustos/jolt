@@ -3,6 +3,7 @@ export interface DecayMotion {
   to: number
   position(time: number): number
   velocity(time: number): number
+  interpolationError(start: number, end: number): number
 }
 
 /** Velocity retains this fraction every millisecond, independently of the display's refresh rate. */
@@ -41,5 +42,13 @@ export function solveDecay(
       time >= duration ? to : from - distance * Math.expm1(-rate * Math.max(0, time)),
     velocity: (time) =>
       time >= duration ? 0 : velocity * Math.exp(-rate * Math.max(0, time)),
+    interpolationError: (start, end) =>
+      (Math.abs(distance) *
+        rate *
+        rate *
+        Math.exp(-rate * Math.max(0, start)) *
+        (end - start) ** 2) /
+        8 +
+      (end >= duration ? Math.abs(distance) * Math.exp(-rate * duration) : 0),
   }
 }

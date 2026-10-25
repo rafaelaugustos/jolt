@@ -33,6 +33,7 @@ onLaunch(() => {
     'shared-layout',
     'interaction-replay',
     'scroll-handoff',
+    'curve-sampling',
   ].some((name) => launchArgument(name) !== undefined)
   enablePreviewLanguage(!legacy.value)
   ready.value = true

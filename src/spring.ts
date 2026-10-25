@@ -18,6 +18,8 @@ export interface SpringMotion {
   position(time: number): number
   /** Units per second. */
   velocity(time: number): number
+  /** Conservative linear interpolation error, including the final settlement snap. */
+  interpolationError(start: number, end: number): number
 }
 
 const MAX_DURATION = 10_000
@@ -54,14 +56,24 @@ export function solveSpring(
   const zeta = damping / (2 * Math.sqrt(stiffness * mass))
 
   let displacement: (t: number) => number
+  let accelerationBound: (start: number, end: number) => number
   if (Math.abs(zeta - 1) < 1e-6) {
     const b = velocity + w0 * x0
     displacement = (t) => Math.exp(-w0 * t) * (x0 + b * t)
+    accelerationBound = (a, end) =>
+      Math.exp(-w0 * a) *
+      (Math.abs(w0 * w0 * (x0 + b * a) - 2 * w0 * b) +
+        w0 * w0 * Math.abs(b) * Math.min(end - a, 1 / (Math.E * w0)))
   } else if (zeta < 1) {
     const wd = w0 * Math.sqrt(1 - zeta * zeta)
     const b = (velocity + zeta * w0 * x0) / wd
     displacement = (t) =>
       Math.exp(-zeta * w0 * t) * (x0 * Math.cos(wd * t) + b * Math.sin(wd * t))
+    const alpha = zeta * w0,
+      q = alpha * alpha - wd * wd
+    const amplitude = Math.hypot(q * x0 - 2 * alpha * wd * b, q * b + 2 * alpha * wd * x0)
+    accelerationBound = (a, end) =>
+      amplitude * Math.max(Math.exp(-alpha * a), Math.exp(-alpha * end))
   } else {
     const s = w0 * Math.sqrt(zeta * zeta - 1)
     const r1 = -zeta * w0 + s
@@ -69,6 +81,9 @@ export function solveSpring(
     const c1 = (velocity - r2 * x0) / (r1 - r2)
     const c2 = x0 - c1
     displacement = (t) => c1 * Math.exp(r1 * t) + c2 * Math.exp(r2 * t)
+    accelerationBound = (a, end) =>
+      Math.abs(c1 * r1 * r1) * Math.max(Math.exp(r1 * a), Math.exp(r1 * end)) +
+      Math.abs(c2 * r2 * r2) * Math.max(Math.exp(r2 * a), Math.exp(r2 * end))
   }
 
   const position = (time: number) => to + displacement(time / 1000)
@@ -91,5 +106,8 @@ export function solveSpring(
     duration,
     position: (time) => (time >= duration ? to : position(time)),
     velocity: (time) => (time >= duration ? 0 : speed(time)),
+    interpolationError: (start, end) =>
+      (accelerationBound(start / 1000, end / 1000) * ((end - start) / 1000) ** 2) / 8 +
+      (end >= duration ? Math.abs(displacement(duration / 1000)) : 0),
   }
 }
