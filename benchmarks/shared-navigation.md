@@ -25,7 +25,13 @@ The iOS tests record English/Portuguese photo and card forward/back, assert visi
 - iOS 26.2 simulator, iPhone 17: both XCTest scenes and fallback checks passed; final `idle`, zero native overlays, real tagged views visible. `results/shared-navigation/ios.json` contains the separate six-operation fallback/moved-source audit.
 - Android API 36 emulator: photo/card forward/back, moved return source, missing target/source and reduced motion (ten operations); final `idle`, zero overlays and visible originals. See `results/shared-navigation/android.json`.
 - Existing same-page shared-layout native regression tests passed on both platforms, including reversal, explicit cancellation, removal, reduced motion, rotation and background/resume as covered by those runners.
-- 1,243 host tests passed (81 files), including new navigation ownership, guards, missing/duplicate/scoped tags, timeout, suspension, cancellation, geometry invalidation and ten-channel image-track checks.
+- 1,244 host tests passed (81 files), including new navigation ownership, guards, missing/duplicate/scoped tags, timeout, suspension, cancellation, geometry invalidation and ten-channel image-track checks.
 - Library and benchmark typechecks, production inspector tree-shaking, 336 Android particle assertions, five live-spring solver tests, docs media coverage (56 guides/language, 142 clips), docs build and formatting passed.
 
 Three H.264 clips in `docs/public/media/shared-navigation*.mp4` retain original playback timing. Full-duration contact sheets and transition frames were inspected; all compressed files decoded without errors. Native recordings are simulator/emulator evidence, not physical-device sign-off. No workflow or long-running native CI job was added.
+
+## Native replay CI barrier
+
+The first Android CI run exposed an existing scroll-handoff replay race at 674 ms: position/velocity errors were both zero, but the native spring had not yet committed its rest flag. NativeScript may invoke the first RAF from a macrotask; two callbacks can therefore cross only one display tick. Native replay now shares the same bounded three-callback barrier as curve sampling, crossing two display ticks before reading. This does not poll expected values, alter logical trace timestamps, retry assertions or loosen position/velocity/settled checks. A host regression models the bootstrap task and pending native rest state. The existing 1500 ms bound and cancellation cleanup are preserved.
+
+After the barrier fix, the complete local native CI probe passed on both the iOS 26.2 simulator and Android API 36 emulator, including each global negative control and the scroll-handoff internal negative control. The existing replay recordings retain the same logical checkpoints and native visual behavior; only the bounded observation barrier changed.
