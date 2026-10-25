@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add the optional `@rafaelaugusto/jolt/shared-layout` entry for stable identities within one page: native image/container snapshots, window-relative geometry and corner clips, content crossfades and rapid reversal. Include lifecycle/fallback cleanup, Reduced Motion, the 56th bilingual preview experiment, and real iOS/Android recordings. Rebuild the native app.
+- Defer the Android preview’s initial system-appearance lookup until its Application context is available on cold launch.
+
 ## 0.1.0-beta.17 (2026-10-24)
 
 - Add the optional `@rafaelaugusto/jolt/bottom-sheet` in-page recipe: native drag/scroll handoff, content and percentage snaps, spring interruption, keyboard following, backdrop/back dismissal, accessibility actions and lifecycle cleanup. Include real iOS/Android recordings and English/Portuguese guides. Native contact callbacks require rebuilding the app.

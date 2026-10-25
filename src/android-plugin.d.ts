@@ -395,3 +395,31 @@ declare namespace org.rafaelaugusto.jolt {
     }
   }
 }
+
+declare namespace org.rafaelaugusto.jolt {
+  class SharedLayoutFlight extends android.view.View {
+    static capture(
+      view: android.view.View,
+      image: boolean,
+      radius: number,
+      maxPixels: number,
+    ): SharedLayoutFlight | null
+    static activeCount(): number
+    pixels(): number
+    state(): string
+    prepare(
+      view: android.view.View,
+      image: boolean,
+      radius: number,
+      maxPixels: number,
+    ): string | null
+    freeze(maxPixels: number): boolean
+    play(configuration: string, listener: SharedLayoutFlight.Listener): void
+    dispose(): void
+  }
+  namespace SharedLayoutFlight {
+    class Listener {
+      constructor(implementation: { onEnd(completed: boolean): void })
+    }
+  }
+}

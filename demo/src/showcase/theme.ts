@@ -18,7 +18,11 @@ const key = 'jolt.showcase.appearance'
 export const appearance = ref(
   themePreference(ApplicationSettings.getString(key, 'system')),
 )
-const systemAppearance = ref(Application.systemAppearance())
+// Android evaluates modules before its Application context is available.
+// observeAppearance() refreshes from the OS once the native root has mounted.
+const systemAppearance = ref(
+  isIOS || Application.android.context ? Application.systemAppearance() : 'light',
+)
 export const colorMode = computed(() =>
   resolveColorMode(appearance.value, systemAppearance.value),
 )

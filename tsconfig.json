@@ -10,7 +10,8 @@
       "@rafaelaugusto/jolt/gestures": ["./src/gestures/index.ts"],
       "@rafaelaugusto/jolt/native": ["./src/native/index.ts"],
       "@rafaelaugusto/jolt/bottom-sheet": ["./src/bottom-sheet/index.ts"],
-      "@rafaelaugusto/jolt/reorder": ["./src/reorder/index.ts"]
+      "@rafaelaugusto/jolt/reorder": ["./src/reorder/index.ts"],
+      "@rafaelaugusto/jolt/shared-layout": ["./src/shared-layout/index.ts"]
     },
     "strict": true,
     "noUncheckedIndexedAccess": true,

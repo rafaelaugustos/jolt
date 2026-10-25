@@ -1,0 +1,389 @@
+[
+  {
+    "case": "recording",
+    "results": [
+      {
+        "status": "completed"
+      },
+      {
+        "status": "completed"
+      },
+      {
+        "status": "completed"
+      },
+      {
+        "status": "completed"
+      },
+      {
+        "status": "completed"
+      },
+      {
+        "status": "cancelled",
+        "reason": "interrupted"
+      },
+      {
+        "status": "completed"
+      },
+      {
+        "status": "completed"
+      }
+    ],
+    "active": false,
+    "expanded": true,
+    "nativeActive": 0,
+    "views": [
+      {
+        "id": "shared-cover",
+        "visible": true,
+        "bounds": {
+          "x": 108.19047619047619,
+          "y": 243.42857142857142
+        },
+        "size": {
+          "width": 195.04761904761904,
+          "height": 195.04761904761904
+        }
+      },
+      {
+        "id": "shared-underline",
+        "visible": true,
+        "bounds": {
+          "x": 20.19047619047619,
+          "y": 206.47619047619048
+        },
+        "size": {
+          "width": 101.71428571428571,
+          "height": 2.6666666666666665
+        }
+      }
+    ]
+  },
+  {
+    "case": "overlay during playback",
+    "results": [],
+    "active": true,
+    "expanded": true,
+    "nativeActive": 2,
+    "views": [
+      {
+        "id": "shared-cover",
+        "visible": false,
+        "bounds": {
+          "x": 108.19047619047619,
+          "y": 243.42857142857142
+        },
+        "size": {
+          "width": 195.04761904761904,
+          "height": 195.04761904761904
+        }
+      },
+      {
+        "id": "shared-underline",
+        "visible": false,
+        "bounds": {
+          "x": 20.19047619047619,
+          "y": 206.47619047619048
+        },
+        "size": {
+          "width": 101.71428571428571,
+          "height": 2.6666666666666665
+        }
+      }
+    ]
+  },
+  {
+    "case": "settled",
+    "results": [
+      {
+        "status": "completed"
+      }
+    ],
+    "active": false,
+    "expanded": true,
+    "nativeActive": 0,
+    "views": [
+      {
+        "id": "shared-cover",
+        "visible": true,
+        "bounds": {
+          "x": 108.19047619047619,
+          "y": 243.42857142857142
+        },
+        "size": {
+          "width": 195.04761904761904,
+          "height": 195.04761904761904
+        }
+      },
+      {
+        "id": "shared-underline",
+        "visible": true,
+        "bounds": {
+          "x": 20.19047619047619,
+          "y": 206.47619047619048
+        },
+        "size": {
+          "width": 101.71428571428571,
+          "height": 2.6666666666666665
+        }
+      }
+    ]
+  },
+  {
+    "case": "rapid reversal",
+    "results": [
+      {
+        "status": "completed"
+      },
+      {
+        "status": "cancelled",
+        "reason": "interrupted"
+      },
+      {
+        "status": "completed"
+      }
+    ],
+    "active": false,
+    "expanded": true,
+    "nativeActive": 0,
+    "views": [
+      {
+        "id": "shared-cover",
+        "visible": true,
+        "bounds": {
+          "x": 108.19047619047619,
+          "y": 243.42857142857142
+        },
+        "size": {
+          "width": 195.04761904761904,
+          "height": 195.04761904761904
+        }
+      },
+      {
+        "id": "shared-underline",
+        "visible": true,
+        "bounds": {
+          "x": 20.19047619047619,
+          "y": 206.47619047619048
+        },
+        "size": {
+          "width": 101.71428571428571,
+          "height": 2.6666666666666665
+        }
+      }
+    ]
+  },
+  {
+    "case": "explicit cancellation",
+    "results": [
+      {
+        "status": "completed"
+      },
+      {
+        "status": "cancelled",
+        "reason": "interrupted"
+      },
+      {
+        "status": "completed"
+      },
+      {
+        "status": "cancelled",
+        "reason": "cancelled"
+      }
+    ],
+    "active": false,
+    "expanded": false,
+    "nativeActive": 0,
+    "views": [
+      {
+        "id": "shared-cover",
+        "visible": true,
+        "bounds": {
+          "x": 34.285714285714285,
+          "y": 591.6190476190476
+        },
+        "size": {
+          "width": 69.71428571428571,
+          "height": 70.0952380952381
+        }
+      },
+      {
+        "id": "shared-underline",
+        "visible": true,
+        "bounds": {
+          "x": 20.19047619047619,
+          "y": 206.47619047619048
+        },
+        "size": {
+          "width": 101.71428571428571,
+          "height": 2.6666666666666665
+        }
+      }
+    ]
+  },
+  {
+    "case": "missing destination",
+    "results": [
+      {
+        "status": "completed"
+      },
+      {
+        "status": "cancelled",
+        "reason": "interrupted"
+      },
+      {
+        "status": "completed"
+      },
+      {
+        "status": "cancelled",
+        "reason": "cancelled"
+      },
+      {
+        "status": "unavailable",
+        "reason": "missing-target"
+      }
+    ],
+    "active": false,
+    "expanded": false,
+    "nativeActive": 0,
+    "views": [
+      {
+        "id": "shared-underline",
+        "visible": true,
+        "bounds": {
+          "x": 20.19047619047619,
+          "y": 206.47619047619048
+        },
+        "size": {
+          "width": 101.71428571428571,
+          "height": 2.6666666666666665
+        }
+      }
+    ]
+  },
+  {
+    "case": "reduced motion",
+    "results": [
+      {
+        "status": "unavailable",
+        "reason": "reduced-motion"
+      }
+    ],
+    "active": false,
+    "expanded": true,
+    "nativeActive": 0,
+    "views": [
+      {
+        "id": "shared-cover",
+        "visible": true,
+        "bounds": {
+          "x": 20.19047619047619,
+          "y": 223.23809523809524
+        },
+        "size": {
+          "width": 0,
+          "height": 0
+        }
+      },
+      {
+        "id": "shared-underline",
+        "visible": true,
+        "bounds": {
+          "x": 20.19047619047619,
+          "y": 206.47619047619048
+        },
+        "size": {
+          "width": 101.71428571428571,
+          "height": 2.6666666666666665
+        }
+      }
+    ]
+  },
+  {
+    "case": "rotation",
+    "results": [
+      {
+        "status": "unavailable",
+        "reason": "reduced-motion"
+      },
+      {
+        "status": "cancelled",
+        "reason": "geometry-changed"
+      }
+    ],
+    "active": false,
+    "expanded": false,
+    "nativeActive": 0,
+    "views": [
+      {
+        "id": "shared-cover",
+        "visible": true,
+        "bounds": {
+          "x": 34.285714285714285,
+          "y": 591.6190476190476
+        },
+        "size": {
+          "width": 69.71428571428571,
+          "height": 70.0952380952381
+        }
+      },
+      {
+        "id": "shared-underline",
+        "visible": true,
+        "bounds": {
+          "x": 20.19047619047619,
+          "y": 206.47619047619048
+        },
+        "size": {
+          "width": 101.71428571428571,
+          "height": 2.6666666666666665
+        }
+      }
+    ]
+  },
+  {
+    "case": "background and resume",
+    "results": [
+      {
+        "status": "unavailable",
+        "reason": "reduced-motion"
+      },
+      {
+        "status": "cancelled",
+        "reason": "geometry-changed"
+      },
+      {
+        "status": "cancelled",
+        "reason": "suspended"
+      }
+    ],
+    "active": false,
+    "expanded": true,
+    "nativeActive": 0,
+    "views": [
+      {
+        "id": "shared-cover",
+        "visible": true,
+        "bounds": {
+          "x": 108.19047619047619,
+          "y": 243.42857142857142
+        },
+        "size": {
+          "width": 195.04761904761904,
+          "height": 195.04761904761904
+        }
+      },
+      {
+        "id": "shared-underline",
+        "visible": true,
+        "bounds": {
+          "x": 20.19047619047619,
+          "y": 206.47619047619048
+        },
+        "size": {
+          "width": 101.71428571428571,
+          "height": 2.6666666666666665
+        }
+      }
+    ]
+  }
+]

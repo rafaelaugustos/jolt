@@ -19,6 +19,10 @@ module.exports = (env) => {
       )
       .set('@rafaelaugusto/jolt/native$', resolve(__dirname, '../dist/native/index.js'))
       .set('@rafaelaugusto/jolt/reorder$', resolve(__dirname, '../dist/reorder/index.js'))
+      .set(
+        '@rafaelaugusto/jolt/shared-layout$',
+        resolve(__dirname, '../dist/shared-layout/index.js'),
+      )
       .set('@rafaelaugusto/jolt/vue$', resolve(__dirname, '../dist/vue/index.js'))
       // sharing this app's copy of NativeScript and Vue
       .set('@nativescript/core', resolve(__dirname, 'node_modules/@nativescript/core'))
