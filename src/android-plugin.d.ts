@@ -34,9 +34,13 @@ declare namespace org.rafaelaugusto.jolt {
   }
   class GestureSurface extends org.nativescript.widgets.GridLayout {
     constructor(context: android.content.Context)
+    hasSession(): boolean
   }
   class GestureSession {
     static supportsContactEvents(): boolean
+    static supportsScrollReplay(): boolean
+    replayScroll(phase: number, delta: number, velocity: number): void
+    replayScrollOffset(offset: number): void
     constructor(
       surface: GestureSurface,
       scroll: android.view.View | null,

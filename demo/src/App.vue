@@ -67,7 +67,9 @@ onLaunch(() => {
   bottomSheetLab.value = launchArgument('bottom-sheet') !== undefined
   reorderLab.value = launchArgument('reorder-lab') !== undefined
   sharedLayoutLab.value = launchArgument('shared-layout') !== undefined
-  interactionReplay.value = launchArgument('interaction-replay') !== undefined
+  interactionReplay.value =
+    launchArgument('interaction-replay') !== undefined ||
+    launchArgument('scroll-handoff') !== undefined
   layoutLab.value = launchArgument('layout-lab') !== undefined
   playground.value = launchArgument('playground') !== undefined
   autoplay.value = launchArgument('autoplay') !== undefined

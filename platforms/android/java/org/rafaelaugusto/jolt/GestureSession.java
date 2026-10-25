@@ -18,9 +18,9 @@ public final class GestureSession {
     private final GestureDetector taps;
     private final double density, threshold, failOffset;
     private final int axis;
-    private final boolean pinch, rotate, tapEnabled, doubleEnabled, contactEvents;
+    private final boolean pinch, rotate, tapEnabled, doubleEnabled, contactEvents, replayOnly;
     private double minX, maxX, minY, maxY, minScale, maxScale;
-    private double downX, downY, lastX, lastY, lastSpan, lastAngle, velocityX, velocityY;
+    private double downX, downY, lastX, lastY, lastSpan, lastAngle, velocityX, velocityY, replayRemainder;
     private boolean enabled = true, disposed, active, rejected, fromScroll, contact, ending;
     private VelocityTracker velocity;
 
@@ -35,6 +35,7 @@ public final class GestureSession {
             pinch = config.getBoolean("pinch"); rotate = config.getBoolean("rotate");
             tapEnabled = config.getBoolean("tap"); doubleEnabled = config.getBoolean("doubleTap");
             contactEvents = config.optBoolean("contactEvents", false);
+            replayOnly = config.optBoolean("replay", false);
             minX = config.getDouble("minX"); maxX = config.getDouble("maxX"); minY = config.getDouble("minY"); maxY = config.getDouble("maxY");
             minScale = config.getDouble("minScale"); maxScale = config.getDouble("maxScale");
         } catch (JSONException error) { throw new IllegalArgumentException(error); }
@@ -45,6 +46,8 @@ public final class GestureSession {
             @Override public boolean onDoubleTapEvent(MotionEvent event) { if (event.getActionMasked() == MotionEvent.ACTION_UP) emit(5); return true; }
         });
         if (!doubleEnabled) taps.setOnDoubleTapListener(null);
+        if (replayOnly && surface.hasSession())
+            throw new IllegalStateException("Replay requires an unowned gesture surface");
         surface.setSession(this);
     }
     public static boolean supportsContactEvents() { return true; }
@@ -62,7 +65,7 @@ public final class GestureSession {
         emit(1);
     }
     void before(MotionEvent event) {
-        if (!enabled || disposed) return;
+        if (replayOnly || !enabled || disposed) return;
         if (!surface.isEnabled()) { cancel(); return; }
         int action = event.getActionMasked();
         if (action == MotionEvent.ACTION_DOWN) {
@@ -136,6 +139,7 @@ public final class GestureSession {
         lastAngle = b < 0 ? 0 : Math.atan2(event.getY(b) - event.getY(a), event.getX(b) - event.getX(a));
     }
     void after(MotionEvent event) {
+        if (replayOnly) return;
         int action = event.getActionMasked();
         if (action == MotionEvent.ACTION_UP) finish(false);
         else if (action == MotionEvent.ACTION_CANCEL) finish(true);
@@ -167,6 +171,31 @@ public final class GestureSession {
         ending = !cancelled;
         try { emit(cancelled ? 3 : 2); } finally { ending = false; }
         if (hadContact && contactEvents) emit(7);
+    }
+    public static boolean supportsScrollReplay() { return true; }
+    /** Semantic replay uses the same pre-scroll / child / post-scroll consumption as GestureSurface. */
+    public void replayScroll(int phase, double delta, double speed) {
+        if (!replayOnly || disposed || scroll == null || !Double.isFinite(delta) || !Double.isFinite(speed))
+            throw new IllegalStateException("Scroll replay needs an isolated replay session and finite input");
+        if (phase == 1) {
+            cancel(); contact = true; fromScroll = true; velocityX = velocityY = replayRemainder = 0; begin();
+        } else if (phase == 2 && contact) {
+            velocityY = speed;
+            // Carry fractions between samples, just as a cumulative OS coordinate does.
+            double pixels = -delta * density + replayRemainder;
+            int remaining = (int)Math.round(pixels);
+            replayRemainder = pixels - remaining;
+            remaining -= consume(remaining, !scroll.canScrollVertically(-1));
+            int before = scroll.getScrollY();
+            scroll.scrollBy(0, remaining);
+            remaining -= scroll.getScrollY() - before;
+            consume(remaining, true);
+        } else if (phase == 3 || phase == 4) finish(phase == 4);
+    }
+    public void replayScrollOffset(double offset) {
+        if (!replayOnly || disposed || !Double.isFinite(offset))
+            throw new IllegalStateException("Invalid scroll replay offset");
+        scroll.scrollTo(scroll.getScrollX(), (int)Math.round(offset * density));
     }
     public void cancel() {
         if (active) finish(true);

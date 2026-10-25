@@ -190,6 +190,7 @@ export class Label extends TextBase {
 
 export const isAndroid = false
 export const isIOS = true
+export class GridLayout extends View {}
 
 export class ScrollView extends View {
   static scrollEvent = 'scroll'

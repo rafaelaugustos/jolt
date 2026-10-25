@@ -25,7 +25,7 @@ static double clamp(double value, double minimum, double maximum) { return MAX(m
 @property(nonatomic) JoltLiveSpring *x, *y, *scale, *rotation;
 @property(nonatomic) double minX, maxX, minY, maxY, minScale, maxScale, velocityX, velocityY, scrollPosition;
 @property(nonatomic, readwrite) BOOL active;
-@property(nonatomic) BOOL enabled, disposed, contactEvents, contact, fromScroll, adjusting, ending;
+@property(nonatomic) BOOL enabled, disposed, contactEvents, contact, fromScroll, adjusting, ending, replayOnly;
 @property(nonatomic, copy) void (^onState)(NSInteger, double, double);
 - (void)touchStarted:(UITouch *)touch;
 - (void)finish:(BOOL)cancelled;
@@ -78,8 +78,14 @@ static double clamp(double value, double minimum, double maximum) { return MAX(m
 
 @implementation JoltGestureSession
 + (BOOL)supportsContactEvents { return YES; }
++ (BOOL)hasSession:(UIView *)surface {
+    for (UIGestureRecognizer *g in surface.gestureRecognizers) if ([g isKindOfClass:JoltAxisPan.class]) return YES;
+    return NO;
+}
 + (instancetype)attach:(UIView *)surface scroll:(UIScrollView *)scroll x:(JoltLiveSpring *)x y:(JoltLiveSpring *)y scale:(JoltLiveSpring *)scale rotation:(JoltLiveSpring *)rotation options:(NSString *)options onState:(void (^)(NSInteger,double,double))onState {
     NSDictionary *config = [NSJSONSerialization JSONObjectWithData:[options dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
+    if ([config[@"replay"] boolValue] && [self hasSession:surface])
+        [NSException raise:NSInvalidArgumentException format:@"Replay requires an unowned gesture surface"];
     JoltGestureSession *s = [self new]; s.surface = surface; s.scroll = scroll; s.x = x; s.y = y; s.scale = scale; s.rotation = rotation;
     s.minX = [config[@"minX"] doubleValue]; s.maxX = [config[@"maxX"] doubleValue]; s.minY = [config[@"minY"] doubleValue]; s.maxY = [config[@"maxY"] doubleValue];
     s.minScale = [config[@"minScale"] doubleValue]; s.maxScale = [config[@"maxScale"] doubleValue]; s.onState = onState; s.enabled = YES;
@@ -93,7 +99,9 @@ static double clamp(double value, double minimum, double maximum) { return MAX(m
     for (UIGestureRecognizer *g in @[s.pan, s.pinch, s.rotate, s.tap, s.doubleTap]) { g.delegate = s; [surface addGestureRecognizer:g]; }
     s.pinch.enabled = [config[@"pinch"] boolValue]; s.rotate.enabled = [config[@"rotate"] boolValue];
     s.contactEvents = [config[@"contactEvents"] boolValue];
+    s.replayOnly = [config[@"replay"] boolValue];
     s.tap.enabled = [config[@"tap"] boolValue]; s.doubleTap.enabled = [config[@"doubleTap"] boolValue];
+    if (s.replayOnly) for (UIGestureRecognizer *g in @[s.pan, s.pinch, s.rotate, s.tap, s.doubleTap]) g.enabled = NO;
     // NativeScript's scroll delegate is forwarded, never replaced with a JS per-frame bridge.
     if (scroll) { s.previousDelegate = scroll.delegate; scroll.delegate = s; }
     return s;
@@ -134,22 +142,43 @@ static double clamp(double value, double minimum, double maximum) { return MAX(m
         self.velocityX = (pan.axis & 1) ? pan.velocity.x : 0; self.velocityY = (pan.axis & 2) ? pan.velocity.y : 0;
         double dx = pan.delta.x, dy = pan.delta.y;
         if (self.fromScroll) {
-            double oldY = self.y.position, nextY = oldY, top = -self.scroll.adjustedContentInset.top;
-            if (dy < 0) { nextY = MAX(self.minY, oldY + dy); dy -= nextY - oldY; }
-            else {
-                double consumed = MIN(dy, MAX(0, self.scrollPosition - top));
-                self.scrollPosition -= consumed; dy -= consumed;
-                nextY = MIN(self.maxY, oldY + dy); dy -= nextY - oldY;
-            }
-            double bottom = MAX(top, self.scroll.contentSize.height - self.scroll.bounds.size.height + self.scroll.adjustedContentInset.bottom);
-            self.scrollPosition = clamp(self.scrollPosition - dy, top, bottom);
-            [self.y holdInput:nextY velocity:self.velocityY]; [self applyScroll];
+            [self consumeScrollDelta:dy];
         } else {
             if (pan.axis & 1) [self.x holdInput:clamp(self.x.position + dx, self.minX, self.maxX) velocity:self.velocityX];
             if (pan.axis & 2) [self.y holdInput:clamp(self.y.position + dy, self.minY, self.maxY) velocity:self.velocityY];
         }
     } else if (pan.state == UIGestureRecognizerStateEnded) [self finish:NO];
     else if (pan.state == UIGestureRecognizerStateCancelled || pan.state == UIGestureRecognizerStateFailed) [self finish:YES];
+}
+// Shared by the OS recognizer and the isolated semantic replay adapter.
+- (void)consumeScrollDelta:(double)dy {
+    double oldY = self.y.position, nextY = oldY, top = -self.scroll.adjustedContentInset.top;
+    if (dy < 0) { nextY = MAX(self.minY, oldY + dy); dy -= nextY - oldY; }
+    else {
+        double consumed = MIN(dy, MAX(0, self.scrollPosition - top));
+        self.scrollPosition -= consumed; dy -= consumed;
+        nextY = MIN(self.maxY, oldY + dy); dy -= nextY - oldY;
+    }
+    double bottom = MAX(top, self.scroll.contentSize.height - self.scroll.bounds.size.height + self.scroll.adjustedContentInset.bottom);
+    self.scrollPosition = clamp(self.scrollPosition - dy, top, bottom);
+    [self.y holdInput:nextY velocity:self.velocityY]; [self applyScroll];
+}
++ (BOOL)supportsScrollReplay { return YES; }
+- (void)replayScroll:(NSInteger)phase delta:(double)dy velocity:(double)velocity {
+    if (!self.replayOnly || self.disposed || !self.scroll || !isfinite(dy) || !isfinite(velocity))
+        [NSException raise:NSInvalidArgumentException format:@"Scroll replay needs an isolated replay session and finite input"];
+    if (phase == 1) {
+        [self cancel]; self.contact = YES; self.fromScroll = YES;
+        self.scrollPosition = MAX(-self.scroll.adjustedContentInset.top, self.scroll.contentOffset.y);
+        self.velocityX = self.velocityY = 0; [self begin];
+    } else if (phase == 2 && self.contact) {
+        self.velocityY = velocity; [self consumeScrollDelta:dy];
+    } else if (phase == 3 || phase == 4) [self finish:phase == 4];
+}
+- (void)replayScrollOffset:(double)offset {
+    if (!self.replayOnly || self.disposed || !isfinite(offset))
+        [NSException raise:NSInvalidArgumentException format:@"Invalid scroll replay offset"];
+    self.scrollPosition = -self.scroll.adjustedContentInset.top + offset; [self applyScroll];
 }
 - (void)pinched:(UIPinchGestureRecognizer *)gesture {
     if (self.fromScroll || self.disposed || !self.enabled) return;

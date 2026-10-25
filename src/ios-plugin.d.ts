@@ -16,6 +16,10 @@ declare class JoltReorderSession extends NSObject {
 }
 declare class JoltGestureSession extends NSObject {
   static supportsContactEvents(): boolean
+  static supportsScrollReplay(): boolean
+  static hasSession(surface: UIView): boolean
+  replayScrollDeltaVelocity(phase: number, delta: number, velocity: number): void
+  replayScrollOffset(offset: number): void
   static attachScrollXYScaleRotationOptionsOnState(
     surface: UIView,
     scroll: UIScrollView | null,

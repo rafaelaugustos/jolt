@@ -31,6 +31,8 @@ import {
 } from './trace.js'
 
 export { ReplayClock }
+export { nativeScrollHandoffTraceGraph } from './scroll-handoff-native.js'
+export { observeScrollHandoffInputs } from './handoff-recorder.js'
 
 export const traceNow = () => getDriver().now()
 export const traceSettings = () => ({

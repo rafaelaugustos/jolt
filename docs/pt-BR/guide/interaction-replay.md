@@ -3,7 +3,7 @@
 Guarde as entradas que reproduziram um bug, fixe o movimento esperado e teste o próximo build com elas. A entrada opcional **@rafaelaugusto/jolt/testing** oferece trace numérico versionado, gravação explícita e runner com adaptadores. **@rafaelaugusto/jolt/testing/native** adiciona relógio controlado do Jolt, captura de pan do Core e leitura da apresentação nativa.
 
 ::: warning Prévia de desenvolvimento
-Este checkout prepara a etapa inicial do replay para beta.18; os pacotes publicados de beta.17 não incluem essas entradas. Use em um ambiente isolado de desenvolvimento. Não é telemetria de produção e importar o módulo não instala observadores.
+Este checkout prepara as ferramentas de replay para beta.18; os pacotes publicados de beta.17 não incluem essas entradas. Use em um ambiente isolado de desenvolvimento. Não é telemetria de produção e importar o módulo não instala observadores.
 :::
 
 <Clip name="interaction-replay-ios" caption="Simulador iOS com toques e drag reais do XCTest: aceitar a gravação de um spring, reproduzir, detectar um checkpoint propositalmente errado e cancelar/reproduzir um drag. O replay usa tempo lógico gravado; sua duração não mede desempenho." />
@@ -96,8 +96,47 @@ O grafo de referência usa **animate**, **motionValue**, **bind**, **drag** e **
 
 Layout, teclado, scroll e load/unload são preservados, mas precisam do roteamento do aplicativo. O grafo rejeita eventos não suportados, sem ignorá-los. Use **environment** ou implemente **ReplayAdapter** com **input**, **read**, **dispose** e **resources**. O runner puro **replayInteraction** recebe seu relógio **advanceTo** e entrega uma função aleatória local com seed à fábrica do adaptador. Não altera **Math.random** global.
 
-O adaptador de replay para handoff scroll→sheet continua como próxima etapa da #63. Gravar esses números ainda não reproduz a política nativa de posse do bottom sheet. Os testes existentes de [gestos](./gestures) e [bottom sheet](./bottom-sheet) com entrada real do SO mantêm essa cobertura. Replay sintético ignora o reconhecedor e não prova hit testing, arbitragem de gestos, temporização nativa do teclado ou clipping.
+O adaptador scroll→sheet abaixo cobre a posse do contato na sessão de gestos nativa usada por **bottomSheet**. Os testes existentes de [gestos](./gestures) e [bottom sheet](./bottom-sheet) com entrada real do SO mantêm a cobertura do reconhecedor e da receita completa. Replay sintético ignora o reconhecedor e não prova hit testing, temporização nativa do teclado ou clipping.
 
 O experimento **57 — Replay de interações** está em inglês e português. O [guia de validação](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/interaction-replay.md) contém comandos, artefatos e limites.
 
 <Clip name="interaction-replay-pt-ios" caption="Preview integrado em português brasileiro no simulador iOS: gravação real de um spring e replay nativo, com toques do XCTest na velocidade original." />
+
+## Handoff scroll → painel
+
+No experimento 57, escolha **Scroll → painel**. Grave um arraste dentro das notas e inverta: a lista chega ao topo antes de o painel descer; na volta, o painel se expande antes de o conteúdo rolar. Finalize, reproduza ou altere propositalmente um checkpoint do scroll.
+
+<Clip name="scroll-handoff-replay-ios" caption="Simulador iOS: drags reais do XCTest passam o contato da lista ao painel e de volta; o trace numérico salvo é reproduzido na sessão nativa. Um checkpoint errado do scroll é detectado. Velocidade original; replay em tempo lógico." />
+
+<Clip name="scroll-handoff-replay-android" caption="Emulador Android: drags reais via ADB, replay da gravação e controle negativo de ownership nativo. O teste confere translação do painel e offset nativo da lista. Não mede desempenho em aparelho físico." />
+
+```ts
+import { parseTrace, scrollHandoffTraceGraph } from '@rafaelaugusto/jolt/testing'
+import {
+  nativeScrollHandoffTraceGraph,
+  replayWithDriver,
+} from '@rafaelaugusto/jolt/testing/native'
+
+const trace = parseTrace(savedJSON)
+for (const native of [false, true]) {
+  const report = await replayWithDriver(
+    trace,
+    (trace) =>
+      native
+        ? nativeScrollHandoffTraceGraph(trace.motions, gestureSurface, scrollView)
+        : scrollHandoffTraceGraph(trace.motions),
+    { native },
+  )
+  if (!report.passed) saveFailure(report)
+}
+```
+
+O adaptador sem UI é um contrato independente de posse do gesto. O adaptador nativo chama o mesmo código de consumo da sessão de produção: roteamento do delta no iOS e sequência pre-scroll/conteúdo/post-scroll no Android. Não é uma segunda simulação nativa. As asserções separadas com XCTest/ADB verificam a entrada real do SO mostrada nos vídeos.
+
+Configure dois motions **drag**, com **axis: 'y'**, **snap** vazio e IDs estáveis **sheet** e **scroll**. O mínimo do scroll é zero; o máximo deve corresponder ao intervalo carregado com tolerância de 1 DIP. Ambos aceitam um mapeamento opcional **{ sheet, scroll }**. As views precisam estar carregadas, o scroll deve ser descendente vertical de um **GestureSurface** sem outro dono e as classes nativas precisam ser recompiladas. A sessão exclusiva de replay desativa entrada do SO e rejeita uma superfície já controlada.
+
+As posições de contato são cumulativas e relativas à janela; mudanças de contatos reajustam a referência sem mover o painel. Eventos de scroll definem o offset externo. Cancelamento, suspend e unload encerram o contato antigo; resume/load exigem um novo begin. Alvos, teclado e layout sem adaptador geram erro. Este adaptador mantém a posição ao soltar: fling, escolha automática de snap e springs retidos em movimento livre continuam nos testes separados da receita.
+
+**observeScrollHandoffInputs(scrollView, recorder, traceNow)** captura opcionalmente contatos brutos do Core e o offset inicial; descarte a função retornada antes do replay. A captura contém números, sem texto da lista ou handles nativos. Registra contatos, não decisões do reconhecedor. O preview fixa os estados esperados do contrato durante a gravação; o replay não os recalcula. Os fixtures canônicos cobrem também inversão no mesmo contato, frame longo, cancelamento, troca de contatos, limites e pequenos passos fracionários. O Android acumula a fração de pixel entre amostras para evitar desvio de arredondamento.
+
+O relatório lê a apresentação real do painel e o offset nativo da lista. A velocidade do painel vem da entrada nativa quando a amostra move o painel; caso contrário é zero. Este adaptador não mede velocidade do scroll. Repouso significa contato encerrado e nó nativo parado. Um checkpoint errado do scroll precisa falhar, e o descarte deve restaurar a contagem de nós nativos. Veja [reprodução e limites](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-handoff.md).

@@ -56,6 +56,42 @@ final class DocsTests: XCTestCase {
         launch(["--interaction-replay", "--replay-checks"], "replay-card")
         XCTAssertTrue(app.staticTexts["Native regressions passed"].waitForExistence(timeout: 25), app.debugDescription)
     }
+    func testScrollHandoffReplay() throws {
+        launch(["--scroll-handoff"], "handoff-record")
+        try record("scroll-handoff-replay-ios") {
+            tap("handoff-record", wait: 0.3)
+            let sheet = app.descendants(matching: .any)["handoff-sheet"].firstMatch
+            let scroll = app.scrollViews["handoff-scroll"].firstMatch
+            XCTAssertTrue(scroll.exists, app.debugDescription)
+            let before = sheet.frame.minY
+            drag(scroll, x: 0, y: 160)
+            XCTAssertGreaterThan(sheet.frame.minY, before + 20, "The scroll never handed the contact to the sheet")
+            drag(scroll, x: 0, y: -150)
+            XCTAssertLessThan(sheet.frame.minY, before + 5, "The sheet did not expand before scrolling")
+            tap("handoff-finish", wait: 0.3)
+            tap("handoff-replay", wait: 0.2)
+            XCTAssertTrue(app.staticTexts["Replay matched"].waitForExistence(timeout: 30), app.debugDescription)
+            tap("handoff-break", wait: 0.2)
+            XCTAssertTrue(app.staticTexts["Ownership regression caught"].waitForExistence(timeout: 30), app.debugDescription)
+        }
+    }
+    func testScrollHandoffReplayChecks() throws {
+        launch(["--scroll-handoff", "--handoff-checks"], "handoff-record")
+        XCTAssertTrue(app.staticTexts["Native regressions passed"].waitForExistence(timeout: 25), app.debugDescription)
+    }
+    func testScrollHandoffPortuguese() throws {
+        languageLaunch("pt-BR", "language-settings")
+        selectLanguage("system")
+        languageLaunch("pt-BR", "open-handoff", ["--showcase-example=interaction-replay"])
+        tap("open-handoff")
+        let start = app.buttons["handoff-record"].firstMatch
+        XCTAssertTrue(start.isHittable, app.debugDescription)
+        tap("handoff-record", wait: 0.3)
+        drag(app.scrollViews["handoff-scroll"].firstMatch, x: 0, y: 150)
+        tap("handoff-finish", wait: 0.3)
+        tap("handoff-replay", wait: 0.2)
+        XCTAssertTrue(app.staticTexts["Replay conferido"].waitForExistence(timeout: 30), app.debugDescription)
+    }
     func testInteractionReplay() throws {
         launch(["--interaction-replay"], "replay-card")
         try record("interaction-replay-ios") {

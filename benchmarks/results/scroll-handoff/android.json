@@ -1,0 +1,117 @@
+{
+  "capturedAt": "2026-10-25",
+  "source": "Working tree on 682ff558f5d918eda25d4d87ca4b4d331a6381aa",
+  "platform": "Android",
+  "os": "16",
+  "model": "sdk_gphone64_arm64",
+  "build": {
+    "commit": "682ff558f5d918eda25d4d87ca4b4d331a6381aa",
+    "core": "9.1.3",
+    "runtime": "9.1.1",
+    "jolt": "0.1.0-beta.17",
+    "mode": "production"
+  },
+  "nativeCI": {
+    "runId": "000f5f91-b0a1-4140-b32b-b46741e97430",
+    "baseline": "passed",
+    "groups": 12,
+    "injectedFailureDetected": true
+  },
+  "handoff": {
+    "durationMs": 2842,
+    "ownershipRejected": true,
+    "reports": [
+      {
+        "native": false,
+        "passed": true,
+        "checkpoints": 36,
+        "maxPositionError": 1.1368683772161603e-13,
+        "maxVelocityError": 0,
+        "settledMismatches": 0,
+        "remainingResources": 0,
+        "errors": []
+      },
+      {
+        "native": true,
+        "passed": true,
+        "checkpoints": 36,
+        "maxPositionError": 0.2857142857142918,
+        "maxVelocityError": 0,
+        "settledMismatches": 0,
+        "remainingResources": 0,
+        "errors": []
+      }
+    ],
+    "negativeControl": {
+      "passed": true,
+      "errors": [
+        "scroll at 32 ms: position error 80, velocity error 0, settled false (expected false)."
+      ],
+      "remainingResources": 0
+    }
+  },
+  "realOSInput": {
+    "runner": "ADB",
+    "passed": true,
+    "assertions": [
+      "scroll reaches top before sheet moves down",
+      "sheet expands before upward content scrolling",
+      "saved trace replays through headless and native adapters",
+      "wrong scroll checkpoint rejected"
+    ],
+    "events": 396,
+    "metadata": {
+      "platform": "android",
+      "os": "16",
+      "model": "sdk_gphone64_arm64",
+      "refreshRate": 60.000003814697266,
+      "density": 2.625,
+      "width": 411.42857142857144,
+      "height": 914.2857142857143
+    },
+    "negativeControl": [
+      {
+        "passed": false,
+        "checkpoints": 264,
+        "maxPositionError": 80,
+        "maxVelocityError": 0,
+        "settledMismatches": 0,
+        "remainingResources": 0,
+        "errors": [
+          "scroll at 4452 ms: position error 80, velocity error 0, settled true (expected true)."
+        ]
+      },
+      {
+        "passed": false,
+        "checkpoints": 264,
+        "maxPositionError": 80,
+        "maxVelocityError": 0,
+        "settledMismatches": 0,
+        "remainingResources": 0,
+        "errors": [
+          "scroll at 4452 ms: position error 80, velocity error 0, settled true (expected true)."
+        ]
+      }
+    ],
+    "recordedReplay": [
+      {
+        "passed": true,
+        "checkpoints": 264,
+        "maxPositionError": 0,
+        "maxVelocityError": 0,
+        "settledMismatches": 0,
+        "remainingResources": 0,
+        "errors": []
+      },
+      {
+        "passed": true,
+        "checkpoints": 264,
+        "maxPositionError": 0.3463541666666572,
+        "maxVelocityError": 0,
+        "settledMismatches": 0,
+        "remainingResources": 0,
+        "errors": []
+      }
+    ]
+  }
+}
