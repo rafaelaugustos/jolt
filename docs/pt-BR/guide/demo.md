@@ -24,9 +24,9 @@ As ilustrações e os palcos das animações mantêm suas próprias paletas; mud
 
 ## Idioma
 
-O Studio segue o idioma do celular por padrão: português usa a tradução brasileira, e os demais idiomas usam inglês. Toque em **Idioma** no topo do Studio para escolher **Idioma do celular**, **English** ou **Português**. A mudança acontece na hora e a escolha permanece depois de fechar o app. **Idioma do celular** remove a preferência manual; o app consulta novamente o idioma ao voltar ao primeiro plano.
+O Studio segue o idioma do celular por padrão: português usa a tradução brasileira, variantes de espanhol usam espanhol e variantes de chinês usam chinês simplificado; idiomas não suportados usam inglês. Toque em **Idioma** no topo do Studio para escolher **Idioma do celular**, **English**, **Português**, **Español** ou **简体中文**. A mudança acontece na hora e a escolha permanece depois de fechar o app. **Idioma do celular** remove a preferência manual; o app consulta novamente o idioma ao voltar ao primeiro plano.
 
-Splash, coleção, apresentação dos 63 experimentos, controles, mensagens de estado e rótulos de acessibilidade estão traduzidos. A busca aceita nomes em português ou inglês, com ou sem acento. Os números da conta usam os separadores do idioma escolhido. Identificadores das APIs, como `popIn`, continuam iguais; o playground técnico isolado mantém seus textos de teste em inglês.
+Splash, coleção, apresentação dos 66 experimentos, controles, mensagens de estado e rótulos de acessibilidade estão traduzidos. A busca aceita nomes no idioma selecionado ou em inglês, com ou sem acento. Os números da conta usam os separadores do idioma escolhido. Identificadores das APIs, como `popIn`, continuam iguais; o playground técnico isolado mantém seus textos de teste em inglês.
 
 <Clip name="showcase-language-ios" caption="Simulador iOS 26: toques reais do XCTest trocam inglês → português, buscam camera sem acento, operam a lente nativa e voltam ao inglês. Tempo original. Testes nativos separados verificam persistência e seleção automática com os ajustes de idioma preferido do iOS na abertura; não validam Android nem aparelho físico." />
 
@@ -199,3 +199,5 @@ O [playground de paths](./paths) segue uma curva cúbica ou uma órbita com arco
 [Voltar com prévia](./predictive-back) é o experimento 62: progresso nativo pela borda no Android, cancelamento, volta com guard e uma cena bilíngue ao entardecer.
 
 [Gestos compartilhados](./shared-gestures) é o experimento 63: imagem e cartão acompanham o gesto nativo de voltar, com cancelamento e botão acessível.
+
+<Clip name="showcase-languages-ios" caption="Simulador iOS 26.2: toques reais selecionam espanhol e chinês simplificado, abrem a coleção traduzida e a composição de rolagem nativa e retornam ao seletor. Testes separados cobrem persistência e seleção pelo idioma do celular. Velocidade original; não representa aparelho físico." />

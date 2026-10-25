@@ -52,6 +52,88 @@ final class DocsTests: XCTestCase {
         start.press(forDuration: 0.55, thenDragTo: destination, withVelocity: fast ? .fast : .slow, thenHoldForDuration: hold)
         Thread.sleep(forTimeInterval: 0.6)
     }
+    func scrollHeaderDemo(_ language: String) throws {
+        languageLaunch(language, "language-settings")
+        selectLanguage("system")
+        languageLaunch(language, "scroll-header-list", ["--showcase-example=scroll-header"])
+        let list = app.descendants(matching: .any)["scroll-header-list"].firstMatch
+        try record("scroll-header-ios" + (language == "en" ? "" : "-pt")) {
+            let start = list.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.72))
+            for distance: CGFloat in [80, -180, 90] {
+                start.press(forDuration: 0.05, thenDragTo: start.withOffset(CGVector(dx: 0, dy: distance)), withVelocity: .slow, thenHoldForDuration: 0.05)
+                Thread.sleep(forTimeInterval: 0.6)
+            }
+            list.swipeUp(velocity: .fast); Thread.sleep(forTimeInterval: 1)
+            tap("scroll-header-cover", wait: 1)
+            tap("scroll-header-add")
+            tap("scroll-header-jump", wait: 1)
+            tap("scroll-header-top", wait: 1.2)
+            tap("scroll-header-details")
+        }
+    }
+    func testScrollHeader() throws { try scrollHeaderDemo("en") }
+    func testScrollHeaderPortuguese() throws { try scrollHeaderDemo("pt-BR") }
+
+    func testShowcaseExtraLanguages() throws {
+        languageLaunch("en", "language-settings"); selectLanguage("en")
+        try record("showcase-languages-ios") {
+            for (language, collection, open, back, studio) in [
+                ("es", "Colección", "Abrir Hecho para deslizar", "Volver a la colección", "Studio"),
+                ("zh-Hans", "合集", "打开 为滚动而生", "返回合集", "工作室")
+            ] {
+                tap("language-settings")
+                if language == "zh-Hans" { app.scrollViews.firstMatch.swipeUp(); Thread.sleep(forTimeInterval: 0.3) }
+                tap("language-" + language); tap("language-back")
+                tap(collection); tap(open)
+                let list = app.descendants(matching: .any)["scroll-header-list"].firstMatch
+                list.swipeUp(); Thread.sleep(forTimeInterval: 0.7)
+                tap("scroll-header-cover"); tap("scroll-header-top")
+                tap(back); tap(studio)
+            }
+            tap("language-settings")
+        }
+        app.scrollViews.firstMatch.swipeDown(); tap("language-system");tap("language-back")
+    }
+    func testShowcaseExtraLanguageChecks() throws {
+        languageLaunch("en", "language-settings"); selectLanguage("system")
+        languageLaunch("es-MX", "scroll-header-list", ["--showcase-example=scroll-header"])
+        XCTAssertTrue(app.staticTexts["Mareas suaves."].exists)
+        languageLaunch("zh-CN", "scroll-header-list", ["--showcase-example=scroll-header"])
+        XCTAssertTrue(app.staticTexts["轻柔潮汐。"].exists)
+        languageLaunch("en", "language-settings"); selectLanguage("es")
+        languageLaunch("zh-CN", "scroll-header-list", ["--showcase-example=scroll-header"])
+        XCTAssertTrue(app.staticTexts["Mareas suaves."].exists)
+        languageLaunch("en", "language-settings"); selectLanguage("system")
+    }
+
+    func testScrollHeaderChecks() throws {
+        languageLaunch("en", "language-settings"); selectLanguage("system")
+        languageLaunch("en", "scroll-header-list", ["--showcase-example=scroll-header", "--scroll-header-audit"])
+        let list = app.descendants(matching: .any)["scroll-header-list"].firstMatch
+        let start = list.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.72))
+        for distance: CGFloat in [90, -185, 100, -200] {
+            start.press(forDuration: 0.05, thenDragTo: start.withOffset(CGVector(dx: 0, dy: distance)), withVelocity: .slow, thenHoldForDuration: 0.05)
+            Thread.sleep(forTimeInterval: 0.6)
+        }
+        list.swipeUp(velocity: .fast); Thread.sleep(forTimeInterval: 1)
+        tap("scroll-header-snapshot"); tap("scroll-header-cover"); tap("scroll-header-add")
+        tap("scroll-header-jump", wait: 1)
+        tap("scroll-header-snapshot")
+        let pinned = app.descendants(matching: .any)["scroll-header-section"].firstMatch
+        app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: 110, dy: pinned.frame.maxY + 38)).tap()
+        tap("scroll-header-snapshot")
+        XCUIDevice.shared.orientation = .landscapeLeft; Thread.sleep(forTimeInterval: 1)
+        XCUIDevice.shared.orientation = .portrait; Thread.sleep(forTimeInterval: 1)
+        tap("scroll-header-snapshot")
+        XCUIDevice.shared.press(.home); Thread.sleep(forTimeInterval: 0.5); app.activate()
+        tap("scroll-header-snapshot")
+        tap("scroll-header-reduce"); tap("scroll-header-top"); tap("scroll-header-snapshot")
+        tap("scroll-header-short"); tap("scroll-header-jump"); tap("scroll-header-snapshot")
+        tap("scroll-header-empty"); tap("scroll-header-jump"); tap("scroll-header-snapshot")
+        tap("Back to collection")
+        XCTAssertFalse(app.descendants(matching: .any)["scroll-header-list"].firstMatch.exists)
+    }
+
     func testInteractionReplayChecks() throws {
         launch(["--interaction-replay", "--replay-checks"], "replay-card")
         XCTAssertTrue(app.staticTexts["Native regressions passed"].waitForExistence(timeout: 25), app.debugDescription)

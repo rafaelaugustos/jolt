@@ -3,7 +3,7 @@ import { useThemeReveal } from './theme-reveal'
 import { palette, themeClass, statusBarStyle, useThemedInput } from './theme'
 import { usePreviewI18n } from './i18n'
 import { ref, onUnmounted } from 'nativescript-vue'
-import { isIOS, type EventData, type View } from '@nativescript/core'
+import { Frame, isIOS, type EventData, type View } from '@nativescript/core'
 import { followKeyboard, configure } from '@rafaelaugusto/jolt'
 import { useRoute, useRouter } from 'vue-router-ns'
 import { examples } from './catalog'
@@ -12,6 +12,7 @@ const inputTheme = useThemedInput()
 const route = useRoute(),
   router = useRouter()
 const example = examples.find((e) => e.id === route.params.id)
+const scrolling = example?.id === 'scroll-header'
 const atelier = example?.category === 'SceneKit' && !!example?.ios && isIOS
 const mounted = ref(true),
   composer = ref(false),
@@ -25,6 +26,10 @@ function clean() {
   unfollow?.()
   unfollow = undefined
   configure({ reducedMotion: 'user', timeScale: 1 })
+}
+function backToCollection() {
+  if (Frame.topmost()?.canGoBack()) void router.back()
+  else void router.replace('/collection')
 }
 function leave() {
   // An interactive pop previews the retained page before navigatedTo commits.
@@ -78,7 +83,7 @@ function enter() {
           fontSize="24"
           textAlignment="center"
           verticalAlignment="middle"
-          @tap="router.back()"
+          @tap="backToCollection"
           accessibilityRole="button"
           :accessibilityLabel="t('Back to collection')"
         />
@@ -98,7 +103,7 @@ function enter() {
           :tintColor="palette.text"
         />
       </GridLayout>
-      <StackLayout row="1" padding="12 24 20"
+      <StackLayout v-if="!scrolling" row="1" padding="12 24 20"
         ><Label
           :text="t(example?.title || 'Not found')"
           fontSize="32"
@@ -129,8 +134,8 @@ function enter() {
       <GridLayout
         v-else-if="example?.full"
         row="2"
-        borderRadius="24"
-        :margin="atelier ? '0' : '0 12 12'"
+        :borderRadius="scrolling ? 0 : 24"
+        :margin="atelier || scrolling ? '0' : '0 12 12'"
         clipToBounds="true"
         ><component
           v-if="mounted"
@@ -138,7 +143,7 @@ function enter() {
           :key="locale"
           :mode="example.id"
           :embedded="true"
-          @back="router.back()"
+          @back="backToCollection"
       /></GridLayout>
       <ScrollView v-else-if="example" row="2" scrollBarIndicatorVisible="false"
         ><StackLayout padding="0 12 28"
@@ -150,7 +155,7 @@ function enter() {
             :embedded="true"
             :shown="composer"
             @toggle="composer = !composer"
-            @back="router.back()" /><Label
+            @back="backToCollection" /><Label
             :text="t('Yours to play with.')"
             class="studio-eyebrow"
             textAlignment="center"

@@ -1,20 +1,31 @@
 import { portuguese } from './locales/pt-BR'
+import { spanish } from './locales/es'
+import { chinese } from './locales/zh-Hans'
 
-export type Locale = 'en' | 'pt-BR'
+export type Locale = 'en' | 'pt-BR' | 'es' | 'zh-Hans'
 export type LanguagePreference = 'system' | Locale
-
-export function languagePreference(value: unknown): LanguagePreference {
-  return value === 'en' || value === 'pt-BR' ? value : 'system'
+export const languageNames: Record<Locale, string> = {
+  en: 'English',
+  'pt-BR': 'Português',
+  es: 'Español',
+  'zh-Hans': '简体中文',
 }
-
+export function languagePreference(value: unknown): LanguagePreference {
+  return typeof value === 'string' && Object.hasOwn(languageNames, value)
+    ? (value as Locale)
+    : 'system'
+}
 export function resolveLocale(
   preference: LanguagePreference,
   deviceLanguage: string,
 ): Locale {
   if (preference !== 'system') return preference
-  return /^pt(?:[-_]|$)/i.test(deviceLanguage) ? 'pt-BR' : 'en'
+  if (/^pt(?:[-_]|$)/i.test(deviceLanguage)) return 'pt-BR'
+  if (/^es(?:[-_]|$)/i.test(deviceLanguage)) return 'es'
+  // The first Chinese translation is Simplified, including fallback for other zh variants.
+  if (/^zh(?:[-_]|$)/i.test(deviceLanguage)) return 'zh-Hans'
+  return 'en'
 }
-
 export function searchText(value: string): string {
   return value
     .normalize('NFD')
@@ -22,33 +33,48 @@ export function searchText(value: string): string {
     .toLowerCase()
     .trim()
 }
-
-// English is the source language. Render-time lookup keeps status messages and
-// accessibility labels reactive without translating animation/API identifiers.
-const uppercase = new Map(
-  Object.entries(portuguese).map(([key, value]) => [
-    key.toUpperCase(),
-    value.toUpperCase(),
-  ]),
-)
+// API identifiers remain English. Resolve display text and accessibility labels only.
+const dictionaries = { 'pt-BR': portuguese, es: spanish, 'zh-Hans': chinese }
 const escape = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-const patterns = Object.entries(portuguese)
-  .filter(([key]) => /\{\d+\}/.test(key))
-  .sort(([a], [b]) => b.replace(/\{\d+\}/g, '').length - a.replace(/\{\d+\}/g, '').length)
-  .map(([key, value]) => {
-    const indexes = [...key.matchAll(/\{(\d+)\}/g)].map((match) => match[1]!)
-    const parts = key.split(/\{\d+\}/).map(escape)
-    return {
-      expression: new RegExp('^' + parts.join('([\\s\\S]*?)') + '$'),
-      indexes,
-      value,
-    }
-  })
-
+function index(dictionary: Record<string, string>) {
+  return {
+    dictionary,
+    uppercase: new Map(
+      Object.entries(dictionary).map(([key, value]) => [
+        key.toUpperCase(),
+        value.toUpperCase(),
+      ]),
+    ),
+    patterns: Object.entries(dictionary)
+      .filter(([key]) => /\{\d+\}/.test(key))
+      .sort(
+        ([a], [b]) => b.replace(/\{\d+\}/g, '').length - a.replace(/\{\d+\}/g, '').length,
+      )
+      .map(([key, value]) => ({
+        expression: new RegExp(
+          '^' +
+            key
+              .split(/\{\d+\}/)
+              .map(escape)
+              .join('([\\s\\S]*?)') +
+            '$',
+        ),
+        indexes: [...key.matchAll(/\{(\d+)\}/g)].map((match) => match[1]!),
+        value,
+      })),
+  }
+}
+const indexed = new Map<Locale, ReturnType<typeof index>>()
 export function translate(source: unknown, locale: Locale, depth = 0): string {
   const text = String(source ?? '')
   if (locale === 'en') return text
-  if (Object.prototype.hasOwnProperty.call(portuguese, text)) return portuguese[text]!
+  let messages = indexed.get(locale)
+  if (!messages) {
+    messages = index(dictionaries[locale])
+    indexed.set(locale, messages)
+  }
+  const { dictionary, uppercase, patterns } = messages
+  if (Object.hasOwn(dictionary, text)) return dictionary[text]!
   if (!/[a-z]/i.test(text)) return text
   if (text === text.toUpperCase() && uppercase.has(text)) return uppercase.get(text)!
   if (depth < 3) {

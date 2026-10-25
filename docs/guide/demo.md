@@ -24,9 +24,9 @@ The native artwork and animation stages retain their own palettes; changing the 
 
 ## Language
 
-Studio follows the phone language by default: Portuguese uses Brazilian Portuguese, and other languages use English. Tap **Language** at the top of Studio to choose **Follow device**, **English**, or **Português**. Changes apply immediately and the choice persists after closing the app. Choosing **Follow device** removes the override; the preferred language is read again when the app resumes.
+Studio follows the phone language by default: Portuguese uses Brazilian Portuguese, Spanish variants use Spanish, and Chinese variants use Simplified Chinese; unsupported languages use English. Tap **Language** at the top of Studio to choose **Follow device**, **English**, **Português**, **Español**, or **简体中文**. Changes apply immediately and the choice persists after closing the app. Choosing **Follow device** removes the override; the preferred language is read again when the app resumes.
 
-The splash, collection, all 63 experiment presentations, controls, status messages and accessibility labels are localized. Search accepts translated or English names, with or without accents. Rolling account numbers use the selected language’s separators. Animation API identifiers such as `popIn` remain unchanged; the isolated technical playground keeps its English fixtures.
+The splash, collection, all 66 experiment presentations, controls, status messages and accessibility labels are localized. Search accepts translated or English names, with or without accents. Rolling account numbers use the selected language’s separators. Animation API identifiers such as `popIn` remain unchanged; the isolated technical playground keeps its English fixtures.
 
 <Clip name="showcase-language-ios" caption="iOS 26 simulator: real XCTest taps switch English → Portuguese, search for camera without an accent, operate the native camera lens, and switch back to English. Original timing. Separate native checks verify persistence and automatic language selection using iOS preferred-language launch settings; this does not validate Android or a physical device." />
 
@@ -199,3 +199,5 @@ The [path playground](./paths) follows a cubic curve or an arc-based orbit, with
 [Predictive back](./predictive-back) is experiment 62: native Android edge progress, cancellation, guarded return and a bilingual dusk scene.
 
 [Shared gestures](./shared-gestures) is experiment 63: image and card follow native back gestures, with cancellation and an accessible button.
+
+<Clip name="showcase-languages-ios" caption="iOS 26.2 simulator: real touches select Spanish and Simplified Chinese, open the translated collection and native scroll composition, then return to the language selector. Separate checks cover saved choices and device-language selection. Original speed; no physical-device claim." />

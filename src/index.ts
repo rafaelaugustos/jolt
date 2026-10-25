@@ -31,6 +31,13 @@ export type {
 } from './drag.js'
 export { scrollLinked } from './scroll-linked.js'
 export type { ScrollLinkedOptions } from './scroll-linked.js'
+export { scrollHeader } from './scroll-header/index.js'
+export type {
+  ScrollHeader,
+  ScrollHeaderOptions,
+  ScrollHeaderGeometry,
+  ScrollHeaderSnapshot,
+} from './scroll-header/index.js'
 export { animateItems } from './items.js'
 export type { ItemsOptions } from './items.js'
 export { followKeyboard, onKeyboard } from './keyboard.js'

@@ -35,6 +35,7 @@
 - [`sequence(steps)`](./sequences) — passos sobrepostos e posições fixas.
 - `press(target, pressed?, transition?)`
 - [`drag(target, options?)`](./drag) — com `value`, o gesto controla um [valor de movimento](./motion-values#arrastando) em vez da view.
+- [`scrollHeader(list, options)`](./scroll-header) — composição nativa para ListView do Core: capa medida, paralaxe, troca de título, seção fixa e preservação da posição dos itens.
 - [`scrollLinked(scrollView, target, keyframes, { range, axis? })`](./scroll-linked) — retorna uma função de limpeza.
 - [`animateItems(list, keyframes | preset, options?)`](./lists) — linhas conforme aparecem, com `once`; retorna uma função de limpeza.
 - [`followKeyboard(target, options?)`](./keyboard) — move uma view junto com o teclado no iOS e no Android 7+; retorna uma função de limpeza.

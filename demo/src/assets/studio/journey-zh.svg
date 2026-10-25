@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
+<rect width="300" height="300" rx="24" fill="#253b36"/>
+<path d="M210 0H300V300H230C255 258 240 221 275 173S225 90 210 0" fill="#354d4d"/>
+<g fill="#30483a"><rect x="8" y="12" width="48" height="50" rx="8"/><rect x="68" y="12" width="56" height="50" rx="8"/><rect x="136" y="12" width="53" height="50" rx="8"/><rect x="10" y="78" width="48" height="58" rx="8"/><rect x="70" y="78" width="60" height="58" rx="8"/><rect x="146" y="77" width="52" height="58" rx="8"/><rect x="10" y="154" width="49" height="58" rx="8"/><rect x="71" y="154" width="60" height="58" rx="8"/><rect x="146" y="154" width="57" height="58" rx="8"/><rect x="10" y="233" width="48" height="55" rx="8"/><rect x="70" y="233" width="61" height="55" rx="8"/><rect x="146" y="233" width="57" height="55" rx="8"/></g>
+<g stroke="#50604b" stroke-width="1" opacity=".7"><path d="M0 69H220M0 144H255M0 223H245M64 0V300M138 0V300M207 0V300"/></g>
+<path d="M32 222C77 222 87 152 142 152S232 92 262 52" stroke="#728458" stroke-width="12" fill="none" stroke-linecap="round" opacity=".25"/>
+<path d="M32 222C77 222 87 152 142 152S232 92 262 52" stroke="#b7ce85" stroke-width="2" fill="none" stroke-dasharray="3 6" stroke-linecap="round"/>
+<circle cx="262" cy="52" r="13" fill="#e8af91"/><circle cx="262" cy="52" r="4" fill="#24352d"/>
+<circle cx="32" cy="222" r="6" fill="#d3e7b2"/>
+<g fill="#60816a"><circle cx="90" cy="100" r="8"/><circle cx="110" cy="118" r="10"/><circle cx="171" cy="250" r="12"/><circle cx="181" cy="273" r="8"/></g>
+<text x="17" y="280" fill="#849782" font-size="8" font-family="Arial" letter-spacing="2">沿途风景</text>
+</svg>
