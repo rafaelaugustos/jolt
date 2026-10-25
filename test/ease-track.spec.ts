@@ -1,3 +1,4 @@
+import { maximumSampleError } from './sampling-helpers.js'
 import { describe, expect, it } from 'vitest'
 import { animate } from '../src/index.js'
 import { resolveEasing, type EasingFunction } from '../src/easing.js'
@@ -65,7 +66,7 @@ describe('easeTrack', () => {
     expect(whole.to).toBe(0)
   })
 
-  it('samples evenly in time with exact ends for native playback', () => {
+  it('samples within the error budget with exact ends for native playback', () => {
     const result = track(keyframes, {
       duration: 900,
       ease: 'easeOut',
@@ -77,7 +78,7 @@ describe('easeTrack', () => {
     expect(result.times.at(-1)).toBe(1)
     expect(result.values[0]).toBe(0)
     expect(result.values.at(-1)).toBe(0)
-    expect(result.times.length).toBeGreaterThanOrEqual(55)
+    expect(maximumSampleError(result)).toBeLessThanOrEqual(0.25)
     for (let i = 1; i < result.times.length; i++)
       expect(result.times[i]).toBeGreaterThan(result.times[i - 1]!)
   })

@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Adapt numeric native keyframes to property error budgets. Use analytical spring/decay bounds, preserve authored seams, cap setup work with an explicit fallback, and keep settlement, interruption velocity and sequence arrival unchanged. Include the bilingual curve comparison, dense-reference/native benchmarks and iOS/Android videos.
+
 - Complete scroll-to-sheet interaction replay with an independent headless contract and the production native consumption policy on iOS/Android. Capture numeric OS contacts, check both owners and cancellation, preserve fractional Android deltas, audit disposal and reject an intentionally wrong scroll checkpoint. Extend preview 57 with EN/PT controls and reviewed videos; reuse the existing native CI group. Rebuild the native app.
 
 - Add optional development interaction traces and controlled-clock replay under `@rafaelaugusto/jolt/testing` and `/testing/native`. Cover interrupted springs and cancelled drags, native presentation tolerances, cleanup, deterministic seeds and failure plots. Preserve incoming spring velocity at the exact handoff instant. Include the 57th bilingual preview, native recordings and a bounded group in the existing native CI.

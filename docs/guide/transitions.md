@@ -53,6 +53,22 @@ An easing that overshoots, like `backOut`, extends the first or last segment, as
 
 Custom easing functions run once, when the animation starts, like springs do. They don't cost anything per frame.
 
+## Adaptive keyframes
+
+Numeric curves concentrate native keyframes where they bend, instead of using a fixed 60 samples per second everywhere. A slow four-second ease can use 41 points instead of 241; a fast 300-DIP spring needs more detail, reducing its measured interpolation error from about 6.79 to 0.24 DIP. These are numerical comparisons, not frame-rate claims. Source velocity, settlement duration and the arrival used by sequences stay unchanged.
+
+<Clip name="curve-sampling-ios" caption="iOS simulator, real XCTest taps: adaptive and fixed-rate point sets both play through the native driver. The fast spring comparison is deliberately four times slower; the long glide plays at original speed. Numbers show sampled curve error in DIP, not measured screen FPS." />
+
+<Clip name="curve-sampling-android" caption="Android emulator, real ADB taps: the same native comparison, with the fast spring at quarter speed and the long glide at original speed. Point counts and numerical errors describe the prepared curves. No physical-device refresh-rate measurement." />
+
+Translation uses a **0.25 DIP** error budget; scale uses **0.001**, opacity/shadow opacity **0.002**, rotation **0.1°**, and other numeric decorations **0.1 DIP**. Multiply DIP error by screen density for physical pixels: 0.25 DIP is 0.75 pixels at 3×. Rotation and scale have geometry-dependent pixel effects. Linear segments retain their exact endpoints; authored tween times and whole-track easing seams are preserved.
+
+Springs and free exponential decays use analytical curvature bounds, including the final settlement snap. Other curves use three interior probes with a safety margin. Unknown easing callbacks additionally retain a 120 Hz seed grid. **No finite sampling strategy guarantees an arbitrary callback:** a narrow spike or extra crossing can remain unseen. Color mixing, derived mappings and retained live springs have separate execution paths.
+
+Intervals are at most 100 ms of playback. Each sampled segment has a 6,000-interval limit, a 24,000-evaluation refinement budget and depth limit 24. If refinement cannot meet its budget, Jolt falls back to the old capped uniform representation and makes no precision guarantee. Mandatory seams, authored segments, colors and expanded repeats can add points beyond that per-segment cap. This bounds setup work; difficult curves can increase preparation cost and memory. The improvement is precision where needed and smaller native payloads for smooth curves, not a universal CPU reduction.
+
+Experiment **58 — Curve precision** includes the comparison and native probes. The probes inspect native positions at 60/120 Hz logical timestamps; Android seek uses integer milliseconds, recorded separately from the requested time. This does not certify physical 120 Hz rendering. See [measurements, limits and reproduction](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/curve-sampling.md).
+
 ## Per property
 
 ```ts

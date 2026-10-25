@@ -1,3 +1,4 @@
+import { maximumSampleError } from './sampling-helpers.js'
 import { describe, expect, it } from 'vitest'
 import { createTrack } from '../src/track.js'
 import { resolveTransition, type Transition } from '../src/transition.js'
@@ -35,8 +36,8 @@ describe('tween tracks', () => {
     const eased = track([0, 100], { duration: 500, ease: 'easeInOut' })
     const linear = track([0, 100, 0], { duration: 500, ease: 'linear' })
 
-    expect(eased.values).toHaveLength(31)
-    expect(eased.values[15]).toBeCloseTo(50, 1)
+    expect(maximumSampleError(eased)).toBeLessThanOrEqual(0.25)
+    expect(eased.valueAt(250)).toBeCloseTo(50, 1)
     expect(linear.times).toEqual([0, 0.5, 1])
     expect(linear.values).toEqual([0, 100, 0])
   })
@@ -106,7 +107,7 @@ describe('spring tracks', () => {
     expect(t.values.at(-1)).toBe(100)
     expect(t.times.at(-1)).toBe(1)
     expect(t.valueAt(t.end)).toBe(100)
-    expect(t.values.length).toBeGreaterThan((t.duration / 1000) * 60)
+    expect(maximumSampleError(t)).toBeLessThanOrEqual(0.25)
   })
 
   it('carries the velocity it is given, unless the transition sets one', () => {

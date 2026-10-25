@@ -1,0 +1,80 @@
+[
+  {
+    "name": "gentle 300 DIP",
+    "durationMs": 909,
+    "arrivalMs": 462.7636363636363,
+    "initialVelocity": -0.028709594118936366
+  },
+  {
+    "name": "bouncy 300 DIP",
+    "durationMs": 984,
+    "arrivalMs": 459.2,
+    "initialVelocity": -0.02236363513929973
+  },
+  {
+    "name": "fast 300 DIP",
+    "durationMs": 367,
+    "arrivalMs": 175.52173913043478,
+    "initialVelocity": -0.4650909369274814
+  },
+  {
+    "name": "interrupted 3000 DIP/s",
+    "durationMs": 684,
+    "arrivalMs": 276.85714285714283,
+    "initialVelocity": 2999.961782492562
+  },
+  {
+    "name": "underdamped long tail",
+    "durationMs": 4659,
+    "arrivalMs": 1963.4357142857143,
+    "initialVelocity": -0.0037499910376936896
+  },
+  {
+    "name": "overdamped",
+    "durationMs": 2134,
+    "arrivalMs": 926.3875968992248,
+    "initialVelocity": -0.09922282737306887
+  },
+  {
+    "name": "slow ease 4 seconds",
+    "durationMs": 4000,
+    "arrivalMs": 4000,
+    "initialVelocity": 0
+  },
+  {
+    "name": "sharp circle",
+    "durationMs": 180,
+    "arrivalMs": 180,
+    "initialVelocity": 0
+  },
+  {
+    "name": "explicit keyframes",
+    "durationMs": 1800,
+    "arrivalMs": 1800,
+    "initialVelocity": 0
+  },
+  {
+    "name": "opacity",
+    "durationMs": 359,
+    "arrivalMs": 179.5,
+    "initialVelocity": -0.0015503031233210507
+  },
+  {
+    "name": "scale",
+    "durationMs": 367,
+    "arrivalMs": 175.52173913043478,
+    "initialVelocity": -0.0015503031233210507
+  },
+  {
+    "name": "rotation",
+    "durationMs": 467,
+    "arrivalMs": 177.13793103448276,
+    "initialVelocity": -0.27905456215648883
+  },
+  {
+    "name": "custom oscillation",
+    "durationMs": 1200,
+    "arrivalMs": 1200,
+    "initialVelocity": 0
+  }
+]

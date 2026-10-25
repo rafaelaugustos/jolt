@@ -50,3 +50,5 @@ Os artefatos `native-ios` e `native-android` guardam JSON, logs e uma captura fi
 O grupo de replay executa três traces fixos no motor controlado e na apresentação nativa, além de rejeitar um checkpoint propositalmente errado. Usa o job existente, sem espera pelo tempo real de repouso. Falhas incluem JSON e gráfico SVG, coletados apenas para o ID da execução atual. Veja a [validação do replay](./interaction-replay.md).
 
 The scroll→sheet portion exercises the production native gesture consumption code and takes about 3 seconds locally (including an independent reference and native negative control). It checks both positions, cancellation, contact rebasing and fractional-pixel accumulation; see [handoff validation](./scroll-handoff.md).
+
+The same replay group also verifies [adaptive curve sampling](./curve-sampling.md) at 60/120 Hz logical presentation times, with integer-millisecond Android seeks, interruption continuity and a negative control. The added portion took about 0.8 seconds locally; it does not create another workflow or emulator.

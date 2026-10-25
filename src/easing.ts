@@ -20,6 +20,9 @@ export type EasingName =
 export type Easing = EasingName | CubicBezier | EasingFunction
 
 export const linear: EasingFunction = (p) => p
+const builtins = new WeakSet<EasingFunction>([linear])
+/** Internal sampler hint. Arbitrary callbacks are never assumed to be band limited. */
+export const isBuiltinEasing = (ease: EasingFunction) => builtins.has(ease)
 
 export function cubicBezier(x1: number, y1: number, x2: number, y2: number) {
   if (x1 === y1 && x2 === y2) return linear
@@ -58,7 +61,9 @@ export function cubicBezier(x1: number, y1: number, x2: number, y2: number) {
     return t
   }
 
-  return (p: number) => (p <= 0 ? 0 : p >= 1 ? 1 : sampleY(solveX(p)))
+  const result = (p: number) => (p <= 0 ? 0 : p >= 1 ? 1 : sampleY(solveX(p)))
+  builtins.add(result)
+  return result
 }
 
 const backIn = cubicBezier(0.36, 0, 0.66, -0.56)
@@ -102,6 +107,7 @@ const easings: Record<EasingName, EasingFunction> = {
   ...family('sine', (p) => (p >= 1 ? 1 : 1 - Math.cos((p * Math.PI) / 2))),
   ...family('expo', (p) => (p <= 0 ? 0 : 2 ** (10 * p - 10))),
 }
+Object.values(easings).forEach((ease) => builtins.add(ease))
 
 export function resolveEasing(easing: Easing): EasingFunction {
   if (typeof easing === 'function') return easing

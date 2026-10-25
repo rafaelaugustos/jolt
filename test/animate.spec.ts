@@ -1,3 +1,4 @@
+import { maximumSampleError } from './sampling-helpers.js'
 import { describe, expect, it } from 'vitest'
 import { animate, stop } from '../src/index.js'
 import { createView, driver, flush, state } from './helpers.js'
@@ -57,7 +58,7 @@ describe('animate', () => {
 
     animate(view, { y: 100, opacity: 0 })
 
-    expect(driver.last('y').track.values.length).toBeGreaterThan(20)
+    expect(maximumSampleError(driver.last('y').track)).toBeLessThanOrEqual(0.25)
     expect(driver.last('opacity').track.duration).toBe(300)
   })
 
@@ -334,7 +335,7 @@ describe('presets', () => {
     expect(driver.last('opacity').track.duration).toBe(300)
     expect(driver.last('y').track.values[0]).toBe(24)
     expect(driver.last('y').track.to).toBe(0)
-    expect(driver.last('y').track.values.length).toBeGreaterThan(20)
+    expect(maximumSampleError(driver.last('y').track)).toBeLessThanOrEqual(0.25)
   })
 
   it('keep their curves when only timing is given', () => {

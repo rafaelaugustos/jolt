@@ -1,3 +1,4 @@
+import { maximumSampleError } from './sampling-helpers.js'
 import { describe, expect, it } from 'vitest'
 import {
   animate,
@@ -46,7 +47,7 @@ describe('time scale', () => {
     expect(track.velocityAt(500)).toBeCloseTo(driver.played[0]!.track.velocityAt(250) / 2)
   })
 
-  it('plays the same spring trajectory more slowly, keeping its sample density', () => {
+  it('plays the same spring trajectory more slowly within the same error budget', () => {
     animate(createView(), { x: 100 }, 'bouncy')
     const reference = driver.last('x').track
     configure({ timeScale: 0.2 })
@@ -54,7 +55,7 @@ describe('time scale', () => {
     const slowed = driver.last('x').track
     expect(slowed.duration).toBeCloseTo(reference.duration * 5)
     expect(slowed.arrival).toBeCloseTo(reference.arrival * 5)
-    expect(slowed.values.length).toBeGreaterThan(reference.values.length * 4)
+    expect(maximumSampleError(slowed, 1)).toBeLessThanOrEqual(0.25)
     for (const time of [100, 500, 1200]) {
       expect(slowed.valueAt(time * 5)).toBeCloseTo(reference.valueAt(time), 3)
     }

@@ -1,6 +1,6 @@
 # Como funciona
 
-Quando uma animação começa, o Jolt resolve de onde cada propriedade parte (o valor na tela, ou os keyframes que você deu), e calcula a curva inteira: easing, keyframes, física do spring e desaceleração exponencial. Ele amostra a curva 60 vezes por segundo de movimento, e mantém os tempos dos keyframes exatos. Trechos numéricos lineares usam só os extremos. Segmentos longos de tween e decays livres limitam a amostragem a 6.001 keyframes. Cores acrescentam amostras intermediárias em OKLab mesmo com timing linear.
+Quando a animação começa, o Jolt resolve os valores iniciais e calcula a curva original. Springs, decays e tweens numéricos usam [keyframes adaptativos](./transitions#keyframes-adaptativos), concentrando detalhe onde a interpolação linear precisa dele. Tempos dos keyframes definidos pelo app continuam exatos, e trechos numéricos retos usam apenas os extremos. Estabilização dos springs, velocidade nas interrupções e chegada das sequências mantêm o contrato de tempo anterior. Mistura de cores e mapeamentos compostos de motion values conservam suas políticas próprias de amostragem.
 
 As amostras vão para a plataforma de uma vez:
 

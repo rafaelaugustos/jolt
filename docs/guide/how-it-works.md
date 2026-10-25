@@ -1,6 +1,6 @@
 # How it works
 
-When an animation starts, Jolt resolves where each property starts from (the value on screen, or the keyframes you gave), and computes the whole curve: easing, keyframes, spring physics and exponential decay. It samples the curve 60 times per second of motion, and keeps keyframe times exact. Linear numeric segments use only their endpoints. Long tween segments and free decays cap sampling at 6,001 keyframes. Color tracks add intermediate OKLab samples even with linear timing.
+When an animation starts, Jolt resolves the starting values and computes the source curve. Numeric springs, decays and tweens use [adaptive keyframes](./transitions#adaptive-keyframes), concentrating detail where linear interpolation needs it. Authored keyframe times stay exact and straight numeric segments keep only their endpoints. Spring settlement, interruption velocity and sequence arrival retain their previous timing contract. Color mixing and composed motion-value mappings keep their separate sampling policies.
 
 The samples go to the platform in one go:
 

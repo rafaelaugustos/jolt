@@ -1,3 +1,4 @@
+import { maximumSampleError } from './sampling-helpers.js'
 import { describe, expect, it } from 'vitest'
 import { animate, decay, sequence, stop } from '../src/index.js'
 import { solveDecay } from '../src/decay.js'
@@ -56,7 +57,7 @@ describe('decay', () => {
     expect(track.values[0]).toBe(40)
     expect(track.to).toBeCloseTo(639.3998, 3)
     expect(track.values.at(-1)).toBe(track.to)
-    expect(track.values.length).toBeGreaterThan((track.duration / 1000) * 60)
+    expect(maximumSampleError(track)).toBeLessThanOrEqual(0.25)
     expect(track.times[0]).toBe(0)
     expect(track.times.at(-1)).toBe(1)
     expect(track.times).toHaveLength(track.values.length)

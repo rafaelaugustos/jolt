@@ -53,6 +53,22 @@ Um easing que passa do ponto, como `backOut`, estende o primeiro ou o último tr
 
 Funções de easing customizadas rodam uma vez, quando a animação começa, como os springs. Não custam nada por frame.
 
+## Keyframes adaptativos
+
+Curvas numéricas concentram keyframes nativos onde precisam de detalhe, em vez de usar 60 amostras por segundo em todos os trechos. Um easing suave de quatro segundos pode usar 41 pontos em vez de 241; uma spring rápida de 300 DIP precisa de mais pontos, reduzindo o erro medido de interpolação de aproximadamente 6,79 para 0,24 DIP. São comparações numéricas, não medições de FPS. Velocidade original, duração de estabilização e chegada usada pelas sequências permanecem iguais.
+
+<Clip name="curve-sampling-ios" caption="Simulador iOS com toques reais do XCTest: os pontos adaptativos e os de taxa fixa são reproduzidos pelo driver nativo. A comparação da spring rápida está quatro vezes mais lenta; a curva longa mantém a velocidade original. Os números mostram erro amostrado em DIP, não FPS medidos." />
+
+<Clip name="curve-sampling-android" caption="Emulador Android com toques reais via ADB: a mesma comparação nativa, com a spring a um quarto da velocidade e a curva longa em velocidade original. Quantidade de pontos e erros numéricos descrevem as curvas preparadas. Não é uma medição da taxa de atualização em aparelho físico." />
+
+O orçamento de erro é **0,25 DIP** para translação, **0,001** para escala, **0,002** para opacidade e opacidade de sombra, **0,1°** para rotação e **0,1 DIP** para as demais decorações numéricas. Multiplique o erro em DIP pela densidade da tela para obter pixels físicos: 0,25 DIP equivale a 0,75 pixels em 3×. Os efeitos de rotação e escala em pixels dependem da geometria. Trechos lineares mantêm extremos exatos; tempos dos tweens e pontos de mudança sob easing global são preservados.
+
+Springs e decays exponenciais livres usam limites analíticos de curvatura, incluindo o ajuste final ao alvo. As outras curvas usam três verificações internas com margem. Callbacks desconhecidos de easing mantêm também uma grade inicial de 120 Hz. **Uma função arbitrária não tem garantia matemática com amostragem finita:** um pico estreito ou cruzamento extra pode passar despercebido. Mistura de cores, mapeamentos derivados e springs nativos retidos têm caminhos próprios.
+
+Os intervalos têm no máximo 100 ms de playback. Cada segmento amostrado limita o refinamento a 6.000 intervalos, 24.000 avaliações e profundidade 24. Se o orçamento não puder ser atendido, o Jolt usa a representação uniforme anterior com limite e não promete a precisão solicitada. Pontos obrigatórios, segmentos definidos pelo app, cores e repetições expandidas podem acrescentar pontos além desse limite por segmento. Curvas difíceis podem aumentar o custo de preparação e memória. O ganho está na precisão onde necessária e em menos dados nativos para curvas suaves; não é uma redução universal de CPU.
+
+O experimento **58 — Precisão das curvas** traz a comparação e os probes nativos. Eles verificam posições nativas em instantes lógicos de 60/120 Hz; o seek no Android usa milissegundos inteiros, registrados separadamente do tempo solicitado. Isso não certifica renderização física a 120 Hz. Veja [medições, limites e reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/curve-sampling.md).
+
 ## Por propriedade
 
 ```ts

@@ -1,0 +1,293 @@
+{
+  "node": "v22.23.3",
+  "referenceStepMs": 0.1,
+  "notes": "Host numerical and retained-JS-heap measurements with GC; not native allocation or display frame-rate measurements. Timing excludes transition resolution.",
+  "results": [
+    {
+      "name": "gentle 300 DIP",
+      "property": "x",
+      "configuration": {
+        "frames": [0, 300],
+        "transition": {
+          "type": "spring",
+          "duration": 600,
+          "bounce": 0
+        },
+        "velocity": 0
+      },
+      "durationMs": 909,
+      "arrivalMs": 462.7636363636363,
+      "initialVelocity": -0.028709594118936366,
+      "keyframes": 47,
+      "scalarPayloadBytes": 752,
+      "maxError": 0.2311950236871212,
+      "preparationMedianMs": 0.0062950819999999935,
+      "retainedHeapBytesPerTrack": 2689.592,
+      "checksum": 164641
+    },
+    {
+      "name": "bouncy 300 DIP",
+      "property": "x",
+      "configuration": {
+        "frames": [0, 300],
+        "transition": {
+          "type": "spring",
+          "duration": 550,
+          "bounce": 0.4
+        },
+        "velocity": 0
+      },
+      "durationMs": 984,
+      "arrivalMs": 459.2,
+      "initialVelocity": -0.02236363513929973,
+      "keyframes": 66,
+      "scalarPayloadBytes": 1056,
+      "maxError": 0.20959557322453293,
+      "preparationMedianMs": 0.012827832,
+      "retainedHeapBytesPerTrack": 2772.704,
+      "checksum": 231198
+    },
+    {
+      "name": "fast 300 DIP",
+      "property": "x",
+      "configuration": {
+        "frames": [0, 300],
+        "transition": {
+          "type": "spring",
+          "duration": 200,
+          "bounce": 0.4
+        },
+        "velocity": 0
+      },
+      "durationMs": 367,
+      "arrivalMs": 175.52173913043478,
+      "initialVelocity": -0.4650909369274814,
+      "keyframes": 70,
+      "scalarPayloadBytes": 1120,
+      "maxError": 0.2423357720764443,
+      "preparationMedianMs": 0.008305334000000017,
+      "retainedHeapBytesPerTrack": 2755.448,
+      "checksum": 245210
+    },
+    {
+      "name": "interrupted 3000 DIP/s",
+      "property": "x",
+      "configuration": {
+        "frames": [0, 300],
+        "transition": {
+          "type": "spring",
+          "duration": 400,
+          "bounce": 0.3
+        },
+        "velocity": 3000
+      },
+      "durationMs": 684,
+      "arrivalMs": 276.85714285714283,
+      "initialVelocity": 2999.961782492562,
+      "keyframes": 53,
+      "scalarPayloadBytes": 848,
+      "maxError": 0.2228858361413586,
+      "preparationMedianMs": 0.008927833999999961,
+      "retainedHeapBytesPerTrack": 2770.872,
+      "checksum": 185659
+    },
+    {
+      "name": "underdamped long tail",
+      "property": "x",
+      "configuration": {
+        "frames": [0, 300],
+        "transition": {
+          "type": "spring",
+          "stiffness": 100,
+          "damping": 3,
+          "mass": 1
+        },
+        "velocity": 0
+      },
+      "durationMs": 4659,
+      "arrivalMs": 1963.4357142857143,
+      "initialVelocity": -0.0037499910376936896,
+      "keyframes": 238,
+      "scalarPayloadBytes": 3808,
+      "maxError": 0.2320417255560301,
+      "preparationMedianMs": 0.05089916600000004,
+      "retainedHeapBytesPerTrack": 7315.496,
+      "checksum": 833714
+    },
+    {
+      "name": "overdamped",
+      "property": "x",
+      "configuration": {
+        "frames": [0, 300],
+        "transition": {
+          "type": "spring",
+          "duration": 500,
+          "bounce": -0.5
+        },
+        "velocity": 0
+      },
+      "durationMs": 2134,
+      "arrivalMs": 926.3875968992248,
+      "initialVelocity": -0.09922282737306887,
+      "keyframes": 49,
+      "scalarPayloadBytes": 784,
+      "maxError": 0.24455829301012955,
+      "preparationMedianMs": 0.011922583999999915,
+      "retainedHeapBytesPerTrack": 2754.152,
+      "checksum": 171647
+    },
+    {
+      "name": "slow ease 4 seconds",
+      "property": "x",
+      "configuration": {
+        "frames": [0, 300],
+        "transition": {
+          "duration": 4000,
+          "ease": "easeInOut"
+        },
+        "velocity": 0
+      },
+      "durationMs": 4000,
+      "arrivalMs": 4000,
+      "initialVelocity": 0,
+      "keyframes": 41,
+      "scalarPayloadBytes": 656,
+      "maxError": 0.10398697241468469,
+      "preparationMedianMs": 0.006894250000000057,
+      "retainedHeapBytesPerTrack": 1656.064,
+      "checksum": 143623
+    },
+    {
+      "name": "sharp circle",
+      "property": "x",
+      "configuration": {
+        "frames": [0, 300],
+        "transition": {
+          "duration": 180,
+          "ease": "circIn"
+        },
+        "velocity": 0
+      },
+      "durationMs": 180,
+      "arrivalMs": 180,
+      "initialVelocity": 0,
+      "keyframes": 71,
+      "scalarPayloadBytes": 1136,
+      "maxError": 0.11723242707608961,
+      "preparationMedianMs": 0.009646915999999919,
+      "retainedHeapBytesPerTrack": 2296.064,
+      "checksum": 248713
+    },
+    {
+      "name": "explicit keyframes",
+      "property": "x",
+      "configuration": {
+        "frames": [0, 300, -50, 0],
+        "transition": {
+          "duration": 1800,
+          "ease": ["easeIn", "backOut", "easeOut"],
+          "times": [0, 0.13, 0.72, 1]
+        },
+        "velocity": 0
+      },
+      "durationMs": 1800,
+      "arrivalMs": 1800,
+      "initialVelocity": 0,
+      "keyframes": 104,
+      "scalarPayloadBytes": 1664,
+      "maxError": 0.12304203355282795,
+      "preparationMedianMs": 0.023527831999999988,
+      "retainedHeapBytesPerTrack": 3280.096,
+      "checksum": 364312
+    },
+    {
+      "name": "opacity",
+      "property": "opacity",
+      "configuration": {
+        "frames": [0, 1],
+        "transition": {
+          "type": "spring",
+          "duration": 200,
+          "bounce": 0.4
+        },
+        "velocity": 0
+      },
+      "durationMs": 359,
+      "arrivalMs": 179.5,
+      "initialVelocity": -0.0015503031233210507,
+      "keyframes": 44,
+      "scalarPayloadBytes": 704,
+      "maxError": 0.0013341890233533604,
+      "preparationMedianMs": 0.007019999999999982,
+      "retainedHeapBytesPerTrack": 2162.944,
+      "checksum": 154132
+    },
+    {
+      "name": "scale",
+      "property": "scaleX",
+      "configuration": {
+        "frames": [0.5, 1.5],
+        "transition": {
+          "type": "spring",
+          "duration": 200,
+          "bounce": 0.4
+        },
+        "velocity": 0
+      },
+      "durationMs": 367,
+      "arrivalMs": 175.52173913043478,
+      "initialVelocity": -0.0015503031233210507,
+      "keyframes": 63,
+      "scalarPayloadBytes": 1008,
+      "maxError": 0.0008458606573753524,
+      "preparationMedianMs": 0.008397249999999985,
+      "retainedHeapBytesPerTrack": 2834.352,
+      "checksum": 220689
+    },
+    {
+      "name": "rotation",
+      "property": "rotate",
+      "configuration": {
+        "frames": [0, 180],
+        "transition": {
+          "type": "spring",
+          "duration": 200,
+          "bounce": 0.4
+        },
+        "velocity": 0
+      },
+      "durationMs": 467,
+      "arrivalMs": 177.13793103448276,
+      "initialVelocity": -0.27905456215648883,
+      "keyframes": 85,
+      "scalarPayloadBytes": 1360,
+      "maxError": 0.07038532137224252,
+      "preparationMedianMs": 0.01131241799999998,
+      "retainedHeapBytesPerTrack": 2803.448,
+      "checksum": 297755
+    },
+    {
+      "name": "custom oscillation",
+      "property": "x",
+      "configuration": {
+        "frames": [0, 300],
+        "transition": {
+          "duration": 1200
+        },
+        "velocity": 0
+      },
+      "durationMs": 1200,
+      "arrivalMs": 1200,
+      "initialVelocity": 0,
+      "keyframes": 481,
+      "scalarPayloadBytes": 7696,
+      "maxError": 0.09844889728935868,
+      "preparationMedianMs": 0.0934856679999998,
+      "retainedHeapBytesPerTrack": 10168.064,
+      "checksum": 1684943
+    }
+  ],
+  "source": "dbdfbe0, working tree for #61",
+  "capturedAt": "2026-10-25",
+  "host": "Apple Silicon macOS, Node 22.23.3"
+}
