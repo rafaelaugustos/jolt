@@ -2,8 +2,8 @@
 
 Keep the inputs that reproduced a bug, freeze their expected motion, and replay them against the next build. The optional **@rafaelaugusto/jolt/testing** entry provides a versioned numeric trace, an opt-in recorder and an adapter-based runner. **@rafaelaugusto/jolt/testing/native** adds a controlled Jolt driver, Core pan capture and native presentation reads.
 
-::: warning Development preview
-This checkout prepares the replay tools for beta.18; published beta.17 does not contain these entries. Use them in an isolated development fixture. They are not production telemetry and do not install observers merely by being imported.
+::: warning Development tools
+Available since **0.1.0-beta.18** in the core package. Rebuild the native app for the native replay helpers. Use these entries in an isolated development fixture. They are not production telemetry and do not install observers merely by being imported.
 :::
 
 <Clip name="interaction-replay-ios" caption="iOS simulator, real XCTest taps and drag: accept a spring take, replay it, detect a deliberately wrong checkpoint, then cancel and replay a drag. Replay uses recorded logical time; its wall-clock duration is not a performance measurement." />

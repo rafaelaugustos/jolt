@@ -2,8 +2,8 @@
 
 Select a view, see which animation owns its properties, and compare the expected curve with native observations. Experiment **59 — Motion inspector** also tunes a spring, replays it and copies the TypeScript needed to reproduce it.
 
-::: warning Development preview
-This entry is part of the upcoming beta.18, not published beta.17. Rebuild the native app for the new probe. Keep the inspector import inside a development entry that your production build excludes.
+::: warning Development only
+Available since **0.1.0-beta.18** in the core package. Rebuild the native app for the probe. Keep the inspector import inside a development entry that your production build excludes.
 :::
 
 <Clip name="motion-inspector-ios" caption="iOS simulator with actual XCTest taps: inspect an interruption, tune and replay a spring, hold its playback, inspect delayed/layered/bound motion and copy TypeScript. Lime is the engine model; pink is the sampled CALayer presentation. Original capture timing, not a physical-display performance measurement." />

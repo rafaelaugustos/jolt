@@ -46,9 +46,20 @@ features:
     link: /guide/scene-camera
 ---
 
-## New in 0.1.0-beta.17
+## New in 0.1.0-beta.18
 
-[Bottom sheet](/guide/bottom-sheet) coordinates dragging, scrolling and the keyboard; [list reordering](/guide/reorder) moves items through recycled cells with native edge scrolling. On iOS, [environment and shaders](/guide/scene-shaders) receive intensity and typed uniforms through native playback. The [preview](/guide/demo) brings together 55 examples, English/Portuguese and light/dark themes. [Install the release](/guide/install) or read the [release notes](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-beta.17).
+[Shared layouts](/guide/shared-layout) move stable elements between layouts within one page. [Interaction replay](/guide/interaction-replay) turns interrupted springs, cancelled drags and scroll-to-sheet handoffs into regression traces. [Adaptive sampling](/guide/transitions) places native keyframes where the curve needs them, while the [motion inspector](/guide/motion-inspector) shows ownership and native observations, tunes a spring and copies TypeScript. The [preview](/guide/demo) now has 59 examples in English and Portuguese. [Install the release](/guide/install) or read the [release notes](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-beta.18).
+
+<div class="clips">
+<Clip name="shared-layout-ios" caption="Shared tab indicator, expanding album cover and rapid reversal. Real OS input on an iOS simulator, at original timing." />
+<Clip name="scroll-handoff-replay-android" caption="Record a scroll-to-sheet handoff, replay it and detect an intentionally wrong checkpoint. Real ADB interaction on an Android emulator; held-contact replay is not an OS recognizer test." />
+<Clip name="curve-sampling-ios" caption="Adaptive and fixed-rate curves through native playback on an iOS simulator. The fast spring is deliberately four times slower; numbers describe curve error, not FPS." />
+<Clip name="motion-inspector-android" caption="Inspect ownership, tune and hold a spring, then copy its TypeScript. Actual Android emulator input; native View observations do not measure GPU presentation or physical-device FPS." />
+</div>
+
+## Bottom sheet, lists and SceneKit
+
+[Bottom sheet](/guide/bottom-sheet) coordinates dragging, scrolling and the keyboard; [list reordering](/guide/reorder) moves items through recycled cells with native edge scrolling. On iOS, [environment and shaders](/guide/scene-shaders) receive intensity and typed uniforms through native playback. The preview also supports light/dark/system appearance.
 
 <div class="clips">
 <Clip name="bottom-sheet-ios" caption="Dragging, scroll handoff, content growth and keyboard following. Real XCTest input on an iOS 26 simulator." />

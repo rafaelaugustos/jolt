@@ -5,7 +5,7 @@ Anime intensidade/cor de luz, transparência de material e cores sólidas de dif
 Disponível desde a **0.1.0-beta.14**. Instale versões correspondentes do core e do runtime nativo opcional e recompile o aplicativo iOS:
 
 ```sh
-npm install @rafaelaugusto/jolt@0.1.0-beta.17 @rafaelaugusto/jolt-native@0.1.0-beta.17
+npm install @rafaelaugusto/jolt@0.1.0-beta.18 @rafaelaugusto/jolt-native@0.1.0-beta.18
 ```
 
 <Clip name="scene-lighting-ios" caption="Simulador iPhone 17, iOS 26: renderização SceneKit real e toques do XCTest. Câmera, pintura, vidro e iluminação compartilham bindings nativos; uma camada escalar de carga soma um pulso enquanto a base continua. Inclui pausa/retomada, seek nos playbacks filhos e descarte/recriação da cena. Reprodução em tempo real na thread principal; não é gravação de aparelho físico." />

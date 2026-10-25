@@ -46,9 +46,20 @@ features:
     link: /pt-BR/guide/scene-camera
 ---
 
-## Novidades da 0.1.0-beta.17
+## Novidades da 0.1.0-beta.18
 
-[Bottom sheet](/pt-BR/guide/bottom-sheet) coordena arrasto, scroll e teclado; [reordenação de listas](/pt-BR/guide/reorder) move itens entre células recicladas com rolagem automática nativa. No iOS, [ambiente e shaders](/pt-BR/guide/scene-shaders) recebem intensidade e uniforms tipados pelo player nativo. O [preview](/pt-BR/guide/demo) reúne 55 exemplos, português/inglês e temas claro/escuro. [Instale a versão](/pt-BR/guide/install) ou leia as [notas do release](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-beta.17).
+[Layouts compartilhados](/pt-BR/guide/shared-layout) movem elementos com identidade estável entre layouts da mesma página. O [replay de interações](/pt-BR/guide/interaction-replay) transforma springs interrompidas, arrastos cancelados e transferências entre scroll e sheet em testes de regressão. A [amostragem adaptativa](/pt-BR/guide/transitions) concentra keyframes nativos onde a curva precisa, enquanto o [inspetor de movimento](/pt-BR/guide/motion-inspector) mostra quem controla cada propriedade, compara observações nativas, ajusta uma spring e copia o TypeScript. O [preview](/pt-BR/guide/demo) agora tem 59 exemplos em português e inglês. [Instale a versão](/pt-BR/guide/install) ou leia as [notas do release](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-beta.18).
+
+<div class="clips">
+<Clip name="shared-layout-ios" caption="Indicador de aba compartilhado, expansão da capa do álbum e inversão rápida. Entrada real do SO em simulador iOS, na velocidade original." />
+<Clip name="scroll-handoff-replay-android" caption="Gravação da transferência entre scroll e sheet, replay e detecção de checkpoint errado de propósito. Interação real via ADB no emulador Android; o replay de contato mantido não testa o reconhecedor do SO." />
+<Clip name="curve-sampling-ios" caption="Curvas adaptativas e de taxa fixa pelo player nativo no simulador iOS. A spring rápida está quatro vezes mais lenta de propósito; os números descrevem erro da curva, não FPS." />
+<Clip name="motion-inspector-android" caption="Inspeção de controle das propriedades, ajuste e pausa de uma spring, com cópia do TypeScript. Entrada real no emulador Android; observações da View nativa não medem apresentação da GPU nem FPS de aparelho físico." />
+</div>
+
+## Bottom sheet, listas e SceneKit
+
+[Bottom sheet](/pt-BR/guide/bottom-sheet) coordena arrasto, scroll e teclado; [reordenação de listas](/pt-BR/guide/reorder) move itens entre células recicladas com rolagem automática nativa. No iOS, [ambiente e shaders](/pt-BR/guide/scene-shaders) recebem intensidade e uniforms tipados pelo player nativo. O preview também oferece aparência clara, escura ou do sistema.
 
 <div class="clips">
 <Clip name="bottom-sheet-ios" caption="Arrasto, transferência para o scroll, crescimento do conteúdo e teclado. Entrada real via XCTest em simulador iOS 26." />

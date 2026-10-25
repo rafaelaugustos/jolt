@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 0.1.0-beta.18 (2026-10-25)
+
+- Publish matching core and optional native packages with 59 bilingual preview examples and reviewed iOS/Android recordings. Rebuild the native application after upgrading.
+
 - Add the optional development-only `@rafaelaugusto/jolt/inspector` entry: read-only view selection, property ownership/timing, binding graphs, bounded native observation batches, explicit finite-playback scrubbing and reproducible spring tuning. Include the 59th bilingual preview, native overhead/cleanup checks and real iOS/Android recordings. Rebuild the native app for the new dormant probe classes.
 
 - Adapt numeric native keyframes to property error budgets. Use analytical spring/decay bounds, preserve authored seams, cap setup work with an explicit fallback, and keep settlement, interruption velocity and sequence arrival unchanged. Include the bilingual curve comparison, dense-reference/native benchmarks and iOS/Android videos.

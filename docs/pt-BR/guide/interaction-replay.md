@@ -2,8 +2,8 @@
 
 Guarde as entradas que reproduziram um bug, fixe o movimento esperado e teste o próximo build com elas. A entrada opcional **@rafaelaugusto/jolt/testing** oferece trace numérico versionado, gravação explícita e runner com adaptadores. **@rafaelaugusto/jolt/testing/native** adiciona relógio controlado do Jolt, captura de pan do Core e leitura da apresentação nativa.
 
-::: warning Prévia de desenvolvimento
-Este checkout prepara as ferramentas de replay para beta.18; os pacotes publicados de beta.17 não incluem essas entradas. Use em um ambiente isolado de desenvolvimento. Não é telemetria de produção e importar o módulo não instala observadores.
+::: warning Ferramentas de desenvolvimento
+Disponíveis desde a **0.1.0-beta.18**, no pacote principal. Recompile o app nativo para incluir os auxiliares de replay nativo. Use essas entradas em um ambiente isolado de desenvolvimento. Não é telemetria de produção e importar o módulo não instala observadores.
 :::
 
 <Clip name="interaction-replay-ios" caption="Simulador iOS com toques e drag reais do XCTest: aceitar a gravação de um spring, reproduzir, detectar um checkpoint propositalmente errado e cancelar/reproduzir um drag. O replay usa tempo lógico gravado; sua duração não mede desempenho." />
