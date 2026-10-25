@@ -1,3 +1,4 @@
+import ScrollHeaderLab from '../components/ScrollHeaderLab.vue'
 import ReturnTargetsLab from '../components/ReturnTargetsLab.vue'
 import GalleryLab from '../components/GalleryLab.vue'
 import SharedEntryLab from '../components/SharedEntryLab.vue'
@@ -71,6 +72,15 @@ export const categories = [
   'SceneKit',
 ] as const
 export const examples = [
+  {
+    id: 'scroll-header',
+    title: 'Made to scroll',
+    category: 'Layout',
+    description: 'One scroll. Everything in its place.',
+    component: markRaw(ScrollHeaderLab),
+    full: true,
+    ios: false,
+  },
   {
     id: 'gallery',
     title: 'The living gallery',

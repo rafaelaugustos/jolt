@@ -1,4 +1,5 @@
 module JoltMotion {
+    header "JoltScrollHeader.h"
     header "JoltImageEffect.h"
     header "JoltPhotoZoom.h"
     header "JoltInteractiveAnimation.h"

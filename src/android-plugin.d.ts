@@ -1,4 +1,27 @@
 declare namespace org.rafaelaugusto.jolt {
+  class ScrollHeader {
+    constructor(
+      list: android.widget.ListView,
+      node: LiveSpring,
+      title: android.view.View,
+      toolbarTitle: android.view.View,
+      toolbar: android.view.View,
+      diagnostic: android.view.View | null,
+      options: string,
+      listener: ScrollHeader.Listener,
+    )
+    static activeCount(): number
+    configure(options: string): void
+    snapshot(): string
+    scroll(offset: number, animated: boolean): void
+    setEnabled(value: boolean): void
+    dispose(): void
+  }
+  namespace ScrollHeader {
+    class Listener {
+      constructor(implementation: { changed(): void })
+    }
+  }
   class MotionProbe {
     static start(view: android.view.View, capacity: number, hertz: number): MotionProbe
     static activeCount(): number

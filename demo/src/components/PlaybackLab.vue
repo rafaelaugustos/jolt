@@ -337,9 +337,9 @@ const props = defineProps<{ embedded?: boolean }>()
         >
           <SVGView
             :src="
-              locale === 'pt-BR'
-                ? '~/assets/studio/journey-pt.svg'
-                : '~/assets/studio/journey.svg'
+              '~/assets/studio/journey' +
+              { en: '', 'pt-BR': '-pt', es: '-es', 'zh-Hans': '-zh' }[locale] +
+              '.svg'
             "
             width="300"
             height="300"

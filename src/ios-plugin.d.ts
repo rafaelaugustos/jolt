@@ -1,3 +1,21 @@
+declare class JoltScrollHeader extends NSObject {
+  static attachNodeTitleToolbarTitleToolbarDiagnosticOptionsOnState(
+    list: UITableView,
+    node: JoltLiveSpring,
+    title: UIView,
+    toolbarTitle: UIView,
+    toolbar: UIView,
+    diagnostic: UILabel | null,
+    options: string,
+    onState: () => void,
+  ): JoltScrollHeader
+  static activeCount(): number
+  configure(options: string): void
+  snapshot(): string
+  scrollAnimated(offset: number, animated: boolean): void
+  setEnabled(value: boolean): void
+  dispose(): void
+}
 declare class JoltMotionProbe extends NSObject {
   static startViewCapacityHertz(
     view: UIView,

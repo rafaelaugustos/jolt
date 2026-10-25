@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-25",
+  "messagesPerNewLocale": 1079,
+  "locales": ["en", "pt-BR", "es", "zh-Hans"],
+  "ios": {
+    "device": "iPhone 17 simulator, iOS 26.2",
+    "tests": ["testShowcaseExtraLanguageChecks", "testShowcaseExtraLanguages"],
+    "allPassed": true,
+    "checks": [
+      "es-MX device language → Spanish",
+      "zh-CN device language → Simplified Chinese",
+      "Manual Spanish survives relaunch with Chinese device preference",
+      "Real selector → collection → native example in Spanish and Chinese",
+      "Restore follow-device after recording"
+    ]
+  },
+  "limits": [
+    "Simplified Chinese is used for all zh variants; Traditional Chinese has no separate translation",
+    "No physical VoiceOver/TalkBack acceptance"
+  ],
+  "android": {
+    "device": "Android 16 API 36 emulator",
+    "checks": [
+      {
+        "language": "es",
+        "restart": true,
+        "title": "Mareas suaves."
+      },
+      {
+        "language": "zh-Hans",
+        "restart": true,
+        "title": "轻柔潮汐。"
+      }
+    ],
+    "input": "Actual UI selector taps, force-stop/relaunch, then UIAutomator text inspection"
+  }
+}

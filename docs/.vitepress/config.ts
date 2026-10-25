@@ -74,6 +74,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('playback', 'playback'),
         page('configure', 'configure'),
         page('scrollLinked', 'scroll-linked'),
+        page('scrollHeader', 'scroll-header'),
         page('keyboard', 'keyboard'),
         page('androidBusy', 'android-performance'),
       ],
@@ -153,6 +154,7 @@ const en = {
   playback: 'Pause and scrub',
   configure: 'Time scale and reduced motion',
   scrollLinked: 'Scroll-linked animations',
+  scrollHeader: 'Collapsing headers',
   keyboard: 'Follow the keyboard',
   androidBusy: 'Busy JavaScript on Android',
   vue: 'Vue',
@@ -165,6 +167,7 @@ const en = {
 
 const pt = {
   gallery: 'Galeria conectada',
+  scrollHeader: 'Cabeçalhos que recolhem',
   start: 'Começo',
   motion: 'Movimento',
   frameworks: 'Frameworks',

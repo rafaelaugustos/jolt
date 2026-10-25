@@ -119,7 +119,7 @@ function leave() {
           <Label
             :text="t('Small details.\nBig feelings.')"
             class="studio-display"
-            :fontSize="locale === 'pt-BR' ? 36 : 42"
+            :fontSize="locale === 'pt-BR' || locale === 'es' ? 36 : 42"
             textWrap="true"
           />
           <Label

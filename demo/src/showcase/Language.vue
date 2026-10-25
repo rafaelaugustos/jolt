@@ -3,7 +3,7 @@ import { useThemeReveal } from './theme-reveal'
 import { palette, themeClass, statusBarStyle } from './theme'
 import { useRouter } from 'vue-router-ns'
 import { locale, preference, setLanguage, t } from './i18n'
-import type { LanguagePreference } from './locale'
+import { languageNames, type LanguagePreference } from './locale'
 const router = useRouter()
 const options: {
   value: LanguagePreference
@@ -19,6 +19,8 @@ const options: {
   },
   { value: 'en', title: 'English', subtitle: 'English', glyph: 'Aa' },
   { value: 'pt-BR', title: 'Português', subtitle: 'Português do Brasil', glyph: 'Ãa' },
+  { value: 'es', title: 'Español', subtitle: 'Español', glyph: 'Ññ' },
+  { value: 'zh-Hans', title: '简体中文', subtitle: '简体中文', glyph: '文' },
 ]
 const themeReveal = useThemeReveal()
 </script>
@@ -155,7 +157,7 @@ const themeReveal = useThemeReveal()
             borderRadius="20"
           >
             <Label
-              :text="t(`Currently using ${locale === 'pt-BR' ? 'Português' : 'English'}`)"
+              :text="t(`Currently using ${languageNames[locale]}`)"
               fontSize="14"
               fontWeight="bold"
               :color="palette.text"

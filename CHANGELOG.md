@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Translate all 1,079 preview messages into Spanish and Simplified Chinese, including catalog/search, controls, accessibility, status text and the map illustration. Extend automatic phone-language selection and the saved language picker to four languages.
+
+- Add `scrollHeader()` for flat Core ListView: a measured collapsing hero, native parallax/title handoff, pinned section, anchored resizing/insertion and lifecycle cleanup. Include the 66th bilingual preview and real EN/PT iOS/Android recordings. Fixed data rows plus a spacer are the initial supported adapter; physical-device acceptance remains open in #116. Rebuild the native app.
+
 - Added a connected gallery recipe combining native photo zoom/dismiss with current-cell returns. `entry.returnToSource()` captures held/clipped image poses and translation velocity before routing; the 65th EN/PT preview demonstrates the complete interaction with real iOS/Android recordings.
 
 - Resolve shared return targets by stable item key after scrolling, recycling and reordering, with bounded async preparation, cancellation, deleted-item fade and current-item accessibility focus. Add a Core ListView adapter, the 64th bilingual preview and real EN/PT native recordings. Android resolves the live destination after system commitment; iOS defers the shared pair until ready. Rebuild the native app. Physical-device acceptance remains open in #24.

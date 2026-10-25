@@ -10,8 +10,8 @@ let value = 1249.9
 let current: Animation | undefined
 function format(amount: number) {
   const [whole, cents] = amount.toFixed(2).split('.')
-  const separator = locale.value === 'pt-BR' ? '.' : ','
-  const decimal = locale.value === 'pt-BR' ? ',' : '.'
+  const separator = locale.value === 'pt-BR' || locale.value === 'es' ? '.' : ','
+  const decimal = locale.value === 'pt-BR' || locale.value === 'es' ? ',' : '.'
   return `${whole!.replace(/\B(?=(\d{3})+(?!\d))/g, separator)}${decimal}${cents}`
 }
 async function roll(next: number) {
