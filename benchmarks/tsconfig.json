@@ -4,7 +4,8 @@
     "noEmit": true,
     "verbatimModuleSyntax": false,
     "isolatedModules": false,
-    "lib": ["ES2023", "DOM"]
+    "lib": ["ES2023", "DOM"],
+    "resolveJsonModule": true
   },
   "include": ["*.ts", "../src/android-plugin.d.ts", "../src/ios-plugin.d.ts"]
 }

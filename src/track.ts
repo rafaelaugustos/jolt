@@ -113,7 +113,13 @@ export function createTrack(
         : end,
     valueAt: (elapsed) => motion.position(localTime(elapsed)[0]),
     velocityAt: (elapsed) => {
-      if (elapsed <= delay || elapsed >= end) return 0
+      // At the exact handoff, retain the incoming spring velocity.
+      if (
+        elapsed < delay ||
+        (elapsed === delay && curve.type !== 'spring') ||
+        elapsed >= end
+      )
+        return 0
       const [time, direction] = localTime(elapsed)
       return motion.velocity(time) * direction
     },

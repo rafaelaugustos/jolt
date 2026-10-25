@@ -209,6 +209,15 @@ class Root extends Derived {
     return run.clock?.time() ?? time - run.startedAt
   }
 
+  /** Internal development snapshot; reading it installs no observers. */
+  inspect() {
+    return {
+      velocity: [...this.runs.keys()].reduce((sum, key) => sum + this.velocity(key), 0),
+      resources:
+        this.bindings.size + this.listeners.size + this.observers.size + this.runs.size,
+    }
+  }
+
   private velocity(key: string): number {
     const run = this.runs.get(key)
     if (!run || run.animation.paused) return 0

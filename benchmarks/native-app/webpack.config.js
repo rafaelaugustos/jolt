@@ -9,6 +9,14 @@ module.exports = (env) => {
   webpack.chainWebpack((config) => {
     config.resolve.alias
       .set('@rafaelaugusto/jolt$', resolve(__dirname, '../../dist/index.js'))
+      .set(
+        '@rafaelaugusto/jolt/testing$',
+        resolve(__dirname, '../../dist/testing/index.js'),
+      )
+      .set(
+        '@rafaelaugusto/jolt/testing/native$',
+        resolve(__dirname, '../../dist/testing/native.js'),
+      )
       .set('@nativescript/core', resolve(__dirname, 'node_modules/@nativescript/core'))
     config.plugin('jolt-native-ci').use(require('webpack').DefinePlugin, [
       {

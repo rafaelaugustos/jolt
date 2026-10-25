@@ -1,0 +1,179 @@
+{
+  "version": 1,
+  "seed": 57,
+  "settings": {
+    "timeScale": 1,
+    "reducedMotion": false
+  },
+  "metadata": {
+    "platform": "test",
+    "os": "deterministic",
+    "model": "reference-graph",
+    "refreshRate": 60,
+    "density": 1,
+    "width": 360,
+    "height": 640
+  },
+  "motions": [
+    {
+      "id": "card",
+      "kind": "spring",
+      "axis": "x",
+      "initial": 0,
+      "stiffness": 170,
+      "damping": 26,
+      "mass": 1,
+      "min": 0,
+      "max": 240,
+      "snap": []
+    }
+  ],
+  "entries": [
+    {
+      "at": 0,
+      "input": {
+        "type": "target",
+        "id": "card",
+        "value": 180
+      }
+    },
+    {
+      "at": 0,
+      "id": "card",
+      "expected": {
+        "position": 0,
+        "velocity": 0,
+        "settled": false
+      },
+      "tolerance": {
+        "position": 3,
+        "velocity": 30
+      }
+    },
+    {
+      "at": 32,
+      "id": "card",
+      "expected": {
+        "position": 11.929914,
+        "velocity": 645.848683,
+        "settled": false
+      },
+      "tolerance": {
+        "position": 3,
+        "velocity": 30
+      }
+    },
+    {
+      "at": 80,
+      "id": "card",
+      "expected": {
+        "position": 50.485477,
+        "velocity": 864.334416,
+        "settled": false
+      },
+      "tolerance": {
+        "position": 3,
+        "velocity": 30
+      }
+    },
+    {
+      "at": 96,
+      "id": "card",
+      "expected": {
+        "position": 64.173546,
+        "velocity": 842.026704,
+        "settled": false
+      },
+      "tolerance": {
+        "position": 3,
+        "velocity": 30
+      }
+    },
+    {
+      "at": 96,
+      "input": {
+        "type": "target",
+        "id": "card",
+        "value": 20
+      }
+    },
+    {
+      "at": 96,
+      "id": "card",
+      "expected": {
+        "position": 64.173546,
+        "velocity": 842.026704,
+        "settled": false
+      },
+      "tolerance": {
+        "position": 3,
+        "velocity": 30
+      }
+    },
+    {
+      "at": 112,
+      "id": "card",
+      "expected": {
+        "position": 74.277725,
+        "velocity": 443.983171,
+        "settled": false
+      },
+      "tolerance": {
+        "position": 3,
+        "velocity": 30
+      }
+    },
+    {
+      "at": 144,
+      "id": "card",
+      "expected": {
+        "position": 80.051126,
+        "velocity": -23.834275,
+        "settled": false
+      },
+      "tolerance": {
+        "position": 3,
+        "velocity": 30
+      }
+    },
+    {
+      "at": 432,
+      "id": "card",
+      "expected": {
+        "position": 26.448201,
+        "velocity": -67.06158,
+        "settled": false
+      },
+      "tolerance": {
+        "position": 3,
+        "velocity": 30
+      }
+    },
+    {
+      "at": 800,
+      "id": "card",
+      "expected": {
+        "position": 20.100749,
+        "velocity": -1.198321,
+        "settled": false
+      },
+      "tolerance": {
+        "position": 3,
+        "velocity": 30
+      }
+    },
+    {
+      "at": 2500,
+      "id": "card",
+      "expected": {
+        "position": 20,
+        "velocity": 0,
+        "settled": true
+      },
+      "tolerance": {
+        "position": 3,
+        "velocity": 30
+      }
+    }
+  ]
+}

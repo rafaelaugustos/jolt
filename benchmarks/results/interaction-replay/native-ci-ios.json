@@ -1,0 +1,1648 @@
+{
+  "platform": "ios",
+  "source": "feat/interaction-replay working tree based on 9d70479",
+  "baseline": {
+    "schema": 1,
+    "runId": "7d7aafd6-c48b-464f-8952-ca5a7c92d624",
+    "status": "passed",
+    "stage": "real dimensions in StackLayout and GridLayout",
+    "checks": [
+      "combined native transform and opacity",
+      "live intermediate native position",
+      "pause holds and resume completes",
+      "interruption starts at visible position",
+      "one motion value coordinates native bindings",
+      "scope disposal cancels native work",
+      "unload and reload release the old animation",
+      "reduced motion settles spatial animation",
+      "live native spring followers and layers",
+      "native gesture values and scroll delegate lifecycle",
+      "recorded interaction replay and negative control",
+      "real dimensions in StackLayout and GridLayout"
+    ],
+    "samples": [
+      {
+        "stage": "combined native transform and opacity",
+        "property": "x",
+        "actual": 60,
+        "expected": 60,
+        "tolerance": 3
+      },
+      {
+        "stage": "combined native transform and opacity",
+        "property": "y",
+        "actual": 30,
+        "expected": 30,
+        "tolerance": 3
+      },
+      {
+        "stage": "combined native transform and opacity",
+        "property": "scaleX",
+        "actual": 1.2,
+        "expected": 1.2,
+        "tolerance": 0.04
+      },
+      {
+        "stage": "combined native transform and opacity",
+        "property": "scaleY",
+        "actual": 0.9000000000000001,
+        "expected": 0.9,
+        "tolerance": 0.04
+      },
+      {
+        "stage": "combined native transform and opacity",
+        "property": "rotate",
+        "actual": 20,
+        "expected": 20,
+        "tolerance": 2
+      },
+      {
+        "stage": "combined native transform and opacity",
+        "property": "opacity",
+        "actual": 0.699999988079071,
+        "expected": 0.7,
+        "tolerance": 0.04
+      },
+      {
+        "stage": "live intermediate native position",
+        "middle": 25.045643746852875
+      },
+      {
+        "stage": "pause holds and resume completes",
+        "property": "paused x",
+        "actual": 25.136581659317017,
+        "expected": 25.136581659317017,
+        "tolerance": 2
+      },
+      {
+        "stage": "pause holds and resume completes",
+        "property": "resumed x",
+        "actual": 140,
+        "expected": 140,
+        "tolerance": 2
+      },
+      {
+        "stage": "interruption starts at visible position",
+        "property": "handoff x",
+        "actual": 26.83098614215851,
+        "expected": 26.83098614215851,
+        "tolerance": 6
+      },
+      {
+        "stage": "interruption starts at visible position",
+        "property": "final x",
+        "actual": 0,
+        "expected": 0,
+        "tolerance": 2
+      },
+      {
+        "stage": "one motion value coordinates native bindings",
+        "property": "bound x",
+        "actual": 60,
+        "expected": 60,
+        "tolerance": 3
+      },
+      {
+        "stage": "one motion value coordinates native bindings",
+        "property": "bound y",
+        "actual": 30,
+        "expected": 30,
+        "tolerance": 3
+      },
+      {
+        "stage": "one motion value coordinates native bindings",
+        "property": "bound opacity",
+        "actual": 0.699999988079071,
+        "expected": 0.7,
+        "tolerance": 0.04
+      },
+      {
+        "stage": "scope disposal cancels native work",
+        "property": "stopped x",
+        "actual": 14.061175462106863,
+        "expected": 14.061175462106863,
+        "tolerance": 2
+      },
+      {
+        "stage": "reduced motion settles spatial animation",
+        "property": "reduced x",
+        "actual": 100,
+        "expected": 100,
+        "tolerance": 2
+      },
+      {
+        "chain": [121.89295701364642, 90.37447392029014, 39.70386867438]
+      },
+      {
+        "mixed": -16.0468441545776,
+        "base": -36.0468441545776
+      },
+      {
+        "position": 46.81199683612019,
+        "velocity": 482.5353518302023,
+        "held": 30.008813367103645,
+        "scrollEvents": 1
+      },
+      {
+        "reports": [
+          {
+            "name": "interrupted-spring",
+            "native": false,
+            "report": {
+              "passed": true,
+              "observations": [
+                {
+                  "at": 0,
+                  "id": "card",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 0,
+                    "velocity": -0.03315013925364596,
+                    "settled": false
+                  },
+                  "positionError": 0,
+                  "velocityError": 0.03315013925364596,
+                  "passed": true
+                },
+                {
+                  "at": 32,
+                  "id": "card",
+                  "expected": {
+                    "position": 11.929914,
+                    "velocity": 645.848683,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 11.929913570491529,
+                    "velocity": 645.83134649981,
+                    "settled": false
+                  },
+                  "positionError": 4.2950847145561966e-7,
+                  "velocityError": 0.017336500190026527,
+                  "passed": true
+                },
+                {
+                  "at": 80,
+                  "id": "card",
+                  "expected": {
+                    "position": 50.485477,
+                    "velocity": 864.334416,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 50.48547737285611,
+                    "velocity": 864.3287866216332,
+                    "settled": false
+                  },
+                  "positionError": 3.728561068783165e-7,
+                  "velocityError": 0.005629378366847959,
+                  "passed": true
+                },
+                {
+                  "at": 96,
+                  "id": "card",
+                  "expected": {
+                    "position": 64.173546,
+                    "velocity": 842.026704,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 64.1735457654407,
+                    "velocity": 842.0231249821297,
+                    "settled": false
+                  },
+                  "positionError": 2.3455929465399095e-7,
+                  "velocityError": 0.0035790178702654885,
+                  "passed": true
+                },
+                {
+                  "at": 96,
+                  "id": "card",
+                  "expected": {
+                    "position": 64.173546,
+                    "velocity": 842.026704,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 64.1735457654407,
+                    "velocity": 842.0490130270839,
+                    "settled": false
+                  },
+                  "positionError": 2.3455929465399095e-7,
+                  "velocityError": 0.022309027083906585,
+                  "passed": true
+                },
+                {
+                  "at": 112,
+                  "id": "card",
+                  "expected": {
+                    "position": 74.277725,
+                    "velocity": 443.983171,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 74.27767831737742,
+                    "velocity": 444.00022573163704,
+                    "settled": false
+                  },
+                  "positionError": 4.668262258178402e-5,
+                  "velocityError": 0.01705473163701754,
+                  "passed": true
+                },
+                {
+                  "at": 144,
+                  "id": "card",
+                  "expected": {
+                    "position": 80.051126,
+                    "velocity": -23.834275,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 80.05103444513391,
+                    "velocity": -23.82443754413846,
+                    "settled": false
+                  },
+                  "positionError": 9.155486608847241e-5,
+                  "velocityError": 0.009837455861543276,
+                  "passed": true
+                },
+                {
+                  "at": 432,
+                  "id": "card",
+                  "expected": {
+                    "position": 26.448201,
+                    "velocity": -67.06158,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 26.44818581557017,
+                    "velocity": -67.06165477762413,
+                    "settled": false
+                  },
+                  "positionError": 1.5184429830839008e-5,
+                  "velocityError": 7.477762412122502e-5,
+                  "passed": true
+                },
+                {
+                  "at": 800,
+                  "id": "card",
+                  "expected": {
+                    "position": 20.100749,
+                    "velocity": -1.198321,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 20.100748478679293,
+                    "velocity": -1.1983251360663625,
+                    "settled": false
+                  },
+                  "positionError": 5.213207074916681e-7,
+                  "velocityError": 4.136066362514512e-6,
+                  "passed": true
+                },
+                {
+                  "at": 2500,
+                  "id": "card",
+                  "expected": {
+                    "position": 20,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "observed": {
+                    "position": 20,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "positionError": 0,
+                  "velocityError": 0,
+                  "passed": true
+                }
+              ],
+              "errors": [],
+              "remainingResources": 0,
+              "trace": {
+                "version": 1,
+                "seed": 57,
+                "settings": {
+                  "timeScale": 1,
+                  "reducedMotion": false
+                },
+                "metadata": {
+                  "platform": "test",
+                  "os": "deterministic",
+                  "model": "reference-graph",
+                  "refreshRate": 60,
+                  "density": 1,
+                  "width": 360,
+                  "height": 640
+                },
+                "motions": [
+                  {
+                    "id": "card",
+                    "kind": "spring",
+                    "axis": "x",
+                    "initial": 0,
+                    "stiffness": 170,
+                    "damping": 26,
+                    "mass": 1,
+                    "min": 0,
+                    "max": 240,
+                    "snap": []
+                  }
+                ],
+                "entries": [
+                  {
+                    "at": 0,
+                    "input": {
+                      "type": "target",
+                      "id": "card",
+                      "value": 180
+                    }
+                  },
+                  {
+                    "at": 0,
+                    "id": "card",
+                    "expected": {
+                      "position": 0,
+                      "velocity": 0,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 32,
+                    "id": "card",
+                    "expected": {
+                      "position": 11.929914,
+                      "velocity": 645.848683,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 80,
+                    "id": "card",
+                    "expected": {
+                      "position": 50.485477,
+                      "velocity": 864.334416,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 96,
+                    "id": "card",
+                    "expected": {
+                      "position": 64.173546,
+                      "velocity": 842.026704,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 96,
+                    "input": {
+                      "type": "target",
+                      "id": "card",
+                      "value": 20
+                    }
+                  },
+                  {
+                    "at": 96,
+                    "id": "card",
+                    "expected": {
+                      "position": 64.173546,
+                      "velocity": 842.026704,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 112,
+                    "id": "card",
+                    "expected": {
+                      "position": 74.277725,
+                      "velocity": 443.983171,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 144,
+                    "id": "card",
+                    "expected": {
+                      "position": 80.051126,
+                      "velocity": -23.834275,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 432,
+                    "id": "card",
+                    "expected": {
+                      "position": 26.448201,
+                      "velocity": -67.06158,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 800,
+                    "id": "card",
+                    "expected": {
+                      "position": 20.100749,
+                      "velocity": -1.198321,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 2500,
+                    "id": "card",
+                    "expected": {
+                      "position": 20,
+                      "velocity": 0,
+                      "settled": true
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  }
+                ]
+              },
+              "plot": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"640\" height=\"220\" viewBox=\"0 0 640 220\"><rect width=\"640\" height=\"220\" fill=\"#faf8f1\"/><g font-family=\"sans-serif\" font-size=\"12\" fill=\"#202630\"><text x=\"20\" y=\"20\">Presentation position (DIP): green expected / pink observed</text><text x=\"40\" y=\"205\">0 ms</text><text x=\"540\" y=\"205\">2500 ms</text><text x=\"8\" y=\"45\">80</text><text x=\"8\" y=\"180\">0</text></g><path d=\"M40 35 V180 H605\" fill=\"none\" stroke=\"#bfc5be\"/><polyline fill=\"none\" stroke=\"#176b5b\" stroke-width=\"2\" points=\"40.00,180.00 47.17,159.14 57.92,91.71 61.50,67.77 61.50,67.77 65.09,50.10 72.26,40.00 136.77,133.75 219.20,144.85 600.00,145.02\"/><polyline fill=\"none\" stroke=\"#b7355f\" stroke-width=\"2\" stroke-dasharray=\"4 3\" points=\"40.00,180.00 47.17,159.14 57.92,91.71 61.50,67.77 61.50,67.77 65.09,50.10 72.26,40.00 136.77,133.75 219.20,144.85 600.00,145.02\"/></svg>"
+            }
+          },
+          {
+            "name": "interrupted-spring",
+            "native": true,
+            "report": {
+              "passed": true,
+              "observations": [
+                {
+                  "at": 0,
+                  "id": "card",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 0,
+                    "velocity": -0.03315013925364596,
+                    "settled": false
+                  },
+                  "positionError": 0,
+                  "velocityError": 0.03315013925364596,
+                  "passed": true
+                },
+                {
+                  "at": 32,
+                  "id": "card",
+                  "expected": {
+                    "position": 11.929914,
+                    "velocity": 645.848683,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 12.03299147634281,
+                    "velocity": 645.83134649981,
+                    "settled": false
+                  },
+                  "positionError": 0.1030774763428095,
+                  "velocityError": 0.017336500190026527,
+                  "passed": true
+                },
+                {
+                  "at": 80,
+                  "id": "card",
+                  "expected": {
+                    "position": 50.485477,
+                    "velocity": 864.334416,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 50.487601488244614,
+                    "velocity": 864.3287866216332,
+                    "settled": false
+                  },
+                  "positionError": 0.0021244882446112,
+                  "velocityError": 0.005629378366847959,
+                  "passed": true
+                },
+                {
+                  "at": 96,
+                  "id": "card",
+                  "expected": {
+                    "position": 64.173546,
+                    "velocity": 842.026704,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 64.13746922748861,
+                    "velocity": 842.0231249821297,
+                    "settled": false
+                  },
+                  "positionError": 0.036076772511393074,
+                  "velocityError": 0.0035790178702654885,
+                  "passed": true
+                },
+                {
+                  "at": 96,
+                  "id": "card",
+                  "expected": {
+                    "position": 64.173546,
+                    "velocity": 842.026704,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 64.1735457654407,
+                    "velocity": 842.0490130270839,
+                    "settled": false
+                  },
+                  "positionError": 2.3455929465399095e-7,
+                  "velocityError": 0.022309027083906585,
+                  "passed": true
+                },
+                {
+                  "at": 112,
+                  "id": "card",
+                  "expected": {
+                    "position": 74.277725,
+                    "velocity": 443.983171,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 74.21946574033386,
+                    "velocity": 444.00022573163704,
+                    "settled": false
+                  },
+                  "positionError": 0.0582592596661442,
+                  "velocityError": 0.01705473163701754,
+                  "passed": true
+                },
+                {
+                  "at": 144,
+                  "id": "card",
+                  "expected": {
+                    "position": 80.051126,
+                    "velocity": -23.834275,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 79.97276899151969,
+                    "velocity": -23.82443754413846,
+                    "settled": false
+                  },
+                  "positionError": 0.07835700848031024,
+                  "velocityError": 0.009837455861543276,
+                  "passed": true
+                },
+                {
+                  "at": 432,
+                  "id": "card",
+                  "expected": {
+                    "position": 26.448201,
+                    "velocity": -67.06158,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 26.46905819438864,
+                    "velocity": -67.06165477762413,
+                    "settled": false
+                  },
+                  "positionError": 0.020857194388639755,
+                  "velocityError": 7.477762412122502e-5,
+                  "passed": true
+                },
+                {
+                  "at": 800,
+                  "id": "card",
+                  "expected": {
+                    "position": 20.100749,
+                    "velocity": -1.198321,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 20.10099001972132,
+                    "velocity": -1.1983251360663625,
+                    "settled": false
+                  },
+                  "positionError": 0.00024101972131873595,
+                  "velocityError": 4.136066362514512e-6,
+                  "passed": true
+                },
+                {
+                  "at": 2500,
+                  "id": "card",
+                  "expected": {
+                    "position": 20,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "observed": {
+                    "position": 20,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "positionError": 0,
+                  "velocityError": 0,
+                  "passed": true
+                }
+              ],
+              "errors": [],
+              "remainingResources": 0,
+              "trace": {
+                "version": 1,
+                "seed": 57,
+                "settings": {
+                  "timeScale": 1,
+                  "reducedMotion": false
+                },
+                "metadata": {
+                  "platform": "test",
+                  "os": "deterministic",
+                  "model": "reference-graph",
+                  "refreshRate": 60,
+                  "density": 1,
+                  "width": 360,
+                  "height": 640
+                },
+                "motions": [
+                  {
+                    "id": "card",
+                    "kind": "spring",
+                    "axis": "x",
+                    "initial": 0,
+                    "stiffness": 170,
+                    "damping": 26,
+                    "mass": 1,
+                    "min": 0,
+                    "max": 240,
+                    "snap": []
+                  }
+                ],
+                "entries": [
+                  {
+                    "at": 0,
+                    "input": {
+                      "type": "target",
+                      "id": "card",
+                      "value": 180
+                    }
+                  },
+                  {
+                    "at": 0,
+                    "id": "card",
+                    "expected": {
+                      "position": 0,
+                      "velocity": 0,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 32,
+                    "id": "card",
+                    "expected": {
+                      "position": 11.929914,
+                      "velocity": 645.848683,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 80,
+                    "id": "card",
+                    "expected": {
+                      "position": 50.485477,
+                      "velocity": 864.334416,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 96,
+                    "id": "card",
+                    "expected": {
+                      "position": 64.173546,
+                      "velocity": 842.026704,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 96,
+                    "input": {
+                      "type": "target",
+                      "id": "card",
+                      "value": 20
+                    }
+                  },
+                  {
+                    "at": 96,
+                    "id": "card",
+                    "expected": {
+                      "position": 64.173546,
+                      "velocity": 842.026704,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 112,
+                    "id": "card",
+                    "expected": {
+                      "position": 74.277725,
+                      "velocity": 443.983171,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 144,
+                    "id": "card",
+                    "expected": {
+                      "position": 80.051126,
+                      "velocity": -23.834275,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 432,
+                    "id": "card",
+                    "expected": {
+                      "position": 26.448201,
+                      "velocity": -67.06158,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 800,
+                    "id": "card",
+                    "expected": {
+                      "position": 20.100749,
+                      "velocity": -1.198321,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 2500,
+                    "id": "card",
+                    "expected": {
+                      "position": 20,
+                      "velocity": 0,
+                      "settled": true
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  }
+                ]
+              },
+              "plot": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"640\" height=\"220\" viewBox=\"0 0 640 220\"><rect width=\"640\" height=\"220\" fill=\"#faf8f1\"/><g font-family=\"sans-serif\" font-size=\"12\" fill=\"#202630\"><text x=\"20\" y=\"20\">Presentation position (DIP): green expected / pink observed</text><text x=\"40\" y=\"205\">0 ms</text><text x=\"540\" y=\"205\">2500 ms</text><text x=\"8\" y=\"45\">80</text><text x=\"8\" y=\"180\">0</text></g><path d=\"M40 35 V180 H605\" fill=\"none\" stroke=\"#bfc5be\"/><polyline fill=\"none\" stroke=\"#176b5b\" stroke-width=\"2\" points=\"40.00,180.00 47.17,159.14 57.92,91.71 61.50,67.77 61.50,67.77 65.09,50.10 72.26,40.00 136.77,133.75 219.20,144.85 600.00,145.02\"/><polyline fill=\"none\" stroke=\"#b7355f\" stroke-width=\"2\" stroke-dasharray=\"4 3\" points=\"40.00,180.00 47.17,158.96 57.92,91.70 61.50,67.83 61.50,67.77 65.09,50.20 72.26,40.14 136.77,133.71 219.20,144.85 600.00,145.02\"/></svg>"
+            }
+          },
+          {
+            "name": "cancelled-drag",
+            "native": false,
+            "report": {
+              "passed": true,
+              "observations": [
+                {
+                  "at": 0,
+                  "id": "card",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "positionError": 0,
+                  "velocityError": 0,
+                  "passed": true
+                },
+                {
+                  "at": 16,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 3125,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 50,
+                    "velocity": 3125,
+                    "settled": false
+                  },
+                  "positionError": 0,
+                  "velocityError": 0,
+                  "passed": true
+                },
+                {
+                  "at": 32,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "observed": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "positionError": 0,
+                  "velocityError": 0,
+                  "passed": true
+                },
+                {
+                  "at": 48,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "observed": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "positionError": 0,
+                  "velocityError": 0,
+                  "passed": true
+                },
+                {
+                  "at": 64,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "observed": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "positionError": 0,
+                  "velocityError": 0,
+                  "passed": true
+                },
+                {
+                  "at": 96,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "observed": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "positionError": 0,
+                  "velocityError": 0,
+                  "passed": true
+                },
+                {
+                  "at": 240,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "observed": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "positionError": 0,
+                  "velocityError": 0,
+                  "passed": true
+                },
+                {
+                  "at": 600,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "observed": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "positionError": 0,
+                  "velocityError": 0,
+                  "passed": true
+                }
+              ],
+              "errors": [],
+              "remainingResources": 0,
+              "trace": {
+                "version": 1,
+                "seed": 57,
+                "settings": {
+                  "timeScale": 1,
+                  "reducedMotion": false
+                },
+                "metadata": {
+                  "platform": "test",
+                  "os": "deterministic",
+                  "model": "reference-graph",
+                  "refreshRate": 60,
+                  "density": 1,
+                  "width": 360,
+                  "height": 640
+                },
+                "motions": [
+                  {
+                    "id": "card",
+                    "kind": "drag",
+                    "axis": "x",
+                    "initial": 0,
+                    "stiffness": 170,
+                    "damping": 26,
+                    "mass": 1,
+                    "min": 0,
+                    "max": 240,
+                    "snap": [0, 240]
+                  }
+                ],
+                "entries": [
+                  {
+                    "at": 0,
+                    "input": {
+                      "type": "gesture",
+                      "id": "card",
+                      "phase": "begin",
+                      "x": 0,
+                      "y": 0,
+                      "velocityX": 0,
+                      "velocityY": 0,
+                      "pointers": [0]
+                    }
+                  },
+                  {
+                    "at": 0,
+                    "id": "card",
+                    "expected": {
+                      "position": 0,
+                      "velocity": 0,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 16,
+                    "input": {
+                      "type": "gesture",
+                      "id": "card",
+                      "phase": "move",
+                      "x": 50,
+                      "y": 0,
+                      "velocityX": 3125,
+                      "velocityY": 0,
+                      "pointers": [0]
+                    }
+                  },
+                  {
+                    "at": 16,
+                    "id": "card",
+                    "expected": {
+                      "position": 50,
+                      "velocity": 3125,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 32,
+                    "input": {
+                      "type": "gesture",
+                      "id": "card",
+                      "phase": "cancel",
+                      "x": 50,
+                      "y": 0,
+                      "velocityX": 0,
+                      "velocityY": 0,
+                      "pointers": [0]
+                    }
+                  },
+                  {
+                    "at": 32,
+                    "id": "card",
+                    "expected": {
+                      "position": 50,
+                      "velocity": 0,
+                      "settled": true
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 48,
+                    "input": {
+                      "type": "gesture",
+                      "id": "card",
+                      "phase": "move",
+                      "x": 90,
+                      "y": 0,
+                      "velocityX": 2500,
+                      "velocityY": 0,
+                      "pointers": [0]
+                    }
+                  },
+                  {
+                    "at": 48,
+                    "id": "card",
+                    "expected": {
+                      "position": 50,
+                      "velocity": 0,
+                      "settled": true
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 64,
+                    "input": {
+                      "type": "gesture",
+                      "id": "card",
+                      "phase": "end",
+                      "x": 90,
+                      "y": 0,
+                      "velocityX": 0,
+                      "velocityY": 0,
+                      "pointers": []
+                    }
+                  },
+                  {
+                    "at": 64,
+                    "id": "card",
+                    "expected": {
+                      "position": 50,
+                      "velocity": 0,
+                      "settled": true
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 96,
+                    "input": {
+                      "type": "lifecycle",
+                      "state": "suspend"
+                    }
+                  },
+                  {
+                    "at": 96,
+                    "id": "card",
+                    "expected": {
+                      "position": 50,
+                      "velocity": 0,
+                      "settled": true
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 240,
+                    "input": {
+                      "type": "lifecycle",
+                      "state": "resume"
+                    }
+                  },
+                  {
+                    "at": 240,
+                    "id": "card",
+                    "expected": {
+                      "position": 50,
+                      "velocity": 0,
+                      "settled": true
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 600,
+                    "id": "card",
+                    "expected": {
+                      "position": 50,
+                      "velocity": 0,
+                      "settled": true
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  }
+                ]
+              },
+              "plot": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"640\" height=\"220\" viewBox=\"0 0 640 220\"><rect width=\"640\" height=\"220\" fill=\"#faf8f1\"/><g font-family=\"sans-serif\" font-size=\"12\" fill=\"#202630\"><text x=\"20\" y=\"20\">Presentation position (DIP): green expected / pink observed</text><text x=\"40\" y=\"205\">0 ms</text><text x=\"540\" y=\"205\">600 ms</text><text x=\"8\" y=\"45\">50</text><text x=\"8\" y=\"180\">0</text></g><path d=\"M40 35 V180 H605\" fill=\"none\" stroke=\"#bfc5be\"/><polyline fill=\"none\" stroke=\"#176b5b\" stroke-width=\"2\" points=\"40.00,180.00 54.93,40.00 69.87,40.00 84.80,40.00 99.73,40.00 129.60,40.00 264.00,40.00 600.00,40.00\"/><polyline fill=\"none\" stroke=\"#b7355f\" stroke-width=\"2\" stroke-dasharray=\"4 3\" points=\"40.00,180.00 54.93,40.00 69.87,40.00 84.80,40.00 99.73,40.00 129.60,40.00 264.00,40.00 600.00,40.00\"/></svg>"
+            }
+          },
+          {
+            "name": "cancelled-drag",
+            "native": true,
+            "report": {
+              "passed": true,
+              "observations": [
+                {
+                  "at": 0,
+                  "id": "card",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "positionError": 0,
+                  "velocityError": 0,
+                  "passed": true
+                },
+                {
+                  "at": 16,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 3125,
+                    "settled": false
+                  },
+                  "observed": {
+                    "position": 50,
+                    "velocity": 3125,
+                    "settled": false
+                  },
+                  "positionError": 0,
+                  "velocityError": 0,
+                  "passed": true
+                },
+                {
+                  "at": 32,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "observed": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "positionError": 0,
+                  "velocityError": 0,
+                  "passed": true
+                },
+                {
+                  "at": 48,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "observed": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "positionError": 0,
+                  "velocityError": 0,
+                  "passed": true
+                },
+                {
+                  "at": 64,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "observed": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "positionError": 0,
+                  "velocityError": 0,
+                  "passed": true
+                },
+                {
+                  "at": 96,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "observed": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "positionError": 0,
+                  "velocityError": 0,
+                  "passed": true
+                },
+                {
+                  "at": 240,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "observed": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "positionError": 0,
+                  "velocityError": 0,
+                  "passed": true
+                },
+                {
+                  "at": 600,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "observed": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "positionError": 0,
+                  "velocityError": 0,
+                  "passed": true
+                }
+              ],
+              "errors": [],
+              "remainingResources": 0,
+              "trace": {
+                "version": 1,
+                "seed": 57,
+                "settings": {
+                  "timeScale": 1,
+                  "reducedMotion": false
+                },
+                "metadata": {
+                  "platform": "test",
+                  "os": "deterministic",
+                  "model": "reference-graph",
+                  "refreshRate": 60,
+                  "density": 1,
+                  "width": 360,
+                  "height": 640
+                },
+                "motions": [
+                  {
+                    "id": "card",
+                    "kind": "drag",
+                    "axis": "x",
+                    "initial": 0,
+                    "stiffness": 170,
+                    "damping": 26,
+                    "mass": 1,
+                    "min": 0,
+                    "max": 240,
+                    "snap": [0, 240]
+                  }
+                ],
+                "entries": [
+                  {
+                    "at": 0,
+                    "input": {
+                      "type": "gesture",
+                      "id": "card",
+                      "phase": "begin",
+                      "x": 0,
+                      "y": 0,
+                      "velocityX": 0,
+                      "velocityY": 0,
+                      "pointers": [0]
+                    }
+                  },
+                  {
+                    "at": 0,
+                    "id": "card",
+                    "expected": {
+                      "position": 0,
+                      "velocity": 0,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 16,
+                    "input": {
+                      "type": "gesture",
+                      "id": "card",
+                      "phase": "move",
+                      "x": 50,
+                      "y": 0,
+                      "velocityX": 3125,
+                      "velocityY": 0,
+                      "pointers": [0]
+                    }
+                  },
+                  {
+                    "at": 16,
+                    "id": "card",
+                    "expected": {
+                      "position": 50,
+                      "velocity": 3125,
+                      "settled": false
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 32,
+                    "input": {
+                      "type": "gesture",
+                      "id": "card",
+                      "phase": "cancel",
+                      "x": 50,
+                      "y": 0,
+                      "velocityX": 0,
+                      "velocityY": 0,
+                      "pointers": [0]
+                    }
+                  },
+                  {
+                    "at": 32,
+                    "id": "card",
+                    "expected": {
+                      "position": 50,
+                      "velocity": 0,
+                      "settled": true
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 48,
+                    "input": {
+                      "type": "gesture",
+                      "id": "card",
+                      "phase": "move",
+                      "x": 90,
+                      "y": 0,
+                      "velocityX": 2500,
+                      "velocityY": 0,
+                      "pointers": [0]
+                    }
+                  },
+                  {
+                    "at": 48,
+                    "id": "card",
+                    "expected": {
+                      "position": 50,
+                      "velocity": 0,
+                      "settled": true
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 64,
+                    "input": {
+                      "type": "gesture",
+                      "id": "card",
+                      "phase": "end",
+                      "x": 90,
+                      "y": 0,
+                      "velocityX": 0,
+                      "velocityY": 0,
+                      "pointers": []
+                    }
+                  },
+                  {
+                    "at": 64,
+                    "id": "card",
+                    "expected": {
+                      "position": 50,
+                      "velocity": 0,
+                      "settled": true
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 96,
+                    "input": {
+                      "type": "lifecycle",
+                      "state": "suspend"
+                    }
+                  },
+                  {
+                    "at": 96,
+                    "id": "card",
+                    "expected": {
+                      "position": 50,
+                      "velocity": 0,
+                      "settled": true
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 240,
+                    "input": {
+                      "type": "lifecycle",
+                      "state": "resume"
+                    }
+                  },
+                  {
+                    "at": 240,
+                    "id": "card",
+                    "expected": {
+                      "position": 50,
+                      "velocity": 0,
+                      "settled": true
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  },
+                  {
+                    "at": 600,
+                    "id": "card",
+                    "expected": {
+                      "position": 50,
+                      "velocity": 0,
+                      "settled": true
+                    },
+                    "tolerance": {
+                      "position": 3,
+                      "velocity": 30
+                    }
+                  }
+                ]
+              },
+              "plot": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"640\" height=\"220\" viewBox=\"0 0 640 220\"><rect width=\"640\" height=\"220\" fill=\"#faf8f1\"/><g font-family=\"sans-serif\" font-size=\"12\" fill=\"#202630\"><text x=\"20\" y=\"20\">Presentation position (DIP): green expected / pink observed</text><text x=\"40\" y=\"205\">0 ms</text><text x=\"540\" y=\"205\">600 ms</text><text x=\"8\" y=\"45\">50</text><text x=\"8\" y=\"180\">0</text></g><path d=\"M40 35 V180 H605\" fill=\"none\" stroke=\"#bfc5be\"/><polyline fill=\"none\" stroke=\"#176b5b\" stroke-width=\"2\" points=\"40.00,180.00 54.93,40.00 69.87,40.00 84.80,40.00 99.73,40.00 129.60,40.00 264.00,40.00 600.00,40.00\"/><polyline fill=\"none\" stroke=\"#b7355f\" stroke-width=\"2\" stroke-dasharray=\"4 3\" points=\"40.00,180.00 54.93,40.00 69.87,40.00 84.80,40.00 99.73,40.00 129.60,40.00 264.00,40.00 600.00,40.00\"/></svg>"
+            }
+          }
+        ],
+        "negativeControl": {
+          "passed": true,
+          "errors": [
+            "card at 0 ms: position error 80, velocity error 0.03315013925364596, settled false (expected false)."
+          ],
+          "remainingResources": 0
+        }
+      }
+    ],
+    "injected": false,
+    "build": {
+      "commit": "9d70479e8e66baebd119455038fea47cd5279eca",
+      "core": "9.1.3",
+      "runtime": "9.1.0",
+      "jolt": "0.1.0-beta.17",
+      "mode": "production"
+    },
+    "platform": "iOS",
+    "os": "26.0",
+    "model": "iPhone"
+  },
+  "negativeControl": {
+    "schema": 1,
+    "runId": "fb37d534-af78-4cb1-a3cb-9283664ae109",
+    "status": "failed",
+    "stage": "combined native transform and opacity",
+    "checks": [],
+    "samples": [
+      {
+        "stage": "combined native transform and opacity",
+        "property": "x",
+        "actual": 60,
+        "expected": 160,
+        "tolerance": 3
+      }
+    ],
+    "injected": true,
+    "error": "Error: x: 60 != 160 \u00b1 3",
+    "build": {
+      "commit": "9d70479e8e66baebd119455038fea47cd5279eca",
+      "core": "9.1.3",
+      "runtime": "9.1.0",
+      "jolt": "0.1.0-beta.17",
+      "mode": "production"
+    },
+    "platform": "iOS",
+    "os": "26.0",
+    "model": "iPhone"
+  }
+}

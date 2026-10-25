@@ -80,6 +80,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
       text: t.reference,
       items: [
         page('api', 'api'),
+        page('interactionReplay', 'interaction-replay'),
         page('internals', 'how-it-works'),
         page('limits', 'not-there-yet'),
       ],
@@ -142,6 +143,7 @@ const en = {
   keyboard: 'Follow the keyboard',
   androidBusy: 'Busy JavaScript on Android',
   vue: 'Vue',
+  interactionReplay: 'Interaction replay',
   api: 'API',
   internals: 'How it works',
   limits: 'Not there yet',
@@ -202,6 +204,7 @@ const pt = {
   keyboard: 'Acompanhar o teclado',
   androidBusy: 'JavaScript ocupado no Android',
   vue: 'Vue',
+  interactionReplay: 'Replay de interações',
   api: 'API',
   internals: 'Como funciona',
   limits: 'O que ainda não existe',

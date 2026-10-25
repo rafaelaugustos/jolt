@@ -20,6 +20,7 @@ import LiveSprings from './components/LiveSprings.vue'
 import GestureLab from './components/GestureLab.vue'
 import BottomSheetLab from './components/BottomSheetLab.vue'
 import ReorderLab from './components/ReorderLab.vue'
+import InteractionReplayLab from './components/InteractionReplayLab.vue'
 import SharedLayoutLab from './components/SharedLayoutLab.vue'
 import { launchArgument, onLaunch, runLaunchTaps } from './launch'
 type Screen = 'home' | 'voice' | 'chat'
@@ -43,6 +44,7 @@ const gestureLab = ref(false)
 const bottomSheetLab = ref(false)
 const reorderLab = ref(false)
 const sharedLayoutLab = ref(false)
+const interactionReplay = ref(false)
 const autoplay = ref(false)
 const initialScreen = ref<Screen>('home')
 const assistant = ref()
@@ -65,6 +67,7 @@ onLaunch(() => {
   bottomSheetLab.value = launchArgument('bottom-sheet') !== undefined
   reorderLab.value = launchArgument('reorder-lab') !== undefined
   sharedLayoutLab.value = launchArgument('shared-layout') !== undefined
+  interactionReplay.value = launchArgument('interaction-replay') !== undefined
   layoutLab.value = launchArgument('layout-lab') !== undefined
   playground.value = launchArgument('playground') !== undefined
   autoplay.value = launchArgument('autoplay') !== undefined
@@ -83,6 +86,7 @@ function backToPlayground() {
   bottomSheetLab.value = false
   reorderLab.value = false
   sharedLayoutLab.value = false
+  interactionReplay.value = false
   imageLab.value = false
   dragLab.value = false
   dragValues.value = false
@@ -115,7 +119,11 @@ defineExpose({ assistant })
       "
       @loaded="pageLoaded"
     >
-      <SharedLayoutLab v-if="launched && sharedLayoutLab" @back="backToPlayground" />
+      <InteractionReplayLab
+        v-if="launched && interactionReplay"
+        @back="backToPlayground"
+      />
+      <SharedLayoutLab v-else-if="launched && sharedLayoutLab" @back="backToPlayground" />
       <ReorderLab v-else-if="launched && reorderLab" @back="backToPlayground" />
       <BottomSheetLab v-else-if="launched && bottomSheetLab" @back="backToPlayground" />
       <GestureLab v-else-if="launched && gestureLab" @back="backToPlayground" />

@@ -21,6 +21,7 @@ import {
   set,
   type PlaybackAnimation,
 } from '@rafaelaugusto/jolt'
+import { runInteractionReplayChecks } from './interaction-replay-checks'
 import { runSizeChecks } from './size-checks'
 import { runLiveSpringChecks } from './live-spring-checks'
 import { runGestureLifecycleChecks } from './gesture-lifecycle-checks'
@@ -238,6 +239,10 @@ async function run(view: Label, other: Label, host: StackLayout, status: Label) 
 
   stage = 'native gesture values and scroll delegate lifecycle'
   samples.push(await runGestureLifecycleChecks(host))
+  pass()
+
+  stage = 'recorded interaction replay and negative control'
+  samples.push(await runInteractionReplayChecks(view, runId))
   pass()
 
   stage = 'real dimensions in StackLayout and GridLayout'

@@ -53,6 +53,14 @@
     "./shared-layout": {
       "types": "./dist/shared-layout/index.d.ts",
       "default": "./dist/shared-layout/index.js"
+    },
+    "./testing": {
+      "types": "./dist/testing/index.d.ts",
+      "default": "./dist/testing/index.js"
+    },
+    "./testing/native": {
+      "types": "./dist/testing/native.d.ts",
+      "default": "./dist/testing/native.js"
     }
   },
   "files": [

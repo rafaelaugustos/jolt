@@ -21,6 +21,7 @@ CHECKS = [
     "reduced motion settles spatial animation",
     "live native spring followers and layers",
     "native gesture values and scroll delegate lifecycle",
+    "recorded interaction replay and negative control",
     "real dimensions in StackLayout and GridLayout",
 ]
 
@@ -166,6 +167,14 @@ def main():
                         break
                 time.sleep(1)
             assert report and report.get("status") != "running", f"Probe timed out: {report}"
+            # Keep only artifacts from this exact launch; an earlier failed trace is stale.
+            try:
+                failure = read("jolt-replay-failure.json")
+                if json.loads(failure).get("runId") == run_id:
+                    (args.output / "interaction-replay-failure.json").write_text(failure)
+                    (args.output / "interaction-replay-failure.svg").write_text(read("jolt-replay-failure.svg"))
+            except (json.JSONDecodeError, OSError):
+                pass
             validate(report, run_id, commit, args.platform, negative)
             if not negative:
                 sizes = read("jolt-size-checks.json")
