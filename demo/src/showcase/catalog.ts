@@ -1,3 +1,4 @@
+import SharedLayoutLab from '../components/SharedLayoutLab.vue'
 import MotionStudio from './MotionStudio.vue'
 import { markRaw } from 'nativescript-vue'
 import ReorderLab from '../components/ReorderLab.vue'
@@ -410,6 +411,15 @@ export const examples = [
     description: 'A little choreography for your content.',
     component: markRaw(ListItems),
     full: false,
+    ios: false,
+  },
+  {
+    id: 'shared-layout',
+    title: 'Shared layouts',
+    category: 'Layout',
+    description: 'One identity. A new place to belong.',
+    component: markRaw(SharedLayoutLab),
+    full: true,
     ios: false,
   },
   {

@@ -212,3 +212,24 @@ declare class JoltSceneShaderProperties extends NSObject {
   static sinkCount(): number
   static writeCount(): number
 }
+
+declare class JoltSharedLayoutFlight extends UIView {
+  static captureImageRadiusMaxPixels(
+    view: UIView,
+    image: boolean,
+    radius: number,
+    maxPixels: number,
+  ): JoltSharedLayoutFlight | null
+  static activeCount(): number
+  pixels(): number
+  state(): string
+  prepareImageRadiusMaxPixels(
+    view: UIView,
+    image: boolean,
+    radius: number,
+    maxPixels: number,
+  ): string | null
+  freeze(maxPixels: number): boolean
+  playOnEnd(configuration: string, onEnd: (completed: boolean) => void): void
+  dispose(): void
+}

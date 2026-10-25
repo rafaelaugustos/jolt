@@ -26,3 +26,5 @@
 -keep class org.rafaelaugusto.jolt.ReorderHandle { *; }
 -keep class org.rafaelaugusto.jolt.ReorderHandle$* { *; }
 -keep class org.rafaelaugusto.jolt.ReorderSurface { *; }
+-keep class org.rafaelaugusto.jolt.SharedLayoutFlight { *; }
+-keep class org.rafaelaugusto.jolt.SharedLayoutFlight$* { *; }

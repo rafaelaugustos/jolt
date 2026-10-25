@@ -1,0 +1,59 @@
+import { isIOS, type View } from '@nativescript/core'
+
+export interface Flight {
+  pixels(): number
+  state(): string
+  prepare(view: View, image: boolean, radius: number, budget: number): string | null
+  freeze(budget: number): boolean
+  play(tracks: string, complete: (finished: boolean) => void): void
+  dispose(): void
+}
+export function capture(
+  view: View,
+  image: boolean,
+  radius: number,
+  budget: number,
+): Flight | undefined {
+  if (isIOS) {
+    if (typeof JoltSharedLayoutFlight === 'undefined')
+      throw new Error('Rebuild the native app to use sharedLayout().')
+    const flight = JoltSharedLayoutFlight.captureImageRadiusMaxPixels(
+      view.nativeViewProtected,
+      image,
+      radius,
+      budget,
+    )
+    if (!flight) return
+    return {
+      pixels: () => flight.pixels(),
+      state: () => flight.state(),
+      prepare: (target, image, radius, budget) =>
+        flight.prepareImageRadiusMaxPixels(
+          target.nativeViewProtected,
+          image,
+          radius,
+          budget,
+        ),
+      freeze: (budget) => flight.freeze(budget),
+      play: (json, done) => flight.playOnEnd(json, done),
+      dispose: () => flight.dispose(),
+    }
+  }
+  const Native = org.rafaelaugusto.jolt.SharedLayoutFlight
+  if (!Native) throw new Error('Rebuild the native app to use sharedLayout().')
+  const flight = Native.capture(view.nativeViewProtected, image, radius, budget)
+  if (!flight) return
+  return {
+    pixels: () => flight.pixels(),
+    state: () => flight.state(),
+    prepare: (target, image, radius, budget) =>
+      flight.prepare(target.nativeViewProtected, image, radius, budget),
+    freeze: (budget) => flight.freeze(budget),
+    play: (json, done) =>
+      flight.play(
+        json,
+        new org.rafaelaugusto.jolt.SharedLayoutFlight.Listener({ onEnd: done }),
+      ),
+    dispose: () => flight.dispose(),
+  }
+}

@@ -49,6 +49,10 @@
     "./reorder": {
       "types": "./dist/reorder/index.d.ts",
       "default": "./dist/reorder/index.js"
+    },
+    "./shared-layout": {
+      "types": "./dist/shared-layout/index.d.ts",
+      "default": "./dist/shared-layout/index.js"
     }
   },
   "files": [

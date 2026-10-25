@@ -2,6 +2,7 @@
 
 ## Animating
 
+- [**sharedLayout(container, options)**](./shared-layout) — optional same-page shared identities, native snapshots, crossfades and interruption. Development preview for beta.18.
 - `animate(target, keyframes | preset, transition?)` — [paths](./paths), [colors](./colors), [corners, borders and shadows](./decorations)
 - [`interactionSurface(target)`](./interaction-surface) — opt into native touch geometry for an animated subtree.
 - [`animateLayout(container, change?, options?)`](./layout) — animate the next layout of a container’s direct children.

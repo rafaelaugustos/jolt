@@ -30,6 +30,7 @@ onLaunch(() => {
     'gesture-lab',
     'bottom-sheet',
     'reorder-lab',
+    'shared-layout',
   ].some((name) => launchArgument(name) !== undefined)
   enablePreviewLanguage(!legacy.value)
   ready.value = true

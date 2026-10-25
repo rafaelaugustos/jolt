@@ -52,6 +52,70 @@ final class DocsTests: XCTestCase {
         start.press(forDuration: 0.55, thenDragTo: destination, withVelocity: fast ? .fast : .slow, thenHoldForDuration: hold)
         Thread.sleep(forTimeInterval: 0.6)
     }
+    func testSharedLayout() throws {
+        launch(["--shared-layout", "--shared-layout-audit"], "shared-toggle")
+        try record("shared-layout-ios") {
+            tap("shared-tab-1", wait: 1.3)
+            tap("shared-tab-2", wait: 1.3)
+            tap("shared-tab-0", wait: 1.3)
+            tap("shared-toggle", wait: 1.5)
+            tap("shared-toggle", wait: 1.5)
+            tap("shared-reverse", wait: 1.7)
+            tap("shared-toggle", wait: 1.5)
+        }
+    }
+    func testSharedLayoutPortuguese() throws {
+        languageLaunch("pt-BR", "language-settings")
+        selectLanguage("system")
+        languageLaunch("pt-BR", "shared-toggle", ["--showcase-example=shared-layout", "--shared-layout-audit"])
+        try record("shared-layout-pt-ios") {
+            tap("shared-tab-1", wait: 1.3)
+            tap("shared-toggle", wait: 1.5)
+            tap("shared-toggle", wait: 1.5)
+            tap("shared-reverse", wait: 1.7)
+        }
+    }
+    func testSharedLayoutChecks() throws {
+        launch(["--shared-layout", "--shared-layout-checks"], "shared-toggle")
+        tap("shared-tab-1", wait: 1.5)
+        XCTAssertTrue(app.staticTexts["completed"].exists, app.debugDescription)
+        tap("Slow next")
+        tap("shared-toggle", wait: 0.15)
+        tap("Verify native", wait: 0.15)
+        XCTAssertTrue(app.staticTexts["Native state active"].exists, app.debugDescription)
+        Thread.sleep(forTimeInterval: 3)
+        tap("Verify native")
+        XCTAssertTrue(app.staticTexts["Native state clean"].exists, app.debugDescription)
+        tap("shared-reverse", wait: 2)
+        XCTAssertTrue(app.staticTexts["completed"].exists, app.debugDescription)
+        tap("Cancel", wait: 1)
+        XCTAssertTrue(app.staticTexts["cancelled"].exists, app.debugDescription)
+        tap("Remove target", wait: 1)
+        XCTAssertTrue(app.staticTexts["missing-target"].exists, app.debugDescription)
+        tap("Reset")
+        tap("Reduce motion")
+        tap("shared-toggle", wait: 1)
+        XCTAssertTrue(app.staticTexts["reduced-motion"].exists, app.debugDescription)
+        tap("Reduce motion")
+        tap("Slow next")
+        tap("shared-toggle", wait: 0.1)
+        XCUIDevice.shared.orientation = .landscapeLeft
+        Thread.sleep(forTimeInterval: 0.5)
+        XCUIDevice.shared.orientation = .portrait
+        Thread.sleep(forTimeInterval: 1)
+        XCTAssertTrue(app.staticTexts["geometry-changed"].exists, app.debugDescription)
+        tap("Verify native")
+        XCTAssertTrue(app.staticTexts["Native state clean"].exists, app.debugDescription)
+        tap("Slow next")
+        tap("shared-toggle", wait: 0.1)
+        XCUIDevice.shared.press(.home)
+        Thread.sleep(forTimeInterval: 0.5)
+        app.activate()
+        Thread.sleep(forTimeInterval: 0.5)
+        XCTAssertTrue(app.staticTexts["suspended"].exists, app.debugDescription)
+        tap("Verify native")
+        XCTAssertTrue(app.staticTexts["Native state clean"].exists, app.debugDescription)
+    }
     func testReorder() throws {
         launch(["--reorder-lab", "--reorder-audit"], "reorder-list")
         try record("reorder-ios") {

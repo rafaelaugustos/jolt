@@ -1,0 +1,70 @@
+{
+  "platform": "iOS 26 simulator",
+  "date": "2026-10-25",
+  "tests": [
+    {
+      "name": "testSharedLayout",
+      "status": "passed",
+      "seconds": 20.369
+    },
+    {
+      "name": "testSharedLayoutChecks",
+      "status": "passed",
+      "seconds": 36.638
+    },
+    {
+      "name": "testSharedLayoutPortuguese",
+      "status": "passed",
+      "seconds": 24.872
+    }
+  ],
+  "finalPortugueseFixture": {
+    "results": [
+      {
+        "status": "completed"
+      },
+      {
+        "status": "completed"
+      },
+      {
+        "status": "completed"
+      },
+      {
+        "status": "cancelled",
+        "reason": "interrupted"
+      },
+      {
+        "status": "completed"
+      }
+    ],
+    "active": false,
+    "expanded": false,
+    "nativeActive": 0,
+    "views": [
+      {
+        "id": "shared-cover",
+        "visible": true,
+        "bounds": {
+          "x": 46,
+          "y": 620
+        },
+        "size": {
+          "width": 70,
+          "height": 70
+        }
+      },
+      {
+        "id": "shared-underline",
+        "visible": true,
+        "bounds": {
+          "x": 144.66666666666666,
+          "y": 406.6666666666667
+        },
+        "size": {
+          "width": 90.66666666666667,
+          "height": 3
+        }
+      }
+    ]
+  }
+}
