@@ -71,6 +71,36 @@ function fixture(
   return { from, to, frame, control, commit, layout, source, target }
 }
 describe('shared navigation route and overlay ownership', () => {
+  it('captures the clipped held pose and carries translation velocity into the spring', async () => {
+    const source = Object.assign(new Image(), {
+      sharedTransitionTag: 'photo',
+      src: 'photo.png',
+      stretch: 'aspectFit',
+      imageSource: new ImageSource({ name: 'photo', symbolImage: false }),
+    })
+    const target = Object.assign(new Image(), {
+      sharedTransitionTag: 'photo',
+      src: source.src,
+      imageSource: source.imageSource,
+      stretch: 'aspectFill',
+    })
+    const f = fixture({}, source, target)
+    const op = f.control.navigate({
+      tag: 'photo',
+      allowClippedSource: true,
+      velocity: { x: 0, y: 900 },
+      navigate: f.commit,
+    })
+    expect(captureNavigationImage).toHaveBeenCalledWith(source, 0, 8_000_000, true)
+    await f.layout()
+    const configured = JSON.parse(flight.play.mock.calls[0]![0])
+    const y = configured.tracks[1]
+    expect(
+      ((y.values[1] - y.values[0]) * 1000) / (y.times[1] - y.times[0]),
+    ).toBeGreaterThan(500)
+    flight.done(true)
+    expect((await op.finished).navigated).toBe(true)
+  })
   it('captures first, invokes one route, prepares after layout and cleans once', async () => {
     const f = fixture()
     const navigate = vi.fn((options) => {

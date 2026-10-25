@@ -1,0 +1,196 @@
+{
+  "events": [
+    {
+      "event": "bound",
+      "time": 1792957257429,
+      "state": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "progress": 0,
+        "pending": false
+      },
+      "ready": true,
+      "route": "gallery-photo-detail"
+    },
+    {
+      "event": "settled",
+      "time": 1792957260711,
+      "state": {
+        "x": -17.701815521105043,
+        "y": -32.448927192074294,
+        "scale": 1.3500825236865925,
+        "progress": 0,
+        "pending": false
+      },
+      "ready": true,
+      "route": "gallery-photo-detail"
+    },
+    {
+      "event": "settled",
+      "time": 1792957261894,
+      "state": {
+        "x": -2.842170943040401e-14,
+        "y": 0,
+        "scale": 1,
+        "progress": 0,
+        "pending": false
+      },
+      "ready": true,
+      "route": "gallery-photo-detail"
+    },
+    {
+      "event": "settled",
+      "time": 1792957263710,
+      "state": {
+        "x": -41.840037212731794,
+        "y": 13.76001440483954,
+        "scale": 1.7156294404255035,
+        "progress": 0,
+        "pending": false
+      },
+      "ready": true,
+      "route": "gallery-photo-detail"
+    },
+    {
+      "event": "settled",
+      "time": 1792957264760,
+      "state": {
+        "x": -2.842170943040401e-14,
+        "y": 0,
+        "scale": 1,
+        "progress": 0,
+        "pending": false
+      },
+      "ready": true,
+      "route": "gallery-photo-detail"
+    },
+    {
+      "event": "settled",
+      "time": 1792957266329,
+      "state": {
+        "x": -2.842170943040401e-14,
+        "y": 0,
+        "scale": 1,
+        "progress": 0,
+        "pending": false
+      },
+      "ready": true,
+      "route": "gallery-photo-detail"
+    },
+    {
+      "event": "released",
+      "time": 1792957268510,
+      "state": {
+        "x": -2.842170943040401e-14,
+        "y": 150,
+        "scale": 0.9103585657370518,
+        "progress": 0.5976095617529881,
+        "pending": true
+      },
+      "ready": true,
+      "route": "gallery-photo-detail",
+      "extra": {
+        "pose": {
+          "x": -2.842170943040401e-14,
+          "y": 150,
+          "scale": 0.9103585657370518,
+          "progress": 0.5976095617529881,
+          "pending": true
+        },
+        "velocity": 136.00000001769422
+      }
+    },
+    {
+      "event": "unloaded",
+      "time": 1792957268544,
+      "state": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "progress": 0,
+        "pending": false
+      },
+      "ready": false,
+      "route": "gallery-photo-detail"
+    },
+    {
+      "event": "unloaded",
+      "time": 1792957268545,
+      "ready": false
+    },
+    {
+      "event": "returned",
+      "time": 1792957269210,
+      "ready": false,
+      "extra": {
+        "status": "completed",
+        "navigated": true
+      }
+    },
+    {
+      "event": "bound",
+      "time": 1792957271727,
+      "state": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "progress": 0,
+        "pending": false
+      },
+      "ready": true,
+      "route": "gallery-photo-detail"
+    },
+    {
+      "event": "released",
+      "time": 1792957273594,
+      "state": {
+        "x": -2.842170943040401e-14,
+        "y": 0,
+        "scale": 1,
+        "progress": 0,
+        "pending": true
+      },
+      "ready": true,
+      "route": "gallery-photo-detail",
+      "extra": {
+        "pose": {
+          "x": -2.842170943040401e-14,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": true
+        },
+        "velocity": 0
+      }
+    },
+    {
+      "event": "unloaded",
+      "time": 1792957273614,
+      "state": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "progress": 0,
+        "pending": false
+      },
+      "ready": false,
+      "route": "gallery-photo-detail"
+    },
+    {
+      "event": "unloaded",
+      "time": 1792957273616,
+      "ready": false
+    },
+    {
+      "event": "returned",
+      "time": 1792957273811,
+      "ready": false,
+      "extra": {
+        "status": "unavailable",
+        "navigated": true,
+        "reason": "missing-target"
+      }
+    }
+  ]
+}

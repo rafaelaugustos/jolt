@@ -13,10 +13,12 @@ import {
   releaseCollection,
   openCollectionPhoto,
   resetCollection,
+  useGalleryCollection,
 } from '../showcase/photo-collection'
 const router = useRouter(),
   { t } = usePreviewI18n()
-defineProps<{ embedded?: boolean }>()
+const props = defineProps<{ embedded?: boolean; gallery?: boolean }>()
+useGalleryCollection(!!props.gallery)
 defineEmits(['back'])
 onUnmounted(releaseCollection)
 function loaded(e: EventData) {
@@ -24,7 +26,12 @@ function loaded(e: EventData) {
 }
 function cell(event: ItemEventData) {
   loadCollectionCell(event, t, (image, photo) => {
-    void openCollectionPhoto(image, photo, router)
+    void openCollectionPhoto(
+      image,
+      photo,
+      router,
+      props.gallery ? '/gallery-photo/' : '/return-photo/',
+    )
   })
 }
 </script>
@@ -33,11 +40,11 @@ function cell(event: ItemEventData) {
     <GridLayout columns="*,auto" margin="0 12 16">
       <StackLayout
         ><Label
-          :text="t('PLACES TO KEEP / 064')"
+          :text="t(props.gallery ? 'THE LIVING GALLERY / 065' : 'PLACES TO KEEP / 064')"
           fontSize="9"
           color="#6A746B"
           letterSpacing="0.16" /><Label
-          :text="t('Every place, remembered.')"
+          :text="t(props.gallery ? 'Keep a little wonder.' : 'Every place, remembered.')"
           fontSize="25"
           fontWeight="700"
           color="#193D34"

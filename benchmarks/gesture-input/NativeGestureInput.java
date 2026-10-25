@@ -28,6 +28,13 @@ public final class NativeGestureInput {
         manager = type.getMethod("getInstance").invoke(null);
         inject = type.getMethod("injectInputEvent", InputEvent.class, int.class);
         float cx = Float.parseFloat(args[0]), cy = Float.parseFloat(args[1]);
+        if(args.length>2 && args[2].equals("photo-interrupt")) {
+            down=SystemClock.uptimeMillis();send(MotionEvent.ACTION_DOWN,cx,cy);send(MotionEvent.ACTION_UP,cx,cy);
+            SystemClock.sleep(70);down=SystemClock.uptimeMillis();send(MotionEvent.ACTION_DOWN,cx,cy);send(MotionEvent.ACTION_UP,cx,cy);
+            SystemClock.sleep(40);down=SystemClock.uptimeMillis();send(MotionEvent.ACTION_DOWN,cx,cy);
+            for(int i=1;i<=15;i++)send(MotionEvent.ACTION_MOVE,cx-i*6,cy+i*2);
+            SystemClock.sleep(200);send(MotionEvent.ACTION_UP,cx-90,cy+30);return;
+        }
         if (args.length > 3 && args[2].startsWith("back")) {
             float delta = Float.parseFloat(args[3]);
             down = SystemClock.uptimeMillis(); send(MotionEvent.ACTION_DOWN, cx, cy);
@@ -68,18 +75,21 @@ public final class NativeGestureInput {
             return;
         }
         boolean cancel = args.length > 2 && args[2].equals("cancel");
+        float half = args.length > 2 && args[2].equals("photo-pinch") ? 200 : 100;
         down = SystemClock.uptimeMillis();
-        float x = cx - 100, y = cy;
+        float x = cx - half, y = cy;
         send(MotionEvent.ACTION_DOWN, x, y);
-        for (int i = 1; i <= 20; i++) send(MotionEvent.ACTION_MOVE, x + i * 2, y - i);
-        x += 40; y -= 20;
+        if(args.length<3 || !args[2].equals("photo-pinch")) {
+            for (int i = 1; i <= 20; i++) send(MotionEvent.ACTION_MOVE, x + i * 2, y - i);
+            x += 40; y -= 20;
+        }
         if (cancel) { send(MotionEvent.ACTION_CANCEL, x, y); return; }
-        float secondX = x + 200, secondY = y;
+        float secondX = x + half * 2, secondY = y;
         send(MotionEvent.ACTION_POINTER_DOWN | (1 << MotionEvent.ACTION_POINTER_INDEX_SHIFT), x, y, secondX, secondY);
         float finalX = x, finalY = y, otherX = secondX, otherY = secondY;
         for (int i = 1; i <= 50; i++) {
-            double t = i / 50.0, angle = t * Math.PI / 6, radius = 100 * (1 + .5 * t);
-            double centerX = x + 100 + 80 * t, centerY = y - 50 * t;
+            double t = i / 50.0, angle = t * Math.PI / 6, radius = half * (1 + .5 * t);
+            double centerX = x + half + 80 * t, centerY = y - 50 * t;
             finalX = (float)(centerX - Math.cos(angle) * radius); finalY = (float)(centerY - Math.sin(angle) * radius);
             otherX = (float)(centerX + Math.cos(angle) * radius); otherY = (float)(centerY + Math.sin(angle) * radius);
             send(MotionEvent.ACTION_MOVE, finalX, finalY, otherX, otherY);

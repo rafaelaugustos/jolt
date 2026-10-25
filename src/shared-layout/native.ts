@@ -74,6 +74,7 @@ export function captureNavigationImage(
   view: View,
   radius: number,
   budget: number,
+  clipped = false,
 ): Flight | undefined {
   if (isIOS) {
     if (
@@ -81,7 +82,11 @@ export function captureNavigationImage(
       !JoltSharedLayoutFlight.captureNavigationImageRadiusMaxPixels
     )
       throw new Error('Rebuild the native app to use sharedNavigation().')
-    const flight = JoltSharedLayoutFlight.captureNavigationImageRadiusMaxPixels(
+    const capture = clipped
+      ? JoltSharedLayoutFlight.captureClippedNavigationImageRadiusMaxPixels
+      : JoltSharedLayoutFlight.captureNavigationImageRadiusMaxPixels
+    const flight = capture.call(
+      JoltSharedLayoutFlight,
       view.nativeViewProtected,
       radius,
       budget,
@@ -107,7 +112,9 @@ export function captureNavigationImage(
   const Native = org.rafaelaugusto.jolt.SharedLayoutFlight
   if (!Native?.captureNavigationImage)
     throw new Error('Rebuild the native app to use sharedNavigation().')
-  const flight = Native.captureNavigationImage(view.nativeViewProtected, radius, budget)
+  const flight = clipped
+    ? Native.captureClippedNavigationImage(view.nativeViewProtected, radius, budget)
+    : Native.captureNavigationImage(view.nativeViewProtected, radius, budget)
   if (!flight) return
   return {
     holdPage: (page, budget) => flight.holdPage(page.nativeViewProtected, budget),

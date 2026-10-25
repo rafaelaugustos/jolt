@@ -32,6 +32,10 @@ export interface SharedNavigationOptions extends SharedLayoutOptions {
   navigationTimeout?: number
 }
 export interface SharedNavigationRequest {
+  /** Capture a dragged static image with its current viewport clipping. */
+  allowClippedSource?: boolean
+  /** Current window-space translation velocity, in DIPs per second. Spring flights only. */
+  velocity?: Readonly<{ x: number; y: number }>
   /** Resolve the current return view after the destination page has been mounted. */
   returnTarget?: SharedReturnTarget
   /** Retain the visible source page while the return target is realized (within the pixel budget). */
@@ -100,6 +104,16 @@ export function sharedNavigation(
       if (typeof request.navigate !== 'function')
         throw new TypeError('A navigation callback is required.')
       validateReturnTarget(request.returnTarget)
+      if (
+        request.velocity &&
+        (!Number.isFinite(request.velocity.x) || !Number.isFinite(request.velocity.y))
+      )
+        throw new RangeError('Navigation velocity must contain finite x and y values.')
+      for (const key of ['holdSource', 'allowClippedSource'] as const)
+        if (request[key] !== undefined && typeof request[key] !== 'boolean')
+          throw new TypeError(`${key} must be boolean.`)
+      if (request.onCaptured !== undefined && typeof request.onCaptured !== 'function')
+        throw new TypeError('onCaptured must be a function.')
       const requestedBudget = request.maxSnapshotPixels ?? budget
       if (
         !Number.isSafeInteger(requestedBudget) ||
@@ -307,7 +321,12 @@ export function sharedNavigation(
                   finish('unavailable', 'unsupported-target')
                   return
                 }
-                const json = tracks(flight, JSON.parse(geometry) as number[], transition)
+                const json = tracks(
+                  flight,
+                  JSON.parse(geometry) as number[],
+                  transition,
+                  request.velocity,
+                )
                 const duration = Math.max(
                   ...(JSON.parse(json).tracks as { times: number[] }[]).map((track) =>
                     track.times.at(-1)!,
@@ -342,7 +361,9 @@ export function sharedNavigation(
         else {
           try {
             flight = image
-              ? captureNavigationImage(source!, radius(source!), flightBudget)
+              ? request.allowClippedSource
+                ? captureNavigationImage(source!, radius(source!), flightBudget, true)
+                : captureNavigationImage(source!, radius(source!), flightBudget)
               : capture(source!, false, radius(source!), flightBudget)
             if (!flight) unavailable = 'unsupported-source'
             else if (

@@ -142,14 +142,36 @@ export async function resolveListTarget(
   },
 ): Promise<View | undefined> {
   const { list, indexOf, viewForKey } = options
+  let previous: { view: View; box: number[] } | undefined
   for (let attempt = 0; attempt < 4 && !context.signal.aborted; attempt++) {
     const index = indexOf(context.key)
     if (!Number.isSafeInteger(index) || index < 0) return
     list.scrollToIndex(index)
     await afterReturnLayout(list, context.signal)
-    if (indexOf(context.key) !== index) continue
+    if (indexOf(context.key) !== index) {
+      previous = undefined
+      continue
+    }
     const view = viewForKey(context.key)
-    if (view?.sharedTransitionTag === context.tag) return view
+    if (view?.sharedTransitionTag !== context.tag) {
+      previous = undefined
+      continue
+    }
+    const point = view.getLocationInWindow()
+    const size = view?.getActualSize()
+    if (!point || !size || size.width <= 0 || size.height <= 0) {
+      previous = undefined
+      continue
+    }
+    const box = [point.x, point.y, size.width, size.height]
+    // Estimated row heights can adjust contentOffset after the first realization.
+    // Require the same live cell/rectangle across layout passes before handing it off.
+    if (
+      previous?.view === view &&
+      box.every((v, i) => Number.isFinite(v) && Math.abs(v - previous!.box[i]!) < 0.5)
+    )
+      return view
+    previous = { view, box }
   }
 }
 export function focusReturnTarget(page: Page, view: View | undefined) {

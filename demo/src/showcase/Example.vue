@@ -34,6 +34,7 @@ function leave() {
       'predictive-back',
       'shared-entry',
       'return-targets',
+      'gallery',
     ].includes(example?.id ?? '')
   )
     return

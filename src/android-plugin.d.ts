@@ -415,6 +415,11 @@ declare namespace org.rafaelaugusto.jolt {
       radius: number,
       maxPixels: number,
     ): SharedLayoutFlight | null
+    static captureClippedNavigationImage(
+      view: android.view.View,
+      radius: number,
+      maxPixels: number,
+    ): SharedLayoutFlight | null
     prepareNavigationImage(
       view: android.view.View,
       radius: number,

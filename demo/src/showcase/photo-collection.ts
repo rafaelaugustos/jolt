@@ -42,6 +42,16 @@ export const collectionRows = computed(() =>
   ),
 )
 export const selectedPhoto = shallowRef<CollectionPhoto>()
+export const collectionReady = ref(0)
+export const galleryEvents: object[] = []
+let gallery = false
+export function useGalleryCollection(enabled: boolean) {
+  gallery = enabled
+  resetCollection()
+}
+export function setCollectionGate(gate: () => boolean) {
+  collectionGate = gate
+}
 export const collectionStatus = ref('Find a place. Make it yours.')
 export const collectionReduced = ref(false)
 export const collectionAudit = () => launchArgument('collection-audit') !== undefined
@@ -55,6 +65,7 @@ export function releaseCollection() {
   collectionEntry?.dispose()
   collectionEntry = undefined
   collectionList = undefined
+  collectionGate = () => true
 }
 export const photoTag = (key: string) => `collection:${key}`
 const events: SharedNavigationEntryEvent[] = [],
@@ -64,6 +75,24 @@ let commits = 0,
   requestKey: string | undefined
 export function resetCollection() {
   collectionPhotos.value = originals()
+  if (gallery)
+    collectionPhotos.value = collectionPhotos.value.map((photo, i) =>
+      i % 8 === 2
+        ? {
+            ...photo,
+            src: '~/assets/jolt-mark.png',
+            title: 'A little spark',
+            note: 'Room for a little imagination.',
+          }
+        : i % 8 === 3
+          ? {
+              ...photo,
+              src: '~/assets/image-grid.png',
+              title: 'Colour study',
+              note: 'See it from a different angle.',
+            }
+          : photo,
+    )
   collectionStatus.value = 'Find a place. Make it yours.'
   void nextTick(() => {
     const list = collectionList
@@ -217,6 +246,7 @@ export async function openCollectionPhoto(
       return (await router.back(options)) === undefined
     },
     onState(event) {
+      if (event.state === 'idle') collectionReady.value++
       if (collectionAudit()) events.push(event)
       if (event.outcome === 'cancelled')
         collectionStatus.value = 'Changed your mind. Your place is still here.'

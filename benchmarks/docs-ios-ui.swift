@@ -269,6 +269,85 @@ final class DocsTests: XCTestCase {
         tap("interactive-back", wait: 1.2)
         XCTAssertTrue(app.descendants(matching: .any)["interactive-open"].firstMatch.exists, app.debugDescription)
     }
+    func galleryStory() throws {
+        tap("collection-place-1", wait: 1.1)
+        let photo = app.descendants(matching: .any)["gallery-image"].firstMatch
+        XCTAssertNil(JoltGestureTrace(CGPoint(x: photo.frame.midX, y: photo.frame.midY)))
+        Thread.sleep(forTimeInterval: 0.8)
+        tap("gallery-reset", wait: 0.8)
+        XCTAssertNil(JoltPhotoInterrupt(CGPoint(x: photo.frame.midX, y: photo.frame.midY)))
+        Thread.sleep(forTimeInterval: 0.7)
+        tap("gallery-reset", wait: 0.8)
+        drag(photo, x: 0, y: 40)
+        XCTAssertTrue(photo.exists && photo.isHittable, app.debugDescription)
+        tap("gallery-move", wait: 0.3)
+        drag(photo, x: 0, y: 160)
+        let returned = app.descendants(matching: .any)["collection-place-1"].firstMatch
+        XCTAssertTrue(returned.waitForExistence(timeout: 4) && returned.isHittable, app.debugDescription)
+        tap("collection-place-1", wait: 1.0)
+        tap("gallery-remove", wait: 0.3)
+        tap("gallery-close", wait: 1.2)
+        XCTAssertTrue(app.descendants(matching: .any)["collection-grid"].firstMatch.exists, app.debugDescription)
+    }
+    func testGallery() throws {
+        languageLaunch("en", "language-settings"); selectLanguage("en")
+        languageLaunch("en", "collection-place-1", ["--showcase-example=gallery"])
+        try record("gallery-ios") { try galleryStory() }
+    }
+    func testGalleryPortuguese() throws {
+        languageLaunch("pt-BR", "language-settings"); selectLanguage("system")
+        languageLaunch("pt-BR", "collection-place-1", ["--showcase-example=gallery"])
+        try record("gallery-pt-ios") { try galleryStory() }
+    }
+    func testGalleryHandoffCheck() throws {
+        launch(["--showcase-example=gallery", "--gallery-audit"], "collection-place-1")
+        try record("gallery-handoff-check") { try galleryStory() }
+    }
+    func testGalleryLifecycle() throws {
+        launch(["--showcase-example=gallery", "--gallery-audit", "--collection-audit"], "collection-place-1")
+        tap("collection-place-1", wait: 1.0)
+        tap("gallery-zoom")
+        XCUIDevice.shared.orientation = .landscapeLeft
+        Thread.sleep(forTimeInterval: 1)
+        XCUIDevice.shared.orientation = .portrait
+        Thread.sleep(forTimeInterval: 1)
+        tap("gallery-reset")
+        XCUIDevice.shared.press(.home)
+        Thread.sleep(forTimeInterval: 0.5)
+        app.activate()
+        Thread.sleep(forTimeInterval: 0.8)
+        tap("gallery-close", wait: 1.4)
+        XCTAssertTrue(app.descendants(matching: .any)["collection-grid"].firstMatch.exists, app.debugDescription)
+        for _ in 0..<3 {
+            tap("collection-place-1", wait: 0.8)
+            tap("gallery-close", wait: 1.2)
+            XCTAssertTrue(app.descendants(matching: .any)["collection-place-1"].firstMatch.isHittable, app.debugDescription)
+        }
+    }
+    func testGalleryChecks() throws {
+        launch(["--showcase-example=gallery", "--gallery-audit", "--collection-audit"], "collection-place-1")
+        tap("collection-place-1", wait: 0.05)
+        tap("gallery-close", wait: 1.5)
+        // UIKit may suppress a touch during its entry transition. A delivered
+        // request queues; a subsequent accessible request must still pop once.
+        if app.descendants(matching: .any)["gallery-close"].firstMatch.exists { tap("gallery-close", wait: 1.5) }
+        XCTAssertTrue(app.descendants(matching: .any)["collection-grid"].firstMatch.exists, app.debugDescription)
+        tap("collection-place-3", wait: 1.0)
+        tap("gallery-zoom"); tap("gallery-close", wait: 1.5)
+        XCTAssertTrue(app.descendants(matching: .any)["collection-place-3"].firstMatch.isHittable, app.debugDescription)
+        tap("collection-place-4", wait: 1.0)
+        edgeBack(0.3)
+        XCTAssertTrue(app.descendants(matching: .any)["gallery-image"].firstMatch.exists, app.debugDescription)
+        edgeBack(0.8)
+        XCTAssertTrue(app.descendants(matching: .any)["collection-place-4"].firstMatch.isHittable, app.debugDescription)
+        tap("collection-reduce")
+        tap("collection-place-1", wait: 1.0)
+        tap("gallery-close", wait: 1.0)
+        XCTAssertTrue(app.descendants(matching: .any)["collection-place-1"].firstMatch.isHittable, app.debugDescription)
+        launch(["--gallery-direct", "--gallery-audit"], "gallery-close")
+        tap("gallery-close", wait: 1.0)
+        XCTAssertTrue(app.descendants(matching: .any)["collection-grid"].firstMatch.waitForExistence(timeout: 4), app.debugDescription)
+    }
     func returnTargetStory() throws {
         tap("collection-place-1", wait: 1.0)
         tap("collection-move", wait: 0.4)

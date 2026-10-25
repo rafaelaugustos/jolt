@@ -48,7 +48,7 @@ export interface SharedNavigationEntryEvent {
 export interface SharedNavigationEntryOptions {
   tag: string
   returnTarget?: SharedReturnTarget
-  /** Gate an iOS edge return when another interaction owns the image. */
+  /** Gate iOS edge start and Android back commitment when another interaction owns the image. */
   canBegin?: () => boolean
   /** Route owner. Map a rejected router navigation to false. Called once per committed back. */
   back(options: SharedNavigationRouteOptions): boolean | void | Promise<boolean | void>
@@ -67,6 +67,10 @@ export interface SharedNavigationEntry {
   ): Promise<SharedNavigationResult>
   /** A request during entry is serialized until entry completes. Repeated requests coalesce. */
   back(): void
+  /** Return from a held image pose. Capture precedes routing; rejection leaves the entry usable. */
+  returnToSource(options?: {
+    velocity?: Readonly<{ x: number; y: number }>
+  }): Promise<SharedNavigationResult>
   cancel(): void
   dispose(): void
 }
@@ -121,6 +125,7 @@ export function sharedNavigationEntry(
     queuedBack = false,
     used = false,
     backInFlight = false
+  let handingOff = false
   let timer: ReturnType<typeof setTimeout> | undefined,
     reload: ReturnType<typeof setTimeout> | undefined
   let finishOpen: ((result: SharedNavigationResult) => void) | undefined
@@ -214,16 +219,20 @@ export function sharedNavigationEntry(
         spring: options.spring,
         commitTimeout: timeout,
         commit: async (opts) => {
-          if (frame.currentPage !== page) return false
+          if (frame.currentPage !== page || backInFlight) return false
+          if (options.canBegin && !options.canBegin()) return false
           backInFlight = true
           try {
-            return options.returnTarget ? await resolvedBack() : await options.back(opts)
+            return options.returnTarget
+              ? (await resolvedBack()).navigated
+              : await options.back(opts)
           } finally {
             backInFlight = false
           }
         },
         onState(event) {
           if (state === 'disposed') return
+          if (handingOff) return
           if ((event.state === 'tracking' || event.state === 'finishing') && scene) {
             const current = find(sourcePage, options.tag)
             if (
@@ -265,7 +274,9 @@ export function sharedNavigationEntry(
     if (scene) nativeBackSessions.get(android)?.setSharedScene(scene)
     if (!android.supported) unavailable('unsupported-platform')
   }
-  async function resolvedBack(): Promise<boolean> {
+  async function resolvedBack(handoff?: {
+    velocity?: Readonly<{ x: number; y: number }>
+  }): Promise<SharedNavigationResult> {
     const existing = navigationScopes.get(frame)
     const owner =
       existing ??
@@ -278,6 +289,7 @@ export function sharedNavigationEntry(
     // Preserve a caller-owned Frame controller; only release the controller created here.
     try {
       const operation = owner.navigate({
+        ...(handoff ? { allowClippedSource: true, velocity: handoff.velocity } : {}),
         tag: options.tag,
         returnTarget: options.returnTarget,
         holdSource: true,
@@ -288,7 +300,7 @@ export function sharedNavigationEntry(
       const result = await operation.finished
       if (result.status === 'completed') shared = { status: 'ready' }
       else unavailable(result.reason ?? 'return-unavailable')
-      return result.navigated
+      return result
     } finally {
       flight = undefined
       if (owned) owner.dispose()
@@ -366,9 +378,10 @@ export function sharedNavigationEntry(
               maxSnapshotPixels: budget,
               ...(options.returnTarget ? { returnTarget: options.returnTarget } : {}),
             },
-            canBegin: options.canBegin,
+            canBegin: () => !backInFlight && (options.canBegin?.() ?? true),
             onState(event) {
               if (state === 'disposed') return
+              if (handingOff) return
               if (event.shared) shared = event.shared
               if (event.state === 'idle') {
                 if (opening)
@@ -500,7 +513,7 @@ export function sharedNavigationEntry(
           state === 'disposed'
             ? false
             : options.returnTarget && !ios?.supported
-              ? resolvedBack()
+              ? resolvedBack().then((result) => result.navigated)
               : options.back(isIOS && ios?.supported ? {} : { animated: false }),
         )
         .then(
@@ -531,6 +544,45 @@ export function sharedNavigationEntry(
             if (state !== 'disposed') emit('idle', { outcome: 'cancelled' })
           },
         )
+    },
+    async returnToSource(handoff = {}) {
+      if (
+        handoff.velocity &&
+        (!Number.isFinite(handoff.velocity.x) || !Number.isFinite(handoff.velocity.y))
+      )
+        throw new RangeError('Navigation velocity must contain finite x and y values.')
+      if (state !== 'idle' || backInFlight || opening || frame.currentPage !== page)
+        return {
+          status: 'unavailable',
+          navigated: false,
+          reason: state === 'disposed' ? 'disposed' : 'busy',
+        }
+      backInFlight = true
+      handingOff = true
+      emit('committing')
+      let result: SharedNavigationResult
+      try {
+        result =
+          control.state === 'disposed'
+            ? { status: 'cancelled', navigated: false, reason: 'disposed' }
+            : await resolvedBack(handoff)
+      } catch (error) {
+        result = {
+          status: 'failed',
+          navigated: frame.currentPage !== page,
+          reason: 'navigation-failed',
+          error,
+        }
+      } finally {
+        handingOff = false
+        backInFlight = false
+      }
+      if (control.state !== 'disposed') {
+        emit('idle', { outcome: result.navigated ? 'completed' : 'cancelled' })
+        if (result.navigated) control.dispose()
+        else scheduleBind()
+      }
+      return result
     },
     cancel() {
       queuedBack = false

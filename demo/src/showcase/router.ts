@@ -1,4 +1,5 @@
 import ReturnPhotoDetail from './ReturnPhotoDetail.vue'
+import GalleryPhotoDetail from './GalleryPhotoDetail.vue'
 import { createRouter } from 'vue-router-ns'
 import SharedNavigationDetail from './SharedNavigationDetail.vue'
 import InteractiveNavigationDetail from './InteractiveNavigationDetail.vue'
@@ -12,6 +13,7 @@ import Appearance from './Appearance.vue'
 
 export const router = createRouter({
   routes: [
+    { path: '/gallery-photo/:key', name: 'gallery-photo', component: GalleryPhotoDetail },
     { path: '/return-photo/:key', name: 'return-photo', component: ReturnPhotoDetail },
     {
       path: '/shared-entry/:mode',

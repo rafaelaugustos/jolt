@@ -1,0 +1,2149 @@
+{
+  "state": "disposed",
+  "page": "gallery",
+  "depth": 0,
+  "key": "place-1",
+  "index": 0,
+  "resolvedTag": "collection:place-1",
+  "tags": [
+    {
+      "tag": "collection:place-1",
+      "visible": true,
+      "frame": {
+        "x": 32,
+        "y": 296.33333333333326,
+        "w": 163,
+        "h": 212,
+        "hidden": false,
+        "alpha": 1,
+        "window": true,
+        "type": "function UIImageView() { [native code] }"
+      }
+    },
+    {
+      "tag": "collection:place-2",
+      "visible": true,
+      "frame": {
+        "x": 207,
+        "y": 296.33333333333326,
+        "w": 163,
+        "h": 180,
+        "hidden": false,
+        "alpha": 1,
+        "window": true,
+        "type": "function UIImageView() { [native code] }"
+      }
+    },
+    {
+      "tag": "collection:place-3",
+      "visible": true,
+      "frame": {
+        "x": 32,
+        "y": 587.3333333333333,
+        "w": 163,
+        "h": 180,
+        "hidden": false,
+        "alpha": 1,
+        "window": true,
+        "type": "function UIImageView() { [native code] }"
+      }
+    },
+    {
+      "tag": "collection:place-4",
+      "visible": true,
+      "frame": {
+        "x": 207,
+        "y": 587.3333333333333,
+        "w": 163,
+        "h": 212,
+        "hidden": false,
+        "alpha": 1,
+        "window": true,
+        "type": "function UIImageView() { [native code] }"
+      }
+    }
+  ],
+  "flights": 0,
+  "inputs": 0,
+  "retained": 0,
+  "commits": 3,
+  "events": [
+    {
+      "state": "opening"
+    },
+    {
+      "state": "opening",
+      "shared": {
+        "status": "ready"
+      }
+    },
+    {
+      "state": "idle",
+      "shared": {
+        "status": "ready"
+      }
+    },
+    {
+      "state": "disposed",
+      "shared": {
+        "status": "ready"
+      }
+    },
+    {
+      "state": "opening"
+    },
+    {
+      "state": "opening",
+      "shared": {
+        "status": "ready"
+      }
+    },
+    {
+      "state": "idle",
+      "shared": {
+        "status": "ready"
+      }
+    },
+    {
+      "state": "committing",
+      "shared": {
+        "status": "ready"
+      }
+    },
+    {
+      "state": "idle",
+      "shared": {
+        "status": "ready"
+      },
+      "outcome": "completed"
+    },
+    {
+      "state": "disposed",
+      "shared": {
+        "status": "ready"
+      }
+    },
+    {
+      "state": "opening"
+    },
+    {
+      "state": "opening",
+      "shared": {
+        "status": "ready"
+      }
+    },
+    {
+      "state": "idle",
+      "shared": {
+        "status": "ready"
+      }
+    },
+    {
+      "state": "committing",
+      "shared": {
+        "status": "ready"
+      }
+    },
+    {
+      "state": "idle",
+      "shared": {
+        "status": "ready"
+      },
+      "outcome": "completed"
+    },
+    {
+      "state": "disposed",
+      "shared": {
+        "status": "ready"
+      }
+    },
+    {
+      "state": "opening"
+    },
+    {
+      "state": "opening",
+      "shared": {
+        "status": "ready"
+      }
+    },
+    {
+      "state": "idle",
+      "shared": {
+        "status": "ready"
+      }
+    },
+    {
+      "state": "committing",
+      "shared": {
+        "status": "ready"
+      }
+    },
+    {
+      "state": "idle",
+      "shared": {
+        "status": "ready"
+      },
+      "outcome": "completed"
+    },
+    {
+      "state": "disposed",
+      "shared": {
+        "status": "ready"
+      }
+    }
+  ],
+  "snapshots": [
+    {
+      "state": "opening",
+      "page": "gallery",
+      "depth": 0,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-2",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-3",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-4",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 0,
+      "retained": 0
+    },
+    {
+      "state": "opening",
+      "page": "gallery",
+      "depth": 0,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": false,
+          "frame": {
+            "x": 32,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 212,
+            "hidden": true,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-2",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-3",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-4",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 1,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "idle",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 18,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "idle",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 18,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "idle",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 18,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "idle",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": -256.5,
+            "y": -242.5,
+            "w": 915,
+            "h": 1255,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "idle",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": -455.5000000000001,
+            "y": -7.5,
+            "w": 1785,
+            "h": 265,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "idle",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": -256.5,
+            "y": -242.5,
+            "w": 915,
+            "h": 1255,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "idle",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 17.99999999999997,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "disposed",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 17.99999999999997,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 0,
+      "retained": 0
+    },
+    {
+      "state": "disposed",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 17.99999999999997,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 0,
+      "retained": 0
+    },
+    {
+      "state": "disposed",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 17.99999999999997,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 0,
+      "retained": 0
+    },
+    {
+      "state": "disposed",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 17.99999999999997,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 0,
+      "retained": 0
+    },
+    {
+      "state": "disposed",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 18.000000000000085,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 0,
+      "retained": 0
+    },
+    {
+      "state": "disposed",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 18.000000000000085,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 0,
+      "retained": 0
+    },
+    {
+      "state": "disposed",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 17.99999999999997,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 0,
+      "retained": 0
+    },
+    {
+      "state": "disposed",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": false,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 0,
+      "retained": 0
+    },
+    {
+      "state": "opening",
+      "page": "gallery",
+      "depth": 0,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-2",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-3",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-4",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 0,
+      "retained": 0
+    },
+    {
+      "state": "opening",
+      "page": "gallery",
+      "depth": 0,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": false,
+          "frame": {
+            "x": 32,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 212,
+            "hidden": true,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-2",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-3",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-4",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 1,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "idle",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 18,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "idle",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 18,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "idle",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 18,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "idle",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 17.99999999999997,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "committing",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": false,
+          "frame": {
+            "x": 17.99999999999997,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": true,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 1,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "committing",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": false,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 366,
+            "h": 502,
+            "hidden": true,
+            "alpha": 1,
+            "window": false,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 1,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "disposed",
+      "page": "gallery",
+      "depth": 0,
+      "key": "place-1",
+      "index": 0,
+      "resolvedTag": "collection:place-1",
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-2",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-3",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-4",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 0,
+      "retained": 0
+    },
+    {
+      "state": "disposed",
+      "page": "gallery",
+      "depth": 0,
+      "key": "place-1",
+      "index": 0,
+      "resolvedTag": "collection:place-1",
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-2",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-3",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-4",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 0,
+      "retained": 0
+    },
+    {
+      "state": "opening",
+      "page": "gallery",
+      "depth": 0,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-2",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-3",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-4",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 0,
+      "retained": 0
+    },
+    {
+      "state": "opening",
+      "page": "gallery",
+      "depth": 0,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": false,
+          "frame": {
+            "x": 32,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 212,
+            "hidden": true,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-2",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-3",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-4",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 1,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "opening",
+      "page": "gallery",
+      "depth": 0,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": false,
+          "frame": {
+            "x": 32,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 212,
+            "hidden": true,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-2",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-3",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-4",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 1,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "idle",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 18,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "idle",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 18,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "idle",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 18,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "idle",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 17.99999999999997,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "committing",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": false,
+          "frame": {
+            "x": 17.99999999999997,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": true,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 1,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "committing",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": false,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 366,
+            "h": 502,
+            "hidden": true,
+            "alpha": 1,
+            "window": false,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 1,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "disposed",
+      "page": "gallery",
+      "depth": 0,
+      "key": "place-1",
+      "index": 0,
+      "resolvedTag": "collection:place-1",
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-2",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-3",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-4",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 0,
+      "retained": 0
+    },
+    {
+      "state": "disposed",
+      "page": "gallery",
+      "depth": 0,
+      "key": "place-1",
+      "index": 0,
+      "resolvedTag": "collection:place-1",
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-2",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-3",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-4",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 0,
+      "retained": 0
+    },
+    {
+      "state": "opening",
+      "page": "gallery",
+      "depth": 0,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-2",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-3",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-4",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 0,
+      "retained": 0
+    },
+    {
+      "state": "opening",
+      "page": "gallery",
+      "depth": 0,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": false,
+          "frame": {
+            "x": 32,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 212,
+            "hidden": true,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-2",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-3",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-4",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 1,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "opening",
+      "page": "gallery",
+      "depth": 0,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": false,
+          "frame": {
+            "x": 32,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 212,
+            "hidden": true,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-2",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-3",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-4",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 1,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "idle",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 18,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "idle",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 18,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "idle",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 18,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "idle",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 17.99999999999997,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "committing",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": false,
+          "frame": {
+            "x": 17.99999999999997,
+            "y": 134,
+            "w": 366,
+            "h": 502,
+            "hidden": true,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 1,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "committing",
+      "page": "gallery-photo-detail",
+      "depth": 1,
+      "key": "place-1",
+      "index": 0,
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": false,
+          "frame": {
+            "x": 0,
+            "y": 0,
+            "w": 366,
+            "h": 502,
+            "hidden": true,
+            "alpha": 1,
+            "window": false,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 1,
+      "inputs": 1,
+      "retained": 0
+    },
+    {
+      "state": "disposed",
+      "page": "gallery",
+      "depth": 0,
+      "key": "place-1",
+      "index": 0,
+      "resolvedTag": "collection:place-1",
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-2",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-3",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-4",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 0,
+      "retained": 0
+    },
+    {
+      "state": "disposed",
+      "page": "gallery",
+      "depth": 0,
+      "key": "place-1",
+      "index": 0,
+      "resolvedTag": "collection:place-1",
+      "tags": [
+        {
+          "tag": "collection:place-1",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-2",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 296.33333333333326,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-3",
+          "visible": true,
+          "frame": {
+            "x": 32,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 180,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        },
+        {
+          "tag": "collection:place-4",
+          "visible": true,
+          "frame": {
+            "x": 207,
+            "y": 587.3333333333333,
+            "w": 163,
+            "h": 212,
+            "hidden": false,
+            "alpha": 1,
+            "window": true,
+            "type": "function UIImageView() { [native code] }"
+          }
+        }
+      ],
+      "flights": 0,
+      "inputs": 0,
+      "retained": 0
+    }
+  ]
+}

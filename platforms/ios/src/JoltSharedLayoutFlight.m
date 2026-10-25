@@ -2,9 +2,9 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface JoltSharedLayoutFlight () {
-    double _pose[10], _velocity[10], _interactiveStart[10], _interactiveEnd[10];
+    double _pose[14], _velocity[14], _interactiveStart[14], _interactiveEnd[14];
 }
-@property(nonatomic) BOOL navigationImage, fading;
+@property(nonatomic) BOOL navigationImage, clippedImage, fading;
 @property(nonatomic) UIImage *pageImage;
 @property(nonatomic) CGRect pageFrame;
 @property(nonatomic,weak) UIWindow *host;
@@ -50,6 +50,16 @@ static BOOL JoltSharedUnsupportedContent(UIView *view, BOOL allowScrolling) {
     }
     return YES;
 }
+// Preserve both the full image pose and the viewport clipping at a drag handoff.
+- (CGRect)visibleClip:(UIView *)view frame:(CGRect)frame {
+    if(CGRectIsNull(frame))return CGRectNull;
+    CGRect clip=CGRectIntersection(frame,self.host.bounds);
+    for(UIView *p=view.superview;p;p=p.superview)if(p.clipsToBounds) {
+        CGRect parent=[self geometry:p presentation:NO];if(CGRectIsNull(parent))return CGRectNull;
+        clip=CGRectIntersection(clip,parent);
+    }
+    return CGRectIsEmpty(clip)?CGRectNull:clip;
+}
 - (UIImage *)snapshot:(UIView *)view budget:(double)budget presentation:(BOOL)presentation {
     CGFloat scale=self.host.screen.scale;
     if(ceil(view.bounds.size.width*scale)*ceil(view.bounds.size.height*scale)>budget || JoltSharedUnsupportedContent(view, NO))return nil;
@@ -81,22 +91,33 @@ static BOOL JoltSharedUnsupportedContent(UIView *view, BOOL allowScrolling) {
 - (NSArray *)navigationGeometry:(UIImageView *)view radius:(double)radius presentation:(BOOL)presentation {
     if(![view isKindOfClass:UIImageView.class] || !view.image || view.image.images.count || view.image.renderingMode==UIImageRenderingModeAlwaysTemplate ||
        (view.contentMode!=UIViewContentModeScaleAspectFit && view.contentMode!=UIViewContentModeScaleAspectFill))return nil;
-    CGRect rect=[self geometry:view presentation:presentation]; if(![self visibleBounds:view frame:rect])return nil;
+    CGRect rect=[self geometry:view presentation:presentation];
+    CGRect clip=self.clippedImage?[self visibleClip:view frame:rect]:rect;
+    if(self.clippedImage?CGRectIsNull(clip):![self visibleBounds:view frame:rect])return nil;
     CGSize image=view.image.size;
     if(image.width<=0 || image.height<=0)return nil;
     double scale=view.contentMode==UIViewContentModeScaleAspectFill?MAX(rect.size.width/image.width,rect.size.height/image.height):MIN(rect.size.width/image.width,rect.size.height/image.height);
     double w=image.width*scale,h=image.height*scale;
-    return @[@(rect.origin.x),@(rect.origin.y),@(rect.size.width),@(rect.size.height),@(radius*rect.size.width/view.bounds.size.width),@((rect.size.width-w)/2),@((rect.size.height-h)/2),@(w),@(h)];
+    NSMutableArray *pose=[@[@(rect.origin.x),@(rect.origin.y),@(rect.size.width),@(rect.size.height),@(radius*rect.size.width/view.bounds.size.width),@((rect.size.width-w)/2),@((rect.size.height-h)/2),@(w),@(h)] mutableCopy];
+    if(self.clippedImage)[pose addObjectsFromArray:@[@(clip.origin.x),@(clip.origin.y),@(clip.size.width),@(clip.size.height)]];
+    return pose;
 }
 + (instancetype)captureNavigationImage:(UIView *)view radius:(double)radius maxPixels:(double)maxPixels {
+    return [self captureNavigationImage:view radius:radius maxPixels:maxPixels clipped:NO];
+}
++ (instancetype)captureClippedNavigationImage:(UIView *)view radius:(double)radius maxPixels:(double)maxPixels {
+    return [self captureNavigationImage:view radius:radius maxPixels:maxPixels clipped:YES];
+}
++ (instancetype)captureNavigationImage:(UIView *)view radius:(double)radius maxPixels:(double)maxPixels clipped:(BOOL)clipped {
     if(!view.window || view.hidden)return nil;
     JoltSharedLayoutFlight *flight=[[self alloc]initWithFrame:view.window.bounds];
     flight.host=view.window; flight.viewport=view.window.bounds.size; flight.hiddenViews=[NSMapTable weakToStrongObjectsMapTable];
+    flight.clippedImage=clipped;
     NSArray *pose=[flight navigationGeometry:(UIImageView *)view radius:radius presentation:YES]; if(!pose)return nil;
     UIImage *image=((UIImageView *)view).image;
     if(!image.CGImage || (double)CGImageGetWidth(image.CGImage)*CGImageGetHeight(image.CGImage)>maxPixels)return nil;
     flight.navigationImage=YES; flight.sourceImage=image;
-    for(int i=0;i<9;i++)flight->_pose[i<5?i:i+1]=[pose[i] doubleValue];
+    for(int i=0;i<pose.count;i++)flight->_pose[i<5?i:i+1]=[pose[i] doubleValue];
     flight.opaque=NO; flight.backgroundColor=UIColor.clearColor; flight.userInteractionEnabled=NO; flight.accessibilityElementsHidden=YES;
     [flight hide:view]; [flight.host addSubview:flight]; JoltSharedActive++; return flight;
 }
@@ -132,7 +153,7 @@ static BOOL JoltSharedUnsupportedContent(UIView *view, BOOL allowScrolling) {
 }
 - (NSString *)state {
     NSMutableArray *pose=[NSMutableArray new],*velocity=[NSMutableArray new];
-    for(int i=0;i<(self.navigationImage?10:6);i++)[pose addObject:@(_pose[i])]; for(int i=0;i<(self.navigationImage?10:5);i++)[velocity addObject:@(_velocity[i])];
+    for(int i=0;i<(self.navigationImage?(self.clippedImage?14:10):6);i++)[pose addObject:@(_pose[i])]; for(int i=0;i<(self.navigationImage?(self.clippedImage?14:10):5);i++)[velocity addObject:@(_velocity[i])];
     return [[NSString alloc]initWithData:[NSJSONSerialization dataWithJSONObject:@{@"pose":pose,@"velocity":velocity} options:0 error:nil] encoding:NSUTF8StringEncoding];
 }
 - (NSString *)prepare:(UIView *)view image:(BOOL)image radius:(double)radius maxPixels:(double)maxPixels {
@@ -164,9 +185,9 @@ static BOOL JoltSharedUnsupportedContent(UIView *view, BOOL allowScrolling) {
 - (BOOL)beginInteractive:(NSString *)geometry {
     if(self.disposed || self.clock || !geometry)return NO;
     NSArray *target=[NSJSONSerialization JSONObjectWithData:[geometry dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
-    if(![target isKindOfClass:NSArray.class] || target.count!=(self.navigationImage?9:5))return NO;
+    if(![target isKindOfClass:NSArray.class] || target.count!=(self.navigationImage?(self.clippedImage?13:9):5))return NO;
     for(id value in target)if(![value isKindOfClass:NSNumber.class] || !isfinite([value doubleValue]))return NO;
-    for(int i=0;i<10;i++) { _interactiveStart[i]=_pose[i]; _interactiveEnd[i]=_pose[i]; }
+    for(int i=0;i<14;i++) { _interactiveStart[i]=_pose[i]; _interactiveEnd[i]=_pose[i]; }
     for(int i=0;i<target.count;i++)_interactiveEnd[i<5?i:i+1]=[target[i] doubleValue];
     _interactiveEnd[5]=1;
     return YES;
@@ -174,7 +195,7 @@ static BOOL JoltSharedUnsupportedContent(UIView *view, BOOL allowScrolling) {
 - (void)updateInteractive:(double)progress {
     if(self.disposed)return;
     double p=MAX(0,MIN(1,isfinite(progress)?progress:0));
-    for(int i=0;i<10;i++)_pose[i]=_interactiveStart[i]+(_interactiveEnd[i]-_interactiveStart[i])*p;
+    for(int i=0;i<14;i++)_pose[i]=_interactiveStart[i]+(_interactiveEnd[i]-_interactiveStart[i])*p;
     [self setNeedsDisplay];
 }
 - (BOOL)destinationIsStable {
@@ -185,7 +206,7 @@ static BOOL JoltSharedUnsupportedContent(UIView *view, BOOL allowScrolling) {
 }
 - (void)evaluate:(double)now {
     double elapsed=MAX(0,now-self.started);
-    for(int k=0;k<(self.navigationImage?10:6);k++) {
+    for(int k=0;k<(self.navigationImage?(self.clippedImage?14:10):6);k++) {
         NSArray *times=self.tracks[k][@"times"],*values=self.tracks[k][@"values"]; NSUInteger j=1;
         while(j<times.count-1 && [times[j] doubleValue]<elapsed)j++;
         double span=[times[j] doubleValue]-[times[j-1] doubleValue]; double fraction=span<=0?1:MAX(0,MIN(1,(elapsed-[times[j-1] doubleValue])/span));
@@ -212,6 +233,7 @@ static BOOL JoltSharedUnsupportedContent(UIView *view, BOOL allowScrolling) {
     CGFloat radius=MAX(0,MIN(_pose[4],MIN(box.size.width,box.size.height)/2)); CGContextRef context=UIGraphicsGetCurrentContext(); CGContextSaveGState(context);
     [[UIBezierPath bezierPathWithRoundedRect:box cornerRadius:radius]addClip]; CGFloat mix=MAX(0,MIN(1,_pose[5]));
     if(self.navigationImage) {
+        if(self.clippedImage)CGContextClipToRect(context,CGRectMake(_pose[10],_pose[11],MAX(0,_pose[12]),MAX(0,_pose[13])));
         CGRect content=CGRectMake(box.origin.x+_pose[6],box.origin.y+_pose[7],MAX(.1,_pose[8]),MAX(.1,_pose[9]));
         [self.sourceImage drawInRect:content]; CGContextRestoreGState(context); return;
     }

@@ -5,7 +5,11 @@ import { observeAppearance, palette, themeClass } from './theme'
 import Splash from './Splash.vue'
 import { launchArgument } from '../launch'
 const requested = launchArgument('showcase-example')
-const initial = requested ? `/example/${encodeURIComponent(requested)}` : '/'
+const initial = launchArgument('gallery-direct')
+  ? '/gallery-photo/place-1'
+  : requested
+    ? `/example/${encodeURIComponent(requested)}`
+    : '/'
 const opening = ref(true)
 onUnmounted(observeAppearance())
 </script>
