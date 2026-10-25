@@ -97,6 +97,7 @@ interface Binding {
   readonly view: View
   readonly property: Property
   readonly root: Root
+  readonly source?: Derived
   readonly read: (value: number) => number
   animation?: ViewAnimation
   cleanup?: () => void
@@ -516,7 +517,11 @@ class SpringRoot extends Root {
     this.updatePause()
   }
 
-  constructor(source: Derived, options: SpringValueOptions) {
+  constructor(
+    readonly input: Derived,
+    options: SpringValueOptions,
+  ) {
+    const source = input
     const initial = options.initial ?? (source.get() as number)
     const instant = options.duration === 0
     const params = springPhysics(instant ? { ...options, duration: undefined } : options)
@@ -773,6 +778,7 @@ function attach(view: View, property: Property, source: Derived) {
     view,
     property,
     root,
+    source,
     read: source.read,
     sync() {
       if (!view.isLoaded || !view.nativeViewProtected) return
@@ -840,6 +846,7 @@ function attachSpring(
     view,
     property,
     root,
+    source,
     read: source.read,
     sync() {
       if (!view.isLoaded || !view.nativeViewProtected || root.disposed) return
@@ -1040,6 +1047,37 @@ export function detachBindings(view: View, properties: readonly Property[]) {
     const binding = map.get(property)
     if (binding) release(binding)
   }
+}
+
+interface InspectedSource {
+  identity: object
+  kind: string
+  value: number
+  mappings: readonly LiveMapping[]
+  input?: InspectedSource
+}
+
+/** Read existing binding topology without subscribing or constructing new tracks. */
+export function inspectViewBindings(view: View) {
+  const describe = (source: Derived, depth = 0): InspectedSource => ({
+    identity: source.root,
+    kind: source.root instanceof SpringRoot ? 'live spring' : 'motion value',
+    value: source.root.raw(),
+    mappings: source.mappings.map((mapping) => ({
+      ...mapping,
+      input: [...mapping.input],
+      output: [...mapping.output],
+    })),
+    input:
+      source.root instanceof SpringRoot && depth < 8
+        ? describe(source.root.input, depth + 1)
+        : undefined,
+  })
+  return [...(bound.get(view)?.values() ?? [])].map((binding) => ({
+    property: binding.property,
+    source: describe(binding.source ?? binding.root),
+    value: binding.read(binding.root.raw()),
+  }))
 }
 
 function mapping(

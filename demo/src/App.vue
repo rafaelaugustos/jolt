@@ -22,6 +22,7 @@ import BottomSheetLab from './components/BottomSheetLab.vue'
 import ReorderLab from './components/ReorderLab.vue'
 import InteractionReplayLab from './components/InteractionReplayLab.vue'
 import CurveSamplingLab from './components/CurveSamplingLab.vue'
+import MotionInspectorLab from './components/MotionInspectorLab.vue'
 import SharedLayoutLab from './components/SharedLayoutLab.vue'
 import { launchArgument, onLaunch, runLaunchTaps } from './launch'
 type Screen = 'home' | 'voice' | 'chat'
@@ -47,11 +48,13 @@ const reorderLab = ref(false)
 const sharedLayoutLab = ref(false)
 const interactionReplay = ref(false)
 const curveSampling = ref(false)
+const motionInspector = ref(false)
 const autoplay = ref(false)
 const initialScreen = ref<Screen>('home')
 const assistant = ref()
 let stopTaps: (() => void) | undefined
 onLaunch(() => {
+  motionInspector.value = launchArgument('motion-inspector') !== undefined
   curveSampling.value = launchArgument('curve-sampling') !== undefined
   imageLab.value = launchArgument('image-lab') !== undefined
   dragLab.value = launchArgument('drag-lab') !== undefined
@@ -93,6 +96,7 @@ function backToPlayground() {
   sharedLayoutLab.value = false
   interactionReplay.value = false
   curveSampling.value = false
+  motionInspector.value = false
   imageLab.value = false
   dragLab.value = false
   dragValues.value = false
@@ -125,7 +129,8 @@ defineExpose({ assistant })
       "
       @loaded="pageLoaded"
     >
-      <CurveSamplingLab v-if="launched && curveSampling" @back="backToPlayground" />
+      <MotionInspectorLab v-if="launched && motionInspector" @back="backToPlayground" />
+      <CurveSamplingLab v-else-if="launched && curveSampling" @back="backToPlayground" />
       <InteractionReplayLab
         v-else-if="launched && interactionReplay"
         @back="backToPlayground"

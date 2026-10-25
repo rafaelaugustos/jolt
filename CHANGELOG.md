@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add the optional development-only `@rafaelaugusto/jolt/inspector` entry: read-only view selection, property ownership/timing, binding graphs, bounded native observation batches, explicit finite-playback scrubbing and reproducible spring tuning. Include the 59th bilingual preview, native overhead/cleanup checks and real iOS/Android recordings. Rebuild the native app for the new dormant probe classes.
+
 - Adapt numeric native keyframes to property error budgets. Use analytical spring/decay bounds, preserve authored seams, cap setup work with an explicit fallback, and keep settlement, interruption velocity and sequence arrival unchanged. Include the bilingual curve comparison, dense-reference/native benchmarks and iOS/Android videos.
 
 - Complete scroll-to-sheet interaction replay with an independent headless contract and the production native consumption policy on iOS/Android. Capture numeric OS contacts, check both owners and cancellation, preserve fractional Android deltas, audit disposal and reject an intentionally wrong scroll checkpoint. Extend preview 57 with EN/PT controls and reviewed videos; reuse the existing native CI group. Rebuild the native app.

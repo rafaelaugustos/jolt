@@ -1,4 +1,10 @@
 declare namespace org.rafaelaugusto.jolt {
+  class MotionProbe {
+    static start(view: android.view.View, capacity: number, hertz: number): MotionProbe
+    static activeCount(): number
+    drain(): string
+    dispose(): void
+  }
   class ReorderSurface extends org.nativescript.widgets.GridLayout {
     constructor(context: android.content.Context)
   }

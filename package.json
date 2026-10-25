@@ -61,6 +61,10 @@
     "./testing/native": {
       "types": "./dist/testing/native.d.ts",
       "default": "./dist/testing/native.js"
+    },
+    "./inspector": {
+      "types": "./dist/inspector/index.d.ts",
+      "default": "./dist/inspector/index.js"
     }
   },
   "files": [

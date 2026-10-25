@@ -1,3 +1,4 @@
+import MotionInspectorLab from '../components/MotionInspectorLab.vue'
 import CurveSamplingLab from '../components/CurveSamplingLab.vue'
 import InteractionReplayLab from '../components/InteractionReplayLab.vue'
 import SharedLayoutLab from '../components/SharedLayoutLab.vue'
@@ -583,6 +584,15 @@ export const examples = [
     category: 'Motion',
     description: 'Every curve. Just enough detail.',
     component: markRaw(CurveSamplingLab),
+    full: false,
+    ios: false,
+  },
+  {
+    id: 'motion-inspector',
+    title: 'Motion inspector',
+    category: 'Motion',
+    description: 'See the curve. Find the cause.',
+    component: markRaw(MotionInspectorLab),
     full: false,
     ios: false,
   },

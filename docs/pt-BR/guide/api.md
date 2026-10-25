@@ -1,5 +1,7 @@
 # API
 
+- [**createMotionInspector**](./motion-inspector) — inspeção opcional de desenvolvimento, lotes nativos, donos, grafo de vínculos e ajustes reproduzíveis de springs.
+
 ## Animando
 
 - [**recordInteraction / replayInteraction**](./interaction-replay) — traces opcionais de desenvolvimento, replay com relógio controlado e probes nativos de regressão. Prévia inicial para beta.18.

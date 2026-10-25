@@ -72,6 +72,42 @@ final class DocsTests: XCTestCase {
         tap("sampling-checks", wait: 0.2)
         XCTAssertTrue(app.staticTexts["Native precision checked"].waitForExistence(timeout: 25), app.debugDescription)
     }
+    func testMotionInspector() throws {
+        launch(["--motion-inspector"], "inspector-replay")
+        let dot = app.descendants(matching: .any)["inspector-card"].firstMatch
+        XCTAssertGreaterThan(dot.frame.height, 30, app.debugDescription)
+        let duration = app.sliders["inspector-duration"].firstMatch
+        duration.adjust(toNormalizedSliderPosition: 0.95)
+        app.sliders["inspector-bounce"].firstMatch.adjust(toNormalizedSliderPosition: 0.65)
+        let savedDuration = app.staticTexts["inspector-duration-value"].label
+        try record("motion-inspector-ios") {
+            tap("inspector-spring", wait: 0.15)
+            tap("inspector-interrupt", wait: 0.5)
+            tap("inspector-replay", wait: 0.1)
+            tap("inspector-scrub", wait: 0.5)
+            XCTAssertTrue(app.staticTexts["Paused at 25%. Explicit edit."].exists, app.debugDescription)
+            tap("inspector-scrub", wait: 0.8)
+            tap("inspector-layers", wait: 0.7)
+            tap("inspector-sequence", wait: 1.7)
+            tap("inspector-binding", wait: 1.2)
+            tap("inspector-copy", wait: 0.5)
+            XCTAssertTrue(app.staticTexts["TypeScript copied. Settings saved."].exists, app.debugDescription)
+        }
+        launch(["--motion-inspector"], "inspector-replay")
+        XCTAssertEqual(app.staticTexts["inspector-duration-value"].label, savedDuration)
+        launch(["--motion-inspector", "--inspector-checks"], "inspector-card")
+        XCTAssertTrue(app.staticTexts["Inspector checks passed"].waitForExistence(timeout: 25), app.debugDescription)
+    }
+    func testMotionInspectorPortuguese() throws {
+        languageLaunch("pt-BR", "language-settings")
+        selectLanguage("system")
+        languageLaunch("pt-BR", "inspector-replay", ["--showcase-example=motion-inspector"])
+        XCTAssertTrue(app.staticTexts["Movimento, explicado."].exists, app.debugDescription)
+        tap("inspector-binding", wait: 0.6)
+        XCTAssertTrue(app.staticTexts["inspector-graph"].label.contains("Progresso"), app.debugDescription)
+        tap("inspector-copy", wait: 0.4)
+        XCTAssertTrue(app.staticTexts["TypeScript copiado. Ajustes salvos."].exists, app.debugDescription)
+    }
     func testCurveSamplingPortuguese() throws {
         languageLaunch("pt-BR", "language-settings")
         selectLanguage("system")

@@ -1,0 +1,141 @@
+{
+  "source": "Issue #64 working tree based on 30e0e7e",
+  "build": {
+    "commit": "30e0e7e5029a1462adb35cda6a9b685842372748",
+    "core": "9.1.3",
+    "runtime": "9.1.1",
+    "jolt": "0.1.0-beta.17",
+    "mode": "production"
+  },
+  "nativeCI": {
+    "status": "passed",
+    "groups": 12,
+    "runId": "d89d71fb-01fa-456f-94fd-27c034a0c315",
+    "negativeControlDetected": true,
+    "negativeControlError": "Error: x: 60 != 160 \u00b1 3"
+  },
+  "inspector": {
+    "status": "passed",
+    "platform": "android",
+    "os": "16",
+    "kind": "motion-inspector",
+    "withoutInspectorSetupMs": 0.5473330020904541,
+    "withInspectorSetupMs": 0.5168330073356628,
+    "overhead": {
+      "reads": 7,
+      "jsReadMs": 1.4332499951124191,
+      "hookMs": 0.4727480113506317,
+      "nativeSamples": 37,
+      "nativeSampleMs": 0.26683300000000004,
+      "nativeDrainMs": 0.471459,
+      "dropped": 13
+    },
+    "nativeSamples": [
+      {
+        "at": 122059149,
+        "expected": 23.69618725399447,
+        "observed": 24.116779145740328,
+        "source": "native-view"
+      },
+      {
+        "at": 122059181,
+        "expected": 22.547042893749865,
+        "observed": 22.778683617001487,
+        "source": "native-view"
+      },
+      {
+        "at": 122059198,
+        "expected": 22.030877586162482,
+        "observed": 22.326500302269345,
+        "source": "native-view"
+      },
+      {
+        "at": 122059233,
+        "expected": 21.16875341405252,
+        "observed": 21.365610758463543,
+        "source": "native-view"
+      },
+      {
+        "at": 122059266,
+        "expected": 20.58112869262021,
+        "observed": 20.77305675688244,
+        "source": "native-view"
+      },
+      {
+        "at": 122059299,
+        "expected": 20.177579556797326,
+        "observed": 20.309018089657737,
+        "source": "native-view"
+      },
+      {
+        "at": 122059316,
+        "expected": 20.02933026014717,
+        "observed": 20.140311104910715,
+        "source": "native-view"
+      },
+      {
+        "at": 122059349,
+        "expected": 19.83412391698434,
+        "observed": 19.883616129557293,
+        "source": "native-view"
+      }
+    ],
+    "owners": [
+      {
+        "owner": "owner-17"
+      },
+      {
+        "owner": "owner-20",
+        "layer": "press"
+      }
+    ],
+    "events": [
+      {
+        "at": 122058651,
+        "property": "x",
+        "owner": "owner-13",
+        "kind": "start",
+        "previous": "model",
+        "label": "Delayed entrance"
+      },
+      {
+        "at": 122058873,
+        "property": "x",
+        "owner": "owner-13",
+        "kind": "stop",
+        "label": "Delayed entrance"
+      },
+      {
+        "at": 122058874,
+        "property": "x",
+        "owner": "owner-14",
+        "kind": "replace",
+        "previous": "owner-13",
+        "label": "Return",
+        "previousLabel": "Delayed entrance"
+      }
+    ],
+    "bindings": [
+      {
+        "property": "x",
+        "value": 54,
+        "source": {
+          "id": "owner-16",
+          "label": "Progress",
+          "kind": "motion value",
+          "value": 0.3,
+          "mappings": [
+            {
+              "input": [0, 1],
+              "output": [0, 180],
+              "clamp": true
+            }
+          ]
+        }
+      }
+    ],
+    "negativeControl": true,
+    "remainingProbes": 0,
+    "durationMs": 914.5568760037422
+  }
+}

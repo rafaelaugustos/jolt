@@ -6,5 +6,6 @@ module JoltMotion {
     header "JoltGestureSession.h"
     header "JoltReorderSession.h"
     header "JoltSharedLayoutFlight.h"
+    header "JoltMotionProbe.h"
     export *
 }

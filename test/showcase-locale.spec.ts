@@ -53,7 +53,7 @@ describe('preview language', () => {
     const messages = [
       ...catalogSource.matchAll(/(?:title|category|description): '([^']*)'/g),
     ].map((match) => match[1]!)
-    expect(messages.length).toBe(58 * 3)
+    expect(messages.length).toBe(59 * 3)
     for (const message of messages) expect(portuguese[message], message).toBeDefined()
   })
 
