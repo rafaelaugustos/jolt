@@ -1,0 +1,2432 @@
+{
+  "platform": "Android 16 / API 36 emulator; actual OS input",
+  "checks": [
+    {
+      "check": "drag returns from held pose to current final-row cell",
+      "state": "disposed",
+      "commits": 1,
+      "index": 59
+    },
+    {
+      "check": "deleted photo closes through fallback",
+      "state": "disposed",
+      "commits": 2,
+      "index": -1
+    },
+    {
+      "check": "transparent square resets zoom and returns",
+      "state": "disposed",
+      "commits": 3,
+      "index": 2
+    },
+    {
+      "check": "landscape photo system back returns once",
+      "state": "disposed",
+      "commits": 4,
+      "index": 3
+    },
+    {
+      "check": "first system back resets zoom; second leaves",
+      "state": "disposed",
+      "commits": 5,
+      "index": 0
+    },
+    {
+      "check": "reduced motion preserves accessible close",
+      "state": "disposed",
+      "commits": 6,
+      "index": 0
+    }
+  ],
+  "report": {
+    "state": "disposed",
+    "page": "gallery",
+    "depth": 0,
+    "key": "place-1",
+    "index": 0,
+    "resolvedTag": "collection:place-1",
+    "tags": [
+      {
+        "tag": "collection:place-2",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-3",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-4",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-5",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-1",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-2",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-3",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-4",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-1",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-2",
+        "visible": true
+      }
+    ],
+    "flights": 0,
+    "inputs": 0,
+    "retained": 0,
+    "commits": 6,
+    "events": [
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "target-resolved-on-return"
+        }
+      },
+      {
+        "state": "committing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "target-resolved-on-return"
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        },
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "target-resolved-on-return"
+        }
+      },
+      {
+        "state": "committing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "target-resolved-on-return"
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "missing-target"
+        },
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "unavailable",
+          "reason": "missing-target"
+        }
+      },
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        }
+      },
+      {
+        "state": "committing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        },
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        }
+      },
+      {
+        "state": "tracking",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        }
+      },
+      {
+        "state": "cancelling",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        },
+        "release": {
+          "progress": 0,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        },
+        "outcome": "cancelled"
+      },
+      {
+        "state": "tracking",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        }
+      },
+      {
+        "state": "finishing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        },
+        "release": {
+          "progress": 0.4385624825954437,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "committing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        },
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        }
+      },
+      {
+        "state": "tracking",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        }
+      },
+      {
+        "state": "finishing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        },
+        "release": {
+          "progress": 0.43676671385765076,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "committing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        }
+      },
+      {
+        "state": "cancelling",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        },
+        "release": {
+          "progress": 1,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        },
+        "outcome": "cancelled"
+      },
+      {
+        "state": "tracking",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        }
+      },
+      {
+        "state": "finishing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        },
+        "release": {
+          "progress": 0.4385624825954437,
+          "velocity": 0
+        }
+      },
+      {
+        "state": "committing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        },
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        }
+      },
+      {
+        "state": "committing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "reduced-motion"
+        },
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "unavailable",
+          "reason": "reduced-motion"
+        }
+      }
+    ],
+    "snapshots": [
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 59,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 59,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 59,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 59,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-60",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-58",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-59",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 59,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-60",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-58",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-59",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 59,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-60",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-58",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-59",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 59,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-60",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          },
+          {
+            "tag": "collection:place-58",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-59",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 59,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 59,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 59,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-60",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-58",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-59",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-60",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-58",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-59",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-60",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-58",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-59",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-3",
+        "index": 2,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": false
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-3",
+        "index": 2,
+        "tags": [
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-3",
+        "index": 2,
+        "tags": [
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-3",
+        "index": 2,
+        "tags": [
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-3",
+        "index": 2,
+        "tags": [
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-3",
+        "index": 2,
+        "tags": [
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-3",
+        "index": 2,
+        "tags": [
+          {
+            "tag": "collection:place-3",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-3",
+        "index": 2,
+        "tags": [
+          {
+            "tag": "collection:place-3",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-3",
+        "index": 2,
+        "resolvedTag": "collection:place-3",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-6",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-3",
+        "index": 2,
+        "resolvedTag": "collection:place-3",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-6",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-3",
+        "index": 2,
+        "resolvedTag": "collection:place-3",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-6",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": false
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-6",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "tracking",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "cancelling",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "tracking",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "finishing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-4",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-4",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-4",
+        "index": 3,
+        "resolvedTag": "collection:place-4",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-6",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-4",
+        "index": 3,
+        "resolvedTag": "collection:place-4",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-6",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-4",
+        "index": 3,
+        "resolvedTag": "collection:place-4",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-6",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "tracking",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "finishing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "cancelling",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "cancelling",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "tracking",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "finishing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      }
+    ]
+  }
+}

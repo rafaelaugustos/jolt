@@ -1,4 +1,5 @@
 import ReturnTargetsLab from '../components/ReturnTargetsLab.vue'
+import GalleryLab from '../components/GalleryLab.vue'
 import SharedEntryLab from '../components/SharedEntryLab.vue'
 import PredictiveBackLab from '../components/PredictiveBackLab.vue'
 import SharedNavigationLab from '../components/SharedNavigationLab.vue'
@@ -70,6 +71,15 @@ export const categories = [
   'SceneKit',
 ] as const
 export const examples = [
+  {
+    id: 'gallery',
+    title: 'The living gallery',
+    category: 'Touch',
+    description: 'Open. Explore. Find your way home.',
+    component: markRaw(GalleryLab),
+    full: true,
+    ios: false,
+  },
   {
     id: 'return-targets',
     title: 'Find the way back',

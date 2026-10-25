@@ -12,7 +12,7 @@ export interface PhotoDismissal {
   readonly velocity: number
   /** Return to the viewer. False means this intent is obsolete. */
   cancel(): boolean
-  /** Release the controller. Navigate only when this returns true. */
+  /** Release explicitly when the image outlives its route. Unloading also disposes it. */
   complete(): boolean
 }
 export interface ZoomableOptions {

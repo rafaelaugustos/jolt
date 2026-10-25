@@ -50,6 +50,7 @@ export function tracks(
   flight: Flight,
   destination: number[],
   transition: Spring | Tween,
+  initialVelocity?: Readonly<{ x: number; y: number }>,
 ): string {
   const state = JSON.parse(flight.state()) as { pose: number[]; velocity: number[] }
   const geometry = destination.map((to, index) => {
@@ -58,7 +59,9 @@ export function tracks(
       property,
       [state.pose[index >= 5 ? index + 1 : index]!, to],
       resolveTransition(transition, property, 2),
-      state.velocity[index >= 5 ? index + 1 : index] ?? 0,
+      (index === 0 ? initialVelocity?.x : index === 1 ? initialVelocity?.y : undefined) ??
+        state.velocity[index >= 5 ? index + 1 : index] ??
+        0,
     )
   })
   const duration = Math.max(...geometry.map((track) => track.end))

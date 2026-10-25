@@ -235,6 +235,11 @@ declare class JoltSharedLayoutFlight extends UIView {
     radius: number,
     maxPixels: number,
   ): JoltSharedLayoutFlight | null
+  static captureClippedNavigationImageRadiusMaxPixels(
+    view: UIView,
+    radius: number,
+    maxPixels: number,
+  ): JoltSharedLayoutFlight | null
   prepareNavigationImageRadiusMaxPixels(
     view: UIView,
     radius: number,

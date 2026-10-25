@@ -7,7 +7,11 @@ import {
 import { ReturnScope } from '../src/shared-navigation/return-signal.js'
 import { View } from './shims/core.js'
 import { driver, flush } from './helpers.js'
-const tagged = () => Object.assign(new View(), { sharedTransitionTag: 'item:42' })
+const tagged = () =>
+  Object.assign(new View(), {
+    sharedTransitionTag: 'item:42',
+    getLocationInWindow: () => ({ x: 10, y: 20 }),
+  })
 const context = (page: View, scope: ReturnScope) => ({
   key: '42',
   tag: 'item:42',
@@ -187,6 +191,46 @@ describe('bounded current return identity', () => {
     await layouts()
     expect(list.scrollToIndex).toHaveBeenLastCalledWith(12)
     expect(await result).toBe(view)
+  })
+  it('waits for estimated row offsets to stabilize before returning the live cell', async () => {
+    const page = new View(),
+      scope = new ReturnScope(),
+      view = tagged()
+    const list = Object.assign(new View(), { scrollToIndex: vi.fn() })
+    let y = 20
+    view.getLocationInWindow = () => ({ x: 10, y })
+    let settled = false
+    const result = resolveListTarget(context(page, scope), {
+      list: list as never,
+      indexOf: () => 29,
+      viewForKey: () => view as never,
+    }).then((value) => {
+      settled = true
+      return value
+    })
+    await layouts(1)
+    expect(settled).toBe(false)
+    y = 29.33
+    await layouts(1)
+    expect(settled).toBe(false)
+    await layouts(1)
+    expect(await result).toBe(view)
+  })
+  it('falls back after bounded realization when cell geometry keeps moving', async () => {
+    const page = new View(),
+      scope = new ReturnScope(),
+      view = tagged()
+    const list = Object.assign(new View(), { scrollToIndex: vi.fn() })
+    let y = 0
+    view.getLocationInWindow = () => ({ x: 10, y: y++ })
+    const result = resolveListTarget(context(page, scope), {
+      list: list as never,
+      indexOf: () => 29,
+      viewForKey: () => view as never,
+    })
+    await layouts(5)
+    expect(await result).toBeUndefined()
+    expect(list.scrollToIndex).toHaveBeenCalledTimes(4)
   })
   it('does not scroll to a deleted index and rejects a cell with the wrong key tag', async () => {
     const page = new View(),

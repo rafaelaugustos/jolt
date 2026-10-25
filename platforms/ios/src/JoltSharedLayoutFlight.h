@@ -3,6 +3,7 @@
 + (instancetype)capture:(UIView *)view image:(BOOL)image radius:(double)radius maxPixels:(double)maxPixels;
 + (instancetype)captureNavigationImage:(UIView *)view radius:(double)radius maxPixels:(double)maxPixels;
 - (NSString *)prepareNavigationImage:(UIView *)view radius:(double)radius maxPixels:(double)maxPixels;
++ (instancetype)captureClippedNavigationImage:(UIView *)view radius:(double)radius maxPixels:(double)maxPixels;
 + (NSInteger)activeCount;
 - (BOOL)holdPage:(UIView *)page maxPixels:(double)maxPixels;
 - (void)fade:(double)duration onEnd:(void (^)(BOOL))onEnd;

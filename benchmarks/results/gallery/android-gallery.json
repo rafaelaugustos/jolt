@@ -1,0 +1,145 @@
+{
+  "events": [
+    {
+      "event": "bound",
+      "time": 1792957299396,
+      "state": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "progress": 0,
+        "pending": false
+      },
+      "ready": true,
+      "route": "gallery-photo-detail"
+    },
+    {
+      "event": "settled",
+      "time": 1792957304691,
+      "state": {
+        "x": 35.91825866699219,
+        "y": -5.2414870262146,
+        "scale": 1.3392878770828247,
+        "progress": 0,
+        "pending": false
+      },
+      "ready": true,
+      "route": "gallery-photo-detail"
+    },
+    {
+      "event": "settled",
+      "time": 1792957308207,
+      "state": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "progress": 0,
+        "pending": false
+      },
+      "ready": true,
+      "route": "gallery-photo-detail"
+    },
+    {
+      "event": "settled",
+      "time": 1792957309944,
+      "state": {
+        "x": -27.428571701049805,
+        "y": 9.225915908813477,
+        "scale": 1.4360594749450684,
+        "progress": 0,
+        "pending": false
+      },
+      "ready": true,
+      "route": "gallery-photo-detail"
+    },
+    {
+      "event": "settled",
+      "time": 1792957315558,
+      "state": {
+        "x": -27.428571701049805,
+        "y": 39.70210647583008,
+        "scale": 1.4360594749450684,
+        "progress": 0,
+        "pending": false
+      },
+      "ready": true,
+      "route": "gallery-photo-detail"
+    },
+    {
+      "event": "settled",
+      "time": 1792957321491,
+      "state": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "progress": 0,
+        "pending": false
+      },
+      "ready": true,
+      "route": "gallery-photo-detail"
+    },
+    {
+      "event": "settled",
+      "time": 1792957326374,
+      "state": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "progress": 0,
+        "pending": false
+      },
+      "ready": true,
+      "route": "gallery-photo-detail"
+    },
+    {
+      "event": "released",
+      "time": 1792957335712,
+      "state": {
+        "x": 0,
+        "y": 185.0338592529297,
+        "scale": 0.9013444781303406,
+        "progress": 0.6577032804489136,
+        "pending": true
+      },
+      "ready": true,
+      "route": "gallery-photo-detail",
+      "extra": {
+        "pose": {
+          "x": 0,
+          "y": 185.0338592529297,
+          "scale": 0.9013444781303406,
+          "progress": 0.6577032804489136,
+          "pending": true
+        },
+        "velocity": 0
+      }
+    },
+    {
+      "event": "unloaded",
+      "time": 1792957335796,
+      "state": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "progress": 0,
+        "pending": false
+      },
+      "ready": false,
+      "route": "gallery-photo-detail"
+    },
+    {
+      "event": "unloaded",
+      "time": 1792957335798,
+      "ready": false
+    },
+    {
+      "event": "returned",
+      "time": 1792957336544,
+      "ready": false,
+      "extra": {
+        "status": "completed",
+        "navigated": true
+      }
+    }
+  ]
+}

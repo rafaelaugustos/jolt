@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Added a connected gallery recipe combining native photo zoom/dismiss with current-cell returns. `entry.returnToSource()` captures held/clipped image poses and translation velocity before routing; the 65th EN/PT preview demonstrates the complete interaction with real iOS/Android recordings.
+
 - Resolve shared return targets by stable item key after scrolling, recycling and reordering, with bounded async preparation, cancellation, deleted-item fade and current-item accessibility focus. Add a Core ListView adapter, the 64th bilingual preview and real EN/PT native recordings. Android resolves the live destination after system commitment; iOS defers the shared pair until ready. Rebuild the native app. Physical-device acceptance remains open in #24.
 
 - Add `sharedNavigationEntry` in the optional shared-navigation entry: native interactive image/card return on stable iOS and Android 14+ pages, cancellable gestures, guarded single commits, bounded snapshots and lifecycle cleanup. Include the 63rd bilingual preview and real EN/PT iOS/Android recordings. Rebuild the native app. Recycled/offscreen targets and gallery coordination remain follow-ups to #24.

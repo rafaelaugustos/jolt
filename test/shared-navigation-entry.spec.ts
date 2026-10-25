@@ -164,6 +164,49 @@ function fixture(options: Partial<SharedNavigationEntryOptions> = {}) {
   }
 }
 describe('one shared navigation entry', () => {
+  it('hands a held image to one return flight and ignores iOS disposal until that flight ends', async () => {
+    const f = fixture({ returnTarget: { key: '42', resolve: () => f.source as never } })
+    const opening = f.control.open(() => {})
+    f.finishIOS()
+    await opening
+    const returning = f.control.returnToSource({ velocity: { x: 0, y: 720 } })
+    expect(forward.navigate).toHaveBeenCalledWith(
+      expect.objectContaining({
+        tag: 'photo',
+        allowClippedSource: true,
+        holdSource: true,
+        velocity: { x: 0, y: 720 },
+      }),
+    )
+    expect(await f.control.returnToSource()).toMatchObject({
+      navigated: false,
+      reason: 'busy',
+    })
+    f.control.back()
+    const request = forward.navigate.mock.calls.at(-1)![0]
+    request.navigate({ animated: false })
+    iosEvent({ state: 'disposed' })
+    expect(f.control.state).toBe('committing')
+    forwardDone({ status: 'completed', navigated: true })
+    expect(await returning).toEqual({ status: 'completed', navigated: true })
+    expect(f.back).toHaveBeenCalledOnce()
+    expect(f.control.state).toBe('disposed')
+  })
+  it('keeps a held-image return retryable when the route rejects', async () => {
+    const f = fixture()
+    const opening = f.control.open(() => {})
+    f.finishIOS()
+    await opening
+    const rejected = f.control.returnToSource()
+    forwardDone({ status: 'unavailable', reason: 'route-unchanged', navigated: false })
+    expect((await rejected).navigated).toBe(false)
+    expect(f.control.state).toBe('idle')
+    expect(ios.dispose).not.toHaveBeenCalled()
+    const retried = f.control.returnToSource()
+    forwardDone({ status: 'completed', navigated: true })
+    await retried
+    expect(forward.navigate).toHaveBeenCalledTimes(2)
+  })
   it('uses the existing iOS transition and resolves after native completion, not only route setup', async () => {
     const f = fixture(),
       navigate = vi.fn()

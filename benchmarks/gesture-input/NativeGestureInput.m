@@ -12,6 +12,19 @@
 - (BOOL)synthesizeWithError:(NSError **)error;
 @end
 
+NSString *JoltPhotoInterrupt(CGPoint center) {
+    Class paths=NSClassFromString(@"XCPointerEventPath"), records=NSClassFromString(@"XCSynthesizedEventRecord");
+    if(!paths || !records)return @"XCTest pointer-path interfaces are unavailable";
+    id first=[[paths alloc]initForTouchAtPoint:center offset:0];[first liftUpAtOffset:.04];
+    id second=[[paths alloc]initForTouchAtPoint:center offset:.10];[second liftUpAtOffset:.14];
+    id pan=[[paths alloc]initForTouchAtPoint:center offset:.19];
+    for(int i=1;i<=12;i++)[pan moveToPoint:CGPointMake(center.x-i*3,center.y+i) atOffset:.19+i*.02];
+    [pan liftUpAtOffset:.65];
+    id record=[[records alloc]initWithName:@"Jolt photo double tap interrupted by pan" interfaceOrientation:UIInterfaceOrientationPortrait];
+    [record addPointerEventPath:first];[record addPointerEventPath:second];[record addPointerEventPath:pan];
+    NSError *error=nil;return [record synthesizeWithError:&error]?nil:error.localizedDescription?:@"XCTest event synthesis failed";
+}
+
 // Public XCTest drag helpers decelerate before lifting. This OS path keeps moving
 // until release, so the navigation test actually exercises velocity projection.
 NSString *JoltNavigationFlick(CGPoint start, CGFloat distance) {

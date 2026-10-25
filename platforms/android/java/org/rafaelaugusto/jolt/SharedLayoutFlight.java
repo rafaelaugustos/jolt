@@ -18,12 +18,12 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
     private Bitmap source, target, pageBitmap;
     private RectF pageFrame;
-    private boolean fading;
+    private boolean fading, clippedImage;
     private float sourceWidth, sourceHeight, targetWidth, targetHeight;
     private boolean sourceImage, targetImage, disposed, running, navigationImage, borrowedTarget;
     private double[] interactiveStart, interactiveEnd;
     private View destination;
-    private final double[] pose = new double[10], velocity = new double[10];
+    private final double[] pose = new double[14], velocity = new double[14];
     private double[][] times, values;
     private double duration, started;
     private RectF destinationFrame;
@@ -71,6 +71,14 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
         }
         return true;
     }
+    private RectF visibleClip(View view, RectF frame) {
+        if(frame==null)return null;
+        RectF clip=new RectF(frame);if(!clip.intersect(0,0,rootWidth,rootHeight))return null;
+        for(ViewParent p=view.getParent();p instanceof View;p=p.getParent())if(p instanceof ViewGroup && ((ViewGroup)p).getClipChildren()) {
+            RectF parent=geometry((View)p);if(parent==null || !clip.intersect(parent))return null;
+        }
+        return clip;
+    }
     private Bitmap snapshot(View view, long budget) {
         long pixels=(long)view.getWidth()*view.getHeight();
         if (pixels<=0 || pixels>budget || unsupported(view)) return null;
@@ -104,19 +112,29 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
         if(!(image.getDrawable() instanceof BitmapDrawable) || image.getColorFilter()!=null || image.getPaddingLeft()!=0 || image.getPaddingTop()!=0 || image.getPaddingRight()!=0 || image.getPaddingBottom()!=0) return null;
         if(image.getScaleType()!=ImageView.ScaleType.FIT_CENTER && image.getScaleType()!=ImageView.ScaleType.CENTER_CROP) return null;
         Bitmap bitmap=((BitmapDrawable)image.getDrawable()).getBitmap(); if(bitmap==null || bitmap.isRecycled())return null;
-        RectF rect=geometry(view); if(!visibleBounds(view,rect))return null;
+        RectF rect=geometry(view), clip=clippedImage?visibleClip(view,rect):rect;
+        if(clippedImage?clip==null:!visibleBounds(view,rect))return null;
         double scale=image.getScaleType()==ImageView.ScaleType.CENTER_CROP?Math.max(rect.width()/bitmap.getWidth(),rect.height()/bitmap.getHeight()):Math.min(rect.width()/bitmap.getWidth(),rect.height()/bitmap.getHeight());
         double w=bitmap.getWidth()*scale,h=bitmap.getHeight()*scale;
-        return new double[]{rect.left/density,rect.top/density,rect.width()/density,rect.height()/density,radius*rect.width()/view.getWidth(),(rect.width()-w)/2/density,(rect.height()-h)/2/density,w/density,h/density};
+        double[] pose=new double[]{rect.left/density,rect.top/density,rect.width()/density,rect.height()/density,radius*rect.width()/view.getWidth(),(rect.width()-w)/2/density,(rect.height()-h)/2/density,w/density,h/density};
+        if(!clippedImage)return pose;
+        double[] clipped=Arrays.copyOf(pose,13);clipped[9]=clip.left/density;clipped[10]=clip.top/density;clipped[11]=clip.width()/density;clipped[12]=clip.height()/density;return clipped;
     }
     public static SharedLayoutFlight captureNavigationImage(View view, double radius, double maxPixels) {
+        return captureNavigationImage(view,radius,maxPixels,false);
+    }
+    public static SharedLayoutFlight captureClippedNavigationImage(View view, double radius, double maxPixels) {
+        return captureNavigationImage(view,radius,maxPixels,true);
+    }
+    private static SharedLayoutFlight captureNavigationImage(View view, double radius, double maxPixels, boolean clipped) {
         if(!(view.getRootView() instanceof ViewGroup) || view.getVisibility()!=VISIBLE)return null;
         SharedLayoutFlight f=new SharedLayoutFlight(view);
+        f.clippedImage=clipped;
         double[] pose=f.navigationGeometry(view,radius); if(pose==null)return null;
         Bitmap image=((BitmapDrawable)((ImageView)view).getDrawable()).getBitmap();
         if((long)image.getWidth()*image.getHeight()>maxPixels)return null;
         f.navigationImage=true; f.source=image;
-        for(int i=0;i<9;i++)f.pose[i<5?i:i+1]=pose[i];
+        for(int i=0;i<pose.length;i++)f.pose[i<5?i:i+1]=pose[i];
         f.hide(view); f.root.getOverlay().add(f); active++; return f;
     }
     public String prepareNavigationImage(View view, double radius, double maxPixels) {
@@ -143,7 +161,7 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
     }
     public double pixels() { return (pageBitmap==null?0:(long)pageBitmap.getWidth()*pageBitmap.getHeight())+(source==null?0:(long)source.getWidth()*source.getHeight())+(target==null?0:(long)target.getWidth()*target.getHeight()); }
     public String state() {
-        try { JSONObject out=new JSONObject(); out.put("pose",new JSONArray(java.util.Arrays.copyOf(pose,navigationImage?10:6))); out.put("velocity",new JSONArray(java.util.Arrays.copyOf(velocity,navigationImage?10:5))); return out.toString(); }
+        try { JSONObject out=new JSONObject(); out.put("pose",new JSONArray(java.util.Arrays.copyOf(pose,navigationImage?(clippedImage?14:10):6))); out.put("velocity",new JSONArray(java.util.Arrays.copyOf(velocity,navigationImage?(clippedImage?14:10):5))); return out.toString(); }
         catch (JSONException error) { throw new IllegalStateException(error); }
     }
     public String prepare(View view, boolean image, double radius, double maxPixels) {
@@ -206,8 +224,8 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
         if(disposed) return;
         try {
             JSONObject config=new JSONObject(json); JSONArray tracks=config.getJSONArray("tracks");
-            int count=navigationImage?10:6; times=new double[count][]; values=new double[count][]; duration=0;
-            for(int k=0;k<(navigationImage?10:6);k++) {
+            int count=navigationImage?(clippedImage?14:10):6; times=new double[count][]; values=new double[count][]; duration=0;
+            for(int k=0;k<(navigationImage?(clippedImage?14:10):6);k++) {
                 JSONObject track=tracks.getJSONObject(k); JSONArray t=track.getJSONArray("times"),v=track.getJSONArray("values");
                 times[k]=new double[t.length()]; values[k]=new double[v.length()];
                 for(int j=0;j<t.length();j++){times[k][j]=t.getDouble(j);values[k][j]=v.getDouble(j);}
@@ -219,7 +237,7 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
     }
     private void evaluate(double now) {
         double elapsed=Math.max(0,now-started);
-        for(int k=0;k<(navigationImage?10:6);k++) {
+        for(int k=0;k<(navigationImage?(clippedImage?14:10):6);k++) {
             double[] t=times[k],v=values[k]; int j=1;
             while(j<t.length-1 && t[j]<elapsed)j++;
             double span=t[j]-t[j-1], fraction=span<=0?1:Math.max(0,Math.min(1,(elapsed-t[j-1])/span));
@@ -248,6 +266,7 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
         float radius=(float)Math.max(0,Math.min(pose[4]*density,Math.min(box.width(),box.height())/2));
         Path path=new Path(); path.addRoundRect(box,radius,radius,Path.Direction.CW); int save=canvas.save(); canvas.clipPath(path);
         if(navigationImage) {
+            if(clippedImage)canvas.clipRect((float)pose[10]*density,(float)pose[11]*density,(float)(pose[10]+Math.max(0,pose[12]))*density,(float)(pose[11]+Math.max(0,pose[13]))*density);
             paint.setAlpha(255);
             canvas.drawBitmap(source,null,new RectF(box.left+(float)pose[6]*density,box.top+(float)pose[7]*density,box.left+(float)(pose[6]+Math.max(.1,pose[8]))*density,box.top+(float)(pose[7]+Math.max(.1,pose[9]))*density),paint);
             canvas.restoreToCount(save); return;

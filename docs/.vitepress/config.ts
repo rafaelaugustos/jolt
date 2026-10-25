@@ -40,6 +40,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('sharedNavigation', 'shared-navigation'),
         page('sharedGestures', 'shared-gestures'),
         page('returnTargets', 'return-targets'),
+        page('gallery', 'gallery'),
         page('interactiveNavigation', 'interactive-navigation'),
         page('predictiveBack', 'predictive-back'),
         page('size', 'size'),
@@ -95,6 +96,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
 }
 
 const en = {
+  gallery: 'Connected gallery',
   start: 'Start',
   motion: 'Motion',
   frameworks: 'Frameworks',
@@ -162,6 +164,7 @@ const en = {
 }
 
 const pt = {
+  gallery: 'Galeria conectada',
   start: 'Começo',
   motion: 'Movimento',
   frameworks: 'Frameworks',
