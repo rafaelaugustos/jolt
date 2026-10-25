@@ -4,8 +4,8 @@
 
 ## Animando
 
-- [**recordInteraction / replayInteraction**](./interaction-replay) — traces opcionais de desenvolvimento, replay com relógio controlado e probes nativos de regressão. Prévia inicial para beta.18.
-- [**sharedLayout(container, options)**](./shared-layout) — identidades compartilhadas na mesma página, snapshots nativos, crossfade e interrupção. Prévia de desenvolvimento para beta.18.
+- [**recordInteraction / replayInteraction**](./interaction-replay) — traces opcionais de desenvolvimento, replay com relógio controlado e probes nativos de regressão. Disponível desde a beta.18.
+- [**sharedLayout(container, options)**](./shared-layout) — identidades compartilhadas na mesma página, snapshots nativos, crossfade e interrupção. Disponível desde a beta.18.
 - `animate(target, keyframes | preset, transition?)` — [paths](./paths), [cores](./colors), [cantos, bordas e sombras](./decorations)
 - [`interactionSurface(target)`](./interaction-surface) — alinha a geometria nativa de toque de uma subárvore animada.
 - [`animateLayout(container, change?, options?)`](./layout) — anima o próximo layout dos filhos diretos de um container.

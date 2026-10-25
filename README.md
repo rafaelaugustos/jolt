@@ -31,7 +31,7 @@ NativeScript's `view.animate()` covers the basics and stops there: one curve for
 
 Jolt computes the motion once, in JavaScript, when the animation starts, and hands it to the platform as keyframes: Core Animation on iOS, `ObjectAnimator` on Android. Those default view tracks play without per-frame JavaScript. Real-size layout, opt-in subscribers, gesture input and timeline step activation retain their documented [execution limits](https://jolt.rafaelaugusto.dev/guide/how-it-works). Springs follow real physics, and an animation that interrupts another one starts from where the view is, at the speed it was going.
 
-The [beta.17 release](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-beta.17) adds a bottom sheet with native scroll handoff, native list reordering, and SceneKit environment/shader inputs. The redesigned preview includes 55 examples, English/Portuguese and light/dark themes. Install `@rafaelaugusto/jolt@0.1.0-beta.17` and rebuild the native app. For external native properties, also install matching `@rafaelaugusto/jolt-native@0.1.0-beta.17`.
+The [beta.18 release](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-beta.18) adds shared elements within a page, interaction recording/replay, adaptive curve sampling and a development motion inspector with spring tuning. The preview includes 59 examples, English/Portuguese and light/dark themes. Install `@rafaelaugusto/jolt@0.1.0-beta.18` and rebuild the native app. For external native properties, also install matching `@rafaelaugusto/jolt-native@0.1.0-beta.18`.
 
 ## Features
 
@@ -45,6 +45,10 @@ The [beta.17 release](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0
 - [Native gestures](https://jolt.rafaelaugusto.dev/guide/gestures): simultaneous pan/pinch/rotation, tap arbitration, axis competition and vertical Core ScrollView handoff.
 - [Bottom sheet](https://jolt.rafaelaugusto.dev/guide/bottom-sheet): native drag/scroll handoff, content and percentage stops, keyboard following and dismissal.
 - [List reordering](https://jolt.rafaelaugusto.dev/guide/reorder): stable keys, native drag snapshots, neighbour springs and edge scrolling through recycled cells.
+- [Shared layouts](https://jolt.rafaelaugusto.dev/guide/shared-layout): stable identities, native snapshots and interruptible transitions within one page.
+- [Interaction replay](https://jolt.rafaelaugusto.dev/guide/interaction-replay): optional development traces and controlled-clock regression checks, including scroll-to-sheet handoff.
+- [Motion inspector](https://jolt.rafaelaugusto.dev/guide/motion-inspector): development-only ownership/timing diagnostics, native observation batches and reproducible spring tuning.
+- [Adaptive curve sampling](https://jolt.rafaelaugusto.dev/guide/transitions): spend native keyframes where they improve precision, within bounded setup budgets.
 - [SceneKit environment and shaders](https://jolt.rafaelaugusto.dev/guide/scene-shaders): native environment intensity and typed scalar/vector shader inputs on iOS.
 - [Layered motion](#layered-motion): several animations on one property, added or multiplied.
 - [Gradients](#gradients): native linear, radial and conic gradients with animated colors, angle, center and radius.
@@ -80,8 +84,6 @@ The [beta.17 release](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0
 - [Time scale and reduced motion](#time-scale-and-reduced-motion): slow everything down while tuning, and follow the platform's reduced-motion setting by default.
 - [Interruptions](#interrupting-and-stopping) that pick up the value and velocity on screen, with no jump.
 - [Native playback](#how-it-works): Core Animation on iOS, `ObjectAnimator` on Android, nothing in JavaScript while it plays.
-
-**Development preview:** this checkout includes [same-page shared layouts](./docs/guide/shared-layout.md), and [interaction replay tools](./docs/guide/interaction-replay.md), planned for beta.18. Rebuild the native app to try it; published beta.17 does not include this entry.
 
 ## Install
 

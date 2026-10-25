@@ -2,7 +2,7 @@
 
 `bottomSheet()` combines native dragging, scroll handoff, springs, a backdrop and keyboard following in an optional in-page recipe. Import it from `@rafaelaugusto/jolt/bottom-sheet`; it does not add a sheet to the core entry point.
 
-Available since **0.1.0-beta.17**, in the core package. Install `@rafaelaugusto/jolt@0.1.0-beta.17` and rebuild the native app to include the native contact callbacks. No optional native-property plugin is needed.
+Available since **0.1.0-beta.17**, in the core package. Install `@rafaelaugusto/jolt@0.1.0-beta.18` and rebuild the native app to include the native contact callbacks. No optional native-property plugin is needed.
 
 Place a `GestureSurface` directly inside a full-size, single-cell `GridLayout`. Put a separate handle and a vertical NativeScript `ScrollView` inside the panel. The backdrop is a sibling behind it. The application owns these views and their appearance.
 

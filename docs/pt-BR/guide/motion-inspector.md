@@ -2,8 +2,8 @@
 
 Selecione uma view, veja qual animação controla suas propriedades e compare a curva esperada com observações nativas. O experimento **59 — Inspetor de movimento** também ajusta uma spring, reproduz o resultado e copia o TypeScript para repetir a configuração.
 
-::: warning Prévia de desenvolvimento
-Esta entrada faz parte da futura beta.18, não da beta.17 publicada. Recompile o app nativo para incluir o probe. Mantenha o import em uma entrada de desenvolvimento excluída do build de produção.
+::: warning Apenas para desenvolvimento
+Disponível desde a **0.1.0-beta.18**, no pacote principal. Recompile o app nativo para incluir o probe. Mantenha o import em uma entrada de desenvolvimento excluída do build de produção.
 :::
 
 <Clip name="motion-inspector-ios" caption="Simulador iOS com toques reais do XCTest: inspecionar uma interrupção, ajustar e reproduzir uma spring, pausar seu tempo, conferir atraso/camadas/vínculos e copiar TypeScript. Verde é o modelo do engine; rosa é a apresentação amostrada do CALayer. Gravação em velocidade original, sem medição de display físico." />
