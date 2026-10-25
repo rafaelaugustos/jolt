@@ -4,6 +4,7 @@ import { isDecorationProperty } from './decoration.js'
 import { isColorProperty } from './color.js'
 import { springPhysics, type SpringPhysics } from './spring.js'
 import type { DragCurve } from './drag-physics.js'
+import { DEFAULT_ACCELERATION, DEFAULT_RESTITUTION } from './gravity.js'
 
 export interface Timing {
   /** Milliseconds to wait before starting. The first keyframe is applied right away. */
@@ -49,7 +50,19 @@ export interface Spring extends Timing {
   velocity?: number
 }
 
-export type Transition = Tween | Spring
+export interface Gravity extends Timing {
+  type: 'gravity'
+  /** Positive acceleration toward the final value, in units per second squared. Default 1800. */
+  acceleration?: number
+  /** Fraction of impact speed retained by each bounce, from 0 (no bounce) to less than 1. Default 0.55. */
+  restitution?: number
+  /** Signed units per second. Defaults to the velocity of the animation it interrupts. */
+  velocity?: number
+  /** Duration is determined by the physical parameters. */
+  duration?: never
+}
+
+export type Transition = Tween | Spring | Gravity
 
 export type SpringName = 'smooth' | 'snappy' | 'bouncy'
 
@@ -92,6 +105,12 @@ export function origamiSpring({
 export type Curve =
   | DragCurve
   | {
+      type: 'gravity'
+      acceleration: number
+      restitution: number
+      velocity: number | undefined
+    }
+  | {
       type: 'tween'
       duration: number
       ease: readonly EasingFunction[]
@@ -124,6 +143,8 @@ const curveKeys = [
   'ease',
   'times',
   'easeTrack',
+  'acceleration',
+  'restitution',
   ...springKeys,
 ] as const
 const timingKeys = ['delay', 'repeat', 'repeatType', 'repeatDelay'] as const
@@ -162,7 +183,13 @@ export function mergeTransitions(base: Transition, override: Transition): Transi
     if (taken) inherited.set(merged, taken)
     return merged
   }
-  if (!hasCurve(base) || isSpring(base) || isSpring(override))
+  if (
+    !hasCurve(base) ||
+    base.type === 'gravity' ||
+    override.type === 'gravity' ||
+    isSpring(base) ||
+    isSpring(override)
+  )
     return { ...timingOf(base), ...override }
   const merged = { ...base, ...override } as Transition
   const own = override as Record<string, unknown>
@@ -233,6 +260,40 @@ export function resolveTransition(
     reverse: transition.repeatType === 'reverse',
     ...(longest! > 0 && repeat > 0 && { repeatDelay }),
     ...(longest! > shortest! && repeat > 0 && { seed: Math.random() }),
+  }
+
+  if (type === 'gravity') {
+    if (property !== 'x' && property !== 'y')
+      throw new TypeError('Gravity applies to x, y or a numeric motion value.')
+    if (keyframes !== 2)
+      throw new TypeError('Gravity needs a start and one fixed landing position.')
+    const gravity = transition as Gravity
+    const acceleration = gravity.acceleration ?? DEFAULT_ACCELERATION
+    const restitution = gravity.restitution ?? DEFAULT_RESTITUTION
+    if (!Number.isFinite(acceleration) || acceleration <= 0)
+      throw new RangeError('Gravity acceleration must be finite and positive.')
+    if (!Number.isFinite(restitution) || restitution < 0 || restitution >= 1)
+      throw new RangeError('Gravity restitution must be at least 0 and less than 1.')
+    if (gravity.velocity !== undefined && !Number.isFinite(gravity.velocity))
+      throw new RangeError('Gravity velocity must be finite.')
+    for (const key of [
+      'duration',
+      'ease',
+      'times',
+      'easeTrack',
+      'stiffness',
+      'damping',
+      'mass',
+      'bounce',
+    ])
+      if ((transition as unknown as Record<string, unknown>)[key] !== undefined)
+        throw new TypeError(
+          `Gravity does not accept "${key}"; timing comes from its physics.`,
+        )
+    return {
+      ...timing,
+      curve: { type, acceleration, restitution, velocity: gravity.velocity },
+    }
   }
 
   if (type === 'spring') {

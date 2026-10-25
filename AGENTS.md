@@ -6,4 +6,6 @@ Use real native playback and actual interaction where relevant. Inspect the reco
 
 Include the demonstration directly in each visual feature or behavior-change PR description as a playable video attachment, with a platform label and a short explanation of what it shows. Links to repository video files alone are not enough. Reuse the reviewed documentation recordings when they demonstrate the PR, and verify the published description contains the players before handing it over for review. `gh pr create/edit --attach` can upload the local MP4 files.
 
+PR descriptions use English-language recordings only. Do not record or attach Portuguese versions for a PR; reuse the reviewed English recordings. This preference applies to future PRs; leave existing PR attachments as they are unless asked to change them. Documentation still needs coverage in both English and Portuguese.
+
 Run `npm run docs:check-media` and `npm run docs:build`. See `CONTRIBUTING.md` for the capture workflow. Preserve existing media unless replacing it with a reviewed recording of the same behavior.

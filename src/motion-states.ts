@@ -6,7 +6,7 @@ import type { PlaybackAnimation } from './playback.js'
 import type { KeyframeProperty, Keyframes, Target, Values } from './types.js'
 import type { View } from '@nativescript/core'
 import { mergeTransitions, springs } from './transition.js'
-import type { Spring, Tween, SpringName } from './transition.js'
+import type { Gravity, Spring, Tween, SpringName } from './transition.js'
 import type { MotionScope } from './motion-scope.js'
 
 /** Absolute endpoints only; keyframe arrays, paths and relative offsets are not states. */
@@ -26,6 +26,7 @@ type StateCurve =
   | SpringName
   | Omit<Spring, 'repeat' | 'repeatType'>
   | Omit<Tween, 'repeat' | 'repeatType'>
+  | Omit<Gravity, 'repeat' | 'repeatType'>
 /** One transition for every target, or a main one with some targets set apart by name. */
 export type StateTransition<T extends string = string> =
   | StateCurve
@@ -253,6 +254,8 @@ const curveKeys = new Set([
   'mass',
   'bounce',
   'velocity',
+  'acceleration',
+  'restitution',
 ])
 
 type Curve = Exclude<StateCurve, SpringName>

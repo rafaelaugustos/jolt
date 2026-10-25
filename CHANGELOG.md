@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add `{ type: 'gravity' }` for finite ballistic fall and bounce on translations and motion values, with native sampled playback, exact impact seams, inherited velocity and existing playback/scope controls. Include the localized **A softer landing** preview and real iOS/Android recordings. Interactive multi-body physics remains future work in #39.
+
 - Add optional native rotation/gravity sources through `@rafaelaugusto/jolt/sensors`, with shared hardware subscriptions, demand-driven collection, frame coalescing, quaternion/interface coordinates, scope lifecycle and native spring bindings. Add the localized **Move the light** preview and explicit native sensor test-input playback. Physical-device sensor/performance validation and other sensor types remain tracked in #114.
 
 - Translate all 1,079 preview messages into Spanish and Simplified Chinese, including catalog/search, controls, accessibility, status text and the map illustration. Extend automatic phone-language selection and the saved language picker to four languages.

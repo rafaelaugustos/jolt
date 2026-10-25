@@ -25,6 +25,7 @@
 - [`reorder(list, options)`](./reorder) — reordenação opcional de ListView do Core com chaves estáveis, alturas variáveis, rolagem nativa nas bordas e movimentos por teclado/acessibilidade.
 - [`value.subscribe(listener, { immediate? })`](./motion-values#observando-fora-das-views) — observa números, cores derivadas e valores de scroll em JavaScript; retorna a função para cancelar a assinatura.
 - [`animate(value, target, { layer })`, `stop(value, { layer })`](./motion-values#camadas-em-um-valor) — camadas escalares aditivas antes dos mapeamentos.
+- [`animate(target, { y }, { type: 'gravity' })`](./gravity) — queda e quique até uma posição fixa de pouso.
 - [`decay(target, velocity, options?)`](./decay)
 - [`gradient(target, options)`](./gradients) — gradientes nativos lineares, radiais e cônicos com componentes estáticos e motion values (`GradientBindings`); retorna um `Gradient` com `bind()`, `animate()`, `set()`, `stop()`, `suspend()`, `resume()`, `suspended` e `remove()`. [`motionScope().gradient()` e `v-gradient`](./gradients#escopos-e-vue) cuidam dele por um escopo ou um template.
 - `stop(target, properties?)`

@@ -28,6 +28,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
       items: [
         page('transitions', 'transitions'),
         page('decay', 'decay'),
+        page('gravity', 'gravity'),
         page('colors', 'colors'),
         page('gradients', 'gradients'),
         page('decorations', 'decorations'),
@@ -110,6 +111,7 @@ const en = {
   reactNative: 'From React Native Animated',
   transitions: 'Springs and tweens',
   decay: 'Decay and snapping',
+  gravity: 'Gravity and bounce',
   colors: 'Colors',
   gradients: 'Gradients',
   decorations: 'Corners, borders and shadows',
@@ -180,6 +182,7 @@ const pt = {
   reactNative: 'Vindo do Animated do React Native',
   transitions: 'Springs e tweens',
   decay: 'Desaceleração e encaixe',
+  gravity: 'Gravidade e quique',
   colors: 'Cores',
   gradients: 'Gradientes',
   decorations: 'Cantos, bordas e sombras',

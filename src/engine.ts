@@ -378,7 +378,6 @@ export class ViewAnimation implements PlaybackAnimation {
           (mixed ? undefined : driver.presented(this.view, property)) ??
           previous.track.valueAt(elapsed)
         velocity = previous.owner.paused ? 0 : previous.track.velocityAt(elapsed)
-        release(previous, now, false)
       } else if (mixed) {
         current =
           mixOf(this.view, property)?.rest(layer ?? BASE) ??
@@ -411,8 +410,10 @@ export class ViewAnimation implements PlaybackAnimation {
           velocity,
         )
       }
-      return { track: build(), key, layer }
+      return { track: build(), key, layer, previous }
     })
+    // Validate every trajectory before interrupting any existing property owner.
+    for (const { previous } of made) if (previous) release(previous, now, false)
     const tracks = made.map(({ track }) => track)
 
     for (const { track, layer } of made) {

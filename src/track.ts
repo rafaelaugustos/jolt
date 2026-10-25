@@ -2,6 +2,7 @@ import { clampDecoration, isDecorationProperty } from './decoration.js'
 import { isBuiltinEasing, linear } from './easing.js'
 import { sampleCurve, type SampledCurve } from './sampling.js'
 import { solveDecay } from './decay.js'
+import { solveGravity } from './gravity.js'
 import { solveDragRelease } from './drag-physics.js'
 import { precision, type Property } from './properties.js'
 import { solveSpring, springPhysics } from './spring.js'
@@ -71,7 +72,9 @@ export function createTrack(
         ? dragMotion(property, keyframes[0]!, curve, slowdown)
         : curve.type === 'decay'
           ? decay(property, keyframes[0]!, curve, slowdown)
-          : tween(property, keyframes, curve, slowdown),
+          : curve.type === 'gravity'
+            ? gravity(property, keyframes, curve, velocity * slowdown, slowdown)
+            : tween(property, keyframes, curve, slowdown),
     slowdown,
   )
   const { motion, repeat, reverse } = pauseBetweenRepeats(
@@ -121,7 +124,7 @@ export function createTrack(
       // At the exact handoff, retain the incoming spring velocity.
       if (
         elapsed < delay ||
-        (elapsed === delay && curve.type !== 'spring') ||
+        (elapsed === delay && curve.type !== 'spring' && curve.type !== 'gravity') ||
         elapsed >= end
       )
         return 0
@@ -400,6 +403,34 @@ function dragMotion(
       position: motion.position,
       tolerance: precision[property],
       projection: samplingProjection(property),
+      slowdown: density,
+    }),
+  }
+}
+
+function gravity(
+  property: Property,
+  [from, to]: readonly number[],
+  curve: Extract<Curve, { type: 'gravity' }>,
+  velocity: number,
+  density: number,
+): Motion {
+  const motion = solveGravity(
+    from!,
+    to!,
+    curve.acceleration,
+    curve.restitution,
+    curve.velocity ?? velocity,
+    precision[property],
+  )
+  return {
+    ...motion,
+    ...sampleCurve({
+      duration: motion.duration,
+      position: motion.position,
+      tolerance: precision[property],
+      breakpoints: motion.breakpoints,
+      errorBound: motion.interpolationError,
       slowdown: density,
     }),
   }
