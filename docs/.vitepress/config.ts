@@ -249,6 +249,8 @@ const pt = {
 
 const analytics = 'G-P4W61P3EV0'
 const tagManager = 'GTM-T586LWZD'
+const socialImageAlt =
+  'Jolt. Make NativeScript move. Presets, springs, keyframes and stagger, with the lightning logo among floating native controls.'
 
 export default defineConfig({
   title: 'Jolt',
@@ -270,7 +272,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     ['link', { rel: 'icon', type: 'image/png', href: '/icon.png' }],
     ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }],
     ['meta', { name: 'theme-color', content: '#dcf71d' }],
-    ['meta', { property: 'og:image', content: `${site}/logo.png` }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:site_name', content: 'Jolt' }],
+    ['meta', { property: 'og:image', content: `${site}/jolt-social.jpg` }],
+    ['meta', { property: 'og:image:type', content: 'image/jpeg' }],
+    ['meta', { property: 'og:image:width', content: '1200' }],
+    ['meta', { property: 'og:image:height', content: '630' }],
+    ['meta', { property: 'og:image:alt', content: socialImageAlt }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:image', content: `${site}/jolt-social.jpg` }],
+    ['meta', { name: 'twitter:image:alt', content: socialImageAlt }],
     [
       'script',
       { async: '', src: `https://www.googletagmanager.com/gtag/js?id=${analytics}` },
