@@ -52,6 +52,47 @@ final class DocsTests: XCTestCase {
         start.press(forDuration: 0.55, thenDragTo: destination, withVelocity: fast ? .fast : .slow, thenHoldForDuration: hold)
         Thread.sleep(forTimeInterval: 0.6)
     }
+    func blurTap(_ title: String, wait: Double = 0.4) {
+        let element = app.descendants(matching: .any)[title].firstMatch
+        XCTAssertTrue(element.exists, app.debugDescription)
+        let frame = element.frame
+        XCTAssertNil(JoltNativeTap(CGPoint(x: frame.midX, y: frame.midY)))
+        Thread.sleep(forTimeInterval: wait)
+    }
+    func testBlur() throws {
+        languageLaunch("en", "language-settings"); selectLanguage("system")
+        languageLaunch("en", "blur-lab", ["--showcase-example=blur"])
+        try record("blur-ios") {
+            blurTap("blur-soft", wait: 1.6)
+            blurTap("blur-full", wait: 1.6)
+            blurTap("blur-clear", wait: 0.2); blurTap("blur-soft", wait: 1.4)
+            blurTap("blur-drift", wait: 0.35); blurTap("blur-pause", wait: 0.7)
+            blurTap("blur-pause", wait: 3.5)
+            blurTap("blur-reduce", wait: 0.2); blurTap("blur-full", wait: 0.6); blurTap("blur-clear", wait: 0.6)
+        }
+        blurTap("blur-reduce")
+    }
+    func testBlurChecks() throws {
+        languageLaunch("en", "blur-lab", ["--showcase-example=blur", "--blur-audit"])
+        blurTap("blur-snapshot"); try cue("screenshot", "blur-clear")
+        blurTap("blur-full", wait: 0.1); blurTap("blur-seek", wait: 0.3)
+        blurTap("blur-snapshot"); try cue("screenshot", "blur-half")
+        blurTap("blur-snapshot"); blurTap("blur-invalid"); blurTap("blur-snapshot")
+        blurTap("blur-resize", wait: 0.4); blurTap("blur-snapshot")
+        blurTap("blur-resize", wait: 0.4); blurTap("blur-snapshot")
+        blurTap("blur-pause", wait: 1.2); blurTap("blur-snapshot"); try cue("screenshot", "blur-full")
+        blurTap("blur-clear", wait: 0.1); blurTap("blur-full", wait: 2); blurTap("blur-snapshot")
+        blurTap("blur-drift", wait: 0.05); blurTap("blur-pause", wait: 0.8)
+        blurTap("blur-snapshot"); blurTap("blur-snapshot")
+        blurTap("blur-pause", wait: 3.2); blurTap("blur-snapshot")
+        blurTap("blur-full", wait: 0.1); blurTap("blur-reduce"); blurTap("blur-snapshot")
+        blurTap("blur-clear"); blurTap("blur-snapshot")
+        blurTap("blur-reduce"); blurTap("blur-reset"); blurTap("blur-full", wait: 0.1)
+        XCUIDevice.shared.press(.home); Thread.sleep(forTimeInterval: 0.5)
+        app.activate(); Thread.sleep(forTimeInterval: 0.4); blurTap("blur-snapshot")
+        blurTap("Back to collection", wait: 1.2)
+        XCTAssertFalse(app.descendants(matching: .any)["blur-lab"].firstMatch.exists)
+    }
     func testShapes() throws {
         languageLaunch("en", "language-settings"); selectLanguage("system")
         languageLaunch("en", "shape-lab", ["--showcase-example=shapes"])

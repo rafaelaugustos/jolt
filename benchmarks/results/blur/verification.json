@@ -1,0 +1,34 @@
+[
+  {
+    "platform": "ios",
+    "checkpoints": 14,
+    "nativeRetargets": 1,
+    "midpoint": 0.5,
+    "pausedFramesStable": true,
+    "resizeWidths": [240, 346],
+    "backgroundResumed": true,
+    "retainedEffects": 0,
+    "negativeControl": "rejected missing applied blur",
+    "pixelDetail": {
+      "clear": 5.728,
+      "half": 0.1405,
+      "full": 0.075
+    }
+  },
+  {
+    "platform": "android",
+    "checkpoints": 14,
+    "nativeRetargets": 1,
+    "midpoint": 0.5,
+    "pausedFramesStable": true,
+    "resizeWidths": [240, 355.04761904761904],
+    "backgroundResumed": true,
+    "retainedEffects": 0,
+    "negativeControl": "rejected missing applied blur",
+    "pixelDetail": {
+      "clear": 5.8125,
+      "half": 0.2765,
+      "full": 0.1859
+    }
+  }
+]

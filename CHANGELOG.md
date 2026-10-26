@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add optional `@rafaelaugusto/jolt/blur`: animated native material intensity on iOS and content blur on Android 12+, with interruption, playback/lifecycle controls and a no-effect fallback. Include the four-language Soft focus preview and English recordings in both guides. Rebuild both platforms to load the helpers.
+
 - Add optional `@rafaelaugusto/jolt/shapes`: native SVG stroke drawing and compatible-path morphing on iOS/Android, presentation-based interruption, playback controls and lifecycle cleanup. Include the 71st four-language preview and English native recordings in both guides. Rebuild Android to load the compiled renderer.
 
 - Extend native circle physics with fixed-anchor springs, velocity-aware release snap points, native tether drawing and `attach()` / `snapTo()` commands. Preserve collisions, cancellation, bounds, sleep and lifecycle ownership. Include the 70th four-language preview and English iOS/Android recordings in both guides. Rebuild the native app; body-to-body joints and general constraints remain outside this #39 milestone.

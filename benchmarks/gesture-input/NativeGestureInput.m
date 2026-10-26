@@ -12,6 +12,17 @@
 - (BOOL)synthesizeWithError:(NSError **)error;
 @end
 
+// A paused UIViewPropertyAnimator never satisfies XCTest's animation-idle wait.
+// Deliver an ordinary OS tap without that wait; the app still handles the touch.
+NSString *JoltNativeTap(CGPoint point) {
+    Class paths=NSClassFromString(@"XCPointerEventPath"), records=NSClassFromString(@"XCSynthesizedEventRecord");
+    if(!paths || !records)return @"XCTest pointer-path interfaces are unavailable";
+    id path=[[paths alloc]initForTouchAtPoint:point offset:0];[path liftUpAtOffset:.06];
+    id record=[[records alloc]initWithName:@"Jolt native tap" interfaceOrientation:UIInterfaceOrientationPortrait];
+    [record addPointerEventPath:path];
+    NSError *error=nil;return [record synthesizeWithError:&error]?nil:error.localizedDescription?:@"XCTest event synthesis failed";
+}
+
 NSString *JoltPhotoInterrupt(CGPoint center) {
     Class paths=NSClassFromString(@"XCPointerEventPath"), records=NSClassFromString(@"XCSynthesizedEventRecord");
     if(!paths || !records)return @"XCTest pointer-path interfaces are unavailable";

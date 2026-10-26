@@ -589,3 +589,17 @@ declare namespace org.rafaelaugusto.jolt {
     dispose(): void
   }
 }
+
+declare namespace org.rafaelaugusto.jolt {
+  class BlurEffect extends java.lang.Object {
+    constructor(view: android.view.View, radius: number)
+    static liveCount(): number
+    static activeCount(): number
+    paint(amount: number): void
+    play(program: string): void
+    control(time: number, paused: boolean): void
+    resize(): void
+    snapshot(): string
+    dispose(): void
+  }
+}
