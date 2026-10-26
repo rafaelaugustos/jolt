@@ -1,3 +1,4 @@
+import { GlassContainer, GlassView } from '@rafaelaugusto/jolt/glass'
 import { createApp, registerElement } from 'nativescript-vue'
 import { SVGView } from '@nativescript-community/ui-svg'
 import { ReorderHandle, ReorderSurface } from '@rafaelaugusto/jolt/reorder'
@@ -8,6 +9,8 @@ import { launchArgument } from './launch'
 import { knownFolders } from '@nativescript/core'
 import './native-elements'
 
+registerElement('GlassContainer', () => GlassContainer)
+registerElement('GlassView', () => GlassView)
 registerElement('SVGView', () => SVGView)
 registerElement('ReorderHandle', () => ReorderHandle)
 registerElement('ReorderSurface', () => ReorderSurface)

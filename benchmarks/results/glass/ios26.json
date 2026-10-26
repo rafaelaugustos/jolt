@@ -1,0 +1,2931 @@
+{
+  "platform": "ios",
+  "events": [
+    {
+      "name": "created",
+      "time": 1792987787819,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 0,
+      "resources": 0,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 0,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -104,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 0,
+            "height": 0
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 0,
+            "height": 0
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 104,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 0,
+            "height": 0
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "foreground",
+      "time": 1792987787917,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 0,
+      "resources": 0,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -104,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 104,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987791105,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 0,
+      "resources": 0,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -104,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 104,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "before-move",
+      "time": 1792987791822,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 0,
+      "resources": 0,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -104,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 104,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "move",
+      "time": 1792987791824,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -104,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 104,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "midpoint",
+      "time": 1792987792239,
+      "joined": true,
+      "paused": true,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -78,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 78,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987792855,
+      "joined": true,
+      "paused": true,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -78,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 78,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987793589,
+      "joined": true,
+      "paused": true,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -78,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 78,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "rejected",
+      "error": "RangeError: glassSpacing must be within 0..200.",
+      "time": 1792987794322,
+      "joined": true,
+      "paused": true,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -78,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 78,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987795055,
+      "joined": true,
+      "paused": true,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -78,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 78,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "resize",
+      "time": 1792987795772,
+      "joined": true,
+      "paused": true,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -78,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 78,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987796505,
+      "joined": true,
+      "paused": true,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 300,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -78,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 78,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "resize",
+      "time": 1792987797222,
+      "joined": true,
+      "paused": true,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 300,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -78,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 78,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987797955,
+      "joined": true,
+      "paused": true,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -78,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 78,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "play",
+      "time": 1792987798672,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -77.98806715011597,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 77.99652862548828,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987800389,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 0,
+      "resources": 0,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -52,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 52,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "touch",
+      "time": 1792987801139,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -52,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 52,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987801855,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -52,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 52,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "before-move",
+      "time": 1792987802555,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -52,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 52,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "move",
+      "time": 1792987802557,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -52,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 52,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "before-move",
+      "time": 1792987802972,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -64.01475650072098,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 64.00330716371536,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "move",
+      "time": 1792987802973,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 6,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -64.01475650072098,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 64.00330716371536,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987805306,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -52,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 52,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "flow",
+      "time": 1792987806024,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -104,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 104,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "pause",
+      "time": 1792987806406,
+      "joined": false,
+      "paused": true,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -104,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 104,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987807522,
+      "joined": false,
+      "paused": true,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -104,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 104,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987808256,
+      "joined": false,
+      "paused": true,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -104,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 104,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "play",
+      "time": 1792987808990,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -104,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 104,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987812806,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -104,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 104,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "before-move",
+      "time": 1792987813522,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -104,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 104,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "move",
+      "time": 1792987813524,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -104,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 104,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "before-move",
+      "time": 1792987813939,
+      "joined": true,
+      "paused": false,
+      "reduced": true,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -91.97286665439606,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 91.98336446285248,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "move",
+      "time": 1792987813940,
+      "joined": true,
+      "paused": false,
+      "reduced": true,
+      "touches": 1,
+      "resources": 6,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -91.97286665439606,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 91.98336446285248,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "reduced",
+      "time": 1792987813941,
+      "joined": true,
+      "paused": false,
+      "reduced": true,
+      "touches": 1,
+      "resources": 6,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -91.97286665439606,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 91.98336446285248,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987814672,
+      "joined": true,
+      "paused": false,
+      "reduced": true,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -52,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 52,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "before-move",
+      "time": 1792987815389,
+      "joined": true,
+      "paused": false,
+      "reduced": true,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -52,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 52,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "move",
+      "time": 1792987815390,
+      "joined": false,
+      "paused": false,
+      "reduced": true,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -52,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 52,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987816122,
+      "joined": false,
+      "paused": false,
+      "reduced": true,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -104,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 104,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "reduced",
+      "time": 1792987816856,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -104,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 104,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "before-move",
+      "time": 1792987817589,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -104,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 104,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "move",
+      "time": 1792987817590,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -104,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 104,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "background",
+      "time": 1792987818153,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -87.73844373226166,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 87.75007283687592,
+          "y": 0,
+          "animations": 2,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "foreground",
+      "time": 1792987819135,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": false,
+          "backend": "liquid-glass",
+          "x": -87.75794386863708,
+          "y": 0,
+          "animations": 2,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": false,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 2,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": false,
+          "backend": "liquid-glass",
+          "x": 87.7569830417633,
+          "y": 0,
+          "animations": 2,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987821006,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 346,
+        "effect": "function UIGlassContainerEffect() { [native code] }"
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": -52,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 82,
+            "height": 82
+          },
+          "cornerRadius": 0
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "liquid-glass",
+          "x": 52,
+          "y": 0,
+          "animations": 0,
+          "effect": "function UIGlassEffect() { [native code] }",
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": 0
+        }
+      ]
+    },
+    {
+      "name": "disposed",
+      "time": 1792987822441,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "liquid-glass",
+        "spacing": 26,
+        "width": 0,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": false,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 0,
+            "height": 0
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": false,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 0,
+            "height": 0
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": false,
+          "backend": "liquid-glass",
+          "x": 0,
+          "y": 0,
+          "animations": 0,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 0,
+            "height": 0
+          },
+          "cornerRadius": null
+        }
+      ]
+    }
+  ]
+}

@@ -23,7 +23,8 @@
       "@rafaelaugusto/jolt/sensors": ["./src/sensors/index.ts"],
       "@rafaelaugusto/jolt/physics": ["./src/physics/index.ts"],
       "@rafaelaugusto/jolt/shapes": ["./src/shapes/index.ts"],
-      "@rafaelaugusto/jolt/blur": ["./src/blur/index.ts"]
+      "@rafaelaugusto/jolt/blur": ["./src/blur/index.ts"],
+      "@rafaelaugusto/jolt/glass": ["./src/glass/index.ts"]
     },
     "strict": true,
     "noUncheckedIndexedAccess": true,

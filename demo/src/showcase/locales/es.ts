@@ -1,5 +1,22 @@
 // English source messages → Spanish. Keep numbered placeholders intact.
 export const spanish: Record<string, string> = {
+  'Better as one': 'Mejor como uno',
+  'Separate. Meet. Become something new.': 'Separar. Encontrar. Crear algo nuevo.',
+  'A little closer. A little more connected.': 'Más cerca. Más conectados.',
+  'TOGETHER, BY NATURE': 'JUNTOS, POR NATURALEZA',
+  'Stay\nclose.': 'Quédate\ncerca.',
+  'Three little worlds. One shared feeling.': 'Tres mundos. Un sentimiento compartido.',
+  'The same connection. A classic finish.': 'La misma conexión. Un acabado clásico.',
+  'Closer feels different.': 'De cerca se siente diferente.',
+  'Good things find each other.': 'Las cosas buenas se encuentran.',
+  'A little touch goes a long way.': 'Un toque marca la diferencia.',
+  'Bring them together. Let them wander.': 'Acércalos. Déjalos fluir.',
+  Gather: 'Juntar',
+  Separate: 'Separar',
+  Flow: 'Fluir',
+  'Regular glass': 'Vidrio normal',
+  'Clear glass': 'Vidrio claro',
+
   Clear: 'Nítido',
   'Soft focus': 'Enfoque suave',
   'Let the world soften.': 'Deja que el mundo se suavice.',
@@ -1240,4 +1257,5 @@ export const spanish: Record<string, string> = {
   model: 'modelo',
   'motion value': 'valor de movimiento',
   'live spring': 'resorte en vivo',
+  'Classic material': 'Material clásico',
 }

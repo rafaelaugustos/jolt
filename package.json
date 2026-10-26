@@ -93,6 +93,10 @@
     "./blur": {
       "types": "./dist/blur/index.d.ts",
       "default": "./dist/blur/index.js"
+    },
+    "./glass": {
+      "types": "./dist/glass/index.d.ts",
+      "default": "./dist/glass/index.js"
     }
   },
   "files": [

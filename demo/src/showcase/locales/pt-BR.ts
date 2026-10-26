@@ -1,5 +1,22 @@
 // English source messages → Brazilian Portuguese. Keep numbered placeholders intact.
 export const portuguese: Record<string, string> = {
+  'Better as one': 'Melhor como um só',
+  'Separate. Meet. Become something new.': 'Separar. Encontrar. Criar algo novo.',
+  'A little closer. A little more connected.': 'Mais perto. Mais conectado.',
+  'TOGETHER, BY NATURE': 'JUNTOS, POR NATUREZA',
+  'Stay\nclose.': 'Fique\nperto.',
+  'Three little worlds. One shared feeling.': 'Três mundos. Um sentimento em comum.',
+  'The same connection. A classic finish.': 'A mesma conexão. Um toque clássico.',
+  'Closer feels different.': 'De perto é diferente.',
+  'Good things find each other.': 'Coisas boas se encontram.',
+  'A little touch goes a long way.': 'Um toque faz a diferença.',
+  'Bring them together. Let them wander.': 'Aproxime. Deixe fluir.',
+  Gather: 'Juntar',
+  Separate: 'Separar',
+  Flow: 'Fluir',
+  'Regular glass': 'Vidro regular',
+  'Clear glass': 'Vidro claro',
+
   Clear: 'Nítido',
   'Soft focus': 'Foco suave',
   'Let the world soften.': 'Deixe o mundo mais leve.',
@@ -1237,4 +1254,5 @@ export const portuguese: Record<string, string> = {
   model: 'modelo',
   'motion value': 'valor de movimento',
   'live spring': 'mola nativa',
+  'Classic material': 'Material clássico',
 }
