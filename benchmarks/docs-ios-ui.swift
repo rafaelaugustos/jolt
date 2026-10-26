@@ -52,6 +52,50 @@ final class DocsTests: XCTestCase {
         start.press(forDuration: 0.55, thenDragTo: destination, withVelocity: fast ? .fast : .slow, thenHoldForDuration: hold)
         Thread.sleep(forTimeInterval: 0.6)
     }
+    func circleFling(_ id: String, x: CGFloat, y: CGFloat) {
+        let body = app.descendants(matching: .any)[id].firstMatch
+        XCTAssertTrue(body.exists, app.debugDescription)
+        let start = body.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+        start.press(forDuration: 0.12, thenDragTo: start.withOffset(CGVector(dx: x, dy: y)), withVelocity: .fast, thenHoldForDuration: 0)
+        Thread.sleep(forTimeInterval: 0.25)
+    }
+    func testCirclePhysics() throws {
+        languageLaunch("en", "language-settings"); selectLanguage("system")
+        languageLaunch("en", "circle-lab", ["--showcase-example=circle-physics"])
+        Thread.sleep(forTimeInterval: 4)
+        try record("circle-physics-ios") {
+            circleFling("circle-03", x: -70, y: -170)
+            Thread.sleep(forTimeInterval: 1.5)
+            circleFling("circle-01", x: 80, y: -160)
+            Thread.sleep(forTimeInterval: 1.5)
+            tap("circle-scatter", wait: 0.3)
+            tap("circle-pause", wait: 1)
+            tap("circle-pause", wait: 1.5)
+            tap("circle-reset", wait: 2)
+            tap("circle-reduce", wait: 0.7)
+            tap("circle-scatter", wait: 0.8)
+        }
+        tap("circle-reduce")
+    }
+    func testCirclePhysicsChecks() throws {
+        languageLaunch("en", "circle-lab", ["--showcase-example=circle-physics", "--circle-audit"])
+        Thread.sleep(forTimeInterval: 5)
+        tap("circle-snapshot")
+        circleFling("circle-03", x: -65, y: -160)
+        tap("circle-snapshot", wait: 0.1)
+        tap("circle-scatter", wait: 0.1)
+        tap("circle-pause", wait: 0.6)
+        tap("circle-snapshot"); tap("circle-snapshot")
+        tap("circle-pause", wait: 0.3); tap("circle-snapshot")
+        tap("circle-reduce"); tap("circle-scatter"); tap("circle-snapshot")
+        tap("circle-reduce"); tap("circle-resize"); tap("circle-snapshot")
+        tap("circle-resize"); tap("circle-reset", wait: 0.2)
+        XCUIDevice.shared.press(.home); Thread.sleep(forTimeInterval: 0.6)
+        app.activate(); Thread.sleep(forTimeInterval: 0.5)
+        tap("circle-snapshot")
+        tap("Back to collection")
+        XCTAssertFalse(app.descendants(matching: .any)["circle-lab"].firstMatch.exists)
+    }
     func testGravity() throws {
         languageLaunch("en", "language-settings"); selectLanguage("system")
         languageLaunch("en", "gravity-lab", ["--showcase-example=gravity"])

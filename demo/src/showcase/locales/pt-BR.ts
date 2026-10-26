@@ -1,5 +1,14 @@
 // English source messages → Brazilian Portuguese. Keep numbered placeholders intact.
 export const portuguese: Record<string, string> = {
+  'Better together': 'Melhor juntos',
+  'Every collision starts something.': 'Cada colisão é um começo.',
+  'A little chaos. A lot of joy.': 'Um pouco de caos. Muita alegria.',
+  'MAKE SOME ROOM.': 'ABRA ESPAÇO.',
+  'The club is on a break.': 'O clube está em pausa.',
+  'Pick one up. Send it flying.': 'Pegue uma. Lance no ar.',
+  'A gentle nudge changes everything.': 'Um leve empurrão muda tudo.',
+  'Mix it up': 'Misturar',
+  'Start fresh': 'Recomeçar',
   'A softer landing': 'Um pouso mais suave',
   'Let go. Find your balance.': 'Solte. Encontre seu equilíbrio.',
   'Extra bounce': 'Mais quique',

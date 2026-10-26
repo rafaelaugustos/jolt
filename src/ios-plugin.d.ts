@@ -332,3 +332,16 @@ declare class JoltInteractiveNavigation extends NSObject {
   cancel(): void
   disposeRestoringSwipe(enabled: boolean): void
 }
+
+declare class JoltCircleWorld extends NSObject {
+  static createOptions(container: UIView, options: string): JoltCircleWorld
+  static worldCount(): number
+  static activeCount(): number
+  connectIndex(view: UIView, index: number): void
+  setEnabled(active: boolean): void
+  resizeHeight(width: number, height: number): void
+  impulseXY(index: number, x: number, y: number): void
+  reset(): void
+  snapshot(): string
+  dispose(): void
+}

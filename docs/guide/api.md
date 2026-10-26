@@ -36,6 +36,7 @@
 - [`sequence(steps)`](./sequences) — overlapping steps and fixed positions.
 - `press(target, pressed?, transition?)`
 - [`drag(target, options?)`](./drag) — with `value`, the gesture drives a [motion value](./motion-values#dragging) instead of the view.
+- [`physicsWorld(container, bodies, options)`](./circle-physics) — native circle collisions, drag/release and lifecycle ownership.
 - [`sensor(kind, options)`](./device-sensors) — optional native rotation/gravity sources for motion values, bindings and springs.
 - [`scrollHeader(list, options)`](./scroll-header) — native Core ListView composition: measured hero, parallax, title handoff, pinned section and stable item anchors.
 - [`scrollLinked(scrollView, target, keyframes, { range, axis? })`](./scroll-linked) — returns a cleanup function.

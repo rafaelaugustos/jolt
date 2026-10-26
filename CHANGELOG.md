@@ -2,7 +2,9 @@
 
 ## Unreleased
 
-- Add `{ type: 'gravity' }` for finite ballistic fall and bounce on translations and motion values, with native sampled playback, exact impact seams, inherited velocity and existing playback/scope controls. Include the localized **A softer landing** preview and real iOS/Android recordings. Interactive multi-body physics remains future work in #39.
+- Add optional `@rafaelaugusto/jolt/physics` for up to 16 native circles: pair/wall collisions, native drag/release, impulses, bounded fixed-step work, sleep and lifecycle cleanup on iOS/Android. Include the four-language **Better together** preview and English native recordings in both guides. Rebuild the native app. General physics remains tracked in #39.
+
+- Add `{ type: 'gravity' }` for finite ballistic fall and bounce on translations and motion values, with native sampled playback, exact impact seams, inherited velocity and existing playback/scope controls. Include the localized **A softer landing** preview and real iOS/Android recordings. Circle collisions are delivered separately through the optional physics entry; broader physics remains in #39.
 
 - Add optional native rotation/gravity sources through `@rafaelaugusto/jolt/sensors`, with shared hardware subscriptions, demand-driven collection, frame coalescing, quaternion/interface coordinates, scope lifecycle and native spring bindings. Add the localized **Move the light** preview and explicit native sensor test-input playback. Physical-device sensor/performance validation and other sensor types remain tracked in #114.
 

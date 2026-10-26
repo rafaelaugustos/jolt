@@ -1,5 +1,14 @@
 // English source messages → Simplified Chinese. Keep numbered placeholders intact.
 export const chinese: Record<string, string> = {
+  'Better together': '相碰更有趣',
+  'Every collision starts something.': '每次碰撞，都是新的开始。',
+  'A little chaos. A lot of joy.': '一点混乱，满满乐趣。',
+  'MAKE SOME ROOM.': '腾出一点空间。',
+  'The club is on a break.': '俱乐部休息中。',
+  'Pick one up. Send it flying.': '拿起一个，让它飞吧。',
+  'A gentle nudge changes everything.': '轻轻一推，一切都变了。',
+  'Mix it up': '搅动一下',
+  'Start fresh': '重新开始',
   'A softer landing': '轻柔落地',
   'Let go. Find your balance.': '放手，找到平衡。',
   'Extra bounce': '更多弹跳',

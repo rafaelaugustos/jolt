@@ -1,3 +1,4 @@
+import CirclePhysicsLab from '../components/CirclePhysicsLab.vue'
 import GravityLab from '../components/GravityLab.vue'
 import SensorLab from '../components/SensorLab.vue'
 import ScrollHeaderLab from '../components/ScrollHeaderLab.vue'
@@ -74,6 +75,15 @@ export const categories = [
   'SceneKit',
 ] as const
 export const examples = [
+  {
+    id: 'circle-physics',
+    title: 'Better together',
+    category: 'Touch',
+    description: 'Every collision starts something.',
+    component: markRaw(CirclePhysicsLab),
+    full: true,
+    ios: false,
+  },
   {
     id: 'gravity',
     title: 'A softer landing',

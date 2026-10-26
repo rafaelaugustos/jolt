@@ -544,3 +544,18 @@ declare namespace org.rafaelaugusto.jolt {
     dispose(): void
   }
 }
+
+declare namespace org.rafaelaugusto.jolt {
+  class CircleWorld {
+    constructor(container: android.view.View, options: string)
+    static worldCount(): number
+    static activeCount(): number
+    connect(view: android.view.View, index: number): void
+    setEnabled(active: boolean): void
+    resize(width: number, height: number): void
+    impulse(index: number, x: number, y: number): void
+    reset(): void
+    snapshot(): string
+    dispose(): void
+  }
+}

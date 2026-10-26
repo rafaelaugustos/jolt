@@ -1,5 +1,14 @@
 // English source messages → Spanish. Keep numbered placeholders intact.
 export const spanish: Record<string, string> = {
+  'Better together': 'Mejor juntos',
+  'Every collision starts something.': 'Cada choque es un comienzo.',
+  'A little chaos. A lot of joy.': 'Un poco de caos. Mucha alegría.',
+  'MAKE SOME ROOM.': 'HAZ ESPACIO.',
+  'The club is on a break.': 'El club está en pausa.',
+  'Pick one up. Send it flying.': 'Toma una. Hazla volar.',
+  'A gentle nudge changes everything.': 'Un suave empujón lo cambia todo.',
+  'Mix it up': 'Mezclar',
+  'Start fresh': 'Empezar de nuevo',
   'A softer landing': 'Un aterrizaje suave',
   'Let go. Find your balance.': 'Suelta. Encuentra tu equilibrio.',
   'Extra bounce': 'Más rebote',

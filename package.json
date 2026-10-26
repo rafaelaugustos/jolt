@@ -81,6 +81,10 @@
     "./sensors": {
       "types": "./dist/sensors/index.d.ts",
       "default": "./dist/sensors/index.js"
+    },
+    "./physics": {
+      "types": "./dist/physics/index.d.ts",
+      "default": "./dist/physics/index.js"
     }
   },
   "files": [
