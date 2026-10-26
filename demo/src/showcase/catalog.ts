@@ -1,3 +1,4 @@
+import ShapeLab from '../components/ShapeLab.vue'
 import AttachmentLab from '../components/AttachmentLab.vue'
 import CirclePhysicsLab from '../components/CirclePhysicsLab.vue'
 import GravityLab from '../components/GravityLab.vue'
@@ -76,6 +77,15 @@ export const categories = [
   'SceneKit',
 ] as const
 export const examples = [
+  {
+    id: 'shapes',
+    title: 'Made of motion',
+    category: 'Visual',
+    description: 'Draw a line. Change its story.',
+    component: markRaw(ShapeLab),
+    full: true,
+    ios: false,
+  },
   {
     id: 'physics-attachments',
     title: 'A place to return',

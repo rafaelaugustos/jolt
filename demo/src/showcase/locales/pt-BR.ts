@@ -1,5 +1,16 @@
 // English source messages → Brazilian Portuguese. Keep numbered placeholders intact.
 export const portuguese: Record<string, string> = {
+  'Made of motion': 'Feito de movimento',
+  'Draw a line. Change its story.': 'Desenhe uma linha. Mude sua história.',
+  'A little line. A whole new feeling.': 'Uma linha. Um novo sentimento.',
+  'ONE SYMBOL. TWO MOODS.': 'UM SÍMBOLO. DOIS MOMENTOS.',
+  'Take a breath.': 'Respire um pouco.',
+  'Ready when you are.': 'No seu tempo.',
+  'Make your mark.': 'Deixe sua marca.',
+  'Small strokes. Big personality.': 'Pequenos traços. Muita personalidade.',
+  'Draw again': 'Desenhar',
+  'Switch shape': 'Transformar',
+
   'A place to return': 'Um lugar para voltar',
   'Stretch a little. Settle somewhere new.': 'Estique um pouco. Encontre um novo lugar.',
   'Spring back. Find your place.': 'Volte com leveza. Encontre seu lugar.',

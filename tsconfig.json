@@ -21,7 +21,8 @@
       ],
       "@rafaelaugusto/jolt/predictive-back": ["./src/predictive-back/index.ts"],
       "@rafaelaugusto/jolt/sensors": ["./src/sensors/index.ts"],
-      "@rafaelaugusto/jolt/physics": ["./src/physics/index.ts"]
+      "@rafaelaugusto/jolt/physics": ["./src/physics/index.ts"],
+      "@rafaelaugusto/jolt/shapes": ["./src/shapes/index.ts"]
     },
     "strict": true,
     "noUncheckedIndexedAccess": true,

@@ -1,5 +1,16 @@
 // English source messages → Simplified Chinese. Keep numbered placeholders intact.
 export const chinese: Record<string, string> = {
+  'Made of motion': '由动效构成',
+  'Draw a line. Change its story.': '画一条线，改变它的故事。',
+  'A little line. A whole new feeling.': '一条小小的线，带来全新感受。',
+  'ONE SYMBOL. TWO MOODS.': '一个符号，两种心情。',
+  'Take a breath.': '深呼吸。',
+  'Ready when you are.': '准备好了就开始。',
+  'Make your mark.': '留下你的印记。',
+  'Small strokes. Big personality.': '小小笔画，鲜明个性。',
+  'Draw again': '重新绘制',
+  'Switch shape': '变换形状',
+
   'A place to return': '总有归处',
   'Stretch a little. Settle somewhere new.': '轻轻拉动，找到新的落点。',
   'Spring back. Find your place.': '轻盈回弹，找到归处。',

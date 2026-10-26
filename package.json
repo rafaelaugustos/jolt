@@ -85,6 +85,10 @@
     "./physics": {
       "types": "./dist/physics/index.d.ts",
       "default": "./dist/physics/index.js"
+    },
+    "./shapes": {
+      "types": "./dist/shapes/index.d.ts",
+      "default": "./dist/shapes/index.js"
     }
   },
   "files": [

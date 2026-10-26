@@ -1,4 +1,32 @@
 declare namespace org.rafaelaugusto.jolt {
+  class ShapeLayer extends android.graphics.drawable.Drawable {
+    constructor(options: string)
+    static liveCount(): number
+    static activeCount(): number
+    paint(
+      commands: string,
+      points: native.Array<number>,
+      start: number,
+      end: number,
+    ): void
+    values(): native.Array<number>
+    geometryBounds(): native.Array<number>
+    play(
+      commands: string,
+      from: native.Array<number>,
+      to: native.Array<number>,
+      times: native.Array<number>,
+      samples: native.Array<number>,
+      duration: number,
+      delay: number,
+      repeats: number,
+      reverse: boolean,
+    ): void
+    control(time: number, paused: boolean): void
+    isPlaying(): boolean
+    cancel(): void
+    dispose(): void
+  }
   class SensorSource {
     constructor(
       context: android.content.Context,
