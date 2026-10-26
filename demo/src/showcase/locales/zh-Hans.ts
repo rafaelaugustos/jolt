@@ -1,5 +1,22 @@
 // English source messages → Simplified Chinese. Keep numbered placeholders intact.
 export const chinese: Record<string, string> = {
+  'Better as one': '相融更美',
+  'Separate. Meet. Become something new.': '分开，相遇，焕然一新。',
+  'A little closer. A little more connected.': '靠近一点，联结更多。',
+  'TOGETHER, BY NATURE': '相聚，源于自然',
+  'Stay\nclose.': '保持\n亲近。',
+  'Three little worlds. One shared feeling.': '三个小世界，一份共同感受。',
+  'The same connection. A classic finish.': '同样的联结，经典的质感。',
+  'Closer feels different.': '靠近，感受不同。',
+  'Good things find each other.': '美好总会相遇。',
+  'A little touch goes a long way.': '轻轻一触，感觉不同。',
+  'Bring them together. Let them wander.': '让它们靠近，自在流动。',
+  Gather: '聚合',
+  Separate: '分开',
+  Flow: '流动',
+  'Regular glass': '标准玻璃',
+  'Clear glass': '通透玻璃',
+
   Clear: '清晰',
   'Soft focus': '柔和焦点',
   'Let the world soften.': '让世界柔和下来。',
@@ -1206,4 +1223,5 @@ export const chinese: Record<string, string> = {
   model: '模型',
   'motion value': '动效值',
   'live spring': '实时弹簧',
+  'Classic material': '经典材质',
 }

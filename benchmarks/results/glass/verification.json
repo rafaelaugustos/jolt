@@ -1,0 +1,41 @@
+[
+  {
+    "platform": "ios",
+    "backend": "liquid-glass",
+    "checkpoints": 15,
+    "midpoint": [-78, 0, 78],
+    "resizeWidths": [300, 346],
+    "interruptions": 1,
+    "touches": 1,
+    "backgroundResumed": true,
+    "retainedEffects": 0,
+    "retainedResources": 0,
+    "negativeControls": "rejected missing transform and invalid child ownership"
+  },
+  {
+    "platform": "ios",
+    "backend": "blur",
+    "checkpoints": 15,
+    "midpoint": [-78, 0, 78],
+    "resizeWidths": [300, 337],
+    "interruptions": 1,
+    "touches": 1,
+    "backgroundResumed": true,
+    "retainedEffects": 0,
+    "retainedResources": 0,
+    "negativeControls": "rejected missing transform and invalid child ownership"
+  },
+  {
+    "platform": "android",
+    "backend": "none",
+    "checkpoints": 15,
+    "midpoint": [-78, 0, 78],
+    "resizeWidths": [300.1904761904762, 355.04761904761904],
+    "interruptions": 1,
+    "touches": 1,
+    "backgroundResumed": true,
+    "retainedEffects": 0,
+    "retainedResources": 0,
+    "negativeControls": "rejected missing transform and invalid child ownership"
+  }
+]

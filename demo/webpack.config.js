@@ -7,6 +7,7 @@ module.exports = (env) => {
 
   webpack.chainWebpack((config) => {
     config.resolve.alias
+      .set('@rafaelaugusto/jolt/glass$', resolve(__dirname, '../dist/glass/index.js'))
       .set('@rafaelaugusto/jolt/blur$', resolve(__dirname, '../dist/blur/index.js'))
       .set('@rafaelaugusto/jolt/shapes$', resolve(__dirname, '../dist/shapes/index.js'))
       .set('@rafaelaugusto/jolt/physics$', resolve(__dirname, '../dist/physics/index.js'))

@@ -1,0 +1,2866 @@
+{
+  "platform": "android",
+  "events": [
+    {
+      "name": "created",
+      "time": 1792987771727,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 0,
+      "resources": 0,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987776897,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 0,
+      "resources": 0,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "before-move",
+      "time": 1792987777327,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 0,
+      "resources": 0,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "move",
+      "time": 1792987777330,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "midpoint",
+      "time": 1792987777457,
+      "joined": true,
+      "paused": true,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -78,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 78,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987777792,
+      "joined": true,
+      "paused": true,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -78,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 78,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987778218,
+      "joined": true,
+      "paused": true,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -78,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 78,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "rejected",
+      "error": "RangeError: glassSpacing must be within 0..200.",
+      "time": 1792987778646,
+      "joined": true,
+      "paused": true,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -78,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 78,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987779074,
+      "joined": true,
+      "paused": true,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -78,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 78,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "resize",
+      "time": 1792987779507,
+      "joined": true,
+      "paused": true,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -78,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 78,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987779932,
+      "joined": true,
+      "paused": true,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 300.1904761904762,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -78,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 78,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "resize",
+      "time": 1792987780354,
+      "joined": true,
+      "paused": true,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 300.1904761904762,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -78,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 78,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987780785,
+      "joined": true,
+      "paused": true,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -78,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 78,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "play",
+      "time": 1792987781214,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 0,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -78,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 78,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987782543,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 0,
+      "resources": 0,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "touch",
+      "time": 1792987782970,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987783399,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "before-move",
+      "time": 1792987783827,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "move",
+      "time": 1792987783829,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "before-move",
+      "time": 1792987783955,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -54.88888695126488,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 54.88888695126488,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "move",
+      "time": 1792987783957,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 6,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -54.88888695126488,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 54.88888695126488,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987785985,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "flow",
+      "time": 1792987786416,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "pause",
+      "time": 1792987786491,
+      "joined": false,
+      "paused": true,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987787321,
+      "joined": false,
+      "paused": true,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987787747,
+      "joined": false,
+      "paused": true,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "play",
+      "time": 1792987788180,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987791708,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "before-move",
+      "time": 1792987792131,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "move",
+      "time": 1792987792133,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "before-move",
+      "time": 1792987792263,
+      "joined": true,
+      "paused": false,
+      "reduced": true,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -100.62000093005952,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 100.62000093005952,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "move",
+      "time": 1792987792264,
+      "joined": true,
+      "paused": false,
+      "reduced": true,
+      "touches": 1,
+      "resources": 6,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "reduced",
+      "time": 1792987792265,
+      "joined": true,
+      "paused": false,
+      "reduced": true,
+      "touches": 1,
+      "resources": 6,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987792688,
+      "joined": true,
+      "paused": false,
+      "reduced": true,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "before-move",
+      "time": 1792987793115,
+      "joined": true,
+      "paused": false,
+      "reduced": true,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "move",
+      "time": 1792987793116,
+      "joined": false,
+      "paused": false,
+      "reduced": true,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987793551,
+      "joined": false,
+      "paused": false,
+      "reduced": true,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "reduced",
+      "time": 1792987793982,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "before-move",
+      "time": 1792987794409,
+      "joined": false,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "move",
+      "time": 1792987794412,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 104,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "background",
+      "time": 1792987794562,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -100.1288829985119,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 100.1288829985119,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "foreground",
+      "time": 1792987795093,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 3,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -100.1288829985119,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 100.1288829985119,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792987797117,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 355.04761904761904,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": true,
+          "backend": "none",
+          "x": -52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": true,
+          "backend": "none",
+          "x": 0,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 81.9047619047619,
+            "height": 81.9047619047619
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": true,
+          "backend": "none",
+          "x": 52,
+          "y": 0,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 72,
+            "height": 72
+          },
+          "cornerRadius": null
+        }
+      ]
+    },
+    {
+      "name": "disposed",
+      "time": 1792987797895,
+      "joined": true,
+      "paused": false,
+      "reduced": false,
+      "touches": 1,
+      "resources": 0,
+      "group": {
+        "backend": "none",
+        "spacing": 26,
+        "width": 0,
+        "effect": null
+      },
+      "views": [
+        {
+          "id": "glass-left",
+          "loaded": false,
+          "backend": "none",
+          "x": null,
+          "y": null,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 0,
+            "height": 0
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-center",
+          "loaded": false,
+          "backend": "none",
+          "x": null,
+          "y": null,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 0,
+            "height": 0
+          },
+          "cornerRadius": null
+        },
+        {
+          "id": "glass-right",
+          "loaded": false,
+          "backend": "none",
+          "x": null,
+          "y": null,
+          "animations": null,
+          "effect": null,
+          "grouped": true,
+          "contentInside": true,
+          "size": {
+            "width": 0,
+            "height": 0
+          },
+          "cornerRadius": null
+        }
+      ]
+    }
+  ]
+}

@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add optional `@rafaelaugusto/jolt/glass`: native iOS 26 glass containers and surfaces that merge through existing transform playback, with ordinary blur on older iOS and unchanged layouts on Android. Include the four-language Better as one preview, native lifecycle checks and English recordings in both guides.
 - Add optional `@rafaelaugusto/jolt/blur`: animated native material intensity on iOS and content blur on Android 12+, with interruption, playback/lifecycle controls and a no-effect fallback. Include the four-language Soft focus preview and English recordings in both guides. Rebuild both platforms to load the helpers.
 
 - Add optional `@rafaelaugusto/jolt/shapes`: native SVG stroke drawing and compatible-path morphing on iOS/Android, presentation-based interruption, playback controls and lifecycle cleanup. Include the 71st four-language preview and English native recordings in both guides. Rebuild Android to load the compiled renderer.

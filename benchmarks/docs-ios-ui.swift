@@ -59,6 +59,43 @@ final class DocsTests: XCTestCase {
         XCTAssertNil(JoltNativeTap(CGPoint(x: frame.midX, y: frame.midY)))
         Thread.sleep(forTimeInterval: wait)
     }
+    func testGlass() throws {
+        languageLaunch("en", "language-settings"); selectLanguage("system")
+        languageLaunch("en", "glass-lab", ["--showcase-example=glass"])
+        try record("glass-ios") {
+            blurTap("glass-gather", wait: 1.8)
+            try cue("screenshot", "glass-joined")
+            if app.descendants(matching: .any)["glass-material"].firstMatch.exists { blurTap("glass-material", wait: 0.8) }
+            blurTap("glass-center", wait: 0.5)
+            blurTap("glass-separate", wait: 0.15); blurTap("glass-gather", wait: 1.5)
+            blurTap("glass-flow", wait: 0.5); blurTap("glass-pause", wait: 0.8)
+            blurTap("glass-pause", wait: 3)
+            blurTap("glass-reduce", wait: 0.2); blurTap("glass-separate", wait: 0.6)
+        }
+        blurTap("glass-reduce")
+    }
+    func testGlassChecks() throws {
+        languageLaunch("en", "glass-lab", ["--showcase-example=glass", "--glass-audit"])
+        blurTap("glass-snapshot")
+        blurTap("glass-gather", wait: 0.1); blurTap("glass-seek", wait: 0.3)
+        blurTap("glass-snapshot"); blurTap("glass-snapshot")
+        blurTap("glass-invalid"); blurTap("glass-snapshot")
+        blurTap("glass-resize"); blurTap("glass-snapshot")
+        blurTap("glass-resize"); blurTap("glass-snapshot")
+        blurTap("glass-pause", wait: 1.3); blurTap("glass-snapshot")
+        blurTap("glass-center"); blurTap("glass-snapshot")
+        blurTap("glass-separate", wait: 0.1); blurTap("glass-gather", wait: 2); blurTap("glass-snapshot")
+        blurTap("glass-flow", wait: 0.05); blurTap("glass-pause", wait: 0.8)
+        blurTap("glass-snapshot"); blurTap("glass-snapshot")
+        blurTap("glass-pause", wait: 3.5); blurTap("glass-snapshot")
+        blurTap("glass-gather", wait: 0.1); blurTap("glass-reduce"); blurTap("glass-snapshot")
+        blurTap("glass-separate"); blurTap("glass-snapshot")
+        blurTap("glass-reduce"); blurTap("glass-gather", wait: 0.1)
+        XCUIDevice.shared.press(.home); Thread.sleep(forTimeInterval: 0.5)
+        app.activate(); Thread.sleep(forTimeInterval: 2); blurTap("glass-snapshot")
+        blurTap("Back to collection", wait: 1.2)
+        XCTAssertFalse(app.descendants(matching: .any)["glass-lab"].firstMatch.exists)
+    }
     func testBlur() throws {
         languageLaunch("en", "language-settings"); selectLanguage("system")
         languageLaunch("en", "blur-lab", ["--showcase-example=blur"])

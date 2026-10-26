@@ -1,3 +1,4 @@
+import GlassLab from '../components/GlassLab.vue'
 import BlurLab from '../components/BlurLab.vue'
 import ShapeLab from '../components/ShapeLab.vue'
 import AttachmentLab from '../components/AttachmentLab.vue'
@@ -78,6 +79,15 @@ export const categories = [
   'SceneKit',
 ] as const
 export const examples = [
+  {
+    id: 'glass',
+    title: 'Better as one',
+    category: 'Visual',
+    description: 'Separate. Meet. Become something new.',
+    component: markRaw(GlassLab),
+    full: true,
+    ios: false,
+  },
   {
     id: 'blur',
     title: 'Soft focus',

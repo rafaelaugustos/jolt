@@ -39,6 +39,7 @@
 - [`physicsWorld(container, bodies, options)`](./circle-physics) — native circle collisions, drag/release and lifecycle ownership.
 - [`shape()`](./shapes) — native SVG stroke drawing and matching-path morphing.
 - [`blur()`](./blur) — animate an owned native blur amount.
+- [`GlassContainer` / `GlassView`](./glass) — native iOS 26 Liquid Glass fusion using existing transform playback.
 - [`world.attach()` / `world.snapTo()`](./physics-attachments) — native anchor springs and release snap points.
 - [`sensor(kind, options)`](./device-sensors) — optional native rotation/gravity sources for motion values, bindings and springs.
 - [`scrollHeader(list, options)`](./scroll-header) — native Core ListView composition: measured hero, parallax, title handoff, pinned section and stable item anchors.
