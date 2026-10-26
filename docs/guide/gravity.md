@@ -1,6 +1,6 @@
 # Gravity and bounce
 
-Give a card a fixed landing position and let it fall and bounce. `{ type: 'gravity' }` is available in this checkout for the next beta through the existing `animate()` API.
+Give a card a fixed landing position and let it fall and bounce. `{ type: 'gravity' }` is available since **0.1.0-rc.1** through the existing `animate()` API.
 
 <Clip name="gravity-ios" caption="iOS simulator: the real native preview, with actual taps to drop, toss, pause/resume, return, change restitution and reduce motion. English UI; original speed." />
 <Clip name="gravity-android" caption="Android emulator: the same ballistic motion and controls, rendered by native views and exercised with ADB taps. English UI; original speed. These recordings are not physical-device performance measurements." />

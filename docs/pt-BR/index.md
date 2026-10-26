@@ -46,9 +46,22 @@ features:
     link: /pt-BR/guide/scene-camera
 ---
 
-## Novidades da 0.1.0-beta.18
+## 0.1.0-rc.1: a primeira candidata a release
 
-[Layouts compartilhados](/pt-BR/guide/shared-layout) movem elementos com identidade estável entre layouts da mesma página. O [replay de interações](/pt-BR/guide/interaction-replay) transforma springs interrompidas, arrastos cancelados e transferências entre scroll e sheet em testes de regressão. A [amostragem adaptativa](/pt-BR/guide/transitions) concentra keyframes nativos onde a curva precisa, enquanto o [inspetor de movimento](/pt-BR/guide/motion-inspector) mostra quem controla cada propriedade, compara observações nativas, ajusta uma spring e copia o TypeScript. O [preview](/pt-BR/guide/demo) agora tem 59 exemplos em português e inglês. [Instale a versão](/pt-BR/guide/install) ou leia as [notas do release](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-beta.18).
+O escopo de funcionalidades da 0.1.0 está congelado. Esta candidata reúne [navegação compartilhada](/pt-BR/guide/shared-navigation) e uma [galeria conectada](/pt-BR/guide/gallery), [gestos nativos de voltar no iOS](/pt-BR/guide/interactive-navigation) e [predictive back no Android](/pt-BR/guide/predictive-back), [composição por scroll](/pt-BR/guide/scroll-header), [sensores](/pt-BR/guide/device-sensors), [gravidade](/pt-BR/guide/gravity) e [física de círculos com vínculos](/pt-BR/guide/physics-attachments).
+
+[Desenho e morph de vetores](/pt-BR/guide/shapes), [blur animado](/pt-BR/guide/blur) e [Liquid Glass no iOS 26](/pt-BR/guide/glass) completam um [preview](/pt-BR/guide/demo) com **73 exemplos em português, inglês, espanhol e chinês simplificado**. Recompile o app nativo após atualizar. [Instale a RC.1](/pt-BR/guide/install), leia as [notas do release](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.1) ou confira as [validações pendentes antes da estável](/pt-BR/guide/not-there-yet). A fase de RC se concentra em correções, compatibilidade e testes em aparelhos físicos.
+
+<div class="clips">
+<Clip name="gallery-ios" caption="Simulador iOS, interface em inglês: pinch/pan reais, zoom interrompido, dispensa cancelada e retorno à miniatura atual após reordenação. Tempo original." />
+<Clip name="physics-attachments-android" caption="Emulador Android, interface em inglês: arrasto e soltura reais com vínculos, molas, colisões e pontos de encaixe nativos. Tempo original; não mede desempenho em aparelho físico." />
+<Clip name="shapes-android" caption="Emulador Android, interface em inglês: toques reais desenham um traço vetorial, transformam caminhos compatíveis, interrompem e pausam a animação. Tempo original." />
+<Clip name="glass-ios" caption="Simulador iOS 26.2, interface em inglês: superfícies nativas de vidro se unem e separam, com troca de material, interrupção, pausa/retomada e Reduzir Movimento. Toques reais; tempo original." />
+</div>
+
+## Entregue na beta.18
+
+[Layouts compartilhados](/pt-BR/guide/shared-layout) movem elementos com identidade estável entre layouts da mesma página. O [replay de interações](/pt-BR/guide/interaction-replay) transforma springs interrompidas, arrastos cancelados e transferências entre scroll e sheet em testes de regressão. A [amostragem adaptativa](/pt-BR/guide/transitions) concentra keyframes nativos onde a curva precisa, enquanto o [inspetor de movimento](/pt-BR/guide/motion-inspector) mostra quem controla cada propriedade, compara observações nativas, ajusta uma spring e copia o TypeScript. Aquela versão ampliou o preview para 59 exemplos em português e inglês. [Instale a versão](/pt-BR/guide/install) ou leia as [notas do release](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-beta.18).
 
 <div class="clips">
 <Clip name="shared-layout-ios" caption="Indicador de aba compartilhado, expansão da capa do álbum e inversão rápida. Entrada real do SO em simulador iOS, na velocidade original." />

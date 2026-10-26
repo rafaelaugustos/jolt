@@ -1,6 +1,6 @@
 # Gravidade e quique
 
-Defina uma posição de pouso e deixe o card cair e quicar. `{ type: 'gravity' }` está disponível neste checkout para a próxima beta, pela API existente de `animate()`.
+Defina uma posição de pouso e deixe o card cair e quicar. `{ type: 'gravity' }` está disponível desde a **0.1.0-rc.1**, pela API existente de `animate()`.
 
 <Clip name="gravity-ios" caption="Simulador iOS: preview nativo real, com toques para soltar, lançar, pausar/retomar, retornar, mudar a restituição e reduzir movimento. Interface em inglês; velocidade original." />
 <Clip name="gravity-android" caption="Emulador Android: a mesma trajetória balística e os controles, com views nativas e toques via ADB. Interface em inglês; velocidade original. As gravações não são medições de desempenho em aparelhos físicos." />

@@ -2,7 +2,7 @@
 
 `sharedNavigationEntry(frame, options)` mantém uma imagem ou cartão conectado ao abrir uma rota e arrastar para voltar. Cancele para permanecer no detalhe ou complete para retornar à origem. O roteador controla o histórico; os drivers nativos do Jolt controlam a apresentação compartilhada.
 
-Disponível neste checkout para a próxima beta; **não faz parte da beta.18**. Recompile o app nativo. Validado com NativeScript Core 9.1.3 e `vue-router-ns` 0.1.0-rc.2 em simulador iOS 26.2 e emulador Android 16 / API 36. No Android exige API 34+, AndroidX Activity 1.8+, navegação por gestos e `<application android:enableOnBackInvokedCallback="true" ...>`.
+Disponível desde a **0.1.0-rc.1**. Recompile o app nativo. Validado com NativeScript Core 9.1.3 e `vue-router-ns` 0.1.0-rc.2 em simulador iOS 26.2 e emulador Android 16 / API 36. No Android exige API 34+, AndroidX Activity 1.8+, navegação por gestos e `<application android:enableOnBackInvokedCallback="true" ...>`.
 
 <Clip name="shared-entry-ios" caption="Simulador iOS 26.2, inglês: toques e gestos reais abrem a imagem, cancelam uma volta parcial e completam o retorno. Depois, um cartão abre, cancela e volta pelo botão. Reprodução nativa na velocidade original." />
 <Clip name="shared-entry-pt-ios" caption="Simulador iOS 26.2, português: o mesmo percurso de imagem/cartão, cancelamento e retorno com entrada real do sistema. Não é uma medição de desempenho em aparelho físico." />

@@ -2,7 +2,7 @@
 
 `interactiveNavigation(frame)` adiciona **volta pela borda a uma transição personalizada de páginas no iOS**. A página acompanha o dedo; soltar antes da metade cancela, enquanto continuar ou lançar o gesto para frente confirma a volta. Uma spring do Jolt preserva a velocidade de soltura e acomoda as páginas. Frame e router só atualizam o histórico quando o UIKit confirma.
 
-Disponível neste checkout para a próxima beta; **fora da beta.18**. Recompile o app nativo. Integração verificada com NativeScript Core **9.1.3** e `vue-router-ns` **0.1.0-rc.2**.
+Disponível desde a **0.1.0-rc.1**. Recompile o app nativo. Integração verificada com NativeScript Core **9.1.3** e `vue-router-ns` **0.1.0-rc.2**.
 
 <Clip name="interactive-navigation-ios" caption="Simulador iOS 26.2: toques e gestos reais via XCTest abrem uma página, cancelam uma volta parcial, confirmam uma volta completa e usam o botão de voltar. Reprodução nativa na velocidade original; não é medição em aparelho físico." />
 <Clip name="interactive-navigation-pt-ios" caption="Simulador iOS 26.2: os mesmos cancelamento, confirmação e botão de voltar em português, com entrada real via XCTest e velocidade original." />

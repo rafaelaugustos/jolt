@@ -2,7 +2,7 @@
 
 `predictiveBack(view, values, options)` connects a dedicated surface to Android's system back gesture. The view follows progress from either screen edge; cancelling springs back, and committing finishes the spring before calling your navigation or dismissal function once.
 
-Available in this checkout for the next beta; **not included in beta.18**. Rebuild the native application. Requires **Android 14 / API 34+**, gesture navigation, AndroidX Activity **1.8+** and the manifest opt-in below. Verified with NativeScript Core **9.1.3** and `vue-router-ns` **0.1.0-rc.2**.
+Available since **0.1.0-rc.1**. Rebuild the native application. Requires **Android 14 / API 34+**, gesture navigation, AndroidX Activity **1.8+** and the manifest opt-in below. Verified with NativeScript Core **9.1.3** and `vue-router-ns` **0.1.0-rc.2**.
 
 <Clip name="predictive-back-android" caption="Android 16 / API 36 emulator: real OS taps and edge gestures open the dunes, cancel a partial return, commit from the right edge, then use the back button. Native playback at original speed; not a physical-device performance measurement." />
 <Clip name="predictive-back-pt-android" caption="Android 16 emulator: the same native cancellation, right-edge completion and accessible back button in Portuguese, driven by real OS input at original speed." />

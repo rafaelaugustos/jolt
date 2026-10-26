@@ -1,6 +1,6 @@
 # Shapes: draw and morph
 
-Draw a checkmark, reveal a ring, or turn a play symbol into pause bars. The optional `@rafaelaugusto/jolt/shapes` entry paints an owned vector surface over a NativeScript view. Its `shape()` handle follows the same creation/animation pattern as gradients. This checkout adds the API for the next beta; rebuild Android to include the native renderer.
+Draw a checkmark, reveal a ring, or turn a play symbol into pause bars. The optional `@rafaelaugusto/jolt/shapes` entry paints an owned vector surface over a NativeScript view. Its `shape()` handle follows the same creation/animation pattern as gradients. Available since **0.1.0-rc.1**; rebuild Android to include the native renderer.
 
 <Clip name="shapes-ios" caption="iOS simulator: real taps draw a checkmark, ring and underline, interrupt a play/pause morph, pause/resume drawing and switch shapes under Reduce Motion. English UI; original playback timing." />
 <Clip name="shapes-android" caption="Android emulator: the same vector drawing and morphing through real ADB taps, including interruption, pause/resume and Reduce Motion. English UI; original playback timing, not a physical-device performance measurement." />

@@ -2,7 +2,7 @@
 
 `scrollHeader()` connects a Core ListView to a measured hero, parallax artwork, a compact toolbar and one pinned section. Open **Made to scroll** in the bilingual preview: eighty recycled tracks, an asynchronously loaded cover with a taller title, insertion above the viewport and native scroll-to-item controls.
 
-Available in this checkout for the next beta, not beta.18. Rebuild the native app.
+Available since **0.1.0-rc.1**. Rebuild the native app.
 
 <Clip name="scroll-header-ios" caption="iOS 26.2 simulator, English: real drag, overscroll stretch, reversal, fling, a taller cover/title, insertion and programmatic return. Original speed; simulator correctness, not physical-device performance." />
 <Clip name="scroll-header-ios-pt" caption="iOS simulator, Portuguese: the same native composition with actual OS input and translated controls." />

@@ -2,7 +2,7 @@
 
 Informe uma chave estável e um resolvedor `returnTarget` à entrada de navegação compartilhada. O Jolt busca a **view atual** depois do layout da página de retorno. Assim, a foto volta à miniatura correta mesmo após reordenação, rolagem ou reciclagem. A view salva na abertura não é usada como identidade de retorno.
 
-Disponível no checkout para a próxima beta, ainda fora da beta.18. Recompile o aplicativo nativo. A referência usa um Core Frame, Core ListView e vue-router-ns 0.1.0-rc.2.
+Disponível desde a **0.1.0-rc.1**. Recompile o aplicativo nativo. A referência usa um Core Frame, Core ListView e vue-router-ns 0.1.0-rc.2.
 
 <Clip name="return-targets-ios" caption="Simulador iOS, inglês: toques reais movem a foto ao fim da grade reciclada, cancelam uma volta, retornam à nova célula e removem a foto para exercitar a alternativa. Velocidade original; não é medição de aparelho físico." />
 <Clip name="return-targets-pt-ios" caption="Simulador iOS, português: o mesmo percurso com reordenação, cancelamento e exclusão, usando entrada real do sistema." />

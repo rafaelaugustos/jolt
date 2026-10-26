@@ -1,6 +1,6 @@
 # Formas: desenhar e transformar
 
-Desenhe um checkmark, revele um anel ou transforme play em barras de pausa. A entrada opcional `@rafaelaugusto/jolt/shapes` desenha uma superfície vetorial sobre uma view NativeScript. O handle de `shape()` segue o mesmo padrão de criação e animação dos gradientes. Esta implementação entra na próxima beta; recompile o Android para incluir o renderizador nativo.
+Desenhe um checkmark, revele um anel ou transforme play em barras de pausa. A entrada opcional `@rafaelaugusto/jolt/shapes` desenha uma superfície vetorial sobre uma view NativeScript. O handle de `shape()` segue o mesmo padrão de criação e animação dos gradientes. Disponível desde a **0.1.0-rc.1**; recompile o Android para incluir o renderizador nativo.
 
 <Clip name="shapes-ios" caption="Simulador iOS: toques reais desenham checkmark, anel e sublinhado, interrompem o morph entre play e pausa, pausam/retomam o desenho e trocam a forma com Reduce Motion. Interface em inglês; velocidade original." />
 <Clip name="shapes-android" caption="Emulador Android: os mesmos desenhos e transformações vetoriais por toques reais via ADB, incluindo interrupção, pausa/retomada e Reduce Motion. Interface em inglês e velocidade original; não é uma medição em aparelho físico." />

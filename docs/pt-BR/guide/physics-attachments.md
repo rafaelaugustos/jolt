@@ -1,6 +1,6 @@
 # Vínculos e pontos de encaixe
 
-Dê ao círculo um ponto para o qual voltar ou deixe a soltura escolher seu próximo lugar. Vínculos e encaixes ampliam a entrada nativa [`physicsWorld()`](./circle-physics) neste checkout para a próxima beta. Recompile o aplicativo nativo.
+Dê ao círculo um ponto para o qual voltar ou deixe a soltura escolher seu próximo lugar. Vínculos e encaixes ampliam a entrada nativa [`physicsWorld()`](./circle-physics) na **0.1.0-rc.1**. Recompile o aplicativo nativo.
 
 <Clip name="physics-attachments-ios" caption="Simulador iOS: arrastes reais esticam o vínculo cobre; solturas lentas e rápidas levam a esfera lilás aos pontos de encaixe. Linha nativa, mudança da âncora, pausa/retomada e redução de movimento. Interface em inglês, temporização da gravação original." />
 <Clip name="physics-attachments-android" caption="Emulador Android: as mesmas interações com gestos reais via ADB, molas/colisões e desenho do vínculo nativos. Interface em inglês, temporização original; não é uma medição de desempenho em aparelho físico." />

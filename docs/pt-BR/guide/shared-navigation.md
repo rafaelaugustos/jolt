@@ -2,7 +2,7 @@
 
 `sharedNavigation(frame)` conecta **uma imagem estática ou um card simples** entre duas páginas no mesmo Frame do NativeScript. Uma camada nativa anima posição, tamanho e recorte arredondado. Imagens também interpolam o retângulo do conteúdo, inclusive de `aspectFill` para `aspectFit`. O conteúdo dos cards faz crossfade sem esticar o texto.
 
-Disponível neste checkout para a próxima beta; **não faz parte da beta.18**. Recompile o aplicativo nativo depois de instalar esta versão. Esta é a primeira entrega da [#24](https://github.com/rafaelaugustos/jolt/issues/24): ida e volta programáticas. Para volta interativa nativa de imagem/cartão no iOS e Android 14+, use [gestos compartilhados](./shared-gestures). Para células recicladas ou fora da tela, adicione um [resolvedor de retorno](./return-targets).
+Disponível desde a **0.1.0-rc.1**. Recompile o aplicativo nativo depois de instalar esta versão. Esta é a primeira entrega da [#24](https://github.com/rafaelaugustos/jolt/issues/24): ida e volta programáticas. Para volta interativa nativa de imagem/cartão no iOS e Android 14+, use [gestos compartilhados](./shared-gestures). Para células recicladas ou fora da tela, adicione um [resolvedor de retorno](./return-targets).
 
 <Clip name="shared-navigation-ios" caption="Simulador iOS 26.2: toques reais via XCTest abrem uma foto e um card de passe diário, depois voltam pelo vue-router-ns. Reprodução nativa do Jolt na velocidade original. Não é medição de desempenho em aparelho físico." />
 <Clip name="shared-navigation-pt-ios" caption="Simulador iOS 26.2: a mesma navegação da foto e do card em português, com toques reais via XCTest e velocidade original." />

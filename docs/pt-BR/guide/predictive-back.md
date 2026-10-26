@@ -2,7 +2,7 @@
 
 `predictiveBack(view, values, options)` conecta uma superfície ao gesto de voltar do Android. A view acompanha o progresso das duas bordas; cancelar faz a spring retornar, e confirmar termina a spring antes de chamar sua função de navegação ou fechamento uma vez.
 
-Disponível neste checkout para a próxima beta; **não faz parte da beta.18**. Recompile o app nativo. Requer **Android 14 / API 34+**, navegação por gestos, AndroidX Activity **1.8+** e a opção no manifest abaixo. Validado com NativeScript Core **9.1.3** e `vue-router-ns` **0.1.0-rc.2**.
+Disponível desde a **0.1.0-rc.1**. Recompile o app nativo. Requer **Android 14 / API 34+**, navegação por gestos, AndroidX Activity **1.8+** e a opção no manifest abaixo. Validado com NativeScript Core **9.1.3** e `vue-router-ns` **0.1.0-rc.2**.
 
 <Clip name="predictive-back-android" caption="Emulador Android 16 / API 36: toques e gestos reais do sistema abrem as dunas, cancelam uma volta parcial, confirmam pela borda direita e usam o botão de voltar. Reprodução nativa na velocidade original; não é uma medição em aparelho físico." />
 <Clip name="predictive-back-pt-android" caption="Emulador Android 16: o mesmo cancelamento, confirmação pela direita e botão acessível em português, com entrada real do sistema na velocidade original." />

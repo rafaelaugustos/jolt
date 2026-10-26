@@ -2,7 +2,7 @@
 
 Open a thumbnail, pinch into a detail, keep panning after lifting one finger, interrupt a double-tap zoom, then pull down to return. The reference composes `sharedNavigationEntry`, `zoomable` and a current-cell resolver with Core ListView and vue-router-ns. The route stays with the router; gesture and animation frames stay native.
 
-Available in this checkout for the next beta, not beta.18. Rebuild the native app. Open **The living gallery** in the bilingual preview.
+Available since **0.1.0-rc.1**. Rebuild the native app. Open **The living gallery** in the four-language preview.
 
 <Clip name="gallery-ios" caption="iOS 26.2 simulator, English: actual multi-touch input, interrupted double-tap, cancelled drag, return from the released pose after reordering, and deletion fallback. Original speed." />
 <Clip name="gallery-pt-ios" caption="iOS simulator, Portuguese: the same complete interaction with real OS gestures. This is not physical-device performance evidence." />

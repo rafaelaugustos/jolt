@@ -1,6 +1,6 @@
 # Desfoque animado
 
-Suavize o fundo enquanto um modal, título ou botão continua nítido. `@rafaelaugusto/jolt/blur` controla um efeito nativo com os mesmos conceitos de transição e reprodução do Jolt. Este checkout adiciona a API para a próxima beta; recompile os dois aplicativos nativos para incluir os helpers.
+Suavize o fundo enquanto um modal, título ou botão continua nítido. `@rafaelaugusto/jolt/blur` controla um efeito nativo com os mesmos conceitos de transição e reprodução do Jolt. Disponível desde a **0.1.0-rc.1**; recompile os dois aplicativos nativos para incluir os helpers.
 
 <Clip name="blur-ios" caption="Simulador iOS: toques reais alternam entre nítido, suave e material completo, interrompem uma animação, pausam/retomam a ida e volta e aplicam Reduzir Movimento. Interface em inglês; velocidade original." />
 <Clip name="blur-android" caption="Emulador Android 12+: os mesmos controles animam o desfoque do conteúdo enquanto os controles irmãos continuam nítidos. Interface em inglês e toques reais via ADB; velocidade original, sem medição de desempenho em aparelho físico." />

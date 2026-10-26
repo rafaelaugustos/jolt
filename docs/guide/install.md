@@ -4,11 +4,11 @@
 npm install @rafaelaugusto/jolt@next
 ```
 
-It's in beta for now, published under the `next` tag. Requires `@nativescript/core` 8.9 or later. It doesn't depend on a framework: it takes a view, or an element that holds one, so it works with NativeScript-Vue, Angular, Svelte or plain NativeScript. NativeScript-Vue apps can also import `@rafaelaugusto/jolt/vue` for [directives and a transition component](./vue).
+The **0.1.0-rc.1 release candidate** is published under the `next` tag. The 0.1.0 feature scope is frozen while compatibility and release validation continue. Requires `@nativescript/core` 8.9 or later. It doesn't depend on a framework: it takes a view, or an element that holds one, so it works with NativeScript-Vue, Angular, Svelte or plain NativeScript. NativeScript-Vue apps can also import `@rafaelaugusto/jolt/vue` for [directives and a transition component](./vue).
 
-Android color animations include a small Java helper. Rebuild the native app after installing or upgrading Jolt; a JavaScript-only update cannot install native code.
+Jolt includes native helpers on iOS and Android. Rebuild the native app after installing or upgrading Jolt; a JavaScript-only update cannot install native code.
 
-The current release is **0.1.0-beta.18**. To pin it, use `npm install @rafaelaugusto/jolt@0.1.0-beta.18`. For [external native property adapters](./native-properties), install matching `@rafaelaugusto/jolt-native@0.1.0-beta.18` and rebuild the native application.
+The current release candidate is **0.1.0-rc.1**. To pin it, use `npm install @rafaelaugusto/jolt@0.1.0-rc.1`. For [external native property adapters](./native-properties), install matching `@rafaelaugusto/jolt-native@0.1.0-rc.1` and rebuild the native application.
 
 ## ProMotion on iOS
 

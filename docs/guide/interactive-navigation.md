@@ -2,7 +2,7 @@
 
 `interactiveNavigation(frame)` gives a **custom iOS page transition** a native edge-swipe return. The page follows the finger; releasing before halfway cancels, while continuing or a forward flick commits the pop. A Jolt spring preserves release velocity and settles the pages. The Frame and router update their history only when UIKit commits.
 
-Available in this checkout for the next beta; **not included in beta.18**. Rebuild the native app. This integration is verified with NativeScript Core **9.1.3** and `vue-router-ns` **0.1.0-rc.2**.
+Available since **0.1.0-rc.1**. Rebuild the native app. This integration is verified with NativeScript Core **9.1.3** and `vue-router-ns` **0.1.0-rc.2**.
 
 <Clip name="interactive-navigation-ios" caption="iOS 26.2 simulator: real XCTest taps and edge drags open a page, cancel a partial return, commit a full return, then use the back button. Native playback at original speed; not a physical-device performance measurement." />
 <Clip name="interactive-navigation-pt-ios" caption="iOS 26.2 simulator: the same cancel, commit and button navigation in Portuguese, driven by real XCTest input at original speed." />

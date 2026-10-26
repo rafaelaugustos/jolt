@@ -1,6 +1,6 @@
 # Liquid Glass
 
-Aproxime controles e deixe o iOS unir suas superfícies. `@rafaelaugusto/jolt/glass` adiciona `GlassContainer` e `GlassView`, dois layouts NativeScript compatíveis com o `animate()` existente. Este checkout inclui a API para a próxima beta.
+Aproxime controles e deixe o iOS unir suas superfícies. `@rafaelaugusto/jolt/glass` adiciona `GlassContainer` e `GlassView`, dois layouts NativeScript compatíveis com o `animate()` existente. Disponível desde a **0.1.0-rc.1**.
 
 <Clip name="glass-ios" caption="Simulador iOS 26.2: toques reais unem e separam três superfícies nativas de vidro, trocam o material, interrompem o movimento, pausam/retomam e aplicam Reduzir Movimento. Interface em inglês; tempo original." />
 <Clip name="glass-android" caption="Emulador Android API 36: o mesmo layout, movimento e interação com cartões clássicos estilizados explicitamente. Android não tem Liquid Glass nem fusão. Interface em inglês e toques reais por ADB; tempo original." />

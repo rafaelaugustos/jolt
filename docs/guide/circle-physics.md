@@ -1,6 +1,6 @@
 # Circle physics
 
-Let a handful of views bump into each other, bounce off their container and follow a finger. `physicsWorld()` is an optional entry available in this checkout for the next beta. Rebuild the native app after upgrading.
+Let a handful of views bump into each other, bounce off their container and follow a finger. `physicsWorld()` is an optional entry available since **0.1.0-rc.1**. Rebuild the native app after upgrading.
 
 <Clip name="circle-physics-ios" caption="iOS simulator: Bump Club with real native drag/release, circle and wall collisions, impulses, pause/resume and Reduce Motion. English UI, original speed." />
 <Clip name="circle-physics-android" caption="Android emulator: the same native interaction, using actual ADB touches. English UI, original speed; simulator/emulator recordings are not physical-device performance measurements." />

@@ -2,7 +2,7 @@
 
 `scrollHeader()` conecta uma ListView do Core a uma capa medida após o layout, paralaxe, barra compacta e uma seção fixa. Abra **Feito para rolar** no preview: oitenta faixas com células recicladas, uma capa carregada de forma assíncrona com título maior, inserção acima da área visível e controles nativos para navegar pela lista.
 
-Disponível neste checkout para a próxima beta, não na beta.18. Recompile o aplicativo nativo.
+Disponível desde a **0.1.0-rc.1**. Recompile o aplicativo nativo.
 
 <Clip name="scroll-header-ios" caption="Simulador iOS 26.2, inglês: arraste real, expansão no overscroll, inversão, inércia, capa/título maiores, inserção e retorno programático. Velocidade original; validação de comportamento, não desempenho em aparelho físico." />
 <Clip name="scroll-header-ios-pt" caption="Simulador iOS, português: a mesma composição nativa com gestos reais do sistema e controles traduzidos." />
