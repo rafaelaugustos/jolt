@@ -1,5 +1,17 @@
 // English source messages → Simplified Chinese. Keep numbered placeholders intact.
 export const chinese: Record<string, string> = {
+  'A place to return': '总有归处',
+  'Stretch a little. Settle somewhere new.': '轻轻拉动，找到新的落点。',
+  'Spring back. Find your place.': '轻盈回弹，找到归处。',
+  'A LITTLE GIVE. A LITTLE GRAVITY.': '一点弹性，一点重力。',
+  'Balance, on pause.': '平衡，暂停片刻。',
+  'Pull the copper orb. Flick the lilac one.': '拉动铜色球，轻甩淡紫色球。',
+  'One comes home. One finds a new spot.': '一个回到原处，一个找到新位置。',
+  Nudge: '轻推',
+  'Move anchor': '移动锚点',
+  'Left dock': '左侧停靠',
+  'Center dock': '中间停靠',
+  'Right dock': '右侧停靠',
   'Better together': '相碰更有趣',
   'Every collision starts something.': '每次碰撞，都是新的开始。',
   'A little chaos. A lot of joy.': '一点混乱，满满乐趣。',

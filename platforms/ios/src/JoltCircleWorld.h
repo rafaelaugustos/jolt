@@ -6,6 +6,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setEnabled:(BOOL)enabled;
 - (void)resize:(double)width height:(double)height;
 - (void)impulse:(NSInteger)index x:(double)x y:(double)y;
+- (void)attach:(NSInteger)index options:(NSString *)options;
+- (void)snapTo:(NSInteger)index target:(NSInteger)target;
 - (void)reset;
 - (NSString *)snapshot;
 - (void)dispose;

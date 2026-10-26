@@ -1,0 +1,2659 @@
+{
+  "platform": "android",
+  "events": [
+    {
+      "name": "created",
+      "time": 1792979684522,
+      "snapshot": {
+        "status": "running",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 172.1904761904762,
+            "y": 125.71666666666667,
+            "vx": 0,
+            "vy": 0,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 172.1904761904762,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": null,
+            "id": "tether"
+          },
+          {
+            "x": 172.1904761904762,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 1,
+              "point": {
+                "x": 172.1904761904762,
+                "y": 276.0457142857143
+              },
+              "settled": true
+            },
+            "release": null,
+            "id": "magnet"
+          }
+        ],
+        "frames": 0,
+        "steps": 0,
+        "contacts": 0,
+        "dragStarts": 0,
+        "dragMoves": 0,
+        "dragEnds": 0,
+        "dragCancels": 0,
+        "processingMs": 0,
+        "droppedMs": 0,
+        "clock": true
+      },
+      "worlds": 1,
+      "clocks": 1,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 172.1904761904762,
+          "y": 125.71666899181548
+        },
+        {
+          "x": 172.1904761904762,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792979691023,
+      "snapshot": {
+        "status": "sleeping",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 172.1904761904762,
+            "y": 125.7130167182308,
+            "vx": 0,
+            "vy": 0,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 172.1904761904762,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": null,
+            "id": "tether"
+          },
+          {
+            "x": 172.1904761904762,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 1,
+              "point": {
+                "x": 172.1904761904762,
+                "y": 276.0457142857143
+              },
+              "settled": true
+            },
+            "release": null,
+            "id": "magnet"
+          }
+        ],
+        "frames": 23,
+        "steps": 84,
+        "contacts": 0,
+        "dragStarts": 0,
+        "dragMoves": 0,
+        "dragEnds": 0,
+        "dragCancels": 0,
+        "processingMs": 1.078418,
+        "droppedMs": 0,
+        "clock": false
+      },
+      "worlds": 1,
+      "clocks": 0,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 172.1904761904762,
+          "y": 125.71301850818452
+        },
+        {
+          "x": 172.1904761904762,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792979692537,
+      "snapshot": {
+        "status": "running",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 218.3013941094755,
+            "y": 123.06748725695503,
+            "vx": -262.31336130999784,
+            "vy": -370.0849606801178,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 172.1904761904762,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 172.1904761904762,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 1,
+              "point": {
+                "x": 172.1904761904762,
+                "y": 276.0457142857143
+              },
+              "settled": true
+            },
+            "release": null,
+            "id": "magnet"
+          }
+        ],
+        "frames": 88,
+        "steps": 339,
+        "contacts": 0,
+        "dragStarts": 1,
+        "dragMoves": 54,
+        "dragEnds": 1,
+        "dragCancels": 0,
+        "processingMs": 4.369207999999999,
+        "droppedMs": 0,
+        "clock": true
+      },
+      "worlds": 1,
+      "clocks": 1,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 218.30139741443452,
+          "y": 123.06748744419643
+        },
+        {
+          "x": 172.1904761904762,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792979701583,
+      "snapshot": {
+        "status": "sleeping",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 172.38568178909543,
+            "y": 125.7130695244633,
+            "vx": 0,
+            "vy": 0,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 172.1904761904762,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 172.1904761904762,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 1,
+              "point": {
+                "x": 172.1904761904762,
+                "y": 276.0457142857143
+              },
+              "settled": true
+            },
+            "release": null,
+            "id": "magnet"
+          }
+        ],
+        "frames": 532,
+        "steps": 2166,
+        "contacts": 0,
+        "dragStarts": 1,
+        "dragMoves": 54,
+        "dragEnds": 1,
+        "dragCancels": 0,
+        "processingMs": 53.05175599999997,
+        "droppedMs": 216.66664998047054,
+        "clock": false
+      },
+      "worlds": 1,
+      "clocks": 0,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 172.38568405877976,
+          "y": 125.71306501116071
+        },
+        {
+          "x": 172.1904761904762,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792979703117,
+      "snapshot": {
+        "status": "running",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 172.28628216838865,
+            "y": 125.7132697884416,
+            "vx": -0.06793953884251015,
+            "vy": 9.02521671871413e-5,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 172.1904761904762,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 70.92092498663422,
+            "y": 267.52547987478374,
+            "vx": -39.301764495137,
+            "vy": 134.87437395722512,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 0,
+              "point": {
+                "x": 68.87619047619049,
+                "y": 276.0457142857143
+              },
+              "settled": false
+            },
+            "release": {
+              "x": 87.47396160307386,
+              "y": 231.21835222516745,
+              "vx": -94.39341735839844,
+              "vy": -49.976287841796875
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 598,
+        "steps": 2425,
+        "contacts": 0,
+        "dragStarts": 2,
+        "dragMoves": 108,
+        "dragEnds": 2,
+        "dragCancels": 0,
+        "processingMs": 56.31396299999994,
+        "droppedMs": 216.66664998047054,
+        "clock": true
+      },
+      "worlds": 1,
+      "clocks": 1,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 172.28628394717262,
+          "y": 125.71327427455357
+        },
+        {
+          "x": 70.92092459542411,
+          "y": 267.5254836309524
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792979704644,
+      "snapshot": {
+        "status": "sleeping",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 172.25147878889243,
+            "y": 125.71330757008492,
+            "vx": 0,
+            "vy": 0,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 172.1904761904762,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 68.87619047619049,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 0,
+              "point": {
+                "x": 68.87619047619049,
+                "y": 276.0457142857143
+              },
+              "settled": true
+            },
+            "release": {
+              "x": 87.47396160307386,
+              "y": 231.21835222516745,
+              "vx": -94.39341735839844,
+              "vy": -49.976287841796875
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 637,
+        "steps": 2578,
+        "contacts": 0,
+        "dragStarts": 2,
+        "dragMoves": 108,
+        "dragEnds": 2,
+        "dragCancels": 0,
+        "processingMs": 63.382003999999945,
+        "droppedMs": 216.66664998047054,
+        "clock": false
+      },
+      "worlds": 1,
+      "clocks": 0,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 172.25147646949404,
+          "y": 125.71330915178571
+        },
+        {
+          "x": 68.87619163876488,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792979705519,
+      "snapshot": {
+        "status": "running",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 172.2379052947413,
+            "y": 125.71331776469182,
+            "vx": -0.03350191588512998,
+            "vy": 2.2135336096113387e-5,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 172.1904761904762,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 267.60553452308505,
+            "y": 270.33256046372685,
+            "vx": 157.74608576360538,
+            "vy": 79.83690679381291,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 2,
+              "point": {
+                "x": 275.50476190476195,
+                "y": 276.0457142857143
+              },
+              "settled": false
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 664,
+        "steps": 2681,
+        "contacts": 0,
+        "dragStarts": 3,
+        "dragMoves": 124,
+        "dragEnds": 3,
+        "dragCancels": 0,
+        "processingMs": 64.99500199999997,
+        "droppedMs": 216.66664998047054,
+        "clock": true
+      },
+      "worlds": 1,
+      "clocks": 1,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 172.23790922619048,
+          "y": 125.71332077752976
+        },
+        {
+          "x": 267.6055385044643,
+          "y": 270.3325660342262
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792979707050,
+      "snapshot": {
+        "status": "sleeping",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 172.22006467988453,
+            "y": 125.71332727237119,
+            "vx": 0,
+            "vy": 0,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 172.1904761904762,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 275.50476190476195,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 2,
+              "point": {
+                "x": 275.50476190476195,
+                "y": 276.0457142857143
+              },
+              "settled": true
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 704,
+        "steps": 2841,
+        "contacts": 0,
+        "dragStarts": 3,
+        "dragMoves": 124,
+        "dragEnds": 3,
+        "dragCancels": 0,
+        "processingMs": 69.33249599999992,
+        "droppedMs": 216.66664998047054,
+        "clock": false
+      },
+      "worlds": 1,
+      "clocks": 0,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 172.22006370907738,
+          "y": 125.71333240327381
+        },
+        {
+          "x": 275.5047665550595,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "anchor",
+      "time": 1792979707485,
+      "snapshot": {
+        "status": "running",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 172.22006467988453,
+            "y": 125.71332727237119,
+            "vx": 0,
+            "vy": 0,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 275.50476190476195,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 2,
+              "point": {
+                "x": 275.50476190476195,
+                "y": 276.0457142857143
+              },
+              "settled": true
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 704,
+        "steps": 2841,
+        "contacts": 0,
+        "dragStarts": 3,
+        "dragMoves": 124,
+        "dragEnds": 3,
+        "dragCancels": 0,
+        "processingMs": 69.33249599999992,
+        "droppedMs": 216.66664998047054,
+        "clock": true
+      },
+      "worlds": 1,
+      "clocks": 1,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 172.22006370907738,
+          "y": 125.71333240327381
+        },
+        {
+          "x": 275.5047665550595,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792979709091,
+      "snapshot": {
+        "status": "running",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 128.66489642324677,
+            "y": 123.31313428533662,
+            "vx": -12.65149095428119,
+            "vy": 3.3566902465282373,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 275.50476190476195,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 2,
+              "point": {
+                "x": 275.50476190476195,
+                "y": 276.0457142857143
+              },
+              "settled": true
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 798,
+        "steps": 3216,
+        "contacts": 0,
+        "dragStarts": 3,
+        "dragMoves": 124,
+        "dragEnds": 3,
+        "dragCancels": 0,
+        "processingMs": 80.72499899999998,
+        "droppedMs": 216.66664998047054,
+        "clock": true
+      },
+      "worlds": 1,
+      "clocks": 1,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 128.66489955357142,
+          "y": 123.3131336030506
+        },
+        {
+          "x": 275.5047665550595,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "dock-1",
+      "time": 1792979709562,
+      "snapshot": {
+        "status": "running",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 123.42352858540444,
+            "y": 124.4927124133848,
+            "vx": -9.215655592382955,
+            "vy": 1.7189688787108555,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 275.50476190476195,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 1,
+              "point": {
+                "x": 172.1904761904762,
+                "y": 276.0457142857143
+              },
+              "settled": false
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 823,
+        "steps": 3332,
+        "contacts": 0,
+        "dragStarts": 3,
+        "dragMoves": 124,
+        "dragEnds": 3,
+        "dragCancels": 0,
+        "processingMs": 83.447375,
+        "droppedMs": 216.66664998047054,
+        "clock": true
+      },
+      "worlds": 1,
+      "clocks": 1,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 123.42352585565476,
+          "y": 124.49271065848214
+        },
+        {
+          "x": 275.5047665550595,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "armed-cancel",
+      "time": 1792979711143,
+      "snapshot": {
+        "status": "running",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 114.54394096493388,
+            "y": 125.58269045730796,
+            "vx": -3.073468160273471,
+            "vy": 0.18539092097789028,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 172.1904761904762,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 1,
+              "point": {
+                "x": 172.1904761904762,
+                "y": 276.0457142857143
+              },
+              "settled": true
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 902,
+        "steps": 3712,
+        "contacts": 0,
+        "dragStarts": 3,
+        "dragMoves": 124,
+        "dragEnds": 3,
+        "dragCancels": 0,
+        "processingMs": 96.22908500000005,
+        "droppedMs": 216.66664998047054,
+        "clock": true
+      },
+      "worlds": 1,
+      "clocks": 1,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 114.54393949962798,
+          "y": 125.58269391741071
+        },
+        {
+          "x": 172.1904761904762,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "cancelled-drag",
+      "time": 1792979713174,
+      "snapshot": {
+        "status": "paused",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 111.24398188338574,
+            "y": 125.70581491492565,
+            "vx": -0.738898710370188,
+            "vy": 0.010678382006130763,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 128.1592261904762,
+            "y": 261.30648699079245,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 1,
+              "point": {
+                "x": 172.1904761904762,
+                "y": 276.0457142857143
+              },
+              "settled": false
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 1008,
+        "steps": 4196,
+        "contacts": 0,
+        "dragStarts": 4,
+        "dragMoves": 220,
+        "dragEnds": 3,
+        "dragCancels": 1,
+        "processingMs": 99.83745800000004,
+        "droppedMs": 216.66664998047054,
+        "clock": false
+      },
+      "worlds": 1,
+      "clocks": 0,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 111.24398367745536,
+          "y": 125.705810546875
+        },
+        {
+          "x": 128.1592261904762,
+          "y": 261.3064778645833
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792979715355,
+      "snapshot": {
+        "status": "paused",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 111.24398188338574,
+            "y": 125.70581491492565,
+            "vx": -0.738898710370188,
+            "vy": 0.010678382006130763,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 128.1592261904762,
+            "y": 261.30648699079245,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 1,
+              "point": {
+                "x": 172.1904761904762,
+                "y": 276.0457142857143
+              },
+              "settled": false
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 1008,
+        "steps": 4196,
+        "contacts": 0,
+        "dragStarts": 4,
+        "dragMoves": 220,
+        "dragEnds": 3,
+        "dragCancels": 1,
+        "processingMs": 99.83745800000004,
+        "droppedMs": 216.66664998047054,
+        "clock": false
+      },
+      "worlds": 1,
+      "clocks": 0,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 111.24398367745536,
+          "y": 125.705810546875
+        },
+        {
+          "x": 128.1592261904762,
+          "y": 261.3064778645833
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792979715786,
+      "snapshot": {
+        "status": "paused",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 111.24398188338574,
+            "y": 125.70581491492565,
+            "vx": -0.738898710370188,
+            "vy": 0.010678382006130763,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 128.1592261904762,
+            "y": 261.30648699079245,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 1,
+              "point": {
+                "x": 172.1904761904762,
+                "y": 276.0457142857143
+              },
+              "settled": false
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 1008,
+        "steps": 4196,
+        "contacts": 0,
+        "dragStarts": 4,
+        "dragMoves": 220,
+        "dragEnds": 3,
+        "dragCancels": 1,
+        "processingMs": 99.83745800000004,
+        "droppedMs": 216.66664998047054,
+        "clock": false
+      },
+      "worlds": 1,
+      "clocks": 0,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 111.24398367745536,
+          "y": 125.705810546875
+        },
+        {
+          "x": 128.1592261904762,
+          "y": 261.3064778645833
+        }
+      ]
+    },
+    {
+      "name": "play",
+      "time": 1792979716216,
+      "snapshot": {
+        "status": "running",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 111.24398188338574,
+            "y": 125.70581491492565,
+            "vx": -0.738898710370188,
+            "vy": 0.010678382006130763,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 128.1592261904762,
+            "y": 261.30648699079245,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 1,
+              "point": {
+                "x": 172.1904761904762,
+                "y": 276.0457142857143
+              },
+              "settled": false
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 1008,
+        "steps": 4196,
+        "contacts": 0,
+        "dragStarts": 4,
+        "dragMoves": 220,
+        "dragEnds": 3,
+        "dragCancels": 1,
+        "processingMs": 99.83745800000004,
+        "droppedMs": 216.66664998047054,
+        "clock": true
+      },
+      "worlds": 1,
+      "clocks": 1,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 111.24398367745536,
+          "y": 125.705810546875
+        },
+        {
+          "x": 128.1592261904762,
+          "y": 261.3064778645833
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792979717739,
+      "snapshot": {
+        "status": "running",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 110.5632482752298,
+            "y": 125.71242937728624,
+            "vx": -0.2562391904519236,
+            "vy": 0.0012839451756722522,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 172.1904761904762,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 1,
+              "point": {
+                "x": 172.1904761904762,
+                "y": 276.0457142857143
+              },
+              "settled": true
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 1099,
+        "steps": 4555,
+        "contacts": 0,
+        "dragStarts": 4,
+        "dragMoves": 220,
+        "dragEnds": 3,
+        "dragCancels": 1,
+        "processingMs": 109.60213200000001,
+        "droppedMs": 216.66664998047054,
+        "clock": true
+      },
+      "worlds": 1,
+      "clocks": 1,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 110.56324986049107,
+          "y": 125.7124255952381
+        },
+        {
+          "x": 172.1904761904762,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "reduced",
+      "time": 1792979718172,
+      "snapshot": {
+        "status": "paused",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 110.46777062170402,
+            "y": 125.71284397083869,
+            "vx": -0.18853430554346878,
+            "vy": 0.0006950741112752534,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 172.1904761904762,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 1,
+              "point": {
+                "x": 172.1904761904762,
+                "y": 276.0457142857143
+              },
+              "settled": true
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 1125,
+        "steps": 4659,
+        "contacts": 0,
+        "dragStarts": 4,
+        "dragMoves": 220,
+        "dragEnds": 3,
+        "dragCancels": 1,
+        "processingMs": 112.406505,
+        "droppedMs": 216.66664998047054,
+        "clock": false
+      },
+      "worlds": 1,
+      "clocks": 0,
+      "resources": 1,
+      "reduced": true,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 110.4677734375,
+          "y": 125.71284412202381
+        },
+        {
+          "x": 172.1904761904762,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "nudge",
+      "time": 1792979718713,
+      "snapshot": {
+        "status": "paused",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 110.46777062170402,
+            "y": 125.71284397083869,
+            "vx": -0.18853430554346878,
+            "vy": 0.0006950741112752534,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 172.1904761904762,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 1,
+              "point": {
+                "x": 172.1904761904762,
+                "y": 276.0457142857143
+              },
+              "settled": true
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 1125,
+        "steps": 4659,
+        "contacts": 0,
+        "dragStarts": 4,
+        "dragMoves": 220,
+        "dragEnds": 3,
+        "dragCancels": 1,
+        "processingMs": 112.406505,
+        "droppedMs": 216.66664998047054,
+        "clock": false
+      },
+      "worlds": 1,
+      "clocks": 0,
+      "resources": 1,
+      "reduced": true,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 110.4677734375,
+          "y": 125.71284412202381
+        },
+        {
+          "x": 172.1904761904762,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "dock-2",
+      "time": 1792979719237,
+      "snapshot": {
+        "status": "paused",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 110.46777062170402,
+            "y": 125.71284397083869,
+            "vx": -0.18853430554346878,
+            "vy": 0.0006950741112752534,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 172.1904761904762,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 2,
+              "point": {
+                "x": 275.50476190476195,
+                "y": 276.0457142857143
+              },
+              "settled": false
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 1125,
+        "steps": 4659,
+        "contacts": 0,
+        "dragStarts": 4,
+        "dragMoves": 220,
+        "dragEnds": 3,
+        "dragCancels": 1,
+        "processingMs": 112.406505,
+        "droppedMs": 216.66664998047054,
+        "clock": false
+      },
+      "worlds": 1,
+      "clocks": 0,
+      "resources": 1,
+      "reduced": true,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 110.4677734375,
+          "y": 125.71284412202381
+        },
+        {
+          "x": 172.1904761904762,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792979719774,
+      "snapshot": {
+        "status": "paused",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 110.46777062170402,
+            "y": 125.71284397083869,
+            "vx": -0.18853430554346878,
+            "vy": 0.0006950741112752534,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 172.1904761904762,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 2,
+              "point": {
+                "x": 275.50476190476195,
+                "y": 276.0457142857143
+              },
+              "settled": false
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 1125,
+        "steps": 4659,
+        "contacts": 0,
+        "dragStarts": 4,
+        "dragMoves": 220,
+        "dragEnds": 3,
+        "dragCancels": 1,
+        "processingMs": 112.406505,
+        "droppedMs": 216.66664998047054,
+        "clock": false
+      },
+      "worlds": 1,
+      "clocks": 0,
+      "resources": 1,
+      "reduced": true,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 110.4677734375,
+          "y": 125.71284412202381
+        },
+        {
+          "x": 172.1904761904762,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "reduced",
+      "time": 1792979720214,
+      "snapshot": {
+        "status": "running",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 110.46777062170402,
+            "y": 125.71284397083869,
+            "vx": -0.18853430554346878,
+            "vy": 0.0006950741112752534,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 172.1904761904762,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 2,
+              "point": {
+                "x": 275.50476190476195,
+                "y": 276.0457142857143
+              },
+              "settled": false
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 1125,
+        "steps": 4659,
+        "contacts": 0,
+        "dragStarts": 4,
+        "dragMoves": 220,
+        "dragEnds": 3,
+        "dragCancels": 1,
+        "processingMs": 112.406505,
+        "droppedMs": 216.66664998047054,
+        "clock": true
+      },
+      "worlds": 1,
+      "clocks": 1,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 110.4677734375,
+          "y": 125.71284412202381
+        },
+        {
+          "x": 172.1904761904762,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "resize",
+      "time": 1792979721749,
+      "snapshot": {
+        "status": "sleeping",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 110.3433074701521,
+            "y": 125.71319490661244,
+            "vx": 0,
+            "vy": 0,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 275.50476190476195,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 2,
+              "point": {
+                "x": 275.50476190476195,
+                "y": 276.0457142857143
+              },
+              "settled": true
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 1180,
+        "steps": 4873,
+        "contacts": 0,
+        "dragStarts": 4,
+        "dragMoves": 220,
+        "dragEnds": 3,
+        "dragCancels": 1,
+        "processingMs": 117.92234199999997,
+        "droppedMs": 216.66664998047054,
+        "clock": false
+      },
+      "worlds": 1,
+      "clocks": 0,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 110.34330822172619,
+          "y": 125.71319289434524
+        },
+        {
+          "x": 275.5047665550595,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792979723282,
+      "snapshot": {
+        "status": "sleeping",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 110.31461871313357,
+            "y": 108.06344549961882,
+            "vx": 0,
+            "vy": 0,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 31.893333333333334
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 275.50476190476195,
+            "y": 177.69142857142856,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 2,
+              "point": {
+                "x": 275.50476190476195,
+                "y": 177.69142857142856
+              },
+              "settled": true
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 1243,
+        "steps": 5118,
+        "contacts": 0,
+        "dragStarts": 4,
+        "dragMoves": 220,
+        "dragEnds": 3,
+        "dragCancels": 1,
+        "processingMs": 124.88154899999998,
+        "droppedMs": 216.66664998047054,
+        "clock": false
+      },
+      "worlds": 1,
+      "clocks": 0,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 227.8095238095238
+      },
+      "presented": [
+        {
+          "x": 110.31461588541667,
+          "y": 108.06344749813988
+        },
+        {
+          "x": 275.5047665550595,
+          "y": 177.6914295014881
+        }
+      ]
+    },
+    {
+      "name": "resize",
+      "time": 1792979723715,
+      "snapshot": {
+        "status": "sleeping",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 110.31461871313357,
+            "y": 108.06344549961882,
+            "vx": 0,
+            "vy": 0,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 31.893333333333334
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 275.50476190476195,
+            "y": 177.69142857142856,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 2,
+              "point": {
+                "x": 275.50476190476195,
+                "y": 177.69142857142856
+              },
+              "settled": true
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 1243,
+        "steps": 5118,
+        "contacts": 0,
+        "dragStarts": 4,
+        "dragMoves": 220,
+        "dragEnds": 3,
+        "dragCancels": 1,
+        "processingMs": 124.88154899999998,
+        "droppedMs": 216.66664998047054,
+        "clock": false
+      },
+      "worlds": 1,
+      "clocks": 0,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 227.8095238095238
+      },
+      "presented": [
+        {
+          "x": 110.31461588541667,
+          "y": 108.06344749813988
+        },
+        {
+          "x": 275.5047665550595,
+          "y": 177.6914295014881
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792979725251,
+      "snapshot": {
+        "status": "sleeping",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 110.23740060006695,
+            "y": 125.72205433623024,
+            "vx": 0,
+            "vy": 0,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 275.50476190476195,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 2,
+              "point": {
+                "x": 275.50476190476195,
+                "y": 276.0457142857143
+              },
+              "settled": true
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 1309,
+        "steps": 5374,
+        "contacts": 0,
+        "dragStarts": 4,
+        "dragMoves": 220,
+        "dragEnds": 3,
+        "dragCancels": 1,
+        "processingMs": 131.91459200000003,
+        "droppedMs": 216.66664998047054,
+        "clock": false
+      },
+      "worlds": 1,
+      "clocks": 0,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 110.2374035063244,
+          "y": 125.72205171130952
+        },
+        {
+          "x": 275.5047665550595,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "nudge",
+      "time": 1792979725686,
+      "snapshot": {
+        "status": "running",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 110.23740060006695,
+            "y": 125.72205433623024,
+            "vx": 400,
+            "vy": -160,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 275.50476190476195,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 2,
+              "point": {
+                "x": 275.50476190476195,
+                "y": 276.0457142857143
+              },
+              "settled": true
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 1309,
+        "steps": 5374,
+        "contacts": 0,
+        "dragStarts": 4,
+        "dragMoves": 220,
+        "dragEnds": 3,
+        "dragCancels": 1,
+        "processingMs": 131.91459200000003,
+        "droppedMs": 216.66664998047054,
+        "clock": true
+      },
+      "worlds": 1,
+      "clocks": 1,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 110.2374035063244,
+          "y": 125.72205171130952
+        },
+        {
+          "x": 275.5047665550595,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "background",
+      "time": 1792979725833,
+      "snapshot": {
+        "status": "paused",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 133.1163856668077,
+            "y": 119.17411297120908,
+            "vx": 62.250631513310864,
+            "vy": 9.787668353871734,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 275.50476190476195,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 2,
+              "point": {
+                "x": 275.50476190476195,
+                "y": 276.0457142857143
+              },
+              "settled": true
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 1318,
+        "steps": 5405,
+        "contacts": 0,
+        "dragStarts": 4,
+        "dragMoves": 220,
+        "dragEnds": 3,
+        "dragCancels": 1,
+        "processingMs": 132.60513400000002,
+        "droppedMs": 216.66664998047054,
+        "clock": false
+      },
+      "worlds": 1,
+      "clocks": 0,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 133.11638532366072,
+          "y": 119.17411295572917
+        },
+        {
+          "x": 275.5047665550595,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "foreground",
+      "time": 1792979726520,
+      "snapshot": {
+        "status": "running",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 133.1163856668077,
+            "y": 119.17411297120908,
+            "vx": 62.250631513310864,
+            "vy": 9.787668353871734,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 275.50476190476195,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 2,
+              "point": {
+                "x": 275.50476190476195,
+                "y": 276.0457142857143
+              },
+              "settled": true
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 1318,
+        "steps": 5405,
+        "contacts": 0,
+        "dragStarts": 4,
+        "dragMoves": 220,
+        "dragEnds": 3,
+        "dragCancels": 1,
+        "processingMs": 132.60513400000002,
+        "droppedMs": 216.66664998047054,
+        "clock": true
+      },
+      "worlds": 1,
+      "clocks": 1,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 133.11638532366072,
+          "y": 119.17411295572917
+        },
+        {
+          "x": 275.5047665550595,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792979727105,
+      "snapshot": {
+        "status": "running",
+        "guides": 1,
+        "bodies": [
+          {
+            "x": 130.69835292882317,
+            "y": 122.66793206552559,
+            "vx": -13.787836834850516,
+            "vy": 4.473936785122445,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 275.50476190476195,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 2,
+              "point": {
+                "x": 275.50476190476195,
+                "y": 276.0457142857143
+              },
+              "settled": true
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 1330,
+        "steps": 5528,
+        "contacts": 0,
+        "dragStarts": 4,
+        "dragMoves": 220,
+        "dragEnds": 3,
+        "dragCancels": 1,
+        "processingMs": 142.12146700000002,
+        "droppedMs": 233.333313309898,
+        "clock": true
+      },
+      "worlds": 1,
+      "clocks": 1,
+      "resources": 1,
+      "reduced": false,
+      "size": {
+        "width": 344.3809523809524,
+        "height": 353.9047619047619
+      },
+      "presented": [
+        {
+          "x": 130.69835844494048,
+          "y": 122.66793387276786
+        },
+        {
+          "x": 275.5047665550595,
+          "y": 276.04571242559524
+        }
+      ]
+    },
+    {
+      "name": "disposed",
+      "time": 1792979728044,
+      "snapshot": {
+        "status": "disposed",
+        "guides": 0,
+        "bodies": [
+          {
+            "x": 122.61266392296142,
+            "y": 124.63899975275763,
+            "vx": -8.66774214838804,
+            "vy": 1.5188148970698336,
+            "radius": 28,
+            "held": false,
+            "attachment": {
+              "anchor": {
+                "x": 110.20190476190477,
+                "y": 49.546666666666674
+              },
+              "length": 72,
+              "stiffness": 180,
+              "damping": 14
+            },
+            "snap": null,
+            "release": {
+              "x": 261.99517894926527,
+              "y": 190.78370305856282,
+              "vx": 99.91302490234375,
+              "vy": 72.41373443603516
+            },
+            "id": "tether"
+          },
+          {
+            "x": 275.50476190476195,
+            "y": 276.0457142857143,
+            "vx": 0,
+            "vy": 0,
+            "radius": 26,
+            "held": false,
+            "attachment": null,
+            "snap": {
+              "index": 2,
+              "point": {
+                "x": 275.50476190476195,
+                "y": 276.0457142857143
+              },
+              "settled": true
+            },
+            "release": {
+              "x": 205.28950529552642,
+              "y": 256.0077504185268,
+              "vx": 518.6935424804688,
+              "vy": -76.19625091552734
+            },
+            "id": "magnet"
+          }
+        ],
+        "frames": 1354,
+        "steps": 5703,
+        "contacts": 0,
+        "dragStarts": 4,
+        "dragMoves": 220,
+        "dragEnds": 3,
+        "dragCancels": 1,
+        "processingMs": 146.96021900000002,
+        "droppedMs": 233.333313309898,
+        "clock": false
+      },
+      "worlds": 0,
+      "clocks": 0,
+      "resources": 0,
+      "reduced": false,
+      "presented": [null, null]
+    }
+  ]
+}

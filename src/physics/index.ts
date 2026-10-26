@@ -9,6 +9,26 @@ export interface PhysicsVector {
   x: number
   y: number
 }
+export interface PhysicsAttachment {
+  /** Anchor in container-local DIPs. Scales proportionally when the board resizes. */
+  anchor: PhysicsVector
+  /** Rest length in DIPs; remains fixed on resize. Default 0. */
+  length?: number
+  /** Spring force per DIP, 1–1000; default 180. */
+  stiffness?: number
+  /** Viscous damping, 0–120; default 24. */
+  damping?: number
+  /** Optional native line, drawn from the anchor to the circle edge. */
+  line?: { color: string; width?: number }
+}
+export interface PhysicsSnap {
+  /** 1–8 distinct circle centers. Selected natively on release; no initial selection. */
+  points: readonly PhysicsVector[]
+  stiffness?: number
+  damping?: number
+  /** Seconds of release-velocity projection for choosing a point, 0–.3; default .12. */
+  projection?: number
+}
 export interface CircleBody {
   id: string
   /** A dedicated, square direct child of the container, sized to radius * 2. */
@@ -20,6 +40,8 @@ export interface CircleBody {
   mass?: number
   /** DIPs per second; maximum speed 1200. */
   velocity?: PhysicsVector
+  attachment?: PhysicsAttachment
+  snap?: PhysicsSnap
 }
 export interface PhysicsOptions {
   /** DIPs/s². Defaults to { x: 0, y: 750 }. */
@@ -41,6 +63,15 @@ export interface PhysicsSnapshot {
     vy: number
     radius: number
     held: boolean
+    /** Last native release, before snap selection or subsequent integration. */
+    release: { x: number; y: number; vx: number; vy: number } | null
+    attachment: {
+      anchor: PhysicsVector
+      length: number
+      stiffness: number
+      damping: number
+    } | null
+    snap: { index: number; point: PhysicsVector; settled: boolean } | null
   }[]
   frames: number
   steps: number
@@ -53,6 +84,8 @@ export interface PhysicsSnapshot {
   /** Time discarded after UI stalls; the world never catches up without a bound. */
   droppedMs: number
   clock: boolean
+  /** Native tether drawing resources retained by this world. */
+  guides: number
 }
 export interface PhysicsWorld {
   readonly disposed: boolean
@@ -63,6 +96,10 @@ export interface PhysicsWorld {
   reset(): void
   /** Mass × DIPs/s. Ignored while paused, detached, reduced or being dragged. */
   impulse(id: string, impulse: PhysicsVector): void
+  /** Replace/remove the anchor spring without resetting velocity. Clears the selected snap. */
+  attach(id: string, attachment: PhysicsAttachment | null): void
+  /** Choose a configured snap point, including while paused. Ignored during an active drag. */
+  snapTo(id: string, index: number): void
   /** On-demand diagnostics; never installs a JS frame observer. */
   snapshot(): PhysicsSnapshot
   dispose(): void
@@ -78,6 +115,72 @@ function vector(value: PhysicsVector, name: string, limit: number): PhysicsVecto
   return {
     x: number(value.x, `${name}.x`, -limit, limit),
     y: number(value.y, `${name}.y`, -limit, limit),
+  }
+}
+function point(
+  value: PhysicsVector,
+  name: string,
+  width: number,
+  height: number,
+  inset = 0,
+) {
+  if (!value || typeof value !== 'object') throw new TypeError(`Expected ${name} point.`)
+  return {
+    x: number(value.x, `${name}.x`, inset, width - inset),
+    y: number(value.y, `${name}.y`, inset, height - inset),
+  }
+}
+function prepareAttachment(
+  value: PhysicsAttachment | null,
+  width: number,
+  height: number,
+) {
+  if (value === null) return null
+  if (!value || typeof value !== 'object')
+    throw new TypeError('Expected attachment options or null.')
+  const anchor = point(value.anchor, 'anchor', width, height)
+  const stiffness = number(value.stiffness ?? 180, 'attachment.stiffness', 1, 1000)
+  const damping = number(value.damping ?? 24, 'attachment.damping', 0, 120)
+  const length = number(value.length ?? 0, 'attachment.length', 0, 10000)
+  let line: { color: number; width: number } | null = null
+  if (value.line !== undefined) {
+    if (
+      !value.line ||
+      typeof value.line.color !== 'string' ||
+      !/^#[0-9a-f]{6}$/i.test(value.line.color)
+    )
+      throw new TypeError('Attachment line color must be #RRGGBB.')
+    line = {
+      color: parseInt(value.line.color.slice(1), 16),
+      width: number(value.line.width ?? 1.5, 'attachment.line.width', 0.5, 6),
+    }
+  }
+  return { x: anchor.x, y: anchor.y, length, stiffness, damping, line }
+}
+function prepareSnap(
+  value: PhysicsSnap | undefined,
+  width: number,
+  height: number,
+  radius: number,
+) {
+  if (value === undefined) return null
+  if (
+    !value ||
+    !Array.isArray(value.points) ||
+    value.points.length < 1 ||
+    value.points.length > 8
+  )
+    throw new RangeError('Snap needs 1–8 distinct points.')
+  const points = Array.from(value.points, (p) =>
+    point(p, 'snap point', width, height, radius),
+  )
+  if (new Set(points.map((p) => `${p.x},${p.y}`)).size !== points.length)
+    throw new RangeError('Snap points must be distinct.')
+  return {
+    points,
+    stiffness: number(value.stiffness ?? 180, 'snap.stiffness', 1, 1000),
+    damping: number(value.damping ?? 24, 'snap.damping', 0, 120),
+    projection: number(value.projection ?? 0.12, 'snap.projection', 0, 0.3),
   }
 }
 function untransformed(view: View) {
@@ -152,7 +255,16 @@ export function physicsWorld(
       throw new RangeError('Circle speed cannot exceed 1200 DIPs/s.')
     views.push(view)
     unique.add(view)
-    return { x, y, radius, mass, vx: velocity.x, vy: velocity.y }
+    return {
+      x,
+      y,
+      radius,
+      mass,
+      vx: velocity.x,
+      vy: velocity.y,
+      attachment: prepareAttachment(body.attachment ?? null, width, height),
+      snap: prepareSnap(body.snap, width, height, radius),
+    }
   })
   if (!host.isLoaded || !host.nativeViewProtected)
     throw new Error('Create physics after native layout.')
@@ -273,6 +385,33 @@ export function physicsWorld(
         if (index < 0) throw new RangeError(`Unknown circle: ${id}`)
         const v = vector(impulse, 'impulse', 120000)
         if (!ended) native!.impulse(index, v.x, v.y)
+      },
+      attach(id, attachment) {
+        const index = ids.indexOf(id)
+        if (index < 0) throw new RangeError(`Unknown circle: ${id}`)
+        if (ended) return
+        const size = host!.getActualSize()
+        number(size.width, 'Container width', 1, 10000)
+        number(size.height, 'Container height', 1, 10000)
+        if (
+          config.some((b) => 2 * b.radius > Math.min(size.width, size.height)) ||
+          config.reduce((a, b) => a + Math.PI * b.radius ** 2, 0) >
+            size.width * size.height * 0.4
+        )
+          throw new RangeError(
+            'Resize the container to fit its circles before updating an attachment.',
+          )
+        const prepared = prepareAttachment(attachment, size.width, size.height)
+        update()
+        if (!ended) native!.attach(index, prepared)
+      },
+      snapTo(id, index) {
+        const body = ids.indexOf(id)
+        if (body < 0) throw new RangeError(`Unknown circle: ${id}`)
+        const count = config[body]!.snap?.points.length ?? 0
+        if (!Number.isInteger(index) || index < 0 || index >= count)
+          throw new RangeError('Unknown snap point.')
+        if (!ended) native!.snapTo(body, index)
       },
       snapshot() {
         const result = native!.snapshot()

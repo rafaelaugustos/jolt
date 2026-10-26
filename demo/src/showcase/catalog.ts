@@ -1,3 +1,4 @@
+import AttachmentLab from '../components/AttachmentLab.vue'
 import CirclePhysicsLab from '../components/CirclePhysicsLab.vue'
 import GravityLab from '../components/GravityLab.vue'
 import SensorLab from '../components/SensorLab.vue'
@@ -75,6 +76,15 @@ export const categories = [
   'SceneKit',
 ] as const
 export const examples = [
+  {
+    id: 'physics-attachments',
+    title: 'A place to return',
+    category: 'Touch',
+    description: 'Stretch a little. Settle somewhere new.',
+    component: markRaw(AttachmentLab),
+    full: true,
+    ios: false,
+  },
   {
     id: 'circle-physics',
     title: 'Better together',

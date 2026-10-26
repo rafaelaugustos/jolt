@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Extend native circle physics with fixed-anchor springs, velocity-aware release snap points, native tether drawing and `attach()` / `snapTo()` commands. Preserve collisions, cancellation, bounds, sleep and lifecycle ownership. Include the 70th four-language preview and English iOS/Android recordings in both guides. Rebuild the native app; body-to-body joints and general constraints remain outside this #39 milestone.
+
 - Add optional `@rafaelaugusto/jolt/physics` for up to 16 native circles: pair/wall collisions, native drag/release, impulses, bounded fixed-step work, sleep and lifecycle cleanup on iOS/Android. Include the four-language **Better together** preview and English native recordings in both guides. Rebuild the native app. General physics remains tracked in #39.
 
 - Add `{ type: 'gravity' }` for finite ballistic fall and bounce on translations and motion values, with native sampled playback, exact impact seams, inherited velocity and existing playback/scope controls. Include the localized **A softer landing** preview and real iOS/Android recordings. Circle collisions are delivered separately through the optional physics entry; broader physics remains in #39.

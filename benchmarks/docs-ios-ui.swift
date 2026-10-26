@@ -52,6 +52,60 @@ final class DocsTests: XCTestCase {
         start.press(forDuration: 0.55, thenDragTo: destination, withVelocity: fast ? .fast : .slow, thenHoldForDuration: hold)
         Thread.sleep(forTimeInterval: 0.6)
     }
+    func attachmentDrag(_ id: String, x: CGFloat, y: CGFloat, fast: Bool = false, hold: Double = 0.15) {
+        let body = app.descendants(matching: .any)[id].firstMatch
+        XCTAssertTrue(body.exists, app.debugDescription)
+        let start = body.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+        start.press(forDuration: 0.12, thenDragTo: start.withOffset(CGVector(dx: x, dy: y)), withVelocity: fast ? .fast : .slow, thenHoldForDuration: hold)
+        Thread.sleep(forTimeInterval: 0.2)
+    }
+    func testPhysicsAttachments() throws {
+        languageLaunch("en", "language-settings"); selectLanguage("system")
+        languageLaunch("en", "attachment-lab", ["--showcase-example=physics-attachments"])
+        try record("physics-attachments-ios") {
+            attachmentDrag("attachment-tether", x: 90, y: 65)
+            Thread.sleep(forTimeInterval: 2)
+            attachmentDrag("attachment-magnet", x: -85, y: -45)
+            Thread.sleep(forTimeInterval: 1.5)
+            attachmentDrag("attachment-magnet", x: 135, y: -20, fast: true, hold: 0)
+            Thread.sleep(forTimeInterval: 1.5)
+            tap("attachment-anchor", wait: 0.5)
+            tap("attachment-nudge", wait: 0.15)
+            tap("attachment-pause", wait: 0.8)
+            tap("attachment-pause", wait: 1)
+            tap("attachment-dock-1", wait: 1)
+            tap("attachment-reduce", wait: 0.7)
+        }
+        tap("attachment-reduce")
+    }
+    func testPhysicsAttachmentChecks() throws {
+        languageLaunch("en", "attachment-lab", ["--showcase-example=physics-attachments", "--attachment-audit"])
+        Thread.sleep(forTimeInterval: 1.5)
+        tap("attachment-snapshot")
+        attachmentDrag("attachment-tether", x: 90, y: 65)
+        tap("attachment-snapshot", wait: 7)
+        tap("attachment-snapshot")
+        attachmentDrag("attachment-magnet", x: -85, y: -45)
+        tap("attachment-snapshot", wait: 1.5); tap("attachment-snapshot")
+        attachmentDrag("attachment-magnet", x: 135, y: -20, fast: true, hold: 0)
+        tap("attachment-snapshot", wait: 1.5); tap("attachment-snapshot")
+        tap("attachment-anchor", wait: 1.5); tap("attachment-snapshot")
+        tap("attachment-dock-1", wait: 1.5)
+        tap("attachment-cancel", wait: 0)
+        attachmentDrag("attachment-magnet", x: -90, y: -30, hold: 3)
+        tap("attachment-snapshot"); tap("attachment-snapshot")
+        tap("attachment-pause", wait: 1.5); tap("attachment-snapshot")
+        tap("attachment-reduce"); tap("attachment-nudge"); tap("attachment-dock-2"); tap("attachment-snapshot")
+        tap("attachment-reduce", wait: 1.5)
+        tap("attachment-resize", wait: 1.5); tap("attachment-snapshot")
+        tap("attachment-resize", wait: 1.5); tap("attachment-snapshot")
+        tap("attachment-nudge", wait: 0.1)
+        XCUIDevice.shared.press(.home); Thread.sleep(forTimeInterval: 0.6)
+        app.activate(); Thread.sleep(forTimeInterval: 0.5)
+        tap("attachment-snapshot")
+        tap("Back to collection")
+        XCTAssertFalse(app.descendants(matching: .any)["attachment-lab"].firstMatch.exists)
+    }
     func circleFling(_ id: String, x: CGFloat, y: CGFloat) {
         let body = app.descendants(matching: .any)[id].firstMatch
         XCTAssertTrue(body.exists, app.debugDescription)
