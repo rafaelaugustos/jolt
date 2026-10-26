@@ -1,3 +1,4 @@
+import BlurLab from '../components/BlurLab.vue'
 import ShapeLab from '../components/ShapeLab.vue'
 import AttachmentLab from '../components/AttachmentLab.vue'
 import CirclePhysicsLab from '../components/CirclePhysicsLab.vue'
@@ -77,6 +78,15 @@ export const categories = [
   'SceneKit',
 ] as const
 export const examples = [
+  {
+    id: 'blur',
+    title: 'Soft focus',
+    category: 'Visual',
+    description: 'Let the world soften.',
+    component: markRaw(BlurLab),
+    full: true,
+    ios: false,
+  },
   {
     id: 'shapes',
     title: 'Made of motion',

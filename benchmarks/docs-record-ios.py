@@ -47,6 +47,8 @@ try:
             if cue['action'] == 'appearance':
                 assert name in ('light', 'dark')
                 subprocess.run(['xcrun', 'simctl', 'ui', serial, 'appearance', name], check=True)
+            elif cue['action'] == 'screenshot':
+                subprocess.run(['xcrun', 'simctl', 'io', serial, 'screenshot', str(output/(name+'.png'))], check=True, stdout=subprocess.DEVNULL)
             elif cue['action'] == 'start':
                 assert recorder is None
                 path = output/(name+'.mov')

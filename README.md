@@ -683,7 +683,7 @@ Each running property remembers its curve and start time. On Android, interrupti
 
 ## Demo
 
-[`demo/`](./demo) now opens **Jolt Motion Studio**: a branded animated splash, a moving home, and 71 searchable experiments with category filters and native page navigation through Vue Router NS. The iOS preview includes the Jolt name and icon; launching normally always opens the collection. See the [native walkthrough](./docs/guide/demo.md).
+[`demo/`](./demo) now opens **Jolt Motion Studio**: a branded animated splash, a moving home, and 72 searchable experiments with category filters and native page navigation through Vue Router NS. The iOS preview includes the Jolt name and icon; launching normally always opens the collection. See the [native walkthrough](./docs/guide/demo.md).
 
 The assistant remains available through `--screen=home` on iOS or `--es screen home` on Android: a fan of document tools, a voice screen with letter-by-letter text, and a staged conversation with document previews and a rolling countdown, with the screens cross-fading through the Vue entry. Open **Help → Watch demo** to replay the flow. The orb is an animated illustration; speech, documents and audio are sample data.
 

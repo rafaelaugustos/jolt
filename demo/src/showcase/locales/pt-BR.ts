@@ -1,5 +1,18 @@
 // English source messages → Brazilian Portuguese. Keep numbered placeholders intact.
 export const portuguese: Record<string, string> = {
+  Clear: 'Nítido',
+  'Soft focus': 'Foco suave',
+  'Let the world soften.': 'Deixe o mundo mais leve.',
+  'A little less world. A little more you.': 'Menos mundo. Mais você.',
+  'Somewhere\nslower.': 'Um lugar\nsem pressa.',
+  'A POSTCARD FROM THE QUIET': 'UM POSTAL DA CALMA',
+  'Every detail. Nothing to hurry.': 'Cada detalhe. Nenhuma pressa.',
+  'Less noise. More here.': 'Menos ruído. Mais presença.',
+  'Choose how much of the world to let in.': 'Escolha quanto do mundo deixar entrar.',
+  Soft: 'Suave',
+  Dreamy: 'Sonhador',
+  Drift: 'Flutuar',
+
   'Made of motion': 'Feito de movimento',
   'Draw a line. Change its story.': 'Desenhe uma linha. Mude sua história.',
   'A little line. A whole new feeling.': 'Uma linha. Um novo sentimento.',

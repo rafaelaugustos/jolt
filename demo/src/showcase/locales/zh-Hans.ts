@@ -1,5 +1,18 @@
 // English source messages → Simplified Chinese. Keep numbered placeholders intact.
 export const chinese: Record<string, string> = {
+  Clear: '清晰',
+  'Soft focus': '柔和焦点',
+  'Let the world soften.': '让世界柔和下来。',
+  'A little less world. A little more you.': '少一点喧嚣，多一点自己。',
+  'Somewhere\nslower.': '在某处\n慢下来。',
+  'A POSTCARD FROM THE QUIET': '一张来自宁静的明信片',
+  'Every detail. Nothing to hurry.': '看清细节，无须匆忙。',
+  'Less noise. More here.': '少一点杂念，专注此刻。',
+  'Choose how much of the world to let in.': '选择让多少世界映入眼帘。',
+  Soft: '柔和',
+  Dreamy: '朦胧',
+  Drift: '轻漾',
+
   'Made of motion': '由动效构成',
   'Draw a line. Change its story.': '画一条线，改变它的故事。',
   'A little line. A whole new feeling.': '一条小小的线，带来全新感受。',

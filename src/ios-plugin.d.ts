@@ -1,3 +1,14 @@
+declare class JoltBlur extends NSObject {
+  static attachOptions(view: UIView, options: string): JoltBlur
+  static liveCount(): number
+  static activeCount(): number
+  paint(amount: number): void
+  play(program: string): void
+  controlPaused(time: number, paused: boolean): void
+  resize(): void
+  snapshot(): string
+  dispose(): void
+}
 declare class JoltSensorSource extends NSObject {
   static createOptionsOnState(
     kind: string,

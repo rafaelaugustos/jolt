@@ -1,5 +1,18 @@
 // English source messages → Spanish. Keep numbered placeholders intact.
 export const spanish: Record<string, string> = {
+  Clear: 'Nítido',
+  'Soft focus': 'Enfoque suave',
+  'Let the world soften.': 'Deja que el mundo se suavice.',
+  'A little less world. A little more you.': 'Menos mundo. Más tú.',
+  'Somewhere\nslower.': 'Un lugar\nsin prisa.',
+  'A POSTCARD FROM THE QUIET': 'UNA POSTAL DE LA CALMA',
+  'Every detail. Nothing to hurry.': 'Cada detalle. Sin ninguna prisa.',
+  'Less noise. More here.': 'Menos ruido. Más presente.',
+  'Choose how much of the world to let in.': 'Elige cuánto del mundo dejar entrar.',
+  Soft: 'Suave',
+  Dreamy: 'De ensueño',
+  Drift: 'Flotar',
+
   'Made of motion': 'Hecho de movimiento',
   'Draw a line. Change its story.': 'Dibuja una línea. Cambia su historia.',
   'A little line. A whole new feeling.': 'Una línea. Una nueva sensación.',
