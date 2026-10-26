@@ -1,5 +1,18 @@
 // English source messages → Brazilian Portuguese. Keep numbered placeholders intact.
 export const portuguese: Record<string, string> = {
+  'A place to return': 'Um lugar para voltar',
+  'Stretch a little. Settle somewhere new.': 'Estique um pouco. Encontre um novo lugar.',
+  'Spring back. Find your place.': 'Volte com leveza. Encontre seu lugar.',
+  'A LITTLE GIVE. A LITTLE GRAVITY.': 'UM POUCO DE MOLAS E GRAVIDADE.',
+  'Balance, on pause.': 'Equilíbrio em pausa.',
+  'Pull the copper orb. Flick the lilac one.': 'Puxe a esfera cobre. Lance a lilás.',
+  'One comes home. One finds a new spot.':
+    'Uma volta para casa. A outra encontra seu lugar.',
+  Nudge: 'Empurrar',
+  'Move anchor': 'Mover âncora',
+  'Left dock': 'À esquerda',
+  'Center dock': 'Ao centro',
+  'Right dock': 'À direita',
   'Better together': 'Melhor juntos',
   'Every collision starts something.': 'Cada colisão é um começo.',
   'A little chaos. A lot of joy.': 'Um pouco de caos. Muita alegria.',

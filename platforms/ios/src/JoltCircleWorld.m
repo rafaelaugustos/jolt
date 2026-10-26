@@ -9,7 +9,7 @@
     double initialX[16],initialY[16],initialVX[16],initialVY[16],originalX[16],originalY[16];
 }
 @property(nonatomic) UIView *container;
-@property(nonatomic) NSMutableArray *views,*pans;
+@property(nonatomic) NSMutableArray *views,*pans,*guides;
 @property(nonatomic) CADisplayLink *link;
 @property(nonatomic) BOOL enabled,disposed,background,fits;
 @property(nonatomic) double previous,accumulator,processingMs,droppedMs,offsetX,offsetY;
@@ -18,6 +18,7 @@
 - (void)refresh;
 - (void)apply;
 - (void)cancelDrag;
+- (void)configureAttachment:(id)value index:(int)index;
 @end
 
 @implementation JoltCircleWorld
@@ -29,7 +30,7 @@ static NSMutableSet<JoltCircleWorld *> *worlds;
     NSDictionary *config=[NSJSONSerialization JSONObjectWithData:[options dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
     NSArray *bodies=config[@"bodies"];
     if(bodies.count<1||bodies.count>16)[NSException raise:NSInvalidArgumentException format:@"Physics needs 1–16 circles"];
-    JoltCircleWorld *w=[self new];w.container=container;w.views=[NSMutableArray new];w.pans=[NSMutableArray new];w.dragging=-1;
+    JoltCircleWorld *w=[self new];w.container=container;w.views=[NSMutableArray new];w.pans=[NSMutableArray new];w.guides=[NSMutableArray new];w.dragging=-1;
     w->state.count=(int)bodies.count;w->state.width=[config[@"width"] doubleValue];w->state.height=[config[@"height"] doubleValue];
     w->state.gx=[config[@"gravity"][@"x"] doubleValue];w->state.gy=[config[@"gravity"][@"y"] doubleValue];
     w->state.restitution=[config[@"restitution"] doubleValue];w->state.damping=[config[@"damping"] doubleValue];
@@ -38,13 +39,42 @@ static NSMutableSet<JoltCircleWorld *> *worlds;
         b->x=[v[@"x"] doubleValue];b->y=[v[@"y"] doubleValue];b->r=[v[@"radius"] doubleValue];b->m=[v[@"mass"] doubleValue];
         b->vx=[v[@"vx"] doubleValue];b->vy=[v[@"vy"] doubleValue];
         w->initialX[i]=b->x/w->state.width;w->initialY[i]=b->y/w->state.height;w->initialVX[i]=b->vx;w->initialVY[i]=b->vy;
-        [w.views addObject:NSNull.null];[w.pans addObject:NSNull.null];
+        [w.views addObject:NSNull.null];[w.pans addObject:NSNull.null];[w.guides addObject:NSNull.null];
+        [w configureAttachment:v[@"attachment"] index:i];
+        id snap=v[@"snap"];
+        if([snap isKindOfClass:NSDictionary.class]){
+            NSArray *points=snap[@"points"];if(points.count>JOLT_CIRCLE_SNAP_LIMIT)[NSException raise:NSInvalidArgumentException format:@"Too many snap points"];
+            b->snap.count=(int)points.count;b->snap.stiffness=[snap[@"stiffness"] doubleValue];b->snap.damping=[snap[@"damping"] doubleValue];b->snap.projection=[snap[@"projection"] doubleValue];
+            for(int j=0;j<points.count;j++){b->snap.u[j]=[points[j][@"x"] doubleValue]/w->state.width;b->snap.v[j]=[points[j][@"y"] doubleValue]/w->state.height;}
+        }
     }
     w.fits=JoltCircleFits(&w->state,w->state.width,w->state.height);
     w.background=UIApplication.sharedApplication.applicationState==UIApplicationStateBackground;
     [[NSNotificationCenter defaultCenter] addObserver:w selector:@selector(backgrounded) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:w selector:@selector(foregrounded) name:UIApplicationDidBecomeActiveNotification object:nil];
     [worlds addObject:w];return w;
+}
+- (void)configureAttachment:(id)value index:(int)index {
+    BOOL active=[value isKindOfClass:NSDictionary.class];
+    if(active)JoltCircleAttach(&state,index,true,[value[@"x"] doubleValue],[value[@"y"] doubleValue],[value[@"length"] doubleValue],[value[@"stiffness"] doubleValue],[value[@"damping"] doubleValue]);
+    else JoltCircleAttach(&state,index,false,0,0,0,180,24);
+    if(self.guides[index]!=NSNull.null){[(CALayer *)self.guides[index] removeFromSuperlayer];self.guides[index]=NSNull.null;}
+    id line=active?value[@"line"]:nil;
+    if([line isKindOfClass:NSDictionary.class]){
+        CAShapeLayer *guide=[CAShapeLayer layer];unsigned int color=[line[@"color"] unsignedIntValue];
+        guide.strokeColor=[UIColor colorWithRed:((color>>16)&255)/255.0 green:((color>>8)&255)/255.0 blue:(color&255)/255.0 alpha:1].CGColor;
+        guide.fillColor=nil;guide.contentsScale=UIScreen.mainScreen.scale;guide.lineWidth=[line[@"width"] doubleValue];guide.lineCap=kCALineCapRound;
+        [self.container.layer addSublayer:guide];self.guides[index]=guide;
+    }
+}
+- (void)attach:(NSInteger)index options:(NSString *)options {
+    if(self.disposed||index<0||index>=state.count)return;
+    id value=[NSJSONSerialization JSONObjectWithData:[options dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingFragmentsAllowed error:nil];
+    [self configureAttachment:value index:(int)index];[self apply];[self refresh];
+}
+- (void)snapTo:(NSInteger)index target:(NSInteger)target {
+    if(self.disposed||index<0||index>=state.count)return;
+    JoltCircleSnapTo(&state,(int)index,(int)target);[self apply];[self refresh];
 }
 - (void)connect:(UIView *)view index:(NSInteger)index {
     if(self.disposed||index<0||index>=state.count)return;
@@ -80,6 +110,15 @@ static NSMutableSet<JoltCircleWorld *> *worlds;
         [v.layer setValue:@(state.bodies[i].x-v.layer.position.x) forKeyPath:@"transform.translation.x"];
         [v.layer setValue:@(state.bodies[i].y-v.layer.position.y) forKeyPath:@"transform.translation.y"];
     }
+    for(int i=0;i<state.count;i++)if(self.guides[i]!=NSNull.null){
+        JoltCircle *b=&state.bodies[i];CAShapeLayer *guide=self.guides[i];
+        double x=b->snap.active?JoltCircleSnapX(&state,b,b->snap.index):b->attachment.u*state.width;
+        double y=b->snap.active?JoltCircleSnapY(&state,b,b->snap.index):b->attachment.v*state.height;
+        double dx=b->x-x,dy=b->y-y,d=hypot(dx,dy);
+        UIBezierPath *path=[UIBezierPath bezierPath];
+        if(d>b->r){[path moveToPoint:CGPointMake(x,y)];[path addLineToPoint:CGPointMake(b->x-dx/d*b->r,b->y-dy/d*b->r)];[path appendPath:[UIBezierPath bezierPathWithOvalInRect:CGRectMake(x-2.5,y-2.5,5,5)]];}
+        guide.path=path.CGPath;
+    }
     [CATransaction commit];
 }
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gesture shouldReceiveTouch:(UITouch *)touch {
@@ -109,7 +148,7 @@ static NSMutableSet<JoltCircleWorld *> *worlds;
 }
 - (void)cancelDrag {
     if(self.dragging<0)return;
-    JoltCircleRelease(&state,(int)self.dragging,0,0);self.dragging=-1;self.dragCancels++;
+    JoltCircleCancel(&state,(int)self.dragging);self.dragging=-1;self.dragCancels++;[self apply];
 }
 - (void)setEnabled:(BOOL)enabled {
     if(self.disposed)return;BOOL changed=_enabled!=enabled;_enabled=enabled;
@@ -131,14 +170,23 @@ static NSMutableSet<JoltCircleWorld *> *worlds;
 }
 - (void)reset {
     if(self.disposed)return;[self cancelDrag];
-    for(int i=0;i<state.count;i++){JoltCircle *b=&state.bodies[i];b->x=initialX[i]*state.width;b->y=initialY[i]*state.height;b->vx=initialVX[i];b->vy=initialVY[i];}
+    for(int i=0;i<state.count;i++){JoltCircle *b=&state.bodies[i];b->x=initialX[i]*state.width;b->y=initialY[i]*state.height;b->vx=initialVX[i];b->vy=initialVY[i];b->snap.active=b->snap.previousActive=false;b->released=false;}
     JoltCircleContacts(&state,false,64);JoltCircleWake(&state);[self apply];[self refresh];
 }
 - (NSString *)snapshot {
     NSMutableArray *bodies=[NSMutableArray new];
-    for(int i=0;i<state.count;i++){JoltCircle b=state.bodies[i];[bodies addObject:@{@"x":@(b.x),@"y":@(b.y),@"vx":@(b.vx),@"vy":@(b.vy),@"radius":@(b.r),@"held":@(b.held)}];}
+    NSUInteger guideCount=0;
+    for(id guide in self.guides)if(guide!=NSNull.null)guideCount++;
+    for(int i=0;i<state.count;i++){
+        JoltCircle *b=&state.bodies[i];
+        id attachment=b->attachment.enabled?@{@"anchor":@{@"x":@(b->attachment.u*state.width),@"y":@(b->attachment.v*state.height)},@"length":@(b->attachment.length),@"stiffness":@(b->attachment.stiffness),@"damping":@(b->attachment.damping)}:NSNull.null;
+        id snap=NSNull.null;
+        if(b->snap.active){double x=JoltCircleSnapX(&state,b,b->snap.index),y=JoltCircleSnapY(&state,b,b->snap.index);snap=@{@"index":@(b->snap.index),@"point":@{@"x":@(x),@"y":@(y)},@"settled":[NSNumber numberWithBool:hypot(b->x-x,b->y-y)<=.25&&hypot(b->vx,b->vy)<=4&&!b->held]};}
+        id release=b->released?@{@"x":@(b->releaseX),@"y":@(b->releaseY),@"vx":@(b->releaseVX),@"vy":@(b->releaseVY)}:NSNull.null;
+        [bodies addObject:@{@"x":@(b->x),@"y":@(b->y),@"vx":@(b->vx),@"vy":@(b->vy),@"radius":@(b->r),@"held":@(b->held),@"attachment":attachment,@"snap":snap,@"release":release}];
+    }
     NSString *status=self.disposed?@"disposed":!self.enabled?@"paused":self.background||!self.container.window?@"detached":!self.fits?@"invalid-bounds":state.sleeping?@"sleeping":@"running";
-    NSDictionary *data=@{@"status":status,@"bodies":bodies,@"frames":@(self.frames),@"steps":@(state.steps),@"contacts":@(state.contacts),@"dragStarts":@(self.dragStarts),@"dragMoves":@(self.dragMoves),@"dragEnds":@(self.dragEnds),@"dragCancels":@(self.dragCancels),@"processingMs":@(self.processingMs),@"droppedMs":@(self.droppedMs),@"clock":[NSNumber numberWithBool:self.link!=nil]};
+    NSDictionary *data=@{@"status":status,@"guides":@(guideCount),@"bodies":bodies,@"frames":@(self.frames),@"steps":@(state.steps),@"contacts":@(state.contacts),@"dragStarts":@(self.dragStarts),@"dragMoves":@(self.dragMoves),@"dragEnds":@(self.dragEnds),@"dragCancels":@(self.dragCancels),@"processingMs":@(self.processingMs),@"droppedMs":@(self.droppedMs),@"clock":[NSNumber numberWithBool:self.link!=nil]};
     return [[NSString alloc]initWithData:[NSJSONSerialization dataWithJSONObject:data options:0 error:nil] encoding:NSUTF8StringEncoding];
 }
 - (void)dispose {
@@ -149,6 +197,7 @@ static NSMutableSet<JoltCircleWorld *> *worlds;
         UIView *v=self.views[i];v.userInteractionEnabled=originalInteraction[i];if(self.pans[i]!=NSNull.null)[v removeGestureRecognizer:self.pans[i]];
         [v.layer setValue:@(originalX[i]) forKeyPath:@"transform.translation.x"];[v.layer setValue:@(originalY[i]) forKeyPath:@"transform.translation.y"];
     }
+    for(id guide in self.guides)if(guide!=NSNull.null)[guide removeFromSuperlayer];[self.guides removeAllObjects];
     [CATransaction commit];[self.views removeAllObjects];[self.pans removeAllObjects];self.container=nil;[worlds removeObject:self];
 }
 @end

@@ -1,5 +1,18 @@
 // English source messages → Spanish. Keep numbered placeholders intact.
 export const spanish: Record<string, string> = {
+  'A place to return': 'Un lugar al que volver',
+  'Stretch a little. Settle somewhere new.': 'Estira un poco. Encuentra otro lugar.',
+  'Spring back. Find your place.': 'Vuelve suavemente. Encuentra tu lugar.',
+  'A LITTLE GIVE. A LITTLE GRAVITY.': 'UN POCO DE ELASTICIDAD Y GRAVEDAD.',
+  'Balance, on pause.': 'Equilibrio en pausa.',
+  'Pull the copper orb. Flick the lilac one.': 'Tira de la esfera cobre. Lanza la lila.',
+  'One comes home. One finds a new spot.':
+    'Una vuelve a casa. La otra encuentra su lugar.',
+  Nudge: 'Empujar',
+  'Move anchor': 'Mover ancla',
+  'Left dock': 'Izquierda',
+  'Center dock': 'Centro',
+  'Right dock': 'Derecha',
   'Better together': 'Mejor juntos',
   'Every collision starts something.': 'Cada choque es un comienzo.',
   'A little chaos. A lot of joy.': 'Un poco de caos. Mucha alegría.',

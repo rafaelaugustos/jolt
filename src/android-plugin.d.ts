@@ -554,6 +554,8 @@ declare namespace org.rafaelaugusto.jolt {
     setEnabled(active: boolean): void
     resize(width: number, height: number): void
     impulse(index: number, x: number, y: number): void
+    attach(index: number, options: string): void
+    snapTo(index: number, target: number): void
     reset(): void
     snapshot(): string
     dispose(): void

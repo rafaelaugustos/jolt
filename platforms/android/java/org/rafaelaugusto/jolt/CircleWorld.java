@@ -1,6 +1,11 @@
 package org.rafaelaugusto.jolt;
 
 import android.app.Activity;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.ColorFilter;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.app.Application;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -19,6 +24,7 @@ public final class CircleWorld implements Choreographer.FrameCallback, View.OnAt
     private final CircleMath state;
     private View container;
     private final View[] views;
+    private final CircleGuide[] guides;
     private final boolean[] clickable;
     private final double[] initialX,initialY,initialVX,initialVY,originalX,originalY;
     private final float density;
@@ -37,7 +43,7 @@ public final class CircleWorld implements Choreographer.FrameCallback, View.OnAt
         try {
             JSONObject config=new JSONObject(options);JSONArray data=config.getJSONArray("bodies");
             int count=data.length();if(count<1||count>16)throw new IllegalArgumentException("Physics needs 1–16 circles");
-            state=new CircleMath(count);views=new View[count];clickable=new boolean[count];
+            state=new CircleMath(count);views=new View[count];guides=new CircleGuide[count];clickable=new boolean[count];
             initialX=new double[count];initialY=new double[count];initialVX=new double[count];initialVY=new double[count];originalX=new double[count];originalY=new double[count];
             state.width=config.getDouble("width");state.height=config.getDouble("height");
             state.gx=config.getJSONObject("gravity").getDouble("x");state.gy=config.getJSONObject("gravity").getDouble("y");
@@ -46,6 +52,13 @@ public final class CircleWorld implements Choreographer.FrameCallback, View.OnAt
                 JSONObject v=data.getJSONObject(i);CircleMath.Body b=state.bodies[i];
                 b.x=v.getDouble("x");b.y=v.getDouble("y");b.r=v.getDouble("radius");b.m=v.getDouble("mass");b.vx=v.getDouble("vx");b.vy=v.getDouble("vy");
                 initialX[i]=b.x/state.width;initialY[i]=b.y/state.height;initialVX[i]=b.vx;initialVY[i]=b.vy;
+                configureAttachment(i,v.optJSONObject("attachment"));
+                JSONObject snap=v.optJSONObject("snap");
+                if(snap!=null){
+                    JSONArray points=snap.getJSONArray("points");if(points.length()>CircleMath.SNAP_LIMIT)throw new IllegalArgumentException("Too many snap points");
+                    b.snap.count=points.length();b.snap.stiffness=snap.getDouble("stiffness");b.snap.damping=snap.getDouble("damping");b.snap.projection=snap.getDouble("projection");
+                    for(int j=0;j<points.length();j++){JSONObject point=points.getJSONObject(j);b.snap.u[j]=point.getDouble("x")/state.width;b.snap.v[j]=point.getDouble("y")/state.height;}
+                }
             }
         }catch(JSONException e){throw new IllegalArgumentException(e);}
         fits=state.fits(state.width,state.height);
@@ -66,6 +79,34 @@ public final class CircleWorld implements Choreographer.FrameCallback, View.OnAt
         }
         worlds.add(this);
     }
+    private final class CircleGuide extends Drawable {
+        private final int index;
+        private final Paint paint=new Paint(Paint.ANTI_ALIAS_FLAG);
+        CircleGuide(int index,int color,double width){this.index=index;paint.setColor(0xff000000|color);paint.setStrokeWidth((float)width*density);paint.setStyle(Paint.Style.STROKE);paint.setStrokeCap(Paint.Cap.ROUND);}
+        @Override public void draw(Canvas canvas){
+            CircleMath.Body b=state.bodies[index];
+            double x=b.snap.active?state.snapX(b,b.snap.index):b.attachment.u*state.width;
+            double y=b.snap.active?state.snapY(b,b.snap.index):b.attachment.v*state.height;
+            double dx=b.x-x,dy=b.y-y,d=Math.hypot(dx,dy);
+            if(d>b.r){canvas.drawLine((float)x*density,(float)y*density,(float)(b.x-dx/d*b.r)*density,(float)(b.y-dy/d*b.r)*density,paint);canvas.drawCircle((float)x*density,(float)y*density,2.5f*density,paint);}
+        }
+        @Override public void setAlpha(int alpha){paint.setAlpha(alpha);invalidateSelf();}
+        @Override public void setColorFilter(ColorFilter filter){paint.setColorFilter(filter);invalidateSelf();}
+        @Override public int getOpacity(){return PixelFormat.TRANSLUCENT;}
+    }
+    private void configureAttachment(int index,JSONObject options) throws JSONException {
+        if(options==null)state.attach(index,false,0,0,0,180,24);
+        else state.attach(index,true,options.getDouble("x"),options.getDouble("y"),options.getDouble("length"),options.getDouble("stiffness"),options.getDouble("damping"));
+        if(guides[index]!=null){container.getOverlay().remove(guides[index]);guides[index]=null;}
+        JSONObject line=options==null?null:options.optJSONObject("line");
+        if(line!=null){guides[index]=new CircleGuide(index,line.getInt("color"),line.getDouble("width"));container.getOverlay().add(guides[index]);}
+    }
+    public void attach(int index,String options){
+        if(disposed||index<0||index>=views.length)return;
+        try{configureAttachment(index,options.equals("null")?null:new JSONObject(options));}catch(JSONException e){throw new IllegalArgumentException(e);}
+        apply();refresh();
+    }
+    public void snapTo(int index,int target){if(disposed||index<0||index>=views.length)return;state.snapTo(index,target);apply();refresh();}
     public void connect(View view,int index){
         if(disposed||index<0||index>=views.length)return;
         if(view.getParent()!=container)throw new IllegalArgumentException("Physics circles must be direct native children");
@@ -92,6 +133,7 @@ public final class CircleWorld implements Choreographer.FrameCallback, View.OnAt
             v.setTranslationX((float)(state.bodies[i].x*density-v.getLeft()-v.getWidth()/2.0));
             v.setTranslationY((float)(state.bodies[i].y*density-v.getTop()-v.getHeight()/2.0));
         }
+        for(CircleGuide guide:guides)if(guide!=null){guide.setBounds(0,0,container.getWidth(),container.getHeight());guide.invalidateSelf();}
     }
     private void sampleVelocity(MotionEvent event){
         if(velocity==null)return;
@@ -123,7 +165,7 @@ public final class CircleWorld implements Choreographer.FrameCallback, View.OnAt
         if(velocity!=null){velocity.recycle();velocity=null;}
         if(container!=null&&container.getParent()!=null)container.getParent().requestDisallowInterceptTouchEvent(false);
     }
-    private void cancelDrag(){if(dragging>=0){state.release(dragging,0,0);dragging=-1;dragCancels++;}releaseTracker();}
+    private void cancelDrag(){if(dragging>=0){state.cancel(dragging);dragging=-1;dragCancels++;apply();}releaseTracker();}
     public void setEnabled(boolean active){if(disposed)return;boolean changed=enabled!=active;enabled=active;if(!active)cancelDrag();else if(changed)state.wake();refresh();}
     public void resize(double width,double height){
         if(disposed)return;fits=state.fits(width,height);
@@ -137,16 +179,24 @@ public final class CircleWorld implements Choreographer.FrameCallback, View.OnAt
     }
     public void reset(){
         if(disposed)return;cancelDrag();
-        for(int i=0;i<views.length;i++){CircleMath.Body b=state.bodies[i];b.x=initialX[i]*state.width;b.y=initialY[i]*state.height;b.vx=initialVX[i];b.vy=initialVY[i];}
+        for(int i=0;i<views.length;i++){CircleMath.Body b=state.bodies[i];b.x=initialX[i]*state.width;b.y=initialY[i]*state.height;b.vx=initialVX[i];b.vy=initialVY[i];b.snap.active=b.snap.previousActive=false;b.released=false;}
         state.contacts(false,64);state.wake();apply();refresh();
     }
     @Override public void onViewAttachedToWindow(View v){refresh();}
     @Override public void onViewDetachedFromWindow(View v){cancelDrag();refresh();}
     public String snapshot(){
         try {
-            JSONArray bodies=new JSONArray();for(CircleMath.Body b:state.bodies)bodies.put(new JSONObject().put("x",b.x).put("y",b.y).put("vx",b.vx).put("vy",b.vy).put("radius",b.r).put("held",b.held));
+            int guideCount=0;for(CircleGuide guide:guides)if(guide!=null)guideCount++;
+            JSONArray bodies=new JSONArray();
+            for(CircleMath.Body b:state.bodies){
+                Object attachment=b.attachment.enabled?new JSONObject().put("anchor",new JSONObject().put("x",b.attachment.u*state.width).put("y",b.attachment.v*state.height)).put("length",b.attachment.length).put("stiffness",b.attachment.stiffness).put("damping",b.attachment.damping):JSONObject.NULL;
+                Object snap=JSONObject.NULL;
+                if(b.snap.active){double x=state.snapX(b,b.snap.index),y=state.snapY(b,b.snap.index);snap=new JSONObject().put("index",b.snap.index).put("point",new JSONObject().put("x",x).put("y",y)).put("settled",Math.hypot(b.x-x,b.y-y)<=.25&&Math.hypot(b.vx,b.vy)<=4&&!b.held);}
+                Object release=b.released?new JSONObject().put("x",b.releaseX).put("y",b.releaseY).put("vx",b.releaseVX).put("vy",b.releaseVY):JSONObject.NULL;
+                bodies.put(new JSONObject().put("x",b.x).put("y",b.y).put("vx",b.vx).put("vy",b.vy).put("radius",b.r).put("held",b.held).put("attachment",attachment).put("snap",snap).put("release",release));
+            }
             String status=disposed?"disposed":!enabled?"paused":background||!container.isAttachedToWindow()?"detached":!fits?"invalid-bounds":state.sleeping?"sleeping":"running";
-            return new JSONObject().put("status",status).put("bodies",bodies).put("frames",frames).put("steps",state.steps).put("contacts",state.contacts).put("dragStarts",dragStarts).put("dragMoves",dragMoves).put("dragEnds",dragEnds).put("dragCancels",dragCancels).put("processingMs",processingMs).put("droppedMs",droppedMs).put("clock",scheduled).toString();
+            return new JSONObject().put("status",status).put("guides",guideCount).put("bodies",bodies).put("frames",frames).put("steps",state.steps).put("contacts",state.contacts).put("dragStarts",dragStarts).put("dragMoves",dragMoves).put("dragEnds",dragEnds).put("dragCancels",dragCancels).put("processingMs",processingMs).put("droppedMs",droppedMs).put("clock",scheduled).toString();
         }catch(JSONException e){throw new IllegalStateException(e);}
     }
     public void dispose(){
@@ -154,6 +204,7 @@ public final class CircleWorld implements Choreographer.FrameCallback, View.OnAt
         if(application!=null)application.unregisterActivityLifecycleCallbacks(lifecycle);application=null;lifecycle=null;
         container.removeOnAttachStateChangeListener(this);
         for(int i=0;i<views.length;i++)if(views[i]!=null){View v=views[i];v.setOnTouchListener(null);v.setClickable(clickable[i]);v.setTranslationX((float)originalX[i]);v.setTranslationY((float)originalY[i]);views[i]=null;}
+        for(int i=0;i<guides.length;i++)if(guides[i]!=null){container.getOverlay().remove(guides[i]);guides[i]=null;}
         container=null;worlds.remove(this);
     }
 }

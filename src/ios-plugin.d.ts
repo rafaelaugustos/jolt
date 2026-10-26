@@ -341,6 +341,8 @@ declare class JoltCircleWorld extends NSObject {
   setEnabled(active: boolean): void
   resizeHeight(width: number, height: number): void
   impulseXY(index: number, x: number, y: number): void
+  attachOptions(index: number, options: string): void
+  snapToTarget(index: number, target: number): void
   reset(): void
   snapshot(): string
   dispose(): void

@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { Application } from '@nativescript/core'
 import { physicsWorld, type PhysicsWorld } from '../src/physics/index.js'
-import { setCircleFactory } from '../src/physics/native.js'
+import { setCircleFactory, type CircleFactory } from '../src/physics/native.js'
 import { configure, motionScope } from '../src/index.js'
 import { createView, driver } from './helpers.js'
 let backend: ReturnType<typeof fake>, worlds: PhysicsWorld[]
@@ -10,6 +10,8 @@ function fake() {
     enabled: vi.fn(),
     resize: vi.fn(),
     impulse: vi.fn(),
+    attach: vi.fn(),
+    snapTo: vi.fn(),
     reset: vi.fn(),
     dispose: vi.fn(),
     snapshot: vi.fn(() => ({
@@ -25,6 +27,7 @@ function fake() {
       processingMs: 0,
       droppedMs: 0,
       clock: true,
+      guides: 0,
     })),
   }
 }
@@ -60,7 +63,7 @@ function create(...args: Parameters<typeof physicsWorld>) {
 }
 it('rejects overlap, invalid geometry, speed and identifiers before native mutation', () => {
   const { host, bodies } = scene()
-  const factory = vi.fn(() => backend)
+  const factory = vi.fn<CircleFactory>(() => backend)
   setCircleFactory(factory)
   expect(() => create(host, [bodies[0]!, { ...bodies[1]!, x: 90 }])).toThrow(/overlap/)
   expect(() => create(host, [...bodies, { ...bodies[0]! }])).toThrow(/id/)
@@ -163,10 +166,131 @@ it('disposes if NativeScript rebuilds the native hierarchy, instead of driving s
 
 it('rejects sparse body lists and disabled touch surfaces before native setup', () => {
   const { host, a, bodies } = scene()
-  const factory = vi.fn(() => backend)
+  const factory = vi.fn<CircleFactory>(() => backend)
   setCircleFactory(factory)
   expect(() => create(host, new Array(2))).toThrow(/id/)
   a.isEnabled = false
   expect(() => create(host, bodies)).toThrow(/touch/)
   expect(factory).not.toHaveBeenCalled()
+})
+
+it('validates springs and docks before creating a native world', () => {
+  const { host, bodies } = scene(),
+    factory = vi.fn<CircleFactory>(() => backend)
+  setCircleFactory(factory)
+  const a = bodies[0]!
+  expect(() =>
+    create(host, [{ ...a, attachment: { anchor: { x: 400, y: 20 } } }]),
+  ).toThrow(/anchor/)
+  expect(() =>
+    create(host, [{ ...a, attachment: { anchor: { x: 100, y: 40 }, stiffness: 0 } }]),
+  ).toThrow(/stiffness/)
+  expect(() =>
+    create(host, [
+      { ...a, attachment: { anchor: { x: 100, y: 40 }, line: { color: 'red' } } },
+    ]),
+  ).toThrow(/RRGGBB/)
+  expect(() => create(host, [{ ...a, snap: { points: new Array(2) } }])).toThrow(/point/)
+  expect(() => create(host, [{ ...a, snap: { points: [{ x: 0, y: 50 }] } }])).toThrow(
+    /point/,
+  )
+  expect(() =>
+    create(host, [
+      {
+        ...a,
+        snap: {
+          points: [
+            { x: 100, y: 50 },
+            { x: 100, y: 50 },
+          ],
+        },
+      },
+    ]),
+  ).toThrow(/distinct/)
+  expect(() =>
+    create(host, [{ ...a, snap: { points: [{ x: 100, y: 50 }], projection: 1 } }]),
+  ).toThrow(/projection/)
+  expect(factory).not.toHaveBeenCalled()
+})
+it('copies spring and snap input, including native line style', () => {
+  const { host, bodies } = scene(),
+    factory = vi.fn<CircleFactory>(() => backend)
+  setCircleFactory(factory)
+  const points = [{ x: 100, y: 200 }],
+    anchor = { x: 150, y: 50 }
+  create(host, [
+    {
+      ...bodies[0]!,
+      attachment: { anchor, length: 80, line: { color: '#e0A193' } },
+      snap: { points },
+    },
+  ])
+  anchor.x = 10
+  points[0]!.x = 10
+  const config = factory.mock.calls[0]![2].bodies[0]!
+  expect(config.attachment).toEqual({
+    x: 150,
+    y: 50,
+    length: 80,
+    stiffness: 180,
+    damping: 24,
+    line: { color: 0xe0a193, width: 1.5 },
+  })
+  expect(config.snap).toEqual({
+    points: [{ x: 100, y: 200 }],
+    stiffness: 180,
+    damping: 24,
+    projection: 0.12,
+  })
+})
+it('retargets the native spring and snap while paused without starting JS frames', () => {
+  const { host, bodies } = scene()
+  const w = create(host, [
+    {
+      ...bodies[0]!,
+      snap: {
+        points: [
+          { x: 80, y: 200 },
+          { x: 240, y: 200 },
+        ],
+      },
+    },
+  ])
+  w.pause()
+  w.attach('a', { anchor: { x: 200, y: 40 }, length: 100 })
+  w.snapTo('a', 1)
+  expect(backend.attach).toHaveBeenLastCalledWith(0, {
+    x: 200,
+    y: 40,
+    length: 100,
+    stiffness: 180,
+    damping: 24,
+    line: null,
+  })
+  expect(backend.snapTo).toHaveBeenLastCalledWith(0, 1)
+  expect(backend.enabled).toHaveBeenLastCalledWith(false)
+  w.attach('a', null)
+  expect(backend.attach).toHaveBeenLastCalledWith(0, null)
+  expect(() => w.snapTo('a', 2)).toThrow(/point/)
+  expect(() => w.snapTo('a', 0.5)).toThrow(/point/)
+  expect(() => w.attach('missing', null)).toThrow(/Unknown/)
+  expect(driver.frames.size).toBe(0)
+  w.dispose()
+  backend.attach.mockClear()
+  backend.snapTo.mockClear()
+  w.attach('a', null)
+  w.snapTo('a', 0)
+  expect(backend.attach).not.toHaveBeenCalled()
+  expect(backend.snapTo).not.toHaveBeenCalled()
+})
+it('rejects invalid retargeting before updating existing native ownership', () => {
+  const { host, bodies } = scene()
+  const w = create(host, bodies)
+  backend.enabled.mockClear()
+  backend.resize.mockClear()
+  expect(() => w.attach('a', { anchor: { x: 10, y: NaN } })).toThrow(/finite/)
+  expect(backend.resize).not.toHaveBeenCalled()
+  expect(backend.enabled).not.toHaveBeenCalled()
+  expect(backend.attach).not.toHaveBeenCalled()
+  expect(w.disposed).toBe(false)
 })
