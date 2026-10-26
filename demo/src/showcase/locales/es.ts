@@ -1,5 +1,16 @@
 // English source messages → Spanish. Keep numbered placeholders intact.
 export const spanish: Record<string, string> = {
+  'Made of motion': 'Hecho de movimiento',
+  'Draw a line. Change its story.': 'Dibuja una línea. Cambia su historia.',
+  'A little line. A whole new feeling.': 'Una línea. Una nueva sensación.',
+  'ONE SYMBOL. TWO MOODS.': 'UN SÍMBOLO. DOS MOMENTOS.',
+  'Take a breath.': 'Tómate un respiro.',
+  'Ready when you are.': 'Cuando tú quieras.',
+  'Make your mark.': 'Deja tu huella.',
+  'Small strokes. Big personality.': 'Pequeños trazos. Mucha personalidad.',
+  'Draw again': 'Dibujar',
+  'Switch shape': 'Transformar',
+
   'A place to return': 'Un lugar al que volver',
   'Stretch a little. Settle somewhere new.': 'Estira un poco. Encuentra otro lugar.',
   'Spring back. Find your place.': 'Vuelve suavemente. Encuentra tu lugar.',

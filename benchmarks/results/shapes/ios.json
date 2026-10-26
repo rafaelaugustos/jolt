@@ -1,0 +1,2526 @@
+{
+  "platform": "ios",
+  "events": [
+    {
+      "name": "created",
+      "time": 1792982894809,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 402,
+            "height": 874
+          },
+          "d": "M34 24 L54 36 L54 64 L34 76 Z M54 36 L78 50 L78 50 L54 64 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 24, 44, 52]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 402,
+            "height": 874
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 402,
+            "height": 874
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 402,
+            "height": 874
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "foreground",
+      "time": 1792982894889,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 24 L54 36 L54 64 L34 76 Z M54 36 L78 50 L78 50 L54 64 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 24, 44, 52]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792982898129,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 24 L54 36 L54 64 L34 76 Z M54 36 L78 50 L78 50 L54 64 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 24, 44, 52]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "draw",
+      "time": 1792982899563,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 24 L54 36 L54 64 L34 76 Z M54 36 L78 50 L78 50 L54 64 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 24, 44, 52]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "before-morph",
+      "time": 1792982900279,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 24 L54 36 L54 64 L34 76 Z M54 36 L78 50 L78 50 L54 64 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 24, 44, 52]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.3979435861110687,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.39777833223342896,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999996, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.39767056703567505,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [8, 2.0000000000000013, 244, 28.000000000000007]
+        }
+      ]
+    },
+    {
+      "name": "morph",
+      "time": 1792982900280,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 24.000218489617108 L53.99912604153156 35.998907551914456 L53.99912604153156 64.00109244808554 L34 75.99978151038289 Z M54.00065546885133 35.998907551914456 L77.99934453114867 49.99737812459469 L77.99934453114867 50.00262187540531 L54.00065546885133 64.00109244808554 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [34, 24, 44, 52]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.3979435861110687,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.39777833223342896,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999996, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.39767056703567505,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [8, 2.0000000000000013, 244, 28.000000000000007]
+        }
+      ]
+    },
+    {
+      "name": "seek",
+      "time": 1792982901012,
+      "reduced": false,
+      "paused": true,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 25 L50 31 L50 69 L34 75 Z M57 31 L75 38 L75 62 L57 69 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [34, 24.99999874830246, 41.00000375509262, 50.00000250339508]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999996, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [8, 2.0000000000000013, 244, 28.000000000000007]
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792982902062,
+      "reduced": false,
+      "paused": true,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 25 L50 31 L50 69 L34 75 Z M57 31 L75 38 L75 62 L57 69 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [34, 24.99999874830246, 41.00000375509262, 50.00000250339508]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999996, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [8, 2.0000000000000013, 244, 28.000000000000007]
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792982903495,
+      "reduced": false,
+      "paused": true,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 25 L50 31 L50 69 L34 75 Z M57 31 L75 38 L75 62 L57 69 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [34, 24.99999874830246, 41.00000375509262, 50.00000250339508]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999996, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [8, 2.0000000000000013, 244, 28.000000000000007]
+        }
+      ]
+    },
+    {
+      "name": "rejected",
+      "error": "TypeError: Morph paths need matching normalized commands and subpaths. Use set() for a topology change.",
+      "time": 1792982904929,
+      "reduced": false,
+      "paused": true,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 25 L50 31 L50 69 L34 75 Z M57 31 L75 38 L75 62 L57 69 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [34, 24.99999874830246, 41.00000375509262, 50.00000250339508]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999996, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [8, 2.0000000000000013, 244, 28.000000000000007]
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792982905762,
+      "reduced": false,
+      "paused": true,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 25 L50 31 L50 69 L34 75 Z M57 31 L75 38 L75 62 L57 69 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [34, 24.99999874830246, 41.00000375509262, 50.00000250339508]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999996, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [8, 2.0000000000000013, 244, 28.000000000000007]
+        }
+      ]
+    },
+    {
+      "name": "resize",
+      "time": 1792982907195,
+      "reduced": false,
+      "paused": true,
+      "compact": true,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 25 L50 31 L50 69 L34 75 Z M57 31 L75 38 L75 62 L57 69 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [34, 24.99999874830246, 41.00000375509262, 50.00000250339508]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999996, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [8, 2.0000000000000013, 244, 28.000000000000007]
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792982908229,
+      "reduced": false,
+      "paused": true,
+      "compact": true,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 100,
+            "height": 100
+          },
+          "d": "M34 25 L50 31 L50 69 L34 75 Z M57 31 L75 38 L75 62 L57 69 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [34, 24.99999874830246, 41.00000375509262, 50.00000250339508]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999996, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [8, 2.0000000000000013, 244, 28.000000000000007]
+        }
+      ]
+    },
+    {
+      "name": "resize",
+      "time": 1792982909662,
+      "reduced": false,
+      "paused": true,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 100,
+            "height": 100
+          },
+          "d": "M34 25 L50 31 L50 69 L34 75 Z M57 31 L75 38 L75 62 L57 69 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [34, 24.99999874830246, 41.00000375509262, 50.00000250339508]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999996, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [8, 2.0000000000000013, 244, 28.000000000000007]
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792982910696,
+      "reduced": false,
+      "paused": true,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 25 L50 31 L50 69 L34 75 Z M57 31 L75 38 L75 62 L57 69 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [34, 24.99999874830246, 41.00000375509262, 50.00000250339508]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999996, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.5,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [8, 2.0000000000000013, 244, 28.000000000000007]
+        }
+      ]
+    },
+    {
+      "name": "play",
+      "time": 1792982912129,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 25.000083088874817 L49.99966764450073 30.999584555625916 L49.99966764450073 69.00041544437408 L34 74.99991691112518 Z M57.00024926662445 30.999584555625916 L74.99975073337555 37.9990029335022 L74.99975073337555 62.0009970664978 L57.00024926662445 69.00041544437408 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [34, 25.000083088874817, 40.99975073337555, 49.999833822250366]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.5001091957092285,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.500068724155426,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999996, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.5000516176223755,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [8, 2.0000000000000013, 244, 28.000000000000007]
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792982914762,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 26 L46 26 L46 74 L34 74 Z M60 26 L72 26 L72 74 L60 74 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 26, 38, 48]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "before-morph",
+      "time": 1792982916196,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 26 L46 26 L46 74 L34 74 Z M60 26 L72 26 L72 74 L60 74 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 26, 38, 48]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "morph",
+      "time": 1792982916197,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 25.999722760394217 L46.00110895842314 26.00138619802892 L46.00110895842314 73.99861380197108 L34 74.00027723960578 Z M59.99916828118265 26.00138619802892 L72.00083171881735 26.003326875269412 L72.00083171881735 73.99667312473059 L59.99916828118265 73.99861380197108 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [34, 26, 38, 48]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "before-morph",
+      "time": 1792982916929,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 25.084544897079468 L49.66182041168213 30.57727551460266 L49.66182041168213 69.42272448539734 L34 74.91545510292053 Z M57.2536346912384 30.57727551460266 L74.7463653087616 36.98546123504639 L74.7463653087616 63.01453876495361 L57.2536346912384 69.42272448539734 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [34, 25.084544897079468, 40.7463653087616, 49.830910205841064]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "morph",
+      "time": 1792982916930,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 25.084633820192785 L49.66146471922886 30.57683089903608 L49.66146471922886 69.42316910096392 L34 74.91536617980722 Z M57.253901460578355 30.57683089903608 L74.74609853942165 36.98439415768659 L74.74609853942165 63.01560584231341 L57.253901460578355 69.42316910096392 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [34, 25.084544897079468, 40.7463653087616, 49.830910205841064]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792982919562,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 26 L46 26 L46 74 L34 74 Z M60 26 L72 26 L72 74 L60 74 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 26, 38, 48]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "loop",
+      "time": 1792982920996,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 26 L46 26 L46 74 L34 74 Z M60 26 L72 26 L72 74 L60 74 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 26, 38, 48]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "pause",
+      "time": 1792982921679,
+      "reduced": false,
+      "paused": true,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 26 L46 26 L46 74 L34 74 Z M60 26 L72 26 L72 74 L60 74 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 26, 38, 48]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792982923129,
+      "reduced": false,
+      "paused": true,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 26 L46 26 L46 74 L34 74 Z M60 26 L72 26 L72 74 L60 74 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 26, 38, 48]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792982924563,
+      "reduced": false,
+      "paused": true,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 26 L46 26 L46 74 L34 74 Z M60 26 L72 26 L72 74 L60 74 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 26, 38, 48]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "play",
+      "time": 1792982925996,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 26 L46 26 L46 74 L34 74 Z M60 26 L72 26 L72 74 L60 74 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 26, 38, 48]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792982929846,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 26 L46 26 L46 74 L34 74 Z M60 26 L72 26 L72 74 L60 74 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 26, 38, 48]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "reduced",
+      "time": 1792982931296,
+      "reduced": true,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 26 L46 26 L46 74 L34 74 Z M60 26 L72 26 L72 74 L60 74 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 26, 38, 48]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "draw",
+      "time": 1792982932730,
+      "reduced": true,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 26 L46 26 L46 74 L34 74 Z M60 26 L72 26 L72 74 L60 74 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 26, 38, 48]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "before-morph",
+      "time": 1792982934162,
+      "reduced": true,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 26 L46 26 L46 74 L34 74 Z M60 26 L72 26 L72 74 L60 74 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 26, 38, 48]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "morph",
+      "time": 1792982934164,
+      "reduced": true,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 24 L54 36 L54 64 L34 76 Z M54 36 L78 50 L78 50 L54 64 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 26, 38, 48]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792982935613,
+      "reduced": true,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 24 L54 36 L54 64 L34 76 Z M54 36 L78 50 L78 50 L54 64 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 24, 44, 52]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "reduced",
+      "time": 1792982937046,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 24 L54 36 L54 64 L34 76 Z M54 36 L78 50 L78 50 L54 64 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 24, 44, 52]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "reset",
+      "time": 1792982938496,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 24 L54 36 L54 64 L34 76 Z M54 36 L78 50 L78 50 L54 64 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 24, 44, 52]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "draw",
+      "time": 1792982939931,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 24 L54 36 L54 64 L34 76 Z M54 36 L78 50 L78 50 L54 64 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 24, 44, 52]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999998, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "background",
+      "time": 1792982940775,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 24 L54 36 L54 64 L34 76 Z M54 36 L78 50 L78 50 L54 64 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 24, 44, 52]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.4694007407459948,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.469194490744008,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999996, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.46908122685220505,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [8, 2.0000000000000013, 244, 28.000000000000007]
+        }
+      ]
+    },
+    {
+      "name": "foreground",
+      "time": 1792982941738,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 0,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 24 L54 36 L54 64 L34 76 Z M54 36 L78 50 L78 50 L54 64 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": false,
+          "nativeAnimations": 0,
+          "bounds": null
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.4694007407459948,
+          "attached": false,
+          "nativeAnimations": 0,
+          "bounds": null
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.469194490744008,
+          "attached": false,
+          "nativeAnimations": 0,
+          "bounds": null
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.46908122685220505,
+          "attached": false,
+          "nativeAnimations": 0,
+          "bounds": null
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1792982942046,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150,
+            "height": 135.33333333333334
+          },
+          "d": "M34 24 L54 36 L54 64 L34 76 Z M54 36 L78 50 L78 50 L54 64 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 24, 44, 52]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.6384238600730896,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.6380069255828857,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [12.999999999999996, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 338,
+            "height": 26
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.6376934051513672,
+          "attached": true,
+          "nativeAnimations": 4,
+          "bounds": [8, 2.0000000000000013, 244, 28.000000000000007]
+        }
+      ]
+    },
+    {
+      "name": "disposed",
+      "time": 1792982944108,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 0,
+      "layers": 0,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 0,
+            "height": 0
+          },
+          "d": "M34 24 L54 36 L54 64 L34 76 Z M54 36 L78 50 L78 50 L54 64 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": false,
+          "nativeAnimations": 0,
+          "bounds": null
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 0,
+            "height": 0
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": false,
+          "nativeAnimations": 0,
+          "bounds": null
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 0,
+            "height": 0
+          },
+          "d": "M50 13 C70.43453574373936 13.000000000000002 87 29.565464256260647 87 50 C87 70.43453574373936 70.43453574373936 87 50 87 C29.565464256260647 87 13.000000000000002 70.43453574373936 13 50.00000000000001 C12.999999999999998 29.565464256260654 29.565464256260647 13.000000000000004 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": false,
+          "nativeAnimations": 0,
+          "bounds": null
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 0,
+            "height": 0
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": false,
+          "nativeAnimations": 0,
+          "bounds": null
+        }
+      ]
+    }
+  ]
+}

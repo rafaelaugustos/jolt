@@ -52,6 +52,42 @@ final class DocsTests: XCTestCase {
         start.press(forDuration: 0.55, thenDragTo: destination, withVelocity: fast ? .fast : .slow, thenHoldForDuration: hold)
         Thread.sleep(forTimeInterval: 0.6)
     }
+    func testShapes() throws {
+        languageLaunch("en", "language-settings"); selectLanguage("system")
+        languageLaunch("en", "shape-lab", ["--showcase-example=shapes"])
+        try record("shapes-ios") {
+            tap("shape-draw", wait: 1.4)
+            tap("shape-morph", wait: 0.15)
+            tap("shape-morph", wait: 0.7)
+            tap("shape-morph", wait: 0.7)
+            tap("shape-draw", wait: 0.15)
+            tap("shape-pause", wait: 0.8)
+            tap("shape-pause", wait: 0.8)
+            tap("shape-reduce", wait: 0.3)
+            tap("shape-morph", wait: 0.7)
+        }
+        tap("shape-reduce")
+    }
+    func testShapeChecks() throws {
+        languageLaunch("en", "shape-lab", ["--showcase-example=shapes", "--shape-audit", "--showcase-audit"])
+        tap("shape-snapshot")
+        tap("shape-draw", wait: 0.1); tap("shape-morph", wait: 0.1)
+        tap("shape-seek", wait: 0.4); tap("shape-snapshot"); tap("shape-snapshot")
+        tap("shape-invalid", wait: 0.2); tap("shape-snapshot")
+        tap("shape-resize", wait: 0.4); tap("shape-snapshot")
+        tap("shape-resize", wait: 0.4); tap("shape-snapshot")
+        tap("shape-pause", wait: 2); tap("shape-snapshot")
+        tap("shape-morph", wait: 0.1); tap("shape-morph", wait: 2); tap("shape-snapshot")
+        tap("shape-loop", wait: 0.05); tap("shape-pause", wait: 0.8)
+        tap("shape-snapshot"); tap("shape-snapshot")
+        tap("shape-pause", wait: 3.2); tap("shape-snapshot")
+        tap("shape-reduce"); tap("shape-draw"); tap("shape-morph"); tap("shape-snapshot")
+        tap("shape-reduce"); tap("shape-reset"); tap("shape-draw", wait: 0.1)
+        XCUIDevice.shared.press(.home); Thread.sleep(forTimeInterval: 0.5)
+        app.activate(); Thread.sleep(forTimeInterval: 0.4); tap("shape-snapshot")
+        tap("Back to collection")
+        XCTAssertFalse(app.descendants(matching: .any)["shape-lab"].firstMatch.exists)
+    }
     func attachmentDrag(_ id: String, x: CGFloat, y: CGFloat, fast: Bool = false, hold: Double = 0.15) {
         let body = app.descendants(matching: .any)[id].firstMatch
         XCTAssertTrue(body.exists, app.debugDescription)

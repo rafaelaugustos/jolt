@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add optional `@rafaelaugusto/jolt/shapes`: native SVG stroke drawing and compatible-path morphing on iOS/Android, presentation-based interruption, playback controls and lifecycle cleanup. Include the 71st four-language preview and English native recordings in both guides. Rebuild Android to load the compiled renderer.
+
 - Extend native circle physics with fixed-anchor springs, velocity-aware release snap points, native tether drawing and `attach()` / `snapTo()` commands. Preserve collisions, cancellation, bounds, sleep and lifecycle ownership. Include the 70th four-language preview and English iOS/Android recordings in both guides. Rebuild the native app; body-to-body joints and general constraints remain outside this #39 milestone.
 
 - Add optional `@rafaelaugusto/jolt/physics` for up to 16 native circles: pair/wall collisions, native drag/release, impulses, bounded fixed-step work, sleep and lifecycle cleanup on iOS/Android. Include the four-language **Better together** preview and English native recordings in both guides. Rebuild the native app. General physics remains tracked in #39.

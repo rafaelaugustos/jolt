@@ -6,7 +6,11 @@ export interface PathPoint {
 export interface PathPose extends PathPoint {
   rotate: number
 }
-type Segment = { point(t: number): PathPoint; tangent(t: number): PathPoint }
+type Segment = {
+  point(t: number): PathPoint
+  tangent(t: number): PathPoint
+  angle?: number
+}
 type Vertex = PathPoint & {
   segment: number
   t: number
@@ -34,7 +38,7 @@ const checked = (p: PathPoint) => {
 const unwrap = (angle: number, reference: number) =>
   angle + 360 * Math.round((reference - angle) / 360)
 
-class Scanner {
+export class Scanner {
   index = 0
   private hasNumber = false
   constructor(readonly text: string) {}
@@ -89,7 +93,7 @@ function bezier(points: readonly PathPoint[]): Segment {
 }
 
 /** Endpoint-to-center conversion: https://www.w3.org/TR/SVG/implnote.html#ArcConversionEndpointToCenter */
-function arc(
+export function arc(
   a: PathPoint,
   b: PathPoint,
   rx: number,
@@ -130,6 +134,7 @@ function arc(
   if (![cx, cy, rx, ry, start, delta].every(Number.isFinite))
     throw new RangeError('Path arc exceeds finite geometry limits.')
   return {
+    angle: delta,
     point(t) {
       if (t === 0) return a
       if (t === 1) return b
