@@ -20,7 +20,8 @@
         "./src/interactive-navigation/index.ts"
       ],
       "@rafaelaugusto/jolt/predictive-back": ["./src/predictive-back/index.ts"],
-      "@rafaelaugusto/jolt/sensors": ["./src/sensors/index.ts"]
+      "@rafaelaugusto/jolt/sensors": ["./src/sensors/index.ts"],
+      "@rafaelaugusto/jolt/physics": ["./src/physics/index.ts"]
     },
     "strict": true,
     "noUncheckedIndexedAccess": true,

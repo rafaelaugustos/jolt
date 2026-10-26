@@ -1,4 +1,5 @@
 module JoltMotion {
+    header "JoltCircleWorld.h"
     header "JoltSensorSource.h"
     header "JoltScrollHeader.h"
     header "JoltImageEffect.h"
