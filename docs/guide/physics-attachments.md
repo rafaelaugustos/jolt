@@ -1,6 +1,6 @@
 # Attachments and snap points
 
-Give a circle somewhere to return to, or let a release choose its next resting point. Attachments and snapping extend the native [`physicsWorld()`](./circle-physics) entry in this checkout for the next beta. Rebuild the native app.
+Give a circle somewhere to return to, or let a release choose its next resting point. Attachments and snapping extend the native [`physicsWorld()`](./circle-physics) entry in **0.1.0-rc.1**. Rebuild the native app.
 
 <Clip name="physics-attachments-ios" caption="iOS simulator: actual dragging stretches the copper tether; slow and fast releases move the lilac circle between docks. Native line drawing, anchor retargeting, pause/resume and Reduce Motion. English UI, recorded source timing." />
 <Clip name="physics-attachments-android" caption="Android emulator: the same interactions with real ADB gestures, native spring/collision stepping and native tether drawing. English UI, recorded source timing; not a physical-device performance measurement." />

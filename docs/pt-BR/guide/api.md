@@ -6,12 +6,12 @@
 
 - [**recordInteraction / replayInteraction**](./interaction-replay) — traces opcionais de desenvolvimento, replay com relógio controlado e probes nativos de regressão. Disponível desde a beta.18.
 - [**sharedLayout(container, options)**](./shared-layout) — identidades compartilhadas na mesma página, snapshots nativos, crossfade e interrupção. Disponível desde a beta.18.
-- [**sharedNavigationEntry(frame, options)**](./shared-gestures) — imagem/cartão durante a volta interativa nativa em páginas estáveis de iOS e Android 14+. Próxima beta; não incluído na beta.18.
-- [**resolveListTarget(context, options)**](./return-targets) — resolução limitada da célula atual por chave estável após reciclagem, rolagem ou reordenação. Próxima beta; não incluído na beta.18.
+- [**sharedNavigationEntry(frame, options)**](./shared-gestures) — imagem/cartão durante a volta interativa nativa em páginas estáveis de iOS e Android 14+. Disponível desde a rc.1.
+- [**resolveListTarget(context, options)**](./return-targets) — resolução limitada da célula atual por chave estável após reciclagem, rolagem ou reordenação. Disponível desde a rc.1.
 - [**entry.returnToSource(options?)**](./gallery) — retorna da posição mantida da foto à célula atual, com velocidade de translação e recorte do viewport na transição nativa.
-- [**sharedNavigation(frame, options)**](./shared-navigation) — movimento nativo de imagem/card entre rotas programáticas, tags por Frame e fallback com prazo. Próxima beta; fora da beta.18.
-- [**interactiveNavigation(frame, options)**](./interactive-navigation) — volta de página pela borda no iOS, com cancelamento, spring com velocidade e histórico do Core/router. Próxima beta; fora da beta.18.
-- [**predictiveBack(view, values, options)**](./predictive-back) — progresso nativo do gesto de voltar no Android 14+, cancelamento com spring e um commit com guard. Próxima beta; fora da beta.18.
+- [**sharedNavigation(frame, options)**](./shared-navigation) — movimento nativo de imagem/card entre rotas programáticas, tags por Frame e fallback com prazo. Disponível desde a rc.1.
+- [**interactiveNavigation(frame, options)**](./interactive-navigation) — volta de página pela borda no iOS, com cancelamento, spring com velocidade e histórico do Core/router. Disponível desde a rc.1.
+- [**predictiveBack(view, values, options)**](./predictive-back) — progresso nativo do gesto de voltar no Android 14+, cancelamento com spring e um commit com guard. Disponível desde a rc.1.
 - `animate(target, keyframes | preset, transition?)` — [paths](./paths), [cores](./colors), [cantos, bordas e sombras](./decorations)
 - [`interactionSurface(target)`](./interaction-surface) — alinha a geometria nativa de toque de uma subárvore animada.
 - [`animateLayout(container, change?, options?)`](./layout) — anima o próximo layout dos filhos diretos de um container.

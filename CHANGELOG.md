@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+## 0.1.0-rc.1 (2026-10-26)
+
+- Start the 0.1.0 release-candidate phase with matching core and optional native packages and 73 preview examples in English, Portuguese, Spanish and Simplified Chinese. Freeze the feature scope; focus subsequent candidates on fixes, compatibility and physical-device acceptance. Rebuild native applications after upgrading from beta.18.
+- Keep the declared platform/adapter limits. Physical-device validation for the gallery, scroll composition and sensors remains open in #117, #116 and #114 before stable acceptance; simulator recordings do not establish device performance. Additional frameworks, shader effects, sensor types and general physics remain later work.
+
 - Add optional `@rafaelaugusto/jolt/glass`: native iOS 26 glass containers and surfaces that merge through existing transform playback, with ordinary blur on older iOS and unchanged layouts on Android. Include the four-language Better as one preview, native lifecycle checks and English recordings in both guides.
 - Add optional `@rafaelaugusto/jolt/blur`: animated native material intensity on iOS and content blur on Android 12+, with interruption, playback/lifecycle controls and a no-effect fallback. Include the four-language Soft focus preview and English recordings in both guides. Rebuild both platforms to load the helpers.
 
@@ -11,23 +16,25 @@
 
 - Add optional `@rafaelaugusto/jolt/physics` for up to 16 native circles: pair/wall collisions, native drag/release, impulses, bounded fixed-step work, sleep and lifecycle cleanup on iOS/Android. Include the four-language **Better together** preview and English native recordings in both guides. Rebuild the native app. General physics remains tracked in #39.
 
-- Add `{ type: 'gravity' }` for finite ballistic fall and bounce on translations and motion values, with native sampled playback, exact impact seams, inherited velocity and existing playback/scope controls. Include the localized **A softer landing** preview and real iOS/Android recordings. Circle collisions are delivered separately through the optional physics entry; broader physics remains in #39.
+- Add `{ type: 'gravity' }` for finite ballistic fall and bounce on translations and motion values, with native sampled playback, exact impact seams, inherited velocity and existing playback/scope controls. Include the localized **A softer landing** preview and real iOS/Android recordings. Circle collisions use the optional physics entry; broader physics remains in #39.
 
 - Add optional native rotation/gravity sources through `@rafaelaugusto/jolt/sensors`, with shared hardware subscriptions, demand-driven collection, frame coalescing, quaternion/interface coordinates, scope lifecycle and native spring bindings. Add the localized **Move the light** preview and explicit native sensor test-input playback. Physical-device sensor/performance validation and other sensor types remain tracked in #114.
 
-- Translate all 1,079 preview messages into Spanish and Simplified Chinese, including catalog/search, controls, accessibility, status text and the map illustration. Extend automatic phone-language selection and the saved language picker to four languages.
+- Translate the preview into Spanish and Simplified Chinese, including catalog/search, controls, accessibility, status text and the map illustration. Extend automatic phone-language selection and the saved language picker to four languages.
 
 - Add `scrollHeader()` for flat Core ListView: a measured collapsing hero, native parallax/title handoff, pinned section, anchored resizing/insertion and lifecycle cleanup. Include the 66th bilingual preview and real EN/PT iOS/Android recordings. Fixed data rows plus a spacer are the initial supported adapter; physical-device acceptance remains open in #116. Rebuild the native app.
 
 - Added a connected gallery recipe combining native photo zoom/dismiss with current-cell returns. `entry.returnToSource()` captures held/clipped image poses and translation velocity before routing; the 65th EN/PT preview demonstrates the complete interaction with real iOS/Android recordings.
 
-- Resolve shared return targets by stable item key after scrolling, recycling and reordering, with bounded async preparation, cancellation, deleted-item fade and current-item accessibility focus. Add a Core ListView adapter, the 64th bilingual preview and real EN/PT native recordings. Android resolves the live destination after system commitment; iOS defers the shared pair until ready. Rebuild the native app. Physical-device acceptance remains open in #24.
+- Resolve shared return targets by stable item key after scrolling, recycling and reordering, with bounded async preparation, cancellation, deleted-item fade and current-item accessibility focus. Add a Core ListView adapter, the 64th bilingual preview and real EN/PT native recordings. Android resolves the live destination after system commitment; iOS defers the shared pair until ready. Rebuild the native app. Physical-device gallery acceptance remains open in #117.
 
-- Add `sharedNavigationEntry` in the optional shared-navigation entry: native interactive image/card return on stable iOS and Android 14+ pages, cancellable gestures, guarded single commits, bounded snapshots and lifecycle cleanup. Include the 63rd bilingual preview and real EN/PT iOS/Android recordings. Rebuild the native app. Recycled/offscreen targets and gallery coordination remain follow-ups to #24.
+- Add optional `sharedNavigation()` for programmatic image/plain-card transitions between pages in one NativeScript Frame, with native geometry and crop interpolation, rounded clipping, scoped tags, bounded fallback and cleanup.
+
+- Add `sharedNavigationEntry` in the optional shared-navigation entry: native interactive image/card return on stable iOS and Android 14+ pages, cancellable gestures, guarded single commits, bounded snapshots and lifecycle cleanup. Include the 63rd bilingual preview and real EN/PT iOS/Android recordings. Rebuild the native app. Combine with the current-cell resolver and connected gallery included in this candidate.
 
 - Add optional `@rafaelaugusto/jolt/predictive-back` for Android 14+: system-owned edge progress and commit decisions, native Jolt spring settlement, one guarded application commit, reduced motion and lifecycle cleanup. Include the 62nd bilingual preview, real Android recordings and a tracked demo manifest opt-in. Rebuild the native application.
 
-- Add optional `@rafaelaugusto/jolt/interactive-navigation` for iOS Frame pages: native edge-swipe progress, cancellable return and velocity-preserving Jolt spring completion through Core's existing delegate. Include router integration, nested-entry cleanup, reduced motion, the 61st bilingual preview and real iOS recordings. Rebuild the native app. Shared-element morphs, arbitrary modals and Android predictive back remain separate.
+- Add optional `@rafaelaugusto/jolt/interactive-navigation` for iOS Frame pages: native edge-swipe progress, cancellable return and velocity-preserving Jolt spring completion through Core's existing delegate. Include router integration, nested-entry cleanup, reduced motion, the 61st bilingual preview and real iOS recordings. Rebuild the native app. Use shared navigation for image/card morphs and the separate predictive-back entry on Android; arbitrary modals remain unsupported.
 
 - Stabilize native curve sampling checks by waiting past NativeScript's initial macrotask and two display callbacks before reading a held presentation. Preserve the 0.28-DIP assertion and negative controls; add bounded cancellation/timeout tests and structured seek diagnostics to native CI reports. Animation drivers and curve generation are unchanged.
 

@@ -46,9 +46,22 @@ features:
     link: /guide/scene-camera
 ---
 
-## New in 0.1.0-beta.18
+## 0.1.0-rc.1: the first release candidate
 
-[Shared layouts](/guide/shared-layout) move stable elements between layouts within one page. [Interaction replay](/guide/interaction-replay) turns interrupted springs, cancelled drags and scroll-to-sheet handoffs into regression traces. [Adaptive sampling](/guide/transitions) places native keyframes where the curve needs them, while the [motion inspector](/guide/motion-inspector) shows ownership and native observations, tunes a spring and copies TypeScript. The [preview](/guide/demo) now has 59 examples in English and Portuguese. [Install the release](/guide/install) or read the [release notes](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-beta.18).
+The 0.1.0 feature scope is frozen. This candidate brings [shared navigation](/guide/shared-navigation) and a [connected photo gallery](/guide/gallery), native [iOS back gestures](/guide/interactive-navigation) and [Android predictive back](/guide/predictive-back), [scroll composition](/guide/scroll-header), [device sensors](/guide/device-sensors), [gravity](/guide/gravity) and [circle physics with attachments](/guide/physics-attachments).
+
+[Vector drawing and morphing](/guide/shapes), [animated blur](/guide/blur) and [Liquid Glass on iOS 26](/guide/glass) join a [preview](/guide/demo) with **73 examples in English, Portuguese, Spanish and Simplified Chinese**. Rebuild the native app after upgrading. [Install RC.1](/guide/install), read the [release notes](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.1), or check the [remaining acceptance work before stable](/guide/not-there-yet). The RC phase focuses on fixes, compatibility and validation on physical devices.
+
+<div class="clips">
+<Clip name="gallery-ios" caption="iOS simulator, English: real pinch/pan, interrupted zoom, cancelled dismissal and return to the current thumbnail after reordering. Original timing." />
+<Clip name="physics-attachments-android" caption="Android emulator, English: real drag/release with native tethers, springs, collisions and snap points. Original timing; not a physical-device performance measurement." />
+<Clip name="shapes-android" caption="Android emulator, English: real taps draw a vector stroke, morph compatible paths, interrupt and pause playback. Original timing." />
+<Clip name="glass-ios" caption="iOS 26.2 simulator, English: native glass surfaces merge and split, with material changes, interruption, pause/resume and Reduce Motion. Real taps; original timing." />
+</div>
+
+## Earlier in beta.18
+
+[Shared layouts](/guide/shared-layout) move stable elements between layouts within one page. [Interaction replay](/guide/interaction-replay) turns interrupted springs, cancelled drags and scroll-to-sheet handoffs into regression traces. [Adaptive sampling](/guide/transitions) places native keyframes where the curve needs them, while the [motion inspector](/guide/motion-inspector) shows ownership and native observations, tunes a spring and copies TypeScript. That release expanded the preview to 59 examples in English and Portuguese. [Install the release](/guide/install) or read the [release notes](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-beta.18).
 
 <div class="clips">
 <Clip name="shared-layout-ios" caption="Shared tab indicator, expanding album cover and rapid reversal. Real OS input on an iOS simulator, at original timing." />

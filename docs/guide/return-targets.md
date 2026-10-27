@@ -2,7 +2,7 @@
 
 Give a shared navigation entry a stable item key and a `returnTarget` resolver. Jolt asks for the **current** view after the returning page is laid out, so a photo can return to its thumbnail after reordering, scrolling or recycling. The source view saved at entry is never used as the return identity.
 
-Available in the checkout for the next beta, not beta.18. Rebuild the native application. The reference uses one Core Frame, Core ListView and vue-router-ns 0.1.0-rc.2.
+Available since **0.1.0-rc.1**. Rebuild the native application. The reference uses one Core Frame, Core ListView and vue-router-ns 0.1.0-rc.2.
 
 <Clip name="return-targets-ios" caption="iOS simulator, English: real taps move the selected photo to the end of a recycled grid, cancel a return, return to its new cell, then remove the photo and use the fallback. Original speed; not hardware performance evidence." />
 <Clip name="return-targets-pt-ios" caption="iOS simulator, Portuguese: the same reordered, cancelled and deleted-photo journey with real OS input." />

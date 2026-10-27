@@ -1,6 +1,6 @@
 # Motion from your phone
 
-`sensor()` supplies rotation and gravity to Jolt's existing native value graph. One source can tilt a card, move its highlight and offset a background, with native springs smoothing the result. Import the optional `@rafaelaugusto/jolt/sensors` entry point. Available in this checkout for the next beta; rebuild the native app.
+`sensor()` supplies rotation and gravity to Jolt's existing native value graph. One source can tilt a card, move its highlight and offset a background, with native springs smoothing the result. Import the optional `@rafaelaugusto/jolt/sensors` entry point. Available since **0.1.0-rc.1**; rebuild the native app.
 
 <Clip name="device-sensors-ios" caption="iOS 26.2 simulator: real native views driven by explicitly simulated sensor inputs, with actual taps to pause, resume, recenter and reduce motion. Original speed. The simulator has no motion hardware; this is not physical-device sensor or performance evidence." />
 <Clip name="device-sensors-ios-pt" caption="iOS simulator, Portuguese: the same native input preview and lifecycle controls. The screen identifies the simulated input." />

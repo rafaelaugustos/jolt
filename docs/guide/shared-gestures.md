@@ -2,7 +2,7 @@
 
 `sharedNavigationEntry(frame, options)` keeps one image or card connected while opening a route and dragging back. Cancel the gesture to stay in detail; complete it to return to the source. The router owns history, while Jolt's native drivers own the shared presentation.
 
-Available in this checkout for the next beta; **not in beta.18**. Rebuild the native app. Verified with NativeScript Core 9.1.3 and `vue-router-ns` 0.1.0-rc.2 on an iOS 26.2 simulator and Android 16 / API 36 emulator. Android requires API 34+, AndroidX Activity 1.8+, gesture navigation and `<application android:enableOnBackInvokedCallback="true" ...>`.
+Available since **0.1.0-rc.1**. Rebuild the native app. Verified with NativeScript Core 9.1.3 and `vue-router-ns` 0.1.0-rc.2 on an iOS 26.2 simulator and Android 16 / API 36 emulator. Android requires API 34+, AndroidX Activity 1.8+, gesture navigation and `<application android:enableOnBackInvokedCallback="true" ...>`.
 
 <Clip name="shared-entry-ios" caption="iOS 26.2 simulator, English: real taps and edge swipes open an image, cancel a partial return, complete a return, then open and cancel a card before using its back button. Original native playback speed." />
 <Clip name="shared-entry-pt-ios" caption="iOS 26.2 simulator, Portuguese: the same image/card journey, native cancellation and committed return with real OS input. This is not physical-device performance evidence." />

@@ -2,7 +2,7 @@
 
 Abra uma miniatura, aproxime um detalhe com pinça, continue arrastando ao soltar um dedo, interrompa o zoom de toque duplo e puxe para voltar. A referência combina `sharedNavigationEntry`, `zoomable` e um resolvedor da célula atual com Core ListView e vue-router-ns. O router mantém a navegação; gestos e frames de animação ficam no nativo.
 
-Disponível neste checkout para a próxima beta, não na beta.18. Recompile o app nativo. Abra **A galeria viva** no preview bilíngue.
+Disponível desde a **0.1.0-rc.1**. Recompile o app nativo. Abra **A galeria viva** no preview em quatro idiomas.
 
 <Clip name="gallery-ios" caption="Simulador iOS 26.2, inglês: multitoque real, interrupção do toque duplo, arraste cancelado, retorno da posição solta após reordenar e fallback de exclusão. Velocidade original." />
 <Clip name="gallery-pt-ios" caption="Simulador iOS, português: a interação completa com gestos reais do sistema. Não é evidência de desempenho em aparelho físico." />

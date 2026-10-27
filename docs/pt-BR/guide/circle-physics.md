@@ -1,6 +1,6 @@
 # Física de círculos
 
-Faça algumas views colidirem entre si, quicarem nas bordas e seguirem o dedo. `physicsWorld()` é uma entrada opcional disponível neste checkout para a próxima beta. Recompile o aplicativo nativo após atualizar.
+Faça algumas views colidirem entre si, quicarem nas bordas e seguirem o dedo. `physicsWorld()` é uma entrada opcional disponível desde a **0.1.0-rc.1**. Recompile o aplicativo nativo após atualizar.
 
 <Clip name="circle-physics-ios" caption="Simulador iOS: Bump Club com arraste e soltura nativos reais, colisões entre círculos e bordas, impulsos, pausa/retomada e redução de movimento. Interface em inglês, velocidade original." />
 <Clip name="circle-physics-android" caption="Emulador Android: a mesma interação nativa, com toques reais via ADB. Interface em inglês, velocidade original; gravações de simulador/emulador não são medições de desempenho em aparelho físico." />

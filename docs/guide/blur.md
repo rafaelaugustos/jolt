@@ -1,6 +1,6 @@
 # Animated blur
 
-Let the background soften while a modal, title or button stays sharp. `@rafaelaugusto/jolt/blur` controls an owned native effect with the same transition and playback concepts as the rest of Jolt. This checkout adds the API for the next beta; rebuild both native apps to include its compiled helpers.
+Let the background soften while a modal, title or button stays sharp. `@rafaelaugusto/jolt/blur` controls an owned native effect with the same transition and playback concepts as the rest of Jolt. Available since **0.1.0-rc.1**; rebuild both native apps to include its compiled helpers.
 
 <Clip name="blur-ios" caption="iOS simulator: real taps move between clear, soft and full material, interrupt an animation, pause/resume a round trip and apply Reduce Motion. English UI; original playback timing." />
 <Clip name="blur-android" caption="Android 12+ emulator: the same controls animate a content blur while sibling controls stay sharp. English UI and real ADB taps; original playback timing, not a physical-device performance measurement." />

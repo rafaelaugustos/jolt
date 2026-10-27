@@ -1,6 +1,6 @@
 # Movimento que vem do celular
 
-`sensor()` fornece rotação e gravidade ao grafo nativo de valores do Jolt. Uma fonte pode inclinar um cartão, mover o reflexo e deslocar o fundo, com springs nativos suavizando o resultado. Importe pela entrada opcional `@rafaelaugusto/jolt/sensors`. Disponível neste checkout para a próxima beta; recompile o app nativo.
+`sensor()` fornece rotação e gravidade ao grafo nativo de valores do Jolt. Uma fonte pode inclinar um cartão, mover o reflexo e deslocar o fundo, com springs nativos suavizando o resultado. Importe pela entrada opcional `@rafaelaugusto/jolt/sensors`. Disponível desde a **0.1.0-rc.1**; recompile o app nativo.
 
 <Clip name="device-sensors-ios" caption="Simulador iOS 26.2: views nativas reais recebem entradas de sensores explicitamente simuladas, com toques reais para pausar, retomar, centralizar e reduzir movimento. Velocidade original. O simulador não tem sensores físicos; não é evidência de desempenho ou coleta em aparelho real." />
 <Clip name="device-sensors-ios-pt" caption="Simulador iOS, português: a mesma prévia nativa e controles de ciclo de vida. A tela identifica a entrada simulada." />
