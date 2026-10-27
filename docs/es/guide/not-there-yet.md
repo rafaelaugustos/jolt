@@ -1,25 +1,38 @@
-# Lo que falta {#not-there-yet}
+# Estado de la versión y límites {#not-there-yet}
 
-- [Transiciones reales de ancho/alto/auto](./size) están disponibles para StackLayout/GridLayout, incluido el interior de ScrollView. Ejecutan diseño JS por cuadro; La asignación flexible, las celdas recicladas y los elementos compartidos están fuera de esa API.
+**0.1.0-rc.1 está disponible.** Sus funciones ya se han entregado para las combinaciones documentadas en cada guía. El alcance funcional de 0.1.0 está congelado; la validación para la versión estable sigue en curso.
 
-- [Cambios de diseño](./layout), [restricciones de arrastre](./drag), [valores de movimiento](./motion-values), [reproducción observable](./playback) y [controles de cronograma conjunto](./sequences) están disponibles. Tienen diferentes contratos nativos de ejecución y ciclo de vida; ver sus guías.
-- [Navegación compartida](./shared-navigation), [gestos compartidos](./shared-gestures), [devuelve la celda actual](./return-targets) y [galería conectada](./gallery) están disponibles en rc.1 dentro de sus combinaciones documentadas de Frame/ListView/imagen estática. La aceptación de la galería de dispositivos físicos sigue registrada en [#117](https://github.com/rafaelaugustos/jolt/issues/117).
-- La composición de gestos de uso general con varios dedos permanece fuera de `drag()`; [zoom de foto](./photo-zoom) proporciona su propio controlador de pellizco, desplazamiento y despido.
-- [Adaptadores de propiedades externos](./native-properties) requiere un complemento nativo opcional. La pose de la cámara y [adaptadores de material ligero/sólido](./scene-lighting) usan SceneKit en iOS; no se incluye ningún adaptador de renderizado 3D Android. Las unidades de cámara MapKit y MapLibre son distintas.
-- [Cámara SceneKit FOV](./scene-camera) está disponible para cámaras de perspectiva automática en iOS. Los controles de lentes arbitrarios y de escala ortográfica permanecen fuera de ese adaptador.
-- Las líneas de tiempo pausan y reanudan a sus participantes, pero no ofrecen depuración agregada arbitraria de devoluciones de llamada o efectos de una sola vez. Las escrituras nativas no aíslan un renderizador del hilo principal JavaScript.
+## Disponible en RC.1 {#available-in-rc-1}
 
-El [problemas](https://github.com/rafaelaugustos/jolt/issues) realiza un seguimiento de los próximos trabajos e integraciones.
+- [Navegación compartida](./shared-navigation), [gestos compartidos](./shared-gestures), [regreso a la celda actual](./return-targets) y [galería conectada](./gallery), para las combinaciones documentadas de Frame/ListView/imágenes estáticas.
+- [Composición nativa de gestos](./gestures): desplazamiento, pellizco y rotación, además de la transferencia de gestos compatible con Core ScrollView vertical. Las [restricciones de arrastre](./drag) y el [zoom de fotos](./photo-zoom) tienen sus propios contratos de interacción.
+- [Composición de desplazamiento](./scroll-header) con el adaptador de Core ListView, y [sensores de rotación/gravedad](./device-sensors) que alimentan valores de movimiento nativos.
+- [Dimensiones reales](./size), [cambios de diseño](./layout), [valores de movimiento](./motion-values), [progreso observable](./playback) y [controles conjuntos de línea de tiempo](./sequences).
+- [Propiedades nativas externas](./native-properties), incluidas [luces/materiales de SceneKit](./scene-lighting), [campo de visión de la cámara](./scene-camera) y [entorno/parámetros de shaders](./scene-shaders), mediante el complemento nativo opcional.
+- [Gravedad](./gravity), [física de círculos con anclajes](./physics-attachments), [trazado y transformación de vectores](./shapes), [desenfoque animado](./blur) y [Liquid Glass](./glass), con la compatibilidad y las alternativas por plataforma documentadas.
+
+## Límites actuales {#current-limits}
+
+- `animateSize()` admite StackLayout/GridLayout, incluso dentro de ScrollView, y ejecuta medición/diseño en JavaScript en cada fotograma. La distribución flex, las celdas recicladas y los elementos compartidos quedan fuera de esa API.
+- `drag()` no ofrece composición genérica de gestos con varios dedos. Usa [`gestures()`](./gestures) para desplazamiento/pellizco/rotación, o [zoom de fotos](./photo-zoom) para su controlador específico de pellizco, desplazamiento y cierre. El adaptador de transferencia de gestos admite Core ScrollView vertical; otras combinaciones de listas/contenedores requieren sus propios adaptadores y validación nativa.
+- Los adaptadores de propiedades externas requieren `@rafaelaugusto/jolt-native`. Los adaptadores incluidos de cámara, luces y materiales de SceneKit son exclusivos de iOS; no se incluye un adaptador de renderizado 3D para Android. Las unidades de cámara de MapKit y MapLibre son distintas.
+- El campo de visión de la cámara SceneKit admite proyección en perspectiva automática en iOS. La escala ortográfica, las matrices de proyección personalizadas y los controles arbitrarios de lente quedan fuera de ese adaptador.
+- Las líneas de tiempo pausan y reanudan sus participantes, pero no ofrecen ajuste arbitrario del progreso agregado de callbacks o efectos de una sola ejecución.
+- La reproducción nativa tiene [rutas de ejecución](./how-it-works) específicas de cada API. Las escrituras de propiedades nativas no aíslan un renderizador del JavaScript en el hilo principal. El diseño, las suscripciones opcionales, la entrada y el ciclo de vida conservan sus costes documentados de JavaScript.
 
 ## De RC a 0.1.0 {#from-rc-to-0-1-0}
 
-El alcance documentado de rc.1 queda congelado para 0.1.0. Los siguientes candidatos se centran en corrección, compatibilidad, accesibilidad, limpieza del ciclo de vida y documentación. Las capacidades nuevas quedan para después de 0.1.0; las issues de funciones futuras no amplían las combinaciones admitidas por la versión estable.
+Las issues de aceptación abiertas que aparecen a continuación corresponden a API ya entregadas. Antes de la versión estable, valida las combinaciones admitidas en dispositivos físicos iOS y Android:
 
-Antes de la aceptación estable:
+- **Galería ([#117](https://github.com/rafaelaugustos/jolt/issues/117)):** zoom/regreso interrumpido, destinos reciclados o eliminados, rotación, accesibilidad y navegación repetida sin capas superpuestas retenidas.
+- **Composición de desplazamiento ([#116](https://github.com/rafaelaugustos/jolt/issues/116)):** inversión/inercia, cambios tardíos de diseño, conservación del anclaje y limpieza con el adaptador admitido de Core ListView.
+- **Sensores ([#114](https://github.com/rafaelaugustos/jolt/issues/114)):** hardware real de rotación/gravedad, mapeo de orientación, coste del muestreo y limpieza de suscripciones. Las entradas de simulador validan el procesamiento, no la adquisición de los sensores físicos.
+- Mantén las pruebas generales, de iOS y Android y sus controles negativos pasando en el commit de la versión. Comprueba la instalación de los paquetes correspondientes y una recompilación nativa limpia; resuelve las regresiones que bloquean la versión antes de etiquetar la estable.
 
-- Validar el flujo de galería admitido en iOS y Android físicos: zoom/retorno interrumpido, objetivos reciclados o eliminados, rotación, accesibilidad y navegación repetida sin superposiciones retenidas ([#117](https://github.com/rafaelaugustos/jolt/issues/117)).
-- Valide la composición de desplazamiento del Core ListView en dispositivos físicos, incluida la inversión/lanzamiento, los cambios de diseño tardíos, la preservación y limpieza del anclaje ([#116](https://github.com/rafaelaugustos/jolt/issues/116)).
-- Valide el hardware de rotación/gravedad en vivo, el mapeo de orientación, el costo de muestreo y la limpieza de suscripción en un dispositivo físico iPhone y Android ([#114](https://github.com/rafaelaugustos/jolt/issues/114)). Las entradas de prueba del simulador validan el procesamiento, no el hardware del sensor.
-- Mantenga las comprobaciones de regresión generales, iOS y Android y sus controles negativos en verde en la confirmación de lanzamiento; verifique la instalación del paquete coincidente y una reconstrucción nativa limpia. Registre y resuelva las regresiones de bloqueo de versiones antes de etiquetarlas como estables.
+La regularidad de los fotogramas, la respuesta a la entrada y la memoria retenida aún necesitan pruebas en dispositivos físicos. Consulta los informes de [galería](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md), [desplazamiento](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) y [sensores](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md) para conocer las pruebas recopiladas y las verificaciones pendientes. Las grabaciones de simulador/emulador no completan la aceptación en dispositivos físicos.
 
-La regularidad de los fotogramas, la respuesta a la interacción y la memoria retenida aún necesitan pruebas en dispositivos físicos. El [proyecto comparativo](https://github.com/rafaelaugustos/jolt/issues/65) es independiente de la entrega de este alcance. Otros adaptadores de frameworks, shaders arbitrarios de vistas, tipos de sensores, uniones físicas entre cuerpos y navegación modal general quedan para más adelante. Las alternativas por plataforma y los costes de JavaScript por fotograma siguen siendo los documentados; la RC no amplía esos contratos.
+## Después de 0.1.0 {#after-0-1-0}
+
+Las siguientes RC se centran en corrección, compatibilidad, accesibilidad, limpieza del ciclo de vida y documentación. Las capacidades nuevas quedan para después de 0.1.0: otros adaptadores de frameworks, shaders arbitrarios de vistas, más tipos de sensores, uniones físicas entre cuerpos y navegación modal genérica.
+
+El [proyecto comparativo](https://github.com/rafaelaugustos/jolt/issues/65) es independiente de la entrega del alcance actualmente admitido. Las [issues de funcionalidades más amplias](https://github.com/rafaelaugustos/jolt/issues) no amplían las combinaciones admitidas por la versión estable ni modifican las alternativas por plataforma y los costes de JavaScript documentados.

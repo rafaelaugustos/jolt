@@ -177,7 +177,7 @@ const en = {
   motionInspector: 'Motion inspector',
   api: 'API',
   internals: 'How it works',
-  limits: 'Not there yet',
+  limits: 'Release status and limits',
 }
 
 const pt = {
@@ -253,7 +253,7 @@ const pt = {
   motionInspector: 'Inspetor de movimento',
   api: 'API',
   internals: 'Como funciona',
-  limits: 'O que ainda não existe',
+  limits: 'Status da versão e limites',
 }
 
 const analytics = 'G-P4W61P3EV0'

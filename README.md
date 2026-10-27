@@ -16,7 +16,7 @@
 </p>
 
 <p align="center">
-  <a href="https://jolt.rafaelaugusto.dev">Documentation</a> · <a href="https://jolt.rafaelaugusto.dev/pt-BR/">Documentação em português</a>
+  <a href="https://jolt.rafaelaugusto.dev">English</a> · <a href="https://jolt.rafaelaugusto.dev/pt-BR/">Português</a> · <a href="https://jolt.rafaelaugusto.dev/es/">Español</a> · <a href="https://jolt.rafaelaugusto.dev/zh-Hans/">简体中文</a>
 </p>
 
 ```ts
@@ -46,6 +46,14 @@ The [0.1.0-rc.1 release candidate](https://github.com/rafaelaugustos/jolt/releas
 - [Bottom sheet](https://jolt.rafaelaugusto.dev/guide/bottom-sheet): native drag/scroll handoff, content and percentage stops, keyboard following and dismissal.
 - [List reordering](https://jolt.rafaelaugusto.dev/guide/reorder): stable keys, native drag snapshots, neighbour springs and edge scrolling through recycled cells.
 - [Shared layouts](https://jolt.rafaelaugusto.dev/guide/shared-layout): stable identities, native snapshots and interruptible transitions within one page.
+- [Shared navigation](https://jolt.rafaelaugusto.dev/guide/shared-navigation) and a [connected gallery](https://jolt.rafaelaugusto.dev/guide/gallery): photo/card transitions, interactive return and current-cell resolution within the documented Frame/ListView combinations.
+- [Interactive iOS navigation](https://jolt.rafaelaugusto.dev/guide/interactive-navigation) and [Android predictive back](https://jolt.rafaelaugusto.dev/guide/predictive-back), with cancellation and guarded route commits.
+- [Native scroll composition](https://jolt.rafaelaugusto.dev/guide/scroll-header): measured collapsing headers, parallax and pinning with a Core ListView adapter.
+- [Device sensors](https://jolt.rafaelaugusto.dev/guide/device-sensors): rotation and gravity sources feeding native motion values and live springs.
+- [Gravity and bounce](https://jolt.rafaelaugusto.dev/guide/gravity) plus [circle physics](https://jolt.rafaelaugusto.dev/guide/circle-physics) with [attachments and snap points](https://jolt.rafaelaugusto.dev/guide/physics-attachments).
+- [Vector drawing and morphing](https://jolt.rafaelaugusto.dev/guide/shapes): animated strokes and compatible path interpolation on iOS and Android.
+- [Animated blur](https://jolt.rafaelaugusto.dev/guide/blur): iOS backdrop materials and Android content blur, with explicit platform limits.
+- [Liquid Glass](https://jolt.rafaelaugusto.dev/guide/glass): native glass containers and surfaces on iOS 26+, ordinary blur on older iOS, and classic layouts on Android.
 - [Interaction replay](https://jolt.rafaelaugusto.dev/guide/interaction-replay): optional development traces and controlled-clock regression checks, including scroll-to-sheet handoff.
 - [Motion inspector](https://jolt.rafaelaugusto.dev/guide/motion-inspector): development-only ownership/timing diagnostics, native observation batches and reproducible spring tuning.
 - [Adaptive curve sampling](https://jolt.rafaelaugusto.dev/guide/transitions): spend native keyframes where they improve precision, within bounded setup budgets.
@@ -83,7 +91,7 @@ The [0.1.0-rc.1 release candidate](https://github.com/rafaelaugustos/jolt/releas
 - [Playback controls](#pause-play-and-scrub) to pause, continue and scrub a finite timeline.
 - [Time scale and reduced motion](#time-scale-and-reduced-motion): slow everything down while tuning, and follow the platform's reduced-motion setting by default.
 - [Interruptions](#interrupting-and-stopping) that pick up the value and velocity on screen, with no jump.
-- [Native playback](#how-it-works): Core Animation on iOS, `ObjectAnimator` on Android, nothing in JavaScript while it plays.
+- [Native playback](#how-it-works): default view tracks run through Core Animation on iOS and `ObjectAnimator` on Android without per-frame JavaScript; layout, input and subscriptions have their own execution costs.
 
 ## Install
 
@@ -91,7 +99,7 @@ The [0.1.0-rc.1 release candidate](https://github.com/rafaelaugustos/jolt/releas
 npm install @rafaelaugusto/jolt@next
 ```
 
-It's in beta for now, published under the `next` tag. Requires `@nativescript/core` 8.9 or later. It doesn't depend on a framework: it takes a view, or an element that holds one.
+The current release candidate is **0.1.0-rc.1**, published under the `next` tag. Requires `@nativescript/core` 8.9 or later. It doesn't depend on a framework: it takes a view, or an element that holds one. Rebuild the native app after installing or upgrading Jolt. See [release status and limits](https://jolt.rafaelaugusto.dev/guide/not-there-yet) for the remaining stable-release acceptance work.
 
 On iOS 15+, Jolt requests up to 120 Hz on ProMotion displays. Set `CADisableMinimumFrameDurationOnPhone` to `true` in the app's `App_Resources/iOS/Info.plist` and rebuild to enable higher rates on iPhone. See the [iOS setup](https://jolt.rafaelaugusto.dev/guide/install#promotion-on-ios); the system still chooses the actual refresh rate.
 
@@ -640,7 +648,7 @@ It takes one value per property, the same properties as `animate()`. The next an
 
 ## How it works
 
-When an animation starts, Jolt resolves where each property starts from (the value on screen, or the keyframes you gave), and computes the whole curve: easing, keyframes, spring physics and exponential decay. It samples the curve 60 times per second of motion, and keeps keyframe times exact. Linear numeric segments use only their endpoints. Long tween segments and free decays cap sampling at 6,001 keyframes. Color tracks add intermediate OKLab samples even with linear timing.
+When a sampled animation starts, Jolt resolves its starting values and computes the source curve. Numeric springs, decays and tweens use [adaptive keyframes](https://jolt.rafaelaugusto.dev/guide/transitions#adaptive-keyframes), concentrating detail where linear interpolation needs it. Authored keyframe times stay exact and straight numeric segments keep only their endpoints. Sampling has bounded refinement budgets and a capped uniform fallback. Color mixing, composed motion-value mappings and retained live springs use their own sampling or execution paths.
 
 The samples go to the platform in one go:
 
@@ -651,17 +659,21 @@ Solid [colors](#colors) use CGColor keyframes on iOS and int keyframes through a
 
 Before playing, the final values are set on the NativeScript view, like `view.animate()` does, so `view.translateX` already holds the target while the animation runs. Stopping writes back the values on screen.
 
+`animateSize()` performs NativeScript measurement/layout in JavaScript each frame so content can reflow. Opt-in subscribers, gesture input and timeline step activation retain their documented JS costs. `springValue()` uses retained native spring state and shared display callbacks, rather than rebuilding sampled tracks on each target change. See the [execution paths](https://jolt.rafaelaugusto.dev/guide/how-it-works).
+
 Native playback does not isolate Android View animations from a blocked UI thread. Main-runtime JavaScript shares that thread, and `withLayer()` only caches drawing. Move suitable CPU work to a Worker and keep view updates small. See the [busy JavaScript guide](https://jolt.rafaelaugusto.dev/guide/android-performance) and [Android diagnostic](./benchmarks/android-busy.md).
 
 On Android, opacity animations temporarily cache hardware-accelerated containers with children in a hardware layer. Jolt waits for the fade to start and restores the layer on completion, stop, replacement or unload. Existing app-configured layers are preserved; empty, unmeasured and larger-than-screen containers are skipped. See the [fade-layer benchmark](./benchmarks/android-fade.md) for measurement and memory tradeoffs.
 
 Each running property remembers its curve and start time. On Android, interruptions read the displayed value and the animator's current play time, so inherited velocity follows the system's animator duration scale. Early spring arrivals use a native timing marker with completion callbacks only; other sequences advance on native completion. Delays, repeats and disabled animations follow the same platform clock, without JavaScript running per frame.
 
-## Not there yet
+## Release status and limits
 
-- `animate()` supports transforms, opacity, colors, uniform corners and borders, and platform shadows. [`animateSize()`](https://jolt.rafaelaugusto.dev/guide/size) adds real width/height/auto transitions with per-frame JS layout; [`animateLayout()`](https://jolt.rafaelaugusto.dev/guide/layout) animates layout changes through FLIP transforms.
-- Gesture composition and nested-scroll handoff remain separate work ([#51](https://github.com/rafaelaugustos/jolt/issues/51)).
-- Shared-element navigation remains planned ([#24](https://github.com/rafaelaugustos/jolt/issues/24)).
+<a id="not-there-yet"></a>
+
+RC.1 already includes [gesture composition and vertical Core ScrollView handoff](https://jolt.rafaelaugusto.dev/guide/gestures), [shared navigation](https://jolt.rafaelaugusto.dev/guide/shared-navigation), the [connected gallery](https://jolt.rafaelaugusto.dev/guide/gallery), [scroll composition](https://jolt.rafaelaugusto.dev/guide/scroll-header) and [rotation/gravity sensors](https://jolt.rafaelaugusto.dev/guide/device-sensors), within their documented platform/container combinations.
+
+The 0.1.0 feature scope is frozen. Physical-device acceptance for the gallery ([#117](https://github.com/rafaelaugustos/jolt/issues/117)), scroll composition ([#116](https://github.com/rafaelaugustos/jolt/issues/116)) and sensors ([#114](https://github.com/rafaelaugustos/jolt/issues/114)) remains open. These APIs are shipped; their remaining acceptance checks still matter before stable. Other adapters and broader feature milestones remain later work. See [release status and limits](https://jolt.rafaelaugusto.dev/guide/not-there-yet) for the current scope, execution costs and validation requirements.
 
 ## API
 
@@ -681,6 +693,22 @@ Each running property remembers its curve and start time. On Android, interrupti
 
 **Helpers**: `definePreset`, `presets`, `springs`, `cubicBezier`, plus the types (`Keyframes`, `Transition`, `Spring`, `Tween`, `Preset`, `Presets`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target`...).
 
+The core also exports [`scrollHeader()`](https://jolt.rafaelaugusto.dev/guide/scroll-header). Optional modules are included in the core package and imported through their own entry points:
+
+| Entry point                                  | API and guide                                                                                                                                                                                                                                   |
+| -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `@rafaelaugusto/jolt/gestures`               | [`gestures()`, `GestureSurface`](https://jolt.rafaelaugusto.dev/guide/gestures)                                                                                                                                                                 |
+| `@rafaelaugusto/jolt/shared-navigation`      | [`sharedNavigation()`](https://jolt.rafaelaugusto.dev/guide/shared-navigation), [`sharedNavigationEntry()`](https://jolt.rafaelaugusto.dev/guide/shared-gestures), [`resolveListTarget()`](https://jolt.rafaelaugusto.dev/guide/return-targets) |
+| `@rafaelaugusto/jolt/interactive-navigation` | [`interactiveNavigation()`](https://jolt.rafaelaugusto.dev/guide/interactive-navigation)                                                                                                                                                        |
+| `@rafaelaugusto/jolt/predictive-back`        | [`predictiveBack()`](https://jolt.rafaelaugusto.dev/guide/predictive-back)                                                                                                                                                                      |
+| `@rafaelaugusto/jolt/sensors`                | [`sensor('rotation')`, `sensor('gravity')`](https://jolt.rafaelaugusto.dev/guide/device-sensors)                                                                                                                                                |
+| `@rafaelaugusto/jolt/physics`                | [`physicsWorld()`](https://jolt.rafaelaugusto.dev/guide/physics-attachments)                                                                                                                                                                    |
+| `@rafaelaugusto/jolt/shapes`                 | [`shape()`](https://jolt.rafaelaugusto.dev/guide/shapes)                                                                                                                                                                                        |
+| `@rafaelaugusto/jolt/blur`                   | [`blur()`](https://jolt.rafaelaugusto.dev/guide/blur)                                                                                                                                                                                           |
+| `@rafaelaugusto/jolt/glass`                  | [`GlassContainer`, `GlassView`, `supportsLiquidGlass()`](https://jolt.rafaelaugusto.dev/guide/glass)                                                                                                                                            |
+
+External map/SceneKit property adapters additionally require the separate matching `@rafaelaugusto/jolt-native` package. See the [complete API reference](https://jolt.rafaelaugusto.dev/guide/api) for the remaining entries and lifecycle contracts.
+
 ## Demo
 
 [`demo/`](./demo) now opens **Jolt Motion Studio**: a branded animated splash, a moving home, and 73 searchable experiments with category filters and native page navigation through Vue Router NS. The iOS preview includes the Jolt name and icon; launching normally always opens the collection. See the [native walkthrough](./docs/guide/demo.md).
@@ -699,7 +727,7 @@ The assistant remains available through `--screen=home` on iOS or `--es screen h
 | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
 | <img src="https://raw.githubusercontent.com/rafaelaugustos/jolt/main/.github/assets/demo-layout-ios.gif" width="200" alt="Native cards insert, reorder and expand"> | <img src="https://raw.githubusercontent.com/rafaelaugustos/jolt/main/.github/assets/demo-drag-ios.gif" width="200" alt="A card and panel follow real drags and settle within bounds"> | <img src="https://raw.githubusercontent.com/rafaelaugustos/jolt/main/.github/assets/demo-image-effects-ios.gif" width="200" alt="Ripple, touch distortion and dissolve on a raster image"> | <img src="https://raw.githubusercontent.com/rafaelaugustos/jolt/main/.github/assets/demo-photo-zoom-ios.gif" width="200" alt="A photo responds to pinch, pan and double tap"> |
 
-The animation playground opens with `--playground` on iOS and `--es playground true` on Android, with presets, interruptible springs, decay, text, press effects, list rows, the keyboard composer and the native iOS helpers. See the [demo guide](./docs/guide/demo.md) for preview arguments and implementation notes. Every visual feature guide in the [documentation](https://jolt.rafaelaugusto.dev) includes a recording of the real native demo, in English and Portuguese.
+The animation playground opens with `--playground` on iOS and `--es playground true` on Android, with presets, interruptible springs, decay, text, press effects, list rows, the keyboard composer and the native iOS helpers. See the [demo guide](./docs/guide/demo.md) for preview arguments and implementation notes. The [documentation](https://jolt.rafaelaugusto.dev) is available in English, Brazilian Portuguese, Spanish and Simplified Chinese. Every visual feature guide embeds reviewed recordings of the real native demo, with captions in the selected language and the recording's platform and limits identified.
 
 With the [NativeScript CLI](https://docs.nativescript.org/setup/) installed:
 

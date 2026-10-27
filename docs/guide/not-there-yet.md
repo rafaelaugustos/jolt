@@ -1,25 +1,38 @@
-# Not there yet
+# Release status and limits {#not-there-yet}
 
-- [Real width/height/auto transitions](./size) are available for StackLayout/GridLayout, including inside ScrollView. They run JS layout per frame; flex allocation, recycled cells and shared elements are outside that API.
+**0.1.0-rc.1 is available.** Its features are shipped within the combinations documented in each guide. The feature scope for 0.1.0 is frozen; validation for the stable release is still in progress.
 
-- [Layout changes](./layout), [drag constraints](./drag), [motion values](./motion-values), [observable playback](./playback) and [joint timeline controls](./sequences) are available. They have different native execution and lifecycle contracts; see their guides.
-- [Shared navigation](./shared-navigation), [shared gestures](./shared-gestures), [current-cell returns](./return-targets) and the [connected gallery](./gallery) are available in rc.1 within their documented Frame/ListView/static-image combinations. Physical-device gallery acceptance remains tracked in [#117](https://github.com/rafaelaugustos/jolt/issues/117).
-- General-purpose multi-finger gesture composition remains outside `drag()`; [photo zoom](./photo-zoom) provides its own pinch, pan and dismissal controller.
-- [External property adapters](./native-properties) require an optional native plugin. Camera pose and [light/solid-material adapters](./scene-lighting) use SceneKit on iOS; there is no bundled Android 3D renderer adapter. MapKit and MapLibre camera units are distinct.
-- [SceneKit camera FOV](./scene-camera) is available for automatic perspective cameras on iOS. Orthographic-scale and arbitrary lens controls remain outside that adapter.
-- Timelines pause and resume their participants, but do not offer arbitrary aggregate scrubbing of callbacks or one-shot effects. Native writes do not isolate a renderer from main-thread JavaScript.
+## Available in RC.1 {#available-in-rc-1}
 
-The [issues](https://github.com/rafaelaugustos/jolt/issues) track upcoming work and integrations.
+- [Shared navigation](./shared-navigation), [shared gestures](./shared-gestures), [current-cell returns](./return-targets) and the [connected gallery](./gallery), for the documented Frame/ListView/static-image combinations.
+- [Native gesture composition](./gestures): pan, pinch and rotation, plus supported vertical Core ScrollView handoff. [Drag constraints](./drag) and [photo zoom](./photo-zoom) have their own interaction contracts.
+- [Scroll composition](./scroll-header) with the Core ListView adapter, and [rotation/gravity sensors](./device-sensors) feeding native motion values.
+- [Real dimensions](./size), [layout changes](./layout), [motion values](./motion-values), [observable playback](./playback) and [joint timeline controls](./sequences).
+- [External native properties](./native-properties), including [SceneKit lights/materials](./scene-lighting), [camera FOV](./scene-camera) and [environment/shader inputs](./scene-shaders), through the optional native plugin.
+- [Gravity](./gravity), [circle physics with attachments](./physics-attachments), [vector drawing and morphing](./shapes), [animated blur](./blur) and [Liquid Glass](./glass), with their documented platform support and fallbacks.
 
-## From RC to 0.1.0
+## Current limits {#current-limits}
 
-The documented rc.1 feature scope is frozen for 0.1.0. Subsequent candidates focus on correctness, compatibility, accessibility, lifecycle cleanup and documentation. New capabilities belong after 0.1.0; the broader feature issues do not expand the stable release's supported combinations.
+- `animateSize()` supports StackLayout/GridLayout, including inside ScrollView, and runs JavaScript measurement/layout per frame. Flex allocation, recycled cells and shared elements are outside that API.
+- `drag()` does not provide general-purpose multi-finger composition. Use [`gestures()`](./gestures) for pan/pinch/rotation, or [photo zoom](./photo-zoom) for its dedicated pinch, pan and dismissal controller. The gesture handoff adapter supports vertical Core ScrollView; other list/container combinations require their own adapters and native validation.
+- External property adapters require `@rafaelaugusto/jolt-native`. The bundled SceneKit camera, light and material adapters are iOS-only; there is no bundled Android 3D renderer adapter. MapKit and MapLibre camera units are distinct.
+- SceneKit camera FOV supports automatic perspective projection on iOS. Orthographic scaling, custom projection matrices and arbitrary lens controls are outside that adapter.
+- Timelines pause and resume their participants, but do not provide arbitrary aggregate scrubbing of callbacks or one-shot effects.
+- Native playback has API-specific [execution paths](./how-it-works). Native property writes do not isolate a renderer from main-thread JavaScript. Layout, opt-in subscriptions, input and lifecycle work retain their documented JavaScript costs.
 
-Before stable acceptance:
+## From RC to 0.1.0 {#from-rc-to-0-1-0}
 
-- Validate the supported gallery flow on physical iOS and Android: interrupted zoom/return, recycled or deleted targets, rotation, accessibility and repeated navigation without retained overlays ([#117](https://github.com/rafaelaugustos/jolt/issues/117)).
-- Validate the Core ListView scroll composition on physical devices, including reversal/fling, late layout changes, anchor preservation and cleanup ([#116](https://github.com/rafaelaugustos/jolt/issues/116)).
-- Validate live rotation/gravity hardware, orientation mapping, sampling cost and subscription cleanup on a physical iPhone and Android device ([#114](https://github.com/rafaelaugustos/jolt/issues/114)). Simulator test inputs validate processing, not sensor hardware.
-- Keep general, iOS and Android regression checks and their negative controls green on the release commit; verify matching package installation and a clean native rebuild. Record and resolve release-blocking regressions before tagging stable.
+The open acceptance issues below cover already-shipped APIs. Before stable, validate the supported combinations on physical iOS and Android devices:
 
-Frame pacing, input response and retained memory still need physical-device evidence. The [comparison project](https://github.com/rafaelaugustos/jolt/issues/65) is separate from shipping this supported scope. Additional framework adapters, arbitrary view shaders, sensor types, body-to-body physics joints and general modal navigation are later work. Existing platform fallbacks and per-frame JavaScript costs remain as documented; RC does not broaden those contracts.
+- **Gallery ([#117](https://github.com/rafaelaugustos/jolt/issues/117)):** interrupted zoom/return, recycled or deleted targets, rotation, accessibility and repeated navigation without retained overlays.
+- **Scroll composition ([#116](https://github.com/rafaelaugustos/jolt/issues/116)):** reversal/fling, late layout changes, anchor preservation and cleanup with the supported Core ListView adapter.
+- **Sensors ([#114](https://github.com/rafaelaugustos/jolt/issues/114)):** live rotation/gravity hardware, orientation mapping, sampling cost and subscription cleanup. Simulator inputs validate processing, not physical sensor acquisition.
+- Keep general, iOS and Android regression checks and their negative controls passing on the release commit. Verify matching package installation and a clean native rebuild, and resolve release-blocking regressions before tagging stable.
+
+Frame pacing, input response and retained memory still need physical-device evidence. See the [gallery](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md), [scroll](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) and [sensor](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md) validation reports for the evidence collected and remaining checks. Simulator/emulator recordings do not complete physical-device acceptance.
+
+## After 0.1.0 {#after-0-1-0}
+
+Subsequent RCs focus on correctness, compatibility, accessibility, lifecycle cleanup and documentation. New capabilities belong after 0.1.0: additional framework adapters, arbitrary view shaders, more sensor types, body-to-body physics joints and general modal navigation.
+
+The [comparison project](https://github.com/rafaelaugustos/jolt/issues/65) is separate from shipping the current supported scope. Broader [feature issues](https://github.com/rafaelaugustos/jolt/issues) do not expand the stable release's supported combinations or change the documented platform fallbacks and JavaScript costs.
