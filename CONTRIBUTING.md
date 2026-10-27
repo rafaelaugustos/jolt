@@ -9,11 +9,17 @@ For each new visual feature or visible behavior change:
 1. Implement and validate it in the native demo.
 2. Record the real app. Include the interaction that explains the feature: drag/release, interruption, resizing, scrolling, pause/resume or another relevant action.
 3. Watch the clip and inspect representative frames. Confirm the effect is visible, the controls are readable, and the recording does not show errors or unrelated setup. Tests and screenshots are supporting evidence, not replacements for a video.
-4. Save a compact H.264 MP4 in `docs/public/media/` and embed it with `<Clip name="..." caption="..." />` in the matching English and Portuguese guides. Captions identify the behavior and platform. Clearly identify slow motion and effects video cannot convey, such as haptics.
+4. Save a compact H.264 MP4 in `docs/public/media/` and embed it with `<Clip name="..." caption="..." />` in the matching English, Portuguese, Spanish and Simplified Chinese guides. Translate captions; reuse the same recordings. Captions identify the behavior and platform. Clearly identify slow motion and effects video cannot convey, such as haptics.
 5. Run `npm run docs:check-media` and `npm run docs:build`. Do not close the issue or prepare the release before the clips are included. Keep existing recordings current when the visible behavior changes.
 6. Attach only the reviewed English-language recordings directly to the PR description with playable video players, labeled by platform and behavior. Do not record or attach Portuguese versions for a PR. Use `gh pr edit YOUR_PR --attach ./docs/public/media/YOUR_RECORDING.mp4` (repeat `--attach` for multiple platforms), then verify the published description. A link to the repository file alone does not meet this review requirement. Leave existing PR attachments as they are unless asked to change them.
 
-The CI media check requires every visual guide in both languages to have a captioned clip, verifies the referenced MP4 files, and checks language parity. Its explicit exemptions cover setup, architecture, API navigation and planned work. A new guide requires media by default. This check cannot judge whether a video actually demonstrates the feature; human/agent visual review remains required.
+The CI media check requires every visual guide in all four languages to have a captioned clip, verifies the referenced MP4 files, and checks page and recording parity, including the homepages. Its explicit exemptions cover setup, architecture, API navigation and planned work. A new guide requires media by default. This check cannot judge whether a video actually demonstrates the feature; human/agent visual review remains required.
+
+## Documentation languages
+
+Keep `docs/guide`, `docs/pt-BR/guide`, `docs/es/guide` and `docs/zh-Hans/guide` in sync. Each locale also has its own homepage. Translate prose, navigation and captions while preserving API names, runnable code, version numbers and platform limitations. Internal links should stay in the selected language. Spanish and Chinese headings retain explicit English anchor IDs so existing cross-guide section links work after translation.
+
+Navigation, search and shared footer labels live in `docs/.vitepress`. When adding a sidebar entry, provide all four labels. Check Chinese search with an unspaced query as well as an API identifier, and check the language selector on a guide as well as the homepage.
 
 GIFs in the README are a selection of highlights. Feature guides always contain their relevant recordings. Prefer MP4 for the documentation because it is smaller and can be paused with the player controls.
 

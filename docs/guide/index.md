@@ -38,4 +38,4 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 2. Read [Animating](./animating): what a target is, which properties move, and how keyframes are written.
 3. Pick a [transition](./transitions) or a [preset](./presets).
 
-It's in beta, published under the `next` tag. It doesn't depend on a framework: it takes a view, or an element that holds one.
+It's a release candidate, published under the `next` tag. It doesn't depend on a framework: it takes a view, or an element that holds one.

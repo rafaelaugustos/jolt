@@ -38,4 +38,4 @@ O Jolt calcula o movimento uma vez, em JavaScript, quando a animação começa, 
 2. Leia [Animando](./animating): o que é um alvo, quais propriedades se movem, e como os keyframes são escritos.
 3. Escolha uma [transição](./transitions) ou um [preset](./presets).
 
-Está em beta, publicado sob a tag `next`. Não depende de framework: recebe uma view, ou um elemento que contém uma.
+Está em release candidate, publicado sob a tag `next`. Não depende de framework: recebe uma view, ou um elemento que contém uma.

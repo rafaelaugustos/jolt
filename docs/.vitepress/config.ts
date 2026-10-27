@@ -1,6 +1,7 @@
 import { existsSync } from 'node:fs'
 import { defineConfig, type DefaultTheme } from 'vitepress'
 import { version } from '../../package.json'
+import { es, zh, spanish, chinese, searchTranslations } from './translations'
 
 const site = 'https://jolt.rafaelaugusto.dev'
 const repo = 'https://github.com/rafaelaugustos/jolt'
@@ -168,6 +169,7 @@ const en = {
   configure: 'Time scale and reduced motion',
   scrollLinked: 'Scroll-linked animations',
   scrollHeader: 'Collapsing headers',
+  sensor: 'Device sensors',
   keyboard: 'Follow the keyboard',
   androidBusy: 'Busy JavaScript on Android',
   vue: 'Vue',
@@ -181,6 +183,7 @@ const en = {
 const pt = {
   gallery: 'Galeria conectada',
   scrollHeader: 'Cabeçalhos que recolhem',
+  sensor: 'Sensores do dispositivo',
   start: 'Começo',
   motion: 'Movimento',
   frameworks: 'Frameworks',
@@ -311,7 +314,28 @@ gtag('config', '${analytics}');`,
     search: {
       provider: 'local',
       options: {
+        miniSearch: {
+          options: {
+            // VitePress 1.x splits on spaces by default. Segment Chinese words
+            // identically while building the index and querying it in the browser.
+            tokenize: (text: string) => {
+              return text
+                .replace(/\p{Script=Han}+/gu, (run) => {
+                  if (typeof Intl.Segmenter === 'undefined') return run
+                  const segmenter = new Intl.Segmenter('zh-Hans', {
+                    granularity: 'word',
+                  })
+                  return Array.from(segmenter.segment(run), (part) => part.segment).join(
+                    ' ',
+                  )
+                })
+                .split(/[\s\p{P}]+/u)
+                .filter(Boolean)
+            },
+          },
+        },
         locales: {
+          ...searchTranslations,
           'pt-BR': {
             translations: {
               button: { buttonText: 'Buscar', buttonAriaLabel: 'Buscar' },
@@ -392,6 +416,59 @@ gtag('config', '${analytics}');`,
         footer: {
           message: 'Publicado sob a licença MIT.',
           copyright: `Mantido por Rafael Augusto e ${cortex}`,
+        },
+      },
+    },
+    es: {
+      ...spanish,
+      label: 'Español',
+      link: '/es/',
+      themeConfig: {
+        ...spanish.themeConfig,
+        nav: [
+          { text: 'Guía', link: '/es/guide/' },
+          { text: 'API', link: '/es/guide/api' },
+          { text: 'Versiones', link: `${repo}/releases` },
+          { text: `v${version}`, link: `${repo}/releases/tag/v${version}` },
+        ],
+        sidebar: {
+          '/es/guide/': sidebar('/es', es satisfies Record<keyof typeof en, string>),
+        },
+        editLink: {
+          pattern: `${repo}/edit/main/docs/:path`,
+          text: 'Editar esta página en GitHub',
+        },
+        footer: {
+          message: 'Publicado bajo la licencia MIT.',
+          copyright: `Mantenido por Rafael Augusto y ${cortex}`,
+        },
+      },
+    },
+    'zh-Hans': {
+      ...chinese,
+      label: '简体中文',
+      link: '/zh-Hans/',
+      themeConfig: {
+        ...chinese.themeConfig,
+        nav: [
+          { text: '指南', link: '/zh-Hans/guide/' },
+          { text: 'API', link: '/zh-Hans/guide/api' },
+          { text: '版本', link: `${repo}/releases` },
+          { text: `v${version}`, link: `${repo}/releases/tag/v${version}` },
+        ],
+        sidebar: {
+          '/zh-Hans/guide/': sidebar(
+            '/zh-Hans',
+            zh satisfies Record<keyof typeof en, string>,
+          ),
+        },
+        editLink: {
+          pattern: `${repo}/edit/main/docs/:path`,
+          text: '在 GitHub 上编辑此页',
+        },
+        footer: {
+          message: '基于 MIT 许可证发布。',
+          copyright: `由 Rafael Augusto 和 ${cortex} 维护`,
         },
       },
     },
