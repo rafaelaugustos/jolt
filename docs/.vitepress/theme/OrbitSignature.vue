@@ -1,11 +1,15 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { useData } from 'vitepress'
 
 const { lang } = useData()
-const label = computed(() =>
-  lang.value.startsWith('pt') ? 'Gerenciado pelo' : 'Managed by',
-)
+const labels: Record<string, string> = {
+  en: 'Managed by',
+  'pt-BR': 'Gerenciado pelo',
+  es: 'Gestionado por',
+  'zh-Hans': '管理平台：',
+}
+const label = computed(() => labels[lang.value] ?? labels.en)
 </script>
 
 <template>

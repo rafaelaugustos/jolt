@@ -5,16 +5,17 @@ const root = resolve(import.meta.dirname, '..')
 // These pages describe setup, architecture, navigation or planned work, not a visual feature.
 // A new guide requires a real demo clip by default. Do not exempt visual feature pages.
 const nonVisual = new Set(['api', 'how-it-works', 'index', 'install', 'not-there-yet'])
-const locales = ['docs/guide', 'docs/pt-BR/guide']
+const locales = ['docs', 'docs/pt-BR', 'docs/es', 'docs/zh-Hans']
 const pages = new Map()
 const errors = []
 const clips = new Set()
 for (const locale of locales) {
   const inventory = new Map()
-  for (const file of (await readdir(resolve(root, locale))).filter((f) =>
-    f.endsWith('.md'),
-  )) {
-    const slug = file.slice(0, -3)
+  const guides = (await readdir(resolve(root, locale, 'guide')))
+    .filter((f) => f.endsWith('.md'))
+    .map((f) => `guide/${f}`)
+  for (const file of ['index.md', ...guides]) {
+    const slug = file.replace(/^guide\//, '').slice(0, -3)
     const markdown = (await readFile(resolve(root, locale, file), 'utf8')).replace(
       /```[\s\S]*?```|<!--[\s\S]*?-->/g,
       '',
@@ -36,16 +37,19 @@ for (const locale of locales) {
       errors.push(
         `${locale}/${file}: visual guides require a real app recording (<Clip>)`,
       )
-    inventory.set(slug, [...new Set(names)].sort().join(','))
+    inventory.set(file, [...new Set(names)].sort().join(','))
   }
   pages.set(locale, inventory)
 }
-const [english, portuguese] = locales.map((locale) => pages.get(locale))
-for (const slug of new Set([...english.keys(), ...portuguese.keys()])) {
-  if (!english.has(slug) || !portuguese.has(slug))
-    errors.push(`${slug}: guide must exist in English and Portuguese`)
-  else if (english.get(slug) !== portuguese.get(slug))
-    errors.push(`${slug}: English and Portuguese must show the same recordings`)
+const english = pages.get(locales[0])
+for (const locale of locales.slice(1)) {
+  const translated = pages.get(locale)
+  for (const file of new Set([...english.keys(), ...translated.keys()])) {
+    if (!english.has(file) || !translated.has(file))
+      errors.push(`${locale}/${file}: page must exist in all four languages`)
+    else if (english.get(file) !== translated.get(file))
+      errors.push(`${locale}/${file}: all languages must show the same recordings`)
+  }
 }
 for (const name of clips) {
   const path = resolve(root, 'docs/public/media', `${name}.mp4`)
@@ -63,6 +67,6 @@ if (errors.length) {
   process.exitCode = 1
 } else {
   console.log(
-    `Media coverage passed: ${english.size} guides per language, ${clips.size} recordings.`,
+    `Media coverage passed: ${english.size - 1} guides and a homepage in ${locales.length} languages, ${clips.size} recordings.`,
   )
 }
