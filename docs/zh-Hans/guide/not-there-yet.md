@@ -1,25 +1,38 @@
-# 尚未支持的功能 {#not-there-yet}
+# 发布状态与限制 {#not-there-yet}
 
-- [实际宽度/高度/自动转换](./size) 适用于 StackLayout/GridLayout，包括内部 ScrollView。他们每帧运行 JS 布局；弹性分配、回收单元和共享元素不在该 API 范围内。
+**0.1.0-rc.1 已发布。** 各项功能已支持对应指南中列出的组合。0.1.0 的功能范围已冻结，正式版的验收工作仍在进行。
 
-- [布局更改](./layout)、[拖动约束](./drag)、[动画值](./motion-values)、[可观察回放](./playback) 和 [联合时间轴控件](./sequences) 可用。他们有不同的原生执行和生命周期契约；看看他们的指南。
-- [共享导航](./shared-navigation)、[共享手势](./shared-gestures)、[当前单元格返回](./return-targets) 和 [连接画廊](./gallery) 可在其记录的 Frame/ListView/静态图像组合中的 rc.1 中找到。真机库接受情况仍在 [#117](https://github.com/rafaelaugustos/jolt/issues/117) 中进行跟踪。
-- 通用多指手势合成仍然在`drag()`之外； [照片变焦](./photo-zoom) 提供自己的捏合、平移和消除控制器。
-- [外部属性适配器](./native-properties) 需要可选的原生插件。相机姿态和[光照/纯色材质适配器](./scene-lighting)在iOS上使用SceneKit；没有捆绑的 Android 3D 渲染器适配器。 MapKit 和 MapLibre 相机单元是不同的。
-- [SceneKit 相机视野](./scene-camera) 适用于 iOS 上的自动透视相机。正交比例和任意镜头控制保留在该适配器之外。
-- 时间线暂停和恢复其参与者，但不提供回调或一次性效果的任意聚合清理。原生写入不会将渲染器与主线程 JavaScript 隔离。
+## RC.1 已提供的功能 {#available-in-rc-1}
 
-[问题](https://github.com/rafaelaugustos/jolt/issues) 跟踪即将进行的工作和集成。
+- [共享元素导航](./shared-navigation)、[共享手势](./shared-gestures)、[返回当前单元格](./return-targets)和[联动相册](./gallery)，支持文档列出的 Frame/ListView/静态图像组合。
+- [原生手势组合](./gestures)：平移、双指缩放和旋转，以及支持的垂直 Core ScrollView 手势交接。[拖动约束](./drag)和[照片缩放](./photo-zoom)各有独立的交互约定。
+- 使用 Core ListView 适配器的[滚动组合](./scroll-header)，以及驱动原生动画值的[旋转/重力传感器](./device-sensors)。
+- [实际尺寸](./size)、[布局变化](./layout)、[动画值](./motion-values)、[可观察的播放进度](./playback)和[时间轴联合控制](./sequences)。
+- 通过可选原生插件提供的[外部原生属性](./native-properties)，包括 [SceneKit 光照/材质](./scene-lighting)、[相机视野](./scene-camera)和[环境/着色器输入](./scene-shaders)。
+- [重力](./gravity)、[带约束的圆形物理模拟](./physics-attachments)、[矢量绘制与变形](./shapes)、[模糊动画](./blur)和 [Liquid Glass](./glass)，具体平台支持及降级行为见各自文档。
 
-## 从RC到0.1.0 {#from-rc-to-0-1-0}
+## 当前限制 {#current-limits}
 
-rc.1 文档所列的功能范围已冻结，将作为 0.1.0 的发布范围。后续候选版本聚焦正确性、兼容性、辅助功能、生命周期清理和文档。新增能力安排在 0.1.0 之后；范围更大的功能议题不会扩大正式版已承诺支持的组合。
+- `animateSize()` 支持 StackLayout/GridLayout，也可用于 ScrollView 内部，但每帧需要通过 JavaScript 测量并更新布局。弹性空间分配、复用单元格和共享元素不属于该 API 的支持范围。
+- `drag()` 不提供通用的多指手势组合。平移、双指缩放和旋转请使用 [`gestures()`](./gestures)；[照片缩放](./photo-zoom)则提供专用的缩放、平移和关闭控制器。手势交接适配器支持垂直 Core ScrollView；其他列表/容器组合需要独立的适配器和原生验证。
+- 外部属性适配器需要 `@rafaelaugusto/jolt-native`。内置的 SceneKit 相机、光照和材质适配器仅支持 iOS；未内置 Android 3D 渲染器适配器。MapKit 与 MapLibre 的相机单位不同。
+- SceneKit 相机视野支持 iOS 上的自动透视投影。正交缩放、自定义投影矩阵和任意镜头控制不属于该适配器的支持范围。
+- 时间轴可统一暂停和恢复其参与者，但不能任意调整回调或一次性效果的整体进度。
+- 原生播放的[执行路径](./how-it-works)因 API 而异。原生属性写入不会将渲染器与主线程 JavaScript 隔离。布局、主动订阅、输入和生命周期处理仍有文档所述的 JavaScript 成本。
 
-稳定验收前：
+## 从 RC 到 0.1.0 {#from-rc-to-0-1-0}
 
-- 验证物理 iOS 和 Android 上支持的图库流程：中断缩放/返回、回收或删除目标、旋转、可访问性和重复导航，无需保留覆盖层 ([#117](https://github.com/rafaelaugustos/jolt/issues/117))。
-- 在真机上验证核心 ListView 滚动组合，包括反转/滑动、后期布局更改、锚点保存和清理 ([#116](https://github.com/rafaelaugustos/jolt/issues/116))。
-- 验证物理 iPhone 和 Android 设备 ([#114](https://github.com/rafaelaugustos/jolt/issues/114)) 上的实时旋转/重力硬件、方向映射、采样成本和订阅清理。模拟器测试输入验证处理，而不是传感器硬件。
-- 在发布提交上保持常规、iOS 和 Android 回归检查及其负面控制为绿色；验证匹配的软件包安装和干净的原生重建。在标记稳定之前记录并解决释放阻塞回归。
+下列尚未关闭的验收议题对应的 API 已经发布。正式版发布前，需在 iOS 和 Android 真机上验证所支持的组合：
 
-帧间隔稳定性、输入响应和保留内存仍需真机验证。[对比项目](https://github.com/rafaelaugustos/jolt/issues/65)与当前支持范围的发布相互独立。更多框架适配器、任意视图着色器、其他传感器类型、刚体间物理关节和通用模态导航均属于后续工作。各平台的降级行为和逐帧 JavaScript 成本仍以文档为准；RC 不会扩大这些保证。
+- **相册（[#117](https://github.com/rafaelaugustos/jolt/issues/117)）：** 缩放/返回中断、复用或删除的目标、旋转、辅助功能，以及反复导航后不残留覆盖层。
+- **滚动组合（[#116](https://github.com/rafaelaugustos/jolt/issues/116)）：** 使用已支持的 Core ListView 适配器验证反向滚动/惯性、延迟发生的布局变化、锚点保持和资源清理。
+- **传感器（[#114](https://github.com/rafaelaugustos/jolt/issues/114)）：** 实时旋转/重力硬件、方向映射、采样成本和订阅清理。模拟器输入只能验证处理流程，不能验证真实传感器的数据采集。
+- 发布提交上的通用、iOS 和 Android 回归检查及其负向对照均须通过。验证匹配版本的软件包安装和干净的原生重编译，并在打正式版标签前解决阻碍发布的回归问题。
+
+帧间隔稳定性、输入响应和保留内存仍需真机证据。已收集的证据与剩余检查见[相册](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md)、[滚动](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md)和[传感器](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md)验证报告。模拟器录屏不能代替真机验收。
+
+## 0.1.0 之后 {#after-0-1-0}
+
+后续 RC 聚焦正确性、兼容性、辅助功能、生命周期清理和文档。新增能力安排在 0.1.0 之后，包括更多框架适配器、任意视图着色器、更多传感器类型、刚体间物理关节和通用模态导航。
+
+[对比项目](https://github.com/rafaelaugustos/jolt/issues/65)与当前支持范围的发布相互独立。范围更大的[功能议题](https://github.com/rafaelaugustos/jolt/issues)不会扩大正式版支持的组合，也不会改变文档所列的平台降级行为和 JavaScript 成本。

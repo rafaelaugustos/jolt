@@ -73,7 +73,7 @@ export const es = {
   motionInspector: 'Inspector de movimiento',
   api: 'API',
   internals: 'Cómo funciona',
-  limits: 'Lo que falta',
+  limits: 'Estado de la versión y límites',
 }
 
 export const zh = {
@@ -149,7 +149,7 @@ export const zh = {
   motionInspector: '动画检查器',
   api: 'API',
   internals: '工作原理',
-  limits: '尚未支持的功能',
+  limits: '发布状态与限制',
 }
 
 export const spanish: LocaleSpecificConfig<DefaultTheme.Config> = {
