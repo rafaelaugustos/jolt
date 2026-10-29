@@ -63,6 +63,12 @@ features:
     link: /zh-Hans/guide/scene-camera
 ---
 
+## 0.1.0-rc.2：生命周期与组合修复 {#release-candidate}
+
+RC.2 修复了[尺寸变化与重新加载时的滚动锚点](/zh-Hans/guide/scroll-header)、[应用从后台恢复后的 iOS 返回手势](/zh-Hans/guide/interactive-navigation)、[独立层中 press 的释放行为](/zh-Hans/guide/press#layered-press)以及[原生组合的时序](/zh-Hans/guide/layers)。本版本还包含[原生指针弹簧拖动](/zh-Hans/guide/physics-attachments)和 [Android 图库生命周期验证](/zh-Hans/guide/gallery#android-rotation-and-resume)。
+
+[演示应用](/zh-Hans/guide/demo)现有 **74 个示例，支持四种语言**。[安装 RC.2](/zh-Hans/guide/install) 后请重新构建原生应用。请查看[发布说明](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.2)以及[正式版发布前仍需完成的真机验收](/zh-Hans/guide/not-there-yet)。
+
 ## 0.1.0-rc.1：首个候选版本 {#_0-1-0-rc-1-the-first-release-candidate}
 
 0.1.0 的功能范围已冻结。本候选版本包含[共享元素导航](/zh-Hans/guide/shared-navigation)与[联动相册](/zh-Hans/guide/gallery)、原生 [iOS 返回手势](/zh-Hans/guide/interactive-navigation)与 [Android 预测性返回](/zh-Hans/guide/predictive-back)、[滚动组合](/zh-Hans/guide/scroll-header)、[设备传感器](/zh-Hans/guide/device-sensors)、[重力](/zh-Hans/guide/gravity)以及[带约束的圆形物理模拟](/zh-Hans/guide/physics-attachments)。

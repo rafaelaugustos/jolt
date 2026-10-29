@@ -12,7 +12,7 @@ Anima a los valores dados mientras un dedo está hacia abajo, y regresa a donde 
 
 ## Pulsación en su propia capa {#layered-press}
 
-**Corrección aún no publicada:** reserve un nombre de capa para que la pulsación conviva con una entrada u otro movimiento. Las contribuciones de traslación y rotación vuelven a `0`; escala y opacidad vuelven a `1`. Soltar o cancelar el toque restaura la base actual, incluso con traslación distinta de cero o escala distinta de uno. Eliminar el efecto también limpia una contribución de pulsación ya estabilizada.
+**Corregido en 0.1.0-rc.2:** reserve un nombre de capa para que la pulsación conviva con una entrada u otro movimiento. Las contribuciones de traslación y rotación vuelven a `0`; escala y opacidad vuelven a `1`. Soltar o cancelar el toque restaura la base actual, incluso con traslación distinta de cero o escala distinta de uno. Eliminar el efecto también limpia una contribución de pulsación ya estabilizada.
 
 ```ts
 set(card, { x: 24, scale: 1.5 })

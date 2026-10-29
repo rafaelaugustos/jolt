@@ -1,8 +1,10 @@
 # Release status and limits {#not-there-yet}
 
-**0.1.0-rc.1 is available.** Its features are shipped within the combinations documented in each guide. The feature scope for 0.1.0 is frozen; validation for the stable release is still in progress.
+**0.1.0-rc.2 is available.** Its features are shipped within the combinations documented in each guide. The feature scope for 0.1.0 is frozen; validation for the stable release is still in progress.
 
-## Available in RC.1 {#available-in-rc-1}
+RC.2 includes fixes for scroll anchors, iOS navigation after backgrounding and layered press/composition timing, plus native pointer springs and Android gallery lifecycle evidence. Binding/layer capacity measurements remain open in [#242](https://github.com/rafaelaugustos/jolt/issues/242).
+
+## Available in RC.2 {#available-in-rc-1}
 
 - [Shared navigation](./shared-navigation), [shared gestures](./shared-gestures), [current-cell returns](./return-targets) and the [connected gallery](./gallery), for the documented Frame/ListView/static-image combinations.
 - [Native gesture composition](./gestures): pan, pinch and rotation, plus supported vertical Core ScrollView handoff. [Drag constraints](./drag) and [photo zoom](./photo-zoom) have their own interaction contracts.

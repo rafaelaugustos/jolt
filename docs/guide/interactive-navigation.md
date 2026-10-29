@@ -9,7 +9,7 @@ Available since **0.1.0-rc.1**. Rebuild the native app. This integration is veri
 
 ## Suspension and rotation
 
-**Unreleased fix:** NativeScript temporarily unloads the root Frame when the app enters the background. Jolt cancels a held return and keeps its owner while that Frame reloads. The same page, history and custom transition remain available after resume. A Frame that stays detached, a removed route or an explicit `dispose()` still releases the owner.
+**Fixed in 0.1.0-rc.2:** NativeScript temporarily unloads the root Frame when the app enters the background. Jolt cancels a held return and keeps its owner while that Frame reloads. The same page, history and custom transition remain available after resume. A Frame that stays detached, a removed route or an explicit `dispose()` still releases the owner.
 
 <Clip name="interactive-background-ios" caption="iOS 26.2 simulator, English demo: a real edge drag is held while switching to the Home screen. Returning preserves the page; a new Jolt swipe commits once, followed by button navigation. Original speed; no physical-device performance claim." />
 

@@ -2,7 +2,7 @@
 
 `sceneKitEnvironmentIntensity(scene)` anima la iluminación ambiental. `sceneKitUniform(target, name, options)` anima una entrada escalar o vectorial declarada del modificador de sombreado SceneKit de una aplicación. Ambos son adaptadores iOS opcionales de `@rafaelaugusto/jolt/native`.
 
-Disponible desde **0.1.0-beta.17**. Instale `@rafaelaugusto/jolt@0.1.0-rc.1` y `@rafaelaugusto/jolt-native@0.1.0-rc.1` correspondientes y luego reconstruya la aplicación nativa. La actualización de JavaScript por sí sola no puede instalar los receptores compilados.
+Disponible desde **0.1.0-beta.17**. Instale `@rafaelaugusto/jolt@0.1.0-rc.2` y `@rafaelaugusto/jolt-native@0.1.0-rc.2` correspondientes y luego reconstruya la aplicación nativa. La actualización de JavaScript por sí sola no puede instalar los receptores compilados.
 
 La línea base del asistente nativo es iOS 13+ con NativeScript 8.9+; La aplicación/tiempo de ejecución elegido puede requerir versiones más nuevas. Android SceneKit no se proporciona renderizado.
 

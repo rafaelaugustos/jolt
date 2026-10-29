@@ -2,7 +2,7 @@
 
 An album cover can leave a mini player and become the expanded cover. A selected tab indicator can move between different parents. **sharedLayout()** connects those views by identity, captures the outgoing presentation and moves a temporary native image to the new layout.
 
-Available since **0.1.0-beta.18**, in the core package. Install `@rafaelaugusto/jolt@0.1.0-rc.1` and rebuild the native application to install the snapshot/rendering classes. No optional native-property plugin is needed.
+Available since **0.1.0-beta.18**, in the core package. Install `@rafaelaugusto/jolt@0.1.0-rc.2` and rebuild the native application to install the snapshot/rendering classes. No optional native-property plugin is needed.
 
 <Clip name="shared-layout-ios" caption="Real interaction on an iOS simulator: a tab indicator moves between parents, a mini-player cover expands and returns, and a quick reversal starts from the current snapshot. Original timing." />
 

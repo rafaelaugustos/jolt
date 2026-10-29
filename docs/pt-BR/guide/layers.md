@@ -53,7 +53,7 @@ Enquanto uma propriedade tem camadas, o Jolt toca a base e as camadas como um ú
 
 [`animate(value, target, { layer })`](./motion-values#camadas-em-um-valor) soma contribuições escalares antes dos mapeamentos derivados. Camadas de valores usam zero como neutro, inclusive ao mapear para escala ou opacidade. Veja o guia de motion values para parada, arraste e composição nativa.
 
-**Correções ainda não publicadas:** [press em uma camada exclusiva](./press#layered-press) devolve apenas sua contribuição ao valor neutro. O playback das camadas também compensa o tempo de criação dos keyframes nativos, mantendo a nova composição alinhada ao relógio de origem.
+**Corrigido na 0.1.0-rc.2:** [press em uma camada exclusiva](./press#layered-press) devolve apenas sua contribuição ao valor neutro. O playback das camadas também compensa o tempo de criação dos keyframes nativos, mantendo a nova composição alinhada ao relógio de origem.
 
 <Clip name="motion-rfc-ios" caption="Simulador iOS 26.2, demo Layers em inglês com a auditoria opcional da RFC: toque real mantido, remoção da shake durante a entrada, soltura preservando a base, duas camadas infinitas e troca de janela de composição. Reprodução nativa na velocidade original; sem medição em aparelho físico." />
 <Clip name="motion-rfc-android" caption="Emulador Android 16 / API 36, demo Layers em inglês com a auditoria opcional da RFC: toques reais via ADB exercitam press, camadas independentes e troca de janela. Velocidade original; evidência de correção no emulador." />

@@ -9,7 +9,7 @@ Disponível desde a **0.1.0-rc.1**. Recompile o app nativo. Integração verific
 
 ## Suspensão e rotação
 
-**Correção ainda não publicada:** o NativeScript descarrega temporariamente o Frame raiz quando o app vai para segundo plano. O Jolt cancela a volta em andamento e mantém o controlador enquanto esse Frame recarrega. A mesma página, o histórico e a transição personalizada continuam disponíveis na retomada. Um Frame que permaneça removido, uma rota excluída ou um `dispose()` explícito continuam liberando o controlador.
+**Corrigido na 0.1.0-rc.2:** o NativeScript descarrega temporariamente o Frame raiz quando o app vai para segundo plano. O Jolt cancela a volta em andamento e mantém o controlador enquanto esse Frame recarrega. A mesma página, o histórico e a transição personalizada continuam disponíveis na retomada. Um Frame que permaneça removido, uma rota excluída ou um `dispose()` explícito continuam liberando o controlador.
 
 <Clip name="interactive-background-ios" caption="Simulador iOS 26.2, demo em inglês: um gesto real pela borda permanece pressionado durante a troca para a tela inicial. Ao retornar, a página é preservada; um novo swipe do Jolt confirma uma única volta, seguido de navegação pelo botão. Velocidade original; sem medição de desempenho em aparelho físico." />
 

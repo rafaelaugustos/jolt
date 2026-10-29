@@ -2,7 +2,7 @@
 
 `bottomSheet()` combina arrastre nativo, transferencia de desplazamiento, resortes, un fondo y teclado en una receta opcional en la página. Importarlo desde `@rafaelaugusto/jolt/bottom-sheet`; no agrega una hoja al punto de entrada principal.
 
-Disponible desde **0.1.0-beta.17**, en el paquete principal. Instale `@rafaelaugusto/jolt@0.1.0-rc.1` y reconstruya la aplicación nativa para incluir las devoluciones de llamadas de contactos nativas. No se necesita ningún complemento opcional de propiedad nativa.
+Disponible desde **0.1.0-beta.17**, en el paquete principal. Instale `@rafaelaugusto/jolt@0.1.0-rc.2` y reconstruya la aplicación nativa para incluir las devoluciones de llamadas de contactos nativas. No se necesita ningún complemento opcional de propiedad nativa.
 
 Coloque un `GestureSurface` directamente dentro de un `GridLayout` de una sola celda de tamaño completo. Coloque una manija separada y una NativeScript vertical `ScrollView` dentro del panel. El telón de fondo es un hermano detrás. La aplicación es propietaria de estas vistas y su apariencia.
 

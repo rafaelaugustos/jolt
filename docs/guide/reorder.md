@@ -2,7 +2,7 @@
 
 Hold a row handle, move it through a list, and let go. Neighbours make room while the list scrolls near its edges. The lifted row stays in a native snapshot even after its original cell leaves the recycled viewport.
 
-Available since **0.1.0-beta.17**, in the core package. Install `@rafaelaugusto/jolt@0.1.0-rc.1` and rebuild the native app to include the input and rendering classes. No optional native-property plugin is needed.
+Available since **0.1.0-beta.17**, in the core package. Install `@rafaelaugusto/jolt@0.1.0-rc.2` and rebuild the native app to include the input and rendering classes. No optional native-property plugin is needed.
 
 <Clip name="reorder-ios" caption="iOS simulator, real XCTest input: drag between unequal-height rows, move with buttons, and hold at the bottom edge to continue through recycled cells. Original timing; no physical-device claim." />
 

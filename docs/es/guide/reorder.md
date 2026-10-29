@@ -2,7 +2,7 @@
 
 Sostenga un identificador de fila, muévalo a través de una lista y suéltelo. Los vecinos hacen espacio mientras la lista se desplaza cerca de sus bordes. La fila elevada permanece en una instantánea nativa incluso después de que su celda original abandone la ventana gráfica reciclada.
 
-Disponible desde **0.1.0-beta.17**, en el paquete principal. Instale `@rafaelaugusto/jolt@0.1.0-rc.1` y reconstruya la aplicación nativa para incluir las clases de entrada y representación. No se necesita ningún complemento opcional de propiedad nativa.
+Disponible desde **0.1.0-beta.17**, en el paquete principal. Instale `@rafaelaugusto/jolt@0.1.0-rc.2` y reconstruya la aplicación nativa para incluir las clases de entrada y representación. No se necesita ningún complemento opcional de propiedad nativa.
 
 <Clip name="reorder-ios" caption="Simulador de iOS, entrada real de XCTest: arrastra entre filas de altura desigual, muévete con botones y mantén presionado en el borde inferior para continuar a través de celdas recicladas. Sincronización original; sin reclamo de dispositivo físico." />
 

@@ -9,7 +9,7 @@ Disponible desde **0.1.0-rc.1**. Reconstruya la aplicación nativa. Esta integra
 
 ## Suspensión y rotación {#suspension-and-rotation}
 
-**Corrección aún no publicada:** NativeScript descarga temporalmente el Frame raíz cuando la aplicación pasa a segundo plano. Jolt cancela el gesto de retorno y conserva su controlador mientras ese Frame vuelve a cargarse. La misma página, el historial y la transición personalizada siguen disponibles al reanudar. Un Frame que permanece desconectado, una ruta eliminada o un `dispose()` explícito siguen liberando el controlador.
+**Corregido en 0.1.0-rc.2:** NativeScript descarga temporalmente el Frame raíz cuando la aplicación pasa a segundo plano. Jolt cancela el gesto de retorno y conserva su controlador mientras ese Frame vuelve a cargarse. La misma página, el historial y la transición personalizada siguen disponibles al reanudar. Un Frame que permanece desconectado, una ruta eliminada o un `dispose()` explícito siguen liberando el controlador.
 
 <Clip name="interactive-background-ios" caption="Simulador iOS 26.2, demo en inglés: un arrastre real desde el borde se mantiene mientras se cambia a la pantalla de inicio. Al regresar se conserva la página; un nuevo gesto de Jolt confirma un único retorno, seguido de navegación con el botón. Velocidad original; sin medición de rendimiento en un dispositivo físico." />
 

@@ -2,7 +2,7 @@
 
 `sceneKitEnvironmentIntensity(scene)` 动画环境照明。 `sceneKitUniform(target, name, options)` 对应用程序的 SceneKit 着色器修改器的声明标量或矢量输入进行动画处理。两者都是 `@rafaelaugusto/jolt/native` 的可选 iOS 适配器。
 
-自 **0.1.0-beta.17** 起可用。安装匹配的 `@rafaelaugusto/jolt@0.1.0-rc.1` 和 `@rafaelaugusto/jolt-native@0.1.0-rc.1`，然后重建原生应用程序。单独更新 JavaScript 无法安装已编译的接收器。
+自 **0.1.0-beta.17** 起可用。安装匹配的 `@rafaelaugusto/jolt@0.1.0-rc.2` 和 `@rafaelaugusto/jolt-native@0.1.0-rc.2`，然后重建原生应用程序。单独更新 JavaScript 无法安装已编译的接收器。
 
 原生助手基线是 iOS 13+ 和 NativeScript 8.9+；您选择的应用程序/运行时可能需要更新的版本。未提供 Android SceneKit 渲染。
 

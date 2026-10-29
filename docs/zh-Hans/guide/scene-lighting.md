@@ -5,7 +5,7 @@
 自 **0.1.0-beta.14** 起可用。安装匹配的核心和可选的原生运行时版本，然后重建 iOS 应用程序：
 
 ```sh
-npm install @rafaelaugusto/jolt@0.1.0-rc.1 @rafaelaugusto/jolt-native@0.1.0-rc.1
+npm install @rafaelaugusto/jolt@0.1.0-rc.2 @rafaelaugusto/jolt-native@0.1.0-rc.2
 ```
 
 <Clip name="scene-lighting-ios" caption="iPhone 17模拟器，iOS 26：真实的SceneKit渲染和XCTest点按。相机、油漆、玻璃和灯光共享原生绑定；标量电荷层在基极继续的同时添加脉冲。包括暂停/恢复、子播放搜索和场景处理/娱乐。主线程实时播放；没有真机声明。" />

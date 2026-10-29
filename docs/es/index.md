@@ -63,6 +63,12 @@ features:
     link: /es/guide/scene-camera
 ---
 
+## 0.1.0-rc.2: correcciones del ciclo de vida y la composición {#release-candidate}
+
+RC.2 corrige [las anclas de scroll durante cambios de tamaño y recarga](/es/guide/scroll-header), [los gestos de retorno en iOS tras pasar a segundo plano](/es/guide/interactive-navigation), [la liberación de press en capas](/es/guide/press#layered-press) y [la sincronización de la composición nativa](/es/guide/layers). Incluye [arrastre nativo con resorte en el puntero](/es/guide/physics-attachments) y [validación del ciclo de vida de la galería en Android](/es/guide/gallery#android-rotation-and-resume).
+
+La [vista previa](/es/guide/demo) ya tiene **74 ejemplos en cuatro idiomas**. [Instala RC.2](/es/guide/install) y reconstruye la aplicación nativa. Consulta las [notas de la versión](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.2) y la [aceptación pendiente en dispositivos físicos](/es/guide/not-there-yet) antes de la versión estable.
+
 ## 0.1.0-rc.1: la primera versión candidata {#_0-1-0-rc-1-the-first-release-candidate}
 
 El alcance de la característica 0.1.0 está congelado. Este candidato trae [navegación compartida](/es/guide/shared-navigation) y un [galería de fotos conectada](/es/guide/gallery), [iOS gestos hacia atrás](/es/guide/interactive-navigation) y [Android respaldo predictivo](/es/guide/predictive-back) nativos, [composición de desplazamiento](/es/guide/scroll-header), [sensores del dispositivo](/es/guide/device-sensors), [gravedad](/es/guide/gravity) y [física circular con archivos adjuntos](/es/guide/physics-attachments).

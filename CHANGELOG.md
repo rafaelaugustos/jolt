@@ -1,6 +1,10 @@
 # Changelog
 
-## Unreleased
+## 0.1.0-rc.2 (2026-10-29)
+
+- Publish matching core and optional native packages with 74 preview examples in four languages. Rebuild native applications after upgrading. Physical-device acceptance remains open for the gallery, scroll composition, sensors and binding/layer capacity.
+- Preserve Core ListView scroll anchors through asynchronous remeasurement, unload/reload and rotation on iOS/Android (#116); include lifecycle and reentry evidence.
+- Add Spanish and Simplified Chinese documentation and refresh the homepage demonstrations.
 
 - Validate the Android gallery lifecycle (#117) with actual zoomed rotation, Home/resume, fresh gestures and repeated shared returns. Add reproducible native observations, an offline verifier and a reviewed English recording in all four guide locales. This audit confirms the existing behavior; broader gallery acceptance remains open.
 
@@ -10,7 +14,7 @@
 
 - Add opt-in native spring dragging to `physicsWorld()` (#238): a pointer moves a temporary spring anchor while the body retains finite mass and collision response. Release preserves simulated body velocity for snapping or the resting attachment; cancellation restores the previous dock and clears velocity. Includes a four-language preview, real iOS/Android interaction audits and recordings. Rebuild the native application.
 
-- Consolidate the three delivered physics milestones from #39: finite gravity, native circle collisions, and fixed-point attachments/release snapping. Correct their status across all four documentation locales and index the existing native evidence. Pointer-following elastic anchors remain tracked separately in #238.
+- Consolidate the three delivered physics milestones from #39: finite gravity, native circle collisions, and fixed-point attachments/release snapping. Correct their status across all four documentation locales and index the existing native evidence. The opt-in pointer spring extension is included in this candidate (#238).
 
 ## 0.1.0-rc.1 (2026-10-26)
 
