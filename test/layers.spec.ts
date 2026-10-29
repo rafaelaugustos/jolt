@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import {
   animate,
   bind,
@@ -14,6 +14,28 @@ import { createView, driver } from './helpers.js'
 const linear = (duration: number) => ({ duration, ease: 'linear' }) as const
 
 describe('layers', () => {
+  it('catches the composite up after native keyframe allocation', () => {
+    const card = createView()
+    const play = driver.play.bind(driver)
+    vi.spyOn(driver, 'play').mockImplementation((...args) => {
+      const handle = play(...args)
+      driver.time += 80
+      return handle
+    })
+    animate(
+      card,
+      { x: [0, 10, 0] },
+      { ...linear(900), repeat: Infinity, layer: 'wobble' },
+    )
+    animate(
+      card,
+      { x: [0, 20, 0] },
+      { ...linear(1600), repeat: Infinity, layer: 'pulse' },
+    )
+    const latest = driver.last('x')
+    expect(latest.offset).toBe(80)
+    expect(latest.track.valueAt(latest.offset!)).toBeCloseTo(currentValue(card, 'x'))
+  })
   it('add translations to the animation underneath on one native track', async () => {
     const card = createView()
     const move = animate(card, { x: [0, 100] }, linear(400))

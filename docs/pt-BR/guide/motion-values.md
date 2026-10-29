@@ -84,7 +84,7 @@ releaseColor()
 
 As atualizações compartilham uma fonte de quadros baseada no agendamento CADisplayLink/Choreographer do NativeScript. Cada lote captura todas as fontes observadas antes de chamar os listeners e fornece o mesmo instante do relógio nativo, em milissegundos. Chamadas repetidas de `set()` antes de um quadro entregam somente o valor mais recente; saídas mapeadas que não mudaram não notificam. Conclusão e parada entregam o valor final no próximo quadro, se ele mudou. Uma escrita feita dentro de um callback entra no próximo lote.
 
-Os callbacks executam JavaScript. Eles podem controlar objetos fora das views do NativeScript, mas não executam enquanto essa thread JavaScript estiver bloqueada. Isso é separado do [adaptador de propriedades nativas planejado](https://github.com/rafaelaugustos/jolt/issues/62). As ligações nativas das views continuam tocando independentemente desses callbacks.
+Os callbacks executam JavaScript e aguardam enquanto essa thread estiver bloqueada. Para targets nativos externos compatíveis, os [adaptadores de propriedades nativas](./native-properties) opcionais oferecem playback e bindings compilados. As ligações comuns de views não exigem uma assinatura; os limites de execução da plataforma continuam valendo.
 
 Cancelar a assinatura tem efeito inclusive durante a entrega e não interrompe a animação. A fonte de quadros fica ociosa depois que as fontes observadas se estabilizam e as escritas pendentes são entregues. Em segundo plano, a entrega para; ao voltar, lê o valor atual sem reproduzir os quadros perdidos. Erros de listeners vão para o trace de erros do NativeScript e não interrompem os demais. Use `scope.use()` ou chame a função devolvida quando o consumidor for destruído.
 
@@ -226,6 +226,15 @@ Cada evento de pan escreve as propriedades ligadas direto. Com seis propriedades
 
 <Clip name="drag-values-android" caption="O mesmo sheet no emulador Android, com arremessos reais nas duas direções e uma pegada enquanto a animação do botão ainda roda. Velocidade real." />
 
-## O que vem depois
+## Caminhos de execução {#what-comes-next}
 
-Os valores se combinam com [camadas](./layers) na mesma propriedade. O cálculo nativo, onde as medições pedirem, está planejado no [RFC de valores de movimento](https://github.com/rafaelaugustos/jolt/issues/152).
+Valores e [camadas de propriedades](./layers) podem ser combinados. O [RFC #152](https://github.com/rafaelaugustos/jolt/issues/152) original deu origem a caminhos de execução distintos:
+
+| Entrada                                                                                                                                | Execução                                                                                                               |
+| -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Valores e camadas guiados por timelines                                                                                                | TypeScript prepara curvas e composições; tracks nativos reproduzem entre mudanças e limites das janelas de composição. |
+| `drag()` e `scrollValue()`                                                                                                             | JavaScript trata cada evento de entrada e atualiza os bindings; a soltura do drag usa uma curva nativa preparada.      |
+| [Gestos nativos](./gestures), [springs contínuas](./live-springs), [sensores](./device-sensors) e [headers de scroll](./scroll-header) | As entradas e ligações compatíveis são avaliadas nativamente, com JavaScript na configuração e no ciclo de vida.       |
+| `subscribe()`                                                                                                                          | Observação explícita em JavaScript por uma fonte de quadros compartilhada.                                             |
+
+Uma fonte nativa contínua não transforma `drag()` ou `scrollValue()` comuns em caminhos de eventos nativos. Cada guia documenta suas propriedades e seu ciclo de vida. Os limites de bindings/camadas em aparelhos físicos e as medições em telas mais carregadas continuam na [#242](https://github.com/rafaelaugustos/jolt/issues/242).

@@ -279,11 +279,17 @@ export class Mix {
       velocityAt: (elapsed) => (at(elapsed + 0.5) - at(elapsed - 0.5)) * 1000,
     }
     writeValue(this.view, this.property, track.to)
-    this.native = driver.play(this.view, track, now, (finished = true) => {
+    const native = driver.play(this.view, track, now, (finished = true) => {
       if (instance !== this.generation || !finished) return
       this.native = undefined
       this.compose()
     })
+    if (instance !== this.generation) return
+    this.native = native
+    // Building native keyframes can take time. Join the current composition
+    // phase after construction, including when a rolling window is replaced.
+    const elapsed = driver.now() - now
+    if (elapsed > 1) driver.control?.(this.view, native, elapsed, false)
   }
 
   private dissolve() {

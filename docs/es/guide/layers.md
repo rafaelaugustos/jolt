@@ -52,3 +52,8 @@ Si bien una propiedad tiene capas, Jolt reproduce su base y sus capas como una p
 ## Valores de movimiento {#motion-values}
 
 [`animate(value, target, { layer })`](./motion-values#layers-on-a-value) agrega contribuciones escalares antes de todas las asignaciones derivadas. Las capas de valor utilizan cero como neutral, incluso cuando se asignan a escala u opacidad. Consulte la guía de valores de movimiento para detener, arrastrar y composición nativa.
+
+**Correcciones aún no publicadas:** [press en una capa exclusiva](./press#layered-press) devuelve solo su contribución al valor neutro. La reproducción de capas también compensa el tiempo de creación de los keyframes nativos para mantener la nueva composición sincronizada con su reloj de origen.
+
+<Clip name="motion-rfc-ios" caption="Simulador iOS 26.2, demo Layers en inglés con la auditoría opcional del RFC: toque real sostenido, eliminación de shake durante la entrada, liberación que conserva la base, dos capas infinitas y cambio de ventana de composición. Reproducción nativa a velocidad original; sin medición en dispositivo físico." />
+<Clip name="motion-rfc-android" caption="Emulador Android 16 / API 36, demo Layers en inglés con la auditoría opcional del RFC: toques reales mediante ADB comprueban pulsación, capas independientes, cambio de ventana y limpieza. Velocidad original; evidencia de corrección en el emulador." />

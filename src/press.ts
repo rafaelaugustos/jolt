@@ -1,6 +1,7 @@
 import { Color, type EventData, type TouchGestureEventData } from '@nativescript/core'
 import { isColorProperty } from './color.js'
-import { animate, startingValues, toView } from './animate.js'
+import { animate, startingValues, stop, toView } from './animate.js'
+import { identity } from './mixer.js'
 import type { PlaybackAnimation } from './playback.js'
 import { readValue } from './properties.js'
 import type { SpringName, Transition } from './transition.js'
@@ -25,6 +26,7 @@ export function press(
 ): () => void {
   const view = toView(target)
   const properties = [...startingValues(pressed, options).keys()]
+  const layer = typeof options === 'object' ? options.layer : undefined
   let rest: Keyframes | undefined
   let active: PlaybackAnimation | undefined
 
@@ -34,7 +36,11 @@ export function press(
       rest = Object.fromEntries(
         properties.map((p) => [
           p,
-          isColorProperty(p) ? new Color(readValue(view, p)) : readValue(view, p),
+          layer !== undefined
+            ? identity(p)
+            : isColorProperty(p)
+              ? new Color(readValue(view, p))
+              : readValue(view, p),
         ]),
       )
       active = animate(view, pressed, options ?? pressIn)
@@ -52,6 +58,8 @@ export function press(
 
   const cancel = () => {
     active?.stop()
+    // A completed press still holds its layer contribution until it is removed.
+    if (layer !== undefined) stop(view, properties, { layer })
     active = undefined
     rest = undefined
   }

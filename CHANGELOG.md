@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Fix layered `press()` release/cancellation on a nonzero translation or non-unit scale: restore only the press contribution to neutral and clear it when the effect is removed. Catch compiled view-layer tracks up after native keyframe allocation so preparation time does not shift their phase. Consolidate #152 with real iOS/Android input evidence and four-language execution-path documentation; physical-device capacity measurements remain in #242.
+
 - Preserve the iOS interactive navigation owner across NativeScript's temporary background unload (#26). A held return cancels without changing history; after resume, the same Jolt transition accepts another gesture. Frames or routes actually removed are still cleaned up. Add native suspension/rotation evidence and reviewed recordings in all four documentation locales.
 
 - Add opt-in native spring dragging to `physicsWorld()` (#238): a pointer moves a temporary spring anchor while the body retains finite mass and collision response. Release preserves simulated body velocity for snapping or the resting attachment; cancellation restores the previous dock and clears velocity. Includes a four-language preview, real iOS/Android interaction audits and recordings. Rebuild the native application.

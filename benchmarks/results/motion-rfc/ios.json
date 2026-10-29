@@ -1,0 +1,440 @@
+{
+  "platform": "iOS",
+  "version": "26.2",
+  "phase": "disposed",
+  "snapshots": [
+    {
+      "name": "held-with-feedback",
+      "phase": "entrance",
+      "time": 299642830.0845001,
+      "actual": {
+        "x": 55.546117916142144,
+        "scale": 1.2229927618332699
+      },
+      "expected": {
+        "x": 55.54105124890805,
+        "scale": 1.22299827283597
+      },
+      "baseProgress": 0.448779927060008,
+      "active": 3,
+      "frames": 0,
+      "channels": [
+        {
+          "property": "x",
+          "layer": "base",
+          "paused": false
+        },
+        {
+          "property": "scaleX",
+          "layer": "base",
+          "paused": false
+        },
+        {
+          "property": "scaleY",
+          "layer": "base",
+          "paused": false
+        },
+        {
+          "property": "x",
+          "layer": "feedback",
+          "paused": false
+        }
+      ]
+    },
+    {
+      "name": "held-without-feedback",
+      "phase": "entrance",
+      "time": 299643091.30666673,
+      "actual": {
+        "x": 51.435369163026614,
+        "scale": 1.2344846213379093
+      },
+      "expected": {
+        "x": 51.43481708288193,
+        "scale": 1.2344875913386344
+      },
+      "baseProgress": 0.5140898541510105,
+      "active": 3,
+      "frames": 0,
+      "channels": [
+        {
+          "property": "x",
+          "layer": "base",
+          "paused": false
+        },
+        {
+          "property": "scaleX",
+          "layer": "base",
+          "paused": false
+        },
+        {
+          "property": "scaleY",
+          "layer": "base",
+          "paused": false
+        }
+      ]
+    },
+    {
+      "name": "released-to-base",
+      "phase": "entrance",
+      "time": 299643985.6945834,
+      "actual": {
+        "x": 34.49135708130036,
+        "scale": 1.4475434916665717
+      },
+      "expected": {
+        "x": 34.49253833413124,
+        "scale": 1.447537308329344
+      },
+      "baseProgress": 0.737686541646719,
+      "active": 3,
+      "frames": 0,
+      "channels": [
+        {
+          "property": "x",
+          "layer": "base",
+          "paused": false
+        },
+        {
+          "property": "scaleX",
+          "layer": "base",
+          "paused": false
+        },
+        {
+          "property": "scaleY",
+          "layer": "base",
+          "paused": false
+        }
+      ]
+    },
+    {
+      "name": "entrance-settled",
+      "phase": "entrance",
+      "time": 299645285.61958337,
+      "actual": {
+        "x": 24,
+        "scale": 1.5
+      },
+      "expected": {
+        "x": 24,
+        "scale": 1.5
+      },
+      "baseProgress": 1,
+      "active": 0,
+      "frames": 0,
+      "channels": []
+    },
+    {
+      "name": "common-loop-early",
+      "phase": "loops",
+      "time": 299646954.9770417,
+      "actual": {
+        "x": 23.62368573446024,
+        "scale": 1.5
+      },
+      "expected": {
+        "x": 23.634214721992617,
+        "scale": 1.5
+      },
+      "baseProgress": 1,
+      "active": 1,
+      "frames": 0,
+      "channels": [
+        {
+          "property": "x",
+          "layer": "wobble",
+          "paused": false
+        },
+        {
+          "property": "x",
+          "layer": "pulse",
+          "paused": false
+        }
+      ]
+    },
+    {
+      "name": "common-loop-late",
+      "phase": "loops",
+      "time": 299648255.04550004,
+      "actual": {
+        "x": 20.045936514839227,
+        "scale": 1.5
+      },
+      "expected": {
+        "x": 20.056813421224554,
+        "scale": 1.5
+      },
+      "baseProgress": 1,
+      "active": 1,
+      "frames": 0,
+      "channels": [
+        {
+          "property": "x",
+          "layer": "wobble",
+          "paused": false
+        },
+        {
+          "property": "x",
+          "layer": "pulse",
+          "paused": false
+        }
+      ]
+    },
+    {
+      "name": "before-window",
+      "phase": "windows",
+      "time": 299653252.6911667,
+      "actual": {
+        "x": 44.03558266906162,
+        "scale": 1.5
+      },
+      "expected": {
+        "x": 44.040371753193895,
+        "scale": 1.5
+      },
+      "baseProgress": 1,
+      "active": 1,
+      "frames": 0,
+      "channels": [
+        {
+          "property": "x",
+          "layer": "wobble",
+          "paused": false
+        },
+        {
+          "property": "x",
+          "layer": "pulse",
+          "paused": false
+        }
+      ]
+    },
+    {
+      "name": "after-window",
+      "phase": "windows",
+      "time": 299653852.3448334,
+      "actual": {
+        "x": 36.633664022209175,
+        "scale": 1.5
+      },
+      "expected": {
+        "x": 36.641190945108306,
+        "scale": 1.5
+      },
+      "baseProgress": 1,
+      "active": 1,
+      "frames": 0,
+      "channels": [
+        {
+          "property": "x",
+          "layer": "wobble",
+          "paused": false
+        },
+        {
+          "property": "x",
+          "layer": "pulse",
+          "paused": false
+        }
+      ]
+    },
+    {
+      "name": "disposed",
+      "phase": "disposed",
+      "time": 299654651.8964167,
+      "actual": {
+        "x": 43.428463534024324,
+        "scale": 1.5
+      },
+      "expected": {
+        "x": 43.42201695700565,
+        "scale": 1.5
+      },
+      "baseProgress": 1,
+      "active": 0,
+      "frames": 0,
+      "channels": []
+    }
+  ],
+  "plays": [
+    {
+      "phase": "entrance",
+      "property": "x",
+      "duration": 4000,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleX",
+      "duration": 4000,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleY",
+      "duration": 4000,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "x",
+      "duration": 3067.167791545391,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "x",
+      "duration": 3066.7904999256134,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleX",
+      "duration": 2427.102708220482,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleY",
+      "duration": 2426.8516666293144,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "x",
+      "duration": 2426.647541642189,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleX",
+      "duration": 2426.0302082300186,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleY",
+      "duration": 2425.745749950409,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleX",
+      "duration": 2276.959291577339,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleY",
+      "duration": 2276.5811666846275,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "x",
+      "duration": 2276.2968332767487,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "x",
+      "duration": 2025.114249944687,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "x",
+      "duration": 2024.6747915744781,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "x",
+      "duration": 1300.562333226204,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleX",
+      "duration": 1300.217291533947,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleY",
+      "duration": 1299.9845416545868,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "x",
+      "duration": 1150.6388749480247,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleX",
+      "duration": 1150.1651248931885,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleY",
+      "duration": 1149.9789999723434,
+      "repeat": 0
+    },
+    {
+      "phase": "loops",
+      "property": "x",
+      "duration": 1800,
+      "repeat": "infinite"
+    },
+    {
+      "phase": "loops",
+      "property": "x",
+      "duration": 28800,
+      "repeat": "infinite"
+    },
+    {
+      "phase": "windows",
+      "property": "x",
+      "duration": 1402,
+      "repeat": "infinite"
+    },
+    {
+      "phase": "windows",
+      "property": "x",
+      "duration": 4000,
+      "repeat": 0
+    },
+    {
+      "phase": "windows",
+      "property": "x",
+      "duration": 4000,
+      "repeat": 0
+    },
+    {
+      "phase": "windows",
+      "property": "x",
+      "duration": 4000,
+      "repeat": 0
+    }
+  ],
+  "touches": [
+    {
+      "action": "down",
+      "phase": "entrance",
+      "time": 299642609.4809584
+    },
+    {
+      "action": "up",
+      "phase": "entrance",
+      "time": 299643735.0913334
+    }
+  ],
+  "environment": {
+    "date": "2026-10-29",
+    "device": "iPhone 17 simulator",
+    "runtime": "iOS 26.2",
+    "build": "Release; production JavaScript; HMR disabled",
+    "baseCommit": "8803fb82a1319c029f33a1d6b8e056db42cd5ff9"
+  }
+}
