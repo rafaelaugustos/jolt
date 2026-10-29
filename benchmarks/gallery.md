@@ -51,3 +51,27 @@ Documentation inspected on 2026-10-25: Flutter's current `Hero` and `Interactive
 | Reanimated 4.x | `sharedTransitionTag` with native-stack integration; the current page labels shared transitions experimental behind a feature flag | Compose viewer gestures, route policy and current-item lookup for the selected navigator/configuration.                                          |
 
 Primary references: [Flutter Hero](https://api.flutter.dev/flutter/widgets/Hero-class.html), [InteractiveViewer](https://api.flutter.dev/flutter/widgets/InteractiveViewer-class.html), [Reanimated shared transitions](https://docs.swmansion.com/react-native-reanimated/docs/shared-element-transitions/overview/). The integration column is a scope comparison, not a claim that another stack cannot implement the behavior. A fair measured comparison must pin framework, navigator, list, renderer, device and build mode first.
+
+## Android lifecycle audit, 2026-10-29
+
+The existing Release demo passed the Android lifecycle slice without a production gesture/navigation change. The audit adds read-only native transforms, viewport geometry, route depth and resume observations to the existing opt-in diagnostics. `gallery-android.py lifecycle` sends real OS input and restores the emulator's rotation and touch-indicator settings even when a check fails. Android's foreground `am start` request preserves diagnostic Intent extras; otherwise a replacement Intent disables the existing launch-flag-based logging.
+
+```sh
+python3 benchmarks/gallery-android.py YOUR_EMULATOR /tmp/JoltGalleryLifecycle lifecycle en
+python3 benchmarks/verify-gallery-lifecycle.py benchmarks/results/gallery/2026-10-29-lifecycle-android.json
+```
+
+Install the Release demo and shell gesture injector as described above; select English before recording. The recording uses the ordinary gallery UI and public gesture controls, with diagnostic flags that only observe boundaries. No application gesture or lifecycle handler is invoked by the test.
+
+| Check                        | Observed result                                                                                                                                                        |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Rotation at 2.5× zoom        | Zoom survives portrait → landscape → portrait; viewport dimensions change and match the native transform observations.                                                 |
+| Pan after rotation           | Real vertical drag changes native image translation in the resized viewport.                                                                                           |
+| Home and resume              | The same detail route/depth survives; a fresh pinch-to-pan gesture, reset and cancelled dismissal work.                                                                |
+| First close after suspension | One ordinary return, matching the documented disposed shared-entry policy.                                                                                             |
+| Three more open/close cycles | Portrait, transparent square and landscape images each complete a shared return; one route commit per cycle.                                                           |
+| Cleanup                      | Gallery route at depth zero; zero native flights, Back callbacks and retained scenes; all realized tagged targets visible; viewer reports not ready after each unload. |
+
+[Raw observations](results/gallery/2026-10-29-lifecycle-android.json) contain 11 fresh boundary observations, four dismissal intents and three completed shared returns after the first ordinary return. The verifier compares native image transforms with the live controller state and checks the rotation, real pan, resume, cancellation and final ownership invariants. It rejects stale samples and nonzero terminal resource counts. It does not measure JavaScript work per frame or total heap/process retention.
+
+The reviewed English `gallery-lifecycle-android.mp4` decodes as H.264 and is embedded with localized captions in all four gallery guides. The 76-second clip preserves the source timing, includes the actual Home screen and ends at the visible collection; the fixed portrait recording surface letterboxes landscape content. Existing recordings remain unchanged. This is Android 16 / API 36 emulator correctness evidence, not physical-device acceptance. Broader lifecycle phases, assistive technology, large text and performance remain in #117.

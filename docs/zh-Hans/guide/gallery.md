@@ -64,3 +64,13 @@ Reduce Motion 保留缩放/重置/关闭和路线/聚焦语义，而无需共享
 捆绑/缓存的静态肖像、风景和透明方形图像，一个 Core Frame/窗口、Core ListView 和 vue-router-ns 0.1.0-rc.2。自定义拖动返回支持矩形视口裁剪和统一正比例。入口处的部分缩略图可以使用普通开口；解决可见的回报目标仍然是独立的。网络替换、照片寻呼机、任意模式/嵌套帧转换、旋转图像和视频/GL/WebView 表面是后续功能。
 
 本指南和 [本土证据](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md) 涵盖模拟器/仿真器的正确性。真机帧节奏、输入延迟和进程内存分析在 #117 中保持开放；这些剪辑不会关闭该接受矩阵。
+
+## Android 旋转与恢复 {#android-rotation-and-resume}
+
+Android 16 / API 36 模拟器审计验证了从竖屏切换到横屏、再切回竖屏时保持 2.5 倍缩放，并在调整后的视口中执行真实拖动。返回主屏幕后重新打开应用，详情路由保持有效，仍可进行新的双指缩放及单指拖动、重置，以及取消关闭手势。
+
+如上所述，应用挂起会释放共享导航入口，因此恢复后的首次关闭使用普通导航。之后每次打开都会创建新的入口：纵向图片、透明图片和横向图片的三个循环均完成返回当前缩略图的共享转场。结束时导航栈回到图库，原生转场、Back 回调和保留场景的计数均为零。这验证了这些资源与可见交互，并非进程内存或真机性能测量。
+
+<Clip name="gallery-lifecycle-android" caption="Android 16 / API 36 模拟器，英文图库：真实输入完成缩放、旋转、拖动、主屏幕切换与恢复、新的双指缩放、取消关闭及重复返回。原速原生播放。录屏在横屏时保留空白边框，不代表真机性能测量。" />
+
+[复现步骤与原始生命周期观测](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md#android-lifecycle-audit-2026-10-29) 仅覆盖此适配器和场景。更完整的验收矩阵仍由 [#117](https://github.com/rafaelaugustos/jolt/issues/117) 跟踪。
