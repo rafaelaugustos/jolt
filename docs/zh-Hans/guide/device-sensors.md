@@ -2,6 +2,8 @@
 
 `sensor()` 为 Jolt 现有的原生值图提供旋转和重力。一个源可以倾斜卡片、移动其突出显示并偏移背景，并使用原生弹簧平滑结果。导入可选的 `@rafaelaugusto/jolt/sensors` 入口点。自 **0.1.0-rc.1** 起可用；重建原生应用程序。
 
+<Clip name="device-sensors-physical-ios" caption="实体 iPhone 17 Pro，iOS 27.2，Release 演示：Core Motion 的真实旋转和重力数据驱动卡片、反光和视差，并由原生弹簧平滑处理。英文界面，通过 USB 录屏，保持原速。此视频展示实时响应，不用于证明轴精度或性能。" />
+
 <Clip name="device-sensors-ios" caption="iOS 26.2 模拟器：由显式模拟传感器输入驱动的真实原生视图，通过实际点击来暂停、恢复、居中和减少运动。原来的速度。模拟器没有运动硬件；这不是真机传感器或性能证据。" />
 <Clip name="device-sensors-ios-pt" caption="iOS 模拟器，葡萄牙语：相同的原生输入预览和生命周期控件。屏幕识别模拟输入。" />
 <Clip name="device-sensors-android" caption="Android 16模拟器：原生卡，光线和视差遵循明确的测试样本。实际的 ADB 点击锻炼暂停、恢复和减少运动。原速度；模拟硬件和测试样本无法确定真机性能。" />
@@ -76,6 +78,6 @@ scope.dispose()
 
 原生路径仍然需要平台的 UI 线程。该线程上的同步 JavaScript 任务可能会停止显示更新；避免每个样本的 JS 调用并不能使 UI 免受阻塞。
 
-参见[参考屏幕](https://github.com/rafaelaugustos/jolt/blob/main/demo/src/components/SensorLab.vue)和[验证程序](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md)。对轴方向、实时旋转、许可行为、采样成本、延迟和电池使用的物理 iPhone/Android 检查在 #114 中仍然开放。加速度计（包括重力）、线性加速度、陀螺仪和磁场源在该问题中仍然被明确推迟。这些录屏和合成姿势不会关闭那些验收项目。
+实体 iPhone 17 Pro 审计现已验证真实 Core Motion 采集、共享订阅、暂停和减少动态效果、后台恢复，以及三次页面实例创建后的资源释放。测量期间的原生采集窗口没有 JavaScript 回调。参见[实体设备记录及其限制](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md#physical-iphone-audit-2026-10-29)。#114 仍需补充实体 Android 证据、轴和界面方向校准、访问失败与恢复、持续采样间隔测试，以及整体 CPU 和显示性能分析。包含重力的加速度计、线性加速度、陀螺仪和磁场源仍明确延期。
 
 平台合约：[Apple 设备动作](https://developer.apple.com/documentation/coremotion/getting-processed-device-motion-data)、[Android 运动传感器](https://developer.android.com/develop/sensors-and-location/sensors/sensors_motion) 和 [Android 传感器坐标和限制](https://developer.android.com/develop/sensors-and-location/sensors/sensors_overview)。

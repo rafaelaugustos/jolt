@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Validate real Core Motion rotation/gravity on a physical iPhone 17 Pro (#114), including shared acquisition, pause/Reduce Motion, background recovery, repeated screen disposal and native commit counters without steady-state JS callbacks. Add the physical trace, offline negative controls and a reviewed English recording in all four guide locales. Android physical evidence and broader axis/access/performance acceptance remain open.
+
 - Validate sensor background/resume and repeated screen reentry (#114) on iOS Simulator and Android emulator. Add fresh lifecycle observations, strict continuity/cleanup verification and reviewed English recordings in all four guide locales. This confirms existing sensor behavior without changing the public API; physical acquisition and performance acceptance remain open.
 
 ## 0.1.0-rc.2 (2026-10-29)
