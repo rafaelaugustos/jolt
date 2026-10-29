@@ -34,7 +34,7 @@ The audit verifier checks nonzero native transforms, many native updates per sta
 
 ## Physical acceptance remains open
 
-No physical iPhone or Android device was connected during this implementation. Before closing #114, record live motion on both, verify positive axis direction and all interface orientations, reentry/recentering, permission denial and recovery, unsupported hardware fallback, sample intervals, callback counts, frame latency, sampling CPU and listener/node return to baseline. Include repeated navigation and background/foreground changes. iOS Simulator cannot validate Core Motion acquisition. Android emulator sensors exercise the platform API but do not establish physical fusion accuracy or cost.
+The initial implementation had no physical-device evidence. The physical iPhone audit below now covers live acquisition, native bindings, lifecycle and commit counters. Before closing #114, complete the physical Android audit, the manual axis/interface-orientation matrix, access-failure/recovery cases, the sampling-interval sweep and profiling of sampling CPU and presentation latency. iOS Simulator cannot validate Core Motion acquisition. Android emulator sensors exercise the platform API but do not establish physical fusion accuracy or cost.
 
 The initial public sources are only rotation and gravity. Accelerometer (including gravity), linear acceleration, gyroscope and magnetic-field sources remain explicitly deferred in #114. The relative rotation reference is nonmagnetic and can drift; Euler angles are a small-tilt convenience, not a complete arbitrary-rotation interpolator.
 
@@ -72,3 +72,54 @@ The Android runner uses the reviewed 1080×2400 English layout and actual ADB ta
 The verifier rejects missing/duplicated lifecycle observations, stale sessions, sampling or frame progress during suspension, changed source/native poses at the resume boundary, stalled resumption, lost explicit pause, hardware registrations or value nodes retained, and missing route recreation. Its 13 negative controls are exercised against each of the two captured traces.
 
 Reviewed English recordings `sensor-lifecycle-ios.mp4` (46.5 s) and `sensor-lifecycle-android.mp4` (54.7 s) preserve original timing, show actual Home screens and end in the collection. Both are embedded with translated captions in all four guides. Native counters and sampled boundary poses are correctness evidence; they do not measure total heap retention, frame pacing, battery or every frame of the resume transition. Physical-device acquisition, axis accuracy, permissions and performance remain open in #114.
+
+## Physical iPhone audit (2026-10-29)
+
+An iPhone 17 Pro running iOS 27.2 (24B5099f), connected by USB, ran the normal Release demo built from `5442fa8`, with production JavaScript and no HMR. NativeScript Core 9.1.3 and iOS runtime 9.1.0. Both sources used real Core Motion data throughout this audit; no `replaySensor()` or simulated motion was used. No production sensor/runtime change was required.
+
+The signed XCTest runner passed in 114.8 seconds. Its four scripted Home/foreground cycles produced five actual suspension/activation pairs, including an additional cycle while manually paused. The verifier checks every observed pair, requires the scripted minimum, and rejects missing, duplicated or out-of-order boundaries. It does not discard the extra cycle.
+
+| Check                            | Physical iPhone result                                                                                                   |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| Live rotation and gravity        | Available and active, finite values, normalized quaternion, gravity magnitude approximately 9.80665 m/s²                 |
+| Compatible subscriptions         | One Core Motion acquisition shared by both sources and a temporary third rotation source                                 |
+| Real suspension/foreground       | Five observed pairs; samples and commits stopped while suspended                                                         |
+| Resume boundary                  | Source values and card/highlight/glow poses preserved within 0.000001 before subsequent readings                         |
+| Explicit pause and Reduce Motion | Acquisition and the live-value clock stopped; explicit pause survived foreground; both resumed when requested            |
+| Recenter                         | Acquisition and bindings continued after recenter; absolute axis accuracy is a separate pending check                    |
+| Recreated screens                | Three independently created screens, each returning registrations, sources, value nodes and the live-value clock to zero |
+
+Three acquisition windows had only boundary snapshots, with no per-reading JavaScript subscription:
+
+| Window | Duration | Requested interval | Samples/s per source | Commits/s per source | JS callbacks during window | Rotation ms/commit | Gravity ms/commit |
+| ------ | -------- | ------------------ | -------------------- | -------------------- | -------------------------- | ------------------ | ----------------- |
+| 1      | 7.223 s  | auto: 8.333 ms     | 99.82                | 59.95                | 0                          | 0.0448             | 0.0131            |
+| 2      | 7.257 s  | auto: 8.333 ms     | 99.77                | 59.94                | 0                          | 0.0408             | 0.0129            |
+| 3      | 7.243 s  | auto: 8.333 ms     | 99.82                | 60.06                | 0                          | 0.0439             | 0.0127            |
+
+The requested interval is a hint; this run delivered roughly 100 hardware samples/s and coalesced them to roughly 60 native commits/s. These commit counts are not a measurement of presented FPS. `processingMs` measures only native source commit work, excluding Core Motion fusion/delivery, other animation work, overall CPU, presentation latency and battery. This is one short correctness/counter audit on one device, not a performance guarantee.
+
+The reviewed English recording `device-sensors-physical-ios.mp4` shows real tilt driving the card, highlight and parallax. It is a USB screen recording at original timing, trimmed to the demo and resized for documentation. It is embedded in all four guides. Its manual session is separate from the automated trace; the video demonstrates live response, not a calibrated axis test or a measurement of latency.
+
+Raw automated observations: [physical iPhone trace](results/device-sensors/2026-10-29-physical-ios.json). The offline verifier has 16 negative controls covering fake hardware/preview input, JS callbacks, stalled acquisition, invalid values, retained resources, lifecycle boundaries and pause/Reduce Motion failures.
+
+Reproduce with an unlocked physical iPhone and the normal Release demo installed as `org.nativescript.jolt.benchmark`. Supply the local Apple signing team; no physical-device job is added to CI:
+
+```sh
+ruby benchmarks/docs-ios-ui.rb /tmp/JoltSensorsPhysical benchmarks/sensors-physical-ios.swift
+xcodebuild build-for-testing -project /tmp/JoltSensorsPhysical/DocsTests.xcodeproj \
+  -scheme DocsTests -destination 'generic/platform=iOS' \
+  -derivedDataPath /tmp/JoltSensorsPhysical/build -allowProvisioningUpdates \
+  CODE_SIGNING_ALLOWED=YES CODE_SIGN_STYLE=Automatic DEVELOPMENT_TEAM=YOUR_TEAM
+xcodebuild test-without-building -project /tmp/JoltSensorsPhysical/DocsTests.xcodeproj \
+  -scheme DocsTests -destination 'platform=iOS,id=YOUR_IPHONE' \
+  -derivedDataPath /tmp/JoltSensorsPhysical/build -parallel-testing-enabled NO \
+  -only-testing:DocsTests/DocsTests/testHardwareLifecycle
+xcrun devicectl device copy from --device YOUR_IPHONE \
+  --source Documents/sensors-audit.json --domain-type appDataContainer \
+  --domain-identifier org.nativescript.jolt.benchmark --destination /tmp/physical-ios.json
+python3 benchmarks/verify-sensors-physical-ios.py /tmp/physical-ios.json
+python3 -m unittest discover -s benchmarks -p 'test_sensor_*.py'
+```
+
+Issue #114 remains open for physical Android evidence, calibrated axis/interface-orientation checks, access-failure/recovery cases, sustained sampling-interval tests, and overall CPU/presentation profiling. Battery and long-running memory behavior were not measured. Deferred accelerometer, linear-acceleration, gyroscope and magnetic-field sources retain their existing scope.

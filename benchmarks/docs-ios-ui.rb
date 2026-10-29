@@ -4,7 +4,8 @@ directory = File.expand_path(ARGV.fetch(0))
 FileUtils.mkdir_p(directory)
 project = Xcodeproj::Project.new(File.join(directory, 'DocsTests.xcodeproj'))
 target = project.new_target(:ui_test_bundle, 'DocsTests', :ios, '18.0')
-target.add_file_references([project.main_group.new_file(File.expand_path('docs-ios-ui.swift', __dir__))])
+source = ARGV[1] ? File.expand_path(ARGV[1]) : File.expand_path('docs-ios-ui.swift', __dir__)
+target.add_file_references([project.main_group.new_file(source)])
 target.add_file_references([project.main_group.new_file(File.expand_path('gesture-input/NativeGestureInput.m', __dir__))])
 target.build_configurations.each do |config|
   config.build_settings['PRODUCT_BUNDLE_IDENTIFIER'] = 'dev.jolt.docs-uitests'
