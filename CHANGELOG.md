@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Validate sensor background/resume and repeated screen reentry (#114) on iOS Simulator and Android emulator. Add fresh lifecycle observations, strict continuity/cleanup verification and reviewed English recordings in all four guide locales. This confirms existing sensor behavior without changing the public API; physical acquisition and performance acceptance remain open.
+
 ## 0.1.0-rc.2 (2026-10-29)
 
 - Publish matching core and optional native packages with 74 preview examples in four languages. Rebuild native applications after upgrading. Physical-device acceptance remains open for the gallery, scroll composition, sensors and binding/layer capacity.
