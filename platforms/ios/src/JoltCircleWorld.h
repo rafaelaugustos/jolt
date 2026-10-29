@@ -9,6 +9,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)attach:(NSInteger)index options:(NSString *)options;
 - (void)snapTo:(NSInteger)index target:(NSInteger)target;
 - (void)reset;
+- (BOOL)supportsPointerSpring;
 - (NSString *)snapshot;
 - (void)dispose;
 + (NSUInteger)worldCount;

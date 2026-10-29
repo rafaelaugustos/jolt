@@ -1,5 +1,10 @@
 // English source messages → Brazilian Portuguese. Keep numbered placeholders intact.
 export const portuguese: Record<string, string> = {
+  'Follow the feeling': 'Siga a sensação',
+  'A spring between you and gravity.': 'Uma mola entre você e a gravidade.',
+  'Hold an orb. Let the spring follow.': 'Segure uma esfera. Deixe a mola acompanhar.',
+  'Keep holding. Feel the lag, then let go.':
+    'Continue segurando. Sinta o atraso e solte.',
   'Better as one': 'Melhor como um só',
   'Separate. Meet. Become something new.': 'Separar. Encontrar. Criar algo novo.',
   'A little closer. A little more connected.': 'Mais perto. Mais conectado.',

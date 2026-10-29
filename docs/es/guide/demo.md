@@ -1,6 +1,6 @@
 # Aplicación de demostración {#demo-app}
 
-La aplicación NativeScript-Vue en [`demo/`](https://github.com/rafaelaugustos/jolt/tree/main/demo) utiliza la compilación local Jolt. Se abre un lanzamiento normal **Jolt Estudio de movimiento**: una presentación animada de la marca, una casa en movimiento y una colección con capacidad de búsqueda de 73 experimentos agrupados por movimiento, tacto, visual, tipo, diseño, estado y SceneKit.
+La aplicación NativeScript-Vue en [`demo/`](https://github.com/rafaelaugustos/jolt/tree/main/demo) utiliza la compilación local Jolt. Se abre un lanzamiento normal **Jolt Estudio de movimiento**: una presentación animada de la marca, una casa en movimiento y una colección con capacidad de búsqueda de 74 experimentos agrupados por movimiento, tacto, visual, tipo, diseño, estado y SceneKit.
 
 <Clip name="showcase-splash-ios" caption="Lanzamiento en frío del simulador real iOS 26: la pantalla de inicio del sistema conduce a la presentación animada nativa de la marca y a Studio. Capturado sin sincronización de lanzamiento XCTest; velocidad original. No evidencia de rendimiento del dispositivo físico." />
 
@@ -26,7 +26,7 @@ Las etapas nativas de arte y animación conservan sus propias paletas; cambiar e
 
 Studio sigue el idioma del teléfono de forma predeterminada: el portugués usa el portugués brasileño, las variantes en español usan el español y las variantes en chino usan el chino simplificado; Los idiomas no admitidos utilizan el inglés. Toque **Idioma** en la parte superior de Studio para elegir **Seguir dispositivo**, **Inglés**, **Português**, **English** o **简体中文**. Los cambios se aplican inmediatamente y la elección persiste después de cerrar la aplicación. Al elegir **Seguir dispositivo** se elimina la anulación; el idioma preferido se vuelve a leer cuando se reanuda la aplicación.
 
-La presentación, la colección, las 73 presentaciones de experimentos, los controles, los mensajes de estado y las etiquetas de accesibilidad están localizados. La búsqueda acepta nombres traducidos o en inglés, con o sin acentos. Los números de cuenta móviles utilizan los separadores del idioma seleccionado. Los identificadores de API de animación como `popIn` permanecen sin cambios; el aislado campo de juego técnico conserva sus partidos ingleses.
+La presentación, la colección, las 74 presentaciones de experimentos, los controles, los mensajes de estado y las etiquetas de accesibilidad están localizados. La búsqueda acepta nombres traducidos o en inglés, con o sin acentos. Los números de cuenta móviles utilizan los separadores del idioma seleccionado. Los identificadores de API de animación como `popIn` permanecen sin cambios; el aislado campo de juego técnico conserva sus partidos ingleses.
 
 <Clip name="showcase-language-ios" caption="Simulador iOS 26: los toques reales de XCTest cambian de inglés a portugués, buscan una cámara sin acento, operan la lente nativa de la cámara y vuelven al inglés. Velocidad original. Comprobaciones nativas independientes verifican la persistencia y la selección automática de idioma mediante la configuración de inicio del idioma preferido iOS; esto no valida Android ni un dispositivo físico." />
 

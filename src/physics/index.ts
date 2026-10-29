@@ -29,6 +29,17 @@ export interface PhysicsSnap {
   /** Seconds of release-velocity projection for choosing a point, 0–.3; default .12. */
   projection?: number
 }
+export interface PhysicsSpringDrag {
+  type: 'spring'
+  /** Temporary pointer spring rest length in DIPs, 0–10000; default 0. */
+  length?: number
+  /** Spring force per DIP, 1–1000; default 180. */
+  stiffness?: number
+  /** Viscous damping, 0–120; default 24. */
+  damping?: number
+  /** Optional native tether, visible only during the gesture. */
+  line?: { color: string; width?: number }
+}
 export interface CircleBody {
   id: string
   /** A dedicated, square direct child of the container, sized to radius * 2. */
@@ -42,6 +53,8 @@ export interface CircleBody {
   velocity?: PhysicsVector
   attachment?: PhysicsAttachment
   snap?: PhysicsSnap
+  /** Direct dragging by default. A spring drag keeps the body dynamic during contact. */
+  drag?: 'direct' | PhysicsSpringDrag
 }
 export interface PhysicsOptions {
   /** DIPs/s². Defaults to { x: 0, y: 750 }. */
@@ -63,6 +76,13 @@ export interface PhysicsSnapshot {
     vy: number
     radius: number
     held: boolean
+    /** Temporary center target: pointer plus the initial center-to-contact offset, in local DIPs. */
+    pointer: {
+      anchor: PhysicsVector
+      length: number
+      stiffness: number
+      damping: number
+    } | null
     /** Last native release, before snap selection or subsequent integration. */
     release: { x: number; y: number; vx: number; vy: number } | null
     attachment: {
@@ -183,6 +203,18 @@ function prepareSnap(
     projection: number(value.projection ?? 0.12, 'snap.projection', 0, 0.3),
   }
 }
+function prepareDrag(value: CircleBody['drag'], width: number, height: number) {
+  if (value === undefined || value === 'direct') return null
+  if (!value || typeof value !== 'object' || value.type !== 'spring')
+    throw new TypeError('Expected direct dragging or a spring drag configuration.')
+  // Share the validated spring ranges and line style; the pointer supplies the anchor natively.
+  const {
+    x: _x,
+    y: _y,
+    ...spring
+  } = prepareAttachment({ ...value, anchor: { x: 0, y: 0 } }, width, height)!
+  return spring
+}
 function untransformed(view: View) {
   return (
     (view.translateX ?? 0) === 0 &&
@@ -264,6 +296,7 @@ export function physicsWorld(
       vy: velocity.y,
       attachment: prepareAttachment(body.attachment ?? null, width, height),
       snap: prepareSnap(body.snap, width, height, radius),
+      drag: prepareDrag(body.drag, width, height),
     }
   })
   if (!host.isLoaded || !host.nativeViewProtected)

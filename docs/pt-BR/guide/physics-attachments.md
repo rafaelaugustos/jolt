@@ -80,4 +80,39 @@ Rigidez e amortecimento do encaixe usam os mesmos limites/padrões das molas de 
 
 Pausa/redução de movimento param o relógio nativo existente. Uma mola assentada entra em repouso; impulso, mudança de destino ou novo gesto a acordam. O descarte remove as linhas nativas junto dos recursos de entrada/ciclo de vida do mundo. Comandos e eventos de ciclo de vida passam pelo JavaScript; forças, escolha do destino, contatos, desenho e atualizações por frame permanecem nativos. A thread da interface continua compartilhada com o JavaScript do NativeScript.
 
-O preview **Um lugar para voltar / Equilibrium**, em quatro idiomas, demonstra ambos os comportamentos. Molas para pontos fixos e encaixes na soltura são a terceira parte entregue da [#39](https://github.com/rafaelaugustos/jolt/issues/39), disponível na **0.1.0-rc.1**. O arraste atual move o corpo diretamente e suspende as forças das molas; um corpo dinâmico pendurado em uma âncora que acompanha o dedo é trabalho separado na [#238](https://github.com/rafaelaugustos/jolt/issues/238). Juntas entre corpos, restrições rígidas, formas arbitrárias e um motor geral de dinâmica ficam fora deste contrato. Veja a [validação e reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-attachments.md) e a [auditoria das entregas](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-completion.md).
+O preview **Um lugar para voltar / Equilibrium**, em quatro idiomas, demonstra ambos os comportamentos. Molas para pontos fixos e encaixes na soltura são a terceira parte entregue da [#39](https://github.com/rafaelaugustos/jolt/issues/39), disponível na **0.1.0-rc.1**. O arraste direto padrão suspende as forças das molas. O build de desenvolvimento acrescenta o modo de mola no ponteiro da [#238](https://github.com/rafaelaugustos/jolt/issues/238), descrito abaixo. Juntas entre corpos, restrições rígidas, formas arbitrárias e um motor geral de dinâmica ficam fora deste contrato. Veja a [validação e reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-attachments.md) e a [auditoria das entregas](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-completion.md).
+
+## Arraste com mola no ponteiro (build de desenvolvimento)
+
+Esta adição está no build de desenvolvimento posterior ao RC.1; recompile o app nativo. Use `CircleBody.drag: { type: 'spring' }` para mover uma âncora temporária com o toque nativo. O círculo continua dinâmico, sujeito à gravidade, massa e colisões. Sem `drag`, ou com `'direct'`, o arraste cinemático existente é preservado.
+
+<Clip name="pointer-spring-ios" caption="Simulador iOS: gestos reais do XCTest movem a âncora da mola, com atraso visível, colisão, retorno e snap ao soltar, pausa e Reduce Motion. Interface em inglês, tempo original; não mede desempenho em aparelho físico." />
+<Clip name="pointer-spring-android" caption="Emulador Android: gestos reais via ADB mostram a âncora móvel, a resposta às colisões e o retorno à mola fixa ou ao dock ao soltar. Pausa e Reduce Motion; interface em inglês, tempo original, sem medição em aparelho físico." />
+
+```ts
+const world = physicsWorld(board, [
+  {
+    id: 'orb',
+    view: orb,
+    radius: 28,
+    x: 160,
+    y: 130,
+    drag: {
+      type: 'spring',
+      length: 45,
+      stiffness: 140,
+      damping: 12,
+      line: { color: '#FFE1A6', width: 2 },
+    },
+    attachment: { anchor: { x: 160, y: 50 }, length: 72 },
+  },
+])
+```
+
+`length` é o comprimento de repouso elástico em DIPs (0–10000, padrão 0); `stiffness` aceita 1–1000 (padrão 180) e `damping`, 0–120 (padrão 24). A linha opcional usa `#RRGGBB` e largura de 0,5–6 DIPs (padrão 1,5). A configuração é copiada na criação. A linha temporária aparece durante o toque; a linha da âncora fixa reaparece depois.
+
+O gesto começa dentro do círculo visível. Um ponteiro controla um corpo por mundo. O alvo temporário soma à posição do ponteiro a distância inicial entre o contato e o centro, preservando essa diferença, e fica limitado às bordas locais do contêiner. Não é uma articulação na superfície: os círculos não giram. Multitoque simultâneo e ancestrais transformados continuam fora do contrato.
+
+Ao soltar, a âncora temporária é removida e a **velocidade simulada do corpo** é preservada, sem substituí-la pela velocidade do dedo. Os pontos de snap usam essa posição/velocidade; sem snap, a mola fixa volta a atuar ou o corpo fica livre. Cancelar remove o ponteiro, zera a velocidade e restaura o dock anterior sem registrar uma soltura. Pausa, Reduce Motion, unload, segundo plano, resize, reset e dispose cancelam o gesto. `attach()` altera a mola de repouso, sem alterar a mola do ponteiro ativo. `snapTo()` e `impulse()` continuam ignorando corpos segurados.
+
+No snapshot, `held` indica posse do gesto; `pointer` descreve a âncora temporária ativa ou vale `null`, enquanto `attachment` descreve a âncora de repouso. Input, integração e desenho usam o relógio nativo existente, sem callback JavaScript por movimento ou frame. A thread de UI continua compartilhada. Veja [validação e limites](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/pointer-spring.md).

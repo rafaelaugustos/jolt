@@ -18,7 +18,7 @@ public final class CircleMath {
         public double x,y,vx,vy,r,m,tx,ty,ax,ay,releaseX,releaseY,releaseVX,releaseVY;
         public boolean released;
         public boolean held,supported;
-        public final Attachment attachment=new Attachment();
+        public final Attachment attachment=new Attachment(),drag=new Attachment();
         public final Snap snap=new Snap();
     }
     public final Body[] bodies;
@@ -35,12 +35,13 @@ public final class CircleMath {
         for(Body b:bodies){if(2*b.r>Math.min(width,height))return false;area+=Math.PI*b.r*b.r;}
         return area<=width*height*.4;
     }
+    private static boolean kinematic(Body b){return b.held&&!b.drag.enabled;}
     private void walls(Body b,boolean impulse){
         double e=restitution;
-        if(b.x<=b.r){b.x=b.r;if(b.ax<0)b.supported=true;if(impulse&&!b.held&&b.vx<0){b.vx=Math.abs(b.vx)<40?0:-b.vx*e;contacts++;}}
-        if(b.x>=width-b.r){b.x=width-b.r;if(b.ax>0)b.supported=true;if(impulse&&!b.held&&b.vx>0){b.vx=Math.abs(b.vx)<40?0:-b.vx*e;contacts++;}}
-        if(b.y<=b.r){b.y=b.r;if(b.ay<0)b.supported=true;if(impulse&&!b.held&&b.vy<0){b.vy=Math.abs(b.vy)<40?0:-b.vy*e;contacts++;}}
-        if(b.y>=height-b.r){b.y=height-b.r;if(b.ay>0)b.supported=true;if(impulse&&!b.held&&b.vy>0){b.vy=Math.abs(b.vy)<40?0:-b.vy*e;contacts++;}}
+        if(b.x<=b.r){b.x=b.r;if(b.ax<0)b.supported=true;if(impulse&&!kinematic(b)&&b.vx<0){b.vx=Math.abs(b.vx)<40?0:-b.vx*e;contacts++;}}
+        if(b.x>=width-b.r){b.x=width-b.r;if(b.ax>0)b.supported=true;if(impulse&&!kinematic(b)&&b.vx>0){b.vx=Math.abs(b.vx)<40?0:-b.vx*e;contacts++;}}
+        if(b.y<=b.r){b.y=b.r;if(b.ay<0)b.supported=true;if(impulse&&!kinematic(b)&&b.vy<0){b.vy=Math.abs(b.vy)<40?0:-b.vy*e;contacts++;}}
+        if(b.y>=height-b.r){b.y=height-b.r;if(b.ay>0)b.supported=true;if(impulse&&!kinematic(b)&&b.vy>0){b.vy=Math.abs(b.vy)<40?0:-b.vy*e;contacts++;}}
     }
     public void contacts(boolean impulse,int iterations){
         for(int iteration=0;iteration<iterations;iteration++){
@@ -49,7 +50,7 @@ public final class CircleMath {
                 double dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy),radius=a.r+b.r;
                 if(d>radius+.02)continue;
                 double nx=d>1e-9?dx/d:1,ny=d>1e-9?dy/d:0;
-                double ia=a.held?0:1/a.m,ib=b.held?0:1/b.m,total=ia+ib;
+                double ia=kinematic(a)?0:1/a.m,ib=kinematic(b)?0:1/b.m,total=ia+ib;
                 if(total==0)continue;
                 double overlap=Math.max(0,radius-d);
                 a.x-=nx*overlap*ia/total;a.y-=ny*overlap*ia/total;
@@ -91,12 +92,15 @@ public final class CircleMath {
         double decay=Math.exp(-damping*DT);boolean still=true;
         for(Body b:bodies){
             b.supported=false;b.ax=gx;b.ay=gy;
-            if(b.held){b.vx=(b.tx-b.x)/DT;b.vy=(b.ty-b.y)/DT;still=false;}
+            if(b.held)still=false;
+            if(kinematic(b)){b.vx=(b.tx-b.x)/DT;b.vy=(b.ty-b.y)/DT;still=false;}
             else {
                 double damping=0;
-                if(b.attachment.enabled||b.snap.active){
+                if((b.held&&b.drag.enabled)||b.attachment.enabled||b.snap.active){
                     double x,y,length,stiffness;
-                    if(b.snap.active){
+                    if(b.held&&b.drag.enabled){
+                        x=b.tx;y=b.ty;length=b.drag.length;stiffness=b.drag.stiffness;damping=b.drag.damping;
+                    }else if(b.snap.active){
                         x=snapX(b,b.snap.index);y=snapY(b,b.snap.index);length=0;stiffness=b.snap.stiffness;damping=b.snap.damping;b.ax=b.ay=0;
                     }else {
                         x=b.attachment.u*width;y=b.attachment.v*height;length=b.attachment.length;stiffness=b.attachment.stiffness;damping=b.attachment.damping;
@@ -132,10 +136,13 @@ public final class CircleMath {
     }
     public void drag(int index,double x,double y){
         Body b=bodies[index];if(!b.held){b.snap.previousActive=b.snap.active;b.snap.previousIndex=b.snap.index;b.snap.active=false;}
-        b.held=true;b.tx=clamp(x,b.r,width-b.r);b.ty=clamp(y,b.r,height-b.r);wake();
+        b.held=true;double inset=b.drag.enabled?0:b.r;b.tx=clamp(x,inset,width-inset);b.ty=clamp(y,inset,height-inset);wake();
     }
     public void release(int index,double vx,double vy){
-        Body b=bodies[index];b.held=false;b.vx=vx;b.vy=vy;limit(b);
+        Body b=bodies[index];
+        // Preserve integrated body momentum rather than substituting pointer velocity.
+        if(!b.held||!b.drag.enabled){b.vx=vx;b.vy=vy;}
+        b.held=false;limit(b);
         b.released=true;b.releaseX=b.x;b.releaseY=b.y;b.releaseVX=b.vx;b.releaseVY=b.vy;
         if(b.snap.count>0){
             double x=b.x+b.vx*b.snap.projection,y=b.y+b.vy*b.snap.projection,best=Double.POSITIVE_INFINITY;

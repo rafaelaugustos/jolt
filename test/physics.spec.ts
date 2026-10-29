@@ -1,6 +1,10 @@
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { Application } from '@nativescript/core'
-import { physicsWorld, type PhysicsWorld } from '../src/physics/index.js'
+import {
+  physicsWorld,
+  type PhysicsWorld,
+  type PhysicsSpringDrag,
+} from '../src/physics/index.js'
 import { setCircleFactory, type CircleFactory } from '../src/physics/native.js'
 import { configure, motionScope } from '../src/index.js'
 import { createView, driver } from './helpers.js'
@@ -293,4 +297,52 @@ it('rejects invalid retargeting before updating existing native ownership', () =
   expect(backend.enabled).not.toHaveBeenCalled()
   expect(backend.attach).not.toHaveBeenCalled()
   expect(w.disposed).toBe(false)
+})
+
+it('validates spring dragging before acquiring native input or view ownership', () => {
+  const { host, bodies } = scene()
+  const factory = vi.fn<CircleFactory>(() => backend)
+  setCircleFactory(factory)
+  for (const drag of [
+    null,
+    'spring',
+    { type: 'unknown' },
+    { type: 'spring', stiffness: 0 },
+    { type: 'spring', damping: Infinity },
+    { type: 'spring', length: -1 },
+    { type: 'spring', line: { color: 'red' } },
+  ]) {
+    expect(() =>
+      create(host, [{ ...bodies[0]!, drag: drag as PhysicsSpringDrag }]),
+    ).toThrow()
+  }
+  expect(factory).not.toHaveBeenCalled()
+  create(host, bodies)
+})
+
+it('copies spring drag options and leaves the resting attachment and direct bodies independent', () => {
+  const { host, bodies } = scene()
+  const factory = vi.fn<CircleFactory>(() => backend)
+  setCircleFactory(factory)
+  const drag: PhysicsSpringDrag = {
+    type: 'spring',
+    length: 45,
+    line: { color: '#aAbBcC' },
+  }
+  create(host, [
+    { ...bodies[0]!, drag, attachment: { anchor: { x: 80, y: 40 }, length: 20 } },
+    { ...bodies[1]!, drag: 'direct' },
+  ])
+  drag.length = 100
+  drag.line!.color = '#000000'
+  const config = factory.mock.calls[0]![2].bodies
+  expect(config[0]!.drag).toEqual({
+    length: 45,
+    stiffness: 180,
+    damping: 24,
+    line: { color: 0xaabbcc, width: 1.5 },
+  })
+  expect(config[0]!.attachment!.length).toBe(20)
+  expect(config[1]!.drag).toBeNull()
+  expect(driver.frames.size).toBe(0)
 })

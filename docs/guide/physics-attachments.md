@@ -80,4 +80,39 @@ Snap stiffness/damping use the same ranges/defaults as attachment springs. One b
 
 Pause/Reduce Motion stop the existing native clock. A settled spring sleeps; an impulse, retarget or new gesture wakes it. Disposal removes native guides along with the world's existing input/lifecycle resources. Input changes and lifecycle boundaries cross JavaScript; forces, target selection, contacts, drawing and per-frame view updates stay native. The UI thread is still shared with NativeScript JavaScript.
 
-The four-language **A place to return / Equilibrium** preview demonstrates both behaviors. Fixed-point springs and release docks are the third delivered part of [#39](https://github.com/rafaelaugustos/jolt/issues/39), available in **0.1.0-rc.1**. The current drag moves the body kinematically while spring forces are suspended; a dynamic body hanging from a pointer-driven anchor is separate work in [#238](https://github.com/rafaelaugustos/jolt/issues/238). Body-to-body joints, rigid constraints, arbitrary shapes and a general dynamics engine remain outside this contract. See [validation and reproduction](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-attachments.md) and the [delivery audit](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-completion.md).
+The four-language **A place to return / Equilibrium** preview demonstrates both behaviors. Fixed-point springs and release docks are the third delivered part of [#39](https://github.com/rafaelaugustos/jolt/issues/39), available in **0.1.0-rc.1**. Default direct dragging suspends spring forces. The development build adds the opt-in pointer spring mode from [#238](https://github.com/rafaelaugustos/jolt/issues/238), documented below. Body-to-body joints, rigid constraints, arbitrary shapes and a general dynamics engine remain outside this contract. See [validation and reproduction](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-attachments.md) and the [delivery audit](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-completion.md).
+
+## Pointer spring dragging (development build)
+
+This addition is in the development build after RC.1; rebuild the native app. Set `CircleBody.drag` to `{ type: 'spring' }` to move a temporary anchor with native pointer input. The circle remains dynamic: gravity, mass and contacts keep acting while it follows the spring. Omitting `drag`, or using `'direct'`, preserves direct kinematic dragging.
+
+<Clip name="pointer-spring-ios" caption="iOS simulator: real XCTest drags move a temporary spring anchor, with visible lag, contact response, return and snapping on release, pause/resume and Reduce Motion. English UI, original playback timing; simulator correctness, not physical-device performance." />
+<Clip name="pointer-spring-android" caption="Android emulator: actual ADB drags show the moving spring tether, collision response and release to the resting spring or dock. Pause/resume and Reduce Motion; English UI, original timing, not physical-device performance." />
+
+```ts
+const world = physicsWorld(board, [
+  {
+    id: 'orb',
+    view: orb,
+    radius: 28,
+    x: 160,
+    y: 130,
+    drag: {
+      type: 'spring',
+      length: 45,
+      stiffness: 140,
+      damping: 12,
+      line: { color: '#FFE1A6', width: 2 },
+    },
+    attachment: { anchor: { x: 160, y: 50 }, length: 72 },
+  },
+])
+```
+
+`length` is the elastic rest length in DIPs (0–10000, default 0), `stiffness` is 1–1000 (default 180), and `damping` is 0–120 (default 24). Optional `line` uses `#RRGGBB` and a width of 0.5–6 DIPs (default 1.5). These options are copied at creation. The pointer tether is visible only while held; an existing fixed-anchor tether resumes afterward.
+
+The gesture must start inside the currently displayed circle. One pointer owns one body per world. The center-to-contact offset is preserved: the temporary target is pointer position plus that initial offset, clamped to the container's local bounds. It is not a point joint on the body surface; circles do not rotate. Simultaneous multitouch and transformed ancestors remain unsupported.
+
+A successful release removes the temporary anchor and preserves the **body's simulated velocity**, rather than replacing it with finger velocity. Configured snap points choose their dock from that position/velocity; otherwise the fixed attachment resumes, or a body without one continues freely. Cancellation removes pointer ownership, clears velocity and restores the previously selected dock without recording a release. Pause, Reduce Motion, unload, backgrounding, resize, reset and disposal cancel the gesture. `attach()` changes the resting spring; it does not retarget the active pointer spring. `snapTo()` and `impulse()` continue to ignore a held body.
+
+`snapshot().bodies[i].held` reports input ownership in both modes. `pointer` describes the active temporary anchor and spring, or is `null`; `attachment` keeps describing the resting anchor. Native input, integration and tether drawing use the existing bounded native clock, with no JavaScript callback per movement or frame. This still shares the UI thread. See [native checks and limits](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/pointer-spring.md).

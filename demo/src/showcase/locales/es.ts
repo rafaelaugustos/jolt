@@ -1,5 +1,11 @@
 // English source messages → Spanish. Keep numbered placeholders intact.
 export const spanish: Record<string, string> = {
+  'Follow the feeling': 'Sigue la sensación',
+  'A spring between you and gravity.': 'Un resorte entre tú y la gravedad.',
+  'Hold an orb. Let the spring follow.':
+    'Sujeta una esfera. Deja que el resorte te siga.',
+  'Keep holding. Feel the lag, then let go.':
+    'Sigue sujetando. Siente el retraso y suelta.',
   'Better as one': 'Mejor como uno',
   'Separate. Meet. Become something new.': 'Separar. Encontrar. Crear algo nuevo.',
   'A little closer. A little more connected.': 'Más cerca. Más conectados.',
