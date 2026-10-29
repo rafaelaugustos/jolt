@@ -12,7 +12,7 @@ Anima até os valores dados enquanto um dedo está na tela, e de volta para onde
 
 ## Press em sua própria camada {#layered-press}
 
-**Correção ainda não publicada:** use um nome de camada exclusivo quando o press precisar conviver com uma entrada ou outro movimento. As contribuições de translação e rotação voltam a `0`; escala e opacidade voltam a `1`. Soltar ou cancelar o toque restaura a base atual, inclusive com translação diferente de zero ou escala diferente de um. Remover o efeito também limpa a contribuição de um press já estabilizado.
+**Corrigido na 0.1.0-rc.2:** use um nome de camada exclusivo quando o press precisar conviver com uma entrada ou outro movimento. As contribuições de translação e rotação voltam a `0`; escala e opacidade voltam a `1`. Soltar ou cancelar o toque restaura a base atual, inclusive com translação diferente de zero ou escala diferente de um. Remover o efeito também limpa a contribuição de um press já estabilizado.
 
 ```ts
 set(card, { x: 24, scale: 1.5 })

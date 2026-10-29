@@ -31,7 +31,7 @@ NativeScript's `view.animate()` covers the basics and stops there: one curve for
 
 Jolt computes the motion once, in JavaScript, when the animation starts, and hands it to the platform as keyframes: Core Animation on iOS, `ObjectAnimator` on Android. Those default view tracks play without per-frame JavaScript. Real-size layout, opt-in subscribers, gesture input and timeline step activation retain their documented [execution limits](https://jolt.rafaelaugusto.dev/guide/how-it-works). Springs follow real physics, and an animation that interrupts another one starts from where the view is, at the speed it was going.
 
-The [0.1.0-rc.1 release candidate](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.1) adds shared navigation and a connected photo gallery, native back gestures, scroll composition, device sensors, circle physics, vector drawing/morphing, animated blur and iOS 26 Liquid Glass. The preview has **73 examples in English, Portuguese, Spanish and Simplified Chinese**, with light/dark themes. The 0.1.0 feature scope is frozen; the RC phase focuses on fixes, compatibility and [physical-device acceptance](https://jolt.rafaelaugusto.dev/guide/not-there-yet). Install `@rafaelaugusto/jolt@0.1.0-rc.1` and rebuild the native app. For external native properties, also install matching `@rafaelaugusto/jolt-native@0.1.0-rc.1`.
+The [0.1.0-rc.2 release candidate](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.2) fixes scroll anchors through resize/reload, iOS interactive navigation after backgrounding, layered press release and native composition timing. It includes opt-in native pointer springs and Android gallery lifecycle validation. The preview has **74 examples in English, Portuguese, Spanish and Simplified Chinese**, with light/dark themes. The RC phase continues with compatibility and [physical-device acceptance](https://jolt.rafaelaugusto.dev/guide/not-there-yet). Install `@rafaelaugusto/jolt@0.1.0-rc.2` and rebuild the native app. For external native properties, also install matching `@rafaelaugusto/jolt-native@0.1.0-rc.2`.
 
 ## Features
 
@@ -99,7 +99,7 @@ The [0.1.0-rc.1 release candidate](https://github.com/rafaelaugustos/jolt/releas
 npm install @rafaelaugusto/jolt@next
 ```
 
-The current release candidate is **0.1.0-rc.1**, published under the `next` tag. Requires `@nativescript/core` 8.9 or later. It doesn't depend on a framework: it takes a view, or an element that holds one. Rebuild the native app after installing or upgrading Jolt. See [release status and limits](https://jolt.rafaelaugusto.dev/guide/not-there-yet) for the remaining stable-release acceptance work.
+The current release candidate is **0.1.0-rc.2**, published under the `next` tag. Requires `@nativescript/core` 8.9 or later. It doesn't depend on a framework: it takes a view, or an element that holds one. Rebuild the native app after installing or upgrading Jolt. See [release status and limits](https://jolt.rafaelaugusto.dev/guide/not-there-yet) for the remaining stable-release acceptance work.
 
 On iOS 15+, Jolt requests up to 120 Hz on ProMotion displays. Set `CADisableMinimumFrameDurationOnPhone` to `true` in the app's `App_Resources/iOS/Info.plist` and rebuild to enable higher rates on iPhone. See the [iOS setup](https://jolt.rafaelaugusto.dev/guide/install#promotion-on-ios); the system still chooses the actual refresh rate.
 

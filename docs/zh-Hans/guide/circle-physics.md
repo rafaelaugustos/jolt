@@ -61,6 +61,6 @@ iOS 上的生产 C 内核和 Android 上的 Java 内核执行固定的 1/240 秒
 
 暂停、应用程序后台、卸载和减少运动停止更新并取消活动拖动。保留剩余的动态速度以供恢复。静止的世界会休眠并删除其显示回调；触摸圆圈或施加脉冲会唤醒它。每个显示帧最多运行 16 个子步（1/15 秒）。超出该限制的时间将被丢弃并报告为 `droppedMs`，从而防止 UI 停顿后无限制的追赶工作。
 
-**在一起更好 / Bump Club** 预览提供英语、葡萄牙语、西班牙语和简体中文控件。原生圆形碰撞、[固定锚点弹簧与吸附](./physics-attachments)以及[重力与弹跳](./gravity)均已在 **0.1.0-rc.1** 中提供，共同构成 [#39](https://github.com/rafaelaugustos/jolt/issues/39) 已实现的范围。开发版本通过 [#238](https://github.com/rafaelaugustos/jolt/issues/238) 添加可选的[指针弹簧拖动](./physics-attachments)，直接拖动仍保留运动学行为。通用约束和任意形状不属于圆形物理世界的接口约定。请参阅[原生验证](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/circle-physics.md)和[交付审计](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-completion.md)。
+**在一起更好 / Bump Club** 预览提供英语、葡萄牙语、西班牙语和简体中文控件。原生圆形碰撞、[固定锚点弹簧与吸附](./physics-attachments)以及[重力与弹跳](./gravity)均已在 **0.1.0-rc.1** 中提供，共同构成 [#39](https://github.com/rafaelaugustos/jolt/issues/39) 已实现的范围。0.1.0-rc.2 通过 [#238](https://github.com/rafaelaugustos/jolt/issues/238) 添加可选的[指针弹簧拖动](./physics-attachments)，直接拖动仍保留运动学行为。通用约束和任意形状不属于圆形物理世界的接口约定。请参阅[原生验证](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/circle-physics.md)和[交付审计](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-completion.md)。
 
 如果NativeScript重建原生视图，世界会自动处理。新布局后创造新世界。保留相同原生视图的卸载/加载仅暂停和恢复。

@@ -12,7 +12,7 @@ Animates to the given values while a finger is down, and back to where the view 
 
 ## Press on its own layer {#layered-press}
 
-**Unreleased fix:** use a dedicated layer name when press feedback should coexist with an entrance or other motion. Translation and rotation contributions return to `0`; scale and opacity contributions return to `1`. Releasing or cancelling the touch therefore restores the current base, including a nonzero translation or non-unit scale. Removing the effect also clears a settled press contribution.
+**Fixed in 0.1.0-rc.2:** use a dedicated layer name when press feedback should coexist with an entrance or other motion. Translation and rotation contributions return to `0`; scale and opacity contributions return to `1`. Releasing or cancelling the touch therefore restores the current base, including a nonzero translation or non-unit scale. Removing the effect also clears a settled press contribution.
 
 ```ts
 set(card, { x: 24, scale: 1.5 })

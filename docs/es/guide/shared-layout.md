@@ -2,7 +2,7 @@
 
 La portada de un álbum puede salir de un mini reproductor y convertirse en la portada ampliada. Un indicador de pestaña seleccionado puede moverse entre diferentes padres. **sharedLayout()** conecta esas vistas por identidad, captura la presentación saliente y mueve una imagen nativa temporal al nuevo diseño.
 
-Disponible desde **0.1.0-beta.18**, en el paquete principal. Instale `@rafaelaugusto/jolt@0.1.0-rc.1` y reconstruya la aplicación nativa para instalar las clases de instantánea/renderizado. No se necesita ningún complemento opcional de propiedad nativa.
+Disponible desde **0.1.0-beta.18**, en el paquete principal. Instale `@rafaelaugusto/jolt@0.1.0-rc.2` y reconstruya la aplicación nativa para instalar las clases de instantánea/renderizado. No se necesita ningún complemento opcional de propiedad nativa.
 
 <Clip name="shared-layout-ios" caption="Interacción real en un simulador iOS: un indicador de pestaña se mueve entre los padres, la portada de un minirreproductor se expande y regresa, y comienza una inversión rápida desde la instantánea actual. Velocidad original." />
 

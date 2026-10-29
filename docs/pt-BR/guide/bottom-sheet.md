@@ -2,7 +2,7 @@
 
 `bottomSheet()` combina arraste nativo, transferência para o scroll, springs, backdrop e acompanhamento do teclado em uma receita opcional dentro da página. Importe de `@rafaelaugusto/jolt/bottom-sheet`; o entry point principal continua independente do sheet.
 
-Disponível desde a **0.1.0-beta.17**, no pacote principal. Instale `@rafaelaugusto/jolt@0.1.0-rc.1` e recompile o app para incluir os callbacks nativos de contato. Não exige o plugin opcional de propriedades nativas.
+Disponível desde a **0.1.0-beta.17**, no pacote principal. Instale `@rafaelaugusto/jolt@0.1.0-rc.2` e recompile o app para incluir os callbacks nativos de contato. Não exige o plugin opcional de propriedades nativas.
 
 Coloque um `GestureSurface` diretamente em um `GridLayout` de uma célula que ocupe a área do overlay. Dentro do painel, use um handle separado e um `ScrollView` vertical do NativeScript. O backdrop é um irmão atrás do painel. As views e sua aparência continuam pertencendo ao app.
 

@@ -2,7 +2,7 @@
 
 `bottomSheet()` 在可选的页内配方中结合了原生拖动、滚动切换、弹簧、背景和键盘跟随。从`@rafaelaugusto/jolt/bottom-sheet`导入；它不会将工作表添加到核心入口点。
 
-自 **0.1.0-beta.17** 起在核心包中可用。安装 `@rafaelaugusto/jolt@0.1.0-rc.1` 并重建原生应用程序以包含原生联系人回调。不需要可选的原生属性插件。
+自 **0.1.0-beta.17** 起在核心包中可用。安装 `@rafaelaugusto/jolt@0.1.0-rc.2` 并重建原生应用程序以包含原生联系人回调。不需要可选的原生属性插件。
 
 将 `GestureSurface` 直接放置在全尺寸单电池 `GridLayout` 内。在面板内部放置一个单独的手柄和一个垂直的NativeScript `ScrollView`。背景是它后面的兄弟姐妹。应用程序拥有这些视图及其外观。
 

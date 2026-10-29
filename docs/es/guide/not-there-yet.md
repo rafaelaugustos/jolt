@@ -1,8 +1,10 @@
 # Estado de la versión y límites {#not-there-yet}
 
-**0.1.0-rc.1 está disponible.** Sus funciones ya se han entregado para las combinaciones documentadas en cada guía. El alcance funcional de 0.1.0 está congelado; la validación para la versión estable sigue en curso.
+**0.1.0-rc.2 está disponible.** Sus funciones ya se han entregado para las combinaciones documentadas en cada guía. El alcance funcional de 0.1.0 está congelado; la validación para la versión estable sigue en curso.
 
-## Disponible en RC.1 {#available-in-rc-1}
+RC.2 incluye correcciones de anclas de scroll, navegación iOS tras pasar a segundo plano y press/composición en capas, además de resortes nativos en el puntero y evidencia del ciclo de vida de la galería Android. Las mediciones de capacidad de bindings y capas siguen pendientes en [#242](https://github.com/rafaelaugustos/jolt/issues/242).
+
+## Disponible en RC.2 {#available-in-rc-1}
 
 - [Navegación compartida](./shared-navigation), [gestos compartidos](./shared-gestures), [regreso a la celda actual](./return-targets) y [galería conectada](./gallery), para las combinaciones documentadas de Frame/ListView/imágenes estáticas.
 - [Composición nativa de gestos](./gestures): desplazamiento, pellizco y rotación, además de la transferencia de gestos compatible con Core ScrollView vertical. Las [restricciones de arrastre](./drag) y el [zoom de fotos](./photo-zoom) tienen sus propios contratos de interacción.

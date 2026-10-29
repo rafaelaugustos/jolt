@@ -2,7 +2,7 @@
 
 Uma capa pode sair do mini player e virar a capa expandida. O indicador da aba selecionada pode mudar entre pais diferentes. **sharedLayout()** conecta essas views por identidade, captura a apresentação atual e move uma imagem nativa temporária até o novo layout.
 
-Disponível desde a **0.1.0-beta.18**, no pacote principal. Instale `@rafaelaugusto/jolt@0.1.0-rc.1` e recompile o app nativo para instalar as classes de captura e renderização. Não exige o plugin opcional de propriedades nativas.
+Disponível desde a **0.1.0-beta.18**, no pacote principal. Instale `@rafaelaugusto/jolt@0.1.0-rc.2` e recompile o app nativo para instalar as classes de captura e renderização. Não exige o plugin opcional de propriedades nativas.
 
 <Clip name="shared-layout-ios" caption="Interação real no simulador iOS: indicador de abas mudando entre pais, capa do mini player expandindo e retornando, e inversão rápida a partir da imagem atual. Velocidade original." />
 

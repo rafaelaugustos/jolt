@@ -65,6 +65,12 @@ features:
     link: /guide/scene-camera
 ---
 
+## 0.1.0-rc.2: lifecycle and composition fixes {#release-candidate}
+
+RC.2 fixes [scroll anchors during resize and reload](/guide/scroll-header), [iOS return gestures after backgrounding](/guide/interactive-navigation), [layered press release](/guide/press#layered-press) and [native composition timing](/guide/layers). It includes [native pointer spring dragging](/guide/physics-attachments#pointer-spring-dragging-development-build) and [Android gallery lifecycle validation](/guide/gallery#android-rotation-and-resume).
+
+The [preview](/guide/demo) now has **74 examples in four languages**. [Install RC.2](/guide/install) and rebuild the native app. Read the [release notes](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.2) and the [remaining physical-device acceptance](/guide/not-there-yet) before stable.
+
 ## 0.1.0-rc.1: the first release candidate
 
 The 0.1.0 feature scope is frozen. This candidate brings [shared navigation](/guide/shared-navigation) and a [connected photo gallery](/guide/gallery), native [iOS back gestures](/guide/interactive-navigation) and [Android predictive back](/guide/predictive-back), [scroll composition](/guide/scroll-header), [device sensors](/guide/device-sensors), [gravity](/guide/gravity) and [circle physics with attachments](/guide/physics-attachments).

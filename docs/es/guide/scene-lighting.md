@@ -5,7 +5,7 @@ Anima la intensidad/color de la luz, la transparencia del material y los colores
 Disponible desde **0.1.0-beta.14**. Instale las versiones de tiempo de ejecución nativas principales y opcionales coincidentes y luego reconstruya la aplicación iOS:
 
 ```sh
-npm install @rafaelaugusto/jolt@0.1.0-rc.1 @rafaelaugusto/jolt-native@0.1.0-rc.1
+npm install @rafaelaugusto/jolt@0.1.0-rc.2 @rafaelaugusto/jolt-native@0.1.0-rc.2
 ```
 
 <Clip name="scene-lighting-ios" caption="Simulador de iPhone 17, iOS 26: renderizado real de SceneKit y taps de XCTest. La cámara, la pintura, el vidrio y la iluminación comparten vínculos nativos; una capa de carga escalar agrega un pulso mientras la base continúa. Incluye pausa/reanudación, búsqueda de reproducción infantil y eliminación/recreación de escenas. Reproducción en tiempo real del hilo principal; sin reclamo de dispositivo físico." />

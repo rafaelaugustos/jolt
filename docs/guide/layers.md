@@ -53,7 +53,7 @@ While a property has layers, Jolt plays its base and layers as one composite nat
 
 [`animate(value, target, { layer })`](./motion-values#layers-on-a-value) adds scalar contributions before all derived mappings. Value layers use zero as neutral, including when mapped to scale or opacity. See the motion values guide for stopping, dragging and native composition.
 
-**Unreleased fixes:** [press on a dedicated layer](./press#layered-press) returns only its own contribution to neutral. Compiled view-layer playback also catches up after native keyframe allocation, so setup time does not leave a newly composed track behind its source clock.
+**Fixed in 0.1.0-rc.2:** [press on a dedicated layer](./press#layered-press) returns only its own contribution to neutral. Compiled view-layer playback also catches up after native keyframe allocation, so setup time does not leave a newly composed track behind its source clock.
 
 <Clip name="motion-rfc-ios" caption="iOS 26.2 simulator, English Layers demo with the opt-in RFC audit: real held touch, shake removal during the entrance, release to the non-unit base, two endless layers and a composition-window rollover. Native playback at original speed; no physical-device performance claim." />
 <Clip name="motion-rfc-android" caption="Android 16 / API 36 emulator, English Layers demo with the opt-in RFC audit: real ADB taps and held touch exercise the same press, independent layers and window rollover. Original speed; emulator correctness evidence." />

@@ -7,7 +7,7 @@
 自 **0.1.0-beta.15** 起可用。安装匹配的核心/原生版本并重建原生应用程序：
 
 ```sh
-npm install @rafaelaugusto/jolt@0.1.0-rc.1 @rafaelaugusto/jolt-native@0.1.0-rc.1
+npm install @rafaelaugusto/jolt@0.1.0-rc.2 @rafaelaugusto/jolt-native@0.1.0-rc.2
 ```
 
 平台最低仍为NativeScript 8.9和iOS 13；原生验证使用 Core 9.1.3、运行时 9.1.0 和 iOS 26 模拟器。
