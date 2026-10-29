@@ -1,5 +1,7 @@
 # Finite gravity trajectories (#39)
 
+Current delivery status and revalidation: [physics completion audit](./physics-completion.md). The dated measurements below remain the original native captures.
+
 This delivery adds analytic fall/bounce against one fixed scalar boundary through `animate(..., { type: 'gravity' })`. It reuses native keyframe playback. It does not add per-frame JS physics, a new native CI job or a longer timeout. Interactive bodies, moving collision geometry, attachments and pushes remain outside this milestone.
 
 The **A softer landing** preview uses one physical motion value for the orb's translation/rotation and the shadow's width/opacity. UI is available in EN/PT/ES/zh-Hans. The same reviewed English recordings are embedded in both guides and attached to the PR.

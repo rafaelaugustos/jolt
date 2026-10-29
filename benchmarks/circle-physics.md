@@ -1,5 +1,7 @@
 # Native circle collisions (#39, second milestone)
 
+Current delivery status and revalidation: [physics completion audit](./physics-completion.md). The dated measurements below remain the original native captures.
+
 The optional physics entry owns a sparse board of 1–16 circular views. It adds actual native circle/wall collision stepping and direct OS drag/release to the finite gravity curves delivered previously. It uses a small C kernel on iOS and its Java port on Android, rather than introducing UIKit Dynamics on one platform and a different solver on the other. Both kernels are compiled and compared against analytical collision cases. No Box2D dependency, Kotlin toolchain, new CI workflow or increased timeout is introduced.
 
 ## Reproduce

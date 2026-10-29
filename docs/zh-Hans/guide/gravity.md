@@ -66,4 +66,4 @@ Jolt 在设置过程中分析求解恒定加速度飞行。采样时会保留精
 
 Reduce Motion 通过现有配置直接到达静止端点。当选择“减少运动”控件时，预览会立即停止运行下落。卸载/处置释放绑定和拥有的动画；临时背景暂停预览范围。
 
-这是[#39](https://github.com/rafaelaugustos/jolt/issues/39)的首次交付。交互式 [圆圈碰撞](./circle-physics) 可通过可选的物理条目单独获得。附件、一般推动行为和更广泛的物理仍然是未来的工作。现有的 [衰减捕捉点](./decay) 和 [实时弹簧](./live-springs) 提供自己的捕捉/跟随行为。有关测试边界和本地证据，请参阅 [验证程序](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gravity.md)。
+有限重力动画、原生[圆形碰撞](./circle-physics)以及[固定锚点弹簧与吸附](./physics-attachments)是 [#39](https://github.com/rafaelaugustos/jolt/issues/39) 已交付的三个部分，从 **0.1.0-rc.1** 起可用。可选的圆形物理世界还支持通过 `world.impulse()` 施加瞬时冲量。跟随触点移动的弹簧锚点由 [#238](https://github.com/rafaelaugustos/jolt/issues/238) 单独跟踪；当前原生拖动采用直接控制位置的运动学方式。[decay 吸附点](./decay)和[连续弹簧](./live-springs)仍遵循各自的接口约定。请参阅[验证说明](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gravity.md)和[交付审计](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-completion.md)。

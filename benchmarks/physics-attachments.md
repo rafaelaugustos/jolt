@@ -1,5 +1,7 @@
 # Native attachments and release snapping (#39, third milestone)
 
+Current delivery status and revalidation: [physics completion audit](./physics-completion.md). The dated measurements below remain the original native captures.
+
 The circle world now supports fixed-point springs and velocity-selected release docks. Both use the existing C/Java native solver, collision passes, input handlers and display clock. Optional tether lines use a shape layer on iOS and a drawable on Android. There is no JavaScript frame observer, additional physics dependency, new CI workflow or increased CI timeout.
 
 ## Reproduce

@@ -80,4 +80,4 @@ world.dispose()
 
 暂停/减少运动停止现有的原生时钟。安定的弹簧沉睡着；冲动、重新定位或新的手势都会唤醒它。处置会删除原生指南以及世界现有的输入/生命周期资源。输入变化和生命周期边界跨越JavaScript；力、目标选择、接触、绘图和每帧视图更新保持原生状态。 UI线程仍然与NativeScript JavaScript共享。
 
-四种语言的 **回归之地/平衡** 预览演示了这两种行为。参见 [验证和复制](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-attachments.md)。这是[#39](https://github.com/rafaelaugustos/jolt/issues/39)的第三个里程碑：圆形世界中的定点弹簧和释放底座。刚体间的关节、刚性约束、任意形状和通用动力引擎仍然不属于该合同范围。
+四种语言的 **回归之地 / Equilibrium** 预览演示了这两种行为。固定锚点弹簧和释放后的吸附点是 [#39](https://github.com/rafaelaugustos/jolt/issues/39) 已交付的第三部分，从 **0.1.0-rc.1** 起可用。当前拖动直接控制物体位置，同时暂停弹簧力；让动态物体悬挂在随触点移动的锚点上，是 [#238](https://github.com/rafaelaugustos/jolt/issues/238) 单独跟踪的工作。物体间关节、刚性约束、任意形状和通用动力学引擎不属于当前接口约定。请参阅[验证与复现说明](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-attachments.md)和[交付审计](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-completion.md)。

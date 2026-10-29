@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Consolidate the three delivered physics milestones from #39: finite gravity, native circle collisions, and fixed-point attachments/release snapping. Correct their status across all four documentation locales and index the existing native evidence. Pointer-following elastic anchors remain tracked separately in #238.
+
 ## 0.1.0-rc.1 (2026-10-26)
 
 - Start the 0.1.0 release-candidate phase with matching core and optional native packages and 73 preview examples in English, Portuguese, Spanish and Simplified Chinese. Freeze the feature scope; focus subsequent candidates on fixes, compatibility and physical-device acceptance. Rebuild native applications after upgrading from beta.18.
