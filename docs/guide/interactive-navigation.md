@@ -7,6 +7,16 @@ Available since **0.1.0-rc.1**. Rebuild the native app. This integration is veri
 <Clip name="interactive-navigation-ios" caption="iOS 26.2 simulator: real XCTest taps and edge drags open a page, cancel a partial return, commit a full return, then use the back button. Native playback at original speed; not a physical-device performance measurement." />
 <Clip name="interactive-navigation-pt-ios" caption="iOS 26.2 simulator: the same cancel, commit and button navigation in Portuguese, driven by real XCTest input at original speed." />
 
+## Suspension and rotation
+
+**Unreleased fix:** NativeScript temporarily unloads the root Frame when the app enters the background. Jolt cancels a held return and keeps its owner while that Frame reloads. The same page, history and custom transition remain available after resume. A Frame that stays detached, a removed route or an explicit `dispose()` still releases the owner.
+
+<Clip name="interactive-background-ios" caption="iOS 26.2 simulator, English demo: a real edge drag is held while switching to the Home screen. Returning preserves the page; a new Jolt swipe commits once, followed by button navigation. Original speed; no physical-device performance claim." />
+
+In the tested iOS configuration, rotating the device during a held gesture defers the interface rotation until the partial return settles. The recording verifies the retained page, landscape/portrait layout and a subsequent committed swipe; it does not demonstrate an immediate viewport change during the drag.
+
+<Clip name="interactive-rotation-ios" caption="iOS 26.2 simulator, English demo: orientation changes while the edge gesture is held; UIKit waits for cancellation before displaying landscape. Back in portrait, a new swipe returns normally. Real native input at original speed." />
+
 ## One handle per pushed entry
 
 ```ts

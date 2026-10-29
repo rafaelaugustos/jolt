@@ -70,6 +70,19 @@ NSString *JoltNavigationFlick(CGPoint start, CGFloat distance) {
     return [record synthesizeWithError:&error] ? nil : error.localizedDescription ?: @"XCTest event synthesis failed";
 }
 
+// Keep actual OS contact down while the test rotates or activates the Home screen.
+NSString *JoltNavigationHold(CGPoint start, CGFloat distance, NSInteger orientation) {
+    Class paths=NSClassFromString(@"XCPointerEventPath"), records=NSClassFromString(@"XCSynthesizedEventRecord");
+    if(!paths || !records)return @"XCTest pointer-path interfaces are unavailable";
+    id path=[[paths alloc]initForTouchAtPoint:start offset:0];
+    for(int i=1;i<=20;i++)[path moveToPoint:CGPointMake(start.x+distance*i/20,start.y) atOffset:i*.04];
+    [path moveToPoint:CGPointMake(start.x+distance,start.y) atOffset:3.0];
+    [path liftUpAtOffset:3.1];
+    id record=[[records alloc]initWithName:@"Jolt held edge return" interfaceOrientation:orientation];
+    [record addPointerEventPath:path];
+    NSError *error=nil;return [record synthesizeWithError:&error]?nil:error.localizedDescription?:@"XCTest event synthesis failed";
+}
+
 NSString *JoltGestureTrace(CGPoint center) {
     Class pathClass = NSClassFromString(@"XCPointerEventPath"), recordClass = NSClassFromString(@"XCSynthesizedEventRecord");
     if (!pathClass || !recordClass) return @"XCTest pointer-path interfaces are unavailable";

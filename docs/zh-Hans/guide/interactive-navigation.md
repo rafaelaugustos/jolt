@@ -7,6 +7,16 @@
 <Clip name="interactive-navigation-ios" caption="iOS 26.2模拟器：真实的XCTest点击和边缘拖动打开页面，取消部分返回，提交完整返回，然后使用后退按钮。以原速度本地播放；不是真机性能测量。" />
 <Clip name="interactive-navigation-pt-ios" caption="iOS 26.2 模拟器：相同的葡萄牙语取消、提交和按钮导航，由真实的 XCTest 输入以原始速度驱动。" />
 
+## 挂起与旋转 {#suspension-and-rotation}
+
+**尚未发布的修复：** 应用进入后台时，NativeScript 会暂时卸载根 Frame。Jolt 会取消正在进行的返回手势，并在该 Frame 重新加载期间保留控制器。恢复后，原页面、历史记录和自定义转场仍然可用。若 Frame 未重新挂载、路由已移除，或显式调用了 `dispose()`，则仍会释放控制器。
+
+<Clip name="interactive-background-ios" caption="iOS 26.2 模拟器，英文演示：保持真实的边缘拖动时切换到主屏幕。返回应用后页面保持不变；新的 Jolt 手势只提交一次返回，随后通过按钮导航。原速播放，不代表真机性能测量。" />
+
+在测试的 iOS 配置中，手势保持期间旋转设备会推迟界面旋转，直到部分返回结束。录像验证了页面保留、横竖屏布局及随后的返回手势；它并未展示拖动期间视口立即变化的情况。
+
+<Clip name="interactive-rotation-ios" caption="iOS 26.2 模拟器，英文演示：保持边缘手势期间改变设备方向；UIKit 等待取消完成后才显示横屏。恢复竖屏后，新的滑动正常返回。真实原生输入，原速播放。" />
+
 ## 每个推送条目一个句柄 {#one-handle-per-pushed-entry}
 
 ```ts

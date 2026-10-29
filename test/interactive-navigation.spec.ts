@@ -66,6 +66,7 @@ beforeEach(() => {
 })
 afterEach(() => {
   handles.splice(0).forEach((h) => h.dispose())
+  vi.useRealTimers()
   vi.unstubAllGlobals()
   configure({ reducedMotion: 'user' })
 })
@@ -308,11 +309,9 @@ describe('interactive Frame entry ownership', () => {
     await Promise.resolve()
     expect(f.control.state).toBe('disposed')
   })
-  it('cancels on suspend, releases on unload and ignores repeated disposal', () => {
+  it('releases on foreground unload and ignores repeated disposal', () => {
     const f = fixture()
     f.push()
-    Application.notify({ eventName: Application.suspendEvent })
-    expect(native.cancel).toHaveBeenCalledOnce()
     f.frame.notify({ eventName: 'unloaded' })
     f.control.dispose()
     event(1) // A late native callback must not recreate a released Core state.
@@ -322,6 +321,96 @@ describe('interactive Frame entry ownership', () => {
       f.transition.iosNavigatedController!(f.nav, 2, f.page.ios, f.from.ios),
     ).toBeUndefined()
     expect(f.frame.listenerCount('navigatingTo')).toBe(0)
+  })
+  it('preserves the same transition through Core background unload/reload and accepts another gesture', async () => {
+    vi.useFakeTimers()
+    const f = fixture()
+    f.push()
+    event(2)
+    native.cancel.mockImplementation(() => {
+      if (f.control.state === 'dragging') {
+        event(4)
+        event(6)
+      }
+    })
+    Application.notify({ eventName: Application.suspendEvent })
+    expect(native.cancel).toHaveBeenCalledOnce()
+    expect(begins()).toBe(false)
+    f.frame.isLoaded = false
+    f.frame.notify({ eventName: 'unloaded' })
+    expect(f.control.state).toBe('idle')
+    expect(native.disposeRestoringSwipe).not.toHaveBeenCalled()
+    Application.notify({ eventName: Application.resumeEvent })
+    await Promise.resolve() // Core may drain microtasks before root.callLoaded().
+    expect(f.control.state).toBe('idle')
+    f.frame.isLoaded = true
+    f.frame.notify({ eventName: 'loaded' })
+    vi.runAllTimers()
+    expect(f.frame.currentPage).toBe(f.page)
+    expect(f.frame.backStack).toEqual([{ resolvedPage: f.from }])
+    expect(SharedTransition.getState(f.transition.id)).toBeDefined()
+    expect(begins()).toBe(true)
+    event(2)
+    expect(f.start).toHaveBeenCalledTimes(2)
+  })
+  it('releases a Frame removed while suspended if it is not reloaded on resume', () => {
+    vi.useFakeTimers()
+    const f = fixture()
+    f.push()
+    Application.notify({ eventName: Application.suspendEvent })
+    f.frame.isLoaded = false
+    f.frame.notify({ eventName: 'unloaded' })
+    Application.notify({ eventName: Application.resumeEvent })
+    vi.runAllTimers()
+    expect(f.control.state).toBe('disposed')
+    expect(native.disposeRestoringSwipe).toHaveBeenCalledOnce()
+    expect(SharedTransition.getState(f.transition.id)).toBeUndefined()
+  })
+  it('releases a route removed during suspension even when the Frame reloads', async () => {
+    vi.useFakeTimers()
+    const f = fixture()
+    f.push()
+    Application.notify({ eventName: Application.suspendEvent })
+    f.frame.currentPage = f.from
+    f.frame.backStack = []
+    Application.notify({ eventName: Application.resumeEvent })
+    vi.runAllTimers()
+    await Promise.resolve()
+    expect(f.control.state).toBe('disposed')
+    expect(native.disposeRestoringSwipe).toHaveBeenCalledOnce()
+  })
+  it('survives repeated suspension before a pending resume check runs', () => {
+    vi.useFakeTimers()
+    const f = fixture()
+    f.push()
+    for (let i = 0; i < 2; i++) {
+      Application.notify({ eventName: Application.suspendEvent })
+      f.frame.isLoaded = false
+      f.frame.notify({ eventName: 'unloaded' })
+      Application.notify({ eventName: Application.resumeEvent })
+    }
+    Application.notify({ eventName: Application.suspendEvent })
+    vi.runAllTimers()
+    expect(f.control.state).toBe('idle')
+    Application.notify({ eventName: Application.resumeEvent })
+    f.frame.isLoaded = true
+    vi.runAllTimers()
+    expect(begins()).toBe(true)
+    expect(native.disposeRestoringSwipe).not.toHaveBeenCalled()
+  })
+  it('clears pending resume work and subscriptions on disposal', () => {
+    vi.useFakeTimers()
+    const f = fixture()
+    f.push()
+    Application.notify({ eventName: Application.suspendEvent })
+    Application.notify({ eventName: Application.resumeEvent })
+    expect(vi.getTimerCount()).toBe(1)
+    f.control.dispose()
+    vi.runAllTimers()
+    native.sync.mockClear()
+    Application.notify({ eventName: Application.resumeEvent })
+    expect(vi.getTimerCount()).toBe(0)
+    expect(native.sync).not.toHaveBeenCalled()
   })
   it('cleans an unused transition after a rejected router navigation', () => {
     const f = fixture()
