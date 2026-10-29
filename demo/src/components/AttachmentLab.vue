@@ -13,7 +13,7 @@ import { physicsWorld, type PhysicsWorld } from '@rafaelaugusto/jolt/physics'
 import { launchArgument } from '../launch'
 import { usePreviewI18n } from '../showcase/i18n'
 const { t } = usePreviewI18n()
-defineProps<{ embedded?: boolean }>()
+const props = defineProps<{ embedded?: boolean; pointer?: boolean }>()
 const board = ref(),
   paused = ref(false),
   reduced = ref(false),
@@ -27,6 +27,7 @@ let world: PhysicsWorld | undefined,
   ended = false,
   shifted = false,
   cancelTimer: ReturnType<typeof setTimeout> | undefined
+const probeTimers: ReturnType<typeof setTimeout>[] = []
 const events: object[] = []
 function host(): View {
   return board.value?.nativeView
@@ -68,7 +69,7 @@ function audit(name: string) {
     (isIOS
       ? knownFolders.documents().path
       : Application.android.context.getExternalFilesDir(null).getAbsolutePath()) +
-      '/attachment-audit.json',
+      (props.pointer ? '/pointer-spring-audit.json' : '/attachment-audit.json'),
   ).writeTextSync(
     JSON.stringify({ platform: isIOS ? 'ios' : 'android', events }, null, 2),
   )
@@ -95,6 +96,15 @@ function layout() {
       {
         id: 'tether',
         view: tether,
+        drag: props.pointer
+          ? {
+              type: 'spring',
+              length: 45,
+              stiffness: 140,
+              damping: 12,
+              line: { color: '#FFE1A6', width: 2 },
+            }
+          : 'direct',
         radius: 28,
         x: size.width * 0.5,
         y: size.height * 0.14 + 76.17,
@@ -109,6 +119,14 @@ function layout() {
       {
         id: 'magnet',
         view: magnet,
+        drag: props.pointer
+          ? {
+              type: 'spring',
+              stiffness: 100,
+              damping: 14,
+              line: { color: '#CEC9FF', width: 2 },
+            }
+          : 'direct',
         radius: 26,
         x: size.width * 0.5,
         y: size.height * 0.78,
@@ -171,6 +189,12 @@ function resize() {
   compact.value = !compact.value
   audit('resize')
 }
+function armProbe() {
+  probeTimers.splice(0).forEach(clearTimeout)
+  for (const delay of [700, 1100, 1500, 1900, 2300])
+    probeTimers.push(setTimeout(() => audit('pointer-sample'), delay))
+  audit('armed-probe')
+}
 function armCancel() {
   if (cancelTimer) clearTimeout(cancelTimer)
   cancelTimer = setTimeout(() => {
@@ -185,6 +209,7 @@ const suspend = () => audit('background'),
 onUnmounted(() => {
   ended = true
   if (cancelTimer) clearTimeout(cancelTimer)
+  probeTimers.splice(0).forEach(clearTimeout)
   owner.dispose()
   audit('disposed')
   Application.off(Application.suspendEvent, suspend)
@@ -194,7 +219,7 @@ onUnmounted(() => {
 </script>
 <template>
   <GridLayout
-    rows="auto,*,auto,auto,auto,auto,auto"
+    rows="auto,*,auto,auto,auto,auto,auto,auto"
     backgroundColor="#172C38"
     borderRadius="28"
     padding="20"
@@ -203,14 +228,20 @@ onUnmounted(() => {
     <GridLayout columns="*,auto" marginBottom="15">
       <StackLayout>
         <Label
-          text="EQUILIBRIUM"
+          :text="t(props.pointer ? 'FOLLOW THE FEELING' : 'EQUILIBRIUM')"
           color="#EBD6B9"
           fontSize="12"
           fontWeight="bold"
           letterSpacing="0.2"
         />
         <Label
-          :text="t('Spring back. Find your place.')"
+          :text="
+            t(
+              props.pointer
+                ? 'A spring between you and gravity.'
+                : 'Spring back. Find your place.',
+            )
+          "
           color="#90A8B4"
           fontSize="12"
           marginTop="6"
@@ -360,7 +391,9 @@ onUnmounted(() => {
               ? 'A moment of stillness.'
               : paused
                 ? 'Balance, on pause.'
-                : 'Pull the copper orb. Flick the lilac one.',
+                : props.pointer
+                  ? 'Hold an orb. Let the spring follow.'
+                  : 'Pull the copper orb. Flick the lilac one.',
           )
         "
         textWrap="true"
@@ -369,7 +402,13 @@ onUnmounted(() => {
         fontSize="14"
       />
       <Label
-        :text="t('One comes home. One finds a new spot.')"
+        :text="
+          t(
+            props.pointer
+              ? 'Keep holding. Feel the lag, then let go.'
+              : 'One comes home. One finds a new spot.',
+          )
+        "
         textWrap="true"
         textAlignment="center"
         color="#93AAB6"
@@ -492,5 +531,13 @@ onUnmounted(() => {
         @tap="armCancel"
       />
     </GridLayout>
+    <Button
+      v-if="auditMode && props.pointer"
+      row="7"
+      text="Probe drag"
+      automationText="pointer-probe"
+      height="30"
+      @tap="armProbe"
+    />
   </GridLayout>
 </template>

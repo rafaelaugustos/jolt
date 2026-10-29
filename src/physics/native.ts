@@ -34,6 +34,7 @@ interface Configuration {
     vx: number
     vy: number
     attachment: NativeAttachment | null
+    drag: Omit<NativeAttachment, 'x' | 'y'> | null
     snap: {
       points: PhysicsVector[]
       stiffness: number
@@ -64,6 +65,11 @@ export const createCircleDriver: CircleFactory = (container, views, options) => 
     try {
       if (typeof native.attachOptions !== 'function')
         throw new Error('Rebuild the native app to use physics attachments.')
+      if (
+        options.bodies.some((b) => b.drag) &&
+        typeof native.supportsPointerSpring !== 'function'
+      )
+        throw new Error('Rebuild the native app to use spring dragging.')
       views.forEach((v, i) => native.connectIndex(v.nativeViewProtected, i))
     } catch (e) {
       native.dispose()
@@ -92,6 +98,11 @@ export const createCircleDriver: CircleFactory = (container, views, options) => 
   try {
     if (typeof native.attach !== 'function')
       throw new Error('Rebuild the native app to use physics attachments.')
+    if (
+      options.bodies.some((b) => b.drag) &&
+      typeof native.supportsPointerSpring !== 'function'
+    )
+      throw new Error('Rebuild the native app to use spring dragging.')
     views.forEach((v, i) => native.connect(v.nativeViewProtected, i))
   } catch (e) {
     native.dispose()

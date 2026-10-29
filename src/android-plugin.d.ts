@@ -585,6 +585,7 @@ declare namespace org.rafaelaugusto.jolt {
     attach(index: number, options: string): void
     snapTo(index: number, target: number): void
     reset(): void
+    supportsPointerSpring(): boolean
     snapshot(): string
     dispose(): void
   }

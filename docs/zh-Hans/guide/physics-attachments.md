@@ -80,4 +80,39 @@ world.dispose()
 
 暂停/减少运动停止现有的原生时钟。安定的弹簧沉睡着；冲动、重新定位或新的手势都会唤醒它。处置会删除原生指南以及世界现有的输入/生命周期资源。输入变化和生命周期边界跨越JavaScript；力、目标选择、接触、绘图和每帧视图更新保持原生状态。 UI线程仍然与NativeScript JavaScript共享。
 
-四种语言的 **回归之地 / Equilibrium** 预览演示了这两种行为。固定锚点弹簧和释放后的吸附点是 [#39](https://github.com/rafaelaugustos/jolt/issues/39) 已交付的第三部分，从 **0.1.0-rc.1** 起可用。当前拖动直接控制物体位置，同时暂停弹簧力；让动态物体悬挂在随触点移动的锚点上，是 [#238](https://github.com/rafaelaugustos/jolt/issues/238) 单独跟踪的工作。物体间关节、刚性约束、任意形状和通用动力学引擎不属于当前接口约定。请参阅[验证与复现说明](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-attachments.md)和[交付审计](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-completion.md)。
+四种语言的 **回归之地 / Equilibrium** 预览演示了这两种行为。固定锚点弹簧和释放后的吸附点是 [#39](https://github.com/rafaelaugustos/jolt/issues/39) 已交付的第三部分，从 **0.1.0-rc.1** 起可用。默认的直接拖动会暂停弹簧力。开发版本添加了 [#238](https://github.com/rafaelaugustos/jolt/issues/238) 的可选指针弹簧模式，详见下文。物体间关节、刚性约束、任意形状和通用动力学引擎不属于当前接口约定。请参阅[验证与复现说明](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-attachments.md)和[交付审计](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-completion.md)。
+
+## 指针弹簧拖动（开发版本）
+
+此功能位于 RC.1 之后的开发版本中，需要重新构建原生应用。设置 `CircleBody.drag: { type: 'spring' }`，通过原生触摸输入移动临时锚点。圆球仍是动态物体，质量、重力和碰撞继续生效。省略 `drag` 或使用 `'direct'` 时保留原有的直接拖动方式。
+
+<Clip name="pointer-spring-ios" caption="iOS 模拟器：真实 XCTest 手势移动弹簧锚点，展示跟随延迟、碰撞、松手回弹与吸附、暂停和减少动态效果。英文界面，原始播放时序；不是实体设备性能测试。" />
+<Clip name="pointer-spring-android" caption="Android 模拟器：真实 ADB 手势展示移动锚点、碰撞以及松手后返回固定弹簧或停靠点，并演示暂停和减少动态效果。英文界面，原始时序；不是实体设备性能测试。" />
+
+```ts
+const world = physicsWorld(board, [
+  {
+    id: 'orb',
+    view: orb,
+    radius: 28,
+    x: 160,
+    y: 130,
+    drag: {
+      type: 'spring',
+      length: 45,
+      stiffness: 140,
+      damping: 12,
+      line: { color: '#FFE1A6', width: 2 },
+    },
+    attachment: { anchor: { x: 160, y: 50 }, length: 72 },
+  },
+])
+```
+
+`length` 是弹簧静止长度，单位为 DIP（0–10000，默认 0）；`stiffness` 为 1–1000（默认 180），`damping` 为 0–120（默认 24）。可选连线颜色使用 `#RRGGBB`，宽度为 0.5–6 DIP（默认 1.5）。创建时复制配置。临时连线仅在持有手势时显示，随后恢复固定锚点的连线。
+
+触摸必须从当前可见圆球内部开始，每个世界只允许一个指针控制一个物体。临时目标为指针位置加上初始触点到圆心的偏移，并限制在容器的局部边界内。这不是连接圆球表面的关节，圆球不会旋转。仍不支持同时多点触控或经过变换的祖先视图。
+
+松手会移除临时锚点，保留**物体的模拟速度**，不会替换为手指速度。吸附点根据该位置和速度选择；没有吸附点时恢复固定弹簧，或让没有固定弹簧的物体自由运动。取消手势会释放指针、清零速度并恢复之前的停靠点，不记录新的松手事件。暂停、减少动态效果、卸载、进入后台、尺寸变化、重置及销毁都会取消手势。`attach()` 修改静止弹簧，不改变正在使用的指针弹簧；`snapTo()` 和 `impulse()` 仍忽略被持有的物体。
+
+快照中的 `held` 表示手势所有权；`pointer` 描述当前临时锚点，未持有时为 `null`，而 `attachment` 仍描述静止锚点。输入、积分和连线绘制复用有界原生时钟，无需逐次移动或逐帧 JavaScript 回调，但仍共享 UI 线程。参见[原生验证与限制](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/pointer-spring.md)。

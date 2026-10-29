@@ -21,7 +21,7 @@ typedef struct {
     double x,y,vx,vy,r,m,tx,ty,ax,ay,releaseX,releaseY,releaseVX,releaseVY;
     bool released;
     bool held,supported;
-    JoltCircleAttachment attachment;
+    JoltCircleAttachment attachment,drag;
     JoltCircleSnap snap;
 } JoltCircle;
 typedef struct {
@@ -38,12 +38,13 @@ static inline bool JoltCircleFits(JoltCircleState *w,double width,double height)
     for(int i=0;i<w->count;i++){JoltCircle *b=&w->bodies[i];if(2*b->r>fmin(width,height))return false;area+=3.141592653589793*b->r*b->r;}
     return area<=width*height*.4;
 }
+static inline bool JoltCircleKinematic(JoltCircle *b){return b->held&&!b->drag.enabled;}
 static inline void JoltCircleWalls(JoltCircleState *w,JoltCircle *b,bool impulse){
     double e=w->restitution;
-    if(b->x<=b->r){b->x=b->r;if(b->ax<0)b->supported=true;if(impulse&&!b->held&&b->vx<0){b->vx=fabs(b->vx)<40?0:-b->vx*e;w->contacts++;}}
-    if(b->x>=w->width-b->r){b->x=w->width-b->r;if(b->ax>0)b->supported=true;if(impulse&&!b->held&&b->vx>0){b->vx=fabs(b->vx)<40?0:-b->vx*e;w->contacts++;}}
-    if(b->y<=b->r){b->y=b->r;if(b->ay<0)b->supported=true;if(impulse&&!b->held&&b->vy<0){b->vy=fabs(b->vy)<40?0:-b->vy*e;w->contacts++;}}
-    if(b->y>=w->height-b->r){b->y=w->height-b->r;if(b->ay>0)b->supported=true;if(impulse&&!b->held&&b->vy>0){b->vy=fabs(b->vy)<40?0:-b->vy*e;w->contacts++;}}
+    if(b->x<=b->r){b->x=b->r;if(b->ax<0)b->supported=true;if(impulse&&!JoltCircleKinematic(b)&&b->vx<0){b->vx=fabs(b->vx)<40?0:-b->vx*e;w->contacts++;}}
+    if(b->x>=w->width-b->r){b->x=w->width-b->r;if(b->ax>0)b->supported=true;if(impulse&&!JoltCircleKinematic(b)&&b->vx>0){b->vx=fabs(b->vx)<40?0:-b->vx*e;w->contacts++;}}
+    if(b->y<=b->r){b->y=b->r;if(b->ay<0)b->supported=true;if(impulse&&!JoltCircleKinematic(b)&&b->vy<0){b->vy=fabs(b->vy)<40?0:-b->vy*e;w->contacts++;}}
+    if(b->y>=w->height-b->r){b->y=w->height-b->r;if(b->ay>0)b->supported=true;if(impulse&&!JoltCircleKinematic(b)&&b->vy>0){b->vy=fabs(b->vy)<40?0:-b->vy*e;w->contacts++;}}
 }
 static inline void JoltCircleContacts(JoltCircleState *w,bool impulse,int iterations){
     for(int iteration=0;iteration<iterations;iteration++){
@@ -52,7 +53,7 @@ static inline void JoltCircleContacts(JoltCircleState *w,bool impulse,int iterat
             double dx=b->x-a->x,dy=b->y-a->y,d=hypot(dx,dy),radius=a->r+b->r;
             if(d>radius+.02)continue;
             double nx=d>1e-9?dx/d:1,ny=d>1e-9?dy/d:0;
-            double ia=a->held?0:1/a->m,ib=b->held?0:1/b->m,total=ia+ib;
+            double ia=JoltCircleKinematic(a)?0:1/a->m,ib=JoltCircleKinematic(b)?0:1/b->m,total=ia+ib;
             if(total==0)continue;
             double overlap=fmax(0,radius-d);
             a->x-=nx*overlap*ia/total;a->y-=ny*overlap*ia/total;
@@ -106,12 +107,15 @@ static inline void JoltCircleStep(JoltCircleState *w) {
     bool quiet=true;
     for(int i=0;i<w->count;i++){
         JoltCircle *b=&w->bodies[i];b->supported=false;b->ax=w->gx;b->ay=w->gy;
-        if(b->held){b->vx=(b->tx-b->x)/dt;b->vy=(b->ty-b->y)/dt;quiet=false;}
+        if(b->held)quiet=false;
+        if(JoltCircleKinematic(b)){b->vx=(b->tx-b->x)/dt;b->vy=(b->ty-b->y)/dt;quiet=false;}
         else {
             double damping=0;
-            if(b->attachment.enabled||b->snap.active){
+            if((b->held&&b->drag.enabled)||b->attachment.enabled||b->snap.active){
                 double x,y,length,stiffness;
-                if(b->snap.active){
+                if(b->held&&b->drag.enabled){
+                    x=b->tx;y=b->ty;length=b->drag.length;stiffness=b->drag.stiffness;damping=b->drag.damping;
+                }else if(b->snap.active){
                     x=JoltCircleSnapX(w,b,b->snap.index);y=JoltCircleSnapY(w,b,b->snap.index);
                     length=0;stiffness=b->snap.stiffness;damping=b->snap.damping;
                     // A selected snap is a positional controller; gravity must not offset its dock.
@@ -158,10 +162,14 @@ static inline void JoltCircleStep(JoltCircleState *w) {
 static inline void JoltCircleDrag(JoltCircleState *w,int index,double x,double y) {
     JoltCircle *b=&w->bodies[index];
     if(!b->held){b->snap.previousActive=b->snap.active;b->snap.previousIndex=b->snap.index;b->snap.active=false;}
-    b->held=true;b->tx=JoltCircleClamp(x,b->r,w->width-b->r);b->ty=JoltCircleClamp(y,b->r,w->height-b->r);JoltCircleWake(w);
+    b->held=true;double inset=b->drag.enabled?0:b->r;
+    b->tx=JoltCircleClamp(x,inset,w->width-inset);b->ty=JoltCircleClamp(y,inset,w->height-inset);JoltCircleWake(w);
 }
 static inline void JoltCircleRelease(JoltCircleState *w,int index,double vx,double vy) {
-    JoltCircle *b=&w->bodies[index];b->held=false;b->vx=vx;b->vy=vy;JoltCircleLimitVelocity(b);
+    JoltCircle *b=&w->bodies[index];
+    // A spring-held body releases its integrated momentum, never the pointer velocity.
+    if(!b->held||!b->drag.enabled){b->vx=vx;b->vy=vy;}
+    b->held=false;JoltCircleLimitVelocity(b);
     b->released=true;b->releaseX=b->x;b->releaseY=b->y;b->releaseVX=b->vx;b->releaseVY=b->vy;
     if(b->snap.count){
         double x=b->x+b->vx*b->snap.projection,y=b->y+b->vy*b->snap.projection,best=INFINITY;

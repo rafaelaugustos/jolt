@@ -1,5 +1,9 @@
 // English source messages → Simplified Chinese. Keep numbered placeholders intact.
 export const chinese: Record<string, string> = {
+  'Follow the feeling': '跟随感觉',
+  'A spring between you and gravity.': '用弹簧连接你与重力。',
+  'Hold an orb. Let the spring follow.': '按住圆球，让弹簧跟随。',
+  'Keep holding. Feel the lag, then let go.': '持续按住，感受延迟，再松手。',
   'Better as one': '相融更美',
   'Separate. Meet. Become something new.': '分开，相遇，焕然一新。',
   'A little closer. A little more connected.': '靠近一点，联结更多。',

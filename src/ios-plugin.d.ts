@@ -355,6 +355,7 @@ declare class JoltCircleWorld extends NSObject {
   attachOptions(index: number, options: string): void
   snapToTarget(index: number, target: number): void
   reset(): void
+  supportsPointerSpring(): boolean
   snapshot(): string
   dispose(): void
 }

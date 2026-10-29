@@ -2,6 +2,10 @@
 
 Reviewed on **2026-10-29**, against `main` at `a0c244a`.
 
+Subsequent development: [pointer spring dragging](./pointer-spring.md) implements
+the separate #238 follow-up. The scope table below records the earlier audit of
+the RC.1 delivery, before that addition.
+
 [#39](https://github.com/rafaelaugustos/jolt/issues/39) proposed two execution paths:
 precomputed fall/bounce and interactive native simulation. The delivered work spans
 three merged PRs, available in **0.1.0-rc.1**. This audit consolidates that delivery

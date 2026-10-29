@@ -1,6 +1,7 @@
 import GlassLab from '../components/GlassLab.vue'
 import BlurLab from '../components/BlurLab.vue'
 import ShapeLab from '../components/ShapeLab.vue'
+import PointerSpringLab from '../components/PointerSpringLab.vue'
 import AttachmentLab from '../components/AttachmentLab.vue'
 import CirclePhysicsLab from '../components/CirclePhysicsLab.vue'
 import GravityLab from '../components/GravityLab.vue'
@@ -103,6 +104,15 @@ export const examples = [
     category: 'Visual',
     description: 'Draw a line. Change its story.',
     component: markRaw(ShapeLab),
+    full: true,
+    ios: false,
+  },
+  {
+    id: 'pointer-spring',
+    title: 'Follow the feeling',
+    category: 'Touch',
+    description: 'A spring between you and gravity.',
+    component: markRaw(PointerSpringLab),
     full: true,
     ios: false,
   },
