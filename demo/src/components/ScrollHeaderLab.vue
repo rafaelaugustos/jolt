@@ -7,9 +7,17 @@ import {
   knownFolders,
   type EventData,
   type ItemEventData,
+  type LayoutBase,
   type ListView,
 } from '@nativescript/core'
-import { computed, nextTick, onUnmounted, ref, shallowRef } from 'nativescript-vue'
+import {
+  computed,
+  nextTick,
+  onBeforeUnmount,
+  onUnmounted,
+  ref,
+  shallowRef,
+} from 'nativescript-vue'
 import { configure, scrollHeader, type ScrollHeader } from '@rafaelaugusto/jolt'
 import { usePreviewI18n } from '../showcase/i18n'
 import { loadAlbumCell, type AlbumTrack } from '../showcase/scroll-header-cells'
@@ -114,6 +122,12 @@ function audit(name: string, extra?: unknown) {
     time: Date.now(),
     state,
     geometry: g,
+    ready: owner?.ready ?? false,
+    viewport: list?.getActualSize(),
+    headerHeight: header.value?.nativeView?.getActualSize().height,
+    decelerating: isIOS
+      ? (list?.ios as UITableView | undefined)?.decelerating
+      : undefined,
     rowTaps,
     extra,
     rows: nativeRows,
@@ -128,17 +142,16 @@ function audit(name: string, extra?: unknown) {
     ? knownFolders.documents().path
     : Application.android.context.getExternalFilesDir(null)!.getAbsolutePath()
   const native = isIOS ? undefined : (org.rafaelaugusto.jolt as any)
-  File.fromPath(directory + '/jolt-scroll-header.json').writeTextSync(
-    JSON.stringify({
-      events,
-      resources: {
-        sources: isIOS
-          ? JoltScrollHeader.activeCount()
-          : native.ScrollHeader.activeCount(),
-        nodes: isIOS ? JoltLiveSpring.nodeCount() : native.LiveSpring.nodeCount(),
-      },
-    }),
-  )
+  const report = JSON.stringify({
+    events,
+    resources: {
+      sources: isIOS ? JoltScrollHeader.activeCount() : native.ScrollHeader.activeCount(),
+      nodes: isIOS ? JoltLiveSpring.nodeCount() : native.LiveSpring.nodeCount(),
+    },
+  })
+  File.fromPath(directory + '/jolt-scroll-header.json').writeTextSync(report)
+  if (name === 'disposed')
+    File.fromPath(directory + '/jolt-scroll-header-disposed.json').writeTextSync(report)
 }
 function loaded(event: EventData) {
   list = event.object as ListView
@@ -235,6 +248,23 @@ async function resetRows(empty = false) {
 function snapshot() {
   audit('snapshot')
 }
+async function reloadList() {
+  if (!auditEnabled || !list || !owner?.ready) return
+  audit('reload-before')
+  const view = list,
+    parent = view.parent as LayoutBase,
+    index = parent.getChildIndex(view)
+  // Real native unload/load while a public layout request is outstanding.
+  const pending = owner.remeasure().catch((error) => String(error))
+  parent.removeChild(view)
+  parent.insertChild(view, index)
+  await pending
+  const deadline = Date.now() + 2000
+  while (!disposed && !owner?.ready && Date.now() < deadline)
+    await new Promise((resolve) => setTimeout(resolve, 20))
+  if (!disposed) audit('reload-after')
+}
+onBeforeUnmount(() => audit('leaving'))
 onUnmounted(() => {
   disposed = true
   owner?.dispose()
@@ -433,7 +463,7 @@ onUnmounted(() => {
         automationText="scroll-header-status"
       />
     </StackLayout>
-    <GridLayout v-if="auditEnabled" row="3" columns="*,*,*,*" height="40">
+    <GridLayout v-if="auditEnabled" row="3" columns="*,*,*,*,*" height="40">
       <Label text="Snapshot" automationText="scroll-header-snapshot" @tap="snapshot" />
       <Label
         col="1"
@@ -452,6 +482,12 @@ onUnmounted(() => {
         text="Empty"
         automationText="scroll-header-empty"
         @tap="resetRows(true)"
+      />
+      <Label
+        col="4"
+        text="Reload"
+        automationText="scroll-header-reload"
+        @tap="reloadList"
       />
     </GridLayout>
   </GridLayout>

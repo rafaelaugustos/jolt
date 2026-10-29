@@ -1,6 +1,6 @@
 # Native scroll composition: first Core ListView adapter
 
-Issue #116 remains open for physical-device acceptance. This milestone is a flat Core 9.1.3 ListView with one non-accessible spacer and fixed-height data rows, plus retained overlay siblings. The reference is preview 66, **Made to scroll**, available in English, Portuguese, Spanish and Simplified Chinese. The library API is renderer-independent TypeScript; the Vue screen supplies templates/data and the locale picker.
+Simulator/emulator validation is accepted for this delivery; broader adapter work is tracked in #116. This milestone is a flat Core 9.1.3 ListView with one non-accessible spacer and fixed-height data rows, plus retained overlay siblings. The reference is preview 66, **Made to scroll**, available in English, Portuguese, Spanish and Simplified Chinese. The library API is renderer-independent TypeScript; the Vue screen supplies templates/data and the locale picker.
 
 ## Reproduce
 
@@ -52,4 +52,62 @@ iOS automatic estimates changed the apparent scroll anchor after `reloadData` in
 
 ## Remaining acceptance
 
-Physical iOS/Android frame-time percentiles, missed deadlines, input latency and process-memory measurements, with an equivalent `scrollLinked()` baseline, are **not measured here**. Native-source counters and resource disposal are correctness evidence, not that performance comparison. Large-text line sizing, VoiceOver/TalkBack traversal, app-owned extra insets, pull-to-refresh, nested same-axis scroll, paged tabs and other list plugins need their own device matrix. Do not close #116 or label its physical-device acceptance complete from this PR.
+Physical iOS/Android frame-time percentiles, missed deadlines, input latency and process-memory measurements, with an equivalent `scrollLinked()` baseline, are **not measured here**. Native-source counters and resource disposal are correctness evidence, not that performance comparison. Large-text line sizing, VoiceOver/TalkBack traversal, app-owned extra insets, pull-to-refresh, nested same-axis scroll, paged tabs and other list plugins need their own device matrix. These omissions do not block this simulator/emulator correctness delivery; no physical-device performance claim is made.
+
+## Resize and lifecycle regression checks, 2026-10-29
+
+The same release-mode demo now exercises a native list removal/reinsertion while
+`remeasure()` is pending, portrait → landscape → portrait on both platforms, and
+navigation immediately after a fling followed by reopening the screen. The
+additional English recordings are embedded in all four guide locales; the
+original recordings remain available.
+
+The controller retains layout invalidations received during a pending measurement,
+waits for anchor restoration before publishing `ready`, and preserves the intended
+offset if unloading interrupts Android's asynchronous selection. Geometry is only
+committed after the new spacer has been laid out. On iOS, automatic section
+header/footer estimates caused a reproducible 20-DIP drift on rotation even with
+exact row heights. Disabling those estimates for this flat list removes the drift;
+the adapter restores their prior values when disposed unless the app changed them.
+
+| Check                                         | iOS 26.2 / iPhone 17 simulator                    | Android 16 / API 36 emulator                      |
+| --------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- |
+| Native unload/load during pending measurement | Reconnects; offset 3003.33 DIP before and after   | Reconnects; offset 3020.95 DIP before and after   |
+| Landscape spacer / offset change              | Both −173.33 DIP; same realized rows within 1 DIP | Both −188.57 DIP; same realized rows within 1 DIP |
+| Return to portrait                            | Original offset and row positions restored        | Original offset and row positions restored        |
+| Exit after fling                              | Zero native sources and live nodes after disposal | Zero native sources and live nodes after disposal |
+| Reopen and scroll                             | One source, one live node, positive scroll offset | One source, one live node, positive scroll offset |
+
+The iOS input trace releases a moving touch at 165 ms and presses Back at 220 ms,
+without XCTest's animation-idle wait between them. Android caches the Back button's
+bounds before the gesture and submits a swipe followed immediately by a tap in the
+same ADB shell command. These are real OS inputs. They do not establish physical
+device latency or frame-time results. Vue's unmount hook can run after the native
+list is gone, so the optional `decelerating` diagnostic may be absent at disposal.
+
+Reproduce the additional checks after installing the normal release demo:
+
+```sh
+python3 benchmarks/docs-record-ios.py YOUR_SIMULATOR_UUID /tmp/JoltScrollChecks testScrollHeaderChecks
+# Save Documents/jolt-scroll-header.json as /tmp/JoltScrollChecks/ios.json before the next launch.
+python3 benchmarks/verify-scroll-header.py /tmp/JoltScrollChecks/ios.json
+python3 benchmarks/docs-record-ios.py YOUR_SIMULATOR_UUID /tmp/JoltScrollLifecycle testScrollHeaderLifecycle
+# Save Documents/jolt-scroll-header-disposed.json as lifecycle-ios.json and
+# Documents/jolt-scroll-header.json as reentry-ios.json in /tmp/JoltScrollLifecycle.
+python3 benchmarks/verify-scroll-header.py /tmp/JoltScrollLifecycle/lifecycle-ios.json \
+  --lifecycle /tmp/JoltScrollLifecycle/reentry-ios.json
+
+python3 benchmarks/scroll-header-android.py YOUR_EMULATOR /tmp/JoltScrollChecks audit
+python3 benchmarks/verify-scroll-header.py /tmp/JoltScrollChecks/android.json
+python3 benchmarks/scroll-header-android.py YOUR_EMULATOR /tmp/JoltScrollLifecycle lifecycle
+python3 benchmarks/verify-scroll-header.py /tmp/JoltScrollLifecycle/lifecycle-android.json \
+  --lifecycle /tmp/JoltScrollLifecycle/reentry-android.json
+```
+
+The lifecycle recordings intentionally expose the audit-only **Reload** control.
+It removes and reinserts the real native ListView; it does not synthesize an app
+lifecycle event. The Android runner restores the original rotation and touch
+indicator settings. Artifacts prefixed `2026-10-29-` in
+[results/scroll-header](./results/scroll-header) preserve the final observations.
+These checks complete the resize/lifecycle correction with simulator/emulator
+acceptance. Broader adapter and accessibility work remains tracked in #116.

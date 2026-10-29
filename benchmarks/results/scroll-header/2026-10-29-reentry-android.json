@@ -1,0 +1,586 @@
+{
+  "events": [
+    {
+      "name": "phase",
+      "time": 1793297158711,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 0,
+        "offset": 0,
+        "phase": "expanded",
+        "updates": 1,
+        "callbacks": 1,
+        "first": 0,
+        "visible": 6,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 277.3333333333333,
+        "minimum": 57.904761904761905,
+        "section": 56,
+        "rowHeight": 76.19047619047619,
+        "parallax": 54.857142857142854,
+        "range": 219.42857142857142,
+        "spacer": 333.3333333333333
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 712.7619047619048
+      },
+      "headerHeight": 277.3333333333333,
+      "rowTaps": 0,
+      "extra": "expanded",
+      "rows": [
+        {
+          "key": "header",
+          "top": 0,
+          "height": 333.3333333333333
+        },
+        {
+          "key": "song-1",
+          "top": 333.7142857142857,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 410.2857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 486.85714285714283,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 563.4285714285714,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 640,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 277.3333333333333,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0
+        }
+      }
+    },
+    {
+      "name": "phase",
+      "time": 1793297158711,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 0,
+        "offset": 0,
+        "phase": "expanded",
+        "updates": 1,
+        "callbacks": 1,
+        "first": 0,
+        "visible": 6,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 277.3333333333333,
+        "minimum": 57.904761904761905,
+        "section": 56,
+        "rowHeight": 76.19047619047619,
+        "parallax": 54.857142857142854,
+        "range": 219.42857142857142,
+        "spacer": 333.3333333333333
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 712.7619047619048
+      },
+      "headerHeight": 277.3333333333333,
+      "rowTaps": 0,
+      "extra": "expanded",
+      "rows": [
+        {
+          "key": "header",
+          "top": 0,
+          "height": 333.3333333333333
+        },
+        {
+          "key": "song-1",
+          "top": 333.7142857142857,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 410.2857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 486.85714285714283,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 563.4285714285714,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 640,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 277.3333333333333,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0
+        }
+      }
+    },
+    {
+      "name": "ready",
+      "time": 1793297158724,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 0,
+        "offset": 0,
+        "phase": "expanded",
+        "updates": 1,
+        "callbacks": 1,
+        "first": 0,
+        "visible": 6,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 277.3333333333333,
+        "minimum": 57.904761904761905,
+        "section": 56,
+        "rowHeight": 76.19047619047619,
+        "parallax": 54.857142857142854,
+        "range": 219.42857142857142,
+        "spacer": 333.3333333333333
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 712.7619047619048
+      },
+      "headerHeight": 277.3333333333333,
+      "rowTaps": 0,
+      "rows": [
+        {
+          "key": "header",
+          "top": 0,
+          "height": 333.3333333333333
+        },
+        {
+          "key": "song-1",
+          "top": 333.7142857142857,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 410.2857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 486.85714285714283,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 563.4285714285714,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 640,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 277.3333333333333,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0
+        }
+      }
+    },
+    {
+      "name": "phase",
+      "time": 1793297159343,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 4.190476417541504,
+        "offset": 4.190476417541504,
+        "phase": "between",
+        "updates": 2,
+        "callbacks": 2,
+        "first": 0,
+        "visible": 7,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 277.3333333333333,
+        "minimum": 57.904761904761905,
+        "section": 56,
+        "rowHeight": 76.19047619047619,
+        "parallax": 54.857142857142854,
+        "range": 219.42857142857142,
+        "spacer": 333.3333333333333
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 712.7619047619048
+      },
+      "headerHeight": 277.3333333333333,
+      "rowTaps": 0,
+      "extra": "between",
+      "rows": [
+        {
+          "key": "header",
+          "top": -4.190476190476191,
+          "height": 333.3333333333333
+        },
+        {
+          "key": "song-1",
+          "top": 329.5238095238095,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 406.0952380952381,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 482.6666666666667,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 559.2380952380952,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 635.8095238095239,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-6",
+          "top": 712.3809523809524,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -4.190476553780692,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 1.047619138445173,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 273.14285714285717,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0
+        }
+      }
+    },
+    {
+      "name": "phase",
+      "time": 1793297159558,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 224,
+        "offset": 224,
+        "phase": "collapsed",
+        "updates": 15,
+        "callbacks": 3,
+        "first": 0,
+        "visible": 9,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 277.3333333333333,
+        "minimum": 57.904761904761905,
+        "section": 56,
+        "rowHeight": 76.19047619047619,
+        "parallax": 54.857142857142854,
+        "range": 219.42857142857142,
+        "spacer": 333.3333333333333
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 712.7619047619048
+      },
+      "headerHeight": 277.3333333333333,
+      "rowTaps": 0,
+      "extra": "collapsed",
+      "rows": [
+        {
+          "key": "header",
+          "top": -224,
+          "height": 333.3333333333333
+        },
+        {
+          "key": "song-1",
+          "top": 109.71428571428571,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 186.28571428571428,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 262.85714285714283,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 339.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 416,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-6",
+          "top": 492.57142857142856,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-7",
+          "top": 569.1428571428571,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-8",
+          "top": 645.7142857142857,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -219.42857142857142,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 54.857142857142854,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 57.904761904761905,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "name": "snapshot",
+      "time": 1793297162398,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 430.47618976377305,
+        "offset": 430.47618976377305,
+        "phase": "collapsed",
+        "updates": 48,
+        "callbacks": 3,
+        "first": 2,
+        "visible": 10,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 277.3333333333333,
+        "minimum": 57.904761904761905,
+        "section": 56,
+        "rowHeight": 76.19047619047619,
+        "parallax": 54.857142857142854,
+        "range": 219.42857142857142,
+        "spacer": 333.3333333333333
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 712.7619047619048
+      },
+      "headerHeight": 277.3333333333333,
+      "rowTaps": 0,
+      "rows": [
+        {
+          "key": "song-2",
+          "top": -20.19047619047619,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 56.38095238095238,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 132.95238095238096,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 209.52380952380952,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-6",
+          "top": 286.0952380952381,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-7",
+          "top": 362.6666666666667,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-8",
+          "top": 439.23809523809524,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-9",
+          "top": 515.8095238095239,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-10",
+          "top": 592.3809523809524,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-11",
+          "top": 668.952380952381,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -219.42857142857142,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 54.857142857142854,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 57.904761904761905,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        }
+      }
+    }
+  ],
+  "resources": {
+    "sources": 1,
+    "nodes": 1
+  }
+}

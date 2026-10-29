@@ -8,6 +8,8 @@ Available since **0.1.0-rc.1**. Rebuild the native app.
 <Clip name="scroll-header-ios-pt" caption="iOS simulator, Portuguese: the same native composition with actual OS input and translated controls." />
 <Clip name="scroll-header-android" caption="Android 16 emulator, English: real scrolling through recycled rows, anchored layout changes and native scroll-to-item. This adapter uses ordinary Android overscroll without decorative hero stretch." />
 <Clip name="scroll-header-android-pt" caption="Android emulator, Portuguese: actual input and the same page in Portuguese. Touch indicators show real gestures; footage is not accelerated." />
+<Clip name="scroll-header-lifecycle-ios" caption="iOS 26.2 simulator, English: taller cover, native list unload/reload, portrait/landscape rotation, leaving during a fling and reopening the page. Actual OS input at original speed; no physical-device performance claim." />
+<Clip name="scroll-header-lifecycle-android" caption="Android 16 emulator, English: anchored cover resize, native unload/reload, rotation, fling followed by navigation and a fresh scroll after reentry. Actual ADB input at original speed; emulator correctness only." />
 
 ## Build the supported layout
 
@@ -64,6 +66,8 @@ A late header resize adds the spacer-height difference to the existing offset, k
 
 `remeasure()` also runs on relevant layout events, including wrapping and rotation. `pause()` disconnects the scroll source; `play()` samples its current position. List unload releases native listeners and the graph, and reload attaches a fresh owner. `dispose()` restores owned transforms, clipping, accessibility and delegate ownership, plus `originalSpacerHeight` (zero by default). Do not animate these same overlay properties from another controller while the composition owns them.
 
+The `remeasure()` promise includes layout changes requested while a measurement is pending. If unloading cancels it, the promise rejects; a subsequent load still reconnects automatically. `ready` becomes true only after native anchor restoration has completed. On iOS, the adapter also disables automatic section header/footer estimates for this flat list and restores the previous values on disposal, unless the app has changed them.
+
 ## Native inputs and limits
 
 On iOS, KVO observes scroll geometry. A per-list delegate proxy supplies exact spacer/data heights and forwards Core's other delegate methods, preventing estimated-height corrections from moving an anchor during refresh. Disposal restores the previous delegate if the proxy still owns it. Android observes native scroll/layout changes without replacing Core's adapter, scroll listener or item callbacks. Neither platform adds a JS scroll handler. Both update the existing native live-value graph; JS is used for setup, layout/data changes, lifecycle and coarse state callbacks. Cell realization/binding remains normal Core ListView work and may enter JS.
@@ -82,4 +86,4 @@ Reduce Motion keeps pinning and scrolling, disables decorative parallax/stretch,
 | Core sectioned/sticky-header/search modes                                     | Rejected; this composition owns the pinned geometry                                                            |
 | Other list plugins, variable data rows, nested vertical scrolling, paged tabs | Unsupported; no silent JS fallback                                                                             |
 
-The [native validation and reproduction notes](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) record the supported simulator/emulator checks. Physical iOS/Android performance, VoiceOver/TalkBack traversal and refresh integration remain open in #116. No release or full physical-device acceptance is implied by the recordings.
+The [native validation and reproduction notes](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) record the simulator/emulator checks accepted for this delivery. Physical-device performance measurements, VoiceOver/TalkBack traversal and refresh integration are outside this correctness update; broader adapter work is tracked in #116.

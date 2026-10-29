@@ -8,6 +8,8 @@
 <Clip name="scroll-header-ios-pt" caption="iOS 模拟器，葡萄牙语：与实际操作系统输入和翻译控件相同的原生组成。" />
 <Clip name="scroll-header-android" caption="Android 16 模拟器，英语：真正滚动循环行、锚定布局更改和原生滚动到项目。此适配器使用普通 Android 过卷，无装饰英雄拉伸。" />
 <Clip name="scroll-header-android-pt" caption="Android 模拟器，葡萄牙语：实际输入与葡萄牙语页面相同。触摸指示器显示真实手势；素材未加速。" />
+<Clip name="scroll-header-lifecycle-ios" caption="iOS 26.2 模拟器，英文：更高的封面、原生列表卸载与重新加载、横竖屏旋转、惯性滚动中离开及重新进入页面。真实系统输入，原速播放；不代表真机性能。" />
+<Clip name="scroll-header-lifecycle-android" caption="Android 16 模拟器，英文：保持滚动位置的封面尺寸变化、卸载与重新加载、旋转、快速滑动后离开及返回后继续滚动。通过 ADB 注入真实输入，原速播放；仅验证模拟器行为。" />
 
 ## 构建支持的布局 {#build-the-supported-layout}
 
@@ -64,6 +66,8 @@ page.dispose()
 
 `remeasure()` 也在相关布局事件上运行，包括环绕和旋转。 `pause()` 断开滚动源； `play()` 对其当前位置进行采样。列表卸载会释放原生侦听器和图表，并且重新加载会附加新的所有者。 `dispose()` 恢复拥有的变换、剪辑、可访问性和委托所有权，以及 `originalSpacerHeight`（默认为零）。当合成拥有这些相同的覆盖属性时，不要从另一个控制器对它们进行动画处理。
 
+`remeasure()` 返回的 Promise 会等待测量期间新请求的布局更新完成。如果列表卸载取消了测量，Promise 会拒绝；列表再次加载时仍会自动重新连接。只有原生滚动位置恢复完成后，`ready` 才为 true。在 iOS 上，适配器还会为此扁平列表禁用分区页眉和页脚的自动高度估算，并在释放时恢复原值；如果应用已更改这些值，则保留应用的设置。
+
 ## 原生输入和限制 {#native-inputs-and-limits}
 
 在 iOS 上，KVO 观察涡旋几何形状。每个列表的委托代理提供精确的间隔/数据高度并转发 Core 的其他委托方法，防止估计高度校正在刷新期间移动锚点。如果代理仍然拥有它，则处置将恢复以前的委托。 Android 观察原生滚动/布局更改，而无需替换 Core 的适配器、滚动侦听器或项目回调。这两个平台都没有添加 JS 滚动处理程序。两者都会更新现有的本地实时值图； JS 用于设置、布局/数据更改、生命周期和粗略状态回调。单元实现/绑定仍然正常 Core ListView 工作，并且可能会进入 JS。
@@ -82,4 +86,4 @@ Reduce Motion 保持固定和滚动，禁用装饰性视差/拉伸，使用立�
 | 核心分段/粘性标题/搜索模式                         | 被拒绝；该组合拥有固定几何体                                 |
 | 其他列表插件、可变数据行、嵌套垂直滚动、分页选项卡 | 不支持；没有静默的 JS 回退                                   |
 
-[原生验证和复制说明](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) 记录支持的模拟器/仿真器检查。物理 iOS/Android 性能、VoiceOver/TalkBack 遍历和刷新集成在#116 中保持开放。录屏并不暗示发布或完全真机接受。
+[原生验证和复现说明](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) 记录了本次交付所采用的模拟器验证结果。真机性能测量、VoiceOver/TalkBack 遍历和下拉刷新集成不属于本次正确性修复的范围；后续适配器工作由 #116 跟踪。
