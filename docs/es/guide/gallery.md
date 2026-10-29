@@ -64,3 +64,13 @@ Reducir movimiento conserva la semántica de zoom/restablecer/cerrar y ruta/enfo
 Imágenes estáticas verticales, horizontales y cuadradas transparentes empaquetadas/en caché, un Core Frame/ventana, Core ListView y vue-router-ns 0.1.0-rc.2. Los retornos arrastrados personalizados admiten el recorte de la ventana gráfica rectangular y la escala positiva uniforme. Una miniatura parcialmente recortada en la entrada puede utilizar una apertura normal; la resolución de un objetivo de retorno visible sigue siendo independiente. El reemplazo de red, un buscapersonas fotográfico, transiciones arbitrarias modales/marcos anidados, imágenes rotadas y superficies de video/GL/WebView son las siguientes cosas.
 
 La guía y el [evidencia nativa](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md) cubren la corrección del simulador/emulador. El ritmo de cuadros del dispositivo físico, la latencia de entrada y la creación de perfiles de memoria de proceso permanecen abiertos en el n.° 117; Estos clips no cierran esa matriz de aceptación.
+
+## Rotación y reanudación en Android {#android-rotation-and-resume}
+
+La auditoría en el emulador Android 16 / API 36 conserva el zoom de 2,5× al pasar de vertical a horizontal y de nuevo a vertical, y verifica un desplazamiento real dentro del viewport redimensionado. Tras ir a la pantalla de inicio y reanudar la aplicación, la ruta de detalle sigue activa y acepta otro gesto de pinza seguido de desplazamiento, reinicio y cancelación del cierre.
+
+La suspensión libera la entrada de navegación compartida, como se describe arriba; por eso, el primer cierre tras reanudar usa navegación normal. Cada apertura posterior crea una entrada nueva: tres ciclos con imágenes verticales, transparentes y horizontales completan el retorno compartido a la miniatura actual. Al terminar, el historial vuelve a la galería y los contadores nativos de transiciones, callbacks de Back y escenas retenidas quedan a cero. Esto verifica esos recursos y las interacciones visibles; no mide memoria del proceso ni rendimiento en un dispositivo físico.
+
+<Clip name="gallery-lifecycle-android" caption="Emulador Android 16 / API 36, galería en inglés: zoom, rotación, desplazamiento, inicio y reanudación, nueva pinza, cierre cancelado y retornos repetidos mediante entrada real. Reproducción nativa a velocidad original. La grabación muestra bandas vacías en horizontal; no demuestra rendimiento en un dispositivo físico." />
+
+[Reproducción y observaciones del ciclo de vida](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md#android-lifecycle-audit-2026-10-29) cubren este adaptador y escenario. La matriz completa de aceptación permanece en [#117](https://github.com/rafaelaugustos/jolt/issues/117).

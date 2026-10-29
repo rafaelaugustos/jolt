@@ -1,5 +1,5 @@
 """Real OS input for the complete gallery.
-Usage: python3 benchmarks/gallery-android.py ASSIGNED_EMULATOR OUTPUT audit|record [en|pt-BR]
+Usage: python3 benchmarks/gallery-android.py ASSIGNED_EMULATOR OUTPUT audit|record|lifecycle [en|pt-BR]
 Select the preview language before recording. No app handlers are invoked by this runner.
 """
 import json
@@ -53,7 +53,7 @@ def check(name, state, commits, index, shared=None):
 assert command('shell','settings','get','secure','navigation_mode') == '2'
 command('shell','am','force-stop',app)
 args=['shell','am','start','-n',app+'/com.tns.NativeScriptActivity','--es','showcase-example','gallery']
-if mode=='audit': args += ['--es','collection-audit','true','--es','gallery-audit','true','--es','showcase-audit','true']
+if mode in ['audit','lifecycle']: args += ['--es','collection-audit','true','--es','gallery-audit','true','--es','showcase-audit','true']
 command(*args);time.sleep(3)
 def inject(cx,cy,*args):
     command('shell','CLASSPATH=/data/local/tmp/jolt-predictive-input.jar','app_process','/system/bin','NativeGestureInput',cx,cy,*args)
@@ -65,6 +65,76 @@ def photo_drag(amount):
 def photo_state():
     r=json.loads(command('shell','cat',gallery_report))
     return next(e['state'] for e in reversed(r['events']) if e.get('state'))
+def gallery_data(): return json.loads(command('shell','cat',gallery_report))
+def lifecycle():
+    observations=[]
+    def observe(name):
+        report=gallery_data()
+        event=report['events'][-1]
+        assert event.get('ready') and event.get('native') and event.get('viewport'),(name,event)
+        if observations: assert event['time']>observations[-1]['event']['time'],(name,'No fresh native observation',event)
+        state,native=event['state'],event['native']
+        assert native['visible'] and native['alpha']>.99,(name,event)
+        for prop in ['x','y','scale']:
+            assert abs(state[prop]-native[prop])<.02,(name,prop,event)
+        assert not state['pending'] and event['viewport']['height']>0,(name,event)
+        observations.append({'check':name,'event':event})
+        (out/'lifecycle-observations.json').write_text(json.dumps(observations,indent=2)+'\n')
+        print(name,'passed',flush=True)
+        return event
+    tap('collection-place-1',1)
+    opened=observe('opened')
+    tap('gallery-zoom',1)
+    portrait=observe('zoomed portrait')
+    assert abs(portrait['state']['scale']-2.5)<.01
+    command('shell','settings','put','system','accelerometer_rotation','0')
+    command('shell','settings','put','system','user_rotation','1');time.sleep(1.2)
+    landscape=observe('zoomed landscape')
+    assert landscape['viewport']['width']>portrait['viewport']['width'],landscape
+    assert abs(landscape['state']['scale']-2.5)<.01,landscape
+    x,y=photo_center()
+    command('shell','input','swipe',x,y,x,y+80,300);time.sleep(.8)
+    panned=observe('pan after rotation')
+    assert abs(panned['state']['y']-landscape['state']['y'])>1,panned
+    command('shell','settings','put','system','user_rotation','0');time.sleep(1.2)
+    restored=observe('portrait restored')
+    assert abs(restored['viewport']['width']-portrait['viewport']['width'])<1
+    command('shell','input','keyevent','KEYCODE_HOME');time.sleep(.8)
+    suspended=gallery_data()
+    assert any(e['event']=='suspended' for e in suspended['events']),suspended
+    # Android replaces the Activity's Intent on this real foreground request.
+    # Preserve diagnostic extras so subsequent observations remain enabled.
+    command('shell','am','start','-n',app+'/com.tns.NativeScriptActivity',
+            '--es','collection-audit','true','--es','gallery-audit','true','--es','showcase-audit','true')
+    time.sleep(1.2)
+    assert any(e['event']=='resumed' for e in gallery_data()['events'])
+    resumed=observe('resumed')
+    assert resumed['route']==opened['route'] and resumed['depth']==opened['depth'],resumed
+    tap('gallery-reset',.8)
+    x,y=photo_center();inject(x,y,'photo-pinch')
+    assert observe('pinch and pan after resume')['state']['scale']>1.1
+    tap('gallery-reset',.8);photo_drag(100)
+    cancelled=observe('dismissal cancelled after resume')
+    assert abs(cancelled['state']['y'])<1 and abs(cancelled['state']['scale']-1)<.01
+    tap('gallery-close',1.2);rect('collection-grid')
+    check('backgrounded entry returns through ordinary navigation','disposed',0,0)
+    assert data()['depth']==opened['depth']-1,data()
+    for count,key,index in [(1,'place-1',0),(2,'place-3',2),(3,'place-4',3)]:
+        tap('collection-'+key,1)
+        assert observe('reopened '+key)['depth']==opened['depth']
+        if count==1: photo_drag(500)
+        else: tap('gallery-zoom',.8);tap('gallery-close',1.2)
+        rect('collection-grid')
+        check('cycle '+str(count)+' returns once and releases resources','disposed',count,index,'ready')
+        assert data()['depth']==opened['depth']-1,data()
+    report=gallery_data()
+    assert len([e for e in report['events'] if e['event']=='released'])==4,report
+    unloaded=[e for e in report['events'] if e['event']=='unloaded']
+    assert len(unloaded)>=4 and all(not e['ready'] for e in unloaded),unloaded
+    assert not [e for e in report['events'] if e['event'] in ['error','route-rejected']],report
+    (out/'lifecycle-android.json').write_text(json.dumps({'observations':observations,'gallery':report,'collection':data()},indent=2)+'\n')
+    subprocess.run([sys.executable,str(Path(__file__).with_name('verify-gallery-lifecycle.py')),str(out/'lifecycle-android.json')],check=True)
+    print('Gallery lifecycle passed.',flush=True)
 def story(audit=False):
     tap('collection-place-1',1)
     x,y=photo_center();inject(x,y,'photo-pinch')
@@ -111,14 +181,25 @@ if mode=='audit':
     command('shell','am','start','-n',app+'/com.tns.NativeScriptActivity','--es','gallery-direct','true','--es','gallery-audit','true')
     time.sleep(3);tap('gallery-close',1);rect('collection-grid')
     print('Gallery checks passed.',flush=True)
-elif mode=='record':
+elif mode in ['record','lifecycle']:
     previous=command('shell','settings','get','system','show_touches');recorder=None;remote='/sdcard/jolt-gallery-video.mp4'
+    old_rotation=command('shell','settings','get','system','user_rotation')
+    old_auto=command('shell','settings','get','system','accelerometer_rotation')
     try:
         command('shell','settings','put','system','show_touches','1')
-        recorder=subprocess.Popen(adb+['shell','screenrecord','--bit-rate','6000000',remote]);time.sleep(.6);story();time.sleep(.6)
+        recorder=subprocess.Popen(adb+['shell','screenrecord','--size','720x1600','--bit-rate','4000000',remote]);time.sleep(.6)
+        if mode=='lifecycle': lifecycle()
+        else: story()
+        time.sleep(2)
     finally:
-        if recorder:command('shell','pkill','-2','screenrecord');recorder.wait(timeout=15)
-        if previous=='null':command('shell','settings','delete','system','show_touches')
-        else:command('shell','settings','put','system','show_touches',previous)
-    command('pull',remote,out/f'gallery-{locale[0] if locale else "en"}-android.mp4')
+        try:
+            if recorder:
+                command('shell','pkill','-2','screenrecord');recorder.wait(timeout=15)
+                assert recorder.returncode==0,'screenrecord failed'
+                name='gallery-lifecycle-android' if mode=='lifecycle' else f'gallery-{locale[0] if locale else "en"}-android'
+                command('pull',remote,out/(name+'.mp4'))
+        finally:
+            for key,value in [('show_touches',previous),('user_rotation',old_rotation),('accelerometer_rotation',old_auto)]:
+                if value=='null':command('shell','settings','delete','system',key)
+                else:command('shell','settings','put','system',key,value)
 else:raise ValueError(mode)

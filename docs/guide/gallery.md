@@ -64,3 +64,13 @@ Reduce Motion preserves zoom/reset/close and route/focus semantics without the s
 Bundled/cached static portrait, landscape and transparent square images, one Core Frame/window, Core ListView and vue-router-ns 0.1.0-rc.2. Custom dragged returns support rectangular viewport clipping and uniform positive scale. A partly clipped thumbnail at entry may use ordinary opening; resolving a visible return target remains independent. Network replacement, a photo pager, arbitrary modal/nested-frame transitions, rotated images and video/GL/WebView surfaces are follow-ups.
 
 The guide and [native evidence](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md) cover simulator/emulator correctness. Physical-device frame pacing, input latency and process-memory profiling remain open in #117; these clips do not close that acceptance matrix.
+
+## Android rotation and resume
+
+The Android 16 / API 36 emulator audit preserves 2.5× zoom through portrait → landscape → portrait and verifies a real pan in the resized viewport. After Home/background/resume, the detail route remains active and accepts a new pinch-to-pan gesture, reset and cancelled dismissal.
+
+Suspension disposes the shared-navigation entry, as described above, so the first close after resume uses ordinary navigation. Each later opening creates a fresh entry: three cycles with portrait, transparent and landscape images complete a shared return to the current thumbnail. At the end, the navigation stack is back at the gallery and native flight, Back-callback and retained-scene counters are zero. This verifies those resources and visible interactions; it is not a process-memory or physical-device performance measurement.
+
+<Clip name="gallery-lifecycle-android" caption="Android 16 / API 36 emulator, English gallery: actual zoom, rotation, pan, Home/resume, a fresh pinch, cancelled dismissal and repeated returns. Original-speed native playback. Landscape is letterboxed by the screen recorder; no physical-device performance claim." />
+
+[Reproduction and raw lifecycle observations](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md#android-lifecycle-audit-2026-10-29) cover this specific adapter and scenario. The broader acceptance matrix remains in [#117](https://github.com/rafaelaugustos/jolt/issues/117).

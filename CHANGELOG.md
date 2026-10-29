@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Validate the Android gallery lifecycle (#117) with actual zoomed rotation, Home/resume, fresh gestures and repeated shared returns. Add reproducible native observations, an offline verifier and a reviewed English recording in all four guide locales. This audit confirms the existing behavior; broader gallery acceptance remains open.
+
 - Fix layered `press()` release/cancellation on a nonzero translation or non-unit scale: restore only the press contribution to neutral and clear it when the effect is removed. Catch compiled view-layer tracks up after native keyframe allocation so preparation time does not shift their phase. Consolidate #152 with real iOS/Android input evidence and four-language execution-path documentation; physical-device capacity measurements remain in #242.
 
 - Preserve the iOS interactive navigation owner across NativeScript's temporary background unload (#26). A held return cancels without changing history; after resume, the same Jolt transition accepts another gesture. Frames or routes actually removed are still cleaned up. Add native suspension/rotation evidence and reviewed recordings in all four documentation locales.

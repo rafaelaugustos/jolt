@@ -5,6 +5,7 @@ import {
   isAndroid,
   isIOS,
   knownFolders,
+  Utils,
   type Image,
   type Page,
   type View,
@@ -20,6 +21,7 @@ import {
   collectionEntry,
   collectionReady,
   collectionStatus,
+  collectionList,
   photoTag,
   moveSelected,
   removeSelected,
@@ -45,12 +47,25 @@ let viewer: Zoomable | undefined,
 function audit(event: string, extra?: unknown) {
   if (launchArgument('gallery-audit') === undefined) return
   const current = image.value?.nativeView as Image | undefined
+  const frame = (page.value?.nativeView as Page)?.frame ?? collectionList?.page?.frame
+  const native = isAndroid ? current?.android : undefined
   events.push({
     event,
     time: Date.now(),
     state: viewer?.state,
     ready: viewer?.ready ?? false,
-    route: (page.value?.nativeView as Page)?.frame.currentPage.id,
+    route: frame?.currentPage.id,
+    depth: frame?.backStack.length,
+    viewport: (viewport.value?.nativeView as View)?.getActualSize(),
+    native: native
+      ? {
+          scale: native.getScaleX(),
+          x: Utils.layout.toDeviceIndependentPixels(native.getTranslationX()),
+          y: Utils.layout.toDeviceIndependentPixels(native.getTranslationY()),
+          visible: native.getVisibility() === 0,
+          alpha: native.getAlpha(),
+        }
+      : undefined,
     extra,
   })
   const directory = isIOS
@@ -64,7 +79,16 @@ function audit(event: string, extra?: unknown) {
         : undefined,
     }),
   )
-  if (current?.page?.frame) auditCollection(current.page.frame)
+  if (frame) auditCollection(frame)
+}
+let layoutAuditQueued = false
+function auditLayout() {
+  if (launchArgument('gallery-audit') === undefined || layoutAuditQueued) return
+  layoutAuditQueued = true
+  void nextTick(() => {
+    layoutAuditQueued = false
+    audit('layout')
+  })
 }
 function bind() {
   const target = image.value?.nativeView as Image | undefined
@@ -160,14 +184,19 @@ function suspend() {
   closing = false
   audit('suspended')
 }
+function resume() {
+  void nextTick(() => audit('resumed'))
+}
 watch(collectionReady, () => {
   void nextTick(bind)
 })
 Application.on(Application.suspendEvent, suspend)
+Application.on(Application.resumeEvent, resume)
 onUnmounted(() => {
   unload()
   setCollectionGate(() => true)
   Application.off(Application.suspendEvent, suspend)
+  Application.off(Application.resumeEvent, resume)
 })
 </script>
 <template>
@@ -317,7 +346,13 @@ onUnmounted(() => {
           />
         </StackLayout>
       </GridLayout>
-      <GridLayout ref="viewport" row="1" clipToBounds="true" margin="0 18">
+      <GridLayout
+        ref="viewport"
+        row="1"
+        clipToBounds="true"
+        margin="0 18"
+        @layoutChanged="auditLayout"
+      >
         <Image
           ref="image"
           :src="photo?.src"

@@ -64,3 +64,13 @@ Reduzir Movimento mantém zoom, restaurar, fechar, navegação e foco sem a tran
 Imagens estáticas empacotadas/em cache, retrato, paisagem e quadradas transparentes; um Core Frame/janela, Core ListView e vue-router-ns 0.1.0-rc.2. O retorno arrastado aceita recorte retangular do viewport e escala positiva uniforme. Uma miniatura parcialmente cortada pode abrir pela navegação comum; a resolução do destino de volta é independente. Troca de imagem de rede, pager, modais/Frames aninhados arbitrários, rotação da imagem e vídeo/GL/WebView ficam para outras etapas.
 
 O guia e as [evidências nativas](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md) cobrem correção em simulador/emulador. Frame pacing, latência de entrada e memória do processo em aparelhos físicos continuam abertos na #117; os vídeos não encerram essa matriz.
+
+## Rotação e retomada no Android {#android-rotation-and-resume}
+
+A auditoria no emulador Android 16 / API 36 preserva o zoom de 2,5× ao alternar retrato → paisagem → retrato e verifica um pan real no viewport redimensionado. Após ir à tela inicial e retomar o app, a rota de detalhe continua ativa e aceita um novo gesto de pinça seguido de pan, reset e cancelamento da saída.
+
+A suspensão descarta a entrada de navegação compartilhada, como descrito acima; por isso, o primeiro fechamento após a retomada usa navegação comum. Cada abertura posterior cria uma entrada nova: três ciclos com imagens em retrato, transparentes e em paisagem concluem a volta compartilhada à miniatura atual. Ao final, o histórico retorna à galeria e os contadores nativos de transições, callbacks de Back e cenas retidas ficam zerados. Isso verifica esses recursos e interações visíveis; não mede memória do processo nem desempenho em aparelho físico.
+
+<Clip name="gallery-lifecycle-android" caption="Emulador Android 16 / API 36, galeria em inglês: zoom, rotação, pan, tela inicial e retomada, nova pinça, cancelamento da saída e voltas repetidas com entrada real. Reprodução nativa na velocidade original. A gravação mantém faixas vazias em paisagem; sem medição de desempenho em aparelho físico." />
+
+[A reprodução e os registros de ciclo de vida](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md#android-lifecycle-audit-2026-10-29) cobrem esse adaptador e cenário. A matriz mais ampla de aceitação continua na [#117](https://github.com/rafaelaugustos/jolt/issues/117).

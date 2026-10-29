@@ -1,0 +1,2852 @@
+{
+  "observations": [
+    {
+      "check": "opened",
+      "event": {
+        "event": "bound",
+        "time": 1793308452870,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      }
+    },
+    {
+      "check": "zoomed portrait",
+      "event": {
+        "event": "settled",
+        "time": 1793308455988,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      }
+    },
+    {
+      "check": "zoomed landscape",
+      "event": {
+        "event": "settled",
+        "time": 1793308456644,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 878.4761904761905,
+          "height": 83.42857142857143
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      }
+    },
+    {
+      "check": "pan after rotation",
+      "event": {
+        "event": "settled",
+        "time": 1793308460873,
+        "state": {
+          "x": 0,
+          "y": 34.5192985534668,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 878.4761904761905,
+          "height": 83.42857142857143
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 34.51929873511905,
+          "visible": true,
+          "alpha": 1
+        }
+      }
+    },
+    {
+      "check": "portrait restored",
+      "event": {
+        "event": "settled",
+        "time": 1793308461327,
+        "state": {
+          "x": 0,
+          "y": 34.5192985534668,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 34.51929873511905,
+          "visible": true,
+          "alpha": 1
+        }
+      }
+    },
+    {
+      "check": "resumed",
+      "event": {
+        "event": "resumed",
+        "time": 1793308463560,
+        "state": {
+          "x": 0,
+          "y": 34.5192985534668,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 34.51929873511905,
+          "visible": true,
+          "alpha": 1
+        }
+      }
+    },
+    {
+      "check": "pinch and pan after resume",
+      "event": {
+        "event": "settled",
+        "time": 1793308473449,
+        "state": {
+          "x": 38.2625846862793,
+          "y": -4.069299221038818,
+          "scale": 1.3392878770828247,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1.3392878770828247,
+          "x": 38.26258486793155,
+          "y": -4.06929924374535,
+          "visible": true,
+          "alpha": 1
+        }
+      }
+    },
+    {
+      "check": "dismissal cancelled after resume",
+      "event": {
+        "event": "settled",
+        "time": 1793308482660,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      }
+    },
+    {
+      "check": "reopened place-1",
+      "event": {
+        "event": "bound",
+        "time": 1793308492293,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      }
+    },
+    {
+      "check": "reopened place-3",
+      "event": {
+        "event": "bound",
+        "time": 1793308504402,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      }
+    },
+    {
+      "check": "reopened place-4",
+      "event": {
+        "event": "bound",
+        "time": 1793308516705,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      }
+    }
+  ],
+  "gallery": {
+    "events": [
+      {
+        "event": "layout",
+        "time": 1793308452092,
+        "ready": false,
+        "route": "gallery",
+        "depth": 0,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "bound",
+        "time": 1793308452870,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793308455988,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793308456637,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 878.4761904761905,
+          "height": 83.42857142857143
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "layout",
+        "time": 1793308456641,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 878.4761904761905,
+          "height": 83.42857142857143
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793308456644,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 878.4761904761905,
+          "height": 83.42857142857143
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793308460873,
+        "state": {
+          "x": 0,
+          "y": 34.5192985534668,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 878.4761904761905,
+          "height": 83.42857142857143
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 34.51929873511905,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793308461316,
+        "state": {
+          "x": 0,
+          "y": 34.5192985534668,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 34.51929873511905,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "layout",
+        "time": 1793308461326,
+        "state": {
+          "x": 0,
+          "y": 34.5192985534668,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 34.51929873511905,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793308461327,
+        "state": {
+          "x": 0,
+          "y": 34.5192985534668,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 34.51929873511905,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "suspended",
+        "time": 1793308462543,
+        "state": {
+          "x": 0,
+          "y": 34.5192985534668,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 34.51929873511905,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793308462545,
+        "state": {
+          "x": 0,
+          "y": 34.5192985534668,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 34.51929873511905,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "resumed",
+        "time": 1793308463560,
+        "state": {
+          "x": 0,
+          "y": 34.5192985534668,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 34.51929873511905,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793308467560,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793308473449,
+        "state": {
+          "x": 38.2625846862793,
+          "y": -4.069299221038818,
+          "scale": 1.3392878770828247,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1.3392878770828247,
+          "x": 38.26258486793155,
+          "y": -4.06929924374535,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793308477218,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793308482660,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "released",
+        "time": 1793308486433,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": true
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        },
+        "extra": {
+          "pose": {
+            "x": 0,
+            "y": 0,
+            "scale": 1,
+            "progress": 0,
+            "pending": true
+          },
+          "velocity": 0
+        }
+      },
+      {
+        "event": "unloaded",
+        "time": 1793308486478,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": false,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "unloaded",
+        "time": 1793308486488,
+        "ready": false,
+        "route": "gallery",
+        "depth": 0
+      },
+      {
+        "event": "ordinary-return",
+        "time": 1793308486491,
+        "ready": false,
+        "route": "gallery",
+        "depth": 0
+      },
+      {
+        "event": "layout",
+        "time": 1793308491557,
+        "ready": false,
+        "route": "gallery",
+        "depth": 0,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "bound",
+        "time": 1793308492293,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "released",
+        "time": 1793308497145,
+        "state": {
+          "x": 0,
+          "y": 185.0338592529297,
+          "scale": 0.9013444781303406,
+          "progress": 0.6577032804489136,
+          "pending": true
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 0.9013444781303406,
+          "x": 0,
+          "y": 185.03385416666666,
+          "visible": true,
+          "alpha": 1
+        },
+        "extra": {
+          "pose": {
+            "x": 0,
+            "y": 185.0338592529297,
+            "scale": 0.9013444781303406,
+            "progress": 0.6577032804489136,
+            "pending": true
+          },
+          "velocity": 0
+        }
+      },
+      {
+        "event": "unloaded",
+        "time": 1793308497227,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": false,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": false,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "unloaded",
+        "time": 1793308497230,
+        "ready": false,
+        "route": "gallery",
+        "depth": 0
+      },
+      {
+        "event": "returned",
+        "time": 1793308498004,
+        "ready": false,
+        "route": "gallery",
+        "depth": 0,
+        "extra": {
+          "status": "completed",
+          "navigated": true
+        }
+      },
+      {
+        "event": "layout",
+        "time": 1793308503621,
+        "ready": false,
+        "route": "gallery",
+        "depth": 0,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "bound",
+        "time": 1793308504402,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793308507433,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "released",
+        "time": 1793308510460,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": true
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        },
+        "extra": {
+          "pose": {
+            "x": 0,
+            "y": 0,
+            "scale": 1,
+            "progress": 0,
+            "pending": true
+          },
+          "velocity": 0
+        }
+      },
+      {
+        "event": "unloaded",
+        "time": 1793308510590,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": false,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": false,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "unloaded",
+        "time": 1793308510613,
+        "ready": false,
+        "route": "gallery",
+        "depth": 0
+      },
+      {
+        "event": "returned",
+        "time": 1793308511464,
+        "ready": false,
+        "route": "gallery",
+        "depth": 0,
+        "extra": {
+          "status": "completed",
+          "navigated": true
+        }
+      },
+      {
+        "event": "layout",
+        "time": 1793308515957,
+        "ready": false,
+        "route": "gallery",
+        "depth": 0,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "bound",
+        "time": 1793308516705,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793308519792,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "released",
+        "time": 1793308522841,
+        "state": {
+          "x": 0,
+          "y": 5.812872132082703e-6,
+          "scale": 1,
+          "progress": 0,
+          "pending": true
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 5.8128720238095235e-6,
+          "visible": true,
+          "alpha": 1
+        },
+        "extra": {
+          "pose": {
+            "x": 0,
+            "y": 5.812872132082703e-6,
+            "scale": 1,
+            "progress": 0,
+            "pending": true
+          },
+          "velocity": 0
+        }
+      },
+      {
+        "event": "unloaded",
+        "time": 1793308522945,
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": false,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 562.6666666666666
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": false,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "unloaded",
+        "time": 1793308523002,
+        "ready": false,
+        "route": "gallery",
+        "depth": 0
+      },
+      {
+        "event": "returned",
+        "time": 1793308523817,
+        "ready": false,
+        "route": "gallery",
+        "depth": 0,
+        "extra": {
+          "status": "completed",
+          "navigated": true
+        }
+      }
+    ]
+  },
+  "collection": {
+    "state": "disposed",
+    "page": "gallery",
+    "depth": 0,
+    "key": "place-4",
+    "index": 3,
+    "resolvedTag": "collection:place-4",
+    "tags": [
+      {
+        "tag": "collection:place-1",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-2",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-3",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-4",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-5",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-6",
+        "visible": true
+      }
+    ],
+    "flights": 0,
+    "inputs": 0,
+    "retained": 0,
+    "commits": 3,
+    "events": [
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "target-resolved-on-return"
+        }
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "unavailable",
+          "reason": "target-resolved-on-return"
+        }
+      },
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "target-resolved-on-return"
+        }
+      },
+      {
+        "state": "committing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "target-resolved-on-return"
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        },
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "target-resolved-on-return"
+        }
+      },
+      {
+        "state": "committing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "target-resolved-on-return"
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        },
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "target-resolved-on-return"
+        }
+      },
+      {
+        "state": "committing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "target-resolved-on-return"
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        },
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "ready"
+        }
+      }
+    ],
+    "snapshots": [
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-3",
+        "index": 2,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": false
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-3",
+        "index": 2,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": false
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-3",
+        "index": 2,
+        "tags": [
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-3",
+        "index": 2,
+        "tags": [
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-3",
+        "index": 2,
+        "tags": [
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-3",
+        "index": 2,
+        "tags": [
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-3",
+        "index": 2,
+        "tags": [
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-3",
+        "index": 2,
+        "tags": [
+          {
+            "tag": "collection:place-3",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-3",
+        "index": 2,
+        "tags": [
+          {
+            "tag": "collection:place-3",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-3",
+        "index": 2,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-3",
+        "index": 2,
+        "resolvedTag": "collection:place-3",
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-6",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-3",
+        "index": 2,
+        "resolvedTag": "collection:place-3",
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-6",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-3",
+        "index": 2,
+        "resolvedTag": "collection:place-3",
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-6",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-3",
+        "index": 2,
+        "resolvedTag": "collection:place-3",
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-6",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": false
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-6",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": false
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-6",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-4",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-4",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-4",
+        "index": 3,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-6",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-4",
+        "index": 3,
+        "resolvedTag": "collection:place-4",
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-6",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-4",
+        "index": 3,
+        "resolvedTag": "collection:place-4",
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-6",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-4",
+        "index": 3,
+        "resolvedTag": "collection:place-4",
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-6",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-4",
+        "index": 3,
+        "resolvedTag": "collection:place-4",
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-6",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      }
+    ]
+  },
+  "environment": {
+    "date": "2026-10-29",
+    "platform": "Android 16 / API 36 emulator",
+    "device": "JoltScroll116",
+    "core": "9.1.3",
+    "router": "0.1.0-rc.2",
+    "build": "Release; production JavaScript; HMR disabled",
+    "baseCommit": "82ba2dc4aa4094f23e598cbaca493784740a59ed",
+    "input": "Actual ADB taps, rotation, Home/resume and shell multi-touch injection"
+  }
+}
