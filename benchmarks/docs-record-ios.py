@@ -96,6 +96,12 @@ try:
             report = output/'interactive-navigation-lifecycle.json'
             shutil.copy2(Path(container)/'Documents/jolt-navigation-lifecycle.json', report)
             subprocess.run([sys.executable, str(repo/'benchmarks/verify-interactive-lifecycle.py'), str(report)], check=True)
+        if 'testMotionRfc' in methods:
+            container = subprocess.check_output(['xcrun', 'simctl', 'get_app_container', serial,
+                'org.nativescript.jolt.benchmark', 'data'], text=True).strip()
+            report = output/'motion-rfc-ios.json'
+            shutil.copy2(Path(container)/'Documents/jolt-motion-rfc.json', report)
+            subprocess.run([sys.executable, str(repo/'benchmarks/verify-motion-rfc.py'), str(report)], check=True)
 finally:
     if recorder and recorder.poll() is None:
         recorder.send_signal(signal.SIGINT)

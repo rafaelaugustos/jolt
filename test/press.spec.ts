@@ -1,9 +1,63 @@
 import { Color } from '@nativescript/core'
 import { describe, expect, it } from 'vitest'
-import { animate, press } from '../src/index.js'
+import { animate, press, set } from '../src/index.js'
+import { currentValue } from '../src/engine.js'
 import { createView, driver } from './helpers.js'
 
 describe('press', () => {
+  it('removes a settled press contribution without stopping other layers or the base', () => {
+    const view = createView()
+    set(view, { scale: 1.5 })
+    animate(view, { scale: 1.2 }, { layer: 'breathe', duration: 0 })
+    const remove = press(view, { scale: 0.8 }, { layer: 'press', duration: 100 })
+    view.touch('down')
+    driver.advance(100)
+    expect(currentValue(view, 'scaleX')).toBeCloseTo(1.5 * 1.2 * 0.8)
+    remove()
+    expect(currentValue(view, 'scaleX')).toBeCloseTo(1.5 * 1.2)
+    expect(view.listenerCount('touch')).toBe(0)
+  })
+  it('returns a repressed layer to neutral when release is interrupted', () => {
+    const view = createView()
+    set(view, { x: 20, scale: 1.5 })
+    press(view, { x: 8, scale: 0.9 }, { layer: 'press', duration: 100, ease: 'linear' })
+    view.touch('down')
+    driver.advance(100)
+    view.touch('up')
+    driver.advance(25)
+    view.touch('down')
+    driver.advance(100)
+    view.touch('up')
+    driver.advance(100)
+    expect(currentValue(view, 'x')).toBeCloseTo(20)
+    expect(currentValue(view, 'scaleX')).toBeCloseTo(1.5)
+  })
+  it.each(['up', 'cancel'] as const)(
+    'releases only the press layer on %s while a non-unit base keeps moving',
+    async (action) => {
+      const view = createView()
+      set(view, { x: 20, scale: 1.5 })
+      press(view, { x: 8, scale: 0.9 }, { layer: 'press', duration: 100, ease: 'linear' })
+      const entrance = animate(
+        view,
+        { x: 60, scale: 1.8 },
+        { duration: 1000, ease: 'linear' },
+      )
+      driver.advance(200)
+      view.touch('down')
+      driver.advance(100)
+      expect(currentValue(view, 'x')).toBeCloseTo(40)
+      expect(currentValue(view, 'scaleX')).toBeCloseTo(1.59 * 0.9)
+      view.touch(action)
+      driver.advance(100)
+      expect(currentValue(view, 'x')).toBeCloseTo(36)
+      expect(currentValue(view, 'scaleX')).toBeCloseTo(1.62)
+      driver.advance(600)
+      expect(await entrance).toBe(true)
+      expect(currentValue(view, 'x')).toBeCloseTo(60)
+      expect(currentValue(view, 'scaleX')).toBeCloseTo(1.8)
+    },
+  )
   it('restores color objects after a colored press', () => {
     const view = createView()
     view.backgroundColor = new Color('red')

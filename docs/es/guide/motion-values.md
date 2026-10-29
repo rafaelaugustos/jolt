@@ -84,7 +84,7 @@ releaseColor()
 
 Las actualizaciones comparten una fuente de fotogramas respaldada por la programación CADisplayLink/Choreographer de NativeScript. Cada lote de notificaciones captura todas las fuentes observadas antes de invocar a los oyentes y proporciona la misma marca de tiempo del reloj nativo en milisegundos. Llamadas `set()` repetidas antes de que un marco se fusione a su último valor; las salidas asignadas sin cambios no notifican. La finalización y la parada entregan el valor final en el siguiente cuadro si cambió. Una escritura realizada dentro de una devolución de llamada pertenece al siguiente lote.
 
-Las devoluciones de llamada se ejecutan en JavaScript. Pueden controlar objetos fuera de las vistas NativeScript, pero no pueden ejecutarse mientras el subproceso JavaScript esté bloqueado. Esto es independiente del [adaptador de propiedad nativa](https://github.com/rafaelaugustos/jolt/issues/62) planificado. Los enlaces de vistas nativas continúan reproduciéndose independientemente de estas devoluciones de llamada.
+Las devoluciones de llamada se ejecutan en JavaScript y esperan mientras ese hilo esté bloqueado. Para destinos nativos externos compatibles, los [adaptadores de propiedades nativas](./native-properties) opcionales ofrecen reproducción y enlaces compilados. Los enlaces normales de vistas no requieren una suscripción; siguen sujetos a los límites de ejecución de cada plataforma.
 
 La cancelación de la suscripción tiene efecto incluso durante la entrega y no detiene la animación. La fuente del marco queda inactiva después de que las fuentes observadas se estabilizan y se entregan las escrituras pendientes. Mientras la aplicación está en segundo plano, la entrega se detiene; reanudar muestras del valor actual sin reproducir fotogramas perdidos. Los errores de los oyentes van al seguimiento de errores de NativeScript y no detienen a otros oyentes. Utilice `scope.use()` o llame a la función devuelta cuando se destruya el consumidor.
 
@@ -226,6 +226,15 @@ Cada evento pan escribe las propiedades enlazadas directamente. Con seis propied
 
 <Clip name="drag-values-android" caption="La misma hoja en el emulador Android, con lanzamientos reales en ambas direcciones y un agarre mientras la animación del botón aún está en ejecución. Reproducción en tiempo real." />
 
-## ¿Qué viene después? {#what-comes-next}
+## Rutas de ejecución {#what-comes-next}
 
-Las capas de valores y [capas de propiedades de vista](./layers) se pueden combinar. La evaluación nativa, cuando las mediciones lo requieran, está prevista en el [valores de movimiento RFC](https://github.com/rafaelaugustos/jolt/issues/152).
+Los valores y las [capas de propiedades](./layers) pueden combinarse. El [RFC #152](https://github.com/rafaelaugustos/jolt/issues/152) original dio lugar a rutas de ejecución distintas:
+
+| Entrada                                                                                                                                   | Ejecución                                                                                                                       |
+| ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Valores y capas guiados por timelines                                                                                                     | TypeScript prepara curvas y composiciones; las pistas nativas se reproducen entre cambios y límites de ventanas de composición. |
+| `drag()` y `scrollValue()`                                                                                                                | JavaScript procesa cada evento y actualiza los enlaces; la liberación del arrastre usa una curva nativa preparada.              |
+| [Gestos nativos](./gestures), [resortes continuos](./live-springs), [sensores](./device-sensors) y [cabeceras de scroll](./scroll-header) | Sus entradas y enlaces compatibles se evalúan nativamente, con JavaScript en la configuración y el ciclo de vida.               |
+| `subscribe()`                                                                                                                             | Observación explícita en JavaScript mediante una fuente de fotogramas compartida.                                               |
+
+Una fuente nativa continua no convierte `drag()` ni `scrollValue()` normales en rutas de eventos nativos. Cada guía documenta las propiedades y el ciclo de vida compatibles. Los límites de enlaces/capas en dispositivos físicos y las mediciones con pantallas más cargadas siguen en [#242](https://github.com/rafaelaugustos/jolt/issues/242).

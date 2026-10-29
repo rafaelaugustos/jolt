@@ -1,31 +1,45 @@
 <script setup lang="ts">
 import { usePreviewI18n } from '../showcase/i18n'
-import { onMounted, ref } from 'nativescript-vue'
+import { onMounted, onUnmounted, ref } from 'nativescript-vue'
 import { animate, drag } from '@rafaelaugusto/jolt'
 import { useMotionScope } from '@rafaelaugusto/jolt/vue'
+import { launchArgument } from '../launch'
+import { motionRfcChecks } from '../../../benchmarks/motion-rfc'
 const { t } = usePreviewI18n()
 
 const scope = useMotionScope()
 const card = ref()
 const right = ref(false)
 const breathing = ref(false)
+let audit: ReturnType<typeof motionRfcChecks> | undefined
 
 onMounted(() => {
+  if (launchArgument('motion-rfc-checks')) {
+    audit = motionRfcChecks(card.value.nativeView)
+    return
+  }
   scope.add(
     drag(card.value, { axis: 'x', bounds: { left: -80, right: 80 }, rubberband: true }),
   )
 })
+onUnmounted(() => audit?.dispose())
 
 function move() {
+  if (audit) return audit.move()
   right.value = !right.value
   animate(card.value, { x: right.value ? 70 : -70 }, 'snappy')
 }
 
 function shake() {
+  if (audit) return audit.shake()
   animate(card.value, 'shake', { layer: 'feedback' })
 }
 
 function breathe() {
+  if (audit) {
+    breathing.value = !breathing.value
+    return audit.breathe()
+  }
   breathing.value = !breathing.value
   animate(
     card.value,

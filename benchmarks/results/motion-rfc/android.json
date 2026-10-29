@@ -1,0 +1,590 @@
+{
+  "platform": "Android",
+  "version": "16",
+  "phase": "disposed",
+  "snapshots": [
+    {
+      "name": "held-with-feedback",
+      "phase": "entrance",
+      "time": 932156,
+      "actual": {
+        "x": 72.43748837425595,
+        "scale": 1.1940280199050903
+      },
+      "expected": {
+        "x": 71,
+        "scale": 1.195568
+      },
+      "baseProgress": 0.29075,
+      "active": 3,
+      "frames": 0,
+      "channels": [
+        {
+          "property": "x",
+          "layer": "base",
+          "paused": false
+        },
+        {
+          "property": "scaleX",
+          "layer": "base",
+          "paused": false
+        },
+        {
+          "property": "scaleY",
+          "layer": "base",
+          "paused": false
+        },
+        {
+          "property": "x",
+          "layer": "feedback",
+          "paused": false
+        }
+      ]
+    },
+    {
+      "name": "held-without-feedback",
+      "phase": "entrance",
+      "time": 932506,
+      "actual": {
+        "x": 57.30999465215774,
+        "scale": 1.2087239027023315
+      },
+      "expected": {
+        "x": 56.79,
+        "scale": 1.2109240000000001
+      },
+      "baseProgress": 0.37825,
+      "active": 3,
+      "frames": 0,
+      "channels": [
+        {
+          "property": "x",
+          "layer": "base",
+          "paused": false
+        },
+        {
+          "property": "scaleX",
+          "layer": "base",
+          "paused": false
+        },
+        {
+          "property": "scaleY",
+          "layer": "base",
+          "paused": false
+        }
+      ]
+    },
+    {
+      "name": "released-to-base",
+      "phase": "entrance",
+      "time": 933293,
+      "actual": {
+        "x": 41.680001395089285,
+        "scale": 1.410949945449829
+      },
+      "expected": {
+        "x": 41,
+        "scale": 1.415
+      },
+      "baseProgress": 0.575,
+      "active": 3,
+      "frames": 0,
+      "channels": [
+        {
+          "property": "x",
+          "layer": "base",
+          "paused": false
+        },
+        {
+          "property": "scaleX",
+          "layer": "base",
+          "paused": false
+        },
+        {
+          "property": "scaleY",
+          "layer": "base",
+          "paused": false
+        }
+      ]
+    },
+    {
+      "name": "entrance-settled",
+      "phase": "entrance",
+      "time": 935252,
+      "actual": {
+        "x": 24.17999994187128,
+        "scale": 1.5
+      },
+      "expected": {
+        "x": 24,
+        "scale": 1.5
+      },
+      "baseProgress": 1,
+      "active": 0,
+      "frames": 0,
+      "channels": []
+    },
+    {
+      "name": "common-loop-early",
+      "phase": "loops",
+      "time": 935814,
+      "actual": {
+        "x": 33.324166434151785,
+        "scale": 1.5
+      },
+      "expected": {
+        "x": 37.097500000000004,
+        "scale": 1.5
+      },
+      "baseProgress": 1,
+      "active": 1,
+      "frames": 0,
+      "channels": [
+        {
+          "property": "x",
+          "layer": "wobble",
+          "paused": false
+        },
+        {
+          "property": "x",
+          "layer": "pulse",
+          "paused": false
+        }
+      ]
+    },
+    {
+      "name": "common-loop-late",
+      "phase": "loops",
+      "time": 937112,
+      "actual": {
+        "x": 25.724417550223215,
+        "scale": 1.5
+      },
+      "expected": {
+        "x": 25.433333333333334,
+        "scale": 1.5
+      },
+      "baseProgress": 1,
+      "active": 1,
+      "frames": 0,
+      "channels": [
+        {
+          "property": "x",
+          "layer": "wobble",
+          "paused": false
+        },
+        {
+          "property": "x",
+          "layer": "pulse",
+          "paused": false
+        }
+      ]
+    },
+    {
+      "name": "before-window",
+      "phase": "windows",
+      "time": 941292,
+      "actual": {
+        "x": 45.37114025297619,
+        "scale": 1.5
+      },
+      "expected": {
+        "x": 47.56839413370784,
+        "scale": 1.5
+      },
+      "baseProgress": 1,
+      "active": 1,
+      "frames": 0,
+      "channels": [
+        {
+          "property": "x",
+          "layer": "wobble",
+          "paused": false
+        },
+        {
+          "property": "x",
+          "layer": "pulse",
+          "paused": false
+        }
+      ]
+    },
+    {
+      "name": "after-window",
+      "phase": "windows",
+      "time": 941894,
+      "actual": {
+        "x": 39.769220261346724,
+        "scale": 1.5
+      },
+      "expected": {
+        "x": 40.834773615769535,
+        "scale": 1.5
+      },
+      "baseProgress": 1,
+      "active": 1,
+      "frames": 0,
+      "channels": [
+        {
+          "property": "x",
+          "layer": "wobble",
+          "paused": false
+        },
+        {
+          "property": "x",
+          "layer": "pulse",
+          "paused": false
+        }
+      ]
+    },
+    {
+      "name": "disposed",
+      "phase": "disposed",
+      "time": 943697,
+      "actual": {
+        "x": 29.156653994605655,
+        "scale": 1.5
+      },
+      "expected": {
+        "x": 29.156655110873245,
+        "scale": 1.5
+      },
+      "baseProgress": 1,
+      "active": 0,
+      "frames": 0,
+      "channels": []
+    }
+  ],
+  "plays": [
+    {
+      "phase": "entrance",
+      "property": "x",
+      "duration": 4000,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleX",
+      "duration": 4000,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleY",
+      "duration": 4000,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "x",
+      "duration": 3459,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "x",
+      "duration": 3449,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleX",
+      "duration": 3182,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleY",
+      "duration": 3155,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "x",
+      "duration": 3141,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleX",
+      "duration": 3106,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleY",
+      "duration": 3086,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleY",
+      "duration": 2988,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleX",
+      "duration": 2961,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "x",
+      "duration": 2909,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "x",
+      "duration": 2624,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "x",
+      "duration": 2610,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "x",
+      "duration": 2011,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleX",
+      "duration": 1996,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleY",
+      "duration": 1987,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleX",
+      "duration": 1857,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "scaleY",
+      "duration": 1848,
+      "repeat": 0
+    },
+    {
+      "phase": "entrance",
+      "property": "x",
+      "duration": 1807,
+      "repeat": 0
+    },
+    {
+      "phase": "loops",
+      "property": "x",
+      "duration": 1800,
+      "repeat": "infinite"
+    },
+    {
+      "phase": "loops",
+      "property": "x",
+      "duration": 28800,
+      "repeat": "infinite"
+    },
+    {
+      "phase": "windows",
+      "property": "x",
+      "duration": 1402,
+      "repeat": "infinite"
+    },
+    {
+      "phase": "windows",
+      "property": "x",
+      "duration": 4000,
+      "repeat": 0
+    },
+    {
+      "phase": "windows",
+      "property": "x",
+      "duration": 4000,
+      "repeat": 0
+    },
+    {
+      "phase": "windows",
+      "property": "x",
+      "duration": 4000,
+      "repeat": 0
+    }
+  ],
+  "touches": [
+    {
+      "action": "down",
+      "phase": "entrance",
+      "time": 931908
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 931937
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 931954
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 931997
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932023
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932074
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932130
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932177
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932191
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932226
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932241
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932278
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932308
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932387
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932404
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932422
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932450
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932514
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932551
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932570
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932591
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932622
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932650
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932676
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932723
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932743
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932786
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932809
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932826
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932874
+    },
+    {
+      "action": "move",
+      "phase": "entrance",
+      "time": 932897
+    },
+    {
+      "action": "up",
+      "phase": "entrance",
+      "time": 933007
+    }
+  ],
+  "environment": {
+    "date": "2026-10-29",
+    "device": "JoltScroll116 emulator",
+    "runtime": "Android 16 / API 36",
+    "build": "Release; production JavaScript; HMR disabled",
+    "baseCommit": "8803fb82a1319c029f33a1d6b8e056db42cd5ff9"
+  }
+}

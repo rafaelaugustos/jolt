@@ -84,7 +84,7 @@ releaseColor()
 
 Updates share a frame source backed by NativeScript's CADisplayLink/Choreographer scheduling. Each notification batch captures all observed sources before invoking listeners and supplies the same native-clock timestamp in milliseconds. Repeated `set()` calls before a frame coalesce to their latest value; unchanged mapped outputs do not notify. Completion and stop deliver the final value on the next frame if it changed. A write made inside a callback belongs to the next batch.
 
-Callbacks execute in JavaScript. They can drive objects outside NativeScript views, but cannot run while that JavaScript thread is blocked. This is separate from the planned [native property adapter](https://github.com/rafaelaugustos/jolt/issues/62). Native view bindings continue to play independently of these callbacks.
+Callbacks execute in JavaScript and wait while that thread is blocked. For supported external native targets, the optional [native property adapters](./native-properties) provide compiled playback and bindings. Ordinary view bindings do not require a subscription; their platform execution limits still apply.
 
 Unsubscribing takes effect even during delivery and does not stop the animation. The frame source becomes idle after observed sources settle and pending writes are delivered. While the app is in the background, delivery stops; resuming samples the current value without replaying missed frames. Listener errors go to NativeScript's error trace and do not stop other listeners. Use `scope.use()` or call the returned function when the consumer is destroyed.
 
@@ -226,6 +226,15 @@ Each pan event writes the bound properties directly. With six bound properties, 
 
 <Clip name="drag-values-android" caption="The same sheet on the Android emulator, with real flings in both directions and a grab while the button animation is still running. Real-time playback." />
 
-## What comes next
+## Execution paths {#what-comes-next}
 
-Value layers and [view-property layers](./layers) can be combined. Native evaluation, where measurements call for it, is planned in the [motion values RFC](https://github.com/rafaelaugustos/jolt/issues/152).
+Value layers and [view-property layers](./layers) can be combined. The original [RFC #152](https://github.com/rafaelaugustos/jolt/issues/152) now has distinct execution paths:
+
+| Input                                                                                                                            | Execution                                                                                                              |
+| -------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| Timeline-driven values and layers                                                                                                | TypeScript prepares the curves and compositions; native tracks play between changes and composition-window boundaries. |
+| `drag()` and `scrollValue()`                                                                                                     | JavaScript handles each input event and updates bindings; a drag release uses a prepared native curve.                 |
+| [Native gestures](./gestures), [live springs](./live-springs), [sensors](./device-sensors) and [scroll headers](./scroll-header) | Their supported inputs and bindings use native evaluation, with JavaScript at setup and lifecycle boundaries.          |
+| `subscribe()`                                                                                                                    | Explicit JavaScript observation through a shared frame source.                                                         |
+
+A native live source does not turn an ordinary `drag()` or `scrollValue()` into a native event path. The exact properties and lifecycle contract are documented in each guide. Physical-device binding/layer budgets and heavier-screen measurements remain tracked in [#242](https://github.com/rafaelaugustos/jolt/issues/242).

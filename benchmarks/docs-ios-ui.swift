@@ -2192,6 +2192,19 @@ final class DocsTests: XCTestCase {
         app.activate()
         XCTAssertTrue(app.staticTexts["Passed value consumer checks"].waitForExistence(timeout: 8), app.debugDescription)
     }
+    func testMotionRfc() throws {
+        languageLaunch("en", "language-settings"); selectLanguage("en")
+        launch(["--playground", "--section=layers", "--motion-rfc-checks"], "Breathe")
+        try record("motion-rfc-ios") {
+            tap("Move", wait: 0.3)
+            tap("Shake", wait: 0.2)
+            app.staticTexts["Drag me"].press(forDuration: 1.1)
+            Thread.sleep(forTimeInterval: 2.2)
+            tap("Breathe", wait: 2)
+            tap("Shake", wait: 4.6)
+            tap("Rest", wait: 0.5)
+        }
+    }
     func testValueObservers() throws {
         launch(["--playground", "--section=value observers"], "Play observers")
         try record("value-observers-ios") {

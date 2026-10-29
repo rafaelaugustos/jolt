@@ -84,7 +84,7 @@ releaseColor()
 
 更新共享由 NativeScript 的 CADisplayLink/Choreographer 调度支持的帧源。每个通知批次在调用侦听器之前捕获所有观察到的源，并提供相同的原生时钟时间戳（以毫秒为单位）。在帧合并到最新值之前重复调用 `set()`；未更改的映射输出不会通知。如果最终值发生变化，则完成并停止在下一帧上传递最终值。回调内进行的写入属于下一批。
 
-回调在 JavaScript 中执行。它们可以驱动 NativeScript 视图之外的对象，但在 JavaScript 线程被阻止时无法运行。这与计划中的 [原生属性适配器](https://github.com/rafaelaugustos/jolt/issues/62) 是分开的。原生视图绑定继续独立于这些回调发挥作用。
+回调在 JavaScript 中执行；该线程被阻塞时，回调也必须等待。对于支持的外部原生目标，可选的[原生属性适配器](./native-properties)提供编译后的播放与绑定。普通视图绑定无需订阅回调，但仍受平台执行限制。
 
 取消订阅即使在传送过程中也会生效，并且不会停止动画。在观察到的源稳定并传递挂起的写入后，帧源变为空闲。当应用程序在后台运行时，递送会停止；恢复对当前值进行采样，而不重播丢失的帧。侦听器错误会转到 NativeScript 的错误跟踪，并且不会停止其他侦听器。使用`scope.use()`或者消费者销毁时调用返回的函数。
 
@@ -226,6 +226,15 @@ drag(sheet, {
 
 <Clip name="drag-values-android" caption="Android 模拟器上的同一张纸，在按钮动画仍在运行时在两个方向上都有真实的投掷和抓取。实时播放。" />
 
-## 接下来会发生什么 {#what-comes-next}
+## 执行路径 {#what-comes-next}
 
-值层和[视图属性层](./layers)可以组合。 [动画值 RFC](https://github.com/rafaelaugustos/jolt/issues/152) 中计划进行原生评估（测量需要时）。
+值层可以与[视图属性层](./layers)组合。最初的 [RFC #152](https://github.com/rafaelaugustos/jolt/issues/152) 已形成不同的执行路径：
+
+| 输入                                                                                                        | 执行方式                                                                  |
+| ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| 时间线驱动的值与层                                                                                          | TypeScript 准备曲线和组合；原生轨道在状态变化和组合窗口边界之间播放。     |
+| `drag()` 与 `scrollValue()`                                                                                 | JavaScript 处理每个输入事件并更新绑定；拖动释放后使用预先准备的原生曲线。 |
+| [原生手势](./gestures)、[连续弹簧](./live-springs)、[传感器](./device-sensors)与[滚动页头](./scroll-header) | 支持的输入和绑定由原生代码计算；JavaScript 负责设置和生命周期边界。       |
+| `subscribe()`                                                                                               | 通过共享帧源显式使用 JavaScript 观察值。                                  |
+
+原生连续数据源不会将普通的 `drag()` 或 `scrollValue()` 自动变为原生事件路径。各指南说明了支持的属性和生命周期契约。真机上的绑定/层数量预算及复杂界面的测量仍由 [#242](https://github.com/rafaelaugustos/jolt/issues/242) 跟踪。
