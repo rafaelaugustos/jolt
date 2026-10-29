@@ -23,6 +23,21 @@ NSString *JoltNativeTap(CGPoint point) {
     NSError *error=nil;return [record synthesizeWithError:&error]?nil:error.localizedDescription?:@"XCTest event synthesis failed";
 }
 
+// Leave immediately after a moving vertical release, without XCTest waiting for
+// the list's deceleration to settle before delivering the back-button tap.
+NSString *JoltScrollAndLeave(CGPoint start, CGFloat distance, CGPoint back) {
+    Class paths=NSClassFromString(@"XCPointerEventPath"), records=NSClassFromString(@"XCSynthesizedEventRecord");
+    if(!paths || !records)return @"XCTest pointer-path interfaces are unavailable";
+    id swipe=[[paths alloc]initForTouchAtPoint:start offset:0];
+    for(int i=1;i<=8;i++)
+        [swipe moveToPoint:CGPointMake(start.x,start.y-distance*i/8) atOffset:i*.02];
+    [swipe liftUpAtOffset:.165];
+    id tap=[[paths alloc]initForTouchAtPoint:back offset:.22];[tap liftUpAtOffset:.28];
+    id record=[[records alloc]initWithName:@"Jolt scroll fling and leave" interfaceOrientation:UIInterfaceOrientationPortrait];
+    [record addPointerEventPath:swipe];[record addPointerEventPath:tap];
+    NSError *error=nil;return [record synthesizeWithError:&error]?nil:error.localizedDescription?:@"XCTest event synthesis failed";
+}
+
 NSString *JoltPhotoInterrupt(CGPoint center) {
     Class paths=NSClassFromString(@"XCPointerEventPath"), records=NSClassFromString(@"XCSynthesizedEventRecord");
     if(!paths || !records)return @"XCTest pointer-path interfaces are unavailable";

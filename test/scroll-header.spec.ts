@@ -235,6 +235,118 @@ describe('scrollHeader geometry and ownership', () => {
     expect(s.host.clipToBounds).toBe(false)
     expect(s.spacer).toHaveBeenLastCalledWith(0)
   })
+  it('remeasures a late layout change arriving while the spacer is being laid out', async () => {
+    const s = scene()
+    const owner = s.start()
+    await layouts()
+    offset = 560
+    s.header.actualSize.height = 380
+    const resizing = owner.remeasure()
+    driver.layout()
+    await flush()
+    expect(s.spacer).toHaveBeenLastCalledWith(430)
+    s.header.actualSize.height = 420
+    s.header.notify({ eventName: 'layoutChanged' })
+    await layouts()
+    await resizing
+    expect(owner.geometry?.expanded).toBe(420)
+    expect(offset).toBe(680)
+    expect(driver.pendingLayouts).toBe(0)
+  })
+  it('reattaches after unloading and loading before a cancelled measurement settles', async () => {
+    const s = scene()
+    const owner = s.start()
+    await layouts()
+    offset = 560
+    const resizing = owner.remeasure()
+    const rejection = expect(resizing).rejects.toThrow(/cancelled/)
+    s.list.notify({ eventName: 'unloaded' })
+    s.list.unload()
+    s.list.load()
+    await rejection
+    await layouts()
+    expect(owner.ready).toBe(true)
+    expect(createScrollHeaderDriver).toHaveBeenCalledTimes(2)
+    expect(offset).toBe(560)
+    expect(driver.pendingLayouts).toBe(0)
+  })
+  it('preserves the original anchor if unloading interrupts a spacer resize', async () => {
+    const s = scene()
+    const owner = s.start()
+    await layouts()
+    offset = 560
+    s.header.actualSize.height = 380
+    const resizing = owner.remeasure()
+    const rejection = expect(resizing).rejects.toThrow(/cancelled/)
+    driver.layout()
+    await flush()
+    expect(s.spacer).toHaveBeenLastCalledWith(430)
+    s.list.notify({ eventName: 'unloaded' })
+    s.list.unload()
+    s.list.load()
+    await rejection
+    await layouts()
+    expect(owner.ready).toBe(true)
+    expect(owner.geometry?.expanded).toBe(380)
+    expect(offset).toBe(640)
+  })
+  it('waits for the latest requested geometry when remeasure calls overlap', async () => {
+    const s = scene()
+    const owner = s.start()
+    await layouts()
+    offset = 560
+    s.header.actualSize.height = 380
+    const first = owner.remeasure()
+    driver.layout()
+    await flush()
+    s.header.actualSize.height = 420
+    const observed = owner.remeasure().then(() => owner.geometry?.expanded)
+    await layouts()
+    await first
+    expect(await observed).toBe(420)
+    expect(offset).toBe(680)
+  })
+  it('waits for native anchor restoration before reporting a reloaded list ready', async () => {
+    const s = scene()
+    const owner = s.start()
+    await layouts()
+    offset = 560
+    s.list.notify({ eventName: 'unloaded' })
+    s.list.unload()
+    s.list.load()
+    await flush()
+    driver.layout()
+    await flush()
+    driver.layout()
+    await flush()
+    expect(native.scroll).toHaveBeenLastCalledWith(560, false)
+    expect(owner.ready).toBe(false)
+    await layouts()
+    expect(owner.ready).toBe(true)
+    expect(offset).toBe(560)
+  })
+  it('retains the requested anchor if unload interrupts asynchronous native scrolling', async () => {
+    const s = scene()
+    const owner = s.start()
+    await layouts()
+    offset = 560
+    s.header.actualSize.height = 380
+    native.scroll.mockImplementationOnce(() => {}) // Android selection awaits layout.
+    const resizing = owner.remeasure()
+    const rejection = expect(resizing).rejects.toThrow(/cancelled/)
+    driver.layout()
+    await flush()
+    driver.layout()
+    await flush()
+    expect(native.scroll).toHaveBeenLastCalledWith(640, false)
+    s.list.notify({ eventName: 'unloaded' })
+    s.list.unload()
+    s.list.load()
+    await rejection
+    await layouts()
+    expect(owner.ready).toBe(true)
+    expect(offset).toBe(640)
+  })
   it('cancels a pending layout and replaces an existing owner without leaked listeners', async () => {
     const s = scene()
     const first = s.start()

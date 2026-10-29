@@ -8,6 +8,8 @@ Disponível desde a **0.1.0-rc.1**. Recompile o aplicativo nativo.
 <Clip name="scroll-header-ios-pt" caption="Simulador iOS, português: a mesma composição nativa com gestos reais do sistema e controles traduzidos." />
 <Clip name="scroll-header-android" caption="Emulador Android 16, inglês: rolagem real com reciclagem, mudanças de layout preservando a posição e navegação nativa. Este adaptador usa o overscroll normal do Android, sem expansão decorativa da capa." />
 <Clip name="scroll-header-android-pt" caption="Emulador Android, português: interação real com a página traduzida. Os indicadores representam os toques; o vídeo não foi acelerado." />
+<Clip name="scroll-header-lifecycle-ios" caption="Simulador iOS 26.2, inglês: capa maior, descarregamento e recarga reais da lista, rotação, saída durante a inércia e reabertura da página. Gestos reais, velocidade original; não mede desempenho em aparelho físico." />
+<Clip name="scroll-header-lifecycle-android" caption="Emulador Android 16, inglês: redimensionamento preservando a posição, descarregamento e recarga, rotação, saída após um fling e nova rolagem ao retornar. Interação real via ADB, em velocidade original; validação no emulador." />
 
 ## Estrutura suportada
 
@@ -64,6 +66,8 @@ Quando a capa muda de altura, o deslocamento recebe a diferença do espaçador p
 
 `remeasure()` também roda nos eventos relevantes de layout, incluindo quebra de texto e rotação. `pause()` desconecta a fonte; `play()` lê sua posição atual. Descarregar a lista libera listeners e grafo; recarregar cria uma nova conexão. `dispose()` restaura transformações, recorte, acessibilidade e delegate, além de `originalSpacerHeight` (zero por padrão). Não use outro controlador nas mesmas propriedades enquanto esta composição for a dona delas.
 
+A promessa de `remeasure()` inclui as mudanças de layout solicitadas enquanto uma medição está pendente. Se a lista for descarregada, a promessa é rejeitada; ao carregar novamente, a conexão é refeita automaticamente. `ready` só fica verdadeiro após a restauração nativa da posição. No iOS, o adaptador também desativa as estimativas automáticas de cabeçalhos e rodapés de seção para esta lista plana e restaura os valores anteriores ao descartar, desde que o app não os tenha alterado.
+
 ## Entrada nativa e limites
 
 O iOS observa a geometria com KVO. Um proxy de delegate por lista fornece alturas exatas e encaminha os demais métodos ao Core, evitando que estimativas mudem a posição durante um refresh. Ao descartar, restaura o delegate anterior se ainda tiver essa propriedade. O Android observa mudanças nativas de rolagem/layout sem substituir adapter, listener de rolagem ou callbacks de itens do Core. Nenhum deles instala um handler JS de scroll. Ambos atualizam o grafo nativo de valores; JS participa de configuração, mudanças de dados/layout, ciclo de vida e callbacks semânticos. A criação e vinculação de células continuam sendo trabalho normal da ListView e podem entrar no JS.
@@ -82,4 +86,4 @@ Reduzir Movimento mantém fixação e rolagem, desativa paralaxe/expansão decor
 | Seções, sticky-header ou busca integrados do Core                           | Rejeitados, pois esta composição controla a geometria fixa                                             |
 | Outros plugins, linhas variáveis, rolagem vertical aninhada, abas paginadas | Não suportados; sem fallback silencioso para JS                                                        |
 
-As [notas de validação e reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) registram os testes de simulador/emulador. Desempenho em iOS/Android físicos, navegação VoiceOver/TalkBack e integração de refresh continuam abertos na #116. Os vídeos não representam aceite físico completo nem publicação de release.
+As [notas de validação e reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) registram os testes de simulador/emulador aceitos para esta entrega. Medições de desempenho em aparelhos físicos, navegação VoiceOver/TalkBack e integração de refresh ficam fora desta correção; a evolução dos adaptadores é acompanhada na #116.

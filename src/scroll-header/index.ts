@@ -152,17 +152,20 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
     native: ScrollHeaderDriver | undefined,
     value: SpringValue | undefined
   let ended = false,
+    ready = false,
     held = false,
     background = false,
     queued = false,
+    invalidated = false,
     revision = 0
   let measuring: Promise<void> | undefined,
+    restoringOffset: number | undefined,
     operation = false
   let detachBindings: (() => void)[] = [],
     pending = new Set<() => void>(),
     last = initialState()
   const notify = () => {
-    if (ended) return
+    if (ended || !ready) return
     last = native?.snapshot() ?? last
     try {
       options.onState?.(last)
@@ -304,16 +307,18 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
       options.titleFade,
       options.toolbarFade,
     )
-    if (geometry && JSON.stringify(next) === JSON.stringify(geometry) && native) return
+    if (ready && geometry && JSON.stringify(next) === JSON.stringify(geometry) && native)
+      return
     const before = geometry,
       offset = native?.snapshot().offset ?? (last.updates ? last.offset : undefined)
-    geometry = next
+    ready = false
     native?.enabled(false)
     try {
       native?.configure(next, reducedMotion())
       options.setSpacerHeight(next.spacer)
       await layout(list)
       if (ended || generation !== revision) return
+      geometry = next
       value ??= springValue(motionValue(0), { duration: 0 })
       maps()
       if (!native)
@@ -327,20 +332,32 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
             void Promise.resolve().then(notify)
           },
         )
-      if (offset !== undefined)
-        native.scroll(before ? resizedOffset(offset, before, next) : offset, false)
+      if (offset !== undefined) {
+        restoringOffset = before ? resizedOffset(offset, before, next) : offset
+        native.scroll(restoringOffset, false)
+        await layout(list)
+        if (ended || generation !== revision) return
+      }
       native.enabled(!held && !background)
+      ready = true
       notify()
     } finally {
+      restoringOffset = undefined
       native?.enabled(!held && !background)
     }
   }
   const queueMeasure = () => {
-    if (ended || queued || measuring || operation) return
+    if (ended) return
+    if (measuring || operation) {
+      invalidated = true
+      return
+    }
+    if (queued) return
     queued = true
     void Promise.resolve()
       .then(() => {
         queued = false
+        invalidated = false
         return control.remeasure()
       })
       .catch((error) => {
@@ -350,8 +367,10 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
   }
   const detach = () => {
     revision++
+    ready = false
     for (const cancel of [...pending]) cancel()
     last = native?.snapshot() ?? last
+    if (restoringOffset !== undefined) last = { ...last, offset: restoringOffset }
     native?.dispose()
     native = undefined
     detachBindings.splice(0).forEach((off) => off())
@@ -373,7 +392,7 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
   })
   const control: ScrollHeader = {
     get ready() {
-      return !!native && !ended
+      return ready && !ended
     },
     get disposed() {
       return ended
@@ -385,9 +404,16 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
       return geometry
     },
     remeasure() {
+      invalidated = true
       if (measuring) return measuring
-      measuring = measure().finally(() => {
+      measuring = (async () => {
+        do {
+          invalidated = false
+          await measure()
+        } while (invalidated && !ended && list.isLoaded && !operation)
+      })().finally(() => {
         measuring = undefined
+        if (invalidated) queueMeasure()
       })
       return measuring
     },

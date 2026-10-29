@@ -1,5 +1,5 @@
 """Actual OS scroll input on an assigned emulator. Select the preview language first.
-Usage: python3 benchmarks/scroll-header-android.py SERIAL OUTPUT audit|record [en|pt-BR]
+Usage: python3 benchmarks/scroll-header-android.py SERIAL OUTPUT audit|record|lifecycle [en|pt-BR]
 """
 import json
 from pathlib import Path
@@ -20,7 +20,7 @@ def rect(name):
     command('shell','uiautomator','dump','/sdcard/jolt-scroll-ui.xml')
     root=ET.fromstring(command('shell','cat','/sdcard/jolt-scroll-ui.xml'))
     for node in root.iter('node'):
-        if name in [node.get('resource-id'),node.get('content-desc'),node.get('text')]:
+        if name in [node.get('resource-id'),node.get('content-desc'),node.get('text')] or node.get('content-desc','').startswith(name+'. '):
             return tuple(map(int,re.findall(r'\d+',node.get('bounds'))))
     raise AssertionError('Missing '+name)
 def tap(name,delay=.6):
@@ -33,34 +33,73 @@ def snapshot():
 def launch():
     command('shell','am','force-stop',app)
     args=['shell','am','start','-n',app+'/com.tns.NativeScriptActivity','--es','showcase-example','scroll-header']
-    if mode=='audit':args+=['--es','scroll-header-audit','true','--es','showcase-audit','true']
+    if mode in ['audit','lifecycle']:args+=['--es','scroll-header-audit','true','--es','showcase-audit','true']
     command(*args);time.sleep(2)
+def lifecycle():
+    swipe(1750,1100,250)
+    tap('scroll-header-cover');tap('scroll-header-reload')
+    portrait=snapshot()
+    command('shell','settings','put','system','accelerometer_rotation','0')
+    command('shell','settings','put','system','user_rotation','1');time.sleep(1)
+    landscape=snapshot()
+    assert landscape['viewport']['width']>portrait['viewport']['width']
+    command('shell','settings','put','system','user_rotation','0');time.sleep(1)
+    snapshot()
+    # Cache coordinates before the fling. UI hierarchy queries wait for idle.
+    a,b,c,d=rect('Back to collection');x,y=(a+c)//2,(b+d)//2
+    command('shell',f'input swipe 540 1750 540 850 150 && input tap {x} {y}')
+    time.sleep(1)
+    result=data()
+    assert result['events'][-1]['name']=='disposed'
+    assert result['resources']['sources']==result['resources']['nodes']==0
+    (out/'lifecycle-android.json').write_text(json.dumps(result,indent=2)+'\n')
+    tap('Search examples')
+    command('shell','input','text','Made%sto%sscroll')
+    command('shell','input','keyevent','KEYCODE_ENTER');time.sleep(.5)
+    tap('Open Made to scroll')
+    swipe(1750,1100,250)
+    fresh=snapshot()
+    assert fresh['ready'] and fresh['state']['offset']>0
+    (out/'reentry-android.json').write_text(json.dumps(data(),indent=2)+'\n')
 launch()
 recorder=None
 old=command('shell','settings','get','system','show_touches')
+old_rotation=command('shell','settings','get','system','user_rotation')
+old_auto=command('shell','settings','get','system','accelerometer_rotation')
 try:
-    if mode=='record':
+    if mode in ['record','lifecycle']:
         command('shell','settings','put','system','show_touches','1')
         command('shell','rm','-f','/sdcard/jolt-scroll-record.mp4')
         recorder=subprocess.Popen(adb+['shell','screenrecord','--bit-rate','6000000','/sdcard/jolt-scroll-record.mp4'],stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
         time.sleep(1)
-    swipe(1650,1900);swipe(1750,1250);swipe(1250,1500);swipe(1850,650,150)
-    if mode=='audit': snapshot()
-    tap('scroll-header-cover');tap('scroll-header-add')
-    tap('scroll-header-jump',1)
+    if mode=='lifecycle':
+        lifecycle()
+    else:
+        swipe(1650,1900);swipe(1750,1250);swipe(1250,1500);swipe(1850,650,150)
+        if mode=='audit': snapshot()
+        tap('scroll-header-cover');tap('scroll-header-add')
+        tap('scroll-header-jump',1)
     if mode=='audit':
         snapshot()
         a,b,c,d=rect('scroll-header-section')
         command('shell','input','tap',540,d+100);time.sleep(.5);snapshot()
+        tap('scroll-header-reload',1)
+        assert data()['events'][-1]['ready'], 'Scroll source did not reattach after native unload/load'
+        portrait=snapshot()
+        command('shell','settings','put','system','accelerometer_rotation','0')
+        command('shell','settings','put','system','user_rotation','1');time.sleep(1)
+        landscape=snapshot()
+        assert landscape['viewport']['width']>portrait['viewport']['width'], 'Landscape rotation did not occur'
+        command('shell','settings','put','system','user_rotation','0');time.sleep(1);snapshot()
         command('shell','input','keyevent','KEYCODE_HOME');time.sleep(.5)
         command('shell','am','start','-n',app+'/com.tns.NativeScriptActivity');time.sleep(.7);snapshot()
         tap('scroll-header-reduce');tap('scroll-header-top');snapshot()
         tap('scroll-header-short');tap('scroll-header-jump');snapshot()
         tap('scroll-header-empty');tap('scroll-header-jump');snapshot()
         # Normal toolbar back, not an app-internal command or activity kill.
-        command('shell','input','tap',110,210);time.sleep(1)
+        tap('Back to collection',1)
         (out/'android.json').write_text(json.dumps(data(),indent=2)+'\n')
-    else:
+    elif mode=='record':
         tap('scroll-header-top',1.2);tap('scroll-header-details');time.sleep(1)
 finally:
     try:
@@ -68,8 +107,12 @@ finally:
             command('shell','pkill','-INT','screenrecord');recorder.communicate(timeout=20)
             assert recorder.returncode==0,'screenrecord failed'
             suffix='-pt' if locale and locale[0]=='pt-BR' else ''
-            command('pull','/sdcard/jolt-scroll-record.mp4',out/('scroll-header-android'+suffix+'.mp4'))
+            name='scroll-header-lifecycle-android' if mode=='lifecycle' else 'scroll-header-android'+suffix
+            command('pull','/sdcard/jolt-scroll-record.mp4',out/(name+'.mp4'))
     finally:
-        if mode == 'record':
+        for key,value in [('user_rotation',old_rotation),('accelerometer_rotation',old_auto)]:
+            if value == 'null': command('shell','settings','delete','system',key)
+            else: command('shell','settings','put','system',key,value)
+        if mode in ['record','lifecycle']:
             if old == 'null': command('shell','settings','delete','system','show_touches')
             else: command('shell','settings','put','system','show_touches',old)

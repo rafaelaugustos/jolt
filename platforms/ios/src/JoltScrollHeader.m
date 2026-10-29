@@ -21,6 +21,7 @@
 @property(nonatomic,copy) void (^onState)(void);
 @property(nonatomic) BOOL observing, disposed, titleHidden, toolbarTitleHidden, toolbarTouch;
 @property(nonatomic) double handoff, minimumOffset, maximumOffset, range, spacer, rowHeight, offset;
+@property(nonatomic) CGFloat estimatedSectionHeaderHeight, estimatedSectionFooterHeight;
 @property(nonatomic) NSInteger phase, updates, callbacks;
 @end
 static NSInteger JoltScrollHeaderActive = 0;
@@ -32,6 +33,11 @@ static void *JoltScrollHeaderContext = &JoltScrollHeaderContext;
     JoltScrollHeader *owner=[self new];owner.list=list;owner.node=node;owner.title=title;owner.toolbarTitle=toolbarTitle;owner.toolbar=toolbar;owner.diagnostic=diagnostic;owner.onState=onState;
     owner.titleHidden=title.accessibilityElementsHidden;owner.toolbarTitleHidden=toolbarTitle.accessibilityElementsHidden;owner.toolbarTouch=toolbar.userInteractionEnabled;owner.phase=-1;owner.offset=NAN;
     owner.proxy=[JoltScrollHeaderDelegate new];owner.proxy.forwarded=list.delegate;
+    // Flat lists have no section headers/footers. UIKit's automatic estimates
+    // otherwise adjust the scroll anchor during width/safe-area changes.
+    owner.estimatedSectionHeaderHeight=list.estimatedSectionHeaderHeight;
+    owner.estimatedSectionFooterHeight=list.estimatedSectionFooterHeight;
+    list.estimatedSectionHeaderHeight=0;list.estimatedSectionFooterHeight=0;
     [owner configure:options];list.delegate=owner.proxy;[list reloadData];[list layoutIfNeeded];[owner setEnabled:YES];return owner;
 }
 - (void)configure:(NSString *)options {
@@ -88,6 +94,8 @@ static void *JoltScrollHeaderContext = &JoltScrollHeaderContext;
     if(self.disposed)return;[self setEnabled:NO];self.disposed=YES;
     self.title.accessibilityElementsHidden=self.titleHidden;self.toolbarTitle.accessibilityElementsHidden=self.toolbarTitleHidden;self.toolbar.userInteractionEnabled=self.toolbarTouch;
     if(self.list.delegate==self.proxy)self.list.delegate=self.proxy.forwarded;
+    if(self.list.estimatedSectionHeaderHeight==0)self.list.estimatedSectionHeaderHeight=self.estimatedSectionHeaderHeight;
+    if(self.list.estimatedSectionFooterHeight==0)self.list.estimatedSectionFooterHeight=self.estimatedSectionFooterHeight;
     self.proxy=nil;self.node=nil;self.onState=nil;
 }
 @end

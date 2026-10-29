@@ -361,6 +361,32 @@ final class DocsTests: XCTestCase {
     func testScrollHeader() throws { try scrollHeaderDemo("en") }
     func testScrollHeaderPortuguese() throws { try scrollHeaderDemo("pt-BR") }
 
+    func testScrollHeaderLifecycle() throws {
+        languageLaunch("en", "language-settings"); selectLanguage("system")
+        languageLaunch("en", "scroll-header-list", ["--showcase-example=scroll-header", "--scroll-header-audit"])
+        let list = app.descendants(matching: .any)["scroll-header-list"].firstMatch
+        defer { XCUIDevice.shared.orientation = .portrait }
+        try record("scroll-header-lifecycle-ios") {
+            list.swipeUp(); Thread.sleep(forTimeInterval: 0.5)
+            tap("scroll-header-cover")
+            tap("scroll-header-reload")
+            let portraitWidth = list.frame.width
+            XCUIDevice.shared.orientation = .landscapeLeft; Thread.sleep(forTimeInterval: 1)
+            XCTAssertGreaterThan(list.frame.width, portraitWidth)
+            XCUIDevice.shared.orientation = .portrait; Thread.sleep(forTimeInterval: 1)
+            tap("scroll-header-snapshot")
+            let back = app.descendants(matching: .any)["Back to collection"].firstMatch.frame
+            let start = CGPoint(x: list.frame.midX, y: list.frame.minY + list.frame.height * 0.78)
+            XCTAssertNil(JoltScrollAndLeave(start, list.frame.height * 0.45, CGPoint(x: back.midX, y: back.midY)))
+            Thread.sleep(forTimeInterval: 0.6)
+            XCTAssertFalse(list.exists)
+            tap("Open Made to scroll")
+            XCTAssertTrue(list.exists)
+            list.swipeUp(); Thread.sleep(forTimeInterval: 0.5)
+            tap("scroll-header-snapshot")
+        }
+    }
+
     func testShowcaseExtraLanguages() throws {
         languageLaunch("en", "language-settings"); selectLanguage("en")
         try record("showcase-languages-ios") {
@@ -409,7 +435,12 @@ final class DocsTests: XCTestCase {
         let pinned = app.descendants(matching: .any)["scroll-header-section"].firstMatch
         app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: 110, dy: pinned.frame.maxY + 38)).tap()
         tap("scroll-header-snapshot")
+        tap("scroll-header-reload", wait: 1)
+        tap("scroll-header-snapshot")
+        let portraitWidth = list.frame.width
         XCUIDevice.shared.orientation = .landscapeLeft; Thread.sleep(forTimeInterval: 1)
+        XCTAssertGreaterThan(list.frame.width, portraitWidth)
+        tap("scroll-header-snapshot")
         XCUIDevice.shared.orientation = .portrait; Thread.sleep(forTimeInterval: 1)
         tap("scroll-header-snapshot")
         XCUIDevice.shared.press(.home); Thread.sleep(forTimeInterval: 0.5); app.activate()
