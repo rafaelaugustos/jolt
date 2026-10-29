@@ -1,5 +1,6 @@
 import { readdir, readFile, stat } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { createMarkdownRenderer } from 'vitepress'
 
 const root = resolve(import.meta.dirname, '..')
 // These pages describe setup, architecture, navigation or planned work, not a visual feature.
@@ -9,6 +10,8 @@ const locales = ['docs', 'docs/pt-BR', 'docs/es', 'docs/zh-Hans']
 const pages = new Map()
 const errors = []
 const clips = new Set()
+const posters = new Set()
+const markdownRenderer = await createMarkdownRenderer(root, { highlight: () => '' })
 for (const locale of locales) {
   const inventory = new Map()
   const guides = (await readdir(resolve(root, locale, 'guide')))
@@ -21,6 +24,29 @@ for (const locale of locales) {
       '',
     )
     const names = []
+    if (file === 'index.md') {
+      const env = {}
+      markdownRenderer.render(markdown, env)
+      const showcase = env.frontmatter.homeVideos
+      if (!showcase?.title || !showcase?.description || showcase.items?.length !== 2)
+        errors.push(`${locale}/${file}: homepage requires two captioned showcase videos`)
+      for (const video of showcase?.items ?? []) {
+        if (
+          !/^[a-z0-9-]+$/.test(video.name ?? '') ||
+          !video.caption?.trim() ||
+          !video.title?.trim() ||
+          !video.label?.trim() ||
+          !/^\d+:\d{2}$/.test(video.duration ?? '') ||
+          !(video.width > 0 && video.height > 0)
+        ) {
+          errors.push(`${locale}/${file}: invalid homepage video metadata`)
+          continue
+        }
+        names.push(video.name)
+        clips.add(video.name)
+        posters.add(video.name)
+      }
+    }
     for (const match of markdown.matchAll(/<Clip\b([^>]*?)\/?\s*>/gs)) {
       const name = /\bname="([a-z0-9-]+)"/.exec(match[1])?.[1]
       const caption = /\bcaption="([^"]+)"/.exec(match[1])?.[1]
@@ -60,6 +86,15 @@ for (const name of clips) {
       errors.push(`${name}: expected a nonempty MP4 file`)
   } catch {
     errors.push(`${name}: missing docs/public/media/${name}.mp4`)
+  }
+}
+for (const name of posters) {
+  try {
+    const data = await readFile(resolve(root, 'docs/public/media', `${name}.jpg`))
+    if (data.length < 1024 || data[0] !== 0xff || data[1] !== 0xd8)
+      errors.push(`${name}: expected a nonempty JPEG poster`)
+  } catch {
+    errors.push(`${name}: missing docs/public/media/${name}.jpg`)
   }
 }
 if (errors.length) {

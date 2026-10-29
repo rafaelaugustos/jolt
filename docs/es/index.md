@@ -17,6 +17,25 @@ hero:
     - theme: alt
       text: Efectos predefinidos
       link: /es/guide/presets
+homeVideos:
+  title: 'Mira Jolt en movimiento.'
+  description: 'Conoce el proyecto en un minuto y descubre una app nativa en acción.'
+  items:
+    - name: jolt-nativescript-film
+      label: 'El vídeo'
+      title: 'This is NativeScript.'
+      duration: '1:00'
+      width: 1920
+      height: 1080
+      caption: 'Un minuto de Jolt y Motion Studio con capturas reales del simulador iOS, montaje publicitario y música. Las escenas con SceneKit son exclusivas de iOS.'
+    - name: jolt-tesla-demo-ios
+      label: 'El ejemplo'
+      title: 'Inspirado en Tesla.'
+      duration: '2:04'
+      width: 720
+      height: 1566
+      caption: 'Simulador iOS: ejemplo inspirado en Tesla con coche 3D, controles de climatización y un recorrido de recogida. Velocidad original; interfaz de demostración, sin conexión a un vehículo real.'
+
 features:
   - title: Una llamada
     details: "animate(card, 'fadeInUp'), animate(button, { scale: 1.1 }, 'bouncy'), animate(rows, 'fadeInUp', { stagger: 40 }). Eso es todo lo que necesitas en la mayoría de las pantallas."
