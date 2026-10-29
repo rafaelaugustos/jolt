@@ -7,6 +7,16 @@ Disponible desde **0.1.0-rc.1**. Reconstruya la aplicación nativa. Esta integra
 <Clip name="interactive-navigation-ios" caption="Simulador de iOS 26.2: toques y arrastres de borde reales de XCTest abren una página, cancelan una devolución parcial, confirman una devolución completa y luego usan el botón Atrás. Reproducción nativa a velocidad original; no es una medida del rendimiento del dispositivo físico." />
 <Clip name="interactive-navigation-pt-ios" caption="iOS 26.2 simulator: the same cancel, commit and button navigation in Portuguese, driven by real XCTest input at original speed." />
 
+## Suspensión y rotación {#suspension-and-rotation}
+
+**Corrección aún no publicada:** NativeScript descarga temporalmente el Frame raíz cuando la aplicación pasa a segundo plano. Jolt cancela el gesto de retorno y conserva su controlador mientras ese Frame vuelve a cargarse. La misma página, el historial y la transición personalizada siguen disponibles al reanudar. Un Frame que permanece desconectado, una ruta eliminada o un `dispose()` explícito siguen liberando el controlador.
+
+<Clip name="interactive-background-ios" caption="Simulador iOS 26.2, demo en inglés: un arrastre real desde el borde se mantiene mientras se cambia a la pantalla de inicio. Al regresar se conserva la página; un nuevo gesto de Jolt confirma un único retorno, seguido de navegación con el botón. Velocidad original; sin medición de rendimiento en un dispositivo físico." />
+
+En la configuración de iOS probada, girar el dispositivo durante el gesto aplaza la rotación de la interfaz hasta que termina el retorno parcial. La grabación verifica la página conservada, los diseños horizontal y vertical y un nuevo retorno confirmado; no demuestra un cambio inmediato del viewport durante el arrastre.
+
+<Clip name="interactive-rotation-ios" caption="Simulador iOS 26.2, demo en inglés: la orientación cambia durante el gesto sostenido; UIKit espera a la cancelación antes de mostrar la interfaz horizontal. Al volver a vertical, un nuevo gesto regresa normalmente. Entrada nativa real a velocidad original." />
+
 ## Un identificador por entrada enviada {#one-handle-per-pushed-entry}
 
 ```ts

@@ -32,4 +32,26 @@ Two integration details have explicit coverage: UIKit can supply its interactive
 
 The audit's last native snapshot is taken when the visible detail entry is explicitly disposed. XCTest subsequently presses the regular back button and asserts the source page is visible; that default UIKit pop has no remaining Jolt owner to emit another snapshot.
 
-This is lifecycle and route-correctness evidence, not physical-device frame-time or memory profiling. Arbitrary action-bar configurations, RTL input, rotation during a held gesture and system suspension during a held gesture have not been exhaustively exercised by these recordings. Native cancellation hooks handle viewport changes and resign-active notifications; host tests also check suspension cleanup. No workflow or long-running CI job was added.
+This is lifecycle and route-correctness evidence, not physical-device frame-time or memory profiling. Arbitrary action-bar configurations and RTL input remain outside the recordings. Native cancellation hooks handle viewport changes and resign-active notifications. No workflow or long-running CI job was added.
+
+## Background ownership and rotation regression — 2026-10-29
+
+The original implementation cancelled a held gesture correctly on suspension, but then disposed its owner when Core temporarily unloaded the root Frame. On resume, an ordinary UIKit back swipe could still succeed, hiding the loss of Jolt's transition. The fix distinguishes suspension from foreground removal, retains the entry across Core's reload, and rechecks Frame/route ownership after resume. A removed Frame or route, explicit disposal, and a completed pop still release the controller. A second suspension clears pending resume work.
+
+```sh
+python3 benchmarks/docs-record-ios.py YOUR_SIMULATOR_UUID /tmp/InteractiveLifecycle \
+  testInteractiveNavigationLifecycle testInteractiveNavigationChecks
+# Also verify a saved report independently:
+python3 benchmarks/verify-interactive-lifecycle.py \
+  benchmarks/results/interactive-navigation/2026-10-29-lifecycle-ios.json
+```
+
+The lifecycle test uses a test-runner-only pointer path that moves for 0.8 seconds, holds, and lifts at 3.1 seconds. At 1.4 seconds XCTest requests device rotation or activates SpringBoard. Activation switches the real app to the background without trying to inject a second concurrent gesture. The audit records actual recognizer state, device/interface orientation, Frame loading, page identities, Core/UIKit history, page transforms and native resource counts. It adds no input simulation to the demo and no per-frame JS to the library.
+
+- Suspension happens with the edge recognizer in its changed state and one active native transition. Cancellation completes before the scheduled finger lift. Foreground restores the same page/history with one Jolt recognizer; the next gesture must emit Jolt's drag, release and completed events. A successful default UIKit swipe alone cannot pass.
+- Device orientation really changes while the finger is held. On this iOS 26.2 configuration UIKit defers the **interface** rotation until the partial return cancels and settles. The audit verifies landscape/portrait geometry and the subsequent Jolt pop. This is not evidence of immediate viewport cancellation during a drag.
+- The final fresh push/button return works. Settled page transforms are identity, Core retains its navigation delegate, and final active-transition/recognizer counts are zero. UIKit's provisional stack during a drag is checked against Core only after settlement.
+- Evidence: [lifecycle audit](results/interactive-navigation/2026-10-29-lifecycle-ios.json) and [existing regression rerun](results/interactive-navigation/2026-10-29-regression-ios.json). The verifier rejects the pre-fix background report and deliberate owner, history, transform and resource corruptions.
+- Five additional host cases cover temporary unload/reload, removal of the Frame or route, repeated suspension, and pending-work/subscription cleanup. All 1,442 tests in 92 files pass, including 24 interactive-navigation cases. Library and benchmark typechecks, production inspector exclusion, documentation media checks and documentation build pass.
+
+The two English clips (`interactive-background-ios` and `interactive-rotation-ios`) are embedded with translated captions in all four guides; previous EN/PT recordings are retained. They use the iPhone 17 **simulator**, iOS 26.2, a Release build with HMR disabled, NativeScript Core 9.1.3 and `vue-router-ns` 0.1.0-rc.2. H.264 conversion preserves the original timing at 30 fps. Full-duration frames are reviewed and both files decode without errors. No Android behavior or physical-device performance is claimed for this iOS lifecycle fix. Arbitrary modal dismissal remains outside this slice of #26.

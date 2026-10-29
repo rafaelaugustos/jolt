@@ -100,6 +100,8 @@ export function interactiveNavigation(
   let detachTarget: (() => void) | undefined
   let resolvedReturn: import('@nativescript/core').View | undefined
   let returning = false
+  let suspended = false
+  let resumeTimer: ReturnType<typeof setTimeout> | undefined
   const originalPage = frame.currentPage
   function prepareShared() {
     if (!native || !options.shared) return
@@ -210,7 +212,17 @@ export function interactiveNavigation(
     targetScope?.abort()
     native?.cancel()
   }
-  const unload = () => control.dispose()
+  const suspend = () => {
+    suspended = true
+    if (resumeTimer !== undefined) clearTimeout(resumeTimer)
+    resumeTimer = undefined
+    cancel()
+  }
+  const unload = () => {
+    // Core unloads the root view in the background, without removing its routes.
+    if (suspended) cancel()
+    else control.dispose()
+  }
   const shown = () => native?.sync()
   const swipeChanged = () => {
     void Promise.resolve().then(shown)
@@ -225,6 +237,17 @@ export function interactiveNavigation(
     )
       void Promise.resolve().then(() => control.dispose())
     else shown()
+  }
+  const resume = () => {
+    suspended = false
+    // Core raises resume before reloading the root. A macrotask lets that load
+    // finish, including when native callbacks drain JS microtasks in between.
+    if (resumeTimer !== undefined) clearTimeout(resumeTimer)
+    resumeTimer = setTimeout(() => {
+      resumeTimer = undefined
+      if (frame.isLoaded) arrived()
+      else control.dispose()
+    }, 0)
   }
   const entering = (args: EventData) => {
     const event = args as NavigationData
@@ -268,6 +291,8 @@ export function interactiveNavigation(
             try {
               return (
                 state === 'idle' &&
+                !suspended &&
+                frame.isLoaded &&
                 !!start &&
                 !reducedMotion() &&
                 !!page &&
@@ -365,11 +390,14 @@ export function interactiveNavigation(
       native = undefined
       emit('disposed')
       releaseMotion?.()
+      if (resumeTimer !== undefined) clearTimeout(resumeTimer)
+      resumeTimer = undefined
       frame.off('unloaded', unload)
       frame.off('navigatingTo', entering)
       frame.off('navigatedTo', arrived)
       frame.off('viewControllerShown', shown)
-      Application.off(Application.suspendEvent, cancel)
+      Application.off(Application.suspendEvent, suspend)
+      Application.off(Application.resumeEvent, resume)
       if (transition?.instance) SharedTransition.finishState(transition.instance.id)
       page?.off('enableSwipeBackNavigationChange', swipeChanged)
       start = undefined
@@ -389,7 +417,8 @@ export function interactiveNavigation(
     frame.on('navigatedTo', arrived)
     frame.on('viewControllerShown', shown)
     frame.on('unloaded', unload)
-    Application.on(Application.suspendEvent, cancel)
+    Application.on(Application.suspendEvent, suspend)
+    Application.on(Application.resumeEvent, resume)
     releaseMotion = onReducedMotion((value) => {
       if (value) cancel()
     })

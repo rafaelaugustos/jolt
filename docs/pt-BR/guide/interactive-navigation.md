@@ -7,6 +7,16 @@ Disponível desde a **0.1.0-rc.1**. Recompile o app nativo. Integração verific
 <Clip name="interactive-navigation-ios" caption="Simulador iOS 26.2: toques e gestos reais via XCTest abrem uma página, cancelam uma volta parcial, confirmam uma volta completa e usam o botão de voltar. Reprodução nativa na velocidade original; não é medição em aparelho físico." />
 <Clip name="interactive-navigation-pt-ios" caption="Simulador iOS 26.2: os mesmos cancelamento, confirmação e botão de voltar em português, com entrada real via XCTest e velocidade original." />
 
+## Suspensão e rotação
+
+**Correção ainda não publicada:** o NativeScript descarrega temporariamente o Frame raiz quando o app vai para segundo plano. O Jolt cancela a volta em andamento e mantém o controlador enquanto esse Frame recarrega. A mesma página, o histórico e a transição personalizada continuam disponíveis na retomada. Um Frame que permaneça removido, uma rota excluída ou um `dispose()` explícito continuam liberando o controlador.
+
+<Clip name="interactive-background-ios" caption="Simulador iOS 26.2, demo em inglês: um gesto real pela borda permanece pressionado durante a troca para a tela inicial. Ao retornar, a página é preservada; um novo swipe do Jolt confirma uma única volta, seguido de navegação pelo botão. Velocidade original; sem medição de desempenho em aparelho físico." />
+
+Na configuração de iOS testada, girar o dispositivo durante o gesto adia a rotação da interface até a volta parcial se acomodar. A gravação verifica a página preservada, os layouts horizontal e vertical e um novo swipe confirmado; não demonstra uma mudança imediata do viewport durante o arraste.
+
+<Clip name="interactive-rotation-ios" caption="Simulador iOS 26.2, demo em inglês: a orientação muda durante o gesto pressionado; o UIKit aguarda o cancelamento para exibir a interface horizontal. De volta à vertical, um novo swipe retorna normalmente. Entrada nativa real na velocidade original." />
+
 ## Um handle por entrada
 
 ```ts

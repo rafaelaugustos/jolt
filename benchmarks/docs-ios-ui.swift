@@ -1,4 +1,5 @@
 import XCTest
+import UIKit
 
 /// Real OS input against the installed normal demo. The host records each named interval.
 final class DocsTests: XCTestCase {
@@ -712,6 +713,47 @@ final class DocsTests: XCTestCase {
         tap("interactive-dispose", wait: 0.3)
         tap("interactive-back", wait: 1.2)
         XCTAssertTrue(app.descendants(matching: .any)["interactive-open"].firstMatch.exists, app.debugDescription)
+    }
+    func heldNavigationInterrupt(_ interruption: () -> Void) {
+        let origin = CGPoint(x: 2, y: app.frame.height * 0.53)
+        let distance = app.frame.width * 0.35
+        let delivered = expectation(description: "held edge input delivered")
+        DispatchQueue.global().async {
+            let error = JoltNavigationHold(origin, distance, UIInterfaceOrientation.portrait.rawValue)
+            XCTAssertNil(error)
+            delivered.fulfill()
+        }
+        Thread.sleep(forTimeInterval: 1.4)
+        interruption()
+        wait(for: [delivered], timeout: 12)
+        Thread.sleep(forTimeInterval: 1)
+    }
+    func testInteractiveNavigationLifecycle() throws {
+        XCUIDevice.shared.orientation = .portrait
+        languageLaunch("en", "language-settings"); selectLanguage("en")
+        languageLaunch("en", "interactive-open", ["--showcase-example=interactive-navigation", "--interactive-navigation-lifecycle"])
+        try record("interactive-rotation-ios") {
+            tap("interactive-open", wait: 1.2)
+            heldNavigationInterrupt { XCUIDevice.shared.orientation = .landscapeLeft }
+            XCTAssertTrue(app.descendants(matching: .any)["interactive-back"].firstMatch.exists, app.debugDescription)
+            XCTAssertGreaterThan(app.frame.width, app.frame.height)
+            Thread.sleep(forTimeInterval: 1)
+            XCUIDevice.shared.orientation = .portrait
+            Thread.sleep(forTimeInterval: 1)
+            edgeBack(0.8)
+            XCTAssertTrue(app.descendants(matching: .any)["interactive-open"].firstMatch.exists, app.debugDescription)
+        }
+        try record("interactive-background-ios") {
+            tap("interactive-open", wait: 1.2)
+            heldNavigationInterrupt { XCUIApplication(bundleIdentifier: "com.apple.springboard").activate() }
+            app.activate(); Thread.sleep(forTimeInterval: 1)
+            XCTAssertTrue(app.descendants(matching: .any)["interactive-back"].firstMatch.exists, app.debugDescription)
+            edgeBack(0.8)
+            XCTAssertTrue(app.descendants(matching: .any)["interactive-open"].firstMatch.exists, app.debugDescription)
+            tap("interactive-open", wait: 1.2)
+            tap("interactive-back", wait: 1.2)
+            XCTAssertTrue(app.descendants(matching: .any)["interactive-open"].firstMatch.exists, app.debugDescription)
+        }
     }
     func galleryStory() throws {
         tap("collection-place-1", wait: 1.1)
