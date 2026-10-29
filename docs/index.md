@@ -19,6 +19,25 @@ hero:
       text: Presets
       link: /guide/presets
 
+homeVideos:
+  title: 'See Jolt in motion.'
+  description: 'Meet the project in one minute, then watch a native app in action.'
+  items:
+    - name: jolt-nativescript-film
+      label: 'The film'
+      title: 'This is NativeScript.'
+      duration: '1:00'
+      width: 1920
+      height: 1080
+      caption: 'A one-minute film featuring real iOS simulator captures of Jolt and Motion Studio, with editorial framing and music. SceneKit sequences are iOS-only.'
+    - name: jolt-tesla-demo-ios
+      label: 'The example'
+      title: 'Inspired by Tesla.'
+      duration: '2:04'
+      width: 720
+      height: 1566
+      caption: 'iOS simulator: a Tesla-inspired example with a 3D car, climate controls and a pickup journey. Original playback speed; demo UI, with no connection to a real vehicle.'
+
 features:
   - title: One call
     details: "animate(card, 'fadeInUp'), animate(button, { scale: 1.1 }, 'bouncy'), animate(rows, 'fadeInUp', { stagger: 40 }). That's the whole API for most screens."
