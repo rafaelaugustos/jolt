@@ -5,7 +5,7 @@ import { bind, configure, motionScope, springValue } from '@rafaelaugusto/jolt'
 import { sensor, type Sensor, type SensorStatus } from '@rafaelaugusto/jolt/sensors'
 import { replaySensor, type SensorSample } from '@rafaelaugusto/jolt/testing'
 import { usePreviewI18n } from '../showcase/i18n'
-import { launchArgument } from '../launch'
+import { sensorAudit } from '../sensor-audit'
 const { t } = usePreviewI18n()
 defineProps<{ embedded?: boolean }>()
 const stage = ref(),
@@ -17,13 +17,15 @@ const stage = ref(),
 const status = ref<SensorStatus>('idle'),
   paused = ref(false),
   reduced = ref(false)
-const auditMode = launchArgument('sensors-audit') !== undefined
+const diagnostic = sensorAudit()
+const auditMode = diagnostic.enabled
 let owner: ReturnType<typeof motionScope> | undefined,
   rotation: ReturnType<typeof sensor> | undefined,
   gravity: ReturnType<typeof sensor> | undefined
 let released = false
 let sharingChecked = false
-const events: object[] = []
+let awaitingForeground = false
+const events = diagnostic.events
 const nativeView = (value: any): View => value.value.nativeView
 function audit(name: string) {
   if (!auditMode) return
@@ -59,7 +61,11 @@ function audit(name: string) {
   const live = isIOS ? JoltLiveSpring : org.rafaelaugusto.jolt.LiveSpring
   events.push({
     name,
+    instance: diagnostic.instance,
+    sequence: events.length,
     time: Date.now(),
+    paused: paused.value,
+    scopeSuspended: owner?.suspended ?? null,
     rotation: rotation?.snapshot(),
     gravity: gravity?.snapshot(),
     card: pose(card),
@@ -76,7 +82,11 @@ function audit(name: string) {
       : Application.android.context.getExternalFilesDir(null).getAbsolutePath()) +
       '/sensors-audit.json',
   ).writeTextSync(
-    JSON.stringify({ platform: isIOS ? 'ios' : 'android', events }, null, 2),
+    JSON.stringify(
+      { platform: isIOS ? 'ios' : 'android', session: diagnostic.session, events },
+      null,
+      2,
+    ),
   )
 }
 function loaded() {
@@ -86,6 +96,7 @@ function loaded() {
     return
   }
   released = false
+  audit('baseline')
   // Keep the tilted card in front of coplanar decorative rings on Core Animation.
   if (isIOS) nativeView(card).ios.layer.zPosition = 100
   else {
@@ -136,6 +147,21 @@ function loaded() {
     }),
   )
   audit('loaded')
+  if (diagnostic.lifecycle) {
+    // Register after the sources' lifecycle handlers. These are boundary reads,
+    // not an animation clock or a replacement for the real application events.
+    Application.on(Application.suspendEvent, background)
+    Application.on(Application.resumeEvent, foreground)
+  }
+}
+function background() {
+  awaitingForeground = true
+  audit('background')
+}
+function foreground() {
+  // iOS also reports activation during the initial launch.
+  audit(awaitingForeground ? 'foreground' : 'activated')
+  awaitingForeground = false
 }
 function preview() {
   if (!rotation || !gravity) return
@@ -196,6 +222,8 @@ function unloaded() {
 function clean() {
   if (released) return
   released = true
+  Application.off(Application.suspendEvent, background)
+  Application.off(Application.resumeEvent, foreground)
   owner?.dispose()
   owner = undefined
   audit('disposed')

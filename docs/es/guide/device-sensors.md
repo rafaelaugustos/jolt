@@ -7,6 +7,15 @@
 <Clip name="device-sensors-android" caption="Emulador Android 16: la tarjeta nativa, la luz y el paralaje siguen muestras de prueba explícitas. El ADB real toca pausar, reanudar y reducir movimiento el ejercicio. Velocidad original; El hardware emulado y las muestras de prueba no establecen el rendimiento del dispositivo físico." />
 <Clip name="device-sensors-android-pt" caption="Emulador Android, portugués: reproducción nativa con entradas simuladas visiblemente etiquetadas y controles traducidos." />
 
+## Segundo plano y reentrada en la pantalla {#background-and-reentry}
+
+La auditoría del ciclo de vida ejecuta cinco ciclos reales de inicio y retorno a la aplicación en tres instancias separadas de **Move the light**. Verifica que los valores y las poses nativas de la tarjeta y su reflejo se conserven al reanudar, que las actualizaciones continúen, que una pausa explícita se mantenga y que los registros de sensores, las fuentes y los nodos de valores nativos vuelvan a cero al liberar cada ruta.
+
+El primer ciclo utiliza la adquisición de la plataforma: el emulador Android elimina sus dos registros de sensores en segundo plano y los restaura al volver; el simulador iOS conserva correctamente la alternativa para hardware no disponible. Los ciclos siguientes utilizan la vista previa nativa con entradas simuladas, identificadas en pantalla. Esto valida el ciclo de vida, sin medir precisión física, latencia ni batería. La auditoría confirmó la implementación existente sin cambiar la API pública de sensores. Consulte el [registro, verificador y procedimiento de reproducción](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md#background-and-reentry-audit-2026-10-29).
+
+<Clip name="sensor-lifecycle-ios" caption="Simulador iOS 26.2, demo en inglés: inicio y retorno reales, pausa explícita y tres entradas en la pantalla con reproducción nativa de entradas de sensores identificadas como simuladas. Tiempo original. Core Motion no está disponible en el simulador; evidencia del ciclo de vida, no del rendimiento físico." />
+<Clip name="sensor-lifecycle-android" caption="Emulador Android 16 / API 36, demo en inglés: inicio y retorno reales y navegación repetida. El primer ciclo comprueba las suscripciones a sensores emulados; los ciclos de movimiento usan entradas identificadas como simuladas. Tiempo original; sin afirmar precisión o rendimiento en dispositivos físicos." />
+
 ## Conectar una fuente {#connect-a-source}
 
 ```ts

@@ -384,6 +384,43 @@ final class DocsTests: XCTestCase {
         Thread.sleep(forTimeInterval: 1)
         XCTAssertFalse(app.descendants(matching: .any)["sensor-lab"].firstMatch.exists)
     }
+    func testSensorLifecycle() throws {
+        languageLaunch("en", "language-settings"); selectLanguage("system")
+        languageLaunch("en", "sensor-lab", ["--showcase-example=device-sensors", "--sensors-lifecycle"])
+        func background() {
+            XCUIDevice.shared.press(.home)
+            Thread.sleep(forTimeInterval: 2)
+            app.activate()
+            XCTAssertTrue(app.descendants(matching: .any)["sensor-lab"].firstMatch.waitForExistence(timeout: 10))
+            Thread.sleep(forTimeInterval: 0.6)
+            blurTap("sensor-snapshot", wait: 0.2)
+        }
+        try record("sensor-lifecycle-ios") {
+            blurTap("sensor-snapshot", wait: 0.2)
+            background()
+            for cycle in 0..<3 {
+                blurTap("sensor-preview", wait: 2.2)
+                blurTap("sensor-snapshot", wait: 0.2)
+                background()
+                if cycle == 0 {
+                    blurTap("sensor-pause", wait: 0.5)
+                    blurTap("sensor-snapshot", wait: 0.2)
+                    background()
+                    blurTap("sensor-pause", wait: 0.8)
+                    blurTap("sensor-snapshot", wait: 0.2)
+                }
+                blurTap("Back to collection", wait: 0.8)
+                XCTAssertFalse(app.descendants(matching: .any)["sensor-lab"].firstMatch.exists)
+                if cycle < 2 {
+                    let search = app.textFields["Search examples"].firstMatch
+                    XCTAssertTrue(search.waitForExistence(timeout: 5))
+                    if cycle == 0 { search.tap(); search.typeText("Move the light\n") }
+                    blurTap("Open Move the light", wait: 0.8)
+                    XCTAssertTrue(app.descendants(matching: .any)["sensor-lab"].firstMatch.exists)
+                }
+            }
+        }
+    }
     func scrollHeaderDemo(_ language: String) throws {
         languageLaunch(language, "language-settings")
         selectLanguage("system")

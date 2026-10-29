@@ -7,6 +7,15 @@
 <Clip name="device-sensors-android" caption="Emulador Android 16: cartão, luz e paralaxe nativos seguem amostras de teste explícitas. Toques reais por ADB exercitam pausa, retomada e redução de movimento. Velocidade original; não comprova desempenho em aparelho físico." />
 <Clip name="device-sensors-android-pt" caption="Emulador Android, português: reprodução nativa com entradas identificadas como simuladas e controles traduzidos." />
 
+## Background e reentrada na tela {#background-and-reentry}
+
+A auditoria de ciclo de vida executa cinco ciclos reais de Home/retorno em três instâncias separadas da tela **Move the light**. Verifica valores dos sensores e poses nativas do card e reflexo preservados no instante da retomada, continuidade das atualizações, manutenção da pausa explícita e zero registros de sensores, fontes e nós de valores nativos após descartar cada rota.
+
+O primeiro ciclo usa a aquisição da plataforma: o emulador Android remove seus dois registros de sensores em background e os restaura na volta; o simulador iOS mantém corretamente o fallback de hardware indisponível. Os ciclos seguintes usam o preview nativo com entradas simuladas, identificado na tela. Isso valida o ciclo de vida, sem medir precisão física, latência ou bateria. A auditoria confirmou a implementação existente sem alterar a API pública de sensores. Veja o [registro, verificador e procedimento de reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md#background-and-reentry-audit-2026-10-29).
+
+<Clip name="sensor-lifecycle-ios" caption="Simulador iOS 26.2, demo em inglês: Home/retorno reais, pausa explícita e três entradas na tela com reprodução nativa de entradas de sensores identificadas como simuladas. Tempo original. O simulador não oferece aquisição Core Motion; é evidência de ciclo de vida, não de desempenho físico." />
+<Clip name="sensor-lifecycle-android" caption="Emulador Android 16 / API 36, demo em inglês: Home/retorno e navegação repetida reais. O primeiro ciclo verifica assinaturas de sensores emulados; os ciclos com movimento do card usam entradas identificadas como simuladas. Tempo original; sem alegação de precisão ou desempenho em aparelho físico." />
+
 ## Conectar uma fonte
 
 ```ts

@@ -37,3 +37,38 @@ The audit verifier checks nonzero native transforms, many native updates per sta
 No physical iPhone or Android device was connected during this implementation. Before closing #114, record live motion on both, verify positive axis direction and all interface orientations, reentry/recentering, permission denial and recovery, unsupported hardware fallback, sample intervals, callback counts, frame latency, sampling CPU and listener/node return to baseline. Include repeated navigation and background/foreground changes. iOS Simulator cannot validate Core Motion acquisition. Android emulator sensors exercise the platform API but do not establish physical fusion accuracy or cost.
 
 The initial public sources are only rotation and gravity. Accelerometer (including gravity), linear acceleration, gyroscope and magnetic-field sources remain explicitly deferred in #114. The relative rotation reference is nonmagnetic and can drift; Euler angles are a small-tilt convenience, not a complete arbitrary-rotation interpolator.
+
+## Background and reentry audit (2026-10-29)
+
+The existing sensor implementation passed a dedicated lifecycle audit on iOS 26.2 Simulator and Android 16 / API 36 emulator, using the Release demo, production JavaScript without HMR, NativeScript Core 9.1.3 and vue-router-ns 0.1.0-rc.2 (base `bf7078723887fc26779c9a9e53d7b443a1a5d7ba`). No production sensor/runtime change was required.
+
+The earlier runners visited Home, but their verifier only asserted the pause button's resume. The new `--sensors-lifecycle` opt-in diagnostic retains a single trace across separately mounted screens and records application background/foreground separately from button pause/resume. iOS's initial activation is labelled separately. The Android runner preserves diagnostic Intent extras when bringing the existing task forward. Neither runner invokes an app lifecycle handler to imitate OS suspension.
+
+| Check                                                                                     | iOS Simulator                                                    | Android emulator                                                      |
+| ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | --------------------------------------------------------------------- |
+| Initial platform source                                                                   | Hardware unavailable; static fallback remains valid after return | Two native sensor registrations; zero in background, two after return |
+| Actual Home/foreground cycles                                                             | 5                                                                | 5                                                                     |
+| Separately created screens                                                                | 3                                                                | 3                                                                     |
+| Source samples/frames during suspension                                                   | Unchanged between background and foreground observations         | Same                                                                  |
+| Rotation/gravity values and native card/highlight/glow pose at resume boundary            | Unchanged within 0.000001                                        | Same                                                                  |
+| Playback after resume                                                                     | New source frames and changed native card pose                   | Same                                                                  |
+| Explicit pause through background                                                         | Still paused; no resumed frame clock until the user resumes      | Same                                                                  |
+| Registrations, sources, native value nodes and live-value clock after each route disposal | 0                                                                | 0                                                                     |
+
+The first cycle checks platform availability/acquisition. Remaining cycles use the existing, explicitly labelled synthetic quaternion/gravity preview so the same native normalization, bindings and springs can be tested deterministically on both platforms. iOS has no motion acquisition in this simulator. Android's virtual sensor registration does not prove physical fusion accuracy or sampling cost.
+
+Reproduce after installing the normal Release demo on dedicated devices (build platforms sequentially):
+
+```sh
+python3 benchmarks/docs-record-ios.py YOUR_SIMULATOR /tmp/JoltSensorLifecycleIOS testSensorLifecycle
+python3 benchmarks/sensor-lifecycle-android.py YOUR_EMULATOR /tmp/JoltSensorLifecycleAndroid
+python3 benchmarks/verify-sensor-lifecycle.py benchmarks/results/device-sensors/2026-10-29-lifecycle-ios.json
+python3 benchmarks/verify-sensor-lifecycle.py benchmarks/results/device-sensors/2026-10-29-lifecycle-android.json
+python3 -m unittest discover -s benchmarks -p test_sensor_lifecycle.py -v
+```
+
+The Android runner uses the reviewed 1080×2400 English layout and actual ADB taps, including collection search and repeated route opening. It restores touch indicators and pulls the recording even on failure. The iOS runner uses XCTest touches and validates the report's session against the current run. Raw observations: [iOS](results/device-sensors/2026-10-29-lifecycle-ios.json), [Android](results/device-sensors/2026-10-29-lifecycle-android.json).
+
+The verifier rejects missing/duplicated lifecycle observations, stale sessions, sampling or frame progress during suspension, changed source/native poses at the resume boundary, stalled resumption, lost explicit pause, hardware registrations or value nodes retained, and missing route recreation. Its 13 negative controls are exercised against each of the two captured traces.
+
+Reviewed English recordings `sensor-lifecycle-ios.mp4` (46.5 s) and `sensor-lifecycle-android.mp4` (54.7 s) preserve original timing, show actual Home screens and end in the collection. Both are embedded with translated captions in all four guides. Native counters and sampled boundary poses are correctness evidence; they do not measure total heap retention, frame pacing, battery or every frame of the resume transition. Physical-device acquisition, axis accuracy, permissions and performance remain open in #114.

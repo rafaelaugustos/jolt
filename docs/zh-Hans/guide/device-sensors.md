@@ -7,6 +7,15 @@
 <Clip name="device-sensors-android" caption="Android 16模拟器：原生卡，光线和视差遵循明确的测试样本。实际的 ADB 点击锻炼暂停、恢复和减少运动。原速度；模拟硬件和测试样本无法确定真机性能。" />
 <Clip name="device-sensors-android-pt" caption="Android 模拟器，葡萄牙语：具有明显标记的模拟输入和翻译控件的原生播放。" />
 
+## 后台与页面重新进入 {#background-and-reentry}
+
+生命周期审计在三个独立创建的 **Move the light** 页面中执行五次真实的主屏幕切换与应用恢复。它验证恢复瞬间传感器值、卡片和高光的原生姿态保持不变，随后更新继续进行，手动暂停状态得到保留，并且每次释放路由后传感器注册、数据源和原生数值节点均归零。
+
+第一个周期使用平台采集：Android 模拟器进入后台时取消两个传感器注册，返回后恢复；iOS 模拟器则正确保持硬件不可用时的静态回退。后续周期使用屏幕明确标注的原生模拟输入预览。这验证了生命周期行为，不代表真实传感器精度、延迟或电池消耗。此次审计确认了现有实现，无需修改公开传感器 API。请参阅[记录、验证器及复现步骤](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md#background-and-reentry-audit-2026-10-29)。
+
+<Clip name="sensor-lifecycle-ios" caption="iOS 26.2 模拟器，英文演示：真实主屏幕切换与应用恢复、手动暂停以及三次页面进入；原生播放明确标注的模拟传感器输入，保持原始时间。模拟器不支持 Core Motion 采集；这是生命周期证据，不是真机性能证据。" />
+<Clip name="sensor-lifecycle-android" caption="Android 16 / API 36 模拟器，英文演示：真实主屏幕切换、应用恢复与重复导航。第一个周期检查模拟器传感器订阅，卡片运动周期使用明确标注的模拟输入。保持原始时间，不作真机传感器精度或性能声明。" />
+
 ## 连接源 {#connect-a-source}
 
 ```ts

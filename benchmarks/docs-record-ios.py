@@ -12,6 +12,7 @@ import sys
 import time
 
 serial, destination, *methods = sys.argv[1:]
+started_at = time.time() * 1000
 output = Path(destination).resolve()
 output.mkdir(parents=True, exist_ok=True)
 control = Path('/tmp/jolt-docs-recording-control-' + serial)
@@ -96,6 +97,13 @@ try:
             report = output/'interactive-navigation-lifecycle.json'
             shutil.copy2(Path(container)/'Documents/jolt-navigation-lifecycle.json', report)
             subprocess.run([sys.executable, str(repo/'benchmarks/verify-interactive-lifecycle.py'), str(report)], check=True)
+        if 'testSensorLifecycle' in methods:
+            container = subprocess.check_output(['xcrun', 'simctl', 'get_app_container', serial,
+                'org.nativescript.jolt.benchmark', 'data'], text=True).strip()
+            report = output/'sensor-lifecycle-ios.json'
+            shutil.copy2(Path(container)/'Documents/sensors-audit.json', report)
+            assert json.loads(report.read_text())['session'] >= started_at, 'stale sensor lifecycle report'
+            subprocess.run([sys.executable, str(repo/'benchmarks/verify-sensor-lifecycle.py'), str(report)], check=True)
         if 'testMotionRfc' in methods:
             container = subprocess.check_output(['xcrun', 'simctl', 'get_app_container', serial,
                 'org.nativescript.jolt.benchmark', 'data'], text=True).strip()

@@ -7,6 +7,15 @@
 <Clip name="device-sensors-android" caption="Android 16 emulator: the native card, light and parallax follow explicit test samples. Actual ADB taps exercise pause, resume and Reduce Motion. Original speed; emulated hardware and test samples do not establish physical-device performance." />
 <Clip name="device-sensors-android-pt" caption="Android emulator, Portuguese: native playback with visibly labelled simulated inputs and translated controls." />
 
+## Background and screen reentry {#background-and-reentry}
+
+The lifecycle audit exercises five actual Home/foreground cycles across three separately created **Move the light** screens. It verifies unchanged source values and native card/highlight poses at the resume boundary, continued updates afterward, preservation of an explicit pause, and zero sensor registrations, sources and native value nodes after each route is disposed.
+
+The first cycle uses platform acquisition: the Android emulator releases its two sensor registrations in background and restores them on return; iOS Simulator correctly keeps the unavailable-hardware fallback. Subsequent cycles use the clearly labelled native test-input preview. This validates lifecycle behavior, not physical sensor accuracy, latency or battery use. The audit confirmed the existing implementation without changing the public sensor API. See the [trace, verifier and reproduction procedure](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md#background-and-reentry-audit-2026-10-29).
+
+<Clip name="sensor-lifecycle-ios" caption="iOS 26.2 simulator, English demo: actual Home/foreground, explicit pause and three route entries with native playback of labelled simulated sensor inputs. Original timing. Core Motion acquisition is unavailable in the simulator; this is lifecycle evidence, not physical-device performance." />
+<Clip name="sensor-lifecycle-android" caption="Android 16 / API 36 emulator, English demo: actual Home/foreground and repeated navigation. The first cycle checks emulated sensor subscriptions; the moving-card cycles use labelled simulated inputs. Original timing; no physical sensor or performance claim." />
+
 ## Connect a source
 
 ```ts
