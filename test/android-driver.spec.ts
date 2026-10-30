@@ -361,14 +361,17 @@ function container() {
 
 it('uses bulk numeric keyframes and preserves the pre-rebuild fallback', () => {
   const { view } = container()
+  const perSample = vi.spyOn(android.animation.Keyframe, 'ofFloat')
   const bulk = animate(view, { opacity: [1, 0.2, 0.6] }, { duration: 400 })
   expect(KeyframeFactory.create).toHaveBeenCalledOnce()
+  expect(perSample).not.toHaveBeenCalled()
   const expected = animators[0]!.holders[0]!
   bulk.stop()
   vi.stubGlobal('org', { rafaelaugusto: { jolt: { ColorTarget, DecorationTarget } } })
   animate(view, { opacity: [1, 0.2, 0.6] }, { duration: 400 })
   expect(KeyframeFactory.create).toHaveBeenCalledOnce()
   expect(animators[1]!.holders[0]).toMatchObject(expected)
+  expect(perSample).toHaveBeenCalled()
 })
 
 describe('Android fades of containers that let children overflow', () => {
