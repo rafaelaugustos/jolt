@@ -1,13 +1,14 @@
 package org.rafaelaugusto.jolt.fixture;
 
 import android.os.Build;
-import android.os.Debug;
 import android.os.PowerManager;
 import android.os.Process;
 import android.view.Choreographer;
 import android.view.View;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import java.io.BufferedReader;
+import java.io.FileReader;
 
 /** Demo-only fixed-capacity native callback recorder. It never invokes JavaScript. */
 public final class BudgetProbe implements Choreographer.FrameCallback {
@@ -23,13 +24,18 @@ public final class BudgetProbe implements Choreographer.FrameCallback {
 
     private static JSONObject resourceObject(View view) {
         try {
-            Debug.MemoryInfo memory = new Debug.MemoryInfo();
-            Debug.getMemoryInfo(memory);
+            // PSS collection can stop the sampler for tens of milliseconds.
+            // Resident pages are a cheap process-wide observation, not heap allocation counts.
+            long residentBytes;
+            try (BufferedReader reader = new BufferedReader(new FileReader("/proc/self/statm"))) {
+                residentBytes = Long.parseLong(reader.readLine().trim().split("\\s+")[1])
+                    * android.system.Os.sysconf(android.system.OsConstants._SC_PAGESIZE);
+            }
             PowerManager power = (PowerManager)view.getContext().getSystemService(android.content.Context.POWER_SERVICE);
             return new JSONObject().put("timeMs", System.nanoTime() / 1e6)
                 .put("cpuMs", Process.getElapsedCpuTime())
-                .put("memoryBytes", memory.getTotalPss() * 1024L)
-                .put("memoryMetric", "total-pss")
+                .put("memoryBytes", residentBytes)
+                .put("memoryMetric", "rss")
                 .put("thermalState", Build.VERSION.SDK_INT >= 29 ? power.getCurrentThermalStatus() : JSONObject.NULL)
                 .put("lowPowerMode", power.isPowerSaveMode());
         } catch (Exception e) { throw new IllegalStateException(e); }

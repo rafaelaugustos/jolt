@@ -43,7 +43,7 @@ def summary(numbers):
 def resources(value):
     for name in ('timeMs', 'cpuMs', 'memoryBytes'):
         finite(value[name])
-    assert value['memoryMetric'] in ('phys_footprint', 'total-pss')
+    assert value['memoryMetric'] in ('phys_footprint', 'rss')
     assert value['thermalState'] == 0 and value['lowPowerMode'] is False
 
 
