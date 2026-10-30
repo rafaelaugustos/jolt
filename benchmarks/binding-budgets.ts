@@ -431,7 +431,8 @@ function createPage() {
           check(
             idle.frameCallbacks === afterDispose.frameCallbacks &&
               idle.plays === afterDispose.plays &&
-              idle.timerCallbacks === afterDispose.timerCallbacks,
+              idle.timerCallbacks === afterDispose.timerCallbacks &&
+              idle.endCallbacks === afterDispose.endCallbacks,
             'Jolt woke while idle.',
           )
           check(
@@ -441,6 +442,7 @@ function createPage() {
           ready(views)
         }
         canvas.removeChildren()
+        views.length = 0
         await wait(200)
         report.cases.push({
           workload: item,
