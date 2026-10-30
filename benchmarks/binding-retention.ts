@@ -52,13 +52,25 @@ export async function runBindingRetention(
   }
   // Negative control: a deliberate strong reference must remain visible to the weak probe.
   let held: View[] = await mount(1)
+  let heldNative: UIView | android.view.View | undefined = isIOS
+    ? held[0]!.ios
+    : held[0]!.android
   held.forEach((view) => weak.watch(view))
   canvas.removeChildren()
   const retainedControl = await settle()
+  // Read after collection to keep the native proxy live across the await. Core
+  // may clear View.nativeViewProtected when the view is detached.
+  check(
+    isIOS
+      ? (heldNative as UIView).superview === null
+      : (heldNative as android.view.View).getParent() === null,
+    'Control view is still parented',
+  )
   progress.retainedControl = retainedControl
   publish(progress)
   check(retainedControl.alive === 1, 'Weak probe missed the intentionally retained view')
   held = []
+  heldNative = undefined
   const releasedControl = await settle()
   progress.releasedControl = releasedControl
   publish(progress)
