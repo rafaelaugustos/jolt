@@ -126,6 +126,14 @@ try:
             report = output/'large-text-ios.json'
             report.write_text(json.dumps({'gallery': gallery, 'collection': collection}, indent=2)+'\n')
             subprocess.run([sys.executable, str(repo/'benchmarks/verify-gallery-text.py'), str(report)], check=True)
+        if any(method in methods for method in ('testInteractiveModalChecks', 'testInteractiveModalLifecycle')):
+            container = subprocess.check_output(['xcrun', 'simctl', 'get_app_container', serial,
+                'org.nativescript.jolt.benchmark', 'data'], text=True).strip()
+            report = output/'interactive-modal.json'
+            shutil.copy2(Path(container)/'Documents/jolt-interactive-modal.json', report)
+            assert json.loads(report.read_text())['events'][0]['time'] >= started_at, 'stale modal report'
+            scenario = 'checks' if 'testInteractiveModalChecks' in methods else 'lifecycle'
+            subprocess.run([sys.executable, str(repo/'benchmarks/verify-interactive-modal.py'), str(report), scenario], check=True)
         if 'testMotionRfc' in methods:
             container = subprocess.check_output(['xcrun', 'simctl', 'get_app_container', serial,
                 'org.nativescript.jolt.benchmark', 'data'], text=True).strip()

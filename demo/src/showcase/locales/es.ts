@@ -1264,4 +1264,8 @@ export const spanish: Record<string, string> = {
   'motion value': 'valor de movimiento',
   'live spring': 'resorte en vivo',
   'Classic material': 'Material clásico',
+  'Open a modal': 'Abrir un modal',
+  'A moment of your own.': 'Un momento para ti.',
+  'Pull down to return. Let go early to stay.':
+    'Desliza hacia abajo para volver. Suelta antes para quedarte.',
 }
