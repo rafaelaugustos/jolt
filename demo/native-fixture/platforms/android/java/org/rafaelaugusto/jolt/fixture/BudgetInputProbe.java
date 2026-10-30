@@ -17,6 +17,7 @@ public final class BudgetInputProbe extends WindowCallbackWrapper {
     private int count, overflow;
     private boolean tracking, delayed, stopped;
     private double workMs;
+    private float downX, downY;
     private final int[] location = new int[2];
     public BudgetInputProbe(Activity activity, View surface, int delayMs) {
         super(activity.getWindow().getCallback());
@@ -29,6 +30,7 @@ public final class BudgetInputProbe extends WindowCallbackWrapper {
         if (!stopped) {
             int action = event.getActionMasked();
             if (action == MotionEvent.ACTION_DOWN) {
+                downX = event.getRawX(); downY = event.getRawY();
                 surface.getLocationOnScreen(location);
                 tracking = event.getRawX() >= location[0] && event.getRawX() < location[0] + surface.getWidth()
                     && event.getRawY() >= location[1] && event.getRawY() < location[1] + surface.getHeight();
@@ -40,7 +42,8 @@ public final class BudgetInputProbe extends WindowCallbackWrapper {
                     row[0] = event.getEventTime(); row[1] = begin; row[2] = action;
                     row[3] = event.getRawX(); row[4] = event.getRawY();
                 } else overflow++;
-                if (delayMs > 0 && action == MotionEvent.ACTION_MOVE && !delayed) {
+                if (delayMs > 0 && action == MotionEvent.ACTION_MOVE && !delayed
+                        && (event.getRawX() != downX || event.getRawY() != downY)) {
                     delayed = true; android.os.SystemClock.sleep(delayMs);
                 }
                 if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) tracking = false;

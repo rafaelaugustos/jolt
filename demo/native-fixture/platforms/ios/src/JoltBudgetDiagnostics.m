@@ -13,6 +13,7 @@ static NSString *JSON(id value) {
 @property(nonatomic) NSInteger delayMs;
 @property(nonatomic) BOOL delayed, stopped;
 @property(nonatomic) double workMs;
+@property(nonatomic) CGPoint down;
 @end
 @implementation JoltBudgetInputProbe
 + (instancetype)watch:(UIView *)surface delay:(NSInteger)milliseconds {
@@ -27,11 +28,12 @@ static NSString *JSON(id value) {
     if (self.stopped) return;
     double begin = CACurrentMediaTime() * 1000;
     UITouch *touch = touches.anyObject; CGPoint point = [touch locationInView:nil];
+    if (action == 0) self.down = point;
     if (_count < 4096) {
         double *r = _rows[_count++]; r[0] = touch.timestamp * 1000; r[1] = begin;
         r[2] = action; r[3] = point.x; r[4] = point.y;
     } else _overflow++;
-    if (action == 2 && self.delayMs && !self.delayed) { self.delayed = YES; usleep((useconds_t)self.delayMs * 1000); }
+    if (action == 2 && self.delayMs && !self.delayed && !CGPointEqualToPoint(point, self.down)) { self.delayed = YES; usleep((useconds_t)self.delayMs * 1000); }
     self.workMs += CACurrentMediaTime() * 1000 - begin;
 }
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event { self.delayed = NO; [self record:touches action:0]; }
