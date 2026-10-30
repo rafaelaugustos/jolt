@@ -14,6 +14,8 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('serial')
     parser.add_argument('output', type=Path)
+    parser.add_argument('--case', choices=('drag-js', 'pan-native', 'scroll-js', 'header-native'))
+    parser.add_argument('--recording', action='store_true')
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
 
@@ -39,11 +41,12 @@ def main():
         x1, y1, x2, y2 = rectangle(node(identifier))
         adb('shell', 'input', 'tap', str((x1+x2)//2), str((y1+y2)//2))
 
-    for kind in ('drag-js', 'pan-native', 'scroll-js', 'header-native'):
+    for kind in ([args.case] if args.case else ('drag-js', 'pan-native', 'scroll-js', 'header-native')):
         session = f'input-{kind}-{time.time_ns()}'
         adb('shell', 'am', 'force-stop', APP)
         adb('shell', 'am', 'start', '-n', APP+'/com.tns.NativeScriptActivity',
-            '--es', 'budget-input', kind, '--es', 'budget-session', session)
+            '--es', 'budget-input', kind, '--es', 'budget-session', session,
+            '--es', 'budget-recording', str(args.recording).lower())
         deadline = time.monotonic() + 20
         while True:
             try:
@@ -52,6 +55,7 @@ def main():
             if time.monotonic() > deadline: raise RuntimeError('Input workload not ready: '+kind)
             time.sleep(.5)
         bounds = rectangle(node('budget-input-pad'))
+        if args.recording: time.sleep(8)
         x1, y1, x2, y2 = bounds
         tap('budget-input-control')
         for _ in range(3):

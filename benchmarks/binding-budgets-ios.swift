@@ -3,15 +3,19 @@ import XCTest
 /// Real OS input against the isolated Release benchmark app, on a phone or simulator.
 final class DocsTests: XCTestCase {
     let app = XCUIApplication(bundleIdentifier: "org.nativescript.jolt.bindings")
-    func testInputWindows() throws {
+    func testInputWindows() throws { try runInputs(recording: false) }
+    func testRecording() throws { try runInputs(recording: true) }
+    func runInputs(recording: Bool) throws {
         continueAfterFailure = false
-        for kind in ["drag-js", "pan-native", "scroll-js", "header-native"] {
-            app.launchArguments = ["-AppleLanguages", "(en)", "--budget-input=\(kind)", "--budget-session=input-\(kind)"]
+        let kinds = recording ? ["pan-native"] : ["drag-js", "pan-native", "scroll-js", "header-native"]
+        for kind in kinds {
+            app.launchArguments = ["-AppleLanguages", "(en)", "--budget-input=\(kind)", "--budget-session=input-\(kind)-\(UUID().uuidString)", "--budget-recording=\(recording)"]
             app.launch()
             let state = app.staticTexts["budget-input-state"].firstMatch
             XCTAssertTrue(state.waitForExistence(timeout: 12))
             let ready = XCTNSPredicateExpectation(predicate: NSPredicate(format: "label == 'Ready'"), object: state)
             XCTAssertEqual(XCTWaiter.wait(for: [ready], timeout: 15), .completed)
+            if recording { Thread.sleep(forTimeInterval: 8) }
             app.buttons["budget-input-control"].tap()
             let pad = app.descendants(matching: .any)["budget-input-pad"].firstMatch
             XCTAssertTrue(pad.exists)
