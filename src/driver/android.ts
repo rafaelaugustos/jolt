@@ -133,7 +133,7 @@ export function createAndroidDriver(): Driver {
       let animator: android.animation.ObjectAnimator
       if (
         typeof org !== 'undefined' &&
-        typeof org.rafaelaugusto.jolt.KeyframeFactory === 'function'
+        typeof org.rafaelaugusto?.jolt?.KeyframeFactory === 'function'
       ) {
         animator = org.rafaelaugusto.jolt.KeyframeFactory.create(
           nativeView,
