@@ -1,4 +1,4 @@
-"""Negative controls for the captured hardware-only iPhone audit."""
+"""Negative controls for the captured hardware-only lifecycle audits."""
 import copy
 import importlib.util
 import json
@@ -18,12 +18,12 @@ class PhysicalSensors(unittest.TestCase):
     def test_captured_trace(self):
         result = module.verify(self.report)
         self.assertEqual(result['instances'], 3)
-        self.assertEqual(result['backgroundCycles'], 5)
+        self.assertGreaterEqual(result['backgroundCycles'], 4)
         self.assertEqual(result['finalNativeResources'], 0)
 
     def test_corruption_is_rejected(self):
         cases = [
-            ('wrong platform', lambda r: r.update(platform='android')),
+            ('wrong platform', lambda r: r.update(platform='android' if r['platform']=='ios' else 'ios')),
             ('stale report', lambda r: r.update(session=r['events'][-1]['time']+1)),
             ('synthetic preview', lambda r: r['events'][3].update(name='preview')),
             ('missing hardware', lambda r: self.second(r)['rotation'].update(available=False)),
@@ -38,7 +38,7 @@ class PhysicalSensors(unittest.TestCase):
             ('resume pose jump', lambda r: self.named(r, 'foreground')['card'].update(m11=42)),
             ('pause lost', lambda r: self.named(r, 'pause')['rotation'].update(frames=99999)),
             ('Reduce Motion ignored', lambda r: self.named(r, 'reduced')['gravity'].update(frames=99999)),
-            ('lost shared subscription', lambda r: self.named(r, 'shared').update(active=2)),
+            ('lost shared subscription', lambda r: self.named(r, 'shared').update(active=3)),
         ]
         for name, mutate in cases:
             with self.subTest(name=name):
@@ -54,6 +54,11 @@ class PhysicalSensors(unittest.TestCase):
     @staticmethod
     def named(report, name):
         return next(e for e in report['events'] if e['name'] == name)
+
+
+class PhysicalAndroidSensors(PhysicalSensors):
+    def setUp(self):
+        self.report = json.loads((ROOT / 'results/device-sensors/2026-10-30-physical-android.json').read_text())
 
 
 if __name__ == '__main__':

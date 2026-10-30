@@ -83,4 +83,21 @@ final class DocsTests: XCTestCase {
         XCTAssertFalse(app.descendants(matching: .any)["sensor-lab"].firstMatch.exists)
         #endif
     }
+
+    func testSensorRecovery() throws {
+        #if targetEnvironment(simulator)
+        throw XCTSkip("Requires physical hardware")
+        #else
+        continueAfterFailure = false
+        app.launchArguments = ["-AppleLanguages", "(en)", "--showcase-example=device-sensors", "--sensors-recovery"]
+        app.launch()
+        let button = app.buttons["sensor-acceptance-next"].firstMatch
+        XCTAssertTrue(button.waitForExistence(timeout: 15))
+        Thread.sleep(forTimeInterval: 3)
+        button.tap()
+        let finished = XCTNSPredicateExpectation(predicate: NSPredicate(format: "label == 'Close'"), object: button)
+        XCTAssertEqual(XCTWaiter.wait(for: [finished], timeout: 25), .completed)
+        button.tap()
+        #endif
+    }
 }

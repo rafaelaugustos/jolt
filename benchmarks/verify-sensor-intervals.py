@@ -1,4 +1,4 @@
-"""Verify the physical iPhone interval matrix using boundary counters, not rendered FPS.
+"""Verify the physical interval matrix using boundary counters, not rendered FPS.
 
 Rates are compared within one run: hardware cadence is not an exact API promise.
 """
@@ -14,7 +14,8 @@ STOPPED = {'idle', 'last-binding-removed', 'all-disposed'}
 
 
 def verify(report):
-    assert report['schemaVersion'] == 1 and report['platform'] == 'ios'
+    assert report['schemaVersion'] == 1 and report['platform'] in ('ios', 'android')
+    ios = report['platform'] == 'ios'
     assert report['status'] == 'completed' and report['failure'] is None
     assert report['device']['simulator'] is False
     assert report['device']['model'] and report['device']['os']
@@ -44,19 +45,20 @@ def verify(report):
         for key in ('active', 'sources', 'nodes'):
             assert start['native'][key] == end['native'][key], ('Resources changed inside window', phase, key)
         active = phase not in STOPPED
-        assert start['native']['active'] == int(active), (phase, start['native'])
         matrix = phase.startswith('interval-')
+        assert start['native']['active'] == (2 if active and matrix and not ios else int(active)), (phase, start['native'])
         expected_ids = {'rotation', 'gravity'} if matrix else {'slow', 'fast'}
         assert set(start['sources']) == set(end['sources']) == expected_ids
         expected_sources = 2 if matrix or phase in ('idle', 'slow-only', 'mixed', 'one-slow-binding') else (0 if phase == 'all-disposed' else 1)
         assert start['native']['sources'] == expected_sources
-        assert start['native']['nodes'] == (10 if expected_sources == 2 else 7 if expected_sources else 0)
+        assert start['native']['nodes'] == ((10 if matrix or ios else 14) if expected_sources == 2 else 7 if expected_sources else 0)
         if not active:
             assert start['native']['clock'] == end['native']['clock'] == 0
         rates = {}
         for name, before in start['sources'].items():
             after = end['sources'][name]
-            assert before['kind'] == after['kind'] == ('rotation' if name in ('rotation', 'slow') else 'gravity')
+            kind = 'rotation' if name in ('rotation', 'slow') or (name == 'fast' and not ios) else 'gravity'
+            assert before['kind'] == after['kind'] == kind
             assert before['requested'] == after['requested']
             requested = ('auto' if phase == 'interval-auto' else int(phase.split('-')[1])) if matrix else (100 if name == 'slow' else 16)
             assert after['requested'] == requested
@@ -89,7 +91,7 @@ def verify(report):
                 assert after['timestamp'] > before['timestamp'] > 0
                 # Source commits respect their own interval even when acquisition is faster.
                 assert commits <= seconds * 1000 / (interval - 0.5) + 2
-                if name in ('rotation', 'slow'):
+                if kind == 'rotation':
                     assert abs(math.sqrt(sum(v*v for v in after['values'][3:])) - 1) < 1e-5
                 else:
                     assert abs(math.sqrt(sum(v*v for v in after['values'])) - 9.80665) < .1
@@ -100,7 +102,7 @@ def verify(report):
             rates[name] = {'samples': samples, 'commits': commits, 'callbacks': callbacks,
                            'samplesPerSecond': samples / seconds, 'commitsPerSecond': commits / seconds}
         summary[phase] = {'seconds': seconds, 'activeSubscriptions': start['native']['active'], 'rates': rates}
-        if matrix or phase in ('mixed', 'one-slow-binding'):
+        if (matrix and ios) or phase in ('mixed', 'one-slow-binding'):
             a, b = rates.values()
             assert abs(a['samples'] - b['samples']) <= 1, ('Sources did not share delivery', phase)
 
@@ -128,5 +130,45 @@ def verify(report):
     return summary
 
 
+def verify_profiles(report):
+    """Validate process cost observations, without treating callbacks as presentation."""
+    verify(report)
+    assert [p['phase'] for p in report['profiles']] == PHASES
+    summary = {}
+    for profile in report['profiles']:
+        phase, record = profile['phase'], profile['recording']
+        before, after = record['before'], record['after']
+        metric = 'phys_footprint' if report['platform'] == 'ios' else 'rss'
+        for edge in (before, after):
+            assert edge['memoryMetric'] == metric
+            for key in ('timeMs', 'cpuMs', 'memoryBytes'):
+                assert math.isfinite(edge[key]) and edge[key] >= 0
+            assert edge['memoryBytes'] > 0
+            assert isinstance(edge['lowPowerMode'], bool)
+            assert edge['thermalState'] is None or isinstance(edge['thermalState'], int)
+        duration = after['timeMs'] - before['timeMs']
+        assert (1900 if phase in STOPPED else 3900) <= duration < 10000
+        assert after['cpuMs'] >= before['cpuMs']
+        assert math.isfinite(record['probeWorkMs']) and 0 <= record['probeWorkMs'] < duration
+        assert record['memorySamples'] >= (4 if phase in STOPPED else 8)
+        assert record['sampledPeakMemoryBytes'] >= max(before['memoryBytes'], after['memoryBytes'])
+        assert record['overflow'] == 0
+        prefix = 'display-link' if report['platform'] == 'ios' else 'choreographer'
+        assert record['frameMetric'] == prefix + '-opportunities-not-presented-frames'
+        assert record['columns'] == ['callbackMs', 'timestampMs', 'targetMs', 'xDip', 'scaleX', 'yDip']
+        frames = record['frames']
+        assert 5 < len(frames) <= 4096
+        for row in frames:
+            assert len(row) == 6 and all(math.isfinite(v) for v in row)
+            assert before['timeMs'] <= row[0] <= after['timeMs']
+            assert row[2] > row[1]
+        assert all(a[0] < b[0] and a[1] <= b[1] for a, b in zip(frames, frames[1:]))
+        summary[phase] = {'seconds': duration / 1000, 'processCpuMs': after['cpuMs'] - before['cpuMs'],
+                          'sampledPeakMiB': record['sampledPeakMemoryBytes'] / 2**20,
+                          'displayCallbacks': len(frames), 'probeWorkMs': record['probeWorkMs']}
+    return summary
+
+
 if __name__ == '__main__':
-    print(json.dumps(verify(json.loads(Path(sys.argv[1]).read_text())), indent=2))
+    check = verify_profiles if '--profiles' in sys.argv[2:] else verify
+    print(json.dumps(check(json.loads(Path(sys.argv[1]).read_text())), indent=2))

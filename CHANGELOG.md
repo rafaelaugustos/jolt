@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Complete the initial rotation/gravity physical acceptance for #114: Android lifecycle and intervals, real iPhone/Android recovery after controlled native service failures, process-cost observations, raw traces and offline negative controls. Reuse the reviewed physical recordings in all four guide locales. No production API/runtime change; deferred sensor types are tracked in #256. Calibrated axis accuracy, presented-frame latency, battery and sustained capacity are not established by these checks.
+
 - Measure existing binding/layer workloads on a physical iPhone and validate them on an Android emulator (#242), with real input, raw evidence, bounded offline checks and reviewed recordings in all four guide locales. Document composition-window costs and cleanup; physical Android capacity, presented-frame/input latency and heap-allocation acceptance remain open. No public API or library runtime change.
 
 - Add `interactiveModal()` to the optional interactive-navigation entry (#26): custom full-window iOS modals follow a downward native pan and settle with Jolt spring physics. Preserve Core/Vue ownership on cancellation, queue an early close, coalesce duplicate requests, respect gesture gates and Reduce Motion, and release native resources on close/disposal. Include simulator input/lifecycle evidence and reviewed English recordings in all four guide locales. Verified with Core 9.1.3 and NativeScript-Vue 3.1.2; rebuild the native app. Native sheet detents, popovers and scroll-to-dismiss handoff are outside this API.
