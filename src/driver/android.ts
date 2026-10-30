@@ -130,20 +130,37 @@ export function createAndroidDriver(): Driver {
         )
       }
 
-      const keyframes = Array.create(android.animation.Keyframe, track.values.length)
-      track.values.forEach((value, i) => {
-        keyframes[i] = android.animation.Keyframe.ofFloat(track.times[i]!, value * scale)
-      })
-      const holders = Array.create(android.animation.PropertyValuesHolder, 1)
-      holders[0] = android.animation.PropertyValuesHolder.ofKeyframe(
-        nativeProperties[track.property],
-        keyframes,
-      )
-
-      const animator = android.animation.ObjectAnimator.ofPropertyValuesHolder(
-        nativeView,
-        holders,
-      )
+      let animator: android.animation.ObjectAnimator
+      if (
+        typeof org !== 'undefined' &&
+        typeof org.rafaelaugusto.jolt.KeyframeFactory === 'function'
+      ) {
+        animator = org.rafaelaugusto.jolt.KeyframeFactory.create(
+          nativeView,
+          nativeProperties[track.property],
+          track.times,
+          track.values,
+          scale,
+        )
+      } else {
+        // Keep JS-only updates working with an app binary built before the factory.
+        const keyframes = Array.create(android.animation.Keyframe, track.values.length)
+        track.values.forEach((value, i) => {
+          keyframes[i] = android.animation.Keyframe.ofFloat(
+            track.times[i]!,
+            value * scale,
+          )
+        })
+        const holders = Array.create(android.animation.PropertyValuesHolder, 1)
+        holders[0] = android.animation.PropertyValuesHolder.ofKeyframe(
+          nativeProperties[track.property],
+          keyframes,
+        )
+        animator = android.animation.ObjectAnimator.ofPropertyValuesHolder(
+          nativeView,
+          holders,
+        )
+      }
       let restoreLayer: (() => void) | undefined
       const releaseLayer = () => {
         restoreLayer?.()

@@ -1,6 +1,7 @@
 package org.rafaelaugusto.jolt.fixture;
 
 import android.os.Build;
+import android.os.Debug;
 import android.os.PowerManager;
 import android.os.Process;
 import android.view.Choreographer;
@@ -21,6 +22,21 @@ public final class BudgetProbe implements Choreographer.FrameCallback {
     private String result;
     private double sampledPeakBytes, lastMemoryMs, probeWorkMs;
     private int memorySamples = 1;
+
+    // Boundary-only ART counters: approximate Java allocations/GC, not V8 or GPU memory.
+    private static JSONObject runtimeObject() {
+        JSONObject result = new JSONObject();
+        if (Build.VERSION.SDK_INT < 23) return result;
+        try {
+            String[] names = {"art.gc.gc-count", "art.gc.gc-time", "art.gc.bytes-allocated",
+                "art.gc.bytes-freed", "art.gc.blocking-gc-count", "art.gc.blocking-gc-time"};
+            for (String name : names) {
+                String value = Debug.getRuntimeStat(name);
+                result.put(name, value == null ? JSONObject.NULL : value);
+            }
+            return result;
+        } catch (Exception e) { throw new IllegalStateException(e); }
+    }
 
     private static JSONObject resourceObject(View view) {
         try {
@@ -57,6 +73,8 @@ public final class BudgetProbe implements Choreographer.FrameCallback {
     public BudgetProbe(View target) {
         this.target = target;
         before = resourceObject(target);
+        try { before.put("art", runtimeObject()); }
+        catch (Exception e) { throw new IllegalStateException(e); }
         sampledPeakBytes = before.optDouble("memoryBytes");
         lastMemoryMs = before.optDouble("timeMs");
         Choreographer.getInstance().postFrameCallback(this);
@@ -85,6 +103,7 @@ public final class BudgetProbe implements Choreographer.FrameCallback {
         Choreographer.getInstance().removeFrameCallback(this);
         JSONObject after = resourceObject(target);
         try {
+            after.put("art", runtimeObject());
             JSONArray rows = new JSONArray();
             for (int i = 0; i < count; i++) rows.put(new JSONArray(frames[i]));
             result = new JSONObject().put("before", before).put("after", after)
