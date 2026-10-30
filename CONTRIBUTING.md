@@ -43,6 +43,8 @@ The Android runner records the Busy JavaScript comparison with real ADB taps and
 python3 benchmarks/docs-record-android.py YOUR_ADB_SERIAL /tmp/JoltDocsRecordings/android-performance.mp4
 ```
 
+For a physical iPhone connected by USB, `benchmarks/record-iphone.swift` captures the exact named screen source without audio. It timestamps real frames with the host monotonic clock to preserve elapsed time; USB source timestamps can compress time with `AVCaptureMovieFileOutput`. See the [physical sensor interval workflow](benchmarks/device-sensors.md#physical-sampling-intervals-2026-10-29) for compilation, recording and signed XCTest instructions. Keep the phone unlocked in one orientation, verify playback timing, and label the physical device in the caption.
+
 Compress while keeping the source playback timing (the interruption demo explicitly selects the app's one-fifth speed):
 
 ```sh

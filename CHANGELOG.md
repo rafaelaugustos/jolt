@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Validate sensor sampling intervals on a physical iPhone (#114): twelve windows cover `auto`, 16/33/100 ms, shared acquisition at different rates, binding removal, resumption and disposal. Add the captured trace, 22 offline negative controls and a reviewed English recording in all four guide locales. This confirms existing native behavior; broader physical acceptance remains open.
+
 - Validate real Core Motion rotation/gravity on a physical iPhone 17 Pro (#114), including shared acquisition, pause/Reduce Motion, background recovery, repeated screen disposal and native commit counters without steady-state JS callbacks. Add the physical trace, offline negative controls and a reviewed English recording in all four guide locales. Android physical evidence and broader axis/access/performance acceptance remain open.
 
 - Validate sensor background/resume and repeated screen reentry (#114) on iOS Simulator and Android emulator. Add fresh lifecycle observations, strict continuity/cleanup verification and reviewed English recordings in all four guide locales. This confirms existing sensor behavior without changing the public API; physical acquisition and performance acceptance remain open.

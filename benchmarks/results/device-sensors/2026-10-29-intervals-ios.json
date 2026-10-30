@@ -1,0 +1,2055 @@
+{
+  "schemaVersion": 1,
+  "platform": "ios",
+  "session": 1793319955981,
+  "status": "completed",
+  "failure": null,
+  "device": {
+    "model": "iPhone",
+    "os": "27.2",
+    "displayMaximumFPS": 120,
+    "simulator": false
+  },
+  "events": [
+    {
+      "name": "baseline",
+      "phase": "start",
+      "sequence": 0,
+      "time": 1793319968337,
+      "monotonicMs": 39902809.34883334,
+      "native": {
+        "active": 0,
+        "sources": 0,
+        "nodes": 0,
+        "clock": 0
+      },
+      "sources": {}
+    },
+    {
+      "name": "configured",
+      "phase": "interval-auto",
+      "sequence": 1,
+      "time": 1793319968355,
+      "monotonicMs": 39902827.62120835,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 1
+      },
+      "sources": {
+        "rotation": {
+          "kind": "rotation",
+          "requested": "auto",
+          "bindings": ["card"],
+          "status": "starting",
+          "frames": 0,
+          "processingMs": 0,
+          "available": true,
+          "samples": 0,
+          "interval": 8.333333333333334,
+          "values": [0, 0, 0, 0, 0, 0, 1],
+          "error": null,
+          "timestamp": null,
+          "callbacks": 1
+        },
+        "gravity": {
+          "kind": "gravity",
+          "requested": "auto",
+          "bindings": ["glow"],
+          "status": "starting",
+          "frames": 0,
+          "processingMs": 0,
+          "available": true,
+          "samples": 0,
+          "interval": 8.333333333333334,
+          "values": [0, 0, 0],
+          "error": null,
+          "timestamp": null,
+          "callbacks": 1
+        }
+      }
+    },
+    {
+      "name": "window-start",
+      "phase": "interval-auto",
+      "sequence": 2,
+      "time": 1793319969859,
+      "monotonicMs": 39904331.77062501,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 1
+      },
+      "sources": {
+        "rotation": {
+          "kind": "rotation",
+          "requested": "auto",
+          "bindings": ["card"],
+          "status": "active",
+          "frames": 89,
+          "processingMs": 9.810249925067183,
+          "available": true,
+          "samples": 147,
+          "interval": 8.333333333333334,
+          "values": [
+            0.6266310973604601, -0.0199429613684918, -0.03358725807237891,
+            0.30799638547871594, -0.014660082033974814, -0.012901647719954678,
+            0.9511870772949522
+          ],
+          "error": null,
+          "timestamp": 39904321.09691667,
+          "callbacks": 2
+        },
+        "gravity": {
+          "kind": "gravity",
+          "requested": "auto",
+          "bindings": ["glow"],
+          "status": "active",
+          "frames": 89,
+          "processingMs": 1.7782916620490141,
+          "available": true,
+          "samples": 147,
+          "interval": 8.333333333333334,
+          "values": [-0.29261154837924985, 1.5409579605154693, -9.680403208699822],
+          "error": null,
+          "timestamp": 39904321.09691667,
+          "callbacks": 2
+        }
+      }
+    },
+    {
+      "name": "window-end",
+      "phase": "interval-auto",
+      "sequence": 3,
+      "time": 1793319973867,
+      "monotonicMs": 39908339.040875,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 0
+      },
+      "sources": {
+        "rotation": {
+          "kind": "rotation",
+          "requested": "auto",
+          "bindings": ["card"],
+          "status": "active",
+          "frames": 322,
+          "processingMs": 32.350458241126034,
+          "available": true,
+          "samples": 547,
+          "interval": 8.333333333333334,
+          "values": [
+            -0.09361733119421678, 0.443551966437916, -0.05846320794763137,
+            -0.03920417238607082, 0.22096176035854667, -0.018192390555374097,
+            0.9743243660366172
+          ],
+          "error": null,
+          "timestamp": 39908314.648375005,
+          "callbacks": 2
+        },
+        "gravity": {
+          "kind": "gravity",
+          "requested": "auto",
+          "bindings": ["glow"],
+          "status": "active",
+          "frames": 322,
+          "processingMs": 5.527083259948995,
+          "available": true,
+          "samples": 547,
+          "interval": 8.333333333333334,
+          "values": [-4.823944589293003, -4.5023733788132665, -7.254554948914051],
+          "error": null,
+          "timestamp": 39908314.648375005,
+          "callbacks": 2
+        }
+      }
+    },
+    {
+      "name": "disposed",
+      "phase": "interval-auto",
+      "sequence": 4,
+      "time": 1793319975077,
+      "monotonicMs": 39909549.229708344,
+      "native": {
+        "active": 0,
+        "sources": 0,
+        "nodes": 0,
+        "clock": 0
+      },
+      "sources": {
+        "rotation": {
+          "kind": "rotation",
+          "requested": "auto",
+          "bindings": [],
+          "status": "disposed",
+          "frames": 390,
+          "processingMs": 38.71958328090841,
+          "available": true,
+          "samples": 667,
+          "interval": 8.333333333333334,
+          "values": [
+            0.07766673155487856, 0.3901204651146076, 0.07252769546680618,
+            0.031040289778284845, 0.19493305110277656, 0.028021464962373406,
+            0.9799246927696049
+          ],
+          "error": null,
+          "timestamp": 39909538.80325001,
+          "callbacks": 3
+        },
+        "gravity": {
+          "kind": "gravity",
+          "requested": "auto",
+          "bindings": [],
+          "status": "disposed",
+          "frames": 390,
+          "processingMs": 6.605666574614588,
+          "available": true,
+          "samples": 667,
+          "interval": 8.333333333333334,
+          "values": [-4.386762547817826, -3.5757074462175367, -8.008807966840267],
+          "error": null,
+          "timestamp": 39909538.80325001,
+          "callbacks": 3
+        }
+      }
+    },
+    {
+      "name": "configured",
+      "phase": "interval-16",
+      "sequence": 5,
+      "time": 1793319975083,
+      "monotonicMs": 39909555.37579168,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 1
+      },
+      "sources": {
+        "rotation": {
+          "kind": "rotation",
+          "requested": 16,
+          "bindings": ["card"],
+          "status": "starting",
+          "frames": 0,
+          "processingMs": 0,
+          "available": true,
+          "samples": 0,
+          "interval": 16,
+          "values": [0, 0, 0, 0, 0, 0, 1],
+          "error": null,
+          "timestamp": null,
+          "callbacks": 1
+        },
+        "gravity": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": ["glow"],
+          "status": "starting",
+          "frames": 0,
+          "processingMs": 0,
+          "available": true,
+          "samples": 0,
+          "interval": 16,
+          "values": [0, 0, 0],
+          "error": null,
+          "timestamp": null,
+          "callbacks": 1
+        }
+      }
+    },
+    {
+      "name": "window-start",
+      "phase": "interval-16",
+      "sequence": 6,
+      "time": 1793319976586,
+      "monotonicMs": 39911058.826166674,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 0
+      },
+      "sources": {
+        "rotation": {
+          "kind": "rotation",
+          "requested": 16,
+          "bindings": ["card"],
+          "status": "active",
+          "frames": 90,
+          "processingMs": 8.68895836174488,
+          "available": true,
+          "samples": 100,
+          "interval": 16,
+          "values": [
+            0.0059242994215537755, -0.5656074816254053, -0.14411739237983257,
+            -0.017253331921898027, -0.27852851863748745, -0.0683116866752678,
+            0.957840122518774
+          ],
+          "error": null,
+          "timestamp": 39911033.87912501,
+          "callbacks": 2
+        },
+        "gravity": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": ["glow"],
+          "status": "active",
+          "frames": 90,
+          "processingMs": 1.1081250486313365,
+          "available": true,
+          "samples": 100,
+          "interval": 16,
+          "values": [0.8942579932048916, -4.149393176852167, -8.840431224694848],
+          "error": null,
+          "timestamp": 39911033.87912501,
+          "callbacks": 2
+        }
+      }
+    },
+    {
+      "name": "window-end",
+      "phase": "interval-16",
+      "sequence": 7,
+      "time": 1793319980593,
+      "monotonicMs": 39915065.760166675,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 0
+      },
+      "sources": {
+        "rotation": {
+          "kind": "rotation",
+          "requested": 16,
+          "bindings": ["card"],
+          "status": "active",
+          "frames": 321,
+          "processingMs": 33.882333322253544,
+          "available": true,
+          "samples": 366,
+          "interval": 16,
+          "values": [
+            0.33006874218514587, -0.03444647330937423, -0.45937161011425404,
+            0.15608024834493328, -0.05393999142799931, -0.22178974749988054,
+            0.9610092306035727
+          ],
+          "error": null,
+          "timestamp": 39915052.530250005,
+          "callbacks": 2
+        },
+        "gravity": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": ["glow"],
+          "status": "active",
+          "frames": 321,
+          "processingMs": 4.9715000568539836,
+          "available": true,
+          "samples": 366,
+          "interval": 16,
+          "values": [-2.9817388060107826, -1.0346020642448217, -9.284891732740402],
+          "error": null,
+          "timestamp": 39915052.530250005,
+          "callbacks": 2
+        }
+      }
+    },
+    {
+      "name": "disposed",
+      "phase": "interval-16",
+      "sequence": 8,
+      "time": 1793319981805,
+      "monotonicMs": 39916277.68700001,
+      "native": {
+        "active": 0,
+        "sources": 0,
+        "nodes": 0,
+        "clock": 0
+      },
+      "sources": {
+        "rotation": {
+          "kind": "rotation",
+          "requested": 16,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 386,
+          "processingMs": 41.32974998356076,
+          "available": true,
+          "samples": 446,
+          "interval": 16,
+          "values": [
+            0.25439597169487044, -0.015208956920970115, -0.42570099000497413,
+            0.12239547510832306, -0.03416975647620546, -0.20859135992407077,
+            0.9697120294089331
+          ],
+          "error": null,
+          "timestamp": 39916256.624291666,
+          "callbacks": 3
+        },
+        "gravity": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 386,
+          "processingMs": 6.198500079335645,
+          "available": true,
+          "samples": 446,
+          "interval": 16,
+          "values": [-3.5158395452320574, -1.545037046522647, -9.02342047843635],
+          "error": null,
+          "timestamp": 39916256.624291666,
+          "callbacks": 3
+        }
+      }
+    },
+    {
+      "name": "configured",
+      "phase": "interval-33",
+      "sequence": 9,
+      "time": 1793319981815,
+      "monotonicMs": 39916287.67087501,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 1
+      },
+      "sources": {
+        "rotation": {
+          "kind": "rotation",
+          "requested": 33,
+          "bindings": ["card"],
+          "status": "starting",
+          "frames": 0,
+          "processingMs": 0,
+          "available": true,
+          "samples": 0,
+          "interval": 33,
+          "values": [0, 0, 0, 0, 0, 0, 1],
+          "error": null,
+          "timestamp": null,
+          "callbacks": 1
+        },
+        "gravity": {
+          "kind": "gravity",
+          "requested": 33,
+          "bindings": ["glow"],
+          "status": "starting",
+          "frames": 0,
+          "processingMs": 0,
+          "available": true,
+          "samples": 0,
+          "interval": 33,
+          "values": [0, 0, 0],
+          "error": null,
+          "timestamp": null,
+          "callbacks": 1
+        }
+      }
+    },
+    {
+      "name": "window-start",
+      "phase": "interval-33",
+      "sequence": 10,
+      "time": 1793319983320,
+      "monotonicMs": 39917791.96945834,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 1
+      },
+      "sources": {
+        "rotation": {
+          "kind": "rotation",
+          "requested": 33,
+          "bindings": ["card"],
+          "status": "active",
+          "frames": 43,
+          "processingMs": 7.08145834505558,
+          "available": true,
+          "samples": 43,
+          "interval": 33,
+          "values": [
+            -0.16998124544580293, 0.1550957413441422, 0.5549119130543999,
+            -0.10253970145286677, 0.05105654837102096, 0.27842569222021135,
+            0.9536026281455452
+          ],
+          "error": null,
+          "timestamp": 39917766.760625005,
+          "callbacks": 2
+        },
+        "gravity": {
+          "kind": "gravity",
+          "requested": 33,
+          "bindings": ["glow"],
+          "status": "active",
+          "frames": 43,
+          "processingMs": 0.8591250152676366,
+          "available": true,
+          "samples": 43,
+          "interval": 33,
+          "values": [-4.5266149628832935, -3.364615549063682, -8.02243726374209],
+          "error": null,
+          "timestamp": 39917766.760625005,
+          "callbacks": 2
+        }
+      }
+    },
+    {
+      "name": "window-end",
+      "phase": "interval-33",
+      "sequence": 11,
+      "time": 1793319987326,
+      "monotonicMs": 39921798.60816667,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 0
+      },
+      "sources": {
+        "rotation": {
+          "kind": "rotation",
+          "requested": 33,
+          "bindings": ["card"],
+          "status": "active",
+          "frames": 157,
+          "processingMs": 23.572541678731795,
+          "available": true,
+          "samples": 157,
+          "interval": 33,
+          "values": [
+            -0.5993071094942567, 0.04846607883968362, 0.6060794114992168,
+            -0.2885646030066714, -0.06596930181613457, 0.2918677048037721,
+            0.9095008323262118
+          ],
+          "error": null,
+          "timestamp": 39921770.38916667,
+          "callbacks": 2
+        },
+        "gravity": {
+          "kind": "gravity",
+          "requested": 33,
+          "bindings": ["glow"],
+          "status": "active",
+          "frames": 157,
+          "processingMs": 3.021833297680132,
+          "available": true,
+          "samples": 157,
+          "interval": 33,
+          "values": [-2.163184873087704, -6.80865242536664, -6.7181292738765475],
+          "error": null,
+          "timestamp": 39921770.38916667,
+          "callbacks": 2
+        }
+      }
+    },
+    {
+      "name": "disposed",
+      "phase": "interval-33",
+      "sequence": 12,
+      "time": 1793319988539,
+      "monotonicMs": 39923010.94633334,
+      "native": {
+        "active": 0,
+        "sources": 0,
+        "nodes": 0,
+        "clock": 0
+      },
+      "sources": {
+        "rotation": {
+          "kind": "rotation",
+          "requested": 33,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 191,
+          "processingMs": 27.75395834032679,
+          "available": true,
+          "samples": 192,
+          "interval": 33,
+          "values": [
+            0.16670211062036017, 0.3222542886639712, 0.35449733679098894,
+            0.05269940814612131, 0.17185854001924594, 0.16028658940156124,
+            0.9705645902574014
+          ],
+          "error": null,
+          "timestamp": 39922964.45704167,
+          "callbacks": 3
+        },
+        "gravity": {
+          "kind": "gravity",
+          "requested": 33,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 191,
+          "processingMs": 3.5336666405783035,
+          "available": true,
+          "samples": 192,
+          "interval": 33,
+          "values": [-6.050092065635323, 0.3837481190599501, -7.70840521659553],
+          "error": null,
+          "timestamp": 39922964.45704167,
+          "callbacks": 3
+        }
+      }
+    },
+    {
+      "name": "configured",
+      "phase": "interval-100",
+      "sequence": 13,
+      "time": 1793319988547,
+      "monotonicMs": 39923019.22483334,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 1
+      },
+      "sources": {
+        "rotation": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": ["card"],
+          "status": "starting",
+          "frames": 0,
+          "processingMs": 0,
+          "available": true,
+          "samples": 0,
+          "interval": 100,
+          "values": [0, 0, 0, 0, 0, 0, 1],
+          "error": null,
+          "timestamp": null,
+          "callbacks": 1
+        },
+        "gravity": {
+          "kind": "gravity",
+          "requested": 100,
+          "bindings": ["glow"],
+          "status": "starting",
+          "frames": 0,
+          "processingMs": 0,
+          "available": true,
+          "samples": 0,
+          "interval": 100,
+          "values": [0, 0, 0],
+          "error": null,
+          "timestamp": null,
+          "callbacks": 1
+        }
+      }
+    },
+    {
+      "name": "window-start",
+      "phase": "interval-100",
+      "sequence": 14,
+      "time": 1793319990051,
+      "monotonicMs": 39924523.768458344,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 0
+      },
+      "sources": {
+        "rotation": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": ["card"],
+          "status": "active",
+          "frames": 14,
+          "processingMs": 2.234124993265141,
+          "available": true,
+          "samples": 14,
+          "interval": 100,
+          "values": [
+            -0.6495747141365861, -0.3162553612343063, 0.32933143818689437,
+            -0.28640011070149685, -0.19887437501783328, 0.10384432583456689,
+            0.9314721227945583
+          ],
+          "error": null,
+          "timestamp": 39924424.43229167,
+          "callbacks": 2
+        },
+        "gravity": {
+          "kind": "gravity",
+          "requested": 100,
+          "bindings": ["glow"],
+          "status": "active",
+          "frames": 14,
+          "processingMs": 0.21904167078901082,
+          "available": true,
+          "samples": 14,
+          "interval": 100,
+          "values": [-1.316031014754623, -4.0290559018567205, -8.843367862668632],
+          "error": null,
+          "timestamp": 39924424.43229167,
+          "callbacks": 2
+        }
+      }
+    },
+    {
+      "name": "window-end",
+      "phase": "interval-100",
+      "sequence": 15,
+      "time": 1793319994067,
+      "monotonicMs": 39928539.27412501,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 0
+      },
+      "sources": {
+        "rotation": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": ["card"],
+          "status": "active",
+          "frames": 54,
+          "processingMs": 8.52183332608547,
+          "available": true,
+          "samples": 54,
+          "interval": 100,
+          "values": [
+            -0.5689488407975678, 0.04750561384269903, 0.35194413164131605,
+            -0.28023170750276516, -0.026674762576056967, 0.1745446095815984,
+            0.9435532981329686
+          ],
+          "error": null,
+          "timestamp": 39928438.115041666,
+          "callbacks": 2
+        },
+        "gravity": {
+          "kind": "gravity",
+          "requested": 100,
+          "bindings": ["glow"],
+          "status": "active",
+          "frames": 54,
+          "processingMs": 0.8834166510496289,
+          "available": true,
+          "samples": 54,
+          "interval": 100,
+          "values": [-4.064019955471157, -4.10282636372745, -7.925966017502546],
+          "error": null,
+          "timestamp": 39928438.115041666,
+          "callbacks": 2
+        }
+      }
+    },
+    {
+      "name": "disposed",
+      "phase": "interval-100",
+      "sequence": 16,
+      "time": 1793319995272,
+      "monotonicMs": 39929744.70662501,
+      "native": {
+        "active": 0,
+        "sources": 0,
+        "nodes": 0,
+        "clock": 0
+      },
+      "sources": {
+        "rotation": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 66,
+          "processingMs": 10.449374989548232,
+          "available": true,
+          "samples": 66,
+          "interval": 100,
+          "values": [
+            -0.7364693885946015, -0.2635079155933059, 0.5989501938746468,
+            -0.30480696116405226, -0.22238833834432045, 0.2276709572596566,
+            0.8976647918988797
+          ],
+          "error": null,
+          "timestamp": 39929642.22066667,
+          "callbacks": 3
+        },
+        "gravity": {
+          "kind": "gravity",
+          "requested": 100,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 66,
+          "processingMs": 1.1156249820487574,
+          "available": true,
+          "samples": 66,
+          "interval": 100,
+          "values": [-0.1766265685754828, -3.663097852639854, -9.095103320378065],
+          "error": null,
+          "timestamp": 39929642.22066667,
+          "callbacks": 3
+        }
+      }
+    },
+    {
+      "name": "configured",
+      "phase": "idle",
+      "sequence": 17,
+      "time": 1793319995276,
+      "monotonicMs": 39929748.73637501,
+      "native": {
+        "active": 0,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 1
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": [],
+          "status": "idle",
+          "frames": 0,
+          "processingMs": 0,
+          "available": true,
+          "samples": 0,
+          "interval": 100,
+          "values": [0, 0, 0, 0, 0, 0, 1],
+          "error": null,
+          "timestamp": null,
+          "callbacks": 0
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "idle",
+          "frames": 0,
+          "processingMs": 0,
+          "available": true,
+          "samples": 0,
+          "interval": 16,
+          "values": [0, 0, 0],
+          "error": null,
+          "timestamp": null,
+          "callbacks": 0
+        }
+      }
+    },
+    {
+      "name": "window-start",
+      "phase": "idle",
+      "sequence": 18,
+      "time": 1793319996780,
+      "monotonicMs": 39931252.066500016,
+      "native": {
+        "active": 0,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 0
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": [],
+          "status": "idle",
+          "frames": 0,
+          "processingMs": 0,
+          "available": true,
+          "samples": 0,
+          "interval": 100,
+          "values": [0, 0, 0, 0, 0, 0, 1],
+          "error": null,
+          "timestamp": null,
+          "callbacks": 0
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "idle",
+          "frames": 0,
+          "processingMs": 0,
+          "available": true,
+          "samples": 0,
+          "interval": 16,
+          "values": [0, 0, 0],
+          "error": null,
+          "timestamp": null,
+          "callbacks": 0
+        }
+      }
+    },
+    {
+      "name": "window-end",
+      "phase": "idle",
+      "sequence": 19,
+      "time": 1793319998787,
+      "monotonicMs": 39933259.73541667,
+      "native": {
+        "active": 0,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 0
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": [],
+          "status": "idle",
+          "frames": 0,
+          "processingMs": 0,
+          "available": true,
+          "samples": 0,
+          "interval": 100,
+          "values": [0, 0, 0, 0, 0, 0, 1],
+          "error": null,
+          "timestamp": null,
+          "callbacks": 0
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "idle",
+          "frames": 0,
+          "processingMs": 0,
+          "available": true,
+          "samples": 0,
+          "interval": 16,
+          "values": [0, 0, 0],
+          "error": null,
+          "timestamp": null,
+          "callbacks": 0
+        }
+      }
+    },
+    {
+      "name": "configured",
+      "phase": "slow-only",
+      "sequence": 20,
+      "time": 1793319999996,
+      "monotonicMs": 39934468.66620834,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 1
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": ["card", "shine"],
+          "status": "starting",
+          "frames": 0,
+          "processingMs": 0,
+          "available": true,
+          "samples": 0,
+          "interval": 100,
+          "values": [0, 0, 0, 0, 0, 0, 1],
+          "error": null,
+          "timestamp": null,
+          "callbacks": 1
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "idle",
+          "frames": 0,
+          "processingMs": 0,
+          "available": true,
+          "samples": 0,
+          "interval": 16,
+          "values": [0, 0, 0],
+          "error": null,
+          "timestamp": null,
+          "callbacks": 0
+        }
+      }
+    },
+    {
+      "name": "window-start",
+      "phase": "slow-only",
+      "sequence": 21,
+      "time": 1793320001503,
+      "monotonicMs": 39935975.427750014,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 0
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": ["card", "shine"],
+          "status": "active",
+          "frames": 15,
+          "processingMs": 2.564250011346303,
+          "available": true,
+          "samples": 15,
+          "interval": 100,
+          "values": [
+            -0.13275695112984645, 0.09413365297223032, -0.14543388800402673,
+            -0.06267043880770157, 0.051635481714708865, -0.06930006484571351,
+            0.9942855194259445
+          ],
+          "error": null,
+          "timestamp": 39935873.470916666,
+          "callbacks": 2
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "idle",
+          "frames": 0,
+          "processingMs": 0,
+          "available": true,
+          "samples": 0,
+          "interval": 16,
+          "values": [0, 0, 0],
+          "error": null,
+          "timestamp": null,
+          "callbacks": 0
+        }
+      }
+    },
+    {
+      "name": "window-end",
+      "phase": "slow-only",
+      "sequence": 22,
+      "time": 1793320005509,
+      "monotonicMs": 39939981.62683334,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 0
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": ["card", "shine"],
+          "status": "active",
+          "frames": 55,
+          "processingMs": 10.588291654130444,
+          "available": true,
+          "samples": 55,
+          "interval": 100,
+          "values": [
+            -0.5885259657184544, 0.17044055839376634, -0.5159575979574555,
+            -0.25863669272790724, 0.1524898980244492, -0.2194043889608167,
+            0.9282863816086036
+          ],
+          "error": null,
+          "timestamp": 39939887.157875,
+          "callbacks": 2
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "idle",
+          "frames": 0,
+          "processingMs": 0,
+          "available": true,
+          "samples": 0,
+          "interval": 16,
+          "values": [0, 0, 0],
+          "error": null,
+          "timestamp": null,
+          "callbacks": 0
+        }
+      }
+    },
+    {
+      "name": "configured",
+      "phase": "mixed",
+      "sequence": 23,
+      "time": 1793320006719,
+      "monotonicMs": 39941191.78291668,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 1
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": ["card", "shine"],
+          "status": "active",
+          "frames": 67,
+          "processingMs": 13.029041663685348,
+          "available": true,
+          "samples": 67,
+          "interval": 100,
+          "values": [
+            -0.36106615791834884, -0.5937047262768872, -0.29985710453974695,
+            -0.21275615411680485, -0.2588831929606715, -0.19244556283069944,
+            0.9223226206890348
+          ],
+          "error": null,
+          "timestamp": 39941091.26204167,
+          "callbacks": 2
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": ["glow"],
+          "status": "starting",
+          "frames": 0,
+          "processingMs": 0,
+          "available": true,
+          "samples": 0,
+          "interval": 16,
+          "values": [0, 0, 0],
+          "error": null,
+          "timestamp": null,
+          "callbacks": 1
+        }
+      }
+    },
+    {
+      "name": "window-start",
+      "phase": "mixed",
+      "sequence": 24,
+      "time": 1793320008226,
+      "monotonicMs": 39942697.977666676,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 1
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": ["card", "shine"],
+          "status": "active",
+          "frames": 82,
+          "processingMs": 13.821374981489498,
+          "available": true,
+          "samples": 167,
+          "interval": 100,
+          "values": [
+            -0.35772114274719424, -0.5267392765875267, -0.23947447381958864,
+            -0.20114527070515803, -0.2338294866061606, -0.15947680062007225,
+            0.9377800922020224
+          ],
+          "error": null,
+          "timestamp": 39942651.582,
+          "callbacks": 2
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": ["glow"],
+          "status": "active",
+          "frames": 86,
+          "processingMs": 7.6226249657338485,
+          "available": true,
+          "samples": 100,
+          "interval": 16,
+          "values": [0.64110506991297, -4.903598556244373, -8.468417528700828],
+          "error": null,
+          "timestamp": 39942666.633,
+          "callbacks": 2
+        }
+      }
+    },
+    {
+      "name": "window-end",
+      "phase": "mixed",
+      "sequence": 25,
+      "time": 1793320012231,
+      "monotonicMs": 39946703.08183335,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 1
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": ["card", "shine"],
+          "status": "active",
+          "frames": 122,
+          "processingMs": 18.851958331651986,
+          "available": true,
+          "samples": 434,
+          "interval": 100,
+          "values": [
+            -0.3786494048349447, -0.83805308667735, -0.13841116806522485,
+            -0.19913508753548753, -0.38675678231306887, -0.13842729025353837,
+            0.8897203457042769
+          ],
+          "error": null,
+          "timestamp": 39946655.2405,
+          "callbacks": 2
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": ["glow"],
+          "status": "active",
+          "frames": 318,
+          "processingMs": 29.724458283453714,
+          "available": true,
+          "samples": 367,
+          "interval": 16,
+          "values": [4.331851392456889, -4.882799513843655, -7.318724346485734],
+          "error": null,
+          "timestamp": 39946685.3435,
+          "callbacks": 2
+        }
+      }
+    },
+    {
+      "name": "configured",
+      "phase": "one-slow-binding",
+      "sequence": 26,
+      "time": 1793320013436,
+      "monotonicMs": 39947908.54662501,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 1
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": ["card"],
+          "status": "active",
+          "frames": 134,
+          "processingMs": 20.592124994436745,
+          "available": true,
+          "samples": 514,
+          "interval": 100,
+          "values": [
+            -0.4758324775645891, -0.3204956534448974, -0.2683861791069349,
+            -0.2513135013247587, -0.12254649741661014, -0.16562348191847004,
+            0.9457233962739917
+          ],
+          "error": null,
+          "timestamp": 39947859.352125004,
+          "callbacks": 2
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": ["glow"],
+          "status": "active",
+          "frames": 388,
+          "processingMs": 35.634874941024464,
+          "available": true,
+          "samples": 447,
+          "interval": 16,
+          "values": [-0.9041350979663431, -5.600318253612518, -7.999334620574116],
+          "error": null,
+          "timestamp": 39947889.455125004,
+          "callbacks": 2
+        }
+      }
+    },
+    {
+      "name": "window-start",
+      "phase": "one-slow-binding",
+      "sequence": 27,
+      "time": 1793320014943,
+      "monotonicMs": 39949415.38575,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 0
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": ["card"],
+          "status": "active",
+          "frames": 149,
+          "processingMs": 22.394291641830932,
+          "available": true,
+          "samples": 614,
+          "interval": 100,
+          "values": [
+            -0.5273040876083317, 0.13562371438845583, -0.3909249252184845,
+            -0.24235247343723576, 0.11467176543898891, -0.16975538734040538,
+            0.9483136471120027
+          ],
+          "error": null,
+          "timestamp": 39949349.445,
+          "callbacks": 2
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": ["glow"],
+          "status": "active",
+          "frames": 475,
+          "processingMs": 44.16804158972809,
+          "available": true,
+          "samples": 547,
+          "interval": 16,
+          "values": [-5.187524218940735, -4.620063354170322, -6.922066038578748],
+          "error": null,
+          "timestamp": 39949394.599,
+          "callbacks": 2
+        }
+      }
+    },
+    {
+      "name": "window-end",
+      "phase": "one-slow-binding",
+      "sequence": 28,
+      "time": 1793320018949,
+      "monotonicMs": 39953421.53162501,
+      "native": {
+        "active": 1,
+        "sources": 2,
+        "nodes": 10,
+        "clock": 1
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": ["card"],
+          "status": "active",
+          "frames": 189,
+          "processingMs": 26.276249969669152,
+          "available": true,
+          "samples": 880,
+          "interval": 100,
+          "values": [
+            -1.6757775337073226, -1.0286832144749667, 1.3171982946684515,
+            -0.31029980865730783, -0.6563129543266237, 0.06731032197895322,
+            0.6844243240018484
+          ],
+          "error": null,
+          "timestamp": 39953353.145,
+          "callbacks": 2
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": ["glow"],
+          "status": "active",
+          "frames": 703,
+          "processingMs": 65.07637484173756,
+          "available": true,
+          "samples": 813,
+          "interval": 16,
+          "values": [8.860482079076766, -3.4120758038967844, -2.4535624884024263],
+          "error": null,
+          "timestamp": 39953413.351,
+          "callbacks": 2
+        }
+      }
+    },
+    {
+      "name": "configured",
+      "phase": "fast-removed",
+      "sequence": 29,
+      "time": 1793320020176,
+      "monotonicMs": 39954648.16354168,
+      "native": {
+        "active": 1,
+        "sources": 1,
+        "nodes": 7,
+        "clock": 0
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": ["card"],
+          "status": "active",
+          "frames": 201,
+          "processingMs": 26.916833310679067,
+          "available": true,
+          "samples": 961,
+          "interval": 100,
+          "values": [
+            -0.8286008855337557, -0.6734564906067775, 0.26186322480368607,
+            -0.33720370529975874, -0.3494640842545817, -0.01906366661481322,
+            0.8739594335914107
+          ],
+          "error": null,
+          "timestamp": 39954572.322125,
+          "callbacks": 2
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 766,
+          "processingMs": 69.47083317209035,
+          "available": true,
+          "samples": 894,
+          "interval": 16,
+          "values": [4.535875835442543, -6.008366555061936, -6.284564253854751],
+          "error": null,
+          "timestamp": 39954602.425125,
+          "callbacks": 3
+        }
+      }
+    },
+    {
+      "name": "window-start",
+      "phase": "fast-removed",
+      "sequence": 30,
+      "time": 1793320021680,
+      "monotonicMs": 39956152.33995835,
+      "native": {
+        "active": 1,
+        "sources": 1,
+        "nodes": 7,
+        "clock": 0
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": ["card"],
+          "status": "active",
+          "frames": 216,
+          "processingMs": 29.944458306999877,
+          "available": true,
+          "samples": 976,
+          "interval": 100,
+          "values": [
+            -1.1436579292446343, -0.9225002783717013, 0.7647153865998094,
+            -0.3099805159725209, -0.5280516596608716, 0.05749901359543348,
+            0.7885222811578381
+          ],
+          "error": null,
+          "timestamp": 39956037.343625,
+          "callbacks": 2
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 766,
+          "processingMs": 69.47083317209035,
+          "available": true,
+          "samples": 894,
+          "interval": 16,
+          "values": [4.535875835442543, -6.008366555061936, -6.284564253854751],
+          "error": null,
+          "timestamp": 39954602.425125,
+          "callbacks": 3
+        }
+      }
+    },
+    {
+      "name": "window-end",
+      "phase": "fast-removed",
+      "sequence": 31,
+      "time": 1793320025688,
+      "monotonicMs": 39960160.545250006,
+      "native": {
+        "active": 1,
+        "sources": 1,
+        "nodes": 7,
+        "clock": 0
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": ["card"],
+          "status": "active",
+          "frames": 256,
+          "processingMs": 37.381416630523745,
+          "available": true,
+          "samples": 1016,
+          "interval": 100,
+          "values": [
+            -1.0120661452455935, 0.023698203991855793, -0.4174980763135672,
+            -0.47200761092132437, 0.11058157592340973, -0.17563290465793732,
+            0.8568159738824054
+          ],
+          "error": null,
+          "timestamp": 39960051.095875,
+          "callbacks": 2
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 766,
+          "processingMs": 69.47083317209035,
+          "available": true,
+          "samples": 894,
+          "interval": 16,
+          "values": [4.535875835442543, -6.008366555061936, -6.284564253854751],
+          "error": null,
+          "timestamp": 39954602.425125,
+          "callbacks": 3
+        }
+      }
+    },
+    {
+      "name": "configured",
+      "phase": "last-binding-removed",
+      "sequence": 32,
+      "time": 1793320026900,
+      "monotonicMs": 39961372.20970835,
+      "native": {
+        "active": 0,
+        "sources": 1,
+        "nodes": 7,
+        "clock": 0
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": [],
+          "status": "idle",
+          "frames": 268,
+          "processingMs": 39.846833278716076,
+          "available": true,
+          "samples": 1028,
+          "interval": 100,
+          "values": [
+            -0.4397524407305059, -0.7217413268510381, 0.01228557824400712,
+            -0.20193981372652908, -0.345835132308313, -0.07140163326621293,
+            0.9135207603882375
+          ],
+          "error": null,
+          "timestamp": 39961255.222375005,
+          "callbacks": 3
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 766,
+          "processingMs": 69.47083317209035,
+          "available": true,
+          "samples": 894,
+          "interval": 16,
+          "values": [4.535875835442543, -6.008366555061936, -6.284564253854751],
+          "error": null,
+          "timestamp": 39954602.425125,
+          "callbacks": 3
+        }
+      }
+    },
+    {
+      "name": "window-start",
+      "phase": "last-binding-removed",
+      "sequence": 33,
+      "time": 1793320028407,
+      "monotonicMs": 39962879.131166674,
+      "native": {
+        "active": 0,
+        "sources": 1,
+        "nodes": 7,
+        "clock": 0
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": [],
+          "status": "idle",
+          "frames": 268,
+          "processingMs": 39.846833278716076,
+          "available": true,
+          "samples": 1028,
+          "interval": 100,
+          "values": [
+            -0.4397524407305059, -0.7217413268510381, 0.01228557824400712,
+            -0.20193981372652908, -0.345835132308313, -0.07140163326621293,
+            0.9135207603882375
+          ],
+          "error": null,
+          "timestamp": 39961255.222375005,
+          "callbacks": 3
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 766,
+          "processingMs": 69.47083317209035,
+          "available": true,
+          "samples": 894,
+          "interval": 16,
+          "values": [4.535875835442543, -6.008366555061936, -6.284564253854751],
+          "error": null,
+          "timestamp": 39954602.425125,
+          "callbacks": 3
+        }
+      }
+    },
+    {
+      "name": "window-end",
+      "phase": "last-binding-removed",
+      "sequence": 34,
+      "time": 1793320030413,
+      "monotonicMs": 39964885.74333334,
+      "native": {
+        "active": 0,
+        "sources": 1,
+        "nodes": 7,
+        "clock": 0
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": [],
+          "status": "idle",
+          "frames": 268,
+          "processingMs": 39.846833278716076,
+          "available": true,
+          "samples": 1028,
+          "interval": 100,
+          "values": [
+            -0.4397524407305059, -0.7217413268510381, 0.01228557824400712,
+            -0.20193981372652908, -0.345835132308313, -0.07140163326621293,
+            0.9135207603882375
+          ],
+          "error": null,
+          "timestamp": 39961255.222375005,
+          "callbacks": 3
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 766,
+          "processingMs": 69.47083317209035,
+          "available": true,
+          "samples": 894,
+          "interval": 16,
+          "values": [4.535875835442543, -6.008366555061936, -6.284564253854751],
+          "error": null,
+          "timestamp": 39954602.425125,
+          "callbacks": 3
+        }
+      }
+    },
+    {
+      "name": "configured",
+      "phase": "reattached",
+      "sequence": 35,
+      "time": 1793320031627,
+      "monotonicMs": 39966099.33983334,
+      "native": {
+        "active": 1,
+        "sources": 1,
+        "nodes": 7,
+        "clock": 1
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": ["card"],
+          "status": "starting",
+          "frames": 268,
+          "processingMs": 39.846833278716076,
+          "available": true,
+          "samples": 1028,
+          "interval": 100,
+          "values": [
+            -0.4397524407305059, -0.7217413268510381, 0.01228557824400712,
+            -0.20193981372652908, -0.345835132308313, -0.07140163326621293,
+            0.9135207603882375
+          ],
+          "error": null,
+          "timestamp": 39961255.222375005,
+          "callbacks": 4
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 766,
+          "processingMs": 69.47083317209035,
+          "available": true,
+          "samples": 894,
+          "interval": 16,
+          "values": [4.535875835442543, -6.008366555061936, -6.284564253854751],
+          "error": null,
+          "timestamp": 39954602.425125,
+          "callbacks": 3
+        }
+      }
+    },
+    {
+      "name": "window-start",
+      "phase": "reattached",
+      "sequence": 36,
+      "time": 1793320033132,
+      "monotonicMs": 39967604.194500014,
+      "native": {
+        "active": 1,
+        "sources": 1,
+        "nodes": 7,
+        "clock": 0
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": ["card"],
+          "status": "active",
+          "frames": 283,
+          "processingMs": 42.40704161929898,
+          "available": true,
+          "samples": 1043,
+          "interval": 100,
+          "values": [
+            -0.4567422996327099, -0.6575225132141423, -0.09629413017401268,
+            -0.2291539565172642, -0.3038112426441423, -0.11737862835080647,
+            0.9172837350907238
+          ],
+          "error": null,
+          "timestamp": 39967506.64575,
+          "callbacks": 5
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 766,
+          "processingMs": 69.47083317209035,
+          "available": true,
+          "samples": 894,
+          "interval": 16,
+          "values": [4.535875835442543, -6.008366555061936, -6.284564253854751],
+          "error": null,
+          "timestamp": 39954602.425125,
+          "callbacks": 3
+        }
+      }
+    },
+    {
+      "name": "window-end",
+      "phase": "reattached",
+      "sequence": 37,
+      "time": 1793320037137,
+      "monotonicMs": 39971609.32545834,
+      "native": {
+        "active": 1,
+        "sources": 1,
+        "nodes": 7,
+        "clock": 0
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": ["card"],
+          "status": "active",
+          "frames": 323,
+          "processingMs": 48.86279163474683,
+          "available": true,
+          "samples": 1083,
+          "interval": 100,
+          "values": [
+            -0.49476478699053766, -0.9557436444878611, -0.06303829964014973,
+            -0.23137957758596617, -0.4388161433459177, -0.13968769866907615,
+            0.8569662947022433
+          ],
+          "error": null,
+          "timestamp": 39971520.409041665,
+          "callbacks": 5
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 766,
+          "processingMs": 69.47083317209035,
+          "available": true,
+          "samples": 894,
+          "interval": 16,
+          "values": [4.535875835442543, -6.008366555061936, -6.284564253854751],
+          "error": null,
+          "timestamp": 39954602.425125,
+          "callbacks": 3
+        }
+      }
+    },
+    {
+      "name": "configured",
+      "phase": "all-disposed",
+      "sequence": 38,
+      "time": 1793320038345,
+      "monotonicMs": 39972817.54879168,
+      "native": {
+        "active": 0,
+        "sources": 0,
+        "nodes": 0,
+        "clock": 0
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 335,
+          "processingMs": 50.502083300671075,
+          "available": true,
+          "samples": 1095,
+          "interval": 100,
+          "values": [
+            -0.5791176032209512, -0.963859063971298, 0.0259859465985349,
+            -0.24721566102224657, -0.4474444373306768, -0.1212953026573019,
+            0.8508615292751468
+          ],
+          "error": null,
+          "timestamp": 39972724.538666666,
+          "callbacks": 6
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 766,
+          "processingMs": 69.47083317209035,
+          "available": true,
+          "samples": 894,
+          "interval": 16,
+          "values": [4.535875835442543, -6.008366555061936, -6.284564253854751],
+          "error": null,
+          "timestamp": 39954602.425125,
+          "callbacks": 3
+        }
+      }
+    },
+    {
+      "name": "window-start",
+      "phase": "all-disposed",
+      "sequence": 39,
+      "time": 1793320039851,
+      "monotonicMs": 39974323.69837501,
+      "native": {
+        "active": 0,
+        "sources": 0,
+        "nodes": 0,
+        "clock": 0
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 335,
+          "processingMs": 50.502083300671075,
+          "available": true,
+          "samples": 1095,
+          "interval": 100,
+          "values": [
+            -0.5791176032209512, -0.963859063971298, 0.0259859465985349,
+            -0.24721566102224657, -0.4474444373306768, -0.1212953026573019,
+            0.8508615292751468
+          ],
+          "error": null,
+          "timestamp": 39972724.538666666,
+          "callbacks": 6
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 766,
+          "processingMs": 69.47083317209035,
+          "available": true,
+          "samples": 894,
+          "interval": 16,
+          "values": [4.535875835442543, -6.008366555061936, -6.284564253854751],
+          "error": null,
+          "timestamp": 39954602.425125,
+          "callbacks": 3
+        }
+      }
+    },
+    {
+      "name": "window-end",
+      "phase": "all-disposed",
+      "sequence": 40,
+      "time": 1793320041858,
+      "monotonicMs": 39976330.84312501,
+      "native": {
+        "active": 0,
+        "sources": 0,
+        "nodes": 0,
+        "clock": 0
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 335,
+          "processingMs": 50.502083300671075,
+          "available": true,
+          "samples": 1095,
+          "interval": 100,
+          "values": [
+            -0.5791176032209512, -0.963859063971298, 0.0259859465985349,
+            -0.24721566102224657, -0.4474444373306768, -0.1212953026573019,
+            0.8508615292751468
+          ],
+          "error": null,
+          "timestamp": 39972724.538666666,
+          "callbacks": 6
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 766,
+          "processingMs": 69.47083317209035,
+          "available": true,
+          "samples": 894,
+          "interval": 16,
+          "values": [4.535875835442543, -6.008366555061936, -6.284564253854751],
+          "error": null,
+          "timestamp": 39954602.425125,
+          "callbacks": 3
+        }
+      }
+    },
+    {
+      "name": "complete",
+      "phase": "complete",
+      "sequence": 41,
+      "time": 1793320043078,
+      "monotonicMs": 39977550.65116668,
+      "native": {
+        "active": 0,
+        "sources": 0,
+        "nodes": 0,
+        "clock": 0
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 335,
+          "processingMs": 50.502083300671075,
+          "available": true,
+          "samples": 1095,
+          "interval": 100,
+          "values": [
+            -0.5791176032209512, -0.963859063971298, 0.0259859465985349,
+            -0.24721566102224657, -0.4474444373306768, -0.1212953026573019,
+            0.8508615292751468
+          ],
+          "error": null,
+          "timestamp": 39972724.538666666,
+          "callbacks": 6
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 766,
+          "processingMs": 69.47083317209035,
+          "available": true,
+          "samples": 894,
+          "interval": 16,
+          "values": [4.535875835442543, -6.008366555061936, -6.284564253854751],
+          "error": null,
+          "timestamp": 39954602.425125,
+          "callbacks": 3
+        }
+      }
+    },
+    {
+      "name": "route-disposed",
+      "phase": "cleanup",
+      "sequence": 42,
+      "time": 1793320047965,
+      "monotonicMs": 39982437.49620835,
+      "native": {
+        "active": 0,
+        "sources": 0,
+        "nodes": 0,
+        "clock": 0
+      },
+      "sources": {
+        "slow": {
+          "kind": "rotation",
+          "requested": 100,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 335,
+          "processingMs": 50.502083300671075,
+          "available": true,
+          "samples": 1095,
+          "interval": 100,
+          "values": [
+            -0.5791176032209512, -0.963859063971298, 0.0259859465985349,
+            -0.24721566102224657, -0.4474444373306768, -0.1212953026573019,
+            0.8508615292751468
+          ],
+          "error": null,
+          "timestamp": 39972724.538666666,
+          "callbacks": 6
+        },
+        "fast": {
+          "kind": "gravity",
+          "requested": 16,
+          "bindings": [],
+          "status": "disposed",
+          "frames": 766,
+          "processingMs": 69.47083317209035,
+          "available": true,
+          "samples": 894,
+          "interval": 16,
+          "values": [4.535875835442543, -6.008366555061936, -6.284564253854751],
+          "error": null,
+          "timestamp": 39954602.425125,
+          "callbacks": 3
+        }
+      }
+    }
+  ]
+}

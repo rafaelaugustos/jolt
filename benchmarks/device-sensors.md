@@ -34,7 +34,7 @@ The audit verifier checks nonzero native transforms, many native updates per sta
 
 ## Physical acceptance remains open
 
-The initial implementation had no physical-device evidence. The physical iPhone audit below now covers live acquisition, native bindings, lifecycle and commit counters. Before closing #114, complete the physical Android audit, the manual axis/interface-orientation matrix, access-failure/recovery cases, the sampling-interval sweep and profiling of sampling CPU and presentation latency. iOS Simulator cannot validate Core Motion acquisition. Android emulator sensors exercise the platform API but do not establish physical fusion accuracy or cost.
+The initial implementation had no physical-device evidence. The physical iPhone audits below now cover live acquisition, native bindings, lifecycle, commit counters and the sampling-interval sweep. Before closing #114, complete the physical Android audit (including intervals), the manual axis/interface-orientation matrix, access-failure/recovery cases and profiling of sampling CPU and presentation latency. iOS Simulator cannot validate Core Motion acquisition. Android emulator sensors exercise the platform API but do not establish physical fusion accuracy or cost.
 
 The initial public sources are only rotation and gravity. Accelerometer (including gravity), linear acceleration, gyroscope and magnetic-field sources remain explicitly deferred in #114. The relative rotation reference is nonmagnetic and can drift; Euler angles are a small-tilt convenience, not a complete arbitrary-rotation interpolator.
 
@@ -122,4 +122,59 @@ python3 benchmarks/verify-sensors-physical-ios.py /tmp/physical-ios.json
 python3 -m unittest discover -s benchmarks -p 'test_sensor_*.py'
 ```
 
-Issue #114 remains open for physical Android evidence, calibrated axis/interface-orientation checks, access-failure/recovery cases, sustained sampling-interval tests, and overall CPU/presentation profiling. Battery and long-running memory behavior were not measured. Deferred accelerometer, linear-acceleration, gyroscope and magnetic-field sources retain their existing scope.
+The following audit adds physical iPhone sampling-interval coverage. Issue #114 remains open for physical Android evidence, calibrated axis/interface-orientation checks, access-failure/recovery cases and overall CPU/presentation profiling. Battery and long-running memory behavior were not measured. Deferred accelerometer, linear-acceleration, gyroscope and magnetic-field sources retain their existing scope.
+
+## Physical sampling intervals (2026-10-29)
+
+The same physical iPhone 17 Pro, iOS 27.2 (24B5099f), ran a Release demo based on `ca8eed1`, with production JavaScript and no HMR. The opt-in `--sensors-intervals` diagnostic binds real Core Motion rotation/gravity directly to native views. It never subscribes to readings in JavaScript or uses preview inputs. The signed `testSamplingIntervals` XCTest passed twice; the second run supplies the committed [43-event trace](results/device-sensors/2026-10-29-intervals-ios.json) and recording. No production sensor/runtime change was needed.
+
+Each of twelve windows settles for 1.5 seconds before taking boundary snapshots. Active windows measure about four seconds; stopped windows measure about two. Rates use the native monotonic clock. Both sources share one acquisition, but each source commits according to its own requested interval and the display clock.
+
+| Requested interval, both sources | Samples/s per source | Native commits/s per source |
+| -------------------------------- | -------------------- | --------------------------- |
+| `auto` (8.333 ms requested)      | 99.82                | 58.14                       |
+| 16 ms                            | 66.38                | 57.65                       |
+| 33 ms                            | 28.45                | 28.45                       |
+| 100 ms                           | 9.96                 | 9.96                        |
+
+The remaining eight windows exercise demand and arbitration between a slow rotation source (100 ms) and a fast gravity source (16 ms):
+
+| Window                        | Hardware samples/s | Slow / fast commits/s | Result                                                                      |
+| ----------------------------- | ------------------ | --------------------- | --------------------------------------------------------------------------- |
+| Both sources unbound          | 0                  | 0 / 0                 | Creating sources starts no acquisition                                      |
+| Slow source with two bindings | 9.98               | 9.98 / 0              | An idle fast source does not increase sampling                              |
+| Fast source attached          | 66.66              | 9.99 / 57.93          | One shared acquisition; the slow source still coalesces to its own interval |
+| One slow binding removed      | 66.40              | 9.98 / 56.91          | The other binding keeps its source alive                                    |
+| Fast source removed           | 9.98               | 9.98 / 0              | Sampling slows without recreating the remaining source                      |
+| Last binding removed          | 0                  | 0 / 0                 | Acquisition and live-value clock stop, including after demand-free `play()` |
+| Slow binding reattached       | 9.99               | 9.99 / 0              | Acquisition resumes on the retained source                                  |
+| All sources disposed twice    | 0                  | 0 / 0                 | Zero registrations, sources, native value nodes and live-value clock        |
+
+All twelve measurement windows had zero JavaScript callbacks. The verifier checks finite values, normalized quaternion/gravity magnitude, shared acquisition, per-source commit limits, idle counters, resumption and cleanup after route exit. It compares cadence within a run instead of requiring exact hardware rates. At a window boundary, one already-buffered sample may commit after the start snapshot: the bound permits one extra commit relative to the window's sample delta while requiring cumulative samples to cover cumulative commits. Its 22 negative controls run in the existing offline CI suite.
+
+The reviewed English `sensor-intervals-physical-ios.mp4` is a 79.98-second USB recording of this automated run, embedded with translated captions in all four guides. It shows the actual diagnostic phases, counter summaries and completed cleanup. No manual device movement is needed for this frequency audit. The capture helper uses host monotonic arrival timestamps for real USB screen frames; dropped frames keep their elapsed-time gaps. A preliminary capture using source timestamps compressed elapsed time and was rejected. The published clip is trimmed and resized, with no speed change or generated frames.
+
+Reproduce after installing the normal Release demo and building the signed runner as in the preceding section:
+
+```sh
+xcodebuild test-without-building -project /tmp/JoltSensorsPhysical/DocsTests.xcodeproj \
+  -scheme DocsTests -destination 'platform=iOS,id=YOUR_IPHONE' \
+  -derivedDataPath /tmp/JoltSensorsPhysical/build -parallel-testing-enabled NO \
+  -only-testing:DocsTests/DocsTests/testSamplingIntervals
+xcrun devicectl device copy from --device YOUR_IPHONE \
+  --source Documents/sensor-intervals.json --domain-type appDataContainer \
+  --domain-identifier org.nativescript.jolt.benchmark --destination /tmp/intervals-ios.json
+python3 benchmarks/verify-sensor-intervals.py /tmp/intervals-ios.json
+python3 -m unittest discover -s benchmarks -p 'test_sensor_*.py'
+```
+
+Check that the pulled report's `session` belongs to the current run. To record, compile the [USB capture helper](record-iphone.swift), then start it in a second terminal when XCTest finds the run button; the test allows ten seconds before tapping:
+
+```sh
+swiftc benchmarks/record-iphone.swift -o /tmp/jolt-record-iphone
+/tmp/jolt-record-iphone 'YOUR EXACT IPHONE NAME' /tmp/intervals-ios.mp4 100
+```
+
+Keep the phone unlocked and in one orientation. The helper captures only the named USB screen source and no audio, refuses to overwrite files, and finalizes on Ctrl-C. Inspect the full recording and compare its elapsed time with the test before trimming or compressing it. Host frame-arrival timestamps are for playback timing, not a sensor-to-display latency measurement.
+
+These short windows on one physical iPhone establish interval/demand correctness. Native commits are not presented FPS. This audit does not measure overall CPU, presentation latency, battery, long-running retention or physical Android behavior; the remaining #114 acceptance items above still apply.

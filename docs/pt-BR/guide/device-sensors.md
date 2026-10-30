@@ -18,6 +18,12 @@ O primeiro ciclo usa a aquisição da plataforma: o emulador Android remove seus
 <Clip name="sensor-lifecycle-ios" caption="Simulador iOS 26.2, demo em inglês: Home/retorno reais, pausa explícita e três entradas na tela com reprodução nativa de entradas de sensores identificadas como simuladas. Tempo original. O simulador não oferece aquisição Core Motion; é evidência de ciclo de vida, não de desempenho físico." />
 <Clip name="sensor-lifecycle-android" caption="Emulador Android 16 / API 36, demo em inglês: Home/retorno e navegação repetida reais. O primeiro ciclo verifica assinaturas de sensores emulados; os ciclos com movimento do card usam entradas identificadas como simuladas. Tempo original; sem alegação de precisão ou desempenho em aparelho físico." />
 
+## Intervalos de amostragem no aparelho físico {#physical-sampling-intervals}
+
+Uma segunda auditoria no iPhone físico verifica doze janelas: `auto`, 16/33/100 ms, fontes com frequências solicitadas diferentes, remoção de bindings individuais e do consumidor mais rápido, reconexão e descarte. A aquisição compartilhada cai de cerca de 66 para 10 amostras/s quando o consumidor rápido sai e para quando o último binding é removido. Todas as janelas medidas têm zero callbacks JavaScript. Veja as [taxas capturadas e o procedimento de reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md#physical-sampling-intervals-2026-10-29). São verificações curtas de correção em um aparelho; commits nativos não equivalem a FPS apresentados.
+
+<Clip name="sensor-intervals-physical-ios" caption="iPhone 17 Pro físico, iOS 27.2, demo Release com diagnóstico em inglês: doze janelas reais de amostragem do Core Motion, aquisição compartilhada, remoção de bindings e descarte. Captura USB no tempo original; sem entradas simuladas ou necessidade de inclinar o aparelho. Contadores mostram amostragem e commits nativos, não FPS apresentados." />
+
 ## Conectar uma fonte
 
 ```ts
@@ -77,6 +83,6 @@ O botão **Ver movimento** usa `replaySensor()` de `@rafaelaugusto/jolt/testing`
 
 O caminho nativo ainda depende da thread de UI. Trabalho JavaScript síncrono nessa thread pode bloquear atualizações visuais; eliminar chamadas JS por amostra não torna a UI imune a bloqueios.
 
-A auditoria em um iPhone 17 Pro físico confirma aquisição real do Core Motion, assinaturas compartilhadas, pausa/redução de movimento, retorno do background e descarte em três instâncias da tela. As janelas medidas de aquisição nativa não tiveram callbacks JavaScript. Veja o [registro físico e seus limites](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md#physical-iphone-audit-2026-10-29). A #114 continua aberta para evidências em Android físico, calibração dos eixos e orientações da interface, falhas de acesso e recuperação, testes prolongados dos intervalos e medição de CPU e apresentação. Acelerômetro com gravidade, aceleração linear, giroscópio e campo magnético permanecem explicitamente adiados.
+A auditoria em um iPhone 17 Pro físico confirma aquisição real do Core Motion, assinaturas compartilhadas, pausa/redução de movimento, retorno do background e descarte em três instâncias da tela. As janelas medidas de aquisição nativa não tiveram callbacks JavaScript. Veja o [registro físico e seus limites](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md#physical-iphone-audit-2026-10-29). A #114 continua aberta para evidências em Android físico, calibração dos eixos e orientações da interface, falhas de acesso e recuperação e medição de CPU e apresentação. Acelerômetro com gravidade, aceleração linear, giroscópio e campo magnético permanecem explicitamente adiados.
 
 Contratos das plataformas: [Core Motion](https://developer.apple.com/documentation/coremotion/getting-processed-device-motion-data), [sensores de movimento Android](https://developer.android.com/develop/sensors-and-location/sensors/sensors_motion) e [coordenadas e limites Android](https://developer.android.com/develop/sensors-and-location/sensors/sensors_overview).

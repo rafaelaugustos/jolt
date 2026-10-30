@@ -18,6 +18,12 @@
 <Clip name="sensor-lifecycle-ios" caption="iOS 26.2 模拟器，英文演示：真实主屏幕切换与应用恢复、手动暂停以及三次页面进入；原生播放明确标注的模拟传感器输入，保持原始时间。模拟器不支持 Core Motion 采集；这是生命周期证据，不是真机性能证据。" />
 <Clip name="sensor-lifecycle-android" caption="Android 16 / API 36 模拟器，英文演示：真实主屏幕切换、应用恢复与重复导航。第一个周期检查模拟器传感器订阅，卡片运动周期使用明确标注的模拟输入。保持原始时间，不作真机传感器精度或性能声明。" />
 
+## 实体设备采样间隔 {#physical-sampling-intervals}
+
+第二次实体 iPhone 审计检查十二个测量窗口：`auto`、16/33/100 ms、不同请求频率的源、移除单个绑定和最快消费者、重新绑定与资源释放。移除最快消费者后，共享采集从约 66 次/秒降至 10 次/秒；移除最后一个绑定后停止。所有测量窗口均无 JavaScript 回调。参见[实测频率和复现步骤](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md#physical-sampling-intervals-2026-10-29)。这是单台设备上的短时正确性检查；原生提交次数不等于实际呈现帧率。
+
+<Clip name="sensor-intervals-physical-ios" caption="实体 iPhone 17 Pro，iOS 27.2，Release 演示，英文诊断界面：十二个真实 Core Motion 采样窗口、共享采集、绑定移除及资源释放。USB 录屏保持原始时间，无模拟输入，也无需手动倾斜设备。计数器显示采样和原生提交次数，不表示实际呈现帧率。" />
+
 ## 连接源 {#connect-a-source}
 
 ```ts
@@ -78,6 +84,6 @@ scope.dispose()
 
 原生路径仍然需要平台的 UI 线程。该线程上的同步 JavaScript 任务可能会停止显示更新；避免每个样本的 JS 调用并不能使 UI 免受阻塞。
 
-实体 iPhone 17 Pro 审计现已验证真实 Core Motion 采集、共享订阅、暂停和减少动态效果、后台恢复，以及三次页面实例创建后的资源释放。测量期间的原生采集窗口没有 JavaScript 回调。参见[实体设备记录及其限制](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md#physical-iphone-audit-2026-10-29)。#114 仍需补充实体 Android 证据、轴和界面方向校准、访问失败与恢复、持续采样间隔测试，以及整体 CPU 和显示性能分析。包含重力的加速度计、线性加速度、陀螺仪和磁场源仍明确延期。
+实体 iPhone 17 Pro 审计现已验证真实 Core Motion 采集、共享订阅、暂停和减少动态效果、后台恢复，以及三次页面实例创建后的资源释放。测量期间的原生采集窗口没有 JavaScript 回调。参见[实体设备记录及其限制](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md#physical-iphone-audit-2026-10-29)。#114 仍需补充实体 Android 证据、轴和界面方向校准、访问失败与恢复，以及整体 CPU 和显示性能分析。包含重力的加速度计、线性加速度、陀螺仪和磁场源仍明确延期。
 
 平台合约：[Apple 设备动作](https://developer.apple.com/documentation/coremotion/getting-processed-device-motion-data)、[Android 运动传感器](https://developer.android.com/develop/sensors-and-location/sensors/sensors_motion) 和 [Android 传感器坐标和限制](https://developer.android.com/develop/sensors-and-location/sensors/sensors_overview)。

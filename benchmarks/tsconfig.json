@@ -7,5 +7,10 @@
     "lib": ["ES2023", "DOM"],
     "resolveJsonModule": true
   },
-  "include": ["*.ts", "../src/android-plugin.d.ts", "../src/ios-plugin.d.ts"]
+  "include": [
+    "*.ts",
+    "../src/android-plugin.d.ts",
+    "../src/ios-plugin.d.ts",
+    "../demo/src/sensor-interval-audit.ts"
+  ]
 }

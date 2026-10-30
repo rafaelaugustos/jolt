@@ -61,4 +61,26 @@ final class DocsTests: XCTestCase {
         }
         #endif
     }
+
+    func testSamplingIntervals() throws {
+        #if targetEnvironment(simulator)
+        throw XCTSkip("This audit requires a physical iPhone and real Core Motion input.")
+        #else
+        continueAfterFailure = false
+        app.launchArguments = ["-AppleLanguages", "(en)", "--showcase-example=device-sensors", "--sensors-intervals"]
+        app.launch()
+        let button = app.buttons["sensor-interval-run"].firstMatch
+        XCTAssertTrue(button.waitForExistence(timeout: 15))
+        // Leave time for the host's USB screen recorder to attach to the demo.
+        Thread.sleep(forTimeInterval: 10)
+        button.tap()
+        let status = app.staticTexts["sensor-interval-state"].firstMatch
+        let finished = XCTNSPredicateExpectation(predicate: NSPredicate(format: "label == 'Completed' OR label == 'Failed'"), object: status)
+        XCTAssertEqual(XCTWaiter.wait(for: [finished], timeout: 150), .completed)
+        XCTAssertEqual(status.label, "Completed", app.debugDescription)
+        Thread.sleep(forTimeInterval: 2)
+        tap("Back to collection", wait: 1)
+        XCTAssertFalse(app.descendants(matching: .any)["sensor-lab"].firstMatch.exists)
+        #endif
+    }
 }
