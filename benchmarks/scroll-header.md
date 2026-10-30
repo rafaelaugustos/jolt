@@ -52,7 +52,7 @@ iOS automatic estimates changed the apparent scroll anchor after `reloadData` in
 
 ## Remaining acceptance
 
-Physical iOS/Android frame-time percentiles, missed deadlines, input latency and process-memory measurements, with an equivalent `scrollLinked()` baseline, are **not measured here**. Native-source counters and resource disposal are correctness evidence, not that performance comparison. Large-text line sizing, VoiceOver/TalkBack traversal, app-owned extra insets, pull-to-refresh, nested same-axis scroll, paged tabs and other list plugins need their own device matrix. These omissions do not block this simulator/emulator correctness delivery; no physical-device performance claim is made.
+Physical iOS/Android frame-time percentiles, missed deadlines, input latency and process-memory measurements, with an equivalent `scrollLinked()` baseline, are **not measured here**. Native-source counters and resource disposal are correctness evidence, not that performance comparison. The large-text settings validated below cover a bounded part of line sizing. Other text scales, VoiceOver/TalkBack traversal, app-owned extra insets, pull-to-refresh, nested same-axis scroll, paged tabs and other list plugins need their own device matrix. These omissions do not block this simulator/emulator correctness delivery; no physical-device performance claim is made.
 
 ## Resize and lifecycle regression checks, 2026-10-29
 
@@ -111,3 +111,71 @@ indicator settings. Artifacts prefixed `2026-10-29-` in
 [results/scroll-header](./results/scroll-header) preserve the final observations.
 These checks complete the resize/lifecycle correction with simulator/emulator
 acceptance. Broader adapter and accessibility work remains tracked in #116.
+
+## Large system text and long titles, 2026-10-29
+
+Release builds on the dedicated iPhone 17 / iOS 26.2 simulator and Pixel 6 / Android
+16 (API 36) emulator change the **actual OS font setting while the page is open**.
+iOS uses `large` → `accessibility-medium` → `large`; Android uses `font_scale`
+1 → 2 → 1. Both runners save and restore the original setting, reject stale
+reports and run `verify-scroll-header-text.py` after capture.
+
+The previous resize policy preserved absolute row coordinates, allowing a growing
+compact toolbar to cover the current row. Collapsed resizing now preserves the
+row's distance from the bottom of the pinned toolbar/section, using the change in
+collapse range. Partially expanded resizing retains the spacer-delta policy; the
+top remains zero. A negative-control run of the new host regression against the
+old formula moved the row 80 DIPs behind the pinned edge.
+
+The native checks also exposed two platform details. Core's default `clipToBounds`
+can report true while its plain iOS UIView still has clipping disabled; the owner
+now explicitly applies and restores that native clip. Android `smoothScrollBy`
+stopped short of the requested long-distance target in the first captured run;
+the driver now uses `smoothScrollToPositionFromTop` with the exact item and offset.
+The regression checks below exercise both return-to-top and data index 35.
+
+The demo opts into iOS Dynamic Type. Its Android Activity handles `fontScale`, and
+a screen-scoped listener reapplies retained Label sizes in SP on the next turn,
+after the Activity's resources update. Recycled cells receive the current SP size.
+Android retains its nonlinear scaling; no multiplier is imposed by Jolt. The
+listener and pending update are removed on unmount. The intrinsic-height hero can
+exceed the viewport, which clips it while the ListView spacer supplies the scroll
+extent. Hero descendants do not reapply the iOS safe area already owned by the
+parent. The compact title wraps; controls and number/duration columns size to text.
+
+| Observation                                                   | iOS simulator                                         | Android emulator                                  |
+| ------------------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------------- |
+| Expanded title native font, normal → enlarged                 | 45 → 90 pt                                            | 45 → 51.29 DIP after SP conversion                |
+| Compact title native font                                     | 20 → 40 pt                                            | 20 → 34 DIP after SP conversion                   |
+| Compact toolbar, normal / enlarged / long enlarged / restored | 64 / 68 / 115.67 / 64 DIP                             | 64 / 65.90 / 99.81 / 64 DIP                       |
+| Expanded long header                                          | 782 DIP, including the complete measured title        | 468.57 DIP, including the complete measured title |
+| Collapsed anchor across font/title/restoration changes        | `song-36`, within 1 DIP of the pinned bottom          | Same                                              |
+| Top / actual drag / native jump / recycled tap                | Offset zero / positive offset / `song-36` / `song-36` | Same                                              |
+| Disposal                                                      | Zero native sources and nodes                         | Same                                              |
+
+Each trace has eight explicit snapshots. The verifier reads native text sizing and
+realized row rectangles, requires genuine font growth/restoration and no title
+ellipsis or intrinsic clipping, checks native iOS viewport clipping, and rejects
+screen recreation. Thirteen offline test cases run in CI, including 23 negative
+variations across the two captured reports. The existing native audit and lifecycle
+sequences are rerun on both platforms; their new observations are stored alongside
+the large-text traces. The lifecycle XCTest now snapshots landscape explicitly:
+a correctly unbounded hero can retain its height after rotation, so a geometry
+change callback alone is not evidence that landscape was captured. The Android
+runner retries a transient null accessibility root instead of reusing stale
+coordinates from before rotation.
+
+```sh
+python3 benchmarks/docs-record-ios.py YOUR_SIMULATOR_UUID /tmp/JoltLargeTextIOS testScrollHeaderLargeText
+python3 benchmarks/scroll-header-android.py YOUR_EMULATOR /tmp/JoltLargeTextAndroid large-text
+python3 -m unittest discover -s benchmarks -p 'test_scroll_header_text.py'
+```
+
+The reviewed English recordings, embedded in all four guide locales, retain
+original timing: 28.8 seconds on iOS and 47.6 seconds on Android. They show the
+same row before and after font/title changes, return to the top, real scrolling,
+native jump/tap, restoration and navigation. Both decode as H.264 MP4; this is
+simulator/emulator correctness evidence. Fixed 76-DIP data rows still use one-line
+ellipsis for long track names and expose the full name in accessibility labels.
+Other text scales, variable-height rows, VoiceOver/TalkBack traversal and the
+physical-device performance matrix remain outside this slice of #116.

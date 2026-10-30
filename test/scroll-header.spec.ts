@@ -208,6 +208,44 @@ describe('scrollHeader geometry and ownership', () => {
     await shrink
     expect(offset).toBe(0)
   })
+  it('keeps the same row below a growing compact title and pinned section', async () => {
+    const s = scene()
+    const owner = s.start()
+    await layouts()
+    owner.scrollToItem(3)
+    const before = owner.geometry!
+    const relativeTop = (g: typeof before) =>
+      g.spacer + 3 * g.rowHeight - offset - g.minimum - g.section
+    expect(relativeTop(before)).toBe(0)
+    s.header.actualSize.height = 420
+    s.toolbar.actualSize.height = 120
+    s.section.actualSize.height = 70
+    const resize = owner.remeasure()
+    await layouts()
+    await resize
+    expect(relativeTop(owner.geometry!)).toBe(0)
+    expect(offset).toBe(540)
+    s.header.actualSize.height = 300
+    s.toolbar.actualSize.height = 60
+    s.section.actualSize.height = 50
+    const shrink = owner.remeasure()
+    await layouts()
+    await shrink
+    expect(relativeTop(owner.geometry!)).toBe(0)
+    expect(offset).toBe(480)
+  })
+  it('clips an oversized native header even when Core already reports clipping enabled', async () => {
+    const s = scene()
+    s.host.clipToBounds = true
+    const container = { clipsToBounds: false }
+    s.host.nativeViewProtected = container
+    const owner = s.start()
+    await layouts()
+    expect(container.clipsToBounds).toBe(true)
+    owner.dispose()
+    expect(container.clipsToBounds).toBe(false)
+    expect(s.host.clipToBounds).toBe(true)
+  })
   it('releases native sources on suspension and unload, then attaches exactly once on reload', async () => {
     const s = scene()
     const owner = s.start()

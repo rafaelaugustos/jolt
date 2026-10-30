@@ -21,6 +21,7 @@ control.mkdir()
 repo = Path(__file__).resolve().parent.parent
 recorder = None
 runner = None
+original_content_size = None
 try:
     subprocess.run(['ruby', str(repo/'benchmarks/docs-ios-ui.rb'), str(output/'project')], check=True)
     command = ['xcodebuild', 'test', '-project', str(output/'project/DocsTests.xcodeproj'),
@@ -48,6 +49,11 @@ try:
             if cue['action'] == 'appearance':
                 assert name in ('light', 'dark')
                 subprocess.run(['xcrun', 'simctl', 'ui', serial, 'appearance', name], check=True)
+            elif cue['action'] == 'content-size':
+                assert name in ('large', 'accessibility-medium')
+                if original_content_size is None:
+                    original_content_size = subprocess.check_output(['xcrun', 'simctl', 'ui', serial, 'content_size'], text=True).strip()
+                subprocess.run(['xcrun', 'simctl', 'ui', serial, 'content_size', name], check=True)
             elif cue['action'] == 'screenshot':
                 subprocess.run(['xcrun', 'simctl', 'io', serial, 'screenshot', str(output/(name+'.png'))], check=True, stdout=subprocess.DEVNULL)
             elif cue['action'] == 'start':
@@ -104,6 +110,13 @@ try:
             shutil.copy2(Path(container)/'Documents/sensors-audit.json', report)
             assert json.loads(report.read_text())['session'] >= started_at, 'stale sensor lifecycle report'
             subprocess.run([sys.executable, str(repo/'benchmarks/verify-sensor-lifecycle.py'), str(report)], check=True)
+        if 'testScrollHeaderLargeText' in methods:
+            container = subprocess.check_output(['xcrun', 'simctl', 'get_app_container', serial,
+                'org.nativescript.jolt.benchmark', 'data'], text=True).strip()
+            report = output/'large-text-ios.json'
+            shutil.copy2(Path(container)/'Documents/jolt-scroll-header.json', report)
+            assert json.loads(report.read_text())['events'][0]['time'] >= started_at, 'stale large-text report'
+            subprocess.run([sys.executable, str(repo/'benchmarks/verify-scroll-header-text.py'), str(report)], check=True)
         if 'testMotionRfc' in methods:
             container = subprocess.check_output(['xcrun', 'simctl', 'get_app_container', serial,
                 'org.nativescript.jolt.benchmark', 'data'], text=True).strip()
@@ -117,4 +130,6 @@ finally:
     if runner and runner.poll() is None:
         runner.terminate()
         runner.wait(timeout=20)
+    if original_content_size is not None:
+        subprocess.run(['xcrun', 'simctl', 'ui', serial, 'content_size', original_content_size], check=True)
     shutil.rmtree(control)

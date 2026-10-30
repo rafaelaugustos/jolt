@@ -61,13 +61,18 @@ export function headerGeometry(
   }
 }
 
-/** Keep the visible rows anchored when late artwork/text changes the header height. */
+/** Keep collapsed rows relative to the pinned edge; keep expanded content in place. */
 export function resizedOffset(
   offset: number,
   before: ScrollHeaderGeometry,
   after: ScrollHeaderGeometry,
 ) {
-  return offset <= 0 ? 0 : Math.max(0, offset + after.spacer - before.spacer)
+  if (offset <= 0) return 0
+  // Growing the compact title/section must not cover the previously visible row.
+  // Its position relative to the pinned bottom is range + row position - offset.
+  const delta =
+    offset >= before.range ? after.range - before.range : after.spacer - before.spacer
+  return Math.max(0, offset + delta)
 }
 
 export function restoredOffset(

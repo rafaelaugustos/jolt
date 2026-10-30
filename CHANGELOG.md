@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Preserve collapsed scroll-header rows below a growing compact title or pinned section (#116), enforce the iOS native viewport clip, and use an exact Android item/offset target for animated scrolling. Update the reference layout for large system fonts and long titles, with native simulator/emulator checks and recordings in all four guide locales. Rebuild the native app; physical-device and screen-reader acceptance remain open.
+
 - Validate sensor sampling intervals on a physical iPhone (#114): twelve windows cover `auto`, 16/33/100 ms, shared acquisition at different rates, binding removal, resumption and disposal. Add the captured trace, 22 offline negative controls and a reviewed English recording in all four guide locales. This confirms existing native behavior; broader physical acceptance remains open.
 
 - Validate real Core Motion rotation/gravity on a physical iPhone 17 Pro (#114), including shared acquisition, pause/Reduce Motion, background recovery, repeated screen disposal and native commit counters without steady-state JS callbacks. Add the physical trace, offline negative controls and a reviewed English recording in all four guide locales. Android physical evidence and broader axis/access/performance acceptance remain open.

@@ -68,12 +68,13 @@ public final class ScrollHeader implements ViewTreeObserver.OnScrollChangedListe
     public void scroll(double target,boolean animated) {
         if(disposed || !Double.isFinite(target))return;
         target=Math.max(0,target);
-        if(animated){list.smoothScrollBy((int)Math.round((target-current())*density),300);return;}
         double divider=list.getDividerHeight()/density, stride=rowHeight+divider;
         int index=target<spacer+divider?0:1+(int)Math.floor((target-spacer-divider)/stride);
         index=Math.max(0,Math.min(list.getCount()-1,index));
         double start=index==0?0:spacer+divider+(index-1)*stride;
-        list.setSelectionFromTop(index,(int)Math.round((start-target)*density));
+        int top=(int)Math.round((start-target)*density);
+        if(animated){list.smoothScrollToPositionFromTop(index,top,300);return;}
+        list.setSelectionFromTop(index,top);
         list.post(new Runnable(){public void run(){if(!disposed)update(true);}});
     }
     public void dispose() {

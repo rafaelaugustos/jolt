@@ -1,0 +1,695 @@
+{
+  "events": [
+    {
+      "name": "phase",
+      "time": 1793328016755,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 0,
+        "offset": 0,
+        "phase": "expanded",
+        "updates": 1,
+        "callbacks": 1,
+        "first": 0,
+        "visible": 6,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 277.3333333333333,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 53.33333333333333,
+        "range": 213.33333333333331,
+        "spacer": 345.90476190476187
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 716.5714285714286
+      },
+      "typography": {
+        "systemScale": 1,
+        "title": {
+          "text": "Slow tides.",
+          "width": 359.6190476190476,
+          "height": 52.95238095238095,
+          "requiredHeight": 52.95238095238095,
+          "font": 45,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Slow tides.",
+          "width": 307.04761904761904,
+          "height": 23.61904761904762,
+          "requiredHeight": 23.61904761904762,
+          "font": 20,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 277.3333333333333,
+      "rowTaps": 0,
+      "extra": "expanded",
+      "rows": [
+        {
+          "key": "header",
+          "top": 0,
+          "height": 345.9047619047619
+        },
+        {
+          "key": "song-1",
+          "top": 346.2857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 422.85714285714283,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 499.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 576,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 652.5714285714286,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 277.3333333333333,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0
+        }
+      }
+    },
+    {
+      "name": "phase",
+      "time": 1793328016757,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 0,
+        "offset": 0,
+        "phase": "expanded",
+        "updates": 1,
+        "callbacks": 1,
+        "first": 0,
+        "visible": 6,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 277.3333333333333,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 53.33333333333333,
+        "range": 213.33333333333331,
+        "spacer": 345.90476190476187
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 716.5714285714286
+      },
+      "typography": {
+        "systemScale": 1,
+        "title": {
+          "text": "Slow tides.",
+          "width": 359.6190476190476,
+          "height": 52.95238095238095,
+          "requiredHeight": 52.95238095238095,
+          "font": 45,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Slow tides.",
+          "width": 307.04761904761904,
+          "height": 23.61904761904762,
+          "requiredHeight": 23.61904761904762,
+          "font": 20,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 277.3333333333333,
+      "rowTaps": 0,
+      "extra": "expanded",
+      "rows": [
+        {
+          "key": "header",
+          "top": 0,
+          "height": 345.9047619047619
+        },
+        {
+          "key": "song-1",
+          "top": 346.2857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 422.85714285714283,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 499.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 576,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 652.5714285714286,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 277.3333333333333,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0
+        }
+      }
+    },
+    {
+      "name": "ready",
+      "time": 1793328016766,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 0,
+        "offset": 0,
+        "phase": "expanded",
+        "updates": 1,
+        "callbacks": 1,
+        "first": 0,
+        "visible": 6,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 277.3333333333333,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 53.33333333333333,
+        "range": 213.33333333333331,
+        "spacer": 345.90476190476187
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 716.5714285714286
+      },
+      "typography": {
+        "systemScale": 1,
+        "title": {
+          "text": "Slow tides.",
+          "width": 359.6190476190476,
+          "height": 52.95238095238095,
+          "requiredHeight": 52.95238095238095,
+          "font": 45,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Slow tides.",
+          "width": 307.04761904761904,
+          "height": 23.61904761904762,
+          "requiredHeight": 23.61904761904762,
+          "font": 20,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 277.3333333333333,
+      "rowTaps": 0,
+      "rows": [
+        {
+          "key": "header",
+          "top": 0,
+          "height": 345.9047619047619
+        },
+        {
+          "key": "song-1",
+          "top": 346.2857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 422.85714285714283,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 499.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 576,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 652.5714285714286,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 277.3333333333333,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0
+        }
+      }
+    },
+    {
+      "name": "phase",
+      "time": 1793328017367,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 4.190476417541504,
+        "offset": 4.190476417541504,
+        "phase": "between",
+        "updates": 2,
+        "callbacks": 2,
+        "first": 0,
+        "visible": 6,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 277.3333333333333,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 53.33333333333333,
+        "range": 213.33333333333331,
+        "spacer": 345.90476190476187
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 716.5714285714286
+      },
+      "typography": {
+        "systemScale": 1,
+        "title": {
+          "text": "Slow tides.",
+          "width": 359.6190476190476,
+          "height": 52.95238095238095,
+          "requiredHeight": 52.95238095238095,
+          "font": 45,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Slow tides.",
+          "width": 307.04761904761904,
+          "height": 23.61904761904762,
+          "requiredHeight": 23.61904761904762,
+          "font": 20,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 277.3333333333333,
+      "rowTaps": 0,
+      "extra": "between",
+      "rows": [
+        {
+          "key": "header",
+          "top": -4.190476190476191,
+          "height": 345.9047619047619
+        },
+        {
+          "key": "song-1",
+          "top": 342.0952380952381,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 418.6666666666667,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 495.23809523809524,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 571.8095238095239,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 648.3809523809524,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -4.190476553780692,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 1.047619138445173,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 273.14285714285717,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0
+        }
+      }
+    },
+    {
+      "name": "phase",
+      "time": 1793328017601,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 232,
+        "offset": 232,
+        "phase": "collapsed",
+        "updates": 14,
+        "callbacks": 3,
+        "first": 0,
+        "visible": 9,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 277.3333333333333,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 53.33333333333333,
+        "range": 213.33333333333331,
+        "spacer": 345.90476190476187
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 716.5714285714286
+      },
+      "typography": {
+        "systemScale": 1,
+        "title": {
+          "text": "Slow tides.",
+          "width": 359.6190476190476,
+          "height": 52.95238095238095,
+          "requiredHeight": 52.95238095238095,
+          "font": 45,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Slow tides.",
+          "width": 307.04761904761904,
+          "height": 23.61904761904762,
+          "requiredHeight": 23.61904761904762,
+          "font": 20,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 277.3333333333333,
+      "rowTaps": 0,
+      "extra": "collapsed",
+      "rows": [
+        {
+          "key": "header",
+          "top": -232,
+          "height": 345.9047619047619
+        },
+        {
+          "key": "song-1",
+          "top": 114.28571428571429,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 190.85714285714286,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 267.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 344,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 420.57142857142856,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-6",
+          "top": 497.14285714285717,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-7",
+          "top": 573.7142857142857,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-8",
+          "top": 650.2857142857143,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -213.33333333333334,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 53.333333333333336,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 64,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "name": "snapshot",
+      "time": 1793328020760,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 422.8571428713344,
+        "offset": 422.8571428713344,
+        "phase": "collapsed",
+        "updates": 29,
+        "callbacks": 3,
+        "first": 2,
+        "visible": 10,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 277.3333333333333,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 53.33333333333333,
+        "range": 213.33333333333331,
+        "spacer": 345.90476190476187
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 716.5714285714286
+      },
+      "typography": {
+        "systemScale": 1,
+        "title": {
+          "text": "Slow tides.",
+          "width": 359.6190476190476,
+          "height": 52.95238095238095,
+          "requiredHeight": 52.95238095238095,
+          "font": 45,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Slow tides.",
+          "width": 307.04761904761904,
+          "height": 23.61904761904762,
+          "requiredHeight": 23.61904761904762,
+          "font": 20,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 277.3333333333333,
+      "rowTaps": 0,
+      "rows": [
+        {
+          "key": "song-2",
+          "top": 0,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 76.57142857142857,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 153.14285714285714,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 229.71428571428572,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-6",
+          "top": 306.2857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-7",
+          "top": 382.85714285714283,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-8",
+          "top": 459.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-9",
+          "top": 536,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-10",
+          "top": 612.5714285714286,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-11",
+          "top": 689.1428571428571,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -213.33333333333334,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 53.333333333333336,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 64,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        }
+      }
+    }
+  ],
+  "resources": {
+    "sources": 1,
+    "nodes": 1
+  }
+}

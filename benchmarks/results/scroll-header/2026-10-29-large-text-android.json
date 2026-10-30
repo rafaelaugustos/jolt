@@ -1,0 +1,3410 @@
+{
+  "events": [
+    {
+      "name": "phase",
+      "time": 1793327513646,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 0,
+        "offset": 0,
+        "phase": "expanded",
+        "updates": 1,
+        "callbacks": 1,
+        "first": 0,
+        "visible": 6,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 277.3333333333333,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 53.33333333333333,
+        "range": 213.33333333333331,
+        "spacer": 345.90476190476187
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 716.5714285714286
+      },
+      "typography": {
+        "systemScale": 1,
+        "title": {
+          "text": "Slow tides.",
+          "width": 359.6190476190476,
+          "height": 52.95238095238095,
+          "requiredHeight": 52.95238095238095,
+          "font": 45,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Slow tides.",
+          "width": 307.04761904761904,
+          "height": 23.61904761904762,
+          "requiredHeight": 23.61904761904762,
+          "font": 20,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 277.3333333333333,
+      "rowTaps": 0,
+      "extra": "expanded",
+      "rows": [
+        {
+          "key": "header",
+          "top": 0,
+          "height": 345.9047619047619
+        },
+        {
+          "key": "song-1",
+          "top": 346.2857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 422.85714285714283,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 499.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 576,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 652.5714285714286,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 277.3333333333333,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0
+        }
+      }
+    },
+    {
+      "name": "phase",
+      "time": 1793327513648,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 0,
+        "offset": 0,
+        "phase": "expanded",
+        "updates": 1,
+        "callbacks": 1,
+        "first": 0,
+        "visible": 6,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 277.3333333333333,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 53.33333333333333,
+        "range": 213.33333333333331,
+        "spacer": 345.90476190476187
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 716.5714285714286
+      },
+      "typography": {
+        "systemScale": 1,
+        "title": {
+          "text": "Slow tides.",
+          "width": 359.6190476190476,
+          "height": 52.95238095238095,
+          "requiredHeight": 52.95238095238095,
+          "font": 45,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Slow tides.",
+          "width": 307.04761904761904,
+          "height": 23.61904761904762,
+          "requiredHeight": 23.61904761904762,
+          "font": 20,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 277.3333333333333,
+      "rowTaps": 0,
+      "extra": "expanded",
+      "rows": [
+        {
+          "key": "header",
+          "top": 0,
+          "height": 345.9047619047619
+        },
+        {
+          "key": "song-1",
+          "top": 346.2857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 422.85714285714283,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 499.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 576,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 652.5714285714286,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 277.3333333333333,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0
+        }
+      }
+    },
+    {
+      "name": "ready",
+      "time": 1793327513652,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 0,
+        "offset": 0,
+        "phase": "expanded",
+        "updates": 1,
+        "callbacks": 1,
+        "first": 0,
+        "visible": 6,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 277.3333333333333,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 53.33333333333333,
+        "range": 213.33333333333331,
+        "spacer": 345.90476190476187
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 716.5714285714286
+      },
+      "typography": {
+        "systemScale": 1,
+        "title": {
+          "text": "Slow tides.",
+          "width": 359.6190476190476,
+          "height": 52.95238095238095,
+          "requiredHeight": 52.95238095238095,
+          "font": 45,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Slow tides.",
+          "width": 307.04761904761904,
+          "height": 23.61904761904762,
+          "requiredHeight": 23.61904761904762,
+          "font": 20,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 277.3333333333333,
+      "rowTaps": 0,
+      "rows": [
+        {
+          "key": "header",
+          "top": 0,
+          "height": 345.9047619047619
+        },
+        {
+          "key": "song-1",
+          "top": 346.2857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 422.85714285714283,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 499.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 576,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 652.5714285714286,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 277.3333333333333,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0
+        }
+      }
+    },
+    {
+      "name": "snapshot",
+      "time": 1793327518194,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 0,
+        "offset": 0,
+        "phase": "expanded",
+        "updates": 1,
+        "callbacks": 1,
+        "first": 0,
+        "visible": 6,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 277.3333333333333,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 53.33333333333333,
+        "range": 213.33333333333331,
+        "spacer": 345.90476190476187
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 716.5714285714286
+      },
+      "typography": {
+        "systemScale": 1,
+        "title": {
+          "text": "Slow tides.",
+          "width": 359.6190476190476,
+          "height": 52.95238095238095,
+          "requiredHeight": 52.95238095238095,
+          "font": 45,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Slow tides.",
+          "width": 307.04761904761904,
+          "height": 23.61904761904762,
+          "requiredHeight": 23.61904761904762,
+          "font": 20,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 277.3333333333333,
+      "rowTaps": 0,
+      "rows": [
+        {
+          "key": "header",
+          "top": 0,
+          "height": 345.9047619047619
+        },
+        {
+          "key": "song-1",
+          "top": 346.2857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 422.85714285714283,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 499.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 576,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 652.5714285714286,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 277.3333333333333,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0
+        }
+      }
+    },
+    {
+      "name": "jump-request",
+      "time": 1793327520801,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 0,
+        "offset": 0,
+        "phase": "expanded",
+        "updates": 1,
+        "callbacks": 1,
+        "first": 0,
+        "visible": 6,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 277.3333333333333,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 53.33333333333333,
+        "range": 213.33333333333331,
+        "spacer": 345.90476190476187
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 716.5714285714286
+      },
+      "typography": {
+        "systemScale": 1,
+        "title": {
+          "text": "Slow tides.",
+          "width": 359.6190476190476,
+          "height": 52.95238095238095,
+          "requiredHeight": 52.95238095238095,
+          "font": 45,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Slow tides.",
+          "width": 307.04761904761904,
+          "height": 23.61904761904762,
+          "requiredHeight": 23.61904761904762,
+          "font": 20,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 277.3333333333333,
+      "rowTaps": 0,
+      "rows": [
+        {
+          "key": "header",
+          "top": 0,
+          "height": 345.9047619047619
+        },
+        {
+          "key": "song-1",
+          "top": 346.2857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 422.85714285714283,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 499.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 576,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 652.5714285714286,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 277.3333333333333,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0
+        }
+      }
+    },
+    {
+      "name": "phase",
+      "time": 1793327520837,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 196.57142639160156,
+        "offset": 196.57142639160156,
+        "phase": "between",
+        "updates": 2,
+        "callbacks": 2,
+        "first": 0,
+        "visible": 9,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 277.3333333333333,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 53.33333333333333,
+        "range": 213.33333333333331,
+        "spacer": 345.90476190476187
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 716.5714285714286
+      },
+      "typography": {
+        "systemScale": 1,
+        "title": {
+          "text": "Slow tides.",
+          "width": 359.6190476190476,
+          "height": 52.95238095238095,
+          "requiredHeight": 52.95238095238095,
+          "font": 45,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Slow tides.",
+          "width": 307.04761904761904,
+          "height": 23.61904761904762,
+          "requiredHeight": 23.61904761904762,
+          "font": 20,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 277.3333333333333,
+      "rowTaps": 0,
+      "extra": "between",
+      "rows": [
+        {
+          "key": "header",
+          "top": -196.57142857142858,
+          "height": 345.9047619047619
+        },
+        {
+          "key": "song-1",
+          "top": 149.71428571428572,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 226.28571428571428,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 302.85714285714283,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 379.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 456,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-6",
+          "top": 532.5714285714286,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-7",
+          "top": 609.1428571428571,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-8",
+          "top": 685.7142857142857,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -196.57142857142858,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 49.142857142857146,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 80.76191057477679,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0.9285714030265808
+        }
+      }
+    },
+    {
+      "name": "phase",
+      "time": 1793327520852,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 381.33333315877684,
+        "offset": 381.33333315877684,
+        "phase": "collapsed",
+        "updates": 3,
+        "callbacks": 3,
+        "first": 1,
+        "visible": 10,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 277.3333333333333,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 53.33333333333333,
+        "range": 213.33333333333331,
+        "spacer": 345.90476190476187
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 716.5714285714286
+      },
+      "typography": {
+        "systemScale": 1,
+        "title": {
+          "text": "Slow tides.",
+          "width": 359.6190476190476,
+          "height": 52.95238095238095,
+          "requiredHeight": 52.95238095238095,
+          "font": 45,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Slow tides.",
+          "width": 307.04761904761904,
+          "height": 23.61904761904762,
+          "requiredHeight": 23.61904761904762,
+          "font": 20,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 277.3333333333333,
+      "rowTaps": 0,
+      "extra": "collapsed",
+      "rows": [
+        {
+          "key": "song-1",
+          "top": -35.04761904761905,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 41.523809523809526,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 118.0952380952381,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 194.66666666666666,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 271.23809523809524,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-6",
+          "top": 347.8095238095238,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-7",
+          "top": 424.3809523809524,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-8",
+          "top": 500.95238095238096,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-9",
+          "top": 577.5238095238095,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-10",
+          "top": 654.0952380952381,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -213.33333333333334,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 53.333333333333336,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 64,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "name": "snapshot",
+      "time": 1793327523808,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 2893.714285683064,
+        "offset": 2893.714285683064,
+        "phase": "collapsed",
+        "updates": 17,
+        "callbacks": 3,
+        "first": 34,
+        "visible": 10,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 277.3333333333333,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 53.33333333333333,
+        "range": 213.33333333333331,
+        "spacer": 345.90476190476187
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 716.5714285714286
+      },
+      "typography": {
+        "systemScale": 1,
+        "title": {
+          "text": "Slow tides.",
+          "width": 359.6190476190476,
+          "height": 52.95238095238095,
+          "requiredHeight": 52.95238095238095,
+          "font": 45,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Slow tides.",
+          "width": 307.04761904761904,
+          "height": 23.61904761904762,
+          "requiredHeight": 23.61904761904762,
+          "font": 20,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 277.3333333333333,
+      "rowTaps": 0,
+      "rows": [
+        {
+          "key": "song-34",
+          "top": -20.571428571428573,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-35",
+          "top": 56,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-36",
+          "top": 132.57142857142858,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-37",
+          "top": 209.14285714285714,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-38",
+          "top": 285.7142857142857,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-39",
+          "top": 362.2857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-40",
+          "top": 438.85714285714283,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-41",
+          "top": 515.4285714285714,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-42",
+          "top": 592,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-43",
+          "top": 668.5714285714286,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -213.33333333333334,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 53.333333333333336,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 64,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "name": "phase",
+      "time": 1793327524500,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 2954.6666678161846,
+        "offset": 2954.6666678161846,
+        "phase": "collapsed",
+        "updates": 19,
+        "callbacks": 3,
+        "first": 34,
+        "visible": 10,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 340.1904761904762,
+        "minimum": 65.9047619047619,
+        "section": 70.47619047619048,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 274.28571428571433,
+        "spacer": 410.6666666666667
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 687.2380952380952
+      },
+      "typography": {
+        "systemScale": 2,
+        "title": {
+          "text": "Slow tides.",
+          "width": 359.6190476190476,
+          "height": 60.19047619047619,
+          "requiredHeight": 60.19047619047619,
+          "font": 51.285714285714285,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Slow tides.",
+          "width": 307.04761904761904,
+          "height": 40,
+          "requiredHeight": 40,
+          "font": 34,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 340.1904761904762,
+      "rowTaps": 0,
+      "extra": "collapsed",
+      "rows": [
+        {
+          "key": "song-34",
+          "top": -16.761904761904763,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-35",
+          "top": 59.80952380952381,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-36",
+          "top": 136.38095238095238,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-37",
+          "top": 212.95238095238096,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-38",
+          "top": 289.5238095238095,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-39",
+          "top": 366.0952380952381,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-40",
+          "top": 442.6666666666667,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-41",
+          "top": 519.2380952380952,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-42",
+          "top": 595.8095238095239,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-43",
+          "top": 672.3809523809524,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -274.2857142857143,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 64,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 65.9047619047619,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "name": "snapshot",
+      "time": 1793327527473,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 2954.6666678161846,
+        "offset": 2954.6666678161846,
+        "phase": "collapsed",
+        "updates": 20,
+        "callbacks": 3,
+        "first": 34,
+        "visible": 10,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 340.1904761904762,
+        "minimum": 65.9047619047619,
+        "section": 70.47619047619048,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 274.28571428571433,
+        "spacer": 410.6666666666667
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 687.2380952380952
+      },
+      "typography": {
+        "systemScale": 2,
+        "title": {
+          "text": "Slow tides.",
+          "width": 359.6190476190476,
+          "height": 60.19047619047619,
+          "requiredHeight": 60.19047619047619,
+          "font": 51.285714285714285,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Slow tides.",
+          "width": 307.04761904761904,
+          "height": 40,
+          "requiredHeight": 40,
+          "font": 34,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 340.1904761904762,
+      "rowTaps": 0,
+      "rows": [
+        {
+          "key": "song-34",
+          "top": -16.761904761904763,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-35",
+          "top": 59.80952380952381,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-36",
+          "top": 136.38095238095238,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-37",
+          "top": 212.95238095238096,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-38",
+          "top": 289.5238095238095,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-39",
+          "top": 366.0952380952381,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-40",
+          "top": 442.6666666666667,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-41",
+          "top": 519.2380952380952,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-42",
+          "top": 595.8095238095239,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-43",
+          "top": 672.3809523809524,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -274.2857142857143,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 64,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 65.9047619047619,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "name": "phase",
+      "time": 1793327530152,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 3049.1428557421477,
+        "offset": 3049.1428557421477,
+        "phase": "collapsed",
+        "updates": 21,
+        "callbacks": 3,
+        "first": 33,
+        "visible": 10,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 468.57142857142856,
+        "minimum": 99.80952380952381,
+        "section": 70.47619047619048,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 368.76190476190476,
+        "spacer": 539.047619047619
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 687.2380952380952
+      },
+      "typography": {
+        "systemScale": 2,
+        "title": {
+          "text": "Wide open\nhorizons.",
+          "width": 359.6190476190476,
+          "height": 120.38095238095238,
+          "requiredHeight": 120.38095238095238,
+          "font": 51.285714285714285,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Wide open horizons.",
+          "width": 307.04761904761904,
+          "height": 80,
+          "requiredHeight": 80,
+          "font": 34,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 468.57142857142856,
+      "rowTaps": 0,
+      "extra": "collapsed",
+      "rows": [
+        {
+          "key": "song-33",
+          "top": -59.42857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-34",
+          "top": 17.142857142857142,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-35",
+          "top": 93.71428571428571,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-36",
+          "top": 170.28571428571428,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-37",
+          "top": 246.85714285714286,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-38",
+          "top": 323.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-39",
+          "top": 400,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-40",
+          "top": 476.57142857142856,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-41",
+          "top": 553.1428571428571,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-42",
+          "top": 629.7142857142857,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -368.76190476190476,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 64,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 99.80952380952381,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "name": "cover",
+      "time": 1793327530166,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 3049.1428557421477,
+        "offset": 3049.1428557421477,
+        "phase": "collapsed",
+        "updates": 22,
+        "callbacks": 3,
+        "first": 33,
+        "visible": 10,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 468.57142857142856,
+        "minimum": 99.80952380952381,
+        "section": 70.47619047619048,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 368.76190476190476,
+        "spacer": 539.047619047619
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 687.2380952380952
+      },
+      "typography": {
+        "systemScale": 2,
+        "title": {
+          "text": "Wide open\nhorizons.",
+          "width": 359.6190476190476,
+          "height": 120.38095238095238,
+          "requiredHeight": 120.38095238095238,
+          "font": 51.285714285714285,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Wide open horizons.",
+          "width": 307.04761904761904,
+          "height": 80,
+          "requiredHeight": 80,
+          "font": 34,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 468.57142857142856,
+      "rowTaps": 0,
+      "rows": [
+        {
+          "key": "song-33",
+          "top": -59.42857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-34",
+          "top": 17.142857142857142,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-35",
+          "top": 93.71428571428571,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-36",
+          "top": 170.28571428571428,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-37",
+          "top": 246.85714285714286,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-38",
+          "top": 323.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-39",
+          "top": 400,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-40",
+          "top": 476.57142857142856,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-41",
+          "top": 553.1428571428571,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-42",
+          "top": 629.7142857142857,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -368.76190476190476,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 64,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 99.80952380952381,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "name": "snapshot",
+      "time": 1793327533113,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 3049.1428557421477,
+        "offset": 3049.1428557421477,
+        "phase": "collapsed",
+        "updates": 22,
+        "callbacks": 3,
+        "first": 33,
+        "visible": 10,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 468.57142857142856,
+        "minimum": 99.80952380952381,
+        "section": 70.47619047619048,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 368.76190476190476,
+        "spacer": 539.047619047619
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 687.2380952380952
+      },
+      "typography": {
+        "systemScale": 2,
+        "title": {
+          "text": "Wide open\nhorizons.",
+          "width": 359.6190476190476,
+          "height": 120.38095238095238,
+          "requiredHeight": 120.38095238095238,
+          "font": 51.285714285714285,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Wide open horizons.",
+          "width": 307.04761904761904,
+          "height": 80,
+          "requiredHeight": 80,
+          "font": 34,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 468.57142857142856,
+      "rowTaps": 0,
+      "rows": [
+        {
+          "key": "song-33",
+          "top": -59.42857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-34",
+          "top": 17.142857142857142,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-35",
+          "top": 93.71428571428571,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-36",
+          "top": 170.28571428571428,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-37",
+          "top": 246.85714285714286,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-38",
+          "top": 323.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-39",
+          "top": 400,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-40",
+          "top": 476.57142857142856,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-41",
+          "top": 553.1428571428571,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-42",
+          "top": 629.7142857142857,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -368.76190476190476,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 64,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 99.80952380952381,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "name": "top-request",
+      "time": 1793327535868,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 3049.1428557421477,
+        "offset": 3049.1428557421477,
+        "phase": "collapsed",
+        "updates": 22,
+        "callbacks": 3,
+        "first": 33,
+        "visible": 10,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 468.57142857142856,
+        "minimum": 99.80952380952381,
+        "section": 70.47619047619048,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 368.76190476190476,
+        "spacer": 539.047619047619
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 687.2380952380952
+      },
+      "typography": {
+        "systemScale": 2,
+        "title": {
+          "text": "Wide open\nhorizons.",
+          "width": 359.6190476190476,
+          "height": 120.38095238095238,
+          "requiredHeight": 120.38095238095238,
+          "font": 51.285714285714285,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Wide open horizons.",
+          "width": 307.04761904761904,
+          "height": 80,
+          "requiredHeight": 80,
+          "font": 34,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 468.57142857142856,
+      "rowTaps": 0,
+      "rows": [
+        {
+          "key": "song-33",
+          "top": -59.42857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-34",
+          "top": 17.142857142857142,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-35",
+          "top": 93.71428571428571,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-36",
+          "top": 170.28571428571428,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-37",
+          "top": 246.85714285714286,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-38",
+          "top": 323.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-39",
+          "top": 400,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-40",
+          "top": 476.57142857142856,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-41",
+          "top": 553.1428571428571,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-42",
+          "top": 629.7142857142857,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -368.76190476190476,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 64,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 99.80952380952381,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "name": "phase",
+      "time": 1793327536239,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 3049.1428557421477,
+        "offset": 367.6190490722656,
+        "phase": "between",
+        "updates": 43,
+        "callbacks": 4,
+        "first": 0,
+        "visible": 8,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 468.57142857142856,
+        "minimum": 99.80952380952381,
+        "section": 70.47619047619048,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 368.76190476190476,
+        "spacer": 539.047619047619
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 687.2380952380952
+      },
+      "typography": {
+        "systemScale": 2,
+        "title": {
+          "text": "Wide open\nhorizons.",
+          "width": 359.6190476190476,
+          "height": 120.38095238095238,
+          "requiredHeight": 120.38095238095238,
+          "font": 51.285714285714285,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Wide open horizons.",
+          "width": 307.04761904761904,
+          "height": 80,
+          "requiredHeight": 80,
+          "font": 34,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 468.57142857142856,
+      "rowTaps": 0,
+      "extra": "between",
+      "rows": [
+        {
+          "key": "header",
+          "top": -367.6190476190476,
+          "height": 539.047619047619
+        },
+        {
+          "key": "song-1",
+          "top": 171.8095238095238,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 248.38095238095238,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 324.95238095238096,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 401.5238095238095,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 478.0952380952381,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-6",
+          "top": 554.6666666666666,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-7",
+          "top": 631.2380952380952,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -367.6190476190476,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 63.80165318080357,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 100.95238095238095,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "name": "phase",
+      "time": 1793327536283,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 3049.1428557421477,
+        "offset": 0,
+        "phase": "expanded",
+        "updates": 46,
+        "callbacks": 5,
+        "first": 0,
+        "visible": 3,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 468.57142857142856,
+        "minimum": 99.80952380952381,
+        "section": 70.47619047619048,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 368.76190476190476,
+        "spacer": 539.047619047619
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 687.2380952380952
+      },
+      "typography": {
+        "systemScale": 2,
+        "title": {
+          "text": "Wide open\nhorizons.",
+          "width": 359.6190476190476,
+          "height": 120.38095238095238,
+          "requiredHeight": 120.38095238095238,
+          "font": 51.285714285714285,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Wide open horizons.",
+          "width": 307.04761904761904,
+          "height": 80,
+          "requiredHeight": 80,
+          "font": 34,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 468.57142857142856,
+      "rowTaps": 0,
+      "extra": "expanded",
+      "rows": [
+        {
+          "key": "header",
+          "top": 0,
+          "height": 539.047619047619
+        },
+        {
+          "key": "song-1",
+          "top": 539.4285714285714,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 616,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 468.57142857142856,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0
+        }
+      }
+    },
+    {
+      "name": "snapshot",
+      "time": 1793327538879,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 3049.1428557421477,
+        "offset": 0,
+        "phase": "expanded",
+        "updates": 46,
+        "callbacks": 5,
+        "first": 0,
+        "visible": 3,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 468.57142857142856,
+        "minimum": 99.80952380952381,
+        "section": 70.47619047619048,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 368.76190476190476,
+        "spacer": 539.047619047619
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 687.2380952380952
+      },
+      "typography": {
+        "systemScale": 2,
+        "title": {
+          "text": "Wide open\nhorizons.",
+          "width": 359.6190476190476,
+          "height": 120.38095238095238,
+          "requiredHeight": 120.38095238095238,
+          "font": 51.285714285714285,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Wide open horizons.",
+          "width": 307.04761904761904,
+          "height": 80,
+          "requiredHeight": 80,
+          "font": 34,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 468.57142857142856,
+      "rowTaps": 0,
+      "rows": [
+        {
+          "key": "header",
+          "top": 0,
+          "height": 539.047619047619
+        },
+        {
+          "key": "song-1",
+          "top": 539.4285714285714,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 616,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 468.57142857142856,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0
+        }
+      }
+    },
+    {
+      "name": "phase",
+      "time": 1793327541850,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 3049.1428557421477,
+        "offset": 3.809523820877075,
+        "phase": "between",
+        "updates": 47,
+        "callbacks": 6,
+        "first": 0,
+        "visible": 3,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 468.57142857142856,
+        "minimum": 99.80952380952381,
+        "section": 70.47619047619048,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 368.76190476190476,
+        "spacer": 539.047619047619
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 687.2380952380952
+      },
+      "typography": {
+        "systemScale": 2,
+        "title": {
+          "text": "Wide open\nhorizons.",
+          "width": 359.6190476190476,
+          "height": 120.38095238095238,
+          "requiredHeight": 120.38095238095238,
+          "font": 51.285714285714285,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Wide open horizons.",
+          "width": 307.04761904761904,
+          "height": 80,
+          "requiredHeight": 80,
+          "font": 34,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 468.57142857142856,
+      "rowTaps": 0,
+      "extra": "between",
+      "rows": [
+        {
+          "key": "header",
+          "top": -3.8095238095238093,
+          "height": 539.047619047619
+        },
+        {
+          "key": "song-1",
+          "top": 535.6190476190476,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 612.1904761904761,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -3.8095238095238093,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 0.6611570176624116,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 464.76190476190476,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0
+        }
+      }
+    },
+    {
+      "name": "snapshot",
+      "time": 1793327545184,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 3049.1428557421477,
+        "offset": 313.1428527832031,
+        "phase": "between",
+        "updates": 94,
+        "callbacks": 6,
+        "first": 0,
+        "visible": 8,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 468.57142857142856,
+        "minimum": 99.80952380952381,
+        "section": 70.47619047619048,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 368.76190476190476,
+        "spacer": 539.047619047619
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 687.2380952380952
+      },
+      "typography": {
+        "systemScale": 2,
+        "title": {
+          "text": "Wide open\nhorizons.",
+          "width": 359.6190476190476,
+          "height": 120.38095238095238,
+          "requiredHeight": 120.38095238095238,
+          "font": 51.285714285714285,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Wide open horizons.",
+          "width": 307.04761904761904,
+          "height": 80,
+          "requiredHeight": 80,
+          "font": 34,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 468.57142857142856,
+      "rowTaps": 0,
+      "rows": [
+        {
+          "key": "header",
+          "top": -313.14285714285717,
+          "height": 539.047619047619
+        },
+        {
+          "key": "song-1",
+          "top": 226.28571428571428,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 302.85714285714283,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 379.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 456,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 532.5714285714286,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-6",
+          "top": 609.1428571428571,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-7",
+          "top": 685.7142857142857,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -313.14285714285717,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 54.34710984002976,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 155.42857142857142,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0.7479338645935059
+        }
+      }
+    },
+    {
+      "name": "jump-request",
+      "time": 1793327547828,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 3049.1428557421477,
+        "offset": 313.1428527832031,
+        "phase": "between",
+        "updates": 94,
+        "callbacks": 6,
+        "first": 0,
+        "visible": 8,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 468.57142857142856,
+        "minimum": 99.80952380952381,
+        "section": 70.47619047619048,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 368.76190476190476,
+        "spacer": 539.047619047619
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 687.2380952380952
+      },
+      "typography": {
+        "systemScale": 2,
+        "title": {
+          "text": "Wide open\nhorizons.",
+          "width": 359.6190476190476,
+          "height": 120.38095238095238,
+          "requiredHeight": 120.38095238095238,
+          "font": 51.285714285714285,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Wide open horizons.",
+          "width": 307.04761904761904,
+          "height": 80,
+          "requiredHeight": 80,
+          "font": 34,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 468.57142857142856,
+      "rowTaps": 0,
+      "rows": [
+        {
+          "key": "header",
+          "top": -313.14285714285717,
+          "height": 539.047619047619
+        },
+        {
+          "key": "song-1",
+          "top": 226.28571428571428,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 302.85714285714283,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 379.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 456,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 532.5714285714286,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-6",
+          "top": 609.1428571428571,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-7",
+          "top": 685.7142857142857,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -313.14285714285717,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 54.34710984002976,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 155.42857142857142,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0.7479338645935059
+        }
+      }
+    },
+    {
+      "name": "phase",
+      "time": 1793327547850,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 3049.1428557421477,
+        "offset": 432.76190185546875,
+        "phase": "collapsed",
+        "updates": 95,
+        "callbacks": 7,
+        "first": 0,
+        "visible": 9,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 468.57142857142856,
+        "minimum": 99.80952380952381,
+        "section": 70.47619047619048,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 368.76190476190476,
+        "spacer": 539.047619047619
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 687.2380952380952
+      },
+      "typography": {
+        "systemScale": 2,
+        "title": {
+          "text": "Wide open\nhorizons.",
+          "width": 359.6190476190476,
+          "height": 120.38095238095238,
+          "requiredHeight": 120.38095238095238,
+          "font": 51.285714285714285,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Wide open horizons.",
+          "width": 307.04761904761904,
+          "height": 80,
+          "requiredHeight": 80,
+          "font": 34,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 468.57142857142856,
+      "rowTaps": 0,
+      "extra": "collapsed",
+      "rows": [
+        {
+          "key": "header",
+          "top": -432.76190476190476,
+          "height": 539.047619047619
+        },
+        {
+          "key": "song-1",
+          "top": 106.66666666666667,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 183.23809523809524,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 259.8095238095238,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 336.3809523809524,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 412.95238095238096,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-6",
+          "top": 489.5238095238095,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-7",
+          "top": 566.0952380952381,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-8",
+          "top": 642.6666666666666,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -368.76190476190476,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 64,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 99.80952380952381,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "name": "snapshot",
+      "time": 1793327550848,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 3049.1428557421477,
+        "offset": 3049.1428557421477,
+        "phase": "collapsed",
+        "updates": 116,
+        "callbacks": 7,
+        "first": 33,
+        "visible": 10,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 468.57142857142856,
+        "minimum": 99.80952380952381,
+        "section": 70.47619047619048,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 368.76190476190476,
+        "spacer": 539.047619047619
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 687.2380952380952
+      },
+      "typography": {
+        "systemScale": 2,
+        "title": {
+          "text": "Wide open\nhorizons.",
+          "width": 359.6190476190476,
+          "height": 120.38095238095238,
+          "requiredHeight": 120.38095238095238,
+          "font": 51.285714285714285,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Wide open horizons.",
+          "width": 307.04761904761904,
+          "height": 80,
+          "requiredHeight": 80,
+          "font": 34,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 468.57142857142856,
+      "rowTaps": 0,
+      "rows": [
+        {
+          "key": "song-33",
+          "top": -59.42857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-34",
+          "top": 17.142857142857142,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-35",
+          "top": 93.71428571428571,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-36",
+          "top": 170.28571428571428,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-37",
+          "top": 246.85714285714286,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-38",
+          "top": 323.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-39",
+          "top": 400,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-40",
+          "top": 476.57142857142856,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-41",
+          "top": 553.1428571428571,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-42",
+          "top": 629.7142857142857,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -368.76190476190476,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 64,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 99.80952380952381,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "name": "tap",
+      "time": 1793327553474,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 3049.1428557421477,
+        "offset": 3049.1428557421477,
+        "phase": "collapsed",
+        "updates": 116,
+        "callbacks": 7,
+        "first": 33,
+        "visible": 10,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 468.57142857142856,
+        "minimum": 99.80952380952381,
+        "section": 70.47619047619048,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 368.76190476190476,
+        "spacer": 539.047619047619
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 687.2380952380952
+      },
+      "typography": {
+        "systemScale": 2,
+        "title": {
+          "text": "Wide open\nhorizons.",
+          "width": 359.6190476190476,
+          "height": 120.38095238095238,
+          "requiredHeight": 120.38095238095238,
+          "font": 51.285714285714285,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Wide open horizons.",
+          "width": 307.04761904761904,
+          "height": 80,
+          "requiredHeight": 80,
+          "font": 34,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 468.57142857142856,
+      "rowTaps": 1,
+      "extra": "song-36",
+      "rows": [
+        {
+          "key": "song-33",
+          "top": -59.42857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-34",
+          "top": 17.142857142857142,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-35",
+          "top": 93.71428571428571,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-36",
+          "top": 170.28571428571428,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-37",
+          "top": 246.85714285714286,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-38",
+          "top": 323.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-39",
+          "top": 400,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-40",
+          "top": 476.57142857142856,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-41",
+          "top": 553.1428571428571,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-42",
+          "top": 629.7142857142857,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -368.76190476190476,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 64,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 99.80952380952381,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "name": "phase",
+      "time": 1793327554050,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 3049.1428557421477,
+        "offset": 3014.857142825921,
+        "phase": "collapsed",
+        "updates": 118,
+        "callbacks": 7,
+        "first": 34,
+        "visible": 10,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 398.4761904761905,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 334.4761904761905,
+        "spacer": 467.04761904761904
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 716.5714285714286
+      },
+      "typography": {
+        "systemScale": 1,
+        "title": {
+          "text": "Wide open\nhorizons.",
+          "width": 359.6190476190476,
+          "height": 105.9047619047619,
+          "requiredHeight": 105.9047619047619,
+          "font": 45,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Wide open horizons.",
+          "width": 307.04761904761904,
+          "height": 23.61904761904762,
+          "requiredHeight": 23.61904761904762,
+          "font": 20,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 398.4761904761905,
+      "rowTaps": 1,
+      "extra": "collapsed",
+      "rows": [
+        {
+          "key": "song-34",
+          "top": -20.571428571428573,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-35",
+          "top": 56,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-36",
+          "top": 132.57142857142858,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-37",
+          "top": 209.14285714285714,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-38",
+          "top": 285.7142857142857,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-39",
+          "top": 362.2857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-40",
+          "top": 438.85714285714283,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-41",
+          "top": 515.4285714285714,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-42",
+          "top": 592,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-43",
+          "top": 668.5714285714286,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -334.4761904761905,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 64,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 64,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "name": "snapshot",
+      "time": 1793327556997,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 3049.1428557421477,
+        "offset": 3014.857142825921,
+        "phase": "collapsed",
+        "updates": 119,
+        "callbacks": 7,
+        "first": 34,
+        "visible": 10,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 398.4761904761905,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 334.4761904761905,
+        "spacer": 467.04761904761904
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 716.5714285714286
+      },
+      "typography": {
+        "systemScale": 1,
+        "title": {
+          "text": "Wide open\nhorizons.",
+          "width": 359.6190476190476,
+          "height": 105.9047619047619,
+          "requiredHeight": 105.9047619047619,
+          "font": 45,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Wide open horizons.",
+          "width": 307.04761904761904,
+          "height": 23.61904761904762,
+          "requiredHeight": 23.61904761904762,
+          "font": 20,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 398.4761904761905,
+      "rowTaps": 1,
+      "rows": [
+        {
+          "key": "song-34",
+          "top": -20.571428571428573,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-35",
+          "top": 56,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-36",
+          "top": 132.57142857142858,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-37",
+          "top": 209.14285714285714,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-38",
+          "top": 285.7142857142857,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-39",
+          "top": 362.2857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-40",
+          "top": 438.85714285714283,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-41",
+          "top": 515.4285714285714,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-42",
+          "top": 592,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-43",
+          "top": 668.5714285714286,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -334.4761904761905,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 64,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 64,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "name": "top-request",
+      "time": 1793327559624,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 3049.1428557421477,
+        "offset": 3014.857142825921,
+        "phase": "collapsed",
+        "updates": 119,
+        "callbacks": 7,
+        "first": 34,
+        "visible": 10,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 398.4761904761905,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 334.4761904761905,
+        "spacer": 467.04761904761904
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 716.5714285714286
+      },
+      "typography": {
+        "systemScale": 1,
+        "title": {
+          "text": "Wide open\nhorizons.",
+          "width": 359.6190476190476,
+          "height": 105.9047619047619,
+          "requiredHeight": 105.9047619047619,
+          "font": 45,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Wide open horizons.",
+          "width": 307.04761904761904,
+          "height": 23.61904761904762,
+          "requiredHeight": 23.61904761904762,
+          "font": 20,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 398.4761904761905,
+      "rowTaps": 1,
+      "rows": [
+        {
+          "key": "song-34",
+          "top": -20.571428571428573,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-35",
+          "top": 56,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-36",
+          "top": 132.57142857142858,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-37",
+          "top": 209.14285714285714,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-38",
+          "top": 285.7142857142857,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-39",
+          "top": 362.2857142857143,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-40",
+          "top": 438.85714285714283,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-41",
+          "top": 515.4285714285714,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-42",
+          "top": 592,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-43",
+          "top": 668.5714285714286,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -334.4761904761905,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 64,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 64,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        }
+      }
+    },
+    {
+      "name": "phase",
+      "time": 1793327559966,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 3049.1428557421477,
+        "offset": 297.1428527832031,
+        "phase": "between",
+        "updates": 139,
+        "callbacks": 8,
+        "first": 0,
+        "visible": 9,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 398.4761904761905,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 334.4761904761905,
+        "spacer": 467.04761904761904
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 716.5714285714286
+      },
+      "typography": {
+        "systemScale": 1,
+        "title": {
+          "text": "Wide open\nhorizons.",
+          "width": 359.6190476190476,
+          "height": 105.9047619047619,
+          "requiredHeight": 105.9047619047619,
+          "font": 45,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Wide open horizons.",
+          "width": 307.04761904761904,
+          "height": 23.61904761904762,
+          "requiredHeight": 23.61904761904762,
+          "font": 20,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 398.4761904761905,
+      "rowTaps": 1,
+      "extra": "between",
+      "rows": [
+        {
+          "key": "header",
+          "top": -297.14285714285717,
+          "height": 467.04761904761904
+        },
+        {
+          "key": "song-1",
+          "top": 170.28571428571428,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 246.85714285714286,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 323.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 400,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-5",
+          "top": 476.57142857142856,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-6",
+          "top": 553.1428571428571,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-7",
+          "top": 629.7142857142857,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-8",
+          "top": 706.2857142857143,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": -297.14285714285717,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 56.85649181547619,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 101.33333333333333,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0.8459566831588745
+        }
+      }
+    },
+    {
+      "name": "phase",
+      "time": 1793327560016,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 3049.1428557421477,
+        "offset": 0,
+        "phase": "expanded",
+        "updates": 142,
+        "callbacks": 9,
+        "first": 0,
+        "visible": 5,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 398.4761904761905,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 334.4761904761905,
+        "spacer": 467.04761904761904
+      },
+      "ready": true,
+      "viewport": {
+        "width": 411.42857142857144,
+        "height": 716.5714285714286
+      },
+      "typography": {
+        "systemScale": 1,
+        "title": {
+          "text": "Wide open\nhorizons.",
+          "width": 359.6190476190476,
+          "height": 105.9047619047619,
+          "requiredHeight": 105.9047619047619,
+          "font": 45,
+          "ellipsized": false
+        },
+        "compactTitle": {
+          "text": "Wide open horizons.",
+          "width": 307.04761904761904,
+          "height": 23.61904761904762,
+          "requiredHeight": 23.61904761904762,
+          "font": 20,
+          "ellipsized": false
+        }
+      },
+      "headerHeight": 398.4761904761905,
+      "rowTaps": 1,
+      "extra": "expanded",
+      "rows": [
+        {
+          "key": "header",
+          "top": 0,
+          "height": 467.04761904761904
+        },
+        {
+          "key": "song-1",
+          "top": 467.42857142857144,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-2",
+          "top": 544,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-3",
+          "top": 620.5714285714286,
+          "height": 76.19047619047619
+        },
+        {
+          "key": "song-4",
+          "top": 697.1428571428571,
+          "height": 76.19047619047619
+        }
+      ],
+      "poses": {
+        "header": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "artwork": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 1
+        },
+        "section": {
+          "y": 398.4761904761905,
+          "scale": 1,
+          "opacity": 1
+        },
+        "toolbar": {
+          "y": 0,
+          "scale": 1,
+          "opacity": 0
+        }
+      }
+    },
+    {
+      "name": "leaving",
+      "time": 1793327562876,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 3049.1428557421477,
+        "offset": 0,
+        "phase": "expanded",
+        "updates": 142,
+        "callbacks": 9,
+        "first": 0,
+        "visible": 5,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 398.4761904761905,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 334.4761904761905,
+        "spacer": 467.04761904761904
+      },
+      "ready": false,
+      "viewport": {
+        "width": 0,
+        "height": 0
+      },
+      "typography": {
+        "systemScale": 1
+      },
+      "headerHeight": 0,
+      "rowTaps": 1,
+      "rows": [],
+      "poses": {}
+    },
+    {
+      "name": "disposed",
+      "time": 1793327562877,
+      "state": {
+        "minimumOffset": 0,
+        "maximumOffset": 3049.1428557421477,
+        "offset": 0,
+        "phase": "expanded",
+        "updates": 142,
+        "callbacks": 9,
+        "first": 0,
+        "visible": 5,
+        "total": 81
+      },
+      "geometry": {
+        "divider": 0.38095238095238093,
+        "handoff": 0.75,
+        "titleFade": [0, 0.7],
+        "toolbarFade": [0.55, 0.95],
+        "expanded": 398.4761904761905,
+        "minimum": 64,
+        "section": 68.57142857142857,
+        "rowHeight": 76.19047619047619,
+        "parallax": 64,
+        "range": 334.4761904761905,
+        "spacer": 467.04761904761904
+      },
+      "ready": false,
+      "viewport": {
+        "width": 0,
+        "height": 0
+      },
+      "typography": {
+        "systemScale": 1
+      },
+      "rowTaps": 1,
+      "rows": [],
+      "poses": {}
+    }
+  ],
+  "resources": {
+    "sources": 0,
+    "nodes": 0
+  }
+}
