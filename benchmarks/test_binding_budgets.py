@@ -25,6 +25,36 @@ def read(name):
 
 
 class BindingBudgets(unittest.TestCase):
+    def test_unavailable_thermal_is_not_nominal(self):
+        # Modified fixture for the missing-telemetry path, never saved as device evidence.
+        report = read('2026-10-30-android.json.gz')
+        case = 'value-1-x'
+        report['selected'] = [case]
+        report['cases'] = [e for e in report['cases'] if e['workload']['id'] == case]
+        report['device'].update(apiLevel=26, thermalStatusAvailable=False)
+        report['thermalPolicy'] = 'unavailable-android-pre29'
+        entry = report['cases'][0]
+        boundaries = [entry['before'], entry['afterUnmount'], report['finalResources']]
+        boundaries += [t['native'][edge] for t in entry['trials'] for edge in ('before', 'after')]
+        for edge in boundaries: edge['thermalState'] = None
+        with self.assertRaisesRegex(AssertionError, 'not nominal-temperature acceptance'):
+            budgets.verify(report, allow_simulator=True, case=case)
+        self.assertEqual(budgets.verify(report, allow_simulator=True, case=case,
+                                       allow_unavailable_thermal=True)['thermalStatus'], 'unavailable')
+        for name, mutate in [
+            ('new Android API', lambda r: r['device'].update(apiLevel=29)),
+            ('missing API', lambda r: r['device'].pop('apiLevel')),
+            ('claimed available', lambda r: r['device'].update(thermalStatusAvailable=True)),
+            ('unknown reported as nominal', lambda r: r['cases'][0]['before'].update(thermalState=0)),
+            ('overheating', lambda r: r['cases'][0]['before'].update(thermalState=2)),
+            ('power saving', lambda r: r['cases'][0]['before'].update(lowPowerMode=True)),
+            ('iOS override', lambda r: r.update(platform='iOS')),
+        ]:
+            with self.subTest(name=name):
+                bad = copy.deepcopy(report); mutate(bad)
+                with self.assertRaises(AssertionError):
+                    budgets.verify(bad, allow_simulator=True, case=case, allow_unavailable_thermal=True)
+
     def test_captured_matrices(self):
         phone = read('2026-10-30-ios.json.gz')
         self.assertIs(phone['recording'], False)

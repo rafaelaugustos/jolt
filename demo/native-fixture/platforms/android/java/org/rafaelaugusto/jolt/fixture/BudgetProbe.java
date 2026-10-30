@@ -48,6 +48,7 @@ public final class BudgetProbe implements Choreographer.FrameCallback {
                 || Build.HARDWARE.contains("goldfish") || Build.HARDWARE.contains("ranchu");
             return new JSONObject().put("physical", !emulator).put("model", Build.MANUFACTURER + " " + Build.MODEL)
                 .put("os", Build.VERSION.RELEASE).put("osBuild", Build.FINGERPRINT)
+                .put("apiLevel", Build.VERSION.SDK_INT).put("thermalStatusAvailable", Build.VERSION.SDK_INT >= 29)
                 .put("maximumRefreshHz", view.getDisplay().getRefreshRate())
                 .put("animatorScale", android.provider.Settings.Global.getFloat(view.getContext().getContentResolver(), "animator_duration_scale", 1))
                 .put("resources", resourceObject(view)).toString();

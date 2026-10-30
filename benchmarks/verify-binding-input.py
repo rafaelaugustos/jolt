@@ -4,9 +4,10 @@ import gzip
 import json
 import math
 from pathlib import Path
+from binding_thermal import check_thermal
 
 
-def verify(report, allow_simulator=False, allow_dirty=False):
+def verify(report, allow_simulator=False, allow_dirty=False, allow_unavailable_thermal=False):
     assert report['schema'] == 1 and report['completed'] is True
     # Objective-C boxes !TARGET_OS_SIMULATOR as NSNumber 0/1; preserve raw evidence.
     physical = report['device']['physical']
@@ -46,12 +47,13 @@ def verify(report, allow_simulator=False, allow_dirty=False):
     assert movement > 2, 'Bound native view did not move'
     for boundary in ('before', 'after'):
         state = native[boundary]
-        assert state['thermalState'] == 0 and not state['lowPowerMode']
+        check_thermal(state, report['device'], allow_unavailable_thermal)
         assert state['memoryBytes'] > 0 and math.isfinite(state['cpuMs'])
     duration = native['after']['timeMs'] - native['before']['timeMs']
     cpu = native['after']['cpuMs'] - native['before']['cpuMs']
     assert duration >= 4000 and cpu >= 0
     return dict(input=report['input'], physical=report['device']['physical'],
+                thermalStatus='unavailable' if native['before']['thermalState'] is None else 'nominal',
                 observedMovementDip=movement, durationMs=duration, processCpuMs=cpu,
                 jsMoveCallbacks=end['jsMoves']-start['jsMoves'],
                 nativeSamples=len(frames), sampledPeakMiB=native['sampledPeakMemoryBytes']/1024**2,
@@ -63,6 +65,8 @@ if __name__ == '__main__':
     parser.add_argument('report', type=Path)
     parser.add_argument('--allow-simulator', action='store_true')
     parser.add_argument('--allow-dirty', action='store_true')
+    parser.add_argument('--allow-unavailable-thermal', action='store_true')
     args = parser.parse_args()
     data = gzip.decompress(args.report.read_bytes()) if args.report.suffix == '.gz' else args.report.read_bytes()
-    print(json.dumps(verify(json.loads(data), args.allow_simulator, args.allow_dirty), indent=2))
+    print(json.dumps(verify(json.loads(data), args.allow_simulator, args.allow_dirty,
+                           args.allow_unavailable_thermal), indent=2))

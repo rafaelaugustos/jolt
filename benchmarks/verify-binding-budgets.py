@@ -4,6 +4,7 @@ import gzip
 import json
 import math
 from pathlib import Path
+from binding_thermal import check_thermal
 
 
 def expected_cases():
@@ -40,17 +41,24 @@ def summary(numbers):
                 p95=ordered[math.ceil(len(numbers)*.95)-1], max=ordered[-1])
 
 
-def resources(value):
+def resources(value, device, allow_unavailable_thermal=False):
     for name in ('timeMs', 'cpuMs', 'memoryBytes'):
         finite(value[name])
     assert value['memoryMetric'] in ('phys_footprint', 'rss')
-    assert value['thermalState'] == 0 and value['lowPowerMode'] is False
+    check_thermal(value, device, allow_unavailable_thermal)
 
 
-def verify(report, allow_simulator=False, case=None, allow_dirty=False):
+def verify(report, allow_simulator=False, case=None, allow_dirty=False, allow_unavailable_thermal=False):
     assert report['schema'] == 1 and report['completed'] is True and not report.get('error')
     assert report['session'] and report['startedAt']
     assert report['platform'] in ('iOS', 'Android')
+    if allow_unavailable_thermal:
+        assert report['platform'] == 'Android'
+        assert report.get('thermalPolicy') == 'unavailable-android-pre29'
+        assert type(report['device'].get('apiLevel')) is int and 21 <= report['device']['apiLevel'] < 29
+        assert report['device'].get('thermalStatusAvailable') is False
+    else:
+        assert report.get('thermalPolicy', 'require-nominal') == 'require-nominal', 'Thermal status unavailable; not nominal-temperature acceptance'
     # Objective-C boxes !TARGET_OS_SIMULATOR as NSNumber 0/1; preserve raw evidence.
     physical = report['device']['physical']
     assert type(physical) in (bool, int) and physical in (0, 1)
@@ -74,7 +82,8 @@ def verify(report, allow_simulator=False, case=None, allow_dirty=False):
     for entry in report['cases']:
         item = entry['workload']
         assert item == CASES[item['id']], 'Workload changed'
-        resources(entry['before']); resources(entry['afterUnmount'])
+        resources(entry['before'], report['device'], allow_unavailable_thermal)
+        resources(entry['afterUnmount'], report['device'], allow_unavailable_thermal)
         prep = entry['preparation']
         assert len(prep) == 8 and prep[0]['kind'] == 'first-use-in-process'
         assert all(p['kind'] == 'warm' for p in prep[1:])
@@ -105,7 +114,8 @@ def verify(report, allow_simulator=False, case=None, allow_dirty=False):
                 assert trial['completed'] and all(value is True for value in trial['completed'])
             native = trial['native']
             assert native['overflow'] == 0
-            resources(native['before']); resources(native['after'])
+            resources(native['before'], report['device'], allow_unavailable_thermal)
+            resources(native['after'], report['device'], allow_unavailable_thermal)
             start, end = native['before']['timeMs'], native['after']['timeMs']
             duration = end - start
             assert duration >= (2190 if item['playback'] == 'finite' else 8790)
@@ -163,12 +173,13 @@ def verify(report, allow_simulator=False, case=None, allow_dirty=False):
                 nativeCompletionCallbackMs=summary([e['costMs'] for e in endings]) if endings else None))
         result[item['id']] = dict(firstUse=prep[0], warmBindMs=summary([p['bindMs'] for p in prep[1:]]),
             warmStartMs=summary([p['startMs'] for p in prep[1:]]), trials=trial_summaries)
-    resources(report['finalResources'])
+    resources(report['finalResources'], report['device'], allow_unavailable_thermal)
     return dict(physical=report['device']['physical'], recording=report['recording'],
+                thermalStatus='unavailable' if allow_unavailable_thermal else 'nominal',
                 note='Callback cadence is not presented FPS; submitted values are not measured allocations.', cases=result)
 
 
-def audit(report, allow_simulator=False):
+def audit(report, allow_simulator=False, allow_unavailable_thermal=False):
     """Keep failures visible; this result is not an acceptance override."""
     assert report['completed'] is True and not report.get('error')
     assert report['selected'] == list(CASES)
@@ -178,10 +189,12 @@ def audit(report, allow_simulator=False):
         name = entry['workload']['id']
         subset = dict(report, selected=[name], cases=[entry])
         try:
-            passed[name] = verify(subset, allow_simulator=allow_simulator, case=name)['cases'][name]
+            passed[name] = verify(subset, allow_simulator=allow_simulator, case=name,
+                                  allow_unavailable_thermal=allow_unavailable_thermal)['cases'][name]
         except AssertionError as error:
             failed[name] = str(error) or 'Failed invariant; run the individual verifier for a traceback.'
-    return dict(accepted=not failed, passed=passed, failed=failed)
+    return dict(accepted=not failed, thermalPolicy='unavailable-android-pre29' if allow_unavailable_thermal else 'require-nominal',
+                passed=passed, failed=failed)
 
 
 if __name__ == '__main__':
@@ -189,13 +202,15 @@ if __name__ == '__main__':
     parser.add_argument('report', type=Path)
     parser.add_argument('--allow-simulator', action='store_true')
     parser.add_argument('--allow-dirty', action='store_true')
+    parser.add_argument('--allow-unavailable-thermal', action='store_true')
     parser.add_argument('--case', choices=list(CASES))
     parser.add_argument('--audit', action='store_true', help='Report every case and exit 1 if any fail')
     args = parser.parse_args()
     data = gzip.decompress(args.report.read_bytes()) if args.report.suffix == '.gz' else args.report.read_bytes()
     if args.audit:
         assert not args.case and not args.allow_dirty
-        result = audit(json.loads(data), args.allow_simulator)
+        result = audit(json.loads(data), args.allow_simulator, args.allow_unavailable_thermal)
         print(json.dumps(result, indent=2))
         raise SystemExit(0 if result['accepted'] else 1)
-    print(json.dumps(verify(json.loads(data), args.allow_simulator, args.case, args.allow_dirty), indent=2))
+    print(json.dumps(verify(json.loads(data), args.allow_simulator, args.case, args.allow_dirty,
+                           args.allow_unavailable_thermal), indent=2))

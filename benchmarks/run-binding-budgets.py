@@ -17,6 +17,8 @@ def main():
     parser.add_argument('--allow-simulator', action='store_true')
     parser.add_argument('--case')
     parser.add_argument('--recording', action='store_true')
+    parser.add_argument('--allow-unavailable-thermal', action='store_true',
+                        help='Diagnostic observations on Android below API 29; does not assert nominal temperature')
     args = parser.parse_args()
     if args.output.exists(): raise SystemExit('Choose a new output path; evidence is never overwritten.')
     session = str(uuid.uuid4())
@@ -24,6 +26,9 @@ def main():
     if args.allow_simulator: options['budget-allow-simulator'] = 'true'
     if args.case: options['budget-case'] = args.case
     if args.recording: options['budget-recording'] = 'true'
+    if args.allow_unavailable_thermal:
+        assert args.platform == 'android'
+        options['budget-allow-unavailable-thermal'] = 'true'
     args.output.parent.mkdir(parents=True, exist_ok=True)
     staging = args.output.with_suffix('.pending.json')
 
