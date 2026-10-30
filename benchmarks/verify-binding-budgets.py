@@ -48,10 +48,42 @@ def resources(value, device, allow_unavailable_thermal=False):
     check_thermal(value, device, allow_unavailable_thermal)
 
 
+def keyframe_checks(value):
+    assert value['platform'] == 'android' and value['rejectedMismatchedArrays'] is True
+    expected = [(prop, unit, time) for prop in
+        ('translationX', 'translationY', 'scaleX', 'scaleY', 'rotation', 'rotationX', 'rotationY', 'alpha')
+        for unit in (1, 2.625, 3) for time in (0, 79, 130, 250, 430, 700, 1000, 250)]
+    assert [(s['property'], s['unit'], s['time']) for s in value['samples']] == expected
+    for sample in value['samples']:
+        assert math.isfinite(sample['actual']) and sample['actual'] == sample['expected']
+
+
+def art_delta(native):
+    if 'art' not in native['before']: return None
+    names = ('art.gc.gc-count', 'art.gc.gc-time', 'art.gc.bytes-allocated',
+             'art.gc.bytes-freed', 'art.gc.blocking-gc-count', 'art.gc.blocking-gc-time')
+    before, after = native['before']['art'], native['after']['art']
+    # The native probe returns empty objects before Android's API 23 runtime counters.
+    if before == after == {}: return None
+    assert set(before) == set(after) == set(names)
+    result = {}
+    for name in names:
+        a, b = before[name], after[name]
+        if a is None or b is None:
+            result[name] = None
+        else:
+            assert isinstance(a, str) and isinstance(b, str) and a.isdigit() and b.isdigit()
+            assert int(b) >= int(a), 'ART counter regressed'
+            result[name] = int(b) - int(a)
+    return result
+
+
 def verify(report, allow_simulator=False, case=None, allow_dirty=False, allow_unavailable_thermal=False):
     assert report['schema'] == 1 and report['completed'] is True and not report.get('error')
     assert report['session'] and report['startedAt']
     assert report['platform'] in ('iOS', 'Android')
+    if report['platform'] == 'Android' and 'keyframeChecks' in report:
+        keyframe_checks(report['keyframeChecks'])
     if allow_unavailable_thermal:
         assert report['platform'] == 'Android'
         assert report.get('thermalPolicy') == 'unavailable-android-pre29'
@@ -160,7 +192,7 @@ def verify(report, allow_simulator=False, case=None, allow_dirty=False, allow_un
                 if item['path'] == 'value': assert any(t['requestedMs'] >= 3900 for t in timers)
                 else: assert len(endings) >= item['views'] * item['properties'] * 2
             cpu = native['after']['cpuMs'] - native['before']['cpuMs']
-            trial_summaries.append(dict(cpuMs=cpu, cpuCorePercent=cpu/duration*100,
+            trial_summaries.append(dict(artDelta=art_delta(native), cpuMs=cpu, cpuCorePercent=cpu/duration*100,
                 windowMs=duration, nativeProbeWorkMs=native['probeWorkMs'],
                 callbackGapMs=summary([b[0]-a[0] for a,b in zip(frames,frames[1:])]),
                 repeatedFrameTimestamps=sum(a[1] == b[1] for a,b in zip(frames,frames[1:])),

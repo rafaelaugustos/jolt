@@ -29,6 +29,49 @@ def read(name):
 
 
 class BindingBudgets(unittest.TestCase):
+    def test_bulk_matrix_keeps_allocation_failures_and_cleanup(self):
+        report = read('2026-10-30-android-bulk.json.gz')
+        audit = budgets.audit(report, allow_unavailable_thermal=True)
+        self.assertFalse(audit['accepted'])
+        self.assertEqual(len(audit['passed']), 19)
+        self.assertEqual(audit['failed'], {name: 'ART counter regressed' for name in
+            ('value-64-x', 'value-16-x-scale', 'value-16-window')})
+        for case in report['cases']:
+            for trial in case['trials']:
+                self.assertGreater(trial['native']['memorySamples'], 3)
+                self.assertGreater(len(trial['native']['frames']), 5)
+                self.assertEqual(trial['remainingBindings'], 0)
+                self.assertEqual(trial['remainingChannels'], 0)
+                self.assertEqual(trial['nativeLive'], {'nodes': 0, 'clock': 0})
+                for field in ('activeTracks', 'pendingFrames', 'pendingTimers'):
+                    self.assertEqual(trial['idle'][field], 0)
+                for field in ('frameCallbacks', 'frameRequests', 'plays', 'timerCallbacks', 'endCallbacks'):
+                    self.assertEqual(trial['idle'][field], trial['afterDispose'][field])
+        for kind in ('drag-js', 'pan-native', 'scroll-js', 'header-native'):
+            inputs.verify(read(f'2026-10-30-android-bulk-{kind}.json.gz'),
+                          allow_unavailable_thermal=True)
+
+    def test_native_keyframes_and_art_counters(self):
+        report = read('2026-10-30-android-bulk-smoke.json.gz')
+        budgets.verify(report, case='value-1-x', allow_unavailable_thermal=True)
+        for mutation in ('missing', 'value', 'unit', 'order', 'finite', 'rejection', 'counter'):
+            changed = copy.deepcopy(report)
+            checks = changed['keyframeChecks']
+            if mutation == 'missing': checks['samples'].pop()
+            elif mutation == 'value': checks['samples'][0]['actual'] += .1
+            elif mutation == 'unit': checks['samples'][0]['unit'] = 4
+            elif mutation == 'order': checks['samples'].reverse()
+            elif mutation == 'finite': checks['samples'][0]['actual'] = float('nan')
+            elif mutation == 'rejection': checks['rejectedMismatchedArrays'] = False
+            else:
+                changed['cases'][0]['trials'][0]['native']['after']['art']['art.gc.bytes-allocated'] = '0'
+            with self.subTest(mutation=mutation), self.assertRaises(AssertionError):
+                budgets.verify(changed, case='value-1-x', allow_unavailable_thermal=True)
+        stale = read('2026-10-30-android-bulk-stale-metadata.json.gz')
+        self.assertEqual(stale['error'], 'Error: Missing native KeyframeFactory')
+        with self.assertRaises(AssertionError):
+            budgets.verify(stale, case='value-1-x', allow_unavailable_thermal=True)
+
     def test_resume_preserves_evidence_without_relaunch(self):
         complete = read('2026-10-30-physical-android.json.gz')
         pending = dict(complete, completed=False, cases=complete['cases'][:18])

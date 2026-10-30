@@ -1,4 +1,13 @@
 declare namespace org.rafaelaugusto.jolt {
+  class KeyframeFactory {
+    static create(
+      view: android.view.View,
+      property: android.util.Property<android.view.View, java.lang.Float>,
+      times: readonly number[],
+      values: readonly number[],
+      unit: number,
+    ): android.animation.ObjectAnimator
+  }
   class ShapeLayer extends android.graphics.drawable.Drawable {
     constructor(options: string)
     static liveCount(): number
