@@ -83,6 +83,19 @@ NSString *JoltNavigationHold(CGPoint start, CGFloat distance, NSInteger orientat
     NSError *error=nil;return [record synthesizeWithError:&error]?nil:error.localizedDescription?:@"XCTest event synthesis failed";
 }
 
+// Vertical native contact held while UIKit receives a real lifecycle interruption.
+NSString *JoltModalHold(CGPoint start, CGFloat distance, NSInteger orientation) {
+    Class paths=NSClassFromString(@"XCPointerEventPath"), records=NSClassFromString(@"XCSynthesizedEventRecord");
+    if(!paths || !records)return @"XCTest pointer-path interfaces are unavailable";
+    id path=[[paths alloc]initForTouchAtPoint:start offset:0];
+    for(int i=1;i<=20;i++)[path moveToPoint:CGPointMake(start.x,start.y+distance*i/20) atOffset:i*.04];
+    [path moveToPoint:CGPointMake(start.x,start.y+distance) atOffset:3.0];
+    [path liftUpAtOffset:3.1];
+    id record=[[records alloc]initWithName:@"Jolt held modal dismissal" interfaceOrientation:orientation];
+    [record addPointerEventPath:path];
+    NSError *error=nil;return [record synthesizeWithError:&error]?nil:error.localizedDescription?:@"XCTest event synthesis failed";
+}
+
 NSString *JoltGestureTrace(CGPoint center) {
     Class pathClass = NSClassFromString(@"XCPointerEventPath"), recordClass = NSClassFromString(@"XCSynthesizedEventRecord");
     if (!pathClass || !recordClass) return @"XCTest pointer-path interfaces are unavailable";

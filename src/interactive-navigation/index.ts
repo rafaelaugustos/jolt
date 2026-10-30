@@ -1,4 +1,11 @@
 import { ReturnScope } from '../shared-navigation/return-signal.js'
+export { interactiveModal } from './modal.js'
+export type {
+  InteractiveModal,
+  InteractiveModalEvent,
+  InteractiveModalOptions,
+  InteractiveModalState,
+} from './modal.js'
 import {
   Application,
   Image,

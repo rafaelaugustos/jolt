@@ -1,6 +1,19 @@
 <script setup lang="ts">
 import type { EventData, View } from '@nativescript/core'
 import { useRouter } from 'vue-router-ns'
+import { $showModal, markRaw } from 'nativescript-vue'
+import InteractiveModalDetail from '../showcase/InteractiveModalDetail.vue'
+import {
+  createModalMotion,
+  modalClosed,
+  modalReduced,
+  modalResult,
+  modalCloseOnOpen,
+  modalNoncancelable,
+  modalAuditEnabled,
+  modalInstant,
+  modalScroll,
+} from '../showcase/interactive-modal'
 import { configure } from '@rafaelaugusto/jolt'
 import { usePreviewI18n } from '../showcase/i18n'
 import {
@@ -14,6 +27,27 @@ const router = useRouter()
 defineProps<{ embedded?: boolean }>()
 defineEmits(['back'])
 let opening = false
+let modalOpening = false
+async function openModal(event: EventData) {
+  if (modalOpening) return
+  modalOpening = true
+  configure({ reducedMotion: modalReduced.value ? 'always' : 'user' })
+  const target = (event.object as View).page
+  const motion = createModalMotion(target)
+  try {
+    await $showModal(InteractiveModalDetail, {
+      target,
+      transition: motion.transition,
+      animated: !modalInstant.value,
+      cancelable: !modalNoncancelable.value,
+      props: { motion: markRaw(motion), scroll: modalScroll.value },
+      closeCallback: modalClosed,
+    })
+  } finally {
+    motion.dispose()
+    modalOpening = false
+  }
+}
 async function open(event: EventData) {
   if (opening) return
   opening = true
@@ -102,6 +136,48 @@ async function open(event: EventData) {
       </StackLayout>
     </GridLayout>
     <StackLayout row="3">
+      <Button
+        :text="t('Open a modal')"
+        automationText="modal-open"
+        backgroundColor="#143F3B"
+        color="#F5F1E4"
+        borderRadius="16"
+        @tap="openModal"
+      />
+      <Label
+        :text="t(modalResult)"
+        automationText="modal-result"
+        fontSize="11"
+        color="#52635D"
+        marginBottom="8"
+        textWrap="true"
+      />
+      <WrapLayout v-if="modalAuditEnabled()">
+        <Button
+          text="Close on open"
+          automationText="modal-early"
+          fontSize="10"
+          @tap="modalCloseOnOpen = true"
+        />
+        <Button
+          text="Cancelable"
+          automationText="modal-cancelable"
+          fontSize="10"
+          @tap="modalNoncancelable = !modalNoncancelable"
+        />
+        <Button
+          text="Animated"
+          automationText="modal-animated"
+          fontSize="10"
+          @tap="modalInstant = !modalInstant"
+        />
+        <Button
+          text="Scroll"
+          automationText="modal-scroll-toggle"
+          fontSize="10"
+          @tap="modalScroll = !modalScroll"
+        />
+      </WrapLayout>
       <Label
         :text="t(interactiveResult)"
         fontSize="11"

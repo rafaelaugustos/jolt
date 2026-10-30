@@ -57,7 +57,20 @@ El código completo de la aplicación ejecutable es [GaleríaFotoDetalle.vue](ht
 | Cambio de ventana/diseño durante un vuelo     | Finaliza la superposición de forma segura; mantener la ruta comprometida.                                                                                 |
 | Suspensión                                    | Desechar la entrada; El cierre posterior utiliza la navegación normal.                                                                                    |
 
-Reducir movimiento conserva la semántica de zoom/restablecer/cerrar y ruta/enfoque sin el vuelo compartido. Las réplicas están ocultas al acceso. El artículo devuelto actual recibe el foco del lector de pantalla; un encabezado de colección es el recurso alternativo cuando falta. VoiceOver/TalkBack físico y la aceptación de texto grande siguen sin verificarse.
+Reducir movimiento conserva la semántica de zoom/restablecer/cerrar y ruta/enfoque sin el vuelo compartido. Las réplicas están ocultas al acceso. El artículo devuelto actual recibe el foco del lector de pantalla; un encabezado de colección es el recurso alternativo cuando falta. El texto ampliado tiene la cobertura en simulador/emulador descrita abajo; la validación física y con VoiceOver/TalkBack sigue pendiente.
+
+## Texto ampliado del sistema
+
+El detalle mide el encabezado y el panel de controles en lugar de reservar filas de texto de altura fija. Títulos y botones admiten varias líneas. El panel nativo tiene altura limitada y permite desplazarse cuando hace falta, también en horizontal, mientras la foto conserva una zona separada para los gestos. El chrome sigue siendo hermano de la imagen para animarse de forma independiente al cerrar.
+
+iOS habilita Dynamic Type y aplica el área segura una sola vez. Android actualiza las etiquetas retenidas con el tamaño nativo en SP después del cambio de configuración, reutilizando el helper del ejemplo de encabezado con scroll. El listener y la actualización pendiente se eliminan al desmontar.
+
+Se comprobaron cambios reales del sistema en iPhone 17 / iOS 26.2 Simulator (`large` → `accessibility-medium` → `large`) y Android 16 / API 36 emulator (`font_scale` 1 → 2 → 1). El zoom de 2,5× se conserva; ampliar/restablecer funcionan después de girar, y un desplazamiento real del panel muestra los controles completos. Se restaura el texto normal y se abre otra foto con texto ampliado. Ambos retornos llegan a la miniatura actual, con una navegación por retorno y cero recursos nativos de navegación al terminar. Las mediciones nativas comprueban el ajuste del texto y las dimensiones de los controles. Otros tamaños, dispositivos físicos y recorrido con lectores de pantalla requieren validación adicional.
+
+<Clip name="gallery-large-text-ios" caption="Simulador iPhone 17, iOS 26.2, interfaz en inglés: cambios reales de Dynamic Type, zoom conservado, controles en vertical/horizontal con desplazamiento del panel, restauración y dos retornos a miniaturas. Reproducción nativa a velocidad original; la vista horizontal aparece girada en la grabación vertical. Snapshot solo recoge diagnósticos opcionales. No valida dispositivos físicos ni lectores de pantalla." />
+<Clip name="gallery-large-text-android" caption="Emulador Android 16 / API 36, interfaz en inglés: escala de fuente de 1 a 2 y de vuelta, zoom conservado, rotación, controles desplazables y dos retornos a miniaturas. Reproducción nativa a velocidad original con indicadores de toques reales; la vista horizontal tiene bandas negras. Snapshot solo registra diagnósticos. No valida dispositivos físicos ni lectores de pantalla." />
+
+[Reproducción y observaciones nativas](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md#enlarged-system-text-2026-10-30) detallan esta comprobación acotada de la pantalla de detalle.
 
 ## Hito soportado {#supported-milestone}
 

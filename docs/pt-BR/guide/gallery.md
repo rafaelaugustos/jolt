@@ -57,7 +57,20 @@ O exemplo completo está em [GalleryPhotoDetail.vue](https://github.com/rafaelau
 | Mudança de janela/layout na transição | Encerra a representação temporária e mantém a rota confirmada.                                                                 |
 | Suspensão                             | Descarta a entrada; o próximo fechar usa navegação comum.                                                                      |
 
-Reduzir Movimento mantém zoom, restaurar, fechar, navegação e foco sem a transição compartilhada. Réplicas ficam ocultas da acessibilidade. O foco volta ao item atual; o título da coleção é a alternativa quando ele desaparece. A validação física de VoiceOver/TalkBack e fontes grandes continua pendente.
+Reduzir Movimento mantém zoom, restaurar, fechar, navegação e foco sem a transição compartilhada. Réplicas ficam ocultas da acessibilidade. O foco volta ao item atual; o título da coleção é a alternativa quando ele desaparece. Fontes ampliadas têm a cobertura em simulador/emulador descrita abaixo; a validação física e com VoiceOver/TalkBack continua pendente.
+
+## Fontes ampliadas do sistema
+
+O detalhe mede o cabeçalho e o painel de controles em vez de reservar linhas de texto com altura fixa. Títulos e botões quebram linha. O painel nativo tem altura limitada e permite rolagem quando necessário, inclusive em paisagem, enquanto a foto mantém uma área separada para gestos. O chrome continua como irmão da imagem para acompanhar a animação de fechamento de forma independente.
+
+O iOS habilita Dynamic Type e aplica a área segura uma vez. No Android, os labels mantidos são atualizados com o dimensionamento nativo em SP após a mudança da configuração de fonte, usando o mesmo helper do exemplo de cabeçalho com scroll. O listener e a atualização pendente são removidos na desmontagem.
+
+Testamos mudanças reais do sistema no simulador iPhone 17 / iOS 26.2 (`large` → `accessibility-medium` → `large`) e no emulador Android 16 / API 36 (`font_scale` 1 → 2 → 1). O zoom de 2,5× sobrevive à mudança; ampliar/restaurar funcionam após a rotação, e uma rolagem real do painel revela os controles por inteiro. A fonte normal é restaurada e outra foto é aberta com fonte ampliada. Os dois retornos chegam à miniatura atual, com uma navegação por retorno e nenhum recurso nativo de navegação restante. Medições nativas verificam o encaixe do texto e as dimensões dos controles. Outros tamanhos, aparelhos físicos e navegação por leitor de tela ainda precisam de validação.
+
+<Clip name="gallery-large-text-ios" caption="Simulador iPhone 17, iOS 26.2, interface em inglês: mudanças reais de Dynamic Type, zoom preservado, controles em retrato/paisagem com rolagem do painel, restauração e dois retornos à miniatura. Reprodução nativa na velocidade original; a paisagem aparece girada na gravação em retrato. Snapshot apenas coleta diagnósticos opcionais. Não valida aparelho físico ou leitor de tela." />
+<Clip name="gallery-large-text-android" caption="Emulador Android 16 / API 36, interface em inglês: escala de fonte de 1 para 2 e de volta, zoom preservado, rotação, rolagem dos controles e dois retornos à miniatura. Reprodução nativa na velocidade original, com indicadores de toques reais; a paisagem tem faixas pretas. Snapshot apenas registra diagnósticos. Não valida aparelho físico ou leitor de tela." />
+
+[Reprodução e observações nativas](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md#enlarged-system-text-2026-10-30) detalham este recorte da tela de detalhe.
 
 ## Etapa suportada
 

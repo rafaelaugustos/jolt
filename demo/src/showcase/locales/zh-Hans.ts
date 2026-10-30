@@ -1228,4 +1228,8 @@ export const chinese: Record<string, string> = {
   'motion value': '动效值',
   'live spring': '实时弹簧',
   'Classic material': '经典材质',
+  'Open a modal': '打开模态窗口',
+  'A moment of your own.': '留一刻给自己。',
+  'Pull down to return. Let go early to stay.':
+    '向下拖动即可返回，提前松手则留在当前窗口。',
 }

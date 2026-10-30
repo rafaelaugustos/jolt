@@ -1,5 +1,5 @@
 """Real OS input for the complete gallery.
-Usage: python3 benchmarks/gallery-android.py ASSIGNED_EMULATOR OUTPUT audit|record|lifecycle [en|pt-BR]
+Usage: python3 benchmarks/gallery-android.py ASSIGNED_EMULATOR OUTPUT audit|record|lifecycle|large-text [en|pt-BR]
 Select the preview language before recording. No app handlers are invoked by this runner.
 """
 import json
@@ -11,6 +11,7 @@ import time
 import xml.etree.ElementTree as ET
 
 serial, directory, mode, *locale = sys.argv[1:]
+started_at = time.time() * 1000
 assert serial.startswith('emulator-'), 'Use an explicitly assigned emulator'
 out = Path(directory).resolve(); out.mkdir(parents=True, exist_ok=True)
 adb = ['adb', '-s', serial]; app = 'org.nativescript.jolt.benchmark'
@@ -20,8 +21,12 @@ gallery_report = f'/sdcard/Android/data/{app}/files/jolt-gallery.json'
 def command(*args):
     return subprocess.check_output(adb + list(map(str, args)), text=True, timeout=30).strip()
 def tree():
-    command('shell', 'uiautomator', 'dump', '/sdcard/jolt-return-ui.xml')
-    return ET.fromstring(command('shell', 'cat', '/sdcard/jolt-return-ui.xml'))
+    for _ in range(3):
+        dumped = command('shell', 'uiautomator', 'dump', '/sdcard/jolt-return-ui.xml')
+        if '/sdcard/jolt-return-ui.xml' in dumped:
+            return ET.fromstring(command('shell', 'cat', '/sdcard/jolt-return-ui.xml'))
+        time.sleep(.3)
+    raise AssertionError('No fresh accessibility hierarchy')
 def rect(name):
     for node in tree().iter('node'):
         if name in [node.get('resource-id'), node.get('text'), node.get('content-desc')]:
@@ -51,10 +56,13 @@ def check(name, state, commits, index, shared=None):
     print(name, 'passed', flush=True)
 
 assert command('shell','settings','get','secure','navigation_mode') == '2'
-command('shell','am','force-stop',app)
-args=['shell','am','start','-n',app+'/com.tns.NativeScriptActivity','--es','showcase-example','gallery']
-if mode in ['audit','lifecycle']: args += ['--es','collection-audit','true','--es','gallery-audit','true','--es','showcase-audit','true']
-command(*args);time.sleep(3)
+old_font = command('shell','settings','get','system','font_scale')
+def launch():
+    command('shell','am','force-stop',app)
+    args=['shell','am','start','-n',app+'/com.tns.NativeScriptActivity','--es','showcase-example','gallery']
+    if mode in ['audit','lifecycle','large-text']: args += ['--es','collection-audit','true','--es','gallery-audit','true','--es','showcase-audit','true']
+    command(*args);time.sleep(3)
+if mode != 'large-text': launch()
 def inject(cx,cy,*args):
     command('shell','CLASSPATH=/data/local/tmp/jolt-predictive-input.jar','app_process','/system/bin','NativeGestureInput',cx,cy,*args)
     time.sleep(.7)
@@ -66,6 +74,49 @@ def photo_state():
     r=json.loads(command('shell','cat',gallery_report))
     return next(e['state'] for e in reversed(r['events']) if e.get('state'))
 def gallery_data(): return json.loads(command('shell','cat',gallery_report))
+def large_text():
+    density=int(re.findall(r'\d+',command('shell','wm','density'))[-1])/160
+    def snapshot(): tap('gallery-snapshot')
+    def control(name):
+        for _ in range(4):
+            try:
+                box=rect(name)
+                sample=next(e for e in reversed(gallery_data()['events']) if e.get('typography',{}).get('zoom'))
+                height=sample['typography'][name.replace('gallery-','')]['height']
+                if (box[3]-box[1])/density >= height-2:
+                    tap_at(box,1)
+                    return
+            except AssertionError:
+                pass
+            a,b,c,d=rect('gallery-controls')
+            command('shell','input','swipe',(a+c)//2,int(b+(d-b)*.85),(a+c)//2,int(b+(d-b)*.15),400)
+        raise AssertionError('Control is not reachable: '+name)
+    tap('collection-place-1',1);snapshot()
+    control('gallery-zoom');snapshot()
+    command('shell','settings','put','system','font_scale','2.0');time.sleep(1)
+    snapshot()
+    control('gallery-reset');snapshot()
+    with (out/'gallery-large-portrait.png').open('wb') as image:
+        subprocess.run(adb+['exec-out','screencap','-p'],stdout=image,check=True)
+    command('shell','settings','put','system','accelerometer_rotation','0')
+    command('shell','settings','put','system','user_rotation','1');time.sleep(1.2)
+    control('gallery-zoom');control('gallery-reset');snapshot()
+    with (out/'gallery-large-landscape.png').open('wb') as image:
+        subprocess.run(adb+['exec-out','screencap','-p'],stdout=image,check=True)
+    command('shell','settings','put','system','user_rotation','0');time.sleep(1.2)
+    snapshot()
+    command('shell','settings','put','system','font_scale','1.0');time.sleep(1)
+    snapshot()
+    tap('gallery-close',1.3);rect('collection-place-1')
+    command('shell','settings','put','system','font_scale','2.0');time.sleep(1)
+    tap('collection-place-3',1);snapshot()
+    control('gallery-zoom');tap('gallery-close',1.3);rect('collection-place-3')
+    command('shell','settings','put','system','font_scale','1.0')
+    result={'gallery':gallery_data(),'collection':data()}
+    assert result['gallery']['events'][0]['time'] >= started_at, 'Stale gallery text report'
+    path=out/'large-text-android.json'
+    path.write_text(json.dumps(result,indent=2)+'\n')
+    subprocess.run([sys.executable,str(Path(__file__).with_name('verify-gallery-text.py')),str(path)],check=True)
 def lifecycle():
     observations=[]
     def observe(name):
@@ -181,14 +232,18 @@ if mode=='audit':
     command('shell','am','start','-n',app+'/com.tns.NativeScriptActivity','--es','gallery-direct','true','--es','gallery-audit','true')
     time.sleep(3);tap('gallery-close',1);rect('collection-grid')
     print('Gallery checks passed.',flush=True)
-elif mode in ['record','lifecycle']:
+elif mode in ['record','lifecycle','large-text']:
     previous=command('shell','settings','get','system','show_touches');recorder=None;remote='/sdcard/jolt-gallery-video.mp4'
     old_rotation=command('shell','settings','get','system','user_rotation')
     old_auto=command('shell','settings','get','system','accelerometer_rotation')
     try:
+        if mode=='large-text':
+            command('shell','settings','put','system','font_scale','1.0')
+            launch()
         command('shell','settings','put','system','show_touches','1')
         recorder=subprocess.Popen(adb+['shell','screenrecord','--size','720x1600','--bit-rate','4000000',remote]);time.sleep(.6)
-        if mode=='lifecycle': lifecycle()
+        if mode=='large-text': large_text()
+        elif mode=='lifecycle': lifecycle()
         else: story()
         time.sleep(2)
     finally:
@@ -196,9 +251,12 @@ elif mode in ['record','lifecycle']:
             if recorder:
                 command('shell','pkill','-2','screenrecord');recorder.wait(timeout=15)
                 assert recorder.returncode==0,'screenrecord failed'
-                name='gallery-lifecycle-android' if mode=='lifecycle' else f'gallery-{locale[0] if locale else "en"}-android'
+                name='gallery-large-text-android' if mode=='large-text' else 'gallery-lifecycle-android' if mode=='lifecycle' else f'gallery-{locale[0] if locale else "en"}-android'
                 command('pull',remote,out/(name+'.mp4'))
         finally:
+            if mode=='large-text':
+                if old_font=='null':command('shell','settings','delete','system','font_scale')
+                else:command('shell','settings','put','system','font_scale',old_font)
             for key,value in [('show_touches',previous),('user_rotation',old_rotation),('accelerometer_rotation',old_auto)]:
                 if value=='null':command('shell','settings','delete','system',key)
                 else:command('shell','settings','put','system',key,value)

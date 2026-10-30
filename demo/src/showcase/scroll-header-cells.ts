@@ -4,13 +4,12 @@ import {
   Label,
   StackLayout,
   ListView,
-  eachDescendant,
   isIOS,
   Utils,
   type ItemEventData,
-  type View,
 } from '@nativescript/core'
 import { markRaw, registerElement } from 'nativescript-vue'
+import { refreshAndroidText } from './text-scale'
 registerElement('ScrollHeaderList', () => ListView)
 // A retained overlay can be taller than the viewport. Measure its complete
 // content; the list's spacer and the clipped host supply scrolling/visibility.
@@ -47,19 +46,6 @@ class AlbumHeader extends StackLayout {
   }
 }
 registerElement('ScrollHeaderHero', () => AlbumHeader)
-// Core's Android labels use SP, but retained TextViews need setTextSize again
-// after an in-place fontScale configuration change. Keep Android's conversion
-// (including nonlinear scaling) rather than multiplying sizes ourselves.
-export function refreshAlbumText(root: View) {
-  if (isIOS) return
-  eachDescendant(root, (child) => {
-    if (child instanceof Label && child.android && typeof child.fontSize === 'number') {
-      child.android.setTextSize(child.fontSize)
-      child.requestLayout()
-    }
-    return true
-  })
-}
 export interface AlbumTrack {
   key: string
   title: string
@@ -156,6 +142,6 @@ export function loadAlbumCell(
   row.automationText = 'scroll-track-' + item.key
   row.accessibilityRole = 'button'
   row.accessibilityLabel = t('Play {0}').replace('{0}', t(item.title))
-  refreshAlbumText(row)
+  refreshAndroidText(row)
   event.view = row
 }

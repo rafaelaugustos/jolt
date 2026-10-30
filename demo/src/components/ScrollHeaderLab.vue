@@ -22,11 +22,8 @@ import {
 } from 'nativescript-vue'
 import { configure, scrollHeader, type ScrollHeader } from '@rafaelaugusto/jolt'
 import { usePreviewI18n } from '../showcase/i18n'
-import {
-  loadAlbumCell,
-  refreshAlbumText,
-  type AlbumTrack,
-} from '../showcase/scroll-header-cells'
+import { loadAlbumCell, type AlbumTrack } from '../showcase/scroll-header-cells'
+import { refreshAndroidText } from '../showcase/text-scale'
 import { launchArgument } from '../launch'
 const { t } = usePreviewI18n()
 defineProps<{ embedded?: boolean }>()
@@ -260,7 +257,7 @@ function refreshText() {
   // on the next turn so TextView uses the new configuration, not the old one.
   fontRefresh = setTimeout(() => {
     fontRefresh = undefined
-    if (!disposed && root.value?.nativeView) refreshAlbumText(root.value.nativeView)
+    if (!disposed && root.value?.nativeView) refreshAndroidText(root.value.nativeView)
   }, 0)
 }
 function cell(event: ItemEventData) {

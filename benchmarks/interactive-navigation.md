@@ -2,7 +2,7 @@
 
 The optional `@rafaelaugusto/jolt/interactive-navigation` entry uses Core's custom Transition hooks. Core still owns the navigation-controller delegate and route queue. A native object implements both UIKit animation and interaction protocols, moves live page views, updates the transition context from an edge recognizer, and settles with `JoltSpringAdvance`. JS runs at lifecycle boundaries, never per gesture sample or display frame.
 
-This delivery covers whole Frame pages and programmatic/interactive return. It does not turn the separate programmatic shared-image/card overlay from #24 into an interactive morph, implement arbitrary modal dismissal, or implement Android predictive back (#25).
+The original delivery covers whole Frame pages and programmatic/interactive return. Custom full-window NativeScript modals are covered by the additional delivery below. Android predictive back belongs to #25; shared image/card navigation has its own composition and evidence.
 
 ## Reproduce
 
@@ -54,4 +54,51 @@ The lifecycle test uses a test-runner-only pointer path that moves for 0.8 secon
 - Evidence: [lifecycle audit](results/interactive-navigation/2026-10-29-lifecycle-ios.json) and [existing regression rerun](results/interactive-navigation/2026-10-29-regression-ios.json). The verifier rejects the pre-fix background report and deliberate owner, history, transform and resource corruptions.
 - Five additional host cases cover temporary unload/reload, removal of the Frame or route, repeated suspension, and pending-work/subscription cleanup. All 1,442 tests in 92 files pass, including 24 interactive-navigation cases. Library and benchmark typechecks, production inspector exclusion, documentation media checks and documentation build pass.
 
-The two English clips (`interactive-background-ios` and `interactive-rotation-ios`) are embedded with translated captions in all four guides; previous EN/PT recordings are retained. They use the iPhone 17 **simulator**, iOS 26.2, a Release build with HMR disabled, NativeScript Core 9.1.3 and `vue-router-ns` 0.1.0-rc.2. H.264 conversion preserves the original timing at 30 fps. Full-duration frames are reviewed and both files decode without errors. No Android behavior or physical-device performance is claimed for this iOS lifecycle fix. Arbitrary modal dismissal remains outside this slice of #26.
+The two English clips (`interactive-background-ios` and `interactive-rotation-ios`) are embedded with translated captions in all four guides; previous EN/PT recordings are retained. They use the iPhone 17 **simulator**, iOS 26.2, a Release build with HMR disabled, NativeScript Core 9.1.3 and `vue-router-ns` 0.1.0-rc.2. H.264 conversion preserves the original timing at 30 fps. Full-duration frames are reviewed and both files decode without errors. No Android behavior or physical-device performance is claimed for this iOS lifecycle fix. Modal integration is a separate implementation, described next.
+
+## Interactive modals — 2026-10-30
+
+`interactiveModal()` completes #26's modal path for Core's custom full-window presentation. Core retains its transitioning delegate, modal parent and close callback; NativeScript-Vue retains its component and unresolved promise until an actual committed dismissal. The new native animator implements UIKit's [animation and interaction protocols](https://developer.apple.com/documentation/uikit/uiviewcontrollercontexttransitioning), receives a real downward pan and settles the live controller view with `JoltSpringAdvance`. It uses Core's existing [custom modal transition hooks](https://docs.nativescript.org/guide/shared-element-transitions), without replacing delegates or patching Core.
+
+Core's cancellation bookkeeping is essential: `interactiveCancelled` is set before UIKit finishes a cancelled dismissal. The handle waits for Core's completion to clear `interactiveBegan` before allowing another close or releasing the transition registry. This prevents an early callback/unmount and keeps ordinary Core close usable after cancellation. Disposal during a held drag follows the same ordering. A close requested during presentation is queued until `shownModally`; duplicates are ignored. `closedModally` owns final release. Core builds without that lifecycle event return an explicit unsupported result. `animated: false` skips UIKit animator creation and uses ordinary noninteractive close, without installing a Jolt pan.
+
+The source exposes boundary events only. Finger movement, display-link ticks, projected release velocity, the spring and original-transform restoration execute in Objective-C. ScrollView descendants and native controls reject modal gesture ownership; `canBegin()` and Core `cancelable: false` provide additional gates. A held gesture cancels on suspension, while the same modal/owner remains available after resume. A decided release completes its existing result. None of these counters establishes presented FPS, CPU cost or total retained heap.
+
+### Reproduction
+
+Build and install the normal Release demo with `JOLT_BENCHMARK=1` on an assigned simulator. The recorded setup is iPhone 17 / iOS 26.2, Core 9.1.3, NativeScript-Vue 3.1.2, router 0.1.0-rc.2, HMR disabled. No physical device is used. Run each audit separately because a new app launch resets its report:
+
+```sh
+python3 benchmarks/docs-record-ios.py YOUR_SIMULATOR /tmp/JoltModalChecks testInteractiveModalChecks
+python3 benchmarks/docs-record-ios.py YOUR_SIMULATOR /tmp/JoltModalLifecycle testInteractiveModalLifecycle
+python3 benchmarks/docs-record-ios.py YOUR_SIMULATOR /tmp/JoltModalRecording testInteractiveModal
+python3 benchmarks/verify-interactive-modal.py benchmarks/results/interactive-modal/2026-10-30-checks-ios.json checks
+python3 benchmarks/verify-interactive-modal.py benchmarks/results/interactive-modal/2026-10-30-lifecycle-ios.json lifecycle
+python3 -m unittest discover -s benchmarks -p 'test_interactive_modal.py'
+```
+
+The runner reads fresh `Documents/jolt-interactive-modal.json` observations and invokes the offline verifier. Native XCTest taps/swipes exercise the actual Vue controls. A test-runner-only vertical pointer path holds OS contact while SpringBoard or rotation interrupts the app; it never enters the shipped library. Opt-in diagnostics capture boundary transforms, modal ownership, Vue unmounts, close callbacks, route identity and native resource counts. The normal showcase recording has no diagnostic controls.
+
+### Observed outcomes
+
+| Check                          | Result                                                                                                                                   |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| Cancel then retry              | Original transform restored; modal remains attached/presented, with no close callback or Vue unmount. A new gesture can commit.          |
+| Programmatic cancellation      | A real held pan rolls back through `cancel()`; ordinary Core close still calls back once.                                                |
+| Duplicate / early close        | First call accepted, second rejected; one callback after presentation/settlement. Arguments reach the callback.                          |
+| Reduce Motion                  | Cancellation and committed dismissal remain usable; programmatic motion/settlement is immediate.                                         |
+| Dispose idle / during drag     | Gesture resources release while the modal stays open. Core close remains available; no premature callback.                               |
+| `cancelable: false` / app gate | Downward input leaves the modal in place without starting a Jolt transition. The close button still works.                               |
+| `animated: false`              | No Jolt recognizer; ordinary close completes and releases the handle.                                                                    |
+| Scrolling content              | Real up/down ScrollView input changes its offset without starting modal dismissal.                                                       |
+| Home during held drag          | Cancellation restores identity transform; same attached modal and one recognizer survive foreground.                                     |
+| Rotation during held drag      | UIKit defers visible rotation until cancellation on this setup; actual landscape/portrait, retained modal and subsequent dismissal pass. |
+| Final resources                | All committed exits have zero active modal transitions and recognizers, one callback and one Vue unmount per modal.                      |
+
+[Control audit](results/interactive-modal/2026-10-30-checks-ios.json): nine presentations/close callbacks, four cancelled gestures, ten explicit snapshots and zero final native resources. [Lifecycle audit](results/interactive-modal/2026-10-30-lifecycle-ios.json): two presentations/close callbacks, three cancellations, three explicit snapshots covering foreground/landscape/portrait and zero final native resources. The underlying page and Frame depth stay unchanged.
+
+The 22 new TypeScript tests cover Core state ordering, delayed cancellation completion, close queuing/coalescing, disposal, lifecycle, observer exceptions, physics validation and missing native/Core capabilities. The evidence verifier adds 17 tests, including 25 negative variants: premature/duplicate callbacks, lost modal ownership, wrong transforms/routes, missing scroll/rotation, and leaked native resources cannot pass. It runs in the existing host CI job. The existing native Frame audit and background/rotation audit also pass against the changed demo.
+
+The reviewed English `interactive-modal-ios.mp4` and `interactive-modal-lifecycle-ios.mp4` preserve elapsed playback time and decode fully as H.264 at 30 fps. Both are embedded in all four guide locales with platform/limit captions; existing media is preserved. The lifecycle recording includes the actual Home screen and rotated landscape content.
+
+This supplies the original issue's page and modal interaction paths within documented NativeScript contracts. Modal support is for custom full-window Core presentation, not native sheet detents, popovers, foreign UIKit controllers or scroll-to-dismiss handoff. Frame navigation, ordinary modal close and Android fallback retain their own contracts. Physical-device performance and VoiceOver traversal are not established by these simulator tests.

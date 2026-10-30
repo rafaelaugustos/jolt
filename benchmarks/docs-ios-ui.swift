@@ -709,6 +709,99 @@ final class DocsTests: XCTestCase {
         start.press(forDuration: 0.1, thenDragTo: end, withVelocity: .slow, thenHoldForDuration: 0.35)
         Thread.sleep(forTimeInterval: 1)
     }
+    func modalDrag(_ fraction: CGFloat) {
+        let handle = app.descendants(matching: .any)["modal-handle"].firstMatch
+        XCTAssertTrue(handle.exists, app.debugDescription)
+        let start = handle.coordinate(withNormalizedOffset: CGVector(dx: 0.3, dy: 0.6))
+        start.press(forDuration: 0.15, thenDragTo: start.withOffset(CGVector(dx: 0, dy: app.frame.height*fraction)), withVelocity: .slow, thenHoldForDuration: 0.2)
+        Thread.sleep(forTimeInterval: 1)
+    }
+    func testInteractiveModal() throws {
+        languageLaunch("en", "modal-open", ["--showcase-example=interactive-navigation"])
+        try record("interactive-modal-ios") {
+            tap("modal-open", wait: 1)
+            modalDrag(0.25)
+            XCTAssertTrue(app.descendants(matching: .any)["modal-close"].firstMatch.isHittable)
+            modalDrag(0.65)
+            XCTAssertTrue(app.descendants(matching: .any)["modal-open"].firstMatch.isHittable)
+            tap("modal-open", wait: 1)
+            tap("modal-close", wait: 1)
+            XCTAssertTrue(app.descendants(matching: .any)["modal-open"].firstMatch.isHittable)
+        }
+    }
+    func testInteractiveModalChecks() throws {
+        languageLaunch("en", "modal-open", ["--showcase-example=interactive-navigation", "--interactive-modal-audit"])
+        tap("modal-open", wait: 1)
+        tap("modal-lock"); modalDrag(0.25); tap("modal-snapshot")
+        tap("modal-lock"); modalDrag(0.25); tap("modal-snapshot")
+        tap("modal-core-close", wait: 1)
+        XCTAssertTrue(app.descendants(matching: .any)["modal-open"].firstMatch.isHittable)
+        tap("modal-open", wait: 1)
+        tap("modal-cancel"); modalDrag(0.4); tap("modal-snapshot")
+        tap("modal-close-twice", wait: 1)
+        tap("modal-open", wait: 1)
+        tap("modal-reduce"); modalDrag(0.25); tap("modal-snapshot")
+        modalDrag(0.65)
+        tap("modal-open", wait: 1)
+        tap("modal-reduce")
+        tap("modal-dispose"); modalDrag(0.25); tap("modal-snapshot")
+        tap("modal-core-close", wait: 1)
+        tap("modal-early"); tap("modal-open", wait: 1.5)
+        XCTAssertTrue(app.descendants(matching: .any)["modal-open"].firstMatch.isHittable)
+        tap("modal-cancelable"); tap("modal-open", wait: 1)
+        modalDrag(0.3); tap("modal-snapshot")
+        tap("modal-close", wait: 1)
+        tap("modal-cancelable")
+        tap("modal-open", wait: 1)
+        tap("modal-dispose-next"); modalDrag(0.4); tap("modal-snapshot")
+        tap("modal-core-close", wait: 1)
+        tap("modal-animated"); tap("modal-open", wait: 1)
+        tap("modal-snapshot"); tap("modal-close", wait: 1)
+        tap("modal-animated")
+        tap("modal-scroll-toggle"); tap("modal-open", wait: 1)
+        let scroll = app.descendants(matching: .any)["modal-scroll"].firstMatch
+        scroll.swipeUp();Thread.sleep(forTimeInterval:0.5);tap("modal-snapshot")
+        scroll.swipeDown();Thread.sleep(forTimeInterval:0.5);tap("modal-snapshot")
+        tap("modal-close", wait: 1);tap("modal-scroll-toggle")
+    }
+    func heldModalInterrupt(_ interruption: () -> Void) {
+        let handle = app.descendants(matching: .any)["modal-handle"].firstMatch.frame
+        let origin = CGPoint(x: handle.minX+handle.width*0.3, y: handle.midY)
+        let distance = app.frame.height*0.3
+        let delivered = expectation(description: "held modal input delivered")
+        DispatchQueue.global().async {
+            XCTAssertNil(JoltModalHold(origin, distance, UIInterfaceOrientation.portrait.rawValue))
+            delivered.fulfill()
+        }
+        Thread.sleep(forTimeInterval: 1.4)
+        interruption()
+        wait(for: [delivered], timeout: 12)
+        Thread.sleep(forTimeInterval: 1)
+    }
+    func testInteractiveModalLifecycle() throws {
+        XCUIDevice.shared.orientation = .portrait
+        defer { XCUIDevice.shared.orientation = .portrait }
+        languageLaunch("en", "modal-open", ["--showcase-example=interactive-navigation", "--interactive-modal-audit"])
+        try record("interactive-modal-lifecycle-ios") {
+            tap("modal-open", wait: 1)
+            heldModalInterrupt { XCUIApplication(bundleIdentifier:"com.apple.springboard").activate() }
+            app.activate();Thread.sleep(forTimeInterval:1)
+            tap("modal-snapshot")
+            heldModalInterrupt { XCUIDevice.shared.orientation = .landscapeLeft }
+            Thread.sleep(forTimeInterval:1)
+            XCTAssertGreaterThan(app.frame.width, app.frame.height)
+            XCTAssertTrue(app.descendants(matching:.any)["modal-close"].firstMatch.isHittable)
+            tap("modal-snapshot")
+            try cue("screenshot", "interactive-modal-landscape")
+            XCUIDevice.shared.orientation = .portrait
+            Thread.sleep(forTimeInterval:1)
+            tap("modal-snapshot")
+            modalDrag(0.25)
+            modalDrag(0.65)
+            XCTAssertTrue(app.descendants(matching:.any)["modal-open"].firstMatch.isHittable)
+            tap("modal-open",wait:1);tap("modal-close",wait:1)
+        }
+    }
     func testInteractiveNavigation() throws {
         languageLaunch("en", "language-settings")
         selectLanguage("en")
@@ -859,6 +952,54 @@ final class DocsTests: XCTestCase {
     func testGalleryHandoffCheck() throws {
         launch(["--showcase-example=gallery", "--gallery-audit"], "collection-place-1")
         try record("gallery-handoff-check") { try galleryStory() }
+    }
+    func testGalleryLargeText() throws {
+        try cue("content-size", "large")
+        languageLaunch("en", "language-settings"); selectLanguage("system")
+        languageLaunch("en", "collection-place-1", ["--showcase-example=gallery", "--gallery-audit", "--collection-audit"])
+        func control(_ name: String) {
+            let button = app.descendants(matching: .any)[name].firstMatch
+            let panel = app.descendants(matching: .any)["gallery-controls"].firstMatch
+            for _ in 0..<4 {
+                if button.isHittable && button.frame.minY >= panel.frame.minY - 1 && button.frame.maxY <= panel.frame.maxY + 1 { break }
+                panel.swipeUp()
+            }
+            XCTAssertTrue(button.isHittable, name)
+            XCTAssertGreaterThanOrEqual(button.frame.minY, panel.frame.minY - 1, name)
+            XCTAssertLessThanOrEqual(button.frame.maxY, panel.frame.maxY + 1, name)
+            tap(name, wait: 1)
+        }
+        defer { XCUIDevice.shared.orientation = .portrait }
+        try record("gallery-large-text-ios") {
+            tap("collection-place-1", wait: 1)
+            tap("gallery-snapshot")
+            control("gallery-zoom"); tap("gallery-snapshot")
+            try cue("content-size", "accessibility-medium")
+            Thread.sleep(forTimeInterval: 1)
+            tap("gallery-snapshot")
+            control("gallery-reset"); tap("gallery-snapshot")
+            try cue("screenshot", "gallery-large-portrait")
+            XCUIDevice.shared.orientation = .landscapeLeft
+            Thread.sleep(forTimeInterval: 1)
+            control("gallery-zoom"); control("gallery-reset")
+            tap("gallery-snapshot")
+            try cue("screenshot", "gallery-large-landscape")
+            XCUIDevice.shared.orientation = .portrait
+            Thread.sleep(forTimeInterval: 1)
+            tap("gallery-snapshot")
+            try cue("content-size", "large")
+            Thread.sleep(forTimeInterval: 1)
+            tap("gallery-snapshot")
+            tap("gallery-close", wait: 1.3)
+            XCTAssertTrue(app.descendants(matching: .any)["collection-place-1"].firstMatch.isHittable)
+            try cue("content-size", "accessibility-medium")
+            tap("collection-place-3", wait: 1)
+            tap("gallery-snapshot")
+            control("gallery-zoom")
+            tap("gallery-close", wait: 1.3)
+            XCTAssertTrue(app.descendants(matching: .any)["collection-place-3"].firstMatch.isHittable)
+            try cue("content-size", "large")
+        }
     }
     func testGalleryLifecycle() throws {
         launch(["--showcase-example=gallery", "--gallery-audit", "--collection-audit"], "collection-place-1")

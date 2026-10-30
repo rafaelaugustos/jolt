@@ -38,7 +38,7 @@ UIKit can suppress touches during its noninteractive entry; requests actually de
 
 Validation also passes 1,353 host tests, library/benchmark typechecks, package build, formatting, media checks and documentation build. No native CI job was added.
 
-These are correctness/lifetime traces, not physical-device performance measurements. Physical iOS/Android, VoiceOver/TalkBack focus, large text, every lifecycle phase, RTL, frame pacing, preparation cost, input latency and peak process memory remain acceptance work in #24/#117. Do not close either issue from these simulator results.
+These are correctness/lifetime traces, not physical-device performance measurements. Physical iOS/Android, VoiceOver/TalkBack focus, large text beyond the bounded detail check below, every lifecycle phase, RTL, frame pacing, preparation cost, input latency and peak process memory remain acceptance work in #24/#117. Do not close either issue from these simulator results.
 
 ## Integration comparison, not a benchmark
 
@@ -74,4 +74,40 @@ Install the Release demo and shell gesture injector as described above; select E
 
 [Raw observations](results/gallery/2026-10-29-lifecycle-android.json) contain 11 fresh boundary observations, four dismissal intents and three completed shared returns after the first ordinary return. The verifier compares native image transforms with the live controller state and checks the rotation, real pan, resume, cancellation and final ownership invariants. It rejects stale samples and nonzero terminal resource counts. It does not measure JavaScript work per frame or total heap/process retention.
 
-The reviewed English `gallery-lifecycle-android.mp4` decodes as H.264 and is embedded with localized captions in all four gallery guides. The 76-second clip preserves the source timing, includes the actual Home screen and ends at the visible collection; the fixed portrait recording surface letterboxes landscape content. Existing recordings remain unchanged. This is Android 16 / API 36 emulator correctness evidence, not physical-device acceptance. Broader lifecycle phases, assistive technology, large text and performance remain in #117.
+The reviewed English `gallery-lifecycle-android.mp4` decodes as H.264 and is embedded with localized captions in all four gallery guides. The 76-second clip preserves the source timing, includes the actual Home screen and ends at the visible collection; the fixed portrait recording surface letterboxes landscape content. Existing recordings remain unchanged. This is Android 16 / API 36 emulator correctness evidence, not physical-device acceptance. Broader lifecycle phases, assistive technology, font configurations beyond the following check and performance remain in #117.
+
+## Enlarged system text, 2026-10-30
+
+The detail's fixed 72/204-DIP rows and 40-DIP control row could clip enlarged titles and controls. The reference now measures its header and bounded scrolling footer, wraps text and reserves a separate photo viewport. Chrome remains a sibling of the image; its native dismissal ownership is unchanged. The footer limit leaves 120 DIPs for the photo in the tested landscape windows. iOS Dynamic Type is enabled and the chrome respects the safe area without applying it twice. Android reuses the scroll-header's retained-label SP refresh, deferred until Activity resources reflect the font configuration change; unmount removes the listener and timer. No public Jolt API or native motion implementation changes.
+
+The release demo ran on iPhone 17 / iOS 26.2 Simulator and Pixel 6 / Android 16 API 36 emulator, with Core 9.1.3, NativeScript-Vue 3.1.2 and vue-router-ns 0.1.0-rc.2. The English recordings use actual system settings, taps, native panel swipes and rotation. An opt-in Snapshot control records native boundary observations; it does not set font sizes, layout or viewer state. It replaces the decorative header arrow only in audit mode.
+
+```sh
+python3 benchmarks/docs-record-ios.py YOUR_SIMULATOR /tmp/JoltGalleryTextIOS testGalleryLargeText
+python3 benchmarks/gallery-android.py YOUR_EMULATOR /tmp/JoltGalleryTextAndroid large-text
+python3 benchmarks/verify-gallery-text.py benchmarks/results/gallery/2026-10-30-large-text-ios.json
+python3 benchmarks/verify-gallery-text.py benchmarks/results/gallery/2026-10-30-large-text-android.json
+python3 -m unittest discover -s benchmarks -p 'test_gallery_text.py'
+```
+
+Use the release build and Android shell input helper setup above. Select English for Android. The runners restore the original system font setting; Android also restores rotation and touch indicators. The iOS test restores portrait orientation. Run the iOS text test separately from other gallery tests so later scenarios do not overwrite its reports.
+
+| Observation                       | iOS Simulator                              | Android emulator                                     |
+| --------------------------------- | ------------------------------------------ | ---------------------------------------------------- |
+| Actual font setting               | `large` → `accessibility-medium` → `large` | `font_scale` 1 → 2 → 1                               |
+| Native title size                 | 28 → 56 → 28 pt                            | 28 → 37.33 → 28 DIP (native nonlinear SP conversion) |
+| Native zoom-label size            | 11 → 22 → 11 pt                            | 11 → 22 → 11 DIP                                     |
+| Zoom during font change           | 2.5× retained                              | 2.5× retained                                        |
+| Enlarged landscape viewport       | 714 × 120 DIP                              | 878.48 × 120 DIP                                     |
+| Current-key shared returns        | 2, ending at `place-3`                     | 2, ending at `place-3`                               |
+| Final native navigation resources | 0                                          | 0                                                    |
+
+The [iOS trace](results/gallery/2026-10-30-large-text-ios.json) and [Android trace](results/gallery/2026-10-30-large-text-android.json) each contain eight explicit snapshots: normal, zoomed, enlarged while zoomed, enlarged after reset, landscape, portrait restored, normal font restored and another photo opened with enlarged text. They verify native/model pose agreement, non-overlapping photo/chrome geometry, text height and ellipsis, control sizes of at least 44 × 44 DIPs, no button overlap, real landscape zoom/reset, distinct titles, two completed shared returns, two route commits and zero terminal flight/input/retained-scene counts. The runners scroll until each tested panel button is fully visible before tapping it. These snapshots supplement actual native input and recordings; they are not simulated interaction.
+
+The verifier has 13 host tests, including 12 failure mutations applied to both captures (24 negative variants). It rejects clipped text, ignored scaling, lost zoom, covered/missing photo area, overlapping buttons, incorrect font restoration, missing landscape zoom, wrong return keys, duplicate navigation, leaked ownership and missing snapshots. This check is included in the existing host CI job.
+
+Regression checks also passed on the changed demo: iOS `testGalleryChecks`, `testGalleryHandoffCheck` and `testGalleryLifecycle`; Android `audit` and `lifecycle` (11 observations, four returns and zero final native navigation resources). These cover pinch-to-pan handoff, interruption/cancellation, moved/deleted targets, transparent/landscape images, Back, Reduce Motion, direct detail, rotation and suspension/reentry. The library's 1,449 host tests passed.
+
+The reviewed H.264 clips are `gallery-large-text-ios.mp4` (30.93 seconds, 720 × 1566) and `gallery-large-text-android.mp4` (61.70 seconds, 720 × 1600), both 30 fps and original elapsed timing. Full decode checks pass. They are embedded with localized captions in all four gallery guides. The fixed portrait capture rotates iOS landscape content and letterboxes Android landscape. Existing media remains unchanged.
+
+This slice validates the detail layout at these two font configurations, on these simulators, with English UI. It does not establish every Dynamic Type category, physical-device performance, screen-reader traversal/focus, every locale, or large-text behavior across the whole collection. Those acceptance items remain in #117.

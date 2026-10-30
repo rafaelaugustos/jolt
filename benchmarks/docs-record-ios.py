@@ -117,6 +117,23 @@ try:
             shutil.copy2(Path(container)/'Documents/jolt-scroll-header.json', report)
             assert json.loads(report.read_text())['events'][0]['time'] >= started_at, 'stale large-text report'
             subprocess.run([sys.executable, str(repo/'benchmarks/verify-scroll-header-text.py'), str(report)], check=True)
+        if 'testGalleryLargeText' in methods:
+            container = subprocess.check_output(['xcrun', 'simctl', 'get_app_container', serial,
+                'org.nativescript.jolt.benchmark', 'data'], text=True).strip()
+            gallery = json.loads((Path(container)/'Documents/jolt-gallery.json').read_text())
+            collection = json.loads((Path(container)/'Documents/jolt-collection.json').read_text())
+            assert gallery['events'][0]['time'] >= started_at, 'stale gallery text report'
+            report = output/'large-text-ios.json'
+            report.write_text(json.dumps({'gallery': gallery, 'collection': collection}, indent=2)+'\n')
+            subprocess.run([sys.executable, str(repo/'benchmarks/verify-gallery-text.py'), str(report)], check=True)
+        if any(method in methods for method in ('testInteractiveModalChecks', 'testInteractiveModalLifecycle')):
+            container = subprocess.check_output(['xcrun', 'simctl', 'get_app_container', serial,
+                'org.nativescript.jolt.benchmark', 'data'], text=True).strip()
+            report = output/'interactive-modal.json'
+            shutil.copy2(Path(container)/'Documents/jolt-interactive-modal.json', report)
+            assert json.loads(report.read_text())['events'][0]['time'] >= started_at, 'stale modal report'
+            scenario = 'checks' if 'testInteractiveModalChecks' in methods else 'lifecycle'
+            subprocess.run([sys.executable, str(repo/'benchmarks/verify-interactive-modal.py'), str(report), scenario], check=True)
         if 'testMotionRfc' in methods:
             container = subprocess.check_output(['xcrun', 'simctl', 'get_app_container', serial,
                 'org.nativescript.jolt.benchmark', 'data'], text=True).strip()
