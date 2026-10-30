@@ -123,13 +123,13 @@ def verify(report, allow_simulator=False, case=None, allow_dirty=False, allow_un
             assert native['after']['cpuMs'] >= native['before']['cpuMs']
             finite(native['probeWorkMs'])
             assert native['probeWorkMs'] < duration
-            assert native['memorySamples'] >= 4
+            assert native['memorySamples'] >= 4, 'Insufficient memory samples in native window'
             assert native['sampledPeakMemoryBytes'] >= max(native[edge]['memoryBytes'] for edge in ('before', 'after'))
             metric = 'display-link' if report['platform'] == 'iOS' else 'choreographer'
             assert native['frameMetric'] == metric + '-opportunities-not-presented-frames'
             assert native['columns'] == ['callbackMs', 'timestampMs', 'targetMs', 'xDip', 'scaleX', 'yDip']
             frames = native['frames']
-            assert 5 < len(frames) <= 4096
+            assert 5 < len(frames) <= 4096, 'Insufficient or overflowing native display callbacks'
             for row in frames:
                 assert len(row) == 6
                 for n in row: finite(n, -1e12)

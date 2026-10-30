@@ -2,7 +2,7 @@
 
 This audit measures the existing library. It does not change the public API or set universal binding limits. The measurement app has the separate ID `org.nativescript.jolt.bindings` and uses the demo's native dependencies with a production JavaScript bundle and Release native builds.
 
-Captured on 2026-10-30. The iOS source snapshot is `7c30f2d1984aa4238deb42d52c9be2fddc7d8b38`. Android uses `1af19144212bd47deb30dce684cbc2ac7bb7bbc5`, which replaces intrusive PSS collection with resident-page sampling and extends slow composition-window trials until two boundaries have actually run (subject to a 30-second verifier ceiling). Both were built from clean working trees. The iOS Objective-C probe serializes its physical-device flag as numeric `1`; the verifiers accept only booleans or integer `0`/`1`, and still reject simulators by default. Hardware, OS/build, Jolt, NativeScript Core/runtime versions, power mode, thermal status and raw measurements are stored in each report.
+Captured on 2026-10-30. The iOS source snapshot is `7c30f2d1984aa4238deb42d52c9be2fddc7d8b38`. The initial Android emulator run uses `1af19144212bd47deb30dce684cbc2ac7bb7bbc5`, which replaces intrusive PSS collection with resident-page sampling and extends slow composition-window trials until two boundaries have actually run (subject to a 30-second verifier ceiling). Both were built from clean working trees. The iOS Objective-C probe serializes its physical-device flag as numeric `1`; the verifiers accept only booleans or integer `0`/`1`, and still reject simulators by default. Hardware, OS/build, Jolt, NativeScript Core/runtime versions, power mode, thermal status and raw measurements are stored in each report.
 
 ## Coverage and measurement boundaries
 
@@ -188,7 +188,17 @@ python3 benchmarks/run-binding-budgets.py ios YOUR_IPHONE /tmp/window.json --cas
 python3 benchmarks/verify-binding-budgets.py /tmp/window.json --case value-16-window
 ```
 
-The runner refuses to overwrite evidence, rejects stale sessions, has a 15-minute ceiling and preserves partial results on failure. Temperature must remain nominal, power saving must be off, and the app must stay active. Reports retain failure reasons instead of silently dropping trials. `--allow-dirty` exists for development-only verifier runs; committed acceptance evidence uses a clean build.
+For Android below API 29, the platform does not expose the thermal-status API used by the native probe. The report preserves `thermalState: null`, `apiLevel`, and `thermalStatusAvailable: false`; it must never replace the missing measurement with nominal status. The matrix requires an explicit diagnostic opt-in, and offline verification requires the same acknowledgement:
+
+```sh
+python3 benchmarks/run-binding-budgets.py android YOUR_SERIAL /tmp/bindings-physical-android.json --allow-unavailable-thermal
+python3 benchmarks/verify-binding-budgets.py /tmp/bindings-physical-android.json --allow-unavailable-thermal --audit
+python3 benchmarks/verify-binding-input.py /tmp/binding-input-android/pan-native.json --allow-unavailable-thermal
+```
+
+This option allows inspecting real-device observations with unavailable thermal telemetry. It does not establish nominal temperature, absence of throttling, or thermally controlled capacity. The default verifier continues to reject these reports. The override cannot accept an unknown status on newer Android/iOS, a reported nonzero thermal state, or power saving. Host battery-temperature snapshots are supplementary context, not a substitute for the missing thermal-status measurement. Existing duration, buffer, cleanup and workload checks retain their thresholds.
+
+The runner refuses to overwrite evidence, rejects stale sessions, has a 15-minute collection ceiling per invocation and preserves partial results on failure. If the app is still running after that ceiling, `--resume` continues collecting the same pending session without relaunching it; previously collected workloads must remain identical. This does not relax the 30-second per-trial verifier ceiling. The default thermal check requires nominal status; the explicit pre-29 diagnostic option above retains an unknown status. Power saving must be off, and the app must stay active. Reports retain failure reasons instead of silently dropping trials. `--allow-dirty` exists for development-only verifier runs; committed acceptance evidence uses a clean build.
 
 For input, generate a signed XCTest runner using `benchmarks/docs-ios-ui.rb` with `benchmarks/binding-budgets-ios.swift`, following [the physical sensor runner setup](device-sensors.md#physical-iphone-audit-2026-10-29). Give its test bundle a distinct identifier if another runner is in use. Execute `DocsTests/testInputWindows`, then copy `Documents/binding-input-{drag-js,pan-native,scroll-js,header-native}.json` from the benchmark app container. Android's runner also copies the fresh per-path files:
 
@@ -209,4 +219,67 @@ npm run docs:check-media
 npm run docs:build
 ```
 
-Issue #242 remains open for physical Android capacity, broader hardware/refresh-rate coverage, calibrated input-to-visible-response latency, allocation/retained-heap profiling and repeatable presented-frame acceptance. Emulator evidence and zero native resource counters cannot replace those measurements. The independent Flutter/Reanimated comparison remains in #65.
+Issue #242 remains open for thermally qualified physical Android capacity, investigation of sparse/slow windows, broader hardware/refresh-rate coverage, calibrated input-to-visible-response latency, allocation/retained-heap profiling and repeatable presented-frame acceptance. Emulator evidence and zero native resource counters cannot replace those measurements. The independent Flutter/Reanimated comparison remains in #65.
+
+## Physical Android follow-up (2026-10-30)
+
+A physical **ASUS_Z017DC / ASUS Z017D, Android 8.0.0 / API 26**, ran all 22 workloads and 66 playback trials automatically, followed by the four real ADB gesture/scroll windows. No manual interaction or recording was required. The clean Release build is `e6bbc755f3064bd56611922ffb7793575c8c5ec9`, based on main after #114 acceptance, with Jolt rc.2, NativeScript Core 9.1.3 and Android runtime 9.1.1. Production JavaScript, no HMR, approximately 60 Hz reported display rate, animator scale 1 and power saving off.
+
+The device was charging. Battery temperature was 31.2°C before the matrix and 31.0°C afterward, with charge increasing from 69% to 84%. These battery readings do **not** establish CPU/GPU thermal state. API 26 has no thermal-status telemetry through this probe, so every resource snapshot keeps `thermalState: null`; this run explicitly uses `unavailable-android-pre29`. It supplies physical-device observations, not thermally controlled capacity acceptance.
+
+Evidence: [complete physical matrix](results/binding-budgets/2026-10-30-physical-android.json.gz), [device/build/collection conditions and decompressed hashes](results/binding-budgets/2026-10-30-physical-android-conditions.json). The 1,148.3-second matrix remained one app process and one session. The host collector reached its 900-second deadline after saving 18 workloads; `--resume` collected the remaining workloads without relaunching the app. All previously collected cases are unchanged. No trial was restarted or replaced, and the 30-second per-trial verifier limit remains unchanged.
+
+### Twenty verified workloads, two retained sparse-window failures
+
+With the explicit unavailable-thermal acknowledgement, the offline audit verifies **20 workloads** and rejects **two**. The complete matrix remains rejected. Without that acknowledgement, the default verifier rejects the thermal condition before considering workload acceptance.
+
+| Rejected workload   | Trial (zero-based) | Native window | Native display callbacks | Memory samples | Result                |
+| ------------------- | -----------------: | ------------: | -----------------------: | -------------: | --------------------- |
+| `value-16-layers-2` |                  1 |    3,959.0 ms |                        1 |              3 | Insufficient sampling |
+| `view-16-layers-8`  |                  2 |    8,524.8 ms |                        3 |              3 | Insufficient sampling |
+
+The native recorder requires at least four memory samples and more than five display callbacks. Both sparse windows remain verbatim in the raw report. They do not establish a frame-pacing or peak-memory result for those workloads, and these observations do not isolate the cause of the stalls. Other repetitions are not substituted to make the cases pass. Offline tests require both exact failures and retain the earlier emulator's independent overload failure.
+
+All **66 trials**, including the two sparse ones, returned tracked bindings, composition channels, native live nodes/clocks, active tracks, frame requests and timers to zero after disposal. The quiet-period counters did not advance. This establishes the measured cleanup contract, not a retained-heap bound.
+
+```sh
+python3 benchmarks/verify-binding-budgets.py   benchmarks/results/binding-budgets/2026-10-30-physical-android.json.gz   --allow-unavailable-thermal --audit
+# Expected exit 1: 20 passed workloads; the two sparse-window failures above.
+```
+
+### Preparation and composition costs
+
+Milliseconds; warm p50/p95 use seven samples, so p95 is their maximum. The following rows come from workloads whose diagnostic checks passed. First use is within this fixed-order process, not an isolated cold launch.
+
+| Workload            | First start ms | Warm start p50 / p95 ms |
+| ------------------- | -------------: | ----------------------: |
+| `value-1-x`         |             42 |                  8 / 10 |
+| `value-16-x`        |             35 |                 54 / 66 |
+| `value-64-x`        |            154 |               114 / 150 |
+| `value-200-x`       |            298 |               250 / 259 |
+| `value-64-x-scale`  |            230 |               237 / 292 |
+| `value-200-x-scale` |            567 |               583 / 611 |
+| `value-16-layers-8` |           6798 |             3028 / 3307 |
+| `value-64-loop`     |           4235 |             3749 / 3793 |
+| `view-64-loop`      |           5780 |             5557 / 5831 |
+
+The composed-value window boundary took **116–130 ms for one view**, **814–885 ms for 16 views**, and **2,907–6,960 ms for 64 views**, each with three properties. Even the smallest tested boundary exceeded a 16.67-ms interval in this run. Windowed composition is therefore a substantial concern for latency-sensitive interaction on this configuration; the trace does not justify a universal binding maximum.
+
+Both 64-view common-loop paths submitted no new boundary tracks during playback. Their startup cost remained large, and direct view looping still had a worst observed display callback gap of **1,864 ms**. Eliminating boundary submissions does not prove smooth presentation. The corresponding windowed paths reached callback gaps of **6,964 ms** for composed values and **5,105 ms** for direct view layers. These are native callback gaps, not presented-frame or input-to-photon measurements.
+
+Whole-process CPU, sampled RSS, probe overhead and submitted-track counts are retained for every trial. RSS reached approximately **736 MiB** in the accepted `view-64-loop` workload, in a process that accumulates report data and runtime caches across the matrix. It is not a retained-view memory budget. The results reinforce the need to investigate composition preparation, native submission and the sparse windows together before moving only the numeric evaluator into native code. They do not identify which stage caused each stall or establish a cross-platform speed ratio.
+
+### Automatic real input
+
+The four fresh-process input runs pass the diagnostic verifier with unavailable thermal status explicitly acknowledged. Each uses three out-and-back gesture pairs delivered by ADB. The raw traces are [drag](results/binding-budgets/2026-10-30-physical-android-drag-js.json.gz), [native pan](results/binding-budgets/2026-10-30-physical-android-pan-native.json.gz), [scroll value](results/binding-budgets/2026-10-30-physical-android-scroll-js.json.gz) and [native header](results/binding-budgets/2026-10-30-physical-android-header-native.json.gz).
+
+| Path            | Sampled output movement DIP | JS move callbacks | Semantic callbacks | Window ms | Process CPU ms | Sampled peak RSS MiB |
+| --------------- | --------------------------: | ----------------: | -----------------: | --------: | -------------: | -------------------: |
+| `drag-js`       |                       24.00 |               135 |                  0 |     12334 |           2756 |               122.40 |
+| `pan-native`    |                       24.00 |                 0 |                 12 |     12256 |           1758 |               113.04 |
+| `scroll-js`     |                        3.75 |               268 |                  0 |     12416 |           6240 |               122.49 |
+| `header-native` |                       55.00 |                 0 |                  9 |     12127 |           2452 |               119.89 |
+
+Both native paths used zero per-move JS callbacks. All four paths advanced the bound native output and returned tracked live nodes/clocks, active tracks, frames and timers to zero, with unchanged counters during the quiet interval. The two scroll paths use different supported containers and behavior, and delivered event rates differ between gesture paths; these are not matched latency or speed comparisons. No presented-frame or input-to-photon claim is made.
+
+The earlier reviewed English physical-iPhone and Android-emulator clips remain embedded in all four guide languages with their original platform labels. They illustrate the existing workloads; the new physical Android measurements are unrecorded. No new footage or manual repetition was requested. This follow-up changes the diagnostic capability handling, collector, offline evidence and documentation; it does not change the shipping animation runtime or close #242's remaining acceptance items.
