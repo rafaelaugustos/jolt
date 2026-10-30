@@ -28,6 +28,7 @@ import { runCurveSamplingChecks } from './curve-sampling-checks'
 import { runSizeChecks } from './size-checks'
 import { runLiveSpringChecks } from './live-spring-checks'
 import { runGestureLifecycleChecks } from './gesture-lifecycle-checks'
+import { runAndroidKeyframeChecks } from './android-keyframe-checks'
 
 declare const __NATIVE_CI_BUILD__: Record<string, unknown>
 const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms))
@@ -250,6 +251,7 @@ async function run(view: Label, other: Label, host: StackLayout, status: Label) 
 
   stage = 'recorded interaction replay and negative control'
   samples.push(await runCurveSamplingChecks(view))
+  samples.push(runAndroidKeyframeChecks(view))
   samples.push(await runMotionInspectorChecks(view))
   samples.push(await runInteractionReplayChecks(view, runId))
   samples.push(await runScrollHandoffChecks(host, runId))

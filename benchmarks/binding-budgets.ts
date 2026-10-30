@@ -24,6 +24,7 @@ import {
 } from './binding-budget-plan'
 import { instrumentBudgetDriver } from './binding-budget-driver'
 import { mountInputBudget } from './binding-budget-input'
+import { runAndroidKeyframeChecks } from './android-keyframe-checks'
 
 declare const __BENCHMARK_BUILD__: Record<string, unknown>
 interface Resources {
@@ -302,6 +303,7 @@ function createPage() {
       completed: false,
       error: undefined as string | undefined,
       finalResources: {},
+      keyframeChecks: {} as object,
     }
     const ready = (views: View[]) => {
       check(
@@ -330,6 +332,7 @@ function createPage() {
     let sampler: NativeProbe | undefined
     let diagnostic: ReturnType<typeof instrumentBudgetDriver> | undefined
     try {
+      report.keyframeChecks = runAndroidKeyframeChecks(canvas)
       check(selected.length > 0, 'Unknown workload.')
       check(
         env.physical || option('budget-allow-simulator') === 'true',

@@ -99,7 +99,7 @@ CPU is the median process percentage across three trials (one core = 100%). Gap 
 - **Keep windowed fan-out small until measured in the target screen.** The composed-value boundary took 6.96–8.28 ms for one view, 37.46–45.61 ms for 16 views and 82.31–95.47 ms for 64 views, each with three properties. One view is the only tested fan-out below a whole 16.67-ms interval in this workload; it is not an endorsed maximum because a real screen shares that interval with layout, input and rendering. The 16/64-view cases already exceed it, so they are unsuitable for an uninterrupted 60 Hz main-thread budget in this configuration.
 - **Direct view windows have the same scaling concern.** Their per-property completion callback maximum (5.91/7.11/9.10 ms for 1/16/64 views) is not the cost of the whole boundary. Many callbacks execute together; the corresponding worst display callback gaps were 17.35/57.64/130.13 ms. Do not compare one completion callback with an entire motion-value rebuild.
 - **Prepare large finite/layered batches outside latency-sensitive input.** Warm median start was 23.16 ms for 64 views × three properties, 56.13 ms for 200 views × three properties, and 126.48 ms for 16 views with eight direct-view layers. Binding setup alone was much cheaper. More bindings, more properties and more layers are separate dimensions; the small sample and fixed case order do not establish a smooth scaling law.
-- **Investigate composition preparation and submission together before moving only numeric evaluation to native.** In the 64-view value case, each boundary resubmitted 192 tracks. Calls into the native driver consumed 27.15–31.53 ms of the 82.31–95.47 ms boundary; the remaining time includes sampling/composition, JS bookkeeping and wrapper overhead. Moving only the evaluator cannot remove all this measured work. Native persistent composition or less rebuilding warrants a separate implementation proposal; this PR changes no shipping runtime.
+- **Investigate composition preparation and submission together before moving only numeric evaluation to native.** In the 64-view value case, each boundary resubmitted 192 tracks. Calls into the native driver consumed 27.15–31.53 ms of the 82.31–95.47 ms boundary; the remaining time includes sampling/composition, JS bookkeeping and wrapper overhead. Moving only the evaluator cannot remove all this measured work. Native persistent composition or less rebuilding warrants a separate implementation proposal; the initial audit changed no shipping runtime. The Android follow-up below tests native keyframe construction.
 - **Explicit observation changes the JS contract.** The observed workload used JS frame callbacks; all unobserved playback cases used zero JS frame callbacks. Small differences in process CPU between separate trials are not evidence that a subscriber is free.
 
 All 66 iPhone playback trials ended with zero tracked bindings, view channels, active tracks, live native nodes/clocks, frames and timers after disposal, and no new tracked work during the quiet interval. Every case unmounted its tiles before the final snapshot. The matrix is one process, so its memory curve includes accumulated report data and caches; use allocation/heap profiling for a retained-memory budget.
@@ -219,13 +219,13 @@ npm run docs:check-media
 npm run docs:build
 ```
 
-Issue #242 remains open for thermally qualified physical Android capacity, investigation of sparse/slow windows, broader hardware/refresh-rate coverage, calibrated input-to-visible-response latency, allocation/retained-heap profiling and repeatable presented-frame acceptance. Emulator evidence and zero native resource counters cannot replace those measurements. The independent Flutter/Reanimated comparison remains in #65.
+Issue #242 remains open for input-latency and allocation/retained-heap measurements, and repeatable investigation of the large playback stalls. Current results have explicit device, thermal and callback-cadence limits; they do not establish universal capacity or presented-frame acceptance. Broader hardware/refresh-rate coverage is future coverage, not a prerequisite added by this audit. The independent Flutter/Reanimated comparison remains in #65.
 
 ## Physical Android follow-up (2026-10-30)
 
 A physical **ASUS_Z017DC / ASUS Z017D, Android 8.0.0 / API 26**, ran all 22 workloads and 66 playback trials automatically, followed by the four real ADB gesture/scroll windows. No manual interaction or recording was required. The clean Release build is `e6bbc755f3064bd56611922ffb7793575c8c5ec9`, based on main after #114 acceptance, with Jolt rc.2, NativeScript Core 9.1.3 and Android runtime 9.1.1. Production JavaScript, no HMR, approximately 60 Hz reported display rate, animator scale 1 and power saving off.
 
-The device was charging. Battery temperature was 31.2°C before the matrix and 31.0°C afterward, with charge increasing from 69% to 84%. These battery readings do **not** establish CPU/GPU thermal state. API 26 has no thermal-status telemetry through this probe, so every resource snapshot keeps `thermalState: null`; this run explicitly uses `unavailable-android-pre29`. It supplies physical-device observations, not thermally controlled capacity acceptance.
+The device was charging. The archived before/after battery snapshots report 30.5°C and 31.0°C, with charge increasing from 73% to 84%. These battery readings do **not** establish CPU/GPU thermal state. API 26 has no thermal-status telemetry through this probe, so every resource snapshot keeps `thermalState: null`; this run explicitly uses `unavailable-android-pre29`. It supplies physical-device observations, not thermally controlled capacity acceptance.
 
 Evidence: [complete physical matrix](results/binding-budgets/2026-10-30-physical-android.json.gz), [device/build/collection conditions and decompressed hashes](results/binding-budgets/2026-10-30-physical-android-conditions.json). The 1,148.3-second matrix remained one app process and one session. The host collector reached its 900-second deadline after saving 18 workloads; `--resume` collected the remaining workloads without relaunching the app. All previously collected cases are unchanged. No trial was restarted or replaced, and the 30-second per-trial verifier limit remains unchanged.
 
@@ -282,4 +282,61 @@ The four fresh-process input runs pass the diagnostic verifier with unavailable 
 
 Both native paths used zero per-move JS callbacks. All four paths advanced the bound native output and returned tracked live nodes/clocks, active tracks, frames and timers to zero, with unchanged counters during the quiet interval. The two scroll paths use different supported containers and behavior, and delivered event rates differ between gesture paths; these are not matched latency or speed comparisons. No presented-frame or input-to-photon claim is made.
 
-The earlier reviewed English physical-iPhone and Android-emulator clips remain embedded in all four guide languages with their original platform labels. They illustrate the existing workloads; the new physical Android measurements are unrecorded. No new footage or manual repetition was requested. This follow-up changes the diagnostic capability handling, collector, offline evidence and documentation; it does not change the shipping animation runtime or close #242's remaining acceptance items.
+The earlier reviewed English physical-iPhone and Android-emulator clips remain embedded in all four guide languages with their original platform labels. They illustrate the existing workloads; the new physical Android measurements are unrecorded. No new footage or manual repetition was requested. That baseline follow-up changed the diagnostic capability handling, collector, offline evidence and documentation; it did not change the shipping animation runtime or close #242's remaining acceptance items.
+
+## Android keyframe construction in bulk
+
+The follow-up implementation moves **numeric keyframe construction** into `KeyframeFactory.java`. TypeScript still samples and composes the curves, resolves units, and owns playback controls. It passes the offsets and values to Java in one call per track. Java constructs the same float keyframes and `PropertyValuesHolder`, then returns the same kind of `ObjectAnimator`. Translation is multiplied in double precision before conversion to float, matching the old driver. Color, decoration and native live-source implementations are unchanged.
+
+Rebuild the Android app to include the factory and its NativeScript metadata. A binary without the factory keeps the previous numeric construction path. The native regression check compares the old and new interpolators at **192 property/unit/time combinations**: eight properties, three unit scales, irregular offsets, intermediate positions and a backward seek. It also rejects mismatched arrays. The existing native CI suite covers playback, interruption, cancellation, pause/resume and seek; it now runs this equivalence check too.
+
+### Protocol and retained diagnostics
+
+The full comparison uses the same ASUS_Z017DC, API 26, Release native build, production JavaScript, animator scale, workload order, seven warm preparation samples and three playback trials. The optimized source is `dd4bc22f328ae912c79174b969fe4e25c35bf8c7`. The device still cannot report thermal status; the explicit unavailable-thermal diagnostic acknowledgement remains necessary. The native equivalence check runs before the optimized matrix, so its first-use samples are **not cold-start comparisons**. The comparisons below use warm preparation. These are sequential runs, not randomized/interleaved trials or universal speed ratios.
+
+The original full matrix and its two failed sampling windows remain unchanged. An additional [fresh-process legacy diagnostic](results/binding-budgets/2026-10-30-android-baseline-isolated.json.gz) ran `value-16-layers-2` with system tracing enabled. All three sampling windows passed, but one still had an 822-ms callback gap. The [app-only trace](results/binding-budgets/2026-10-30-android-baseline-app.trace.gz) and [projection provenance](results/binding-budgets/2026-10-30-android-baseline-trace.json) retain Jolt process markers without other applications' scheduler activity. The trace includes a concurrent ART collection lasting about 286 ms during that trial and main-thread animation work of roughly 181–200 ms near completion. A concurrent collection's total duration is not its main-thread pause time. These observations do not establish the cause of either original sparse window.
+
+A first incremental build contained the new Java class but omitted its NativeScript metadata. The equivalence check stopped before any workload: [failed report](results/binding-budgets/2026-10-30-android-bulk-stale-metadata.json.gz). A clean rebuild made the class available and passed all 192 comparisons plus the one-view playback check: [smoke report](results/binding-budgets/2026-10-30-android-bulk-smoke.json.gz). The failed attempt is not counted as a performance result.
+
+The Android probe now records [ART runtime allocation/GC counters](<https://developer.android.com/reference/android/os/Debug#getRuntimeStats()>) only at the beginning and end of each playback window. `artDelta` in the offline summary contains approximate Java-heap allocated/freed bytes, GC count/time and blocking-GC count/time. It includes the runtime and diagnostics; it does not measure V8 allocation, GPU memory or retained heap. `probeWorkMs` still measures only the sampler callbacks; boundary counter collection is included in the native window and process CPU. The per-frame sampler and all existing thresholds remain unchanged. Earlier reports lack these counters, so they cannot establish an old/new allocation reduction.
+
+### Results and limits of the optimization
+
+[Full optimized matrix](results/binding-budgets/2026-10-30-android-bulk.json.gz). The run completed all **22 workloads / 66 trials** in one process in 561.5 seconds. Every trial had enough native callback and memory samples and returned tracked resources to zero with unchanged quiet-period counters. The two workloads with sparse windows in the original matrix met these checks in the new run; the original failures remain archived, and this is not proof of their cause.
+
+The stricter audit accepts **19 workloads** and rejects **three** because the new ART allocated-byte counter decreased within a trial:
+
+| Workload           | Trial (zero-based) | Allocated-byte counter before / after |
+| ------------------ | -----------------: | ------------------------------------: |
+| `value-64-x`       |                  2 |               24,880,056 / 21,955,512 |
+| `value-16-x-scale` |                  2 |               34,268,152 / 31,400,952 |
+| `value-16-window`  |                  0 |             362,879,712 / 350,186,208 |
+
+The Android API describes these counters as approximate and warns that individual allocations may not be immediately reflected. The decreasing values remain exact in the raw report. The verifier rejects them instead of clamping the delta or claiming negative allocations. **The complete matrix therefore remains rejected.** Preparation times, sampled poses and cleanup are separate observations; none establish a retained-heap budget or an allocation reduction. There is no allocation-counter baseline for the old implementation.
+
+```sh
+python3 benchmarks/verify-binding-budgets.py benchmarks/results/binding-budgets/2026-10-30-android-bulk.json.gz --allow-unavailable-thermal --audit
+# Expected exit 1: 19 passed workloads; three ART counter regressions retained above.
+```
+
+Warm preparation milliseconds, p50 / p95 (seven samples; p95 is the maximum). These selected rows pass the strict diagnostic checks in both full matrices:
+
+| Workload            | Previous construction | Bulk construction |
+| ------------------- | --------------------: | ----------------: |
+| `value-16-x`        |               54 / 66 |           35 / 37 |
+| `value-200-x`       |             250 / 259 |         156 / 184 |
+| `value-64-x-scale`  |             237 / 292 |         154 / 176 |
+| `value-200-x-scale` |             583 / 611 |         332 / 371 |
+| `value-16-layers-4` |         1,539 / 1,629 |         254 / 286 |
+| `value-16-layers-8` |         3,028 / 3,307 |         424 / 544 |
+| `value-64-loop`     |         3,749 / 3,793 |         390 / 413 |
+| `view-64-loop`      |         5,557 / 5,831 |     1,293 / 1,367 |
+| `value-1-window`    |             111 / 113 |           23 / 29 |
+| `value-64-window`   |         3,127 / 3,232 |         386 / 453 |
+| `view-64-window`    |         4,849 / 7,281 |     1,126 / 1,149 |
+
+For composed values, one-view boundary work dropped from **116–130 ms to 13–18 ms**. At 64 views it dropped from **2,907–6,960 ms to 368–670 ms**. The 16-view timing observation was **113–161 ms**, but that workload's allocation audit failed as listed above. Even one view still crossed a 16.67-ms interval in this run. The optimized 64-view windows still had worst native callback gaps of **672.5 ms** (composed values) and **803.1 ms** (direct view layers). The 64-view value common-loop workload had a **1,867.4-ms** gap despite zero boundary submissions. Faster preparation does not establish smooth presentation, and native playback alone does not isolate runtime pauses.
+
+Practical guidance on this measured configuration: prepare large finite batches ahead of interaction; prefer compatible native loops when the movement permits them; keep windowed multi-property composition out of latency-sensitive paths as view counts increase. There is no supported universal binding maximum. Bulk construction removes substantial submission work, but the remaining costs warrant investigating persistent native composition and runtime allocation/GC together, rather than moving only the scalar evaluator. Input-latency and reliable allocation/retained-heap measurements remain open in #242; this comparison retains its hardware, thermal and callback-cadence limits.
+
+The same clean optimized APK then passed four fresh-process automated input windows: [drag](results/binding-budgets/2026-10-30-android-bulk-drag-js.json.gz), [native pan](results/binding-budgets/2026-10-30-android-bulk-pan-native.json.gz), [scroll value](results/binding-budgets/2026-10-30-android-bulk-scroll-js.json.gz) and [native header](results/binding-budgets/2026-10-30-android-bulk-header-native.json.gz). All advanced the native output and cleaned up; native pan/header used zero per-move JS callbacks. These checks do not measure input-to-photon latency. The [conditions and hashes](results/binding-budgets/2026-10-30-android-bulk-conditions.json) identify the clean build, raw reports and reused English emulator layer clip. No new recording was made. The battery snapshot after input was 100% / 28.7°C while charging; no before-run battery snapshot was collected for this optimized run.

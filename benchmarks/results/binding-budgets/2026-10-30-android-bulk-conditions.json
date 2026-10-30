@@ -1,0 +1,74 @@
+{
+  "build": {
+    "commit": "dd4bc22f328ae912c79174b969fe4e25c35bf8c7",
+    "dirty": false,
+    "jolt": "0.1.0-rc.2",
+    "core": "9.1.3",
+    "runtime": "9.1.1",
+    "driverSha256": "1d66fb35e6f24abcc71ddd2c6bf7f11f646ef808288c094fed0a2903e8527aec",
+    "bundleMode": "production",
+    "builtAt": "2026-10-30T23:07:39.783Z"
+  },
+  "device": {
+    "physical": true,
+    "model": "asus ASUS_Z017DC",
+    "os": "8.0.0",
+    "osBuild": "asus/WW_Phone/ASUS_Z017D_1:8.0.0/OPR1.170623.026/15.0410.1806.68-0:user/release-keys",
+    "apiLevel": 26,
+    "thermalStatusAvailable": false,
+    "maximumRefreshHz": 60.000003814697266,
+    "animatorScale": 1,
+    "resources": {
+      "timeMs": 388249995.575329,
+      "cpuMs": 2514,
+      "memoryBytes": 121327616,
+      "memoryMetric": "rss",
+      "thermalState": null,
+      "lowPowerMode": false
+    }
+  },
+  "session": "fb2aebf7-38c9-4dea-a4ee-daa2363cd4f4",
+  "startedAt": "2026-10-30T23:08:36.225Z",
+  "recording": false,
+  "durationSeconds": 561.5086585360169,
+  "matrixCases": 22,
+  "matrixTrials": 66,
+  "audit": {
+    "accepted": false,
+    "passed": 19,
+    "failed": {
+      "value-64-x": "ART counter regressed",
+      "value-16-x-scale": "ART counter regressed",
+      "value-16-window": "ART counter regressed"
+    }
+  },
+  "afterInputBattery": {
+    "acPowered": true,
+    "levelPercent": 100,
+    "temperatureCelsius": 28.7,
+    "beforeRunSnapshot": null
+  },
+  "apkSha256": "3e516ccbe018f7900cba2a38a9712749ab63911e9ccdb9b258d201935a923701",
+  "decompressedSha256": {
+    "2026-10-30-android-bulk-drag-js.json.gz": "5392568b31269eea81c9f30a3e1bb42c23088d85f8f6e4713dacc020c44e7e0f",
+    "2026-10-30-android-bulk-header-native.json.gz": "342517e348bf471f4504c84a2670316b2c61bfe47076365b42ea3212cdae4148",
+    "2026-10-30-android-bulk-pan-native.json.gz": "8c39eeca2fef314cab497a1728adb684aed3011d6593a5d15fa1b6079f015e7e",
+    "2026-10-30-android-bulk-scroll-js.json.gz": "ea31b77728d0dc03d286fba0ce8854496420c8f4cddf88f02c44dd6a85af4f39",
+    "2026-10-30-android-bulk-smoke.json.gz": "9f4c029597ba7d960ba15e577a519561ed37fdc5884efebe0aa1d9a254e550ad",
+    "2026-10-30-android-bulk-stale-metadata.json.gz": "8491b7f9c31764a8cdd3f4b717013ce0981684b24b6dbc9a571ccce7d1b69f60",
+    "2026-10-30-android-bulk.json.gz": "902ca1a1a98eb0f3fc05200059fbfae028ae997a26b01fb63f3c1af5cbf971bd"
+  },
+  "reusedRecording": {
+    "path": "docs/public/media/value-layers-android.mp4",
+    "platform": "Android emulator",
+    "language": "English",
+    "sha256": "71aac27f711c4961f7b9562e590aaa04b56ad5d3177eb6df59975560ebd523db",
+    "performanceEvidence": false
+  },
+  "limits": [
+    "API 26 thermal status unavailable. Post-run battery temperature does not establish CPU/GPU thermal state.",
+    "Sequential runs, not randomized/interleaved comparison. Equivalence checks preceded the optimized matrix.",
+    "Three allocated-byte counter regressions invalidate allocation deltas; they are not clamped or accepted.",
+    "Callback opportunities do not establish presented frames or input-to-photon latency. No retained-heap bound."
+  ]
+}
