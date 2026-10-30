@@ -4,6 +4,8 @@
 
 <Clip name="device-sensors-physical-ios" caption="实体 iPhone 17 Pro，iOS 27.2，Release 演示：Core Motion 的真实旋转和重力数据驱动卡片、反光和视差，并由原生弹簧平滑处理。英文界面，通过 USB 录屏，保持原速。此视频展示实时响应，不用于证明轴精度或性能。" />
 
+<Clip name="device-sensors-physical-android" caption="实体 ASUS_Z017DC，Android 8 / API 26，英文诊断界面：真实传感器输入使原生卡片倾斜。保留原始时间，复用手动测试录像。该片段展示实时响应；姿态标签不代表已通过校准轴测试或性能测量。" />
+
 <Clip name="device-sensors-ios" caption="iOS 26.2 模拟器：由显式模拟传感器输入驱动的真实原生视图，通过实际点击来暂停、恢复、居中和减少运动。原来的速度。模拟器没有运动硬件；这不是真机传感器或性能证据。" />
 <Clip name="device-sensors-ios-pt" caption="iOS 模拟器，葡萄牙语：相同的原生输入预览和生命周期控件。屏幕识别模拟输入。" />
 <Clip name="device-sensors-android" caption="Android 16模拟器：原生卡，光线和视差遵循明确的测试样本。实际的 ADB 点击锻炼暂停、恢复和减少运动。原速度；模拟硬件和测试样本无法确定真机性能。" />
@@ -84,6 +86,8 @@ scope.dispose()
 
 原生路径仍然需要平台的 UI 线程。该线程上的同步 JavaScript 任务可能会停止显示更新；避免每个样本的 JS 调用并不能使 UI 免受阻塞。
 
-实体 iPhone 17 Pro 审计现已验证真实 Core Motion 采集、共享订阅、暂停和减少动态效果、后台恢复，以及三次页面实例创建后的资源释放。测量期间的原生采集窗口没有 JavaScript 回调。参见[实体设备记录及其限制](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md#physical-iphone-audit-2026-10-29)。#114 仍需补充实体 Android 证据、轴和界面方向校准、访问失败与恢复，以及整体 CPU 和显示性能分析。包含重力的加速度计、线性加速度、陀螺仪和磁场源仍明确延期。
+实体 iPhone 和 Android 审计覆盖真实旋转与重力、共享采集、请求的采样间隔、暂停与减少动态效果、后台恢复及资源释放。所有已测量的稳定窗口均无传感器 JavaScript 回调。Android 手动演示已确认可用；原生规范输入测试覆盖单位和界面坐标映射。参见[实体设备验收、记录和进程成本测量](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md#physical-acceptance-2026-10-30)。受控原生服务故障可通过 `play()` 恢复；iPhone 注入的回调错误并非系统权限撤销测试。
+
+这完成了 #114 的初始旋转/重力范围，未更改生产 API。包含重力的加速度计、线性加速度、陀螺仪及磁场源由 [#256](https://github.com/rafaelaugustos/jolt/issues/256) 跟踪。短时进程分析包含诊断开销，不能证明校准后的轴精度、实际呈现 FPS、输入到显示的延迟、电池消耗或持续负载能力。
 
 平台合约：[Apple 设备动作](https://developer.apple.com/documentation/coremotion/getting-processed-device-motion-data)、[Android 运动传感器](https://developer.android.com/develop/sensors-and-location/sensors/sensors_motion) 和 [Android 传感器坐标和限制](https://developer.android.com/develop/sensors-and-location/sensors/sensors_overview)。

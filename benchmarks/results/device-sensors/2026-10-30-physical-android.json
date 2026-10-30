@@ -1,0 +1,3051 @@
+{
+  "platform": "android",
+  "session": 1793396486020,
+  "events": [
+    {
+      "name": "baseline",
+      "instance": 1,
+      "sequence": 0,
+      "time": 1793396487431,
+      "paused": false,
+      "scopeSuspended": null,
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0,
+        "ry": 0
+      },
+      "glow": {
+        "x": -240,
+        "y": -165,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 0,
+        "y": 0,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 0,
+      "nodes": 0,
+      "clock": 0
+    },
+    {
+      "name": "loaded",
+      "instance": 1,
+      "sequence": 1,
+      "time": 1793396487514,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "starting",
+        "available": true,
+        "error": null,
+        "timestamp": null,
+        "samples": 0,
+        "frames": 0,
+        "callbacks": 1,
+        "processingMs": 0,
+        "interval": 16.66666603088379,
+        "values": [0, 0, 0, 0, 0, 0, 1]
+      },
+      "gravity": {
+        "status": "starting",
+        "available": true,
+        "error": null,
+        "timestamp": null,
+        "samples": 0,
+        "frames": 0,
+        "callbacks": 1,
+        "processingMs": 0,
+        "interval": 16.66666603088379,
+        "values": [0, 0, 0]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0,
+        "ry": 0
+      },
+      "glow": {
+        "x": -240,
+        "y": -165,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 0,
+        "y": 0,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "activated",
+      "instance": 1,
+      "sequence": 2,
+      "time": 1793396487546,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "starting",
+        "available": true,
+        "error": null,
+        "timestamp": null,
+        "samples": 0,
+        "frames": 0,
+        "callbacks": 1,
+        "processingMs": 0,
+        "interval": 16.66666603088379,
+        "values": [0, 0, 0, 0, 0, 0, 1]
+      },
+      "gravity": {
+        "status": "starting",
+        "available": true,
+        "error": null,
+        "timestamp": null,
+        "samples": 0,
+        "frames": 0,
+        "callbacks": 1,
+        "processingMs": 0,
+        "interval": 16.66666603088379,
+        "values": [0, 0, 0]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0,
+        "ry": 0
+      },
+      "glow": {
+        "x": -240,
+        "y": -165,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 0,
+        "y": 0,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "shared",
+      "instance": 1,
+      "sequence": 3,
+      "time": 1793396495563,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689851579.948517,
+        "samples": 791,
+        "frames": 436,
+        "callbacks": 2,
+        "processingMs": 654.2067689999998,
+        "interval": 16.66666603088379,
+        "values": [
+          0.0022132097631110703, 0.001968702109495096, 4.204328529609923e-5,
+          0.0011065834266770246, 0.0009843735554970372, 1.9932332306920545e-5,
+          0.9999989030416608
+        ]
+      },
+      "gravity": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689851579.948517,
+        "samples": 791,
+        "frames": 436,
+        "callbacks": 2,
+        "processingMs": 464.9967700000001,
+        "interval": 16.66666603088379,
+        "values": [0.24385949969291687, -0.04552026838064194, -9.803511619567871]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.06300476938486099,
+        "ry": 0.061935584992170334
+      },
+      "glow": {
+        "x": 5.579736232757568,
+        "y": -0.6480740308761597,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 0.8825821280479431,
+        "y": 0.5559244155883789,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 3,
+      "nodes": 21,
+      "clock": 1
+    },
+    {
+      "name": "shared-released",
+      "instance": 1,
+      "sequence": 4,
+      "time": 1793396495578,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689851579.948517,
+        "samples": 791,
+        "frames": 436,
+        "callbacks": 2,
+        "processingMs": 654.2067689999998,
+        "interval": 16.66666603088379,
+        "values": [
+          0.0022132097631110703, 0.001968702109495096, 4.204328529609923e-5,
+          0.0011065834266770246, 0.0009843735554970372, 1.9932332306920545e-5,
+          0.9999989030416608
+        ]
+      },
+      "gravity": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689851579.948517,
+        "samples": 791,
+        "frames": 436,
+        "callbacks": 2,
+        "processingMs": 464.9967700000001,
+        "interval": 16.66666603088379,
+        "values": [0.24385949969291687, -0.04552026838064194, -9.803511619567871]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.06300476938486099,
+        "ry": 0.061935584992170334
+      },
+      "glow": {
+        "x": 5.579736232757568,
+        "y": -0.6480740308761597,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 0.8825821280479431,
+        "y": 0.5559244155883789,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "snapshot",
+      "instance": 1,
+      "sequence": 5,
+      "time": 1793396495582,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689851579.948517,
+        "samples": 791,
+        "frames": 436,
+        "callbacks": 2,
+        "processingMs": 654.2067689999998,
+        "interval": 16.66666603088379,
+        "values": [
+          0.0022132097631110703, 0.001968702109495096, 4.204328529609923e-5,
+          0.0011065834266770246, 0.0009843735554970372, 1.9932332306920545e-5,
+          0.9999989030416608
+        ]
+      },
+      "gravity": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689851579.948517,
+        "samples": 791,
+        "frames": 436,
+        "callbacks": 2,
+        "processingMs": 464.9967700000001,
+        "interval": 16.66666603088379,
+        "values": [0.24385949969291687, -0.04552026838064194, -9.803511619567871]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.06300476938486099,
+        "ry": 0.061935584992170334
+      },
+      "glow": {
+        "x": 5.579736232757568,
+        "y": -0.6480740308761597,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 0.8825821280479431,
+        "y": 0.5559244155883789,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "snapshot",
+      "instance": 1,
+      "sequence": 6,
+      "time": 1793396503105,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689859127.770264,
+        "samples": 1552,
+        "frames": 886,
+        "callbacks": 2,
+        "processingMs": 1283.8853109999995,
+        "interval": 16.66666603088379,
+        "values": [
+          0.0015326251104072679, 0.0012354098297365308, 2.7011088367475243e-5,
+          0.0007663039914979458, 0.0006177150436262362, 1.3032182686080242e-5,
+          0.9999995155181226
+        ]
+      },
+      "gravity": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689859127.770264,
+        "samples": 1552,
+        "frames": 886,
+        "callbacks": 2,
+        "processingMs": 924.9240169999989,
+        "interval": 16.66666603088379,
+        "values": [0.2435852587223053, -0.04163215309381485, -9.803536415100098]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.04103037714958191,
+        "ry": 0.04198502004146576
+      },
+      "glow": {
+        "x": 5.559133529663086,
+        "y": -0.6120495200157166,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 0.5982865691184998,
+        "y": 0.3620327413082123,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "background",
+      "instance": 1,
+      "sequence": 7,
+      "time": 1793396504622,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689860637.078125,
+        "samples": 1703,
+        "frames": 976,
+        "callbacks": 3,
+        "processingMs": 1365.1197410000002,
+        "interval": 16.66666603088379,
+        "values": [
+          0.0016913955828935174, 0.0013610431947540097, 3.05686528540776e-5,
+          0.0008456870934050503, 0.0006805342273319595, 1.470880192273119e-5,
+          0.9999994107349047
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689860637.078125,
+        "samples": 1703,
+        "frames": 976,
+        "callbacks": 3,
+        "processingMs": 972.7437529999992,
+        "interval": 16.66666603088379,
+        "values": [0.24481680989265442, -0.04318943992257118, -9.803498268127441]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.053005825728178024,
+        "ry": 0.0458679161965847
+      },
+      "glow": {
+        "x": 5.511682510375977,
+        "y": -0.6296347379684448,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 0.653617799282074,
+        "y": 0.46769845485687256,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "unloaded",
+      "instance": 1,
+      "sequence": 8,
+      "time": 1793396504941,
+      "paused": false,
+      "scopeSuspended": true,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689860637.078125,
+        "samples": 1703,
+        "frames": 976,
+        "callbacks": 3,
+        "processingMs": 1365.1197410000002,
+        "interval": 16.66666603088379,
+        "values": [
+          0.0016913955828935174, 0.0013610431947540097, 3.05686528540776e-5,
+          0.0008456870934050503, 0.0006805342273319595, 1.470880192273119e-5,
+          0.9999994107349047
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689860637.078125,
+        "samples": 1703,
+        "frames": 976,
+        "callbacks": 3,
+        "processingMs": 972.7437529999992,
+        "interval": 16.66666603088379,
+        "values": [0.24481680989265442, -0.04318943992257118, -9.803498268127441]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.053005825728178024,
+        "ry": 0.0458679161965847
+      },
+      "glow": {
+        "x": 5.511682510375977,
+        "y": -0.6296347379684448,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 0.653617799282074,
+        "y": 0.46769845485687256,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 0
+    },
+    {
+      "name": "reloaded",
+      "instance": 1,
+      "sequence": 9,
+      "time": 1793396506931,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689860637.078125,
+        "samples": 1703,
+        "frames": 976,
+        "callbacks": 3,
+        "processingMs": 1365.1197410000002,
+        "interval": 16.66666603088379,
+        "values": [
+          0.0016913955828935174, 0.0013610431947540097, 3.05686528540776e-5,
+          0.0008456870934050503, 0.0006805342273319595, 1.470880192273119e-5,
+          0.9999994107349047
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689860637.078125,
+        "samples": 1703,
+        "frames": 976,
+        "callbacks": 3,
+        "processingMs": 972.7437529999992,
+        "interval": 16.66666603088379,
+        "values": [0.24481680989265442, -0.04318943992257118, -9.803498268127441]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.053005825728178024,
+        "ry": 0.0458679161965847
+      },
+      "glow": {
+        "x": 5.511682510375977,
+        "y": -0.6296347379684448,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 0.653617799282074,
+        "y": 0.46769845485687256,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "foreground",
+      "instance": 1,
+      "sequence": 10,
+      "time": 1793396506978,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "starting",
+        "available": true,
+        "error": null,
+        "timestamp": 689860637.078125,
+        "samples": 1703,
+        "frames": 976,
+        "callbacks": 5,
+        "processingMs": 1365.1197410000002,
+        "interval": 16.66666603088379,
+        "values": [
+          0.0016913955828935174, 0.0013610431947540097, 3.05686528540776e-5,
+          0.0008456870934050503, 0.0006805342273319595, 1.470880192273119e-5,
+          0.9999994107349047
+        ]
+      },
+      "gravity": {
+        "status": "starting",
+        "available": true,
+        "error": null,
+        "timestamp": 689860637.078125,
+        "samples": 1703,
+        "frames": 976,
+        "callbacks": 5,
+        "processingMs": 972.7437529999992,
+        "interval": 16.66666603088379,
+        "values": [0.24481680989265442, -0.04318943992257118, -9.803498268127441]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.053005825728178024,
+        "ry": 0.0458679161965847
+      },
+      "glow": {
+        "x": 5.511682510375977,
+        "y": -0.6296347379684448,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 0.653617799282074,
+        "y": 0.46769845485687256,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "snapshot",
+      "instance": 1,
+      "sequence": 11,
+      "time": 1793396509127,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689865162.837405,
+        "samples": 1909,
+        "frames": 1098,
+        "callbacks": 6,
+        "processingMs": 1527.6334940000015,
+        "interval": 16.66666603088379,
+        "values": [
+          0.006588461507452458, 0.026469148120414555, 0.00021827660756931517,
+          0.003292491932978925, 0.013234475323057302, 6.553176451277772e-5,
+          0.9999069976079689
+        ]
+      },
+      "gravity": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689865162.837405,
+        "samples": 1909,
+        "frames": 1098,
+        "callbacks": 6,
+        "processingMs": 1078.6116179999988,
+        "interval": 16.66666603088379,
+        "values": [0.24620330333709717, -0.0480007566511631, -9.803442001342773]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.1843542754650116,
+        "ry": 0.8831249475479126
+      },
+      "glow": {
+        "x": 5.545000076293945,
+        "y": -0.7079763412475586,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 12.584531784057617,
+        "y": 1.6266553401947021,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "pause",
+      "instance": 1,
+      "sequence": 12,
+      "time": 1793396510517,
+      "paused": true,
+      "scopeSuspended": true,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689866532.924075,
+        "samples": 2048,
+        "frames": 1180,
+        "callbacks": 7,
+        "processingMs": 1597.2459950000011,
+        "interval": 16.66666603088379,
+        "values": [
+          0.006284680208976827, 0.02645312642631432, 0.00021061660260756102,
+          0.0031406672371211823, 0.013226443081776177, 6.373749036732466e-5,
+          0.9999075924055395
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689866532.924075,
+        "samples": 2048,
+        "frames": 1180,
+        "callbacks": 7,
+        "processingMs": 1117.0583859999995,
+        "interval": 16.66666603088379,
+        "values": [0.24604611098766327, -0.04502277821302414, -9.803460121154785]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.1784348487854004,
+        "ry": 0.8821190595626831
+      },
+      "glow": {
+        "x": 5.538341522216797,
+        "y": -0.6772558689117432,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 12.570197105407715,
+        "y": 1.5744251012802124,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "snapshot",
+      "instance": 1,
+      "sequence": 13,
+      "time": 1793396512289,
+      "paused": true,
+      "scopeSuspended": true,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689866532.924075,
+        "samples": 2048,
+        "frames": 1180,
+        "callbacks": 7,
+        "processingMs": 1597.2459950000011,
+        "interval": 16.66666603088379,
+        "values": [
+          0.006284680208976827, 0.02645312642631432, 0.00021061660260756102,
+          0.0031406672371211823, 0.013226443081776177, 6.373749036732466e-5,
+          0.9999075924055395
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689866532.924075,
+        "samples": 2048,
+        "frames": 1180,
+        "callbacks": 7,
+        "processingMs": 1117.0583859999995,
+        "interval": 16.66666603088379,
+        "values": [0.24604611098766327, -0.04502277821302414, -9.803460121154785]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.1784348487854004,
+        "ry": 0.8821190595626831
+      },
+      "glow": {
+        "x": 5.538341522216797,
+        "y": -0.6772558689117432,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 12.570197105407715,
+        "y": 1.5744251012802124,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 0
+    },
+    {
+      "name": "background",
+      "instance": 1,
+      "sequence": 14,
+      "time": 1793396513602,
+      "paused": true,
+      "scopeSuspended": true,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689866532.924075,
+        "samples": 2048,
+        "frames": 1180,
+        "callbacks": 7,
+        "processingMs": 1597.2459950000011,
+        "interval": 16.66666603088379,
+        "values": [
+          0.006284680208976827, 0.02645312642631432, 0.00021061660260756102,
+          0.0031406672371211823, 0.013226443081776177, 6.373749036732466e-5,
+          0.9999075924055395
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689866532.924075,
+        "samples": 2048,
+        "frames": 1180,
+        "callbacks": 7,
+        "processingMs": 1117.0583859999995,
+        "interval": 16.66666603088379,
+        "values": [0.24604611098766327, -0.04502277821302414, -9.803460121154785]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.1784348487854004,
+        "ry": 0.8821190595626831
+      },
+      "glow": {
+        "x": 5.538341522216797,
+        "y": -0.6772558689117432,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 12.570197105407715,
+        "y": 1.5744251012802124,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 0
+    },
+    {
+      "name": "unloaded",
+      "instance": 1,
+      "sequence": 15,
+      "time": 1793396513883,
+      "paused": true,
+      "scopeSuspended": true,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689866532.924075,
+        "samples": 2048,
+        "frames": 1180,
+        "callbacks": 7,
+        "processingMs": 1597.2459950000011,
+        "interval": 16.66666603088379,
+        "values": [
+          0.006284680208976827, 0.02645312642631432, 0.00021061660260756102,
+          0.0031406672371211823, 0.013226443081776177, 6.373749036732466e-5,
+          0.9999075924055395
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689866532.924075,
+        "samples": 2048,
+        "frames": 1180,
+        "callbacks": 7,
+        "processingMs": 1117.0583859999995,
+        "interval": 16.66666603088379,
+        "values": [0.24604611098766327, -0.04502277821302414, -9.803460121154785]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.1784348487854004,
+        "ry": 0.8821190595626831
+      },
+      "glow": {
+        "x": 5.538341522216797,
+        "y": -0.6772558689117432,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 12.570197105407715,
+        "y": 1.5744251012802124,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 0
+    },
+    {
+      "name": "reloaded",
+      "instance": 1,
+      "sequence": 16,
+      "time": 1793396515895,
+      "paused": true,
+      "scopeSuspended": true,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689866532.924075,
+        "samples": 2048,
+        "frames": 1180,
+        "callbacks": 7,
+        "processingMs": 1597.2459950000011,
+        "interval": 16.66666603088379,
+        "values": [
+          0.006284680208976827, 0.02645312642631432, 0.00021061660260756102,
+          0.0031406672371211823, 0.013226443081776177, 6.373749036732466e-5,
+          0.9999075924055395
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689866532.924075,
+        "samples": 2048,
+        "frames": 1180,
+        "callbacks": 7,
+        "processingMs": 1117.0583859999995,
+        "interval": 16.66666603088379,
+        "values": [0.24604611098766327, -0.04502277821302414, -9.803460121154785]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.1784348487854004,
+        "ry": 0.8821190595626831
+      },
+      "glow": {
+        "x": 5.538341522216797,
+        "y": -0.6772558689117432,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 12.570197105407715,
+        "y": 1.5744251012802124,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 0
+    },
+    {
+      "name": "foreground",
+      "instance": 1,
+      "sequence": 17,
+      "time": 1793396515938,
+      "paused": true,
+      "scopeSuspended": true,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689866532.924075,
+        "samples": 2048,
+        "frames": 1180,
+        "callbacks": 7,
+        "processingMs": 1597.2459950000011,
+        "interval": 16.66666603088379,
+        "values": [
+          0.006284680208976827, 0.02645312642631432, 0.00021061660260756102,
+          0.0031406672371211823, 0.013226443081776177, 6.373749036732466e-5,
+          0.9999075924055395
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689866532.924075,
+        "samples": 2048,
+        "frames": 1180,
+        "callbacks": 7,
+        "processingMs": 1117.0583859999995,
+        "interval": 16.66666603088379,
+        "values": [0.24604611098766327, -0.04502277821302414, -9.803460121154785]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.1784348487854004,
+        "ry": 0.8821190595626831
+      },
+      "glow": {
+        "x": 5.538341522216797,
+        "y": -0.6772558689117432,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 12.570197105407715,
+        "y": 1.5744251012802124,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 0
+    },
+    {
+      "name": "snapshot",
+      "instance": 1,
+      "sequence": 18,
+      "time": 1793396518090,
+      "paused": true,
+      "scopeSuspended": true,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689866532.924075,
+        "samples": 2048,
+        "frames": 1180,
+        "callbacks": 7,
+        "processingMs": 1597.2459950000011,
+        "interval": 16.66666603088379,
+        "values": [
+          0.006284680208976827, 0.02645312642631432, 0.00021061660260756102,
+          0.0031406672371211823, 0.013226443081776177, 6.373749036732466e-5,
+          0.9999075924055395
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689866532.924075,
+        "samples": 2048,
+        "frames": 1180,
+        "callbacks": 7,
+        "processingMs": 1117.0583859999995,
+        "interval": 16.66666603088379,
+        "values": [0.24604611098766327, -0.04502277821302414, -9.803460121154785]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.1784348487854004,
+        "ry": 0.8821190595626831
+      },
+      "glow": {
+        "x": 5.538341522216797,
+        "y": -0.6772558689117432,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 12.570197105407715,
+        "y": 1.5744251012802124,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 0
+    },
+    {
+      "name": "resume",
+      "instance": 1,
+      "sequence": 19,
+      "time": 1793396519405,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "starting",
+        "available": true,
+        "error": null,
+        "timestamp": 689866532.924075,
+        "samples": 2048,
+        "frames": 1180,
+        "callbacks": 9,
+        "processingMs": 1597.2459950000011,
+        "interval": 16.66666603088379,
+        "values": [
+          0.006284680208976827, 0.02645312642631432, 0.00021061660260756102,
+          0.0031406672371211823, 0.013226443081776177, 6.373749036732466e-5,
+          0.9999075924055395
+        ]
+      },
+      "gravity": {
+        "status": "starting",
+        "available": true,
+        "error": null,
+        "timestamp": 689866532.924075,
+        "samples": 2048,
+        "frames": 1180,
+        "callbacks": 9,
+        "processingMs": 1117.0583859999995,
+        "interval": 16.66666603088379,
+        "values": [0.24604611098766327, -0.04502277821302414, -9.803460121154785]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.1784348487854004,
+        "ry": 0.8821190595626831
+      },
+      "glow": {
+        "x": 5.538341522216797,
+        "y": -0.6772558689117432,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 12.570196151733398,
+        "y": 1.5744249820709229,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "snapshot",
+      "instance": 1,
+      "sequence": 20,
+      "time": 1793396522269,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689878296.680746,
+        "samples": 2318,
+        "frames": 1340,
+        "callbacks": 10,
+        "processingMs": 1784.4387040000017,
+        "interval": 16.66666603088379,
+        "values": [
+          0.009772590758819132, 0.05139666193221136, 0.0004135275122693104,
+          0.004879349625947636, 0.02569620518295635, 8.113770419164074e-5,
+          0.9996578866807864
+        ]
+      },
+      "gravity": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689878296.680746,
+        "samples": 2318,
+        "frames": 1340,
+        "callbacks": 10,
+        "processingMs": 1238.809013999999,
+        "interval": 16.66666603088379,
+        "values": [0.24459485709667206, -0.03412220627069473, -9.80354118347168]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.27848508954048157,
+        "ry": 1.7200965881347656
+      },
+      "glow": {
+        "x": 5.514832496643066,
+        "y": -0.5379147529602051,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 24.511375427246094,
+        "y": 2.457221269607544,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "reduced",
+      "instance": 1,
+      "sequence": 21,
+      "time": 1793396523662,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689879686.817465,
+        "samples": 2458,
+        "frames": 1423,
+        "callbacks": 11,
+        "processingMs": 1847.437084000003,
+        "interval": 16.66666603088379,
+        "values": [
+          0.010073936708366168, 0.051167877705878675, 0.00041698221919791875,
+          0.005029965225142272, 0.025581872750643445, 7.956934989651181e-5,
+          0.9996600726772688
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689879686.817465,
+        "samples": 2458,
+        "frames": 1423,
+        "callbacks": 11,
+        "processingMs": 1281.8049049999988,
+        "interval": 16.66666603088379,
+        "values": [0.2423521876335144, -0.03707612678408623, -9.80358600616455]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.2854281961917877,
+        "ry": 1.7055959701538086
+      },
+      "glow": {
+        "x": 5.4529242515563965,
+        "y": -0.5561419129371643,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 24.30474090576172,
+        "y": 2.518484115600586,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "snapshot",
+      "instance": 1,
+      "sequence": 22,
+      "time": 1793396525427,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689879686.817465,
+        "samples": 2458,
+        "frames": 1423,
+        "callbacks": 11,
+        "processingMs": 1847.437084000003,
+        "interval": 16.66666603088379,
+        "values": [
+          0.010073936708366168, 0.051167877705878675, 0.00041698221919791875,
+          0.005029965225142272, 0.025581872750643445, 7.956934989651181e-5,
+          0.9996600726772688
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689879686.817465,
+        "samples": 2458,
+        "frames": 1423,
+        "callbacks": 11,
+        "processingMs": 1281.8049049999988,
+        "interval": 16.66666603088379,
+        "values": [0.2423521876335144, -0.03707612678408623, -9.80358600616455]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.2854281961917877,
+        "ry": 1.7055959701538086
+      },
+      "glow": {
+        "x": 5.4529242515563965,
+        "y": -0.5561419129371643,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 24.30474090576172,
+        "y": 2.518484115600586,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 0
+    },
+    {
+      "name": "motion",
+      "instance": 1,
+      "sequence": 23,
+      "time": 1793396526736,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "starting",
+        "available": true,
+        "error": null,
+        "timestamp": 689879686.817465,
+        "samples": 2458,
+        "frames": 1423,
+        "callbacks": 12,
+        "processingMs": 1847.437084000003,
+        "interval": 16.66666603088379,
+        "values": [
+          0.010073936708366168, 0.051167877705878675, 0.00041698221919791875,
+          0.005029965225142272, 0.025581872750643445, 7.956934989651181e-5,
+          0.9996600726772688
+        ]
+      },
+      "gravity": {
+        "status": "starting",
+        "available": true,
+        "error": null,
+        "timestamp": 689879686.817465,
+        "samples": 2458,
+        "frames": 1423,
+        "callbacks": 12,
+        "processingMs": 1281.8049049999988,
+        "interval": 16.66666603088379,
+        "values": [0.2423521876335144, -0.03707612678408623, -9.80358600616455]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.2854281961917877,
+        "ry": 1.7055959701538086
+      },
+      "glow": {
+        "x": 5.4529242515563965,
+        "y": -0.5561419129371643,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 24.30474090576172,
+        "y": 2.518484115600586,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "snapshot",
+      "instance": 1,
+      "sequence": 24,
+      "time": 1793396529597,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689885633.448461,
+        "samples": 2727,
+        "frames": 1583,
+        "callbacks": 13,
+        "processingMs": 2032.708655000001,
+        "interval": 16.66666603088379,
+        "values": [
+          0.014195357814550643, 0.07608815963265274, 0.0007707554279148166,
+          0.007077825595589139, 0.03803667570623817, 0.00011513190531140503,
+          0.9992512709177311
+        ]
+      },
+      "gravity": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689885633.448461,
+        "samples": 2727,
+        "frames": 1583,
+        "callbacks": 13,
+        "processingMs": 1411.571627999999,
+        "interval": 16.66666603088379,
+        "values": [0.24438169598579407, -0.04019656032323837, -9.803523063659668]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.40455588698387146,
+        "ry": 2.5370330810546875
+      },
+      "glow": {
+        "x": 5.503629207611084,
+        "y": -0.5909608602523804,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 36.1527214050293,
+        "y": 3.569610595703125,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "center",
+      "instance": 1,
+      "sequence": 25,
+      "time": 1793396530983,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689887013.575415,
+        "samples": 2867,
+        "frames": 1666,
+        "callbacks": 13,
+        "processingMs": 2097.429592000002,
+        "interval": 16.66666603088379,
+        "values": [
+          0.01434758012656229, 0.07608625745193447, 0.0007745264120965449,
+          0.007153808654054739, 0.03803574746985413, 0.00011412780090410976,
+          0.9992507652791643
+        ]
+      },
+      "gravity": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689887013.575415,
+        "samples": 2867,
+        "frames": 1666,
+        "callbacks": 13,
+        "processingMs": 1451.8388179999981,
+        "interval": 16.66666603088379,
+        "values": [0.24436338245868683, -0.04168698191642761, -9.803516387939453]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.41122886538505554,
+        "ry": 2.5372555255889893
+      },
+      "glow": {
+        "x": 5.541444778442383,
+        "y": -0.6497350931167603,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 36.15589141845703,
+        "y": 3.6284902095794678,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "snapshot",
+      "instance": 1,
+      "sequence": 26,
+      "time": 1793396532888,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689888919.743874,
+        "samples": 3059,
+        "frames": 1780,
+        "callbacks": 13,
+        "processingMs": 2192.1136580000016,
+        "interval": 16.66666603088379,
+        "values": [
+          -8.041133913432178e-5, 0.00023011309651965593, -1.962009107722057e-6,
+          -4.0205556419190513e-5, 0.00011505658735486977, -9.763786210252847e-7,
+          0.9999999925722709
+        ]
+      },
+      "gravity": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689888919.743874,
+        "samples": 3059,
+        "frames": 1780,
+        "callbacks": 13,
+        "processingMs": 1512.8774099999985,
+        "interval": 16.66666603088379,
+        "values": [0.24613438546657562, -0.040452711284160614, -9.80347728729248]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.001250630710273981,
+        "ry": 0.008741491474211216
+      },
+      "glow": {
+        "x": 5.487733840942383,
+        "y": -0.6480933427810669,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 0.12456625699996948,
+        "y": 0.011034977622330189,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "unloaded",
+      "instance": 1,
+      "sequence": 27,
+      "time": 1793396536058,
+      "paused": false,
+      "scopeSuspended": true,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689892056.859352,
+        "samples": 3376,
+        "frames": 1867,
+        "callbacks": 15,
+        "processingMs": 2261.642252,
+        "interval": 16.66666603088379,
+        "values": [
+          0.00012094672630399651, -0.00022684359249977974, 2.9252663400534974e-6,
+          6.0473528620575605e-5, -0.00011342170734884314, 1.4694921553988345e-6,
+          0.9999999917381547
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689892056.859352,
+        "samples": 3376,
+        "frames": 1867,
+        "callbacks": 15,
+        "processingMs": 1556.4930359999983,
+        "interval": 16.66666603088379,
+        "values": [0.2416544258594513, -0.042427923530340195, -9.803581237792969]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.005440069828182459,
+        "ry": -0.004746410064399242
+      },
+      "glow": {
+        "x": 5.455851078033447,
+        "y": -0.6468742489814758,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": -0.06763634830713272,
+        "y": 0.04800061881542206,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "disposed",
+      "instance": 1,
+      "sequence": 28,
+      "time": 1793396536079,
+      "paused": false,
+      "scopeSuspended": null,
+      "rotation": {
+        "status": "disposed",
+        "available": true,
+        "error": null,
+        "timestamp": 689892056.859352,
+        "samples": 3376,
+        "frames": 1867,
+        "callbacks": 15,
+        "processingMs": 2261.642252,
+        "interval": 16.66666603088379,
+        "values": [
+          0.00012094672630399651, -0.00022684359249977974, 2.9252663400534974e-6,
+          6.0473528620575605e-5, -0.00011342170734884314, 1.4694921553988345e-6,
+          0.9999999917381547
+        ]
+      },
+      "gravity": {
+        "status": "disposed",
+        "available": true,
+        "error": null,
+        "timestamp": 689892056.859352,
+        "samples": 3376,
+        "frames": 1867,
+        "callbacks": 15,
+        "processingMs": 1556.4930359999983,
+        "interval": 16.66666603088379,
+        "values": [0.2416544258594513, -0.042427923530340195, -9.803581237792969]
+      },
+      "card": null,
+      "glow": null,
+      "shine": null,
+      "active": 0,
+      "sources": 0,
+      "nodes": 0,
+      "clock": 0
+    },
+    {
+      "name": "baseline",
+      "instance": 2,
+      "sequence": 29,
+      "time": 1793396545792,
+      "paused": false,
+      "scopeSuspended": null,
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0,
+        "ry": 0
+      },
+      "glow": {
+        "x": -240,
+        "y": -165,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 0,
+        "y": 0,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 0,
+      "nodes": 0,
+      "clock": 0
+    },
+    {
+      "name": "loaded",
+      "instance": 2,
+      "sequence": 30,
+      "time": 1793396545824,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "starting",
+        "available": true,
+        "error": null,
+        "timestamp": null,
+        "samples": 0,
+        "frames": 0,
+        "callbacks": 1,
+        "processingMs": 0,
+        "interval": 16.66666603088379,
+        "values": [0, 0, 0, 0, 0, 0, 1]
+      },
+      "gravity": {
+        "status": "starting",
+        "available": true,
+        "error": null,
+        "timestamp": null,
+        "samples": 0,
+        "frames": 0,
+        "callbacks": 1,
+        "processingMs": 0,
+        "interval": 16.66666603088379,
+        "values": [0, 0, 0]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0,
+        "ry": 0
+      },
+      "glow": {
+        "x": -240,
+        "y": -165,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 0,
+        "y": 0,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "shared",
+      "instance": 2,
+      "sequence": 31,
+      "time": 1793396550178,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689906194.19749,
+        "samples": 419,
+        "frames": 249,
+        "callbacks": 2,
+        "processingMs": 331.7245890000001,
+        "interval": 16.66666603088379,
+        "values": [
+          0.004152598405227801, 0.02398622829304456, 8.133824488702457e-5,
+          0.0020756606522565387, 0.011992885218663369, 1.5765431507358466e-5,
+          0.9999259283009118
+        ]
+      },
+      "gravity": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689906194.19749,
+        "samples": 419,
+        "frames": 249,
+        "callbacks": 2,
+        "processingMs": 242.9529740000001,
+        "interval": 16.66666603088379,
+        "values": [0.23520201444625854, -0.04071125015616417, -9.80374526977539]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.1164102703332901,
+        "ry": 0.8021307587623596
+      },
+      "glow": {
+        "x": 5.309182643890381,
+        "y": -0.6288577318191528,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 11.430362701416016,
+        "y": 1.0271494388580322,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 3,
+      "nodes": 21,
+      "clock": 1
+    },
+    {
+      "name": "shared-released",
+      "instance": 2,
+      "sequence": 32,
+      "time": 1793396550190,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689906194.19749,
+        "samples": 419,
+        "frames": 249,
+        "callbacks": 2,
+        "processingMs": 331.7245890000001,
+        "interval": 16.66666603088379,
+        "values": [
+          0.004152598405227801, 0.02398622829304456, 8.133824488702457e-5,
+          0.0020756606522565387, 0.011992885218663369, 1.5765431507358466e-5,
+          0.9999259283009118
+        ]
+      },
+      "gravity": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689906194.19749,
+        "samples": 419,
+        "frames": 249,
+        "callbacks": 2,
+        "processingMs": 242.9529740000001,
+        "interval": 16.66666603088379,
+        "values": [0.23520201444625854, -0.04071125015616417, -9.80374526977539]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.1164102703332901,
+        "ry": 0.8021307587623596
+      },
+      "glow": {
+        "x": 5.309182643890381,
+        "y": -0.6288577318191528,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 11.430362701416016,
+        "y": 1.0271494388580322,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "snapshot",
+      "instance": 2,
+      "sequence": 33,
+      "time": 1793396550196,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689906194.19749,
+        "samples": 419,
+        "frames": 249,
+        "callbacks": 2,
+        "processingMs": 331.7245890000001,
+        "interval": 16.66666603088379,
+        "values": [
+          0.004152598405227801, 0.02398622829304456, 8.133824488702457e-5,
+          0.0020756606522565387, 0.011992885218663369, 1.5765431507358466e-5,
+          0.9999259283009118
+        ]
+      },
+      "gravity": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689906194.19749,
+        "samples": 419,
+        "frames": 249,
+        "callbacks": 2,
+        "processingMs": 242.9529740000001,
+        "interval": 16.66666603088379,
+        "values": [0.23520201444625854, -0.04071125015616417, -9.80374526977539]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.1164102703332901,
+        "ry": 0.8021307587623596
+      },
+      "glow": {
+        "x": 5.309182643890381,
+        "y": -0.6288577318191528,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 11.430362701416016,
+        "y": 1.0271494388580322,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "snapshot",
+      "instance": 2,
+      "sequence": 34,
+      "time": 1793396557647,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689913679.976242,
+        "samples": 1173,
+        "frames": 692,
+        "callbacks": 2,
+        "processingMs": 957.3228330000011,
+        "interval": 16.66666603088379,
+        "values": [
+          0.004403604795862308, 0.024450933409000595, 8.745375946563763e-5,
+          0.0022011015091424773, 0.01222522879186378, 1.6806136422733768e-5,
+          0.9999228463490006
+        ]
+      },
+      "gravity": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689913679.976242,
+        "samples": 1173,
+        "frames": 692,
+        "callbacks": 2,
+        "processingMs": 696.341985,
+        "interval": 16.66666603088379,
+        "values": [0.23954515159130096, -0.04363800957798958, -9.803627014160156]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.12380198389291763,
+        "ry": 0.8157479763031006
+      },
+      "glow": {
+        "x": 5.371856212615967,
+        "y": -0.6495518088340759,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 11.624408721923828,
+        "y": 1.0923705101013184,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "background",
+      "instance": 2,
+      "sequence": 35,
+      "time": 1793396559133,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689915149.367111,
+        "samples": 1321,
+        "frames": 780,
+        "callbacks": 3,
+        "processingMs": 1028.0879320000013,
+        "interval": 16.66666603088379,
+        "values": [
+          0.004147698292343637, 0.023920389597205837, 8.122338606311891e-5,
+          0.0020732136204673194, 0.011959968144817411, 1.5805670422272492e-5,
+          0.9999263276349112
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689915149.367111,
+        "samples": 1321,
+        "frames": 780,
+        "callbacks": 3,
+        "processingMs": 741.5475600000002,
+        "interval": 16.66666603088379,
+        "values": [0.23434379696846008, -0.041129715740680695, -9.803763389587402]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.11760283261537552,
+        "ry": 0.7958585023880005
+      },
+      "glow": {
+        "x": 5.318771839141846,
+        "y": -0.6173860430717468,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 11.340983390808105,
+        "y": 1.0376720428466797,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "unloaded",
+      "instance": 2,
+      "sequence": 36,
+      "time": 1793396559436,
+      "paused": false,
+      "scopeSuspended": true,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689915149.367111,
+        "samples": 1321,
+        "frames": 780,
+        "callbacks": 3,
+        "processingMs": 1028.0879320000013,
+        "interval": 16.66666603088379,
+        "values": [
+          0.004147698292343637, 0.023920389597205837, 8.122338606311891e-5,
+          0.0020732136204673194, 0.011959968144817411, 1.5805670422272492e-5,
+          0.9999263276349112
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689915149.367111,
+        "samples": 1321,
+        "frames": 780,
+        "callbacks": 3,
+        "processingMs": 741.5475600000002,
+        "interval": 16.66666603088379,
+        "values": [0.23434379696846008, -0.041129715740680695, -9.803763389587402]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.11760283261537552,
+        "ry": 0.7958585023880005
+      },
+      "glow": {
+        "x": 5.318771839141846,
+        "y": -0.6173860430717468,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 11.340983390808105,
+        "y": 1.0376720428466797,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 0
+    },
+    {
+      "name": "reloaded",
+      "instance": 2,
+      "sequence": 37,
+      "time": 1793396561505,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689915149.367111,
+        "samples": 1321,
+        "frames": 780,
+        "callbacks": 3,
+        "processingMs": 1028.0879320000013,
+        "interval": 16.66666603088379,
+        "values": [
+          0.004147698292343637, 0.023920389597205837, 8.122338606311891e-5,
+          0.0020732136204673194, 0.011959968144817411, 1.5805670422272492e-5,
+          0.9999263276349112
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689915149.367111,
+        "samples": 1321,
+        "frames": 780,
+        "callbacks": 3,
+        "processingMs": 741.5475600000002,
+        "interval": 16.66666603088379,
+        "values": [0.23434379696846008, -0.041129715740680695, -9.803763389587402]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.11760283261537552,
+        "ry": 0.7958585023880005
+      },
+      "glow": {
+        "x": 5.318771839141846,
+        "y": -0.6173860430717468,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 11.340983390808105,
+        "y": 1.0376720428466797,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "foreground",
+      "instance": 2,
+      "sequence": 38,
+      "time": 1793396561544,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "starting",
+        "available": true,
+        "error": null,
+        "timestamp": 689915149.367111,
+        "samples": 1321,
+        "frames": 780,
+        "callbacks": 5,
+        "processingMs": 1028.0879320000013,
+        "interval": 16.66666603088379,
+        "values": [
+          0.004147698292343637, 0.023920389597205837, 8.122338606311891e-5,
+          0.0020732136204673194, 0.011959968144817411, 1.5805670422272492e-5,
+          0.9999263276349112
+        ]
+      },
+      "gravity": {
+        "status": "starting",
+        "available": true,
+        "error": null,
+        "timestamp": 689915149.367111,
+        "samples": 1321,
+        "frames": 780,
+        "callbacks": 5,
+        "processingMs": 741.5475600000002,
+        "interval": 16.66666603088379,
+        "values": [0.23434379696846008, -0.041129715740680695, -9.803763389587402]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.11760283261537552,
+        "ry": 0.7958585023880005
+      },
+      "glow": {
+        "x": 5.318771839141846,
+        "y": -0.6173860430717468,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 11.340983390808105,
+        "y": 1.0376720428466797,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "snapshot",
+      "instance": 2,
+      "sequence": 39,
+      "time": 1793396564047,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689920079.73473,
+        "samples": 1563,
+        "frames": 924,
+        "callbacks": 6,
+        "processingMs": 1245.1440780000014,
+        "interval": 16.66666603088379,
+        "values": [
+          0.008824622894074858, 0.047979073673865974, 0.00029159723740928667,
+          0.004407530238590446, 0.023987645284714018, 3.991643690796654e-5,
+          0.9997025382370341
+        ]
+      },
+      "gravity": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689920079.73473,
+        "samples": 1563,
+        "frames": 924,
+        "callbacks": 6,
+        "processingMs": 893.2728250000001,
+        "interval": 16.66666603088379,
+        "values": [0.23591889441013336, -0.0457904115319252, -9.803705215454102]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.24932615458965302,
+        "ry": 1.5984975099563599
+      },
+      "glow": {
+        "x": 5.302846908569336,
+        "y": -0.6832008361816406,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 22.77859115600586,
+        "y": 2.199936628341675,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "unloaded",
+      "instance": 2,
+      "sequence": 40,
+      "time": 1793396565639,
+      "paused": false,
+      "scopeSuspended": true,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689921658.164906,
+        "samples": 1722,
+        "frames": 1015,
+        "callbacks": 8,
+        "processingMs": 1318.1876680000012,
+        "interval": 16.66666603088379,
+        "values": [
+          0.009162780561871834, 0.048429247365234296, 0.00030035938584764,
+          0.004576394977338982, 0.02421269084385117, 3.9208678745595e-5,
+          0.9996963542365206
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689921658.164906,
+        "samples": 1722,
+        "frames": 1015,
+        "callbacks": 8,
+        "processingMs": 937.6138180000005,
+        "interval": 16.66666603088379,
+        "values": [0.24033252894878387, -0.04910256713628769, -9.803581237792969]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.2556779086589813,
+        "ry": 1.6103839874267578
+      },
+      "glow": {
+        "x": 5.341968536376953,
+        "y": -0.7161357402801514,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 22.94797134399414,
+        "y": 2.2559814453125,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "disposed",
+      "instance": 2,
+      "sequence": 41,
+      "time": 1793396565652,
+      "paused": false,
+      "scopeSuspended": null,
+      "rotation": {
+        "status": "disposed",
+        "available": true,
+        "error": null,
+        "timestamp": 689921658.164906,
+        "samples": 1722,
+        "frames": 1015,
+        "callbacks": 8,
+        "processingMs": 1318.1876680000012,
+        "interval": 16.66666603088379,
+        "values": [
+          0.009162780561871834, 0.048429247365234296, 0.00030035938584764,
+          0.004576394977338982, 0.02421269084385117, 3.9208678745595e-5,
+          0.9996963542365206
+        ]
+      },
+      "gravity": {
+        "status": "disposed",
+        "available": true,
+        "error": null,
+        "timestamp": 689921658.164906,
+        "samples": 1722,
+        "frames": 1015,
+        "callbacks": 8,
+        "processingMs": 937.6138180000005,
+        "interval": 16.66666603088379,
+        "values": [0.24033252894878387, -0.04910256713628769, -9.803581237792969]
+      },
+      "card": null,
+      "glow": null,
+      "shine": null,
+      "active": 0,
+      "sources": 0,
+      "nodes": 0,
+      "clock": 0
+    },
+    {
+      "name": "baseline",
+      "instance": 3,
+      "sequence": 42,
+      "time": 1793396569854,
+      "paused": false,
+      "scopeSuspended": null,
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0,
+        "ry": 0
+      },
+      "glow": {
+        "x": -240,
+        "y": -165,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 0,
+        "y": 0,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 0,
+      "nodes": 0,
+      "clock": 0
+    },
+    {
+      "name": "loaded",
+      "instance": 3,
+      "sequence": 43,
+      "time": 1793396569886,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "starting",
+        "available": true,
+        "error": null,
+        "timestamp": null,
+        "samples": 0,
+        "frames": 0,
+        "callbacks": 1,
+        "processingMs": 0,
+        "interval": 16.66666603088379,
+        "values": [0, 0, 0, 0, 0, 0, 1]
+      },
+      "gravity": {
+        "status": "starting",
+        "available": true,
+        "error": null,
+        "timestamp": null,
+        "samples": 0,
+        "frames": 0,
+        "callbacks": 1,
+        "processingMs": 0,
+        "interval": 16.66666603088379,
+        "values": [0, 0, 0]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0,
+        "ry": 0
+      },
+      "glow": {
+        "x": -240,
+        "y": -165,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 0,
+        "y": 0,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "shared",
+      "instance": 3,
+      "sequence": 44,
+      "time": 1793396574331,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689930337.154053,
+        "samples": 428,
+        "frames": 254,
+        "callbacks": 2,
+        "processingMs": 309.747809,
+        "interval": 16.66666603088379,
+        "values": [
+          0.004443821169127157, 0.02370574541868907, 6.231216946016721e-5,
+          0.002221383398907256, 0.011852635133025863, 4.818434288487723e-6,
+          0.9999272875929435
+        ]
+      },
+      "gravity": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689930337.154053,
+        "samples": 428,
+        "frames": 254,
+        "callbacks": 2,
+        "processingMs": 237.69932799999995,
+        "interval": 16.66666603088379,
+        "values": [0.23245219886302948, -0.043566614389419556, -9.80379867553711]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.12484931200742722,
+        "ry": 0.7887012362480164
+      },
+      "glow": {
+        "x": 5.297290802001953,
+        "y": -0.6241416931152344,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 11.238992691040039,
+        "y": 1.101611614227295,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 3,
+      "nodes": 21,
+      "clock": 1
+    },
+    {
+      "name": "shared-released",
+      "instance": 3,
+      "sequence": 45,
+      "time": 1793396574344,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689930337.154053,
+        "samples": 428,
+        "frames": 254,
+        "callbacks": 2,
+        "processingMs": 309.747809,
+        "interval": 16.66666603088379,
+        "values": [
+          0.004443821169127157, 0.02370574541868907, 6.231216946016721e-5,
+          0.002221383398907256, 0.011852635133025863, 4.818434288487723e-6,
+          0.9999272875929435
+        ]
+      },
+      "gravity": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689930337.154053,
+        "samples": 428,
+        "frames": 254,
+        "callbacks": 2,
+        "processingMs": 237.69932799999995,
+        "interval": 16.66666603088379,
+        "values": [0.23245219886302948, -0.043566614389419556, -9.80379867553711]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.12484931200742722,
+        "ry": 0.7887012362480164
+      },
+      "glow": {
+        "x": 5.297290802001953,
+        "y": -0.6241416931152344,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 11.238992691040039,
+        "y": 1.101611614227295,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "snapshot",
+      "instance": 3,
+      "sequence": 46,
+      "time": 1793396574350,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689930337.154053,
+        "samples": 428,
+        "frames": 254,
+        "callbacks": 2,
+        "processingMs": 309.747809,
+        "interval": 16.66666603088379,
+        "values": [
+          0.004443821169127157, 0.02370574541868907, 6.231216946016721e-5,
+          0.002221383398907256, 0.011852635133025863, 4.818434288487723e-6,
+          0.9999272875929435
+        ]
+      },
+      "gravity": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689930337.154053,
+        "samples": 428,
+        "frames": 254,
+        "callbacks": 2,
+        "processingMs": 237.69932799999995,
+        "interval": 16.66666603088379,
+        "values": [0.23245219886302948, -0.043566614389419556, -9.80379867553711]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.12484931200742722,
+        "ry": 0.7887012362480164
+      },
+      "glow": {
+        "x": 5.297290802001953,
+        "y": -0.6241416931152344,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 11.238992691040039,
+        "y": 1.101611614227295,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "snapshot",
+      "instance": 3,
+      "sequence": 47,
+      "time": 1793396582001,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689938029.253691,
+        "samples": 1202,
+        "frames": 709,
+        "callbacks": 2,
+        "processingMs": 963.1347309999996,
+        "interval": 16.66666603088379,
+        "values": [
+          0.004777145109055177, 0.022024521142480186, 6.99168410081564e-5,
+          0.002388040490111099, 0.01101209007215842, 8.653174397782504e-6,
+          0.9999365135147245
+        ]
+      },
+      "gravity": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689938029.253691,
+        "samples": 1202,
+        "frames": 709,
+        "callbacks": 2,
+        "processingMs": 708.4924560000006,
+        "interval": 16.66666603088379,
+        "values": [0.2201496809720993, -0.04868476465344429, -9.804057121276855]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.13541008532047272,
+        "ry": 0.7372573018074036
+      },
+      "glow": {
+        "x": 4.894665718078613,
+        "y": -0.7305691838264465,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 10.505916595458984,
+        "y": 1.1947948932647705,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "background",
+      "instance": 3,
+      "sequence": 48,
+      "time": 1793396583404,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689939428.759306,
+        "samples": 1343,
+        "frames": 793,
+        "callbacks": 3,
+        "processingMs": 1027.273581,
+        "interval": 16.66666603088379,
+        "values": [
+          0.005047221464923189, 0.022216355680361427, 7.60816430158192e-5,
+          0.0025230298033769635, 0.011108010014000302, 1.0006242893417631e-5,
+          0.9999351210623694
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689939428.759306,
+        "samples": 1343,
+        "frames": 793,
+        "callbacks": 3,
+        "processingMs": 748.1214170000005,
+        "interval": 16.66666603088379,
+        "values": [0.22203047573566437, -0.051332421600818634, -9.804001808166504]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.14165009558200836,
+        "ry": 0.7391030192375183
+      },
+      "glow": {
+        "x": 4.986141681671143,
+        "y": -0.7629566192626953,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 10.532217979431152,
+        "y": 1.2498538494110107,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "unloaded",
+      "instance": 3,
+      "sequence": 49,
+      "time": 1793396583729,
+      "paused": false,
+      "scopeSuspended": true,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689939428.759306,
+        "samples": 1343,
+        "frames": 793,
+        "callbacks": 3,
+        "processingMs": 1027.273581,
+        "interval": 16.66666603088379,
+        "values": [
+          0.005047221464923189, 0.022216355680361427, 7.60816430158192e-5,
+          0.0025230298033769635, 0.011108010014000302, 1.0006242893417631e-5,
+          0.9999351210623694
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689939428.759306,
+        "samples": 1343,
+        "frames": 793,
+        "callbacks": 3,
+        "processingMs": 748.1214170000005,
+        "interval": 16.66666603088379,
+        "values": [0.22203047573566437, -0.051332421600818634, -9.804001808166504]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.14165009558200836,
+        "ry": 0.7391030192375183
+      },
+      "glow": {
+        "x": 4.986141681671143,
+        "y": -0.7629566192626953,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 10.532217979431152,
+        "y": 1.2498538494110107,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 0
+    },
+    {
+      "name": "reloaded",
+      "instance": 3,
+      "sequence": 50,
+      "time": 1793396585745,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689939428.759306,
+        "samples": 1343,
+        "frames": 793,
+        "callbacks": 3,
+        "processingMs": 1027.273581,
+        "interval": 16.66666603088379,
+        "values": [
+          0.005047221464923189, 0.022216355680361427, 7.60816430158192e-5,
+          0.0025230298033769635, 0.011108010014000302, 1.0006242893417631e-5,
+          0.9999351210623694
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689939428.759306,
+        "samples": 1343,
+        "frames": 793,
+        "callbacks": 3,
+        "processingMs": 748.1214170000005,
+        "interval": 16.66666603088379,
+        "values": [0.22203047573566437, -0.051332421600818634, -9.804001808166504]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.14165009558200836,
+        "ry": 0.7391030192375183
+      },
+      "glow": {
+        "x": 4.986141681671143,
+        "y": -0.7629566192626953,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 10.532217979431152,
+        "y": 1.2498538494110107,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "foreground",
+      "instance": 3,
+      "sequence": 51,
+      "time": 1793396585789,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "starting",
+        "available": true,
+        "error": null,
+        "timestamp": 689939428.759306,
+        "samples": 1343,
+        "frames": 793,
+        "callbacks": 5,
+        "processingMs": 1027.273581,
+        "interval": 16.66666603088379,
+        "values": [
+          0.005047221464923189, 0.022216355680361427, 7.60816430158192e-5,
+          0.0025230298033769635, 0.011108010014000302, 1.0006242893417631e-5,
+          0.9999351210623694
+        ]
+      },
+      "gravity": {
+        "status": "starting",
+        "available": true,
+        "error": null,
+        "timestamp": 689939428.759306,
+        "samples": 1343,
+        "frames": 793,
+        "callbacks": 5,
+        "processingMs": 748.1214170000005,
+        "interval": 16.66666603088379,
+        "values": [0.22203047573566437, -0.051332421600818634, -9.804001808166504]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.14165009558200836,
+        "ry": 0.7391030192375183
+      },
+      "glow": {
+        "x": 4.986141681671143,
+        "y": -0.7629566192626953,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 10.532217979431152,
+        "y": 1.2498538494110107,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "snapshot",
+      "instance": 3,
+      "sequence": 52,
+      "time": 1793396588400,
+      "paused": false,
+      "scopeSuspended": false,
+      "rotation": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689944429.456335,
+        "samples": 1595,
+        "frames": 942,
+        "callbacks": 6,
+        "processingMs": 1243.7540469999997,
+        "interval": 16.66666603088379,
+        "values": [
+          0.0084089296480236, 0.022635980104194795, 0.0001525150673190223,
+          0.004203320082640531, 0.01131796895339794, 2.8667040698250744e-5,
+          0.9999271147724987
+        ]
+      },
+      "gravity": {
+        "status": "active",
+        "available": true,
+        "error": null,
+        "timestamp": 689944429.456335,
+        "samples": 1595,
+        "frames": 942,
+        "callbacks": 6,
+        "processingMs": 897.5790720000005,
+        "interval": 16.66666603088379,
+        "values": [0.21999779343605042, -0.05084455758333206, -9.804049491882324]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.2406877875328064,
+        "ry": 0.750466525554657
+      },
+      "glow": {
+        "x": 4.985692024230957,
+        "y": -0.7753094434738159,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 10.694148063659668,
+        "y": 2.12371563911438,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 2,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "unloaded",
+      "instance": 3,
+      "sequence": 53,
+      "time": 1793396589960,
+      "paused": false,
+      "scopeSuspended": true,
+      "rotation": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689945977.796179,
+        "samples": 1751,
+        "frames": 1031,
+        "callbacks": 8,
+        "processingMs": 1312.5339399999998,
+        "interval": 16.66666603088379,
+        "values": [
+          0.007918083157579928, 0.022457564089196715, 0.00014055850835872314,
+          0.00395799251333394, 0.011228736276000286, 2.582010825844441e-5,
+          0.999929122043273
+        ]
+      },
+      "gravity": {
+        "status": "paused",
+        "available": true,
+        "error": null,
+        "timestamp": 689945977.796179,
+        "samples": 1751,
+        "frames": 1031,
+        "callbacks": 8,
+        "processingMs": 941.9174050000007,
+        "interval": 16.66666603088379,
+        "values": [0.21824820339679718, -0.0460326112806797, -9.804113388061523]
+      },
+      "card": {
+        "x": 0,
+        "y": 0,
+        "rx": 0.2229766845703125,
+        "ry": 0.7506960034370422
+      },
+      "glow": {
+        "x": 4.952389240264893,
+        "y": -0.6833817958831787,
+        "rx": 0,
+        "ry": 0
+      },
+      "shine": {
+        "x": 10.697418212890625,
+        "y": 1.9674413204193115,
+        "rx": 0,
+        "ry": 0
+      },
+      "active": 0,
+      "sources": 2,
+      "nodes": 14,
+      "clock": 1
+    },
+    {
+      "name": "disposed",
+      "instance": 3,
+      "sequence": 54,
+      "time": 1793396589972,
+      "paused": false,
+      "scopeSuspended": null,
+      "rotation": {
+        "status": "disposed",
+        "available": true,
+        "error": null,
+        "timestamp": 689945977.796179,
+        "samples": 1751,
+        "frames": 1031,
+        "callbacks": 8,
+        "processingMs": 1312.5339399999998,
+        "interval": 16.66666603088379,
+        "values": [
+          0.007918083157579928, 0.022457564089196715, 0.00014055850835872314,
+          0.00395799251333394, 0.011228736276000286, 2.582010825844441e-5,
+          0.999929122043273
+        ]
+      },
+      "gravity": {
+        "status": "disposed",
+        "available": true,
+        "error": null,
+        "timestamp": 689945977.796179,
+        "samples": 1751,
+        "frames": 1031,
+        "callbacks": 8,
+        "processingMs": 941.9174050000007,
+        "interval": 16.66666603088379,
+        "values": [0.21824820339679718, -0.0460326112806797, -9.804113388061523]
+      },
+      "card": null,
+      "glow": null,
+      "shine": null,
+      "active": 0,
+      "sources": 0,
+      "nodes": 0,
+      "clock": 0
+    }
+  ]
+}

@@ -11,6 +11,20 @@ import { sensor, type Sensor, type SensorKind } from '@rafaelaugusto/jolt/sensor
 
 declare const JoltSensorSource: { activeCount(): number; sourceCount(): number }
 declare const JoltLiveSpring: { nodeCount(): number; activeCount(): number }
+interface Probe {
+  finish(): string
+  cancel(): void
+}
+declare const JoltBudgetProbe: { start(view: UIView): Probe }
+declare const org: {
+  rafaelaugusto: {
+    jolt: {
+      SensorSource: { activeCount(): number; sourceCount(): number }
+      LiveSpring: { nodeCount(): number; activeCount(): number }
+      fixture: { BudgetProbe: { new (view: android.view.View): Probe } }
+    }
+  }
+}
 
 type Interval = number | 'auto'
 type Source = { source: Sensor; requested: Interval; bindings: Map<string, () => void> }
@@ -29,28 +43,54 @@ export function sensorIntervalAudit(
   let status = 'ready',
     failure: string | null = null
   let cancelWait: (() => void) | undefined
+  let probe: Probe | undefined
+  const profiles: { phase: string; recording: object }[] = []
+  const sourceClass = isIOS ? JoltSensorSource : org.rafaelaugusto.jolt.SensorSource
+  const liveClass = isIOS ? JoltLiveSpring : org.rafaelaugusto.jolt.LiveSpring
+  const hardware = isIOS ? 'Core Motion' : 'Android sensors'
+  const device = {
+    model: Device.model,
+    os: Device.osVersion,
+    displayMaximumFPS: isIOS
+      ? UIScreen.mainScreen.maximumFramesPerSecond
+      : Math.max(
+          60,
+          (
+            Application.android.context.getSystemService(
+              'window',
+            ) as android.view.WindowManager
+          )
+            .getDefaultDisplay()
+            .getRefreshRate(),
+        ),
+    simulator: isIOS
+      ? !!NSProcessInfo.processInfo.environment.objectForKey('SIMULATOR_UDID')
+      : /generic|emulator|sdk_gphone/.test(
+          android.os.Build.FINGERPRINT + android.os.Build.MODEL,
+        ),
+  }
   const native = () => ({
-    active: JoltSensorSource.activeCount(),
-    sources: JoltSensorSource.sourceCount(),
-    nodes: JoltLiveSpring.nodeCount(),
-    clock: JoltLiveSpring.activeCount(),
+    active: sourceClass.activeCount(),
+    sources: sourceClass.sourceCount(),
+    nodes: liveClass.nodeCount(),
+    clock: liveClass.activeCount(),
   })
   const write = () =>
-    File.fromPath(knownFolders.documents().path + '/sensor-intervals.json').writeTextSync(
+    File.fromPath(
+      (isIOS
+        ? knownFolders.documents().path
+        : Application.android.context.getExternalFilesDir(null)!.getAbsolutePath()) +
+        '/sensor-intervals.json',
+    ).writeTextSync(
       JSON.stringify(
         {
           schemaVersion: 1,
-          platform: 'ios',
+          platform: isIOS ? 'ios' : 'android',
           session,
           status,
           failure,
-          device: {
-            model: Device.model,
-            os: Device.osVersion,
-            displayMaximumFPS: UIScreen.mainScreen.maximumFramesPerSecond,
-            simulator:
-              !!NSProcessInfo.processInfo.environment.objectForKey('SIMULATOR_UDID'),
-          },
+          device,
+          profiles,
           events,
         },
         null,
@@ -63,7 +103,9 @@ export function sensorIntervalAudit(
       phase,
       sequence: events.length,
       time: Date.now(),
-      monotonicMs: CACurrentMediaTime() * 1000,
+      monotonicMs: isIOS
+        ? CACurrentMediaTime() * 1000
+        : android.os.SystemClock.elapsedRealtime(),
       native: native(),
       sources: Object.fromEntries(
         [...sources].map(([id, item]) => [
@@ -135,11 +177,18 @@ export function sensorIntervalAudit(
     for (const id of sources.keys()) release(id)
   }
   async function window(phase: string, milliseconds = 4000) {
-    show(phase, 'Settling · real Core Motion input')
+    show(phase, `Settling · real ${hardware} input`)
     await wait(1500)
     const before = snapshot('window-start', phase)
     show(phase, 'Measuring · no JavaScript polling')
+    // Demo-only native recorder: process CPU/memory and display callback timing.
+    // These callbacks are opportunities, not proof of presented frame rate.
+    probe = isIOS
+      ? JoltBudgetProbe.start(views.glow.ios)
+      : new org.rafaelaugusto.jolt.fixture.BudgetProbe(views.glow.android)
     await wait(milliseconds)
+    profiles.push({ phase, recording: JSON.parse(probe!.finish()) })
+    probe = undefined
     const after = snapshot('window-end', phase)
     const seconds = (after.monotonicMs - before.monotonicMs) / 1000
     const rates = Object.entries(after.sources)
@@ -149,26 +198,24 @@ export function sensorIntervalAudit(
         return `${id}: ${((item.samples - old.samples) / seconds).toFixed(1)} samples/s · ${((item.frames - old.frames) / seconds).toFixed(1)} commits/s`
       })
       .join('\n')
-    show(phase, `${rates}\nCore Motion subscriptions: ${after.native.active}`)
+    show(phase, `${rates}\n${hardware} subscriptions: ${after.native.active}`)
     await wait(1200)
   }
   function interrupted() {
+    probe?.cancel()
+    probe = undefined
     if (running) cancelWait?.()
     cleanup()
   }
   async function run() {
     if (started || disposed) return
     started = true
-    if (!isIOS) {
-      show('Failed', 'This audit requires a physical iPhone')
-      return
-    }
     running = true
     status = 'running'
     Application.on(Application.suspendEvent, interrupted)
     try {
-      if (NSProcessInfo.processInfo.environment.objectForKey('SIMULATOR_UDID'))
-        throw new Error('This audit requires real Core Motion input on a physical iPhone')
+      if (device.simulator)
+        throw new Error('This audit requires real sensor input on a physical device')
       snapshot('baseline', 'start')
       for (const interval of ['auto', 16, 33, 100] as const) {
         sources.clear()
@@ -183,7 +230,9 @@ export function sensorIntervalAudit(
       }
       sources.clear()
       create('slow', 'rotation', 100)
-      create('fast', 'gravity', 16)
+      // Android shares acquisition per sensor type; iOS shares one device-motion
+      // stream across kinds. Exercise the actual sharing unit on each platform.
+      create('fast', isIOS ? 'gravity' : 'rotation', 16)
       snapshot('configured', 'idle')
       await window('idle', 2000)
       attach('slow', 'card')
@@ -229,7 +278,7 @@ export function sensorIntervalAudit(
       if (disposed) return
       disposed = true
       if (running) interrupted()
-      else if (started && isIOS) {
+      else if (started) {
         cleanup()
         snapshot('route-disposed', 'cleanup')
       }

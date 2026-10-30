@@ -1,0 +1,378 @@
+{
+  "schemaVersion": 1,
+  "platform": "android",
+  "device": {
+    "model": "ASUS_Z017DC",
+    "os": "8.0.0",
+    "physical": true
+  },
+  "session": 1793396303151,
+  "input": "real-hardware",
+  "mode": "recovery-only",
+  "failureMode": "demo-only-service-dropout",
+  "events": [
+    {
+      "name": "baseline",
+      "sequence": 0,
+      "time": 1793396303909,
+      "orientation": 0,
+      "native": {
+        "active": 0,
+        "sources": 0,
+        "nodes": 0,
+        "clock": 0
+      },
+      "sources": {}
+    },
+    {
+      "name": "before-dropout",
+      "sequence": 1,
+      "time": 1793396304754,
+      "orientation": 0,
+      "native": {
+        "active": 2,
+        "sources": 4,
+        "nodes": 20,
+        "clock": 1
+      },
+      "sources": {
+        "rotation-interface": {
+          "status": "active",
+          "available": true,
+          "error": null,
+          "timestamp": 689660772.46282,
+          "samples": 65,
+          "frames": 32,
+          "callbacks": 2,
+          "processingMs": 34.580830000000006,
+          "interval": 16,
+          "values": [
+            0.004192090799197631, 0.02554055269883845, 0.00011120916097575426,
+            0.002095162887513482, 0.012770017724888868, 2.8833592557662463e-5,
+            0.9999162645483894
+          ]
+        },
+        "gravity-interface": {
+          "status": "active",
+          "available": true,
+          "error": null,
+          "timestamp": 689660772.46282,
+          "samples": 65,
+          "frames": 32,
+          "callbacks": 2,
+          "processingMs": 20.531406000000004,
+          "interval": 16,
+          "values": [0.2504400312900543, -0.04109683632850647, -9.803365707397461]
+        },
+        "rotation-device": {
+          "status": "active",
+          "available": true,
+          "error": null,
+          "timestamp": 689660772.46282,
+          "samples": 65,
+          "frames": 32,
+          "callbacks": 2,
+          "processingMs": 1.8858329999999996,
+          "interval": 16,
+          "values": [
+            0.004192090799197631, 0.02554055269883845, 0.00011120916097575426,
+            0.002095162887513482, 0.012770017724888868, 2.8833592557662463e-5,
+            0.9999162645483894
+          ]
+        },
+        "gravity-device": {
+          "status": "active",
+          "available": true,
+          "error": null,
+          "timestamp": 689660772.46282,
+          "samples": 65,
+          "frames": 32,
+          "callbacks": 2,
+          "processingMs": 0.351717,
+          "interval": 16,
+          "values": [0.2504400312900543, -0.04109683632850647, -9.803365707397461]
+        }
+      }
+    },
+    {
+      "name": "no-data",
+      "sequence": 2,
+      "time": 1793396308565,
+      "orientation": 0,
+      "native": {
+        "active": 0,
+        "sources": 4,
+        "nodes": 20,
+        "clock": 0
+      },
+      "sources": {
+        "rotation-interface": {
+          "status": "error",
+          "available": true,
+          "error": "no-data",
+          "timestamp": 689660782.381033,
+          "samples": 65,
+          "frames": 33,
+          "callbacks": 3,
+          "processingMs": 35.176038000000005,
+          "interval": 16,
+          "values": [
+            0.004138249061596462, 0.025527781134197163, 0.000109751437479253,
+            0.0020682540988459512, 0.012763630188364464, 2.8461788127722905e-5,
+            0.9999164021353604
+          ]
+        },
+        "gravity-interface": {
+          "status": "error",
+          "available": true,
+          "error": "no-data",
+          "timestamp": 689660782.381033,
+          "samples": 65,
+          "frames": 33,
+          "callbacks": 3,
+          "processingMs": 21.015833000000004,
+          "interval": 16,
+          "values": [0.250314861536026, -0.04056902602314949, -9.80337142944336]
+        },
+        "rotation-device": {
+          "status": "error",
+          "available": true,
+          "error": "no-data",
+          "timestamp": 689660782.381033,
+          "samples": 65,
+          "frames": 33,
+          "callbacks": 3,
+          "processingMs": 1.8995309999999996,
+          "interval": 16,
+          "values": [
+            0.004138249061596462, 0.025527781134197163, 0.000109751437479253,
+            0.0020682540988459512, 0.012763630188364464, 2.8461788127722905e-5,
+            0.9999164021353604
+          ]
+        },
+        "gravity-device": {
+          "status": "error",
+          "available": true,
+          "error": "no-data",
+          "timestamp": 689660782.381033,
+          "samples": 65,
+          "frames": 33,
+          "callbacks": 3,
+          "processingMs": 0.355363,
+          "interval": 16,
+          "values": [0.250314861536026, -0.04056902602314949, -9.80337142944336]
+        }
+      }
+    },
+    {
+      "name": "error-held",
+      "sequence": 3,
+      "time": 1793396309578,
+      "orientation": 0,
+      "native": {
+        "active": 0,
+        "sources": 4,
+        "nodes": 20,
+        "clock": 0
+      },
+      "sources": {
+        "rotation-interface": {
+          "status": "error",
+          "available": true,
+          "error": "no-data",
+          "timestamp": 689660782.381033,
+          "samples": 65,
+          "frames": 33,
+          "callbacks": 3,
+          "processingMs": 35.176038000000005,
+          "interval": 16,
+          "values": [
+            0.004138249061596462, 0.025527781134197163, 0.000109751437479253,
+            0.0020682540988459512, 0.012763630188364464, 2.8461788127722905e-5,
+            0.9999164021353604
+          ]
+        },
+        "gravity-interface": {
+          "status": "error",
+          "available": true,
+          "error": "no-data",
+          "timestamp": 689660782.381033,
+          "samples": 65,
+          "frames": 33,
+          "callbacks": 3,
+          "processingMs": 21.015833000000004,
+          "interval": 16,
+          "values": [0.250314861536026, -0.04056902602314949, -9.80337142944336]
+        },
+        "rotation-device": {
+          "status": "error",
+          "available": true,
+          "error": "no-data",
+          "timestamp": 689660782.381033,
+          "samples": 65,
+          "frames": 33,
+          "callbacks": 3,
+          "processingMs": 1.8995309999999996,
+          "interval": 16,
+          "values": [
+            0.004138249061596462, 0.025527781134197163, 0.000109751437479253,
+            0.0020682540988459512, 0.012763630188364464, 2.8461788127722905e-5,
+            0.9999164021353604
+          ]
+        },
+        "gravity-device": {
+          "status": "error",
+          "available": true,
+          "error": "no-data",
+          "timestamp": 689660782.381033,
+          "samples": 65,
+          "frames": 33,
+          "callbacks": 3,
+          "processingMs": 0.355363,
+          "interval": 16,
+          "values": [0.250314861536026, -0.04056902602314949, -9.80337142944336]
+        }
+      }
+    },
+    {
+      "name": "recovered",
+      "sequence": 4,
+      "time": 1793396311421,
+      "orientation": 0,
+      "native": {
+        "active": 2,
+        "sources": 4,
+        "nodes": 20,
+        "clock": 1
+      },
+      "sources": {
+        "rotation-interface": {
+          "status": "active",
+          "available": true,
+          "error": null,
+          "timestamp": 689667457.121789,
+          "samples": 228,
+          "frames": 130,
+          "callbacks": 6,
+          "processingMs": 180.29749200000003,
+          "interval": 16,
+          "values": [
+            0.008569633961994826, 0.05116051386252093, 0.00030923652663696153,
+            0.004279447307972543, 0.025577894474339027, 4.497182987616704e-5,
+            0.999663671252753
+          ]
+        },
+        "gravity-interface": {
+          "status": "active",
+          "available": true,
+          "error": null,
+          "timestamp": 689667457.121789,
+          "samples": 228,
+          "frames": 130,
+          "callbacks": 6,
+          "processingMs": 121.40995400000001,
+          "interval": 16,
+          "values": [0.25134965777397156, -0.04337936267256737, -9.803333282470703]
+        },
+        "rotation-device": {
+          "status": "active",
+          "available": true,
+          "error": null,
+          "timestamp": 689667457.121789,
+          "samples": 228,
+          "frames": 130,
+          "callbacks": 6,
+          "processingMs": 6.2710389999999965,
+          "interval": 16,
+          "values": [
+            0.008569633961994826, 0.05116051386252093, 0.00030923652663696153,
+            0.004279447307972543, 0.025577894474339027, 4.497182987616704e-5,
+            0.999663671252753
+          ]
+        },
+        "gravity-device": {
+          "status": "active",
+          "available": true,
+          "error": null,
+          "timestamp": 689667457.121789,
+          "samples": 228,
+          "frames": 130,
+          "callbacks": 6,
+          "processingMs": 0.9077040000000001,
+          "interval": 16,
+          "values": [0.25134965777397156, -0.04337936267256737, -9.803333282470703]
+        }
+      }
+    },
+    {
+      "name": "disposed",
+      "sequence": 5,
+      "time": 1793396311470,
+      "orientation": 0,
+      "native": {
+        "active": 0,
+        "sources": 0,
+        "nodes": 0,
+        "clock": 0
+      },
+      "sources": {
+        "rotation-interface": {
+          "status": "disposed",
+          "available": true,
+          "error": null,
+          "timestamp": 689667457.121789,
+          "samples": 228,
+          "frames": 130,
+          "callbacks": 7,
+          "processingMs": 180.29749200000003,
+          "interval": 16,
+          "values": [
+            0.008569633961994826, 0.05116051386252093, 0.00030923652663696153,
+            0.004279447307972543, 0.025577894474339027, 4.497182987616704e-5,
+            0.999663671252753
+          ]
+        },
+        "gravity-interface": {
+          "status": "disposed",
+          "available": true,
+          "error": null,
+          "timestamp": 689667457.121789,
+          "samples": 228,
+          "frames": 130,
+          "callbacks": 7,
+          "processingMs": 121.40995400000001,
+          "interval": 16,
+          "values": [0.25134965777397156, -0.04337936267256737, -9.803333282470703]
+        },
+        "rotation-device": {
+          "status": "disposed",
+          "available": true,
+          "error": null,
+          "timestamp": 689667457.121789,
+          "samples": 228,
+          "frames": 130,
+          "callbacks": 7,
+          "processingMs": 6.2710389999999965,
+          "interval": 16,
+          "values": [
+            0.008569633961994826, 0.05116051386252093, 0.00030923652663696153,
+            0.004279447307972543, 0.025577894474339027, 4.497182987616704e-5,
+            0.999663671252753
+          ]
+        },
+        "gravity-device": {
+          "status": "disposed",
+          "available": true,
+          "error": null,
+          "timestamp": 689667457.121789,
+          "samples": 228,
+          "frames": 130,
+          "callbacks": 7,
+          "processingMs": 0.9077040000000001,
+          "interval": 16,
+          "values": [0.25134965777397156, -0.04337936267256737, -9.803333282470703]
+        }
+      }
+    }
+  ]
+}

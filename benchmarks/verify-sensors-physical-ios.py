@@ -1,4 +1,4 @@
-"""Check the hardware-only iPhone audit from sensors-physical-ios.swift.
+"""Check hardware-only iPhone and Android lifecycle audits.
 
 Boundary counters measure native commit work, not total CPU, latency or battery.
 This does not replace a manual, recorded axis/orientation validation.
@@ -10,7 +10,8 @@ from pathlib import Path
 
 
 def verify(report):
-    assert report['platform'] == 'ios'
+    assert report['platform'] in ('ios', 'android')
+    registrations = 1 if report['platform'] == 'ios' else 2
     events = report['events']
     assert [e['sequence'] for e in events] == list(range(len(events)))
     assert all(e['time'] >= report['session'] for e in events)
@@ -37,7 +38,7 @@ def verify(report):
         a, b = snapshots[:2]
         seconds = (b['time'] - a['time']) / 1000
         assert seconds >= 5
-        assert a['active'] == b['active'] == 1, 'Core Motion subscription must be shared'
+        assert a['active'] == b['active'] == registrations, 'Hardware subscription must be shared'
         measures = {'instance': instance, 'seconds': seconds}
         for kind in ('rotation', 'gravity'):
             before, after = a[kind], b[kind]
@@ -64,7 +65,7 @@ def verify(report):
         windows.append(measures)
         shared = next(e for e in trace if e['name'] == 'shared')
         released = next(e for e in trace if e['name'] == 'shared-released')
-        assert shared['active'] == released['active'] == 1
+        assert shared['active'] == released['active'] == registrations
         assert shared['sources'] == released['sources'] + 1
         assert shared['nodes'] == released['nodes'] + 7
         # Physical iOS can deliver additional suspension/activation cycles.
@@ -96,7 +97,7 @@ def verify(report):
                     assert resumed[kind]['frames'] == held[kind]['frames']
                     equal(held[kind]['values'], resumed[kind]['values'])
             else:
-                assert resumed['active'] == 1
+                assert resumed['active'] == registrations
                 for kind in ('rotation', 'gravity'):
                     assert resumed[kind]['status'] == 'active'
                     assert resumed[kind]['frames'] > after[kind]['frames']
@@ -111,7 +112,7 @@ def verify(report):
             for name in ('resume', 'motion', 'center'):
                 boundary = next(e for e in trace if e['name'] == name)
                 playing = next(e for e in trace[trace.index(boundary)+1:] if e['name'] == 'snapshot')
-                assert playing['active'] == 1
+                assert playing['active'] == registrations
                 for kind in ('rotation', 'gravity'):
                     assert playing[kind]['status'] == 'active'
                     assert playing[kind]['frames'] > boundary[kind]['frames']

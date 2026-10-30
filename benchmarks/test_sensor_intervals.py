@@ -28,7 +28,7 @@ class SensorIntervals(unittest.TestCase):
     def inflate_samples(cls, report, phase, sources):
         a, b = cls.edge(report, phase, 'window-start'), cls.edge(report, phase)
         for source in sources:
-            b['sources'][source]['samples'] = a['sources'][source]['samples'] + 270
+            b['sources'][source]['samples'] = a['sources'][source]['samples'] + 400
 
     def test_corruptions(self):
         cases = [
@@ -52,7 +52,7 @@ class SensorIntervals(unittest.TestCase):
             ('source retained', lambda r: r['events'][-1]['native'].update(sources=1)),
             ('nodes retained', lambda r: r['events'][-1]['native'].update(nodes=7)),
             ('window too short', lambda r: self.edge(r, 'mixed').update(monotonicMs=self.edge(r, 'mixed', 'window-start')['monotonicMs']+100)),
-            ('invalid gravity', lambda r: self.edge(r, 'mixed')['sources']['fast'].update(values=[0, 0, 1])),
+            ('invalid gravity', lambda r: self.edge(r, 'interval-16')['sources']['gravity'].update(values=[0, 0, 1])),
             ('invalid quaternion', lambda r: self.edge(r, 'mixed')['sources']['slow'].update(values=[0]*7)),
         ]
         for name, mutate in cases:
@@ -61,6 +61,11 @@ class SensorIntervals(unittest.TestCase):
                 mutate(bad)
                 with self.assertRaises(AssertionError):
                     module.verify(bad)
+
+
+class AndroidSensorIntervals(SensorIntervals):
+    def setUp(self):
+        self.report = json.loads((ROOT / 'results/device-sensors/2026-10-30-intervals-android.json').read_text())
 
 
 if __name__ == '__main__':

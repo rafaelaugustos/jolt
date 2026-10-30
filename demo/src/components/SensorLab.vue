@@ -8,6 +8,7 @@ import { usePreviewI18n } from '../showcase/i18n'
 import { sensorAudit } from '../sensor-audit'
 import { launchArgument } from '../launch'
 import { sensorIntervalAudit } from '../sensor-interval-audit'
+import { sensorAcceptancePage } from '../sensor-acceptance-audit'
 const { t } = usePreviewI18n()
 defineProps<{ embedded?: boolean }>()
 const stage = ref(),
@@ -23,8 +24,9 @@ const diagnostic = sensorAudit()
 const auditMode = diagnostic.enabled
 const intervalMode = launchArgument('sensors-intervals') !== undefined
 const intervalState = ref('Ready'),
-  intervalDetail = ref('Real Core Motion · automatic sampling audit')
+  intervalDetail = ref('Real motion sensors · automatic sampling audit')
 let intervals: ReturnType<typeof sensorIntervalAudit> | undefined
+let acceptanceOpened = false
 let owner: ReturnType<typeof motionScope> | undefined,
   rotation: ReturnType<typeof sensor> | undefined,
   gravity: ReturnType<typeof sensor> | undefined
@@ -96,6 +98,26 @@ function audit(name: string) {
   )
 }
 function loaded() {
+  if (
+    launchArgument('sensors-acceptance') !== undefined ||
+    launchArgument('sensors-recovery') !== undefined
+  ) {
+    if (!acceptanceOpened) {
+      acceptanceOpened = true
+      setTimeout(
+        () =>
+          nativeView(stage).page.showModal(
+            sensorAcceptancePage(launchArgument('sensors-recovery') !== undefined),
+            {
+              fullscreen: true,
+              animated: false,
+            },
+          ),
+        100,
+      )
+    }
+    return
+  }
   if (intervalMode) {
     if (isIOS) nativeView(card).ios.layer.zPosition = 100
     intervals ??= sensorIntervalAudit(

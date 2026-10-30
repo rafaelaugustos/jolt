@@ -32,11 +32,13 @@ The audit verifier checks nonzero native transforms, many native updates per sta
 
 `processingMs` measures only accumulated native commit processing, not sensor fusion, OS delivery, total CPU, end-to-end latency or battery. Hardware listeners are shared by type, with the fastest active requested interval; source delivery coalesces to display frames. Exact duplicate scalar inputs do not wake the native value graph again.
 
-## Physical acceptance remains open
+## Initial rotation/gravity acceptance
 
-The initial implementation had no physical-device evidence. The physical iPhone audits below now cover live acquisition, native bindings, lifecycle, commit counters and the sampling-interval sweep. Before closing #114, complete the physical Android audit (including intervals), the manual axis/interface-orientation matrix, access-failure/recovery cases and profiling of sampling CPU and presentation latency. iOS Simulator cannot validate Core Motion acquisition. Android emulator sensors exercise the platform API but do not establish physical fusion accuracy or cost.
+The [2026-10-30 physical acceptance](#physical-acceptance-2026-10-30) completes the initial rotation/gravity scope of #114. It combines real iPhone/Android input and lifecycle evidence, native canonical axis/unit tests, the user's manual functional confirmation, controlled failure/recovery, and measured sampling/commit/process costs. No production sensor/runtime change was required.
 
-The initial public sources are only rotation and gravity. Accelerometer (including gravity), linear acceleration, gyroscope and magnetic-field sources remain explicitly deferred in #114. The relative rotation reference is nonmagnetic and can drift; Euler angles are a small-tilt convenience, not a complete arbitrary-rotation interpolator.
+Accelerometer including gravity, linear acceleration, gyroscope and magnetic-field sources are explicitly deferred to [#256](https://github.com/rafaelaugustos/jolt/issues/256), as allowed by #114's acceptance criteria. The relative rotation reference is nonmagnetic and can drift; Euler angles are a small-tilt convenience. Calibrated physical fusion accuracy, presented-frame/input latency, battery and sustained capacity are not established by these audits. Broader performance work remains in #242 and #65.
+
+The dated sections below preserve the earlier evidence and its limits; the final section records the additional physical acceptance.
 
 ## Background and reentry audit (2026-10-29)
 
@@ -71,7 +73,7 @@ The Android runner uses the reviewed 1080×2400 English layout and actual ADB ta
 
 The verifier rejects missing/duplicated lifecycle observations, stale sessions, sampling or frame progress during suspension, changed source/native poses at the resume boundary, stalled resumption, lost explicit pause, hardware registrations or value nodes retained, and missing route recreation. Its 13 negative controls are exercised against each of the two captured traces.
 
-Reviewed English recordings `sensor-lifecycle-ios.mp4` (46.5 s) and `sensor-lifecycle-android.mp4` (54.7 s) preserve original timing, show actual Home screens and end in the collection. Both are embedded with translated captions in all four guides. Native counters and sampled boundary poses are correctness evidence; they do not measure total heap retention, frame pacing, battery or every frame of the resume transition. Physical-device acquisition, axis accuracy, permissions and performance remain open in #114.
+Reviewed English recordings `sensor-lifecycle-ios.mp4` (46.5 s) and `sensor-lifecycle-android.mp4` (54.7 s) preserve original timing, show actual Home screens and end in the collection. Both are embedded with translated captions in all four guides. Native counters and sampled boundary poses are correctness evidence; they do not measure total heap retention, frame pacing, battery or every frame of the resume transition. At this stage, physical-device acquisition, axis accuracy, access failures and performance were still pending; see the final acceptance below.
 
 ## Physical iPhone audit (2026-10-29)
 
@@ -122,7 +124,7 @@ python3 benchmarks/verify-sensors-physical-ios.py /tmp/physical-ios.json
 python3 -m unittest discover -s benchmarks -p 'test_sensor_*.py'
 ```
 
-The following audit adds physical iPhone sampling-interval coverage. Issue #114 remains open for physical Android evidence, calibrated axis/interface-orientation checks, access-failure/recovery cases and overall CPU/presentation profiling. Battery and long-running memory behavior were not measured. Deferred accelerometer, linear-acceleration, gyroscope and magnetic-field sources retain their existing scope.
+The following audit adds physical iPhone sampling-interval coverage. At this stage, physical Android evidence, axis/interface-orientation checks, access-failure/recovery and process profiling were still pending; see the final acceptance below. Battery and long-running memory behavior were not measured. Deferred accelerometer, linear-acceleration, gyroscope and magnetic-field sources retain their existing scope.
 
 ## Physical sampling intervals (2026-10-29)
 
@@ -177,4 +179,75 @@ swiftc benchmarks/record-iphone.swift -o /tmp/jolt-record-iphone
 
 Keep the phone unlocked and in one orientation. The helper captures only the named USB screen source and no audio, refuses to overwrite files, and finalizes on Ctrl-C. Inspect the full recording and compare its elapsed time with the test before trimming or compressing it. Host frame-arrival timestamps are for playback timing, not a sensor-to-display latency measurement.
 
-These short windows on one physical iPhone establish interval/demand correctness. Native commits are not presented FPS. This audit does not measure overall CPU, presentation latency, battery, long-running retention or physical Android behavior; the remaining #114 acceptance items above still apply.
+These short windows on one physical iPhone establish interval/demand correctness. Native commits are not presented FPS. This audit does not measure overall CPU, presentation latency, battery, long-running retention or physical Android behavior; the additional physical evidence is recorded below.
+
+## Physical acceptance (2026-10-30)
+
+Release demos based on `3e69e70` used production JavaScript without HMR, NativeScript Core 9.1.3, Android runtime 9.1.1 and iOS runtime 9.1.0. The devices were a physical ASUS_Z017DC, Android 8.0.0 / API 26 (reported display rate approximately 60 Hz), and an iPhone 17 Pro, iOS 27.2 (24B5099f, reported maximum 120 Hz). The iPhone was connected through Xcode's local-network device tunnel; Android used USB. Low Power Mode was off. iOS reported nominal thermal state; this Android version does not expose the probe's thermal-status API. The Android device was charging. These are short observed runs, with instrumentation, not isolated laboratory benchmarks.
+
+### Acceptance evidence
+
+| Requirement                                          | Evidence                                                                                                                                                                                                                                                                                              |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Real rotation/gravity and multiple native consumers  | Earlier physical iPhone demo/lifecycle trace plus the new Android trace and manual live-input video. No synthetic preview in the physical traces.                                                                                                                                                     |
+| Coordinates, units and recorded inputs               | Existing C/Java native tests pass 14 canonical cases per platform, covering axes, all interface orientations, normalized quaternions, gravity remapping and invalid inputs. The user confirmed the Android manual demo works. This is functional acceptance, not calibrated physical fusion accuracy. |
+| Availability and failure handling                    | Existing static-unavailable/missing-configuration tests; new physical service-dropout/retry tests on both devices, plus an injected Core Motion error callback on iPhone.                                                                                                                             |
+| Interval and shared acquisition                      | Twelve windows per device: auto, 16/33/100 ms, mixed consumers, binding removal, reacquisition and idempotent disposal. All steady windows have zero sensor JavaScript callbacks.                                                                                                                     |
+| Pause, Reduce Motion, background, recenter, disposal | Android: three separately mounted screens, four actual Home/foreground cycles including explicit pause, held values at resume, and zero native resources after each disposal. Earlier physical iPhone trace covers three screens and five observed cycles.                                            |
+| Sampling cost                                        | Native commit processing in the lifecycle traces; whole-process CPU, sampled memory and native display callback observations in both new interval traces. These measurements include demo/probe/automation costs.                                                                                     |
+
+The five manually labelled Android snapshots did not establish the numerical orientation matrix: the interface remained portrait-locked and the original delayed capture allowed movement before the snapshot. They are **not** presented as a passing axis trace. The reviewed video demonstrates live native response, and the user's manual functional confirmation is recorded separately. The diagnostic now captures immediately and guards the requested pose, but that manual sequence was not rerun at the user's request. The recovery-only runs below are independent, verified evidence and claim zero physical poses.
+
+### Physical Android lifecycle
+
+The [55-event trace](results/device-sensors/2026-10-30-physical-android.json) passes the hardware-only verifier: three screen instances, four background/foreground pairs, shared acquisition, pause/Reduce Motion/recenter, zero sensor JS callbacks in three steady acquisition windows, and all registrations/sources/value nodes/clocks released. Android has two registrations for rotation plus gravity; adding another rotation consumer retains two. The [device metadata](results/device-sensors/2026-10-30-android-device.json) records the model, OS and build without a device identifier.
+
+### Sampling and process cost
+
+Raw interval/profile traces: [Android](results/device-sensors/2026-10-30-intervals-android.json), [iPhone](results/device-sensors/2026-10-30-intervals-ios.json). Each active profile lasts approximately four seconds, after settling. The table reports rotation; gravity followed the same rounded rates in these runs.
+
+| Device / requested interval | Samples/s | Native commits/s | Whole-process CPU ms / window | Sampled peak memory MiB | Native display callbacks |
+| --------------------------- | --------: | ---------------: | ----------------------------: | ----------------------: | -----------------------: |
+| Android auto                |     100.3 |             59.2 |                          3377 |               141.2 RSS |                      240 |
+| Android 16 ms               |     100.3 |             59.2 |                          3402 |               147.5 RSS |                      239 |
+| Android 33 ms               |      62.6 |             29.7 |                          2018 |               149.9 RSS |                      240 |
+| Android 100 ms              |      20.0 |              9.9 |                           978 |               152.8 RSS |                      240 |
+| iPhone auto                 |      99.7 |             58.8 |                         562.0 |          55.0 footprint |                      236 |
+| iPhone 16 ms                |      66.3 |             55.9 |                         546.2 |          49.7 footprint |                      231 |
+| iPhone 33 ms                |      28.4 |             28.4 |                         645.8 |          48.8 footprint |                      238 |
+| iPhone 100 ms               |      10.0 |             10.0 |                         530.8 |          48.7 footprint |                      232 |
+
+Android hardware delivers faster than requested; each source still limits its commits. The mixed test uses two rotation consumers on Android because acquisition is shared per sensor type; iOS uses rotation and gravity sharing Core Motion. Adding the fast consumer increases acquisition from about 20 to 100 samples/s on Android and 10 to 66 on iPhone. The slow consumer stays near 10 commits/s. Removing the fast consumer restores the slow acquisition rate; removing the last binding stops sensor work and the live-value clock. Reattachment resumes it. All twelve windows on each device have zero sensor JS callbacks.
+
+Whole-process CPU includes native bindings, demo rendering, the recorder and test automation; it does not isolate sensor fusion or subtract an idle control. Android's sampling workload has a substantial cost on this older phone. The roughly two-second unbound window consumed 150 ms process CPU on Android and 242 ms on iPhone, with the diagnostic display recorder still active. Across all windows, the probe itself recorded 98–184 ms work on Android and 0.8–2.3 ms on iPhone. Memory is sampled RSS on Android and `phys_footprint` on iOS, so the figures are not equivalent heap measurements or proof of long-term leak freedom.
+
+The recorder uses Choreographer/CADisplayLink and observes native display callback opportunities, **not presented frames or input-to-photon latency**. Its callbacks continue during idle diagnostic windows even though Jolt's sensor/live-value clocks stop. No presented FPS, battery, sustained-load or calibrated latency claim is made. CPU results should not be compared as an OS or framework benchmark. The offline profile verifier rejects missing windows, invalid/negative costs, inconsistent memory metrics, buffer overflow and nonmonotonic callback traces.
+
+### Controlled failure and real recovery
+
+[Android recovery](results/device-sensors/2026-10-30-recovery-android.json) and [iPhone recovery](results/device-sensors/2026-10-30-recovery-ios.json) each bind four real sources: rotation/gravity in interface/device coordinates. A **demo-only** fixture stops actual OS delivery without changing Jolt state. The production watchdog reports `no-data`, releases acquisition and the live-value clock, and holds samples/values through the error window. Calling `play()` reconnects to real hardware and advances frames/timestamps. Disposal returns all native counts to zero.
+
+The iPhone fixture additionally invokes the captured Core Motion handler with `demo-injected-access-failure`; the source surfaces that error and recovers on `play()`. This is an injected native callback error, **not** a user revoking an OS permission. Android's tested rotation/gravity sources have no runtime permission prompt at the requested rates; its fixture unregisters the actual listener. Missing configuration/hardware paths retain their existing automated coverage. Neither fixture ships in the library packages.
+
+The signed iPhone interval/recovery XCTest run passed both tests in 109.4 seconds. The Android lifecycle, intervals and recovery reports pass their respective offline verifiers. Meaningful negative controls run in the existing CI sensor suite against both platforms' captures, including missing recovery, continued work while failed, malformed quaternion/gravity, retained resources and corrupted profiles.
+
+### Reproduce and recordings
+
+Install the Release diagnostic demo on dedicated physical devices. Build platforms sequentially. The Android runner uses the reviewed ASUS 1080×1920 portrait layout, refuses emulators, restores the previous stay-awake setting and reports failed app starts without automatically retrying them:
+
+```sh
+python3 benchmarks/sensors-physical-android.py YOUR_SERIAL /tmp/SensorsAndroidLifecycle lifecycle
+python3 benchmarks/sensors-physical-android.py YOUR_SERIAL /tmp/SensorsAndroidIntervals intervals
+python3 benchmarks/sensors-physical-android.py YOUR_SERIAL /tmp/SensorsAndroidRecovery recovery
+python3 benchmarks/verify-sensor-intervals.py benchmarks/results/device-sensors/2026-10-30-intervals-android.json --profiles
+python3 benchmarks/verify-sensor-intervals.py benchmarks/results/device-sensors/2026-10-30-intervals-ios.json --profiles
+python3 benchmarks/verify-sensor-acceptance.py benchmarks/results/device-sensors/2026-10-30-recovery-android.json
+python3 benchmarks/verify-sensor-acceptance.py benchmarks/results/device-sensors/2026-10-30-recovery-ios.json
+python3 -m unittest discover -s benchmarks -p 'test_sensor_*.py'
+```
+
+For iPhone, use the signed physical XCTest setup above with `testSamplingIntervals` and `testSensorRecovery`, then pull `Documents/sensor-intervals.json` and `Documents/sensor-acceptance.json`. The new automated runs require no manual poses or recording. Check session IDs on the device; the Android wall clock differed from the host, so host timestamps alone are not a valid freshness comparison.
+
+An earlier Android cold launch failed in RenderThread with `EGL_NOT_INITIALIZED`, consistent with the previously documented ASUS startup limitation in [gradient values](gradient-values.md). That attempt supplied no passing evidence. A subsequent launch and the final runs succeeded. Earlier host automation also observed an in-progress JSON write and a disposal boundary too soon; the runner now bounds retries for incomplete JSON and waits for disposal. The committed interval report is complete and includes route disposal; no partial run is treated as acceptance.
+
+The reviewed English `device-sensors-physical-android.mp4` reuses the existing manual capture, trimmed to 31.0 seconds and resized to 540×960 without changing timing. It shows a real native card responding to physical sensor input; the pose labels are instructions, not proof that a calibrated matrix passed. The prior reviewed physical iPhone clip is retained. Both clips are embedded in all four guide languages with translated captions. No additional recording was requested after the user's functional confirmation.
