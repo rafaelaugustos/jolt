@@ -343,6 +343,28 @@ declare class JoltInteractiveNavigation extends NSObject {
   cancel(): void
   disposeRestoringSwipe(enabled: boolean): void
 }
+declare class JoltInteractiveModal extends NSObject {
+  static attachStiffnessDampingMassShouldBeginOnEvent(
+    controller: UIViewController,
+    stiffness: number,
+    damping: number,
+    mass: number,
+    shouldBegin: () => boolean,
+    onEvent: (event: number) => void,
+  ): JoltInteractiveModal
+  static activeCount(): number
+  static recognizerCount(): number
+  readonly interactive: boolean
+  readonly progress: number
+  readonly velocity: number
+  preparePresentingReducedTimeScale(
+    presenting: boolean,
+    reduced: boolean,
+    timeScale: number,
+  ): void
+  cancel(): void
+  dispose(): void
+}
 
 declare class JoltCircleWorld extends NSObject {
   static createOptions(container: UIView, options: string): JoltCircleWorld

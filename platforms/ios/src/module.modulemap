@@ -7,6 +7,7 @@ module JoltMotion {
     header "JoltPhotoZoom.h"
     header "JoltInteractiveAnimation.h"
     header "JoltInteractiveNavigation.h"
+    header "JoltInteractiveModal.h"
     header "JoltLiveSpring.h"
     header "JoltGestureSession.h"
     header "JoltReorderSession.h"

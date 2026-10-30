@@ -68,4 +68,54 @@ El `state` es `ready`, `animating`, `idle`, `dragging`, `finishing`, `cancelling
 
 Mantén el contenido visible de la página anterior montado mientras está en la pila posterior del Frame: el retorno interactivo muestra una vista previa del mismo **antes** `navigatedTo`. Reconstruir todo solo en ese evento produce una vista previa vacía.
 
-De forma predeterminada, esta API anima páginas Frame completas. Para movimiento de imagen/tarjeta en el mismo progreso nativo, use la composición [gestos compartidos](./shared-gestures). Los modales nativos arbitrarios, los gestos de deslizamiento en pantalla completa y la realización automática de vistas recicladas quedan fuera de este contrato. Utilice un botón de retroceso normal como alternativa accesible. Ver [validación nativa](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/interactive-navigation.md).
+Esta API anima páginas Frame completas. Para imágenes o tarjetas con el mismo progreso nativo, usa [gestos compartidos](./shared-gestures). Los modales usan el control independiente `interactiveModal()` descrito abajo. Los gestos de página a pantalla completa y la realización automática de vistas recicladas quedan fuera del contrato de Frame. Mantén un botón de volver como alternativa accesible. Consulta la [validación nativa](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/interactive-navigation.md).
+
+## Modales interactivos {#interactive-modals}
+
+**Aún no publicado:** `interactiveModal()` permite cerrar con un arrastre hacia abajo un modal NativeScript que ocupa toda la ventana. Abre **Navegación interactiva → Abrir un modal** en la vista previa. Recompila la aplicación nativa; validado con Core **9.1.3**, NativeScript-Vue **3.1.2** y simulador iOS **26.2**.
+
+<Clip name="interactive-modal-ios" caption="Simulador iPhone 17, iOS 26.2, interfaz en inglés: abrir un modal NativeScript-Vue real, cancelar un arrastre hacia abajo, repetir y confirmar, después reabrir y cerrar con el botón. Reproducción nativa a velocidad original. No mide rendimiento físico ni valida lectores de pantalla." />
+
+Crea un control nuevo para cada presentación. Core y Vue conservan la propiedad del modal y su callback de cierre; Jolt proporciona los objetos nativos de animación e interacción mediante el delegate de transición existente de Core.
+
+```ts
+import { interactiveModal } from '@rafaelaugusto/jolt/interactive-navigation'
+import { $showModal } from 'nativescript-vue'
+
+const motion = interactiveModal({
+  spring: 'smooth',
+  canBegin: () => !saving,
+  onState(event) {
+    if (event.outcome === 'cancelled') console.log('Sigue abierto')
+  },
+})
+try {
+  const result = await $showModal(Detail, {
+    transition: motion.transition,
+    props: { motion },
+  })
+} finally {
+  motion.dispose()
+}
+```
+
+Dentro del modal, usa `motion.close(result)` en el botón de cerrar. En plataformas no compatibles, usa el `$closeModal(result)` habitual del framework. Con Core sin Vue, pasa la misma `transition` a `parent.showModal(content, { transition, closeCallback })`; `content.closeModal(result)` sigue disponible. Libera el control si la presentación falla o se abandona. El [ejemplo Vue ejecutable](https://github.com/rafaelaugustos/jolt/blob/main/demo/src/showcase/InteractiveModalDetail.vue) no depende del router de páginas.
+
+| Operación            | Contrato                                                                                                                                                                                             |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Arrastre hacia abajo | Un pan nativo controla el modal. El progreso sigue al dedo; al soltar, se proyecta la velocidad para confirmar o cancelar. Los UIControls y descendientes de UIScrollView conservan sus gestos.      |
+| Cancelar             | Restaura el transform original de la vista del controller, conserva el modal de Core y el componente Vue, y mantiene pendiente el callback/promise de cierre. Permite otro gesto o cierre por botón. |
+| Confirmar            | Completa UIKit una vez; Core llama al callback y Vue desmonta una vez. Libera el gesto, el display link y el estado de transición de Core.                                                           |
+| `close(...args)`     | Envía argumentos a Core. La primera petición durante la apertura espera a `shownModally`; duplicados y peticiones durante arrastre/asentamiento devuelven `false`. Las aceptadas devuelven `true`.   |
+| `cancel()`           | Revierte un gesto aún sostenido. Una liberación ya aceptada por UIKit termina con el resultado elegido.                                                                                              |
+| `dispose()`          | Desconecta Jolt de forma idempotente sin cerrar el modal. Cancela el arrastre antes de liberar el estado de Core; el cierre habitual de Core/framework sigue disponible.                             |
+
+`cancelable: false` en las opciones del modal y `canBegin()` síncrono bloquean el cierre por gesto. Mantén un botón de cerrar accesible. Reducir movimiento hace inmediatos la presentación y el asentamiento, conservando el control directo con el dedo; activar la preferencia cancela un gesto sostenido. `timeScale` afecta al asentamiento, limitado a tres segundos reales. Los estados son `ready`, `presenting`, `idle`, `dragging`, `finishing`, `cancelling`, `closed` y `disposed`. La cancelación informa `idle/cancelled`; la finalización, `closed/completed`. La velocidad se expresa en **alturas del modal por segundo**. No hay observador JavaScript por frame.
+
+Suspender durante el arrastre cancela el gesto y conserva el modal para reanudarlo. La grabación solicita la rotación mientras el dedo sigue presionado; en esta configuración, UIKit muestra la orientación horizontal una vez que termina la cancelación. Restaurar vertical y volver a cerrar siguen funcionando.
+
+<Clip name="interactive-modal-lifecycle-ios" caption="Simulador iPhone 17, iOS 26.2, interfaz en inglés: arrastre real sostenido, Home/reanudación, rotación, otro intento cancelado y cierre confirmado, seguido de reapertura y cierre por botón. Velocidad original; la vista horizontal aparece girada dentro de la grabación vertical. Snapshot y los demás controles pequeños son diagnósticos opcionales. No valida rendimiento físico ni accesibilidad." />
+
+El estilo compatible es el **modal personalizado de Core que ocupa toda la ventana**, con presentación animada predeterminada. No sustituyas `ios.presentationStyle` ni su delegate de transición. `animated: false` utiliza presentación y cierre habituales sin instalar el pan de Jolt. Detents de sheets nativas, popovers, presentaciones UIKit externas y transferencia de scroll a cierre quedan fuera de esta API. Un modal desplazable puede ofrecer un encabezado sin scroll para el arrastre. `supported` es falso en Android, sin la clase nativa recompilada o en versiones de Core sin `closedModallyEvent`; entonces `transition` es undefined. El ejemplo no mide rendimiento físico ni recorrido con VoiceOver.
+
+[Observaciones nativas y reproducción](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/interactive-navigation.md#interactive-modals--2026-10-30) detallan el comportamiento y la limpieza validados.

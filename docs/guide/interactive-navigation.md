@@ -68,4 +68,54 @@ The `state` is `ready`, `animating`, `idle`, `dragging`, `finishing`, `cancellin
 
 Keep the previous page's visible content mounted while it is in the Frame's back stack: interactive return previews it **before** `navigatedTo`. Rebuilding everything only on that event produces an empty preview.
 
-By default this API animates whole Frame pages. For image/card motion on the same native progress, use the [shared gestures](./shared-gestures) composition. Arbitrary native modals, full-screen swipe gestures and automatic realization of recycled views remain outside this contract. Use a normal back button as an accessible alternative. See [native validation](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/interactive-navigation.md).
+By default this API animates whole Frame pages. For image/card motion on the same native progress, use the [shared gestures](./shared-gestures) composition. Modal presentation uses the separate `interactiveModal()` handle below. Full-screen page swipes and automatic realization of recycled views remain outside the Frame contract. Use a normal back button as an accessible alternative. See [native validation](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/interactive-navigation.md).
+
+## Interactive modals
+
+**Unreleased:** `interactiveModal()` adds a downward dismissal to a full-window NativeScript modal. Open **Interactive navigation → Open a modal** in the preview. Rebuild the native app; this path is verified with Core **9.1.3**, NativeScript-Vue **3.1.2** and iOS **26.2 Simulator**.
+
+<Clip name="interactive-modal-ios" caption="iPhone 17, iOS 26.2 Simulator, English: open a real NativeScript-Vue modal, cancel a downward drag, retry and commit, then reopen and close with the button. Original-speed native playback. No physical-device performance or screen-reader claim." />
+
+Create a fresh handle for each presentation. Core and Vue own the modal and its close callback; Jolt supplies the native animation and interaction objects through Core's existing transition delegate.
+
+```ts
+import { interactiveModal } from '@rafaelaugusto/jolt/interactive-navigation'
+import { $showModal } from 'nativescript-vue'
+
+const motion = interactiveModal({
+  spring: 'smooth',
+  canBegin: () => !saving,
+  onState(event) {
+    if (event.outcome === 'cancelled') console.log('Still open')
+  },
+})
+try {
+  const result = await $showModal(Detail, {
+    transition: motion.transition,
+    props: { motion },
+  })
+} finally {
+  motion.dispose()
+}
+```
+
+Inside the modal, use `motion.close(result)` for the close button. On an unsupported platform, use the framework's ordinary `$closeModal(result)` instead. For Core without Vue, pass the same `transition` to `parent.showModal(content, { transition, closeCallback })`; ordinary `content.closeModal(result)` remains available. Dispose an unused handle if presentation fails or is abandoned. The [runnable Vue example](https://github.com/rafaelaugustos/jolt/blob/main/demo/src/showcase/InteractiveModalDetail.vue) is independent of the page router.
+
+| Operation        | Contract                                                                                                                                                                                        |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Downward drag    | One native pan owns the modal. Progress follows the finger; release projects velocity to choose commit or cancellation. Native UIControls and UIScrollView descendants keep their own gestures. |
+| Cancel           | Restore the original controller-view transform, keep the same Core modal and Vue component, and leave the close callback/promise pending. Another gesture or button close can follow.           |
+| Commit           | Complete UIKit once; Core invokes the close callback and Vue unmounts once. Native gesture/display-link resources and Core transition state are released.                                       |
+| `close(...args)` | Forward arguments to Core. The first request during opening queues until `shownModally`; duplicates and requests during a drag/settlement return `false`. Accepted requests return `true`.      |
+| `cancel()`       | Roll back a held drag. A release already accepted by UIKit finishes its chosen outcome.                                                                                                         |
+| `dispose()`      | Idempotently detach Jolt without closing the modal. A held drag cancels before Core bookkeeping is released; ordinary Core/framework close remains available.                                   |
+
+`cancelable: false` in the modal options and synchronous `canBegin()` block gesture dismissal. Keep an accessible close button. Reduce Motion makes presentation and settlement immediate while retaining direct finger control. Changes to the preference cancel a held drag. Global `timeScale` affects settlement, bounded to three wall-clock seconds. Lifecycle notifications use `ready`, `presenting`, `idle`, `dragging`, `finishing`, `cancelling`, `closed` and `disposed`; cancellation reports `idle/cancelled`, completion reports `closed/completed`. Release velocity is in **modal heights per second**. There is no per-frame JS observer.
+
+Suspending during a held drag cancels it and retains the modal for resume. The recorded rotation is requested while contact remains down; UIKit displays landscape after the cancelled transition settles on this configuration. Portrait restoration and subsequent dismissal remain usable.
+
+<Clip name="interactive-modal-lifecycle-ios" caption="iPhone 17, iOS 26.2 Simulator, English: real held drag, Home/foreground, rotation, a cancelled retry and a committed dismissal, followed by reopening and button close. Original speed; landscape is rotated inside the portrait recording. Snapshot and other small controls are opt-in diagnostics. No physical-device or accessibility acceptance claim." />
+
+The supported style is Core's **custom full-window modal**, with its default animated presentation. Do not override `ios.presentationStyle` or replace its transitioning delegate. `animated: false` explicitly uses ordinary noninteractive presentation/close; it does not install the Jolt pan. Native sheet detents, popovers, foreign UIKit presentations and scroll-to-dismiss handoff are outside this API. A scrollable modal can expose a non-scrolling header for dismissal. `supported` is false on Android, without the rebuilt native class, or on Core versions without `closedModallyEvent`; `transition` is then undefined. The example's physical-device performance and VoiceOver traversal have not been measured.
+
+[Native observations and reproduction](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/interactive-navigation.md#interactive-modals--2026-10-30) cover the tested modal behavior and cleanup.
