@@ -4,11 +4,62 @@ import {
   Label,
   StackLayout,
   ListView,
+  eachDescendant,
   isIOS,
+  Utils,
   type ItemEventData,
+  type View,
 } from '@nativescript/core'
 import { markRaw, registerElement } from 'nativescript-vue'
 registerElement('ScrollHeaderList', () => ListView)
+// A retained overlay can be taller than the viewport. Measure its complete
+// content; the list's spacer and the clipped host supply scrolling/visibility.
+let nativeHeader: typeof org.nativescript.widgets.StackLayout | undefined
+class AlbumHeader extends StackLayout {
+  onMeasure(width: number, height: number) {
+    super.onMeasure(
+      width,
+      isIOS ? Utils.layout.makeMeasureSpec(0, Utils.layout.UNSPECIFIED) : height,
+    )
+  }
+  createNativeView() {
+    if (isIOS) return super.createNativeView()
+    if (!nativeHeader) {
+      @NativeClass()
+      class Header extends org.nativescript.widgets.StackLayout {
+        constructor(context: android.content.Context) {
+          super(context)
+          return (globalThis as any).__native(this)
+        }
+        onMeasure(width: number, _height: number) {
+          super.onMeasure(
+            width,
+            android.view.View.MeasureSpec.makeMeasureSpec(
+              0,
+              android.view.View.MeasureSpec.UNSPECIFIED,
+            ),
+          )
+        }
+      }
+      nativeHeader = Header
+    }
+    return new nativeHeader(this._context)
+  }
+}
+registerElement('ScrollHeaderHero', () => AlbumHeader)
+// Core's Android labels use SP, but retained TextViews need setTextSize again
+// after an in-place fontScale configuration change. Keep Android's conversion
+// (including nonlinear scaling) rather than multiplying sizes ourselves.
+export function refreshAlbumText(root: View) {
+  if (isIOS) return
+  eachDescendant(root, (child) => {
+    if (child instanceof Label && child.android && typeof child.fontSize === 'number') {
+      child.android.setTextSize(child.fontSize)
+      child.requestLayout()
+    }
+    return true
+  })
+}
 export interface AlbumTrack {
   key: string
   title: string
@@ -55,7 +106,7 @@ export function loadAlbumCell(
   let row = event.view as GridLayout | undefined
   if (!row || !slots.has(row)) {
     row = markRaw(new GridLayout())
-    row.columns = '32,*,48'
+    row.columns = 'auto,*,auto'
     row.height = 76
     row.minHeight = 76
     row.maxHeight = 76
@@ -64,6 +115,7 @@ export function loadAlbumCell(
     const number = markRaw(new Label())
     number.color = new CellColor('#8D9486')
     number.fontSize = 12
+    number.marginRight = 12
     number.verticalAlignment = 'middle'
     const stack = markRaw(new StackLayout())
     stack.col = 1
@@ -84,6 +136,7 @@ export function loadAlbumCell(
     time.col = 2
     time.color = new CellColor('#8D9486')
     time.fontSize = 12
+    time.marginLeft = 12
     time.textAlignment = 'right'
     time.verticalAlignment = 'middle'
     row.addChild(number)
@@ -103,5 +156,6 @@ export function loadAlbumCell(
   row.automationText = 'scroll-track-' + item.key
   row.accessibilityRole = 'button'
   row.accessibilityLabel = t('Play {0}').replace('{0}', t(item.title))
+  refreshAlbumText(row)
   event.view = row
 }

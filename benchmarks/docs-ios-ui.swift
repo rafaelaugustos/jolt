@@ -455,6 +455,7 @@ final class DocsTests: XCTestCase {
             let portraitWidth = list.frame.width
             XCUIDevice.shared.orientation = .landscapeLeft; Thread.sleep(forTimeInterval: 1)
             XCTAssertGreaterThan(list.frame.width, portraitWidth)
+            tap("scroll-header-snapshot")
             XCUIDevice.shared.orientation = .portrait; Thread.sleep(forTimeInterval: 1)
             tap("scroll-header-snapshot")
             let back = app.descendants(matching: .any)["Back to collection"].firstMatch.frame
@@ -466,6 +467,39 @@ final class DocsTests: XCTestCase {
             XCTAssertTrue(list.exists)
             list.swipeUp(); Thread.sleep(forTimeInterval: 0.5)
             tap("scroll-header-snapshot")
+        }
+    }
+
+    func testScrollHeaderLargeText() throws {
+        try cue("content-size", "large")
+        languageLaunch("en", "language-settings"); selectLanguage("system")
+        languageLaunch("en", "scroll-header-list", ["--showcase-example=scroll-header", "--scroll-header-audit"])
+        try record("scroll-header-large-text-ios") {
+            tap("scroll-header-snapshot")
+            tap("scroll-header-jump", wait: 1)
+            tap("scroll-header-snapshot")
+            try cue("content-size", "accessibility-medium")
+            Thread.sleep(forTimeInterval: 1)
+            tap("scroll-header-snapshot")
+            tap("scroll-header-cover", wait: 1)
+            tap("scroll-header-snapshot")
+            try cue("screenshot", "large-text-collapsed")
+            tap("scroll-header-top", wait: 1)
+            tap("scroll-header-snapshot")
+            try cue("screenshot", "large-text-expanded")
+            let list = app.descendants(matching: .any)["scroll-header-list"].firstMatch
+            list.swipeUp(); Thread.sleep(forTimeInterval: 0.7)
+            tap("scroll-header-snapshot")
+            tap("scroll-header-jump", wait: 1)
+            tap("scroll-header-snapshot")
+            let section = app.descendants(matching: .any)["scroll-header-section"].firstMatch
+            app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: 110, dy: section.frame.maxY + 38)).tap()
+            Thread.sleep(forTimeInterval: 0.5)
+            try cue("content-size", "large")
+            Thread.sleep(forTimeInterval: 1)
+            tap("scroll-header-snapshot")
+            tap("scroll-header-top", wait: 1)
+            tap("Back to collection")
         }
     }
 

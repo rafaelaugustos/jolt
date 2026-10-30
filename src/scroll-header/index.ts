@@ -137,6 +137,7 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
   const host = list.parent
   const saved = {
     clip: host.clipToBounds,
+    nativeClip: isIOS ? (host.nativeViewProtected as UIView)?.clipsToBounds : undefined,
     headerClip: header.clipToBounds,
     headerY: header.translateY,
     titleY: title.translateY,
@@ -284,6 +285,13 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
   }
   const measure = async () => {
     if (ended || !list.isLoaded || !header.isLoaded) return
+    // Core's default-valued property can be true while a plain UIView still
+    // has clipping disabled. Apply it when the native host exists, too.
+    if (isIOS && host.nativeViewProtected) {
+      const container = host.nativeViewProtected as UIView
+      saved.nativeClip ??= container.clipsToBounds
+      container.clipsToBounds = true
+    }
     const generation = revision
     await layout(host)
     if (ended || generation !== revision) return
@@ -509,6 +517,10 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
       set(artwork, { y: saved.artworkY, scaleX: saved.scaleX, scaleY: saved.scaleY })
       artwork.originY = saved.originY
       host.clipToBounds = saved.clip
+      if (isIOS && host.nativeViewProtected && saved.nativeClip !== undefined) {
+        const container = host.nativeViewProtected as UIView
+        if (container.clipsToBounds) container.clipsToBounds = saved.nativeClip
+      }
       header.clipToBounds = saved.headerClip
       options.setSpacerHeight(options.originalSpacerHeight ?? 0)
       if (owners.get(list) === control) owners.delete(list)

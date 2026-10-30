@@ -3,12 +3,14 @@ import {
   Application,
   File,
   ImageSource,
+  getCurrentFontScale,
   isIOS,
   knownFolders,
   type EventData,
   type ItemEventData,
   type LayoutBase,
   type ListView,
+  type Label,
 } from '@nativescript/core'
 import {
   computed,
@@ -20,12 +22,17 @@ import {
 } from 'nativescript-vue'
 import { configure, scrollHeader, type ScrollHeader } from '@rafaelaugusto/jolt'
 import { usePreviewI18n } from '../showcase/i18n'
-import { loadAlbumCell, type AlbumTrack } from '../showcase/scroll-header-cells'
+import {
+  loadAlbumCell,
+  refreshAlbumText,
+  type AlbumTrack,
+} from '../showcase/scroll-header-cells'
 import { launchArgument } from '../launch'
 const { t } = usePreviewI18n()
 defineProps<{ embedded?: boolean }>()
 defineEmits(['back'])
-const header = ref(),
+const root = ref(),
+  header = ref(),
   artwork = ref(),
   title = ref(),
   toolbar = ref(),
@@ -67,6 +74,7 @@ let list: ListView | undefined,
   disposed = false,
   additions = 0,
   rowTaps = 0
+let fontRefresh: ReturnType<typeof setTimeout> | undefined
 const events: object[] = []
 function audit(name: string, extra?: unknown) {
   if (!auditEnabled) return
@@ -80,6 +88,18 @@ function audit(name: string, extra?: unknown) {
           y: view.layer.transform.m42,
           scale: view.layer.transform.m22,
           opacity: view.layer.opacity,
+          frame: {
+            x: view.frame.origin.x,
+            y: view.frame.origin.y,
+            width: view.frame.size.width,
+            height: view.frame.size.height,
+          },
+          bounds: {
+            x: view.bounds.origin.x,
+            y: view.bounds.origin.y,
+            width: view.bounds.size.width,
+            height: view.bounds.size.height,
+          },
         }
       : {
           y:
@@ -90,6 +110,39 @@ function audit(name: string, extra?: unknown) {
         }
   }
   const nativeRows: { key: string; top: number; height: number }[] = []
+  const textLayout = (ref: any) => {
+    const label = ref.value?.nativeView as Label | undefined
+    if (!label?.nativeViewProtected) return undefined
+    const size = label.getActualSize()
+    if (isIOS) {
+      const view = label.ios as UILabel
+      return {
+        text: label.text,
+        ...size,
+        requiredHeight: view.sizeThatFits(CGSizeMake(size.width, 10000)).height,
+        font: view.font.pointSize,
+      }
+    }
+    const view = label.android as android.widget.TextView,
+      density = view.getResources().getDisplayMetrics().density,
+      layout = view.getLayout()
+    return {
+      text: label.text,
+      ...size,
+      requiredHeight: layout
+        ? (layout.getHeight() +
+            view.getCompoundPaddingTop() +
+            view.getCompoundPaddingBottom()) /
+          density
+        : 0,
+      font: view.getTextSize() / density,
+      ellipsized: layout
+        ? Array.from({ length: layout.getLineCount() }, (_, i) =>
+            layout.getEllipsisCount(i),
+          ).some(Boolean)
+        : false,
+    }
+  }
   if (list?.nativeViewProtected && state && g) {
     if (isIOS) {
       const table = list.ios as UITableView
@@ -124,6 +177,15 @@ function audit(name: string, extra?: unknown) {
     geometry: g,
     ready: owner?.ready ?? false,
     viewport: list?.getActualSize(),
+    host:
+      isIOS && list?.parent?.ios ? { clips: list.parent.ios.clipsToBounds } : undefined,
+    typography: {
+      systemScale: isIOS
+        ? UIApplication.sharedApplication.preferredContentSizeCategory
+        : Application.android.context.getResources().getConfiguration().fontScale,
+      title: textLayout(title),
+      compactTitle: textLayout(toolbarTitle),
+    },
     headerHeight: header.value?.nativeView?.getActualSize().height,
     decelerating: isIOS
       ? (list?.ios as UITableView | undefined)?.decelerating
@@ -164,6 +226,10 @@ function loaded(event: EventData) {
 }
 function setup() {
   if (disposed || !list?.isLoaded || owner) return
+  if (!isIOS) {
+    getCurrentFontScale()
+    Application.on(Application.fontScaleChangedEvent, refreshText)
+  }
   owner = scrollHeader(list, {
     header: header.value.nativeView,
     artwork: artwork.value.nativeView,
@@ -187,6 +253,15 @@ function setup() {
     .catch((error) => {
       if (!disposed) audit('error', String(error))
     })
+}
+function refreshText() {
+  clearTimeout(fontRefresh)
+  // Application callbacks precede the Activity's resource update. Reapply SP
+  // on the next turn so TextView uses the new configuration, not the old one.
+  fontRefresh = setTimeout(() => {
+    fontRefresh = undefined
+    if (!disposed && root.value?.nativeView) refreshAlbumText(root.value.nativeView)
+  }, 0)
 }
 function cell(event: ItemEventData) {
   loadAlbumCell(event, space.value, t, (key) => {
@@ -267,6 +342,8 @@ async function reloadList() {
 onBeforeUnmount(() => audit('leaving'))
 onUnmounted(() => {
   disposed = true
+  clearTimeout(fontRefresh)
+  if (!isIOS) Application.off(Application.fontScaleChangedEvent, refreshText)
   owner?.dispose()
   audit('disposed')
   owner = undefined
@@ -274,7 +351,12 @@ onUnmounted(() => {
 })
 </script>
 <template>
-  <GridLayout rows="*,54,auto,auto" backgroundColor="#F4F0E7">
+  <GridLayout
+    ref="root"
+    rows="*,auto,auto,auto"
+    backgroundColor="#F4F0E7"
+    iosAccessibilityAdjustsFontSize="true"
+  >
     <GridLayout row="0" clipToBounds="true">
       <ScrollHeaderList
         :items="rows"
@@ -285,8 +367,9 @@ onUnmounted(() => {
         iosEstimatedRowHeight="76"
         automationText="scroll-header-list"
       />
-      <StackLayout
+      <ScrollHeaderHero
         ref="header"
+        iosIgnoreSafeArea="true"
         verticalAlignment="top"
         isUserInteractionEnabled="false"
         isPassThroughParentEnabled="true"
@@ -295,11 +378,13 @@ onUnmounted(() => {
       >
         <GridLayout
           :height="coverHeight"
+          iosIgnoreSafeArea="true"
           :clipToBounds="!isIOS"
           isPassThroughParentEnabled="true"
         >
           <Image
             ref="artwork"
+            iosIgnoreSafeArea="true"
             isUserInteractionEnabled="false"
             :src="cover"
             stretch="aspectFill"
@@ -307,19 +392,23 @@ onUnmounted(() => {
         </GridLayout>
         <StackLayout
           padding="18 26 24"
+          iosIgnoreSafeArea="true"
           backgroundColor="#193D34"
           isPassThroughParentEnabled="true"
         >
           <Label
             isUserInteractionEnabled="false"
             :text="t('NOVA / A STUDIO ORIGINAL')"
+            iosIgnoreSafeArea="true"
             color="#D7EDA8"
             fontSize="10"
+            textWrap="true"
             letterSpacing="0.16"
           />
           <Label
             isUserInteractionEnabled="false"
             ref="title"
+            iosIgnoreSafeArea="true"
             :text="t(album)"
             color="#FFFBEF"
             fontSize="45"
@@ -331,18 +420,20 @@ onUnmounted(() => {
           <Label
             isUserInteractionEnabled="false"
             :text="t('A soundtrack for taking your time.')"
+            iosIgnoreSafeArea="true"
             color="#E9EFDF"
             fontSize="13"
+            textWrap="true"
             marginTop="10"
           />
         </StackLayout>
-      </StackLayout>
+      </ScrollHeaderHero>
       <GridLayout
         ref="section"
         isPassThroughParentEnabled="true"
-        height="56"
+        minHeight="56"
         columns="*,auto"
-        padding="0 24"
+        padding="12 24"
         backgroundColor="#F4F0E7"
         verticalAlignment="top"
         translateY="320"
@@ -353,6 +444,8 @@ onUnmounted(() => {
           :text="t('THE TRACKLIST')"
           color="#193D34"
           fontSize="11"
+          textWrap="true"
+          marginRight="12"
           letterSpacing="0.12"
           verticalAlignment="middle"
           accessibilityRole="header"
@@ -361,8 +454,9 @@ onUnmounted(() => {
           col="1"
           text="↓"
           color="#193D34"
-          width="40"
-          fontSize="24"
+          width="44"
+          minHeight="44"
+          fontSize="20"
           verticalAlignment="middle"
           textAlignment="right"
           accessibilityRole="button"
@@ -374,9 +468,9 @@ onUnmounted(() => {
       <GridLayout
         ref="toolbar"
         isPassThroughParentEnabled="true"
-        height="58"
+        minHeight="58"
         columns="*,auto"
-        padding="0 24"
+        padding="10 24"
         verticalAlignment="top"
         backgroundColor="#193D34"
         automationText="scroll-header-toolbar"
@@ -387,6 +481,9 @@ onUnmounted(() => {
           :text="t(album).replace('\n', ' ')"
           color="#FFFBEF"
           fontSize="20"
+          textWrap="true"
+          marginRight="12"
+          automationText="scroll-header-compact-title"
           fontWeight="700"
           verticalAlignment="middle"
         />
@@ -394,8 +491,9 @@ onUnmounted(() => {
           col="1"
           text="↑"
           color="#D7EDA8"
-          width="40"
-          fontSize="28"
+          width="44"
+          minHeight="44"
+          fontSize="20"
           textAlignment="right"
           verticalAlignment="middle"
           accessibilityRole="button"
@@ -411,6 +509,7 @@ onUnmounted(() => {
         automationText="scroll-header-cover"
         color="#193D34"
         fontSize="12"
+        textWrap="true"
         fontWeight="600"
         padding="10"
         accessibilityRole="button"
@@ -423,6 +522,7 @@ onUnmounted(() => {
         automationText="scroll-header-add"
         color="#193D34"
         fontSize="12"
+        textWrap="true"
         fontWeight="600"
         padding="10"
         accessibilityRole="button"
@@ -463,29 +563,48 @@ onUnmounted(() => {
         automationText="scroll-header-status"
       />
     </StackLayout>
-    <GridLayout v-if="auditEnabled" row="3" columns="*,*,*,*,*" height="40">
-      <Label text="Snapshot" automationText="scroll-header-snapshot" @tap="snapshot" />
+    <GridLayout v-if="auditEnabled" row="3" columns="*,*,*,*,*" minHeight="40">
+      <Label
+        text="Snapshot"
+        fontSize="10"
+        textWrap="true"
+        padding="4"
+        automationText="scroll-header-snapshot"
+        @tap="snapshot"
+      />
       <Label
         col="1"
         text="Reduce"
+        fontSize="10"
+        textWrap="true"
+        padding="4"
         automationText="scroll-header-reduce"
         @tap="toggleMotion"
       />
       <Label
         col="2"
         text="Short"
+        fontSize="10"
+        textWrap="true"
+        padding="4"
         automationText="scroll-header-short"
         @tap="resetRows(false)"
       />
       <Label
         col="3"
         text="Empty"
+        fontSize="10"
+        textWrap="true"
+        padding="4"
         automationText="scroll-header-empty"
         @tap="resetRows(true)"
       />
       <Label
         col="4"
         text="Reload"
+        fontSize="10"
+        textWrap="true"
+        padding="4"
         automationText="scroll-header-reload"
         @tap="reloadList"
       />
