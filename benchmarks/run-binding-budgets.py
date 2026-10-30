@@ -16,12 +16,14 @@ def main():
     parser.add_argument('output', type=Path)
     parser.add_argument('--allow-simulator', action='store_true')
     parser.add_argument('--case')
+    parser.add_argument('--retention', action='store_true')
     parser.add_argument('--recording', action='store_true')
     parser.add_argument('--resume', action='store_true',
                         help='Continue collecting the same pending session without relaunching the app')
     parser.add_argument('--allow-unavailable-thermal', action='store_true',
                         help='Diagnostic observations on Android below API 29; does not assert nominal temperature')
     args = parser.parse_args()
+    if args.retention and args.case: parser.error('--retention cannot be combined with --case')
     if args.output.exists(): raise SystemExit('Choose a new output path; evidence is never overwritten.')
     staging = args.output.with_suffix('.pending.json')
     incoming = args.output.with_suffix('.incoming.json')
@@ -41,11 +43,13 @@ def main():
     options = {'budget-session': session, 'budget-autorun': 'true'}
     if args.allow_simulator: options['budget-allow-simulator'] = 'true'
     if args.case: options['budget-case'] = args.case
+    if args.retention: options['budget-retention'] = 'true'
     if args.recording: options['budget-recording'] = 'true'
     if args.allow_unavailable_thermal:
         assert args.platform == 'android'
         options['budget-allow-unavailable-thermal'] = 'true'
     args.output.parent.mkdir(parents=True, exist_ok=True)
+    filename = 'binding-retention.json' if args.retention else 'binding-budgets.json'
 
     def command(*words, check=True):
         return subprocess.run(words, text=True, capture_output=True, timeout=30, check=check)
@@ -70,11 +74,11 @@ def main():
                 if args.platform == 'ios':
                     copied = command('xcrun', 'devicectl', 'device', 'copy', 'from', '--device', args.device,
                         '--domain-type', 'appDataContainer', '--domain-identifier', APP,
-                        '--source', 'Documents/binding-budgets.json', '--destination', str(incoming), check=False)
+                        '--source', 'Documents/'+filename, '--destination', str(incoming), check=False)
                     candidate = incoming.read_text() if copied.returncode == 0 and incoming.exists() else ''
                 else:
                     copied = command('adb', '-s', args.device, 'shell', 'cat',
-                        f'/sdcard/Android/data/{APP}/files/binding-budgets.json', check=False)
+                        f'/sdcard/Android/data/{APP}/files/{filename}', check=False)
                     candidate = copied.stdout
             except subprocess.TimeoutExpired:
                 print('Device transfer timed out; retrying within the original deadline.', flush=True)

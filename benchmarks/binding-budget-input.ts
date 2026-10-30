@@ -23,6 +23,7 @@ import {
 import { gestures, GestureSurface } from '../dist/gestures/index.js'
 import { getDriver } from '../dist/driver/index.js'
 import { instrumentBudgetDriver } from './binding-budget-driver'
+import { inputProbe } from './binding-native-diagnostics'
 
 export const inputCases = ['drag-js', 'pan-native', 'scroll-js', 'header-native'] as const
 type InputCase = (typeof inputCases)[number]
@@ -35,6 +36,7 @@ interface Services {
   build: Record<string, unknown>
   session: string
   recording: boolean
+  inputDelayMs: number
 }
 const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms))
 
@@ -88,6 +90,7 @@ export async function mountInputBudget(page: Page, name: string, services: Servi
     semanticCallbacks = 0,
     inputState: (() => unknown) | undefined
   let target: View
+  let inputSurface: View = pad
   if (kind === 'header-native') {
     root.removeChild(stage)
     root.removeChild(pad)
@@ -97,6 +100,7 @@ export async function mountInputBudget(page: Page, name: string, services: Servi
     GridLayout.setRowSpan(host, 2)
     root.addChild(host)
     const list = new ListView()
+    inputSurface = list
     list.automationText = 'budget-input-pad'
     let spacer = 280
     list.items = Array.from({ length: 81 }, (_, i) => `Item ${i}`)
@@ -266,6 +270,7 @@ export async function mountInputBudget(page: Page, name: string, services: Servi
     build: services.build,
     device: env,
     recording: services.recording,
+    inputDelayMs: services.inputDelayMs,
     completed: false,
     events: [] as object[],
   }
@@ -274,6 +279,7 @@ export async function mountInputBudget(page: Page, name: string, services: Servi
   Application.on(Application.suspendEvent, suspended)
   releases.push(() => Application.off(Application.suspendEvent, suspended))
   let sampler: ReturnType<Services['probe']> | undefined,
+    touches: ReturnType<typeof inputProbe> | undefined,
     started = false,
     disposed = false
   const dispose = () => {
@@ -296,12 +302,15 @@ export async function mountInputBudget(page: Page, name: string, services: Servi
     if (!started) {
       started = true
       sampler = services.probe(target)
+      touches = inputProbe(inputSurface, services.inputDelayMs)
       report.events.push(capture('start'))
       button.text = 'Finish input window'
       status.text = 'Sampling'
     } else if (!disposed) {
       report.events.push(capture('end'))
       const native = JSON.parse(sampler!.finish())
+      const input = JSON.parse(touches!.finish())
+      touches = undefined
       sampler = undefined
       dispose()
       report.events.push(capture('disposed'))
@@ -311,6 +320,7 @@ export async function mountInputBudget(page: Page, name: string, services: Servi
       services.save({
         ...report,
         native,
+        touchTrace: input,
         resources: services.resources(target),
         ...diagnostic.evidence(),
       })
@@ -322,6 +332,7 @@ export async function mountInputBudget(page: Page, name: string, services: Servi
   page.once('unloaded', () => {
     dispose()
     sampler?.cancel()
+    touches?.cancel()
     diagnostic.restore()
   })
 }

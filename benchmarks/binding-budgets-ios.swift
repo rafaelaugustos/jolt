@@ -5,6 +5,7 @@ final class DocsTests: XCTestCase {
     let app = XCUIApplication(bundleIdentifier: "org.nativescript.jolt.bindings")
     func testInputWindows() throws { try runInputs(recording: false) }
     func testRecording() throws { try runInputs(recording: true) }
+    func testInputDelay() throws { try runInputs(recording: false, delayMs: 40) }
     func testMatrixRecording() throws {
         continueAfterFailure = false
         app.launchArguments = ["-AppleLanguages", "(en)", "--budget-case=value-64-window", "--budget-recording=true", "--budget-session=recording-\(UUID().uuidString)"]
@@ -18,11 +19,11 @@ final class DocsTests: XCTestCase {
         XCTAssertEqual(XCTWaiter.wait(for: [complete], timeout: 70), .completed)
         Thread.sleep(forTimeInterval: 2)
     }
-    func runInputs(recording: Bool) throws {
+    func runInputs(recording: Bool, delayMs: Int = 0) throws {
         continueAfterFailure = false
-        let kinds = recording ? ["pan-native"] : ["drag-js", "pan-native", "scroll-js", "header-native"]
+        let kinds = delayMs > 0 ? ["drag-js"] : recording ? ["pan-native"] : ["drag-js", "pan-native", "scroll-js", "header-native"]
         for kind in kinds {
-            app.launchArguments = ["-AppleLanguages", "(en)", "--budget-input=\(kind)", "--budget-session=input-\(kind)-\(UUID().uuidString)", "--budget-recording=\(recording)"]
+            app.launchArguments = ["-AppleLanguages", "(en)", "--budget-input=\(kind)", "--budget-session=input-\(kind)-\(UUID().uuidString)", "--budget-recording=\(recording)", "--budget-input-delay-ms=\(delayMs)"]
             app.launch()
             let state = app.staticTexts["budget-input-state"].firstMatch
             XCTAssertTrue(state.waitForExistence(timeout: 12))
@@ -37,11 +38,14 @@ final class DocsTests: XCTestCase {
                     let left = pad.coordinate(withNormalizedOffset: CGVector(dx: 0.2, dy: 0.5))
                     let right = pad.coordinate(withNormalizedOffset: CGVector(dx: 0.8, dy: 0.5))
                     left.press(forDuration: 0.05, thenDragTo: right, withVelocity: .slow, thenHoldForDuration: 0.1)
+                    Thread.sleep(forTimeInterval: 1.2)
                     right.press(forDuration: 0.05, thenDragTo: left, withVelocity: .slow, thenHoldForDuration: 0.1)
                 } else {
                     pad.swipeUp(velocity: .slow)
+                    Thread.sleep(forTimeInterval: 1.2)
                     pad.swipeDown(velocity: .slow)
                 }
+                Thread.sleep(forTimeInterval: 1.2)
             }
             app.buttons["budget-input-control"].tap()
             let complete = XCTNSPredicateExpectation(predicate: NSPredicate(format: "label == 'Completed'"), object: state)

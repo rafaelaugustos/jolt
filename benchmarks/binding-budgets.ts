@@ -25,6 +25,7 @@ import {
 import { instrumentBudgetDriver } from './binding-budget-driver'
 import { mountInputBudget } from './binding-budget-input'
 import { runAndroidKeyframeChecks } from './android-keyframe-checks'
+import { runBindingRetention } from './binding-retention'
 
 declare const __BENCHMARK_BUILD__: Record<string, unknown>
 interface Resources {
@@ -268,9 +269,13 @@ function createPage() {
       ? knownFolders.documents().path
       : Application.android.context.getExternalFilesDir(null)!.getAbsolutePath()
     const input = (report as { input?: string }).input
-    File.fromPath(
-      `${path}/${input ? `binding-input-${input}` : 'binding-budgets'}.json`,
-    ).writeTextSync(JSON.stringify(report))
+    const delay = (report as { inputDelayMs?: number }).inputDelayMs ?? 0
+    const name = input
+      ? `binding-input-${input}${delay ? `-delay-${delay}` : ''}`
+      : (report as { mode?: string }).mode === 'retention'
+        ? 'binding-retention'
+        : 'binding-budgets'
+    File.fromPath(`${path}/${name}.json`).writeTextSync(JSON.stringify(report))
   }
   async function run() {
     if (running) return
@@ -290,6 +295,8 @@ function createPage() {
     const selected = filter ? budgetCases.filter((c) => c.id === filter) : budgetCases
     const report = {
       schema: 1,
+      mode: option('budget-retention') === 'true' ? 'retention' : 'matrix',
+      retention: undefined as object | undefined,
       session: option('budget-session') ?? `${Date.now()}`,
       startedAt: new Date().toISOString(),
       build: __BENCHMARK_BUILD__,
@@ -342,6 +349,35 @@ function createPage() {
         isIOS ? !env.reduceMotion : env.animatorScale === 1,
         'Use ordinary animation settings for measurements.',
       )
+      if (report.mode === 'retention') {
+        report.retention = await runBindingRetention(
+          canvas,
+          mount,
+          (views) =>
+            workload(
+              {
+                id: 'retention',
+                path: 'value',
+                views: 64,
+                properties: 3,
+                layers: 2,
+                playback: 'finite',
+                observe: false,
+              },
+              views,
+            ),
+          ready,
+          () => resources(canvas),
+          live,
+          (progress) => {
+            report.retention = progress
+            save(report)
+          },
+        )
+        report.completed = true
+        status.text = 'Completed'
+        return
+      }
       for (const item of selected) {
         status.text = `${item.views} views · ${item.layers} layers\n${item.id}`
         const views = await mount(item.views)
@@ -509,6 +545,7 @@ function createPage() {
         build: __BENCHMARK_BUILD__,
         session: option('budget-session') ?? `${Date.now()}`,
         recording: option('budget-recording') === 'true',
+        inputDelayMs: Number(option('budget-input-delay-ms') ?? 0),
       })
     } else if (option('budget-autorun') === 'true') setTimeout(run, 1800)
   })
