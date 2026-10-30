@@ -6,6 +6,8 @@ import { sensor, type Sensor, type SensorStatus } from '@rafaelaugusto/jolt/sens
 import { replaySensor, type SensorSample } from '@rafaelaugusto/jolt/testing'
 import { usePreviewI18n } from '../showcase/i18n'
 import { sensorAudit } from '../sensor-audit'
+import { launchArgument } from '../launch'
+import { sensorIntervalAudit } from '../sensor-interval-audit'
 const { t } = usePreviewI18n()
 defineProps<{ embedded?: boolean }>()
 const stage = ref(),
@@ -19,6 +21,10 @@ const status = ref<SensorStatus>('idle'),
   reduced = ref(false)
 const diagnostic = sensorAudit()
 const auditMode = diagnostic.enabled
+const intervalMode = launchArgument('sensors-intervals') !== undefined
+const intervalState = ref('Ready'),
+  intervalDetail = ref('Real Core Motion · automatic sampling audit')
+let intervals: ReturnType<typeof sensorIntervalAudit> | undefined
 let owner: ReturnType<typeof motionScope> | undefined,
   rotation: ReturnType<typeof sensor> | undefined,
   gravity: ReturnType<typeof sensor> | undefined
@@ -90,6 +96,17 @@ function audit(name: string) {
   )
 }
 function loaded() {
+  if (intervalMode) {
+    if (isIOS) nativeView(card).ios.layer.zPosition = 100
+    intervals ??= sensorIntervalAudit(
+      { card: nativeView(card), shine: nativeView(shine), glow: nativeView(glow) },
+      (state, detail) => {
+        intervalState.value = state
+        intervalDetail.value = detail
+      },
+    )
+    return
+  }
   if (owner) {
     if (!paused.value) owner.resume()
     audit('reloaded')
@@ -216,12 +233,14 @@ function busy() {
   audit('busy-end')
 }
 function unloaded() {
+  intervals?.dispose()
   owner?.suspend()
   audit('unloaded')
 }
 function clean() {
   if (released) return
   released = true
+  intervals?.dispose()
   Application.off(Application.suspendEvent, background)
   Application.off(Application.resumeEvent, foreground)
   owner?.dispose()
@@ -371,7 +390,42 @@ onUnmounted(clean)
         textAlignment="center"
       />
     </GridLayout>
-    <StackLayout row="1" padding="0 20 18">
+    <StackLayout v-if="intervalMode" row="1" padding="0 20 18">
+      <Label
+        text="HARDWARE SAMPLING AUDIT"
+        color="#ADC4AB"
+        fontSize="10"
+        textAlignment="center"
+      />
+      <Label
+        :text="intervalState"
+        accessibilityIdentifier="sensor-interval-state"
+        color="#EDF0D8"
+        fontSize="17"
+        textAlignment="center"
+        margin="8 0"
+      />
+      <Label
+        :text="intervalDetail"
+        color="#CCD6C2"
+        fontSize="12"
+        textWrap="true"
+        textAlignment="center"
+        minHeight="65"
+      />
+      <Button
+        text="Run interval matrix"
+        accessibilityIdentifier="sensor-interval-run"
+        :isEnabled="intervalState === 'Ready'"
+        @tap="intervals?.run()"
+        backgroundColor="#DFE8A4"
+        color="#20392E"
+        borderRadius="24"
+        height="44"
+        marginTop="10"
+      />
+    </StackLayout>
+    <StackLayout v-else row="1" padding="0 20 18">
       <Label
         :text="
           t(

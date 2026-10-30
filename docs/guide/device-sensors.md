@@ -18,6 +18,12 @@ The first cycle uses platform acquisition: the Android emulator releases its two
 <Clip name="sensor-lifecycle-ios" caption="iOS 26.2 simulator, English demo: actual Home/foreground, explicit pause and three route entries with native playback of labelled simulated sensor inputs. Original timing. Core Motion acquisition is unavailable in the simulator; this is lifecycle evidence, not physical-device performance." />
 <Clip name="sensor-lifecycle-android" caption="Android 16 / API 36 emulator, English demo: actual Home/foreground and repeated navigation. The first cycle checks emulated sensor subscriptions; the moving-card cycles use labelled simulated inputs. Original timing; no physical sensor or performance claim." />
 
+## Physical sampling intervals {#physical-sampling-intervals}
+
+A second physical iPhone audit checks twelve windows: `auto`, 16/33/100 ms, sources with different requested rates, removal of individual bindings and the fastest consumer, reattachment and disposal. One shared acquisition slows from about 66 to 10 samples/s when the fast consumer leaves, and stops when the last binding is removed. All measurement windows have zero JavaScript callbacks. See the [captured rates and reproduction procedure](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md#physical-sampling-intervals-2026-10-29). These are short correctness checks on one device; native commits are not presented FPS.
+
+<Clip name="sensor-intervals-physical-ios" caption="Physical iPhone 17 Pro, iOS 27.2, Release demo with English diagnostic UI: twelve real Core Motion sampling windows, shared acquisition, binding removal and cleanup. USB recording at original timing; no simulated input or manual tilt required. Counters show sampling and native commits, not presented FPS." />
+
 ## Connect a source
 
 ```ts
@@ -78,6 +84,6 @@ The demo's **Preview movement** button uses `replaySensor()` from `@rafaelaugust
 
 The native path still needs the platform's UI thread. A synchronous JavaScript task on that thread can stall display updates; avoiding per-sample JS calls does not make the UI immune to blocking.
 
-A physical iPhone 17 Pro audit now confirms live Core Motion acquisition, shared subscriptions, pause/Reduce Motion, background recovery and cleanup across three screen instances. Its measured native acquisition windows contained no JavaScript callbacks. See the [physical trace and limits](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md#physical-iphone-audit-2026-10-29). Issue #114 remains open for physical Android evidence, calibrated axis/interface-orientation checks, access-failure/recovery cases, sustained interval tests and overall CPU/presentation profiling. Accelerometer (including gravity), linear acceleration, gyroscope and magnetic-field sources remain explicitly deferred.
+A physical iPhone 17 Pro audit now confirms live Core Motion acquisition, shared subscriptions, pause/Reduce Motion, background recovery and cleanup across three screen instances. Its measured native acquisition windows contained no JavaScript callbacks. See the [physical trace and limits](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md#physical-iphone-audit-2026-10-29). Issue #114 remains open for physical Android evidence, calibrated axis/interface-orientation checks, access-failure/recovery cases and overall CPU/presentation profiling. Accelerometer (including gravity), linear acceleration, gyroscope and magnetic-field sources remain explicitly deferred.
 
 Platform contracts: [Apple device motion](https://developer.apple.com/documentation/coremotion/getting-processed-device-motion-data), [Android motion sensors](https://developer.android.com/develop/sensors-and-location/sensors/sensors_motion) and [Android sensor coordinates and limits](https://developer.android.com/develop/sensors-and-location/sensors/sensors_overview).
