@@ -238,3 +238,14 @@ Valores e [camadas de propriedades](./layers) podem ser combinados. O [RFC #152]
 | `subscribe()`                                                                                                                          | Observação explícita em JavaScript por uma fonte de quadros compartilhada.                                             |
 
 Uma fonte nativa contínua não transforma `drag()` ou `scrollValue()` comuns em caminhos de eventos nativos. Cada guia documenta suas propriedades e seu ciclo de vida. Os limites de bindings/camadas em aparelhos físicos e as medições em telas mais carregadas continuam na [#242](https://github.com/rafaelaugustos/jolt/issues/242).
+
+## Custos medidos de bindings {#binding-measurements}
+
+A [auditoria de bindings e camadas](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/binding-budgets.md) cobre 22 cargas em um iPhone 17 Pro físico, com uma rodada adicional no emulador Android. Ela separa preparação, reprodução nativa, limites das janelas de composição e observação explícita em JS. Os tempos do emulador Android não estabelecem a capacidade de um celular.
+
+Nesse iPhone, a carga de motion value com 64 views e três propriedades gastou **82–95 ms** para reconstruir cada janela de composição. O caso com loops compatíveis não enviou novas tracks durante a reprodução. Mesmo 16 views ultrapassaram um intervalo de 60 Hz no limite da janela. Prefira loops nativos compatíveis para movimentos repetidos e meça muitas vinculações antes de usar composição por janelas durante uma interação. São observações dessas cargas, não um número máximo universal de bindings.
+
+A auditoria de entrada usa gestos reais para `drag()`, pan nativo, `scrollValue()` e `scrollHeader()`. Os caminhos nativos não registraram callbacks JS por movimento; todos voltaram a zero trabalho rastreado após o descarte. Callbacks de exibição não são FPS apresentados, e a latência entre entrada e imagem não foi medida. Consulte os dados brutos, o escopo de CPU/memória e a aceitação física pendente na [#242](https://github.com/rafaelaugustos/jolt/issues/242).
+
+<Clip name="binding-budget-ios" caption="iPhone 17 Pro físico espelhado pelo Device Hub: um toque real inicia a carga de 64 views, três propriedades e janelas de composição. Interface em inglês, tempo original; rodada separada das medições sem gravação. O espelhamento não mede frames apresentados." />
+<Clip name="binding-budget-android" caption="Emulador Android: gestos reais do ADB movem 64 views por pan nativo, seguidos do descarte. Interface em inglês, tempo original; demonstração separada, sem estabelecer a capacidade de um Android físico." />

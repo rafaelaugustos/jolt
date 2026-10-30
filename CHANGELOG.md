@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Measure existing binding/layer workloads on a physical iPhone and validate them on an Android emulator (#242), with real input, raw evidence, bounded offline checks and reviewed recordings in all four guide locales. Document composition-window costs and cleanup; physical Android capacity, presented-frame/input latency and heap-allocation acceptance remain open. No public API or library runtime change.
+
 - Add `interactiveModal()` to the optional interactive-navigation entry (#26): custom full-window iOS modals follow a downward native pan and settle with Jolt spring physics. Preserve Core/Vue ownership on cancellation, queue an early close, coalesce duplicate requests, respect gesture gates and Reduce Motion, and release native resources on close/disposal. Include simulator input/lifecycle evidence and reviewed English recordings in all four guide locales. Verified with Core 9.1.3 and NativeScript-Vue 3.1.2; rebuild the native app. Native sheet detents, popovers and scroll-to-dismiss handoff are outside this API.
 
 - Make the gallery reference fit enlarged system text (#117): measure its chrome, wrap titles and controls, and bound the scrolling control panel while keeping a separate photo gesture viewport. Opt into iOS Dynamic Type and refresh retained Android SP sizes after configuration changes. Add simulator/emulator text, zoom, rotation and return evidence plus reviewed recordings in all four guide locales. Physical-device and screen-reader acceptance remain open.

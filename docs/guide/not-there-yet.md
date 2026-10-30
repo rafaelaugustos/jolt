@@ -4,6 +4,8 @@
 
 RC.2 includes fixes for scroll anchors, iOS navigation after backgrounding and layered press/composition timing, plus native pointer springs and Android gallery lifecycle evidence. Binding/layer capacity measurements remain open in [#242](https://github.com/rafaelaugustos/jolt/issues/242).
 
+The [first binding/layer audit](./motion-values#binding-measurements) now includes physical iPhone measurements and Android emulator diagnostics. It documents expensive composition boundaries; broader hardware capacity and allocation/input-latency acceptance remain open in #242.
+
 ## Available in RC.2 {#available-in-rc-1}
 
 - [Shared navigation](./shared-navigation), [shared gestures](./shared-gestures), [current-cell returns](./return-targets) and the [connected gallery](./gallery), for the documented Frame/ListView/static-image combinations.

@@ -1,0 +1,212 @@
+# Binding and layer measurements (#242)
+
+This audit measures the existing library. It does not change the public API or set universal binding limits. The measurement app has the separate ID `org.nativescript.jolt.bindings` and uses the demo's native dependencies with a production JavaScript bundle and Release native builds.
+
+Captured on 2026-10-30. The iOS source snapshot is `7c30f2d1984aa4238deb42d52c9be2fddc7d8b38`. Android uses `1af19144212bd47deb30dce684cbc2ac7bb7bbc5`, which replaces intrusive PSS collection with resident-page sampling and extends slow composition-window trials until two boundaries have actually run (subject to a 30-second verifier ceiling). Both were built from clean working trees. The iOS Objective-C probe serializes its physical-device flag as numeric `1`; the verifiers accept only booleans or integer `0`/`1`, and still reject simulators by default. Hardware, OS/build, Jolt, NativeScript Core/runtime versions, power mode, thermal status and raw measurements are stored in each report.
+
+## Coverage and measurement boundaries
+
+The matrix has 22 workloads, seven retained warm preparation samples after two warmups, and three diagnostic playback trials per workload:
+
+- One source bound to 1, 16, 64 or 200 views. One property is x; three properties are x, scaleX and scaleY.
+- Two, four or eight named layers above a base, using motion-value composition and direct view-property composition separately.
+- Finite 1.8-second playback; two endless 800/1200-ms channels that share a native loop; and 701/709-ms channels that require four-second composition windows. The 8.8-second sampling interval is a minimum; a slow boundary can extend a trial in four-second steps until two actual rebuilds have completed, with a strict 30-second verifier ceiling. Windowed workloads cover 1, 16 and 64 views, with three properties each.
+- A separate 64-view, three-property workload with one explicit JavaScript subscriber.
+- Nonzero x = 24 DIP and non-unit scale = 1.25 throughout setup. Native samples must show real movement and preserve the scale baseline.
+- Idempotent cancellation/disposal, unbinding, unmounting and a quiet interval with zero retained Jolt tracks, bindings, channels, native live nodes, pending frames or timers. The native sampling probe has already stopped during the quiet interval.
+
+Motion-value layers add to the scalar source; direct view scale layers multiply around their neutral value of 1. These paths exercise their respective composition contracts, not numerically identical trajectories.
+
+Preparation samples use the unwrapped driver: binding setup and starting the animation are timed separately, then the run is cancelled outside the timed region. The first sample is labelled **first use of that workload in this process**, not a universally cold cache. Cases run in a fixed order. Use `--case` in a fresh process to examine first use independently. Seven warm samples are enough for a small reproducible audit, not a stable tail-latency estimate; nearest-rank p95 is the maximum of those seven samples.
+
+Playback trials use an opt-in driver wrapper to count submitted tracks, numeric values/key times, JS frame requests, completion callbacks and window timer work. These counts describe submission inputs, **not actual allocator events or retained allocation sizes**. Completion callbacks matter: view layers rebuild their windows from native completion callbacks, whereas a composed motion value uses a boundary timer. The wrapper measures both.
+
+The demo-only native probe samples one representative view without a JavaScript frame callback. It collects native display callback timestamps, pose, process CPU and memory. It uses fixed-capacity buffers and rejects overflow. Its own callback work is reported separately, but is not subtracted from process CPU. Reading process memory every 500 ms is part of that overhead.
+
+- **CPU:** total process CPU time from `getrusage` on iOS and `Process.getElapsedCpuTime` on Android, including Jolt, NativeScript and the diagnostic. It is not pure JavaScript or GPU time. A percentage uses one CPU core as 100%.
+- **Memory:** iOS `phys_footprint` and Android resident set size (RSS). They are distinct OS metrics. The sampled peak can miss short allocation spikes. Post-unmount snapshots release tile references but still include runtime caches and retained report data; they do not establish a heap-leak bound or long-term retention budget.
+- **Cadence:** CADisplayLink/Choreographer opportunities, not presented FPS. The probe does not force a display rate. The hardware maximum and observed interval distribution are separate fields. Android computes `targetMs` as the supplied frame timestamp plus the current display interval; it is an estimate, not a platform presentation deadline. Choreographer timestamps can repeat in the emulator evidence: raw repeats are retained and counted; callback arrival timestamps must strictly increase. [Apple describes the display-link timestamps](https://developer.apple.com/documentation/quartzcore/cadisplaylink); they do not prove that each app pose reached the display.
+
+Host progress pulls are infrequent (30 seconds) and happen over the existing device connection. There is no per-frame app logging or file output. The recordings are separate runs, explicitly marked `recording: true`; their measurements are not mixed into the unrecorded matrix.
+
+## Captured results
+
+The physical run used an **iPhone 17 Pro (`iPhone18,1`), iOS 27.2 / 24B5099f**, Jolt rc.2, NativeScript Core 9.1.3 and iOS runtime 9.1.0. Power saving and Reduce Motion were off; recorded thermal states were nominal. The display advertises 120 Hz, while this app’s default CADisplayLink intervals were approximately 16.67 ms. This is a roughly 60 Hz callback audit, not 120 Hz acceptance.
+
+Raw evidence: [iPhone matrix](results/binding-budgets/2026-10-30-ios.json.gz), [Android emulator matrix](results/binding-budgets/2026-10-30-android.json.gz). Run the verifier to regenerate every summary from the raw gzip JSON. No trial is removed or averaged away in those files.
+
+### iPhone preparation
+
+Times are milliseconds. `first` means first use of that workload within the fixed-order process. Warm p50/p95 use seven samples, so p95 is the maximum. View-layer rows have no separate binding step.
+
+| Workload            | First bind / start | Warm bind p50 / p95 | Warm start p50 / p95 |
+| ------------------- | -----------------: | ------------------: | -------------------: |
+| `value-1-x`         |        0.23 / 3.59 |         0.15 / 0.17 |          0.81 / 1.54 |
+| `value-16-x`        |        0.44 / 8.17 |         0.39 / 0.43 |          7.03 / 7.73 |
+| `value-64-x`        |       1.48 / 20.90 |         1.44 / 1.81 |        22.64 / 23.67 |
+| `value-200-x`       |       4.63 / 52.93 |         0.87 / 1.46 |        23.47 / 25.54 |
+| `value-16-x-scale`  |       2.21 / 17.33 |         1.10 / 1.26 |        17.51 / 18.04 |
+| `value-64-x-scale`  |       4.21 / 49.06 |         1.01 / 1.54 |        23.16 / 25.43 |
+| `value-200-x-scale` |       8.78 / 98.91 |         2.69 / 2.92 |        56.13 / 57.26 |
+| `value-16-layers-2` |       1.11 / 52.32 |         0.59 / 0.90 |        36.51 / 45.92 |
+| `value-16-layers-4` |       1.20 / 65.91 |         0.24 / 0.25 |        31.74 / 35.22 |
+| `value-16-layers-8` |      1.20 / 104.09 |         0.22 / 0.24 |        52.38 / 57.49 |
+| `view-16-layers-2`  |       0.00 / 67.14 |         0.00 / 0.00 |        31.75 / 35.55 |
+| `view-16-layers-4`  |       0.00 / 96.17 |         0.00 / 0.00 |        56.89 / 61.73 |
+| `view-16-layers-8`  |      0.00 / 160.94 |         0.00 / 0.00 |      126.48 / 127.44 |
+| `value-64-loop`     |       6.80 / 98.13 |         0.72 / 1.05 |        71.09 / 72.90 |
+| `value-1-window`    |        0.20 / 8.05 |         0.15 / 0.23 |          7.22 / 7.86 |
+| `value-16-window`   |       1.10 / 47.67 |         0.61 / 0.89 |        38.49 / 45.46 |
+| `value-64-window`   |      4.11 / 113.90 |         0.72 / 0.88 |        66.05 / 70.46 |
+| `view-64-loop`      |      0.00 / 180.05 |         0.00 / 0.00 |      120.83 / 136.26 |
+| `view-1-window`     |       0.00 / 13.86 |         0.00 / 0.01 |        12.24 / 13.25 |
+| `view-16-window`    |       0.00 / 71.98 |         0.00 / 0.00 |        32.95 / 38.10 |
+| `view-64-window`    |      0.00 / 159.15 |         0.00 / 0.00 |      113.74 / 122.54 |
+| `value-64-observed` |       6.13 / 47.16 |         1.03 / 1.42 |        23.46 / 26.15 |
+
+### iPhone diagnostic playback
+
+CPU is the median process percentage across three trials (one core = 100%). Gap is the worst **callback** interval over all three trials; peak is the highest sampled process footprint. Submission counts include setup and boundaries for a single trial, not just the finally active tracks. Timing starts before the initial animation submission, so process CPU includes that work.
+
+| Workload            | CPU % | Max callback gap (ms) | Sampled peak (MiB) | Track submissions / numeric values per trial |
+| ------------------- | ----: | --------------------: | -----------------: | -------------------------------------------: |
+| `value-1-x`         |  1.18 |                 16.85 |              49.47 |                                        1 / 3 |
+| `value-16-x`        |  1.51 |                 16.82 |              39.52 |                                      16 / 48 |
+| `value-64-x`        |  2.44 |                 16.83 |              49.67 |                                     64 / 192 |
+| `value-200-x`       |  4.24 |                 16.85 |              50.14 |                                    200 / 600 |
+| `value-16-x-scale`  |  2.30 |                 33.17 |              38.19 |                                     48 / 144 |
+| `value-64-x-scale`  |  5.12 |                 33.20 |              38.05 |                                    192 / 576 |
+| `value-200-x-scale` |  7.65 |                 65.58 |              41.03 |                                  600 / 1,800 |
+| `value-16-layers-2` |  6.67 |                 24.52 |              37.86 |                                 240 / 10,944 |
+| `value-16-layers-4` |  6.71 |                 42.39 |              39.24 |                   432 / 21,648; 432 / 21,792 |
+| `value-16-layers-8` | 10.29 |                 34.13 |              46.17 |     768 / 42,960; 816 / 43,488; 816 / 43,536 |
+| `view-16-layers-2`  | 11.37 |                 16.90 |              41.86 |     312 / 16,174; 316 / 16,231; 324 / 16,132 |
+| `view-16-layers-4`  |  9.09 |                 28.36 |              40.36 |     507 / 26,967; 507 / 27,040; 539 / 27,118 |
+| `view-16-layers-8`  | 13.60 |                 17.73 |              38.27 |     959 / 49,634; 965 / 49,517; 978 / 49,669 |
+| `value-64-loop`     |  3.04 |                 26.19 |              47.58 |                                 384 / 56,064 |
+| `value-1-window`    |  1.53 |                 18.52 |              51.60 |                                   12 / 2,178 |
+| `value-16-window`   |  2.97 |                 66.53 |              55.97 |                                 192 / 34,848 |
+| `value-64-window`   |  5.06 |                116.59 |              43.69 |                                768 / 139,392 |
+| `view-64-loop`      |  5.04 |                 50.21 |              53.47 |                                576 / 101,952 |
+| `view-1-window`     |  2.10 |                 17.35 |              58.31 |                                   15 / 2,688 |
+| `view-16-window`    |  3.57 |                 57.64 |              70.03 |                                 240 / 43,008 |
+| `view-64-window`    |  6.42 |                130.13 |              49.80 |                                960 / 172,032 |
+| `value-64-observed` |  4.48 |                 17.02 |              52.24 |                                    192 / 576 |
+
+### What these measurements support
+
+- **Prefer compatible periods for repeating composition.** Both 64-view common-loop paths had zero boundary submissions during their 8.8-second playback windows. Initial setup still cost time: warm median start was 71.09 ms for values and 120.83 ms for direct view layers. Native playback does not make starting a large batch free.
+- **Keep windowed fan-out small until measured in the target screen.** The composed-value boundary took 6.96–8.28 ms for one view, 37.46–45.61 ms for 16 views and 82.31–95.47 ms for 64 views, each with three properties. One view is the only tested fan-out below a whole 16.67-ms interval in this workload; it is not an endorsed maximum because a real screen shares that interval with layout, input and rendering. The 16/64-view cases already exceed it, so they are unsuitable for an uninterrupted 60 Hz main-thread budget in this configuration.
+- **Direct view windows have the same scaling concern.** Their per-property completion callback maximum (5.91/7.11/9.10 ms for 1/16/64 views) is not the cost of the whole boundary. Many callbacks execute together; the corresponding worst display callback gaps were 17.35/57.64/130.13 ms. Do not compare one completion callback with an entire motion-value rebuild.
+- **Prepare large finite/layered batches outside latency-sensitive input.** Warm median start was 23.16 ms for 64 views × three properties, 56.13 ms for 200 views × three properties, and 126.48 ms for 16 views with eight direct-view layers. Binding setup alone was much cheaper. More bindings, more properties and more layers are separate dimensions; the small sample and fixed case order do not establish a smooth scaling law.
+- **Investigate composition preparation and submission together before moving only numeric evaluation to native.** In the 64-view value case, each boundary resubmitted 192 tracks. Calls into the native driver consumed 27.15–31.53 ms of the 82.31–95.47 ms boundary; the remaining time includes sampling/composition, JS bookkeeping and wrapper overhead. Moving only the evaluator cannot remove all this measured work. Native persistent composition or less rebuilding warrants a separate implementation proposal; this PR changes no shipping runtime.
+- **Explicit observation changes the JS contract.** The observed workload used JS frame callbacks; all unobserved playback cases used zero JS frame callbacks. Small differences in process CPU between separate trials are not evidence that a subscriber is free.
+
+All 66 iPhone playback trials ended with zero tracked bindings, view channels, active tracks, live native nodes/clocks, frames and timers after disposal, and no new tracked work during the quiet interval. Every case unmounted its tiles before the final snapshot. The matrix is one process, so its memory curve includes accumulated report data and caches; use allocation/heap profiling for a retained-memory budget.
+
+### Android emulator diagnostics: 21 accepted cases, one retained failure
+
+The dedicated Pixel 6 AVD used Android 16 / API 36, build `BP22.250325.006`, an ARM64 image, NativeScript Core 9.1.3 and Android runtime 9.1.1. It advertised approximately 60 Hz, with animator scale 1 and power saving off. The Mac host also had other emulator sessions; this is functional/diagnostic evidence, **not physical Android capacity or a cross-platform performance comparison**.
+
+All 22 cases and 66 trials were saved. The strict case audit passes **21 cases** and rejects `view-16-layers-8`: its first trial spent **33,555 ms** starting the workload, with a **35,763 ms** total native sampling interval, exceeding the 30-second acceptance ceiling. The following start samples were 1,727 and 1,340 ms. The slow trial is retained verbatim; no faster replacement or relaxed ceiling is used to mark the matrix accepted. The cause of the spike is not isolated by this process-level probe.
+
+All 66 Android trials reported zero retained bindings, channels, native live nodes/clocks, active tracks, frames and timers after disposal. That is useful cleanup evidence even though one timing window is rejected. The 21 accepted cases contain 15 repeated Choreographer frame timestamps, preserved and counted separately from strictly increasing callback arrival times. No presented-frame conclusion is drawn from them.
+
+Two exploratory captures were superseded before this final snapshot: intrusive PSS sampling stalled the first probe, and a later capture lost an ADB transfer and exposed that the fixed sampling interval did not always reach two expensive boundaries. The final probe uses RSS and retains extended elapsed time until the second boundary, without discarding the slow work. The complete final matrix still exposes the overload above.
+
+The normal Android verifier **must exit 1** for the committed matrix. `--audit` prints all 21 successful summaries and the failure, also exiting 1. Offline tests require this exact known failure and ensure it cannot disappear silently. An emulator override permits diagnostics, not acceptance of the rejected case:
+
+```sh
+python3 benchmarks/verify-binding-budgets.py \
+  benchmarks/results/binding-budgets/2026-10-30-android.json.gz --allow-simulator --audit
+# Expected: accepted=false; failed.view-16-layers-8; exit status 1.
+```
+
+No Android binding limit is proposed from these timings. Physical Android and a repeatable investigation of heavier cases remain open in #242.
+
+## Real input
+
+XCTest on iOS and ADB on Android deliver three out-and-back gesture pairs per path. The app records native movement and counters at the start, end, disposal and quiet boundaries:
+
+| Path             | Workload                                                                                     | Execution contract                                                    |
+| ---------------- | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `drag()`         | One value drives x/scale on 64 views                                                         | JS processes pan input; release can use prepared native playback.     |
+| `gestures()`     | Native pan drives x/scale on 64 views                                                        | Native movement/bindings; JS receives start/end/cancel semantics.     |
+| `scrollValue()`  | Core ScrollView offset maps to x/scale on 64 views                                           | JS processes each scroll notification.                                |
+| `scrollHeader()` | Supported Core ListView recipe with 80 fixed-height rows and retained header/toolbar/section | Native offset/composition; coarse state and layout work can enter JS. |
+
+The two scroll workloads use different supported containers and visual contracts. They are not an equivalent-content speed comparison. Counts of JS move callbacks distinguish the paths, not total application callback counts. The traces confirm sampled native movement and cleanup, **not input-to-photon latency**.
+
+The eight input reports are stored beside the matrix as `2026-10-30-{ios,android}-{drag-js,pan-native,scroll-js,header-native}.json.gz`. Each contains all native frame samples and start/end/disposed/idle snapshots. These are unrecorded, clean Release runs, separate from the videos.
+
+| Platform / path                    | Sampled movement (DIP) | JS move callbacks | Semantic callbacks | Window (ms) | Process CPU (ms) | Sampled peak (MiB) |
+| ---------------------------------- | ---------------------: | ----------------: | -----------------: | ----------: | ---------------: | -----------------: |
+| iPhone / `drag-js`                 |                  24.00 |               287 |                  0 |       10619 |             3477 |             144.50 |
+| iPhone / `pan-native`              |                  24.00 |                 0 |                 12 |       10536 |             2549 |              40.61 |
+| iPhone / `scroll-js`               |                  16.43 |              1056 |                  0 |       15637 |             5827 |             120.88 |
+| iPhone / `header-native`           |                  55.67 |                 0 |                  9 |       16320 |             1928 |              47.66 |
+| Android emulator / `drag-js`       |                  24.00 |               233 |                  0 |        8007 |             1626 |             182.86 |
+| Android emulator / `pan-native`    |                  24.00 |                 0 |                 12 |        7988 |              996 |             172.71 |
+| Android emulator / `scroll-js`     |                   3.76 |               264 |                  0 |        8057 |             2198 |             184.93 |
+| Android emulator / `header-native` |                  55.00 |                 0 |                 12 |        7964 |             1589 |             178.39 |
+
+The sampled movement is the bound output, not finger travel. Gesture distance, inertia and delivered event counts differ between XCTest and ADB; these windows are not matched input-latency or platform speed comparisons. Every path returned to zero tracked native live nodes/clocks, active tracks, pending frames and pending timers, with no new tracked callbacks during the quiet interval. Matrix trials additionally check binding and channel removal.
+
+## Reproduce
+
+Use a dedicated device session, not another recording window's device. Build platforms sequentially because NativeScript shares generated app assets. Start with the normal demo resource setup described in [CONTRIBUTING](../CONTRIBUTING.md) and [layout lifecycle](layout-lifecycle.md); Android launcher/theme resources are generated locally.
+
+```sh
+npm ci
+npm run build
+npm run benchmark:typecheck
+cd demo
+npm install
+
+# Physical iOS, normal locally configured Apple development signing:
+JOLT_BENCHMARK=1 JOLT_BINDING_BENCHMARK=1 ns build ios --for-device --release \
+  --env.production --env.bindingBenchmark --no-hmr --team-id YOUR_TEAM
+
+# Android: supply your local test keystore to sign the Release artifact.
+JOLT_BENCHMARK=1 JOLT_BINDING_BENCHMARK=1 ns build android --release \
+  --env.production --env.bindingBenchmark --no-hmr \
+  --key-store-path YOUR_KEYSTORE --key-store-alias YOUR_ALIAS \
+  --key-store-password YOUR_PASSWORD --key-store-alias-password YOUR_PASSWORD
+```
+
+Install the `.app` extracted from the development IPA with `devicectl device install app`, or the Release APK with `adb -s YOUR_SERIAL install`. The benchmark refuses simulated devices by default. Emulator validation requires the explicit override below and remains labelled simulated in the report.
+
+```sh
+# From the repository root, after installation:
+python3 benchmarks/run-binding-budgets.py ios YOUR_IPHONE /tmp/bindings-ios.json
+python3 benchmarks/run-binding-budgets.py android YOUR_SERIAL /tmp/bindings-android.json --allow-simulator
+python3 benchmarks/verify-binding-budgets.py /tmp/bindings-ios.json
+python3 benchmarks/verify-binding-budgets.py /tmp/bindings-android.json --allow-simulator
+
+# A fresh-process individual workload; verify the declared subset explicitly:
+python3 benchmarks/run-binding-budgets.py ios YOUR_IPHONE /tmp/window.json --case value-16-window
+python3 benchmarks/verify-binding-budgets.py /tmp/window.json --case value-16-window
+```
+
+The runner refuses to overwrite evidence, rejects stale sessions, has a 15-minute ceiling and preserves partial results on failure. Temperature must remain nominal, power saving must be off, and the app must stay active. Reports retain failure reasons instead of silently dropping trials. `--allow-dirty` exists for development-only verifier runs; committed acceptance evidence uses a clean build.
+
+For input, generate a signed XCTest runner using `benchmarks/docs-ios-ui.rb` with `benchmarks/binding-budgets-ios.swift`, following [the physical sensor runner setup](device-sensors.md#physical-iphone-audit-2026-10-29). Give its test bundle a distinct identifier if another runner is in use. Execute `DocsTests/testInputWindows`, then copy `Documents/binding-input-{drag-js,pan-native,scroll-js,header-native}.json` from the benchmark app container. Android's runner also copies the fresh per-path files:
+
+```sh
+python3 benchmarks/binding-budgets-android.py YOUR_SERIAL /tmp/binding-input-android
+python3 benchmarks/verify-binding-input.py /tmp/binding-input-android/pan-native.json --allow-simulator
+```
+
+`DocsTests/testMatrixRecording` runs the 64-view composition-window scene with a real tap. `DocsTests/testRecording` runs only the native pan scene with an eight-second capture lead-in and marks it as a recording. Android supports `--case pan-native --recording` for the same purpose. For this iPhone, the `devicectl` screen-record capability was unavailable. Device Hub could mirror the physical screen, so the recording used `screencapture -v -l WINDOW_ID -V 55 /tmp/phone.mov` on that specific window. The clip crops the window chrome and trims launch/idle footage only; elapsed animation time is unchanged. ADB screenrecord records the emulator. The [recording manifest](results/binding-budgets/recordings.json) records source platform, retained frame counts, trims, hashes and timestamp checks. Re-encoding uses `-fps_mode passthrough -enc_time_base 1:1000000`; every retained frame keeps its source-relative timestamp (within one microsecond), without interpolation or speed changes. Both H.264 clips were decoded and visually reviewed. Preserve original elapsed time and inspect the full clips. Do not use screen-capture frame counts as a performance result.
+
+## CI and remaining acceptance
+
+Only the offline verifiers and their 95 mutated negative controls (plus device/recording/overload guards) are added to the existing host CI job. No physical-device job, benchmark loop, new native workflow or larger native timeout is added.
+
+```sh
+python3 -m unittest discover -s benchmarks -p 'test_binding_budgets.py'
+npm run docs:check-media
+npm run docs:build
+```
+
+Issue #242 remains open for physical Android capacity, broader hardware/refresh-rate coverage, calibrated input-to-visible-response latency, allocation/retained-heap profiling and repeatable presented-frame acceptance. Emulator evidence and zero native resource counters cannot replace those measurements. The independent Flutter/Reanimated comparison remains in #65.

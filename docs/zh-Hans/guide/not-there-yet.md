@@ -4,6 +4,8 @@
 
 RC.2 包含滚动锚点、后台恢复后的 iOS 导航、分层 press 与组合时序的修复，以及原生指针弹簧和 Android 图库生命周期证据。绑定与层数量的容量测量仍由 [#242](https://github.com/rafaelaugustos/jolt/issues/242) 跟踪。
 
+[首轮绑定与图层审计](./motion-values#binding-measurements)已包含实体 iPhone 测量和 Android 模拟器诊断，记录了成本较高的合成窗口边界。更多硬件的容量、内存分配和输入延迟验收仍在 #242 中跟踪。
+
 ## RC.2 已提供的功能 {#available-in-rc-1}
 
 - [共享元素导航](./shared-navigation)、[共享手势](./shared-gestures)、[返回当前单元格](./return-targets)和[联动相册](./gallery)，支持文档列出的 Frame/ListView/静态图像组合。

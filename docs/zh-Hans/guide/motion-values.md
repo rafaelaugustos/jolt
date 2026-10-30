@@ -238,3 +238,14 @@ drag(sheet, {
 | `subscribe()`                                                                                               | 通过共享帧源显式使用 JavaScript 观察值。                                  |
 
 原生连续数据源不会将普通的 `drag()` 或 `scrollValue()` 自动变为原生事件路径。各指南说明了支持的属性和生命周期契约。真机上的绑定/层数量预算及复杂界面的测量仍由 [#242](https://github.com/rafaelaugustos/jolt/issues/242) 跟踪。
+
+## 绑定成本实测 {#binding-measurements}
+
+[绑定与图层审计](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/binding-budgets.md)在实体 iPhone 17 Pro 上覆盖 22 种负载，并补充 Android 模拟器运行。测试分别记录准备、原生播放、合成窗口边界和显式 JS 订阅的成本。Android 模拟器的耗时不能作为实体手机的容量上限。
+
+在这台 iPhone 上，包含 64 个视图、三个属性的 motion value 负载每次重建合成窗口需要 **82–95 ms**。周期兼容的循环在播放过程中无需提交新轨道。即使只有 16 个视图，窗口边界的工作也超过了一个 60 Hz 间隔。重复运动应优先使用周期兼容的原生循环；在交互期间使用窗口合成前，应实测大量绑定的成本。这些是特定负载的结果，并非通用绑定数量上限。
+
+输入审计对 `drag()`、原生平移、`scrollValue()` 和 `scrollHeader()` 使用真实手势。原生路径没有记录逐次移动的 JS 回调；所有路径释放后，跟踪到的工作均归零。显示回调不等于实际呈现的 FPS，本次也未测量输入到画面显示的延迟。原始数据、CPU/内存指标范围及实体设备验收的剩余项目见报告和 [#242](https://github.com/rafaelaugustos/jolt/issues/242)。
+
+<Clip name="binding-budget-ios" caption="通过 Device Hub 镜像的实体 iPhone 17 Pro：真实点击启动 64 个视图、三个属性的合成窗口负载。英文界面，原始时间；与未录屏测量分开运行。镜像视频不能衡量实际呈现帧。" />
+<Clip name="binding-budget-android" caption="Android 模拟器：真实 ADB 滑动通过原生平移驱动 64 个视图，随后释放资源。英文界面，原始时间；独立演示运行，不代表实体 Android 的容量。" />
