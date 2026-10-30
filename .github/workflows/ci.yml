@@ -30,3 +30,4 @@ jobs:
       - run: python3 benchmarks/live-spring-tests/test_solver.py
       - run: python3 -m unittest discover -s benchmarks -p 'test_sensor_*.py'
       - run: python3 -m unittest discover -s benchmarks -p 'test_scroll_header_text.py'
+      - run: python3 -m unittest discover -s benchmarks -p 'test_binding_budgets.py'

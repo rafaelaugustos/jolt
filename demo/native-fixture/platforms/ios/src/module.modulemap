@@ -1,5 +1,6 @@
 module JoltNativeFixture {
     header "JoltRevealView.h"
     header "JoltSceneProbe.h"
+    header "JoltBudgetProbe.h"
     export *
 }
