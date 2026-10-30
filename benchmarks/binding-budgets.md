@@ -211,7 +211,7 @@ python3 benchmarks/verify-binding-input.py /tmp/binding-input-android/pan-native
 
 ## CI and remaining acceptance
 
-Only the offline verifiers and their 95 mutated negative controls (plus device/recording/overload guards) are added to the existing host CI job. No physical-device job, benchmark loop, new native workflow or larger native timeout is added.
+The existing host CI job runs the offline verifiers, captured-trace negative controls and device/recording/overload guards, including the physical Android failures and collector-resumption checks. No physical-device job, benchmark loop, new native workflow or larger native timeout is added.
 
 ```sh
 python3 -m unittest discover -s benchmarks -p 'test_binding_budgets.py'
