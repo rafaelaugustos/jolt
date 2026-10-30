@@ -31,7 +31,7 @@ interface Resources {
   cpuMs: number
   memoryBytes: number
   memoryMetric: string
-  thermalState: number
+  thermalState: number | null
   lowPowerMode: boolean
 }
 interface NativeProbe {
@@ -281,6 +281,10 @@ function createPage() {
     if (isIOS) UIApplication.sharedApplication.idleTimerDisabled = true
     else page.android.setKeepScreenOn(true)
     const env = environment(canvas)
+    const unavailableThermal =
+      !isIOS &&
+      android.os.Build.VERSION.SDK_INT < 29 &&
+      option('budget-allow-unavailable-thermal') === 'true'
     const filter = option('budget-case')
     const selected = filter ? budgetCases.filter((c) => c.id === filter) : budgetCases
     const report = {
@@ -293,6 +297,7 @@ function createPage() {
       settings,
       selected: selected.map((c) => c.id),
       recording: option('budget-recording') === 'true',
+      thermalPolicy: unavailableThermal ? 'unavailable-android-pre29' : 'require-nominal',
       cases: [] as object[],
       completed: false,
       error: undefined as string | undefined,
@@ -311,8 +316,10 @@ function createPage() {
       )
       const state = resources(canvas)
       check(
-        state.thermalState === 0 && !state.lowPowerMode,
-        'Use nominal temperature with power saving disabled.',
+        (state.thermalState === 0 ||
+          (unavailableThermal && state.thermalState === null)) &&
+          !state.lowPowerMode,
+        'Use nominal thermal status with power saving disabled; pre-29 Android requires the explicit unavailable-thermal diagnostic option.',
       )
       check(
         views.every((v) => v.isLoaded),

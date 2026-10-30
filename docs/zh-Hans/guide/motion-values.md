@@ -247,5 +247,7 @@ drag(sheet, {
 
 输入审计对 `drag()`、原生平移、`scrollValue()` 和 `scrollHeader()` 使用真实手势。原生路径没有记录逐次移动的 JS 回调；所有路径释放后，跟踪到的工作均归零。显示回调不等于实际呈现的 FPS，本次也未测量输入到画面显示的延迟。原始数据、CPU/内存指标范围及实体设备验收的剩余项目见报告和 [#242](https://github.com/rafaelaugustos/jolt/issues/242)。
 
+后续[实体 Android 审计](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/binding-budgets.md#physical-android-follow-up-2026-10-30)在 ASUS_Z017DC、Android 8 / API 26 上完成了 22 种负载、66 次试验，以及四组自动手势/滚动测试。20 种负载通过诊断检查；两组采样稀疏的窗口明确保留为失败结果。本次运行中，即使只有一个视图，合成窗口边界也耗时 **116–130 ms**。两条原生输入路径均无逐次移动的 JS 回调，四组输入测试均释放了所跟踪的资源。该系统版本无法提供热状态信息，因此这些观察不能作为受控温度条件下的容量结论。下方现有视频保留原平台标签；新的 Android 测量未录屏。
+
 <Clip name="binding-budget-ios" caption="通过 Device Hub 镜像的实体 iPhone 17 Pro：真实点击启动 64 个视图、三个属性的合成窗口负载。英文界面，原始时间；与未录屏测量分开运行。镜像视频不能衡量实际呈现帧。" />
 <Clip name="binding-budget-android" caption="Android 模拟器：真实 ADB 滑动通过原生平移驱动 64 个视图，随后释放资源。英文界面，原始时间；独立演示运行，不代表实体 Android 的容量。" />

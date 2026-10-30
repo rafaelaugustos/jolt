@@ -1,0 +1,56 @@
+{
+  "device": {
+    "physical": true,
+    "model": "asus ASUS_Z017DC",
+    "os": "8.0.0",
+    "osBuild": "asus/WW_Phone/ASUS_Z017D_1:8.0.0/OPR1.170623.026/15.0410.1806.68-0:user/release-keys",
+    "apiLevel": 26,
+    "thermalStatusAvailable": false,
+    "maximumRefreshHz": 60.000003814697266,
+    "animatorScale": 1,
+    "resources": {
+      "timeMs": 384621886.247442,
+      "cpuMs": 2117,
+      "memoryBytes": 125665280,
+      "memoryMetric": "rss",
+      "thermalState": null,
+      "lowPowerMode": false
+    }
+  },
+  "build": {
+    "commit": "e6bbc755f3064bd56611922ffb7793575c8c5ec9",
+    "dirty": false,
+    "jolt": "0.1.0-rc.2",
+    "core": "9.1.3",
+    "runtime": "9.1.1",
+    "driverSha256": "6127b2be9978cb243301b235440c4c51d4902817cee250f052303250fc14d10c",
+    "bundleMode": "production",
+    "builtAt": "2026-10-30T22:04:56.877Z"
+  },
+  "session": "e23bc6aa-fa98-4351-b6ce-637c42a82a8a",
+  "recording": false,
+  "nativeMatrixDurationSeconds": 1148.2802522709965,
+  "collection": {
+    "initialHostTimeoutSeconds": 900,
+    "casesSavedAtTimeout": 18,
+    "resumedWithoutRelaunch": true,
+    "priorCasesUnchanged": true
+  },
+  "batterySnapshots": {
+    "beforeMatrix": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 2078191\n  status: 2\n  health: 2\n  present: true\n  level: 73\n  scale: 100\n  voltage: 4224\n  temperature: 305\n  technology: Li-ion\n  USB abnormal: 0\n  vbus liquid: 0\n  vbus short: 0\n  quick charging: 0\n",
+    "afterMatrix": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 2313398\n  status: 2\n  health: 2\n  present: true\n  level: 84\n  scale: 100\n  voltage: 4329\n  temperature: 310\n  technology: Li-ion\n  USB abnormal: 0\n  vbus liquid: 0\n  vbus short: 0\n  quick charging: 0\n",
+    "afterInput": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 2347052\n  status: 2\n  health: 2\n  present: true\n  level: 86\n  scale: 100\n  voltage: 4346\n  temperature: 310\n  technology: Li-ion\n  USB abnormal: 0\n  vbus liquid: 0\n  vbus short: 0\n  quick charging: 0\n"
+  },
+  "decompressedSha256": {
+    "2026-10-30-physical-android-drag-js.json.gz": "31cfc205e6dcb1c19d0fe1875dc53c061db6e61c69ed67ca8bc16146db19bf5d",
+    "2026-10-30-physical-android-pan-native.json.gz": "dcdaf9149f7f1aeb1b226c59dc325b4edd4e6f9b635774c98a062756efd7e585",
+    "2026-10-30-physical-android-scroll-js.json.gz": "f2795b56afa4a7e71d533e8aafa1ff27c7499f7e256bf1906e8458658621e5ec",
+    "2026-10-30-physical-android-header-native.json.gz": "5f2dcb4a4727a804b2136d1b8205457a44b32fcee499b3fd0ae09f36f9b27240",
+    "2026-10-30-physical-android.json.gz": "d5beabfbdf5b15d009af32860079fdfbd73eb9beab3a75aada6ee336872b7b03"
+  },
+  "limits": [
+    "Android API 26 provides no thermal-status telemetry; null is not nominal.",
+    "Battery temperature is not CPU/GPU thermal state.",
+    "Native callback opportunities are not presented frames; input-to-photon latency is not measured."
+  ]
+}

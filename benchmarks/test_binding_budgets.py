@@ -4,7 +4,10 @@ import gzip
 import importlib.util
 import json
 from pathlib import Path
+import subprocess
+import tempfile
 import unittest
+from unittest.mock import patch
 
 ROOT = Path(__file__).parent
 
@@ -18,6 +21,7 @@ def load_module(name, path):
 
 budgets = load_module('budgets', 'verify-binding-budgets.py')
 inputs = load_module('inputs', 'verify-binding-input.py')
+collector = load_module('collector', 'run-binding-budgets.py')
 
 
 def read(name):
@@ -25,6 +29,69 @@ def read(name):
 
 
 class BindingBudgets(unittest.TestCase):
+    def test_resume_preserves_evidence_without_relaunch(self):
+        complete = read('2026-10-30-physical-android.json.gz')
+        pending = dict(complete, completed=False, cases=complete['cases'][:18])
+        for corrupt_prior_case in (False, True):
+            with self.subTest(corrupt_prior_case=corrupt_prior_case), tempfile.TemporaryDirectory() as directory:
+                output = Path(directory)/'result.json'
+                staging = output.with_suffix('.pending.json')
+                original = json.dumps(pending)
+                staging.write_text(original)
+                stale = dict(complete, session='another-session')
+                candidate = copy.deepcopy(complete)
+                if corrupt_prior_case:
+                    candidate['cases'][0]['preparation'][0]['startMs'] += 1
+                replies = iter(['{', json.dumps(stale), json.dumps(candidate)])
+                def transfer(words, **kwargs):
+                    # Any relaunch, stop, or device mutation fails this test.
+                    self.assertEqual(words, ('adb', '-s', 'fixture-device', 'shell', 'cat',
+                        '/sdcard/Android/data/org.nativescript.jolt.bindings/files/binding-budgets.json'))
+                    self.assertEqual(staging.read_text(), original)
+                    return subprocess.CompletedProcess(words, 0, next(replies), '')
+                args = ['collector', 'android', 'fixture-device', str(output), '--resume']
+                with patch('sys.argv', args), patch.object(collector.subprocess, 'run', side_effect=transfer), \
+                     patch.object(collector.time, 'sleep'), patch('builtins.print'):
+                    if corrupt_prior_case:
+                        with self.assertRaisesRegex(AssertionError, 'Previously collected workloads changed'):
+                            collector.main()
+                        self.assertEqual(staging.read_text(), original)
+                        self.assertFalse(output.exists())
+                    else:
+                        collector.main()
+                        self.assertEqual(json.loads(output.read_text()), complete)
+                        self.assertFalse(staging.exists())
+
+    def test_unavailable_thermal_is_not_nominal(self):
+        # Modified fixture for the missing-telemetry path, never saved as device evidence.
+        report = read('2026-10-30-android.json.gz')
+        case = 'value-1-x'
+        report['selected'] = [case]
+        report['cases'] = [e for e in report['cases'] if e['workload']['id'] == case]
+        report['device'].update(apiLevel=26, thermalStatusAvailable=False)
+        report['thermalPolicy'] = 'unavailable-android-pre29'
+        entry = report['cases'][0]
+        boundaries = [entry['before'], entry['afterUnmount'], report['finalResources']]
+        boundaries += [t['native'][edge] for t in entry['trials'] for edge in ('before', 'after')]
+        for edge in boundaries: edge['thermalState'] = None
+        with self.assertRaisesRegex(AssertionError, 'not nominal-temperature acceptance'):
+            budgets.verify(report, allow_simulator=True, case=case)
+        self.assertEqual(budgets.verify(report, allow_simulator=True, case=case,
+                                       allow_unavailable_thermal=True)['thermalStatus'], 'unavailable')
+        for name, mutate in [
+            ('new Android API', lambda r: r['device'].update(apiLevel=29)),
+            ('missing API', lambda r: r['device'].pop('apiLevel')),
+            ('claimed available', lambda r: r['device'].update(thermalStatusAvailable=True)),
+            ('unknown reported as nominal', lambda r: r['cases'][0]['before'].update(thermalState=0)),
+            ('overheating', lambda r: r['cases'][0]['before'].update(thermalState=2)),
+            ('power saving', lambda r: r['cases'][0]['before'].update(lowPowerMode=True)),
+            ('iOS override', lambda r: r.update(platform='iOS')),
+        ]:
+            with self.subTest(name=name):
+                bad = copy.deepcopy(report); mutate(bad)
+                with self.assertRaises(AssertionError):
+                    budgets.verify(bad, allow_simulator=True, case=case, allow_unavailable_thermal=True)
+
     def test_captured_matrices(self):
         phone = read('2026-10-30-ios.json.gz')
         self.assertIs(phone['recording'], False)
@@ -45,6 +112,28 @@ class BindingBudgets(unittest.TestCase):
             budgets.verify(emulator, allow_simulator=True)
         incomplete = dict(phone, completed=False)
         with self.assertRaises(AssertionError): budgets.audit(incomplete)
+
+    def test_physical_android_keeps_sparse_windows(self):
+        report = read('2026-10-30-physical-android.json.gz')
+        self.assertIs(report['device']['physical'], True)
+        self.assertIs(report['recording'], False)
+        with self.assertRaisesRegex(AssertionError, 'not nominal-temperature acceptance'):
+            budgets.verify(report)
+        result = budgets.audit(report, allow_unavailable_thermal=True)
+        self.assertFalse(result['accepted'])
+        self.assertEqual(result['thermalPolicy'], 'unavailable-android-pre29')
+        self.assertEqual(len(result['passed']), 20)
+        self.assertEqual(result['failed'], {
+            'value-16-layers-2': 'Insufficient memory samples in native window',
+            'view-16-layers-8': 'Insufficient memory samples in native window',
+        })
+        self.assertEqual(sum(len(e['trials']) for e in report['cases']), 66)
+        for entry in report['cases']:
+            for trial in entry['trials']:
+                self.assertEqual(trial['remainingBindings'], 0)
+                self.assertEqual(trial['remainingChannels'], 0)
+                self.assertEqual(trial['nativeLive'], dict(nodes=0, clock=0))
+                self.assertTrue(all(trial['idle'][k] == 0 for k in ('activeTracks', 'pendingFrames', 'pendingTimers')))
 
     def test_matrix_negative_controls(self):
         report = read('2026-10-30-ios.json.gz')
@@ -91,11 +180,17 @@ class BindingBudgets(unittest.TestCase):
                 with self.assertRaises(AssertionError): budgets.verify(broken, case=case)
 
     def test_real_input_and_negative_controls(self):
-        for platform in ('ios', 'android'):
+        for platform in ('ios', 'android', 'physical-android'):
             for kind in ('drag-js', 'pan-native', 'scroll-js', 'header-native'):
                 report = read(f'2026-10-30-{platform}-{kind}.json.gz')
                 self.assertIs(report['recording'], False)
-                inputs.verify(report, allow_simulator=platform == 'android')
+                options = dict(allow_simulator=platform == 'android',
+                               allow_unavailable_thermal=platform == 'physical-android')
+                if platform == 'physical-android':
+                    self.assertIs(report['device']['physical'], True)
+                    with self.assertRaisesRegex(AssertionError, 'not nominal-temperature acceptance'):
+                        inputs.verify(report)
+                inputs.verify(report, **options)
                 cases = [
                     ('unfinished', lambda r: r.update(completed=False)),
                     ('missing event', lambda r: r['events'].pop()),
@@ -109,7 +204,7 @@ class BindingBudgets(unittest.TestCase):
                 for name, mutate in cases:
                     with self.subTest(platform=platform, kind=kind, failure=name):
                         broken = copy.deepcopy(report); mutate(broken)
-                        with self.assertRaises(AssertionError): inputs.verify(broken, allow_simulator=platform == 'android')
+                        with self.assertRaises(AssertionError): inputs.verify(broken, **options)
 
 
 if __name__ == '__main__':
