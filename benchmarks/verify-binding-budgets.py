@@ -109,7 +109,7 @@ def verify(report, allow_simulator=False, case=None, allow_dirty=False):
             start, end = native['before']['timeMs'], native['after']['timeMs']
             duration = end - start
             assert duration >= (2190 if item['playback'] == 'finite' else 8790)
-            assert duration < 30000, 'Interrupted or unbounded measurement'
+            assert duration < 30000, 'Measurement exceeded 30-second acceptance ceiling'
             assert native['after']['cpuMs'] >= native['before']['cpuMs']
             finite(native['probeWorkMs'])
             assert native['probeWorkMs'] < duration
@@ -168,12 +168,34 @@ def verify(report, allow_simulator=False, case=None, allow_dirty=False):
                 note='Callback cadence is not presented FPS; submitted values are not measured allocations.', cases=result)
 
 
+def audit(report, allow_simulator=False):
+    """Keep failures visible; this result is not an acceptance override."""
+    assert report['completed'] is True and not report.get('error')
+    assert report['selected'] == list(CASES)
+    assert [c['workload']['id'] for c in report['cases']] == list(CASES)
+    passed, failed = {}, {}
+    for entry in report['cases']:
+        name = entry['workload']['id']
+        subset = dict(report, selected=[name], cases=[entry])
+        try:
+            passed[name] = verify(subset, allow_simulator=allow_simulator, case=name)['cases'][name]
+        except AssertionError as error:
+            failed[name] = str(error) or 'Failed invariant; run the individual verifier for a traceback.'
+    return dict(accepted=not failed, passed=passed, failed=failed)
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('report', type=Path)
     parser.add_argument('--allow-simulator', action='store_true')
     parser.add_argument('--allow-dirty', action='store_true')
     parser.add_argument('--case', choices=list(CASES))
+    parser.add_argument('--audit', action='store_true', help='Report every case and exit 1 if any fail')
     args = parser.parse_args()
     data = gzip.decompress(args.report.read_bytes()) if args.report.suffix == '.gz' else args.report.read_bytes()
+    if args.audit:
+        assert not args.case and not args.allow_dirty
+        result = audit(json.loads(data), args.allow_simulator)
+        print(json.dumps(result, indent=2))
+        raise SystemExit(0 if result['accepted'] else 1)
     print(json.dumps(verify(json.loads(data), args.allow_simulator, args.case, args.allow_dirty), indent=2))

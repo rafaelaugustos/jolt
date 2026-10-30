@@ -26,12 +26,25 @@ def read(name):
 
 class BindingBudgets(unittest.TestCase):
     def test_captured_matrices(self):
-        for platform in ('ios', 'android'):
-            report = read(f'2026-10-30-{platform}.json.gz')
-            result = budgets.verify(report, allow_simulator=platform == 'android')
-            self.assertEqual(len(result['cases']), 22)
-        with self.assertRaises(AssertionError):
-            budgets.verify(read('2026-10-30-android.json.gz'))
+        phone = read('2026-10-30-ios.json.gz')
+        self.assertIs(phone['recording'], False)
+        self.assertEqual(len(budgets.verify(phone)['cases']), 22)
+        self.assertTrue(budgets.audit(phone)['accepted'])
+        emulator = read('2026-10-30-android.json.gz')
+        self.assertIs(emulator['recording'], False)
+        # Preserve the overload, do not loosen the ceiling or replace its slow trial.
+        result = budgets.audit(emulator, allow_simulator=True)
+        self.assertFalse(result['accepted'])
+        self.assertEqual(len(result['passed']), 21)
+        self.assertEqual(result['failed'], {
+            'view-16-layers-8': 'Measurement exceeded 30-second acceptance ceiling',
+        })
+        with self.assertRaisesRegex(AssertionError, 'Physical hardware required'):
+            budgets.verify(emulator)
+        with self.assertRaisesRegex(AssertionError, '30-second acceptance ceiling'):
+            budgets.verify(emulator, allow_simulator=True)
+        incomplete = dict(phone, completed=False)
+        with self.assertRaises(AssertionError): budgets.audit(incomplete)
 
     def test_matrix_negative_controls(self):
         report = read('2026-10-30-ios.json.gz')
@@ -81,6 +94,7 @@ class BindingBudgets(unittest.TestCase):
         for platform in ('ios', 'android'):
             for kind in ('drag-js', 'pan-native', 'scroll-js', 'header-native'):
                 report = read(f'2026-10-30-{platform}-{kind}.json.gz')
+                self.assertIs(report['recording'], False)
                 inputs.verify(report, allow_simulator=platform == 'android')
                 cases = [
                     ('unfinished', lambda r: r.update(completed=False)),

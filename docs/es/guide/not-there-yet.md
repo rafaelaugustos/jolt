@@ -4,6 +4,8 @@
 
 RC.2 incluye correcciones de anclas de scroll, navegación iOS tras pasar a segundo plano y press/composición en capas, además de resortes nativos en el puntero y evidencia del ciclo de vida de la galería Android. Las mediciones de capacidad de bindings y capas siguen pendientes en [#242](https://github.com/rafaelaugustos/jolt/issues/242).
 
+La [primera auditoría de bindings/capas](./motion-values#binding-measurements) ya incluye mediciones en iPhone físico y diagnósticos en el emulador Android. Documenta el coste en los límites de las ventanas de composición; la capacidad en otros dispositivos y la aceptación de asignaciones/latencia de entrada siguen abiertas en #242.
+
 ## Disponible en RC.2 {#available-in-rc-1}
 
 - [Navegación compartida](./shared-navigation), [gestos compartidos](./shared-gestures), [regreso a la celda actual](./return-targets) y [galería conectada](./gallery), para las combinaciones documentadas de Frame/ListView/imágenes estáticas.

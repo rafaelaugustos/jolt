@@ -238,3 +238,14 @@ Value layers and [view-property layers](./layers) can be combined. The original 
 | `subscribe()`                                                                                                                    | Explicit JavaScript observation through a shared frame source.                                                         |
 
 A native live source does not turn an ordinary `drag()` or `scrollValue()` into a native event path. The exact properties and lifecycle contract are documented in each guide. Physical-device binding/layer budgets and heavier-screen measurements remain tracked in [#242](https://github.com/rafaelaugustos/jolt/issues/242).
+
+## Measured binding costs {#binding-measurements}
+
+The [binding and layer audit](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/binding-budgets.md) covers 22 workloads on a physical iPhone 17 Pro, with an additional Android emulator run. It separates setup, native playback, composition boundaries and explicit JS observation. Android emulator timings do not establish a phone capacity limit.
+
+On this iPhone, the 64-view, three-property motion-value workload spent **82–95 ms** rebuilding each composition window. The compatible-loop case submitted no new tracks during playback. Even 16 views exceeded one 60 Hz interval at a window boundary. Prefer compatible native loops for repeated motion and measure large fan-outs before using windowed composition during interaction. These are workload-specific observations, not a universal maximum number of bindings.
+
+The input audit uses real gestures for `drag()`, native pan, `scrollValue()` and `scrollHeader()`. The native paths recorded no per-move JS callbacks; all paths returned to zero tracked work after disposal. Display callbacks are not presented FPS, and input-to-photon latency is not measured. See the report for raw evidence, CPU/memory scope and remaining physical-device acceptance in [#242](https://github.com/rafaelaugustos/jolt/issues/242).
+
+<Clip name="binding-budget-ios" caption="Physical iPhone 17 Pro mirrored through Device Hub: a real tap starts the 64-view, three-property composition-window workload. English UI, original elapsed time; separate from the unrecorded measurements. Mirroring is not a presented-frame benchmark." />
+<Clip name="binding-budget-android" caption="Android emulator: real ADB swipes drive 64 views through native pan, followed by disposal. English UI, original elapsed time; a separate demonstration run, not physical Android capacity evidence." />

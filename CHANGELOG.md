@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Measure existing binding/layer workloads on a physical iPhone and validate them on an Android emulator (#242), with real input, raw evidence, bounded offline checks and reviewed recordings in all four guide locales. Document composition-window costs and cleanup; physical Android capacity, presented-frame/input latency and heap-allocation acceptance remain open. No public API or library runtime change.
+
 - Preserve collapsed scroll-header rows below a growing compact title or pinned section (#116), enforce the iOS native viewport clip, and use an exact Android item/offset target for animated scrolling. Update the reference layout for large system fonts and long titles, with native simulator/emulator checks and recordings in all four guide locales. Rebuild the native app; physical-device and screen-reader acceptance remain open.
 
 - Validate sensor sampling intervals on a physical iPhone (#114): twelve windows cover `auto`, 16/33/100 ms, shared acquisition at different rates, binding removal, resumption and disposal. Add the captured trace, 22 offline negative controls and a reviewed English recording in all four guide locales. This confirms existing native behavior; broader physical acceptance remains open.

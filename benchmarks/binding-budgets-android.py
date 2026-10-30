@@ -42,6 +42,8 @@ def main():
         adb('shell', 'input', 'tap', str((x1+x2)//2), str((y1+y2)//2))
 
     for kind in ([args.case] if args.case else ('drag-js', 'pan-native', 'scroll-js', 'header-native')):
+        if (args.output/f'{kind}.json').exists():
+            raise SystemExit('Choose a new output directory; evidence is never overwritten.')
         session = f'input-{kind}-{time.time_ns()}'
         adb('shell', 'am', 'force-stop', APP)
         adb('shell', 'am', 'start', '-n', APP+'/com.tns.NativeScriptActivity',

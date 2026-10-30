@@ -238,3 +238,14 @@ Los valores y las [capas de propiedades](./layers) pueden combinarse. El [RFC #1
 | `subscribe()`                                                                                                                             | Observación explícita en JavaScript mediante una fuente de fotogramas compartida.                                               |
 
 Una fuente nativa continua no convierte `drag()` ni `scrollValue()` normales en rutas de eventos nativos. Cada guía documenta las propiedades y el ciclo de vida compatibles. Los límites de enlaces/capas en dispositivos físicos y las mediciones con pantallas más cargadas siguen en [#242](https://github.com/rafaelaugustos/jolt/issues/242).
+
+## Costes medidos de bindings {#binding-measurements}
+
+La [auditoría de bindings y capas](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/binding-budgets.md) cubre 22 cargas en un iPhone 17 Pro físico, con una ejecución adicional en el emulador Android. Separa preparación, reproducción nativa, límites de las ventanas de composición y observación explícita en JS. Los tiempos del emulador Android no establecen la capacidad de un teléfono.
+
+En este iPhone, la carga de motion value con 64 vistas y tres propiedades tardó **82–95 ms** en reconstruir cada ventana de composición. El caso con bucles compatibles no envió nuevas pistas durante la reproducción. Incluso 16 vistas superaron un intervalo de 60 Hz en el límite de la ventana. Prefiere bucles nativos compatibles para movimientos repetidos y mide las vinculaciones numerosas antes de usar composición por ventanas durante una interacción. Son observaciones de estas cargas, no un máximo universal de bindings.
+
+La auditoría de entrada usa gestos reales para `drag()`, pan nativo, `scrollValue()` y `scrollHeader()`. Las rutas nativas no registraron callbacks JS por movimiento; todas volvieron a cero trabajo rastreado tras la liberación. Los callbacks de pantalla no son FPS presentados y no se midió la latencia entre entrada e imagen. Consulta los datos brutos, el alcance de CPU/memoria y la aceptación física pendiente en [#242](https://github.com/rafaelaugustos/jolt/issues/242).
+
+<Clip name="binding-budget-ios" caption="iPhone 17 Pro físico reflejado mediante Device Hub: un toque real inicia la carga de 64 vistas, tres propiedades y ventanas de composición. Interfaz en inglés, tiempo original; ejecución separada de las mediciones sin grabación. El reflejo no mide frames presentados." />
+<Clip name="binding-budget-android" caption="Emulador Android: gestos reales de ADB mueven 64 vistas mediante pan nativo, seguidos de su liberación. Interfaz en inglés, tiempo original; demostración separada, sin establecer la capacidad de Android físico." />

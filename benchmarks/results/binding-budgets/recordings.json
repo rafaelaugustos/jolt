@@ -1,0 +1,48 @@
+[
+  {
+    "platform": "ios",
+    "source": "physical iPhone via Device Hub window",
+    "recordingRun": true,
+    "trimSourceSeconds": [10, 51],
+    "frames": 2183,
+    "maximumTimestampErrorSeconds": 7.105427357601002e-15,
+    "sha256": "a0352ea72361eee90e3b1968fdb29314317704fc73dd9d370281c35bb90c8ec2",
+    "media": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 576,
+          "height": 1270
+        }
+      ],
+      "format": {
+        "duration": "40.971667"
+      }
+    }
+  },
+  {
+    "platform": "android",
+    "source": "Android emulator via ADB screenrecord",
+    "recordingRun": true,
+    "trimSourceSeconds": [12.825, 26],
+    "frames": 112,
+    "maximumTimestampErrorSeconds": 1.0000000019161348e-6,
+    "sha256": "16d582cc1045b0953f8bca5a46d0dcc9edcf4aaa5ea21a91e03b9c75edfc760d",
+    "media": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 576,
+          "height": 1280
+        }
+      ],
+      "format": {
+        "duration": "11.897744"
+      }
+    }
+  }
+]
