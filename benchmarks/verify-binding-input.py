@@ -8,7 +8,10 @@ from pathlib import Path
 
 def verify(report, allow_simulator=False, allow_dirty=False):
     assert report['schema'] == 1 and report['completed'] is True
-    assert report['device']['physical'] is True or allow_simulator
+    # Objective-C boxes !TARGET_OS_SIMULATOR as NSNumber 0/1; preserve raw evidence.
+    physical = report['device']['physical']
+    assert type(physical) in (bool, int) and physical in (0, 1)
+    assert physical == 1 or allow_simulator
     assert report['build']['bundleMode'] == 'production'
     assert report['build']['dirty'] is False or allow_dirty
     assert report['input'] in ('drag-js', 'pan-native', 'scroll-js', 'header-native')

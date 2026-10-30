@@ -5,6 +5,19 @@ final class DocsTests: XCTestCase {
     let app = XCUIApplication(bundleIdentifier: "org.nativescript.jolt.bindings")
     func testInputWindows() throws { try runInputs(recording: false) }
     func testRecording() throws { try runInputs(recording: true) }
+    func testMatrixRecording() throws {
+        continueAfterFailure = false
+        app.launchArguments = ["-AppleLanguages", "(en)", "--budget-case=value-64-window", "--budget-recording=true", "--budget-session=recording-\(UUID().uuidString)"]
+        app.launch()
+        let button = app.buttons["budget-run"].firstMatch
+        XCTAssertTrue(button.waitForExistence(timeout: 12))
+        Thread.sleep(forTimeInterval: 8)
+        button.tap()
+        let state = app.staticTexts["budget-status"].firstMatch
+        let complete = XCTNSPredicateExpectation(predicate: NSPredicate(format: "label == 'Completed'"), object: state)
+        XCTAssertEqual(XCTWaiter.wait(for: [complete], timeout: 70), .completed)
+        Thread.sleep(forTimeInterval: 2)
+    }
     func runInputs(recording: Bool) throws {
         continueAfterFailure = false
         let kinds = recording ? ["pan-native"] : ["drag-js", "pan-native", "scroll-js", "header-native"]

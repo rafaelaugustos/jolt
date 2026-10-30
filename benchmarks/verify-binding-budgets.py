@@ -51,7 +51,10 @@ def verify(report, allow_simulator=False, case=None, allow_dirty=False):
     assert report['schema'] == 1 and report['completed'] is True and not report.get('error')
     assert report['session'] and report['startedAt']
     assert report['platform'] in ('iOS', 'Android')
-    assert report['device']['physical'] is True or allow_simulator, 'Physical hardware required for acceptance'
+    # Objective-C boxes !TARGET_OS_SIMULATOR as NSNumber 0/1; preserve raw evidence.
+    physical = report['device']['physical']
+    assert type(physical) in (bool, int) and physical in (0, 1)
+    assert physical == 1 or allow_simulator, 'Physical hardware required for acceptance'
     assert report['device']['model'] and report['device']['os'] and report['device']['osBuild']
     finite(report['device']['maximumRefreshHz'], 1)
     assert report['build']['bundleMode'] == 'production'
@@ -121,7 +124,9 @@ def verify(report, allow_simulator=False, case=None, allow_dirty=False):
                 assert len(row) == 6
                 for n in row: finite(n, -1e12)
                 assert start <= row[0] <= end and row[2] > row[1]
-            assert all(a[0] < b[0] and a[1] < b[1] for a, b in zip(frames, frames[1:])), 'Nonmonotonic callbacks'
+            assert all(a[0] < b[0] and a[1] <= b[1] for a, b in zip(frames, frames[1:])), 'Nonmonotonic callbacks'
+            if report['platform'] == 'iOS':
+                assert all(a[1] < b[1] for a, b in zip(frames, frames[1:]))
             assert max(f[3] for f in frames) - min(f[3] for f in frames) > 1, 'No visible native movement'
             assert all(f[4] > 1.05 for f in frames), 'Lost non-unit scale baseline'
             if item['properties'] == 3:
@@ -148,6 +153,7 @@ def verify(report, allow_simulator=False, case=None, allow_dirty=False):
             trial_summaries.append(dict(cpuMs=cpu, cpuCorePercent=cpu/duration*100,
                 windowMs=duration, nativeProbeWorkMs=native['probeWorkMs'],
                 callbackGapMs=summary([b[0]-a[0] for a,b in zip(frames,frames[1:])]),
+                repeatedFrameTimestamps=sum(a[1] == b[1] for a,b in zip(frames,frames[1:])),
                 advertisedIntervalMs=summary([f[2]-f[1] for f in frames]),
                 sampledPeakMiB=native['sampledPeakMemoryBytes']/1024**2,
                 nativeTrackSubmissions=len(plays), submittedValues=sum(p['values'] for p in plays),

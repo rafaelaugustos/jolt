@@ -43,6 +43,7 @@ class BindingBudgets(unittest.TestCase):
             ('unfinished', lambda r: r.update(completed=False)),
             ('error', lambda r: r.update(error='interrupted')),
             ('emulator', lambda r: r['device'].update(physical=False)),
+            ('invalid device flag', lambda r: r['device'].update(physical='true')),
             ('debug bundle', lambda r: r['build'].update(bundleMode='development')),
             ('uncommitted build', lambda r: r['build'].update(dirty=True)),
             ('wrong selected case', lambda r: r.update(selected=['value-16-x'])),

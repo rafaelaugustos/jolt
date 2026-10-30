@@ -70,7 +70,9 @@ const option = (name: string) => {
     return undefined
   }
   return (
-    (Application.android.foregroundActivity ?? Application.android.startActivity)?.getIntent().getStringExtra(name) ?? undefined
+    (Application.android.foregroundActivity ?? Application.android.startActivity)
+      ?.getIntent()
+      .getStringExtra(name) ?? undefined
   )
 }
 let suspensions = 0
@@ -375,6 +377,18 @@ function createPage() {
               ? settings.finiteWindowMs
               : settings.endlessWindowMs,
           )
+          // Slow hosts may spend seconds rebuilding a window. Retain that cost
+          // and wait for two actual boundary submissions, up to the same 30 s
+          // validation ceiling; elapsed time is never normalized or discarded.
+          if (item.playback === 'window') {
+            const expected = afterStart.plays + item.views * item.properties * 2
+            while (diagnostic.snapshot().plays < expected && now() - startedAt < 24000)
+              await wait(4000)
+            check(
+              diagnostic.snapshot().plays >= expected,
+              'Two composition boundaries were not reached.',
+            )
+          }
           const playbackEnd = diagnostic.snapshot()
           const native = JSON.parse(sampler.finish())
           sampler = undefined
