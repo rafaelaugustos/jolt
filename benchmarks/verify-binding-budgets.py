@@ -63,6 +63,8 @@ def art_delta(native):
     names = ('art.gc.gc-count', 'art.gc.gc-time', 'art.gc.bytes-allocated',
              'art.gc.bytes-freed', 'art.gc.blocking-gc-count', 'art.gc.blocking-gc-time')
     before, after = native['before']['art'], native['after']['art']
+    # The native probe returns empty objects before Android's API 23 runtime counters.
+    if before == after == {}: return None
     assert set(before) == set(after) == set(names)
     result = {}
     for name in names:
