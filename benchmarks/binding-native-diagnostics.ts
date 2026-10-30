@@ -11,7 +11,9 @@ interface RetentionProbe {
 declare const JoltBudgetInputProbe: {
   watchDelay(surface: UIView, delay: number): InputProbe
 }
-declare const JoltBudgetRetention: { new (): RetentionProbe }
+declare class JoltBudgetRetention {
+  static new(): RetentionProbe
+}
 declare const org: {
   rafaelaugusto: {
     jolt: {
