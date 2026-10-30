@@ -860,6 +860,54 @@ final class DocsTests: XCTestCase {
         launch(["--showcase-example=gallery", "--gallery-audit"], "collection-place-1")
         try record("gallery-handoff-check") { try galleryStory() }
     }
+    func testGalleryLargeText() throws {
+        try cue("content-size", "large")
+        languageLaunch("en", "language-settings"); selectLanguage("system")
+        languageLaunch("en", "collection-place-1", ["--showcase-example=gallery", "--gallery-audit", "--collection-audit"])
+        func control(_ name: String) {
+            let button = app.descendants(matching: .any)[name].firstMatch
+            let panel = app.descendants(matching: .any)["gallery-controls"].firstMatch
+            for _ in 0..<4 {
+                if button.isHittable && button.frame.minY >= panel.frame.minY - 1 && button.frame.maxY <= panel.frame.maxY + 1 { break }
+                panel.swipeUp()
+            }
+            XCTAssertTrue(button.isHittable, name)
+            XCTAssertGreaterThanOrEqual(button.frame.minY, panel.frame.minY - 1, name)
+            XCTAssertLessThanOrEqual(button.frame.maxY, panel.frame.maxY + 1, name)
+            tap(name, wait: 1)
+        }
+        defer { XCUIDevice.shared.orientation = .portrait }
+        try record("gallery-large-text-ios") {
+            tap("collection-place-1", wait: 1)
+            tap("gallery-snapshot")
+            control("gallery-zoom"); tap("gallery-snapshot")
+            try cue("content-size", "accessibility-medium")
+            Thread.sleep(forTimeInterval: 1)
+            tap("gallery-snapshot")
+            control("gallery-reset"); tap("gallery-snapshot")
+            try cue("screenshot", "gallery-large-portrait")
+            XCUIDevice.shared.orientation = .landscapeLeft
+            Thread.sleep(forTimeInterval: 1)
+            control("gallery-zoom"); control("gallery-reset")
+            tap("gallery-snapshot")
+            try cue("screenshot", "gallery-large-landscape")
+            XCUIDevice.shared.orientation = .portrait
+            Thread.sleep(forTimeInterval: 1)
+            tap("gallery-snapshot")
+            try cue("content-size", "large")
+            Thread.sleep(forTimeInterval: 1)
+            tap("gallery-snapshot")
+            tap("gallery-close", wait: 1.3)
+            XCTAssertTrue(app.descendants(matching: .any)["collection-place-1"].firstMatch.isHittable)
+            try cue("content-size", "accessibility-medium")
+            tap("collection-place-3", wait: 1)
+            tap("gallery-snapshot")
+            control("gallery-zoom")
+            tap("gallery-close", wait: 1.3)
+            XCTAssertTrue(app.descendants(matching: .any)["collection-place-3"].firstMatch.isHittable)
+            try cue("content-size", "large")
+        }
+    }
     func testGalleryLifecycle() throws {
         launch(["--showcase-example=gallery", "--gallery-audit", "--collection-audit"], "collection-place-1")
         tap("collection-place-1", wait: 1.0)

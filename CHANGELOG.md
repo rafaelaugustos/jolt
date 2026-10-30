@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Make the gallery reference fit enlarged system text (#117): measure its chrome, wrap titles and controls, and bound the scrolling control panel while keeping a separate photo gesture viewport. Opt into iOS Dynamic Type and refresh retained Android SP sizes after configuration changes. Add simulator/emulator text, zoom, rotation and return evidence plus reviewed recordings in all four guide locales. Physical-device and screen-reader acceptance remain open.
+
 - Preserve collapsed scroll-header rows below a growing compact title or pinned section (#116), enforce the iOS native viewport clip, and use an exact Android item/offset target for animated scrolling. Update the reference layout for large system fonts and long titles, with native simulator/emulator checks and recordings in all four guide locales. Rebuild the native app; physical-device and screen-reader acceptance remain open.
 
 - Validate sensor sampling intervals on a physical iPhone (#114): twelve windows cover `auto`, 16/33/100 ms, shared acquisition at different rates, binding removal, resumption and disposal. Add the captured trace, 22 offline negative controls and a reviewed English recording in all four guide locales. This confirms existing native behavior; broader physical acceptance remains open.
