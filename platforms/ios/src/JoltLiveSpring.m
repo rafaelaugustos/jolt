@@ -2,67 +2,133 @@
 #import "JoltSpringState.h"
 #import <QuartzCore/QuartzCore.h>
 
+/* Sampled inputs and mappings are decoded once; frames read plain C arrays. */
+typedef struct {
+    double value, elapsed, duration, delay, repeat, to;
+    BOOL reverse, playing;
+    NSUInteger count;
+    double *times, *values;
+} JoltSampled;
+typedef struct {
+    NSUInteger count;
+    double *input, *output;
+    BOOL clamp;
+} JoltMapping;
+
 static id decode(NSString *json) {
     return [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
 }
-static double mapped(double value, NSArray *mappings) {
-    for (NSDictionary *mapping in mappings) {
+static double *doubles(NSArray *numbers, NSUInteger count) {
+    double *result = malloc(sizeof(double) * MAX(1, count));
+    for (NSUInteger i = 0; i < count; i++) result[i] = [numbers[i] doubleValue];
+    return result;
+}
+static JoltSampled *decodeSampled(NSArray *list, NSUInteger *count) {
+    *count = list.count;
+    if (!*count) return NULL;
+    JoltSampled *result = calloc(*count, sizeof(JoltSampled));
+    for (NSUInteger i = 0; i < *count; i++) {
+        NSDictionary *input = list[i];
+        NSArray *values = input[@"values"], *times = input[@"times"];
+        JoltSampled *s = &result[i];
+        s->value = [input[@"value"] doubleValue]; s->elapsed = [input[@"elapsed"] doubleValue];
+        s->duration = [input[@"duration"] doubleValue]; s->delay = [input[@"delay"] doubleValue];
+        s->repeat = [input[@"repeat"] doubleValue]; s->to = [input[@"to"] doubleValue];
+        s->reverse = [input[@"reverse"] boolValue]; s->playing = [input[@"running"] boolValue];
+        s->count = MIN(values.count, times.count);
+        s->times = doubles(times, s->count);
+        s->values = doubles(values, s->count);
+    }
+    return result;
+}
+static void freeSampled(JoltSampled *list, NSUInteger count) {
+    for (NSUInteger i = 0; i < count; i++) { free(list[i].times); free(list[i].values); }
+    free(list);
+}
+static BOOL sampledRunning(const JoltSampled *s, double anchor, double now) {
+    return s->playing && (s->repeat < 0 || now - anchor + s->elapsed < s->delay + s->duration * (s->repeat + 1));
+}
+static double sampledValue(const JoltSampled *s, double anchor, double now) {
+    if (!s->playing || s->count < 2) return s->value;
+    if (!sampledRunning(s, anchor, now)) return s->to;
+    double time = MAX(0, now - anchor + s->elapsed - s->delay);
+    double duration = MAX(1, s->duration);
+    double iteration = floor(time / duration), progress = fmod(time, duration) / duration;
+    if (s->reverse && fmod(iteration, 2) >= 1) progress = 1 - progress;
+    NSUInteger lo = 0, hi = s->count - 1;
+    while (lo + 1 < hi) { NSUInteger mid = (lo + hi) / 2; if (s->times[mid] <= progress) lo = mid; else hi = mid; }
+    double start = s->times[lo], end = s->times[hi];
+    double fraction = end > start ? (progress - start) / (end - start) : 1;
+    return s->values[lo] + (s->values[hi] - s->values[lo]) * MAX(0, MIN(1, fraction));
+}
+static JoltMapping *decodeMappings(NSString *json, NSUInteger *count) {
+    NSArray *list = decode(json);
+    *count = list.count;
+    if (!*count) return NULL;
+    JoltMapping *result = calloc(*count, sizeof(JoltMapping));
+    for (NSUInteger i = 0; i < *count; i++) {
+        NSDictionary *mapping = list[i];
         NSArray *input = mapping[@"input"], *output = mapping[@"output"];
-        BOOL clamp = [mapping[@"clamp"] boolValue];
-        if (clamp && value <= [input.firstObject doubleValue]) { value = [output.firstObject doubleValue]; continue; }
-        if (clamp && value >= [input.lastObject doubleValue]) { value = [output.lastObject doubleValue]; continue; }
+        result[i].count = MIN(input.count, output.count);
+        result[i].input = doubles(input, result[i].count);
+        result[i].output = doubles(output, result[i].count);
+        result[i].clamp = [mapping[@"clamp"] boolValue];
+    }
+    return result;
+}
+static void freeMappings(JoltMapping *maps, NSUInteger count) {
+    for (NSUInteger i = 0; i < count; i++) { free(maps[i].input); free(maps[i].output); }
+    free(maps);
+}
+static double mapped(double value, const JoltMapping *maps, NSUInteger count) {
+    for (NSUInteger m = 0; m < count; m++) {
+        const JoltMapping *mapping = &maps[m];
+        if (mapping->count < 2) continue;
+        if (mapping->clamp && value <= mapping->input[0]) { value = mapping->output[0]; continue; }
+        if (mapping->clamp && value >= mapping->input[mapping->count - 1]) { value = mapping->output[mapping->count - 1]; continue; }
         NSUInteger index = 0;
-        while (index < input.count - 2 && value > [input[index + 1] doubleValue]) index++;
-        double span = [input[index + 1] doubleValue] - [input[index] doubleValue];
-        double fraction = span > 0 ? (value - [input[index] doubleValue]) / span : value < [input[index] doubleValue] ? 0 : 1;
-        value = [output[index] doubleValue] + ([output[index + 1] doubleValue] - [output[index] doubleValue]) * fraction;
+        while (index < mapping->count - 2 && value > mapping->input[index + 1]) index++;
+        double span = mapping->input[index + 1] - mapping->input[index];
+        double fraction = span > 0 ? (value - mapping->input[index]) / span : value < mapping->input[index] ? 0 : 1;
+        value = mapping->output[index] + (mapping->output[index + 1] - mapping->output[index]) * fraction;
     }
     return value;
 }
-static BOOL inputRunning(NSDictionary *input, double anchor, double now) {
-    double repeat = [input[@"repeat"] doubleValue];
-    return [input[@"running"] boolValue] && (repeat < 0 || now - anchor + [input[@"elapsed"] doubleValue] <
-           [input[@"delay"] doubleValue] + [input[@"duration"] doubleValue] * (repeat + 1));
-}
-static double inputValue(NSDictionary *input, double anchor, double now) {
-    NSArray *values = input[@"values"], *times = input[@"times"];
-    if (![input[@"running"] boolValue] || values.count < 2) return [input[@"value"] doubleValue];
-    if (!inputRunning(input, anchor, now)) return [input[@"to"] doubleValue];
-    double time = MAX(0, now - anchor + [input[@"elapsed"] doubleValue] - [input[@"delay"] doubleValue]);
-    double duration = MAX(1, [input[@"duration"] doubleValue]);
-    double iteration = floor(time / duration), progress = fmod(time, duration) / duration;
-    if ([input[@"reverse"] boolValue] && fmod(iteration, 2) >= 1) progress = 1 - progress;
-    NSUInteger lo = 0, hi = times.count - 1;
-    while (lo + 1 < hi) { NSUInteger mid = (lo + hi) / 2; if ([times[mid] doubleValue] <= progress) lo = mid; else hi = mid; }
-    double start = [times[lo] doubleValue], end = [times[hi] doubleValue];
-    double fraction = end > start ? (progress - start) / (end - start) : 1;
-    return [values[lo] doubleValue] + ([values[hi] doubleValue] - [values[lo] doubleValue]) * MAX(0, MIN(1, fraction));
-}
+
+@protocol JoltShadowedView
+- (CALayer *)outerShadowContainerLayer;
+@end
 
 @interface JoltLiveSpring () {
     JoltSpringState _state;
+    JoltSampled *_inputs;
+    NSUInteger _inputCount;
+    JoltMapping *_sourceMaps;
+    NSUInteger _sourceMapCount;
 }
 @property(nonatomic) double stiffness, damping, mass, restDelta, restSpeed;
 @property(nonatomic, readwrite) BOOL moving;
 @property(nonatomic) BOOL reduced, paused, disposed, direct, inputHeld, sensorDriven;
 @property(nonatomic) double targetValue;
 @property(nonatomic, nullable) JoltLiveSpring *source;
-@property(nonatomic) NSArray *sourceMaps;
-@property(nonatomic) NSArray *inputs;
 @property(nonatomic) double inputRest, anchor;
 @property(nonatomic) NSMutableArray<JoltLiveSpringBinding *> *bindings;
 - (void)step:(double)now seconds:(double)seconds;
 - (void)apply;
 - (void)wake;
 @end
-@interface JoltLiveSpringBinding ()
+@interface JoltLiveSpringBinding () {
+    JoltMapping *_maps;
+    NSUInteger _mapCount;
+    JoltSampled *_layers;
+    NSUInteger _layerCount;
+}
 @property(nonatomic, weak) UIView *view;
 @property(nonatomic, weak) JoltLiveSpring *node;
-@property(nonatomic) NSString *property;
-@property(nonatomic) NSArray *mappings;
-@property(nonatomic) BOOL stopped;
-@property(nonatomic) NSArray *sampledLayers;
+@property(nonatomic) NSString *property, *keyPath;
+@property(nonatomic) BOOL stopped, multiply, radians, alpha, shadowed;
 @property(nonatomic) double layerAnchor;
+- (void)useMappings:(NSString *)mappings;
 - (BOOL)running:(double)now;
 - (void)apply;
 @end
@@ -90,7 +156,9 @@ static double previousFrame;
     while (remaining > 1e-9) {
         double dt = MIN(remaining, 1.0 / 240);
         remaining -= dt;
-        for (JoltLiveSpring *node in nodes) [node step:now - remaining * 1000 seconds:dt];
+        // An instant node only needs the frame's final time; springs integrate every substep.
+        for (JoltLiveSpring *node in nodes)
+            if (!node.reduced || remaining <= 1e-9) [node step:now - remaining * 1000 seconds:dt];
     }
     BOOL active = NO;
     [CATransaction begin]; [CATransaction setDisableActions:YES];
@@ -107,52 +175,69 @@ static double previousFrame;
     node->_state = (JoltSpringState){initial, 0};
     node.stiffness = stiffness; node.damping = damping; node.mass = mass;
     node.restDelta = restDelta; node.restSpeed = restSpeed; node->_reduced = reduced;
-    node.direct = YES; node.targetValue = initial; node.inputs = @[];
-    node.bindings = [NSMutableArray new]; node.sourceMaps = @[];
+    node.direct = YES; node.targetValue = initial;
+    node.bindings = [NSMutableArray new];
     [nodes addObject:node];
     return node;
+}
+- (void)dealloc {
+    freeSampled(_inputs, _inputCount);
+    freeMappings(_sourceMaps, _sourceMapCount);
 }
 - (double)position { return _state.position; }
 - (double)velocity { return _state.velocity; }
 + (NSUInteger)activeCount { return displayLink ? 1 : 0; }
 + (NSUInteger)nodeCount { return nodes.count; }
+- (void)replaceInputs:(NSArray *)list rest:(double)rest {
+    freeSampled(_inputs, _inputCount);
+    _inputs = decodeSampled(list, &_inputCount);
+    self.inputRest = rest; self.anchor = CACurrentMediaTime() * 1000;
+}
 - (void)follow:(JoltLiveSpring *)source mappings:(NSString *)mappings {
     if (self.disposed || source.disposed || [nodes indexOfObject:source] >= [nodes indexOfObject:self])
         [NSException raise:NSInvalidArgumentException format:@"A spring can only follow an existing live node"];
-    self.sourceMaps = decode(mappings); self.source = source; [self wake];
+    freeMappings(_sourceMaps, _sourceMapCount);
+    _sourceMaps = decodeMappings(mappings, &_sourceMapCount);
+    self.source = source; [self wake];
 }
 - (void)updateInput:(NSString *)snapshot {
     if (self.disposed) return;
-    self.sensorDriven = NO; self.inputs = @[decode(snapshot)]; self.inputRest = 0; self.direct = NO;
-    self.anchor = CACurrentMediaTime() * 1000; [self wake];
+    self.sensorDriven = NO; self.direct = NO;
+    [self replaceInputs:@[decode(snapshot)] rest:0];
+    [self wake];
 }
 - (void)setInputs:(NSString *)snapshots rest:(double)rest {
     if (self.disposed) return;
-    self.sensorDriven = NO; self.inputs = decode(snapshots); self.inputRest = rest; self.direct = NO;
-    self.anchor = CACurrentMediaTime() * 1000; [self wake];
+    self.sensorDriven = NO; self.direct = NO;
+    [self replaceInputs:decode(snapshots) rest:rest];
+    [self wake];
 }
 - (double)inputValue:(double)now {
     double value = self.inputRest;
-    for (NSDictionary *input in self.inputs) value += inputValue(input, self.anchor, now);
+    for (NSUInteger i = 0; i < _inputCount; i++) value += sampledValue(&_inputs[i], self.anchor, now);
     return value;
 }
 - (BOOL)inputMoving:(double)now {
-    for (NSDictionary *input in self.inputs) if (inputRunning(input, self.anchor, now)) return YES;
+    for (NSUInteger i = 0; i < _inputCount; i++) if (sampledRunning(&_inputs[i], self.anchor, now)) return YES;
     return NO;
 }
 - (void)setSensorInput:(double)value {
     if (self.disposed || !isfinite(value) || (self.sensorDriven && self.inputHeld && _state.position == value)) return;
-    self.sensorDriven = YES; self.inputHeld = YES; self.direct = YES; self.targetValue = value; self.inputs = @[];
+    self.sensorDriven = YES; self.inputHeld = YES; self.direct = YES; self.targetValue = value;
+    [self replaceInputs:@[] rest:0];
     _state = (JoltSpringState){value, 0}; self.moving = NO;
     [JoltLiveSpring schedule];
 }
 - (void)setTarget:(double)value {
     if (self.disposed) return;
-    self.sensorDriven = NO; self.direct = YES; self.targetValue = value; self.inputs = @[]; [self wake];
+    self.sensorDriven = NO; self.direct = YES; self.targetValue = value;
+    [self replaceInputs:@[] rest:0];
+    [self wake];
 }
 - (void)holdInput:(double)value velocity:(double)velocity {
     if (self.disposed) return;
-    self.sensorDriven = NO; self.inputHeld = YES; self.direct = YES; self.targetValue = value; self.inputs = @[];
+    self.sensorDriven = NO; self.inputHeld = YES; self.direct = YES; self.targetValue = value;
+    [self replaceInputs:@[] rest:0];
     _state = (JoltSpringState){value, velocity}; self.moving = YES;
     [CATransaction begin]; [CATransaction setDisableActions:YES]; [self apply]; [CATransaction commit];
     [JoltLiveSpring schedule];
@@ -178,7 +263,7 @@ static double previousFrame;
 }
 - (void)step:(double)now seconds:(double)seconds {
     if (self.disposed || self.paused || self.inputHeld) return;
-    double target = self.source ? mapped(self.source.position, self.sourceMaps) : (self.direct ? self.targetValue : [self inputValue:now]);
+    double target = self.source ? mapped(self.source.position, _sourceMaps, _sourceMapCount) : (self.direct ? self.targetValue : [self inputValue:now]);
     BOOL inputMoving = self.source ? self.source.moving : (!self.direct && [self inputMoving:now]);
     if (self.reduced) _state = (JoltSpringState){target, 0};
     else _state = JoltSpringAdvance(_state, target, self.stiffness, self.damping, self.mass, seconds);
@@ -189,7 +274,20 @@ static double previousFrame;
 - (JoltLiveSpringBinding *)bind:(UIView *)view property:(NSString *)property mappings:(NSString *)mappings {
     if (self.disposed) [NSException raise:NSInvalidArgumentException format:@"Spring disposed"];
     JoltLiveSpringBinding *binding = [JoltLiveSpringBinding new];
-    binding.node = self; binding.view = view; binding.property = property; binding.mappings = decode(mappings);
+    binding.node = self; binding.view = view; binding.property = property;
+    [binding useMappings:mappings];
+    NSString *key = property;
+    if ([key isEqualToString:@"opacity"]) binding.alpha = YES;
+    else if ([key isEqualToString:@"x"]) key = @"transform.translation.x";
+    else if ([key isEqualToString:@"y"]) key = @"transform.translation.y";
+    else if ([key isEqualToString:@"scaleX"]) key = @"transform.scale.x";
+    else if ([key isEqualToString:@"scaleY"]) key = @"transform.scale.y";
+    else if ([key isEqualToString:@"rotate"]) { key = @"transform.rotation.z"; binding.radians = YES; }
+    else if ([key isEqualToString:@"rotateX"]) { key = @"transform.rotation.x"; binding.radians = YES; }
+    else if ([key isEqualToString:@"rotateY"]) { key = @"transform.rotation.y"; binding.radians = YES; }
+    binding.keyPath = key;
+    binding.multiply = binding.alpha || [property hasPrefix:@"scale"];
+    binding.shadowed = [view respondsToSelector:@selector(outerShadowContainerLayer)];
     [self.bindings addObject:binding];
     [CATransaction begin]; [CATransaction setDisableActions:YES]; [binding apply]; [CATransaction commit];
     return binding;
@@ -211,7 +309,7 @@ static double previousFrame;
     if (self.disposed) return;
     self.disposed = YES; self.moving = NO; [self.bindings removeAllObjects]; [nodes removeObject:self];
     for (JoltLiveSpring *child in nodes) if (child.source == self) {
-        child.source = nil; [child setTarget:mapped(self.position, child.sourceMaps)];
+        child.source = nil; [child setTarget:mapped(self.position, child->_sourceMaps, child->_sourceMapCount)];
     }
     self.source = nil;
     if (!nodes.count) { [displayLink invalidate]; displayLink = nil; previousFrame = 0; }
@@ -219,40 +317,43 @@ static double previousFrame;
 @end
 
 @implementation JoltLiveSpringBinding
-- (double)value { return mapped(self.node.position, self.mappings); }
+- (void)dealloc {
+    freeMappings(_maps, _mapCount);
+    freeSampled(_layers, _layerCount);
+}
+- (void)useMappings:(NSString *)mappings {
+    freeMappings(_maps, _mapCount);
+    _maps = decodeMappings(mappings, &_mapCount);
+}
+- (double)value { return mapped(self.node.position, _maps, _mapCount); }
 - (void)setLayers:(NSString *)inputs {
-    self.sampledLayers = decode(inputs); self.layerAnchor = CACurrentMediaTime() * 1000;
+    freeSampled(_layers, _layerCount);
+    _layers = decodeSampled(decode(inputs), &_layerCount);
+    self.layerAnchor = CACurrentMediaTime() * 1000;
     [CATransaction begin]; [CATransaction setDisableActions:YES]; [self apply]; [CATransaction commit];
     [JoltLiveSpring schedule];
 }
 - (BOOL)running:(double)now {
-    for (NSDictionary *layer in self.sampledLayers) if (inputRunning(layer, self.layerAnchor, now)) return YES;
+    for (NSUInteger i = 0; i < _layerCount; i++) if (sampledRunning(&_layers[i], self.layerAnchor, now)) return YES;
     return NO;
 }
 - (void)cancel { self.stopped = YES; [self.node.bindings removeObject:self]; }
 - (void)apply {
     UIView *view = self.view;
     if (self.stopped || !view.window) return;
-    NSString *key = self.property;
     double value = self.value;
-    BOOL multiply = [key isEqualToString:@"opacity"] || [key hasPrefix:@"scale"];
     double now = CACurrentMediaTime() * 1000;
-    for (NSDictionary *layer in self.sampledLayers) {
-        double part = inputValue(layer, self.layerAnchor, now);
-        value = multiply ? value * part : value + part;
+    for (NSUInteger i = 0; i < _layerCount; i++) {
+        double part = sampledValue(&_layers[i], self.layerAnchor, now);
+        value = self.multiply ? value * part : value + part;
     }
-    if ([key isEqualToString:@"opacity"]) { view.alpha = MAX(0, MIN(1, value)); return; }
-    if ([key isEqualToString:@"x"]) key = @"transform.translation.x";
-    else if ([key isEqualToString:@"y"]) key = @"transform.translation.y";
-    else if ([key isEqualToString:@"scaleX"]) key = @"transform.scale.x";
-    else if ([key isEqualToString:@"scaleY"]) key = @"transform.scale.y";
-    else if ([key isEqualToString:@"rotate"]) { key = @"transform.rotation.z"; value *= M_PI / 180; }
-    else if ([key isEqualToString:@"rotateX"]) { key = @"transform.rotation.x"; value *= M_PI / 180; }
-    else if ([key isEqualToString:@"rotateY"]) { key = @"transform.rotation.y"; value *= M_PI / 180; }
-    [view.layer setValue:@(value) forKeyPath:key];
-    if ([view respondsToSelector:NSSelectorFromString(@"outerShadowContainerLayer")]) {
-        CALayer *shadow = [view valueForKey:@"outerShadowContainerLayer"];
-        [shadow setValue:@(value) forKeyPath:key];
+    if (self.alpha) { view.alpha = MAX(0, MIN(1, value)); return; }
+    if (self.radians) value *= M_PI / 180;
+    NSNumber *boxed = @(value);
+    [view.layer setValue:boxed forKeyPath:self.keyPath];
+    if (self.shadowed) {
+        CALayer *shadow = [(id<JoltShadowedView>)view outerShadowContainerLayer];
+        if (shadow) [shadow setValue:boxed forKeyPath:self.keyPath];
     }
 }
 @end

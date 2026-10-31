@@ -24,7 +24,11 @@ public final class LiveSpring {
             while (remaining > 1e-9) {
                 double dt = Math.min(remaining, 1.0 / 240);
                 remaining -= dt;
-                for (int i = 0; i < nodes.size(); i++) nodes.get(i).step(now - remaining * 1000, dt);
+                // An instant node only needs the frame's final time; springs integrate every substep.
+                for (int i = 0; i < nodes.size(); i++) {
+                    LiveSpring node = nodes.get(i);
+                    if (!node.reduced || remaining <= 1e-9) node.step(now - remaining * 1000, dt);
+                }
             }
             boolean active = false;
             for (int i = 0; i < nodes.size(); i++) {
