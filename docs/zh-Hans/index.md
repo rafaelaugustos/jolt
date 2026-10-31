@@ -63,7 +63,13 @@ features:
     link: /zh-Hans/guide/scene-camera
 ---
 
-## 0.1.0-rc.2：生命周期与组合修复 {#release-candidate}
+## 0.1.0-rc.3：模态、形状与目标 {#release-candidate}
+
+RC.3 新增 [iOS 交互式模态](/zh-Hans/guide/interactive-navigation)，通过[一次原生调用构建 Android 数值关键帧](/zh-Hans/guide/motion-values)，允许[在视图加载前创建形状](/zh-Hans/guide/shapes)，并接受[组件引用作为目标](/zh-Hans/guide/vue)。本版本还让[图库](/zh-Hans/guide/gallery)和[滚动标题](/zh-Hans/guide/scroll-header)适配系统大字体，并完成了[传感器](/zh-Hans/guide/device-sensors)与[绑定/层](/zh-Hans/guide/motion-values)的真机审计。
+
+[演示应用](/zh-Hans/guide/demo)现有 **74 个示例，支持四种语言**。[安装 RC.3](/zh-Hans/guide/install) 后请重新构建原生应用。请查看[发布说明](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.3)以及[正式版发布前仍需完成的真机验收](/zh-Hans/guide/not-there-yet)。
+
+## 0.1.0-rc.2：生命周期与组合修复 {#_0-1-0-rc-2-lifecycle-and-composition-fixes}
 
 RC.2 修复了[尺寸变化与重新加载时的滚动锚点](/zh-Hans/guide/scroll-header)、[应用从后台恢复后的 iOS 返回手势](/zh-Hans/guide/interactive-navigation)、[独立层中 press 的释放行为](/zh-Hans/guide/press#layered-press)以及[原生组合的时序](/zh-Hans/guide/layers)。本版本还包含[原生指针弹簧拖动](/zh-Hans/guide/physics-attachments)和 [Android 图库生命周期验证](/zh-Hans/guide/gallery#android-rotation-and-resume)。
 

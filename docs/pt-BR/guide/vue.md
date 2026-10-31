@@ -8,7 +8,7 @@ createApp(App).use(Jolt).start()
 
 <Clip name="vue" caption="JoltTransition removendo e restaurando uma linha, v-animate trocando a entrada." />
 
-O núcleo recebe uma view ou um elemento que contém uma, então `animate(card.value, 'popIn')` já funciona a partir de um template ref, em um elemento ou em um componente cuja raiz é uma view. `@rafaelaugusto/jolt/vue` acrescenta o lado do template: `v-animate`, `v-press`, `v-gradient` e um componente `<JoltTransition>` para views que aparecem e somem. Precisa do NativeScript-Vue 3 e só é carregado pelos apps que o importam.
+O núcleo recebe uma view ou um elemento que contém uma, então `animate(card.value, 'popIn')` já funciona a partir de um template ref, em um elemento ou, desde a **0.1.0-rc.3**, em um componente cuja raiz é uma view. `@rafaelaugusto/jolt/vue` acrescenta o lado do template: `v-animate`, `v-press`, `v-gradient` e um componente `<JoltTransition>` para views que aparecem e somem. Precisa do NativeScript-Vue 3 e só é carregado pelos apps que o importam.
 
 ## Movimento com escopo
 

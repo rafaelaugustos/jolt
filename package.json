@@ -1,6 +1,6 @@
 {
   "name": "@rafaelaugusto/jolt",
-  "version": "0.1.0-rc.2",
+  "version": "0.1.0-rc.3",
   "description": "Native animations for NativeScript: presets, springs, keyframes and stagger in one call.",
   "keywords": [
     "nativescript",

@@ -65,7 +65,13 @@ features:
     link: /guide/scene-camera
 ---
 
-## 0.1.0-rc.2: lifecycle and composition fixes {#release-candidate}
+## 0.1.0-rc.3: modals, shapes and targets {#release-candidate}
+
+RC.3 adds [interactive iOS modals](/guide/interactive-navigation), builds [Android numeric keyframes in one native call](/guide/motion-values), lets [shapes be created before their view loads](/guide/shapes#draw-a-path) and accepts [component refs as targets](/guide/vue). It fits the [gallery](/guide/gallery) and [scroll headers](/guide/scroll-header) to enlarged system text and completes the [physical sensor](/guide/device-sensors) and [binding/layer](/guide/motion-values#binding-measurements) audits.
+
+The [preview](/guide/demo) has **74 examples in four languages**. [Install RC.3](/guide/install) and rebuild the native app. Read the [release notes](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.3) and the [remaining physical-device acceptance](/guide/not-there-yet) before stable.
+
+## 0.1.0-rc.2: lifecycle and composition fixes {#_0-1-0-rc-2-lifecycle-and-composition-fixes}
 
 RC.2 fixes [scroll anchors during resize and reload](/guide/scroll-header), [iOS return gestures after backgrounding](/guide/interactive-navigation), [layered press release](/guide/press#layered-press) and [native composition timing](/guide/layers). It includes [native pointer spring dragging](/guide/physics-attachments#pointer-spring-dragging-development-build) and [Android gallery lifecycle validation](/guide/gallery#android-rotation-and-resume).
 

@@ -1,12 +1,12 @@
 # 发布状态与限制 {#not-there-yet}
 
-**0.1.0-rc.2 已发布。** 各项功能已支持对应指南中列出的组合。0.1.0 的功能范围已冻结，正式版的验收工作仍在进行。
+**0.1.0-rc.3 已发布。** 各项功能已支持对应指南中列出的组合。0.1.0 的功能范围已冻结，正式版的验收工作仍在进行。
 
-RC.2 包含滚动锚点、后台恢复后的 iOS 导航、分层 press 与组合时序的修复，以及原生指针弹簧和 Android 图库生命周期证据。绑定与层数量的测量记录见 [#242](https://github.com/rafaelaugustos/jolt/issues/242)。
+RC.3 新增 iOS 上的 `interactiveModal()`、通过一次原生调用构建的 Android 数值关键帧、可在视图加载前创建的形状以及作为目标的组件引用，并修复了图库和滚动标题在大字体下的显示。传感器与绑定/层的真机审计已完成；组合窗口的重建成本在 [#260](https://github.com/rafaelaugustos/jolt/issues/260) 中跟踪。
 
 [绑定与图层审计](./motion-values#binding-measurements)包含实体 iPhone 和 Android 上的准备/播放测量、自动输入响应起点，以及重复挂载/卸载的内存保留检查。组合窗口开销较高、近似分配计数器失败、Android 缺少温度状态遥测等限制均保留在证据中。结果为已测场景提供指导，不保证通用容量或实际呈现的帧率。 高开销窗口的优化与播放停顿的调查由 [#260](https://github.com/rafaelaugustos/jolt/issues/260) 跟踪。
 
-## RC.2 已提供的功能 {#available-in-rc-1}
+## RC.3 已提供的功能 {#available-in-rc-1}
 
 - [共享元素导航](./shared-navigation)、[共享手势](./shared-gestures)、[返回当前单元格](./return-targets)和[联动相册](./gallery)，支持文档列出的 Frame/ListView/静态图像组合。
 - [原生手势组合](./gestures)：平移、双指缩放和旋转，以及支持的垂直 Core ScrollView 手势交接。[拖动约束](./drag)和[照片缩放](./photo-zoom)各有独立的交互约定。
