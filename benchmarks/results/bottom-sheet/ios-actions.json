@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "runId": "actions-1793436446",
+  "status": "passed",
+  "platform": "ios",
+  "checks": [
+    "open and native snap",
+    "small content resolves its intrinsic height",
+    "rapid close and reopen preserve the visible position",
+    "growing content retargets its logical snap",
+    "usable-window resize",
+    "keyboard preserves focused input and keeps it visible",
+    "keyboard dismissal restores the selected snap",
+    "native accessibility expand and collapse actions",
+    "reduced motion",
+    "unload reload and disposal release native ownership"
+  ],
+  "samples": [
+    { "actual": 356.00058465966674, "expected": 356, "tolerance": 3 },
+    { "actual": 332.00000000000006, "expected": 332, "tolerance": 3 },
+    { "actual": 426.9162730031486, "expected": 426.9162730031486, "tolerance": 1 },
+    { "actual": 71.20102542367715, "expected": 71.2, "tolerance": 3 },
+    { "actual": 177.86610348460795, "expected": 177.86610348460795, "tolerance": 1 },
+    { "actual": 0, "expected": 0, "tolerance": 3 },
+    { "actual": 284.8333333333333, "expected": 284.8333333333333, "tolerance": 3 },
+    { "actual": 356, "expected": 356, "tolerance": 3 },
+    { "actual": 0.002077065345048368, "expected": 0, "tolerance": 3 },
+    { "actual": 355.9968635937419, "expected": 356, "tolerance": 3 },
+    { "actions": 2, "expected": 2, "tolerance": 0 },
+    { "actual": 71.20323140875769, "expected": 71.2, "tolerance": 3 },
+    { "actions": 3, "expected": 3, "tolerance": 0 },
+    { "actions": 2, "expected": 2, "tolerance": 0 },
+    { "actual": 0, "expected": 0, "tolerance": 3 }
+  ]
+}

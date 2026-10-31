@@ -280,7 +280,9 @@ describe('bottom sheet lifecycle and coordination', () => {
     expect(sheet.snapPoint).toBe('content')
     notify(backdrop, 'tap')
     expect(sheet.isOpen).toBe(true)
-    expect(mocks.actions.mock.calls.at(-1)![1]).toHaveLength(2)
+    expect(
+      (mocks.actions.mock.calls.at(-1)![1] as { label: string }[]).map((a) => a.label),
+    ).toEqual(['Expand'])
     sheet.dismiss()
     expect(sheet.isOpen).toBe(false)
   })
@@ -380,5 +382,44 @@ describe('bottom sheet safe areas', () => {
     expect(input.settleTo).toHaveBeenLastCalledWith({ y: 766 - 280 })
     sheet.dispose()
     expect(panel.paddingBottom ?? 0).toBe(0)
+  })
+})
+
+describe('bottom sheet handle actions', () => {
+  const labels = () =>
+    (mocks.actions.mock.calls.at(-1)![1] as { label: string }[]).map((a) => a.label)
+
+  it('offers only Dismiss on a single-snap sheet and nothing without dismissal', () => {
+    const { handle } = fixture({ snap: ['content'] })
+    expect(labels()).toEqual(['Dismiss'])
+    expect(handle.accessibilityValue).toBeUndefined()
+    fixture({ snap: ['content'], dismissible: false })
+    expect(labels()).toEqual([])
+  })
+
+  it('follows the selected stop with Expand and Collapse where they apply', () => {
+    const { sheet, handle } = fixture()
+    expect(labels()).toEqual(['Expand', 'Dismiss'])
+    expect(handle.accessibilityValue).toBe('Closed')
+    sheet.open('50%')
+    expect(labels()).toEqual(['Expand', 'Collapse', 'Dismiss'])
+    expect(handle.accessibilityValue).toBe('50%')
+    const installs = mocks.actions.mock.calls.length
+    sheet.open('90%')
+    expect(labels()).toEqual(['Collapse', 'Dismiss'])
+    expect(mocks.releaseActions).toHaveBeenCalled()
+    sheet.open('90%')
+    expect(mocks.actions.mock.calls.length).toBe(installs + 1)
+    sheet.dismiss()
+    expect(handle.accessibilityValue).toBe('Closed')
+  })
+
+  it('lets the application format the spoken value', () => {
+    const value = vi.fn((point: unknown) => (point === null ? 'Fechada' : `Em ${point}`))
+    const { sheet, handle } = fixture({ accessibility: { value } })
+    expect(handle.accessibilityValue).toBe('Fechada')
+    sheet.open('content')
+    expect(handle.accessibilityValue).toBe('Em content')
+    expect(value).toHaveBeenLastCalledWith('content')
   })
 })

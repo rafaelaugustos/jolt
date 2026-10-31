@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "runId": "actions-1793436713",
+  "status": "passed",
+  "platform": "android",
+  "checks": [
+    "open and native snap",
+    "small content resolves its intrinsic height",
+    "rapid close and reopen preserve the visible position",
+    "growing content retargets its logical snap",
+    "usable-window resize",
+    "keyboard preserves focused input and keeps it visible",
+    "keyboard dismissal restores the selected snap",
+    "native accessibility expand and collapse actions",
+    "reduced motion",
+    "unload reload and disposal release native ownership"
+  ],
+  "samples": [
+    { "actual": 369.3338216145833, "expected": 369.3333333333333, "tolerance": 3 },
+    { "actual": 358.4761904761905, "expected": 358.66666666666663, "tolerance": 3 },
+    { "actual": 493.9828404017857, "expected": 493.9828404017857, "tolerance": 1 },
+    { "actual": 73.86780366443452, "expected": 73.86666666666666, "tolerance": 3 },
+    { "actual": 190.270751953125, "expected": 190.270751953125, "tolerance": 1 },
+    { "actual": 0, "expected": 0, "tolerance": 3 },
+    { "actual": 295.4285481770833, "expected": 295.42857142857144, "tolerance": 3 },
+    { "actual": 369.3333333333333, "expected": 369.3333333333333, "tolerance": 3 },
+    { "actual": 0.003701856093747275, "expected": 0, "tolerance": 3 },
+    { "actual": 369.3320079985119, "expected": 369.3333333333333, "tolerance": 3 },
+    { "actions": 2, "expected": 2, "tolerance": 0 },
+    { "actual": 73.86926850818452, "expected": 73.86666666666666, "tolerance": 3 },
+    { "actions": 3, "expected": 3, "tolerance": 0 },
+    { "actions": 2, "expected": 2, "tolerance": 0 },
+    { "actual": 0, "expected": 0, "tolerance": 3 }
+  ]
+}

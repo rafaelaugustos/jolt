@@ -56,7 +56,7 @@ Safe-area insets come from the host, in DIPs. Core already lays the host's child
 
 ## Accessibility and ownership
 
-The handle receives native Expand, Collapse and Dismiss custom actions. Existing custom actions are preserved. Localize them with `accessibility: { label, expand, collapse, dismiss }`; native back is only intercepted while the sheet is open and loaded. `returnFocus` identifies the opener to focus after a completed dismissal. Without it, the recipe captures the current native focus. Reduced Motion follows Jolt's configuration and the platform preference.
+The handle receives native custom actions: Expand where a larger stop exists, Collapse where a smaller one exists, and Dismiss when the sheet is dismissible, so a single-snap sheet offers only Dismiss and the set follows the selected stop. Existing custom actions are preserved. Localize them with `accessibility: { label, expand, collapse, dismiss, value }`, where `value(point)` formats the spoken value for each stop and for `null` when closed; without it the stop name is spoken, and nothing for a single stop; native back is only intercepted while the sheet is open and loaded. `returnFocus` identifies the opener to focus after a completed dismissal. Without it, the recipe captures the current native focus. Reduced Motion follows Jolt's configuration and the platform preference.
 
 The controller provides `isOpen`, `snapPoint`, `visibleHeight`, `paused` and `disposed`, plus `open`, `snapTo`, `expand`, `collapse`, `dismiss`, `remeasure`, `pause`, `play` and `dispose`. `onChange(point)` reports the selected snap, or `null` on a close request; `onDismiss()` waits for completion.
 
