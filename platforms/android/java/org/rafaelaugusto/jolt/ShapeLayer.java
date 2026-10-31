@@ -56,18 +56,28 @@ public final class ShapeLayer extends Drawable {
         this.commands=commands;this.from=from;this.to=to;this.times=times;this.samples=samples;
         this.duration=duration;this.delay=delay;this.repeats=repeats;this.reverse=reverse;
         current=from.clone();rebuild();apply(0);
+        active++;clock(0);
+    }
+    /** A resume rebuilds the clock: Android moves a seeked start time by the paused duration on the frame after resume(). */
+    public void control(double time,boolean paused){
+        if(animator==null)return;
+        long at=Math.max(0,(long)time);
+        if(paused){animator.setCurrentPlayTime(at);animator.pause();}
+        else if(animator.isPaused())clock(at);
+        else animator.setCurrentPlayTime(at);
+        apply(time);
+    }
+    private void clock(long at){
+        ValueAnimator old=animator;
+        if(old!=null){old.removeAllUpdateListeners();old.removeAllListeners();old.cancel();}
         final ValueAnimator a=ValueAnimator.ofFloat(0f,1f);
         a.setDuration(repeats<0?60000:Math.max(1,(long)Math.ceil(delay+duration*(repeats+1))));
         a.setRepeatCount(repeats<0?ValueAnimator.INFINITE:0);a.setInterpolator(new LinearInterpolator());
         a.addUpdateListener(v->apply(v.getCurrentPlayTime()));
         a.addListener(new AnimatorListenerAdapter(){@Override public void onAnimationEnd(Animator ended){if(animator==a){animator=null;active--;}}});
-        animator=a;active++;a.start();
-    }
-    public void control(double time,boolean paused){
-        if(animator==null)return;
-        animator.setCurrentPlayTime(Math.max(0,(long)time));
-        if(paused)animator.pause();else animator.resume();
-        apply(time);
+        animator=a;
+        if(at>0)a.setCurrentPlayTime(at);
+        a.start();
     }
     private void apply(double elapsed){
         double t=Math.max(0,elapsed-delay), fraction;

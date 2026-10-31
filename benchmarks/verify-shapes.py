@@ -30,7 +30,9 @@ def verify(data):
             assert s['bounds'] and all(abs(v) < 1000 for v in s['bounds'])
         s = surface(e, 'symbol'); p = points(s)
         near(s['bounds'], [min(p[::2]), min(p[1::2]), max(p[::2])-min(p[::2]), max(p[1::2])-min(p[1::2])])
-    midpoint = [e for e in snaps if e['paused'] and abs(surface(e,'check')['strokeEnd']-.5)<.01]
+    seek_index = next(i for i,e in enumerate(events) if e['name'] == 'seek')
+    resume_index = next(i for i,e in enumerate(events) if i > seek_index and e['name'] == 'play')
+    midpoint = [e for e in events[seek_index:resume_index] if e['name'] == 'snapshot' and e['paused'] and abs(surface(e,'check')['strokeEnd']-.5)<.01]
     assert len(midpoint) >= 5, 'missing paused/invalid/resize checkpoints'
     for e in midpoint:
         near(points(surface(e,'symbol')), [(a+b)/2 for a,b in zip(PLAY,PAUSE)])
@@ -40,6 +42,19 @@ def verify(data):
         for a,b in zip(pose(e),pose(midpoint[0])): near(a,b,.0001)
     widths = [surface(e,'symbol')['size']['width'] for e in midpoint]
     assert min(widths) <= 101 and max(widths) >= 149 and abs(widths[-1]-widths[0])<1, 'resize round trip missing'
+    continued = 0
+    for i, e in enumerate(events):
+        if e['name'] not in ('pause', 'play'): continue
+        check = surface(e, 'check')
+        if check['nativeAnimations'] == 0 or check['strokeEnd'] >= 1: continue
+        after = next(x for x in events[i+1:] if x['name'] == 'snapshot')
+        if e['name'] == 'pause':
+            assert after['paused'] and abs(surface(after,'check')['strokeEnd']-check['strokeEnd']) < .01, 'pause did not hold the native progress'
+            continue
+        expected = min(1, check['strokeEnd'] + (after['time']-e['time'])/1800)
+        assert not after['paused'] and abs(surface(after,'check')['strokeEnd']-expected) < .08, ('resume did not continue from the paused progress', check['strokeEnd'], surface(after,'check')['strokeEnd'], expected)
+        if expected < 1: continued += 1
+    assert continued >= 1, 'no resume checked while the stroke was still drawing'
     rejected = next(e for e in events if e['name'] == 'rejected')
     assert 'matching normalized' in rejected['error']
     for a,b in zip(pose(rejected),pose(midpoint[0])): near(a,b,.0001)
@@ -70,7 +85,7 @@ def verify(data):
     last = events[-1]
     assert last['name']=='disposed' and last['layers']==0 and last['resources']==0
     assert all(not s['attached'] and s['nativeAnimations']==0 for s in last['surfaces']), 'retained native shape playback'
-    return {'platform':data['platform'], 'surfaces':4, 'createdBeforeLayout':True, 'checkpoints':len(snaps), 'nativeMorphInterruptions':interruptions, 'midpointNativeBounds':[34,25,41,50], 'resizeWidths':sorted(set(widths)), 'backgroundUnloadResumed':True, 'retainedSurfaces':last['layers']}
+    return {'platform':data['platform'], 'surfaces':4, 'createdBeforeLayout':True, 'checkpoints':len(snaps), 'nativeMorphInterruptions':interruptions, 'midpointNativeBounds':[34,25,41,50], 'resizeWidths':sorted(set(widths)), 'midFlightResumes':continued, 'backgroundUnloadResumed':True, 'retainedSurfaces':last['layers']}
 
 assert len(sys.argv)>1, 'Pass iOS/Android JSON report paths.'
 for filename in sys.argv[1:]:

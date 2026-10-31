@@ -168,6 +168,8 @@ final class DocsTests: XCTestCase {
         tap("shape-resize", wait: 0.4); tap("shape-snapshot")
         tap("shape-resize", wait: 0.4); tap("shape-snapshot")
         tap("shape-pause", wait: 2); tap("shape-snapshot")
+        tap("shape-draw", wait: 0.05); tap("shape-pause", wait: 1.2); tap("shape-snapshot")
+        tap("shape-pause", wait: 0.1); tap("shape-snapshot")
         tap("shape-morph", wait: 0.1); tap("shape-morph", wait: 2); tap("shape-snapshot")
         tap("shape-loop", wait: 0.05); tap("shape-pause", wait: 0.8)
         tap("shape-snapshot"); tap("shape-snapshot")

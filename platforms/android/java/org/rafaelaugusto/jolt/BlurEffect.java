@@ -50,12 +50,19 @@ public final class BlurEffect {
         }catch(JSONException e){throw new IllegalArgumentException("Invalid blur program",e);}
         if(!supported){apply(values[values.length-1]);return;}
         advance(0);
+        active++;clock(0);
+    }
+    private void clock(long at){
+        ValueAnimator old=animator;
+        if(old!=null){old.removeAllUpdateListeners();old.removeAllListeners();old.cancel();}
         final ValueAnimator a=ValueAnimator.ofFloat(0f,1f);
         a.setDuration(repeats<0?60000:Math.max(1,(long)Math.ceil(delay+duration*(repeats+1))));
         a.setRepeatCount(repeats<0?ValueAnimator.INFINITE:0);a.setInterpolator(new LinearInterpolator());
         a.addUpdateListener(v->advance(v.getCurrentPlayTime()));
         a.addListener(new AnimatorListenerAdapter(){@Override public void onAnimationEnd(Animator ended){if(animator==a){animator=null;active--;}}});
-        animator=a;active++;a.start();
+        animator=a;
+        if(at>0)a.setCurrentPlayTime(at);
+        a.start();
     }
     private void advance(double elapsed){
         double t=Math.max(0,elapsed-delay),fraction;
@@ -67,9 +74,14 @@ public final class BlurEffect {
         double span=times[high]-times[low],mix=span>0?Math.max(0,Math.min(1,(fraction-times[low])/span)):1;
         apply(values[low]+(values[high]-values[low])*mix);
     }
+    /** A resume rebuilds the clock: Android moves a seeked start time by the paused duration on the frame after resume(). */
     public void control(double time,boolean paused){
         if(animator==null)return;
-        animator.setCurrentPlayTime(Math.max(0,(long)time));if(paused)animator.pause();else animator.resume();advance(time);
+        long at=Math.max(0,(long)time);
+        if(paused){animator.setCurrentPlayTime(at);animator.pause();}
+        else if(animator.isPaused())clock(at);
+        else animator.setCurrentPlayTime(at);
+        advance(time);
     }
     public void resize(){} // RenderEffect automatically follows the view's render node bounds.
     public String snapshot(){

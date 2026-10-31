@@ -56,6 +56,7 @@ try:
         tap('shape-invalid'); snapshot()
         tap('shape-resize'); snapshot(); tap('shape-resize'); snapshot()
         tap('shape-pause', 2); snapshot()
+        tap('shape-draw', .3); tap('shape-pause', 1.2); snapshot(); tap('shape-pause', .6); snapshot()
         tap('shape-morph', .1); tap('shape-morph', 2); snapshot()
         tap('shape-loop', .05); tap('shape-pause', .8); snapshot(); snapshot()
         tap('shape-pause', 3.2); snapshot()
@@ -69,8 +70,14 @@ try:
         else: raise AssertionError('activity did not stop after HOME')
         command('shell', 'am', 'start', '-n', app + '/com.tns.NativeScriptActivity'); time.sleep(.4)
         snapshot(); tap('Back to collection', 1)
-        report = command('shell', 'cat', f'/sdcard/Android/data/{app}/files/shape-audit.json')
-        (out/'android.json').write_text(json.dumps(json.loads(report), indent=2)+'\n')
+        for _ in range(20):
+            try:
+                report = json.loads(command('shell', 'cat', f'/sdcard/Android/data/{app}/files/shape-audit.json'))
+                if report['events'][-1]['name'] == 'disposed': break
+            except ValueError: pass
+            time.sleep(.25)
+        else: raise AssertionError('audit report did not record the disposal')
+        (out/'android.json').write_text(json.dumps(report, indent=2)+'\n')
 finally:
     try:
         if recorder:
