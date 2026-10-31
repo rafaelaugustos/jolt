@@ -46,7 +46,9 @@ public final class LiveSpring {
     private final ArrayList<Binding> bindings = new ArrayList<>();
     private LiveSpring source;
     private Mapping[] sourceMaps = new Mapping[0];
-    private SampledInput input;
+    private static final SampledInput[] NONE = new SampledInput[0];
+    private SampledInput[] inputs = NONE;
+    private double inputRest;
     private boolean direct = true;
     private double targetValue;
     private boolean moving, reduced, disposed, paused, inputHeld, sensorInput;
@@ -74,25 +76,46 @@ public final class LiveSpring {
     }
     public void updateInput(String snapshot) {
         if (disposed) return;
-        try { input = new SampledInput(new JSONObject(snapshot)); }
+        try { inputs = new SampledInput[]{ new SampledInput(new JSONObject(snapshot)) }; }
         catch (JSONException error) { throw new IllegalArgumentException(error); }
-        sensorInput = false; direct = false;
+        inputRest = 0; sensorInput = false; direct = false;
         wake();
+    }
+    /** The target is a rest value plus sampled inputs that each keep their own clock. */
+    public void setInputs(double rest, String snapshots) {
+        if (disposed) return;
+        try {
+            JSONArray array = new JSONArray(snapshots);
+            SampledInput[] next = new SampledInput[array.length()];
+            for (int i = 0; i < next.length; i++) next[i] = new SampledInput(array.getJSONObject(i));
+            inputs = next;
+        } catch (JSONException error) { throw new IllegalArgumentException(error); }
+        inputRest = rest; sensorInput = false; direct = false;
+        wake();
+    }
+    private double inputValue(double now) {
+        double value = inputRest;
+        for (SampledInput input : inputs) value += input.value(now);
+        return value;
+    }
+    private boolean inputMoving(double now) {
+        for (SampledInput input : inputs) if (input.running(now)) return true;
+        return false;
     }
     public void setSensorInput(double value) {
         if (disposed || !Double.isFinite(value) || (sensorInput && inputHeld && state.position == value)) return;
-        sensorInput = true; inputHeld = true; direct = true; targetValue = value; input = null;
+        sensorInput = true; inputHeld = true; direct = true; targetValue = value; inputs = NONE;
         state.position = value; state.velocity = 0; moving = false;
         schedule();
     }
     public void setTarget(double value) {
         if (disposed) return;
-        sensorInput = false; direct = true; targetValue = value; input = null;
+        sensorInput = false; direct = true; targetValue = value; inputs = NONE;
         wake();
     }
     public void holdInput(double value, double velocity) {
         if (disposed) return;
-        sensorInput = false; inputHeld = true; direct = true; targetValue = value; input = null;
+        sensorInput = false; inputHeld = true; direct = true; targetValue = value; inputs = NONE;
         state.position = value; state.velocity = velocity; moving = true;
         apply(); schedule();
     }
@@ -114,8 +137,8 @@ public final class LiveSpring {
     }
     private void step(double now, double dt) {
         if (disposed || paused || inputHeld) return;
-        double target = source == null ? (direct ? targetValue : input.value(now)) : map(source.state.position, sourceMaps);
-        boolean inputMoving = source == null ? !direct && input.running(now) : source.moving;
+        double target = source == null ? (direct ? targetValue : inputValue(now)) : map(source.state.position, sourceMaps);
+        boolean inputMoving = source == null ? !direct && inputMoving(now) : source.moving;
         if (reduced) { state.position = target; state.velocity = 0; }
         else state.advance(target, stiffness, damping, mass, dt);
         boolean rest = Math.abs(state.position - target) <= restDelta && Math.abs(state.velocity) <= restSpeed;

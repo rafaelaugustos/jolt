@@ -28,10 +28,18 @@ def verify(report):
         s = at(name)
         assert {'wobble', 'pulse'} <= {c['layer'] for c in s['channels']}, 'One endless channel was lost'
     assert any(p['phase'] == 'loops' and p['property'] == 'x' and p['duration'] == 28800 and p['repeat'] == 'infinite' for p in report['plays'])
-    assert sum(p['phase'] == 'windows' and p['property'] == 'x' and p['duration'] == 4000 for p in report['plays']) >= 2, 'Window did not rebuild'
+    windows = [p for p in report['plays'] if p['phase'] == 'windows' and p['property'] == 'x']
+    if report.get('composition') == 'native':
+        assert not windows, 'Native composition still submitted a window track'
+        for name in ['before-window', 'after-window']:
+            assert at(name)['live'] == dict(nodes=1, clock=1), 'Native composer missing at ' + name
+        assert abs(at('after-window')['actual']['x'] - at('before-window')['actual']['x']) > 0.5, 'Composer stalled across the former window boundary'
+        assert at('disposed')['live'] == dict(nodes=0, clock=0), 'Native composer retained'
+    else:
+        assert sum(p['duration'] == 4000 for p in windows) >= 2, 'Window did not rebuild'
     final = at('disposed')
     assert report['phase'] == 'disposed' and not final['channels'] and final['active'] == 0
-    return {'platform': report['platform'], 'samples': len(samples), 'jsFrameRequests': final['frames'], 'activeAfterCleanup': final['active']}
+    return {'platform': report['platform'], 'composition': report.get('composition', 'windows'), 'samples': len(samples), 'jsFrameRequests': final['frames'], 'activeAfterCleanup': final['active']}
 
 
 if __name__ == '__main__':

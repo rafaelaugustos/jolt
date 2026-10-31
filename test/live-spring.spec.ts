@@ -26,7 +26,8 @@ class Node implements LiveNode {
   speed = 0
   active = false
   stopped = false
-  inputs: LiveInput[] = []
+  updates: LiveInput[] = []
+  composed: { rest: number; inputs: readonly LiveInput[] }[] = []
   parent: LiveNode | undefined
   maps: readonly LiveMapping[] = []
   bindings: {
@@ -56,10 +57,18 @@ class Node implements LiveNode {
     this.maps = maps
   }
   update(input: LiveInput) {
-    this.inputs.push(input)
+    this.updates.push(input)
     this.active = input.running || input.value !== this.value
     if (this.reduce) {
       this.value = input.value
+      this.speed = 0
+    }
+  }
+  inputs(rest: number, inputs: readonly LiveInput[]) {
+    this.composed.push({ rest, inputs })
+    this.active = inputs.some((input) => input.running)
+    if (this.reduce) {
+      this.value = inputs.reduce((sum, input) => sum + input.value, rest)
       this.speed = 0
     }
   }
@@ -118,7 +127,7 @@ describe('live spring control plane', () => {
     for (const next of [100, -80, 50]) set(target, next)
     expect(nodes).toHaveLength(1)
     expect(node.bindings).toHaveLength(1)
-    expect(node.inputs.at(-1)?.value).toBe(50)
+    expect(node.updates.at(-1)?.value).toBe(50)
     expect(value.get()).toBe(28)
     expect(value.getVelocity()).toBe(130)
     expect(driver.frames.size).toBe(0)
@@ -139,8 +148,8 @@ describe('live spring control plane', () => {
     expect(nodes[1]!.maps).toHaveLength(2)
     expect(nodes[1]!.maps[1]!.clamp).toBe(false)
     set(target, 100)
-    expect(nodes[1]!.inputs).toHaveLength(0)
-    expect(nodes[2]!.inputs).toHaveLength(0)
+    expect(nodes[1]!.updates).toHaveLength(0)
+    expect(nodes[2]!.updates).toHaveLength(0)
     expect(driver.frames.size).toBe(0)
     expect(c.disposed).toBe(false)
   })
@@ -149,14 +158,14 @@ describe('live spring control plane', () => {
     const target = motionValue(0)
     follower(target)
     const animation = animate(target, 100, { duration: 1000, ease: 'linear' })
-    const count = nodes[0]!.inputs.length
+    const count = nodes[0]!.updates.length
     driver.advance(200)
-    expect(nodes[0]!.inputs).toHaveLength(count)
-    expect(nodes[0]!.inputs.at(-1)!.values.at(-1)).toBe(100)
+    expect(nodes[0]!.updates).toHaveLength(count)
+    expect(nodes[0]!.updates.at(-1)!.values.at(-1)).toBe(100)
     animation.pause()
-    expect(nodes[0]!.inputs.at(-1)!.running).toBe(false)
+    expect(nodes[0]!.updates.at(-1)!.running).toBe(false)
     animation.progress = 0.5
-    expect(nodes[0]!.inputs.at(-1)!.value).toBeCloseTo(50)
+    expect(nodes[0]!.updates.at(-1)!.value).toBeCloseTo(50)
     animation.stop()
   })
 
@@ -170,9 +179,9 @@ describe('live spring control plane', () => {
     set(target, 200)
     expect(value.moving).toBe(true)
     scope.dispose()
-    const count = nodes[0]!.inputs.length
+    const count = nodes[0]!.updates.length
     set(target, 50)
-    expect(nodes[0]!.inputs).toHaveLength(count)
+    expect(nodes[0]!.updates).toHaveLength(count)
     expect(nodes[0]!.stopped).toBe(true)
     expect(value.disposed).toBe(true)
     expect(nodes[0]!.bindings[0]!.handle.cancel).toHaveBeenCalledOnce()

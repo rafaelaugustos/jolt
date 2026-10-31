@@ -48,8 +48,8 @@ static double inputValue(NSDictionary *input, double anchor, double now) {
 @property(nonatomic) double targetValue;
 @property(nonatomic, nullable) JoltLiveSpring *source;
 @property(nonatomic) NSArray *sourceMaps;
-@property(nonatomic) NSDictionary *input;
-@property(nonatomic) double anchor;
+@property(nonatomic) NSArray *inputs;
+@property(nonatomic) double inputRest, anchor;
 @property(nonatomic) NSMutableArray<JoltLiveSpringBinding *> *bindings;
 - (void)step:(double)now seconds:(double)seconds;
 - (void)apply;
@@ -107,7 +107,7 @@ static double previousFrame;
     node->_state = (JoltSpringState){initial, 0};
     node.stiffness = stiffness; node.damping = damping; node.mass = mass;
     node.restDelta = restDelta; node.restSpeed = restSpeed; node->_reduced = reduced;
-    node.direct = YES; node.targetValue = initial;
+    node.direct = YES; node.targetValue = initial; node.inputs = @[];
     node.bindings = [NSMutableArray new]; node.sourceMaps = @[];
     [nodes addObject:node];
     return node;
@@ -123,21 +123,36 @@ static double previousFrame;
 }
 - (void)updateInput:(NSString *)snapshot {
     if (self.disposed) return;
-    self.sensorDriven = NO; self.input = decode(snapshot); self.direct = NO; self.anchor = CACurrentMediaTime() * 1000; [self wake];
+    self.sensorDriven = NO; self.inputs = @[decode(snapshot)]; self.inputRest = 0; self.direct = NO;
+    self.anchor = CACurrentMediaTime() * 1000; [self wake];
+}
+- (void)setInputs:(NSString *)snapshots rest:(double)rest {
+    if (self.disposed) return;
+    self.sensorDriven = NO; self.inputs = decode(snapshots); self.inputRest = rest; self.direct = NO;
+    self.anchor = CACurrentMediaTime() * 1000; [self wake];
+}
+- (double)inputValue:(double)now {
+    double value = self.inputRest;
+    for (NSDictionary *input in self.inputs) value += inputValue(input, self.anchor, now);
+    return value;
+}
+- (BOOL)inputMoving:(double)now {
+    for (NSDictionary *input in self.inputs) if (inputRunning(input, self.anchor, now)) return YES;
+    return NO;
 }
 - (void)setSensorInput:(double)value {
     if (self.disposed || !isfinite(value) || (self.sensorDriven && self.inputHeld && _state.position == value)) return;
-    self.sensorDriven = YES; self.inputHeld = YES; self.direct = YES; self.targetValue = value; self.input = nil;
+    self.sensorDriven = YES; self.inputHeld = YES; self.direct = YES; self.targetValue = value; self.inputs = @[];
     _state = (JoltSpringState){value, 0}; self.moving = NO;
     [JoltLiveSpring schedule];
 }
 - (void)setTarget:(double)value {
     if (self.disposed) return;
-    self.sensorDriven = NO; self.direct = YES; self.targetValue = value; self.input = nil; [self wake];
+    self.sensorDriven = NO; self.direct = YES; self.targetValue = value; self.inputs = @[]; [self wake];
 }
 - (void)holdInput:(double)value velocity:(double)velocity {
     if (self.disposed) return;
-    self.sensorDriven = NO; self.inputHeld = YES; self.direct = YES; self.targetValue = value; self.input = nil;
+    self.sensorDriven = NO; self.inputHeld = YES; self.direct = YES; self.targetValue = value; self.inputs = @[];
     _state = (JoltSpringState){value, velocity}; self.moving = YES;
     [CATransaction begin]; [CATransaction setDisableActions:YES]; [self apply]; [CATransaction commit];
     [JoltLiveSpring schedule];
@@ -163,8 +178,8 @@ static double previousFrame;
 }
 - (void)step:(double)now seconds:(double)seconds {
     if (self.disposed || self.paused || self.inputHeld) return;
-    double target = self.source ? mapped(self.source.position, self.sourceMaps) : (self.direct ? self.targetValue : inputValue(self.input, self.anchor, now));
-    BOOL inputMoving = self.source ? self.source.moving : (!self.direct && inputRunning(self.input, self.anchor, now));
+    double target = self.source ? mapped(self.source.position, self.sourceMaps) : (self.direct ? self.targetValue : [self inputValue:now]);
+    BOOL inputMoving = self.source ? self.source.moving : (!self.direct && [self inputMoving:now]);
     if (self.reduced) _state = (JoltSpringState){target, 0};
     else _state = JoltSpringAdvance(_state, target, self.stiffness, self.damping, self.mass, seconds);
     BOOL rest = fabs(_state.position - target) <= self.restDelta && fabs(_state.velocity) <= self.restSpeed;

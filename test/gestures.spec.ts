@@ -34,6 +34,7 @@ beforeEach(() => {
         update(input) {
           value = input.value
         },
+        inputs() {},
         reduced() {},
         paused() {},
         bind: () => ({ value: () => value, layers() {}, cancel() {} }),

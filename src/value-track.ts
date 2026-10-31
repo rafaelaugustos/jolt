@@ -15,22 +15,12 @@ export function valueTrack(parts: readonly ValuePart[], rest: number) {
         sum + part.base + part.span * part.track.valueAt(part.elapsed + time),
       rest,
     )
-  let finite = 0
-  const periods: number[] = []
-  for (const { track, elapsed } of parts) {
-    if (Number.isFinite(track.end)) finite = Math.max(finite, track.end - elapsed)
-    else if (elapsed < track.delay) finite = Math.max(finite, track.delay - elapsed)
-    else periods.push(Math.max(1, track.duration * (track.reverse ? 2 : 1)))
-  }
-  if (finite <= 0 && !periods.length)
-    return { track: instantTrack('x', value(0)), windowed: false }
-  const loop = finite <= 0 && periods.length ? commonPeriod(periods) : undefined
-  // Bound finite compositions too: a minutes-long base must not undersample a short pulse.
-  const duration = finite > 0 ? Math.min(finite, 4000) : (loop ?? 4000)
+  const span = compositionSpan(parts)
+  if (!span) return { track: instantTrack('x', value(0)), windowed: false }
+  const { duration, endless, windowed } = span
   const steps = Math.max(1, Math.min(6000, Math.ceil((duration * 60) / 1000)))
   const times = Array.from({ length: steps + 1 }, (_, i) => i / steps)
   const values = times.map((time) => value(time * duration))
-  const endless = loop !== undefined
   const at = (time: number) =>
     value(
       endless
@@ -51,8 +41,29 @@ export function valueTrack(parts: readonly ValuePart[], rest: number) {
     valueAt: at,
     velocityAt: (time) => (at(time + 0.5) - at(time - 0.5)) * 1000,
   }
+  return { track, windowed }
+}
+
+/**
+ * How long one sampled composition can play before it needs rebuilding. A rolling
+ * window repeats every four seconds; native composition avoids it entirely.
+ */
+export function compositionSpan(parts: readonly Pick<ValuePart, 'track' | 'elapsed'>[]) {
+  let finite = 0
+  const periods: number[] = []
+  for (const { track, elapsed } of parts) {
+    if (Number.isFinite(track.end)) finite = Math.max(finite, track.end - elapsed)
+    else if (elapsed < track.delay) finite = Math.max(finite, track.delay - elapsed)
+    else periods.push(Math.max(1, track.duration * (track.reverse ? 2 : 1)))
+  }
+  if (finite <= 0 && !periods.length) return undefined
+  const loop = finite <= 0 && periods.length ? commonPeriod(periods) : undefined
+  // Bound finite compositions too: a minutes-long base must not undersample a short pulse.
+  const duration = finite > 0 ? Math.min(finite, 4000) : (loop ?? 4000)
+  const endless = loop !== undefined
   return {
-    track,
+    duration,
+    endless,
     windowed:
       finite > duration ||
       (!endless && parts.some(({ track }) => !Number.isFinite(track.end))),

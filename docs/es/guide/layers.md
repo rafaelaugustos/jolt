@@ -47,7 +47,7 @@ Un arrastre mantiene sus capas: mientras arrastras, se produce una sacudida o un
 
 ## Cómo se juega {#how-it-plays}
 
-Si bien una propiedad tiene capas, Jolt reproduce su base y sus capas como una pista nativa compuesta. Muestra la composición cuando algo cambia: una animación comienza, termina, se detiene, busca o se detiene, o un arrastre mueve la base. No se ejecuta nada en JavaScript entre esos momentos. Las capas infinitas se convierten en un bucle nativo sobre el mínimo común múltiplo de sus períodos, hasta 30 segundos; más allá de eso, la composición se vuelve a muestrear cada pocos segundos. Cuando la última capa desaparece y no agrega nada, la propiedad vuelve a una animación simple.
+Si bien una propiedad tiene capas, Jolt reproduce su base y sus capas como una pista nativa compuesta. Muestra la composición cuando algo cambia: una animación comienza, termina, se detiene, busca o se detiene, o un arrastre mueve la base. No se ejecuta nada en JavaScript entre esos momentos. Las capas infinitas se convierten en un bucle nativo sobre el mínimo común múltiplo de sus períodos, hasta 30 segundos; más allá de eso, un compositor nativo reproduce las capas en sus propios relojes sin reconstruir nada. Una app compilada sin las clases nativas de Jolt vuelve a muestrear la composición cada pocos segundos. Cuando la última capa desaparece y no agrega nada, la propiedad vuelve a una animación simple.
 
 ## Valores de movimiento {#motion-values}
 
