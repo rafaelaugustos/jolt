@@ -44,7 +44,7 @@ function resolve(base: ShapeFrame, values: ShapeValues): ShapeFrame {
     )
   return { path, start, end }
 }
-/** Draw an owned native vector surface over a view. Create after native layout. */
+/** Draw an owned native vector surface over a view. Attaches once the view is loaded. */
 export function shape(target: Target, options: ShapeOptions): Shape {
   if (!options || typeof options !== 'object')
     throw new TypeError('Shape options are required.')
@@ -77,8 +77,6 @@ export function shape(target: Target, options: ShapeOptions): Shape {
   )
     throw new TypeError('Invalid shape cap, join or fill rule.')
   const view = toView(target)
-  if (!view.isLoaded || !view.nativeViewProtected)
-    throw new Error('Create shapes after native layout.')
   if (owners.has(view))
     throw new Error('This view already owns a shape. Dispose it first.')
   return new ShapeOwner(view, style, frame)
@@ -92,6 +90,7 @@ class ShapeOwner implements Shape {
     track: Track
     from: ShapeFrame
     to: ShapeFrame
+    started: boolean
   }
   private suspended = false
   private backgrounded = false
@@ -101,7 +100,7 @@ class ShapeOwner implements Shape {
     private readonly style: ShapeStyle,
     private frame: ShapeFrame,
   ) {
-    this.attach()
+    if (view.isLoaded && view.nativeViewProtected) this.attach()
     owners.set(view, this)
     view.on('loaded', this.layout)
     view.on('layoutChanged', this.layout)
@@ -128,7 +127,8 @@ class ShapeOwner implements Shape {
     if (this.native && this.native !== this.view.nativeViewProtected) this.unload()
     if (!this.painter) {
       this.attach()
-      if (this.active) {
+      if (this.active && !this.active.started) this.begin()
+      else if (this.active) {
         const { from, to, track, animation } = this.active
         this.painter!.play(from, to, track)
         this.painter!.control(animation.time, true)
@@ -139,6 +139,18 @@ class ShapeOwner implements Shape {
       this.active?.animation.play()
       this.suspended = false
     }
+  }
+  private begin() {
+    const { from, to, track, animation } = this.active!
+    this.active!.started = true
+    if (track.end > 0) {
+      this.painter!.play(from, to, track)
+      animation.seekTime(0)
+    } else {
+      this.frame = to
+      this.painter!.paint(to)
+    }
+    animation.start()
   }
   private unload = () => {
     if (this.backgrounded && this.active) this.frame = this.painter?.read() ?? this.frame
@@ -180,9 +192,7 @@ class ShapeOwner implements Shape {
   }
   animate(values: ShapeValues, options: Transition | SpringName = {}) {
     this.alive()
-    if (!this.painter || !this.view.isLoaded)
-      throw new Error('Load the shape before animating.')
-    const from = this.painter.read(),
+    const from = this.painter?.read() ?? this.frame,
       to = resolve(from, values)
     compatible(from.path, to.path)
     if (typeof options === 'string' && !Object.hasOwn(springs, options))
@@ -229,8 +239,9 @@ class ShapeOwner implements Shape {
         if (this.active?.animation === animation) this.active = undefined
       },
     )
-    this.active = { animation, track, from, to }
+    this.active = { animation, track, from, to, started: !!this.painter }
     try {
+      if (!this.painter) return animation
       if (track.end > 0) this.painter.play(from, to, track)
       else {
         this.frame = to

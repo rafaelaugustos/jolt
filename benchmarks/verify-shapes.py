@@ -17,6 +17,11 @@ def pose(event):
     return [[s['strokeStart'], s['strokeEnd'], *points(s)] for s in event['surfaces']]
 def verify(data):
     events = data['events']; snaps = [e for e in events if e['name'] == 'snapshot']
+    created = next(e for e in events if e['name'] == 'created')
+    assert created['layers'] == 0 and all(not s['attached'] for s in created['surfaces']), 'surfaces attached before the view loaded'
+    attached = next(e for e in events if e['name'] == 'attached')
+    assert events.index(created) < events.index(attached) < events.index(snaps[0])
+    assert attached['layers'] == 4 and all(s['attached'] and s['size']['width'] > 0 for s in attached['surfaces']), 'surfaces did not attach on load'
     assert snaps and all(s['attached'] for s in snaps[0]['surfaces'])
     assert all(e['layers'] == 4 for e in snaps), 'unexpected native surface count'
     for e in snaps:
@@ -65,7 +70,7 @@ def verify(data):
     last = events[-1]
     assert last['name']=='disposed' and last['layers']==0 and last['resources']==0
     assert all(not s['attached'] and s['nativeAnimations']==0 for s in last['surfaces']), 'retained native shape playback'
-    return {'platform':data['platform'], 'surfaces':4, 'checkpoints':len(snaps), 'nativeMorphInterruptions':interruptions, 'midpointNativeBounds':[34,25,41,50], 'resizeWidths':sorted(set(widths)), 'backgroundUnloadResumed':True, 'retainedSurfaces':last['layers']}
+    return {'platform':data['platform'], 'surfaces':4, 'createdBeforeLayout':True, 'checkpoints':len(snaps), 'nativeMorphInterruptions':interruptions, 'midpointNativeBounds':[34,25,41,50], 'resizeWidths':sorted(set(widths)), 'backgroundUnloadResumed':True, 'retainedSurfaces':last['layers']}
 
 assert len(sys.argv)>1, 'Pass iOS/Android JSON report paths.'
 for filename in sys.argv[1:]:

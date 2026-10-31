@@ -6,7 +6,7 @@ import { setShapeFactory, type ShapePainter } from '../src/shapes/native.js'
 import { mixFrame, type ShapeFrame } from '../src/shapes/types.js'
 import type { Track } from '../src/track.js'
 import { configure, motionScope } from '../src/index.js'
-import { createView, driver } from './helpers.js'
+import { createView, driver, state } from './helpers.js'
 
 const check = 'M20 50 L40 70 L80 25',
   other = 'M20 25 L50 60 L80 50'
@@ -238,4 +238,59 @@ it('settles decorative work under Reduce Motion and releases resources through a
   expect(() => s.animate({ strokeEnd: 0 })).toThrow(/disposed/)
   expect(v.listenerCount('loaded')).toBe(0)
   expect(driver.frames.size).toBe(0)
+})
+it('creates a shape before the view loads and attaches it with the current frame on load', () => {
+  const v = createView().unload()
+  const s = make(v)
+  expect(painters).toHaveLength(0)
+  expect(s.snapshot()).toMatchObject({ attached: false, strokeEnd: 0 })
+  s.set({ strokeEnd: 0.25 })
+  v.load()
+  expect(painters).toHaveLength(1)
+  expect(painters[0]!.read()).toMatchObject({ start: 0, end: 0.25 })
+  expect(s.snapshot()).toMatchObject({ attached: true, strokeEnd: 0.25 })
+})
+it('starts an animation requested before load once the view attaches', async () => {
+  const v = createView().unload()
+  const s = make(v)
+  const drawing = s.animate({ strokeEnd: 1 }, { duration: 400, ease: 'linear' })
+  driver.advance(300)
+  const settled = state(drawing.finished)
+  await Promise.resolve()
+  expect(painters).toHaveLength(0)
+  expect(settled()).toBeUndefined()
+  v.load()
+  expect(painters).toHaveLength(1)
+  expect(painters[0]!.animations()).toBe(1)
+  expect(drawing.progress).toBe(0)
+  driver.advance(200)
+  expect(painters[0]!.read().end).toBeCloseTo(0.5, 5)
+  driver.advance(200)
+  expect(await drawing.finished).toBe(true)
+  expect(s.snapshot()).toMatchObject({ strokeEnd: 1, nativeAnimations: 0 })
+})
+it('keeps a pause requested before load and resumes from the start', () => {
+  const v = createView().unload()
+  const s = make(v)
+  const drawing = s.animate({ strokeEnd: 1 }, { duration: 400, ease: 'linear' })
+  drawing.pause()
+  v.load()
+  driver.advance(200)
+  expect(drawing.paused).toBe(true)
+  expect(painters[0]!.read().end).toBe(0)
+  drawing.play()
+  driver.advance(200)
+  expect(painters[0]!.read().end).toBeCloseTo(0.5, 5)
+})
+it('completes an instant animation requested before load when the view attaches', async () => {
+  configure({ reducedMotion: 'always' })
+  const v = createView().unload()
+  const s = make(v)
+  const drawing = s.animate({ strokeEnd: 1 }, { duration: 400 })
+  const settled = state(drawing.finished)
+  await Promise.resolve()
+  expect(settled()).toBeUndefined()
+  v.load()
+  expect(await drawing.finished).toBe(true)
+  expect(painters[0]!.read()).toMatchObject({ end: 1 })
 })

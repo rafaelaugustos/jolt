@@ -80,7 +80,7 @@ O que `animate()`, `decay()`, `sequence()` e os passos de uma sequência retorna
 
 ## Helpers
 
-`definePreset(name, preset)`, `presets`, `springs`, [`origamiSpring({ friction, tension })`](./react-native#molas), `cubicBezier`. Veja como registrar [presets personalizados](./presets#presets-personalizados) com nomes tipados.
+`definePreset(name, preset)`, `presets`, `springs`, [`origamiSpring({ friction, tension })`](./react-native#molas), `cubicBezier`, `toView(target)`. `toView()` devolve a view NativeScript por trás de qualquer alvo aceito, para helpers que recebem os mesmos alvos de `animate()`. Veja como registrar [presets personalizados](./presets#presets-personalizados) com nomes tipados.
 
 ## Vue
 

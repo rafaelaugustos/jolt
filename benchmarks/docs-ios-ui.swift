@@ -147,6 +147,18 @@ final class DocsTests: XCTestCase {
         }
         tap("shape-reduce")
     }
+    func testShapesMount() throws {
+        languageLaunch("en", "language-settings"); selectLanguage("system")
+        app.terminate()
+        try cue("start", "shapes-mount-ios")
+        app.launchArguments = ["-AppleLanguages", "(en)", "--showcase-audit", "--showcase-example=shapes"]
+        app.launch()
+        XCTAssertTrue(app.descendants(matching: .any)["shape-lab"].firstMatch.waitForExistence(timeout: 15), app.debugDescription)
+        Thread.sleep(forTimeInterval: 1.2)
+        tap("shape-draw", wait: 2.2)
+        tap("shape-draw", wait: 2)
+        try cue("stop", "shapes-mount-ios")
+    }
     func testShapeChecks() throws {
         languageLaunch("en", "shape-lab", ["--showcase-example=shapes", "--shape-audit", "--showcase-audit"])
         tap("shape-snapshot")

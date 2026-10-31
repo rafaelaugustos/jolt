@@ -1,5 +1,6 @@
 """Capture real Android shape interactions. Select English in the preview first.
-Usage: python3 benchmarks/shapes-android.py SERIAL OUTPUT audit|record
+Usage: python3 benchmarks/shapes-android.py SERIAL OUTPUT audit|record|mount
+`mount` records the launch itself: the surfaces are created on mount and appear with the screen.
 """
 import json
 from pathlib import Path
@@ -10,7 +11,7 @@ import time
 import xml.etree.ElementTree as ET
 
 serial, directory, mode = sys.argv[1:]
-assert serial.startswith('emulator-') and mode in ('audit', 'record')
+assert serial.startswith('emulator-') and mode in ('audit', 'record', 'mount')
 out = Path(directory).resolve(); out.mkdir(parents=True, exist_ok=True)
 adb = ['adb', '-s', serial]; app = 'org.nativescript.jolt.benchmark'
 def command(*args):
@@ -18,6 +19,14 @@ def command(*args):
 command('shell', 'am', 'force-stop', app)
 args = ['shell', 'am', 'start', '-n', app + '/com.tns.NativeScriptActivity', '--es', 'showcase-example', 'shapes']
 if mode == 'audit': args += ['--es', 'shape-audit', 'true']
+recorder = None; old = command('shell', 'settings', 'get', 'system', 'show_touches')
+def start_recording():
+    global recorder
+    command('shell', 'settings', 'put', 'system', 'show_touches', 1)
+    command('shell', 'rm', '-f', '/sdcard/jolt-shapes-record.mp4')
+    recorder = subprocess.Popen(adb + ['shell', 'screenrecord', '--bit-rate', '6000000', '/sdcard/jolt-shapes-record.mp4'], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+    time.sleep(.7)
+if mode == 'mount': start_recording()
 command(*args); time.sleep(4)
 command('shell', 'uiautomator', 'dump', '/sdcard/jolt-shapes-ui.xml')
 root = ET.fromstring(command('shell', 'cat', '/sdcard/jolt-shapes-ui.xml'))
@@ -32,13 +41,11 @@ def tap(name, delay=.4):
     assert name in positions, 'Missing ' + name
     command('shell', 'input', 'tap', *positions[name]); time.sleep(delay)
 def snapshot(): tap('shape-snapshot')
-recorder = None; old = command('shell', 'settings', 'get', 'system', 'show_touches')
 try:
-    if mode == 'record':
-        command('shell', 'settings', 'put', 'system', 'show_touches', 1)
-        command('shell', 'rm', '-f', '/sdcard/jolt-shapes-record.mp4')
-        recorder = subprocess.Popen(adb + ['shell', 'screenrecord', '--bit-rate', '6000000', '/sdcard/jolt-shapes-record.mp4'], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
-        time.sleep(.7)
+    if mode == 'mount':
+        tap('Draw again', 2.5); tap('Draw again', 2.2)
+    elif mode == 'record':
+        start_recording()
         tap('shape-draw', 1.5)
         tap('shape-morph', .15); tap('shape-morph', .7); tap('shape-morph', .7)
         tap('shape-draw', .15); tap('shape-pause', .8); tap('shape-pause', 1)
@@ -54,7 +61,12 @@ try:
         tap('shape-pause', 3.2); snapshot()
         tap('shape-reduce'); tap('shape-draw'); tap('shape-morph'); snapshot()
         tap('shape-reduce'); tap('shape-reset'); tap('shape-draw', .1)
-        command('shell', 'input', 'keyevent', 'KEYCODE_HOME'); time.sleep(.5)
+        command('shell', 'input', 'keyevent', 'KEYCODE_HOME')
+        for _ in range(40):
+            time.sleep(.25)
+            record = re.search(r'Hist\s+#\d+: ActivityRecord\{[^}]*' + re.escape(app) + r'/[^}]*\}(.{0,4000})', command('shell', 'dumpsys', 'activity', 'activities'), re.S)
+            if record and 'state=STOPPED' in record.group(1): break
+        else: raise AssertionError('activity did not stop after HOME')
         command('shell', 'am', 'start', '-n', app + '/com.tns.NativeScriptActivity'); time.sleep(.4)
         snapshot(); tap('Back to collection', 1)
         report = command('shell', 'cat', f'/sdcard/Android/data/{app}/files/shape-audit.json')
@@ -64,8 +76,8 @@ finally:
         if recorder:
             command('shell', 'pkill', '-INT', 'screenrecord'); recorder.communicate(timeout=20)
             assert recorder.returncode == 0
-            command('pull', '/sdcard/jolt-shapes-record.mp4', out/'shapes-android.mp4')
+            command('pull', '/sdcard/jolt-shapes-record.mp4', out/('shapes-mount-android.mp4' if mode == 'mount' else 'shapes-android.mp4'))
     finally:
-        if mode == 'record':
+        if mode in ('record', 'mount'):
             if old == 'null': command('shell', 'settings', 'delete', 'system', 'show_touches')
             else: command('shell', 'settings', 'put', 'system', 'show_touches', old)

@@ -7,7 +7,10 @@ Desenhe um checkmark, revele um anel ou transforme play em barras de pausa. A en
 
 ## Desenhar um caminho
 
-Use uma view vazia dedicada e crie a forma depois do layout nativo. A view fornece tamanho, acessibilidade e entrada; o renderizador não instala gestos nem altera a geometria de toque.
+Use uma view vazia dedicada. A forma pode ser criada antes de a view carregar, por exemplo em um `onMounted` do Vue: ela se conecta quando a view é carregada, com os `strokeStart`/`strokeEnd` atuais, e uma animação pedida antes disso começa ao conectar. A view fornece tamanho, acessibilidade e entrada; o renderizador não instala gestos nem altera a geometria de toque.
+
+<Clip name="shapes-mount-ios" caption="Simulador iOS: o laboratório cria as quatro formas no onMounted, antes do layout, então elas já aparecem desenhadas quando a tela surge após o lançamento; dois toques reais em Draw again animam os traços. Interface em inglês; velocidade original, lançamento incluído." />
+<Clip name="shapes-mount-android" caption="Emulador Android: as mesmas formas criadas na montagem aparecem com a tela depois da splash de lançamento; dois toques reais via ADB em Draw again redesenham os traços. Interface em inglês; velocidade original, não é uma medição em aparelho físico." />
 
 ```ts
 import { shape } from '@rafaelaugusto/jolt/shapes'

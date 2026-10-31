@@ -12,9 +12,10 @@ npm run benchmark:typecheck
 npm test -- --maxWorkers=4
 npm run build
 python3 benchmarks/docs-record-ios.py YOUR_SIMULATOR /tmp/JoltShapes \
-  testShapeChecks testShapes
+  testShapeChecks testShapes testShapesMount
 python3 benchmarks/shapes-android.py YOUR_EMULATOR /tmp/JoltShapes audit
 python3 benchmarks/shapes-android.py YOUR_EMULATOR /tmp/JoltShapes record
+python3 benchmarks/shapes-android.py YOUR_EMULATOR /tmp/JoltShapes mount
 python3 benchmarks/verify-shapes.py \
   benchmarks/results/shapes/ios.json \
   benchmarks/results/shapes/android.json
@@ -22,15 +23,16 @@ npm run docs:check-media
 npm run docs:build
 ```
 
-Choose English through the preview's language picker before Android capture. XCTest chooses English for its recording. The runners inject actual OS taps; they do not substitute a video renderer for the app. Copy the iOS audit out of the simulator's data container; Android saves its report automatically and restores the original touch-indicator setting. Reuse the reviewed English clips in both documentation languages and attach both directly to the PR.
+Choose English through the preview's language picker before Android capture. XCTest chooses English for its recording. After Home, the Android runner waits until the activity reports `state=STOPPED` before bringing it back, so the foreground check always exercises the unload and reload path rather than a still-paused activity. A still-paused activity exposes a separate Android problem: `ShapeLayer.control(time, false)` seeks and then resumes a `ValueAnimator` that was paused while pulsing, and Android shifts its start time by the pause duration on the next frame, so the surface holds at zero for about the paused time and then restarts. The runner's earlier half-second wait measured that path on this emulator (check `strokeEnd` 0.142 at background, 0.094 after foreground, 1.0 at dispose). It predates the creation change, also shows in the `shapes-android` clip after Resume, and is tracked separately; `GradientLayer` and `BlurEffect` resume the same way. The runners inject actual OS taps; they do not substitute a video renderer for the app. Copy the iOS audit out of the simulator's data container; Android saves its report automatically and restores the original touch-indicator setting. Reuse the reviewed English clips in both documentation languages and attach both directly to the PR.
 
 ## Evidence and oracle
 
-The committed reports were captured on an iPhone 17 simulator (iOS 26.2) and an Android API 36 emulator. Both passed the same native oracle:
+The committed reports were captured on 2026-10-30 on an iPhone 17 Pro simulator (iOS 26.0) and an Android 16 (API 36) emulator, with the four surfaces created on mount, before layout (#254). Both passed the same native oracle:
 
 | Check                                                     | iOS                | Android               |
 | --------------------------------------------------------- | ------------------ | --------------------- |
 | Native surfaces / snapshot checkpoints                    | 4 / 13             | 4 / 13                |
+| Created before layout, attached on load                   | 0 → 4 surfaces     | 0 → 4 surfaces        |
 | Actual native path bounds at the paused midpoint          | `[34, 25, 41, 50]` | `[34, 25, 41, 50]`    |
 | Interrupted morph retains its presentation                | Passed             | Passed                |
 | Resize round trip                                         | 150 → 100 → 150 pt | ~150 → ~100 → ~150 dp |
@@ -39,13 +41,15 @@ The committed reports were captured on an iPhone 17 simulator (iOS 26.2) and an 
 | Surfaces / animation objects / scope resources after exit | 0 / 0 / 0          | 0 / 0 / 0             |
 | Corrupted native geometry negative control                | Rejected           | Rejected              |
 
-Android sizes reflect physical-pixel rounding at 2.625 density. The library suite passed 1,414 tests; both type checks, the package build and release demo builds passed. These results describe the local validation, independently of GitHub CI.
+Android sizes reflect physical-pixel rounding at 2.625 density. The library suite passed 1,476 tests; both type checks, the package build and release demo builds passed. These results describe the local validation, independently of GitHub CI.
 
 The unit suite covers SVG normalization, elliptical-arc conversion, exact endpoints, reflected curve controls, multiple subpaths, invalid input/topology, validation before ownership changes, presentation-based retargeting, delayed/reverse playback, pause/seek, native-view replacement, Reduce Motion, scope disposal and background unload/reload. Existing single-subpath motion-path tests run against the reused scanner/arc implementation.
 
 Native audits operate four real surfaces: a compound filled play/pause icon, a single-contour checkmark, an arc-based ring and a Bézier underline. At the midpoint, the native path bounds must be `[34, 25, 41, 50]` in viewBox units and all three strokes must be 50% drawn. iOS reads the actual presentation path/trim; Android reads its drawable's current geometry and path bounds. The checker compares those bounds with independent expected geometry, then repeats the comparison across pauses, invalid morph rejection and a size round trip.
 
 The audit also interrupts a morph while it is moving, checks continuity across retargeting, pauses during a delay, verifies the reverse repeat returns to zero, exercises Reduce Motion and background/foreground continuation, and requires zero native surfaces, playback objects and scope resources after leaving the example. A deliberately corrupted native bounding box must fail the same checker.
+
+`shape()` accepts a view that has not loaded yet (#254). The demo creates its four surfaces in `onMounted`, before layout; the audit records `created` with zero native surfaces and every surface `attached: false`, then `attached` once each host has loaded and measured, before the first snapshot. The checker requires that order, four native surfaces at `attached` and positive host sizes. `testShapesMount` and the Android `mount` mode record the launch itself, so the guide's `shapes-mount-*` clips show the surfaces already drawn when the screen appears, followed by two real Draw again taps. An animation requested before the view loads starts when the surface attaches; the unit suite covers that path, a pause requested before load and an instant animation completing on attach.
 
 Backgrounding can trigger a NativeScript view unload. In that case the surface is released while the paused program retains its position; foreground loading rebuilds the surface and resumes the remaining animation. Ordinary unload/replacement cancels playback and restores the held geometry on load. A dedicated integration regression covers this distinction.
 
