@@ -63,7 +63,13 @@ features:
     link: /zh-Hans/guide/scene-camera
 ---
 
-## 0.1.0-rc.3：模态、形状与目标 {#release-candidate}
+## 0.1.0-rc.4：原生合成、恢复与工作表 {#release-candidate}
+
+RC.4 让[没有公共周期的无限图层](/zh-Hans/guide/layers)在原生合成器上播放，不再重建四秒窗口，因此 64 个视图的合成在已测手机上从每个边界数百毫秒降为零。它让 [Android 的形状、渐变和模糊](/zh-Hans/guide/shapes)从暂停时刻继续播放，按宿主的安全区域内边距放置[底部工作表](/zh-Hans/guide/bottom-sheet)，并只提供停靠点可执行的句柄操作。
+
+[演示应用](/zh-Hans/guide/demo)现有 **74 个示例，支持四种语言**。[安装 RC.4](/zh-Hans/guide/install) 后请重新构建原生应用。请查看[发布说明](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.4)以及[正式版发布前仍需完成的真机验收](/zh-Hans/guide/not-there-yet)。
+
+## 0.1.0-rc.3：模态、形状与目标 {#_0-1-0-rc-3-modals-shapes-and-targets}
 
 RC.3 新增 [iOS 交互式模态](/zh-Hans/guide/interactive-navigation)，通过[一次原生调用构建 Android 数值关键帧](/zh-Hans/guide/motion-values)，允许[在视图加载前创建形状](/zh-Hans/guide/shapes)，并接受[组件引用作为目标](/zh-Hans/guide/vue)。本版本还让[图库](/zh-Hans/guide/gallery)和[滚动标题](/zh-Hans/guide/scroll-header)适配系统大字体，并完成了[传感器](/zh-Hans/guide/device-sensors)与[绑定/层](/zh-Hans/guide/motion-values)的真机审计。
 

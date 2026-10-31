@@ -47,7 +47,7 @@ A drag keeps its layers: while you drag, a shake or a pulse on the same view goe
 
 ## How it plays
 
-While a property has layers, Jolt plays its base and layers as one composite native track. It samples the composition when something changes: an animation starts, ends, pauses, seeks or is stopped, or a drag moves the base. Nothing runs in JavaScript between those moments. Endless layers become a native loop over the least common multiple of their periods, up to 30 seconds; beyond that, a native composer plays the layers on their own clocks without rebuilding anything. An app built without Jolt's native classes falls back to sampling the composition again every few seconds. When the last layer is gone and adds nothing, the property goes back to a plain animation.
+While a property has layers, Jolt plays its base and layers as one composite native track. It samples the composition when something changes: an animation starts, ends, pauses, seeks or is stopped, or a drag moves the base. Nothing runs in JavaScript between those moments. Endless layers become a native loop over the least common multiple of their periods, up to 30 seconds; beyond that, since **0.1.0-rc.4** a native composer plays the layers on their own clocks without rebuilding anything. An app built without Jolt's native classes falls back to sampling the composition again every few seconds. When the last layer is gone and adds nothing, the property goes back to a plain animation.
 
 ## Motion values
 

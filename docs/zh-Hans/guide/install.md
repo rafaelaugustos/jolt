@@ -4,11 +4,11 @@
 npm install @rafaelaugusto/jolt@next
 ```
 
-**候选版本 0.1.0-rc.3** 通过 `next` 标签发布。0.1.0 的功能范围已冻结，目前正在验证兼容性并准备正式版。要求 `@nativescript/core` 8.9 或更高版本。Jolt 不依赖特定框架：它接收视图或包含视图的元素，因此可用于 NativeScript-Vue、Angular、Svelte 或纯 NativeScript。NativeScript-Vue 应用还可以从 `@rafaelaugusto/jolt/vue` 导入[指令和过渡组件](./vue)。
+**候选版本 0.1.0-rc.4** 通过 `next` 标签发布。0.1.0 的功能范围已冻结，目前正在验证兼容性并准备正式版。要求 `@nativescript/core` 8.9 或更高版本。Jolt 不依赖特定框架：它接收视图或包含视图的元素，因此可用于 NativeScript-Vue、Angular、Svelte 或纯 NativeScript。NativeScript-Vue 应用还可以从 `@rafaelaugusto/jolt/vue` 导入[指令和过渡组件](./vue)。
 
 Jolt 包含 iOS 和 Android 原生辅助代码。安装或升级 Jolt 后，请重新编译原生应用；仅更新 JavaScript 无法安装原生代码。
 
-当前候选版本为 **0.1.0-rc.3**。如需固定版本，请使用 `npm install @rafaelaugusto/jolt@0.1.0-rc.3`。使用[外部原生属性适配器](./native-properties)时，还需安装对应版本的 `@rafaelaugusto/jolt-native@0.1.0-rc.3`，然后重新编译原生应用。
+当前候选版本为 **0.1.0-rc.4**。如需固定版本，请使用 `npm install @rafaelaugusto/jolt@0.1.0-rc.4`。使用[外部原生属性适配器](./native-properties)时，还需安装对应版本的 `@rafaelaugusto/jolt-native@0.1.0-rc.4`，然后重新编译原生应用。
 
 ## iOS 上的 ProMotion {#promotion-on-ios}
 

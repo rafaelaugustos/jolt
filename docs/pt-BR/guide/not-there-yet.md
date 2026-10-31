@@ -1,12 +1,12 @@
 # Status da versão e limites {#ainda-nao}
 
-**A 0.1.0-rc.3 está disponível.** Seus recursos já foram entregues nas combinações documentadas em cada guia. O escopo de funcionalidades da 0.1.0 está congelado; a validação para a versão estável continua em andamento.
+**A 0.1.0-rc.4 está disponível.** Seus recursos já foram entregues nas combinações documentadas em cada guia. O escopo de funcionalidades da 0.1.0 está congelado; a validação para a versão estável continua em andamento.
 
-A RC.3 adiciona `interactiveModal()` no iOS, keyframes numéricos do Android em uma única chamada nativa, formas criadas antes de a view carregar e refs de componente como alvos, além de correções de texto grande na galeria e nos cabeçalhos de scroll. As auditorias físicas de sensores e de bindings/camadas foram concluídas; o custo de reconstrução das janelas de composição está na [#260](https://github.com/rafaelaugustos/jolt/issues/260).
+A RC.4 compõe as janelas de camadas em nós nativos, retoma shapes, gradientes e blur do Android do tempo em que estavam pausados, posiciona o bottom sheet pelos insets de safe area do host e oferece só as ações do handle que um stop pode executar. A RC.3 adicionou `interactiveModal()` no iOS, keyframes numéricos do Android em uma única chamada nativa, formas criadas antes de a view carregar e refs de componente como alvos.
 
-A [auditoria de bindings/camadas](./motion-values#binding-measurements) inclui preparação/reprodução em iPhone e Android físicos, início da resposta a entradas automáticas e retenção em montagens/desmontagens repetidas. Os custos altos das janelas de composição, as falhas dos contadores aproximados de alocação e a falta de telemetria térmica no Android continuam explícitos nas evidências. Os resultados orientam os cenários medidos; não garantem capacidade universal nem frames apresentados. A otimização das janelas caras e a investigação das pausas de reprodução ficam na [#260](https://github.com/rafaelaugustos/jolt/issues/260).
+A [auditoria de bindings/camadas](./motion-values#binding-measurements) inclui preparação/reprodução em iPhone e Android físicos, início da resposta a entradas automáticas e retenção em montagens/desmontagens repetidas. Os custos altos das janelas de composição, as falhas dos contadores aproximados de alocação e a falta de telemetria térmica no Android continuam explícitos nas evidências. Os resultados orientam os cenários medidos; não garantem capacidade universal nem frames apresentados. Desde a RC.4, as composições em janela tocam em compositores nativos sem submissões de boundary; o custo restante é o início síncrono de lotes grandes de keyframes, medido na mesma auditoria.
 
-## Disponível na RC.3 {#available-in-rc-1}
+## Disponível na RC.4 {#available-in-rc-1}
 
 - [Navegação compartilhada](./shared-navigation), [gestos compartilhados](./shared-gestures), [retorno à célula atual](./return-targets) e [galeria conectada](./gallery), nas combinações documentadas de Frame/ListView/imagens estáticas.
 - [Composição nativa de gestos](./gestures): pan, pinch e rotação, além da transferência de gesto compatível com o Core ScrollView vertical. As [restrições de arraste](./drag) e o [zoom de fotos](./photo-zoom) têm seus próprios contratos de interação.

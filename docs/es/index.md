@@ -63,7 +63,13 @@ features:
     link: /es/guide/scene-camera
 ---
 
-## 0.1.0-rc.3: modales, formas y objetivos {#release-candidate}
+## 0.1.0-rc.4: composición nativa, reanudación y hojas {#release-candidate}
+
+RC.4 reproduce [capas infinitas sin período común](/es/guide/layers) en compositores nativos en lugar de reconstruir ventanas de cuatro segundos, así que las composiciones de 64 vistas pasan de cientos de milisegundos por frontera a ninguno en los teléfonos medidos. Reanuda [formas, gradientes y blur de Android](/es/guide/shapes) desde el tiempo en que estaban en pausa, coloca la [hoja inferior](/es/guide/bottom-sheet) según los insets del área segura del host y ofrece solo las acciones del identificador que un stop puede ejecutar.
+
+La [vista previa](/es/guide/demo) tiene **74 ejemplos en cuatro idiomas**. [Instala RC.4](/es/guide/install) y reconstruye la aplicación nativa. Consulta las [notas de la versión](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.4) y la [aceptación pendiente en dispositivos físicos](/es/guide/not-there-yet) antes de la versión estable.
+
+## 0.1.0-rc.3: modales, formas y objetivos {#_0-1-0-rc-3-modals-shapes-and-targets}
 
 RC.3 añade [modales interactivos en iOS](/es/guide/interactive-navigation), construye [keyframes numéricos de Android en una sola llamada nativa](/es/guide/motion-values), permite [crear formas antes de que la vista se cargue](/es/guide/shapes) y acepta [refs de componente como objetivos](/es/guide/vue). Ajusta la [galería](/es/guide/gallery) y las [cabeceras de scroll](/es/guide/scroll-header) al texto grande del sistema y completa las auditorías físicas de [sensores](/es/guide/device-sensors) y de [bindings/capas](/es/guide/motion-values).
 
