@@ -107,11 +107,31 @@ describe('animate', () => {
     expect(driver.played.map((p) => p.view)).toEqual([view, view])
   })
 
+  it('accepts a component instance through its root element', () => {
+    const view = createView()
+    const instance = componentInstance({ nativeView: view })
+
+    animate(instance as never, 'fadeIn')
+
+    expect(driver.played.map((p) => p.view)).toEqual([view])
+  })
+
   it('explains bad input', () => {
     const view = createView()
 
     expect(() => animate(undefined as never, 'fadeIn')).toThrow(
       'Expected a NativeScript view, got undefined',
+    )
+    expect(() => animate({} as never, 'fadeIn')).toThrow(
+      'Expected a NativeScript view, got an object without a view',
+    )
+    expect(() => animate(new Date() as never, 'fadeIn')).toThrow(
+      'Expected a NativeScript view, got a Date',
+    )
+    const fragment = componentInstance({ nativeView: undefined })
+    expect(() => String(fragment)).toThrow(TypeError)
+    expect(() => animate(fragment as never, 'fadeIn')).toThrow(
+      'Expected a NativeScript view, got a component instance without a root view',
     )
     expect(() => animate(view, 'fadeInSideways' as never)).toThrow('Unknown preset')
     expect(() => animate(view, { width: 100 } as never)).toThrow('Can\'t animate "width"')
@@ -402,3 +422,14 @@ describe('several targets', () => {
     expect(await animation).toBe(false)
   })
 })
+
+/** The public instance NativeScript-Vue hands out for a ref on a component: `$el` is its root element, and it cannot be stringified. */
+function componentInstance(root: object) {
+  return new Proxy(
+    {},
+    {
+      get: (_, key) => (key === '$el' ? root : undefined),
+      has: (_, key) => key === '$el',
+    },
+  )
+}

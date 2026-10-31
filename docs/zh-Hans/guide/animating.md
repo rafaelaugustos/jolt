@@ -91,7 +91,7 @@ Jolt 在创建加载视图的轨迹时、在任何延迟或交错之前捕获一
 
 ## 目标 {#targets}
 
-目标可以是视图，也可以是任何包含视图的东西：NativeScript-Vue 模板引用、Angular `ElementRef`。
+目标可以是视图，也可以是任何包含视图的东西：元素或组件上的 NativeScript-Vue 模板引用、Angular `ElementRef`。
 
 ```vue
 <script setup lang="ts">

@@ -53,9 +53,12 @@ export type Values = {
   [K in KeyframeProperty]?: Exclude<Keyframes[K], readonly unknown[]>
 }
 
-/** A view, or anything that holds one: a NativeScript-Vue element, an Angular `ElementRef`. */
+/** A view, or anything that holds one: a NativeScript-Vue element or component instance, an Angular `ElementRef`. */
 export type Target =
-  View | { readonly nativeView: View } | { readonly nativeElement: View }
+  | View
+  | { readonly nativeView: View }
+  | { readonly nativeElement: View }
+  | { readonly $el: View | { readonly nativeView: View } }
 
 /** Translation velocities in DIPs per second. Omitted axes keep their current motion. */
 export interface DecayVelocity {

@@ -59,7 +59,7 @@
 - [`rollTo(label, value, options?)`](./rolling) — rolling digits on iOS and Android; returns an `Animation`.
 - [`confetti(target, options?)`, `particles(target, options?)`](./particles) — native iOS/Android particle effects; return cleanup functions. No JS simulation or paint callback per frame; Android drawing shares the UI thread.
 
-`target` is a view or anything holding one (a template ref, an `ElementRef`). `animate()`, `decay()`, `stop()`, `set()` and sequence steps also accept arrays of targets.
+`target` is a view or anything holding one (a template ref on an element or a component, an `ElementRef`). `animate()`, `decay()`, `stop()`, `set()` and sequence steps also accept arrays of targets.
 
 `animate()` options also accept [`haptic`](./haptics): `light`, `medium`, `heavy`, `{ style, times }`, or `false`. Feedback supports iOS and Android, respecting device settings.
 

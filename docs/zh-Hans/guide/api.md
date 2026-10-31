@@ -59,7 +59,7 @@
 - [`rollTo(label, value, options?)`](./rolling) — iOS 和 Android 上的滚动数字；返回 `Animation`。
 - [`confetti(target, options?)`, `particles(target, options?)`](./particles) — 原生 iOS/Android 粒子效果；返回清理函数。每帧没有 JS 模拟或绘制回调； Android绘图共享UI线程。
 
-`target` 是一个视图或任何持有视图的东西（模板引用、`ElementRef`）。 `animate()`、`decay()`、`stop()`、`set()` 和序列步骤也接受目标数组。
+`target` 是一个视图或任何持有视图的东西（元素或组件上的模板引用、`ElementRef`）。 `animate()`、`decay()`、`stop()`、`set()` 和序列步骤也接受目标数组。
 
 `animate()` 选项还接受 [`haptic`](./haptics)：`light`、`medium`、`heavy`、`{ style, times }` 或 `false`。反馈支持 iOS 和 Android，尊重设备设置。
 
