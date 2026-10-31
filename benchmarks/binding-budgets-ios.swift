@@ -5,7 +5,7 @@ final class DocsTests: XCTestCase {
     let app = XCUIApplication(bundleIdentifier: "org.nativescript.jolt.bindings")
     func testInputWindows() throws { try runInputs(recording: false) }
     func testRecording() throws { try runInputs(recording: true) }
-    func testInputDelay() throws { try runInputs(recording: false, delayMs: 40) }
+    func testInputDelay() throws { try runInputs(recording: false, delayMs: 200) }
     func testMatrixRecording() throws {
         continueAfterFailure = false
         app.launchArguments = ["-AppleLanguages", "(en)", "--budget-case=value-64-window", "--budget-recording=true", "--budget-session=recording-\(UUID().uuidString)"]

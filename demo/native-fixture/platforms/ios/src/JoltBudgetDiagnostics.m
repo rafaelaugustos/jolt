@@ -17,7 +17,7 @@ static NSString *JSON(id value) {
 @end
 @implementation JoltBudgetInputProbe
 + (instancetype)watch:(UIView *)surface delay:(NSInteger)milliseconds {
-    NSParameterAssert(milliseconds == 0 || milliseconds == 40);
+    NSParameterAssert(milliseconds == 0 || milliseconds == 40 || milliseconds == 200);
     JoltBudgetInputProbe *probe = [self new]; probe.delayMs = milliseconds;
     probe.cancelsTouchesInView = NO; probe.delaysTouchesBegan = NO; probe.delaysTouchesEnded = NO;
     [surface addGestureRecognizer:probe]; return probe;

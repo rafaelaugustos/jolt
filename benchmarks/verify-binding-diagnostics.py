@@ -21,16 +21,20 @@ def stats(values):
 
 def input_latency(report, allow_unavailable_thermal=False):
     base = input_validator.verify(report, allow_unavailable_thermal=allow_unavailable_thermal)
+    assert report['recording'] is False and not report.get('error')
+    assert len(report['build']['commit']) == 40
     trace = report['touchTrace']
     assert trace['columns'] == ['eventMs', 'dispatchMs', 'action', 'x', 'y']
     assert trace['overflow'] == 0 and trace['clock'] == 'uptime-ms'
-    assert trace['delayMs'] == report['inputDelayMs'] and trace['delayMs'] in (0, 40)
+    assert trace['delayMs'] == report['inputDelayMs'] and trace['delayMs'] in (0, 40, 200)
     assert trace['workMs'] >= 0 and math.isfinite(trace['workMs'])
     events = trace['events']; assert 10 < len(events) <= 4096
     for e in events:
         assert len(e) == 5 and all(type(v) in (int, float) and math.isfinite(v) for v in e)
         assert e[0] > 0 and e[1] >= e[0] - 1 and e[2] in (0, 1, 2, 3), 'Invalid input clock/action'
     assert all(a[1] <= b[1] and a[0] <= b[0] for a,b in zip(events, events[1:]))
+    assert report['native']['before']['timeMs'] <= events[0][1]
+    assert events[-1][1] <= report['native']['after']['timeMs'], 'Input outside sampled window'
     gestures = []; current = None
     for e in events:
         if e[2] == 0:
@@ -64,17 +68,34 @@ def input_latency(report, allow_unavailable_thermal=False):
     valid = [r for r in observations if 'eventToPoseMs' in r]
     assert len(valid) >= 3, 'Insufficient stable gesture onsets'
     if trace['delayMs']:
-        assert min(r['dispatchToPoseMs'] for r in valid) >= 39, 'Known native delay not observed'
+        assert min(r['dispatchToPoseMs'] for r in valid) >= trace['delayMs'] - 1, 'Known native delay not observed'
     return dict(**base, delayMs=trace['delayMs'], inputEvents=len(events), probeWorkMs=trace['workMs'],
                 deliveryAgeMs=stats([max(0,e[1]-e[0]) for e in events if e[2] == 2]),
                 eventToNativePoseMs=stats([r['eventToPoseMs'] for r in valid]),
                 dispatchToNativePoseMs=stats([r['dispatchToPoseMs'] for r in valid]), observations=observations)
 
+def input_control(baseline, delayed, allow_unavailable_thermal=False):
+    normal = input_latency(baseline, allow_unavailable_thermal)
+    control = input_latency(delayed, allow_unavailable_thermal)
+    assert normal['delayMs'] == 0 and control['delayMs'] > 0
+    assert baseline['device']['model'] == delayed['device']['model']
+    assert baseline['input'] == delayed['input'] == 'drag-js'
+    # A delay inside existing recognition time can satisfy a lower bound without
+    # changing the output. Reject such an inconclusive calibration explicitly.
+    floor = control['delayMs'] - 1
+    assert normal['dispatchToNativePoseMs']['max'] < floor, 'Baseline already exceeds control delay'
+    assert control['dispatchToNativePoseMs']['min'] >= floor
+    return dict(delayMs=control['delayMs'], baseline=normal['dispatchToNativePoseMs'],
+                delayed=control['dispatchToNativePoseMs'])
+
 def retention(report, allow_unavailable_thermal=False):
     assert report['completed'] is True and not report.get('error') and report['mode'] == 'retention'
-    assert report['device']['physical'] in (True, 1) and report['build']['dirty'] is False
+    assert report['schema'] == 1 and report['recording'] is False
+    assert type(report['device']['physical']) in (bool, int) and report['device']['physical'] == 1
+    assert report['build']['dirty'] is False
     assert len(report['build']['commit']) == 40 and report['build']['bundleMode'] == 'production'
     assert report['session'] and report['platform'] in ('Android','iOS')
+    check_thermal(report['finalResources'], report['device'], allow_unavailable_thermal)
     data = report['retention']
     for k,v in dict(views=64,properties=3,layers=2,warmups=3,measuredCycles=12).items(): assert data[k] == v
     assert data['retainedControl']['watched'] == data['retainedControl']['alive'] == 1
@@ -83,8 +104,10 @@ def retention(report, allow_unavailable_thermal=False):
     keys = ['javaUsedBytes', 'nativeAllocatedBytes'] if report['platform'] == 'Android' else ['mallocInUseBytes', 'mallocBlocksInUse', 'mallocReservedBytes']
     for r in rounds:
         assert r['warmup'] == (r['cycle'] < 3)
+        assert math.isfinite(r['startMs']) and r['startMs'] >= 0
         assert r['loaded']['heap']['watched'] == r['loaded']['heap']['alive'] == 64
         assert r['collected']['heap']['watched'] == 64 and r['collected']['heap']['alive'] == 0
+        assert r['uncollected']['heap']['watched'] == 64
         assert 0 <= r['uncollected']['heap']['alive'] <= 64
         assert r['live'] == dict(nodes=0,clock=0)
         assert r['idle']['atMs'] - r['disposed']['atMs'] >= 640

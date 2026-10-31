@@ -28,14 +28,17 @@ def main():
     staging = args.output.with_suffix('.pending.json')
     incoming = args.output.with_suffix('.incoming.json')
     prior_cases = []
+    prior_rounds = []
     if args.resume:
         previous = json.loads(staging.read_text())
         assert previous['platform'].lower() == args.platform
         assert not previous['completed'] and not previous.get('error')
         assert previous['recording'] == args.recording
+        assert (previous.get('mode') == 'retention') == args.retention, 'Resume mode mismatch'
         if args.case: assert previous['selected'] == [args.case]
         session = previous['session']
         prior_cases = previous['cases']
+        prior_rounds = previous.get('retention', {}).get('rounds', [])
         print(f'Resuming collection of session {session}; app is not relaunched.', flush=True)
     else:
         if staging.exists(): raise SystemExit('Pending evidence exists; use --resume or a new output path.')
@@ -89,12 +92,17 @@ def main():
             if report.get('session') != session: continue
             assert report['cases'][:len(prior_cases)] == prior_cases, 'Previously collected workloads changed'
             prior_cases = report['cases']
+            rounds = report.get('retention', {}).get('rounds', [])
+            assert rounds[:len(prior_rounds)] == prior_rounds, 'Previously collected retention cycles changed'
+            prior_rounds = rounds
             # Keep the last valid evidence if transfer is incomplete or belongs
             # to another session. Only accepted bytes replace the pending file.
             staging.write_text(candidate)
-            count = len(report['cases'])
+            count = len(rounds) if args.retention else len(report['cases'])
             if count != last_count:
-                print(f'{count}/{len(report["selected"])} workloads saved', flush=True); last_count = count
+                total = 15 if args.retention else len(report['selected'])
+                unit = 'retention cycles' if args.retention else 'workloads'
+                print(f'{count}/{total} {unit} saved', flush=True); last_count = count
             if report['completed'] or report.get('error'):
                 staging.rename(args.output)
                 if not report['completed']: raise SystemExit(report['error'])
