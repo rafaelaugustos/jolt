@@ -7,6 +7,7 @@ import ImageLab from './components/ImageLab.vue'
 import DragLab from './components/DragLab.vue'
 import DragValues from './components/DragValues.vue'
 import PlaybackLab from './components/PlaybackLab.vue'
+import BackgroundPlayback from './components/BackgroundPlayback.vue'
 import LayoutLab from './components/LayoutLab.vue'
 import Haptics from './components/Haptics.vue'
 import GradientValues from './components/GradientValues.vue'
@@ -26,6 +27,7 @@ import MotionInspectorLab from './components/MotionInspectorLab.vue'
 import SharedLayoutLab from './components/SharedLayoutLab.vue'
 import { launchArgument, onLaunch, runLaunchTaps } from './launch'
 type Screen = 'home' | 'voice' | 'chat'
+const backgroundPlayback = ref(false)
 const launched = ref(false)
 const playground = ref(false)
 const imageLab = ref(false)
@@ -54,6 +56,7 @@ const initialScreen = ref<Screen>('home')
 const assistant = ref()
 let stopTaps: (() => void) | undefined
 onLaunch(() => {
+  backgroundPlayback.value = launchArgument('background-playback') !== undefined
   motionInspector.value = launchArgument('motion-inspector') !== undefined
   curveSampling.value = launchArgument('curve-sampling') !== undefined
   imageLab.value = launchArgument('image-lab') !== undefined
@@ -129,7 +132,11 @@ defineExpose({ assistant })
       "
       @loaded="pageLoaded"
     >
-      <MotionInspectorLab v-if="launched && motionInspector" @back="backToPlayground" />
+      <BackgroundPlayback v-if="launched && backgroundPlayback" />
+      <MotionInspectorLab
+        v-else-if="launched && motionInspector"
+        @back="backToPlayground"
+      />
       <CurveSamplingLab v-else-if="launched && curveSampling" @back="backToPlayground" />
       <InteractionReplayLab
         v-else-if="launched && interactionReplay"

@@ -1,3 +1,4 @@
+import { Application } from '@nativescript/core'
 import { animate, decay } from './animate.js'
 import { press } from './press.js'
 import { drag } from './drag.js'
@@ -32,6 +33,7 @@ const owners = new WeakMap<object, object>()
 
 export interface MotionScope {
   readonly disposed: boolean
+  /** True while manually suspended or while the application is suspended. */
   readonly suspended: boolean
   /** Owned handles/subscriptions, including suspended subscription factories. */
   readonly size: number
@@ -65,13 +67,16 @@ export interface MotionScope {
   dispose(): void
 }
 
-/** Framework-independent ownership. Native unload never permanently destroys a scope. */
+/** Framework-independent ownership with automatic app background suspension. */
 export function motionScope(): MotionScope {
   const entries = new Set<Entry>()
   const adopted = new Map<MotionResource, Entry>()
   const identity = {}
   let disposed = false
   let suspended = false
+  let manualSuspension = false
+  let background = false
+  let watching = false
   let clearing = false
   const assertAlive = () => {
     if (disposed) throw new Error('Motion scope is disposed.')
@@ -79,7 +84,8 @@ export function motionScope(): MotionScope {
   }
   const assertActive = () => {
     assertAlive()
-    if (suspended)
+    // A component may mount while the app is inactive. Adopt its work paused.
+    if (manualSuspension)
       throw new Error('Motion scope is suspended; resume it before starting work.')
   }
   const validate = (resource: MotionResource) => {
@@ -119,8 +125,15 @@ export function motionScope(): MotionScope {
     if (!resource) return
     disposeResource(resource)
   }
+  const unwatchIfEmpty = () => {
+    if (!watching || entries.size) return
+    Application.off(Application.suspendEvent, appSuspend)
+    Application.off(Application.resumeEvent, appResume)
+    watching = false
+  }
   const remove = (entry: Entry) => {
     entries.delete(entry)
+    unwatchIfEmpty()
     release(entry)
   }
   const attach = (entry: Entry, resource: MotionResource) => {
@@ -136,6 +149,7 @@ export function motionScope(): MotionScope {
         if (entry.resource !== resource) return
         forget(entry)
         entries.delete(entry)
+        unwatchIfEmpty()
       }
       void finished.then(settled, settled)
     }
@@ -164,6 +178,50 @@ export function motionScope(): MotionScope {
     if (errors.length)
       throw new AggregateError(errors, 'Motion scope cleanup/lifecycle failed.')
   }
+  const hold = (entry: Entry) => {
+    if (entry.setup) {
+      release(entry)
+      return
+    }
+    const resource = entry.resource as Controlled | undefined
+    if (typeof resource?.pause === 'function' && typeof resource.play === 'function') {
+      entry.resume = resource.paused !== true
+      if (entry.resume) resource.pause()
+    } else remove(entry)
+  }
+  // App events and explicit/KeepAlive suspension must not clear each other.
+  const synchronize = () => {
+    const next = manualSuspension || (watching ? background : Application.suspended)
+    if (disposed || suspended === next) return
+    suspended = next
+    if (suspended) visit(hold)
+    else
+      visit((entry) => {
+        if (disposed || suspended) return
+        if (entry.setup) startSubscription(entry)
+        else if (entry.resume) {
+          entry.resume = false
+          ;(entry.resource as Controlled).play?.()
+        }
+      })
+  }
+  const appSuspend = () => {
+    background = true
+    synchronize()
+  }
+  const appResume = () => {
+    background = false
+    synchronize()
+  }
+  // Pause before NativeScript unloads the background root; observe only while owned.
+  const watch = () => {
+    if (watching) return
+    background = Application.suspended
+    watching = true
+    Application.on(Application.suspendEvent, appSuspend)
+    Application.on(Application.resumeEvent, appResume)
+    synchronize()
+  }
   const startOwned = <T extends MotionResource>(factory: () => T): T => {
     assertActive()
     const resource = factory()
@@ -179,7 +237,7 @@ export function motionScope(): MotionScope {
       return disposed
     },
     get suspended() {
-      return suspended
+      return manualSuspension || (watching ? background : Application.suspended)
     },
     get size() {
       return entries.size
@@ -246,7 +304,9 @@ export function motionScope(): MotionScope {
       if (adopted.has(resource)) return resource
       const entry: Entry = { resume: false }
       attach(entry, resource)
+      watch()
       entries.add(entry)
+      if (suspended) hold(entry)
       return resource
     },
     use(setup) {
@@ -254,6 +314,7 @@ export function motionScope(): MotionScope {
       if (typeof setup !== 'function')
         throw new TypeError('Motion subscription needs a factory.')
       const entry: Entry = { setup, resume: false }
+      watch()
       entries.add(entry)
       try {
         if (!suspended) startSubscription(entry)
@@ -264,34 +325,14 @@ export function motionScope(): MotionScope {
       return () => remove(entry)
     },
     suspend() {
-      if (disposed || suspended) return
-      suspended = true
-      visit((entry) => {
-        if (entry.setup) {
-          release(entry)
-          return
-        }
-        const resource = entry.resource as Controlled | undefined
-        if (
-          typeof resource?.pause === 'function' &&
-          typeof resource.play === 'function'
-        ) {
-          entry.resume = resource.paused !== true
-          if (entry.resume) resource.pause()
-        } else remove(entry)
-      })
+      if (disposed) return
+      manualSuspension = true
+      synchronize()
     },
     resume() {
-      if (disposed || !suspended) return
-      suspended = false
-      visit((entry) => {
-        if (disposed || suspended) return
-        if (entry.setup) startSubscription(entry)
-        else if (entry.resume) {
-          entry.resume = false
-          ;(entry.resource as Controlled).play?.()
-        }
-      })
+      if (disposed) return
+      manualSuspension = false
+      synchronize()
     },
     reset() {
       if (disposed || clearing) return
