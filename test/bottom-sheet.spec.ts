@@ -17,6 +17,7 @@ const mocks = vi.hoisted(() => ({
     undefined | ((state: { visible: boolean; height: number }) => void),
   offKeyboard: vi.fn(),
   releaseActions: vi.fn(),
+  insets: { top: 0, bottom: 0 },
 }))
 vi.mock('@nativescript/core', async (original) => {
   const core = await original<typeof import('./shims/core.js')>()
@@ -48,6 +49,7 @@ vi.mock('../src/keyboard.js', () => ({
 }))
 vi.mock('../src/bottom-sheet/native.js', () => ({
   windowHeight: () => 800,
+  hostInsets: () => mocks.insets,
   captureFocus: () => mocks.restore,
   revealFocusedField: mocks.reveal,
   dismissKeyboard: mocks.dismissKeyboard,
@@ -114,6 +116,7 @@ function makeInput(y: number, callbacks: Record<string, Function>) {
 const controls: BottomSheet[] = []
 let inputs: Input[]
 beforeEach(() => {
+  mocks.insets = { top: 0, bottom: 0 }
   vi.useFakeTimers()
   vi.clearAllMocks()
   inputs = []
@@ -142,7 +145,6 @@ function fixture(extra: Partial<Parameters<typeof bottomSheet>[1]> = {}) {
     backdrop = new GridLayout()
   Object.assign(host, {
     actualSize: { width: 400, height: 800 },
-    getSafeAreaInsets: () => ({ top: 0, bottom: 0 }),
     getLocationInWindow: () => ({ x: 0, y: 0 }),
   })
   Object.assign(panel, { parent: host, actualSize: { width: 400, height: 800 } })
@@ -318,5 +320,65 @@ describe('bottom sheet lifecycle and coordination', () => {
     expect(input.settleTo).toHaveBeenCalledTimes(calls)
     sheet.play()
     expect(input.settleTo).toHaveBeenLastCalledWith({ y: 0 })
+  })
+})
+
+describe('bottom sheet safe areas', () => {
+  it('places the panel where the host already insets its children and extends it under the home indicator', () => {
+    mocks.insets = { top: 62, bottom: 34 }
+    const { sheet, panel, input } = fixture()
+    expect(panel.marginTop).toBe(0)
+    expect(panel.iosIgnoreSafeArea).toBe(true)
+    expect(panel.height).toBeCloseTo(0.9 * 704)
+    expect(panel.paddingBottom ?? 0).toBe(0)
+    sheet.open('content')
+    expect(input.settleTo).toHaveBeenLastCalledWith({ y: 704 - 280 })
+    sheet.open('90%')
+    expect(input.settleTo).toHaveBeenLastCalledWith({ y: expect.closeTo(704 * 0.1, 5) })
+    sheet.dismiss()
+    expect(input.settleTo).toHaveBeenLastCalledWith({ y: 800 - 62 })
+  })
+
+  it('lets a top override add to the host placement but never move the panel above it', () => {
+    mocks.insets = { top: 62, bottom: 34 }
+    const raised = fixture({ safeArea: { top: 80, bottom: 0 } })
+    expect(raised.panel.marginTop).toBe(18)
+    expect(raised.panel.height).toBeCloseTo(0.9 * 720)
+    const lowered = fixture({ safeArea: { top: 0 } })
+    expect(lowered.panel.marginTop).toBe(0)
+    expect(lowered.panel.height).toBeCloseTo(0.9 * 704)
+  })
+
+  it('drops the extension while the keyboard covers the home indicator and restores it afterwards', () => {
+    const { sheet, panel, input } = fixture({ safeArea: { top: 62, bottom: 34 } })
+    expect(panel.height).toBeCloseTo(0.9 * 704 + 34)
+    expect(panel.paddingBottom).toBe(34)
+    Object.assign(panel, { effectivePaddingBottom: 34 })
+    sheet.open('50%')
+    mocks.keyboard!({ visible: true, height: 300 })
+    expect(panel.height).toBe(800 - 62 - 300)
+    expect(panel.paddingBottom).toBe(0)
+    Object.assign(panel, { effectivePaddingBottom: 0 })
+    expect(input.settleTo).toHaveBeenLastCalledWith({ y: 0 })
+    mocks.keyboard!({ visible: false, height: 0 })
+    expect(panel.height).toBeCloseTo(0.9 * 704 + 34)
+    expect(panel.paddingBottom).toBe(34)
+    expect(input.settleTo).toHaveBeenLastCalledWith({ y: 352 })
+  })
+
+  it('measures the content snap without the padding that keeps rows above the inset', () => {
+    const { sheet, panel, scroll, input } = fixture({ safeArea: { bottom: 34 } })
+    expect(panel.height).toBeCloseTo(0.9 * 766 + 34)
+    expect(panel.paddingBottom).toBe(34)
+    Object.assign(panel, {
+      actualSize: { width: 400, height: 0.9 * 766 + 34 },
+      effectivePaddingBottom: 34,
+    })
+    Object.assign(scroll, { actualSize: { width: 400, height: 0.9 * 766 - 40 } })
+    sheet.remeasure()
+    sheet.open('content')
+    expect(input.settleTo).toHaveBeenLastCalledWith({ y: 766 - 280 })
+    sheet.dispose()
+    expect(panel.paddingBottom ?? 0).toBe(0)
   })
 })

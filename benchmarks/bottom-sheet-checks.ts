@@ -9,20 +9,24 @@ import {
 } from '@nativescript/core'
 import { configure, onKeyboard } from '@rafaelaugusto/jolt'
 import type { BottomSheet, GestureSurface } from '@rafaelaugusto/jolt/bottom-sheet'
-import { windowHeight } from '../src/bottom-sheet/native'
+import { hostInsets, windowHeight } from '../src/bottom-sheet/native'
 
 export const bottomSheetNodeCount = () =>
   isIOS ? JoltLiveSpring.nodeCount() : org.rafaelaugusto.jolt.LiveSpring.nodeCount()
 const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms))
 function nativeY(panel: View): number {
+  return nativeFrame(panel).y
+}
+/** The panel's presented frame in its host, in DIPs. */
+function nativeFrame(panel: View): { y: number; height: number } {
   if (isIOS) {
     const view = panel.nativeViewProtected as UIView
-    return (view.layer.presentationLayer() ?? view.layer).frame.origin.y
+    const frame = (view.layer.presentationLayer() ?? view.layer).frame
+    return { y: frame.origin.y, height: frame.size.height }
   }
-  return (
-    (panel.nativeViewProtected as android.view.View).getY() /
-    Utils.layout.getDisplayDensity()
-  )
+  const view = panel.nativeViewProtected as android.view.View
+  const density = Utils.layout.getDisplayDensity()
+  return { y: view.getY() / density, height: view.getHeight() / density }
 }
 function accessibility(handle: View, label: string): void {
   const observed: string[] = []
@@ -69,6 +73,13 @@ export async function runBottomSheetChecks(input: {
   field: TextField
   grow(amount?: number): void
   baselineNodes: number
+  /**
+   * The host covers the whole window; checks follow the safe-area acceptance of #267.
+   * Edge to edge, the host ignores Core's safe area and the sheet receives the page insets.
+   */
+  fullWindow?: { edgeToEdge: boolean; insets: { top: number; bottom: number } }
+  /** The raw `sheet-safe-area` launch argument, kept in the report for provenance. */
+  argument?: string
   runId: string
 }) {
   const { sheet, host, panel, handle, scroll, field, grow, baselineNodes } = input
@@ -95,8 +106,133 @@ export async function runBottomSheetChecks(input: {
     assert(condition(), `Timed out: ${stage}`)
   }
   const originalHeight = host.height
+  const platform = isIOS ? 'ios' : 'android'
+  const result = (status: 'passed' | 'failed', error?: string) => ({
+    schema: 1,
+    runId: input.runId,
+    status,
+    platform,
+    variant: input.fullWindow
+      ? input.fullWindow.edgeToEdge
+        ? 'edge-to-edge'
+        : 'full-window'
+      : 'inset-host',
+    argument: input.argument ?? null,
+    ...(error === undefined ? {} : { stage, error }),
+    checks,
+    samples,
+  })
   try {
     await deadline(() => host.getActualSize().height > 200)
+    if (input.fullWindow) {
+      const { edgeToEdge } = input.fullWindow
+      const measured = hostInsets(host)
+      const insets = edgeToEdge ? input.fullWindow.insets : measured
+      // Core keeps a default host's children inside its insets, so the panel ends at the
+      // bottom inset; an edge-to-edge host lets it reach the window edge.
+      const edge = edgeToEdge ? 0 : insets.bottom
+      const bottomEdge = () => {
+        const frame = nativeFrame(panel)
+        return frame.y + frame.height
+      }
+      stage = 'full-window host reports its safe-area insets in DIPs'
+      assert(
+        measured.top < 100 && measured.bottom < 100,
+        `Implausible DIP insets ${JSON.stringify(measured)}`,
+      )
+      assert(
+        !isIOS || edgeToEdge || measured.top > 0,
+        'The full-window iOS host must extend under the status bar',
+      )
+      samples.push({ insetTop: insets.top, insetBottom: insets.bottom, edge })
+      checks.push(stage)
+
+      stage =
+        'content snap reaches the window bottom with its content above the home indicator'
+      sheet.open('content')
+      await wait(1000)
+      const window = host.getActualSize().height
+      const measure = () => {
+        const frame = nativeFrame(panel)
+        samples.push({
+          panelY: frame.y,
+          panelHeight: frame.height,
+          panelLayoutHeight: panel.getActualSize().height,
+          scrollHeight: scroll.getActualSize().height,
+          scrollTop: scroll.getLocationInWindow().y,
+          paddingBottom: Number(panel.paddingBottom) || 0,
+          effectivePaddingBottom: panel.effectivePaddingBottom,
+          hostTop: host.getLocationInWindow().y,
+          windowHeight: windowHeight(host),
+          keyboardHeight: keyboard.height,
+        })
+      }
+      measure()
+      // The panel is sized for its largest stop, so its frame continues below the window.
+      assert(
+        bottomEdge() >= window - edge - 1,
+        `Panel bottom ${bottomEdge()} stops above the window edge`,
+      )
+      near(nativeY(panel), window - insets.bottom - (3 * 76 + 152))
+      checks.push(stage)
+
+      stage = 'full snap starts below the status bar and still reaches the window bottom'
+      sheet.open('100%')
+      await wait(1000)
+      measure()
+      near(nativeY(panel), insets.top)
+      near(bottomEdge(), window - edge)
+      // Window coordinates start above the host on Android; compare with the host's bottom edge.
+      const hostBottom = host.getLocationInWindow().y + window
+      const scrollBottom = scroll.getLocationInWindow().y + scroll.getActualSize().height
+      assert(
+        scrollBottom <= hostBottom - insets.bottom + 2,
+        `List bottom ${scrollBottom} reaches into the bottom inset below ${hostBottom}`,
+      )
+      checks.push(stage)
+
+      stage = 'keyboard aligns the panel bottom with the keyboard top'
+      field.focus()
+      if (isAndroid) {
+        const view = field.nativeViewProtected as android.widget.EditText
+        const manager = view
+          .getContext()
+          .getSystemService(
+            android.content.Context.INPUT_METHOD_SERVICE,
+          ) as android.view.inputmethod.InputMethodManager
+        manager.showSoftInput(
+          view,
+          android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT,
+        )
+      }
+      await deadline(() => keyboard.visible)
+      await wait(900)
+      measure()
+      near(nativeY(panel), insets.top)
+      // The keyboard height is a window measure; the panel bottom is relative to the host.
+      near(
+        host.getLocationInWindow().y + bottomEdge(),
+        windowHeight(host) - keyboard.height,
+      )
+      const fieldBottom = field.getLocationInWindow().y + field.getActualSize().height
+      assert(
+        fieldBottom <= windowHeight(host) - keyboard.height + 3,
+        'Focused field is covered by the keyboard',
+      )
+      field.dismissSoftInput()
+      await deadline(() => !keyboard.visible)
+      await wait(900)
+      near(nativeY(panel), insets.top)
+      near(bottomEdge(), window - edge)
+      checks.push(stage)
+
+      stage = 'disposal releases native ownership'
+      sheet.dispose()
+      await wait(100)
+      assert(bottomSheetNodeCount() === baselineNodes, 'Disposal leaked native nodes')
+      checks.push(stage)
+      return result('passed')
+    }
     sheet.open('50%')
     await wait(1000)
     near(nativeY(panel), host.getActualSize().height * 0.5)
@@ -226,25 +362,9 @@ export async function runBottomSheetChecks(input: {
     assert(bottomSheetNodeCount() === baselineNodes, 'Disposal leaked native nodes')
     panel.visibility = 'hidden'
     checks.push(stage)
-    return {
-      schema: 1,
-      runId: input.runId,
-      status: 'passed',
-      platform: isIOS ? 'ios' : 'android',
-      checks,
-      samples,
-    }
+    return result('passed')
   } catch (error) {
-    return {
-      schema: 1,
-      runId: input.runId,
-      status: 'failed',
-      platform: isIOS ? 'ios' : 'android',
-      stage,
-      error: String(error),
-      checks,
-      samples,
-    }
+    return result('failed', String(error))
   } finally {
     offKeyboard()
     configure({ reducedMotion: 'user' })

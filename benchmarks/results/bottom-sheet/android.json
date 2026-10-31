@@ -1,8 +1,10 @@
 {
   "schema": 1,
-  "runId": "android-content",
+  "runId": "inset-1793435903",
   "status": "passed",
   "platform": "android",
+  "variant": "inset-host",
+  "argument": null,
   "checks": [
     "open and native snap",
     "small content resolves its intrinsic height",
@@ -24,9 +26,9 @@
     { "actual": 0, "expected": 0, "tolerance": 3 },
     { "actual": 295.4285481770833, "expected": 295.42857142857144, "tolerance": 3 },
     { "actual": 369.3333333333333, "expected": 369.3333333333333, "tolerance": 3 },
-    { "actual": 0.003701856093747275, "expected": 0, "tolerance": 3 },
-    { "actual": 369.33086867559524, "expected": 369.3333333333333, "tolerance": 3 },
-    { "actual": 73.8700183686756, "expected": 73.86666666666666, "tolerance": 3 },
+    { "actual": 0.004720735408010937, "expected": 0, "tolerance": 3 },
+    { "actual": 369.3320079985119, "expected": 369.3333333333333, "tolerance": 3 },
+    { "actual": 73.86926850818452, "expected": 73.86666666666666, "tolerance": 3 },
     { "actual": 0, "expected": 0, "tolerance": 3 }
   ]
 }

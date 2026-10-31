@@ -3,6 +3,7 @@ import {
   GridLayout,
   ScrollView,
   Trace,
+  Utils,
   View,
   isAndroid,
 } from '@nativescript/core'
@@ -19,6 +20,7 @@ import {
 import {
   captureFocus,
   dismissKeyboard,
+  hostInsets,
   revealFocusedField,
   sheetActions,
   windowHeight,
@@ -42,6 +44,10 @@ export interface BottomSheetOptions {
   keyboard?: 'follow' | 'none'
   /** Whether dragging, the backdrop, back and accessibility can dismiss. Defaults to true. */
   dismissible?: boolean
+  /**
+   * Overrides the host's safe-area insets, in DIPs. Core already lays the host's children
+   * out inside its insets, so a top override only adds to that placement.
+   */
   safeArea?: { top?: number; bottom?: number }
   returnFocus?: View
   spring?: Pick<SpringValueOptions, 'stiffness' | 'damping' | 'mass'>
@@ -142,6 +148,8 @@ export function bottomSheet(
   const original = {
     contentAlignment: content?.verticalAlignment,
     height: panel.height,
+    ignoreSafeArea: panel.iosIgnoreSafeArea,
+    paddingBottom: panel.paddingBottom,
     marginTop: panel.marginTop,
     marginBottom: panel.marginBottom,
     alignment: panel.verticalAlignment,
@@ -155,6 +163,7 @@ export function bottomSheet(
     value: handle.accessibilityValue,
   }
   let geometry: SheetGeometry | undefined, input: Gestures | undefined
+  let extended = 0
   let opened = false,
     point = points[0]!,
     ended = false,
@@ -280,11 +289,16 @@ export function bottomSheet(
       return
     const size = host.getActualSize()
     if (!(size.height > 0)) return
-    const safe = host.getSafeAreaInsets()
-    const top = options.safeArea?.top ?? safe.top
+    const safe = hostInsets(host)
+    // The host places its children below its own top inset; the panel can only start lower.
+    const top = Math.max(safe.top, options.safeArea?.top ?? safe.top)
     const bottom = options.safeArea?.bottom ?? safe.bottom
+    // The padding that keeps rows above the bottom inset is not sheet chrome.
     const chrome = scroll
-      ? Math.max(0, panel.getActualSize().height - scroll.getActualSize().height)
+      ? Math.max(
+          0,
+          panel.getActualSize().height - scroll.getActualSize().height - extended,
+        )
       : 0
     const contentHeight = (content?.getActualSize().height ?? 0) + chrome
     const next = sheetGeometry(
@@ -296,14 +310,24 @@ export function bottomSheet(
       top,
       bottom,
       contentHeight,
+      safe.bottom === 0,
     )
     const previous = geometry
     geometry = next
-    const panelHeight = keyboardOpen()
-      ? next.height
-      : Math.max(...next.stops.map((stop) => stop.height))
+    const panelHeight =
+      (keyboardOpen()
+        ? next.height
+        : Math.max(...next.stops.map((stop) => stop.height))) + next.extension
     if (panel.height !== panelHeight) panel.height = panelHeight
-    if (panel.marginTop !== next.top) panel.marginTop = next.top
+    const margin = next.top - safe.top
+    if (panel.marginTop !== margin) panel.marginTop = margin
+    if (extended !== next.extension) {
+      const base =
+        Utils.layout.toDeviceIndependentPixels(panel.effectivePaddingBottom ?? 0) -
+        extended
+      panel.paddingBottom = base + next.extension
+      extended = next.extension
+    }
     if (!input) {
       input = gestures(panel, {
         pan: { axis: 'y', bounds: { top: minimum(), bottom: next.closedY } },
@@ -486,6 +510,8 @@ export function bottomSheet(
         Application.android.off(Application.android.activityBackPressedEvent, back)
       if (content) content.verticalAlignment = original.contentAlignment!
       panel.height = original.height
+      panel.iosIgnoreSafeArea = original.ignoreSafeArea
+      panel.paddingBottom = original.paddingBottom
       panel.marginTop = original.marginTop
       panel.marginBottom = original.marginBottom
       panel.verticalAlignment = original.alignment
@@ -504,6 +530,9 @@ export function bottomSheet(
   }
   owners.set(panel, control)
   if (content && points.includes('content')) content.verticalAlignment = 'top'
+  // The geometry owns the panel's placement and its rows' distance from the bottom inset;
+  // Core would otherwise stretch it to the screen edges or inset its rows a second time.
+  panel.iosIgnoreSafeArea = true
   panel.verticalAlignment = 'top'
   panel.marginBottom = 0
   panel.visibility = 'hidden'

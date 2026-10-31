@@ -181,6 +181,21 @@ final class DocsTests: XCTestCase {
         tap("Back to collection")
         XCTAssertFalse(app.descendants(matching: .any)["shape-lab"].firstMatch.exists)
     }
+    func testBottomSheetSafeArea() throws {
+        launch(["--bottom-sheet", "--sheet-safe-area"], "Open stays")
+        try record("bottom-sheet-safe-area-ios") {
+            tap("Content", wait: 1.4)
+            tap("Full", wait: 1.4)
+            let field = app.descendants(matching: .any)["Trip note"].firstMatch
+            XCTAssertTrue(field.exists, app.debugDescription)
+            field.tap()
+            field.typeText("A calm weekend")
+            Thread.sleep(forTimeInterval: 1.0)
+            app.keyboards.buttons["Done"].tap()
+            Thread.sleep(forTimeInterval: 1.2)
+            tap("Close", wait: 1.0)
+        }
+    }
     func attachmentDrag(_ id: String, x: CGFloat, y: CGFloat, fast: Bool = false, hold: Double = 0.15) {
         let body = app.descendants(matching: .any)[id].firstMatch
         XCTAssertTrue(body.exists, app.debugDescription)

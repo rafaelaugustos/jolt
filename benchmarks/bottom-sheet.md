@@ -28,12 +28,29 @@ The test-only pointer helpers are never packaged in Jolt. The iOS helper uses XC
 
 The English and Portuguese guides embed the native recordings. Compression preserves playback timing. These are simulator/emulator demonstrations, not physical-device performance or full VoiceOver/TalkBack audits. Programmatic native accessibility checks do not establish complete screen-reader navigation coverage.
 
+## Safe areas on iOS (#267, 2026-10-31)
+
+Core reports `getSafeAreaInsets()` in device pixels on iOS; the recipe treated them as DIPs, so a full-window host on an iPhone 17 Pro simulator (402×874 pt, 3×) received `{ top: 186, bottom: 102 }` instead of 62 and 34, sized the panel to 586 and started it 186 pt down. Core also lays a layout's children out inside its own insets, so adding the top inset as a panel margin moved the panel down twice. `hostInsets()` now converts the insets, the top inset only positions the panel beyond what the host already applies, and a `safeArea.top` override can only add to that placement. The panel ignores Core's safe-area adjustments itself (`iosIgnoreSafeArea`, restored on disposal) so its frame stays where the geometry puts it. When the host leaves the bottom edge reachable (no inset of its own, as with an edge-to-edge host that passes the page insets through `safeArea`), the panel grows by the bottom inset and receives that much bottom padding, so it reaches the window edge while its rows stay above the home indicator; a keyboard overlap replaces that extension. A host whose children Core keeps inside the safe area still ends at its bottom inset, because Core clamps a child's height to that box.
+
+The demo gains two launch variants of the same Layers card: `--sheet-safe-area=inset` mounts the host over the whole page with Core's default inset handling and no `safeArea` override, and `--sheet-safe-area` (edge to edge) gives the host `iosIgnoreSafeArea` with negative margins equal to the window insets and passes those insets as `safeArea`, the configuration an app uses to cover the home indicator. Both use a `100%` snap. The checks measure the presented panel frame: the content snap starts at the host bottom minus the bottom inset minus the content height, the full snap starts at the top inset, the panel's frame reaches the window edge (edge to edge) or the host's bottom inset (default host), the list's bottom stays above the inset, and with the keyboard shown the panel bottom meets the keyboard top in window coordinates; each run records the measured insets, the panel frame, its padding and the keyboard height.
+
+| Variant (iOS 26.0 simulator, iPhone 17 Pro)                  | Insets top / bottom | Content snap panel top | Full snap panel top / height | Keyboard panel height | Result |
+| ------------------------------------------------------------ | ------------------: | ---------------------: | ---------------------------: | --------------------: | ------ |
+| [`inset-host`](results/bottom-sheet/ios.json)                |               0 / 0 |                      — |                            — |                     — | 10/10  |
+| [`full-window`](results/bottom-sheet/ios-full-window.json)   |             62 / 34 |                    460 |                     62 / 778 |                   467 | 5/5    |
+| [`edge-to-edge`](results/bottom-sheet/ios-edge-to-edge.json) |             62 / 34 |                    460 |                     62 / 812 |                   467 | 5/5    |
+
+Android reports zero insets and keeps the page inside the system bars, so the three variants coincide; the [inset-host](results/bottom-sheet/android.json), [full-window](results/bottom-sheet/android-full-window.json) and [edge-to-edge](results/bottom-sheet/android-edge-to-edge.json) reports from the Android 16 / API 36 emulator pass the same checks with a window of 914 dp, a host 52 dp below the window top and a 336 dp keyboard. The unit suite covers the pixel conversion, the placement against the host's own inset, the extension and its removal under the keyboard, and the content measurement without the extension padding. The new iOS recording in the guide (`bottom-sheet-safe-area-ios`) shows the edge-to-edge variant with real XCTest taps; Android is unchanged and keeps its existing clip.
+
 ## Reproduce
 
 Build and install the normal demo sequentially for each platform with `JOLT_BENCHMARK=1`, as described in `CONTRIBUTING.md`. Launch it with `--bottom-sheet --bottom-sheet-checks --sheet-run-id=YOUR_ID` on iOS; use equivalent `am start --es` extras on Android. Read `bottom-sheet-checks.json` from the application's Documents/files directory and check its run ID.
 
 ```sh
 python3 benchmarks/docs-record-ios.py YOUR_SIMULATOR_UUID /tmp/JoltSheetIOS testBottomSheet
+python3 benchmarks/docs-record-ios.py YOUR_SIMULATOR_UUID /tmp/JoltSheetIOS testBottomSheetSafeArea
+# Safe-area checks: add --sheet-safe-area=inset or --sheet-safe-area to the launch
+# arguments above (string extras on Android) and read the same report.
 python3 benchmarks/gesture-input/build.py /tmp/JoltSheetInput
 python3 benchmarks/docs-record-bottom-sheet-android.py YOUR_ADB_SERIAL /tmp/JoltSheetAndroid /tmp/JoltSheetInput/gesture-input.jar
 npm test
