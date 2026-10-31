@@ -50,7 +50,9 @@ Dragging upward inside the list first expands the panel, then scrolls its conten
 
 The backdrop, a downward release, Android back and the native Dismiss accessibility action can close the sheet. Set `dismissible: false` to disable those user dismissal paths; an explicit `sheet.dismiss()` still works. An interrupted close does not call `onDismiss` or restore focus prematurely.
 
-Safe-area insets come from the host. `safeArea: { top, bottom }` can override them when the surrounding layout already accounts for those insets. Keep the overlay host in the same window as the panel and keyboard.
+Safe-area insets come from the host, in DIPs. Core already lays the host's children out inside those insets, so the panel starts at the host's inset top and the usable height excludes both insets. Under a home indicator the panel extends to the window edge while its content stays above the indicator; while the keyboard covers that edge, the panel ends at the keyboard instead. `safeArea: { top, bottom }` overrides the measured insets when the surrounding layout already accounts for them; a top override can only add to the host's placement. Keep the overlay host in the same window as the panel and keyboard.
+
+<Clip name="bottom-sheet-safe-area-ios" caption="Real XCTest input on an iPhone 17 Pro simulator (iOS 26.0) with a full-window host: the content snap ends at the window edge with its rows above the home indicator, the full snap starts below the status bar, and the panel follows the keyboard. Simulator recording, not physical-device evidence." />
 
 ## Accessibility and ownership
 

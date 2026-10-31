@@ -1,8 +1,10 @@
 {
   "schema": 1,
-  "runId": "ios-content",
+  "runId": "inset-1793435947",
   "status": "passed",
   "platform": "ios",
+  "variant": "inset-host",
+  "argument": null,
   "checks": [
     "open and native snap",
     "small content resolves its intrinsic height",
@@ -16,17 +18,17 @@
     "unload reload and disposal release native ownership"
   ],
   "samples": [
-    { "actual": 356.000584936509, "expected": 356, "tolerance": 3 },
+    { "actual": 356.00058380850095, "expected": 356, "tolerance": 3 },
     { "actual": 332.00000000000006, "expected": 332, "tolerance": 3 },
-    { "actual": 426.91627302188203, "expected": 426.91627302188203, "tolerance": 1 },
-    { "actual": 71.20102542367474, "expected": 71.2, "tolerance": 3 },
-    { "actual": 177.8661035035388, "expected": 177.8661035035388, "tolerance": 1 },
+    { "actual": 426.9162730031486, "expected": 426.9162730031486, "tolerance": 1 },
+    { "actual": 71.20102542367715, "expected": 71.2, "tolerance": 3 },
+    { "actual": 177.86610348460795, "expected": 177.86610348460795, "tolerance": 1 },
     { "actual": 0, "expected": 0, "tolerance": 3 },
     { "actual": 284.8333333333333, "expected": 284.8333333333333, "tolerance": 3 },
     { "actual": 356, "expected": 356, "tolerance": 3 },
-    { "actual": 0.0045503095441574715, "expected": 0, "tolerance": 3 },
-    { "actual": 355.99686360040243, "expected": 356, "tolerance": 3 },
-    { "actual": 71.20323140875308, "expected": 71.2, "tolerance": 3 },
+    { "actual": 0.004550309550324982, "expected": 0, "tolerance": 3 },
+    { "actual": 355.99686360039743, "expected": 356, "tolerance": 3 },
+    { "actual": 71.20323140875786, "expected": 71.2, "tolerance": 3 },
     { "actual": 0, "expected": 0, "tolerance": 3 }
   ]
 }

@@ -16,6 +16,12 @@ function firstResponder(view: UIView): UIView | undefined {
   return undefined
 }
 
+/** Core reports a view's safe-area insets in device pixels; the sheet works in DIPs. */
+export function hostInsets(view: View): { top: number; bottom: number } {
+  const insets = view.getSafeAreaInsets()
+  const dip = Utils.layout.toDeviceIndependentPixels
+  return { top: dip(insets.top), bottom: dip(insets.bottom) }
+}
 export function windowHeight(view: View): number {
   if (isIOS)
     return (

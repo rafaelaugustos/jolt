@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {
+  Application,
   Button,
   Color,
   File,
@@ -29,6 +30,11 @@ let content: StackLayout | undefined
 let count = 0
 let status: Label | undefined
 let ready = false
+// `sheet-safe-area` covers the page edge to edge like an app overlay; `inset` keeps Core's
+// default, where the full-window host lays its children out inside the safe area. Read on
+// load: Android has no activity, and no intent extras, while the component is set up.
+let fullWindow = false
+let edgeToEdge = false
 const names = [
   'Harbor hideaway',
   'The garden loft',
@@ -85,6 +91,9 @@ function grow(amount = 6) {
 function mount(event: EventData) {
   if (ready) return
   ready = true
+  const variant = launchArgument('sheet-safe-area')
+  fullWindow = variant !== undefined
+  edgeToEdge = fullWindow && variant !== 'inset'
   const outer = event.object as GridLayout
   const controls = new GridLayout()
   controls.columns = '*,*,*,*'
@@ -94,21 +103,46 @@ function mount(event: EventData) {
   controls.addChild(open)
   for (const [i, view] of [
     button('Content', () => sheet?.open('content')),
-    button('More stays', () => grow()),
+    fullWindow
+      ? button('Full', () => sheet?.open('100%'))
+      : button('More stays', () => grow()),
     button('Close', () => sheet?.dismiss()),
   ].entries()) {
     GridLayout.setColumn(view, i + 1)
     controls.addChild(view)
   }
-  outer.addChild(controls)
   const host = new GridLayout()
-  GridLayout.setRow(host, 1)
   host.backgroundColor = new Color('#EDF3EE')
   host.automationText = 'Sheet stage'
-  outer.addChild(host)
   const welcome = new StackLayout()
   welcome.padding = '36 28'
   welcome.verticalAlignment = 'top'
+  // The full-window variant covers the page like an app overlay: Core insets the
+  // host's children below the status bar, and the sheet must reach the home indicator.
+  let insets = { top: 0, bottom: 0 }
+  if (fullWindow) {
+    GridLayout.setRowSpan(host, 2)
+    const window = edgeToEdge
+      ? (Application.ios?.window as UIWindow | undefined)
+      : undefined
+    if (window) {
+      const safe = window.safeAreaInsets
+      insets = { top: safe.top, bottom: safe.bottom }
+      host.iosIgnoreSafeArea = true
+      host.marginTop = -safe.top
+      host.marginBottom = -safe.bottom
+    }
+    const root = outer.parent as GridLayout
+    root.addChild(host)
+    // Keep the controls above the backdrop so real taps still reach them while the sheet is open.
+    GridLayout.setRow(controls, 0)
+    root.addChild(controls)
+    welcome.marginTop = insets.top + 52
+  } else {
+    outer.addChild(controls)
+    GridLayout.setRow(host, 1)
+    outer.addChild(host)
+  }
   const eyebrow = label('WEEKEND, AT YOUR PACE', 12)
   eyebrow.letterSpacing = 0.12
   welcome.addChild(eyebrow)
@@ -175,10 +209,10 @@ function mount(event: EventData) {
     handle,
     scrollView: scroll,
     backdrop,
-    snap: ['content', '50%', '90%'],
+    snap: fullWindow ? ['content', '50%', '100%'] : ['content', '50%', '90%'],
     returnFocus: open,
     keyboard: 'follow',
-    safeArea: { top: 0, bottom: 0 },
+    safeArea: edgeToEdge ? insets : fullWindow ? undefined : { top: 0, bottom: 0 },
     accessibility: { label: 'Stays sheet' },
     onChange(point) {
       if (status)
@@ -197,6 +231,8 @@ function mount(event: EventData) {
         field,
         grow,
         baselineNodes,
+        fullWindow: fullWindow ? { edgeToEdge, insets } : undefined,
+        argument: launchArgument('sheet-safe-area'),
         runId: launchArgument('sheet-run-id') ?? String(Date.now()),
       }).then((report) => {
         File.fromPath(

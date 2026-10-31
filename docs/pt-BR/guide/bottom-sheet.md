@@ -50,7 +50,9 @@ Arrastar para cima dentro da lista primeiro expande o painel e depois rola o con
 
 O backdrop, uma soltura para baixo, o voltar do Android e a ação nativa de acessibilidade podem fechar o sheet. `dismissible: false` desativa essas formas de fechamento pelo usuário; `sheet.dismiss()` continua funcionando. Um fechamento interrompido não chama `onDismiss` nem restaura o foco antes da hora.
 
-Os insets vêm do host. `safeArea: { top, bottom }` permite substituí-los quando o layout externo já cuida deles. Mantenha o host do overlay na mesma janela do painel e do teclado.
+Os insets de safe area vêm do host, em DIP. O Core já posiciona os filhos do host dentro desses insets, então o painel começa no inset superior do host e a altura útil desconta os dois insets. Sob um indicador de home, o painel se estende até a borda da janela enquanto o conteúdo fica acima do indicador; enquanto o teclado cobre essa borda, o painel termina no teclado. `safeArea: { top, bottom }` substitui os insets medidos quando o layout externo já cuida deles; um override de topo só soma ao posicionamento do host. Mantenha o host do overlay na mesma janela do painel e do teclado.
+
+<Clip name="bottom-sheet-safe-area-ios" caption="Entrada real via XCTest num simulador de iPhone 17 Pro (iOS 26.0) com host de janela inteira: o snap de conteúdo termina na borda da janela com as linhas acima do indicador de home, o snap total começa abaixo da barra de status e o painel acompanha o teclado. Gravação de simulador, não evidência de aparelho físico." />
 
 ## Acessibilidade e ciclo de vida
 

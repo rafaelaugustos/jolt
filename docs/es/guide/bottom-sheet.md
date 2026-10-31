@@ -50,7 +50,9 @@ Al arrastrar hacia arriba dentro de la lista, primero se expande el panel y lueg
 
 El fondo, una liberación hacia abajo, Android hacia atrás y la acción nativa de accesibilidad Descartar pueden cerrar la hoja. Configure `dismissible: false` para deshabilitar esas rutas de despido de usuarios; un `sheet.dismiss()` explícito todavía funciona. Un cierre interrumpido no llama a `onDismiss` ni restablece el enfoque prematuramente.
 
-Las inserciones del área segura provienen del host. `safeArea: { top, bottom }` puede anularlos cuando el diseño circundante ya tiene en cuenta esas inserciones. Mantenga el host de superposición en la misma ventana que el panel y el teclado.
+Los insets del área segura provienen del host, en DIP. Core ya coloca los hijos del host dentro de esos insets, así que el panel empieza en el inset superior del host y la altura útil descuenta ambos insets. Bajo un indicador de inicio, el panel se extiende hasta el borde de la ventana mientras el contenido queda por encima del indicador; mientras el teclado cubre ese borde, el panel termina en el teclado. `safeArea: { top, bottom }` reemplaza los insets medidos cuando el diseño circundante ya los tiene en cuenta; un override superior solo se suma a la colocación del host. Mantenga el host de superposición en la misma ventana que el panel y el teclado.
+
+<Clip name="bottom-sheet-safe-area-ios" caption="Entrada real de XCTest en un simulador de iPhone 17 Pro (iOS 26.0) con un host de ventana completa: el snap de contenido termina en el borde de la ventana con sus filas por encima del indicador de inicio, el snap completo empieza debajo de la barra de estado y el panel sigue al teclado. Grabación de simulador, no evidencia de dispositivo físico." />
 
 ## Accesibilidad y propiedad {#accessibility-and-ownership}
 

@@ -32,6 +32,18 @@ describe('bottom sheet stops in the usable window', () => {
     expect(aboveKeyboard.height).toBe(290)
   })
 
+  it('extends the panel under a home indicator only while the keyboard leaves it uncovered', () => {
+    const resting = sheetGeometry(['100%'], 874, 874, 874, 0, 62, 34, 0)
+    expect(resting).toMatchObject({ height: 778, closedY: 812, top: 62, extension: 34 })
+    expect(resting.stops[0]).toEqual({ point: '100%', height: 778, y: 0 })
+    const typing = sheetGeometry(['100%'], 874, 874, 874, 335, 62, 34, 0)
+    expect(typing).toMatchObject({ height: 477, extension: 0 })
+    const shallow = sheetGeometry(['100%'], 874, 874, 874, 20, 62, 34, 0)
+    expect(shallow).toMatchObject({ height: 778, extension: 14 })
+    const clamped = sheetGeometry(['100%'], 874, 874, 874, 0, 62, 34, 0, false)
+    expect(clamped).toMatchObject({ height: 778, extension: 0 })
+  })
+
   it('clamps oversized content and DIP snaps after rotation', () => {
     const geometry = sheetGeometry(['content', 500], 320, 320, 320, 0, 0, 20, 900)
     expect(geometry.stops.map((stop) => stop.height)).toEqual([300, 300])

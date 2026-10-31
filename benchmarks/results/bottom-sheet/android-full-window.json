@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "runId": "fullinset-1793435919",
+  "status": "passed",
+  "platform": "android",
+  "variant": "full-window",
+  "argument": "inset",
+  "checks": [
+    "full-window host reports its safe-area insets in DIPs",
+    "content snap reaches the window bottom with its content above the home indicator",
+    "full snap starts below the status bar and still reaches the window bottom",
+    "keyboard aligns the panel bottom with the keyboard top",
+    "disposal releases native ownership"
+  ],
+  "samples": [
+    { "insetTop": 0, "insetBottom": 0, "edge": 0 },
+    {
+      "panelY": 458.2865048363095,
+      "panelHeight": 838.4761904761905,
+      "panelLayoutHeight": 838.4761904761905,
+      "scrollHeight": 686.8571428571429,
+      "scrollTop": 613.7142857142857,
+      "paddingBottom": 0,
+      "effectivePaddingBottom": 0,
+      "hostTop": 51.80952380952381,
+      "windowHeight": 914.2857142857143,
+      "keyboardHeight": 0
+    },
+    { "actual": 458.2865048363095, "expected": 458.4761904761905, "tolerance": 3 },
+    {
+      "panelY": 0.0004889702513104393,
+      "panelHeight": 838.4761904761905,
+      "panelLayoutHeight": 838.4761904761905,
+      "scrollHeight": 686.8571428571429,
+      "scrollTop": 155.42857142857142,
+      "paddingBottom": 0,
+      "effectivePaddingBottom": 0,
+      "hostTop": 51.80952380952381,
+      "windowHeight": 914.2857142857143,
+      "keyboardHeight": 0
+    },
+    { "actual": 0.0004889702513104393, "expected": 0, "tolerance": 3 },
+    { "actual": 838.4766794464418, "expected": 838.4761904761905, "tolerance": 3 },
+    {
+      "panelY": 0,
+      "panelHeight": 526.0952380952381,
+      "panelLayoutHeight": 526.0952380952381,
+      "scrollHeight": 374.4761904761905,
+      "scrollTop": 155.42857142857142,
+      "paddingBottom": 0,
+      "effectivePaddingBottom": 0,
+      "hostTop": 51.80952380952381,
+      "windowHeight": 914.2857142857143,
+      "keyboardHeight": 336.3809523809524
+    },
+    { "actual": 0, "expected": 0, "tolerance": 3 },
+    { "actual": 577.9047619047619, "expected": 577.9047619047619, "tolerance": 3 },
+    { "actual": 0, "expected": 0, "tolerance": 3 },
+    { "actual": 838.4761904761905, "expected": 838.4761904761905, "tolerance": 3 }
+  ]
+}

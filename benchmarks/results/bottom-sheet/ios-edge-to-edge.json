@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "runId": "edge-1793435934",
+  "status": "passed",
+  "platform": "ios",
+  "variant": "edge-to-edge",
+  "argument": "true",
+  "checks": [
+    "full-window host reports its safe-area insets in DIPs",
+    "content snap reaches the window bottom with its content above the home indicator",
+    "full snap starts below the status bar and still reaches the window bottom",
+    "keyboard aligns the panel bottom with the keyboard top",
+    "disposal releases native ownership"
+  ],
+  "samples": [
+    { "insetTop": 62, "insetBottom": 34, "edge": 0 },
+    {
+      "panelY": 460.0012542219808,
+      "panelHeight": 812,
+      "panelLayoutHeight": 812,
+      "scrollHeight": 626,
+      "scrollTop": 564.0012542219808,
+      "paddingBottom": 34,
+      "effectivePaddingBottom": 102,
+      "hostTop": 0,
+      "windowHeight": 874,
+      "keyboardHeight": 0
+    },
+    { "actual": 460.0012542219808, "expected": 460, "tolerance": 3 },
+    {
+      "panelY": 62.00067361985509,
+      "panelHeight": 812,
+      "panelLayoutHeight": 812,
+      "scrollHeight": 626,
+      "scrollTop": 166.0006736198551,
+      "paddingBottom": 34,
+      "effectivePaddingBottom": 102,
+      "hostTop": 0,
+      "windowHeight": 874,
+      "keyboardHeight": 0
+    },
+    { "actual": 62.00067361985509, "expected": 62, "tolerance": 3 },
+    { "actual": 874.0006736198551, "expected": 874, "tolerance": 3 },
+    {
+      "panelY": 62,
+      "panelHeight": 467,
+      "panelLayoutHeight": 467,
+      "scrollHeight": 315,
+      "scrollTop": 166,
+      "paddingBottom": 0,
+      "effectivePaddingBottom": 0,
+      "hostTop": 0,
+      "windowHeight": 874,
+      "keyboardHeight": 345
+    },
+    { "actual": 62, "expected": 62, "tolerance": 3 },
+    { "actual": 529, "expected": 529, "tolerance": 3 },
+    { "actual": 62, "expected": 62, "tolerance": 3 },
+    { "actual": 874, "expected": 874, "tolerance": 3 }
+  ]
+}
