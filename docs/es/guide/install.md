@@ -4,11 +4,11 @@
 npm install @rafaelaugusto/jolt@next
 ```
 
-La **versión candidata 0.1.0-rc.2** se publica con la etiqueta `next`. El alcance de 0.1.0 está congelado mientras se valida la compatibilidad y se prepara la versión estable. Requiere `@nativescript/core` 8.9 o posterior. Es independiente del framework: recibe una vista o un elemento que la contiene, por lo que funciona con NativeScript-Vue, Angular, Svelte o NativeScript sin framework. Las aplicaciones NativeScript-Vue también pueden importar `@rafaelaugusto/jolt/vue` para usar [directivas y un componente de transición](./vue).
+La **versión candidata 0.1.0-rc.3** se publica con la etiqueta `next`. El alcance de 0.1.0 está congelado mientras se valida la compatibilidad y se prepara la versión estable. Requiere `@nativescript/core` 8.9 o posterior. Es independiente del framework: recibe una vista o un elemento que la contiene, por lo que funciona con NativeScript-Vue, Angular, Svelte o NativeScript sin framework. Las aplicaciones NativeScript-Vue también pueden importar `@rafaelaugusto/jolt/vue` para usar [directivas y un componente de transición](./vue).
 
 Jolt incluye código auxiliar nativo en iOS y Android. Vuelve a compilar la aplicación nativa después de instalar o actualizar Jolt; una actualización de JavaScript por sí sola no puede instalar código nativo.
 
-La versión candidata actual es **0.1.0-rc.2**. Para fijar esa versión, usa `npm install @rafaelaugusto/jolt@0.1.0-rc.2`. Si utilizas [adaptadores de propiedades nativas externas](./native-properties), instala también `@rafaelaugusto/jolt-native@0.1.0-rc.2` y vuelve a compilar la aplicación nativa.
+La versión candidata actual es **0.1.0-rc.3**. Para fijar esa versión, usa `npm install @rafaelaugusto/jolt@0.1.0-rc.3`. Si utilizas [adaptadores de propiedades nativas externas](./native-properties), instala también `@rafaelaugusto/jolt-native@0.1.0-rc.3` y vuelve a compilar la aplicación nativa.
 
 ## ProMotion en iOS {#promotion-on-ios}
 

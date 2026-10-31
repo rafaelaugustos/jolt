@@ -8,7 +8,7 @@ createApp(App).use(Jolt).start()
 
 <Clip name="vue" caption="JoltTransition 删除并恢复一行，v-animate 更改其入口。" />
 
-核心采用一个视图或一个包含视图的元素，因此 `animate(card.value, 'popIn')` 已经可以从模板引用开始工作，无论它位于元素上还是根为视图的组件上。 `@rafaelaugusto/jolt/vue` 添加了模板端：`v-animate`、`v-press`、`v-gradient` 和用于来来去去的视图的 `<JoltTransition>` 组件。它需要 NativeScript-Vue 3 并且仅由导入它的应用程序加载。
+核心采用一个视图或一个包含视图的元素，因此 `animate(card.value, 'popIn')` 已经可以从模板引用开始工作，无论它位于元素上还是（自 **0.1.0-rc.3** 起）根为视图的组件上。 `@rafaelaugusto/jolt/vue` 添加了模板端：`v-animate`、`v-press`、`v-gradient` 和用于来来去去的视图的 `<JoltTransition>` 组件。它需要 NativeScript-Vue 3 并且仅由导入它的应用程序加载。
 
 ## 范围内的组件运动 {#scoped-component-motion}
 

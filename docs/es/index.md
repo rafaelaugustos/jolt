@@ -63,7 +63,13 @@ features:
     link: /es/guide/scene-camera
 ---
 
-## 0.1.0-rc.2: correcciones del ciclo de vida y la composición {#release-candidate}
+## 0.1.0-rc.3: modales, formas y objetivos {#release-candidate}
+
+RC.3 añade [modales interactivos en iOS](/es/guide/interactive-navigation), construye [keyframes numéricos de Android en una sola llamada nativa](/es/guide/motion-values), permite [crear formas antes de que la vista se cargue](/es/guide/shapes) y acepta [refs de componente como objetivos](/es/guide/vue). Ajusta la [galería](/es/guide/gallery) y las [cabeceras de scroll](/es/guide/scroll-header) al texto grande del sistema y completa las auditorías físicas de [sensores](/es/guide/device-sensors) y de [bindings/capas](/es/guide/motion-values).
+
+La [vista previa](/es/guide/demo) tiene **74 ejemplos en cuatro idiomas**. [Instala RC.3](/es/guide/install) y reconstruye la aplicación nativa. Consulta las [notas de la versión](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.3) y la [aceptación pendiente en dispositivos físicos](/es/guide/not-there-yet) antes de la versión estable.
+
+## 0.1.0-rc.2: correcciones del ciclo de vida y la composición {#_0-1-0-rc-2-lifecycle-and-composition-fixes}
 
 RC.2 corrige [las anclas de scroll durante cambios de tamaño y recarga](/es/guide/scroll-header), [los gestos de retorno en iOS tras pasar a segundo plano](/es/guide/interactive-navigation), [la liberación de press en capas](/es/guide/press#layered-press) y [la sincronización de la composición nativa](/es/guide/layers). Incluye [arrastre nativo con resorte en el puntero](/es/guide/physics-attachments) y [validación del ciclo de vida de la galería en Android](/es/guide/gallery#android-rotation-and-resume).
 

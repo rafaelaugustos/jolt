@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+## 0.1.0-rc.3 (2026-10-31)
+
+- Publish matching core and optional native packages with 74 preview examples in four languages. Rebuild native applications after upgrading. Physical-device acceptance remains open for the gallery, scroll composition and sensors; composition-window rebuild cost is tracked in #260.
+- Create shapes before the view loads (#254): `shape()` attaches when the view loads, with the frame it holds at that point, and an animation requested before that starts once the surface attaches. Export `toView()`. The shape lab creates its surfaces on mount, with native audits and launch recordings on both platforms.
+- Accept NativeScript-Vue component instances as targets through their `$el` (#255), and describe an unsupported target without stringifying it.
+
 - Complete the bounded physical binding/layer audit (#242) with OS-input-to-native-pose onset, calibrated delay controls, process allocator snapshots and 15 repeated mount/unmount cycles on each phone. Preserve failed/inconclusive attempts and prior diagnostic failures, enforce evidence with offline negative controls, and document workload guidance in four locales. These measurements do not establish input-to-photon latency, universal capacity or unbounded leak freedom.
 
 - Build Android numeric keyframe tracks in one native call (#242), retaining the prior path for older app binaries. Preserve native interpolation, units and playback controls, with on-device equivalence checks and physical workload evidence. Rebuild Android to use the optimization.

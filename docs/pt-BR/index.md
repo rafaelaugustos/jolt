@@ -65,7 +65,13 @@ features:
     link: /pt-BR/guide/scene-camera
 ---
 
-## 0.1.0-rc.2: correções de ciclo de vida e composição {#release-candidate}
+## 0.1.0-rc.3: modais, formas e alvos {#release-candidate}
+
+A RC.3 adiciona [modais interativos no iOS](/pt-BR/guide/interactive-navigation), constrói [keyframes numéricos do Android em uma única chamada nativa](/pt-BR/guide/motion-values), permite [criar formas antes de a view carregar](/pt-BR/guide/shapes) e aceita [refs de componente como alvos](/pt-BR/guide/vue). Ajusta a [galeria](/pt-BR/guide/gallery) e os [cabeçalhos de scroll](/pt-BR/guide/scroll-header) ao texto grande do sistema e conclui as auditorias físicas de [sensores](/pt-BR/guide/device-sensors) e de [bindings/camadas](/pt-BR/guide/motion-values).
+
+O [preview](/pt-BR/guide/demo) tem **74 exemplos em quatro idiomas**. [Instale a RC.3](/pt-BR/guide/install) e recompile o app nativo. Confira as [notas do release](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.3) e as [validações pendentes em aparelhos físicos](/pt-BR/guide/not-there-yet) antes da estável.
+
+## 0.1.0-rc.2: correções de ciclo de vida e composição {#_0-1-0-rc-2-lifecycle-and-composition-fixes}
 
 A RC.2 corrige [âncoras de scroll durante resize e reload](/pt-BR/guide/scroll-header), [gestos de volta no iOS após background](/pt-BR/guide/interactive-navigation), [a soltura do press em camadas](/pt-BR/guide/press#layered-press) e [a sincronização da composição nativa](/pt-BR/guide/layers). Inclui [arraste nativo com mola no ponteiro](/pt-BR/guide/physics-attachments) e [validação do ciclo de vida da galeria no Android](/pt-BR/guide/gallery#android-rotation-and-resume).
 

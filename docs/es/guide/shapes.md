@@ -7,7 +7,7 @@ Dibuja una marca de verificación, revela un anillo o convierte un símbolo de r
 
 ## Dibujar un camino {#draw-a-path}
 
-Utilice una vista vacía dedicada. La forma puede crearse antes de que la vista se cargue, por ejemplo en un `onMounted` de Vue: se adjunta cuando la vista se carga, con los `strokeStart`/`strokeEnd` actuales, y una animación solicitada antes comienza al adjuntarse. La vista proporciona tamaño, accesibilidad y entrada; el renderizador no instala un controlador de gestos ni cambia la geometría de visita de la vista.
+Utilice una vista vacía dedicada. Desde **0.1.0-rc.3**, la forma puede crearse antes de que la vista se cargue, por ejemplo en un `onMounted` de Vue: se adjunta cuando la vista se carga, con los `strokeStart`/`strokeEnd` actuales, y una animación solicitada antes comienza al adjuntarse. La vista proporciona tamaño, accesibilidad y entrada; el renderizador no instala un controlador de gestos ni cambia la geometría de visita de la vista.
 
 <Clip name="shapes-mount-ios" caption="Simulador iOS: el laboratorio crea sus cuatro formas en onMounted, antes del diseño, por lo que ya aparecen dibujadas cuando surge la pantalla tras el lanzamiento; dos toques reales en Draw again animan los trazos. Interfaz en inglés; tiempo original, lanzamiento incluido." />
 <Clip name="shapes-mount-android" caption="Emulador Android: las mismas formas creadas al montar aparecen con la pantalla después de la splash de lanzamiento; dos toques reales ADB en Draw again vuelven a dibujar los trazos. Interfaz en inglés; tiempo original, no una medición de rendimiento en dispositivo físico." />
