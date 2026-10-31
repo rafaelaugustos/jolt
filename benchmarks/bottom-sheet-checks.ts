@@ -28,6 +28,29 @@ function nativeFrame(panel: View): { y: number; height: number } {
   const density = Utils.layout.getDisplayDensity()
   return { y: view.getY() / density, height: view.getHeight() / density }
 }
+/** The handle's native custom action labels, in order. */
+function actionLabels(handle: View): string[] {
+  if (isIOS) {
+    const actions = (handle.nativeViewProtected as UIView).accessibilityCustomActions
+    const labels: string[] = []
+    if (actions)
+      for (let i = 0; i < actions.count; i++) labels.push(actions.objectAtIndex(i).name)
+    return labels
+  }
+  const view = handle.nativeViewProtected as android.view.View
+  const node = view.createAccessibilityNodeInfo(),
+    actions = node.getActionList()
+  try {
+    const labels: string[] = []
+    for (let i = 0; i < actions.size(); i++) {
+      const label = actions.get(i).getLabel()
+      if (label) labels.push(String(label))
+    }
+    return labels
+  } finally {
+    node.recycle()
+  }
+}
 function accessibility(handle: View, label: string): void {
   const observed: string[] = []
   if (isIOS) {
@@ -322,13 +345,35 @@ export async function runBottomSheetChecks(input: {
     checks.push(stage)
 
     stage = 'native accessibility expand and collapse actions'
+    const offered = (expected: string[]) => {
+      const labels = actionLabels(handle).filter((label) =>
+        ['Expand', 'Collapse', 'Dismiss'].includes(label),
+      )
+      samples.push({ actions: labels.length, expected: expected.length, tolerance: 0 })
+      assert(
+        labels.join() === expected.join(),
+        `Handle offers ${labels.join(', ') || 'nothing'}; expected ${expected.join(', ')}`,
+      )
+    }
+    // The grown list made the content stop the largest, so the stops run 50%, 90%, content.
+    offered(['Expand', 'Dismiss'])
     accessibility(handle, 'Expand')
     assert(sheet.snapPoint === '90%', 'Expand action did not choose the next stop')
     await wait(900)
     near(nativeY(panel), host.getActualSize().height * 0.1)
+    offered(['Expand', 'Collapse', 'Dismiss'])
     accessibility(handle, 'Collapse')
     await wait(900)
     assert(sheet.snapPoint === '50%', 'Collapse action did not choose the previous stop')
+    sheet.open('content')
+    await wait(900)
+    offered(['Collapse', 'Dismiss'])
+    assert(
+      handle.accessibilityValue === 'content',
+      `Spoken value ${handle.accessibilityValue} is not the stop name`,
+    )
+    sheet.open('50%')
+    await wait(900)
     checks.push(stage)
 
     stage = 'reduced motion'

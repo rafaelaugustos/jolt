@@ -56,7 +56,7 @@ Os insets de safe area vêm do host, em DIP. O Core já posiciona os filhos do h
 
 ## Acessibilidade e ciclo de vida
 
-O handle recebe ações nativas Expand, Collapse e Dismiss, preservando ações existentes. Traduza os textos com `accessibility: { label, expand, collapse, dismiss }`. O voltar nativo só é interceptado enquanto o sheet está aberto e carregado. `returnFocus` indica o controle que deve recuperar o foco após o fechamento; sem ele, a receita captura o foco nativo atual. Reduced Motion segue a configuração do Jolt e a preferência do sistema.
+O handle recebe ações nativas: Expand quando existe um stop maior, Collapse quando existe um menor e Dismiss quando o sheet pode ser fechado, então um sheet de um snap só oferece Dismiss e o conjunto acompanha o stop selecionado. Ações existentes são preservadas. Traduza os textos com `accessibility: { label, expand, collapse, dismiss, value }`, em que `value(point)` formata o valor falado de cada stop e de `null` quando fechado; sem ele o nome do stop é falado, e nada para um único stop. O voltar nativo só é interceptado enquanto o sheet está aberto e carregado. `returnFocus` indica o controle que deve recuperar o foco após o fechamento; sem ele, a receita captura o foco nativo atual. Reduced Motion segue a configuração do Jolt e a preferência do sistema.
 
 O controle expõe `isOpen`, `snapPoint`, `visibleHeight`, `paused` e `disposed`, além de `open`, `snapTo`, `expand`, `collapse`, `dismiss`, `remeasure`, `pause`, `play` e `dispose`. `onChange(point)` informa o snap escolhido, ou `null` ao solicitar fechamento; `onDismiss()` espera a conclusão.
 

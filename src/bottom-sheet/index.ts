@@ -51,7 +51,18 @@ export interface BottomSheetOptions {
   safeArea?: { top?: number; bottom?: number }
   returnFocus?: View
   spring?: Pick<SpringValueOptions, 'stiffness' | 'damping' | 'mass'>
-  accessibility?: { label?: string; expand?: string; collapse?: string; dismiss?: string }
+  /**
+   * Spoken labels for the handle. Expand and Collapse appear only where a larger or smaller
+   * stop exists; `value` formats the spoken value per stop, with `null` when closed, and
+   * replaces the default, which is omitted for a single stop.
+   */
+  accessibility?: {
+    label?: string
+    expand?: string
+    collapse?: string
+    dismiss?: string
+    value?: (point: SheetSnap | null) => string | undefined
+  }
   onChange?: (point: SheetSnap | null) => void
   /** Called after a close settles; interrupted closes do not dismiss. */
   onDismiss?: () => void
@@ -182,6 +193,44 @@ export function bottomSheet(
     restoreFocus = () => {}
   const dismissible = options.dismissible !== false
   const followKeyboard = options.keyboard !== 'none'
+  const labels = options.accessibility
+  const spoken = (next: SheetSnap | null) =>
+    labels?.value
+      ? labels.value(next)
+      : points.length > 1
+        ? next === null
+          ? 'Closed'
+          : String(next)
+        : undefined
+  const announce = (next: SheetSnap | null) => {
+    handle.accessibilityValue = spoken(next) as string
+  }
+  let installed: string | undefined
+  // Only actions that can do something are offered; the set follows the selected stop.
+  function installActions() {
+    if (ended || !handle.isLoaded) return
+    const current = geometry?.stops.find((stop) => stop.point === point)
+    const larger =
+      !!current && geometry!.stops.some((stop) => stop.height > current.height + 0.01)
+    const smaller =
+      !!current && geometry!.stops.some((stop) => stop.height < current.height - 0.01)
+    const actions = [
+      ...(larger
+        ? [{ label: labels?.expand ?? 'Expand', run: () => adjacent(true) }]
+        : []),
+      ...(smaller
+        ? [{ label: labels?.collapse ?? 'Collapse', run: () => adjacent(false) }]
+        : []),
+      ...(dismissible
+        ? [{ label: labels?.dismiss ?? 'Dismiss', run: () => setTarget(null) }]
+        : []),
+    ]
+    const signature = actions.map((action) => action.label).join('\n')
+    if (signature === installed) return
+    releaseActions()
+    releaseActions = sheetActions(handle, actions)
+    installed = signature
+  }
   const keyboardOpen = () => followKeyboard && keyboard.visible
   const targetY = () =>
     !opened
@@ -262,7 +311,8 @@ export function bottomSheet(
       pendingDismiss ||= wasOpen
       dismissKeyboard(panel)
     }
-    handle.accessibilityValue = opened ? String(point) : 'Closed'
+    announce(opened ? point : null)
+    installActions()
     move()
     if (changed) report(() => options.onChange?.(next))
   }
@@ -341,7 +391,7 @@ export function bottomSheet(
           releaseClose = () => {}
           opened = true
           pendingDismiss = false
-          handle.accessibilityValue = String(point)
+          announce(point)
           if (!wasOpen) report(() => options.onChange?.(point))
         },
         onContactEnd(event) {
@@ -369,6 +419,7 @@ export function bottomSheet(
       releasePanel = bind(panel, { y: input.y })
       if (held || !opened) input.pause()
     }
+    installActions()
     if (
       !previous ||
       previous.closedY !== next.closedY ||
@@ -417,15 +468,8 @@ export function bottomSheet(
       restoreFocus = captureFocus(panel, options.returnFocus)
       focusCaptured = true
     }
-    releaseActions()
-    const labels = options.accessibility
-    releaseActions = sheetActions(handle, [
-      { label: labels?.expand ?? 'Expand', run: () => adjacent(true) },
-      { label: labels?.collapse ?? 'Collapse', run: () => adjacent(false) },
-      ...(dismissible
-        ? [{ label: labels?.dismiss ?? 'Dismiss', run: () => setTarget(null) }]
-        : []),
-    ])
+    installed = undefined
+    installActions()
     releaseKeyboard()
     releaseKeyboard = onKeyboard((state) => {
       keyboard = state
@@ -445,6 +489,7 @@ export function bottomSheet(
     if (backdrop) backdrop.visibility = 'hidden'
     releaseActions()
     releaseActions = () => {}
+    installed = undefined
     releaseKeyboard()
     releaseKeyboard = () => {}
     releasePanel()
@@ -540,7 +585,7 @@ export function bottomSheet(
   handle.accessible = true
   handle.accessibilityLabel =
     options.accessibility?.label ?? (handle.accessibilityLabel || 'Bottom sheet')
-  handle.accessibilityValue = 'Closed'
+  announce(null)
   if (backdrop) backdrop.visibility = 'hidden'
   for (const view of [panel, handle, ...(scroll ? [scroll] : [])])
     view.on('loaded', attach)

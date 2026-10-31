@@ -56,7 +56,7 @@ scope.dispose()
 
 ## 可访问性和所有权 {#accessibility-and-ownership}
 
-句柄接收原生展开、折叠和关闭自定义操作。现有的自定义操作将被保留。使用 `accessibility: { label, expand, collapse, dismiss }` 本地化它们；原生返回仅在工作表打开并加载时被拦截。 `returnFocus` 在完成解雇后确定要关注的开场球员。如果没有它，配方就会抓住当前的本地焦点。减少运动遵循 Jolt 的配置和平台偏好。
+句柄接收原生自定义操作：存在更大的停靠点时提供展开，存在更小的停靠点时提供折叠，可关闭时提供关闭，因此单一吸附点的工作表只提供关闭，并且操作集合随所选停靠点变化。现有的自定义操作将被保留。使用 `accessibility: { label, expand, collapse, dismiss, value }` 本地化它们，其中 `value(point)` 为每个停靠点以及关闭时的 `null` 生成朗读值；未提供时朗读停靠点名称，单一停靠点则不朗读；原生返回仅在工作表打开并加载时被拦截。 `returnFocus` 在完成解雇后确定要关注的开场球员。如果没有它，配方就会抓住当前的本地焦点。减少运动遵循 Jolt 的配置和平台偏好。
 
 控制器提供`isOpen`、`snapPoint`、`visibleHeight`、`paused`和`disposed`，以及`open`、`snapTo`、`expand`、`collapse`、 `dismiss`、`remeasure`、`pause`、`play` 和 `dispose`。 `onChange(point)` 报告选定的快照，或 `null` 报告关闭请求； `onDismiss()` 等待完成。
 
