@@ -10,6 +10,7 @@ onLaunch(() => {
   // Existing isolated recordings/probes retain their entry points. A normal
   // launch, including tapping the installed icon, always opens the collection.
   legacy.value = [
+    'background-playback',
     'playground',
     'screen',
     'autoplay',

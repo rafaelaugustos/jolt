@@ -36,9 +36,21 @@ Sólo es propiedad la obra registrada. Para un temporizador, por ejemplo, regist
 
 Los controladores de arrastre cancelan su contacto/liberación al suspender el alcance y aceptan nuevos gestos al reanudar. Ver [ciclo de vida del arrastre](./drag#ownership-and-lifecycle).
 
-`use(setup)` devuelve un eliminador idempotente. Registrar una suscripción mientras está suspendida pospone la configuración hasta que se reanude. Otros ayudantes y `add()` rechazan nuevos trabajos mientras están suspendidos. Configure la reproducción en curso a través del osciloscopio mientras está suspendido; no reanude manualmente sus identificadores individuales.
+`use(setup)` devuelve una función de eliminación idempotente. Las suscripciones registradas durante la suspensión esperan a que el ámbito se reanude. Los helpers y `add()` rechazan trabajo nuevo tras un `suspend()` explícito; el trabajo creado mientras solo la app está en segundo plano se registra y se suspende inmediatamente. No reanude handles individuales mientras su ámbito esté suspendido.
 
-Un evento nativo `unloaded` no es una destrucción permanente de componentes. El comportamiento de descarga de animación/efecto existente aún se aplica: las animaciones normales se cancelan al descargar y no se reinician automáticamente al recargar. El alcance sigue siendo reutilizable hasta su eliminación explícita. Llame a `suspend()/resume()` cuando conserve una página o componente y deséchelo en el límite de desmontaje real. Lea `size`, `suspended` y `disposed` para obtener diagnósticos del ciclo de vida; `size` cuenta las entradas propias, no las asignaciones de GPU.
+Un evento nativo `unloaded` no destruye permanentemente el componente. La eliminación normal de una vista sigue cancelando sus animaciones, sin reiniciarlas al recargar. La excepción es la descarga temporal de la raíz al pasar la app a segundo plano: el ámbito pausa la reproducción antes de la descarga y la conserva para el regreso. El ámbito sigue siendo reutilizable hasta `dispose()`. Use `suspend()/resume()` para páginas conservadas y libere los recursos al desmontar realmente. `size` cuenta recursos registrados, no asignaciones de GPU.
+
+## Segundo plano y regreso a la app {#app-background}
+
+Los ámbitos siguen automáticamente los eventos de suspensión y reanudación de NativeScript. La reproducción bajo su control continúa desde la posición conservada cuando vuelve la app, incluidos paths infinitos, stagger, repeticiones inversas y capas compuestas. Un handle pausado manualmente sigue pausado. La suspensión manual del ámbito y KeepAlive son independientes de la suspensión de la app: volver a la app no reactiva un componente inactivo. Las animaciones detenidas, eliminadas con `reset()` o liberadas no se reinician.
+
+La política de la tabla también se aplica en segundo plano: las suscripciones de `use()` se desconectan y se recrean; los recursos sin control de reproducción, incluidas las secuencias, se cancelan. Los listeners de la app se eliminan cuando el ámbito no tiene recursos. Esto se aplica al trabajo de `motionScope()` o `useMotionScope()`; las animaciones externas al ámbito conservan su ciclo de vida existente.
+
+<Clip name="background-playback-ios" caption="Simulador iOS 26.2: bucles nativos en Vue antes y después de salir mediante Home. Órbita, stagger, repetición inversa y dos capas continúan; el punto pausado manualmente queda inmóvil. Reproducción nativa real, sin dispositivo físico." />
+
+<Clip name="background-playback-android" caption="Emulador Android 16: la misma escena nativa en Vue continúa después de Home sin recrear los handles. El punto pausado manualmente queda inmóvil. La grabación no demuestra rendimiento en dispositivos físicos." />
+
+Las [pruebas automatizadas de segundo plano](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/background-playback.md) también cubren intervalos de 20 segundos, pausa/reanudación del ámbito y stop seguido de otro regreso a la app.
 
 ## Ciclo de vida de Vue {#vue-lifecycle}
 

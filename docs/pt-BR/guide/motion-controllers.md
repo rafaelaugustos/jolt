@@ -34,11 +34,23 @@ Só o trabalho registrado pertence ao escopo. Para um timer, use `motion.add(() 
 | `reset()`   | Limpa o trabalho atual e mantém o escopo reutilizável. Use antes de atribuir outra identidade a uma célula reciclada e registre o trabalho do novo item.              |
 | `dispose()` | Encerra o escopo definitivamente. Novos registros e animações lançam erro.                                                                                            |
 
-`use(setup)` retorna uma função idempotente para remover a subscription. Durante suspensão, novos registros via `use()` aguardam `resume()` para executar a factory. Outros helpers e `add()` rejeitam trabalho novo enquanto suspensos. Não retome manualmente handles individuais durante a suspensão do escopo.
+`use(setup)` retorna uma função idempotente de remoção. Assinaturas registradas durante a suspensão aguardam a retomada do escopo. Os helpers e `add()` rejeitam trabalho novo após `suspend()` explícito; trabalho criado enquanto apenas o app está em background é registrado e suspenso imediatamente. Não retome handles individuais enquanto o escopo estiver suspenso.
 
-O evento nativo `unloaded` não destrói o escopo. O comportamento de unload de cada animação/efeito continua valendo: animações comuns são canceladas e não reiniciam automaticamente ao recarregar. O escopo permanece reutilizável. Suspenda páginas/componentes mantidos em cache e destrua no unmount real. `size`, `suspended` e `disposed` ajudam a inspecionar o ciclo de vida; `size` conta recursos registrados, não memória de GPU.
+O evento nativo `unloaded` não destrói permanentemente o componente. A remoção normal de uma view continua cancelando suas animações, sem reiniciá-las no reload. A exceção é o unload temporário da raiz durante background: o escopo pausa a reprodução antes do unload e a preserva para a volta ao app. O escopo permanece reutilizável até `dispose()`. Use `suspend()/resume()` para páginas mantidas em cache e descarte no unmount real. `size` conta recursos registrados, não alocações de GPU.
 
 Controllers de drag cancelam o gesto e a soltura quando o escopo suspende, e aceitam gestos novos ao retomar. Veja [o ciclo de vida do drag](./drag#ciclo-de-vida).
+
+## Background e retorno ao app {#app-background}
+
+Os escopos acompanham automaticamente os eventos de suspensão e retomada do NativeScript. A reprodução sob seu controle continua da posição preservada quando o app retorna, incluindo paths infinitos, stagger, repetições reversas e composição de camadas. Um handle pausado manualmente continua pausado. A suspensão manual do escopo e a suspensão pelo KeepAlive são independentes da suspensão do app: voltar ao app não reativa um componente inativo. Animações interrompidas, removidas por `reset()` ou descartadas não reiniciam.
+
+A política da tabela também vale em background: assinaturas de `use()` são removidas e recriadas; recursos sem controle de playback, incluindo sequences, são cancelados. Os listeners do app são removidos quando o escopo fica sem recursos. Esse comportamento vale para trabalho pertencente a `motionScope()` ou `useMotionScope()`; animações fora de um escopo mantêm seu ciclo de vida existente.
+
+<Clip name="background-playback-ios" caption="Simulador iOS 26.2: loops nativos em Vue antes e depois de sair do app pelo Home. Órbita, stagger, repetição reversa e duas camadas continuam; o ponto pausado manualmente fica imóvel. Reprodução nativa real, sem aparelho físico." />
+
+<Clip name="background-playback-android" caption="Emulador Android 16: a mesma cena nativa em Vue retoma após Home sem recriar os handles. O ponto pausado manualmente fica imóvel. A gravação não comprova desempenho em aparelho físico." />
+
+Os [testes automatizados de background](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/background-playback.md) também cobrem intervalos de 20 segundos, pausa/retomada do escopo e stop seguido de outro retorno ao app.
 
 ## Integração Vue
 

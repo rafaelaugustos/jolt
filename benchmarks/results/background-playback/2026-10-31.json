@@ -1,0 +1,620 @@
+{
+  "date": "2026-10-31",
+  "base": "4363c59968fc13bdb68994fea9ddf927a3b5e867",
+  "issue": 273,
+  "build": "release, normal Vue demo, HMR disabled",
+  "platforms": {
+    "ios": {
+      "device": "iPhone 17 Pro simulator, iOS 26.2",
+      "baseline": {
+        "completed": {
+          "path": false,
+          "reverse": false,
+          "layer": false,
+          "composed": false,
+          "stagger": false
+        },
+        "remainingHandles": 1
+      },
+      "cycles": [
+        {
+          "backgroundMs": 20476,
+          "ownedHandlesBefore": 6,
+          "ownedHandlesAfter": 6,
+          "completed": {},
+          "poseDifferenceAtResume": {
+            "planet": {
+              "x": 0.07202869783554178,
+              "y": 0.15759045853965503,
+              "scaleX": 0.0005424171686172485,
+              "opacity": 0.0006468296051025391
+            },
+            "spark0": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 8.903916058500272e-5,
+              "opacity": 0.0001360774040222168
+            },
+            "spark1": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.001514221711249153,
+              "opacity": 0.002314925193786621
+            },
+            "spark2": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 7.52832355306321e-5,
+              "opacity": 0.00011539459228515625
+            },
+            "shadow": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.0011145156610442575,
+              "opacity": 0.0015780925750732422
+            },
+            "floating": {
+              "x": 0,
+              "y": 0.15812931853687573,
+              "scaleX": 0,
+              "opacity": 0
+            },
+            "held": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0,
+              "opacity": 0
+            }
+          },
+          "nativeMovementAfterResume": {
+            "planet": {
+              "x": 113.7448794798601,
+              "y": 54.46156178687416,
+              "scaleX": 0.3733361646533012,
+              "opacity": 0.46667027473449707
+            },
+            "spark0": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.4970973867639016,
+              "opacity": 0.7456694841384888
+            },
+            "spark1": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.49557694244028283,
+              "opacity": 0.7433586716651917
+            },
+            "spark2": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.49693376323553173,
+              "opacity": 0.7454058527946472
+            },
+            "shadow": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.4489001305942656,
+              "opacity": 0.648404061794281
+            },
+            "floating": {
+              "x": 0,
+              "y": 20.53071723730308,
+              "scaleX": 0,
+              "opacity": 0
+            },
+            "held": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0,
+              "opacity": 0
+            }
+          },
+          "manuallyPausedHandleRemainedPaused": true
+        },
+        {
+          "backgroundMs": 3277,
+          "ownedHandlesBefore": 6,
+          "ownedHandlesAfter": 6,
+          "completed": {},
+          "poseDifferenceAtResume": {
+            "planet": {
+              "x": 0.23974609683646975,
+              "y": 0.13024726600892933,
+              "scaleX": 0.0007700324058532715,
+              "opacity": 0.0009624958038330078
+            },
+            "spark0": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.001778532853372372,
+              "opacity": 0.0026679039001464844
+            },
+            "spark1": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.00032560505646306304,
+              "opacity": 0.0004884600639343262
+            },
+            "spark2": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.0013990296810260094,
+              "opacity": 0.002098560333251953
+            },
+            "shadow": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.0011116466242696577,
+              "opacity": 0.0016056597232818604
+            },
+            "floating": {
+              "x": 0,
+              "y": 0.2754245270452884,
+              "scaleX": 0,
+              "opacity": 0
+            },
+            "held": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0,
+              "opacity": 0
+            }
+          },
+          "nativeMovementAfterResume": {
+            "planet": {
+              "x": 96.55154271132531,
+              "y": 52.26011914983853,
+              "scaleX": 0.30488517433404916,
+              "opacity": 0.38116884231567383
+            },
+            "spark0": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.495652863165277,
+              "opacity": 0.7434844672679901
+            },
+            "spark1": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.49703493666154597,
+              "opacity": 0.7455475330352783
+            },
+            "spark2": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.49548455225610455,
+              "opacity": 0.7432319223880768
+            },
+            "shadow": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.447804323132345,
+              "opacity": 0.6468300223350525
+            },
+            "floating": {
+              "x": 0,
+              "y": 31.417448960265773,
+              "scaleX": 0,
+              "opacity": 0
+            },
+            "held": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0,
+              "opacity": 0
+            }
+          },
+          "manuallyPausedHandleRemainedPaused": true
+        },
+        {
+          "backgroundMs": 3292,
+          "ownedHandlesBefore": 6,
+          "ownedHandlesAfter": 6,
+          "completed": {},
+          "poseDifferenceAtResume": {
+            "planet": {
+              "x": 0.010696781162600644,
+              "y": 0.1701331020801531,
+              "scaleX": 0.0005549669265747514,
+              "opacity": 0.0006424784660339355
+            },
+            "spark0": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.0020174734649475168,
+              "opacity": 0.003289520740509033
+            },
+            "spark1": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.0008273297497902732,
+              "opacity": 0.001272737979888916
+            },
+            "spark2": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.0018218151771550728,
+              "opacity": 0.0027915239334106445
+            },
+            "shadow": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.0005518965346698046,
+              "opacity": 0.000762253999710083
+            },
+            "floating": {
+              "x": 0,
+              "y": 0.10393236867843214,
+              "scaleX": 0,
+              "opacity": 0
+            },
+            "held": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0,
+              "opacity": 0
+            }
+          },
+          "nativeMovementAfterResume": {
+            "planet": {
+              "x": 114.87473488680737,
+              "y": 58.26375503207767,
+              "scaleX": 0.376499705761671,
+              "opacity": 0.4706932306289673
+            },
+            "spark0": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.49691287210607094,
+              "opacity": 0.7453633248806
+            },
+            "spark1": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.49518668692733636,
+              "opacity": 0.742775022983551
+            },
+            "spark2": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.4970807252859476,
+              "opacity": 0.7456139624118805
+            },
+            "shadow": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.4434979130186518,
+              "opacity": 0.6406176686286926
+            },
+            "floating": {
+              "x": 0,
+              "y": 27.552097320585016,
+              "scaleX": 0,
+              "opacity": 0
+            },
+            "held": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0,
+              "opacity": 0
+            }
+          },
+          "manuallyPausedHandleRemainedPaused": true
+        }
+      ],
+      "manualPauseResumeReset": "passed",
+      "remainingHandlesAfterResetAndReturn": 0,
+      "traceSha256": "eaf88d560efc82b3c098d2d5c1fe1457718801e53c5f066e095cb2f6b92f0f07"
+    },
+    "android": {
+      "device": "JoltReview emulator, Android 16 / API 36",
+      "baseline": {
+        "completed": {
+          "path": false,
+          "reverse": false,
+          "layer": false,
+          "composed": false,
+          "stagger": false
+        },
+        "remainingHandles": 1
+      },
+      "cycles": [
+        {
+          "backgroundMs": 20018,
+          "ownedHandlesBefore": 6,
+          "ownedHandlesAfter": 6,
+          "completed": {},
+          "poseDifferenceAtResume": {
+            "planet": {
+              "x": 0.0,
+              "y": 0.0,
+              "scaleX": 0.0,
+              "opacity": 0.0
+            },
+            "spark0": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.0,
+              "opacity": 0.0
+            },
+            "spark1": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.0,
+              "opacity": 0.0
+            },
+            "spark2": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.0,
+              "opacity": 0.0
+            },
+            "shadow": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.0,
+              "opacity": 0.0
+            },
+            "floating": {
+              "x": 0,
+              "y": 0.04424858093261719,
+              "scaleX": 0,
+              "opacity": 0
+            },
+            "held": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0,
+              "opacity": 0
+            }
+          },
+          "nativeMovementAfterResume": {
+            "planet": {
+              "x": 173.69523811340332,
+              "y": 157.4433135986328,
+              "scaleX": 0.21333330869674683,
+              "opacity": 0.2666666507720947
+            },
+            "spark0": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.49857819080352783,
+              "opacity": 0.7478672862052917
+            },
+            "spark1": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.4951022267341614,
+              "opacity": 0.7426532804965973
+            },
+            "spark2": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.49857819080352783,
+              "opacity": 0.7478672862052917
+            },
+            "shadow": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.44442206621170044,
+              "opacity": 0.641942948102951
+            },
+            "floating": {
+              "x": 0,
+              "y": 77.55348777770996,
+              "scaleX": 0,
+              "opacity": 0
+            },
+            "held": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0,
+              "opacity": 0
+            }
+          },
+          "manuallyPausedHandleRemainedPaused": true
+        },
+        {
+          "backgroundMs": 3040,
+          "ownedHandlesBefore": 6,
+          "ownedHandlesAfter": 6,
+          "completed": {},
+          "poseDifferenceAtResume": {
+            "planet": {
+              "x": 0.0,
+              "y": 0.0,
+              "scaleX": 0.0,
+              "opacity": 0.0
+            },
+            "spark0": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.0,
+              "opacity": 0.0
+            },
+            "spark1": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.0,
+              "opacity": 0.0
+            },
+            "spark2": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.0,
+              "opacity": 0.0
+            },
+            "shadow": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.0,
+              "opacity": 0.0
+            },
+            "floating": {
+              "x": 0,
+              "y": 1.9544153213500977,
+              "scaleX": 0,
+              "opacity": 0
+            },
+            "held": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0,
+              "opacity": 0
+            }
+          },
+          "nativeMovementAfterResume": {
+            "planet": {
+              "x": 300.0896301269531,
+              "y": 90.93975925445557,
+              "scaleX": 0.3710666298866272,
+              "opacity": 0.4638333320617676
+            },
+            "spark0": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.4932597875595093,
+              "opacity": 0.7398896217346191
+            },
+            "spark1": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.49718332290649414,
+              "opacity": 0.7457749247550964
+            },
+            "spark2": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.4932597875595093,
+              "opacity": 0.7398896217346191
+            },
+            "shadow": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.4466037154197693,
+              "opacity": 0.6450943052768707
+            },
+            "floating": {
+              "x": 0,
+              "y": 82.52030754089355,
+              "scaleX": 0,
+              "opacity": 0
+            },
+            "held": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0,
+              "opacity": 0
+            }
+          },
+          "manuallyPausedHandleRemainedPaused": true
+        },
+        {
+          "backgroundMs": 2987,
+          "ownedHandlesBefore": 6,
+          "ownedHandlesAfter": 6,
+          "completed": {},
+          "poseDifferenceAtResume": {
+            "planet": {
+              "x": 0.0,
+              "y": 0.0,
+              "scaleX": 0.0,
+              "opacity": 0.0
+            },
+            "spark0": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.0,
+              "opacity": 0.0
+            },
+            "spark1": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.0,
+              "opacity": 0.0
+            },
+            "spark2": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.0,
+              "opacity": 0.0
+            },
+            "shadow": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.0,
+              "opacity": 0.0
+            },
+            "floating": {
+              "x": 0,
+              "y": 0.076995849609375,
+              "scaleX": 0,
+              "opacity": 0
+            },
+            "held": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0,
+              "opacity": 0
+            }
+          },
+          "nativeMovementAfterResume": {
+            "planet": {
+              "x": 249.02564239501953,
+              "y": 157.47480010986328,
+              "scaleX": 0.29546666145324707,
+              "opacity": 0.36933326721191406
+            },
+            "spark0": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.49050289392471313,
+              "opacity": 0.7357541620731354
+            },
+            "spark1": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.4965825080871582,
+              "opacity": 0.7448737621307373
+            },
+            "spark2": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.49050289392471313,
+              "opacity": 0.7357541620731354
+            },
+            "shadow": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0.44784003496170044,
+              "opacity": 0.646880030632019
+            },
+            "floating": {
+              "x": 0,
+              "y": 78.43565368652344,
+              "scaleX": 0,
+              "opacity": 0
+            },
+            "held": {
+              "x": 0,
+              "y": 0,
+              "scaleX": 0,
+              "opacity": 0
+            }
+          },
+          "manuallyPausedHandleRemainedPaused": true
+        }
+      ],
+      "manualPauseResumeReset": "passed",
+      "remainingHandlesAfterResetAndReturn": 0,
+      "traceSha256": "aba2b4d425ff8ff406ffbdd6467a435c04ceb7f808c3dc1705970b3f207ca8b9"
+    }
+  },
+  "limits": [
+    "Native presentation sampled at 5 Hz by an opt-in diagnostic, not a frame pacing/performance measurement.",
+    "iOS translations are points; Android native translations are pixels.",
+    "No physical devices used for this fix. App process termination and OS restoration are outside scope.",
+    "The orbit uses 6 seconds for visibility; the issue reports 30 seconds. Both are endless playback."
+  ]
+}

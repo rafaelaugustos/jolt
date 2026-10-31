@@ -36,9 +36,21 @@ Only registered work is owned. For a timer, for example, register `motion.add(()
 
 Drag controllers cancel their contact/release on scope suspension and accept new gestures on resume. See [drag lifecycle](./drag#ownership-and-lifecycle).
 
-`use(setup)` returns an idempotent remover. Registering a subscription while suspended defers setup until resume. Other helpers and `add()` reject new work while suspended. Configure ongoing playback through the scope while it is suspended; do not manually resume its individual handles.
+`use(setup)` returns an idempotent remover. Subscriptions registered while suspended wait until the scope resumes. Helpers and `add()` reject new work after an explicit `suspend()`; work created while only the app is backgrounded is adopted and suspended immediately. Do not manually resume individual handles while their scope is suspended.
 
-A native `unloaded` event is not permanent component destruction. Existing animation/effect unload behavior still applies: ordinary animations cancel on unload and do not restart automatically on reload. The scope remains reusable until explicit disposal. Call `suspend()/resume()` when retaining a page or component, and dispose at the actual unmount boundary. Read `size`, `suspended` and `disposed` for lifecycle diagnostics; `size` counts owned entries, not GPU allocations.
+A native `unloaded` event is not permanent component destruction. Ordinary view removal still cancels animations; it does not restart them on reload. The exception is temporary root unload during app background: the scope pauses its playback before unload and preserves it for foreground. The scope remains reusable until explicit disposal. Call `suspend()/resume()` for retained pages and dispose at actual unmount. `size` counts owned entries, not GPU allocations.
+
+## App background and foreground {#app-background}
+
+Scopes automatically follow NativeScript application suspend/resume events. Owned playback continues from its held position when the app returns, including endless paths, stagger, reverse repeats and composed layers. A handle already paused by the caller stays paused. Manual scope suspension and Vue KeepAlive suspension remain independent of app suspension: returning to the app does not reactivate an inactive component. A stopped, reset or disposed animation never restarts.
+
+The suspension policy in the table also applies in background: `use()` subscriptions are detached and recreated; non-playable resources, including sequences, are cancelled. Lifecycle listeners are removed when the scope has no owned entries. This behavior applies to work owned by `motionScope()` or `useMotionScope()`; unscoped animations retain their existing lifecycle.
+
+<Clip name="background-playback-ios" caption="iOS 26.2 simulator: native Vue loops before and after leaving the app via Home. Orbit, stagger, reverse and two layers continue; the manually paused dot stays still. Real native playback, not a physical-device recording." />
+
+<Clip name="background-playback-android" caption="Android 16 emulator: the same native Vue scene resumes after Home without recreating its animation handles. The manually paused dot stays still. This recording does not establish physical-device performance." />
+
+The automated [background playback checks](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/background-playback.md) also cover 20-second background intervals, scope pause/resume and stop followed by another app return.
 
 ## Vue lifecycle
 
