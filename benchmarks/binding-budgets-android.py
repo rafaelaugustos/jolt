@@ -16,6 +16,7 @@ def main():
     parser.add_argument('output', type=Path)
     parser.add_argument('--case', choices=('drag-js', 'pan-native', 'scroll-js', 'header-native'))
     parser.add_argument('--recording', action='store_true')
+    parser.add_argument('--delay-ms', type=int, choices=(0, 40), default=0)
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
 
@@ -42,13 +43,15 @@ def main():
         adb('shell', 'input', 'tap', str((x1+x2)//2), str((y1+y2)//2))
 
     for kind in ([args.case] if args.case else ('drag-js', 'pan-native', 'scroll-js', 'header-native')):
-        if (args.output/f'{kind}.json').exists():
+        suffix = f'-delay-{args.delay_ms}' if args.delay_ms else ''
+        if (args.output/f'{kind}{suffix}.json').exists():
             raise SystemExit('Choose a new output directory; evidence is never overwritten.')
         session = f'input-{kind}-{time.time_ns()}'
         adb('shell', 'am', 'force-stop', APP)
         adb('shell', 'am', 'start', '-n', APP+'/com.tns.NativeScriptActivity',
             '--es', 'budget-input', kind, '--es', 'budget-session', session,
-            '--es', 'budget-recording', str(args.recording).lower())
+            '--es', 'budget-recording', str(args.recording).lower(),
+            '--es', 'budget-input-delay-ms', str(args.delay_ms))
         deadline = time.monotonic() + 20
         while True:
             try:
@@ -69,13 +72,13 @@ def main():
                 b = ((x1+x2)//2, int(y1+(y2-y1)*.25))
             for start, end in ((a,b),(b,a)):
                 adb('shell', 'input', 'swipe', *map(str, (*start,*end,650)))
-                time.sleep(.25)
+                time.sleep(1.2)
         tap('budget-input-control')
         time.sleep(1)
-        text = adb('shell', 'cat', f'/sdcard/Android/data/{APP}/files/binding-input-{kind}.json')
+        text = adb('shell', 'cat', f'/sdcard/Android/data/{APP}/files/binding-input-{kind}{suffix}.json')
         report = json.loads(text)
         assert report['session'] == session and report['completed'] is True
-        (args.output/f'{kind}.json').write_text(text)
+        (args.output/f'{kind}{suffix}.json').write_text(text)
         print(f'{kind}: captured', flush=True)
 
 

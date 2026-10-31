@@ -237,7 +237,7 @@ drag(sheet, {
 | [原生手势](./gestures)、[连续弹簧](./live-springs)、[传感器](./device-sensors)与[滚动页头](./scroll-header) | 支持的输入和绑定由原生代码计算；JavaScript 负责设置和生命周期边界。       |
 | `subscribe()`                                                                                               | 通过共享帧源显式使用 JavaScript 观察值。                                  |
 
-原生连续数据源不会将普通的 `drag()` 或 `scrollValue()` 自动变为原生事件路径。各指南说明了支持的属性和生命周期契约。真机上的绑定/层数量预算及复杂界面的测量仍由 [#242](https://github.com/rafaelaugustos/jolt/issues/242) 跟踪。
+原生连续数据源不会将普通的 `drag()` 或 `scrollValue()` 自动变为原生事件路径。各指南说明了支持的属性和生命周期契约。真机上的绑定/层数量及复杂界面的测量和限制见 [#242](https://github.com/rafaelaugustos/jolt/issues/242)。
 
 ## 绑定成本实测 {#binding-measurements}
 
@@ -245,9 +245,15 @@ drag(sheet, {
 
 在这台 iPhone 上，包含 64 个视图、三个属性的 motion value 负载每次重建合成窗口需要 **82–95 ms**。周期兼容的循环在播放过程中无需提交新轨道。即使只有 16 个视图，窗口边界的工作也超过了一个 60 Hz 间隔。重复运动应优先使用周期兼容的原生循环；在交互期间使用窗口合成前，应实测大量绑定的成本。这些是特定负载的结果，并非通用绑定数量上限。
 
-输入审计对 `drag()`、原生平移、`scrollValue()` 和 `scrollHeader()` 使用真实手势。原生路径没有记录逐次移动的 JS 回调；所有路径释放后，跟踪到的工作均归零。显示回调不等于实际呈现的 FPS，本次也未测量输入到画面显示的延迟。原始数据、CPU/内存指标范围及实体设备验收的剩余项目见报告和 [#242](https://github.com/rafaelaugustos/jolt/issues/242)。
+输入审计对 `drag()`、原生平移、`scrollValue()` 和 `scrollHeader()` 使用真实手势。原生路径没有记录逐次移动的 JS 回调；所有路径释放后，跟踪到的工作均归零。显示回调不等于实际呈现的 FPS，本次也未测量输入到画面显示的延迟。原始数据、CPU/内存指标范围及实体设备测量的范围见报告和 [#242](https://github.com/rafaelaugustos/jolt/issues/242)。
 
 后续[实体 Android 审计](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/binding-budgets.md#physical-android-follow-up-2026-10-30)在 ASUS_Z017DC、Android 8 / API 26 上完成了 22 种负载、66 次试验，以及四组自动手势/滚动测试。20 种负载通过诊断检查；两组采样稀疏的窗口明确保留为失败结果。本次运行中，即使只有一个视图，合成窗口边界也耗时 **116–130 ms**。两条原生输入路径均无逐次移动的 JS 回调，四组输入测试均释放了所跟踪的资源。该系统版本无法提供热状态信息，因此这些观察不能作为受控温度条件下的容量结论。下方现有视频保留原平台标签；新的 Android 测量未录屏。
+
+Android 构建现在通过一次 Java 调用创建每条数值关键帧轨迹，避免为每个采样点创建 JavaScript 代理。重新构建原生应用即可使用此路径；旧版原生二进制仍使用原有播放路径。属性组合和播放控制保持一致。[真机对比](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/binding-budgets.md#android-keyframe-construction-in-bulk)分别报告准备、窗口重建与显示相关的测量范围。上方现有的图层录像展示原有行为，并非此次性能测量的录像。
+
+[内存保留与输入响应起点的后续测量](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/binding-budgets.md#repeated-disposal-and-native-input-onset-2026-10-30)在两台实体手机上自动运行。每台设备在 15 次挂载/卸载循环中释放了全部 960 个被观察的原生视图，结束时没有被跟踪的待执行工作。报告分别记录请求回收前后的分配器占用、进程内存，以及四条输入路径从系统事件时间戳到首次采样到的原生输出变化的间隔。数据保留了 header 钳位导致的无变化手势，以及 iPhone 上较长的 drag 起始延迟；它们不代表屏幕实际显示的延迟，也不能证明无限期运行无泄漏。现有录像展示这些场景；新测量未录屏。
+
+高开销窗口的优化与播放停顿的调查由 [#260](https://github.com/rafaelaugustos/jolt/issues/260) 跟踪。
 
 <Clip name="binding-budget-ios" caption="通过 Device Hub 镜像的实体 iPhone 17 Pro：真实点击启动 64 个视图、三个属性的合成窗口负载。英文界面，原始时间；与未录屏测量分开运行。镜像视频不能衡量实际呈现帧。" />
 <Clip name="binding-budget-android" caption="Android 模拟器：真实 ADB 滑动通过原生平移驱动 64 个视图，随后释放资源。英文界面，原始时间；独立演示运行，不代表实体 Android 的容量。" />

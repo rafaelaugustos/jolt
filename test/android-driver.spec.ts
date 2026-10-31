@@ -149,6 +149,24 @@ class NativeGroup extends NativeView {
   }
 }
 
+class KeyframeFactory {
+  static create = vi.fn(
+    (
+      view: NativeView,
+      property: string,
+      times: number[],
+      values: number[],
+      unit: number,
+    ) =>
+      new NativeAnimator(view, [
+        {
+          property,
+          frames: values.map((v, i) => ({ offset: times[i], value: v * unit })),
+        },
+      ]),
+  )
+}
+
 class NativeAnimator {
   cameraAtStart: number | undefined
   listener!: {
@@ -260,6 +278,7 @@ beforeEach(() => {
   markers = []
   durationScale = 1
   sdk = 34
+  KeyframeFactory.create.mockClear()
   createDescriptor = Object.getOwnPropertyDescriptor(Array, 'create')
   Object.defineProperty(Array, 'create', {
     configurable: true,
@@ -327,7 +346,9 @@ beforeEach(() => {
       },
     },
   })
-  vi.stubGlobal('org', { rafaelaugusto: { jolt: { ColorTarget, DecorationTarget } } })
+  vi.stubGlobal('org', {
+    rafaelaugusto: { jolt: { ColorTarget, DecorationTarget, KeyframeFactory } },
+  })
   setDriver(createAndroidDriver())
 })
 
@@ -337,6 +358,21 @@ function container() {
   view.nativeViewProtected = native
   return { view, native }
 }
+
+it('uses bulk numeric keyframes and preserves the pre-rebuild fallback', () => {
+  const { view } = container()
+  const perSample = vi.spyOn(android.animation.Keyframe, 'ofFloat')
+  const bulk = animate(view, { opacity: [1, 0.2, 0.6] }, { duration: 400 })
+  expect(KeyframeFactory.create).toHaveBeenCalledOnce()
+  expect(perSample).not.toHaveBeenCalled()
+  const expected = animators[0]!.holders[0]!
+  bulk.stop()
+  vi.stubGlobal('org', { rafaelaugusto: { jolt: { ColorTarget, DecorationTarget } } })
+  animate(view, { opacity: [1, 0.2, 0.6] }, { duration: 400 })
+  expect(KeyframeFactory.create).toHaveBeenCalledOnce()
+  expect(animators[1]!.holders[0]).toMatchObject(expected)
+  expect(perSample).toHaveBeenCalled()
+})
 
 describe('Android fades of containers that let children overflow', () => {
   it('fades the children one by one so nothing outside the container is cut off', async () => {

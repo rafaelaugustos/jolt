@@ -1,0 +1,1768 @@
+{
+  "dateLocal": "2026-10-30",
+  "recording": false,
+  "reports": {
+    "2026-10-30-latency-android-drag-js-delay-40.json.gz": {
+      "decompressedSha256": "54870f34fdf0738c71ef722a0dcd78d0a0646d6bbcbf08054980694d928bbca1",
+      "session": "input-drag-js-1793404912007875000",
+      "build": {
+        "commit": "488cdab9019fa7740536397098c5e8712289f7ec",
+        "dirty": false,
+        "jolt": "0.1.0-rc.2",
+        "core": "9.1.3",
+        "runtime": "9.1.1",
+        "driverSha256": "1d66fb35e6f24abcc71ddd2c6bf7f11f646ef808288c094fed0a2903e8527aec",
+        "bundleMode": "production",
+        "builtAt": "2026-10-30T23:48:02.566Z"
+      },
+      "device": {
+        "physical": true,
+        "model": "asus ASUS_Z017DC",
+        "os": "8.0.0",
+        "osBuild": "asus/WW_Phone/ASUS_Z017D_1:8.0.0/OPR1.170623.026/15.0410.1806.68-0:user/release-keys",
+        "apiLevel": 26,
+        "thermalStatusAvailable": false,
+        "maximumRefreshHz": 60.000003814697266,
+        "animatorScale": 1,
+        "resources": {
+          "timeMs": 391445967.300152,
+          "cpuMs": 2516,
+          "memoryBytes": 115228672,
+          "memoryMetric": "rss",
+          "thermalState": null,
+          "lowPowerMode": false
+        }
+      },
+      "summary": {
+        "input": "drag-js",
+        "physical": true,
+        "thermalStatus": "unavailable",
+        "observedMovementDip": 24,
+        "durationMs": 18846.347441017628,
+        "processCpuMs": 2925,
+        "jsMoveCallbacks": 124,
+        "nativeSamples": 1113,
+        "sampledPeakMiB": 124.59765625,
+        "inputToPhotonLatency": "not measured",
+        "delayMs": 40,
+        "inputEvents": 130,
+        "probeWorkMs": 242.2279188632965,
+        "deliveryAgeMs": {
+          "n": 118,
+          "min": 5.700877010822296,
+          "p50": 20.324937999248505,
+          "p95": 21.312644004821777,
+          "max": 35.70790898799896
+        },
+        "eventToNativePoseMs": {
+          "n": 6,
+          "min": 67.65842998027802,
+          "p50": 74.29905301332474,
+          "p95": 75.01108300685883,
+          "max": 75.01108300685883
+        },
+        "dispatchToNativePoseMs": {
+          "n": 6,
+          "min": 53.06677097082138,
+          "p50": 53.26630198955536,
+          "p95": 57.63958299160004,
+          "max": 57.63958299160004
+        },
+        "observations": [
+          {
+            "gesture": 0,
+            "downMs": 391452958,
+            "firstMoveMs": 391453009,
+            "firstMoveDispatchMs": 391453019.018847,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 391453076.65843,
+            "eventToPoseMs": 67.65842998027802,
+            "dispatchToPoseMs": 57.63958299160004
+          },
+          {
+            "gesture": 1,
+            "downMs": 391455596,
+            "firstMoveMs": 391455623,
+            "firstMoveDispatchMs": 391455642.490408,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 391455696.54046,
+            "eventToPoseMs": 73.5404599905014,
+            "dispatchToPoseMs": 54.05005198717117
+          },
+          {
+            "gesture": 2,
+            "downMs": 391458291,
+            "firstMoveMs": 391458313,
+            "firstMoveDispatchMs": 391458334.032751,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 391458387.299053,
+            "eventToPoseMs": 74.29905301332474,
+            "dispatchToPoseMs": 53.26630198955536
+          },
+          {
+            "gesture": 3,
+            "downMs": 391460946,
+            "firstMoveMs": 391460968,
+            "firstMoveDispatchMs": 391460989.602958,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 391461043.011083,
+            "eventToPoseMs": 75.01108300685883,
+            "dispatchToPoseMs": 53.4081249833107
+          },
+          {
+            "gesture": 4,
+            "downMs": 391463616,
+            "firstMoveMs": 391463643,
+            "firstMoveDispatchMs": 391463664.224259,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 391463717.455718,
+            "eventToPoseMs": 74.45571798086166,
+            "dispatchToPoseMs": 53.231458961963654
+          },
+          {
+            "gesture": 5,
+            "downMs": 391466245,
+            "firstMoveMs": 391466280,
+            "firstMoveDispatchMs": 391466301.709935,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 391466354.776706,
+            "eventToPoseMs": 74.7767059803009,
+            "dispatchToPoseMs": 53.06677097082138
+          }
+        ]
+      }
+    },
+    "2026-10-30-latency-android-drag-js.json.gz": {
+      "decompressedSha256": "c4f80cc0c75e2e13e92c40cc9f119bbb71f3c14dc6d92c9e219d079ce5b6c725",
+      "session": "input-drag-js-1793404691030533000",
+      "build": {
+        "commit": "488cdab9019fa7740536397098c5e8712289f7ec",
+        "dirty": false,
+        "jolt": "0.1.0-rc.2",
+        "core": "9.1.3",
+        "runtime": "9.1.1",
+        "driverSha256": "1d66fb35e6f24abcc71ddd2c6bf7f11f646ef808288c094fed0a2903e8527aec",
+        "bundleMode": "production",
+        "builtAt": "2026-10-30T23:48:02.566Z"
+      },
+      "device": {
+        "physical": true,
+        "model": "asus ASUS_Z017DC",
+        "os": "8.0.0",
+        "osBuild": "asus/WW_Phone/ASUS_Z017D_1:8.0.0/OPR1.170623.026/15.0410.1806.68-0:user/release-keys",
+        "apiLevel": 26,
+        "thermalStatusAvailable": false,
+        "maximumRefreshHz": 60.000003814697266,
+        "animatorScale": 1,
+        "resources": {
+          "timeMs": 391225106.085392,
+          "cpuMs": 2596,
+          "memoryBytes": 115273728,
+          "memoryMetric": "rss",
+          "thermalState": null,
+          "lowPowerMode": false
+        }
+      },
+      "summary": {
+        "input": "drag-js",
+        "physical": true,
+        "thermalStatus": "unavailable",
+        "observedMovementDip": 24,
+        "durationMs": 19150.182075977325,
+        "processCpuMs": 3053,
+        "jsMoveCallbacks": 134,
+        "nativeSamples": 1142,
+        "sampledPeakMiB": 126.44921875,
+        "inputToPhotonLatency": "not measured",
+        "delayMs": 0,
+        "inputEvents": 140,
+        "probeWorkMs": 1.0077000856399536,
+        "deliveryAgeMs": {
+          "n": 128,
+          "min": 5.773039996623993,
+          "p50": 20.581740975379944,
+          "p95": 21.835905015468597,
+          "max": 31.647576987743378
+        },
+        "eventToNativePoseMs": {
+          "n": 6,
+          "min": 17.886008977890015,
+          "p50": 27.22002500295639,
+          "p95": 34.70861601829529,
+          "max": 34.70861601829529
+        },
+        "dispatchToNativePoseMs": {
+          "n": 6,
+          "min": 12.112968981266022,
+          "p50": 12.687291979789734,
+          "p95": 17.152969002723694,
+          "max": 17.152969002723694
+        },
+        "observations": [
+          {
+            "gesture": 0,
+            "downMs": 391232354,
+            "firstMoveMs": 391232409,
+            "firstMoveDispatchMs": 391232419.067056,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 391232436.220025,
+            "eventToPoseMs": 27.22002500295639,
+            "dispatchToPoseMs": 17.152969002723694
+          },
+          {
+            "gesture": 1,
+            "downMs": 391235060,
+            "firstMoveMs": 391235089,
+            "firstMoveDispatchMs": 391235109.388253,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 391235122.914555,
+            "eventToPoseMs": 33.91455501317978,
+            "dispatchToPoseMs": 13.52630203962326
+          },
+          {
+            "gesture": 2,
+            "downMs": 391237732,
+            "firstMoveMs": 391237761,
+            "firstMoveDispatchMs": 391237782.922314,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 391237795.708616,
+            "eventToPoseMs": 34.70861601829529,
+            "dispatchToPoseMs": 12.786302030086517
+          },
+          {
+            "gesture": 3,
+            "downMs": 391240440,
+            "firstMoveMs": 391240468,
+            "firstMoveDispatchMs": 391240489.887157,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 391240502.574449,
+            "eventToPoseMs": 34.57444900274277,
+            "dispatchToPoseMs": 12.687291979789734
+          },
+          {
+            "gesture": 4,
+            "downMs": 391243134,
+            "firstMoveMs": 391243157,
+            "firstMoveDispatchMs": 391243162.920177,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 391243175.152104,
+            "eventToPoseMs": 18.152104020118713,
+            "dispatchToPoseMs": 12.231927037239075
+          },
+          {
+            "gesture": 5,
+            "downMs": 391245808,
+            "firstMoveMs": 391245831,
+            "firstMoveDispatchMs": 391245836.77304,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 391245848.886009,
+            "eventToPoseMs": 17.886008977890015,
+            "dispatchToPoseMs": 12.112968981266022
+          }
+        ]
+      }
+    },
+    "2026-10-30-latency-android-header-native.json.gz": {
+      "decompressedSha256": "816b3b98b1a4e2b5cfa8396d0f2988240e3bba4af5e1cc3af8a7b0907a72f8de",
+      "session": "input-header-native-1793404780273539000",
+      "build": {
+        "commit": "488cdab9019fa7740536397098c5e8712289f7ec",
+        "dirty": false,
+        "jolt": "0.1.0-rc.2",
+        "core": "9.1.3",
+        "runtime": "9.1.1",
+        "driverSha256": "1d66fb35e6f24abcc71ddd2c6bf7f11f646ef808288c094fed0a2903e8527aec",
+        "bundleMode": "production",
+        "builtAt": "2026-10-30T23:48:02.566Z"
+      },
+      "device": {
+        "physical": true,
+        "model": "asus ASUS_Z017DC",
+        "os": "8.0.0",
+        "osBuild": "asus/WW_Phone/ASUS_Z017D_1:8.0.0/OPR1.170623.026/15.0410.1806.68-0:user/release-keys",
+        "apiLevel": 26,
+        "thermalStatusAvailable": false,
+        "maximumRefreshHz": 60.000003814697266,
+        "animatorScale": 1,
+        "resources": {
+          "timeMs": 391315019.465774,
+          "cpuMs": 2892,
+          "memoryBytes": 117084160,
+          "memoryMetric": "rss",
+          "thermalState": null,
+          "lowPowerMode": false
+        }
+      },
+      "summary": {
+        "input": "header-native",
+        "physical": true,
+        "thermalStatus": "unavailable",
+        "observedMovementDip": 55,
+        "durationMs": 18727.6481179595,
+        "processCpuMs": 2650,
+        "jsMoveCallbacks": 0,
+        "nativeSamples": 1120,
+        "sampledPeakMiB": 120.65234375,
+        "inputToPhotonLatency": "not measured",
+        "delayMs": 0,
+        "inputEvents": 249,
+        "probeWorkMs": 1.157454252243042,
+        "deliveryAgeMs": {
+          "n": 237,
+          "min": 6.086239993572235,
+          "p50": 8.55868798494339,
+          "p95": 11.301500976085663,
+          "max": 24.523060023784637
+        },
+        "eventToNativePoseMs": {
+          "n": 6,
+          "min": 33.6081640124321,
+          "p50": 45.124782025814056,
+          "p95": 212.37452101707458,
+          "max": 212.37452101707458
+        },
+        "dispatchToNativePoseMs": {
+          "n": 6,
+          "min": 17.014011025428772,
+          "p50": 33.82921904325485,
+          "p95": 200.79255199432373,
+          "max": 200.79255199432373
+        },
+        "observations": [
+          {
+            "gesture": 0,
+            "downMs": 391321781,
+            "firstMoveMs": 391321797,
+            "firstMoveDispatchMs": 391321808.295563,
+            "preInputStable": true,
+            "baseline": 0,
+            "responseMs": 391321842.124782,
+            "eventToPoseMs": 45.124782025814056,
+            "dispatchToPoseMs": 33.82921904325485
+          },
+          {
+            "gesture": 1,
+            "downMs": 391324421,
+            "firstMoveMs": 391324437,
+            "firstMoveDispatchMs": 391324448.581969,
+            "preInputStable": true,
+            "baseline": 55,
+            "responseMs": 391324649.374521,
+            "eventToPoseMs": 212.37452101707458,
+            "dispatchToPoseMs": 200.79255199432373
+          },
+          {
+            "gesture": 2,
+            "downMs": 391327092,
+            "firstMoveMs": 391327111,
+            "firstMoveDispatchMs": 391327121.953009,
+            "preInputStable": true,
+            "baseline": 0.0833333358168602,
+            "responseMs": 391327155.722124,
+            "eventToPoseMs": 44.722123980522156,
+            "dispatchToPoseMs": 33.76911497116089
+          },
+          {
+            "gesture": 3,
+            "downMs": 391329704,
+            "firstMoveMs": 391329728,
+            "firstMoveDispatchMs": 391329745.21754,
+            "preInputStable": true,
+            "baseline": 55,
+            "responseMs": 391329929.375925,
+            "eventToPoseMs": 201.37592500448227,
+            "dispatchToPoseMs": 184.1583849787712
+          },
+          {
+            "gesture": 4,
+            "downMs": 391332380,
+            "firstMoveMs": 391332402,
+            "firstMoveDispatchMs": 391332418.594153,
+            "preInputStable": true,
+            "baseline": 0.6666666865348816,
+            "responseMs": 391332435.608164,
+            "eventToPoseMs": 33.6081640124321,
+            "dispatchToPoseMs": 17.014011025428772
+          },
+          {
+            "gesture": 5,
+            "downMs": 391335068,
+            "firstMoveMs": 391335092,
+            "firstMoveDispatchMs": 391335108.621235,
+            "preInputStable": true,
+            "baseline": 55,
+            "responseMs": 391335292.918527,
+            "eventToPoseMs": 200.91852700710297,
+            "dispatchToPoseMs": 184.29729199409485
+          }
+        ]
+      }
+    },
+    "2026-10-30-latency-android-pan-native.json.gz": {
+      "decompressedSha256": "138178701ae7f6d71441612579ba8c1c84064ef797d818fce95110c35b547184",
+      "session": "input-pan-native-1793404720902528000",
+      "build": {
+        "commit": "488cdab9019fa7740536397098c5e8712289f7ec",
+        "dirty": false,
+        "jolt": "0.1.0-rc.2",
+        "core": "9.1.3",
+        "runtime": "9.1.1",
+        "driverSha256": "1d66fb35e6f24abcc71ddd2c6bf7f11f646ef808288c094fed0a2903e8527aec",
+        "bundleMode": "production",
+        "builtAt": "2026-10-30T23:48:02.566Z"
+      },
+      "device": {
+        "physical": true,
+        "model": "asus ASUS_Z017DC",
+        "os": "8.0.0",
+        "osBuild": "asus/WW_Phone/ASUS_Z017D_1:8.0.0/OPR1.170623.026/15.0410.1806.68-0:user/release-keys",
+        "apiLevel": 26,
+        "thermalStatusAvailable": false,
+        "maximumRefreshHz": 60.000003814697266,
+        "animatorScale": 1,
+        "resources": {
+          "timeMs": 391254885.721787,
+          "cpuMs": 2601,
+          "memoryBytes": 115007488,
+          "memoryMetric": "rss",
+          "thermalState": null,
+          "lowPowerMode": false
+        }
+      },
+      "summary": {
+        "input": "pan-native",
+        "physical": true,
+        "thermalStatus": "unavailable",
+        "observedMovementDip": 24,
+        "durationMs": 18893.301191031933,
+        "processCpuMs": 2024,
+        "jsMoveCallbacks": 0,
+        "nativeSamples": 1128,
+        "sampledPeakMiB": 115.05859375,
+        "inputToPhotonLatency": "not measured",
+        "delayMs": 0,
+        "inputEvents": 248,
+        "probeWorkMs": 1.1354271173477173,
+        "deliveryAgeMs": {
+          "n": 236,
+          "min": 5.786368012428284,
+          "p50": 7.776207983493805,
+          "p95": 9.090272009372711,
+          "max": 24.102930009365082
+        },
+        "eventToNativePoseMs": {
+          "n": 6,
+          "min": 27.032459020614624,
+          "p50": 28.70839899778366,
+          "p95": 31.390946984291077,
+          "max": 31.390946984291077
+        },
+        "dispatchToNativePoseMs": {
+          "n": 6,
+          "min": 18.444270968437195,
+          "p50": 18.53650999069214,
+          "p95": 19.38197898864746,
+          "max": 19.38197898864746
+        },
+        "observations": [
+          {
+            "gesture": 0,
+            "downMs": 391261959,
+            "firstMoveMs": 391261985,
+            "firstMoveDispatchMs": 391261994.32642,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 391262013.708399,
+            "eventToPoseMs": 28.70839899778366,
+            "dispatchToPoseMs": 19.38197898864746
+          },
+          {
+            "gesture": 1,
+            "downMs": 391264576,
+            "firstMoveMs": 391264588,
+            "firstMoveDispatchMs": 391264600.433398,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 391264618.969908,
+            "eventToPoseMs": 30.969907999038696,
+            "dispatchToPoseMs": 18.53650999069214
+          },
+          {
+            "gesture": 2,
+            "downMs": 391267205,
+            "firstMoveMs": 391267232,
+            "firstMoveDispatchMs": 391267240.431053,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 391267259.032459,
+            "eventToPoseMs": 27.032459020614624,
+            "dispatchToPoseMs": 18.601406037807465
+          },
+          {
+            "gesture": 3,
+            "downMs": 391269816,
+            "firstMoveMs": 391269835,
+            "firstMoveDispatchMs": 391269845.631469,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 391269864.145115,
+            "eventToPoseMs": 29.14511501789093,
+            "dispatchToPoseMs": 18.513646006584167
+          },
+          {
+            "gesture": 4,
+            "downMs": 391272494,
+            "firstMoveMs": 391272506,
+            "firstMoveDispatchMs": 391272518.651416,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 391272537.390947,
+            "eventToPoseMs": 31.390946984291077,
+            "dispatchToPoseMs": 18.739530980587006
+          },
+          {
+            "gesture": 5,
+            "downMs": 391275176,
+            "firstMoveMs": 391275200,
+            "firstMoveDispatchMs": 391275208.867769,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 391275227.31204,
+            "eventToPoseMs": 27.312039971351624,
+            "dispatchToPoseMs": 18.444270968437195
+          }
+        ]
+      }
+    },
+    "2026-10-30-latency-android-scroll-js.json.gz": {
+      "decompressedSha256": "0d644dbad38205957c4fb071feddd3fe938ea15465aadbd023863c4b58488d31",
+      "session": "input-scroll-js-1793404750273202000",
+      "build": {
+        "commit": "488cdab9019fa7740536397098c5e8712289f7ec",
+        "dirty": false,
+        "jolt": "0.1.0-rc.2",
+        "core": "9.1.3",
+        "runtime": "9.1.1",
+        "driverSha256": "1d66fb35e6f24abcc71ddd2c6bf7f11f646ef808288c094fed0a2903e8527aec",
+        "bundleMode": "production",
+        "builtAt": "2026-10-30T23:48:02.566Z"
+      },
+      "device": {
+        "physical": true,
+        "model": "asus ASUS_Z017DC",
+        "os": "8.0.0",
+        "osBuild": "asus/WW_Phone/ASUS_Z017D_1:8.0.0/OPR1.170623.026/15.0410.1806.68-0:user/release-keys",
+        "apiLevel": 26,
+        "thermalStatusAvailable": false,
+        "maximumRefreshHz": 60.000003814697266,
+        "animatorScale": 1,
+        "resources": {
+          "timeMs": 391284577.568182,
+          "cpuMs": 2810,
+          "memoryBytes": 116228096,
+          "memoryMetric": "rss",
+          "thermalState": null,
+          "lowPowerMode": false
+        }
+      },
+      "summary": {
+        "input": "scroll-js",
+        "physical": true,
+        "thermalStatus": "unavailable",
+        "observedMovementDip": 3.760000228881836,
+        "durationMs": 19073.41342997551,
+        "processCpuMs": 6546,
+        "jsMoveCallbacks": 263,
+        "nativeSamples": 1138,
+        "sampledPeakMiB": 120.28515625,
+        "inputToPhotonLatency": "not measured",
+        "delayMs": 0,
+        "inputEvents": 248,
+        "probeWorkMs": 1.1603583097457886,
+        "deliveryAgeMs": {
+          "n": 236,
+          "min": 5.987030982971191,
+          "p50": 8.476558983325958,
+          "p95": 13.090102016925812,
+          "max": 22.948647022247314
+        },
+        "eventToNativePoseMs": {
+          "n": 6,
+          "min": 59.455622017383575,
+          "p50": 62.568853974342346,
+          "p95": 67.26114702224731,
+          "max": 67.26114702224731
+        },
+        "dispatchToNativePoseMs": {
+          "n": 6,
+          "min": 50.43218797445297,
+          "p50": 50.78156304359436,
+          "p95": 55.21859401464462,
+          "max": 55.21859401464462
+        },
+        "observations": [
+          {
+            "gesture": 0,
+            "downMs": 391291798,
+            "firstMoveMs": 391291825,
+            "firstMoveDispatchMs": 391291833.037085,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 391291888.255679,
+            "eventToPoseMs": 63.25567901134491,
+            "dispatchToPoseMs": 55.21859401464462
+          },
+          {
+            "gesture": 1,
+            "downMs": 391294435,
+            "firstMoveMs": 391294458,
+            "firstMoveDispatchMs": 391294474.479584,
+            "preInputStable": true,
+            "baseline": 27.657142639160156,
+            "responseMs": 391294525.261147,
+            "eventToPoseMs": 67.26114702224731,
+            "dispatchToPoseMs": 50.78156304359436
+          },
+          {
+            "gesture": 2,
+            "downMs": 391297140,
+            "firstMoveMs": 391297156,
+            "firstMoveDispatchMs": 391297167.668646,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 391297218.568854,
+            "eventToPoseMs": 62.568853974342346,
+            "dispatchToPoseMs": 50.90020799636841
+          },
+          {
+            "gesture": 3,
+            "downMs": 391299773,
+            "firstMoveMs": 391299795,
+            "firstMoveDispatchMs": 391299804.273957,
+            "preInputStable": true,
+            "baseline": 27.66857147216797,
+            "responseMs": 391299855.205259,
+            "eventToPoseMs": 60.20525902509689,
+            "dispatchToPoseMs": 50.93130201101303
+          },
+          {
+            "gesture": 4,
+            "downMs": 391302433,
+            "firstMoveMs": 391302446,
+            "firstMoveDispatchMs": 391302459.090102,
+            "preInputStable": true,
+            "baseline": 24.068571090698242,
+            "responseMs": 391302509.52229,
+            "eventToPoseMs": 63.522289991378784,
+            "dispatchToPoseMs": 50.43218797445297
+          },
+          {
+            "gesture": 5,
+            "downMs": 391305099,
+            "firstMoveMs": 391305125,
+            "firstMoveDispatchMs": 391305133.923122,
+            "preInputStable": true,
+            "baseline": 27.760000228881836,
+            "responseMs": 391305184.455622,
+            "eventToPoseMs": 59.455622017383575,
+            "dispatchToPoseMs": 50.53250002861023
+          }
+        ]
+      }
+    },
+    "2026-10-30-latency-ios-drag-js-delay-200.json.gz": {
+      "decompressedSha256": "46dbbd182100f7eed76a0ac3c44c4d254f10a362b7540f998b02ff26daa700dc",
+      "session": "input-drag-js-ED51EC3C-56B7-44FB-B83E-A337ECC3ACE9",
+      "build": {
+        "commit": "90c7ab60c49b1d04a88080edbd0c25cd9c6a164a",
+        "dirty": false,
+        "jolt": "0.1.0-rc.2",
+        "core": "9.1.3",
+        "runtime": "9.1.0",
+        "driverSha256": "1d66fb35e6f24abcc71ddd2c6bf7f11f646ef808288c094fed0a2903e8527aec",
+        "bundleMode": "production",
+        "builtAt": "2026-10-31T00:06:31.325Z"
+      },
+      "device": {
+        "minimumFrameDurationDisabled": false,
+        "os": "27.2",
+        "osBuild": "Version 27.2 (Build 24B5099f)",
+        "reduceMotion": false,
+        "resources": {
+          "cpuMs": 470.244,
+          "thermalState": 0,
+          "lowPowerMode": false,
+          "memoryBytes": 73893752,
+          "memoryMetric": "phys_footprint",
+          "timeMs": 76272124.78470834
+        },
+        "model": "iPhone18,1",
+        "physical": 1,
+        "maximumRefreshHz": 120
+      },
+      "summary": {
+        "input": "drag-js",
+        "physical": 1,
+        "thermalStatus": "nominal",
+        "observedMovementDip": 24,
+        "durationMs": 17870.179041668773,
+        "processCpuMs": 3545.982,
+        "jsMoveCallbacks": 240,
+        "nativeSamples": 984,
+        "sampledPeakMiB": 129.56436920166016,
+        "inputToPhotonLatency": "not measured",
+        "delayMs": 200,
+        "inputEvents": 264,
+        "probeWorkMs": 1206.9037498120451,
+        "deliveryAgeMs": {
+          "n": 252,
+          "min": 11.867916688323021,
+          "p50": 16.058583348989487,
+          "p95": 26.091291680932045,
+          "max": 161.7630000114441
+        },
+        "eventToNativePoseMs": {
+          "n": 6,
+          "min": 268.68654169142246,
+          "p50": 270.5344583392143,
+          "p95": 271.58033333718777,
+          "max": 271.58033333718777
+        },
+        "dispatchToNativePoseMs": {
+          "n": 6,
+          "min": 252.5644583106041,
+          "p50": 254.73954166471958,
+          "p95": 256.76808331906796,
+          "max": 256.76808331906796
+        },
+        "observations": [
+          {
+            "gesture": 0,
+            "downMs": 76275475.257125,
+            "firstMoveMs": 76275550.25712499,
+            "firstMoveDispatchMs": 76275567.24658334,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 76275821.79287502,
+            "eventToPoseMs": 271.53575003147125,
+            "dispatchToPoseMs": 254.5462916791439
+          },
+          {
+            "gesture": 1,
+            "downMs": 76278336.19450001,
+            "firstMoveMs": 76278402.86116667,
+            "firstMoveDispatchMs": 76278417.67341669,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 76278674.44150001,
+            "eventToPoseMs": 271.58033333718777,
+            "dispatchToPoseMs": 256.76808331906796
+          },
+          {
+            "gesture": 2,
+            "downMs": 76281197.734,
+            "firstMoveMs": 76281272.734,
+            "firstMoveDispatchMs": 76281284.79412502,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 76281541.42054169,
+            "eventToPoseMs": 268.68654169142246,
+            "dispatchToPoseMs": 256.62641666829586
+          },
+          {
+            "gesture": 3,
+            "downMs": 76284044.92650001,
+            "firstMoveMs": 76284119.92650001,
+            "firstMoveDispatchMs": 76284135.26991668,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 76284390.99854168,
+            "eventToPoseMs": 271.0720416754484,
+            "dispatchToPoseMs": 255.72862499952316
+          },
+          {
+            "gesture": 4,
+            "downMs": 76286911.72783333,
+            "firstMoveMs": 76286986.72783335,
+            "firstMoveDispatchMs": 76287002.52275002,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 76287257.26229168,
+            "eventToPoseMs": 270.5344583392143,
+            "dispatchToPoseMs": 254.73954166471958
+          },
+          {
+            "gesture": 5,
+            "downMs": 76289769.55483332,
+            "firstMoveMs": 76289836.2215,
+            "firstMoveDispatchMs": 76289852.9975417,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 76290105.562,
+            "eventToPoseMs": 269.34050001204014,
+            "dispatchToPoseMs": 252.5644583106041
+          }
+        ]
+      }
+    },
+    "2026-10-30-latency-ios-drag-js-delay-40.json.gz": {
+      "decompressedSha256": "0aefb387e16373ec94395a4ed27903f7e67fd32293721f5d51cabfd647b48521",
+      "session": "input-drag-js-DBE7BFDC-1A95-4229-99F3-806EA049A2F9",
+      "build": {
+        "commit": "31d4f23fa05aefe68c8de99c88a4629895bb58ab",
+        "dirty": false,
+        "jolt": "0.1.0-rc.2",
+        "core": "9.1.3",
+        "runtime": "9.1.0",
+        "driverSha256": "1d66fb35e6f24abcc71ddd2c6bf7f11f646ef808288c094fed0a2903e8527aec",
+        "bundleMode": "production",
+        "builtAt": "2026-10-30T23:50:19.158Z"
+      },
+      "device": {
+        "minimumFrameDurationDisabled": false,
+        "os": "27.2",
+        "osBuild": "Version 27.2 (Build 24B5099f)",
+        "reduceMotion": false,
+        "resources": {
+          "cpuMs": 429.363,
+          "thermalState": 0,
+          "lowPowerMode": false,
+          "memoryBytes": 49481592,
+          "memoryMetric": "phys_footprint",
+          "timeMs": 75729733.06875002
+        },
+        "model": "iPhone18,1",
+        "physical": 1,
+        "maximumRefreshHz": 120
+      },
+      "summary": {
+        "input": "drag-js",
+        "physical": 1,
+        "thermalStatus": "nominal",
+        "observedMovementDip": 24,
+        "durationMs": 17437.242333337665,
+        "processCpuMs": 3223.216,
+        "jsMoveCallbacks": 287,
+        "nativeSamples": 1015,
+        "sampledPeakMiB": 129.25189208984375,
+        "inputToPhotonLatency": "not measured",
+        "delayMs": 40,
+        "inputEvents": 322,
+        "probeWorkMs": 246.24504147144035,
+        "deliveryAgeMs": {
+          "n": 310,
+          "min": 9.735583335161209,
+          "p50": 16.355291679501534,
+          "p95": 24.156125009059906,
+          "max": 40.24929168820381
+        },
+        "eventToNativePoseMs": {
+          "n": 6,
+          "min": 122.41804167628288,
+          "p50": 129.71358335018158,
+          "p95": 138.84929168224335,
+          "max": 138.84929168224335
+        },
+        "dispatchToNativePoseMs": {
+          "n": 6,
+          "min": 111.55541667342186,
+          "p50": 113.3209166675806,
+          "p95": 121.27295832335949,
+          "max": 121.27295832335949
+        },
+        "observations": [
+          {
+            "gesture": 0,
+            "downMs": 75733077.787375,
+            "firstMoveMs": 75733152.787375,
+            "firstMoveDispatchMs": 75733167.51237501,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 75733286.86808334,
+            "eventToPoseMs": 134.08070833981037,
+            "dispatchToPoseMs": 119.35570833086967
+          },
+          {
+            "gesture": 1,
+            "downMs": 75735892.185,
+            "firstMoveMs": 75735967.185,
+            "firstMoveDispatchMs": 75735984.76133336,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 75736106.03429168,
+            "eventToPoseMs": 138.84929168224335,
+            "dispatchToPoseMs": 121.27295832335949
+          },
+          {
+            "gesture": 2,
+            "downMs": 75738668.53070834,
+            "firstMoveMs": 75738735.197375,
+            "firstMoveDispatchMs": 75738751.63020836,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 75738864.91095835,
+            "eventToPoseMs": 129.71358335018158,
+            "dispatchToPoseMs": 113.28074999153614
+          },
+          {
+            "gesture": 3,
+            "downMs": 75741432.9995,
+            "firstMoveMs": 75741507.81650001,
+            "firstMoveDispatchMs": 75741518.67912501,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 75741630.23454168,
+            "eventToPoseMs": 122.41804167628288,
+            "dispatchToPoseMs": 111.55541667342186
+          },
+          {
+            "gesture": 4,
+            "downMs": 75744210.62745833,
+            "firstMoveMs": 75744285.62745833,
+            "firstMoveDispatchMs": 75744302.94512501,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 75744416.26604168,
+            "eventToPoseMs": 130.63858334720135,
+            "dispatchToPoseMs": 113.3209166675806
+          },
+          {
+            "gesture": 5,
+            "downMs": 75746971.249,
+            "firstMoveMs": 75747037.91566665,
+            "firstMoveDispatchMs": 75747053.08300002,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 75747166.82025002,
+            "eventToPoseMs": 128.9045833647251,
+            "dispatchToPoseMs": 113.73725000023842
+          }
+        ]
+      }
+    },
+    "2026-10-30-latency-ios-drag-js.json.gz": {
+      "decompressedSha256": "20789370853259fcde9934892995629cba92ac2185ed136c53e73216d2b7e530",
+      "session": "input-drag-js-DFC59C92-1902-4B85-9D77-3F42EE2C0564",
+      "build": {
+        "commit": "31d4f23fa05aefe68c8de99c88a4629895bb58ab",
+        "dirty": false,
+        "jolt": "0.1.0-rc.2",
+        "core": "9.1.3",
+        "runtime": "9.1.0",
+        "driverSha256": "1d66fb35e6f24abcc71ddd2c6bf7f11f646ef808288c094fed0a2903e8527aec",
+        "bundleMode": "production",
+        "builtAt": "2026-10-30T23:50:19.158Z"
+      },
+      "device": {
+        "minimumFrameDurationDisabled": false,
+        "os": "27.2",
+        "osBuild": "Version 27.2 (Build 24B5099f)",
+        "reduceMotion": false,
+        "resources": {
+          "cpuMs": 432.027,
+          "thermalState": 0,
+          "lowPowerMode": false,
+          "memoryBytes": 49153864,
+          "memoryMetric": "phys_footprint",
+          "timeMs": 75754322.64450002
+        },
+        "model": "iPhone18,1",
+        "physical": 1,
+        "maximumRefreshHz": 120
+      },
+      "summary": {
+        "input": "drag-js",
+        "physical": 1,
+        "thermalStatus": "nominal",
+        "observedMovementDip": 24,
+        "durationMs": 17671.04850000143,
+        "processCpuMs": 3363.6549999999997,
+        "jsMoveCallbacks": 286,
+        "nativeSamples": 1040,
+        "sampledPeakMiB": 136.78309631347656,
+        "inputToPhotonLatency": "not measured",
+        "delayMs": 0,
+        "inputEvents": 327,
+        "probeWorkMs": 0.09233330748975277,
+        "deliveryAgeMs": {
+          "n": 315,
+          "min": 12.020458355545998,
+          "p50": 15.708916693925858,
+          "p95": 20.815458342432976,
+          "max": 40.03279168903828
+        },
+        "eventToNativePoseMs": {
+          "n": 6,
+          "min": 125.25416666269302,
+          "p50": 128.3587916791439,
+          "p95": 137.57204169034958,
+          "max": 137.57204169034958
+        },
+        "dispatchToNativePoseMs": {
+          "n": 6,
+          "min": 112.16758333146572,
+          "p50": 112.98987500369549,
+          "p95": 121.29079167544842,
+          "max": 121.29079167544842
+        },
+        "observations": [
+          {
+            "gesture": 0,
+            "downMs": 75757583.235,
+            "firstMoveMs": 75757658.235,
+            "firstMoveDispatchMs": 75757671.82866669,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 75757783.99625002,
+            "eventToPoseMs": 125.76125001907349,
+            "dispatchToPoseMs": 112.16758333146572
+          },
+          {
+            "gesture": 1,
+            "downMs": 75760422.96191667,
+            "firstMoveMs": 75760489.62858334,
+            "firstMoveDispatchMs": 75760505.61837502,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 75760623.08550002,
+            "eventToPoseMs": 133.45691667497158,
+            "dispatchToPoseMs": 117.46712499856949
+          },
+          {
+            "gesture": 2,
+            "downMs": 75763265.46616666,
+            "firstMoveMs": 75763340.46616668,
+            "firstMoveDispatchMs": 75763355.83508335,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 75763468.82495835,
+            "eventToPoseMs": 128.3587916791439,
+            "dispatchToPoseMs": 112.98987500369549
+          },
+          {
+            "gesture": 3,
+            "downMs": 75766113.8795,
+            "firstMoveMs": 75766188.8795,
+            "firstMoveDispatchMs": 75766206.50550002,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 75766325.65837502,
+            "eventToPoseMs": 136.7788750231266,
+            "dispatchToPoseMs": 119.15287500619888
+          },
+          {
+            "gesture": 4,
+            "downMs": 75768877.95866667,
+            "firstMoveMs": 75768943.97191668,
+            "firstMoveDispatchMs": 75768956.87429169,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 75769069.22608334,
+            "eventToPoseMs": 125.25416666269302,
+            "dispatchToPoseMs": 112.35179165005684
+          },
+          {
+            "gesture": 5,
+            "downMs": 75771741.25037499,
+            "firstMoveMs": 75771807.91704166,
+            "firstMoveDispatchMs": 75771824.19829167,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 75771945.48908335,
+            "eventToPoseMs": 137.57204169034958,
+            "dispatchToPoseMs": 121.29079167544842
+          }
+        ]
+      }
+    },
+    "2026-10-30-latency-ios-header-native.json.gz": {
+      "decompressedSha256": "14bc2cc09d154e9056057fb3b7dd275e1d24584b4aa614057d6e9a28d2839516",
+      "session": "input-header-native-823795AA-02DA-4BAC-A527-6A41ED34370F",
+      "build": {
+        "commit": "31d4f23fa05aefe68c8de99c88a4629895bb58ab",
+        "dirty": false,
+        "jolt": "0.1.0-rc.2",
+        "core": "9.1.3",
+        "runtime": "9.1.0",
+        "driverSha256": "1d66fb35e6f24abcc71ddd2c6bf7f11f646ef808288c094fed0a2903e8527aec",
+        "bundleMode": "production",
+        "builtAt": "2026-10-30T23:50:19.158Z"
+      },
+      "device": {
+        "minimumFrameDurationDisabled": false,
+        "os": "27.2",
+        "osBuild": "Version 27.2 (Build 24B5099f)",
+        "reduceMotion": false,
+        "resources": {
+          "cpuMs": 416.721,
+          "thermalState": 0,
+          "lowPowerMode": false,
+          "memoryBytes": 48498480,
+          "memoryMetric": "phys_footprint",
+          "timeMs": 75835105.70583336
+        },
+        "model": "iPhone18,1",
+        "physical": 1,
+        "maximumRefreshHz": 120
+      },
+      "summary": {
+        "input": "header-native",
+        "physical": 1,
+        "thermalStatus": "nominal",
+        "observedMovementDip": 55,
+        "durationMs": 24171.83545833826,
+        "processCpuMs": 2000.123,
+        "jsMoveCallbacks": 0,
+        "nativeSamples": 1406,
+        "sampledPeakMiB": 48.48612976074219,
+        "inputToPhotonLatency": "not measured",
+        "delayMs": 0,
+        "inputEvents": 183,
+        "probeWorkMs": 0.2387916767038405,
+        "deliveryAgeMs": {
+          "n": 171,
+          "min": 10.276625022292137,
+          "p50": 12.966833353042603,
+          "p95": 15.057958334684372,
+          "max": 22.660875007510185
+        },
+        "eventToNativePoseMs": {
+          "n": 3,
+          "min": 79.10041667521,
+          "p50": 81.03895837068558,
+          "p95": 81.12754169106483,
+          "max": 81.12754169106483
+        },
+        "dispatchToNativePoseMs": {
+          "n": 3,
+          "min": 64.32537500560284,
+          "p50": 64.40654167532921,
+          "p95": 66.72366666793823,
+          "max": 66.72366666793823
+        },
+        "observations": [
+          {
+            "gesture": 0,
+            "downMs": 75838587.50758334,
+            "firstMoveMs": 75838604.17424999,
+            "firstMoveDispatchMs": 75838618.57812501,
+            "preInputStable": true,
+            "baseline": 0,
+            "responseMs": 75838685.30179168,
+            "eventToPoseMs": 81.12754169106483,
+            "dispatchToPoseMs": 66.72366666793823
+          },
+          {
+            "gesture": 1,
+            "downMs": 75842455.03316666,
+            "firstMoveMs": 75842471.69983333,
+            "firstMoveDispatchMs": 75842485.98175001,
+            "preInputStable": true,
+            "baseline": 55,
+            "responseMs": null,
+            "excludedReason": "no output change within gesture"
+          },
+          {
+            "gesture": 2,
+            "downMs": 75846316.05629165,
+            "firstMoveMs": 75846324.38962501,
+            "firstMoveDispatchMs": 75846339.08350001,
+            "preInputStable": true,
+            "baseline": 2.5833333333333335,
+            "responseMs": 75846403.49004169,
+            "eventToPoseMs": 79.10041667521,
+            "dispatchToPoseMs": 64.40654167532921
+          },
+          {
+            "gesture": 3,
+            "downMs": 75850192.43008333,
+            "firstMoveMs": 75850209.09674999,
+            "firstMoveDispatchMs": 75850220.70095836,
+            "preInputStable": true,
+            "baseline": 55,
+            "responseMs": null,
+            "excludedReason": "no output change within gesture"
+          },
+          {
+            "gesture": 4,
+            "downMs": 75854048.85679166,
+            "firstMoveMs": 75854057.19012499,
+            "firstMoveDispatchMs": 75854073.90370835,
+            "preInputStable": true,
+            "baseline": 4.416666666666667,
+            "responseMs": 75854138.22908336,
+            "eventToPoseMs": 81.03895837068558,
+            "dispatchToPoseMs": 64.32537500560284
+          },
+          {
+            "gesture": 5,
+            "downMs": 75857934.691375,
+            "firstMoveMs": 75857943.02470833,
+            "firstMoveDispatchMs": 75857957.82975002,
+            "preInputStable": true,
+            "baseline": 55,
+            "responseMs": null,
+            "excludedReason": "no output change within gesture"
+          }
+        ]
+      }
+    },
+    "2026-10-30-latency-ios-pan-native.json.gz": {
+      "decompressedSha256": "0e7ae4e0a9d452df1414bb8a8349c06b1d91854f1054015392d9a17c1f8b88f0",
+      "session": "input-pan-native-DB8868A1-3A60-42DC-BAE5-0EE6F1743C45",
+      "build": {
+        "commit": "31d4f23fa05aefe68c8de99c88a4629895bb58ab",
+        "dirty": false,
+        "jolt": "0.1.0-rc.2",
+        "core": "9.1.3",
+        "runtime": "9.1.0",
+        "driverSha256": "1d66fb35e6f24abcc71ddd2c6bf7f11f646ef808288c094fed0a2903e8527aec",
+        "bundleMode": "production",
+        "builtAt": "2026-10-30T23:50:19.158Z"
+      },
+      "device": {
+        "minimumFrameDurationDisabled": false,
+        "os": "27.2",
+        "osBuild": "Version 27.2 (Build 24B5099f)",
+        "reduceMotion": false,
+        "resources": {
+          "cpuMs": 435.608,
+          "thermalState": 0,
+          "lowPowerMode": false,
+          "memoryBytes": 47499080,
+          "memoryMetric": "phys_footprint",
+          "timeMs": 75779179.89045836
+        },
+        "model": "iPhone18,1",
+        "physical": 1,
+        "maximumRefreshHz": 120
+      },
+      "summary": {
+        "input": "pan-native",
+        "physical": 1,
+        "thermalStatus": "nominal",
+        "observedMovementDip": 24,
+        "durationMs": 17853.616083338857,
+        "processCpuMs": 2557.082,
+        "jsMoveCallbacks": 0,
+        "nativeSamples": 1055,
+        "sampledPeakMiB": 40.43927764892578,
+        "inputToPhotonLatency": "not measured",
+        "delayMs": 0,
+        "inputEvents": 335,
+        "probeWorkMs": 0.25258324400056154,
+        "deliveryAgeMs": {
+          "n": 323,
+          "min": 10.789666682481766,
+          "p50": 16.80262503027916,
+          "p95": 18.60137501358986,
+          "max": 26.033125028014183
+        },
+        "eventToNativePoseMs": {
+          "n": 6,
+          "min": 53.25870834290981,
+          "p50": 55.07508334517479,
+          "p95": 56.877041682600975,
+          "max": 56.877041682600975
+        },
+        "dispatchToNativePoseMs": {
+          "n": 6,
+          "min": 38.126833319664,
+          "p50": 38.594625011086464,
+          "p95": 39.15504167973995,
+          "max": 39.15504167973995
+        },
+        "observations": [
+          {
+            "gesture": 0,
+            "downMs": 75782542.20504166,
+            "firstMoveMs": 75782608.87170833,
+            "firstMoveDispatchMs": 75782625.81995836,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 75782663.94679168,
+            "eventToPoseMs": 55.07508334517479,
+            "dispatchToPoseMs": 38.126833319664
+          },
+          {
+            "gesture": 1,
+            "downMs": 75785401.58408333,
+            "firstMoveMs": 75785476.58408333,
+            "firstMoveDispatchMs": 75785492.88433334,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 75785532.03937502,
+            "eventToPoseMs": 55.45529168844223,
+            "dispatchToPoseMs": 39.15504167973995
+          },
+          {
+            "gesture": 2,
+            "downMs": 75788258.64879167,
+            "firstMoveMs": 75788325.31545834,
+            "firstMoveDispatchMs": 75788343.66070835,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 75788382.19250003,
+            "eventToPoseMs": 56.877041682600975,
+            "dispatchToPoseMs": 38.53179167211056
+          },
+          {
+            "gesture": 3,
+            "downMs": 75791102.11429167,
+            "firstMoveMs": 75791177.11429167,
+            "firstMoveDispatchMs": 75791193.86554168,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 75791232.7790417,
+            "eventToPoseMs": 55.66475002467632,
+            "dispatchToPoseMs": 38.913500010967255
+          },
+          {
+            "gesture": 4,
+            "downMs": 75793964.23891667,
+            "firstMoveMs": 75794029.90483335,
+            "firstMoveDispatchMs": 75794044.44933335,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 75794083.16354169,
+            "eventToPoseMs": 53.25870834290981,
+            "dispatchToPoseMs": 38.71420833468437
+          },
+          {
+            "gesture": 5,
+            "downMs": 75796820.78995834,
+            "firstMoveMs": 75796895.78995833,
+            "firstMoveDispatchMs": 75796911.50912501,
+            "preInputStable": true,
+            "baseline": 48,
+            "responseMs": 75796950.10375002,
+            "eventToPoseMs": 54.31379169225693,
+            "dispatchToPoseMs": 38.594625011086464
+          }
+        ]
+      }
+    },
+    "2026-10-30-latency-ios-scroll-js.json.gz": {
+      "decompressedSha256": "cc223bd0c3b534b2484f4d5a3bc86d3085f2ed85390d1812468a69b6c0cfb63e",
+      "session": "input-scroll-js-93DD9B14-B0F1-4939-8F70-447FE2B3EFE7",
+      "build": {
+        "commit": "31d4f23fa05aefe68c8de99c88a4629895bb58ab",
+        "dirty": false,
+        "jolt": "0.1.0-rc.2",
+        "core": "9.1.3",
+        "runtime": "9.1.0",
+        "driverSha256": "1d66fb35e6f24abcc71ddd2c6bf7f11f646ef808288c094fed0a2903e8527aec",
+        "bundleMode": "production",
+        "builtAt": "2026-10-30T23:50:19.158Z"
+      },
+      "device": {
+        "minimumFrameDurationDisabled": false,
+        "os": "27.2",
+        "osBuild": "Version 27.2 (Build 24B5099f)",
+        "reduceMotion": false,
+        "resources": {
+          "cpuMs": 460.985,
+          "thermalState": 0,
+          "lowPowerMode": false,
+          "memoryBytes": 52234056,
+          "memoryMetric": "phys_footprint",
+          "timeMs": 75804552.94875002
+        },
+        "model": "iPhone18,1",
+        "physical": 1,
+        "maximumRefreshHz": 120
+      },
+      "summary": {
+        "input": "scroll-js",
+        "physical": 1,
+        "thermalStatus": "nominal",
+        "observedMovementDip": 16.091428571428573,
+        "durationMs": 23371.72704166174,
+        "processCpuMs": 6097.908,
+        "jsMoveCallbacks": 1050,
+        "nativeSamples": 1348,
+        "sampledPeakMiB": 104.34561920166016,
+        "inputToPhotonLatency": "not measured",
+        "delayMs": 0,
+        "inputEvents": 162,
+        "probeWorkMs": 0.05654182971920818,
+        "deliveryAgeMs": {
+          "n": 150,
+          "min": 10.620166674256325,
+          "p50": 15.289208367466927,
+          "p95": 18.02891670167446,
+          "max": 34.489250004291534
+        },
+        "eventToNativePoseMs": {
+          "n": 6,
+          "min": 85.7419999986887,
+          "p50": 86.37475001811981,
+          "p95": 89.32008334994316,
+          "max": 89.32008334994316
+        },
+        "dispatchToNativePoseMs": {
+          "n": 6,
+          "min": 67.98683333396912,
+          "p50": 70.69874998927116,
+          "p95": 74.80279166996479,
+          "max": 74.80279166996479
+        },
+        "observations": [
+          {
+            "gesture": 0,
+            "downMs": 75807576.53779167,
+            "firstMoveMs": 75807584.871125,
+            "firstMoveDispatchMs": 75807599.38841668,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 75807674.19120835,
+            "eventToPoseMs": 89.32008334994316,
+            "dispatchToPoseMs": 74.80279166996479
+          },
+          {
+            "gesture": 1,
+            "downMs": 75811364.08208334,
+            "firstMoveMs": 75811380.74875,
+            "firstMoveDispatchMs": 75811397.44395836,
+            "preInputStable": true,
+            "baseline": 40.06857142857143,
+            "responseMs": 75811468.67404167,
+            "eventToPoseMs": 87.92529167234898,
+            "dispatchToPoseMs": 71.23008331656456
+          },
+          {
+            "gesture": 2,
+            "downMs": 75815166.30912499,
+            "firstMoveMs": 75815182.97579168,
+            "firstMoveDispatchMs": 75815198.01904169,
+            "preInputStable": true,
+            "baseline": 24.114285714285714,
+            "responseMs": 75815268.71779168,
+            "eventToPoseMs": 85.7419999986887,
+            "dispatchToPoseMs": 70.69874998927116
+          },
+          {
+            "gesture": 3,
+            "downMs": 75818958.074375,
+            "firstMoveMs": 75818966.40770833,
+            "firstMoveDispatchMs": 75818984.27016668,
+            "preInputStable": true,
+            "baseline": 39.965714285714284,
+            "responseMs": 75819052.25700001,
+            "eventToPoseMs": 85.84929168224335,
+            "dispatchToPoseMs": 67.98683333396912
+          },
+          {
+            "gesture": 4,
+            "downMs": 75822558.36595833,
+            "firstMoveMs": 75822566.69929166,
+            "firstMoveDispatchMs": 75822584.72820836,
+            "preInputStable": true,
+            "baseline": 24,
+            "responseMs": 75822653.07404168,
+            "eventToPoseMs": 86.37475001811981,
+            "dispatchToPoseMs": 68.34583331644535
+          },
+          {
+            "gesture": 5,
+            "downMs": 75826350.22791667,
+            "firstMoveMs": 75826366.89458333,
+            "firstMoveDispatchMs": 75826383.20925002,
+            "preInputStable": true,
+            "baseline": 40.09142857142857,
+            "responseMs": 75826454.07879168,
+            "eventToPoseMs": 87.18420834839344,
+            "dispatchToPoseMs": 70.86954165995121
+          }
+        ]
+      }
+    },
+    "2026-10-30-retention-android.json.gz": {
+      "decompressedSha256": "68eea9581612ed2199ded81d4bd241482945cee3b2c21c6fcc06ede3f966cbbe",
+      "session": "a9ae6e46-f8b5-4f53-88b4-a9714c1b6584",
+      "build": {
+        "commit": "488cdab9019fa7740536397098c5e8712289f7ec",
+        "dirty": false,
+        "jolt": "0.1.0-rc.2",
+        "core": "9.1.3",
+        "runtime": "9.1.1",
+        "driverSha256": "1d66fb35e6f24abcc71ddd2c6bf7f11f646ef808288c094fed0a2903e8527aec",
+        "bundleMode": "production",
+        "builtAt": "2026-10-30T23:48:02.566Z"
+      },
+      "device": {
+        "physical": true,
+        "model": "asus ASUS_Z017DC",
+        "os": "8.0.0",
+        "osBuild": "asus/WW_Phone/ASUS_Z017D_1:8.0.0/OPR1.170623.026/15.0410.1806.68-0:user/release-keys",
+        "apiLevel": 26,
+        "thermalStatusAvailable": false,
+        "maximumRefreshHz": 60.000003814697266,
+        "animatorScale": 1,
+        "resources": {
+          "timeMs": 390760271.662236,
+          "cpuMs": 2420,
+          "memoryBytes": 113963008,
+          "memoryMetric": "rss",
+          "thermalState": null,
+          "lowPowerMode": false
+        }
+      },
+      "summary": {
+        "platform": "Android",
+        "cycles": 15,
+        "releasedViews": 960,
+        "heap": {
+          "javaUsedBytes": {
+            "n": 12,
+            "min": 1905480,
+            "p50": 1905480,
+            "p95": 1921864,
+            "max": 1921864,
+            "firstToLast": 0,
+            "loaded": {
+              "n": 12,
+              "min": 5395304,
+              "p50": 5419880,
+              "p95": 5440360,
+              "max": 5440360
+            },
+            "beforeRequestedGC": {
+              "n": 12,
+              "min": 5481320,
+              "p50": 5509992,
+              "p95": 5526376,
+              "max": 5526376
+            }
+          },
+          "nativeAllocatedBytes": {
+            "n": 12,
+            "min": 32800768,
+            "p50": 33174624,
+            "p95": 33729680,
+            "max": 33729680,
+            "firstToLast": -399648,
+            "loaded": {
+              "n": 12,
+              "min": 33532832,
+              "p50": 33932120,
+              "p95": 34446000,
+              "max": 34446000
+            },
+            "beforeRequestedGC": {
+              "n": 12,
+              "min": 33406288,
+              "p50": 33784104,
+              "p95": 34338064,
+              "max": 34338064
+            }
+          }
+        },
+        "note": "Bounded post-collection process allocators and weak native views; not an unbounded leak proof or total V8/GPU heap."
+      }
+    },
+    "2026-10-30-retention-ios.json.gz": {
+      "decompressedSha256": "d1d5c16005ba7f8a0c46e96df59cea79f78cf64be3e2b27069d497bc110267b4",
+      "session": "c10756e1-6f86-41a8-a7b9-61e3362b57a9",
+      "build": {
+        "commit": "31d4f23fa05aefe68c8de99c88a4629895bb58ab",
+        "dirty": false,
+        "jolt": "0.1.0-rc.2",
+        "core": "9.1.3",
+        "runtime": "9.1.0",
+        "driverSha256": "1d66fb35e6f24abcc71ddd2c6bf7f11f646ef808288c094fed0a2903e8527aec",
+        "bundleMode": "production",
+        "builtAt": "2026-10-30T23:50:19.158Z"
+      },
+      "device": {
+        "minimumFrameDurationDisabled": false,
+        "os": "27.2",
+        "osBuild": "Version 27.2 (Build 24B5099f)",
+        "reduceMotion": false,
+        "resources": {
+          "cpuMs": 188.149,
+          "thermalState": 0,
+          "lowPowerMode": false,
+          "memoryBytes": 50497256,
+          "memoryMetric": "phys_footprint",
+          "timeMs": 75266334.80916668
+        },
+        "model": "iPhone18,1",
+        "physical": 1,
+        "maximumRefreshHz": 120
+      },
+      "summary": {
+        "platform": "iOS",
+        "cycles": 15,
+        "releasedViews": 960,
+        "heap": {
+          "mallocInUseBytes": {
+            "n": 12,
+            "min": 9032880,
+            "p50": 9115440,
+            "p95": 9213200,
+            "max": 9213200,
+            "firstToLast": 180320,
+            "loaded": {
+              "n": 12,
+              "min": 20276960,
+              "p50": 20381824,
+              "p95": 20507024,
+              "max": 20507024
+            },
+            "beforeRequestedGC": {
+              "n": 12,
+              "min": 21792816,
+              "p50": 21884464,
+              "p95": 21990064,
+              "max": 21990064
+            }
+          },
+          "mallocBlocksInUse": {
+            "n": 12,
+            "min": 30533,
+            "p50": 30541,
+            "p95": 30569,
+            "max": 30569,
+            "firstToLast": 36,
+            "loaded": {
+              "n": 12,
+              "min": 263401,
+              "p50": 263507,
+              "p95": 264049,
+              "max": 264049
+            },
+            "beforeRequestedGC": {
+              "n": 12,
+              "min": 271067,
+              "p50": 271160,
+              "p95": 271273,
+              "max": 271273
+            }
+          },
+          "mallocReservedBytes": {
+            "n": 12,
+            "min": 62914560,
+            "p50": 62914560,
+            "p95": 62914560,
+            "max": 62914560,
+            "firstToLast": 0,
+            "loaded": {
+              "n": 12,
+              "min": 62914560,
+              "p50": 62914560,
+              "p95": 62914560,
+              "max": 62914560
+            },
+            "beforeRequestedGC": {
+              "n": 12,
+              "min": 62914560,
+              "p50": 62914560,
+              "p95": 62914560,
+              "max": 62914560
+            }
+          }
+        },
+        "note": "Bounded post-collection process allocators and weak native views; not an unbounded leak proof or total V8/GPU heap."
+      }
+    }
+  },
+  "controls": {
+    "android": {
+      "delayMs": 40,
+      "baseline": {
+        "n": 6,
+        "min": 12.112968981266022,
+        "p50": 12.687291979789734,
+        "p95": 17.152969002723694,
+        "max": 17.152969002723694
+      },
+      "delayed": {
+        "n": 6,
+        "min": 53.06677097082138,
+        "p50": 53.26630198955536,
+        "p95": 57.63958299160004,
+        "max": 57.63958299160004
+      }
+    },
+    "ios": {
+      "delayMs": 200,
+      "baseline": {
+        "n": 6,
+        "min": 112.16758333146572,
+        "p50": 112.98987500369549,
+        "p95": 121.29079167544842,
+        "max": 121.29079167544842
+      },
+      "delayed": {
+        "n": 6,
+        "min": 252.5644583106041,
+        "p50": 254.73954166471958,
+        "p95": 256.76808331906796,
+        "max": 256.76808331906796
+      }
+    },
+    "ios40": {
+      "status": "inconclusive",
+      "reason": "Baseline response already exceeds injected delay; no additional onset delay established. Kept verbatim and rejected by paired-control verifier."
+    }
+  },
+  "binaries": {
+    "androidApkSha256": "6b8503fc118c69c0193f85365a6192ac6847f9b1e9dbab637f3752e6be03070f",
+    "iosNormal": {
+      "bundleId": "org.nativescript.jolt.bindings",
+      "executableSha256": "f3957213acc2d8e245ac5fc782f3b0b7fd57b128a880048da0e6b3521348fd69"
+    },
+    "ios200ms": {
+      "bundleId": "org.nativescript.jolt.bindings",
+      "executableSha256": "f33f2b593d92d4cce296691c5fcbc539c4716835f7d42b72bc6d8020199c6e7b"
+    }
+  },
+  "limits": [
+    "Physical iPhone 17 Pro and ASUS_Z017DC only; observed pose callback cadence approximately 60 Hz, not 120 Hz acceptance or presented frames.",
+    "Android API 26 thermal status unavailable; low power mode off. Post-run battery snapshot 100%, 27.7 C, AC charging; no before-run battery snapshot. Battery temperature is not CPU/GPU thermal state.",
+    "iOS resource snapshots reported nominal temperature and low power mode off.",
+    "Six gesture onsets per path; iOS header has three clamped return gestures without a response inside the measurement window, explicitly excluded.",
+    "Input onset includes recognition, mappings, clamp and native pose sampling; not ongoing tracking lag, engine-only time or photons.",
+    "Malloc/Java/native allocator snapshots include the whole process and diagnostic data, exclude some mapped/GPU/runtime arenas, and are not exact allocator event counts or unlimited retention acceptance.",
+    "Original full-matrix sampling and ART counter failures are unchanged. These independent diagnostics do not make those matrices accepted."
+  ],
+  "sourceDifference": "Android 488cdab and iOS 31d4f23 app/diagnostics sources match; intervening commit adds Python verifier only. The separate iOS 200-ms control uses clean 90c7ab6, extending the diagnostic allowed-delay assertion and updating the runner; shipping driver hash is unchanged.",
+  "failedLaunch": {
+    "file": "2026-10-30-latency-android-launch-failure.log",
+    "sha256": "464db1030eaf97f4fa427025c7f0c80e23cf1dfcb4187ccb6998db5c398388ab",
+    "result": "RenderThread EGL_NOT_INITIALIZED before Ready; no input samples. Same APK successfully relaunched into a new output directory."
+  },
+  "hostValidation": {
+    "ios": "XCTest testInputWindows and testInputDelay passed; separate testInputDelay 200-ms run passed. No recording tests ran.",
+    "android": "ADB delivered three out-and-back gesture pairs per path; separate delay control."
+  },
+  "reusedRecordings": [
+    {
+      "path": "docs/public/media/binding-budget-ios.mp4",
+      "sha256": "a0352ea72361eee90e3b1968fdb29314317704fc73dd9d370281c35bb90c8ec2",
+      "platform": "Physical iPhone 17 Pro mirrored through Device Hub",
+      "language": "English",
+      "newPerformanceEvidence": false
+    },
+    {
+      "path": "docs/public/media/value-layers-android.mp4",
+      "sha256": "71aac27f711c4961f7b9562e590aaa04b56ad5d3177eb6df59975560ebd523db",
+      "platform": "Android emulator",
+      "language": "English",
+      "newPerformanceEvidence": false
+    }
+  ]
+}

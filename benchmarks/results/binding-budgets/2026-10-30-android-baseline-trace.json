@@ -1,0 +1,152 @@
+{
+  "purpose": "App-only trace from an additional fresh-process legacy-construction diagnostic; it does not replace the earlier full matrix or its failures.",
+  "session": "5b8ceea3-02fc-4e7f-916d-492293fb6749",
+  "build": {
+    "commit": "e6bbc755f3064bd56611922ffb7793575c8c5ec9",
+    "dirty": false,
+    "jolt": "0.1.0-rc.2",
+    "core": "9.1.3",
+    "runtime": "9.1.1",
+    "driverSha256": "6127b2be9978cb243301b235440c4c51d4902817cee250f052303250fc14d10c",
+    "bundleMode": "production",
+    "builtAt": "2026-10-30T22:04:56.877Z"
+  },
+  "device": {
+    "physical": true,
+    "model": "asus ASUS_Z017DC",
+    "os": "8.0.0",
+    "osBuild": "asus/WW_Phone/ASUS_Z017D_1:8.0.0/OPR1.170623.026/15.0410.1806.68-0:user/release-keys",
+    "apiLevel": 26,
+    "thermalStatusAvailable": false,
+    "maximumRefreshHz": 60.000003814697266,
+    "animatorScale": 1,
+    "resources": {
+      "timeMs": 387561170.441842,
+      "cpuMs": 1844,
+      "memoryBytes": 113643520,
+      "memoryMetric": "rss",
+      "thermalState": null,
+      "lowPowerMode": false
+    }
+  },
+  "appPid": 13960,
+  "command": "adb -s DEVICE shell atrace --async_start -b 8192 -a org.nativescript.jolt.bindings gfx view dalvik sched freq memreclaim",
+  "sourceAtraceSha256": "40d0ced2d60c8fd1b9fdcda357fa0f02f97eae22f33129dbbcdf24f48fb818bb",
+  "projection": "Decompress TRACE payload. Keep tracing_mark_write B and C records with tgid 13960; match nested B/E records by tid and keep their E records. Exclude other processes and all scheduler records. No timestamps or marker payloads are changed.",
+  "projectionSha256": "9f8e57553fb3dc128d5f034d02f8bf4fb740c81d29e09d732ade7a47aa31a84d",
+  "limits": [
+    "System tracing was enabled only for this isolated diagnostic, not either full matrix.",
+    "ART concurrent GC duration is not equivalent to main-thread pause time.",
+    "The original two sparse windows had no system trace; this later trace does not diagnose their cause."
+  ],
+  "longOrGcSpans": [
+    {
+      "startSeconds": 387560.046984,
+      "durationMs": 0.010999967344105244,
+      "tid": 13970,
+      "name": "Lock contention on GC barrier lock (owner tid: 14002)"
+    },
+    {
+      "startSeconds": 387560.044123,
+      "durationMs": 31.581000017467886,
+      "tid": 13970,
+      "name": "Background concurrent copying GC"
+    },
+    {
+      "startSeconds": 387565.261526,
+      "durationMs": 143.61500000813976,
+      "tid": 13970,
+      "name": "ProcessMarkStack"
+    },
+    {
+      "startSeconds": 387565.257387,
+      "durationMs": 147.75699999881908,
+      "tid": 13970,
+      "name": "MarkingPhase"
+    },
+    {
+      "startSeconds": 387565.25654,
+      "durationMs": 152.1980000543408,
+      "tid": 13970,
+      "name": "Background concurrent copying GC"
+    },
+    {
+      "startSeconds": 387569.651595,
+      "durationMs": 184.7330000018701,
+      "tid": 13970,
+      "name": "ProcessMarkStack"
+    },
+    {
+      "startSeconds": 387569.647267,
+      "durationMs": 189.06499998411164,
+      "tid": 13970,
+      "name": "MarkingPhase"
+    },
+    {
+      "startSeconds": 387569.646411,
+      "durationMs": 199.40799998585135,
+      "tid": 13970,
+      "name": "Background concurrent copying GC"
+    },
+    {
+      "startSeconds": 387575.340753,
+      "durationMs": 198.69699998525903,
+      "tid": 13960,
+      "name": "animation"
+    },
+    {
+      "startSeconds": 387575.340553,
+      "durationMs": 199.93100001011044,
+      "tid": 13960,
+      "name": "Choreographer#doFrame"
+    },
+    {
+      "startSeconds": 387578.101279,
+      "durationMs": 0.005999987479299307,
+      "tid": 13970,
+      "name": "Lock contention on GC barrier lock (owner tid: 13960)"
+    },
+    {
+      "startSeconds": 387577.850679,
+      "durationMs": 268.1849999935366,
+      "tid": 13970,
+      "name": "ProcessMarkStack"
+    },
+    {
+      "startSeconds": 387577.846416,
+      "durationMs": 272.45099999709055,
+      "tid": 13970,
+      "name": "MarkingPhase"
+    },
+    {
+      "startSeconds": 387577.845486,
+      "durationMs": 286.0929999733344,
+      "tid": 13970,
+      "name": "Background concurrent copying GC"
+    },
+    {
+      "startSeconds": 387579.233165,
+      "durationMs": 187.6940000220202,
+      "tid": 13960,
+      "name": "animation"
+    },
+    {
+      "startSeconds": 387579.233042,
+      "durationMs": 188.66100005107,
+      "tid": 13960,
+      "name": "Choreographer#doFrame"
+    },
+    {
+      "startSeconds": 387583.060134,
+      "durationMs": 180.48199999611825,
+      "tid": 13960,
+      "name": "animation"
+    },
+    {
+      "startSeconds": 387583.059938,
+      "durationMs": 181.59900000318885,
+      "tid": 13960,
+      "name": "Choreographer#doFrame"
+    }
+  ]
+}

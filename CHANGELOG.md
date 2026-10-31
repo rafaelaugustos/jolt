@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Complete the bounded physical binding/layer audit (#242) with OS-input-to-native-pose onset, calibrated delay controls, process allocator snapshots and 15 repeated mount/unmount cycles on each phone. Preserve failed/inconclusive attempts and prior diagnostic failures, enforce evidence with offline negative controls, and document workload guidance in four locales. These measurements do not establish input-to-photon latency, universal capacity or unbounded leak freedom.
+
+- Build Android numeric keyframe tracks in one native call (#242), retaining the prior path for older app binaries. Preserve native interpolation, units and playback controls, with on-device equivalence checks and physical workload evidence. Rebuild Android to use the optimization.
+
 - Record physical Android binding/composition observations for #242: all 22 workloads and 66 trials, with 20 verified workloads and two retained sparse-window failures, plus four automated real-input checks. Label unavailable pre-29 thermal telemetry explicitly and allow collection to resume without restarting the app. Preserve existing recordings and document the evidence in four locales. No production animation change; capacity, sparse-window diagnosis, presentation/input latency and heap acceptance remain open.
 
 - Complete the initial rotation/gravity physical acceptance for #114: Android lifecycle and intervals, real iPhone/Android recovery after controlled native service failures, process-cost observations, raw traces and offline negative controls. Reuse the reviewed physical recordings in all four guide locales. No production API/runtime change; deferred sensor types are tracked in #256. Calibrated axis accuracy, presented-frame latency, battery and sustained capacity are not established by these checks.

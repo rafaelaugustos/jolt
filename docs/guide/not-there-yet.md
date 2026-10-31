@@ -2,9 +2,9 @@
 
 **0.1.0-rc.2 is available.** Its features are shipped within the combinations documented in each guide. The feature scope for 0.1.0 is frozen; validation for the stable release is still in progress.
 
-RC.2 includes fixes for scroll anchors, iOS navigation after backgrounding and layered press/composition timing, plus native pointer springs and Android gallery lifecycle evidence. Binding/layer capacity measurements remain open in [#242](https://github.com/rafaelaugustos/jolt/issues/242).
+RC.2 includes fixes for scroll anchors, iOS navigation after backgrounding and layered press/composition timing, plus native pointer springs and Android gallery lifecycle evidence. Binding/layer measurements are documented in [#242](https://github.com/rafaelaugustos/jolt/issues/242).
 
-The [first binding/layer audit](./motion-values#binding-measurements) now includes physical iPhone measurements and Android emulator diagnostics. It documents expensive composition boundaries; broader hardware capacity and allocation/input-latency acceptance remain open in #242.
+The [binding/layer audit](./motion-values#binding-measurements) includes physical iPhone and Android preparation/playback measurements, automated input onset and repeated mount/unmount retention checks. Expensive composition boundaries, approximate allocation-counter failures and unavailable Android thermal telemetry remain explicit in the evidence. These results provide workload-specific guidance, not a universal capacity or presented-frame guarantee. Further optimization of costly windows and playback stalls is tracked in [#260](https://github.com/rafaelaugustos/jolt/issues/260).
 
 ## Available in RC.2 {#available-in-rc-1}
 

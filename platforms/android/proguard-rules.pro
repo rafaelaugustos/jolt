@@ -1,4 +1,5 @@
 -keep class org.rafaelaugusto.jolt.ColorTarget { *; }
+-keep class org.rafaelaugusto.jolt.KeyframeFactory { *; }
 -keep class org.rafaelaugusto.jolt.CircleWorld { *; }
 -keep class org.rafaelaugusto.jolt.CircleWorld$* { *; }
 -keep class org.rafaelaugusto.jolt.MotionProbe { *; }
