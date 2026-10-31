@@ -80,6 +80,7 @@ export const budgetSettings = {
   idleWindowMs: 600,
   baseX: 24,
   baseScale: 1.25,
+  windowComposition: 'native',
 } as const
 
 export function layerDuration(item: BudgetCase, index: number): number {

@@ -156,6 +156,54 @@ class BindingBudgets(unittest.TestCase):
         incomplete = dict(phone, completed=False)
         with self.assertRaises(AssertionError): budgets.audit(incomplete)
 
+    def test_native_window_composition(self):
+        phone = read('2026-10-31-native-windows-ios.json.gz')
+        self.assertEqual(phone['settings']['windowComposition'], 'native')
+        result = budgets.verify(phone)
+        self.assertEqual(len(result['cases']), 22)
+        for name, summary in result['cases'].items():
+            for trial in summary['trials']:
+                self.assertTrue(trial['nativeComposition'])
+                if name.endswith('-window') or name.endswith('-loop'):
+                    self.assertEqual(trial['boundaryTrackSubmissions'], 0)
+                    self.assertIsNone(trial['boundaryCallbackMs'])
+        self.assertTrue(budgets.audit(phone)['accepted'])
+        for name in ('android-after-view-64-window', 'android-after-value-16-window', 'ios-after-value-64-window'):
+            case = name.split('-', 2)[2]
+            report = read(f'2026-10-31-windows-{name}.json.gz')
+            budgets.verify(report, case=case, allow_unavailable_thermal=name.startswith('android'))
+        # The ASUS value-64-window attempts keep their regressed allocation counter.
+        for name in ('value-64-window', 'value-64-window-retry'):
+            with self.assertRaisesRegex(AssertionError, 'ART counter regressed'):
+                budgets.verify(read(f'2026-10-31-windows-android-after-{name}.json.gz'), case='value-64-window', allow_unavailable_thermal=True)
+        before = read('2026-10-31-windows-ios-before-value-64-window.json.gz')
+        self.assertNotIn('windowComposition', before['settings'])
+        self.assertGreater(budgets.verify(before, case='value-64-window')['cases']['value-64-window']['trials'][0]['boundaryTrackSubmissions'], 0)
+        report = read('2026-10-31-windows-ios-after-view-64-window.json.gz')
+        def trial(r): return r['cases'][0]['trials'][0]
+        def count(r, key):
+            for point in ('playbackEnd', 'afterDispose', 'idle'): trial(r)[point][key] += 1
+        def rebuild(r):
+            trial(r)['plays'].append(dict(trial(r)['plays'][0], atMs=trial(r)['afterStart']['atMs'] + 4000)); count(r, 'plays')
+        def timer(r):
+            trial(r)['timerWork'].append(dict(atMs=trial(r)['afterStart']['atMs'] + 1, requestedMs=4000, costMs=1)); count(r, 'timerCallbacks')
+        for name, mutate, message in [
+            ('window rebuilt', rebuild, 'rebuilt despite native composition'),
+            ('composer missing', lambda r: trial(r)['liveDuringPlayback'].update(nodes=0), 'composers missing'),
+            ('wrong composer count', lambda r: trial(r)['liveDuringPlayback'].update(nodes=1), 'composers missing'),
+            ('clock stopped', lambda r: trial(r)['liveDuringPlayback'].update(clock=0), 'composers missing'),
+            ('window timer', timer, 'Window timer scheduled'),
+            ('old protocol claimed', lambda r: r['settings'].pop('windowComposition'), 'Window boundaries were not exercised'),
+        ]:
+            with self.subTest(name=name):
+                bad = copy.deepcopy(report); mutate(bad)
+                with self.assertRaisesRegex(AssertionError, message):
+                    budgets.verify(bad, case='view-64-window')
+        loop = read('2026-10-31-windows-ios-after-value-64-loop.json.gz')
+        bad = copy.deepcopy(loop); trial(bad)['liveDuringPlayback'].update(nodes=1, clock=1)
+        with self.assertRaisesRegex(AssertionError, 'Unexpected native composer'):
+            budgets.verify(bad, case='value-64-loop')
+
     def test_physical_android_keeps_sparse_windows(self):
         report = read('2026-10-30-physical-android.json.gz')
         self.assertIs(report['device']['physical'], True)

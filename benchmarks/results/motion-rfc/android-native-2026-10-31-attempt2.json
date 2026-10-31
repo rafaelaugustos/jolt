@@ -1,0 +1,192 @@
+{
+  "platform": "Android",
+  "version": "16",
+  "composition": "native",
+  "phase": "disposed",
+  "snapshots": [
+    {
+      "name": "held-with-feedback",
+      "phase": "entrance",
+      "time": 192484,
+      "actual": { "x": 67.55000232514881, "scale": 1.1889680624008179 },
+      "expected": { "x": 72.52, "scale": 1.191696 },
+      "baseProgress": 0.2715,
+      "active": 3,
+      "frames": 0,
+      "live": { "nodes": 0, "clock": 0 },
+      "channels": [
+        { "property": "x", "layer": "base", "paused": false },
+        { "property": "scaleX", "layer": "base", "paused": false },
+        { "property": "scaleY", "layer": "base", "paused": false },
+        { "property": "x", "layer": "feedback", "paused": false }
+      ]
+    },
+    {
+      "name": "held-without-feedback",
+      "phase": "entrance",
+      "time": 192866,
+      "actual": { "x": 57.71999976748512, "scale": 1.204367995262146 },
+      "expected": { "x": 57.35, "scale": 1.208416 },
+      "baseProgress": 0.367,
+      "active": 3,
+      "frames": 0,
+      "live": { "nodes": 0, "clock": 0 },
+      "channels": [
+        { "property": "x", "layer": "base", "paused": false },
+        { "property": "scaleX", "layer": "base", "paused": false },
+        { "property": "scaleY", "layer": "base", "paused": false }
+      ]
+    },
+    {
+      "name": "released-to-base",
+      "phase": "entrance",
+      "time": 193748,
+      "actual": { "x": 42.43999953497024, "scale": 1.407849907875061 },
+      "expected": { "x": 40.5, "scale": 1.4175 },
+      "baseProgress": 0.5875,
+      "active": 3,
+      "frames": 0,
+      "live": { "nodes": 0, "clock": 0 },
+      "channels": [
+        { "property": "x", "layer": "base", "paused": false },
+        { "property": "scaleX", "layer": "base", "paused": false },
+        { "property": "scaleY", "layer": "base", "paused": false }
+      ]
+    },
+    {
+      "name": "entrance-settled",
+      "phase": "entrance",
+      "time": 195665,
+      "actual": { "x": 24.279998779296875, "scale": 1.4986499547958374 },
+      "expected": { "x": 24, "scale": 1.5 },
+      "baseProgress": 1,
+      "active": 0,
+      "frames": 0,
+      "live": { "nodes": 0, "clock": 0 },
+      "channels": []
+    },
+    {
+      "name": "common-loop-early",
+      "phase": "loops",
+      "time": 196178,
+      "actual": { "x": 27.596668061755953, "scale": 1.4986499547958374 },
+      "expected": { "x": 34.55375000000001, "scale": 1.5 },
+      "baseProgress": 1,
+      "active": 1,
+      "frames": 0,
+      "live": { "nodes": 0, "clock": 0 },
+      "channels": [
+        { "property": "x", "layer": "wobble", "paused": false },
+        { "property": "x", "layer": "pulse", "paused": false }
+      ]
+    },
+    {
+      "name": "common-loop-late",
+      "phase": "loops",
+      "time": 197461,
+      "actual": { "x": 22.141668410528276, "scale": 1.4986499547958374 },
+      "expected": { "x": 24.854166666666668, "scale": 1.5 },
+      "baseProgress": 1,
+      "active": 1,
+      "frames": 0,
+      "live": { "nodes": 0, "clock": 0 },
+      "channels": [
+        { "property": "x", "layer": "wobble", "paused": false },
+        { "property": "x", "layer": "pulse", "paused": false }
+      ]
+    },
+    {
+      "name": "before-window",
+      "phase": "windows",
+      "time": 201778,
+      "actual": { "x": 44.549203055245535, "scale": 1.4986499547958374 },
+      "expected": { "x": 47.53837053252556, "scale": 1.5 },
+      "baseProgress": 1,
+      "active": 0,
+      "frames": 0,
+      "live": { "nodes": 1, "clock": 1 },
+      "channels": [
+        { "property": "x", "layer": "wobble", "paused": false },
+        { "property": "x", "layer": "pulse", "paused": false }
+      ]
+    },
+    {
+      "name": "after-window",
+      "phase": "windows",
+      "time": 202379,
+      "actual": { "x": 37.597586495535715, "scale": 1.4986499547958374 },
+      "expected": { "x": 41.48435943815907, "scale": 1.5 },
+      "baseProgress": 1,
+      "active": 0,
+      "frames": 0,
+      "live": { "nodes": 1, "clock": 1 },
+      "channels": [
+        { "property": "x", "layer": "wobble", "paused": false },
+        { "property": "x", "layer": "pulse", "paused": false }
+      ]
+    },
+    {
+      "name": "disposed",
+      "phase": "disposed",
+      "time": 204061,
+      "actual": { "x": 37.81290980747768, "scale": 1.4986499547958374 },
+      "expected": { "x": 37.812908820564616, "scale": 1.5 },
+      "baseProgress": 1,
+      "active": 0,
+      "frames": 0,
+      "live": { "nodes": 0, "clock": 0 },
+      "channels": []
+    }
+  ],
+  "plays": [
+    { "phase": "entrance", "property": "x", "duration": 4000, "repeat": 0 },
+    { "phase": "entrance", "property": "scaleX", "duration": 4000, "repeat": 0 },
+    { "phase": "entrance", "property": "scaleY", "duration": 4000, "repeat": 0 },
+    { "phase": "entrance", "property": "x", "duration": 3507, "repeat": 0 },
+    { "phase": "entrance", "property": "x", "duration": 3504, "repeat": 0 },
+    { "phase": "entrance", "property": "scaleX", "duration": 3203, "repeat": 0 },
+    { "phase": "entrance", "property": "scaleY", "duration": 3186, "repeat": 0 },
+    { "phase": "entrance", "property": "x", "duration": 3174, "repeat": 0 },
+    { "phase": "entrance", "property": "scaleX", "duration": 3163, "repeat": 0 },
+    { "phase": "entrance", "property": "scaleY", "duration": 3156, "repeat": 0 },
+    { "phase": "entrance", "property": "x", "duration": 2995, "repeat": 0 },
+    { "phase": "entrance", "property": "scaleX", "duration": 2987, "repeat": 0 },
+    { "phase": "entrance", "property": "scaleY", "duration": 2977, "repeat": 0 },
+    { "phase": "entrance", "property": "x", "duration": 2710, "repeat": 0 },
+    { "phase": "entrance", "property": "x", "duration": 2695, "repeat": 0 },
+    { "phase": "entrance", "property": "x", "duration": 2116, "repeat": 0 },
+    { "phase": "entrance", "property": "scaleX", "duration": 2114, "repeat": 0 },
+    { "phase": "entrance", "property": "scaleY", "duration": 2111, "repeat": 0 },
+    { "phase": "entrance", "property": "x", "duration": 1949, "repeat": 0 },
+    { "phase": "entrance", "property": "scaleX", "duration": 1945, "repeat": 0 },
+    { "phase": "entrance", "property": "scaleY", "duration": 1942, "repeat": 0 },
+    { "phase": "loops", "property": "x", "duration": 1800, "repeat": "infinite" },
+    { "phase": "loops", "property": "x", "duration": 28800, "repeat": "infinite" },
+    { "phase": "windows", "property": "x", "duration": 1402, "repeat": "infinite" }
+  ],
+  "touches": [
+    { "action": "down", "phase": "entrance", "time": 192247 },
+    { "action": "move", "phase": "entrance", "time": 192281 },
+    { "action": "move", "phase": "entrance", "time": 192314 },
+    { "action": "move", "phase": "entrance", "time": 192402 },
+    { "action": "move", "phase": "entrance", "time": 192474 },
+    { "action": "move", "phase": "entrance", "time": 192583 },
+    { "action": "move", "phase": "entrance", "time": 192619 },
+    { "action": "move", "phase": "entrance", "time": 192661 },
+    { "action": "move", "phase": "entrance", "time": 192713 },
+    { "action": "move", "phase": "entrance", "time": 192750 },
+    { "action": "move", "phase": "entrance", "time": 192774 },
+    { "action": "move", "phase": "entrance", "time": 192828 },
+    { "action": "move", "phase": "entrance", "time": 192879 },
+    { "action": "move", "phase": "entrance", "time": 192907 },
+    { "action": "move", "phase": "entrance", "time": 192951 },
+    { "action": "move", "phase": "entrance", "time": 192973 },
+    { "action": "move", "phase": "entrance", "time": 193089 },
+    { "action": "move", "phase": "entrance", "time": 193111 },
+    { "action": "move", "phase": "entrance", "time": 193151 },
+    { "action": "move", "phase": "entrance", "time": 193174 },
+    { "action": "move", "phase": "entrance", "time": 193213 },
+    { "action": "move", "phase": "entrance", "time": 193261 },
+    { "action": "up", "phase": "entrance", "time": 193312 }
+  ]
+}

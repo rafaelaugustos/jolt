@@ -12,6 +12,7 @@ import {
 } from '@nativescript/core'
 import { animate, press, set, stop, type PlaybackAnimation } from '@rafaelaugusto/jolt'
 import { getDriver } from '../dist/driver/index.js'
+import { liveComposition } from '../dist/live-spring-driver.js'
 import { currentValue, inspectViewMotion } from '../dist/engine.js'
 
 export function motionRfcChecks(view: View) {
@@ -38,6 +39,7 @@ export function motionRfcChecks(view: View) {
       JSON.stringify({
         platform: Device.os,
         version: Device.osVersion,
+        composition: liveComposition() ? 'native' : 'windows',
         phase,
         snapshots,
         plays,
@@ -104,6 +106,12 @@ export function motionRfcChecks(view: View) {
       baseProgress: progress,
       active: active.size,
       frames,
+      live: isIOS
+        ? { nodes: JoltLiveSpring.nodeCount(), clock: JoltLiveSpring.activeCount() }
+        : {
+            nodes: org.rafaelaugusto.jolt.LiveSpring.nodeCount(),
+            clock: org.rafaelaugusto.jolt.LiveSpring.activeCount(),
+          },
       channels: inspectViewMotion(view).map((e) => ({
         property: e.property,
         layer: e.layer ?? 'base',

@@ -116,6 +116,7 @@ declare class JoltLiveSpring extends NSObject {
   readonly moving: boolean
   followMappings(source: JoltLiveSpring, mappings: string): void
   updateInput(snapshot: string): void
+  setInputsRest(snapshots: string, rest: number): void
   setTarget(value: number): void
   setReduced(value: boolean): void
   setPaused(value: boolean): void

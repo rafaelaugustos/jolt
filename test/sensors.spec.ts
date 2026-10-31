@@ -32,6 +32,7 @@ class Node implements LiveNode {
   }
   reduced = vi.fn()
   paused = vi.fn()
+  inputs() {}
   bind() {
     return { value: () => this.value, layers: vi.fn(), cancel: vi.fn() }
   }

@@ -59,6 +59,7 @@ beforeEach(() => {
         moving: () => false,
         follow() {},
         update() {},
+        inputs() {},
         reduced() {},
         paused() {},
         dispose: vi.fn(),

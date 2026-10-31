@@ -37,6 +37,8 @@ export interface LiveNode {
   moving(): boolean
   follow(source: LiveNode, maps: readonly LiveMapping[]): void
   update(input: LiveInput): void
+  /** Several sampled inputs over a rest value, each on its own clock, summed natively. */
+  inputs(rest: number, inputs: readonly LiveInput[]): void
   reduced(value: boolean): void
   paused(value: boolean): void
   bind(view: View, property: NumericProperty, maps: readonly LiveMapping[]): LiveBinding
@@ -57,6 +59,17 @@ export function liveSpringDriver(): LiveSpringDriver {
       'springValue() needs the Jolt native classes. Rebuild the native app after upgrading Jolt.',
     )
   return nativeDriver
+}
+/** Native composition is optional: an app binary without the classes keeps sampled playback. */
+export function liveComposition(): LiveSpringDriver | undefined {
+  return override ?? (available() ? nativeDriver : undefined)
+}
+export const stillPhysics: LiveSpringPhysics = {
+  stiffness: 100,
+  damping: 20,
+  mass: 1,
+  restDelta: 0.001,
+  restSpeed: 0.01,
 }
 function available() {
   return isAndroid
@@ -104,6 +117,7 @@ const nativeDriver: LiveSpringDriver = {
           input.running
             ? native.updateInput(JSON.stringify(input))
             : native.setTarget(input.value),
+        inputs: (rest, inputs) => native.setInputs(rest, JSON.stringify(inputs)),
         reduced: (value) => native.setReduced(value),
         paused: (value) => native.setPaused(value),
         bind(view, property, maps) {
@@ -145,6 +159,7 @@ const nativeDriver: LiveSpringDriver = {
         input.running
           ? native.updateInput(JSON.stringify(input))
           : native.setTarget(input.value),
+      inputs: (rest, inputs) => native.setInputsRest(JSON.stringify(inputs), rest),
       reduced: (value) => native.setReduced(value),
       paused: (value) => native.setPaused(value),
       bind(view, property, maps) {

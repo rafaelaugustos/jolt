@@ -423,18 +423,22 @@ function createPage() {
               ? settings.finiteWindowMs
               : settings.endlessWindowMs,
           )
-          // Slow hosts may spend seconds rebuilding a window. Retain that cost
-          // and wait for two actual boundary submissions, up to the same 30 s
-          // validation ceiling; elapsed time is never normalized or discarded.
+          // Incompatible endless periods play on native composers: one node per
+          // value, or one per view property for direct layers. The window must
+          // cross a former four-second boundary without any track submission.
+          const liveDuringPlayback = live()
           if (item.playback === 'window') {
-            const expected = afterStart.plays + item.views * item.properties * 2
-            while (diagnostic.snapshot().plays < expected && now() - startedAt < 24000)
-              await wait(4000)
             check(
-              diagnostic.snapshot().plays >= expected,
-              'Two composition boundaries were not reached.',
+              liveDuringPlayback.clock === 1 &&
+                liveDuringPlayback.nodes ===
+                  (item.path === 'value' ? 1 : item.views * item.properties),
+              'Native composition was not active.',
             )
-          }
+            check(
+              diagnostic.snapshot().plays === afterStart.plays,
+              'A window rebuilt despite native composition.',
+            )
+          } else check(liveDuringPlayback.nodes === 0, 'Unexpected native composer.')
           const playbackEnd = diagnostic.snapshot()
           const native = JSON.parse(sampler.finish())
           sampler = undefined
@@ -462,6 +466,7 @@ function createPage() {
             startedAt,
             startMs,
             afterStart,
+            liveDuringPlayback,
             playbackEnd,
             native,
             observations,

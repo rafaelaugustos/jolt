@@ -47,7 +47,7 @@ A drag keeps its layers: while you drag, a shake or a pulse on the same view goe
 
 ## How it plays
 
-While a property has layers, Jolt plays its base and layers as one composite native track. It samples the composition when something changes: an animation starts, ends, pauses, seeks or is stopped, or a drag moves the base. Nothing runs in JavaScript between those moments. Endless layers become a native loop over the least common multiple of their periods, up to 30 seconds; beyond that, the composition is sampled again every few seconds. When the last layer is gone and adds nothing, the property goes back to a plain animation.
+While a property has layers, Jolt plays its base and layers as one composite native track. It samples the composition when something changes: an animation starts, ends, pauses, seeks or is stopped, or a drag moves the base. Nothing runs in JavaScript between those moments. Endless layers become a native loop over the least common multiple of their periods, up to 30 seconds; beyond that, a native composer plays the layers on their own clocks without rebuilding anything. An app built without Jolt's native classes falls back to sampling the composition again every few seconds. When the last layer is gone and adds nothing, the property goes back to a plain animation.
 
 ## Motion values
 
@@ -55,5 +55,5 @@ While a property has layers, Jolt plays its base and layers as one composite nat
 
 **Fixed in 0.1.0-rc.2:** [press on a dedicated layer](./press#layered-press) returns only its own contribution to neutral. Compiled view-layer playback also catches up after native keyframe allocation, so setup time does not leave a newly composed track behind its source clock.
 
-<Clip name="motion-rfc-ios" caption="iOS 26.2 simulator, English Layers demo with the opt-in RFC audit: real held touch, shake removal during the entrance, release to the non-unit base, two endless layers and a composition-window rollover. Native playback at original speed; no physical-device performance claim." />
+<Clip name="motion-rfc-ios" caption="iOS 26.0 simulator, English Layers demo with the opt-in RFC audit: real held touch, shake removal during the entrance, release to the non-unit base, and two endless layers with no common period composed natively across the former four-second window boundary. Native playback at original speed; no physical-device performance claim." />
 <Clip name="motion-rfc-android" caption="Android 16 / API 36 emulator, English Layers demo with the opt-in RFC audit: real ADB taps and held touch exercise the same press, independent layers and window rollover. Original speed; emulator correctness evidence." />

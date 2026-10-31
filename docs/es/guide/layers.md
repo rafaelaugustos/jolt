@@ -47,7 +47,7 @@ Un arrastre mantiene sus capas: mientras arrastras, se produce una sacudida o un
 
 ## Cómo se juega {#how-it-plays}
 
-Si bien una propiedad tiene capas, Jolt reproduce su base y sus capas como una pista nativa compuesta. Muestra la composición cuando algo cambia: una animación comienza, termina, se detiene, busca o se detiene, o un arrastre mueve la base. No se ejecuta nada en JavaScript entre esos momentos. Las capas infinitas se convierten en un bucle nativo sobre el mínimo común múltiplo de sus períodos, hasta 30 segundos; más allá de eso, la composición se vuelve a muestrear cada pocos segundos. Cuando la última capa desaparece y no agrega nada, la propiedad vuelve a una animación simple.
+Si bien una propiedad tiene capas, Jolt reproduce su base y sus capas como una pista nativa compuesta. Muestra la composición cuando algo cambia: una animación comienza, termina, se detiene, busca o se detiene, o un arrastre mueve la base. No se ejecuta nada en JavaScript entre esos momentos. Las capas infinitas se convierten en un bucle nativo sobre el mínimo común múltiplo de sus períodos, hasta 30 segundos; más allá de eso, un compositor nativo reproduce las capas en sus propios relojes sin reconstruir nada. Una app compilada sin las clases nativas de Jolt vuelve a muestrear la composición cada pocos segundos. Cuando la última capa desaparece y no agrega nada, la propiedad vuelve a una animación simple.
 
 ## Valores de movimiento {#motion-values}
 
@@ -55,5 +55,5 @@ Si bien una propiedad tiene capas, Jolt reproduce su base y sus capas como una p
 
 **Corregido en 0.1.0-rc.2:** [press en una capa exclusiva](./press#layered-press) devuelve solo su contribución al valor neutro. La reproducción de capas también compensa el tiempo de creación de los keyframes nativos para mantener la nueva composición sincronizada con su reloj de origen.
 
-<Clip name="motion-rfc-ios" caption="Simulador iOS 26.2, demo Layers en inglés con la auditoría opcional del RFC: toque real sostenido, eliminación de shake durante la entrada, liberación que conserva la base, dos capas infinitas y cambio de ventana de composición. Reproducción nativa a velocidad original; sin medición en dispositivo físico." />
+<Clip name="motion-rfc-ios" caption="Simulador iOS 26.0, demo Layers en inglés con la auditoría opcional del RFC: toque real sostenido, eliminación de shake durante la entrada, liberación que conserva la base y dos capas infinitas sin período común compuestas nativamente a través del antiguo límite de la ventana de cuatro segundos. Reproducción nativa a velocidad original; sin medición en dispositivo físico." />
 <Clip name="motion-rfc-android" caption="Emulador Android 16 / API 36, demo Layers en inglés con la auditoría opcional del RFC: toques reales mediante ADB comprueban pulsación, capas independientes, cambio de ventana y limpieza. Velocidad original; evidencia de corrección en el emulador." />

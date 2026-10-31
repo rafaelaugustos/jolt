@@ -2,7 +2,13 @@ import type { View } from '@nativescript/core'
 import { getDriver } from './driver/index.js'
 import { readValue, writeValue, type Property } from './properties.js'
 import type { Track } from './track.js'
-import type { LiveInput } from './live-spring-driver.js'
+import {
+  liveComposition,
+  stillPhysics,
+  type LiveBinding,
+  type LiveInput,
+  type LiveNode,
+} from './live-spring-driver.js'
 
 /** The channel of regular animations; layers are named next to it. */
 export const BASE = ''
@@ -11,7 +17,10 @@ const SAMPLES_PER_SECOND = 60
 const MAX_SAMPLES = 6000
 /** Endless channels loop natively over the least common multiple of their periods, up to this. */
 const MAX_LOOP = 30000
-/** Beyond it, the composition is played in windows and sampled again at each one. */
+/**
+ * Beyond it, a native composer plays the layers without rebuilding. An app binary
+ * without the native classes falls back to windows sampled again every few seconds.
+ */
 const WINDOW = 4000
 
 export const multiplies = (property: Property) =>
@@ -69,6 +78,7 @@ export function mixFor(view: View, property: Property): Mix {
 /** One property of one view: a base and named layers, played natively as one composite track. */
 export class Mix {
   private live: { read(): number; layers(inputs: readonly LiveInput[]): void } | undefined
+  private composer: { node: LiveNode; binding: LiveBinding } | undefined
   private readonly rests = new Map<string, number>()
   private readonly channels = new Map<string, Channel>()
   private native: unknown
@@ -93,6 +103,7 @@ export class Mix {
     read(): number
     layers(inputs: readonly LiveInput[]): void
   }): () => void {
+    this.release()
     this.live = base
     this.compose()
     return () => {
@@ -201,6 +212,30 @@ export class Mix {
     })
   }
 
+  /** Every channel and rest as a native layer; the base is one of them unless something else owns it. */
+  private inputs(now: number, withBase: boolean): LiveInput[] {
+    const layers: LiveInput[] = []
+    for (const key of new Set([...this.rests.keys(), ...this.channels.keys()])) {
+      if (key === BASE && !withBase) continue
+      const channel = this.channels.get(key)
+      const value = this.part(key, now, now)
+      const track = channel?.track
+      layers.push({
+        value,
+        running: !!channel && !channel.paused,
+        elapsed: this.elapsed(key, now),
+        duration: track?.duration ?? 0,
+        delay: track?.delay ?? 0,
+        repeat: track ? (Number.isFinite(track.repeat) ? track.repeat : -1) : 0,
+        reverse: track?.reverse ?? false,
+        to: track?.to ?? value,
+        times: track?.times ?? [],
+        values: track?.values ?? [],
+      })
+    }
+    return layers
+  }
+
   /** Samples the composition from now and plays it as one native track. */
   private compose() {
     const driver = getDriver()
@@ -211,26 +246,7 @@ export class Mix {
 
     if (this.live) {
       if (previous !== undefined) driver.stop(this.view, previous)
-      const layers: LiveInput[] = []
-      for (const key of new Set([...this.rests.keys(), ...this.channels.keys()])) {
-        if (key === BASE) continue
-        const channel = this.channels.get(key)
-        const value = this.part(key, now, now)
-        const track = channel?.track
-        layers.push({
-          value,
-          running: !!channel && !channel.paused,
-          elapsed: this.elapsed(key, now),
-          duration: track?.duration ?? 0,
-          delay: track?.delay ?? 0,
-          repeat: track ? (Number.isFinite(track.repeat) ? track.repeat : -1) : 0,
-          reverse: track?.reverse ?? false,
-          to: track?.to ?? value,
-          times: track?.times ?? [],
-          values: track?.values ?? [],
-        })
-      }
-      this.live.layers(layers)
+      this.live.layers(this.inputs(now, false))
       return
     }
 
@@ -248,11 +264,14 @@ export class Mix {
     if (previous !== undefined) driver.stop(this.view, previous)
     const loop = finite <= 0 && periods.length ? leastCommonMultiple(periods) : undefined
     if (finite <= 0 && !periods.length) {
+      this.release()
       writeValue(this.view, this.property, this.value(now))
       driver.sync?.(this.view)
       this.dissolve()
       return
     }
+    if (finite <= 0 && loop === undefined && this.composeNatively(now)) return
+    this.release()
 
     const span = finite > 0 ? finite : (loop ?? WINDOW)
     const steps = Math.max(
@@ -290,6 +309,27 @@ export class Mix {
     // phase after construction, including when a rolling window is replaced.
     const elapsed = driver.now() - now
     if (elapsed > 1) driver.control?.(this.view, native, elapsed, false)
+  }
+
+  /** Endless layers with no common period play on a native composer instead of rolling windows. */
+  private composeNatively(now: number): boolean {
+    const live = liveComposition()
+    if (!live || !layerable(this.property) || !this.view.nativeViewProtected) return false
+    if (!this.composer) {
+      const node = live.create(identity(this.property), stillPhysics, true)
+      const binding = node.bind(this.view, this.property, [])
+      this.composer = { node, binding }
+    }
+    this.composer.binding.layers(this.inputs(now, true))
+    return true
+  }
+
+  private release() {
+    const composer = this.composer
+    if (!composer) return
+    this.composer = undefined
+    composer.binding.cancel()
+    composer.node.dispose()
   }
 
   private dissolve() {

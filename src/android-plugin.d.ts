@@ -171,6 +171,7 @@ declare namespace org.rafaelaugusto.jolt {
     isMoving(): boolean
     follow(source: LiveSpring, mappings: string): void
     updateInput(snapshot: string): void
+    setInputs(rest: number, snapshots: string): void
     setTarget(value: number): void
     setReduced(value: boolean): void
     setPaused(value: boolean): void

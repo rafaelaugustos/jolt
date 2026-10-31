@@ -16,13 +16,16 @@ import {
 } from './color.js'
 import { onReducedMotion, reducedMotion, timeScale } from './config.js'
 import { springPhysics, type SpringParams } from './spring.js'
-import { mixFor } from './mixer.js'
+import { layerable, mixFor } from './mixer.js'
 import {
-  liveSpringDriver,
-  syncLiveSprings,
-  type LiveNode,
-  type LiveMapping,
   type LiveBinding,
+  type LiveInput,
+  type LiveMapping,
+  type LiveNode,
+  liveComposition,
+  liveSpringDriver,
+  stillPhysics,
+  syncLiveSprings,
 } from './live-spring-driver.js'
 import {
   clampDecoration,
@@ -44,7 +47,7 @@ import {
 import type { KeyframeProperty, Target } from './types.js'
 import { playbackSource, type PlaybackAnimation, type PlaybackClock } from './playback.js'
 import { TimedAnimation } from './timed-animation.js'
-import { valueTrack } from './value-track.js'
+import { compositionSpan, valueTrack } from './value-track.js'
 import {
   ValueObservers,
   type SubscribeOptions,
@@ -108,6 +111,8 @@ interface Run {
   readonly track: Track
   readonly base: number
   readonly span: number
+  /** The track's samples in the value's units, ready for a native composer. */
+  readonly scaled: readonly number[]
   readonly animation: TimedAnimation
   readonly startedAt: number
   readonly clock?: Pick<PlaybackClock, 'time'>
@@ -213,7 +218,10 @@ class Root extends Derived {
   private readonly rests = new Map<string, number>()
   private readonly runs = new Map<string, Run>()
   private presentation: Presentation | undefined
+  private presented = false
   private cancelPresentation: (() => void) | undefined
+  private composer: LiveNode | undefined
+  private composition: { rest: number; inputs: LiveInput[] } | undefined
 
   constructor(initial: number) {
     super(undefined, (value) => value, false)
@@ -345,6 +353,7 @@ class Root extends Derived {
       track,
       base,
       span,
+      scaled: track.values.map((value) => base + span * value),
       animation,
       startedAt: driver.now(),
       clock: { time: () => animation.time },
@@ -398,6 +407,74 @@ class Root extends Derived {
   private sync() {
     this.cancelPresentation?.()
     this.cancelPresentation = undefined
+    this.presentation = undefined
+    this.presented = false
+    const now = getDriver().now()
+    const runs = [...this.runs.values()].filter((run) => !run.animation.paused)
+    const span =
+      runs.length > 1
+        ? compositionSpan(
+            runs.map((run) => ({ track: run.track, elapsed: this.runTime(run, now) })),
+          )
+        : undefined
+    this.composition = span?.windowed && liveComposition() ? this.inputs(now) : undefined
+    if (this.composition)
+      this.composer?.inputs(this.composition.rest, this.composition.inputs)
+    else {
+      this.settle()
+      this.present()
+    }
+    this.changed()
+  }
+
+  /** Every run as a native input on its own clock; rests and paused runs stand still. */
+  private inputs(now: number) {
+    let rest = 0
+    for (const [key, value] of this.rests) if (!this.runs.has(key)) rest += value
+    const inputs: LiveInput[] = []
+    for (const run of this.runs.values()) {
+      const elapsed = this.runTime(run, now)
+      const { track } = run
+      inputs.push({
+        value: run.base + run.span * track.valueAt(elapsed),
+        running: !run.animation.paused,
+        elapsed,
+        duration: track.duration,
+        delay: track.delay,
+        repeat: Number.isFinite(track.repeat) ? track.repeat : -1,
+        reverse: track.reverse,
+        to: run.base + run.span * track.to,
+        times: track.times,
+        values: run.scaled,
+      })
+    }
+    return { rest, inputs }
+  }
+
+  /** The native composer a binding joins while this value would otherwise roll windows. */
+  composerNode(): LiveNode | undefined {
+    const composition = this.composition
+    if (!composition) return undefined
+    if (!this.composer) {
+      const live = liveComposition()
+      if (!live) return undefined
+      this.composer = live.create(this.raw(), stillPhysics, true)
+      this.composer.inputs(composition.rest, composition.inputs)
+    }
+    return this.composer
+  }
+
+  /** Drops the composer once no binding needs it or the composition stops rolling. */
+  settle() {
+    if (this.composition && this.bindings.size) return
+    this.composer?.dispose()
+    this.composer = undefined
+  }
+
+  /** Sampled at once for tracks, on demand while bindings sit on the composer. */
+  private present(): Presentation | undefined {
+    if (this.presented) return this.presentation
+    this.presented = true
     const now = getDriver().now()
     let rest = 0
     for (const [key, value] of this.rests) if (!this.runs.has(key)) rest += value
@@ -429,7 +506,7 @@ class Root extends Derived {
         clock?.cancel()
       }
     }
-    this.changed()
+    return this.presentation
   }
 
   protected changed() {
@@ -440,7 +517,7 @@ class Root extends Derived {
 
   /** The plan that plays this value's run, mapped, on one bound property. */
   plan(binding: Binding): Plan {
-    const run = this.presentation
+    const run = this.present()
     const { property, read } = binding
     const write = (value: number) =>
       isDecorationProperty(property)
@@ -495,12 +572,13 @@ class Root extends Derived {
 
   /** Capture the current native presentation clock, even if a later command replaces it. */
   captureTime(): () => number {
-    const run = this.presentation
+    const run = this.present()
     return run ? () => this.runTime(run) : () => 0
   }
 
   elapsed(): number {
-    return this.presentation ? this.runTime(this.presentation) : 0
+    const run = this.present()
+    return run ? this.runTime(run) : 0
   }
 
   get paused(): boolean {
@@ -862,6 +940,16 @@ function attach(view: View, property: Property, source: Derived) {
   const root = source.root
   if (root instanceof SpringRoot)
     return attachSpring(view, property as NumericProperty, source, root)
+  let native: LiveBinding | undefined, composer: LiveNode | undefined
+  let releaseMix: (() => void) | undefined
+  const detach = () => {
+    if (!native) return
+    native.cancel()
+    releaseMix?.()
+    releaseMix = undefined
+    native = composer = undefined
+    syncLiveSprings(view)
+  }
   const binding: Binding = {
     view,
     property,
@@ -870,6 +958,24 @@ function attach(view: View, property: Property, source: Derived) {
     read: source.read,
     sync() {
       if (!view.isLoaded || !view.nativeViewProtected) return
+      const node = layerable(property) && !source.color ? root.composerNode() : undefined
+      if (node) {
+        if (composer === node) return
+        detach()
+        binding.animation?.stop()
+        binding.animation = undefined
+        stopBase(view, [property])
+        const handle = node.bind(view, property as NumericProperty, source.mappings)
+        native = handle
+        composer = node
+        releaseMix = mixFor(view, property).attachLive({
+          read: () => handle.value(),
+          layers: (layers) => handle.layers(layers),
+        })
+        syncLiveSprings(view)
+        return
+      }
+      detach()
       if (!root.running) {
         // A value at rest writes straight through, so scroll offsets cost one write per event.
         binding.animation?.stop()
@@ -894,12 +1000,17 @@ function attach(view: View, property: Property, source: Derived) {
         animation.seekTime(elapsed)
       binding.animation = animation
     },
+    cleanup() {
+      view.off('unloaded', detach)
+      detach()
+    },
   }
   let properties = bound.get(view)
   if (!properties) bound.set(view, (properties = new Map()))
   properties.set(property, binding)
   root.bindings.add(binding)
   view.on('loaded', binding.sync)
+  view.on('unloaded', detach)
   try {
     binding.sync()
   } catch (error) {
@@ -1134,6 +1245,7 @@ function release(binding: Binding) {
   const properties = bound.get(binding.view)
   if (properties?.get(binding.property) === binding) properties.delete(binding.property)
   binding.cleanup?.()
+  binding.root.settle()
 }
 
 /** A regular animation on a bound property takes it over; the value keeps its other bindings. */

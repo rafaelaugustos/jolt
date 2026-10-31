@@ -108,8 +108,12 @@ def verify(report, allow_simulator=False, case=None, allow_dirty=False, allow_un
     expected = [case] if case else list(CASES)
     assert report['selected'] == expected
     assert [entry['workload']['id'] for entry in report['cases']] == expected, 'Missing/duplicate workload'
-    assert report['settings'] == dict(warmups=2, preparations=7, trials=3, finiteDurationMs=1800,
+    expected_settings = dict(warmups=2, preparations=7, trials=3, finiteDurationMs=1800,
         finiteWindowMs=2200, endlessWindowMs=8800, idleWindowMs=600, baseX=24, baseScale=1.25)
+    # Since native composition, windowed workloads play on retained native nodes instead of rebuilding.
+    native_windows = report['settings'].get('windowComposition') == 'native'
+    if native_windows: expected_settings['windowComposition'] = 'native'
+    assert report['settings'] == expected_settings
     result = {}
     for entry in report['cases']:
         item = entry['workload']
@@ -187,7 +191,17 @@ def verify(report, allow_simulator=False, case=None, allow_dirty=False, allow_un
             boundaries = [p for p in plays if trial['afterStart']['atMs'] < p['atMs'] < trial['playbackEnd']['atMs']]
             if item['playback'] == 'loop':
                 assert not boundaries, 'Common loop unexpectedly rebuilt'
-            if item['playback'] == 'window':
+            if native_windows:
+                live = trial['liveDuringPlayback']
+                assert trial['afterStart']['atMs'] <= trial['playbackEnd']['atMs']
+                if item['playback'] == 'window':
+                    assert not boundaries, 'Window rebuilt despite native composition'
+                    assert live['clock'] == 1 and live['nodes'] == (1 if item['path'] == 'value' else item['views'] * item['properties']), 'Native composers missing'
+                    assert not any(t['requestedMs'] >= 3900 for t in timers), 'Window timer scheduled despite native composition'
+                    assert duration >= 8790, 'Native composition did not cross a former window boundary'
+                else:
+                    assert live == dict(nodes=0, clock=0), 'Unexpected native composer'
+            elif item['playback'] == 'window':
                 assert len(boundaries) >= item['views'] * item['properties'] * 2, 'Window boundaries were not exercised'
                 if item['path'] == 'value': assert any(t['requestedMs'] >= 3900 for t in timers)
                 else: assert len(endings) >= item['views'] * item['properties'] * 2
@@ -199,7 +213,7 @@ def verify(report, allow_simulator=False, case=None, allow_dirty=False, allow_un
                 advertisedIntervalMs=summary([f[2]-f[1] for f in frames]),
                 sampledPeakMiB=native['sampledPeakMemoryBytes']/1024**2,
                 nativeTrackSubmissions=len(plays), submittedValues=sum(p['values'] for p in plays),
-                boundaryTrackSubmissions=len(boundaries),
+                boundaryTrackSubmissions=len(boundaries), nativeComposition=native_windows,
                 boundaryCallbackMs=summary([t['costMs'] for t in timers if t['requestedMs'] >= 3900])
                     if any(t['requestedMs'] >= 3900 for t in timers) else None,
                 nativeCompletionCallbackMs=summary([e['costMs'] for e in endings]) if endings else None))
