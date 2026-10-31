@@ -435,3 +435,74 @@ For these measured configurations:
 [Follow-up #260](https://github.com/rafaelaugustos/jolt/issues/260) owns reducing the measured composition costs and isolating remaining playback/GC stalls. It requires its own before/after physical evidence. The decision is to investigate persistent composition and runtime allocation together, not move only numeric evaluation based on these traces. The independent cross-stack comparison stays in #65.
 
 The reviewed English physical-iPhone and Android-emulator recordings remain embedded in all four guide languages. They demonstrate the existing workloads and composition behavior, with their original platform labels; they are not footage of the new unrecorded latency/retention measurements. No manual device interaction or new recording was required for this follow-up.
+
+## Native composition of rolling windows (#260, 2026-10-31)
+
+The optimized matrix above left the windowed workloads as the largest remaining boundary cost. Splitting the retained [bulk-construction evidence](results/binding-budgets/2026-10-30-android-bulk.json.gz) by call site attributes it: each 64-view composed-value boundary of 368–670 ms spent 201–316 ms inside 192 `driver.play` calls (1.05–1.65 ms per track on the ASUS) and the rest creating a `ViewAnimation` per binding, releasing the previous owner and seeking the new track; each direct-view boundary of 820–927 ms ran 192 native completion callbacks that resampled 241 points of three channels and resubmitted, about 3.4 ms of JavaScript plus 0.85 ms of submission per mix. Trimming either half still leaves a periodic stall, so the change removes the boundary instead.
+
+Since this change, a composition whose endless periods share no loop under 30 seconds, or whose finite parts outlast a four-second window, plays on the native live nodes that already drive `springValue()`. The nodes accept a rest value plus several sampled inputs on their own clocks (`setInputs` on Android, `setInputs:rest:` on iOS). A mix of view layers binds its property to one composer with every channel as a layer; a motion value with such runs creates one composer per value and binds each view property to it with the binding's own numeric mappings, so view layers still compose on top. Pausing a run, stopping a layer or a finite part ending hands the property back to the sampled tracks, which continue from the same elapsed time. `plan()` consumers such as gradients and spring followers still receive sampled windows, computed only when asked. An app binary without the native classes keeps the previous rolling windows; the unit suite covers both paths. The iOS node also decodes inputs, layers and mappings into C arrays once and fixes the key path and shadow lookup at bind time; both nodes step an instant node once per frame instead of at every 240 Hz substep.
+
+The protocol now records `windowComposition: "native"` in the report settings and a `liveDuringPlayback` node count per trial. For windowed workloads the verifier requires zero boundary submissions, no window timer, one composer for a value and one per view property for direct layers, and a window that still crosses the former four-second boundary; every other workload must show zero composers. Reports without the setting keep the previous boundary requirements, so the committed matrices verify unchanged. The Layers RFC audit records `composition` and per-sample live counts and, for a native report, requires no window track and one composer before and after the former rollover.
+
+### Before and after on the same phones
+
+Fresh-process runs of the seven affected workloads on the same ASUS_Z017DC (Android 8.0.0 / API 26, unavailable thermal status acknowledged, charging) and iPhone 17 Pro (iOS 27.2, nominal thermal state), clean Release builds with production JavaScript: before is `fc44c18` (main after #266), after is `6c95a6a`. Three trials each; warm start p50/p95 over seven samples; the callback gap is the worst Choreographer or display-link interval over three trials; CPU is whole-process time as a share of one core over the 8.8-second window. The compatible loop is unchanged by design and is listed as a control.
+
+ASUS_Z017DC:
+
+| Workload          | Warm start p50 / p95 ms | Boundary submissions per trial |    Worst callback gap ms | Median CPU % of one core | Native composers |
+| ----------------- | ----------------------: | -----------------------------: | -----------------------: | -----------------------: | ---------------: |
+| `value-1-window`  |       31 / 40 → 13 / 23 |                          6 → 0 |    19.8–23.0 → 17.1–17.5 |              31.8 → 30.8 |                1 |
+| `value-16-window` |   173 / 216 → 104 / 132 |                         96 → 0 |  163.8–196.2 → 17.4–18.4 |              53.5 → 42.9 |                1 |
+| `value-64-window` |   469 / 506 → 236 / 269 |                        384 → 0 | 437.4–678.9 → 17.5–173.8 |              86.1 → 73.7 |                1 |
+| `view-1-window`   |       61 / 71 → 32 / 39 |                          6 → 0 |    45.3–47.8 → 17.1–17.6 |              33.3 → 30.6 |                3 |
+| `view-16-window`  |   385 / 515 → 204 / 232 |                         96 → 0 |  226.6–287.1 → 17.5–19.8 |              54.4 → 44.8 |               48 |
+| `view-64-window`  | 1206 / 1385 → 541 / 560 |                    384–497 → 0 |  565.8–874.2 → 17.6–18.0 |              94.8 → 80.6 |              192 |
+| `value-64-loop`   |   463 / 469 → 437 / 489 |                          0 → 0 |  20.0–268.4 → 21.4–266.3 |              95.4 → 98.6 |                0 |
+
+iPhone 17 Pro:
+
+| Workload          | Warm start p50 / p95 ms | Boundary submissions per trial |   Worst callback gap ms | Median CPU % of one core | Native composers |
+| ----------------- | ----------------------: | -----------------------------: | ----------------------: | -----------------------: | ---------------: |
+| `value-1-window`  |           7 / 8 → 3 / 4 |                          6 → 0 |   16.9–23.6 → 16.8–18.5 |                1.3 → 1.4 |                1 |
+| `value-16-window` |       43 / 45 → 25 / 26 |                         96 → 0 |   50.4–66.6 → 16.8–17.2 |                3.5 → 4.1 |                1 |
+| `value-64-window` |       57 / 61 → 29 / 31 |                        384 → 0 |  99.9–117.9 → 16.8–26.9 |               5.0 → 12.2 |                1 |
+| `view-1-window`   |         11 / 12 → 6 / 6 |                          6 → 0 |   21.6–24.4 → 16.8–16.8 |                1.7 → 1.4 |                3 |
+| `view-16-window`  |       32 / 42 → 32 / 34 |                         96 → 0 |   43.2–66.6 → 16.8–16.9 |                3.5 → 4.5 |               48 |
+| `view-64-window`  |     113 / 123 → 47 / 49 |                        384 → 0 | 109.4–140.7 → 16.8–17.3 |               6.4 → 13.7 |              192 |
+| `value-64-loop`   |       63 / 75 → 64 / 75 |                          0 → 0 |   16.8–16.9 → 16.8–16.9 |                2.9 → 2.8 |                0 |
+
+Raw per-case reports: `results/binding-budgets/2026-10-31-windows-{android,ios}-{before,after}-WORKLOAD.json.gz`. The after reports pass the native-window verifier except `value-64-window` on the ASUS, where both attempts are retained: in each, the third trial's approximate ART allocated-byte counter decreased during one concurrent collection (count +1, 158–200 ms of collector time, about 9 MB freed, `blocking-gc-count` 0), which the existing rule rejects rather than clamping. The 173.8 and 190.1 ms gaps in those two trials fall at the start of that trial, during the same collection; the other four trials of the workload stay at 17.5–18.2 ms.
+
+On this ASUS the per-frame composer costs less than the animators it replaces, so whole-process CPU falls while the gaps disappear. On the iPhone the composers are visible: a display-link callback now evaluates 192 bindings per frame where Core Animation keyframes needed no app CPU, and the 64-view windows rose from 5.0 to 12.2 and from 6.4 to 13.7 percent of one core. A first after-build without the C-array decoding, retained as `results/binding-budgets/2026-10-31-windows-ios-first-after-{value,view}-64-window.json.gz`, measured 17.2 and 27.0 percent. The cost scales with bound properties, not with time; an application that composes hundreds of properties this way should measure its own screen.
+
+The Layers RFC audit, which exercises the same 701/709 ms pair on the demo card, was rerun on this build; its outcome and retained emulator attempts are in [motion-values-rfc.md](motion-values-rfc.md#native-composition-re-run-2026-10-31).
+
+### Full matrices on the optimized build
+
+Both phones then ran the complete 22-workload matrix once more on `6c95a6a`: [iPhone](results/binding-budgets/2026-10-31-native-windows-ios.json.gz) and [ASUS](results/binding-budgets/2026-10-31-native-windows-android.json.gz), with the [conditions and decompressed hashes](results/binding-budgets/2026-10-31-windows-conditions.json). The native-window verifier accepts **22 of 22** workloads on each: the six windowed workloads show zero boundary submissions, their composers and a window past the former boundary; the finite, layered, looped and observed workloads show zero composers; every trial returned bindings, channels, native nodes, tracks, frames and timers to zero. The earlier sparse-window and allocation-counter failures did not recur in these runs; that is an observation about these two sessions, not a claim that the counters became reliable.
+
+### The compatible loop's stall
+
+`value-64-loop` was unchanged and still shows one trial per run with a gap of about 266 ms at the very start of its window, before and after. A system trace of one run on the optimized build ([app-only projection](results/binding-budgets/2026-10-31-windows-android-loop-trace.json.gz), categories `gfx view dalvik sched freq memreclaim`, filtered to the benchmark process' own markers) attributes it: no main-thread span exceeds 40 ms; `Choreographer#doFrame` peaks at 37.6 ms with the `animation` stage at 23.0 ms for 384 animators; four background concurrent copying collections of up to 209.9 ms run on the collector thread with zero blocking collections. The gap is the synchronous start of the workload, 437–489 ms of warm submission for 384 keyframe tracks, which lands between the probe's first and second callbacks when the probe happens to fire before `start()` returns. It is preparation cost, not a playback pause, and the guidance to prepare large batches ahead of interaction stands; moving loops to the composers would trade that start for the per-frame cost measured above.
+
+### Reproduce
+
+```sh
+npm run build && npm run benchmark:typecheck && npm test -- --maxWorkers=4
+# Release builds and installs as in "Reproduce" above, from a committed tree.
+for c in value-64-window view-64-window value-16-window view-16-window \
+         value-1-window view-1-window value-64-loop; do
+  python3 benchmarks/run-binding-budgets.py android YOUR_SERIAL /tmp/win-android/$c.json \
+    --case $c --allow-unavailable-thermal
+  python3 benchmarks/run-binding-budgets.py ios YOUR_IPHONE /tmp/win-ios/$c.json --case $c
+done
+python3 benchmarks/verify-binding-budgets.py /tmp/win-android/value-16-window.json \
+  --case value-16-window --allow-unavailable-thermal
+adb -s YOUR_SERIAL shell atrace --async_start -b 8192 -a org.nativescript.jolt.bindings \
+  gfx view dalvik sched freq memreclaim
+python3 benchmarks/run-binding-budgets.py android YOUR_SERIAL /tmp/loop.json \
+  --case value-64-loop --allow-unavailable-thermal
+adb -s YOUR_SERIAL shell atrace --async_stop -z -o /sdcard/loop.atrace
+python3 -m unittest discover -s benchmarks -p 'test_binding_*.py'
+```

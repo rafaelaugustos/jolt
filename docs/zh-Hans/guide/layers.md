@@ -55,5 +55,5 @@ stop(card) // everything stops; what is on screen becomes the new value
 
 **0.1.0-rc.2 中的修复：** [独立层中的 press](./press#layered-press) 仅将自身贡献恢复为中性值。视图层播放还会补偿创建原生关键帧所耗费的时间，使新组合与源时钟保持同步。
 
-<Clip name="motion-rfc-ios" caption="iOS 26.2 模拟器，英文 Layers 演示，启用可选 RFC 审计：真实持续触摸、入场期间移除 shake、释放后保留基础状态、两个无限层及组合窗口切换。原速原生播放，不代表真机性能测量。" />
+<Clip name="motion-rfc-ios" caption="iOS 26.0 模拟器，英文 Layers 演示，启用可选 RFC 审计：真实持续触摸、入场期间移除 shake、释放后保留基础状态，以及两个没有公共周期的无限层在原生合成器中跨过原四秒窗口边界持续播放。原速原生播放，不代表真机性能测量。" />
 <Clip name="motion-rfc-android" caption="Android 16 / API 36 模拟器，英文 Layers 演示，启用可选 RFC 审计：通过真实 ADB 点击和持续触摸验证按压、独立层与窗口切换。原速播放，属于模拟器正确性证据。" />

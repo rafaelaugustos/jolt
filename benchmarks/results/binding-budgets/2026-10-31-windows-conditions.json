@@ -1,0 +1,152 @@
+{
+  "purpose": "Native composition of rolling windows (#260): per-workload before/after runs, full matrices on the optimized build, and the loop trace.",
+  "builds": {
+    "before": {
+      "commit": "fc44c1842f0bd34b4c9515cd73064c4e45a77ab2",
+      "dirty": false,
+      "jolt": "0.1.0-rc.3",
+      "core": "9.1.3",
+      "runtime": "9.1.1",
+      "driverSha256": "1d66fb35e6f24abcc71ddd2c6bf7f11f646ef808288c094fed0a2903e8527aec",
+      "bundleMode": "production",
+      "builtAt": "2026-10-31T05:51:23.916Z"
+    },
+    "after": {
+      "commit": "6c95a6a5f37b77e9943b3c33da512fd91544c40d",
+      "dirty": false,
+      "jolt": "0.1.0-rc.3",
+      "core": "9.1.3",
+      "runtime": "9.1.1",
+      "driverSha256": "1d66fb35e6f24abcc71ddd2c6bf7f11f646ef808288c094fed0a2903e8527aec",
+      "bundleMode": "production",
+      "builtAt": "2026-10-31T06:26:53.481Z"
+    },
+    "iosBefore": {
+      "commit": "fc44c1842f0bd34b4c9515cd73064c4e45a77ab2",
+      "dirty": false,
+      "jolt": "0.1.0-rc.3",
+      "core": "9.1.3",
+      "runtime": "9.1.0",
+      "driverSha256": "1d66fb35e6f24abcc71ddd2c6bf7f11f646ef808288c094fed0a2903e8527aec",
+      "bundleMode": "production",
+      "builtAt": "2026-10-31T05:53:42.475Z"
+    },
+    "iosAfter": {
+      "commit": "6c95a6a5f37b77e9943b3c33da512fd91544c40d",
+      "dirty": false,
+      "jolt": "0.1.0-rc.3",
+      "core": "9.1.3",
+      "runtime": "9.1.0",
+      "driverSha256": "1d66fb35e6f24abcc71ddd2c6bf7f11f646ef808288c094fed0a2903e8527aec",
+      "bundleMode": "production",
+      "builtAt": "2026-10-31T06:27:38.111Z"
+    }
+  },
+  "devices": {
+    "android": {
+      "physical": true,
+      "model": "asus ASUS_Z017DC",
+      "os": "8.0.0",
+      "osBuild": "asus/WW_Phone/ASUS_Z017D_1:8.0.0/OPR1.170623.026/15.0410.1806.68-0:user/release-keys",
+      "apiLevel": 26,
+      "thermalStatusAvailable": false,
+      "maximumRefreshHz": 60.000003814697266,
+      "animatorScale": 1,
+      "resources": {
+        "timeMs": 414708599.846694,
+        "cpuMs": 1809,
+        "memoryBytes": 119832576,
+        "memoryMetric": "rss",
+        "thermalState": null,
+        "lowPowerMode": false
+      }
+    },
+    "ios": {
+      "minimumFrameDurationDisabled": false,
+      "os": "27.2",
+      "osBuild": "Version 27.2 (Build 24B5099f)",
+      "reduceMotion": false,
+      "resources": {
+        "cpuMs": 146.967,
+        "thermalState": 0,
+        "lowPowerMode": false,
+        "memoryBytes": 37783272,
+        "memoryMetric": "phys_footprint",
+        "timeMs": 99018481.35987502
+      },
+      "model": "iPhone18,1",
+      "physical": 1,
+      "maximumRefreshHz": 120
+    }
+  },
+  "perCaseWorkloads": [
+    "value-1-window",
+    "value-16-window",
+    "value-64-window",
+    "view-1-window",
+    "view-16-window",
+    "view-64-window",
+    "value-64-loop"
+  ],
+  "retainedFailures": {
+    "2026-10-31-windows-android-after-value-64-window.json.gz": "ART counter regressed (trial 2, one concurrent collection)",
+    "2026-10-31-windows-android-after-value-64-window-retry.json.gz": "ART counter regressed (trial 2, one concurrent collection)",
+    "2026-10-31-windows-ios-first-after-*.json.gz": "Intermediate iOS build ba56510 before the C-array decoding; retained for the CPU comparison, superseded by 6c95a6a"
+  },
+  "fullMatrices": {
+    "android": "2026-10-31-native-windows-android.json.gz",
+    "ios": "2026-10-31-native-windows-ios.json.gz",
+    "result": "22 of 22 workloads accepted on both phones with the native-window verifier"
+  },
+  "batterySnapshots": {
+    "androidBeforeRuns": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 2534979\n  status: 5\n  health: 2\n  present: true\n  level: 100\n  scale: 100\n  voltage: 4328\n  temperature: 290\n  technology: Li-ion\n  USB abnormal: 0\n  vbus liquid: 0\n  vbus short: 0\n  quick charging: 0\n",
+    "androidAfterRunsBefore": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 2534979\n  status: 5\n  health: 2\n  present: true\n  level: 100\n  scale: 100\n  voltage: 4327\n  temperature: 280\n  technology: Li-ion\n  USB abnormal: 0\n  vbus liquid: 0\n  vbus short: 0\n  quick charging: 0\n",
+    "androidAfterRunsAfter": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 2534979\n  status: 5\n  health: 2\n  present: true\n  level: 100\n  scale: 100\n  voltage: 4327\n  temperature: 280\n  technology: Li-ion\n  USB abnormal: 0\n  vbus liquid: 0\n  vbus short: 0\n  quick charging: 0\n",
+    "androidMatrixBefore": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 2534979\n  status: 5\n  health: 2\n  present: true\n  level: 100\n  scale: 100\n  voltage: 4327\n  temperature: 280\n  technology: Li-ion\n  USB abnormal: 0\n  vbus liquid: 0\n  vbus short: 0\n  quick charging: 0\n",
+    "androidMatrixAfter": "Current Battery Service state:\n  AC powered: true\n  USB powered: false\n  Wireless powered: false\n  Max charging current: 1500000\n  Max charging voltage: 5000000\n  Charge counter: 2534979\n  status: 5\n  health: 2\n  present: true\n  level: 100\n  scale: 100\n  voltage: 4326\n  temperature: 277\n  technology: Li-ion\n  USB abnormal: 0\n  vbus liquid: 0\n  vbus short: 0\n  quick charging: 0\n"
+  },
+  "hostNote": "The Mac host ran other applications during collection; device-side measurements are unaffected, host polling happens every 30 seconds.",
+  "decompressedSha256": {
+    "2026-10-31-native-windows-android.json.gz": "83f65bfc844dd99082833e1f4258621fc97e8d911f90c8d528c505d7b1766697",
+    "2026-10-31-native-windows-ios.json.gz": "6ccd4237c9bcb23cb5e2a947dff0cc9470d03bd844b3587c611519367f8b2b77",
+    "2026-10-31-windows-android-after-value-1-window.json.gz": "3fe42ae7458ac98774393838836240644c22cb2b692b82772fa0543a430db72f",
+    "2026-10-31-windows-android-after-value-16-window.json.gz": "2cc6cbd340deb342bf267520abe4e7ca9d584f61169f7b92c721404e3934d578",
+    "2026-10-31-windows-android-after-value-64-loop.json.gz": "2dcd572ccabe197b4a2c1bf9d06ac19e7cd3c5e5e456825fc6c269160f3ab0cb",
+    "2026-10-31-windows-android-after-value-64-window-retry.json.gz": "e2d7234ff59ddc082377a1d4e611cd38636542ebba986c1af542c59ac88feaed",
+    "2026-10-31-windows-android-after-value-64-window.json.gz": "4abd8447cf36c420d382481eb7151bddd360c0f692a332c64e7d0bdcacb767fd",
+    "2026-10-31-windows-android-after-view-1-window.json.gz": "ddea4b19721dc041888219598700c5b973d662b6d529938e6643e6f1a4c01868",
+    "2026-10-31-windows-android-after-view-16-window.json.gz": "00b8334eca0c72f2a621eb1b1fe553d2b320f166bda82619108ae9c586b3fe89",
+    "2026-10-31-windows-android-after-view-64-window.json.gz": "e9b8f38f289e3d438c4387a14139fa62a534df84f37563c0a8819164a30445e3",
+    "2026-10-31-windows-android-before-value-1-window.json.gz": "cae6ce1719f3e5f55f10b9ddd85f488ff9f4fbdb04676186a3967ee12fab2cef",
+    "2026-10-31-windows-android-before-value-16-window.json.gz": "b31cc9bca6f64595e064027517918a2c21dd10475884edcf9e124bff04347de5",
+    "2026-10-31-windows-android-before-value-64-loop.json.gz": "d027a89c8dd064e7fd1c8c6bb84c0106bca8552134b0e71e7baea868d0f6c8a7",
+    "2026-10-31-windows-android-before-value-64-window.json.gz": "78a268ae4e6d78d203e0209ba20e4142e2788ea414748bac46e9975b48adbe14",
+    "2026-10-31-windows-android-before-view-1-window.json.gz": "f193efb7e843e31c7dbf53b1f71bdf697941adfb829834e2bc0a2878fad50a94",
+    "2026-10-31-windows-android-before-view-16-window.json.gz": "c943e8275a27e6763de0cb42906091f06b5b6691b3d4bd37cec3e6f4c5a123a7",
+    "2026-10-31-windows-android-before-view-64-window.json.gz": "5ae055cd4c3327785e1eee8583af7529e960917b31d0223b517cdd446728e130",
+    "2026-10-31-windows-android-loop-trace.json.gz": "93de15be73350bb596f2b394eb88daac9b17dd743469d81988a0b28a45042c9a",
+    "2026-10-31-windows-android-trace-run-value-64-loop.json.gz": "9bed28e1194adc3517d84161879f18d8018163a8601e9ebed16732f2fc0dd0c1",
+    "2026-10-31-windows-ios-after-value-1-window.json.gz": "378663a2c01b6f5a3eb75337c29383811a4010343494b48536254562c7db3aae",
+    "2026-10-31-windows-ios-after-value-16-window.json.gz": "5aa40de419e82c631acca6010b26e58ff2ca34992e31a6a98cad70d4ed94bc72",
+    "2026-10-31-windows-ios-after-value-64-loop.json.gz": "cfd703887c95762f995edd23f0103430e4f6355416a0d2b49ae6f840e1e7fd08",
+    "2026-10-31-windows-ios-after-value-64-window.json.gz": "501e295763f7afd015476e77c91224c4187a0af6cd83a914f58aab84fc7f1c04",
+    "2026-10-31-windows-ios-after-view-1-window.json.gz": "5fe3cbc1cf5ba7592ff51ebeb872bf399641319e1e13778b3edb0be2df469e78",
+    "2026-10-31-windows-ios-after-view-16-window.json.gz": "073b2ad01e671d63b4154f5fb03125190e5e4f5df7eeafc8ec81d30afd792379",
+    "2026-10-31-windows-ios-after-view-64-window.json.gz": "633a328bd6778c07896cae32053085af2635734264c8e8df4689cbcd61e358a2",
+    "2026-10-31-windows-ios-before-value-1-window.json.gz": "e82305454ca3bf18b715a35906b903b7e5a37a89f20af241bca85f272e1fa626",
+    "2026-10-31-windows-ios-before-value-16-window.json.gz": "1dd75703b2a9b6a4d011bea7bb24a1bdc089445951e3901fc766e54388bf84ab",
+    "2026-10-31-windows-ios-before-value-64-loop.json.gz": "44f97b7243ceb5f12416f25f6c1c8bfb112d315f675a8d9d2a8341d9e2faaca2",
+    "2026-10-31-windows-ios-before-value-64-window.json.gz": "36a2d912fcf0c0ec56c7c1cd8ec60e1f1749b4756dec0ffab072b0d3e525a6d0",
+    "2026-10-31-windows-ios-before-view-1-window.json.gz": "d95afe81028c5902a8d53f986a4fe54cad01e751452924bdb87055cce0f1ce08",
+    "2026-10-31-windows-ios-before-view-16-window.json.gz": "55806307c46a33aad9afcb9fec05835a23f37055f6f115752305c199346b8002",
+    "2026-10-31-windows-ios-before-view-64-window.json.gz": "bb65333ec2449dc517852f8a341f14ac0dc20b98047a0654084f8737db7eb593",
+    "2026-10-31-windows-ios-first-after-value-64-window.json.gz": "92830a09d70780be43f5d72a7de573cb6a095fcf34cfbf52459f9b71d8c82e80",
+    "2026-10-31-windows-ios-first-after-view-64-window.json.gz": "0f0f31399f29f72dbe6c8e67b314e33f1e8611cad9120e327651c47e24519835"
+  },
+  "limits": [
+    "Android API 26 provides no thermal-status telemetry; null is not nominal.",
+    "Battery temperature is not CPU/GPU thermal state.",
+    "Native callback opportunities are not presented frames; CPU is whole-process time including the diagnostic.",
+    "The composer cost scales with bound properties; the 64-view rows are the largest fan-out measured, not a limit."
+  ]
+}
