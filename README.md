@@ -691,7 +691,7 @@ The 0.1.0 feature scope is frozen. Physical-device acceptance for the gallery ([
 
 **Animations** from `animate()`, `decay()`, `sequence()`, `symbolEffect()`, `reveal()` and `conceal()`: `await`, `finished`, `stop()`. `press()`, `shimmer()`, `loader()`, `confetti()` and `particles()` return cleanup functions.
 
-**Helpers**: `definePreset`, `presets`, `springs`, `cubicBezier`, plus the types (`Keyframes`, `Transition`, `Spring`, `Tween`, `Preset`, `Presets`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target`...).
+**Helpers**: `definePreset`, `presets`, `springs`, `cubicBezier`, `toView`, plus the types (`Keyframes`, `Transition`, `Spring`, `Tween`, `Preset`, `Presets`, `PresetName`, `SpringName`, `Easing`, `Animation`, `Target`...).
 
 The core also exports [`scrollHeader()`](https://jolt.rafaelaugusto.dev/guide/scroll-header). Optional modules are included in the core package and imported through their own entry points:
 

@@ -7,7 +7,10 @@ Draw a checkmark, reveal a ring, or turn a play symbol into pause bars. The opti
 
 ## Draw a path
 
-Use a dedicated empty view and create the shape after native layout. The view supplies sizing, accessibility and input; the renderer does not install a gesture handler or change the view's hit geometry.
+Use a dedicated empty view. The shape can be created before the view loads, for example in a Vue `onMounted`: it attaches when the view is loaded, with the current `strokeStart`/`strokeEnd`, and an animation requested before that starts once attached. The view supplies sizing, accessibility and input; the renderer does not install a gesture handler or change the view's hit geometry.
+
+<Clip name="shapes-mount-ios" caption="iOS simulator: the lab creates its four shapes in onMounted, before layout, so they are already drawn when the screen appears after launch; two real taps on Draw again then animate the strokes. English UI; original timing, launch included." />
+<Clip name="shapes-mount-android" caption="Android emulator: the same shapes created on mount appear with the screen after the launch splash; two real ADB taps on Draw again redraw the strokes. English UI; original timing, not a physical-device performance measurement." />
 
 ```ts
 import { shape } from '@rafaelaugusto/jolt/shapes'

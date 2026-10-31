@@ -80,7 +80,7 @@ Lo que devuelve `animate()`, `decay()`, `sequence()` y los pasos de una secuenci
 
 ## Ayudantes {#helpers}
 
-`definePreset(name, preset)`, `presets`, `springs`, [`origamiSpring({ friction, tension })`](./react-native#springs), `cubicBezier`. Consulte [ajustes preestablecidos personalizados](./presets#custom-presets) para obtener información sobre el registro y los nombres escritos.
+`definePreset(name, preset)`, `presets`, `springs`, [`origamiSpring({ friction, tension })`](./react-native#springs), `cubicBezier`, `toView(target)`. `toView()` devuelve la vista NativeScript detrás de cualquier objetivo aceptado, para ayudantes que reciben los mismos objetivos que `animate()`. Consulte [ajustes preestablecidos personalizados](./presets#custom-presets) para obtener información sobre el registro y los nombres escritos.
 
 ## Vue {#vue}
 

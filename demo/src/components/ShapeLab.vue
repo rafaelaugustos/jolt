@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Application, File, isIOS, knownFolders, type View } from '@nativescript/core'
-import { onUnmounted, ref } from 'nativescript-vue'
+import { onMounted, onUnmounted, ref } from 'nativescript-vue'
 import { configure, motionScope, type PlaybackAnimation } from '@rafaelaugusto/jolt'
 import { shape, type Shape } from '@rafaelaugusto/jolt/shapes'
 import { launchArgument } from '../launch'
@@ -21,7 +21,8 @@ const RING = 'M50 13A37 37 0 1 1 50 87A37 37 0 1 1 50 13'
 const LINE = 'M8 18C50 5 88 30 128 16S208 5 252 18'
 const surfaces: { id: string; view: View; shape: Shape }[] = []
 let handles: PlaybackAnimation[] = [],
-  ended = false
+  ended = false,
+  attached = false
 const events: object[] = []
 function audit(name: string, error?: string) {
   if (!auditMode) return
@@ -56,49 +57,42 @@ function audit(name: string, error?: string) {
     JSON.stringify({ platform: isIOS ? 'ios' : 'android', events }, null, 2),
   )
 }
-function layout() {
-  if (ended || surfaces.length) return
+const definitions = [
+  {
+    id: 'symbol',
+    d: PLAY,
+    viewBox: [0, 0, 100, 100],
+    fill: '#F4B992',
+    stroke: '#00000000',
+    strokeWidth: 0,
+  },
+  {
+    id: 'check',
+    d: CHECK,
+    viewBox: [0, 0, 100, 100],
+    stroke: '#C8E4CF',
+    strokeWidth: 5,
+    strokeEnd: 1,
+  },
+  {
+    id: 'ring',
+    d: RING,
+    viewBox: [0, 0, 100, 100],
+    stroke: '#D5C4F2',
+    strokeWidth: 5,
+    strokeEnd: 1,
+  },
+  {
+    id: 'line',
+    d: LINE,
+    viewBox: [0, 0, 260, 36],
+    stroke: '#F4B992',
+    strokeWidth: 2.2,
+    strokeEnd: 1,
+  },
+]
+onMounted(() => {
   const host: View = root.value?.nativeView
-  if (!host?.isLoaded) return
-  const definitions = [
-    {
-      id: 'symbol',
-      d: PLAY,
-      viewBox: [0, 0, 100, 100],
-      fill: '#F4B992',
-      stroke: '#00000000',
-      strokeWidth: 0,
-    },
-    {
-      id: 'check',
-      d: CHECK,
-      viewBox: [0, 0, 100, 100],
-      stroke: '#C8E4CF',
-      strokeWidth: 5,
-      strokeEnd: 1,
-    },
-    {
-      id: 'ring',
-      d: RING,
-      viewBox: [0, 0, 100, 100],
-      stroke: '#D5C4F2',
-      strokeWidth: 5,
-      strokeEnd: 1,
-    },
-    {
-      id: 'line',
-      d: LINE,
-      viewBox: [0, 0, 260, 36],
-      stroke: '#F4B992',
-      strokeWidth: 2.2,
-      strokeEnd: 1,
-    },
-  ]
-  for (const definition of definitions) {
-    const view = host.getViewById('shape-' + definition.id)
-    if (!view?.isLoaded || !view.nativeViewProtected || view.getActualSize().width <= 0)
-      return
-  }
   for (const definition of definitions) {
     const view = host.getViewById('shape-' + definition.id)
     const ink = shape(view, {
@@ -111,6 +105,11 @@ function layout() {
   Application.on(Application.suspendEvent, suspend)
   Application.on(Application.resumeEvent, resume)
   audit('created')
+})
+function layout() {
+  if (ended || attached || surfaces.some((s) => !s.shape.snapshot().attached)) return
+  attached = true
+  audit('attached')
 }
 function ink(id: string) {
   return surfaces.find((s) => s.id === id)?.shape

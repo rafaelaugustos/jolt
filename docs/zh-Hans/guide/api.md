@@ -80,7 +80,7 @@
 
 ## 助手 {#helpers}
 
-`definePreset(name, preset)`、`presets`、`springs`、[`origamiSpring({ friction, tension })`](./react-native#springs)、`cubicBezier`。有关注册和键入的名称，请参阅 [自定义预设](./presets#custom-presets)。
+`definePreset(name, preset)`、`presets`、`springs`、[`origamiSpring({ friction, tension })`](./react-native#springs)、`cubicBezier`、`toView(target)`。`toView()` 返回任何可接受目标背后的 NativeScript 视图，供接受与 `animate()` 相同目标的辅助函数使用。有关注册和键入的名称，请参阅 [自定义预设](./presets#custom-presets)。
 
 ## Vue {#vue}
 
