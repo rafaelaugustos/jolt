@@ -59,7 +59,7 @@
 - [`rollTo(label, value, options?)`](./rolling) — dígitos rolando no iOS e no Android; retorna uma `Animation`.
 - [`confetti(target, options?)`, `particles(target, options?)`](./particles) — efeitos nativos de partículas no iOS e Android; retornam funções de limpeza.
 
-`target` é uma view ou qualquer coisa que contenha uma (um template ref, um `ElementRef`). `animate()`, `decay()`, `stop()`, `set()` e os passos de uma sequência também aceitam arrays de alvos.
+`target` é uma view ou qualquer coisa que contenha uma (um template ref em um elemento ou em um componente, um `ElementRef`). `animate()`, `decay()`, `stop()`, `set()` e os passos de uma sequência também aceitam arrays de alvos.
 
 As opções de `animate()` também aceitam [`haptic`](./haptics): `light`, `medium`, `heavy`, `{ style, times }` ou `false`. O feedback funciona no iOS e no Android, respeitando as configurações do aparelho.
 

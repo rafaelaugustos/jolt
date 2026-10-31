@@ -91,7 +91,7 @@ Los fotogramas clave relativos también funcionan en ajustes preestablecidos per
 
 ## Objetivos {#targets}
 
-El objetivo puede ser una vista, o cualquier cosa que contenga una: una referencia de plantilla NativeScript-Vue, un Angular `ElementRef`.
+El objetivo puede ser una vista, o cualquier cosa que contenga una: una referencia de plantilla NativeScript-Vue en un elemento o en un componente, un Angular `ElementRef`.
 
 ```vue
 <script setup lang="ts">

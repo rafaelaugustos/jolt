@@ -59,7 +59,7 @@
 - [`rollTo(label, value, options?)`](./rolling) — dígitos continuos en iOS y Android; devuelve un `Animation`.
 - [`confetti(target, options?)`, `particles(target, options?)`](./particles) — efectos de partículas nativas iOS/Android; funciones de limpieza de retorno. Sin simulación JS ni devolución de llamada de pintura por cuadro; El dibujo Android comparte el hilo de la interfaz de usuario.
 
-`target` es una vista o cualquier cosa que contenga una (una referencia de plantilla, un `ElementRef`). `animate()`, `decay()`, `stop()`, `set()` y los pasos de secuencia también aceptan matrices de objetivos.
+`target` es una vista o cualquier cosa que contenga una (una referencia de plantilla en un elemento o en un componente, un `ElementRef`). `animate()`, `decay()`, `stop()`, `set()` y los pasos de secuencia también aceptan matrices de objetivos.
 
 Las opciones `animate()` también aceptan [`haptic`](./haptics): `light`, `medium`, `heavy`, `{ style, times }` o `false`. Los comentarios son compatibles con iOS y Android, respetando la configuración del dispositivo.
 

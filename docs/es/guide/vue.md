@@ -8,7 +8,7 @@ createApp(App).use(Jolt).start()
 
 <Clip name="vue" caption="JoltTransition elimina y restaura una fila, v-animate cambia su entrada." />
 
-El núcleo toma una vista o un elemento que la contiene, por lo que `animate(card.value, 'popIn')` ya funciona a partir de una plantilla ref. `@rafaelaugusto/jolt/vue` agrega el lado de la plantilla: `v-animate`, `v-press`, `v-gradient` y un componente `<JoltTransition>` para vistas que van y vienen. Necesita NativeScript-Vue 3 y solo lo cargan aplicaciones que lo importan.
+El núcleo toma una vista o un elemento que la contiene, por lo que `animate(card.value, 'popIn')` ya funciona a partir de una plantilla ref, en un elemento o en un componente cuya raíz es una vista. `@rafaelaugusto/jolt/vue` agrega el lado de la plantilla: `v-animate`, `v-press`, `v-gradient` y un componente `<JoltTransition>` para vistas que van y vienen. Necesita NativeScript-Vue 3 y solo lo cargan aplicaciones que lo importan.
 
 ## Movimiento del componente con alcance {#scoped-component-motion}
 

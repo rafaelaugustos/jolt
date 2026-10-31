@@ -139,7 +139,7 @@ animate(card, { scale: [1, 1.06, 1] }, { relative: true }) // grow by 6% and ret
 
 The base is captured once when the view is ready and its tracks are created, before any delay or stagger. Repeats reuse that base. A relative step in a sequence resolves when the step starts; an unloaded view waits until it loads.
 
-The target can be a view, or anything that holds one: a NativeScript-Vue template ref, an Angular `ElementRef`.
+The target can be a view, or anything that holds one: a NativeScript-Vue template ref on an element or a component, an Angular `ElementRef`.
 
 ```vue
 <script setup lang="ts">

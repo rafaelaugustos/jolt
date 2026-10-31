@@ -308,12 +308,30 @@ export function group(animations: readonly Animation[]): Animation {
 }
 
 export function toView(target: Target): View {
-  if (target instanceof View) return target
-  const view =
-    (target as { nativeView?: unknown } | null)?.nativeView ??
-    (target as { nativeElement?: unknown } | null)?.nativeElement
+  const view = unwrap(target)
   if (view instanceof View) return view
-  throw new TypeError(`Expected a NativeScript view, got ${String(target)}.`)
+  throw new TypeError(`Expected a NativeScript view, got ${describe(target)}.`)
+}
+
+function unwrap(target: unknown, nested = false): unknown {
+  if (target instanceof View || target === null || typeof target !== 'object')
+    return target
+  const holder = target as {
+    nativeView?: unknown
+    nativeElement?: unknown
+    $el?: unknown
+  }
+  if (!nested && '$el' in holder) return unwrap(holder.$el, true)
+  return holder.nativeView ?? holder.nativeElement
+}
+
+function describe(target: unknown) {
+  if (target === null || typeof target !== 'object')
+    return typeof target === 'function' ? 'a function' : String(target)
+  if (Array.isArray(target)) return 'an array'
+  if ('$el' in target) return 'a component instance without a root view'
+  const name = Object.getPrototypeOf(target)?.constructor?.name
+  return name && name !== 'Object' ? `a ${name}` : 'an object without a view'
 }
 
 export function toViews(target: Target | readonly Target[]): View[] {

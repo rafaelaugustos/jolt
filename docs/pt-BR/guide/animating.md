@@ -89,7 +89,7 @@ Também funciona em presets personalizados: coloque `relative: true` na `transit
 
 ## Alvos
 
-O alvo pode ser uma view, ou qualquer coisa que contenha uma: um template ref do NativeScript-Vue, um `ElementRef` do Angular.
+O alvo pode ser uma view, ou qualquer coisa que contenha uma: um template ref do NativeScript-Vue em um elemento ou em um componente, um `ElementRef` do Angular.
 
 ```vue
 <script setup lang="ts">

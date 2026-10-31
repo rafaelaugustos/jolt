@@ -91,7 +91,7 @@ Relative keyframes work in custom presets too: put `relative: true` in the prese
 
 ## Targets
 
-The target can be a view, or anything that holds one: a NativeScript-Vue template ref, an Angular `ElementRef`.
+The target can be a view, or anything that holds one: a NativeScript-Vue template ref on an element or a component, an Angular `ElementRef`.
 
 ```vue
 <script setup lang="ts">
