@@ -65,7 +65,13 @@ features:
     link: /guide/scene-camera
 ---
 
-## 0.1.0-rc.3: modals, shapes and targets {#release-candidate}
+## 0.1.0-rc.4: native composition, resume and sheets {#release-candidate}
+
+RC.4 plays [endless layers with no common period](/guide/layers) on native composers instead of rebuilding four-second windows, so 64-view compositions go from hundreds of milliseconds per boundary to none on the measured phones. It continues [Android shapes, gradients and blur](/guide/shapes) from the paused time on resume, places the [bottom sheet](/guide/bottom-sheet) by the host's safe-area insets, and offers only the handle actions a stop can take.
+
+The [preview](/guide/demo) has **74 examples in four languages**. [Install RC.4](/guide/install) and rebuild the native app. Read the [release notes](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.4) and the [remaining physical-device acceptance](/guide/not-there-yet) before stable.
+
+## 0.1.0-rc.3: modals, shapes and targets {#_0-1-0-rc-3-modals-shapes-and-targets}
 
 RC.3 adds [interactive iOS modals](/guide/interactive-navigation), builds [Android numeric keyframes in one native call](/guide/motion-values), lets [shapes be created before their view loads](/guide/shapes#draw-a-path) and accepts [component refs as targets](/guide/vue). It fits the [gallery](/guide/gallery) and [scroll headers](/guide/scroll-header) to enlarged system text and completes the [physical sensor](/guide/device-sensors) and [binding/layer](/guide/motion-values#binding-measurements) audits.
 

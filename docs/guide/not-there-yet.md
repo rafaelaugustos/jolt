@@ -1,12 +1,12 @@
 # Release status and limits {#not-there-yet}
 
-**0.1.0-rc.3 is available.** Its features are shipped within the combinations documented in each guide. The feature scope for 0.1.0 is frozen; validation for the stable release is still in progress.
+**0.1.0-rc.4 is available.** Its features are shipped within the combinations documented in each guide. The feature scope for 0.1.0 is frozen; validation for the stable release is still in progress.
 
-RC.3 adds `interactiveModal()` on iOS, one-call Android numeric keyframes, shapes created before their view loads and component refs as targets, plus large-text fixes for the gallery and scroll headers. The physical sensor and binding/layer audits are complete; composition-window rebuild cost is tracked in [#260](https://github.com/rafaelaugustos/jolt/issues/260).
+RC.4 composes rolling layer windows on native live nodes, continues Android shapes, gradients and blur from the paused time on resume, places the bottom sheet by the host's safe-area insets and offers only the handle actions a stop can take. RC.3 added `interactiveModal()` on iOS, one-call Android numeric keyframes, shapes created before their view loads and component refs as targets.
 
-The [binding/layer audit](./motion-values#binding-measurements) includes physical iPhone and Android preparation/playback measurements, automated input onset and repeated mount/unmount retention checks. Expensive composition boundaries, approximate allocation-counter failures and unavailable Android thermal telemetry remain explicit in the evidence. These results provide workload-specific guidance, not a universal capacity or presented-frame guarantee. Further optimization of costly windows and playback stalls is tracked in [#260](https://github.com/rafaelaugustos/jolt/issues/260).
+The [binding/layer audit](./motion-values#binding-measurements) includes physical iPhone and Android preparation/playback measurements, automated input onset and repeated mount/unmount retention checks. Expensive composition boundaries, approximate allocation-counter failures and unavailable Android thermal telemetry remain explicit in the evidence. These results provide workload-specific guidance, not a universal capacity or presented-frame guarantee. Since RC.4, windowed compositions play on native composers with no boundary submissions; the remaining cost is the synchronous start of large keyframe batches, measured in the same audit.
 
-## Available in RC.3 {#available-in-rc-1}
+## Available in RC.4 {#available-in-rc-1}
 
 - [Shared navigation](./shared-navigation), [shared gestures](./shared-gestures), [current-cell returns](./return-targets) and the [connected gallery](./gallery), for the documented Frame/ListView/static-image combinations.
 - [Native gesture composition](./gestures): pan, pinch and rotation, plus supported vertical Core ScrollView handoff. [Drag constraints](./drag) and [photo zoom](./photo-zoom) have their own interaction contracts.

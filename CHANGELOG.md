@@ -2,6 +2,14 @@
 
 ## Unreleased
 
+## 0.1.0-rc.4 (2026-10-31)
+
+- Publish matching core and optional native packages with 74 preview examples in four languages. Rebuild native applications after upgrading: the live nodes gained summed sampled inputs on both platforms, and the Android shape, gradient and blur clocks are rebuilt on resume.
+- Compose rolling windows on native live nodes (#260): endless layers and motion-value runs whose periods share no loop under 30 seconds, and finite compositions longer than four seconds, play on a native composer instead of being resampled into four-second tracks for every bound property. On the same phones before and after, boundary submissions went from 384 to 0 and the worst callback gaps for 64 views with three properties from 437–679 ms to 17.5 ms on an ASUS Z017DC and from 100–141 ms to 17–27 ms on an iPhone 17 Pro; both full matrices are accepted. The iPhone composer costs 12–14% of one core for 192 bindings; an app binary without the native classes keeps the sampled windows.
+- Continue Android shapes, gradients and blur from the paused time on resume (#264): the native clock is rebuilt after a seek instead of resumed, which Android shifted by the pause duration. The shape audit pauses a stroke mid-flight on both platforms.
+- Place the bottom sheet by the host's safe-area insets in DIPs (#267): Core reports them in device pixels on iOS and already lays a host's children out inside them. The panel ignores Core's own adjustment, extends under the home indicator with padding when the host leaves that edge reachable, and ends at the keyboard. The demo gains full-window and edge-to-edge variants with native checks and an iOS recording.
+- Offer only the handle actions a stop can take (#268): Expand and Collapse follow the selected stop, Dismiss stays while the sheet is dismissible, and `accessibility.value(point)` formats the spoken value, with none for a single stop.
+
 ## 0.1.0-rc.3 (2026-10-31)
 
 - Publish matching core and optional native packages with 74 preview examples in four languages. Rebuild native applications after upgrading. Physical-device acceptance remains open for the gallery, scroll composition and sensors; composition-window rebuild cost is tracked in #260.
