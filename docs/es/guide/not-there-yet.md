@@ -30,10 +30,11 @@ Las issues de aceptación abiertas que aparecen a continuación corresponden a A
 
 - **Galería ([#117](https://github.com/rafaelaugustos/jolt/issues/117)):** zoom/regreso interrumpido, destinos reciclados o eliminados, rotación, accesibilidad y navegación repetida sin capas superpuestas retenidas.
 - **Composición de desplazamiento ([#116](https://github.com/rafaelaugustos/jolt/issues/116)):** inversión/inercia, cambios tardíos de diseño, conservación del anclaje y limpieza con el adaptador admitido de Core ListView.
-- **Sensores ([#114](https://github.com/rafaelaugustos/jolt/issues/114)):** hardware real de rotación/gravedad, mapeo de orientación, coste del muestreo y limpieza de suscripciones. Las entradas de simulador validan el procesamiento, no la adquisición de los sensores físicos.
 - Mantén las pruebas generales, de iOS y Android y sus controles negativos pasando en el commit de la versión. Comprueba la instalación de los paquetes correspondientes y una recompilación nativa limpia; resuelve las regresiones que bloquean la versión antes de etiquetar la estable.
 
-La regularidad de los fotogramas, la respuesta a la entrada y la memoria retenida aún necesitan pruebas en dispositivos físicos. Consulta los informes de [galería](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md), [desplazamiento](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) y [sensores](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md) para conocer las pruebas recopiladas y las verificaciones pendientes. Las grabaciones de simulador/emulador no completan la aceptación en dispositivos físicos.
+La aceptación física inicial de rotación/gravedad se completó en [#114](https://github.com/rafaelaugustos/jolt/issues/114). El [informe de sensores](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md) documenta el alcance probado y sus límites. Las fuentes de aceleración, giroscopio y campo magnético siguen como trabajo separado en [#256](https://github.com/rafaelaugustos/jolt/issues/256).
+
+La aceptación de galería y scroll aún requiere las verificaciones físicas pendientes de regularidad de fotogramas, respuesta a la entrada, memoria y accesibilidad. Consulta los informes de [galería](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md) y [scroll](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md). Las grabaciones de simulador/emulador no completan la aceptación en dispositivos físicos.
 
 ## Después de 0.1.0 {#after-0-1-0}
 

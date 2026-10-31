@@ -30,10 +30,11 @@ RC.4 在原生节点上合成图层窗口，让 Android 的形状、渐变和模
 
 - **相册（[#117](https://github.com/rafaelaugustos/jolt/issues/117)）：** 缩放/返回中断、复用或删除的目标、旋转、辅助功能，以及反复导航后不残留覆盖层。
 - **滚动组合（[#116](https://github.com/rafaelaugustos/jolt/issues/116)）：** 使用已支持的 Core ListView 适配器验证反向滚动/惯性、延迟发生的布局变化、锚点保持和资源清理。
-- **传感器（[#114](https://github.com/rafaelaugustos/jolt/issues/114)）：** 实时旋转/重力硬件、方向映射、采样成本和订阅清理。模拟器输入只能验证处理流程，不能验证真实传感器的数据采集。
 - 发布提交上的通用、iOS 和 Android 回归检查及其负向对照均须通过。验证匹配版本的软件包安装和干净的原生重编译，并在打正式版标签前解决阻碍发布的回归问题。
 
-帧间隔稳定性、输入响应和保留内存仍需真机证据。已收集的证据与剩余检查见[相册](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md)、[滚动](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md)和[传感器](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md)验证报告。模拟器录屏不能代替真机验收。
+旋转/重力的首轮真机验收已在 [#114](https://github.com/rafaelaugustos/jolt/issues/114) 完成。[传感器报告](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md)记录了测试范围及限制。加速度、陀螺仪和磁场输入作为独立工作由 [#256](https://github.com/rafaelaugustos/jolt/issues/256) 跟踪。
+
+相册与滚动仍需完成剩余的真机帧间隔、输入响应、内存与辅助功能验证。详情见[相册](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md)与[滚动](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md)报告。模拟器录屏不能代替真机验收。
 
 ## 0.1.0 之后 {#after-0-1-0}
 

@@ -30,10 +30,11 @@ The open acceptance issues below cover already-shipped APIs. Before stable, vali
 
 - **Gallery ([#117](https://github.com/rafaelaugustos/jolt/issues/117)):** interrupted zoom/return, recycled or deleted targets, rotation, accessibility and repeated navigation without retained overlays.
 - **Scroll composition ([#116](https://github.com/rafaelaugustos/jolt/issues/116)):** reversal/fling, late layout changes, anchor preservation and cleanup with the supported Core ListView adapter.
-- **Sensors ([#114](https://github.com/rafaelaugustos/jolt/issues/114)):** live rotation/gravity hardware, orientation mapping, sampling cost and subscription cleanup. Simulator inputs validate processing, not physical sensor acquisition.
 - Keep general, iOS and Android regression checks and their negative controls passing on the release commit. Verify matching package installation and a clean native rebuild, and resolve release-blocking regressions before tagging stable.
 
-Frame pacing, input response and retained memory still need physical-device evidence. See the [gallery](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md), [scroll](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) and [sensor](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md) validation reports for the evidence collected and remaining checks. Simulator/emulator recordings do not complete physical-device acceptance.
+Initial physical rotation/gravity acceptance is complete in [#114](https://github.com/rafaelaugustos/jolt/issues/114). The [sensor report](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md) records the tested scope and limits. Acceleration, gyroscope and magnetic-field sources remain separate work in [#256](https://github.com/rafaelaugustos/jolt/issues/256).
+
+Gallery and scroll acceptance still require the remaining physical-device frame-pacing, input, memory and accessibility checks. See their [gallery](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md) and [scroll](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) reports. Simulator/emulator recordings do not complete physical-device acceptance.
 
 ## After 0.1.0 {#after-0-1-0}
 
