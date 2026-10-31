@@ -32,6 +32,9 @@ public final class GradientLayer extends android.graphics.drawable.Drawable {
     // angle, x, y, radius
     private final float[] geometry = new float[4];
     private float corner;
+    private long duration, delay;
+    private int repeat;
+    private boolean reverse;
     private ValueAnimator animator;
     private Listener listener;
 
@@ -67,14 +70,39 @@ public final class GradientLayer extends android.graphics.drawable.Drawable {
         frameColors = colors;
         frameStops = stops;
         frameGeometry = geometry;
+        this.duration = duration;
+        this.delay = delay;
+        this.repeat = repeat;
+        this.reverse = reverse;
         this.listener = listener;
         int count = colors.length / times.length;
         this.colors = new int[count];
         this.stops = new float[count];
         apply(0);
+        clock(0);
+    }
+
+    /** Rejoin the source position. Binding windows include delays in their frames. */
+    public void control(long elapsed, boolean paused) {
+        if (animator == null) return;
+        if (paused) {
+            animator.setCurrentPlayTime(Math.max(0, elapsed - delay));
+            animator.pause();
+        } else if (animator.isPaused()) clock(Math.max(0, elapsed));
+        else animator.setCurrentPlayTime(Math.max(0, elapsed - delay));
+    }
+
+    /** A resume rebuilds the animator: Android moves a seeked start time by the paused duration on the frame after resume(). */
+    private void clock(long elapsed) {
+        ValueAnimator old = animator;
+        if (old != null) {
+            old.removeAllUpdateListeners();
+            old.removeAllListeners();
+            old.cancel();
+        }
         final ValueAnimator animation = ValueAnimator.ofFloat(0f, 1f);
         animation.setDuration(Math.max(duration, 1));
-        animation.setStartDelay(delay);
+        animation.setStartDelay(Math.max(0, delay - elapsed));
         animation.setInterpolator(new LinearInterpolator());
         if (repeat != 0) {
             animation.setRepeatCount(repeat < 0 ? ValueAnimator.INFINITE : repeat);
@@ -105,14 +133,8 @@ public final class GradientLayer extends android.graphics.drawable.Drawable {
             }
         });
         animator = animation;
+        if (elapsed > delay) animation.setCurrentPlayTime(elapsed - delay);
         animation.start();
-    }
-
-    /** Rejoin the source position. Binding windows include delays in their frames. */
-    public void control(long elapsed, boolean paused) {
-        if (animator == null) return;
-        animator.setCurrentPlayTime(Math.max(0, elapsed - animator.getStartDelay()));
-        if (paused) animator.pause(); else animator.resume();
     }
 
     public boolean isPlaying() { return animator != null; }

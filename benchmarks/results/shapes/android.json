@@ -3,7 +3,7 @@
   "events": [
     {
       "name": "created",
-      "time": 1793413742891,
+      "time": 1793422784167,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -66,7 +66,7 @@
     },
     {
       "name": "foreground",
-      "time": 1793413743052,
+      "time": 1793422784688,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -129,7 +129,7 @@
     },
     {
       "name": "attached",
-      "time": 1793413743140,
+      "time": 1793422785039,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -192,7 +192,7 @@
     },
     {
       "name": "snapshot",
-      "time": 1793413748180,
+      "time": 1793422789104,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -255,7 +255,7 @@
     },
     {
       "name": "draw",
-      "time": 1793413748618,
+      "time": 1793422789559,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -318,7 +318,7 @@
     },
     {
       "name": "before-morph",
-      "time": 1793413748748,
+      "time": 1793422789754,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -346,7 +346,7 @@
           },
           "d": "M22 51 L43 71 L79 28",
           "strokeStart": 0,
-          "strokeEnd": 0.06499999761581421,
+          "strokeEnd": 0.092777781188488,
           "attached": true,
           "nativeAnimations": 1,
           "bounds": [22, 28, 57, 43]
@@ -359,7 +359,7 @@
           },
           "d": "M50 13 C70.43453216552734 13 87 29.56546401977539 87 50 C87 70.43453216552734 70.43453216552734 87 50 87 C29.56546401977539 87 13 70.43453216552734 13 50 C13 29.56546401977539 29.56546401977539 13 50 13",
           "strokeStart": 0,
-          "strokeEnd": 0.06499999761581421,
+          "strokeEnd": 0.092777781188488,
           "attached": true,
           "nativeAnimations": 1,
           "bounds": [13, 13, 74, 74]
@@ -372,7 +372,7 @@
           },
           "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
           "strokeStart": 0,
-          "strokeEnd": 0.06499999761581421,
+          "strokeEnd": 0.092777781188488,
           "attached": true,
           "nativeAnimations": 1,
           "bounds": [8, 2, 244, 28]
@@ -381,7 +381,7 @@
     },
     {
       "name": "morph",
-      "time": 1793413748749,
+      "time": 1793422789762,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -409,7 +409,7 @@
           },
           "d": "M22 51 L43 71 L79 28",
           "strokeStart": 0,
-          "strokeEnd": 0.06499999761581421,
+          "strokeEnd": 0.092777781188488,
           "attached": true,
           "nativeAnimations": 1,
           "bounds": [22, 28, 57, 43]
@@ -422,7 +422,7 @@
           },
           "d": "M50 13 C70.43453216552734 13 87 29.56546401977539 87 50 C87 70.43453216552734 70.43453216552734 87 50 87 C29.56546401977539 87 13 70.43453216552734 13 50 C13 29.56546401977539 29.56546401977539 13 50 13",
           "strokeStart": 0,
-          "strokeEnd": 0.06499999761581421,
+          "strokeEnd": 0.092777781188488,
           "attached": true,
           "nativeAnimations": 1,
           "bounds": [13, 13, 74, 74]
@@ -435,7 +435,7 @@
           },
           "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
           "strokeStart": 0,
-          "strokeEnd": 0.06499999761581421,
+          "strokeEnd": 0.092777781188488,
           "attached": true,
           "nativeAnimations": 1,
           "bounds": [8, 2, 244, 28]
@@ -444,7 +444,7 @@
     },
     {
       "name": "seek",
-      "time": 1793413748892,
+      "time": 1793422789908,
       "reduced": false,
       "paused": true,
       "compact": false,
@@ -507,7 +507,7 @@
     },
     {
       "name": "snapshot",
-      "time": 1793413749323,
+      "time": 1793422790362,
       "reduced": false,
       "paused": true,
       "compact": false,
@@ -570,7 +570,7 @@
     },
     {
       "name": "snapshot",
-      "time": 1793413749752,
+      "time": 1793422790837,
       "reduced": false,
       "paused": true,
       "compact": false,
@@ -634,7 +634,7 @@
     {
       "name": "rejected",
       "error": "TypeError: Morph paths need matching normalized commands and subpaths. Use set() for a topology change.",
-      "time": 1793413750185,
+      "time": 1793422791294,
       "reduced": false,
       "paused": true,
       "compact": false,
@@ -697,7 +697,7 @@
     },
     {
       "name": "snapshot",
-      "time": 1793413750617,
+      "time": 1793422791751,
       "reduced": false,
       "paused": true,
       "compact": false,
@@ -760,7 +760,7 @@
     },
     {
       "name": "resize",
-      "time": 1793413751044,
+      "time": 1793422792201,
       "reduced": false,
       "paused": true,
       "compact": true,
@@ -823,7 +823,7 @@
     },
     {
       "name": "snapshot",
-      "time": 1793413751475,
+      "time": 1793422792650,
       "reduced": false,
       "paused": true,
       "compact": true,
@@ -886,7 +886,7 @@
     },
     {
       "name": "resize",
-      "time": 1793413751906,
+      "time": 1793422793105,
       "reduced": false,
       "paused": true,
       "compact": false,
@@ -949,7 +949,7 @@
     },
     {
       "name": "snapshot",
-      "time": 1793413752404,
+      "time": 1793422793562,
       "reduced": false,
       "paused": true,
       "compact": false,
@@ -1012,7 +1012,7 @@
     },
     {
       "name": "play",
-      "time": 1793413752845,
+      "time": 1793422794036,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -1075,7 +1075,7 @@
     },
     {
       "name": "snapshot",
-      "time": 1793413754877,
+      "time": 1793422796081,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -1137,8 +1137,8 @@
       ]
     },
     {
-      "name": "before-morph",
-      "time": 1793413755311,
+      "name": "draw",
+      "time": 1793422796534,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -1166,9 +1166,9 @@
           },
           "d": "M22 51 L43 71 L79 28",
           "strokeStart": 0,
-          "strokeEnd": 1,
+          "strokeEnd": 0,
           "attached": true,
-          "nativeAnimations": 0,
+          "nativeAnimations": 1,
           "bounds": [22, 28, 57, 43]
         },
         {
@@ -1179,9 +1179,9 @@
           },
           "d": "M50 13 C70.43453216552734 13 87 29.56546401977539 87 50 C87 70.43453216552734 70.43453216552734 87 50 87 C29.56546401977539 87 13 70.43453216552734 13 50 C13 29.56546401977539 29.56546401977539 13 50 13",
           "strokeStart": 0,
-          "strokeEnd": 1,
+          "strokeEnd": 0,
           "attached": true,
-          "nativeAnimations": 0,
+          "nativeAnimations": 1,
           "bounds": [13, 13, 74, 74]
         },
         {
@@ -1192,18 +1192,18 @@
           },
           "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
           "strokeStart": 0,
-          "strokeEnd": 1,
+          "strokeEnd": 0,
           "attached": true,
-          "nativeAnimations": 0,
+          "nativeAnimations": 1,
           "bounds": [8, 2, 244, 28]
         }
       ]
     },
     {
-      "name": "morph",
-      "time": 1793413755313,
+      "name": "pause",
+      "time": 1793422796928,
       "reduced": false,
-      "paused": false,
+      "paused": true,
       "compact": false,
       "resources": 4,
       "layers": 4,
@@ -1218,7 +1218,7 @@
           "strokeStart": 0,
           "strokeEnd": 1,
           "attached": true,
-          "nativeAnimations": 1,
+          "nativeAnimations": 0,
           "bounds": [34, 26, 38, 48]
         },
         {
@@ -1229,72 +1229,9 @@
           },
           "d": "M22 51 L43 71 L79 28",
           "strokeStart": 0,
-          "strokeEnd": 1,
-          "attached": true,
-          "nativeAnimations": 0,
-          "bounds": [22, 28, 57, 43]
-        },
-        {
-          "id": "ring",
-          "size": {
-            "width": 80,
-            "height": 80
-          },
-          "d": "M50 13 C70.43453216552734 13 87 29.56546401977539 87 50 C87 70.43453216552734 70.43453216552734 87 50 87 C29.56546401977539 87 13 70.43453216552734 13 50 C13 29.56546401977539 29.56546401977539 13 50 13",
-          "strokeStart": 0,
-          "strokeEnd": 1,
-          "attached": true,
-          "nativeAnimations": 0,
-          "bounds": [13, 13, 74, 74]
-        },
-        {
-          "id": "line",
-          "size": {
-            "width": 346.6666666666667,
-            "height": 25.904761904761905
-          },
-          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
-          "strokeStart": 0,
-          "strokeEnd": 1,
-          "attached": true,
-          "nativeAnimations": 0,
-          "bounds": [8, 2, 244, 28]
-        }
-      ]
-    },
-    {
-      "name": "before-morph",
-      "time": 1793413755449,
-      "reduced": false,
-      "paused": false,
-      "compact": false,
-      "resources": 4,
-      "layers": 4,
-      "surfaces": [
-        {
-          "id": "symbol",
-          "size": {
-            "width": 150.0952380952381,
-            "height": 150.0952380952381
-          },
-          "d": "M34 25.853750228881836 L46.584999084472656 26.731250762939453 L46.584999084472656 73.26875305175781 L34 74.14624786376953 Z M59.561248779296875 26.731250762939453 L72.43875122070312 27.7549991607666 L72.43875122070312 72.24500274658203 L59.561248779296875 73.26875305175781 Z",
-          "strokeStart": 0,
-          "strokeEnd": 1,
+          "strokeEnd": 0.22055555880069733,
           "attached": true,
           "nativeAnimations": 1,
-          "bounds": [34, 25.853750228881836, 38.438751220703125, 48.29249572753906]
-        },
-        {
-          "id": "check",
-          "size": {
-            "width": 80,
-            "height": 80
-          },
-          "d": "M22 51 L43 71 L79 28",
-          "strokeStart": 0,
-          "strokeEnd": 1,
-          "attached": true,
-          "nativeAnimations": 0,
           "bounds": [22, 28, 57, 43]
         },
         {
@@ -1305,72 +1242,9 @@
           },
           "d": "M50 13 C70.43453216552734 13 87 29.56546401977539 87 50 C87 70.43453216552734 70.43453216552734 87 50 87 C29.56546401977539 87 13 70.43453216552734 13 50 C13 29.56546401977539 29.56546401977539 13 50 13",
           "strokeStart": 0,
-          "strokeEnd": 1,
-          "attached": true,
-          "nativeAnimations": 0,
-          "bounds": [13, 13, 74, 74]
-        },
-        {
-          "id": "line",
-          "size": {
-            "width": 346.6666666666667,
-            "height": 25.904761904761905
-          },
-          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
-          "strokeStart": 0,
-          "strokeEnd": 1,
-          "attached": true,
-          "nativeAnimations": 0,
-          "bounds": [8, 2, 244, 28]
-        }
-      ]
-    },
-    {
-      "name": "morph",
-      "time": 1793413755452,
-      "reduced": false,
-      "paused": false,
-      "compact": false,
-      "resources": 4,
-      "layers": 4,
-      "surfaces": [
-        {
-          "id": "symbol",
-          "size": {
-            "width": 150.0952380952381,
-            "height": 150.0952380952381
-          },
-          "d": "M34 25.853750228881836 L46.584999084472656 26.731250762939453 L46.584999084472656 73.26875305175781 L34 74.14624786376953 Z M59.561248779296875 26.731250762939453 L72.43875122070312 27.7549991607666 L72.43875122070312 72.24500274658203 L59.561248779296875 73.26875305175781 Z",
-          "strokeStart": 0,
-          "strokeEnd": 1,
+          "strokeEnd": 0.22055555880069733,
           "attached": true,
           "nativeAnimations": 1,
-          "bounds": [34, 25.853750228881836, 38.438751220703125, 48.29249572753906]
-        },
-        {
-          "id": "check",
-          "size": {
-            "width": 80,
-            "height": 80
-          },
-          "d": "M22 51 L43 71 L79 28",
-          "strokeStart": 0,
-          "strokeEnd": 1,
-          "attached": true,
-          "nativeAnimations": 0,
-          "bounds": [22, 28, 57, 43]
-        },
-        {
-          "id": "ring",
-          "size": {
-            "width": 80,
-            "height": 80
-          },
-          "d": "M50 13 C70.43453216552734 13 87 29.56546401977539 87 50 C87 70.43453216552734 70.43453216552734 87 50 87 C29.56546401977539 87 13 70.43453216552734 13 50 C13 29.56546401977539 29.56546401977539 13 50 13",
-          "strokeStart": 0,
-          "strokeEnd": 1,
-          "attached": true,
-          "nativeAnimations": 0,
           "bounds": [13, 13, 74, 74]
         },
         {
@@ -1381,16 +1255,457 @@
           },
           "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
           "strokeStart": 0,
-          "strokeEnd": 1,
+          "strokeEnd": 0.22111110389232635,
           "attached": true,
-          "nativeAnimations": 0,
+          "nativeAnimations": 1,
           "bounds": [8, 2, 244, 28]
         }
       ]
     },
     {
       "name": "snapshot",
-      "time": 1793413757479,
+      "time": 1793422798192,
+      "reduced": false,
+      "paused": true,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150.0952380952381,
+            "height": 150.0952380952381
+          },
+          "d": "M34 26 L46 26 L46 74 L34 74 Z M60 26 L72 26 L72 74 L60 74 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 26, 38, 48]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.22055555880069733,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453216552734 13 87 29.56546401977539 87 50 C87 70.43453216552734 70.43453216552734 87 50 87 C29.56546401977539 87 13 70.43453216552734 13 50 C13 29.56546401977539 29.56546401977539 13 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.22055555880069733,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [13, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 346.6666666666667,
+            "height": 25.904761904761905
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.22111110389232635,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "play",
+      "time": 1793422798639,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150.0952380952381,
+            "height": 150.0952380952381
+          },
+          "d": "M34 26 L46 26 L46 74 L34 74 Z M60 26 L72 26 L72 74 L60 74 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 26, 38, 48]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.22055555880069733,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453216552734 13 87 29.56546401977539 87 50 C87 70.43453216552734 70.43453216552734 87 50 87 C29.56546401977539 87 13 70.43453216552734 13 50 C13 29.56546401977539 29.56546401977539 13 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.22055555880069733,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [13, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 346.6666666666667,
+            "height": 25.904761904761905
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.22111110389232635,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1793422799295,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150.0952380952381,
+            "height": 150.0952380952381
+          },
+          "d": "M34 26 L46 26 L46 74 L34 74 Z M60 26 L72 26 L72 74 L60 74 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 26, 38, 48]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.5727777481079102,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453216552734 13 87 29.56546401977539 87 50 C87 70.43453216552734 70.43453216552734 87 50 87 C29.56546401977539 87 13 70.43453216552734 13 50 C13 29.56546401977539 29.56546401977539 13 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.5727777481079102,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [13, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 346.6666666666667,
+            "height": 25.904761904761905
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.5733333230018616,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "before-morph",
+      "time": 1793422799757,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150.0952380952381,
+            "height": 150.0952380952381
+          },
+          "d": "M34 26 L46 26 L46 74 L34 74 Z M60 26 L72 26 L72 74 L60 74 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 0,
+          "bounds": [34, 26, 38, 48]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.8316666483879089,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453216552734 13 87 29.56546401977539 87 50 C87 70.43453216552734 70.43453216552734 87 50 87 C29.56546401977539 87 13 70.43453216552734 13 50 C13 29.56546401977539 29.56546401977539 13 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.8316666483879089,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [13, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 346.6666666666667,
+            "height": 25.904761904761905
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.8322222232818604,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "morph",
+      "time": 1793422799766,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150.0952380952381,
+            "height": 150.0952380952381
+          },
+          "d": "M34 26 L46 26 L46 74 L34 74 Z M60 26 L72 26 L72 74 L60 74 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [34, 26, 38, 48]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.8316666483879089,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453216552734 13 87 29.56546401977539 87 50 C87 70.43453216552734 70.43453216552734 87 50 87 C29.56546401977539 87 13 70.43453216552734 13 50 C13 29.56546401977539 29.56546401977539 13 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.8316666483879089,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [13, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 346.6666666666667,
+            "height": 25.904761904761905
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.8322222232818604,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "before-morph",
+      "time": 1793422799931,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150.0952380952381,
+            "height": 150.0952380952381
+          },
+          "d": "M34 25.8125 L46.75 26.9375 L46.75 73.0625 L34 74.1875 Z M59.4375 26.9375 L72.5625 28.25 L72.5625 71.75 L59.4375 73.0625 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [34, 25.8125, 38.5625, 48.375]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.9244444370269775,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453216552734 13 87 29.56546401977539 87 50 C87 70.43453216552734 70.43453216552734 87 50 87 C29.56546401977539 87 13 70.43453216552734 13 50 C13 29.56546401977539 29.56546401977539 13 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.9244444370269775,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [13, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 346.6666666666667,
+            "height": 25.904761904761905
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.925000011920929,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "morph",
+      "time": 1793422799940,
+      "reduced": false,
+      "paused": false,
+      "compact": false,
+      "resources": 4,
+      "layers": 4,
+      "surfaces": [
+        {
+          "id": "symbol",
+          "size": {
+            "width": 150.0952380952381,
+            "height": 150.0952380952381
+          },
+          "d": "M34 25.8125 L46.75 26.9375 L46.75 73.0625 L34 74.1875 Z M59.4375 26.9375 L72.5625 28.25 L72.5625 71.75 L59.4375 73.0625 Z",
+          "strokeStart": 0,
+          "strokeEnd": 1,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [34, 25.8125, 38.5625, 48.375]
+        },
+        {
+          "id": "check",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M22 51 L43 71 L79 28",
+          "strokeStart": 0,
+          "strokeEnd": 0.9244444370269775,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [22, 28, 57, 43]
+        },
+        {
+          "id": "ring",
+          "size": {
+            "width": 80,
+            "height": 80
+          },
+          "d": "M50 13 C70.43453216552734 13 87 29.56546401977539 87 50 C87 70.43453216552734 70.43453216552734 87 50 87 C29.56546401977539 87 13 70.43453216552734 13 50 C13 29.56546401977539 29.56546401977539 13 50 13",
+          "strokeStart": 0,
+          "strokeEnd": 0.9244444370269775,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [13, 13, 74, 74]
+        },
+        {
+          "id": "line",
+          "size": {
+            "width": 346.6666666666667,
+            "height": 25.904761904761905
+          },
+          "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
+          "strokeStart": 0,
+          "strokeEnd": 0.925000011920929,
+          "attached": true,
+          "nativeAnimations": 1,
+          "bounds": [8, 2, 244, 28]
+        }
+      ]
+    },
+    {
+      "name": "snapshot",
+      "time": 1793422801984,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -1453,7 +1768,7 @@
     },
     {
       "name": "loop",
-      "time": 1793413757906,
+      "time": 1793422802434,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -1516,7 +1831,7 @@
     },
     {
       "name": "pause",
-      "time": 1793413757985,
+      "time": 1793422802638,
       "reduced": false,
       "paused": true,
       "compact": false,
@@ -1579,7 +1894,7 @@
     },
     {
       "name": "snapshot",
-      "time": 1793413758820,
+      "time": 1793422803494,
       "reduced": false,
       "paused": true,
       "compact": false,
@@ -1642,7 +1957,7 @@
     },
     {
       "name": "snapshot",
-      "time": 1793413759250,
+      "time": 1793422803951,
       "reduced": false,
       "paused": true,
       "compact": false,
@@ -1705,7 +2020,7 @@
     },
     {
       "name": "play",
-      "time": 1793413759679,
+      "time": 1793422804407,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -1768,7 +2083,7 @@
     },
     {
       "name": "snapshot",
-      "time": 1793413762957,
+      "time": 1793422807666,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -1831,7 +2146,7 @@
     },
     {
       "name": "reduced",
-      "time": 1793413763408,
+      "time": 1793422808126,
       "reduced": true,
       "paused": false,
       "compact": false,
@@ -1894,7 +2209,7 @@
     },
     {
       "name": "draw",
-      "time": 1793413763843,
+      "time": 1793422808584,
       "reduced": true,
       "paused": false,
       "compact": false,
@@ -1957,7 +2272,7 @@
     },
     {
       "name": "before-morph",
-      "time": 1793413764280,
+      "time": 1793422809027,
       "reduced": true,
       "paused": false,
       "compact": false,
@@ -2020,7 +2335,7 @@
     },
     {
       "name": "morph",
-      "time": 1793413764282,
+      "time": 1793422809035,
       "reduced": true,
       "paused": false,
       "compact": false,
@@ -2083,7 +2398,7 @@
     },
     {
       "name": "snapshot",
-      "time": 1793413764713,
+      "time": 1793422809488,
       "reduced": true,
       "paused": false,
       "compact": false,
@@ -2146,7 +2461,7 @@
     },
     {
       "name": "reduced",
-      "time": 1793413765144,
+      "time": 1793422809952,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -2209,7 +2524,7 @@
     },
     {
       "name": "reset",
-      "time": 1793413765576,
+      "time": 1793422810429,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -2272,7 +2587,7 @@
     },
     {
       "name": "draw",
-      "time": 1793413766007,
+      "time": 1793422810896,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -2335,7 +2650,7 @@
     },
     {
       "name": "background",
-      "time": 1793413766152,
+      "time": 1793422811233,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -2363,7 +2678,7 @@
           },
           "d": "M22 51 L43 71 L79 28",
           "strokeStart": 0,
-          "strokeEnd": 0.07388889044523239,
+          "strokeEnd": 0.185555562376976,
           "attached": true,
           "nativeAnimations": 1,
           "bounds": [22, 28, 57, 43]
@@ -2376,7 +2691,7 @@
           },
           "d": "M50 13 C70.43453216552734 13 87 29.56546401977539 87 50 C87 70.43453216552734 70.43453216552734 87 50 87 C29.56546401977539 87 13 70.43453216552734 13 50 C13 29.56546401977539 29.56546401977539 13 50 13",
           "strokeStart": 0,
-          "strokeEnd": 0.07444444298744202,
+          "strokeEnd": 0.18666666746139526,
           "attached": true,
           "nativeAnimations": 1,
           "bounds": [13, 13, 74, 74]
@@ -2389,7 +2704,7 @@
           },
           "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
           "strokeStart": 0,
-          "strokeEnd": 0.07444444298744202,
+          "strokeEnd": 0.18666666746139526,
           "attached": true,
           "nativeAnimations": 1,
           "bounds": [8, 2, 244, 28]
@@ -2398,7 +2713,7 @@
     },
     {
       "name": "foreground",
-      "time": 1793413767292,
+      "time": 1793422812250,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -2426,7 +2741,7 @@
           },
           "d": "M22 51 L43 71 L79 28",
           "strokeStart": 0,
-          "strokeEnd": 0.07388889044523239,
+          "strokeEnd": 0.185555562376976,
           "attached": true,
           "nativeAnimations": 1,
           "bounds": [22, 28, 57, 43]
@@ -2439,7 +2754,7 @@
           },
           "d": "M50 13 C70.43453216552734 13 87 29.56546401977539 87 50 C87 70.43453216552734 70.43453216552734 87 50 87 C29.56546401977539 87 13 70.43453216552734 13 50 C13 29.56546401977539 29.56546401977539 13 50 13",
           "strokeStart": 0,
-          "strokeEnd": 0.07444444298744202,
+          "strokeEnd": 0.18666666746139526,
           "attached": true,
           "nativeAnimations": 1,
           "bounds": [13, 13, 74, 74]
@@ -2452,7 +2767,7 @@
           },
           "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
           "strokeStart": 0,
-          "strokeEnd": 0.07444444298744202,
+          "strokeEnd": 0.18666666746139526,
           "attached": true,
           "nativeAnimations": 1,
           "bounds": [8, 2, 244, 28]
@@ -2461,7 +2776,7 @@
     },
     {
       "name": "snapshot",
-      "time": 1793413767700,
+      "time": 1793422812655,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -2489,7 +2804,7 @@
           },
           "d": "M22 51 L43 71 L79 28",
           "strokeStart": 0,
-          "strokeEnd": 0.2961111068725586,
+          "strokeEnd": 0.4077777862548828,
           "attached": true,
           "nativeAnimations": 1,
           "bounds": [22, 28, 57, 43]
@@ -2502,7 +2817,7 @@
           },
           "d": "M50 13 C70.43453216552734 13 87 29.56546401977539 87 50 C87 70.43453216552734 70.43453216552734 87 50 87 C29.56546401977539 87 13 70.43453216552734 13 50 C13 29.56546401977539 29.56546401977539 13 50 13",
           "strokeStart": 0,
-          "strokeEnd": 0.2966666519641876,
+          "strokeEnd": 0.40888887643814087,
           "attached": true,
           "nativeAnimations": 1,
           "bounds": [13, 13, 74, 74]
@@ -2515,7 +2830,7 @@
           },
           "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
           "strokeStart": 0,
-          "strokeEnd": 0.2966666519641876,
+          "strokeEnd": 0.40888887643814087,
           "attached": true,
           "nativeAnimations": 1,
           "bounds": [8, 2, 244, 28]
@@ -2524,7 +2839,7 @@
     },
     {
       "name": "disposed",
-      "time": 1793413768574,
+      "time": 1793422814396,
       "reduced": false,
       "paused": false,
       "compact": false,
@@ -2552,7 +2867,7 @@
           },
           "d": "M22 51 L43 71 L79 28",
           "strokeStart": 0,
-          "strokeEnd": 0.777222216129303,
+          "strokeEnd": 1,
           "attached": false,
           "nativeAnimations": 0,
           "bounds": null
@@ -2565,7 +2880,7 @@
           },
           "d": "M50 13 C70.43453216552734 13 87 29.56546401977539 87 50 C87 70.43453216552734 70.43453216552734 87 50 87 C29.56546401977539 87 13 70.43453216552734 13 50 C13 29.56546401977539 29.56546401977539 13 50 13",
           "strokeStart": 0,
-          "strokeEnd": 0.7777777910232544,
+          "strokeEnd": 1,
           "attached": false,
           "nativeAnimations": 0,
           "bounds": null
@@ -2578,7 +2893,7 @@
           },
           "d": "M8 18 C50 5 88 30 128 16 C168 2 208 5 252 18",
           "strokeStart": 0,
-          "strokeEnd": 0.7777777910232544,
+          "strokeEnd": 1,
           "attached": false,
           "nativeAnimations": 0,
           "bounds": null
