@@ -79,6 +79,8 @@ def input_control(baseline, delayed, allow_unavailable_thermal=False):
     control = input_latency(delayed, allow_unavailable_thermal)
     assert normal['delayMs'] == 0 and control['delayMs'] > 0
     assert baseline['device']['model'] == delayed['device']['model']
+    assert baseline['device']['os'] == delayed['device']['os']
+    assert baseline['build']['driverSha256'] == delayed['build']['driverSha256']
     assert baseline['input'] == delayed['input'] == 'drag-js'
     # A delay inside existing recognition time can satisfy a lower bound without
     # changing the output. Reject such an inconclusive calibration explicitly.
@@ -133,8 +135,14 @@ def retention(report, allow_unavailable_thermal=False):
 
 if __name__ == '__main__':
     p = argparse.ArgumentParser(description=__doc__); p.add_argument('report', type=Path)
-    p.add_argument('--allow-unavailable-thermal', action='store_true'); args=p.parse_args()
+    p.add_argument('--allow-unavailable-thermal', action='store_true')
+    p.add_argument('--baseline', type=Path, help='Compare a delayed input report against its no-delay capture')
+    args=p.parse_args()
     raw = gzip.decompress(args.report.read_bytes()) if args.report.suffix == '.gz' else args.report.read_bytes()
     report=json.loads(raw)
-    result = retention(report,args.allow_unavailable_thermal) if report.get('mode')=='retention' else input_latency(report,args.allow_unavailable_thermal)
+    if args.baseline:
+        baseline_raw = gzip.decompress(args.baseline.read_bytes()) if args.baseline.suffix == '.gz' else args.baseline.read_bytes()
+        result = input_control(json.loads(baseline_raw), report, args.allow_unavailable_thermal)
+    else:
+        result = retention(report,args.allow_unavailable_thermal) if report.get('mode')=='retention' else input_latency(report,args.allow_unavailable_thermal)
     print(json.dumps(result,indent=2))

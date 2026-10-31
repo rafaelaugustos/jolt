@@ -122,7 +122,7 @@ python3 benchmarks/verify-binding-budgets.py \
 # Expected: accepted=false; failed.view-16-layers-8; exit status 1.
 ```
 
-No Android binding limit is proposed from these timings. Physical Android and a repeatable investigation of heavier cases remain open in #242.
+No Android binding limit is proposed from these emulator timings. The physical Android and heavier-case follow-ups below provide separate evidence.
 
 ## Real input
 
@@ -219,7 +219,7 @@ npm run docs:check-media
 npm run docs:build
 ```
 
-Issue #242 remains open for input-latency and allocation/retained-heap measurements, and repeatable investigation of the large playback stalls. Current results have explicit device, thermal and callback-cadence limits; they do not establish universal capacity or presented-frame acceptance. Broader hardware/refresh-rate coverage is future coverage, not a prerequisite added by this audit. The independent Flutter/Reanimated comparison remains in #65.
+The initial audit left input latency, allocation/retained memory and the large playback stalls for the follow-ups below. Current results have explicit device, thermal and callback-cadence limits; they do not establish universal capacity or presented-frame acceptance. Broader hardware/refresh-rate coverage is future coverage, not a prerequisite added by this audit. The independent Flutter/Reanimated comparison remains in #65.
 
 ## Physical Android follow-up (2026-10-30)
 
@@ -337,10 +337,9 @@ Warm preparation milliseconds, p50 / p95 (seven samples; p95 is the maximum). Th
 
 For composed values, one-view boundary work dropped from **116–130 ms to 13–18 ms**. At 64 views it dropped from **2,907–6,960 ms to 368–670 ms**. The 16-view timing observation was **113–161 ms**, but that workload's allocation audit failed as listed above. Even one view still crossed a 16.67-ms interval in this run. The optimized 64-view windows still had worst native callback gaps of **672.5 ms** (composed values) and **803.1 ms** (direct view layers). The 64-view value common-loop workload had a **1,867.4-ms** gap despite zero boundary submissions. Faster preparation does not establish smooth presentation, and native playback alone does not isolate runtime pauses.
 
-Practical guidance on this measured configuration: prepare large finite batches ahead of interaction; prefer compatible native loops when the movement permits them; keep windowed multi-property composition out of latency-sensitive paths as view counts increase. There is no supported universal binding maximum. Bulk construction removes substantial submission work, but the remaining costs warrant investigating persistent native composition and runtime allocation/GC together, rather than moving only the scalar evaluator. Input-latency and reliable allocation/retained-heap measurements remain open in #242; this comparison retains its hardware, thermal and callback-cadence limits.
+Practical guidance on this measured configuration: prepare large finite batches ahead of interaction; prefer compatible native loops when the movement permits them; keep windowed multi-property composition out of latency-sensitive paths as view counts increase. There is no supported universal binding maximum. Bulk construction removes substantial submission work, but the remaining costs warrant investigating persistent native composition and runtime allocation/GC together, rather than moving only the scalar evaluator. The follow-up below adds native input-onset and bounded retained-memory observations; this comparison retains its hardware, thermal and callback-cadence limits.
 
 The same clean optimized APK then passed four fresh-process automated input windows: [drag](results/binding-budgets/2026-10-30-android-bulk-drag-js.json.gz), [native pan](results/binding-budgets/2026-10-30-android-bulk-pan-native.json.gz), [scroll value](results/binding-budgets/2026-10-30-android-bulk-scroll-js.json.gz) and [native header](results/binding-budgets/2026-10-30-android-bulk-header-native.json.gz). All advanced the native output and cleaned up; native pan/header used zero per-move JS callbacks. These checks do not measure input-to-photon latency. The [conditions and hashes](results/binding-budgets/2026-10-30-android-bulk-conditions.json) identify the clean build, raw reports and reused English emulator layer clip. No new recording was made. The battery snapshot after input was 100% / 28.7°C while charging; no before-run battery snapshot was collected for this optimized run.
-
 
 ## Repeated disposal and native-input onset (2026-10-30)
 
@@ -354,13 +353,13 @@ Both phones released **all 960 watched native views**, and every cycle ended wit
 
 Process allocator measurements, in bytes unless stated otherwise. These include the NativeScript runtime, diagnostic and accumulated report data. Ranges cover the 12 measured cycles; they are observations rather than a universal memory allowance.
 
-| Device / allocator metric | Mounted p50 | Before requested GC p50 | After GC min–max | After GC first→last |
-| --- | ---: | ---: | ---: | ---: |
-| Android Java used heap | 5,419,880 | 5,509,992 | 1,905,480–1,921,864 | 0 |
-| Android native allocated bytes | 33,932,120 | 33,784,104 | 32,800,768–33,729,680 | −399,648 |
-| iPhone malloc bytes in use | 20,381,824 | 21,884,464 | 9,032,880–9,213,200 | +180,320 |
-| iPhone malloc blocks in use (count) | 263,507 | 271,160 | 30,533–30,569 | +36 |
-| iPhone malloc bytes reserved | 62,914,560 | 62,914,560 | 62,914,560–62,914,560 | 0 |
+| Device / allocator metric           | Mounted p50 | Before requested GC p50 |      After GC min–max | After GC first→last |
+| ----------------------------------- | ----------: | ----------------------: | --------------------: | ------------------: |
+| Android Java used heap              |   5,419,880 |               5,509,992 |   1,905,480–1,921,864 |                   0 |
+| Android native allocated bytes      |  33,932,120 |              33,784,104 | 32,800,768–33,729,680 |            −399,648 |
+| iPhone malloc bytes in use          |  20,381,824 |              21,884,464 |   9,032,880–9,213,200 |            +180,320 |
+| iPhone malloc blocks in use (count) |     263,507 |                 271,160 |         30,533–30,569 |                 +36 |
+| iPhone malloc bytes reserved        |  62,914,560 |              62,914,560 | 62,914,560–62,914,560 |                   0 |
 
 Android uses `Runtime.totalMemory() - freeMemory()` and `Debug.getNativeHeapAllocatedSize()`; iOS uses `malloc_zone_statistics(NULL, ...)` across malloc zones. These are current allocator footprints, **not allocation-event counts, Jolt-only costs, total V8/GPU memory, or proof of unbounded leak freedom**. The small iPhone post-collection increase remains visible; there is no arbitrary zero-growth threshold. The earlier approximate ART counter regressions remain archived and rejected; current footprints do not retroactively validate those deltas.
 
@@ -371,3 +370,68 @@ The runners deliver three out-and-back gesture pairs for each of `drag()`, nativ
 The verifier starts at the **first displaced MOVE**, requires three stable native output samples before DOWN (within 0.02 DIP), and finds the first subsequent sampled output change above 0.02 DIP. It reports both OS-event→native-pose and probe-arrival→native-pose intervals. Each gesture stays in the summary, including any exclusion reason. The output is sampled through CADisplayLink/Choreographer at roughly 60 Hz here; iPhone hardware advertises 120 Hz but this app does not request it. This measures onset of the sampled native output, including gesture recognition, mapping/clamping and sampling delay. It does not isolate Jolt processing, measure ongoing tracking lag, or measure input-to-photon latency. The native pan and drag routes also receive different event delivery rates; these are not matched cross-path speed comparisons.
 
 The first Android latency launch aborted in `RenderThread` with `EGL_NOT_INITIALIZED`, before Ready or any gesture. The [app-only crash record](results/binding-budgets/2026-10-30-latency-android-launch-failure.log) is preserved. A second launch of the same installed APK completed all four paths; no trial data from the failed launch was replaced.
+
+### Input onset observations
+
+Milliseconds; p50 / p95 uses nearest rank, so p95 is the maximum of six onsets (three for the iPhone header). Each normal run is a fresh app process. The baseline and injected-delay runs are separate; do not mix their samples.
+
+| Device / path           | Valid onsets / gestures | OS event→pose p50 / p95 | Probe arrival→pose p50 / p95 |
+| ----------------------- | ----------------------: | ----------------------: | ---------------------------: |
+| Android `drag-js`       |                   6 / 6 |           27.22 / 34.71 |                12.69 / 17.15 |
+| Android `pan-native`    |                   6 / 6 |           28.71 / 31.39 |                18.54 / 19.38 |
+| Android `scroll-js`     |                   6 / 6 |           62.57 / 67.26 |                50.78 / 55.22 |
+| Android `header-native` |                   6 / 6 |          45.12 / 212.37 |               33.83 / 200.79 |
+| iPhone `drag-js`        |                   6 / 6 |         128.36 / 137.57 |              112.99 / 121.29 |
+| iPhone `pan-native`     |                   6 / 6 |           55.08 / 56.88 |                38.59 / 39.16 |
+| iPhone `scroll-js`      |                   6 / 6 |           86.37 / 89.32 |                70.70 / 74.80 |
+| iPhone `header-native`  |                   3 / 6 |           81.04 / 81.13 |                64.41 / 66.72 |
+
+The header is a clamped mapping, not a one-to-one pointer follower. On iPhone, three return gestures held the sampled artwork at its 55-DIP clamp through the end of the gesture plus the 100-ms search allowance; those rows remain explicitly excluded, not converted to zero latency. The Android header's long return onsets also begin at that clamp. These intervals describe the supported component behavior, not a pure event-dispatch cost. The no-delay native input probe itself accumulated 1.008–1.160 ms of work across 140–249 events per Android run and 0.057–0.253 ms across 162–335 events per iPhone run. Pose sampling and the rest of the process have their own overhead. No overhead is subtracted from the reported response times.
+
+Raw normal input: Android [drag](results/binding-budgets/2026-10-30-latency-android-drag-js.json.gz), [pan](results/binding-budgets/2026-10-30-latency-android-pan-native.json.gz), [scroll](results/binding-budgets/2026-10-30-latency-android-scroll-js.json.gz), [header](results/binding-budgets/2026-10-30-latency-android-header-native.json.gz); iPhone [drag](results/binding-budgets/2026-10-30-latency-ios-drag-js.json.gz), [pan](results/binding-budgets/2026-10-30-latency-ios-pan-native.json.gz), [scroll](results/binding-budgets/2026-10-30-latency-ios-scroll-js.json.gz), [header](results/binding-budgets/2026-10-30-latency-ios-header-native.json.gz).
+
+### Calibration and reproduction
+
+The Android [40-ms control](results/binding-budgets/2026-10-30-latency-android-drag-js-delay-40.json.gz) delays the first displaced MOVE of each gesture before forwarding it. Probe-arrival→pose changed from **12.11–17.15 ms** without delay to **53.07–57.64 ms** with it. The initial iPhone [40-ms control](results/binding-budgets/2026-10-30-latency-ios-drag-js-delay-40.json.gz) was **inconclusive**: its 111.56–121.27-ms onset overlapped the 112.17–121.29-ms normal range. Existing gesture recognition time can absorb a short early delay, so a lower-bound check alone would be misleading. That report is retained and the paired calibration verifier rejects it.
+
+A separate iPhone [200-ms control](results/binding-budgets/2026-10-30-latency-ios-drag-js-delay-200.json.gz) used clean source `90c7ab60c49b1d04a88080edbd0c25cd9c6a164a`. The native diagnostic's allowed-delay assertion and XCTest runner were extended; shipping runtime code and its recorded hash did not change. All six onsets were **252.56–256.77 ms**, above the injected block and the complete baseline range. This detects a known long block; it is not a linear calibration of every millisecond of recognition latency. Normal iPhone captures were not repeated or replaced.
+
+The verifier now requires the entire baseline range to be below the injected block and every delayed response above that block (with a 1-ms timestamp allowance). Offline tests also relabel a no-delay trace as delayed and require rejection. Additional negative controls corrupt clocks, truncate streams, retain a view, introduce late work, remove cycles, falsify thermal state and modify resumed evidence. None of those modified fixtures are saved as device observations.
+
+Build/install the isolated app as above, then use new output paths for each collection:
+
+```sh
+python3 benchmarks/run-binding-budgets.py android YOUR_ADB_SERIAL /tmp/retention-android.json --retention --allow-unavailable-thermal
+python3 benchmarks/run-binding-budgets.py ios YOUR_IPHONE_UDID /tmp/retention-ios.json --retention
+python3 benchmarks/binding-budgets-android.py YOUR_ADB_SERIAL /tmp/input-android
+python3 benchmarks/binding-budgets-android.py YOUR_ADB_SERIAL /tmp/input-android-control --case drag-js --delay-ms 40
+# iPhone: use the signed XCTest project above, selecting testInputWindows and
+# testInputDelay. The latter runs only drag-js with the 200-ms control.
+# Pull Documents/binding-input-KIND.json and binding-input-drag-js-delay-200.json
+# from the org.nativescript.jolt.bindings app data container with devicectl.
+python3 benchmarks/verify-binding-diagnostics.py /tmp/retention-android.json --allow-unavailable-thermal
+python3 benchmarks/verify-binding-diagnostics.py /tmp/retention-ios.json
+python3 benchmarks/verify-binding-diagnostics.py /tmp/input-android/drag-js.json --allow-unavailable-thermal
+python3 benchmarks/verify-binding-diagnostics.py /tmp/input-android-control/drag-js-delay-40.json --baseline /tmp/input-android/drag-js.json --allow-unavailable-thermal
+python3 -m unittest discover -s benchmarks -p 'test_binding_*.py'
+npm run docs:check-media
+npm run docs:build
+```
+
+Only acknowledge unavailable thermal telemetry on Android below API 29. The default verifier still rejects it; the flag cannot turn an unknown temperature into nominal-temperature acceptance. `--resume --retention` preserves all previously collected cycles and rejects changes before replacing a pending file. Native diagnostics live in the demo fixture, outside the published library.
+
+### Workload guidance and follow-up decision
+
+The measurement scope of #242 now has physical data for preparation, composition boundaries, keyframe submissions, process allocation observations, native callback cadence, CPU, sampled peak memory, bounded retained memory, input onset and repeated cleanup. Earlier full-matrix failures remain failures; finishing this audit is not a claim that every workload is fast or every allocation metric is reliable.
+
+For these measured configurations:
+
+- **Reserve setup time explicitly.** Warm start for a one-property finite value was 0.81/1.54 ms (p50/p95) for one iPhone view and 7.03/7.73 ms for 16. On this Android with bulk construction, one view was 9/10 ms and 16 were 35/37 ms, before adding binding setup and the rest of the screen. Do not place those larger batches inside a single 16.67-ms input/render interval.
+- **Layers need a separate preparation budget.** Sixteen views with two motion-value layers cost 36.51/45.92 ms to start on iPhone and 188/201 ms on Android; eight layers reached 52.38/57.49 ms and 424/544 ms respectively. Prepare or reduce that work before latency-sensitive interaction.
+- **Prefer compatible loops for repeated motion.** They avoid boundary reconstruction. They still have setup cost, and the retained Android common-loop stall means zero boundary submissions is not a smoothness guarantee.
+- **Avoid large windowed fan-outs on the input path.** One composed-value window took 6.96–8.28 ms on iPhone; 16 views already exceeded an entire 60 Hz interval. The optimized Android one-view case took 13–18 ms, leaving no dependable full-screen headroom even at that smallest measured fan-out. The 64-view boundary costs above justify investigating persistent native composition or reusable tracks.
+- **Budget cleanup and memory by the actual screen.** This 64-view/two-layer workload released all watched targets with explicit collection; it does not bound arbitrary retained application references, runtime caches or long-running heaps. Native pan/header avoid per-move JS callbacks, while `drag()`/`scrollValue()` retain their documented JS path; onset traces include recognition and clamps.
+
+[Follow-up #260](https://github.com/rafaelaugustos/jolt/issues/260) owns reducing the measured composition costs and isolating remaining playback/GC stalls. It requires its own before/after physical evidence. The decision is to investigate persistent composition and runtime allocation together, not move only numeric evaluation based on these traces. The independent cross-stack comparison stays in #65.
+
+The reviewed English physical-iPhone and Android-emulator recordings remain embedded in all four guide languages. They demonstrate the existing workloads and composition behavior, with their original platform labels; they are not footage of the new unrecorded latency/retention measurements. No manual device interaction or new recording was required for this follow-up.

@@ -2,9 +2,9 @@
 
 **0.1.0-rc.2 está disponible.** Sus funciones ya se han entregado para las combinaciones documentadas en cada guía. El alcance funcional de 0.1.0 está congelado; la validación para la versión estable sigue en curso.
 
-RC.2 incluye correcciones de anclas de scroll, navegación iOS tras pasar a segundo plano y press/composición en capas, además de resortes nativos en el puntero y evidencia del ciclo de vida de la galería Android. Las mediciones de capacidad de bindings y capas siguen pendientes en [#242](https://github.com/rafaelaugustos/jolt/issues/242).
+RC.2 incluye correcciones de anclas de scroll, navegación iOS tras pasar a segundo plano y press/composición en capas, además de resortes nativos en el puntero y evidencia del ciclo de vida de la galería Android. Las mediciones de bindings/capas están documentadas en [#242](https://github.com/rafaelaugustos/jolt/issues/242).
 
-La [primera auditoría de bindings/capas](./motion-values#binding-measurements) ya incluye mediciones en iPhone físico y diagnósticos en el emulador Android. Documenta el coste en los límites de las ventanas de composición; la capacidad en otros dispositivos y la aceptación de asignaciones/latencia de entrada siguen abiertas en #242.
+La [auditoría de bindings/capas](./motion-values#binding-measurements) incluye preparación/reproducción en iPhone y Android físicos, inicio de respuesta a entradas automáticas y retención en montajes/desmontajes repetidos. Los costes altos de las ventanas de composición, los fallos de contadores aproximados de asignación y la falta de telemetría térmica en Android siguen explícitos en las pruebas. Los resultados orientan los escenarios medidos; no garantizan capacidad universal ni frames presentados. La optimización de ventanas costosas y la investigación de pausas de reproducción se siguen en [#260](https://github.com/rafaelaugustos/jolt/issues/260).
 
 ## Disponible en RC.2 {#available-in-rc-1}
 

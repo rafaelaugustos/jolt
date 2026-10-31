@@ -2,9 +2,9 @@
 
 **0.1.0-rc.2 已发布。** 各项功能已支持对应指南中列出的组合。0.1.0 的功能范围已冻结，正式版的验收工作仍在进行。
 
-RC.2 包含滚动锚点、后台恢复后的 iOS 导航、分层 press 与组合时序的修复，以及原生指针弹簧和 Android 图库生命周期证据。绑定与层数量的容量测量仍由 [#242](https://github.com/rafaelaugustos/jolt/issues/242) 跟踪。
+RC.2 包含滚动锚点、后台恢复后的 iOS 导航、分层 press 与组合时序的修复，以及原生指针弹簧和 Android 图库生命周期证据。绑定与层数量的测量记录见 [#242](https://github.com/rafaelaugustos/jolt/issues/242)。
 
-[首轮绑定与图层审计](./motion-values#binding-measurements)已包含实体 iPhone 测量和 Android 模拟器诊断，记录了成本较高的合成窗口边界。更多硬件的容量、内存分配和输入延迟验收仍在 #242 中跟踪。
+[绑定与图层审计](./motion-values#binding-measurements)包含实体 iPhone 和 Android 上的准备/播放测量、自动输入响应起点，以及重复挂载/卸载的内存保留检查。组合窗口开销较高、近似分配计数器失败、Android 缺少温度状态遥测等限制均保留在证据中。结果为已测场景提供指导，不保证通用容量或实际呈现的帧率。 高开销窗口的优化与播放停顿的调查由 [#260](https://github.com/rafaelaugustos/jolt/issues/260) 跟踪。
 
 ## RC.2 已提供的功能 {#available-in-rc-1}
 
