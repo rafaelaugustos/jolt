@@ -1,5 +1,7 @@
 # Press
 
+For the experimental browser API, see [Web press feedback](./web-press). This page documents native press.
+
 ```ts
 const remove = press(button) // scales to 0.96 while pressed
 press(card, { scale: 0.97, opacity: 0.8 })

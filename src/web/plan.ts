@@ -79,6 +79,8 @@ function normalize(options?: AnimateOptions | SpringName) {
     (typeof options.layer !== 'string' || !options.layer)
   )
     throw new TypeError('A layer needs a nonempty name.')
+  if (options?.layer?.startsWith('jolt:press:'))
+    throw new TypeError('The jolt:press: layer namespace is reserved for press feedback.')
   return {
     base: base as Transition,
     overrides,

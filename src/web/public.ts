@@ -1,4 +1,6 @@
 import { createWebRuntime as createInternalRuntime } from './runtime.js'
+import type { WebPress, WebPressOptions } from './press.js'
+export type { WebPress, WebPressOptions, WebPressState } from './press.js'
 import type {
   AnimateOptions,
   Keyframes,
@@ -39,6 +41,7 @@ export interface WebRuntime {
     options?: AnimateOptions | SpringName,
   ): WebAnimation
   set(target: HTMLElement | readonly HTMLElement[], values: Values): WebAnimation
+  press(target: HTMLElement, values?: Values, options?: WebPressOptions): WebPress
   stop(
     target: HTMLElement | readonly HTMLElement[],
     properties?: readonly (Property | 'scale')[],
@@ -61,6 +64,7 @@ export function createWebRuntime(
   return {
     animate: runtime.animate.bind(runtime),
     set: runtime.set.bind(runtime),
+    press: runtime.press.bind(runtime),
     stop: runtime.stop.bind(runtime),
     configure: runtime.configure.bind(runtime),
     definePreset: runtime.definePreset.bind(runtime),

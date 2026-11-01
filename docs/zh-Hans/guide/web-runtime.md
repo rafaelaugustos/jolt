@@ -2,6 +2,8 @@
 
 [#281](https://github.com/rafaelaugustos/jolt/issues/281) 的运行时直接在 HTML 元素上使用 Jolt 可移植编译器和 WAAPI，不依赖 Vue、React 或 NativeScript。实验性 `/web` 入口已包含在 [#282](https://github.com/rafaelaugustos/jolt/issues/282) 的本地候选包中，**尚未包含在已发布的 0.1.0-rc.4 中**。请参阅[候选包安装](./install#experimental-web-candidate)。Mavis press/reveal 和应用共享示例属于 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 的后续工作。
 
+指针和键盘输入现由 [Web 按压反馈](./web-press)提供；以下录制仍作为有限运行时参考。
+
 <Clip name="web-runtime-chromium" :width="720" caption="macOS arm64 上的 Chromium 156，真实浏览器播放与点击，保持原速：位移与透明度、局部中断、应用缩放与按压贡献、反向重复、暂停、seek、恢复和减少动态效果。按钮用于验证贡献组合；完整的指针/键盘按压识别属于 #283。" />
 
 ## 支持的动画 {#supported-motion}

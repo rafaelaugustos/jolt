@@ -231,10 +231,31 @@ try {
       'configure',
       'definePreset',
       'dispose',
+      'press',
       'release',
       'set',
       'stop',
     ])
+    assert.deepEqual(errors, [])
+    const card = page.locator('#card')
+    const box = await card.boundingBox()
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2)
+    await page.mouse.down()
+    await page.waitForFunction(
+      () =>
+        Math.abs(
+          new DOMMatrix(getComputedStyle(document.getElementById('card')).transform).a -
+            1.056,
+        ) < 0.001,
+    )
+    await page.mouse.up()
+    await page.waitForFunction(
+      () =>
+        Math.abs(
+          new DOMMatrix(getComputedStyle(document.getElementById('card')).transform).a -
+            1.1,
+        ) < 0.001,
+    )
     assert.deepEqual(errors, [])
   }
   const dev = await createServer({
@@ -267,7 +288,7 @@ try {
   }
   report.browser = browser.version()
   passed(
-    'Vite development + production consumers play real WAAPI motion using only the public facade',
+    'Vite development + production consumers play real WAAPI motion and composed press using only the public facade',
   )
 
   const native = join(scratch, 'native')

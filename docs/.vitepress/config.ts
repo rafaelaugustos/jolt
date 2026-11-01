@@ -100,6 +100,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('internals', 'how-it-works'),
         page('webProof', 'web-composition'),
         page('webRuntime', 'web-runtime'),
+        page('webPress', 'web-press'),
         page('limits', 'not-there-yet'),
       ],
     },
@@ -181,6 +182,7 @@ const en = {
   internals: 'How it works',
   webProof: 'Web composition experiment',
   webRuntime: 'Finite Web runtime',
+  webPress: 'Web press feedback',
   limits: 'Release status and limits',
 }
 
@@ -259,6 +261,7 @@ const pt = {
   internals: 'Como funciona',
   webProof: 'Experimento de composição Web',
   webRuntime: 'Runtime Web finito',
+  webPress: 'Press na Web',
   limits: 'Status da versão e limites',
 }
 
