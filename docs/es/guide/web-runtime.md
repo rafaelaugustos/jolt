@@ -59,3 +59,5 @@ El comportamiento nativo no cambia. Estas grabaciones nativas revisadas, en ingl
 <Clip name="layers-android" caption="Emulador Android, demo nativa Layers existente: movimiento y feedback coexisten. Referencia nativa conservada, no es un dispositivo físico ni el nuevo runtime Web." />
 
 Con Node 22, ejecute `npm run web:runtime:typecheck`, `npm run web:runtime:test` y `npm run web:runtime` después de instalar las dependencias y Chromium/Firefox/WebKit de Playwright. El fixture abre en `http://127.0.0.1:4282`; deténgalo antes de los tests. El [informe de evidencias](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/web-runtime.md) describe relojes, referencias nativas compartidas, rollback, limpieza y comandos de grabación.
+
+El [adapter Vue DOM opcional](./web-vue) ya ofrece refs declaradas y lifecycle de entrada/salida.

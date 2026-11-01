@@ -48,7 +48,7 @@ motion.dispose()
 
 运行时控制已挂载、可变换的 HTML 盒子的 `transform` 和 `opacity`。顺序为 `静态 2D 基线 × translate × rotate × scale`，保留原始 `transform-origin`。不支持独立 CSS transform 属性、3D 基线、已有动画/过渡或带 `!important` 的内联运动样式。外部修改 CSS 前须释放并重建；不监控任意样式表/CSS 变量变化。如果外部代码控制外层元素样式，可使用专用内层运动表面。
 
-本阶段仅支持有限播放：连续弹簧、drag/pinch、motion values、滚动、布局、原生专有属性和框架生命周期 adapter 属于后续工作。尚未建立稳定的可移植引用 API，也未完成 Mavis 集成。仅使用 WAAPI 并不能证明合成器加速或保证 FPS。
+本阶段仅支持有限播放：连续弹簧、drag/pinch、motion values、滚动、布局、原生专有属性和其他框架生命周期 adapter 属于后续工作。尚未建立稳定的可移植引用 API，也未完成 Mavis 集成。仅使用 WAAPI 并不能证明合成器加速或保证 FPS。
 
 ## 原生参考与验证 {#native-reference-and-validation}
 
@@ -59,3 +59,5 @@ motion.dispose()
 <Clip name="layers-android" caption="Android 模拟器，现有原生 Layers 演示：运动与反馈层共存。保留的原生参考录像，不是真机录像，也不是新的 Web 运行时。" />
 
 使用 Node 22，安装依赖和 Playwright 的 Chromium/Firefox/WebKit 后，运行 `npm run web:runtime:typecheck`、`npm run web:runtime:test` 和 `npm run web:runtime`。在 `http://127.0.0.1:4282` 打开 fixture；运行测试前停止服务器。[证据报告](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/web-runtime.md)说明时钟测试、共享原生基准、回滚、清理及录像命令。
+
+可选 [Vue DOM 适配器](./web-vue) 现已提供声明式 ref 和进出场生命周期。

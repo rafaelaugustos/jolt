@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { checkVue } from '../benchmarks/package-consumers/vue.mjs'
 import { execFileSync } from 'node:child_process'
 import {
   cpSync,
@@ -91,7 +92,7 @@ try {
   const manifest = json(join(installed, 'package.json'))
   assert.deepEqual(
     Object.keys(manifest.exports).filter((k) => k.startsWith('./web')),
-    ['./web'],
+    ['./web', './web/vue'],
     'Add a packed framework consumer when introducing another Web entry',
   )
   for (const [entry, path] of [
@@ -117,10 +118,11 @@ try {
       ['@rafaelaugusto/jolt/vue', '/dist/vue/index.js'],
       ['@rafaelaugusto/jolt/native', '/dist/native/index.js'],
       ['@rafaelaugusto/jolt/web', '/dist/web/public.js'],
+      ['@rafaelaugusto/jolt/web/vue', '/dist/web/vue/index.js'],
     ]) assert(import.meta.resolve(specifier).endsWith(file));
-    for (const suffix of ['/core', '/dist/core/index.js', '/src/web/runtime.js', '/web/vue'])
+    for (const suffix of ['/core', '/dist/core/index.js', '/src/web/runtime.js', '/web/react'])
       assert.throws(() => import.meta.resolve('@rafaelaugusto/jolt' + suffix), { code: 'ERR_PACKAGE_PATH_NOT_EXPORTED' });
-    for (const [entry, peer] of [['', '@nativescript/core'], ['/vue', 'nativescript-vue']]) {
+    for (const [entry, peer] of [['', '@nativescript/core'], ['/vue', 'nativescript-vue'], ['/web/vue', 'vue']]) {
       try { await import('@rafaelaugusto/jolt' + entry); throw new Error('Unexpected native import success'); }
       catch (error) { assert.equal(error.code, 'ERR_MODULE_NOT_FOUND'); assert(error.message.includes(peer), error.message); console.log(error.message); }
     }
@@ -290,6 +292,8 @@ try {
   passed(
     'Vite development + production consumers play real WAAPI motion and composed press using only the public facade',
   )
+
+  await checkVue({ root, scratch, artifact, run, browser, passed, report })
 
   const native = join(scratch, 'native')
   cpSync(join(root, 'test/fixtures/package-consumers/native'), native, {
