@@ -1,0 +1,119 @@
+{
+  "date": "2026-11-01",
+  "platform": "Darwin",
+  "release": "25.6.0",
+  "architecture": "arm64",
+  "playwright": "1.64.1",
+  "command": "npm run web:proof:test",
+  "results": {
+    "chromium": {
+      "checks": 14,
+      "observations": {
+        "strategy-observations": {
+          "browser": "chromium",
+          "version": "156.0.8078.4",
+          "individual": "0px 25px",
+          "translateThenRotate": {
+            "a": 0,
+            "b": 1,
+            "c": -1,
+            "d": 0,
+            "x": 50,
+            "y": 0
+          },
+          "rotateThenTranslate": {
+            "a": 0,
+            "b": 1,
+            "c": -1,
+            "d": 0,
+            "x": 0,
+            "y": 50
+          },
+          "additiveIndividualScale": "1.056"
+        },
+        "source-presentation-errors": {
+          "positionError": 0.17960981670168508,
+          "scaleError": 0.0005212738427564645
+        },
+        "compiled-presentation-errors": {
+          "positionError": 0.12764311311167376,
+          "scaleError": 0.0009310491333727189,
+          "observations": 39
+        }
+      }
+    },
+    "firefox": {
+      "checks": 14,
+      "observations": {
+        "strategy-observations": {
+          "browser": "firefox",
+          "version": "157.0",
+          "individual": "0px 25px",
+          "translateThenRotate": {
+            "a": 0,
+            "b": 1,
+            "c": -1,
+            "d": 0,
+            "x": 50,
+            "y": 0
+          },
+          "rotateThenTranslate": {
+            "a": 0,
+            "b": 1,
+            "c": -1,
+            "d": 0,
+            "x": 0,
+            "y": 50
+          },
+          "additiveIndividualScale": "1.056"
+        },
+        "source-presentation-errors": {
+          "positionError": 0.17912243450669507,
+          "scaleError": 0.0005211530196931324
+        },
+        "compiled-presentation-errors": {
+          "positionError": 0.12468558348996339,
+          "scaleError": 0.0009287841708631728,
+          "observations": 39
+        }
+      }
+    },
+    "webkit": {
+      "checks": 14,
+      "observations": {
+        "strategy-observations": {
+          "browser": "webkit",
+          "version": "27.2",
+          "individual": "0px 25px",
+          "translateThenRotate": {
+            "a": 0,
+            "b": 1,
+            "c": -1,
+            "d": 0,
+            "x": 50,
+            "y": 0
+          },
+          "rotateThenTranslate": {
+            "a": 0,
+            "b": 1,
+            "c": -1,
+            "d": 0,
+            "x": 0,
+            "y": 50
+          },
+          "additiveIndividualScale": "1.056"
+        },
+        "source-presentation-errors": {
+          "positionError": 0.17938781670170556,
+          "scaleError": 0.0005252738427565795
+        },
+        "compiled-presentation-errors": {
+          "positionError": 0.12724311311166048,
+          "scaleError": 0.0009320491333726366,
+          "observations": 39
+        }
+      }
+    }
+  },
+  "scope": "Real browser correctness checks. Explicit local-time samples do not certify FPS, compositor acceleration or live presentation/clock synchronization."
+}

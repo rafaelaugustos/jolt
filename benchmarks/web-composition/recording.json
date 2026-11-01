@@ -1,0 +1,28 @@
+{
+  "recordedAt": "2026-11-01T07:23:33.779Z",
+  "browser": "Chromium",
+  "version": "156.0.8078.4",
+  "os": {
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64"
+  },
+  "viewport": {
+    "width": 920,
+    "height": 740
+  },
+  "actions": ["move", "retarget", "scale", "hold", "grow", "release"],
+  "finalPresentation": {
+    "scaleX": 1.2,
+    "scaleY": 1.2,
+    "x": 40,
+    "y": 80
+  },
+  "sourceSHA256": {
+    "surface.ts": "384a704469e09297fc7f98b2b122ae559e4ea02df06633b95ff4164b0e48525c",
+    "fixture.ts": "fae564e75b320045755bc35b08cce419b2d8554d54e76355fdd6aec7ac72fe48",
+    "index.html": "1bee8b6bc98903f4e364db2f5e2c73a80ffb4beb97155a4da05d1610909ec27e"
+  },
+  "videoSHA256": "de7d5cb0367c6982a20ddf3c6c618abb97ed11d669fbe975e6f7c83dd4077783",
+  "notes": "Real Playwright browser playback and clicks at real-time speed. Buttons apply/release the press contribution; full press input recognition is deferred to #283. No fabricated or interpolated footage."
+}

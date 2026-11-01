@@ -10,3 +10,5 @@ benchmarks/native-app/App_Resources
 benchmarks/native-app/platforms
 benchmarks/native-app/hooks
 benchmarks/native-app/results
+benchmarks/web-composition/results
+benchmarks/web-composition/captures
