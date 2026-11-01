@@ -20,6 +20,7 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+      - run: npm run core:check
       - run: node benchmarks/inspector-production.mjs
       - run: npm run benchmark:typecheck
       - uses: actions/setup-java@v6

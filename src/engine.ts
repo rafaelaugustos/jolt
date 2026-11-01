@@ -1,3 +1,5 @@
+import type { Animation } from './core/playback.js'
+import { createOwnership } from './core/ownership.js'
 import {
   createClock,
   registerPlayback,
@@ -16,16 +18,7 @@ import { isColorProperty } from './color.js'
 import type { PreparedPath, PathProperty } from './path.js'
 import { BASE, identity, MixHandle, mixFor, mixOf, mixesOf } from './mixer.js'
 
-export interface Animation extends PromiseLike<boolean> {
-  /**
-   * Resolves with `true` once the animation played to the end, or with `false`
-   * if it was stopped, superseded or skipped.
-   * Playback cancellation never rejects; sequences can reject setup/callback errors.
-   */
-  readonly finished: Promise<boolean>
-  /** Stops playback. Each effect documents whether it preserves or restores its visual state. */
-  stop(): void
-}
+export type { Animation } from './core/playback.js'
 
 export interface Plan {
   property: Property
@@ -55,7 +48,7 @@ interface Entry {
   completedValue?: number
 }
 
-const revisions = new WeakMap<View, Map<Property, symbol>>()
+const revisions = createOwnership<View, Property>()
 
 const running = new WeakMap<View, Map<string, Entry>>()
 const arrivals = new WeakMap<Animation, Promise<unknown>>()
@@ -194,7 +187,7 @@ export class ViewAnimation implements PlaybackAnimation {
       if (
         entry.done &&
         entry.finished &&
-        revisions.get(this.view)?.get(entry.track.property) === entry.token &&
+        revisions.get(this.view, entry.track.property) === entry.token &&
         readValue(this.view, entry.track.property) === entry.completedValue
       ) {
         entry.done = false
@@ -427,12 +420,10 @@ export class ViewAnimation implements PlaybackAnimation {
     driver.sync?.(this.view)
 
     for (const { track, key, layer } of made) {
-      const token = Symbol(track.property)
-      if (layer === undefined) {
-        let tokens = revisions.get(this.view)
-        if (!tokens) revisions.set(this.view, (tokens = new Map()))
-        tokens.set(track.property, token)
-      }
+      const token =
+        layer === undefined
+          ? revisions.claim(this.view, track.property)
+          : Symbol(track.property)
       if (track.end === 0) continue
       const entry: Entry = {
         track,
@@ -527,7 +518,7 @@ export function currentValue(view: View, property: Property): number {
 
 /** Internal property ownership marker; layout cleanup must preserve newer animations. */
 export function propertyRevision(view: View, property: Property) {
-  return revisions.get(view)?.get(property)
+  return revisions.get(view, property)
 }
 
 /** Internal read-only diagnostics. No observers or frame hooks are installed. */
@@ -561,9 +552,7 @@ export function captureValue(view: View, property: Property): () => number | und
 
 /** Stops whatever is animating these properties of the view, or all of them, layers included. */
 export function stopView(view: View, properties?: readonly Property[]) {
-  const tokens = revisions.get(view)
-  for (const property of properties ?? tokens?.keys() ?? [])
-    tokens?.set(property, Symbol(property))
+  revisions.invalidate(view, properties)
   for (const mix of mixesOf(view))
     if (!properties || properties.includes(mix.property)) mix.freeze()
   const entries = running.get(view)
@@ -577,8 +566,7 @@ export function stopView(view: View, properties?: readonly Property[]) {
 
 /** Stops the regular animations of these properties and leaves their layers running. */
 export function stopBase(view: View, properties: readonly Property[]) {
-  const tokens = revisions.get(view)
-  for (const property of properties) tokens?.set(property, Symbol(property))
+  revisions.invalidate(view, properties)
   const now = getDriver().now()
   for (const property of properties) {
     const entry = running.get(view)?.get(property)

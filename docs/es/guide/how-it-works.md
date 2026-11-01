@@ -1,5 +1,7 @@
 # Cómo funciona {#how-it-works}
 
+La compilación de curvas reside en un núcleo interno de TypeScript sin imports de NativeScript, DOM ni frameworks. La frontera nativa proporciona `timeScale` y la preferencia de movimiento reducido ya resueltos; ambos drivers nativos consumen los mismos tracks compilados. El núcleo también define el contrato genérico del driver por target, el reloj de reproducción y el registro de propiedad de los canales por contexto. Esto prepara el [movimiento compartido entre plataformas (#236)](https://github.com/rafaelaugustos/jolt/issues/236): todavía no hay entradas públicas `/core` ni `/web`, y el paquete nativo sigue requiriendo NativeScript. Los resortes en vivo y los gestos conservan su ejecución nativa.
+
 Cuando comienza una animación, Jolt resuelve los valores iniciales y calcula la curva fuente. Los resortes numéricos, las caídas y las interpolaciones utilizan [fotogramas clave adaptativos](./transitions#adaptive-keyframes), concentrando los detalles donde la interpolación lineal lo necesita. Los tiempos de los fotogramas clave creados permanecen exactos y los segmentos numéricos rectos conservan solo sus puntos finales. El asentamiento del resorte, la velocidad de interrupción y la llegada de la secuencia conservan su contrato de sincronización anterior. La mezcla de colores y los mapeos compuestos de valores de movimiento mantienen sus políticas de muestreo separadas.
 
 Las muestras van a la plataforma de una sola vez:
@@ -24,3 +26,5 @@ La entrada opcional [`gestures()`](./gestures) reconoce giro/pellizco/rotación 
 Las pruebas ejecutan el motor contra un controlador de plataforma falso ([`test/helpers.ts`](https://github.com/rafaelaugustos/jolt/blob/main/test/helpers.ts)) con su propio reloj: registra los fotogramas clave que reproduciría y los finaliza cuando el reloj pasa su fin. Los controladores iOS y Android se verifican con los tipos de plataforma.
 
 El dispositivo CI nativo también lee los valores de vista/capa de presentación en iOS y Android, verifica las dimensiones reales y el ciclo de vida del seguidor en vivo, y verifica una falla de geometría intencional. Los kernels Spring de C y Java se compilan y comparan en pruebas de trayectoria deterministas.
+
+Las pruebas de regresión del núcleo portátil comparan 38 trayectorias con una referencia congelada anterior a la extracción, incluidos los keyframes muestreados, tiempos, velocidades y preferencias de accesibilidad. `npm run core:check` también empaqueta e instala el núcleo interno compilado en un consumidor sin dependencias, comprueba sus declaraciones solo con tipos de ECMAScript y lo importa y ejecuta sin variables globales de plataforma. Esto verifica la frontera interna; no valida un renderer de navegador.

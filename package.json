@@ -113,6 +113,7 @@
     "dev": "tsc -p tsconfig.build.json --watch",
     "typecheck": "tsc --noEmit",
     "benchmark:typecheck": "tsc -p benchmarks/tsconfig.json",
+    "core:check": "tsc -p tsconfig.core.json && node scripts/check-portable-core.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
     "format": "prettier --write .",
