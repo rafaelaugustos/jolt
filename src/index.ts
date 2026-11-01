@@ -32,9 +32,11 @@ export type {
 export { scrollLinked } from './scroll-linked.js'
 export type { ScrollLinkedOptions } from './scroll-linked.js'
 export { scrollHeader } from './scroll-header/index.js'
+export { ScrollHeaderSurface } from './scroll-header/surface.js'
 export type {
   ScrollHeader,
   ScrollHeaderOptions,
+  ScrollHeaderRefreshContext,
   ScrollHeaderGeometry,
   ScrollHeaderSnapshot,
 } from './scroll-header/index.js'

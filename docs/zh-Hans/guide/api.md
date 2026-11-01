@@ -42,7 +42,7 @@
 - [`GlassContainer` / `GlassView`](./glass) — 使用现有变换播放的原生 iOS 26 Liquid Glass 融合。
 - [`world.attach()` / `world.snapTo()`](./physics-attachments) — 原生锚定弹簧和释放卡扣点。
 - [`sensor(kind, options)`](./device-sensors) — 用于动画值、绑定和弹簧的可选原生旋转/重力源。
-- [`scrollHeader(list, options)`](./scroll-header) — 原生核心 ListView 组成：测量英雄、视差、标题切换、固定部分和稳定项目锚点。
+- [`scrollHeader(list, options)`](./scroll-header) — 原生核心 ListView 组成：测量英雄、视差、标题切换、固定部分和稳定项目锚点。 可通过 `onRefresh` 与 `ScrollHeaderSurface` 启用原生下拉刷新。
 - [`scrollLinked(scrollView, target, keyframes, { range, axis? })`](./scroll-linked) — 返回清理函数。
 - [`animateItems(list, keyframes | preset, options?)`](./lists) — 出现的行，带有 `once`；返回一个清理函数。
 - [`followKeyboard(target, options?)`](./keyboard) — 在 iOS 和 Android 7+ 上使用键盘移动视图；返回一个清理函数。

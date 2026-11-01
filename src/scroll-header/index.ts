@@ -9,6 +9,7 @@ import {
 } from '@nativescript/core'
 import { bind, motionValue, springValue, type SpringValue } from '../motion-value.js'
 import { set } from '../animate.js'
+import { ScrollHeaderSurface } from './surface.js'
 import { reducedMotion, onReducedMotion } from '../config.js'
 import { getDriver } from '../driver/index.js'
 import {
@@ -23,6 +24,13 @@ import {
   type ScrollHeaderGeometry,
 } from './geometry.js'
 export type { ScrollHeaderGeometry, ScrollHeaderSnapshot }
+
+export interface ScrollHeaderRefreshContext {
+  /** Becomes true on pause, suspension, unload, replacement or disposal. */
+  readonly cancelled: boolean
+  /** Apply loaded data at the current keyed scroll anchor. Stale commits are ignored. */
+  commit(change: () => void | Promise<void>): Promise<boolean>
+}
 
 export interface ScrollHeaderOptions {
   /** Retained overlay siblings of the list. The header owns artwork/title descendants. */
@@ -48,6 +56,11 @@ export interface ScrollHeaderOptions {
   stretch?: boolean
   /** Stable data keys, excluding spacer row zero. Required by preserveAnchor(). */
   keys?: () => readonly string[]
+  /** One callback per accepted pull. Await commit() after loading new data. */
+  onRefresh?: (context: ScrollHeaderRefreshContext) => void | Promise<void>
+  onRefreshError?: (error: unknown) => void
+  /** Native pull distance in DIPs; defaults to 80. */
+  refreshThreshold?: number
   diagnostic?: Label
   onState?: (state: ScrollHeaderSnapshot) => void
 }
@@ -56,6 +69,9 @@ export interface ScrollHeader {
   readonly disposed: boolean
   readonly state: ScrollHeaderSnapshot
   readonly geometry: ScrollHeaderGeometry | undefined
+  /** Coalesces concurrent calls. Resolves false on failure, cancellation or unavailable input. */
+  refresh(): Promise<boolean>
+  cancelRefresh(): void
   remeasure(): Promise<void>
   preserveAnchor(change: () => void | Promise<void>): Promise<void>
   /** Data index, excluding spacer. Aligns below the compact toolbar and pinned section. */
@@ -76,6 +92,8 @@ const initialState = (): ScrollHeaderSnapshot => ({
   minimumOffset: 0,
   maximumOffset: 0,
   phase: 'expanded',
+  refresh: 'idle',
+  refreshRequests: 0,
   updates: 0,
   callbacks: 0,
   first: 0,
@@ -114,7 +132,12 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
     throw new TypeError(
       'Use distinct retained header, toolbar and section siblings with artwork/title descendants.',
     )
-  for (const key of ['rowHeight', 'expandedHeight', 'minimumHeight'] as const)
+  for (const key of [
+    'rowHeight',
+    'expandedHeight',
+    'minimumHeight',
+    'refreshThreshold',
+  ] as const)
     if (
       options[key] !== undefined &&
       (!Number.isFinite(options[key]) || options[key]! <= 0)
@@ -130,9 +153,22 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
       throw new RangeError(`${key} must be finite and nonnegative.`)
   if (options.stretch !== undefined && typeof options.stretch !== 'boolean')
     throw new TypeError('stretch must be boolean.')
-  for (const callback of [options.keys, options.onState])
+  for (const callback of [
+    options.keys,
+    options.onState,
+    options.onRefresh,
+    options.onRefreshError,
+  ])
     if (callback !== undefined && typeof callback !== 'function')
       throw new TypeError('Scroll header callbacks must be functions.')
+  if (options.onRefresh && !options.keys)
+    throw new TypeError('Pull-to-refresh requires keys() for current-item anchoring.')
+  if (options.onRefresh && !isIOS && !(list.parent instanceof ScrollHeaderSurface))
+    throw new TypeError('Android pull-to-refresh requires a ScrollHeaderSurface parent.')
+  if (options.onRefresh && isIOS && list.ios?.refreshControl)
+    throw new TypeError(
+      'Remove the app-owned iOS refreshControl before enabling onRefresh.',
+    )
   owners.get(list)?.dispose()
   const host = list.parent
   const saved = {
@@ -165,9 +201,26 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
   let detachBindings: (() => void)[] = [],
     pending = new Set<() => void>(),
     last = initialState()
+  let refreshRun:
+    | {
+        cancelled: boolean
+        promise: Promise<boolean>
+        settle(value: boolean): void
+      }
+    | undefined
+  const cancelRefresh = () => {
+    const run = refreshRun
+    refreshRun = undefined
+    if (run) {
+      run.cancelled = true
+      run.settle(false)
+    }
+    native?.refreshing(false)
+  }
   const notify = () => {
     if (ended || !ready) return
     last = native?.snapshot() ?? last
+    if (last.refresh === 'refreshing' && !refreshRun) void control.refresh()
     try {
       options.onState?.(last)
     } catch (error) {
@@ -339,6 +392,7 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
           () => {
             void Promise.resolve().then(notify)
           },
+          { enabled: !!options.onRefresh, threshold: options.refreshThreshold ?? 80 },
         )
       if (offset !== undefined) {
         restoringOffset = before ? resizedOffset(offset, before, next) : offset
@@ -374,6 +428,7 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
       })
   }
   const detach = () => {
+    cancelRefresh()
     revision++
     ready = false
     for (const cancel of [...pending]) cancel()
@@ -386,6 +441,7 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
     value = undefined
   }
   const suspend = () => {
+    cancelRefresh()
     background = true
     native?.enabled(false)
   }
@@ -411,6 +467,72 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
     get geometry() {
       return geometry
     },
+    refresh() {
+      if (refreshRun) return refreshRun.promise
+      if (ended || !ready || held || background || !native || !options.onRefresh) {
+        native?.refreshing(false)
+        return Promise.resolve(false)
+      }
+      let settle!: (value: boolean) => void
+      const run = {
+        cancelled: false,
+        promise: new Promise<boolean>((resolve) => {
+          settle = resolve
+        }),
+        settle: (value: boolean) => settle(value),
+      }
+      refreshRun = run
+      native.refreshing(true)
+      const context: ScrollHeaderRefreshContext = {
+        get cancelled() {
+          return run.cancelled
+        },
+        async commit(change) {
+          if (run.cancelled || refreshRun !== run || ended) return false
+          // A cover/font remeasurement can overlap application loading. Finish
+          // that geometry boundary before capturing the new keyed anchor.
+          if (measuring) await measuring
+          if (run.cancelled || refreshRun !== run || ended || !ready) return false
+          if (typeof change !== 'function')
+            throw new TypeError('Provide a refresh commit callback.')
+          await control.preserveAnchor(async () => {
+            if (!run.cancelled && refreshRun === run) await change()
+          })
+          return !run.cancelled && refreshRun === run
+        },
+      }
+      void Promise.resolve()
+        .then(() => {
+          if (!run.cancelled) return options.onRefresh!(context)
+        })
+        .then(
+          () => finish(true),
+          (error) => {
+            if (!run.cancelled && refreshRun === run) {
+              try {
+                options.onRefreshError?.(error)
+              } catch (callbackError) {
+                Trace.write(String(callbackError), 'Jolt', Trace.messageType.error)
+              }
+              if (!options.onRefreshError)
+                Trace.write(
+                  `Scroll header refresh: ${String(error)}`,
+                  'Jolt',
+                  Trace.messageType.error,
+                )
+            }
+            finish(false)
+          },
+        )
+      const finish = (success: boolean) => {
+        if (refreshRun !== run) return
+        refreshRun = undefined
+        native?.refreshing(false)
+        run.settle(success)
+      }
+      return run.promise
+    },
+    cancelRefresh,
     remeasure() {
       invalidated = true
       if (measuring) return measuring
@@ -431,6 +553,9 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
       if (operation) throw new Error('A scroll anchor update is already in progress.')
       if (!options.keys || typeof change !== 'function')
         throw new TypeError('preserveAnchor requires keys() and an update callback.')
+      const generation = revision,
+        source = native,
+        current = () => !ended && revision === generation && native === source
       const before = geometry,
         offset = native.snapshot().offset,
         keys = [...options.keys()]
@@ -454,8 +579,9 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
       native.enabled(false)
       try {
         await change()
+        if (!current()) return
         await layout(list)
-        if (ended || !native) return
+        if (!current()) return
         const next = [...options.keys()]
         if (
           new Set(next).size !== next.length ||
@@ -464,15 +590,15 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
           throw new TypeError('Data keys must remain unique.')
         const found = next.indexOf(key!),
           destination = found >= 0 ? found : Math.min(index, Math.max(0, next.length - 1))
-        native.scroll(
+        source.scroll(
           restoredOffset(offset, before, geometry!, index, destination),
           false,
         )
         await layout(list)
-        if (!ended) notify()
+        if (current()) notify()
       } finally {
         operation = false
-        native?.enabled(!held && !background)
+        if (current()) source.enabled(!held && !background)
         queueMeasure()
       }
     },
@@ -491,6 +617,7 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
       native?.scroll(0, animated && !reducedMotion())
     },
     pause() {
+      cancelRefresh()
       held = true
       native?.enabled(false)
     },

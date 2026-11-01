@@ -115,6 +115,13 @@ export const spanish: Record<string, string> = {
   'THE TRACKLIST': 'LAS CANCIONES',
   'Jump to a later track': 'Ir a una canción posterior',
   'Back to the cover': 'Volver a la portada',
+  'Pull down for fresh tracks.': 'Desliza hacia abajo para actualizar.',
+  'Refreshing…': 'Actualizando…',
+  'Refresh cancelled.': 'Actualización cancelada.',
+  'Fresh tracks. Your place stays.': 'Nuevas canciones. Tu posición se mantiene.',
+  'Could not refresh. Pull to try again.':
+    'No se pudo actualizar. Desliza para reintentar.',
+  Refresh: 'Actualizar',
   'New cover': 'Nueva portada',
   'Add a track': 'Añadir canción',
   'Show motion details': 'Ver detalles del movimiento',

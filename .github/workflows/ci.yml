@@ -31,6 +31,7 @@ jobs:
       - run: python3 -m unittest discover -s benchmarks -p 'test_sensor_*.py'
       - run: python3 -m unittest discover -s benchmarks -p 'test_scroll_header_text.py'
       - run: python3 -m unittest discover -s benchmarks -p 'test_scroll_header_accessibility.py'
+      - run: python3 -m unittest discover -s benchmarks -p 'test_scroll_header_refresh.py'
       - run: python3 -m unittest discover -s benchmarks -p 'test_binding_*.py'
       - run: python3 -m unittest discover -s benchmarks -p 'test_gallery_text.py'
       - run: python3 -m unittest discover -s benchmarks -p 'test_gallery_accessibility.py'

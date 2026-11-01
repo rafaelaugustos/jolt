@@ -64,13 +64,18 @@ const cover = shallowRef<string | ImageSource>('~/assets/studio/cove.png'),
   album = ref('Slow tides.'),
   status = ref('A little room to drift.'),
   debug = ref(false),
-  reduced = ref(false)
+  reduced = ref(false),
+  refreshStatus = ref('Pull down for fresh tracks.')
 const auditEnabled = launchArgument('scroll-header-audit') !== undefined
 let list: ListView | undefined,
   owner: ScrollHeader | undefined,
   disposed = false,
   additions = 0,
-  rowTaps = 0
+  rowTaps = 0,
+  refreshRequests = 0,
+  refreshCommits = 0,
+  failRefresh = false,
+  slowRefresh = false
 let fontRefresh: ReturnType<typeof setTimeout> | undefined
 let readerFocus: ReturnType<typeof setTimeout> | undefined
 const events: object[] = []
@@ -205,6 +210,8 @@ function audit(name: string, extra?: unknown) {
       ? (list?.ios as UITableView | undefined)?.decelerating
       : undefined,
     rowTaps,
+    refreshRequests,
+    refreshCommits,
     extra,
     rows: nativeRows,
     poses: {
@@ -260,6 +267,40 @@ function setup() {
     },
     keys: () => tracks.value.map((item) => item.key),
     onState: (state) => audit('phase', state.phase),
+    async onRefresh(context) {
+      const request = ++refreshRequests,
+        fail = failRefresh
+      failRefresh = false
+      refreshStatus.value = 'Refreshing…'
+      audit('refresh-start', request)
+      // The sample loads bundled data after a visible async delay. Applications
+      // fetch here, then commit at the current anchor rather than the old one.
+      await new Promise((resolve) => setTimeout(resolve, slowRefresh ? 5000 : 1400))
+      if (context.cancelled) {
+        if (!disposed && request === refreshRequests)
+          refreshStatus.value = 'Refresh cancelled.'
+        audit('refresh-cancelled', request)
+        return
+      }
+      if (fail) throw new Error('Sample refresh failed')
+      audit('refresh-before-commit', request)
+      const committed = await context.commit(async () => {
+        tracks.value = [
+          { key: 'fresh-' + request, title: 'A new beginning', duration: '4:08' },
+          ...tracks.value,
+        ]
+        await nextTick()
+      })
+      if (committed) {
+        refreshCommits++
+        refreshStatus.value = 'Fresh tracks. Your place stays.'
+        audit('refresh-complete', request)
+      }
+    },
+    onRefreshError(error) {
+      refreshStatus.value = 'Could not refresh. Pull to try again.'
+      audit('refresh-error', String(error))
+    },
   })
   if (isIOS) {
     ;(list.parent as LayoutBase & { scrollTarget: WeakRef<ListView> }).scrollTarget =
@@ -417,7 +458,7 @@ onUnmounted(() => {
 <template>
   <GridLayout
     ref="root"
-    rows="*,auto,auto,auto"
+    rows="*,auto,auto,auto,auto"
     backgroundColor="#F4F0E7"
     iosAccessibilityAdjustsFontSize="true"
   >
@@ -586,7 +627,16 @@ onUnmounted(() => {
         />
       </GridLayout>
     </ScrollHeaderViewport>
-    <GridLayout row="1" columns="*,*,auto" padding="8 16" backgroundColor="#E7E8D9">
+    <Label
+      row="1"
+      :text="t(refreshStatus)"
+      textWrap="true"
+      fontSize="11"
+      color="#536952"
+      padding="6 18"
+      automationText="scroll-header-refresh-status"
+    />
+    <GridLayout row="2" columns="*,*,*,auto" padding="8 16" backgroundColor="#E7E8D9">
       <Label
         :text="t('New cover')"
         automationText="scroll-header-cover"
@@ -616,6 +666,20 @@ onUnmounted(() => {
       />
       <Label
         col="2"
+        :text="t('Refresh')"
+        automationText="scroll-header-refresh"
+        color="#193D34"
+        fontSize="12"
+        textWrap="true"
+        fontWeight="600"
+        padding="10"
+        accessibilityRole="button"
+        accessible="true"
+        textAlignment="center"
+        @tap="owner?.refresh()"
+      />
+      <Label
+        col="3"
         text="ⓘ"
         fontSize="22"
         color="#193D34"
@@ -629,7 +693,7 @@ onUnmounted(() => {
       />
     </GridLayout>
     <StackLayout
-      row="2"
+      row="3"
       :visibility="debug ? 'visible' : 'collapse'"
       backgroundColor="#E7E8D9"
       padding="0 18 10"
@@ -650,7 +714,7 @@ onUnmounted(() => {
         automationText="scroll-header-status"
       />
     </StackLayout>
-    <GridLayout v-if="auditEnabled" row="3" columns="*,*,*,*,*" minHeight="40">
+    <GridLayout v-if="auditEnabled" row="4" columns="*,*,*,*,*,*,*" minHeight="40">
       <Label
         text="Snapshot"
         fontSize="10"
@@ -694,6 +758,24 @@ onUnmounted(() => {
         padding="4"
         automationText="scroll-header-reload"
         @tap="reloadList"
+      />
+      <Label
+        col="5"
+        text="Fail next"
+        fontSize="10"
+        textWrap="true"
+        padding="4"
+        automationText="scroll-header-fail-refresh"
+        @tap="failRefresh = true"
+      />
+      <Label
+        col="6"
+        :text="slowRefresh ? 'Fast' : 'Slow'"
+        fontSize="10"
+        textWrap="true"
+        padding="4"
+        automationText="scroll-header-slow-refresh"
+        @tap="slowRefresh = !slowRefresh"
       />
     </GridLayout>
   </GridLayout>

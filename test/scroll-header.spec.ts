@@ -26,6 +26,7 @@ let native: {
   configure: ReturnType<typeof vi.fn>
   scroll: ReturnType<typeof vi.fn>
   enabled: ReturnType<typeof vi.fn>
+  refreshing: ReturnType<typeof vi.fn>
   dispose: ReturnType<typeof vi.fn>
 }
 const nodes: LiveNode[] = []
@@ -46,6 +47,7 @@ beforeEach(() => {
       offset = y
     }),
     enabled: vi.fn(),
+    refreshing: vi.fn(),
     dispose: vi.fn(),
   }
   vi.mocked(createScrollHeaderDriver)
@@ -426,5 +428,255 @@ describe('scrollHeader geometry and ownership', () => {
     expect(second.ready).toBe(true)
     expect(s.list.listenerCount('unloaded')).toBe(1)
     expect(driver.pendingLayouts).toBe(0)
+  })
+})
+
+describe('scrollHeader pull-to-refresh', () => {
+  it('requires stable keys and validates callbacks and threshold', () => {
+    const s = scene()
+    s.options.onRefresh = () => {}
+    s.options.keys = undefined
+    expect(s.start).toThrow(/keys/)
+    s.options.keys = () => ['a']
+    s.options.refreshThreshold = 0
+    expect(s.start).toThrow(/positive/)
+    s.options.refreshThreshold = 80
+    s.options.onRefresh = 42 as never
+    expect(s.start).toThrow(/functions/)
+  })
+  it('coalesces duplicate requests and preserves the current anchor after loading', async () => {
+    const s = scene()
+    let resolveLoad!: () => void
+    const loaded = new Promise<void>((resolve) => {
+      resolveLoad = resolve
+    })
+    s.options.onRefresh = vi.fn(async (context) => {
+      await loaded
+      await context.commit(() => s.keys(['new', 'a', 'b', 'c', 'd', 'e']))
+    })
+    const owner = s.start()
+    await layouts()
+    offset = 0
+    const first = owner.refresh()
+    expect(owner.refresh()).toBe(first)
+    await flush()
+    expect(s.options.onRefresh).toHaveBeenCalledOnce()
+    offset = 400 // The user scrolls while the request is pending.
+    resolveLoad()
+    await layouts()
+    expect(await first).toBe(true)
+    expect(offset).toBe(480) // Preserve this new position, not the request-time top.
+    expect(native.refreshing.mock.calls.map(([value]) => value)).toEqual([true, false])
+  })
+  it('keeps top refresh at the top, including an empty list', async () => {
+    const s = scene()
+    s.keys([])
+    s.options.onRefresh = async (context) => {
+      await context.commit(() => s.keys(['new']))
+    }
+    const owner = s.start()
+    await layouts()
+    offset = -100 // Native iOS overscroll.
+    const request = owner.refresh()
+    await layouts()
+    expect(await request).toBe(true)
+    expect(offset).toBe(0)
+  })
+  it('settles a failure, reports it once, and permits a fresh retry', async () => {
+    const s = scene(),
+      error = new Error('offline')
+    s.options.onRefresh = vi
+      .fn()
+      .mockRejectedValueOnce(error)
+      .mockResolvedValueOnce(undefined)
+    s.options.onRefreshError = vi.fn()
+    const owner = s.start()
+    await layouts()
+    expect(await owner.refresh()).toBe(false)
+    expect(s.options.onRefreshError).toHaveBeenCalledExactlyOnceWith(error)
+    expect(native.refreshing).toHaveBeenLastCalledWith(false)
+    expect(await owner.refresh()).toBe(true)
+    expect(s.options.onRefresh).toHaveBeenCalledTimes(2)
+  })
+  for (const action of [
+    'pause',
+    'background',
+    'unload',
+    'dispose',
+    'replace',
+    'cancel',
+  ] as const) {
+    it(`ignores late results after ${action} and settles immediately`, async () => {
+      const s = scene()
+      let resolveLoad!: () => void
+      const loaded = new Promise<void>((resolve) => {
+        resolveLoad = resolve
+      })
+      const mutate = vi.fn()
+      let cancelled = false
+      s.options.onRefresh = async (context) => {
+        await loaded
+        cancelled = context.cancelled
+        expect(await context.commit(mutate)).toBe(false)
+      }
+      const owner = s.start()
+      await layouts()
+      const request = owner.refresh()
+      await flush()
+      if (action === 'pause') owner.pause()
+      else if (action === 'background')
+        Application.notify({ eventName: Application.suspendEvent })
+      else if (action === 'unload') {
+        s.list.notify({ eventName: 'unloaded' })
+        s.list.unload()
+      } else if (action === 'dispose') owner.dispose()
+      else if (action === 'replace') s.start()
+      else owner.cancelRefresh()
+      expect(await request).toBe(false)
+      resolveLoad()
+      await layouts()
+      expect(cancelled).toBe(true)
+      expect(mutate).not.toHaveBeenCalled()
+      expect(native.refreshing).toHaveBeenLastCalledWith(false)
+    })
+  }
+  it('an old completion cannot stop a newer spinner or report a stale error', async () => {
+    const s = scene()
+    let rejectOld!: (reason: Error) => void, finishNew!: () => void
+    const old = new Promise<void>((_, reject) => {
+      rejectOld = reject
+    })
+    const fresh = new Promise<void>((resolve) => {
+      finishNew = resolve
+    })
+    s.options.onRefresh = vi.fn().mockReturnValueOnce(old).mockReturnValueOnce(fresh)
+    s.options.onRefreshError = vi.fn()
+    const owner = s.start()
+    await layouts()
+    const first = owner.refresh()
+    await flush()
+    owner.cancelRefresh()
+    const second = owner.refresh()
+    await flush()
+    rejectOld(new Error('late'))
+    await flush()
+    expect(await first).toBe(false)
+    expect(native.refreshing).toHaveBeenLastCalledWith(true)
+    expect(s.options.onRefreshError).not.toHaveBeenCalled()
+    finishNew()
+    expect(await second).toBe(true)
+    expect(native.refreshing).toHaveBeenLastCalledWith(false)
+  })
+  it('does not run unavailable, paused or disposed refresh callbacks', async () => {
+    const s = scene()
+    s.options.onRefresh = vi.fn()
+    const owner = s.start()
+    expect(await owner.refresh()).toBe(false)
+    await layouts()
+    owner.pause()
+    expect(await owner.refresh()).toBe(false)
+    owner.play()
+    expect(await owner.refresh()).toBe(true)
+    owner.dispose()
+    expect(await owner.refresh()).toBe(false)
+    expect(s.options.onRefresh).toHaveBeenCalledOnce()
+  })
+  it('does not restore an old anchor into a reloaded native list', async () => {
+    const s = scene()
+    const owner = s.start()
+    await layouts()
+    offset = 400
+    let finish!: () => void
+    const pending = owner.preserveAnchor(
+      () =>
+        new Promise<void>((resolve) => {
+          finish = resolve
+        }),
+    )
+    s.list.notify({ eventName: 'unloaded' })
+    s.list.unload()
+    s.list.load()
+    await layouts()
+    native.scroll.mockClear()
+    finish()
+    await pending
+    expect(native.scroll).not.toHaveBeenCalled()
+  })
+})
+
+describe('refresh native boundary', () => {
+  it('starts once from repeated native refresh notifications', async () => {
+    const s = scene()
+    let finish!: () => void
+    s.options.onRefresh = vi.fn(
+      () =>
+        new Promise<void>((resolve) => {
+          finish = resolve
+        }),
+    )
+    const owner = s.start()
+    await layouts()
+    const base = (native as ScrollHeaderDriver).snapshot()
+    let refreshing = true
+    native.snapshot.mockImplementation(() => ({
+      ...base,
+      refresh: refreshing ? 'refreshing' : 'idle',
+    }))
+    native.refreshing.mockImplementation((value: boolean) => {
+      refreshing = value
+    })
+    const notify = vi.mocked(createScrollHeaderDriver).mock.calls[0]![5]
+    notify()
+    notify()
+    notify()
+    await flush()
+    expect(s.options.onRefresh).toHaveBeenCalledOnce()
+    finish()
+    await flush()
+    expect(owner.state.refresh).toBe('idle')
+  })
+
+  it('does not start application loading when cancelled in the same turn', async () => {
+    const s = scene()
+    s.options.onRefresh = vi.fn()
+    const owner = s.start()
+    await layouts()
+    const result = owner.refresh()
+    owner.cancelRefresh()
+    await expect(result).resolves.toBe(false)
+    await flush()
+    expect(s.options.onRefresh).not.toHaveBeenCalled()
+  })
+})
+
+describe('refresh during remeasurement', () => {
+  it('waits for a pending cover measurement before committing loaded data', async () => {
+    const s = scene()
+    let commit!: () => Promise<boolean>
+    let release!: () => void
+    const loaded = new Promise<void>((resolve) => {
+      release = resolve
+    })
+    const changed = vi.fn(() => s.keys(['new', 'a', 'b', 'c', 'd', 'e']))
+    s.options.onRefresh = async (context) => {
+      commit = () => context.commit(changed)
+      await loaded
+    }
+    const owner = s.start()
+    await layouts()
+    const refresh = owner.refresh()
+    await flush()
+    s.header.actualSize.height = 400
+    const measurement = owner.remeasure()
+    await flush()
+    const applied = commit()
+    await flush()
+    expect(changed).not.toHaveBeenCalled()
+    await layouts()
+    await measurement
+    await expect(applied).resolves.toBe(true)
+    expect(changed).toHaveBeenCalledOnce()
+    release()
+    await expect(refresh).resolves.toBe(true)
   })
 })

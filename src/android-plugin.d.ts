@@ -58,7 +58,11 @@ declare namespace org.rafaelaugusto.jolt {
     }
   }
 
+  class ScrollHeaderSurface extends org.nativescript.widgets.GridLayout {
+    constructor(context: android.content.Context)
+  }
   class ScrollHeader {
+    setRefreshing(value: boolean): void
     constructor(
       list: android.widget.ListView,
       node: LiveSpring,

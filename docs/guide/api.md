@@ -42,7 +42,7 @@
 - [`GlassContainer` / `GlassView`](./glass) — native iOS 26 Liquid Glass fusion using existing transform playback.
 - [`world.attach()` / `world.snapTo()`](./physics-attachments) — native anchor springs and release snap points.
 - [`sensor(kind, options)`](./device-sensors) — optional native rotation/gravity sources for motion values, bindings and springs.
-- [`scrollHeader(list, options)`](./scroll-header) — native Core ListView composition: measured hero, parallax, title handoff, pinned section and stable item anchors.
+- [`scrollHeader(list, options)`](./scroll-header) — native Core ListView composition: measured hero, parallax, title handoff, pinned section and stable item anchors. Optional native pull-to-refresh uses `onRefresh` and `ScrollHeaderSurface`.
 - [`scrollLinked(scrollView, target, keyframes, { range, axis? })`](./scroll-linked) — returns a cleanup function.
 - [`animateItems(list, keyframes | preset, options?)`](./lists) — rows as they appear, with `once`; returns a cleanup function.
 - [`followKeyboard(target, options?)`](./keyboard) — moves a view with the keyboard on iOS and Android 7+; returns a cleanup function.

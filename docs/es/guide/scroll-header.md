@@ -56,6 +56,47 @@ La plantilla de fila debe exigir su tamaño. Core 9.1.3 Android restablece el `h
 
 Ver los [Pantalla Vue](https://github.com/rafaelaugustos/jolt/blob/main/demo/src/components/ScrollHeaderLab.vue) y [plantillas de células recicladas](https://github.com/rafaelaugustos/jolt/blob/main/demo/src/showcase/scroll-header-cells.ts) completos. La composición aporta movimiento y geometría de desplazamiento; la aplicación posee datos, plantillas, imágenes y rutas. Los fondos superpuestos deben pasar toques excepto sus controles; la referencia utiliza `isPassThroughParentEnabled` y etiquetas decorativas no interactivas.
 
+## Deslizar para actualizar
+
+Añade `onRefresh` y usa **ScrollHeaderSurface** como padre existente de la lista y las capas. Extiende GridLayout de Core; Android lo necesita para coordinar el gesto superior sin sustituir los listeners de Core. No requiere otro ScrollView ni un wrapper externo. Mantén `keys()` únicas y estables.
+
+```ts
+import { ScrollHeaderSurface, scrollHeader } from '@rafaelaugusto/jolt'
+
+// Vue: registerElement('ScrollHeaderSurface', () => ScrollHeaderSurface)
+// Use this GridLayout subclass as the existing list/overlay parent.
+const page = scrollHeader(list, {
+  // ...the measured header, toolbar, section and spacer options above
+  keys: () => tracks.map((track) => track.id),
+  async onRefresh(refresh) {
+    const latest = await loadTracks()
+    await refresh.commit(async () => {
+      tracks = latest
+      list.refresh()
+      // Vue: await nextTick() after changing reactive data.
+    })
+  },
+  onRefreshError(error) {
+    showRetryMessage(error)
+  },
+  refreshThreshold: 80, // DIPs
+})
+
+await page.refresh() // the same action from a button
+page.cancelRefresh()
+```
+
+Desliza más allá del umbral y suelta para actualizar; soltar antes cancela el gesto. El anillo nativo muestra carga y se mantiene estático con Reducir movimiento. iOS observa el pan y el rebote existentes; Android intercepta solo el arrastre descendente desde arriba. La lista conserva el desplazamiento y la activación de filas. Se rechaza un `refreshControl` de iOS existente; otros wrappers no están cubiertos.
+
+Las llamadas simultáneas a `refresh()` comparten una promesa: `true` al completar; `false` por error, cancelación o indisponibilidad. `onRefreshError` permite mostrar el error y reintentar. La muestra carga datos locales con demora, sin red.
+
+Carga antes de `refresh.commit()`: captura el ancla por clave actual, incluso si se desplaza durante la carga. En el inicio muestra la primera fila nueva. Espera el commit y la actualización reactiva dentro de él; serializa con `preserveAnchor()`. Modifica los datos sincrónicamente antes de esperar el render. Cancelar no revierte cambios ni interrumpe I/O de la aplicación.
+
+Pausar, pasar a segundo plano, descargar la lista, reemplazar, desechar o llamar `cancelRefresh()` invalida la petición y detiene el indicador. `refresh.cancelled` informa la cancelación; un commit tardío devuelve `false` sin ejecutar el callback. Una nueva petición puede empezar al reactivarse. `state.refresh` ofrece `idle`, `pulling`, `armed` y `refreshing`, sin callbacks JS por frame.
+
+<Clip name="scroll-header-refresh-ios" caption="iPhone 17 Pro físico, iOS 27.2, interfaz en inglés: gesto real, indicador nativo, error y reintento, desplazamiento durante la carga con posición conservada, Reducir movimiento y listas cortas/vacías. Grabación nativa de XCTest a velocidad original, datos locales; sin medición de FPS." />
+<Clip name="scroll-header-refresh-android" caption="Emulador Android 16 / API 36, interfaz en inglés: gestos ADB reales, una actualización activa, error/reintento, posición estable durante la carga, Reducir movimiento y listas cortas/vacías. Velocidad original; indicadores de toque reales. Validación funcional en emulador." />
+
 ## Offset, geometría y anclajes {#offset-geometry-and-anchors}
 
 La altura del héroe se mide después del diseño; la barra de herramientas proporciona su altura mínima. Los `expandedHeight` y `minimumHeight` explícitos anulan estas mediciones. El rango de colapso es `expanded − minimum` y la fila cero ocupa `expanded + section`. La sección se mueve desde la parte inferior del héroe hasta la parte inferior de la barra de herramientas. Una vez fijado, el desplazamiento continúa a través de la lista virtualizada sin un segundo propietario de desplazamiento.
@@ -100,14 +141,14 @@ En iOS, KVO observa la geometría de desplazamiento. Un proxy delegado por lista
 
 Reduce Motion sigue fijando y desplazándose, desactiva el paralaje/estiramiento decorativo, utiliza una transferencia de título inmediata y desactiva el desplazamiento programático animado. Sólo un título participa en la accesibilidad a la vez. Las plantillas de datos de altura fija deben tener el tamaño adecuado para la escala de texto grande elegida por la aplicación; este primer adaptador no admite filas de datos de altura variable.
 
-| Combinación                                                                                                 | Primer contrato de adaptador                                                                                                   |
-| ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| Core 9.1.3 ListView plano, un espaciador y filas de datos fijas                                             | Referencia soportada en ambas plataformas                                                                                      |
-| Datos cortos/vacíos                                                                                         | Extensión del contenido real; sin espacio de desplazamiento fantasma forzado                                                   |
-| iOS rebote                                                                                                  | Extensión de obra de arte opcional; lista nativa posee el gesto                                                                |
-| Android sobredesplazamiento                                                                                 | Comportamiento del borde de la plataforma, sin estiramiento del héroe decorativo                                               |
-| Tirar para actualizar                                                                                       | No hay ningún reconocedor instalado; Las integraciones de actualización no se han validado y no son compatibles con este hito. |
-| Modos principales seccionados/encabezado fijo/búsqueda                                                      | Rechazado; esta composición posee la geometría fijada                                                                          |
-| Otros complementos de listas, filas de datos variables, desplazamiento vertical anidado, pestañas paginadas | No compatible; sin respaldo JS silencioso                                                                                      |
+| Combinación                                                                                                 | Primer contrato de adaptador                                                                      |
+| ----------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Core 9.1.3 ListView plano, un espaciador y filas de datos fijas                                             | Referencia soportada en ambas plataformas                                                         |
+| Datos cortos/vacíos                                                                                         | Extensión del contenido real; sin espacio de desplazamiento fantasma forzado                      |
+| iOS rebote                                                                                                  | Extensión de obra de arte opcional; lista nativa posee el gesto                                   |
+| Android sobredesplazamiento                                                                                 | Comportamiento del borde de la plataforma, sin estiramiento del héroe decorativo                  |
+| Pull-to-refresh                                                                                             | `onRefresh` integrado con ScrollHeaderSurface; otros wrappers de actualización siguen sin soporte |
+| Modos principales seccionados/encabezado fijo/búsqueda                                                      | Rechazado; esta composición posee la geometría fijada                                             |
+| Otros complementos de listas, filas de datos variables, desplazamiento vertical anidado, pestañas paginadas | No compatible; sin respaldo JS silencioso                                                         |
 
-Las [notas de validación y reproducción](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) registran las comprobaciones en simulador/emulador aceptadas para esta entrega. Las mediciones de rendimiento en dispositivos físicos, otras configuraciones de lector/fuente y la integración de actualización quedan fuera de esta corrección; la evolución de los adaptadores se sigue en #116.
+Las [notas de validación y reproducción](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) describen las comprobaciones registradas. Las mediciones de rendimiento en dispositivos físicos, otras configuraciones de lector/fuente y otros adaptadores de actualización quedan fuera de esta entrega; #116 mantiene el alcance restante.
