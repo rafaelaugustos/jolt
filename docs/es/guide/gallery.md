@@ -57,7 +57,7 @@ El código completo de la aplicación ejecutable es [GaleríaFotoDetalle.vue](ht
 | Cambio de ventana/diseño durante un vuelo     | Finaliza la superposición de forma segura; mantener la ruta comprometida.                                                                                 |
 | Suspensión                                    | Desechar la entrada; El cierre posterior utiliza la navegación normal.                                                                                    |
 
-Reducir movimiento conserva la semántica de zoom/restablecer/cerrar y ruta/enfoque sin el vuelo compartido. Las réplicas están ocultas al acceso. El artículo devuelto actual recibe el foco del lector de pantalla; un encabezado de colección es el recurso alternativo cuando falta. El texto ampliado tiene la cobertura en simulador/emulador descrita abajo; la validación física y con VoiceOver/TalkBack sigue pendiente.
+Reducir movimiento conserva la semántica de zoom/restablecer/cerrar y ruta/enfoque sin el vuelo compartido. Las réplicas están ocultas al acceso. El artículo devuelto actual recibe el foco del lector de pantalla; un encabezado de colección es el recurso alternativo cuando falta. El texto ampliado tiene la cobertura en simulador/emulador descrita abajo. La validación de lectores está en [Lectores de pantalla](#screen-readers); la matriz física más amplia sigue pendiente.
 
 ## Texto ampliado del sistema
 
@@ -76,7 +76,7 @@ Se comprobaron cambios reales del sistema en iPhone 17 / iOS 26.2 Simulator (`la
 
 Imágenes estáticas verticales, horizontales y cuadradas transparentes empaquetadas/en caché, un Core Frame/ventana, Core ListView y vue-router-ns 0.1.0-rc.2. Los retornos arrastrados personalizados admiten el recorte de la ventana gráfica rectangular y la escala positiva uniforme. Una miniatura parcialmente recortada en la entrada puede utilizar una apertura normal; la resolución de un objetivo de retorno visible sigue siendo independiente. El reemplazo de red, un buscapersonas fotográfico, transiciones arbitrarias modales/marcos anidados, imágenes rotadas y superficies de video/GL/WebView son las siguientes cosas.
 
-La guía y el [evidencia nativa](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md) cubren la corrección del simulador/emulador. El ritmo de cuadros del dispositivo físico, la latencia de entrada y la creación de perfiles de memoria de proceso permanecen abiertos en el n.° 117; Estos clips no cierran esa matriz de aceptación.
+La guía y el [evidencia nativa](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md) cubren la corrección en simulador/emulador y la prueba limitada del lector en iPhone físico descrita abajo. El ritmo de cuadros del dispositivo físico, la latencia de entrada y la creación de perfiles de memoria de proceso permanecen abiertos en el n.° 117; Estos clips no cierran esa matriz de aceptación.
 
 ## Rotación y reanudación en Android {#android-rotation-and-resume}
 
@@ -87,3 +87,16 @@ La suspensión libera la entrada de navegación compartida, como se describe arr
 <Clip name="gallery-lifecycle-android" caption="Emulador Android 16 / API 36, galería en inglés: zoom, rotación, desplazamiento, inicio y reanudación, nueva pinza, cierre cancelado y retornos repetidos mediante entrada real. Reproducción nativa a velocidad original. La grabación muestra bandas vacías en horizontal; no demuestra rendimiento en un dispositivo físico." />
 
 [Reproducción y observaciones del ciclo de vida](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md#android-lifecycle-audit-2026-10-29) cubren este adaptador y escenario. La matriz completa de aceptación permanece en [#117](https://github.com/rafaelaugustos/jolt/issues/117).
+
+## Lectores de pantalla {#screen-readers}
+
+Cada miniatura es un botón independiente, incluidas las dos fotos de una fila reciclada. Los metadatos decorativos quedan fuera del orden de lectura; el título del detalle es un encabezado y los controles de zoom, restablecer y cerrar son accesibles.
+
+Durante el regreso con resolución de destino, Jolt excluye temporalmente la página de la navegación del lector para evitar que el enfoque automático desplace la celda durante la transición. Restaura el estado original al terminar, cancelar o liberar, y solicita el foco de la miniatura actual en el siguiente turno nativo. Si la foto desapareció, enfoca el encabezado. Ignora solicitudes pendientes si la vista fue reciclada, descargada o ya pertenece a otra ruta.
+
+La grabación cubre apertura, zoom de 2,5×, restablecer, cerrar con zoom, reabrir después de mover la foto al índice 59, eliminación y un cuarto regreso con Reducir movimiento de Jolt. Los registros comprueban foco real, escala nativa, cuatro navegaciones y cero recursos nativos de navegación al finalizar. La cobertura corresponde al Core ListView/router de referencia y al tamaño de texto grabado; Android físico, otras configuraciones, lector con texto ampliado y rendimiento siguen pendientes.
+
+<Clip name="gallery-voiceover-ios" caption="iPhone 17 Pro físico, iOS 27.2, interfaz en inglés: navegación real con VoiceOver, doble toque, zoom/restablecer, foco después de reordenar, encabezado tras eliminar y Reducir movimiento. Grabación nativa de XCTest a velocidad original, sin audio de voz. La traza verifica voz real y foco nativo." />
+<Clip name="gallery-talkback-android" caption="Emulador Android 16 / API 36, interfaz en inglés: gestos reales de TalkBack, exploración táctil y doble toque en cuatro regresos, incluidos elementos movidos/eliminados y Reducir movimiento. Grabación nativa a velocidad original, sin audio de voz. No demuestra Android físico ni rendimiento." />
+
+[Reproducción y evidencias](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md#screen-readers-2026-11-01).

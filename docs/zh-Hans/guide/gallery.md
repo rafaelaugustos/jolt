@@ -57,7 +57,7 @@ closeButton.on('tap', () => viewer.requestDismiss())
 | 飞行期间窗口/布局发生变化 | 安全结束覆盖；保持承诺的路线。                                                |
 | 暂停                      | 处理该条目；随后的关闭使用普通导航。                                          |
 
-“减少动态效果”保留缩放、重置、关闭、导航和焦点行为，但不播放共享过渡。过渡副本对辅助功能隐藏。焦点返回当前缩略图；目标缺失时回退到集合标题。放大文本已通过下述模拟器检查，真机及 VoiceOver/TalkBack 验收仍待完成。
+“减少动态效果”保留缩放、重置、关闭、导航和焦点行为，但不播放共享过渡。过渡副本对辅助功能隐藏。焦点返回当前缩略图；目标缺失时回退到集合标题。放大文本已通过下述模拟器检查。屏幕阅读器验证见[屏幕阅读器](#screen-readers)；更广泛的真机验收仍待完成。
 
 ## 放大系统字体
 
@@ -76,7 +76,7 @@ iOS 启用 Dynamic Type，安全区域只应用一次。Android 在字体配置�
 
 捆绑/缓存的静态肖像、风景和透明方形图像，一个 Core Frame/窗口、Core ListView 和 vue-router-ns 0.1.0-rc.2。自定义拖动返回支持矩形视口裁剪和统一正比例。入口处的部分缩略图可以使用普通开口；解决可见的回报目标仍然是独立的。网络替换、照片寻呼机、任意模式/嵌套帧转换、旋转图像和视频/GL/WebView 表面是后续功能。
 
-本指南和 [本土证据](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md) 涵盖模拟器/仿真器的正确性。真机帧节奏、输入延迟和进程内存分析在 #117 中保持开放；这些剪辑不会关闭该接受矩阵。
+本指南和 [本土证据](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md) 涵盖模拟器正确性及下述有限范围的 iPhone 真机屏幕阅读器验证。真机帧节奏、输入延迟和进程内存分析在 #117 中保持开放；这些剪辑不会关闭该接受矩阵。
 
 ## Android 旋转与恢复 {#android-rotation-and-resume}
 
@@ -87,3 +87,16 @@ Android 16 / API 36 模拟器审计验证了从竖屏切换到横屏、再切回
 <Clip name="gallery-lifecycle-android" caption="Android 16 / API 36 模拟器，英文图库：真实输入完成缩放、旋转、拖动、主屏幕切换与恢复、新的双指缩放、取消关闭及重复返回。原速原生播放。录屏在横屏时保留空白边框，不代表真机性能测量。" />
 
 [复现步骤与原始生命周期观测](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md#android-lifecycle-audit-2026-10-29) 仅覆盖此适配器和场景。更完整的验收矩阵仍由 [#117](https://github.com/rafaelaugustos/jolt/issues/117) 跟踪。
+
+## 屏幕阅读器 {#screen-readers}
+
+每个缩略图都是独立按钮，回收行中的两张照片也可分别访问。装饰性文字不参与朗读；详情标题标记为标题，缩放、重置和关闭控件可正常访问。
+
+解析返回目标期间，Jolt 暂时将目标页面移出屏幕阅读器遍历，防止自动焦点在过渡中滚动回收单元格。完成、取消或释放时恢复原辅助功能状态，并在下一个原生执行轮次将焦点移至当前键对应的缩略图。照片被删除时回退至集合标题。若视图已回收、卸载或导航已切换页面，则忽略排队的焦点请求。
+
+录像验证了打开、2.5 倍缩放、重置、放大时关闭、移动到索引 59 后重新打开、删除回退，以及启用 Jolt“减少动态效果”覆盖选项后的第四次返回。记录检查实际焦点、原生缩放、四次导航提交和最终为零的原生导航资源计数。覆盖范围限于参考 Core ListView/router 和录像中的正常字体设置；Android 真机、其他阅读器配置、放大文字与阅读器组合及性能仍待验证。
+
+<Clip name="gallery-voiceover-ios" caption="iPhone 17 Pro 真机，iOS 27.2，英文界面：真实 VoiceOver 遍历、双击激活、缩放/重置、排序后的缩略图焦点、删除后的标题回退及减少动态效果。XCTest 原生原速录像，不含语音音轨；配套记录检查真实朗读和原生焦点。" />
+<Clip name="gallery-talkback-android" caption="Android 16 / API 36 模拟器，英文界面：真实 TalkBack 滑动、触摸探索和双击激活，完成四次返回，包括移动、删除及减少动态效果。原生原速录屏，不含语音音轨；不代表 Android 真机或性能测量。" />
+
+[复现方法与证据](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md#screen-readers-2026-11-01)。

@@ -174,23 +174,77 @@ export async function resolveListTarget(
     previous = { view, box }
   }
 }
-export function focusReturnTarget(page: Page, view: View | undefined) {
-  if (!view || !view.isLoaded || view.page !== page) return
+/** Keep reader auto-focus from scrolling a recycled destination during its flight. */
+export function suppressReturnAccessibility(page: Page): () => void {
+  const native = page.nativeViewProtected
+  if (!native) return () => {}
   try {
-    const native = view.nativeViewProtected
-    if (isIOS) {
-      if (UIAccessibilityIsVoiceOverRunning())
-        UIAccessibilityPostNotification(UIAccessibilityLayoutChangedNotification, native)
-    } else {
+    if (isIOS && UIAccessibilityIsVoiceOverRunning()) {
+      const previous = native.accessibilityElementsHidden
+      native.accessibilityElementsHidden = true
+      return () => {
+        if (native.accessibilityElementsHidden === true)
+          native.accessibilityElementsHidden = previous
+      }
+    }
+    if (!isIOS) {
       const manager = Application.android.context?.getSystemService(
         android.content.Context.ACCESSIBILITY_SERVICE,
       ) as android.view.accessibility.AccessibilityManager | undefined
-      if (manager?.isTouchExplorationEnabled())
-        native?.performAccessibilityAction(
-          android.view.accessibility.AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS,
-          null,
-        )
+      if (manager?.isTouchExplorationEnabled()) {
+        const previous = native.getImportantForAccessibility(),
+          hidden = android.view.View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+        native.setImportantForAccessibility(hidden)
+        return () => {
+          if (native.getImportantForAccessibility() === hidden)
+            native.setImportantForAccessibility(previous)
+        }
+      }
     }
+  } catch {
+    /* An unavailable reader API cannot prevent navigation. */
+  }
+  return () => {}
+}
+export function focusReturnTarget(page: Page, view: View | undefined) {
+  if (!view || !view.isLoaded || view.page !== page) return
+  const native = view.nativeViewProtected,
+    tag = view.sharedTransitionTag
+  // Visibility and the accessibility subtree were just restored. Let that
+  // native turn finish; never focus an unloaded/recycled view or a later route.
+  const focus = () => {
+    if (
+      !view.isLoaded ||
+      view.page !== page ||
+      page.frame?.currentPage !== page ||
+      view.nativeViewProtected !== native ||
+      view.sharedTransitionTag !== tag
+    )
+      return
+    try {
+      if (isIOS) {
+        if (UIAccessibilityIsVoiceOverRunning())
+          UIAccessibilityPostNotification(
+            UIAccessibilityLayoutChangedNotification,
+            native,
+          )
+      } else {
+        const manager = Application.android.context?.getSystemService(
+          android.content.Context.ACCESSIBILITY_SERVICE,
+        ) as android.view.accessibility.AccessibilityManager | undefined
+        if (manager?.isTouchExplorationEnabled())
+          native?.performAccessibilityAction(
+            android.view.accessibility.AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS,
+            null,
+          )
+      }
+    } catch {
+      /* Focus cannot change the navigation outcome. */
+    }
+  }
+  try {
+    if (isIOS) NSOperationQueue.mainQueue.addOperationWithBlock(focus)
+    else native?.post(new java.lang.Runnable({ run: focus }))
   } catch {
     /* Focus cannot change the navigation outcome. */
   }

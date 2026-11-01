@@ -9,7 +9,7 @@ import {
   type ItemEventData,
 } from '@nativescript/core'
 import { markRaw, registerElement } from 'nativescript-vue'
-import { photoTag, type CollectionPhoto } from './photo-collection'
+import { photoTag, recordCollectionFocus, type CollectionPhoto } from './photo-collection'
 
 // List cells survive native-view teardown. Obtain the native color when applying
 // it instead of reusing a UIColor wrapper cached before that teardown.
@@ -59,8 +59,12 @@ export function loadCollectionCell(
       const image = markRaw(new Image())
       image.stretch = 'aspectFill'
       image.borderRadius = 18
+      image.accessible = true
       image.accessibilityRole = 'button'
       const label = markRaw(new StackLayout())
+      // The photo button already names the item. Metadata is decorative and
+      // must not turn an entire two-photo UITableView row into one reader stop.
+      label.accessibilityHidden = true
       label.padding = 12
       const title = markRaw(new Label())
       title.fontSize = 15
@@ -88,6 +92,9 @@ export function loadCollectionCell(
       image.on('tap', () => {
         if (slot.photo) open(image, slot.photo)
       })
+      image.on('accessibilityFocus', () => {
+        if (slot.photo) recordCollectionFocus(image, slot.photo.key)
+      })
       slots.push(slot)
     }
     cells.set(row, slots)
@@ -112,5 +119,10 @@ export function loadCollectionCell(
     slot.title.text = translate(photo.title)
     slot.number.text = photo.key.replace('place-', '').padStart(2, '0')
   })
+  if (isIOS && event.ios) {
+    const cell = event.ios as UITableViewCell
+    cell.isAccessibilityElement = false
+    cell.contentView.accessibilityElementsHidden = false
+  }
   event.view = row
 }

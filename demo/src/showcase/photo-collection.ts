@@ -69,7 +69,19 @@ export function releaseCollection() {
 }
 export const photoTag = (key: string) => `collection:${key}`
 const events: SharedNavigationEntryEvent[] = [],
-  snapshots: object[] = []
+  snapshots: object[] = [],
+  focusEvents: object[] = []
+export function recordCollectionFocus(view: View, key?: string) {
+  if (!collectionAudit()) return
+  focusEvents.push({
+    time: Date.now(),
+    id: view.automationText,
+    key,
+    tag: view.sharedTransitionTag,
+    index: collectionPhotos.value.findIndex((p) => p.key === key),
+  })
+  if (view.page?.frame) auditCollection(view.page.frame)
+}
 let commits = 0,
   resolvedTag: string | undefined,
   requestKey: string | undefined
@@ -193,7 +205,7 @@ export function auditCollection(frame: Frame) {
     ? knownFolders.documents().path
     : Application.android.context.getExternalFilesDir(null)!.getAbsolutePath()
   File.fromPath(directory + '/jolt-collection.json').writeTextSync(
-    JSON.stringify({ ...snapshot, commits, events, snapshots }),
+    JSON.stringify({ ...snapshot, commits, events, snapshots, focusEvents }),
   )
 }
 export async function openCollectionPhoto(
