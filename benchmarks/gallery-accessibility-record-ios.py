@@ -1,6 +1,6 @@
 """Run and export XCTest's native physical-iPhone recording (Xcode/iOS 27).
 
-Usage: python SCRIPT DEVICE_UDID XCODE_PROJECT DERIVED_DATA OUTPUT_DIRECTORY
+Usage: python SCRIPT DEVICE_UDID XCODE_PROJECT DERIVED_DATA OUTPUT_DIRECTORY [--large-text]
 The output directory must be new. No USB capture or generated frames are used.
 """
 import json
@@ -9,7 +9,8 @@ import re
 import subprocess
 import sys
 
-device, project, derived, output = sys.argv[1:]
+large_text = sys.argv[-1] == "--large-text"
+device, project, derived, output = sys.argv[1:-1] if large_text else sys.argv[1:]
 out = Path(output).resolve()
 out.mkdir(parents=True, exist_ok=False)
 result = out / 'results.xcresult'
@@ -19,7 +20,7 @@ with log.open('w') as stream:
         'xcodebuild', 'test-without-building', '-project', project,
         '-scheme', 'DocsTests', '-destination', 'platform=iOS,id=' + device,
         '-derivedDataPath', derived, '-parallel-testing-enabled', 'NO',
-        '-resultBundlePath', str(result), '-only-testing:DocsTests/DocsTests/testVoiceOver',
+        '-resultBundlePath', str(result), '-only-testing:DocsTests/DocsTests/' + ('testVoiceOverLargeText' if large_text else 'testVoiceOver'),
     ], stdout=stream, stderr=subprocess.STDOUT, check=True, timeout=360)
 
 subprocess.run([
@@ -48,8 +49,11 @@ for name in ('gallery', 'collection'):
         '--source', 'Documents/jolt-' + name + '.json', '--destination', str(out / (name + '.json')),
     ], check=True)
 evidence = {name: json.loads((out / (name + '.json')).read_text()) for name in ('gallery', 'collection')}
+if large_text:
+    assert 'JOLT_TEXT_RESTORED' in text, 'System text configuration was not restored'
+    evidence['textConfiguration'] = {'source': 'iOS Settings Larger Text', 'requested': 'UICTContentSizeCategoryAccessibilityM', 'reader': 'VoiceOver'}
 evidence['platform'] = 'Physical iPhone, actual VoiceOver service and XCTest touch input'
 (out / 'ios.json').write_text(json.dumps(evidence, indent=2) + '\n')
 (out / 'voiceover.txt').write_text('\n'.join(line for line in text.splitlines() if line.startswith('JOLT_')) + '\n')
-subprocess.run([sys.executable, str(Path(__file__).with_name('verify-gallery-accessibility.py')), 'ios', str(out / 'ios.json'), str(out / 'voiceover.txt')], check=True)
+subprocess.run([sys.executable, str(Path(__file__).with_name('verify-gallery-accessibility.py')), 'ios', str(out / 'ios.json'), str(out / 'voiceover.txt')] + (['--large-text'] if large_text else []), check=True)
 print('Native VoiceOver recording and verified reports exported:', out)

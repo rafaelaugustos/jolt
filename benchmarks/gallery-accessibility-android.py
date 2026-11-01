@@ -1,7 +1,7 @@
 """Real TalkBack gestures on a dedicated emulator; restores reader settings.
 
 Build accessibility-input with a Python venv containing grpcio/grpcio-tools.
-Usage: python SCRIPT SERIAL EMULATOR_PID_INI TOOLS_DIRECTORY OUTPUT_DIRECTORY
+Usage: python SCRIPT SERIAL EMULATOR_PID_INI TOOLS_DIRECTORY OUTPUT_DIRECTORY [--large-text]
 The emulator console's `grpc` command publishes its endpoint/credential ini.
 No accessibility action is used to manufacture focus or activate controls.
 """
@@ -12,7 +12,8 @@ import subprocess
 import sys
 import time
 
-serial, ini, tool_dir, output = sys.argv[1:]
+large_text = sys.argv[-1] == "--large-text"
+serial, ini, tool_dir, output = sys.argv[1:-1] if large_text else sys.argv[1:]
 # Avoid gRPC's fork handler when subprocess starts the read-only adb probe.
 os.environ['GRPC_ENABLE_FORK_SUPPORT'] = '0'
 assert serial.startswith('emulator-'), 'Assign a dedicated emulator'
@@ -107,8 +108,11 @@ def data(): return read_report(report)
 
 started_at = int(command('shell', 'date', '+%s')) * 1000
 old = {key: command('shell', 'settings', 'get', 'secure', key) for key in ['enabled_accessibility_services', 'accessibility_enabled', 'touch_exploration_enabled']}
+density = float(command('shell', 'wm', 'density').split()[-1]) / 160
+old_font = command("shell", "settings", "get", "system", "font_scale")
 recorder = None
 try:
+    if large_text: command("shell", "settings", "put", "system", "font_scale", "2.0")
     command('push', str(Path(tool_dir) / 'a11y-inspect.jar'), '/data/local/tmp/jolt-a11y-inspect.jar')
     services = [] if old['enabled_accessibility_services'] == 'null' else old['enabled_accessibility_services'].split(':')
     talkback = 'com.google.android.marvin.talkback/com.google.android.marvin.talkback.TalkBackService'
@@ -122,7 +126,7 @@ try:
     time.sleep(4)
     (out / 'initial-tree.json').write_text(json.dumps(tree(), indent=2))
     explore(lambda n: n.get('id') == 'collection-place-1')
-    recorder = subprocess.Popen(adb + ['shell', 'screenrecord', '--bit-rate', '6000000', '/sdcard/jolt-gallery-talkback.mp4'], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+    recorder = subprocess.Popen(adb + ['shell', 'screenrecord', '--time-limit', '0', '--bit-rate', '6000000', '/sdcard/jolt-gallery-talkback.mp4'], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
     time.sleep(.5)
     checkpoint('thumbnail', 'collection-place-1')
     next_focus()
@@ -130,7 +134,23 @@ try:
     swipe(800, 1800, 300, 1800)
     checkpoint('first-thumbnail-again', 'collection-place-1')
     def control(identifier):
-        explore(lambda n: n.get('id') == identifier)
+        if large_text:
+            backward = identifier == "gallery-zoom" and focus().get("id") == "gallery-reset"
+            seek(lambda n: n.get("id") == identifier, backward=backward)
+        else:
+            explore(lambda n: n.get("id") == identifier)
+        if large_text:
+            # TalkBack can focus a partially clipped button before requesting
+            # its rectangle. Use a real two-finger panel scroll when needed.
+            for _ in range(3):
+                node = focus()
+                expected_height = next(e['typography'][identifier.removeprefix('gallery-')]['height'] for e in reversed(data()['events']) if e.get('typography', {}).get('zoom'))
+                if (node['bounds'][3] - node['bounds'][1]) / density >= expected_height - 2: break
+                panel = next(n for n in tree() if n.get('id') == 'gallery-controls')
+                left, top, right, bottom = panel['bounds']
+                swipe((left + right) / 2 - 40, top + (bottom - top) * .8, (left + right) / 2 - 40, top + (bottom - top) * .2, fingers=2)
+                seek(lambda n: n.get('id') == identifier, backward=True)
+            else: raise AssertionError('Reader could not reveal full control: ' + identifier)
         checkpoint(identifier, identifier)
         activate()
     def collect(name):
@@ -148,6 +168,9 @@ try:
     activate()
     assert any(n.get('id') == 'gallery-close' for n in tree()), 'Reader activation must open the thumbnail'
     checkpoint('opened')
+    if large_text:
+        seek(lambda n: n.get('id') == 'gallery-title')
+        checkpoint('title', 'gallery-title')
     control('gallery-zoom')
     assert abs(data()['events'][-1]['state']['scale'] - 2.5) < .02, 'Reader Zoom must update the native viewer'
     control('gallery-reset')
@@ -190,8 +213,8 @@ try:
     assert reduced['commits'] == 4 and reduced['index'] == 1
     assert reduced['flights'] == reduced['inputs'] == reduced['retained'] == 0
     evidence = {'platform': 'Android emulator; actual TalkBack hardware input', 'gallery': final_gallery, 'collection': reduced}
+    if large_text: evidence['textConfiguration'] = {'source': 'Android system font_scale', 'requested': 2.0, 'reader': 'TalkBack'}
     (out / 'android.json').write_text(json.dumps(evidence, indent=2) + '\n')
-    subprocess.run([sys.executable, str(Path(__file__).with_name('verify-gallery-accessibility.py')), 'android', str(out / 'android.json'), str(out / 'talkback.json')], check=True)
 
 finally:
     try:
@@ -200,6 +223,19 @@ finally:
             recorder.communicate(timeout=20)
             command('pull', '/sdcard/jolt-gallery-talkback.mp4', out / 'gallery-talkback-android.mp4')
     finally:
+        if large_text:
+            if old_font == "null": command("shell", "settings", "delete", "system", "font_scale")
+            else: command("shell", "settings", "put", "system", "font_scale", old_font)
         for key, value in old.items():
             if value == 'null': command('shell', 'settings', 'delete', 'secure', key)
             else: command('shell', 'settings', 'put', 'secure', key, value)
+
+restored_font = command('shell', 'settings', 'get', 'system', 'font_scale')
+restored_reader = {key: command('shell', 'settings', 'get', 'secure', key) for key in old}
+assert restored_font == old_font and restored_reader == old, 'Entry font/reader settings were not restored'
+if large_text:
+    evidence['textConfiguration']['initialFont'] = old_font
+    evidence['textConfiguration']['restoredFont'] = restored_font
+    evidence['textConfiguration']['readerSettingsRestored'] = restored_reader == old
+    (out / 'android.json').write_text(json.dumps(evidence, indent=2) + '\n')
+subprocess.run([sys.executable, str(Path(__file__).with_name('verify-gallery-accessibility.py')), 'android', str(out / 'android.json'), str(out / 'talkback.json')] + (['--large-text'] if large_text else []), check=True)

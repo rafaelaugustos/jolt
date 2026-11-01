@@ -54,4 +54,48 @@ class GalleryReaderEvidence(unittest.TestCase):
         with self.assertRaises(AssertionError): module.verify('ios', self.evidence['ios'], reader)
 
 
+class GalleryLargeReaderEvidence(unittest.TestCase):
+    def setUp(self):
+        folder = root / 'results/gallery-accessibility-large-text'
+        self.evidence = {p: json.loads((folder / (p + '.json')).read_text()) for p in ['ios', 'android']}
+        self.readers = {'ios': (folder / 'voiceover.txt').read_text(), 'android': json.loads((folder / 'talkback.json').read_text())}
+
+    def test_recorded_combination(self):
+        for platform in self.evidence:
+            module.verify(platform, self.evidence[platform], self.readers[platform], large_text=True)
+
+    def test_rejects_unenlarged_clipped_or_overlapping_controls(self):
+        for platform, original in self.evidence.items():
+            for fault in ['normal-category', 'normal-label', 'clipped-title', 'ellipsis', 'small-control', 'overlap', 'covered-photo', 'missing-viewport']:
+                data = copy.deepcopy(original)
+                sample = next(e for e in data['gallery']['events'] if e['event'] == 'settled' and e.get('native'))
+                typography = sample['typography']
+                if fault == 'normal-category': typography['systemScale'] = 1
+                elif fault == 'normal-label': typography['zoom']['font'] = 11
+                elif fault == 'clipped-title': typography['title']['height'] = 1
+                elif fault == 'ellipsis': typography['reset']['ellipsized'] = True
+                elif fault == 'small-control': typography['close']['width'] = 20
+                elif fault == 'overlap': typography['reset']['x'] = typography['zoom']['x']
+                elif fault == 'covered-photo': sample['layout']['footer']['y'] = 0
+                elif fault == 'missing-viewport': sample['layout']['viewport']['height'] = 0
+                with self.subTest(platform=platform, fault=fault), self.assertRaises(AssertionError):
+                    module.verify(platform, data, self.readers[platform], large_text=True)
+
+    def test_rejects_missing_traversal_and_settings_restoration(self):
+        for marker in ['JOLT_READER_CONTROL gallery-zoom', 'JOLT_READER_CONTROL gallery-reset', 'JOLT_READER_CONTROL gallery-move', 'JOLT_READER_CONTROL gallery-remove', 'JOLT_TEXT_RESTORED']:
+            with self.subTest(marker=marker), self.assertRaises(AssertionError):
+                module.verify('ios', self.evidence['ios'], self.readers['ios'].replace(marker, 'REMOVED'), large_text=True)
+        with self.assertRaises(AssertionError):
+            module.verify('ios', self.evidence['ios'], self.readers['ios'].replace('JOLT_TEXT_RESTORED position=0%', 'JOLT_TEXT_RESTORED position=50%'), large_text=True)
+        for control in ('zoom', 'reset', 'move', 'remove'):
+            reader = copy.deepcopy(self.readers['android'])
+            next(e for e in reader if e['name'] == 'gallery-' + control)['focus']['visible'] = False
+            with self.subTest(control=control), self.assertRaises(AssertionError):
+                module.verify('android', self.evidence['android'], reader, large_text=True)
+        data = copy.deepcopy(self.evidence['android'])
+        data['textConfiguration']['restoredFont'] = '2.0'
+        with self.assertRaises(AssertionError):
+            module.verify('android', data, self.readers['android'], large_text=True)
+
+
 if __name__ == '__main__': unittest.main()

@@ -1,10 +1,11 @@
 """Check actual reader focus against the stable key, native pose and route outcome."""
 import json
+import re
 from pathlib import Path
 import sys
 
 
-def verify(platform, evidence, reader=None):
+def verify(platform, evidence, reader=None, large_text=False):
     gallery, collection = evidence['gallery'], evidence['collection']
     events = gallery['events']
     assert not any(e['event'] in ('error', 'route-rejected') for e in events)
@@ -51,10 +52,56 @@ def verify(platform, evidence, reader=None):
             assert speech in reader, ('Missing actual VoiceOver speech', speech)
     else:
         raise ValueError('Expected ios or android')
+    if large_text:
+        verify_large_text(platform, evidence, reader)
     return {'platform': platform, 'returns': 4, 'movedIndex': 59, 'deletedFallback': 'collection-heading', 'nativeResources': 0}
 
 
+def verify_large_text(platform, evidence, reader):
+    expected = 'UICTContentSizeCategoryAccessibilityM' if platform == 'ios' else 2
+    assert evidence['textConfiguration']['requested'] == expected
+    samples = [e for e in evidence['gallery']['events'] if e['event'] == 'settled' and e.get('native')]
+    assert {e['key'] for e in samples} == {'place-1', 'place-2'}
+    for sample in samples:
+        typography = sample['typography']
+        assert typography['systemScale'] == expected, 'Reader run did not use enlarged system text'
+        assert typography['title']['font'] > 28 and typography['zoom']['font'] >= 21, 'Native labels did not enlarge'
+        root, header, footer, view = [sample['layout'][k] for k in ('root', 'header', 'footer', 'viewport')]
+        assert view['width'] > 40 and view['height'] >= 64, 'No usable photo viewport'
+        assert header['y'] >= -1 and view['y'] >= header['y'] + header['height'] - 1
+        assert view['y'] + view['height'] <= footer['y'] + 1, 'Controls cover the photo'
+        assert footer['y'] + footer['height'] <= root['height'] + 1
+        for name in ('title', 'note', 'close', 'zoom', 'reset', 'move', 'remove'):
+            label = typography[name]
+            assert label['width'] > 0 and 0 < label['requiredHeight'] <= label['height'] + 1, ('Clipped enlarged text', name)
+            assert not label.get('ellipsized'), name
+            if name not in ('title', 'note'):
+                assert label['width'] >= 44 and label['height'] >= 44, ('Small control', name)
+        buttons = [typography[name] for name in ('zoom', 'reset', 'move', 'remove')]
+        assert all(a['x'] + a['width'] <= b['x'] + 1 for a, b in zip(buttons, buttons[1:])), 'Overlapping controls'
+    if platform == 'ios':
+        initial = re.search(r'JOLT_TEXT_INITIAL position=([\d.]+)% largerSizes=(true|false)', reader)
+        restored = re.search(r'JOLT_TEXT_RESTORED position=([\d.]+)% largerSizes=(true|false)', reader)
+        assert initial and restored and initial.groups() == restored.groups(), 'System text settings were not restored'
+        assert re.search(r'JOLT_TEXT_LARGE position=[\d.]+% largerSizes=1', reader), 'Accessibility text sizes were not enabled'
+        for control, count in [('zoom', 3), ('reset', 1), ('move', 1), ('remove', 1)]:
+            assert reader.count('JOLT_READER_CONTROL gallery-' + control) == count, ('Missing actual reader traversal', control)
+    else:
+        configuration = evidence['textConfiguration']
+        assert configuration['initialFont'] == configuration['restoredFont'] and configuration['readerSettingsRestored'], 'Settings were not restored'
+        checks = {c['name']: c for c in reader}
+        assert checks['title']['focus']['heading'], 'Title must remain a heading'
+        controls = [c for c in reader if c['name'] in ('gallery-zoom', 'gallery-reset', 'gallery-move', 'gallery-remove')]
+        assert [c['name'] for c in controls] == ['gallery-zoom', 'gallery-reset', 'gallery-zoom', 'gallery-move', 'gallery-remove', 'gallery-zoom']
+        for control in controls:
+            node = control['focus']
+            assert node['focused'] and node['visible'] and node['id'] == control['name']
+            left, top, right, bottom = node['bounds']
+            assert right > left and bottom > top, ('Empty reader target', control['name'])
+
+
 if __name__ == '__main__':
-    platform, path, reader_path = sys.argv[1:]
+    large_text = sys.argv[-1] == "--large-text"
+    platform, path, reader_path = sys.argv[1:-1] if large_text else sys.argv[1:]
     reader = Path(reader_path).read_text()
-    print(json.dumps(verify(platform, json.loads(Path(path).read_text()), json.loads(reader) if platform == 'android' else reader)))
+    print(json.dumps(verify(platform, json.loads(Path(path).read_text()), json.loads(reader) if platform == 'android' else reader, large_text)))

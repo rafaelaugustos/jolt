@@ -5,19 +5,66 @@ import UIKit
 final class DocsTests: XCTestCase {
     let app = XCUIApplication(bundleIdentifier: "org.nativescript.jolt.benchmark")
     var initialReaderEnabled: Bool?
+    var initialTextPosition: CGFloat?
+    var initialLargeSizes: Bool?
+    let settings = XCUIApplication(bundleIdentifier: "com.apple.Preferences")
+    @MainActor func textSettings() {
+        settings.launchArguments = ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"]
+        settings.activate()
+        if settings.sliders.firstMatch.waitForExistence(timeout: 2), settings.switches["LARGER_DYNAMIC_TYPE_SWITCH"].firstMatch.exists { return }
+        if !settings.staticTexts["Display & Text Size"].firstMatch.exists {
+            let accessibility = settings.staticTexts["Accessibility"].firstMatch
+            if !accessibility.isHittable { settings.swipeUp() }
+            accessibility.tap()
+        }
+        settings.staticTexts["Display & Text Size"].firstMatch.tap()
+        settings.staticTexts["Larger Text"].firstMatch.tap()
+        XCTAssertTrue(settings.sliders.firstMatch.waitForExistence(timeout: 5))
+    }
     @MainActor override func tearDownWithError() throws {
         if #available(iOS 27, *), let initialReaderEnabled {
             let reader = XCUIDevice.shared.voiceOverService
+            if let initialTextPosition, let initialLargeSizes {
+                try reader.disable()
+                textSettings()
+                let toggle = settings.switches["LARGER_DYNAMIC_TYPE_SWITCH"].firstMatch
+                if (toggle.value as? String == "1") != initialLargeSizes { toggle.coordinate(withNormalizedOffset: CGVector(dx: 0.92, dy: 0.5)).tap() }
+                settings.sliders.firstMatch.adjust(toNormalizedSliderPosition: initialTextPosition)
+                let restored = settings.sliders.firstMatch.value as? String ?? ""
+                let restoredPosition = CGFloat(Double(restored.replacingOccurrences(of: "%", with: "")) ?? -100) / 100
+                XCTAssertEqual(restoredPosition, initialTextPosition, accuracy: 0.01)
+                XCTAssertEqual(toggle.value as? String == "1", initialLargeSizes)
+                print("JOLT_TEXT_RESTORED position=\(restored) largerSizes=\(initialLargeSizes)")
+                app.activate()
+            }
             if initialReaderEnabled { try reader.enable() }
             else { try reader.disable() }
         }
         try super.tearDownWithError()
     }
-    @MainActor func testVoiceOver() throws {
+    @MainActor func testVoiceOver() throws { try runVoiceOver(largeText: false) }
+    @MainActor func testVoiceOverLargeText() throws { try runVoiceOver(largeText: true) }
+    @MainActor func runVoiceOver(largeText: Bool) throws {
         continueAfterFailure = false
         guard #available(iOS 27, *) else { throw XCTSkip("VoiceOver automation requires iOS 27") }
         let reader = XCUIDevice.shared.voiceOverService
         initialReaderEnabled = reader.isEnabled
+        if largeText {
+            try reader.disable()
+            textSettings()
+            let toggle = settings.switches["LARGER_DYNAMIC_TYPE_SWITCH"].firstMatch
+            let position = settings.sliders.firstMatch.value as? String ?? ""
+            guard let percent = Double(position.replacingOccurrences(of: "%", with: "")) else {
+                XCTFail("Cannot preserve initial text position: " + position); return
+            }
+            initialTextPosition = CGFloat(percent / 100)
+            initialLargeSizes = toggle.value as? String == "1"
+            print("JOLT_TEXT_INITIAL position=\(position) largerSizes=\(initialLargeSizes!)")
+            if !initialLargeSizes! { toggle.coordinate(withNormalizedOffset: CGVector(dx: 0.92, dy: 0.5)).tap() }
+            XCTAssertEqual(toggle.value as? String, "1", "Larger Accessibility Sizes did not enable")
+            settings.sliders.firstMatch.adjust(toNormalizedSliderPosition: 7.0 / 11.0)
+            print("JOLT_TEXT_LARGE position=\(settings.sliders.firstMatch.value ?? "unknown") largerSizes=\(toggle.value ?? "unknown")")
+        }
         try reader.enable()
         func speech(_ expected: String) throws {
             var last = ""
@@ -29,6 +76,24 @@ final class DocsTests: XCTestCase {
             XCTFail("Expected \(expected), actual speech: \(last)")
         }
         func explore(_ identifier: String, _ expected: String) throws {
+            if largeText && ["gallery-zoom", "gallery-reset", "gallery-move", "gallery-remove"].contains(identifier) {
+                let backward = identifier == "gallery-zoom" && ((try? reader.currentSpeech().utterance) ?? "").contains("Reset view")
+                for _ in 0..<20 {
+                    let current = (try? reader.currentSpeech().utterance) ?? ""
+                    if current.contains(expected) && current.contains("Button") {
+                        let frame = app.descendants(matching: .any)[identifier].firstMatch.frame
+                        let screen = app.frame
+                        XCTAssertTrue(frame.width >= 44 && frame.height >= 44 && screen.contains(frame), "Reader must reveal the full control: \(identifier) \(frame)")
+                        print("JOLT_READER_CONTROL \(identifier) \(current)")
+                        try speech(expected)
+                        return
+                    }
+                    if backward { _ = try reader.moveBackward() }
+                    else { _ = try reader.moveForward() }
+                }
+                XCTFail("VoiceOver traversal did not reach " + identifier)
+                return
+            }
             let element = app.descendants(matching: .any)[identifier].firstMatch
             XCTAssertTrue(element.waitForExistence(timeout: 10), identifier)
             let frame = element.frame
