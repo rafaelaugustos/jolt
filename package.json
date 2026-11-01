@@ -109,7 +109,7 @@
   ],
   "sideEffects": false,
   "scripts": {
-    "build": "node -e \"fs.rmSync('dist', { recursive: true, force: true })\" && tsc -p tsconfig.build.json",
+    "build": "node -e \"fs.rmSync('dist', { recursive: true, force: true })\" && tsc -p tsconfig.build.json && tsc -p tsconfig.web.json",
     "dev": "tsc -p tsconfig.build.json --watch",
     "typecheck": "tsc --noEmit",
     "benchmark:typecheck": "tsc -p benchmarks/tsconfig.json",
@@ -125,7 +125,12 @@
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
     "prepack": "npm run build",
-    "docs:check-media": "node scripts/check-docs-media.mjs"
+    "docs:check-media": "node scripts/check-docs-media.mjs",
+    "web:typecheck": "tsc -p tsconfig.web.json --noEmit",
+    "web:runtime": "node benchmarks/web-runtime/server.mjs",
+    "web:runtime:typecheck": "tsc -p benchmarks/web-runtime/tsconfig.json",
+    "web:runtime:test": "playwright test -c benchmarks/web-runtime/playwright.config.mjs",
+    "web:check": "node scripts/check-web-runtime.mjs"
   },
   "peerDependencies": {
     "@nativescript/core": ">=8.9.0",

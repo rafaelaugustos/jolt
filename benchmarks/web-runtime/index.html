@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jolt Web runtime</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 36px;
+      background: #10121a;
+      color: #f4f3fc;
+      font:
+        16px/1.5 system-ui,
+        sans-serif;
+    }
+    main {
+      max-width: 960px;
+      margin: auto;
+    }
+    small {
+      color: #cba7ff;
+      letter-spacing: 0.13em;
+    }
+    h1 {
+      margin: 10px 0;
+      font-size: 32px;
+    }
+    p {
+      color: #b9c3dc;
+    }
+    .stage {
+      position: relative;
+      height: 280px;
+      border: 1px solid #3b425d;
+      border-radius: 22px;
+      background: linear-gradient(140deg, #24283f, #151923);
+      margin: 24px 0;
+      overflow: hidden;
+    }
+    #card {
+      position: absolute;
+      left: 160px;
+      top: 60px;
+      width: 168px;
+      height: 112px;
+      border-radius: 22px;
+      background: #d8b5ff;
+      color: #211033;
+      display: grid;
+      place-content: center;
+      text-align: center;
+    }
+    #card strong {
+      font-size: 24px;
+    }
+    #card span {
+      font-size: 13px;
+      margin-top: 8px;
+    }
+    .controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    button {
+      background: #293145;
+      color: #fff;
+      border: 1px solid #65708f;
+      border-radius: 9px;
+      font: inherit;
+      padding: 10px 13px;
+      cursor: pointer;
+    }
+    button:focus-visible {
+      outline: 3px solid #cba7ff;
+    }
+    #status {
+      color: #f4f3fc;
+      min-height: 48px;
+      font-weight: 600;
+      margin-top: 22px;
+    }
+    footer {
+      color: #aab6d2;
+      font-size: 12px;
+    }
+    .test-target {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100px;
+      height: 80px;
+      background: #37a7df;
+      transform-origin: 0 0;
+    }
+  </style>
+  <main>
+    <small>JOLT · WEB RUNTIME · #281</small>
+    <h1>Shared motion. Browser playback.</h1>
+    <p>
+      Independent channels, interruption and a separate press contribution, using the
+      portable compiler.
+    </p>
+    <div class="stage">
+      <div id="card"><strong>Jolt</strong><span>Application + press</span></div>
+    </div>
+    <div class="controls">
+      <button id="move">Move + fade</button><button id="interrupt">Retarget x</button>
+      <button id="scale">Scale 1.1</button><button id="press">Press × 0.96</button>
+      <button id="grow">Base 1.2</button><button id="release">Release</button>
+      <button id="pause">Pause</button><button id="seek">Seek 50%</button
+      ><button id="play">Resume</button> <button id="repeat">Reverse repeat</button
+      ><button id="preference">Reduced motion</button><button id="reset">Reset</button>
+    </div>
+    <p id="status" role="status">Ready. Choose an interaction.</p>
+    <footer>
+      Internal runtime. Public packaging and framework adapters follow separately. Press
+      buttons demonstrate contribution ownership; input recognition follows in #283.
+    </footer>
+  </main>
+  <script type="module" src="/fixture.js"></script>
+</html>

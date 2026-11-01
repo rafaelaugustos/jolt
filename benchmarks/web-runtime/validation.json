@@ -1,0 +1,310 @@
+{
+  "recordedAt": "2026-11-01T09:46:16.532323+00:00",
+  "os": "macOS-26.6.2-arm64-arm-64bit",
+  "stats": {
+    "startTime": "2026-11-01T09:45:52.089Z",
+    "duration": 6501.71,
+    "expected": 54,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "browsers": {
+    "chromium": {
+      "browser": "chromium",
+      "version": "156.0.8078.4"
+    },
+    "firefox": {
+      "browser": "firefox",
+      "version": "157.0"
+    },
+    "webkit": {
+      "browser": "webkit",
+      "version": "27.2"
+    }
+  },
+  "clock": {
+    "chromium": {
+      "anchorError": 0,
+      "inheritedVelocity": 2000.0386059110156,
+      "elapsedPastCachedTick": 55.7,
+      "maxUnbracketedError": 0.08367873375252088,
+      "maxObservationIntervalMs": 0,
+      "maxCurveResidual": 0.08367873375252088,
+      "samples": [
+        {
+          "observed": 139.4,
+          "expected": 139.39999997615814,
+          "earliest": -5.799999988079065,
+          "latest": -5.799999988079065,
+          "residual": 2.3841863594498136e-8
+        },
+        {
+          "observed": 157.078,
+          "expected": 157.1189758917123,
+          "earliest": 10.900000011920923,
+          "latest": 10.900000011920923,
+          "residual": 0.04097589171229288
+        },
+        {
+          "observed": 170.2,
+          "expected": 170.24750810687266,
+          "earliest": 27.600000011920926,
+          "latest": 27.600000011920926,
+          "residual": 0.04750810687266949
+        },
+        {
+          "observed": 169.573,
+          "expected": 169.611319485026,
+          "earliest": 44.30000001192093,
+          "latest": 44.30000001192093,
+          "residual": 0.03831948502599403
+        },
+        {
+          "observed": 158.335,
+          "expected": 158.35820656088111,
+          "earliest": 61.00000001192092,
+          "latest": 61.00000001192092,
+          "residual": 0.023206560881106952
+        },
+        {
+          "observed": 139.213,
+          "expected": 139.29667873375251,
+          "earliest": 77.60000001192094,
+          "latest": 77.60000001192094,
+          "residual": 0.08367873375252088
+        },
+        {
+          "observed": 114.38,
+          "expected": 114.43483079237848,
+          "earliest": 94.30000001192093,
+          "latest": 94.30000001192093,
+          "residual": 0.054830792378481874
+        },
+        {
+          "observed": 85.7044,
+          "expected": 85.73490360929242,
+          "earliest": 111.00000001192092,
+          "latest": 111.00000001192092,
+          "residual": 0.030503609292409806
+        },
+        {
+          "observed": 54.907,
+          "expected": 54.918195753930945,
+          "earliest": 127.60000001192094,
+          "latest": 127.60000001192094,
+          "residual": 0.011195753930948626
+        },
+        {
+          "observed": 22.8436,
+          "expected": 22.8436928162825,
+          "earliest": 144.30000001192093,
+          "latest": 144.30000001192093,
+          "residual": 9.28162824997969e-5
+        },
+        {
+          "observed": -9.32485,
+          "expected": -9.328169919103289,
+          "earliest": 161.00000001192092,
+          "latest": 161.00000001192092,
+          "residual": 0.003319919103288882
+        },
+        {
+          "observed": -40.651,
+          "expected": -40.65247535539078,
+          "earliest": 177.60000001192094,
+          "latest": 177.60000001192094,
+          "residual": 0.0014753553907738137
+        }
+      ]
+    },
+    "firefox": {
+      "anchorError": 0,
+      "inheritedVelocity": 2000.0371968674813,
+      "elapsedPastCachedTick": 57.64,
+      "maxUnbracketedError": 0.09571086590165123,
+      "maxObservationIntervalMs": 0,
+      "maxCurveResidual": 0.09571086590165123,
+      "samples": [
+        {
+          "observed": 120.58100128173828,
+          "expected": 120.61844215220242,
+          "earliest": 2.4095001220703125,
+          "latest": 2.4095001220703125,
+          "residual": 0.03744087046413824
+        },
+        {
+          "observed": 134.3249969482422,
+          "expected": 134.33923359980673,
+          "earliest": 11.28900146484375,
+          "latest": 11.28900146484375,
+          "residual": 0.0142366515645449
+        },
+        {
+          "observed": 142.92999267578125,
+          "expected": 142.95460699645162,
+          "earliest": 19.708999633789062,
+          "latest": 19.708999633789062,
+          "residual": 0.024614320670366396
+        },
+        {
+          "observed": 147.6999969482422,
+          "expected": 147.73363380840954,
+          "earliest": 28.034500122070312,
+          "latest": 28.034500122070312,
+          "residual": 0.03363686016734846
+        },
+        {
+          "observed": 149.1790008544922,
+          "expected": 149.21579879940748,
+          "earliest": 36.36750030517578,
+          "latest": 36.36750030517578,
+          "residual": 0.036797944915292646
+        },
+        {
+          "observed": 147.7480010986328,
+          "expected": 147.78471431434838,
+          "earliest": 44.7030029296875,
+          "latest": 44.7030029296875,
+          "residual": 0.036713215715565184
+        },
+        {
+          "observed": 143.7689971923828,
+          "expected": 143.80220099378425,
+          "earliest": 53.03600311279297,
+          "latest": 53.03600311279297,
+          "residual": 0.033203801401441524
+        },
+        {
+          "observed": 137.50399780273438,
+          "expected": 137.59970866863603,
+          "earliest": 61.37049865722656,
+          "latest": 61.37049865722656,
+          "residual": 0.09571086590165123
+        },
+        {
+          "observed": 129.43899536132812,
+          "expected": 129.48929442516464,
+          "earliest": 69.69999694824219,
+          "latest": 69.69999694824219,
+          "residual": 0.05029906383651905
+        },
+        {
+          "observed": 119.66100311279297,
+          "expected": 119.7393659790057,
+          "earliest": 78.0364990234375,
+          "latest": 78.0364990234375,
+          "residual": 0.07836286621272848
+        },
+        {
+          "observed": 108.59300231933594,
+          "expected": 108.60871622280837,
+          "earliest": 86.37600708007812,
+          "latest": 86.37600708007812,
+          "residual": 0.015713903472430957
+        },
+        {
+          "observed": 96.30079650878906,
+          "expected": 96.35580080521231,
+          "earliest": 94.70199584960938,
+          "latest": 94.70199584960938,
+          "residual": 0.05500429642324889
+        }
+      ]
+    },
+    "webkit": {
+      "anchorError": 0,
+      "inheritedVelocity": 2000.0476743706486,
+      "elapsedPastCachedTick": 55,
+      "maxUnbracketedError": 2.3026937185300085,
+      "maxObservationIntervalMs": 1,
+      "maxCurveResidual": 0.06264504086732359,
+      "samples": [
+        {
+          "observed": 315.048462,
+          "expected": 315.1111070408673,
+          "earliest": 22,
+          "latest": 22,
+          "residual": 0.06264504086732359
+        },
+        {
+          "observed": 316.157104,
+          "expected": 316.20876069522933,
+          "earliest": 28,
+          "latest": 28,
+          "residual": 0.05165669522932603
+        },
+        {
+          "observed": 308.612579,
+          "expected": 308.6572230166522,
+          "earliest": 45,
+          "latest": 45,
+          "residual": 0.04464401665222795
+        },
+        {
+          "observed": 289.894318,
+          "expected": 289.9077453862802,
+          "earliest": 61,
+          "latest": 61,
+          "residual": 0.013427386280227438
+        },
+        {
+          "observed": 260.877319,
+          "expected": 260.87759171259665,
+          "earliest": 78,
+          "latest": 78,
+          "residual": 0.00027271259665440084
+        },
+        {
+          "observed": 222.967987,
+          "expected": 225.27068071853,
+          "earliest": 95,
+          "latest": 96,
+          "residual": 0.056247435912609944
+        },
+        {
+          "observed": 187.852295,
+          "expected": 187.87382661367957,
+          "earliest": 111,
+          "latest": 111,
+          "residual": 0.021531613679570683
+        },
+        {
+          "observed": 145.843002,
+          "expected": 145.84829964849467,
+          "earliest": 128,
+          "latest": 128,
+          "residual": 0.005297648494661189
+        },
+        {
+          "observed": 105.499031,
+          "expected": 105.49808987662112,
+          "earliest": 144,
+          "latest": 144,
+          "residual": 0.000941123378879638
+        },
+        {
+          "observed": 62.948963,
+          "expected": 62.94078117695591,
+          "earliest": 161,
+          "latest": 161,
+          "residual": 0.008181823044090208
+        },
+        {
+          "observed": 24.031971,
+          "expected": 24.006463794290596,
+          "earliest": 177,
+          "latest": 177,
+          "residual": 0.02550720570940257
+        },
+        {
+          "observed": -15.473005,
+          "expected": -15.506955810045497,
+          "earliest": 194,
+          "latest": 194,
+          "residual": 0.03395081004549638
+        }
+      ]
+    }
+  }
+}

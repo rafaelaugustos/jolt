@@ -99,6 +99,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('motionInspector', 'motion-inspector'),
         page('internals', 'how-it-works'),
         page('webProof', 'web-composition'),
+        page('webRuntime', 'web-runtime'),
         page('limits', 'not-there-yet'),
       ],
     },
@@ -179,6 +180,7 @@ const en = {
   api: 'API',
   internals: 'How it works',
   webProof: 'Web composition experiment',
+  webRuntime: 'Finite Web runtime',
   limits: 'Release status and limits',
 }
 
@@ -256,6 +258,7 @@ const pt = {
   api: 'API',
   internals: 'Como funciona',
   webProof: 'Experimento de composição Web',
+  webRuntime: 'Runtime Web finito',
   limits: 'Status da versão e limites',
 }
 

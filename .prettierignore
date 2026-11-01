@@ -12,3 +12,6 @@ benchmarks/native-app/hooks
 benchmarks/native-app/results
 benchmarks/web-composition/results
 benchmarks/web-composition/captures
+
+benchmarks/web-runtime/results/
+benchmarks/web-runtime/captures/

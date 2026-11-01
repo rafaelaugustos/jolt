@@ -35,3 +35,6 @@ demo/native-fixture/platforms/android/*.aar
 
 # Local showcase model; provenance is recorded before redistribution.
 demo/App_Resources/iOS/preview-car.usdz
+
+benchmarks/web-runtime/results/
+benchmarks/web-runtime/captures/
