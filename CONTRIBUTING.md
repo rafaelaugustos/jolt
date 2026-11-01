@@ -4,6 +4,8 @@ The [native CI probe](benchmarks/native-ci.md) runs real iOS/Android measurement
 
 Changes to the internal portable motion boundary also require `npm run build` followed by `npm run core:check`. This checks a dependency-free consumer of the compiled core without NativeScript mocks or DOM types. See [portable core verification](benchmarks/portable-core.md) for the frozen native baseline and the scope of this boundary.
 
+Changes to package exports, peer dependencies or Web/framework entries also require `npm run package:check` after building. Install the pinned native build tools with `npm ci --prefix benchmarks/native-app` and Chromium with `npx playwright install chromium` first. The check installs the actual tarball into clean consumers, verifies Vite/SSR and declarations, and builds iOS/Android production JavaScript with NativeScript's resolver. It prints the retained candidate path for local consumers such as Mavis. See [package consumer verification](benchmarks/package-consumers.md). Add a packed framework consumer when a new Web framework entry is introduced; the check deliberately rejects an unverified entry.
+
 ## A visual feature is complete only with a recording
 
 For each new visual feature or visible behavior change:

@@ -33,6 +33,8 @@ Jolt computes the motion once, in JavaScript, when the animation starts, and han
 
 The [0.1.0-rc.4 release candidate](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.4) composes rolling layer windows on native live nodes, continues Android shapes, gradients and blur from the paused time on resume, places the bottom sheet by the host's safe-area insets and offers only the handle actions a stop can take. The preview has **74 examples in English, Portuguese, Spanish and Simplified Chinese**, with light/dark themes. The RC phase continues with compatibility and [physical-device acceptance](https://jolt.rafaelaugusto.dev/guide/not-there-yet). Install `@rafaelaugusto/jolt@0.1.0-rc.4` and rebuild the native app. For external native properties, also install matching `@rafaelaugusto/jolt-native@0.1.0-rc.4`.
 
+The checkout also includes an **experimental Web entry** at `@rafaelaugusto/jolt/web`, verified through locally packed consumers without NativeScript or a UI framework. It is not in the published rc.4 package. See [candidate installation](https://jolt.rafaelaugusto.dev/guide/install#experimental-web-candidate) and [finite Web playback](https://jolt.rafaelaugusto.dev/guide/web-runtime).
+
 ## Features
 
 - [25 presets](#presets) to enter, exit and draw attention: `fadeInUp`, `popIn`, `shake`, `heartbeat`...

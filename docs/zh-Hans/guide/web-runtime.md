@@ -1,6 +1,6 @@
 # Web 有限动画运行时
 
-[#281](https://github.com/rafaelaugustos/jolt/issues/281) 的内部运行时将[组合实验](./web-composition)扩展为可复用的浏览器播放实现。它直接在 HTML 元素上使用 Jolt 可移植编译器和 WAAPI，不依赖 Vue、React 或 NativeScript。公开的 `/web` 入口仍属于 [#282](https://github.com/rafaelaugustos/jolt/issues/282)；Mavis press/reveal 和应用共享示例属于 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 的后续工作。
+[#281](https://github.com/rafaelaugustos/jolt/issues/281) 的运行时直接在 HTML 元素上使用 Jolt 可移植编译器和 WAAPI，不依赖 Vue、React 或 NativeScript。实验性 `/web` 入口已包含在 [#282](https://github.com/rafaelaugustos/jolt/issues/282) 的本地候选包中，**尚未包含在已发布的 0.1.0-rc.4 中**。请参阅[候选包安装](./install#experimental-web-candidate)。Mavis press/reveal 和应用共享示例属于 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 的后续工作。
 
 <Clip name="web-runtime-chromium" :width="720" caption="macOS arm64 上的 Chromium 156，真实浏览器播放与点击，保持原速：位移与透明度、局部中断、应用缩放与按压贡献、反向重复、暂停、seek、恢复和减少动态效果。按钮用于验证贡献组合；完整的指针/键盘按压识别属于 #283。" />
 
@@ -8,11 +8,11 @@
 
 `x`、`y` 使用 CSS 像素，`rotate` 使用度，`scaleX`/`scaleY` 使用倍率，`opacity` 限制在 0–1。`scale` 展开为两个轴；显式轴设置优先。固定目标弹簧、tween、数值关键帧、兼容的内置/自定义 preset、逐属性过渡、delay 和 stagger 均使用现有编译器。原生数值配方可共享，而无需导入原生运行时。
 
-每个运行时属于一个 document。配置、preset、所有权 token、效果和清理资源均属于该上下文。两个上下文不能同时控制同一元素。内部入口可以在没有 DOM 时导入；创建运行时需要支持 WAAPI 的活动 document。没有全局 driver 注册。
+每个运行时属于一个 document。配置、preset、所有权 token、效果和清理资源均属于该上下文。两个上下文不能同时控制同一元素。Web 入口可以在没有 DOM 时导入；创建运行时需要支持 WAAPI 的活动 document。没有全局 driver 注册。
 
 ```ts
-// 仓库 fixture 的导入路径，不是已发布的包入口。
-import { createWebRuntime } from '../../src/web/index.js'
+// 本地候选包中的实验性入口。
+import { createWebRuntime } from '@rafaelaugusto/jolt/web'
 
 const motion = createWebRuntime(document)
 motion.set(card, { scale: 1.1 })
