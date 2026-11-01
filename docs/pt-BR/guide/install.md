@@ -33,18 +33,19 @@ await animation.finished
 motion.dispose() // libere ao encerrar a aplicação ou desmontar o componente
 ```
 
-| Import                       | Plataforma e dependências                                              |
-| ---------------------------- | ---------------------------------------------------------------------- |
-| `@rafaelaugusto/jolt`        | NativeScript; exige `@nativescript/core >=8.9.0`.                      |
-| `@rafaelaugusto/jolt/native` | Adapters de propriedades nativas; exige NativeScript.                  |
-| `@rafaelaugusto/jolt/vue`    | NativeScript-Vue; também exige `nativescript-vue >=3.0.0`.             |
-| `@rafaelaugusto/jolt/web`    | Runtime DOM imperativo; não exige instalar NativeScript, Vue ou React. |
+| Import                        | Plataforma e dependências                                                |
+| ----------------------------- | ------------------------------------------------------------------------ |
+| `@rafaelaugusto/jolt`         | NativeScript; exige `@nativescript/core >=8.9.0`.                        |
+| `@rafaelaugusto/jolt/native`  | Adapters de propriedades nativas; exige NativeScript.                    |
+| `@rafaelaugusto/jolt/vue`     | NativeScript-Vue; também exige `nativescript-vue >=3.0.0`.               |
+| `@rafaelaugusto/jolt/web`     | Runtime DOM imperativo; não exige instalar NativeScript, Vue ou React.   |
+| `@rafaelaugusto/jolt/web/vue` | Adapter Vue DOM opcional; exige `vue ^3.5.0`. Veja [Vue Web](./web-vue). |
 
 NativeScript e NativeScript-Vue são peers opcionais no pacote para que o consumidor Web não os instale. Continuam obrigatórios nas respectivas entradas nativas. Peers ausentes geram erros de resolução citando `@nativescript/core` ou `nativescript-vue`; instale a dependência indicada no app nativo. O app Web deve importar `/web`, inclusive em SSR. A raiz e `/vue` não trocam de plataforma automaticamente.
 
 A API Web é experimental: expõe uma factory por documento, controles finitos e tipos, sem registro de drivers, diagnósticos internos ou referências portáteis de componentes. `/core`, caminhos internos e `/web/vue` não são exportados. A API browser exige tipos DOM; suas declarações alcançáveis não exigem globals nativos. Coordenadas usam pixels CSS, rotação usa graus e escala usa fatores. Veja [playback Web finito](./web-runtime) para capacidades, cleanup e limites de controle do CSS.
 
-Os [checks do pacote instalado](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/package-consumers.md) cobrem Vite em desenvolvimento/produção, SSR, tipos NodeNext/Bundler e as entradas nativas existentes. O futuro adapter Vue Web precisará de seu próprio consumidor do pacote.
+Os [checks do pacote instalado](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/package-consumers.md) cobrem Vite em desenvolvimento/produção, SSR, tipos NodeNext/Bundler e as entradas nativas existentes. A entrada Vue Web opcional tem consumidor próprio do tarball, com tipos, SSR direto/Vite, enter/leave e pressão reais em desenvolvimento e produção.
 
 ## ProMotion no iOS
 

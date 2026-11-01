@@ -48,7 +48,7 @@ A interrupção projeta o início resolvido do relógio de origem no relógio de
 
 O runtime controla `transform` e `opacity` de uma caixa HTML montada e transformável. A ordem é `base 2D estática × translate × rotate × scale`, preservando `transform-origin`. Transforms CSS individuais, bases 3D, animações/transições existentes e estilos de movimento inline com `!important` não são suportados. Libere e recrie antes de mudanças CSS externas; alterações arbitrárias de stylesheet/variáveis CSS não são monitoradas. Use uma superfície interna dedicada quando outro código controla o estilo do elemento externo.
 
-Esta etapa cobre playback finito: springs contínuas, drag/pinch, motion values, scroll, layout, propriedades exclusivas do nativo e adapters de lifecycle ficam separados. Ela ainda não estabelece uma API estável de referências portáteis nem completa a integração do Mavis. WAAPI por si só não comprova aceleração pelo compositor ou garante FPS.
+Esta etapa cobre playback finito: springs contínuas, drag/pinch, motion values, scroll, layout, propriedades exclusivas do nativo e outros adapters de lifecycle ficam separados. Ela ainda não estabelece uma API estável de referências portáteis nem completa a integração do Mavis. WAAPI por si só não comprova aceleração pelo compositor ou garante FPS.
 
 ## Referência nativa e validação {#native-reference-and-validation}
 
@@ -59,3 +59,5 @@ O comportamento do playback nativo permanece igual. Estas gravações nativas re
 <Clip name="layers-android" caption="Emulador Android, demo nativa Layers existente: movimento e feedback coexistem. Referência nativa preservada, não é gravação de aparelho físico nem do novo runtime Web." />
 
 Com Node 22, execute `npm run web:runtime:typecheck`, `npm run web:runtime:test` e `npm run web:runtime` após instalar as dependências e Chromium/Firefox/WebKit do Playwright. O fixture abre em `http://127.0.0.1:4282`; pare o servidor antes dos testes. O [relatório de evidências](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/web-runtime.md) detalha relógios, referências nativas compartilhadas, rollback, cleanup e comandos de gravação.
+
+O [adapter Vue DOM opcional](./web-vue) agora oferece refs declaradas e lifecycle de entrada/saída.

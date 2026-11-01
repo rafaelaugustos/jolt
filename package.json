@@ -101,6 +101,10 @@
     "./web": {
       "types": "./dist/web/public.d.ts",
       "default": "./dist/web/public.js"
+    },
+    "./web/vue": {
+      "types": "./dist/web/vue/index.d.ts",
+      "default": "./dist/web/vue/index.js"
     }
   },
   "files": [
@@ -138,17 +142,24 @@
     "package:check": "node scripts/check-package-consumers.mjs",
     "web:press": "node benchmarks/web-press/server.mjs",
     "web:press:typecheck": "tsc -p benchmarks/web-press/tsconfig.json",
-    "web:press:test": "playwright test -c benchmarks/web-press/playwright.config.mjs"
+    "web:press:test": "playwright test -c benchmarks/web-press/playwright.config.mjs",
+    "web:integration": "node benchmarks/web-integration/server.mjs",
+    "web:integration:typecheck": "tsc -p benchmarks/web-integration/tsconfig.json",
+    "web:integration:test": "playwright test -c benchmarks/web-integration/playwright.config.mjs"
   },
   "peerDependencies": {
     "@nativescript/core": ">=8.9.0",
-    "nativescript-vue": ">=3.0.0"
+    "nativescript-vue": ">=3.0.0",
+    "vue": "^3.5.0"
   },
   "peerDependenciesMeta": {
     "nativescript-vue": {
       "optional": true
     },
     "@nativescript/core": {
+      "optional": true
+    },
+    "vue": {
       "optional": true
     }
   },
@@ -161,7 +172,8 @@
     "prettier": "^3.9.10",
     "typescript": "^7.0.2",
     "vitepress": "^1.6.4",
-    "vitest": "^5.0.4"
+    "vitest": "^5.0.4",
+    "vue": "^3.5.44"
   },
   "engines": {
     "node": ">=20"

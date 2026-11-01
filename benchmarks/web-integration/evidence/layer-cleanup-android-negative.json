@@ -1,0 +1,6 @@
+{
+  "status": "failed",
+  "error": "Error: Interrupted release: 0.949999988079071 != 1.2",
+  "negative": true,
+  "platform": "Android"
+}

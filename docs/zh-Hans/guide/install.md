@@ -33,18 +33,19 @@ await animation.finished
 motion.dispose() // 应用结束或组件卸载时释放
 ```
 
-| 导入                         | 平台与依赖                                               |
-| ---------------------------- | -------------------------------------------------------- |
-| `@rafaelaugusto/jolt`        | NativeScript；需要 `@nativescript/core >=8.9.0`。        |
-| `@rafaelaugusto/jolt/native` | 原生属性 adapter；需要 NativeScript。                    |
-| `@rafaelaugusto/jolt/vue`    | NativeScript-Vue；另需 `nativescript-vue >=3.0.0`。      |
-| `@rafaelaugusto/jolt/web`    | 命令式 DOM 运行时；无需安装 NativeScript、Vue 或 React。 |
+| 导入                          | 平台与依赖                                                          |
+| ----------------------------- | ------------------------------------------------------------------- |
+| `@rafaelaugusto/jolt`         | NativeScript；需要 `@nativescript/core >=8.9.0`。                   |
+| `@rafaelaugusto/jolt/native`  | 原生属性 adapter；需要 NativeScript。                               |
+| `@rafaelaugusto/jolt/vue`     | NativeScript-Vue；另需 `nativescript-vue >=3.0.0`。                 |
+| `@rafaelaugusto/jolt/web`     | 命令式 DOM 运行时；无需安装 NativeScript、Vue 或 React。            |
+| `@rafaelaugusto/jolt/web/vue` | 可选 Vue DOM 适配器；需要 `vue ^3.5.0`。参见 [Vue Web](./web-vue)。 |
 
 NativeScript 和 NativeScript-Vue 在包级别为可选 peer，以避免 Web 消费者安装它们。使用相应原生入口时仍必须安装。缺少 peer 的解析错误会明确指出 `@nativescript/core` 或 `nativescript-vue`；请在原生应用中安装所指依赖。Web 应用必须导入 `/web`，SSR 也一样。根入口和 `/vue` 不会自动切换平台。
 
 Web API 仍是实验性的：提供 document 所有的 factory、有限播放控制及类型，不公开 driver 注册、内部诊断或可移植组件引用。`/core`、内部实现路径和 `/web/vue` 均未导出。浏览器 API 需要 DOM 类型，但其可达声明不需要原生 globals。坐标使用 CSS 像素，旋转使用度，缩放使用倍率。能力、清理和 CSS 所有权限制见[Web 有限播放](./web-runtime)。
 
-[安装包消费者检查](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/package-consumers.md)覆盖 Vite 开发/生产、SSR、NodeNext/Bundler 类型和现有原生入口。未来的 Web Vue adapter 还需要增加对应的安装包消费者验证。
+[安装包消费者检查](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/package-consumers.md)覆盖 Vite 开发/生产、SSR、NodeNext/Bundler 类型和现有原生入口。可选 Vue Web 入口已有独立 tarball 消费者，验证类型、直接/Vite SSR，以及开发和生产构建中的真实进出场与按压。
 
 ## iOS 上的 ProMotion {#promotion-on-ios}
 

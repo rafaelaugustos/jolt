@@ -101,6 +101,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('webProof', 'web-composition'),
         page('webRuntime', 'web-runtime'),
         page('webPress', 'web-press'),
+        page('webVue', 'web-vue'),
         page('limits', 'not-there-yet'),
       ],
     },
@@ -183,6 +184,7 @@ const en = {
   webProof: 'Web composition experiment',
   webRuntime: 'Finite Web runtime',
   webPress: 'Web press feedback',
+  webVue: 'Vue Web motion',
   limits: 'Release status and limits',
 }
 
@@ -262,6 +264,7 @@ const pt = {
   webProof: 'Experimento de composição Web',
   webRuntime: 'Runtime Web finito',
   webPress: 'Press na Web',
+  webVue: 'Movimento Vue na Web',
   limits: 'Status da versão e limites',
 }
 

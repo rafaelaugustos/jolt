@@ -48,7 +48,7 @@ Interruption projects the resolved source start time onto the document's perform
 
 The runtime owns `transform` and `opacity` on a mounted, transformable HTML box. Transform order is `static 2D baseline × translate × rotate × scale`; the original `transform-origin` stays in effect. Individual CSS transforms, 3D baselines, existing animations/transitions and inline `!important` motion styles are unsupported. Release and recreate before external CSS changes; arbitrary stylesheet/CSS-variable mutations are not monitored. Use a dedicated inner surface when other code owns the outer element's styles.
 
-This is finite playback only: continuous springs, drag/pinch, motion values, scroll, layout, native-only properties and framework lifecycle adapters follow separately. It does not establish a stable portable-reference API or complete Mavis integration. WAAPI playback alone does not establish compositor acceleration or an FPS guarantee.
+This is finite playback only: continuous springs, drag/pinch, motion values, scroll, layout, native-only properties and other framework lifecycle adapters follow separately. It does not establish a stable portable-reference API or complete Mavis integration. WAAPI playback alone does not establish compositor acceleration or an FPS guarantee.
 
 ## Native reference and validation {#native-reference-and-validation}
 
@@ -59,3 +59,5 @@ Native playback behavior is unchanged. These reviewed English native recordings 
 <Clip name="layers-android" caption="Android emulator, existing native Layers demo: movement and feedback layers coexist. Preserved native reference, not a physical-device recording or the new Web runtime." />
 
 Using Node 22, run `npm run web:runtime:typecheck`, `npm run web:runtime:test` and `npm run web:runtime` after installing dependencies and Playwright's Chromium/Firefox/WebKit. The fixture opens at `http://127.0.0.1:4282`; stop it before running tests. The [evidence report](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/web-runtime.md) describes clock tests, shared native baselines, rollback, cleanup and reproducible recording commands.
+
+The optional [Vue DOM adapter](./web-vue) now supplies declared refs and enter/leave lifecycle.

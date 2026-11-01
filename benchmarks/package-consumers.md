@@ -12,7 +12,7 @@ Native entries remain native. Importing the root without its peer fails with `ER
 
 `/web` exports `createWebRuntime` plus types for finite motion, its context and its handles. The factory returns only `animate`, `set`, `stop`, `configure`, `definePreset`, `release` and `dispose`. Internal diagnostics, ownership mutation, implementation classes, driver registration and portable component references are not part of the package API. The factory needs a mounted browser document; importing it does not.
 
-`/core`, deep implementation paths and `/web/vue` are deliberately not exported. No stable extension API or future framework stub is introduced. The consumer check rejects an additional unverified Web export, so #284 must add its packed Vue Web consumer when that entry lands.
+`/core`, deep implementation paths and `/web/react` remain private. The optional `/web/vue` entry now has its own actual-tarball consumer. Its strict DOM-only declarations, direct/Vite SSR and dev/production enter/leave plus press run with Vue 3.5.44, without NativeScript or React. The imperative-only install still contains just Jolt.
 
 Coordinates are CSS pixels, rotation is degrees and scale is multiplicative. The entry supports the finite 2D transform/opacity capabilities and CSS-surface policy from [#281](./web-runtime.md). Packaging does not add gestures, continuous springs, layout or Mavis integration.
 
@@ -33,7 +33,7 @@ Coordinates are CSS pixels, rotation is degrees and scale is multiplicative. The
 
 The Web declaration consumer uses DOM types because the API accepts `Document` and `HTMLElement`; SSR safety means import-time safety, not that the browser-facing declaration file omits DOM types. The native consumer uses the existing project's `skipLibCheck: true` convention for NativeScript's platform declarations.
 
-Vite checks cover development, [SSR externalization](https://vite.dev/guide/ssr.html#ssr-externals) and production bundling explicitly. They do not claim a Vue or React adapter is available. Native production checks compile JavaScript with the actual platform resolver and existing NativeScript-Vue hooks; they do not launch this consumer on a device. The separate unchanged Native CI app continues to exercise real iOS-simulator/Android-emulator playback. That existing app has internal aliases for its instrumentation and is not presented as the packed-consumer proof.
+Vite checks cover development, [SSR externalization](https://vite.dev/guide/ssr.html#ssr-externals) and production bundling explicitly. The optional Vue adapter is exercised separately; no React adapter is claimed. Native production checks compile JavaScript with the actual platform resolver and existing NativeScript-Vue hooks; they do not launch this consumer on a device. The separate Native CI app continues to exercise real iOS-simulator/Android-emulator playback. That existing app has internal aliases for its instrumentation and is not presented as the packed-consumer proof.
 
 ## Reproduce and use the candidate
 

@@ -209,6 +209,16 @@ export function createAndroidDriver(): Driver {
       syncLiveSprings(view)
     },
 
+    commit(view, property, value) {
+      // Core can skip an unchanged model setter after ObjectAnimator cancellation.
+      // Reapply this settled property only; other animators own their presentation.
+      const native = view.nativeViewProtected as NativeView | undefined
+      if (native && Object.hasOwn(accessors, property)) {
+        const numeric = property as NumericProperty
+        accessors[numeric].set(native, value * unit(numeric))
+      }
+    },
+
     elapsed: (handle) => (handle as Handle).elapsed(),
 
     presented(view, property) {

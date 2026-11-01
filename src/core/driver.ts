@@ -34,6 +34,8 @@ export interface Driver<Target> {
   ): void
   /** Reapply presentation after a model write rebuilds platform drawing state. */
   sync?(view: Target, excluding?: Property): void
+  /** Commit only a settled channel after cancelling its native playback. */
+  commit?(view: Target, property: Property, value: number): void
   /** Track time, including its delay, when the platform clock differs from `now()`. */
   elapsed?(handle: unknown): number
   /** The value on screen, when the platform knows it better than the track does. */

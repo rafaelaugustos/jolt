@@ -1,6 +1,6 @@
 import { Color, Utils } from '@nativescript/core'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { animate, sequence, stop } from '../src/index.js'
+import { animate, sequence, set, stop, configure } from '../src/index.js'
 import { setDriver } from '../src/driver/index.js'
 import { createAndroidDriver } from '../src/driver/android.js'
 import { createView, flush, state } from './helpers.js'
@@ -21,6 +21,34 @@ let durationScale: number
 let sdk: number
 
 class NativeView {
+  scaleX = 1
+  scaleY = 1
+  translationX = 0
+  translationY = 0
+  getScaleX() {
+    return this.scaleX
+  }
+  getScaleY() {
+    return this.scaleY
+  }
+  setScaleX(value: number) {
+    this.scaleX = value
+  }
+  setScaleY(value: number) {
+    this.scaleY = value
+  }
+  getTranslationX() {
+    return this.translationX
+  }
+  getTranslationY() {
+    return this.translationY
+  }
+  setTranslationX(value: number) {
+    this.translationX = value
+  }
+  setTranslationY(value: number) {
+    this.translationY = value
+  }
   cameraDistance = 8000
   rotationX = 0
   rotationY = 0
@@ -301,6 +329,10 @@ beforeEach(() => {
     },
     view: {
       View: {
+        SCALE_X: 'scaleX',
+        SCALE_Y: 'scaleY',
+        TRANSLATION_X: 'translationX',
+        TRANSLATION_Y: 'translationY',
         ROTATION_X: 'rotationX',
         ROTATION_Y: 'rotationY',
         ROTATION: 'rotation',
@@ -580,6 +612,34 @@ function target(perspective = 1000) {
   view.nativeViewProtected = native
   return { view, native }
 }
+
+describe('Android settled layer presentation', () => {
+  it.each(['never', 'always', 'user'] as const)(
+    'commits only the removed layer property after a release (%s)',
+    async (policy) => {
+      const { view, native } = target()
+      configure({ reducedMotion: 'never' })
+      set(view, { scaleX: 1.2, scaleY: 0.6 })
+      animate(view, { scale: 0.96 }, { duration: 0, layer: 'feedback' })
+      const release = animate(view, { scale: 1 }, { duration: 450, layer: 'feedback' })
+      expect(view.scaleX).toBe(1.2)
+      expect(view.scaleY).toBe(0.6)
+      // An ObjectAnimator frame changes presentation independently of the model.
+      native.scaleX = 1.16767
+      native.scaleY = 0.58379
+      const rotation = animate(view, { rotate: [0, 90] }, { duration: 1000 })
+      native.rotation = 37
+      if (policy === 'user') durationScale = 0 // platform preference changed during release
+      configure({ reducedMotion: policy })
+      stop(view, ['scale'], { layer: 'feedback' })
+      expect(native.scaleX).toBe(1.2)
+      expect(native.scaleY).toBe(0.6)
+      expect(native.rotation).toBe(37)
+      expect(await release.finished).toBe(false)
+      rotation.stop()
+    },
+  )
+})
 
 describe('Android animation clock', () => {
   it.each([0.5, 2])(
