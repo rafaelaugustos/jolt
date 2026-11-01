@@ -5,6 +5,7 @@ import { presets as builtins } from '../core/presets.js'
 import { compose, poseAt, type Contribution, type Rest } from './compose.js'
 import { flatten, sampled, type Point } from './curve.js'
 import { prepare, type Plan } from './plan.js'
+import { createPress, validatePressState, type WebPressOptions } from './press.js'
 import {
   identity,
   keyOf,
@@ -379,6 +380,8 @@ export class WebRuntime {
   private readonly animations = new Set<Owner>()
   private readonly ownership = createOwnership<HTMLElement, string>()
   private readonly observers = new Map<Node, MutationObserver>()
+  private readonly presses = new Map<HTMLElement, ReturnType<typeof createPress>>()
+  private nextPress = 0
   private readonly preference: MediaQueryList
   private reported: boolean
   private disposed = false
@@ -485,9 +488,20 @@ export class WebRuntime {
     animation: Keyframes | string,
     options?: AnimateOptions | SpringName,
   ): PlaybackAnimation & { readonly ready: Promise<void> } {
+    return this.play(target, animation, options)
+  }
+
+  private play(
+    target: HTMLElement | readonly HTMLElement[],
+    animation: Keyframes | string,
+    options?: AnimateOptions | SpringName,
+    privateLayer?: string,
+  ): PlaybackAnimation & { readonly ready: Promise<void> } {
     this.assert()
     const targets = this.targets(target)
     const plans = prepare(animation, options, this.presets, targets.length)
+    if (privateLayer !== undefined)
+      for (const tracks of plans) for (const plan of tracks) plan.layer = privateLayer
     const at = this.now(),
       pending = this.document.timeline.currentTime === null
     const compiled: {
@@ -567,6 +581,62 @@ export class WebRuntime {
     )
       throw new TypeError('set() requires one numeric value per property.')
     return this.animate(target, values, { duration: 0 })
+  }
+
+  press(
+    target: HTMLElement,
+    values: Values = { scale: 0.96 },
+    options: WebPressOptions = {},
+  ) {
+    this.assert()
+    this.targets(target)
+    if (this.presses.has(target))
+      throw new Error('The surface already has press feedback.')
+    validatePressState(options)
+    if (
+      !values ||
+      !Object.keys(values).length ||
+      Object.values(values).some((v) => typeof v !== 'number')
+    )
+      throw new TypeError('Press requires numeric contributions.')
+    const copied = { ...values }
+    const transition =
+      typeof options.transition === 'object'
+        ? { ...options.transition }
+        : (options.transition ?? 'snappy')
+    prepare(copied, transition, this.presets, 1)
+    const layer = `jolt:press:${++this.nextPress}`
+    const neutral = Object.fromEntries(
+      Object.keys(copied).map((p) => [
+        p,
+        p === 'opacity' || p.startsWith('scale') ? 1 : 0,
+      ]),
+    )
+    this.play(target, neutral, { duration: 0 }, layer)
+    const binding = createPress(
+      target,
+      copied,
+      options,
+      (next) => this.play(target, next, transition, layer),
+      () => {
+        if (!target.isConnected || target.ownerDocument !== this.document) {
+          this.release(target)
+          return
+        }
+        const surface = this.surfaces.get(target)
+        if (surface) {
+          const state = clone(surface.state)
+          for (const property of properties) {
+            state.entries.delete(keyOf(property, layer))
+            state.rest.delete(keyOf(property, layer))
+          }
+          this.transaction(new Map([[surface, state]]), this.now())
+        }
+        this.presses.delete(target)
+      },
+    )
+    this.presses.set(target, binding)
+    return binding.handle
   }
 
   private rest(
@@ -761,14 +831,22 @@ export class WebRuntime {
           for (const target of [...this.surfaces.keys()])
             if (!target.isConnected || target.ownerDocument !== this.document)
               this.release(target)
+          for (const press of this.presses.values()) press.refresh()
           this.observe()
         })
-        observer.observe(root, { childList: true, subtree: true })
+        observer.observe(root, {
+          childList: true,
+          subtree: true,
+          attributes: true,
+          attributeFilter: ['disabled', 'aria-disabled', 'aria-busy', 'inert'],
+        })
         this.observers.set(root, observer)
       }
   }
 
   release(target: HTMLElement) {
+    this.presses.get(target)?.detach()
+    this.presses.delete(target)
     const surface = this.surfaces.get(target)
     if (!surface) return
     const at = this.now(),

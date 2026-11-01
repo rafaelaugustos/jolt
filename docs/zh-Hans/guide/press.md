@@ -1,5 +1,7 @@
 # 按压 {#press}
 
+实验性浏览器 API 请参阅 [Web 按压反馈](./web-press)。本页介绍原生按压。
+
 ```ts
 const remove = press(button) // scales to 0.96 while pressed
 press(card, { scale: 0.97, opacity: 0.8 })

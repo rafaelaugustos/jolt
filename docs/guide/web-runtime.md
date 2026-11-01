@@ -2,6 +2,8 @@
 
 The runtime from [#281](https://github.com/rafaelaugustos/jolt/issues/281) uses Jolt's portable compiler and WAAPI directly on HTML elements, independently of Vue, React or NativeScript. The experimental `/web` entry is available in locally packed candidates from [#282](https://github.com/rafaelaugustos/jolt/issues/282), **not in the published 0.1.0-rc.4**. See [candidate installation](./install#experimental-web-candidate). Mavis press/reveal and the shared application example remain subsequent work in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
+Pointer and keyboard input are now covered by [Web press feedback](./web-press); the recording below remains the finite-runtime reference.
+
 <Clip name="web-runtime-chromium" :width="720" caption="Chromium 156 on macOS arm64, real browser playback and clicks at real-time speed: movement with opacity, partial interruption, application scale plus a press contribution, reverse repeat, pause, seek, resume and reduced motion. Buttons exercise the contribution; full pointer/keyboard press recognition is separate work (#283)." />
 
 ## Supported motion {#supported-motion}

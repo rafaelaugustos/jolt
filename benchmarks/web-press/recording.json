@@ -1,0 +1,60 @@
+{
+  "recordedAt": "2026-11-01T13:03:06.132Z",
+  "browser": "Chromium",
+  "version": "156.0.8078.4",
+  "os": {
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64"
+  },
+  "viewport": {
+    "width": 920,
+    "height": 740
+  },
+  "actions": [
+    {
+      "name": "application",
+      "scale": 1.1
+    },
+    {
+      "name": "pressed",
+      "scale": 1.056
+    },
+    {
+      "name": "retarget-held",
+      "scale": 1.152
+    },
+    {
+      "name": "released",
+      "scale": 1.2
+    },
+    {
+      "name": "space-held",
+      "scale": 1.152
+    },
+    {
+      "name": "release-outside",
+      "scale": 1.2
+    },
+    {
+      "name": "disposed-held",
+      "scale": 1.2
+    },
+    {
+      "name": "loading",
+      "scale": 1.1
+    }
+  ],
+  "sourceSHA256": {
+    "../../src/web/runtime.ts": "c652b0450bb886db746cdd649889defaada5b626a5226391e10d0f50fdceb5f1",
+    "../../src/web/compose.ts": "6b63401cf65ae61cb8372024e229a252abe2f56280ed5de46cf9ce16ec32361e",
+    "../../src/web/curve.ts": "7f943a27c188489a20855df561100b3e3a2ede1acc123410863044b7fb4fa6f8",
+    "../../src/web/plan.ts": "89521d2ce12c600eb2f59a3d8cef83fe5854a626203e506745f4da2042bde3f8",
+    "../../src/web/press.ts": "2a4c18e8ec2adb43f3fc1af6c51432ef40bfdec1a2a0f119633cd0da6410af98",
+    "../../src/web/public.ts": "f6ea12da9a6715628897d473efca1ebb6b2dfad0c75b44b86b62c523ddfaa938",
+    "fixture.ts": "f2f103dc21b48accbde18e6f6cfc2fd099a97842c44174b10df365798ed9ffd8",
+    "index.html": "497f311c86f5e06ec810c5b4f968611148ceaf84cda932e0a31290ce7982b61d"
+  },
+  "videoSHA256": "0d6f33ab4d097a2230a5c0bd36eaaa5bd774dad5c5c217fd644492bcd3fa8f68",
+  "notes": "Real Chromium playback with Playwright pointer holds, release outside, Space/Enter and application keyboard actions. Original speed, no generated or interpolated animation. Native behavior is documented with preserved native recordings."
+}

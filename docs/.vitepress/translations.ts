@@ -75,6 +75,7 @@ export const es = {
   internals: 'Cómo funciona',
   webProof: 'Experimento de composición Web',
   webRuntime: 'Runtime Web finito',
+  webPress: 'Pulsación en Web',
   limits: 'Estado de la versión y límites',
 }
 
@@ -153,6 +154,7 @@ export const zh = {
   internals: '工作原理',
   webProof: 'Web 组合实验',
   webRuntime: 'Web 有限动画运行时',
+  webPress: 'Web 按压反馈',
   limits: '发布状态与限制',
 }
 

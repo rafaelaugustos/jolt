@@ -135,7 +135,10 @@
     "web:runtime:typecheck": "tsc -p benchmarks/web-runtime/tsconfig.json",
     "web:runtime:test": "playwright test -c benchmarks/web-runtime/playwright.config.mjs",
     "web:check": "node scripts/check-web-runtime.mjs",
-    "package:check": "node scripts/check-package-consumers.mjs"
+    "package:check": "node scripts/check-package-consumers.mjs",
+    "web:press": "node benchmarks/web-press/server.mjs",
+    "web:press:typecheck": "tsc -p benchmarks/web-press/tsconfig.json",
+    "web:press:test": "playwright test -c benchmarks/web-press/playwright.config.mjs"
   },
   "peerDependencies": {
     "@nativescript/core": ">=8.9.0",

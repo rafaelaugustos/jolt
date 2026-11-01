@@ -1,0 +1,32 @@
+{
+  "recordedAt": "2026-11-01T13:04:06.706375+00:00",
+  "os": "macOS-26.6.2-arm64-arm-64bit",
+  "stats": {
+    "startTime": "2026-11-01T12:18:01.294Z",
+    "duration": 19647.306999999997,
+    "expected": 73,
+    "skipped": 2,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "browsers": {
+    "chromium": {
+      "browser": "chromium",
+      "version": "156.0.8078.4"
+    },
+    "firefox": {
+      "browser": "firefox",
+      "version": "157.0"
+    },
+    "webkit": {
+      "browser": "webkit",
+      "version": "27.2"
+    }
+  },
+  "notes": [
+    "73 passed; two CDP touch-scroll cases intentionally skipped outside Chromium.",
+    "Synthetic cancellation delivery in all engines is distinct from actual browser touch-scroll takeover, verified on Chromium.",
+    "54 existing Web runtime cases, 42 composition proof cases, and 1586 unit tests passed.",
+    "Packed public-entry press playback, SSR and native consumer checks passed."
+  ]
+}

@@ -1,5 +1,7 @@
 # Pulsación {#press}
 
+Para la API experimental del navegador, consulte [Pulsación en Web](./web-press). Esta página documenta el press nativo.
+
 ```ts
 const remove = press(button) // scales to 0.96 while pressed
 press(card, { scale: 0.97, opacity: 0.8 })

@@ -20,7 +20,10 @@ void animation.finished.then((completed) => {
     opacity: Number(getComputedStyle(surface).opacity),
     methods: Object.keys(motion).sort(),
   })
-  motion.dispose()
+  motion.set(surface, { scale: 1.1 })
+  const feedback = motion.press(surface, { scale: 0.96 })
+  feedback.update({ loading: false })
+  window.addEventListener('pagehide', () => motion.dispose(), { once: true })
 })
 
 // Check the experimental facade without publishing implementation/driver APIs.

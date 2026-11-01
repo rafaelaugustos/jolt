@@ -2,6 +2,8 @@
 
 El runtime de [#281](https://github.com/rafaelaugustos/jolt/issues/281) usa el compilador portátil de Jolt y WAAPI directamente sobre elementos HTML, independientemente de Vue, React o NativeScript. La entrada experimental `/web` está disponible en candidatos empaquetados localmente de [#282](https://github.com/rafaelaugustos/jolt/issues/282), **no en la 0.1.0-rc.4 publicada**. Consulta la [instalación del candidato](./install#experimental-web-candidate). Press/reveal de Mavis y el ejemplo compartido de la aplicación siguen en [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
+La entrada por puntero y teclado está en [Pulsación en Web](./web-press); la grabación siguiente sigue siendo la referencia del runtime finito.
+
 <Clip name="web-runtime-chromium" :width="720" caption="Chromium 156 en macOS arm64, reproducción y clics reales a velocidad original: movimiento con opacidad, interrupción parcial, escala de la aplicación con contribución de presión, repetición inversa, pausa, seek, reanudación y movimiento reducido. Los botones ejercitan la contribución; el reconocimiento completo de puntero/teclado corresponde a #283." />
 
 ## Movimiento compatible {#supported-motion}

@@ -40,3 +40,6 @@ benchmarks/web-runtime/results/
 benchmarks/web-runtime/captures/
 
 benchmarks/package-consumers/results/
+
+benchmarks/web-press/results/
+benchmarks/web-press/captures/

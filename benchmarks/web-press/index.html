@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <title>Jolt · Web press</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: #10151e;
+      color: #f3f5fa;
+      font:
+        18px system-ui,
+        sans-serif;
+    }
+    main {
+      width: 850px;
+      margin: 36px auto;
+    }
+    .tag {
+      color: #70dfc3;
+      font: 600 14px system-ui;
+      letter-spacing: 2px;
+    }
+    h1 {
+      margin: 12px 0;
+      font-size: 38px;
+    }
+    p {
+      color: #b0bdcf;
+      line-height: 1.55;
+    }
+    .stage {
+      height: 270px;
+      display: grid;
+      place-items: center;
+      background: #182331;
+      border: 1px solid #334356;
+      border-radius: 20px;
+      margin: 24px 0;
+    }
+    #card {
+      width: 260px;
+      height: 100px;
+      background: #70dfc3;
+      border: 0;
+      border-radius: 18px;
+      color: #102720;
+      font: 700 24px system-ui;
+      touch-action: auto;
+    }
+    button:focus-visible {
+      outline: 3px solid #e6faaa;
+      outline-offset: 6px;
+    }
+    #status {
+      white-space: pre-line;
+      color: #e6faaa;
+      height: 64px;
+      line-height: 1.6;
+    }
+    #reset {
+      padding: 10px 18px;
+      background: #28394e;
+      color: white;
+      border: 1px solid #5c718b;
+      border-radius: 8px;
+      font: inherit;
+    }
+    .keys {
+      font-size: 15px;
+    }
+  </style>
+  <main>
+    <div class="tag">JOLT / EXPERIMENTAL WEB</div>
+    <h1>Press without losing the app's motion</h1>
+    <p>
+      One button. An application scale and independent press feedback.<br />Real browser
+      input and finite WAAPI playback.
+    </p>
+    <div class="stage"><button id="card" type="button">Hold me</button></div>
+    <div id="status" aria-live="polite"></div>
+    <p class="keys">
+      While holding: G → app scale 1.2 · L → loading · D → dispose<br />Space / Enter
+      preserve native button activation. Release outside to cancel.
+    </p>
+    <button id="reset" type="button">Reset example</button>
+  </main>
+  <script type="module" src="/fixture.js"></script>
+</html>
