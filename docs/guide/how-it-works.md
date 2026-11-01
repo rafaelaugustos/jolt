@@ -1,5 +1,7 @@
 # How it works
 
+Curve compilation lives in an internal TypeScript core with no NativeScript, DOM or framework imports. The native boundary supplies resolved `timeScale` and reduced-motion settings; both native drivers consume the same compiled tracks. The core also defines the generic target driver, playback clock and per-context property ownership registry. This is preparation for [cross-platform motion (#236)](https://github.com/rafaelaugustos/jolt/issues/236): there is no published `/core` or `/web` entry yet, and the native package still requires NativeScript. Live springs and gestures retain their native execution paths.
+
 When an animation starts, Jolt resolves the starting values and computes the source curve. Numeric springs, decays and tweens use [adaptive keyframes](./transitions#adaptive-keyframes), concentrating detail where linear interpolation needs it. Authored keyframe times stay exact and straight numeric segments keep only their endpoints. Spring settlement, interruption velocity and sequence arrival retain their previous timing contract. Color mixing and composed motion-value mappings keep their separate sampling policies.
 
 The samples go to the platform in one go:
@@ -24,3 +26,5 @@ The optional [`gestures()`](./gestures) entry recognizes pan/pinch/rotation and 
 The tests run the engine against a fake platform driver ([`test/helpers.ts`](https://github.com/rafaelaugustos/jolt/blob/main/test/helpers.ts)) with its own clock: it records the keyframes it would play and ends them when the clock passes their end. The iOS and Android drivers are type-checked against the platform typings.
 
 The native CI fixture also reads presentation-layer/view values on iOS and Android, checks actual dimensions and live follower lifecycle, and verifies an intentional geometry failure. C and Java spring kernels are compiled and compared in deterministic trajectory tests.
+
+Portable-core regression tests compare 38 trajectories with a frozen pre-extraction baseline, including sampled keyframes, timing, velocity and accessibility settings. `npm run core:check` also packs and installs the compiled internal core in a dependency-free consumer, checks its declarations with ES-only types, and imports and exercises it without platform globals. This verifies the internal boundary; it does not validate a browser renderer.

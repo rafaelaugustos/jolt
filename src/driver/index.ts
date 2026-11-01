@@ -1,57 +1,10 @@
-import type { PlaybackClock, PlaybackCommand } from '../playback.js'
 import { isAndroid, type View } from '@nativescript/core'
-import type { Property } from '../properties.js'
-import type { Track } from '../track.js'
+import type { Driver as MotionDriver } from '../core/driver.js'
 import { createAndroidDriver } from './android.js'
 import { createIOSDriver } from './ios.js'
 
-export interface LayoutFrame {
-  x: number
-  y: number
-  width: number
-  height: number
-}
-
-export interface Driver {
-  /** Milliseconds, on the clock the platform's animations run on. */
-  now(): number
-  /** One native animation frame; returns an idempotent cancellation function. */
-  frame(callback: () => void): () => void
-  /** Starts the track at `startedAt + track.delay` and calls `onEnd` once, however it ends. */
-  play(
-    view: View,
-    track: Track,
-    startedAt: number,
-    onEnd: (finished?: boolean) => void,
-  ): unknown
-  stop(view: View, handle: unknown): void
-  /** A native elapsed-time marker when system animation speed affects time. */
-  clock?(duration: number): PlaybackClock
-  /** Move only this native track to an elapsed time, optionally holding it. */
-  control?(
-    view: View,
-    handle: unknown,
-    elapsed: number,
-    paused: boolean,
-    command?: PlaybackCommand,
-  ): void
-  /** Reapply native presentation after a Core model write rebuilds its drawable/layers. */
-  sync?(view: View, excluding?: Property): void
-  /** Track time, including its delay, when the native clock differs from `now()`. */
-  elapsed?(handle: unknown): number
-  /** The value on screen, when the platform knows it better than the track does. */
-  presented(view: View, property: Property): number | undefined
-  /** Calls back after `ms` of animation time, respecting platform speed settings. */
-  after(ms: number, callback: () => void): () => void
-  /** Untransformed native layout bounds in parent DIPs. */
-  layoutFrame?(view: View): LayoutFrame | undefined
-  /** One callback after layout, before drawing; caller requests layout and owns cancellation. */
-  afterLayout?(view: View, callback: () => void): () => void
-  /** The platform's accessibility setting: Reduce Motion on iOS, Remove animations on Android. */
-  reducedMotion?(): boolean
-  /** Calls back when that setting may have changed; returns a cleanup function. */
-  watchReducedMotion?(callback: () => void): () => void
-}
+export type { LayoutFrame } from '../core/driver.js'
+export type Driver = MotionDriver<View>
 
 export function after(ms: number, callback: () => void) {
   const timer = setTimeout(callback, ms)

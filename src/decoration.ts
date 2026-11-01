@@ -1,27 +1,14 @@
+import { clampDecoration, type DecorationProperty } from './core/decoration.js'
+export {
+  clampDecoration,
+  isDecorationProperty,
+  decorationProperties,
+  type DecorationProperty,
+} from './core/decoration.js'
 import { preserveZeroShadow } from './driver/ios-shadow.js'
 import { Color, Utils, isAndroid, type View } from '@nativescript/core'
 
 type Shadow = Exclude<View['boxShadow'], string>[number]
-export type DecorationProperty =
-  | 'borderRadius'
-  | 'borderWidth'
-  | 'shadowOpacity'
-  | 'shadowRadius'
-  | 'shadowOffsetX'
-  | 'shadowOffsetY'
-  | 'elevation'
-  | 'translationZ'
-
-export const decorationProperties: readonly DecorationProperty[] = [
-  'borderRadius',
-  'borderWidth',
-  'shadowOpacity',
-  'shadowRadius',
-  'shadowOffsetX',
-  'shadowOffsetY',
-  'elevation',
-  'translationZ',
-]
 export const radiusKeys = [
   'borderTopLeftRadius',
   'borderTopRightRadius',
@@ -36,9 +23,6 @@ export const widthKeys = [
 ] as const
 const writing = new WeakSet<View>()
 export const isWritingDecoration = (view: View) => writing.has(view)
-export const isDecorationProperty = (key: string): key is DecorationProperty =>
-  decorationProperties.includes(key as DecorationProperty)
-
 /** Core lengths may be numbers, px strings or parsed { value, unit } lengths. */
 export function dip(value: unknown): number {
   if (value === undefined || value === null) return 0
@@ -118,16 +102,6 @@ export function validateDecorationFrames(
   )
     throw new RangeError(`Invalid keyframes for "${property}".`)
 }
-export function clampDecoration(property: DecorationProperty, value: number): number {
-  if (property === 'shadowOpacity') return Math.max(0, Math.min(1, value))
-  return property === 'borderRadius' ||
-    property === 'borderWidth' ||
-    property === 'shadowRadius' ||
-    property === 'elevation'
-    ? Math.max(0, value)
-    : value
-}
-
 export function readDecoration(view: View, property: DecorationProperty): number {
   if (property === 'borderRadius') {
     const radius = !isAndroid ? view.nativeViewProtected?.layer?.cornerRadius : undefined

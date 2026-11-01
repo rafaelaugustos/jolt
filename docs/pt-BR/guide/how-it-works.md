@@ -1,5 +1,7 @@
 # Como funciona
 
+A compilação das curvas fica em um core interno em TypeScript, sem imports de NativeScript, DOM ou frameworks. A fronteira nativa fornece `timeScale` e a preferência de movimento reduzido já resolvidos; os dois drivers nativos consomem os mesmos tracks compilados. O core também define o contrato genérico de driver por target, o relógio de playback e o registro de propriedade dos canais por contexto. Isso prepara o [compartilhamento de movimento entre plataformas (#236)](https://github.com/rafaelaugustos/jolt/issues/236): ainda não há entradas públicas `/core` ou `/web`, e o pacote nativo continua exigindo NativeScript. Springs ao vivo e gestos mantêm a execução nativa.
+
 Quando a animação começa, o Jolt resolve os valores iniciais e calcula a curva original. Springs, decays e tweens numéricos usam [keyframes adaptativos](./transitions#keyframes-adaptativos), concentrando detalhe onde a interpolação linear precisa dele. Tempos dos keyframes definidos pelo app continuam exatos, e trechos numéricos retos usam apenas os extremos. Estabilização dos springs, velocidade nas interrupções e chegada das sequências mantêm o contrato de tempo anterior. Mistura de cores e mapeamentos compostos de motion values conservam suas políticas próprias de amostragem.
 
 As amostras vão para a plataforma de uma vez:
@@ -24,3 +26,5 @@ A entrada opcional [`gestures()`](./gestures) reconhece pan/pinch/rotação e co
 Os testes rodam a engine contra um driver de plataforma falso ([`test/helpers.ts`](https://github.com/rafaelaugustos/jolt/blob/main/test/helpers.ts)) com o próprio relógio: ele registra os keyframes que tocaria e os encerra quando o relógio passa do fim. Os drivers de iOS e Android são checados pelos tipos contra as tipagens das plataformas.
 
 O app de CI nativo também lê valores das presentation layers/views no iOS e Android, valida dimensões reais e o ciclo de vida dos seguidores e detecta uma falha de geometria proposital. Os núcleos C e Java dos springs são compilados e comparados em testes determinísticos de trajetórias.
+
+Os testes de regressão do core portátil comparam 38 trajetórias com uma referência congelada anterior à extração, incluindo keyframes amostrados, tempos, velocidades e preferências de acessibilidade. `npm run core:check` também empacota e instala o core interno compilado em um consumidor sem dependências, verifica suas declarações apenas com tipos de ECMAScript e o importa e exercita sem globais de plataforma. Isso verifica a fronteira interna; não valida um renderer de browser.
