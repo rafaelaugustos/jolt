@@ -1,0 +1,376 @@
+{
+  "date": "2026-11-01",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "node": "22.23.3",
+  "vue": "3.5.44",
+  "playwright": "1.64.1",
+  "reports": {
+    "chromium": {
+      "presentation": {
+        "browser": "156.0.8078.4",
+        "block": {
+          "start": 1793571800836,
+          "end": 1793571801536
+        },
+        "presentedFrames": 36,
+        "distinctPresentations": 36,
+        "note": "Real CDP compositor screencast frames during the marked busy loop; inspect trace in Performance/Perfetto. A single Chromium scene, not a universal GPU promise."
+      },
+      "workload": {
+        "browser": "156.0.8078.4",
+        "cards": 100,
+        "warmups": 1,
+        "samples": [
+          {
+            "prepareMs": 92.5,
+            "teardownMs": 1.5999999642372131,
+            "keyframes": 10400,
+            "effects": 100,
+            "cleanup": {
+              "targets": 0,
+              "animations": 0,
+              "observers": 0,
+              "pendingFrame": false
+            }
+          },
+          {
+            "prepareMs": 101.39999997615814,
+            "teardownMs": 1.4000000357627869,
+            "keyframes": 10400,
+            "effects": 100,
+            "cleanup": {
+              "targets": 0,
+              "animations": 0,
+              "observers": 0,
+              "pendingFrame": false
+            }
+          },
+          {
+            "prepareMs": 91.39999997615814,
+            "teardownMs": 1.699999988079071,
+            "keyframes": 10400,
+            "effects": 100,
+            "cleanup": {
+              "targets": 0,
+              "animations": 0,
+              "observers": 0,
+              "pendingFrame": false
+            }
+          },
+          {
+            "prepareMs": 79.30000001192093,
+            "teardownMs": 1.600000023841858,
+            "keyframes": 10400,
+            "effects": 100,
+            "cleanup": {
+              "targets": 0,
+              "animations": 0,
+              "observers": 0,
+              "pendingFrame": false
+            }
+          },
+          {
+            "prepareMs": 82,
+            "teardownMs": 1.4000000357627869,
+            "keyframes": 10400,
+            "effects": 100,
+            "cleanup": {
+              "targets": 0,
+              "animations": 0,
+              "observers": 0,
+              "pendingFrame": false
+            }
+          }
+        ]
+      },
+      "cleanup": {
+        "browser": "156.0.8078.4",
+        "cycles": 30,
+        "resources": {
+          "listeners": 0,
+          "observers": 0,
+          "animations": 0
+        },
+        "heapBefore": {
+          "usedSize": 1614580,
+          "totalSize": 2097152,
+          "embedderHeapUsedSize": 366976,
+          "backingStorageSize": 333205
+        },
+        "heapBeforeGC": {
+          "usedSize": 6380428,
+          "totalSize": 14680064,
+          "embedderHeapUsedSize": 36856216,
+          "backingStorageSize": 364576
+        },
+        "sampledAllocatedBytes": 76927960,
+        "heapAfter": {
+          "usedSize": 2424660,
+          "totalSize": 3145728,
+          "embedderHeapUsedSize": 394472,
+          "backingStorageSize": 333059
+        },
+        "retainedBytes": 810080
+      },
+      "input": {
+        "browser": "156.0.8078.4",
+        "samples": [
+          {
+            "eventToHandlerMs": 0.2999999523162842,
+            "handlerToPreparedMs": 1.100000023841858,
+            "eventToFrameCallbackMs": 1.5999999642372131
+          },
+          {
+            "eventToHandlerMs": 0.19999998807907104,
+            "handlerToPreparedMs": 0.800000011920929,
+            "eventToFrameCallbackMs": 1.199999988079071
+          },
+          {
+            "eventToHandlerMs": 0.19999998807907104,
+            "handlerToPreparedMs": 0.7000000476837158,
+            "eventToFrameCallbackMs": 7.199999988079071
+          },
+          {
+            "eventToHandlerMs": 0.20000004768371582,
+            "handlerToPreparedMs": 0.7999999523162842,
+            "eventToFrameCallbackMs": 1.4000000357627869
+          },
+          {
+            "eventToHandlerMs": 0.10000002384185791,
+            "handlerToPreparedMs": 0.699999988079071,
+            "eventToFrameCallbackMs": 5.600000023841858
+          }
+        ],
+        "note": "rAF callback latency is not display latency or compositor smoothness."
+      }
+    },
+    "firefox": {
+      "workload": {
+        "browser": "157.0",
+        "cards": 100,
+        "warmups": 1,
+        "samples": [
+          {
+            "prepareMs": 80,
+            "teardownMs": 4,
+            "keyframes": 10400,
+            "effects": 100,
+            "cleanup": {
+              "targets": 0,
+              "animations": 0,
+              "observers": 0,
+              "pendingFrame": false
+            }
+          },
+          {
+            "prepareMs": 88,
+            "teardownMs": 3,
+            "keyframes": 10400,
+            "effects": 100,
+            "cleanup": {
+              "targets": 0,
+              "animations": 0,
+              "observers": 0,
+              "pendingFrame": false
+            }
+          },
+          {
+            "prepareMs": 82,
+            "teardownMs": 2,
+            "keyframes": 10400,
+            "effects": 100,
+            "cleanup": {
+              "targets": 0,
+              "animations": 0,
+              "observers": 0,
+              "pendingFrame": false
+            }
+          },
+          {
+            "prepareMs": 87,
+            "teardownMs": 5,
+            "keyframes": 10400,
+            "effects": 100,
+            "cleanup": {
+              "targets": 0,
+              "animations": 0,
+              "observers": 0,
+              "pendingFrame": false
+            }
+          },
+          {
+            "prepareMs": 86,
+            "teardownMs": 4,
+            "keyframes": 10400,
+            "effects": 100,
+            "cleanup": {
+              "targets": 0,
+              "animations": 0,
+              "observers": 0,
+              "pendingFrame": false
+            }
+          }
+        ]
+      },
+      "cleanup": {
+        "browser": "157.0",
+        "cycles": 30,
+        "resources": {
+          "listeners": 0,
+          "observers": 0,
+          "animations": 0
+        },
+        "heapBefore": null,
+        "heapBeforeGC": null,
+        "sampledAllocatedBytes": null,
+        "heapAfter": null,
+        "retainedBytes": null
+      },
+      "input": {
+        "browser": "157.0",
+        "samples": [
+          {
+            "eventToHandlerMs": 1,
+            "handlerToPreparedMs": 1,
+            "eventToFrameCallbackMs": 10
+          },
+          {
+            "eventToHandlerMs": 1,
+            "handlerToPreparedMs": 1,
+            "eventToFrameCallbackMs": 8
+          },
+          {
+            "eventToHandlerMs": 1,
+            "handlerToPreparedMs": 1,
+            "eventToFrameCallbackMs": 7
+          },
+          {
+            "eventToHandlerMs": 1,
+            "handlerToPreparedMs": 2,
+            "eventToFrameCallbackMs": 9
+          },
+          {
+            "eventToHandlerMs": 2,
+            "handlerToPreparedMs": 2,
+            "eventToFrameCallbackMs": 7
+          }
+        ],
+        "note": "rAF callback latency is not display latency or compositor smoothness."
+      }
+    },
+    "webkit": {
+      "workload": {
+        "browser": "27.2",
+        "cards": 100,
+        "warmups": 1,
+        "samples": [
+          {
+            "prepareMs": 70,
+            "teardownMs": 2,
+            "keyframes": 10400,
+            "effects": 100,
+            "cleanup": {
+              "targets": 0,
+              "animations": 0,
+              "observers": 0,
+              "pendingFrame": false
+            }
+          },
+          {
+            "prepareMs": 67,
+            "teardownMs": 2,
+            "keyframes": 10400,
+            "effects": 100,
+            "cleanup": {
+              "targets": 0,
+              "animations": 0,
+              "observers": 0,
+              "pendingFrame": false
+            }
+          },
+          {
+            "prepareMs": 69,
+            "teardownMs": 2,
+            "keyframes": 10400,
+            "effects": 100,
+            "cleanup": {
+              "targets": 0,
+              "animations": 0,
+              "observers": 0,
+              "pendingFrame": false
+            }
+          },
+          {
+            "prepareMs": 67,
+            "teardownMs": 2,
+            "keyframes": 10400,
+            "effects": 100,
+            "cleanup": {
+              "targets": 0,
+              "animations": 0,
+              "observers": 0,
+              "pendingFrame": false
+            }
+          },
+          {
+            "prepareMs": 68,
+            "teardownMs": 1,
+            "keyframes": 10400,
+            "effects": 100,
+            "cleanup": {
+              "targets": 0,
+              "animations": 0,
+              "observers": 0,
+              "pendingFrame": false
+            }
+          }
+        ]
+      },
+      "cleanup": {
+        "browser": "27.2",
+        "cycles": 30,
+        "resources": {
+          "listeners": 0,
+          "observers": 0,
+          "animations": 0
+        },
+        "heapBefore": null,
+        "heapBeforeGC": null,
+        "sampledAllocatedBytes": null,
+        "heapAfter": null,
+        "retainedBytes": null
+      },
+      "input": {
+        "browser": "27.2",
+        "samples": [
+          {
+            "eventToHandlerMs": 2,
+            "handlerToPreparedMs": 2,
+            "eventToFrameCallbackMs": 11
+          },
+          {
+            "eventToHandlerMs": 1,
+            "handlerToPreparedMs": 1,
+            "eventToFrameCallbackMs": 2
+          },
+          {
+            "eventToHandlerMs": 2,
+            "handlerToPreparedMs": 1,
+            "eventToFrameCallbackMs": 3
+          },
+          {
+            "eventToHandlerMs": 0,
+            "handlerToPreparedMs": 1,
+            "eventToFrameCallbackMs": 1
+          },
+          {
+            "eventToHandlerMs": 0,
+            "handlerToPreparedMs": 1,
+            "eventToFrameCallbackMs": 2
+          }
+        ],
+        "note": "rAF callback latency is not display latency or compositor smoothness."
+      }
+    }
+  }
+}

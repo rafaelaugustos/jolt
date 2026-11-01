@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><title>Jolt · Vue motion</title>
+  <style>
+    :root {
+      font: 17px system-ui;
+      color: #f6f6fc;
+      background: #10131f;
+    }
+    body {
+      margin: 0;
+      padding: 48px;
+    }
+    h1 {
+      font-size: 38px;
+      margin-bottom: 12px;
+    }
+    p {
+      color: #b6bfd8;
+      line-height: 1.6;
+    }
+    button {
+      font: inherit;
+      border: 1px solid #526489;
+      border-radius: 12px;
+      padding: 12px 20px;
+      background: #26314d;
+      color: inherit;
+      cursor: pointer;
+    }
+    nav {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 24px 0;
+    }
+    #stage {
+      height: 280px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #36405b;
+      border-radius: 24px;
+      background: #171d2e;
+    }
+    #card {
+      width: 260px;
+      height: 150px;
+      background: #8065ed;
+      font-size: 22px;
+      box-shadow: 0 12px 40px #0005;
+    }
+    #status {
+      font: 15px ui-monospace;
+      white-space: pre-wrap;
+      color: #b8e5cf;
+      min-height: 70px;
+    }
+    small {
+      color: #b6bfd8;
+    }
+  </style>
+  <main>
+    <small>JOLT / EXPERIMENTAL WEB + VUE</small>
+    <h1>One surface, coordinated motion</h1>
+    <p>
+      Reveal, application scale and press share the same playback context.<br />Reverse a
+      leave or replace the surface without stale callbacks.
+    </p>
+    <div id="app"></div>
+    <p id="status"></p>
+  </main>
+  <script type="module" src="/fixture.js"></script>
+</html>

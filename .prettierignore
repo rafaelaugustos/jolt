@@ -20,3 +20,6 @@ benchmarks/package-consumers/results/
 
 benchmarks/web-press/results/
 benchmarks/web-press/captures/
+
+benchmarks/web-integration/results/
+benchmarks/web-integration/captures/
