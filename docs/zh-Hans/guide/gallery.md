@@ -65,7 +65,7 @@ closeButton.on('tap', () => viewer.requestDismiss())
 
 iOS 启用 Dynamic Type，安全区域只应用一次。Android 在字体配置更新后，使用原生 SP 尺寸刷新保留的标签，复用滚动标题示例的辅助函数。组件卸载时移除监听器并取消待执行的刷新。
 
-测试实际修改了 iPhone 17 / iOS 26.2 模拟器的系统设置（`large` → `accessibility-medium` → `large`），以及 Android 16 / API 36 模拟器的 `font_scale`（1 → 2 → 1）。修改后 2.5× 缩放保持不变；旋转后仍可放大和重置，实际滚动面板可完整显示按钮。恢复正常字体后，再以放大字体打开另一张照片。两次返回均到达当前缩略图，每次只提交一次导航，结束时原生导航资源计数为零。原生测量检查文本是否完整显示及控件尺寸。其他字体大小、真机和屏幕阅读器遍历仍需验收。
+测试实际修改了 iPhone 17 / iOS 26.2 模拟器的系统设置（`large` → `accessibility-medium` → `large`），以及 Android 16 / API 36 模拟器的 `font_scale`（1 → 2 → 1）。修改后 2.5× 缩放保持不变；旋转后仍可放大和重置，实际滚动面板可完整显示按钮。恢复正常字体后，再以放大字体打开另一张照片。两次返回均到达当前缩略图，每次只提交一次导航，结束时原生导航资源计数为零。原生测量检查文本是否完整显示及控件尺寸。该早期记录覆盖上述模拟器字体设置；iPhone 真机与阅读器组合验证见下文。
 
 <Clip name="gallery-large-text-ios" caption="iPhone 17、iOS 26.2 模拟器，英文界面：实际切换 Dynamic Type、保留缩放、横竖屏控制和面板滚动、恢复字体并两次返回缩略图。原生播放，保持原速；横屏画面在竖屏录像中旋转显示。Snapshot 仅采集可选诊断。此视频不验证真机或屏幕阅读器行为。" />
 <Clip name="gallery-large-text-android" caption="Android 16 / API 36 模拟器，英文界面：字体比例从 1 改为 2 再恢复、保留缩放、旋转、滚动控件及两次返回缩略图。原生原速播放，触摸标记来自真实输入；横屏带黑边。Snapshot 仅记录诊断。此视频不验证真机或屏幕阅读器行为。" />
@@ -94,9 +94,20 @@ Android 16 / API 36 模拟器审计验证了从竖屏切换到横屏、再切回
 
 解析返回目标期间，Jolt 暂时将目标页面移出屏幕阅读器遍历，防止自动焦点在过渡中滚动回收单元格。完成、取消或释放时恢复原辅助功能状态，并在下一个原生执行轮次将焦点移至当前键对应的缩略图。照片被删除时回退至集合标题。若视图已回收、卸载或导航已切换页面，则忽略排队的焦点请求。
 
-录像验证了打开、2.5 倍缩放、重置、放大时关闭、移动到索引 59 后重新打开、删除回退，以及启用 Jolt“减少动态效果”覆盖选项后的第四次返回。记录检查实际焦点、原生缩放、四次导航提交和最终为零的原生导航资源计数。覆盖范围限于参考 Core ListView/router 和录像中的正常字体设置；Android 真机、其他阅读器配置、放大文字与阅读器组合及性能仍待验证。
+录像验证了打开、2.5 倍缩放、重置、放大时关闭、移动到索引 59 后重新打开、删除回退，以及启用 Jolt“减少动态效果”覆盖选项后的第四次返回。记录检查实际焦点、原生缩放、四次导航提交和最终为零的原生导航资源计数。该录像覆盖参考 Core ListView/router 和录像时的字体设置。放大文字与阅读器的组合验证见下文；Android 真机、其他阅读器配置及性能仍待验证。
 
 <Clip name="gallery-voiceover-ios" caption="iPhone 17 Pro 真机，iOS 27.2，英文界面：真实 VoiceOver 遍历、双击激活、缩放/重置、排序后的缩略图焦点、删除后的标题回退及减少动态效果。XCTest 原生原速录像，不含语音音轨；配套记录检查真实朗读和原生焦点。" />
 <Clip name="gallery-talkback-android" caption="Android 16 / API 36 模拟器，英文界面：真实 TalkBack 滑动、触摸探索和双击激活，完成四次返回，包括移动、删除及减少动态效果。原生原速录屏，不含语音音轨；不代表 Android 真机或性能测量。" />
 
 [复现方法与证据](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md#screen-readers-2026-11-01)。
+
+## 屏幕阅读器与放大文字 {#screen-readers-with-enlarged-text}
+
+同样的四次返回流程也通过了组合验证：**iPhone 真机上的 VoiceOver 与系统 `accessibility-medium` Dynamic Type 类别**，以及 **Android 模拟器上的 TalkBack 与 `font_scale=2`**。阅读器遍历可以到达放大、重置、移动和删除控件；原生面板可以滚动以完整显示被裁剪的控件。标题仍具有标题语义，文字换行且无省略，控件至少为 44 × 44 DIP，图片保留独立视口。
+
+录像涵盖 2.5 倍缩放、重置、放大时关闭、返回移动至索引 59 的照片、删除后将焦点回退至集合标题，以及对另一张照片启用 Jolt“减少动态效果”覆盖选项。原生记录检查姿态、当前键对应的焦点、每次关闭仅一次导航提交，以及最终为零的转场、输入和保留场景计数。自动化会恢复原来的系统字体与阅读器设置。这验证现有示例，无需新增公共 API。
+
+<Clip name="gallery-large-text-voiceover-ios" caption="iPhone 17 Pro 真机，iOS 27.2，英文界面：在 iOS 设置中选择 accessibility-medium 后，使用真实 VoiceOver 导航与激活。放大控件、缩放/重置及四次返回，包括移动/删除照片和 Jolt 减少动态效果。XCTest 原生原速录像，无语音音轨；记录检查实际朗读、原生焦点和字体大小。仅竖屏与参考 router/list。" />
+<Clip name="gallery-large-text-talkback-android" caption="Android 16 / API 36 模拟器，英文界面：真实 TalkBack 与系统字体缩放 2，阅读器遍历、双指面板滚动、缩放/重置和四次返回。原生原速录像，无语音音轨；原生记录检查焦点及文字几何。这是模拟器正确性证据，并非 Android 真机或性能测量。" />
+
+[复现方法与组合验证证据](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md#screen-readers-with-enlarged-text-2026-11-01)。其他字体类别、阅读器横屏、语言、Android 真机及更广泛的生命周期/性能矩阵仍由 [#117](https://github.com/rafaelaugustos/jolt/issues/117) 跟踪。

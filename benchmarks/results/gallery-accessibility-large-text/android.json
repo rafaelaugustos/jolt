@@ -1,0 +1,6238 @@
+{
+  "platform": "Android emulator; actual TalkBack hardware input",
+  "gallery": {
+    "events": [
+      {
+        "event": "layout",
+        "time": 1793504612846,
+        "key": "place-1",
+        "ready": false,
+        "route": "gallery",
+        "depth": 0,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 561.5238095238095
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 652.1904761904761,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 700.1904761904761,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 769.9047619047619,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 769.9047619047619,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 769.9047619047619,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 769.9047619047619,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 634.2857142857143,
+            "width": 411.42857142857144,
+            "height": 204.1904761904762
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 561.5238095238095
+          }
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "bound",
+        "time": 1793504612897,
+        "key": "place-1",
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 561.5238095238095
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 652.1904761904761,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 700.1904761904761,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 769.9047619047619,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 769.9047619047619,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 769.9047619047619,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 769.9047619047619,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 634.2857142857143,
+            "width": 411.42857142857144,
+            "height": 204.1904761904762
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 561.5238095238095
+          }
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793504640910,
+        "key": "place-1",
+        "state": {
+          "x": 0,
+          "y": 0.5714285969734192,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 561.5238095238095
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 562.2857142857143,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 610.2857142857143,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 680,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 680,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 634.2857142857143,
+            "width": 411.42857142857144,
+            "height": 204.1904761904762
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 561.5238095238095
+          }
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 0.5714285714285714,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793504640923,
+        "key": "place-1",
+        "state": {
+          "x": 0,
+          "y": 0.5714285969734192,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 471.6190476190476
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 562.2857142857143,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 610.2857142857143,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 680,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 680,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 544.3809523809524,
+            "width": 411.42857142857144,
+            "height": 294.0952380952381
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 471.6190476190476
+          }
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 0.5714285714285714,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "layout",
+        "time": 1793504640924,
+        "key": "place-1",
+        "state": {
+          "x": 0,
+          "y": 0.5714285969734192,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 471.6190476190476
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 562.2857142857143,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 610.2857142857143,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 680,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 680,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 544.3809523809524,
+            "width": 411.42857142857144,
+            "height": 294.0952380952381
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 471.6190476190476
+          }
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 0.5714285714285714,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793504640927,
+        "key": "place-1",
+        "state": {
+          "x": 0,
+          "y": 0.5714285969734192,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 471.6190476190476
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 562.2857142857143,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 610.2857142857143,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 680,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 680,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 544.3809523809524,
+            "width": 411.42857142857144,
+            "height": 294.0952380952381
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 471.6190476190476
+          }
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 0.5714285714285714,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793504647791,
+        "key": "place-1",
+        "state": {
+          "x": -5.812872132082703e-6,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 471.6190476190476
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 562.2857142857143,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 610.2857142857143,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 680,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 680,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 544.3809523809524,
+            "width": 411.42857142857144,
+            "height": 294.0952380952381
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 471.6190476190476
+          }
+        },
+        "native": {
+          "scale": 1,
+          "x": -5.8128720238095235e-6,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793504647792,
+        "key": "place-1",
+        "state": {
+          "x": 5.812872132082703e-6,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 471.6190476190476
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 562.2857142857143,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 610.2857142857143,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 680,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 680,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 544.3809523809524,
+            "width": 411.42857142857144,
+            "height": 294.0952380952381
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 471.6190476190476
+          }
+        },
+        "native": {
+          "scale": 1,
+          "x": 5.8128720238095235e-6,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793504655862,
+        "key": "place-1",
+        "state": {
+          "x": 1.4532180102833081e-5,
+          "y": 0,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 471.6190476190476
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 562.2857142857143,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 610.2857142857143,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 680,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 680,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 544.3809523809524,
+            "width": 411.42857142857144,
+            "height": 294.0952380952381
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 471.6190476190476
+          }
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 1.4532180059523809e-5,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "released",
+        "time": 1793504660754,
+        "key": "place-1",
+        "state": {
+          "x": 5.812872132082703e-6,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": true
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 471.6190476190476
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 562.2857142857143,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 610.2857142857143,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 680,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 680,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 544.3809523809524,
+            "width": 411.42857142857144,
+            "height": 294.0952380952381
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 471.6190476190476
+          }
+        },
+        "native": {
+          "scale": 1,
+          "x": 5.8128720238095235e-6,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        },
+        "extra": {
+          "pose": {
+            "x": 5.812872132082703e-6,
+            "y": 0,
+            "scale": 1,
+            "progress": 0,
+            "pending": true
+          },
+          "velocity": 0
+        }
+      },
+      {
+        "event": "unloaded",
+        "time": 1793504660859,
+        "key": "place-1",
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": false,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 471.6190476190476
+        },
+        "typography": {
+          "systemScale": 2
+        },
+        "layout": {},
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": false,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "unloaded",
+        "time": 1793504660877,
+        "key": "place-1",
+        "ready": false,
+        "route": "gallery",
+        "depth": 0,
+        "typography": {
+          "systemScale": 2
+        },
+        "layout": {}
+      },
+      {
+        "event": "returned",
+        "time": 1793504661717,
+        "key": "place-1",
+        "ready": false,
+        "route": "gallery",
+        "depth": 0,
+        "typography": {
+          "systemScale": 2
+        },
+        "layout": {},
+        "extra": {
+          "status": "completed",
+          "navigated": true
+        }
+      },
+      {
+        "event": "layout",
+        "time": 1793504663871,
+        "key": "place-1",
+        "ready": false,
+        "route": "gallery",
+        "depth": 0,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 561.5238095238095
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 652.1904761904761,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 700.1904761904761,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 769.9047619047619,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 769.9047619047619,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 769.9047619047619,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 769.9047619047619,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 634.2857142857143,
+            "width": 411.42857142857144,
+            "height": 204.1904761904762
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 561.5238095238095
+          }
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "bound",
+        "time": 1793504663909,
+        "key": "place-1",
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 561.5238095238095
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 652.1904761904761,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 700.1904761904761,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 769.9047619047619,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 769.9047619047619,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 769.9047619047619,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 769.9047619047619,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 634.2857142857143,
+            "width": 411.42857142857144,
+            "height": 204.1904761904762
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 561.5238095238095
+          }
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793504686506,
+        "key": "place-1",
+        "state": {
+          "x": -5.812872132082703e-6,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 471.6190476190476
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 562.2857142857143,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 610.2857142857143,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 680,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 680,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 544.3809523809524,
+            "width": 411.42857142857144,
+            "height": 294.0952380952381
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 471.6190476190476
+          }
+        },
+        "native": {
+          "scale": 1,
+          "x": -5.8128720238095235e-6,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "layout",
+        "time": 1793504686507,
+        "key": "place-1",
+        "state": {
+          "x": -5.812872132082703e-6,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 471.6190476190476
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 562.2857142857143,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 610.2857142857143,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 680,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 680,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 544.3809523809524,
+            "width": 411.42857142857144,
+            "height": 294.0952380952381
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 471.6190476190476
+          }
+        },
+        "native": {
+          "scale": 1,
+          "x": -5.8128720238095235e-6,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793504686509,
+        "key": "place-1",
+        "state": {
+          "x": -5.812872132082703e-6,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 471.6190476190476
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 562.2857142857143,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 610.2857142857143,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 680,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 680,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 544.3809523809524,
+            "width": 411.42857142857144,
+            "height": 294.0952380952381
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 471.6190476190476
+          }
+        },
+        "native": {
+          "scale": 1,
+          "x": -5.8128720238095235e-6,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "released",
+        "time": 1793504690673,
+        "key": "place-1",
+        "state": {
+          "x": -5.812872132082703e-6,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": true
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 471.6190476190476
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 562.2857142857143,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 610.2857142857143,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 680,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 680,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 544.3809523809524,
+            "width": 411.42857142857144,
+            "height": 294.0952380952381
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 471.6190476190476
+          }
+        },
+        "native": {
+          "scale": 1,
+          "x": -5.8128720238095235e-6,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        },
+        "extra": {
+          "pose": {
+            "x": -5.812872132082703e-6,
+            "y": 0,
+            "scale": 1,
+            "progress": 0,
+            "pending": true
+          },
+          "velocity": 0
+        }
+      },
+      {
+        "event": "unloaded",
+        "time": 1793504690720,
+        "key": "place-1",
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": false,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 471.6190476190476
+        },
+        "typography": {
+          "systemScale": 2
+        },
+        "layout": {},
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": false,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "unloaded",
+        "time": 1793504690722,
+        "key": "place-1",
+        "ready": false,
+        "route": "gallery",
+        "depth": 0,
+        "typography": {
+          "systemScale": 2
+        },
+        "layout": {}
+      },
+      {
+        "event": "returned",
+        "time": 1793504691536,
+        "key": "place-1",
+        "ready": false,
+        "route": "gallery",
+        "depth": 0,
+        "typography": {
+          "systemScale": 2
+        },
+        "layout": {},
+        "extra": {
+          "status": "completed",
+          "navigated": true
+        }
+      },
+      {
+        "event": "layout",
+        "time": 1793504693732,
+        "key": "place-1",
+        "ready": false,
+        "route": "gallery",
+        "depth": 0,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 561.5238095238095
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 652.1904761904761,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 700.1904761904761,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 769.9047619047619,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 769.9047619047619,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 769.9047619047619,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 769.9047619047619,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 634.2857142857143,
+            "width": 411.42857142857144,
+            "height": 204.1904761904762
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 561.5238095238095
+          }
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "bound",
+        "time": 1793504693768,
+        "key": "place-1",
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 561.5238095238095
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 652.1904761904761,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 700.1904761904761,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 769.9047619047619,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 769.9047619047619,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 769.9047619047619,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 769.9047619047619,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 634.2857142857143,
+            "width": 411.42857142857144,
+            "height": 204.1904761904762
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 561.5238095238095
+          }
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793504718406,
+        "key": "place-1",
+        "state": {
+          "x": -5.812872132082703e-6,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 471.6190476190476
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 562.2857142857143,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 610.2857142857143,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 680,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 680,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 544.3809523809524,
+            "width": 411.42857142857144,
+            "height": 294.0952380952381
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 471.6190476190476
+          }
+        },
+        "native": {
+          "scale": 1,
+          "x": -5.8128720238095235e-6,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "layout",
+        "time": 1793504718408,
+        "key": "place-1",
+        "state": {
+          "x": -5.812872132082703e-6,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 471.6190476190476
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 562.2857142857143,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 610.2857142857143,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 680,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 680,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 544.3809523809524,
+            "width": 411.42857142857144,
+            "height": 294.0952380952381
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 471.6190476190476
+          }
+        },
+        "native": {
+          "scale": 1,
+          "x": -5.8128720238095235e-6,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793504718408,
+        "key": "place-1",
+        "state": {
+          "x": -5.812872132082703e-6,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 471.6190476190476
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 562.2857142857143,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 610.2857142857143,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 680,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 680,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 544.3809523809524,
+            "width": 411.42857142857144,
+            "height": 294.0952380952381
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 471.6190476190476
+          }
+        },
+        "native": {
+          "scale": 1,
+          "x": -5.8128720238095235e-6,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "released",
+        "time": 1793504722574,
+        "key": "place-1",
+        "state": {
+          "x": -5.812872132082703e-6,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": true
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 471.6190476190476
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 562.2857142857143,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Cala Serena",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 610.2857142857143,
+            "width": 328.76190476190476,
+            "height": 51.80952380952381,
+            "text": "Somewhere worth coming back to.",
+            "font": 22,
+            "requiredHeight": 51.80952380952381,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 680,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 680,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 544.3809523809524,
+            "width": 411.42857142857144,
+            "height": 294.0952380952381
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 471.6190476190476
+          }
+        },
+        "native": {
+          "scale": 1,
+          "x": -5.8128720238095235e-6,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        },
+        "extra": {
+          "pose": {
+            "x": -5.812872132082703e-6,
+            "y": 0,
+            "scale": 1,
+            "progress": 0,
+            "pending": true
+          },
+          "velocity": 0
+        }
+      },
+      {
+        "event": "unloaded",
+        "time": 1793504722619,
+        "key": "place-1",
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": false,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 471.6190476190476
+        },
+        "typography": {
+          "systemScale": 2
+        },
+        "layout": {},
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": false,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "unloaded",
+        "time": 1793504722621,
+        "key": "place-1",
+        "ready": false,
+        "route": "gallery",
+        "depth": 0,
+        "typography": {
+          "systemScale": 2
+        },
+        "layout": {}
+      },
+      {
+        "event": "returned",
+        "time": 1793504722815,
+        "key": "place-1",
+        "ready": false,
+        "route": "gallery",
+        "depth": 0,
+        "typography": {
+          "systemScale": 2
+        },
+        "layout": {},
+        "extra": {
+          "status": "unavailable",
+          "navigated": true,
+          "reason": "missing-target"
+        }
+      },
+      {
+        "event": "layout",
+        "time": 1793504735124,
+        "key": "place-2",
+        "ready": false,
+        "route": "gallery",
+        "depth": 0,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 561.5238095238095
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 652.1904761904761,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Quiet dunes",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 700.1904761904761,
+            "width": 328.76190476190476,
+            "height": 25.904761904761905,
+            "text": "A softer kind of silence.",
+            "font": 22,
+            "requiredHeight": 25.904761904761905,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 744,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 744,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 744,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 744,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 634.2857142857143,
+            "width": 411.42857142857144,
+            "height": 204.1904761904762
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 561.5238095238095
+          }
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "bound",
+        "time": 1793504735144,
+        "key": "place-2",
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 561.5238095238095
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 652.1904761904761,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Quiet dunes",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 700.1904761904761,
+            "width": 328.76190476190476,
+            "height": 25.904761904761905,
+            "text": "A softer kind of silence.",
+            "font": 22,
+            "requiredHeight": 25.904761904761905,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 744,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 744,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 744,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 744,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 634.2857142857143,
+            "width": 411.42857142857144,
+            "height": 204.1904761904762
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 561.5238095238095
+          }
+        },
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793504751484,
+        "key": "place-2",
+        "state": {
+          "x": 0,
+          "y": 0.5714285969734192,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 561.5238095238095
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 652.1904761904761,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Quiet dunes",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 700.1904761904761,
+            "width": 328.76190476190476,
+            "height": 25.904761904761905,
+            "text": "A softer kind of silence.",
+            "font": 22,
+            "requiredHeight": 25.904761904761905,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 744,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 744,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 744,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 744,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 634.2857142857143,
+            "width": 411.42857142857144,
+            "height": 204.1904761904762
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 561.5238095238095
+          }
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 0.5714285714285714,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793504751490,
+        "key": "place-2",
+        "state": {
+          "x": 0,
+          "y": 0.5714285969734192,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 497.5238095238095
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 588.1904761904761,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Quiet dunes",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 636.1904761904761,
+            "width": 328.76190476190476,
+            "height": 25.904761904761905,
+            "text": "A softer kind of silence.",
+            "font": 22,
+            "requiredHeight": 25.904761904761905,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 680,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 680,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 570.2857142857143,
+            "width": 411.42857142857144,
+            "height": 268.1904761904762
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 497.5238095238095
+          }
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 0.5714285714285714,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "layout",
+        "time": 1793504751491,
+        "key": "place-2",
+        "state": {
+          "x": 0,
+          "y": 0.5714285969734192,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 497.5238095238095
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 588.1904761904761,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Quiet dunes",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 636.1904761904761,
+            "width": 328.76190476190476,
+            "height": 25.904761904761905,
+            "text": "A softer kind of silence.",
+            "font": 22,
+            "requiredHeight": 25.904761904761905,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 680,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 680,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 570.2857142857143,
+            "width": 411.42857142857144,
+            "height": 268.1904761904762
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 497.5238095238095
+          }
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 0.5714285714285714,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "settled",
+        "time": 1793504751491,
+        "key": "place-2",
+        "state": {
+          "x": 0,
+          "y": 0.5714285969734192,
+          "scale": 2.5,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 497.5238095238095
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 588.1904761904761,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Quiet dunes",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 636.1904761904761,
+            "width": 328.76190476190476,
+            "height": 25.904761904761905,
+            "text": "A softer kind of silence.",
+            "font": 22,
+            "requiredHeight": 25.904761904761905,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 680,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 680,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 570.2857142857143,
+            "width": 411.42857142857144,
+            "height": 268.1904761904762
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 497.5238095238095
+          }
+        },
+        "native": {
+          "scale": 2.5,
+          "x": 0,
+          "y": 0.5714285714285714,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "released",
+        "time": 1793504755103,
+        "key": "place-2",
+        "state": {
+          "x": -5.812872132082703e-6,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": true
+        },
+        "ready": true,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 497.5238095238095
+        },
+        "typography": {
+          "systemScale": 2,
+          "title": {
+            "x": 24,
+            "y": 588.1904761904761,
+            "width": 328.76190476190476,
+            "height": 43.80952380952381,
+            "text": "Quiet dunes",
+            "font": 37.333333333333336,
+            "requiredHeight": 43.80952380952381,
+            "ellipsized": false
+          },
+          "note": {
+            "x": 24,
+            "y": 636.1904761904761,
+            "width": 328.76190476190476,
+            "height": 25.904761904761905,
+            "text": "A softer kind of silence.",
+            "font": 22,
+            "requiredHeight": 25.904761904761905,
+            "ellipsized": false
+          },
+          "close": {
+            "x": 24,
+            "y": 12.19047619047619,
+            "width": 44.19047619047619,
+            "height": 48.38095238095238,
+            "text": "\u00d7",
+            "font": 38,
+            "requiredHeight": 48.38095238095238,
+            "ellipsized": false
+          },
+          "zoom": {
+            "x": 24,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Zoom in",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          },
+          "reset": {
+            "x": 115.04761904761905,
+            "y": 680,
+            "width": 86.47619047619048,
+            "height": 76.19047619047619,
+            "text": "Reset view",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "move": {
+            "x": 205.71428571428572,
+            "y": 680,
+            "width": 86.85714285714286,
+            "height": 76.19047619047619,
+            "text": "Move to end",
+            "font": 22,
+            "requiredHeight": 76.19047619047619,
+            "ellipsized": false
+          },
+          "remove": {
+            "x": 296.76190476190476,
+            "y": 680,
+            "width": 90.66666666666667,
+            "height": 76.19047619047619,
+            "text": "Remove",
+            "font": 22,
+            "requiredHeight": 50.285714285714285,
+            "ellipsized": false
+          }
+        },
+        "layout": {
+          "root": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 838.4761904761905
+          },
+          "header": {
+            "x": 0,
+            "y": 0,
+            "width": 411.42857142857144,
+            "height": 72.76190476190476
+          },
+          "footer": {
+            "x": 0,
+            "y": 570.2857142857143,
+            "width": 411.42857142857144,
+            "height": 268.1904761904762
+          },
+          "viewport": {
+            "x": 17.904761904761905,
+            "y": 72.76190476190476,
+            "width": 375.6190476190476,
+            "height": 497.5238095238095
+          }
+        },
+        "native": {
+          "scale": 1,
+          "x": -5.8128720238095235e-6,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        },
+        "extra": {
+          "pose": {
+            "x": -5.812872132082703e-6,
+            "y": 0,
+            "scale": 1,
+            "progress": 0,
+            "pending": true
+          },
+          "velocity": 0
+        }
+      },
+      {
+        "event": "unloaded",
+        "time": 1793504755144,
+        "key": "place-2",
+        "state": {
+          "x": 0,
+          "y": 0,
+          "scale": 1,
+          "progress": 0,
+          "pending": false
+        },
+        "ready": false,
+        "route": "gallery-photo-detail",
+        "depth": 1,
+        "viewport": {
+          "width": 375.6190476190476,
+          "height": 497.5238095238095
+        },
+        "typography": {
+          "systemScale": 2
+        },
+        "layout": {},
+        "native": {
+          "scale": 1,
+          "x": 0,
+          "y": 0,
+          "visible": true,
+          "alpha": 1
+        }
+      },
+      {
+        "event": "unloaded",
+        "time": 1793504755150,
+        "key": "place-2",
+        "ready": false,
+        "route": "gallery",
+        "depth": 0,
+        "typography": {
+          "systemScale": 2
+        },
+        "layout": {}
+      },
+      {
+        "event": "returned",
+        "time": 1793504755217,
+        "key": "place-2",
+        "ready": false,
+        "route": "gallery",
+        "depth": 0,
+        "typography": {
+          "systemScale": 2
+        },
+        "layout": {},
+        "extra": {
+          "status": "unavailable",
+          "navigated": true,
+          "reason": "reduced-motion"
+        }
+      }
+    ]
+  },
+  "collection": {
+    "state": "disposed",
+    "page": "gallery",
+    "depth": 0,
+    "key": "place-2",
+    "index": 1,
+    "resolvedTag": "collection:place-2",
+    "tags": [
+      {
+        "tag": "collection:place-2",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-3",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-4",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-5",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-1",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-2",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-3",
+        "visible": true
+      },
+      {
+        "tag": "collection:place-4",
+        "visible": true
+      }
+    ],
+    "flights": 0,
+    "inputs": 0,
+    "retained": 0,
+    "commits": 4,
+    "events": [
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "target-resolved-on-return"
+        }
+      },
+      {
+        "state": "committing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "target-resolved-on-return"
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        },
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "target-resolved-on-return"
+        }
+      },
+      {
+        "state": "committing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "target-resolved-on-return"
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "ready"
+        },
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "ready"
+        }
+      },
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "target-resolved-on-return"
+        }
+      },
+      {
+        "state": "committing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "target-resolved-on-return"
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "missing-target"
+        },
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "unavailable",
+          "reason": "missing-target"
+        }
+      },
+      {
+        "state": "opening"
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        }
+      },
+      {
+        "state": "committing",
+        "shared": {
+          "status": "unavailable",
+          "reason": "duplicate-source"
+        }
+      },
+      {
+        "state": "idle",
+        "shared": {
+          "status": "unavailable",
+          "reason": "reduced-motion"
+        },
+        "outcome": "completed"
+      },
+      {
+        "state": "disposed",
+        "shared": {
+          "status": "unavailable",
+          "reason": "reduced-motion"
+        }
+      }
+    ],
+    "snapshots": [
+      {
+        "page": "gallery",
+        "depth": 0,
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "page": "gallery",
+        "depth": 0,
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "page": "gallery",
+        "depth": 0,
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 59,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 59,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 59,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 59,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 59,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 59,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 59,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 59,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 59,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-60",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-58",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-59",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 59,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-60",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-58",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-59",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 59,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-60",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-58",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-59",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 59,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-60",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-58",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-59",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 59,
+        "resolvedTag": "collection:place-1",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-60",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-58",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-59",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 59,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-60",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          },
+          {
+            "tag": "collection:place-58",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-59",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 59,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-60",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          },
+          {
+            "tag": "collection:place-58",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-59",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 59,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 59,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": 59,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-1",
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-1",
+            "visible": false
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-60",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-58",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-59",
+            "visible": true
+          }
+        ],
+        "flights": 1,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-60",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-58",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-59",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-60",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-58",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-59",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-60",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-58",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-59",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-60",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-58",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-59",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": -1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-60",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-58",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-59",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-1",
+        "index": 0,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-2",
+        "index": 1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "opening",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-2",
+        "index": 1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-2",
+        "index": 1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-2",
+        "index": 1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-2",
+        "index": 1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-2",
+        "index": 1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-2",
+        "index": 1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-2",
+        "index": 1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-2",
+        "index": 1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "idle",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-2",
+        "index": 1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-2",
+        "index": 1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 1,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery-photo-detail",
+        "depth": 1,
+        "key": "place-2",
+        "index": 1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-2",
+        "index": 1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "committing",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-2",
+        "index": 1,
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-2",
+        "index": 1,
+        "resolvedTag": "collection:place-2",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-2",
+        "index": 1,
+        "resolvedTag": "collection:place-2",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-2",
+        "index": 1,
+        "resolvedTag": "collection:place-2",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-2",
+        "index": 1,
+        "resolvedTag": "collection:place-2",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      },
+      {
+        "state": "disposed",
+        "page": "gallery",
+        "depth": 0,
+        "key": "place-2",
+        "index": 1,
+        "resolvedTag": "collection:place-2",
+        "tags": [
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-5",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-1",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-2",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-3",
+            "visible": true
+          },
+          {
+            "tag": "collection:place-4",
+            "visible": true
+          }
+        ],
+        "flights": 0,
+        "inputs": 0,
+        "retained": 0
+      }
+    ],
+    "focusEvents": [
+      {
+        "time": 1793504605789,
+        "id": "collection-place-1",
+        "key": "place-1",
+        "tag": "collection:place-1",
+        "index": 0
+      },
+      {
+        "time": 1793504608666,
+        "id": "collection-place-2",
+        "key": "place-2",
+        "tag": "collection:place-2",
+        "index": 1
+      },
+      {
+        "time": 1793504610755,
+        "id": "collection-place-1",
+        "key": "place-1",
+        "tag": "collection:place-1",
+        "index": 0
+      },
+      {
+        "time": 1793504660875,
+        "id": "collection-place-1",
+        "key": "place-1",
+        "tag": "collection:place-1",
+        "index": 0
+      },
+      {
+        "time": 1793504661724,
+        "id": "collection-place-1",
+        "key": "place-1",
+        "tag": "collection:place-1",
+        "index": 0
+      },
+      {
+        "time": 1793504690722,
+        "id": "collection-place-2",
+        "key": "place-2",
+        "tag": "collection:place-2",
+        "index": 0
+      },
+      {
+        "time": 1793504691541,
+        "id": "collection-place-1",
+        "key": "place-1",
+        "tag": "collection:place-1",
+        "index": 59
+      },
+      {
+        "time": 1793504722824,
+        "id": "collection-heading",
+        "index": -1
+      },
+      {
+        "time": 1793504733971,
+        "id": "collection-place-2",
+        "key": "place-2",
+        "tag": "collection:place-2",
+        "index": 1
+      },
+      {
+        "time": 1793504755149,
+        "id": "collection-place-2",
+        "key": "place-2",
+        "tag": "collection:place-2",
+        "index": 1
+      },
+      {
+        "time": 1793504755219,
+        "id": "collection-place-2",
+        "key": "place-2",
+        "tag": "collection:place-2",
+        "index": 1
+      }
+    ]
+  },
+  "textConfiguration": {
+    "source": "Android system font_scale",
+    "requested": 2.0,
+    "reader": "TalkBack",
+    "initialFont": "1.0",
+    "restoredFont": "1.0",
+    "readerSettingsRestored": true
+  }
+}

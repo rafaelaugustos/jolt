@@ -1,0 +1,2112 @@
+[
+  {
+    "name": "thumbnail",
+    "focus": {
+      "id": "collection-place-1",
+      "label": "Open Cala Serena",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.Button",
+      "heading": false,
+      "clickable": true,
+      "bounds": [85, 1058, 524, 1615]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "text": "\u2190",
+        "label": "Back to collection. \u2190",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 164, 163, 264]
+      },
+      {
+        "id": "collection-heading",
+        "text": "Keep a little wonder.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [85, 794, 921, 1016]
+      },
+      {
+        "id": "collection-grid",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ListView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [53, 1058, 1027, 1995]
+      },
+      {
+        "id": "collection-place-1",
+        "label": "Open Cala Serena",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [85, 1058, 524, 1615]
+      },
+      {
+        "id": "collection-place-2",
+        "label": "Open Quiet dunes",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [556, 1058, 995, 1531]
+      },
+      {
+        "id": "collection-place-3",
+        "label": "Open A little spark",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [85, 1909, 524, 1995]
+      },
+      {
+        "id": "collection-place-4",
+        "label": "Open Colour study",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [556, 1909, 995, 1995]
+      },
+      {
+        "id": "collection-result",
+        "text": "Find a place. Make it yours.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [85, 2027, 666, 2151]
+      },
+      {
+        "id": "collection-reset",
+        "text": "Start again",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [666, 2027, 995, 2151]
+      },
+      {
+        "id": "collection-reduce",
+        "text": "Reduce",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [96, 2162, 984, 2268]
+      }
+    ]
+  },
+  {
+    "name": "second-thumbnail",
+    "focus": {
+      "id": "collection-place-2",
+      "label": "Open Quiet dunes",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.Button",
+      "heading": false,
+      "clickable": true,
+      "bounds": [556, 1058, 995, 1531]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "text": "\u2190",
+        "label": "Back to collection. \u2190",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 164, 163, 264]
+      },
+      {
+        "id": "collection-heading",
+        "text": "Keep a little wonder.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [85, 794, 921, 1016]
+      },
+      {
+        "id": "collection-grid",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ListView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [53, 1058, 1027, 1995]
+      },
+      {
+        "id": "collection-place-1",
+        "label": "Open Cala Serena",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [85, 1058, 524, 1615]
+      },
+      {
+        "id": "collection-place-2",
+        "label": "Open Quiet dunes",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [556, 1058, 995, 1531]
+      },
+      {
+        "id": "collection-place-3",
+        "label": "Open A little spark",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [85, 1909, 524, 1995]
+      },
+      {
+        "id": "collection-place-4",
+        "label": "Open Colour study",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [556, 1909, 995, 1995]
+      },
+      {
+        "id": "collection-result",
+        "text": "Find a place. Make it yours.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [85, 2027, 666, 2151]
+      },
+      {
+        "id": "collection-reset",
+        "text": "Start again",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [666, 2027, 995, 2151]
+      },
+      {
+        "id": "collection-reduce",
+        "text": "Reduce",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [96, 2162, 984, 2268]
+      }
+    ]
+  },
+  {
+    "name": "first-thumbnail-again",
+    "focus": {
+      "id": "collection-place-1",
+      "label": "Open Cala Serena",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.Button",
+      "heading": false,
+      "clickable": true,
+      "bounds": [85, 1058, 524, 1615]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "text": "\u2190",
+        "label": "Back to collection. \u2190",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 164, 163, 264]
+      },
+      {
+        "id": "collection-heading",
+        "text": "Keep a little wonder.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [85, 794, 921, 1016]
+      },
+      {
+        "id": "collection-grid",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ListView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [53, 1058, 1027, 1995]
+      },
+      {
+        "id": "collection-place-1",
+        "label": "Open Cala Serena",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [85, 1058, 524, 1615]
+      },
+      {
+        "id": "collection-place-2",
+        "label": "Open Quiet dunes",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [556, 1058, 995, 1531]
+      },
+      {
+        "id": "collection-place-3",
+        "label": "Open A little spark",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [85, 1909, 524, 1995]
+      },
+      {
+        "id": "collection-place-4",
+        "label": "Open Colour study",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [556, 1909, 995, 1995]
+      },
+      {
+        "id": "collection-result",
+        "text": "Find a place. Make it yours.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [85, 2027, 666, 2151]
+      },
+      {
+        "id": "collection-reset",
+        "text": "Start again",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [666, 2027, 995, 2151]
+      },
+      {
+        "id": "collection-reduce",
+        "text": "Reduce",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [96, 2162, 984, 2268]
+      }
+    ]
+  },
+  {
+    "name": "opened",
+    "focus": {
+      "focused": true,
+      "visible": true,
+      "class": "android.view.ViewGroup",
+      "heading": false,
+      "clickable": true,
+      "bounds": [0, 0, 1080, 2400]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "gallery-close",
+        "text": "\u00d7",
+        "label": "Back to the collection. \u00d7",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 168, 179, 295]
+      },
+      {
+        "id": "gallery-snapshot",
+        "text": "Snapshot",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [819, 173, 1017, 289]
+      },
+      {
+        "id": "gallery-controls",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 1801, 1080, 2337]
+      },
+      {
+        "id": "gallery-title",
+        "text": "Cala Serena",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 1848, 926, 1963]
+      },
+      {
+        "id": "gallery-zoom",
+        "text": "Zoom in",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 2157, 291, 2337]
+      },
+      {
+        "id": "gallery-reset",
+        "text": "Reset view",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [302, 2157, 529, 2337]
+      },
+      {
+        "id": "gallery-move",
+        "text": "Move to end",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [540, 2157, 768, 2337]
+      },
+      {
+        "id": "gallery-remove",
+        "text": "Remove",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [779, 2157, 1017, 2337]
+      },
+      {
+        "id": "gallery-status",
+        "text": "Pinch to explore. Pull down to return.",
+        "focused": false,
+        "visible": false,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [63, 2391, 1017, 2337]
+      },
+      {
+        "id": "gallery-image",
+        "label": "Cala Serena",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ImageView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [47, 327, 1033, 1801]
+      }
+    ]
+  },
+  {
+    "name": "title",
+    "focus": {
+      "id": "gallery-title",
+      "text": "Cala Serena",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.TextView",
+      "heading": true,
+      "clickable": false,
+      "bounds": [63, 1848, 926, 1963]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "gallery-close",
+        "text": "\u00d7",
+        "label": "Back to the collection. \u00d7",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 168, 179, 295]
+      },
+      {
+        "id": "gallery-snapshot",
+        "text": "Snapshot",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [819, 173, 1017, 289]
+      },
+      {
+        "id": "gallery-controls",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 1801, 1080, 2337]
+      },
+      {
+        "id": "gallery-title",
+        "text": "Cala Serena",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 1848, 926, 1963]
+      },
+      {
+        "id": "gallery-zoom",
+        "text": "Zoom in",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 2157, 291, 2337]
+      },
+      {
+        "id": "gallery-reset",
+        "text": "Reset view",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [302, 2157, 529, 2337]
+      },
+      {
+        "id": "gallery-move",
+        "text": "Move to end",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [540, 2157, 768, 2337]
+      },
+      {
+        "id": "gallery-remove",
+        "text": "Remove",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [779, 2157, 1017, 2337]
+      },
+      {
+        "id": "gallery-status",
+        "text": "Pinch to explore. Pull down to return.",
+        "focused": false,
+        "visible": false,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [63, 2391, 1017, 2337]
+      },
+      {
+        "id": "gallery-image",
+        "label": "Cala Serena",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ImageView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [47, 327, 1033, 1801]
+      }
+    ]
+  },
+  {
+    "name": "gallery-zoom",
+    "focus": {
+      "id": "gallery-zoom",
+      "text": "Zoom in",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.Button",
+      "heading": false,
+      "clickable": true,
+      "bounds": [63, 1921, 291, 2121]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "gallery-close",
+        "text": "\u00d7",
+        "label": "Back to the collection. \u00d7",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 168, 179, 295]
+      },
+      {
+        "id": "gallery-snapshot",
+        "text": "Snapshot",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [819, 173, 1017, 289]
+      },
+      {
+        "id": "gallery-controls",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 1801, 1080, 2337]
+      },
+      {
+        "id": "gallery-title",
+        "text": "Cala Serena",
+        "focused": false,
+        "visible": false,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 1801, 926, 1727]
+      },
+      {
+        "id": "gallery-zoom",
+        "text": "Zoom in",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 1921, 291, 2121]
+      },
+      {
+        "id": "gallery-reset",
+        "text": "Reset view",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [302, 1921, 529, 2121]
+      },
+      {
+        "id": "gallery-move",
+        "text": "Move to end",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [540, 1921, 768, 2121]
+      },
+      {
+        "id": "gallery-remove",
+        "text": "Remove",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [779, 1921, 1017, 2121]
+      },
+      {
+        "id": "gallery-status",
+        "text": "Pinch to explore. Pull down to return.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [63, 2155, 1017, 2217]
+      },
+      {
+        "id": "gallery-image",
+        "label": "Cala Serena",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ImageView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [47, 327, 1033, 1801]
+      }
+    ]
+  },
+  {
+    "name": "gallery-reset",
+    "focus": {
+      "id": "gallery-reset",
+      "text": "Reset view",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.Button",
+      "heading": false,
+      "clickable": true,
+      "bounds": [302, 1921, 529, 2121]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "gallery-close",
+        "text": "\u00d7",
+        "label": "Back to the collection. \u00d7",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 168, 179, 295]
+      },
+      {
+        "id": "gallery-snapshot",
+        "text": "Snapshot",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [819, 173, 1017, 289]
+      },
+      {
+        "id": "gallery-controls",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 1565, 1080, 2337]
+      },
+      {
+        "id": "gallery-title",
+        "text": "Cala Serena",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 1612, 926, 1727]
+      },
+      {
+        "id": "gallery-zoom",
+        "text": "Zoom in",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 1921, 291, 2121]
+      },
+      {
+        "id": "gallery-reset",
+        "text": "Reset view",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [302, 1921, 529, 2121]
+      },
+      {
+        "id": "gallery-move",
+        "text": "Move to end",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [540, 1921, 768, 2121]
+      },
+      {
+        "id": "gallery-remove",
+        "text": "Remove",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [779, 1921, 1017, 2121]
+      },
+      {
+        "id": "gallery-status",
+        "text": "Explore every detail.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [63, 2155, 1017, 2217]
+      },
+      {
+        "id": "gallery-image",
+        "label": "Cala Serena",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ImageView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [47, 327, 1033, 1565]
+      }
+    ]
+  },
+  {
+    "name": "gallery-zoom",
+    "focus": {
+      "id": "gallery-zoom",
+      "text": "Zoom in",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.Button",
+      "heading": false,
+      "clickable": true,
+      "bounds": [63, 1921, 291, 2121]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "gallery-close",
+        "text": "\u00d7",
+        "label": "Back to the collection. \u00d7",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 168, 179, 295]
+      },
+      {
+        "id": "gallery-snapshot",
+        "text": "Snapshot",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [819, 173, 1017, 289]
+      },
+      {
+        "id": "gallery-controls",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 1565, 1080, 2337]
+      },
+      {
+        "id": "gallery-title",
+        "text": "Cala Serena",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 1612, 926, 1727]
+      },
+      {
+        "id": "gallery-zoom",
+        "text": "Zoom in",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 1921, 291, 2121]
+      },
+      {
+        "id": "gallery-reset",
+        "text": "Reset view",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [302, 1921, 529, 2121]
+      },
+      {
+        "id": "gallery-move",
+        "text": "Move to end",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [540, 1921, 768, 2121]
+      },
+      {
+        "id": "gallery-remove",
+        "text": "Remove",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [779, 1921, 1017, 2121]
+      },
+      {
+        "id": "gallery-status",
+        "text": "Pinch to explore. Pull down to return.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [63, 2155, 1017, 2217]
+      },
+      {
+        "id": "gallery-image",
+        "label": "Cala Serena",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ImageView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [47, 327, 1033, 1565]
+      }
+    ]
+  },
+  {
+    "name": "close-zoomed",
+    "focus": {
+      "id": "gallery-close",
+      "text": "\u00d7",
+      "label": "Back to the collection. \u00d7",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.Button",
+      "heading": false,
+      "clickable": true,
+      "bounds": [63, 168, 179, 295]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "gallery-close",
+        "text": "\u00d7",
+        "label": "Back to the collection. \u00d7",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 168, 179, 295]
+      },
+      {
+        "id": "gallery-snapshot",
+        "text": "Snapshot",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [819, 173, 1017, 289]
+      },
+      {
+        "id": "gallery-controls",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 1565, 1080, 2337]
+      },
+      {
+        "id": "gallery-title",
+        "text": "Cala Serena",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 1612, 926, 1727]
+      },
+      {
+        "id": "gallery-zoom",
+        "text": "Zoom in",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 1921, 291, 2121]
+      },
+      {
+        "id": "gallery-reset",
+        "text": "Reset view",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [302, 1921, 529, 2121]
+      },
+      {
+        "id": "gallery-move",
+        "text": "Move to end",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [540, 1921, 768, 2121]
+      },
+      {
+        "id": "gallery-remove",
+        "text": "Remove",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [779, 1921, 1017, 2121]
+      },
+      {
+        "id": "gallery-status",
+        "text": "Explore every detail.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [63, 2155, 1017, 2217]
+      },
+      {
+        "id": "gallery-image",
+        "label": "Cala Serena",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ImageView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [47, 327, 1033, 1565]
+      }
+    ]
+  },
+  {
+    "name": "returned",
+    "focus": {
+      "id": "collection-place-1",
+      "label": "Open Cala Serena",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.Button",
+      "heading": false,
+      "clickable": true,
+      "bounds": [85, 1058, 524, 1615]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "text": "\u2190",
+        "label": "Back to collection. \u2190",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 164, 163, 264]
+      },
+      {
+        "id": "collection-heading",
+        "text": "Keep a little wonder.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [85, 794, 921, 1016]
+      },
+      {
+        "id": "collection-grid",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ListView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [53, 1058, 1027, 1995]
+      },
+      {
+        "id": "collection-place-1",
+        "label": "Open Cala Serena",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [85, 1058, 524, 1615]
+      },
+      {
+        "id": "collection-place-2",
+        "label": "Open Quiet dunes",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [556, 1058, 995, 1531]
+      },
+      {
+        "id": "collection-place-3",
+        "label": "Open A little spark",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [85, 1909, 524, 1995]
+      },
+      {
+        "id": "collection-place-4",
+        "label": "Open Colour study",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [556, 1909, 995, 1995]
+      },
+      {
+        "id": "collection-result",
+        "text": "Find a place. Make it yours.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [85, 2027, 666, 2151]
+      },
+      {
+        "id": "collection-reset",
+        "text": "Start again",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [666, 2027, 995, 2151]
+      },
+      {
+        "id": "collection-reduce",
+        "text": "Reduce",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [96, 2162, 984, 2268]
+      }
+    ]
+  },
+  {
+    "name": "gallery-move",
+    "focus": {
+      "id": "gallery-move",
+      "text": "Move to end",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.Button",
+      "heading": false,
+      "clickable": true,
+      "bounds": [540, 1921, 768, 2121]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "gallery-close",
+        "text": "\u00d7",
+        "label": "Back to the collection. \u00d7",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 168, 179, 295]
+      },
+      {
+        "id": "gallery-snapshot",
+        "text": "Snapshot",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [819, 173, 1017, 289]
+      },
+      {
+        "id": "gallery-controls",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 1801, 1080, 2337]
+      },
+      {
+        "id": "gallery-title",
+        "text": "Cala Serena",
+        "focused": false,
+        "visible": false,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 1801, 926, 1727]
+      },
+      {
+        "id": "gallery-zoom",
+        "text": "Zoom in",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 1921, 291, 2121]
+      },
+      {
+        "id": "gallery-reset",
+        "text": "Reset view",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [302, 1921, 529, 2121]
+      },
+      {
+        "id": "gallery-move",
+        "text": "Move to end",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [540, 1921, 768, 2121]
+      },
+      {
+        "id": "gallery-remove",
+        "text": "Remove",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [779, 1921, 1017, 2121]
+      },
+      {
+        "id": "gallery-status",
+        "text": "Pinch to explore. Pull down to return.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [63, 2155, 1017, 2217]
+      },
+      {
+        "id": "gallery-image",
+        "label": "Cala Serena",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ImageView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [47, 327, 1033, 1801]
+      }
+    ]
+  },
+  {
+    "name": "moved-return",
+    "focus": {
+      "id": "collection-place-1",
+      "label": "Open Cala Serena",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.Button",
+      "heading": false,
+      "clickable": true,
+      "bounds": [556, 1145, 995, 1702]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "text": "\u2190",
+        "label": "Back to collection. \u2190",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 164, 163, 264]
+      },
+      {
+        "id": "collection-heading",
+        "text": "Keep a little wonder.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [85, 794, 921, 1016]
+      },
+      {
+        "id": "collection-grid",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ListView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [53, 1058, 1027, 1995]
+      },
+      {
+        "id": "collection-place-58",
+        "label": "Open Quiet dunes",
+        "focused": false,
+        "visible": false,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [85, 1058, 524, 851]
+      },
+      {
+        "id": "collection-place-59",
+        "label": "Open A little spark",
+        "focused": false,
+        "visible": false,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [556, 1058, 995, 767]
+      },
+      {
+        "id": "collection-place-60",
+        "label": "Open Colour study",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [85, 1145, 524, 1618]
+      },
+      {
+        "id": "collection-place-1",
+        "label": "Open Cala Serena",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [556, 1145, 995, 1702]
+      },
+      {
+        "id": "collection-result",
+        "text": "Moved. The way back follows.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [85, 2027, 666, 2151]
+      },
+      {
+        "id": "collection-reset",
+        "text": "Start again",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [666, 2027, 995, 2151]
+      },
+      {
+        "id": "collection-reduce",
+        "text": "Reduce",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [96, 2162, 984, 2268]
+      }
+    ]
+  },
+  {
+    "name": "gallery-remove",
+    "focus": {
+      "id": "gallery-remove",
+      "text": "Remove",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.Button",
+      "heading": false,
+      "clickable": true,
+      "bounds": [779, 1921, 1017, 2121]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "gallery-close",
+        "text": "\u00d7",
+        "label": "Back to the collection. \u00d7",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 168, 179, 295]
+      },
+      {
+        "id": "gallery-snapshot",
+        "text": "Snapshot",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [819, 173, 1017, 289]
+      },
+      {
+        "id": "gallery-controls",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 1801, 1080, 2337]
+      },
+      {
+        "id": "gallery-title",
+        "text": "Cala Serena",
+        "focused": false,
+        "visible": false,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 1801, 926, 1727]
+      },
+      {
+        "id": "gallery-zoom",
+        "text": "Zoom in",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 1921, 291, 2121]
+      },
+      {
+        "id": "gallery-reset",
+        "text": "Reset view",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [302, 1921, 529, 2121]
+      },
+      {
+        "id": "gallery-move",
+        "text": "Move to end",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [540, 1921, 768, 2121]
+      },
+      {
+        "id": "gallery-remove",
+        "text": "Remove",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [779, 1921, 1017, 2121]
+      },
+      {
+        "id": "gallery-status",
+        "text": "Pinch to explore. Pull down to return.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [63, 2155, 1017, 2217]
+      },
+      {
+        "id": "gallery-image",
+        "label": "Cala Serena",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ImageView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [47, 327, 1033, 1801]
+      }
+    ]
+  },
+  {
+    "name": "removed-return",
+    "focus": {
+      "id": "collection-heading",
+      "text": "Keep a little wonder.",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.TextView",
+      "heading": true,
+      "clickable": false,
+      "bounds": [85, 794, 921, 1016]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "text": "\u2190",
+        "label": "Back to collection. \u2190",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 164, 163, 264]
+      },
+      {
+        "id": "collection-heading",
+        "text": "Keep a little wonder.",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [85, 794, 921, 1016]
+      },
+      {
+        "id": "collection-grid",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ListView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [53, 1058, 1027, 1995]
+      },
+      {
+        "id": "collection-place-58",
+        "label": "Open Quiet dunes",
+        "focused": false,
+        "visible": false,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [85, 1058, 524, 935]
+      },
+      {
+        "id": "collection-place-59",
+        "label": "Open A little spark",
+        "focused": false,
+        "visible": false,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [556, 1058, 995, 851]
+      },
+      {
+        "id": "collection-place-60",
+        "label": "Open Colour study",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [85, 1229, 524, 1702]
+      },
+      {
+        "id": "collection-result",
+        "text": "Removed. Still a graceful way back.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [85, 2027, 666, 2151]
+      },
+      {
+        "id": "collection-reset",
+        "text": "Start again",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [666, 2027, 995, 2151]
+      },
+      {
+        "id": "collection-reduce",
+        "text": "Reduce",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [96, 2162, 984, 2268]
+      }
+    ]
+  },
+  {
+    "name": "gallery-zoom",
+    "focus": {
+      "id": "gallery-zoom",
+      "text": "Zoom in",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.Button",
+      "heading": false,
+      "clickable": true,
+      "bounds": [63, 2089, 291, 2289]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "gallery-close",
+        "text": "\u00d7",
+        "label": "Back to the collection. \u00d7",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 168, 179, 295]
+      },
+      {
+        "id": "gallery-snapshot",
+        "text": "Snapshot",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [819, 173, 1017, 289]
+      },
+      {
+        "id": "gallery-controls",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 1801, 1080, 2337]
+      },
+      {
+        "id": "gallery-title",
+        "text": "Quiet dunes",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 1848, 926, 1963]
+      },
+      {
+        "id": "gallery-zoom",
+        "text": "Zoom in",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 2089, 291, 2289]
+      },
+      {
+        "id": "gallery-reset",
+        "text": "Reset view",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [302, 2089, 529, 2289]
+      },
+      {
+        "id": "gallery-move",
+        "text": "Move to end",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [540, 2089, 768, 2289]
+      },
+      {
+        "id": "gallery-remove",
+        "text": "Remove",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [779, 2089, 1017, 2289]
+      },
+      {
+        "id": "gallery-status",
+        "text": "Pinch to explore. Pull down to return.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [63, 2323, 1017, 2337]
+      },
+      {
+        "id": "gallery-image",
+        "label": "Quiet dunes",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ImageView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [47, 327, 1033, 1801]
+      }
+    ]
+  },
+  {
+    "name": "reduced-return",
+    "focus": {
+      "id": "collection-place-2",
+      "label": "Open Quiet dunes",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.Button",
+      "heading": false,
+      "clickable": true,
+      "bounds": [556, 1058, 995, 1531]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "text": "\u2190",
+        "label": "Back to collection. \u2190",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 164, 163, 264]
+      },
+      {
+        "id": "collection-heading",
+        "text": "Keep a little wonder.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [85, 794, 921, 1016]
+      },
+      {
+        "id": "collection-grid",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ListView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [53, 1058, 1027, 1995]
+      },
+      {
+        "id": "collection-place-1",
+        "label": "Open Cala Serena",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [85, 1058, 524, 1615]
+      },
+      {
+        "id": "collection-place-2",
+        "label": "Open Quiet dunes",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [556, 1058, 995, 1531]
+      },
+      {
+        "id": "collection-place-3",
+        "label": "Open A little spark",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [85, 1909, 524, 1995]
+      },
+      {
+        "id": "collection-place-4",
+        "label": "Open Colour study",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [556, 1909, 995, 1995]
+      },
+      {
+        "id": "collection-result",
+        "text": "Find a place. Make it yours.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [85, 2027, 666, 2151]
+      },
+      {
+        "id": "collection-reset",
+        "text": "Start again",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [666, 2027, 995, 2151]
+      },
+      {
+        "id": "collection-reduce",
+        "text": "Reduce",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [96, 2162, 984, 2268]
+      }
+    ]
+  }
+]

@@ -110,7 +110,7 @@ Regression checks also passed on the changed demo: iOS `testGalleryChecks`, `tes
 
 The reviewed H.264 clips are `gallery-large-text-ios.mp4` (30.93 seconds, 720 × 1566) and `gallery-large-text-android.mp4` (61.70 seconds, 720 × 1600), both 30 fps and original elapsed timing. Full decode checks pass. They are embedded with localized captions in all four gallery guides. The fixed portrait capture rotates iOS landscape content and letterboxes Android landscape. Existing media remains unchanged.
 
-This slice validates the detail layout at these two font configurations, on these simulators, with English UI. It does not establish every Dynamic Type category, physical-device performance, screen-reader traversal/focus, every locale, or large-text behavior across the whole collection. Those acceptance items remain in #117.
+This slice validates the detail layout at these two font configurations, on these simulators, with English UI. It does not establish every Dynamic Type category, physical-device performance, every locale, or large-text behavior across the whole collection. Reader traversal/focus is covered by the later audits below; the remaining acceptance items stay in #117.
 
 ## Screen readers (2026-11-01)
 
@@ -202,9 +202,97 @@ python3 -m unittest discover -s benchmarks -p 'test_gallery_accessibility.py'
 
 The iOS reader automation requires iOS/Xcode 27; this does not change Jolt's
 supported deployment targets. This is functional evidence for the reference
-router/list, English and the recorded normal font settings. Physical Android,
-reader interaction with enlarged text, other reader/rotor/configuration
+router/list, English and the recorded font settings. The enlarged-text reader
+combination is covered below. Physical Android, other reader/rotor/configuration
 combinations, physical frame pacing, input latency and process-memory profiles
 remain separate acceptance work in #117. Native resource counters are not heap
 measurements. Existing gesture and enlarged-text recordings keep their original
 claims and remain in the guides.
+
+## Screen readers with enlarged text (2026-11-01)
+
+This follow-up to #276 combines the real readers with enlarged **system** text.
+It validates the existing reference gallery; no library, native runtime or demo
+behavior changes were needed. The installed production demos are the #276 builds
+at `72b5b98`; their `src`, `demo`, `platforms` and native package trees match
+`main` at `968b993`. Core 9.1.3, Vue 3.1.2 and vue-router-ns 0.1.0-rc.2 are
+unchanged, with production JS and no HMR.
+
+| Configuration                     | Physical iPhone                                                                                                                                                    | Android emulator                                                                          |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| Device / OS                       | iPhone 17 Pro, iOS 27.2 (24B5099f)                                                                                                                                 | Android 16 / API 36, 1080 × 2400, density 2.625                                           |
+| Reader / input                    | VoiceOver service, actual XCTest taps and reader forward/back traversal                                                                                            | TalkBack, actual emulator hardware gRPC swipes/double taps; read-only accessibility probe |
+| System font                       | iOS Settings → Accessibility → Display & Text Size → Larger Text; accessibility sizes enabled, slider 64%, verified native `UICTContentSizeCategoryAccessibilityM` | `settings system font_scale=2.0`, verified native resource configuration `2`              |
+| Native detail title / button font | 56 / 22 points                                                                                                                                                     | 37.33 / 22 DIPs after Android's nonlinear SP conversion                                   |
+| Restoration                       | Entry slider 0% / larger accessibility sizes off; original VoiceOver state restored                                                                                | Entry `font_scale=1.0` and original reader settings restored and read back                |
+
+Both runs pass the same complete sequence: separate thumbnail buttons, heading
+traversal, zoom to 2.5×, reset to 1×, close while zoomed, reopen the moved photo at
+index 59, delete it and focus the collection heading, then open/zoom/close photo 2
+with Jolt's `reducedMotion: 'always'` override. The first two shared returns
+complete; deletion and Reduced Motion take their explicit fallbacks. Each close
+commits one route. Final depth, flights, Back inputs and retained scenes are zero.
+The override is not an OS Reduce Motion setting.
+
+Panel controls are reached by reader traversal. Android uses a real two-finger
+panel scroll when the focused control is partially clipped, then verifies its
+full native height before activation. VoiceOver verifies the focused button's
+screen bounds. Native measurements establish wrapped, non-ellipsized text,
+controls at least 44 × 44 DIPs, non-overlapping controls and a separate image
+viewport. Geometry assertions cover the detail screen, not scalable typography
+throughout the collection.
+
+The evidence is in `results/gallery-accessibility-large-text/`: gallery/collection
+reports, Android reader checkpoints and the VoiceOver transcript. The shared
+verifier additionally requires the actual enlarged category and native font
+sizes, every zoom/reset/move/remove traversal, and settings-restoration evidence.
+Three added offline tests include 27 negative variations; together with the
+previous reader tests, six tests cover both configurations and reject 49 invalid
+evidence variants. The existing CI gallery-reader step runs all six.
+
+The reviewed English H.264 recordings are
+`gallery-large-text-voiceover-ios.mp4` (105.10 seconds, 720 × 1566) and
+`gallery-large-text-talkback-android.mp4` (150.27 seconds, 720 × 1600), at 30 fps
+and original elapsed speed. Full decode checks pass and the complete timelines
+were inspected at one-second intervals, including actual focus and all four
+returns. Neither includes speech audio. XCTest supplies the physical-iPhone
+recording; the exporter trims only setup/teardown. Android uses `screenrecord`
+with no duration limit, stopped by the runner. The recordings are embedded with
+translated captions in all four guide locales; earlier media is preserved.
+
+### Reproduce the combined run
+
+Use the same release-demo builds, read-only probe and dedicated-device setup as
+[the reader check above](#screen-readers-2026-11-01). The iPhone must be unlocked;
+Settings should be at its root, Accessibility page or Larger Text page. The
+runner saves/restores the existing Larger Accessibility Sizes switch and slider
+in XCTest teardown, including after a failed assertion. It restores VoiceOver
+last. The Android runner restores font and reader settings in `finally`, and
+checks the restored values before accepting the evidence. No app launch font
+substitution is used.
+
+```sh
+/tmp/jolt-reader-python/bin/python benchmarks/gallery-accessibility-android.py \
+  YOUR_EMULATOR /path/to/avd/running/pid_NUMBER.ini /tmp/jolt-reader-tools \
+  /tmp/GalleryLargeTalkBack --large-text
+
+# Rebuild the harness from gallery-accessibility-ios.swift as above.
+python3 benchmarks/gallery-accessibility-record-ios.py \
+  YOUR_IPHONE_UDID /tmp/GalleryReaderTests/DocsTests.xcodeproj \
+  /tmp/GalleryReaderTests/build /tmp/GalleryLargeVoiceOver --large-text
+
+python3 benchmarks/verify-gallery-accessibility.py ios \
+  benchmarks/results/gallery-accessibility-large-text/ios.json \
+  benchmarks/results/gallery-accessibility-large-text/voiceover.txt --large-text
+python3 benchmarks/verify-gallery-accessibility.py android \
+  benchmarks/results/gallery-accessibility-large-text/android.json \
+  benchmarks/results/gallery-accessibility-large-text/talkback.json --large-text
+python3 -m unittest discover -s benchmarks -p 'test_gallery_*.py'
+```
+
+Raw captures and XCTest results remain in `/tmp/jolt117-large-voiceover-2` and
+`/tmp/jolt117-large-talkback-final`. This is portrait, English correctness evidence
+for the reference router/list and these font categories. Other categories,
+landscape with a reader, RTL/locales, physical Android, the wider lifecycle
+matrix and physical frame/input/process-memory measurements remain in #117.
+Native resource counts do not measure process memory.
