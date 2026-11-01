@@ -98,6 +98,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('interactionReplay', 'interaction-replay'),
         page('motionInspector', 'motion-inspector'),
         page('internals', 'how-it-works'),
+        page('webProof', 'web-composition'),
         page('limits', 'not-there-yet'),
       ],
     },
@@ -177,6 +178,7 @@ const en = {
   motionInspector: 'Motion inspector',
   api: 'API',
   internals: 'How it works',
+  webProof: 'Web composition experiment',
   limits: 'Release status and limits',
 }
 
@@ -253,6 +255,7 @@ const pt = {
   motionInspector: 'Inspetor de movimento',
   api: 'API',
   internals: 'Como funciona',
+  webProof: 'Experimento de composição Web',
   limits: 'Status da versão e limites',
 }
 

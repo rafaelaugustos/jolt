@@ -73,6 +73,7 @@ export const es = {
   motionInspector: 'Inspector de movimiento',
   api: 'API',
   internals: 'Cómo funciona',
+  webProof: 'Experimento de composición Web',
   limits: 'Estado de la versión y límites',
 }
 
@@ -149,6 +150,7 @@ export const zh = {
   motionInspector: '动画检查器',
   api: 'API',
   internals: '工作原理',
+  webProof: 'Web 组合实验',
   limits: '发布状态与限制',
 }
 

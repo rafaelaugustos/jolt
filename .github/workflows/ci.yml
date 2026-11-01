@@ -6,6 +6,24 @@ on:
   pull_request:
 
 jobs:
+  web-composition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm run web:proof:typecheck
+      - run: npm run web:proof:test
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: web-composition-results
+          path: benchmarks/web-composition/results/
   test:
     runs-on: ubuntu-latest
     steps:
