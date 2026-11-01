@@ -62,6 +62,7 @@ declare namespace org.rafaelaugusto.jolt {
     constructor(
       list: android.widget.ListView,
       node: LiveSpring,
+      header: android.view.View,
       title: android.view.View,
       toolbarTitle: android.view.View,
       toolbar: android.view.View,

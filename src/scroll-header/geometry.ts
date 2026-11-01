@@ -8,6 +8,7 @@ export interface ScrollHeaderGeometry {
   parallax: number
   divider: number
   handoff: number
+  focusHandoff: number
   titleFade: readonly [number, number]
   toolbarFade: readonly [number, number]
 }
@@ -49,6 +50,12 @@ export function headerGeometry(
   return {
     divider,
     handoff: (toolbarFade[0] + toolbarFade[1]) / 2,
+    // Transfer while both titles are visible; alpha zero removes a UIView
+    // from VoiceOver before an accessibility flag alone can preserve its focus.
+    focusHandoff:
+      titleFade[1] > toolbarFade[0]
+        ? (toolbarFade[0] + Math.min(titleFade[1], toolbarFade[1])) / 2
+        : (toolbarFade[0] + toolbarFade[1]) / 2,
     titleFade: [...titleFade],
     toolbarFade: [...toolbarFade],
     expanded,

@@ -24,7 +24,13 @@ export interface ScrollHeaderDriver {
 export function createScrollHeaderDriver(
   list: ListView,
   value: SpringValue,
-  views: { title: View; toolbarTitle: View; toolbar: View; diagnostic?: View },
+  views: {
+    header: View
+    title: View
+    toolbarTitle: View
+    toolbar: View
+    diagnostic?: View
+  },
   geometry: ScrollHeaderGeometry,
   reduced: boolean,
   onState: () => void,
@@ -40,9 +46,10 @@ export function createScrollHeaderDriver(
     if (typeof JoltScrollHeader === 'undefined')
       throw new Error('Rebuild the native app to use scrollHeader().')
     const native =
-      JoltScrollHeader.attachNodeTitleToolbarTitleToolbarDiagnosticOptionsOnState(
+      JoltScrollHeader.attachNodeHeaderTitleToolbarTitleToolbarDiagnosticOptionsOnState(
         list.ios,
         node as JoltLiveSpring,
+        views.header.nativeViewProtected,
         views.title.nativeViewProtected,
         views.toolbarTitle.nativeViewProtected,
         views.toolbar.nativeViewProtected,
@@ -68,6 +75,7 @@ export function createScrollHeaderDriver(
   const native = new Native(
     list.android,
     node as org.rafaelaugusto.jolt.LiveSpring,
+    views.header.nativeViewProtected,
     views.title.nativeViewProtected,
     views.toolbarTitle.nativeViewProtected,
     views.toolbar.nativeViewProtected,

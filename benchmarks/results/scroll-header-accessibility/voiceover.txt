@@ -1,0 +1,8 @@
+JOLT_VOICEOVER Slow tides. Heading
+JOLT_VOICEOVER_COLLAPSED Slow tides. Heading
+JOLT_VOICEOVER_EXPANDED Slow tides. Heading
+JOLT_VOICEOVER_FORWARD A soundtrack for taking your time.
+JOLT_VOICEOVER_FORWARD Jump to a later track Button
+JOLT_VOICEOVER_DESTINATION Play A softer place Button
+JOLT_VOICEOVER_RETURNED
+Test Case '-[DocsTests.DocsTests testVoiceOver]' passed (71.397 seconds).

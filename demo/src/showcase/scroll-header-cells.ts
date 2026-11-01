@@ -11,6 +11,54 @@ import {
 import { markRaw, registerElement } from 'nativescript-vue'
 import { refreshAndroidText } from './text-scale'
 registerElement('ScrollHeaderList', () => ListView)
+let nativeViewport: typeof UIView | undefined
+class AlbumViewport extends GridLayout {
+  scrollTarget?: WeakRef<ListView>
+  createNativeView() {
+    if (!isIOS) return super.createNativeView()
+    if (!nativeViewport) {
+      @NativeClass()
+      class Viewport extends UIView {
+        owner?: WeakRef<AlbumViewport>
+        accessibilityScroll(direction: UIAccessibilityScrollDirection) {
+          const owner = this.owner?.deref()
+          const list = owner?.scrollTarget?.deref()
+          if (!list?.isLoaded) return false
+          const table = list.ios as UITableView
+          const sign =
+            direction === UIAccessibilityScrollDirection.Down
+              ? 1
+              : direction === UIAccessibilityScrollDirection.Up
+                ? -1
+                : 0
+          if (!sign) return false
+          const inset = table.adjustedContentInset
+          const minimum = -inset.top
+          const maximum = Math.max(
+            minimum,
+            table.contentSize.height + inset.bottom - table.bounds.size.height,
+          )
+          const next = Math.min(
+            maximum,
+            Math.max(
+              minimum,
+              table.contentOffset.y + sign * table.bounds.size.height * 0.75,
+            ),
+          )
+          if (Math.abs(next - table.contentOffset.y) < 0.5) return false
+          table.setContentOffsetAnimated(CGPointMake(table.contentOffset.x, next), false)
+          owner?.notify({ eventName: 'accessibilityScroll', object: owner, direction })
+          return true
+        }
+      }
+      nativeViewport = Viewport
+    }
+    const view = nativeViewport.new() as UIView & { owner: WeakRef<AlbumViewport> }
+    view.owner = new WeakRef(this)
+    return view
+  }
+}
+registerElement('ScrollHeaderViewport', () => AlbumViewport)
 // A retained overlay can be taller than the viewport. Measure its complete
 // content; the list's spacer and the clipped host supply scrolling/visibility.
 let nativeHeader: typeof org.nativescript.widgets.StackLayout | undefined
@@ -67,15 +115,11 @@ class CellColor extends Color {
       })
   }
 }
-const slots = new WeakMap<
-  GridLayout,
-  { number: Label; title: Label; time: Label; key?: string }
->()
+const slots = new WeakMap<GridLayout, { number: Label; title: Label; time: Label }>()
 export function loadAlbumCell(
   event: ItemEventData,
   spacer: number,
   t: (s: string) => string,
-  select: (key: string) => void,
 ) {
   const item = ((event.object as ListView).items as AlbumTrack[])[event.index]!
   if (item.spacer) {
@@ -85,7 +129,12 @@ export function loadAlbumCell(
     view.minHeight = spacer
     view.maxHeight = spacer
     view.accessible = false
+    view.accessibilityHidden = true
     view.isUserInteractionEnabled = false
+    if (isIOS && event.ios) {
+      event.ios.isAccessibilityElement = false
+      event.ios.contentView.accessibilityElementsHidden = true
+    }
     event.view = view
     return
   }
@@ -128,20 +177,28 @@ export function loadAlbumCell(
     row.addChild(number)
     row.addChild(stack)
     row.addChild(time)
-    const slot = { number, title, time, key: undefined as string | undefined }
+    const slot = { number, title, time }
     slots.set(row, slot)
-    row.on('tap', () => {
-      if (slot.key) select(slot.key)
-    })
   }
   const slot = slots.get(row)!
-  slot.key = item.key
   slot.number.text = String(event.index).padStart(2, '0')
   slot.title.text = t(item.title)
   slot.time.text = item.duration
   row.automationText = 'scroll-track-' + item.key
+  // Android's ListView owns item activation; a focusable root intercepts it.
+  row.accessible = false
   row.accessibilityRole = 'button'
   row.accessibilityLabel = t('Play {0}').replace('{0}', t(item.title))
+  if (isIOS && event.ios) {
+    // Expose the reusable UITableViewCell itself, including its native activation.
+    // Rebinding replaces the label/id instead of retaining old accessible subviews.
+    const cell = event.ios as UITableViewCell
+    cell.isAccessibilityElement = true
+    cell.accessibilityLabel = row.accessibilityLabel
+    cell.accessibilityIdentifier = row.automationText
+    cell.accessibilityTraits = UIAccessibilityTraitButton
+    cell.contentView.accessibilityElementsHidden = true
+  }
   refreshAndroidText(row)
   event.view = row
 }

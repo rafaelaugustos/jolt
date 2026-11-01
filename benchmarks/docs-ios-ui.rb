@@ -19,4 +19,7 @@ project.save
 scheme = Xcodeproj::XCScheme.new
 scheme.add_build_target(target)
 scheme.add_test_target(target)
+if ARGV.include?('--keep-recordings')
+  scheme.test_action.xml_element.attributes['systemAttachmentLifetime'] = 'keepAlways'
+end
 scheme.save_as(project.path, 'DocsTests')

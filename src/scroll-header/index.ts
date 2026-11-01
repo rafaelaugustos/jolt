@@ -333,7 +333,7 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
         native = createScrollHeaderDriver(
           list,
           value,
-          { title, toolbarTitle, toolbar, diagnostic: options.diagnostic },
+          { header, title, toolbarTitle, toolbar, diagnostic: options.diagnostic },
           next,
           reducedMotion(),
           () => {

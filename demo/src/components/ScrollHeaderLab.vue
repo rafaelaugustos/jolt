@@ -72,6 +72,7 @@ let list: ListView | undefined,
   additions = 0,
   rowTaps = 0
 let fontRefresh: ReturnType<typeof setTimeout> | undefined
+let readerFocus: ReturnType<typeof setTimeout> | undefined
 const events: object[] = []
 function audit(name: string, extra?: unknown) {
   if (!auditEnabled) return
@@ -183,6 +184,22 @@ function audit(name: string, extra?: unknown) {
       title: textLayout(title),
       compactTitle: textLayout(toolbarTitle),
     },
+    accessibility: [title, toolbarTitle, toolbar, header].map((target) => {
+      const view = target.value?.nativeView?.nativeViewProtected
+      return !view
+        ? null
+        : isIOS
+          ? {
+              id: view.accessibilityIdentifier,
+              hidden: view.accessibilityElementsHidden,
+              element: view.isAccessibilityElement,
+              focused: view.accessibilityElementIsFocused(),
+            }
+          : {
+              important: view.getImportantForAccessibility(),
+              focused: view.isAccessibilityFocused(),
+            }
+    }),
     headerHeight: header.value?.nativeView?.getActualSize().height,
     decelerating: isIOS
       ? (list?.ios as UITableView | undefined)?.decelerating
@@ -244,6 +261,18 @@ function setup() {
     keys: () => tracks.value.map((item) => item.key),
     onState: (state) => audit('phase', state.phase),
   })
+  if (isIOS) {
+    ;(list.parent as LayoutBase & { scrollTarget: WeakRef<ListView> }).scrollTarget =
+      new WeakRef(list)
+    // The retained overlays are drawn above the table. Give VoiceOver the same
+    // reading order without changing the native stacking or scroll hit testing.
+    list.parent!.ios.accessibilityElements = [
+      header.value.nativeView.ios,
+      toolbar.value.nativeView.ios,
+      section.value.nativeView.ios,
+      list.ios,
+    ]
+  }
   void owner
     .remeasure()
     .then(() => audit('ready'))
@@ -261,12 +290,14 @@ function refreshText() {
   }, 0)
 }
 function cell(event: ItemEventData) {
-  loadAlbumCell(event, space.value, t, (key) => {
-    rowTaps++
-    const track = tracks.value.find((item) => item.key === key)
-    status.value = t('Playing {0}').replace('{0}', t(track?.title ?? 'Slow tides'))
-    audit('tap', key)
-  })
+  loadAlbumCell(event, space.value, t)
+}
+function selectTrack(event: ItemEventData) {
+  const track = rows.value[event.index]
+  if (!track || track.spacer) return
+  rowTaps++
+  status.value = t('Playing {0}').replace('{0}', t(track.title))
+  audit('tap', track.key)
 }
 async function changeCover() {
   const next = !bigger.value
@@ -302,7 +333,42 @@ function top() {
   audit('top-request')
 }
 function jump() {
-  owner?.scrollToItem(35, true)
+  if (isIOS && UIAccessibilityIsVoiceOverRunning() && list) {
+    // This explicit navigation command takes the reader to its destination.
+    // Entering UITableView from an overlay otherwise starts at its first row.
+    owner?.scrollToItem(35, false)
+    const table = list.ios as UITableView
+    // VoiceOver completes activation asynchronously. Let that announcement
+    // settle before requesting the destination, and never override a new focus.
+    clearTimeout(readerFocus)
+    readerFocus = setTimeout(() => {
+      readerFocus = undefined
+      if (disposed || !list?.isLoaded) return
+      const focused = UIAccessibilityFocusedElement(
+        UIAccessibilityNotificationVoiceOverIdentifier,
+      ) as UIView | null
+      if (focused?.accessibilityIdentifier !== 'scroll-header-jump') return
+      table.layoutIfNeeded()
+      const destination = table.cellForRowAtIndexPath(
+        NSIndexPath.indexPathForRowInSection(36, 0),
+      )
+      if (destination)
+        UIAccessibilityPostNotification(
+          UIAccessibilityLayoutChangedNotification,
+          destination,
+        )
+      audit(
+        'jump-destination',
+        destination
+          ? {
+              label: destination.accessibilityLabel,
+              element: destination.isAccessibilityElement,
+              hidden: destination.accessibilityElementsHidden,
+            }
+          : null,
+      )
+    }, 200)
+  } else owner?.scrollToItem(35, true)
   audit('jump-request')
 }
 function toggleMotion() {
@@ -340,6 +406,7 @@ onBeforeUnmount(() => audit('leaving'))
 onUnmounted(() => {
   disposed = true
   clearTimeout(fontRefresh)
+  clearTimeout(readerFocus)
   if (!isIOS) Application.off(Application.fontScaleChangedEvent, refreshText)
   owner?.dispose()
   audit('disposed')
@@ -354,11 +421,16 @@ onUnmounted(() => {
     backgroundColor="#F4F0E7"
     iosAccessibilityAdjustsFontSize="true"
   >
-    <GridLayout row="0" clipToBounds="true">
+    <ScrollHeaderViewport
+      row="0"
+      clipToBounds="true"
+      @accessibilityScroll="audit('reader-scroll')"
+    >
       <ScrollHeaderList
         :items="rows"
         @loaded="loaded"
         @itemLoading="cell"
+        @itemTap="selectTrack"
         separatorColor="transparent"
         backgroundColor="#F4F0E7"
         iosEstimatedRowHeight="76"
@@ -371,6 +443,7 @@ onUnmounted(() => {
         isUserInteractionEnabled="false"
         isPassThroughParentEnabled="true"
         automationText="scroll-header-hero"
+        accessibilityHidden="false"
         backgroundColor="#193D34"
       >
         <GridLayout
@@ -385,6 +458,7 @@ onUnmounted(() => {
             isUserInteractionEnabled="false"
             :src="cover"
             stretch="aspectFill"
+            accessibilityHidden="true"
           />
         </GridLayout>
         <StackLayout
@@ -405,6 +479,9 @@ onUnmounted(() => {
           <Label
             isUserInteractionEnabled="false"
             ref="title"
+            automationText="scroll-header-title"
+            accessibilityHidden="false"
+            @accessibilityFocus="audit('focus-title')"
             iosIgnoreSafeArea="true"
             :text="t(album)"
             color="#FFFBEF"
@@ -413,6 +490,7 @@ onUnmounted(() => {
             textWrap="true"
             marginTop="10"
             accessibilityRole="header"
+            accessible="true"
           />
           <Label
             isUserInteractionEnabled="false"
@@ -446,6 +524,7 @@ onUnmounted(() => {
           letterSpacing="0.12"
           verticalAlignment="middle"
           accessibilityRole="header"
+          accessible="true"
         />
         <Label
           col="1"
@@ -457,6 +536,7 @@ onUnmounted(() => {
           verticalAlignment="middle"
           textAlignment="right"
           accessibilityRole="button"
+          accessible="true"
           :accessibilityLabel="t('Jump to a later track')"
           automationText="scroll-header-jump"
           @tap="jump"
@@ -471,6 +551,7 @@ onUnmounted(() => {
         verticalAlignment="top"
         backgroundColor="#193D34"
         automationText="scroll-header-toolbar"
+        accessibilityHidden="false"
       >
         <Label
           ref="toolbarTitle"
@@ -481,6 +562,10 @@ onUnmounted(() => {
           textWrap="true"
           marginRight="12"
           automationText="scroll-header-compact-title"
+          accessibilityHidden="false"
+          @accessibilityFocus="audit('focus-compact-title')"
+          accessibilityRole="header"
+          accessible="true"
           fontWeight="700"
           verticalAlignment="middle"
         />
@@ -494,12 +579,13 @@ onUnmounted(() => {
           textAlignment="right"
           verticalAlignment="middle"
           accessibilityRole="button"
+          accessible="true"
           :accessibilityLabel="t('Back to the cover')"
           automationText="scroll-header-top"
           @tap="top"
         />
       </GridLayout>
-    </GridLayout>
+    </ScrollHeaderViewport>
     <GridLayout row="1" columns="*,*,auto" padding="8 16" backgroundColor="#E7E8D9">
       <Label
         :text="t('New cover')"
@@ -510,6 +596,7 @@ onUnmounted(() => {
         fontWeight="600"
         padding="10"
         accessibilityRole="button"
+        accessible="true"
         textAlignment="center"
         @tap="changeCover"
       />
@@ -523,6 +610,7 @@ onUnmounted(() => {
         fontWeight="600"
         padding="10"
         accessibilityRole="button"
+        accessible="true"
         textAlignment="center"
         @tap="addTrack"
       />
@@ -534,6 +622,7 @@ onUnmounted(() => {
         width="42"
         textAlignment="center"
         accessibilityRole="button"
+        accessible="true"
         :accessibilityLabel="t('Show motion details')"
         automationText="scroll-header-details"
         @tap="debug = !debug"
@@ -547,6 +636,7 @@ onUnmounted(() => {
     >
       <Label
         ref="diagnostic"
+        accessibilityHidden="true"
         text=""
         color="#536952"
         fontSize="10"
