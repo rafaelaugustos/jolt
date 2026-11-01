@@ -2446,6 +2446,15 @@ final class DocsTests: XCTestCase {
             tap("Rest", wait: 0.5)
         }
     }
+    func testLayerCleanup() throws {
+        languageLaunch("en", "language-settings"); selectLanguage("en")
+        launch(["--playground", "--section=layers", "--layer-cleanup-checks"], "Move")
+        try record("layer-cleanup-ios") {
+            tap("Move", wait: 0.2)
+            XCTAssertTrue(app.staticTexts["Passed layer cleanup checks"].waitForExistence(timeout: 25), app.debugDescription)
+            Thread.sleep(forTimeInterval: 1)
+        }
+    }
     func testValueObservers() throws {
         launch(["--playground", "--section=value observers"], "Play observers")
         try record("value-observers-ios") {

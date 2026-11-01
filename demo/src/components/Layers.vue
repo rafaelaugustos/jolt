@@ -5,6 +5,7 @@ import { animate, drag } from '@rafaelaugusto/jolt'
 import { useMotionScope } from '@rafaelaugusto/jolt/vue'
 import { launchArgument } from '../launch'
 import { motionRfcChecks } from '../../../benchmarks/motion-rfc'
+import { layerCleanupDemo } from '../../../benchmarks/layer-cleanup-checks'
 const { t } = usePreviewI18n()
 
 const scope = useMotionScope()
@@ -12,8 +13,21 @@ const card = ref()
 const right = ref(false)
 const breathing = ref(false)
 let audit: ReturnType<typeof motionRfcChecks> | undefined
+let cleanupAudit: ReturnType<typeof layerCleanupDemo> | undefined
+const cleanupStatus = ref('')
 
 onMounted(() => {
+  if (launchArgument('layer-cleanup-checks')) {
+    cleanupStatus.value = 'Layer cleanup ready'
+    cleanupAudit = layerCleanupDemo(
+      card.value.nativeView,
+      (message) => {
+        cleanupStatus.value = message
+      },
+      !!launchArgument('layer-cleanup-negative'),
+    )
+    return
+  }
   if (launchArgument('motion-rfc-checks')) {
     audit = motionRfcChecks(card.value.nativeView)
     return
@@ -25,6 +39,7 @@ onMounted(() => {
 onUnmounted(() => audit?.dispose())
 
 function move() {
+  if (cleanupAudit) return cleanupAudit.run()
   if (audit) return audit.move()
   right.value = !right.value
   animate(card.value, { x: right.value ? 70 : -70 }, 'snappy')
@@ -143,6 +158,7 @@ defineProps<{ embedded?: boolean }>()
           @tap="breathe"
         />
       </GridLayout>
+      <Label v-if="cleanupStatus" :text="cleanupStatus" textWrap="true" fontSize="12" />
     </StackLayout>
   </template>
 </template>

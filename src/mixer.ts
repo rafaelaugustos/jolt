@@ -265,7 +265,9 @@ export class Mix {
     const loop = finite <= 0 && periods.length ? leastCommonMultiple(periods) : undefined
     if (finite <= 0 && !periods.length) {
       this.release()
-      writeValue(this.view, this.property, this.value(now))
+      const value = this.value(now)
+      writeValue(this.view, this.property, value)
+      driver.commit?.(this.view, this.property, value)
       driver.sync?.(this.view)
       this.dissolve()
       return

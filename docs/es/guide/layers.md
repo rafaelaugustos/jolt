@@ -57,3 +57,10 @@ Si bien una propiedad tiene capas, Jolt reproduce su base y sus capas como una p
 
 <Clip name="motion-rfc-ios" caption="Simulador iOS 26.0, demo Layers en inglés con la auditoría opcional del RFC: toque real sostenido, eliminación de shake durante la entrada, liberación que conserva la base y dos capas infinitas sin período común compuestas nativamente a través del antiguo límite de la ventana de cuatro segundos. Reproducción nativa a velocidad original; sin medición en dispositivo físico." />
 <Clip name="motion-rfc-android" caption="Emulador Android 16 / API 36, demo Layers en inglés con la auditoría opcional del RFC: toques reales mediante ADB comprueban pulsación, capas independientes, cambio de ventana y limpieza. Velocidad original; evidencia de corrección en el emulador." />
+
+## Eliminar un layer durante la liberación {#settled-layer-removal}
+
+El candidato aún no publicado corrige la presentación Android al quitar un layer durante su liberación. El modelo puede estar en la base mientras ObjectAnimator todavía muestra una escala intermedia. Jolt aplica solamente el canal estabilizado tras cancelar; otros canales, la base móvil y otros layers continúan. No hace falta el workaround de una track de identidad.
+
+<Clip name="layer-cleanup-android" caption="Emulador Android 16 / API 36, auditoría Layers en inglés iniciada con toque ADB real: quitar feedback durante la liberación restaura la base no unitaria y conserva base en movimiento, otro layer y movimiento reducido. Se consultan valores nativos presentados. Velocidad original; evidencia de corrección en emulador." />
+<Clip name="layer-cleanup-ios" caption="Simulador iOS 26.2, auditoría Layers en inglés iniciada con toque XCTest real: los mismos casos de eliminación, composición y movimiento reducido consultan la presentación de Core Animation. Velocidad original; no es iPhone físico." />

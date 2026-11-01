@@ -1,0 +1,49 @@
+{
+  "platform": "Android",
+  "version": "16",
+  "samples": [
+    {
+      "name": "Interrupted release",
+      "actual": { "x": 1.2000000476837158, "y": 0.6000000238418579 },
+      "model": { "x": 1.2, "y": 0.6 },
+      "expected": { "x": 1.2, "y": 0.6 }
+    },
+    {
+      "name": "No stale write",
+      "actual": { "x": 1.2000000476837158, "y": 0.6000000238418579 },
+      "model": { "x": 1.2, "y": 0.6 },
+      "expected": { "x": 1.2, "y": 0.6 }
+    },
+    {
+      "name": "Moving base plus held layer",
+      "actual": 1.1282999515533447,
+      "expected": 1.14375
+    },
+    {
+      "name": "Base and held layer survive",
+      "actual": { "x": 1.2599999904632568, "y": 0.7200000286102295 },
+      "model": { "x": 1.26, "y": 0.7200000000000001 },
+      "expected": { "x": 1.26, "y": 0.72 }
+    },
+    {
+      "name": "Held layer removed",
+      "actual": { "x": 1.399999976158142, "y": 0.800000011920929 },
+      "model": { "x": 1.4, "y": 0.8 },
+      "expected": { "x": 1.4, "y": 0.8 }
+    },
+    {
+      "name": "Reduced motion",
+      "actual": { "x": 1.2000000476837158, "y": 0.6000000238418579 },
+      "model": { "x": 1.2, "y": 0.6 },
+      "expected": { "x": 1.2, "y": 0.6 }
+    },
+    {
+      "name": "Reduction enabled during release",
+      "actual": { "x": 1.2000000476837158, "y": 0.6000000238418579 },
+      "model": { "x": 1.2, "y": 0.6 },
+      "expected": { "x": 1.2, "y": 0.6 }
+    }
+  ],
+  "negative": false,
+  "status": "passed"
+}
