@@ -38,7 +38,7 @@ UIKit can suppress touches during its noninteractive entry; requests actually de
 
 Validation also passes 1,353 host tests, library/benchmark typechecks, package build, formatting, media checks and documentation build. No native CI job was added.
 
-These are correctness/lifetime traces, not physical-device performance measurements. Physical iOS/Android, VoiceOver/TalkBack focus, large text beyond the bounded detail check below, every lifecycle phase, RTL, frame pacing, preparation cost, input latency and peak process memory remain acceptance work in #24/#117. Do not close either issue from these simulator results.
+These are correctness/lifetime traces, not physical-device performance measurements. The bounded reader run below adds physical-iPhone/VoiceOver and emulator/TalkBack evidence. Broader physical iOS/Android coverage, large text beyond the bounded detail check below, every lifecycle phase, RTL, frame pacing, preparation cost, input latency and peak process memory remain acceptance work in #24/#117. Do not close either issue from these simulator results.
 
 ## Integration comparison, not a benchmark
 
@@ -111,3 +111,100 @@ Regression checks also passed on the changed demo: iOS `testGalleryChecks`, `tes
 The reviewed H.264 clips are `gallery-large-text-ios.mp4` (30.93 seconds, 720 × 1566) and `gallery-large-text-android.mp4` (61.70 seconds, 720 × 1600), both 30 fps and original elapsed timing. Full decode checks pass. They are embedded with localized captions in all four gallery guides. The fixed portrait capture rotates iOS landscape content and letterboxes Android landscape. Existing media remains unchanged.
 
 This slice validates the detail layout at these two font configurations, on these simulators, with English UI. It does not establish every Dynamic Type category, physical-device performance, screen-reader traversal/focus, every locale, or large-text behavior across the whole collection. Those acceptance items remain in #117.
+
+## Screen readers (2026-11-01)
+
+The gallery reader slice of #117 uses the release Vue demo, Core 9.1.3,
+Vue 3.1.2 and vue-router-ns 0.1.0-rc.2, without HMR. iOS evidence comes from a
+physical iPhone 17 Pro running iOS 27.2 (24B5099f), with Xcode 27's actual
+VoiceOver service and XCTest touch input. Android evidence comes from the
+Android 16 / API 36 emulator with TalkBack and emulator hardware gRPC input.
+The Android accessibility probe is read-only and does not suppress TalkBack.
+
+Both runs exercise separate thumbnail buttons in one recycled row, zoom to
+2.5×, reset, close while zoomed, reopen the same photo after moving it to index
+59, remove it, and return to the collection heading. A fourth opening/zoom/close
+uses Jolt's `reducedMotion: 'always'` override and restores focus to photo 2.
+This last check is an app policy override, not an OS settings change.
+
+The initial physical iPhone run exposed a real defect: UIKit grouped both photos
+and their decorative metadata into one row announcement. Explicit accessible
+photo buttons, hidden decorative metadata and an ungrouped UITableViewCell fix
+that traversal. The detail title also declares its heading role.
+
+A second defect affected return after reordering on both platforms. Reader
+reentry could move the native scroll position during the shared flight and
+leave focus on the page rather than the current cell. Resolved returns now
+suppress destination-page traversal while realizing/animating the target,
+restore its original native accessibility flags on every terminal path, then
+request focus on the next native turn. The queued request checks the current
+page, loaded state, native-view identity and stable tag before acting. Existing
+app-owned hidden state is preserved. Unit regressions cover cancellation,
+disposal, unloading, recycling, another route and disabling the reader.
+
+The final runs establish:
+
+| Check                          | Physical iPhone / VoiceOver                                        | Android emulator / TalkBack                           |
+| ------------------------------ | ------------------------------------------------------------------ | ----------------------------------------------------- |
+| Two photos in one recycled row | Separate button announcements and forward/back traversal           | Separate focused button nodes and forward/back swipes |
+| Zoom / reset / zoomed close    | Native 2.5× / 1× / minimum before dismissal                        | Same                                                  |
+| Ordinary and moved returns     | Both shared flights complete; current key at indices 0 and 59      | Same                                                  |
+| Deleted target                 | Explicit `missing-target`, collection heading focused              | Same                                                  |
+| Reduced Motion return          | Explicit `reduced-motion`, photo 2 focused                         | Same                                                  |
+| Route and resources            | Four commits, depth zero, zero flights/back inputs/retained scenes | Same                                                  |
+
+Evidence is in `results/gallery-accessibility/`: native gallery/collection
+reports for each platform, actual focused Android node snapshots and a condensed
+VoiceOver transcript. The verifier requires native focus **after** each return
+settles, matching the item's current index; identical photo titles alone cannot
+prove identity. It also checks the actual native scale, declared fallback
+reasons, one commit per close, visible thumbnails and terminal resource counts.
+Three offline tests include 22 negative variations across both platforms and
+run in CI. Raw XCTest bundles and original videos remain in the local capture
+directories.
+
+The reviewed recordings are 129.0 seconds on physical iPhone and 76.27 seconds
+on Android emulator, H.264 at 720 pixels wide. They show native reader focus,
+actual activation, zoom and all four returns at original speed. The videos do
+not include speech audio; actual reader speech/focus is checked in the companion
+evidence. XCTest supplies the iPhone video directly; the export trims only the
+setup and teardown. Android uses `screenrecord`. Both English recordings are
+embedded with translated captions in all four guide locales.
+
+### Reproduction
+
+Build/install the normal production release demo with `JOLT_BENCHMARK=1`, using
+sequential platform builds. Use a dedicated emulator with English selected and
+an unlocked paired iPhone; the runners restore their entry reader settings.
+See [native accessibility input](accessibility-input/README.md) for the Python
+venv, read-only probe and emulator endpoint setup. Then run:
+
+```sh
+/tmp/jolt-reader-python/bin/python benchmarks/gallery-accessibility-android.py \
+  YOUR_EMULATOR /path/to/avd/running/pid_NUMBER.ini /tmp/jolt-reader-tools /tmp/GalleryTalkBack
+
+ruby benchmarks/docs-ios-ui.rb /tmp/GalleryReaderTests benchmarks/gallery-accessibility-ios.swift --keep-recordings
+xcodebuild build-for-testing \
+  -project /tmp/GalleryReaderTests/DocsTests.xcodeproj -scheme DocsTests \
+  -destination generic/platform=iOS -derivedDataPath /tmp/GalleryReaderTests/build \
+  -allowProvisioningUpdates CODE_SIGNING_ALLOWED=YES CODE_SIGN_STYLE=Automatic \
+  DEVELOPMENT_TEAM=YOUR_TEAM
+python3 benchmarks/gallery-accessibility-record-ios.py \
+  YOUR_IPHONE_UDID /tmp/GalleryReaderTests/DocsTests.xcodeproj \
+  /tmp/GalleryReaderTests/build /tmp/GalleryVoiceOver
+
+python3 benchmarks/verify-gallery-accessibility.py ios \
+  benchmarks/results/gallery-accessibility/ios.json benchmarks/results/gallery-accessibility/voiceover.txt
+python3 benchmarks/verify-gallery-accessibility.py android \
+  benchmarks/results/gallery-accessibility/android.json benchmarks/results/gallery-accessibility/talkback.json
+python3 -m unittest discover -s benchmarks -p 'test_gallery_accessibility.py'
+```
+
+The iOS reader automation requires iOS/Xcode 27; this does not change Jolt's
+supported deployment targets. This is functional evidence for the reference
+router/list, English and the recorded normal font settings. Physical Android,
+reader interaction with enlarged text, other reader/rotor/configuration
+combinations, physical frame pacing, input latency and process-memory profiles
+remain separate acceptance work in #117. Native resource counters are not heap
+measurements. Existing gesture and enlarged-text recordings keep their original
+claims and remain in the guides.

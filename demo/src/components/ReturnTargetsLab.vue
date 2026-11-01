@@ -14,6 +14,7 @@ import {
   openCollectionPhoto,
   resetCollection,
   useGalleryCollection,
+  recordCollectionFocus,
 } from '../showcase/photo-collection'
 const router = useRouter(),
   { t } = usePreviewI18n()
@@ -51,9 +52,11 @@ function cell(event: ItemEventData) {
           marginTop="7"
           textWrap="true"
           automationText="collection-heading"
+          accessible="true"
           accessibilityRole="header"
+          @accessibilityFocus="recordCollectionFocus($event.object)"
       /></StackLayout>
-      <Label col="1" text="↗" fontSize="29" color="#193D34" />
+      <Label col="1" text="↗" fontSize="29" color="#193D34" accessibilityHidden="true" />
     </GridLayout>
     <CollectionList
       row="1"

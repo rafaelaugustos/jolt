@@ -57,13 +57,13 @@ The complete runnable application code is [GalleryPhotoDetail.vue](https://githu
 | Window/layout change during a flight | End the overlay safely; keep the committed route.                                                                       |
 | Suspension                           | Dispose the entry; subsequent close uses ordinary navigation.                                                           |
 
-Reduce Motion preserves zoom/reset/close and route/focus semantics without the shared flight. Replicas are hidden from accessibility. The current return item receives screen-reader focus; a collection heading is the fallback when it is missing. Enlarged text has the simulator/emulator coverage below; physical-device and VoiceOver/TalkBack acceptance remain unverified.
+Reduce Motion preserves zoom/reset/close and route/focus semantics without the shared flight. Replicas are hidden from accessibility. The current return item receives screen-reader focus; a collection heading is the fallback when it is missing. Enlarged text has the simulator/emulator coverage below. Reader coverage is documented in [Screen readers](#screen-readers); the wider physical-device matrix remains open.
 
 ## Supported milestone
 
 Bundled/cached static portrait, landscape and transparent square images, one Core Frame/window, Core ListView and vue-router-ns 0.1.0-rc.2. Custom dragged returns support rectangular viewport clipping and uniform positive scale. A partly clipped thumbnail at entry may use ordinary opening; resolving a visible return target remains independent. Network replacement, a photo pager, arbitrary modal/nested-frame transitions, rotated images and video/GL/WebView surfaces are follow-ups.
 
-The guide and [native evidence](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md) cover simulator/emulator correctness. Physical-device frame pacing, input latency and process-memory profiling remain open in #117; these clips do not close that acceptance matrix.
+The guide and [native evidence](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md) cover simulator/emulator correctness and the bounded physical-iPhone reader run below. Physical-device frame pacing, input latency and process-memory profiling remain open in #117; these clips do not close that acceptance matrix.
 
 ## Enlarged system text
 
@@ -87,3 +87,16 @@ Suspension disposes the shared-navigation entry, as described above, so the firs
 <Clip name="gallery-lifecycle-android" caption="Android 16 / API 36 emulator, English gallery: actual zoom, rotation, pan, Home/resume, a fresh pinch, cancelled dismissal and repeated returns. Original-speed native playback. Landscape is letterboxed by the screen recorder; no physical-device performance claim." />
 
 [Reproduction and raw lifecycle observations](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md#android-lifecycle-audit-2026-10-29) cover this specific adapter and scenario. The broader acceptance matrix remains in [#117](https://github.com/rafaelaugustos/jolt/issues/117).
+
+## Screen readers
+
+Each thumbnail is a separate button, including both photos in a recycled row. Decorative card metadata is excluded from reading order; the detail title is a heading and zoom/reset/close remain native accessible controls.
+
+During a resolved return, Jolt temporarily excludes the destination page from reader traversal so automatic focus cannot scroll a recycled row away from the flight. It restores the page's original accessibility state on completion, cancellation and disposal, then requests focus on the current keyed thumbnail on the next native turn. A deleted photo focuses the collection heading. A queued request is ignored if its view was recycled/unloaded or navigation moved to another page.
+
+The recorded flow exercises opening, 2.5× zoom, reset, closing while zoomed, reopening after moving the photo to index 59, deletion fallback and a fourth return with Jolt's Reduce Motion override. Actual reader focus, native image scale, four route commits and zero final navigation resource counters are checked. This covers the reference Core ListView/router and the recorded normal font configuration; it does not establish physical Android, every reader setting, enlarged-text reader interaction or performance measurements.
+
+<Clip name="gallery-voiceover-ios" caption="Physical iPhone 17 Pro, iOS 27.2, English: real VoiceOver traversal, double-tap activation, zoom/reset, current-thumbnail focus after reordering, deleted-photo heading fallback and Reduce Motion. Native XCTest recording at original speed; speech audio is not included. The companion trace verifies actual reader speech and native focus." />
+<Clip name="gallery-talkback-android" caption="Android 16 / API 36 emulator, English: real TalkBack swipes, touch exploration and double-tap activation through four gallery returns, including moved/deleted items and Reduce Motion. Original-speed native screen recording without speech audio. This is not physical Android or performance evidence." />
+
+[Reproduction and reader evidence](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md#screen-readers-2026-11-01).

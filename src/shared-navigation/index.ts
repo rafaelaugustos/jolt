@@ -8,6 +8,7 @@ import {
   resolveReturnTarget,
   validateReturnTarget,
   focusReturnTarget,
+  suppressReturnAccessibility,
   type SharedReturnTarget,
 } from './return-target.js'
 export { resolveListTarget } from './return-target.js'
@@ -146,6 +147,7 @@ export function sharedNavigation(
         navigated = false,
         navigationStarted = false
       let detachIdentity: (() => void) | undefined
+      let restoreAccessibility: (() => void) | undefined
       let flight: Flight | undefined, detach: (() => void) | undefined
       let timer: ReturnType<typeof setTimeout> | undefined
       let destination: Page | undefined
@@ -185,6 +187,8 @@ export function sharedNavigation(
         destination?.off('unloaded', targetUnloaded)
         flight?.dispose()
         flight = undefined
+        restoreAccessibility?.()
+        restoreAccessibility = undefined
         cancel = undefined
         if (state !== 'disposed') state = 'idle'
         if (navigated && destination && request.returnTarget) {
@@ -236,6 +240,8 @@ export function sharedNavigation(
           finish('unavailable', 'missing-target')
           return
         }
+        if (request.returnTarget)
+          restoreAccessibility = suppressReturnAccessibility(destination)
         destination.on('unloaded', targetUnloaded)
         bound(
           request.returnTarget

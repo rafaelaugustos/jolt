@@ -1,0 +1,26 @@
+JOLT_VOICEOVER Open Cala Serena Button
+JOLT_RECORD_START 1793502083.743438
+JOLT_CHECK opened
+JOLT_VOICEOVER Cala Serena Heading
+JOLT_VOICEOVER Zoom in Button
+JOLT_VOICEOVER Reset view Button
+JOLT_VOICEOVER Zoom in Button
+JOLT_VOICEOVER Back to the collection Button
+JOLT_VOICEOVER Open Cala Serena Button
+JOLT_CHECK returned
+JOLT_VOICEOVER Move to end Button
+JOLT_VOICEOVER Back to the collection Button
+JOLT_VOICEOVER Open Cala Serena Button
+JOLT_CHECK moved-return
+JOLT_VOICEOVER Remove Button
+JOLT_VOICEOVER Back to the collection Button
+JOLT_VOICEOVER Keep a little wonder. Heading
+JOLT_CHECK removed-return
+JOLT_VOICEOVER Start again
+JOLT_VOICEOVER Reduce
+JOLT_VOICEOVER Open Quiet dunes Button
+JOLT_VOICEOVER Zoom in Button
+JOLT_VOICEOVER Back to the collection Button
+JOLT_VOICEOVER Open Quiet dunes Button
+JOLT_CHECK reduced-return
+JOLT_RECORD_STOP 1793502212.858618

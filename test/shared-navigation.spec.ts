@@ -71,6 +71,32 @@ function fixture(
   return { from, to, frame, control, commit, layout, source, target }
 }
 describe('shared navigation route and overlay ownership', () => {
+  it.each(['cancel', 'dispose', 'unload'] as const)(
+    'restores the reader subtree when return realization ends by %s',
+    async (end) => {
+      vi.stubGlobal('UIAccessibilityIsVoiceOverRunning', () => true)
+      try {
+        const f = fixture()
+        const native = { accessibilityElementsHidden: false }
+        f.to.nativeViewProtected = native
+        const operation = f.control.navigate({
+          tag: 'photo',
+          returnTarget: { key: '42', resolve: () => new Promise(() => {}) },
+          navigate: f.commit,
+        })
+        expect(native.accessibilityElementsHidden).toBe(true)
+        if (end === 'cancel') operation.cancel()
+        else if (end === 'dispose') f.control.dispose()
+        else f.to.notify({ eventName: 'unloaded' })
+        expect((await operation.finished).status).toBe('cancelled')
+        expect(native.accessibilityElementsHidden).toBe(false)
+        expect(f.frame.listenerCount('navigatedTo')).toBe(0)
+        expect(f.to.listenerCount('unloaded')).toBe(0)
+      } finally {
+        vi.unstubAllGlobals()
+      }
+    },
+  )
   it('captures the clipped held pose and carries translation velocity into the spring', async () => {
     const source = Object.assign(new Image(), {
       sharedTransitionTag: 'photo',

@@ -57,7 +57,7 @@ O exemplo completo está em [GalleryPhotoDetail.vue](https://github.com/rafaelau
 | Mudança de janela/layout na transição | Encerra a representação temporária e mantém a rota confirmada.                                                                 |
 | Suspensão                             | Descarta a entrada; o próximo fechar usa navegação comum.                                                                      |
 
-Reduzir Movimento mantém zoom, restaurar, fechar, navegação e foco sem a transição compartilhada. Réplicas ficam ocultas da acessibilidade. O foco volta ao item atual; o título da coleção é a alternativa quando ele desaparece. Fontes ampliadas têm a cobertura em simulador/emulador descrita abaixo; a validação física e com VoiceOver/TalkBack continua pendente.
+Reduzir Movimento mantém zoom, restaurar, fechar, navegação e foco sem a transição compartilhada. Réplicas ficam ocultas da acessibilidade. O foco volta ao item atual; o título da coleção é a alternativa quando ele desaparece. Fontes ampliadas têm a cobertura em simulador/emulador descrita abaixo. A validação dos leitores está em [Leitores de tela](#screen-readers); a matriz física mais ampla continua pendente.
 
 ## Fontes ampliadas do sistema
 
@@ -76,7 +76,7 @@ Testamos mudanças reais do sistema no simulador iPhone 17 / iOS 26.2 (`large` �
 
 Imagens estáticas empacotadas/em cache, retrato, paisagem e quadradas transparentes; um Core Frame/janela, Core ListView e vue-router-ns 0.1.0-rc.2. O retorno arrastado aceita recorte retangular do viewport e escala positiva uniforme. Uma miniatura parcialmente cortada pode abrir pela navegação comum; a resolução do destino de volta é independente. Troca de imagem de rede, pager, modais/Frames aninhados arbitrários, rotação da imagem e vídeo/GL/WebView ficam para outras etapas.
 
-O guia e as [evidências nativas](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md) cobrem correção em simulador/emulador. Frame pacing, latência de entrada e memória do processo em aparelhos físicos continuam abertos na #117; os vídeos não encerram essa matriz.
+O guia e as [evidências nativas](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md) cobrem correção em simulador/emulador e o recorte de leitores no iPhone físico descrito abaixo. Frame pacing, latência de entrada e memória do processo em aparelhos físicos continuam abertos na #117; os vídeos não encerram essa matriz.
 
 ## Rotação e retomada no Android {#android-rotation-and-resume}
 
@@ -87,3 +87,16 @@ A suspensão descarta a entrada de navegação compartilhada, como descrito acim
 <Clip name="gallery-lifecycle-android" caption="Emulador Android 16 / API 36, galeria em inglês: zoom, rotação, pan, tela inicial e retomada, nova pinça, cancelamento da saída e voltas repetidas com entrada real. Reprodução nativa na velocidade original. A gravação mantém faixas vazias em paisagem; sem medição de desempenho em aparelho físico." />
 
 [A reprodução e os registros de ciclo de vida](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md#android-lifecycle-audit-2026-10-29) cobrem esse adaptador e cenário. A matriz mais ampla de aceitação continua na [#117](https://github.com/rafaelaugustos/jolt/issues/117).
+
+## Leitores de tela {#screen-readers}
+
+Cada miniatura é um botão separado, inclusive as duas fotos de uma linha reciclada. Os metadados decorativos ficam fora da ordem de leitura; o título do detalhe é um cabeçalho, e ampliar/restaurar/fechar continuam acessíveis.
+
+Durante o retorno com resolução de alvo, o Jolt retira temporariamente a página de destino da navegação do leitor para impedir que o foco automático role a célula para fora da transição. O estado original de acessibilidade é restaurado ao concluir, cancelar ou descartar. No próximo ciclo nativo, o foco vai à miniatura da chave atual; se a foto foi excluída, vai ao título da coleção. Uma solicitação pendente é ignorada se a view for reciclada/descarregada ou a navegação mudar de página.
+
+O fluxo gravado cobre abertura, zoom de 2,5×, reset, fechar com zoom, reabrir após mover a foto ao índice 59, exclusão e uma quarta volta com a opção Reduzir Movimento do Jolt. Os registros verificam foco real, escala nativa, quatro navegações e nenhum recurso nativo de navegação restante. A cobertura se limita ao Core ListView/router da referência e à configuração normal de fonte gravada; Android físico, outras configurações, leitor com fontes ampliadas e desempenho continuam pendentes.
+
+<Clip name="gallery-voiceover-ios" caption="iPhone 17 Pro físico, iOS 27.2, interface em inglês: navegação real com VoiceOver, duplo toque, zoom/reset, foco na miniatura após reordenar, alternativa no título após excluir e Reduzir Movimento. Gravação nativa do XCTest na velocidade original, sem áudio de fala. O registro associado verifica a fala do leitor e o foco nativo." />
+<Clip name="gallery-talkback-android" caption="Emulador Android 16 / API 36, interface em inglês: gestos reais do TalkBack, exploração por toque e ativação por duplo toque em quatro retornos, incluindo itens movidos/excluídos e Reduzir Movimento. Gravação nativa na velocidade original, sem áudio de fala. Não valida Android físico nem desempenho." />
+
+[Reprodução e evidências dos leitores](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md#screen-readers-2026-11-01).

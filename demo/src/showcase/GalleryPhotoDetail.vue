@@ -131,6 +131,7 @@ function audit(event: string, extra?: unknown) {
   events.push({
     event,
     time: Date.now(),
+    key: photo?.key,
     state: viewer?.state,
     ready: viewer?.ready ?? false,
     route: frame?.currentPage.id,
@@ -358,6 +359,7 @@ onUnmounted(() => {
             fontSize="30"
             textAlignment="center"
             accessibilityRole="button"
+            accessible="true"
             :accessibilityLabel="t('Back to the collection')"
             automationText="gallery-close"
             @tap="close"
@@ -388,6 +390,7 @@ onUnmounted(() => {
             v-else
             col="2"
             text="↗"
+            accessibilityHidden="true"
             fontSize="28"
             color="#D7EDA8"
             verticalAlignment="middle"
@@ -407,6 +410,8 @@ onUnmounted(() => {
                 ><Label
                   ref="title"
                   automationText="gallery-title"
+                  accessible="true"
+                  accessibilityRole="header"
                   textWrap="true"
                   :text="t(photo?.title ?? 'Your place')"
                   color="#F3F1E4"
@@ -419,7 +424,13 @@ onUnmounted(() => {
                   fontSize="11"
                   marginTop="4"
               /></StackLayout>
-              <Label col="1" text="✦" color="#D7EDA8" fontSize="32" />
+              <Label
+                col="1"
+                text="✦"
+                color="#D7EDA8"
+                fontSize="32"
+                accessibilityHidden="true"
+              />
             </GridLayout>
             <GridLayout columns="*,*,*,*" marginTop="18">
               <Label
@@ -428,6 +439,7 @@ onUnmounted(() => {
                 textWrap="true"
                 minHeight="44"
                 automationText="gallery-zoom"
+                accessible="true"
                 accessibilityRole="button"
                 color="#183D32"
                 backgroundColor="#D7EDA8"
@@ -445,6 +457,7 @@ onUnmounted(() => {
                 textWrap="true"
                 minHeight="44"
                 automationText="gallery-reset"
+                accessible="true"
                 accessibilityRole="button"
                 color="#E8EDDD"
                 backgroundColor="#2C463C"
@@ -462,6 +475,7 @@ onUnmounted(() => {
                 textWrap="true"
                 minHeight="44"
                 automationText="gallery-move"
+                accessible="true"
                 accessibilityRole="button"
                 color="#E8EDDD"
                 backgroundColor="#2C463C"
@@ -479,6 +493,7 @@ onUnmounted(() => {
                 textWrap="true"
                 minHeight="44"
                 automationText="gallery-remove"
+                accessible="true"
                 accessibilityRole="button"
                 color="#EAC7AC"
                 backgroundColor="#2C463C"
@@ -525,6 +540,8 @@ onUnmounted(() => {
           borderRadius="18"
           :sharedTransitionTag="photo ? photoTag(photo.key) : undefined"
           automationText="gallery-image"
+          accessible="true"
+          accessibilityRole="image"
           :accessibilityLabel="t(photo?.title ?? 'Your place')"
           @loaded="bind"
         />
