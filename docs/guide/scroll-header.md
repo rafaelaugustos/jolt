@@ -56,6 +56,47 @@ The row template must actually enforce its size. Core 9.1.3 Android resets a roo
 
 See the complete [Vue screen](https://github.com/rafaelaugustos/jolt/blob/main/demo/src/components/ScrollHeaderLab.vue) and [recycled cell templates](https://github.com/rafaelaugustos/jolt/blob/main/demo/src/showcase/scroll-header-cells.ts). The composition supplies motion and scroll geometry; the app owns data, templates, imagery and routing. Overlay backgrounds should pass touches through except their controls; the reference uses `isPassThroughParentEnabled` and non-interactive decorative labels.
 
+## Pull to refresh
+
+Add `onRefresh` and use **ScrollHeaderSurface** as the existing parent of the list and overlays. It extends Core GridLayout; Android requires it to arbitrate the top-edge gesture without replacing Core's touch or item listeners. No extra ScrollView, reparenting or third-party refresh wrapper is needed. Keep `keys()` stable and unique.
+
+```ts
+import { ScrollHeaderSurface, scrollHeader } from '@rafaelaugusto/jolt'
+
+// Vue: registerElement('ScrollHeaderSurface', () => ScrollHeaderSurface)
+// Use this GridLayout subclass as the existing list/overlay parent.
+const page = scrollHeader(list, {
+  // ...the measured header, toolbar, section and spacer options above
+  keys: () => tracks.map((track) => track.id),
+  async onRefresh(refresh) {
+    const latest = await loadTracks()
+    await refresh.commit(async () => {
+      tracks = latest
+      list.refresh()
+      // Vue: await nextTick() after changing reactive data.
+    })
+  },
+  onRefreshError(error) {
+    showRetryMessage(error)
+  },
+  refreshThreshold: 80, // DIPs
+})
+
+await page.refresh() // the same action from a button
+page.cancelRefresh()
+```
+
+Pull past the threshold at the top and release to start. Releasing early cancels the pull. A native ring shows progress and loading; Reduce Motion keeps a static loading arc. iOS observes the table's existing pan recognizer and native bounce; Android intercepts only a downward top-edge pull. Ordinary scrolling and row activation remain owned by the list. An existing iOS `refreshControl` is rejected; other refresh wrappers are outside this adapter's contract.
+
+`refresh()` returns the same promise while a request is pending: `true` on completion, `false` on failure, cancellation or unavailable input. `onRefreshError` handles failures; the next pull can retry. The sample uses bundled data with an asynchronous delay, not a network request.
+
+Load data before calling `refresh.commit()`. The commit captures the **current** keyed anchor, so scrolling during loading does not restore the old request-time position. At the top it shows the new first row. Await the commit and any framework render inside it; serialize it with other `preserveAnchor()` updates. Keep the data mutation synchronous before that render wait. Cancellation cannot undo app mutations or stop arbitrary app-owned I/O.
+
+Pause, backgrounding, list unload, replacement, disposal and `cancelRefresh()` invalidate the pending request and stop its indicator. `refresh.cancelled` reports cancellation; a late `commit()` returns `false` without running its callback. A new request can start after the controller is active again. `state.refresh` is `idle`, `pulling`, `armed` or `refreshing`; these are semantic callbacks, not per-frame JS updates.
+
+<Clip name="scroll-header-refresh-ios" caption="Physical iPhone 17 Pro, iOS 27.2, English: actual pull/release, native loading, retry after failure, scroll during loading with the current row preserved, Reduce Motion and short/empty lists. Native XCTest recording at original speed; bundled demo data, no network or frame-rate benchmark." />
+<Clip name="scroll-header-refresh-android" caption="Android 16 / API 36 emulator, English: real ADB pulls, one active update, error/retry, scrolling during loading with stable rows, Reduce Motion and short/empty content. Original speed; touch indicators show actual input. Emulator correctness, not physical-device performance." />
+
 ## Offset, geometry and anchors
 
 The hero height is measured after layout; the toolbar supplies its minimum height. Explicit `expandedHeight` and `minimumHeight` override these measurements. The collapse range is `expanded − minimum`, and row zero occupies `expanded + section`. The section moves from the hero's bottom to the toolbar's bottom. Once pinned, scrolling continues through the virtualized list without a second scroll owner.
@@ -100,14 +141,14 @@ On iOS, KVO observes scroll geometry. A per-list delegate proxy supplies exact s
 
 Reduce Motion keeps pinning and scrolling, disables decorative parallax/stretch, uses an immediate title handoff and disables animated programmatic scroll. Only one title participates in accessibility at a time. Fixed-height data templates must be sized appropriately for the app's chosen large-text scale; this first adapter does not support variable-height data rows.
 
-| Combination                                                                   | First adapter contract                                                                                         |
-| ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| Core 9.1.3 flat ListView, one spacer and fixed data rows                      | Supported reference on both platforms                                                                          |
-| Short/empty data                                                              | Real content extent; no forced phantom scroll space                                                            |
-| iOS bounce                                                                    | Optional artwork stretch; native list owns the gesture                                                         |
-| Android overscroll                                                            | Platform edge behavior, no decorative hero stretch                                                             |
-| Pull-to-refresh                                                               | No recognizer is installed; refresh integrations have not been validated and are unsupported in this milestone |
-| Core sectioned/sticky-header/search modes                                     | Rejected; this composition owns the pinned geometry                                                            |
-| Other list plugins, variable data rows, nested vertical scrolling, paged tabs | Unsupported; no silent JS fallback                                                                             |
+| Combination                                                                   | First adapter contract                                                                       |
+| ----------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| Core 9.1.3 flat ListView, one spacer and fixed data rows                      | Supported reference on both platforms                                                        |
+| Short/empty data                                                              | Real content extent; no forced phantom scroll space                                          |
+| iOS bounce                                                                    | Optional artwork stretch; native list owns the gesture                                       |
+| Android overscroll                                                            | Platform edge behavior, no decorative hero stretch                                           |
+| Pull-to-refresh                                                               | Built-in `onRefresh` with ScrollHeaderSurface; app-owned refresh wrappers remain unsupported |
+| Core sectioned/sticky-header/search modes                                     | Rejected; this composition owns the pinned geometry                                          |
+| Other list plugins, variable data rows, nested vertical scrolling, paged tabs | Unsupported; no silent JS fallback                                                           |
 
-The [native validation and reproduction notes](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) record the simulator/emulator checks accepted for this delivery. Physical-device performance measurements, additional reader/font configurations and refresh integration remain outside this correctness update; broader adapter work is tracked in #116.
+The [native validation and reproduction notes](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) describe the recorded correctness checks. Physical-device performance measurements, additional reader/font configurations and other refresh adapters remain outside this correctness update; broader adapter work is tracked in #116.

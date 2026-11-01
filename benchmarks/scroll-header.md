@@ -52,7 +52,7 @@ iOS automatic estimates changed the apparent scroll anchor after `reloadData` in
 
 ## Remaining acceptance
 
-Physical iOS/Android frame-time percentiles, missed deadlines, input latency and process-memory measurements, with an equivalent `scrollLinked()` baseline, are **not measured here**. Native-source counters and resource disposal are correctness evidence, not that performance comparison. The large-text settings validated below cover a bounded part of line sizing. Other text scales, VoiceOver/TalkBack traversal, app-owned extra insets, pull-to-refresh, nested same-axis scroll, paged tabs and other list plugins need their own device matrix. These omissions do not block this simulator/emulator correctness delivery; no physical-device performance claim is made.
+Physical iOS/Android frame-time percentiles, missed deadlines, input latency and process-memory measurements, with an equivalent `scrollLinked()` baseline, are **not measured here**. Native-source counters and resource disposal are correctness evidence, not that performance comparison. The large-text settings validated below cover a bounded part of line sizing. Other text scales, app-owned extra insets, nested same-axis scroll, paged tabs and other list plugins need their own device matrix. Later screen-reader and built-in pull-to-refresh correctness evidence is recorded below. These omissions do not block this simulator/emulator correctness delivery; no physical-device performance claim is made.
 
 ## Resize and lifecycle regression checks, 2026-10-29
 
@@ -265,3 +265,31 @@ npm run docs:build
 Physical-device frame times, input latency, memory measurements, refresh and
 broader container adapters remain separate acceptance work in #116. Existing
 large-text recordings retain their original, narrower claims.
+
+## Pull-to-refresh (2026-11-01)
+
+The flat Core ListView reference now provides opt-in `onRefresh`, `refresh()`, `cancelRefresh()` and a guarded keyed `commit()`. Android's `ScrollHeaderSurface` extends the existing Core GridLayout parent and intercepts a downward drag only when the list starts at its top. iOS adds a target to the existing table pan recognizer and observes native bounce. Neither path replaces Core's touch/item listener, wraps the list in another scroll owner or computes gesture progress in JS. Existing iOS refresh controls and third-party refresh wrappers are rejected/unsupported.
+
+Native indicator playback stays native: CAShapeLayer/Core Animation on iOS and Canvas invalidation on Android. Reduced Motion displays a static loading arc. A commit waits for an outstanding geometry measurement and captures the current keyed position after loading. At the top, new first content is intentionally visible. Application I/O is not aborted automatically; invalidated contexts ignore late commits. The sample's asynchronous data delay deliberately finishes after unload/background/disposal to test this boundary.
+
+Evidence is recorded in [`results/scroll-header-refresh`](results/scroll-header-refresh): physical **iPhone 17 Pro / iOS 27.2**, and the dedicated **Android 16 / API 36 emulator**. Both use the release demo and actual native input. Both verify:
+
+- A short pull makes no request; an accepted release starts exactly one request, even with repeated Refresh taps while pending.
+- Failure clears the indicator without inserting data; a new pull succeeds.
+- Scrolling while loading preserves the current keyed rows within 1 DIP when the new row is inserted, instead of restoring the request-time top.
+- Reduced Motion retains refresh functionality; short and empty lists can refresh without phantom scroll extent.
+- Native unload/reload, background/resume and navigation away invalidate late responses. Ten requests yield six committed updates, one intentional failure and three cancellations. Final native sources and nodes are both zero.
+
+The verifier reads native snapshots and application request/commit events. Its offline negative controls reject duplicate loads, short-pull activation, failed-request mutations, lost anchors, wrong empty extent, late commits, stuck loading and leaked sources. TypeScript tests additionally cover same-turn cancellation, pause/replacement, stale errors arriving during a newer request and a pending cover remeasurement. The recordings include the native indicator, real pull/release, retry and anchored update. They are original-speed footage with local sample data, not network or physical Android performance measurements.
+
+Reproduction, after building/installing the normal demo with `JOLT_BENCHMARK=1` (platform builds remain sequential):
+
+```sh
+python3 benchmarks/scroll-header-refresh-android.py YOUR_DEDICATED_EMULATOR /tmp/JoltRefreshAndroid
+ruby benchmarks/docs-ios-ui.rb /tmp/JoltRefreshTests benchmarks/scroll-header-refresh-ios.swift --keep-recordings
+# Build-for-testing with your signing team and generic/platform=iOS, then:
+python3 benchmarks/scroll-header-refresh-record-ios.py YOUR_IPHONE_UDID /tmp/JoltRefreshTests/DocsTests.xcodeproj /tmp/JoltRefreshTests/build /tmp/JoltRefreshIOS
+python3 -m unittest discover -s benchmarks -p 'test_scroll_header_refresh.py'
+```
+
+The iPhone runner uses XCTest's native video attachment and requires an Xcode/iOS version that supports recording. It trims launch/setup and exports the English footage; no synthetic frames are generated. Keep the test device unlocked. The Android runner restores its original touch-indicator setting; its script expects the dedicated emulator's English preview. Validate and fully decode the resulting MP4 files before embedding them. This evidence covers refresh correctness for the declared Core adapter. The broader physical Android, performance/baseline and adapter matrix in #116 remains outstanding.

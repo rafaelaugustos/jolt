@@ -23,6 +23,11 @@
 @property(nonatomic) double handoff, minimumOffset, maximumOffset, range, spacer, rowHeight, offset;
 @property(nonatomic) CGFloat estimatedSectionHeaderHeight, estimatedSectionFooterHeight;
 @property(nonatomic) NSInteger phase, accessibilityPhase, updates, callbacks;
+@property(nonatomic) BOOL refreshEnabled, reduced, pullEligible, panObserving;
+@property(nonatomic) double refreshThreshold, pull;
+@property(nonatomic) NSInteger refreshState, refreshRequests;
+@property(nonatomic) UIView *refreshIndicator;
+@property(nonatomic) CAShapeLayer *refreshRing;
 @property(nonatomic) NSMapTable<UITableViewCell *,NSNumber *> *coveredRows;
 @end
 static NSInteger JoltScrollHeaderActive = 0;
@@ -48,6 +53,22 @@ static void *JoltScrollHeaderContext = &JoltScrollHeaderContext;
     NSDictionary *config=[NSJSONSerialization JSONObjectWithData:[options dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
     self.handoff=[config[[config[@"reduced"] boolValue]?@"handoff":@"focusHandoff"] doubleValue];self.range=[config[@"range"] doubleValue];self.spacer=[config[@"spacer"] doubleValue];self.rowHeight=[config[@"rowHeight"] doubleValue];
     self.proxy.spacer=self.spacer;self.proxy.rowHeight=self.rowHeight;
+    self.reduced=[config[@"reduced"] boolValue];self.refreshEnabled=[config[@"refresh"] boolValue];self.refreshThreshold=[config[@"refreshThreshold"] doubleValue];
+    if(self.refreshEnabled && !self.refreshIndicator){
+        if(self.list.refreshControl) [NSException raise:NSInvalidArgumentException format:@"scrollHeader cannot replace an app-owned refresh control"];
+        self.refreshIndicator=[[UIView alloc]initWithFrame:CGRectMake(0,0,36,36)];
+        self.refreshIndicator.backgroundColor=[UIColor colorWithRed:.957 green:.941 blue:.906 alpha:1];
+        self.refreshIndicator.layer.cornerRadius=18;self.refreshIndicator.userInteractionEnabled=NO;
+        self.refreshIndicator.accessibilityElementsHidden=YES;self.refreshIndicator.hidden=YES;
+        self.refreshRing=[CAShapeLayer layer];self.refreshRing.frame=self.refreshIndicator.bounds;
+        self.refreshRing.path=[UIBezierPath bezierPathWithArcCenter:CGPointMake(18,18) radius:11 startAngle:-M_PI_2 endAngle:M_PI*1.5 clockwise:YES].CGPath;
+        self.refreshRing.fillColor=UIColor.clearColor.CGColor;
+        self.refreshRing.strokeColor=[UIColor colorWithRed:.098 green:.239 blue:.204 alpha:1].CGColor;
+        self.refreshRing.lineWidth=3;self.refreshRing.lineCap=kCALineCapRound;
+        [self.refreshIndicator.layer addSublayer:self.refreshRing];
+        [self.list.superview addSubview:self.refreshIndicator];
+    }
+    [self updateRefreshIndicator];
     [self.list reloadData];
     if(self.observing)[self update:YES];
 }
@@ -56,11 +77,15 @@ static void *JoltScrollHeaderContext = &JoltScrollHeaderContext;
     self.observing=enabled;
     if(enabled) {
         for(NSString *key in @[@"contentOffset",@"contentSize",@"bounds"]) [self.list addObserver:self forKeyPath:key options:0 context:JoltScrollHeaderContext];
+        if(self.refreshEnabled){[self.list.panGestureRecognizer addTarget:self action:@selector(refreshPan:)];self.panObserving=YES;}
         JoltScrollHeaderActive++;[self update:YES];
     } else {
         for(NSString *key in @[@"contentOffset",@"contentSize",@"bounds"]) [self.list removeObserver:self forKeyPath:key context:JoltScrollHeaderContext];
+        if(self.panObserving){[self.list.panGestureRecognizer removeTarget:self action:@selector(refreshPan:)];self.panObserving=NO;}
+        self.pullEligible=NO;self.pull=0;if(self.refreshState!=3)[self changeRefreshState:0];
         JoltScrollHeaderActive--;
     }
+    [self updateRefreshIndicator];
 }
 - (void)observeValueForKeyPath:(NSString *)key ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if(context==JoltScrollHeaderContext) [self update:NO];
@@ -70,7 +95,13 @@ static void *JoltScrollHeaderContext = &JoltScrollHeaderContext;
     if(self.disposed || !self.list)return;
     double offset=self.list.contentOffset.y+self.list.adjustedContentInset.top;
     if(!isfinite(offset) || (!force && fabs(offset-self.offset)<.001))return;
-    self.offset=offset;self.minimumOffset=MIN(self.minimumOffset,offset);self.maximumOffset=MAX(self.maximumOffset,offset);self.updates++;
+    self.offset=offset;
+    if(self.refreshEnabled && self.pullEligible && self.refreshState!=3){
+        self.pull=MAX(0,-offset);
+        [self changeRefreshState:self.pull>=self.refreshThreshold?2:self.pull>0?1:0];
+    }
+    [self updateRefreshIndicator];
+    self.minimumOffset=MIN(self.minimumOffset,offset);self.maximumOffset=MAX(self.maximumOffset,offset);self.updates++;
     BOOL compact=offset>=self.range*self.handoff;
     UIView *outgoing=compact?self.title:self.toolbarTitle, *incoming=compact?self.toolbarTitle:self.title;
     // Inspect focus only at a semantic boundary while VoiceOver is running.
@@ -131,7 +162,7 @@ static void *JoltScrollHeaderContext = &JoltScrollHeaderContext;
 - (NSString *)snapshot {
     NSArray *rows=self.list.indexPathsForVisibleRows;
     NSInteger first=rows.count?((NSIndexPath *)rows.firstObject).row:0;
-    NSDictionary *value=@{@"minimumOffset":@(self.minimumOffset),@"maximumOffset":@(self.maximumOffset),@"offset":@(isfinite(self.offset)?self.offset:0),@"phase":@[@"expanded",@"between",@"collapsed"][MAX(0,self.phase)],@"updates":@(self.updates),@"callbacks":@(self.callbacks),@"first":@(first),@"visible":@(rows.count),@"total":@([self.list numberOfRowsInSection:0])};
+    NSDictionary *value=@{@"minimumOffset":@(self.minimumOffset),@"maximumOffset":@(self.maximumOffset),@"offset":@(isfinite(self.offset)?self.offset:0),@"phase":@[@"expanded",@"between",@"collapsed"][MAX(0,self.phase)],@"refresh":@[@"idle",@"pulling",@"armed",@"refreshing"][self.refreshState],@"refreshRequests":@(self.refreshRequests),@"updates":@(self.updates),@"callbacks":@(self.callbacks),@"first":@(first),@"visible":@(rows.count),@"total":@([self.list numberOfRowsInSection:0])};
     return [[NSString alloc]initWithData:[NSJSONSerialization dataWithJSONObject:value options:0 error:nil] encoding:NSUTF8StringEncoding];
 }
 - (void)scroll:(double)offset animated:(BOOL)animated {
@@ -141,8 +172,49 @@ static void *JoltScrollHeaderContext = &JoltScrollHeaderContext;
     [self.list setContentOffset:CGPointMake(self.list.contentOffset.x,MIN(maximum,MAX(0,offset))-inset.top) animated:animated];
     if(!animated)[self update:YES];
 }
+- (void)changeRefreshState:(NSInteger)state {
+    if(self.refreshState==state)return;
+    self.refreshState=state;if(state==3)self.refreshRequests++;
+    [self updateRefreshIndicator];self.callbacks++;if(self.onState)self.onState();
+}
+- (void)setRefreshing:(BOOL)value {
+    if(self.disposed || (value && (!self.observing || !self.refreshEnabled)))return;
+    self.pullEligible=NO;self.pull=0;[self changeRefreshState:value?3:0];
+}
+- (void)refreshPan:(UIPanGestureRecognizer *)pan {
+    if(self.disposed || !self.observing || !self.refreshEnabled || self.refreshState==3)return;
+    if(pan.state==UIGestureRecognizerStateBegan){
+        self.pullEligible=self.offset<=.5;
+    } else if(pan.state==UIGestureRecognizerStateEnded){
+        BOOL trigger=self.pullEligible && self.pull>=self.refreshThreshold;
+        self.pullEligible=NO;self.pull=0;[self changeRefreshState:0];
+        if(trigger)[self setRefreshing:YES];
+    } else if(pan.state==UIGestureRecognizerStateCancelled || pan.state==UIGestureRecognizerStateFailed){
+        self.pullEligible=NO;self.pull=0;[self changeRefreshState:0];
+    }
+}
+- (void)updateRefreshIndicator {
+    if(!self.refreshIndicator)return;
+    BOOL visible=self.observing && self.refreshState>0;
+    self.refreshIndicator.hidden=!visible;
+    if(!visible){[self.refreshRing removeAnimationForKey:@"refresh"];return;}
+    UIView *host=self.list.superview;
+    self.refreshIndicator.center=CGPointMake(CGRectGetMidX(self.list.frame),CGRectGetMinY(self.list.frame)+(self.refreshState==3?32:MIN(60,self.pull)*.6+16));
+    [host bringSubviewToFront:self.refreshIndicator];
+    [CATransaction begin];[CATransaction setDisableActions:YES];
+    self.refreshRing.strokeEnd=self.refreshState==3?.75:MAX(.08,MIN(1,self.pull/self.refreshThreshold)*.92);
+    [CATransaction commit];
+    if(self.refreshState==3 && !self.reduced){
+        if(![self.refreshRing animationForKey:@"refresh"]){
+            CABasicAnimation *spin=[CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
+            spin.fromValue=@0;spin.toValue=@(M_PI*2);spin.duration=.9;spin.repeatCount=HUGE_VALF;
+            [self.refreshRing addAnimation:spin forKey:@"refresh"];
+        }
+    } else [self.refreshRing removeAnimationForKey:@"refresh"];
+}
 - (void)dispose {
-    if(self.disposed)return;[self setEnabled:NO];self.disposed=YES;
+    if(self.disposed)return;[self setRefreshing:NO];[self setEnabled:NO];self.disposed=YES;
+    [self.refreshRing removeAllAnimations];[self.refreshIndicator removeFromSuperview];self.refreshIndicator=nil;self.refreshRing=nil;
     self.title.accessibilityElementsHidden=self.titleHidden;self.toolbarTitle.accessibilityElementsHidden=self.toolbarTitleHidden;self.toolbar.userInteractionEnabled=self.toolbarTouch;
     self.title.isAccessibilityElement=self.titleElement;self.toolbarTitle.isAccessibilityElement=self.toolbarTitleElement;self.toolbar.accessibilityElementsHidden=self.toolbarHidden;
     self.header.accessibilityElementsHidden=self.headerHidden;

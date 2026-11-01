@@ -8,6 +8,8 @@ export interface ScrollHeaderSnapshot {
   minimumOffset: number
   maximumOffset: number
   phase: 'expanded' | 'between' | 'collapsed'
+  refresh: 'idle' | 'pulling' | 'armed' | 'refreshing'
+  refreshRequests: number
   updates: number
   callbacks: number
   first: number
@@ -19,6 +21,7 @@ export interface ScrollHeaderDriver {
   configure(geometry: ScrollHeaderGeometry, reduced: boolean): void
   scroll(offset: number, animated: boolean): void
   enabled(value: boolean): void
+  refreshing(value: boolean): void
   dispose(): void
 }
 export function createScrollHeaderDriver(
@@ -34,6 +37,7 @@ export function createScrollHeaderDriver(
   geometry: ScrollHeaderGeometry,
   reduced: boolean,
   onState: () => void,
+  refresh = { enabled: false, threshold: 80 },
 ): ScrollHeaderDriver {
   const input = liveValueInput(value),
     node = nativeLiveNode(input.node)
@@ -41,7 +45,13 @@ export function createScrollHeaderDriver(
     input.changed()
     onState()
   }
-  const settings = () => JSON.stringify({ ...geometry, reduced })
+  const settings = () =>
+    JSON.stringify({
+      ...geometry,
+      reduced,
+      refresh: refresh.enabled,
+      refreshThreshold: refresh.threshold,
+    })
   if (isIOS) {
     if (typeof JoltScrollHeader === 'undefined')
       throw new Error('Rebuild the native app to use scrollHeader().')
@@ -66,6 +76,7 @@ export function createScrollHeaderDriver(
       },
       scroll: (offset, animated) => native.scrollAnimated(offset, animated),
       enabled: (value) => native.setEnabled(value),
+      refreshing: (value) => native.setRefreshing(value),
       dispose: () => native.dispose(),
     }
   }
@@ -92,6 +103,7 @@ export function createScrollHeaderDriver(
     },
     scroll: (offset, animated) => native.scroll(offset, animated),
     enabled: (value) => native.setEnabled(value),
+    refreshing: (value) => native.setRefreshing(value),
     dispose: () => native.dispose(),
   }
 }

@@ -8,6 +8,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)snapshot;
 - (void)scroll:(double)offset animated:(BOOL)animated;
 - (void)setEnabled:(BOOL)enabled;
+- (void)setRefreshing:(BOOL)refreshing;
 - (void)dispose;
 @end
 NS_ASSUME_NONNULL_END

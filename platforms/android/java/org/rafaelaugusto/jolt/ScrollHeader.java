@@ -1,6 +1,11 @@
 package org.rafaelaugusto.jolt;
 
 import android.view.View;
+import android.view.MotionEvent;
+import android.view.ViewConfiguration;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.os.SystemClock;
 import android.view.ViewTreeObserver;
 import android.view.ViewGroup;
 import java.util.WeakHashMap;
@@ -27,6 +32,11 @@ public final class ScrollHeader implements ViewTreeObserver.OnScrollChangedListe
     private ViewTreeObserver observer;
     private final WeakHashMap<View,Integer> coveredRows=new WeakHashMap<>();
     private boolean enabled, disposed;
+    private ScrollHeaderSurface surface;
+    private boolean refreshEnabled, reduced, eligible, pulling;
+    private float startX, startY;
+    private double pull, refreshThreshold=80;
+    private int refreshState, refreshRequests, refreshDraws;
     private double handoff, minimumOffset, maximumOffset, fadeStart, range, spacer, rowHeight, offset=Double.NaN;
     private int phase=-1, accessibilityPhase=-1, updates, callbacks;
     public ScrollHeader(ListView list, LiveSpring node, View header, View title, View toolbarTitle, View toolbar, View diagnostic, String options, Listener listener) {
@@ -39,7 +49,13 @@ public final class ScrollHeader implements ViewTreeObserver.OnScrollChangedListe
         configure(options);setEnabled(true);
     }
     public void configure(String options) {
-        try {JSONObject c=new JSONObject(options);handoff=c.getDouble(c.optBoolean("reduced")?"handoff":"focusHandoff");range=c.getDouble("range");spacer=c.getDouble("spacer");rowHeight=c.getDouble("rowHeight");fadeStart=c.getJSONArray("toolbarFade").getDouble(0)*range;}
+        try {JSONObject c=new JSONObject(options);handoff=c.getDouble(c.optBoolean("reduced")?"handoff":"focusHandoff");range=c.getDouble("range");spacer=c.getDouble("spacer");rowHeight=c.getDouble("rowHeight");fadeStart=c.getJSONArray("toolbarFade").getDouble(0)*range;
+            reduced=c.optBoolean("reduced");refreshEnabled=c.optBoolean("refresh");refreshThreshold=c.optDouble("refreshThreshold",80);
+            if(refreshEnabled && surface==null){
+                if(!(list.getParent() instanceof ScrollHeaderSurface))throw new IllegalArgumentException("Pull-to-refresh requires ScrollHeaderSurface");
+                surface=(ScrollHeaderSurface)list.getParent();surface.attach(this);
+            }
+            if(surface!=null)surface.invalidate();}
         catch(Exception error){throw new IllegalArgumentException(error);}
         if(enabled)update(true);
     }
@@ -47,7 +63,8 @@ public final class ScrollHeader implements ViewTreeObserver.OnScrollChangedListe
         if(disposed || enabled==value)return;
         enabled=value;
         if(value){observer=list.getViewTreeObserver();observer.addOnScrollChangedListener(this);list.addOnLayoutChangeListener(this);active++;update(true);}
-        else{if(observer!=null && observer.isAlive())observer.removeOnScrollChangedListener(this);observer=null;list.removeOnLayoutChangeListener(this);active--;}
+        else{if(observer!=null && observer.isAlive())observer.removeOnScrollChangedListener(this);observer=null;list.removeOnLayoutChangeListener(this);active--;cancelPull();}
+        if(surface!=null)surface.invalidate();
     }
     @Override public void onScrollChanged(){update(false);}
     @Override public void onLayoutChange(View view,int l,int t,int r,int b,int ol,int ot,int or,int ob){update(true);}
@@ -106,7 +123,7 @@ public final class ScrollHeader implements ViewTreeObserver.OnScrollChangedListe
     }
     public String snapshot() {
         try {return new JSONObject().put("minimumOffset",minimumOffset).put("maximumOffset",maximumOffset).put("offset",Double.isFinite(offset)?offset:0).put("phase",new String[]{"expanded","between","collapsed"}[Math.max(0,phase)])
-            .put("updates",updates).put("callbacks",callbacks).put("first",list.getFirstVisiblePosition()).put("visible",list.getChildCount()).put("total",list.getCount()).toString();}
+            .put("refresh",new String[]{"idle","pulling","armed","refreshing"}[refreshState]).put("refreshRequests",refreshRequests).put("refreshDraws",refreshDraws).put("updates",updates).put("callbacks",callbacks).put("first",list.getFirstVisiblePosition()).put("visible",list.getChildCount()).put("total",list.getCount()).toString();}
         catch(Exception error){throw new IllegalStateException(error);}
     }
     public void scroll(double target,boolean animated) {
@@ -121,8 +138,70 @@ public final class ScrollHeader implements ViewTreeObserver.OnScrollChangedListe
         list.setSelectionFromTop(index,top);
         list.post(new Runnable(){public void run(){if(!disposed)update(true);}});
     }
+    private void refreshState(int state) {
+        if(refreshState==state)return;
+        refreshState=state;
+        if(state==3)refreshRequests++;
+        if(surface!=null)surface.invalidate();
+        callbacks++;if(listener!=null)listener.changed();
+    }
+    public void setRefreshing(boolean value) {
+        if(disposed || (value && (!enabled || !refreshEnabled)))return;
+        eligible=false;pulling=false;pull=0;
+        refreshState(value?3:0);
+    }
+    void cancelPull() {
+        eligible=false;pulling=false;pull=0;
+        if(refreshState!=3)refreshState(0);
+        if(surface!=null)surface.invalidate();
+    }
+    boolean intercepts(){return pulling;}
+    void beforeTouch(MotionEvent event) {
+        if(disposed || !enabled || !refreshEnabled || refreshState==3)return;
+        int action=event.getActionMasked();
+        if(action==MotionEvent.ACTION_DOWN){
+            cancelPull();startX=event.getX();startY=event.getY();
+            eligible=current()<=.5 && !list.canScrollVertically(-1)
+                && startX>=list.getLeft() && startX<list.getRight() && startY>=list.getTop() && startY<list.getBottom();
+        } else if(action==MotionEvent.ACTION_POINTER_DOWN){cancelPull();}
+        else if(action==MotionEvent.ACTION_MOVE && eligible){
+            double dx=event.getX()-startX,dy=event.getY()-startY;
+            int slop=ViewConfiguration.get(list.getContext()).getScaledTouchSlop();
+            if(!pulling){
+                if(Math.abs(dx)>slop && Math.abs(dx)>=Math.abs(dy) || dy < -slop){eligible=false;return;}
+                if(dy<=slop || list.canScrollVertically(-1))return;
+                pulling=true;
+                // Core receives ACTION_CANCEL from the parent's interception.
+                if(surface.getParent()!=null)surface.getParent().requestDisallowInterceptTouchEvent(true);
+            }
+            pull=Math.max(0,(dy-slop)/(2*density));
+            refreshState(pull>=refreshThreshold?2:1);
+            surface.invalidate();
+        }
+    }
+    void afterTouch(MotionEvent event) {
+        int action=event.getActionMasked();
+        if(action==MotionEvent.ACTION_UP){
+            boolean trigger=pulling && refreshState==2;
+            cancelPull();
+            if(trigger)setRefreshing(true);
+        } else if(action==MotionEvent.ACTION_CANCEL)cancelPull();
+    }
+    void drawRefresh(Canvas canvas,Paint paint,int width) {
+        if(disposed || !enabled || refreshState==0)return;
+        float x=width*.5f, y=list.getTop()+(refreshState==3?32:(float)Math.min(60,pull)*.6f+16)*density;
+        float radius=18*density;
+        paint.setStyle(Paint.Style.FILL);paint.setColor(0xfff4f0e7);canvas.drawCircle(x,y,radius,paint);
+        paint.setStyle(Paint.Style.STROKE);paint.setStrokeWidth(3*density);paint.setStrokeCap(Paint.Cap.ROUND);paint.setColor(0xff193d34);
+        float turn=refreshState==3&&!reduced?(SystemClock.uptimeMillis()%900)*.4f:-90;
+        float sweep=refreshState==3?270:(float)(Math.max(.08,Math.min(1,pull/refreshThreshold))*330);
+        float r=11*density;canvas.drawArc(x-r,y-r,x+r,y+r,turn,sweep,false,paint);
+        refreshDraws++;
+        if(refreshState==3&&!reduced)surface.postInvalidateOnAnimation();
+    }
     public void dispose() {
-        if(disposed)return;setEnabled(false);disposed=true;
+        if(disposed)return;setRefreshing(false);setEnabled(false);disposed=true;
+        if(surface!=null){surface.detach(this);surface=null;}
         title.setImportantForAccessibility(titleAccessibility);toolbarTitle.setImportantForAccessibility(toolbarAccessibility);toolbar.setVisibility(toolbarVisibility);
         toolbar.setImportantForAccessibility(toolbarContainerAccessibility);
         header.setImportantForAccessibility(headerAccessibility);

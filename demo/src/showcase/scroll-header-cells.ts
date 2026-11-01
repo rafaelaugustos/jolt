@@ -9,10 +9,11 @@ import {
   type ItemEventData,
 } from '@nativescript/core'
 import { markRaw, registerElement } from 'nativescript-vue'
+import { ScrollHeaderSurface } from '@rafaelaugusto/jolt'
 import { refreshAndroidText } from './text-scale'
 registerElement('ScrollHeaderList', () => ListView)
 let nativeViewport: typeof UIView | undefined
-class AlbumViewport extends GridLayout {
+class AlbumViewport extends ScrollHeaderSurface {
   scrollTarget?: WeakRef<ListView>
   createNativeView() {
     if (!isIOS) return super.createNativeView()

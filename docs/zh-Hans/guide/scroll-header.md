@@ -56,6 +56,47 @@ page.dispose()
 
 请参阅完整的 [Vue 屏幕](https://github.com/rafaelaugustos/jolt/blob/main/demo/src/components/ScrollHeaderLab.vue) 和 [回收单元模板](https://github.com/rafaelaugustos/jolt/blob/main/demo/src/showcase/scroll-header-cells.ts)。该组合提供了运动和滚动几何形状；该应用程序拥有数据、模板、图像和路线。覆盖背景应该传递除控件之外的触摸；该参考使用 `isPassThroughParentEnabled` 和非交互式装饰标签。
 
+## 下拉刷新
+
+添加 `onRefresh`，并使用 **ScrollHeaderSurface** 作为列表和覆盖层现有的父容器。它继承 Core GridLayout；Android 使用它协调顶部手势，不替换 Core 的触摸或列表项监听器。无需另一个 ScrollView 或第三方刷新容器。`keys()` 必须稳定且唯一。
+
+```ts
+import { ScrollHeaderSurface, scrollHeader } from '@rafaelaugusto/jolt'
+
+// Vue: registerElement('ScrollHeaderSurface', () => ScrollHeaderSurface)
+// Use this GridLayout subclass as the existing list/overlay parent.
+const page = scrollHeader(list, {
+  // ...the measured header, toolbar, section and spacer options above
+  keys: () => tracks.map((track) => track.id),
+  async onRefresh(refresh) {
+    const latest = await loadTracks()
+    await refresh.commit(async () => {
+      tracks = latest
+      list.refresh()
+      // Vue: await nextTick() after changing reactive data.
+    })
+  },
+  onRefreshError(error) {
+    showRetryMessage(error)
+  },
+  refreshThreshold: 80, // DIPs
+})
+
+await page.refresh() // the same action from a button
+page.cancelRefresh()
+```
+
+在顶部下拉超过阈值后松手开始刷新；提前松手取消手势。原生圆环显示进度与加载状态，减少动态效果时显示静态圆弧。iOS 观察列表已有的 pan 和回弹；Android 仅拦截顶部向下拖动。普通滚动和列表项激活仍由列表处理。已有的 iOS `refreshControl` 会被拒绝，其他刷新容器不在支持范围内。
+
+进行中的 `refresh()` 调用共享同一个 promise：成功返回 `true`，失败、取消或不可用时返回 `false`。`onRefreshError` 处理错误，下一次下拉可以重试。示例使用带异步延迟的本地数据，不访问网络。
+
+先加载数据，再调用 `refresh.commit()`。提交时捕获当前稳定键锚点，因此加载期间滚动不会回到请求开始时的位置。在顶部则显示新首行。等待 commit 以及回调中的框架渲染，与其他 `preserveAnchor()` 更新串行执行。先同步修改数据，再等待渲染。取消不能撤销应用修改或中断应用的 I/O。
+
+暂停、后台、列表卸载、替换、销毁或 `cancelRefresh()` 会使请求失效并停止指示器。`refresh.cancelled` 表示取消；迟到的 `commit()` 返回 `false`，不执行回调。控制器重新激活后可开始新请求。`state.refresh` 为 `idle`、`pulling`、`armed` 或 `refreshing`，无需逐帧 JavaScript 回调。
+
+<Clip name="scroll-header-refresh-ios" caption="实体 iPhone 17 Pro，iOS 27.2，英文界面：真实下拉松手、原生加载、失败重试、加载期间滚动并保持当前位置、减少动态效果及短列表和空列表。XCTest 原生录屏，原速，本地示例数据；非帧率测试。" />
+<Clip name="scroll-header-refresh-android" caption="Android 16 / API 36 模拟器，英文界面：真实 ADB 手势、单个更新、失败重试、加载期间保持行位置、减少动态效果及短列表和空列表。原速，触摸标记来自真实输入；仅验证模拟器功能。" />
+
 ## 偏移、几何形状和锚点 {#offset-geometry-and-anchors}
 
 布局后测量英雄高度；工具栏提供其最小高度。显式 `expandedHeight` 和 `minimumHeight` 会覆盖这些测量值。折叠范围为`expanded − minimum`，第0行占据`expanded + section`。该部分从英雄的底部移动到工具栏的底部。一旦固定，滚动将继续浏览虚拟列表，而无需第二个滚动所有者。
@@ -100,14 +141,14 @@ Release 检查更改并恢复真实系统字号，同时让第 36 首曲目保�
 
 Reduce Motion 保持固定和滚动，禁用装饰性视差/拉伸，使用立即标题切换并禁用动画编程滚动。一次只有一个游戏参与辅助功能。固定高度数据模板的大小必须适合应用程序选择的大文本比例；第一个适配器不支持可变高度数据行。
 
-| 组合                                               | 第一份适配器合同                                             |
-| -------------------------------------------------- | ------------------------------------------------------------ |
-| 核心 9.1.3 扁平 ListView，1 个垫片和固定数据行     | 两个平台都支持参考                                           |
-| 短/空数据                                          | 真实内容程度；没有强制幻像滚动空间                           |
-| iOS 反弹                                           | 可选的图稿拉伸；原生列表拥有手势                             |
-| Android 过度滚动                                   | 平台边缘行为，无装饰英雄拉伸                                 |
-| 下拉刷新                                           | 未安装识别器；刷新集成尚未经过验证，并且在此里程碑中不受支持 |
-| 核心分段/粘性标题/搜索模式                         | 被拒绝；该组合拥有固定几何体                                 |
-| 其他列表插件、可变数据行、嵌套垂直滚动、分页选项卡 | 不支持；没有静默的 JS 回退                                   |
+| 组合                                               | 第一份适配器合同                                                |
+| -------------------------------------------------- | --------------------------------------------------------------- |
+| 核心 9.1.3 扁平 ListView，1 个垫片和固定数据行     | 两个平台都支持参考                                              |
+| 短/空数据                                          | 真实内容程度；没有强制幻像滚动空间                              |
+| iOS 反弹                                           | 可选的图稿拉伸；原生列表拥有手势                                |
+| Android 过度滚动                                   | 平台边缘行为，无装饰英雄拉伸                                    |
+| 下拉刷新                                           | 支持内置 `onRefresh` 与 ScrollHeaderSurface；不支持外部刷新容器 |
+| 核心分段/粘性标题/搜索模式                         | 被拒绝；该组合拥有固定几何体                                    |
+| 其他列表插件、可变数据行、嵌套垂直滚动、分页选项卡 | 不支持；没有静默的 JS 回退                                      |
 
-[原生验证和复现说明](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) 记录了本次交付所采用的模拟器验证结果。真机性能测量、其他阅读器与字体配置和下拉刷新集成不属于本次正确性修复的范围；后续适配器工作由 #116 跟踪。
+[原生验证和复现说明](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md)记录了验证步骤。真机性能测量、其他阅读器与字体配置以及其他刷新适配器不属于本次交付范围；其余工作由 #116 跟踪。

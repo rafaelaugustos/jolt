@@ -113,6 +113,13 @@ export const portuguese: Record<string, string> = {
   'THE TRACKLIST': 'AS FAIXAS',
   'Jump to a later track': 'Ir para uma faixa adiante',
   'Back to the cover': 'Voltar à capa',
+  'Pull down for fresh tracks.': 'Puxe para atualizar as faixas.',
+  'Refreshing…': 'Atualizando…',
+  'Refresh cancelled.': 'Atualização cancelada.',
+  'Fresh tracks. Your place stays.': 'Novas faixas. Sua posição foi mantida.',
+  'Could not refresh. Pull to try again.':
+    'Não foi possível atualizar. Puxe para tentar de novo.',
+  Refresh: 'Atualizar',
   'New cover': 'Nova capa',
   'Add a track': 'Adicionar faixa',
   'Show motion details': 'Ver detalhes do movimento',

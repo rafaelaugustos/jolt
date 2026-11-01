@@ -25,6 +25,7 @@ declare class JoltSensorSource extends NSObject {
   dispose(): void
 }
 declare class JoltScrollHeader extends NSObject {
+  setRefreshing(value: boolean): void
   static attachNodeHeaderTitleToolbarTitleToolbarDiagnosticOptionsOnState(
     list: UITableView,
     node: JoltLiveSpring,

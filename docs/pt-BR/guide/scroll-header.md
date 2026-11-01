@@ -56,6 +56,47 @@ O template precisa garantir a altura real. No Core 9.1.3 Android, a lista com al
 
 Veja a [tela Vue completa](https://github.com/rafaelaugustos/jolt/blob/main/demo/src/components/ScrollHeaderLab.vue) e os [templates recicláveis](https://github.com/rafaelaugustos/jolt/blob/main/demo/src/showcase/scroll-header-cells.ts). O app mantém dados, templates, imagens e rotas. Os fundos sobrepostos devem deixar os toques passar, exceto seus controles; o exemplo usa `isPassThroughParentEnabled` e textos decorativos sem interação.
 
+## Puxar para atualizar
+
+Adicione `onRefresh` e use **ScrollHeaderSurface** como o pai existente da lista e dos overlays. Ele estende o GridLayout do Core; no Android, coordena o gesto no topo sem substituir os listeners do Core. Não é necessário outro ScrollView ou wrapper de refresh. Mantenha `keys()` estáveis e únicas.
+
+```ts
+import { ScrollHeaderSurface, scrollHeader } from '@rafaelaugusto/jolt'
+
+// Vue: registerElement('ScrollHeaderSurface', () => ScrollHeaderSurface)
+// Use this GridLayout subclass as the existing list/overlay parent.
+const page = scrollHeader(list, {
+  // ...the measured header, toolbar, section and spacer options above
+  keys: () => tracks.map((track) => track.id),
+  async onRefresh(refresh) {
+    const latest = await loadTracks()
+    await refresh.commit(async () => {
+      tracks = latest
+      list.refresh()
+      // Vue: await nextTick() after changing reactive data.
+    })
+  },
+  onRefreshError(error) {
+    showRetryMessage(error)
+  },
+  refreshThreshold: 80, // DIPs
+})
+
+await page.refresh() // the same action from a button
+page.cancelRefresh()
+```
+
+Puxe além do limiar no topo e solte para iniciar. Soltar antes cancela o gesto. Um anel nativo mostra o progresso e o carregamento; Reduzir Movimento mantém um arco estático. O iOS observa o pan existente e o bounce da tabela; o Android intercepta somente a puxada para baixo no topo. A lista continua responsável pela rolagem comum e pela ativação das linhas. Um `refreshControl` existente no iOS é rejeitado; outros wrappers de refresh não fazem parte deste contrato.
+
+`refresh()` retorna a mesma promise durante uma atualização: `true` ao concluir e `false` em falha, cancelamento ou indisponibilidade. `onRefreshError` permite mostrar o erro; a próxima puxada pode tentar novamente. O exemplo usa dados locais com atraso assíncrono, sem requisição de rede.
+
+Carregue os dados antes de chamar `refresh.commit()`. O commit captura a âncora por chave **atual**, preservando a posição mesmo quando a pessoa rola durante o carregamento. No topo, mostra a nova primeira linha. Aguarde o commit e a renderização do framework dentro dele; serialize com outras chamadas de `preserveAnchor()`. Faça a alteração dos dados de forma síncrona antes de aguardar a renderização. O cancelamento não desfaz alterações da aplicação nem interrompe seu I/O.
+
+Pausar, ir ao background, descarregar a lista, substituir ou descartar o controlador e chamar `cancelRefresh()` invalidam o pedido e param o indicador. `refresh.cancelled` informa o cancelamento; um `commit()` atrasado retorna `false` sem executar seu callback. Outro pedido pode começar quando o controlador estiver ativo. `state.refresh` pode ser `idle`, `pulling`, `armed` ou `refreshing`: callbacks semânticos, sem atualizações JavaScript por frame.
+
+<Clip name="scroll-header-refresh-ios" caption="iPhone 17 Pro físico, iOS 27.2, interface em inglês: puxar e soltar, indicador nativo, nova tentativa após erro, rolagem durante o carregamento com posição preservada, Reduzir Movimento e listas curtas/vazias. Gravação nativa do XCTest em velocidade original; dados locais, sem benchmark de rede ou FPS." />
+<Clip name="scroll-header-refresh-android" caption="Emulador Android 16 / API 36, interface em inglês: gestos reais via ADB, uma atualização por vez, erro e nova tentativa, rolagem durante o carregamento com linhas estáveis, Reduzir Movimento e listas curtas/vazias. Velocidade original; marcas mostram os toques reais. Validação funcional em emulador." />
+
 ## Geometria e preservação da posição
 
 A altura expandida vem do layout da capa e a altura mínima vem da barra. `expandedHeight` e `minimumHeight` permitem valores explícitos. O intervalo de recolhimento é `expanded − minimum`; o espaçador ocupa `expanded + section`. A seção desce da base da capa até ficar abaixo da barra. A lista continua rolando e reciclando células depois que a seção fica fixa.
@@ -100,14 +141,14 @@ O iOS observa a geometria com KVO. Um proxy de delegate por lista fornece altura
 
 Reduzir Movimento mantém fixação e rolagem, desativa paralaxe/expansão decorativas, troca o título imediatamente e desativa a animação da navegação programática. Apenas um título participa da acessibilidade por vez. As linhas fixas precisam ter tamanho adequado à escala de texto escolhida pelo app; linhas de dados com alturas variáveis não são suportadas neste adaptador.
 
-| Combinação                                                                  | Contrato inicial                                                                                       |
-| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| Core 9.1.3, ListView sem seções, um espaçador e linhas fixas                | Referência suportada nas duas plataformas                                                              |
-| Dados curtos/vazios                                                         | Extensão real, sem criar espaço de rolagem artificial                                                  |
-| Bounce do iOS                                                               | Expansão opcional; a lista nativa continua dona do gesto                                               |
-| Overscroll do Android                                                       | Efeito de borda da plataforma, sem expandir a capa                                                     |
-| Pull-to-refresh                                                             | Nenhum recognizer adicional; integrações de refresh ainda não foram validadas e ficam fora deste marco |
-| Seções, sticky-header ou busca integrados do Core                           | Rejeitados, pois esta composição controla a geometria fixa                                             |
-| Outros plugins, linhas variáveis, rolagem vertical aninhada, abas paginadas | Não suportados; sem fallback silencioso para JS                                                        |
+| Combinação                                                                  | Contrato inicial                                                                                  |
+| --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Core 9.1.3, ListView sem seções, um espaçador e linhas fixas                | Referência suportada nas duas plataformas                                                         |
+| Dados curtos/vazios                                                         | Extensão real, sem criar espaço de rolagem artificial                                             |
+| Bounce do iOS                                                               | Expansão opcional; a lista nativa continua dona do gesto                                          |
+| Overscroll do Android                                                       | Efeito de borda da plataforma, sem expandir a capa                                                |
+| Pull-to-refresh                                                             | `onRefresh` integrado com ScrollHeaderSurface; wrappers de refresh externos continuam sem suporte |
+| Seções, sticky-header ou busca integrados do Core                           | Rejeitados, pois esta composição controla a geometria fixa                                        |
+| Outros plugins, linhas variáveis, rolagem vertical aninhada, abas paginadas | Não suportados; sem fallback silencioso para JS                                                   |
 
-As [notas de validação e reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) registram os testes de simulador/emulador aceitos para esta entrega. Medições de desempenho em aparelhos físicos, outras configurações de leitor/fonte e integração de refresh continuam fora desta correção; a evolução dos adaptadores é acompanhada na #116.
+As [notas de validação e reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) descrevem os testes registrados. Medições de desempenho em aparelhos físicos, outras configurações de leitor/fonte e outros adaptadores de refresh continuam fora desta entrega; a evolução dos adaptadores é acompanhada na #116.
