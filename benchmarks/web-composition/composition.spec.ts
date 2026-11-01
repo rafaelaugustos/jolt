@@ -310,27 +310,34 @@ test('cancels once and ignores old callbacks after replacement and disposal', as
 test('browser playback advances with no per-frame transform writes or rebuilds', async ({
   page,
 }) => {
-  const before = await page.evaluate(() => {
-    const p = window.proof
-    p.animate('x', 'x', 240, { duration: 1200, ease: 'linear' })
-    return { rendered: p.presented(), model: p.model() }
-  })
   const result = await page.evaluate(async () => {
+    const p = window.proof
+    // A live presentation check needs a painted target. Other tests deliberately
+    // use an invisible measurement box; WebKitGTK may skip its visual updates.
+    p.target.style.opacity = '1'
+    p.target.style.background = 'purple'
+    p.animate('x', 'x', 240, { duration: 3000, ease: 'linear' })
+    await Promise.all(p.target.getAnimations().map((animation) => animation.ready))
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
+    const before = { rendered: p.presented(), model: p.model() }
     let writes = 0
     const observer = new MutationObserver((records) => {
       writes += records.length
     })
-    observer.observe(window.proof.target, {
-      attributes: true,
-      attributeFilter: ['style'],
-    })
-    await new Promise((resolve) => setTimeout(resolve, 150))
+    observer.observe(p.target, { attributes: true, attributeFilter: ['style'] })
+    const deadline = performance.now() + 2000
+    let rendered = p.presented()
+    // Observe advancement, not a wall-clock frame-rate guarantee on a loaded runner.
+    while (rendered.x <= before.rendered.x + 10 && performance.now() < deadline) {
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
+      rendered = p.presented()
+    }
     observer.disconnect()
-    return { writes, rendered: window.proof.presented(), model: window.proof.model() }
+    return { before, writes, rendered, model: p.model() }
   })
-  expect(result.rendered.x).toBeGreaterThan(before.rendered.x + 10)
+  expect(result.rendered.x).toBeGreaterThan(result.before.rendered.x + 10)
   expect(result.writes).toBe(0)
-  expect(result.model.rebuilds).toBe(before.model.rebuilds)
+  expect(result.model.rebuilds).toBe(result.before.model.rebuilds)
   expect(result.model.fallback).toBe(false)
   expect(result.model.keyframes).toBeLessThanOrEqual(6001)
 })

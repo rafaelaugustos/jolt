@@ -61,7 +61,7 @@ The compiled-effect test samples the **same already compiled effect** at 39 expl
 
 Retargeting separately checks exact source-position continuity, inherited source velocity within 0.5 units/second, and the aligned presentation handoff within 0.3 px. Different-duration y/scale clocks remain unchanged. Settled scale is checked at `1.1`, `1.056`, `1.152` and `1.2`; disposal and natural completion leave no target animations. Other checks cover delay, pause/resume, stale callbacks after replacing the surface, CSS conflicts and preservation of external styles.
 
-A separate real-time playback test observes movement over 150 ms with no style mutations or compositor rebuilds. This supports the absence of library style writes per frame; it does not prove GPU execution, dropped-frame rates, busy-main-thread resilience or absence of browser work.
+A separate real-time playback test waits for WAAPI readiness on a painted target, then observes more than 10 px of movement within a bounded two-second window with no style mutations or compositor rebuilds. Its requestAnimationFrame callback only reads presentation; it does not advance the animation. The initial Linux WebKit run exposed why an invisible measurement box and an assumed 150 ms startup window were unsuitable for this check. This supports the absence of library style writes per frame; it does not prove GPU execution, dropped-frame rates, busy-main-thread resilience or absence of browser work.
 
 ### Live style reads are not an exact timeline probe
 
