@@ -1,6 +1,6 @@
 # Vue Web 动画
 
-实验性入口 `@rafaelaugusto/jolt/web/vue` 将声明的 DOM ref 连接到 [Web 运行时](./web-runtime)。请单独安装 Vue 3.5。原生 `/vue` 仍表示 NativeScript 集成；命令式 `/web` 不会安装 Vue。此功能位于[打包候选版本](./install#experimental-web-candidate)，**尚未包含在已发布的 0.1.0-rc.4 中**。
+实验性 `@rafaelaugusto/jolt/web/vue` 入口已包含在 **0.1.0-rc.5** 中，将声明的 DOM ref 连接到 [Web 运行时](./web-runtime)。请单独安装 Vue 3.5。原生 `/vue` 仍表示 NativeScript 集成；命令式 `/web` 不会安装 Vue。参见[安装](./install#experimental-web-candidate)。
 
 <Clip name="web-vue-chromium" :width="720" caption="macOS arm64 上的 Chromium 156：真实鼠标和键盘输入反转离场、按住卡片、在按住时改变应用缩放、替换表面并完成隐藏与显示。原速浏览器录制；不代表实体设备性能。" />
 

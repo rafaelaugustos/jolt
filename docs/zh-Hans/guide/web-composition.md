@@ -1,6 +1,6 @@
 # Web 组合实验
 
-这个内部 [#280 实验](https://github.com/rafaelaugustos/jolt/issues/280)使用可移植编译器，通过 Web Animations API 播放变换。它直接操作 DOM 元素，不依赖框架。目前尚未发布 `/web` 入口；Mavis 的 press/reveal 和应用共享示例仍属于 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 的后续工作。
+这个内部 [#280 实验](https://github.com/rafaelaugustos/jolt/issues/280) 使用可移植编译器，通过 Web Animations API 直接在 DOM 元素上播放变换，不依赖框架。公开实验性 [Web 运行时](./web-runtime) 自 **0.1.0-rc.5** 起可用。Mavis press/reveal 迁移及共享应用动画示例仍属于 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 的独立工作。
 
 <Clip name="web-composition-chromium" :width="720" caption="macOS arm64 上的 Chromium 156，实际浏览器播放，保持正常速度。按钮依次启动 x/y、改变 x 的目标、将应用缩放设为 1.1、施加 0.96 的按压贡献、将基础缩放改为 1.2，然后释放并保留 1.2。按钮用于验证组合；完整的指针和键盘按压识别属于后续工作。" />
 

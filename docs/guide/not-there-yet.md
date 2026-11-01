@@ -1,13 +1,16 @@
 # Release status and limits {#not-there-yet}
 
-**0.1.0-rc.4 is available.** Its features are shipped within the combinations documented in each guide. The feature scope for 0.1.0 is frozen; validation for the stable release is still in progress.
+**0.1.0-rc.5 is available.** Native features retain their documented platform limits while stable-release validation continues. The Web entries are experimental; publication does not complete Mavis integration or establish native/Web parity for every API.
+
+RC.5 adds [experimental Web playback](./web-runtime), [composable press](./web-press) and the optional [Vue DOM adapter](./web-vue), fixes scoped background recovery and Android layer removal, and adds [native pull-to-refresh](./scroll-header#pull-to-refresh) plus scroll/gallery reader-focus fixes. Mavis component migration and its shared application-animation proof remain open under #236.
 
 RC.4 composes rolling layer windows on native live nodes, continues Android shapes, gradients and blur from the paused time on resume, places the bottom sheet by the host's safe-area insets and offers only the handle actions a stop can take. RC.3 added `interactiveModal()` on iOS, one-call Android numeric keyframes, shapes created before their view loads and component refs as targets.
 
 The [binding/layer audit](./motion-values#binding-measurements) includes physical iPhone and Android preparation/playback measurements, automated input onset and repeated mount/unmount retention checks. Expensive composition boundaries, approximate allocation-counter failures and unavailable Android thermal telemetry remain explicit in the evidence. These results provide workload-specific guidance, not a universal capacity or presented-frame guarantee. Since RC.4, windowed compositions play on native composers with no boundary submissions; the remaining cost is the synchronous start of large keyframe batches, measured in the same audit.
 
-## Available in RC.4 {#available-in-rc-1}
+## Available in RC.5 {#available-in-rc-1}
 
+- Experimental [finite Web playback](./web-runtime), [press](./web-press) and [Vue DOM lifecycle](./web-vue), with optional framework/native peers and SSR-safe imports.
 - [Shared navigation](./shared-navigation), [shared gestures](./shared-gestures), [current-cell returns](./return-targets) and the [connected gallery](./gallery), for the documented Frame/ListView/static-image combinations.
 - [Native gesture composition](./gestures): pan, pinch and rotation, plus supported vertical Core ScrollView handoff. [Drag constraints](./drag) and [photo zoom](./photo-zoom) have their own interaction contracts.
 - [Scroll composition](./scroll-header) with the Core ListView adapter, and [rotation/gravity sensors](./device-sensors) feeding native motion values.
@@ -17,6 +20,7 @@ The [binding/layer audit](./motion-values#binding-measurements) includes physica
 
 ## Current limits {#current-limits}
 
+- Experimental Web support covers finite numeric 2D transforms and opacity. Continuous gestures/springs, scroll/layout, React and a stable portable component-reference API are later work; see the [browser matrix and limits](./web-vue#verification).
 - `animateSize()` supports StackLayout/GridLayout, including inside ScrollView, and runs JavaScript measurement/layout per frame. Flex allocation, recycled cells and shared elements are outside that API.
 - `drag()` does not provide general-purpose multi-finger composition. Use [`gestures()`](./gestures) for pan/pinch/rotation, or [photo zoom](./photo-zoom) for its dedicated pinch, pan and dismissal controller. The gesture handoff adapter supports vertical Core ScrollView; other list/container combinations require their own adapters and native validation.
 - External property adapters require `@rafaelaugusto/jolt-native`. The bundled SceneKit camera, light and material adapters are iOS-only; there is no bundled Android 3D renderer adapter. MapKit and MapLibre camera units are distinct.

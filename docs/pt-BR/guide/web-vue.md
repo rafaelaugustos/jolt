@@ -1,6 +1,6 @@
 # Movimento Vue na Web
 
-A entrada experimental `@rafaelaugusto/jolt/web/vue` conecta uma ref DOM declarada ao [runtime Web](./web-runtime). Instale Vue 3.5 separadamente. `/vue` continua sendo a integração NativeScript; `/web` imperativo não instala Vue. Disponível no [candidato empacotado](./install#experimental-web-candidate), **não na versão publicada 0.1.0-rc.4**.
+A entrada experimental `@rafaelaugusto/jolt/web/vue` está na **0.1.0-rc.5** e conecta uma ref DOM declarada ao [runtime Web](./web-runtime). Instale Vue 3.5 separadamente. `/vue` continua sendo a integração NativeScript; `/web` imperativo não instala Vue. Veja a [instalação](./install#experimental-web-candidate).
 
 <Clip name="web-vue-chromium" :width="720" caption="Chromium 156 no macOS arm64: ponteiro e teclado reais interrompem a saída, pressionam o card, alteram a escala da aplicação enquanto pressionado, substituem a superfície e completam ocultar/mostrar. Gravação do navegador em velocidade original; não mede desempenho em aparelho físico." />
 

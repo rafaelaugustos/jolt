@@ -1,6 +1,6 @@
 # Respuesta a la pulsación en Web
 
-`motion.press()` añade respuesta finita de puntero y teclado a una superficie HTML declarada. Utiliza el [runtime Web](./web-runtime), sin Vue, React ni un bucle permanente de frames. La API es experimental y está en el [candidato empaquetado localmente](./install#experimental-web-candidate), **no en la versión 0.1.0-rc.4 publicada**. La integración con Mavis llegará después.
+`motion.press()` añade feedback finito de puntero y teclado a una superficie HTML declarada. Usa el [runtime Web](./web-runtime), sin Vue, React ni un bucle permanente por frame. Esta API experimental se incluye en **0.1.0-rc.5**; consulta la [instalación](./install#experimental-web-candidate). La integración Mavis continúa por separado.
 
 <Clip name="web-press-chromium" :width="720" caption="Chromium 156 en macOS arm64, grabación real del navegador a velocidad original con pulsaciones mantenidas y teclado: escala de aplicación 1,1, factor 0,96, cambio a 1,2 durante la pulsación, liberación, Space/Enter, liberación fuera, descarte y cancelación por loading. No es una medición en dispositivo físico." />
 

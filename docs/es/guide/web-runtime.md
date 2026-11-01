@@ -1,6 +1,6 @@
 # Runtime Web finito
 
-El runtime de [#281](https://github.com/rafaelaugustos/jolt/issues/281) usa el compilador portátil de Jolt y WAAPI directamente sobre elementos HTML, independientemente de Vue, React o NativeScript. La entrada experimental `/web` está disponible en candidatos empaquetados localmente de [#282](https://github.com/rafaelaugustos/jolt/issues/282), **no en la 0.1.0-rc.4 publicada**. Consulta la [instalación del candidato](./install#experimental-web-candidate). Press/reveal de Mavis y el ejemplo compartido de la aplicación siguen en [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+Desde **0.1.0-rc.5**, la entrada experimental `@rafaelaugusto/jolt/web` usa el compilador portátil de Jolt y WAAPI directamente sobre elementos HTML, sin depender de Vue, React o NativeScript. Consulta la [instalación](./install#experimental-web-candidate). La migración de press/reveal de Mavis y el ejemplo compartido de la aplicación continúan como validaciones separadas en [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
 La entrada por puntero y teclado está en [Pulsación en Web](./web-press); la grabación siguiente sigue siendo la referencia del runtime finito.
 

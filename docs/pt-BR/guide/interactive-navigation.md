@@ -72,7 +72,7 @@ Por padrão, esta API anima páginas inteiras do Frame. Para imagem/cartão com 
 
 ## Modais interativos {#interactive-modals}
 
-**Ainda não publicado:** `interactiveModal()` adiciona fechamento por arraste para baixo a um modal NativeScript que ocupa a janela inteira. Abra **Navegação interativa → Abrir um modal** na prévia. Recompile o aplicativo nativo; caminho validado com Core **9.1.3**, NativeScript-Vue **3.1.2** e simulador iOS **26.2**.
+**Desde a 0.1.0-rc.3:** `interactiveModal()` adiciona fechamento por arraste para baixo a um modal NativeScript que ocupa a janela inteira. Abra **Navegação interativa → Abrir um modal** na prévia. Recompile o aplicativo nativo; caminho validado com Core **9.1.3**, NativeScript-Vue **3.1.2** e simulador iOS **26.2**.
 
 <Clip name="interactive-modal-ios" caption="Simulador iPhone 17, iOS 26.2, interface em inglês: abrir um modal NativeScript-Vue real, cancelar um arraste para baixo, tentar novamente e confirmar, depois reabrir e fechar pelo botão. Reprodução nativa na velocidade original. Não mede desempenho físico nem valida leitor de tela." />
 

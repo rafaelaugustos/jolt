@@ -65,7 +65,13 @@ features:
     link: /pt-BR/guide/scene-camera
 ---
 
-## 0.1.0-rc.4: composição nativa, retomada e sheets {#release-candidate}
+## 0.1.0-rc.5: movimento Web e ciclo de vida nativo {#release-candidate}
+
+A RC.5 publica [playback Web finito](/pt-BR/guide/web-runtime), [feedback de press](/pt-BR/guide/web-press) e um [adapter Vue DOM opcional](/pt-BR/guide/web-vue). Também entrega [pull-to-refresh nativo](/pt-BR/guide/scroll-header#pull-to-refresh), retoma playback de scopes após background, corrige a limpeza de layers no Android e melhora o foco dos leitores no scroll/galeria.
+
+As APIs Web continuam experimentais; a integração Mavis é separada. [Instale a RC.5](/pt-BR/guide/install), recompile apps nativos e confira as [notas do release](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.5) e a [aceitação restante](/pt-BR/guide/not-there-yet).
+
+## 0.1.0-rc.4: composição nativa, retomada e sheets {#rc-4}
 
 A RC.4 toca [camadas infinitas sem período comum](/pt-BR/guide/layers) em compositores nativos em vez de reconstruir janelas de quatro segundos, então composições de 64 views passam de centenas de milissegundos por boundary para zero nos aparelhos medidos. Retoma [shapes, gradientes e blur do Android](/pt-BR/guide/shapes) do tempo em que estavam pausados, posiciona o [bottom sheet](/pt-BR/guide/bottom-sheet) pelos insets de safe area do host e oferece só as ações do handle que um stop pode executar.
 

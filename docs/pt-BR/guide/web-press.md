@@ -1,6 +1,6 @@
 # Feedback de pressão na Web
 
-`motion.press()` acrescenta feedback finito de ponteiro e teclado a uma superfície HTML declarada. Usa o [runtime Web](./web-runtime), sem Vue, React ou loop permanente de frames. A API é experimental e está no [candidato empacotado localmente](./install#experimental-web-candidate), **não na versão 0.1.0-rc.4 publicada**. A integração com Mavis vem depois.
+`motion.press()` adiciona feedback finito de ponteiro e teclado a uma superfície HTML declarada. Usa o [runtime Web](./web-runtime), sem Vue, React ou loop permanente por frame. A API experimental está na **0.1.0-rc.5**; veja a [instalação](./install#experimental-web-candidate). A integração do Mavis segue separadamente.
 
 <Clip name="web-press-chromium" :width="720" caption="Chromium 156 no macOS arm64, gravação real do navegador em velocidade original, com ponteiro mantido pressionado e teclado: escala da aplicação 1,1, fator de pressão 0,96, novo destino 1,2 durante a pressão, soltura, Space/Enter, soltura fora, descarte e cancelamento por loading. Não é medição em aparelho físico." />
 

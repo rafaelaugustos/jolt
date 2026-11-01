@@ -1,13 +1,16 @@
 # 发布状态与限制 {#not-there-yet}
 
-**0.1.0-rc.4 已发布。** 各项功能已支持对应指南中列出的组合。0.1.0 的功能范围已冻结，正式版的验收工作仍在进行。
+**0.1.0-rc.5 已发布。** 原生功能保留各自文档中说明的平台限制，正式版验收仍在进行。Web 入口仍为实验性功能；发布并不表示 Mavis 集成完成，也不保证所有原生/Web API 完全一致。
+
+RC.5 新增[实验性 Web 播放](./web-runtime)、[可合成按压](./web-press)和 [Vue DOM 适配器](./web-vue)，修复后台恢复及 Android layer 移除问题，并提供[原生下拉刷新](./scroll-header#pull-to-refresh)与滚动/相册读屏焦点修复。Mavis 迁移及共享应用动画证明仍由 #236 跟踪。
 
 RC.4 在原生节点上合成图层窗口，让 Android 的形状、渐变和模糊从暂停时刻继续播放，按宿主的安全区域内边距放置底部工作表，并只提供停靠点可执行的句柄操作。RC.3 新增了 iOS 上的 `interactiveModal()`、通过一次原生调用构建的 Android 数值关键帧、可在视图加载前创建的形状以及作为目标的组件引用。
 
 [绑定与图层审计](./motion-values#binding-measurements)包含实体 iPhone 和 Android 上的准备/播放测量、自动输入响应起点，以及重复挂载/卸载的内存保留检查。组合窗口开销较高、近似分配计数器失败、Android 缺少温度状态遥测等限制均保留在证据中。结果为已测场景提供指导，不保证通用容量或实际呈现的帧率。 自 RC.4 起，窗口化合成在原生合成器上播放，不再有边界提交；剩余开销是大批关键帧的同步启动，已在同一审计中测量。
 
-## RC.4 已提供的功能 {#available-in-rc-1}
+## RC.5 已提供的功能 {#available-in-rc-1}
 
+- 实验性[有限 Web 播放](./web-runtime)、[按压](./web-press)和 [Vue DOM 生命周期](./web-vue)，支持可选框架/原生 peer 和安全 SSR 导入。
 - [共享元素导航](./shared-navigation)、[共享手势](./shared-gestures)、[返回当前单元格](./return-targets)和[联动相册](./gallery)，支持文档列出的 Frame/ListView/静态图像组合。
 - [原生手势组合](./gestures)：平移、双指缩放和旋转，以及支持的垂直 Core ScrollView 手势交接。[拖动约束](./drag)和[照片缩放](./photo-zoom)各有独立的交互约定。
 - 使用 Core ListView 适配器的[滚动组合](./scroll-header)，以及驱动原生动画值的[旋转/重力传感器](./device-sensors)。
@@ -17,6 +20,7 @@ RC.4 在原生节点上合成图层窗口，让 Android 的形状、渐变和模
 
 ## 当前限制 {#current-limits}
 
+- 实验性 Web 支持有限的数值 2D 变换和透明度。连续手势/弹簧、滚动/布局、React 及稳定的可移植组件 ref API 属于后续工作；参见[浏览器矩阵与限制](./web-vue#verification)。
 - `animateSize()` 支持 StackLayout/GridLayout，也可用于 ScrollView 内部，但每帧需要通过 JavaScript 测量并更新布局。弹性空间分配、复用单元格和共享元素不属于该 API 的支持范围。
 - `drag()` 不提供通用的多指手势组合。平移、双指缩放和旋转请使用 [`gestures()`](./gestures)；[照片缩放](./photo-zoom)则提供专用的缩放、平移和关闭控制器。手势交接适配器支持垂直 Core ScrollView；其他列表/容器组合需要独立的适配器和原生验证。
 - 外部属性适配器需要 `@rafaelaugusto/jolt-native`。内置的 SceneKit 相机、光照和材质适配器仅支持 iOS；未内置 Android 3D 渲染器适配器。MapKit 与 MapLibre 的相机单位不同。

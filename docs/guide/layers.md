@@ -60,7 +60,7 @@ While a property has layers, Jolt plays its base and layers as one composite nat
 
 ## Removing a releasing layer {#settled-layer-removal}
 
-The unreleased candidate fixes Android presentation when a layer is removed during its release animation. The model can already equal the base while ObjectAnimator still displays an intermediate scale. Jolt now commits only the settled channel after cancellation; unrelated channels, a moving base and other layers keep their ownership. This does not require an identity-track workaround.
+Since **0.1.0-rc.5**, Jolt fixes Android presentation when a layer is removed during its release animation. The model can already equal the base while ObjectAnimator still displays an intermediate scale. Jolt now commits only the settled channel after cancellation; unrelated channels, a moving base and other layers keep their ownership. This does not require an identity-track workaround.
 
 <Clip name="layer-cleanup-android" caption="Android 16 / API 36 emulator, English native Layers audit started by a real ADB tap: release interrupted at non-unit scale, moving base plus another layer, and reduced-motion policies. Original speed; native presentation checked, not physical-device performance." />
 <Clip name="layer-cleanup-ios" caption="iOS 26.2 simulator, English native Layers audit started by a real XCTest tap: the same cases read Core Animation presentation values. Original speed; not a physical-device recording." />

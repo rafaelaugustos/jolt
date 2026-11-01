@@ -1,6 +1,6 @@
 # Finite Web runtime
 
-The runtime from [#281](https://github.com/rafaelaugustos/jolt/issues/281) uses Jolt's portable compiler and WAAPI directly on HTML elements, independently of Vue, React or NativeScript. The experimental `/web` entry is available in locally packed candidates from [#282](https://github.com/rafaelaugustos/jolt/issues/282), **not in the published 0.1.0-rc.4**. See [candidate installation](./install#experimental-web-candidate). Mavis press/reveal and the shared application example remain subsequent work in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+Since **0.1.0-rc.5**, the experimental `@rafaelaugusto/jolt/web` entry uses Jolt’s portable compiler and WAAPI directly on HTML elements, independently of Vue, React or NativeScript. See [installation](./install#experimental-web-candidate). Mavis press/reveal migration and the shared application example remain separate acceptance work in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
 Pointer and keyboard input are now covered by [Web press feedback](./web-press); the recording below remains the finite-runtime reference.
 

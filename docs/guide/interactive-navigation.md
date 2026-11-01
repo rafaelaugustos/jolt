@@ -72,7 +72,7 @@ By default this API animates whole Frame pages. For image/card motion on the sam
 
 ## Interactive modals
 
-**Unreleased:** `interactiveModal()` adds a downward dismissal to a full-window NativeScript modal. Open **Interactive navigation → Open a modal** in the preview. Rebuild the native app; this path is verified with Core **9.1.3**, NativeScript-Vue **3.1.2** and iOS **26.2 Simulator**.
+**Since 0.1.0-rc.3:** `interactiveModal()` adds a downward dismissal to a full-window NativeScript modal. Open **Interactive navigation → Open a modal** in the preview. Rebuild the native app; this path is verified with Core **9.1.3**, NativeScript-Vue **3.1.2** and iOS **26.2 Simulator**.
 
 <Clip name="interactive-modal-ios" caption="iPhone 17, iOS 26.2 Simulator, English: open a real NativeScript-Vue modal, cancel a downward drag, retry and commit, then reopen and close with the button. Original-speed native playback. No physical-device performance or screen-reader claim." />
 

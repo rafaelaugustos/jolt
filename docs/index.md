@@ -65,7 +65,13 @@ features:
     link: /guide/scene-camera
 ---
 
-## 0.1.0-rc.4: native composition, resume and sheets {#release-candidate}
+## 0.1.0-rc.5: Web motion and native lifecycle {#release-candidate}
+
+RC.5 publishes [finite Web playback](/guide/web-runtime), [press feedback](/guide/web-press) and an optional [Vue DOM adapter](/guide/web-vue). It also adds [native pull-to-refresh](/guide/scroll-header#pull-to-refresh), restores scoped playback after backgrounding, corrects Android layer cleanup and improves scroll/gallery reader focus.
+
+The Web APIs remain experimental; Mavis integration is separate. [Install RC.5](/guide/install), rebuild native apps and read the [release notes](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.5) and [remaining acceptance](/guide/not-there-yet).
+
+## 0.1.0-rc.4: native composition, resume and sheets {#rc-4}
 
 RC.4 plays [endless layers with no common period](/guide/layers) on native composers instead of rebuilding four-second windows, so 64-view compositions go from hundreds of milliseconds per boundary to none on the measured phones. It continues [Android shapes, gradients and blur](/guide/shapes) from the paused time on resume, places the [bottom sheet](/guide/bottom-sheet) by the host's safe-area insets, and offers only the handle actions a stop can take.
 

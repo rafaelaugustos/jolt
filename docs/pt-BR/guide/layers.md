@@ -60,7 +60,7 @@ Enquanto uma propriedade tem camadas, o Jolt toca a base e as camadas como um ú
 
 ## Removendo um layer durante a soltura {#settled-layer-removal}
 
-O candidato ainda não publicado corrige a apresentação no Android ao remover um layer durante sua soltura. O modelo pode já estar na base enquanto ObjectAnimator ainda mostra uma escala intermediária. Jolt agora aplica somente o canal estabilizado após cancelar; outros canais, a base em movimento e outros layers continuam. Não é necessário o contorno com uma track de identidade.
+Desde a **0.1.0-rc.5**, o Jolt corrige a apresentação no Android ao remover um layer durante sua soltura. O modelo pode já estar na base enquanto ObjectAnimator ainda mostra uma escala intermediária. Jolt agora aplica somente o canal estabilizado após cancelar; outros canais, a base em movimento e outros layers continuam. Não é necessário o contorno com uma track de identidade.
 
 <Clip name="layer-cleanup-android" caption="Emulador Android 16 / API 36, auditoria Layers em inglês iniciada por toque ADB real: remover feedback durante a soltura restaura a base não unitária, preserva base em movimento, outro layer e movimento reduzido. Verificação dos valores nativos apresentados. Velocidade original; evidência de correção em emulador." />
 <Clip name="layer-cleanup-ios" caption="Simulador iOS 26.2, auditoria Layers em inglês iniciada por toque XCTest real: os mesmos casos de remoção, composição e movimento reduzido consultam valores de apresentação do Core Animation. Velocidade original; não é gravação de iPhone físico." />

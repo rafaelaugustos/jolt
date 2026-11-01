@@ -1,6 +1,6 @@
 # Vue Web motion
 
-The experimental `@rafaelaugusto/jolt/web/vue` entry connects a declared DOM ref to the [Web runtime](./web-runtime). Install Vue 3.5 separately. Native `/vue` retains its NativeScript meaning; the imperative `/web` entry does not install Vue. These additions are available in the [packed candidate](./install#experimental-web-candidate), **not the published 0.1.0-rc.4**.
+The experimental `@rafaelaugusto/jolt/web/vue` entry ships in **0.1.0-rc.5** and connects a declared DOM ref to the [Web runtime](./web-runtime). Install Vue 3.5 separately. Native `/vue` retains its NativeScript meaning; the imperative `/web` entry does not install Vue. See [installation](./install#experimental-web-candidate).
 
 <Clip name="web-vue-chromium" :width="720" caption="Chromium 156 on macOS arm64: real pointer and keyboard input reverses a leave, presses the card, retargets application scale while held, replaces the surface and completes hide/show. Original-speed browser capture; not physical-device performance evidence." />
 
