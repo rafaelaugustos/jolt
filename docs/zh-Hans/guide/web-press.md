@@ -1,6 +1,6 @@
 # Web 按压反馈
 
-`motion.press()` 为声明的 HTML 表面添加有限的指针和键盘反馈，使用 [Web 运行时](./web-runtime)，不依赖 Vue、React 或常驻逐帧循环。此 API 仍属实验性功能，可通过[本地打包候选版本](./install#experimental-web-candidate)使用，**已发布的 0.1.0-rc.4 不包含此功能**。Mavis 集成将在后续完成。
+`motion.press()` 为声明的 HTML 表面添加有限时长的指针和键盘反馈。它使用 [Web 运行时](./web-runtime)，无需 Vue、React 或永久逐帧循环。该实验性 API 已包含在 **0.1.0-rc.5** 中；参见[安装](./install#experimental-web-candidate)。Mavis 集成仍单独推进。
 
 <Clip name="web-press-chromium" :width="720" caption="macOS arm64 上的 Chromium 156，原速真实浏览器录制，使用实际指针按住和键盘输入：应用缩放 1.1、按压系数 0.96、按住时目标改为 1.2、松开、Space/Enter、区域外松开、销毁反馈及 loading 取消。这不是实体设备性能测量。" />
 

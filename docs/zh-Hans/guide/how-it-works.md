@@ -1,6 +1,6 @@
 # 工作原理 {#how-it-works}
 
-曲线编译位于内部 TypeScript 核心中，不导入 NativeScript、DOM 或任何框架。原生边界传入已解析的 `timeScale` 和减少动态效果设置；两个原生驱动使用同一套编译后的轨道。核心还定义了以目标类型为参数的通用驱动接口、播放时钟以及每个上下文独立的属性所有权注册表。这是[跨平台动画共享（#236）](https://github.com/rafaelaugustos/jolt/issues/236)的准备工作：目前尚未发布 `/core` 或 `/web` 入口，原生包仍需要 NativeScript。实时弹簧和手势继续通过原生路径执行。
+曲线编译位于内部 TypeScript 核心中，不导入 NativeScript、DOM 或框架。原生边界传入已解析的 `timeScale` 和减少动态效果设置，两个原生驱动使用相同的编译轨道。核心还定义按目标类型参数化的驱动、播放时钟和每个上下文的属性所有权注册表。自 **0.1.0-rc.5** 起，实验性 [Web 运行时](./web-runtime) 使用同一编译器，无需安装 NativeScript；`/core` 仍为私有入口。原生入口仍需要 NativeScript，实时弹簧与手势保持原生执行路径。更广泛的共享工作见 [#236](https://github.com/rafaelaugustos/jolt/issues/236)。
 
 当动画开始时，Jolt 解析起始值并计算源曲线。数字弹簧、衰减和补间使用 [自适应关键帧](./transitions#adaptive-keyframes)，将细节集中在线性插值需要的地方。创作的关键帧时间保持精确，直线数字段仅保留其端点。春季结算、中断速度和序列到达保留了之前的计时合同。颜色混合和组合动画值映射保持其单独的采样策略。
 

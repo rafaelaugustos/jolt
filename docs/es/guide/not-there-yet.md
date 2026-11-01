@@ -1,13 +1,16 @@
 # Estado de la versión y límites {#not-there-yet}
 
-**0.1.0-rc.4 está disponible.** Sus funciones ya se han entregado para las combinaciones documentadas en cada guía. El alcance funcional de 0.1.0 está congelado; la validación para la versión estable sigue en curso.
+**0.1.0-rc.5 está disponible.** Las funciones nativas mantienen sus límites documentados mientras continúa la validación estable. Las entradas Web son experimentales; publicarlas no completa la integración Mavis ni establece paridad de todas las APIs entre native y Web.
+
+RC.5 añade [playback Web experimental](./web-runtime), [press compuesto](./web-press) y el [adapter Vue DOM](./web-vue), corrige la recuperación tras segundo plano y la eliminación de layers Android, y entrega [pull-to-refresh nativo](./scroll-header#pull-to-refresh) y correcciones de foco de lectores en scroll/galería. La migración Mavis y la prueba de animación compartida de aplicación siguen en #236.
 
 RC.4 compone las ventanas de capas en nodos nativos, reanuda las formas, gradientes y blur de Android desde el tiempo en que estaban en pausa, coloca la hoja inferior según los insets del área segura del host y ofrece solo las acciones del identificador que un stop puede ejecutar. RC.3 añadió `interactiveModal()` en iOS, keyframes numéricos de Android en una sola llamada nativa, formas creadas antes de que la vista se cargue y refs de componente como objetivos.
 
 La [auditoría de bindings/capas](./motion-values#binding-measurements) incluye preparación/reproducción en iPhone y Android físicos, inicio de respuesta a entradas automáticas y retención en montajes/desmontajes repetidos. Los costes altos de las ventanas de composición, los fallos de contadores aproximados de asignación y la falta de telemetría térmica en Android siguen explícitos en las pruebas. Los resultados orientan los escenarios medidos; no garantizan capacidad universal ni frames presentados. Desde RC.4, las composiciones en ventana se reproducen en compositores nativos sin envíos de frontera; el coste restante es el inicio síncrono de lotes grandes de keyframes, medido en la misma auditoría.
 
-## Disponible en RC.4 {#available-in-rc-1}
+## Disponible en RC.5 {#available-in-rc-1}
 
+- [Playback Web finito](./web-runtime), [press](./web-press) y [lifecycle Vue DOM](./web-vue) experimentales, con peers nativos/framework opcionales e imports seguros en SSR.
 - [Navegación compartida](./shared-navigation), [gestos compartidos](./shared-gestures), [regreso a la celda actual](./return-targets) y [galería conectada](./gallery), para las combinaciones documentadas de Frame/ListView/imágenes estáticas.
 - [Composición nativa de gestos](./gestures): desplazamiento, pellizco y rotación, además de la transferencia de gestos compatible con Core ScrollView vertical. Las [restricciones de arrastre](./drag) y el [zoom de fotos](./photo-zoom) tienen sus propios contratos de interacción.
 - [Composición de desplazamiento](./scroll-header) con el adaptador de Core ListView, y [sensores de rotación/gravedad](./device-sensors) que alimentan valores de movimiento nativos.
@@ -17,6 +20,7 @@ La [auditoría de bindings/capas](./motion-values#binding-measurements) incluye 
 
 ## Límites actuales {#current-limits}
 
+- El soporte Web experimental cubre transforms 2D numéricos y opacidad finitos. Gestos/springs continuos, scroll/layout, React y una API estable de refs portátiles son trabajo posterior; consulta la [matriz de navegadores y límites](./web-vue#verification).
 - `animateSize()` admite StackLayout/GridLayout, incluso dentro de ScrollView, y ejecuta medición/diseño en JavaScript en cada fotograma. La distribución flex, las celdas recicladas y los elementos compartidos quedan fuera de esa API.
 - `drag()` no ofrece composición genérica de gestos con varios dedos. Usa [`gestures()`](./gestures) para desplazamiento/pellizco/rotación, o [zoom de fotos](./photo-zoom) para su controlador específico de pellizco, desplazamiento y cierre. El adaptador de transferencia de gestos admite Core ScrollView vertical; otras combinaciones de listas/contenedores requieren sus propios adaptadores y validación nativa.
 - Los adaptadores de propiedades externas requieren `@rafaelaugusto/jolt-native`. Los adaptadores incluidos de cámara, luces y materiales de SceneKit son exclusivos de iOS; no se incluye un adaptador de renderizado 3D para Android. Las unidades de cámara de MapKit y MapLibre son distintas.

@@ -1,6 +1,6 @@
 # Experimento de composição Web
 
-Este [experimento interno da #280](https://github.com/rafaelaugustos/jolt/issues/280) usa o compilador portátil para reproduzir transforms pela Web Animations API. Ele trabalha diretamente com elementos DOM, sem framework. Ainda não existe uma entrada `/web` publicada; press/reveal do Mavis e o exemplo compartilhado da aplicação continuam nas próximas entregas da [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+Este [experimento interno da #280](https://github.com/rafaelaugustos/jolt/issues/280) usa o compilador portátil para reproduzir transforms via Web Animations API diretamente em elementos DOM, sem framework. O [runtime Web](./web-runtime) público experimental está disponível desde a **0.1.0-rc.5**. A migração de press/reveal do Mavis e o exemplo compartilhado da aplicação continuam na [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
 <Clip name="web-composition-chromium" :width="720" caption="Chromium 156 no macOS arm64, reprodução real do browser em velocidade normal. Os botões iniciam x/y, mudam o destino de x, definem a escala da aplicação em 1.1, aplicam a contribuição de pressão 0.96, alteram a base para 1.2 e soltam preservando 1.2. Os botões exercitam a composição; o reconhecimento completo de pressão por ponteiro/teclado é outra entrega." />
 

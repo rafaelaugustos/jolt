@@ -1,6 +1,6 @@
 # Web composition experiment
 
-This internal [#280 experiment](https://github.com/rafaelaugustos/jolt/issues/280) uses the portable compiler to play transforms through the Web Animations API. It runs directly on DOM elements, without a framework. There is no published `/web` entry yet; Mavis press/reveal and the shared application example remain subsequent work in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+This internal [#280 experiment](https://github.com/rafaelaugustos/jolt/issues/280) uses the portable compiler to play transforms through Web Animations API directly on DOM elements, without a framework. The experimental public [Web runtime](./web-runtime) is available since **0.1.0-rc.5**. Mavis press/reveal migration and the shared application example remain separate work in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
 <Clip name="web-composition-chromium" :width="720" caption="Chromium 156 on macOS arm64, actual browser playback at real-time speed. Buttons start x/y, retarget x, set application scale to 1.1, apply a 0.96 press contribution, change the base to 1.2 and release back to 1.2. These buttons exercise composition; full pointer/keyboard press recognition is separate work." />
 

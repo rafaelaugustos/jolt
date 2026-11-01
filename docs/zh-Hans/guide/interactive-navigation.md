@@ -72,7 +72,7 @@ await router.back()
 
 ## 交互式模态窗口 {#interactive-modals}
 
-**尚未发布：** `interactiveModal()` 为占满窗口的 NativeScript 模态视图添加向下拖动关闭。打开预览中的 **交互式导航 → 打开模态窗口**。需要重新编译原生应用；已在 Core **9.1.3**、NativeScript-Vue **3.1.2** 和 iOS **26.2 模拟器**中验证。
+**自 0.1.0-rc.3 起：** `interactiveModal()` 为占满窗口的 NativeScript 模态视图添加向下拖动关闭。打开预览中的 **交互式导航 → 打开模态窗口**。需要重新编译原生应用；已在 Core **9.1.3**、NativeScript-Vue **3.1.2** 和 iOS **26.2 模拟器**中验证。
 
 <Clip name="interactive-modal-ios" caption="iPhone 17、iOS 26.2 模拟器，英文界面：打开真实 NativeScript-Vue 模态窗口，取消向下拖动，再次拖动并确认关闭，然后重新打开并用按钮关闭。原生原速播放。不证明真机性能或屏幕阅读器行为。" />
 

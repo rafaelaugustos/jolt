@@ -2,6 +2,16 @@
 
 ## Unreleased
 
+## 0.1.0-rc.5 (2026-11-01)
+
+- Publish matching core and optional native packages. Rebuild native applications after upgrading for the scroll-header and accessibility helpers. The Web entries remain experimental; the Mavis component migration and shared application-animation proof are still tracked separately in #236.
+- Add the experimental `@rafaelaugusto/jolt/web` entry with framework-independent finite WAAPI playback: 2D transforms, opacity, fixed-target springs, tweens/keyframes, compatible presets/stagger, controls, per-channel interruption and cleanup (#279–#283, #287–#290). It uses the portable TypeScript compiler without installing NativeScript or a framework; imports are SSR-safe and dependencies are verified through actual tarballs.
+- Add composable Web pointer/keyboard press and the optional `@rafaelaugusto/jolt/web/vue` adapter for declared DOM refs, enter/leave cancellation and scope disposal (#283–#285, #290, #291). Application scale and press contributions coexist. Document the Chromium/Firefox/WebKit matrix, preparation/allocation limits and a Chromium presentation trace during main-thread blocking; these are not universal GPU or mobile frame-rate guarantees.
+- Fix Android presentation after removing a feedback layer during release (#286, #291). Commit the settled channel even when its NativeScript model value is unchanged, without resetting unrelated channels, a moving base or other layers. Preserve iOS behavior, with native presentation checks and a failing Android negative control.
+- Preserve scoped playback through app background/foreground (#273, #274): pause before temporary root unload and resume the same handles, while keeping manual/KeepAlive suspension independent. Stopped, reset, disposed and already-paused work does not restart.
+- Add native `scrollHeader()` pull-to-refresh for the supported Core ListView/ScrollHeaderSurface adapter (#116, #278): one pending request, error/retry, current-anchor commits, reduced motion and lifecycle cancellation. Demo data is bundled; arbitrary refresh wrappers remain unsupported.
+- Preserve screen-reader focus and activation in scroll headers and gallery returns, including recycled/deleted targets and enlarged text (#116, #117, #275–#277). Evidence includes real VoiceOver on an iPhone and TalkBack on an Android emulator; broader physical-device performance and acceptance remain open.
+
 ## 0.1.0-rc.4 (2026-10-31)
 
 - Publish matching core and optional native packages with 74 preview examples in four languages. Rebuild native applications after upgrading: the live nodes gained summed sampled inputs on both platforms, and the Android shape, gradient and blur clocks are rebuilt on resume.

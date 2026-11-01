@@ -1,6 +1,6 @@
 # Web press feedback
 
-`motion.press()` adds finite pointer and keyboard feedback to a declared HTML surface. It uses the [Web runtime](./web-runtime), without Vue, React or a permanent frame loop. This API is experimental and available in the [locally packed candidate](./install#experimental-web-candidate), **not the published 0.1.0-rc.4**. Mavis integration follows separately.
+`motion.press()` adds finite pointer and keyboard feedback to a declared HTML surface. It uses the [Web runtime](./web-runtime), without Vue, React or a permanent frame loop. This experimental API ships in **0.1.0-rc.5**; see [installation](./install#experimental-web-candidate). Mavis integration follows separately.
 
 <Clip name="web-press-chromium" :width="720" caption="Chromium 156 on macOS arm64, original-speed browser recording with actual pointer holds and keyboard input: application scale 1.1, press factor 0.96, application retarget to 1.2 while held, release, Space/Enter, release outside, disposal and loading cancellation. This is browser behavior, not a physical-device measurement." />
 

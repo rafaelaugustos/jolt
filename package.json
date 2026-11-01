@@ -1,7 +1,7 @@
 {
   "name": "@rafaelaugusto/jolt",
-  "version": "0.1.0-rc.4",
-  "description": "Native animations for NativeScript: presets, springs, keyframes and stagger in one call.",
+  "version": "0.1.0-rc.5",
+  "description": "Motion for NativeScript and the Web: presets, springs, keyframes and stagger.",
   "keywords": [
     "nativescript",
     "animation",
@@ -11,7 +11,9 @@
     "keyframes",
     "ios",
     "android",
-    "vue"
+    "vue",
+    "web",
+    "waapi"
   ],
   "author": "Rafael Augusto",
   "license": "MIT",

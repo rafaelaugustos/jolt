@@ -60,7 +60,7 @@ stop(card) // everything stops; what is on screen becomes the new value
 
 ## 释放期间移除 layer {#settled-layer-removal}
 
-尚未发布的候选版本修复了 Android 在释放动画期间移除 layer 后的显示问题。模型可能已等于基础值，但 ObjectAnimator 仍显示中间缩放值。Jolt 现在只在取消后提交已稳定的通道；其他通道、移动基础和其他 layer 继续运行。无需使用额外的单位值 track 绕过问题。
+自 **0.1.0-rc.5** 起，Jolt 修复了 Android 在释放动画期间移除 layer 后的显示问题。模型可能已等于基础值，但 ObjectAnimator 仍显示中间缩放值。Jolt 现在只在取消后提交已稳定的通道；其他通道、移动基础和其他 layer 继续运行。无需使用额外的单位值 track 绕过问题。
 
 <Clip name="layer-cleanup-android" caption="Android 16 / API 36 模拟器上的英文 Layers 检查，由真实 ADB 点击启动：释放过程中移除反馈后恢复非单位基础缩放，并保留移动基础、其他 layer 和减少动态效果行为。检查原生显示值。原速录制；仅作为模拟器正确性证据。" />
 <Clip name="layer-cleanup-ios" caption="iOS 26.2 模拟器上的英文 Layers 检查，由真实 XCTest 点击启动：相同移除、合成和减少动态效果场景读取 Core Animation 呈现值。原速录制；不是实体 iPhone。" />
