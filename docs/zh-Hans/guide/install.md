@@ -10,6 +10,42 @@ Jolt 包含 iOS 和 Android 原生辅助代码。安装或升级 Jolt 后，请�
 
 当前候选版本为 **0.1.0-rc.4**。如需固定版本，请使用 `npm install @rafaelaugusto/jolt@0.1.0-rc.4`。使用[外部原生属性适配器](./native-properties)时，还需安装对应版本的 `@rafaelaugusto/jolt-native@0.1.0-rc.4`，然后重新编译原生应用。
 
+## 实验性 Web 候选包 {#experimental-web-candidate}
+
+当前 checkout 提供实验性 `@rafaelaugusto/jolt/web` 入口。它**尚未包含在已发布的 0.1.0-rc.4 中**；集成到 Mavis 或其他应用之前，请验证本地打包的候选产物。本项打包工作不代表已发布到 npm。
+
+```sh
+# 在本仓库中：
+npm ci
+npm run build
+npm pack
+# 在 Web 应用中安装生成的 tarball：
+npm install /absolute/path/to/rafaelaugusto-jolt-0.1.0-rc.4.tgz
+```
+
+```ts
+import { createWebRuntime } from '@rafaelaugusto/jolt/web'
+
+// SSR 中可以安全导入。在浏览器挂载后创建上下文。
+const motion = createWebRuntime(document)
+const animation = motion.animate(card, { x: 120, opacity: 1 }, 'snappy')
+await animation.finished
+motion.dispose() // 应用结束或组件卸载时释放
+```
+
+| 导入                         | 平台与依赖                                               |
+| ---------------------------- | -------------------------------------------------------- |
+| `@rafaelaugusto/jolt`        | NativeScript；需要 `@nativescript/core >=8.9.0`。        |
+| `@rafaelaugusto/jolt/native` | 原生属性 adapter；需要 NativeScript。                    |
+| `@rafaelaugusto/jolt/vue`    | NativeScript-Vue；另需 `nativescript-vue >=3.0.0`。      |
+| `@rafaelaugusto/jolt/web`    | 命令式 DOM 运行时；无需安装 NativeScript、Vue 或 React。 |
+
+NativeScript 和 NativeScript-Vue 在包级别为可选 peer，以避免 Web 消费者安装它们。使用相应原生入口时仍必须安装。缺少 peer 的解析错误会明确指出 `@nativescript/core` 或 `nativescript-vue`；请在原生应用中安装所指依赖。Web 应用必须导入 `/web`，SSR 也一样。根入口和 `/vue` 不会自动切换平台。
+
+Web API 仍是实验性的：提供 document 所有的 factory、有限播放控制及类型，不公开 driver 注册、内部诊断或可移植组件引用。`/core`、内部实现路径和 `/web/vue` 均未导出。浏览器 API 需要 DOM 类型，但其可达声明不需要原生 globals。坐标使用 CSS 像素，旋转使用度，缩放使用倍率。能力、清理和 CSS 所有权限制见[Web 有限播放](./web-runtime)。
+
+[安装包消费者检查](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/package-consumers.md)覆盖 Vite 开发/生产、SSR、NodeNext/Bundler 类型和现有原生入口。未来的 Web Vue adapter 还需要增加对应的安装包消费者验证。
+
 ## iOS 上的 ProMotion {#promotion-on-ios}
 
 在 iOS 15 及更高版本上，Jolt 为其原生动画请求高达 120 Hz，并受视图屏幕的限制。要允许 iPhone 上的速率高于 60 Hz，请将其添加到 `App_Resources/iOS/Info.plist` 的根 `<dict>` 中并重建应用程序：

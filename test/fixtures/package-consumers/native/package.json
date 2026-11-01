@@ -1,0 +1,6 @@
+{
+  "name": "jolt-packed-native-consumer",
+  "version": "1.0.0",
+  "private": true,
+  "main": "app/consumer.js"
+}

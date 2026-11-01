@@ -10,6 +10,42 @@ Jolt incluye código auxiliar nativo en iOS y Android. Vuelve a compilar la apli
 
 La versión candidata actual es **0.1.0-rc.4**. Para fijar esa versión, usa `npm install @rafaelaugusto/jolt@0.1.0-rc.4`. Si utilizas [adaptadores de propiedades nativas externas](./native-properties), instala también `@rafaelaugusto/jolt-native@0.1.0-rc.4` y vuelve a compilar la aplicación nativa.
 
+## Candidato Web experimental {#experimental-web-candidate}
+
+El checkout ofrece la entrada experimental `@rafaelaugusto/jolt/web`. **No está incluida en la versión 0.1.0-rc.4 publicada**; valida un candidato empaquetado localmente antes de integrarlo en Mavis u otra aplicación. Este trabajo no implica una publicación en npm.
+
+```sh
+# En este repositorio:
+npm ci
+npm run build
+npm pack
+# En la aplicación Web, instala el tarball generado:
+npm install /absolute/path/to/rafaelaugusto-jolt-0.1.0-rc.4.tgz
+```
+
+```ts
+import { createWebRuntime } from '@rafaelaugusto/jolt/web'
+
+// Importar es seguro en SSR. Crea el contexto después del montaje en el navegador.
+const motion = createWebRuntime(document)
+const animation = motion.animate(card, { x: 120, opacity: 1 }, 'snappy')
+await animation.finished
+motion.dispose() // libera al terminar la aplicación o desmontar el componente
+```
+
+| Import                       | Plataforma y dependencias                                                |
+| ---------------------------- | ------------------------------------------------------------------------ |
+| `@rafaelaugusto/jolt`        | NativeScript; requiere `@nativescript/core >=8.9.0`.                     |
+| `@rafaelaugusto/jolt/native` | Adapters de propiedades nativas; requiere NativeScript.                  |
+| `@rafaelaugusto/jolt/vue`    | NativeScript-Vue; también requiere `nativescript-vue >=3.0.0`.           |
+| `@rafaelaugusto/jolt/web`    | Runtime DOM imperativo; no requiere instalar NativeScript, Vue ni React. |
+
+NativeScript y NativeScript-Vue son peers opcionales del paquete para evitar su instalación en consumidores Web. Siguen siendo obligatorios para las entradas nativas correspondientes. Los peers ausentes producen errores de resolución que nombran `@nativescript/core` o `nativescript-vue`; instala esa dependencia en la aplicación nativa. La aplicación Web debe importar `/web`, también durante SSR. La raíz y `/vue` no cambian de plataforma automáticamente.
+
+La API Web es experimental: expone una factory por documento, controles finitos y tipos, sin registro de drivers, diagnósticos internos ni referencias portátiles de componentes. No exporta `/core`, rutas internas ni `/web/vue`. La API del navegador requiere tipos DOM; sus declaraciones no requieren globals nativos. Las coordenadas usan píxeles CSS, la rotación usa grados y la escala usa factores. Consulta [reproducción Web finita](./web-runtime) para capacidades, limpieza y límites del control de CSS.
+
+Los [checks del paquete instalado](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/package-consumers.md) cubren Vite en desarrollo/producción, SSR, tipos NodeNext/Bundler y las entradas nativas existentes. El futuro adapter Vue Web necesitará su propio consumidor del paquete.
+
 ## ProMotion en iOS {#promotion-on-ios}
 
 En iOS 15 y posteriores, Jolt solicita hasta 120 Hz para sus animaciones nativas, limitadas por la pantalla de vista. Para permitir velocidades superiores a 60 Hz en un iPhone, agregue esto dentro de la raíz `<dict>` de `App_Resources/iOS/Info.plist` y reconstruya la aplicación:

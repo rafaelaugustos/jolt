@@ -1,6 +1,6 @@
 # Runtime Web finito
 
-El runtime interno de [#281](https://github.com/rafaelaugustos/jolt/issues/281) convierte el [experimento de composición](./web-composition) en reproducción reutilizable en el navegador. Usa el compilador portátil de Jolt y WAAPI directamente sobre elementos HTML, independientemente de Vue, React o NativeScript. La publicación de `/web` sigue en [#282](https://github.com/rafaelaugustos/jolt/issues/282); press/reveal de Mavis y el ejemplo compartido de la aplicación siguen en [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+El runtime de [#281](https://github.com/rafaelaugustos/jolt/issues/281) usa el compilador portátil de Jolt y WAAPI directamente sobre elementos HTML, independientemente de Vue, React o NativeScript. La entrada experimental `/web` está disponible en candidatos empaquetados localmente de [#282](https://github.com/rafaelaugustos/jolt/issues/282), **no en la 0.1.0-rc.4 publicada**. Consulta la [instalación del candidato](./install#experimental-web-candidate). Press/reveal de Mavis y el ejemplo compartido de la aplicación siguen en [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
 <Clip name="web-runtime-chromium" :width="720" caption="Chromium 156 en macOS arm64, reproducción y clics reales a velocidad original: movimiento con opacidad, interrupción parcial, escala de la aplicación con contribución de presión, repetición inversa, pausa, seek, reanudación y movimiento reducido. Los botones ejercitan la contribución; el reconocimiento completo de puntero/teclado corresponde a #283." />
 
@@ -8,11 +8,11 @@ El runtime interno de [#281](https://github.com/rafaelaugustos/jolt/issues/281) 
 
 `x` e `y` usan píxeles CSS, `rotate` usa grados, `scaleX`/`scaleY` usan factores y `opacity` se limita a 0–1. `scale` se expande a ambos ejes; un eje explícito prevalece. Springs con destino definido, tweens, keyframes numéricos, presets internos/personalizados compatibles, transiciones por propiedad, delay y stagger usan el compilador existente. Las recetas numéricas nativas se comparten sin importar el runtime nativo.
 
-Cada runtime pertenece a un documento. Configuración, presets, tokens de propiedad, efectos y limpieza pertenecen al contexto. Dos contextos no pueden controlar simultáneamente el mismo elemento. La entrada interna puede importarse sin DOM; crear el runtime exige un documento activo con WAAPI. No hay instalación global de driver.
+Cada runtime pertenece a un documento. Configuración, presets, tokens de propiedad, efectos y limpieza pertenecen al contexto. Dos contextos no pueden controlar simultáneamente el mismo elemento. La entrada Web puede importarse sin DOM; crear el runtime exige un documento activo con WAAPI. No hay instalación global de driver.
 
 ```ts
-// Import del fixture del repositorio; no es una entrada publicada.
-import { createWebRuntime } from '../../src/web/index.js'
+// Entrada experimental del candidato empaquetado localmente.
+import { createWebRuntime } from '@rafaelaugusto/jolt/web'
 
 const motion = createWebRuntime(document)
 motion.set(card, { scale: 1.1 })

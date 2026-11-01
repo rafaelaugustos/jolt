@@ -97,6 +97,10 @@
     "./glass": {
       "types": "./dist/glass/index.d.ts",
       "default": "./dist/glass/index.js"
+    },
+    "./web": {
+      "types": "./dist/web/public.d.ts",
+      "default": "./dist/web/public.js"
     }
   },
   "files": [
@@ -130,7 +134,8 @@
     "web:runtime": "node benchmarks/web-runtime/server.mjs",
     "web:runtime:typecheck": "tsc -p benchmarks/web-runtime/tsconfig.json",
     "web:runtime:test": "playwright test -c benchmarks/web-runtime/playwright.config.mjs",
-    "web:check": "node scripts/check-web-runtime.mjs"
+    "web:check": "node scripts/check-web-runtime.mjs",
+    "package:check": "node scripts/check-package-consumers.mjs"
   },
   "peerDependencies": {
     "@nativescript/core": ">=8.9.0",
@@ -138,6 +143,9 @@
   },
   "peerDependenciesMeta": {
     "nativescript-vue": {
+      "optional": true
+    },
+    "@nativescript/core": {
       "optional": true
     }
   },

@@ -1,4 +1,4 @@
-// Internal entry pending the dedicated Web packaging/SSR consumer work in #282.
+// Internal diagnostics entry for repository fixtures; the package exports public.ts.
 export { createWebRuntime, WebRuntime } from './runtime.js'
 export type {
   AnimateOptions,

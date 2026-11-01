@@ -15,3 +15,5 @@ benchmarks/web-composition/captures
 
 benchmarks/web-runtime/results/
 benchmarks/web-runtime/captures/
+
+benchmarks/package-consumers/results/

@@ -1,6 +1,6 @@
 # Finite Web runtime
 
-The internal runtime in [#281](https://github.com/rafaelaugustos/jolt/issues/281) turns the [composition experiment](./web-composition) into reusable browser playback. It uses Jolt's portable compiler and WAAPI directly on HTML elements, independently of Vue, React or NativeScript. Public `/web` packaging is still [#282](https://github.com/rafaelaugustos/jolt/issues/282); Mavis press/reveal and the shared application example remain subsequent work in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+The runtime from [#281](https://github.com/rafaelaugustos/jolt/issues/281) uses Jolt's portable compiler and WAAPI directly on HTML elements, independently of Vue, React or NativeScript. The experimental `/web` entry is available in locally packed candidates from [#282](https://github.com/rafaelaugustos/jolt/issues/282), **not in the published 0.1.0-rc.4**. See [candidate installation](./install#experimental-web-candidate). Mavis press/reveal and the shared application example remain subsequent work in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
 <Clip name="web-runtime-chromium" :width="720" caption="Chromium 156 on macOS arm64, real browser playback and clicks at real-time speed: movement with opacity, partial interruption, application scale plus a press contribution, reverse repeat, pause, seek, resume and reduced motion. Buttons exercise the contribution; full pointer/keyboard press recognition is separate work (#283)." />
 
@@ -8,11 +8,11 @@ The internal runtime in [#281](https://github.com/rafaelaugustos/jolt/issues/281
 
 `x` and `y` use CSS pixels, `rotate` uses degrees, `scaleX`/`scaleY` use factors and `opacity` is clamped to 0–1. `scale` expands to both axes; an explicit axis overrides the shorthand. Fixed-target springs, tweens, numeric keyframes, compatible built-in/custom presets, per-property transitions, delay and stagger use the existing compiler. The native numeric recipes are shared without importing the native runtime.
 
-A runtime belongs to one document. Configuration, presets, ownership tokens, effects and cleanup belong to that context. Two contexts cannot simultaneously claim the same element. Importing the internal entry is safe without a DOM; creating a runtime requires a live document with WAAPI. There is no global driver installation.
+A runtime belongs to one document. Configuration, presets, ownership tokens, effects and cleanup belong to that context. Two contexts cannot simultaneously claim the same element. Importing the Web entry is safe without a DOM; creating a runtime requires a live document with WAAPI. There is no global driver installation.
 
 ```ts
-// Repository fixture import; not a published package entry.
-import { createWebRuntime } from '../../src/web/index.js'
+// Experimental entry from the locally packed candidate.
+import { createWebRuntime } from '@rafaelaugusto/jolt/web'
 
 const motion = createWebRuntime(document)
 motion.set(card, { scale: 1.1 })

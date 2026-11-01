@@ -38,3 +38,5 @@ demo/App_Resources/iOS/preview-car.usdz
 
 benchmarks/web-runtime/results/
 benchmarks/web-runtime/captures/
+
+benchmarks/package-consumers/results/
