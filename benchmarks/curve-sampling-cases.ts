@@ -1,5 +1,5 @@
-import type { Property } from '../src/properties.js'
-import type { Transition } from '../src/transition.js'
+import type { Property } from '../src/core/properties.js'
+import type { Transition } from '../src/core/transition.js'
 
 export const samplingCases: {
   name: string

@@ -1,0 +1,45 @@
+{
+  "recordedAt": "2026-11-01T09:45:20.004Z",
+  "browser": "Chromium",
+  "version": "156.0.8078.4",
+  "os": {
+    "platform": "darwin",
+    "release": "25.6.0",
+    "arch": "arm64"
+  },
+  "viewport": {
+    "width": 920,
+    "height": 740
+  },
+  "actions": [
+    "move",
+    "interrupt",
+    "scale",
+    "press",
+    "grow",
+    "release",
+    "repeat",
+    "pause",
+    "seek",
+    "play",
+    "reset",
+    "move",
+    "preference"
+  ],
+  "finalPresentation": {
+    "scaleX": 1,
+    "scaleY": 1,
+    "x": 250,
+    "y": 70
+  },
+  "sourceSHA256": {
+    "../../src/web/runtime.ts": "4988bf75befee84e06c492f96dc52a2f30a82173d57be6d8b9e47075b8f2f70f",
+    "../../src/web/compose.ts": "6b63401cf65ae61cb8372024e229a252abe2f56280ed5de46cf9ce16ec32361e",
+    "../../src/web/curve.ts": "7f943a27c188489a20855df561100b3e3a2ede1acc123410863044b7fb4fa6f8",
+    "../../src/web/plan.ts": "a3127adae66a4caba55dc4a022c7c0234a9d9251bb6d1a6d152845286e0b8b72",
+    "fixture.ts": "23f6a769d48c4046176e8459dcb7cb167746cba932f610ada913a55503d26eaa",
+    "index.html": "2870076a418330970b4a2f6494cfb849c0eb77cb8f40e5d39e0d22936d3b5ffc"
+  },
+  "videoSHA256": "c98883a517b328e7902ad01fc697d8e88e57a83433f8e3852e760cd3d3d50dd8",
+  "notes": "Real Playwright browser playback and clicks at real-time speed. Buttons apply/release the press contribution; full press input recognition is deferred to #283. No fabricated or interpolated footage."
+}

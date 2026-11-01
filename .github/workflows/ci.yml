@@ -17,13 +17,18 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm run web:typecheck
+      - run: npm run web:runtime:typecheck
       - run: npm run web:proof:typecheck
       - run: npm run web:proof:test
+      - run: npm run web:runtime:test
       - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: web-composition-results
-          path: benchmarks/web-composition/results/
+          path: |
+            benchmarks/web-composition/results/
+            benchmarks/web-runtime/results/
   test:
     runs-on: ubuntu-latest
     steps:
@@ -39,6 +44,7 @@ jobs:
       - run: npm test
       - run: npm run build
       - run: npm run core:check
+      - run: npm run web:check
       - run: node benchmarks/inspector-production.mjs
       - run: npm run benchmark:typecheck
       - uses: actions/setup-java@v6

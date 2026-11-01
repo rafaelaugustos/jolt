@@ -74,6 +74,7 @@ export const es = {
   api: 'API',
   internals: 'Cómo funciona',
   webProof: 'Experimento de composición Web',
+  webRuntime: 'Runtime Web finito',
   limits: 'Estado de la versión y límites',
 }
 
@@ -151,6 +152,7 @@ export const zh = {
   api: 'API',
   internals: '工作原理',
   webProof: 'Web 组合实验',
+  webRuntime: 'Web 有限动画运行时',
   limits: '发布状态与限制',
 }
 

@@ -44,5 +44,5 @@
     "resolveJsonModule": true
   },
   "include": ["src", "test"],
-  "exclude": ["test/fixtures/portable-consumer"]
+  "exclude": ["test/fixtures/portable-consumer", "src/web"]
 }
