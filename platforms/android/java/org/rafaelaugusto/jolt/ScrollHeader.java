@@ -2,6 +2,11 @@ package org.rafaelaugusto.jolt;
 
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.ViewGroup;
+import java.util.WeakHashMap;
+import java.util.Iterator;
+import java.util.Map;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.ListView;
 import android.widget.TextView;
 import org.json.JSONObject;
@@ -14,24 +19,27 @@ public final class ScrollHeader implements ViewTreeObserver.OnScrollChangedListe
     private final ListView list;
     private LiveSpring node;
     private Listener listener;
-    private final View title, toolbarTitle, toolbar;
+    private final View header, title, toolbarTitle, toolbar;
     private final TextView diagnostic;
-    private final int titleAccessibility, toolbarAccessibility;
+    private final int headerAccessibility, titleAccessibility, toolbarAccessibility, toolbarContainerAccessibility;
     private final int toolbarVisibility;
     private final float density;
     private ViewTreeObserver observer;
+    private final WeakHashMap<View,Integer> coveredRows=new WeakHashMap<>();
     private boolean enabled, disposed;
     private double handoff, minimumOffset, maximumOffset, fadeStart, range, spacer, rowHeight, offset=Double.NaN;
-    private int phase=-1, updates, callbacks;
-    public ScrollHeader(ListView list, LiveSpring node, View title, View toolbarTitle, View toolbar, View diagnostic, String options, Listener listener) {
+    private int phase=-1, accessibilityPhase=-1, updates, callbacks;
+    public ScrollHeader(ListView list, LiveSpring node, View header, View title, View toolbarTitle, View toolbar, View diagnostic, String options, Listener listener) {
         this.list=list;this.node=node;this.title=title;this.toolbarTitle=toolbarTitle;this.toolbar=toolbar;this.listener=listener;
         this.diagnostic=diagnostic instanceof TextView?(TextView)diagnostic:null;
         density=list.getResources().getDisplayMetrics().density;
         titleAccessibility=title.getImportantForAccessibility();toolbarAccessibility=toolbarTitle.getImportantForAccessibility();toolbarVisibility=toolbar.getVisibility();
+        toolbarContainerAccessibility=toolbar.getImportantForAccessibility();
+        this.header=header;headerAccessibility=header.getImportantForAccessibility();
         configure(options);setEnabled(true);
     }
     public void configure(String options) {
-        try {JSONObject c=new JSONObject(options);handoff=c.getDouble("handoff");range=c.getDouble("range");spacer=c.getDouble("spacer");rowHeight=c.getDouble("rowHeight");fadeStart=c.getJSONArray("toolbarFade").getDouble(0)*range;}
+        try {JSONObject c=new JSONObject(options);handoff=c.getDouble(c.optBoolean("reduced")?"handoff":"focusHandoff");range=c.getDouble("range");spacer=c.getDouble("spacer");rowHeight=c.getDouble("rowHeight");fadeStart=c.getJSONArray("toolbarFade").getDouble(0)*range;}
         catch(Exception error){throw new IllegalArgumentException(error);}
         if(enabled)update(true);
     }
@@ -51,14 +59,50 @@ public final class ScrollHeader implements ViewTreeObserver.OnScrollChangedListe
     private void update(boolean force) {
         if(disposed)return;
         double next=current();if(!force && Math.abs(next-offset)<.001)return;
+        boolean compact=next>=range*handoff;
+        View incoming=compact?toolbarTitle:title;
+        // Capture before alpha/visibility changes can clear the outgoing focus.
+        boolean transfer=accessibilityPhase>=0 && accessibilityPhase!=(compact?1:0) && hasAccessibilityFocus(compact?header:toolbar);
         offset=next;minimumOffset=Math.min(minimumOffset,offset);maximumOffset=Math.max(maximumOffset,offset);updates++;node.setTarget(offset);
-        boolean compact=offset>=range*handoff;
-        title.setImportantForAccessibility(compact?View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS:titleAccessibility);
-        toolbarTitle.setImportantForAccessibility(compact?toolbarAccessibility:View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
         toolbar.setVisibility(offset > fadeStart ? toolbarVisibility : View.INVISIBLE);
+        updateAccessibleRows();
+        if(accessibilityPhase!=(compact?1:0)) {
+            accessibilityPhase=compact?1:0;
+            header.setImportantForAccessibility(compact?View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS:headerAccessibility);
+            title.setImportantForAccessibility(compact?View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS:titleAccessibility);
+            toolbarTitle.setImportantForAccessibility(compact?toolbarAccessibility:View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+            toolbar.setImportantForAccessibility(compact?toolbarContainerAccessibility:View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+            if(transfer && canFocus(incoming))
+                incoming.performAccessibilityAction(AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS,null);
+        }
         int nextPhase=offset<=.5?0:offset>=range-.5?2:1;
         if(nextPhase!=phase){phase=nextPhase;callbacks++;if(listener!=null)listener.changed();}
         if(diagnostic!=null)diagnostic.setText(String.format(java.util.Locale.US,"y %.0f · range %.0f · native %d · JS %d",offset,range,updates,callbacks));
+    }
+    private static boolean hasAccessibilityFocus(View view) {
+        if(view.isAccessibilityFocused())return true;
+        if(view instanceof ViewGroup){ViewGroup group=(ViewGroup)view;for(int i=0;i<group.getChildCount();i++)if(hasAccessibilityFocus(group.getChildAt(i)))return true;}
+        return false;
+    }
+    private static boolean canFocus(View view) {
+        if(!view.isImportantForAccessibility() || !view.isShown())return false;
+        for(View current=view;current!=null;current=current.getParent() instanceof View?(View)current.getParent():null)
+            if(current.getImportantForAccessibility()==View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS)return false;
+        return true;
+    }
+    private void updateAccessibleRows() {
+        for(Iterator<Map.Entry<View,Integer>> entries=coveredRows.entrySet().iterator();entries.hasNext();) {
+            Map.Entry<View,Integer> entry=entries.next();
+            if(entry.getKey().getParent()!=list){entry.getKey().setImportantForAccessibility(entry.getValue());entries.remove();}
+        }
+        double edge=(spacer-Math.min(range,Math.max(0,offset)))*density;
+        for(int i=0;i<list.getChildCount();i++) {
+            View row=list.getChildAt(i);
+            boolean hidden=list.getFirstVisiblePosition()+i==0 || row.getBottom()<=edge+.5;
+            if(hidden && !coveredRows.containsKey(row)) {
+                coveredRows.put(row,row.getImportantForAccessibility());row.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+            } else if(!hidden && coveredRows.containsKey(row)) row.setImportantForAccessibility(coveredRows.remove(row));
+        }
     }
     public String snapshot() {
         try {return new JSONObject().put("minimumOffset",minimumOffset).put("maximumOffset",maximumOffset).put("offset",Double.isFinite(offset)?offset:0).put("phase",new String[]{"expanded","between","collapsed"}[Math.max(0,phase)])
@@ -80,6 +124,9 @@ public final class ScrollHeader implements ViewTreeObserver.OnScrollChangedListe
     public void dispose() {
         if(disposed)return;setEnabled(false);disposed=true;
         title.setImportantForAccessibility(titleAccessibility);toolbarTitle.setImportantForAccessibility(toolbarAccessibility);toolbar.setVisibility(toolbarVisibility);
+        toolbar.setImportantForAccessibility(toolbarContainerAccessibility);
+        header.setImportantForAccessibility(headerAccessibility);
+        for(Map.Entry<View,Integer> entry:coveredRows.entrySet())entry.getKey().setImportantForAccessibility(entry.getValue());coveredRows.clear();
         node=null;listener=null;
     }
 }

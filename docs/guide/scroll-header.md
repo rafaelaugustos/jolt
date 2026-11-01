@@ -79,6 +79,19 @@ Release checks change the actual system font from normal to an enlarged setting 
 <Clip name="scroll-header-large-text-ios" caption="iOS 26.2, iPhone 17 simulator, English: actual system text enlargement, long-title wrapping, the same anchored track, drag, native jump/tap and restoration. Original speed; simulator validation only." />
 <Clip name="scroll-header-large-text-android" caption="Android 16 / API 36 emulator, English: actual font_scale 1 → 2 → 1, wrapped compact title, anchored recycled row, drag and exact native jump. Real ADB input at original speed; no physical-device performance claim." />
 
+## Screen readers
+
+The native adapter transfers accessibility focus between the expanded and compact titles only when the disappearing title or toolbar owns it. Scrolling while reading another control does not pull focus back to the title. The covered hero, inactive title and toolbar controls leave the accessibility tree; fully covered realized rows are excluded until exposed again. Disposal restores the flags owned by the adapter.
+
+The reference screen explicitly enables heading/button semantics, hides decorative artwork and diagnostics, and activates recycled rows through Core ListView's `itemTap`. On iOS, the native cell carries the current row's label and identifier. The overlay viewport provides a three-finger scroll action and an explicit reading order. Its Jump command takes VoiceOver to the requested track. Explicit `accessibilityHidden="false"` on the owned overlays prevents the showcase splash's inherited hidden state from becoming their saved baseline; an inaccessible ancestor still hides the whole screen during entry.
+
+Keep custom title/toolbar fade intervals overlapping so a visible heading can receive focus throughout the transition.
+
+<Clip name="scroll-header-voiceover-ios" caption="Physical iPhone 17 Pro, iOS 27.2, English: real VoiceOver focus, three-finger scrolling, title handoff, track navigation/activation and return. Native XCTest screen recording at original speed, without speech audio; spoken output and native focus are checked separately. Functional validation, not a frame-rate benchmark." />
+<Clip name="scroll-header-talkback-android" caption="Android 16 / API 36 emulator, English: real TalkBack, two-finger scrolling, title handoff, double-tap activation of recycled track 36, touch exploration and return to the cover. Native screen recording at original speed, without speech audio; no physical Android performance claim." />
+
+These runs cover the reference flat list at the recorded text size, not every reader setting, rotor mode, font size or third-party list adapter. Reproduction and native evidence are in the [validation notes](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md#screen-readers-2026-10-31).
+
 ## Native inputs and limits
 
 On iOS, KVO observes scroll geometry. A per-list delegate proxy supplies exact spacer/data heights and forwards Core's other delegate methods, preventing estimated-height corrections from moving an anchor during refresh. Disposal restores the previous delegate if the proxy still owns it. Android observes native scroll/layout changes without replacing Core's adapter, scroll listener or item callbacks. Neither platform adds a JS scroll handler. Both update the existing native live-value graph; JS is used for setup, layout/data changes, lifecycle and coarse state callbacks. Cell realization/binding remains normal Core ListView work and may enter JS.
@@ -97,4 +110,4 @@ Reduce Motion keeps pinning and scrolling, disables decorative parallax/stretch,
 | Core sectioned/sticky-header/search modes                                     | Rejected; this composition owns the pinned geometry                                                            |
 | Other list plugins, variable data rows, nested vertical scrolling, paged tabs | Unsupported; no silent JS fallback                                                                             |
 
-The [native validation and reproduction notes](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) record the simulator/emulator checks accepted for this delivery. Physical-device performance measurements, VoiceOver/TalkBack traversal and refresh integration are outside this correctness update; broader adapter work is tracked in #116.
+The [native validation and reproduction notes](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) record the simulator/emulator checks accepted for this delivery. Physical-device performance measurements, additional reader/font configurations and refresh integration remain outside this correctness update; broader adapter work is tracked in #116.

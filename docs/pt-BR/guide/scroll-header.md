@@ -79,6 +79,19 @@ Os checks em Release mudam a fonte real do sistema e voltam ao tamanho normal ma
 <Clip name="scroll-header-large-text-ios" caption="iOS 26.2, simulador iPhone 17, interface em inglês: ampliação real da fonte do sistema, título longo, mesma faixa ancorada, arrasto, salto/toque nativo e restauração. Velocidade original; validação em simulador." />
 <Clip name="scroll-header-large-text-android" caption="Emulador Android 16 / API 36, interface em inglês: font_scale real 1 → 2 → 1, título compacto com quebra de linha, faixa reciclada ancorada, arrasto e salto nativo exato. Entrada ADB real em velocidade original; sem medição de desempenho em aparelho físico." />
 
+## Leitores de tela
+
+O adaptador nativo transfere o foco entre os títulos expandido e compacto somente quando o título ou a barra que desaparece tem o foco. Rolar enquanto outro controle está selecionado não leva o foco de volta ao título. A capa encoberta, o título e os controles inativos saem da árvore acessível; linhas realizadas totalmente encobertas ficam excluídas até reaparecerem. O descarte restaura os atributos controlados pelo adaptador.
+
+A demo habilita explicitamente a semântica de títulos e botões, oculta a arte decorativa e os diagnósticos e ativa linhas recicladas pelo `itemTap` da Core ListView. No iOS, a célula nativa recebe o rótulo e o identificador da faixa atual. A área das sobreposições oferece rolagem com três dedos e ordem de leitura explícita. O comando Jump leva o VoiceOver à faixa solicitada. `accessibilityHidden="false"` nas sobreposições evita salvar como permanente o estado oculto herdado da abertura da demo; um ancestral inacessível continua ocultando toda a tela durante a entrada.
+
+Mantenha os intervalos personalizados de fade do título e da barra sobrepostos para que um título visível possa receber o foco durante toda a transição.
+
+<Clip name="scroll-header-voiceover-ios" caption="iPhone 17 Pro físico, iOS 27.2, interface em inglês: foco real do VoiceOver, rolagem com três dedos, troca de título, navegação/ativação de faixa e retorno. Gravação nativa do XCTest em velocidade original, sem áudio da fala; a saída falada e o foco nativo são verificados separadamente. Validação funcional, não medição de FPS." />
+<Clip name="scroll-header-talkback-android" caption="Emulador Android 16 / API 36, interface em inglês: TalkBack real, rolagem com dois dedos, troca de título, ativação da faixa reciclada 36 por toque duplo, exploração por toque e retorno à capa. Gravação nativa em velocidade original, sem áudio da fala; sem alegação de desempenho em Android físico." />
+
+Os testes cobrem a lista plana da demo no tamanho de texto registrado. Não cobrem todas as configurações do leitor, modos do rotor, escalas de fonte ou adaptadores de terceiros. A reprodução e as evidências nativas estão nas [notas de validação](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md#screen-readers-2026-10-31).
+
 ## Entrada nativa e limites
 
 O iOS observa a geometria com KVO. Um proxy de delegate por lista fornece alturas exatas e encaminha os demais métodos ao Core, evitando que estimativas mudem a posição durante um refresh. Ao descartar, restaura o delegate anterior se ainda tiver essa propriedade. O Android observa mudanças nativas de rolagem/layout sem substituir adapter, listener de rolagem ou callbacks de itens do Core. Nenhum deles instala um handler JS de scroll. Ambos atualizam o grafo nativo de valores; JS participa de configuração, mudanças de dados/layout, ciclo de vida e callbacks semânticos. A criação e vinculação de células continuam sendo trabalho normal da ListView e podem entrar no JS.
@@ -97,4 +110,4 @@ Reduzir Movimento mantém fixação e rolagem, desativa paralaxe/expansão decor
 | Seções, sticky-header ou busca integrados do Core                           | Rejeitados, pois esta composição controla a geometria fixa                                             |
 | Outros plugins, linhas variáveis, rolagem vertical aninhada, abas paginadas | Não suportados; sem fallback silencioso para JS                                                        |
 
-As [notas de validação e reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) registram os testes de simulador/emulador aceitos para esta entrega. Medições de desempenho em aparelhos físicos, navegação VoiceOver/TalkBack e integração de refresh ficam fora desta correção; a evolução dos adaptadores é acompanhada na #116.
+As [notas de validação e reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) registram os testes de simulador/emulador aceitos para esta entrega. Medições de desempenho em aparelhos físicos, outras configurações de leitor/fonte e integração de refresh continuam fora desta correção; a evolução dos adaptadores é acompanhada na #116.

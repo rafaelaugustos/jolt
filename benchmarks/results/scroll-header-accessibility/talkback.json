@@ -1,0 +1,2190 @@
+[
+  {
+    "name": "expanded",
+    "focus": {
+      "id": "scroll-header-title",
+      "text": "Slow tides.",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.TextView",
+      "heading": true,
+      "clickable": false,
+      "bounds": [68, 753, 1012, 892]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "text": "\u2190",
+        "label": "Back to collection. \u2190",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 164, 163, 264]
+      },
+      {
+        "id": "scroll-header-list",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ListView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 2101]
+      },
+      {
+        "label": "Play First light",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1202, 1080, 1402]
+      },
+      {
+        "label": "Play Slow tides",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1403, 1080, 1603]
+      },
+      {
+        "label": "Play Salt in the air",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1604, 1080, 1804]
+      },
+      {
+        "label": "Play A softer place",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1805, 1080, 2005]
+      },
+      {
+        "label": "Play Blue hour",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 2006, 1080, 2101]
+      },
+      {
+        "id": "scroll-header-hero",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 1021]
+      },
+      {
+        "id": "scroll-header-title",
+        "text": "Slow tides.",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [68, 753, 1012, 892]
+      },
+      {
+        "id": "scroll-header-section",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 1021, 1080, 1201]
+      },
+      {
+        "text": "THE TRACKLIST",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 1094, 869, 1128]
+      },
+      {
+        "id": "scroll-header-jump",
+        "text": "\u2193",
+        "label": "Jump to a later track. \u2193",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [901, 1053, 1017, 1169]
+      },
+      {
+        "id": "scroll-header-cover",
+        "text": "New cover",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [42, 2122, 485, 2211]
+      },
+      {
+        "id": "scroll-header-add",
+        "text": "Add a track",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [485, 2122, 928, 2211]
+      },
+      {
+        "id": "scroll-header-details",
+        "text": "\u24d8",
+        "label": "Show motion details. \u24d8",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [928, 2122, 1038, 2211]
+      },
+      {
+        "id": "scroll-header-snapshot",
+        "text": "Snapshot",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 2232, 216, 2284]
+      },
+      {
+        "id": "scroll-header-reduce",
+        "text": "Reduce",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [216, 2232, 432, 2284]
+      },
+      {
+        "id": "scroll-header-short",
+        "text": "Short",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [432, 2232, 648, 2284]
+      },
+      {
+        "id": "scroll-header-empty",
+        "text": "Empty",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [648, 2232, 864, 2284]
+      },
+      {
+        "id": "scroll-header-reload",
+        "text": "Reload",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [864, 2232, 1080, 2284]
+      }
+    ]
+  },
+  {
+    "name": "collapsed",
+    "focus": {
+      "id": "scroll-header-compact-title",
+      "text": "Slow tides.",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.TextView",
+      "heading": true,
+      "clickable": false,
+      "bounds": [63, 346, 869, 408]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "text": "\u2190",
+        "label": "Back to collection. \u2190",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 164, 163, 264]
+      },
+      {
+        "id": "scroll-header-list",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ListView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 2101]
+      },
+      {
+        "label": "Play First light",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 293, 1080, 465]
+      },
+      {
+        "label": "Play Slow tides",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 466, 1080, 666]
+      },
+      {
+        "label": "Play Salt in the air",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 667, 1080, 867]
+      },
+      {
+        "label": "Play A softer place",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 868, 1080, 1068]
+      },
+      {
+        "label": "Play Blue hour",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1069, 1080, 1269]
+      },
+      {
+        "id": "scroll-track-song-6",
+        "label": "Play Where we belong",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1270, 1080, 1470]
+      },
+      {
+        "id": "scroll-track-song-7",
+        "label": "Play Far from the noise",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1471, 1080, 1671]
+      },
+      {
+        "id": "scroll-track-song-8",
+        "label": "Play Stay a little longer",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1672, 1080, 1872]
+      },
+      {
+        "id": "scroll-track-song-9",
+        "label": "Play First light",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1873, 1080, 2073]
+      },
+      {
+        "id": "scroll-track-song-10",
+        "label": "Play Slow tides",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 2074, 1080, 2101]
+      },
+      {
+        "id": "scroll-header-hero",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 461]
+      },
+      {
+        "id": "scroll-header-title",
+        "text": "Slow tides.",
+        "focused": false,
+        "visible": false,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [68, 293, 1012, 332]
+      },
+      {
+        "id": "scroll-header-section",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 461, 1080, 641]
+      },
+      {
+        "text": "THE TRACKLIST",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 534, 869, 568]
+      },
+      {
+        "id": "scroll-header-jump",
+        "text": "\u2193",
+        "label": "Jump to a later track. \u2193",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [901, 493, 1017, 609]
+      },
+      {
+        "id": "scroll-header-toolbar",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 461]
+      },
+      {
+        "id": "scroll-header-compact-title",
+        "text": "Slow tides.",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 346, 869, 408]
+      },
+      {
+        "id": "scroll-header-top",
+        "text": "\u2191",
+        "label": "Back to the cover. \u2191",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [901, 319, 1017, 435]
+      },
+      {
+        "id": "scroll-header-cover",
+        "text": "New cover",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [42, 2122, 485, 2211]
+      },
+      {
+        "id": "scroll-header-add",
+        "text": "Add a track",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [485, 2122, 928, 2211]
+      },
+      {
+        "id": "scroll-header-details",
+        "text": "\u24d8",
+        "label": "Show motion details. \u24d8",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [928, 2122, 1038, 2211]
+      },
+      {
+        "id": "scroll-header-snapshot",
+        "text": "Snapshot",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 2232, 216, 2284]
+      },
+      {
+        "id": "scroll-header-reduce",
+        "text": "Reduce",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [216, 2232, 432, 2284]
+      },
+      {
+        "id": "scroll-header-short",
+        "text": "Short",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [432, 2232, 648, 2284]
+      },
+      {
+        "id": "scroll-header-empty",
+        "text": "Empty",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [648, 2232, 864, 2284]
+      },
+      {
+        "id": "scroll-header-reload",
+        "text": "Reload",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [864, 2232, 1080, 2284]
+      }
+    ]
+  },
+  {
+    "name": "expanded-again",
+    "focus": {
+      "id": "scroll-header-title",
+      "text": "Slow tides.",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.TextView",
+      "heading": true,
+      "clickable": false,
+      "bounds": [68, 750, 1012, 889]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "text": "\u2190",
+        "label": "Back to collection. \u2190",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 164, 163, 264]
+      },
+      {
+        "id": "scroll-header-list",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ListView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 2101]
+      },
+      {
+        "label": "Play First light",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1199, 1080, 1399]
+      },
+      {
+        "label": "Play Slow tides",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1400, 1080, 1600]
+      },
+      {
+        "label": "Play Salt in the air",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1601, 1080, 1801]
+      },
+      {
+        "label": "Play A softer place",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1802, 1080, 2002]
+      },
+      {
+        "label": "Play Blue hour",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 2003, 1080, 2101]
+      },
+      {
+        "id": "scroll-header-hero",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 1018]
+      },
+      {
+        "id": "scroll-header-title",
+        "text": "Slow tides.",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [68, 750, 1012, 889]
+      },
+      {
+        "id": "scroll-header-section",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 1018, 1080, 1198]
+      },
+      {
+        "text": "THE TRACKLIST",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 1091, 869, 1125]
+      },
+      {
+        "id": "scroll-header-jump",
+        "text": "\u2193",
+        "label": "Jump to a later track. \u2193",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [901, 1050, 1017, 1166]
+      },
+      {
+        "id": "scroll-header-cover",
+        "text": "New cover",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [42, 2122, 485, 2211]
+      },
+      {
+        "id": "scroll-header-add",
+        "text": "Add a track",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [485, 2122, 928, 2211]
+      },
+      {
+        "id": "scroll-header-details",
+        "text": "\u24d8",
+        "label": "Show motion details. \u24d8",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [928, 2122, 1038, 2211]
+      },
+      {
+        "id": "scroll-header-snapshot",
+        "text": "Snapshot",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 2232, 216, 2284]
+      },
+      {
+        "id": "scroll-header-reduce",
+        "text": "Reduce",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [216, 2232, 432, 2284]
+      },
+      {
+        "id": "scroll-header-short",
+        "text": "Short",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [432, 2232, 648, 2284]
+      },
+      {
+        "id": "scroll-header-empty",
+        "text": "Empty",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [648, 2232, 864, 2284]
+      },
+      {
+        "id": "scroll-header-reload",
+        "text": "Reload",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [864, 2232, 1080, 2284]
+      }
+    ]
+  },
+  {
+    "name": "jump-keeps-control-focus",
+    "focus": {
+      "id": "scroll-header-jump",
+      "text": "\u2193",
+      "label": "Jump to a later track. \u2193",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.Button",
+      "heading": false,
+      "clickable": true,
+      "bounds": [901, 493, 1017, 609]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "text": "\u2190",
+        "label": "Back to collection. \u2190",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 164, 163, 264]
+      },
+      {
+        "id": "scroll-header-list",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ListView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 2101]
+      },
+      {
+        "label": "Play Slow tides",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 293, 1080, 439]
+      },
+      {
+        "label": "Play Salt in the air",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 440, 1080, 640]
+      },
+      {
+        "label": "Play A softer place",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 641, 1080, 841]
+      },
+      {
+        "label": "Play Blue hour",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 842, 1080, 1042]
+      },
+      {
+        "label": "Play Where we belong",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1043, 1080, 1243]
+      },
+      {
+        "label": "Play Far from the noise",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1244, 1080, 1444]
+      },
+      {
+        "label": "Play Stay a little longer",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1445, 1080, 1645]
+      },
+      {
+        "label": "Play First light",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1646, 1080, 1846]
+      },
+      {
+        "label": "Play Slow tides",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1847, 1080, 2047]
+      },
+      {
+        "label": "Play Salt in the air",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 2048, 1080, 2101]
+      },
+      {
+        "id": "scroll-header-hero",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 461]
+      },
+      {
+        "id": "scroll-header-title",
+        "text": "Slow tides.",
+        "focused": false,
+        "visible": false,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [68, 293, 1012, 332]
+      },
+      {
+        "id": "scroll-header-section",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 461, 1080, 641]
+      },
+      {
+        "text": "THE TRACKLIST",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 534, 869, 568]
+      },
+      {
+        "id": "scroll-header-jump",
+        "text": "\u2193",
+        "label": "Jump to a later track. \u2193",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [901, 493, 1017, 609]
+      },
+      {
+        "id": "scroll-header-toolbar",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 461]
+      },
+      {
+        "id": "scroll-header-compact-title",
+        "text": "Slow tides.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 346, 869, 408]
+      },
+      {
+        "id": "scroll-header-top",
+        "text": "\u2191",
+        "label": "Back to the cover. \u2191",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [901, 319, 1017, 435]
+      },
+      {
+        "id": "scroll-header-cover",
+        "text": "New cover",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [42, 2122, 485, 2211]
+      },
+      {
+        "id": "scroll-header-add",
+        "text": "Add a track",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [485, 2122, 928, 2211]
+      },
+      {
+        "id": "scroll-header-details",
+        "text": "\u24d8",
+        "label": "Show motion details. \u24d8",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [928, 2122, 1038, 2211]
+      },
+      {
+        "id": "scroll-header-snapshot",
+        "text": "Snapshot",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 2232, 216, 2284]
+      },
+      {
+        "id": "scroll-header-reduce",
+        "text": "Reduce",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [216, 2232, 432, 2284]
+      },
+      {
+        "id": "scroll-header-short",
+        "text": "Short",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [432, 2232, 648, 2284]
+      },
+      {
+        "id": "scroll-header-empty",
+        "text": "Empty",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [648, 2232, 864, 2284]
+      },
+      {
+        "id": "scroll-header-reload",
+        "text": "Reload",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [864, 2232, 1080, 2284]
+      }
+    ]
+  },
+  {
+    "name": "recycled-row",
+    "focus": {
+      "label": "Play A softer place",
+      "focused": true,
+      "visible": true,
+      "class": "android.view.ViewGroup",
+      "heading": false,
+      "clickable": true,
+      "bounds": [0, 641, 1080, 841]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "text": "\u2190",
+        "label": "Back to collection. \u2190",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 164, 163, 264]
+      },
+      {
+        "id": "scroll-header-list",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ListView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 2101]
+      },
+      {
+        "label": "Play Slow tides",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 293, 1080, 439]
+      },
+      {
+        "label": "Play Salt in the air",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 440, 1080, 640]
+      },
+      {
+        "label": "Play A softer place",
+        "focused": true,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 641, 1080, 841]
+      },
+      {
+        "label": "Play Blue hour",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 842, 1080, 1042]
+      },
+      {
+        "label": "Play Where we belong",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1043, 1080, 1243]
+      },
+      {
+        "label": "Play Far from the noise",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1244, 1080, 1444]
+      },
+      {
+        "label": "Play Stay a little longer",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1445, 1080, 1645]
+      },
+      {
+        "label": "Play First light",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1646, 1080, 1846]
+      },
+      {
+        "label": "Play Slow tides",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1847, 1080, 2047]
+      },
+      {
+        "label": "Play Salt in the air",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 2048, 1080, 2101]
+      },
+      {
+        "id": "scroll-header-hero",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 461]
+      },
+      {
+        "id": "scroll-header-title",
+        "text": "Slow tides.",
+        "focused": false,
+        "visible": false,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [68, 293, 1012, 332]
+      },
+      {
+        "id": "scroll-header-section",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 461, 1080, 641]
+      },
+      {
+        "text": "THE TRACKLIST",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 534, 869, 568]
+      },
+      {
+        "id": "scroll-header-jump",
+        "text": "\u2193",
+        "label": "Jump to a later track. \u2193",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [901, 493, 1017, 609]
+      },
+      {
+        "id": "scroll-header-toolbar",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 461]
+      },
+      {
+        "id": "scroll-header-compact-title",
+        "text": "Slow tides.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 346, 869, 408]
+      },
+      {
+        "id": "scroll-header-top",
+        "text": "\u2191",
+        "label": "Back to the cover. \u2191",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [901, 319, 1017, 435]
+      },
+      {
+        "id": "scroll-header-cover",
+        "text": "New cover",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [42, 2122, 485, 2211]
+      },
+      {
+        "id": "scroll-header-add",
+        "text": "Add a track",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [485, 2122, 928, 2211]
+      },
+      {
+        "id": "scroll-header-details",
+        "text": "\u24d8",
+        "label": "Show motion details. \u24d8",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [928, 2122, 1038, 2211]
+      },
+      {
+        "id": "scroll-header-snapshot",
+        "text": "Snapshot",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 2232, 216, 2284]
+      },
+      {
+        "id": "scroll-header-reduce",
+        "text": "Reduce",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [216, 2232, 432, 2284]
+      },
+      {
+        "id": "scroll-header-short",
+        "text": "Short",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [432, 2232, 648, 2284]
+      },
+      {
+        "id": "scroll-header-empty",
+        "text": "Empty",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [648, 2232, 864, 2284]
+      },
+      {
+        "id": "scroll-header-reload",
+        "text": "Reload",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [864, 2232, 1080, 2284]
+      }
+    ]
+  },
+  {
+    "name": "activated-row",
+    "focus": {
+      "label": "Play A softer place",
+      "focused": true,
+      "visible": true,
+      "class": "android.view.ViewGroup",
+      "heading": false,
+      "clickable": true,
+      "bounds": [0, 641, 1080, 841]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "text": "\u2190",
+        "label": "Back to collection. \u2190",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 164, 163, 264]
+      },
+      {
+        "id": "scroll-header-list",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ListView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 2101]
+      },
+      {
+        "label": "Play Slow tides",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 293, 1080, 439]
+      },
+      {
+        "label": "Play Salt in the air",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 440, 1080, 640]
+      },
+      {
+        "label": "Play A softer place",
+        "focused": true,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 641, 1080, 841]
+      },
+      {
+        "label": "Play Blue hour",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 842, 1080, 1042]
+      },
+      {
+        "label": "Play Where we belong",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1043, 1080, 1243]
+      },
+      {
+        "label": "Play Far from the noise",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1244, 1080, 1444]
+      },
+      {
+        "label": "Play Stay a little longer",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1445, 1080, 1645]
+      },
+      {
+        "label": "Play First light",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1646, 1080, 1846]
+      },
+      {
+        "label": "Play Slow tides",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1847, 1080, 2047]
+      },
+      {
+        "label": "Play Salt in the air",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 2048, 1080, 2101]
+      },
+      {
+        "id": "scroll-header-hero",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 461]
+      },
+      {
+        "id": "scroll-header-title",
+        "text": "Slow tides.",
+        "focused": false,
+        "visible": false,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [68, 293, 1012, 332]
+      },
+      {
+        "id": "scroll-header-section",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 461, 1080, 641]
+      },
+      {
+        "text": "THE TRACKLIST",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 534, 869, 568]
+      },
+      {
+        "id": "scroll-header-jump",
+        "text": "\u2193",
+        "label": "Jump to a later track. \u2193",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [901, 493, 1017, 609]
+      },
+      {
+        "id": "scroll-header-toolbar",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 461]
+      },
+      {
+        "id": "scroll-header-compact-title",
+        "text": "Slow tides.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 346, 869, 408]
+      },
+      {
+        "id": "scroll-header-top",
+        "text": "\u2191",
+        "label": "Back to the cover. \u2191",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [901, 319, 1017, 435]
+      },
+      {
+        "id": "scroll-header-cover",
+        "text": "New cover",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [42, 2122, 485, 2211]
+      },
+      {
+        "id": "scroll-header-add",
+        "text": "Add a track",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [485, 2122, 928, 2211]
+      },
+      {
+        "id": "scroll-header-details",
+        "text": "\u24d8",
+        "label": "Show motion details. \u24d8",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [928, 2122, 1038, 2211]
+      },
+      {
+        "id": "scroll-header-snapshot",
+        "text": "Snapshot",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 2232, 216, 2284]
+      },
+      {
+        "id": "scroll-header-reduce",
+        "text": "Reduce",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [216, 2232, 432, 2284]
+      },
+      {
+        "id": "scroll-header-short",
+        "text": "Short",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [432, 2232, 648, 2284]
+      },
+      {
+        "id": "scroll-header-empty",
+        "text": "Empty",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [648, 2232, 864, 2284]
+      },
+      {
+        "id": "scroll-header-reload",
+        "text": "Reload",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [864, 2232, 1080, 2284]
+      }
+    ]
+  },
+  {
+    "name": "cover-control",
+    "focus": {
+      "id": "scroll-header-top",
+      "text": "\u2191",
+      "label": "Back to the cover. \u2191",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.Button",
+      "heading": false,
+      "clickable": true,
+      "bounds": [901, 319, 1017, 435]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "text": "\u2190",
+        "label": "Back to collection. \u2190",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 164, 163, 264]
+      },
+      {
+        "id": "scroll-header-list",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ListView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 2101]
+      },
+      {
+        "label": "Play Slow tides",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 293, 1080, 439]
+      },
+      {
+        "label": "Play Salt in the air",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 440, 1080, 640]
+      },
+      {
+        "label": "Play A softer place",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 641, 1080, 841]
+      },
+      {
+        "label": "Play Blue hour",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 842, 1080, 1042]
+      },
+      {
+        "label": "Play Where we belong",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1043, 1080, 1243]
+      },
+      {
+        "label": "Play Far from the noise",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1244, 1080, 1444]
+      },
+      {
+        "label": "Play Stay a little longer",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1445, 1080, 1645]
+      },
+      {
+        "label": "Play First light",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1646, 1080, 1846]
+      },
+      {
+        "label": "Play Slow tides",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1847, 1080, 2047]
+      },
+      {
+        "label": "Play Salt in the air",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 2048, 1080, 2101]
+      },
+      {
+        "id": "scroll-header-hero",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 461]
+      },
+      {
+        "id": "scroll-header-title",
+        "text": "Slow tides.",
+        "focused": false,
+        "visible": false,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [68, 293, 1012, 332]
+      },
+      {
+        "id": "scroll-header-section",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 461, 1080, 641]
+      },
+      {
+        "text": "THE TRACKLIST",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 534, 869, 568]
+      },
+      {
+        "id": "scroll-header-jump",
+        "text": "\u2193",
+        "label": "Jump to a later track. \u2193",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [901, 493, 1017, 609]
+      },
+      {
+        "id": "scroll-header-toolbar",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 461]
+      },
+      {
+        "id": "scroll-header-compact-title",
+        "text": "Slow tides.",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 346, 869, 408]
+      },
+      {
+        "id": "scroll-header-top",
+        "text": "\u2191",
+        "label": "Back to the cover. \u2191",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [901, 319, 1017, 435]
+      },
+      {
+        "id": "scroll-header-cover",
+        "text": "New cover",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [42, 2122, 485, 2211]
+      },
+      {
+        "id": "scroll-header-add",
+        "text": "Add a track",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [485, 2122, 928, 2211]
+      },
+      {
+        "id": "scroll-header-details",
+        "text": "\u24d8",
+        "label": "Show motion details. \u24d8",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [928, 2122, 1038, 2211]
+      },
+      {
+        "id": "scroll-header-snapshot",
+        "text": "Snapshot",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 2232, 216, 2284]
+      },
+      {
+        "id": "scroll-header-reduce",
+        "text": "Reduce",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [216, 2232, 432, 2284]
+      },
+      {
+        "id": "scroll-header-short",
+        "text": "Short",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [432, 2232, 648, 2284]
+      },
+      {
+        "id": "scroll-header-empty",
+        "text": "Empty",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [648, 2232, 864, 2284]
+      },
+      {
+        "id": "scroll-header-reload",
+        "text": "Reload",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [864, 2232, 1080, 2284]
+      }
+    ]
+  },
+  {
+    "name": "cover-control-returns-focus",
+    "focus": {
+      "id": "scroll-header-title",
+      "text": "Slow tides.",
+      "focused": true,
+      "visible": true,
+      "class": "android.widget.TextView",
+      "heading": true,
+      "clickable": false,
+      "bounds": [68, 753, 1012, 892]
+    },
+    "nodes": [
+      {
+        "id": "org.nativescript.jolt.benchmark:id/action_bar_root",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.LinearLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "id": "android:id/content",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.FrameLayout",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 0, 1080, 2400]
+      },
+      {
+        "text": "\u2190",
+        "label": "Back to collection. \u2190",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [63, 164, 163, 264]
+      },
+      {
+        "id": "scroll-header-list",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.ListView",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 2101]
+      },
+      {
+        "label": "Play First light",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1202, 1080, 1402]
+      },
+      {
+        "label": "Play Slow tides",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1403, 1080, 1603]
+      },
+      {
+        "label": "Play Salt in the air",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1604, 1080, 1804]
+      },
+      {
+        "label": "Play A softer place",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 1805, 1080, 2005]
+      },
+      {
+        "label": "Play Blue hour",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 2006, 1080, 2101]
+      },
+      {
+        "id": "scroll-header-hero",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 293, 1080, 1021]
+      },
+      {
+        "id": "scroll-header-title",
+        "text": "Slow tides.",
+        "focused": true,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [68, 753, 1012, 892]
+      },
+      {
+        "id": "scroll-header-section",
+        "focused": false,
+        "visible": true,
+        "class": "android.view.ViewGroup",
+        "heading": false,
+        "clickable": false,
+        "bounds": [0, 1021, 1080, 1201]
+      },
+      {
+        "text": "THE TRACKLIST",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": true,
+        "clickable": false,
+        "bounds": [63, 1094, 869, 1128]
+      },
+      {
+        "id": "scroll-header-jump",
+        "text": "\u2193",
+        "label": "Jump to a later track. \u2193",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [901, 1053, 1017, 1169]
+      },
+      {
+        "id": "scroll-header-cover",
+        "text": "New cover",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [42, 2122, 485, 2211]
+      },
+      {
+        "id": "scroll-header-add",
+        "text": "Add a track",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [485, 2122, 928, 2211]
+      },
+      {
+        "id": "scroll-header-details",
+        "text": "\u24d8",
+        "label": "Show motion details. \u24d8",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.Button",
+        "heading": false,
+        "clickable": true,
+        "bounds": [928, 2122, 1038, 2211]
+      },
+      {
+        "id": "scroll-header-snapshot",
+        "text": "Snapshot",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [0, 2232, 216, 2284]
+      },
+      {
+        "id": "scroll-header-reduce",
+        "text": "Reduce",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [216, 2232, 432, 2284]
+      },
+      {
+        "id": "scroll-header-short",
+        "text": "Short",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [432, 2232, 648, 2284]
+      },
+      {
+        "id": "scroll-header-empty",
+        "text": "Empty",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [648, 2232, 864, 2284]
+      },
+      {
+        "id": "scroll-header-reload",
+        "text": "Reload",
+        "focused": false,
+        "visible": true,
+        "class": "android.widget.TextView",
+        "heading": false,
+        "clickable": true,
+        "bounds": [864, 2232, 1080, 2284]
+      }
+    ]
+  }
+]

@@ -25,9 +25,10 @@ declare class JoltSensorSource extends NSObject {
   dispose(): void
 }
 declare class JoltScrollHeader extends NSObject {
-  static attachNodeTitleToolbarTitleToolbarDiagnosticOptionsOnState(
+  static attachNodeHeaderTitleToolbarTitleToolbarDiagnosticOptionsOnState(
     list: UITableView,
     node: JoltLiveSpring,
+    header: UIView,
     title: UIView,
     toolbarTitle: UIView,
     toolbar: UIView,

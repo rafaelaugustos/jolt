@@ -179,3 +179,89 @@ simulator/emulator correctness evidence. Fixed 76-DIP data rows still use one-li
 ellipsis for long track names and expose the full name in accessibility labels.
 Other text scales, variable-height rows, VoiceOver/TalkBack traversal and the
 physical-device performance matrix remain outside this slice of #116.
+
+## Screen readers (2026-10-31)
+
+This slice of #116 covers real reader interaction in the reference flat Core
+ListView. The release demo uses production JavaScript without HMR. Android is
+an Android 16 / API 36 emulator, 1080 × 2400, with TalkBack enabled. iOS is a
+physical iPhone 17 Pro running iOS 27.2 (24B5099f), controlled with Xcode 27's
+VoiceOver service and real XCTest touch paths. These are functional checks at
+the recorded text sizes, not physical Android evidence, a performance profile,
+or acceptance of every reader/rotor/font configuration.
+
+The Android runner uses the emulator's hardware gRPC input. A read-only shell
+probe keeps accessibility services enabled and records actual TalkBack focus;
+it never asks a node to focus or click. The iOS test reads actual VoiceOver
+speech, checks that the hero really moved, and records native focus events.
+Speech matching alone is insufficient: both album headings have the same text.
+The evidence verifier also requires opposite heading visibility, actual scroll
+offsets, activation of exactly `song-36`, navigation and zero native resources.
+Negative controls reject wrong recycled rows, missing focus, absent scrolling,
+missing disposal and resource leaks.
+
+The reference fixes cover:
+
+- Heading handoff while both headings are visible, in both directions, and
+  exclusion of the covered hero and inactive toolbar controls.
+- No title focus takeover when scrolling from an unrelated control.
+- Real two-/three-finger reader scrolling, native recycled-row activation,
+  touch exploration of the return control and navigation out of the screen.
+- iOS overlay reading order and an explicit Jump command that moves VoiceOver
+  to the destination cell. Core's native table activation and model remain in
+  use; no competing vertical scroll view or frame-by-frame JS scroll binding is
+  introduced.
+- Explicit overlay visibility declarations so the showcase splash's inherited
+  `accessibilityHidden` state is not saved as the driver's baseline.
+
+Evidence lives in `results/scroll-header-accessibility/`. Android includes the
+actual focused-node snapshots; iOS includes native focus events and a condensed
+VoiceOver transcript. Raw XCTest results and original videos stay in the local
+capture directory. Checked-in recordings are native screen capture, H.264,
+without speech audio and with elapsed time preserved. The iPhone recording is
+exported directly from XCTest's native screen-recording attachment; it is not
+assembled from screenshots. Its variable capture rate is not a measurement of
+display presentation rate. Both English clips are embedded with translated
+captions in all four guides.
+
+### Reproduction
+
+Build and install the release demo with `JOLT_BENCHMARK=1`, select English and
+use a dedicated emulator. See [native accessibility input](accessibility-input/README.md)
+for the Android hardware-input setup and command. The runner restores the three
+reader settings it changes, including preexisting enabled services.
+
+For iOS, use Xcode 27 and an unlocked paired iPhone running iOS 27. The platform
+API for automated VoiceOver navigation requires iOS 27; that is a test-harness
+requirement, not a new Jolt deployment target. Generate and sign the existing
+XCTest harness:
+
+```sh
+ruby benchmarks/docs-ios-ui.rb /tmp/JoltReaderTests benchmarks/scroll-header-accessibility-ios.swift --keep-recordings
+xcodebuild build-for-testing \
+  -project /tmp/JoltReaderTests/DocsTests.xcodeproj -scheme DocsTests \
+  -destination generic/platform=iOS -derivedDataPath /tmp/JoltReaderTests/build \
+  -allowProvisioningUpdates CODE_SIGNING_ALLOWED=YES CODE_SIGN_STYLE=Automatic \
+  DEVELOPMENT_TEAM=YOUR_TEAM
+python3 benchmarks/scroll-header-accessibility-record-ios.py \
+  YOUR_IPHONE_UDID /tmp/JoltReaderTests/DocsTests.xcodeproj \
+  /tmp/JoltReaderTests/build /tmp/JoltReaderCapture
+```
+
+The capture output directory must be new. The host exports XCTest's MP4 and trims
+only setup/teardown using the test's wall-clock markers and the attachment's
+start timestamp. `ffmpeg` changes encoding/frame sampling without speeding up
+playback. Inspect the clip, decode it fully, and keep the original result bundle.
+The test restores its entry VoiceOver state.
+
+```sh
+python3 benchmarks/verify-scroll-header-accessibility.py ios benchmarks/results/scroll-header-accessibility/ios.json
+python3 benchmarks/verify-scroll-header-accessibility.py android benchmarks/results/scroll-header-accessibility/android.json benchmarks/results/scroll-header-accessibility/talkback.json
+python3 -m unittest discover -s benchmarks -p 'test_scroll_header_accessibility.py'
+npm run docs:check-media
+npm run docs:build
+```
+
+Physical-device frame times, input latency, memory measurements, refresh and
+broader container adapters remain separate acceptance work in #116. Existing
+large-text recordings retain their original, narrower claims.

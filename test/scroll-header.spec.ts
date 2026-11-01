@@ -134,6 +134,34 @@ async function layouts() {
 }
 
 describe('scrollHeader geometry and ownership', () => {
+  it('hands reader focus over while both headings remain visible', () => {
+    for (const [title, toolbar] of [
+      [
+        [0, 0.7],
+        [0.55, 0.95],
+      ],
+      [
+        [0, 0.9],
+        [0.8, 1],
+      ],
+      [
+        [0.7, 0.9],
+        [0, 0.2],
+      ],
+    ] as const) {
+      const geometry = headerGeometry(300, 60, 50, 80, 40, 0, title, toolbar)
+      const progress = geometry.focusHandoff
+      const titleAlpha = Math.min(1, (title[1] - progress) / (title[1] - title[0]))
+      const toolbarAlpha = Math.min(
+        1,
+        (progress - toolbar[0]) / (toolbar[1] - toolbar[0]),
+      )
+      expect(titleAlpha).toBeGreaterThan(0.01)
+      expect(toolbarAlpha).toBeGreaterThan(0.01)
+      // Reduced Motion retains the original immediate visual transition.
+      expect(geometry.handoff).toBe((toolbar[0] + toolbar[1]) / 2)
+    }
+  })
   it('accounts for Android pixel dividers in insertion anchors', () => {
     const before = headerGeometry(300, 60, 50, 80, 40, 0.4),
       after = headerGeometry(380, 60, 50, 80, 40, 0.4)

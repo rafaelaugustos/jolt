@@ -74,10 +74,23 @@ page.dispose()
 
 页头测量完整内容，即使内容高于视口。已有的有界父容器裁剪原生内容，ListView 的间隔行提供滚动范围。由于父容器已经处理安全区域，页头子视图忽略 iOS 额外的安全区域扩展。紧凑标题可以换行，控件高度根据内容确定，序号和时长列随文字变宽。数据行仍固定为 76 DIP：过长曲目名使用单行省略号，无障碍标签保留完整名称。仍不支持可变高度数据行。
 
-Release 检查更改并恢复真实系统字号，同时让第 36 首曲目保持在固定分区下方。还验证封面/标题更换、回到顶部、拖动、跳转、点击复用行，以及离开后原生源和节点计数归零。iOS 使用 `large` → `accessibility-medium`；Android 使用 `font_scale` 1 → 2。这不能证明所有字号或 VoiceOver/TalkBack 遍历都已通过验证。
+Release 检查更改并恢复真实系统字号，同时让第 36 首曲目保持在固定分区下方。还验证封面/标题更换、回到顶部、拖动、跳转、点击复用行，以及离开后原生源和节点计数归零。iOS 使用 `large` → `accessibility-medium`；Android 使用 `font_scale` 1 → 2。这不能证明所有字号或 其他阅读器与字体配置都已通过验证。
 
 <Clip name="scroll-header-large-text-ios" caption="iOS 26.2、iPhone 17 模拟器，英文界面：真实系统字体放大、长标题换行、曲目位置保持、拖动、原生跳转/点击及恢复。原速录制，仅为模拟器验证。" />
 <Clip name="scroll-header-large-text-android" caption="Android 16 / API 36 模拟器，英文界面：实际 font_scale 1 → 2 → 1、紧凑标题换行、复用行位置保持、拖动与精确原生跳转。真实 ADB 输入、原速录制，不代表真机性能。" />
+
+## 屏幕阅读器 {#screen-readers}
+
+原生适配器仅在即将隐藏的标题或工具栏拥有焦点时，才在展开标题和紧凑标题之间转移无障碍焦点。阅读其他控件时滚动列表不会把焦点拉回标题。被遮挡的封面、未启用的标题和工具栏控件退出无障碍树；完全被遮挡的已实例化行在重新显示前也会被排除。释放适配器时恢复其管理的属性。
+
+示例显式启用标题和按钮语义，隐藏装饰图片及诊断信息，并通过 Core ListView 的 `itemTap` 激活复用行。iOS 原生单元格使用当前曲目的标签和标识符。覆盖层容器提供三指滚动操作及明确的阅读顺序。Jump 命令将 VoiceOver 焦点移到目标曲目。覆盖层的 `accessibilityHidden="false"` 避免将启动画面继承的临时隐藏状态保存为初始状态；进入期间，不可访问的祖先视图仍会隐藏整个页面。
+
+自定义标题和工具栏淡入淡出区间应保持重叠，使整个过渡期间都有可见标题能够接收焦点。
+
+<Clip name="scroll-header-voiceover-ios" caption="iPhone 17 Pro 真机，iOS 27.2，英文界面：真实 VoiceOver 焦点、三指滚动、标题切换、曲目导航与激活及返回。XCTest 原生录屏，原速播放，无语音音轨；另行验证语音输出和原生焦点。仅验证功能，不用于帧率测试。" />
+<Clip name="scroll-header-talkback-android" caption="Android 16 / API 36 模拟器，英文界面：真实 TalkBack、双指滚动、标题切换、双击激活复用的第 36 首曲目、触摸探索及返回封面。原生录屏，原速播放，无语音音轨；不代表 Android 真机性能。" />
+
+这些测试仅覆盖参考平面列表和录像中的文字大小，不涵盖所有阅读器设置、转子模式、字体大小或第三方列表适配器。复现步骤与原生证据见[验证记录](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md#screen-readers-2026-10-31)。
 
 ## 原生输入和限制 {#native-inputs-and-limits}
 
@@ -97,4 +110,4 @@ Reduce Motion 保持固定和滚动，禁用装饰性视差/拉伸，使用立�
 | 核心分段/粘性标题/搜索模式                         | 被拒绝；该组合拥有固定几何体                                 |
 | 其他列表插件、可变数据行、嵌套垂直滚动、分页选项卡 | 不支持；没有静默的 JS 回退                                   |
 
-[原生验证和复现说明](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) 记录了本次交付所采用的模拟器验证结果。真机性能测量、VoiceOver/TalkBack 遍历和下拉刷新集成不属于本次正确性修复的范围；后续适配器工作由 #116 跟踪。
+[原生验证和复现说明](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) 记录了本次交付所采用的模拟器验证结果。真机性能测量、其他阅读器与字体配置和下拉刷新集成不属于本次正确性修复的范围；后续适配器工作由 #116 跟踪。

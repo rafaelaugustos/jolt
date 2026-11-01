@@ -23,6 +23,21 @@ NSString *JoltNativeTap(CGPoint point) {
     NSError *error=nil;return [record synthesizeWithError:&error]?nil:error.localizedDescription?:@"XCTest event synthesis failed";
 }
 
+// VoiceOver's three-finger scroll, through real OS contact paths. No app scroll
+// or accessibility-focus action is called by this test helper.
+NSString *JoltReaderScroll(CGPoint start, CGFloat distance) {
+    Class paths=NSClassFromString(@"XCPointerEventPath"), records=NSClassFromString(@"XCSynthesizedEventRecord");
+    if(!paths || !records)return @"XCTest pointer-path interfaces are unavailable";
+    id record=[[records alloc]initWithName:@"Jolt VoiceOver three-finger scroll" interfaceOrientation:UIInterfaceOrientationPortrait];
+    for(int finger=0;finger<3;finger++) {
+        CGPoint point=CGPointMake(start.x+finger*35,start.y);
+        id path=[[paths alloc]initForTouchAtPoint:point offset:0];
+        for(int i=1;i<=20;i++)[path moveToPoint:CGPointMake(point.x,point.y+distance*i/20) atOffset:.1+i*.025];
+        [path liftUpAtOffset:.8];[record addPointerEventPath:path];
+    }
+    NSError *error=nil;return [record synthesizeWithError:&error]?nil:error.localizedDescription?:@"XCTest event synthesis failed";
+}
+
 // Leave immediately after a moving vertical release, without XCTest waiting for
 // the list's deceleration to settle before delivering the back-button tap.
 NSString *JoltScrollAndLeave(CGPoint start, CGFloat distance, CGPoint back) {
