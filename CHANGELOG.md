@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Extend retained native `springValue()` bindings to solid `backgroundColor` and uniform `borderRadius` (#297, #301). Native mappings use premultiplied OKLab colors with alpha and bounded radius writes, preserving transform composition, external style ownership and lifecycle cleanup without a JavaScript observer per frame.
+- Add `seekableTimeline()` for finite declarative native scenes (#298, #301): explicit view/numeric-value tracks, overlapping and nested descriptors, named view layers, paused endpoint rewind and per-channel takeover. Playback uses native clocks; callbacks, haptics and live followers remain outside the seekable contract.
+- Support real `animateSize()` transitions for direct children of non-wrapping row/column FlexboxLayout (#299, #301). Text reflows and siblings participate in real layout; the animated main-axis child requires `flexGrow=0` and `flexShrink=0`. Replacements inherit current velocity on shared axes, while parent allocation and cross-axis stretch remain authoritative.
+- Add native body-to-body springs through `PhysicsOptions.springs` and `world.spring()` (#300, #301): center-to-center elastic forces, mass-aware damping, optional guides and velocity-preserving replacement. The bounded world supports at most 32 links and four per body; removing an endpoint disposes its linked world. Includes compiled solver checks, iOS/Android native validation and reviewed recordings in four documentation languages. Rebuild native apps when adopting the containing release; these four extensions are not in published RC.5.
 - Add experimental Web numeric motion values/bindings, a demand-driven context scheduler, analytic springs following changing inputs, and one-pointer 2D drag with velocity-preserving finite WAAPI snap (#293–#295). Live bindings use per-frame composition only on their surface; unbound finite surfaces retain WAAPI. Includes cancellation, reduced motion, lifecycle cleanup, packed consumers and browser/native-reference recordings. These methods are not in published RC.5; Mavis integration remains separate.
 
 ## 0.1.0-rc.5 (2026-11-01)
