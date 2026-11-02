@@ -1,5 +1,7 @@
 # Movimento contínuo na Web {#web-dynamic}
 
+**Em desenvolvimento após a RC.6:** [cores, bordas, pintura contínua, tamanho real, FLIP e cenas com seek](./web-visual) ampliam este runtime. Ainda não fazem parte do pacote RC.6 publicado. A paridade completa continua na [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+
 Desde a **0.1.0-rc.6**, `motionValue()`, `bind()`, `springValue()` e `drag()` estão disponíveis no runtime de `@rafaelaugusto/jolt/web`. As APIs Web continuam experimentais; entradas nativas e adapter Vue mantêm seus contratos.
 
 <Clip name="web-dynamic-chromium" caption="Chromium 156 desktop, velocidade original: ponteiro e teclado reais controlam o follower, alteram a escala da aplicação durante o press, arrastam e retomam o snap, removem/remontam o card e mudam pausa/movimento reduzido. Gravação do navegador; não é evidência nativa nem desempenho em aparelho físico." />

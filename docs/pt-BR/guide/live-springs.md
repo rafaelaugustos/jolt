@@ -28,7 +28,7 @@ scope.dispose()
 
 A fonte pode ser um motion value, um mapeamento numérico ou outro spring value. `animate(pointer, ...)` envia a curva da fonte nas mudanças de playback, permitindo seguir uma timeline nativa. Mapeamentos numéricos com `to()`, inclusive intervalos decrescentes, pontos repetidos e extrapolação, rodam nativamente nos bindings e nas cadeias de seguidores.
 
-O resultado aceita bindings em `x`, `y`, `scale`, `scaleX`, `scaleY`, `rotate`, `rotateX`, `rotateY` e `opacity`. O conjunto estável exclui pintura e adaptadores compostos; a [extensão em desenvolvimento](#live-paint) acrescenta cor de fundo e raio uniforme. O spring value é somente leitura: atualize a fonte em vez de passar o seguidor para `animate()` ou `set()`.
+O resultado aceita bindings em `x`, `y`, `scale`, `scaleX`, `scaleY`, `rotate`, `rotateX`, `rotateY` e `opacity`. O conjunto estável exclui pintura e adaptadores compostos; a [extensão da RC.6](#live-paint) acrescenta cor de fundo e raio uniforme. O spring value é somente leitura: atualize a fonte em vez de passar o seguidor para `animate()` ou `set()`.
 
 Camadas nomeadas de transformação e opacidade continuam compondo com a base:
 
@@ -53,9 +53,9 @@ A redução de movimento leva a cadeia diretamente ao alvo atual. A suspensão d
 
 Nesta demo, os eventos de toque ainda atualizam a fonte pelo JavaScript. Para entrada de gestos nativa e transferência para rolagem, use a [API opcional de gestos](./gestures); `springValue()` não transforma o reconhecedor de gestos em nativo. Os núcleos C e Java têm testes de trajetórias equivalentes, incluindo passos de 60/120 Hz e frames atrasados. Esses testes não substituem medições de desempenho em aparelhos físicos.
 
-## Desenvolvimento: cores e cantos ao vivo {#live-paint}
+## RC.6: cores e cantos ao vivo {#live-paint}
 
-A próxima versão nativa acrescenta bindings de `backgroundColor` e `borderRadius` uniforme. Recompile o app para incluir o código nativo.
+Desde **0.1.0-rc.6**, o nativo oferece bindings de `backgroundColor` e `borderRadius` uniforme. Recompile o app para incluir o código nativo.
 
 ```ts
 const target = motionValue(0)

@@ -128,9 +128,9 @@ O JavaScript executa quando um passo é ativado, não a cada frame. Uma thread J
 
 O playground compara sobreposição, chegadas sequenciais e tempos fixos usando a mesma entrada.
 
-## Desenvolvimento: cenas finitas com seek {#seekable-scenes}
+## RC.6: cenas finitas com seek {#seekable-scenes}
 
-`seekableTimeline()` acrescenta um contrato declarativo explícito para a próxima versão nativa. `timeline()` e `sequence()` mantêm o comportamento de callbacks.
+`seekableTimeline()` acrescenta um contrato declarativo explícito desde **0.1.0-rc.6**. `timeline()` e `sequence()` mantêm o comportamento de callbacks.
 
 ```ts
 const scene = seekableTimeline(

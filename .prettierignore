@@ -26,3 +26,6 @@ benchmarks/web-integration/captures/
 
 benchmarks/web-support/results/
 benchmarks/web-support/captures/
+
+benchmarks/web-visual/results/
+benchmarks/web-visual/captures/

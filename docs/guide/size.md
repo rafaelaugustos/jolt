@@ -74,9 +74,9 @@ The initial implementation probes the destination every frame to detect intrinsi
 
 Open **Real dimensions** in the playground, or launch `--size-lab` on iOS / `--es size-lab true` on Android. The [native validation report](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/size-layout.md) records container coverage, runtime versions, real bounds/hit tests and measured layout costs. Simulator/emulator results are not a device-performance guarantee.
 
-## Development: FlexboxLayout {#flexbox-layout}
+## FlexboxLayout (RC.6) {#flexbox-layout}
 
-The next native release supports direct children of a non-wrapping `FlexboxLayout` in `row` or `column` direction.
+Since **0.1.0-rc.6**, native playback supports direct children of a non-wrapping `FlexboxLayout` in `row` or `column` direction.
 
 For the animated main axis, set `flexGrow=0` and `flexShrink=0` on that child. Siblings can grow/shrink and receive the remaining space on every real layout. Reverse directions and wrapping are rejected before mutation; changing to an unsupported policy during playback terminates with an error and releases the temporary declaration.
 

@@ -16,15 +16,24 @@ import {
   type Stagger,
   type Transition,
 } from './types.js'
+import {
+  coreProperty,
+  expand,
+  isTransform,
+  keyframeProperties,
+  type KeyframeProperty,
+  type Scalar,
+} from './properties.js'
 
 export interface Plan {
   property: Property
-  frames: (number | null)[]
+  frames: (Scalar | null)[]
+  source: KeyframeProperty
   transition: ResolvedTransition
   relative: boolean
   layer?: string
 }
-const allowed = new Set<string>([...properties, 'scale'])
+const allowed = new Set<string>(keyframeProperties)
 const timing = new Set([
   'type',
   'duration',
@@ -134,30 +143,43 @@ export function prepare(
   const overrides = hasCurve(user.base)
     ? user.overrides
     : { ...own.overrides, ...user.overrides }
-  const expanded: [Property, (number | null)[]][] = []
+  const expanded: [Property, (Scalar | null)[], KeyframeProperty][] = []
   for (const [key, value] of Object.entries(keyframes)) {
     if (value === undefined) continue
     if (!allowed.has(key)) throw new TypeError(`Unsupported Web property "${key}".`)
-    if (typeof value !== 'number' && !Array.isArray(value))
+    if (typeof value !== 'number' && typeof value !== 'string' && !Array.isArray(value))
       throw new TypeError(`Invalid keyframes for ${key}.`)
-    const frames =
-      typeof value === 'number' ? [null, value] : ([...value] as (number | null)[])
+    const frames = !Array.isArray(value)
+      ? [null, value as Scalar]
+      : ([...value] as (Scalar | null)[])
     if (frames.length === 1) frames.unshift(null)
-    if (!frames.length || frames.some((v) => v !== null && !Number.isFinite(v)))
+    if (
+      !frames.length ||
+      frames.some(
+        (v) =>
+          v !== null &&
+          (typeof v === 'number'
+            ? !Number.isFinite(v)
+            : typeof v !== 'string' || !v.trim()),
+      )
+    )
       throw new TypeError(`Invalid keyframes for ${key}.`)
-    for (const property of key === 'scale'
-      ? (['scaleX', 'scaleY'] as const)
-      : [key as Property]) {
-      if (key === 'scale' && (keyframes as Keyframes)[property] !== undefined) continue
-      expanded.push([property, frames])
+    for (const property of expand(key as KeyframeProperty)) {
+      if (key !== property && (keyframes as Keyframes)[property] !== undefined) continue
+      if (
+        key === 'borderRadius' &&
+        keyframes[property.slice(0, -1) as KeyframeProperty] !== undefined
+      )
+        continue
+      if (isTransform(property) && frames.some((v) => typeof v === 'string'))
+        throw new TypeError(`${property} requires numeric keyframes.`)
+      expanded.push([property, frames, key as KeyframeProperty])
     }
   }
   const seed = Math.random()
   return Array.from({ length: count }, (_, index) =>
-    expanded.map(([property, frames]) => {
-      const override =
-        overrides[property] ??
-        (property.startsWith('scale') ? overrides.scale : undefined)
+    expanded.map(([property, frames, source]) => {
+      const override = overrides[property] ?? overrides[source]
       const config = fitTransition(
         override ? mergeTransitions(base, override) : base,
         frames.length,
@@ -165,7 +187,11 @@ export function prepare(
       const input = config as Record<string, unknown>
       if (config.type === 'gravity' || Object.keys(input).some((key) => !timing.has(key)))
         throw new TypeError('Only finite numeric tween/spring transitions are supported.')
-      const transition = resolveTransition(config, property, frames.length)
+      const transition = resolveTransition(config, coreProperty(property), frames.length)
+      if ((user.layer ?? own.layer) !== undefined && !isTransform(property))
+        throw new TypeError(
+          'Named layers compose transforms and opacity; paint properties have independent base ownership.',
+        )
       transition.delay += staggerDelay(user.stagger ?? own.stagger, index, count)
       if (
         !Number.isFinite(transition.delay) ||
@@ -184,6 +210,7 @@ export function prepare(
       if (transition.seed !== undefined) transition.seed = seed
       return {
         property,
+        source,
         frames: [...frames],
         transition,
         relative: user.relative ?? own.relative ?? false,

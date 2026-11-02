@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Extend experimental Web playback with shared OKLab colors, independent border sides and elliptical per-corner radii (#308, #309), plus continuous color/decoration bindings driven by the existing value graph (#310). Preserve partial ownership, application/press composition, controls, reduced motion and authored-style cleanup.
+- Add Web `animateSize()` for real numeric/auto width and height with content reflow, interruption, pause/resume and normal Grid/Flexbox allocation (#311), and direct-child `animateLayout()` for position/size FLIP, entry, reorder and interruption (#312). The Vue DOM adapter exposes both operations with scope cleanup.
+- Add Web `seekableTimeline()` with element and numeric-value tracks, nested offsets, paused endpoint rewind and independent channel replacement (#313). Keep eligible element playback on WAAPI and numeric observation on the shared scheduler. Include real browser and packed-consumer checks, native references and reviewed recordings in four documentation languages. Full Web/native functional parity remains tracked in #236; Mavis adoption is separate (#191–#194 in its repository). These changes are not in published RC.6.
+
 ## 0.1.0-rc.6 (2026-11-02)
 
 - Publish matching core and optional native packages with four native extensions and experimental Web continuous motion, mappings, geometry refresh and scroll. Rebuild native applications after upgrading. Mavis adoption remains a separate integration task.

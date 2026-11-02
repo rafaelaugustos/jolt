@@ -128,9 +128,9 @@ JavaScript runs when a step activates, not once per animation frame. A blocked J
 
 The playground compares overlap, sequential arrivals and fixed times using the same entrance.
 
-## Development: finite seekable scenes {#seekable-scenes}
+## Finite seekable scenes (RC.6) {#seekable-scenes}
 
-`seekableTimeline()` adds an explicit declarative contract for the next native release. Existing `timeline()` and `sequence()` keep their callback behavior.
+`seekableTimeline()` adds an explicit declarative contract since **0.1.0-rc.6**. Existing `timeline()` and `sequence()` keep their callback behavior.
 
 ```ts
 const scene = seekableTimeline(

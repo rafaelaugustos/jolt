@@ -28,7 +28,7 @@ scope.dispose()
 
 La fuente puede ser un valor de movimiento, un mapeo numérico u otro valor de resorte. `animate(pointer, ...)` envía una pista fuente muestreada en los límites de reproducción, para que el seguidor también pueda seguir una línea de tiempo nativa. Las asignaciones numéricas `to()`, incluidos rangos descendentes, paradas repetidas y extrapolación, se ejecutan de forma nativa para cadenas de seguidores y enlaces.
 
-Vincula el resultado a `x`, `y`, `scale`, `scaleX`, `scaleY`, `rotate`, `rotateX`, `rotateY` o `opacity`. La base estable excluye pintura y adaptadores compuestos; la [extensión en desarrollo](#live-paint) añade fondo y radio uniforme. El valor del resorte es de solo lectura: actualice su fuente en lugar de pasar el seguidor a `animate()` o `set()`.
+Vincula el resultado a `x`, `y`, `scale`, `scaleX`, `scaleY`, `rotate`, `rotateX`, `rotateY` o `opacity`. La base estable excluye pintura y adaptadores compuestos; la [extensión RC.6](#live-paint) añade fondo y radio uniforme. El valor del resorte es de solo lectura: actualice su fuente en lugar de pasar el seguidor a `animate()` o `set()`.
 
 Las capas de transformación y opacidad con nombre aún se componen con la base enlazada:
 
@@ -53,9 +53,9 @@ El movimiento reducido actualiza la cadena directamente a su objetivo actual. La
 
 Los eventos táctiles de la demostración actualmente actualizan la fuente de JavaScript. Para la entrada de gestos nativos y la transferencia de desplazamiento, utilice el [API de gestos](./gestures) opcional; `springValue()` no convierte el reconocedor de gestos en nativo. Los kernels de resorte de C y Java tienen pruebas de trayectoria coincidentes, incluida la partición en pasos de tiempo de 60/120 Hz y fotogramas retrasados. Esas pruebas no reemplazan las mediciones de rendimiento en dispositivos físicos.
 
-## Desarrollo: color y esquinas en vivo {#live-paint}
+## RC.6: color y esquinas en vivo {#live-paint}
 
-La próxima versión nativa añade bindings de `backgroundColor` y `borderRadius` uniforme. Recompila la aplicación para incluir el código nativo.
+Desde **0.1.0-rc.6**, el nativo ofrece bindings de `backgroundColor` y `borderRadius` uniforme. Recompila la aplicación para incluir el código nativo.
 
 ```ts
 const target = motionValue(0)

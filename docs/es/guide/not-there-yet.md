@@ -1,5 +1,7 @@
 # Estado de la versión y límites {#not-there-yet}
 
+**En desarrollo después de RC.6:** [colores, bordes, pintura continua, tamaño real, FLIP y escenas con seek](./web-visual) amplían este runtime. No están en el paquete RC.6 publicado. La paridad completa sigue en [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+
 **0.1.0-rc.6 está disponible.** Las funciones nativas mantienen sus límites documentados mientras continúa la validación estable. Las entradas Web son experimentales; publicarlas no completa la integración Mavis ni establece paridad de todas las APIs entre native y Web.
 
 RC.6 incluye [movimiento continuo Web](./web-dynamic), con valores, followers y drag/snap, además de [mapeos numéricos, geometría y scroll vertical](./web-support). Las APIs Web siguen experimentales.

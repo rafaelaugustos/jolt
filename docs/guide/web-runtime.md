@@ -1,6 +1,8 @@
 # Finite Web runtime
 
-Since **0.1.0-rc.5**, the experimental `@rafaelaugusto/jolt/web` entry uses Jolt’s portable compiler and WAAPI directly on HTML elements, independently of Vue, React or NativeScript. See [installation](./install#experimental-web-candidate). Mavis completed its initial press/reveal migration and shared application example; adoption of newer Web capabilities continues [in Mavis](https://github.com/getcortexlabs/mavis-ui/issues/137).
+**Development after RC.6:** [colors, borders, continuous paint, real size, FLIP and seekable scenes](./web-visual) extend this runtime. They are not included in the published RC.6 package. Full parity remains tracked in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+
+Since **0.1.0-rc.5**, the experimental `@rafaelaugusto/jolt/web` entry uses Jolt’s portable compiler and WAAPI directly on HTML elements, independently of Vue, React or NativeScript. See [installation](./install#experimental-web-candidate). Mavis completed its initial press/reveal migration and shared application example; adoption of newer Web capabilities continues [in Mavis](https://github.com/getcortexlabs/mavis-ui/issues/191).
 
 RC.6 includes [continuous Web motion](./web-dynamic), with values, followers and drag/snap, plus [numeric mappings, geometry refresh and vertical scroll](./web-support). The Web APIs remain experimental.
 
@@ -52,7 +54,7 @@ The runtime owns `transform` and `opacity` on a mounted, transformable HTML box.
 
 Supported size and 2D pivot changes can preserve this ownership using the RC.6 [geometry refresh API](./web-support#geometry); other external-style changes retain the release/recreate rule.
 
-This guide covers finite playback. See [continuous motion](./web-dynamic) for values, springs and drag/snap, and [Web support](./web-support) for mappings, geometry and vertical scroll. Pinch, Web layout animation, native-only properties and other framework adapters remain outside this Web scope. It does not establish a stable portable-reference API or complete Mavis integration. WAAPI playback alone does not establish compositor acceleration or an FPS guarantee.
+This guide covers finite playback. See [continuous motion](./web-dynamic) for values, springs and drag/snap, and [Web support](./web-support) for mappings, geometry and vertical scroll. Pinch, native-only properties and other framework adapters remain outside this Web scope. It does not establish a stable portable-reference API or complete Mavis integration. WAAPI playback alone does not establish compositor acceleration or an FPS guarantee.
 
 ## Native reference and validation {#native-reference-and-validation}
 

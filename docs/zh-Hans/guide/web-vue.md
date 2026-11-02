@@ -1,5 +1,7 @@
 # Vue Web 动画
 
+**RC.6 之后的开发功能：**[颜色、边框、连续绘制、真实尺寸、FLIP 与可定位场景](./web-visual)扩展此运行时，尚未包含在已发布的 RC.6 包中。完整对等仍由 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 跟踪。
+
 实验性 `@rafaelaugusto/jolt/web/vue` 入口已包含在 **0.1.0-rc.5** 中，将声明的 DOM ref 连接到 [Web 运行时](./web-runtime)。请单独安装 Vue 3.5。原生 `/vue` 仍表示 NativeScript 集成；命令式 `/web` 不会安装 Vue。参见[安装](./install#experimental-web-candidate)。
 
 <Clip name="web-vue-chromium" :width="720" caption="macOS arm64 上的 Chromium 156：真实鼠标和键盘输入反转离场、按住卡片、在按住时改变应用缩放、替换表面并完成隐藏与显示。原速浏览器录制；不代表实体设备性能。" />

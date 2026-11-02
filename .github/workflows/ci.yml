@@ -41,6 +41,7 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run web:typecheck
+      - run: npm run web:visual:typecheck
       - run: npm run web:support:typecheck
       - run: npm run web:dynamic:typecheck
       - run: npm run web:integration:typecheck
@@ -53,6 +54,7 @@ jobs:
       - run: npm run web:integration:test
       - run: npm run web:dynamic:test
       - run: npm run web:support:test
+      - run: npm run web:visual:test
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -64,6 +66,7 @@ jobs:
             benchmarks/web-integration/results/
             benchmarks/web-dynamic/results/
             benchmarks/web-support/results/
+            benchmarks/web-visual/results/
   test:
     runs-on: ubuntu-latest
     steps:

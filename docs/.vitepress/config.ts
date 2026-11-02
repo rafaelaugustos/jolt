@@ -104,6 +104,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('webVue', 'web-vue'),
         page('webDynamic', 'web-dynamic'),
         page('webSupport', 'web-support'),
+        page('webVisual', 'web-visual'),
         page('limits', 'not-there-yet'),
       ],
     },
@@ -189,6 +190,7 @@ const en = {
   webVue: 'Vue Web motion',
   webDynamic: 'Continuous Web motion',
   webSupport: 'Web mappings, geometry & scroll',
+  webVisual: 'Web colors, layout & scenes',
   limits: 'Release status and limits',
 }
 
@@ -271,6 +273,7 @@ const pt = {
   webVue: 'Movimento Vue na Web',
   webDynamic: 'Movimento contínuo na Web',
   webSupport: 'Mapeamentos, geometria e scroll Web',
+  webVisual: 'Cores, layout e cenas Web',
   limits: 'Status da versão e limites',
 }
 

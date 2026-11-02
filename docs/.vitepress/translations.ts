@@ -79,6 +79,7 @@ export const es = {
   webVue: 'Movimiento Vue en Web',
   webDynamic: 'Movimiento continuo en Web',
   webSupport: 'Mapeos, geometría y scroll Web',
+  webVisual: 'Colores, layout y escenas Web',
   limits: 'Estado de la versión y límites',
 }
 
@@ -161,6 +162,7 @@ export const zh = {
   webVue: 'Vue Web 动画',
   webDynamic: 'Web 连续动画',
   webSupport: 'Web 映射、几何与滚动',
+  webVisual: 'Web 颜色、布局与场景',
   limits: '发布状态与限制',
 }
 

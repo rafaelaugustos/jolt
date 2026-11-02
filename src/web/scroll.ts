@@ -1,14 +1,16 @@
 import type { FrameScheduler, FrameTask } from './scheduler.js'
 import { DerivedValueNode, NumericValue, type WebReadableValue } from './value.js'
 import { numericMap } from '../core/numeric-map.js'
-import type { KeyframeProperty, Property } from './types.js'
+import type { TransformProperty } from './properties.js'
 import type { Point } from './curve.js'
 
 export type WebScrollSource = Document | HTMLElement
 export interface WebScrollValue extends WebReadableValue {
   refresh(): void
 }
-export type WebScrollKeyframes = Partial<Record<KeyframeProperty, readonly number[]>>
+export type WebScrollKeyframes = Partial<
+  Record<TransformProperty | 'scale', readonly number[]>
+>
 export interface WebScrollOptions {
   /** An increasing range of vertical CSS-pixel offsets. */
   range: readonly [number, number]
@@ -183,7 +185,7 @@ export function scrollPlan(frames: WebScrollKeyframes, options: WebScrollOptions
   if (!frames || typeof frames !== 'object' || !Object.keys(frames).length)
     throw new TypeError('Scroll playback requires explicit numeric keyframes.')
   const plans = new Map<
-    Property,
+    TransformProperty,
     { input: number[]; output: number[]; points: Point[] }
   >()
   for (const [name, output] of Object.entries(frames)) {
@@ -199,7 +201,7 @@ export function scrollPlan(frames: WebScrollKeyframes, options: WebScrollOptions
     numericMap(input, output)
     for (const property of name === 'scale'
       ? (['scaleX', 'scaleY'] as const)
-      : [name as Property]) {
+      : [name as TransformProperty]) {
       if (name === 'scale' && frames[property]) continue
       plans.set(property, {
         input,
@@ -218,7 +220,7 @@ export function scrollPlan(frames: WebScrollKeyframes, options: WebScrollOptions
 export class ScrollLinkedNode extends DerivedValueNode {
   constructor(
     readonly scroll: ScrollValueNode,
-    readonly property: Property,
+    readonly property: TransformProperty,
     readonly range: readonly [number, number],
     readonly points: Point[],
     readonly native: boolean,
