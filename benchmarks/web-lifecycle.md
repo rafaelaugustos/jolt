@@ -1,6 +1,6 @@
 # Web input, lifecycles and shared interaction evidence
 
-Candidate for #314–#317 and #320–#323, based on main `7535cccd6596fb09a8d1f8276f5f852e831a943a` (merged #318). This is development after published `0.1.0-rc.6`, not evidence that RC.6 contains these APIs. Full Web/mobile parity #236 and Mavis integration remain separate.
+Candidate for #314–#317 and #320–#323, based on main `7535cccd6596fb09a8d1f8276f5f852e831a943a` (merged #318). The branch also incorporates main `a4a3a334517d4e9546f45fa617f39246354e38d9` (showcase #319), preserving its navigation and tests. This is development after published `0.1.0-rc.6`, not evidence that RC.6 contains these APIs. Full Web/mobile parity #236 and Mavis integration remain separate.
 
 ## Reproduce
 
@@ -41,7 +41,7 @@ macOS arm64; Node 22.23.3; Playwright 1.64.1. Browser versions: Chromium 156.0.8
 | Existing visual/layout/scene                                        |      96 |       0 |
 | **Browser total**                                                   | **523** |   **8** |
 
-The new fixture contains 42 cases, each run in all three engines; zero flaky/retried cases in this run. The eight skips belong to existing capability-specific tests; this change adds no skip. Unit coverage passes 1,640 tests across 103 files, including seven scope ownership/rollback/suspension tests. Those Web unit tests live in the DOM fixture's type environment so the native compiler does not import DOM types.
+The new fixture contains 42 cases, each run in all three engines; zero flaky/retried cases in this run. The eight skips belong to existing capability-specific tests; this change adds no skip. Unit coverage passes 1,652 tests across 104 files, including seven scope ownership/rollback/suspension tests. Those Web unit tests live in the DOM fixture's type environment so the native compiler does not import DOM types.
 
 Packed consumers verify the new public facade, scoped pointer/viewport/shared-layout cleanup, continuous Vue binding, lazy SSR setup, dev/production browser execution, both TS module resolvers and native declarations/bundles. The existing core check still installs the dependency-free portable compiler separately. Root, Web and benchmark typechecks pass. Native on-device playback regressions run in the PR's native CI; the browser results do not replace them.
 

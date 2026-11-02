@@ -1,0 +1,123 @@
+const en = {
+  kicker: 'FROM THE COMMUNITY',
+  title: 'Made with Jolt? Let’s see it.',
+  lead: 'Share your app and the details that make it yours. Every submission is reviewed before it appears here.',
+  steps: [
+    'Record your app in action.',
+    'Share a public link to the video.',
+    'After approval, it appears here.',
+  ],
+  videoHint: 'Use a public HTTPS link to a video file or a page with the video.',
+  emailHint: 'Only used to reply to your submission. Never shown in the showcase.',
+  summaryPlaceholder: 'What does your app do? Where does Jolt come in?',
+  namePlaceholder: 'What’s your app called?',
+  name: 'App name',
+  summary: 'About the app',
+  video: 'Video link',
+  app: 'App or code link, optional',
+  author: 'Your name, optional',
+  email: 'Email',
+  send: 'Submit app',
+  sending: 'Sending…',
+  sent: 'Sent. It shows up here after approval.',
+  invalid: 'That did not go through. Check the links and try again.',
+  rate: 'Too many submissions for now. Please try again later.',
+  unavailable:
+    'We could not confirm your submission. Try again without changing the details.',
+  watch: 'Watch',
+  open: 'Open',
+}
+
+const pt = {
+  kicker: 'DA COMUNIDADE',
+  title: 'Fez com Jolt? Mostre pra gente.',
+  lead: 'Compartilhe seu app e os detalhes que fazem a diferença. Cada envio é revisado antes de aparecer aqui.',
+  steps: [
+    'Grave seu app em ação.',
+    'Envie um link público para o vídeo.',
+    'Depois da aprovação, ele aparece aqui.',
+  ],
+  videoHint: 'Use um link HTTPS público para um vídeo ou uma página com o vídeo.',
+  emailHint: 'Usado apenas para responder ao envio. Não aparece no showcase.',
+  summaryPlaceholder: 'O que seu app faz? Onde o Jolt entra?',
+  namePlaceholder: 'Como se chama seu app?',
+  name: 'Nome do app',
+  summary: 'Sobre o app',
+  video: 'Link do vídeo',
+  app: 'Link do app ou do código, opcional',
+  author: 'Seu nome, opcional',
+  email: 'Email',
+  send: 'Enviar app',
+  sending: 'Enviando…',
+  sent: 'Enviado. Ele aparece aqui depois da aprovação.',
+  invalid: 'Não foi. Confere os links e tenta de novo.',
+  rate: 'Muitos envios por agora. Tente novamente mais tarde.',
+  unavailable: 'Não conseguimos confirmar o envio. Tente novamente sem alterar os dados.',
+  watch: 'Assistir',
+  open: 'Abrir',
+}
+
+const es: typeof en = {
+  kicker: 'DE LA COMUNIDAD',
+  title: '¿Lo hiciste con Jolt? Muéstranoslo.',
+  lead: 'Comparte tu app y los detalles que la hacen especial. Revisamos cada envío antes de publicarlo aquí.',
+  steps: [
+    'Graba tu app en acción.',
+    'Envía un enlace público al vídeo.',
+    'Después de aprobarla, aparecerá aquí.',
+  ],
+  videoHint: 'Usa un enlace HTTPS público a un vídeo o a una página con el vídeo.',
+  emailHint: 'Solo se usa para responder al envío. No aparece en los proyectos.',
+  summaryPlaceholder: '¿Qué hace tu app? ¿Cómo usa Jolt?',
+  namePlaceholder: '¿Cómo se llama tu app?',
+  name: 'Nombre de la app',
+  summary: 'Acerca de la app',
+  video: 'Enlace al vídeo',
+  app: 'Enlace a la app o al código, opcional',
+  author: 'Tu nombre, opcional',
+  email: 'Correo electrónico',
+  send: 'Enviar app',
+  sending: 'Enviando…',
+  sent: 'Enviado. Aparecerá aquí después de aprobarlo.',
+  invalid: 'No se pudo enviar. Revisa los enlaces e inténtalo de nuevo.',
+  rate: 'Demasiados envíos por ahora. Inténtalo más tarde.',
+  unavailable: 'No pudimos confirmar el envío. Inténtalo de nuevo sin cambiar los datos.',
+  watch: 'Ver vídeo',
+  open: 'Abrir',
+}
+
+const zh: typeof en = {
+  kicker: '来自社区',
+  title: '用 Jolt 做了应用？来展示吧。',
+  lead: '分享你的应用和其中的精彩细节。每次提交都会经过审核，再显示在这里。',
+  steps: [
+    '录制应用的实际运行过程。',
+    '提交可公开访问的视频链接。',
+    '审核通过后，应用就会显示在这里。',
+  ],
+  videoHint: '请使用可公开访问的 HTTPS 视频链接或包含视频的页面链接。',
+  emailHint: '仅用于回复此次提交，不会公开显示。',
+  summaryPlaceholder: '你的应用有什么功能？在哪里使用了 Jolt？',
+  namePlaceholder: '你的应用叫什么名字？',
+  name: '应用名称',
+  summary: '应用介绍',
+  video: '视频链接',
+  app: '应用或代码链接（可选）',
+  author: '你的名字（可选）',
+  email: '电子邮箱',
+  send: '提交应用',
+  sending: '正在提交…',
+  sent: '已提交。审核通过后会显示在这里。',
+  invalid: '提交失败。请检查链接后重试。',
+  rate: '提交过于频繁，请稍后再试。',
+  unavailable: '无法确认是否提交成功。请保持内容不变，再试一次。',
+  watch: '观看视频',
+  open: '打开',
+}
+
+export function showcaseCopy(language: string): typeof en {
+  if (language.startsWith('pt')) return pt
+  if (language.startsWith('es')) return es
+  if (language.startsWith('zh')) return zh
+  return en
+}

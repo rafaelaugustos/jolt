@@ -5,6 +5,8 @@ import DefaultTheme from 'vitepress/theme'
 import type { Theme } from 'vitepress'
 import Clip from './Clip.vue'
 import HomeVideos from './HomeVideos.vue'
+import ShowcaseBoard from './ShowcaseBoard.vue'
+import './showcase.css'
 import './custom.css'
 
 export default {
@@ -16,5 +18,6 @@ export default {
     }),
   enhanceApp({ app }) {
     app.component('Clip', Clip)
+    app.component('ShowcaseBoard', ShowcaseBoard)
   },
 } satisfies Theme
