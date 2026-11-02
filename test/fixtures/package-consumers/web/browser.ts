@@ -238,3 +238,93 @@ document.getElementById('orchestration')!.addEventListener('click', async () => 
   motion.release(probe)
   probe.remove()
 })
+
+const interactionButton = document.createElement('button')
+interactionButton.id = 'interactions'
+interactionButton.textContent = 'Gestures, zoom, header and reorder'
+const interactionResult = document.createElement('output')
+interactionResult.id = 'interactions-result'
+document.body.append(interactionButton, interactionResult)
+interactionButton.onclick = async () => {
+  const owner = motion.scope(),
+    region = document.createElement('div')
+  region.style.cssText = 'position:relative;width:300px;height:200px;overflow:auto'
+  document.body.append(region)
+  try {
+    const value = owner.motionValue(0)
+    const drag = owner.drag(region, {
+      axis: 'x',
+      value,
+      release: 'decay',
+      rubberband: true,
+    })
+    drag.pause()
+    drag.play()
+    drag.dispose()
+    const gesture = owner.gestures(region, { pan: true, pinch: true, rotate: true })
+    gesture.jumpTo({ x: 25, scale: 1.2 })
+    gesture.pause()
+    gesture.play()
+    const gesturesWork = gesture.position.x === 25 && gesture.position.scale === 1.2
+    gesture.dispose()
+    const image = document.createElement('img')
+    image.style.cssText = 'display:block;width:100%;height:100%;object-fit:contain'
+    image.src =
+      'data:image/svg+xml,' +
+      encodeURIComponent(
+        '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect width="100" height="100" fill="blue"/></svg>',
+      )
+    region.append(image)
+    await image.decode()
+    const zoom = owner.zoomable(image)
+    zoom.zoomTo(2, undefined, false)
+    const zoomWorks = zoom.ready && zoom.state.scale === 2
+    zoom.dispose()
+    image.remove()
+    const heading = document.createElement('div')
+    heading.style.cssText = 'position:absolute;height:100px;width:200px'
+    region.append(heading)
+    const header = owner.scrollHeader(region, {
+      header: heading,
+      expanded: 100,
+      minimum: 40,
+    })
+    const headerWorks = header.geometry.range === 60
+    header.dispose()
+    heading.remove()
+    let keys = ['one', 'two', 'three']
+    for (const key of keys) {
+      const row = document.createElement('div')
+      row.dataset.key = key
+      row.style.cssText = 'height:40px'
+      row.textContent = key
+      region.append(row)
+    }
+    const reorder = owner.reorder(region, {
+      items: () =>
+        keys.map((key) => ({
+          key,
+          target: region.querySelector<HTMLElement>(`[data-key="${key}"]`)!,
+        })),
+      onCommit(move) {
+        keys.splice(move.fromIndex, 1)
+        keys.splice(move.toIndex, 0, move.key)
+        for (const key of keys)
+          region.append(region.querySelector(`[data-key="${key}"]`)!)
+      },
+    })
+    const moved = reorder.moveDown('one')
+    owner.dispose()
+    interactionResult.textContent = String(
+      gesturesWork &&
+        zoomWorks &&
+        headerWorks &&
+        moved &&
+        keys[1] === 'one' &&
+        value.disposed,
+    )
+  } finally {
+    owner.dispose()
+    region.remove()
+  }
+}

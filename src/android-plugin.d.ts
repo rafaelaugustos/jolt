@@ -1,4 +1,17 @@
 declare namespace org.rafaelaugusto.jolt {
+  class ColorTarget {
+    constructor(view: android.view.View, property: number, initialColor: number)
+    isSupported(): boolean
+  }
+  class DecorationTarget {
+    constructor(
+      view: android.view.View,
+      property: number,
+      value: number,
+      borderColor: number,
+    )
+    isSupported(): boolean
+  }
   class KeyframeFactory {
     static create(
       view: android.view.View,

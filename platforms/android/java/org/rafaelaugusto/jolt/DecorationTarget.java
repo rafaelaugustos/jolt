@@ -22,7 +22,7 @@ public final class DecorationTarget {
     private float value;
     private boolean acquired;
 
-    // 0 = uniform radius, 1 = uniform width, 2 = elevation, 3 = translationZ.
+    // 0/1 uniform radius/width; 2/3 elevation/Z; 4..7 corners; 8..11 side widths.
     public DecorationTarget(View view, int property, float value, int borderColor) {
         this.view = new WeakReference<>(view);
         this.property = property;
@@ -51,7 +51,7 @@ public final class DecorationTarget {
     public boolean isSupported() {
         View nativeView = view.get();
         if (nativeView == null) return false;
-        if (property >= 2) return true;
+        if (property == 2 || property == 3) return true;
         Drawable drawable = ColorTarget.background(nativeView);
         return FIELDS != null && ((drawable != null && drawable.getClass().getName().equals(BORDER)) ||
             ((drawable == null || drawable.getClass() == ColorDrawable.class) && CONSTRUCTOR != null && ColorTarget.FIELDS != null));
@@ -61,7 +61,7 @@ public final class DecorationTarget {
         View nativeView = view.get();
         if (nativeView == null) return;
         value = next;
-        if (property >= 2) suspendStateAnimator(nativeView);
+        if (property == 2 || property == 3) suspendStateAnimator(nativeView);
         if (property == 2) { nativeView.setElevation(next); return; }
         if (property == 3) { nativeView.setTranslationZ(next); return; }
         ensureBackground(nativeView);
@@ -70,7 +70,8 @@ public final class DecorationTarget {
         try {
             // Core rebuilds the paths from these fields in draw() and getOutline().
             // Keep its bitmap, gradient, color and all other state on the same drawable.
-            for (Field field : FIELDS[property]) field.setFloat(drawable, next);
+            if (property < 2) for (Field field : FIELDS[property]) field.setFloat(drawable, next);
+            else FIELDS[property < 8 ? 0 : 1][property < 8 ? property - 4 : property - 8].setFloat(drawable, next);
             drawable.invalidateSelf();
             nativeView.invalidateOutline();
         } catch (IllegalAccessException exception) { /* Keep Core's final model. */ }
@@ -79,7 +80,7 @@ public final class DecorationTarget {
         View nativeView = view.get();
         if (nativeView == null || acquired) return;
         acquired = true;
-        if (property < 2) {
+        if (property != 2 && property != 3) {
             BackgroundLease lease = BACKGROUNDS.get(nativeView);
             if (lease == null) { lease = new BackgroundLease(); BACKGROUNDS.put(nativeView, lease); }
             lease.count++;
@@ -99,7 +100,7 @@ public final class DecorationTarget {
         View nativeView = view.get();
         if (!acquired || nativeView == null) return;
         acquired = false;
-        if (property < 2) {
+        if (property != 2 && property != 3) {
             BackgroundLease lease = BACKGROUNDS.get(nativeView);
             if (lease != null && --lease.count == 0) {
                 BACKGROUNDS.remove(nativeView);

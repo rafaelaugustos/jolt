@@ -1,5 +1,6 @@
 import { isAndroid, type View } from '@nativescript/core'
 import type { NumericProperty } from './properties.js'
+import { isLivePaint, livePaintConfig, type LiveEdge } from './live-paint.js'
 import { retainInteractiveLayout } from './driver/ios-layout.js'
 
 export interface LiveMapping {
@@ -9,7 +10,14 @@ export interface LiveMapping {
   /** Final mapping only: premultiplied OKLab, packed unsigned ARGB output. */
   color?: boolean
 }
-export type LiveProperty = NumericProperty | 'backgroundColor' | 'borderRadius'
+export type LiveProperty =
+  | NumericProperty
+  | LiveEdge
+  | 'backgroundColor'
+  | 'borderColor'
+  | 'color'
+  | 'borderRadius'
+  | 'borderWidth'
 export interface LiveSpringPhysics {
   stiffness: number
   damping: number
@@ -83,6 +91,42 @@ function available() {
 export function syncLiveSprings(view: View) {
   if (override) override.sync(view)
   else if (available() && view.nativeViewProtected) nativeDriver.sync(view)
+}
+/** Validate every loaded native target before bind() replaces any existing owner. */
+export function validateLivePaintRuntime(view: View, property: string) {
+  if (override || !isLivePaint(property) || !view.nativeViewProtected) return
+  if (!isAndroid) {
+    if (typeof JoltLivePaint === 'undefined')
+      throw new Error('Live paint needs rebuilt Jolt native classes.')
+    return
+  }
+  const colors = ['backgroundColor', 'borderColor', 'color']
+  const color = colors.indexOf(property)
+  const channels = [
+    'borderRadius',
+    'borderWidth',
+    'elevation',
+    'translationZ',
+    'borderTopLeftRadius',
+    'borderTopRightRadius',
+    'borderBottomRightRadius',
+    'borderBottomLeftRadius',
+    'borderTopWidth',
+    'borderRightWidth',
+    'borderBottomWidth',
+    'borderLeftWidth',
+  ]
+  const target =
+    color >= 0
+      ? new org.rafaelaugusto.jolt.ColorTarget(view.nativeViewProtected, color, 0)
+      : new org.rafaelaugusto.jolt.DecorationTarget(
+          view.nativeViewProtected,
+          channels.indexOf(property),
+          0,
+          0,
+        )
+  if (!target.isSupported())
+    throw new TypeError(`Unsupported native live paint target for ${property}.`)
 }
 const handles = new WeakMap<
   LiveNode,
@@ -166,6 +210,15 @@ const nativeDriver: LiveSpringDriver = {
       reduced: (value) => native.setReduced(value),
       paused: (value) => native.setPaused(value),
       bind(view, property, maps) {
+        if (isLivePaint(property)) {
+          if (typeof JoltLivePaint === 'undefined')
+            throw new Error('Live paint needs rebuilt Jolt native classes.')
+          JoltLivePaint.configureConfigBorder(
+            view.nativeViewProtected,
+            livePaintConfig(view),
+            view.nativeViewProtected.borderLayer ?? null,
+          )
+        }
         const releaseLayout = retainInteractiveLayout(view)
         let binding: JoltLiveSpringBinding
         try {
@@ -194,6 +247,14 @@ const nativeDriver: LiveSpringDriver = {
   },
   sync(view) {
     if (isAndroid) org.rafaelaugusto.jolt.LiveSpring.sync(view.nativeViewProtected)
-    else JoltLiveSpring.sync(view.nativeViewProtected)
+    else {
+      if (typeof JoltLivePaint !== 'undefined')
+        JoltLivePaint.refreshConfigBorder(
+          view.nativeViewProtected,
+          livePaintConfig(view),
+          view.nativeViewProtected.borderLayer ?? null,
+        )
+      JoltLiveSpring.sync(view.nativeViewProtected)
+    }
   },
 }

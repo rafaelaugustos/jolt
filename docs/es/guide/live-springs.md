@@ -69,7 +69,7 @@ set(target, 1)
 
 El grafo nativo retenido interpola colores en OKLab con alfa premultiplicado, recorta al gamut sRGB y limita el progreso del color a sus extremos. Los mapeos numéricos pueden preceder al mapeo final de color. El radio no es negativo; el renderizador limita las esquinas al espacio disponible. Cambiar el objetivo escalar conserva el nodo y sus bindings, sin observador JavaScript ni reconstrucción de tracks por frame.
 
-Usa fondos sólidos sin imágenes ni gradientes. El radio exige esquinas circulares uniformes y bordes uniformes compatibles, sin clip path, corner shape ni box shadow CSS; usa otra superficie para la sombra. Color de texto, color/ancho del borde y otras decoraciones siguen fuera de esta superficie. Un destino incompatible se rechaza antes de reemplazar su binding.
+La base RC.6 tenía estos límites; la [extensión siguiente](#extended-live-paint) los amplía. Usa fondos sólidos sin imágenes ni gradientes. El radio exige esquinas circulares uniformes y bordes uniformes compatibles, sin clip path, corner shape ni box shadow CSS; usa otra superficie para la sombra. Color de texto, color/ancho del borde y otras decoraciones siguen fuera de esta superficie. Un destino incompatible se rechaza antes de reemplazar su binding.
 
 Una escritura directa de estilo toma ese canal y libera su binding. Cambiar la imagen de fondo, el clipping o la estructura del borde libera los bindings afectados. Los demás canales continúan. La liberación normal conserva la pintura actual; un cleanup antiguo nunca sobrescribe un estilo o animación más reciente. Pausa, suspensión, segundo plano, unload/reload y reducción de movimiento usan el ciclo de vida existente. Libera los bindings y elimina el follower al desmontar el componente.
 
@@ -77,3 +77,42 @@ Una escritura directa de estilo toma ese canal y libera su binding. Cambiar la i
 <Clip name="live-paint-android" caption="Emulador Android, interfaz en inglés: toques reales con ADB cambian y pausan el resorte de color/radio. Velocidad original." />
 
 [Validación nativa y reproducción](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-capabilities.md).
+
+## Pintura retenida ampliada (sin publicar) {#extended-live-paint}
+
+La próxima versión amplía la base RC.6 anterior. Recompila la aplicación: estos bindings necesitan clases nativas actualizadas.
+
+| Canal                                                                                              | Resorte nativo continuo                                                            | Binding Web                     |
+| -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ------------------------------- |
+| `backgroundColor`, `borderColor`                                                                   | Fondo sólido; color inicial uniforme del borde                                     | Compatible                      |
+| `color`                                                                                            | Label/Button sin texto formateado en iOS; TextBase sin texto formateado en Android | Color de texto CSS              |
+| `borderWidth`, `borderRadius`                                                                      | Valores uniformes en DIPs                                                          | Longitudes CSS                  |
+| `borderTopWidth`, `borderRightWidth`, `borderBottomWidth`, `borderLeftWidth`                       | Anchos independientes no negativos en DIPs                                         | Longitudes CSS independientes   |
+| `borderTopLeftRadius`, `borderTopRightRadius`, `borderBottomRightRadius`, `borderBottomLeftRadius` | Radios circulares independientes en DIPs                                           | Radios CSS circulares/elípticos |
+
+```ts
+const progress = motionValue(0)
+const follower = springValue(progress, { stiffness: 180, damping: 24 })
+const release = bind(card, {
+  backgroundColor: follower.to([0, 1], ['#8CB5FF', '#EFA26F']),
+  borderColor: follower.to([0, 1], ['#17332B', '#993C56']),
+  color: follower.to([0, 1], ['#17332B', '#6B203F']),
+  borderTopLeftRadius: follower.to([0, 1], [8, 64]),
+  borderBottomRightRadius: follower.to([0, 1], [8, 64]),
+  borderTopWidth: follower.to([0, 1], [3, 12]),
+  scale: follower.to([0, 1], [1, 1.1]),
+})
+set(progress, 1)
+// Component teardown: release(); follower.dispose()
+```
+
+Los canales nativos individuales aceptan mapeos de `springValue()`; esta extensión no añade lados/esquinas individuales al `animate()` nativo finito. Los anchos cambian la pintura sin animar el espacio interior del contenido. La pintura usa el hilo nativo de UI sin un bucle JavaScript por frame; no promete independencia de un hilo de UI ocupado.
+
+Usa fondos sólidos y esquinas circulares. Se rechazan imágenes/gradientes, clip paths, esquinas squircle y texto formateado; la geometría continua necesita otra superficie para la sombra CSS. Se mantienen las diferencias de destino entre iOS y Android. Un lote inválido se rechaza antes de sustituir propietarios válidos.
+
+Elige la propiedad uniforme o sus lados/esquinas individuales en cada llamada `bind()`. Una propiedad uniforme posterior toma toda su familia; un canal individual posterior libera el binding uniforme existente y conserva los otros lados en sus valores actuales. Los bindings individuales conviven. Las escrituras directas de estilo toman su canal. Otros cambios de borde vuelven a aplicar la pintura retenida cuando Core sustituye el drawable/layer, conservando fondo, radio y escala. Un cleanup antiguo no sobrescribe un binding nuevo. Pausa, suspensión, unload/reload y movimiento reducido conservan el ciclo de vida existente.
+
+<Clip name="live-paint-extended-ios" caption="Simulador iPhone 17 Pro, iOS 26.2, interfaz en inglés: toques reales de XCTest cambian colores de fondo, texto y borde, esquinas/anchos independientes y escala; interrumpen y pausan/reanudan el resorte. Velocidad original, sin medición de dispositivo físico." />
+<Clip name="live-paint-extended-android" caption="Emulador Android 16, interfaz en inglés: toques reales de ADB realizan los mismos cambios de pintura, interrupción y pausa/reanudación. Reproducción nativa a velocidad original; no es un dispositivo físico." />
+
+[Validación y reproducción](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/live-paint-346.md).

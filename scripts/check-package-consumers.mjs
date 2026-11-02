@@ -241,6 +241,7 @@ try {
       'dispose',
       'drag',
       'drawPath',
+      'gestures',
       'motionStates',
       'motionValue',
       'observeGeometry',
@@ -249,7 +250,9 @@ try {
       'press',
       'refresh',
       'release',
+      'reorder',
       'scope',
+      'scrollHeader',
       'scrollLinked',
       'scrollValue',
       'seekableTimeline',
@@ -260,7 +263,13 @@ try {
       'stop',
       'timeline',
       'viewportEnter',
+      'zoomable',
     ])
+    assert.deepEqual(errors, [])
+    await page.click('#interactions')
+    await page.waitForFunction(
+      () => document.getElementById('interactions-result')?.textContent === 'true',
+    )
     assert.deepEqual(errors, [])
     await page.click('#orchestration')
     await page.waitForFunction(

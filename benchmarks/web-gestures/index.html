@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><title>Jolt · Gestures and scroll</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: #101622;
+      color: #edf2ff;
+      font: 16px system-ui;
+    }
+    main {
+      max-width: 880px;
+      margin: auto;
+      padding: 30px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 30px;
+    }
+    p {
+      color: #acbbd2;
+    }
+    button {
+      font: inherit;
+      padding: 9px 16px;
+      background: #24354e;
+      color: white;
+      border: 1px solid #547199;
+      border-radius: 8px;
+    }
+    #stage {
+      position: relative;
+      margin-top: 24px;
+      width: 760px;
+      height: 450px;
+      background: #172337;
+      border-radius: 18px;
+      overflow: hidden;
+    }
+    #surface {
+      position: absolute;
+      inset: 0;
+      touch-action: none;
+    }
+    #card {
+      position: absolute;
+      left: 280px;
+      top: 140px;
+      width: 140px;
+      height: 140px;
+      background: #8c70f5;
+      border-radius: 24px;
+      display: grid;
+      place-content: center;
+      font-weight: 700;
+      transform-origin: center;
+    }
+    #scroll {
+      position: absolute;
+      inset: 0;
+      overflow: auto;
+      height: 450px;
+    }
+    #content {
+      height: 1400px;
+      padding: 24px;
+      background: repeating-linear-gradient(#233955 0 100px, #1d304a 100px 200px);
+    }
+    #status {
+      white-space: pre-wrap;
+      font: 14px ui-monospace;
+      min-height: 40px;
+    }
+    #toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+  </style>
+  <main>
+    <h1>Jolt · Gestures and scroll</h1>
+    <p>Native motion rules, browser input and one shared scheduler.</p>
+    <div id="toolbar">
+      <button data-mode="drag">Inertial drag</button
+      ><button data-mode="value">Value drag</button
+      ><button data-mode="gesture">Pan · pinch · rotate</button
+      ><button data-mode="scroll">Panel + nested scroll</button
+      ><button data-mode="zoom">Photo zoom</button
+      ><button data-mode="header">Header + refresh</button
+      ><button data-mode="reorder">Reorder list</button>
+    </div>
+    <div id="stage"></div>
+    <div
+      id="controls"
+      style="display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap"
+    ></div>
+    <p id="status"></p>
+  </main>
+  <script type="module" src="/fixture.js"></script>
+</html>

@@ -444,33 +444,54 @@ export function createSharedLayout(
               passive: true,
               signal: abort.signal,
             })
-            observer = new view.MutationObserver(() => {
-              if (
-                !container.isConnected ||
-                [...flights.values()].some((flight) => !flight.target?.isConnected)
-              )
-                finish({ status: 'cancelled', reason: 'unloaded' })
-            })
-            observer.observe(document, { subtree: true, childList: true })
             const boxes = new Map(
               [...flights.values()].map((flight) => [
                 flight.target!,
                 flight.target!.getBoundingClientRect(),
               ]),
             )
-            resize = new view.ResizeObserver(() => {
+            const checkGeometry = () => {
               for (const [target, original] of boxes) {
                 const box = target.getBoundingClientRect()
                 if (
                   Math.abs(box.width - original.width) > 0.5 ||
-                  Math.abs(box.height - original.height) > 0.5
+                  Math.abs(box.height - original.height) > 0.5 ||
+                  Math.abs(box.left - original.left) > 0.5 ||
+                  Math.abs(box.top - original.top) > 0.5
                 ) {
                   invalidate()
                   return
                 }
               }
+            }
+            observer = new view.MutationObserver((records) => {
+              if (
+                !container.isConnected ||
+                [...flights.values()].some((flight) => !flight.target?.isConnected)
+              )
+                finish({ status: 'cancelled', reason: 'unloaded' })
+              else if (
+                records.some((record) =>
+                  [...boxes.keys()].some(
+                    (target) =>
+                      record.target === target || record.target.contains(target),
+                  ),
+                )
+              )
+                checkGeometry()
             })
-            for (const target of boxes.keys()) resize.observe(target)
+            // Observe host geometry mutations too: an opacity-hidden destination
+            // may not receive ResizeObserver delivery in WebKit. This also catches
+            // position changes, which ResizeObserver intentionally does not report.
+            observer.observe(document, {
+              subtree: true,
+              childList: true,
+              attributes: true,
+              attributeFilter: ['style', 'class', 'hidden'],
+            })
+            resize = new view.ResizeObserver(checkGeometry)
+            for (const target of boxes.keys())
+              resize.observe(target, { box: 'border-box' })
             void Promise.all(handles.map((handle) => handle.finished)).then((results) =>
               finish({
                 status: results.every(Boolean) ? 'completed' : 'cancelled',

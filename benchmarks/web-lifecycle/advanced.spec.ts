@@ -396,6 +396,39 @@ test('shared lifecycle handles target removal, resize, source moves and controll
   ).toBe(0)
 })
 
+test('shared geometry invalidates host style changes without ResizeObserver delivery', async ({
+  page,
+}) => {
+  await shared(page, 3000)
+  await page.evaluate(() => {
+    window.ResizeObserver = class {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    }
+  })
+  await expand(page)
+  await expect(page.locator('[data-jolt-shared-copy]')).toHaveCount(2)
+  await page.evaluate(() => {
+    lifecycleLab.detail!.style.width = '320px'
+  })
+  expect(await page.evaluate(() => lifecycleLab.flight!.finished)).toEqual({
+    status: 'cancelled',
+    reason: 'geometry-changed',
+  })
+  await page.evaluate(() => {
+    lifecycleLab.flight = lifecycleLab.shared!.transition(() => {})
+  })
+  await expect(page.locator('[data-jolt-shared-copy]')).toHaveCount(2)
+  await page.evaluate(() => {
+    lifecycleLab.detail!.style.left = '180px'
+  })
+  expect(await page.evaluate(() => lifecycleLab.flight!.finished)).toEqual({
+    status: 'cancelled',
+    reason: 'geometry-changed',
+  })
+})
+
 test('shared image copies keep the actual image source and do not steal focus', async ({
   page,
 }) => {

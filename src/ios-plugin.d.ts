@@ -385,3 +385,8 @@ declare class JoltCircleWorld extends NSObject {
   snapshot(): string
   dispose(): void
 }
+
+declare class JoltLivePaint extends NSObject {
+  static configureConfigBorder(view: UIView, config: string, border: CALayer | null): void
+  static refreshConfigBorder(view: UIView, config: string, border: CALayer | null): void
+}

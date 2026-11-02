@@ -1,6 +1,8 @@
 # Runtime Web finito
 
-Nuevo, sin publicar: [montaje Vue/Nuxt, entradas por identidad y scroll horizontal LTR/RTL](./web-collections).
+Nuevo, aún no publicado: [gestos, zoom de imágenes, scroll coordinado, refresh y reorder](./web-gestures).
+
+Desde RC.8: [montaje Vue/Nuxt, entradas por identidad y scroll horizontal LTR/RTL](./web-collections).
 
 **También en RC.7:** [ámbitos, puntero/viewport y configuración continua Vue](./web-lifecycle), además de [geometría de overlays, elementos compartidos, recetas y diagnóstico](./web-interactions). La adopción en Mavis sigue separada.
 
@@ -58,7 +60,7 @@ El runtime controla `transform` y `opacity` de una caja HTML montada y transform
 
 Los cambios admitidos de tamaño y pivote 2D conservan ownership con la [API de geometría de RC.6](./web-support#geometry); otros cambios externos siguen exigiendo release/recreación.
 
-Esta guía cubre reproducción finita. Consulta [movimiento continuo](./web-dynamic) para valores, springs y drag/snap, y [soporte Web](./web-support) para mapeos, geometría y scroll vertical. Pinch, propiedades exclusivas del nativo y otros adapters de framework quedan fuera de este alcance Web. Todavía no establece una API estable de referencias portátiles ni completa Mavis. WAAPI por sí sola no demuestra aceleración por compositor ni garantiza FPS.
+Esta guía cubre reproducción finita. Consulta [movimiento continuo](./web-dynamic) para valores, springs y drag/snap, y [soporte Web](./web-support) para mapeos, geometría y scroll vertical. Pan/pinch/rotación, zoom de imágenes, coordinación de scroll, encabezados/refresh y reorder interactivo están en [Gestos y scroll Web](./web-gestures). Las propiedades exclusivas del nativo y otros adapters quedan fuera de esta guía. Todavía no establece una API estable de referencias portátiles ni completa Mavis. WAAPI por sí sola no demuestra aceleración por compositor ni garantiza FPS.
 
 ## Referencia nativa y validación {#native-reference-and-validation}
 

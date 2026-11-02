@@ -1,3 +1,9 @@
+import { createZoomable, type WebZoomableOptions } from './zoomable.js'
+import { createScrollHeader, type WebScrollHeaderOptions } from './scroll-header.js'
+import { createReorder, type WebReorderOptions } from './reorder.js'
+import type { ReorderKey } from '../core/reorder.js'
+import { createGestures, type WebGesturesOptions } from './gestures.js'
+import type { InteractionHost, WebInteraction, OwnedBinding } from './interaction.js'
 import { StrokeSurface, type WebPathOptions } from './stroke.js'
 import {
   createItemsAnimation,
@@ -24,7 +30,14 @@ import {
 } from '../core/playback.js'
 import { setArrival, setArrivalTiming } from '../core/arrival.js'
 import { valuePlan, valueTrack, type WebValueAnimationOptions } from './value-playback.js'
-import { createDrag, dragOptions, assertDragSpace, type WebDragOptions } from './drag.js'
+import {
+  createDrag,
+  dragOptions,
+  dragPlans,
+  dragCurve,
+  assertDragSpace,
+  type WebDragOptions,
+} from './drag.js'
 import { createWebScope, type WebMotionScope, type WebMotionResource } from './scope.js'
 import {
   createPointerFollow,
@@ -50,7 +63,7 @@ import {
   type WebSharedLayoutOptions,
 } from './shared-layout.js'
 import { createTrack, type Track } from '../core/track.js'
-import { springs as springDefinitions } from '../core/transition.js'
+import { springs as springDefinitions, resolveTransition } from '../core/transition.js'
 import { createOwnership } from '../core/ownership.js'
 import { validateProgress } from '../core/playback.js'
 import { presets as builtins } from '../core/presets.js'
@@ -129,6 +142,7 @@ interface Entry {
   token?: symbol
 }
 interface LiveEntry {
+  layer?: string
   property: Property
   source: NumericValue
   cleanup?: () => void
@@ -827,11 +841,17 @@ export class WebRuntime {
   private readonly ownership = createOwnership<HTMLElement, string>()
   private readonly observers = new Map<Node, MutationObserver>()
   private readonly presses = new Map<HTMLElement, ReturnType<typeof createPress>>()
+  private readonly interactions = new Map<HTMLElement, Map<WebInteraction, () => void>>()
+  private readonly gestureInputs = new WeakMap<HTMLElement, WebInteraction>()
+  private readonly zoomInputs = new WeakMap<HTMLElement, WebInteraction>()
+  private readonly headerInputs = new WeakMap<HTMLElement, WebInteraction>()
+  private readonly reorderInputs = new WeakMap<HTMLElement, WebInteraction>()
   private readonly drags = new Map<HTMLElement, ReturnType<typeof createDrag>>()
   private readonly sizes = new Map<HTMLElement, SizeOperation>()
   private readonly layouts = new Map<HTMLElement, LayoutOperation>()
   private nextLayout = 0
   private nextPress = 0
+  private nextInteraction = 0
   private readonly preference: MediaQueryList
   private reported: boolean
   private disposed = false
@@ -1047,6 +1067,10 @@ export class WebRuntime {
         viewportEntrances: this.viewportEntrances.size,
         presses: this.presses.size,
         drags: this.drags.size,
+        interactions: [...this.interactions.values()].reduce(
+          (sum, entries) => sum + entries.size,
+          0,
+        ),
         sizes: this.sizes.size,
         layouts: this.layouts.size,
         sharedLayouts: this.sharedLayouts.size,
@@ -1553,6 +1577,15 @@ export class WebRuntime {
   }
 
   bind(target: HTMLElement, values: WebBindings): WebBinding {
+    const binding = this.bindInLayer(target, values)
+    return { dispose: binding.dispose }
+  }
+
+  private bindInLayer(
+    target: HTMLElement,
+    values: WebBindings,
+    layer?: string,
+  ): OwnedBinding {
     this.assert()
     this.targets(target)
     if (!values || typeof values !== 'object' || !Object.keys(values).length)
@@ -1575,8 +1608,10 @@ export class WebRuntime {
             'Color channels require a color mapping; numeric channels require numeric values.',
           )
         this.ensureRadius(state, surface, property)
-        const key = keyOf(property),
-          entry = { property, source }
+        if (layer && !isTransform(property))
+          throw new TypeError('Interaction layers require transform or opacity channels.')
+        const key = keyOf(property, layer),
+          entry = { property, source, layer }
         state.entries.delete(key)
         state.rest.delete(key)
         state.bindings.set(key, entry)
@@ -1584,7 +1619,21 @@ export class WebRuntime {
       }
     }
     this.transaction(new Map([[surface, state]]), this.now())
-    return { dispose: () => this.unbind(surface, added) }
+    // Interaction consumers explicitly track changing image, row and header geometry.
+    // Keep that lease active until their private contribution has been removed.
+    const geometry = layer ? surface.observeGeometry() : undefined
+    return {
+      dispose: () => {
+        try {
+          this.unbind(surface, added)
+        } finally {
+          geometry?.dispose()
+        }
+      },
+      owns: () =>
+        !surface.disposed &&
+        [...added].every(([key, entry]) => surface.state.bindings.get(key) === entry),
+    }
   }
 
   private unbind(surface: Surface, selected: ReadonlyMap<string, LiveEntry>) {
@@ -1601,7 +1650,8 @@ export class WebRuntime {
     for (const [key, entry] of selected)
       if (state.bindings.get(key) === entry) {
         state.bindings.delete(key)
-        this.rest(state, key, entry.property, entry.source.get())
+        if (entry.layer) state.rest.delete(key)
+        else this.rest(state, key, entry.property, entry.source.get())
       }
     if (state.bindings.size !== surface.state.bindings.size) {
       try {
@@ -2112,12 +2162,17 @@ export class WebRuntime {
       timeScale: this.settings.timeScale,
       reducedMotion: this.reduced(),
     })
+    return this.playValueTrack(source, track, plan.layer)
+  }
+
+  private playValueTrack(source: MotionInputNode, track: Track, layer?: string) {
+    const at = this.now()
     const points: Point[] = [] // Numeric readers use the analytical curve, not WAAPI keyframe expansion.
     const owner = new Owner(this, track.end, at)
     const entry: ValueEntry = {
       source,
       property: 'opacity',
-      layer: plan.layer,
+      layer,
       track,
       points,
       owner,
@@ -2333,11 +2388,96 @@ export class WebRuntime {
     return binding.handle
   }
 
+  private interactionHost(): InteractionHost {
+    return {
+      motionValue: this.motionValue.bind(this),
+      animate: this.animate.bind(this),
+      bindLayer: this.bindInLayer.bind(this),
+      layer: (name) => `jolt:interaction:${name}:${++this.nextInteraction}`,
+      gestures: this.gestures.bind(this),
+      bind: this.bind.bind(this),
+      set: this.set.bind(this),
+      stop: this.stop.bind(this),
+      refresh: this.refresh.bind(this),
+      scrollValue: this.scrollValue.bind(this),
+      animateLayout: this.animateLayout.bind(this),
+      scope: this.scope.bind(this),
+      scheduler: this.scheduler,
+      error: this.report,
+      after: (ms, action) => this.timers.after(ms, action),
+      reduced: () => this.reduced(),
+      onReduced: (callback) => {
+        this.preferenceListeners.add(callback)
+        return () => this.preferenceListeners.delete(callback)
+      },
+      register: (target, resource, refresh) => {
+        const entries =
+          this.interactions.get(target) ?? new Map<WebInteraction, () => void>()
+        entries.set(resource, refresh)
+        this.interactions.set(target, entries)
+        this.observe()
+        return () => {
+          entries.delete(resource)
+          if (!entries.size) this.interactions.delete(target)
+          this.observe()
+        }
+      },
+    }
+  }
+
+  zoomable(image: HTMLImageElement, options: WebZoomableOptions = {}) {
+    this.assert()
+    this.targets(image)
+    if (this.zoomInputs.has(image) && !this.zoomInputs.get(image)!.disposed)
+      throw new Error('The image already has zoom input.')
+    const handle = createZoomable(image, options, this.interactionHost())
+    this.zoomInputs.set(image, handle)
+    return handle
+  }
+
+  scrollHeader(source: HTMLElement, options: WebScrollHeaderOptions) {
+    this.assert()
+    this.targets(source)
+    if (this.headerInputs.has(source) && !this.headerInputs.get(source)!.disposed)
+      throw new Error('The scroll source already has a header controller.')
+    const handle = createScrollHeader(source, options, this.interactionHost())
+    this.headerInputs.set(source, handle)
+    return handle
+  }
+
+  reorder<K extends ReorderKey>(container: HTMLElement, options: WebReorderOptions<K>) {
+    this.assert()
+    this.targets(container)
+    if (this.reorderInputs.has(container) && !this.reorderInputs.get(container)!.disposed)
+      throw new Error('The list already has reorder input.')
+    const handle = createReorder(container, options, this.interactionHost())
+    this.reorderInputs.set(container, handle)
+    return handle
+  }
+
+  gestures(target: HTMLElement, options: WebGesturesOptions = {}) {
+    this.assert()
+    this.targets(target)
+    if (
+      this.drags.has(target) ||
+      (!this.gestureInputs.get(target)?.disposed && this.gestureInputs.has(target))
+    )
+      throw new Error('The surface already has gesture input.')
+    const handle = createGestures(target, options, this.interactionHost())
+    this.gestureInputs.set(target, handle)
+    return handle
+  }
+
   drag(target: HTMLElement, options: WebDragOptions = {}) {
     this.assert()
     this.targets(target)
-    if (this.drags.has(target)) throw new Error('The surface already has drag input.')
+    if (
+      this.drags.has(target) ||
+      (this.gestureInputs.has(target) && !this.gestureInputs.get(target)!.disposed)
+    )
+      throw new Error('The surface already has drag input.')
     const config = dragOptions(options)
+    if (config.value) return this.dragValue(target, config)
     // Validate spring compilation before claiming a surface or changing input styles.
     prepare({ x: 1 }, { type: 'spring', ...config.spring }, this.presets, 1)
     const surface = this.surfaces.get(target) ?? new Surface(this, target)
@@ -2374,6 +2514,7 @@ export class WebRuntime {
     }
     const drag = createDrag(target, config, {
       scheduler: this.scheduler,
+      error: this.report,
       read,
       validate: () => surface.assertDrag(),
       begin: () => {
@@ -2397,6 +2538,10 @@ export class WebRuntime {
       cancel: cleanup,
       release: (point, velocity) => {
         try {
+          if (config.release === 'decay')
+            return this.play(target, {}, undefined, undefined, [
+              dragPlans(config, velocity),
+            ])
           return this.animate(
             target,
             Object.fromEntries(axes.map((axis) => [axis, point[axis]])),
@@ -2423,6 +2568,82 @@ export class WebRuntime {
       },
     })
     this.drags.set(target, drag)
+    return drag.handle
+  }
+
+  private dragValue(target: HTMLElement, config: ReturnType<typeof dragOptions>) {
+    const source = this.mutable(config.value!)
+    const axis = config.axis as 'x' | 'y'
+    assertDragSpace(target, true)
+    let owns = false
+    const cancelled = () => {
+      owns = false
+      drag.handle.cancel()
+    }
+    const cleanup = () => {
+      owns = false
+      source.releaseWriter(cancelled)
+    }
+    const read = () => ({
+      x: axis === 'x' ? source.get() : 0,
+      y: axis === 'y' ? source.get() : 0,
+    })
+    const drag = createDrag(target, config, {
+      scheduler: this.scheduler,
+      error: this.report,
+      read,
+      validate: () => {
+        assertDragSpace(target, true)
+        this.mutable(config.value!)
+      },
+      begin: () => {
+        source.claimWriter(cancelled)
+        owns = true
+      },
+      owns: () => owns && !source.disposed,
+      write: (point, speed) => source.writeSample(point[axis], speed[axis]),
+      cancel: cleanup,
+      release: (point, velocity) => {
+        cleanup()
+        if (config.release !== 'decay')
+          return this.playValueTrack(
+            source,
+            createTrack(
+              axis,
+              [source.get(), point[axis]],
+              resolveTransition(
+                { type: 'spring', ...config.spring, velocity: velocity[axis] },
+                axis,
+                2,
+              ),
+              velocity[axis],
+              { timeScale: this.settings.timeScale, reducedMotion: this.reduced() },
+            ),
+          )
+        const track = createTrack(
+          axis,
+          [source.get(), source.get()],
+          {
+            curve: dragCurve(config, axis, velocity[axis]),
+            delay: 0,
+            repeat: 0,
+            reverse: false,
+          },
+          velocity[axis],
+          { timeScale: this.settings.timeScale, reducedMotion: this.reduced() },
+        )
+        return this.playValueTrack(source, track)
+      },
+      dispose: () => {
+        cleanup()
+        unlisten()
+        this.drags.delete(target)
+        this.observe()
+      },
+    })
+    const unlisten = source.onDispose(() => drag.handle.dispose())
+    this.drags.set(target, drag)
+    this.observe()
     return drag.handle
   }
 
@@ -2750,12 +2971,16 @@ export class WebRuntime {
     const roots = new Set<Node>()
     if (
       this.paths.size ||
+      this.drags.size ||
+      this.interactions.size ||
       this.surfaces.size ||
       this.scrollSources.size ||
       this.layouts.size ||
       this.sharedLayouts.size
     )
       roots.add(this.document)
+    for (const target of this.interactions.keys()) roots.add(target.getRootNode())
+    for (const target of this.drags.keys()) roots.add(target.getRootNode())
     for (const target of this.paths.keys()) roots.add(target.getRootNode())
     for (const source of this.scrollSources) roots.add(source.element.getRootNode())
     for (const surface of this.surfaces.values()) roots.add(surface.target.getRootNode())
@@ -2793,6 +3018,8 @@ export class WebRuntime {
               !target.getClientRects().length
             )
               this.release(target)
+          for (const entries of [...this.interactions.values()])
+            for (const refresh of [...entries.values()]) refresh()
           for (const press of this.presses.values()) press.refresh()
           for (const drag of this.drags.values()) drag.refresh()
           this.observe()
@@ -2815,13 +3042,16 @@ export class WebRuntime {
   }
 
   release(target: HTMLElement) {
+    const surface = this.surfaces.get(target)
+    // Mark first: controller cleanup can dispose bound values and re-enter unbind.
+    if (surface) surface.disposed = true
+    for (const resource of [...(this.interactions.get(target)?.keys() ?? [])])
+      resource.dispose()
     if (this.surfaces.has(target)) this.diagnosticEvent('released', undefined, target)
     this.layouts.get(target)?.stop()
     this.layouts.delete(target)
     this.sizes.get(target)?.detach()
     this.sizes.delete(target)
-    const surface = this.surfaces.get(target)
-    if (surface) surface.disposed = true
     for (const link of [...(this.scrollLinks.get(target) ?? [])]) link.dispose()
     this.drags.get(target)?.detach()
     this.drags.delete(target)
@@ -2869,8 +3099,13 @@ export class WebRuntime {
       pointerFollowers: this.pointerFollowers.size,
       viewportEntrances: this.viewportEntrances.size,
       preferenceListeners: this.preferenceListeners.size,
+      drags: this.drags.size,
       targets: this.surfaces.size,
       values: this.values.size,
+      interactions: [...this.interactions.values()].reduce(
+        (sum, entries) => sum + entries.size,
+        0,
+      ),
       valueAnimations: this.valueTracks.size,
       valueTracks: [...this.valueTracks].map((e) => ({
         layer: e.layer,
@@ -2926,6 +3161,8 @@ export class WebRuntime {
     const errors: unknown[] = []
     for (const resource of [
       ...this.scopes,
+      ...[...this.interactions.values()].flatMap((entries) => [...entries.keys()]),
+      ...[...this.drags.values()].map((drag) => drag.handle),
       ...this.stateControllers,
       ...this.itemAnimations,
       ...this.paths.values(),

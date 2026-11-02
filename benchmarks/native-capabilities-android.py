@@ -31,6 +31,7 @@ recorder=None
 try:
     adb('shell','settings','put','system','show_touches','1')
     for mode,name in enumerate(['live-paint','seekable-scene','flex-size','body-springs']):
+        if mode==0 and 'live-paint-extended' in selected:name='live-paint-extended'
         if selected and name not in selected:continue
         adb('shell','am','force-stop',app)
         adb('shell','am','start','-n',app+'/com.tns.NativeScriptActivity','--es','native-capabilities',str(mode))
@@ -40,7 +41,10 @@ try:
         remote='/sdcard/jolt-'+name+'.mp4'
         recorder=subprocess.Popen(['adb','-s',serial,'shell','screenrecord','--bit-rate','4000000',remote])
         time.sleep(1)
-        if mode in [0,2]:
+        if name=='live-paint-extended':
+            fast_tap(action,1.2);fast_tap(action,.2);fast_tap(action,.15);fast_tap(pause,1)
+            fast_tap(pause,1);fast_tap(action,1.3)
+        elif mode in [0,2]:
             fast_tap(action,.2);fast_tap(action,.4);fast_tap(action,.15);fast_tap(pause,1)
             fast_tap(pause,1);fast_tap(action,1.3)
         elif mode==1:

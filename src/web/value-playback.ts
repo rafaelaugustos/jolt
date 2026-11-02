@@ -72,12 +72,25 @@ export function valueTrack(
   if (transition.curve.type === 'gravity')
     return createTrack('x', values, transition, velocity, settings)
   const base = Math.min(...values),
-    span = Math.max(...values) - base
-  if (!span) return instantTrack('opacity', values.at(-1)!)
+    range = Math.max(...values) - base
+  const springVelocity =
+    transition.curve.type === 'spring' ? (transition.curve.velocity ?? velocity) : 0
+  if (!range && !springVelocity) return instantTrack('opacity', values.at(-1)!)
+  // Both inherited and explicit velocities are in the original value's units/sec.
+  // Normalizing endpoints without normalizing an explicit curve velocity magnifies
+  // a release by its range. A zero-distance spring can still carry momentum.
+  const span = range || Math.max(1, Math.abs(springVelocity))
+  const normalized =
+    transition.curve.type === 'spring' && transition.curve.velocity !== undefined
+      ? {
+          ...transition,
+          curve: { ...transition.curve, velocity: transition.curve.velocity / span },
+        }
+      : transition
   const track = createTrack(
     'opacity',
     values.map((v) => (v - base) / span),
-    transition,
+    normalized,
     velocity / span,
     settings,
   )

@@ -1,3 +1,35 @@
+import type { ReorderKey } from '../core/reorder.js'
+import type { WebZoomable, WebZoomableOptions } from './zoomable.js'
+import type { WebScrollHeader, WebScrollHeaderOptions } from './scroll-header.js'
+import type { WebReorder, WebReorderOptions } from './reorder.js'
+export type {
+  WebZoomable,
+  WebZoomableOptions,
+  WebZoomState,
+  WebPhotoDismissal,
+} from './zoomable.js'
+export type {
+  WebScrollHeader,
+  WebScrollHeaderOptions,
+  WebRefreshContext,
+  WebHeaderItem,
+} from './scroll-header.js'
+export type {
+  WebReorder,
+  WebReorderOptions,
+  WebReorderItem,
+  WebReorderCancelReason,
+} from './reorder.js'
+export type { ReorderKey, ReorderMove } from '../core/reorder.js'
+import type { WebGestures, WebGesturesOptions } from './gestures.js'
+export type {
+  WebGestures,
+  WebGesturesOptions,
+  WebGestureBounds,
+  WebGesturePosition,
+  WebGestureEvent,
+} from './gestures.js'
+export type { WebGestureScrollOptions } from './gesture-scroll.js'
 export type { WebPathDrawing, WebPathOptions, WebPathTransition } from './stroke.js'
 export type {
   WebMotionStates,
@@ -41,7 +73,7 @@ export type { WebItem, WebItemKey, WebItemsOptions, WebItemsAnimation } from './
 export type { WebMotionScope, WebMotionResource } from './scope.js'
 export type { WebPointerFollow, WebPointerOptions } from './pointer.js'
 export type { WebViewportEntrance, WebViewportOptions } from './viewport.js'
-export type { WebDrag, WebDragOptions } from './drag.js'
+export type { WebDrag, WebDragOptions, WebDragEvent, WebDragRelease } from './drag.js'
 import type { WebSpringOptions, WebSpringValue } from './spring-value.js'
 export type { WebSpringOptions, WebSpringValue } from './spring-value.js'
 import type {
@@ -190,6 +222,13 @@ export interface WebRuntime {
   refresh(target: HTMLElement): void
   /** Observe size changes on an already claimed surface. Dispose with its owner. */
   observeGeometry(target: HTMLElement): WebBinding
+  zoomable(image: HTMLImageElement, options?: WebZoomableOptions): WebZoomable
+  scrollHeader(source: HTMLElement, options: WebScrollHeaderOptions): WebScrollHeader
+  reorder<K extends ReorderKey>(
+    container: HTMLElement,
+    options: WebReorderOptions<K>,
+  ): WebReorder<K>
+  gestures(target: HTMLElement, options?: WebGesturesOptions): WebGestures
   drag(target: HTMLElement, options?: WebDragOptions): WebDrag
   motionValue(initial: number): WebMotionValue
   springValue(source: WebReadableValue, options?: WebSpringOptions): WebSpringValue
@@ -247,6 +286,10 @@ export function createWebRuntime(
     scrollLinked: runtime.scrollLinked.bind(runtime),
     refresh: runtime.refresh.bind(runtime),
     observeGeometry: runtime.observeGeometry.bind(runtime),
+    zoomable: runtime.zoomable.bind(runtime),
+    scrollHeader: runtime.scrollHeader.bind(runtime),
+    reorder: runtime.reorder.bind(runtime),
+    gestures: runtime.gestures.bind(runtime),
     drag: runtime.drag.bind(runtime),
     motionValue: runtime.motionValue.bind(runtime),
     springValue: runtime.springValue.bind(runtime),

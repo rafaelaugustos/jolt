@@ -69,7 +69,7 @@ set(target, 1)
 
 The retained native graph interpolates colors in premultiplied OKLab, including alpha, clips to sRGB and clamps color progress to its endpoints. Numeric mappings can precede the final color mapping. Radius is nonnegative; the renderer limits visible corners to the available box. Scalar retargeting retains the node and bindings, without a JavaScript observer or rebuilt track per frame.
 
-Use solid backgrounds without images/gradients. Radius requires uniform circular corners and compatible uniform borders, with no clip path, corner shape or CSS box shadow; use a separate shadow surface. Text color, border color/width and other decorations remain outside this live binding surface. An incompatible target is rejected before replacing its current binding.
+The RC.6 baseline had these limits; the [extension below](#extended-live-paint) expands them. Use solid backgrounds without images/gradients. Radius requires uniform circular corners and compatible uniform borders, with no clip path, corner shape or CSS box shadow; use a separate shadow surface. Text color, border color/width and other decorations remain outside this live binding surface. An incompatible target is rejected before replacing its current binding.
 
 A direct style write owns that paint channel and detaches its binding. Changes to background images, clipping or border structure release affected paint bindings. Other channels continue. Normal release preserves the current paint; a stale cleanup never restores over a newer style or animation. Pause, scope suspension, background handling, unload/reload and Reduce Motion use the existing spring lifecycle. Dispose the follower and release its bindings when the component ends.
 
@@ -77,3 +77,42 @@ A direct style write owns that paint channel and detaches its binding. Changes t
 <Clip name="live-paint-android" caption="Android emulator, English UI: actual ADB taps retarget and pause the retained color/radius spring. Recorded at its original speed." />
 
 [Native validation and reproduction](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-capabilities.md).
+
+## Extended retained paint (unreleased) {#extended-live-paint}
+
+The next release extends the RC.6 baseline above. Rebuild the native app: these bindings need updated native classes.
+
+| Channel                                                                                            | Native live spring                                   | Web binding                   |
+| -------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ----------------------------- |
+| `backgroundColor`, `borderColor`                                                                   | Solid background; uniform starting border color      | Supported                     |
+| `color`                                                                                            | Plain Label/Button on iOS; plain TextBase on Android | CSS text color                |
+| `borderWidth`, `borderRadius`                                                                      | Uniform DIP values                                   | CSS lengths                   |
+| `borderTopWidth`, `borderRightWidth`, `borderBottomWidth`, `borderLeftWidth`                       | Independent nonnegative DIP values                   | Independent CSS lengths       |
+| `borderTopLeftRadius`, `borderTopRightRadius`, `borderBottomRightRadius`, `borderBottomLeftRadius` | Independent circular DIP radii                       | Circular/elliptical CSS radii |
+
+```ts
+const progress = motionValue(0)
+const follower = springValue(progress, { stiffness: 180, damping: 24 })
+const release = bind(card, {
+  backgroundColor: follower.to([0, 1], ['#8CB5FF', '#EFA26F']),
+  borderColor: follower.to([0, 1], ['#17332B', '#993C56']),
+  color: follower.to([0, 1], ['#17332B', '#6B203F']),
+  borderTopLeftRadius: follower.to([0, 1], [8, 64]),
+  borderBottomRightRadius: follower.to([0, 1], [8, 64]),
+  borderTopWidth: follower.to([0, 1], [3, 12]),
+  scale: follower.to([0, 1], [1, 1.1]),
+})
+set(progress, 1)
+// Component teardown: release(); follower.dispose()
+```
+
+Native side/corner keys in this extension accept mappings from `springValue()`; this does not extend finite native `animate()` to individual sides/corners. Widths change paint without animating the content inset. Paint still runs on the native UI thread; there is no application JavaScript frame loop and no claim of independence from a busy UI thread.
+
+Use solid backgrounds and circular corners. Images/gradients, clip paths, squircle corners and formatted text are rejected; live geometry requires a separate CSS shadow surface. Existing iOS/Android target differences remain explicit. Invalid batches reject before replacing valid owners.
+
+Choose a shorthand or its individual sides/corners within one `bind()` call. A later shorthand takes over its family; a later individual channel releases an existing shorthand, preserving its other edges at their current values. Independent edge bindings coexist. Direct style writes take over their own channel. Other border writes now resynchronize retained paint after Core replaces its drawable/layer, preserving background, radius and scale. Old cleanup cannot overwrite a newer binding. Pause, suspension, unload/reload and reduced motion retain the same lifecycle.
+
+<Clip name="live-paint-extended-ios" caption="iPhone 17 Pro simulator, iOS 26.2, English UI: actual XCTest taps retarget background, text and border colors, independent corners and widths, and scale; interrupt and pause/resume the retained spring. Original speed, not a physical-device performance measurement." />
+<Clip name="live-paint-extended-android" caption="Android 16 emulator, English UI: actual ADB taps perform the same independent paint changes, interruption and pause/resume. Native playback at original speed; no physical-device claim." />
+
+[Validation and reproduction](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/live-paint-346.md).

@@ -1,6 +1,8 @@
 # Runtime Web finito
 
-Novo, ainda não publicado: [montagem Vue/Nuxt, entradas por identidade e scroll horizontal LTR/RTL](./web-collections).
+Novo, ainda não publicado: [gestos, zoom de imagens, scroll coordenado, refresh e reorder](./web-gestures).
+
+Desde a RC.8: [montagem Vue/Nuxt, entradas por identidade e scroll horizontal LTR/RTL](./web-collections).
 
 **Também na RC.7:** [escopos, ponteiro/viewport e configuração contínua no Vue](./web-lifecycle), além de [geometria de overlays, elementos compartilhados, receitas e diagnóstico](./web-interactions). A adoção no Mavis permanece separada.
 
@@ -58,7 +60,7 @@ O runtime controla `transform` e `opacity` de uma caixa HTML montada e transform
 
 Mudanças suportadas de tamanho e pivô 2D podem preservar esse ownership com a [API de geometria da RC.6](./web-support#geometry); outras mudanças externas continuam exigindo release/recriação.
 
-Este guia cobre playback finito. Veja [movimento contínuo](./web-dynamic) para valores, springs e drag/snap, e [suporte Web](./web-support) para mapeamentos, geometria e scroll vertical. Pinch, propriedades exclusivas do nativo e outros adapters de framework ficam fora desse escopo Web. Ela ainda não estabelece uma API estável de referências portáteis nem completa a integração do Mavis. WAAPI por si só não comprova aceleração pelo compositor ou garante FPS.
+Este guia cobre playback finito. Veja [movimento contínuo](./web-dynamic) para valores, springs e drag/snap, e [suporte Web](./web-support) para mapeamentos, geometria e scroll vertical. Pan/pinch/rotação, zoom de imagens, coordenação de scroll, cabeçalhos/refresh e reorder interativo estão em [Gestos e scroll na Web](./web-gestures). Propriedades exclusivas do nativo e outros adapters de framework ficam fora deste guia. Ela ainda não estabelece uma API estável de referências portáteis nem completa a integração do Mavis. WAAPI por si só não comprova aceleração pelo compositor ou garante FPS.
 
 ## Referência nativa e validação {#native-reference-and-validation}
 

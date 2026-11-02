@@ -306,10 +306,67 @@ describe('live spring control plane', () => {
       expect(() => follower(motionValue(0), options)).toThrow()
     expect(nodes).toHaveLength(0)
     const value = follower(motionValue(0))
-    expect(() =>
-      bind(createView(), { borderColor: value.to([0, 1], ['red', 'blue']) }),
-    ).toThrow(/Live springs/)
-    expect(() => bind(createView(), { borderWidth: value })).toThrow(/Live springs/)
+    expect(() => bind(createView(), { shadowRadius: value })).toThrow(/Live springs/)
+    expect(() => bind(createView(), { elevation: value })).toThrow(/Live springs/)
+  })
+
+  it('keeps native paint bindings through an unrelated root border write', async () => {
+    const view = createView(),
+      input = motionValue(0),
+      live = follower(input)
+    const release = bind(view, {
+      backgroundColor: live.to([0, 1], ['red', 'blue']),
+      borderRadius: live.to([0, 1], [4, 28]),
+      scale: live.to([0, 1], [1, 1.1]),
+    })
+    const rootBorder = bind(view, { borderColor: input.to([0, 1], ['black', 'white']) })
+    for (const eventName of [
+      'borderTopColorChange',
+      'borderRightColorChange',
+      'backgroundInternalChange',
+    ])
+      view.style.notify({ eventName, object: view.style })
+    await Promise.resolve()
+    set(input, 1)
+    expect(nodes[0]!.bindings).toHaveLength(4)
+    for (const binding of nodes[0]!.bindings)
+      expect(binding.handle.cancel).not.toHaveBeenCalled()
+    rootBorder()
+    release()
+  })
+
+  it('binds independent edge channels and old cleanup preserves their replacements', () => {
+    const view = createView(),
+      live = follower(motionValue(0))
+    const old = bind(view, {
+      borderColor: live.to([0, 1], ['red', 'blue']),
+      borderTopWidth: live.to([0, 1], [1, 8]),
+      borderBottomWidth: live.to([0, 1], [2, 6]),
+      borderTopLeftRadius: live.to([0, 1], [4, 32]),
+    })
+    const latest = bind(view, { borderTopWidth: live.to([0, 1], [3, 12]) })
+    nodes[0]!.value = 1
+    old()
+    expect(view.borderBottomWidth).toBe(6)
+    expect(view.borderTopLeftRadius).toBe(32)
+    expect(nodes[0]!.bindings.at(-1)!.handle.cancel).not.toHaveBeenCalled()
+    latest()
+    expect(view.borderTopWidth).toBe(12)
+  })
+
+  it('rejects ambiguous shorthand/edge batches atomically and supports later takeover', () => {
+    const view = createView(),
+      live = follower(motionValue(0))
+    const old = bind(view, { borderRadius: live.to([0, 1], [4, 28]) })
+    expect(() => bind(view, { borderRadius: live, borderTopLeftRadius: live })).toThrow(
+      /uniform/,
+    )
+    expect(nodes[0]!.bindings[0]!.handle.cancel).not.toHaveBeenCalled()
+    const latest = bind(view, { borderTopLeftRadius: live.to([0, 1], [8, 30]) })
+    expect(nodes[0]!.bindings[0]!.handle.cancel).toHaveBeenCalledOnce()
+    old()
+    expect(nodes[0]!.bindings[1]!.handle.cancel).not.toHaveBeenCalled()
+    latest()
   })
 
   it('retains chained color and radius mappings natively through rapid retargets', () => {

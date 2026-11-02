@@ -1,0 +1,197 @@
+{
+  "startedAt": 1793635308515,
+  "platform": "Android",
+  "device": "sdk_gphone64_arm64",
+  "passed": [
+    "mixed root border and live paint retain independent native channels",
+    "live border replacement and stale cleanup preserve the new owner",
+    "paint pause, app suspend/resume and playback preserve native state",
+    "reloaded paint and Reduce Motion update native edges immediately",
+    "invalid native text batches reject before replacing existing bindings",
+    "live native color alpha and radius match the retained spring",
+    "rapid paint retarget and paused native state",
+    "external color owns its channel while radius continues",
+    "paint Reduce Motion and disposal",
+    "scene delays overlaps and backward seek from paused endpoint",
+    "scene geometry negative control rejects ten DIP error",
+    "scene seek preserves newer owner and native playback clock",
+    "scene repeat direction and timeScale",
+    "scene unload is terminal and releases ownership",
+    "flex row real bounds sibling allocation pause resume",
+    "flex row intrinsic content and font update",
+    "flex row active parent resize large text and Reduce Motion",
+    "flex column real bounds sibling allocation pause resume",
+    "flex column intrinsic content and font update",
+    "flex column active parent resize large text and Reduce Motion",
+    "unsupported flex layout rejects before mutation",
+    "native connected bodies and guide presentation",
+    "body spring pause replacement removal and Reduce Motion",
+    "removed body disposes links guides and native world"
+  ],
+  "samples": [
+    {
+      "livePaint": "mixed root/live",
+      "background": 4293894767,
+      "text": 4285210687,
+      "border": 4288232534,
+      "asymmetric": true,
+      "topWidth": true,
+      "scale": 1.100000023841858
+    },
+    {
+      "livePaint": "reloaded/reduced",
+      "background": 4293894767,
+      "text": 4285210687,
+      "border": 4281558681,
+      "asymmetric": true,
+      "topWidth": true,
+      "scale": 1.100000023841858
+    },
+    {
+      "live": 0.8144044776579316,
+      "paint": {
+        "color": 2327826094,
+        "radius": 58.493076869419646
+      },
+      "expectedColor": 2327826094,
+      "expectedRadius": 58.49307761479176
+    },
+    {
+      "scene": 0.1,
+      "x": 16,
+      "bar": 0.10000000149011612
+    },
+    {
+      "scene": 0.5,
+      "x": 80,
+      "bar": 0.5
+    },
+    {
+      "scene": 1,
+      "x": 160,
+      "bar": 1
+    },
+    {
+      "scene": 0.25,
+      "x": 40,
+      "bar": 0.25
+    },
+    {
+      "flex": "row",
+      "start": 110.0952380952381,
+      "middle": 155.04761904761904,
+      "end": {
+        "width": 220.1904761904762,
+        "height": 260.1904761904762
+      },
+      "sibling": {
+        "x": 155.04761904761904,
+        "y": 0
+      }
+    },
+    {
+      "flexResize": "row",
+      "fontSize": 30,
+      "bounds": {
+        "width": 169.9047619047619,
+        "height": 260.1904761904762
+      }
+    },
+    {
+      "flex": "column",
+      "start": 70.0952380952381,
+      "middle": 102.85714285714286,
+      "end": {
+        "width": 375.6190476190476,
+        "height": 150.0952380952381
+      },
+      "sibling": {
+        "x": 0,
+        "y": 102.85714285714286
+      }
+    },
+    {
+      "flexResize": "column",
+      "fontSize": 30,
+      "bounds": {
+        "width": 335.6190476190476,
+        "height": 260.1904761904762
+      }
+    },
+    {
+      "world": {
+        "status": "running",
+        "guides": 2,
+        "bodies": [
+          {
+            "x": 89.51554668514925,
+            "y": 110,
+            "vx": 134.01607445352192,
+            "vy": 0,
+            "radius": 20,
+            "held": false,
+            "attachment": null,
+            "pointer": null,
+            "snap": null,
+            "release": null,
+            "id": "a"
+          },
+          {
+            "x": 166.6994674651473,
+            "y": 110,
+            "vx": 41.56572852458524,
+            "vy": 0,
+            "radius": 20,
+            "held": false,
+            "attachment": null,
+            "pointer": null,
+            "snap": null,
+            "release": null,
+            "id": "b"
+          },
+          {
+            "x": 245.69517279485197,
+            "y": 110,
+            "vx": -72.38251050089745,
+            "vy": 0,
+            "radius": 20,
+            "held": false,
+            "attachment": null,
+            "pointer": null,
+            "snap": null,
+            "release": null,
+            "id": "c"
+          }
+        ],
+        "frames": 13,
+        "steps": 47,
+        "contacts": 0,
+        "dragStarts": 0,
+        "dragMoves": 0,
+        "dragEnds": 0,
+        "dragCancels": 0,
+        "processingMs": 3.8674600000000003,
+        "droppedMs": 0,
+        "clock": true,
+        "springs": [
+          {
+            "id": "ab",
+            "from": "a",
+            "to": "b",
+            "length": 70,
+            "stiffness": 180,
+            "damping": 24
+          },
+          {
+            "id": "bc",
+            "from": "b",
+            "to": "c",
+            "length": 70,
+            "stiffness": 180,
+            "damping": 24
+          }
+        ]
+      }
+    }
+  ]
+}

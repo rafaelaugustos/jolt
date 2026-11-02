@@ -83,6 +83,16 @@ final class DocsTests: XCTestCase {
             tap("native-pause", wait: 1); tap("native-action", wait: 1.2)
         }
     }
+    func testNativePaint346() throws {
+        launch(["--native-capabilities=0"], "native-action")
+        try record("live-paint-extended-ios") {
+            tap("native-action", wait: 1.2)
+            tap("native-action", wait: 0.2); tap("native-action", wait: 0.15)
+            tap("native-pause", wait: 1)
+            tap("native-pause", wait: 1)
+            tap("native-action", wait: 1.2)
+        }
+    }
     func testNativeSeek() throws {
         launch(["--native-capabilities=1"], "native-scrub")
         try record("seekable-scene-ios") {

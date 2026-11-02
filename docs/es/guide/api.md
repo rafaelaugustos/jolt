@@ -1,5 +1,7 @@
 # API {#api}
 
+- [**drag / gestures / zoomable / scrollHeader / reorder (Web)**](./web-gestures) — Gestos Web, zoom, scroll/refresh y reorder interactivo — aún no publicado después de RC.8.
+
 - [**createMotionInspector**](./motion-inspector): inspección de desarrollo opcional, lotes nativos, propiedad, gráficos vinculantes y ajuste de resorte reproducible.
 
 ## Animando {#animating}
