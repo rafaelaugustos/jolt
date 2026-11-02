@@ -15,10 +15,16 @@ type Controlled = {
 type Factories = Pick<
   WebRuntime,
   | 'animate'
+  | 'decay'
+  | 'drawPath'
+  | 'motionStates'
+  | 'sequence'
+  | 'timeline'
   | 'set'
   | 'animateSize'
   | 'animateLayout'
   | 'seekableTimeline'
+  | 'playbackProgress'
   | 'motionValue'
   | 'springValue'
   | 'bind'
@@ -197,6 +203,20 @@ export function createWebScope(
       throw error
     }
   }
+  const ownPlayback = <K extends 'animate' | 'set'>(method: K): WebRuntime[K] =>
+    ((...args: unknown[]) => {
+      assert(true)
+      const resource = (
+        runtime[method] as (...args: unknown[]) => WebMotionResource | void
+      ).apply(runtime, args)
+      if (resource === undefined) return
+      try {
+        return adopt(resource)
+      } catch (error) {
+        if (!owners.has(resource)) destroy(resource)
+        throw error
+      }
+    }) as WebRuntime[K]
   const scope: WebMotionScope = {
     get disposed() {
       return disposed
@@ -214,13 +234,20 @@ export function createWebScope(
       return resource
     },
     scope: (setup) => start(() => runtime.scope(setup)),
-    animate: (...args) => start(() => runtime.animate(...args)),
-    set: (...args) => start(() => runtime.set(...args)),
+    animate: ownPlayback('animate'),
+    drawPath: (...args) => start(() => runtime.drawPath(...args)),
+    motionStates: (targets, definitions, options) =>
+      start(() => runtime.motionStates(targets, definitions, options)),
+    sequence: (...args) => start(() => runtime.sequence(...args)),
+    timeline: (...args) => start(() => runtime.timeline(...args)),
+    decay: (...args) => start(() => runtime.decay(...args)),
+    set: ownPlayback('set'),
     animateSize: (...args) => start(() => runtime.animateSize(...args)),
     animateLayout: (...args) => start(() => runtime.animateLayout(...args)),
     seekableTimeline: (...args) => start(() => runtime.seekableTimeline(...args)),
     // Source/mapping data survives a temporary suspension. Followers pause;
     // bindings/observers belong in use() when they need to be recreated.
+    playbackProgress: (...args) => start(() => runtime.playbackProgress(...args), true),
     motionValue: (...args) => start(() => runtime.motionValue(...args), true),
     springValue: (...args) => start(() => runtime.springValue(...args)),
     bind: (...args) => start(() => runtime.bind(...args)),

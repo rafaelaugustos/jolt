@@ -85,6 +85,10 @@ export async function checkVue({
             55,
         ) < 0.01,
     )
+    await page.click('#orchestration')
+    await page.waitForFunction(
+      () => document.querySelector('#orchestration-status').textContent === 'true',
+    )
     await page.click('#visual')
     await page.waitForFunction(
       () => document.querySelector('#visual-status').textContent === 'true',

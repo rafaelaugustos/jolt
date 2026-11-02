@@ -159,7 +159,10 @@
     "web:visual:test": "playwright test -c benchmarks/web-visual/playwright.config.mjs",
     "web:lifecycle": "node benchmarks/web-lifecycle/server.mjs",
     "web:lifecycle:typecheck": "tsc -p benchmarks/web-lifecycle/tsconfig.json",
-    "web:lifecycle:test": "playwright test -c benchmarks/web-lifecycle/playwright.config.mjs"
+    "web:lifecycle:test": "playwright test -c benchmarks/web-lifecycle/playwright.config.mjs",
+    "web:orchestration": "node benchmarks/web-orchestration/server.mjs",
+    "web:orchestration:typecheck": "tsc -p benchmarks/web-orchestration/tsconfig.json",
+    "web:orchestration:test": "playwright test -c benchmarks/web-orchestration/playwright.config.mjs"
   },
   "peerDependencies": {
     "@nativescript/core": ">=8.9.0",

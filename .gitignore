@@ -58,3 +58,7 @@ benchmarks/web-visual/captures/
 
 benchmarks/web-lifecycle/results/
 benchmarks/web-lifecycle/captures/
+
+/benchmarks/web-orchestration/results/
+
+/benchmarks/web-orchestration/captures/

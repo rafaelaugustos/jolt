@@ -234,12 +234,16 @@ try {
       'animateSize',
       'bind',
       'configure',
+      'decay',
       'definePreset',
       'diagnostics',
       'dispose',
       'drag',
+      'drawPath',
+      'motionStates',
       'motionValue',
       'observeGeometry',
+      'playbackProgress',
       'pointerFollow',
       'press',
       'refresh',
@@ -248,13 +252,21 @@ try {
       'scrollLinked',
       'scrollValue',
       'seekableTimeline',
+      'sequence',
       'set',
       'sharedLayout',
       'springValue',
       'stop',
+      'timeline',
       'viewportEnter',
     ])
     assert.deepEqual(errors, [])
+    await page.click('#orchestration')
+    await page.waitForFunction(
+      () =>
+        document.getElementById('orchestration-result')?.textContent ===
+        'true:true:true:80:1:true',
+    )
     await page.click('#lifecycle')
     await page.waitForFunction(
       () => document.getElementById('lifecycle-result')?.textContent === 'completed:0',

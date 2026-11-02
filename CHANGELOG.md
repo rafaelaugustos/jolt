@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- Add owned Web SVG stroke drawing with measured/pathLength geometry, normalized keyframes, interruption/reversal, playback controls, progress observation, geometry refresh, reduced motion and scope cleanup (#333). Replace application-specific CSS drawing timers while keeping host SVG markup and framework choreography. Reuse the portable native path validator and document native/browser recordings.
+
+- Add direct Web numeric-value playback with additive layers, finite playback progress, velocity/friction/snap decay, sequences, imperative timelines and named motion states with replaceable references (#327–#332). Reuse portable scheduling/transition rules and existing context clocks; preserve independent channels and scope/Vue cleanup. Include three-browser conformance, packed imperative/Vue/SSR/native consumers and reviewed browser/native-reference recordings in four languages.
+
 ## 0.1.0-rc.7 (2026-11-02)
 
 - Publish matching core and optional native packages with Web paint/layout/scenes, owned input and Vue lifecycles, shared transitions and integration diagnostics. The native runtime is unchanged from RC.6; rebuild native applications after upgrading to keep installed packages aligned.
