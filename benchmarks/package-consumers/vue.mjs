@@ -77,6 +77,14 @@ export async function checkVue({
         ) < 0.001,
     )
     await page.mouse.up()
+    await page.click('#continuous')
+    await page.waitForFunction(
+      () =>
+        Math.abs(
+          new DOMMatrix(getComputedStyle(document.querySelector('#card')).transform).e -
+            55,
+        ) < 0.01,
+    )
     await page.click('#visual')
     await page.waitForFunction(
       () => document.querySelector('#visual-status').textContent === 'true',

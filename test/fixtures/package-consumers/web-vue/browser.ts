@@ -8,6 +8,7 @@ import {
   onMounted,
 } from 'vue'
 import { useWebMotion } from '@rafaelaugusto/jolt/web/vue'
+import type { WebMotionValue } from '@rafaelaugusto/jolt/web'
 
 createApp(
   defineComponent({
@@ -19,12 +20,20 @@ createApp(
         enter: { keyframes: { opacity: 1 }, transition: { duration: 120 } },
         leave: { keyframes: { opacity: 0 }, transition: { duration: 300 } },
       })
+      let input: WebMotionValue
+      motion.use((scope, element) => {
+        input = scope.motionValue(0)
+        const follower = scope.springValue(input)
+        scope.bind(element, { x: follower })
+        scope.observeGeometry(element)
+      })
       onMounted(() => {
         motion.set({ scale: 1.1 })
         motion.press()
       })
       return () =>
         h('main', [
+          h('button', { id: 'continuous', onClick: () => input.set(55) }, 'Continuous'),
           h(
             'button',
             { id: 'toggle', onClick: () => (shown.value = !shown.value) },

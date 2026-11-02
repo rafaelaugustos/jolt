@@ -105,6 +105,8 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('webDynamic', 'web-dynamic'),
         page('webSupport', 'web-support'),
         page('webVisual', 'web-visual'),
+        page('webLifecycle', 'web-lifecycle'),
+        page('webInteractions', 'web-interactions'),
         page('limits', 'not-there-yet'),
       ],
     },
@@ -191,6 +193,8 @@ const en = {
   webDynamic: 'Continuous Web motion',
   webSupport: 'Web mappings, geometry & scroll',
   webVisual: 'Web colors, layout & scenes',
+  webLifecycle: 'Web lifecycles & input',
+  webInteractions: 'Web overlays & shared motion',
   limits: 'Release status and limits',
 }
 
@@ -274,6 +278,8 @@ const pt = {
   webDynamic: 'Movimento contínuo na Web',
   webSupport: 'Mapeamentos, geometria e scroll Web',
   webVisual: 'Cores, layout e cenas Web',
+  webLifecycle: 'Ciclos de vida e input Web',
+  webInteractions: 'Overlays e movimento compartilhado Web',
   limits: 'Status da versão e limites',
 }
 

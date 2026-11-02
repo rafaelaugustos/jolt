@@ -23,6 +23,6 @@ export default defineConfig({
     },
   },
   test: {
-    include: ['test/**/*.spec.ts'],
+    include: ['test/**/*.spec.ts', 'benchmarks/web-lifecycle/*.unit.ts'],
   },
 })

@@ -1,4 +1,26 @@
 import type { WebDrag, WebDragOptions } from './drag.js'
+import type { WebMotionScope } from './scope.js'
+import type { WebSharedLayout, WebSharedLayoutOptions } from './shared-layout.js'
+export type {
+  WebSharedLayout,
+  WebSharedLayoutOptions,
+  WebSharedLayoutAnimation,
+  WebSharedLayoutResult,
+} from './shared-layout.js'
+import type { WebDiagnostics, WebDiagnosticsOptions } from './diagnostics.js'
+export type {
+  WebDiagnostics,
+  WebDiagnosticsOptions,
+  WebDiagnosticEvent,
+  WebDiagnosticReason,
+  WebDiagnosticSnapshot,
+  WebDiagnosticTarget,
+} from './diagnostics.js'
+import type { WebPointerFollow, WebPointerOptions } from './pointer.js'
+import type { WebViewportEntrance, WebViewportOptions } from './viewport.js'
+export type { WebMotionScope, WebMotionResource } from './scope.js'
+export type { WebPointerFollow, WebPointerOptions } from './pointer.js'
+export type { WebViewportEntrance, WebViewportOptions } from './viewport.js'
 export type { WebDrag, WebDragOptions } from './drag.js'
 import type { WebSpringOptions, WebSpringValue } from './spring-value.js'
 export type { WebSpringOptions, WebSpringValue } from './spring-value.js'
@@ -69,10 +91,23 @@ export type {
 /** Experimental finite playback handle. Activation/disposal resolves ready. */
 export interface WebAnimation extends PlaybackAnimation {
   readonly ready: Promise<void>
+  /** Cancel only selected channels still owned by this handle. */
+  stop(
+    properties?: readonly import('./types.js').KeyframeProperty[],
+    options?: { layer?: string },
+  ): void
 }
 
 /** Experimental DOM context; platform/framework adapters are not public APIs. */
 export interface WebRuntime {
+  sharedLayout(container: HTMLElement, options?: WebSharedLayoutOptions): WebSharedLayout
+  diagnostics(options: WebDiagnosticsOptions): WebDiagnostics
+  scope(setup?: (scope: WebMotionScope) => void): WebMotionScope
+  pointerFollow(region: HTMLElement, options?: WebPointerOptions): WebPointerFollow
+  viewportEnter(
+    target: HTMLElement | readonly HTMLElement[],
+    options?: WebViewportOptions,
+  ): WebViewportEntrance
   seekableTimeline(
     steps: readonly WebSeekableStep[],
     options?: WebSceneOptions,
@@ -130,6 +165,11 @@ export function createWebRuntime(
   // Keep diagnostics, ownership internals and driver implementation off the
   // package API, including at runtime rather than only in the declarations.
   return {
+    sharedLayout: runtime.sharedLayout.bind(runtime),
+    diagnostics: runtime.diagnostics.bind(runtime),
+    scope: runtime.scope.bind(runtime),
+    pointerFollow: runtime.pointerFollow.bind(runtime),
+    viewportEnter: runtime.viewportEnter.bind(runtime),
     animateSize: runtime.animateSize.bind(runtime),
     animateLayout: runtime.animateLayout.bind(runtime),
     seekableTimeline: runtime.seekableTimeline.bind(runtime),

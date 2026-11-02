@@ -42,6 +42,35 @@ function typeBoundary(context: WebRuntime) {
 }
 void typeBoundary
 
+document.getElementById('lifecycle')!.addEventListener('click', async () => {
+  const diagnostics = motion.diagnostics({ development: true })
+  const owner = motion.scope()
+  const region = document.createElement('div'),
+    probe = document.createElement('div')
+  region.style.cssText = 'width:200px;height:80px'
+  probe.style.cssText = 'width:40px;height:40px;background:orange'
+  region.append(probe)
+  document.body.append(region)
+  const pointer = owner.pointerFollow(region, { spring: false })
+  owner.bind(probe, { x: pointer.x })
+  const entrance = owner.viewportEnter(probe, {
+    keyframes: { opacity: [1, 1] },
+    transition: { duration: 10 },
+  })
+  entrance.dispose()
+  const shared = owner.sharedLayout(region, { transition: { duration: 40 } })
+  shared.attach(probe, 'probe')
+  const result = await shared.transition(() => {
+    probe.style.marginLeft = '80px'
+  }).finished
+  owner.dispose()
+  motion.release(probe)
+  region.remove()
+  document.getElementById('lifecycle-result')!.textContent =
+    `${result.status}:${diagnostics.snapshot().resources.scopes}`
+  diagnostics.dispose()
+})
+
 const input = motion.motionValue(0)
 const follower = motion.springValue(input.to([0, 100], [0, 100]), {
   stiffness: 200,

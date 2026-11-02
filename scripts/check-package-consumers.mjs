@@ -235,21 +235,30 @@ try {
       'bind',
       'configure',
       'definePreset',
+      'diagnostics',
       'dispose',
       'drag',
       'motionValue',
       'observeGeometry',
+      'pointerFollow',
       'press',
       'refresh',
       'release',
+      'scope',
       'scrollLinked',
       'scrollValue',
       'seekableTimeline',
       'set',
+      'sharedLayout',
       'springValue',
       'stop',
+      'viewportEnter',
     ])
     assert.deepEqual(errors, [])
+    await page.click('#lifecycle')
+    await page.waitForFunction(
+      () => document.getElementById('lifecycle-result')?.textContent === 'completed:0',
+    )
     const card = page.locator('#card')
     const box = await card.boundingBox()
     await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2)

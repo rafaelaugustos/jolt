@@ -1,5 +1,7 @@
 # Web 有限动画运行时
 
+**同样属于 RC.6 之后的开发内容：**[作用域、指针/视口与 Vue 持续配置](./web-lifecycle)，以及[浮层几何、共享元素、完整示例与诊断](./web-interactions)。这些新增能力尚未包含在已发布的 RC.6 中。
+
 **RC.6 之后的开发功能：**[颜色、边框、连续绘制、真实尺寸、FLIP 与可定位场景](./web-visual)扩展此运行时，尚未包含在已发布的 RC.6 包中。完整对等仍由 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 跟踪。
 
 自 **0.1.0-rc.5** 起，实验性 `@rafaelaugusto/jolt/web` 入口使用 Jolt 的可移植编译器和 WAAPI 直接操作 HTML 元素，不依赖 Vue、React 或 NativeScript。参见[安装](./install#experimental-web-candidate)。Mavis 已完成初始 press/reveal 迁移及共享应用示例；新的 Web 功能仍在 [Mavis](https://github.com/getcortexlabs/mavis-ui/issues/191) 中逐步集成。

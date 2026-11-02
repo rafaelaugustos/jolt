@@ -1,4 +1,5 @@
 import type { PlaybackAnimation, SpringName, Transition, Values } from './types.js'
+import { renderedAncestors } from './geometry.js'
 
 export interface WebPressState {
   disabled?: boolean
@@ -43,21 +44,12 @@ export function createPress(
   let disposed = false
   let animation: WebPress['animation']
 
-  const ancestors = () => {
-    const nodes: Node[] = []
-    let node: Node | null = target
-    while (node) {
-      nodes.push(node)
-      node = node.parentNode ?? (node instanceof view.ShadowRoot ? node.host : null)
-    }
-    return nodes
-  }
   const blocked = () =>
     state.disabled ||
     state.loading ||
     target.matches(':disabled') ||
     target.getAttribute('aria-busy') === 'true' ||
-    ancestors().some(
+    [...renderedAncestors(target)].some(
       (node) =>
         node instanceof view.Element &&
         (node.hasAttribute('inert') || node.getAttribute('aria-disabled') === 'true'),
@@ -161,7 +153,12 @@ export function createPress(
     if (document.hidden) cancel()
   })
   const scroll = (event: Event) => {
-    if (pointer !== undefined && ancestors().includes(event.target as Node)) cancel()
+    if (
+      pointer !== undefined &&
+      (event.target === document ||
+        [...renderedAncestors(target)].includes(event.target as Element))
+    )
+      cancel()
   }
   listen(document, 'scroll', scroll, true)
   // Scroll events do not cross shadow boundaries. Follow connected reparenting.

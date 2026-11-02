@@ -80,6 +80,8 @@ export const es = {
   webDynamic: 'Movimiento continuo en Web',
   webSupport: 'Mapeos, geometría y scroll Web',
   webVisual: 'Colores, layout y escenas Web',
+  webLifecycle: 'Ciclos de vida e input Web',
+  webInteractions: 'Overlays y movimiento compartido Web',
   limits: 'Estado de la versión y límites',
 }
 
@@ -163,6 +165,8 @@ export const zh = {
   webDynamic: 'Web 连续动画',
   webSupport: 'Web 映射、几何与滚动',
   webVisual: 'Web 颜色、布局与场景',
+  webLifecycle: 'Web 生命周期与输入',
+  webInteractions: 'Web 浮层与共享动画',
   limits: '发布状态与限制',
 }
 

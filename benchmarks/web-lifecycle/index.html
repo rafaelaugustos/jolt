@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Jolt · Web motion lifecycles</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 28px;
+        font:
+          16px system-ui,
+          sans-serif;
+        color: #e7edf8;
+        background: #0e1420;
+      }
+      button {
+        font: inherit;
+        color: inherit;
+        background: #26364e;
+        border: 1px solid #567094;
+        border-radius: 12px;
+        padding: 12px 18px;
+        cursor: pointer;
+      }
+      button:focus-visible {
+        outline: 3px solid #e7ba6c;
+        outline-offset: 3px;
+      }
+      h1 {
+        margin: 10px 0 6px;
+        font-size: 28px;
+      }
+      p {
+        color: #bdcadb;
+      }
+      #controls {
+        display: flex;
+        gap: 12px;
+        margin: 20px 0;
+      }
+      #region {
+        position: relative;
+        width: 340px;
+        height: 190px;
+        border: 1px solid #567094;
+        border-radius: 22px;
+        background: #17243a;
+        display: grid;
+        place-items: center;
+      }
+      #target,
+      #sibling {
+        width: 76px;
+        height: 76px;
+        padding: 8px;
+        background: #d7a65e;
+        color: #17243a;
+        border: 0;
+        border-radius: 18px;
+        font-weight: 700;
+      }
+      #sibling {
+        margin: 24px;
+        background: #86c5b8;
+      }
+      #scroller {
+        height: 220px;
+        width: 380px;
+        overflow: auto;
+        border: 1px solid #567094;
+        border-radius: 16px;
+        padding: 12px;
+      }
+      .spacer {
+        height: 340px;
+      }
+      .card {
+        height: 66px;
+        margin: 12px 0;
+        padding: 18px;
+        background: #86c5b8;
+        color: #17243a;
+        border-radius: 12px;
+      }
+      #app {
+        margin-top: 16px;
+      }
+      #vue-card {
+        width: 130px;
+        height: 80px;
+        margin: 24px;
+        background: #86c5b8;
+        color: #17243a;
+      }
+      #vue-controls {
+        display: flex;
+        gap: 10px;
+      }
+      #status {
+        min-height: 28px;
+        color: #e7ba6c;
+      }
+      .label {
+        color: #86c5b8;
+        font-size: 12px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <span class="label">Jolt · Web</span>
+    <h1>Motion with an owner</h1>
+    <p id="description">Pointer input, viewport entrances and component lifetimes.</p>
+    <div id="controls"></div>
+    <div id="region"><button id="target">J</button></div>
+    <button id="sibling">Live</button>
+    <div id="scroller" tabindex="0" aria-label="Entrance examples">
+      <div class="spacer"></div>
+      <div class="card">First · observe, enter, release</div>
+      <div class="card">Second · independent press</div>
+      <div class="card">Third · owned stagger</div>
+      <div class="spacer"></div>
+    </div>
+    <div id="app"></div>
+    <p id="status" role="status">Ready</p>
+    <script type="module" src="/fixture.js"></script>
+  </body>
+</html>

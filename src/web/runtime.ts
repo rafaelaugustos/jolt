@@ -1,4 +1,28 @@
 import { createDrag, dragOptions, assertDragSpace, type WebDragOptions } from './drag.js'
+import { createWebScope, type WebMotionScope, type WebMotionResource } from './scope.js'
+import {
+  createPointerFollow,
+  type WebPointerFollow,
+  type WebPointerOptions,
+} from './pointer.js'
+import {
+  createViewportEntrance,
+  type WebViewportEntrance,
+  type WebViewportOptions,
+} from './viewport.js'
+import { renderedAncestors } from './geometry.js'
+import {
+  DiagnosticCollector,
+  type WebDiagnosticReason,
+  type WebDiagnosticSnapshot,
+  type WebDiagnostics,
+  type WebDiagnosticsOptions,
+} from './diagnostics.js'
+import {
+  createSharedLayout,
+  type WebSharedLayout,
+  type WebSharedLayoutOptions,
+} from './shared-layout.js'
 import { createTrack, type Track } from '../core/track.js'
 import { springs as springDefinitions } from '../core/transition.js'
 import { createOwnership } from '../core/ownership.js'
@@ -231,7 +255,8 @@ class Surface {
   layoutBasis() {
     const view = this.runtime.view
     let matrix = new view.DOMMatrix()
-    for (let parent = this.target.parentElement; parent; parent = parent.parentElement) {
+    for (const parent of renderedAncestors(this.target)) {
+      if (parent === this.target) continue
       const css = view.getComputedStyle(parent)
       const transform = new view.DOMMatrix(
         css.transform === 'none' ? undefined : css.transform,
@@ -523,6 +548,7 @@ class Surface {
 }
 
 class Owner implements PlaybackAnimation {
+  diagnosticReason?: WebDiagnosticReason
   readonly finished: Promise<boolean>
   readonly ready: Promise<void>
   readonly entries = new Set<Entry>()
@@ -599,8 +625,8 @@ class Owner implements PlaybackAnimation {
         pending: this.pending,
       })
   }
-  stop() {
-    if (!this.settled) this.runtime.stopOwner(this)
+  stop(properties?: readonly KeyframeProperty[], options?: { layer?: string }) {
+    if (!this.settled) this.runtime.stopOwner(this, properties, options)
   }
   then<A = boolean, B = never>(
     onfulfilled?: ((value: boolean) => A | PromiseLike<A>) | null,
@@ -691,6 +717,14 @@ class Owner implements PlaybackAnimation {
 
 /** Internal implementation. Package exports and framework adapters are separate work. */
 export class WebRuntime {
+  private readonly sharedLayouts = new Map<HTMLElement, WebSharedLayout>()
+  private nextShared = 0
+  private diagnostic?: DiagnosticCollector
+  private readonly scopes = new Set<WebMotionScope>()
+  private readonly resourceOwners = new WeakMap<WebMotionResource, object>()
+  private readonly pointerFollowers = new Set<WebPointerFollow>()
+  private readonly viewportEntrances = new Set<WebViewportEntrance>()
+  private readonly preferenceListeners = new Set<() => void>()
   readonly view: Realm
   readonly maxKeyframes: number
   private settings: Required<WebConfig>
@@ -798,6 +832,207 @@ export class WebRuntime {
     this.assert()
     this.settings = this.validate(options, this.settings)
     this.preferenceChanged()
+  }
+  scope(setup?: (scope: WebMotionScope) => void): WebMotionScope {
+    this.assert()
+    if (setup !== undefined && typeof setup !== 'function')
+      throw new TypeError('Expected scope setup.')
+    const scope = createWebScope(
+      this,
+      this.resourceOwners,
+      () => this.scopes.delete(scope),
+      (reason, resource) => {
+        this.diagnostic?.record({
+          reason,
+          time: this.now(),
+          scope: this.diagnostic.id(scope),
+          owner: resource && this.diagnostic.id(resource),
+        })
+      },
+    )
+    this.scopes.add(scope)
+    try {
+      const result: unknown = setup?.(scope)
+      if (result && typeof (result as { then?: unknown }).then === 'function')
+        throw new TypeError('Web motion setup must be synchronous.')
+    } catch (error) {
+      try {
+        scope.dispose()
+      } catch (cleanup) {
+        throw new AggregateError([error, cleanup], 'Web scope setup and cleanup failed.')
+      }
+      throw error
+    }
+    return scope
+  }
+  diagnostics(options: WebDiagnosticsOptions): WebDiagnostics {
+    this.assert()
+    if (this.diagnostic) throw new Error('This runtime already has a diagnostics owner.')
+    const collector = new DiagnosticCollector(
+      options,
+      () => this.diagnosticSnapshot(collector),
+      () => {
+        if (this.diagnostic === collector) this.diagnostic = undefined
+      },
+    )
+    this.diagnostic = collector
+    return collector.handle()
+  }
+  sharedLayout(
+    container: HTMLElement,
+    options: WebSharedLayoutOptions = {},
+  ): WebSharedLayout {
+    this.assert()
+    this.targets(container)
+    if (this.sharedLayouts.has(container))
+      throw new Error('The container already has a shared layout owner.')
+    const layer = `jolt:shared:${++this.nextShared}`
+    const control = createSharedLayout(container, options, {
+      scheduler: this.scheduler,
+      reduced: () => this.reduced(),
+      preference: this.watchPreference,
+      animate: (target, frames, transition) => this.animate(target, frames, transition),
+      hide: (target) => {
+        this.play(target, { opacity: 0 }, { duration: 0 }, layer)
+      },
+      reveal: (target) => {
+        const surface = this.surfaces.get(target)
+        if (!surface || surface.disposed || !target.isConnected) return
+        const state = clone(surface.state)
+        state.rest.delete(keyOf('opacity', layer))
+        state.entries.delete(keyOf('opacity', layer))
+        try {
+          this.transaction(new Map([[surface, state]]), this.now())
+        } catch {
+          this.release(target)
+        }
+      },
+      release: (target) => this.release(target),
+      forget: () => {
+        this.sharedLayouts.delete(container)
+        this.observe()
+      },
+    })
+    this.sharedLayouts.set(container, control)
+    this.observe()
+    return control
+  }
+  private diagnosticSnapshot(
+    collector: DiagnosticCollector,
+  ): Omit<WebDiagnosticSnapshot, 'events'> {
+    return {
+      disposed: this.disposed,
+      resources: {
+        surfaces: this.surfaces.size,
+        animations: this.animations.size,
+        values: this.values.size,
+        scopes: this.scopes.size,
+        pointerFollowers: this.pointerFollowers.size,
+        viewportEntrances: this.viewportEntrances.size,
+        presses: this.presses.size,
+        drags: this.drags.size,
+        sizes: this.sizes.size,
+        layouts: this.layouts.size,
+        sharedLayouts: this.sharedLayouts.size,
+        scrollSources: this.scrollSources.size,
+        observers: this.observers.size,
+        geometryObservers: [...this.surfaces.values()].reduce(
+          (sum, surface) => sum + surface.geometryObservers,
+          0,
+        ),
+        frameTasks: this.scheduler.size,
+        framePending: this.scheduler.pending,
+        preferenceListeners: this.preferenceListeners.size,
+      },
+      targets: [...this.surfaces.values()].map((surface) => ({
+        id: collector.id(surface.target),
+        execution: surface.path,
+        channels: [
+          ...[...surface.state.entries.values()].map((entry) => ({
+            property: entry.property,
+            layer: entry.layer,
+            kind: 'animation' as const,
+            owner: collector.id(entry.owner),
+            paused: entry.owner.paused,
+          })),
+          ...[...surface.state.bindings.values()].map((entry) => ({
+            property: entry.property,
+            kind: 'value' as const,
+            owner: collector.id(entry.source),
+          })),
+          ...[...surface.state.rest].map(([key, rest]) => ({
+            property: rest.property,
+            layer: (JSON.parse(key) as [string, string | null])[1] ?? undefined,
+            kind: 'rest' as const,
+          })),
+        ],
+      })),
+    }
+  }
+  private diagnosticEvent(
+    reason: WebDiagnosticReason,
+    owner?: object,
+    target?: HTMLElement,
+    property?: Property,
+    layer?: string,
+  ) {
+    const diagnostic = this.diagnostic
+    if (diagnostic)
+      diagnostic.record({
+        reason,
+        time: this.now(),
+        owner: owner && diagnostic.id(owner),
+        target: target && diagnostic.id(target),
+        property,
+        layer,
+      })
+  }
+  private watchPreference = (listener: () => void) => {
+    this.preferenceListeners.add(listener)
+    return () => {
+      this.preferenceListeners.delete(listener)
+    }
+  }
+  pointerFollow(region: HTMLElement, options: WebPointerOptions = {}): WebPointerFollow {
+    this.assert()
+    this.targets(region)
+    let controller: WebPointerFollow | undefined
+    controller = createPointerFollow(region, options, {
+      runtime: this,
+      scheduler: this.scheduler,
+      reduced: () => this.reduced(),
+      preference: this.watchPreference,
+      forget: () => {
+        if (controller) this.pointerFollowers.delete(controller)
+      },
+    })
+    this.pointerFollowers.add(controller)
+    return controller
+  }
+  viewportEnter(
+    target: HTMLElement | readonly HTMLElement[],
+    options: WebViewportOptions = {},
+  ): WebViewportEntrance {
+    this.assert()
+    if (!options || typeof options !== 'object')
+      throw new TypeError('Expected viewport options.')
+    const targets = this.targets(target)
+    const frames = options.keyframes ?? 'fadeInUp'
+    const plans = prepare(frames, options.transition, this.presets, targets.length)
+    let controller: WebViewportEntrance | undefined
+    controller = createViewportEntrance(targets, options, {
+      document: this.document,
+      alive: () => !this.disposed,
+      reduced: () => this.reduced(),
+      preference: this.watchPreference,
+      play: (index) =>
+        this.play(targets[index]!, frames, undefined, undefined, [plans[index]!]),
+      forget: () => {
+        if (controller) this.viewportEntrances.delete(controller)
+      },
+    })
+    this.viewportEntrances.add(controller)
+    return controller
   }
   private copyPreset(preset: Preset): Preset {
     const copy = (v: unknown): unknown =>
@@ -1171,7 +1406,11 @@ export class WebRuntime {
 
   private unbind(surface: Surface, selected: ReadonlyMap<string, LiveEntry>) {
     if (surface.disposed) return
-    if (!surface.target.isConnected || surface.target.ownerDocument !== this.document) {
+    if (
+      !surface.target.isConnected ||
+      surface.target.ownerDocument !== this.document ||
+      !surface.target.getClientRects().length
+    ) {
       this.release(surface.target)
       return
     }
@@ -1361,10 +1600,11 @@ export class WebRuntime {
     animation: Keyframes | string,
     options?: AnimateOptions | SpringName,
     privateLayer?: string,
+    prepared?: Plan[][],
   ): PlaybackAnimation & { readonly ready: Promise<void> } {
     this.assert()
     const targets = this.targets(target)
-    const plans = prepare(animation, options, this.presets, targets.length)
+    const plans = prepared ?? prepare(animation, options, this.presets, targets.length)
     if (privateLayer !== undefined)
       for (const tracks of plans) for (const plan of tracks) plan.layer = privateLayer
     const at = this.now(),
@@ -1670,6 +1910,22 @@ export class WebRuntime {
     for (const [surface, state] of proposals) {
       for (const [key, previous] of surface.state.entries)
         if (state.entries.get(key) !== previous) {
+          if (removed !== 'finish')
+            previous.owner.diagnosticReason =
+              state.entries.has(key) || state.bindings.has(key)
+                ? 'interrupted'
+                : 'stopped'
+          this.diagnosticEvent(
+            state.entries.has(key) || state.bindings.has(key)
+              ? 'interrupted'
+              : removed === 'finish'
+                ? 'completed'
+                : 'stopped',
+            previous.owner,
+            surface.target,
+            previous.property,
+            previous.layer,
+          )
           previous.owner.entries.delete(previous)
           previous.owner.complete &&= removed === 'finish'
           affected.add(previous.owner)
@@ -1677,6 +1933,13 @@ export class WebRuntime {
         }
       for (const [key, entry] of state.entries)
         if (surface.state.entries.get(key) !== entry) {
+          this.diagnosticEvent(
+            'claimed',
+            entry.owner,
+            surface.target,
+            entry.property,
+            entry.layer,
+          )
           entry.token = this.ownership.claim(surface.target, key)
           entry.owner.entries.add(entry)
           affected.add(entry.owner)
@@ -1687,6 +1950,15 @@ export class WebRuntime {
           surface.path !== prepared.get(surface)!.path
         ) {
           previous.cleanup?.()
+          if (state.bindings.get(key) !== previous)
+            this.diagnosticEvent(
+              state.entries.has(key) || state.bindings.has(key)
+                ? 'interrupted'
+                : 'released',
+              previous.source,
+              surface.target,
+              previous.property,
+            )
           if (!state.entries.has(key) && !state.bindings.has(key))
             this.ownership.invalidate(surface.target, [key])
         }
@@ -1697,6 +1969,8 @@ export class WebRuntime {
         ) {
           if (surface.state.bindings.get(key) !== entry)
             this.ownership.claim(surface.target, key)
+          if (surface.state.bindings.get(key) !== entry)
+            this.diagnosticEvent('claimed', entry.source, surface.target, entry.property)
           const ending = () => this.unbind(surface, new Map([[key, entry]]))
           entry.cleanup =
             prepared.get(surface)!.path === 'scroll-timeline'
@@ -1733,10 +2007,28 @@ export class WebRuntime {
     else this.scheduler.remove(this.valueTask)
   }
 
-  stopOwner(owner: Owner) {
+  stopOwner(
+    owner: Owner,
+    selected?: readonly KeyframeProperty[],
+    options?: { layer?: string },
+  ) {
+    owner.diagnosticReason = 'stopped'
+    if (selected?.some((name) => !keyframeProperties.includes(name)))
+      throw new TypeError('Unsupported property to stop.')
+    const names = selected?.flatMap(expand)
+    const matches = (entry: Entry) =>
+      entry.owner === owner &&
+      (!names || names.includes(entry.property)) &&
+      (options?.layer === undefined || entry.layer === options.layer)
+    for (const [target, surface] of this.surfaces)
+      if (
+        [...surface.state.entries.values()].some(matches) &&
+        (!target.isConnected || !target.getClientRects().length)
+      )
+        this.release(target)
     for (const entry of [...this.valueTracks.values()])
-      if (entry.owner === owner) this.removeValue(entry, false)
-    this.remove((entry) => entry.owner === owner, false)
+      if (matches(entry)) this.removeValue(entry, false)
+    this.remove(matches, false)
   }
   completeOwner(owner: Owner) {
     if (owner.settled || owner.paused || owner.pending) return
@@ -1813,6 +2105,8 @@ export class WebRuntime {
     const reduced = this.reduced()
     if (reduced === this.reported) return
     this.reported = reduced
+    if (reduced) this.diagnosticEvent('reduced-motion')
+    for (const listener of [...this.preferenceListeners]) listener()
     for (const value of this.values)
       if (value instanceof SpringValueNode) value.preferenceChanged()
     for (const size of this.sizes.values()) size.reduced()
@@ -1874,7 +2168,12 @@ export class WebRuntime {
 
   private observe() {
     const roots = new Set<Node>()
-    if (this.surfaces.size || this.scrollSources.size || this.layouts.size)
+    if (
+      this.surfaces.size ||
+      this.scrollSources.size ||
+      this.layouts.size ||
+      this.sharedLayouts.size
+    )
       roots.add(this.document)
     for (const source of this.scrollSources) roots.add(source.element.getRootNode())
     for (const surface of this.surfaces.values()) roots.add(surface.target.getRootNode())
@@ -1886,8 +2185,15 @@ export class WebRuntime {
     for (const root of roots)
       if (!this.observers.has(root)) {
         const observer = new this.view.MutationObserver(() => {
+          for (const [container, shared] of this.sharedLayouts)
+            if (!container.isConnected || container.ownerDocument !== this.document)
+              shared.dispose()
           for (const [target, layout] of this.layouts)
-            if (!target.isConnected || target.ownerDocument !== this.document)
+            if (
+              !target.isConnected ||
+              target.ownerDocument !== this.document ||
+              !target.getClientRects().length
+            )
               layout.stop()
           for (const source of [...this.scrollSources])
             if (
@@ -1896,7 +2202,11 @@ export class WebRuntime {
             )
               source.dispose()
           for (const target of [...this.surfaces.keys()])
-            if (!target.isConnected || target.ownerDocument !== this.document)
+            if (
+              !target.isConnected ||
+              target.ownerDocument !== this.document ||
+              !target.getClientRects().length
+            )
               this.release(target)
           for (const press of this.presses.values()) press.refresh()
           for (const drag of this.drags.values()) drag.refresh()
@@ -1906,13 +2216,21 @@ export class WebRuntime {
           childList: true,
           subtree: true,
           attributes: true,
-          attributeFilter: ['disabled', 'aria-disabled', 'aria-busy', 'inert'],
+          attributeFilter: [
+            'disabled',
+            'aria-disabled',
+            'aria-busy',
+            'inert',
+            'open',
+            'hidden',
+          ],
         })
         this.observers.set(root, observer)
       }
   }
 
   release(target: HTMLElement) {
+    if (this.surfaces.has(target)) this.diagnosticEvent('released', undefined, target)
     this.layouts.get(target)?.stop()
     this.layouts.delete(target)
     this.sizes.get(target)?.detach()
@@ -1928,6 +2246,7 @@ export class WebRuntime {
     const at = this.now(),
       affected = new Set<Owner>()
     for (const entry of surface.state.entries.values()) {
+      entry.owner.diagnosticReason = 'released'
       entry.owner.entries.delete(entry)
       entry.owner.complete = false
       affected.add(entry.owner)
@@ -1940,6 +2259,10 @@ export class WebRuntime {
   }
 
   forget(owner: Owner) {
+    this.diagnosticEvent(
+      owner.complete ? 'completed' : (owner.diagnosticReason ?? 'interrupted'),
+      owner,
+    )
     this.animations.delete(owner)
     if (this.pendingFrame !== undefined && ![...this.animations].some((a) => a.pending)) {
       this.scheduler.remove(this.pendingFrame)
@@ -1952,6 +2275,11 @@ export class WebRuntime {
     const surface = this.surfaces.get(target),
       at = this.now()
     return {
+      scopes: this.scopes.size,
+      sharedLayouts: this.sharedLayouts.size,
+      pointerFollowers: this.pointerFollowers.size,
+      viewportEntrances: this.viewportEntrances.size,
+      preferenceListeners: this.preferenceListeners.size,
       targets: this.surfaces.size,
       values: this.values.size,
       valueAnimations: this.valueTracks.size,
@@ -1999,6 +2327,23 @@ export class WebRuntime {
   dispose() {
     if (this.disposed) return
     this.disposed = true
+    const errors: unknown[] = []
+    for (const resource of [
+      ...this.scopes,
+      ...this.pointerFollowers,
+      ...this.viewportEntrances,
+      ...this.sharedLayouts.values(),
+    ]) {
+      try {
+        resource.dispose()
+      } catch (error) {
+        errors.push(error)
+      }
+    }
+    this.scopes.clear()
+    this.pointerFollowers.clear()
+    this.viewportEntrances.clear()
+    this.preferenceListeners.clear()
     this.preference.removeEventListener('change', this.preferenceChanged)
     this.document.removeEventListener('visibilitychange', this.visibility)
     for (const layout of this.layouts.values()) layout.stop()
@@ -2009,6 +2354,9 @@ export class WebRuntime {
     this.scheduler.dispose()
     this.pendingFrame = undefined
     this.presets.clear()
+    this.diagnosticEvent('disposed')
+    this.diagnostic?.end()
+    if (errors.length) throw new AggregateError(errors, 'Web runtime cleanup failed.')
   }
 }
 
