@@ -282,7 +282,7 @@ async function run(view: Label, other: Label, host: StackLayout, status: Label) 
     status.text = message
   })
   check(
-    !report.failure && report.passed.length === 19,
+    !report.failure && report.passed.length === 24,
     `Native capabilities: ${JSON.stringify(report)}`,
   )
   samples.push(report)
