@@ -260,8 +260,11 @@ test('shared reversal captures the currently presented copies and old cleanup st
   await expand(page)
   await expect(page.locator('[data-jolt-shared-copy]')).toHaveCount(2)
   await page.waitForTimeout(150)
-  const before = await page.locator('[data-jolt-shared-copy]').first().boundingBox()
-  const after = await page.evaluate(() => {
+  const { before, after } = await page.evaluate(() => {
+    // Read and interrupt in one browser task: RPC latency must not advance the
+    // reference pose by another presented frame on a loaded CI runner.
+    const box = document.querySelector('[data-jolt-shared-copy]')!.getBoundingClientRect()
+    const before = { x: box.x, y: box.y, width: box.width }
     const l = lifecycleLab
     l.previousFlight = l.flight
     l.flight = l.shared!.transition(() => {
@@ -272,10 +275,11 @@ test('shared reversal captures the currently presented copies and old cleanup st
     const rect = document
       .querySelector('[data-jolt-shared-copy]')!
       .getBoundingClientRect()
-    return { x: rect.x, y: rect.y, width: rect.width }
+    return { before, after: { x: rect.x, y: rect.y, width: rect.width } }
   })
-  expect(after.x).toBeCloseTo(before!.x, -1)
-  expect(after.y).toBeCloseTo(before!.y, -1)
+  expect(after.x).toBeCloseTo(before.x, 0)
+  expect(after.y).toBeCloseTo(before.y, 0)
+  expect(after.width).toBeCloseTo(before.width, 0)
   expect(await page.evaluate(() => lifecycleLab.previousFlight!.finished)).toEqual({
     status: 'cancelled',
     reason: 'interrupted',
