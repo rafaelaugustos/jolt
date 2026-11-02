@@ -1,5 +1,7 @@
 # Finite Web runtime
 
+New, unreleased: [Vue/Nuxt attachment, keyed item entrances and horizontal LTR/RTL scroll](./web-collections).
+
 **Also in RC.7:** [resource scopes, pointer/viewport helpers and continuous Vue setup](./web-lifecycle), plus [overlay geometry, shared elements, complete recipes and diagnostics](./web-interactions). Mavis adoption remains separate.
 
 **Since RC.7:** [colors, borders, continuous paint, real size, FLIP and seekable scenes](./web-visual) extend this runtime. The Web APIs remain experimental; full parity is tracked in [#236](https://github.com/rafaelaugustos/jolt/issues/236).

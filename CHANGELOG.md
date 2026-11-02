@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Wait for actual DOM insertion in Vue Web setup and enter hooks, and add an SSR-safe `createViewportEnterDirective()` for Nuxt out-in/Suspense branches (#334). Preserve imperative mounted-target validation and cancel pending observers on ref/lifecycle changes.
+- Add identity-aware Web `animateItems()` for changing/recycled rows, with collection updates, explicit once-history eviction and scoped cleanup (#336). Extend scroll values/linked playback to horizontal LTR/RTL sources with normalized logical offsets and equivalent ScrollTimeline/scheduler behavior (#337).
+- Fix native `motionStates()` completion when a participant is detached/unloaded and replaced while paused (#338). Replacements join the active completion barrier, resume correctly and retire only the former participant's owned channels. Include native regression tests and reviewed iOS/Android runtime recordings.
+
 - Add owned Web SVG stroke drawing with measured/pathLength geometry, normalized keyframes, interruption/reversal, playback controls, progress observation, geometry refresh, reduced motion and scope cleanup (#333). Replace application-specific CSS drawing timers while keeping host SVG markup and framework choreography. Reuse the portable native path validator and document native/browser recordings.
 
 - Add direct Web numeric-value playback with additive layers, finite playback progress, velocity/friction/snap decay, sequences, imperative timelines and named motion states with replaceable references (#327–#332). Reuse portable scheduling/transition rules and existing context clocks; preserve independent channels and scope/Vue cleanup. Include three-browser conformance, packed imperative/Vue/SSR/native consumers and reviewed browser/native-reference recordings in four languages.

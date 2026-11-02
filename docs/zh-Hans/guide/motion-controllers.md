@@ -165,3 +165,13 @@ onMounted(() => stage.to('shown'))
 `to()` 会跳过空目标，并在视图到达时记住该目标。它的定义仍然是预先验证的。在转换期间卸载的视图会取消其部分，以便转换解析 `false`。
 
 <Clip name="recreated-views-ios" caption="在 iOS 模拟器上，切换布局会重新创建两个徽标。附加到状态的那​​个会回来显示，或者在隐藏徽标后隐藏；只有入口的人回来时是隐形的。实时播放。" />
+
+## 暂停期间替换目标 {#paused-replacement}
+
+**尚未发布（#338）。** 暂停时附加的新视图加入当前完成屏障。移除或卸载旧视图只停止它拥有的参与者。`play()` 恢复新视图；原来的 `to().finished` 等待它完成后才更新 `settled`。再次替换会忽略过期完成回调。销毁以 false 结束待处理工作。
+
+如果所有参与者都移除，且下一次 microtask 前没有替代者，过渡会在无剩余参与者时结束；随后附加的视图立即采用已完成的终点。这与 Web 合同一致。
+
+<Clip name="paused-replacement-ios" caption="iOS 26.2 模拟器：真实点击启动、暂停、替换视图、验证保持位置、恢复和重置。原速；不是物理设备测试。" />
+
+<Clip name="paused-replacement-android" caption="Android API36 模拟器：相同原生流程，包含真实输入与平移、完成状态检查。不是物理设备录制。" />

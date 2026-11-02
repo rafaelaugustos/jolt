@@ -15,6 +15,7 @@ type Controlled = {
 type Factories = Pick<
   WebRuntime,
   | 'animate'
+  | 'animateItems'
   | 'decay'
   | 'drawPath'
   | 'motionStates'
@@ -235,6 +236,7 @@ export function createWebScope(
     },
     scope: (setup) => start(() => runtime.scope(setup)),
     animate: ownPlayback('animate'),
+    animateItems: (...args) => start(() => runtime.animateItems(...args)),
     drawPath: (...args) => start(() => runtime.drawPath(...args)),
     motionStates: (targets, definitions, options) =>
       start(() => runtime.motionStates(targets, definitions, options)),

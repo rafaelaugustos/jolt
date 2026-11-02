@@ -230,6 +230,7 @@ try {
     assert.equal(result.opacity, 1)
     assert.deepEqual(result.methods, [
       'animate',
+      'animateItems',
       'animateLayout',
       'animateSize',
       'bind',

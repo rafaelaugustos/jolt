@@ -62,3 +62,6 @@ benchmarks/web-lifecycle/captures/
 /benchmarks/web-orchestration/results/
 
 /benchmarks/web-orchestration/captures/
+
+benchmarks/web-attachment/results/
+benchmarks/web-attachment/captures/

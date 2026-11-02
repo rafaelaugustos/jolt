@@ -27,6 +27,9 @@ import {
   type WebMotionScope,
   type WebMotionResource,
 } from '../public.js'
+import { observeConnection } from './attachment.js'
+export { createViewportEnterDirective } from './viewport-directive.js'
+export type { WebViewportDirectiveOptions } from './viewport-directive.js'
 
 export interface WebMotionOptions extends RuntimeOptions {
   /** Borrow the host's context for its declared surface; never dispose/reconfigure it. */
@@ -52,21 +55,26 @@ export function useWebMotion(
   let mounted = !instance,
     active = true
   const entered = new WeakSet<HTMLElement>()
-  type Operation = { phase: 'enter' | 'leave'; animation?: WebAnimation }
+  type Operation = {
+    phase: 'enter' | 'leave'
+    animation?: WebAnimation
+    attachment?: { dispose(): void }
+  }
   const operations = new Map<HTMLElement, Operation>()
+  let pending: { element: HTMLElement; dispose(): void } | undefined
   let disposed = false
   let settings: RuntimeOptions = {
     timeScale: options.timeScale,
     reducedMotion: options.reducedMotion,
     maxKeyframes: options.maxKeyframes,
   }
-  function element(value: Element | null | undefined): HTMLElement {
+  function element(value: Element | null | undefined, connected = true): HTMLElement {
     const view = value?.ownerDocument.defaultView
     if (disposed) throw new Error('Web motion scope has been disposed.')
     if (
       !view ||
       !(value instanceof (view as Window & typeof globalThis).HTMLElement) ||
-      !value.isConnected
+      (connected && !value.isConnected)
     )
       throw new TypeError('Web motion needs a mounted HTMLElement ref.')
     return value
@@ -114,8 +122,22 @@ export function useWebMotion(
     if (errors.length) throw new AggregateError(errors, 'Vue Web motion cleanup failed.')
   }
   function startSetups() {
-    if (disposed || !mounted || !active || !target.value) return
-    const el = element(target.value)
+    if (disposed || !mounted || !active || !target.value || !setups.size) return
+    const el = element(target.value, false)
+    if (!el.isConnected) {
+      if (pending?.element !== el) {
+        pending?.dispose()
+        pending = {
+          element: el,
+          ...observeConnection(el, (connected) => {
+            if (connected) startSetups()
+          }),
+        }
+      }
+      return
+    }
+    pending?.dispose()
+    pending = undefined
     for (const [setup, record] of setups) {
       if (record.scope?.disposed) record.scope = undefined
       if (record.scope) continue
@@ -145,6 +167,7 @@ export function useWebMotion(
     const operation = operations.get(el)
     if (!operation || (phase && operation.phase !== phase)) return
     operations.delete(el)
+    operation.attachment?.dispose()
     operation.animation?.stop()
   }
   function release(el: HTMLElement) {
@@ -155,7 +178,7 @@ export function useWebMotion(
     if (!options.runtime) contexts.get(el.ownerDocument)?.release(el)
   }
   function run(value: Element, phase: Operation['phase'], done: () => void) {
-    const el = element(value)
+    const el = element(value, false)
     cancel(el)
     const operation: Operation = { phase }
     operations.set(el, operation)
@@ -163,39 +186,55 @@ export function useWebMotion(
       // Identity is the generation: an older promise cannot finish a newer leave.
       if (disposed || operations.get(el) !== operation) return
       operations.delete(el)
+      operation.attachment?.dispose()
       done()
       if (phase === 'leave' && target.value !== el) release(el)
     }
-    try {
-      const runtime = owned(el)
-      if (phase === 'enter' && !entered.has(el)) {
-        entered.add(el)
-        if (options.initial) runtime.set(el, options.initial)
-      }
-      const recipe = options[phase]
-      if (!recipe) {
+    const start = () => {
+      try {
+        const runtime = owned(el)
+        if (phase === 'enter' && !entered.has(el)) {
+          entered.add(el)
+          if (options.initial) runtime.set(el, options.initial)
+        }
+        const recipe = options[phase]
+        if (!recipe) {
+          finish()
+          return
+        }
+        const animation = remember(
+          el,
+          runtime.animate(el, recipe.keyframes, recipe.transition),
+        )
+        operation.animation = animation
+        if (!Number.isFinite(animation.duration)) {
+          animation.stop()
+          throw new RangeError('Vue enter/leave recipes must have finite duration.')
+        }
+        void animation.finished.then(finish)
+      } catch (error) {
         finish()
-        return
+        throw error
       }
-      const animation = remember(
-        el,
-        runtime.animate(el, recipe.keyframes, recipe.transition),
-      )
-      operation.animation = animation
-      if (!Number.isFinite(animation.duration)) {
-        animation.stop()
-        throw new RangeError('Vue enter/leave recipes must have finite duration.')
-      }
-      void animation.finished.then(finish)
-    } catch (error) {
-      finish()
-      throw error
     }
+    if (el.isConnected) start()
+    else if (phase === 'leave') finish()
+    else
+      operation.attachment = observeConnection(el, (connected) => {
+        if (!connected || disposed || operations.get(el) !== operation) return
+        operation.attachment?.dispose()
+        operation.attachment = undefined
+        start()
+      })
   }
   // Vue clears a v-if ref before leave completes. Keep that surface until done.
   watch(
     target,
     (next, previous) => {
+      if (previous !== next) {
+        pending?.dispose()
+        pending = undefined
+      }
       if (previous !== next) clearSetups(next)
       if (previous && previous !== next && operations.get(previous)?.phase !== 'leave')
         release(previous)
@@ -210,6 +249,9 @@ export function useWebMotion(
     })
     onDeactivated(() => {
       active = false
+      pending?.dispose()
+      pending = undefined
+      for (const [el, operation] of operations) if (operation.attachment) cancel(el)
       clearSetups()
       for (const scope of scopes.values()) scope.suspend()
     })
@@ -221,6 +263,9 @@ export function useWebMotion(
   }
   onScopeDispose(() => {
     disposed = true
+    pending?.dispose()
+    pending = undefined
+    for (const el of operations.keys()) cancel(el)
     operations.clear()
     const errors: unknown[] = []
     try {
@@ -261,6 +306,10 @@ export function useWebMotion(
         record.scope?.dispose()
         record.scope = undefined
         record.target = undefined
+        if (!setups.size) {
+          pending?.dispose()
+          pending = undefined
+        }
       }
     },
     /** Bind to <Transition v-bind="motion.transition">; keep user hooks on Vue. */

@@ -5,14 +5,18 @@ import type { TransformProperty } from './properties.js'
 import type { Point } from './curve.js'
 
 export type WebScrollSource = Document | HTMLElement
+export interface WebScrollValueOptions {
+  /** x grows from inline start (right in RTL); y grows from the top. */
+  axis?: 'x' | 'y'
+}
 export interface WebScrollValue extends WebReadableValue {
   refresh(): void
 }
 export type WebScrollKeyframes = Partial<
   Record<TransformProperty | 'scale', readonly number[]>
 >
-export interface WebScrollOptions {
-  /** An increasing range of vertical CSS-pixel offsets. */
+export interface WebScrollOptions extends WebScrollValueOptions {
+  /** An increasing range of normalized CSS-pixel offsets on the selected axis. */
   range: readonly [number, number]
   /** Force the shared scheduler to validate or select fallback explicitly. */
   execution?: 'auto' | 'scheduler'
@@ -25,12 +29,37 @@ export interface WebScrollLink {
   dispose(): void
 }
 
-/** Vertical CSS pixels. A fixed source; replacement uses a new value/handle. */
+export function scrollAxis(options: WebScrollValueOptions = {}) {
+  if (
+    !options ||
+    typeof options !== 'object' ||
+    Array.isArray(options) ||
+    Object.keys(options).some((key) => key !== 'axis')
+  )
+    throw new TypeError('Scroll value options support axis.')
+  const axis = options.axis ?? 'y'
+  if (axis !== 'x' && axis !== 'y') throw new TypeError('Scroll axis must be x or y.')
+  return axis
+}
+function flow(view: Window & typeof globalThis, element: HTMLElement, axis: 'x' | 'y') {
+  const css = view.getComputedStyle(element)
+  if (
+    css.writingMode !== 'horizontal-tb' ||
+    css.flexDirection === (axis === 'x' ? 'row-reverse' : 'column-reverse')
+  )
+    throw new TypeError(
+      'Scroll motion supports ordinary horizontal/vertical flow, not reversed flex or vertical writing modes.',
+    )
+  return axis === 'x' && css.direction === 'rtl'
+}
+/** Normalized CSS pixels. A fixed source/axis; replacement uses a new handle. */
 export class ScrollValueNode extends NumericValue {
   readonly element: HTMLElement
   private readonly view: Window & typeof globalThis
   private readonly resize: ResizeObserver
   private readonly mutations: MutationObserver
+  private readonly flowChanges: MutationObserver
+  private rtl = false
   private readonly observed = new Set<Element>()
   private listening = false
   private maximum = 0
@@ -55,6 +84,7 @@ export class ScrollValueNode extends NumericValue {
   constructor(
     readonly document: Document,
     readonly source: WebScrollSource,
+    readonly axis: 'x' | 'y',
     scheduler: FrameScheduler,
     report: (error: unknown) => void,
     forget: () => void,
@@ -69,11 +99,7 @@ export class ScrollValueNode extends NumericValue {
       throw new TypeError(
         'Scroll sources must be the runtime document or a mounted HTMLElement in it.',
       )
-    const css = view.getComputedStyle(element)
-    if (css.writingMode !== 'horizontal-tb' || css.flexDirection === 'column-reverse')
-      throw new TypeError(
-        'Scroll motion supports ordinary vertical flow, not reversed or vertical writing modes.',
-      )
+    flow(view, element, axis)
     super(scheduler, 0, report, forget)
     this.view = view
     this.element = element
@@ -88,6 +114,16 @@ export class ScrollValueNode extends NumericValue {
       subtree: true,
       characterData: true,
     })
+    this.flowChanges = new view.MutationObserver(this.invalidate)
+    for (
+      let ancestor: Element | null = element;
+      ancestor;
+      ancestor = ancestor.parentElement
+    )
+      this.flowChanges.observe(ancestor, {
+        attributes: true,
+        attributeFilter: ['dir', 'class', 'style'],
+      })
     this.observeContent()
     view.addEventListener('resize', this.invalidate)
     document.fonts?.addEventListener('loadingdone', this.invalidate)
@@ -111,10 +147,20 @@ export class ScrollValueNode extends NumericValue {
       return this.position
     }
     if (this.geometryDirty) {
-      this.maximum = Math.max(0, this.element.scrollHeight - this.element.clientHeight)
+      this.rtl = flow(this.view, this.element, this.axis)
+      this.maximum = Math.max(
+        0,
+        this.axis === 'x'
+          ? this.element.scrollWidth - this.element.clientWidth
+          : this.element.scrollHeight - this.element.clientHeight,
+      )
       this.geometryDirty = false
     }
-    return Math.min(this.maximum, Math.max(0, this.element.scrollTop))
+    const offset =
+      this.axis === 'x'
+        ? this.element.scrollLeft * (this.rtl ? -1 : 1)
+        : this.element.scrollTop
+    return Math.min(this.maximum, Math.max(0, offset))
   }
   private updateOffset(value: number, at: number) {
     if (this.ended) return
@@ -152,6 +198,7 @@ export class ScrollValueNode extends NumericValue {
     this.source.removeEventListener('scroll', this.enqueue)
     this.resize?.disconnect()
     this.mutations?.disconnect()
+    this.flowChanges?.disconnect()
     this.observed.clear()
     this.view?.removeEventListener('resize', this.invalidate)
     this.document.fonts?.removeEventListener('loadingdone', this.invalidate)
@@ -164,9 +211,10 @@ export function scrollPlan(frames: WebScrollKeyframes, options: WebScrollOptions
   if (
     !options ||
     typeof options !== 'object' ||
-    Object.keys(options).some((k) => !['range', 'execution', 'times'].includes(k))
+    Object.keys(options).some((k) => !['range', 'execution', 'times', 'axis'].includes(k))
   )
-    throw new TypeError('Scroll options support range, execution and times.')
+    throw new TypeError('Scroll options support range, execution, times and axis.')
+  const axis = scrollAxis({ axis: options.axis })
   const range = options.range
   if (
     !Array.isArray(range) ||
@@ -214,6 +262,7 @@ export function scrollPlan(frames: WebScrollKeyframes, options: WebScrollOptions
     plans,
     range: [range[0]!, range[1]!] as const,
     native: options.execution !== 'scheduler',
+    axis,
   }
 }
 

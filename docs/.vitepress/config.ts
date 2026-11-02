@@ -108,6 +108,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('webVisual', 'web-visual'),
         page('webLifecycle', 'web-lifecycle'),
         page('webOrchestration', 'web-orchestration'),
+        page('webCollections', 'web-collections'),
         page('webInteractions', 'web-interactions'),
         page('limits', 'not-there-yet'),
       ],
@@ -198,6 +199,7 @@ const en = {
   webVisual: 'Web colors, layout & scenes',
   webLifecycle: 'Web lifecycles & input',
   webOrchestration: 'Web orchestration & control',
+  webCollections: 'Web attachment, lists & scroll',
   webInteractions: 'Web overlays & shared motion',
   limits: 'Release status and limits',
 }
@@ -285,6 +287,7 @@ const pt = {
   webVisual: 'Cores, layout e cenas Web',
   webLifecycle: 'Ciclos de vida e input Web',
   webOrchestration: 'Orquestração e controle Web',
+  webCollections: 'Montagem, listas e scroll Web',
   webInteractions: 'Overlays e movimento compartilhado Web',
   limits: 'Status da versão e limites',
 }

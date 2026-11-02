@@ -1,5 +1,7 @@
 # Runtime Web finito
 
+Novo, ainda não publicado: [montagem Vue/Nuxt, entradas por identidade e scroll horizontal LTR/RTL](./web-collections).
+
 **Também na RC.7:** [escopos, ponteiro/viewport e configuração contínua no Vue](./web-lifecycle), além de [geometria de overlays, elementos compartilhados, receitas e diagnóstico](./web-interactions). A adoção no Mavis permanece separada.
 
 **Desde a RC.7:** [cores, bordas, pintura contínua, tamanho real, FLIP e cenas com seek](./web-visual) ampliam este runtime. As APIs Web continuam experimentais; a paridade completa segue na [#236](https://github.com/rafaelaugustos/jolt/issues/236).

@@ -34,7 +34,10 @@ export function createViewportEntrance(
   targets: readonly HTMLElement[],
   options: WebViewportOptions,
   host: ViewportHost,
-): WebViewportEntrance {
+  identities: readonly unknown[] = targets,
+): WebViewportEntrance & {
+  reconcile(targets: readonly HTMLElement[], identities: readonly unknown[]): void
+} {
   const threshold = options.threshold ?? 0,
     once = options.once ?? true
   if (!Number.isFinite(threshold) || threshold < 0 || threshold > 1)
@@ -59,6 +62,7 @@ export function createViewportEntrance(
       'The viewport root must be a mounted HTMLElement in this document.',
     )
   type State = {
+    identity: unknown
     target: HTMLElement
     index: number
     visible: boolean
@@ -67,14 +71,16 @@ export function createViewportEntrance(
     epoch: number
     animation?: WebAnimation
   }
-  const states = targets.map((target, index): State => ({
+  const stateFor = (target: HTMLElement, index: number, identity: unknown): State => ({
+    identity,
     target,
     index,
     visible: false,
     done: false,
     removed: false,
     epoch: 0,
-  }))
+  })
+  let states = targets.map((target, index) => stateFor(target, index, identities[index]))
   let disposed = false,
     suspended = false,
     disabled = options.disabled ?? false,
@@ -255,7 +261,26 @@ export function createViewportEntrance(
     listen()
   }
   const unwatch = host.preference(preference)
-  const controller: WebViewportEntrance = {
+  const controller: WebViewportEntrance & {
+    reconcile(targets: readonly HTMLElement[], identities: readonly unknown[]): void
+  } = {
+    reconcile(targets, identities) {
+      if (disposed) throw new Error('Viewport controller is disposed.')
+      const previous = new Map(states.map((state) => [state.identity, state]))
+      const next = targets.map((target, index) => {
+        const old = previous.get(identities[index])
+        if (old && old.target === target && !old.removed) {
+          old.index = index
+          return old
+        }
+        return stateFor(target, index, identities[index])
+      })
+      const kept = new Set(next)
+      detach()
+      for (const state of states) if (!kept.has(state)) stop(state)
+      states = next
+      listen()
+    },
     get disposed() {
       return disposed
     },

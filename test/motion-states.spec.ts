@@ -163,6 +163,95 @@ describe('motion states', () => {
 })
 
 describe('motion states with recreated views', () => {
+  it('resumes a paused replacement after the original unloads and waits for that participant', async () => {
+    const first = createView(),
+      second = createView()
+    const control = motionStates(
+      { card: first },
+      { working: { card: { y: -14 } } },
+      { transition: { duration: 750 } },
+    )
+    const run = control.to('working'),
+      result = state(run.finished)
+    driver.advance(60)
+    control.pause()
+    control.attach('card', null)
+    first.unload()
+    first.notify({ eventName: 'unloaded', object: first })
+    control.attach('card', second)
+    await flush()
+    driver.advance(2000)
+    await flush()
+    expect(result()).toBeUndefined()
+    expect(control.current).toBe('working')
+    expect(control.settled).toBeUndefined()
+    expect(driver.last('y', second).held).toBe(true)
+    expect(
+      driver.last('y', second).track.valueAt(driver.last('y', second).offset ?? 0),
+    ).toBe(0)
+    control.play()
+    driver.advance(2000)
+    expect(await run).toBe(true)
+    expect(second.translateY).toBeCloseTo(-14)
+    expect(control.settled).toBe('working')
+    control.dispose()
+  })
+  it('replaces participants repeatedly without stopping unrelated owners', async () => {
+    const first = createView(),
+      second = createView(),
+      third = createView()
+    const control = motionStates(
+      { card: first },
+      { work: { card: { x: 100 } } },
+      { transition: { duration: 500 } },
+    )
+    const run = control.to('work'),
+      result = state(run.finished)
+    const external = animate(first, { opacity: 0.5 }, { duration: 1000 })
+    driver.advance(100)
+    control.attach('card', second)
+    driver.advance(100)
+    control.attach('card', third)
+    await flush()
+    driver.advance(350)
+    await flush()
+    expect(result()).toBeUndefined()
+    expect(driver.last('opacity', first).stopped).toBe(false)
+    driver.advance(1000)
+    expect(await run).toBe(true)
+    expect(await external).toBe(true)
+    expect(third.translateX).toBe(100)
+    control.dispose()
+  })
+  it('retiring the final slot completes once; a later attachment adopts its endpoint', async () => {
+    const first = createView(),
+      second = createView()
+    const control = motionStates({ card: first }, { work: { card: { x: 100 } } })
+    const run = control.to('work')
+    control.pause()
+    control.attach('card', null)
+    expect(await run).toBe(true)
+    expect(control.settled).toBe('work')
+    control.attach('card', second)
+    expect(second.translateX).toBe(100)
+    control.play()
+    control.dispose()
+  })
+  it('disposing while a replacement is paused resolves false and releases both generations', async () => {
+    const first = createView(),
+      second = createView()
+    const control = motionStates({ card: first }, { work: { card: { y: -14 } } })
+    const run = control.to('work')
+    control.pause()
+    control.attach('card', second)
+    control.dispose()
+    expect(await run).toBe(false)
+    expect(driver.last('y', first).stopped).toBe(true)
+    expect(driver.last('y', second).stopped).toBe(true)
+    driver.advance(2000)
+    expect(second.translateY).toBe(0)
+    expect(control.settled).toBeUndefined()
+  })
   const definitions = {
     hidden: { logo: { opacity: 0, scale: 0.8 } },
     shown: { logo: { opacity: 1, scale: 1 } },

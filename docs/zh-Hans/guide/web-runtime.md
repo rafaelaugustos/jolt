@@ -1,5 +1,7 @@
 # Web 有限动画运行时
 
+尚未发布的新功能：[Vue/Nuxt 挂载、身份列表入场与 LTR/RTL 横向滚动](./web-collections)。
+
 **RC.7 同时提供：**[作用域、指针/视口与 Vue 持续配置](./web-lifecycle)，以及[浮层几何、共享元素、完整示例与诊断](./web-interactions)。Mavis 集成另行推进。
 
 **自 RC.7 起：**[颜色、边框、连续绘制、真实尺寸、FLIP 与可定位场景](./web-visual)扩展此运行时。Web API 仍为实验性功能；完整对等由 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 跟踪。

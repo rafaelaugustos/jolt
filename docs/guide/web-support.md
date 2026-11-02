@@ -1,5 +1,7 @@
 # Web mappings, geometry and scroll {#web-support}
 
+New, unreleased: [Vue/Nuxt attachment, keyed item entrances and horizontal LTR/RTL scroll](./web-collections).
+
 **Since RC.7:** [colors, borders, continuous paint, real size, FLIP and seekable scenes](./web-visual) extend this runtime. The Web APIs remain experimental; full parity is tracked in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
 Since **0.1.0-rc.6**, `@rafaelaugusto/jolt/web` includes numeric mappings, geometry refresh and vertical scroll (#302–#304). The APIs remain experimental. Native APIs and framework adapters keep their existing contracts; Mavis adoption is separate.
