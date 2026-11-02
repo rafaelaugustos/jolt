@@ -1,6 +1,7 @@
 import type { DefaultTheme, LocaleSpecificConfig } from 'vitepress'
 
 export const es = {
+  showcase: 'Proyectos',
   gallery: 'Galería conectada',
   start: 'Primeros pasos',
   motion: 'Movimiento',
@@ -83,6 +84,7 @@ export const es = {
 }
 
 export const zh = {
+  showcase: '作品展示',
   gallery: '联动相册',
   start: '开始使用',
   motion: '动画',
