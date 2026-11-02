@@ -1,4 +1,6 @@
 export { timeline } from './sequence.js'
+export { seekableTimeline } from './seekable-timeline.js'
+export type { SeekableStep } from './seekable-timeline.js'
 export type { TimelineAnimation, TimelineStep, PlayableAnimation } from './sequence.js'
 export { playbackProgress } from './motion-value.js'
 export { animate, decay, set, stop, toView } from './animate.js'

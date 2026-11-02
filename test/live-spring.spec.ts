@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { Application, type View } from '@nativescript/core'
+import { Application, Color, type View } from '@nativescript/core'
 import {
   animate,
   bind,
@@ -20,6 +20,7 @@ import {
 } from '../src/live-spring-driver.js'
 import { createView, driver } from './helpers.js'
 import { asRoot } from '../src/motion-value.js'
+import { colorMixer } from '../src/core/color.js'
 
 class Node implements LiveNode {
   value: number
@@ -81,7 +82,23 @@ class Node implements LiveNode {
     property: Parameters<LiveNode['bind']>[1],
     maps: readonly LiveMapping[],
   ) {
-    const handle = { value: () => this.value, layers: vi.fn(), cancel: vi.fn() }
+    const handle = {
+      value: () =>
+        maps.reduce((value, map) => {
+          if (map.clamp && value <= map.input[0]!) return map.output[0]!
+          if (map.clamp && value >= map.input.at(-1)!) return map.output.at(-1)!
+          let i = 0
+          while (i < map.input.length - 2 && value > map.input[i + 1]!) i++
+          const span = map.input[i + 1]! - map.input[i]!
+          const fraction =
+            span > 0 ? (value - map.input[i]!) / span : value < map.input[i]! ? 0 : 1
+          return map.color
+            ? colorMixer(map.output[i]!, map.output[i + 1]!)(fraction)
+            : map.output[i]! + (map.output[i + 1]! - map.output[i]!) * fraction
+        }, this.value),
+      layers: vi.fn(),
+      cancel: vi.fn(),
+    }
     this.bindings.push({ view, property, maps, handle })
     return handle
   }
@@ -289,7 +306,76 @@ describe('live spring control plane', () => {
       expect(() => follower(motionValue(0), options)).toThrow()
     expect(nodes).toHaveLength(0)
     const value = follower(motionValue(0))
-    expect(() => value.to([0, 1], ['red', 'blue'])).toThrow(/numeric/)
-    expect(() => bind(createView(), { borderRadius: value })).toThrow(/numeric/)
+    expect(() =>
+      bind(createView(), { borderColor: value.to([0, 1], ['red', 'blue']) }),
+    ).toThrow(/Live springs/)
+    expect(() => bind(createView(), { borderWidth: value })).toThrow(/Live springs/)
+  })
+
+  it('retains chained color and radius mappings natively through rapid retargets', () => {
+    const input = motionValue(0),
+      value = follower(input),
+      view = createView()
+    const release = bind(view, {
+      backgroundColor: value.to([0, 1], [1, 0]).to([0, 1], ['#00ff0000', '#ff0000ff']),
+      borderRadius: value.to([0, 1], [0, 36]),
+    })
+    const node = nodes[0]!
+    expect(node.bindings[0]!.maps).toHaveLength(2)
+    expect(node.bindings[0]!.maps[1]).toMatchObject({ color: true, clamp: true })
+    for (const target of [1, 0.2, 0.8, 0]) set(input, target)
+    expect(node.bindings).toHaveLength(2)
+    expect(driver.frames.size).toBe(0)
+    node.value = 0.5
+    const expected = value.to([0, 1], [1, 0]).to([0, 1], ['#00ff0000', '#ff0000ff']).get()
+    release()
+    expect(view.backgroundColor!.argb >>> 0).toBe(expected.argb >>> 0)
+    expect(view.borderRadius).toBe(18)
+    expect(
+      node.bindings.every((b) => vi.mocked(b.handle.cancel).mock.calls.length === 1),
+    ).toBe(true)
+  })
+
+  it('validates live paint targets before replacing existing bindings', () => {
+    const value = follower(motionValue(0)),
+      view = createView()
+    const old = bind(view, { x: value })
+    Object.assign(view, { backgroundImage: 'example.png' })
+    expect(() =>
+      bind(view, { x: value, backgroundColor: value.to([0, 1], ['red', 'blue']) }),
+    ).toThrow(/solid background/)
+    expect(nodes[0]!.bindings[0]!.handle.cancel).not.toHaveBeenCalled()
+    old()
+  })
+
+  it('preserves external color ownership and removes style hooks', () => {
+    const value = follower(motionValue(0)),
+      view = createView()
+    const release = bind(view, { backgroundColor: value.to([0, 1], ['red', 'blue']) })
+    view.backgroundColor = new Color('green')
+    view.style.notify({ eventName: 'backgroundColorChange', object: view.style })
+    expect(nodes[0]!.bindings[0]!.handle.cancel).toHaveBeenCalledOnce()
+    expect(view.backgroundColor.argb).toBe(new Color('green').argb)
+    release()
+    value.dispose()
+    expect(view.backgroundColor.argb).toBe(new Color('green').argb)
+    expect(
+      (view.style as unknown as { listenerCount(event: string): number }).listenerCount(
+        'backgroundColorChange',
+      ),
+    ).toBe(0)
+  })
+
+  it('reattaches live paint on load and leaves a replacement binding intact', () => {
+    const value = follower(motionValue(0)),
+      view = createView()
+    const old = bind(view, { borderRadius: value.to([0, 1], [4, 28]) })
+    view.notify({ eventName: 'unloaded', object: view })
+    view.notify({ eventName: 'loaded', object: view })
+    expect(nodes[0]!.bindings).toHaveLength(2)
+    const latest = bind(view, { borderRadius: value.to([0, 1], [8, 40]) })
+    old()
+    expect(nodes[0]!.bindings.at(-1)!.handle.cancel).not.toHaveBeenCalled()
+    latest()
   })
 })

@@ -5,12 +5,17 @@ export interface CircleDriver {
   resize(width: number, height: number): void
   impulse(index: number, x: number, y: number): void
   attach(index: number, options: NativeAttachment | null): void
+  spring?(slot: number, options: NativeBodySpring | null): void
   snapTo(index: number, target: number): void
   reset(): void
-  snapshot(): Omit<PhysicsSnapshot, 'bodies'> & {
+  snapshot(): Omit<PhysicsSnapshot, 'bodies' | 'springs'> & {
     bodies: Omit<PhysicsSnapshot['bodies'][number], 'id'>[]
   }
   dispose(): void
+}
+export interface NativeBodySpring extends Omit<NativeAttachment, 'x' | 'y'> {
+  a: number
+  b: number
 }
 export interface NativeAttachment {
   x: number
@@ -80,6 +85,11 @@ export const createCircleDriver: CircleFactory = (container, views, options) => 
       resize: (w, h) => native.resizeHeight(w, h),
       impulse: (i, x, y) => native.impulseXY(i, x, y),
       attach: (i, options) => native.attachOptions(i, JSON.stringify(options)),
+      spring: (i, options) => {
+        if (typeof native.springOptions !== 'function')
+          throw new Error('Rebuild the native app to use body springs.')
+        native.springOptions(i, JSON.stringify(options))
+      },
       snapTo: (i, target) => native.snapToTarget(i, target),
       reset: () => native.reset(),
       snapshot: () => JSON.parse(native.snapshot()),
@@ -113,6 +123,11 @@ export const createCircleDriver: CircleFactory = (container, views, options) => 
     resize: (w, h) => native.resize(w, h),
     impulse: (i, x, y) => native.impulse(i, x, y),
     attach: (i, options) => native.attach(i, JSON.stringify(options)),
+    spring: (i, options) => {
+      if (typeof native.spring !== 'function')
+        throw new Error('Rebuild the native app to use body springs.')
+      native.spring(i, JSON.stringify(options))
+    },
     snapTo: (i, target) => native.snapTo(i, target),
     reset: () => native.reset(),
     snapshot: () => JSON.parse(native.snapshot()),

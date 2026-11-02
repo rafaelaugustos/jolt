@@ -15,6 +15,7 @@ function fake() {
     resize: vi.fn(),
     impulse: vi.fn(),
     attach: vi.fn(),
+    spring: vi.fn(),
     snapTo: vi.fn(),
     reset: vi.fn(),
     dispose: vi.fn(),
@@ -65,6 +66,81 @@ function create(...args: Parameters<typeof physicsWorld>) {
   worlds.push(w)
   return w
 }
+it('installs body springs once and replaces/removes them without resetting the world', () => {
+  const { host, bodies } = scene()
+  const w = create(host, bodies, {
+    springs: [{ id: 'link', from: 'a', to: 'b', length: 60, line: { color: '#ff8800' } }],
+  })
+  expect(backend.spring).toHaveBeenCalledWith(
+    0,
+    expect.objectContaining({ a: 0, b: 1, length: 60, stiffness: 180, damping: 24 }),
+  )
+  expect(w.snapshot().springs).toEqual([
+    { id: 'link', from: 'a', to: 'b', length: 60, stiffness: 180, damping: 24 },
+  ])
+  w.spring('link', { from: 'b', to: 'a', length: 80, stiffness: 250 })
+  expect(backend.spring).toHaveBeenLastCalledWith(
+    0,
+    expect.objectContaining({ a: 1, b: 0, length: 80 }),
+  )
+  expect(backend.reset).not.toHaveBeenCalled()
+  w.spring('link', null)
+  expect(backend.spring).toHaveBeenLastCalledWith(0, null)
+  expect(w.snapshot().springs).toEqual([])
+  const calls = backend.spring.mock.calls.length
+  w.spring('missing', null)
+  expect(backend.spring).toHaveBeenCalledTimes(calls)
+  w.dispose()
+  w.spring('link', { from: 'a', to: 'b', length: 60 })
+  expect(backend.spring).toHaveBeenCalledTimes(calls)
+})
+it('rejects invalid, duplicate and foreign connections before changing native state', () => {
+  const { host, bodies } = scene()
+  const factory = vi.fn<CircleFactory>(() => backend)
+  setCircleFactory(factory)
+  for (const spring of [
+    { id: '', from: 'a', to: 'b', length: 60 },
+    { id: 's', from: 'a', to: 'a', length: 60 },
+    { id: 's', from: 'a', to: 'foreign', length: 60 },
+    { id: 's', from: 'a', to: 'b', length: NaN },
+  ])
+    expect(() => create(host, bodies, { springs: [spring] })).toThrow()
+  expect(factory).not.toHaveBeenCalled()
+  const w = create(host, bodies, {
+    springs: [{ id: 's', from: 'a', to: 'b', length: 60 }],
+  })
+  expect(() => w.spring('s', { from: 'a', to: 'missing', length: 30 })).toThrow()
+  expect(() => w.spring('second', { from: 'b', to: 'a', length: 30 })).toThrow(
+    /one spring/,
+  )
+  expect(backend.spring).toHaveBeenCalledTimes(1)
+  expect(w.snapshot().springs[0]!.length).toBe(60)
+})
+it('disposes a linked world when an endpoint leaves its host and cleans listeners', () => {
+  const { host, bodies, a } = scene()
+  const w = create(host, bodies, {
+    springs: [{ id: 's', from: 'a', to: 'b', length: 60 }],
+  })
+  a.parent = createView()
+  host.notify({ eventName: 'layoutChanged' })
+  expect(backend.dispose).toHaveBeenCalledTimes(1)
+  expect(w.snapshot().springs).toEqual([])
+  expect(a.listenerCount('unloaded')).toBe(0)
+  expect(driver.frames.size).toBe(0)
+})
+it('cleans a partially configured native world when a spring cannot be installed', () => {
+  const { host, bodies } = scene()
+  backend.spring.mockImplementation(() => {
+    throw new Error('native spring')
+  })
+  expect(() =>
+    create(host, bodies, { springs: [{ id: 's', from: 'a', to: 'b', length: 60 }] }),
+  ).toThrow(/native spring/)
+  expect(backend.dispose).toHaveBeenCalledTimes(1)
+  expect(host.listenerCount('layoutChanged')).toBe(0)
+  backend.spring.mockReset()
+  create(host, bodies)
+})
 it('rejects overlap, invalid geometry, speed and identifiers before native mutation', () => {
   const { host, bodies } = scene()
   const factory = vi.fn<CircleFactory>(() => backend)

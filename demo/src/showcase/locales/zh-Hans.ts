@@ -1238,4 +1238,30 @@ export const chinese: Record<string, string> = {
   'A moment of your own.': '留一刻给自己。',
   'Pull down to return. Let go early to stay.':
     '向下拖动即可返回，提前松手则留在当前窗口。',
+  'Native motion lab': '原生动效实验室',
+  'Live paint, scrubbing, flex reflow and connected bodies.':
+    '实时绘制、时间定位、flex 重排和连接物体。',
+  'Live color & corners': '实时颜色与圆角',
+  'Seekable scene': '可定位场景',
+  'Flexbox reflow': 'Flexbox 重排',
+  'Connected bodies': '连接物体',
+  Paint: '绘制',
+  Seek: '定位',
+  Flex: 'Flex',
+  Bodies: '物体',
+  'Retained spring': '保留弹簧',
+  'Scrub me': '定位我',
+  'Flexible neighbor': '弹性邻居',
+  'Real layout keeps this text sharp and wraps it as the card grows. The neighbor receives the remaining space.':
+    '真实布局使文字保持清晰，并随卡片增长重新换行。邻居获得剩余空间。',
+  'Change the target while the spring is moving.': '弹簧移动时改变目标。',
+  'Drag the slider in both directions. Play continues from there.':
+    '双向拖动滑块，播放从当前位置继续。',
+  'Watch the text reflow and the sibling resize. Tap again to reverse.':
+    '观察文字重排和邻居尺寸变化，再次点击反转。',
+  'Waiting for native layout.': '等待原生布局。',
+  'Drag any body. The other masses follow through native springs.':
+    '拖动物体，其他质量通过原生弹簧跟随。',
+  'Change target': '改变目标',
+  'Run native checks': '运行原生检查',
 }

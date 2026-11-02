@@ -32,6 +32,7 @@
 - [`set(target, values)`](./interrupting#setting-values-without-animating) — 立即应用值并停止动画。
 - [`playbackProgress(animation)`](./playback) — 现有动画时钟上的只读、可观察进度。
 - [`timeline(steps)`](./sequences) — 一起暂停和恢复活动步骤和挂起步骤。
+- [`seekableTimeline(steps, { paused? })`](./sequences#seekable-scenes) — 显式视图/数值轨道组成的有限原生场景定位（下一版本）。
 - [`@rafaelaugusto/jolt/native`](./native-properties) — 可选的属性注册表、原生地图和 SceneKit 相机、[灯和材料](./scene-lighting) 和 [相机视场](./scene-camera)。
 - [`sequence(steps)`](./sequences) — 重叠步骤和固定位置。
 - `press(target, pressed?, transition?)`
@@ -41,6 +42,7 @@
 - [`blur()`](./blur) — 对拥有的原生模糊量进行动画处理。
 - [`GlassContainer` / `GlassView`](./glass) — 使用现有变换播放的原生 iOS 26 Liquid Glass 融合。
 - [`world.attach()` / `world.snapTo()`](./physics-attachments) — 原生锚定弹簧和释放卡扣点。
+- [`world.spring(id, options | null)`](./physics-attachments#body-springs) — 圆形物体中心之间的弹簧连接（下一版本）。
 - [`sensor(kind, options)`](./device-sensors) — 用于动画值、绑定和弹簧的可选原生旋转/重力源。
 - [`scrollHeader(list, options)`](./scroll-header) — 原生核心 ListView 组成：测量英雄、视差、标题切换、固定部分和稳定项目锚点。 可通过 `onRefresh` 与 `ScrollHeaderSurface` 启用原生下拉刷新。
 - [`scrollLinked(scrollView, target, keyframes, { range, axis? })`](./scroll-linked) — 返回清理函数。

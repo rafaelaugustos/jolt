@@ -7,6 +7,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)resize:(double)width height:(double)height;
 - (void)impulse:(NSInteger)index x:(double)x y:(double)y;
 - (void)attach:(NSInteger)index options:(NSString *)options;
+- (void)spring:(NSInteger)slot options:(NSString *)options;
 - (void)snapTo:(NSInteger)index target:(NSInteger)target;
 - (void)reset;
 - (BOOL)supportsPointerSpring;

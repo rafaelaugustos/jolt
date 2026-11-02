@@ -1,0 +1,156 @@
+{
+  "startedAt": 1793582625959,
+  "platform": "iOS",
+  "device": "iPhone",
+  "passed": [
+    "live native color alpha and radius match the retained spring",
+    "rapid paint retarget and paused native state",
+    "external color owns its channel while radius continues",
+    "paint Reduce Motion and disposal",
+    "scene delays overlaps and backward seek from paused endpoint",
+    "scene geometry negative control rejects ten DIP error",
+    "scene seek preserves newer owner and native playback clock",
+    "scene repeat direction and timeScale",
+    "scene unload is terminal and releases ownership",
+    "flex row real bounds sibling allocation pause resume",
+    "flex row intrinsic content and font update",
+    "flex column real bounds sibling allocation pause resume",
+    "flex column intrinsic content and font update",
+    "unsupported flex layout rejects before mutation",
+    "native connected bodies and guide presentation",
+    "body spring pause replacement removal and Reduce Motion",
+    "removed body disposes links guides and native world"
+  ],
+  "samples": [
+    {
+      "live": 0.8144045061097364,
+      "paint": {
+        "color": 2327826094,
+        "radius": 58.49307937880366
+      },
+      "expectedColor": 2327826094,
+      "expectedRadius": 58.49307937880366
+    },
+    {
+      "scene": 0.1,
+      "x": 16.00000023841858,
+      "bar": 0.1
+    },
+    {
+      "scene": 0.5,
+      "x": 80,
+      "bar": 0.5
+    },
+    {
+      "scene": 1,
+      "x": 160,
+      "bar": 1
+    },
+    {
+      "scene": 0.25,
+      "x": 40,
+      "bar": 0.25
+    },
+    {
+      "flex": "row",
+      "start": 110,
+      "middle": 152.33333333333334,
+      "end": {
+        "width": 220,
+        "height": 260
+      },
+      "sibling": {
+        "x": 152.33333333333337,
+        "y": 0
+      }
+    },
+    {
+      "flex": "column",
+      "start": 70,
+      "middle": 102,
+      "end": {
+        "width": 366,
+        "height": 150
+      },
+      "sibling": {
+        "x": 0,
+        "y": 102
+      }
+    },
+    {
+      "world": {
+        "dragEnds": 0,
+        "guides": 2,
+        "dragCancels": 0,
+        "processingMs": 2.9898749198764563,
+        "clock": true,
+        "bodies": [
+          {
+            "x": 87.79779810017959,
+            "radius": 20,
+            "attachment": null,
+            "y": 110,
+            "vy": 0,
+            "held": false,
+            "pointer": null,
+            "release": null,
+            "snap": null,
+            "vx": 144.15111751291965,
+            "id": "a"
+          },
+          {
+            "x": 166.1703934503706,
+            "radius": 20,
+            "attachment": null,
+            "y": 110,
+            "vy": 0,
+            "held": false,
+            "pointer": null,
+            "release": null,
+            "snap": null,
+            "vx": 43.77116080183665,
+            "id": "b"
+          },
+          {
+            "x": 246.6204716663597,
+            "radius": 20,
+            "attachment": null,
+            "y": 110,
+            "vy": 0,
+            "held": false,
+            "pointer": null,
+            "release": null,
+            "snap": null,
+            "vx": -77.23114637219763,
+            "id": "c"
+          }
+        ],
+        "dragStarts": 0,
+        "dragMoves": 0,
+        "droppedMs": 0,
+        "frames": 12,
+        "contacts": 0,
+        "status": "running",
+        "steps": 44,
+        "springs": [
+          {
+            "id": "ab",
+            "from": "a",
+            "to": "b",
+            "length": 70,
+            "stiffness": 180,
+            "damping": 24
+          },
+          {
+            "id": "bc",
+            "from": "b",
+            "to": "c",
+            "length": 70,
+            "stiffness": 180,
+            "damping": 24
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,398 @@
+{
+  "passed": 52,
+  "ports": ["C (iOS)", "Java (Android)"],
+  "negativeControl": "rejected missing pair impulses, fixed/body spring forces and kinematic pointer mass",
+  "results": {
+    "elastic equal masses": {
+      "steps": 48.0,
+      "contacts": 1.0,
+      "sleeping": false,
+      "bodies": [
+        [220.0, 300.0, -100.0, 0.0, 0.0],
+        [280.0, 300.0, 100.0, 0.0, 0.0]
+      ]
+    },
+    "unequal masses": {
+      "steps": 48.0,
+      "contacts": 1.0,
+      "sleeping": false,
+      "bodies": [
+        [230.0, 300.0, -100.0, 0.0, 0.0],
+        [290.0, 300.0, 100.0, 0.0, 0.0]
+      ]
+    },
+    "inelastic": {
+      "steps": 48.0,
+      "contacts": 1.0,
+      "sleeping": false,
+      "bodies": [
+        [225.0, 300.0, -50.0, 0.0, 0.0],
+        [275.0, 300.0, 50.0, 0.0, 0.0]
+      ]
+    },
+    "wall sleep 750,0": {
+      "steps": 727.0,
+      "contacts": 89.0,
+      "sleeping": true,
+      "bodies": [[580.0, 300.0, 0.0, 0.0, 0.0]]
+    },
+    "wall sleep -750,0": {
+      "steps": 727.0,
+      "contacts": 89.0,
+      "sleeping": true,
+      "bodies": [[20.0, 300.0, 0.0, 0.0, 0.0]]
+    },
+    "wall sleep 0,750": {
+      "steps": 727.0,
+      "contacts": 89.0,
+      "sleeping": true,
+      "bodies": [[300.0, 580.0, 0.0, 0.0, 0.0]]
+    },
+    "wall sleep 0,-750": {
+      "steps": 727.0,
+      "contacts": 89.0,
+      "sleeping": true,
+      "bodies": [[300.0, 20.0, 0.0, 0.0, 0.0]]
+    },
+    "resting pile": {
+      "steps": 1060.0,
+      "contacts": 1452.0,
+      "sleeping": true,
+      "bodies": [
+        [147.440071847, 580.0, 0.0, 0.0, 0.0],
+        [452.559928153, 580.0, 0.0, 0.0, 0.0],
+        [300.0, 580.0, 0.0, 0.0, 0.0]
+      ]
+    },
+    "drag pushes contact": {
+      "steps": 48.0,
+      "contacts": 1.0,
+      "sleeping": false,
+      "bodies": [
+        [200.0, 300.0, 0.0, 0.0, 1.0],
+        [380.0, 300.0, 1200.0, 0.0, 0.0]
+      ]
+    },
+    "release speed cap": {
+      "steps": 25.0,
+      "contacts": 0.0,
+      "sleeping": false,
+      "bodies": [[203.0, 296.0, 720.0, -960.0, 0.0]]
+    },
+    "resize and cancel hold": {
+      "steps": 0.0,
+      "contacts": 0.0,
+      "sleeping": false,
+      "bodies": [
+        [50.0, 150.0, 0.0, 0.0, 0.0],
+        [100.0, 150.0, 0.0, 0.0, 0.0]
+      ]
+    },
+    "maximum bodies": {
+      "steps": 1024.0,
+      "contacts": 47430.0,
+      "sleeping": true,
+      "bodies": [
+        [179.982612252, 580.0, 0.0, 0.0, 0.0],
+        [419.972790582, 580.0, 0.0, 0.0, 0.0],
+        [139.989124183, 580.0, 0.0, 0.0, 0.0],
+        [439.986616189, 545.367632499, 0.0, 0.0, 0.0],
+        [59.9927124488, 580.0, 0.0, 0.0, 0.0],
+        [259.977655914, 580.0, 0.0, 0.0, 0.0],
+        [20.0, 580.0, 0.0, 0.0, 0.0],
+        [379.974089128, 579.999999623, 0.0, 0.0, 0.0],
+        [99.9927124488, 580.0, 0.0, 0.0, 0.0],
+        [540.001078882, 580.0, 0.0, 0.0, 0.0],
+        [219.979924154, 580.0, 0.0, 0.0, 0.0],
+        [460.001313054, 580.0, 0.0, 0.0, 0.0],
+        [339.975872521, 580.0, 0.0, 0.0, 0.0],
+        [580.0, 580.0, 0.0, 0.0, 0.0],
+        [299.975872521, 580.0, 0.0, 0.0, 0.0],
+        [500.001313054, 579.999999832, 0.0, 0.0, 0.0]
+      ]
+    },
+    "point attachment returns and sleeps": {
+      "steps": 221.0,
+      "contacts": 0.0,
+      "sleeping": true,
+      "bodies": [[199.999356802, 300.0, 0.0, 0.0, 0.0]]
+    },
+    "gravity stretches the attachment": {
+      "steps": 288.0,
+      "contacts": 0.0,
+      "sleeping": true,
+      "bodies": [[300.0, 190.064676975, 0.0, 0.0, 0.0]]
+    },
+    "hanging spring finishes tangential return": {
+      "steps": 1845.0,
+      "contacts": 0.0,
+      "sleeping": true,
+      "bodies": [[168.19559699, 117.046401799, 0.0, 0.0, 0.0]]
+    },
+    "attachment retarget preserves velocity": {
+      "steps": 0.0,
+      "contacts": 0.0,
+      "sleeping": false,
+      "bodies": [[100.0, 300.0, 250.0, -50.0, 0.0]]
+    },
+    "held body suspends spring": {
+      "steps": 120.0,
+      "contacts": 0.0,
+      "sleeping": false,
+      "bodies": [[300.0, 100.0, 0.0, 0.0, 1.0]]
+    },
+    "release returns to attachment": {
+      "steps": 372.0,
+      "contacts": 0.0,
+      "sleeping": true,
+      "bodies": [[100.00210738, 299.99807256, 0.0, 0.0, 0.0]]
+    },
+    "velocity projects snap choice": {
+      "steps": 216.0,
+      "contacts": 0.0,
+      "sleeping": true,
+      "bodies": [[200.0, 300.0, 0.0, 0.0, 0.0]]
+    },
+    "nearest snap without velocity": {
+      "steps": 217.0,
+      "contacts": 0.0,
+      "sleeping": true,
+      "bodies": [[400.0, 300.0, 0.0, 0.0, 0.0]]
+    },
+    "snap ties prefer first point": {
+      "steps": 221.0,
+      "contacts": 0.0,
+      "sleeping": true,
+      "bodies": [[200.0, 300.0, 0.0, 0.0, 0.0]]
+    },
+    "snap keeps release momentum": {
+      "steps": 0.0,
+      "contacts": 0.0,
+      "sleeping": false,
+      "bodies": [[310.0, 300.0, -600.0, 25.0, 0.0]]
+    },
+    "snap has no gravity offset": {
+      "steps": 241.0,
+      "contacts": 0.0,
+      "sleeping": true,
+      "bodies": [[200.0, 100.0, 0.0, 0.0, 0.0]]
+    },
+    "cancel restores previous snap": {
+      "steps": 358.0,
+      "contacts": 0.0,
+      "sleeping": true,
+      "bodies": [[200.0, 300.0, 0.0, 0.0, 0.0]]
+    },
+    "snap resize has no cumulative clamp drift": {
+      "steps": 266.0,
+      "contacts": 1.0,
+      "sleeping": true,
+      "bodies": [[20.0, 300.0, 0.0, 0.0, 0.0]]
+    },
+    "weak attachment cannot sleep far from anchor": {
+      "steps": 240.0,
+      "contacts": 0.0,
+      "sleeping": false,
+      "bodies": [[100.501663342, 300.0, 0.998334195331, 0.0, 0.0]]
+    },
+    "spring collides with occupied dock": {
+      "steps": 2400.0,
+      "contacts": 2344.0,
+      "sleeping": false,
+      "bodies": [
+        [166.273285573, 300.0, -0.156893017074, 0.0, 0.0],
+        [206.273285573, 300.0, -0.156893017074, 0.0, 0.0]
+      ]
+    },
+    "maximum stiffness minimum mass stays bounded": {
+      "steps": 333.0,
+      "contacts": 0.0,
+      "sleeping": true,
+      "bodies": [[549.987098104, 300.0, 0.0, 0.0, 0.0]]
+    },
+    "pointer first step is spring integration": {
+      "steps": 1.0,
+      "contacts": 0.0,
+      "sleeping": false,
+      "bodies": [[100.568181818, 300.0, 136.363636364, 0.0, 1.0]]
+    },
+    "pointer target follows without teleporting": {
+      "steps": 24.0,
+      "contacts": 0.0,
+      "sleeping": false,
+      "bodies": [[182.898396208, 300.0, 1020.95733249, 0.0, 1.0]]
+    },
+    "pointer velocity before release": {
+      "steps": 24.0,
+      "contacts": 0.0,
+      "sleeping": false,
+      "bodies": [[182.898396208, 300.0, 1020.95733249, 0.0, 1.0]]
+    },
+    "pointer release keeps body velocity": {
+      "steps": 24.0,
+      "contacts": 0.0,
+      "sleeping": false,
+      "bodies": [[182.898396208, 300.0, 1020.95733249, 0.0, 0.0]]
+    },
+    "pointer body retains finite collision mass": {
+      "steps": 1.0,
+      "contacts": 1.0,
+      "sleeping": false,
+      "bodies": [
+        [219.791666667, 300.0, -100.0, 0.0, 1.0],
+        [259.791666667, 300.0, 0.0, 0.0, 0.0]
+      ]
+    },
+    "pointer rests below moving anchor with gravity": {
+      "steps": 4800.0,
+      "contacts": 0.0,
+      "sleeping": false,
+      "bodies": [[300.0, 190.0, 0.0, -5.30538576034e-13, 1.0]]
+    },
+    "pointer release restores fixed anchor": {
+      "steps": 358.0,
+      "contacts": 0.0,
+      "sleeping": true,
+      "bodies": [[100.002586493, 300.0, 0.0, 0.0, 0.0]]
+    },
+    "pointer cancel restores previous dock": {
+      "steps": 371.0,
+      "contacts": 0.0,
+      "sleeping": true,
+      "bodies": [[200.0, 300.0, 0.0, 0.0, 0.0]]
+    },
+    "pointer cancellation clears velocity immediately": {
+      "steps": 24.0,
+      "contacts": 0.0,
+      "sleeping": false,
+      "bodies": [[182.898396208, 300.0, 0.0, 0.0, 0.0]]
+    },
+    "pointer release snap uses body momentum": {
+      "steps": 218.0,
+      "contacts": 0.0,
+      "sleeping": true,
+      "bodies": [[200.0, 300.0, 0.0, 0.0, 0.0]]
+    },
+    "pointer resize cancels ownership": {
+      "steps": 24.0,
+      "contacts": 0.0,
+      "sleeping": false,
+      "bodies": [[91.4491981038, 150.0, 0.0, 0.0, 0.0]]
+    },
+    "pointer extreme target remains bounded": {
+      "steps": 2400.0,
+      "contacts": 4455.0,
+      "sleeping": false,
+      "bodies": [[580.0, 20.0, -848.528137424, 848.528137424, 1.0]]
+    },
+    "body spring equal opposite impulses": {
+      "steps": 1.0,
+      "contacts": 0.0,
+      "sleeping": false,
+      "bodies": [
+        [150.275735294, 300.0, 66.1764705882, 0.0, 0.0],
+        [349.908088235, 300.0, -22.0588235294, 0.0, 0.0]
+      ]
+    },
+    "unequal body spring conserves center and sleeps": {
+      "steps": 258.0,
+      "contacts": 0.0,
+      "sleeping": true,
+      "bodies": [
+        [224.999872693, 300.0, 0.0, 0.0, 0.0],
+        [325.000042436, 300.0, 0.0, 0.0, 0.0]
+      ]
+    },
+    "direct pointer pulls dynamic peer": {
+      "steps": 240.0,
+      "contacts": 0.0,
+      "sleeping": false,
+      "bodies": [
+        [100.0, 300.0, 0.0, 0.0, 1.0],
+        [202.319034459, 300.0, -27.8518050152, 0.0, 0.0]
+      ]
+    },
+    "spring pointer pulls both masses": {
+      "steps": 2400.0,
+      "contacts": 0.0,
+      "sleeping": false,
+      "bodies": [
+        [100.000000758, 300.0, 1.07787050248e-5, 0.0, 1.0],
+        [200.000001268, 300.0, 2.00550534642e-5, 0.0, 0.0]
+      ]
+    },
+    "linked momentum before release": {
+      "steps": 30.0,
+      "contacts": 0.0,
+      "sleeping": false,
+      "bodies": [
+        [151.441467704, 300.0, -105.840181098, 0.0, 1.0],
+        [319.915201035, 300.0, -397.322298411, 0.0, 0.0]
+      ]
+    },
+    "linked pointer release retains momentum": {
+      "steps": 30.0,
+      "contacts": 0.0,
+      "sleeping": false,
+      "bodies": [
+        [151.441467704, 300.0, -105.840181098, 0.0, 0.0],
+        [319.915201035, 300.0, -397.322298411, 0.0, 0.0]
+      ]
+    },
+    "body spring removal keeps velocities": {
+      "steps": 1.0,
+      "contacts": 0.0,
+      "sleeping": false,
+      "bodies": [
+        [150.275735294, 300.0, 66.1764705882, 0.0, 0.0],
+        [349.908088235, 300.0, -22.0588235294, 0.0, 0.0]
+      ]
+    },
+    "body spring replacement keeps velocities": {
+      "steps": 1.0,
+      "contacts": 0.0,
+      "sleeping": false,
+      "bodies": [
+        [150.275735294, 300.0, 66.1764705882, 0.0, 0.0],
+        [349.908088235, 300.0, -22.0588235294, 0.0, 0.0]
+      ]
+    },
+    "body spring rest length survives resize": {
+      "steps": 270.0,
+      "contacts": 0.0,
+      "sleeping": true,
+      "bodies": [
+        [374.999874064, 300.0, 0.0, 0.0, 0.0],
+        [475.000041979, 300.0, 0.0, 0.0, 0.0]
+      ]
+    },
+    "three body anchored chain settles": {
+      "steps": 630.0,
+      "contacts": 0.0,
+      "sleeping": true,
+      "bodies": [
+        [300.0, 101.984051287, 0.0, 0.0, 0.0],
+        [300.0, 184.186467153, 0.0, 0.0, 0.0],
+        [300.0, 265.286780624, 0.0, 0.0, 0.0]
+      ]
+    },
+    "linked extreme masses stay bounded": {
+      "steps": 4800.0,
+      "contacts": 592.0,
+      "sleeping": false,
+      "bodies": [
+        [77.2009566305, 300.0, 15.0890977481, 0.0, 0.0],
+        [127.20095663, 300.0, 15.0890977481, 0.0, 0.0]
+      ]
+    },
+    "linked zero length preserves collision separation": {
+      "steps": 168.0,
+      "contacts": 89.0,
+      "sleeping": true,
+      "bodies": [
+        [270.0, 300.0, 0.0, 0.0, 0.0],
+        [310.0, 300.0, 0.0, 0.0, 0.0]
+      ]
+    }
+  }
+}

@@ -28,7 +28,7 @@ scope.dispose()
 
 A fonte pode ser um motion value, um mapeamento numérico ou outro spring value. `animate(pointer, ...)` envia a curva da fonte nas mudanças de playback, permitindo seguir uma timeline nativa. Mapeamentos numéricos com `to()`, inclusive intervalos decrescentes, pontos repetidos e extrapolação, rodam nativamente nos bindings e nas cadeias de seguidores.
 
-O resultado aceita bindings em `x`, `y`, `scale`, `scaleX`, `scaleY`, `rotate`, `rotateX`, `rotateY` e `opacity`. Cores, decorações e adaptadores nativos compostos ainda não têm suporte nesse caminho ao vivo. O spring value é somente leitura: atualize a fonte em vez de passar o seguidor para `animate()` ou `set()`.
+O resultado aceita bindings em `x`, `y`, `scale`, `scaleX`, `scaleY`, `rotate`, `rotateX`, `rotateY` e `opacity`. O conjunto estável exclui pintura e adaptadores compostos; a [extensão em desenvolvimento](#live-paint) acrescenta cor de fundo e raio uniforme. O spring value é somente leitura: atualize a fonte em vez de passar o seguidor para `animate()` ou `set()`.
 
 Camadas nomeadas de transformação e opacidade continuam compondo com a base:
 
@@ -52,3 +52,28 @@ Os padrões são **0,001 unidade da fonte** para `restDelta` e **0,01 unidade da
 A redução de movimento leva a cadeia diretamente ao alvo atual. A suspensão do app preserva o estado; na retomada, o spring segue novamente a fonte atual. O agendador integra passos de até 1/240 de segundo e limita a integração a 64 ms após um frame atrasado, evitando um salto grande para compensar o tempo perdido. Chamadas de `animate()` com alvo fixo mantêm seus caminhos existentes de Core Animation / Android.
 
 Nesta demo, os eventos de toque ainda atualizam a fonte pelo JavaScript. Para entrada de gestos nativa e transferência para rolagem, use a [API opcional de gestos](./gestures); `springValue()` não transforma o reconhecedor de gestos em nativo. Os núcleos C e Java têm testes de trajetórias equivalentes, incluindo passos de 60/120 Hz e frames atrasados. Esses testes não substituem medições de desempenho em aparelhos físicos.
+
+## Desenvolvimento: cores e cantos ao vivo {#live-paint}
+
+A próxima versão nativa acrescenta bindings de `backgroundColor` e `borderRadius` uniforme. Recompile o app para incluir o código nativo.
+
+```ts
+const target = motionValue(0)
+const follower = springValue(target, { stiffness: 140, damping: 14 })
+const release = bind(card, {
+  backgroundColor: follower.to([0, 1], ['#8CB5FF', '#EFA26F']),
+  borderRadius: follower.to([0, 1], [8, 70]),
+})
+set(target, 1)
+```
+
+O grafo nativo retido interpola cores em OKLab com alpha pré-multiplicado, limita a saída ao gamut sRGB e o progresso aos extremos da cor. Mapeamentos numéricos podem preceder o mapeamento final de cor. O raio não fica negativo; o renderizador limita os cantos ao espaço disponível. Alterar o alvo escalar mantém o nó e os bindings, sem observador JavaScript nem reconstrução de tracks por frame.
+
+Use fundos sólidos, sem imagem ou gradiente. O raio exige cantos circulares uniformes e bordas uniformes compatíveis, sem clip path, corner shape ou box shadow CSS; use outra superfície para a sombra. Cor do texto, cor/largura da borda e outras decorações continuam fora desse conjunto. Um alvo incompatível é rejeitado antes de substituir seu binding atual.
+
+Uma escrita direta no estilo assume o canal de pintura e solta seu binding. Mudanças na imagem de fundo, clipping ou estrutura da borda liberam os bindings afetados. Os outros canais continuam. O descarte normal preserva a pintura atual; um cleanup antigo nunca restaura valores sobre um estilo ou animação mais novos. Pausa, suspensão de escopo, background, unload/reload e redução de movimento seguem o ciclo de vida existente. Descarte o follower e libere seus bindings ao terminar o componente.
+
+<Clip name="live-paint-ios" caption="Simulador iOS, interface em inglês: toques reais mudam cor e raio, interrompem a mola e pausam/retomam o movimento. Playback nativo, sem promessa de desempenho em aparelho físico." />
+<Clip name="live-paint-android" caption="Emulador Android, interface em inglês: toques reais por ADB mudam e pausam a mola retida de cor/raio. Velocidade original da gravação." />
+
+[Validação nativa e reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-capabilities.md).

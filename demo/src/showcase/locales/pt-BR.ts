@@ -1271,4 +1271,31 @@ export const portuguese: Record<string, string> = {
   'A moment of your own.': 'Um momento só seu.',
   'Pull down to return. Let go early to stay.':
     'Puxe para baixo para voltar. Solte antes para ficar.',
+  'Native motion lab': 'Laboratório de movimento nativo',
+  'Live paint, scrubbing, flex reflow and connected bodies.':
+    'Cores ao vivo, seek, reflow flex e corpos conectados.',
+  'Live color & corners': 'Cores e cantos ao vivo',
+  'Seekable scene': 'Cena com seek',
+  'Flexbox reflow': 'Reflow em Flexbox',
+  'Connected bodies': 'Corpos conectados',
+  Paint: 'Cores',
+  Seek: 'Seek',
+  Flex: 'Flex',
+  Bodies: 'Corpos',
+  'Retained spring': 'Mola retida',
+  'Scrub me': 'Mova no tempo',
+  'Flexible neighbor': 'Vizinho flexível',
+  'Real layout keeps this text sharp and wraps it as the card grows. The neighbor receives the remaining space.':
+    'O layout real mantém este texto nítido e muda as quebras de linha conforme o card cresce. O vizinho recebe o espaço restante.',
+  'Change the target while the spring is moving.':
+    'Mude o alvo enquanto a mola está em movimento.',
+  'Drag the slider in both directions. Play continues from there.':
+    'Arraste o slider nas duas direções. Play continua dali.',
+  'Watch the text reflow and the sibling resize. Tap again to reverse.':
+    'Veja o texto refluir e o vizinho mudar de tamanho. Toque outra vez para inverter.',
+  'Waiting for native layout.': 'Aguardando layout nativo.',
+  'Drag any body. The other masses follow through native springs.':
+    'Arraste um corpo. As outras massas acompanham pelas molas nativas.',
+  'Change target': 'Mudar alvo',
+  'Run native checks': 'Executar checks nativos',
 }

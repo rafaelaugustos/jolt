@@ -2,6 +2,8 @@ import { describe, expect, it, vi } from 'vitest'
 import { createView, driver, flush } from './helpers.js'
 import { Application } from './shims/core.js'
 import { animateSize, configure, motionScope } from '../src/index.js'
+import { createTrack } from '../src/track.js'
+import { resolveTransition } from '../src/transition.js'
 import type { SizeValues } from '../src/size-layout.js'
 
 const models = vi.hoisted(
@@ -81,6 +83,27 @@ const step = async (time = 16) => {
   await flush()
 }
 describe('animateSize actual-size lifecycle', () => {
+  it('inherits velocity when a running size spring is replaced', async () => {
+    const { view, state } = scene()
+    const options = { type: 'spring' as const, stiffness: 180, damping: 20 }
+    const first = animateSize(view, { height: 300 }, options)
+    await step()
+    await step(100)
+    const from = state.size.height
+    const source = createTrack('x', [50, 300], resolveTransition(options, 'x', 2), 0)
+    const expected = createTrack(
+      'x',
+      [from, 100],
+      resolveTransition(options, 'x', 2),
+      source.velocityAt(100),
+    )
+    const second = animateSize(view, { height: 100 }, options)
+    await step()
+    await step(16)
+    expect(await first).toBe(false)
+    expect(state.size.height).toBeCloseTo(expected.valueAt(16), 5)
+    second.stop()
+  })
   it('interpolates both dimensions and restores semantic auto at completion', async () => {
     const { view, state } = scene()
     const a = animateSize(

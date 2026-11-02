@@ -9,7 +9,7 @@
     double initialX[16],initialY[16],initialVX[16],initialVY[16],originalX[16],originalY[16];
 }
 @property(nonatomic) UIView *container;
-@property(nonatomic) NSMutableArray *views,*pans,*guides,*pointerGuides;
+@property(nonatomic) NSMutableArray *views,*pans,*guides,*pointerGuides,*springGuides;
 @property(nonatomic) CADisplayLink *link;
 @property(nonatomic) BOOL enabled,disposed,background,fits;
 @property(nonatomic) double previous,accumulator,processingMs,droppedMs,offsetX,offsetY;
@@ -32,6 +32,7 @@ static NSMutableSet<JoltCircleWorld *> *worlds;
     NSArray *bodies=config[@"bodies"];
     if(bodies.count<1||bodies.count>16)[NSException raise:NSInvalidArgumentException format:@"Physics needs 1–16 circles"];
     JoltCircleWorld *w=[self new];w.container=container;w.views=[NSMutableArray new];w.pans=[NSMutableArray new];w.guides=[NSMutableArray new];w.pointerGuides=[NSMutableArray new];w.dragging=-1;
+    w.springGuides=[NSMutableArray new];for(int i=0;i<JOLT_CIRCLE_SPRING_LIMIT;i++)[w.springGuides addObject:NSNull.null];
     w->state.count=(int)bodies.count;w->state.width=[config[@"width"] doubleValue];w->state.height=[config[@"height"] doubleValue];
     w->state.gx=[config[@"gravity"][@"x"] doubleValue];w->state.gy=[config[@"gravity"][@"y"] doubleValue];
     w->state.restitution=[config[@"restitution"] doubleValue];w->state.damping=[config[@"damping"] doubleValue];
@@ -76,6 +77,19 @@ static NSMutableSet<JoltCircleWorld *> *worlds;
     [self.container.layer addSublayer:guide];return guide;
 }
 - (BOOL)supportsPointerSpring {return YES;}
+- (void)spring:(NSInteger)slot options:(NSString *)options {
+    if(self.disposed)return;
+    if(slot<0||slot>=JOLT_CIRCLE_SPRING_LIMIT)[NSException raise:NSInvalidArgumentException format:@"Invalid body spring slot"];
+    id v=[NSJSONSerialization JSONObjectWithData:[options dataUsingEncoding:NSUTF8StringEncoding] options:NSJSONReadingFragmentsAllowed error:nil];
+    JoltBodySpring s={0};id guide=NSNull.null;
+    if([v isKindOfClass:NSDictionary.class]){
+        s=(JoltBodySpring){true,[v[@"a"] intValue],[v[@"b"] intValue],[v[@"length"] doubleValue],[v[@"stiffness"] doubleValue],[v[@"damping"] doubleValue]};
+        if(s.a<0||s.b<0||s.a>=state.count||s.b>=state.count||s.a==s.b||!isfinite(s.length)||s.length<0||s.length>10000||!isfinite(s.stiffness)||s.stiffness<1||s.stiffness>1000||!isfinite(s.damping)||s.damping<0||s.damping>120)[NSException raise:NSInvalidArgumentException format:@"Invalid body spring"];
+        guide=[self makeGuide:v[@"line"]];
+    }
+    if(self.springGuides[slot]!=NSNull.null)[self.springGuides[slot] removeFromSuperlayer];
+    self.springGuides[slot]=guide;state.springs[slot]=s;JoltCircleWake(&state);[self apply];[self refresh];
+}
 
 - (void)attach:(NSInteger)index options:(NSString *)options {
     if(self.disposed||index<0||index>=state.count)return;
@@ -131,6 +145,16 @@ static NSMutableSet<JoltCircleWorld *> *worlds;
         UIBezierPath *path=[UIBezierPath bezierPath];
         if(d>b->r){[path moveToPoint:CGPointMake(x,y)];[path addLineToPoint:CGPointMake(b->x-dx/d*b->r,b->y-dy/d*b->r)];}
         if(pointer||d>b->r)[path appendPath:[UIBezierPath bezierPathWithOvalInRect:CGRectMake(x-2.5,y-2.5,5,5)]];
+        guide.path=path.CGPath;
+    }
+    for(int i=0;i<JOLT_CIRCLE_SPRING_LIMIT;i++){
+        id candidate=self.springGuides[i];if(candidate==NSNull.null)continue;
+        CAShapeLayer *guide=candidate;JoltBodySpring *s=&state.springs[i];
+        guide.hidden=!s->enabled||self.views[s->a]==NSNull.null||self.views[s->b]==NSNull.null||[(UIView *)self.views[s->a] superview]!=self.container||[(UIView *)self.views[s->b] superview]!=self.container;
+        if(guide.hidden)continue;
+        JoltCircle *a=&state.bodies[s->a],*b=&state.bodies[s->b];double dx=b->x-a->x,dy=b->y-a->y,d=hypot(dx,dy);
+        UIBezierPath *path=[UIBezierPath bezierPath];
+        if(d>a->r+b->r){[path moveToPoint:CGPointMake(a->x+dx/d*a->r,a->y+dy/d*a->r)];[path addLineToPoint:CGPointMake(b->x-dx/d*b->r,b->y-dy/d*b->r)];}
         guide.path=path.CGPath;
     }
     [CATransaction commit];
@@ -190,7 +214,7 @@ static NSMutableSet<JoltCircleWorld *> *worlds;
 - (NSString *)snapshot {
     NSMutableArray *bodies=[NSMutableArray new];
     NSUInteger guideCount=0;
-    for(NSArray *list in @[self.guides,self.pointerGuides])for(id guide in list)if(guide!=NSNull.null)guideCount++;
+    for(NSArray *list in @[self.guides,self.pointerGuides,self.springGuides])for(id guide in list)if(guide!=NSNull.null)guideCount++;
     for(int i=0;i<state.count;i++){
         JoltCircle *b=&state.bodies[i];
         id attachment=b->attachment.enabled?@{@"anchor":@{@"x":@(b->attachment.u*state.width),@"y":@(b->attachment.v*state.height)},@"length":@(b->attachment.length),@"stiffness":@(b->attachment.stiffness),@"damping":@(b->attachment.damping)}:NSNull.null;
@@ -212,7 +236,8 @@ static NSMutableSet<JoltCircleWorld *> *worlds;
         UIView *v=self.views[i];v.userInteractionEnabled=originalInteraction[i];if(self.pans[i]!=NSNull.null)[v removeGestureRecognizer:self.pans[i]];
         [v.layer setValue:@(originalX[i]) forKeyPath:@"transform.translation.x"];[v.layer setValue:@(originalY[i]) forKeyPath:@"transform.translation.y"];
     }
-    for(NSMutableArray *list in @[self.guides,self.pointerGuides]){for(id guide in list)if(guide!=NSNull.null)[guide removeFromSuperlayer];[list removeAllObjects];}
+    for(NSMutableArray *list in @[self.guides,self.pointerGuides,self.springGuides]){for(id guide in list)if(guide!=NSNull.null)[guide removeFromSuperlayer];[list removeAllObjects];}
+    for(int i=0;i<JOLT_CIRCLE_SPRING_LIMIT;i++)state.springs[i].enabled=false;
     [CATransaction commit];[self.views removeAllObjects];[self.pans removeAllObjects];self.container=nil;[worlds removeObject:self];
 }
 @end

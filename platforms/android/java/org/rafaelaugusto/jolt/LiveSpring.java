@@ -180,7 +180,7 @@ public final class LiveSpring {
     public void dispose() {
         if (disposed) return;
         disposed = true; moving = false;
-        bindings.clear();
+        while (!bindings.isEmpty()) bindings.get(bindings.size()-1).cancel();
         nodes.remove(this);
         // A retained child continues from its own state toward the parent's last value.
         for (int i = 0; i < nodes.size(); i++) {
@@ -203,12 +203,26 @@ public final class LiveSpring {
         private final Mapping[] mappings;
         private final float density;
         private boolean stopped;
+        private ColorTarget colorTarget;
+        private DecorationTarget decorationTarget;
         private SampledInput[] layers = new SampledInput[0];
         Binding(View view, String property, Mapping[] mappings) {
             this.view = new WeakReference<>(view); this.property = property; this.mappings = mappings;
             density = view.getResources().getDisplayMetrics().density;
+            if (property.equals("backgroundColor")) {
+                colorTarget = new ColorTarget(view, 0, (int)(long)getValue());
+                if (!colorTarget.isSupported()) throw new IllegalArgumentException("Unsupported live color drawable");
+                if (view.getBackground() == null) view.setBackgroundColor(0);
+            } else if (property.equals("borderRadius")) {
+                decorationTarget = new DecorationTarget(view, 0, (float)getValue()*density, 0);
+                if (!decorationTarget.isSupported()) throw new IllegalArgumentException("Unsupported live radius drawable");
+                decorationTarget.acquire();
+            }
         }
-        public double getValue() { return map(state.position, mappings); }
+        public double getValue() {
+            double value = map(state.position, mappings);
+            return property.equals("borderRadius") ? Math.max(0, value) : value;
+        }
         public void setLayers(String inputs) {
             try {
                 JSONArray array = new JSONArray(inputs);
@@ -218,7 +232,11 @@ public final class LiveSpring {
             } catch (JSONException error) { throw new IllegalArgumentException(error); }
             apply(); schedule();
         }
-        public void cancel() { stopped = true; bindings.remove(this); }
+        public void cancel() {
+            if (stopped) return;
+            stopped = true; bindings.remove(this);
+            if (decorationTarget != null) decorationTarget.release();
+        }
         private void apply() {
             View target = view.get();
             if (stopped || target == null || !target.isAttachedToWindow()) return;
@@ -228,6 +246,8 @@ public final class LiveSpring {
             for (SampledInput layer : layers) composed = multiply ? composed * layer.value(now) : composed + layer.value(now);
             float value = (float)composed;
             switch (property) {
+                case "backgroundColor": colorTarget.setColor((int)(long)composed); break;
+                case "borderRadius": decorationTarget.setValue(value*density); break;
                 case "x": target.setTranslationX(value * density); break;
                 case "y": target.setTranslationY(value * density); break;
                 case "scaleX": target.setScaleX(value); break;
@@ -243,9 +263,12 @@ public final class LiveSpring {
     private static final class Mapping {
         final double[] input, output;
         final boolean clamp;
+        final ColorMath.Stop[] colors;
         Mapping(JSONObject json) throws JSONException {
             input = array(json.getJSONArray("input")); output = array(json.getJSONArray("output"));
             clamp = json.getBoolean("clamp");
+            colors = json.optBoolean("color") ? new ColorMath.Stop[output.length] : null;
+            if (colors != null) for (int i=0; i<colors.length; i++) colors[i]=new ColorMath.Stop((long)output[i]);
         }
         double value(double value) {
             if (clamp && value <= input[0]) return output[0];
@@ -254,6 +277,7 @@ public final class LiveSpring {
             while (index < input.length - 2 && value > input[index + 1]) index++;
             double span = input[index + 1] - input[index];
             double fraction = span > 0 ? (value - input[index]) / span : value < input[index] ? 0 : 1;
+            if (colors != null) return ColorMath.mix(colors[index], colors[index+1], fraction);
             return output[index] + (output[index + 1] - output[index]) * fraction;
         }
     }

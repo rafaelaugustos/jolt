@@ -80,7 +80,7 @@ Snap stiffness/damping use the same ranges/defaults as attachment springs. One b
 
 Pause/Reduce Motion stop the existing native clock. A settled spring sleeps; an impulse, retarget or new gesture wakes it. Disposal removes native guides along with the world's existing input/lifecycle resources. Input changes and lifecycle boundaries cross JavaScript; forces, target selection, contacts, drawing and per-frame view updates stay native. The UI thread is still shared with NativeScript JavaScript.
 
-The four-language **A place to return / Equilibrium** preview demonstrates both behaviors. Fixed-point springs and release docks are the third delivered part of [#39](https://github.com/rafaelaugustos/jolt/issues/39), available in **0.1.0-rc.1**. Default direct dragging suspends spring forces. The 0.1.0-rc.2 release adds the opt-in pointer spring mode from [#238](https://github.com/rafaelaugustos/jolt/issues/238), documented below. Body-to-body joints, rigid constraints, arbitrary shapes and a general dynamics engine remain outside this contract. See [validation and reproduction](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-attachments.md) and the [delivery audit](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-completion.md).
+The four-language **A place to return / Equilibrium** preview demonstrates both behaviors. Fixed-point springs and release docks are the third delivered part of [#39](https://github.com/rafaelaugustos/jolt/issues/39), available in **0.1.0-rc.1**. Default direct dragging suspends spring forces. The 0.1.0-rc.2 release adds the opt-in pointer spring mode from [#238](https://github.com/rafaelaugustos/jolt/issues/238), documented below. Rigid joints, arbitrary shapes and a general dynamics engine remain outside this contract. Elastic center-to-center links are covered by the [development extension below](#body-springs). See [validation and reproduction](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-attachments.md) and the [delivery audit](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-completion.md).
 
 ## Pointer spring dragging {#pointer-spring-dragging-development-build}
 
@@ -116,3 +116,38 @@ The gesture must start inside the currently displayed circle. One pointer owns o
 A successful release removes the temporary anchor and preserves the **body's simulated velocity**, rather than replacing it with finger velocity. Configured snap points choose their dock from that position/velocity; otherwise the fixed attachment resumes, or a body without one continues freely. Cancellation removes pointer ownership, clears velocity and restores the previously selected dock without recording a release. Pause, Reduce Motion, unload, backgrounding, resize, reset and disposal cancel the gesture. `attach()` changes the resting spring; it does not retarget the active pointer spring. `snapTo()` and `impulse()` continue to ignore a held body.
 
 `snapshot().bodies[i].held` reports input ownership in both modes. `pointer` describes the active temporary anchor and spring, or is `null`; `attachment` keeps describing the resting anchor. Native input, integration and tether drawing use the existing bounded native clock, with no JavaScript callback per movement or frame. This still shares the UI thread. See [native checks and limits](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/pointer-spring.md).
+
+## Development: springs between bodies {#body-springs}
+
+The next native release adds center-to-center springs within one circle world. Both endpoints respond according to their own mass. Existing collision limits and the native 240 Hz fixed-step clock still apply; there is no JavaScript frame observer.
+
+```ts
+const world = physicsWorld(board, bodies, {
+  springs: [
+    {
+      id: 'link',
+      from: 'copper',
+      to: 'lilac',
+      length: 90,
+      stiffness: 180,
+      damping: 24,
+      line: { color: '#687C70', width: 2 },
+    },
+  ],
+})
+world.spring('link', { from: 'copper', to: 'lilac', length: 110 })
+world.spring('link', null)
+```
+
+Use stable spring IDs. `world.spring(id, config)` adds or replaces a connection without resetting positions or velocities; `world.spring(id, null)` removes it and its guide. `snapshot().springs` reports the current configuration. All configuration is validated before replacing a native connection.
+
+Limits: 32 springs per world, four per body, one per unordered pair. Endpoints must be distinct IDs in this world. Explicit rest length: 0–10,000 DIPs; stiffness: 1–1000 (default 180); damping: 0–120 (default 24). Snap-controlled endpoints are rejected; fixed-point attachments and direct/pointer-spring dragging can coexist. These are elastic links, not rigid distance constraints; rotation, surface joints and arbitrary shapes remain unsupported.
+
+The pair receives equal/opposite elastic forces and axial damping impulses, weighted by inverse mass. A directly held body is kinematic; its peer still reacts. Pointer-spring dragging keeps both bodies dynamic and release preserves the body's velocity. Existing speed limits, collisions and external forces can change total momentum. Rest length remains in DIPs when the host resizes; it is not scaled with the host.
+
+Pause, background and Reduce Motion suspend the existing world clock. Removing/reparenting an endpoint disposes the linked world and its guides; a temporary unload with unchanged membership can resume. Rebuilding a native view requires a fresh world. Lines use the same optional `#RRGGBB`/0.5–6 DIP style as fixed attachments and render between circle edges. Disposal removes native input and drawing resources.
+
+<Clip name="body-springs-ios" caption="iOS simulator, English UI: real drags move a three-body spring chain with different masses, followed by an impulse and pause/resume." />
+<Clip name="body-springs-android" caption="Android emulator, English UI: actual ADB gestures pull and release connected bodies; native spring forces and guides update together. Original speed; no physical-device performance claim." />
+
+[Native validation and reproduction](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-capabilities.md).

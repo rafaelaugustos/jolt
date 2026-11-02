@@ -5,8 +5,14 @@
 #include <string.h>
 #define JOLT_CIRCLE_LIMIT 16
 #define JOLT_CIRCLE_SNAP_LIMIT 8
+#define JOLT_CIRCLE_SPRING_LIMIT 32
 #define JOLT_CIRCLE_DT (1.0/240.0)
 #define JOLT_CIRCLE_SPEED 1200.0
+typedef struct {
+    bool enabled;
+    int a,b;
+    double length,stiffness,damping;
+} JoltBodySpring;
 typedef struct {
     bool enabled;
     double u,v,length,stiffness,damping;
@@ -20,12 +26,14 @@ typedef struct {
 typedef struct {
     double x,y,vx,vy,r,m,tx,ty,ax,ay,releaseX,releaseY,releaseVX,releaseVY;
     bool released;
-    bool held,supported;
+    bool held,supported,linked;
+    double springAX,springAY;
     JoltCircleAttachment attachment,drag;
     JoltCircleSnap snap;
 } JoltCircle;
 typedef struct {
     JoltCircle bodies[JOLT_CIRCLE_LIMIT]; int count;
+    JoltBodySpring springs[JOLT_CIRCLE_SPRING_LIMIT];
     double width,height,gx,gy,restitution,damping,quiet;
     unsigned long steps,contacts; bool sleeping;
 } JoltCircleState;
@@ -39,6 +47,27 @@ static inline bool JoltCircleFits(JoltCircleState *w,double width,double height)
     return area<=width*height*.4;
 }
 static inline bool JoltCircleKinematic(JoltCircle *b){return b->held&&!b->drag.enabled;}
+static inline void JoltCircleSprings(JoltCircleState *w) {
+    for(int i=0;i<JOLT_CIRCLE_SPRING_LIMIT;i++) {
+        JoltBodySpring *s=&w->springs[i];if(!s->enabled)continue;
+        JoltCircle *a=&w->bodies[s->a],*b=&w->bodies[s->b];a->linked=b->linked=true;
+        double dx=b->x-a->x,dy=b->y-a->y,d=hypot(dx,dy),nx=d>1e-9?dx/d:1,ny=d>1e-9?dy/d:0;
+        double force=s->stiffness*(d-s->length);
+        a->springAX+=nx*force/a->m;a->springAY+=ny*force/a->m;
+        b->springAX-=nx*force/b->m;b->springAY-=ny*force/b->m;
+    }
+}
+static inline void JoltCircleSpringDamping(JoltCircleState *w) {
+    for(int i=0;i<JOLT_CIRCLE_SPRING_LIMIT;i++) {
+        JoltBodySpring *s=&w->springs[i];if(!s->enabled)continue;
+        JoltCircle *a=&w->bodies[s->a],*b=&w->bodies[s->b];
+        double dx=b->x-a->x,dy=b->y-a->y,d=hypot(dx,dy),nx=d>1e-9?dx/d:1,ny=d>1e-9?dy/d:0;
+        double ia=JoltCircleKinematic(a)?0:1/a->m,ib=JoltCircleKinematic(b)?0:1/b->m;
+        double relative=(b->vx-a->vx)*nx+(b->vy-a->vy)*ny;
+        double impulse=s->damping*relative*JOLT_CIRCLE_DT/(1+s->damping*JOLT_CIRCLE_DT*(ia+ib));
+        a->vx+=nx*impulse*ia;a->vy+=ny*impulse*ia;b->vx-=nx*impulse*ib;b->vy-=ny*impulse*ib;
+    }
+}
 static inline void JoltCircleWalls(JoltCircleState *w,JoltCircle *b,bool impulse){
     double e=w->restitution;
     if(b->x<=b->r){b->x=b->r;if(b->ax<0)b->supported=true;if(impulse&&!JoltCircleKinematic(b)&&b->vx<0){b->vx=fabs(b->vx)<40?0:-b->vx*e;w->contacts++;}}
@@ -106,7 +135,12 @@ static inline void JoltCircleStep(JoltCircleState *w) {
     const double dt=JOLT_CIRCLE_DT,decay=exp(-w->damping*dt);
     bool quiet=true;
     for(int i=0;i<w->count;i++){
-        JoltCircle *b=&w->bodies[i];b->supported=false;b->ax=w->gx;b->ay=w->gy;
+        JoltCircle *b=&w->bodies[i];b->supported=b->linked=false;b->springAX=b->springAY=0;b->ax=w->gx;b->ay=w->gy;
+        if(JoltCircleKinematic(b)){b->vx=(b->tx-b->x)/dt;b->vy=(b->ty-b->y)/dt;}
+    }
+    JoltCircleSprings(w);
+    for(int i=0;i<w->count;i++){
+        JoltCircle *b=&w->bodies[i];
         if(b->held)quiet=false;
         if(JoltCircleKinematic(b)){b->vx=(b->tx-b->x)/dt;b->vy=(b->ty-b->y)/dt;quiet=false;}
         else {
@@ -130,18 +164,23 @@ static inline void JoltCircleStep(JoltCircleState *w) {
                 b->ax-=force*nx;b->ay-=force*ny;
             }
             // Implicit viscous damping remains bounded for the supported mass/damping range.
+            b->ax+=b->springAX;b->ay+=b->springAY;
             double divisor=1+damping*dt/b->m;
             b->vx=(b->vx+b->ax*dt)/divisor*decay;
             b->vy=(b->vy+b->ay*dt)/divisor*decay;
         }
-        JoltCircleLimitVelocity(b);b->x+=b->vx*dt;b->y+=b->vy*dt;
+    }
+    JoltCircleSpringDamping(w);
+    for(int i=0;i<w->count;i++){
+        JoltCircle *b=&w->bodies[i];JoltCircleLimitVelocity(b);b->x+=b->vx*dt;b->y+=b->vy*dt;
     }
     JoltCircleContacts(w,true,8);
     for(int i=0;i<w->count;i++){
         JoltCircle *b=&w->bodies[i];JoltCircleLimitVelocity(b);
         double speed=hypot(b->vx,b->vy),force=hypot(b->ax,b->ay);
         bool equilibrium=force<=1e-9;
-        if(b->snap.active){
+        if(b->linked) equilibrium=force<=4;
+        else if(b->snap.active){
             double x=JoltCircleSnapX(w,b,b->snap.index),y=JoltCircleSnapY(w,b,b->snap.index);
             equilibrium=hypot(b->x-x,b->y-y)<=.25;
             if(equilibrium&&speed<=4&&JoltCircleTargetClear(w,i,x,y)){b->x=x;b->y=y;b->vx=b->vy=0;}

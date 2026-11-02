@@ -18,6 +18,7 @@ import SceneShader from './components/SceneShader.vue'
 import OpacityRotation from './components/OpacityRotation.vue'
 import SizeLab from './components/SizeLab.vue'
 import LiveSprings from './components/LiveSprings.vue'
+import NativeCapabilities from './components/NativeCapabilities.vue'
 import GestureLab from './components/GestureLab.vue'
 import BottomSheetLab from './components/BottomSheetLab.vue'
 import ReorderLab from './components/ReorderLab.vue'
@@ -44,6 +45,7 @@ const sceneCamera = ref(false)
 const opacityRotation = ref(false)
 const sizeLab = ref(false)
 const liveSprings = ref(false)
+const nativeCapabilities = ref(false)
 const gestureLab = ref(false)
 const bottomSheetLab = ref(false)
 const reorderLab = ref(false)
@@ -72,6 +74,7 @@ onLaunch(() => {
   opacityRotation.value = launchArgument('opacity-rotation') !== undefined
   sizeLab.value = launchArgument('size-lab') !== undefined
   liveSprings.value = launchArgument('live-springs') !== undefined
+  nativeCapabilities.value = launchArgument('native-capabilities') !== undefined
   gestureLab.value = launchArgument('gesture-lab') !== undefined
   bottomSheetLab.value = launchArgument('bottom-sheet') !== undefined
   reorderLab.value = launchArgument('reorder-lab') !== undefined
@@ -147,6 +150,10 @@ defineExpose({ assistant })
       <BottomSheetLab v-else-if="launched && bottomSheetLab" @back="backToPlayground" />
       <GestureLab v-else-if="launched && gestureLab" @back="backToPlayground" />
       <LiveSprings v-else-if="launched && liveSprings" @back="backToPlayground" />
+      <NativeCapabilities
+        v-else-if="launched && nativeCapabilities"
+        @back="backToPlayground"
+      />
       <SizeLab v-else-if="launched && sizeLab" @back="backToPlayground" />
       <OpacityRotation v-else-if="launched && opacityRotation" />
       <ScrollView v-else-if="launched && sceneShader"

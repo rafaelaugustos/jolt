@@ -27,6 +27,7 @@ import { runMotionInspectorChecks } from './motion-inspector-checks'
 import { runCurveSamplingChecks } from './curve-sampling-checks'
 import { runSizeChecks } from './size-checks'
 import { runLiveSpringChecks } from './live-spring-checks'
+import { runNativeCapabilitiesChecks } from './native-capabilities-checks'
 import { runGestureLifecycleChecks } from './gesture-lifecycle-checks'
 import { runAndroidKeyframeChecks } from './android-keyframe-checks'
 import { runLayerCleanupChecks } from './layer-cleanup-checks'
@@ -270,6 +271,21 @@ async function run(view: Label, other: Label, host: StackLayout, status: Label) 
     sizes.status === 'passed' && sizes.count === 20,
     `Size checks: ${JSON.stringify(sizes)}`,
   )
+  pass()
+  stage = 'live paint seekable scenes flex reflow and body springs'
+  host.removeChildren()
+  const capabilities = new GridLayout()
+  capabilities.height = 280
+  host.addChild(capabilities)
+  await wait(120)
+  const report = await runNativeCapabilitiesChecks(capabilities, (message) => {
+    status.text = message
+  })
+  check(
+    !report.failure && report.passed.length === 19,
+    `Native capabilities: ${JSON.stringify(report)}`,
+  )
+  samples.push(report)
   pass()
 }
 export function runNativeCI() {

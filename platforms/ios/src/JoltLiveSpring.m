@@ -1,5 +1,6 @@
 #import "JoltLiveSpring.h"
 #import "JoltSpringState.h"
+#import "JoltColorMath.h"
 #import <QuartzCore/QuartzCore.h>
 
 /* Sampled inputs and mappings are decoded once; frames read plain C arrays. */
@@ -13,6 +14,7 @@ typedef struct {
     NSUInteger count;
     double *input, *output;
     BOOL clamp;
+    JoltColorStop *colors;
 } JoltMapping;
 
 static id decode(NSString *json) {
@@ -73,11 +75,15 @@ static JoltMapping *decodeMappings(NSString *json, NSUInteger *count) {
         result[i].input = doubles(input, result[i].count);
         result[i].output = doubles(output, result[i].count);
         result[i].clamp = [mapping[@"clamp"] boolValue];
+        if ([mapping[@"color"] boolValue]) {
+            result[i].colors = calloc(result[i].count, sizeof(JoltColorStop));
+            for (NSUInteger j=0; j<result[i].count; j++) result[i].colors[j] = JoltColorDecode((uint32_t)result[i].output[j]);
+        }
     }
     return result;
 }
 static void freeMappings(JoltMapping *maps, NSUInteger count) {
-    for (NSUInteger i = 0; i < count; i++) { free(maps[i].input); free(maps[i].output); }
+    for (NSUInteger i = 0; i < count; i++) { free(maps[i].input); free(maps[i].output); free(maps[i].colors); }
     free(maps);
 }
 static double mapped(double value, const JoltMapping *maps, NSUInteger count) {
@@ -90,7 +96,8 @@ static double mapped(double value, const JoltMapping *maps, NSUInteger count) {
         while (index < mapping->count - 2 && value > mapping->input[index + 1]) index++;
         double span = mapping->input[index + 1] - mapping->input[index];
         double fraction = span > 0 ? (value - mapping->input[index]) / span : value < mapping->input[index] ? 0 : 1;
-        value = mapping->output[index] + (mapping->output[index + 1] - mapping->output[index]) * fraction;
+        value = mapping->colors ? JoltColorMix(mapping->colors[index], mapping->colors[index+1], fraction)
+            : mapping->output[index] + (mapping->output[index + 1] - mapping->output[index]) * fraction;
     }
     return value;
 }
@@ -126,7 +133,7 @@ static double mapped(double value, const JoltMapping *maps, NSUInteger count) {
 @property(nonatomic, weak) UIView *view;
 @property(nonatomic, weak) JoltLiveSpring *node;
 @property(nonatomic) NSString *property, *keyPath;
-@property(nonatomic) BOOL stopped, multiply, radians, alpha, shadowed;
+@property(nonatomic) BOOL stopped, multiply, radians, alpha, shadowed, color, radius;
 @property(nonatomic) double layerAnchor;
 - (void)useMappings:(NSString *)mappings;
 - (BOOL)running:(double)now;
@@ -278,6 +285,8 @@ static double previousFrame;
     [binding useMappings:mappings];
     NSString *key = property;
     if ([key isEqualToString:@"opacity"]) binding.alpha = YES;
+    else if ([key isEqualToString:@"backgroundColor"]) binding.color = YES;
+    else if ([key isEqualToString:@"borderRadius"]) binding.radius = YES;
     else if ([key isEqualToString:@"x"]) key = @"transform.translation.x";
     else if ([key isEqualToString:@"y"]) key = @"transform.translation.y";
     else if ([key isEqualToString:@"scaleX"]) key = @"transform.scale.x";
@@ -325,7 +334,10 @@ static double previousFrame;
     freeMappings(_maps, _mapCount);
     _maps = decodeMappings(mappings, &_mapCount);
 }
-- (double)value { return mapped(self.node.position, _maps, _mapCount); }
+- (double)value {
+    double value = mapped(self.node.position, _maps, _mapCount);
+    return self.radius ? MAX(0, value) : value;
+}
 - (void)setLayers:(NSString *)inputs {
     freeSampled(_layers, _layerCount);
     _layers = decodeSampled(decode(inputs), &_layerCount);
@@ -348,6 +360,15 @@ static double previousFrame;
         value = self.multiply ? value * part : value + part;
     }
     if (self.alpha) { view.alpha = MAX(0, MIN(1, value)); return; }
+    if (self.color) {
+        uint32_t argb = (uint32_t)value;
+        view.layer.backgroundColor = [UIColor colorWithRed:((argb>>16)&255)/255.0 green:((argb>>8)&255)/255.0 blue:(argb&255)/255.0 alpha:(argb>>24)/255.0].CGColor;
+        return;
+    }
+    if (self.radius) {
+        view.layer.cornerRadius = MIN(value, MIN(view.bounds.size.width/2, view.bounds.size.height/2));
+        return;
+    }
     if (self.radians) value *= M_PI / 180;
     NSNumber *boxed = @(value);
     [view.layer setValue:boxed forKeyPath:self.keyPath];

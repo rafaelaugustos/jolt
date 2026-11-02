@@ -39,7 +39,7 @@ Pass one or both dimensions. Destinations are finite, nonnegative DIP numbers or
 | Direct child of GridLayout                                                         | Supported; `auto` rows/columns grow with content. Fixed or `*` tracks keep their own allocation, so resizing an inner view does not animate the track definition. |
 | Stack/Grid nested inside ScrollView                                                | Supported; real content bounds update scrolling. Do not animate the ScrollView's content offset with this API.                                                    |
 | Both width and height                                                              | Measured together at the destination width; text wraps at every intermediate width. Pass `height: 'auto'` as well to animate the changing height envelope.        |
-| FlexboxLayout, WrapLayout, AbsoluteLayout, custom direct parent                    | Rejected. Layout policy needs separate validation.                                                                                                                |
+| WrapLayout, AbsoluteLayout, custom direct parent                                   | Rejected. Layout policy needs separate validation.                                                                                                                |
 | Recycled ListView/CollectionView cells, virtualized or custom-measured descendants | Unsupported; no recycled-cell ownership or measurement contract.                                                                                                  |
 
 Parent allocation remains authoritative. Values and spring overshoot are clamped to zero and min/max constraints; max wins if min exceeds max. A numeric destination outside min/max settles to the clamped number. An `auto` destination restores **semantic auto**, allowing later content changes to resize normally.
@@ -73,3 +73,18 @@ Use `motionScope().animateSize()` or Vue's `useMotionScope().animateSize()`. Sco
 The initial implementation probes the destination every frame to detect intrinsic changes. Expect two root measurement calls and one explicit layout per active operation/frame, plus framework passes. Multiple animated views and deep trees add cost; this is not render-thread independence. Main-thread JS stalls this animation. Prefer transform-based `animateLayout()` when reflow is unnecessary.
 
 Open **Real dimensions** in the playground, or launch `--size-lab` on iOS / `--es size-lab true` on Android. The [native validation report](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/size-layout.md) records container coverage, runtime versions, real bounds/hit tests and measured layout costs. Simulator/emulator results are not a device-performance guarantee.
+
+## Development: FlexboxLayout {#flexbox-layout}
+
+The next native release supports direct children of a non-wrapping `FlexboxLayout` in `row` or `column` direction.
+
+For the animated main axis, set `flexGrow=0` and `flexShrink=0` on that child. Siblings can grow/shrink and receive the remaining space on every real layout. Reverse directions and wrapping are rejected before mutation; changing to an unsupported policy during playback terminates with an error and releases the temporary declaration.
+
+Cross-axis alignment, stretch, margins, parent size and min/max constraints remain authoritative. Numeric and `auto` destinations are supported; initial percentage dimensions remain rejected. NativeScript's width/height declarations provide the main-axis size; this contract does not add a separate flex-basis API. An animated width can reflow text; add `height: 'auto'` to animate the resulting intrinsic height. Text/font/content and parent changes are remeasured while active. Completion restores semantic `auto`.
+
+Replacing a running `animateSize()` now inherits the previous curve's velocity for shared axes. Replacing a paused operation starts with zero velocity. Stop, background, unload, reduced motion and cleanup retain the existing size contract. Layout still runs on the UI thread through JavaScript, and can be expensive for large trees.
+
+<Clip name="flex-size-ios" caption="iOS simulator, English UI: real taps grow and reverse a flex child while text reflows and the neighboring child receives the remaining space; pause/resume included." />
+<Clip name="flex-size-android" caption="Android emulator, English UI: actual ADB taps exercise real FlexboxLayout dimensions and sibling allocation. Original speed; not a physical-device performance profile." />
+
+[Native validation and reproduction](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-capabilities.md).

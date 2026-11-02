@@ -22,6 +22,7 @@ import {
   type LiveInput,
   type LiveMapping,
   type LiveNode,
+  type LiveProperty,
   liveComposition,
   liveSpringDriver,
   stillPhysics,
@@ -35,7 +36,12 @@ import {
 import { getDriver } from './driver/index.js'
 import { setBase, stopBase, ViewAnimation, type Animation, type Plan } from './engine.js'
 import { linear } from './easing.js'
-import { isProperty, type NumericProperty, type Property } from './properties.js'
+import {
+  isProperty,
+  writeValue,
+  type NumericProperty,
+  type Property,
+} from './properties.js'
 import { createTrack, instantTrack, type Track } from './track.js'
 import {
   resolveTransition,
@@ -160,26 +166,16 @@ class Derived {
   ): Derived {
     if (this.color) throw new TypeError('A color cannot be mapped again.')
     const map = mapping(input, output, options)
-    if (this.root instanceof SpringRoot && map.color)
-      throw new TypeError(
-        'Live spring bindings currently support numeric transforms and opacity.',
-      )
     const read = this.read
-    return new Derived(
-      this.root,
-      (value) => map.read(read(value)),
-      map.color,
-      map.color
-        ? []
-        : [
-            ...this.mappings,
-            {
-              input: [...map.input],
-              output: [...map.numbers],
-              clamp: options?.clamp !== false,
-            },
-          ],
-    )
+    return new Derived(this.root, (value) => map.read(read(value)), map.color, [
+      ...this.mappings,
+      {
+        input: [...map.input],
+        output: [...map.numbers],
+        clamp: map.color || options?.clamp !== false,
+        ...(map.color ? { color: true } : {}),
+      },
+    ])
   }
 }
 
@@ -359,8 +355,13 @@ class Root extends Derived {
       clock: { time: () => animation.time },
     }
     this.runs.set(key, run)
-    this.sync()
-    animation.start()
+    try {
+      this.sync()
+      animation.start()
+    } catch (error) {
+      animation.stop()
+      throw error
+    }
     return animation
   }
 
@@ -904,9 +905,12 @@ export function bind(target: Target | readonly Target[], bindings: Bindings): ()
     for (const property of properties) {
       if (source.root instanceof SpringRoot) {
         if (source.root.disposed) throw new Error('Cannot bind a disposed spring value.')
-        if (isColorProperty(property) || isDecorationProperty(property))
+        if (
+          (isColorProperty(property) && property !== 'backgroundColor') ||
+          (isDecorationProperty(property) && property !== 'borderRadius')
+        )
           throw new TypeError(
-            'Live spring bindings currently support numeric transforms and opacity.',
+            'Live springs support transforms, opacity, backgroundColor and borderRadius.',
           )
       }
       if (isColorProperty(property) !== source.color)
@@ -919,9 +923,11 @@ export function bind(target: Target | readonly Target[], bindings: Bindings): ()
     }
   }
   for (const view of views)
-    for (const [property] of entries)
+    for (const [property, source] of entries) {
       if (isColorProperty(property)) validateColorTarget(view, property)
       else if (isDecorationProperty(property)) validateDecorationTarget(view, property)
+      if (source.root instanceof SpringRoot) validateLivePaint(view, property)
+    }
 
   const made: (() => void)[] = []
   try {
@@ -939,7 +945,7 @@ function attach(view: View, property: Property, source: Derived) {
   if (existing) release(existing)
   const root = source.root
   if (root instanceof SpringRoot)
-    return attachSpring(view, property as NumericProperty, source, root)
+    return attachSpring(view, property as LiveProperty, source, root)
   let native: LiveBinding | undefined, composer: LiveNode | undefined
   let releaseMix: (() => void) | undefined
   const detach = () => {
@@ -1027,19 +1033,33 @@ function attach(view: View, property: Property, source: Derived) {
 
 function attachSpring(
   view: View,
-  property: NumericProperty,
+  property: LiveProperty,
   source: Derived,
   root: SpringRoot,
 ) {
   let native: LiveBinding | undefined
   let releaseMix: (() => void) | undefined
   let releaseDemand: (() => void) | undefined
+  let releaseStyles: (() => void) | undefined
+  const paint = property === 'backgroundColor' || property === 'borderRadius'
+  let externalWrite = false
+  let writingPaint = false
   const detach = () => {
     if (!native) return
-    native.cancel()
+    const handle = native
+    const value = handle.value()
+    native = undefined
+    handle.cancel()
     releaseMix?.()
     releaseMix = undefined
-    native = undefined
+    if (paint && !externalWrite) {
+      writingPaint = true
+      try {
+        writeValue(view, property, value)
+      } finally {
+        writingPaint = false
+      }
+    }
     releaseDemand?.()
     releaseDemand = undefined
     syncLiveSprings(view)
@@ -1053,6 +1073,7 @@ function attachSpring(
     sync() {
       if (!view.isLoaded || !view.nativeViewProtected || root.disposed) return
       detach()
+      validateLivePaint(view, property)
       stopBase(view, [property])
       native = root.node.bind(view, property, source.mappings)
       const handle = native
@@ -1062,14 +1083,16 @@ function attachSpring(
         return
       }
       releaseDemand = retained
-      releaseMix = mixFor(view, property).attachLive({
-        read: () => handle.value(),
-        layers: (layers) => handle.layers(layers),
-      })
+      if (!paint)
+        releaseMix = mixFor(view, property).attachLive({
+          read: () => handle.value(),
+          layers: (layers) => handle.layers(layers),
+        })
       syncLiveSprings(view)
     },
     cleanup() {
       view.off('unloaded', detach)
+      releaseStyles?.()
       detach()
     },
   }
@@ -1079,6 +1102,50 @@ function attachSpring(
   root.bindings.add(binding)
   view.on('loaded', binding.sync)
   view.on('unloaded', detach)
+  if (paint) {
+    const names = [
+      ...(property === 'backgroundColor'
+        ? ['backgroundColor']
+        : [
+            'borderTopLeftRadius',
+            'borderTopRightRadius',
+            'borderBottomLeftRadius',
+            'borderBottomRightRadius',
+          ]),
+      'backgroundImage',
+      'boxShadow',
+      'clipPath',
+      'cornerShape',
+      'borderTopWidth',
+      'borderRightWidth',
+      'borderBottomWidth',
+      'borderLeftWidth',
+      'borderTopColor',
+      'borderRightColor',
+      'borderBottomColor',
+      'borderLeftColor',
+    ].map((name) => `${name}Change`)
+    // Core style setters own their property. Remove only this live binding before
+    // the new model is applied; old cleanup must not overwrite a newer style.
+    const external = () => {
+      if (writingPaint || !root.bindings.has(binding)) return
+      externalWrite = true
+      try {
+        release(binding)
+      } finally {
+        externalWrite = false
+      }
+    }
+    for (const name of names) view.style.on(name, external)
+    const refresh = () => {
+      if (root.bindings.has(binding)) syncLiveSprings(view)
+    }
+    view.on('layoutChanged', refresh)
+    releaseStyles = () => {
+      for (const name of names) view.style.off(name, external)
+      view.off('layoutChanged', refresh)
+    }
+  }
   try {
     binding.sync()
   } catch (error) {
@@ -1087,6 +1154,21 @@ function attachSpring(
   }
   return () => {
     if (root.bindings.has(binding)) release(binding)
+  }
+}
+
+function validateLivePaint(view: View, property: Property) {
+  if (property !== 'backgroundColor' && property !== 'borderRadius') return
+  if (view.backgroundImage)
+    throw new TypeError(
+      'Live paint bindings require a solid background without an image or gradient.',
+    )
+  if (property === 'borderRadius') {
+    validateDecorationTarget(view, property)
+    if (view.boxShadow && (!Array.isArray(view.boxShadow) || view.boxShadow.length))
+      throw new TypeError(
+        'Live borderRadius does not support CSS boxShadow; use a separate shadow surface.',
+      )
   }
 }
 

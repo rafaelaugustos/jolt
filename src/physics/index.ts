@@ -3,7 +3,7 @@ import { toView } from '../animate.js'
 import { onReducedMotion, reducedMotion } from '../config.js'
 import type { MotionScope } from '../motion-scope.js'
 import type { Target } from '../types.js'
-import { createCircleDriver, type CircleDriver } from './native.js'
+import { createCircleDriver, type CircleDriver, type NativeBodySpring } from './native.js'
 
 export interface PhysicsVector {
   x: number
@@ -40,6 +40,16 @@ export interface PhysicsSpringDrag {
   /** Optional native tether, visible only during the gesture. */
   line?: { color: string; width?: number }
 }
+/** Center-to-center spring. Body IDs are local to this world; rest length stays in DIPs on resize. */
+export interface PhysicsBodySpring {
+  id: string
+  from: string
+  to: string
+  length: number
+  stiffness?: number
+  damping?: number
+  line?: { color: string; width?: number }
+}
 export interface CircleBody {
   id: string
   /** A dedicated, square direct child of the container, sized to radius * 2. */
@@ -57,6 +67,8 @@ export interface CircleBody {
   drag?: 'direct' | PhysicsSpringDrag
 }
 export interface PhysicsOptions {
+  /** Up to 32 springs, four incident edges per body. Snap-controlled endpoints are excluded. */
+  springs?: readonly PhysicsBodySpring[]
   /** DIPs/s². Defaults to { x: 0, y: 750 }. */
   gravity?: PhysicsVector
   /** 0–1. Contacts slower than 40 DIPs/s settle without bouncing. Default .65. */
@@ -67,6 +79,14 @@ export interface PhysicsOptions {
   scope?: MotionScope
 }
 export interface PhysicsSnapshot {
+  springs: {
+    id: string
+    from: string
+    to: string
+    length: number
+    stiffness: number
+    damping: number
+  }[]
   status: 'running' | 'sleeping' | 'paused' | 'detached' | 'invalid-bounds' | 'disposed'
   bodies: {
     id: string
@@ -118,6 +138,8 @@ export interface PhysicsWorld {
   impulse(id: string, impulse: PhysicsVector): void
   /** Replace/remove the anchor spring without resetting velocity. Clears the selected snap. */
   attach(id: string, attachment: PhysicsAttachment | null): void
+  /** Add/replace a spring by identity, or remove it with null; preserve body velocities. */
+  spring(id: string, spring: Omit<PhysicsBodySpring, 'id'> | null): void
   /** Choose a configured snap point, including while paused. Ignored during an active drag. */
   snapTo(id: string, index: number): void
   /** On-demand diagnostics; never installs a JS frame observer. */
@@ -312,6 +334,50 @@ export function physicsWorld(
         throw new RangeError('Initial circles must not overlap.')
     }),
   )
+  const springs = new Map<string, { slot: number; value: NativeBodySpring }>()
+  const prepareSpring = (id: string, spring: Omit<PhysicsBodySpring, 'id'> | null) => {
+    if (typeof id !== 'string' || !id.trim())
+      throw new TypeError('A body spring needs a nonempty id.')
+    if (spring === null) return null
+    if (!spring || typeof spring !== 'object')
+      throw new TypeError('Expected body spring options or null.')
+    const a = ids.indexOf(spring.from),
+      b = ids.indexOf(spring.to)
+    if (a < 0 || b < 0 || a === b)
+      throw new RangeError('A body spring needs two distinct body IDs in this world.')
+    if (config[a]!.snap || config[b]!.snap)
+      throw new TypeError('Body springs cannot connect snap-controlled bodies.')
+    const prepared = prepareAttachment(
+      { ...spring, anchor: { x: 0, y: 0 } },
+      width,
+      height,
+    )!
+    number(spring.length, 'body spring length', 0, 10000)
+    const peers = [...springs].filter(([key]) => key !== id).map(([, item]) => item.value)
+    if (peers.some((v) => (v.a === a && v.b === b) || (v.a === b && v.b === a)))
+      throw new RangeError('Only one spring per body pair is supported.')
+    for (const endpoint of [a, b])
+      if (peers.filter((v) => v.a === endpoint || v.b === endpoint).length >= 4)
+        throw new RangeError('A body supports at most four spring connections.')
+    let slot = springs.get(id)?.slot
+    if (slot === undefined) {
+      slot = Array.from({ length: 32 }, (_, i) => i).find(
+        (i) => ![...springs.values()].some((v) => v.slot === i),
+      )
+      if (slot === undefined)
+        throw new RangeError('A world supports at most 32 body springs.')
+    }
+    const { x: _x, y: _y, ...params } = prepared
+    return { slot, value: { a, b, ...params } }
+  }
+  if (options.springs !== undefined && !Array.isArray(options.springs))
+    throw new TypeError('Body springs must be an array.')
+  for (const spring of options.springs ?? []) {
+    if (!spring || springs.has(spring.id))
+      throw new TypeError('Each body spring needs a unique id.')
+    const prepared = prepareSpring(spring.id, spring)!
+    springs.set(spring.id, prepared)
+  }
   let native: CircleDriver | undefined,
     ended = false,
     held = false,
@@ -322,6 +388,12 @@ export function physicsWorld(
     unloaded = new Set<View>()
   const update = () => {
     if (ended || !host || !native) return
+    // A linked world's membership is fixed. Removing an endpoint disposes its
+    // recognizers, guides and connections together; ordinary unload can resume.
+    if (springs.size && views.some((v) => v.parent !== host)) {
+      worldRef?.dispose()
+      return
+    }
     if (
       [host, ...views].some(
         (v) => v.nativeViewProtected && v.nativeViewProtected !== originalNative.get(v),
@@ -366,6 +438,10 @@ export function physicsWorld(
       damping,
       bodies: config,
     })
+    for (const { slot, value } of springs.values()) {
+      if (!native.spring) throw new Error('Rebuild the native app to use body springs.')
+      native.spring(slot, value)
+    }
     ;[host, ...views].forEach((v) => {
       owners.add(v)
       const loaded = () => {
@@ -375,6 +451,9 @@ export function physicsWorld(
         unload = () => {
           unloaded.add(v)
           update()
+          // Core emits unloaded before clearing parent. Check the completed tree
+          // at the end of this turn, without adding a frame observer or timer.
+          if (springs.size) void Promise.resolve().then(update)
         }
       v.on('loaded', loaded)
       v.on('unloaded', unload)
@@ -438,6 +517,20 @@ export function physicsWorld(
         update()
         if (!ended) native!.attach(index, prepared)
       },
+      spring(id, spring) {
+        const prepared = prepareSpring(id, spring)
+        if (ended) return
+        if (!native!.spring)
+          throw new Error('Rebuild the native app to use body springs.')
+        const old = springs.get(id)
+        if (prepared) {
+          native!.spring(prepared.slot, prepared.value)
+          springs.set(id, prepared)
+        } else if (old) {
+          native!.spring(old.slot, null)
+          springs.delete(id)
+        }
+      },
       snapTo(id, index) {
         const body = ids.indexOf(id)
         if (body < 0) throw new RangeError(`Unknown circle: ${id}`)
@@ -448,7 +541,20 @@ export function physicsWorld(
       },
       snapshot() {
         const result = native!.snapshot()
-        return { ...result, bodies: result.bodies.map((b, i) => ({ ...b, id: ids[i]! })) }
+        return {
+          ...result,
+          bodies: result.bodies.map((b, i) => ({ ...b, id: ids[i]! })),
+          springs: ended
+            ? []
+            : [...springs].map(([id, { value }]) => ({
+                id,
+                from: ids[value.a]!,
+                to: ids[value.b]!,
+                length: value.length,
+                stiffness: value.stiffness,
+                damping: value.damping,
+              })),
+        }
       },
       dispose() {
         if (ended) return

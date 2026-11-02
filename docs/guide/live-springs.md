@@ -28,7 +28,7 @@ scope.dispose()
 
 The source can be a motion value, a numeric mapping, or another spring value. `animate(pointer, ...)` sends a sampled source track at playback boundaries, so the follower can also follow a native timeline. Numeric `to()` mappings, including descending ranges, repeated stops and extrapolation, execute natively for follower chains and bindings.
 
-Bind the result to `x`, `y`, `scale`, `scaleX`, `scaleY`, `rotate`, `rotateX`, `rotateY` or `opacity`. Colors, decorations and compound native adapters are not supported by this live path yet. The spring value is read-only: update its source instead of passing the follower to `animate()` or `set()`.
+Bind the result to `x`, `y`, `scale`, `scaleX`, `scaleY`, `rotate`, `rotateX`, `rotateY` or `opacity`. The stable baseline excludes paint and compound native adapters; the [development extension](#live-paint) adds background color and uniform radius. The spring value is read-only: update its source instead of passing the follower to `animate()` or `set()`.
 
 Named transform and opacity layers still compose with the bound base:
 
@@ -52,3 +52,28 @@ Options accept `stiffness`, `damping`, `mass`, or the existing `duration`/`bounc
 Reduced motion updates the chain directly to its current target. App suspension holds spring state; resume follows the current source again. The live scheduler uses bounded substeps of at most 1/240 second and integrates at most 64 ms after a delayed frame, avoiding a large catch-up jump. Fixed-target `animate()` calls retain their existing Core Animation / Android playback paths.
 
 The demo's touch events currently update the source from JavaScript. For native gesture input and scroll handoff, use the optional [gestures API](./gestures); `springValue()` does not make the gesture recognizer itself native. The C and Java spring kernels have matching trajectory tests, including 60/120 Hz time-step partitioning and delayed frames. Those tests do not replace performance measurements on physical devices.
+
+## Development: live color and corners {#live-paint}
+
+The next native release adds `backgroundColor` and uniform `borderRadius` bindings. Rebuild the app to include the new native code.
+
+```ts
+const target = motionValue(0)
+const follower = springValue(target, { stiffness: 140, damping: 14 })
+const release = bind(card, {
+  backgroundColor: follower.to([0, 1], ['#8CB5FF', '#EFA26F']),
+  borderRadius: follower.to([0, 1], [8, 70]),
+})
+set(target, 1)
+```
+
+The retained native graph interpolates colors in premultiplied OKLab, including alpha, clips to sRGB and clamps color progress to its endpoints. Numeric mappings can precede the final color mapping. Radius is nonnegative; the renderer limits visible corners to the available box. Scalar retargeting retains the node and bindings, without a JavaScript observer or rebuilt track per frame.
+
+Use solid backgrounds without images/gradients. Radius requires uniform circular corners and compatible uniform borders, with no clip path, corner shape or CSS box shadow; use a separate shadow surface. Text color, border color/width and other decorations remain outside this live binding surface. An incompatible target is rejected before replacing its current binding.
+
+A direct style write owns that paint channel and detaches its binding. Changes to background images, clipping or border structure release affected paint bindings. Other channels continue. Normal release preserves the current paint; a stale cleanup never restores over a newer style or animation. Pause, scope suspension, background handling, unload/reload and Reduce Motion use the existing spring lifecycle. Dispose the follower and release its bindings when the component ends.
+
+<Clip name="live-paint-ios" caption="iOS simulator, English UI: real taps retarget color and corner radius, interrupt the spring and pause/resume it. Native playback; no physical-device performance claim." />
+<Clip name="live-paint-android" caption="Android emulator, English UI: actual ADB taps retarget and pause the retained color/radius spring. Recorded at its original speed." />
+
+[Native validation and reproduction](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-capabilities.md).

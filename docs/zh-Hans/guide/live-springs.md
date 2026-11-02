@@ -28,7 +28,7 @@ scope.dispose()
 
 源可以是动画值、数字映射或另一个弹簧值。 `animate(pointer, ...)` 在播放边界发送采样的源轨道，因此跟随者也可以遵循原生时间线。数字 `to()` 映射，包括降序范围、重复停止和外推，针对跟随者链和绑定原生执行。
 
-将结果绑定到 `x`、`y`、`scale`、`scaleX`、`scaleY`、`rotate`、`rotateX`、`rotateY` 或 `opacity`。此实时路径尚不支持颜色、装饰和复合原生适配器。 spring 值是只读的：更新其源，而不是将 follower 传递给 `animate()` 或 `set()`。
+将结果绑定到 `x`、`y`、`scale`、`scaleX`、`scaleY`、`rotate`、`rotateX`、`rotateY` 或 `opacity`。稳定版尚不支持绘制和复合适配器；[开发版扩展](#live-paint) 增加背景颜色和统一半径。 spring 值是只读的：更新其源，而不是将 follower 传递给 `animate()` 或 `set()`。
 
 命名变换和不透明层仍然与绑定基础组合：
 
@@ -52,3 +52,28 @@ animate(card, { x: [0, -12, 12, 0] }, { layer: 'feedback', duration: 500 })
 减少运动将链直接更新到其当前目标。应用程序暂停保持弹簧状态； resume 再次跟随当前源。实时调度程序使用最多 1/240 秒的有界子步，并在延迟帧后最多积分 64 毫秒，从而避免了较大的追赶跳跃。固定目标 `animate()` 呼叫保留其现有的 Core Animation / Android 播放路径。
 
 演示的触摸事件当前更新来自 JavaScript 的源。对于原生手势输入和滚动切换，请使用可选的 [手势API](./gestures)； `springValue()` 并不使手势识别器本身成为原生。 C 和 Java spring 内核具有匹配的轨迹测试，包括 60/120 Hz 时间步划分和延迟帧。这些测试不会取代真机上的性能测量。
+
+## 开发版：实时颜色与圆角 {#live-paint}
+
+下一原生版本增加 `backgroundColor` 和统一 `borderRadius` 绑定。升级后需要重新编译应用。
+
+```ts
+const target = motionValue(0)
+const follower = springValue(target, { stiffness: 140, damping: 14 })
+const release = bind(card, {
+  backgroundColor: follower.to([0, 1], ['#8CB5FF', '#EFA26F']),
+  borderRadius: follower.to([0, 1], [8, 70]),
+})
+set(target, 1)
+```
+
+保留的原生图使用预乘 alpha 的 OKLab 插值，输出裁剪到 sRGB，颜色进度限制在两端之间。最终颜色映射之前可以串联数值映射。半径不能为负；渲染器把可见圆角限制在视图尺寸内。更新标量目标会保留节点和绑定，无需逐帧 JavaScript 观察者或重新生成轨迹。
+
+使用不含图片或渐变的纯色背景。半径要求统一的圆形圆角和兼容的统一边框，不支持 clip path、corner shape 或 CSS box shadow；阴影应使用独立表面。文字颜色、边框颜色/宽度及其他装饰仍不在此实时接口内。不兼容的目标会在替换现有绑定之前被拒绝。
+
+直接写入样式会接管对应绘制通道并解除其绑定。更改背景图片、裁剪或边框结构会解除受影响的绘制绑定，其他通道继续。正常释放保留当前绘制值；旧 cleanup 不会覆盖新样式或动画。暂停、作用域挂起、后台、卸载/重新加载和减少动态效果遵循现有生命周期。组件结束时释放绑定并销毁 follower。
+
+<Clip name="live-paint-ios" caption="iOS 模拟器，英文界面：真实点击改变颜色和半径，中断弹簧并暂停/继续。原生播放，不代表实体设备性能。" />
+<Clip name="live-paint-android" caption="Android 模拟器，英文界面：通过 ADB 真实点击改变并暂停颜色/圆角弹簧，保持录制原速。" />
+
+[原生验证与复现](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-capabilities.md).

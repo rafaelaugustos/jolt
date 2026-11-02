@@ -39,7 +39,7 @@ await animateSize(
 | GridLayout 的直接子代                                         | 支持； `auto` 行/列随内容增长。固定轨道或 `*` 轨道保留其自己的分配，因此调整内部视图的大小不会为轨道定义设置动画。 |
 | 嵌套在 ScrollView 内的堆栈/网格                               | 支持；真实内容边界更新滚动。不要使用此 API 对 ScrollView 的内容偏移进行动画处理。                                  |
 | 宽度和高度                                                    | 在目的地宽度处一起测量；文本在每个中间宽度处换行。还通过 `height: 'auto'` 来动画改变高度包络线。                   |
-| FlexboxLayout、WrapLayout、AbsoluteLayout、自定义直接父级     | 被拒绝。布局策略需要单独验证。                                                                                     |
+| WrapLayout、AbsoluteLayout、自定义直接父级                    | 被拒绝。布局策略需要单独验证。                                                                                     |
 | 回收的 ListView/CollectionView 单元、虚拟化或自定义测量的后代 | 不支持；没有回收电池所有权或测量合同。                                                                             |
 
 家长分配仍然具有权威性。值和弹簧超调被限制为零和最小/最大约束；如果 min 超过 max，则 max 获胜。最小/最大之外的数字目标将设置为固定数字。 `auto` 目标恢复 **语义自动**，允许以后的内容更改正常调整大小。
@@ -73,3 +73,18 @@ const completed = await animation.finished
 初始实现每帧探测目的地以检测内在变化。预计每个活动操作/框架有两个根测量调用和一个显式布局，以及框架传递。多个动画视图和深树会增加成本；这不是渲染线程独立性。主线程 JS 停止该动画。当不需要回流焊时，首选基于变换的 `animateLayout()`。
 
 在playground中打开**Real dimensions**，或者在iOS上启动`--size-lab` /在Android上启动`--es size-lab true`。 [原生验证报告](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/size-layout.md) 记录容器覆盖范围、运行时版本、实际边界/命中测试和测量的布局成本。模拟器/仿真器结果并不是设备性能的保证。
+
+## 开发版：FlexboxLayout {#flexbox-layout}
+
+下一原生版本支持方向为 `row` 或 `column`、不换行的 `FlexboxLayout` 直接子视图。
+
+动画涉及主轴时，子视图必须设置 `flexGrow=0` 和 `flexShrink=0`。兄弟视图可以 grow/shrink，并在每次真实布局中获得剩余空间。反向排列和换行会在修改前被拒绝；播放期间改成不支持的策略会以错误结束并释放临时声明。
+
+横轴对齐、stretch、边距、父容器尺寸和 min/max 约束仍决定实际分配。支持数值和 `auto` 目标，仍拒绝初始百分比尺寸。主轴大小使用 NativeScript 的 width/height，不新增独立 flex-basis API。宽度动画会让文本重排，添加 `height: 'auto'` 可同时动画其固有高度。运行期间重新测量文字、字体、内容和父容器的变化，完成时恢复 `auto` 语义。
+
+替换播放中的 `animateSize()` 会在共同轴上继承原曲线速度；替换暂停操作时速度为零。停止、后台、卸载、减少动态效果和清理保持既有契约。布局仍通过 UI 线程的 JavaScript 执行，大型视图树可能开销较高。
+
+<Clip name="flex-size-ios" caption="iOS 模拟器，英文界面：真实点击扩展并反转 flex 子视图，文字重排，兄弟视图获得剩余空间，包含暂停/继续。" />
+<Clip name="flex-size-android" caption="Android 模拟器，英文界面：ADB 真实点击验证 FlexboxLayout 的实际尺寸和兄弟视图分配。保持原速，不代表实体设备性能。" />
+
+[原生验证与复现](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-capabilities.md).

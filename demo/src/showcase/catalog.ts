@@ -34,6 +34,7 @@ import Tuning from '../components/Tuning.vue'
 import Press from '../components/Press.vue'
 import GestureLab from '../components/GestureLab.vue'
 import LiveSprings from '../components/LiveSprings.vue'
+import NativeCapabilities from '../components/NativeCapabilities.vue'
 import DragLab from '../components/DragLab.vue'
 import DragValues from '../components/DragValues.vue'
 import Keyboard from '../components/Keyboard.vue'
@@ -338,6 +339,15 @@ export const examples = [
     category: 'Touch',
     description: 'Follow your finger, then settle.',
     component: markRaw(LiveSprings),
+    full: true,
+    ios: false,
+  },
+  {
+    id: 'native-capabilities',
+    title: 'Native motion lab',
+    category: 'Touch',
+    description: 'Live paint, scrubbing, flex reflow and connected bodies.',
+    component: markRaw(NativeCapabilities),
     full: true,
     ios: false,
   },

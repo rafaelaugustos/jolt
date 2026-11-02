@@ -28,6 +28,7 @@ onLaunch(() => {
     'opacity-rotation',
     'size-lab',
     'live-springs',
+    'native-capabilities',
     'gesture-lab',
     'bottom-sheet',
     'reorder-lab',

@@ -75,6 +75,47 @@ final class DocsTests: XCTestCase {
         }
         blurTap("glass-reduce")
     }
+    func testNativePaint() throws {
+        launch(["--native-capabilities=0"], "native-action")
+        try record("live-paint-ios") {
+            tap("native-action", wait: 0.2); tap("native-action", wait: 0.3)
+            tap("native-action", wait: 0.2); tap("native-pause", wait: 1)
+            tap("native-pause", wait: 1); tap("native-action", wait: 1.2)
+        }
+    }
+    func testNativeSeek() throws {
+        launch(["--native-capabilities=1"], "native-scrub")
+        try record("seekable-scene-ios") {
+            let slider = app.sliders["native-scrub"]
+            slider.adjust(toNormalizedSliderPosition: 0.75); Thread.sleep(forTimeInterval: 0.7)
+            slider.adjust(toNormalizedSliderPosition: 1); Thread.sleep(forTimeInterval: 0.7)
+            slider.adjust(toNormalizedSliderPosition: 0.2); Thread.sleep(forTimeInterval: 0.7)
+            tap("native-pause", wait: 2)
+            tap("native-action", wait: 0.3); tap("native-pause", wait: 0.5)
+            slider.adjust(toNormalizedSliderPosition: 0.5); Thread.sleep(forTimeInterval: 0.8)
+            tap("native-pause", wait: 2)
+        }
+    }
+    func testNativeFlex() throws {
+        launch(["--native-capabilities=2"], "native-action")
+        try record("flex-size-ios") {
+            tap("native-action", wait: 0.25); tap("native-action", wait: 1)
+            tap("native-action", wait: 0.2); tap("native-pause", wait: 1)
+            tap("native-pause", wait: 1); tap("native-action", wait: 1.5)
+        }
+    }
+    func testNativeBodySprings() throws {
+        launch(["--native-capabilities=3"], "native-body-ready")
+        try record("body-springs-ios") {
+            drag(app.descendants(matching: .any)["linked-body-0"].firstMatch, x: 0, y: -65)
+            Thread.sleep(forTimeInterval: 1)
+            drag(app.descendants(matching: .any)["linked-body-2"].firstMatch, x: -35, y: 60)
+            Thread.sleep(forTimeInterval: 1)
+            tap("native-action", wait: 0.3); tap("native-pause", wait: 1)
+            tap("native-pause", wait: 2)
+        }
+        tap("native-tab-0")
+    }
     func testGlassChecks() throws {
         languageLaunch("en", "glass-lab", ["--showcase-example=glass", "--glass-audit"])
         blurTap("glass-snapshot")

@@ -1,0 +1,156 @@
+{
+  "startedAt": 1793582741909,
+  "platform": "Android",
+  "device": "sdk_gphone64_arm64",
+  "passed": [
+    "live native color alpha and radius match the retained spring",
+    "rapid paint retarget and paused native state",
+    "external color owns its channel while radius continues",
+    "paint Reduce Motion and disposal",
+    "scene delays overlaps and backward seek from paused endpoint",
+    "scene geometry negative control rejects ten DIP error",
+    "scene seek preserves newer owner and native playback clock",
+    "scene repeat direction and timeScale",
+    "scene unload is terminal and releases ownership",
+    "flex row real bounds sibling allocation pause resume",
+    "flex row intrinsic content and font update",
+    "flex column real bounds sibling allocation pause resume",
+    "flex column intrinsic content and font update",
+    "unsupported flex layout rejects before mutation",
+    "native connected bodies and guide presentation",
+    "body spring pause replacement removal and Reduce Motion",
+    "removed body disposes links guides and native world"
+  ],
+  "samples": [
+    {
+      "live": 0.8811000441828107,
+      "paint": {
+        "color": 2161367211,
+        "radius": 62.62820289248512
+      },
+      "expectedColor": 2161367211,
+      "expectedRadius": 62.62820273933426
+    },
+    {
+      "scene": 0.1,
+      "x": 16,
+      "bar": 0.10000000149011612
+    },
+    {
+      "scene": 0.5,
+      "x": 80,
+      "bar": 0.5
+    },
+    {
+      "scene": 1,
+      "x": 160,
+      "bar": 1
+    },
+    {
+      "scene": 0.25,
+      "x": 40,
+      "bar": 0.25
+    },
+    {
+      "flex": "row",
+      "start": 110.0952380952381,
+      "middle": 155.04761904761904,
+      "end": {
+        "width": 220.1904761904762,
+        "height": 260.1904761904762
+      },
+      "sibling": {
+        "x": 155.04761904761904,
+        "y": 0
+      }
+    },
+    {
+      "flex": "column",
+      "start": 70.0952380952381,
+      "middle": 102.47619047619048,
+      "end": {
+        "width": 375.6190476190476,
+        "height": 150.0952380952381
+      },
+      "sibling": {
+        "x": 0,
+        "y": 102.47619047619048
+      }
+    },
+    {
+      "world": {
+        "status": "running",
+        "guides": 2,
+        "bodies": [
+          {
+            "x": 91.60504434303844,
+            "y": 110,
+            "vx": 120.15582154952797,
+            "vy": 0,
+            "radius": 20,
+            "held": false,
+            "attachment": null,
+            "pointer": null,
+            "snap": null,
+            "release": null,
+            "id": "a"
+          },
+          {
+            "x": 167.3575503870802,
+            "y": 110,
+            "vx": 38.18422099830623,
+            "vy": 0,
+            "radius": 20,
+            "held": false,
+            "attachment": null,
+            "pointer": null,
+            "snap": null,
+            "release": null,
+            "id": "b"
+          },
+          {
+            "x": 244.5599516276003,
+            "y": 110,
+            "vx": -65.50808784871347,
+            "vy": 0,
+            "radius": 20,
+            "held": false,
+            "attachment": null,
+            "pointer": null,
+            "snap": null,
+            "release": null,
+            "id": "c"
+          }
+        ],
+        "frames": 14,
+        "steps": 51,
+        "contacts": 0,
+        "dragStarts": 0,
+        "dragMoves": 0,
+        "dragEnds": 0,
+        "dragCancels": 0,
+        "processingMs": 4.131834,
+        "droppedMs": 0,
+        "clock": true,
+        "springs": [
+          {
+            "id": "ab",
+            "from": "a",
+            "to": "b",
+            "length": 70,
+            "stiffness": 180,
+            "damping": 24
+          },
+          {
+            "id": "bc",
+            "from": "b",
+            "to": "c",
+            "length": 70,
+            "stiffness": 180,
+            "damping": 24
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -28,7 +28,7 @@ scope.dispose()
 
 La fuente puede ser un valor de movimiento, un mapeo numérico u otro valor de resorte. `animate(pointer, ...)` envía una pista fuente muestreada en los límites de reproducción, para que el seguidor también pueda seguir una línea de tiempo nativa. Las asignaciones numéricas `to()`, incluidos rangos descendentes, paradas repetidas y extrapolación, se ejecutan de forma nativa para cadenas de seguidores y enlaces.
 
-Vincula el resultado a `x`, `y`, `scale`, `scaleX`, `scaleY`, `rotate`, `rotateX`, `rotateY` o `opacity`. Esta ruta en vivo aún no admite colores, decoraciones y adaptadores nativos compuestos. El valor del resorte es de solo lectura: actualice su fuente en lugar de pasar el seguidor a `animate()` o `set()`.
+Vincula el resultado a `x`, `y`, `scale`, `scaleX`, `scaleY`, `rotate`, `rotateX`, `rotateY` o `opacity`. La base estable excluye pintura y adaptadores compuestos; la [extensión en desarrollo](#live-paint) añade fondo y radio uniforme. El valor del resorte es de solo lectura: actualice su fuente en lugar de pasar el seguidor a `animate()` o `set()`.
 
 Las capas de transformación y opacidad con nombre aún se componen con la base enlazada:
 
@@ -52,3 +52,28 @@ Las opciones aceptan `stiffness`, `damping`, `mass` o la parametrización de res
 El movimiento reducido actualiza la cadena directamente a su objetivo actual. La suspensión de la aplicación mantiene el estado de resorte; El reanudación sigue la fuente actual nuevamente. El programador en vivo utiliza subpasos acotados de como máximo 1/240 segundos e integra como máximo 64 ms después de un cuadro retrasado, evitando un gran salto de recuperación. Las llamadas `animate()` de destino fijo conservan sus rutas de reproducción Core Animation/Android existentes.
 
 Los eventos táctiles de la demostración actualmente actualizan la fuente de JavaScript. Para la entrada de gestos nativos y la transferencia de desplazamiento, utilice el [API de gestos](./gestures) opcional; `springValue()` no convierte el reconocedor de gestos en nativo. Los kernels de resorte de C y Java tienen pruebas de trayectoria coincidentes, incluida la partición en pasos de tiempo de 60/120 Hz y fotogramas retrasados. Esas pruebas no reemplazan las mediciones de rendimiento en dispositivos físicos.
+
+## Desarrollo: color y esquinas en vivo {#live-paint}
+
+La próxima versión nativa añade bindings de `backgroundColor` y `borderRadius` uniforme. Recompila la aplicación para incluir el código nativo.
+
+```ts
+const target = motionValue(0)
+const follower = springValue(target, { stiffness: 140, damping: 14 })
+const release = bind(card, {
+  backgroundColor: follower.to([0, 1], ['#8CB5FF', '#EFA26F']),
+  borderRadius: follower.to([0, 1], [8, 70]),
+})
+set(target, 1)
+```
+
+El grafo nativo retenido interpola colores en OKLab con alfa premultiplicado, recorta al gamut sRGB y limita el progreso del color a sus extremos. Los mapeos numéricos pueden preceder al mapeo final de color. El radio no es negativo; el renderizador limita las esquinas al espacio disponible. Cambiar el objetivo escalar conserva el nodo y sus bindings, sin observador JavaScript ni reconstrucción de tracks por frame.
+
+Usa fondos sólidos sin imágenes ni gradientes. El radio exige esquinas circulares uniformes y bordes uniformes compatibles, sin clip path, corner shape ni box shadow CSS; usa otra superficie para la sombra. Color de texto, color/ancho del borde y otras decoraciones siguen fuera de esta superficie. Un destino incompatible se rechaza antes de reemplazar su binding.
+
+Una escritura directa de estilo toma ese canal y libera su binding. Cambiar la imagen de fondo, el clipping o la estructura del borde libera los bindings afectados. Los demás canales continúan. La liberación normal conserva la pintura actual; un cleanup antiguo nunca sobrescribe un estilo o animación más reciente. Pausa, suspensión, segundo plano, unload/reload y reducción de movimiento usan el ciclo de vida existente. Libera los bindings y elimina el follower al desmontar el componente.
+
+<Clip name="live-paint-ios" caption="Simulador iOS, interfaz en inglés: toques reales cambian color y radio, interrumpen el resorte y pausan/reanudan. Playback nativo; sin medición de rendimiento en dispositivo físico." />
+<Clip name="live-paint-android" caption="Emulador Android, interfaz en inglés: toques reales con ADB cambian y pausan el resorte de color/radio. Velocidad original." />
+
+[Validación nativa y reproducción](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-capabilities.md).

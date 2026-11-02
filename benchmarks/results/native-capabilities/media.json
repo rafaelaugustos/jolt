@@ -1,0 +1,130 @@
+[
+  {
+    "file": "live-paint-ios.mp4",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 420,
+        "height": 914
+      }
+    ],
+    "format": {
+      "duration": "8.066667",
+      "size": "61236"
+    }
+  },
+  {
+    "file": "live-paint-android.mp4",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 420,
+        "height": 934
+      }
+    ],
+    "format": {
+      "duration": "5.100000",
+      "size": "49848"
+    }
+  },
+  {
+    "file": "seekable-scene-ios.mp4",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 420,
+        "height": 914
+      }
+    ],
+    "format": {
+      "duration": "17.600000",
+      "size": "105344"
+    }
+  },
+  {
+    "file": "seekable-scene-android.mp4",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 420,
+        "height": 934
+      }
+    ],
+    "format": {
+      "duration": "14.731383",
+      "size": "109744"
+    }
+  },
+  {
+    "file": "flex-size-ios.mp4",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 420,
+        "height": 914
+      }
+    ],
+    "format": {
+      "duration": "8.933333",
+      "size": "136323"
+    }
+  },
+  {
+    "file": "flex-size-android.mp4",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 420,
+        "height": 934
+      }
+    ],
+    "format": {
+      "duration": "4.800000",
+      "size": "88519"
+    }
+  },
+  {
+    "file": "body-springs-ios.mp4",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 420,
+        "height": 914
+      }
+    ],
+    "format": {
+      "duration": "11.466667",
+      "size": "74643"
+    }
+  },
+  {
+    "file": "body-springs-android.mp4",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 420,
+        "height": 934
+      }
+    ],
+    "format": {
+      "duration": "14.000000",
+      "size": "75100"
+    }
+  }
+]

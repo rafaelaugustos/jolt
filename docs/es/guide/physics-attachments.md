@@ -80,7 +80,7 @@ La rigidez/amortiguación rápida utilizan los mismos rangos/valores predetermin
 
 Pausa/Reducir movimiento detiene el reloj nativo existente. Una resorte tranquila duerme; un impulso, un retarget o un nuevo gesto lo despierta. La eliminación elimina las guías nativas junto con los recursos de entrada/ciclo de vida existentes en el mundo. Los cambios de entrada y los límites del ciclo de vida cruzan JavaScript; Las fuerzas, la selección de objetivos, los contactos, los dibujos y las actualizaciones de vistas por fotograma siguen siendo nativas. El hilo de la interfaz de usuario todavía se comparte con NativeScript JavaScript.
 
-La vista previa **Un lugar para regresar / Equilibrium**, en cuatro idiomas, demuestra ambos comportamientos. Los resortes con anclajes fijos y los puntos de encaje al soltar son la tercera parte entregada de [#39](https://github.com/rafaelaugustos/jolt/issues/39), disponible en **0.1.0-rc.1**. El arrastre directo predeterminado suspende las fuerzas de los resortes. La versión 0.1.0-rc.2 añade el modo de resorte en el puntero de [#238](https://github.com/rafaelaugustos/jolt/issues/238), descrito abajo. Las uniones entre cuerpos, las restricciones rígidas, las formas arbitrarias y un motor de dinámica general quedan fuera de este contrato. Consulte la [validación y reproducción](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-attachments.md) y la [auditoría de las entregas](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-completion.md).
+La vista previa **Un lugar para regresar / Equilibrium**, en cuatro idiomas, demuestra ambos comportamientos. Los resortes con anclajes fijos y los puntos de encaje al soltar son la tercera parte entregada de [#39](https://github.com/rafaelaugustos/jolt/issues/39), disponible en **0.1.0-rc.1**. El arrastre directo predeterminado suspende las fuerzas de los resortes. La versión 0.1.0-rc.2 añade el modo de resorte en el puntero de [#238](https://github.com/rafaelaugustos/jolt/issues/238), descrito abajo. Las uniones rígidas, las formas arbitrarias y un motor de dinámica general quedan fuera de este contrato. Los enlaces elásticos entre centros están en la [extensión en desarrollo](#body-springs). Consulte la [validación y reproducción](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-attachments.md) y la [auditoría de las entregas](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-completion.md).
 
 ## Arrastre con resorte en el puntero {#pointer-spring-dragging-development-build}
 
@@ -116,3 +116,38 @@ El contacto empieza dentro del círculo visible. Un puntero controla un cuerpo p
 Soltar elimina el ancla temporal y conserva la **velocidad simulada del cuerpo**, sin reemplazarla por la velocidad del dedo. Los puntos de snap se eligen con esa posición/velocidad; sin ellos vuelve el resorte fijo o el cuerpo queda libre. Cancelar libera el puntero, anula la velocidad y restaura el punto anterior sin registrar una liberación. Pausa, Reduce Motion, unload, segundo plano, resize, reset y dispose cancelan el gesto. `attach()` cambia el resorte de reposo, no el resorte del puntero activo. `snapTo()` e `impulse()` siguen ignorando un cuerpo sujeto.
 
 En el snapshot, `held` indica posesión del gesto, `pointer` describe el ancla temporal activa o es `null`, y `attachment` conserva el ancla de reposo. La entrada, integración y línea usan el reloj nativo existente, sin callbacks JavaScript por movimiento o frame. El hilo de UI sigue siendo compartido. Consulta [validación y límites](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/pointer-spring.md).
+
+## Desarrollo: resortes entre cuerpos {#body-springs}
+
+La próxima versión nativa añade resortes entre los centros de cuerpos del mismo mundo. Ambos extremos responden según sus masas. Se mantienen los límites de colisión y el reloj nativo de pasos fijos a 240 Hz, sin observador JavaScript por frame.
+
+```ts
+const world = physicsWorld(board, bodies, {
+  springs: [
+    {
+      id: 'link',
+      from: 'copper',
+      to: 'lilac',
+      length: 90,
+      stiffness: 180,
+      damping: 24,
+      line: { color: '#687C70', width: 2 },
+    },
+  ],
+})
+world.spring('link', { from: 'copper', to: 'lilac', length: 110 })
+world.spring('link', null)
+```
+
+Usa IDs estables. `world.spring(id, config)` añade o reemplaza una conexión sin reiniciar posición o velocidad; `world.spring(id, null)` elimina el resorte y su línea. `snapshot().springs` informa de la configuración actual. Todo se valida antes de reemplazar la conexión nativa.
+
+Límites: 32 resortes por mundo, cuatro por cuerpo y uno por par sin orden. Extremos distintos del mismo mundo. Longitud de reposo explícita: 0–10.000 DIPs; stiffness: 1–1000 (180 por defecto); damping: 0–120 (24 por defecto). Se rechazan extremos controlados por snap; pueden coexistir anclajes fijos y arrastre directo/con resorte de puntero. Son enlaces elásticos, no restricciones rígidas; siguen fuera rotación, articulaciones de superficie y formas arbitrarias.
+
+El par recibe fuerzas elásticas e impulsos de amortiguación axial iguales y opuestos, ponderados por masa inversa. Un cuerpo sostenido directamente es cinemático y su vecino reacciona. El arrastre con resorte mantiene ambos dinámicos; soltar conserva la velocidad del cuerpo. Límites de velocidad, colisiones y fuerzas externas pueden alterar el momento total. La longitud de reposo se mantiene en DIPs al redimensionar el padre.
+
+Pausa, segundo plano y reducción de movimiento suspenden el reloj existente. Eliminar o cambiar de padre un extremo elimina el mundo conectado y sus líneas; unload temporal con los mismos miembros permite reanudar. Recrear una view nativa requiere un mundo nuevo. Las líneas usan el estilo opcional `#RRGGBB`/0,5–6 DIPs y unen los bordes de los círculos. Dispose elimina recursos nativos de entrada y dibujo.
+
+<Clip name="body-springs-ios" caption="Simulador iOS, interfaz en inglés: arrastres reales mueven una cadena de tres cuerpos de masas distintas, seguida de impulso y pausa/reanudación." />
+<Clip name="body-springs-android" caption="Emulador Android, interfaz en inglés: gestos reales ADB arrastran y sueltan cuerpos conectados; fuerzas y líneas se actualizan nativamente. Velocidad original, sin perfil físico." />
+
+[Validación nativa y reproducción](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-capabilities.md).

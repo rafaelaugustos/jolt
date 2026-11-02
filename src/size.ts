@@ -35,7 +35,7 @@ export interface SizeAnimation extends Animation {
 }
 const owners = new WeakMap<
   View,
-  { animation: SizeAnimation; axes: readonly SizeAxis[] }
+  { animation: SizeAnimation; axes: readonly SizeAxis[]; velocity(): Partial<SizePixels> }
 >()
 
 /** Animate the actual layout box, including intrinsic auto sizes. Layout runs in JS on the UI thread. */
@@ -82,6 +82,7 @@ export function animateSize(
   })
   // Release the previous overlay only after every caller-supplied input was validated.
   const start = layout.read()
+  const initialVelocity = previous?.velocity() ?? {}
   previous?.animation.stop({ restore: true })
   let resolve!: (value: boolean) => void
   let reject!: (error: unknown) => void
@@ -169,7 +170,7 @@ export function animateSize(
               'x',
               [from[axis], next[axis]],
               initialized ? { ...transition, delay: 0 } : transition,
-              tracks.get(axis)?.velocityAt(elapsed) ?? 0,
+              tracks.get(axis)?.velocityAt(elapsed) ?? initialVelocity[axis] ?? 0,
             ),
           )
         tracks = fresh
@@ -217,7 +218,17 @@ export function animateSize(
       schedule()
     },
   }
-  owners.set(view, { animation, axes })
+  owners.set(view, {
+    animation,
+    axes,
+    velocity: () =>
+      Object.fromEntries(
+        [...tracks].map(([axis, track]) => [
+          axis,
+          paused ? 0 : track.velocityAt(clock?.time() ?? 0),
+        ]),
+      ),
+  })
   try {
     layout.watch(() => stop(true))
     layout.write(start)
