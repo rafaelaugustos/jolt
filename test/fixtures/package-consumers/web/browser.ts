@@ -36,3 +36,27 @@ function typeBoundary(context: WebRuntime) {
   context.animate({ nativeView: {} }, { x: 10 })
 }
 void typeBoundary
+
+const input = motion.motionValue(0)
+const follower = motion.springValue(input, { stiffness: 200, damping: 26 })
+const dynamic = document.getElementById('dynamic-card')!
+const binding = motion.bind(dynamic, { x: follower })
+let drag: ReturnType<typeof motion.drag> | undefined
+const dynamicResult = document.getElementById('dynamic-result')!
+document.getElementById('dynamic')!.addEventListener('click', () => {
+  input.set(40)
+  const stop = follower.subscribe((value) => {
+    if (Math.abs(value - 40) > 0.001 || follower.moving) return
+    stop()
+    binding.dispose()
+    drag = motion.drag(dynamic, { axis: 'x', snap: { x: [100] } })
+    dynamicResult.textContent = 'ready'
+  })
+})
+document.getElementById('dynamic-dispose')!.addEventListener('click', () => {
+  drag?.dispose()
+  motion.release(dynamic)
+  input.dispose()
+  follower.dispose()
+  dynamicResult.textContent = 'disposed'
+})

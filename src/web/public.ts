@@ -1,3 +1,19 @@
+import type { WebDrag, WebDragOptions } from './drag.js'
+export type { WebDrag, WebDragOptions } from './drag.js'
+import type { WebSpringOptions, WebSpringValue } from './spring-value.js'
+export type { WebSpringOptions, WebSpringValue } from './spring-value.js'
+import type {
+  WebMotionValue,
+  WebReadableValue,
+  WebBindings,
+  WebBinding,
+} from './value.js'
+export type {
+  WebMotionValue,
+  WebReadableValue,
+  WebBindings,
+  WebBinding,
+} from './value.js'
 import { createWebRuntime as createInternalRuntime } from './runtime.js'
 import type { WebPress, WebPressOptions } from './press.js'
 export type { WebPress, WebPressOptions, WebPressState } from './press.js'
@@ -35,6 +51,10 @@ export interface WebAnimation extends PlaybackAnimation {
 
 /** Experimental DOM context; platform/framework adapters are not public APIs. */
 export interface WebRuntime {
+  drag(target: HTMLElement, options?: WebDragOptions): WebDrag
+  motionValue(initial: number): WebMotionValue
+  springValue(source: WebMotionValue, options?: WebSpringOptions): WebSpringValue
+  bind(target: HTMLElement, values: WebBindings): WebBinding
   animate(
     target: HTMLElement | readonly HTMLElement[],
     animation: Keyframes | string,
@@ -62,6 +82,10 @@ export function createWebRuntime(
   // Keep diagnostics, ownership internals and driver implementation off the
   // package API, including at runtime rather than only in the declarations.
   return {
+    drag: runtime.drag.bind(runtime),
+    motionValue: runtime.motionValue.bind(runtime),
+    springValue: runtime.springValue.bind(runtime),
+    bind: runtime.bind.bind(runtime),
     animate: runtime.animate.bind(runtime),
     set: runtime.set.bind(runtime),
     press: runtime.press.bind(runtime),

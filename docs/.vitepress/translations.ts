@@ -77,6 +77,7 @@ export const es = {
   webRuntime: 'Runtime Web finito',
   webPress: 'Pulsación en Web',
   webVue: 'Movimiento Vue en Web',
+  webDynamic: 'Movimiento continuo en Web',
   limits: 'Estado de la versión y límites',
 }
 
@@ -157,6 +158,7 @@ export const zh = {
   webRuntime: 'Web 有限动画运行时',
   webPress: 'Web 按压反馈',
   webVue: 'Vue Web 动画',
+  webDynamic: 'Web 连续动画',
   limits: '发布状态与限制',
 }
 

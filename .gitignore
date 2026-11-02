@@ -46,3 +46,6 @@ benchmarks/web-press/captures/
 
 benchmarks/web-integration/results/
 benchmarks/web-integration/captures/
+
+benchmarks/web-dynamic/results/
+benchmarks/web-dynamic/captures/

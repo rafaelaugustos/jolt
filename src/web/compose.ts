@@ -50,6 +50,13 @@ export function poseAt(
   return pose
 }
 
+export function formatPose(p: Pose, baseline: string) {
+  return {
+    transform: `${baseline} translate(${p.x}px, ${p.y}px) rotate(${p.rotate}deg) scale(${p.scaleX}, ${p.scaleY})`,
+    opacity: String(p.opacity),
+  }
+}
+
 export function compose(
   entries: readonly Contribution[],
   rest: readonly Rest[],

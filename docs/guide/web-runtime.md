@@ -2,6 +2,8 @@
 
 Since **0.1.0-rc.5**, the experimental `@rafaelaugusto/jolt/web` entry uses Jolt’s portable compiler and WAAPI directly on HTML elements, independently of Vue, React or NativeScript. See [installation](./install#experimental-web-candidate). Mavis press/reveal migration and the shared application example remain separate acceptance work in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
+The checkout also contains [continuous Web motion](./web-dynamic), an unreleased experimental follow-up with values, followers and drag/snap. Those methods are not included in published RC.5.
+
 Pointer and keyboard input are now covered by [Web press feedback](./web-press); the recording below remains the finite-runtime reference.
 
 <Clip name="web-runtime-chromium" :width="720" caption="Chromium 156 on macOS arm64, real browser playback and clicks at real-time speed: movement with opacity, partial interruption, application scale plus a press contribution, reverse repeat, pause, seek, resume and reduced motion. Buttons exercise the contribution; full pointer/keyboard press recognition is separate work (#283)." />

@@ -1,8 +1,17 @@
+import { createDrag, dragOptions, assertDragSpace, type WebDragOptions } from './drag.js'
 import { createTrack, type Track } from '../core/track.js'
 import { createOwnership } from '../core/ownership.js'
 import { validateProgress } from '../core/playback.js'
 import { presets as builtins } from '../core/presets.js'
-import { compose, poseAt, type Contribution, type Rest } from './compose.js'
+import { compose, poseAt, formatPose, type Contribution, type Rest } from './compose.js'
+import { SpringValueNode, type WebSpringOptions } from './spring-value.js'
+import { FrameScheduler, type FrameTask } from './scheduler.js'
+import {
+  NumericValue,
+  type WebReadableValue,
+  type WebBindings,
+  type WebBinding,
+} from './value.js'
 import { flatten, sampled, type Point } from './curve.js'
 import { prepare, type Plan } from './plan.js'
 import { createPress, validatePressState, type WebPressOptions } from './press.js'
@@ -32,11 +41,18 @@ interface Entry {
   points: Point[]
   token?: symbol
 }
+interface LiveEntry {
+  property: Property
+  source: NumericValue
+  cleanup?: () => void
+}
 interface State {
+  bindings: Map<string, LiveEntry>
   entries: Map<string, Entry>
   rest: Map<string, Rest>
 }
 const clone = (state: State): State => ({
+  bindings: new Map(state.bindings),
   entries: new Map(state.entries),
   rest: new Map(state.rest),
 })
@@ -55,6 +71,44 @@ class Surface {
   private className: string
   private origin: string
   private baseline: string
+  readonly task: FrameTask = {
+    read: () => {
+      try {
+        this.assert()
+      } catch (error) {
+        this.runtime.release(this.target)
+        throw error
+      }
+    },
+    update: () =>
+      !this.disposed &&
+      [...this.state.entries.values()].some((e) => !e.owner.paused && !e.owner.pending),
+    write: () => {
+      if (!this.disposed && this.state.bindings.size) this.render(this.runtime.now())
+    },
+  }
+  rest(state = this.state): Rest[] {
+    return [
+      ...state.rest.values(),
+      ...[...state.bindings.values()].map((e) => ({
+        property: e.property,
+        value: e.source.get(),
+      })),
+    ]
+  }
+  render(at: number) {
+    this.write(
+      formatPose(poseAt(this.snapshot(this.state, at), this.rest()), this.baseline),
+    )
+  }
+  private write(style: { transform: string; opacity: string }) {
+    this.target.style.transform = style.transform
+    this.target.style.opacity = style.opacity
+    this.written = {
+      transform: this.target.style.transform,
+      opacity: this.target.style.opacity,
+    }
+  }
 
   constructor(
     readonly runtime: WebRuntime,
@@ -87,6 +141,7 @@ class Surface {
     this.original = { transform: target.style.transform, opacity: target.style.opacity }
     this.written = { ...this.original }
     this.state = {
+      bindings: new Map(),
       entries: new Map(),
       rest: new Map(
         properties.map((property) => [
@@ -100,6 +155,13 @@ class Surface {
     }
   }
 
+  assertDrag() {
+    this.assert()
+    assertDragSpace(
+      this.target,
+      new this.runtime.view.DOMMatrix(this.baseline).isIdentity,
+    )
+  }
   assert() {
     const { target, runtime } = this
     if (this.disposed || !target.isConnected || target.ownerDocument !== runtime.document)
@@ -139,6 +201,18 @@ class Surface {
 
   prepare(state: State, at: number, controls: Map<Owner, Control>) {
     this.assert()
+    if (state.bindings.size) {
+      const current = formatPose(
+        poseAt(this.snapshot(state, at, controls), this.rest(state)),
+        this.baseline,
+      )
+      return {
+        ...current,
+        duration: 0,
+        frames: [] as Keyframe[],
+        animation: undefined as globalThis.Animation | undefined,
+      }
+    }
     const result = compose(
       this.snapshot(state, at, controls),
       [...state.rest.values()],
@@ -162,12 +236,7 @@ class Surface {
 
   commit(state: State, prepared: ReturnType<Surface['prepare']>) {
     const previous = this.effect
-    this.target.style.transform = prepared.transform
-    this.target.style.opacity = prepared.opacity
-    this.written = {
-      transform: this.target.style.transform,
-      opacity: this.target.style.opacity,
-    }
+    this.write(prepared)
     this.state = state
     this.effect = prepared.animation
     this.frameCount = prepared.frames.length
@@ -197,6 +266,9 @@ class Surface {
         !this.target.style.getPropertyPriority(property)
       )
         this.target.style[property] = this.original[property]
+    this.runtime.scheduler.remove(this.task)
+    for (const entry of this.state.bindings.values()) entry.cleanup?.()
+    this.state.bindings.clear()
     this.state.entries.clear()
     this.state.rest.clear()
     if (owners.get(this.target) === this) owners.delete(this.target)
@@ -381,11 +453,17 @@ export class WebRuntime {
   private readonly ownership = createOwnership<HTMLElement, string>()
   private readonly observers = new Map<Node, MutationObserver>()
   private readonly presses = new Map<HTMLElement, ReturnType<typeof createPress>>()
+  private readonly drags = new Map<HTMLElement, ReturnType<typeof createDrag>>()
   private nextPress = 0
   private readonly preference: MediaQueryList
   private reported: boolean
   private disposed = false
-  private pendingFrame?: number
+  private pendingFrame?: FrameTask
+  readonly scheduler: FrameScheduler
+  private readonly values = new Set<NumericValue>()
+  private readonly nodes = new WeakMap<WebReadableValue, NumericValue>()
+  private readonly visibility = () => this.scheduler.hidden(this.document.hidden)
+  private readonly report = (error: unknown) => this.view.reportError(error)
 
   constructor(
     readonly document: Document,
@@ -395,6 +473,12 @@ export class WebRuntime {
     if (!view)
       throw new TypeError('A live document is required to create the Web runtime.')
     this.view = view as Realm
+    this.scheduler = new FrameScheduler({
+      now: () => this.now(),
+      request: (callback) => this.view.requestAnimationFrame(callback),
+      cancel: (id) => this.view.cancelAnimationFrame(id),
+      error: this.report,
+    })
     if (!this.view.Animation || !this.view.KeyframeEffect || !document.timeline)
       throw new Error('Web Animations API is required.')
     this.settings = this.validate(options, { timeScale: 1, reducedMotion: 'user' })
@@ -408,6 +492,8 @@ export class WebRuntime {
     this.preference = this.view.matchMedia('(prefers-reduced-motion: reduce)')
     this.reported = this.reduced()
     this.preference.addEventListener('change', this.preferenceChanged)
+    this.document.addEventListener('visibilitychange', this.visibility)
+    this.visibility()
     for (const [name, preset] of Object.entries(builtins)) {
       if (
         Object.keys(preset.keyframes).every(
@@ -483,6 +569,90 @@ export class WebRuntime {
     return result
   }
 
+  motionValue(initial: number) {
+    this.assert()
+    const node = new NumericValue(this.scheduler, initial, this.report, () =>
+      this.values.delete(node),
+    )
+    const handle = node.handle()
+    this.values.add(node)
+    this.nodes.set(handle, node)
+    return handle
+  }
+
+  springValue(source: WebReadableValue, options: WebSpringOptions = {}) {
+    this.assert()
+    const input = this.nodes.get(source)
+    if (!input || input.disposed || input instanceof SpringValueNode)
+      throw new TypeError(
+        'A continuous spring requires a live input motion value from this runtime.',
+      )
+    const node = new SpringValueNode(
+      this.scheduler,
+      input,
+      options,
+      () => ({ reduced: this.reduced(), timeScale: this.settings.timeScale }),
+      this.report,
+      () => this.values.delete(node),
+    )
+    const handle = node.springHandle()
+    this.values.add(node)
+    this.nodes.set(handle, node)
+    return handle
+  }
+
+  bind(target: HTMLElement, values: WebBindings): WebBinding {
+    this.assert()
+    this.targets(target)
+    if (!values || typeof values !== 'object' || !Object.keys(values).length)
+      throw new TypeError('bind() requires numeric motion values.')
+    const surface = this.surfaces.get(target) ?? new Surface(this, target)
+    const state = clone(surface.state)
+    const added = new Map<string, LiveEntry>()
+    for (const [name, value] of Object.entries(values)) {
+      if (name !== 'scale' && !properties.includes(name as Property))
+        throw new TypeError('Unsupported binding property.')
+      const source = this.nodes.get(value)
+      if (!source || source.disposed)
+        throw new TypeError('Bindings require a live value from this runtime.')
+      for (const property of name === 'scale'
+        ? (['scaleX', 'scaleY'] as const)
+        : [name as Property]) {
+        if (name === 'scale' && values[property]) continue
+        const key = keyOf(property),
+          entry = { property, source }
+        state.entries.delete(key)
+        state.rest.delete(key)
+        state.bindings.set(key, entry)
+        added.set(key, entry)
+      }
+    }
+    this.transaction(new Map([[surface, state]]), this.now())
+    return { dispose: () => this.unbind(surface, added) }
+  }
+
+  private unbind(surface: Surface, selected: ReadonlyMap<string, LiveEntry>) {
+    if (surface.disposed) return
+    if (!surface.target.isConnected || surface.target.ownerDocument !== this.document) {
+      this.release(surface.target)
+      return
+    }
+    const state = clone(surface.state)
+    for (const [key, entry] of selected)
+      if (state.bindings.get(key) === entry) {
+        state.bindings.delete(key)
+        this.rest(state, key, entry.property, entry.source.get())
+      }
+    if (state.bindings.size !== surface.state.bindings.size) {
+      try {
+        this.transaction(new Map([[surface, state]]), this.now())
+      } catch (error) {
+        this.release(surface.target)
+        throw error
+      }
+    }
+  }
+
   animate(
     target: HTMLElement | readonly HTMLElement[],
     animation: Keyframes | string,
@@ -518,9 +688,14 @@ export class WebRuntime {
         const time = old?.owner.time(at) ?? 0
         const from = old
           ? old.track.valueAt(time)
-          : (surface.state.rest.get(key)?.value ?? identity(plan.property))
-        const velocity =
-          old && !old.owner.paused && !old.owner.pending ? old.track.velocityAt(time) : 0
+          : (surface.state.bindings.get(key)?.source.get() ??
+            surface.state.rest.get(key)?.value ??
+            identity(plan.property))
+        const velocity = old
+          ? !old.owner.paused && !old.owner.pending
+            ? old.track.velocityAt(time)
+            : 0
+          : (surface.state.bindings.get(key)?.source.getVelocity() ?? 0)
         const values = plan.frames.map((value) =>
           value === null
             ? from
@@ -550,6 +725,7 @@ export class WebRuntime {
       for (const { plan, track, points } of tracks) {
         const key = keyOf(plan.property, plan.layer)
         state.entries.delete(key)
+        state.bindings.delete(key)
         if (track.end === 0) this.rest(state, key, plan.property, track.to, plan.layer)
         else {
           state.rest.delete(key)
@@ -639,6 +815,99 @@ export class WebRuntime {
     return binding.handle
   }
 
+  drag(target: HTMLElement, options: WebDragOptions = {}) {
+    this.assert()
+    this.targets(target)
+    if (this.drags.has(target)) throw new Error('The surface already has drag input.')
+    const config = dragOptions(options)
+    // Validate spring compilation before claiming a surface or changing input styles.
+    prepare({ x: 1 }, { type: 'spring', ...config.spring }, this.presets, 1)
+    const surface = this.surfaces.get(target) ?? new Surface(this, target)
+    surface.assertDrag()
+    if (!this.surfaces.has(target))
+      this.transaction(new Map([[surface, clone(surface.state)]]), this.now())
+    const axes = config.axis === 'both' ? (['x', 'y'] as const) : ([config.axis] as const)
+    let binding: WebBinding | undefined
+    const inputs = new Map<'x' | 'y', ReturnType<WebRuntime['motionValue']>>()
+    const read = () => {
+      const at = this.now()
+      const channel = (property: 'x' | 'y') => {
+        const key = keyOf(property),
+          entry = surface.state.entries.get(key)
+        return (
+          surface.state.bindings.get(key)?.source.get() ??
+          (entry
+            ? sampled(entry.points, entry.owner.time(at))
+            : (surface.state.rest.get(key)?.value ?? 0))
+        )
+      }
+      return { x: channel('x'), y: channel('y') }
+    }
+    const cleanup = () => {
+      const current = binding
+      binding = undefined
+      const values = [...inputs.values()]
+      inputs.clear()
+      try {
+        current?.dispose()
+      } finally {
+        for (const value of values) value.dispose()
+      }
+    }
+    const drag = createDrag(target, config, {
+      scheduler: this.scheduler,
+      read,
+      validate: () => surface.assertDrag(),
+      begin: () => {
+        const current = read()
+        try {
+          for (const axis of axes) inputs.set(axis, this.motionValue(current[axis]))
+          binding = this.bind(target, Object.fromEntries(inputs))
+        } catch (error) {
+          cleanup()
+          throw error
+        }
+      },
+      owns: () =>
+        [...inputs].every(
+          ([axis, value]) =>
+            surface.state.bindings.get(keyOf(axis))?.source === this.nodes.get(value),
+        ),
+      write: (point) => {
+        for (const [axis, value] of inputs) value.set(point[axis])
+      },
+      cancel: cleanup,
+      release: (point, velocity) => {
+        try {
+          return this.animate(
+            target,
+            Object.fromEntries(axes.map((axis) => [axis, point[axis]])),
+            {
+              type: 'spring',
+              ...config.spring,
+              ...Object.fromEntries(
+                axes.map((axis) => [
+                  axis,
+                  { type: 'spring', ...config.spring, velocity: velocity[axis] },
+                ]),
+              ),
+            },
+          )
+        } finally {
+          cleanup()
+        }
+      },
+      dispose: () => {
+        cleanup()
+        this.drags.delete(target)
+        if (!target.isConnected || target.ownerDocument !== this.document)
+          this.release(target)
+      },
+    })
+    this.drags.set(target, drag)
+    return drag.handle
+  }
+
   private rest(
     state: State,
     key: string,
@@ -692,7 +961,23 @@ export class WebRuntime {
           entry.owner.entries.add(entry)
           affected.add(entry.owner)
         }
+      for (const [key, previous] of surface.state.bindings)
+        if (state.bindings.get(key) !== previous) {
+          previous.cleanup?.()
+          if (!state.entries.has(key) && !state.bindings.has(key))
+            this.ownership.invalidate(surface.target, [key])
+        }
+      for (const [key, entry] of state.bindings)
+        if (surface.state.bindings.get(key) !== entry) {
+          this.ownership.claim(surface.target, key)
+          entry.cleanup = entry.source.listen(
+            () => this.scheduler.add(surface.task),
+            () => this.unbind(surface, new Map([[key, entry]])),
+          )
+        }
       surface.commit(state, prepared.get(surface)!)
+      if (state.bindings.size) this.scheduler.add(surface.task)
+      else this.scheduler.remove(surface.task)
       this.surfaces.set(surface.target, surface)
     }
     for (const owner of affected) {
@@ -701,6 +986,7 @@ export class WebRuntime {
     }
     this.observe()
     this.schedulePending()
+    for (const drag of this.drags.values()) drag.refresh()
   }
 
   control(owner: Owner, control: Control) {
@@ -736,6 +1022,16 @@ export class WebRuntime {
     const names = selected?.flatMap((p) => (p === 'scale' ? ['scaleX', 'scaleY'] : [p]))
     if (names?.some((p) => !properties.includes(p as Property)))
       throw new TypeError('Unsupported property to stop.')
+    for (const surface of this.surfaces.values())
+      if (targets.has(surface.target) && options?.layer === undefined)
+        this.unbind(
+          surface,
+          new Map(
+            [...surface.state.bindings].filter(
+              ([, entry]) => !names || names.includes(entry.property),
+            ),
+          ),
+        )
     this.remove(
       (entry) =>
         (!names || names.includes(entry.property)) &&
@@ -776,6 +1072,8 @@ export class WebRuntime {
     const reduced = this.reduced()
     if (reduced === this.reported) return
     this.reported = reduced
+    for (const value of this.values)
+      if (value instanceof SpringValueNode) value.preferenceChanged()
     if (reduced) {
       try {
         this.remove((entry) => entry.property !== 'opacity', true)
@@ -788,32 +1086,36 @@ export class WebRuntime {
   private schedulePending() {
     if (this.pendingFrame !== undefined || ![...this.animations].some((a) => a.pending))
       return
-    this.pendingFrame = this.view.requestAnimationFrame(() => {
-      this.pendingFrame = undefined
-      if (this.disposed) return
-      if (this.document.timeline.currentTime === null) {
-        this.schedulePending()
-        return
-      }
-      const at = this.now(),
-        controls = new Map<Owner, Control>()
-      for (const owner of this.animations)
-        if (owner.pending)
-          controls.set(owner, {
-            time: owner.time(at),
-            paused: owner.paused,
-            pending: false,
-          })
-      const proposals = new Map<Surface, State>()
-      for (const surface of this.surfaces.values())
-        if ([...surface.state.entries.values()].some((e) => controls.has(e.owner)))
-          proposals.set(surface, clone(surface.state))
-      try {
-        this.transaction(proposals, at, controls)
-      } catch {
-        for (const surface of proposals.keys()) this.release(surface.target)
-      }
-    })
+    const task: FrameTask = {
+      update: () => {
+        this.pendingFrame = undefined
+        if (this.disposed) return
+        if (this.document.timeline.currentTime === null) {
+          this.schedulePending()
+          return
+        }
+        const at = this.now(),
+          controls = new Map<Owner, Control>()
+        for (const owner of this.animations)
+          if (owner.pending)
+            controls.set(owner, {
+              time: owner.time(at),
+              paused: owner.paused,
+              pending: false,
+            })
+        const proposals = new Map<Surface, State>()
+        for (const surface of this.surfaces.values())
+          if ([...surface.state.entries.values()].some((e) => controls.has(e.owner)))
+            proposals.set(surface, clone(surface.state))
+        try {
+          this.transaction(proposals, at, controls)
+        } catch {
+          for (const surface of proposals.keys()) this.release(surface.target)
+        }
+      },
+    }
+    this.pendingFrame = task
+    this.scheduler.add(task)
   }
 
   private observe() {
@@ -832,6 +1134,7 @@ export class WebRuntime {
             if (!target.isConnected || target.ownerDocument !== this.document)
               this.release(target)
           for (const press of this.presses.values()) press.refresh()
+          for (const drag of this.drags.values()) drag.refresh()
           this.observe()
         })
         observer.observe(root, {
@@ -845,9 +1148,12 @@ export class WebRuntime {
   }
 
   release(target: HTMLElement) {
+    const surface = this.surfaces.get(target)
+    if (surface) surface.disposed = true
+    this.drags.get(target)?.detach()
+    this.drags.delete(target)
     this.presses.get(target)?.detach()
     this.presses.delete(target)
-    const surface = this.surfaces.get(target)
     if (!surface) return
     const at = this.now(),
       affected = new Set<Owner>()
@@ -866,7 +1172,7 @@ export class WebRuntime {
   forget(owner: Owner) {
     this.animations.delete(owner)
     if (this.pendingFrame !== undefined && ![...this.animations].some((a) => a.pending)) {
-      this.view.cancelAnimationFrame(this.pendingFrame)
+      this.scheduler.remove(this.pendingFrame)
       this.pendingFrame = undefined
     }
   }
@@ -877,13 +1183,18 @@ export class WebRuntime {
       at = this.now()
     return {
       targets: this.surfaces.size,
+      values: this.values.size,
+      scheduler: {
+        tasks: this.scheduler.size,
+        pending: this.scheduler.pending,
+        frames: this.scheduler.frames,
+      },
       animations: this.animations.size,
       observers: this.observers.size,
       pendingFrame: this.pendingFrame !== undefined,
       ...(surface && {
-        pose: poseAt(surface.snapshot(surface.state, at), [
-          ...surface.state.rest.values(),
-        ]),
+        pose: poseAt(surface.snapshot(surface.state, at), surface.rest()),
+        bindings: surface.state.bindings.size,
         effects: surface.target.getAnimations().length,
         keyframes: surface.frameCount,
         rebuilds: surface.rebuilds,
@@ -910,10 +1221,12 @@ export class WebRuntime {
     if (this.disposed) return
     this.disposed = true
     this.preference.removeEventListener('change', this.preferenceChanged)
+    this.document.removeEventListener('visibilitychange', this.visibility)
     for (const target of [...this.surfaces.keys()]) this.release(target)
     for (const observer of this.observers.values()) observer.disconnect()
     this.observers.clear()
-    if (this.pendingFrame !== undefined) this.view.cancelAnimationFrame(this.pendingFrame)
+    for (const value of [...this.values]) value.dispose()
+    this.scheduler.dispose()
     this.pendingFrame = undefined
     this.presets.clear()
   }

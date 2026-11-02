@@ -26,9 +26,36 @@ test('v-show show/hide/show cancels old leave and preserves reentry', async ({
 }) => {
   await page.evaluate(() => integrationLab.mount({ persisted: true, duration: 500 }))
   await settle(page)
-  await page.click('#toggle')
-  await page.waitForTimeout(100)
-  await page.click('#toggle')
+  // Toggle from the browser's animation frame: a second automation click can
+  // arrive after the entire leave on a busy runner, testing reentry instead.
+  const interruption = await page.evaluate(async () => {
+    const state = integrationLab.state()
+    state.show.value = false
+    await state.nextTick()
+    return new Promise<{ time: number; opacity: number }>((resolve, reject) => {
+      const tick = () => {
+        const card = document.querySelector('#card')!
+        const animation = card.getAnimations()[0]
+        if (!animation) {
+          reject(new Error('Leave completed before its interruption checkpoint.'))
+          return
+        }
+        const time = Number(animation.currentTime ?? 0)
+        if (time < 100) {
+          requestAnimationFrame(tick)
+          return
+        }
+        const opacity = Number(getComputedStyle(card).opacity)
+        state.show.value = true
+        void state.nextTick().then(() => resolve({ time, opacity }))
+      }
+      requestAnimationFrame(tick)
+    })
+  })
+  expect(interruption.time).toBeGreaterThanOrEqual(100)
+  expect(interruption.time).toBeLessThan(500)
+  expect(interruption.opacity).toBeGreaterThan(0)
+  expect(interruption.opacity).toBeLessThan(1)
   await settle(page)
   await expect(page.locator('#card')).toBeVisible()
   const events = await page.evaluate(() => integrationLab.state().events)

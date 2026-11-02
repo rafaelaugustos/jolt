@@ -1,0 +1,100 @@
+{
+  "recordedAt": "2026-11-02T00:09:35.064Z",
+  "stats": {
+    "startTime": "2026-11-02T00:09:35.064Z",
+    "duration": 16561.904000000002,
+    "expected": 49,
+    "skipped": 2,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "workloads": [
+    {
+      "browser": "chromium",
+      "preparationMs": 2.200000047683716,
+      "settled": {
+        "targets": 32,
+        "values": 33,
+        "scheduler": {
+          "tasks": 0,
+          "pending": false,
+          "frames": 49
+        },
+        "animations": 0,
+        "observers": 1,
+        "pendingFrame": false
+      },
+      "idle": true,
+      "cleanup": {
+        "targets": 0,
+        "values": 0,
+        "scheduler": {
+          "tasks": 0,
+          "pending": false,
+          "frames": 49
+        },
+        "animations": 0,
+        "observers": 0,
+        "pendingFrame": false
+      }
+    },
+    {
+      "browser": "firefox",
+      "preparationMs": 3,
+      "settled": {
+        "targets": 32,
+        "values": 33,
+        "scheduler": {
+          "tasks": 0,
+          "pending": false,
+          "frames": 96
+        },
+        "animations": 0,
+        "observers": 1,
+        "pendingFrame": false
+      },
+      "idle": true,
+      "cleanup": {
+        "targets": 0,
+        "values": 0,
+        "scheduler": {
+          "tasks": 0,
+          "pending": false,
+          "frames": 96
+        },
+        "animations": 0,
+        "observers": 0,
+        "pendingFrame": false
+      }
+    },
+    {
+      "browser": "webkit",
+      "preparationMs": 4,
+      "settled": {
+        "targets": 32,
+        "values": 33,
+        "scheduler": {
+          "tasks": 0,
+          "pending": false,
+          "frames": 48
+        },
+        "animations": 0,
+        "observers": 1,
+        "pendingFrame": false
+      },
+      "idle": true,
+      "cleanup": {
+        "targets": 0,
+        "values": 0,
+        "scheduler": {
+          "tasks": 0,
+          "pending": false,
+          "frames": 48
+        },
+        "animations": 0,
+        "observers": 0,
+        "pendingFrame": false
+      }
+    }
+  ]
+}
