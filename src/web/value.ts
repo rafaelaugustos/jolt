@@ -203,6 +203,34 @@ export class NumericValue {
   }
 }
 
+/** Mutable input with an optional analytical playback reader; frame work follows demand. */
+export class MotionInputNode extends NumericValue {
+  private reader?: () => { value: number; velocity: number; moving: boolean }
+  private wake?: () => void
+  get observed() {
+    return this.demanded
+  }
+  playback(
+    reader?: () => { value: number; velocity: number; moving: boolean },
+    wake?: () => void,
+  ) {
+    this.reader = reader
+    this.wake = wake
+  }
+  override get() {
+    return this.reader?.().value ?? super.get()
+  }
+  override getVelocity() {
+    return this.ended ? 0 : (this.reader?.().velocity ?? super.getVelocity())
+  }
+  override get moving() {
+    return !this.ended && (this.reader?.().moving ?? false)
+  }
+  protected override demandChanged() {
+    this.wake?.()
+  }
+}
+
 /** A numeric driver mapped through the same premultiplied OKLab mixer as native. */
 export class ColorMappedNode extends NumericValue {
   override readonly kind = 'color'

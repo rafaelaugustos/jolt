@@ -1,3 +1,21 @@
+export type { WebPathDrawing, WebPathOptions, WebPathTransition } from './stroke.js'
+export type {
+  WebMotionStates,
+  WebMotionState,
+  WebMotionDefinitions,
+  WebMotionStatesOptions,
+  WebStateTransition,
+} from './motion-states.js'
+export type {
+  WebStep,
+  WebTimelineStep,
+  WebSequenceOptions,
+  SequencePosition,
+  PlayableAnimation,
+  TimelineAnimation,
+} from './sequence.js'
+export type { WebDecayOptions, WebDecayVelocity } from './decay.js'
+export type { WebValueAnimationOptions } from './value-playback.js'
 import type { WebDrag, WebDragOptions } from './drag.js'
 import type { WebMotionScope } from './scope.js'
 import type { WebSharedLayout, WebSharedLayoutOptions } from './shared-layout.js'
@@ -100,6 +118,35 @@ export interface WebAnimation extends PlaybackAnimation {
 
 /** Experimental DOM context; platform/framework adapters are not public APIs. */
 export interface WebRuntime {
+  drawPath(
+    target: SVGGeometryElement,
+    options?: import('./stroke.js').WebPathOptions,
+  ): import('./stroke.js').WebPathDrawing
+  motionStates<
+    T extends Record<string, HTMLElement | null>,
+    const S extends Record<string, import('./motion-states.js').WebMotionState<keyof T>>,
+  >(
+    targets: T,
+    definitions: import('./motion-states.js').WebMotionDefinitions<T, S>,
+    options?: import('./motion-states.js').WebMotionStatesOptions<
+      Extract<keyof T, string>
+    >,
+  ): import('./motion-states.js').WebMotionStates<
+    Extract<keyof S, string>,
+    Extract<keyof T, string>
+  >
+  sequence(
+    steps: readonly import('./sequence.js').WebStep[],
+  ): import('../core/playback.js').Animation
+  timeline(
+    steps: readonly import('./sequence.js').WebTimelineStep[],
+  ): import('../core/sequence.js').TimelineAnimation
+  decay(
+    target: HTMLElement | readonly HTMLElement[],
+    velocity: import('./decay.js').WebDecayVelocity,
+    options?: import('./decay.js').WebDecayOptions,
+  ): WebAnimation
+  playbackProgress(animation: import('../core/playback.js').Animation): WebReadableValue
   sharedLayout(container: HTMLElement, options?: WebSharedLayoutOptions): WebSharedLayout
   diagnostics(options: WebDiagnosticsOptions): WebDiagnostics
   scope(setup?: (scope: WebMotionScope) => void): WebMotionScope
@@ -139,12 +186,19 @@ export interface WebRuntime {
   springValue(source: WebReadableValue, options?: WebSpringOptions): WebSpringValue
   bind(target: HTMLElement, values: WebBindings): WebBinding
   animate(
+    target: WebMotionValue,
+    animation: number | readonly (number | null)[],
+    options?: import('./value-playback.js').WebValueAnimationOptions | SpringName,
+  ): WebAnimation
+  animate(
     target: HTMLElement | readonly HTMLElement[],
     animation: Keyframes | string,
     options?: AnimateOptions | SpringName,
   ): WebAnimation
+  set(target: WebMotionValue, value: number): void
   set(target: HTMLElement | readonly HTMLElement[], values: Values): WebAnimation
   press(target: HTMLElement, values?: Values, options?: WebPressOptions): WebPress
+  stop(target: WebMotionValue, options?: { layer?: string }): void
   stop(
     target: HTMLElement | readonly HTMLElement[],
     properties?: readonly import('./types.js').KeyframeProperty[],
@@ -165,6 +219,12 @@ export function createWebRuntime(
   // Keep diagnostics, ownership internals and driver implementation off the
   // package API, including at runtime rather than only in the declarations.
   return {
+    drawPath: runtime.drawPath.bind(runtime),
+    motionStates: runtime.motionStates.bind(runtime),
+    sequence: runtime.sequence.bind(runtime),
+    timeline: runtime.timeline.bind(runtime),
+    decay: runtime.decay.bind(runtime),
+    playbackProgress: runtime.playbackProgress.bind(runtime),
     sharedLayout: runtime.sharedLayout.bind(runtime),
     diagnostics: runtime.diagnostics.bind(runtime),
     scope: runtime.scope.bind(runtime),

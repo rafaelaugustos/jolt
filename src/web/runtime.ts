@@ -1,3 +1,23 @@
+import { StrokeSurface, type WebPathOptions } from './stroke.js'
+import {
+  createMotionStates,
+  type WebMotionStates,
+  type WebMotionState,
+  type WebMotionDefinitions,
+  type WebMotionStatesOptions,
+} from './motion-states.js'
+import { ContextTimers } from './timers.js'
+import { composePrepared, type TimelineAnimation } from '../core/sequence.js'
+import { sequenceSteps, type WebStep, type WebTimelineStep } from './sequence.js'
+import { decayPlans, type WebDecayOptions, type WebDecayVelocity } from './decay.js'
+import { ProgressNode } from './progress.js'
+import {
+  registerPlayback,
+  playbackSource,
+  type Animation as MotionAnimation,
+} from '../core/playback.js'
+import { setArrival, setArrivalTiming } from '../core/arrival.js'
+import { valuePlan, valueTrack, type WebValueAnimationOptions } from './value-playback.js'
 import { createDrag, dragOptions, assertDragSpace, type WebDragOptions } from './drag.js'
 import { createWebScope, type WebMotionScope, type WebMotionResource } from './scope.js'
 import {
@@ -44,6 +64,7 @@ import {
 } from './scroll.js'
 import {
   NumericValue,
+  MotionInputNode,
   DerivedValueNode,
   ColorMappedNode,
   type WebReadableValue,
@@ -105,7 +126,12 @@ interface LiveEntry {
   cleanup?: () => void
 }
 interface ValueEntry extends Entry {
-  source: NumericValue
+  source: MotionInputNode
+}
+interface ValueState {
+  source: MotionInputNode
+  entries: Map<string, ValueEntry>
+  rests: Map<string, number>
   cancel(): void
 }
 interface State {
@@ -562,6 +588,10 @@ class Owner implements PlaybackAnimation {
   private end: number
   private resolve!: (value: boolean) => void
   private resolveReady!: () => void
+  private notify!: () => void
+  private arrive!: () => void
+  private arrived = false
+  private cancelArrival?: () => void
 
   constructor(
     private runtime: WebRuntime,
@@ -577,6 +607,31 @@ class Owner implements PlaybackAnimation {
     this.ready = new Promise((resolve) => {
       this.resolveReady = resolve
     })
+    this.notify = registerPlayback(this, () => ({
+      time: this.time(),
+      duration: this.duration,
+      paused: this.paused,
+      ready: !this.pending,
+      settled: this.settled,
+      completed: this.complete && this.settled,
+    }))
+    setArrival(
+      this,
+      new Promise<void>((resolve) => {
+        this.arrive = resolve
+      }),
+    )
+    setArrivalTiming(this, {
+      read: () => ({
+        remaining: this.pending
+          ? undefined
+          : Math.max(0, this.arrivalTime() - this.time()),
+        paused: this.paused,
+        arrived: this.arrived,
+      }),
+      subscribe: (callback) => playbackSource(this).subscribe(callback),
+    })
+    runtime.rememberPlayback(this)
   }
 
   time(at?: number) {
@@ -592,6 +647,8 @@ class Owner implements PlaybackAnimation {
     return Math.max(0, Math.min(this.duration, at - start))
   }
   get progress() {
+    if (!Number.isFinite(this.duration))
+      throw new RangeError('Progress requires a finite animation.')
     return this.settled && this.complete
       ? 1
       : this.duration
@@ -669,6 +726,27 @@ class Owner implements PlaybackAnimation {
     previous?.cancel()
     this.watch()
     if (!this.pending) this.resolveReady()
+    this.notify()
+  }
+  private arrivalTime() {
+    return Math.max(0, ...[...this.entries].map((e) => e.track.arrival))
+  }
+  private scheduleArrival() {
+    this.cancelArrival?.()
+    this.cancelArrival = undefined
+    if (this.arrived || this.settled || this.paused || this.pending) return
+    const remaining = this.arrivalTime() - this.time()
+    if (remaining <= 0) {
+      this.arrived = true
+      this.arrive()
+      this.notify()
+    } else if (Number.isFinite(remaining)) {
+      const id = this.runtime.view.setTimeout(
+        () => this.scheduleArrival(),
+        Math.min(remaining, 2_147_483_647),
+      )
+      this.cancelArrival = () => this.runtime.view.clearTimeout(id)
+    }
   }
   private watch() {
     if (this.clock)
@@ -688,6 +766,8 @@ class Owner implements PlaybackAnimation {
   refresh(at: number) {
     if (this.settled) return
     this.end = Math.max(0, ...[...this.entries].map((e) => e.track.end))
+    this.notify()
+    this.scheduleArrival()
     if (!this.entries.size) this.settle(this.complete, at)
     else {
       this.clock?.effect?.updateTiming({ duration: this.end })
@@ -707,6 +787,11 @@ class Owner implements PlaybackAnimation {
     this.clock?.cancel()
     this.clock = undefined
     this.entries.clear()
+    this.cancelArrival?.()
+    this.cancelArrival = undefined
+    this.arrived = true
+    this.arrive()
+    this.notify()
     this.resolveReady()
     this.resolve(completed)
     this.runtime.forget(this)
@@ -745,12 +830,20 @@ export class WebRuntime {
   private pendingFrame?: FrameTask
   readonly scheduler: FrameScheduler
   private readonly values = new Set<NumericValue>()
-  private readonly valueTracks = new Map<NumericValue, ValueEntry>()
+  private readonly playbacks = new WeakSet<MotionAnimation>()
+  private readonly paths = new Map<SVGGeometryElement, StrokeSurface>()
+  private readonly stateControllers = new Set<WebMotionStates>()
+  private readonly groups = new Set<MotionAnimation>()
+  private readonly groupVisibility = new Set<() => void>()
+  private readonly timers: ContextTimers
+  private readonly valueTracks = new Set<ValueEntry>()
+  private readonly valueStates = new Map<MotionInputNode, ValueState>()
   private readonly valueTask: FrameTask = {
     update: () => {
       this.sampleValues()
       return [...this.valueTracks.values()].some(
-        (e) => !e.owner.paused && !e.owner.pending && !e.owner.settled,
+        (e) =>
+          e.source.observed && !e.owner.paused && !e.owner.pending && !e.owner.settled,
       )
     },
   }
@@ -760,7 +853,11 @@ export class WebRuntime {
     Set<WebScrollLink & { owns(): boolean }>
   >()
   private readonly nodes = new WeakMap<object, NumericValue>()
-  private readonly visibility = () => this.scheduler.hidden(this.document.hidden)
+  private readonly visibility = () => {
+    this.scheduler.hidden(this.document.hidden)
+    this.timers.visibilityChanged()
+    for (const change of this.groupVisibility) change()
+  }
   private readonly report = (error: unknown) => this.view.reportError(error)
 
   constructor(
@@ -777,6 +874,11 @@ export class WebRuntime {
       cancel: (id) => this.view.cancelAnimationFrame(id),
       error: this.report,
     })
+    this.timers = new ContextTimers(
+      this.view,
+      () => this.scheduler.now(),
+      () => this.document.hidden,
+    )
     if (!this.view.Animation || !this.view.KeyframeEffect || !document.timeline)
       throw new Error('Web Animations API is required.')
     this.settings = this.validate(options, { timeScale: 1, reducedMotion: 'user' })
@@ -926,6 +1028,10 @@ export class WebRuntime {
         surfaces: this.surfaces.size,
         animations: this.animations.size,
         values: this.values.size,
+        paths: this.paths.size,
+        stateControllers: this.stateControllers.size,
+        groups: this.groups.size,
+        timers: this.timers.size,
         scopes: this.scopes.size,
         pointerFollowers: this.pointerFollowers.size,
         viewportEntrances: this.viewportEntrances.size,
@@ -1199,9 +1305,22 @@ export class WebRuntime {
     return operation
   }
 
+  rememberPlayback(animation: MotionAnimation) {
+    this.playbacks.add(animation)
+  }
+  playbackProgress(animation: MotionAnimation): WebReadableValue {
+    this.assert()
+    if (!this.playbacks.has(animation))
+      throw new TypeError('Expected a playback handle from this runtime.')
+    const node = new ProgressNode(animation, this.scheduler, this.report, () =>
+      this.values.delete(node),
+    )
+    return this.valueHandle(node, node.readableHandle())
+  }
+
   motionValue(initial: number) {
     this.assert()
-    const node = new NumericValue(this.scheduler, initial, this.report, () =>
+    const node = new MotionInputNode(this.scheduler, initial, this.report, () =>
       this.values.delete(node),
     )
     return this.valueHandle(node, node.handle())
@@ -1431,11 +1550,245 @@ export class WebRuntime {
   }
 
   animate(
-    target: HTMLElement | readonly HTMLElement[],
-    animation: Keyframes | string,
-    options?: AnimateOptions | SpringName,
+    target: HTMLElement | readonly HTMLElement[] | import('./value.js').WebMotionValue,
+    animation: Keyframes | string | number | readonly (number | null)[],
+    options?: AnimateOptions | WebValueAnimationOptions | SpringName,
   ): PlaybackAnimation & { readonly ready: Promise<void> } {
-    return this.play(target, animation, options)
+    if (
+      typeof animation === 'number' ||
+      Array.isArray(animation) ||
+      this.nodes.has(target)
+    )
+      return this.animateValue(
+        target,
+        animation as number | readonly (number | null)[],
+        options,
+      )
+    return this.play(
+      target as HTMLElement | readonly HTMLElement[],
+      animation as Keyframes | string,
+      options as AnimateOptions | SpringName,
+    )
+  }
+
+  drawPath(target: SVGGeometryElement, options: WebPathOptions = {}) {
+    this.assert()
+    let drawing: StrokeSurface | undefined
+    drawing = new StrokeSurface(
+      target,
+      options,
+      {
+        document: this.document,
+        now: () => this.now(),
+        settings: () => ({
+          timeScale: this.settings.timeScale,
+          reducedMotion: this.reduced(),
+        }),
+        maxKeyframes: this.maxKeyframes,
+        after: (ms, callback) => this.timers.after(ms, callback),
+        remember: (animation) => this.rememberPlayback(animation),
+        preference: (callback) => {
+          this.preferenceListeners.add(callback)
+          return () => this.preferenceListeners.delete(callback)
+        },
+        assert: () => this.assert(),
+        forget: () => {
+          if (this.paths.get(target) === drawing) {
+            this.paths.delete(target)
+            this.observe()
+          }
+        },
+      },
+      this.paths.get(target),
+    )
+    this.paths.set(target, drawing)
+    this.observe()
+    return drawing
+  }
+
+  motionStates<
+    T extends Record<string, HTMLElement | null>,
+    const S extends Record<string, WebMotionState<keyof T>>,
+  >(
+    targets: T,
+    definitions: WebMotionDefinitions<T, S>,
+    options: WebMotionStatesOptions<Extract<keyof T, string>> = {},
+  ): WebMotionStates<Extract<keyof S, string>, Extract<keyof T, string>> {
+    this.assert()
+    let controller: WebMotionStates | undefined
+    const result = createMotionStates(targets, definitions, options, {
+      assert: () => this.assert(),
+      validateTarget: (target) => {
+        this.targets(target)
+      },
+      prepare: (target, frames, transition) => {
+        const plans = prepare(frames, transition, this.presets, 1)
+        if (target) this.compileElements([target], plans, this.now())
+        else
+          for (const plan of plans[0]!)
+            for (const value of plan.frames) {
+              if (value === null || typeof value === 'number') continue
+              const property =
+                plan.source.endsWith('RadiusX') || plan.source.endsWith('RadiusY')
+                  ? plan.source.slice(0, -1)
+                  : plan.source
+              if (!this.view.CSS.supports(cssName(property), value))
+                throw new TypeError(`Invalid ${property}: ${value}`)
+            }
+        return () => {
+          if (!target) throw new Error('Attach a target before playing.')
+          return this.play(target, {}, undefined, undefined, plans)
+        }
+      },
+      set: (target, frames) => {
+        this.set(target, frames)
+      },
+      forget: () => {
+        if (controller) this.stateControllers.delete(controller)
+      },
+    })
+    controller = result
+    this.stateControllers.add(result)
+    return result
+  }
+
+  sequence(steps: readonly WebStep[]): MotionAnimation {
+    return this.group(steps, false)
+  }
+  timeline(steps: readonly WebTimelineStep[]): TimelineAnimation {
+    return this.group(steps, true) as TimelineAnimation
+  }
+  private group(
+    steps: readonly WebStep[] | readonly WebTimelineStep[],
+    controlled: boolean,
+  ): MotionAnimation {
+    this.assert()
+    const seeds = new Map<HTMLElement, Plan[]>(),
+      claimed = new Map<HTMLElement, Set<Property>>()
+    const prepared = sequenceSteps(steps, controlled, (input, animation, options) => {
+      if (
+        typeof animation === 'number' ||
+        Array.isArray(animation) ||
+        this.nodes.has(input as object)
+      ) {
+        if (!controlled)
+          throw new TypeError(
+            'Numeric tuple steps belong to timeline(); sequence can use a value factory.',
+          )
+        const value = this.mutable(input as object),
+          plan = valuePlan(options as WebValueAnimationOptions | SpringName)
+        valueTrack(
+          animation as number | readonly (number | null)[],
+          plan,
+          value.get(),
+          0,
+          { timeScale: this.settings.timeScale, reducedMotion: this.reduced() },
+        )
+        return () =>
+          this.animateValue(
+            input as object,
+            animation as number | readonly (number | null)[],
+            plan,
+          )
+      }
+      const targets = this.targets(input as HTMLElement | readonly HTMLElement[]),
+        plans = prepare(
+          animation as Keyframes | string,
+          options as AnimateOptions | SpringName,
+          this.presets,
+          targets.length,
+        )
+      this.compileElements(targets, plans, this.now())
+      for (let index = 0; index < targets.length; index++) {
+        const target = targets[index]!,
+          used = claimed.get(target) ?? new Set<Property>(),
+          initial = seeds.get(target) ?? []
+        for (const plan of plans[index]!) {
+          const first = plan.frames[0]
+          if (
+            !used.has(plan.property) &&
+            first !== null &&
+            first !== undefined &&
+            !plan.relative &&
+            plan.layer === undefined
+          )
+            initial.push({
+              ...plan,
+              frames: [first, first],
+              transition: {
+                curve: {
+                  type: 'tween',
+                  duration: 0,
+                  ease: [(t: number) => t],
+                  times: undefined,
+                },
+                delay: 0,
+                repeat: 0,
+                reverse: false,
+              },
+            })
+          used.add(plan.property)
+        }
+        claimed.set(target, used)
+        seeds.set(target, initial)
+      }
+      return () => this.play(targets, {}, undefined, undefined, plans)
+    })
+    // Every descriptor is checked before applying any hidden starting state.
+    for (const [target, plans] of seeds)
+      if (plans.length) this.play(target, {}, undefined, undefined, [plans])
+    const animation = composePrepared(prepared, controlled, {
+      driver: {
+        now: () => this.scheduler.now(),
+        after: (ms, callback) => this.timers.after(ms, callback),
+      },
+      slowdown: 1 / this.settings.timeScale,
+      active: () => !this.document.hidden,
+      cancelled: () => this.disposed,
+    })
+    if (this.disposed) {
+      animation.stop()
+      return animation
+    }
+    this.groups.add(animation)
+    this.rememberPlayback(animation)
+    let held = false
+    const visibility = () => {
+      if (!controlled) return
+      const handle = animation as TimelineAnimation
+      if (this.document.hidden && !handle.paused) {
+        held = true
+        handle.pause()
+      } else if (!this.document.hidden && held) {
+        held = false
+        handle.play()
+      }
+    }
+    this.groupVisibility.add(visibility)
+    visibility()
+    const done = () => {
+      this.groups.delete(animation)
+      this.groupVisibility.delete(visibility)
+    }
+    void animation.finished.then(done, done)
+    return animation
+  }
+
+  decay(
+    target: HTMLElement | readonly HTMLElement[],
+    velocity: WebDecayVelocity,
+    options?: WebDecayOptions,
+  ) {
+    this.assert()
+    const targets = this.targets(target),
+      plans = decayPlans(velocity, options)
+    return this.play(
+      targets,
+      {},
+      undefined,
+      undefined,
+      targets.map(() => plans),
+    )
   }
 
   seekableTimeline(
@@ -1457,7 +1810,7 @@ export class WebRuntime {
       const source = 'value' in leaf ? this.nodes.get(leaf.value) : undefined
       let surface: Surface | undefined
       if ('value' in leaf) {
-        if (!source || source.disposed || source.constructor !== NumericValue)
+        if (!source || source.disposed || !(source instanceof MotionInputNode))
           throw new TypeError(
             'Scene values must be mutable numeric inputs owned by this runtime.',
           )
@@ -1541,8 +1894,7 @@ export class WebRuntime {
       } else {
         const value: ValueEntry = {
           ...entry,
-          source: source!,
-          cancel: () => this.removeValue(value, false),
+          source: source! as MotionInputNode,
         }
         valueEntries.push(value)
         owner.entries.add(value)
@@ -1563,52 +1915,173 @@ export class WebRuntime {
       ]),
     )
     for (const entry of valueEntries) {
-      entry.source.claimWriter(entry.cancel)
-      this.valueTracks.set(entry.source, entry)
+      this.claimValue(entry)
     }
     this.sampleValues()
-    if (valueEntries.length && !owner.paused) this.scheduler.add(this.valueTask)
+    this.scheduleValues()
     owner.refresh(at)
     return owner
   }
 
+  private readValue(state: ValueState, at = this.now()) {
+    let value = 0,
+      velocity = 0,
+      moving = false
+    for (const [key, rest] of state.rests) if (!state.entries.has(key)) value += rest
+    for (const entry of state.entries.values()) {
+      const time = entry.owner.time(at)
+      value += entry.track.valueAt(time)
+      const running = !entry.owner.paused && !entry.owner.pending && !entry.owner.settled
+      if (running) velocity += entry.track.velocityAt(time)
+      moving ||= running
+    }
+    return { value, velocity, moving }
+  }
+  private valueState(source: MotionInputNode) {
+    let state = this.valueStates.get(source)
+    if (!state) {
+      state = {
+        source,
+        entries: new Map(),
+        rests: new Map([['', source.get()]]),
+        cancel: () => this.resetValue(source),
+      }
+      this.valueStates.set(source, state)
+      source.claimWriter(state.cancel)
+      source.playback(
+        () => this.readValue(state!),
+        () => this.scheduleValues(),
+      )
+    }
+    return state
+  }
+  private claimValue(entry: ValueEntry) {
+    const state = this.valueState(entry.source),
+      key = entry.layer ?? ''
+    const old = state.entries.get(key)
+    if (old) this.removeValue(old, false)
+    state.rests.delete(key)
+    state.entries.set(key, entry)
+    entry.owner.entries.add(entry)
+    this.valueTracks.add(entry)
+  }
+  private scheduleValues() {
+    if (
+      [...this.valueTracks].some(
+        (e) =>
+          e.source.observed && !e.owner.paused && !e.owner.pending && !e.owner.settled,
+      )
+    )
+      this.scheduler.add(this.valueTask)
+    else this.scheduler.remove(this.valueTask)
+  }
   private sampleValues() {
     const at = this.now()
-    for (const entry of this.valueTracks.values()) {
-      const time = entry.owner.time(at)
-      entry.source.writeSample(
-        entry.track.valueAt(time),
-        entry.owner.paused || entry.owner.pending ? 0 : entry.track.velocityAt(time),
-      )
+    for (const state of this.valueStates.values()) {
+      const sample = this.readValue(state, at)
+      state.source.writeSample(sample.value, sample.velocity)
     }
   }
   private removeValue(entry: ValueEntry, completed: boolean) {
-    if (this.valueTracks.get(entry.source) !== entry) return
-    const time = entry.owner.time()
-    this.valueTracks.delete(entry.source)
-    entry.source.releaseWriter(entry.cancel)
-    entry.source.writeSample(completed ? entry.track.to : entry.track.valueAt(time), 0)
+    if (!this.valueTracks.has(entry)) return
+    const state = this.valueStates.get(entry.source)!,
+      key = entry.layer ?? ''
+    const value = completed ? entry.track.to : entry.track.valueAt(entry.owner.time())
+    this.valueTracks.delete(entry)
+    state.entries.delete(key)
+    if (completed || !key) state.rests.set(key, value)
+    else state.rests.delete(key)
     entry.owner.entries.delete(entry)
     entry.owner.complete &&= completed
+    const sample = this.readValue(state)
+    entry.source.writeSample(sample.value, sample.velocity)
     entry.owner.refresh(this.now())
-    if (![...this.valueTracks.values()].some((e) => !e.owner.paused && !e.owner.pending))
-      this.scheduler.remove(this.valueTask)
+    this.scheduleValues()
+  }
+  private resetValue(source: MotionInputNode, layer?: string) {
+    const state = this.valueStates.get(source)
+    if (!state) return
+    const sample = this.readValue(state)
+    if (layer !== undefined) {
+      if (!layer) throw new TypeError('A layer needs a nonempty name.')
+      const entry = state.entries.get(layer)
+      if (entry) this.removeValue(entry, false)
+      state.rests.delete(layer)
+      const next = this.readValue(state)
+      source.writeSample(next.value, next.velocity)
+    } else {
+      for (const entry of [...state.entries.values()]) this.removeValue(entry, false)
+      this.valueStates.delete(source)
+      source.releaseWriter(state.cancel)
+      source.playback()
+      source.writeSample(sample.value, 0)
+    }
+    this.scheduleValues()
   }
 
-  private play(
-    target: HTMLElement | readonly HTMLElement[],
-    animation: Keyframes | string,
-    options?: AnimateOptions | SpringName,
-    privateLayer?: string,
-    prepared?: Plan[][],
-  ): PlaybackAnimation & { readonly ready: Promise<void> } {
+  private mutable(target: object): MotionInputNode {
+    const node = this.nodes.get(target)
+    if (!(node instanceof MotionInputNode) || node.disposed)
+      throw new TypeError('Expected a live mutable motion value owned by this runtime.')
+    return node
+  }
+  private animateValue(
+    target: object,
+    frames: number | readonly (number | null)[],
+    options?: WebValueAnimationOptions | SpringName,
+  ) {
     this.assert()
-    const targets = this.targets(target)
-    const plans = prepared ?? prepare(animation, options, this.presets, targets.length)
-    if (privateLayer !== undefined)
-      for (const tracks of plans) for (const plan of tracks) plan.layer = privateLayer
+    const source = this.mutable(target),
+      plan = valuePlan(options)
     const at = this.now(),
-      pending = this.document.timeline.currentTime === null
+      state = this.valueStates.get(source),
+      key = plan.layer ?? '',
+      old = state?.entries.get(key)
+    const from = old
+      ? old.track.valueAt(old.owner.time(at))
+      : (state?.rests.get(key) ?? (key ? 0 : source.get()))
+    const velocity =
+      old && !old.owner.paused && !old.owner.pending
+        ? old.track.velocityAt(old.owner.time(at))
+        : 0
+    const track = valueTrack(frames, plan, from, velocity, {
+      timeScale: this.settings.timeScale,
+      reducedMotion: this.reduced(),
+    })
+    const points: Point[] = [] // Numeric readers use the analytical curve, not WAAPI keyframe expansion.
+    const owner = new Owner(this, track.end, at)
+    const entry: ValueEntry = {
+      source,
+      property: 'opacity',
+      layer: plan.layer,
+      track,
+      points,
+      owner,
+    }
+    // Keep the owner alive while preparing its clock, before replacing the old writer.
+    owner.entries.add(entry)
+    this.transaction(
+      new Map(),
+      at,
+      new Map([
+        [
+          owner,
+          {
+            time: 0,
+            paused: false,
+            pending: this.document.timeline.currentTime === null,
+          },
+        ],
+      ]),
+    )
+    this.claimValue(entry)
+    this.sampleValues()
+    this.scheduleValues()
+    owner.refresh(at)
+    return owner
+  }
+
+  private compileElements(targets: readonly HTMLElement[], plans: Plan[][], at: number) {
     const compiled: {
       surface: Surface
       plans: { plan: Plan; track: Track; points: Point[] }[]
@@ -1660,6 +2133,24 @@ export class WebRuntime {
       })
       compiled.push({ surface, plans: tracks })
     }
+    return compiled
+  }
+
+  private play(
+    target: HTMLElement | readonly HTMLElement[],
+    animation: Keyframes | string,
+    options?: AnimateOptions | SpringName,
+    privateLayer?: string,
+    prepared?: Plan[][],
+  ): PlaybackAnimation & { readonly ready: Promise<void> } {
+    this.assert()
+    const targets = this.targets(target)
+    const plans = prepared ?? prepare(animation, options, this.presets, targets.length)
+    if (privateLayer !== undefined)
+      for (const tracks of plans) for (const plan of tracks) plan.layer = privateLayer
+    const at = this.now(),
+      pending = this.document.timeline.currentTime === null
+    const compiled = this.compileElements(targets, plans, at)
     const owner = new Owner(
       this,
       Math.max(0, ...compiled.flatMap((c) => c.plans.map((p) => p.track.end))),
@@ -1697,7 +2188,22 @@ export class WebRuntime {
     return owner
   }
 
-  set(target: HTMLElement | readonly HTMLElement[], values: Values) {
+  set(
+    target: HTMLElement | readonly HTMLElement[],
+    values: Values,
+  ): PlaybackAnimation & { readonly ready: Promise<void> }
+  set(target: import('./value.js').WebMotionValue, value: number): void
+  set(
+    target: HTMLElement | readonly HTMLElement[] | import('./value.js').WebMotionValue,
+    values: Values | number,
+  ) {
+    if (typeof values === 'number' || this.nodes.has(target)) {
+      const source = this.mutable(target)
+      if (typeof values !== 'number')
+        throw new TypeError('Expected a finite numeric value.')
+      source.set(values)
+      return
+    }
     if (
       !values ||
       typeof values !== 'object' ||
@@ -2002,9 +2508,7 @@ export class WebRuntime {
         proposals.set(surface, clone(surface.state))
     this.transaction(proposals, this.now(), new Map([[owner, control]]))
     this.sampleValues()
-    if ([...this.valueTracks.values()].some((e) => !e.owner.paused && !e.owner.pending))
-      this.scheduler.add(this.valueTask)
-    else this.scheduler.remove(this.valueTask)
+    this.scheduleValues()
   }
 
   stopOwner(
@@ -2044,13 +2548,25 @@ export class WebRuntime {
   }
 
   stop(
-    target: HTMLElement | readonly HTMLElement[],
-    selected?: readonly KeyframeProperty[],
+    target: HTMLElement | readonly HTMLElement[] | import('./value.js').WebMotionValue,
+    selected?: readonly KeyframeProperty[] | { layer?: string },
     options?: { layer?: string },
   ) {
     this.assert()
-    const targets = new Set(this.targets(target))
-    const names = selected?.flatMap(expand)
+    if (
+      this.nodes.has(target) ||
+      (!Array.isArray(target) && !(target instanceof this.view.HTMLElement))
+    ) {
+      const source = this.mutable(target)
+      if (Array.isArray(selected))
+        throw new TypeError('Numeric values have named layers, not property keys.')
+      this.resetValue(source, (selected as { layer?: string } | undefined)?.layer)
+      return
+    }
+    if (selected !== undefined && !Array.isArray(selected))
+      throw new TypeError('Expected property keys.')
+    const targets = new Set(this.targets(target as HTMLElement | readonly HTMLElement[]))
+    const names = (selected as readonly KeyframeProperty[] | undefined)?.flatMap(expand)
     if (names?.some((p) => !properties.includes(p as Property)))
       throw new TypeError('Unsupported property to stop.')
     for (const surface of this.surfaces.values())
@@ -2169,12 +2685,14 @@ export class WebRuntime {
   private observe() {
     const roots = new Set<Node>()
     if (
+      this.paths.size ||
       this.surfaces.size ||
       this.scrollSources.size ||
       this.layouts.size ||
       this.sharedLayouts.size
     )
       roots.add(this.document)
+    for (const target of this.paths.keys()) roots.add(target.getRootNode())
     for (const source of this.scrollSources) roots.add(source.element.getRootNode())
     for (const surface of this.surfaces.values()) roots.add(surface.target.getRootNode())
     for (const [root, observer] of this.observers)
@@ -2185,6 +2703,9 @@ export class WebRuntime {
     for (const root of roots)
       if (!this.observers.has(root)) {
         const observer = new this.view.MutationObserver(() => {
+          for (const [target, drawing] of this.paths)
+            if (!target.isConnected || target.ownerDocument !== this.document)
+              drawing.dispose()
           for (const [container, shared] of this.sharedLayouts)
             if (!container.isConnected || container.ownerDocument !== this.document)
               shared.dispose()
@@ -2276,6 +2797,9 @@ export class WebRuntime {
       at = this.now()
     return {
       scopes: this.scopes.size,
+      paths: this.paths.size,
+      groups: this.groups.size,
+      timers: this.timers.size,
       sharedLayouts: this.sharedLayouts.size,
       pointerFollowers: this.pointerFollowers.size,
       viewportEntrances: this.viewportEntrances.size,
@@ -2283,6 +2807,13 @@ export class WebRuntime {
       targets: this.surfaces.size,
       values: this.values.size,
       valueAnimations: this.valueTracks.size,
+      valueTracks: [...this.valueTracks].map((e) => ({
+        layer: e.layer,
+        from: e.track.valueAt(0),
+        initialVelocity: e.track.velocityAt(0),
+        time: e.owner.time(at),
+        duration: e.track.end,
+      })),
       sizes: this.sizes.size,
       layouts: this.layouts.size,
       scrollSources: this.scrollSources.size,
@@ -2330,6 +2861,8 @@ export class WebRuntime {
     const errors: unknown[] = []
     for (const resource of [
       ...this.scopes,
+      ...this.stateControllers,
+      ...this.paths.values(),
       ...this.pointerFollowers,
       ...this.viewportEntrances,
       ...this.sharedLayouts.values(),
@@ -2340,12 +2873,18 @@ export class WebRuntime {
         errors.push(error)
       }
     }
+    this.paths.clear()
+    this.stateControllers.clear()
     this.scopes.clear()
     this.pointerFollowers.clear()
     this.viewportEntrances.clear()
     this.preferenceListeners.clear()
     this.preference.removeEventListener('change', this.preferenceChanged)
     this.document.removeEventListener('visibilitychange', this.visibility)
+    for (const group of [...this.groups]) group.stop()
+    this.groups.clear()
+    this.groupVisibility.clear()
+    this.timers.dispose()
     for (const layout of this.layouts.values()) layout.stop()
     for (const target of [...this.surfaces.keys()]) this.release(target)
     for (const observer of this.observers.values()) observer.disconnect()

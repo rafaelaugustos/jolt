@@ -34,9 +34,23 @@ function typeBoundary(context: WebRuntime) {
   context.animate(surface, { rotateX: 20 })
   // @ts-expect-error A target must be an actual HTMLElement.
   context.animate({ nativeView: {} }, { x: 10 })
+  // @ts-expect-error Stroke drawing requires SVG geometry, not an HTML surface.
+  context.drawPath(surface)
   const readonly = context.motionValue(0).to([0, 1], [0, 100])
   // @ts-expect-error Derived values are readonly.
   readonly.set(1)
+  // @ts-expect-error Derived inputs cannot be animated as mutable motion values.
+  context.animate(readonly, 1)
+  const states = context.motionStates({ card: surface }, { open: { card: { x: 20 } } })
+  states.to('open', { card: { duration: 100, ease: 'linear' } })
+  // @ts-expect-error Named state inference excludes undeclared states.
+  states.to('closed')
+  // @ts-expect-error Only declared surface slots may attach.
+  states.attach('badge', surface)
+  // @ts-expect-error State endpoints cannot be keyframe arrays.
+  context.motionStates({ card: surface }, { open: { card: { x: [0, 100] } } })
+  // @ts-expect-error Timeline factories must return playable animation handles.
+  context.timeline([() => context.sequence([])])
   // @ts-expect-error Scroll requires explicit numeric keyframes.
   context.scrollLinked(document, surface, { x: 20 }, { range: [0, 100] })
 }
@@ -162,4 +176,50 @@ document.getElementById('visual')!.addEventListener('click', async () => {
   color.dispose()
   value.dispose()
   motion.release(first)
+})
+
+document.getElementById('orchestration')!.addEventListener('click', async () => {
+  const scope = motion.scope(),
+    probe = document.createElement('div')
+  probe.style.cssText = 'width:60px;height:60px;background:gold'
+  document.body.append(probe)
+  const value = scope.motionValue(0)
+  scope.bind(probe, { x: value })
+  const valueAnimation = scope.animate(value, [0, 40, 80], {
+    duration: 100,
+    ease: 'linear',
+  })
+  const progress = scope.playbackProgress(valueAnimation)
+  const sequence = scope.sequence([
+    () => valueAnimation,
+    () => scope.decay(probe, { y: 100 }, { snap: [30] }),
+  ])
+  const sequenceDone = await sequence.finished
+  const states = scope.motionStates(
+    { card: probe },
+    { open: { card: { scale: 1.2 } }, closed: { card: { scale: 1 } } },
+    { transition: { duration: 40 } },
+  )
+  const group = scope.timeline([
+    { at: 0, run: () => scope.animate(probe, { opacity: 1 }, { duration: 40 }) },
+    [value, 80, { duration: 0 }],
+  ])
+  group.pause()
+  group.play()
+  const groupDone = await group.finished
+  const stateDone = await states.to('open').finished
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+  const path = document.createElementNS(svg.namespaceURI, 'path') as SVGPathElement
+  path.setAttribute('d', 'M0 0 L100 50')
+  path.setAttribute('stroke', 'red')
+  svg.append(path)
+  document.body.append(svg)
+  const drawing = scope.drawPath(path, { progress: 0 })
+  const strokeDone = await drawing.animate(1, { duration: 40 }).finished
+  document.getElementById('orchestration-result')!.textContent =
+    `${sequenceDone}:${groupDone}:${stateDone}:${value.get()}:${progress.get()}:${strokeDone}`
+  scope.dispose()
+  svg.remove()
+  motion.release(probe)
+  probe.remove()
 })

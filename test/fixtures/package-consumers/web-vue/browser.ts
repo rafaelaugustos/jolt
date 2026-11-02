@@ -21,11 +21,49 @@ createApp(
         leave: { keyframes: { opacity: 0 }, transition: { duration: 300 } },
       })
       let input: WebMotionValue
+      let orchestrate: () => Promise<boolean>
       motion.use((scope, element) => {
         input = scope.motionValue(0)
         const follower = scope.springValue(input)
         scope.bind(element, { x: follower })
         scope.observeGeometry(element)
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+        const path = document.createElementNS(svg.namespaceURI, 'path') as SVGPathElement
+        path.setAttribute('d', 'M0 0L100 50')
+        path.setAttribute('stroke', 'red')
+        svg.append(path)
+        element.append(svg)
+        const drawing = scope.drawPath(path, { progress: 0 })
+        scope.add(() => svg.remove())
+        const states = scope.motionStates(
+          { card: element },
+          { ready: { card: { rotate: 0 } }, working: { card: { rotate: 10 } } },
+          { transition: { duration: 40 } },
+        )
+        orchestrate = async () => {
+          const animation = scope.animate(input, [55, 80], { duration: 60 })
+          const progress = scope.playbackProgress(animation)
+          const sequence = scope.sequence([
+            () => animation,
+            () => scope.decay(element, { y: 100 }, { snap: [0] }),
+          ])
+          const timeline = scope.timeline([
+            {
+              at: 0,
+              run: () => scope.animate(element, { opacity: 1 }, { duration: 60 }),
+            },
+          ])
+          timeline.pause()
+          timeline.play()
+          const done = await Promise.all([
+            sequence.finished,
+            timeline.finished,
+            states.to('working').finished,
+            drawing.animate(1, { duration: 60 }).finished,
+          ])
+          await states.to('ready').finished
+          return done.every(Boolean) && progress.get() === 1
+        }
       })
       onMounted(() => {
         motion.set({ scale: 1.1 })
@@ -33,6 +71,19 @@ createApp(
       })
       return () =>
         h('main', [
+          h(
+            'button',
+            {
+              id: 'orchestration',
+              async onClick() {
+                document.querySelector('#orchestration-status')!.textContent = String(
+                  await orchestrate(),
+                )
+              },
+            },
+            'Orchestration',
+          ),
+          h('output', { id: 'orchestration-status' }),
           h('button', { id: 'continuous', onClick: () => input.set(55) }, 'Continuous'),
           h(
             'button',

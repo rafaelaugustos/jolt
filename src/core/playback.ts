@@ -80,3 +80,33 @@ export function validateProgress(value: number, duration: number) {
       'Progress requires a finite animation; endless loops can pause and play.',
     )
 }
+
+const sources = new WeakMap<
+  Animation,
+  {
+    read(): PlaybackState
+    listeners: Set<() => void>
+  }
+>()
+
+export function registerPlayback(animation: Animation, read: () => PlaybackState) {
+  const source = { read, listeners: new Set<() => void>() }
+  sources.set(animation, source)
+  return () => {
+    for (const listener of [...source.listeners]) listener()
+  }
+}
+
+export function playbackSource(animation: Animation) {
+  const source = sources.get(animation)
+  if (!source) throw new TypeError('This animation does not expose a playback clock.')
+  return {
+    read: source.read,
+    subscribe(listener: () => void) {
+      source.listeners.add(listener)
+      return () => {
+        source.listeners.delete(listener)
+      }
+    },
+  }
+}
