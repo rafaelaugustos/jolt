@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Extend native retained spring paint to border/text colors, border widths and independent corners (#346). Preserve live background/radius when another border channel rebuilds Core paint; add native lifecycle/ownership checks and reviewed iOS/Android recordings. Rebuild native apps after upgrading.
+- Cancel Web shared transitions when destination geometry changes even if WebKit does not deliver ResizeObserver notifications. Observe host style/class geometry changes without a permanent frame loop.
+
 - Add Web inertial/value drag, composed pan/pinch/rotation, image zoom with cancellable dismissal, nested gesture/scroll coordination, collapsing headers with anchored refresh, and interactive keyed reorder (#340–#345). Reuse portable solvers, context scheduling and ownership; preserve RC.8 spring-return defaults and application transforms. Include scope controls, keyboard paths, browser/native recordings and Mavis adoption follow-ups.
 - Correct explicit spring velocity normalization for Web motion values and preserve momentum when a spring returns to the same value. This prevents a refresh or gesture handoff from multiplying its release velocity by the animation range.
 

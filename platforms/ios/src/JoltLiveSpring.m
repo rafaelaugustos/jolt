@@ -1,6 +1,7 @@
 #import "JoltLiveSpring.h"
 #import "JoltSpringState.h"
 #import "JoltColorMath.h"
+#import "JoltLivePaint.h"
 #import <QuartzCore/QuartzCore.h>
 
 /* Sampled inputs and mappings are decoded once; frames read plain C arrays. */
@@ -130,6 +131,7 @@ static double mapped(double value, const JoltMapping *maps, NSUInteger count) {
     JoltSampled *_layers;
     NSUInteger _layerCount;
 }
+@property(nonatomic) JoltLivePaint *paint;
 @property(nonatomic, weak) UIView *view;
 @property(nonatomic, weak) JoltLiveSpring *node;
 @property(nonatomic) NSString *property, *keyPath;
@@ -285,8 +287,10 @@ static double previousFrame;
     [binding useMappings:mappings];
     NSString *key = property;
     if ([key isEqualToString:@"opacity"]) binding.alpha = YES;
-    else if ([key isEqualToString:@"backgroundColor"]) binding.color = YES;
-    else if ([key isEqualToString:@"borderRadius"]) binding.radius = YES;
+    else if ([key isEqualToString:@"backgroundColor"] || [key isEqualToString:@"borderColor"] || [key isEqualToString:@"color"] || [key hasPrefix:@"border"]) {
+        binding.paint=[JoltLivePaint acquire:view property:property owner:binding];
+        binding.radius=[key hasSuffix:@"Radius"] || [key hasSuffix:@"Width"];
+    }
     else if ([key isEqualToString:@"x"]) key = @"transform.translation.x";
     else if ([key isEqualToString:@"y"]) key = @"transform.translation.y";
     else if ([key isEqualToString:@"scaleX"]) key = @"transform.scale.x";
@@ -316,7 +320,7 @@ static double previousFrame;
 }
 - (void)dispose {
     if (self.disposed) return;
-    self.disposed = YES; self.moving = NO; [self.bindings removeAllObjects]; [nodes removeObject:self];
+    self.disposed = YES; self.moving = NO; while(self.bindings.count)[self.bindings.lastObject cancel]; [nodes removeObject:self];
     for (JoltLiveSpring *child in nodes) if (child.source == self) {
         child.source = nil; [child setTarget:mapped(self.position, child->_sourceMaps, child->_sourceMapCount)];
     }
@@ -349,7 +353,7 @@ static double previousFrame;
     for (NSUInteger i = 0; i < _layerCount; i++) if (sampledRunning(&_layers[i], self.layerAnchor, now)) return YES;
     return NO;
 }
-- (void)cancel { self.stopped = YES; [self.node.bindings removeObject:self]; }
+- (void)cancel { if(self.stopped)return; self.stopped = YES; [self.paint releaseProperty:self.property owner:self];self.paint=nil; [self.node.bindings removeObject:self]; }
 - (void)apply {
     UIView *view = self.view;
     if (self.stopped || !view.window) return;
@@ -360,6 +364,7 @@ static double previousFrame;
         value = self.multiply ? value * part : value + part;
     }
     if (self.alpha) { view.alpha = MAX(0, MIN(1, value)); return; }
+    if (self.paint) { [self.paint write:value property:self.property owner:self]; return; }
     if (self.color) {
         uint32_t argb = (uint32_t)value;
         view.layer.backgroundColor = [UIColor colorWithRed:((argb>>16)&255)/255.0 green:((argb>>8)&255)/255.0 blue:(argb&255)/255.0 alpha:(argb>>24)/255.0].CGColor;

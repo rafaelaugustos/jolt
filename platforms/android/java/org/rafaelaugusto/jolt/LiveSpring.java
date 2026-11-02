@@ -209,19 +209,22 @@ public final class LiveSpring {
         Binding(View view, String property, Mapping[] mappings) {
             this.view = new WeakReference<>(view); this.property = property; this.mappings = mappings;
             density = view.getResources().getDisplayMetrics().density;
-            if (property.equals("backgroundColor")) {
-                colorTarget = new ColorTarget(view, 0, (int)(long)getValue());
-                if (!colorTarget.isSupported()) throw new IllegalArgumentException("Unsupported live color drawable");
-                if (view.getBackground() == null) view.setBackgroundColor(0);
-            } else if (property.equals("borderRadius")) {
-                decorationTarget = new DecorationTarget(view, 0, (float)getValue()*density, 0);
-                if (!decorationTarget.isSupported()) throw new IllegalArgumentException("Unsupported live radius drawable");
+            if (property.equals("backgroundColor") || property.equals("borderColor") || property.equals("color")) {
+                colorTarget = new ColorTarget(view, property.equals("backgroundColor") ? 0 : property.equals("borderColor") ? 1 : 2, (int)(long)getValue());
+                if (!colorTarget.isSupported()) throw new IllegalArgumentException("Unsupported live color target");
+                if (!property.equals("color") && view.getBackground() == null) view.setBackgroundColor(0);
+            } else if (property.startsWith("border")) {
+                String[] names={"borderRadius","borderWidth","elevation","translationZ","borderTopLeftRadius","borderTopRightRadius","borderBottomRightRadius","borderBottomLeftRadius","borderTopWidth","borderRightWidth","borderBottomWidth","borderLeftWidth"};
+                int channel=-1;for(int i=0;i<names.length;i++)if(names[i].equals(property))channel=i;
+                if(channel<0)throw new IllegalArgumentException("Unsupported live decoration "+property);
+                decorationTarget = new DecorationTarget(view, channel, (float)getValue()*density, 0);
+                if (!decorationTarget.isSupported()) throw new IllegalArgumentException("Unsupported live paint drawable");
                 decorationTarget.acquire();
             }
         }
         public double getValue() {
             double value = map(state.position, mappings);
-            return property.equals("borderRadius") ? Math.max(0, value) : value;
+            return property.endsWith("Radius") || property.endsWith("Width") ? Math.max(0, value) : value;
         }
         public void setLayers(String inputs) {
             try {
@@ -245,9 +248,9 @@ public final class LiveSpring {
             double now = SystemClock.uptimeMillis();
             for (SampledInput layer : layers) composed = multiply ? composed * layer.value(now) : composed + layer.value(now);
             float value = (float)composed;
+            if(colorTarget != null) { colorTarget.setColor((int)(long)composed);return; }
+            if(decorationTarget != null) { decorationTarget.setValue(value*density);return; }
             switch (property) {
-                case "backgroundColor": colorTarget.setColor((int)(long)composed); break;
-                case "borderRadius": decorationTarget.setValue(value*density); break;
                 case "x": target.setTranslationX(value * density); break;
                 case "y": target.setTranslationY(value * density); break;
                 case "scaleX": target.setScaleX(value); break;

@@ -23,6 +23,7 @@ import {
   type Animation,
 } from '@rafaelaugusto/jolt'
 import { physicsWorld } from '@rafaelaugusto/jolt/physics'
+import { livePaintChecks } from './live-paint-checks'
 
 const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms))
 const check = (condition: unknown, message: string) => {
@@ -149,6 +150,7 @@ export async function runNativeCapabilitiesChecks(
     isIOS ? JoltCircleWorld.worldCount() : org.rafaelaugusto.jolt.CircleWorld.worldCount()
   try {
     configure({ reducedMotion: 'never', timeScale: 1 })
+    await livePaintChecks(host, mark, report.samples)
     const before = nodes(),
       card = tile(160, 160)
     host.addChild(card)

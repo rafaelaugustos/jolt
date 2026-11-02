@@ -6,6 +6,14 @@ import {
   type ScrollEventData,
   type View,
 } from '@nativescript/core'
+import {
+  isLiveEdge,
+  isLivePaint,
+  livePaintChanges,
+  overlapsLivePaint,
+  validateLivePaint,
+  type LiveEdge,
+} from './live-paint.js'
 import { toViews } from './animate.js'
 import {
   colorMixer,
@@ -27,6 +35,7 @@ import {
   liveSpringDriver,
   stillPhysics,
   syncLiveSprings,
+  validateLivePaintRuntime,
 } from './live-spring-driver.js'
 import {
   clampDecoration,
@@ -100,7 +109,7 @@ export interface MotionValue extends DerivedValue {
 type ColorKey = 'backgroundColor' | 'borderColor' | 'color'
 export type Bindings = {
   [K in Exclude<KeyframeProperty, ColorKey>]?: DerivedValue
-} & { [K in ColorKey]?: DerivedColor }
+} & { [K in ColorKey]?: DerivedColor } & { [K in LiveEdge]?: DerivedValue }
 
 interface Binding {
   readonly view: View
@@ -900,17 +909,20 @@ export function bind(target: Target | readonly Target[], bindings: Bindings): ()
     if (!(source instanceof Derived))
       throw new TypeError(`"${key}" needs a motion value, got ${String(source)}.`)
     const properties: Property[] =
-      key === 'scale' ? ['scaleX', 'scaleY'] : isProperty(key) ? [key] : []
+      key === 'scale'
+        ? ['scaleX', 'scaleY']
+        : isProperty(key)
+          ? [key]
+          : isLiveEdge(key) && source.root instanceof SpringRoot
+            ? [key as Property]
+            : []
     if (!properties.length) throw new Error(`Can't bind "${key}".`)
     for (const property of properties) {
       if (source.root instanceof SpringRoot) {
         if (source.root.disposed) throw new Error('Cannot bind a disposed spring value.')
-        if (
-          (isColorProperty(property) && property !== 'backgroundColor') ||
-          (isDecorationProperty(property) && property !== 'borderRadius')
-        )
+        if (isDecorationProperty(property) && !isLivePaint(property))
           throw new TypeError(
-            'Live springs support transforms, opacity, backgroundColor and borderRadius.',
+            'Live springs support transforms, opacity, colors, border widths and corner radii.',
           )
       }
       if (isColorProperty(property) !== source.color)
@@ -922,11 +934,18 @@ export function bind(target: Target | readonly Target[], bindings: Bindings): ()
       entries.push([property, source])
     }
   }
+  for (const [property] of entries)
+    if (entries.some(([other]) => overlapsLivePaint(property, other)))
+      throw new TypeError(
+        'Bind either a uniform border width/radius or its individual edges in one call.',
+      )
   for (const view of views)
     for (const [property, source] of entries) {
-      if (isColorProperty(property)) validateColorTarget(view, property)
+      if (source.root instanceof SpringRoot) {
+        validateLivePaint(view, property)
+        validateLivePaintRuntime(view, property)
+      } else if (isColorProperty(property)) validateColorTarget(view, property)
       else if (isDecorationProperty(property)) validateDecorationTarget(view, property)
-      if (source.root instanceof SpringRoot) validateLivePaint(view, property)
     }
 
   const made: (() => void)[] = []
@@ -941,6 +960,8 @@ export function bind(target: Target | readonly Target[], bindings: Bindings): ()
 }
 
 function attach(view: View, property: Property, source: Derived) {
+  for (const [other, binding] of bound.get(view) ?? [])
+    if (overlapsLivePaint(property, other)) release(binding)
   const existing = bound.get(view)?.get(property)
   if (existing) release(existing)
   const root = source.root
@@ -958,7 +979,7 @@ function attach(view: View, property: Property, source: Derived) {
   }
   const binding: Binding = {
     view,
-    property,
+    property: property as Property,
     root,
     source,
     read: source.read,
@@ -1013,7 +1034,7 @@ function attach(view: View, property: Property, source: Derived) {
   }
   let properties = bound.get(view)
   if (!properties) bound.set(view, (properties = new Map()))
-  properties.set(property, binding)
+  properties.set(property as Property, binding)
   root.bindings.add(binding)
   view.on('loaded', binding.sync)
   view.on('unloaded', detach)
@@ -1041,7 +1062,7 @@ function attachSpring(
   let releaseMix: (() => void) | undefined
   let releaseDemand: (() => void) | undefined
   let releaseStyles: (() => void) | undefined
-  const paint = property === 'backgroundColor' || property === 'borderRadius'
+  const paint = isLivePaint(property)
   let externalWrite = false
   let writingPaint = false
   const detach = () => {
@@ -1055,7 +1076,8 @@ function attachSpring(
     if (paint && !externalWrite) {
       writingPaint = true
       try {
-        writeValue(view, property, value)
+        if (isLiveEdge(property)) view[property] = Math.max(0, value)
+        else writeValue(view, property, value)
       } finally {
         writingPaint = false
       }
@@ -1066,7 +1088,7 @@ function attachSpring(
   }
   const binding: Binding = {
     view,
-    property,
+    property: property as Property,
     root,
     source,
     read: source.read,
@@ -1074,7 +1096,7 @@ function attachSpring(
       if (!view.isLoaded || !view.nativeViewProtected || root.disposed) return
       detach()
       validateLivePaint(view, property)
-      stopBase(view, [property])
+      stopBase(view, [property as Property])
       native = root.node.bind(view, property, source.mappings)
       const handle = native
       const retained = root.retainConsumer()
@@ -1098,33 +1120,12 @@ function attachSpring(
   }
   let properties = bound.get(view)
   if (!properties) bound.set(view, (properties = new Map()))
-  properties.set(property, binding)
+  properties.set(property as Property, binding)
   root.bindings.add(binding)
   view.on('loaded', binding.sync)
   view.on('unloaded', detach)
   if (paint) {
-    const names = [
-      ...(property === 'backgroundColor'
-        ? ['backgroundColor']
-        : [
-            'borderTopLeftRadius',
-            'borderTopRightRadius',
-            'borderBottomLeftRadius',
-            'borderBottomRightRadius',
-          ]),
-      'backgroundImage',
-      'boxShadow',
-      'clipPath',
-      'cornerShape',
-      'borderTopWidth',
-      'borderRightWidth',
-      'borderBottomWidth',
-      'borderLeftWidth',
-      'borderTopColor',
-      'borderRightColor',
-      'borderBottomColor',
-      'borderLeftColor',
-    ].map((name) => `${name}Change`)
+    const names = livePaintChanges(property).map((name) => `${name}Change`)
     // Core style setters own their property. Remove only this live binding before
     // the new model is applied; old cleanup must not overwrite a newer style.
     const external = () => {
@@ -1137,13 +1138,35 @@ function attachSpring(
       }
     }
     for (const name of names) view.style.on(name, external)
+    let refreshQueued = false
     const refresh = () => {
-      if (root.bindings.has(binding)) syncLiveSprings(view)
+      if (refreshQueued) return
+      refreshQueued = true
+      void Promise.resolve().then(() => {
+        refreshQueued = false
+        if (!root.bindings.has(binding)) return
+        try {
+          validateLivePaint(view, property)
+          syncLiveSprings(view)
+        } catch {
+          external()
+        }
+      })
     }
+    // Core can rebuild a drawable/layer for another paint channel. Reapply the
+    // retained native state after that model write instead of cancelling it.
+    view.style.on('backgroundInternalChange', refresh)
     view.on('layoutChanged', refresh)
+    if (property === 'color') {
+      view.on('textChange', refresh)
+      view.on('formattedTextChange', refresh)
+    }
     releaseStyles = () => {
       for (const name of names) view.style.off(name, external)
       view.off('layoutChanged', refresh)
+      view.style.off('backgroundInternalChange', refresh)
+      view.off('textChange', refresh)
+      view.off('formattedTextChange', refresh)
     }
   }
   try {
@@ -1154,21 +1177,6 @@ function attachSpring(
   }
   return () => {
     if (root.bindings.has(binding)) release(binding)
-  }
-}
-
-function validateLivePaint(view: View, property: Property) {
-  if (property !== 'backgroundColor' && property !== 'borderRadius') return
-  if (view.backgroundImage)
-    throw new TypeError(
-      'Live paint bindings require a solid background without an image or gradient.',
-    )
-  if (property === 'borderRadius') {
-    validateDecorationTarget(view, property)
-    if (view.boxShadow && (!Array.isArray(view.boxShadow) || view.boxShadow.length))
-      throw new TypeError(
-        'Live borderRadius does not support CSS boxShadow; use a separate shadow surface.',
-      )
   }
 }
 

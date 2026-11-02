@@ -45,7 +45,7 @@ function saveBodies(name: string) {
     .writeTextSync(JSON.stringify(bodyEvents, null, 2))
 }
 const titles = [
-  'Live color & corners',
+  'Live paint · independent edges',
   'Seekable scene',
   'Flexbox reflow',
   'Connected bodies',
@@ -102,12 +102,19 @@ function select(next: number) {
     card = label('Retained spring', 170, 170, '#8CB5FF')
     card.marginTop = 40
     card.marginLeft = 60
+    card.borderWidth = 3
+    card.borderColor = new Color('#17332B')
     host.addChild(card)
     spring = springValue(input, { stiffness: 140, damping: 13 })
     release = bind(card, {
       backgroundColor: spring.to([0, 1], ['#8CB5FF', '#EFA26F']),
-      borderRadius: spring.to([0, 1], [8, 76]),
-      rotate: spring.to([0, 1], [0, 15]),
+      borderColor: spring.to([0, 1], ['#17332B', '#993C56']),
+      color: spring.to([0, 1], ['#17332B', '#6B203F']),
+      borderTopLeftRadius: spring.to([0, 1], [8, 65]),
+      borderBottomRightRadius: spring.to([0, 1], [8, 65]),
+      borderTopWidth: spring.to([0, 1], [3, 14]),
+      borderBottomWidth: spring.to([0, 1], [3, 14]),
+      scale: spring.to([0, 1], [1, 1.1]),
     })
     status.value = 'Change the target while the spring is moving.'
   } else if (next === 1) {

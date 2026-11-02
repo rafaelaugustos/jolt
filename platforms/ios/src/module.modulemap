@@ -9,6 +9,7 @@ module JoltMotion {
     header "JoltInteractiveNavigation.h"
     header "JoltInteractiveModal.h"
     header "JoltLiveSpring.h"
+    header "JoltLivePaint.h"
     header "JoltGestureSession.h"
     header "JoltReorderSession.h"
     header "JoltSharedLayoutFlight.h"
