@@ -1,6 +1,6 @@
 # Continuous Web motion {#web-dynamic}
 
-This **unreleased experimental candidate** adds `motionValue()`, `bind()`, `springValue()` and `drag()` to the document-owned runtime from `@rafaelaugusto/jolt/web`. These methods are not in published RC.5. Validate a locally packed checkout before adopting them; native entry points and the Vue adapter keep their existing contracts.
+Since **0.1.0-rc.6**, `motionValue()`, `bind()`, `springValue()` and `drag()` are available on the document-owned runtime from `@rafaelaugusto/jolt/web`. The Web APIs remain experimental; native entry points and the Vue adapter keep their existing contracts.
 
 <Clip name="web-dynamic-chromium" caption="Chromium 156 desktop, original speed: real pointer and keyboard input steers a follower, retargets application scale while pressed, drags and catches a returning snap, removes/remounts the card and changes pause/reduced motion. Browser recording, not native or physical-device performance evidence." />
 
@@ -26,7 +26,7 @@ motion.dispose()
 
 Values belong to their context. `get()` reads the current number; `getVelocity()` uses units/second. Input `set()` changes the value synchronously, while visual writes coalesce into a frame. Bind numeric x/y/rotation/scale/opacity channels; scale expands to scaleX/scaleY. Cross-context, disposed and nonnumeric inputs fail before replacing existing ownership.
 
-`subscribe(listener)` observes changes after scheduled frame writes and returns an unsubscribe function. It does not emit an initial value. Observers run in JavaScript and have their own cost; they do not convert unrelated finite WAAPI animations to frame callbacks. Numeric mappings and bounded follower chains are available in the [unreleased support candidate](./web-support). Color values and full native/Web API equivalence remain outside this API.
+`subscribe(listener)` observes changes after scheduled frame writes and returns an unsubscribe function. It does not emit an initial value. Observers run in JavaScript and have their own cost; they do not convert unrelated finite WAAPI animations to frame callbacks. Numeric mappings and bounded follower chains are available in the [RC.6 Web support](./web-support). Color values and full native/Web API equivalence remain outside this API.
 
 A binding owns only its selected base channels. A later `animate()`, `set()` or `stop()` replaces the matching channels; other bindings and press layers survive. Disposing an obsolete binding cannot restore an old value. Unbinding holds the current value. `release()` restores owned inline styles and cancels target work; detachment does the same automatically. Values can outlive a target: dispose them separately, or dispose the runtime. Disposing an input also disposes its spring followers.
 

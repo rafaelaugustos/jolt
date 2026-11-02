@@ -4,20 +4,20 @@
 npm install @rafaelaugusto/jolt@next
 ```
 
-The checkout also contains [continuous Web motion](./web-dynamic), an unreleased experimental follow-up with values, followers and drag/snap. Those methods are not included in published RC.5.
+RC.6 includes [continuous Web motion](./web-dynamic), with values, followers and drag/snap, plus [numeric mappings, geometry refresh and vertical scroll](./web-support). The Web APIs remain experimental.
 
-The **0.1.0-rc.5 release candidate** is published under the `next` tag. The native 0.1.0 feature scope is frozen while compatibility and release validation continue. NativeScript consumers require `@nativescript/core` 8.9 or later. It doesn't depend on a framework: it takes a view, or an element that holds one, so it works with NativeScript-Vue, Angular, Svelte or plain NativeScript. NativeScript-Vue apps can also import `@rafaelaugusto/jolt/vue` for [directives and a transition component](./vue).
+The **0.1.0-rc.6 release candidate** is published under the `next` tag. The native 0.1.0 feature scope is frozen while compatibility and release validation continue. NativeScript consumers require `@nativescript/core` 8.9 or later. It doesn't depend on a framework: it takes a view, or an element that holds one, so it works with NativeScript-Vue, Angular, Svelte or plain NativeScript. NativeScript-Vue apps can also import `@rafaelaugusto/jolt/vue` for [directives and a transition component](./vue).
 
 Jolt includes native helpers on iOS and Android. Rebuild the native app after installing or upgrading Jolt; a JavaScript-only update cannot install native code.
 
-The current release candidate is **0.1.0-rc.5**. To pin it, use `npm install @rafaelaugusto/jolt@0.1.0-rc.5`. For [external native property adapters](./native-properties), install matching `@rafaelaugusto/jolt-native@0.1.0-rc.5` and rebuild the native application.
+The current release candidate is **0.1.0-rc.6**. To pin it, use `npm install @rafaelaugusto/jolt@0.1.0-rc.6`. For [external native property adapters](./native-properties), install matching `@rafaelaugusto/jolt-native@0.1.0-rc.6` and rebuild the native application.
 
 ## Experimental Web entries {#experimental-web-candidate}
 
 Starting with **0.1.0-rc.5**, the package includes experimental `/web` and `/web/vue` entries. Install the published candidate directly; add Vue only when using the Vue DOM adapter. The root import and `/vue` remain native entries.
 
 ```sh
-npm install @rafaelaugusto/jolt@0.1.0-rc.5
+npm install @rafaelaugusto/jolt@0.1.0-rc.6
 # Only for the optional Vue DOM adapter:
 npm install vue@^3.5.0
 ```
@@ -42,7 +42,7 @@ motion.dispose() // release on application/component teardown
 
 NativeScript and NativeScript-Vue are optional peers at the package level so the Web consumer does not install them. They remain required when using their respective native entries. Missing peers produce resolver errors naming `@nativescript/core` or `nativescript-vue`; install the named dependency in the native app. A Web app must import `/web`, including during SSR. The root and `/vue` do not automatically switch platforms.
 
-The Web API is experimental: it exposes a document-owned factory, finite controls and types, without driver registration, internal diagnostics or portable component references. `/core`, deep implementation paths and `/web/react` are not exported. DOM typings are required for the browser API; its reachable declarations do not require native globals. Coordinates use CSS pixels, rotation uses degrees, and scale uses factors. See [finite Web playback](./web-runtime) for capabilities, cleanup and CSS ownership limits.
+The Web API is experimental: it exposes a document-owned runtime with finite playback, continuous motion, scroll and types, without driver registration, internal diagnostics or portable component references. `/core`, deep implementation paths and `/web/react` are not exported. DOM typings are required for the browser API; its reachable declarations do not require native globals. Coordinates use CSS pixels, rotation uses degrees, and scale uses factors. See [finite Web playback](./web-runtime) for capabilities, cleanup and CSS ownership limits.
 
 The [packed consumer checks](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/package-consumers.md) cover Vite development/production, SSR, NodeNext/Bundler types and the existing native entries. The optional Vue Web entry has its own packed consumer, covering declarations, direct/Vite SSR, real enter/leave and press in development and production.
 

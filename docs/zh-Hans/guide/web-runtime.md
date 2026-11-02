@@ -1,8 +1,8 @@
 # Web 有限动画运行时
 
-自 **0.1.0-rc.5** 起，实验性 `@rafaelaugusto/jolt/web` 入口使用 Jolt 的可移植编译器和 WAAPI 直接操作 HTML 元素，不依赖 Vue、React 或 NativeScript。参见[安装](./install#experimental-web-candidate)。Mavis press/reveal 迁移和共享应用动画示例仍是 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 中的独立验收工作。
+自 **0.1.0-rc.5** 起，实验性 `@rafaelaugusto/jolt/web` 入口使用 Jolt 的可移植编译器和 WAAPI 直接操作 HTML 元素，不依赖 Vue、React 或 NativeScript。参见[安装](./install#experimental-web-candidate)。Mavis 已完成初始 press/reveal 迁移及共享应用示例；新的 Web 功能仍在 [Mavis](https://github.com/getcortexlabs/mavis-ui/issues/137) 中逐步集成。
 
-源码还提供[Web 连续动画](./web-dynamic)实验后续版本，包括数值、跟随弹簧和拖动/吸附。该版本尚未发布，已发布的 RC.5 不包含这些方法。
+RC.6 包含[Web 连续动画](./web-dynamic)：数值、跟随弹簧及拖动/吸附，以及[数值映射、几何刷新和垂直滚动](./web-support)。Web API 仍为实验性功能。
 
 指针和键盘输入现由 [Web 按压反馈](./web-press)提供；以下录制仍作为有限运行时参考。
 
@@ -50,9 +50,9 @@ motion.dispose()
 
 运行时控制已挂载、可变换的 HTML 盒子的 `transform` 和 `opacity`。顺序为 `静态 2D 基线 × translate × rotate × scale`，保留原始 `transform-origin`。不支持独立 CSS transform 属性、3D 基线、已有动画/过渡或带 `!important` 的内联运动样式。外部修改 CSS 前须释放并重建；不监控任意样式表/CSS 变量变化。如果外部代码控制外层元素样式，可使用专用内层运动表面。
 
-支持的尺寸与二维枢轴变化可通过[未发布几何 API](./web-support#geometry)保留 ownership；其他外部样式变化仍需释放并重建。
+支持的尺寸与二维枢轴变化可通过[RC.6 几何 API](./web-support#geometry)保留 ownership；其他外部样式变化仍需释放并重建。
 
-本阶段仅支持有限播放：连续弹簧、drag/pinch、motion values、滚动、布局、原生专有属性和其他框架生命周期 adapter 属于后续工作。尚未建立稳定的可移植引用 API，也未完成 Mavis 集成。仅使用 WAAPI 并不能证明合成器加速或保证 FPS。
+本指南介绍有限播放。数值、弹簧与 drag/snap 见[连续运动](./web-dynamic)，映射、几何刷新和垂直滚动见 [Web 支持](./web-support)。Pinch、Web 布局动画、原生专有属性和其他框架 adapter 不属于当前 Web 范围。尚未建立稳定的可移植引用 API，也未完成 Mavis 集成。仅使用 WAAPI 并不能证明合成器加速或保证 FPS。
 
 ## 原生参考与验证 {#native-reference-and-validation}
 

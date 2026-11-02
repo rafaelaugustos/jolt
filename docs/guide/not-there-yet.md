@@ -1,16 +1,18 @@
 # Release status and limits {#not-there-yet}
 
-**0.1.0-rc.5 is available.** Native features retain their documented platform limits while stable-release validation continues. The Web entries are experimental; publication does not complete Mavis integration or establish native/Web parity for every API.
+**0.1.0-rc.6 is available.** Native features retain their documented platform limits while stable-release validation continues. The Web entries are experimental; publication does not complete Mavis integration or establish native/Web parity for every API.
 
-The checkout also contains [continuous Web motion](./web-dynamic), an unreleased experimental follow-up with values, followers and drag/snap. Those methods are not included in published RC.5.
+RC.6 includes [continuous Web motion](./web-dynamic), with values, followers and drag/snap, plus [numeric mappings, geometry refresh and vertical scroll](./web-support). The Web APIs remain experimental.
 
-RC.5 adds [experimental Web playback](./web-runtime), [composable press](./web-press) and the optional [Vue DOM adapter](./web-vue), fixes scoped background recovery and Android layer removal, and adds [native pull-to-refresh](./scroll-header#pull-to-refresh) plus scroll/gallery reader-focus fixes. Mavis component migration and its shared application-animation proof remain open under #236.
+RC.6 also adds native [live color/radius bindings](./live-springs), [seekable scenes](./sequences), [bounded Flexbox sizing](./size) and [body-to-body springs](./physics-attachments). Rebuild native applications after upgrading.
+
+RC.5 adds [experimental Web playback](./web-runtime), [composable press](./web-press) and the optional [Vue DOM adapter](./web-vue), fixes scoped background recovery and Android layer removal, and adds [native pull-to-refresh](./scroll-header#pull-to-refresh) plus scroll/gallery reader-focus fixes. Mavis completed its initial press/reveal migration and shared application-animation proof; adoption of the RC.6 capabilities is tracked in [its integration issues](https://github.com/getcortexlabs/mavis-ui/issues/137).
 
 RC.4 composes rolling layer windows on native live nodes, continues Android shapes, gradients and blur from the paused time on resume, places the bottom sheet by the host's safe-area insets and offers only the handle actions a stop can take. RC.3 added `interactiveModal()` on iOS, one-call Android numeric keyframes, shapes created before their view loads and component refs as targets.
 
 The [binding/layer audit](./motion-values#binding-measurements) includes physical iPhone and Android preparation/playback measurements, automated input onset and repeated mount/unmount retention checks. Expensive composition boundaries, approximate allocation-counter failures and unavailable Android thermal telemetry remain explicit in the evidence. These results provide workload-specific guidance, not a universal capacity or presented-frame guarantee. Since RC.4, windowed compositions play on native composers with no boundary submissions; the remaining cost is the synchronous start of large keyframe batches, measured in the same audit.
 
-## Available in RC.5 {#available-in-rc-1}
+## Available in RC.6 {#available-in-rc-1}
 
 - Experimental [finite Web playback](./web-runtime), [press](./web-press) and [Vue DOM lifecycle](./web-vue), with optional framework/native peers and SSR-safe imports.
 - [Shared navigation](./shared-navigation), [shared gestures](./shared-gestures), [current-cell returns](./return-targets) and the [connected gallery](./gallery), for the documented Frame/ListView/static-image combinations.
@@ -22,12 +24,12 @@ The [binding/layer audit](./motion-values#binding-measurements) includes physica
 
 ## Current limits {#current-limits}
 
-- Experimental Web support covers finite numeric 2D transforms and opacity. Continuous gestures/springs, scroll/layout, React and a stable portable component-reference API are later work; see the [browser matrix and limits](./web-vue#verification).
-- `animateSize()` supports StackLayout/GridLayout, including inside ScrollView, and runs JavaScript measurement/layout per frame. Flex allocation, recycled cells and shared elements are outside that API.
+- Experimental Web support includes finite 2D transforms/opacity, numeric values/mappings, continuous springs, bounded one-pointer drag/snap, geometry refresh and vertical scroll. Web layout animation, pinch/nested-scroll handoff, other framework adapters and stable portable references remain outside this scope; see [dynamic motion](./web-dynamic) and [scroll/geometry limits](./web-support).
+- `animateSize()` supports StackLayout/GridLayout and direct children of non-wrapping row/column FlexboxLayout, including inside ScrollView. Flex main-axis children require `flexGrow=0` and `flexShrink=0`; parent allocation and cross-axis stretch remain authoritative. Measurement/layout runs in JavaScript per frame. Recycled cells and shared elements remain outside this API.
 - `drag()` does not provide general-purpose multi-finger composition. Use [`gestures()`](./gestures) for pan/pinch/rotation, or [photo zoom](./photo-zoom) for its dedicated pinch, pan and dismissal controller. The gesture handoff adapter supports vertical Core ScrollView; other list/container combinations require their own adapters and native validation.
 - External property adapters require `@rafaelaugusto/jolt-native`. The bundled SceneKit camera, light and material adapters are iOS-only; there is no bundled Android 3D renderer adapter. MapKit and MapLibre camera units are distinct.
 - SceneKit camera FOV supports automatic perspective projection on iOS. Orthographic scaling, custom projection matrices and arbitrary lens controls are outside that adapter.
-- Timelines pause and resume their participants, but do not provide arbitrary aggregate scrubbing of callbacks or one-shot effects.
+- `seekableTimeline()` scrubs finite declarative view/numeric-value scenes. Callbacks, haptics, live followers and arbitrary one-shot effects remain outside that contract; imperative timelines retain their participant controls.
 - Native playback has API-specific [execution paths](./how-it-works). Native property writes do not isolate a renderer from main-thread JavaScript. Layout, opt-in subscriptions, input and lifecycle work retain their documented JavaScript costs.
 
 ## From RC to 0.1.0 {#from-rc-to-0-1-0}
@@ -44,6 +46,6 @@ Gallery and scroll acceptance still require the remaining physical-device frame-
 
 ## After 0.1.0 {#after-0-1-0}
 
-Subsequent RCs focus on correctness, compatibility, accessibility, lifecycle cleanup and documentation. New capabilities belong after 0.1.0: additional framework adapters, arbitrary view shaders, more sensor types, body-to-body physics joints and general modal navigation.
+Subsequent RCs focus on correctness, compatibility, accessibility, lifecycle cleanup and documentation. New capabilities belong after 0.1.0: additional framework adapters, arbitrary view shaders, more sensor types, additional physics joint types and general modal navigation.
 
 The [comparison project](https://github.com/rafaelaugustos/jolt/issues/65) is separate from shipping the current supported scope. Broader [feature issues](https://github.com/rafaelaugustos/jolt/issues) do not expand the stable release's supported combinations or change the documented platform fallbacks and JavaScript costs.

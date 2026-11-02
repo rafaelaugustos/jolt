@@ -1,8 +1,8 @@
 # Runtime Web finito
 
-Desde a **0.1.0-rc.5**, a entrada experimental `@rafaelaugusto/jolt/web` usa o compilador portátil do Jolt e WAAPI diretamente em elementos HTML, independentemente de Vue, React ou NativeScript. Veja a [instalação](./install#experimental-web-candidate). A migração de press/reveal do Mavis e o exemplo de animação da aplicação compartilhada continuam como validações separadas na [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+Desde a **0.1.0-rc.5**, a entrada experimental `@rafaelaugusto/jolt/web` usa o compilador portátil do Jolt e WAAPI diretamente em elementos HTML, independentemente de Vue, React ou NativeScript. Veja a [instalação](./install#experimental-web-candidate). O Mavis concluiu a migração inicial de press/reveal e o exemplo compartilhado da aplicação; a adoção dos novos recursos Web continua [no Mavis](https://github.com/getcortexlabs/mavis-ui/issues/137).
 
-O checkout também contém [movimento contínuo na Web](./web-dynamic), uma continuação experimental ainda não publicada com valores, followers e drag/snap. Esses métodos não estão na RC.5 publicada.
+A RC.6 inclui [movimento contínuo na Web](./web-dynamic), com valores, followers e drag/snap, além de [mapeamentos numéricos, atualização de geometria e scroll vertical](./web-support). As APIs Web continuam experimentais.
 
 A entrada por ponteiro e teclado está em [Press na Web](./web-press); a gravação abaixo permanece como referência do runtime finito.
 
@@ -50,9 +50,9 @@ A interrupção projeta o início resolvido do relógio de origem no relógio de
 
 O runtime controla `transform` e `opacity` de uma caixa HTML montada e transformável. A ordem é `base 2D estática × translate × rotate × scale`, preservando `transform-origin`. Transforms CSS individuais, bases 3D, animações/transições existentes e estilos de movimento inline com `!important` não são suportados. Libere e recrie antes de mudanças CSS externas; alterações arbitrárias de stylesheet/variáveis CSS não são monitoradas. Use uma superfície interna dedicada quando outro código controla o estilo do elemento externo.
 
-Mudanças suportadas de tamanho e pivô 2D podem preservar esse ownership com a [API de geometria ainda não publicada](./web-support#geometry); outras mudanças externas continuam exigindo release/recriação.
+Mudanças suportadas de tamanho e pivô 2D podem preservar esse ownership com a [API de geometria da RC.6](./web-support#geometry); outras mudanças externas continuam exigindo release/recriação.
 
-Esta etapa cobre playback finito: springs contínuas, drag/pinch, motion values, scroll, layout, propriedades exclusivas do nativo e outros adapters de lifecycle ficam separados. Ela ainda não estabelece uma API estável de referências portáteis nem completa a integração do Mavis. WAAPI por si só não comprova aceleração pelo compositor ou garante FPS.
+Este guia cobre playback finito. Veja [movimento contínuo](./web-dynamic) para valores, springs e drag/snap, e [suporte Web](./web-support) para mapeamentos, geometria e scroll vertical. Pinch, animação de layout Web, propriedades exclusivas do nativo e outros adapters de framework ficam fora desse escopo Web. Ela ainda não estabelece uma API estável de referências portáteis nem completa a integração do Mavis. WAAPI por si só não comprova aceleração pelo compositor ou garante FPS.
 
 ## Referência nativa e validação {#native-reference-and-validation}
 

@@ -63,11 +63,11 @@ features:
     link: /zh-Hans/guide/scene-camera
 ---
 
-## 0.1.0-rc.5：Web 动画与原生生命周期 {#release-candidate}
+## 0.1.0-rc.6: Web 交互与原生动画 {#release-candidate}
 
-RC.5 发布[有限 Web 播放](/zh-Hans/guide/web-runtime)、[按压反馈](/zh-Hans/guide/web-press)和可选 [Vue DOM 适配器](/zh-Hans/guide/web-vue)。同时新增[原生下拉刷新](/zh-Hans/guide/scroll-header#pull-to-refresh)，恢复作用域动画的后台播放状态，修复 Android layer 清理，并改善滚动/相册读屏焦点。
+RC.6 新增[Web 数值、连续弹簧与拖动/吸附](/zh-Hans/guide/web-dynamic)，以及[映射、几何刷新与滚动](/zh-Hans/guide/web-support)。原生扩展包括[颜色/圆角弹簧](/zh-Hans/guide/live-springs)、[可 seek 场景](/zh-Hans/guide/sequences)、[Flexbox 尺寸](/zh-Hans/guide/size)及[物体间弹簧](/zh-Hans/guide/physics-attachments)。
 
-Web API 仍为实验性功能，Mavis 集成单独推进。[安装 RC.5](/zh-Hans/guide/install) 后请重新构建原生应用，并查看[发布说明](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.5)与[剩余验收](/zh-Hans/guide/not-there-yet)。
+Web API 仍为实验性功能，Mavis 集成单独推进。[安装 RC.6](/zh-Hans/guide/install) 后请重新构建原生应用，并查看[发布说明](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.6)与[剩余验收](/zh-Hans/guide/not-there-yet)。
 
 ## 0.1.0-rc.4：原生合成、恢复与工作表 {#rc-4}
 

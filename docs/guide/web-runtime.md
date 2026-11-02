@@ -1,8 +1,8 @@
 # Finite Web runtime
 
-Since **0.1.0-rc.5**, the experimental `@rafaelaugusto/jolt/web` entry uses Jolt’s portable compiler and WAAPI directly on HTML elements, independently of Vue, React or NativeScript. See [installation](./install#experimental-web-candidate). Mavis press/reveal migration and the shared application example remain separate acceptance work in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+Since **0.1.0-rc.5**, the experimental `@rafaelaugusto/jolt/web` entry uses Jolt’s portable compiler and WAAPI directly on HTML elements, independently of Vue, React or NativeScript. See [installation](./install#experimental-web-candidate). Mavis completed its initial press/reveal migration and shared application example; adoption of newer Web capabilities continues [in Mavis](https://github.com/getcortexlabs/mavis-ui/issues/137).
 
-The checkout also contains [continuous Web motion](./web-dynamic), an unreleased experimental follow-up with values, followers and drag/snap. Those methods are not included in published RC.5.
+RC.6 includes [continuous Web motion](./web-dynamic), with values, followers and drag/snap, plus [numeric mappings, geometry refresh and vertical scroll](./web-support). The Web APIs remain experimental.
 
 Pointer and keyboard input are now covered by [Web press feedback](./web-press); the recording below remains the finite-runtime reference.
 
@@ -50,9 +50,9 @@ Interruption projects the resolved source start time onto the document's perform
 
 The runtime owns `transform` and `opacity` on a mounted, transformable HTML box. Transform order is `static 2D baseline × translate × rotate × scale`; the original `transform-origin` stays in effect. Individual CSS transforms, 3D baselines, existing animations/transitions and inline `!important` motion styles are unsupported. Release and recreate before external CSS changes; arbitrary stylesheet/CSS-variable mutations are not monitored. Use a dedicated inner surface when other code owns the outer element's styles.
 
-Supported size and 2D pivot changes can preserve this ownership using the unreleased [geometry refresh API](./web-support#geometry); other external-style changes retain the release/recreate rule.
+Supported size and 2D pivot changes can preserve this ownership using the RC.6 [geometry refresh API](./web-support#geometry); other external-style changes retain the release/recreate rule.
 
-This is finite playback only: continuous springs, drag/pinch, motion values, scroll, layout, native-only properties and other framework lifecycle adapters follow separately. It does not establish a stable portable-reference API or complete Mavis integration. WAAPI playback alone does not establish compositor acceleration or an FPS guarantee.
+This guide covers finite playback. See [continuous motion](./web-dynamic) for values, springs and drag/snap, and [Web support](./web-support) for mappings, geometry and vertical scroll. Pinch, Web layout animation, native-only properties and other framework adapters remain outside this Web scope. It does not establish a stable portable-reference API or complete Mavis integration. WAAPI playback alone does not establish compositor acceleration or an FPS guarantee.
 
 ## Native reference and validation {#native-reference-and-validation}
 

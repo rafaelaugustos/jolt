@@ -65,11 +65,11 @@ features:
     link: /guide/scene-camera
 ---
 
-## 0.1.0-rc.5: Web motion and native lifecycle {#release-candidate}
+## 0.1.0-rc.6: Web interaction and native motion {#release-candidate}
 
-RC.5 publishes [finite Web playback](/guide/web-runtime), [press feedback](/guide/web-press) and an optional [Vue DOM adapter](/guide/web-vue). It also adds [native pull-to-refresh](/guide/scroll-header#pull-to-refresh), restores scoped playback after backgrounding, corrects Android layer cleanup and improves scroll/gallery reader focus.
+RC.6 adds [continuous Web values, springs and drag/snap](/guide/web-dynamic) plus [mappings, geometry refresh and scroll](/guide/web-support). Native additions cover [live paint](/guide/live-springs), [seekable scenes](/guide/sequences), [Flexbox sizing](/guide/size) and [springs between bodies](/guide/physics-attachments).
 
-The Web APIs remain experimental; Mavis integration is separate. [Install RC.5](/guide/install), rebuild native apps and read the [release notes](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.5) and [remaining acceptance](/guide/not-there-yet).
+The Web APIs remain experimental; Mavis integration is separate. [Install RC.6](/guide/install), rebuild native apps and read the [release notes](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.6) and [remaining acceptance](/guide/not-there-yet).
 
 ## 0.1.0-rc.4: native composition, resume and sheets {#rc-4}
 
