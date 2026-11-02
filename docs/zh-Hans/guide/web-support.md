@@ -1,6 +1,6 @@
 # Web 映射、几何与滚动 {#web-support}
 
-尚未发布的新功能：[Vue/Nuxt 挂载、身份列表入场与 LTR/RTL 横向滚动](./web-collections)。
+自 RC.8 起可用：[Vue/Nuxt 挂载、身份列表入场与 LTR/RTL 横向滚动](./web-collections)。
 
 **自 RC.7 起：**[颜色、边框、连续绘制、真实尺寸、FLIP 与可定位场景](./web-visual)扩展此运行时。Web API 仍为实验性功能；完整对等由 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 跟踪。
 

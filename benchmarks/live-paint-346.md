@@ -1,6 +1,6 @@
 # Retained native paint: #346
 
-The retained native spring now drives background, border and plain text color, uniform/individual border widths and circular corner radii. Independent edge keys apply to live spring bindings; finite native animation retains its existing public property set. The four translated live-spring guides document target requirements and shorthand ownership.
+Available since **0.1.0-rc.9**. The retained native spring now drives background, border and plain text color, uniform/individual border widths and circular corner radii. Independent edge keys apply to live spring bindings; finite native animation retains its existing public property set. The four translated live-spring guides document target requirements and shorthand ownership.
 
 The Mavis #191 regression is covered with a root-value border-color binding alongside retained background, asymmetric corners, width, text and scale. Previously unrelated border changes detached background/radius. Style listeners now cancel only the channel they own and reapply retained native paint after Core replaces its background representation. Loaded native targets are preflighted before installation. iOS shares a retained paint surface; Android writes Core's drawable fields through the existing native targets.
 

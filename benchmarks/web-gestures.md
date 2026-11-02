@@ -1,6 +1,6 @@
 # Web gestures and coordinated scroll
 
-Unreleased after RC.8, covering #340–#345 in one PR. The browser implementation is framework-independent; Mavis adoption is tracked separately in getcortexlabs/mavis-ui#234–#237.
+Released in RC.9, covering #340–#345 in PR #347. The browser implementation is framework-independent; Mavis adoption is tracked separately in getcortexlabs/mavis-ui#234–#237.
 
 ## Execution and ownership
 

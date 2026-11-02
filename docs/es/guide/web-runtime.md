@@ -1,6 +1,6 @@
 # Runtime Web finito
 
-Nuevo, aún no publicado: [gestos, zoom de imágenes, scroll coordinado, refresh y reorder](./web-gestures).
+Disponible desde RC.9: [gestos, zoom de imágenes, scroll coordinado, refresh y reorder](./web-gestures).
 
 Desde RC.8: [montaje Vue/Nuxt, entradas por identidad y scroll horizontal LTR/RTL](./web-collections).
 

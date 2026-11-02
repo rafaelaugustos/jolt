@@ -78,9 +78,9 @@ Uma escrita direta no estilo assume o canal de pintura e solta seu binding. Muda
 
 [Validação nativa e reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-capabilities.md).
 
-## Pintura retida ampliada (não publicada) {#extended-live-paint}
+## Pintura retida ampliada (RC.9) {#extended-live-paint}
 
-A próxima versão amplia a base da RC.6 descrita acima. Recompile o app: os bindings precisam das classes nativas atualizadas.
+A **0.1.0-rc.9** amplia a base da RC.6 descrita acima. Recompile o app: os bindings precisam das classes nativas atualizadas.
 
 | Canal                                                                                              | Spring nativa contínua                                                           | Binding Web                    |
 | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | ------------------------------ |

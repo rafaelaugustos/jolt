@@ -1,6 +1,6 @@
 # API {#api}
 
-- [**drag / gestures / zoomable / scrollHeader / reorder (Web)**](./web-gestures) — Web 手势、缩放、滚动/刷新与交互排序 — RC.8 之后尚未发布。
+- [**drag / gestures / zoomable / scrollHeader / reorder (Web)**](./web-gestures) — Web 手势、缩放、滚动/刷新与交互排序 — 自 RC.9 起可用。
 
 - [**createMotionInspector**](./motion-inspector) — 可选的开发检查、本地批次、所有权、绑定图和可重复的弹簧调整。
 

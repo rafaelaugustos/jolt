@@ -1,6 +1,6 @@
 # Gestos, zoom e scroll na Web
 
-Trabalho experimental ainda não publicado após a **0.1.0-rc.8**, acompanhado nas #340–#345. Os seis recursos pertencem ao mesmo runtime do documento e aos seus escopos. O grafo de imports Web não depende de NativeScript nem de frameworks. As implementações nativas continuam disponíveis; as gravações nativas abaixo são referências, não demonstrações desta implementação Web.
+Recursos experimentais disponíveis desde a **0.1.0-rc.9**, acompanhados nas #340–#345. Os seis recursos pertencem ao mesmo runtime do documento e aos seus escopos. O grafo de imports Web não depende de NativeScript nem de frameworks. As implementações nativas continuam disponíveis; as gravações nativas abaixo são referências, não demonstrações desta implementação Web.
 
 Crie o runtime após a montagem. Coordenadas usam pixels CSS, rotação usa graus e velocidades usam unidades por segundo. Mantenha a superfície de entrada sem transforms e anime um filho; a fronteira de coordenadas renderizadas/top-layer existente continua válida. A aplicação cuida de marcação, semântica, dados e navegação.
 

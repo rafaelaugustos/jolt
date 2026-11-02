@@ -1,6 +1,6 @@
 # Web 有限动画运行时
 
-新增，尚未发布：[手势、图片缩放、协调滚动、刷新与排序](./web-gestures)。
+自 RC.9 起可用：[手势、图片缩放、协调滚动、刷新与排序](./web-gestures)。
 
 自 RC.8 起： [Vue/Nuxt 挂载、身份列表入场与 LTR/RTL 横向滚动](./web-collections)。
 

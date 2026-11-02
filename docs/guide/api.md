@@ -1,6 +1,6 @@
 # API
 
-- [**drag / gestures / zoomable / scrollHeader / reorder (Web)**](./web-gestures) — Web gestures, zoom, scroll/refresh and interactive reorder — unreleased after RC.8.
+- [**drag / gestures / zoomable / scrollHeader / reorder (Web)**](./web-gestures) — Web gestures, zoom, scroll/refresh and interactive reorder — available since RC.9.
 
 - [**createMotionInspector**](./motion-inspector) — optional development inspection, native batches, ownership, binding graphs and reproducible spring tuning.
 

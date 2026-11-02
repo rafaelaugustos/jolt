@@ -1,12 +1,14 @@
 # 发布状态与限制 {#not-there-yet}
 
+**RC.9 新增：**[Web 手势、缩放、协调滚动/刷新与排序](./web-gestures)，以及[原生保留式绘制通道和混合绑定所有权](./live-springs#extended-live-paint)。升级后请重新构建原生应用。
+
 **RC.8 新增：**[Web 编排与 SVG 描边](./web-orchestration)、[Vue/Nuxt 挂载、列表身份与横向滚动](./web-collections)，以及[暂停时原生视图替换的恢复修复](./motion-controllers#paused-replacement)。
 
 **RC.7 同时提供：**[作用域、指针/视口与 Vue 持续配置](./web-lifecycle)，以及[浮层几何、共享元素、完整示例与诊断](./web-interactions)。Mavis 集成另行推进。
 
 **自 RC.7 起：**[颜色、边框、连续绘制、真实尺寸、FLIP 与可定位场景](./web-visual)扩展此运行时。Web API 仍为实验性功能；完整对等由 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 跟踪。
 
-**0.1.0-rc.8 已发布。** 原生功能保留各自文档中说明的平台限制，正式版验收仍在进行。Web 入口仍为实验性功能；发布并不表示 Mavis 集成完成，也不保证所有原生/Web API 完全一致。
+**0.1.0-rc.9 已发布。** 原生功能保留各自文档中说明的平台限制，正式版验收仍在进行。Web 入口仍为实验性功能；发布并不表示 Mavis 集成完成，也不保证所有原生/Web API 完全一致。
 
 RC.6 包含[Web 连续动画](./web-dynamic)：数值、跟随弹簧及拖动/吸附，以及[数值映射、几何刷新和垂直滚动](./web-support)。Web API 仍为实验性功能。
 
@@ -18,7 +20,7 @@ RC.4 在原生节点上合成图层窗口，让 Android 的形状、渐变和模
 
 [绑定与图层审计](./motion-values#binding-measurements)包含实体 iPhone 和 Android 上的准备/播放测量、自动输入响应起点，以及重复挂载/卸载的内存保留检查。组合窗口开销较高、近似分配计数器失败、Android 缺少温度状态遥测等限制均保留在证据中。结果为已测场景提供指导，不保证通用容量或实际呈现的帧率。 自 RC.4 起，窗口化合成在原生合成器上播放，不再有边界提交；剩余开销是大批关键帧的同步启动，已在同一审计中测量。
 
-## RC.8 已提供的功能 {#available-in-rc-1}
+## RC.9 已提供的功能 {#available-in-rc-1}
 
 - 实验性[有限 Web 播放](./web-runtime)、[按压](./web-press)和 [Vue DOM 生命周期](./web-vue)，支持可选框架/原生 peer 和安全 SSR 导入。
 - [共享元素导航](./shared-navigation)、[共享手势](./shared-gestures)、[返回当前单元格](./return-targets)和[联动相册](./gallery)，支持文档列出的 Frame/ListView/静态图像组合。

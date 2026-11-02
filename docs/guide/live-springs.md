@@ -78,9 +78,9 @@ A direct style write owns that paint channel and detaches its binding. Changes t
 
 [Native validation and reproduction](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-capabilities.md).
 
-## Extended retained paint (unreleased) {#extended-live-paint}
+## Extended retained paint (RC.9) {#extended-live-paint}
 
-The next release extends the RC.6 baseline above. Rebuild the native app: these bindings need updated native classes.
+**0.1.0-rc.9** extends the RC.6 baseline above. Rebuild the native app: these bindings need updated native classes.
 
 | Channel                                                                                            | Native live spring                                   | Web binding                   |
 | -------------------------------------------------------------------------------------------------- | ---------------------------------------------------- | ----------------------------- |

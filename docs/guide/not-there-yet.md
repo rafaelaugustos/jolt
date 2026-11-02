@@ -1,12 +1,14 @@
 # Release status and limits {#not-there-yet}
 
+**New in RC.9:** [Web gestures, zoom, coordinated scroll/refresh and reorder](./web-gestures), plus [retained native paint channels and mixed ownership](./live-springs#extended-live-paint). Rebuild native apps after upgrading.
+
 **New in RC.8:** [Web orchestration and SVG drawing](./web-orchestration), [Vue/Nuxt attachment, keyed items and horizontal scroll](./web-collections), and [paused native replacement recovery](./motion-controllers#paused-replacement).
 
 **Also in RC.7:** [resource scopes, pointer/viewport helpers and continuous Vue setup](./web-lifecycle), plus [overlay geometry, shared elements, complete recipes and diagnostics](./web-interactions). Mavis adoption remains separate.
 
 **Since RC.7:** [colors, borders, continuous paint, real size, FLIP and seekable scenes](./web-visual) extend this runtime. The Web APIs remain experimental; full parity is tracked in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
-**0.1.0-rc.8 is available.** Native features retain their documented platform limits while stable-release validation continues. The Web entries are experimental; publication does not complete Mavis integration or establish native/Web parity for every API.
+**0.1.0-rc.9 is available.** Native features retain their documented platform limits while stable-release validation continues. The Web entries are experimental; publication does not complete Mavis integration or establish native/Web parity for every API.
 
 RC.6 includes [continuous Web motion](./web-dynamic), with values, followers and drag/snap, plus [numeric mappings, geometry refresh and vertical scroll](./web-support). The Web APIs remain experimental.
 
@@ -18,7 +20,7 @@ RC.4 composes rolling layer windows on native live nodes, continues Android shap
 
 The [binding/layer audit](./motion-values#binding-measurements) includes physical iPhone and Android preparation/playback measurements, automated input onset and repeated mount/unmount retention checks. Expensive composition boundaries, approximate allocation-counter failures and unavailable Android thermal telemetry remain explicit in the evidence. These results provide workload-specific guidance, not a universal capacity or presented-frame guarantee. Since RC.4, windowed compositions play on native composers with no boundary submissions; the remaining cost is the synchronous start of large keyframe batches, measured in the same audit.
 
-## Available in RC.8 {#available-in-rc-1}
+## Available in RC.9 {#available-in-rc-1}
 
 - Experimental [finite Web playback](./web-runtime), [press](./web-press) and [Vue DOM lifecycle](./web-vue), with optional framework/native peers and SSR-safe imports.
 - [Shared navigation](./shared-navigation), [shared gestures](./shared-gestures), [current-cell returns](./return-targets) and the [connected gallery](./gallery), for the documented Frame/ListView/static-image combinations.

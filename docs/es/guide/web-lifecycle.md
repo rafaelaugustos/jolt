@@ -1,6 +1,6 @@
 # Ciclo de vida e interacción Web
 
-Nuevo, sin publicar: [montaje Vue/Nuxt, entradas por identidad y scroll horizontal LTR/RTL](./web-collections).
+Disponible desde RC.8: [montaje Vue/Nuxt, entradas por identidad y scroll horizontal LTR/RTL](./web-collections).
 
 **Disponible desde 0.1.0-rc.7.** Las issues #314–#317 añaden ámbitos hijos, seguimiento del puntero, entrada en viewport y configuración continua en Vue al runtime experimental `/web`. Reutilizan valores, springs, reproducción y scheduler. [Overlays, elementos compartidos y recetas](./web-interactions) usan la misma propiedad de recursos.
 

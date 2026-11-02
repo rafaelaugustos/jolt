@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 0.1.0-rc.9 (2026-11-02)
+
+- Publish matching core and optional native packages with Web gestures, image zoom, coordinated scroll/refresh, interactive reorder and expanded retained native paint. Rebuild native applications to include the updated compiled helpers.
+
 - Extend native retained spring paint to border/text colors, border widths and independent corners (#346). Preserve live background/radius when another border channel rebuilds Core paint; add native lifecycle/ownership checks and reviewed iOS/Android recordings. Rebuild native apps after upgrading.
 - Cancel Web shared transitions when destination geometry changes even if WebKit does not deliver ResizeObserver notifications. Observe host style/class geometry changes without a permanent frame loop.
 

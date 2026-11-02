@@ -65,7 +65,13 @@ features:
     link: /guide/scene-camera
 ---
 
-## 0.1.0-rc.8: Web orchestration and lifecycle {#release-candidate}
+## 0.1.0-rc.9: Web gestures and retained native paint {#release-candidate}
+
+RC.9 adds [inertial drag, composed gestures, image zoom, nested scroll, refresh headers and interactive reorder](/guide/web-gestures), plus [native border/text colors, widths and independent spring corners](/guide/live-springs#extended-live-paint). It fixes mixed native paint ownership and WebKit shared-transition geometry invalidation.
+
+Web APIs remain experimental. [Install RC.9](/guide/install), keep optional native adapters at the matching version and rebuild native apps. [Release notes](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.9). Mavis adoption remains separate.
+
+## 0.1.0-rc.8: Web orchestration and lifecycle {#rc-8}
 
 RC.8 adds [value playback, decay, progress, sequences, timelines, motion states and SVG drawing](/guide/web-orchestration), plus [Vue/Nuxt attachment, keyed item entrances and horizontal scroll](/guide/web-collections). Native [motion states](/guide/motion-controllers#paused-replacement) now resume a replacement view after detaching the previous view while paused.
 

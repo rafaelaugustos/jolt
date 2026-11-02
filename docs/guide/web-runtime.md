@@ -1,6 +1,6 @@
 # Finite Web runtime
 
-New, unreleased: [gestures, image zoom, coordinated scroll, refresh and reorder](./web-gestures).
+Available since RC.9: [gestures, image zoom, coordinated scroll, refresh and reorder](./web-gestures).
 
 Since RC.8: [Vue/Nuxt attachment, keyed item entrances and horizontal LTR/RTL scroll](./web-collections).
 

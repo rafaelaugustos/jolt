@@ -1,6 +1,6 @@
 # Web lifecycles and input
 
-New, unreleased: [Vue/Nuxt attachment, keyed item entrances and horizontal LTR/RTL scroll](./web-collections).
+Available since RC.8: [Vue/Nuxt attachment, keyed item entrances and horizontal LTR/RTL scroll](./web-collections).
 
 **Available since 0.1.0-rc.7.** Issues #314–#317 add child scopes, pointer following, viewport entrance and continuous Vue setup to the experimental `/web` runtime. They reuse its existing values, springs, finite playback and scheduler. [Overlays, shared elements and interaction recipes](./web-interactions) build on this ownership model.
 

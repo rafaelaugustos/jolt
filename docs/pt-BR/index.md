@@ -65,7 +65,13 @@ features:
     link: /pt-BR/guide/scene-camera
 ---
 
-## 0.1.0-rc.8: orquestração e ciclo de vida Web {#release-candidate}
+## 0.1.0-rc.9: gestos Web e pintura nativa retida {#release-candidate}
+
+A RC.9 adiciona [drag inercial, gestos compostos, zoom, scroll aninhado, headers com refresh e reorder interativo](/pt-BR/guide/web-gestures), além de [cores de borda/texto, larguras e cantos independentes nas springs nativas](/pt-BR/guide/live-springs#extended-live-paint). Corrige a composição de pintura nativa e a invalidação de geometria em transições compartilhadas no WebKit.
+
+As APIs Web continuam experimentais. [Instale a RC.9](/pt-BR/guide/install), mantenha os adapters nativos opcionais na mesma versão e recompile apps nativos. [Notas do release](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.9). A adoção no Mavis permanece separada.
+
+## 0.1.0-rc.8: orquestração e ciclo de vida Web {#rc-8}
 
 A RC.8 adiciona [playback de valores, decay, progresso, sequências, timelines, estados e desenho SVG](/pt-BR/guide/web-orchestration), além de [montagem Vue/Nuxt, entradas por identidade e scroll horizontal](/pt-BR/guide/web-collections). Os [estados nativos](/pt-BR/guide/motion-controllers#paused-replacement) agora retomam a view substituta depois de remover a anterior durante a pausa.
 

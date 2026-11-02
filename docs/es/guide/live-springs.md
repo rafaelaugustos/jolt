@@ -78,9 +78,9 @@ Una escritura directa de estilo toma ese canal y libera su binding. Cambiar la i
 
 [Validación nativa y reproducción](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-capabilities.md).
 
-## Pintura retenida ampliada (sin publicar) {#extended-live-paint}
+## Pintura retenida ampliada (RC.9) {#extended-live-paint}
 
-La próxima versión amplía la base RC.6 anterior. Recompila la aplicación: estos bindings necesitan clases nativas actualizadas.
+**0.1.0-rc.9** amplía la base RC.6 anterior. Recompila la aplicación: estos bindings necesitan clases nativas actualizadas.
 
 | Canal                                                                                              | Resorte nativo continuo                                                            | Binding Web                     |
 | -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ------------------------------- |

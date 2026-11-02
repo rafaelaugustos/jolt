@@ -1,6 +1,6 @@
 # Web gestures, zoom and scroll
 
-Unreleased experimental work after **0.1.0-rc.8**, tracked by #340–#345. The six capabilities belong to the same document runtime and resource scopes. NativeScript and framework runtimes are absent from the Web import graph. The existing native implementations remain available; their recordings below are references, not footage of this Web implementation.
+Experimental capabilities available since **0.1.0-rc.9**, tracked by #340–#345. The six capabilities belong to the same document runtime and resource scopes. NativeScript and framework runtimes are absent from the Web import graph. The existing native implementations remain available; their recordings below are references, not footage of this Web implementation.
 
 Create the runtime after mounting. Coordinates are CSS pixels, rotation is degrees and velocities are units per second. Keep the declared input surface untransformed and animate its child; the existing rendered/top-layer coordinate boundary still applies. The application owns markup, semantics, data and routing.
 
