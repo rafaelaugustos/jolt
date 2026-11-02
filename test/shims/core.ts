@@ -194,6 +194,16 @@ export class LayoutBase extends View {
   clipToBounds = false
 }
 export class GridLayout extends LayoutBase {}
+export class FlexboxLayout extends LayoutBase {
+  flexDirection = 'row'
+  flexWrap = 'nowrap'
+  static getFlexGrow(view: View) {
+    return (view.style as unknown as { flexGrow?: number }).flexGrow ?? 0
+  }
+  static getFlexShrink(view: View) {
+    return (view.style as unknown as { flexShrink?: number }).flexShrink ?? 1
+  }
+}
 
 export class ScrollView extends View {
   static scrollEvent = 'scroll'

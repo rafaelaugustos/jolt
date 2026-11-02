@@ -23,6 +23,7 @@ CHECKS = [
     "native gesture values and scroll delegate lifecycle",
     "recorded interaction replay and negative control",
     "real dimensions in StackLayout and GridLayout",
+    "live paint seekable scenes flex reflow and body springs",
 ]
 
 

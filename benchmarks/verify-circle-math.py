@@ -19,6 +19,7 @@ int main(void) {
  for(int i=0;i<w.count;i++){JoltCircle *b=&w.bodies[i];scanf("%lf%lf%lf%lf%lf%lf",&b->x,&b->y,&b->vx,&b->vy,&b->r,&b->m);}
  char op;int n,index,active;double x,y,length,stiffness,damping,projection;
  while(scanf(" %c",&op)==1){
+  if(op=='l'){int a,b;scanf("%d%d%d%d%lf%lf%lf",&index,&active,&a,&b,&length,&stiffness,&damping);w.springs[index]=(JoltBodySpring){active,a,b,length,stiffness,damping};w.sleeping=false;w.quiet=0;}
   if(op=='g'){scanf("%d%lf%lf%lf",&index,&length,&stiffness,&damping);JoltCircleAttachment *g=&w.bodies[index].drag;g->enabled=true;g->length=length;g->stiffness=stiffness;g->damping=damping;}
   if(op=='s'){scanf("%d",&n);while(n-->0)JoltCircleStep(&w);}
   if(op=='d'){scanf("%d%lf%lf",&index,&x,&y);JoltCircleDrag(&w,index,x,y);}
@@ -43,6 +44,7 @@ public class CircleProbe {
   w.width=s.nextDouble();w.height=s.nextDouble();w.gx=s.nextDouble();w.gy=s.nextDouble();w.restitution=s.nextDouble();w.damping=s.nextDouble();
   for(CircleMath.Body b:w.bodies){b.x=s.nextDouble();b.y=s.nextDouble();b.vx=s.nextDouble();b.vy=s.nextDouble();b.r=s.nextDouble();b.m=s.nextDouble();}
   while(s.hasNext())switch(s.next()){
+   case "l":{int i=s.nextInt();CircleMath.Spring v=new CircleMath.Spring();v.enabled=s.nextInt()!=0;v.a=s.nextInt();v.b=s.nextInt();v.length=s.nextDouble();v.stiffness=s.nextDouble();v.damping=s.nextDouble();w.springs[i]=v;w.sleeping=false;w.quiet=0;break;}
    case "g":{CircleMath.Attachment g=w.bodies[s.nextInt()].drag;g.enabled=true;g.length=s.nextDouble();g.stiffness=s.nextDouble();g.damping=s.nextDouble();break;}
    case "s":{int n=s.nextInt();while(n-->0)w.step();break;}
    case "d":w.drag(s.nextInt(),s.nextDouble(),s.nextDouble());break;
@@ -151,6 +153,34 @@ with tempfile.TemporaryDirectory(prefix='jolt-circle-math-') as tmp:
     assert b[0][4]==0;close(b[0][2],0);close(b[0][3],0);bounded(b,300,300)
     state,b=check('pointer extreme target remains bounded',fixture([[50,300,0,0,20,.1]],'g 0 10000 1000 120\nd 0 -500 4000\ns 2400'))
     bounded(b,600,600);assert state[2]==0
+    linked='l 0 1 0 1 100 180 24\n'
+    pair=[[150,300,0,0,20,1],[350,300,0,0,20,3]]
+    _,b=check('body spring equal opposite impulses',fixture(pair,linked+'s 1'))
+    impulse=180*100/240/(1+24/240*(1+1/3))
+    close(b[0][2],impulse);close(b[1][2],-impulse/3)
+    close(b[0][2]+3*b[1][2],0)
+    state,b=check('unequal body spring conserves center and sleeps',fixture(pair,linked+'s 4800'))
+    assert state[2]==1;close(b[1][0]-b[0][0],100,.25);close((b[0][0]+3*b[1][0])/4,300,.02)
+    _,b=check('direct pointer pulls dynamic peer',fixture(pair,linked+'d 0 100 300\ns 240'))
+    close(b[0][0],100);assert 190<b[1][0]<215 and b[0][4]==1
+    state,b=check('spring pointer pulls both masses',fixture(pair,linked+'g 0 0 180 24\nd 0 100 300\ns 2400'))
+    close(b[0][0],100,.25);close(b[1][0],200,.25);assert not state[2]
+    _,a=check('linked momentum before release',fixture(pair,linked+'g 0 0 180 24\nd 0 100 300\ns 30'))
+    _,b=check('linked pointer release retains momentum',fixture(pair,linked+'g 0 0 180 24\nd 0 100 300\ns 30\nr 0 1200 0'))
+    for i in range(2):
+        for axis in range(4):close(a[i][axis],b[i][axis])
+    _,b=check('body spring removal keeps velocities',fixture(pair,linked+'s 1\nl 0 0 0 1 100 180 24'))
+    close(b[0][2],impulse);close(b[1][2],-impulse/3)
+    _,b=check('body spring replacement keeps velocities',fixture(pair,linked+'s 1\nl 0 1 0 1 150 240 30'))
+    close(b[0][2],impulse);close(b[1][2],-impulse/3)
+    state,b=check('body spring rest length survives resize',fixture(pair,linked+'z 900 600\ns 4800',width=600))
+    assert state[2];close(b[1][0]-b[0][0],100,.25)
+    state,b=check('three body anchored chain settles',fixture([[300,100,0,0,20,1],[300,220,0,0,20,1],[300,340,0,0,20,1]],'a 0 1 300 100 0 300 30\nl 0 1 0 1 80 180 24\nl 1 1 1 2 80 180 24\ns 14400',gy=200,drag=.5))
+    assert state[2];bounded(b,600,600);close(b[0][1],102,.3);close(b[1][1]-b[0][1],80+400/180,.3);close(b[2][1]-b[1][1],80+200/180,.3)
+    _,b=check('linked extreme masses stay bounded',fixture([[100,300,0,0,20,.1],[500,300,0,0,20,100]],'l 0 1 0 1 50 1000 120\ns 4800'))
+    bounded(b,600,600)
+    _,b=check('linked zero length preserves collision separation',fixture(pair,'l 0 1 0 1 0 180 24\ns 4800'))
+    bounded(b,600,600)
     # The same analytical collision oracle must reject a build with pair impulses disabled.
     header=(ROOT/'platforms/ios/src/JoltCircleMath.h').read_text().replace('if(impulse&&closing<0)','if(false&&closing<0)')
     (p/'JoltCircleMath.h').write_text(header)
@@ -168,4 +198,9 @@ with tempfile.TemporaryDirectory(prefix='jolt-circle-math-') as tmp:
     run(['clang','-std=c11','-O2','-I',str(p),str(p/'probe.c'),'-lm','-o',str(p/'negative-pointer')])
     negative=run([str(p/'negative-pointer')],input=dynamic_contact).splitlines()[1].split()
     assert abs(float(negative[2])+100)>10, 'Kinematic-pointer negative control unexpectedly passed'
-    print(json.dumps({'passed':len(results),'ports':['C (iOS)','Java (Android)'],'negativeControl':'rejected missing pair impulses, missing spring forces and kinematic pointer mass','results':results},indent=2))
+    header=(ROOT/'platforms/ios/src/JoltCircleMath.h').read_text().replace('JoltCircleSprings(w);','(void)w;')
+    (p/'JoltCircleMath.h').write_text(header)
+    run(['clang','-std=c11','-O2','-I',str(p),str(p/'probe.c'),'-lm','-o',str(p/'negative-link')])
+    negative=run([str(p/'negative-link')],input=fixture(pair,linked+'s 1')).splitlines()[1].split()
+    assert abs(float(negative[2])-impulse)>10, 'Missing body spring negative control unexpectedly passed'
+    print(json.dumps({'passed':len(results),'ports':['C (iOS)','Java (Android)'],'negativeControl':'rejected missing pair impulses, fixed/body spring forces and kinematic pointer mass','results':results},indent=2))

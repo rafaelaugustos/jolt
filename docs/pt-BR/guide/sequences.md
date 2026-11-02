@@ -127,3 +127,49 @@ No Android, os timers de posição e o relógio absoluto da timeline acompanham 
 O JavaScript executa quando um passo é ativado, não a cada frame. Uma thread JS bloqueada pode atrasar uma ativação; esta API não inicia novos passos criados em JS enquanto ele estiver indisponível. Depois que um passo começa, sua reprodução nativa e os limites da plataforma continuam valendo.
 
 O playground compara sobreposição, chegadas sequenciais e tempos fixos usando a mesma entrada.
+
+## Desenvolvimento: cenas finitas com seek {#seekable-scenes}
+
+`seekableTimeline()` acrescenta um contrato declarativo explícito para a próxima versão nativa. `timeline()` e `sequence()` mantêm o comportamento de callbacks.
+
+```ts
+const scene = seekableTimeline(
+  [
+    {
+      target: card,
+      keyframes: { x: [0, 160] },
+      transition: { duration: 1600, ease: 'linear' },
+    },
+    {
+      target: card,
+      at: 400,
+      keyframes: { scale: [1, 1.5], opacity: [0.4, 1] },
+      transition: { duration: 800 },
+    },
+    { value: progress, keyframes: [0, 1], transition: { duration: 1600 } },
+  ],
+  { paused: true },
+)
+scene.progress = 0.6
+scene.progress = 1
+scene.progress = 0.2
+scene.play()
+```
+
+| Participante                                           | Contrato                                                                                  |
+| ------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| View nativa carregada                                  | Keyframes numéricos explícitos e finitos de transforms/opacity; aceita layers nomeados.   |
+| `motionValue()` numérico                               | Canal base; bindings existentes seguem o mesmo tempo da cena.                             |
+| `{ at, steps }` aninhado                               | Expandido na preparação; posições absolutas em milissegundos dentro da cena que o contém. |
+| Callbacks, followers ao vivo, gestos, haptics, handles | Rejeitados antes da troca de propriedade. Use a API de timeline existente.                |
+
+Cada alvo/propriedade/layer tem um track. Coloque movimentos sucessivos nos keyframes; canais duplicados são rejeitados, inclusive entre cenas aninhadas. Não há handles de filhos independentes. Frames null/valor atual, paths, pintura/decorações, receitas relativas, stagger e layers de valores ficam fora desse primeiro conjunto. Transições aceitam easing predefinido/cubic-bezier e springs/tweens/gravity finitos; easing por callback e delays aleatórios entre repetições são rejeitados. Limites: 256 canais, 16 níveis, 100 repetições, dez minutos sem timeScale por track e 100.000 amostras por canal compilado.
+
+Todos os tracks são validados e compilados antes de assumir propriedade. Tracks atrasados mantêm o primeiro valor explícito; tracks curtos mantêm o valor final até o fim da cena. Repetições finitas são expandidas para execução nativa; o reinício de um loop ocupa no máximo um milionésimo do intervalo da cena, evitando intervalos float vazios. O playback comum dispensa coordenador JavaScript por frame. O timeScale global e o relógio de animator do Android são respeitados.
+
+Seek preserva pausa/play. Trabalho mais novo da aplicação mantém seus canais: um seek da cena antiga não os recupera. Os outros canais continuam e a conclusão agregada é false após interrupção. O fim pausado aceita retorno; uma cena concluída/parada é terminal. Background pausa e retoma automaticamente uma cena que estava tocando; pausa explícita continua pausada. Unload de uma view encerra a cena; reload exige outro handle. Redução de movimento é lida na compilação: tracks espaciais vão ao destino, opacidade conserva o tempo. Uma falha de construção interrompe o trabalho recém-criado pela cena.
+
+<Clip name="seekable-scene-ios" caption="Simulador iOS, interface em inglês: interação real com slider percorre posição, escala/opacidade sobrepostas e um valor de progresso vinculado, incluindo retorno a partir do fim pausado." />
+<Clip name="seekable-scene-android" caption="Emulador Android, interface em inglês: gestos reais por ADB e controles de playback exercitam a mesma cena finita. Tempo original, sem medição em aparelho físico." />
+
+[Validação nativa e reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-capabilities.md).

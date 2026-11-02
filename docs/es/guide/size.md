@@ -39,7 +39,7 @@ Pase una o ambas dimensiones. Los destinos son números DIP finitos y no negativ
 | Hijo directo de GridLayout                                                                      | Compatible; Las filas/columnas `auto` crecen con el contenido. Las pistas fijas o `*` mantienen su propia asignación, por lo que cambiar el tamaño de una vista interna no anima la definición de la pista. |
 | Pila/Cuadrícula anidada dentro de ScrollView                                                    | Compatible; Los límites de contenido real actualizan el desplazamiento. No anime el desplazamiento de contenido del ScrollView con esta API.                                                                |
 | Tanto el ancho como el alto                                                                     | Medidos juntos en el ancho de destino; el texto se ajusta en cada ancho intermedio. Pase `height: 'auto'` también para animar el sobre de altura cambiante.                                                 |
-| FlexboxLayout, WrapLayout, AbsoluteLayout, padre directo personalizado                          | Rechazado. La política de diseño necesita una validación separada.                                                                                                                                          |
+| WrapLayout, AbsoluteLayout, padre directo personalizado                                         | Rechazado. La política de diseño necesita una validación separada.                                                                                                                                          |
 | Celdas ListView/CollectionView recicladas, descendientes virtualizadas o medidas personalizadas | No compatible; sin contrato de medición o propiedad de celdas recicladas.                                                                                                                                   |
 
 La asignación de padres sigue siendo autoritaria. Los valores y el exceso del resorte están sujetos a restricciones cero y mín./máx.; max gana si min excede max. Un destino numérico fuera de mín/máx se establece en el número fijado. Un destino `auto` restaura **auto semántico**, lo que permite que los cambios de contenido posteriores cambien de tamaño normalmente.
@@ -73,3 +73,18 @@ Utilice `motionScope().animateSize()` o `useMotionScope().animateSize()` de Vue.
 La implementación inicial sondea el destino en cada cuadro para detectar cambios intrínsecos. Espere dos llamadas de medición de raíz y un diseño explícito por operación/cuadro activo, además de pases de marco. Múltiples vistas animadas y árboles profundos añaden costos; esto no es independencia de subproceso de renderizado. El JS del hilo principal detiene esta animación. Prefiera `animateLayout()` basado en transformación cuando el reflujo no sea necesario.
 
 Abra **Dimensiones reales** en el patio de juegos, o inicie `--size-lab` en iOS / `--es size-lab true` en Android. El [informe de validación nativo](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/size-layout.md) registra la cobertura del contenedor, las versiones en tiempo de ejecución, las pruebas de límites/aciertos reales y los costos de diseño medidos. Los resultados del simulador/emulador no son una garantía de rendimiento del dispositivo.
+
+## Desarrollo: FlexboxLayout {#flexbox-layout}
+
+La próxima versión nativa admite hijos directos de `FlexboxLayout` sin salto de línea, en dirección `row` o `column`.
+
+Para animar el eje principal, configura `flexGrow=0` y `flexShrink=0` en ese hijo. Los hermanos pueden crecer/encoger y reciben el espacio restante en cada layout real. Se rechazan direcciones inversas y wrapping antes de modificar; cambiar a una política incompatible durante playback termina con error y libera la declaración temporal.
+
+Alineación transversal, stretch, márgenes, tamaño del padre y límites min/max siguen siendo autoritativos. Se admiten destinos numéricos y `auto`; dimensiones iniciales porcentuales siguen rechazadas. Width/height de NativeScript proporcionan el tamaño principal; no se añade una API flex-basis independiente. El ancho animado redistribuye texto; añade `height: 'auto'` para animar la altura intrínseca. Se vuelven a medir cambios de texto/fuente/contenido y del padre mientras está activo. Al terminar se restaura la semántica `auto`.
+
+Reemplazar `animateSize()` en reproducción hereda la velocidad de la curva anterior en los ejes compartidos. Una operación pausada aporta velocidad cero. Stop, segundo plano, unload, reducción de movimiento y limpieza conservan su contrato. Layout sigue ejecutándose mediante JavaScript en la UI y puede ser costoso en árboles grandes.
+
+<Clip name="flex-size-ios" caption="Simulador iOS, interfaz en inglés: toques reales expanden e invierten un hijo flex, redistribuyen el texto y el espacio del hermano; incluye pausa/reanudación." />
+<Clip name="flex-size-android" caption="Emulador Android, interfaz en inglés: toques reales ADB verifican dimensiones de FlexboxLayout y reparto entre hermanos. Velocidad original, sin perfil en dispositivo físico." />
+
+[Validación nativa y reproducción](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-capabilities.md).

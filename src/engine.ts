@@ -321,8 +321,13 @@ export class ViewAnimation implements PlaybackAnimation {
         return () => this.timingListeners.delete(callback)
       },
     })
-    if (view.isLoaded && view.nativeViewProtected) this.start(plans)
-    else this.waitForLoad(plans)
+    try {
+      if (view.isLoaded && view.nativeViewProtected) this.start(plans)
+      else this.waitForLoad(plans)
+    } catch (error) {
+      this.stop()
+      throw error
+    }
   }
 
   then<A = boolean, B = never>(
@@ -627,6 +632,10 @@ function release(entry: Entry, now: number, commit: boolean) {
   const { property } = entry.track
   entry.done = true
   forget(entry)
+  if (entry.handle === undefined) {
+    entry.owner.ended(false)
+    return
+  }
   if (entry.handle instanceof MixHandle) {
     entry.handle.mix.detach(entry.layer ?? BASE, commit)
     entry.owner.ended(false)

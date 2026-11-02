@@ -127,3 +127,49 @@ En Android, los temporizadores de posición y el reloj de línea de tiempo absol
 JavaScript se ejecuta cuando se activa un paso, no una vez por cuadro de animación. Un hilo JS bloqueado puede retrasar el lanzamiento; esta API no puede iniciar nuevos pasos creados por JS mientras JavaScript no esté disponible. Una vez que comienza un paso, se aplican sus límites de plataforma y reproducción nativa normal.
 
 El patio de juegos compara superposiciones, llegadas secuenciales y horarios fijos utilizando la misma entrada.
+
+## Desarrollo: escenas finitas con seek {#seekable-scenes}
+
+`seekableTimeline()` añade un contrato declarativo para la próxima versión nativa. `timeline()` y `sequence()` conservan sus callbacks.
+
+```ts
+const scene = seekableTimeline(
+  [
+    {
+      target: card,
+      keyframes: { x: [0, 160] },
+      transition: { duration: 1600, ease: 'linear' },
+    },
+    {
+      target: card,
+      at: 400,
+      keyframes: { scale: [1, 1.5], opacity: [0.4, 1] },
+      transition: { duration: 800 },
+    },
+    { value: progress, keyframes: [0, 1], transition: { duration: 1600 } },
+  ],
+  { paused: true },
+)
+scene.progress = 0.6
+scene.progress = 1
+scene.progress = 0.2
+scene.play()
+```
+
+| Participante                                          | Contrato                                                                                      |
+| ----------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| View nativa cargada                                   | Keyframes numéricos explícitos de transforms/opacity; layers con nombre.                      |
+| `motionValue()` numérico                              | Canal base; los bindings siguen el tiempo de la escena.                                       |
+| `{ at, steps }` anidado                               | Se expande al preparar; posiciones absolutas en milisegundos dentro de la escena contenedora. |
+| Callbacks, followers vivos, gestos, haptics y handles | Rechazados antes de cambiar propietarios; usa la timeline existente.                          |
+
+Un track por destino/propiedad/layer: combina movimientos sucesivos en sus keyframes. Se rechazan canales duplicados, también entre escenas anidadas. No hay handles hijos independientes. Null/valor actual, paths, pintura/decoraciones, recetas relativas, stagger y layers de valores quedan fuera de esta primera superficie. Se admiten easing predefinido/cubic-bezier y springs/tweens/gravity finitos; se rechazan easing por callback y pausas aleatorias. Límites: 256 canales, 16 niveles, 100 repeticiones, diez minutos sin timeScale por track y 100.000 muestras por canal compilado.
+
+La validación y compilación preceden a los cambios de propietario. Un track retrasado mantiene su primer valor; uno corto mantiene el último hasta terminar la escena. Las repeticiones se expanden para playback nativo; los reinicios de loop ocupan como máximo una millonésima del intervalo de la escena para evitar intervalos float vacíos. No hay coordinador JavaScript por frame durante playback normal. Se aplican timeScale y el reloj de animator de Android.
+
+Seek conserva pausa/play. La escena antigua no recupera canales tomados por trabajo nuevo; los demás continúan y la conclusión agregada es false tras una interrupción. El final pausado admite retroceso; los handles completados/detenidos son terminales. Segundo plano pausa y reanuda una escena que estaba reproduciéndose; una pausa explícita se conserva. Unload termina la escena; reload requiere otro handle. Reduce Motion se consulta al compilar: los tracks espaciales van al destino y opacity conserva su tiempo. Un fallo de construcción detiene el trabajo recién creado.
+
+<Clip name="seekable-scene-ios" caption="Simulador iOS, interfaz en inglés: slider real recorre posición, escala/opacidad superpuestas y un valor de progreso vinculado; retrocede desde el final pausado." />
+<Clip name="seekable-scene-android" caption="Emulador Android, interfaz en inglés: gestos reales con ADB y controles de playback para la misma escena finita. Tiempo original, sin medición en dispositivo físico." />
+
+[Validación nativa y reproducción](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-capabilities.md).

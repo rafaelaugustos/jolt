@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 import { sizeLayout } from '../src/size-layout.js'
-import { StackLayout, View, unsetValue } from '@nativescript/core'
+import { FlexboxLayout, StackLayout, View, unsetValue } from '@nativescript/core'
 
 vi.mock('@nativescript/core', async (original) => {
   const core = await original<typeof import('./shims/core.js')>()
@@ -185,6 +185,47 @@ describe('actual-size NativeScript layout boundary', () => {
     expect(() => sizeLayout(f.view, ['height'])).toThrow('percentages')
     Object.assign(f.view, { parent: {} })
     expect(() => sizeLayout(f.view, ['width'])).toThrow('StackLayout or GridLayout')
+  })
+  it('accepts bounded flex main-axis sizing and leaves sibling allocation to the parent', () => {
+    const f = fixture(),
+      parent = new FlexboxLayout()
+    Object.assign(parent, {
+      flexDirection: 'row',
+      flexWrap: 'nowrap',
+      measure: f.parent.measure,
+      layout: f.parent.layout,
+      _currentWidthMeasureSpec: 300,
+      _currentHeightMeasureSpec: 600,
+      _getCurrentLayoutBounds: f.parent._getCurrentLayoutBounds,
+    })
+    Object.assign(f.view, { parent })
+    Object.assign(f.style, { flexGrow: 0, flexShrink: 0 })
+    const adapter = sizeLayout(f.view, ['width', 'height'])
+    adapter.write({ width: 150, height: 80 })
+    adapter.layout()
+    expect(f.view.getActualSize()).toEqual({ width: 150, height: 80 })
+    expect(adapter.measure({ width: 'auto', height: 'auto' })).toEqual({
+      width: 270,
+      height: 150,
+    })
+    adapter.dispose()
+    expect(f.view.width).toBe(240)
+  })
+  it('rejects unsupported flex allocation before mutation and revalidates changes during playback', () => {
+    const f = fixture(),
+      parent = new FlexboxLayout()
+    Object.assign(f.view, { parent })
+    Object.assign(f.style, { flexGrow: 1, flexShrink: 0 })
+    expect(() => sizeLayout(f.view, ['width'])).toThrow(/flexGrow/)
+    expect(f.view.width).toBe(240)
+    Object.assign(f.style, { flexGrow: 0 })
+    parent.flexWrap = 'wrap'
+    expect(() => sizeLayout(f.view, ['width'])).toThrow(/non-wrapping/)
+    parent.flexWrap = 'nowrap'
+    const adapter = sizeLayout(f.view, ['width'])
+    parent.flexDirection = 'row-reverse'
+    expect(() => adapter.measure({ width: 100 })).toThrow(/row\/column/)
+    adapter.dispose()
   })
   it('never restores a speculative overlay after a measurement callback gives ownership to a new animation', () => {
     const f = fixture()

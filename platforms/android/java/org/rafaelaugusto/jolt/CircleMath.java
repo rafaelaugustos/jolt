@@ -4,6 +4,12 @@ package org.rafaelaugusto.jolt;
 public final class CircleMath {
     public static final double DT=1.0/240.0, SPEED=1200;
     public static final int SNAP_LIMIT=8;
+    public static final int SPRING_LIMIT=32;
+    public static final class Spring {
+        public boolean enabled;
+        public int a,b;
+        public double length,stiffness,damping;
+    }
     public static final class Attachment {
         public boolean enabled;
         public double u,v,length,stiffness,damping;
@@ -17,15 +23,17 @@ public final class CircleMath {
     public static final class Body {
         public double x,y,vx,vy,r,m,tx,ty,ax,ay,releaseX,releaseY,releaseVX,releaseVY;
         public boolean released;
-        public boolean held,supported;
+        public boolean held,supported,linked;
+        public double springAX,springAY;
         public final Attachment attachment=new Attachment(),drag=new Attachment();
         public final Snap snap=new Snap();
     }
     public final Body[] bodies;
+    public final Spring[] springs=new Spring[SPRING_LIMIT];
     public double width,height,gx,gy,restitution,damping,quiet;
     public long steps,contacts;
     public boolean sleeping;
-    public CircleMath(int count){bodies=new Body[count];for(int i=0;i<count;i++)bodies[i]=new Body();}
+    public CircleMath(int count){bodies=new Body[count];for(int i=0;i<count;i++)bodies[i]=new Body();for(int i=0;i<SPRING_LIMIT;i++)springs[i]=new Spring();}
     public static double clamp(double v,double lo,double hi){return Math.max(lo,Math.min(hi,v));}
     public static void limit(Body b){double speed=Math.hypot(b.vx,b.vy);if(speed>SPEED){b.vx*=SPEED/speed;b.vy*=SPEED/speed;}}
     public void wake(){sleeping=false;quiet=0;}
@@ -36,6 +44,26 @@ public final class CircleMath {
         return area<=width*height*.4;
     }
     private static boolean kinematic(Body b){return b.held&&!b.drag.enabled;}
+    private void bodySprings(){
+        for(Spring s:springs){
+            if(!s.enabled)continue;
+            Body a=bodies[s.a],b=bodies[s.b];a.linked=b.linked=true;
+            double dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy),nx=d>1e-9?dx/d:1,ny=d>1e-9?dy/d:0;
+            double force=s.stiffness*(d-s.length);
+            a.springAX+=nx*force/a.m;a.springAY+=ny*force/a.m;b.springAX-=nx*force/b.m;b.springAY-=ny*force/b.m;
+        }
+    }
+    private void bodySpringDamping(){
+        for(Spring s:springs){
+            if(!s.enabled)continue;
+            Body a=bodies[s.a],b=bodies[s.b];
+            double dx=b.x-a.x,dy=b.y-a.y,d=Math.hypot(dx,dy),nx=d>1e-9?dx/d:1,ny=d>1e-9?dy/d:0;
+            double ia=kinematic(a)?0:1/a.m,ib=kinematic(b)?0:1/b.m;
+            double relative=(b.vx-a.vx)*nx+(b.vy-a.vy)*ny;
+            double impulse=s.damping*relative*DT/(1+s.damping*DT*(ia+ib));
+            a.vx+=nx*impulse*ia;a.vy+=ny*impulse*ia;b.vx-=nx*impulse*ib;b.vy-=ny*impulse*ib;
+        }
+    }
     private void walls(Body b,boolean impulse){
         double e=restitution;
         if(b.x<=b.r){b.x=b.r;if(b.ax<0)b.supported=true;if(impulse&&!kinematic(b)&&b.vx<0){b.vx=Math.abs(b.vx)<40?0:-b.vx*e;contacts++;}}
@@ -90,8 +118,9 @@ public final class CircleMath {
     public void step(){
         if(sleeping)return;
         double decay=Math.exp(-damping*DT);boolean still=true;
+        for(Body b:bodies){b.supported=b.linked=false;b.springAX=b.springAY=0;b.ax=gx;b.ay=gy;if(kinematic(b)){b.vx=(b.tx-b.x)/DT;b.vy=(b.ty-b.y)/DT;}}
+        bodySprings();
         for(Body b:bodies){
-            b.supported=false;b.ax=gx;b.ay=gy;
             if(b.held)still=false;
             if(kinematic(b)){b.vx=(b.tx-b.x)/DT;b.vy=(b.ty-b.y)/DT;still=false;}
             else {
@@ -110,15 +139,18 @@ public final class CircleMath {
                     double force=stiffness*(d-length)/b.m;
                     b.ax-=force*nx;b.ay-=force*ny;
                 }
+                b.ax+=b.springAX;b.ay+=b.springAY;
                 double divisor=1+damping*DT/b.m;
                 b.vx=(b.vx+b.ax*DT)/divisor*decay;b.vy=(b.vy+b.ay*DT)/divisor*decay;
             }
-            limit(b);b.x+=b.vx*DT;b.y+=b.vy*DT;
         }
+        bodySpringDamping();
+        for(Body b:bodies){limit(b);b.x+=b.vx*DT;b.y+=b.vy*DT;}
         contacts(true,8);
         for(int i=0;i<bodies.length;i++){
             Body b=bodies[i];limit(b);double speed=Math.hypot(b.vx,b.vy),force=Math.hypot(b.ax,b.ay);boolean equilibrium=force<=1e-9;
-            if(b.snap.active){
+            if(b.linked)equilibrium=force<=4;
+            else if(b.snap.active){
                 double x=snapX(b,b.snap.index),y=snapY(b,b.snap.index);equilibrium=Math.hypot(b.x-x,b.y-y)<=.25;
                 if(equilibrium&&speed<=4&&targetClear(i,x,y)){b.x=x;b.y=y;b.vx=b.vy=0;}
             }else if(b.attachment.enabled){

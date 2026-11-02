@@ -1,4 +1,11 @@
-import { GridLayout, StackLayout, Utils, View, unsetValue } from '@nativescript/core'
+import {
+  FlexboxLayout,
+  GridLayout,
+  StackLayout,
+  Utils,
+  View,
+  unsetValue,
+} from '@nativescript/core'
 
 export type SizeAxis = 'width' | 'height'
 export type SizeValue = number | 'auto'
@@ -22,13 +29,33 @@ export function sizeLayout(
   replacing: readonly SizeAxis[] = [],
   read: () => SizePixels = () => view.getActualSize(),
 ) {
-  const parent = view.parent
-  if (
-    view.isLoaded &&
-    !(parent instanceof StackLayout) &&
-    !(parent instanceof GridLayout)
-  )
-    throw new TypeError('animateSize needs a child of StackLayout or GridLayout.')
+  const validateParent = () => {
+    const parent = view.parent
+    if (!view.isLoaded) return
+    if (parent instanceof FlexboxLayout) {
+      if (
+        !['row', 'column'].includes(parent.flexDirection) ||
+        parent.flexWrap !== 'nowrap'
+      )
+        throw new TypeError(
+          'animateSize supports non-wrapping row/column FlexboxLayout parents.',
+        )
+      const mainAxis = parent.flexDirection === 'row' ? 'width' : 'height'
+      if (
+        axes.includes(mainAxis) &&
+        (FlexboxLayout.getFlexGrow(view) !== 0 || FlexboxLayout.getFlexShrink(view) !== 0)
+      )
+        throw new TypeError(
+          'Animating the flex main axis requires flexGrow=0 and flexShrink=0 on that child; siblings can flex.',
+        )
+      return
+    }
+    if (!(parent instanceof StackLayout) && !(parent instanceof GridLayout))
+      throw new TypeError(
+        'animateSize needs a child of StackLayout or GridLayout, or a supported FlexboxLayout.',
+      )
+  }
+  validateParent()
   const style = view.style as unknown as Record<string, unknown>
   for (const axis of axes) {
     const initial = view[axis]
@@ -107,6 +134,7 @@ export function sizeLayout(
     }
   }
   const measure = () => {
+    validateParent()
     const node = root()
     const spec = specs(node)
     view.requestLayout()

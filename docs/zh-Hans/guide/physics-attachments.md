@@ -80,7 +80,7 @@ world.dispose()
 
 暂停/减少运动停止现有的原生时钟。安定的弹簧沉睡着；冲动、重新定位或新的手势都会唤醒它。处置会删除原生指南以及世界现有的输入/生命周期资源。输入变化和生命周期边界跨越JavaScript；力、目标选择、接触、绘图和每帧视图更新保持原生状态。 UI线程仍然与NativeScript JavaScript共享。
 
-四种语言的 **回归之地 / Equilibrium** 预览演示了这两种行为。固定锚点弹簧和释放后的吸附点是 [#39](https://github.com/rafaelaugustos/jolt/issues/39) 已交付的第三部分，从 **0.1.0-rc.1** 起可用。默认的直接拖动会暂停弹簧力。0.1.0-rc.2 添加了 [#238](https://github.com/rafaelaugustos/jolt/issues/238) 的可选指针弹簧模式，详见下文。物体间关节、刚性约束、任意形状和通用动力学引擎不属于当前接口约定。请参阅[验证与复现说明](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-attachments.md)和[交付审计](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-completion.md)。
+四种语言的 **回归之地 / Equilibrium** 预览演示了这两种行为。固定锚点弹簧和释放后的吸附点是 [#39](https://github.com/rafaelaugustos/jolt/issues/39) 已交付的第三部分，从 **0.1.0-rc.1** 起可用。默认的直接拖动会暂停弹簧力。0.1.0-rc.2 添加了 [#238](https://github.com/rafaelaugustos/jolt/issues/238) 的可选指针弹簧模式，详见下文。刚性关节、任意形状和通用动力学引擎不属于当前接口约定。中心间弹性连接见[下方开发扩展](#body-springs)。请参阅[验证与复现说明](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-attachments.md)和[交付审计](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-completion.md)。
 
 ## 指针弹簧拖动 {#pointer-spring-dragging-development-build}
 
@@ -116,3 +116,38 @@ const world = physicsWorld(board, [
 松手会移除临时锚点，保留**物体的模拟速度**，不会替换为手指速度。吸附点根据该位置和速度选择；没有吸附点时恢复固定弹簧，或让没有固定弹簧的物体自由运动。取消手势会释放指针、清零速度并恢复之前的停靠点，不记录新的松手事件。暂停、减少动态效果、卸载、进入后台、尺寸变化、重置及销毁都会取消手势。`attach()` 修改静止弹簧，不改变正在使用的指针弹簧；`snapTo()` 和 `impulse()` 仍忽略被持有的物体。
 
 快照中的 `held` 表示手势所有权；`pointer` 描述当前临时锚点，未持有时为 `null`，而 `attachment` 仍描述静止锚点。输入、积分和连线绘制复用有界原生时钟，无需逐次移动或逐帧 JavaScript 回调，但仍共享 UI 线程。参见[原生验证与限制](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/pointer-spring.md)。
+
+## 开发版：物体间弹簧 {#body-springs}
+
+下一原生版本增加同一圆形世界内的中心到中心弹簧，两端按各自质量响应。沿用碰撞边界和原生 240 Hz 固定步长时钟，无逐帧 JavaScript 观察者。
+
+```ts
+const world = physicsWorld(board, bodies, {
+  springs: [
+    {
+      id: 'link',
+      from: 'copper',
+      to: 'lilac',
+      length: 90,
+      stiffness: 180,
+      damping: 24,
+      line: { color: '#687C70', width: 2 },
+    },
+  ],
+})
+world.spring('link', { from: 'copper', to: 'lilac', length: 110 })
+world.spring('link', null)
+```
+
+使用稳定的弹簧 ID。`world.spring(id, config)` 添加或替换连接，不重置位置和速度；`world.spring(id, null)` 删除连接及其线条。`snapshot().springs` 返回当前配置。替换原生连接前先验证全部配置。
+
+每世界最多 32 根弹簧，每物体四根，每无序物体对一根。两端必须是同一世界内不同 ID。显式静止长度为 0–10,000 DIPs，stiffness 为 1–1000（默认 180），damping 为 0–120（默认 24）。不接受由 snap 控制的端点；可与固定锚点、直接拖动或指针弹簧拖动共存。这是弹性连接，不是刚性距离约束；仍不支持旋转、表面关节或任意形状。
+
+物体对承受大小相等、方向相反的弹性力和轴向阻尼冲量，按逆质量分配。直接抓住的物体是运动学物体，其邻居仍响应；指针弹簧拖动使两端都保持动态，释放保留物体速度。速度上限、碰撞和外力可能改变总动量。父容器缩放时，静止长度保持 DIPs，不随容器尺寸缩放。
+
+暂停、后台和减少动态效果会挂起现有世界时钟。删除端点或改变其父容器会销毁连接世界和线条；成员不变的临时卸载可以恢复。重建原生视图需要新世界。线条沿用可选的 `#RRGGBB`/0.5–6 DIP 样式，连接圆的边缘。Dispose 清除原生输入和绘制资源。
+
+<Clip name="body-springs-ios" caption="iOS 模拟器，英文界面：真实拖动带动三个不同质量物体组成的弹簧链，随后施加冲量并暂停/继续。" />
+<Clip name="body-springs-android" caption="Android 模拟器，英文界面：ADB 真实手势拖动并释放连接物体，弹簧力和线条原生更新。保持原速，不代表实体设备性能。" />
+
+[原生验证与复现](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-capabilities.md).

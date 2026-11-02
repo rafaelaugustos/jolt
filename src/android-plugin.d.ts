@@ -598,6 +598,7 @@ declare namespace org.rafaelaugusto.jolt {
     resize(width: number, height: number): void
     impulse(index: number, x: number, y: number): void
     attach(index: number, options: string): void
+    spring(slot: number, options: string): void
     snapTo(index: number, target: number): void
     reset(): void
     supportsPointerSpring(): boolean

@@ -127,3 +127,49 @@ onUnmounted(() => animation.stop())
 JavaScript 在步骤激活时运行，而不是每个动画帧运行一次。阻塞的 JS 线程可能会延迟启动；当 JavaScript 不可用时，此 API 无法启动新的 JS 创建的步骤。一旦步骤开始，其正常的原生播放和平台限制将适用。
 
 游乐场使用同一入口比较重叠、顺序到达和固定时间。
+
+## 开发版：可定位的有限场景 {#seekable-scenes}
+
+`seekableTimeline()` 为下一原生版本增加显式声明式契约。现有 `timeline()` 和 `sequence()` 保留回调行为。
+
+```ts
+const scene = seekableTimeline(
+  [
+    {
+      target: card,
+      keyframes: { x: [0, 160] },
+      transition: { duration: 1600, ease: 'linear' },
+    },
+    {
+      target: card,
+      at: 400,
+      keyframes: { scale: [1, 1.5], opacity: [0.4, 1] },
+      transition: { duration: 800 },
+    },
+    { value: progress, keyframes: [0, 1], transition: { duration: 1600 } },
+  ],
+  { paused: true },
+)
+scene.progress = 0.6
+scene.progress = 1
+scene.progress = 0.2
+scene.play()
+```
+
+| 参与者                                       | 契约                                                      |
+| -------------------------------------------- | --------------------------------------------------------- |
+| 已加载的原生视图                             | transforms/opacity 的显式有限数值关键帧；支持命名 layer。 |
+| 数值 `motionValue()`                         | 基础通道；现有绑定跟随场景时间。                          |
+| 嵌套 `{ at, steps }`                         | 准备时展开；位置是所在场景内的绝对毫秒。                  |
+| 回调、实时 follower、手势、触觉和现有 handle | 在修改所有权之前拒绝；使用现有 timeline 接口。            |
+
+每个目标/属性/layer 只能有一个 track；连续动作应写进其关键帧。嵌套场景之间的重复通道也会拒绝。没有可独立控制的子 handle。首版不含 null/当前值帧、path、绘制/装饰、相对配方、stagger 或数值 layer。支持内置/cubic-bezier easing 和有限 spring/tween/gravity；不支持回调 easing 或随机重复间隔。上限为 256 通道、16 层嵌套、100 次重复、每 track 未缩放十分钟、每编译通道 100,000 个样本。
+
+全部验证与编译先于所有权变更。延迟 track 保持显式初值，短 track 保持终值直到场景结束。重复会展开为原生关键帧；loop 重置最多占场景区间的百万分之一，以避免 float 零长度区间。普通播放无需逐帧 JavaScript 协调器，并遵循全局 timeScale 和 Android animator 时钟。
+
+Seek 保持暂停/播放状态。旧场景不能夺回新应用动画接管的通道；其余通道继续，发生中断后整体完成结果为 false。暂停的终点可后退；完成或停止后 handle 终止。后台会暂停并自动恢复原本播放的场景，显式暂停保持暂停。视图卸载结束场景，重新加载需要新 handle。编译时读取减少动态效果设置：空间轨迹直接到终值，opacity 保留时间。构建失败会停止本场景刚创建的工作。
+
+<Clip name="seekable-scene-ios" caption="iOS 模拟器，英文界面：真实滑块操作定位位置、重叠的缩放/透明度及绑定的进度值，并从暂停终点后退。" />
+<Clip name="seekable-scene-android" caption="Android 模拟器，英文界面：ADB 真实滑块手势和播放控制验证相同有限场景。原始速度，不代表实体设备性能。" />
+
+[原生验证与复现](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-capabilities.md).

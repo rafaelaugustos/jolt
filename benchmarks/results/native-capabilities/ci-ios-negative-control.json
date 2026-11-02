@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "runId": "a198db00-e4ab-427c-a059-663877d0a212",
+  "status": "failed",
+  "stage": "combined native transform and opacity",
+  "checks": [],
+  "samples": [
+    {
+      "stage": "combined native transform and opacity",
+      "property": "x",
+      "actual": 60,
+      "expected": 160,
+      "tolerance": 3
+    }
+  ],
+  "injected": true,
+  "error": "Error: x: 60 != 160 ± 3",
+  "build": {
+    "commit": "00f4b44929ff94b4b3c90ff4e2c94d86e39a1c7f",
+    "core": "9.1.3",
+    "runtime": "9.1.0",
+    "jolt": "0.1.0-rc.5",
+    "mode": "production"
+  },
+  "platform": "iOS",
+  "os": "26.2",
+  "model": "iPhone"
+}

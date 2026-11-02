@@ -1,0 +1,5906 @@
+{
+  "schema": 1,
+  "runId": "3ce08939-8400-423e-b9db-1f0cb56aa416",
+  "status": "passed",
+  "stage": "live paint seekable scenes flex reflow and body springs",
+  "checks": [
+    "combined native transform and opacity",
+    "live intermediate native position",
+    "pause holds and resume completes",
+    "interruption starts at visible position",
+    "one motion value coordinates native bindings",
+    "scope disposal cancels native work",
+    "unload and reload release the old animation",
+    "reduced motion settles spatial animation",
+    "live native spring followers and layers",
+    "native gesture values and scroll delegate lifecycle",
+    "recorded interaction replay and negative control",
+    "real dimensions in StackLayout and GridLayout",
+    "live paint seekable scenes flex reflow and body springs"
+  ],
+  "samples": [
+    {
+      "stage": "combined native transform and opacity",
+      "property": "x",
+      "actual": 60,
+      "expected": 60,
+      "tolerance": 3
+    },
+    {
+      "stage": "combined native transform and opacity",
+      "property": "y",
+      "actual": 30,
+      "expected": 30,
+      "tolerance": 3
+    },
+    {
+      "stage": "combined native transform and opacity",
+      "property": "scaleX",
+      "actual": 1.2,
+      "expected": 1.2,
+      "tolerance": 0.04
+    },
+    {
+      "stage": "combined native transform and opacity",
+      "property": "scaleY",
+      "actual": 0.9000000000000001,
+      "expected": 0.9,
+      "tolerance": 0.04
+    },
+    {
+      "stage": "combined native transform and opacity",
+      "property": "rotate",
+      "actual": 20,
+      "expected": 20,
+      "tolerance": 2
+    },
+    {
+      "stage": "combined native transform and opacity",
+      "property": "opacity",
+      "actual": 0.699999988079071,
+      "expected": 0.7,
+      "tolerance": 0.04
+    },
+    {
+      "stage": "live intermediate native position",
+      "middle": 25.066912174224854
+    },
+    {
+      "stage": "pause holds and resume completes",
+      "property": "paused x",
+      "actual": 25.106666088104248,
+      "expected": 25.106666088104248,
+      "tolerance": 2
+    },
+    {
+      "stage": "pause holds and resume completes",
+      "property": "resumed x",
+      "actual": 140,
+      "expected": 140,
+      "tolerance": 2
+    },
+    {
+      "stage": "interruption starts at visible position",
+      "property": "handoff x",
+      "actual": 26.785364001989365,
+      "expected": 26.785364001989365,
+      "tolerance": 6
+    },
+    {
+      "stage": "interruption starts at visible position",
+      "property": "final x",
+      "actual": 0,
+      "expected": 0,
+      "tolerance": 2
+    },
+    {
+      "stage": "one motion value coordinates native bindings",
+      "property": "bound x",
+      "actual": 60,
+      "expected": 60,
+      "tolerance": 3
+    },
+    {
+      "stage": "one motion value coordinates native bindings",
+      "property": "bound y",
+      "actual": 30,
+      "expected": 30,
+      "tolerance": 3
+    },
+    {
+      "stage": "one motion value coordinates native bindings",
+      "property": "bound opacity",
+      "actual": 0.699999988079071,
+      "expected": 0.7,
+      "tolerance": 0.04
+    },
+    {
+      "stage": "scope disposal cancels native work",
+      "property": "stopped x",
+      "actual": 14.081643979416954,
+      "expected": 14.081643979416954,
+      "tolerance": 2
+    },
+    {
+      "stage": "reduced motion settles spatial animation",
+      "property": "reduced x",
+      "actual": 100,
+      "expected": 100,
+      "tolerance": 2
+    },
+    {
+      "chain": [121.89295701269435, 90.37447391461093, 39.70386866865026]
+    },
+    {
+      "mixed": -7.972202698951882,
+      "base": -27.972202698951882
+    },
+    {
+      "position": 46.811996832375236,
+      "velocity": 482.5353518475031,
+      "held": 25.743289623761587,
+      "scrollEvents": 1
+    },
+    {
+      "status": "passed",
+      "kind": "curve-sampling",
+      "platform": "ios",
+      "os": "26.2",
+      "density": 3,
+      "cadence": "held presentation at 60/120 Hz logical timestamps (Android seek truncates to integer ms); not measured display refresh",
+      "maxErrorDIP": 0.1956007589369051,
+      "maxErrorPhysicalPixels": 0.5868022768107153,
+      "observations": [
+        {
+          "hz": 120,
+          "at": 0,
+          "requestedAt": 0,
+          "expected": 0,
+          "actual": 0,
+          "error": 0
+        },
+        {
+          "hz": 60,
+          "at": 0,
+          "requestedAt": 0,
+          "expected": 0,
+          "actual": 0,
+          "error": 0
+        },
+        {
+          "hz": 120,
+          "at": 8.333333333333334,
+          "requestedAt": 8.333333333333334,
+          "expected": 7.385576691424916,
+          "actual": 7.4119636710439405,
+          "error": 0.026386979619024586
+        },
+        {
+          "hz": 120,
+          "at": 16.666666666666668,
+          "requestedAt": 16.666666666666668,
+          "expected": 26.383868485100436,
+          "actual": 26.452235928065516,
+          "error": 0.06836744296508002
+        },
+        {
+          "hz": 60,
+          "at": 16.666666666666668,
+          "requestedAt": 16.666666666666668,
+          "expected": 26.383868485100436,
+          "actual": 26.452235928065516,
+          "error": 0.06836744296508002
+        },
+        {
+          "hz": 120,
+          "at": 25,
+          "requestedAt": 25,
+          "expected": 52.753053188653894,
+          "actual": 52.80016441454996,
+          "error": 0.04711122589606731
+        },
+        {
+          "hz": 120,
+          "at": 33.333333333333336,
+          "requestedAt": 33.333333333333336,
+          "expected": 82.96382504684536,
+          "actual": 82.97842553048811,
+          "error": 0.014600483642752238
+        },
+        {
+          "hz": 60,
+          "at": 33.333333333333336,
+          "requestedAt": 33.333333333333336,
+          "expected": 82.96382504684536,
+          "actual": 82.97842553048811,
+          "error": 0.014600483642752238
+        },
+        {
+          "hz": 120,
+          "at": 41.666666666666664,
+          "requestedAt": 41.666666666666664,
+          "expected": 114.21370445221223,
+          "actual": 114.19739681547989,
+          "error": 0.016307636732335595
+        },
+        {
+          "hz": 120,
+          "at": 50,
+          "requestedAt": 50,
+          "expected": 144.39498326824642,
+          "actual": 144.35699421880645,
+          "error": 0.03798904943997172
+        },
+        {
+          "hz": 60,
+          "at": 50,
+          "requestedAt": 50,
+          "expected": 144.39498326824642,
+          "actual": 144.35699421880645,
+          "error": 0.03798904943997172
+        },
+        {
+          "hz": 120,
+          "at": 58.333333333333336,
+          "requestedAt": 58.333333333333336,
+          "expected": 172.03068011320818,
+          "actual": 171.98337533349695,
+          "error": 0.04730477971122582
+        },
+        {
+          "hz": 120,
+          "at": 66.66666666666667,
+          "requestedAt": 66.66666666666667,
+          "expected": 196.19087552097332,
+          "actual": 196.14634732483069,
+          "error": 0.044528196142636034
+        },
+        {
+          "hz": 60,
+          "at": 66.66666666666667,
+          "requestedAt": 66.66666666666667,
+          "expected": 196.19087552097332,
+          "actual": 196.14634732483069,
+          "error": 0.044528196142636034
+        },
+        {
+          "hz": 120,
+          "at": 75,
+          "requestedAt": 75,
+          "expected": 216.3996094307608,
+          "actual": 216.36743112731853,
+          "error": 0.03217830344226513
+        },
+        {
+          "hz": 120,
+          "at": 83.33333333333333,
+          "requestedAt": 83.33333333333333,
+          "expected": 232.54033023350422,
+          "actual": 232.52639430894803,
+          "error": 0.013935924556193413
+        },
+        {
+          "hz": 60,
+          "at": 83.33333333333333,
+          "requestedAt": 83.33333333333333,
+          "expected": 232.54033023350422,
+          "actual": 232.52639430894803,
+          "error": 0.013935924556193413
+        },
+        {
+          "hz": 120,
+          "at": 91.66666666666667,
+          "requestedAt": 91.66666666666667,
+          "expected": 244.7658154367509,
+          "actual": 244.75336446872697,
+          "error": 0.01245096802392709
+        },
+        {
+          "hz": 120,
+          "at": 100,
+          "requestedAt": 100,
+          "expected": 253.416626466294,
+          "actual": 253.23548954820865,
+          "error": 0.18113691808534327
+        },
+        {
+          "hz": 60,
+          "at": 100,
+          "requestedAt": 100,
+          "expected": 253.416626466294,
+          "actual": 253.23548954820865,
+          "error": 0.18113691808534327
+        },
+        {
+          "hz": 120,
+          "at": 108.33333333333333,
+          "requestedAt": 108.33333333333333,
+          "expected": 258.95056578208136,
+          "actual": 258.8890205102314,
+          "error": 0.0615452718499796
+        },
+        {
+          "hz": 120,
+          "at": 116.66666666666667,
+          "requestedAt": 116.66666666666667,
+          "expected": 261.8842956303207,
+          "actual": 261.77556954246074,
+          "error": 0.10872608785996363
+        },
+        {
+          "hz": 60,
+          "at": 116.66666666666667,
+          "requestedAt": 116.66666666666667,
+          "expected": 261.8842956303207,
+          "actual": 261.77556954246074,
+          "error": 0.10872608785996363
+        },
+        {
+          "hz": 120,
+          "at": 125,
+          "requestedAt": 125,
+          "expected": 262.74725396211716,
+          "actual": 262.6852431711672,
+          "error": 0.06201079094995521
+        },
+        {
+          "hz": 120,
+          "at": 133.33333333333334,
+          "requestedAt": 133.33333333333334,
+          "expected": 262.0472473427149,
+          "actual": 262.00056928840434,
+          "error": 0.04667805431057559
+        },
+        {
+          "hz": 60,
+          "at": 133.33333333333334,
+          "requestedAt": 133.33333333333334,
+          "expected": 262.0472473427149,
+          "actual": 262.00056928840434,
+          "error": 0.04667805431057559
+        },
+        {
+          "hz": 120,
+          "at": 141.66666666666666,
+          "requestedAt": 141.66666666666666,
+          "expected": 260.2465849748935,
+          "actual": 260.2106944257074,
+          "error": 0.03589054918609236
+        },
+        {
+          "hz": 120,
+          "at": 150,
+          "requestedAt": 150,
+          "expected": 257.7473077197864,
+          "actual": 257.73744910120826,
+          "error": 0.009858618578164169
+        },
+        {
+          "hz": 60,
+          "at": 150,
+          "requestedAt": 150,
+          "expected": 257.7473077197864,
+          "actual": 257.73744910120826,
+          "error": 0.009858618578164169
+        },
+        {
+          "hz": 120,
+          "at": 158.33333333333334,
+          "requestedAt": 158.33333333333334,
+          "expected": 254.88392397041196,
+          "actual": 254.87798664509415,
+          "error": 0.005937325317802333
+        },
+        {
+          "hz": 120,
+          "at": 166.66666666666666,
+          "requestedAt": 166.66666666666666,
+          "expected": 251.92205337408106,
+          "actual": 251.94537191676676,
+          "error": 0.02331854268570055
+        },
+        {
+          "hz": 60,
+          "at": 166.66666666666666,
+          "requestedAt": 166.66666666666666,
+          "expected": 251.92205337408106,
+          "actual": 251.94537191676676,
+          "error": 0.02331854268570055
+        },
+        {
+          "hz": 120,
+          "at": 175,
+          "requestedAt": 175,
+          "expected": 249.06146498187357,
+          "actual": 249.109974384375,
+          "error": 0.04850940250142344
+        },
+        {
+          "hz": 120,
+          "at": 183.33333333333334,
+          "requestedAt": 183.33333333333334,
+          "expected": 246.44214742123847,
+          "actual": 246.44618172727067,
+          "error": 0.0040343060321959
+        },
+        {
+          "hz": 60,
+          "at": 183.33333333333334,
+          "requestedAt": 183.33333333333334,
+          "expected": 246.44214742123847,
+          "actual": 246.44618172727067,
+          "error": 0.0040343060321959
+        },
+        {
+          "hz": 120,
+          "at": 191.66666666666666,
+          "requestedAt": 191.66666666666666,
+          "expected": 244.1522386682601,
+          "actual": 244.22410955757294,
+          "error": 0.0718708893128337
+        },
+        {
+          "hz": 120,
+          "at": 200,
+          "requestedAt": 200,
+          "expected": 242.23685032451516,
+          "actual": 242.32696938735978,
+          "error": 0.09011906284462157
+        },
+        {
+          "hz": 60,
+          "at": 200,
+          "requestedAt": 200,
+          "expected": 242.23685032451516,
+          "actual": 242.32696938735978,
+          "error": 0.09011906284462157
+        },
+        {
+          "hz": 120,
+          "at": 208.33333333333334,
+          "requestedAt": 208.33333333333334,
+          "expected": 240.7070291777167,
+          "actual": 240.7545070626974,
+          "error": 0.04747788498070804
+        },
+        {
+          "hz": 120,
+          "at": 216.66666666666666,
+          "requestedAt": 216.66666666666666,
+          "expected": 239.54829494134853,
+          "actual": 239.5804743904193,
+          "error": 0.03217944907078163
+        },
+        {
+          "hz": 60,
+          "at": 216.66666666666666,
+          "requestedAt": 216.66666666666666,
+          "expected": 239.54829494134853,
+          "actual": 239.5804743904193,
+          "error": 0.03217944907078163
+        },
+        {
+          "hz": 120,
+          "at": 225,
+          "requestedAt": 225,
+          "expected": 238.72836912690144,
+          "actual": 238.7955726321886,
+          "error": 0.06720350528715358
+        },
+        {
+          "hz": 120,
+          "at": 233.33333333333334,
+          "requestedAt": 233.33333333333334,
+          "expected": 238.2038611142883,
+          "actual": 238.255089567954,
+          "error": 0.051228453665714824
+        },
+        {
+          "hz": 60,
+          "at": 233.33333333333334,
+          "requestedAt": 233.33333333333334,
+          "expected": 238.2038611142883,
+          "actual": 238.255089567954,
+          "error": 0.051228453665714824
+        },
+        {
+          "hz": 120,
+          "at": 241.66666666666666,
+          "requestedAt": 241.66666666666666,
+          "expected": 237.92580153964602,
+          "actual": 237.93695757526956,
+          "error": 0.011156035623542948
+        },
+        {
+          "hz": 120,
+          "at": 250,
+          "requestedAt": 250,
+          "expected": 237.84401015492892,
+          "actual": 237.86852543775558,
+          "error": 0.024515282826655493
+        },
+        {
+          "hz": 60,
+          "at": 250,
+          "requestedAt": 250,
+          "expected": 237.84401015492892,
+          "actual": 237.86852543775558,
+          "error": 0.024515282826655493
+        },
+        {
+          "hz": 120,
+          "at": 258.3333333333333,
+          "requestedAt": 258.3333333333333,
+          "expected": 237.91035693970687,
+          "actual": 237.97452001315025,
+          "error": 0.06416307344338179
+        },
+        {
+          "hz": 120,
+          "at": 266.6666666666667,
+          "requestedAt": 266.6666666666667,
+          "expected": 238.0810241237938,
+          "actual": 238.14750893657683,
+          "error": 0.06648481278301688
+        },
+        {
+          "hz": 60,
+          "at": 266.6666666666667,
+          "requestedAt": 266.6666666666667,
+          "expected": 238.0810241237938,
+          "actual": 238.14750893657683,
+          "error": 0.06648481278301688
+        },
+        {
+          "hz": 120,
+          "at": 275,
+          "requestedAt": 275,
+          "expected": 238.31790618397574,
+          "actual": 238.32049787419382,
+          "error": 0.0025916902180824763
+        },
+        {
+          "hz": 120,
+          "at": 283.3333333333333,
+          "requestedAt": 283.3333333333333,
+          "expected": 238.58929833955082,
+          "actual": 238.59283434394206,
+          "error": 0.003536004391236247
+        },
+        {
+          "hz": 60,
+          "at": 283.3333333333333,
+          "requestedAt": 283.3333333333333,
+          "expected": 238.58929833955082,
+          "actual": 238.59283434394206,
+          "error": 0.003536004391236247
+        },
+        {
+          "hz": 120,
+          "at": 291.6666666666667,
+          "requestedAt": 291.6666666666667,
+          "expected": 238.87002510062442,
+          "actual": 238.8682434193417,
+          "error": 0.0017816812827220474
+        },
+        {
+          "hz": 120,
+          "at": 300,
+          "requestedAt": 300,
+          "expected": 239.1411523116187,
+          "actual": 239.13308823922617,
+          "error": 0.008064072392528487
+        },
+        {
+          "hz": 60,
+          "at": 300,
+          "requestedAt": 300,
+          "expected": 239.1411523116187,
+          "actual": 239.13308823922617,
+          "error": 0.008064072392528487
+        },
+        {
+          "hz": 120,
+          "at": 308.3333333333333,
+          "requestedAt": 308.3333333333333,
+          "expected": 239.3894118189487,
+          "actual": 239.3599258939359,
+          "error": 0.029485925012807
+        },
+        {
+          "hz": 120,
+          "at": 316.6666666666667,
+          "requestedAt": 316.6666666666667,
+          "expected": 239.606449885424,
+          "actual": 239.58676355329757,
+          "error": 0.01968633212644022
+        },
+        {
+          "hz": 60,
+          "at": 316.6666666666667,
+          "requestedAt": 316.6666666666667,
+          "expected": 239.606449885424,
+          "actual": 239.58676355329757,
+          "error": 0.01968633212644022
+        },
+        {
+          "hz": 120,
+          "at": 325,
+          "requestedAt": 325,
+          "expected": 239.7879908233042,
+          "actual": 239.7689655966058,
+          "error": 0.01902522669840323
+        },
+        {
+          "hz": 120,
+          "at": 333.3333333333333,
+          "requestedAt": 333.3333333333333,
+          "expected": 239.93298761556605,
+          "actual": 239.8998126547805,
+          "error": 0.03317496078554427
+        },
+        {
+          "hz": 60,
+          "at": 333.3333333333333,
+          "requestedAt": 333.3333333333333,
+          "expected": 239.93298761556605,
+          "actual": 239.8998126547805,
+          "error": 0.03317496078554427
+        },
+        {
+          "hz": 120,
+          "at": 341.6666666666667,
+          "requestedAt": 341.6666666666667,
+          "expected": 240.0428127070213,
+          "actual": 240.03065969148818,
+          "error": 0.012153015533129974
+        },
+        {
+          "hz": 120,
+          "at": 350,
+          "requestedAt": 350,
+          "expected": 240.1205254600685,
+          "actual": 240.05060402717356,
+          "error": 0.06992143289494379
+        },
+        {
+          "hz": 60,
+          "at": 350,
+          "requestedAt": 350,
+          "expected": 240.1205254600685,
+          "actual": 240.05060402717356,
+          "error": 0.06992143289494379
+        },
+        {
+          "hz": 120,
+          "at": 358.3333333333333,
+          "requestedAt": 358.3333333333333,
+          "expected": 240.17023844743548,
+          "actual": 240.02579813030326,
+          "error": 0.14444031713222216
+        },
+        {
+          "hz": 120,
+          "at": 366.6666666666667,
+          "requestedAt": 366.6666666666667,
+          "expected": 240.1965929964396,
+          "actual": 240.0009922375027,
+          "error": 0.1956007589369051
+        },
+        {
+          "hz": 60,
+          "at": 366.6666666666667,
+          "requestedAt": 366.6666666666667,
+          "expected": 240.1965929964396,
+          "actual": 240.0009922375027,
+          "error": 0.1956007589369051
+        }
+      ],
+      "preparation": [
+        {
+          "name": "fast spring",
+          "adaptiveKeyframes": 61,
+          "uniformKeyframes": 24,
+          "adaptiveNativeSetupMs": 0.10124999284744263,
+          "uniformNativeSetupMs": 0.07037502527236938
+        },
+        {
+          "name": "slow ease",
+          "adaptiveKeyframes": 41,
+          "uniformKeyframes": 241,
+          "adaptiveNativeSetupMs": 0.08204174041748047,
+          "uniformNativeSetupMs": 0.17979168891906738
+        }
+      ],
+      "interruption": {
+        "incoming": 3121.3822010598733,
+        "received": 3121.451891039811
+      },
+      "negativeControl": true,
+      "presentation": {
+        "callbacksPerSeek": 3,
+        "timeoutMs": 1500,
+        "waitMs": 1591.6689168810844
+      },
+      "durationMs": 1622.8177083730698
+    },
+    {
+      "platform": "ios",
+      "skipped": "Android factory"
+    },
+    {
+      "platform": "iOS",
+      "version": "26.2",
+      "samples": [
+        {
+          "name": "Interrupted release",
+          "actual": {
+            "x": 1.2,
+            "y": 0.6
+          },
+          "model": {
+            "x": 1.2,
+            "y": 0.6
+          },
+          "expected": {
+            "x": 1.2,
+            "y": 0.6
+          }
+        },
+        {
+          "name": "No stale write",
+          "actual": {
+            "x": 1.2,
+            "y": 0.6
+          },
+          "model": {
+            "x": 1.2,
+            "y": 0.6
+          },
+          "expected": {
+            "x": 1.2,
+            "y": 0.6
+          }
+        },
+        {
+          "name": "Moving base plus held layer",
+          "actual": 1.1076591499901185,
+          "expected": 1.107671900001168
+        },
+        {
+          "name": "Base and held layer survive",
+          "actual": {
+            "x": 1.26,
+            "y": 0.7200000000000001
+          },
+          "model": {
+            "x": 1.26,
+            "y": 0.7200000000000001
+          },
+          "expected": {
+            "x": 1.26,
+            "y": 0.72
+          }
+        },
+        {
+          "name": "Held layer removed",
+          "actual": {
+            "x": 1.4,
+            "y": 0.8
+          },
+          "model": {
+            "x": 1.4,
+            "y": 0.8
+          },
+          "expected": {
+            "x": 1.4,
+            "y": 0.8
+          }
+        },
+        {
+          "name": "Reduced motion",
+          "actual": {
+            "x": 1.2,
+            "y": 0.6
+          },
+          "model": {
+            "x": 1.2,
+            "y": 0.6
+          },
+          "expected": {
+            "x": 1.2,
+            "y": 0.6
+          }
+        },
+        {
+          "name": "Reduction enabled during release",
+          "actual": {
+            "x": 1.2,
+            "y": 0.6
+          },
+          "model": {
+            "x": 1.2,
+            "y": 0.6
+          },
+          "expected": {
+            "x": 1.2,
+            "y": 0.6
+          }
+        }
+      ],
+      "negative": false,
+      "status": "passed"
+    },
+    {
+      "status": "passed",
+      "platform": "ios",
+      "os": "26.2",
+      "kind": "motion-inspector",
+      "withoutInspectorSetupMs": 0.36004167795181274,
+      "withInspectorSetupMs": 0.153833270072937,
+      "overhead": {
+        "reads": 7,
+        "jsReadMs": 1.4645832180976868,
+        "hookMs": 0.42495834827423096,
+        "nativeSamples": 53,
+        "nativeSampleMs": 4.9964580638334155,
+        "nativeDrainMs": 0.4378333296626806,
+        "dropped": 27
+      },
+      "nativeSamples": [
+        {
+          "at": 500257500.4941668,
+          "expected": 20.714194152366165,
+          "observed": 20.833132939899755,
+          "source": "presentation-layer"
+        },
+        {
+          "at": 500257517.16608346,
+          "expected": 20.457741629252915,
+          "observed": 20.617882729400005,
+          "source": "presentation-layer"
+        },
+        {
+          "at": 500257533.82137513,
+          "expected": 20.248318775710107,
+          "observed": 20.402861137968394,
+          "source": "presentation-layer"
+        },
+        {
+          "at": 500257550.4924168,
+          "expected": 20.08033400626785,
+          "observed": 20.187629762710824,
+          "source": "presentation-layer"
+        },
+        {
+          "at": 500257567.1626251,
+          "expected": 19.94890796004705,
+          "observed": 19.97242577783319,
+          "source": "presentation-layer"
+        },
+        {
+          "at": 500257583.8295834,
+          "expected": 19.849142553663942,
+          "observed": 19.888271136875346,
+          "source": "presentation-layer"
+        },
+        {
+          "at": 500257600.4869168,
+          "expected": 19.776424949410906,
+          "observed": 19.84271346338344,
+          "source": "presentation-layer"
+        },
+        {
+          "at": 500257617.1481668,
+          "expected": 19.72640964015335,
+          "observed": 19.797144504175673,
+          "source": "presentation-layer"
+        }
+      ],
+      "owners": [
+        {
+          "owner": "owner-17"
+        },
+        {
+          "owner": "owner-20",
+          "layer": "press"
+        }
+      ],
+      "events": [
+        {
+          "at": 500256896.6098751,
+          "property": "x",
+          "owner": "owner-13",
+          "kind": "start",
+          "previous": "model",
+          "label": "Delayed entrance"
+        },
+        {
+          "at": 500257118.4609168,
+          "property": "x",
+          "owner": "owner-13",
+          "kind": "stop",
+          "label": "Delayed entrance"
+        },
+        {
+          "at": 500257119.30650014,
+          "property": "x",
+          "owner": "owner-14",
+          "kind": "replace",
+          "previous": "owner-13",
+          "label": "Return",
+          "previousLabel": "Delayed entrance"
+        }
+      ],
+      "bindings": [
+        {
+          "property": "x",
+          "value": 54,
+          "source": {
+            "id": "owner-16",
+            "label": "Progress",
+            "kind": "motion value",
+            "value": 0.3,
+            "mappings": [
+              {
+                "input": [0, 1],
+                "output": [0, 180],
+                "clamp": true
+              }
+            ]
+          }
+        }
+      ],
+      "negativeControl": true,
+      "remainingProbes": 0,
+      "durationMs": 907.69754165411
+    },
+    {
+      "reports": [
+        {
+          "name": "interrupted-spring",
+          "native": false,
+          "report": {
+            "passed": true,
+            "observations": [
+              {
+                "at": 0,
+                "id": "card",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": -0.03315013925364596,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0.03315013925364596,
+                "passed": true
+              },
+              {
+                "at": 32,
+                "id": "card",
+                "expected": {
+                  "position": 11.929914,
+                  "velocity": 645.848683,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 11.929913570491529,
+                  "velocity": 645.83134649981,
+                  "settled": false
+                },
+                "positionError": 4.2950847145561966e-7,
+                "velocityError": 0.017336500190026527,
+                "passed": true
+              },
+              {
+                "at": 80,
+                "id": "card",
+                "expected": {
+                  "position": 50.485477,
+                  "velocity": 864.334416,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 50.48547737285611,
+                  "velocity": 864.3287866216332,
+                  "settled": false
+                },
+                "positionError": 3.728561068783165e-7,
+                "velocityError": 0.005629378366847959,
+                "passed": true
+              },
+              {
+                "at": 96,
+                "id": "card",
+                "expected": {
+                  "position": 64.173546,
+                  "velocity": 842.026704,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 64.1735457654407,
+                  "velocity": 842.0231249821297,
+                  "settled": false
+                },
+                "positionError": 2.3455929465399095e-7,
+                "velocityError": 0.0035790178702654885,
+                "passed": true
+              },
+              {
+                "at": 96,
+                "id": "card",
+                "expected": {
+                  "position": 64.173546,
+                  "velocity": 842.026704,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 64.1735457654407,
+                  "velocity": 842.0490130270839,
+                  "settled": false
+                },
+                "positionError": 2.3455929465399095e-7,
+                "velocityError": 0.022309027083906585,
+                "passed": true
+              },
+              {
+                "at": 112,
+                "id": "card",
+                "expected": {
+                  "position": 74.277725,
+                  "velocity": 443.983171,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 74.27767831737742,
+                  "velocity": 444.00022573163704,
+                  "settled": false
+                },
+                "positionError": 0.00004668262258178402,
+                "velocityError": 0.01705473163701754,
+                "passed": true
+              },
+              {
+                "at": 144,
+                "id": "card",
+                "expected": {
+                  "position": 80.051126,
+                  "velocity": -23.834275,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 80.05103444513391,
+                  "velocity": -23.82443754413846,
+                  "settled": false
+                },
+                "positionError": 0.00009155486608847241,
+                "velocityError": 0.009837455861543276,
+                "passed": true
+              },
+              {
+                "at": 432,
+                "id": "card",
+                "expected": {
+                  "position": 26.448201,
+                  "velocity": -67.06158,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 26.44818581557017,
+                  "velocity": -67.06165477762413,
+                  "settled": false
+                },
+                "positionError": 0.000015184429830839008,
+                "velocityError": 0.00007477762412122502,
+                "passed": true
+              },
+              {
+                "at": 800,
+                "id": "card",
+                "expected": {
+                  "position": 20.100749,
+                  "velocity": -1.198321,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 20.100748478679293,
+                  "velocity": -1.1983251360663625,
+                  "settled": false
+                },
+                "positionError": 5.213207074916681e-7,
+                "velocityError": 0.000004136066362514512,
+                "passed": true
+              },
+              {
+                "at": 2500,
+                "id": "card",
+                "expected": {
+                  "position": 20,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 20,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              }
+            ],
+            "errors": [],
+            "remainingResources": 0,
+            "trace": {
+              "version": 1,
+              "seed": 57,
+              "settings": {
+                "timeScale": 1,
+                "reducedMotion": false
+              },
+              "metadata": {
+                "platform": "test",
+                "os": "deterministic",
+                "model": "reference-graph",
+                "refreshRate": 60,
+                "density": 1,
+                "width": 360,
+                "height": 640
+              },
+              "motions": [
+                {
+                  "id": "card",
+                  "kind": "spring",
+                  "axis": "x",
+                  "initial": 0,
+                  "stiffness": 170,
+                  "damping": 26,
+                  "mass": 1,
+                  "min": 0,
+                  "max": 240,
+                  "snap": []
+                }
+              ],
+              "entries": [
+                {
+                  "at": 0,
+                  "input": {
+                    "type": "target",
+                    "id": "card",
+                    "value": 180
+                  }
+                },
+                {
+                  "at": 0,
+                  "id": "card",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 32,
+                  "id": "card",
+                  "expected": {
+                    "position": 11.929914,
+                    "velocity": 645.848683,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 80,
+                  "id": "card",
+                  "expected": {
+                    "position": 50.485477,
+                    "velocity": 864.334416,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 96,
+                  "id": "card",
+                  "expected": {
+                    "position": 64.173546,
+                    "velocity": 842.026704,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 96,
+                  "input": {
+                    "type": "target",
+                    "id": "card",
+                    "value": 20
+                  }
+                },
+                {
+                  "at": 96,
+                  "id": "card",
+                  "expected": {
+                    "position": 64.173546,
+                    "velocity": 842.026704,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 112,
+                  "id": "card",
+                  "expected": {
+                    "position": 74.277725,
+                    "velocity": 443.983171,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 144,
+                  "id": "card",
+                  "expected": {
+                    "position": 80.051126,
+                    "velocity": -23.834275,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 432,
+                  "id": "card",
+                  "expected": {
+                    "position": 26.448201,
+                    "velocity": -67.06158,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 800,
+                  "id": "card",
+                  "expected": {
+                    "position": 20.100749,
+                    "velocity": -1.198321,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 2500,
+                  "id": "card",
+                  "expected": {
+                    "position": 20,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                }
+              ]
+            },
+            "plot": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"640\" height=\"220\" viewBox=\"0 0 640 220\"><rect width=\"640\" height=\"220\" fill=\"#faf8f1\"/><g font-family=\"sans-serif\" font-size=\"12\" fill=\"#202630\"><text x=\"20\" y=\"20\">Presentation position (DIP): green expected / pink observed</text><text x=\"40\" y=\"205\">0 ms</text><text x=\"540\" y=\"205\">2500 ms</text><text x=\"8\" y=\"45\">80</text><text x=\"8\" y=\"180\">0</text></g><path d=\"M40 35 V180 H605\" fill=\"none\" stroke=\"#bfc5be\"/><polyline fill=\"none\" stroke=\"#176b5b\" stroke-width=\"2\" points=\"40.00,180.00 47.17,159.14 57.92,91.71 61.50,67.77 61.50,67.77 65.09,50.10 72.26,40.00 136.77,133.75 219.20,144.85 600.00,145.02\"/><polyline fill=\"none\" stroke=\"#b7355f\" stroke-width=\"2\" stroke-dasharray=\"4 3\" points=\"40.00,180.00 47.17,159.14 57.92,91.71 61.50,67.77 61.50,67.77 65.09,50.10 72.26,40.00 136.77,133.75 219.20,144.85 600.00,145.02\"/></svg>"
+          }
+        },
+        {
+          "name": "interrupted-spring",
+          "native": true,
+          "report": {
+            "passed": true,
+            "observations": [
+              {
+                "at": 0,
+                "id": "card",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": -0.03315013925364596,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0.03315013925364596,
+                "passed": true
+              },
+              {
+                "at": 32,
+                "id": "card",
+                "expected": {
+                  "position": 11.929914,
+                  "velocity": 645.848683,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 11.935554950638394,
+                  "velocity": 645.83134649981,
+                  "settled": false
+                },
+                "positionError": 0.005640950638394315,
+                "velocityError": 0.017336500190026527,
+                "passed": true
+              },
+              {
+                "at": 80,
+                "id": "card",
+                "expected": {
+                  "position": 50.485477,
+                  "velocity": 864.334416,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 50.48511699530393,
+                  "velocity": 864.3287866216332,
+                  "settled": false
+                },
+                "positionError": 0.00036000469606989327,
+                "velocityError": 0.005629378366847959,
+                "passed": true
+              },
+              {
+                "at": 96,
+                "id": "card",
+                "expected": {
+                  "position": 64.173546,
+                  "velocity": 842.026704,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 64.17135030679145,
+                  "velocity": 842.0231249821297,
+                  "settled": false
+                },
+                "positionError": 0.0021956932085487324,
+                "velocityError": 0.0035790178702654885,
+                "passed": true
+              },
+              {
+                "at": 96,
+                "id": "card",
+                "expected": {
+                  "position": 64.173546,
+                  "velocity": 842.026704,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 64.1735457654407,
+                  "velocity": 842.0490130270839,
+                  "settled": false
+                },
+                "positionError": 2.3455929465399095e-7,
+                "velocityError": 0.022309027083906585,
+                "passed": true
+              },
+              {
+                "at": 112,
+                "id": "card",
+                "expected": {
+                  "position": 74.277725,
+                  "velocity": 443.983171,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 74.2748193957218,
+                  "velocity": 444.00022573163704,
+                  "settled": false
+                },
+                "positionError": 0.0029056042781974156,
+                "velocityError": 0.01705473163701754,
+                "passed": true
+              },
+              {
+                "at": 144,
+                "id": "card",
+                "expected": {
+                  "position": 80.051126,
+                  "velocity": -23.834275,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 80.04857518686188,
+                  "velocity": -23.82443754413846,
+                  "settled": false
+                },
+                "positionError": 0.0025508131381144494,
+                "velocityError": 0.009837455861543276,
+                "passed": true
+              },
+              {
+                "at": 432,
+                "id": "card",
+                "expected": {
+                  "position": 26.448201,
+                  "velocity": -67.06158,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 26.45696161410398,
+                  "velocity": -67.06165477762413,
+                  "settled": false
+                },
+                "positionError": 0.008760614103980657,
+                "velocityError": 0.00007477762412122502,
+                "passed": true
+              },
+              {
+                "at": 800,
+                "id": "card",
+                "expected": {
+                  "position": 20.100749,
+                  "velocity": -1.198321,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 20.079554357043516,
+                  "velocity": -1.1983251360663625,
+                  "settled": false
+                },
+                "positionError": 0.02119464295648399,
+                "velocityError": 0.000004136066362514512,
+                "passed": true
+              },
+              {
+                "at": 2500,
+                "id": "card",
+                "expected": {
+                  "position": 20,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 20,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              }
+            ],
+            "errors": [],
+            "remainingResources": 0,
+            "trace": {
+              "version": 1,
+              "seed": 57,
+              "settings": {
+                "timeScale": 1,
+                "reducedMotion": false
+              },
+              "metadata": {
+                "platform": "test",
+                "os": "deterministic",
+                "model": "reference-graph",
+                "refreshRate": 60,
+                "density": 1,
+                "width": 360,
+                "height": 640
+              },
+              "motions": [
+                {
+                  "id": "card",
+                  "kind": "spring",
+                  "axis": "x",
+                  "initial": 0,
+                  "stiffness": 170,
+                  "damping": 26,
+                  "mass": 1,
+                  "min": 0,
+                  "max": 240,
+                  "snap": []
+                }
+              ],
+              "entries": [
+                {
+                  "at": 0,
+                  "input": {
+                    "type": "target",
+                    "id": "card",
+                    "value": 180
+                  }
+                },
+                {
+                  "at": 0,
+                  "id": "card",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 32,
+                  "id": "card",
+                  "expected": {
+                    "position": 11.929914,
+                    "velocity": 645.848683,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 80,
+                  "id": "card",
+                  "expected": {
+                    "position": 50.485477,
+                    "velocity": 864.334416,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 96,
+                  "id": "card",
+                  "expected": {
+                    "position": 64.173546,
+                    "velocity": 842.026704,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 96,
+                  "input": {
+                    "type": "target",
+                    "id": "card",
+                    "value": 20
+                  }
+                },
+                {
+                  "at": 96,
+                  "id": "card",
+                  "expected": {
+                    "position": 64.173546,
+                    "velocity": 842.026704,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 112,
+                  "id": "card",
+                  "expected": {
+                    "position": 74.277725,
+                    "velocity": 443.983171,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 144,
+                  "id": "card",
+                  "expected": {
+                    "position": 80.051126,
+                    "velocity": -23.834275,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 432,
+                  "id": "card",
+                  "expected": {
+                    "position": 26.448201,
+                    "velocity": -67.06158,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 800,
+                  "id": "card",
+                  "expected": {
+                    "position": 20.100749,
+                    "velocity": -1.198321,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 2500,
+                  "id": "card",
+                  "expected": {
+                    "position": 20,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                }
+              ]
+            },
+            "plot": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"640\" height=\"220\" viewBox=\"0 0 640 220\"><rect width=\"640\" height=\"220\" fill=\"#faf8f1\"/><g font-family=\"sans-serif\" font-size=\"12\" fill=\"#202630\"><text x=\"20\" y=\"20\">Presentation position (DIP): green expected / pink observed</text><text x=\"40\" y=\"205\">0 ms</text><text x=\"540\" y=\"205\">2500 ms</text><text x=\"8\" y=\"45\">80</text><text x=\"8\" y=\"180\">0</text></g><path d=\"M40 35 V180 H605\" fill=\"none\" stroke=\"#bfc5be\"/><polyline fill=\"none\" stroke=\"#176b5b\" stroke-width=\"2\" points=\"40.00,180.00 47.17,159.14 57.92,91.71 61.50,67.77 61.50,67.77 65.09,50.10 72.26,40.00 136.77,133.75 219.20,144.85 600.00,145.02\"/><polyline fill=\"none\" stroke=\"#b7355f\" stroke-width=\"2\" stroke-dasharray=\"4 3\" points=\"40.00,180.00 47.17,159.13 57.92,91.71 61.50,67.77 61.50,67.77 65.09,50.10 72.26,40.00 136.77,133.73 219.20,144.88 600.00,145.02\"/></svg>"
+          }
+        },
+        {
+          "name": "cancelled-drag",
+          "native": false,
+          "report": {
+            "passed": true,
+            "observations": [
+              {
+                "at": 0,
+                "id": "card",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 16,
+                "id": "card",
+                "expected": {
+                  "position": 50,
+                  "velocity": 3125,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 50,
+                  "velocity": 3125,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 32,
+                "id": "card",
+                "expected": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 48,
+                "id": "card",
+                "expected": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 64,
+                "id": "card",
+                "expected": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 96,
+                "id": "card",
+                "expected": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 240,
+                "id": "card",
+                "expected": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 600,
+                "id": "card",
+                "expected": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              }
+            ],
+            "errors": [],
+            "remainingResources": 0,
+            "trace": {
+              "version": 1,
+              "seed": 57,
+              "settings": {
+                "timeScale": 1,
+                "reducedMotion": false
+              },
+              "metadata": {
+                "platform": "test",
+                "os": "deterministic",
+                "model": "reference-graph",
+                "refreshRate": 60,
+                "density": 1,
+                "width": 360,
+                "height": 640
+              },
+              "motions": [
+                {
+                  "id": "card",
+                  "kind": "drag",
+                  "axis": "x",
+                  "initial": 0,
+                  "stiffness": 170,
+                  "damping": 26,
+                  "mass": 1,
+                  "min": 0,
+                  "max": 240,
+                  "snap": [0, 240]
+                }
+              ],
+              "entries": [
+                {
+                  "at": 0,
+                  "input": {
+                    "type": "gesture",
+                    "id": "card",
+                    "phase": "begin",
+                    "x": 0,
+                    "y": 0,
+                    "velocityX": 0,
+                    "velocityY": 0,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 0,
+                  "id": "card",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 16,
+                  "input": {
+                    "type": "gesture",
+                    "id": "card",
+                    "phase": "move",
+                    "x": 50,
+                    "y": 0,
+                    "velocityX": 3125,
+                    "velocityY": 0,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 16,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 3125,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 32,
+                  "input": {
+                    "type": "gesture",
+                    "id": "card",
+                    "phase": "cancel",
+                    "x": 50,
+                    "y": 0,
+                    "velocityX": 0,
+                    "velocityY": 0,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 32,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 48,
+                  "input": {
+                    "type": "gesture",
+                    "id": "card",
+                    "phase": "move",
+                    "x": 90,
+                    "y": 0,
+                    "velocityX": 2500,
+                    "velocityY": 0,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 48,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 64,
+                  "input": {
+                    "type": "gesture",
+                    "id": "card",
+                    "phase": "end",
+                    "x": 90,
+                    "y": 0,
+                    "velocityX": 0,
+                    "velocityY": 0,
+                    "pointers": []
+                  }
+                },
+                {
+                  "at": 64,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 96,
+                  "input": {
+                    "type": "lifecycle",
+                    "state": "suspend"
+                  }
+                },
+                {
+                  "at": 96,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 240,
+                  "input": {
+                    "type": "lifecycle",
+                    "state": "resume"
+                  }
+                },
+                {
+                  "at": 240,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 600,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                }
+              ]
+            },
+            "plot": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"640\" height=\"220\" viewBox=\"0 0 640 220\"><rect width=\"640\" height=\"220\" fill=\"#faf8f1\"/><g font-family=\"sans-serif\" font-size=\"12\" fill=\"#202630\"><text x=\"20\" y=\"20\">Presentation position (DIP): green expected / pink observed</text><text x=\"40\" y=\"205\">0 ms</text><text x=\"540\" y=\"205\">600 ms</text><text x=\"8\" y=\"45\">50</text><text x=\"8\" y=\"180\">0</text></g><path d=\"M40 35 V180 H605\" fill=\"none\" stroke=\"#bfc5be\"/><polyline fill=\"none\" stroke=\"#176b5b\" stroke-width=\"2\" points=\"40.00,180.00 54.93,40.00 69.87,40.00 84.80,40.00 99.73,40.00 129.60,40.00 264.00,40.00 600.00,40.00\"/><polyline fill=\"none\" stroke=\"#b7355f\" stroke-width=\"2\" stroke-dasharray=\"4 3\" points=\"40.00,180.00 54.93,40.00 69.87,40.00 84.80,40.00 99.73,40.00 129.60,40.00 264.00,40.00 600.00,40.00\"/></svg>"
+          }
+        },
+        {
+          "name": "cancelled-drag",
+          "native": true,
+          "report": {
+            "passed": true,
+            "observations": [
+              {
+                "at": 0,
+                "id": "card",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 16,
+                "id": "card",
+                "expected": {
+                  "position": 50,
+                  "velocity": 3125,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 50,
+                  "velocity": 3125,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 32,
+                "id": "card",
+                "expected": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 48,
+                "id": "card",
+                "expected": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 64,
+                "id": "card",
+                "expected": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 96,
+                "id": "card",
+                "expected": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 240,
+                "id": "card",
+                "expected": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 600,
+                "id": "card",
+                "expected": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 50,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              }
+            ],
+            "errors": [],
+            "remainingResources": 0,
+            "trace": {
+              "version": 1,
+              "seed": 57,
+              "settings": {
+                "timeScale": 1,
+                "reducedMotion": false
+              },
+              "metadata": {
+                "platform": "test",
+                "os": "deterministic",
+                "model": "reference-graph",
+                "refreshRate": 60,
+                "density": 1,
+                "width": 360,
+                "height": 640
+              },
+              "motions": [
+                {
+                  "id": "card",
+                  "kind": "drag",
+                  "axis": "x",
+                  "initial": 0,
+                  "stiffness": 170,
+                  "damping": 26,
+                  "mass": 1,
+                  "min": 0,
+                  "max": 240,
+                  "snap": [0, 240]
+                }
+              ],
+              "entries": [
+                {
+                  "at": 0,
+                  "input": {
+                    "type": "gesture",
+                    "id": "card",
+                    "phase": "begin",
+                    "x": 0,
+                    "y": 0,
+                    "velocityX": 0,
+                    "velocityY": 0,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 0,
+                  "id": "card",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 16,
+                  "input": {
+                    "type": "gesture",
+                    "id": "card",
+                    "phase": "move",
+                    "x": 50,
+                    "y": 0,
+                    "velocityX": 3125,
+                    "velocityY": 0,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 16,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 3125,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 32,
+                  "input": {
+                    "type": "gesture",
+                    "id": "card",
+                    "phase": "cancel",
+                    "x": 50,
+                    "y": 0,
+                    "velocityX": 0,
+                    "velocityY": 0,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 32,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 48,
+                  "input": {
+                    "type": "gesture",
+                    "id": "card",
+                    "phase": "move",
+                    "x": 90,
+                    "y": 0,
+                    "velocityX": 2500,
+                    "velocityY": 0,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 48,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 64,
+                  "input": {
+                    "type": "gesture",
+                    "id": "card",
+                    "phase": "end",
+                    "x": 90,
+                    "y": 0,
+                    "velocityX": 0,
+                    "velocityY": 0,
+                    "pointers": []
+                  }
+                },
+                {
+                  "at": 64,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 96,
+                  "input": {
+                    "type": "lifecycle",
+                    "state": "suspend"
+                  }
+                },
+                {
+                  "at": 96,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 240,
+                  "input": {
+                    "type": "lifecycle",
+                    "state": "resume"
+                  }
+                },
+                {
+                  "at": 240,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                },
+                {
+                  "at": 600,
+                  "id": "card",
+                  "expected": {
+                    "position": 50,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 3,
+                    "velocity": 30
+                  }
+                }
+              ]
+            },
+            "plot": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"640\" height=\"220\" viewBox=\"0 0 640 220\"><rect width=\"640\" height=\"220\" fill=\"#faf8f1\"/><g font-family=\"sans-serif\" font-size=\"12\" fill=\"#202630\"><text x=\"20\" y=\"20\">Presentation position (DIP): green expected / pink observed</text><text x=\"40\" y=\"205\">0 ms</text><text x=\"540\" y=\"205\">600 ms</text><text x=\"8\" y=\"45\">50</text><text x=\"8\" y=\"180\">0</text></g><path d=\"M40 35 V180 H605\" fill=\"none\" stroke=\"#bfc5be\"/><polyline fill=\"none\" stroke=\"#176b5b\" stroke-width=\"2\" points=\"40.00,180.00 54.93,40.00 69.87,40.00 84.80,40.00 99.73,40.00 129.60,40.00 264.00,40.00 600.00,40.00\"/><polyline fill=\"none\" stroke=\"#b7355f\" stroke-width=\"2\" stroke-dasharray=\"4 3\" points=\"40.00,180.00 54.93,40.00 69.87,40.00 84.80,40.00 99.73,40.00 129.60,40.00 264.00,40.00 600.00,40.00\"/></svg>"
+          }
+        }
+      ],
+      "negativeControl": {
+        "passed": true,
+        "errors": [
+          "card at 0 ms: position error 80, velocity error 0.03315013925364596, settled false (expected false)."
+        ],
+        "remainingResources": 0
+      }
+    },
+    {
+      "ownershipRejected": true,
+      "reports": [
+        {
+          "native": false,
+          "report": {
+            "passed": true,
+            "observations": [
+              {
+                "at": 0,
+                "id": "sheet",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 0,
+                "id": "scroll",
+                "expected": {
+                  "position": 80,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 80,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 0,
+                "id": "sheet",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 0,
+                "id": "scroll",
+                "expected": {
+                  "position": 80,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 80,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 16,
+                "id": "sheet",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 16,
+                "id": "scroll",
+                "expected": {
+                  "position": 40,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 40,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 32,
+                "id": "sheet",
+                "expected": {
+                  "position": 20,
+                  "velocity": 250,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 20,
+                  "velocity": 250,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 32,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 48,
+                "id": "sheet",
+                "expected": {
+                  "position": 60,
+                  "velocity": 250,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 60,
+                  "velocity": 250,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 48,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 64,
+                "id": "sheet",
+                "expected": {
+                  "position": 30,
+                  "velocity": -250,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 30,
+                  "velocity": -250,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 64,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 80,
+                "id": "sheet",
+                "expected": {
+                  "position": 0,
+                  "velocity": -250,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": -250,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 80,
+                "id": "scroll",
+                "expected": {
+                  "position": 30,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 30,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 368,
+                "id": "sheet",
+                "expected": {
+                  "position": 0,
+                  "velocity": -250,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": -250,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 368,
+                "id": "scroll",
+                "expected": {
+                  "position": 30,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 30,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 384,
+                "id": "sheet",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 384,
+                "id": "scroll",
+                "expected": {
+                  "position": 30,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 30,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 400,
+                "id": "sheet",
+                "expected": {
+                  "position": 10,
+                  "velocity": 200,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 10,
+                  "velocity": 200,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 400,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 416,
+                "id": "sheet",
+                "expected": {
+                  "position": 10,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 10,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 416,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 432,
+                "id": "sheet",
+                "expected": {
+                  "position": 10,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 10,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 432,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 626,
+                "id": "sheet",
+                "expected": {
+                  "position": 70,
+                  "velocity": 200,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 70,
+                  "velocity": 200,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 626,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 642,
+                "id": "sheet",
+                "expected": {
+                  "position": 0,
+                  "velocity": -200,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": -200,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 642,
+                "id": "scroll",
+                "expected": {
+                  "position": 400,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 400,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 658,
+                "id": "sheet",
+                "expected": {
+                  "position": 160,
+                  "velocity": 200,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 160,
+                  "velocity": 200,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 658,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 674,
+                "id": "sheet",
+                "expected": {
+                  "position": 160,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 160,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 674,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 800,
+                "id": "sheet",
+                "expected": {
+                  "position": 160,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 160,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 800,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 1000,
+                "id": "sheet",
+                "expected": {
+                  "position": 158,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 158.0000000000001,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 1.1368683772161603e-13,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 1000,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              }
+            ],
+            "errors": [],
+            "remainingResources": 0,
+            "trace": {
+              "version": 1,
+              "seed": 63,
+              "settings": {
+                "timeScale": 1,
+                "reducedMotion": false
+              },
+              "metadata": {
+                "platform": "test",
+                "os": "deterministic",
+                "model": "scroll-handoff-contract",
+                "refreshRate": 60,
+                "density": 1,
+                "width": 360,
+                "height": 640
+              },
+              "motions": [
+                {
+                  "id": "sheet",
+                  "kind": "drag",
+                  "axis": "y",
+                  "initial": 0,
+                  "stiffness": 170,
+                  "damping": 26,
+                  "mass": 1,
+                  "min": 0,
+                  "max": 160,
+                  "snap": []
+                },
+                {
+                  "id": "scroll",
+                  "kind": "drag",
+                  "axis": "y",
+                  "initial": 80,
+                  "stiffness": 170,
+                  "damping": 26,
+                  "mass": 1,
+                  "min": 0,
+                  "max": 400,
+                  "snap": []
+                }
+              ],
+              "entries": [
+                {
+                  "at": 0,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 0,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 80,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 0,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "begin",
+                    "x": 0,
+                    "y": 0,
+                    "velocityX": 0,
+                    "velocityY": 0,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 0,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 0,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 80,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 16,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": 40,
+                    "velocityX": 0,
+                    "velocityY": 250,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 16,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 16,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 40,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 32,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": 100,
+                    "velocityX": 0,
+                    "velocityY": 250,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 32,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 20,
+                    "velocity": 250,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 32,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 48,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": 140,
+                    "velocityX": 0,
+                    "velocityY": 250,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 48,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 60,
+                    "velocity": 250,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 48,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 64,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": 110,
+                    "velocityX": 0,
+                    "velocityY": -250,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 64,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 30,
+                    "velocity": -250,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 64,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 80,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": 50,
+                    "velocityX": 0,
+                    "velocityY": -250,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 80,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 0,
+                    "velocity": -250,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 80,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 30,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 368,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 0,
+                    "velocity": -250,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 368,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 30,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 384,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": 210,
+                    "velocityX": 0,
+                    "velocityY": 200,
+                    "pointers": [0, 1]
+                  }
+                },
+                {
+                  "at": 384,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 384,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 30,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 400,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": 250,
+                    "velocityX": 0,
+                    "velocityY": 200,
+                    "pointers": [0, 1]
+                  }
+                },
+                {
+                  "at": 400,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 10,
+                    "velocity": 200,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 400,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 416,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "cancel",
+                    "x": 0,
+                    "y": 250,
+                    "velocityX": 0,
+                    "velocityY": 0,
+                    "pointers": []
+                  }
+                },
+                {
+                  "at": 416,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 10,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 416,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 432,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": 300,
+                    "velocityX": 0,
+                    "velocityY": 200,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 432,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 10,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 432,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 448,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "end",
+                    "x": 0,
+                    "y": 300,
+                    "velocityX": 0,
+                    "velocityY": 0,
+                    "pointers": []
+                  }
+                },
+                {
+                  "at": 480,
+                  "input": {
+                    "type": "lifecycle",
+                    "state": "suspend"
+                  }
+                },
+                {
+                  "at": 600,
+                  "input": {
+                    "type": "lifecycle",
+                    "state": "resume"
+                  }
+                },
+                {
+                  "at": 610,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "begin",
+                    "x": 0,
+                    "y": 0,
+                    "velocityX": 0,
+                    "velocityY": 0,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 626,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": 60,
+                    "velocityX": 0,
+                    "velocityY": 200,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 626,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 70,
+                    "velocity": 200,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 626,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 642,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -600,
+                    "velocityX": 0,
+                    "velocityY": -200,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 642,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 0,
+                    "velocity": -200,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 642,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 400,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 658,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -40,
+                    "velocityX": 0,
+                    "velocityY": 200,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 658,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 160,
+                    "velocity": 200,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 658,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 674,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "end",
+                    "x": 0,
+                    "y": -40,
+                    "velocityX": 0,
+                    "velocityY": 0,
+                    "pointers": []
+                  }
+                },
+                {
+                  "at": 674,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 160,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 674,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 800,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 160,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 800,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 850,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "begin",
+                    "x": 0,
+                    "y": 0,
+                    "velocityX": 0,
+                    "velocityY": 0,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 851,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -0.1,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 852,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -0.2,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 853,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -0.3,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 854,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -0.4,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 855,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -0.5,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 856,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -0.6,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 857,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -0.7,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 858,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -0.8,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 859,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -0.9,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 860,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -1,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 861,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -1.1,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 862,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -1.2,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 863,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -1.3,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 864,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -1.4,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 865,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -1.5,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 866,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -1.6,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 867,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -1.7,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 868,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -1.8,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 869,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -1.9,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 870,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -2,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 886,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "end",
+                    "x": 0,
+                    "y": -2,
+                    "velocityX": 0,
+                    "velocityY": 0,
+                    "pointers": []
+                  }
+                },
+                {
+                  "at": 1000,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 158,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 0.5,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 1000,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 0.5,
+                    "velocity": 0.1
+                  }
+                }
+              ]
+            },
+            "plot": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"640\" height=\"220\" viewBox=\"0 0 640 220\"><rect width=\"640\" height=\"220\" fill=\"#faf8f1\"/><g font-family=\"sans-serif\" font-size=\"12\" fill=\"#202630\"><text x=\"20\" y=\"20\">Presentation position (DIP): green expected / pink observed</text><text x=\"40\" y=\"205\">0 ms</text><text x=\"540\" y=\"205\">1000 ms</text><text x=\"8\" y=\"45\">400</text><text x=\"8\" y=\"180\">0</text></g><path d=\"M40 35 V180 H605\" fill=\"none\" stroke=\"#bfc5be\"/><polyline fill=\"none\" stroke=\"#176b5b\" stroke-width=\"2\" points=\"40.00,180.00 40.00,180.00 48.96,180.00 57.92,173.00 66.88,159.00 75.84,169.50 84.80,180.00 246.08,180.00 255.04,180.00 264.00,176.50 272.96,176.50 281.92,176.50 390.56,155.50 399.52,180.00 408.48,124.00 417.44,124.00 488.00,124.00 600.00,124.70\"/><polyline fill=\"none\" stroke=\"#b7355f\" stroke-width=\"2\" stroke-dasharray=\"4 3\" points=\"40.00,180.00 40.00,180.00 48.96,180.00 57.92,173.00 66.88,159.00 75.84,169.50 84.80,180.00 246.08,180.00 255.04,180.00 264.00,176.50 272.96,176.50 281.92,176.50 390.56,155.50 399.52,180.00 408.48,124.00 417.44,124.00 488.00,124.00 600.00,124.70\"/><polyline fill=\"none\" stroke=\"#176b5b\" stroke-width=\"2\" points=\"40.00,152.00 40.00,152.00 48.96,166.00 57.92,180.00 66.88,180.00 75.84,180.00 84.80,169.50 246.08,169.50 255.04,169.50 264.00,180.00 272.96,180.00 281.92,180.00 390.56,180.00 399.52,40.00 408.48,180.00 417.44,180.00 488.00,180.00 600.00,180.00\"/><polyline fill=\"none\" stroke=\"#b7355f\" stroke-width=\"2\" stroke-dasharray=\"4 3\" points=\"40.00,152.00 40.00,152.00 48.96,166.00 57.92,180.00 66.88,180.00 75.84,180.00 84.80,169.50 246.08,169.50 255.04,169.50 264.00,180.00 272.96,180.00 281.92,180.00 390.56,180.00 399.52,40.00 408.48,180.00 417.44,180.00 488.00,180.00 600.00,180.00\"/></svg>"
+          }
+        },
+        {
+          "native": true,
+          "report": {
+            "passed": true,
+            "observations": [
+              {
+                "at": 0,
+                "id": "sheet",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 0,
+                "id": "scroll",
+                "expected": {
+                  "position": 80,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 80,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 0,
+                "id": "sheet",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 0,
+                "id": "scroll",
+                "expected": {
+                  "position": 80,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 80,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 16,
+                "id": "sheet",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 16,
+                "id": "scroll",
+                "expected": {
+                  "position": 40,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 40,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 32,
+                "id": "sheet",
+                "expected": {
+                  "position": 20,
+                  "velocity": 250,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 20,
+                  "velocity": 250,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 32,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 48,
+                "id": "sheet",
+                "expected": {
+                  "position": 60,
+                  "velocity": 250,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 60,
+                  "velocity": 250,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 48,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 64,
+                "id": "sheet",
+                "expected": {
+                  "position": 30,
+                  "velocity": -250,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 30,
+                  "velocity": -250,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 64,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 80,
+                "id": "sheet",
+                "expected": {
+                  "position": 0,
+                  "velocity": -250,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": -250,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 80,
+                "id": "scroll",
+                "expected": {
+                  "position": 30,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 30,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 368,
+                "id": "sheet",
+                "expected": {
+                  "position": 0,
+                  "velocity": -250,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": -250,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 368,
+                "id": "scroll",
+                "expected": {
+                  "position": 30,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 30,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 384,
+                "id": "sheet",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 384,
+                "id": "scroll",
+                "expected": {
+                  "position": 30,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 30,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 400,
+                "id": "sheet",
+                "expected": {
+                  "position": 10,
+                  "velocity": 200,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 10,
+                  "velocity": 200,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 400,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 416,
+                "id": "sheet",
+                "expected": {
+                  "position": 10,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 10,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 416,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 432,
+                "id": "sheet",
+                "expected": {
+                  "position": 10,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 10,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 432,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 626,
+                "id": "sheet",
+                "expected": {
+                  "position": 70,
+                  "velocity": 200,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 70,
+                  "velocity": 200,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 626,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 642,
+                "id": "sheet",
+                "expected": {
+                  "position": 0,
+                  "velocity": -200,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": -200,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 642,
+                "id": "scroll",
+                "expected": {
+                  "position": 400,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 400,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 658,
+                "id": "sheet",
+                "expected": {
+                  "position": 160,
+                  "velocity": 200,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 160,
+                  "velocity": 200,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 658,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": false
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 674,
+                "id": "sheet",
+                "expected": {
+                  "position": 160,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 160,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 674,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 800,
+                "id": "sheet",
+                "expected": {
+                  "position": 160,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 160,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 800,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 1000,
+                "id": "sheet",
+                "expected": {
+                  "position": 158,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 158.0000000000001,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 1.1368683772161603e-13,
+                "velocityError": 0,
+                "passed": true
+              },
+              {
+                "at": 1000,
+                "id": "scroll",
+                "expected": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "observed": {
+                  "position": 0,
+                  "velocity": 0,
+                  "settled": true
+                },
+                "positionError": 0,
+                "velocityError": 0,
+                "passed": true
+              }
+            ],
+            "errors": [],
+            "remainingResources": 0,
+            "trace": {
+              "version": 1,
+              "seed": 63,
+              "settings": {
+                "timeScale": 1,
+                "reducedMotion": false
+              },
+              "metadata": {
+                "platform": "test",
+                "os": "deterministic",
+                "model": "scroll-handoff-contract",
+                "refreshRate": 60,
+                "density": 1,
+                "width": 360,
+                "height": 640
+              },
+              "motions": [
+                {
+                  "id": "sheet",
+                  "kind": "drag",
+                  "axis": "y",
+                  "initial": 0,
+                  "stiffness": 170,
+                  "damping": 26,
+                  "mass": 1,
+                  "min": 0,
+                  "max": 160,
+                  "snap": []
+                },
+                {
+                  "id": "scroll",
+                  "kind": "drag",
+                  "axis": "y",
+                  "initial": 80,
+                  "stiffness": 170,
+                  "damping": 26,
+                  "mass": 1,
+                  "min": 0,
+                  "max": 400,
+                  "snap": []
+                }
+              ],
+              "entries": [
+                {
+                  "at": 0,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 0,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 80,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 0,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "begin",
+                    "x": 0,
+                    "y": 0,
+                    "velocityX": 0,
+                    "velocityY": 0,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 0,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 0,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 80,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 16,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": 40,
+                    "velocityX": 0,
+                    "velocityY": 250,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 16,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 16,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 40,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 32,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": 100,
+                    "velocityX": 0,
+                    "velocityY": 250,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 32,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 20,
+                    "velocity": 250,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 32,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 48,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": 140,
+                    "velocityX": 0,
+                    "velocityY": 250,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 48,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 60,
+                    "velocity": 250,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 48,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 64,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": 110,
+                    "velocityX": 0,
+                    "velocityY": -250,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 64,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 30,
+                    "velocity": -250,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 64,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 80,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": 50,
+                    "velocityX": 0,
+                    "velocityY": -250,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 80,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 0,
+                    "velocity": -250,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 80,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 30,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 368,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 0,
+                    "velocity": -250,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 368,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 30,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 384,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": 210,
+                    "velocityX": 0,
+                    "velocityY": 200,
+                    "pointers": [0, 1]
+                  }
+                },
+                {
+                  "at": 384,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 384,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 30,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 400,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": 250,
+                    "velocityX": 0,
+                    "velocityY": 200,
+                    "pointers": [0, 1]
+                  }
+                },
+                {
+                  "at": 400,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 10,
+                    "velocity": 200,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 400,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 416,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "cancel",
+                    "x": 0,
+                    "y": 250,
+                    "velocityX": 0,
+                    "velocityY": 0,
+                    "pointers": []
+                  }
+                },
+                {
+                  "at": 416,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 10,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 416,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 432,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": 300,
+                    "velocityX": 0,
+                    "velocityY": 200,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 432,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 10,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 432,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 448,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "end",
+                    "x": 0,
+                    "y": 300,
+                    "velocityX": 0,
+                    "velocityY": 0,
+                    "pointers": []
+                  }
+                },
+                {
+                  "at": 480,
+                  "input": {
+                    "type": "lifecycle",
+                    "state": "suspend"
+                  }
+                },
+                {
+                  "at": 600,
+                  "input": {
+                    "type": "lifecycle",
+                    "state": "resume"
+                  }
+                },
+                {
+                  "at": 610,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "begin",
+                    "x": 0,
+                    "y": 0,
+                    "velocityX": 0,
+                    "velocityY": 0,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 626,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": 60,
+                    "velocityX": 0,
+                    "velocityY": 200,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 626,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 70,
+                    "velocity": 200,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 626,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 642,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -600,
+                    "velocityX": 0,
+                    "velocityY": -200,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 642,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 0,
+                    "velocity": -200,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 642,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 400,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 658,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -40,
+                    "velocityX": 0,
+                    "velocityY": 200,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 658,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 160,
+                    "velocity": 200,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 658,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": false
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 674,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "end",
+                    "x": 0,
+                    "y": -40,
+                    "velocityX": 0,
+                    "velocityY": 0,
+                    "pointers": []
+                  }
+                },
+                {
+                  "at": 674,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 160,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 674,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 800,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 160,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 800,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 1,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 850,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "begin",
+                    "x": 0,
+                    "y": 0,
+                    "velocityX": 0,
+                    "velocityY": 0,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 851,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -0.1,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 852,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -0.2,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 853,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -0.3,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 854,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -0.4,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 855,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -0.5,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 856,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -0.6,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 857,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -0.7,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 858,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -0.8,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 859,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -0.9,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 860,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -1,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 861,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -1.1,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 862,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -1.2,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 863,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -1.3,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 864,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -1.4,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 865,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -1.5,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 866,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -1.6,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 867,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -1.7,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 868,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -1.8,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 869,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -1.9,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 870,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "move",
+                    "x": 0,
+                    "y": -2,
+                    "velocityX": 0,
+                    "velocityY": -100,
+                    "pointers": [0]
+                  }
+                },
+                {
+                  "at": 886,
+                  "input": {
+                    "type": "gesture",
+                    "id": "sheet",
+                    "phase": "end",
+                    "x": 0,
+                    "y": -2,
+                    "velocityX": 0,
+                    "velocityY": 0,
+                    "pointers": []
+                  }
+                },
+                {
+                  "at": 1000,
+                  "id": "sheet",
+                  "expected": {
+                    "position": 158,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 0.5,
+                    "velocity": 0.1
+                  }
+                },
+                {
+                  "at": 1000,
+                  "id": "scroll",
+                  "expected": {
+                    "position": 0,
+                    "velocity": 0,
+                    "settled": true
+                  },
+                  "tolerance": {
+                    "position": 0.5,
+                    "velocity": 0.1
+                  }
+                }
+              ]
+            },
+            "plot": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"640\" height=\"220\" viewBox=\"0 0 640 220\"><rect width=\"640\" height=\"220\" fill=\"#faf8f1\"/><g font-family=\"sans-serif\" font-size=\"12\" fill=\"#202630\"><text x=\"20\" y=\"20\">Presentation position (DIP): green expected / pink observed</text><text x=\"40\" y=\"205\">0 ms</text><text x=\"540\" y=\"205\">1000 ms</text><text x=\"8\" y=\"45\">400</text><text x=\"8\" y=\"180\">0</text></g><path d=\"M40 35 V180 H605\" fill=\"none\" stroke=\"#bfc5be\"/><polyline fill=\"none\" stroke=\"#176b5b\" stroke-width=\"2\" points=\"40.00,180.00 40.00,180.00 48.96,180.00 57.92,173.00 66.88,159.00 75.84,169.50 84.80,180.00 246.08,180.00 255.04,180.00 264.00,176.50 272.96,176.50 281.92,176.50 390.56,155.50 399.52,180.00 408.48,124.00 417.44,124.00 488.00,124.00 600.00,124.70\"/><polyline fill=\"none\" stroke=\"#b7355f\" stroke-width=\"2\" stroke-dasharray=\"4 3\" points=\"40.00,180.00 40.00,180.00 48.96,180.00 57.92,173.00 66.88,159.00 75.84,169.50 84.80,180.00 246.08,180.00 255.04,180.00 264.00,176.50 272.96,176.50 281.92,176.50 390.56,155.50 399.52,180.00 408.48,124.00 417.44,124.00 488.00,124.00 600.00,124.70\"/><polyline fill=\"none\" stroke=\"#176b5b\" stroke-width=\"2\" points=\"40.00,152.00 40.00,152.00 48.96,166.00 57.92,180.00 66.88,180.00 75.84,180.00 84.80,169.50 246.08,169.50 255.04,169.50 264.00,180.00 272.96,180.00 281.92,180.00 390.56,180.00 399.52,40.00 408.48,180.00 417.44,180.00 488.00,180.00 600.00,180.00\"/><polyline fill=\"none\" stroke=\"#b7355f\" stroke-width=\"2\" stroke-dasharray=\"4 3\" points=\"40.00,152.00 40.00,152.00 48.96,166.00 57.92,180.00 66.88,180.00 75.84,180.00 84.80,169.50 246.08,169.50 255.04,169.50 264.00,180.00 272.96,180.00 281.92,180.00 390.56,180.00 399.52,40.00 408.48,180.00 417.44,180.00 488.00,180.00 600.00,180.00\"/></svg>"
+          }
+        }
+      ],
+      "negativeControl": {
+        "passed": true,
+        "errors": [
+          "scroll at 32 ms: position error 80, velocity error 0, settled false (expected false)."
+        ],
+        "remainingResources": 0
+      },
+      "durationMs": 5656
+    },
+    {
+      "startedAt": 1793584161227,
+      "platform": "iOS",
+      "device": "iPhone",
+      "passed": [
+        "live native color alpha and radius match the retained spring",
+        "rapid paint retarget and paused native state",
+        "external color owns its channel while radius continues",
+        "paint Reduce Motion and disposal",
+        "scene delays overlaps and backward seek from paused endpoint",
+        "scene geometry negative control rejects ten DIP error",
+        "scene seek preserves newer owner and native playback clock",
+        "scene repeat direction and timeScale",
+        "scene unload is terminal and releases ownership",
+        "flex row real bounds sibling allocation pause resume",
+        "flex row intrinsic content and font update",
+        "flex row active parent resize large text and Reduce Motion",
+        "flex column real bounds sibling allocation pause resume",
+        "flex column intrinsic content and font update",
+        "flex column active parent resize large text and Reduce Motion",
+        "unsupported flex layout rejects before mutation",
+        "native connected bodies and guide presentation",
+        "body spring pause replacement removal and Reduce Motion",
+        "removed body disposes links guides and native world"
+      ],
+      "samples": [
+        {
+          "live": 0.7382840587597173,
+          "paint": {
+            "color": 2511127729,
+            "radius": 53.77361164310247
+          },
+          "expectedColor": 2511127729,
+          "expectedRadius": 53.77361164310247
+        },
+        {
+          "scene": 0.1,
+          "x": 16.00000023841858,
+          "bar": 0.1
+        },
+        {
+          "scene": 0.5,
+          "x": 80,
+          "bar": 0.5
+        },
+        {
+          "scene": 1,
+          "x": 160,
+          "bar": 1
+        },
+        {
+          "scene": 0.25,
+          "x": 40,
+          "bar": 0.25
+        },
+        {
+          "flex": "row",
+          "start": 110,
+          "middle": 152,
+          "end": {
+            "width": 220,
+            "height": 260
+          },
+          "sibling": {
+            "x": 152,
+            "y": 0
+          }
+        },
+        {
+          "flexResize": "row",
+          "fontSize": 30,
+          "bounds": {
+            "width": 170,
+            "height": 260
+          }
+        },
+        {
+          "flex": "column",
+          "start": 70,
+          "middle": 100.33333333333333,
+          "end": {
+            "width": 362,
+            "height": 150
+          },
+          "sibling": {
+            "x": 0,
+            "y": 100.33333333333331
+          }
+        },
+        {
+          "flexResize": "column",
+          "fontSize": 30,
+          "bounds": {
+            "width": 322,
+            "height": 260
+          }
+        },
+        {
+          "world": {
+            "dragEnds": 0,
+            "guides": 2,
+            "dragCancels": 0,
+            "processingMs": 1.1317916214466095,
+            "clock": true,
+            "bodies": [
+              {
+                "x": 87.79779810017959,
+                "radius": 20,
+                "attachment": null,
+                "y": 110,
+                "vy": 0,
+                "held": false,
+                "pointer": null,
+                "release": null,
+                "snap": null,
+                "vx": 144.15111751291965,
+                "id": "a"
+              },
+              {
+                "x": 166.1703934503706,
+                "radius": 20,
+                "attachment": null,
+                "y": 110,
+                "vy": 0,
+                "held": false,
+                "pointer": null,
+                "release": null,
+                "snap": null,
+                "vx": 43.77116080183665,
+                "id": "b"
+              },
+              {
+                "x": 246.6204716663597,
+                "radius": 20,
+                "attachment": null,
+                "y": 110,
+                "vy": 0,
+                "held": false,
+                "pointer": null,
+                "release": null,
+                "snap": null,
+                "vx": -77.23114637219763,
+                "id": "c"
+              }
+            ],
+            "dragStarts": 0,
+            "dragMoves": 0,
+            "droppedMs": 0,
+            "frames": 12,
+            "contacts": 0,
+            "status": "running",
+            "steps": 44,
+            "springs": [
+              {
+                "id": "ab",
+                "from": "a",
+                "to": "b",
+                "length": 70,
+                "stiffness": 180,
+                "damping": 24
+              },
+              {
+                "id": "bc",
+                "from": "b",
+                "to": "c",
+                "length": 70,
+                "stiffness": 180,
+                "damping": 24
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "injected": false,
+  "build": {
+    "commit": "00f4b44929ff94b4b3c90ff4e2c94d86e39a1c7f",
+    "core": "9.1.3",
+    "runtime": "9.1.0",
+    "jolt": "0.1.0-rc.5",
+    "mode": "production"
+  },
+  "platform": "iOS",
+  "os": "26.2",
+  "model": "iPhone"
+}

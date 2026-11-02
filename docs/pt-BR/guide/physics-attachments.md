@@ -80,7 +80,7 @@ Rigidez e amortecimento do encaixe usam os mesmos limites/padrões das molas de 
 
 Pausa/redução de movimento param o relógio nativo existente. Uma mola assentada entra em repouso; impulso, mudança de destino ou novo gesto a acordam. O descarte remove as linhas nativas junto dos recursos de entrada/ciclo de vida do mundo. Comandos e eventos de ciclo de vida passam pelo JavaScript; forças, escolha do destino, contatos, desenho e atualizações por frame permanecem nativos. A thread da interface continua compartilhada com o JavaScript do NativeScript.
 
-O preview **Um lugar para voltar / Equilibrium**, em quatro idiomas, demonstra ambos os comportamentos. Molas para pontos fixos e encaixes na soltura são a terceira parte entregue da [#39](https://github.com/rafaelaugustos/jolt/issues/39), disponível na **0.1.0-rc.1**. O arraste direto padrão suspende as forças das molas. A 0.1.0-rc.2 acrescenta o modo de mola no ponteiro da [#238](https://github.com/rafaelaugustos/jolt/issues/238), descrito abaixo. Juntas entre corpos, restrições rígidas, formas arbitrárias e um motor geral de dinâmica ficam fora deste contrato. Veja a [validação e reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-attachments.md) e a [auditoria das entregas](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-completion.md).
+O preview **Um lugar para voltar / Equilibrium**, em quatro idiomas, demonstra ambos os comportamentos. Molas para pontos fixos e encaixes na soltura são a terceira parte entregue da [#39](https://github.com/rafaelaugustos/jolt/issues/39), disponível na **0.1.0-rc.1**. O arraste direto padrão suspende as forças das molas. A 0.1.0-rc.2 acrescenta o modo de mola no ponteiro da [#238](https://github.com/rafaelaugustos/jolt/issues/238), descrito abaixo. Juntas rígidas, formas arbitrárias e um motor geral de dinâmica ficam fora deste contrato. Vínculos elásticos entre centros estão na [extensão em desenvolvimento abaixo](#body-springs). Veja a [validação e reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-attachments.md) e a [auditoria das entregas](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/physics-completion.md).
 
 ## Arraste com mola no ponteiro {#arraste-com-mola-no-ponteiro-build-de-desenvolvimento}
 
@@ -116,3 +116,38 @@ O gesto começa dentro do círculo visível. Um ponteiro controla um corpo por m
 Ao soltar, a âncora temporária é removida e a **velocidade simulada do corpo** é preservada, sem substituí-la pela velocidade do dedo. Os pontos de snap usam essa posição/velocidade; sem snap, a mola fixa volta a atuar ou o corpo fica livre. Cancelar remove o ponteiro, zera a velocidade e restaura o dock anterior sem registrar uma soltura. Pausa, Reduce Motion, unload, segundo plano, resize, reset e dispose cancelam o gesto. `attach()` altera a mola de repouso, sem alterar a mola do ponteiro ativo. `snapTo()` e `impulse()` continuam ignorando corpos segurados.
 
 No snapshot, `held` indica posse do gesto; `pointer` descreve a âncora temporária ativa ou vale `null`, enquanto `attachment` descreve a âncora de repouso. Input, integração e desenho usam o relógio nativo existente, sem callback JavaScript por movimento ou frame. A thread de UI continua compartilhada. Veja [validação e limites](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/pointer-spring.md).
+
+## Desenvolvimento: molas entre corpos {#body-springs}
+
+A próxima versão nativa acrescenta molas entre os centros de corpos do mesmo mundo. As duas pontas respondem conforme suas próprias massas. Os limites de colisão e o relógio nativo de passos fixos a 240 Hz continuam valendo; não há observador JavaScript por frame.
+
+```ts
+const world = physicsWorld(board, bodies, {
+  springs: [
+    {
+      id: 'link',
+      from: 'copper',
+      to: 'lilac',
+      length: 90,
+      stiffness: 180,
+      damping: 24,
+      line: { color: '#687C70', width: 2 },
+    },
+  ],
+})
+world.spring('link', { from: 'copper', to: 'lilac', length: 110 })
+world.spring('link', null)
+```
+
+Use IDs estáveis. `world.spring(id, config)` adiciona ou substitui a conexão sem zerar posições ou velocidades; `world.spring(id, null)` remove a mola e sua linha. `snapshot().springs` informa a configuração atual. Toda configuração é validada antes de substituir uma conexão nativa.
+
+Limites: 32 molas por mundo, quatro por corpo e uma por par sem considerar ordem. Pontas precisam ser IDs distintos desse mundo. Comprimento de repouso explícito: 0–10.000 DIPs; stiffness: 1–1000 (padrão 180); damping: 0–120 (padrão 24). Pontas controladas por snap são rejeitadas; âncoras fixas e arraste direto/com mola no ponteiro podem coexistir. São vínculos elásticos, sem distância rígida; rotação, juntas na superfície e formas arbitrárias continuam fora do contrato.
+
+O par recebe forças elásticas e impulsos de amortecimento axial iguais e opostos, ponderados pela massa inversa. Um corpo segurado diretamente é cinemático, e seu par continua reagindo. O arraste com mola no ponteiro mantém os dois dinâmicos e a soltura preserva a velocidade do corpo. Limites de velocidade, colisões e forças externas podem mudar o momento total. O comprimento de repouso permanece em DIPs quando o pai muda de tamanho.
+
+Pausa, background e redução de movimento suspendem o relógio existente. Remover ou mover uma ponta para outro pai descarta o mundo vinculado e suas linhas; unload temporário mantendo os mesmos membros permite retomada. Recriar uma view nativa exige um mundo novo. As linhas usam o estilo opcional `#RRGGBB`/0,5–6 DIPs das âncoras fixas e ligam as bordas dos círculos. O descarte remove input e desenho nativos.
+
+<Clip name="body-springs-ios" caption="Simulador iOS, interface em inglês: arrastes reais movem uma cadeia de três corpos com massas diferentes, seguida de impulso e pausa/retomada." />
+<Clip name="body-springs-android" caption="Emulador Android, interface em inglês: gestos reais por ADB puxam e soltam corpos conectados; forças e linhas são atualizadas nativamente. Velocidade original, sem promessa de desempenho físico." />
+
+[Validação nativa e reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-capabilities.md).

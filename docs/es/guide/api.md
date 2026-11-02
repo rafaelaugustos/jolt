@@ -32,6 +32,7 @@
 - [`set(target, values)`](./interrupting#setting-values-without-animating) — aplica valores a la vez y detiene lo que los anima.
 - [`playbackProgress(animation)`](./playback): progreso observable y de solo lectura en el reloj de una animación existente.
 - [`timeline(steps)`](./sequences): pausa y reanuda los pasos activos y pendientes juntos.
+- [`seekableTimeline(steps, { paused? })`](./sequences#seekable-scenes) — búsqueda en escenas nativas finitas con pistas explícitas de vistas/valores (próxima versión).
 - [`@rafaelaugusto/jolt/native`](./native-properties) — registro de propiedad opcional, mapas nativos y cámaras SceneKit, [luces y materiales](./scene-lighting) y [cámara FOV](./scene-camera).
 - [`sequence(steps)`](./sequences) — pasos superpuestos y posiciones fijas.
 - `press(target, pressed?, transition?)`
@@ -41,6 +42,7 @@
 - [`blur()`](./blur): anima una cantidad de desenfoque nativa propia.
 - [`GlassContainer` / `GlassView`](./glass) — fusión nativa iOS 26 Liquid Glass utilizando la reproducción de transformación existente.
 - [`world.attach()` / `world.snapTo()`](./physics-attachments) — resortes de anclaje nativos y puntos de liberación.
+- [`world.spring(id, options | null)`](./physics-attachments#body-springs) — resortes entre centros de círculos (próxima versión).
 - [`sensor(kind, options)`](./device-sensors): fuentes nativas opcionales de rotación/gravedad para valores de movimiento, fijaciones y resortes.
 - [`scrollHeader(list, options)`](./scroll-header) — Composición nativa de Core ListView: héroe medido, paralaje, transferencia de título, sección fijada y anclajes de elementos estables. Actualización nativa opcional con `onRefresh` y `ScrollHeaderSurface`.
 - [`scrollLinked(scrollView, target, keyframes, { range, axis? })`](./scroll-linked) — devuelve una función de limpieza.

@@ -127,3 +127,49 @@ On Android, position timers and the absolute timeline clock follow the system's 
 JavaScript runs when a step activates, not once per animation frame. A blocked JS thread can delay a launch; this API cannot start new JS-created steps while JavaScript is unavailable. Once a step starts, its normal native playback and platform limits apply.
 
 The playground compares overlap, sequential arrivals and fixed times using the same entrance.
+
+## Development: finite seekable scenes {#seekable-scenes}
+
+`seekableTimeline()` adds an explicit declarative contract for the next native release. Existing `timeline()` and `sequence()` keep their callback behavior.
+
+```ts
+const scene = seekableTimeline(
+  [
+    {
+      target: card,
+      keyframes: { x: [0, 160] },
+      transition: { duration: 1600, ease: 'linear' },
+    },
+    {
+      target: card,
+      at: 400,
+      keyframes: { scale: [1, 1.5], opacity: [0.4, 1] },
+      transition: { duration: 800 },
+    },
+    { value: progress, keyframes: [0, 1], transition: { duration: 1600 } },
+  ],
+  { paused: true },
+)
+scene.progress = 0.6
+scene.progress = 1
+scene.progress = 0.2 // a paused endpoint can rewind
+scene.play()
+```
+
+| Participant                                           | Contract                                                                                   |
+| ----------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Loaded native view                                    | Explicit finite numeric keyframes for transforms/opacity; named layers supported.          |
+| Numeric `motionValue()`                               | Base channel; existing bindings follow the same scene time.                                |
+| Nested `{ at, steps }`                                | Flattened at preparation; positions are absolute milliseconds within the containing scene. |
+| Callbacks, live followers, gestures, haptics, handles | Rejected before scene ownership changes. Use the existing timeline API.                    |
+
+Each target/property/layer has one track. Put successive movements in its keyframes; duplicate channels are rejected, including duplicates across nested scenes. No independent child handles are exposed. Null/current-value frames, paths, paint/decorations, relative recipes, stagger and value layers are outside this initial surface. Transitions accept built-in/cubic-bezier easing and finite springs/tweens/gravity; callback easing and random repeat delays are rejected. Limits: 256 channels, nesting depth 16, 100 repeats, ten unscaled minutes per track and 100,000 samples per compiled channel.
+
+All tracks are validated and compiled before ownership changes. A delayed track holds its explicit first value; a shorter track holds its final value until the scene ends. Finite repeats are expanded for native playback; loop resets occupy at most one millionth of the scene interval to avoid zero-length float keyframe intervals. Ordinary playback needs no JavaScript frame coordinator. Global timeScale and the Android animator clock apply.
+
+Seeking preserves pause/play. New application work retains ownership: old scene seeks cannot reclaim superseded channels. Other channels continue, and aggregate completion is false after interruption. A paused endpoint remains seekable; a completed/stopped scene is terminal. Background suspension pauses and automatically resumes a scene that was playing; an explicit pause remains paused. View unload stops the scene, and reload needs a new handle. Reduce Motion is sampled when compiling: spatial tracks settle immediately while opacity keeps its timing. Construction failure stops the scene's newly created work.
+
+<Clip name="seekable-scene-ios" caption="iOS simulator, English UI: actual slider interaction seeks a scene with position, overlapping scale/opacity and a bound progress value, including backward seeking from the paused endpoint." />
+<Clip name="seekable-scene-android" caption="Android emulator, English UI: real ADB slider gestures and playback controls exercise the same finite scene. Original timing; no physical-device performance claim." />
+
+[Native validation and reproduction](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-capabilities.md).

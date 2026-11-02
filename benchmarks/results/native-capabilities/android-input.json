@@ -1,0 +1,410 @@
+[
+  {
+    "name": "ready",
+    "time": 1793583348996,
+    "snapshot": {
+      "status": "running",
+      "guides": 2,
+      "bodies": [
+        {
+          "x": 93.9047619047619,
+          "y": 120,
+          "vx": 0,
+          "vy": 0,
+          "radius": 22,
+          "held": false,
+          "attachment": null,
+          "pointer": null,
+          "snap": null,
+          "release": null,
+          "id": "0"
+        },
+        {
+          "x": 163.9047619047619,
+          "y": 120,
+          "vx": 0,
+          "vy": 0,
+          "radius": 22,
+          "held": false,
+          "attachment": null,
+          "pointer": null,
+          "snap": null,
+          "release": null,
+          "id": "1"
+        },
+        {
+          "x": 233.9047619047619,
+          "y": 120,
+          "vx": 0,
+          "vy": 0,
+          "radius": 22,
+          "held": false,
+          "attachment": null,
+          "pointer": null,
+          "snap": null,
+          "release": null,
+          "id": "2"
+        }
+      ],
+      "frames": 0,
+      "steps": 0,
+      "contacts": 0,
+      "dragStarts": 0,
+      "dragMoves": 0,
+      "dragEnds": 0,
+      "dragCancels": 0,
+      "processingMs": 0,
+      "droppedMs": 0,
+      "clock": true,
+      "springs": [
+        {
+          "id": "ab",
+          "from": "0",
+          "to": "1",
+          "length": 70,
+          "stiffness": 150,
+          "damping": 20
+        },
+        {
+          "id": "bc",
+          "from": "1",
+          "to": "2",
+          "length": 70,
+          "stiffness": 150,
+          "damping": 20
+        }
+      ]
+    }
+  },
+  {
+    "name": "nudge",
+    "time": 1793583366489,
+    "snapshot": {
+      "status": "running",
+      "guides": 2,
+      "bodies": [
+        {
+          "x": 127.9370639151837,
+          "y": 61.98818595171494,
+          "vx": 358.44716452051966,
+          "vy": -163.94413412499867,
+          "radius": 22,
+          "held": false,
+          "attachment": null,
+          "pointer": null,
+          "snap": null,
+          "release": {
+            "x": 95.93867174494513,
+            "y": 72.81873492453498,
+            "vx": 1.3281693969211634,
+            "vy": -82.21877015660087
+          },
+          "id": "0"
+        },
+        {
+          "x": 163.418404076043,
+          "y": 122.35574535122085,
+          "vx": 7.8231734713065135,
+          "vy": 16.33311535896993,
+          "radius": 22,
+          "held": false,
+          "attachment": null,
+          "pointer": null,
+          "snap": null,
+          "release": null,
+          "id": "1"
+        },
+        {
+          "x": 147.66791583865506,
+          "y": 190.66179612289943,
+          "vx": -13.294510712345014,
+          "vy": 11.17514404490814,
+          "radius": 22,
+          "held": false,
+          "attachment": null,
+          "pointer": null,
+          "snap": null,
+          "release": {
+            "x": 176.59637359535145,
+            "y": 160.31470992989426,
+            "vx": -47.82200003370108,
+            "vy": 75.21959528771916
+          },
+          "id": "2"
+        }
+      ],
+      "frames": 227,
+      "steps": 1191,
+      "contacts": 0,
+      "dragStarts": 2,
+      "dragMoves": 50,
+      "dragEnds": 2,
+      "dragCancels": 0,
+      "processingMs": 240.13766499999986,
+      "droppedMs": 199.9999839998054,
+      "clock": true,
+      "springs": [
+        {
+          "id": "ab",
+          "from": "0",
+          "to": "1",
+          "length": 70,
+          "stiffness": 150,
+          "damping": 20
+        },
+        {
+          "id": "bc",
+          "from": "1",
+          "to": "2",
+          "length": 70,
+          "stiffness": 150,
+          "damping": 20
+        }
+      ]
+    }
+  },
+  {
+    "name": "paused",
+    "time": 1793583366759,
+    "snapshot": {
+      "status": "paused",
+      "guides": 2,
+      "bodies": [
+        {
+          "x": 213.8239058507778,
+          "y": 58.45443668832988,
+          "vx": 185.07507690430103,
+          "vy": 120.04379242931213,
+          "radius": 22,
+          "held": false,
+          "attachment": null,
+          "pointer": null,
+          "snap": null,
+          "release": {
+            "x": 95.93867174494513,
+            "y": 72.81873492453498,
+            "vx": 1.3281693969211634,
+            "vy": -82.21877015660087
+          },
+          "id": "0"
+        },
+        {
+          "x": 164.1062155582954,
+          "y": 116.30672244047074,
+          "vx": 13.49919506585481,
+          "vy": -35.85737491847076,
+          "radius": 22,
+          "held": false,
+          "attachment": null,
+          "pointer": null,
+          "snap": null,
+          "release": null,
+          "id": "1"
+        },
+        {
+          "x": 145.79099817722255,
+          "y": 187.9136239833685,
+          "vx": 2.506045676886216,
+          "vy": -37.51899765697361,
+          "radius": 22,
+          "held": false,
+          "attachment": null,
+          "pointer": null,
+          "snap": null,
+          "release": {
+            "x": 176.59637359535145,
+            "y": 160.31470992989426,
+            "vx": -47.82200003370108,
+            "vy": 75.21959528771916
+          },
+          "id": "2"
+        }
+      ],
+      "frames": 235,
+      "steps": 1263,
+      "contacts": 0,
+      "dragStarts": 2,
+      "dragMoves": 50,
+      "dragEnds": 2,
+      "dragCancels": 0,
+      "processingMs": 255.5270809999999,
+      "droppedMs": 199.9999839998054,
+      "clock": false,
+      "springs": [
+        {
+          "id": "ab",
+          "from": "0",
+          "to": "1",
+          "length": 70,
+          "stiffness": 150,
+          "damping": 20
+        },
+        {
+          "id": "bc",
+          "from": "1",
+          "to": "2",
+          "length": 70,
+          "stiffness": 150,
+          "damping": 20
+        }
+      ]
+    }
+  },
+  {
+    "name": "resumed",
+    "time": 1793583367795,
+    "snapshot": {
+      "status": "running",
+      "guides": 2,
+      "bodies": [
+        {
+          "x": 213.8239058507778,
+          "y": 58.45443668832988,
+          "vx": 185.07507690430103,
+          "vy": 120.04379242931213,
+          "radius": 22,
+          "held": false,
+          "attachment": null,
+          "pointer": null,
+          "snap": null,
+          "release": {
+            "x": 95.93867174494513,
+            "y": 72.81873492453498,
+            "vx": 1.3281693969211634,
+            "vy": -82.21877015660087
+          },
+          "id": "0"
+        },
+        {
+          "x": 164.1062155582954,
+          "y": 116.30672244047074,
+          "vx": 13.49919506585481,
+          "vy": -35.85737491847076,
+          "radius": 22,
+          "held": false,
+          "attachment": null,
+          "pointer": null,
+          "snap": null,
+          "release": null,
+          "id": "1"
+        },
+        {
+          "x": 145.79099817722255,
+          "y": 187.9136239833685,
+          "vx": 2.506045676886216,
+          "vy": -37.51899765697361,
+          "radius": 22,
+          "held": false,
+          "attachment": null,
+          "pointer": null,
+          "snap": null,
+          "release": {
+            "x": 176.59637359535145,
+            "y": 160.31470992989426,
+            "vx": -47.82200003370108,
+            "vy": 75.21959528771916
+          },
+          "id": "2"
+        }
+      ],
+      "frames": 235,
+      "steps": 1263,
+      "contacts": 0,
+      "dragStarts": 2,
+      "dragMoves": 50,
+      "dragEnds": 2,
+      "dragCancels": 0,
+      "processingMs": 255.5270809999999,
+      "droppedMs": 199.9999839998054,
+      "clock": true,
+      "springs": [
+        {
+          "id": "ab",
+          "from": "0",
+          "to": "1",
+          "length": 70,
+          "stiffness": 150,
+          "damping": 20
+        },
+        {
+          "id": "bc",
+          "from": "1",
+          "to": "2",
+          "length": 70,
+          "stiffness": 150,
+          "damping": 20
+        }
+      ]
+    }
+  },
+  {
+    "name": "disposed",
+    "time": 1793583373063,
+    "snapshot": {
+      "status": "disposed",
+      "guides": 0,
+      "bodies": [
+        {
+          "x": 239.73493708720855,
+          "y": 171.32770386054813,
+          "vx": 0,
+          "vy": 0,
+          "radius": 22,
+          "held": false,
+          "attachment": null,
+          "pointer": null,
+          "snap": null,
+          "release": {
+            "x": 95.93867174494513,
+            "y": 72.81873492453498,
+            "vx": 1.3281693969211634,
+            "vy": -82.21877015660087
+          },
+          "id": "0"
+        },
+        {
+          "x": 214.56604153451613,
+          "y": 106.00771124665891,
+          "vx": 0,
+          "vy": 0,
+          "radius": 22,
+          "held": false,
+          "attachment": null,
+          "pointer": null,
+          "snap": null,
+          "release": null,
+          "id": "1"
+        },
+        {
+          "x": 154.64670549727222,
+          "y": 142.19952703025015,
+          "vx": 0,
+          "vy": 0,
+          "radius": 22,
+          "held": false,
+          "attachment": null,
+          "pointer": null,
+          "snap": null,
+          "release": {
+            "x": 176.59637359535145,
+            "y": 160.31470992989426,
+            "vx": -47.82200003370108,
+            "vy": 75.21959528771916
+          },
+          "id": "2"
+        }
+      ],
+      "frames": 380,
+      "steps": 1941,
+      "contacts": 0,
+      "dragStarts": 2,
+      "dragMoves": 50,
+      "dragEnds": 2,
+      "dragCancels": 0,
+      "processingMs": 297.87328100000013,
+      "droppedMs": 199.9999839998054,
+      "clock": false,
+      "springs": []
+    }
+  }
+]

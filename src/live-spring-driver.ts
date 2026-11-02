@@ -6,7 +6,10 @@ export interface LiveMapping {
   input: readonly number[]
   output: readonly number[]
   clamp: boolean
+  /** Final mapping only: premultiplied OKLab, packed unsigned ARGB output. */
+  color?: boolean
 }
+export type LiveProperty = NumericProperty | 'backgroundColor' | 'borderRadius'
 export interface LiveSpringPhysics {
   stiffness: number
   damping: number
@@ -41,7 +44,7 @@ export interface LiveNode {
   inputs(rest: number, inputs: readonly LiveInput[]): void
   reduced(value: boolean): void
   paused(value: boolean): void
-  bind(view: View, property: NumericProperty, maps: readonly LiveMapping[]): LiveBinding
+  bind(view: View, property: LiveProperty, maps: readonly LiveMapping[]): LiveBinding
   dispose(): void
 }
 export interface LiveSpringDriver {

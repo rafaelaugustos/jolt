@@ -18,7 +18,7 @@ The Live springs native demo was recorded with actual touch interaction on both 
 
 Scalar retargeting uses a direct native setter and retains its existing node and bindings. The C/Java solver step does not allocate a track. Animated source snapshots and changes to layer membership still allocate boundary data. The native-node count assertion does not establish zero total heap allocation; there is no physical-device allocation or frame-time profile in this report.
 
-Both live schedulers execute on the UI thread. They do not isolate movement from busy JavaScript on that thread. The demo's touch input also enters JavaScript. Native gesture recognition/scroll handoff has its own [validation report](./gestures.md). Native chains and bindings do not require a per-frame JavaScript observer; explicit `subscribe()` does. These results do not claim physical-device 120 Hz performance, R8 coverage, or support for live color/decoration/compound-adapter bindings.
+Both live schedulers execute on the UI thread. They do not isolate movement from busy JavaScript on that thread. The demo's touch input also enters JavaScript. Native gesture recognition/scroll handoff has its own [validation report](./gestures.md). Native chains and bindings do not require a per-frame JavaScript observer; explicit `subscribe()` does. These results do not claim physical-device 120 Hz performance, R8 coverage, or support for arbitrary compound-adapter bindings. The later bounded color/radius extension has its own [validation report](./native-capabilities.md).
 
 ## Português
 

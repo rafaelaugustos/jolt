@@ -10,7 +10,7 @@ After the baseline, a second launch intentionally expects 160 DIP at a native mi
 
 The baseline also checks retained live spring chains, reversal continuity, scope suspension, native layer composition, animated sources, rest/wake and disposal. See [live spring validation](./live-springs.md) for the solver checks and limits.
 
-The baseline now includes 12 groups, plus the 20 dimension checks. Gesture checks cover retained values, bounds retargeting without a velocity reset, scope cancellation, native node cleanup and existing ScrollView delegate/listener preservation. A live-binding regression probe measures the actual location of a translated view before and after its first layout and a later width change. Actual OS multi-touch/scroll recordings run separately; see [gesture validation](./gestures.md).
+The baseline now includes 13 groups, including 20 existing dimension checks and 19 native capability checks. Gesture checks cover retained values, bounds retargeting without a velocity reset, scope cancellation, native node cleanup and existing ScrollView delegate/listener preservation. A live-binding regression probe measures the actual location of a translated view before and after its first layout and a later width change. Actual OS multi-touch/scroll recordings run separately; see [gesture validation](./gestures.md).
 
 The recorded-interaction group replays three frozen traces against the controlled engine and native presentation, then rejects a deliberately wrong checkpoint. It adds no workflow or real-time settling wait. Failure artifacts include the trace/report JSON and expected/observed SVG, retrieved only for the current run ID. See [interaction replay](./interaction-replay.md).
 
@@ -43,7 +43,7 @@ Uma segunda execução espera propositalmente 160 DIP onde a posição medida de
 
 O baseline também valida cadeias de springs retidos, continuidade nas reversões, suspensão do escopo, composição nativa de camadas, fontes animadas, repouso/retomada e descarte. A [validação dos springs](./live-springs.md) descreve os testes dos solvers e seus limites.
 
-O baseline inclui 12 grupos, além dos 20 testes de dimensões. Os testes de gestos validam valores retidos, atualização de limites sem zerar velocidade, suspensão, descarte e preservação do delegate/listener existente do ScrollView. Uma regressão de binding mede a localização real da view traduzida antes/depois do primeiro layout e de uma mudança de largura. Os testes com entrada multitouch do SO e as gravações são separados: veja a [validação de gestos](./gestures.md).
+O baseline inclui 13 grupos, incluindo os 20 testes de dimensões existentes e 19 testes das novas capacidades nativas. Os testes de gestos validam valores retidos, atualização de limites sem zerar velocidade, suspensão, descarte e preservação do delegate/listener existente do ScrollView. Uma regressão de binding mede a localização real da view traduzida antes/depois do primeiro layout e de uma mudança de largura. Os testes com entrada multitouch do SO e as gravações são separados: veja a [validação de gestos](./gestures.md).
 
 Os artefatos `native-ios` e `native-android` guardam JSON, logs e uma captura final, inclusive em falhas. A captura final costuma mostrar a falha esperada do controle negativo; o resultado normal está em `baseline.json`. As gravações existentes continuam nos guias EN/PT. Qualquer mudança de comportamento visual público continua exigindo gravação nativa revisada conforme `CONTRIBUTING.md`.
 
@@ -52,3 +52,5 @@ O grupo de replay executa três traces fixos no motor controlado e na apresenta�
 The scroll→sheet portion exercises the production native gesture consumption code and takes about 3 seconds locally (including an independent reference and native negative control). It checks both positions, cancellation, contact rebasing and fractional-pixel accumulation; see [handoff validation](./scroll-handoff.md).
 
 The same replay group also verifies [adaptive curve sampling](./curve-sampling.md) at 60/120 Hz logical presentation times, with integer-millisecond Android seeks, interruption continuity and a negative control. The added portion took about 0.8 seconds locally; it does not create another workflow or emulator.
+
+The native capability group covers retained color/radius bindings, finite scene seeking, FlexboxLayout reflow and body-to-body springs. It shares the existing app and OS jobs. See [scope, measurements and recordings](./native-capabilities.md).
