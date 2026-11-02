@@ -1,5 +1,7 @@
 # Runtime Web finito
 
+**Também em desenvolvimento após a RC.6:** [escopos, ponteiro/viewport e configuração contínua no Vue](./web-lifecycle), além de [geometria de overlays, elementos compartilhados, receitas e diagnóstico](./web-interactions). Essas adições não estão na RC.6 publicada.
+
 **Em desenvolvimento após a RC.6:** [cores, bordas, pintura contínua, tamanho real, FLIP e cenas com seek](./web-visual) ampliam este runtime. Ainda não fazem parte do pacote RC.6 publicado. A paridade completa continua na [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
 Desde a **0.1.0-rc.5**, a entrada experimental `@rafaelaugusto/jolt/web` usa o compilador portátil do Jolt e WAAPI diretamente em elementos HTML, independentemente de Vue, React ou NativeScript. Veja a [instalação](./install#experimental-web-candidate). O Mavis concluiu a migração inicial de press/reveal e o exemplo compartilhado da aplicação; a adoção dos novos recursos Web continua [no Mavis](https://github.com/getcortexlabs/mavis-ui/issues/191).

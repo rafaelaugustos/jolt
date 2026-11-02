@@ -26,6 +26,13 @@ else {
     defineComponent({
       setup() {
         const motion = module.useWebMotion(shallowRef(null))
+        const remove = motion.use(() => {
+          throw new Error('Motion setup ran during SSR')
+        })
+        remove()
+        motion.use(() => {
+          throw new Error('Queued setup ran during SSR')
+        })
         assert.throws(() => motion.animate({ x: 10 }), /mounted HTMLElement/)
         return () => h('main', 'SSR')
       },

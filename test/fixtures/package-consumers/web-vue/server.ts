@@ -7,6 +7,9 @@ export function render() {
       defineComponent({
         setup() {
           const motion = useWebMotion(shallowRef<HTMLElement | null>(null))
+          motion.use(() => {
+            throw new Error('Motion setup ran during SSR')
+          })
           return () => h('main', { 'data-motion': typeof motion.animate }, 'SSR')
         },
       }),

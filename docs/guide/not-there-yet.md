@@ -1,5 +1,7 @@
 # Release status and limits {#not-there-yet}
 
+**Also in development after RC.6:** [resource scopes, pointer/viewport helpers and continuous Vue setup](./web-lifecycle), plus [overlay geometry, shared elements, complete recipes and diagnostics](./web-interactions). These additions are not in the published RC.6 package.
+
 **Development after RC.6:** [colors, borders, continuous paint, real size, FLIP and seekable scenes](./web-visual) extend this runtime. They are not included in the published RC.6 package. Full parity remains tracked in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
 **0.1.0-rc.6 is available.** Native features retain their documented platform limits while stable-release validation continues. The Web entries are experimental; publication does not complete Mavis integration or establish native/Web parity for every API.
@@ -26,7 +28,7 @@ The [binding/layer audit](./motion-values#binding-measurements) includes physica
 
 ## Current limits {#current-limits}
 
-- Experimental Web support includes finite 2D transforms/opacity, numeric values/mappings, continuous springs, bounded one-pointer drag/snap, geometry refresh and vertical scroll. Web layout animation, pinch/nested-scroll handoff, other framework adapters and stable portable references remain outside this scope; see [dynamic motion](./web-dynamic) and [scroll/geometry limits](./web-support).
+- Published RC.6 Web support includes finite 2D transforms/opacity, numeric values/mappings, continuous springs, bounded one-pointer drag/snap, geometry refresh and vertical scroll. Web layout animation, pinch/nested-scroll handoff, other framework adapters and stable portable references remain outside this scope; see [dynamic motion](./web-dynamic) and [scroll/geometry limits](./web-support).
 - `animateSize()` supports StackLayout/GridLayout and direct children of non-wrapping row/column FlexboxLayout, including inside ScrollView. Flex main-axis children require `flexGrow=0` and `flexShrink=0`; parent allocation and cross-axis stretch remain authoritative. Measurement/layout runs in JavaScript per frame. Recycled cells and shared elements remain outside this API.
 - `drag()` does not provide general-purpose multi-finger composition. Use [`gestures()`](./gestures) for pan/pinch/rotation, or [photo zoom](./photo-zoom) for its dedicated pinch, pan and dismissal controller. The gesture handoff adapter supports vertical Core ScrollView; other list/container combinations require their own adapters and native validation.
 - External property adapters require `@rafaelaugusto/jolt-native`. The bundled SceneKit camera, light and material adapters are iOS-only; there is no bundled Android 3D renderer adapter. MapKit and MapLibre camera units are distinct.

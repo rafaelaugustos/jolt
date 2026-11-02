@@ -2,6 +2,7 @@ import type { FrameScheduler, FrameTask } from './scheduler.js'
 import { finite } from './value.js'
 import type { PlaybackAnimation } from './types.js'
 import type { SpringParams } from '../core/spring.js'
+import { renderedAncestors, identityTransform } from './geometry.js'
 
 export interface WebDragOptions {
   axis?: 'x' | 'y' | 'both'
@@ -67,25 +68,21 @@ export function dragOptions(options: WebDragOptions) {
   return { ...options, axis, bounds, snap, spring: { ...options.spring } }
 }
 
-/** Screen deltas are supported only with an untransformed, unzoomed ancestor chain. */
+/** Validate only ancestors participating in this rendered coordinate space. */
 export function assertDragSpace(target: HTMLElement, baselineIdentity: boolean) {
   if (!baselineIdentity)
     throw new TypeError('Drag requires an identity static CSS transform baseline.')
   const view = target.ownerDocument.defaultView!
-  let node: Element | null = target
-  while (node) {
+  for (const node of renderedAncestors(target)) {
     const css = view.getComputedStyle(node)
     if (
       (css.zoom && css.zoom !== '1' && css.zoom !== 'normal') ||
       css.perspective !== 'none' ||
-      (node !== target &&
-        [css.transform, css.translate, css.rotate, css.scale].some(
-          (v) => v && v !== 'none',
-        ))
+      (node !== target && !identityTransform(node, css))
     )
-      throw new TypeError('Drag does not support transformed or zoomed ancestors.')
-    const root = node.getRootNode()
-    node = node.parentElement ?? ((root as ShadowRoot).host || null)
+      throw new TypeError(
+        'Drag does not support transformed or zoomed ancestors inside its rendered coordinate root. Use an untransformed drag surface inside a modal dialog/popover, or remove the affecting transform.',
+      )
   }
 }
 
@@ -131,15 +128,13 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
       target.matches(':disabled')
     )
       return true
-    let node: Element | null = target
-    while (node) {
+    for (const node of renderedAncestors(target)) {
       if (
         node.hasAttribute('inert') ||
         node.getAttribute('aria-disabled') === 'true' ||
         node.getAttribute('aria-busy') === 'true'
       )
         return true
-      node = node.parentElement ?? ((node.getRootNode() as ShadowRoot).host || null)
     }
     return false
   }
