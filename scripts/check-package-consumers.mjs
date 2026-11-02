@@ -230,12 +230,16 @@ try {
     assert.equal(result.opacity, 1)
     assert.deepEqual(result.methods, [
       'animate',
+      'bind',
       'configure',
       'definePreset',
       'dispose',
+      'drag',
+      'motionValue',
       'press',
       'release',
       'set',
+      'springValue',
       'stop',
     ])
     assert.deepEqual(errors, [])
@@ -257,6 +261,32 @@ try {
           new DOMMatrix(getComputedStyle(document.getElementById('card')).transform).a -
             1.1,
         ) < 0.001,
+    )
+    await page.click('#dynamic')
+    await page.waitForFunction(
+      () => document.getElementById('dynamic-result')?.textContent === 'ready',
+    )
+    const live = page.locator('#dynamic-card')
+    const liveBox = await live.boundingBox()
+    await page.mouse.move(liveBox.x + liveBox.width / 2, liveBox.y + liveBox.height / 2)
+    await page.mouse.down()
+    await page.mouse.move(
+      liveBox.x + liveBox.width / 2 + 75,
+      liveBox.y + liveBox.height / 2,
+      { steps: 6 },
+    )
+    await page.mouse.up()
+    await page.waitForFunction(
+      () =>
+        Math.abs(
+          new DOMMatrix(
+            getComputedStyle(document.getElementById('dynamic-card')).transform,
+          ).e - 100,
+        ) < 0.01,
+    )
+    await page.click('#dynamic-dispose')
+    await page.waitForFunction(
+      () => document.getElementById('dynamic-result')?.textContent === 'disposed',
     )
     assert.deepEqual(errors, [])
   }

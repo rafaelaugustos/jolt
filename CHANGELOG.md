@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add experimental Web numeric motion values/bindings, a demand-driven context scheduler, analytic springs following changing inputs, and one-pointer 2D drag with velocity-preserving finite WAAPI snap (#293–#295). Live bindings use per-frame composition only on their surface; unbound finite surfaces retain WAAPI. Includes cancellation, reduced motion, lifecycle cleanup, packed consumers and browser/native-reference recordings. These methods are not in published RC.5; Mavis integration remains separate.
+
 ## 0.1.0-rc.5 (2026-11-01)
 
 - Publish matching core and optional native packages. Rebuild native applications after upgrading for the scroll-header and accessibility helpers. The Web entries remain experimental; the Mavis component migration and shared application-animation proof are still tracked separately in #236.

@@ -2,6 +2,8 @@
 
 **0.1.0-rc.5 is available.** Native features retain their documented platform limits while stable-release validation continues. The Web entries are experimental; publication does not complete Mavis integration or establish native/Web parity for every API.
 
+The checkout also contains [continuous Web motion](./web-dynamic), an unreleased experimental follow-up with values, followers and drag/snap. Those methods are not included in published RC.5.
+
 RC.5 adds [experimental Web playback](./web-runtime), [composable press](./web-press) and the optional [Vue DOM adapter](./web-vue), fixes scoped background recovery and Android layer removal, and adds [native pull-to-refresh](./scroll-header#pull-to-refresh) plus scroll/gallery reader-focus fixes. Mavis component migration and its shared application-animation proof remain open under #236.
 
 RC.4 composes rolling layer windows on native live nodes, continues Android shapes, gradients and blur from the paused time on resume, places the bottom sheet by the host's safe-area insets and offers only the handle actions a stop can take. RC.3 added `interactiveModal()` on iOS, one-call Android numeric keyframes, shapes created before their view loads and component refs as targets.

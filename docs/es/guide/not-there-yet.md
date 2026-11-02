@@ -2,6 +2,8 @@
 
 **0.1.0-rc.5 está disponible.** Las funciones nativas mantienen sus límites documentados mientras continúa la validación estable. Las entradas Web son experimentales; publicarlas no completa la integración Mavis ni establece paridad de todas las APIs entre native y Web.
 
+El checkout también incluye [movimiento continuo en Web](./web-dynamic), una continuación experimental aún no publicada con valores, followers y drag/snap. Esos métodos no están en la RC.5 publicada.
+
 RC.5 añade [playback Web experimental](./web-runtime), [press compuesto](./web-press) y el [adapter Vue DOM](./web-vue), corrige la recuperación tras segundo plano y la eliminación de layers Android, y entrega [pull-to-refresh nativo](./scroll-header#pull-to-refresh) y correcciones de foco de lectores en scroll/galería. La migración Mavis y la prueba de animación compartida de aplicación siguen en #236.
 
 RC.4 compone las ventanas de capas en nodos nativos, reanuda las formas, gradientes y blur de Android desde el tiempo en que estaban en pausa, coloca la hoja inferior según los insets del área segura del host y ofrece solo las acciones del identificador que un stop puede ejecutar. RC.3 añadió `interactiveModal()` en iOS, keyframes numéricos de Android en una sola llamada nativa, formas creadas antes de que la vista se cargue y refs de componente como objetivos.

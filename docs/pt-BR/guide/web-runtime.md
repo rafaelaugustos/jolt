@@ -2,6 +2,8 @@
 
 Desde a **0.1.0-rc.5**, a entrada experimental `@rafaelaugusto/jolt/web` usa o compilador portátil do Jolt e WAAPI diretamente em elementos HTML, independentemente de Vue, React ou NativeScript. Veja a [instalação](./install#experimental-web-candidate). A migração de press/reveal do Mavis e o exemplo de animação da aplicação compartilhada continuam como validações separadas na [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
+O checkout também contém [movimento contínuo na Web](./web-dynamic), uma continuação experimental ainda não publicada com valores, followers e drag/snap. Esses métodos não estão na RC.5 publicada.
+
 A entrada por ponteiro e teclado está em [Press na Web](./web-press); a gravação abaixo permanece como referência do runtime finito.
 
 <Clip name="web-runtime-chromium" :width="720" caption="Chromium 156 no macOS arm64, playback e cliques reais na velocidade original: movimento com opacidade, interrupção parcial, escala da aplicação com contribuição de pressão, repetição reversa, pausa, seek, retomada e movimento reduzido. Os botões exercitam a contribuição; o reconhecimento completo de ponteiro/teclado fica na #283." />

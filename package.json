@@ -147,7 +147,10 @@
     "web:press:test": "playwright test -c benchmarks/web-press/playwright.config.mjs",
     "web:integration": "node benchmarks/web-integration/server.mjs",
     "web:integration:typecheck": "tsc -p benchmarks/web-integration/tsconfig.json",
-    "web:integration:test": "playwright test -c benchmarks/web-integration/playwright.config.mjs"
+    "web:integration:test": "playwright test -c benchmarks/web-integration/playwright.config.mjs",
+    "web:dynamic": "node benchmarks/web-dynamic/server.mjs",
+    "web:dynamic:typecheck": "tsc -p benchmarks/web-dynamic/tsconfig.json",
+    "web:dynamic:test": "playwright test -c benchmarks/web-dynamic/playwright.config.mjs"
   },
   "peerDependencies": {
     "@nativescript/core": ">=8.9.0",

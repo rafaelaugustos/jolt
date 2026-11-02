@@ -44,22 +44,23 @@ export function springPhysics({
   return { stiffness: omega * omega, damping: 2 * ratio * omega, mass: 1 }
 }
 
-export function solveSpring(
+export function springTrajectory(
   { stiffness, damping, mass }: SpringPhysics,
   from: number,
   to: number,
   velocity: number,
-  precision: number,
-): SpringMotion {
+) {
   const x0 = from - to
   const w0 = Math.sqrt(stiffness / mass)
   const zeta = damping / (2 * Math.sqrt(stiffness * mass))
 
+  let exactVelocity: (t: number) => number
   let displacement: (t: number) => number
   let accelerationBound: (start: number, end: number) => number
   if (Math.abs(zeta - 1) < 1e-6) {
     const b = velocity + w0 * x0
     displacement = (t) => Math.exp(-w0 * t) * (x0 + b * t)
+    exactVelocity = (t) => Math.exp(-w0 * t) * (b - w0 * (x0 + b * t))
     accelerationBound = (a, end) =>
       Math.exp(-w0 * a) *
       (Math.abs(w0 * w0 * (x0 + b * a) - 2 * w0 * b) +
@@ -69,6 +70,10 @@ export function solveSpring(
     const b = (velocity + zeta * w0 * x0) / wd
     displacement = (t) =>
       Math.exp(-zeta * w0 * t) * (x0 * Math.cos(wd * t) + b * Math.sin(wd * t))
+    exactVelocity = (t) =>
+      Math.exp(-zeta * w0 * t) *
+      ((b * wd - zeta * w0 * x0) * Math.cos(wd * t) +
+        (-x0 * wd - zeta * w0 * b) * Math.sin(wd * t))
     const alpha = zeta * w0,
       q = alpha * alpha - wd * wd
     const amplitude = Math.hypot(q * x0 - 2 * alpha * wd * b, q * b + 2 * alpha * wd * x0)
@@ -81,6 +86,7 @@ export function solveSpring(
     const c1 = (velocity - r2 * x0) / (r1 - r2)
     const c2 = x0 - c1
     displacement = (t) => c1 * Math.exp(r1 * t) + c2 * Math.exp(r2 * t)
+    exactVelocity = (t) => c1 * r1 * Math.exp(r1 * t) + c2 * r2 * Math.exp(r2 * t)
     accelerationBound = (a, end) =>
       Math.abs(c1 * r1 * r1) * Math.max(Math.exp(r1 * a), Math.exp(r1 * end)) +
       Math.abs(c2 * r2 * r2) * Math.max(Math.exp(r2 * a), Math.exp(r2 * end))
@@ -92,22 +98,38 @@ export function solveSpring(
     return (displacement(t + 0.0005) - displacement(t - 0.0005)) / 0.001
   }
 
+  return {
+    position,
+    displacement: (time: number) => displacement(time / 1000),
+    velocity: speed,
+    exactVelocity: (time: number) => (time === 0 ? velocity : exactVelocity(time / 1000)),
+    interpolationError: (start: number, end: number) =>
+      (accelerationBound(start / 1000, end / 1000) * ((end - start) / 1000) ** 2) / 8,
+  }
+}
+
+export function solveSpring(
+  physics: SpringPhysics,
+  from: number,
+  to: number,
+  velocity: number,
+  precision: number,
+): SpringMotion {
+  const trajectory = springTrajectory(physics, from, to, velocity)
   let duration = 0
   while (
     duration < MAX_DURATION &&
-    (Math.abs(displacement(duration / 1000)) > precision ||
-      Math.abs(speed(duration)) > precision * 10)
-  ) {
+    (Math.abs(trajectory.displacement(duration)) > precision ||
+      Math.abs(trajectory.velocity(duration)) > precision * 10)
+  )
     duration += STEP
-  }
   duration = Math.ceil(duration)
-
   return {
     duration,
-    position: (time) => (time >= duration ? to : position(time)),
-    velocity: (time) => (time >= duration ? 0 : speed(time)),
+    position: (time) => (time >= duration ? to : trajectory.position(time)),
+    velocity: (time) => (time >= duration ? 0 : trajectory.velocity(time)),
     interpolationError: (start, end) =>
-      (accelerationBound(start / 1000, end / 1000) * ((end - start) / 1000) ** 2) / 8 +
-      (end >= duration ? Math.abs(displacement(duration / 1000)) : 0),
+      trajectory.interpolationError(start, end) +
+      (end >= duration ? Math.abs(trajectory.displacement(duration)) : 0),
   }
 }

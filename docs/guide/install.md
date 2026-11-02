@@ -4,6 +4,8 @@
 npm install @rafaelaugusto/jolt@next
 ```
 
+The checkout also contains [continuous Web motion](./web-dynamic), an unreleased experimental follow-up with values, followers and drag/snap. Those methods are not included in published RC.5.
+
 The **0.1.0-rc.5 release candidate** is published under the `next` tag. The native 0.1.0 feature scope is frozen while compatibility and release validation continue. NativeScript consumers require `@nativescript/core` 8.9 or later. It doesn't depend on a framework: it takes a view, or an element that holds one, so it works with NativeScript-Vue, Angular, Svelte or plain NativeScript. NativeScript-Vue apps can also import `@rafaelaugusto/jolt/vue` for [directives and a transition component](./vue).
 
 Jolt includes native helpers on iOS and Android. Rebuild the native app after installing or upgrading Jolt; a JavaScript-only update cannot install native code.

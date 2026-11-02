@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Jolt — Continuous Web motion</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #101119;
+        color: #eef0fa;
+        font: 16px/1.5 system-ui;
+        padding: 28px;
+      }
+      main {
+        max-width: 960px;
+        margin: auto;
+      }
+      h1 {
+        font-size: 30px;
+        margin: 0;
+      }
+      p {
+        color: #a9afc7;
+        margin: 8px 0 18px;
+      }
+      h2 {
+        font-size: 18px;
+        margin: 0 0 10px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+      .panel {
+        padding: 18px;
+        border: 1px solid #33384c;
+        border-radius: 18px;
+        background: #191d2b;
+      }
+      .stage {
+        position: relative;
+        height: 230px;
+        background: #111522;
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .card {
+        position: absolute;
+        left: 140px;
+        top: 72px;
+        width: 110px;
+        height: 80px;
+        border: 0;
+        border-radius: 18px;
+        background: #a7f3d0;
+        color: #142e27;
+        font-size: 17px;
+        font-weight: 700;
+        cursor: grab;
+        user-select: none;
+      }
+      .follower {
+        left: 30px;
+        top: 70px;
+        width: 58px;
+        height: 58px;
+        background: #c4b5fd;
+        pointer-events: none;
+      }
+      .target {
+        position: absolute;
+        left: 30px;
+        top: 70px;
+        width: 58px;
+        height: 58px;
+        border: 1px dashed #8e7db7;
+        border-radius: 18px;
+        pointer-events: none;
+      }
+      .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 14px;
+      }
+      button {
+        background: #313950;
+        color: #fff;
+        border: 1px solid #59627c;
+        border-radius: 8px;
+        padding: 8px 12px;
+        cursor: pointer;
+      }
+      button:focus-visible {
+        outline: 3px solid #fec36c;
+      }
+      #status {
+        min-height: 55px;
+        color: #c9d4f1;
+        font-size: 14px;
+        margin-top: 18px;
+      }
+      .test-target {
+        width: 80px;
+        height: 60px;
+        background: coral;
+        display: block;
+        position: absolute;
+        left: 50px;
+        top: 600px;
+      }
+      @media (max-width: 700px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p>JOLT / EXPERIMENTAL WEB</p>
+      <h1>Continuous input. Finite release.</h1>
+      <p>
+        Move the pointer to steer the follower. Drag the card, release to snap, then catch
+        it again.
+      </p>
+      <div class="grid">
+        <section class="panel">
+          <h2>A spring follows a moving target</h2>
+          <div id="follow-stage" class="stage">
+            <div id="marker" class="target"></div>
+            <div id="follower" class="card follower"></div>
+          </div>
+          <div class="controls">
+            <button id="retarget">Retarget</button
+            ><button id="pause">Pause / resume</button
+            ><button id="reduce">Reduced motion</button>
+          </div>
+        </section>
+        <section class="panel">
+          <h2>Press + drag + spring snap</h2>
+          <div class="stage"><button id="card" class="card">Drag me</button></div>
+          <div class="controls">
+            <button id="enter">Enter</button><button id="grow">Grow base (G)</button
+            ><button id="remove">Remove / mount</button>
+          </div>
+        </section>
+      </div>
+      <div id="status" role="status">
+        Scale starts at 1.1. Hold and press G: the application scale changes while press
+        feedback stays independent.
+      </div>
+    </main>
+    <script type="module" src="/fixture.js"></script>
+  </body>
+</html>

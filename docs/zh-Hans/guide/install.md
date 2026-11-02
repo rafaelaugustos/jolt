@@ -4,6 +4,8 @@
 npm install @rafaelaugusto/jolt@next
 ```
 
+源码还提供[Web 连续动画](./web-dynamic)实验后续版本，包括数值、跟随弹簧和拖动/吸附。该版本尚未发布，已发布的 RC.5 不包含这些方法。
+
 **候选版本 0.1.0-rc.5** 通过 `next` 标签发布。原生 0.1.0 的功能范围已冻结，目前正在验证兼容性并准备正式版。NativeScript 消费者要求 `@nativescript/core` 8.9 或更高版本。Jolt 不依赖特定框架：它接收视图或包含视图的元素，因此可用于 NativeScript-Vue、Angular、Svelte 或纯 NativeScript。NativeScript-Vue 应用还可以从 `@rafaelaugusto/jolt/vue` 导入[指令和过渡组件](./vue)。
 
 Jolt 包含 iOS 和 Android 原生辅助代码。安装或升级 Jolt 后，请重新编译原生应用；仅更新 JavaScript 无法安装原生代码。
