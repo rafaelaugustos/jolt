@@ -1,6 +1,6 @@
 # Mapeos, geometría y scroll Web {#web-support}
 
-**En desarrollo después de RC.6:** [colores, bordes, pintura continua, tamaño real, FLIP y escenas con seek](./web-visual) amplían este runtime. No están en el paquete RC.6 publicado. La paridad completa sigue en [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+**Desde RC.7:** [colores, bordes, pintura continua, tamaño real, FLIP y escenas con seek](./web-visual) amplían este runtime. Las APIs Web siguen experimentales; la paridad completa continúa en [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
 Desde **0.1.0-rc.6**, `@rafaelaugusto/jolt/web` incluye mapeos numéricos, geometría y scroll vertical (#302–#304). Las APIs siguen experimentales. Los contratos nativos y adapters se mantienen; Mavis se integra por separado.
 
@@ -22,7 +22,7 @@ motion.press(card)
 input.set(50) // Escala 1.1; el press predeterminado la multiplica por 0.96.
 ```
 
-`.to(input, output, { clamp: true })` copia 2–1024 pares numéricos finitos. Entradas estrictamente crecientes o decrecientes; no admite puntos repetidos. La salida puede cambiar de dirección. `{ clamp: false }` extrapola los segmentos extremos. No hay colores, callbacks, múltiples entradas ni ciclos. Máximo: 32 niveles de mapeos/followers.
+`.to(input, output, { clamp: true })` copia 2–1024 pares numéricos finitos. Entradas estrictamente crecientes o decrecientes; no admite puntos repetidos. La salida puede cambiar de dirección. `{ clamp: false }` extrapola los segmentos extremos. Callbacks, múltiples entradas y ciclos siguen fuera. RC.7 también admite [mapeos con salida de color](./web-visual#paint). Máximo: 32 niveles de mapeos/followers.
 
 El resultado ofrece `get()`, `getVelocity()`, `subscribe()`, `dispose()` y `.to()`, pero no `set()`. La velocidad multiplica la de origen por la pendiente; los límites con clamp tienen velocidad cero. En un punto interior utiliza la derivada izquierda en orden ascendente. Rechaza intervalos inválidos y overflow. Todos los valores pertenecen al mismo runtime.
 

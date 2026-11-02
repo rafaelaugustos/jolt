@@ -1,6 +1,6 @@
 # Continuous Web motion {#web-dynamic}
 
-**Development after RC.6:** [colors, borders, continuous paint, real size, FLIP and seekable scenes](./web-visual) extend this runtime. They are not included in the published RC.6 package. Full parity remains tracked in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+**Since RC.7:** [colors, borders, continuous paint, real size, FLIP and seekable scenes](./web-visual) extend this runtime. The Web APIs remain experimental; full parity is tracked in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
 Since **0.1.0-rc.6**, `motionValue()`, `bind()`, `springValue()` and `drag()` are available on the document-owned runtime from `@rafaelaugusto/jolt/web`. The Web APIs remain experimental; native entry points and the Vue adapter keep their existing contracts.
 
@@ -28,7 +28,7 @@ motion.dispose()
 
 Values belong to their context. `get()` reads the current number; `getVelocity()` uses units/second. Input `set()` changes the value synchronously, while visual writes coalesce into a frame. Bind numeric x/y/rotation/scale/opacity channels; scale expands to scaleX/scaleY. Cross-context, disposed and nonnumeric inputs fail before replacing existing ownership.
 
-`subscribe(listener)` observes changes after scheduled frame writes and returns an unsubscribe function. It does not emit an initial value. Observers run in JavaScript and have their own cost; they do not convert unrelated finite WAAPI animations to frame callbacks. Numeric mappings and bounded follower chains are available in the [RC.6 Web support](./web-support). Color values and full native/Web API equivalence remain outside this API.
+`subscribe(listener)` observes changes after scheduled frame writes and returns an unsubscribe function. It does not emit an initial value. Observers run in JavaScript and have their own cost; they do not convert unrelated finite WAAPI animations to frame callbacks. Numeric mappings and bounded follower chains are available in the [RC.6 Web support](./web-support). RC.7 adds [color mappings and continuous paint bindings](./web-visual#paint); full native/Web API equivalence remains tracked in #236.
 
 A binding owns only its selected base channels. A later `animate()`, `set()` or `stop()` replaces the matching channels; other bindings and press layers survive. Disposing an obsolete binding cannot restore an old value. Unbinding holds the current value. `release()` restores owned inline styles and cancels target work; detachment does the same automatically. Values can outlive a target: dispose them separately, or dispose the runtime. Disposing an input also disposes its spring followers.
 
@@ -56,7 +56,7 @@ const drag = motion.drag(card, {
 // drag.dispose()
 ```
 
-The first scope is one primary pointer and x/y translation. Coordinates are CSS pixels: the static target baseline must be identity, and ancestors must not have transforms, perspective or CSS zoom. Jolt's own rotation/scale and press remain supported because they compose after translation. Scroll and resize cancel the drag; arbitrary transformed ancestors, pinch and nested-scroll handoff are not supported.
+Drag uses one primary pointer and x/y translation in CSS pixels. The static target baseline must be identity; affecting ancestors must not introduce transforms, perspective or CSS zoom. RC.7 accepts identity ancestor transforms and stops at a real modal/popover top-layer root, whose own geometry still matters; see [overlay geometry](./web-interactions#overlays). Jolt rotation/scale and press compose after translation. Scroll and resize cancel the drag; arbitrary transformed input spaces, pinch and nested-scroll handoff remain unsupported.
 
 Drag claims its translation on pointerdown and uses pointer capture. It temporarily applies `touch-action: pan-y` for x, `pan-x` for y, or `none` for both, restoring the previous inline value on disposal. Nested interactive controls keep their input. Native taps and keyboard activation remain; an actual drag suppresses its generated click. Disabled/inert/busy state, cancellation, lost capture, blur, hiding and detachment stop input without a successful-release snap.
 

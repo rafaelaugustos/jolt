@@ -1,6 +1,6 @@
 # Web 映射、几何与滚动 {#web-support}
 
-**RC.6 之后的开发功能：**[颜色、边框、连续绘制、真实尺寸、FLIP 与可定位场景](./web-visual)扩展此运行时，尚未包含在已发布的 RC.6 包中。完整对等仍由 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 跟踪。
+**自 RC.7 起：**[颜色、边框、连续绘制、真实尺寸、FLIP 与可定位场景](./web-visual)扩展此运行时。Web API 仍为实验性功能；完整对等由 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 跟踪。
 
 自 **0.1.0-rc.6** 起，`@rafaelaugusto/jolt/web` 包含数值映射、几何刷新及垂直滚动（#302–#304）。API 仍为实验性功能，原生与框架适配器合同不变；Mavis 集成另行推进。
 
@@ -22,7 +22,7 @@ motion.press(card)
 input.set(50) // 应用缩放为 1.1；默认按压再乘以 0.96。
 ```
 
-`.to(input, output, { clamp: true })` 复制 2–1024 对有限数值。输入必须严格递增或递减，不允许重复点；输出可以改变方向。默认限制范围，`{ clamp: false }` 使用首尾线段外推。不支持颜色、回调变换、多输入图或循环。映射与跟随器链最多 32 层。
+`.to(input, output, { clamp: true })` 复制 2–1024 对有限数值。输入必须严格递增或递减，不允许重复点；输出可以改变方向。默认限制范围，`{ clamp: false }` 使用首尾线段外推。仍不支持回调变换、多输入图或循环。RC.7 同时支持[颜色输出映射](./web-visual#paint)。映射与跟随器链最多 32 层。
 
 结果提供 `get()`、`getVelocity()`、`subscribe()`、`dispose()` 和 `.to()`，没有 `set()`。速度为源速度乘以线段斜率；启用 clamp 时端点及范围外速度为零。内部节点使用输入升序下的左导数。无效区间和溢出会报错。所有值必须属于同一个 runtime。
 

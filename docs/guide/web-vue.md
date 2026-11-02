@@ -1,8 +1,8 @@
 # Vue Web motion
 
-**Also in development after RC.6:** [resource scopes, pointer/viewport helpers and continuous Vue setup](./web-lifecycle), plus [overlay geometry, shared elements, complete recipes and diagnostics](./web-interactions). These additions are not in the published RC.6 package.
+**Also in RC.7:** [resource scopes, pointer/viewport helpers and continuous Vue setup](./web-lifecycle), plus [overlay geometry, shared elements, complete recipes and diagnostics](./web-interactions). Mavis adoption remains separate.
 
-**Development after RC.6:** [colors, borders, continuous paint, real size, FLIP and seekable scenes](./web-visual) extend this runtime. They are not included in the published RC.6 package. Full parity remains tracked in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+**Since RC.7:** [colors, borders, continuous paint, real size, FLIP and seekable scenes](./web-visual) extend this runtime. The Web APIs remain experimental; full parity is tracked in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
 The experimental `@rafaelaugusto/jolt/web/vue` entry ships in **0.1.0-rc.5** and connects a declared DOM ref to the [Web runtime](./web-runtime). Install Vue 3.5 separately. Native `/vue` retains its NativeScript meaning; the imperative `/web` entry does not install Vue. See [installation](./install#experimental-web-candidate).
 

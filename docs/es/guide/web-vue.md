@@ -1,8 +1,8 @@
 # Movimiento Vue en Web
 
-**También en desarrollo posterior a RC.6:** [ámbitos, puntero/viewport y configuración continua Vue](./web-lifecycle), además de [geometría de overlays, elementos compartidos, recetas y diagnóstico](./web-interactions). Estas adiciones no están en RC.6 publicada.
+**También en RC.7:** [ámbitos, puntero/viewport y configuración continua Vue](./web-lifecycle), además de [geometría de overlays, elementos compartidos, recetas y diagnóstico](./web-interactions). La adopción en Mavis sigue separada.
 
-**En desarrollo después de RC.6:** [colores, bordes, pintura continua, tamaño real, FLIP y escenas con seek](./web-visual) amplían este runtime. No están en el paquete RC.6 publicado. La paridad completa sigue en [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+**Desde RC.7:** [colores, bordes, pintura continua, tamaño real, FLIP y escenas con seek](./web-visual) amplían este runtime. Las APIs Web siguen experimentales; la paridad completa continúa en [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
 La entrada experimental `@rafaelaugusto/jolt/web/vue` se incluye en **0.1.0-rc.5** y conecta una ref DOM declarada al [runtime Web](./web-runtime). Instala Vue 3.5 por separado. `/vue` conserva su significado NativeScript; `/web` imperativo no instala Vue. Consulta la [instalación](./install#experimental-web-candidate).
 

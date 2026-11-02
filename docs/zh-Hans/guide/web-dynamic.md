@@ -1,6 +1,6 @@
 # Web 连续动画 {#web-dynamic}
 
-**RC.6 之后的开发功能：**[颜色、边框、连续绘制、真实尺寸、FLIP 与可定位场景](./web-visual)扩展此运行时，尚未包含在已发布的 RC.6 包中。完整对等仍由 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 跟踪。
+**自 RC.7 起：**[颜色、边框、连续绘制、真实尺寸、FLIP 与可定位场景](./web-visual)扩展此运行时。Web API 仍为实验性功能；完整对等由 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 跟踪。
 
 自 **0.1.0-rc.6** 起，`@rafaelaugusto/jolt/web` 提供 `motionValue()`、`bind()`、`springValue()` 和 `drag()`。Web API 仍为实验性功能；原生入口与 Vue 适配器合同保持不变。
 
@@ -27,7 +27,7 @@ motion.dispose()
 
 数值属于创建它的上下文。`get()` 读取当前值，`getVelocity()` 返回单位/秒。`set()` 同步修改输入，视觉写入合并到帧中。可绑定 x/y、旋转、缩放和透明度；scale 展开为 scaleX/scaleY。其他上下文、已销毁或非数值输入会在替换现有所有权前报错。
 
-`subscribe(listener)` 在计划的帧写入后通知变化，返回取消订阅函数，不自动通知初始值。回调有自己的 JavaScript 成本，不会使无关的 WAAPI 动画变成帧循环。数值映射及有界跟随链见[RC.6 Web 支持](./web-support)。颜色和完整的原生/Web API 对等性仍不在范围内。
+`subscribe(listener)` 在计划的帧写入后通知变化，返回取消订阅函数，不自动通知初始值。回调有自己的 JavaScript 成本，不会使无关的 WAAPI 动画变成帧循环。数值映射及有界跟随链见[RC.6 Web 支持](./web-support)。RC.7 新增[颜色映射与连续绘制绑定](./web-visual#paint)；完整原生/Web API 对等仍由 #236 跟踪。
 
 绑定只拥有指定的基础通道。后续 `animate()`、`set()`、`stop()` 只替换对应通道，其他绑定和 press 图层继续。旧绑定销毁后不能恢复旧值。解除绑定保留当前值；`release()` 恢复仍由库拥有的内联样式并取消目标工作，移出 DOM 也会自动执行。数值可以比目标存活更久，请单独销毁数值或销毁 runtime。销毁输入也会销毁其弹簧跟随者。
 
@@ -52,7 +52,7 @@ const drag = motion.drag(card, {
 })
 ```
 
-初始范围是一个主指针和 x/y 平移，单位为 CSS 像素。目标的静态 CSS 基础变换必须为单位矩阵，祖先不能存在变换、透视或 CSS zoom。Jolt 自己的旋转、缩放和 press 在平移之后合成，因此可以使用。滚动和 resize 会取消拖动；任意变换祖先、双指缩放和嵌套滚动交接暂不支持。
+Drag 使用一个主指针和以 CSS 像素为单位的 x/y 平移。目标静态基础变换必须为单位矩阵；实际影响几何的祖先不能引入变换、透视或 CSS zoom。RC.7 接受恒等祖先变换，并在真正的 modal/popover top layer 根节点结束遍历；根节点自身的几何仍然有效，详见[浮层几何](./web-interactions#overlays)。Jolt 的旋转/缩放与 press 在平移之后合成。scroll/resize 会取消拖动；任意变换输入空间、pinch 和嵌套滚动交接仍不受支持。
 
 拖动在 pointerdown 时接管平移并捕获指针。x 轴临时设置 `touch-action: pan-y`，y 轴设置 `pan-x`，双轴设置 `none`，销毁时恢复先前的内联值。内部交互控件保留自己的输入。点击和键盘激活保持有效；实际拖动会抑制它产生的点击。Disabled/inert/busy、取消、丢失捕获/焦点、隐藏和卸载会取消输入，不执行成功释放的吸附。
 

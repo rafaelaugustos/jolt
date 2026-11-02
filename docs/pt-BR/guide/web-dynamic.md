@@ -1,6 +1,6 @@
 # Movimento contínuo na Web {#web-dynamic}
 
-**Em desenvolvimento após a RC.6:** [cores, bordas, pintura contínua, tamanho real, FLIP e cenas com seek](./web-visual) ampliam este runtime. Ainda não fazem parte do pacote RC.6 publicado. A paridade completa continua na [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+**Desde a RC.7:** [cores, bordas, pintura contínua, tamanho real, FLIP e cenas com seek](./web-visual) ampliam este runtime. As APIs Web continuam experimentais; a paridade completa segue na [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
 Desde a **0.1.0-rc.6**, `motionValue()`, `bind()`, `springValue()` e `drag()` estão disponíveis no runtime de `@rafaelaugusto/jolt/web`. As APIs Web continuam experimentais; entradas nativas e adapter Vue mantêm seus contratos.
 
@@ -27,7 +27,7 @@ motion.dispose()
 
 Os valores pertencem ao contexto. `get()` lê o número atual; `getVelocity()` usa unidades/segundo. `set()` altera a entrada imediatamente, enquanto as escritas visuais são agrupadas no próximo frame. Bindings aceitam x/y/rotação/escala/opacidade; scale se expande em scaleX/scaleY. Valores de outro contexto, descartados ou não numéricos são rejeitados antes de substituir o controle existente.
 
-`subscribe(listener)` observa mudanças depois das escritas agendadas e devolve uma função para cancelar a assinatura. Não emite o valor inicial. Callbacks executam JavaScript e têm custo próprio, sem converter animações WAAPI independentes em loops. Mapeamentos numéricos e cadeias limitadas de followers estão no [suporte Web da RC.6](./web-support). Cores e paridade completa com a API nativa permanecem fora.
+`subscribe(listener)` observa mudanças depois das escritas agendadas e devolve uma função para cancelar a assinatura. Não emite o valor inicial. Callbacks executam JavaScript e têm custo próprio, sem converter animações WAAPI independentes em loops. Mapeamentos numéricos e cadeias limitadas de followers estão no [suporte Web da RC.6](./web-support). A RC.7 adiciona [mapeamentos de cor e bindings contínuos de pintura](./web-visual#paint); a paridade completa com a API nativa continua na #236.
 
 Cada binding controla apenas seus canais de base. `animate()`, `set()` e `stop()` posteriores substituem os canais correspondentes; os demais bindings e layers de press continuam. Descartar um binding antigo não restaura valores antigos. Desvincular mantém o valor atual. `release()` restaura os estilos inline ainda controlados e cancela o trabalho do elemento; a remoção do DOM faz isso automaticamente. Valores podem sobreviver ao elemento: descarte-os separadamente ou descarte o runtime. Descartar uma entrada também descarta seus followers.
 
@@ -52,7 +52,7 @@ const drag = motion.drag(card, {
 })
 ```
 
-O escopo inicial é um ponteiro primário e translação x/y, em pixels CSS. O transform CSS de base precisa ser identidade; ancestrais não podem ter transforms, perspectiva ou zoom CSS. Rotação/escala do próprio Jolt e press são permitidos porque entram depois da translação. Scroll e resize cancelam o drag. Ancestrais transformados arbitrários, pinch e transferência entre scrolls aninhados ficam fora deste escopo.
+Drag usa um ponteiro primário e translação x/y em pixels CSS. O transform estático do alvo deve ser identidade; ancestrais que afetam a geometria não podem introduzir transforms, perspectiva ou zoom CSS. A RC.7 aceita transforms identidade e encerra a caminhada na raiz real de modal/popover da top layer, cuja própria geometria continua relevante; veja [geometria de overlays](./web-interactions#overlays). Rotação/escala do Jolt e press entram depois da translação. Scroll e resize cancelam o drag; espaços arbitrariamente transformados, pinch e handoff de scroll aninhado continuam fora.
 
 O drag assume a translação no pointerdown e captura o ponteiro. Aplica temporariamente `touch-action: pan-y` no eixo x, `pan-x` no y ou `none` nos dois, restaurando o valor inline anterior no descarte. Controles interativos internos mantêm seus eventos. Toques e ativação por teclado continuam; um arrasto suprime apenas seu clique resultante. Disabled/inert/busy, cancelamento, perda de captura/foco, documento oculto e remoção cancelam a entrada sem executar snap de sucesso.
 

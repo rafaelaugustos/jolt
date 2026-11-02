@@ -1,8 +1,8 @@
 # Vue Web 动画
 
-**同样属于 RC.6 之后的开发内容：**[作用域、指针/视口与 Vue 持续配置](./web-lifecycle)，以及[浮层几何、共享元素、完整示例与诊断](./web-interactions)。这些新增能力尚未包含在已发布的 RC.6 中。
+**RC.7 同时提供：**[作用域、指针/视口与 Vue 持续配置](./web-lifecycle)，以及[浮层几何、共享元素、完整示例与诊断](./web-interactions)。Mavis 集成另行推进。
 
-**RC.6 之后的开发功能：**[颜色、边框、连续绘制、真实尺寸、FLIP 与可定位场景](./web-visual)扩展此运行时，尚未包含在已发布的 RC.6 包中。完整对等仍由 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 跟踪。
+**自 RC.7 起：**[颜色、边框、连续绘制、真实尺寸、FLIP 与可定位场景](./web-visual)扩展此运行时。Web API 仍为实验性功能；完整对等由 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 跟踪。
 
 实验性 `@rafaelaugusto/jolt/web/vue` 入口已包含在 **0.1.0-rc.5** 中，将声明的 DOM ref 连接到 [Web 运行时](./web-runtime)。请单独安装 Vue 3.5。原生 `/vue` 仍表示 NativeScript 集成；命令式 `/web` 不会安装 Vue。参见[安装](./install#experimental-web-candidate)。
 

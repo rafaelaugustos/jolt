@@ -1,6 +1,6 @@
 # Mapeamentos, geometria e scroll na Web {#web-support}
 
-**Em desenvolvimento após a RC.6:** [cores, bordas, pintura contínua, tamanho real, FLIP e cenas com seek](./web-visual) ampliam este runtime. Ainda não fazem parte do pacote RC.6 publicado. A paridade completa continua na [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+**Desde a RC.7:** [cores, bordas, pintura contínua, tamanho real, FLIP e cenas com seek](./web-visual) ampliam este runtime. As APIs Web continuam experimentais; a paridade completa segue na [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
 Desde a **0.1.0-rc.6**, `@rafaelaugusto/jolt/web` inclui mapeamentos numéricos, atualização de geometria e scroll vertical (#302–#304). As APIs continuam experimentais. APIs nativas e adapters mantêm seus contratos; a adoção pelo Mavis é separada.
 
@@ -22,7 +22,7 @@ motion.press(card)
 input.set(50) // Escala da aplicação 1.1; o press padrão multiplica por 0.96.
 ```
 
-`.to(input, output, { clamp: true })` aceita 2–1024 pares numéricos finitos. A entrada deve ser estritamente crescente ou decrescente, sem pontos duplicados. A saída pode mudar de direção. Clamp é o padrão; `{ clamp: false }` extrapola os segmentos das extremidades. A configuração é copiada. Não há transformações por callback, cores, grafos com múltiplas entradas ou ciclos. Uma cadeia admite até 32 níveis de mapeamentos/followers.
+`.to(input, output, { clamp: true })` aceita 2–1024 pares numéricos finitos. A entrada deve ser estritamente crescente ou decrescente, sem pontos duplicados. A saída pode mudar de direção. Clamp é o padrão; `{ clamp: false }` extrapola os segmentos das extremidades. A configuração é copiada. Transformações por callback, grafos com múltiplas entradas e ciclos permanecem fora. A RC.7 também aceita [mapeamentos com saída de cor](./web-visual#paint). Uma cadeia admite até 32 níveis de mapeamentos/followers.
 
 Mapeamentos oferecem `get()`, `getVelocity()`, `subscribe()`, `dispose()` e outro `.to()`, mas não `set()`. A velocidade multiplica a velocidade da origem pela inclinação do segmento. Com clamp, extremidades e valores externos têm velocidade zero; nos pontos internos usa-se a derivada à esquerda na ordem crescente da entrada. Intervalos inválidos e overflow são rejeitados. Todos os valores pertencem ao mesmo runtime.
 

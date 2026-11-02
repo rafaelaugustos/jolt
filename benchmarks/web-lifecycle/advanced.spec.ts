@@ -260,9 +260,10 @@ test('shared reversal captures the currently presented copies and old cleanup st
   await expand(page)
   await expect(page.locator('[data-jolt-shared-copy]')).toHaveCount(2)
   await page.waitForTimeout(150)
-  const { before, after } = await page.evaluate(() => {
-    // Read and interrupt in one browser task: RPC latency must not advance the
-    // reference pose by another presented frame on a loaded CI runner.
+  const { before, after } = await page.evaluate(async () => {
+    // Sample during a rendering update so both reads use that frame's timeline
+    // time. WebKit can advance WAAPI between style reads in an ordinary task.
+    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
     const box = document.querySelector('[data-jolt-shared-copy]')!.getBoundingClientRect()
     const before = { x: box.x, y: box.y, width: box.width }
     const l = lifecycleLab

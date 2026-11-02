@@ -1,6 +1,6 @@
 # Ciclo de vida e interacción Web
 
-**Desarrollo posterior a RC.6; no incluido en esa versión publicada.** Las issues #314–#317 añaden ámbitos hijos, seguimiento del puntero, entrada en viewport y configuración continua en Vue al runtime experimental `/web`. Reutilizan valores, springs, reproducción y scheduler. [Overlays, elementos compartidos y recetas](./web-interactions) usan la misma propiedad de recursos.
+**Disponible desde 0.1.0-rc.7.** Las issues #314–#317 añaden ámbitos hijos, seguimiento del puntero, entrada en viewport y configuración continua en Vue al runtime experimental `/web`. Reutilizan valores, springs, reproducción y scheduler. [Overlays, elementos compartidos y recetas](./web-interactions) usan la misma propiedad de recursos.
 
 ## Recursos de una interacción {#scopes}
 

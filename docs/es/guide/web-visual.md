@@ -1,6 +1,6 @@
 # Colores, layout y escenas Web
 
-**Candidato en desarrollo posterior a RC.6**, seguido en #308–#313. Estas funciones no están en el paquete RC.6 publicado. Amplían `/web` experimental sin depender de un framework o NativeScript. La [paridad funcional completa](https://github.com/rafaelaugustos/jolt/issues/236) sigue siendo el objetivo general; este lote no cubre todas las APIs nativas.
+**Disponible desde 0.1.0-rc.7**, entregado en #308–#313. Estas funciones amplían `/web` experimental sin depender de un framework o NativeScript. La [paridad funcional completa](https://github.com/rafaelaugustos/jolt/issues/236) sigue siendo el objetivo general; esta versión no cubre todas las APIs nativas.
 
 ## Colores, bordes y bindings continuos {#paint}
 
