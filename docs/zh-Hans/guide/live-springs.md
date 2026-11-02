@@ -28,7 +28,7 @@ scope.dispose()
 
 源可以是动画值、数字映射或另一个弹簧值。 `animate(pointer, ...)` 在播放边界发送采样的源轨道，因此跟随者也可以遵循原生时间线。数字 `to()` 映射，包括降序范围、重复停止和外推，针对跟随者链和绑定原生执行。
 
-将结果绑定到 `x`、`y`、`scale`、`scaleX`、`scaleY`、`rotate`、`rotateX`、`rotateY` 或 `opacity`。稳定版尚不支持绘制和复合适配器；[开发版扩展](#live-paint) 增加背景颜色和统一半径。 spring 值是只读的：更新其源，而不是将 follower 传递给 `animate()` 或 `set()`。
+将结果绑定到 `x`、`y`、`scale`、`scaleX`、`scaleY`、`rotate`、`rotateX`、`rotateY` 或 `opacity`。稳定版尚不支持绘制和复合适配器；[RC.6 扩展](#live-paint) 增加背景颜色和统一半径。 spring 值是只读的：更新其源，而不是将 follower 传递给 `animate()` 或 `set()`。
 
 命名变换和不透明层仍然与绑定基础组合：
 
@@ -53,9 +53,9 @@ animate(card, { x: [0, -12, 12, 0] }, { layer: 'feedback', duration: 500 })
 
 演示的触摸事件当前更新来自 JavaScript 的源。对于原生手势输入和滚动切换，请使用可选的 [手势API](./gestures)； `springValue()` 并不使手势识别器本身成为原生。 C 和 Java spring 内核具有匹配的轨迹测试，包括 60/120 Hz 时间步划分和延迟帧。这些测试不会取代真机上的性能测量。
 
-## 开发版：实时颜色与圆角 {#live-paint}
+## RC.6：实时颜色与圆角 {#live-paint}
 
-下一原生版本增加 `backgroundColor` 和统一 `borderRadius` 绑定。升级后需要重新编译应用。
+**0.1.0-rc.6**增加 `backgroundColor` 和统一 `borderRadius` 绑定。升级后需要重新编译应用。
 
 ```ts
 const target = motionValue(0)

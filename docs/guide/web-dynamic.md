@@ -1,5 +1,7 @@
 # Continuous Web motion {#web-dynamic}
 
+**Development after RC.6:** [colors, borders, continuous paint, real size, FLIP and seekable scenes](./web-visual) extend this runtime. They are not included in the published RC.6 package. Full parity remains tracked in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+
 Since **0.1.0-rc.6**, `motionValue()`, `bind()`, `springValue()` and `drag()` are available on the document-owned runtime from `@rafaelaugusto/jolt/web`. The Web APIs remain experimental; native entry points and the Vue adapter keep their existing contracts.
 
 <Clip name="web-dynamic-chromium" caption="Chromium 156 desktop, original speed: real pointer and keyboard input steers a follower, retargets application scale while pressed, drags and catches a returning snap, removes/remounts the card and changes pause/reduced motion. Browser recording, not native or physical-device performance evidence." />

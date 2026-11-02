@@ -1,8 +1,17 @@
 import { sampleCurve } from '../core/sampling.js'
 import { sampled, type Point } from './curve.js'
 import { identity, multiplicative, properties, type Property } from './types.js'
+import {
+  isColor,
+  isRadius,
+  isTransform,
+  colorCSS,
+  cssName,
+  radiusProperties,
+  type TransformProperty,
+} from './properties.js'
 
-export type Pose = Record<Property, number>
+export type Pose = Record<TransformProperty, number> & Partial<Record<Property, number>>
 export interface Contribution {
   property: Property
   points: readonly Point[]
@@ -31,7 +40,9 @@ export function poseAt(
 ): Pose {
   const pose: Pose = { x: 0, y: 0, rotate: 0, scaleX: 1, scaleY: 1, opacity: 1 }
   const add = (property: Property, value: number) => {
-    if (multiplicative(property)) pose[property] *= value
+    if (!isTransform(property))
+      pose[property] = isColor(property) ? value : Math.max(0, value)
+    else if (multiplicative(property)) pose[property] *= value
     else pose[property] += value
   }
   for (const held of rest) add(held.property, held.value)
@@ -42,6 +53,7 @@ export function poseAt(
         entry.points,
         entry.time + (entry.paused ? 0 : future),
         entry.paused ? 'right' : side,
+        entry.property,
       ),
     )
   pose.opacity = clamp(pose.opacity)
@@ -51,9 +63,22 @@ export function poseAt(
 }
 
 export function formatPose(p: Pose, baseline: string) {
+  const paint: Record<string, string> = {}
+  for (const [name, value] of Object.entries(p)) {
+    const property = name as Property
+    if (value === undefined || isTransform(property) || isRadius(property)) continue
+    paint[cssName(property)] = isColor(property) ? colorCSS(value) : `${value}px`
+  }
+  for (const radius of radiusProperties) {
+    const x = p[`${radius}X`],
+      y = p[`${radius}Y`]
+    if (x !== undefined || y !== undefined)
+      paint[cssName(radius)] = `${x ?? 0}px ${y ?? x ?? 0}px`
+  }
   return {
     transform: `${baseline} translate(${p.x}px, ${p.y}px) rotate(${p.rotate}deg) scale(${p.scaleX}, ${p.scaleY})`,
     opacity: String(p.opacity),
+    paint,
   }
 }
 
@@ -75,6 +100,13 @@ export function compose(
       offset: duration ? t / duration : 0,
       transform: transform(p),
       opacity: p.opacity,
+      // WAAPI dictionaries use IDL (camelCase) names, unlike style.setProperty.
+      ...Object.fromEntries(
+        Object.entries(formatPose(p, baseline).paint).map(([name, value]) => [
+          name.replace(/-([a-z])/g, (_, letter: string) => letter.toUpperCase()),
+          value,
+        ]),
+      ),
     }
   }
   const final = poseAt(entries, rest, duration)
@@ -84,6 +116,7 @@ export function compose(
       frames: [] as Keyframe[],
       transform: transform(final),
       opacity: String(final.opacity),
+      paint: formatPose(final, baseline).paint,
     }
   const knots = [
     ...new Set([
@@ -159,7 +192,7 @@ export function compose(
         duration: length,
         position: product,
         errorBound: bound,
-        tolerance: tolerance[property],
+        tolerance: tolerance[property]!,
         ...(property === 'opacity' && { projection: { apply: clamp, breaks: [0, 1] } }),
       })
       if (result.sampling.method !== 'adaptive')
@@ -170,10 +203,9 @@ export function compose(
       frames.push(frame(start + length * offset, offset === 1 ? 'left' : 'right'))
     const right = frame(end, 'right'),
       left = frames.at(-1)!
-    if (right.transform !== left.transform || right.opacity !== left.opacity)
-      frames.push(right)
+    if (JSON.stringify(right) !== JSON.stringify(left)) frames.push(right)
     if (frames.length > maxKeyframes)
       throw new RangeError('Composition keyframe budget exceeded.')
   }
-  return { duration, frames, transform: transform(final), opacity: String(final.opacity) }
+  return { duration, frames, ...formatPose(final, baseline) }
 }

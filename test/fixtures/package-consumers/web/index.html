@@ -13,5 +13,13 @@
     Drag
   </div>
   <output id="dynamic-result"></output>
+  <button id="visual">Paint, size, layout and scene</button>
+  <div id="visual-group" style="display: flex; gap: 10px">
+    <div style="width: 100px; height: 80px; border: 0 solid; flex: none">
+      Text reflows as the real width and intrinsic height change.
+    </div>
+    <div style="width: 100px; height: 80px; flex: none">Neighbor</div>
+  </div>
+  <output id="visual-result"></output>
   <script type="module" src="/browser.ts"></script>
 </html>

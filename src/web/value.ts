@@ -1,5 +1,7 @@
 import type { FrameScheduler, FrameTask } from './scheduler.js'
 import { numericMap, type NumericMapOptions } from '../core/numeric-map.js'
+import { colorMixer } from '../core/color.js'
+import { colorCSS, type KeyframeProperty, type ColorProperty } from './properties.js'
 export type { NumericMapOptions as WebMapOptions } from '../core/numeric-map.js'
 
 export interface WebReadableValue {
@@ -8,6 +10,11 @@ export interface WebReadableValue {
     output: readonly number[],
     options?: NumericMapOptions,
   ): WebReadableValue
+  to(
+    input: readonly number[],
+    output: readonly string[],
+    options?: NumericMapOptions,
+  ): WebColorValue
   get(): number
   /** Units per second. A stopped/disposed value reports zero. */
   getVelocity(): number
@@ -23,11 +30,18 @@ export interface WebMotionValue extends WebReadableValue {
 export interface WebBinding {
   dispose(): void
 }
+export interface WebColorValue {
+  readonly type: 'color'
+  get(): string
+  /** Colors have no scalar velocity; apply springValue before the color mapping. */
+  getVelocity(): number
+  subscribe(listener: (value: string) => void): () => void
+  readonly disposed: boolean
+  dispose(): void
+}
 export type WebBindings = Partial<
-  Record<
-    'x' | 'y' | 'rotate' | 'scale' | 'scaleX' | 'scaleY' | 'opacity',
-    WebReadableValue
-  >
+  Record<ColorProperty | 'borderColor', WebColorValue> &
+    Record<Exclude<KeyframeProperty, ColorProperty | 'borderColor'>, WebReadableValue>
 >
 
 export function finite(value: number, name = 'value') {
@@ -38,6 +52,7 @@ export function finite(value: number, name = 'value') {
 
 /** Internal node, never returned directly from the public facade. */
 export class NumericValue {
+  readonly kind: 'number' | 'color' = 'number'
   protected position: number
   protected speed = 0
   protected time: number
@@ -46,6 +61,7 @@ export class NumericValue {
   private endings = new Set<() => void>()
   private observers = new Set<(value: number) => void>()
   private notified: number
+  private writer?: () => void
   private notify: FrameTask = {
     write: () => {
       const value = this.get()
@@ -95,10 +111,24 @@ export class NumericValue {
   set(value: number) {
     this.assert()
     finite(value)
+    this.writer?.()
     const at = this.scheduler.now()
     const elapsed = at - this.time
     const velocity = elapsed > 0 ? ((value - this.position) * 1000) / elapsed : this.speed
     this.time = at
+    this.publish(value, velocity)
+  }
+  claimWriter(cancel: () => void) {
+    this.assert()
+    this.writer?.()
+    this.writer = cancel
+  }
+  releaseWriter(cancel: () => void) {
+    if (this.writer === cancel) this.writer = undefined
+  }
+  writeSample(value: number, velocity: number) {
+    this.assert()
+    this.time = this.scheduler.now()
     this.publish(value, velocity)
   }
   protected publish(value: number, velocity: number) {
@@ -143,6 +173,8 @@ export class NumericValue {
   }
   dispose() {
     if (this.ended) return
+    this.writer?.()
+    this.writer = undefined
     this.ended = true
     this.speed = 0
     this.scheduler.remove(this.notify)
@@ -168,6 +200,88 @@ export class NumericValue {
     return Object.assign(this.readableHandle(), {
       set: (value: number) => this.set(value),
     })
+  }
+}
+
+/** A numeric driver mapped through the same premultiplied OKLab mixer as native. */
+export class ColorMappedNode extends NumericValue {
+  override readonly kind = 'color'
+  private unsubscribe?: () => void
+  private readonly stopEnding: () => void
+  private readonly map: ReturnType<typeof numericMap>
+  private readonly mixes: ((p: number) => number)[]
+  constructor(
+    private source: NumericValue,
+    input: readonly number[],
+    colors: readonly number[],
+    options: NumericMapOptions | undefined,
+    report: (error: unknown) => void,
+    forget: () => void,
+  ) {
+    if (source.disposed || source.kind !== 'number' || source.depth >= 32)
+      throw new TypeError(
+        'Color mappings require a live numeric source within the graph depth budget.',
+      )
+    const map = numericMap(
+      input,
+      colors.map((_, i) => i),
+      options,
+    )
+    const mixes = colors.slice(1).map((color, i) => colorMixer(colors[i]!, color))
+    const at = Math.max(0, Math.min(colors.length - 1, map.sample(source.get()).value))
+    const index = Math.min(mixes.length - 1, Math.floor(at))
+    super(source.scheduler, mixes[index]!(at - index), report, forget)
+    this.map = map
+    this.mixes = mixes
+    this.stopEnding = source.onDispose(() => this.dispose())
+  }
+  override get depth() {
+    return this.source.depth + 1
+  }
+  override get moving() {
+    return !this.ended && this.source.moving
+  }
+  override get() {
+    if (this.ended) return this.position
+    const at = Math.max(
+      0,
+      Math.min(this.mixes.length, this.map.sample(this.source.get()).value),
+    )
+    const index = Math.min(this.mixes.length - 1, Math.floor(at))
+    return this.mixes[index]!(at - index)
+  }
+  override getVelocity() {
+    return 0
+  }
+  protected override demandChanged() {
+    if (this.ended) return
+    if (this.demanded && !this.unsubscribe)
+      this.unsubscribe = this.source.listen(() => this.publish(this.get(), 0))
+    else if (!this.demanded) {
+      this.unsubscribe?.()
+      this.unsubscribe = undefined
+    }
+  }
+  colorHandle(): WebColorValue {
+    const node = this
+    return {
+      type: 'color',
+      get: () => colorCSS(node.get()),
+      getVelocity: () => 0,
+      subscribe: (listener) => node.subscribe((value) => listener(colorCSS(value))),
+      get disposed() {
+        return node.disposed
+      },
+      dispose: () => node.dispose(),
+    }
+  }
+  override dispose() {
+    if (this.ended) return
+    this.position = this.get()
+    this.unsubscribe?.()
+    this.stopEnding()
+    super.dispose()
+    this.source = undefined!
   }
 }
 

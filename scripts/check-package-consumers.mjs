@@ -230,6 +230,8 @@ try {
     assert.equal(result.opacity, 1)
     assert.deepEqual(result.methods, [
       'animate',
+      'animateLayout',
+      'animateSize',
       'bind',
       'configure',
       'definePreset',
@@ -242,6 +244,7 @@ try {
       'release',
       'scrollLinked',
       'scrollValue',
+      'seekableTimeline',
       'set',
       'springValue',
       'stop',
@@ -292,6 +295,20 @@ try {
     await page.waitForFunction(
       () => document.getElementById('dynamic-result')?.textContent === 'disposed',
     )
+    await page.click('#visual')
+    await page.waitForFunction(() =>
+      document.getElementById('visual-result')?.textContent?.startsWith('{'),
+    )
+    const visual = JSON.parse(await page.locator('#visual-result').textContent())
+    assert.deepEqual(visual, {
+      completed: true,
+      sized: true,
+      layout: true,
+      color: 'rgb(0, 0, 255)',
+      radius: '24px 12px',
+      width: '180px',
+      value: 1,
+    })
     assert.deepEqual(errors, [])
   }
   const dev = await createServer({

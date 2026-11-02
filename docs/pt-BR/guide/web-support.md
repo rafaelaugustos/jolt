@@ -1,5 +1,7 @@
 # Mapeamentos, geometria e scroll na Web {#web-support}
 
+**Em desenvolvimento após a RC.6:** [cores, bordas, pintura contínua, tamanho real, FLIP e cenas com seek](./web-visual) ampliam este runtime. Ainda não fazem parte do pacote RC.6 publicado. A paridade completa continua na [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+
 Desde a **0.1.0-rc.6**, `@rafaelaugusto/jolt/web` inclui mapeamentos numéricos, atualização de geometria e scroll vertical (#302–#304). As APIs continuam experimentais. APIs nativas e adapters mantêm seus contratos; a adoção pelo Mavis é separada.
 
 <Clip name="web-support-chromium" caption="Chromium desktop, interface em inglês, velocidade original: slider, teclado, press e roda reais demonstram mapeamentos numéricos, mudança do tamanho do rótulo sem reiniciar o movimento, reversão do scroll e descarte. Gravação do navegador; não mede desempenho físico ou do compositor." />

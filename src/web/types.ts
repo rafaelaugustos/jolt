@@ -1,11 +1,17 @@
 import type { Spring, Tween, SpringName } from '../core/transition.js'
 import type { PlaybackAnimation } from '../core/playback.js'
 
-export type Property = 'x' | 'y' | 'rotate' | 'scaleX' | 'scaleY' | 'opacity'
-export type KeyframeProperty = Property | 'scale'
-export type KeyframeValue = number | readonly (number | null)[]
+import {
+  properties,
+  type Property,
+  type KeyframeProperty,
+  type Scalar,
+} from './properties.js'
+export { properties }
+export type { Property, KeyframeProperty, Scalar } from './properties.js'
+export type KeyframeValue = Scalar | readonly (Scalar | null)[]
 export type Keyframes = Partial<Record<KeyframeProperty, KeyframeValue>>
-export type Values = Partial<Record<KeyframeProperty, number>>
+export type Values = Partial<Record<KeyframeProperty, Scalar>>
 export type Transition = Tween | Spring
 export type Stagger = { each: number; from?: 'first' | 'last' | 'center' | number }
 export type AnimateOptions = Transition &
@@ -30,16 +36,12 @@ export interface RuntimeOptions extends WebConfig {
 }
 export type { PlaybackAnimation, SpringName }
 
-export const properties: readonly Property[] = [
-  'x',
-  'y',
-  'rotate',
-  'scaleX',
-  'scaleY',
-  'opacity',
-]
 export const multiplicative = (property: Property) =>
   property === 'opacity' || property.startsWith('scale')
 export const identity = (property: Property) => (multiplicative(property) ? 1 : 0)
 export const keyOf = (property: Property, layer?: string) =>
   JSON.stringify([property, layer ?? null])
+
+export type DistributiveOmit<T, K extends PropertyKey> = T extends unknown
+  ? Omit<T, K>
+  : never

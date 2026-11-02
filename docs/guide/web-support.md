@@ -1,5 +1,7 @@
 # Web mappings, geometry and scroll {#web-support}
 
+**Development after RC.6:** [colors, borders, continuous paint, real size, FLIP and seekable scenes](./web-visual) extend this runtime. They are not included in the published RC.6 package. Full parity remains tracked in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+
 Since **0.1.0-rc.6**, `@rafaelaugusto/jolt/web` includes numeric mappings, geometry refresh and vertical scroll (#302–#304). The APIs remain experimental. Native APIs and framework adapters keep their existing contracts; Mavis adoption is separate.
 
 <Clip name="web-support-chromium" caption="Chromium desktop, English UI, original speed: real slider, keyboard, press and wheel input demonstrates numeric mappings, a resized label without resetting motion, scroll reversal and disposal. Browser recording; no physical-device or compositor performance claim." />

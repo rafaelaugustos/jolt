@@ -1,5 +1,7 @@
 # Web 连续动画 {#web-dynamic}
 
+**RC.6 之后的开发功能：**[颜色、边框、连续绘制、真实尺寸、FLIP 与可定位场景](./web-visual)扩展此运行时，尚未包含在已发布的 RC.6 包中。完整对等仍由 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 跟踪。
+
 自 **0.1.0-rc.6** 起，`@rafaelaugusto/jolt/web` 提供 `motionValue()`、`bind()`、`springValue()` 和 `drag()`。Web API 仍为实验性功能；原生入口与 Vue 适配器合同保持不变。
 
 <Clip name="web-dynamic-chromium" caption="Chromium 156 桌面浏览器，原速：真实指针和键盘输入控制跟随弹簧、按压期间的应用缩放、拖动与重新捕获吸附、卸载/重建及暂停/减少动态效果。浏览器录像，不是原生或真机性能证据。" />

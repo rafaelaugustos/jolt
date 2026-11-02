@@ -77,6 +77,15 @@ export async function checkVue({
         ) < 0.001,
     )
     await page.mouse.up()
+    await page.click('#visual')
+    await page.waitForFunction(
+      () => document.querySelector('#visual-status').textContent === 'true',
+    )
+    assert.equal(
+      await card.evaluate((el) => getComputedStyle(el).backgroundColor),
+      'rgb(0, 255, 0)',
+    )
+    assert.equal(await card.evaluate((el) => el.style.width), '220px')
     await page.click('#toggle')
     assert.equal(await card.count(), 1)
     await page.waitForFunction(

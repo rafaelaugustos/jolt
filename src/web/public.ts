@@ -30,6 +30,13 @@ export type {
   WebScrollLink,
 } from './scroll.js'
 import { createWebRuntime as createInternalRuntime } from './runtime.js'
+import type { WebSizeAnimation, WebSizeOptions, WebSizeValues } from './size.js'
+export type { WebSizeAnimation, WebSizeOptions, WebSizeValues } from './size.js'
+export type { WebColorValue } from './value.js'
+import type { WebLayoutOptions } from './layout.js'
+export type { WebLayoutOptions } from './layout.js'
+import type { WebSeekableStep, WebSceneOptions } from './scene.js'
+export type { WebSeekableStep, WebSceneOptions } from './scene.js'
 import type { WebPress, WebPressOptions } from './press.js'
 export type { WebPress, WebPressOptions, WebPressState } from './press.js'
 import type {
@@ -66,6 +73,21 @@ export interface WebAnimation extends PlaybackAnimation {
 
 /** Experimental DOM context; platform/framework adapters are not public APIs. */
 export interface WebRuntime {
+  seekableTimeline(
+    steps: readonly WebSeekableStep[],
+    options?: WebSceneOptions,
+  ): WebAnimation
+  animateLayout(
+    container: HTMLElement,
+    changeOrOptions?: (() => void) | WebLayoutOptions | SpringName,
+    options?: WebLayoutOptions | SpringName,
+  ): import('../core/playback.js').Animation
+  animateSize(
+    target: HTMLElement,
+    values: WebSizeValues,
+    changeOrOptions?: (() => void) | WebSizeOptions | SpringName,
+    options?: WebSizeOptions | SpringName,
+  ): WebSizeAnimation
   scrollValue(source?: WebScrollSource): WebScrollValue
   scrollLinked(
     source: WebScrollSource,
@@ -90,7 +112,7 @@ export interface WebRuntime {
   press(target: HTMLElement, values?: Values, options?: WebPressOptions): WebPress
   stop(
     target: HTMLElement | readonly HTMLElement[],
-    properties?: readonly (Property | 'scale')[],
+    properties?: readonly import('./types.js').KeyframeProperty[],
     options?: { layer?: string },
   ): void
   configure(options: WebConfig): void
@@ -108,6 +130,9 @@ export function createWebRuntime(
   // Keep diagnostics, ownership internals and driver implementation off the
   // package API, including at runtime rather than only in the declarations.
   return {
+    animateSize: runtime.animateSize.bind(runtime),
+    animateLayout: runtime.animateLayout.bind(runtime),
+    seekableTimeline: runtime.seekableTimeline.bind(runtime),
     scrollValue: runtime.scrollValue.bind(runtime),
     scrollLinked: runtime.scrollLinked.bind(runtime),
     refresh: runtime.refresh.bind(runtime),

@@ -1,5 +1,7 @@
 # Vue Web motion
 
+**Development after RC.6:** [colors, borders, continuous paint, real size, FLIP and seekable scenes](./web-visual) extend this runtime. They are not included in the published RC.6 package. Full parity remains tracked in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+
 The experimental `@rafaelaugusto/jolt/web/vue` entry ships in **0.1.0-rc.5** and connects a declared DOM ref to the [Web runtime](./web-runtime). Install Vue 3.5 separately. Native `/vue` retains its NativeScript meaning; the imperative `/web` entry does not install Vue. See [installation](./install#experimental-web-candidate).
 
 <Clip name="web-vue-chromium" :width="720" caption="Chromium 156 on macOS arm64: real pointer and keyboard input reverses a leave, presses the card, retargets application scale while held, replaces the surface and completes hide/show. Original-speed browser capture; not physical-device performance evidence." />

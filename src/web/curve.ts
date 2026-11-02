@@ -1,4 +1,5 @@
 import type { Track } from '../core/track.js'
+import { mixValue, type Property } from './properties.js'
 
 export interface Point {
   time: number
@@ -33,6 +34,7 @@ export function sampled(
   points: readonly Point[],
   time: number,
   side: 'left' | 'right' = 'right',
+  property?: Property,
 ) {
   let lo = 0,
     hi = points.length
@@ -46,5 +48,8 @@ export function sampled(
   if (lo === points.length) return points.at(-1)!.value
   const a = points[lo - 1]!,
     b = points[lo]!
-  return a.value + (b.value - a.value) * ((time - a.time) / (b.time - a.time))
+  const p = (time - a.time) / (b.time - a.time)
+  return property
+    ? mixValue(property, a.value, b.value, p)
+    : a.value + (b.value - a.value) * p
 }
