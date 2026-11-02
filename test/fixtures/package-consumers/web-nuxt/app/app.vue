@@ -66,6 +66,10 @@ button {
   padding: 12px;
   cursor: pointer;
 }
+/* Async content changes page height. This opacity-only transition keeps a fixed pivot. */
+main {
+  transform-origin: 0 0;
+}
 .page {
   display: grid;
   gap: 18px;

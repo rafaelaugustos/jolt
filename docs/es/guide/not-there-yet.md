@@ -1,10 +1,12 @@
 # Estado de la versión y límites {#not-there-yet}
 
+**Novedades de RC.8:** [orquestación Web y trazado SVG](./web-orchestration), [montaje Vue/Nuxt, identidad de elementos y scroll horizontal](./web-collections) y [reanudación del reemplazo nativo pausado](./motion-controllers#paused-replacement).
+
 **También en RC.7:** [ámbitos, puntero/viewport y configuración continua Vue](./web-lifecycle), además de [geometría de overlays, elementos compartidos, recetas y diagnóstico](./web-interactions). La adopción en Mavis sigue separada.
 
 **Desde RC.7:** [colores, bordes, pintura continua, tamaño real, FLIP y escenas con seek](./web-visual) amplían este runtime. Las APIs Web siguen experimentales; la paridad completa continúa en [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
-**0.1.0-rc.7 está disponible.** Las funciones nativas mantienen sus límites documentados mientras continúa la validación estable. Las entradas Web son experimentales; publicarlas no completa la integración Mavis ni establece paridad de todas las APIs entre native y Web.
+**0.1.0-rc.8 está disponible.** Las funciones nativas mantienen sus límites documentados mientras continúa la validación estable. Las entradas Web son experimentales; publicarlas no completa la integración Mavis ni establece paridad de todas las APIs entre native y Web.
 
 RC.6 incluye [movimiento continuo Web](./web-dynamic), con valores, followers y drag/snap, además de [mapeos numéricos, geometría y scroll vertical](./web-support). Las APIs Web siguen experimentales.
 
@@ -16,7 +18,7 @@ RC.4 compone las ventanas de capas en nodos nativos, reanuda las formas, gradien
 
 La [auditoría de bindings/capas](./motion-values#binding-measurements) incluye preparación/reproducción en iPhone y Android físicos, inicio de respuesta a entradas automáticas y retención en montajes/desmontajes repetidos. Los costes altos de las ventanas de composición, los fallos de contadores aproximados de asignación y la falta de telemetría térmica en Android siguen explícitos en las pruebas. Los resultados orientan los escenarios medidos; no garantizan capacidad universal ni frames presentados. Desde RC.4, las composiciones en ventana se reproducen en compositores nativos sin envíos de frontera; el coste restante es el inicio síncrono de lotes grandes de keyframes, medido en la misma auditoría.
 
-## Disponible en RC.7 {#available-in-rc-1}
+## Disponible en RC.8 {#available-in-rc-1}
 
 - [Playback Web finito](./web-runtime), [press](./web-press) y [lifecycle Vue DOM](./web-vue) experimentales, con peers nativos/framework opcionales e imports seguros en SSR.
 - [Navegación compartida](./shared-navigation), [gestos compartidos](./shared-gestures), [regreso a la celda actual](./return-targets) y [galería conectada](./gallery), para las combinaciones documentadas de Frame/ListView/imágenes estáticas.

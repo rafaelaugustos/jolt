@@ -69,7 +69,19 @@ try {
         console.error(String(error))
       })
       page.on('console', (message) => {
-        if (message.type() === 'error') errors.push(message.text())
+        if (message.type() !== 'error') return
+        errors.push(message.text())
+        console.error('Browser console:', message.text(), message.location())
+        for (const argument of message.args()) {
+          void argument
+            .evaluate((value) =>
+              value instanceof Error
+                ? { name: value.name, message: value.message, stack: value.stack }
+                : String(value),
+            )
+            .then((value) => console.error('Console argument:', value))
+            .catch(() => {}) // The page may already be closed after the assertion.
+        }
       })
       await page.goto('http://127.0.0.1:4396')
       await page.waitForFunction(() => window.joltReady)

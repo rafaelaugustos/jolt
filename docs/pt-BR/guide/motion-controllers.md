@@ -167,7 +167,7 @@ Um alvo vazio é ignorado pelo `to()` e lembrado para quando uma view chegar. As
 
 ## Troca de alvo durante a pausa {#paused-replacement}
 
-**Ainda não publicado (#338).** Uma view anexada durante a pausa entra na espera de conclusão ativa. Remover/descarregar a antiga encerra somente seu participante. `play()` retoma a substituta; o `to().finished` original espera por ela antes de mudar `settled`. Novas substituições ignoram conclusões antigas. Descarte resolve o trabalho pendente com false.
+**Desde a RC.8 (#338).** Uma view anexada durante a pausa entra na espera de conclusão ativa. Remover/descarregar a antiga encerra somente seu participante. `play()` retoma a substituta; o `to().finished` original espera por ela antes de mudar `settled`. Novas substituições ignoram conclusões antigas. Descarte resolve o trabalho pendente com false.
 
 Se todos os participantes forem removidos e nenhum substituto entrar até a próxima microtask, a transição termina sem participantes restantes; uma view anexada depois recebe imediatamente o destino já concluído. O contrato é o mesmo da Web.
 

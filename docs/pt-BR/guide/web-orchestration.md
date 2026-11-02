@@ -1,6 +1,6 @@
 # Orquestração e controle na Web
 
-Adições experimentais após **0.1.0-rc.7**, acompanhadas pelas #327–#333. Estas APIs usam as mesmas trajetórias portáteis e regras de agendamento do playback nativo. A entrada do navegador continua independente de NativeScript e frameworks; o adapter opcional de Vue controla o ciclo de vida por `motion.use()` e seu escopo filho.
+Adições experimentais disponíveis desde a **0.1.0-rc.8**, acompanhadas pelas #327–#333. Estas APIs usam as mesmas trajetórias portáteis e regras de agendamento do playback nativo. A entrada do navegador continua independente de NativeScript e frameworks; o adapter opcional de Vue controla o ciclo de vida por `motion.use()` e seu escopo filho.
 
 ## Valores e progresso do playback {#values}
 

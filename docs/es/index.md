@@ -63,7 +63,13 @@ features:
     link: /es/guide/scene-camera
 ---
 
-## 0.1.0-rc.7: layout e interacciones completas Web {#release-candidate}
+## 0.1.0-rc.8: orquestación y ciclo de vida Web {#release-candidate}
+
+RC.8 añade [reproducción de valores, decay, progreso, secuencias, timelines, estados y trazado SVG](/es/guide/web-orchestration), además de [montaje Vue/Nuxt, entradas por identidad y scroll horizontal](/es/guide/web-collections). Los [estados nativos](/es/guide/motion-controllers#paused-replacement) ahora reanudan la vista sustituta tras retirar la anterior durante la pausa.
+
+Las APIs Web siguen experimentales, con límites documentados de coordenadas/captura; Mavis se integra por separado. [Instala RC.8](/es/guide/install), conserva el paquete nativo opcional en la misma versión y reconstruye las apps nativas. Consulta las [notas](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.8) y la [aceptación pendiente](/es/guide/not-there-yet).
+
+## 0.1.0-rc.7: layout e interacciones completas Web {#rc-7}
 
 RC.7 añade [colores, bordes, tamaño intrínseco, FLIP y escenas con seek](/es/guide/web-visual), [ámbitos, puntero/viewport y configuración continua Vue](/es/guide/web-lifecycle), además de [geometría de overlays, elementos compartidos, recetas y diagnóstico](/es/guide/web-interactions). El [showcase](/es/guide/showcase) presenta ejemplos nativos y envíos de la comunidad.
 

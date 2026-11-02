@@ -1,6 +1,6 @@
 # Web 挂载、动态列表与横向滚动
 
-**尚未发布。** 本次新增功能对应 #334、#336 和 #337。实验性 `/web` 运行时可独立使用或与 Vue 集成，组件无需维护第二套动画引擎。
+**自 0.1.0-rc.8 起可用。** 本次新增功能对应 #334、#336 和 #337。实验性 `/web` 运行时可独立使用或与 Vue 集成，组件无需维护第二套动画引擎。
 
 ## Vue 与 Nuxt：等待真实挂载 {#nuxt}
 
@@ -29,6 +29,8 @@ export default defineNuxtPlugin((nuxt) => {
 工厂在 SSR 中安全，不输出隐藏内容的样式。`runtime` 可借用宿主上下文；`config` 配置自有上下文，`viewport` 提供默认选项。指令绑定覆盖默认值；更改配方时替换选项对象。卸载会取消等待，断开连接仅清理该入场效果。KeepAlive 重新创建未完成或重复入场，保留已完成的一次性历史；更换绑定重置历史。支持已知 ShadowRoot 及其宿主；移动到未知的封闭 shadow 树不在此适配器合同内。
 
 `useWebMotion().use()` 和进入过渡同样等待实际插入。引用替换、停用、取消和 scope 销毁都会取消等待。命令式 `animate()`、`set()` 和 `runtime.viewportEnter()` 仍要求已挂载目标。异步数据应在同步 scope 回调之前准备。
+
+如果页面过渡只改变透明度，而异步内容会改变页面高度，请像 Nuxt 示例一样为页面设置固定的 `transform-origin: 0 0`。默认的百分比原点会随尺寸变化而移动。如果变换需要随尺寸调整的中心点，请使用 runtime 的 `observeGeometry()`；等待元素插入文档并不代表接管外部几何变化。
 
 <Clip name="web-nuxt-attachment-chromium" caption="macOS 上的 Chromium：真实生产 Nuxt 消费者演示 out-in、浏览器历史、KeepAlive 与异步页面。原速录制；不是物理设备测试。" />
 

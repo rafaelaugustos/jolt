@@ -1,6 +1,6 @@
 # Montagem, coleções e scroll horizontal na Web
 
-**Ainda não publicado.** As adições atendem às #334, #336 e #337. O runtime experimental `/web` funciona diretamente ou com Vue, sem exigir outro motor de animação nos componentes.
+**Disponível desde a 0.1.0-rc.8.** As adições atendem às #334, #336 e #337. O runtime experimental `/web` funciona diretamente ou com Vue, sem exigir outro motor de animação nos componentes.
 
 ## Vue e Nuxt: esperar a conexão ao documento {#nuxt}
 
@@ -29,6 +29,8 @@ export default defineNuxtPlugin((nuxt) => {
 A fábrica é segura em SSR e não emite estilos que escondam conteúdo. `runtime` permite compartilhar um contexto do host; `config` configura um contexto próprio e `viewport` define padrões. O valor da diretiva sobrescreve esses padrões; substitua o objeto ao mudar a receita. Desmontar cancela a espera, e desconectar libera apenas essa entrada. KeepAlive recria entradas incompletas/repetidas e mantém o histórico de entradas únicas concluídas. Alterar o binding reinicia esse histórico. Um ShadowRoot conhecido e seu host são observados; mover para uma árvore shadow fechada desconhecida fica fora desse contrato.
 
 `useWebMotion().use()` e as transições de entrada também aguardam a inserção real. Troca de ref, desativação, cancelamento e descarte cancelam a espera. As chamadas imperativas `animate()`, `set()` e `runtime.viewportEnter()` continuam exigindo alvos montados. Resolva dados assíncronos antes do callback síncrono do escopo.
+
+Em uma transição de página que usa apenas opacidade, com filhos assíncronos que alteram sua altura, declare `transform-origin: 0 0` na superfície, como no exemplo Nuxt. A origem percentual padrão muda quando a caixa cresce. Se o transform precisar de um pivô responsivo, use o contrato `observeGeometry()` do runtime; aguardar a inserção não concede controle sobre mudanças externas de geometria.
 
 <Clip name="web-nuxt-attachment-chromium" caption="Chromium no macOS: consumidor Nuxt de produção com navegação out-in, retorno pelo histórico, KeepAlive e página assíncrona. Velocidade original; não é uma gravação de aparelho físico." />
 

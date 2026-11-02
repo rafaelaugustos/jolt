@@ -1,6 +1,6 @@
 # Montaje, colecciones y scroll horizontal Web
 
-**Sin publicar.** Estas adiciones resuelven #334, #336 y #337. El runtime experimental `/web` funciona directamente o con Vue, sin otro motor en los componentes.
+**Disponible desde 0.1.0-rc.8.** Estas adiciones resuelven #334, #336 y #337. El runtime experimental `/web` funciona directamente o con Vue, sin otro motor en los componentes.
 
 ## Vue y Nuxt: esperar la conexión {#nuxt}
 
@@ -29,6 +29,8 @@ export default defineNuxtPlugin((nuxt) => {
 La fábrica es segura en SSR y no oculta contenido del servidor. `runtime` toma prestado el contexto del host; `config` configura el propio y `viewport` aporta valores predeterminados. El binding los sobrescribe; sustituya su objeto para cambiar la receta. Desmontar cancela la espera y desconectar libera solo esa entrada. KeepAlive reconstruye entradas incompletas/repetidas y conserva las únicas completadas. Cambiar el binding reinicia ese historial. Se observa un ShadowRoot conocido y su host; trasladar a una raíz cerrada desconocida queda fuera del contrato.
 
 `useWebMotion().use()` y las entradas de transición esperan la inserción. Cambiar referencias, desactivar, cancelar o destruir elimina la espera. Las llamadas imperativas `animate()`, `set()` y `runtime.viewportEnter()` siguen exigiendo elementos montados. Resuelva datos asíncronos antes del callback síncrono del scope.
+
+Para una transición de página que solo cambia la opacidad y cuyo contenido asíncrono modifica la altura, declara `transform-origin: 0 0` en la superficie, como en el ejemplo Nuxt. El origen porcentual cambia al crecer la caja. Si el transform necesita un pivote adaptable, utiliza `observeGeometry()` del runtime; esperar la inserción no concede control sobre cambios externos de geometría.
 
 <Clip name="web-nuxt-attachment-chromium" caption="Chromium en macOS: consumidor Nuxt de producción con out-in, historial, KeepAlive y página asíncrona. Velocidad original; no es un dispositivo físico." />
 

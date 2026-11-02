@@ -1,6 +1,6 @@
 # Orquestación y control Web
 
-Adiciones experimentales posteriores a **0.1.0-rc.7**, seguidas en #327–#333. Usan las mismas trayectorias portátiles y reglas de planificación que la reproducción nativa. La entrada Web sigue independiente de NativeScript y frameworks; Vue administra el ciclo de vida mediante `motion.use()` y su ámbito hijo.
+Adiciones experimentales disponibles desde **0.1.0-rc.8**, seguidas en #327–#333. Usan las mismas trayectorias portátiles y reglas de planificación que la reproducción nativa. La entrada Web sigue independiente de NativeScript y frameworks; Vue administra el ciclo de vida mediante `motion.use()` y su ámbito hijo.
 
 ## Valores y progreso {#values}
 

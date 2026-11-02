@@ -192,5 +192,25 @@
         "size": "146170"
       }
     }
+  ],
+  "nuxtLinuxAmd64": [
+    {
+      "browser": "156.0.8078.80",
+      "baseline": false,
+      "detachedMounts": 1,
+      "errors": []
+    },
+    {
+      "browser": "157.0",
+      "baseline": false,
+      "detachedMounts": 1,
+      "errors": []
+    },
+    {
+      "browser": "27.2",
+      "baseline": false,
+      "detachedMounts": 1,
+      "errors": []
+    }
   ]
 }

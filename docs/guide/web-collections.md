@@ -1,6 +1,6 @@
 # Web attachment, collections and horizontal scroll
 
-**Unreleased.** These additions address #334, #336 and #337. Use the experimental `/web` runtime directly or through Vue; framework components do not need their own animation engine.
+**Available since 0.1.0-rc.8.** These additions address #334, #336 and #337. Use the experimental `/web` runtime directly or through Vue; framework components do not need their own animation engine.
 
 ## Vue and Nuxt: wait for attachment {#nuxt}
 
@@ -29,6 +29,8 @@ export default defineNuxtPlugin((nuxt) => {
 The factory is SSR safe and never emits hidden server styles. `runtime` optionally borrows a host context; `config` configures a self-owned context and `viewport` supplies defaults. A directive binding overrides those defaults. Replace the options object when changing the recipe. Unmount cancels pending attachment; disconnection disposes only this entrance. KeepAlive reactivation rebuilds unfinished/repeat entrances and preserves completed once history. A changed binding resets that history. A known ShadowRoot and its host are observed; arbitrary moves into an unrelated closed shadow tree are outside this adapter contract.
 
 `useWebMotion().use()` and transition enters also wait for real insertion; ref replacement, deactivation, cancellation and scope disposal cancel pending work. Imperative `animate()`, `set()` and `runtime.viewportEnter()` still require mounted targets. Async application setup belongs before the synchronous scope callback.
+
+For an opacity-only page transition whose async children change its height, declare a fixed `transform-origin: 0 0` on the page surface, as the Nuxt fixture does. The default percentage origin moves when the box grows. If a transform needs a responsive pivot, use the runtime’s `observeGeometry()` contract instead; actual attachment does not grant ownership of external geometry changes.
 
 <Clip name="web-nuxt-attachment-chromium" caption="Chromium on macOS: the actual production Nuxt consumer navigates out-in, returns through browser history, enables KeepAlive and visits an async page. Original-speed recording; no physical-device claim." />
 

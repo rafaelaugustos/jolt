@@ -168,7 +168,7 @@ An empty target is skipped by `to()` and remembered for when a view arrives. Its
 
 ## Paused target replacement {#paused-replacement}
 
-**Unreleased (#338).** A view attached while a transition is paused joins its live completion barrier. Detaching/unloading the old view retires only its owned participant. `play()` resumes the replacement; the original `to().finished` waits for it before `settled` changes. Replacing the same slot again ignores stale completions. Disposal resolves pending work false.
+**Since RC.8 (#338).** A view attached while a transition is paused joins its live completion barrier. Detaching/unloading the old view retires only its owned participant. `play()` resumes the replacement; the original `to().finished` waits for it before `settled` changes. Replacing the same slot again ignores stale completions. Disposal resolves pending work false.
 
 If every participant is detached and no replacement joins before the next microtask, the transition completes with no remaining participants; a later attachment adopts the settled endpoint immediately. This matches the Web contract.
 

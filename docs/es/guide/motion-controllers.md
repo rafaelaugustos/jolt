@@ -168,7 +168,7 @@ onMounted(() => stage.to('shown'))
 
 ## Sustituir un destino pausado {#paused-replacement}
 
-**Sin publicar (#338).** La vista añadida durante una pausa participa en la finalización activa. Separar/descargar la antigua retira solo su trabajo. `play()` reanuda la nueva; `to().finished` espera antes de cambiar `settled`. Otras sustituciones ignoran resultados obsoletos. Dispose resuelve false.
+**Desde RC.8 (#338).** La vista añadida durante una pausa participa en la finalización activa. Separar/descargar la antigua retira solo su trabajo. `play()` reanuda la nueva; `to().finished` espera antes de cambiar `settled`. Otras sustituciones ignoran resultados obsoletos. Dispose resuelve false.
 
 Si se retiran todos los participantes y no llega un reemplazo antes de la siguiente microtask, la transición termina; una vista posterior recibe el destino ya completado. Coincide con Web.
 

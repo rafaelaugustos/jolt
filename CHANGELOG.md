@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+## 0.1.0-rc.8 (2026-11-02)
+
+- Publish matching core and optional native packages with Web orchestration, controlled SVG drawing, deferred Vue/Nuxt attachment, keyed item entrances and horizontal scroll. Fix paused native motion-state replacement in TypeScript; compiled native helpers are unchanged from RC.7.
+
 - Wait for actual DOM insertion in Vue Web setup and enter hooks, and add an SSR-safe `createViewportEnterDirective()` for Nuxt out-in/Suspense branches (#334). Preserve imperative mounted-target validation and cancel pending observers on ref/lifecycle changes.
 - Add identity-aware Web `animateItems()` for changing/recycled rows, with collection updates, explicit once-history eviction and scoped cleanup (#336). Extend scroll values/linked playback to horizontal LTR/RTL sources with normalized logical offsets and equivalent ScrollTimeline/scheduler behavior (#337).
 - Fix native `motionStates()` completion when a participant is detached/unloaded and replaced while paused (#338). Replacements join the active completion barrier, resume correctly and retire only the former participant's owned channels. Include native regression tests and reviewed iOS/Android runtime recordings.
