@@ -23,6 +23,6 @@ export default defineConfig({
     },
   },
   test: {
-    include: ['test/**/*.spec.ts'],
+    include: ['test/**/*.spec.ts', 'docs/.vitepress/theme/**/*.spec.ts'],
   },
 })
