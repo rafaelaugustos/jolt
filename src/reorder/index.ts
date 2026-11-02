@@ -1,4 +1,9 @@
-import { Application, ListView, Trace, type View } from '@nativescript/core'
+import { Application, ListView, LayoutBase, Trace, type View } from '@nativescript/core'
+import {
+  realizedRowsAdapter,
+  type RealizedReorderOptions,
+  type RealizedReorderItem,
+} from './realized.js'
 import { onReducedMotion, reducedMotion } from '../config.js'
 import { coreListAdapter } from './list-view.js'
 import { itemKeys, moveAt, sameKeys } from './model.js'
@@ -13,6 +18,8 @@ import type {
 } from './types.js'
 
 export { coreListAdapter }
+export { realizedRowsAdapter }
+export type { RealizedReorderOptions, RealizedReorderItem } from './realized.js'
 export { ReorderHandle } from './handle.js'
 export { ReorderSurface } from './surface.js'
 export type * from './types.js'
@@ -34,14 +41,34 @@ function report(callback: () => void) {
 export function reorder<T, K extends ReorderKey = ReorderKey>(
   source: ListView | ReorderAdapter<T>,
   options: ReorderOptions<T, K>,
+): Reorder<K>
+export function reorder<K extends ReorderKey = ReorderKey>(
+  source: LayoutBase,
+  options: RealizedReorderOptions<K>,
+): Reorder<K>
+export function reorder<T, K extends ReorderKey = ReorderKey>(
+  source: ListView | LayoutBase | ReorderAdapter<T>,
+  input: ReorderOptions<T, K> | RealizedReorderOptions<K>,
 ): Reorder<K> {
+  const options: ReorderOptions<T, K> =
+    source instanceof LayoutBase
+      ? { ...input, key: (item: T) => (item as RealizedReorderItem<K>).key }
+      : (input as ReorderOptions<T, K>)
   if (
     !options ||
     typeof options.key !== 'function' ||
     typeof options.onCommit !== 'function'
   )
     throw new TypeError('reorder() requires key(item) and onCommit(move).')
-  const adapter = source instanceof ListView ? coreListAdapter<T>(source) : source
+  const adapter =
+    source instanceof ListView
+      ? coreListAdapter<T>(source)
+      : source instanceof LayoutBase
+        ? (realizedRowsAdapter(
+            source,
+            input as RealizedReorderOptions<K>,
+          ) as unknown as ReorderAdapter<T>)
+        : source
   if (
     !adapter?.view ||
     typeof adapter.items !== 'function' ||
@@ -92,6 +119,7 @@ export function reorder<T, K extends ReorderKey = ReorderKey>(
     }
     if (active) cancel(next.includes(active.key) ? 'data-changed' : 'removed')
     keys = next
+    driver?.refresh?.()
   }
   function event(event: ReorderNativeEvent) {
     if (disposed || paused) return
@@ -130,6 +158,7 @@ export function reorder<T, K extends ReorderKey = ReorderKey>(
     if (!move) return false
     report(() => options.onCommit(move))
     keys = read()
+    driver?.refresh?.(key)
     return true
   }
   function attach() {

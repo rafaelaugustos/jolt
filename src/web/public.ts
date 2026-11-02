@@ -1,4 +1,18 @@
 import type { ReorderKey } from '../core/reorder.js'
+import type { WebGradient, WebGradientOptions } from './gradient.js'
+import type { WebShimmerOptions, WebLoaderOptions, WebLoadingEffect } from './loading.js'
+export type {
+  WebGradient,
+  WebGradientOptions,
+  WebGradientValues,
+  WebGradientBindings,
+  WebGradientType,
+} from './gradient.js'
+export type { WebShimmerOptions, WebLoaderOptions, WebLoadingEffect } from './loading.js'
+import type { WebRevealOptions, WebConcealOptions } from './reveal.js'
+import type { WebTextOptions, WebRollOptions } from './text-effect.js'
+export type { WebRevealOptions, WebConcealOptions } from './reveal.js'
+export type { WebTextOptions, WebRollOptions } from './text-effect.js'
 import type { WebZoomable, WebZoomableOptions } from './zoomable.js'
 import type { WebScrollHeader, WebScrollHeaderOptions } from './scroll-header.js'
 import type { WebReorder, WebReorderOptions } from './reorder.js'
@@ -154,6 +168,17 @@ export interface WebAnimation extends PlaybackAnimation {
 
 /** Experimental DOM context; platform/framework adapters are not public APIs. */
 export interface WebRuntime {
+  gradient(target: HTMLElement, options: WebGradientOptions): WebGradient
+  reveal(target: HTMLElement, options?: WebRevealOptions): WebAnimation
+  conceal(target: HTMLElement, options?: WebConcealOptions): WebAnimation
+  animateText(target: HTMLElement, options?: WebTextOptions): WebAnimation
+  rollTo(
+    target: HTMLElement,
+    value: number | string,
+    options?: WebRollOptions,
+  ): WebAnimation
+  shimmer(target: HTMLElement, options?: WebShimmerOptions): WebLoadingEffect
+  loader(target: HTMLElement, options?: WebLoaderOptions): WebLoadingEffect
   animateItems(
     items: readonly WebItem[],
     animation?: Keyframes | string,
@@ -267,6 +292,13 @@ export function createWebRuntime(
   // Keep diagnostics, ownership internals and driver implementation off the
   // package API, including at runtime rather than only in the declarations.
   return {
+    gradient: runtime.gradient.bind(runtime),
+    reveal: runtime.reveal.bind(runtime),
+    conceal: runtime.conceal.bind(runtime),
+    animateText: runtime.animateText.bind(runtime),
+    rollTo: runtime.rollTo.bind(runtime),
+    shimmer: runtime.shimmer.bind(runtime),
+    loader: runtime.loader.bind(runtime),
     animateItems: runtime.animateItems.bind(runtime),
     drawPath: runtime.drawPath.bind(runtime),
     motionStates: runtime.motionStates.bind(runtime),

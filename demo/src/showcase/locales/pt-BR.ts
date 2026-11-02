@@ -1,5 +1,12 @@
 // English source messages → Brazilian Portuguese. Keep numbered placeholders intact.
 export const portuguese: Record<string, string> = {
+  'Make room for a new order': 'Abra espaço para uma nova ordem',
+  'Keep your place. Bring a favorite closer.':
+    'Mantenha seu lugar. Aproxime uma favorita.',
+  'Hold a handle. Find a new place.': 'Segure uma alça. Encontre um novo lugar.',
+  'Move {0}': 'Mover {0}',
+  'Fail next refresh': 'Falhar próxima atualização',
+  Dispose: 'Desativar',
   'Follow the feeling': 'Siga a sensação',
   'A spring between you and gravity.': 'Uma mola entre você e a gravidade.',
   'Hold an orb. Let the spring follow.': 'Segure uma esfera. Deixe a mola acompanhar.',

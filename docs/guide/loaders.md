@@ -1,5 +1,7 @@
 # Loaders
 
+**Web development build:** these effects are also available through runtime/scoped methods in [`/web`](./web-effects). They are not included in RC.9.
+
 Add a loading indicator to an empty view:
 
 <Clip name="loaders" caption="Dots, bars and a ring." />

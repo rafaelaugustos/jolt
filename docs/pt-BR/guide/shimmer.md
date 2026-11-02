@@ -1,5 +1,7 @@
 # Shimmer
 
+**Build Web em desenvolvimento:** estes efeitos também estão disponíveis nos métodos do runtime e dos escopos de [`/web`](./web-effects). Ainda não fazem parte da RC.9.
+
 Passe uma faixa de luz pelo placeholder enquanto o conteúdo carrega:
 
 <Clip name="shimmer" caption="Shimmer sobre placeholders de carregamento." />

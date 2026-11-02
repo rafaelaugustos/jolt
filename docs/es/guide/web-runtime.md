@@ -1,5 +1,7 @@
 # Runtime Web finito
 
+**Build Web en desarrollo:** estos efectos también están disponibles mediante métodos del runtime y sus scopes en [`/web`](./web-effects). Todavía no están incluidos en RC.9.
+
 Disponible desde RC.9: [gestos, zoom de imágenes, scroll coordinado, refresh y reorder](./web-gestures).
 
 Desde RC.8: [montaje Vue/Nuxt, entradas por identidad y scroll horizontal LTR/RTL](./web-collections).

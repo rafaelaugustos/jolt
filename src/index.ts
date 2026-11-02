@@ -38,6 +38,8 @@ export { ScrollHeaderSurface } from './scroll-header/surface.js'
 export type {
   ScrollHeader,
   ScrollHeaderOptions,
+  ScrollViewHeaderOptions,
+  ScrollHeaderItem,
   ScrollHeaderRefreshContext,
   ScrollHeaderGeometry,
   ScrollHeaderSnapshot,

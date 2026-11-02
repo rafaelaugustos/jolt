@@ -1,5 +1,7 @@
 # API {#api}
 
+**Build Web en desarrollo:** estos efectos también están disponibles mediante métodos del runtime y sus scopes en [`/web`](./web-effects). Todavía no están incluidos en RC.9.
+
 - [**drag / gestures / zoomable / scrollHeader / reorder (Web)**](./web-gestures) — Gestos Web, zoom, scroll/refresh y reorder interactivo — disponible desde RC.9.
 
 - [**createMotionInspector**](./motion-inspector): inspección de desarrollo opcional, lotes nativos, propiedad, gráficos vinculantes y ajuste de resorte reproducible.

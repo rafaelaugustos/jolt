@@ -1,5 +1,7 @@
 # Brillo deslizante {#shimmer}
 
+**Build Web en desarrollo:** estos efectos también están disponibles mediante métodos del runtime y sus scopes en [`/web`](./web-effects). Todavía no están incluidos en RC.9.
+
 Barra una banda de luz a lo largo de un marcador de posición de carga:
 
 <Clip name="shimmer" caption="Un brillo sobre la carga de marcadores de posición." />

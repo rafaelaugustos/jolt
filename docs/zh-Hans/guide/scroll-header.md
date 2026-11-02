@@ -152,3 +152,42 @@ Reduce Motion 保持固定和滚动，禁用装饰性视差/拉伸，使用立�
 | 其他列表插件、可变数据行、嵌套垂直滚动、分页选项卡 | 不支持；没有静默的 JS 回退                                      |
 
 [原生验证和复现说明](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md)记录了验证步骤。真机性能测量、其他阅读器与字体配置以及其他刷新适配器不属于本次交付范围；其余工作由 #116 跟踪。
+
+## 保留已挂载视图的 Core ScrollView {#retained-scrollview}
+
+**开发版本，尚未包含在 RC.9 中。**新增重载接受已有的纵向 Core `ScrollView`（包括子类），其内容须为 `LayoutBase`。页头、图片、标题、紧凑工具栏/标题和固定分区使用上面组合中的兄弟/后代视图。`items()` 提供稳定字符串键和实际行视图，行高可以不同。无需 ListView 占位行或另一个滚动引擎。
+
+内容需要以 DIP 为单位的非负数值 `paddingTop`。Jolt 在此添加测量后的页头/分区空间，并在释放时仅恢复仍由其拥有的写入。最多支持 1000 个不同的已挂载行，必须按顺序排列、互不重叠且属于内容后代。这不提供虚拟化。
+
+```ts
+import { scrollHeader } from '@rafaelaugusto/jolt'
+const headerMotion = scrollHeader(scrollView, {
+  header,
+  artwork,
+  title,
+  toolbar,
+  toolbarTitle,
+  section,
+  items: () =>
+    tracks.map((track) => ({ key: track.id, target: rowViews.get(track.id)! })),
+  async onRefresh(context) {
+    const incoming = await loadTracks()
+    if (context.cancelled) return
+    await context.commit(async () => {
+      tracks = incoming
+      await nextTick()
+    })
+  },
+})
+await headerMotion.preserveAnchor(async () => {
+  tracks = [newTrack, ...tracks]
+  await nextTick()
+})
+// headerMotion.scrollToItem(7); headerMotion.dispose()
+```
+
+在视图加载并完成布局后连接。在 `preserveAnchor`/`commit` 中等待渲染器协调；锚点被删除时回退到仍存在的位置。现有的刷新取消、错误/重试、暂停、后台、卸载及减少动态效果规则继续适用。滚动观察、下拉识别和逐帧更新由 Jolt 原生代码处理。应用负责加载/错误展示，并须在额外 await 后写入前检查 `cancelled`。此示例可与[已挂载行排序](./reorder#retained-rows)共用 ScrollView。
+
+<Clip name="retained-scroll-ios" caption="iPhone 17 模拟器，iOS 26，英文 Vue 演示：通过真实 XCTest 操作展示滚动、不同高度行的带键插入、原生手柄拖放及带提交保护的下拉刷新。原速播放；仅验证模拟器正确性。" />
+
+<Clip name="retained-scroll-android" caption="Android 16 / API 36 模拟器，英文 Vue 演示：真实系统触摸展示折叠、保持锚点的插入、已挂载行排序和原生下拉刷新。Debug 应用使用生产版 JavaScript，原速播放；不代表实体设备性能。" />

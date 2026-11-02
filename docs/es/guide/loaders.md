@@ -1,5 +1,7 @@
 # Indicadores de carga {#loaders}
 
+**Build Web en desarrollo:** estos efectos también están disponibles mediante métodos del runtime y sus scopes en [`/web`](./web-effects). Todavía no están incluidos en RC.9.
+
 Agregar un indicador de carga a una vista vacía:
 
 <Clip name="loaders" caption="Puntos, barras y un anillo." />

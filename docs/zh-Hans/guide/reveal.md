@@ -1,5 +1,7 @@
 # 圆形揭示 {#circular-reveal}
 
+**Web 开发版本：**这些效果也可通过 [`/web`](./web-effects) 的运行时和作用域方法使用，尚未包含在 RC.9 中。
+
 从一个点显示内容，或以相反的效果隐藏它：
 
 <Clip name="reveal" caption="圆形显示和隐藏。" />

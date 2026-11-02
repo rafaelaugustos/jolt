@@ -1,5 +1,7 @@
 # Números rolando
 
+**Build Web em desenvolvimento:** estes efeitos também estão disponíveis nos métodos do runtime e dos escopos de [`/web`](./web-effects). Ainda não fazem parte da RC.9.
+
 Troque um número e deixe os dígitos que mudaram rolarem até o lugar:
 
 <div class="clips">

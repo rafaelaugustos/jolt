@@ -152,3 +152,42 @@ Reduce Motion keeps pinning and scrolling, disables decorative parallax/stretch,
 | Other list plugins, variable data rows, nested vertical scrolling, paged tabs | Unsupported; no silent JS fallback                                                           |
 
 The [native validation and reproduction notes](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) describe the recorded correctness checks. Physical-device performance measurements, additional reader/font configurations and other refresh adapters remain outside this correctness update; broader adapter work is tracked in #116.
+
+## Retained Core ScrollView {#retained-scrollview}
+
+**Development build; not in RC.9.** The additional overload accepts an existing vertical Core `ScrollView`, including subclasses, with `LayoutBase` content. Header, artwork, title, compact toolbar/title and pinned section are retained siblings/descendants as in the composition above. `items()` supplies stable string keys and real row views; rows can have different heights. There is no ListView spacer row or second scroll engine.
+
+The content needs nonnegative numeric `paddingTop` in DIPs. Jolt adds its measured header/section space there and restores the original value on disposal if it still owns the write. Up to 1000 distinct mounted rows are supported; rows must be ordered, nonoverlapping descendants. This is not virtualization.
+
+```ts
+import { scrollHeader } from '@rafaelaugusto/jolt'
+const headerMotion = scrollHeader(scrollView, {
+  header,
+  artwork,
+  title,
+  toolbar,
+  toolbarTitle,
+  section,
+  items: () =>
+    tracks.map((track) => ({ key: track.id, target: rowViews.get(track.id)! })),
+  async onRefresh(context) {
+    const incoming = await loadTracks()
+    if (context.cancelled) return
+    await context.commit(async () => {
+      tracks = incoming
+      await nextTick()
+    })
+  },
+})
+await headerMotion.preserveAnchor(async () => {
+  tracks = [newTrack, ...tracks]
+  await nextTick()
+})
+// headerMotion.scrollToItem(7); headerMotion.dispose()
+```
+
+Attach after the views have loaded and completed layout. Await renderer reconciliation inside `preserveAnchor`/`commit`; a removed anchor falls back to the surviving position. Existing refresh cancellation, error/retry, pause, suspension, unload and reduced-motion rules apply. Native scroll observation, pull recognition and frame updates stay in Jolt. The app owns loading/error presentation and must check `cancelled` before writes after any additional await. This sample can share its ScrollView with [retained-row reorder](./reorder#retained-rows).
+
+<Clip name="retained-scroll-ios" caption="iPhone 17 simulator, iOS 26, English Vue demo: actual XCTest scrolling, unequal-height keyed insertion, native handle drag/drop and guarded pull-to-refresh. Original speed; simulator correctness only." />
+
+<Clip name="retained-scroll-android" caption="Android 16 / API 36 emulator, English Vue demo: real OS touches demonstrate collapse, anchored insertion, retained-row reorder and native pull-to-refresh. Debug app with production JavaScript, original speed; no physical-device performance claim." />

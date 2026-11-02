@@ -1,5 +1,11 @@
 // English source messages → Spanish. Keep numbered placeholders intact.
 export const spanish: Record<string, string> = {
+  'Make room for a new order': 'Haz espacio para un nuevo orden',
+  'Keep your place. Bring a favorite closer.': 'Conserva tu lugar. Acerca una favorita.',
+  'Hold a handle. Find a new place.': 'Mantén pulsado un tirador. Busca un nuevo lugar.',
+  'Move {0}': 'Mover {0}',
+  'Fail next refresh': 'Fallar la siguiente actualización',
+  Dispose: 'Desactivar',
   'Follow the feeling': 'Sigue la sensación',
   'A spring between you and gravity.': 'Un resorte entre tú y la gravedad.',
   'Hold an orb. Let the spring follow.':

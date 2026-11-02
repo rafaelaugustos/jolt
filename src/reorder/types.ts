@@ -54,6 +54,8 @@ export type ReorderNativeEvent =
   | { type: 'cancel'; geometryChanged?: boolean }
 
 export interface ReorderAdapterDriver {
+  /** Reconcile targets after a host commit; retain the moved key's focus when supplied. */
+  refresh?(movedKey?: ReorderKey): void
   cancel(): void
   setEnabled(enabled: boolean): void
   setReducedMotion(reduced: boolean): void

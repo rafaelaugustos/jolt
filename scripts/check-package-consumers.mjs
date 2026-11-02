@@ -233,7 +233,9 @@ try {
       'animateItems',
       'animateLayout',
       'animateSize',
+      'animateText',
       'bind',
+      'conceal',
       'configure',
       'decay',
       'definePreset',
@@ -242,6 +244,8 @@ try {
       'drag',
       'drawPath',
       'gestures',
+      'gradient',
+      'loader',
       'motionStates',
       'motionValue',
       'observeGeometry',
@@ -251,6 +255,8 @@ try {
       'refresh',
       'release',
       'reorder',
+      'reveal',
+      'rollTo',
       'scope',
       'scrollHeader',
       'scrollLinked',
@@ -259,6 +265,7 @@ try {
       'sequence',
       'set',
       'sharedLayout',
+      'shimmer',
       'springValue',
       'stop',
       'timeline',
@@ -280,6 +287,10 @@ try {
     await page.click('#lifecycle')
     await page.waitForFunction(
       () => document.getElementById('lifecycle-result')?.textContent === 'completed:0',
+    )
+    await page.click('#effects')
+    await page.waitForFunction(
+      () => document.getElementById('effects-result')?.textContent === 'true:0:123',
     )
     const card = page.locator('#card')
     const box = await card.boundingBox()

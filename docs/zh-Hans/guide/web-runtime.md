@@ -1,5 +1,7 @@
 # Web 有限动画运行时
 
+**Web 开发版本：**这些效果也可通过 [`/web`](./web-effects) 的运行时和作用域方法使用，尚未包含在 RC.9 中。
+
 自 RC.9 起可用：[手势、图片缩放、协调滚动、刷新与排序](./web-gestures)。
 
 自 RC.8 起： [Vue/Nuxt 挂载、身份列表入场与 LTR/RTL 横向滚动](./web-collections)。

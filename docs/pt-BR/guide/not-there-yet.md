@@ -1,5 +1,7 @@
 # Status da versão e limites {#ainda-nao}
 
+**Em desenvolvimento, após a RC.9:** [gradientes, loading, reveal circular e texto Web](./web-effects), [headers no Core ScrollView nativo](./scroll-header#retained-scrollview) e [reordenação de linhas montadas](./reorder#retained-rows). As adições nativas exigem recompilar o aplicativo. A adoção no Mavis segue em trabalho separado.
+
 **Novidades da RC.9:** [gestos Web, zoom, scroll/refresh coordenado e reorder](./web-gestures), além de [canais nativos de pintura retida e composição de bindings](./live-springs#extended-live-paint). Recompile apps nativos após atualizar.
 
 **Novidades da RC.8:** [orquestração Web e desenho SVG](./web-orchestration), [montagem Vue/Nuxt, identidade dos itens e scroll horizontal](./web-collections) e [retomada da substituição nativa pausada](./motion-controllers#paused-replacement).

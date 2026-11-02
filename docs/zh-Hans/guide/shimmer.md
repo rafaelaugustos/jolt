@@ -1,5 +1,7 @@
 # 流光效果 {#shimmer}
 
+**Web 开发版本：**这些效果也可通过 [`/web`](./web-effects) 的运行时和作用域方法使用，尚未包含在 RC.9 中。
+
 将光带扫过加载占位符：
 
 <Clip name="shimmer" caption="加载占位符时闪烁。" />

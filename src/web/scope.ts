@@ -15,6 +15,13 @@ type Controlled = {
 type Factories = Pick<
   WebRuntime,
   | 'animate'
+  | 'gradient'
+  | 'reveal'
+  | 'conceal'
+  | 'animateText'
+  | 'rollTo'
+  | 'shimmer'
+  | 'loader'
   | 'animateItems'
   | 'decay'
   | 'drawPath'
@@ -240,6 +247,13 @@ export function createWebScope(
     },
     scope: (setup) => start(() => runtime.scope(setup)),
     animate: ownPlayback('animate'),
+    gradient: (...args) => start(() => runtime.gradient(...args)),
+    reveal: (...args) => start(() => runtime.reveal(...args)),
+    conceal: (...args) => start(() => runtime.conceal(...args)),
+    animateText: (...args) => start(() => runtime.animateText(...args)),
+    rollTo: (...args) => start(() => runtime.rollTo(...args)),
+    shimmer: (...args) => start(() => runtime.shimmer(...args)),
+    loader: (...args) => start(() => runtime.loader(...args)),
     animateItems: (...args) => start(() => runtime.animateItems(...args)),
     drawPath: (...args) => start(() => runtime.drawPath(...args)),
     motionStates: (targets, definitions, options) =>

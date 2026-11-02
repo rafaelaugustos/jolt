@@ -103,3 +103,42 @@ Gesture tracking, snapshots, spring displacement and edge scrolling run in compi
 The initial path supports static text, images and ordinary row containers. A snapshot is a still image: do not use live camera/video/Metal surfaces as drag previews. Jolt owns the realized row container's translation and opacity during the operation; put unrelated animations on an inner view. Built-in sections, sticky headers and search are rejected. Grids, horizontal lists, cross-list dragging and third-party CollectionView plugins are outside this adapter's support.
 
 `ReorderAdapter<T>` is the extension contract for another list implementation: provide `view`, `items()`, `subscribe(changed)` and `attach(config)`. Its driver owns native input, measured geometry, snapshot lifetime, recycled-cell restoration and scrolling, and emits only start/commit/cancel lifecycle events. Publishing an adapter requires validating that list's recycling and accessibility behaviour; accepting an arbitrary view is not equivalent to supporting it.
+
+## Retained rows inside ScrollView {#retained-rows}
+
+**Development build; not in RC.9.** Pass a mounted `LayoutBase` collection inside an existing vertical Core `ScrollView`. `items()` returns stable keys, row views and optional descendant handles. `scroll` is optional when the closest ScrollView ancestor is the intended source. No `ReorderSurface` is needed for this overload. Keep the ListView adapter for recycled collections.
+
+This adapter supports at most 100 distinct, ordered, nonoverlapping rows of variable height. Native snapshots are capped at 16 million source pixels; pickup is declined when that budget is exceeded. Rows remain mounted. Use a row background when its preview should be opaque; live video/native surface capture is outside this adapter. Independent application transforms are left intact; the adapter owns snapshots and temporary opacity only.
+
+```ts
+import { reorder } from '@rafaelaugusto/jolt/reorder'
+const sorting = reorder(contentLayout, {
+  scroll: scrollView,
+  items: () =>
+    tracks.map((track) => ({
+      key: track.id,
+      target: rowViews.get(track.id)!,
+      handle: handleViews.get(track.id),
+    })),
+  onCommit({ key, beforeKey }) {
+    const item = tracks.find((track) => track.id === key)!
+    const next = tracks.filter((track) => track.id !== key)
+    next.splice(
+      beforeKey === null
+        ? next.length
+        : next.findIndex((track) => track.id === beforeKey),
+      0,
+      item,
+    )
+    tracks = next
+  },
+})
+sorting.move('track-3', 'track-1')
+// sorting.moveUp(key); sorting.moveDown(key); sorting.cancel(); sorting.dispose()
+```
+
+The host applies each commit to its own keyed data. After external data changes, await renderer layout and call `refresh()`; pending native targets are resolved after host reconciliation. Native long press, lifted preview, neighbor springs, drop and edge scrolling run without per-frame JS callbacks. Pause, cancellation, data/geometry changes and unload release the preview. `ReorderHandle` provides Alt/Option + ↑/↓; localized native move-up/down actions are attached to each handle. Focus is restored to the moved key after layout. Screen-reader speech and arbitrary transform combinations need consumer-specific validation; the recordings establish simulator/emulator interaction correctness, not physical-device performance.
+
+<Clip name="retained-scroll-ios" caption="iPhone 17 simulator, iOS 26, English Vue demo: actual XCTest scrolling, unequal-height keyed insertion, native handle drag/drop and guarded pull-to-refresh. Original speed; simulator correctness only." />
+
+<Clip name="retained-scroll-android" caption="Android 16 / API 36 emulator, English Vue demo: real OS touches demonstrate collapse, anchored insertion, retained-row reorder and native pull-to-refresh. Debug app with production JavaScript, original speed; no physical-device performance claim." />

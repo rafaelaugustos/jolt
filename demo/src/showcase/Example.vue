@@ -12,7 +12,7 @@ const inputTheme = useThemedInput()
 const route = useRoute(),
   router = useRouter()
 const example = examples.find((e) => e.id === route.params.id)
-const scrolling = example?.id === 'scroll-header'
+const scrolling = ['scroll-header', 'retained-scroll'].includes(example?.id ?? '')
 const atelier = example?.category === 'SceneKit' && !!example?.ios && isIOS
 const mounted = ref(true),
   composer = ref(false),

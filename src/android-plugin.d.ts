@@ -1,4 +1,28 @@
 declare namespace org.rafaelaugusto.jolt {
+  class RealizedReorder {
+    constructor(
+      scroll: androidx.core.widget.NestedScrollView,
+      container: android.view.ViewGroup,
+      options: string,
+      listener: RealizedReorder.Listener,
+    )
+    static activeCount(): number
+    setRows(
+      rows: native.Array<android.view.View>,
+      handles: native.Array<android.view.View>,
+    ): void
+    setEnabled(value: boolean): void
+    setReducedMotion(value: boolean): void
+    cancel(): void
+    dispose(): void
+  }
+  namespace RealizedReorder {
+    class Listener {
+      constructor(implementation: {
+        onState(state: number, from: number, to: number): void
+      })
+    }
+  }
   class ColorTarget {
     constructor(view: android.view.View, property: number, initialColor: number)
     isSupported(): boolean
@@ -76,8 +100,9 @@ declare namespace org.rafaelaugusto.jolt {
   }
   class ScrollHeader {
     setRefreshing(value: boolean): void
+    setRows(views: native.Array<android.view.View>): void
     constructor(
-      list: android.widget.ListView,
+      list: android.view.ViewGroup,
       node: LiveSpring,
       header: android.view.View,
       title: android.view.View,

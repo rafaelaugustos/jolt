@@ -103,3 +103,42 @@ Seguimiento de gestos, instantáneas, desplazamiento de resorte y desplazamiento
 La ruta inicial admite texto estático, imágenes y contenedores de filas normales. Una instantánea es una imagen fija: no utilice cámaras en vivo/vídeo/superficies metálicas como vistas previas de arrastre. Jolt posee la traducción y opacidad del contenedor de filas realizado durante la operación; Coloque animaciones no relacionadas en una vista interior. Se rechazan las secciones integradas, los encabezados fijos y la búsqueda. Las cuadrículas, las listas horizontales, el arrastre entre listas y los complementos CollectionView de terceros no son compatibles con este adaptador.
 
 `ReorderAdapter<T>` es el contrato de extensión para otra implementación de lista: proporcione `view`, `items()`, `subscribe(changed)` y `attach(config)`. Su controlador posee entrada nativa, geometría medida, duración de la instantánea, restauración y desplazamiento de celdas recicladas, y emite solo eventos de inicio/confirmación/cancelación del ciclo de vida. La publicación de un adaptador requiere validar el comportamiento de accesibilidad y reciclaje de esa lista; aceptar una visión arbitraria no equivale a apoyarla.
+
+## Filas montadas dentro de ScrollView {#retained-rows}
+
+**Build en desarrollo; fuera de RC.9.** Pasa una colección `LayoutBase` montada dentro de un Core `ScrollView` vertical existente. `items()` devuelve claves estables, vistas de filas y handles descendientes opcionales. `scroll` es opcional si el ancestro ScrollView más cercano es la fuente deseada. Esta sobrecarga no necesita `ReorderSurface`. Conserva el adaptador ListView para colecciones recicladas.
+
+Admite hasta 100 filas distintas, ordenadas, sin solapamiento y con alturas variables. Los snapshots nativos tienen un límite de 16 millones de píxeles de origen; se rechaza el pickup si se supera. Las filas permanecen montadas. Define un fondo en la fila cuando su preview deba ser opaco; capturar vídeo en directo/superficies nativas queda fuera del adaptador. Conserva los transforms independientes de la app; solo posee snapshots y opacidad temporal.
+
+```ts
+import { reorder } from '@rafaelaugusto/jolt/reorder'
+const sorting = reorder(contentLayout, {
+  scroll: scrollView,
+  items: () =>
+    tracks.map((track) => ({
+      key: track.id,
+      target: rowViews.get(track.id)!,
+      handle: handleViews.get(track.id),
+    })),
+  onCommit({ key, beforeKey }) {
+    const item = tracks.find((track) => track.id === key)!
+    const next = tracks.filter((track) => track.id !== key)
+    next.splice(
+      beforeKey === null
+        ? next.length
+        : next.findIndex((track) => track.id === beforeKey),
+      0,
+      item,
+    )
+    tracks = next
+  },
+})
+sorting.move('track-3', 'track-1')
+// sorting.moveUp(key); sorting.moveDown(key); sorting.cancel(); sorting.dispose()
+```
+
+El host aplica cada commit a sus propios datos con claves. Tras cambios externos, espera el layout del renderer y llama a `refresh()`; los destinos nativos pendientes se resuelven después de la reconciliación. Long press, preview, springs vecinos, drop y scroll en los bordes se ejecutan en código nativo sin callbacks JS por frame. Pausa, cancelación, cambios de datos/geometría y unload liberan el preview. `ReorderHandle` ofrece Alt/Option + ↑/↓; se añaden acciones nativas traducidas para subir/bajar. El foco vuelve a la clave movida después del layout. La voz de lectores de pantalla y combinaciones arbitrarias de transforms requieren validación del consumidor; los vídeos comprueban interacción en simulador/emulador, sin medir rendimiento en dispositivos físicos.
+
+<Clip name="retained-scroll-ios" caption="Simulador de iPhone 17, iOS 26, demo Vue en inglés: scroll real con XCTest, inserción con claves y alturas distintas, arrastre/drop nativo y pull-to-refresh protegido. Velocidad original; validación solo en simulador." />
+
+<Clip name="retained-scroll-android" caption="Emulador Android 16 / API 36, demo Vue en inglés: toques reales del sistema muestran colapso, inserción anclada, reordenación de filas montadas y pull-to-refresh nativo. App debug con JavaScript de producción, velocidad original; sin medición de rendimiento físico." />
