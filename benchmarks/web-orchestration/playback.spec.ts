@@ -100,16 +100,30 @@ test('value takeover carries analytical position and velocity and rejects foreig
 }) => {
   const out = await page.evaluate(() => {
     const value = rt.motionValue(0)
-    const first = rt.animate(value, [0, 100], { duration: 1000, ease: 'linear' })
+    const first = rt.animate(value, [0, 1000], { duration: 10_000, ease: 'linear' })
     first.pause()
-    first.progress = 0.4
+    first.progress = 0.04
     first.play()
-    // Commands and samples share the clock within this task; compare initial spring velocity.
-    const before = value.get(),
+    const readStart = performance.now(),
+      before = value.get(),
+      readEnd = performance.now(),
       velocity = value.getVelocity()
+    // The real clock advances even within a single browser task. Deliberately
+    // leave time between the baseline sample and takeover, then bound the old
+    // linear trajectory at the replacement command instead of comparing a
+    // later spring sample to an earlier value.
+    while (performance.now() - readEnd < 30) {
+      /* emulate input work */
+    }
+    const commandStart = performance.now()
     const second = rt.animate(value, 200, { stiffness: 180, damping: 18 })
-    const after = value.get(),
-      inherited = rt.inspect(target).valueTracks[0]!.initialVelocity
+    const commandEnd = performance.now(),
+      track = rt.inspect(target).valueTracks[0]!,
+      lower = before + (100 * (commandStart - readEnd)) / 1000,
+      upper = before + (100 * (commandEnd - readStart)) / 1000
+    second.pause()
+    second.progress = 0
+    const after = value.get()
     const foreignRuntime = lab.createWebRuntime(document),
       foreign = foreignRuntime.motionValue(5)
     let rejected = 0
@@ -129,17 +143,23 @@ test('value takeover carries analytical position and velocity and rejects foreig
       rejected++
     }
     foreignRuntime.dispose()
-    second.pause()
     return {
-      before,
+      lower,
+      upper,
       after,
       velocity,
-      inherited,
+      initial: track.from,
+      inherited: track.initialVelocity,
       rejected,
       active: rt.inspect(target).valueAnimations,
     }
   })
-  expect(out.after).toBeCloseTo(out.before, 0)
+  expect(out.initial).toBeGreaterThanOrEqual(out.lower - 1e-6)
+  expect(out.initial).toBeLessThanOrEqual(out.upper + 1e-6)
+  expect(out.after).toBeCloseTo(out.initial, 8)
+  expect(out.velocity).toBeCloseTo(100, 8)
+  // The shared spring solver estimates velocity with a centered difference;
+  // retain its existing tolerance while checking position at the exact origin.
   expect(out.inherited).toBeCloseTo(out.velocity, 0)
   expect(out.rejected).toBe(3)
   expect(out.active).toBe(1)
