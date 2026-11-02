@@ -6,6 +6,50 @@ final class DocsTests: XCTestCase {
     let app = XCUIApplication(bundleIdentifier: "org.nativescript.jolt.benchmark")
     let control = URL(fileURLWithPath: "/tmp/jolt-docs-recording-control-" + (ProcessInfo.processInfo.environment["SIMULATOR_UDID"] ?? "unknown"))
 
+    func testRetainedScroll() throws {
+        launch(["--showcase-example=retained-scroll", "--showcase-audit", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"], "retained-scroll")
+        let scroll = app.descendants(matching: .any)["retained-scroll"].firstMatch
+        try record("retained-scroll-ios") {
+            let start = scroll.coordinate(withNormalizedOffset: CGVector(dx: 0.3, dy: 0.8))
+            start.press(forDuration: 0.1, thenDragTo: start.withOffset(CGVector(dx: 0, dy: -300)), withVelocity: .slow, thenHoldForDuration: 0.1)
+            Thread.sleep(forTimeInterval: 1)
+            try cue("screenshot", "retained-collapsed-ios")
+            tap("retained-add", wait: 1)
+            tap("retained-top", wait: 1)
+            // Native long-press pickup on the same retained rows.
+            let handle = app.descendants(matching: .any)["handle-new-1"].firstMatch
+            XCTAssertTrue(handle.exists, app.debugDescription)
+            let from = handle.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+            from.press(forDuration: 0.6, thenDragTo: from.withOffset(CGVector(dx: 0, dy: 190)), withVelocity: .slow, thenHoldForDuration: 0.3)
+            Thread.sleep(forTimeInterval: 1)
+            try cue("screenshot", "retained-reordered-ios")
+            if app.descendants(matching: .any)["retained-top"].firstMatch.exists { tap("retained-top", wait: 0.8) }
+            let pull = scroll.coordinate(withNormalizedOffset: CGVector(dx: 0.35, dy: 0.3))
+            pull.press(forDuration: 0.1, thenDragTo: pull.withOffset(CGVector(dx: 0, dy: 230)), withVelocity: .slow, thenHoldForDuration: 0.2)
+            Thread.sleep(forTimeInterval: 2.2)
+            try cue("screenshot", "retained-refreshed-ios")
+        }
+        tap("retained-jump", wait: 1)
+        let handle = app.descendants(matching: .any)["handle-song-8"].firstMatch
+        let edge = app.coordinate(withNormalizedOffset: .zero).withOffset(CGVector(dx: handle.frame.midX, dy: scroll.frame.maxY - 16))
+        handle.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).press(forDuration: 0.6, thenDragTo: edge, withVelocity: .slow, thenHoldForDuration: 2.2)
+        Thread.sleep(forTimeInterval: 1)
+        XCTAssertTrue(app.staticTexts["A good mix. Your own order."].exists)
+        tap("retained-details")
+        tap("retained-fail")
+        tap("retained-refresh", wait: 2)
+        XCTAssertTrue(app.staticTexts["Could not refresh. Pull to try again."].exists)
+        tap("retained-refresh", wait: 2)
+        XCTAssertTrue(app.staticTexts["Fresh tracks. Your place stays."].exists)
+        tap("retained-refresh", wait: 0.1)
+        tap("retained-pause", wait: 1.6)
+        tap("retained-pause")
+        tap("retained-reduce")
+        tap("retained-remount")
+        tap("retained-remount", wait: 1)
+        tap("retained-remount")
+    }
+
     func cue(_ action: String, _ name: String) throws {
         let id = UUID().uuidString
         let data = try JSONSerialization.data(withJSONObject: ["id": id, "action": action, "name": name])
@@ -1426,6 +1470,14 @@ final class DocsTests: XCTestCase {
         try exhibit("reveal", "Conceal", [("Duration: 500 ms", 0.4), ("Conceal", 1.7), ("Reveal", 1.7)])
         try exhibit("fade-overflow", "Fade out", [("Fade out", 1.3), ("Fade in", 1.3)])
         try exhibit("opacity-rotation", "Play orbit", [("Play orbit", 2.6), ("Slow motion", 2.5), ("Stop orbit", 0.5)])
+    }
+    func testVisualParityReferences() throws {
+        try exhibit("gradients", "Play gradients", [("Play gradients", 2.5), ("Swap colors", 1.2), ("Stop gradients", 0.5)])
+        try exhibit("shimmer", "Stop shimmer", [("Resize", 1.4), ("Resize", 1.4), ("Stop shimmer", 0.5)])
+        try exhibit("loaders", "Stop loaders", [("Resize", 1.5), ("Resize", 1.5)])
+        try exhibit("reveal", "Conceal", [("Duration: 500 ms", 0.4), ("Conceal", 1.7), ("Reveal", 1.7)])
+        try exhibit("text", "Letters", [("Letters", 1.8), ("Words", 1.8)])
+        try exhibit("rolling", "+ 1.10", [("+ 1.10", 1), ("Stagger: off", 0.4), ("Random", 1.7)])
     }
     func testExhibitType() throws {
         try exhibit("text", "Letters", [("Letters", 1.8), ("Words", 1.8)])

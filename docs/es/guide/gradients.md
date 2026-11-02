@@ -1,5 +1,7 @@
 # Degradados {#gradients}
 
+**Build Web en desarrollo:** estos efectos también están disponibles mediante métodos del runtime y sus scopes en [`/web`](./web-effects). Todavía no están incluidos en RC.9.
+
 El CSS de NativeScript solo tiene un `linear-gradient` estático. `gradient()` pinta un degradado nativo lineal, radial o cónico detrás de los elementos secundarios de un diseño y anima sus colores, paradas, ángulo, centro y radio:
 
 ```ts

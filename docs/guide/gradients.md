@@ -1,5 +1,7 @@
 # Gradients
 
+**Web development build:** these effects are also available through runtime/scoped methods in [`/web`](./web-effects). They are not included in RC.9.
+
 NativeScript's CSS only has a static `linear-gradient`. `gradient()` paints a native linear, radial or conic gradient behind a layout's children, and animates its colors, stops, angle, center and radius:
 
 ```ts

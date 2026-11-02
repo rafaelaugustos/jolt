@@ -1,5 +1,7 @@
 # Texto
 
+**Build Web em desenvolvimento:** estes efeitos também estão disponíveis nos métodos do runtime e dos escopos de [`/web`](./web-effects). Ainda não fazem parte da RC.9.
+
 Revele um título letra por letra, ou uma palavra de cada vez:
 
 <div class="clips">

@@ -1,5 +1,7 @@
 # 发布状态与限制 {#not-there-yet}
 
+**开发中，计划在 RC.9 之后提供：**[Web 渐变、加载、圆形显示和文字](./web-effects)、[原生 Core ScrollView 页头](./scroll-header#retained-scrollview)及[已挂载行排序](./reorder#retained-rows)。新增原生能力需要重新构建应用。Mavis 的采用工作单独跟踪。
+
 **RC.9 新增：**[Web 手势、缩放、协调滚动/刷新与排序](./web-gestures)，以及[原生保留式绘制通道和混合绑定所有权](./live-springs#extended-live-paint)。升级后请重新构建原生应用。
 
 **RC.8 新增：**[Web 编排与 SVG 描边](./web-orchestration)、[Vue/Nuxt 挂载、列表身份与横向滚动](./web-collections)，以及[暂停时原生视图替换的恢复修复](./motion-controllers#paused-replacement)。

@@ -1,5 +1,7 @@
 # Shimmer
 
+**Web development build:** these effects are also available through runtime/scoped methods in [`/web`](./web-effects). They are not included in RC.9.
+
 Sweep a light band across a loading placeholder:
 
 <Clip name="shimmer" caption="A shimmer over loading placeholders." />

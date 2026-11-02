@@ -152,3 +152,42 @@ Reduce Motion sigue fijando y desplazándose, desactiva el paralaje/estiramiento
 | Otros complementos de listas, filas de datos variables, desplazamiento vertical anidado, pestañas paginadas | No compatible; sin respaldo JS silencioso                                                         |
 
 Las [notas de validación y reproducción](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) describen las comprobaciones registradas. Las mediciones de rendimiento en dispositivos físicos, otras configuraciones de lector/fuente y otros adaptadores de actualización quedan fuera de esta entrega; #116 mantiene el alcance restante.
+
+## Core ScrollView con vistas montadas {#retained-scrollview}
+
+**Build en desarrollo; fuera de RC.9.** La nueva sobrecarga acepta un Core `ScrollView` vertical existente, incluidas sus subclases, con contenido `LayoutBase`. Header, imagen, título, toolbar/título compacto y sección fija conservan los hermanos/descendientes de la composición anterior. `items()` entrega claves string estables y vistas reales; las filas pueden tener distintas alturas. No se necesita una fila espaciadora de ListView ni otro motor de scroll.
+
+El contenido requiere `paddingTop` numérico no negativo, en DIPs. Jolt añade el espacio medido del header/sección y restaura el valor original al liberar si todavía posee esa escritura. Admite hasta 1000 filas montadas distintas, ordenadas, sin solapamiento y descendientes del contenido. No es virtualización.
+
+```ts
+import { scrollHeader } from '@rafaelaugusto/jolt'
+const headerMotion = scrollHeader(scrollView, {
+  header,
+  artwork,
+  title,
+  toolbar,
+  toolbarTitle,
+  section,
+  items: () =>
+    tracks.map((track) => ({ key: track.id, target: rowViews.get(track.id)! })),
+  async onRefresh(context) {
+    const incoming = await loadTracks()
+    if (context.cancelled) return
+    await context.commit(async () => {
+      tracks = incoming
+      await nextTick()
+    })
+  },
+})
+await headerMotion.preserveAnchor(async () => {
+  tracks = [newTrack, ...tracks]
+  await nextTick()
+})
+// headerMotion.scrollToItem(7); headerMotion.dispose()
+```
+
+Conecta después de cargar las vistas y completar su layout. Espera la reconciliación del renderer dentro de `preserveAnchor`/`commit`; si se elimina el ancla se usa la posición superviviente. Se mantienen las reglas de cancelación, error/reintento, pausa, suspensión, unload y movimiento reducido. La observación del scroll, el reconocimiento del pull y las actualizaciones por frame quedan en Jolt nativo. La app presenta carga/error y comprueba `cancelled` antes de escribir tras cualquier await adicional. El ejemplo comparte ScrollView con la [reordenación de filas montadas](./reorder#retained-rows).
+
+<Clip name="retained-scroll-ios" caption="Simulador de iPhone 17, iOS 26, demo Vue en inglés: scroll real con XCTest, inserción con claves y alturas distintas, arrastre/drop nativo y pull-to-refresh protegido. Velocidad original; validación solo en simulador." />
+
+<Clip name="retained-scroll-android" caption="Emulador Android 16 / API 36, demo Vue en inglés: toques reales del sistema muestran colapso, inserción anclada, reordenación de filas montadas y pull-to-refresh nativo. App debug con JavaScript de producción, velocidad original; sin medición de rendimiento físico." />

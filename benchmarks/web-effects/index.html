@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Jolt visual effects</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #101524;
+        color: #f1f3ff;
+        font:
+          16px system-ui,
+          sans-serif;
+      }
+      main {
+        max-width: 900px;
+        margin: auto;
+        padding: 48px;
+      }
+      h1 {
+        font-size: 40px;
+        letter-spacing: -1px;
+        margin: 0 0 12px;
+      }
+      p {
+        color: #bac1db;
+      }
+      nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 24px 0;
+      }
+      button {
+        background: #343c60;
+        color: white;
+        border: 1px solid #56618e;
+        border-radius: 10px;
+        padding: 12px 18px;
+        font: inherit;
+        cursor: pointer;
+      }
+      button:focus-visible {
+        outline: 3px solid #f4bf74;
+      }
+      #stage {
+        position: relative;
+        display: grid;
+        place-items: center;
+        min-height: 340px;
+        background: #1c243b;
+        border-radius: 24px;
+        padding: 32px;
+      }
+      #surface {
+        position: relative;
+        width: 100%;
+        height: 260px;
+        display: grid;
+        place-items: center;
+        border-radius: 22px;
+        background: #263354;
+      }
+      #text {
+        display: block;
+        font:
+          600 40px/1.35 system-ui,
+          sans-serif;
+        letter-spacing: -0.5px;
+        max-width: 480px;
+        min-height: 60px;
+        padding: 12px;
+        color: #ffe1b2;
+      }
+      #status {
+        min-height: 28px;
+        font-size: 15px;
+      }
+      footer {
+        color: #98a5c3;
+        font-size: 13px;
+        margin-top: 24px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <p>JOLT · WEB EFFECTS</p>
+      <h1 id="heading">Color that follows you.</h1>
+      <p id="description">Native-inspired motion, controlled by one Web runtime.</p>
+      <nav id="modes">
+        <button data-mode="gradient">Gradients</button
+        ><button data-mode="loading">Loading</button
+        ><button data-mode="reveal">Reveal</button><button data-mode="text">Text</button
+        ><button data-mode="roll">Numbers</button>
+      </nav>
+      <section id="stage"></section>
+      <nav>
+        <button id="action">Animate</button
+        ><button id="reverse">Interrupt / reverse</button><button id="pause">Pause</button
+        ><button id="play">Resume</button><button id="reduced">Reduce motion</button
+        ><button id="dispose">Dispose</button>
+      </nav>
+      <p id="status" role="status">Ready</p>
+      <footer>
+        Actual browser playback. Keyboard and pointer controls. No physical-device
+        performance claim.
+      </footer>
+    </main>
+    <script type="module" src="/fixture.js"></script>
+  </body>
+</html>

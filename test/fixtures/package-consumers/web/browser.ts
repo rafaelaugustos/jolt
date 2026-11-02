@@ -328,3 +328,27 @@ interactionButton.onclick = async () => {
     region.remove()
   }
 }
+
+// Exercise the exported types and actual packed runtime for the visual effects.
+document.getElementById('effects')!.onclick = async () => {
+  const target = document.getElementById('effect-card')!
+  const scope = motion.scope()
+  const color = scope.motionValue(0).to([0, 1], ['red', 'blue'])
+  const gradient = scope.gradient(target, { type: 'radial', colors: [color, 'white'] })
+  const paint = await gradient.animate({ radius: 0.8 }, { duration: 50 })
+  const shimmer = scope.shimmer(target)
+  const loader = scope.loader(target, { style: 'ring' })
+  shimmer.pause()
+  shimmer.play()
+  loader.pause()
+  loader.play()
+  shimmer()
+  loader.dispose()
+  const hidden = await scope.conceal(target, { duration: 30 })
+  const shown = await scope.reveal(target, { duration: 30 })
+  const text = await scope.animateText(target, { duration: 30, stagger: 1 })
+  const roll = await scope.rollTo(target, 123, { duration: 30 })
+  scope.dispose()
+  document.getElementById('effects-result')!.textContent =
+    `${paint && hidden && shown && text && roll}:${target.querySelectorAll('[data-jolt-effect]').length}:${target.textContent}`
+}

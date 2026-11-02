@@ -1,5 +1,7 @@
 # Text
 
+**Web development build:** these effects are also available through runtime/scoped methods in [`/web`](./web-effects). They are not included in RC.9.
+
 Reveal a title letter by letter, or a word at a time:
 
 <div class="clips">

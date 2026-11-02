@@ -1,5 +1,7 @@
 # Indicadores de carregamento
 
+**Build Web em desenvolvimento:** estes efeitos também estão disponíveis nos métodos do runtime e dos escopos de [`/web`](./web-effects). Ainda não fazem parte da RC.9.
+
 Adicione um indicador de carregamento a uma view vazia:
 
 <Clip name="loaders" caption="Pontos, barras e um anel." />

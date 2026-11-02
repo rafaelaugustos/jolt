@@ -26,8 +26,9 @@ declare class JoltSensorSource extends NSObject {
 }
 declare class JoltScrollHeader extends NSObject {
   setRefreshing(value: boolean): void
+  setRows(views: NSArray<UIView>): void
   static attachNodeHeaderTitleToolbarTitleToolbarDiagnosticOptionsOnState(
-    list: UITableView,
+    list: UIScrollView,
     node: JoltLiveSpring,
     header: UIView,
     title: UIView,
@@ -56,6 +57,20 @@ declare class JoltMotionProbe extends NSObject {
 }
 declare class JoltReorderHandle extends UIButton {
   onMove: ((direction: number) => void) | null
+}
+declare class JoltRealizedReorder extends NSObject {
+  static attachContainerOptionsOnState(
+    scroll: UIScrollView,
+    container: UIView,
+    options: string,
+    callback: (state: number, from: number, to: number) => void,
+  ): JoltRealizedReorder
+  static activeCount(): number
+  setRowsHandles(rows: NSArray<UIView>, handles: NSArray<UIView>): void
+  setEnabled(value: boolean): void
+  setReducedMotion(value: boolean): void
+  cancel(): void
+  dispose(): void
 }
 declare class JoltReorderSession extends NSObject {
   static attachOptionsOnState(

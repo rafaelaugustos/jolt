@@ -1,11 +1,15 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import type { ListView as CoreListView } from '@nativescript/core'
-import { Application, GridLayout, ListView, View } from './shims/core.js'
+import type {
+  ListView as CoreListView,
+  ScrollView as CoreScrollView,
+} from '@nativescript/core'
+import { Application, GridLayout, ListView, ScrollView, View } from './shims/core.js'
 import { driver, flush } from './helpers.js'
 import {
   scrollHeader,
   type ScrollHeader,
   type ScrollHeaderOptions,
+  type ScrollViewHeaderOptions,
 } from '../src/scroll-header/index.js'
 import {
   headerGeometry,
@@ -24,6 +28,7 @@ let offset = 0
 let native: {
   snapshot: ReturnType<typeof vi.fn>
   configure: ReturnType<typeof vi.fn>
+  rows: ReturnType<typeof vi.fn>
   scroll: ReturnType<typeof vi.fn>
   enabled: ReturnType<typeof vi.fn>
   refreshing: ReturnType<typeof vi.fn>
@@ -43,6 +48,7 @@ beforeEach(() => {
       total: 81,
     })),
     configure: vi.fn(),
+    rows: vi.fn(),
     scroll: vi.fn((y: number) => {
       offset = y
     }),
@@ -190,6 +196,27 @@ describe('scrollHeader geometry and ownership', () => {
     Object.assign(s.list, { sectioned: false })
     Object.assign(s.options, { diagnostic: new View() })
     expect(s.start).toThrow(/Core Label/)
+  })
+  it('replaces a ScrollView header without accumulating its owned content padding', async () => {
+    const s = scene()
+    const content = Object.assign(new GridLayout(), { paddingTop: 10 })
+    const scroll = Object.assign(new ScrollView(), { orientation: 'vertical', content })
+    scroll.parent = s.host
+    content.parent = scroll
+    const options = { ...s.options, items: () => [] } as ScrollViewHeaderOptions
+    const first = scrollHeader(scroll as unknown as CoreScrollView, options)
+    owners.push(first)
+    await layouts()
+    expect(first.ready).toBe(true)
+    expect(content.paddingTop).toBe(360)
+    const next = scrollHeader(scroll as unknown as CoreScrollView, options)
+    owners.push(next)
+    await layouts()
+    expect(first.disposed).toBe(true)
+    expect(next.ready).toBe(true)
+    expect(content.paddingTop).toBe(360)
+    next.dispose()
+    expect(content.paddingTop).toBe(10)
   })
   it('measures a real spacer and leaves an already-scrolled list in place at attachment', async () => {
     const s = scene()

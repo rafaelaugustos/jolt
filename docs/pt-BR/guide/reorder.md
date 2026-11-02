@@ -103,3 +103,42 @@ O acompanhamento do gesto, as cópias visuais, o deslocamento por molas e a rola
 O suporte inicial cobre texto estático, imagens e contêineres comuns. A cópia é uma imagem parada: não use câmera, vídeo ou superfícies Metal ao vivo como prévias de arraste. O Jolt controla a translação e a opacidade do contêiner da linha durante a operação; coloque outras animações em uma view interna. Seções, cabeçalhos fixos e busca embutida são rejeitados. Grades, listas horizontais, arraste entre listas e plugins CollectionView de terceiros ficam fora deste adaptador.
 
 `ReorderAdapter<T>` é o contrato para integrar outra lista: forneça `view`, `items()`, `subscribe(changed)` e `attach(config)`. O driver controla entrada nativa, geometria medida, duração da cópia, restauração das células recicladas e rolagem, emitindo apenas eventos de início/confirmação/cancelamento. Publicar um adaptador exige validar a reciclagem e a acessibilidade daquela lista; aceitar uma view qualquer não significa suportá-la.
+
+## Linhas montadas dentro de ScrollView {#retained-rows}
+
+**Build em desenvolvimento; fora da RC.9.** Passe uma coleção `LayoutBase` montada dentro de um Core `ScrollView` vertical existente. `items()` retorna chaves estáveis, views das linhas e handles descendentes opcionais. `scroll` é opcional quando o ancestral ScrollView mais próximo é a fonte desejada. Esta sobrecarga dispensa `ReorderSurface`. Use o adaptador ListView para coleções recicladas.
+
+São aceitas até 100 linhas distintas, ordenadas, sem sobreposição e com alturas variáveis. Os snapshots nativos têm limite de 16 milhões de pixels de origem; o pickup é recusado acima desse limite. As linhas permanecem montadas. Defina um background na linha quando o preview precisar ser opaco; captura de vídeo ao vivo/superfícies nativas fica fora deste adaptador. Transforms independentes do app são preservados; o adaptador controla snapshots e opacidade temporária.
+
+```ts
+import { reorder } from '@rafaelaugusto/jolt/reorder'
+const sorting = reorder(contentLayout, {
+  scroll: scrollView,
+  items: () =>
+    tracks.map((track) => ({
+      key: track.id,
+      target: rowViews.get(track.id)!,
+      handle: handleViews.get(track.id),
+    })),
+  onCommit({ key, beforeKey }) {
+    const item = tracks.find((track) => track.id === key)!
+    const next = tracks.filter((track) => track.id !== key)
+    next.splice(
+      beforeKey === null
+        ? next.length
+        : next.findIndex((track) => track.id === beforeKey),
+      0,
+      item,
+    )
+    tracks = next
+  },
+})
+sorting.move('track-3', 'track-1')
+// sorting.moveUp(key); sorting.moveDown(key); sorting.cancel(); sorting.dispose()
+```
+
+O host aplica cada commit aos próprios dados com chaves. Após alterações externas nos dados, aguarde o layout do renderer e chame `refresh()`; os alvos nativos pendentes são resolvidos depois da reconciliação. Long press, preview, springs dos vizinhos, drop e scroll nas bordas rodam nativamente, sem callbacks JS por frame. Pausa, cancelamento, alterações de dados/geometria e unload liberam o preview. `ReorderHandle` oferece Alt/Option + ↑/↓; ações nativas traduzidas de subir/descer são adicionadas aos handles. O foco volta à chave movida após o layout. Fala de leitores de tela e combinações arbitrárias de transforms precisam de validação no consumidor; as gravações comprovam interação em simulador/emulador, sem medir desempenho em aparelho físico.
+
+<Clip name="retained-scroll-ios" caption="Simulador de iPhone 17, iOS 26, demo Vue em inglês: scroll real por XCTest, inserção com chave e alturas distintas, arraste/drop nativo e pull-to-refresh protegido. Velocidade original; validação apenas em simulador." />
+
+<Clip name="retained-scroll-android" caption="Emulador Android 16 / API 36, demo Vue em inglês: toques reais do sistema mostram colapso, inserção ancorada, reordenação de linhas montadas e pull-to-refresh nativo. App debug com JavaScript de produção, velocidade original; sem medição de desempenho físico." />

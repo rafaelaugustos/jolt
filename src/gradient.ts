@@ -68,15 +68,8 @@ export interface Gradient {
   remove(): void
 }
 
-/** Everything the platform needs to paint one frame. */
-export interface GradientFrame {
-  colors: number[]
-  stops: number[]
-  angle: number
-  x: number
-  y: number
-  radius: number
-}
+import type { GradientFrame } from './core/gradient.js'
+export type { GradientFrame } from './core/gradient.js'
 
 export interface GradientTiming {
   duration: number

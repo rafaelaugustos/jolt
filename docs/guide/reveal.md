@@ -1,5 +1,7 @@
 # Circular reveal
 
+**Web development build:** these effects are also available through runtime/scoped methods in [`/web`](./web-effects). They are not included in RC.9.
+
 Reveal content from a point, or conceal it with the reverse effect:
 
 <Clip name="reveal" caption="A circular reveal and conceal." />

@@ -1,5 +1,7 @@
 # API {#api}
 
+**Web 开发版本：**这些效果也可通过 [`/web`](./web-effects) 的运行时和作用域方法使用，尚未包含在 RC.9 中。
+
 - [**drag / gestures / zoomable / scrollHeader / reorder (Web)**](./web-gestures) — Web 手势、缩放、滚动/刷新与交互排序 — 自 RC.9 起可用。
 
 - [**createMotionInspector**](./motion-inspector) — 可选的开发检查、本地批次、所有权、绑定图和可重复的弹簧调整。

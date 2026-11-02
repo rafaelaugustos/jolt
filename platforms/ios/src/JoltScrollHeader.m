@@ -14,7 +14,8 @@
 
 @interface JoltScrollHeader ()
 @property(nonatomic) JoltScrollHeaderDelegate *proxy;
-@property(nonatomic,weak) UITableView *list;
+@property(nonatomic,weak) UIScrollView *list;
+@property(nonatomic) NSArray<UIView *> *rows;
 @property(nonatomic) JoltLiveSpring *node;
 @property(nonatomic,weak) UIView *header, *title, *toolbarTitle, *toolbar;
 @property(nonatomic,weak) UILabel *diagnostic;
@@ -28,26 +29,36 @@
 @property(nonatomic) NSInteger refreshState, refreshRequests;
 @property(nonatomic) UIView *refreshIndicator;
 @property(nonatomic) CAShapeLayer *refreshRing;
-@property(nonatomic) NSMapTable<UITableViewCell *,NSNumber *> *coveredRows;
+@property(nonatomic) NSMapTable<UIView *,NSNumber *> *coveredRows;
 @end
 static NSInteger JoltScrollHeaderActive = 0;
 static void *JoltScrollHeaderContext = &JoltScrollHeaderContext;
 @implementation JoltScrollHeader
 + (NSInteger)activeCount { return JoltScrollHeaderActive; }
-+ (instancetype)attach:(UITableView *)list node:(JoltLiveSpring *)node header:(UIView *)header title:(UIView *)title toolbarTitle:(UIView *)toolbarTitle toolbar:(UIView *)toolbar diagnostic:(UILabel *)diagnostic options:(NSString *)options onState:(void (^)(void))onState {
-    if(![list isKindOfClass:UITableView.class]) [NSException raise:NSInvalidArgumentException format:@"scrollHeader requires UITableView"];
++ (instancetype)attach:(UIScrollView *)list node:(JoltLiveSpring *)node header:(UIView *)header title:(UIView *)title toolbarTitle:(UIView *)toolbarTitle toolbar:(UIView *)toolbar diagnostic:(UILabel *)diagnostic options:(NSString *)options onState:(void (^)(void))onState {
+    if(![list isKindOfClass:UIScrollView.class]) [NSException raise:NSInvalidArgumentException format:@"scrollHeader requires UIScrollView"];
     JoltScrollHeader *owner=[self new];owner.list=list;owner.node=node;owner.title=title;owner.toolbarTitle=toolbarTitle;owner.toolbar=toolbar;owner.diagnostic=diagnostic;owner.onState=onState;
     owner.titleHidden=title.accessibilityElementsHidden;owner.toolbarTitleHidden=toolbarTitle.accessibilityElementsHidden;owner.toolbarTouch=toolbar.userInteractionEnabled;owner.phase=-1;owner.offset=NAN;
     owner.toolbarHidden=toolbar.accessibilityElementsHidden;owner.titleElement=title.isAccessibilityElement;owner.toolbarTitleElement=toolbarTitle.isAccessibilityElement;owner.accessibilityPhase=-1;
     owner.coveredRows=[NSMapTable weakToStrongObjectsMapTable];
     owner.header=header;owner.headerHidden=header.accessibilityElementsHidden;
-    owner.proxy=[JoltScrollHeaderDelegate new];owner.proxy.forwarded=list.delegate;
+    if([list isKindOfClass:UITableView.class]) {
+    UITableView *table=(UITableView *)list;
+    owner.proxy=[JoltScrollHeaderDelegate new];owner.proxy.forwarded=table.delegate;
     // Flat lists have no section headers/footers. UIKit's automatic estimates
     // otherwise adjust the scroll anchor during width/safe-area changes.
-    owner.estimatedSectionHeaderHeight=list.estimatedSectionHeaderHeight;
-    owner.estimatedSectionFooterHeight=list.estimatedSectionFooterHeight;
-    list.estimatedSectionHeaderHeight=0;list.estimatedSectionFooterHeight=0;
-    [owner configure:options];list.delegate=owner.proxy;[list reloadData];[list layoutIfNeeded];[owner setEnabled:YES];return owner;
+    owner.estimatedSectionHeaderHeight=table.estimatedSectionHeaderHeight;
+    owner.estimatedSectionFooterHeight=table.estimatedSectionFooterHeight;
+    table.estimatedSectionHeaderHeight=0;table.estimatedSectionFooterHeight=0;
+    table.delegate=owner.proxy;
+    }
+    [owner configure:options];[list layoutIfNeeded];[owner setEnabled:YES];return owner;
+}
+- (void)setRows:(NSArray<UIView *> *)rows {
+    if(self.disposed)return;
+    for(UIView *row in self.coveredRows.keyEnumerator.allObjects){NSNumber *saved=[self.coveredRows objectForKey:row];row.accessibilityElementsHidden=(saved.integerValue&1)!=0;row.isAccessibilityElement=(saved.integerValue&2)!=0;}
+    [self.coveredRows removeAllObjects];_rows=[rows copy];
+    if(self.observing)[self update:YES];
 }
 - (void)configure:(NSString *)options {
     NSDictionary *config=[NSJSONSerialization JSONObjectWithData:[options dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
@@ -69,7 +80,7 @@ static void *JoltScrollHeaderContext = &JoltScrollHeaderContext;
         [self.list.superview addSubview:self.refreshIndicator];
     }
     [self updateRefreshIndicator];
-    [self.list reloadData];
+    if([self.list isKindOfClass:UITableView.class])[(UITableView *)self.list reloadData];
     if(self.observing)[self update:YES];
 }
 - (void)setEnabled:(BOOL)enabled {
@@ -143,14 +154,17 @@ static void *JoltScrollHeaderContext = &JoltScrollHeaderContext;
     if(self.diagnostic)self.diagnostic.text=[NSString stringWithFormat:@"y %.0f · range %.0f · native %ld · JS %ld",offset,self.range,(long)self.updates,(long)self.callbacks];
 }
 - (void)updateAccessibleRows {
-    NSArray<UITableViewCell *> *visible=self.list.visibleCells;
-    for(UITableViewCell *cell in self.coveredRows.keyEnumerator.allObjects) {
+    UITableView *table=[self.list isKindOfClass:UITableView.class]?(UITableView *)self.list:nil;
+    NSArray<UIView *> *visible=table?table.visibleCells:(self.rows?:@[]);
+    for(UIView *cell in self.coveredRows.keyEnumerator.allObjects) {
         if(![visible containsObject:cell]){NSInteger saved=[[self.coveredRows objectForKey:cell] integerValue];cell.accessibilityElementsHidden=(saved&1)!=0;cell.isAccessibilityElement=(saved&2)!=0;[self.coveredRows removeObjectForKey:cell];}
     }
     double edge=self.spacer-MIN(self.range,MAX(0,self.offset));
-    for(UITableViewCell *cell in visible) {
-        NSIndexPath *path=[self.list indexPathForCell:cell];
-        BOOL hidden=path.row==0 || CGRectGetMaxY(cell.frame)-self.list.contentOffset.y<=edge+.5;
+    for(UIView *cell in visible) {
+        if(![cell isDescendantOfView:self.list])continue;
+        NSIndexPath *path=table?[table indexPathForCell:(UITableViewCell *)cell]:nil;
+        CGRect frame=[cell convertRect:cell.bounds toView:self.list];
+        BOOL hidden=(table && path.row==0) || CGRectGetMaxY(frame)-self.list.contentOffset.y<=edge+.5;
         NSNumber *saved=[self.coveredRows objectForKey:cell];
         if(hidden){
             if(!saved)[self.coveredRows setObject:@((cell.accessibilityElementsHidden?1:0)|(cell.isAccessibilityElement?2:0)) forKey:cell];
@@ -160,9 +174,11 @@ static void *JoltScrollHeaderContext = &JoltScrollHeaderContext;
     }
 }
 - (NSString *)snapshot {
-    NSArray *rows=self.list.indexPathsForVisibleRows;
-    NSInteger first=rows.count?((NSIndexPath *)rows.firstObject).row:0;
-    NSDictionary *value=@{@"minimumOffset":@(self.minimumOffset),@"maximumOffset":@(self.maximumOffset),@"offset":@(isfinite(self.offset)?self.offset:0),@"phase":@[@"expanded",@"between",@"collapsed"][MAX(0,self.phase)],@"refresh":@[@"idle",@"pulling",@"armed",@"refreshing"][self.refreshState],@"refreshRequests":@(self.refreshRequests),@"updates":@(self.updates),@"callbacks":@(self.callbacks),@"first":@(first),@"visible":@(rows.count),@"total":@([self.list numberOfRowsInSection:0])};
+    UITableView *table=[self.list isKindOfClass:UITableView.class]?(UITableView *)self.list:nil;
+    NSArray *rows=table.indexPathsForVisibleRows;
+    NSInteger first=rows.count?((NSIndexPath *)rows.firstObject).row:0, visible=rows.count, total=table?[table numberOfRowsInSection:0]:self.rows.count;
+    if(!table){visible=0;for(NSUInteger i=0;i<self.rows.count;i++){UIView *row=self.rows[i];if(![row isDescendantOfView:self.list])continue;if(CGRectIntersectsRect([row convertRect:row.bounds toView:self.list],self.list.bounds)){if(!visible)first=i;visible++;}}}
+    NSDictionary *value=@{@"minimumOffset":@(self.minimumOffset),@"maximumOffset":@(self.maximumOffset),@"offset":@(isfinite(self.offset)?self.offset:0),@"phase":@[@"expanded",@"between",@"collapsed"][MAX(0,self.phase)],@"refresh":@[@"idle",@"pulling",@"armed",@"refreshing"][self.refreshState],@"refreshRequests":@(self.refreshRequests),@"updates":@(self.updates),@"callbacks":@(self.callbacks),@"first":@(first),@"visible":@(visible),@"total":@(total)};
     return [[NSString alloc]initWithData:[NSJSONSerialization dataWithJSONObject:value options:0 error:nil] encoding:NSUTF8StringEncoding];
 }
 - (void)scroll:(double)offset animated:(BOOL)animated {
@@ -218,10 +234,11 @@ static void *JoltScrollHeaderContext = &JoltScrollHeaderContext;
     self.title.accessibilityElementsHidden=self.titleHidden;self.toolbarTitle.accessibilityElementsHidden=self.toolbarTitleHidden;self.toolbar.userInteractionEnabled=self.toolbarTouch;
     self.title.isAccessibilityElement=self.titleElement;self.toolbarTitle.isAccessibilityElement=self.toolbarTitleElement;self.toolbar.accessibilityElementsHidden=self.toolbarHidden;
     self.header.accessibilityElementsHidden=self.headerHidden;
-    for(UITableViewCell *cell in self.coveredRows.keyEnumerator.allObjects){NSInteger saved=[[self.coveredRows objectForKey:cell] integerValue];cell.accessibilityElementsHidden=(saved&1)!=0;cell.isAccessibilityElement=(saved&2)!=0;}[self.coveredRows removeAllObjects];
-    if(self.list.delegate==self.proxy)self.list.delegate=self.proxy.forwarded;
-    if(self.list.estimatedSectionHeaderHeight==0)self.list.estimatedSectionHeaderHeight=self.estimatedSectionHeaderHeight;
-    if(self.list.estimatedSectionFooterHeight==0)self.list.estimatedSectionFooterHeight=self.estimatedSectionFooterHeight;
-    self.proxy=nil;self.node=nil;self.onState=nil;
+    for(UIView *cell in self.coveredRows.keyEnumerator.allObjects){NSInteger saved=[[self.coveredRows objectForKey:cell] integerValue];cell.accessibilityElementsHidden=(saved&1)!=0;cell.isAccessibilityElement=(saved&2)!=0;}[self.coveredRows removeAllObjects];
+    UITableView *table=[self.list isKindOfClass:UITableView.class]?(UITableView *)self.list:nil;
+    if(self.proxy && table.delegate==self.proxy)table.delegate=self.proxy.forwarded;
+    if(table && table.estimatedSectionHeaderHeight==0)table.estimatedSectionHeaderHeight=self.estimatedSectionHeaderHeight;
+    if(table && table.estimatedSectionFooterHeight==0)table.estimatedSectionFooterHeight=self.estimatedSectionFooterHeight;
+    self.proxy=nil;self.node=nil;self.onState=nil;_rows=nil;
 }
 @end

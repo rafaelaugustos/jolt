@@ -1,4 +1,4 @@
-import { isIOS, type ListView, type View } from '@nativescript/core'
+import { isIOS, type ListView, type ScrollView, type View } from '@nativescript/core'
 import { liveValueInput, type SpringValue } from '../motion-value.js'
 import { nativeLiveNode } from '../live-spring-driver.js'
 import type { ScrollHeaderGeometry } from './geometry.js'
@@ -22,10 +22,11 @@ export interface ScrollHeaderDriver {
   scroll(offset: number, animated: boolean): void
   enabled(value: boolean): void
   refreshing(value: boolean): void
+  rows(views: readonly View[]): void
   dispose(): void
 }
 export function createScrollHeaderDriver(
-  list: ListView,
+  list: ListView | ScrollView,
   value: SpringValue,
   views: {
     header: View
@@ -77,6 +78,10 @@ export function createScrollHeaderDriver(
       scroll: (offset, animated) => native.scrollAnimated(offset, animated),
       enabled: (value) => native.setEnabled(value),
       refreshing: (value) => native.setRefreshing(value),
+      rows: (views) =>
+        native.setRows(
+          NSArray.arrayWithArray(views.map((view) => view.nativeViewProtected)),
+        ),
       dispose: () => native.dispose(),
     }
   }
@@ -104,6 +109,13 @@ export function createScrollHeaderDriver(
     scroll: (offset, animated) => native.scroll(offset, animated),
     enabled: (value) => native.setEnabled(value),
     refreshing: (value) => native.setRefreshing(value),
+    rows: (views) => {
+      const rows = Array.create('android.view.View', views.length)
+      views.forEach((view, index) => {
+        rows[index] = view.nativeViewProtected
+      })
+      native.setRows(rows)
+    },
     dispose: () => native.dispose(),
   }
 }

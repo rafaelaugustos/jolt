@@ -1,6 +1,7 @@
 import {
   Application,
   ListView,
+  ScrollView,
   Label,
   LayoutBase,
   View,
@@ -64,6 +65,17 @@ export interface ScrollHeaderOptions {
   diagnostic?: Label
   onState?: (state: ScrollHeaderSnapshot) => void
 }
+export interface ScrollHeaderItem {
+  key: string
+  target: View
+}
+export interface ScrollViewHeaderOptions extends Omit<
+  ScrollHeaderOptions,
+  'rowHeight' | 'setSpacerHeight' | 'originalSpacerHeight' | 'keys'
+> {
+  /** Realized, vertically ordered rows; heights may differ. The app owns the children. */
+  items(): readonly ScrollHeaderItem[]
+}
 export interface ScrollHeader {
   readonly ready: boolean
   readonly disposed: boolean
@@ -81,7 +93,7 @@ export interface ScrollHeader {
   play(): void
   dispose(): void
 }
-const owners = new WeakMap<ListView, ScrollHeader>()
+const owners = new WeakMap<ListView | ScrollView, ScrollHeader>()
 const descendant = (view: View, parent: View) => {
   for (let current: View['parent'] = view; current; current = current.parent)
     if (current === parent) return true
@@ -102,12 +114,61 @@ const initialState = (): ScrollHeaderSnapshot => ({
 })
 
 /** Core ListView adapter: one spacer, fixed data rows, retained header/toolbar/section. */
-export function scrollHeader(list: ListView, options: ScrollHeaderOptions): ScrollHeader {
+export function scrollHeader(list: ListView, options: ScrollHeaderOptions): ScrollHeader
+export function scrollHeader(
+  list: ScrollView,
+  options: ScrollViewHeaderOptions,
+): ScrollHeader
+export function scrollHeader(
+  list: ListView | ScrollView,
+  input: ScrollHeaderOptions | ScrollViewHeaderOptions,
+): ScrollHeader {
+  const scroll = list instanceof ScrollView ? list : undefined
+  const items = scroll ? (input as ScrollViewHeaderOptions).items : undefined
+  const content = scroll?.content as LayoutBase | undefined
   if (
-    !(list instanceof ListView) ||
-    list.sectioned ||
-    list.stickyHeader ||
-    list.showSearch
+    scroll &&
+    (scroll.orientation !== 'vertical' ||
+      !(content instanceof LayoutBase) ||
+      typeof items !== 'function')
+  )
+    throw new TypeError(
+      'scrollHeader requires a vertical ScrollView with LayoutBase content and items().',
+    )
+  let savedPadding = content?.paddingTop
+  if (
+    scroll &&
+    (typeof savedPadding !== 'number' ||
+      !Number.isFinite(savedPadding) ||
+      savedPadding < 0)
+  )
+    throw new TypeError(
+      'ScrollView header content needs nonnegative numeric paddingTop in DIPs.',
+    )
+  let writtenPadding: number | undefined
+  const options: ScrollHeaderOptions = scroll
+    ? {
+        ...input,
+        rowHeight: 1,
+        keys: () => items!().map((item) => item.key),
+        setSpacerHeight(height) {
+          if (!content) return
+          if (height === 0) {
+            if (content.paddingTop === writtenPadding) content.paddingTop = savedPadding!
+            writtenPadding = undefined
+          } else {
+            writtenPadding = (savedPadding as number) + height
+            content.paddingTop = writtenPadding
+          }
+        },
+      }
+    : (input as ScrollHeaderOptions)
+  if (
+    !scroll &&
+    (!(list instanceof ListView) ||
+      list.sectioned ||
+      list.stickyHeader ||
+      list.showSearch)
   )
     throw new TypeError(
       'scrollHeader requires a flat Core ListView without built-in sticky headers or search.',
@@ -163,14 +224,64 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
       throw new TypeError('Scroll header callbacks must be functions.')
   if (options.onRefresh && !options.keys)
     throw new TypeError('Pull-to-refresh requires keys() for current-item anchoring.')
-  if (options.onRefresh && !isIOS && !(list.parent instanceof ScrollHeaderSurface))
+  if (
+    options.onRefresh &&
+    !scroll &&
+    !isIOS &&
+    !(list.parent instanceof ScrollHeaderSurface)
+  )
     throw new TypeError('Android pull-to-refresh requires a ScrollHeaderSurface parent.')
   if (options.onRefresh && isIOS && list.ios?.refreshControl)
     throw new TypeError(
       'Remove the app-owned iOS refreshControl before enabling onRefresh.',
     )
   owners.get(list)?.dispose()
+  if (content) savedPadding = content.paddingTop
   const host = list.parent
+  const realized = () => {
+    if (!scroll || !content || !items) return []
+    const rows = [...items()]
+    if (
+      rows.length > 1000 ||
+      new Set(rows.map((row) => row.key)).size !== rows.length ||
+      new Set(rows.map((row) => row.target)).size !== rows.length
+    )
+      throw new TypeError(
+        'ScrollView header rows require unique keys/targets and at most 1000 realized rows.',
+      )
+    const measured = rows.map((row) => {
+      if (
+        typeof row.key !== 'string' ||
+        !row.key ||
+        !(row.target instanceof View) ||
+        !descendant(row.target, content) ||
+        !row.target.isLoaded
+      )
+        throw new TypeError(
+          'ScrollView header rows must be mounted keyed descendants of its content.',
+        )
+      const position = row.target.getLocationRelativeTo(content)
+      const height = row.target.getActualSize().height
+      if (
+        !position ||
+        !Number.isFinite(position.y) ||
+        !Number.isFinite(height) ||
+        height <= 0
+      )
+        throw new RangeError(
+          'Wait for nonempty row geometry before using the scroll header.',
+        )
+      return { ...row, top: position.y, height }
+    })
+    if (
+      measured.some(
+        (row, i) =>
+          i > 0 && row.top < measured[i - 1]!.top + measured[i - 1]!.height - 0.5,
+      )
+    )
+      throw new TypeError('ScrollView header items must be ordered nonoverlapping rows.')
+    return measured
+  }
   const saved = {
     clip: host.clipToBounds,
     nativeClip: isIOS ? (host.nativeViewProtected as UIView)?.clipsToBounds : undefined,
@@ -350,10 +461,11 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
     if (ended || generation !== revision) return
     const expanded = options.expandedHeight ?? header.getActualSize().height
     const minimum = options.minimumHeight ?? toolbar.getActualSize().height
-    const divider = isIOS
-      ? 0
-      : list.android.getDividerHeight() /
-        list.android.getResources().getDisplayMetrics().density
+    const divider =
+      isIOS || scroll
+        ? 0
+        : list.android.getDividerHeight() /
+          list.android.getResources().getDisplayMetrics().density
     const next = headerGeometry(
       expanded,
       minimum,
@@ -368,8 +480,15 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
       options.titleFade,
       options.toolbarFade,
     )
-    if (ready && geometry && JSON.stringify(next) === JSON.stringify(geometry) && native)
+    if (
+      ready &&
+      geometry &&
+      JSON.stringify(next) === JSON.stringify(geometry) &&
+      native
+    ) {
+      if (scroll) native.rows(realized().map((row) => row.target))
       return
+    }
     const before = geometry,
       offset = native?.snapshot().offset ?? (last.updates ? last.offset : undefined)
     ready = false
@@ -394,6 +513,7 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
           },
           { enabled: !!options.onRefresh, threshold: options.refreshThreshold ?? 80 },
         )
+      if (scroll) native.rows(realized().map((row) => row.target))
       if (offset !== undefined) {
         restoringOffset = before ? resizedOffset(offset, before, next) : offset
         native.scroll(restoringOffset, false)
@@ -559,21 +679,29 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
       const before = geometry,
         offset = native.snapshot().offset,
         keys = [...options.keys()]
+      const beforeRows = scroll ? realized() : undefined
       if (
         new Set(keys).size !== keys.length ||
         keys.some((key) => typeof key !== 'string' || !key)
       )
         throw new TypeError('Data keys must be unique nonempty strings.')
-      const index = Math.min(
-          Math.max(
-            0,
-            Math.floor(
-              (offset - before.range - before.divider) /
-                (before.rowHeight + before.divider),
+      const firstVisible = beforeRows?.findIndex(
+        (row) => row.top + row.height > offset + before.minimum + before.section,
+      )
+      const index = beforeRows
+          ? firstVisible! < 0
+            ? Math.max(0, beforeRows.length - 1)
+            : firstVisible!
+          : Math.min(
+              Math.max(
+                0,
+                Math.floor(
+                  (offset - before.range - before.divider) /
+                    (before.rowHeight + before.divider),
+                ),
+              ),
+              Math.max(0, keys.length - 1),
             ),
-          ),
-          Math.max(0, keys.length - 1),
-        ),
         key = keys[index]
       operation = true
       native.enabled(false)
@@ -590,10 +718,22 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
           throw new TypeError('Data keys must remain unique.')
         const found = next.indexOf(key!),
           destination = found >= 0 ? found : Math.min(index, Math.max(0, next.length - 1))
-        source.scroll(
-          restoredOffset(offset, before, geometry!, index, destination),
-          false,
-        )
+        if (beforeRows) {
+          const afterRows = realized()
+          source.rows(afterRows.map((row) => row.target))
+          source.scroll(
+            Math.max(
+              0,
+              offset +
+                ((afterRows[destination]?.top ?? 0) - (beforeRows[index]?.top ?? 0)),
+            ),
+            false,
+          )
+        } else
+          source.scroll(
+            restoredOffset(offset, before, geometry!, index, destination),
+            false,
+          )
         await layout(list)
         if (current()) notify()
       } finally {
@@ -607,9 +747,19 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
         throw new RangeError('Use a nonnegative data-item index.')
       if (geometry)
         native?.scroll(
-          geometry.range +
-            geometry.divider +
-            index * (geometry.rowHeight + geometry.divider),
+          scroll
+            ? Math.max(
+                0,
+                (realized()[index]?.top ??
+                  (() => {
+                    throw new RangeError('Scroll item index is out of range.')
+                  })()) -
+                  geometry.minimum -
+                  geometry.section,
+              )
+            : geometry.range +
+                geometry.divider +
+                index * (geometry.rowHeight + geometry.divider),
           animated && !reducedMotion(),
         )
     },
@@ -630,7 +780,14 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
       ended = true
       detach()
       offMotion()
-      for (const view of [list, header, toolbar, section, host]) {
+      for (const view of [
+        list,
+        header,
+        toolbar,
+        section,
+        host,
+        ...(content ? [content] : []),
+      ]) {
         view.off('loaded', queueMeasure)
         view.off('layoutChanged', queueMeasure)
       }
@@ -657,7 +814,14 @@ export function scrollHeader(list: ListView, options: ScrollHeaderOptions): Scro
   host.clipToBounds = true
   if (isIOS) header.clipToBounds = false
   artwork.originY = 0
-  for (const view of [list, header, toolbar, section, host]) {
+  for (const view of [
+    list,
+    header,
+    toolbar,
+    section,
+    host,
+    ...(content ? [content] : []),
+  ]) {
     view.on('loaded', queueMeasure)
     view.on('layoutChanged', queueMeasure)
   }

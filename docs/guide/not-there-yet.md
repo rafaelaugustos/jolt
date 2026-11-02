@@ -1,5 +1,7 @@
 # Release status and limits {#not-there-yet}
 
+**In development, after RC.9:** [Web gradients, loading, circular reveal and text](./web-effects), [native Core ScrollView headers](./scroll-header#retained-scrollview) and [retained-row reorder](./reorder#retained-rows). The native additions require a fresh application build. Mavis adoption is tracked separately.
+
 **New in RC.9:** [Web gestures, zoom, coordinated scroll/refresh and reorder](./web-gestures), plus [retained native paint channels and mixed ownership](./live-springs#extended-live-paint). Rebuild native apps after upgrading.
 
 **New in RC.8:** [Web orchestration and SVG drawing](./web-orchestration), [Vue/Nuxt attachment, keyed items and horizontal scroll](./web-collections), and [paused native replacement recovery](./motion-controllers#paused-replacement).

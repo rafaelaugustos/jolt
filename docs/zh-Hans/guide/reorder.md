@@ -103,3 +103,42 @@ sorting.dispose() // restore cells and remove native input/actions
 初始路径支持静态文本、图像和普通行容器。快照是静态图像：请勿使用实时相机/视频/金属表面作为拖动预览。 Jolt拥有运行过程中实现的行容器的平移和不透明度；将不相关的动画放在内部视图上。内置部分、粘性标题和搜索均被拒绝。网格、水平列表、跨列表拖动和第三方 CollectionView 插件不在此适配器支持范围内。
 
 `ReorderAdapter<T>`是另一个列表实现的扩展合约：提供`view`、`items()`、`subscribe(changed)`和`attach(config)`。它的驱动程序拥有原生输入、测量的几何形状、快照生命周期、回收单元恢复和滚动，并且仅发出启动/提交/取消生命周期事件。发布适配器需要验证该列表的回收和可访问行为；接受任意观点并不等于支持它。
+
+## ScrollView 中的已挂载行 {#retained-rows}
+
+**开发版本，尚未包含在 RC.9 中。**传入已有纵向 Core `ScrollView` 内的已挂载 `LayoutBase` 集合。`items()` 返回稳定键、行视图及可选的后代手柄。若最近的 ScrollView 祖先就是目标滚动源，可省略 `scroll`。此重载不需要 `ReorderSurface`。回收式集合继续使用 ListView 适配器。
+
+最多支持 100 个不同的、按顺序排列且互不重叠的可变高度行。原生快照总量限于 1600 万源像素；超限时拒绝拾取。行保持挂载。若预览应不透明，请设置行背景；实时视频/原生 Surface 捕获不在支持范围。应用独立变换保持不变；适配器仅拥有快照和临时透明度。
+
+```ts
+import { reorder } from '@rafaelaugusto/jolt/reorder'
+const sorting = reorder(contentLayout, {
+  scroll: scrollView,
+  items: () =>
+    tracks.map((track) => ({
+      key: track.id,
+      target: rowViews.get(track.id)!,
+      handle: handleViews.get(track.id),
+    })),
+  onCommit({ key, beforeKey }) {
+    const item = tracks.find((track) => track.id === key)!
+    const next = tracks.filter((track) => track.id !== key)
+    next.splice(
+      beforeKey === null
+        ? next.length
+        : next.findIndex((track) => track.id === beforeKey),
+      0,
+      item,
+    )
+    tracks = next
+  },
+})
+sorting.move('track-3', 'track-1')
+// sorting.moveUp(key); sorting.moveDown(key); sorting.cancel(); sorting.dispose()
+```
+
+宿主将每次提交应用于自己的带键数据。外部数据变化后，等待渲染器布局并调用 `refresh()`；待更新的原生目标在宿主协调后解析。长按、抬起预览、相邻行弹簧、放下及边缘滚动均由原生代码运行，无逐帧 JS 回调。暂停、取消、数据/几何变化和卸载会释放预览。`ReorderHandle` 提供 Alt/Option + ↑/↓；每个手柄附带本地化的原生上移/下移操作。布局后焦点回到被移动的键。读屏语音和任意变换组合仍需由消费者验证；视频证明模拟器交互正确性，不代表实体设备性能。
+
+<Clip name="retained-scroll-ios" caption="iPhone 17 模拟器，iOS 26，英文 Vue 演示：通过真实 XCTest 操作展示滚动、不同高度行的带键插入、原生手柄拖放及带提交保护的下拉刷新。原速播放；仅验证模拟器正确性。" />
+
+<Clip name="retained-scroll-android" caption="Android 16 / API 36 模拟器，英文 Vue 演示：真实系统触摸展示折叠、保持锚点的插入、已挂载行排序和原生下拉刷新。Debug 应用使用生产版 JavaScript，原速播放；不代表实体设备性能。" />

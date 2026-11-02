@@ -1,4 +1,19 @@
 import { createZoomable, type WebZoomableOptions } from './zoomable.js'
+import { createGradient, type WebGradientOptions } from './gradient.js'
+import {
+  createShimmer,
+  createLoader,
+  type WebShimmerOptions,
+  type WebLoaderOptions,
+} from './loading.js'
+import type { EffectHost } from './effect.js'
+import { createReveal, type WebRevealOptions, type WebConcealOptions } from './reveal.js'
+import {
+  createTextAnimation,
+  createRoll,
+  type WebTextOptions,
+  type WebRollOptions,
+} from './text-effect.js'
 import { createScrollHeader, type WebScrollHeaderOptions } from './scroll-header.js'
 import { createReorder, type WebReorderOptions } from './reorder.js'
 import type { ReorderKey } from '../core/reorder.js'
@@ -2423,6 +2438,61 @@ export class WebRuntime {
         }
       },
     }
+  }
+
+  private effectHost(): EffectHost {
+    return {
+      ...this.interactionHost(),
+      identity: this,
+      document: this.document,
+      settings: () => ({
+        timeScale: this.settings.timeScale,
+        reducedMotion: this.reduced(),
+      }),
+      maxKeyframes: this.maxKeyframes,
+      remember: (animation) => this.rememberPlayback(animation),
+      value: (source, color) => {
+        const node = this.nodes.get(source)
+        if (!node || node.disposed || node.kind !== (color ? 'color' : 'number'))
+          throw new TypeError(
+            'Gradient bindings need live values of the correct kind from this runtime.',
+          )
+        return node
+      },
+      visibility: (callback) => {
+        this.groupVisibility.add(callback)
+        return () => this.groupVisibility.delete(callback)
+      },
+    }
+  }
+
+  gradient(target: HTMLElement, options: WebGradientOptions) {
+    this.assert()
+    return createGradient(target, options, this.effectHost())
+  }
+  reveal(target: HTMLElement, options: WebRevealOptions = {}) {
+    this.assert()
+    return createReveal(target, true, options, this.effectHost())
+  }
+  conceal(target: HTMLElement, options: WebConcealOptions = {}) {
+    this.assert()
+    return createReveal(target, false, options, this.effectHost())
+  }
+  animateText(target: HTMLElement, options: WebTextOptions = {}) {
+    this.assert()
+    return createTextAnimation(target, options, this.effectHost())
+  }
+  rollTo(target: HTMLElement, value: number | string, options: WebRollOptions = {}) {
+    this.assert()
+    return createRoll(target, value, options, this.effectHost())
+  }
+  shimmer(target: HTMLElement, options: WebShimmerOptions = {}) {
+    this.assert()
+    return createShimmer(target, options, this.effectHost())
+  }
+  loader(target: HTMLElement, options: WebLoaderOptions = {}) {
+    this.assert()
+    return createLoader(target, options, this.effectHost())
   }
 
   zoomable(image: HTMLImageElement, options: WebZoomableOptions = {}) {

@@ -7,6 +7,10 @@ import {
   type DerivedColor,
 } from './motion-value.js'
 import type { GradientFrame } from './gradient.js'
+import { cloneFrame, put, projectGradient } from './core/gradient.js'
+import type { GradientComponent } from './core/gradient.js'
+export { cloneFrame, put, take } from './core/gradient.js'
+export type { GradientComponent } from './core/gradient.js'
 
 export interface GradientBindings {
   colors?: readonly (ColorValue | DerivedColor)[]
@@ -16,27 +20,9 @@ export interface GradientBindings {
   radius?: number | DerivedValue
 }
 
-export type GradientComponent =
-  'angle' | 'x' | 'y' | 'radius' | `color:${number}` | `stop:${number}`
 export type GradientSource = ReturnType<typeof valueSource>
 export type GradientComponentValue = number | GradientSource
 export type GradientPatch = Map<GradientComponent, GradientComponentValue>
-
-export function cloneFrame(frame: GradientFrame): GradientFrame {
-  return { ...frame, colors: [...frame.colors], stops: [...frame.stops] }
-}
-
-export function put(frame: GradientFrame, key: GradientComponent, value: number) {
-  if (key.startsWith('color:')) frame.colors[Number(key.slice(6))] = value
-  else if (key.startsWith('stop:')) frame.stops[Number(key.slice(5))] = value
-  else frame[key as 'angle' | 'x' | 'y' | 'radius'] = value
-}
-
-export function take(frame: GradientFrame, key: GradientComponent) {
-  if (key.startsWith('color:')) return frame.colors[Number(key.slice(6))]!
-  if (key.startsWith('stop:')) return frame.stops[Number(key.slice(5))]!
-  return frame[key as 'angle' | 'x' | 'y' | 'radius']
-}
 
 /** Validate structural/static inputs before touching any existing owner. */
 export function gradientPatch(values: GradientBindings, count: number): GradientPatch {
@@ -144,11 +130,7 @@ export function gradientProgram(base: GradientBase, bindings: GradientPatch) {
     }
     // Project the complete vector without sorting colors. Spring overshoot may
     // merge adjacent stops; their identity and order are retained.
-    frame.radius = Math.max(0, frame.radius)
-    frame.stops = frame.stops.map((stop) => Math.min(1, Math.max(0, stop)))
-    for (let i = 1; i < frame.stops.length; i++)
-      frame.stops[i] = Math.max(frame.stops[i - 1]!, frame.stops[i]!)
-    return frame
+    return projectGradient(frame)
   }
   const current = at(0)
   const steps = Math.max(1, Math.ceil((duration * 60) / 1000))

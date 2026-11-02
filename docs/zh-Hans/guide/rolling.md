@@ -1,5 +1,7 @@
 # 滚动数字 {#rolling-numbers}
 
+**Web 开发版本：**这些效果也可通过 [`/web`](./web-effects) 的运行时和作用域方法使用，尚未包含在 RC.9 中。
+
 更改数字并使不同的数字滚动到位：
 
 <div class="clips">

@@ -2,7 +2,8 @@
 #import "JoltLiveSpring.h"
 NS_ASSUME_NONNULL_BEGIN
 @interface JoltScrollHeader : NSObject
-+ (instancetype)attach:(UITableView *)list node:(JoltLiveSpring *)node header:(UIView *)header title:(UIView *)title toolbarTitle:(UIView *)toolbarTitle toolbar:(UIView *)toolbar diagnostic:(nullable UILabel *)diagnostic options:(NSString *)options onState:(void (^)(void))onState;
++ (instancetype)attach:(UIScrollView *)list node:(JoltLiveSpring *)node header:(UIView *)header title:(UIView *)title toolbarTitle:(UIView *)toolbarTitle toolbar:(UIView *)toolbar diagnostic:(nullable UILabel *)diagnostic options:(NSString *)options onState:(void (^)(void))onState;
+- (void)setRows:(NSArray<UIView *> *)rows;
 + (NSInteger)activeCount;
 - (void)configure:(NSString *)options;
 - (NSString *)snapshot;

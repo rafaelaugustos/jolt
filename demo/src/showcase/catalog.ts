@@ -7,6 +7,7 @@ import CirclePhysicsLab from '../components/CirclePhysicsLab.vue'
 import GravityLab from '../components/GravityLab.vue'
 import SensorLab from '../components/SensorLab.vue'
 import ScrollHeaderLab from '../components/ScrollHeaderLab.vue'
+import RetainedScrollLab from '../components/RetainedScrollLab.vue'
 import ReturnTargetsLab from '../components/ReturnTargetsLab.vue'
 import GalleryLab from '../components/GalleryLab.vue'
 import SharedEntryLab from '../components/SharedEntryLab.vue'
@@ -81,6 +82,15 @@ export const categories = [
   'SceneKit',
 ] as const
 export const examples = [
+  {
+    id: 'retained-scroll',
+    title: 'Make room for a new order',
+    category: 'Touch',
+    description: 'Keep your place. Bring a favorite closer.',
+    component: markRaw(RetainedScrollLab),
+    full: true,
+    ios: false,
+  },
   {
     id: 'glass',
     title: 'Better as one',

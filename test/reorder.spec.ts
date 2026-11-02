@@ -32,6 +32,7 @@ function fixture() {
   let notify = () => {},
     emit = (_: ReorderNativeEvent) => {}
   const driver = {
+    refresh: vi.fn(),
     cancel: vi.fn(),
     setEnabled: vi.fn(),
     setReducedMotion: vi.fn(),
@@ -82,6 +83,25 @@ function fixture() {
 }
 
 describe('reorder ownership and identities', () => {
+  it('reconciles programmatic move targets by stable key after the host changes order', () => {
+    const f = fixture()
+    f.commits.mockImplementation(({ key, beforeKey }) => {
+      const item = f.rows().find((row) => row.id === key)!
+      const next = f.rows().filter((row) => row.id !== key)
+      next.splice(
+        beforeKey === null ? next.length : next.findIndex((row) => row.id === beforeKey),
+        0,
+        item,
+      )
+      f.set(next, false)
+    })
+    expect(f.control.move('row-2', 'row-1')).toBe(true)
+    expect(f.rows()[1]!.id).toBe('row-2')
+    expect(f.driver.refresh).toHaveBeenCalledExactlyOnceWith('row-2')
+    f.control.pause()
+    expect(f.control.move('row-2', null)).toBe(false)
+    expect(f.driver.refresh).toHaveBeenCalledTimes(1)
+  })
   it('commits once across 200 recycled items and never mutates app data during dragging', () => {
     const f = fixture(),
       original = [...f.rows()]

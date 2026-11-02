@@ -1,5 +1,7 @@
 # Revelado circular {#circular-reveal}
 
+**Build Web en desarrollo:** estos efectos también están disponibles mediante métodos del runtime y sus scopes en [`/web`](./web-effects). Todavía no están incluidos en RC.9.
+
 Revelar contenido desde un punto, u ocultarlo con el efecto inverso:
 
 <Clip name="reveal" caption="Una revelación y ocultación circular." />
