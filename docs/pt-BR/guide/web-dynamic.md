@@ -1,6 +1,6 @@
 # Movimento contínuo na Web {#web-dynamic}
 
-Este **candidato experimental ainda não publicado** acrescenta `motionValue()`, `bind()`, `springValue()` e `drag()` ao runtime de `@rafaelaugusto/jolt/web`. Esses métodos não estão na RC.5 publicada. Valide um tarball local antes de adotá-los. As entradas nativas e o adapter Vue mantêm seus contratos.
+Desde a **0.1.0-rc.6**, `motionValue()`, `bind()`, `springValue()` e `drag()` estão disponíveis no runtime de `@rafaelaugusto/jolt/web`. As APIs Web continuam experimentais; entradas nativas e adapter Vue mantêm seus contratos.
 
 <Clip name="web-dynamic-chromium" caption="Chromium 156 desktop, velocidade original: ponteiro e teclado reais controlam o follower, alteram a escala da aplicação durante o press, arrastam e retomam o snap, removem/remontam o card e mudam pausa/movimento reduzido. Gravação do navegador; não é evidência nativa nem desempenho em aparelho físico." />
 
@@ -25,7 +25,7 @@ motion.dispose()
 
 Os valores pertencem ao contexto. `get()` lê o número atual; `getVelocity()` usa unidades/segundo. `set()` altera a entrada imediatamente, enquanto as escritas visuais são agrupadas no próximo frame. Bindings aceitam x/y/rotação/escala/opacidade; scale se expande em scaleX/scaleY. Valores de outro contexto, descartados ou não numéricos são rejeitados antes de substituir o controle existente.
 
-`subscribe(listener)` observa mudanças depois das escritas agendadas e devolve uma função para cancelar a assinatura. Não emite o valor inicial. Callbacks executam JavaScript e têm custo próprio, sem converter animações WAAPI independentes em loops. Mapeamentos numéricos e cadeias limitadas de followers estão no [candidato de suporte ainda não publicado](./web-support). Cores e paridade completa com a API nativa permanecem fora.
+`subscribe(listener)` observa mudanças depois das escritas agendadas e devolve uma função para cancelar a assinatura. Não emite o valor inicial. Callbacks executam JavaScript e têm custo próprio, sem converter animações WAAPI independentes em loops. Mapeamentos numéricos e cadeias limitadas de followers estão no [suporte Web da RC.6](./web-support). Cores e paridade completa com a API nativa permanecem fora.
 
 Cada binding controla apenas seus canais de base. `animate()`, `set()` e `stop()` posteriores substituem os canais correspondentes; os demais bindings e layers de press continuam. Descartar um binding antigo não restaura valores antigos. Desvincular mantém o valor atual. `release()` restaura os estilos inline ainda controlados e cancela o trabalho do elemento; a remoção do DOM faz isso automaticamente. Valores podem sobreviver ao elemento: descarte-os separadamente ou descarte o runtime. Descartar uma entrada também descarta seus followers.
 

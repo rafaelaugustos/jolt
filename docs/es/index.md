@@ -63,11 +63,11 @@ features:
     link: /es/guide/scene-camera
 ---
 
-## 0.1.0-rc.5: movimiento Web y ciclo de vida nativo {#release-candidate}
+## 0.1.0-rc.6: interacción Web y movimiento nativo {#release-candidate}
 
-RC.5 publica [playback Web finito](/es/guide/web-runtime), [feedback de press](/es/guide/web-press) y un [adapter Vue DOM opcional](/es/guide/web-vue). Añade [pull-to-refresh nativo](/es/guide/scroll-header#pull-to-refresh), recupera el playback de scopes tras segundo plano, corrige la limpieza de layers Android y mejora el foco de lectores en scroll/galería.
+RC.6 añade [valores, springs continuas y drag/snap Web](/es/guide/web-dynamic), además de [mapeos, geometría y scroll](/es/guide/web-support). En native entrega [color/radio con springs](/es/guide/live-springs), [escenas con seek](/es/guide/sequences), [tamaño Flexbox](/es/guide/size) y [springs entre cuerpos](/es/guide/physics-attachments).
 
-Las APIs Web siguen experimentales; Mavis se integra por separado. [Instala RC.5](/es/guide/install), reconstruye las apps nativas y consulta las [notas](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.5) y la [aceptación pendiente](/es/guide/not-there-yet).
+Las APIs Web siguen experimentales; Mavis se integra por separado. [Instala RC.6](/es/guide/install), reconstruye las apps nativas y consulta las [notas](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.6) y la [aceptación pendiente](/es/guide/not-there-yet).
 
 ## 0.1.0-rc.4: composición nativa, reanudación y hojas {#rc-4}
 

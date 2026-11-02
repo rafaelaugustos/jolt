@@ -1,6 +1,6 @@
 # Web 连续动画 {#web-dynamic}
 
-这个**尚未发布的实验候选版本**为 `@rafaelaugusto/jolt/web` 的文档上下文添加 `motionValue()`、`bind()`、`springValue()` 和 `drag()`。已发布的 RC.5 不包含这些方法。使用前请验证本地打包版本；原生入口和 Vue 适配器保留现有契约。
+自 **0.1.0-rc.6** 起，`@rafaelaugusto/jolt/web` 提供 `motionValue()`、`bind()`、`springValue()` 和 `drag()`。Web API 仍为实验性功能；原生入口与 Vue 适配器合同保持不变。
 
 <Clip name="web-dynamic-chromium" caption="Chromium 156 桌面浏览器，原速：真实指针和键盘输入控制跟随弹簧、按压期间的应用缩放、拖动与重新捕获吸附、卸载/重建及暂停/减少动态效果。浏览器录像，不是原生或真机性能证据。" />
 
@@ -25,7 +25,7 @@ motion.dispose()
 
 数值属于创建它的上下文。`get()` 读取当前值，`getVelocity()` 返回单位/秒。`set()` 同步修改输入，视觉写入合并到帧中。可绑定 x/y、旋转、缩放和透明度；scale 展开为 scaleX/scaleY。其他上下文、已销毁或非数值输入会在替换现有所有权前报错。
 
-`subscribe(listener)` 在计划的帧写入后通知变化，返回取消订阅函数，不自动通知初始值。回调有自己的 JavaScript 成本，不会使无关的 WAAPI 动画变成帧循环。数值映射及有界跟随链见[未发布支持候选版](./web-support)。颜色和完整的原生/Web API 对等性仍不在范围内。
+`subscribe(listener)` 在计划的帧写入后通知变化，返回取消订阅函数，不自动通知初始值。回调有自己的 JavaScript 成本，不会使无关的 WAAPI 动画变成帧循环。数值映射及有界跟随链见[RC.6 Web 支持](./web-support)。颜色和完整的原生/Web API 对等性仍不在范围内。
 
 绑定只拥有指定的基础通道。后续 `animate()`、`set()`、`stop()` 只替换对应通道，其他绑定和 press 图层继续。旧绑定销毁后不能恢复旧值。解除绑定保留当前值；`release()` 恢复仍由库拥有的内联样式并取消目标工作，移出 DOM 也会自动执行。数值可以比目标存活更久，请单独销毁数值或销毁 runtime。销毁输入也会销毁其弹簧跟随者。
 

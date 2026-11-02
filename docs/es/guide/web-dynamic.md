@@ -1,6 +1,6 @@
 # Movimiento continuo en Web {#web-dynamic}
 
-Este **candidato experimental aún no publicado** añade `motionValue()`, `bind()`, `springValue()` y `drag()` al runtime de `@rafaelaugusto/jolt/web`. No están en la RC.5 publicada: valida un tarball local antes de usarlos. Las entradas nativas y el adaptador Vue conservan sus contratos.
+Desde **0.1.0-rc.6**, `motionValue()`, `bind()`, `springValue()` y `drag()` están disponibles en `@rafaelaugusto/jolt/web`. Las APIs Web siguen experimentales; las entradas nativas y el adapter Vue conservan sus contratos.
 
 <Clip name="web-dynamic-chromium" caption="Chromium 156 de escritorio, velocidad original: entrada real de puntero y teclado, follower, cambio de escala durante press, drag y captura del snap, desmontaje y pausa/movimiento reducido. Grabación del navegador; no demuestra rendimiento en un dispositivo físico." />
 
@@ -25,7 +25,7 @@ motion.dispose()
 
 Los valores pertenecen al contexto. `get()` lee el número actual; `getVelocity()` usa unidades/segundo. `set()` cambia la entrada inmediatamente y las escrituras visuales se agrupan por frame. Se admiten x/y/rotación/escala/opacidad; scale se expande a scaleX/scaleY. Se rechazan valores ajenos al contexto, descartados o no numéricos antes de sustituir el control existente.
 
-`subscribe(listener)` observa cambios después de las escrituras programadas y devuelve la función de desuscripción; no emite el valor inicial. Los callbacks tienen coste JavaScript propio y no convierten animaciones WAAPI independientes en loops. Los mapeos numéricos y cadenas limitadas están en el [candidato de soporte sin publicar](./web-support). Colores y paridad completa permanecen fuera.
+`subscribe(listener)` observa cambios después de las escrituras programadas y devuelve la función de desuscripción; no emite el valor inicial. Los callbacks tienen coste JavaScript propio y no convierten animaciones WAAPI independientes en loops. Los mapeos numéricos y cadenas limitadas están en el [soporte Web de RC.6](./web-support). Colores y paridad completa permanecen fuera.
 
 El binding posee solo sus canales de base. `animate()`, `set()` y `stop()` posteriores sustituyen los canales correspondientes; los demás y las capas press continúan. Descartar un binding antiguo no restaura valores obsoletos. Desvincular mantiene el valor actual. `release()` restaura los estilos inline que aún controla y cancela el trabajo; quitar el elemento del DOM hace lo mismo. Los valores pueden sobrevivir al elemento: descártalos o descarta el runtime. Descartar una entrada descarta también sus followers.
 

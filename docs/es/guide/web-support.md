@@ -1,6 +1,6 @@
 # Mapeos, geometría y scroll Web {#web-support}
 
-Estas APIs de `@rafaelaugusto/jolt/web` son un **candidato experimental sin publicar** para #302–#304; no están en RC.5. Los contratos nativos y adapters siguen iguales. La adopción en Mavis es independiente.
+Desde **0.1.0-rc.6**, `@rafaelaugusto/jolt/web` incluye mapeos numéricos, geometría y scroll vertical (#302–#304). Las APIs siguen experimentales. Los contratos nativos y adapters se mantienen; Mavis se integra por separado.
 
 <Clip name="web-support-chromium" caption="Chromium de escritorio, interfaz inglesa, velocidad original: slider, teclado, press y rueda reales muestran mapeos, cambio de tamaño de la etiqueta sin reiniciar el movimiento, inversión del scroll y limpieza. No mide rendimiento físico ni del compositor." />
 
