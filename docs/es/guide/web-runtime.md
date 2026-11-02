@@ -50,6 +50,8 @@ La interrupción proyecta el inicio resuelto del reloj de origen sobre el reloj 
 
 El runtime controla `transform` y `opacity` de una caja HTML montada y transformable. El orden es `base 2D estática × translate × rotate × scale`, conservando `transform-origin`. No admite transforms CSS individuales, bases 3D, animaciones/transiciones existentes ni estilos de movimiento inline con `!important`. Libere y recree antes de cambios CSS externos; no se monitorizan cambios arbitrarios de hojas de estilo/variables CSS. Use una superficie interna dedicada cuando otro código controle los estilos externos.
 
+Los cambios admitidos de tamaño y pivote 2D conservan ownership con la [API de geometría sin publicar](./web-support#geometry); otros cambios externos siguen exigiendo release/recreación.
+
 Esta etapa solo cubre reproducción finita: springs continuas, drag/pinch, motion values, scroll, layout, propiedades exclusivas del nativo y adapters de lifecycle quedan separados. Todavía no establece una API estable de referencias portátiles ni completa Mavis. WAAPI por sí sola no demuestra aceleración por compositor ni garantiza FPS.
 
 ## Referencia nativa y validación {#native-reference-and-validation}

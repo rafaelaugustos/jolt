@@ -78,6 +78,7 @@ export const es = {
   webPress: 'Pulsación en Web',
   webVue: 'Movimiento Vue en Web',
   webDynamic: 'Movimiento continuo en Web',
+  webSupport: 'Mapeos, geometría y scroll Web',
   limits: 'Estado de la versión y límites',
 }
 
@@ -159,6 +160,7 @@ export const zh = {
   webPress: 'Web 按压反馈',
   webVue: 'Vue Web 动画',
   webDynamic: 'Web 连续动画',
+  webSupport: 'Web 映射、几何与滚动',
   limits: '发布状态与限制',
 }
 

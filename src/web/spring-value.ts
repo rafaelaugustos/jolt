@@ -43,6 +43,10 @@ export class SpringValueNode extends NumericValue {
     report: (error: unknown) => void,
     forget: () => void,
   ) {
+    if (source.disposed || source.depth >= 32)
+      throw new RangeError(
+        'A value graph needs a live source and at most 32 derived/follower levels.',
+      )
     if (!options || typeof options !== 'object')
       throw new TypeError('Expected spring options.')
     for (const [key, value] of Object.entries(options)) {
@@ -86,6 +90,9 @@ export class SpringValueNode extends NumericValue {
   }
   override get moving() {
     return this.active && !this.held && !this.ended
+  }
+  override get depth() {
+    return this.source.depth + 1
   }
   get paused() {
     return this.held
@@ -186,7 +193,7 @@ export class SpringValueNode extends NumericValue {
     this.scheduler.remove(this.task)
     super.dispose()
   }
-  springHandle(): WebSpringValue {
+  springHandle(): Omit<WebSpringValue, 'to'> {
     const node = this
     return {
       get: () => node.get(),

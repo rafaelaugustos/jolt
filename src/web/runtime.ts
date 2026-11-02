@@ -6,8 +6,20 @@ import { presets as builtins } from '../core/presets.js'
 import { compose, poseAt, formatPose, type Contribution, type Rest } from './compose.js'
 import { SpringValueNode, type WebSpringOptions } from './spring-value.js'
 import { FrameScheduler, type FrameTask } from './scheduler.js'
+import { numericMap, type NumericMapOptions } from '../core/numeric-map.js'
+import {
+  ScrollValueNode,
+  ScrollLinkedNode,
+  scrollPlan,
+  type WebScrollSource,
+  type WebScrollValue,
+  type WebScrollKeyframes,
+  type WebScrollOptions,
+  type WebScrollLink,
+} from './scroll.js'
 import {
   NumericValue,
+  DerivedValueNode,
   type WebReadableValue,
   type WebBindings,
   type WebBinding,
@@ -66,11 +78,17 @@ class Surface {
   disposed = false
   rebuilds = 0
   frameCount = 0
+  path: 'finite' | 'scheduler' | 'scroll-timeline' = 'finite'
   private original: { transform: string; opacity: string }
   private written: { transform: string; opacity: string }
   private className: string
   private origin: string
   private baseline: string
+  private geometryObserver?: ResizeObserver
+  private geometryLeases = new Set<object>()
+  get geometryObservers() {
+    return this.geometryObserver ? 1 : 0
+  }
   readonly task: FrameTask = {
     read: () => {
       try {
@@ -84,7 +102,8 @@ class Surface {
       !this.disposed &&
       [...this.state.entries.values()].some((e) => !e.owner.paused && !e.owner.pending),
     write: () => {
-      if (!this.disposed && this.state.bindings.size) this.render(this.runtime.now())
+      if (!this.disposed && this.state.bindings.size && this.path !== 'scroll-timeline')
+        this.render(this.runtime.now())
     },
   }
   rest(state = this.state): Rest[] {
@@ -162,14 +181,16 @@ class Surface {
       new this.runtime.view.DOMMatrix(this.baseline).isIdentity,
     )
   }
-  assert() {
+  assert(allowGeometry = false) {
     const { target, runtime } = this
     if (this.disposed || !target.isConnected || target.ownerDocument !== runtime.document)
       throw new Error('The motion surface is unavailable.')
     const css = runtime.view.getComputedStyle(target)
     if (
       target.className !== this.className ||
-      css.transformOrigin !== this.origin ||
+      (!allowGeometry &&
+        !this.geometryLeases.size &&
+        css.transformOrigin !== this.origin) ||
       [css.translate, css.rotate, css.scale].some((v) => v !== 'none') ||
       target.getAnimations().some((a) => a !== this.effect) ||
       (['transform', 'opacity'] as const).some(
@@ -179,6 +200,57 @@ class Surface {
       throw new Error(
         'External style changes require releasing and recreating the motion surface.',
       )
+    if (this.geometryLeases.size) {
+      this.validateGeometry(css)
+      // A live frame can run before ResizeObserver delivery. Accept only the
+      // declared geometry change here; the other ownership guards still apply.
+      this.origin = css.transformOrigin
+    }
+    return css
+  }
+
+  private validateGeometry(css: CSSStyleDeclaration) {
+    if (
+      ['inline', 'none', 'contents'].includes(css.display) ||
+      css.transitionDuration.split(',').some((v) => parseFloat(v) > 0) ||
+      parseFloat(css.transformOrigin.split(' ')[2] ?? '0') !== 0
+    )
+      throw new TypeError(
+        'Geometry refresh needs a transformable 2D box without CSS transitions.',
+      )
+  }
+  refreshGeometry() {
+    const css = this.assert(true)
+    this.validateGeometry(css)
+    // The browser applies the new pivot to the existing transform effect. Its
+    // keyframes, logical values, velocity and animation clock need no rebuild.
+    this.origin = css.transformOrigin
+  }
+  observeGeometry(): WebBinding {
+    this.refreshGeometry()
+    const token = {}
+    this.geometryLeases.add(token)
+    if (!this.geometryObserver) {
+      this.geometryObserver = new this.runtime.view.ResizeObserver(() => {
+        if (this.disposed) return
+        try {
+          this.refreshGeometry()
+        } catch (error) {
+          this.runtime.release(this.target)
+          this.runtime.view.reportError(error)
+        }
+      })
+      this.geometryObserver.observe(this.target, { box: 'border-box' })
+    }
+    return {
+      dispose: () => {
+        if (!this.geometryLeases.delete(token)) return
+        if (!this.geometryLeases.size) {
+          this.geometryObserver?.disconnect()
+          this.geometryObserver = undefined
+        }
+      },
+    }
   }
 
   snapshot(
@@ -206,11 +278,85 @@ class Surface {
         poseAt(this.snapshot(state, at, controls), this.rest(state)),
         this.baseline,
       )
+      const nodes = [...state.bindings.values()].map((e) => e.source)
+      const first = nodes[0]
+      const Timeline = (
+        this.runtime.view as unknown as {
+          ScrollTimeline?: new (options: {
+            source: Element
+            axis: 'y'
+          }) => AnimationTimeline
+        }
+      ).ScrollTimeline
+      if (
+        Timeline &&
+        this.runtime.view.CSS.supports('animation-range-start', '1px') &&
+        first instanceof ScrollLinkedNode &&
+        first.native &&
+        nodes.every(
+          (n) =>
+            n instanceof ScrollLinkedNode &&
+            n.native &&
+            n.scroll === first.scroll &&
+            n.range[0] === first.range[0] &&
+            n.range[1] === first.range[1],
+        ) &&
+        [...state.entries.values()].every((e) => {
+          const c = controls.get(e.owner)
+          return c ? c.paused || c.pending : e.owner.paused || e.owner.pending
+        })
+      ) {
+        const values = nodes as ScrollLinkedNode[]
+        const rests = [
+          ...state.rest.values(),
+          ...values
+            .filter((n) => n.spatiallyReduced)
+            .map((n) => ({ property: n.property, value: n.get() })),
+        ]
+        const entries = [
+          ...this.snapshot(state, at, controls),
+          ...values
+            .filter((n) => !n.spatiallyReduced)
+            .map((n) => ({
+              property: n.property,
+              points: n.points,
+              time: 0,
+              paused: false,
+            })),
+        ]
+        const compiled = compose(entries, rests, this.baseline, this.runtime.maxKeyframes)
+        let animation: globalThis.Animation | undefined
+        try {
+          if (compiled.frames.length) {
+            animation = new this.runtime.view.Animation(
+              new this.runtime.view.KeyframeEffect(this.target, compiled.frames, {
+                duration: 'auto',
+                fill: 'both',
+                easing: 'linear',
+              }),
+              new Timeline({ source: first.scroll.element, axis: 'y' }),
+            )
+            const ranged = animation as globalThis.Animation & {
+              rangeStart: string
+              rangeEnd: string
+            }
+            if (!('rangeStart' in animation))
+              throw new Error('Animation ranges are unsupported.')
+            ranged.rangeStart = `${first.range[0]}px`
+            ranged.rangeEnd = `${first.range[1]}px`
+            void animation.finished.catch(() => {})
+          }
+          return { ...compiled, ...current, animation, path: 'scroll-timeline' as const }
+        } catch {
+          animation?.cancel()
+        }
+      }
       return {
         ...current,
         duration: 0,
         frames: [] as Keyframe[],
         animation: undefined as globalThis.Animation | undefined,
+        path: 'scheduler' as const,
       }
     }
     const result = compose(
@@ -231,7 +377,7 @@ class Surface {
           )
         : undefined
     if (animation) void animation.finished.catch(() => {})
-    return { ...result, animation }
+    return { ...result, animation, path: 'finite' as const }
   }
 
   commit(state: State, prepared: ReturnType<Surface['prepare']>) {
@@ -239,11 +385,12 @@ class Surface {
     this.write(prepared)
     this.state = state
     this.effect = prepared.animation
+    this.path = prepared.path
     this.frameCount = prepared.frames.length
     this.rebuilds++
     owners.set(this.target, this)
     previous?.cancel()
-    if (this.effect) {
+    if (this.effect && this.path !== 'scroll-timeline') {
       const animation = this.effect
       void animation.finished.then(
         () => {
@@ -258,6 +405,9 @@ class Surface {
 
   restore() {
     this.disposed = true
+    this.geometryObserver?.disconnect()
+    this.geometryObserver = undefined
+    this.geometryLeases.clear()
     this.effect?.cancel()
     this.effect = undefined
     for (const property of ['transform', 'opacity'] as const)
@@ -461,6 +611,11 @@ export class WebRuntime {
   private pendingFrame?: FrameTask
   readonly scheduler: FrameScheduler
   private readonly values = new Set<NumericValue>()
+  private readonly scrollSources = new Set<ScrollValueNode>()
+  private readonly scrollLinks = new Map<
+    HTMLElement,
+    Set<WebScrollLink & { owns(): boolean }>
+  >()
   private readonly nodes = new WeakMap<WebReadableValue, NumericValue>()
   private readonly visibility = () => this.scheduler.hidden(this.document.hidden)
   private readonly report = (error: unknown) => this.view.reportError(error)
@@ -569,21 +724,162 @@ export class WebRuntime {
     return result
   }
 
+  refresh(target: HTMLElement) {
+    this.assert()
+    this.targets(target)
+    const surface = this.surfaces.get(target)
+    if (!surface)
+      throw new Error('Claim the motion surface before refreshing its geometry.')
+    surface.refreshGeometry()
+  }
+  observeGeometry(target: HTMLElement): WebBinding {
+    this.assert()
+    this.targets(target)
+    const surface = this.surfaces.get(target)
+    if (!surface)
+      throw new Error('Claim the motion surface before observing its geometry.')
+    return surface.observeGeometry()
+  }
+
   motionValue(initial: number) {
     this.assert()
     const node = new NumericValue(this.scheduler, initial, this.report, () =>
       this.values.delete(node),
     )
-    const handle = node.handle()
+    return this.valueHandle(node, node.handle())
+  }
+
+  private valueHandle<T extends Omit<WebReadableValue, 'to'>>(
+    node: NumericValue,
+    handle: T,
+  ) {
+    const result = Object.assign(handle, {
+      to: (
+        input: readonly number[],
+        output: readonly number[],
+        options?: NumericMapOptions,
+      ): WebReadableValue => {
+        this.assert()
+        const mapped = new DerivedValueNode(
+          node,
+          numericMap(input, output, options),
+          this.report,
+          () => this.values.delete(mapped),
+        )
+        return this.valueHandle(mapped, mapped.readableHandle())
+      },
+    })
     this.values.add(node)
-    this.nodes.set(handle, node)
-    return handle
+    this.nodes.set(result, node)
+    return result
+  }
+
+  private scrollNode(source: WebScrollSource) {
+    const node = new ScrollValueNode(
+      this.document,
+      source,
+      this.scheduler,
+      this.report,
+      () => {
+        this.values.delete(node)
+        this.scrollSources.delete(node)
+        this.observe()
+      },
+    )
+    this.scrollSources.add(node)
+    this.values.add(node)
+    this.observe()
+    return node
+  }
+  scrollValue(source: WebScrollSource = this.document): WebScrollValue {
+    this.assert()
+    const node = this.scrollNode(source)
+    return this.valueHandle(
+      node,
+      Object.assign(node.readableHandle(), { refresh: () => node.refresh() }),
+    )
+  }
+  scrollLinked(
+    source: WebScrollSource,
+    target: HTMLElement,
+    frames: WebScrollKeyframes,
+    options: WebScrollOptions,
+  ): WebScrollLink {
+    this.assert()
+    this.targets(target)
+    const plan = scrollPlan(frames, options)
+    const scroll = this.scrollNode(source)
+    const nodes = new Set<ScrollLinkedNode>()
+    let binding: WebBinding | undefined
+    try {
+      const values: WebBindings = {}
+      for (const [property, entry] of plan.plans) {
+        const node = new ScrollLinkedNode(
+          scroll,
+          property,
+          plan.range,
+          entry.points,
+          plan.native,
+          entry.input,
+          entry.output,
+          () => this.reduced(),
+          this.report,
+          () => this.values.delete(node),
+        )
+        nodes.add(node)
+        values[property] = this.valueHandle(node, node.readableHandle())
+      }
+      binding = this.bind(target, values)
+    } catch (error) {
+      for (const node of nodes) node.dispose()
+      scroll.dispose()
+      throw error
+    }
+    const surface = this.surfaces.get(target)!
+    let ended = false
+    const link: WebScrollLink & { owns(): boolean } = {
+      owns: () =>
+        !ended &&
+        !surface.disposed &&
+        [...surface.state.bindings.values()].some((b) =>
+          nodes.has(b.source as ScrollLinkedNode),
+        ),
+      get execution() {
+        return link.owns()
+          ? surface.path === 'scroll-timeline'
+            ? 'scroll-timeline'
+            : 'scheduler'
+          : 'released'
+      },
+      refresh: () => {
+        if (ended) return
+        scroll.refresh()
+        if (ended || scroll.disposed) return
+        surface.refreshGeometry()
+        this.transaction(new Map([[surface, clone(surface.state)]]), this.now())
+      },
+      dispose: () => {
+        if (ended) return
+        ended = true
+        const links = this.scrollLinks.get(target)
+        links?.delete(link)
+        if (!links?.size) this.scrollLinks.delete(target)
+        binding?.dispose()
+        for (const node of nodes) node.dispose()
+        scroll.dispose()
+      },
+    }
+    const links = this.scrollLinks.get(target) ?? new Set()
+    links.add(link)
+    this.scrollLinks.set(target, links)
+    scroll.onDispose(link.dispose)
+    return link
   }
 
   springValue(source: WebReadableValue, options: WebSpringOptions = {}) {
     this.assert()
     const input = this.nodes.get(source)
-    if (!input || input.disposed || input instanceof SpringValueNode)
+    if (!input || input.disposed)
       throw new TypeError(
         'A continuous spring requires a live input motion value from this runtime.',
       )
@@ -595,10 +891,7 @@ export class WebRuntime {
       this.report,
       () => this.values.delete(node),
     )
-    const handle = node.springHandle()
-    this.values.add(node)
-    this.nodes.set(handle, node)
-    return handle
+    return this.valueHandle(node, node.springHandle())
   }
 
   bind(target: HTMLElement, values: WebBindings): WebBinding {
@@ -934,7 +1227,7 @@ export class WebRuntime {
       for (const data of prepared.values())
         if (data.animation) {
           data.animation.play()
-          data.animation.startTime = at
+          if (data.path !== 'scroll-timeline') data.animation.startTime = at
         }
       for (const [owner, control] of controls)
         clocks.set(owner, owner.prepare(control, at))
@@ -962,21 +1255,30 @@ export class WebRuntime {
           affected.add(entry.owner)
         }
       for (const [key, previous] of surface.state.bindings)
-        if (state.bindings.get(key) !== previous) {
+        if (
+          state.bindings.get(key) !== previous ||
+          surface.path !== prepared.get(surface)!.path
+        ) {
           previous.cleanup?.()
           if (!state.entries.has(key) && !state.bindings.has(key))
             this.ownership.invalidate(surface.target, [key])
         }
       for (const [key, entry] of state.bindings)
-        if (surface.state.bindings.get(key) !== entry) {
-          this.ownership.claim(surface.target, key)
-          entry.cleanup = entry.source.listen(
-            () => this.scheduler.add(surface.task),
-            () => this.unbind(surface, new Map([[key, entry]])),
-          )
+        if (
+          surface.state.bindings.get(key) !== entry ||
+          surface.path !== prepared.get(surface)!.path
+        ) {
+          if (surface.state.bindings.get(key) !== entry)
+            this.ownership.claim(surface.target, key)
+          const ending = () => this.unbind(surface, new Map([[key, entry]]))
+          entry.cleanup =
+            prepared.get(surface)!.path === 'scroll-timeline'
+              ? entry.source.onDispose(ending)
+              : entry.source.listen(() => this.scheduler.add(surface.task), ending)
         }
       surface.commit(state, prepared.get(surface)!)
-      if (state.bindings.size) this.scheduler.add(surface.task)
+      if (state.bindings.size && surface.path !== 'scroll-timeline')
+        this.scheduler.add(surface.task)
       else this.scheduler.remove(surface.task)
       this.surfaces.set(surface.target, surface)
     }
@@ -987,6 +1289,8 @@ export class WebRuntime {
     this.observe()
     this.schedulePending()
     for (const drag of this.drags.values()) drag.refresh()
+    for (const links of [...this.scrollLinks.values()])
+      for (const link of [...links]) if (!link.owns()) link.dispose()
   }
 
   control(owner: Owner, control: Control) {
@@ -1081,6 +1385,15 @@ export class WebRuntime {
         for (const target of [...this.surfaces.keys()]) this.release(target)
       }
     }
+    const scroll = new Map<Surface, State>()
+    for (const surface of this.surfaces.values())
+      if (
+        [...surface.state.bindings.values()].some(
+          (e) => e.source instanceof ScrollLinkedNode,
+        )
+      )
+        scroll.set(surface, clone(surface.state))
+    if (scroll.size) this.transaction(scroll, this.now())
   }
 
   private schedulePending() {
@@ -1120,7 +1433,8 @@ export class WebRuntime {
 
   private observe() {
     const roots = new Set<Node>()
-    if (this.surfaces.size) roots.add(this.document)
+    if (this.surfaces.size || this.scrollSources.size) roots.add(this.document)
+    for (const source of this.scrollSources) roots.add(source.element.getRootNode())
     for (const surface of this.surfaces.values()) roots.add(surface.target.getRootNode())
     for (const [root, observer] of this.observers)
       if (!roots.has(root)) {
@@ -1130,6 +1444,12 @@ export class WebRuntime {
     for (const root of roots)
       if (!this.observers.has(root)) {
         const observer = new this.view.MutationObserver(() => {
+          for (const source of [...this.scrollSources])
+            if (
+              !source.element.isConnected ||
+              source.element.ownerDocument !== this.document
+            )
+              source.dispose()
           for (const target of [...this.surfaces.keys()])
             if (!target.isConnected || target.ownerDocument !== this.document)
               this.release(target)
@@ -1150,6 +1470,7 @@ export class WebRuntime {
   release(target: HTMLElement) {
     const surface = this.surfaces.get(target)
     if (surface) surface.disposed = true
+    for (const link of [...(this.scrollLinks.get(target) ?? [])]) link.dispose()
     this.drags.get(target)?.detach()
     this.drags.delete(target)
     this.presses.get(target)?.detach()
@@ -1184,6 +1505,7 @@ export class WebRuntime {
     return {
       targets: this.surfaces.size,
       values: this.values.size,
+      scrollSources: this.scrollSources.size,
       scheduler: {
         tasks: this.scheduler.size,
         pending: this.scheduler.pending,
@@ -1191,10 +1513,15 @@ export class WebRuntime {
       },
       animations: this.animations.size,
       observers: this.observers.size,
+      geometryObservers: [...this.surfaces.values()].reduce(
+        (sum, s) => sum + s.geometryObservers,
+        0,
+      ),
       pendingFrame: this.pendingFrame !== undefined,
       ...(surface && {
         pose: poseAt(surface.snapshot(surface.state, at), surface.rest()),
         bindings: surface.state.bindings.size,
+        execution: surface.path,
         effects: surface.target.getAnimations().length,
         keyframes: surface.frameCount,
         rebuilds: surface.rebuilds,

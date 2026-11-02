@@ -50,6 +50,8 @@ motion.dispose()
 
 运行时控制已挂载、可变换的 HTML 盒子的 `transform` 和 `opacity`。顺序为 `静态 2D 基线 × translate × rotate × scale`，保留原始 `transform-origin`。不支持独立 CSS transform 属性、3D 基线、已有动画/过渡或带 `!important` 的内联运动样式。外部修改 CSS 前须释放并重建；不监控任意样式表/CSS 变量变化。如果外部代码控制外层元素样式，可使用专用内层运动表面。
 
+支持的尺寸与二维枢轴变化可通过[未发布几何 API](./web-support#geometry)保留 ownership；其他外部样式变化仍需释放并重建。
+
 本阶段仅支持有限播放：连续弹簧、drag/pinch、motion values、滚动、布局、原生专有属性和其他框架生命周期 adapter 属于后续工作。尚未建立稳定的可移植引用 API，也未完成 Mavis 集成。仅使用 WAAPI 并不能证明合成器加速或保证 FPS。
 
 ## 原生参考与验证 {#native-reference-and-validation}
