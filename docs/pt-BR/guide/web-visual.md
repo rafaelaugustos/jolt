@@ -1,6 +1,6 @@
 # Cores, layout e cenas na Web
 
-**Candidato em desenvolvimento após a RC.6**, acompanhado nas #308–#313. Estas adições ainda não estão no pacote RC.6 publicado. Ampliam a entrada experimental `/web` sem dependência de framework ou NativeScript. A [paridade funcional completa](https://github.com/rafaelaugustos/jolt/issues/236) continua como meta maior; este lote não representa todas as APIs nativas na Web.
+**Disponível desde a 0.1.0-rc.7**, entregue pelas #308–#313. Estes recursos ampliam a entrada experimental `/web` sem dependência de framework ou NativeScript. A [paridade funcional completa](https://github.com/rafaelaugustos/jolt/issues/236) continua como meta maior; este release não representa todas as APIs nativas na Web.
 
 ## Cores, bordas e bindings contínuos {#paint}
 

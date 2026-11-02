@@ -1,6 +1,6 @@
 # Web colors, layout and scenes
 
-**Development candidate after RC.6**, tracked by #308–#313. These additions are not in the published RC.6 package. They extend the experimental `/web` entry without a framework or NativeScript dependency. [Full functional parity](https://github.com/rafaelaugustos/jolt/issues/236) remains the broader goal; this batch does not claim every native API is available on Web.
+**Available since 0.1.0-rc.7**, delivered by #308–#313. These features extend the experimental `/web` entry without a framework or NativeScript dependency. [Full functional parity](https://github.com/rafaelaugustos/jolt/issues/236) remains the broader goal; this release does not claim every native API is available on Web.
 
 ## Colors, borders and live bindings {#paint}
 

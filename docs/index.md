@@ -65,7 +65,13 @@ features:
     link: /guide/scene-camera
 ---
 
-## 0.1.0-rc.6: Web interaction and native motion {#release-candidate}
+## 0.1.0-rc.7: Web layout and complete interactions {#release-candidate}
+
+RC.7 adds [colors, borders, intrinsic size, FLIP and seekable scenes](/guide/web-visual), [owned scopes, pointer/viewport helpers and continuous Vue setup](/guide/web-lifecycle), plus [overlay geometry, shared elements, interaction recipes and diagnostics](/guide/web-interactions). The [showcase](/guide/showcase) presents native examples and community submissions.
+
+Web APIs remain experimental, with documented coordinate/capture limits; Mavis adoption is separate. [Install RC.7](/guide/install), keep the optional native package at the matching version and rebuild native apps. Read the [release notes](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.7) and [remaining acceptance](/guide/not-there-yet).
+
+## 0.1.0-rc.6: Web interaction and native motion {#rc-6}
 
 RC.6 adds [continuous Web values, springs and drag/snap](/guide/web-dynamic) plus [mappings, geometry refresh and scroll](/guide/web-support). Native additions cover [live paint](/guide/live-springs), [seekable scenes](/guide/sequences), [Flexbox sizing](/guide/size) and [springs between bodies](/guide/physics-attachments).
 

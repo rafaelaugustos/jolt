@@ -1,13 +1,16 @@
 # Changelog
 
-## Unreleased
+## 0.1.0-rc.7 (2026-11-02)
+
+- Publish matching core and optional native packages with Web paint/layout/scenes, owned input and Vue lifecycles, shared transitions and integration diagnostics. The native runtime is unchanged from RC.6; rebuild native applications after upgrading to keep installed packages aligned.
+- Publish the four-language showcase with reviewed native examples and Orbit-backed app submissions (#319).
 
 - Add Web child resource scopes, bounded pointer followers, viewport entrances with owned observers/stagger, and continuous Vue setup with ref replacement, borrowed contexts and KeepAlive cleanup (#314–#317). Reuse existing values, springs, playback and the shared scheduler; preserve unrelated channels and component press.
 - Respect top-layer modal/popover geometry for Web drag and FLIP, accept identity ancestor transforms, and release closed-dialog surfaces safely (#320). Keep invalid affecting transforms explicit and leave focus/selection/dismissal with the host application.
-- Add Web shared-layout identities with inert presentation copies, interruption/reversal, missing-target results, reduced motion and owned cleanup (#321); executable drag-return, intrinsic-panel and keyed-list recipes (#322); and opt-in bounded ownership/interruption/resource diagnostics without polling (#323). Include three-engine checks, packed consumers, reviewed browser/native-reference footage and four-language documentation. These additions are not in published RC.6; Mavis adoption and full parity #236 remain separate.
+- Add Web shared-layout identities with inert presentation copies, interruption/reversal, missing-target results, reduced motion and owned cleanup (#321); executable drag-return, intrinsic-panel and keyed-list recipes (#322); and opt-in bounded ownership/interruption/resource diagnostics without polling (#323). Include three-engine checks, packed consumers, reviewed browser/native-reference footage and four-language documentation. Mavis adoption and full parity #236 remain separate.
 - Extend experimental Web playback with shared OKLab colors, independent border sides and elliptical per-corner radii (#308, #309), plus continuous color/decoration bindings driven by the existing value graph (#310). Preserve partial ownership, application/press composition, controls, reduced motion and authored-style cleanup.
 - Add Web `animateSize()` for real numeric/auto width and height with content reflow, interruption, pause/resume and normal Grid/Flexbox allocation (#311), and direct-child `animateLayout()` for position/size FLIP, entry, reorder and interruption (#312). The Vue DOM adapter exposes both operations with scope cleanup.
-- Add Web `seekableTimeline()` with element and numeric-value tracks, nested offsets, paused endpoint rewind and independent channel replacement (#313). Keep eligible element playback on WAAPI and numeric observation on the shared scheduler. Include real browser and packed-consumer checks, native references and reviewed recordings in four documentation languages. Full Web/native functional parity remains tracked in #236; Mavis adoption is separate (#191–#194 in its repository). These changes are not in published RC.6.
+- Add Web `seekableTimeline()` with element and numeric-value tracks, nested offsets, paused endpoint rewind and independent channel replacement (#313). Keep eligible element playback on WAAPI and numeric observation on the shared scheduler. Include real browser and packed-consumer checks, native references and reviewed recordings in four documentation languages. Full Web/native functional parity remains tracked in #236; Mavis adoption is separate (#191–#194 in its repository).
 
 ## 0.1.0-rc.6 (2026-11-02)
 

@@ -1,6 +1,6 @@
 # Overlays y movimiento compartido Web
 
-**Desarrollo posterior a RC.6**, issues #320–#323; no incluido en RC.6 publicada. La [guía de ámbitos e input](./web-lifecycle) cubre #314–#317. La adopción en Mavis es una integración separada.
+**Disponible desde 0.1.0-rc.7**, entregado en #320–#323. La [guía de ámbitos e input](./web-lifecycle) cubre #314–#317. La adopción en Mavis es una integración separada.
 
 ## Frontera de geometría renderizada {#overlays}
 

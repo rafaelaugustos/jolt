@@ -1,6 +1,6 @@
 # Movimiento continuo en Web {#web-dynamic}
 
-**En desarrollo después de RC.6:** [colores, bordes, pintura continua, tamaño real, FLIP y escenas con seek](./web-visual) amplían este runtime. No están en el paquete RC.6 publicado. La paridad completa sigue en [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+**Desde RC.7:** [colores, bordes, pintura continua, tamaño real, FLIP y escenas con seek](./web-visual) amplían este runtime. Las APIs Web siguen experimentales; la paridad completa continúa en [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
 Desde **0.1.0-rc.6**, `motionValue()`, `bind()`, `springValue()` y `drag()` están disponibles en `@rafaelaugusto/jolt/web`. Las APIs Web siguen experimentales; las entradas nativas y el adapter Vue conservan sus contratos.
 
@@ -27,7 +27,7 @@ motion.dispose()
 
 Los valores pertenecen al contexto. `get()` lee el número actual; `getVelocity()` usa unidades/segundo. `set()` cambia la entrada inmediatamente y las escrituras visuales se agrupan por frame. Se admiten x/y/rotación/escala/opacidad; scale se expande a scaleX/scaleY. Se rechazan valores ajenos al contexto, descartados o no numéricos antes de sustituir el control existente.
 
-`subscribe(listener)` observa cambios después de las escrituras programadas y devuelve la función de desuscripción; no emite el valor inicial. Los callbacks tienen coste JavaScript propio y no convierten animaciones WAAPI independientes en loops. Los mapeos numéricos y cadenas limitadas están en el [soporte Web de RC.6](./web-support). Colores y paridad completa permanecen fuera.
+`subscribe(listener)` observa cambios después de las escrituras programadas y devuelve la función de desuscripción; no emite el valor inicial. Los callbacks tienen coste JavaScript propio y no convierten animaciones WAAPI independientes en loops. Los mapeos numéricos y cadenas limitadas están en el [soporte Web de RC.6](./web-support). RC.7 añade [mapeos de color y bindings continuos de pintura](./web-visual#paint); la paridad completa sigue en #236.
 
 El binding posee solo sus canales de base. `animate()`, `set()` y `stop()` posteriores sustituyen los canales correspondientes; los demás y las capas press continúan. Descartar un binding antiguo no restaura valores obsoletos. Desvincular mantiene el valor actual. `release()` restaura los estilos inline que aún controla y cancela el trabajo; quitar el elemento del DOM hace lo mismo. Los valores pueden sobrevivir al elemento: descártalos o descarta el runtime. Descartar una entrada descarta también sus followers.
 
@@ -52,7 +52,7 @@ const drag = motion.drag(card, {
 })
 ```
 
-El alcance inicial es un puntero primario y traslación x/y en píxeles CSS. La transformación CSS de base debe ser identidad; los ancestros no pueden tener transforms, perspectiva ni zoom CSS. La rotación/escala de Jolt y press se componen después de la traslación y sí se admiten. Scroll y resize cancelan el drag. No se admiten ancestros transformados arbitrarios, pinch ni handoff entre scrolls anidados.
+Drag usa un puntero primario y traslación x/y en píxeles CSS. La transformación estática del target debe ser identidad; los ancestros que afectan su geometría no pueden introducir transforms, perspectiva o zoom CSS. RC.7 admite transforms identidad y termina en la raíz real modal/popover de la top layer, cuya propia geometría sigue importando; vea [geometría de overlays](./web-interactions#overlays). Rotación/escala de Jolt y press se componen después de la traslación. Scroll y resize cancelan el drag; espacios arbitrariamente transformados, pinch y handoff de scroll anidado siguen fuera.
 
 Drag toma la traslación en pointerdown y captura el puntero. Aplica temporalmente `touch-action: pan-y` para x, `pan-x` para y o `none` para ambos, restaurando el valor inline al descartar. Los controles interactivos internos conservan su entrada. Taps y activación por teclado siguen funcionando; un drag suprime su clic resultante. Disabled/inert/busy, cancelación, pérdida de captura/foco, ocultación y desmontaje cancelan sin snap de éxito.
 

@@ -1,6 +1,6 @@
 # Ciclo de vida e input na Web
 
-**Em desenvolvimento após a RC.6; não publicado nessa versão.** As issues #314–#317 acrescentam escopos filhos, acompanhamento do ponteiro, entrada na viewport e configuração contínua no Vue ao runtime experimental `/web`. Reutilizam valores, springs, playback e scheduler existentes. [Overlays, elementos compartilhados e receitas](./web-interactions) usam essa mesma organização de recursos.
+**Disponível desde a 0.1.0-rc.7.** As issues #314–#317 acrescentam escopos filhos, acompanhamento do ponteiro, entrada na viewport e configuração contínua no Vue ao runtime experimental `/web`. Reutilizam valores, springs, playback e scheduler existentes. [Overlays, elementos compartilhados e receitas](./web-interactions) usam essa mesma organização de recursos.
 
 ## Recursos de uma interação {#scopes}
 

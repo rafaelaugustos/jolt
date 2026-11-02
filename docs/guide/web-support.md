@@ -1,6 +1,6 @@
 # Web mappings, geometry and scroll {#web-support}
 
-**Development after RC.6:** [colors, borders, continuous paint, real size, FLIP and seekable scenes](./web-visual) extend this runtime. They are not included in the published RC.6 package. Full parity remains tracked in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+**Since RC.7:** [colors, borders, continuous paint, real size, FLIP and seekable scenes](./web-visual) extend this runtime. The Web APIs remain experimental; full parity is tracked in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
 Since **0.1.0-rc.6**, `@rafaelaugusto/jolt/web` includes numeric mappings, geometry refresh and vertical scroll (#302–#304). The APIs remain experimental. Native APIs and framework adapters keep their existing contracts; Mavis adoption is separate.
 
@@ -22,7 +22,7 @@ motion.press(card)
 input.set(50) // Application scale 1.1; held default press multiplies it by 0.96.
 ```
 
-`.to(input, output, { clamp: true })` accepts 2–1024 finite numeric pairs. Inputs must be strictly ascending or descending; duplicate stops are rejected. Outputs may reverse direction. Clamp is the default; `{ clamp: false }` extrapolates the first/last segment. The configuration is copied. There are no callback transforms, colors, multi-input graphs or cycles. A chain may contain at most 32 mapping/follower levels.
+`.to(input, output, { clamp: true })` accepts 2–1024 finite numeric pairs. Inputs must be strictly ascending or descending; duplicate stops are rejected. Outputs may reverse direction. Clamp is the default; `{ clamp: false }` extrapolates the first/last segment. The configuration is copied. Callback transforms, multi-input graphs and cycles remain unsupported. RC.7 also supports [color-output mappings](./web-visual#paint). A chain may contain at most 32 mapping/follower levels.
 
 Mappings are readonly: `get()`, `getVelocity()`, `subscribe()`, `dispose()` and another `.to()` are available, but `set()` is not. Velocity is source velocity multiplied by the selected segment's slope. Clamped endpoints/outside values have zero velocity; an interior knot uses the left derivative in ascending input order. Invalid/overflowing maps fail explicitly. All values must belong to the same runtime.
 

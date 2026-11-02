@@ -1,10 +1,10 @@
 # 发布状态与限制 {#not-there-yet}
 
-**同样属于 RC.6 之后的开发内容：**[作用域、指针/视口与 Vue 持续配置](./web-lifecycle)，以及[浮层几何、共享元素、完整示例与诊断](./web-interactions)。这些新增能力尚未包含在已发布的 RC.6 中。
+**RC.7 同时提供：**[作用域、指针/视口与 Vue 持续配置](./web-lifecycle)，以及[浮层几何、共享元素、完整示例与诊断](./web-interactions)。Mavis 集成另行推进。
 
-**RC.6 之后的开发功能：**[颜色、边框、连续绘制、真实尺寸、FLIP 与可定位场景](./web-visual)扩展此运行时，尚未包含在已发布的 RC.6 包中。完整对等仍由 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 跟踪。
+**自 RC.7 起：**[颜色、边框、连续绘制、真实尺寸、FLIP 与可定位场景](./web-visual)扩展此运行时。Web API 仍为实验性功能；完整对等由 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 跟踪。
 
-**0.1.0-rc.6 已发布。** 原生功能保留各自文档中说明的平台限制，正式版验收仍在进行。Web 入口仍为实验性功能；发布并不表示 Mavis 集成完成，也不保证所有原生/Web API 完全一致。
+**0.1.0-rc.7 已发布。** 原生功能保留各自文档中说明的平台限制，正式版验收仍在进行。Web 入口仍为实验性功能；发布并不表示 Mavis 集成完成，也不保证所有原生/Web API 完全一致。
 
 RC.6 包含[Web 连续动画](./web-dynamic)：数值、跟随弹簧及拖动/吸附，以及[数值映射、几何刷新和垂直滚动](./web-support)。Web API 仍为实验性功能。
 
@@ -16,7 +16,7 @@ RC.4 在原生节点上合成图层窗口，让 Android 的形状、渐变和模
 
 [绑定与图层审计](./motion-values#binding-measurements)包含实体 iPhone 和 Android 上的准备/播放测量、自动输入响应起点，以及重复挂载/卸载的内存保留检查。组合窗口开销较高、近似分配计数器失败、Android 缺少温度状态遥测等限制均保留在证据中。结果为已测场景提供指导，不保证通用容量或实际呈现的帧率。 自 RC.4 起，窗口化合成在原生合成器上播放，不再有边界提交；剩余开销是大批关键帧的同步启动，已在同一审计中测量。
 
-## RC.6 已提供的功能 {#available-in-rc-1}
+## RC.7 已提供的功能 {#available-in-rc-1}
 
 - 实验性[有限 Web 播放](./web-runtime)、[按压](./web-press)和 [Vue DOM 生命周期](./web-vue)，支持可选框架/原生 peer 和安全 SSR 导入。
 - [共享元素导航](./shared-navigation)、[共享手势](./shared-gestures)、[返回当前单元格](./return-targets)和[联动相册](./gallery)，支持文档列出的 Frame/ListView/静态图像组合。
@@ -28,7 +28,7 @@ RC.4 在原生节点上合成图层窗口，让 Android 的形状、渐变和模
 
 ## 当前限制 {#current-limits}
 
-- 实验性 Web 支持有限 2D 变换/透明度、数值/映射、连续弹簧、单指拖动/吸附、几何刷新与垂直滚动。Web 布局动画、双指缩放/嵌套滚动交接、其他框架适配器及稳定可移植引用仍不在范围内；参见[连续动画](./web-dynamic)及[滚动/几何限制](./web-support)。
+- Web API 仍为实验性功能。RC.7 在 RC.6 连续动画基础上加入[绘制、真实尺寸、FLIP 与场景](./web-visual)、[作用域/输入/Vue 生命周期](./web-lifecycle)及[浮层/共享元素/诊断](./web-interactions)。快照内容与坐标空间仍有明确支持范围；pinch/嵌套滚动交接、其他框架适配器和稳定可移植引用尚未包含在本版本中。
 - `animateSize()` 支持 StackLayout/GridLayout 以及不换行 row/column FlexboxLayout 的直接子元素，也可用于 ScrollView 内。主轴动画子元素要求 `flexGrow=0`、`flexShrink=0`；父布局分配与交叉轴 stretch 仍具有优先权。每帧通过 JavaScript 测量/布局。复用单元格与共享元素仍不在范围内。
 - `drag()` 不提供通用的多指手势组合。平移、双指缩放和旋转请使用 [`gestures()`](./gestures)；[照片缩放](./photo-zoom)则提供专用的缩放、平移和关闭控制器。手势交接适配器支持垂直 Core ScrollView；其他列表/容器组合需要独立的适配器和原生验证。
 - 外部属性适配器需要 `@rafaelaugusto/jolt-native`。内置的 SceneKit 相机、光照和材质适配器仅支持 iOS；未内置 Android 3D 渲染器适配器。MapKit 与 MapLibre 的相机单位不同。

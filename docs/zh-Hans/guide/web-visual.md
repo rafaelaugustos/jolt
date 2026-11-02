@@ -1,6 +1,6 @@
 # Web 颜色、布局与场景
 
-这是 **RC.6 之后的开发候选版本**，对应 #308–#313，尚未包含在已发布的 RC.6 包中。它扩展实验性的 `/web` 入口，不依赖框架或 NativeScript。[完整功能对等](https://github.com/rafaelaugustos/jolt/issues/236)仍是总体目标；本批次并不意味着所有原生 API 已在 Web 实现。
+**自 0.1.0-rc.7 起提供**，对应 #308–#313。它扩展实验性的 `/web` 入口，不依赖框架或 NativeScript。[完整功能对等](https://github.com/rafaelaugustos/jolt/issues/236)仍是总体目标；本版本并不意味着所有原生 API 已在 Web 实现。
 
 ## 颜色、边框与连续绑定 {#paint}
 

@@ -1,10 +1,10 @@
 # Status da versão e limites {#ainda-nao}
 
-**Também em desenvolvimento após a RC.6:** [escopos, ponteiro/viewport e configuração contínua no Vue](./web-lifecycle), além de [geometria de overlays, elementos compartilhados, receitas e diagnóstico](./web-interactions). Essas adições não estão na RC.6 publicada.
+**Também na RC.7:** [escopos, ponteiro/viewport e configuração contínua no Vue](./web-lifecycle), além de [geometria de overlays, elementos compartilhados, receitas e diagnóstico](./web-interactions). A adoção no Mavis permanece separada.
 
-**Em desenvolvimento após a RC.6:** [cores, bordas, pintura contínua, tamanho real, FLIP e cenas com seek](./web-visual) ampliam este runtime. Ainda não fazem parte do pacote RC.6 publicado. A paridade completa continua na [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+**Desde a RC.7:** [cores, bordas, pintura contínua, tamanho real, FLIP e cenas com seek](./web-visual) ampliam este runtime. As APIs Web continuam experimentais; a paridade completa segue na [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
-**A 0.1.0-rc.6 está disponível.** Os recursos nativos mantêm seus limites documentados enquanto a validação para a estável continua. As entradas Web são experimentais; publicá-las não conclui a integração Mavis nem estabelece paridade de todas as APIs entre native e Web.
+**A 0.1.0-rc.7 está disponível.** Os recursos nativos mantêm seus limites documentados enquanto a validação para a estável continua. As entradas Web são experimentais; publicá-las não conclui a integração Mavis nem estabelece paridade de todas as APIs entre native e Web.
 
 A RC.6 inclui [movimento contínuo na Web](./web-dynamic), com valores, followers e drag/snap, além de [mapeamentos numéricos, atualização de geometria e scroll vertical](./web-support). As APIs Web continuam experimentais.
 
@@ -16,7 +16,7 @@ A RC.4 compõe as janelas de camadas em nós nativos, retoma shapes, gradientes 
 
 A [auditoria de bindings/camadas](./motion-values#binding-measurements) inclui preparação/reprodução em iPhone e Android físicos, início da resposta a entradas automáticas e retenção em montagens/desmontagens repetidas. Os custos altos das janelas de composição, as falhas dos contadores aproximados de alocação e a falta de telemetria térmica no Android continuam explícitos nas evidências. Os resultados orientam os cenários medidos; não garantem capacidade universal nem frames apresentados. Desde a RC.4, as composições em janela tocam em compositores nativos sem submissões de boundary; o custo restante é o início síncrono de lotes grandes de keyframes, medido na mesma auditoria.
 
-## Disponível na RC.6 {#available-in-rc-1}
+## Disponível na RC.7 {#available-in-rc-1}
 
 - [Playback Web finito](./web-runtime), [press](./web-press) e [lifecycle Vue DOM](./web-vue) experimentais, com peers nativos/framework opcionais e importação segura em SSR.
 - [Navegação compartilhada](./shared-navigation), [gestos compartilhados](./shared-gestures), [retorno à célula atual](./return-targets) e [galeria conectada](./gallery), nas combinações documentadas de Frame/ListView/imagens estáticas.
@@ -28,7 +28,7 @@ A [auditoria de bindings/camadas](./motion-values#binding-measurements) inclui p
 
 ## Limites atuais {#current-limits}
 
-- O suporte Web experimental inclui transforms 2D/opacidade finitos, valores/mapeamentos numéricos, springs contínuas, drag/snap limitado a um ponteiro, geometria e scroll vertical. Animação de layout Web, pinch/handoff de scroll, outros adapters e refs portáteis estáveis ficam fora; veja [movimento contínuo](./web-dynamic) e [limites de scroll/geometria](./web-support).
+- As APIs Web continuam experimentais. A RC.7 adiciona [pintura, tamanho real, FLIP e cenas](./web-visual), [escopos/input/ciclo de vida Vue](./web-lifecycle) e [overlays/elementos compartilhados/diagnóstico](./web-interactions) à base contínua da RC.6. Conteúdo de snapshot e espaços de coordenadas suportados mantêm limites explícitos; pinch/handoff de scroll, outros adapters e refs portáteis estáveis continuam fora deste release.
 - `animateSize()` suporta StackLayout/GridLayout e filhos diretos de FlexboxLayout row/column sem wrap, inclusive dentro de ScrollView. O filho animado no eixo principal exige `flexGrow=0` e `flexShrink=0`; a alocação do pai e o stretch transversal continuam determinantes. Medição/layout executa JavaScript por frame. Células recicladas e elementos compartilhados permanecem fora.
 - `drag()` não oferece composição genérica de gestos com vários dedos. Use [`gestures()`](./gestures) para pan/pinch/rotação, ou [zoom de fotos](./photo-zoom) para seu controlador específico de pinch, pan e fechamento. O adaptador de transferência de gesto suporta Core ScrollView vertical; outras combinações de listas/contêineres precisam de adaptadores e validação nativa próprios.
 - Adaptadores de propriedades externas exigem `@rafaelaugusto/jolt-native`. Os adaptadores incluídos de câmera, luzes e materiais do SceneKit são exclusivos do iOS; não há adaptador incluído de renderização 3D para Android. As unidades das câmeras de MapKit e MapLibre são distintas.

@@ -1,6 +1,6 @@
 # Overlays e movimento compartilhado na Web
 
-**Em desenvolvimento após a RC.6**, nas issues #320–#323; não integra a RC.6 publicada. O [guia de escopos e input](./web-lifecycle) cobre #314–#317. A adoção no Mavis é uma integração separada.
+**Disponível desde a 0.1.0-rc.7**, entregue pelas #320–#323. O [guia de escopos e input](./web-lifecycle) cobre #314–#317. A adoção no Mavis é uma integração separada.
 
 ## Fronteira da geometria renderizada {#overlays}
 

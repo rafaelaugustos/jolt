@@ -112,11 +112,24 @@ test('real width and auto height reflow text and restore semantic auto', async (
     const a = rt.animateSize(
       target,
       { width: 120, height: 'auto' },
-      { duration: 160, ease: 'linear' },
+      { duration: 500, ease: 'linear' },
     )
-    await new Promise((r) => setTimeout(r, 70))
-    const middle = { width: target.offsetWidth, height: target.offsetHeight }
+    // Size measurement starts on the first rendered frame. A fixed timeout can
+    // run before that frame on a busy browser, so observe actual playback.
+    let middle: { width: number; height: number } | undefined
+    let frame: number
+    const sample = () => {
+      const width = target.offsetWidth
+      const height = target.offsetHeight
+      if (width > 120 && width < 240 && height > 40) {
+        middle = { width, height }
+      } else {
+        frame = requestAnimationFrame(sample)
+      }
+    }
+    frame = requestAnimationFrame(sample)
     const completed = await a.finished
+    cancelAnimationFrame(frame)
     const final = {
       width: target.offsetWidth,
       height: target.offsetHeight,
@@ -125,9 +138,10 @@ test('real width and auto height reflow text and restore semantic auto', async (
     const value = rt.inspect(target)
     return { middle, final, completed, sizes: value.sizes }
   })
-  expect(result.middle.width).toBeGreaterThan(120)
-  expect(result.middle.width).toBeLessThan(240)
-  expect(result.middle.height).toBeGreaterThan(40)
+  expect(result.middle).toBeDefined()
+  expect(result.middle!.width).toBeGreaterThan(120)
+  expect(result.middle!.width).toBeLessThan(240)
+  expect(result.middle!.height).toBeGreaterThan(40)
   expect(result.final.width).toBe(120)
   expect(result.final.height).toBeGreaterThan(100)
   expect(result.final.auto).toBe('auto')

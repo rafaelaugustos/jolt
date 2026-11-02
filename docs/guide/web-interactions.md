@@ -1,6 +1,6 @@
 # Web overlays and shared motion
 
-**Development after RC.6**, tracked in #320–#323. These additions are not included in the published RC.6 package. The [scope and input guide](./web-lifecycle) covers #314–#317. Mavis adoption remains a separate integration workstream.
+**Available since 0.1.0-rc.7**, delivered by #320–#323. The [scope and input guide](./web-lifecycle) covers #314–#317. Mavis adoption remains a separate integration workstream.
 
 ## A rendered geometry boundary {#overlays}
 
