@@ -1,5 +1,7 @@
 # Formas: trazado y transformación {#shapes-draw-and-morph}
 
+Equivalente Web experimental: [partículas, superficies e imágenes](./web-surfaces). Build de desarrollo, fuera de RC.9.
+
 Dibuja una marca de verificación, revela un anillo o convierte un símbolo de reproducción en barras de pausa. La entrada opcional `@rafaelaugusto/jolt/shapes` pinta una superficie vectorial propia sobre una vista NativeScript. Su identificador `shape()` sigue el mismo patrón de creación/animación que los degradados. Disponible desde **0.1.0-rc.1**; reconstruya Android para incluir el renderizador nativo.
 
 <Clip name="shapes-ios" caption="Simulador iOS: toques reales dibujan una marca de verificación, un anillo y un subrayado, interrumpen una transformación de reproducción/pausa, pausan/reanudan el dibujo y cambian de forma en Reducir movimiento. interfaz de usuario en inglés; sincronización de reproducción original." />
@@ -79,3 +81,5 @@ Android utiliza un dibujable compilado, `Path`/`PathMeasure` y `ValueAnimator`. 
 JavaScript analiza la geometría y prepara curvas en la configuración/comandos, luego maneja el ciclo de vida y los límites de finalización. No dibuja ni actualiza la ruta en cada cuadro. El dibujo Android y NativeScript JavaScript aún comparten el hilo de la interfaz de usuario. Estas API no implican un subproceso de renderizado independiente ni garantías de rendimiento del dispositivo físico.
 
 La vista previa del **Hecho de movimiento / Linework** en cuatro idiomas es el ejemplo número 71. Ver [validación y reproducción](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/shapes.md).
+
+<Clip name="web-shape-surfaces-chromium" :width="900" caption="Chromium en macOS, interfaz inglesa: interacción real, pausa/reanudación, sustitución, movimiento reducido y limpieza a velocidad original. Captura de navegador, no de dispositivo físico." />

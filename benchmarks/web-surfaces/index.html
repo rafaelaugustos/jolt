@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Jolt · Pixels and surfaces</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        padding: 40px;
+        font:
+          16px/1.5 system-ui,
+          sans-serif;
+        background: #111525;
+        color: #f4f5ff;
+      }
+      main {
+        max-width: 840px;
+        margin: auto;
+      }
+      h1 {
+        margin: 8px 0;
+        font-size: 38px;
+      }
+      .eyebrow {
+        color: #b3a1ff;
+        font-size: 13px;
+        letter-spacing: 3px;
+      }
+      p {
+        color: #bec4dc;
+      }
+      nav,
+      .controls {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin: 22px 0;
+      }
+      button {
+        border: 1px solid #5a6288;
+        border-radius: 8px;
+        padding: 10px 16px;
+        color: inherit;
+        background: #29304c;
+        font: inherit;
+        cursor: pointer;
+      }
+      button:hover,
+      button[aria-pressed='true'] {
+        background: #6951c9;
+      }
+      #stage {
+        position: relative;
+        height: 330px;
+        display: grid;
+        place-items: center;
+        border-radius: 18px;
+        background: radial-gradient(ellipse at top, #33406a, #1b2139);
+        overflow: hidden;
+      }
+      #surface {
+        width: 300px;
+        height: 250px;
+        position: relative;
+        display: grid;
+        place-items: center;
+      }
+      #photo {
+        display: block;
+        width: 300px;
+        height: 250px;
+        object-fit: cover;
+      }
+      #content {
+        display: grid;
+        place-items: center;
+        width: 100%;
+        height: 100%;
+        background: repeating-linear-gradient(45deg, #4b65a8 0 20px, #293854 20px 40px);
+        border-radius: 12px;
+      }
+      #content strong {
+        font-size: 36px;
+        color: white;
+        text-shadow: 0 2px 8px #000;
+      }
+      #status {
+        min-height: 48px;
+        padding: 12px;
+        background: #1b2139;
+        border-radius: 8px;
+        color: #d2c4ff;
+      }
+      #cleanup {
+        font-size: 13px;
+      }
+      [hidden] {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="eyebrow">JOLT · REAL BROWSER PLAYBACK</div>
+      <h1>Pixels and surfaces</h1>
+      <p>Six APIs. One motion scope. Pause, retarget, restore.</p>
+      <nav aria-label="Demonstration">
+        <button data-mode="particles">Particles</button
+        ><button data-mode="confetti">Confetti</button
+        ><button data-mode="blur">Blur</button
+        ><button data-mode="shape">Shape & morph</button
+        ><button data-mode="liquid">Liquid</button
+        ><button data-mode="image">Image effects</button>
+      </nav>
+      <div id="stage">
+        <div id="surface">
+          <div id="content">
+            <strong>Jolt</strong><button id="inside">Still interactive · 0</button>
+          </div>
+          <img
+            id="photo"
+            alt="Colorful geometric landscape used to demonstrate image deformation"
+            hidden
+          />
+        </div>
+      </div>
+      <p id="description"></p>
+      <div class="controls">
+        <button id="action">Start / retarget</button><button id="pause">Pause</button
+        ><button id="play">Resume</button><button id="reverse">Reverse / alternate</button
+        ><button id="reduced">Reduced motion</button
+        ><button id="dispose">Dispose scope</button><button id="reset">Restore</button>
+      </div>
+      <div id="status" role="status">Ready</div>
+      <p id="cleanup">
+        Generated layers are decorative; the original controls and image remain
+        accessible.
+      </p>
+    </main>
+    <script type="module" src="/fixture.js"></script>
+  </body>
+</html>

@@ -1,5 +1,7 @@
 # Formas: desenhar e transformar
 
+Equivalente experimental na Web: consulte [partículas, superfícies e imagens](./web-surfaces). Build de desenvolvimento, ainda fora do RC.9.
+
 Desenhe um checkmark, revele um anel ou transforme play em barras de pausa. A entrada opcional `@rafaelaugusto/jolt/shapes` desenha uma superfície vetorial sobre uma view NativeScript. O handle de `shape()` segue o mesmo padrão de criação e animação dos gradientes. Disponível desde a **0.1.0-rc.1**; recompile o Android para incluir o renderizador nativo.
 
 <Clip name="shapes-ios" caption="Simulador iOS: toques reais desenham checkmark, anel e sublinhado, interrompem o morph entre play e pausa, pausam/retomam o desenho e trocam a forma com Reduce Motion. Interface em inglês; velocidade original." />
@@ -79,3 +81,5 @@ O Android usa drawable compilado, `Path`/`PathMeasure` e `ValueAnimator`. Caminh
 JavaScript interpreta a geometria e prepara curvas na criação e nos comandos, depois trata ciclo de vida e conclusão. Não desenha nem atualiza o caminho a cada frame. O desenho Android ainda compartilha a thread de UI com o JavaScript do NativeScript. A API não promete thread de renderização independente ou desempenho em aparelho físico.
 
 O preview **Feito de movimento / Linework**, em quatro idiomas, é o 71º exemplo. Veja [validação e reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/shapes.md).
+
+<Clip name="web-shape-surfaces-chromium" :width="900" caption="Chromium no macOS, interface em inglês: cliques reais demonstram reprodução, pausa/retomada, substituição, movimento reduzido e descarte na velocidade original. Captura de navegador; sem alegação de desempenho em aparelho físico." />

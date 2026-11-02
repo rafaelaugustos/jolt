@@ -1,3 +1,21 @@
+import type { WebParticles, WebParticleOptions, WebConfettiOptions } from './particles.js'
+import type { WebBlur, WebBlurOptions } from './blur.js'
+import type { WebShape, WebShapeOptions } from './shape.js'
+import type { WebLiquid, WebLiquidOptions } from './liquid.js'
+import type {
+  WebImageEffect,
+  WebImageEffectName,
+  WebImageEffectOptions,
+} from './image-effect.js'
+export type { WebParticles, WebParticleOptions, WebConfettiOptions } from './particles.js'
+export type { WebBlur, WebBlurOptions } from './blur.js'
+export type { WebShape, WebShapeOptions, WebShapeValues } from './shape.js'
+export type { WebLiquid, WebLiquidOptions } from './liquid.js'
+export type {
+  WebImageEffect,
+  WebImageEffectName,
+  WebImageEffectOptions,
+} from './image-effect.js'
 import type { ReorderKey } from '../core/reorder.js'
 import type { WebGradient, WebGradientOptions } from './gradient.js'
 import type { WebShimmerOptions, WebLoaderOptions, WebLoadingEffect } from './loading.js'
@@ -168,6 +186,16 @@ export interface WebAnimation extends PlaybackAnimation {
 
 /** Experimental DOM context; platform/framework adapters are not public APIs. */
 export interface WebRuntime {
+  particles(target: HTMLElement, options?: WebParticleOptions): WebParticles
+  confetti(target: HTMLElement, options?: WebConfettiOptions): WebParticles
+  blur(target: HTMLElement, options?: WebBlurOptions): WebBlur
+  shape(target: HTMLElement, options: WebShapeOptions): WebShape
+  liquid(target: HTMLImageElement, options?: WebLiquidOptions): WebLiquid
+  imageEffect(
+    target: HTMLImageElement,
+    effect: WebImageEffectName,
+    options?: WebImageEffectOptions,
+  ): WebImageEffect
   gradient(target: HTMLElement, options: WebGradientOptions): WebGradient
   reveal(target: HTMLElement, options?: WebRevealOptions): WebAnimation
   conceal(target: HTMLElement, options?: WebConcealOptions): WebAnimation
@@ -292,6 +320,12 @@ export function createWebRuntime(
   // Keep diagnostics, ownership internals and driver implementation off the
   // package API, including at runtime rather than only in the declarations.
   return {
+    particles: runtime.particles.bind(runtime),
+    confetti: runtime.confetti.bind(runtime),
+    blur: runtime.blur.bind(runtime),
+    shape: runtime.shape.bind(runtime),
+    liquid: runtime.liquid.bind(runtime),
+    imageEffect: runtime.imageEffect.bind(runtime),
     gradient: runtime.gradient.bind(runtime),
     reveal: runtime.reveal.bind(runtime),
     conceal: runtime.conceal.bind(runtime),

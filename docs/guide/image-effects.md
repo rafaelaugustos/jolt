@@ -1,5 +1,7 @@
 # Image effects
 
+Experimental Web equivalent: see [Web particles, surfaces and images](./web-surfaces). Development build, not included in RC.9.
+
 `imageEffect()` adds ripple, touch distortion and dissolve to a NativeScript `Image`. These APIs require a native rebuild after installing the package. They operate on loaded raster images, not arbitrary view trees, SVG, video or animated images.
 
 <Clip name="image-effects-ios" caption="Ripple, touch distortion and dissolve on a raster fixture using Metal in the iOS simulator." />
@@ -67,3 +69,5 @@ Unloading, hiding, changing the active source/stretch/tint or changing the image
 Changing padding, border widths or corner radii also stops an active effect, so its surface cannot retain stale clipping geometry. Borders and backgrounds stay outside the displacement texture.
 
 The [demo](./demo) image lab includes tap origins, native drag, playback, reverse, scrub, restore, four stretch modes, rounded borders and reduced-motion controls. The landscape source dissolves into portrait artwork with a transparent corner.
+
+<Clip name="web-image-surfaces-chromium" :width="900" caption="Chromium on macOS, English UI: real clicks demonstrate playback, pause/resume, replacement, reduced motion and disposal at original speed. Browser capture; no physical-device performance claim." />

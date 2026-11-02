@@ -1,5 +1,7 @@
 # Partículas y confeti {#particles-and-confetti}
 
+Equivalente Web experimental: [partículas, superficies e imágenes](./web-surfaces). Build de desarrollo, fuera de RC.9.
+
 ## Confeti {#confetti}
 
 <Clip name="particles" caption="La demostración de confeti original iOS, emitido desde un punto." />
@@ -146,3 +148,7 @@ Este es el dibujo nativo **hilo de interfaz de usuario**. En el ASUS API 26 fís
 <Clip name="particles-android-device" caption="Física ASUS_Z017DC, Android 8 / API 26: toques reales a través de efectos activos, emisión continua y finita, cambio de tamaño y movimiento reducido. Reproducción nativa de subprocesos de interfaz de usuario en tiempo real; Las mediciones de tensión son independientes de esta demostración ordinaria." />
 
 <Clip name="particles-ios" caption="Simulador iPhone 17, iOS 26: API de partículas sin cambios, todas las formas/modos de fuente, paso táctil, cambio de tamaño y movimiento reducido en vivo, ejercitado con toques XCTest. Las imágenes existentes de iOS se conservan arriba." />
+
+<Clip name="web-particles-surfaces-chromium" :width="900" caption="Chromium en macOS, interfaz inglesa: interacción real, pausa/reanudación, sustitución, movimiento reducido y limpieza a velocidad original. Captura de navegador, no de dispositivo físico." />
+
+<Clip name="web-confetti-surfaces-chromium" :width="900" caption="Chromium en macOS, interfaz inglesa: interacción real, pausa/reanudación, sustitución, movimiento reducido y limpieza a velocidad original. Captura de navegador, no de dispositivo físico." />

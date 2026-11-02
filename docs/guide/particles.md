@@ -1,5 +1,7 @@
 # Particles and confetti
 
+Experimental Web equivalent: see [Web particles, surfaces and images](./web-surfaces). Development build, not included in RC.9.
+
 ## Confetti
 
 <Clip name="particles" caption="The original iOS confetti demonstration, emitted from a point." />
@@ -146,3 +148,7 @@ This is native **UI-thread** drawing. On the physical ASUS API 26, ordinary snow
 <Clip name="particles-android-device" caption="Physical ASUS_Z017DC, Android 8 / API 26: real taps through active effects, continuous and finite emission, resize and reduced motion. Native UI-thread playback at real time; stress measurements are separate from this ordinary demo." />
 
 <Clip name="particles-ios" caption="iPhone 17 simulator, iOS 26: the unchanged particle API, all shapes/source modes, touch pass-through, resize and live reduced motion, exercised with XCTest taps. Existing iOS footage is preserved above." />
+
+<Clip name="web-particles-surfaces-chromium" :width="900" caption="Chromium on macOS, English UI: real clicks demonstrate playback, pause/resume, replacement, reduced motion and disposal at original speed. Browser capture; no physical-device performance claim." />
+
+<Clip name="web-confetti-surfaces-chromium" :width="900" caption="Chromium on macOS, English UI: real clicks demonstrate playback, pause/resume, replacement, reduced motion and disposal at original speed. Browser capture; no physical-device performance claim." />

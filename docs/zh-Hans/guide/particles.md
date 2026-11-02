@@ -1,5 +1,7 @@
 # 粒子与彩纸 {#particles-and-confetti}
 
+实验性 Web 对应 API：[粒子、表面与图像](./web-surfaces)。开发版本，尚未包含在 RC.9 中。
+
 ## 五彩纸屑 {#confetti}
 
 <Clip name="particles" caption="原始的 iOS 五彩纸屑演示，从一个点发出。" />
@@ -146,3 +148,7 @@ Android 为每个发射器预分配最多 10,000 个粒子槽，重用数组和�
 <Clip name="particles-android-device" caption="物理 ASUS_Z017DC、Android 8 / API 26：通过主动效果、连续和有限发射、调整大小和减少运动进行真实点击。原生UI线程实时播放；压力测量与这个普通演示是分开的。" />
 
 <Clip name="particles-ios" caption="iPhone 17 模拟器，iOS 26：不变的粒子 API，所有形状/源模式，触摸传递，调整大小和实时减少运动，使用 XCTest 轻按进行练习。上面保留了现有的 iOS 镜头。" />
+
+<Clip name="web-particles-surfaces-chromium" :width="900" caption="macOS 上的 Chromium，英文界面：真实点击展示播放、暂停/恢复、替换、减少动态效果和清理，保持原速。浏览器录制，不代表真机性能。" />
+
+<Clip name="web-confetti-surfaces-chromium" :width="900" caption="macOS 上的 Chromium，英文界面：真实点击展示播放、暂停/恢复、替换、减少动态效果和清理，保持原速。浏览器录制，不代表真机性能。" />

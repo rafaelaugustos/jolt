@@ -41,6 +41,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm run web:surfaces:typecheck
       - run: npm run web:effects:typecheck
       - run: npm run web:gestures:typecheck
       - run: npm run web:attachment:typecheck
@@ -62,6 +63,7 @@ jobs:
       - run: npm run web:support:test
       - run: npm run web:visual:test
       - run: npm run web:lifecycle:test
+      - run: npm run web:surfaces:test
       - run: npm run web:effects:test
       - run: npm run web:gestures:test
       - run: npm run web:attachment:test
@@ -83,6 +85,7 @@ jobs:
             benchmarks/web-attachment/results/
             benchmarks/web-gestures/results/
             benchmarks/web-effects/results/
+            benchmarks/web-surfaces/results/
   test:
     runs-on: ubuntu-latest
     steps:

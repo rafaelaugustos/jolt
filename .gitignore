@@ -1,4 +1,5 @@
 node_modules/
+/.local/
 dist/
 coverage/
 *.tgz
@@ -71,3 +72,6 @@ benchmarks/web-gestures/captures/
 
 benchmarks/web-effects/results/
 benchmarks/web-effects/captures/
+
+benchmarks/web-surfaces/results/
+benchmarks/web-surfaces/captures/

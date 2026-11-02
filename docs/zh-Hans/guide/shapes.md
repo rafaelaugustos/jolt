@@ -1,5 +1,7 @@
 # 形状绘制与变形 {#shapes-draw-and-morph}
 
+实验性 Web 对应 API：[粒子、表面与图像](./web-surfaces)。开发版本，尚未包含在 RC.9 中。
+
 绘制复选标记、显示圆环或将播放符号变成暂停条。可选的 `@rafaelaugusto/jolt/shapes` 条目在 NativeScript 视图上绘制拥有的矢量曲面。其 `shape()` 手柄遵循与渐变相同的创建/动画模式。自 **0.1.0-rc.1** 起可用；重建 Android 以包含原生渲染器。
 
 <Clip name="shapes-ios" caption="iOS 模拟器：真实的点击绘制复选标记、圆环和下划线、中断播放/暂停变形、暂停/恢复绘制以及在“减少运动”下切换形状。英文界面；原始播放时序。" />
@@ -79,3 +81,5 @@ Android 使用已编译的可绘制对象 `Path`/`PathMeasure` 和 `ValueAnimato
 JavaScript 解析几何图形并在设置/命令时准备曲线，然后处理生命周期和完成边界。它不会每帧绘制或更新路径。 Android绘图和NativeScript JavaScript仍然共享UI线程。这些 API 并不意味着单独的渲染线程或真机性能保证。
 
 四语言 **由运动/线条制成** 预览是第 71 个示例。参见 [验证和复制](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/shapes.md)。
+
+<Clip name="web-shape-surfaces-chromium" :width="900" caption="macOS 上的 Chromium，英文界面：真实点击展示播放、暂停/恢复、替换、减少动态效果和清理，保持原速。浏览器录制，不代表真机性能。" />

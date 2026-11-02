@@ -1,5 +1,7 @@
 # 图像效果 {#image-effects}
 
+实验性 Web 对应 API：[粒子、表面与图像](./web-surfaces)。开发版本，尚未包含在 RC.9 中。
+
 `imageEffect()` 在 NativeScript `Image` 上添加了波纹、触摸失真和溶解。这些 API 需要在安装包后进行原生重建。它们对加载的光栅图像进行操作，而不是对任意视图树、SVG、视频或动画图像进行操作。
 
 <Clip name="image-effects-ios" caption="在 iOS 模拟器中使用 Metal 在光栅夹具上产生波纹、触摸失真和溶解。" />
@@ -67,3 +69,5 @@ transition.finish() // completes at the current direction's endpoint
 更改填充、边框宽度或角半径也会停止活动效果，因此其表面无法保留陈旧的剪切几何形状。边框和背景位于置换纹理之外。
 
 [演示](./demo) 图像实验室包括点击原点、原生拖动、播放、反向、擦洗、恢复、四种拉伸模式、圆形边框和简化运动控件。风景源溶解成带有透明角的肖像艺术品。
+
+<Clip name="web-image-surfaces-chromium" :width="900" caption="macOS 上的 Chromium，英文界面：真实点击展示播放、暂停/恢复、替换、减少动态效果和清理，保持原速。浏览器录制，不代表真机性能。" />

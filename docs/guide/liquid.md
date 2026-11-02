@@ -1,5 +1,7 @@
 # Liquid images
 
+Experimental Web equivalent: see [Web particles, surfaces and images](./web-surfaces). Development build, not included in RC.9.
+
 `liquid()` gives an iOS `Image` a slow, continuous deformation. Parts of the texture move relative to each other while the image's boundary stays fixed.
 
 <Clip name="liquid-ios" caption="The voice orb deforms, pauses and resumes in the iOS simulator. The demo also animates its overall scale and rotation." />
@@ -38,3 +40,5 @@ This helper accepts NativeScript `Image` targets and their template refs. It use
 The effect deforms the existing artwork. It does not generate new folds or simulate a fluid, and it is not a general shader API for arbitrary views. That work is tracked separately in [#35](https://github.com/rafaelaugustos/jolt/issues/35).
 
 See the assistant's [Voice screen](https://github.com/rafaelaugustos/jolt/blob/main/demo/src/assistant/Voice.vue) for a complete example with pause/resume and unmount cleanup.
+
+<Clip name="web-liquid-surfaces-chromium" :width="900" caption="Chromium on macOS, English UI: real clicks demonstrate playback, pause/resume, replacement, reduced motion and disposal at original speed. Browser capture; no physical-device performance claim." />

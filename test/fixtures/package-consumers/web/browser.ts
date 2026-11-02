@@ -28,6 +28,27 @@ void animation.finished.then((completed) => {
 
 // Check the experimental facade without publishing implementation/driver APIs.
 function typeBoundary(context: WebRuntime) {
+  const effects = context.scope()
+  const emitter = effects.particles(surface, {
+    shape: 'ring',
+    source: 'bottom',
+    rate: 20,
+  })
+  emitter.pause()
+  emitter.resume()
+  emitter()
+  effects.confetti(surface, { count: 60 }).dispose()
+  effects.blur(surface, { amount: 0.3 }).animate(0.8, 'smooth').pause()
+  const vector = effects.shape(surface, { d: 'M0 0 L20 20', viewBox: [0, 0, 40, 40] })
+  vector.animate({ d: 'M0 20 L20 0', strokeEnd: 0.5 }).progress = 0.5
+  const raster = document.createElement('img')
+  effects.liquid(raster).resume()
+  effects.imageEffect(raster, 'dissolve', { to: raster, paused: true }).reverse()
+  // @ts-expect-error Pixel effects require an image, not an arbitrary container.
+  effects.liquid(surface)
+  // @ts-expect-error Shape topology is described by an SVG path string.
+  effects.shape(surface, { d: 12, viewBox: [0, 0, 40, 40] })
+  effects.dispose()
   // @ts-expect-error Diagnostics are internal, not part of the package API.
   context.inspect(surface)
   // @ts-expect-error Native-only properties are not Web capabilities.
