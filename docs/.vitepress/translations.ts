@@ -83,6 +83,7 @@ export const es = {
   webVisual: 'Colores, layout y escenas Web',
   webLifecycle: 'Ciclos de vida e input Web',
   webOrchestration: 'Orquestación y control Web',
+  webCollections: 'Montaje, listas y scroll Web',
   webInteractions: 'Overlays y movimiento compartido Web',
   limits: 'Estado de la versión y límites',
 }
@@ -170,6 +171,7 @@ export const zh = {
   webVisual: 'Web 颜色、布局与场景',
   webLifecycle: 'Web 生命周期与输入',
   webOrchestration: 'Web 编排与控制',
+  webCollections: 'Web 挂载、列表与滚动',
   webInteractions: 'Web 浮层与共享动画',
   limits: '发布状态与限制',
 }

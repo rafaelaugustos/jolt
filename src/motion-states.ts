@@ -113,8 +113,36 @@ export function motionStates<
   let settled: Name | undefined
   let disposed = false
   let paused = false
-  let active:
-    { handle: Animation; children: PlaybackAnimation[]; timing: Timing } | undefined
+  interface Run {
+    handle: Animation
+    children: Map<string, PlaybackAnimation>
+    timing: Timing
+    completed: boolean
+    done: boolean
+    finish(result: boolean): void
+  }
+  let active: Run | undefined
+  const check = (run: Run) => {
+    if (run.done || run.children.size) return
+    run.done = true
+    const success = run.completed && active === run && !disposed
+    if (active === run) {
+      active = undefined
+      if (success) settled = current
+    }
+    run.finish(success)
+  }
+  const join = (run: Run, slot: string, child: PlaybackAnimation) => {
+    run.children.set(slot, child)
+    if (paused) child.pause()
+    const finish = (result: boolean) => {
+      if (run.done || run.children.get(slot) !== child) return
+      run.children.delete(slot)
+      run.completed &&= result
+      check(run)
+    }
+    void child.finished.then(finish, () => finish(false))
+  }
   const refs = new Map<string, (view: Target | null) => void>()
   const framesFor = (state: Name | undefined, target: string) =>
     state === undefined
@@ -140,48 +168,47 @@ export function motionStates<
       const timing = normalize(transition, views, defaults)
       const prepared = rows.flatMap(([target, frames]) => {
         const view = views.get(target)
-        return view ? [prepareAnimation(view, frames, timingFor(timing, target))] : []
+        return view
+          ? [{ target, start: prepareAnimation(view, frames, timingFor(timing, target)) }]
+          : []
       })
       const previous = active
-      const children: PlaybackAnimation[] = []
-      // Start replacements first: the engine transfers visible position AND velocity.
+      let finish!: (result: boolean) => void
+      const finished = new Promise<boolean>((resolve) => {
+        finish = resolve
+      })
+      const run: Run = {
+        children: new Map(),
+        timing,
+        completed: true,
+        done: false,
+        finish,
+        handle: {
+          finished,
+          stop() {
+            if (run.done) return
+            run.done = true
+            if (active === run) active = undefined
+            for (const child of run.children.values()) child.stop()
+            run.children.clear()
+            finish(false)
+          },
+          then: (resolve, reject) => finished.then(resolve, reject),
+        },
+      }
+      // Start replacements first: the engine transfers visible position and velocity.
       try {
-        for (const start of prepared) {
-          const child = start()
-          children.push(child)
-          if (paused) child.pause()
-        }
+        for (const { target, start } of prepared) join(run, target, start())
       } catch (error) {
-        children.forEach((child) => child.stop())
+        run.handle.stop()
         previous?.handle.stop()
-        active = undefined
         throw error
       }
-      let cancelled = false
-      const finished = Promise.all(children.map((child) => child.finished)).then(
-        (results) => {
-          const completed =
-            !cancelled && !disposed && active?.handle === handle && results.every(Boolean)
-          if (active?.handle === handle) {
-            active = undefined
-            if (completed) settled = name
-          }
-          return completed
-        },
-      )
-      const handle: Animation = {
-        finished,
-        stop() {
-          cancelled = true
-          children.forEach((child) => child.stop())
-        },
-        then: (resolve, reject) => finished.then(resolve, reject),
-      }
-      active = { handle, children, timing }
+      active = run
       current = name
-      // Also cancels old, omitted properties, without touching the new owners.
       previous?.handle.stop()
-      return handle
+      void Promise.resolve().then(() => check(run))
+      return run.handle
     },
     attach(target, next) {
       if (disposed) throw new Error('Motion states controller is disposed.')
@@ -197,14 +224,21 @@ export function motionStates<
           for (const [slot, frames] of rows)
             if (slot === target)
               prepareAnimation(view, frames, timingFor(defaults, target))
-      views.set(target, view)
       const frames = view ? framesFor(current, target) : undefined
-      if (!view || !frames) return
-      if (active) {
-        const child = prepareAnimation(view, frames, timingFor(active.timing, target))()
-        active.children.push(child)
-        if (paused) child.pause()
-      } else set(view, frames as Values)
+      const run = active
+      // Validate/start before retiring the previous participant, so a failed
+      // replacement cannot corrupt the current transition or its completion.
+      const child =
+        view && frames && run
+          ? prepareAnimation(view, frames, timingFor(run.timing, target))()
+          : undefined
+      const old = run?.children.get(target)
+      run?.children.delete(target)
+      views.set(target, view)
+      if (run && child) join(run, target, child)
+      old?.stop()
+      if (view && frames && !run) set(view, frames as Values)
+      if (run) void Promise.resolve().then(() => check(run))
     },
     ref(target) {
       let callback = refs.get(target)
@@ -234,6 +268,8 @@ export function motionStates<
       if (disposed) return
       disposed = true
       controller.stop()
+      refs.clear()
+      views.clear()
     },
   }
   return options.scope ? options.scope.add(controller) : controller

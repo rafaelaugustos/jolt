@@ -2532,6 +2532,28 @@ final class DocsTests: XCTestCase {
             drag(app.staticTexts["Track 8"], x: 0, y: 260)
         }
     }
+    func testPausedReplacement() throws {
+        launch(["--playground", "--section=replacement and"], "Start motion")
+        try record("paused-replacement-ios") {
+            tap("Start motion", wait: 0.4)
+            tap("Pause motion", wait: 0.4)
+            tap("Replace view", wait: 1)
+            tap("Check state", wait: 0.7)
+            XCTAssertTrue(app.staticTexts["Paused verified"].exists, app.debugDescription)
+            tap("Resume motion", wait: 3.8)
+            tap("Check state", wait: 0.7)
+            XCTAssertTrue(app.staticTexts["Resume verified"].exists, app.debugDescription)
+            tap("Reset motion", wait: 3.5)
+        }
+    }
+    func testHorizontalScroll() throws {
+        launch(["--playground", "--section=replacement and"], "Start motion")
+        try record("horizontal-scroll-ios") {
+            drag(app.staticTexts["CHAPTER 2"], x: -240, y: 0)
+            drag(app.staticTexts["CHAPTER 3"], x: -180, y: 0)
+            drag(app.staticTexts["CHAPTER 5"], x: 240, y: 0)
+        }
+    }
     func testLayout() throws {
         launch(["--layout-lab"], "layout-card-1")
         try record("layout-ios") {

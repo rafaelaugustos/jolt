@@ -22,8 +22,9 @@ jobs:
       - run: npm ci
         working-directory: benchmarks/native-app
       - run: npm run build
-      - run: npx playwright install --with-deps chromium
+      - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run package:check
+      - run: npm run package:nuxt:check
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -40,6 +41,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm run web:attachment:typecheck
       - run: npm run web:orchestration:typecheck
       - run: npm run web:typecheck
       - run: npm run web:lifecycle:typecheck
@@ -58,6 +60,7 @@ jobs:
       - run: npm run web:support:test
       - run: npm run web:visual:test
       - run: npm run web:lifecycle:test
+      - run: npm run web:attachment:test
       - run: npm run web:orchestration:test
       - uses: actions/upload-artifact@v7
         if: always()
@@ -73,6 +76,7 @@ jobs:
             benchmarks/web-visual/results/
             benchmarks/web-lifecycle/results/
             benchmarks/web-orchestration/results/
+            benchmarks/web-attachment/results/
   test:
     runs-on: ubuntu-latest
     steps:

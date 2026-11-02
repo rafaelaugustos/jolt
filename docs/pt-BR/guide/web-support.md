@@ -1,5 +1,7 @@
 # Mapeamentos, geometria e scroll na Web {#web-support}
 
+Novo, ainda não publicado: [montagem Vue/Nuxt, entradas por identidade e scroll horizontal LTR/RTL](./web-collections).
+
 **Desde a RC.7:** [cores, bordas, pintura contínua, tamanho real, FLIP e cenas com seek](./web-visual) ampliam este runtime. As APIs Web continuam experimentais; a paridade completa segue na [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
 Desde a **0.1.0-rc.6**, `@rafaelaugusto/jolt/web` inclui mapeamentos numéricos, atualização de geometria e scroll vertical (#302–#304). As APIs continuam experimentais. APIs nativas e adapters mantêm seus contratos; a adoção pelo Mavis é separada.

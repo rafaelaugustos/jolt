@@ -1,6 +1,6 @@
 # Web orchestration and control
 
-Experimental additions after **0.1.0-rc.7**, tracked by #327–#333. These APIs use the same portable trajectories and scheduling rules as native playback. The browser entry remains independent of NativeScript and frameworks; the optional Vue adapter owns lifecycle through `motion.use()` and its child scope.
+Experimental additions available since **0.1.0-rc.8**, tracked by #327–#333. These APIs use the same portable trajectories and scheduling rules as native playback. The browser entry remains independent of NativeScript and frameworks; the optional Vue adapter owns lifecycle through `motion.use()` and its child scope.
 
 ## Values and playback progress {#values}
 

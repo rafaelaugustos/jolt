@@ -165,3 +165,13 @@ onMounted(() => stage.to('shown'))
 `to()` omite un objetivo vacío y lo recuerda cuando llega una vista. Sus definiciones todavía están validadas desde el principio. Una vista que se desmonta durante una transición cancela su parte, de modo que la transición resuelve `false`.
 
 <Clip name="recreated-views-ios" caption="En el simulador iOS, al cambiar el diseño se recrean ambos logotipos. El adjunto a los estados vuelve a mostrarse u ocultarse después de Ocultar logotipo; el que sólo tiene una entrada vuelve invisible. Reproducción en tiempo real." />
+
+## Sustituir un destino pausado {#paused-replacement}
+
+**Desde RC.8 (#338).** La vista añadida durante una pausa participa en la finalización activa. Separar/descargar la antigua retira solo su trabajo. `play()` reanuda la nueva; `to().finished` espera antes de cambiar `settled`. Otras sustituciones ignoran resultados obsoletos. Dispose resuelve false.
+
+Si se retiran todos los participantes y no llega un reemplazo antes de la siguiente microtask, la transición termina; una vista posterior recibe el destino ya completado. Coincide con Web.
+
+<Clip name="paused-replacement-ios" caption="Simulador iOS 26.2: toques reales inician, pausan, sustituyen, verifican la presentación y reanudan. Velocidad original; no es dispositivo físico." />
+
+<Clip name="paused-replacement-android" caption="Emulador Android API36: mismo flujo nativo con input y comprobaciones reales de posición/finalización. No es dispositivo físico." />

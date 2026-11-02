@@ -63,7 +63,13 @@ features:
     link: /zh-Hans/guide/scene-camera
 ---
 
-## 0.1.0-rc.7: Web 布局与完整交互 {#release-candidate}
+## 0.1.0-rc.8: Web 编排与生命周期 {#release-candidate}
+
+RC.8 新增[数值播放、decay、进度、序列、时间线、运动状态和 SVG 描边](/zh-Hans/guide/web-orchestration)，以及 [Vue/Nuxt 挂载、按身份管理的列表入场和横向滚动](/zh-Hans/guide/web-collections)。[原生运动状态](/zh-Hans/guide/motion-controllers#paused-replacement)现在可在暂停时移除旧视图后正确恢复替代视图。
+
+Web API 仍为实验性功能，坐标/捕获范围见文档；Mavis 集成另行推进。[安装 RC.8](/zh-Hans/guide/install)，将可选原生包保持为相同版本并重新构建原生应用。请查看[发布说明](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.8)与[剩余验收](/zh-Hans/guide/not-there-yet)。
+
+## 0.1.0-rc.7: Web 布局与完整交互 {#rc-7}
 
 RC.7 新增[颜色、边框、内在尺寸、FLIP 与可定位场景](/zh-Hans/guide/web-visual)、[作用域、指针/视口与 Vue 持续配置](/zh-Hans/guide/web-lifecycle)，以及[浮层几何、共享元素、交互示例与诊断](/zh-Hans/guide/web-interactions)。[展示页](/zh-Hans/guide/showcase) 展示原生实例并接收社区提交。
 

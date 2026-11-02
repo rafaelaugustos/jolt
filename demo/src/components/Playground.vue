@@ -52,6 +52,7 @@ import StateTransitions from './StateTransitions.vue'
 import Layers from './Layers.vue'
 import ScrollValues from './ScrollValues.vue'
 import Remount from './Remount.vue'
+import ReplacementScroll from './ReplacementScroll.vue'
 
 const emit = defineEmits<{
   imageLab: []
@@ -172,6 +173,7 @@ onUnmounted(() => {
         <ValueLayers />
         <Layers />
         <ScrollValues />
+        <ReplacementScroll />
         <MotionStates />
         <StateTransitions />
         <Remount />

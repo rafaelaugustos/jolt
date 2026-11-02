@@ -1,0 +1,216 @@
+{
+  "date": "2026-11-02",
+  "issues": [334, 336, 337, 338],
+  "unitTests": 1656,
+  "newBrowserChecks": 63,
+  "existingBrowserChecks": 634,
+  "existingBrowserSkips": 8,
+  "nuxt": [
+    {
+      "browser": "156.0.8078.4",
+      "baseline": false,
+      "detachedMounts": 1,
+      "errors": []
+    },
+    {
+      "browser": "157.0",
+      "baseline": false,
+      "detachedMounts": 1,
+      "errors": []
+    },
+    {
+      "browser": "27.2",
+      "baseline": false,
+      "detachedMounts": 1,
+      "errors": []
+    }
+  ],
+  "nativeAndroid": {
+    "platform": "Android API36 emulator",
+    "physical": false,
+    "checks": [
+      {
+        "stage": "paused",
+        "nativeAssertion": "Paused verified"
+      },
+      {
+        "stage": "resumed",
+        "nativeAssertion": "Resume verified"
+      }
+    ],
+    "consoleSamples": []
+  },
+  "nativeIOS": {
+    "runtime": "iOS 26.2 simulator",
+    "physical": false,
+    "input": "XCTest",
+    "assertions": ["Paused verified", "Resume verified"],
+    "xctest": "testPausedReplacement passed; testHorizontalScroll passed"
+  },
+  "media": [
+    {
+      "file": "docs/public/media/web-nuxt-attachment-chromium.mp4",
+      "sha256": "43d255b5f80bd87b55c6ad736efaa6960e899cd91def5abf65ca8fe41fa7cf60",
+      "inspected": true,
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 920,
+          "height": 900
+        }
+      ],
+      "format": {
+        "duration": "10.966667",
+        "size": "351320"
+      }
+    },
+    {
+      "file": "docs/public/media/vue-lifecycle-reference-ios.mp4",
+      "sha256": "0a691187155c8050ecca597bf55821e65fedb488274d39f579630c93b100d310",
+      "inspected": true,
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 420,
+          "height": 914
+        }
+      ],
+      "format": {
+        "duration": "7.233008",
+        "size": "84151"
+      }
+    },
+    {
+      "file": "docs/public/media/web-attachment-items-chromium.mp4",
+      "sha256": "c027e333579211db95813bb3b7122286662018cf33622fc06883f767fb91d1d1",
+      "inspected": true,
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 920,
+          "height": 800
+        }
+      ],
+      "format": {
+        "duration": "7.733333",
+        "size": "149896"
+      }
+    },
+    {
+      "file": "docs/public/media/lists-android.mp4",
+      "sha256": "107c65d29f682e6977effa0b56bb83694239e83d7ef4e7e146fd2be8e312efa2",
+      "inspected": true,
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 420,
+          "height": 934
+        }
+      ],
+      "format": {
+        "duration": "5.166667",
+        "size": "44683"
+      }
+    },
+    {
+      "file": "docs/public/media/web-attachment-horizontal-chromium.mp4",
+      "sha256": "a70b0f03cd0b0f84d6bedebf75cb1b52c10b40ccb5b88cad8b38683d54de94be",
+      "inspected": true,
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 920,
+          "height": 800
+        }
+      ],
+      "format": {
+        "duration": "9.166667",
+        "size": "95449"
+      }
+    },
+    {
+      "file": "docs/public/media/horizontal-scroll-ios.mp4",
+      "sha256": "ac3b6348100e9b31edc864b3fc20676e62c1dfcae4ed7f29977ec7ebf1aeaac4",
+      "inspected": true,
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 480,
+          "height": 1044
+        }
+      ],
+      "format": {
+        "duration": "7.966667",
+        "size": "57936"
+      }
+    },
+    {
+      "file": "docs/public/media/paused-replacement-ios.mp4",
+      "sha256": "d7247e7417e03a90286ac46417a688d953ece91feef53ec4c8a2649d837cf50a",
+      "inspected": true,
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 480,
+          "height": 1044
+        }
+      ],
+      "format": {
+        "duration": "15.933333",
+        "size": "118821"
+      }
+    },
+    {
+      "file": "docs/public/media/paused-replacement-android.mp4",
+      "sha256": "aa7db45fe16cb7ac2f6abfecd572a33ba2c7e22aa4ce8041950f06720953b5ab",
+      "inspected": true,
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 480,
+          "height": 1066
+        }
+      ],
+      "format": {
+        "duration": "18.133333",
+        "size": "146170"
+      }
+    }
+  ],
+  "nuxtLinuxAmd64": [
+    {
+      "browser": "156.0.8078.80",
+      "baseline": false,
+      "detachedMounts": 1,
+      "errors": []
+    },
+    {
+      "browser": "157.0",
+      "baseline": false,
+      "detachedMounts": 1,
+      "errors": []
+    },
+    {
+      "browser": "27.2",
+      "baseline": false,
+      "detachedMounts": 1,
+      "errors": []
+    }
+  ]
+}

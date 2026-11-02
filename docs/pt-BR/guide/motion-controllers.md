@@ -164,3 +164,13 @@ onMounted(() => stage.to('shown'))
 Um alvo vazio é ignorado pelo `to()` e lembrado para quando uma view chegar. As definições dele continuam sendo validadas na criação. Uma view que desmonta durante uma transição cancela a parte dela, então essa transição resolve `false`.
 
 <Clip name="recreated-views-ios" caption="No simulador iOS, trocar o layout recria os dois logos. O ligado aos estados volta visível, ou escondido depois de Hide logo; o que só tem entrada volta invisível. Velocidade real." />
+
+## Troca de alvo durante a pausa {#paused-replacement}
+
+**Desde a RC.8 (#338).** Uma view anexada durante a pausa entra na espera de conclusão ativa. Remover/descarregar a antiga encerra somente seu participante. `play()` retoma a substituta; o `to().finished` original espera por ela antes de mudar `settled`. Novas substituições ignoram conclusões antigas. Descarte resolve o trabalho pendente com false.
+
+Se todos os participantes forem removidos e nenhum substituto entrar até a próxima microtask, a transição termina sem participantes restantes; uma view anexada depois recebe imediatamente o destino já concluído. O contrato é o mesmo da Web.
+
+<Clip name="paused-replacement-ios" caption="Simulador iOS 26.2: toques reais iniciam, pausam, substituem a view, verificam a posição apresentada, retomam e reiniciam. Velocidade original; não é aparelho físico." />
+
+<Clip name="paused-replacement-android" caption="Emulador Android API36: o mesmo fluxo nativo com input real e verificações de translação e conclusão. Não é gravação de aparelho físico." />

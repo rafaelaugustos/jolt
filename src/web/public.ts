@@ -36,6 +36,8 @@ export type {
 } from './diagnostics.js'
 import type { WebPointerFollow, WebPointerOptions } from './pointer.js'
 import type { WebViewportEntrance, WebViewportOptions } from './viewport.js'
+import type { WebItem, WebItemsOptions, WebItemsAnimation } from './items.js'
+export type { WebItem, WebItemKey, WebItemsOptions, WebItemsAnimation } from './items.js'
 export type { WebMotionScope, WebMotionResource } from './scope.js'
 export type { WebPointerFollow, WebPointerOptions } from './pointer.js'
 export type { WebViewportEntrance, WebViewportOptions } from './viewport.js'
@@ -56,6 +58,7 @@ export type {
   WebMapOptions,
 } from './value.js'
 import type {
+  WebScrollValueOptions,
   WebScrollSource,
   WebScrollValue,
   WebScrollKeyframes,
@@ -63,6 +66,7 @@ import type {
   WebScrollLink,
 } from './scroll.js'
 export type {
+  WebScrollValueOptions,
   WebScrollSource,
   WebScrollValue,
   WebScrollKeyframes,
@@ -118,6 +122,11 @@ export interface WebAnimation extends PlaybackAnimation {
 
 /** Experimental DOM context; platform/framework adapters are not public APIs. */
 export interface WebRuntime {
+  animateItems(
+    items: readonly WebItem[],
+    animation?: Keyframes | string,
+    options?: WebItemsOptions | SpringName,
+  ): WebItemsAnimation
   drawPath(
     target: SVGGeometryElement,
     options?: import('./stroke.js').WebPathOptions,
@@ -170,7 +179,7 @@ export interface WebRuntime {
     changeOrOptions?: (() => void) | WebSizeOptions | SpringName,
     options?: WebSizeOptions | SpringName,
   ): WebSizeAnimation
-  scrollValue(source?: WebScrollSource): WebScrollValue
+  scrollValue(source?: WebScrollSource, options?: WebScrollValueOptions): WebScrollValue
   scrollLinked(
     source: WebScrollSource,
     target: HTMLElement,
@@ -219,6 +228,7 @@ export function createWebRuntime(
   // Keep diagnostics, ownership internals and driver implementation off the
   // package API, including at runtime rather than only in the declarations.
   return {
+    animateItems: runtime.animateItems.bind(runtime),
     drawPath: runtime.drawPath.bind(runtime),
     motionStates: runtime.motionStates.bind(runtime),
     sequence: runtime.sequence.bind(runtime),

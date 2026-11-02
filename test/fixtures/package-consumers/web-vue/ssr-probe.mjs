@@ -21,7 +21,9 @@ const module = await import(process.argv[2] ?? '@rafaelaugusto/jolt/web/vue')
 if (module.render)
   assert.equal(await module.render(), '<main data-motion="function">SSR</main>')
 else {
-  assert.deepEqual(Object.keys(module), ['useWebMotion'])
+  assert.deepEqual(Object.keys(module), ['createViewportEnterDirective', 'useWebMotion'])
+  const directive = module.createViewportEnterDirective()
+  assert.deepEqual(directive.getSSRProps(), {})
   const app = createSSRApp(
     defineComponent({
       setup() {

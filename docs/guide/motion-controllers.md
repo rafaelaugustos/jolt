@@ -165,3 +165,13 @@ onMounted(() => stage.to('shown'))
 An empty target is skipped by `to()` and remembered for when a view arrives. Its definitions are still validated up front. A view that unmounts during a transition cancels its part, so that transition resolves `false`.
 
 <Clip name="recreated-views-ios" caption="On the iOS simulator, switching the layout recreates both logos. The one attached to the states comes back shown, or hidden after Hide logo; the one with only an entrance comes back invisible. Real-time playback." />
+
+## Paused target replacement {#paused-replacement}
+
+**Since RC.8 (#338).** A view attached while a transition is paused joins its live completion barrier. Detaching/unloading the old view retires only its owned participant. `play()` resumes the replacement; the original `to().finished` waits for it before `settled` changes. Replacing the same slot again ignores stale completions. Disposal resolves pending work false.
+
+If every participant is detached and no replacement joins before the next microtask, the transition completes with no remaining participants; a later attachment adopts the settled endpoint immediately. This matches the Web contract.
+
+<Clip name="paused-replacement-ios" caption="iOS 26.2 simulator: real taps start and pause motion, replace the native view, verify its held presentation, resume to the target and reset. Original speed; no physical-device claim." />
+
+<Clip name="paused-replacement-android" caption="Android API36 emulator: the same native pause/remove/replacement/resume flow, with actual input and native translation/conclusion checks. Not a physical-device recording." />

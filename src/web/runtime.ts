@@ -1,5 +1,11 @@
 import { StrokeSurface, type WebPathOptions } from './stroke.js'
 import {
+  createItemsAnimation,
+  type WebItem,
+  type WebItemsOptions,
+  type WebItemsAnimation,
+} from './items.js'
+import {
   createMotionStates,
   type WebMotionStates,
   type WebMotionState,
@@ -53,6 +59,8 @@ import { SpringValueNode, type WebSpringOptions } from './spring-value.js'
 import { FrameScheduler, type FrameTask } from './scheduler.js'
 import { numericMap, type NumericMapOptions } from '../core/numeric-map.js'
 import {
+  scrollAxis,
+  type WebScrollValueOptions,
   ScrollValueNode,
   ScrollLinkedNode,
   scrollPlan,
@@ -422,7 +430,7 @@ class Surface {
         this.runtime.view as unknown as {
           ScrollTimeline?: new (options: {
             source: Element
-            axis: 'y'
+            axis: 'x' | 'y'
           }) => AnimationTimeline
         }
       ).ScrollTimeline
@@ -472,7 +480,7 @@ class Surface {
                 fill: 'both',
                 easing: 'linear',
               }),
-              new Timeline({ source: first.scroll.element, axis: 'y' }),
+              new Timeline({ source: first.scroll.element, axis: first.scroll.axis }),
             )
             const ranged = animation as globalThis.Animation & {
               rangeStart: string
@@ -832,6 +840,7 @@ export class WebRuntime {
   private readonly values = new Set<NumericValue>()
   private readonly playbacks = new WeakSet<MotionAnimation>()
   private readonly paths = new Map<SVGGeometryElement, StrokeSurface>()
+  private readonly itemAnimations = new Set<WebItemsAnimation>()
   private readonly stateControllers = new Set<WebMotionStates>()
   private readonly groups = new Set<MotionAnimation>()
   private readonly groupVisibility = new Set<() => void>()
@@ -1029,6 +1038,7 @@ export class WebRuntime {
         animations: this.animations.size,
         values: this.values.size,
         paths: this.paths.size,
+        itemAnimations: this.itemAnimations.size,
         stateControllers: this.stateControllers.size,
         groups: this.groups.size,
         timers: this.timers.size,
@@ -1138,6 +1148,56 @@ export class WebRuntime {
       },
     })
     this.viewportEntrances.add(controller)
+    return controller
+  }
+  animateItems(
+    items: readonly WebItem[],
+    animation: Keyframes | string = 'fadeInUp',
+    options: WebItemsOptions | SpringName = {},
+  ): WebItemsAnimation {
+    this.assert()
+    let controller: WebItemsAnimation | undefined
+    controller = createItemsAnimation(items, animation, options, {
+      document: this.document,
+      assert: () => this.assert(),
+      alive: () => !this.disposed,
+      reduced: () => this.reduced(),
+      preference: this.watchPreference,
+      prepare: (input, frames, transition) => {
+        const targets = this.targets(input)
+        const plans = prepare(frames, transition, this.presets, targets.length)
+        const compiled = this.compileElements(targets, plans, this.now())
+        if (
+          compiled.some((surface) =>
+            surface.plans.some(({ track }) => !Number.isFinite(track.end)),
+          )
+        )
+          throw new RangeError('Item entrances must have finite duration.')
+        return (index, settle) => {
+          const tracks = plans[index]!
+          const instant = settle
+            ? tracks.map((plan) => ({
+                ...plan,
+                transition: {
+                  ...plan.transition,
+                  curve: {
+                    type: 'tween' as const,
+                    duration: 0,
+                    ease: [(t: number) => t],
+                    times: undefined,
+                  },
+                  delay: 0,
+                },
+              }))
+            : tracks
+          return this.play(targets[index]!, frames, undefined, undefined, [instant])
+        }
+      },
+      forget: () => {
+        if (controller) this.itemAnimations.delete(controller)
+      },
+    })
+    this.itemAnimations.add(controller)
     return controller
   }
   private copyPreset(preset: Preset): Preset {
@@ -1368,10 +1428,11 @@ export class WebRuntime {
     return result
   }
 
-  private scrollNode(source: WebScrollSource) {
+  private scrollNode(source: WebScrollSource, axis: 'x' | 'y' = 'y') {
     const node = new ScrollValueNode(
       this.document,
       source,
+      axis,
       this.scheduler,
       this.report,
       () => {
@@ -1385,9 +1446,12 @@ export class WebRuntime {
     this.observe()
     return node
   }
-  scrollValue(source: WebScrollSource = this.document): WebScrollValue {
+  scrollValue(
+    source: WebScrollSource = this.document,
+    options?: WebScrollValueOptions,
+  ): WebScrollValue {
     this.assert()
-    const node = this.scrollNode(source)
+    const node = this.scrollNode(source, scrollAxis(options))
     return this.valueHandle(
       node,
       Object.assign(node.readableHandle(), { refresh: () => node.refresh() }),
@@ -1402,7 +1466,7 @@ export class WebRuntime {
     this.assert()
     this.targets(target)
     const plan = scrollPlan(frames, options)
-    const scroll = this.scrollNode(source)
+    const scroll = this.scrollNode(source, plan.axis)
     const nodes = new Set<ScrollLinkedNode>()
     let binding: WebBinding | undefined
     try {
@@ -2798,6 +2862,7 @@ export class WebRuntime {
     return {
       scopes: this.scopes.size,
       paths: this.paths.size,
+      itemAnimations: this.itemAnimations.size,
       groups: this.groups.size,
       timers: this.timers.size,
       sharedLayouts: this.sharedLayouts.size,
@@ -2862,6 +2927,7 @@ export class WebRuntime {
     for (const resource of [
       ...this.scopes,
       ...this.stateControllers,
+      ...this.itemAnimations,
       ...this.paths.values(),
       ...this.pointerFollowers,
       ...this.viewportEntrances,
@@ -2875,6 +2941,7 @@ export class WebRuntime {
     }
     this.paths.clear()
     this.stateControllers.clear()
+    this.itemAnimations.clear()
     this.scopes.clear()
     this.pointerFollowers.clear()
     this.viewportEntrances.clear()
