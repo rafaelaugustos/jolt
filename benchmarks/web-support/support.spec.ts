@@ -472,23 +472,40 @@ test('real touch scroll drives the linked surface and source disposal removes al
   page,
   browserName,
 }) => {
-  test.skip(browserName !== 'chromium', 'CDP OS-style touch injection is Chromium-only.')
+  test.skip(browserName !== 'chromium', 'CDP touch injection is Chromium-only.')
   await page.evaluate(() => {
     window.linked = rt.scrollLinked(source, target, { x: [0, 200] }, { range: [0, 500] })
   })
   await page.locator('.test-source').scrollIntoViewIfNeeded()
   const box = await page.locator('.test-source').boundingBox()
   const cdp = await page.context().newCDPSession(page)
-  await cdp.send('Input.synthesizeScrollGesture', {
-    x: box!.x + 80,
-    y: box!.y + 100,
-    yDistance: -250,
-    gestureSourceType: 'touch',
-    speed: 400,
+  await cdp.send('Emulation.setTouchEmulationEnabled', {
+    enabled: true,
+    maxTouchPoints: 1,
   })
+  const x = box!.x + 80,
+    y = box!.y + 180
+  await cdp.send('Input.dispatchTouchEvent', {
+    type: 'touchStart',
+    touchPoints: [{ x, y }],
+  })
+  for (let i = 1; i <= 10; i++) {
+    await cdp.send('Input.dispatchTouchEvent', {
+      type: 'touchMove',
+      touchPoints: [{ x, y: y - i * 15 }],
+    })
+    await page.waitForTimeout(20)
+  }
+  // Hold the real touch while comparing presentation so inertial scrolling
+  // cannot invalidate the offset between two separate protocol reads.
+  await page.waitForTimeout(150)
   await expect.poll(() => page.evaluate(() => source.scrollTop)).toBeGreaterThan(100)
   const expected = await page.evaluate(() => Math.min(200, source.scrollTop * 0.4))
   await near(page, 'x', expected)
+  await cdp.send('Input.dispatchTouchEvent', {
+    type: 'touchEnd',
+    touchPoints: [],
+  })
   await page.evaluate(() => source.remove())
   await expect.poll(() => page.evaluate(() => rt.inspect(target).values)).toBe(0)
   expect(await page.evaluate(() => linked.execution)).toBe('released')

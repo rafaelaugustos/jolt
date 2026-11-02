@@ -28,7 +28,7 @@ The native timeline test verifies Chromium selects `scroll-timeline`, traverses 
 - Native packed root, Vue and native-entry declarations and iOS/Android production webpack bundles retain their contracts. Native implementation files are unchanged. Repository CI also runs the existing native math/solver and lifecycle checks.
 - Root/support typechecks, portable-core and Web import checks, formatting, documentation media checks and the four-language documentation build.
 
-An initial browser input test overlapped the browser's keyboard scroll animation with a programmatic offset assertion. It now waits for the actual end offset before testing reversal. Velocity continuity is checked at a held scheduler timestamp instead of comparing across unrelated context construction. A separate interrupted run lost worker modules while local dependencies were reinstalled; the complete suite was rerun after installation and passed. No retries mask these failures.
+An initial browser input test overlapped the browser's keyboard scroll animation with a programmatic offset assertion. It now waits for the actual end offset before testing reversal. Velocity continuity is checked at a held scheduler timestamp instead of comparing across unrelated context construction. A separate interrupted run lost worker modules while local dependencies were reinstalled; the complete suite was rerun after installation and passed. The first Linux CI run exposed missing touch emulation in the new input fixture: it now enables Chromium touch emulation, dispatches actual touch start/move/end events, and holds the touch during the presentation comparison to exclude inertial movement between protocol reads. No retries mask these failures.
 
 ## Recording review
 
