@@ -1,5 +1,13 @@
 import type { FrameScheduler, FrameTask } from './scheduler.js'
-import { finite } from './value.js'
+import { finite, type WebMotionValue } from './value.js'
+import { DEFAULT_FRICTION } from '../core/decay.js'
+import {
+  resistDrag,
+  resumeDrag,
+  dragDestination,
+  type DragCurve,
+} from '../core/drag-physics.js'
+import type { Plan } from './plan.js'
 import type { PlaybackAnimation } from './types.js'
 import type { SpringParams } from '../core/spring.js'
 import { renderedAncestors, identityTransform } from './geometry.js'
@@ -9,25 +17,52 @@ export interface WebDragOptions {
   /** Bounds constrain direct dragging and snap destinations; springs may overshoot. */
   bounds?: { left?: number; right?: number; top?: number; bottom?: number }
   /** Per-axis snap positions; omitted axes return to the position at attachment. */
-  snap?: { x?: readonly number[]; y?: readonly number[] }
+  snap?: readonly number[] | { x?: readonly number[]; y?: readonly number[] }
   spring?: SpringParams
   disabled?: boolean
+  /** Existing spring-return behavior is retained; decay uses the native drag solver. */
+  release?: 'spring' | 'decay'
+  friction?: number
+  rubberband?: boolean
+  /** Drive a borrowed numeric value instead of the input element's translation. */
+  value?: WebMotionValue
+  onStart?: (event: WebDragEvent) => void
+  onMove?: (event: WebDragEvent) => void
+  onRelease?: (event: WebDragRelease) => void
+  onCancel?: (event: WebDragEvent) => void
+  onSettle?: (event: WebDragEvent) => void
+}
+export interface WebDragEvent {
+  x: number
+  y: number
+  velocity: DragPoint
+}
+export interface WebDragRelease extends WebDragEvent {
+  target: DragPoint
+  animation: NonNullable<WebDrag['animation']>
 }
 export interface WebDrag {
   readonly dragging: boolean
+  readonly settling: boolean
+  readonly paused: boolean
+  readonly disposed: boolean
+  readonly position: DragPoint
   readonly animation?: PlaybackAnimation & { readonly ready: Promise<void> }
   update(state: { disabled: boolean }): void
   /** Freeze owned translation at the current input, with no snap. */
   cancel(): void
+  pause(): void
+  play(): void
   dispose(): void
 }
 export type DragPoint = { x: number; y: number }
 export interface DragHost {
   scheduler: FrameScheduler
+  error(error: unknown): void
   read(): DragPoint
   begin(): void
   owns(): boolean
-  write(point: DragPoint): void
+  write(point: DragPoint, velocity: DragPoint): void
   release(point: DragPoint, velocity: DragPoint): NonNullable<WebDrag['animation']>
   cancel(): void
   dispose(): void
@@ -40,12 +75,41 @@ export function dragOptions(options: WebDragOptions) {
   if (!options || typeof options !== 'object')
     throw new TypeError('Expected drag options.')
   for (const key of Object.keys(options))
-    if (!['axis', 'bounds', 'snap', 'spring', 'disabled'].includes(key))
+    if (
+      ![
+        'axis',
+        'bounds',
+        'snap',
+        'spring',
+        'disabled',
+        'release',
+        'friction',
+        'rubberband',
+        'value',
+        'onStart',
+        'onMove',
+        'onRelease',
+        'onCancel',
+        'onSettle',
+      ].includes(key)
+    )
       throw new TypeError(`Unsupported drag option: ${key}.`)
   const axis = options.axis ?? 'both'
   if (!['x', 'y', 'both'].includes(axis)) throw new TypeError('Invalid drag axis.')
   if (options.disabled !== undefined && typeof options.disabled !== 'boolean')
     throw new TypeError('disabled must be boolean.')
+  if (options.release !== undefined && !['spring', 'decay'].includes(options.release))
+    throw new TypeError('Invalid drag release mode.')
+  const friction = options.friction ?? DEFAULT_FRICTION
+  if (!Number.isFinite(friction) || friction <= 0 || friction >= 1)
+    throw new RangeError('Drag friction must be between zero and one exclusively.')
+  if (options.rubberband !== undefined && typeof options.rubberband !== 'boolean')
+    throw new TypeError('rubberband must be boolean.')
+  if (options.value && axis === 'both')
+    throw new TypeError('A value drag requires one axis.')
+  for (const name of ['onStart', 'onMove', 'onRelease', 'onCancel', 'onSettle'] as const)
+    if (options[name] !== undefined && typeof options[name] !== 'function')
+      throw new TypeError(`${name} must be a function.`)
   const bounds = { ...options.bounds }
   for (const [key, value] of Object.entries(bounds)) {
     if (!['left', 'right', 'top', 'bottom'].includes(key))
@@ -57,15 +121,62 @@ export function dragOptions(options: WebDragOptions) {
     (bounds.top ?? -Infinity) > (bounds.bottom ?? Infinity)
   )
     throw new RangeError('Drag bounds must be ordered.')
-  const snap: WebDragOptions['snap'] = {}
-  for (const [key, points] of Object.entries(options.snap ?? {})) {
+  const snap: { x?: readonly number[]; y?: readonly number[] } = {}
+  const inputSnap = Array.isArray(options.snap)
+    ? Object.fromEntries(
+        (axis === 'both' ? ['x', 'y'] : [axis]).map((a) => [a, options.snap]),
+      )
+    : options.snap
+  for (const [key, points] of Object.entries(inputSnap ?? {})) {
     if (!['x', 'y'].includes(key) || !Array.isArray(points) || !points.length)
       throw new TypeError('Snap needs nonempty x/y arrays.')
     if (axis !== 'both' && key !== axis)
       throw new TypeError('Snap positions must match the drag axis.')
     snap[key as 'x' | 'y'] = points.map((n) => finite(n, 'snap position'))
   }
-  return { ...options, axis, bounds, snap, spring: { ...options.spring } }
+  for (const key of ['x', 'y'] as const) {
+    const min = bounds[key === 'x' ? 'left' : 'top'] ?? -Infinity
+    const max = bounds[key === 'x' ? 'right' : 'bottom'] ?? Infinity
+    if (snap[key]?.some((n) => n < min || n > max))
+      throw new RangeError('Snap positions must be inside drag bounds.')
+  }
+  return { ...options, axis, bounds, snap, friction, spring: { ...options.spring } }
+}
+
+export function dragCurve(
+  config: ReturnType<typeof dragOptions>,
+  axis: 'x' | 'y',
+  velocity: number,
+): DragCurve {
+  return {
+    type: 'drag',
+    velocity,
+    friction: config.friction,
+    bounds: [
+      config.bounds[axis === 'x' ? 'left' : 'top'] ?? -Infinity,
+      config.bounds[axis === 'x' ? 'right' : 'bottom'] ?? Infinity,
+    ],
+    snap: config.snap[axis],
+    rubberband: config.rubberband ?? false,
+  }
+}
+export function dragPlans(
+  config: ReturnType<typeof dragOptions>,
+  velocity: DragPoint,
+): Plan[] {
+  const axes: ('x' | 'y')[] = config.axis === 'both' ? ['x', 'y'] : [config.axis]
+  return axes.map((property) => ({
+    property,
+    source: property,
+    frames: [null, null],
+    relative: false,
+    transition: {
+      curve: dragCurve(config, property, velocity[property]),
+      delay: 0,
+      repeat: 0,
+      reverse: false,
+    },
+  }))
 }
 
 /** Validate only ancestors participating in this rendered coordinate space. */
@@ -96,7 +207,9 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
   target.style.touchAction = touch
   let pointer: number | undefined,
     disabled = options.disabled ?? false,
-    disposed = false
+    disposed = false,
+    paused = false,
+    settling = false
   let start: DragPoint = { x: 0, y: 0 },
     origin = start,
     latest = start
@@ -105,6 +218,17 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
   let samples: { x: number; y: number; time: number }[] = []
   let animation: WebDrag['animation']
   const initial = host.read()
+  let resistance = { x: 200, y: 200 }
+  const notify = (
+    name: 'onStart' | 'onMove' | 'onCancel' | 'onSettle',
+    speed = { x: 0, y: 0 },
+  ) => {
+    try {
+      options[name]?.({ ...host.read(), velocity: speed })
+    } catch (error) {
+      host.error(error)
+    }
+  }
   const task: FrameTask = {
     read: () => {
       if (pointer !== undefined) {
@@ -120,9 +244,11 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
       if (pointer !== undefined) flush()
     },
   }
-  const blocked = () => {
+  const blocked = (includePaused = true) => {
     if (
       disabled ||
+      (includePaused && paused) ||
+      disposed ||
       !target.isConnected ||
       target.ownerDocument !== document ||
       target.matches(':disabled')
@@ -138,28 +264,42 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     }
     return false
   }
-  const position = () => ({
-    x:
-      options.axis === 'y'
-        ? origin.x
-        : clamp(origin.x + latest.x - start.x, options.bounds.left, options.bounds.right),
-    y:
-      options.axis === 'x'
-        ? origin.y
-        : clamp(origin.y + latest.y - start.y, options.bounds.top, options.bounds.bottom),
-  })
+  const position = (): DragPoint => {
+    const axis = (key: 'x' | 'y') => {
+      if ((key === 'x' && options.axis === 'y') || (key === 'y' && options.axis === 'x'))
+        return origin[key]
+      const value = origin[key] + latest[key] - start[key]
+      const bounds = dragCurve(options, key, 0).bounds
+      return options.rubberband
+        ? resistDrag(value, bounds, resistance[key])
+        : clamp(value, ...bounds)
+    }
+    return { x: axis('x'), y: axis('y') }
+  }
   const flush = () => {
     if (blocked() || !host.owns()) {
       cancel()
       return
     }
-    host.write(position())
+    host.write(position(), velocity(samples.at(-1)?.time ?? 0))
+    notify('onMove', velocity(samples.at(-1)?.time ?? 0))
   }
   const releaseCapture = (id: number) => {
     if (target.hasPointerCapture(id)) target.releasePointerCapture(id)
   }
+  const stopRelease = () => {
+    const current = animation
+    animation = undefined
+    settling = false
+    current?.stop()
+  }
   const cancel = () => {
-    if (pointer === undefined) return
+    const wasSettling = settling
+    stopRelease()
+    if (pointer === undefined) {
+      if (wasSettling) notify('onCancel')
+      return
+    }
     const id = pointer
     pointer = undefined
     host.scheduler.remove(task)
@@ -168,6 +308,7 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     } finally {
       releaseCapture(id)
       samples = []
+      notify('onCancel')
     }
   }
   const capture = (event: PointerEvent) => {
@@ -193,6 +334,11 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     }
   }
   const destination = (p: DragPoint, speed: DragPoint): DragPoint => {
+    if (options.release === 'decay')
+      return {
+        x: dragDestination(p.x, dragCurve(options, 'x', speed.x)),
+        y: dragDestination(p.y, dragCurve(options, 'y', speed.y)),
+      }
     const snap = (axis: 'x' | 'y') => {
       const points = options.snap[axis] ?? [initial[axis]]
       const projected = p[axis] + speed[axis] * 0.15
@@ -239,6 +385,17 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     }
     host.validate()
     origin = host.read()
+    stopRelease()
+    if (options.rubberband)
+      for (const axis of ['x', 'y'] as const) {
+        const next = resumeDrag(
+          origin[axis],
+          dragCurve(options, axis, 0).bounds,
+          Math.max(1, target[axis === 'x' ? 'clientWidth' : 'clientHeight']),
+        )
+        origin[axis] = next.origin
+        resistance[axis] = next.length
+      }
     start = latest = { x: event.clientX, y: event.clientY }
     host.begin()
     pointer = event.pointerId
@@ -248,6 +405,7 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     capture(event)
     try {
       target.setPointerCapture(pointer)
+      notify('onStart')
     } catch (error) {
       cancel()
       throw error
@@ -284,7 +442,24 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
       host.scheduler.remove(task)
       if (moved) {
         suppressUntil = view.performance.now() + 500
-        animation = host.release(destination(p, speed), speed)
+        const to = destination(p, speed)
+        try {
+          const current = (animation = host.release(to, speed))
+          settling = true
+          void current.finished.then((result) => {
+            if (animation !== current || disposed) return
+            settling = false
+            notify(result ? 'onSettle' : 'onCancel')
+          }, host.error)
+          try {
+            options.onRelease?.({ ...p, velocity: speed, target: to, animation: current })
+          } catch (error) {
+            host.error(error)
+          }
+        } finally {
+          releaseCapture(id)
+          samples = []
+        }
       } else host.cancel()
       releaseCapture(id)
       samples = []
@@ -341,6 +516,7 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
   )
   const dispose = (stopAnimation = true) => {
     if (disposed) return
+    if (!stopAnimation) animation = undefined
     cancel()
     disposed = true
     abort.abort()
@@ -357,6 +533,29 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
       get dragging() {
         return pointer !== undefined
       },
+      get settling() {
+        return settling
+      },
+      get paused() {
+        return paused
+      },
+      get disposed() {
+        return disposed
+      },
+      get position() {
+        return host.read()
+      },
+      pause() {
+        if (disposed || paused) return
+        if (pointer !== undefined) cancel()
+        paused = true
+        animation?.pause()
+      },
+      play() {
+        if (disposed || !paused) return
+        paused = false
+        animation?.play()
+      },
       get animation() {
         return animation
       },
@@ -372,8 +571,13 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     } satisfies WebDrag,
     refresh: () => {
       watchRoot()
-      if (pointer !== undefined && (blocked() || !host.owns())) cancel()
+      if (!target.isConnected || target.ownerDocument !== document) {
+        dispose()
+        return
+      }
+      if ((pointer !== undefined || settling) && blocked(false)) cancel()
+      if (pointer !== undefined && !host.owns()) cancel()
     },
-    detach: () => dispose(false),
+    detach: () => dispose(!!options.value),
   }
 }

@@ -31,6 +31,10 @@ type Factories = Pick<
   | 'bind'
   | 'press'
   | 'drag'
+  | 'gestures'
+  | 'zoomable'
+  | 'scrollHeader'
+  | 'reorder'
   | 'observeGeometry'
   | 'scrollValue'
   | 'scrollLinked'
@@ -254,6 +258,10 @@ export function createWebScope(
     springValue: (...args) => start(() => runtime.springValue(...args)),
     bind: (...args) => start(() => runtime.bind(...args)),
     press: (...args) => start(() => runtime.press(...args)),
+    zoomable: (...args) => start(() => runtime.zoomable(...args)),
+    scrollHeader: (...args) => start(() => runtime.scrollHeader(...args)),
+    reorder: (container, options) => start(() => runtime.reorder(container, options)),
+    gestures: (...args) => start(() => runtime.gestures(...args)),
     drag: (...args) => start(() => runtime.drag(...args)),
     observeGeometry: (...args) => start(() => runtime.observeGeometry(...args)),
     scrollValue: (...args) => start(() => runtime.scrollValue(...args)),

@@ -1,6 +1,8 @@
 # Web 有限动画运行时
 
-尚未发布的新功能：[Vue/Nuxt 挂载、身份列表入场与 LTR/RTL 横向滚动](./web-collections)。
+新增，尚未发布：[手势、图片缩放、协调滚动、刷新与排序](./web-gestures)。
+
+自 RC.8 起： [Vue/Nuxt 挂载、身份列表入场与 LTR/RTL 横向滚动](./web-collections)。
 
 **RC.7 同时提供：**[作用域、指针/视口与 Vue 持续配置](./web-lifecycle)，以及[浮层几何、共享元素、完整示例与诊断](./web-interactions)。Mavis 集成另行推进。
 
@@ -58,7 +60,7 @@ motion.dispose()
 
 支持的尺寸与二维枢轴变化可通过[RC.6 几何 API](./web-support#geometry)保留 ownership；其他外部样式变化仍需释放并重建。
 
-本指南介绍有限播放。数值、弹簧与 drag/snap 见[连续运动](./web-dynamic)，映射、几何刷新和垂直滚动见 [Web 支持](./web-support)。Pinch、原生专有属性和其他框架 adapter 不属于当前 Web 范围。尚未建立稳定的可移植引用 API，也未完成 Mavis 集成。仅使用 WAAPI 并不能证明合成器加速或保证 FPS。
+本指南介绍有限播放。数值、弹簧与 drag/snap 见[连续运动](./web-dynamic)，映射、几何刷新和垂直滚动见 [Web 支持](./web-support)。Pan/pinch/旋转、图片缩放、滚动协调、折叠头部/刷新与交互排序见 [Web 手势与滚动](./web-gestures)。原生专有属性和其他框架 adapter 不属于本指南范围。尚未建立稳定的可移植引用 API，也未完成 Mavis 集成。仅使用 WAAPI 并不能证明合成器加速或保证 FPS。
 
 ## 原生参考与验证 {#native-reference-and-validation}
 

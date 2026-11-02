@@ -23,6 +23,13 @@ createApp(
       let input: WebMotionValue
       let orchestrate: () => Promise<boolean>
       motion.use((scope, element) => {
+        const inputSurface = document.createElement('div')
+        inputSurface.style.cssText = 'width:120px;height:40px'
+        element.parentElement!.append(inputSurface)
+        scope.add(() => inputSurface.remove())
+        const gestures = scope.gestures(inputSurface, { pan: true, pinch: true })
+        gestures.jumpTo({ x: 10 })
+        element.dataset.gestureReady = String(gestures.position.x === 10)
         input = scope.motionValue(0)
         const follower = scope.springValue(input)
         scope.bind(element, { x: follower })

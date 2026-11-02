@@ -166,7 +166,10 @@
     "web:attachment": "node benchmarks/web-attachment/server.mjs",
     "web:attachment:typecheck": "tsc -p benchmarks/web-attachment/tsconfig.json",
     "web:attachment:test": "playwright test -c benchmarks/web-attachment/playwright.config.mjs",
-    "package:nuxt:check": "node scripts/check-nuxt-consumer.mjs"
+    "package:nuxt:check": "node scripts/check-nuxt-consumer.mjs",
+    "web:gestures": "node benchmarks/web-gestures/server.mjs",
+    "web:gestures:typecheck": "tsc -p benchmarks/web-gestures/tsconfig.json",
+    "web:gestures:test": "playwright test -c benchmarks/web-gestures/playwright.config.mjs"
   },
   "peerDependencies": {
     "@nativescript/core": ">=8.9.0",

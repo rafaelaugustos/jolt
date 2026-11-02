@@ -1,6 +1,8 @@
 # Finite Web runtime
 
-New, unreleased: [Vue/Nuxt attachment, keyed item entrances and horizontal LTR/RTL scroll](./web-collections).
+New, unreleased: [gestures, image zoom, coordinated scroll, refresh and reorder](./web-gestures).
+
+Since RC.8: [Vue/Nuxt attachment, keyed item entrances and horizontal LTR/RTL scroll](./web-collections).
 
 **Also in RC.7:** [resource scopes, pointer/viewport helpers and continuous Vue setup](./web-lifecycle), plus [overlay geometry, shared elements, complete recipes and diagnostics](./web-interactions). Mavis adoption remains separate.
 
@@ -58,7 +60,7 @@ The runtime owns `transform` and `opacity` on a mounted, transformable HTML box.
 
 Supported size and 2D pivot changes can preserve this ownership using the RC.6 [geometry refresh API](./web-support#geometry); other external-style changes retain the release/recreate rule.
 
-This guide covers finite playback. See [continuous motion](./web-dynamic) for values, springs and drag/snap, and [Web support](./web-support) for mappings, geometry and vertical scroll. Pinch, native-only properties and other framework adapters remain outside this Web scope. It does not establish a stable portable-reference API or complete Mavis integration. WAAPI playback alone does not establish compositor acceleration or an FPS guarantee.
+This guide covers finite playback. See [continuous motion](./web-dynamic) for values, springs and drag/snap, and [Web support](./web-support) for mappings, geometry and vertical scroll. Pan/pinch/rotation, image zoom, scroll coordination, headers/refresh and interactive reorder are documented in [Web gestures and scroll](./web-gestures). Native-only properties and other framework adapters remain outside this guide. It does not establish a stable portable-reference API or complete Mavis integration. WAAPI playback alone does not establish compositor acceleration or an FPS guarantee.
 
 ## Native reference and validation {#native-reference-and-validation}
 

@@ -38,6 +38,8 @@ function mountDetached(directive = false) {
         const motion = useWebMotion(el, { runtime })
         motion.use((scope, surface) => {
           events.push('setup')
+          // The same connection boundary must own new continuous input resources.
+          scope.gestures(surface, { pan: true, pinch: true })
           scope.viewportEnter(surface, {
             keyframes: { opacity: [0.1, 1] },
             transition: { duration: 120 },

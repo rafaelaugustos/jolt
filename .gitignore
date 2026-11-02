@@ -65,3 +65,6 @@ benchmarks/web-lifecycle/captures/
 
 benchmarks/web-attachment/results/
 benchmarks/web-attachment/captures/
+
+benchmarks/web-gestures/results/
+benchmarks/web-gestures/captures/

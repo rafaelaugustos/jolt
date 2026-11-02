@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Add Web inertial/value drag, composed pan/pinch/rotation, image zoom with cancellable dismissal, nested gesture/scroll coordination, collapsing headers with anchored refresh, and interactive keyed reorder (#340–#345). Reuse portable solvers, context scheduling and ownership; preserve RC.8 spring-return defaults and application transforms. Include scope controls, keyboard paths, browser/native recordings and Mavis adoption follow-ups.
+- Correct explicit spring velocity normalization for Web motion values and preserve momentum when a spring returns to the same value. This prevents a refresh or gesture handoff from multiplying its release velocity by the animation range.
+
 ## 0.1.0-rc.8 (2026-11-02)
 
 - Publish matching core and optional native packages with Web orchestration, controlled SVG drawing, deferred Vue/Nuxt attachment, keyed item entrances and horizontal scroll. Fix paused native motion-state replacement in TypeScript; compiled native helpers are unchanged from RC.7.

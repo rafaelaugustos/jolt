@@ -119,12 +119,18 @@ for (const directive of [false, true]) {
         page.evaluate(() => app.runtime.inspect(document.body).viewportEntrances),
       )
       .toBe(1)
+    expect(
+      await page.evaluate(() => app.runtime.inspect(document.body).interactions),
+    ).toBe(directive ? 0 : 1)
     await page.evaluate(() => app.show(false))
     await expect
       .poll(() =>
         page.evaluate(() => app.runtime.inspect(document.body).viewportEntrances),
       )
       .toBe(0)
+    expect(
+      await page.evaluate(() => app.runtime.inspect(document.body).interactions),
+    ).toBe(0)
     await page.evaluate(() => app.show(true))
     await expect
       .poll(() =>
@@ -137,6 +143,9 @@ for (const directive of [false, true]) {
         page.evaluate(() => app.runtime.inspect(document.body).viewportEntrances),
       )
       .toBe(1)
+    expect(
+      await page.evaluate(() => app.runtime.inspect(document.body).interactions),
+    ).toBe(directive ? 0 : 1)
     const result = await page.evaluate(() => {
       app.unmount()
       const result = {
@@ -147,5 +156,8 @@ for (const directive of [false, true]) {
       return result
     })
     expect(result).toEqual({ errors: [], scopes: 0 })
+    expect(
+      await page.evaluate(() => app.runtime.inspect(document.body).interactions),
+    ).toBe(0)
   })
 }
