@@ -26,7 +26,7 @@ motion.dispose()
 
 Values belong to their context. `get()` reads the current number; `getVelocity()` uses units/second. Input `set()` changes the value synchronously, while visual writes coalesce into a frame. Bind numeric x/y/rotation/scale/opacity channels; scale expands to scaleX/scaleY. Cross-context, disposed and nonnumeric inputs fail before replacing existing ownership.
 
-`subscribe(listener)` observes changes after scheduled frame writes and returns an unsubscribe function. It does not emit an initial value. Observers run in JavaScript and have their own cost; they do not convert unrelated finite WAAPI animations to frame callbacks. This first API has no derived mapping graph, color values, follower chains or native/Web API equivalence promise.
+`subscribe(listener)` observes changes after scheduled frame writes and returns an unsubscribe function. It does not emit an initial value. Observers run in JavaScript and have their own cost; they do not convert unrelated finite WAAPI animations to frame callbacks. Numeric mappings and bounded follower chains are available in the [unreleased support candidate](./web-support). Color values and full native/Web API equivalence remain outside this API.
 
 A binding owns only its selected base channels. A later `animate()`, `set()` or `stop()` replaces the matching channels; other bindings and press layers survive. Disposing an obsolete binding cannot restore an old value. Unbinding holds the current value. `release()` restores owned inline styles and cancels target work; detachment does the same automatically. Values can outlive a target: dispose them separately, or dispose the runtime. Disposing an input also disposes its spring followers.
 
@@ -36,7 +36,7 @@ One scheduler per context batches reads, updates and writes, using timestamps ra
 
 While a surface has live bindings, its finite channels are also composed on that surface by the scheduler. Other surfaces retain WAAPI playback. Unbinding returns the remaining finite tracks to WAAPI without restarting their clocks. The real-time composition path is JavaScript work, not a compositor guarantee.
 
-A spring follows an input `motionValue` and uses the portable analytic solver. Options are `stiffness`, `damping`, `mass` or `duration`/`bounce`, plus `initial`, `restDelta` (default 0.001 units) and `restSpeed` (0.01 units/second). `pause()` holds position/velocity while the source can change; `play()` resumes toward its latest value. `stop()` holds with zero velocity. `jump()` settles at the current source. `dispose()` is terminal.
+A spring follows a same-context readable numeric value and uses the portable analytic solver. Options are `stiffness`, `damping`, `mass` or `duration`/`bounce`, plus `initial`, `restDelta` (default 0.001 units) and `restSpeed` (0.01 units/second). `pause()` holds position/velocity while the source can change; `play()` resumes toward its latest value. `stop()` holds with zero velocity. `jump()` settles at the current source. `dispose()` is terminal.
 
 Reduced-motion changes settle all generic spring followers immediately, including unbound followers; direct input remains direct. A new trajectory captures the current `timeScale`; changing it does not rescale a trajectory already running. Zero damping may remain active until stopped or disposed.
 
@@ -64,7 +64,7 @@ Bounds clamp direct input and snap destinations; the release spring can overshoo
 
 ## Native references and validation {#verification}
 
-The following reviewed recordings preserve the existing native implementations. They demonstrate native values, followers and drag; they do not demonstrate the new Web scheduler or a shared Mavis screen. Native follower chains are broader than this first Web scope.
+The following reviewed recordings preserve the existing native implementations. They demonstrate native values, followers and drag; they do not demonstrate the new Web scheduler or a shared Mavis screen. The native and Web APIs retain distinct supported subsets.
 
 <Clip name="live-springs-ios" caption="Existing iOS simulator demo: actual input reversals, touch following, a separate shake layer and reduced motion. Original speed; native reference, not a physical-device recording." />
 <Clip name="live-springs-android" caption="Existing Android emulator demo: native followers react to actual taps/swipes and reduced motion. Original speed; native reference." />

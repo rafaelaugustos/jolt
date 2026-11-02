@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Add experimental readonly numeric Web mappings with bounded mapping/follower chains (#302), explicit or observed surface geometry refresh that preserves ownership and playback (#303), and vertical scroll values/declarative playback with capability-detected ScrollTimeline and shared-scheduler fallback (#304). Includes partial channel replacement, press composition, reduced motion, lifecycle cleanup, real browser tests, packed consumers and recordings. These additions are not in published RC.5; Mavis adoption is tracked separately.
+
 - Extend retained native `springValue()` bindings to solid `backgroundColor` and uniform `borderRadius` (#297, #301). Native mappings use premultiplied OKLab colors with alpha and bounded radius writes, preserving transform composition, external style ownership and lifecycle cleanup without a JavaScript observer per frame.
 - Add `seekableTimeline()` for finite declarative native scenes (#298, #301): explicit view/numeric-value tracks, overlapping and nested descriptors, named view layers, paused endpoint rewind and per-channel takeover. Playback uses native clocks; callbacks, haptics and live followers remain outside the seekable contract.
 - Support real `animateSize()` transitions for direct children of non-wrapping row/column FlexboxLayout (#299, #301). Text reflows and siblings participate in real layout; the animated main-axis child requires `flexGrow=0` and `flexShrink=0`. Replacements inherit current velocity on shared axes, while parent allocation and cross-axis stretch remain authoritative.

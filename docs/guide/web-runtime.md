@@ -50,6 +50,8 @@ Interruption projects the resolved source start time onto the document's perform
 
 The runtime owns `transform` and `opacity` on a mounted, transformable HTML box. Transform order is `static 2D baseline × translate × rotate × scale`; the original `transform-origin` stays in effect. Individual CSS transforms, 3D baselines, existing animations/transitions and inline `!important` motion styles are unsupported. Release and recreate before external CSS changes; arbitrary stylesheet/CSS-variable mutations are not monitored. Use a dedicated inner surface when other code owns the outer element's styles.
 
+Supported size and 2D pivot changes can preserve this ownership using the unreleased [geometry refresh API](./web-support#geometry); other external-style changes retain the release/recreate rule.
+
 This is finite playback only: continuous springs, drag/pinch, motion values, scroll, layout, native-only properties and other framework lifecycle adapters follow separately. It does not establish a stable portable-reference API or complete Mavis integration. WAAPI playback alone does not establish compositor acceleration or an FPS guarantee.
 
 ## Native reference and validation {#native-reference-and-validation}

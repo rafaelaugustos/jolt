@@ -1,0 +1,26 @@
+{
+  "recordedAt": "2026-11-02T02:47:12.164Z",
+  "browser": "156.0.8078.4",
+  "viewport": {
+    "width": 1020,
+    "height": 640
+  },
+  "actions": [
+    "slider endpoints",
+    "spring retarget",
+    "held keyboard press",
+    "responsive label size",
+    "wheel scroll down",
+    "press at scroll endpoint",
+    "reverse scroll",
+    "dispose"
+  ],
+  "sourceSHA256": {
+    "scheduler.ts": "c63014f9092156ea73387e6408fe6fbd2afa6f2f2526510b34c38d8aa47dcd5d",
+    "value.ts": "2abf934a7db927f7387050f4366eef390fc7b8284b5f13e967493477a8c3f216",
+    "spring-value.ts": "54c18923edbdb9b18afaf290f31821fd3ce785b9b7915fd95f4e7036195cd5c3",
+    "scroll.ts": "8f8d405f187a2388aeac6eb29798f4cbdd963202993b3a852d3d78a01361a0d6",
+    "runtime.ts": "256fb9ced98df3c30fe5e41c06c29a86fa19901c3b927b5a3a4a9bd3e9b69b11"
+  },
+  "videoSHA256": "11b2c5e647ac5f0954b2bc2c549e44dbbfef93dbbc88ad2434d646201097992c"
+}

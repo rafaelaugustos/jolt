@@ -1,6 +1,13 @@
 import type { FrameScheduler, FrameTask } from './scheduler.js'
+import { numericMap, type NumericMapOptions } from '../core/numeric-map.js'
+export type { NumericMapOptions as WebMapOptions } from '../core/numeric-map.js'
 
 export interface WebReadableValue {
+  to(
+    input: readonly number[],
+    output: readonly number[],
+    options?: NumericMapOptions,
+  ): WebReadableValue
   get(): number
   /** Units per second. A stopped/disposed value reports zero. */
   getVelocity(): number
@@ -69,6 +76,13 @@ export class NumericValue {
   get moving() {
     return false
   }
+  get depth() {
+    return 0
+  }
+  protected get demanded() {
+    return !!(this.listeners.size || this.observers.size)
+  }
+  protected demandChanged() {}
   get() {
     return this.position
   }
@@ -102,8 +116,17 @@ export class NumericValue {
     this.assert()
     this.listeners.add(change)
     this.endings.add(ending)
+    this.demandChanged()
     return () => {
       this.listeners.delete(change)
+      this.endings.delete(ending)
+      this.demandChanged()
+    }
+  }
+  onDispose(ending: () => void) {
+    this.assert()
+    this.endings.add(ending)
+    return () => {
       this.endings.delete(ending)
     }
   }
@@ -111,9 +134,11 @@ export class NumericValue {
     this.assert()
     if (typeof listener !== 'function') throw new TypeError('Expected a value listener.')
     this.observers.add(listener)
+    this.demandChanged()
     return () => {
       this.observers.delete(listener)
       if (!this.observers.size) this.scheduler.remove(this.notify)
+      this.demandChanged()
     }
   }
   dispose() {
@@ -127,17 +152,78 @@ export class NumericValue {
     this.observers.clear()
     this.forget()
   }
-  handle(): WebMotionValue {
+  readableHandle(): Omit<WebReadableValue, 'to'> {
     const node = this
     return {
       get: () => node.get(),
       getVelocity: () => node.getVelocity(),
-      set: (value) => node.set(value),
       subscribe: (listener) => node.subscribe(listener),
       get disposed() {
         return node.disposed
       },
       dispose: () => node.dispose(),
     }
+  }
+  handle(): Omit<WebMotionValue, 'to'> {
+    return Object.assign(this.readableHandle(), {
+      set: (value: number) => this.set(value),
+    })
+  }
+}
+
+/** Lazy reads, with dependency notifications only while a consumer needs updates. */
+export class DerivedValueNode extends NumericValue {
+  private unsubscribe?: () => void
+  private readonly stopEnding: () => void
+  private readonly level: number
+  constructor(
+    private source: NumericValue,
+    private readonly map: ReturnType<typeof numericMap>,
+    report: (error: unknown) => void,
+    forget: () => void,
+  ) {
+    if (source.disposed || source.depth >= 32)
+      throw new RangeError(
+        'A value graph needs a live source and at most 32 derived/follower levels.',
+      )
+    super(source.scheduler, map.sample(source.get()).value, report, forget)
+    this.level = source.depth + 1
+    this.stopEnding = source.onDispose(() => this.dispose())
+  }
+  override get depth() {
+    return this.level
+  }
+  override get moving() {
+    return !this.ended && this.source.moving
+  }
+  override get() {
+    return this.ended ? this.position : this.map.sample(this.source.get()).value
+  }
+  override getVelocity() {
+    return this.ended
+      ? 0
+      : finite(
+          this.map.sample(this.source.get()).slope * this.source.getVelocity(),
+          'mapped velocity',
+        )
+  }
+  protected override demandChanged() {
+    if (this.ended) return
+    if (this.demanded && !this.unsubscribe)
+      this.unsubscribe = this.source.listen(() =>
+        this.publish(this.get(), this.getVelocity()),
+      )
+    else if (!this.demanded) {
+      this.unsubscribe?.()
+      this.unsubscribe = undefined
+    }
+  }
+  override dispose() {
+    if (this.ended) return
+    this.position = this.get()
+    this.unsubscribe?.()
+    this.stopEnding()
+    super.dispose()
+    this.source = undefined!
   }
 }

@@ -34,13 +34,40 @@ function typeBoundary(context: WebRuntime) {
   context.animate(surface, { rotateX: 20 })
   // @ts-expect-error A target must be an actual HTMLElement.
   context.animate({ nativeView: {} }, { x: 10 })
+  const readonly = context.motionValue(0).to([0, 1], [0, 100])
+  // @ts-expect-error Derived values are readonly.
+  readonly.set(1)
+  // @ts-expect-error Scroll requires explicit numeric keyframes.
+  context.scrollLinked(document, surface, { x: 20 }, { range: [0, 100] })
 }
 void typeBoundary
 
 const input = motion.motionValue(0)
-const follower = motion.springValue(input, { stiffness: 200, damping: 26 })
+const follower = motion.springValue(input.to([0, 100], [0, 100]), {
+  stiffness: 200,
+  damping: 26,
+})
 const dynamic = document.getElementById('dynamic-card')!
 const binding = motion.bind(dynamic, { x: follower })
+const geometry = motion.observeGeometry(dynamic)
+motion.refresh(dynamic)
+const scroll = motion.scrollValue(document)
+const progress = scroll.to([0, 500], [0, 1])
+scroll.refresh()
+if (!Number.isFinite(progress.get())) throw new Error('Invalid packed scroll value')
+scroll.dispose()
+const scrollProbe = document.createElement('div')
+document.body.append(scrollProbe)
+const linked = motion.scrollLinked(
+  document,
+  scrollProbe,
+  { opacity: [0, 1] },
+  { range: [0, 500] },
+)
+linked.refresh()
+linked.dispose()
+motion.release(scrollProbe)
+scrollProbe.remove()
 let drag: ReturnType<typeof motion.drag> | undefined
 const dynamicResult = document.getElementById('dynamic-result')!
 document.getElementById('dynamic')!.addEventListener('click', () => {
@@ -55,6 +82,7 @@ document.getElementById('dynamic')!.addEventListener('click', () => {
 })
 document.getElementById('dynamic-dispose')!.addEventListener('click', () => {
   drag?.dispose()
+  geometry.dispose()
   motion.release(dynamic)
   input.dispose()
   follower.dispose()

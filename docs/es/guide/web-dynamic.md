@@ -25,7 +25,7 @@ motion.dispose()
 
 Los valores pertenecen al contexto. `get()` lee el número actual; `getVelocity()` usa unidades/segundo. `set()` cambia la entrada inmediatamente y las escrituras visuales se agrupan por frame. Se admiten x/y/rotación/escala/opacidad; scale se expande a scaleX/scaleY. Se rechazan valores ajenos al contexto, descartados o no numéricos antes de sustituir el control existente.
 
-`subscribe(listener)` observa cambios después de las escrituras programadas y devuelve la función de desuscripción; no emite el valor inicial. Los callbacks tienen coste JavaScript propio y no convierten animaciones WAAPI independientes en loops. Esta API inicial no incluye grafos derivados, colores, cadenas de followers ni paridad completa con la API nativa.
+`subscribe(listener)` observa cambios después de las escrituras programadas y devuelve la función de desuscripción; no emite el valor inicial. Los callbacks tienen coste JavaScript propio y no convierten animaciones WAAPI independientes en loops. Los mapeos numéricos y cadenas limitadas están en el [candidato de soporte sin publicar](./web-support). Colores y paridad completa permanecen fuera.
 
 El binding posee solo sus canales de base. `animate()`, `set()` y `stop()` posteriores sustituyen los canales correspondientes; los demás y las capas press continúan. Descartar un binding antiguo no restaura valores obsoletos. Desvincular mantiene el valor actual. `release()` restaura los estilos inline que aún controla y cancela el trabajo; quitar el elemento del DOM hace lo mismo. Los valores pueden sobrevivir al elemento: descártalos o descarta el runtime. Descartar una entrada descarta también sus followers.
 
@@ -35,7 +35,7 @@ Un scheduler por contexto agrupa lecturas, actualizaciones y escrituras mediante
 
 Mientras una superficie tiene bindings vivos, el scheduler compone también sus canales finitos; las demás superficies conservan WAAPI. Desvincular devuelve los tracks finitos a WAAPI sin reiniciar sus relojes. La composición continua requiere JavaScript y no garantiza ejecución por compositor.
 
-La spring sigue un `motionValue` de entrada con el solver analítico portátil. Admite `stiffness`, `damping`, `mass` o `duration`/`bounce`, además de `initial`, `restDelta` (0,001 unidades) y `restSpeed` (0,01 unidades/segundo). `pause()` conserva posición/velocidad mientras cambia la entrada; `play()` retoma hacia el destino actual; `stop()` mantiene posición con velocidad cero; `jump()` alcanza la entrada; `dispose()` es terminal.
+La spring sigue un valor numérico legible del mismo contexto con el solver analítico portátil. Admite `stiffness`, `damping`, `mass` o `duration`/`bounce`, además de `initial`, `restDelta` (0,001 unidades) y `restSpeed` (0,01 unidades/segundo). `pause()` conserva posición/velocidad mientras cambia la entrada; `play()` retoma hacia el destino actual; `stop()` mantiene posición con velocidad cero; `jump()` alcanza la entrada; `dispose()` es terminal.
 
 El movimiento reducido estabiliza todos los followers genéricos, incluso sin bindings; la entrada directa sigue siendo directa. Cada trayectoria nueva captura el `timeScale` actual, sin reescalar trayectorias activas. Damping cero puede mantener trabajo hasta detener o descartar.
 
@@ -60,7 +60,7 @@ Bounds limita la entrada y los destinos; la spring puede sobrepasarlos. Snap eli
 
 ## Referencias nativas y validación {#verification}
 
-Las grabaciones revisadas conservan las implementaciones nativas existentes. Muestran valores, followers y drag nativos; no el nuevo scheduler Web ni una pantalla compartida de Mavis. Las cadenas nativas superan el alcance inicial Web.
+Las grabaciones revisadas conservan las implementaciones nativas existentes. Muestran valores, followers y drag nativos; no el nuevo scheduler Web ni una pantalla compartida de Mavis. Las APIs nativa y Web conservan subconjuntos distintos.
 
 <Clip name="live-springs-ios" caption="Demo existente en simulador iOS: inversión de destinos, toque, capa shake independiente y movimiento reducido. Velocidad original; no es un dispositivo físico." />
 <Clip name="live-springs-android" caption="Demo existente en emulador Android: followers nativos con taps, gestos y movimiento reducido reales. Velocidad original." />

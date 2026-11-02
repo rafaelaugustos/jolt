@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Jolt · Responsive motion</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: #10171d;
+        color: #e7f0ed;
+        font: 16px system-ui;
+        padding: 32px;
+      }
+      h1 {
+        font-size: 34px;
+        margin: 0 0 8px;
+      }
+      p {
+        color: #aabdb7;
+        line-height: 1.5;
+      }
+      main {
+        max-width: 960px;
+        margin: auto;
+      }
+      .panels {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+      }
+      .panel {
+        border: 1px solid #34443f;
+        border-radius: 18px;
+        padding: 20px;
+        background: #19251f;
+      }
+      h2 {
+        font-size: 19px;
+        margin-top: 0;
+      }
+      button {
+        font: inherit;
+        cursor: pointer;
+        border: 0;
+        border-radius: 12px;
+        padding: 12px;
+        background: #b9f77b;
+        color: #172414;
+      }
+      button:focus-visible {
+        outline: 3px solid #fff;
+        outline-offset: 4px;
+      }
+      .stage {
+        height: 130px;
+        padding: 20px 0;
+      }
+      #mapped {
+        width: 120px;
+        min-height: 65px;
+        transform-origin: 50% 50%;
+        background: #c2a3fa;
+      }
+      input {
+        width: 100%;
+        accent-color: #b9f77b;
+      }
+      #scroller {
+        height: 240px;
+        overflow: auto;
+        overscroll-behavior: contain;
+        border-radius: 12px;
+        background: #111a16;
+        padding: 12px;
+      }
+      #content {
+        height: 950px;
+        background: repeating-linear-gradient(#17251d 0 118px, #48644e 119px 120px);
+        padding: 10px;
+        color: #a3b7aa;
+      }
+      #scroll-card {
+        position: sticky;
+        top: 15px;
+        display: block;
+        width: 130px;
+        padding: 20px;
+        background: #b9f77b;
+        border-radius: 12px;
+      }
+      #status {
+        min-height: 48px;
+      }
+      .controls {
+        display: flex;
+        gap: 12px;
+        margin-top: 14px;
+      }
+      .test-target {
+        display: block;
+        width: 100px;
+        height: 60px;
+      }
+      .test-source {
+        width: 320px;
+        height: 200px;
+        overflow: auto;
+      }
+      .test-content {
+        height: 1200px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Responsive motion</h1>
+      <p>One input, three channels. A changing surface. Scroll that moves both ways.</p>
+      <div class="panels">
+        <section class="panel">
+          <h2>Map · resize · press</h2>
+          <label for="progress">Application progress</label
+          ><input id="progress" type="range" min="0" max="100" value="35" />
+          <div class="stage"><button id="mapped">Hold me</button></div>
+          <div class="controls">
+            <button id="resize">Change label</button
+            ><button id="retarget">Retarget</button>
+          </div>
+          <p>Press multiplies the application's current scale.</p>
+        </section>
+        <section class="panel">
+          <h2>Scroll · return · compose</h2>
+          <div id="scroller" tabindex="0" aria-label="Scroll motion example">
+            <div id="content">
+              <button id="scroll-card">Scroll & press</button>
+              <p>Scroll down, then return ↑</p>
+            </div>
+          </div>
+        </section>
+      </div>
+      <p id="status">Drag the slider, hold the button, or scroll the right panel.</p>
+      <button id="cleanup">Dispose motion</button>
+    </main>
+    <script type="module" src="/fixture.js"></script>
+  </body>
+</html>

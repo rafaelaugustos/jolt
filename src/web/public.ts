@@ -13,7 +13,22 @@ export type {
   WebReadableValue,
   WebBindings,
   WebBinding,
+  WebMapOptions,
 } from './value.js'
+import type {
+  WebScrollSource,
+  WebScrollValue,
+  WebScrollKeyframes,
+  WebScrollOptions,
+  WebScrollLink,
+} from './scroll.js'
+export type {
+  WebScrollSource,
+  WebScrollValue,
+  WebScrollKeyframes,
+  WebScrollOptions,
+  WebScrollLink,
+} from './scroll.js'
 import { createWebRuntime as createInternalRuntime } from './runtime.js'
 import type { WebPress, WebPressOptions } from './press.js'
 export type { WebPress, WebPressOptions, WebPressState } from './press.js'
@@ -51,9 +66,20 @@ export interface WebAnimation extends PlaybackAnimation {
 
 /** Experimental DOM context; platform/framework adapters are not public APIs. */
 export interface WebRuntime {
+  scrollValue(source?: WebScrollSource): WebScrollValue
+  scrollLinked(
+    source: WebScrollSource,
+    target: HTMLElement,
+    frames: WebScrollKeyframes,
+    options: WebScrollOptions,
+  ): WebScrollLink
+  /** Accept a supported size/pivot change without replacing animation ownership. */
+  refresh(target: HTMLElement): void
+  /** Observe size changes on an already claimed surface. Dispose with its owner. */
+  observeGeometry(target: HTMLElement): WebBinding
   drag(target: HTMLElement, options?: WebDragOptions): WebDrag
   motionValue(initial: number): WebMotionValue
-  springValue(source: WebMotionValue, options?: WebSpringOptions): WebSpringValue
+  springValue(source: WebReadableValue, options?: WebSpringOptions): WebSpringValue
   bind(target: HTMLElement, values: WebBindings): WebBinding
   animate(
     target: HTMLElement | readonly HTMLElement[],
@@ -82,6 +108,10 @@ export function createWebRuntime(
   // Keep diagnostics, ownership internals and driver implementation off the
   // package API, including at runtime rather than only in the declarations.
   return {
+    scrollValue: runtime.scrollValue.bind(runtime),
+    scrollLinked: runtime.scrollLinked.bind(runtime),
+    refresh: runtime.refresh.bind(runtime),
+    observeGeometry: runtime.observeGeometry.bind(runtime),
     drag: runtime.drag.bind(runtime),
     motionValue: runtime.motionValue.bind(runtime),
     springValue: runtime.springValue.bind(runtime),
