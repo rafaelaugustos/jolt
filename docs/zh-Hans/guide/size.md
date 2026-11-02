@@ -74,9 +74,9 @@ const completed = await animation.finished
 
 在playground中打开**Real dimensions**，或者在iOS上启动`--size-lab` /在Android上启动`--es size-lab true`。 [原生验证报告](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/size-layout.md) 记录容器覆盖范围、运行时版本、实际边界/命中测试和测量的布局成本。模拟器/仿真器结果并不是设备性能的保证。
 
-## 开发版：FlexboxLayout {#flexbox-layout}
+## RC.6：FlexboxLayout {#flexbox-layout}
 
-下一原生版本支持方向为 `row` 或 `column`、不换行的 `FlexboxLayout` 直接子视图。
+**0.1.0-rc.6**支持方向为 `row` 或 `column`、不换行的 `FlexboxLayout` 直接子视图。
 
 动画涉及主轴时，子视图必须设置 `flexGrow=0` 和 `flexShrink=0`。兄弟视图可以 grow/shrink，并在每次真实布局中获得剩余空间。反向排列和换行会在修改前被拒绝；播放期间改成不支持的策略会以错误结束并释放临时声明。
 

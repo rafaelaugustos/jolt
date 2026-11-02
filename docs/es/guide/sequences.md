@@ -128,9 +128,9 @@ JavaScript se ejecuta cuando se activa un paso, no una vez por cuadro de animaci
 
 El patio de juegos compara superposiciones, llegadas secuenciales y horarios fijos utilizando la misma entrada.
 
-## Desarrollo: escenas finitas con seek {#seekable-scenes}
+## RC.6: escenas finitas con seek {#seekable-scenes}
 
-`seekableTimeline()` añade un contrato declarativo para la próxima versión nativa. `timeline()` y `sequence()` conservan sus callbacks.
+`seekableTimeline()` añade un contrato declarativo desde **0.1.0-rc.6**. `timeline()` y `sequence()` conservan sus callbacks.
 
 ```ts
 const scene = seekableTimeline(

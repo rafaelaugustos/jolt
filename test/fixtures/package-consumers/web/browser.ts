@@ -88,3 +88,49 @@ document.getElementById('dynamic-dispose')!.addEventListener('click', () => {
   follower.dispose()
   dynamicResult.textContent = 'disposed'
 })
+
+document.getElementById('visual')!.addEventListener('click', async () => {
+  const group = document.getElementById('visual-group')!
+  const first = group.firstElementChild as HTMLElement
+  const value = motion.motionValue(0)
+  const color = value.to([0, 1], ['#ff0000', '#0000ff'])
+  const live = motion.bind(first, { backgroundColor: color })
+  const scene = motion.seekableTimeline(
+    [
+      { value, keyframes: [0, 1], transition: { duration: 100, ease: 'linear' } },
+      {
+        target: first,
+        keyframes: {
+          borderTopLeftRadius: ['0px', '24px 12px'],
+          borderRightWidth: [0, 8],
+        },
+        transition: { duration: 100 },
+      },
+    ],
+    { paused: true },
+  )
+  scene.progress = 1
+  scene.play()
+  const completed = await scene.finished
+  const sized = await motion.animateSize(
+    first,
+    { width: 180, height: 'auto' },
+    { duration: 50 },
+  ).finished
+  const layout = await motion.animateLayout(group, () => group.append(first), {
+    duration: 60,
+  }).finished
+  document.getElementById('visual-result')!.textContent = JSON.stringify({
+    completed,
+    sized,
+    layout,
+    color: getComputedStyle(first).backgroundColor,
+    radius: getComputedStyle(first).borderTopLeftRadius,
+    width: first.style.width,
+    value: value.get(),
+  })
+  live.dispose()
+  color.dispose()
+  value.dispose()
+  motion.release(first)
+})

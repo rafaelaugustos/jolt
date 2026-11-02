@@ -31,6 +31,33 @@ createApp(
             'Toggle',
           ),
           h(
+            'button',
+            {
+              id: 'visual',
+              async onClick() {
+                const paint = motion.animate(
+                  { backgroundColor: '#0f0', borderRadius: '20px 8px' },
+                  { duration: 60 },
+                )
+                const size = motion.animateSize(
+                  { width: 220, height: 120 },
+                  { duration: 80 },
+                )
+                const done = await Promise.all([paint.finished, size.finished])
+                const layout = await motion.animateLayout(
+                  () => {
+                    target.value!.textContent = 'Resized and recolored'
+                  },
+                  { duration: 40 },
+                ).finished
+                document.querySelector('#visual-status')!.textContent = String(
+                  done.every(Boolean) && layout,
+                )
+              },
+            },
+            'Visual motion',
+          ),
+          h(
             Transition,
             {
               ...motion.transition,

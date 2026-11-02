@@ -1,6 +1,8 @@
 # Runtime Web finito
 
-Desde a **0.1.0-rc.5**, a entrada experimental `@rafaelaugusto/jolt/web` usa o compilador portátil do Jolt e WAAPI diretamente em elementos HTML, independentemente de Vue, React ou NativeScript. Veja a [instalação](./install#experimental-web-candidate). O Mavis concluiu a migração inicial de press/reveal e o exemplo compartilhado da aplicação; a adoção dos novos recursos Web continua [no Mavis](https://github.com/getcortexlabs/mavis-ui/issues/137).
+**Em desenvolvimento após a RC.6:** [cores, bordas, pintura contínua, tamanho real, FLIP e cenas com seek](./web-visual) ampliam este runtime. Ainda não fazem parte do pacote RC.6 publicado. A paridade completa continua na [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+
+Desde a **0.1.0-rc.5**, a entrada experimental `@rafaelaugusto/jolt/web` usa o compilador portátil do Jolt e WAAPI diretamente em elementos HTML, independentemente de Vue, React ou NativeScript. Veja a [instalação](./install#experimental-web-candidate). O Mavis concluiu a migração inicial de press/reveal e o exemplo compartilhado da aplicação; a adoção dos novos recursos Web continua [no Mavis](https://github.com/getcortexlabs/mavis-ui/issues/191).
 
 A RC.6 inclui [movimento contínuo na Web](./web-dynamic), com valores, followers e drag/snap, além de [mapeamentos numéricos, atualização de geometria e scroll vertical](./web-support). As APIs Web continuam experimentais.
 
@@ -52,7 +54,7 @@ O runtime controla `transform` e `opacity` de uma caixa HTML montada e transform
 
 Mudanças suportadas de tamanho e pivô 2D podem preservar esse ownership com a [API de geometria da RC.6](./web-support#geometry); outras mudanças externas continuam exigindo release/recriação.
 
-Este guia cobre playback finito. Veja [movimento contínuo](./web-dynamic) para valores, springs e drag/snap, e [suporte Web](./web-support) para mapeamentos, geometria e scroll vertical. Pinch, animação de layout Web, propriedades exclusivas do nativo e outros adapters de framework ficam fora desse escopo Web. Ela ainda não estabelece uma API estável de referências portáteis nem completa a integração do Mavis. WAAPI por si só não comprova aceleração pelo compositor ou garante FPS.
+Este guia cobre playback finito. Veja [movimento contínuo](./web-dynamic) para valores, springs e drag/snap, e [suporte Web](./web-support) para mapeamentos, geometria e scroll vertical. Pinch, propriedades exclusivas do nativo e outros adapters de framework ficam fora desse escopo Web. Ela ainda não estabelece uma API estável de referências portáteis nem completa a integração do Mavis. WAAPI por si só não comprova aceleração pelo compositor ou garante FPS.
 
 ## Referência nativa e validação {#native-reference-and-validation}
 

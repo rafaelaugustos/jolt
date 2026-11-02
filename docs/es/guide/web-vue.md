@@ -1,5 +1,7 @@
 # Movimiento Vue en Web
 
+**En desarrollo después de RC.6:** [colores, bordes, pintura continua, tamaño real, FLIP y escenas con seek](./web-visual) amplían este runtime. No están en el paquete RC.6 publicado. La paridad completa sigue en [#236](https://github.com/rafaelaugustos/jolt/issues/236).
+
 La entrada experimental `@rafaelaugusto/jolt/web/vue` se incluye en **0.1.0-rc.5** y conecta una ref DOM declarada al [runtime Web](./web-runtime). Instala Vue 3.5 por separado. `/vue` conserva su significado NativeScript; `/web` imperativo no instala Vue. Consulta la [instalación](./install#experimental-web-candidate).
 
 <Clip name="web-vue-chromium" :width="720" caption="Chromium 156 en macOS arm64: entrada real de puntero y teclado invierte una salida, presiona la tarjeta, cambia la escala de la aplicación durante la pulsación, sustituye la superficie y completa ocultar/mostrar. Captura del navegador a velocidad original; no mide un dispositivo físico." />

@@ -1,5 +1,7 @@
 # Web 映射、几何与滚动 {#web-support}
 
+**RC.6 之后的开发功能：**[颜色、边框、连续绘制、真实尺寸、FLIP 与可定位场景](./web-visual)扩展此运行时，尚未包含在已发布的 RC.6 包中。完整对等仍由 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 跟踪。
+
 自 **0.1.0-rc.6** 起，`@rafaelaugusto/jolt/web` 包含数值映射、几何刷新及垂直滚动（#302–#304）。API 仍为实验性功能，原生与框架适配器合同不变；Mavis 集成另行推进。
 
 <Clip name="web-support-chromium" caption="桌面 Chromium，英文界面、原速：真实滑块、键盘、按压及滚轮演示数值映射、改变标签大小而不重启动画、反向滚动与清理。这不是物理设备或合成器性能测量。" />

@@ -28,7 +28,7 @@ scope.dispose()
 
 The source can be a motion value, a numeric mapping, or another spring value. `animate(pointer, ...)` sends a sampled source track at playback boundaries, so the follower can also follow a native timeline. Numeric `to()` mappings, including descending ranges, repeated stops and extrapolation, execute natively for follower chains and bindings.
 
-Bind the result to `x`, `y`, `scale`, `scaleX`, `scaleY`, `rotate`, `rotateX`, `rotateY` or `opacity`. The stable baseline excludes paint and compound native adapters; the [development extension](#live-paint) adds background color and uniform radius. The spring value is read-only: update its source instead of passing the follower to `animate()` or `set()`.
+Bind the result to `x`, `y`, `scale`, `scaleX`, `scaleY`, `rotate`, `rotateX`, `rotateY` or `opacity`. The stable baseline excludes paint and compound native adapters; the [RC.6 extension](#live-paint) adds background color and uniform radius. The spring value is read-only: update its source instead of passing the follower to `animate()` or `set()`.
 
 Named transform and opacity layers still compose with the bound base:
 
@@ -53,9 +53,9 @@ Reduced motion updates the chain directly to its current target. App suspension 
 
 The demo's touch events currently update the source from JavaScript. For native gesture input and scroll handoff, use the optional [gestures API](./gestures); `springValue()` does not make the gesture recognizer itself native. The C and Java spring kernels have matching trajectory tests, including 60/120 Hz time-step partitioning and delayed frames. Those tests do not replace performance measurements on physical devices.
 
-## Development: live color and corners {#live-paint}
+## Live color and corners (RC.6) {#live-paint}
 
-The next native release adds `backgroundColor` and uniform `borderRadius` bindings. Rebuild the app to include the new native code.
+Since **0.1.0-rc.6**, native playback supports `backgroundColor` and uniform `borderRadius` bindings. Rebuild the app to include the new native code.
 
 ```ts
 const target = motionValue(0)

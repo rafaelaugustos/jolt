@@ -128,9 +128,9 @@ JavaScript 在步骤激活时运行，而不是每个动画帧运行一次。阻
 
 游乐场使用同一入口比较重叠、顺序到达和固定时间。
 
-## 开发版：可定位的有限场景 {#seekable-scenes}
+## RC.6：可定位的有限场景 {#seekable-scenes}
 
-`seekableTimeline()` 为下一原生版本增加显式声明式契约。现有 `timeline()` 和 `sequence()` 保留回调行为。
+`seekableTimeline()` 为**0.1.0-rc.6**增加显式声明式契约。现有 `timeline()` 和 `sequence()` 保留回调行为。
 
 ```ts
 const scene = seekableTimeline(

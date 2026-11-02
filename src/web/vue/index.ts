@@ -4,7 +4,7 @@ import {
   type AnimateOptions,
   type Keyframes,
   type Preset,
-  type Property,
+  type KeyframeProperty,
   type RuntimeOptions,
   type SpringName,
   type Values,
@@ -12,6 +12,9 @@ import {
   type WebConfig,
   type WebPressOptions,
   type WebRuntime,
+  type WebSizeValues,
+  type WebSizeOptions,
+  type WebLayoutOptions,
 } from '../public.js'
 
 export interface WebMotionOptions extends RuntimeOptions {
@@ -133,11 +136,26 @@ export function useWebMotion(
       const el = element(target.value)
       return context(el).set(el, values)
     },
+    animateSize(
+      values: WebSizeValues,
+      changeOrOptions?: (() => void) | WebSizeOptions | SpringName,
+      options?: WebSizeOptions | SpringName,
+    ) {
+      const el = element(target.value)
+      return context(el).animateSize(el, values, changeOrOptions, options)
+    },
+    animateLayout(
+      changeOrOptions?: (() => void) | WebLayoutOptions | SpringName,
+      options?: WebLayoutOptions | SpringName,
+    ) {
+      const el = element(target.value)
+      return context(el).animateLayout(el, changeOrOptions, options)
+    },
     press(values?: Values, config?: WebPressOptions) {
       const el = element(target.value)
       return context(el).press(el, values, config)
     },
-    stop(properties?: readonly (Property | 'scale')[], config?: { layer?: string }) {
+    stop(properties?: readonly KeyframeProperty[], config?: { layer?: string }) {
       const el = element(target.value)
       context(el).stop(el, properties, config)
     },

@@ -74,9 +74,9 @@ La implementación inicial sondea el destino en cada cuadro para detectar cambio
 
 Abra **Dimensiones reales** en el patio de juegos, o inicie `--size-lab` en iOS / `--es size-lab true` en Android. El [informe de validación nativo](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/size-layout.md) registra la cobertura del contenedor, las versiones en tiempo de ejecución, las pruebas de límites/aciertos reales y los costos de diseño medidos. Los resultados del simulador/emulador no son una garantía de rendimiento del dispositivo.
 
-## Desarrollo: FlexboxLayout {#flexbox-layout}
+## RC.6: FlexboxLayout {#flexbox-layout}
 
-La próxima versión nativa admite hijos directos de `FlexboxLayout` sin salto de línea, en dirección `row` o `column`.
+Desde **0.1.0-rc.6**, el nativo admite hijos directos de `FlexboxLayout` sin salto de línea, en dirección `row` o `column`.
 
 Para animar el eje principal, configura `flexGrow=0` y `flexShrink=0` en ese hijo. Los hermanos pueden crecer/encoger y reciben el espacio restante en cada layout real. Se rechazan direcciones inversas y wrapping antes de modificar; cambiar a una política incompatible durante playback termina con error y libera la declaración temporal.
 

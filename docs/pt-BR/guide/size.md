@@ -74,9 +74,9 @@ A implementação inicial mede o destino em cada frame para detectar mudanças i
 
 Abra **Real dimensions** no playground, ou use `--size-lab` no iOS / `--es size-lab true` no Android. O [relatório de validação nativa](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/size-layout.md) registra containers, versões, limites reais/toques e custos de layout medidos. Resultados de simulador/emulador não garantem desempenho em aparelho físico.
 
-## Desenvolvimento: FlexboxLayout {#flexbox-layout}
+## RC.6: FlexboxLayout {#flexbox-layout}
 
-A próxima versão nativa aceita filhos diretos de `FlexboxLayout` sem quebra, nas direções `row` e `column`.
+Desde **0.1.0-rc.6**, o nativo aceita filhos diretos de `FlexboxLayout` sem quebra, nas direções `row` e `column`.
 
 Para animar o eixo principal, defina `flexGrow=0` e `flexShrink=0` no filho animado. Os irmãos podem crescer/encolher e recebem o espaço restante em cada layout real. Direções reversas e quebra de linha são rejeitadas antes da alteração; mudar para uma política incompatível durante o playback termina com erro e libera a declaração temporária.
 

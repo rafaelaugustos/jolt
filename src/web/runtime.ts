@@ -1,5 +1,6 @@
 import { createDrag, dragOptions, assertDragSpace, type WebDragOptions } from './drag.js'
 import { createTrack, type Track } from '../core/track.js'
+import { springs as springDefinitions } from '../core/transition.js'
 import { createOwnership } from '../core/ownership.js'
 import { validateProgress } from '../core/playback.js'
 import { presets as builtins } from '../core/presets.js'
@@ -20,12 +21,33 @@ import {
 import {
   NumericValue,
   DerivedValueNode,
+  ColorMappedNode,
   type WebReadableValue,
   type WebBindings,
   type WebBinding,
 } from './value.js'
 import { flatten, sampled, type Point } from './curve.js'
 import { prepare, type Plan } from './plan.js'
+import { readProperty, resolveProperty, parseColor } from './style.js'
+import {
+  SizeOperation,
+  validateSize,
+  type WebSizeOptions,
+  type WebSizeValues,
+} from './size.js'
+import { LayoutOperation, validateLayout, type WebLayoutOptions } from './layout.js'
+import { sceneSteps, type WebSeekableStep, type WebSceneOptions } from './scene.js'
+import {
+  coreProperty,
+  expand,
+  isColor,
+  isRadius,
+  isTransform,
+  keyframeProperties,
+  transformProperties,
+  cssName,
+  type KeyframeProperty,
+} from './properties.js'
 import { createPress, validatePressState, type WebPressOptions } from './press.js'
 import {
   identity,
@@ -58,6 +80,10 @@ interface LiveEntry {
   source: NumericValue
   cleanup?: () => void
 }
+interface ValueEntry extends Entry {
+  source: NumericValue
+  cancel(): void
+}
 interface State {
   bindings: Map<string, LiveEntry>
   entries: Map<string, Entry>
@@ -81,6 +107,10 @@ class Surface {
   path: 'finite' | 'scheduler' | 'scroll-timeline' = 'finite'
   private original: { transform: string; opacity: string }
   private written: { transform: string; opacity: string }
+  private readonly paint = new Map<
+    string,
+    { original: string; priority: string; written: string }
+  >()
   private className: string
   private origin: string
   private baseline: string
@@ -120,12 +150,29 @@ class Surface {
       formatPose(poseAt(this.snapshot(this.state, at), this.rest()), this.baseline),
     )
   }
-  private write(style: { transform: string; opacity: string }) {
+  private write(style: {
+    transform: string
+    opacity: string
+    paint?: Record<string, string>
+  }) {
     this.target.style.transform = style.transform
     this.target.style.opacity = style.opacity
     this.written = {
       transform: this.target.style.transform,
       opacity: this.target.style.opacity,
+    }
+    for (const [name, value] of Object.entries(style.paint ?? {})) {
+      let held = this.paint.get(name)
+      if (!held) {
+        held = {
+          original: this.target.style.getPropertyValue(name),
+          priority: this.target.style.getPropertyPriority(name),
+          written: '',
+        }
+        this.paint.set(name, held)
+      }
+      this.target.style.setProperty(name, value)
+      held.written = this.target.style.getPropertyValue(name)
     }
   }
 
@@ -163,7 +210,7 @@ class Surface {
       bindings: new Map(),
       entries: new Map(),
       rest: new Map(
-        properties.map((property) => [
+        transformProperties.map((property) => [
           keyOf(property),
           {
             property,
@@ -181,26 +228,64 @@ class Surface {
       new this.runtime.view.DOMMatrix(this.baseline).isIdentity,
     )
   }
+  layoutBasis() {
+    const view = this.runtime.view
+    let matrix = new view.DOMMatrix()
+    for (let parent = this.target.parentElement; parent; parent = parent.parentElement) {
+      const css = view.getComputedStyle(parent)
+      const transform = new view.DOMMatrix(
+        css.transform === 'none' ? undefined : css.transform,
+      )
+      if (!transform.is2D || css.perspective !== 'none')
+        throw new Error('A projective ancestor does not have a 2D FLIP inverse.')
+      const zoom = parseFloat(css.zoom) || 1
+      const scale = css.scale === 'none' ? [1, 1] : css.scale.split(' ').map(Number)
+      const rotation =
+        css.rotate === 'none'
+          ? 0
+          : parseFloat(css.rotate.replace(/^z\s+/, '')) *
+            (css.rotate.endsWith('rad')
+              ? 180 / Math.PI
+              : css.rotate.endsWith('turn')
+                ? 360
+                : 1)
+      const individual = new view.DOMMatrix()
+        .rotate(rotation)
+        .scale(scale[0]!, scale[1] ?? scale[0]!)
+      matrix = individual.multiply(transform).scale(zoom).multiply(matrix)
+    }
+    return matrix
+      .scale(parseFloat(view.getComputedStyle(this.target).zoom) || 1)
+      .multiply(new view.DOMMatrix(this.baseline))
+  }
   assert(allowGeometry = false) {
     const { target, runtime } = this
     if (this.disposed || !target.isConnected || target.ownerDocument !== runtime.document)
       throw new Error('The motion surface is unavailable.')
     const css = runtime.view.getComputedStyle(target)
+    // Border-width motion changes a content-box surface's used size and pivot.
+    // That is our own geometry change, not an external transform mutation.
+    const ownsGeometry =
+      this.geometryLeases.size > 0 ||
+      [...this.paint.keys()].some((name) => name.endsWith('-width'))
     if (
       target.className !== this.className ||
-      (!allowGeometry &&
-        !this.geometryLeases.size &&
-        css.transformOrigin !== this.origin) ||
+      (!allowGeometry && !ownsGeometry && css.transformOrigin !== this.origin) ||
       [css.translate, css.rotate, css.scale].some((v) => v !== 'none') ||
       target.getAnimations().some((a) => a !== this.effect) ||
       (['transform', 'opacity'] as const).some(
         (p) => target.style[p] !== this.written[p] || target.style.getPropertyPriority(p),
+      ) ||
+      [...this.paint].some(
+        ([name, held]) =>
+          target.style.getPropertyValue(name) !== held.written ||
+          target.style.getPropertyPriority(name),
       )
     )
       throw new Error(
         'External style changes require releasing and recreating the motion surface.',
       )
-    if (this.geometryLeases.size) {
+    if (ownsGeometry) {
       this.validateGeometry(css)
       // A live frame can run before ResizeObserver delivery. Accept only the
       // declared geometry change here; the other ownership guards still apply.
@@ -244,6 +329,8 @@ class Surface {
     }
     return {
       dispose: () => {
+        if (this.geometryLeases.has(token) && !this.disposed && this.target.isConnected)
+          this.origin = this.runtime.view.getComputedStyle(this.target).transformOrigin
         if (!this.geometryLeases.delete(token)) return
         if (!this.geometryLeases.size) {
           this.geometryObserver?.disconnect()
@@ -416,6 +503,16 @@ class Surface {
         !this.target.style.getPropertyPriority(property)
       )
         this.target.style[property] = this.original[property]
+    for (const [name, held] of this.paint)
+      if (
+        this.target.style.getPropertyValue(name) === held.written &&
+        !this.target.style.getPropertyPriority(name)
+      ) {
+        if (held.original)
+          this.target.style.setProperty(name, held.original, held.priority)
+        else this.target.style.removeProperty(name)
+      }
+    this.paint.clear()
     this.runtime.scheduler.remove(this.task)
     for (const entry of this.state.bindings.values()) entry.cleanup?.()
     this.state.bindings.clear()
@@ -604,6 +701,9 @@ export class WebRuntime {
   private readonly observers = new Map<Node, MutationObserver>()
   private readonly presses = new Map<HTMLElement, ReturnType<typeof createPress>>()
   private readonly drags = new Map<HTMLElement, ReturnType<typeof createDrag>>()
+  private readonly sizes = new Map<HTMLElement, SizeOperation>()
+  private readonly layouts = new Map<HTMLElement, LayoutOperation>()
+  private nextLayout = 0
   private nextPress = 0
   private readonly preference: MediaQueryList
   private reported: boolean
@@ -611,12 +711,21 @@ export class WebRuntime {
   private pendingFrame?: FrameTask
   readonly scheduler: FrameScheduler
   private readonly values = new Set<NumericValue>()
+  private readonly valueTracks = new Map<NumericValue, ValueEntry>()
+  private readonly valueTask: FrameTask = {
+    update: () => {
+      this.sampleValues()
+      return [...this.valueTracks.values()].some(
+        (e) => !e.owner.paused && !e.owner.pending && !e.owner.settled,
+      )
+    },
+  }
   private readonly scrollSources = new Set<ScrollValueNode>()
   private readonly scrollLinks = new Map<
     HTMLElement,
     Set<WebScrollLink & { owns(): boolean }>
   >()
-  private readonly nodes = new WeakMap<WebReadableValue, NumericValue>()
+  private readonly nodes = new WeakMap<object, NumericValue>()
   private readonly visibility = () => this.scheduler.hidden(this.document.hidden)
   private readonly report = (error: unknown) => this.view.reportError(error)
 
@@ -741,6 +850,120 @@ export class WebRuntime {
     return surface.observeGeometry()
   }
 
+  animateSize(
+    target: HTMLElement,
+    values: WebSizeValues,
+    changeOrOptions?: (() => void) | WebSizeOptions | SpringName,
+    options?: WebSizeOptions | SpringName,
+  ) {
+    this.assert()
+    this.targets(target)
+    const change = typeof changeOrOptions === 'function' ? changeOrOptions : undefined
+    const config = change
+      ? options
+      : (changeOrOptions as WebSizeOptions | SpringName | undefined)
+    validateSize(values, change, config)
+    let operation: SizeOperation | undefined
+    operation = new SizeOperation(
+      target,
+      { ...values },
+      change,
+      config,
+      {
+        scheduler: this.scheduler,
+        settings: () => ({
+          timeScale: this.settings.timeScale,
+          reducedMotion: this.reduced(),
+        }),
+        geometry: (target) => this.geometryLease(target),
+        forget: () => {
+          if (this.sizes.get(target) === operation) this.sizes.delete(target)
+        },
+      },
+      this.sizes.get(target),
+    )
+    this.sizes.set(target, operation)
+    return operation
+  }
+
+  private geometryLease(target: HTMLElement) {
+    let surface = this.surfaces.get(target)
+    if (!surface) {
+      surface = new Surface(this, target)
+      this.transaction(new Map([[surface, clone(surface.state)]]), this.now())
+    }
+    return surface.observeGeometry()
+  }
+  animateLayout(
+    container: HTMLElement,
+    changeOrOptions?: (() => void) | WebLayoutOptions | SpringName,
+    options?: WebLayoutOptions | SpringName,
+  ) {
+    this.assert()
+    this.targets(container)
+    const change = typeof changeOrOptions === 'function' ? changeOrOptions : undefined
+    const config = change
+      ? options
+      : (changeOrOptions as WebLayoutOptions | SpringName | undefined)
+    validateLayout(change, config)
+    const layer = `jolt:layout:${++this.nextLayout}`
+    let operation: LayoutOperation | undefined
+    operation = new LayoutOperation(
+      container,
+      change,
+      config,
+      {
+        scheduler: this.scheduler,
+        geometry: (target) => this.geometryLease(target),
+        basis: (target) => this.surfaces.get(target)!.layoutBasis(),
+        scale: (target) => {
+          const surface = this.surfaces.get(target)
+          const at = this.document.timeline.currentTime
+          const value = (property: 'scaleX' | 'scaleY') => {
+            const key = keyOf(property, layer),
+              entry = surface?.state.entries.get(key)
+            // Match the presented document tick used by getBoundingClientRect.
+            return entry
+              ? sampled(
+                  entry.points,
+                  entry.owner.time(typeof at === 'number' ? at : undefined),
+                )
+              : (surface?.state.rest.get(key)?.value ?? 1)
+          }
+          return { x: value('scaleX'), y: value('scaleY') }
+        },
+        set: (target, values) => {
+          this.play(target, values, { duration: 0 }, layer)
+        },
+        animate: (target, values, options) => this.play(target, values, options, layer),
+        clear: (target) => {
+          const surface = this.surfaces.get(target)
+          if (!surface || surface.disposed || !target.isConnected) return
+          const state = clone(surface.state)
+          for (const property of properties) {
+            state.entries.delete(keyOf(property, layer))
+            state.rest.delete(keyOf(property, layer))
+          }
+          try {
+            this.transaction(new Map([[surface, state]]), this.now())
+          } catch {
+            this.release(target)
+          }
+        },
+        forget: () => {
+          if (this.layouts.get(container) === operation) {
+            this.layouts.delete(container)
+            this.observe()
+          }
+        },
+      },
+      this.layouts.get(container),
+    )
+    this.layouts.set(container, operation)
+    this.observe()
+    return operation
+  }
+
   motionValue(initial: number) {
     this.assert()
     const node = new NumericValue(this.scheduler, initial, this.report, () =>
@@ -754,20 +977,37 @@ export class WebRuntime {
     handle: T,
   ) {
     const result = Object.assign(handle, {
-      to: (
+      to: ((
         input: readonly number[],
-        output: readonly number[],
+        output: readonly number[] | readonly string[],
         options?: NumericMapOptions,
-      ): WebReadableValue => {
+      ) => {
         this.assert()
+        if (output.some((v) => typeof v === 'string')) {
+          if (!output.every((v) => typeof v === 'string'))
+            throw new TypeError('A color mapping requires color strings for every stop.')
+          const colors = output.map((value) => parseColor(this.document, value))
+          const mapped = new ColorMappedNode(
+            node,
+            input,
+            colors,
+            options,
+            this.report,
+            () => this.values.delete(mapped),
+          )
+          const result = mapped.colorHandle()
+          this.values.add(mapped)
+          this.nodes.set(result, mapped)
+          return result
+        }
         const mapped = new DerivedValueNode(
           node,
-          numericMap(input, output, options),
+          numericMap(input, output as readonly number[], options),
           this.report,
           () => this.values.delete(mapped),
         )
         return this.valueHandle(mapped, mapped.readableHandle())
-      },
+      }) as WebReadableValue['to'],
     })
     this.values.add(node)
     this.nodes.set(result, node)
@@ -879,7 +1119,7 @@ export class WebRuntime {
   springValue(source: WebReadableValue, options: WebSpringOptions = {}) {
     this.assert()
     const input = this.nodes.get(source)
-    if (!input || input.disposed)
+    if (!input || input.disposed || input.kind !== 'number')
       throw new TypeError(
         'A continuous spring requires a live input motion value from this runtime.',
       )
@@ -903,15 +1143,20 @@ export class WebRuntime {
     const state = clone(surface.state)
     const added = new Map<string, LiveEntry>()
     for (const [name, value] of Object.entries(values)) {
-      if (name !== 'scale' && !properties.includes(name as Property))
+      if (!keyframeProperties.includes(name as KeyframeProperty))
         throw new TypeError('Unsupported binding property.')
       const source = this.nodes.get(value)
       if (!source || source.disposed)
         throw new TypeError('Bindings require a live value from this runtime.')
-      for (const property of name === 'scale'
-        ? (['scaleX', 'scaleY'] as const)
-        : [name as Property]) {
-        if (name === 'scale' && values[property]) continue
+      for (const property of expand(name as KeyframeProperty)) {
+        if (name !== property && values[property]) continue
+        if (name === 'borderRadius' && values[property.slice(0, -1) as KeyframeProperty])
+          continue
+        if (isColor(property) !== (source.kind === 'color'))
+          throw new TypeError(
+            'Color channels require a color mapping; numeric channels require numeric values.',
+          )
+        this.ensureRadius(state, surface, property)
         const key = keyOf(property),
           entry = { property, source }
         state.entries.delete(key)
@@ -954,6 +1199,163 @@ export class WebRuntime {
     return this.play(target, animation, options)
   }
 
+  seekableTimeline(
+    steps: readonly WebSeekableStep[],
+    options: WebSceneOptions = {},
+  ): PlaybackAnimation & { readonly ready: Promise<void> } {
+    this.assert()
+    const leaves = sceneSteps(steps, options)
+    const prepared: {
+      surface?: Surface
+      source?: NumericValue
+      plan: Plan
+      track: Track
+      points: Point[]
+    }[] = []
+    const surfaces = new Map<HTMLElement, Surface>()
+    const claimed = new Map<object, Set<string>>()
+    for (const leaf of leaves) {
+      const source = 'value' in leaf ? this.nodes.get(leaf.value) : undefined
+      let surface: Surface | undefined
+      if ('value' in leaf) {
+        if (!source || source.disposed || source.constructor !== NumericValue)
+          throw new TypeError(
+            'Scene values must be mutable numeric inputs owned by this runtime.',
+          )
+      } else {
+        this.targets(leaf.target)
+        surface =
+          surfaces.get(leaf.target) ??
+          this.surfaces.get(leaf.target) ??
+          new Surface(this, leaf.target)
+        surface.assert()
+        surfaces.set(leaf.target, surface)
+      }
+      const transition =
+        typeof leaf.transition === 'string'
+          ? { ...springDefinitions[leaf.transition], layer: leaf.layer }
+          : { ...(leaf.transition ?? { duration: 300 }), layer: leaf.layer }
+      if (
+        typeof leaf.transition === 'string' &&
+        !Object.hasOwn(springDefinitions, leaf.transition)
+      )
+        throw new TypeError('Unknown scene spring.')
+      const frames: Keyframes =
+        'value' in leaf ? { opacity: leaf.keyframes } : leaf.keyframes
+      const plans = prepare(frames, transition, this.presets, 1)[0]!
+      const target = surface?.target ?? source!
+      let keys = claimed.get(target)
+      if (!keys) claimed.set(target, (keys = new Set()))
+      for (const plan of plans) {
+        const key = keyOf(plan.property, plan.layer)
+        if (keys.has(key))
+          throw new TypeError(
+            'Each scene channel has one descriptor; combine its movements into keyframes.',
+          )
+        keys.add(key)
+        plan.transition = { ...plan.transition, delay: plan.transition.delay + leaf.at }
+        const values = plan.frames.map((v) => {
+          if (v === null) throw new TypeError('Scene keyframes must be explicit.')
+          if (surface)
+            return resolveProperty(surface.target, plan.property, plan.source, v)
+          if (typeof v !== 'number' || !Number.isFinite(v))
+            throw new TypeError('Scene value tracks require finite numbers.')
+          return v
+        })
+        const track = createTrack(
+          coreProperty(plan.property),
+          values,
+          plan.transition,
+          0,
+          { timeScale: this.settings.timeScale, reducedMotion: this.reduced() },
+        )
+        prepared.push({
+          surface,
+          source,
+          plan,
+          track,
+          points: flatten(track, this.maxKeyframes),
+        })
+      }
+    }
+    const at = this.now(),
+      owner = new Owner(this, Math.max(0, ...prepared.map((p) => p.track.end)), at)
+    const proposals = new Map<Surface, State>(),
+      valueEntries: ValueEntry[] = []
+    for (const item of prepared) {
+      const { surface, source, plan, track, points } = item
+      const entry: Entry = {
+        property: plan.property,
+        layer: plan.layer,
+        track,
+        points,
+        owner,
+      }
+      if (surface) {
+        const state = proposals.get(surface) ?? clone(surface.state)
+        this.ensureRadius(state, surface, plan.property)
+        const key = keyOf(plan.property, plan.layer)
+        state.rest.delete(key)
+        state.bindings.delete(key)
+        state.entries.set(key, entry)
+        proposals.set(surface, state)
+      } else {
+        const value: ValueEntry = {
+          ...entry,
+          source: source!,
+          cancel: () => this.removeValue(value, false),
+        }
+        valueEntries.push(value)
+        owner.entries.add(value)
+      }
+    }
+    this.transaction(
+      proposals,
+      at,
+      new Map([
+        [
+          owner,
+          {
+            time: 0,
+            paused: options.paused ?? false,
+            pending: this.document.timeline.currentTime === null,
+          },
+        ],
+      ]),
+    )
+    for (const entry of valueEntries) {
+      entry.source.claimWriter(entry.cancel)
+      this.valueTracks.set(entry.source, entry)
+    }
+    this.sampleValues()
+    if (valueEntries.length && !owner.paused) this.scheduler.add(this.valueTask)
+    owner.refresh(at)
+    return owner
+  }
+
+  private sampleValues() {
+    const at = this.now()
+    for (const entry of this.valueTracks.values()) {
+      const time = entry.owner.time(at)
+      entry.source.writeSample(
+        entry.track.valueAt(time),
+        entry.owner.paused || entry.owner.pending ? 0 : entry.track.velocityAt(time),
+      )
+    }
+  }
+  private removeValue(entry: ValueEntry, completed: boolean) {
+    if (this.valueTracks.get(entry.source) !== entry) return
+    const time = entry.owner.time()
+    this.valueTracks.delete(entry.source)
+    entry.source.releaseWriter(entry.cancel)
+    entry.source.writeSample(completed ? entry.track.to : entry.track.valueAt(time), 0)
+    entry.owner.entries.delete(entry)
+    entry.owner.complete &&= completed
+    entry.owner.refresh(this.now())
+    if (![...this.valueTracks.values()].some((e) => !e.owner.paused && !e.owner.pending))
+      this.scheduler.remove(this.valueTask)
+  }
+
   private play(
     target: HTMLElement | readonly HTMLElement[],
     animation: Keyframes | string,
@@ -983,25 +1385,37 @@ export class WebRuntime {
           ? old.track.valueAt(time)
           : (surface.state.bindings.get(key)?.source.get() ??
             surface.state.rest.get(key)?.value ??
-            identity(plan.property))
+            (plan.layer === undefined
+              ? readProperty(element, plan.property)
+              : identity(plan.property)))
         const velocity = old
           ? !old.owner.paused && !old.owner.pending
             ? old.track.velocityAt(time)
             : 0
           : (surface.state.bindings.get(key)?.source.getVelocity() ?? 0)
-        const values = plan.frames.map((value) =>
-          value === null
+        const values = plan.frames.map((input) => {
+          const value =
+            input === null
+              ? null
+              : resolveProperty(element, plan.property, plan.source, input)
+          return value === null
             ? from
-            : plan.relative
+            : plan.relative && !isColor(plan.property)
               ? multiplicative(plan.property)
                 ? from * value
                 : from + value
-              : value,
-        )
-        const track = createTrack(plan.property, values, plan.transition, velocity, {
-          timeScale: this.settings.timeScale,
-          reducedMotion: this.reduced(),
+              : value
         })
+        const track = createTrack(
+          coreProperty(plan.property),
+          values,
+          plan.transition,
+          velocity,
+          {
+            timeScale: this.settings.timeScale,
+            reducedMotion: this.reduced(),
+          },
+        )
         return { plan, track, points: flatten(track, this.maxKeyframes) }
       })
       compiled.push({ surface, plans: tracks })
@@ -1016,6 +1430,7 @@ export class WebRuntime {
       if (!tracks.length) continue
       const state = clone(surface.state)
       for (const { plan, track, points } of tracks) {
+        this.ensureRadius(state, surface, plan.property)
         const key = keyOf(plan.property, plan.layer)
         state.entries.delete(key)
         state.bindings.delete(key)
@@ -1046,9 +1461,9 @@ export class WebRuntime {
     if (
       !values ||
       typeof values !== 'object' ||
-      Object.values(values).some((v) => typeof v !== 'number')
+      Object.values(values).some((v) => typeof v !== 'number' && typeof v !== 'string')
     )
-      throw new TypeError('set() requires one numeric value per property.')
+      throw new TypeError('set() requires one value per property.')
     return this.animate(target, values, { duration: 0 })
   }
 
@@ -1212,6 +1627,18 @@ export class WebRuntime {
     else state.rest.set(key, { property, value })
   }
 
+  private ensureRadius(state: State, surface: Surface, property: Property) {
+    if (!isRadius(property)) return
+    const sibling =
+      `${property.slice(0, -1)}${property.endsWith('X') ? 'Y' : 'X'}` as Property
+    const key = keyOf(sibling)
+    if (!state.rest.has(key) && !state.entries.has(key) && !state.bindings.has(key))
+      state.rest.set(key, {
+        property: sibling,
+        value: readProperty(surface.target, sibling),
+      })
+  }
+
   private transaction(
     proposals: Map<Surface, State>,
     at: number,
@@ -1300,14 +1727,22 @@ export class WebRuntime {
       if ([...surface.state.entries.values()].some((e) => e.owner === owner))
         proposals.set(surface, clone(surface.state))
     this.transaction(proposals, this.now(), new Map([[owner, control]]))
+    this.sampleValues()
+    if ([...this.valueTracks.values()].some((e) => !e.owner.paused && !e.owner.pending))
+      this.scheduler.add(this.valueTask)
+    else this.scheduler.remove(this.valueTask)
   }
 
   stopOwner(owner: Owner) {
+    for (const entry of [...this.valueTracks.values()])
+      if (entry.owner === owner) this.removeValue(entry, false)
     this.remove((entry) => entry.owner === owner, false)
   }
   completeOwner(owner: Owner) {
     if (owner.settled || owner.paused || owner.pending) return
     try {
+      for (const entry of [...this.valueTracks.values()])
+        if (entry.owner === owner) this.removeValue(entry, true)
       this.remove((entry) => entry.owner === owner, true)
     } catch {
       for (const [target, surface] of this.surfaces)
@@ -1318,12 +1753,12 @@ export class WebRuntime {
 
   stop(
     target: HTMLElement | readonly HTMLElement[],
-    selected?: readonly (Property | 'scale')[],
+    selected?: readonly KeyframeProperty[],
     options?: { layer?: string },
   ) {
     this.assert()
     const targets = new Set(this.targets(target))
-    const names = selected?.flatMap((p) => (p === 'scale' ? ['scaleX', 'scaleY'] : [p]))
+    const names = selected?.flatMap(expand)
     if (names?.some((p) => !properties.includes(p as Property)))
       throw new TypeError('Unsupported property to stop.')
     for (const surface of this.surfaces.values())
@@ -1362,7 +1797,9 @@ export class WebRuntime {
             state,
             key,
             entry.property,
-            completed ? entry.track.to : sampled(entry.points, entry.owner.time(at)),
+            completed
+              ? entry.track.to
+              : sampled(entry.points, entry.owner.time(at), 'right', entry.property),
             entry.layer,
           )
           proposals.set(surface, state)
@@ -1378,9 +1815,13 @@ export class WebRuntime {
     this.reported = reduced
     for (const value of this.values)
       if (value instanceof SpringValueNode) value.preferenceChanged()
+    for (const size of this.sizes.values()) size.reduced()
     if (reduced) {
       try {
-        this.remove((entry) => entry.property !== 'opacity', true)
+        this.remove(
+          (entry) => entry.property !== 'opacity' && !isColor(entry.property),
+          true,
+        )
       } catch {
         for (const target of [...this.surfaces.keys()]) this.release(target)
       }
@@ -1433,7 +1874,8 @@ export class WebRuntime {
 
   private observe() {
     const roots = new Set<Node>()
-    if (this.surfaces.size || this.scrollSources.size) roots.add(this.document)
+    if (this.surfaces.size || this.scrollSources.size || this.layouts.size)
+      roots.add(this.document)
     for (const source of this.scrollSources) roots.add(source.element.getRootNode())
     for (const surface of this.surfaces.values()) roots.add(surface.target.getRootNode())
     for (const [root, observer] of this.observers)
@@ -1444,6 +1886,9 @@ export class WebRuntime {
     for (const root of roots)
       if (!this.observers.has(root)) {
         const observer = new this.view.MutationObserver(() => {
+          for (const [target, layout] of this.layouts)
+            if (!target.isConnected || target.ownerDocument !== this.document)
+              layout.stop()
           for (const source of [...this.scrollSources])
             if (
               !source.element.isConnected ||
@@ -1468,6 +1913,10 @@ export class WebRuntime {
   }
 
   release(target: HTMLElement) {
+    this.layouts.get(target)?.stop()
+    this.layouts.delete(target)
+    this.sizes.get(target)?.detach()
+    this.sizes.delete(target)
     const surface = this.surfaces.get(target)
     if (surface) surface.disposed = true
     for (const link of [...(this.scrollLinks.get(target) ?? [])]) link.dispose()
@@ -1505,6 +1954,9 @@ export class WebRuntime {
     return {
       targets: this.surfaces.size,
       values: this.values.size,
+      valueAnimations: this.valueTracks.size,
+      sizes: this.sizes.size,
+      layouts: this.layouts.size,
       scrollSources: this.scrollSources.size,
       scheduler: {
         tasks: this.scheduler.size,
@@ -1549,6 +2001,7 @@ export class WebRuntime {
     this.disposed = true
     this.preference.removeEventListener('change', this.preferenceChanged)
     this.document.removeEventListener('visibilitychange', this.visibility)
+    for (const layout of this.layouts.values()) layout.stop()
     for (const target of [...this.surfaces.keys()]) this.release(target)
     for (const observer of this.observers.values()) observer.disconnect()
     this.observers.clear()
