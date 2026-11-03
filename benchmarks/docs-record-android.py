@@ -21,7 +21,7 @@ try:
     command('shell', 'settings', 'put', 'system', 'show_touches', '1')
     command('shell', 'am', 'force-stop', 'org.nativescript.jolt.benchmark')
     command('shell', 'am', 'start', '-n', 'org.nativescript.jolt.benchmark/com.tns.NativeScriptActivity',
-            '--es', 'playground', 'true', '--es', 'section', 'Busy JavaScript')
+            '--es', 'showcase-example', 'busy-js')
     time.sleep(2)
     command('shell', 'uiautomator', 'dump', '/sdcard/jolt-docs-busy.xml')
     root = ET.fromstring(command('shell', 'cat', '/sdcard/jolt-docs-busy.xml'))

@@ -1,0 +1,32 @@
+{
+  "node": "v22.23.3",
+  "before": 4212032,
+  "rounds": [
+    {
+      "round": 0,
+      "handles": 250,
+      "heapUsed": 7039696,
+      "liveTracks": 750
+    },
+    {
+      "round": 1,
+      "handles": 500,
+      "heapUsed": 9838696,
+      "liveTracks": 1500
+    },
+    {
+      "round": 2,
+      "handles": 750,
+      "heapUsed": 12684680,
+      "liveTracks": 2250
+    },
+    {
+      "round": 3,
+      "handles": 1000,
+      "heapUsed": 15469368,
+      "liveTracks": 3000
+    }
+  ],
+  "released": 4624184,
+  "notes": "Host JS heap with a non-retaining fake driver and explicit GC. Natural completion and cancellation alternate. Not Android PSS or native memory."
+}

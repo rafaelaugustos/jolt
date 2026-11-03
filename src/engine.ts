@@ -481,6 +481,10 @@ export class ViewAnimation implements PlaybackAnimation {
     if (this.complete) this.haptics?.finish()
     else this.haptics?.cancel()
     this.haptics = undefined
+    // Settled owners cannot seek or restart. Keeping a finished Animation handle
+    // must not retain its sampled tracks and native animators. Held timeline steps
+    // keep their entries until releaseGroup() actually settles them.
+    this.entries.length = 0
     this.arrive()
     this.resolve(this.complete)
     this.timingChanged()

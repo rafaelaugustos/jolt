@@ -131,11 +131,19 @@ export function createAndroidDriver(): Driver {
       }
 
       let animator: android.animation.ObjectAnimator
-      if (
-        typeof org !== 'undefined' &&
-        typeof org.rafaelaugusto?.jolt?.KeyframeFactory === 'function'
-      ) {
-        animator = org.rafaelaugusto.jolt.KeyframeFactory.create(
+      const factory =
+        typeof org !== 'undefined' ? org.rafaelaugusto?.jolt?.KeyframeFactory : undefined
+      const compact = typeof factory?.createCompact === 'function'
+      if (compact) {
+        animator = factory!.createCompact(
+          nativeView,
+          nativeProperties[track.property],
+          track.times,
+          track.values,
+          scale,
+        )
+      } else if (typeof factory === 'function') {
+        animator = factory.create(
           nativeView,
           nativeProperties[track.property],
           track.times,
@@ -168,7 +176,8 @@ export function createAndroidDriver(): Driver {
       }
       animator.setDuration(Math.max(track.duration, 1))
       animator.setStartDelay(track.delay)
-      animator.setInterpolator(interpolator)
+      // Compact playback evaluates the sampled curve in its native interpolator.
+      if (!compact) animator.setInterpolator(interpolator)
       if (track.repeat > 0) {
         animator.setRepeatCount(
           Number.isFinite(track.repeat)

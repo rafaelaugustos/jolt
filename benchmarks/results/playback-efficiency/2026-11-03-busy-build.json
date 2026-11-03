@@ -1,0 +1,16 @@
+{
+  "build": {
+    "commit": "dc418aff1cdb162c7f71514d87f2df41b63d6b24",
+    "dirty": false,
+    "jolt": "0.1.0-rc.10",
+    "core": "9.1.3",
+    "webpack": "5.101.3",
+    "nativeScriptWebpack": "5.0.38",
+    "runtime": "9.1.1",
+    "driverSha256": "8f512892f692e80e51d3c1338d55aed4eabe65d431b17a880123f9adececd11a",
+    "busySourcesSha256": "ad26bd932357bee841fb7b38414e8ea52315fc5d66f3a8a8a66670634ed8aeb6",
+    "bundleMode": "production",
+    "builtAt": "2026-11-03T14:59:18.093Z"
+  },
+  "apkSha256": "5abb8dad94cc5ca528709dced474b4b16892eeb1a5048ad41c85693484fdac1f"
+}

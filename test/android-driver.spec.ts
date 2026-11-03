@@ -178,6 +178,14 @@ class NativeGroup extends NativeView {
 }
 
 class KeyframeFactory {
+  static createCompact = vi.fn((...args: Parameters<typeof KeyframeFactory.create>) => {
+    const [view, property, times, values, unit] = args
+    const animator = new NativeAnimator(view, [
+      { property, frames: values.map((v, i) => ({ offset: times[i], value: v * unit })) },
+    ])
+    animator.interpolator = 'native sampled curve'
+    return animator
+  })
   static create = vi.fn(
     (
       view: NativeView,
@@ -232,7 +240,10 @@ class NativeAnimator {
   setStartDelay(delay: number) {
     this.delay = delay
   }
-  setInterpolator() {}
+  interpolator: unknown
+  setInterpolator(value: unknown) {
+    this.interpolator = value
+  }
   setRepeatCount() {}
   setRepeatMode() {}
   addListener(listener: NativeAnimator['listener']) {
@@ -307,6 +318,7 @@ beforeEach(() => {
   durationScale = 1
   sdk = 34
   KeyframeFactory.create.mockClear()
+  KeyframeFactory.createCompact.mockClear()
   createDescriptor = Object.getOwnPropertyDescriptor(Array, 'create')
   Object.defineProperty(Array, 'create', {
     configurable: true,
@@ -391,18 +403,34 @@ function container() {
   return { view, native }
 }
 
-it('uses bulk numeric keyframes and preserves the pre-rebuild fallback', () => {
+it('preserves the native sampled interpolator and both older-binary fallbacks', () => {
   const { view } = container()
   const perSample = vi.spyOn(android.animation.Keyframe, 'ofFloat')
   const bulk = animate(view, { opacity: [1, 0.2, 0.6] }, { duration: 400 })
-  expect(KeyframeFactory.create).toHaveBeenCalledOnce()
+  expect(KeyframeFactory.createCompact).toHaveBeenCalledOnce()
+  expect(KeyframeFactory.create).not.toHaveBeenCalled()
+  expect(animators[0]!.interpolator).toBe('native sampled curve')
   expect(perSample).not.toHaveBeenCalled()
   const expected = animators[0]!.holders[0]!
   bulk.stop()
+  class OlderFactory {
+    static create = KeyframeFactory.create
+  }
+  vi.stubGlobal('org', {
+    rafaelaugusto: {
+      jolt: { ColorTarget, DecorationTarget, KeyframeFactory: OlderFactory },
+    },
+  })
+  const older = animate(view, { opacity: [1, 0.2, 0.6] }, { duration: 400 })
+  expect(KeyframeFactory.create).toHaveBeenCalledOnce()
+  expect(animators[1]!.holders[0]).toMatchObject(expected)
+  expect(animators[1]!.interpolator).not.toBe('native sampled curve')
+  expect(perSample).not.toHaveBeenCalled()
+  older.stop()
   vi.stubGlobal('org', { rafaelaugusto: { jolt: { ColorTarget, DecorationTarget } } })
   animate(view, { opacity: [1, 0.2, 0.6] }, { duration: 400 })
   expect(KeyframeFactory.create).toHaveBeenCalledOnce()
-  expect(animators[1]!.holders[0]).toMatchObject(expected)
+  expect(animators[2]!.holders[0]).toMatchObject(expected)
   expect(perSample).toHaveBeenCalled()
 })
 

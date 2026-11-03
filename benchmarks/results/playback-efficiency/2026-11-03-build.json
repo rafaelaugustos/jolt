@@ -1,0 +1,16 @@
+{
+  "build": {
+    "commit": "7e9721e5e8b99ef124b43b3bf2dc21e5ab7e34b6",
+    "dirty": false,
+    "jolt": "0.1.0-rc.10",
+    "core": "9.1.3",
+    "webpack": "5.101.3",
+    "nativeScriptWebpack": "5.0.38",
+    "runtime": "9.1.1",
+    "mode": "production",
+    "sourcesSha256": "6ee587d6418396117744444154e9f984835f1d10ba2be8c77d0611154e7db922"
+  },
+  "apkSha256": "154ea709d1acd562791f6ddc97b28374212a5cf3d62420b030503ef03617a6f3",
+  "apkSource": "Installed release APK pulled from emulator-5612; before the separate busy-benchmark install.",
+  "collectedAt": "2026-11-03T14:55:34.498Z"
+}

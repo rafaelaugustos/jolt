@@ -2,7 +2,7 @@
 
 Jolt calcula sus fotogramas clave una vez y los reproduce de forma nativa. Eso elimina el trabajo de JavaScript de cada cuadro de animación, pero `ObjectAnimator` de Android aún actualiza las propiedades de vista en el subproceso de la interfaz de usuario. En una aplicación NativeScript normal, el tiempo de ejecución principal JavaScript comparte ese hilo. Una tarea sincrónica larga puede detener las transformaciones, la opacidad y la reproducción del color hasta que la tarea regrese.
 
-<Clip name="android-performance" caption="Reproducción normal, un bloque JavaScript de 300 ms y el mismo trabajo en un trabajador en un emulador Android 16. Un diagnóstico visual, no una garantía de rendimiento del dispositivo." />
+<Clip name="android-performance-compact" caption="Reproducción normal, un bloque JavaScript de 300 ms y el mismo trabajo en un trabajador en un emulador Android 15. Un diagnóstico visual, no una garantía de rendimiento del dispositivo." />
 
 `ViewPropertyAnimator.withLayer()` no mueve este trabajo a RenderThread. Almacena en caché el dibujo de la vista en una capa de hardware, luego restaura la capa anterior y aún usa un `ValueAnimator` para actualizar las propiedades. La caché de capa de opacidad existente de Jolt reduce el trabajo de dibujo; no puede hacer que un hilo de UI bloqueado responda. Consulte la fuente Android para [`withLayer()` and property updates](https://android.googlesource.com/platform/frameworks/base/+/refs/heads/main/core/java/android/view/ViewPropertyAnimator.java).
 
@@ -48,3 +48,15 @@ Maneja los errores de los trabajadores y finaliza el trabajo pendiente cuando se
 Si el trabajo no puede pasar a un trabajador, divídalo en tareas limitadas que cedan al bucle de eventos nativo o complételo antes de iniciar la animación. `Promise.resolve()` sólo cede ante microtareas; ajustar una tarea larga en `setTimeout()` simplemente retrasa el mismo bloque de subproceso de interfaz de usuario.
 
 En iOS, las pistas Core Animation enviadas por Jolt pueden seguir reproduciéndose en el servidor de renderizado durante un bloque JavaScript, pero la entrada, la nueva configuración de animación y las devoluciones de llamada de finalización de JavaScript aún esperan el hilo principal.
+
+## Reproducción compacta y animaciones terminadas
+
+En Android, las transformaciones numéricas y la opacidad guardan las curvas muestreadas en arrays de floats, con interpolación nativa. Se conservan el solver, los puntos, los tiempos y el control independiente de cada propiedad. Las curvas de dos puntos y los binarios antiguos mantienen las rutas anteriores. Colores, decoraciones y live springs tienen drivers propios.
+
+<Clip name="playback-efficiency-android" caption="Emulador Android 15 / API 35 ARM64, build de release. Toques reales comparan la reproducción nativa original y compacta, pausa/reanudación, seek, interrupción y parada a velocidad original. No es una medición de rendimiento en un dispositivo físico." />
+
+Al terminar o cancelar una animación, su handle libera las curvas y los handles nativos. Las animaciones pausadas y los pasos de una timeline que aún permiten seek conservan los datos necesarios.
+
+El [informe de mediciones](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/android-playback-efficiency.md) distingue CPU de preparación/evaluación, heap Java retenido, PSS del proceso, reproducción de 30 segundos y retención JavaScript en el ordenador. Incluye repeticiones y datos originales. El microbenchmark evalúa posiciones sin renderizar; sus mejoras no prometen más FPS ni autonomía. PSS mide el proceso completo.
+
+La reproducción sigue dependiendo del hilo de UI. Los workers siguen siendo la mitigación para cálculos adecuados de la aplicación; un backend general en RenderThread requeriría otro diseño. La comparación física con Reanimated y Flutter permanece en [#65](https://github.com/rafaelaugustos/jolt/issues/65).
