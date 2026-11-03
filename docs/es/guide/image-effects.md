@@ -1,6 +1,6 @@
 # Efectos de imagen {#image-effects}
 
-Equivalente Web experimental: [partículas, superficies e imágenes](./web-surfaces). Build de desarrollo, fuera de RC.9.
+Equivalente Web experimental: [partículas, superficies e imágenes](./web-surfaces). Disponible desde RC.10.
 
 `imageEffect()` agrega ondulación, distorsión táctil y disolución a un NativeScript `Image`. Estas API requieren una reconstrucción nativa después de instalar el paquete. Operan con imágenes rasterizadas cargadas, no con árboles de vistas arbitrarios, SVG, videos o imágenes animadas.
 

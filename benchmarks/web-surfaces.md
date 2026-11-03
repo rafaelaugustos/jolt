@@ -1,6 +1,6 @@
 # Web particles, surfaces and images
 
-The development batch for #359–#364 extends the public `/web` facade and child motion scopes with `particles`, `confetti`, `blur`, `shape`, `liquid` and `imageEffect`. It is not included in the published RC.9. Native entry points retain their meaning. The native liquid field now re-exports the same implementation from the portable core; its numerical behavior is unchanged.
+The development batch for #359–#364 extends the public `/web` facade and child motion scopes with `particles`, `confetti`, `blur`, `shape`, `liquid` and `imageEffect`. It is included in RC.10. Native entry points retain their meaning. The native liquid field now re-exports the same implementation from the portable core; its numerical behavior is unchanged.
 
 ## Implementation boundaries
 

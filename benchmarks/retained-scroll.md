@@ -1,6 +1,6 @@
 # Retained ScrollView header and reorder verification
 
-Development work for #348/#349, after RC.9. The normal Vue showcase entry `retained-scroll` uses one Core ScrollView and a StackLayout with 24 stable-key rows of 88/118 DIPs. The app owns the array and applies move-before-key commits. It retains the existing ListView API and needs neither a second scroll engine nor a ReorderSurface for the new overload.
+Available since RC.10: #348/#349. The normal Vue showcase entry `retained-scroll` uses one Core ScrollView and a StackLayout with 24 stable-key rows of 88/118 DIPs. The app owns the array and applies move-before-key commits. It retains the existing ListView API and needs neither a second scroll engine nor a ReorderSurface for the new overload.
 
 ## Native implementation and limits
 

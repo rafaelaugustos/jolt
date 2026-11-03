@@ -1,6 +1,6 @@
 # Shapes: draw and morph
 
-Experimental Web equivalent: see [Web particles, surfaces and images](./web-surfaces). Development build, not included in RC.9.
+Experimental Web equivalent: see [Web particles, surfaces and images](./web-surfaces). Available since RC.10.
 
 Draw a checkmark, reveal a ring, or turn a play symbol into pause bars. The optional `@rafaelaugusto/jolt/shapes` entry paints an owned vector surface over a NativeScript view. Its `shape()` handle follows the same creation/animation pattern as gradients. Available since **0.1.0-rc.1**; rebuild Android to include the native renderer.
 

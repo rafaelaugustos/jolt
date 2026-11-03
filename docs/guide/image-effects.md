@@ -1,6 +1,6 @@
 # Image effects
 
-Experimental Web equivalent: see [Web particles, surfaces and images](./web-surfaces). Development build, not included in RC.9.
+Experimental Web equivalent: see [Web particles, surfaces and images](./web-surfaces). Available since RC.10.
 
 `imageEffect()` adds ripple, touch distortion and dissolve to a NativeScript `Image`. These APIs require a native rebuild after installing the package. They operate on loaded raster images, not arbitrary view trees, SVG, video or animated images.
 

@@ -1,6 +1,6 @@
 # Web gradients, loading and text
 
-**Development build, not included in RC.9.** Issues #352–#357 add `gradient`, `shimmer`, `loader`, `reveal`/`conceal`, `animateText` and `rollTo` to the experimental `/web` runtime and its child scopes. The `/web/vue` adapter owns these resources through `useWebMotion().use()`. Mavis adoption remains a separate workstream.
+**Available since 0.1.0-rc.10.** Issues #352–#357 add `gradient`, `shimmer`, `loader`, `reveal`/`conceal`, `animateText` and `rollTo` to the experimental `/web` runtime and its child scopes. The `/web/vue` adapter owns these resources through `useWebMotion().use()`. Mavis adoption remains a separate workstream.
 
 ## Gradients {#gradients}
 

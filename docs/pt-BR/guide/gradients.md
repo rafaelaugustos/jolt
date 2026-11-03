@@ -1,6 +1,6 @@
 # Gradientes
 
-**Build Web em desenvolvimento:** estes efeitos também estão disponíveis nos métodos do runtime e dos escopos de [`/web`](./web-effects). Ainda não fazem parte da RC.9.
+**Suporte Web desde a RC.10:** estes efeitos também estão disponíveis nos métodos do runtime e dos escopos de [`/web`](./web-effects). Estas APIs estão incluídas na RC.10.
 
 O CSS do NativeScript só tem um `linear-gradient` estático. O `gradient()` pinta um gradiente nativo linear, radial ou cônico atrás dos filhos de um layout, e anima as cores, as posições, o ângulo, o centro e o raio:
 

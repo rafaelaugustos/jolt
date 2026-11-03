@@ -1,6 +1,6 @@
 # Partículas, superfícies e efeitos de imagem na Web
 
-**Build de desenvolvimento; ainda fora do RC.9.** As issues #359–#364 adicionam seis métodos ao runtime e aos escopos. Importar `/web` continua seguro no SSR. Crie o runtime após a montagem; use `HTMLImageElement` já decodificado e com layout nos efeitos de imagem. A adoção no Mavis segue em uma frente separada.
+**Disponível desde a 0.1.0-rc.10.** As issues #359–#364 adicionam seis métodos ao runtime e aos escopos. Importar `/web` continua seguro no SSR. Crie o runtime após a montagem; use `HTMLImageElement` já decodificado e com layout nos efeitos de imagem. A adoção no Mavis segue em uma frente separada.
 
 ```ts
 import { createWebRuntime } from '@rafaelaugusto/jolt/web'

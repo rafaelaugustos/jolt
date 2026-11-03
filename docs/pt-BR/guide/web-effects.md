@@ -1,6 +1,6 @@
 # Gradientes, carregamento e texto na Web
 
-**Build de desenvolvimento, ainda fora do RC.9.** As issues #352–#357 adicionam `gradient`, `shimmer`, `loader`, `reveal`/`conceal`, `animateText` e `rollTo` ao runtime experimental `/web` e seus escopos filhos. O adaptador `/web/vue` gerencia esses recursos por `useWebMotion().use()`. A adoção no Mavis continua em uma frente separada.
+**Disponível desde a 0.1.0-rc.10.** As issues #352–#357 adicionam `gradient`, `shimmer`, `loader`, `reveal`/`conceal`, `animateText` e `rollTo` ao runtime experimental `/web` e seus escopos filhos. O adaptador `/web/vue` gerencia esses recursos por `useWebMotion().use()`. A adoção no Mavis continua em uma frente separada.
 
 ## Gradientes {#gradients}
 

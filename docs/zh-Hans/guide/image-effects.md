@@ -1,6 +1,6 @@
 # 图像效果 {#image-effects}
 
-实验性 Web 对应 API：[粒子、表面与图像](./web-surfaces)。开发版本，尚未包含在 RC.9 中。
+实验性 Web 对应 API：[粒子、表面与图像](./web-surfaces)。自 RC.10 起可用。
 
 `imageEffect()` 在 NativeScript `Image` 上添加了波纹、触摸失真和溶解。这些 API 需要在安装包后进行原生重建。它们对加载的光栅图像进行操作，而不是对任意视图树、SVG、视频或动画图像进行操作。
 

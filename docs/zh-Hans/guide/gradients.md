@@ -1,6 +1,6 @@
 # 渐变 {#gradients}
 
-**Web 开发版本：**这些效果也可通过 [`/web`](./web-effects) 的运行时和作用域方法使用，尚未包含在 RC.9 中。
+**自 RC.10 起提供 Web 支持：**这些效果也可通过 [`/web`](./web-effects) 的运行时和作用域方法使用，已包含在 RC.10 中。
 
 NativeScript的CSS只有一个静态的`linear-gradient`。 `gradient()` 在布局的子项后面绘制原生线性、径向或圆锥渐变，并为其颜色、色标、角度、中心和半径设置动画：
 

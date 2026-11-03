@@ -1,6 +1,6 @@
 # Web 粒子、表面与图像效果
 
-**开发版本，尚未包含在 RC.9 中。** #359–#364 增加六个 runtime/scope 方法。SSR 导入 /web 安全；请在挂载后创建 runtime，并为图像效果提供已解码、具有正布局尺寸的 HTMLImageElement。Mavis 采用工作单独跟踪。
+**自 0.1.0-rc.10 起可用。** #359–#364 增加六个 runtime/scope 方法。SSR 导入 /web 安全；请在挂载后创建 runtime，并为图像效果提供已解码、具有正布局尺寸的 HTMLImageElement。Mavis 采用工作单独跟踪。
 
 ```ts
 import { createWebRuntime } from '@rafaelaugusto/jolt/web'

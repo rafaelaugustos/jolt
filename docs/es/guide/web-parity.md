@@ -1,6 +1,6 @@
 # Gravedad, háptica, sensores, vidrio y galería Web
 
-**Versión de desarrollo; no publicada en RC.9.** El lote cubre [#373–#378](https://github.com/rafaelaugustos/jolt/issues/373) bajo [#236](https://github.com/rafaelaugustos/jolt/issues/236) y avanza la parte Web de [#117](https://github.com/rafaelaugustos/jolt/issues/117). No se autoriza ninguna release. Importe `/web` durante SSR y cree el runtime y sus elementos montados en el cliente. Los recursos del ámbito se suspenden, reanudan y eliminan con él.
+**Disponible desde 0.1.0-rc.10.** El lote cubre [#373–#378](https://github.com/rafaelaugustos/jolt/issues/373) bajo [#236](https://github.com/rafaelaugustos/jolt/issues/236) y avanza la parte Web de [#117](https://github.com/rafaelaugustos/jolt/issues/117). Importe `/web` durante SSR y cree el runtime y sus elementos montados en el cliente. Los recursos del ámbito se suspenden, reanudan y eliminan con él.
 
 ```ts
 import { createWebRuntime } from '@rafaelaugusto/jolt/web'

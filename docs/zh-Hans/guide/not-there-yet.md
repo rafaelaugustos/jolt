@@ -1,6 +1,6 @@
 # 发布状态与限制 {#not-there-yet}
 
-**开发中，计划在 RC.9 之后提供：**[Web 渐变、加载、圆形显示和文字](./web-effects)、[原生 Core ScrollView 页头](./scroll-header#retained-scrollview)及[已挂载行排序](./reorder#retained-rows)。新增原生能力需要重新构建应用。Mavis 的采用工作单独跟踪。
+**RC.10 新增：**[Web 渐变、加载与文字](./web-effects)、[粒子、模糊、形状与图像效果](./web-surfaces)、[键盘、面板、导航、物理与图标](./web-platforms)、[重力、触感、传感器、玻璃与按稳定标识返回缩略图](./web-parity)，以及原生 [Core ScrollView 页头](./scroll-header#retained-scrollview)和[已挂载行排序](./reorder#retained-rows)。请重新构建原生应用。Mavis 的采用工作单独进行。
 
 **RC.9 新增：**[Web 手势、缩放、协调滚动/刷新与排序](./web-gestures)，以及[原生保留式绘制通道和混合绑定所有权](./live-springs#extended-live-paint)。升级后请重新构建原生应用。
 
@@ -10,7 +10,7 @@
 
 **自 RC.7 起：**[颜色、边框、连续绘制、真实尺寸、FLIP 与可定位场景](./web-visual)扩展此运行时。Web API 仍为实验性功能；完整对等由 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 跟踪。
 
-**0.1.0-rc.9 已发布。** 原生功能保留各自文档中说明的平台限制，正式版验收仍在进行。Web 入口仍为实验性功能；发布并不表示 Mavis 集成完成，也不保证所有原生/Web API 完全一致。
+**0.1.0-rc.10 已发布。** 原生功能保留各自文档中说明的平台限制，正式版验收仍在进行。Web 入口仍为实验性功能；发布并不表示 Mavis 集成完成，也不保证所有原生/Web API 完全一致。
 
 RC.6 包含[Web 连续动画](./web-dynamic)：数值、跟随弹簧及拖动/吸附，以及[数值映射、几何刷新和垂直滚动](./web-support)。Web API 仍为实验性功能。
 
@@ -22,19 +22,19 @@ RC.4 在原生节点上合成图层窗口，让 Android 的形状、渐变和模
 
 [绑定与图层审计](./motion-values#binding-measurements)包含实体 iPhone 和 Android 上的准备/播放测量、自动输入响应起点，以及重复挂载/卸载的内存保留检查。组合窗口开销较高、近似分配计数器失败、Android 缺少温度状态遥测等限制均保留在证据中。结果为已测场景提供指导，不保证通用容量或实际呈现的帧率。 自 RC.4 起，窗口化合成在原生合成器上播放，不再有边界提交；剩余开销是大批关键帧的同步启动，已在同一审计中测量。
 
-## RC.9 已提供的功能 {#available-in-rc-1}
+## RC.10 已提供的功能 {#available-in-rc-1}
 
 - 实验性[有限 Web 播放](./web-runtime)、[按压](./web-press)和 [Vue DOM 生命周期](./web-vue)，支持可选框架/原生 peer 和安全 SSR 导入。
 - [共享元素导航](./shared-navigation)、[共享手势](./shared-gestures)、[返回当前单元格](./return-targets)和[联动相册](./gallery)，支持文档列出的 Frame/ListView/静态图像组合。
 - [原生手势组合](./gestures)：平移、双指缩放和旋转，以及支持的垂直 Core ScrollView 手势交接。[拖动约束](./drag)和[照片缩放](./photo-zoom)各有独立的交互约定。
-- 使用 Core ListView 适配器的[滚动组合](./scroll-header)，以及驱动原生动画值的[旋转/重力传感器](./device-sensors)。
+- 使用 Core ListView 或[已挂载的 Core ScrollView 行](./scroll-header#retained-scrollview)的[滚动组合](./scroll-header)，以及驱动原生动画值的[旋转/重力传感器](./device-sensors)。
 - [实际尺寸](./size)、[布局变化](./layout)、[动画值](./motion-values)、[可观察的播放进度](./playback)和[时间轴联合控制](./sequences)。
 - 通过可选原生插件提供的[外部原生属性](./native-properties)，包括 [SceneKit 光照/材质](./scene-lighting)、[相机视野](./scene-camera)和[环境/着色器输入](./scene-shaders)。
 - [重力](./gravity)、[带约束的圆形物理模拟](./physics-attachments)、[矢量绘制与变形](./shapes)、[模糊动画](./blur)和 [Liquid Glass](./glass)，具体平台支持及降级行为见各自文档。
 
 ## 当前限制 {#current-limits}
 
-- Web API 仍为实验性功能。RC.7 在 RC.6 连续动画基础上加入[绘制、真实尺寸、FLIP 与场景](./web-visual)、[作用域/输入/Vue 生命周期](./web-lifecycle)及[浮层/共享元素/诊断](./web-interactions)。快照内容与坐标空间仍有明确支持范围；pinch/嵌套滚动交接、其他框架适配器和稳定可移植引用尚未包含在本版本中。
+- Web API 仍为实验性功能。RC.10 在现有[手势与协调滚动](./web-gestures)基础上增加[平台交互](./web-platforms)和[传感器与共享图库返回](./web-parity)。快照内容、坐标空间、硬件可用性及浏览器回退行为仍有明确限制。其他框架适配器和稳定可移植引用仍是独立工作。
 - `animateSize()` 支持 StackLayout/GridLayout 以及不换行 row/column FlexboxLayout 的直接子元素，也可用于 ScrollView 内。主轴动画子元素要求 `flexGrow=0`、`flexShrink=0`；父布局分配与交叉轴 stretch 仍具有优先权。每帧通过 JavaScript 测量/布局。复用单元格与共享元素仍不在范围内。
 - `drag()` 不提供通用的多指手势组合。平移、双指缩放和旋转请使用 [`gestures()`](./gestures)；[照片缩放](./photo-zoom)则提供专用的缩放、平移和关闭控制器。手势交接适配器支持垂直 Core ScrollView；其他列表/容器组合需要独立的适配器和原生验证。
 - 外部属性适配器需要 `@rafaelaugusto/jolt-native`。内置的 SceneKit 相机、光照和材质适配器仅支持 iOS；未内置 Android 3D 渲染器适配器。MapKit 与 MapLibre 的相机单位不同。

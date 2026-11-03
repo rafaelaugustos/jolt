@@ -106,7 +106,7 @@ O suporte inicial cobre texto estático, imagens e contêineres comuns. A cópia
 
 ## Linhas montadas dentro de ScrollView {#retained-rows}
 
-**Build em desenvolvimento; fora da RC.9.** Passe uma coleção `LayoutBase` montada dentro de um Core `ScrollView` vertical existente. `items()` retorna chaves estáveis, views das linhas e handles descendentes opcionais. `scroll` é opcional quando o ancestral ScrollView mais próximo é a fonte desejada. Esta sobrecarga dispensa `ReorderSurface`. Use o adaptador ListView para coleções recicladas.
+**Disponível desde a 0.1.0-rc.10.** Passe uma coleção `LayoutBase` montada dentro de um Core `ScrollView` vertical existente. `items()` retorna chaves estáveis, views das linhas e handles descendentes opcionais. `scroll` é opcional quando o ancestral ScrollView mais próximo é a fonte desejada. Esta sobrecarga dispensa `ReorderSurface`. Use o adaptador ListView para coleções recicladas.
 
 São aceitas até 100 linhas distintas, ordenadas, sem sobreposição e com alturas variáveis. Os snapshots nativos têm limite de 16 milhões de pixels de origem; o pickup é recusado acima desse limite. As linhas permanecem montadas. Defina um background na linha quando o preview precisar ser opaco; captura de vídeo ao vivo/superfícies nativas fica fora deste adaptador. Transforms independentes do app são preservados; o adaptador controla snapshots e opacidade temporária.
 

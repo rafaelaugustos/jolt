@@ -1,6 +1,6 @@
 # Indicadores de carregamento
 
-**Build Web em desenvolvimento:** estes efeitos também estão disponíveis nos métodos do runtime e dos escopos de [`/web`](./web-effects). Ainda não fazem parte da RC.9.
+**Suporte Web desde a RC.10:** estes efeitos também estão disponíveis nos métodos do runtime e dos escopos de [`/web`](./web-effects). Estas APIs estão incluídas na RC.10.
 
 Adicione um indicador de carregamento a uma view vazia:
 

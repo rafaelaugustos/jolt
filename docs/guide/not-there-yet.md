@@ -1,6 +1,6 @@
 # Release status and limits {#not-there-yet}
 
-**In development, after RC.9:** [Web gradients, loading, circular reveal and text](./web-effects), [native Core ScrollView headers](./scroll-header#retained-scrollview) and [retained-row reorder](./reorder#retained-rows). The native additions require a fresh application build. Mavis adoption is tracked separately.
+**New in RC.10:** [Web gradients, loading and text](./web-effects), [particles, blur, shapes and image effects](./web-surfaces), [keyboard, sheets, navigation, physics and icons](./web-platforms), [gravity, haptics, sensors, glass and keyed gallery return](./web-parity), plus native [Core ScrollView headers](./scroll-header#retained-scrollview) and [mounted-row reorder](./reorder#retained-rows). Rebuild native apps. Mavis adoption remains separate.
 
 **New in RC.9:** [Web gestures, zoom, coordinated scroll/refresh and reorder](./web-gestures), plus [retained native paint channels and mixed ownership](./live-springs#extended-live-paint). Rebuild native apps after upgrading.
 
@@ -10,7 +10,7 @@
 
 **Since RC.7:** [colors, borders, continuous paint, real size, FLIP and seekable scenes](./web-visual) extend this runtime. The Web APIs remain experimental; full parity is tracked in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
-**0.1.0-rc.9 is available.** Native features retain their documented platform limits while stable-release validation continues. The Web entries are experimental; publication does not complete Mavis integration or establish native/Web parity for every API.
+**0.1.0-rc.10 is available.** Native features retain their documented platform limits while stable-release validation continues. The Web entries are experimental; publication does not complete Mavis integration or establish native/Web parity for every API.
 
 RC.6 includes [continuous Web motion](./web-dynamic), with values, followers and drag/snap, plus [numeric mappings, geometry refresh and vertical scroll](./web-support). The Web APIs remain experimental.
 
@@ -22,19 +22,19 @@ RC.4 composes rolling layer windows on native live nodes, continues Android shap
 
 The [binding/layer audit](./motion-values#binding-measurements) includes physical iPhone and Android preparation/playback measurements, automated input onset and repeated mount/unmount retention checks. Expensive composition boundaries, approximate allocation-counter failures and unavailable Android thermal telemetry remain explicit in the evidence. These results provide workload-specific guidance, not a universal capacity or presented-frame guarantee. Since RC.4, windowed compositions play on native composers with no boundary submissions; the remaining cost is the synchronous start of large keyframe batches, measured in the same audit.
 
-## Available in RC.9 {#available-in-rc-1}
+## Available in RC.10 {#available-in-rc-1}
 
 - Experimental [finite Web playback](./web-runtime), [press](./web-press) and [Vue DOM lifecycle](./web-vue), with optional framework/native peers and SSR-safe imports.
 - [Shared navigation](./shared-navigation), [shared gestures](./shared-gestures), [current-cell returns](./return-targets) and the [connected gallery](./gallery), for the documented Frame/ListView/static-image combinations.
 - [Native gesture composition](./gestures): pan, pinch and rotation, plus supported vertical Core ScrollView handoff. [Drag constraints](./drag) and [photo zoom](./photo-zoom) have their own interaction contracts.
-- [Scroll composition](./scroll-header) with the Core ListView adapter, and [rotation/gravity sensors](./device-sensors) feeding native motion values.
+- [Scroll composition](./scroll-header) with Core ListView and [mounted Core ScrollView rows](./scroll-header#retained-scrollview), and [rotation/gravity sensors](./device-sensors) feeding native motion values.
 - [Real dimensions](./size), [layout changes](./layout), [motion values](./motion-values), [observable playback](./playback) and [joint timeline controls](./sequences).
 - [External native properties](./native-properties), including [SceneKit lights/materials](./scene-lighting), [camera FOV](./scene-camera) and [environment/shader inputs](./scene-shaders), through the optional native plugin.
 - [Gravity](./gravity), [circle physics with attachments](./physics-attachments), [vector drawing and morphing](./shapes), [animated blur](./blur) and [Liquid Glass](./glass), with their documented platform support and fallbacks.
 
 ## Current limits {#current-limits}
 
-- The Web APIs remain experimental. RC.7 adds [paint, real size, FLIP and scenes](./web-visual), [scopes/input/Vue lifecycles](./web-lifecycle) and [overlays/shared elements/diagnostics](./web-interactions) to the RC.6 continuous-motion base. Supported snapshot content and coordinate spaces remain explicit; pinch/nested-scroll handoff, other framework adapters and stable portable references are still outside this release.
+- The Web APIs remain experimental. RC.10 extends the existing [gestures and coordinated scroll](./web-gestures) with [platform interactions](./web-platforms) and [device inputs/shared gallery return](./web-parity). Snapshot content, coordinate spaces, hardware availability and browser fallbacks retain explicit limits. Additional framework adapters and stable portable references remain separate work.
 - `animateSize()` supports StackLayout/GridLayout and direct children of non-wrapping row/column FlexboxLayout, including inside ScrollView. Flex main-axis children require `flexGrow=0` and `flexShrink=0`; parent allocation and cross-axis stretch remain authoritative. Measurement/layout runs in JavaScript per frame. Recycled cells and shared elements remain outside this API.
 - `drag()` does not provide general-purpose multi-finger composition. Use [`gestures()`](./gestures) for pan/pinch/rotation, or [photo zoom](./photo-zoom) for its dedicated pinch, pan and dismissal controller. The gesture handoff adapter supports vertical Core ScrollView; other list/container combinations require their own adapters and native validation.
 - External property adapters require `@rafaelaugusto/jolt-native`. The bundled SceneKit camera, light and material adapters are iOS-only; there is no bundled Android 3D renderer adapter. MapKit and MapLibre camera units are distinct.

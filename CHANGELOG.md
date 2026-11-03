@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+## 0.1.0-rc.10 (2026-11-03)
+
+- Publish matching core and optional native packages with the four Web capability batches below and native Core ScrollView composition adapters. Rebuild native applications to include the new header/reorder helpers. Web APIs remain experimental; Mavis adoption and physical-device stable acceptance remain separate.
+- Add Web gradients, shimmer/loaders, circular reveal/conceal, text entrance and rolling values (#352–#357, #358). Preserve scoped ownership, interruption, reduced motion and cleanup. Add native `scrollHeader(ScrollView, ...)` and `reorder(LayoutBase, ...)` for existing mounted-row compositions, with anchored updates, guarded refresh and native interaction/accessibility actions (#348, #349).
+- Add bounded Web particles/confetti, controlled blur, filled shapes/path morphing, liquid displacement, ripple, pointer distortion and dissolve (#359–#364, #365). Preserve actual image ownership, replacement, reverse/cancel behavior and browser fallbacks.
+- Add Web keyboard geometry/following, bottom sheets, interactive dialogs, asynchronous shared navigation, bounded circle physics and application-owned icon effects (#366–#371, #372). Reuse portable geometry/physics and existing gesture/scope lifecycle handling; preserve held icon scale across lifecycle refreshes.
+- Add finite Web gravity in `animate()`, opt-in haptic requests/cues, demand-driven rotation/gravity sensors, controlled browser glass, interactive route return and complete shared gallery entries with stable keyed virtualized thumbnail resolution (#373–#378, #379). Preserve interruption velocity, explicit device permissions/availability, screen-orientation remapping, cancellation, deleted-item focus fallback and scoped cleanup. This advances #117 without closing its remaining native physical-device acceptance.
+- Include reviewed native and browser recordings in English, Portuguese, Spanish and Simplified Chinese documentation, with explicit hardware/rendering limitations. Validate 1,665 unit tests and 1,041 browser cases (12 existing skips), packed consumers, portable/native sensor and physics math, and iOS/Android native CI.
+
 ## 0.1.0-rc.9 (2026-11-02)
 
 - Publish matching core and optional native packages with Web gestures, image zoom, coordinated scroll/refresh, interactive reorder and expanded retained native paint. Rebuild native applications to include the updated compiled helpers.

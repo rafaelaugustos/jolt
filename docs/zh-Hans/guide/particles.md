@@ -1,6 +1,6 @@
 # 粒子与彩纸 {#particles-and-confetti}
 
-实验性 Web 对应 API：[粒子、表面与图像](./web-surfaces)。开发版本，尚未包含在 RC.9 中。
+实验性 Web 对应 API：[粒子、表面与图像](./web-surfaces)。自 RC.10 起可用。
 
 ## 五彩纸屑 {#confetti}
 

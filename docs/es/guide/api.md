@@ -1,8 +1,10 @@
 # API {#api}
 
-[**Teclado, paneles, navegación, física e iconos Web (desarrollo, no publicado).**](./web-platforms)
+- [**Gravedad, haptics, sensores, glass y retorno de galería Web**](./web-parity) — disponible desde RC.10.
 
-**Build Web en desarrollo:** estos efectos también están disponibles mediante métodos del runtime y sus scopes en [`/web`](./web-effects). Todavía no están incluidos en RC.9.
+[**Teclado, paneles, navegación, física e iconos Web (disponible desde RC.10).**](./web-platforms)
+
+**Soporte Web desde RC.10:** estos efectos también están disponibles mediante métodos del runtime y sus scopes en [`/web`](./web-effects). Estas APIs están incluidas en RC.10.
 
 - [**drag / gestures / zoomable / scrollHeader / reorder (Web)**](./web-gestures) — Gestos Web, zoom, scroll/refresh y reorder interactivo — disponible desde RC.9.
 

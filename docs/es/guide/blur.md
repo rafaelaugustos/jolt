@@ -1,6 +1,6 @@
 # Desenfoque animado {#animated-blur}
 
-Equivalente Web experimental: [partículas, superficies e imágenes](./web-surfaces). Build de desarrollo, fuera de RC.9.
+Equivalente Web experimental: [partículas, superficies e imágenes](./web-surfaces). Disponible desde RC.10.
 
 Deja que el fondo se suavice mientras un modal, título o botón se mantiene nítido. `@rafaelaugusto/jolt/blur` controla un efecto nativo propio con los mismos conceptos de transición y reproducción que el resto de Jolt. Disponible desde **0.1.0-rc.1**; Reconstruya ambas aplicaciones nativas para incluir sus ayudantes compilados.
 

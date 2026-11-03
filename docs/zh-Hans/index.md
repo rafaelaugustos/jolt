@@ -63,11 +63,11 @@ features:
     link: /zh-Hans/guide/scene-camera
 ---
 
-## 0.1.0-rc.9: Web 手势与原生保留式绘制 {#release-candidate}
+## 0.1.0-rc.10：Web 效果、传感器与完整图库返回 {#release-candidate}
 
-RC.9 新增[惯性拖动、组合手势、图片缩放、嵌套滚动、下拉刷新标题栏及交互排序](/zh-Hans/guide/web-gestures)，以及[原生弹簧的边框/文字颜色、边宽与独立圆角](/zh-Hans/guide/live-springs#extended-live-paint)。同时修复混合原生绘制所有权和 WebKit 共享过渡的几何失效处理。
+RC.10 新增[渐变、加载与文字](./guide/web-effects)、[粒子、模糊、形状与图像效果](./guide/web-surfaces)、[键盘、面板、导航、物理与图标](./guide/web-platforms)，以及[重力、触感、传感器、玻璃与按稳定标识返回缩略图](./guide/web-parity)。原生应用新增 [Core ScrollView 页头](./guide/scroll-header#retained-scrollview)和[已挂载行排序](./guide/reorder#retained-rows)。
 
-Web API 仍为实验性功能。[安装 RC.9](/zh-Hans/guide/install)，将可选原生适配器保持为相同版本，并重新构建原生应用。[发布说明](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.9)。Mavis 集成另行推进。
+Web API 仍为实验性功能。[安装 RC.10](./guide/install)，将可选原生适配器保持为相同版本，并重新构建原生应用。[发布说明](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.10)。Mavis 的采用工作单独进行。
 
 ## 0.1.0-rc.8: Web 编排与生命周期 {#rc-8}
 

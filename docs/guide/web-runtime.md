@@ -1,8 +1,8 @@
 # Finite Web runtime
 
-Experimental Web equivalent: see [Web particles, surfaces and images](./web-surfaces). Development build, not included in RC.9.
+Experimental Web equivalent: see [Web particles, surfaces and images](./web-surfaces). Available since RC.10.
 
-**Web development build:** these effects are also available through runtime/scoped methods in [`/web`](./web-effects). They are not included in RC.9.
+**Web support since RC.10:** these effects are also available through runtime/scoped methods in [`/web`](./web-effects). These APIs are included in RC.10.
 
 Available since RC.9: [gestures, image zoom, coordinated scroll, refresh and reorder](./web-gestures).
 

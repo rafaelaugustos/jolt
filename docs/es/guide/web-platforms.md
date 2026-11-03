@@ -1,6 +1,6 @@
 # Teclado, paneles, navegación, física e iconos Web
 
-**Versión de desarrollo; no publicada en RC.9.** Las issues #366–#371 añaden seis capacidades al runtime y a los ámbitos Web. No se publica una versión con este cambio. Importe `/web` durante SSR y cree `createWebRuntime(document)` después de montar los elementos; obtenga un ámbito con `motion.scope()`.
+**Disponible desde 0.1.0-rc.10.** Las issues #366–#371 añaden seis capacidades al runtime y a los ámbitos Web. Importe `/web` durante SSR y cree `createWebRuntime(document)` después de montar los elementos; obtenga un ámbito con `motion.scope()`.
 
 ## Geometría del teclado {#keyboard}
 

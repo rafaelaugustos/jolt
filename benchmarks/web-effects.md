@@ -1,6 +1,6 @@
 # Web visual effects verification
 
-Development work for #352–#357, after RC.9. The experimental runtime and child scopes expose gradient, shimmer, loader, reveal/conceal, animateText and rollTo; `/web/vue` owns them through `useWebMotion().use()`.
+Available since RC.10: #352–#357. The experimental runtime and child scopes expose gradient, shimmer, loader, reveal/conceal, animateText and rollTo; `/web/vue` owns them through `useWebMotion().use()`.
 
 ## Evidence and execution boundary
 

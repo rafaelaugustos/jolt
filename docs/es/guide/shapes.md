@@ -1,6 +1,6 @@
 # Formas: trazado y transformación {#shapes-draw-and-morph}
 
-Equivalente Web experimental: [partículas, superficies e imágenes](./web-surfaces). Build de desarrollo, fuera de RC.9.
+Equivalente Web experimental: [partículas, superficies e imágenes](./web-surfaces). Disponible desde RC.10.
 
 Dibuja una marca de verificación, revela un anillo o convierte un símbolo de reproducción en barras de pausa. La entrada opcional `@rafaelaugusto/jolt/shapes` pinta una superficie vectorial propia sobre una vista NativeScript. Su identificador `shape()` sigue el mismo patrón de creación/animación que los degradados. Disponible desde **0.1.0-rc.1**; reconstruya Android para incluir el renderizador nativo.
 

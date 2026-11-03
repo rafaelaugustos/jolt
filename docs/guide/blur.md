@@ -1,6 +1,6 @@
 # Animated blur
 
-Experimental Web equivalent: see [Web particles, surfaces and images](./web-surfaces). Development build, not included in RC.9.
+Experimental Web equivalent: see [Web particles, surfaces and images](./web-surfaces). Available since RC.10.
 
 Let the background soften while a modal, title or button stays sharp. `@rafaelaugusto/jolt/blur` controls an owned native effect with the same transition and playback concepts as the rest of Jolt. Available since **0.1.0-rc.1**; rebuild both native apps to include its compiled helpers.
 

@@ -1,6 +1,6 @@
 # Web particles, surfaces and image effects
 
-**Development build; not included in RC.9.** Issues #359–#364 add six runtime and scope factories. Importing `/web` remains safe during SSR. Create the runtime after mounting; use decoded, laid-out `HTMLImageElement` targets for image effects. Mavis adoption is tracked separately.
+**Available since 0.1.0-rc.10.** Issues #359–#364 add six runtime and scope factories. Importing `/web` remains safe during SSR. Create the runtime after mounting; use decoded, laid-out `HTMLImageElement` targets for image effects. Mavis adoption is tracked separately.
 
 ```ts
 import { createWebRuntime } from '@rafaelaugusto/jolt/web'

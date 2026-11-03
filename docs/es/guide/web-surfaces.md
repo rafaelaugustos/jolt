@@ -1,6 +1,6 @@
 # Partículas, superficies y efectos de imagen Web
 
-**Build de desarrollo; fuera de RC.9.** Las issues #359–#364 añaden seis métodos al runtime y sus ámbitos. Importar `/web` es seguro durante SSR; cree el runtime tras montar y use imágenes HTML decodificadas con dimensiones positivas. La adopción en Mavis sigue separada.
+**Disponible desde 0.1.0-rc.10.** Las issues #359–#364 añaden seis métodos al runtime y sus ámbitos. Importar `/web` es seguro durante SSR; cree el runtime tras montar y use imágenes HTML decodificadas con dimensiones positivas. La adopción en Mavis sigue separada.
 
 ```ts
 import { createWebRuntime } from '@rafaelaugusto/jolt/web'

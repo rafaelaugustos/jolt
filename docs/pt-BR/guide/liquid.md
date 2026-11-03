@@ -1,6 +1,6 @@
 # Imagens com movimento líquido
 
-Equivalente experimental na Web: consulte [partículas, superfícies e imagens](./web-surfaces). Build de desenvolvimento, ainda fora do RC.9.
+Equivalente experimental na Web: consulte [partículas, superfícies e imagens](./web-surfaces). Disponível desde a RC.10.
 
 `liquid()` aplica uma deformação lenta e contínua a uma `Image` no iOS. As partes da textura se movem umas em relação às outras, mantendo o contorno da imagem fixo.
 

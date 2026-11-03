@@ -1,6 +1,6 @@
 # Web 重力、触觉、传感器、玻璃与图库
 
-**开发版本；尚未包含在 RC.9 中。** 本批次完成 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 下的 [#373–#378](https://github.com/rafaelaugustos/jolt/issues/373)，并推进 [#117](https://github.com/rafaelaugustos/jolt/issues/117) 的 Web 部分。尚未授权发布。SSR 可安全导入 `/web`；请在客户端创建 runtime 和已挂载的目标。通过 scope 创建的资源随其暂停、恢复与销毁。
+**自 0.1.0-rc.10 起可用。** 本批次完成 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 下的 [#373–#378](https://github.com/rafaelaugustos/jolt/issues/373)，并推进 [#117](https://github.com/rafaelaugustos/jolt/issues/117) 的 Web 部分。SSR 可安全导入 `/web`；请在客户端创建 runtime 和已挂载的目标。通过 scope 创建的资源随其暂停、恢复与销毁。
 
 ```ts
 import { createWebRuntime } from '@rafaelaugusto/jolt/web'

@@ -1,6 +1,6 @@
 # Web 键盘、面板、导航、物理与图标
 
-**开发版本；尚未包含在已发布的 RC.9 中。** #366–#371 为 Web runtime 和 scope 增加六项能力。本次工作不发布新版本。SSR 可导入 `/web`，在客户端元素挂载后创建 `createWebRuntime(document)`，再调用 `motion.scope()`。
+**自 0.1.0-rc.10 起可用。** #366–#371 为 Web runtime 和 scope 增加六项能力。SSR 可导入 `/web`，在客户端元素挂载后创建 `createWebRuntime(document)`，再调用 `motion.scope()`。
 
 ## 键盘几何 {#keyboard}
 

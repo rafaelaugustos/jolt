@@ -1,6 +1,6 @@
 # 形状绘制与变形 {#shapes-draw-and-morph}
 
-实验性 Web 对应 API：[粒子、表面与图像](./web-surfaces)。开发版本，尚未包含在 RC.9 中。
+实验性 Web 对应 API：[粒子、表面与图像](./web-surfaces)。自 RC.10 起可用。
 
 绘制复选标记、显示圆环或将播放符号变成暂停条。可选的 `@rafaelaugusto/jolt/shapes` 条目在 NativeScript 视图上绘制拥有的矢量曲面。其 `shape()` 手柄遵循与渐变相同的创建/动画模式。自 **0.1.0-rc.1** 起可用；重建 Android 以包含原生渲染器。
 

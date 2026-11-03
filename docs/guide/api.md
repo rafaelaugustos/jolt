@@ -1,8 +1,10 @@
 # API
 
-[**Web keyboard, sheets, navigation, physics and icons (development build, unpublished).**](./web-platforms)
+- [**Web gravity, haptics, sensors, glass and gallery return**](./web-parity) — available since RC.10.
 
-**Web development build:** these effects are also available through runtime/scoped methods in [`/web`](./web-effects). They are not included in RC.9.
+[**Web keyboard, sheets, navigation, physics and icons (available since RC.10).**](./web-platforms)
+
+**Web support since RC.10:** these effects are also available through runtime/scoped methods in [`/web`](./web-effects). These APIs are included in RC.10.
 
 - [**drag / gestures / zoomable / scrollHeader / reorder (Web)**](./web-gestures) — Web gestures, zoom, scroll/refresh and interactive reorder — available since RC.9.
 

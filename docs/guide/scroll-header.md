@@ -155,7 +155,7 @@ The [native validation and reproduction notes](https://github.com/rafaelaugustos
 
 ## Retained Core ScrollView {#retained-scrollview}
 
-**Development build; not in RC.9.** The additional overload accepts an existing vertical Core `ScrollView`, including subclasses, with `LayoutBase` content. Header, artwork, title, compact toolbar/title and pinned section are retained siblings/descendants as in the composition above. `items()` supplies stable string keys and real row views; rows can have different heights. There is no ListView spacer row or second scroll engine.
+**Available since 0.1.0-rc.10.** The additional overload accepts an existing vertical Core `ScrollView`, including subclasses, with `LayoutBase` content. Header, artwork, title, compact toolbar/title and pinned section are retained siblings/descendants as in the composition above. `items()` supplies stable string keys and real row views; rows can have different heights. There is no ListView spacer row or second scroll engine.
 
 The content needs nonnegative numeric `paddingTop` in DIPs. Jolt adds its measured header/section space there and restores the original value on disposal if it still owns the write. Up to 1000 distinct mounted rows are supported; rows must be ordered, nonoverlapping descendants. This is not virtualization.
 

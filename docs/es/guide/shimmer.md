@@ -1,6 +1,6 @@
 # Brillo deslizante {#shimmer}
 
-**Build Web en desarrollo:** estos efectos también están disponibles mediante métodos del runtime y sus scopes en [`/web`](./web-effects). Todavía no están incluidos en RC.9.
+**Soporte Web desde RC.10:** estos efectos también están disponibles mediante métodos del runtime y sus scopes en [`/web`](./web-effects). Estas APIs están incluidas en RC.10.
 
 Barra una banda de luz a lo largo de un marcador de posición de carga:
 

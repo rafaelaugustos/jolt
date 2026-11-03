@@ -1,6 +1,6 @@
 # Web gravity, haptics, sensors, glass and gallery
 
-**Development build; not published in RC.9.** This batch covers [#373–#378](https://github.com/rafaelaugustos/jolt/issues/373) under [#236](https://github.com/rafaelaugustos/jolt/issues/236), and advances the Web portion of [#117](https://github.com/rafaelaugustos/jolt/issues/117). No release is authorized. Import `/web` safely during SSR; create the runtime and mounted targets on the client. Resources created through a scope pause/resume with it and are disposed on teardown.
+**Available since 0.1.0-rc.10.** This batch covers [#373–#378](https://github.com/rafaelaugustos/jolt/issues/373) under [#236](https://github.com/rafaelaugustos/jolt/issues/236), and advances the Web portion of [#117](https://github.com/rafaelaugustos/jolt/issues/117). Import `/web` safely during SSR; create the runtime and mounted targets on the client. Resources created through a scope pause/resume with it and are disposed on teardown.
 
 ```ts
 import { createWebRuntime } from '@rafaelaugusto/jolt/web'

@@ -1,6 +1,6 @@
 # Partículas y confeti {#particles-and-confetti}
 
-Equivalente Web experimental: [partículas, superficies e imágenes](./web-surfaces). Build de desarrollo, fuera de RC.9.
+Equivalente Web experimental: [partículas, superficies e imágenes](./web-surfaces). Disponible desde RC.10.
 
 ## Confeti {#confetti}
 

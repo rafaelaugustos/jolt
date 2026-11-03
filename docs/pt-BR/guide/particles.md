@@ -1,6 +1,6 @@
 # Partículas e confete
 
-Equivalente experimental na Web: consulte [partículas, superfícies e imagens](./web-surfaces). Build de desenvolvimento, ainda fora do RC.9.
+Equivalente experimental na Web: consulte [partículas, superfícies e imagens](./web-surfaces). Disponível desde a RC.10.
 
 ## Confete
 

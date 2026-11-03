@@ -106,7 +106,7 @@ The initial path supports static text, images and ordinary row containers. A sna
 
 ## Retained rows inside ScrollView {#retained-rows}
 
-**Development build; not in RC.9.** Pass a mounted `LayoutBase` collection inside an existing vertical Core `ScrollView`. `items()` returns stable keys, row views and optional descendant handles. `scroll` is optional when the closest ScrollView ancestor is the intended source. No `ReorderSurface` is needed for this overload. Keep the ListView adapter for recycled collections.
+**Available since 0.1.0-rc.10.** Pass a mounted `LayoutBase` collection inside an existing vertical Core `ScrollView`. `items()` returns stable keys, row views and optional descendant handles. `scroll` is optional when the closest ScrollView ancestor is the intended source. No `ReorderSurface` is needed for this overload. Keep the ListView adapter for recycled collections.
 
 This adapter supports at most 100 distinct, ordered, nonoverlapping rows of variable height. Native snapshots are capped at 16 million source pixels; pickup is declined when that budget is exceeded. Rows remain mounted. Use a row background when its preview should be opaque; live video/native surface capture is outside this adapter. Independent application transforms are left intact; the adapter owns snapshots and temporary opacity only.
 

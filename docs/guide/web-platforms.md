@@ -1,6 +1,6 @@
 # Web keyboard, sheets, navigation, physics and icons
 
-**Development build; not published in RC.9.** Issues [#366–#371](https://github.com/rafaelaugustos/jolt/issues/366) add six capabilities to the Web runtime and motion scopes. No release is implied by this guide. Import `/web` during SSR; create a runtime and its mounted targets on the client.
+**Available since 0.1.0-rc.10.** Issues [#366–#371](https://github.com/rafaelaugustos/jolt/issues/366) add six capabilities to the Web runtime and motion scopes. Import `/web` during SSR; create a runtime and its mounted targets on the client.
 
 ```ts
 import { createWebRuntime } from '@rafaelaugusto/jolt/web'

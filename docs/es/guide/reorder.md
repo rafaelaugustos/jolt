@@ -106,7 +106,7 @@ La ruta inicial admite texto estático, imágenes y contenedores de filas normal
 
 ## Filas montadas dentro de ScrollView {#retained-rows}
 
-**Build en desarrollo; fuera de RC.9.** Pasa una colección `LayoutBase` montada dentro de un Core `ScrollView` vertical existente. `items()` devuelve claves estables, vistas de filas y handles descendientes opcionales. `scroll` es opcional si el ancestro ScrollView más cercano es la fuente deseada. Esta sobrecarga no necesita `ReorderSurface`. Conserva el adaptador ListView para colecciones recicladas.
+**Disponible desde 0.1.0-rc.10.** Pasa una colección `LayoutBase` montada dentro de un Core `ScrollView` vertical existente. `items()` devuelve claves estables, vistas de filas y handles descendientes opcionales. `scroll` es opcional si el ancestro ScrollView más cercano es la fuente deseada. Esta sobrecarga no necesita `ReorderSurface`. Conserva el adaptador ListView para colecciones recicladas.
 
 Admite hasta 100 filas distintas, ordenadas, sin solapamiento y con alturas variables. Los snapshots nativos tienen un límite de 16 millones de píxeles de origen; se rechaza el pickup si se supera. Las filas permanecen montadas. Define un fondo en la fila cuando su preview deba ser opaco; capturar vídeo en directo/superficies nativas queda fuera del adaptador. Conserva los transforms independientes de la app; solo posee snapshots y opacidad temporal.
 

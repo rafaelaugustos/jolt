@@ -1,6 +1,6 @@
 # Teclado, sheets, navegação, física e ícones na Web
 
-**Build de desenvolvimento; não publicado no RC.9.** As issues #366–#371 adicionam seis capacidades ao runtime e aos escopos Web. Este guia não anuncia uma release. A importação de `/web` funciona em SSR; crie o runtime e os recursos após montar os elementos no cliente.
+**Disponível desde a 0.1.0-rc.10.** As issues #366–#371 adicionam seis capacidades ao runtime e aos escopos Web. A importação de `/web` funciona em SSR; crie o runtime e os recursos após montar os elementos no cliente.
 
 ## Geometria do teclado {#keyboard}
 

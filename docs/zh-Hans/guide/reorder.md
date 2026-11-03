@@ -106,7 +106,7 @@ sorting.dispose() // restore cells and remove native input/actions
 
 ## ScrollView 中的已挂载行 {#retained-rows}
 
-**开发版本，尚未包含在 RC.9 中。**传入已有纵向 Core `ScrollView` 内的已挂载 `LayoutBase` 集合。`items()` 返回稳定键、行视图及可选的后代手柄。若最近的 ScrollView 祖先就是目标滚动源，可省略 `scroll`。此重载不需要 `ReorderSurface`。回收式集合继续使用 ListView 适配器。
+**自 0.1.0-rc.10 起可用。**传入已有纵向 Core `ScrollView` 内的已挂载 `LayoutBase` 集合。`items()` 返回稳定键、行视图及可选的后代手柄。若最近的 ScrollView 祖先就是目标滚动源，可省略 `scroll`。此重载不需要 `ReorderSurface`。回收式集合继续使用 ListView 适配器。
 
 最多支持 100 个不同的、按顺序排列且互不重叠的可变高度行。原生快照总量限于 1600 万源像素；超限时拒绝拾取。行保持挂载。若预览应不透明，请设置行背景；实时视频/原生 Surface 捕获不在支持范围。应用独立变换保持不变；适配器仅拥有快照和临时透明度。
 

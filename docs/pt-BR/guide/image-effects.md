@@ -1,6 +1,6 @@
 # Efeitos de imagem
 
-Equivalente experimental na Web: consulte [partículas, superfícies e imagens](./web-surfaces). Build de desenvolvimento, ainda fora do RC.9.
+Equivalente experimental na Web: consulte [partículas, superfícies e imagens](./web-surfaces). Disponível desde a RC.10.
 
 `imageEffect()` aplica ripple, distorção por toque e dissolve em uma `Image` do NativeScript. Recompile o aplicativo nativo depois da instalação. O alvo deve ser uma imagem raster carregada; árvores de views, SVG, vídeo e imagens animadas ficam fora deste contrato.
 

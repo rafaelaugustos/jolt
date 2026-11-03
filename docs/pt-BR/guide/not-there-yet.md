@@ -1,6 +1,6 @@
 # Status da versão e limites {#ainda-nao}
 
-**Em desenvolvimento, após a RC.9:** [gradientes, loading, reveal circular e texto Web](./web-effects), [headers no Core ScrollView nativo](./scroll-header#retained-scrollview) e [reordenação de linhas montadas](./reorder#retained-rows). As adições nativas exigem recompilar o aplicativo. A adoção no Mavis segue em trabalho separado.
+**Novidades da RC.10:** [gradientes, loading e texto Web](./web-effects), [partículas, blur, formas e efeitos de imagem](./web-surfaces), [teclado, sheets, navegação, física e ícones](./web-platforms), [gravidade, haptics, sensores, glass e retorno à miniatura por chave](./web-parity), além de [headers no Core ScrollView nativo](./scroll-header#retained-scrollview) e [reordenação de linhas montadas](./reorder#retained-rows). Recompile apps nativos. A adoção no Mavis permanece separada.
 
 **Novidades da RC.9:** [gestos Web, zoom, scroll/refresh coordenado e reorder](./web-gestures), além de [canais nativos de pintura retida e composição de bindings](./live-springs#extended-live-paint). Recompile apps nativos após atualizar.
 
@@ -10,7 +10,7 @@
 
 **Desde a RC.7:** [cores, bordas, pintura contínua, tamanho real, FLIP e cenas com seek](./web-visual) ampliam este runtime. As APIs Web continuam experimentais; a paridade completa segue na [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
-**A 0.1.0-rc.9 está disponível.** Os recursos nativos mantêm seus limites documentados enquanto a validação para a estável continua. As entradas Web são experimentais; publicá-las não conclui a integração Mavis nem estabelece paridade de todas as APIs entre native e Web.
+**A 0.1.0-rc.10 está disponível.** Os recursos nativos mantêm seus limites documentados enquanto a validação para a estável continua. As entradas Web são experimentais; publicá-las não conclui a integração Mavis nem estabelece paridade de todas as APIs entre native e Web.
 
 A RC.6 inclui [movimento contínuo na Web](./web-dynamic), com valores, followers e drag/snap, além de [mapeamentos numéricos, atualização de geometria e scroll vertical](./web-support). As APIs Web continuam experimentais.
 
@@ -22,19 +22,19 @@ A RC.4 compõe as janelas de camadas em nós nativos, retoma shapes, gradientes 
 
 A [auditoria de bindings/camadas](./motion-values#binding-measurements) inclui preparação/reprodução em iPhone e Android físicos, início da resposta a entradas automáticas e retenção em montagens/desmontagens repetidas. Os custos altos das janelas de composição, as falhas dos contadores aproximados de alocação e a falta de telemetria térmica no Android continuam explícitos nas evidências. Os resultados orientam os cenários medidos; não garantem capacidade universal nem frames apresentados. Desde a RC.4, as composições em janela tocam em compositores nativos sem submissões de boundary; o custo restante é o início síncrono de lotes grandes de keyframes, medido na mesma auditoria.
 
-## Disponível na RC.9 {#available-in-rc-1}
+## Disponível na RC.10 {#available-in-rc-1}
 
 - [Playback Web finito](./web-runtime), [press](./web-press) e [lifecycle Vue DOM](./web-vue) experimentais, com peers nativos/framework opcionais e importação segura em SSR.
 - [Navegação compartilhada](./shared-navigation), [gestos compartilhados](./shared-gestures), [retorno à célula atual](./return-targets) e [galeria conectada](./gallery), nas combinações documentadas de Frame/ListView/imagens estáticas.
 - [Composição nativa de gestos](./gestures): pan, pinch e rotação, além da transferência de gesto compatível com o Core ScrollView vertical. As [restrições de arraste](./drag) e o [zoom de fotos](./photo-zoom) têm seus próprios contratos de interação.
-- [Composição de scroll](./scroll-header) com o adaptador de Core ListView e [sensores de rotação/gravidade](./device-sensors) alimentando valores de movimento nativos.
+- [Composição de scroll](./scroll-header) com Core ListView e [linhas montadas no Core ScrollView](./scroll-header#retained-scrollview), além de [sensores de rotação/gravidade](./device-sensors) alimentando valores de movimento nativos.
 - [Dimensões reais](./size), [mudanças de layout](./layout), [valores de movimento](./motion-values), [progresso observável](./playback) e [controles conjuntos de timeline](./sequences).
 - [Propriedades nativas externas](./native-properties), incluindo [luzes/materiais do SceneKit](./scene-lighting), [FOV da câmera](./scene-camera) e [ambiente/parâmetros de shaders](./scene-shaders), pelo plugin nativo opcional.
 - [Gravidade](./gravity), [física de círculos com vínculos](./physics-attachments), [desenho e transformação de vetores](./shapes), [desfoque animado](./blur) e [Liquid Glass](./glass), com o suporte e as alternativas por plataforma documentados.
 
 ## Limites atuais {#current-limits}
 
-- As APIs Web continuam experimentais. A RC.7 adiciona [pintura, tamanho real, FLIP e cenas](./web-visual), [escopos/input/ciclo de vida Vue](./web-lifecycle) e [overlays/elementos compartilhados/diagnóstico](./web-interactions) à base contínua da RC.6. Conteúdo de snapshot e espaços de coordenadas suportados mantêm limites explícitos; pinch/handoff de scroll, outros adapters e refs portáteis estáveis continuam fora deste release.
+- As APIs Web continuam experimentais. A RC.10 amplia os [gestos e scroll coordenado](./web-gestures) com [interações de plataforma](./web-platforms) e [sensores e retorno compartilhado da galeria](./web-parity). Conteúdo de snapshots, espaços de coordenadas, disponibilidade de hardware e alternativas por navegador mantêm limites explícitos. Outros adapters de framework e referências portáteis estáveis continuam em frentes separadas.
 - `animateSize()` suporta StackLayout/GridLayout e filhos diretos de FlexboxLayout row/column sem wrap, inclusive dentro de ScrollView. O filho animado no eixo principal exige `flexGrow=0` e `flexShrink=0`; a alocação do pai e o stretch transversal continuam determinantes. Medição/layout executa JavaScript por frame. Células recicladas e elementos compartilhados permanecem fora.
 - `drag()` não oferece composição genérica de gestos com vários dedos. Use [`gestures()`](./gestures) para pan/pinch/rotação, ou [zoom de fotos](./photo-zoom) para seu controlador específico de pinch, pan e fechamento. O adaptador de transferência de gesto suporta Core ScrollView vertical; outras combinações de listas/contêineres precisam de adaptadores e validação nativa próprios.
 - Adaptadores de propriedades externas exigem `@rafaelaugusto/jolt-native`. Os adaptadores incluídos de câmera, luzes e materiais do SceneKit são exclusivos do iOS; não há adaptador incluído de renderização 3D para Android. As unidades das câmeras de MapKit e MapLibre são distintas.

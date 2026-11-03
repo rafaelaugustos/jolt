@@ -63,11 +63,11 @@ features:
     link: /es/guide/scene-camera
 ---
 
-## 0.1.0-rc.9: gestos Web y pintura nativa retenida {#release-candidate}
+## 0.1.0-rc.10: efectos Web, sensores y retorno completo de la galería {#release-candidate}
 
-RC.9 añade [arrastre inercial, gestos compuestos, zoom, scroll anidado, headers con refresh y reorder interactivo](/es/guide/web-gestures), además de [colores de borde/texto, anchos y esquinas independientes en resortes nativos](/es/guide/live-springs#extended-live-paint). Corrige la composición de pintura nativa y la invalidación geométrica de transiciones compartidas en WebKit.
+RC.10 añade [degradados, carga y texto](./guide/web-effects), [partículas, blur, formas y efectos de imagen](./guide/web-surfaces), [teclado, paneles, navegación, física e iconos](./guide/web-platforms) y [gravedad, haptics, sensores, glass y retorno a miniaturas por clave](./guide/web-parity). Las aplicaciones nativas ganan [headers de Core ScrollView](./guide/scroll-header#retained-scrollview) y [reordenación de filas montadas](./guide/reorder#retained-rows).
 
-Las APIs Web siguen experimentales. [Instala RC.9](/es/guide/install), conserva los adapters nativos opcionales en la misma versión y recompila las aplicaciones nativas. [Notas](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.9). La adopción en Mavis sigue separada.
+Las APIs Web siguen experimentales. [Instala RC.10](./guide/install), conserva los adapters nativos opcionales en la misma versión y recompila las aplicaciones nativas. [Notas](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.10). La adopción en Mavis sigue separada.
 
 ## 0.1.0-rc.8: orquestación y ciclo de vida Web {#rc-8}
 

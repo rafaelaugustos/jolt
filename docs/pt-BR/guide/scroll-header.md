@@ -155,7 +155,7 @@ As [notas de validação e reprodução](https://github.com/rafaelaugustos/jolt/
 
 ## Core ScrollView com views montadas {#retained-scrollview}
 
-**Build em desenvolvimento; fora da RC.9.** A nova sobrecarga aceita um Core `ScrollView` vertical existente, inclusive subclasses, com conteúdo `LayoutBase`. Header, imagem, título, toolbar/título compacto e seção fixa usam os mesmos irmãos/descendentes montados da composição acima. `items()` fornece chaves string estáveis e views reais; as linhas podem ter alturas diferentes. Não há linha espaçadora de ListView nem outro motor de scroll.
+**Disponível desde a 0.1.0-rc.10.** A nova sobrecarga aceita um Core `ScrollView` vertical existente, inclusive subclasses, com conteúdo `LayoutBase`. Header, imagem, título, toolbar/título compacto e seção fixa usam os mesmos irmãos/descendentes montados da composição acima. `items()` fornece chaves string estáveis e views reais; as linhas podem ter alturas diferentes. Não há linha espaçadora de ListView nem outro motor de scroll.
 
 O conteúdo precisa de `paddingTop` numérico não negativo, em DIPs. Jolt soma o espaço medido do header/seção e restaura o valor original no descarte se ainda for dono da escrita. São aceitas até 1000 linhas distintas montadas, ordenadas, sem sobreposição e descendentes do conteúdo. Não é virtualização.
 

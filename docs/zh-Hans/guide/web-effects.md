@@ -1,6 +1,6 @@
 # Web 渐变、加载与文本效果
 
-**开发构建，尚未包含在 RC.9 中。** Issue #352–#357 为实验性 `/web` 运行时及其子作用域添加 `gradient`、`shimmer`、`loader`、`reveal`/`conceal`、`animateText` 和 `rollTo`。`/web/vue` 通过 `useWebMotion().use()` 管理这些资源。Mavis 的采用工作单独进行。
+**自 0.1.0-rc.10 起可用。** Issue #352–#357 为实验性 `/web` 运行时及其子作用域添加 `gradient`、`shimmer`、`loader`、`reveal`/`conceal`、`animateText` 和 `rollTo`。`/web/vue` 通过 `useWebMotion().use()` 管理这些资源。Mavis 的采用工作单独进行。
 
 ## 渐变 {#gradients}
 

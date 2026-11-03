@@ -1,6 +1,6 @@
 # Formas: desenhar e transformar
 
-Equivalente experimental na Web: consulte [partículas, superfícies e imagens](./web-surfaces). Build de desenvolvimento, ainda fora do RC.9.
+Equivalente experimental na Web: consulte [partículas, superfícies e imagens](./web-surfaces). Disponível desde a RC.10.
 
 Desenhe um checkmark, revele um anel ou transforme play em barras de pausa. A entrada opcional `@rafaelaugusto/jolt/shapes` desenha uma superfície vetorial sobre uma view NativeScript. O handle de `shape()` segue o mesmo padrão de criação e animação dos gradientes. Disponível desde a **0.1.0-rc.1**; recompile o Android para incluir o renderizador nativo.
 

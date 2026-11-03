@@ -1,6 +1,6 @@
 # 液态图像 {#liquid-images}
 
-实验性 Web 对应 API：[粒子、表面与图像](./web-surfaces)。开发版本，尚未包含在 RC.9 中。
+实验性 Web 对应 API：[粒子、表面与图像](./web-surfaces)。自 RC.10 起可用。
 
 `liquid()` 为 iOS `Image` 提供缓慢、连续的变形。纹理的某些部分相对于彼此移动，而图像的边界保持固定。
 
