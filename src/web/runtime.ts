@@ -1,4 +1,21 @@
 import {
+  createInteractiveNavigation,
+  type WebInteractiveNavigationOptions,
+} from './interactive-navigation.js'
+import {
+  createNavigationEntry,
+  type WebNavigationEntryOptions,
+} from './navigation-entry.js'
+import { createGlass, type WebGlassOptions } from './glass.js'
+import {
+  createSensor,
+  SensorValueNode,
+  type WebSensorKind,
+  type WebSensorOptions,
+} from './sensors.js'
+import { animationHaptics, requestHaptic } from './haptics.js'
+import { resolveHaptic, type HapticStyle } from '../core/haptic.js'
+import {
   createKeyboardSubscription,
   createKeyboardFollower,
   type WebKeyboardState,
@@ -669,6 +686,7 @@ class Owner implements PlaybackAnimation {
   private arrive!: () => void
   private arrived = false
   private cancelArrival?: () => void
+  feedback?: ReturnType<typeof animationHaptics>
 
   constructor(
     private runtime: WebRuntime,
@@ -736,6 +754,7 @@ class Owner implements PlaybackAnimation {
   }
   set progress(value: number) {
     validateProgress(value, this.duration)
+    this.feedback?.seek(this.duration * value)
     if (!this.settled)
       this.runtime.control(this, {
         time: this.duration * value,
@@ -869,6 +888,7 @@ class Owner implements PlaybackAnimation {
     this.arrived = true
     this.arrive()
     this.notify()
+    this.feedback = undefined
     this.resolveReady()
     this.resolve(completed)
     this.runtime.forget(this)
@@ -2322,6 +2342,13 @@ export class WebRuntime {
     const plans = prepared ?? prepare(animation, options, this.presets, targets.length)
     if (privateLayer !== undefined)
       for (const tracks of plans) for (const plan of tracks) plan.layer = privateLayer
+    const feedback = resolveHaptic(
+      typeof options === 'object' && options.haptic !== undefined
+        ? options.haptic
+        : typeof animation === 'string'
+          ? this.presets.get(animation)?.transition?.haptic
+          : undefined,
+    )
     const at = this.now(),
       pending = this.document.timeline.currentTime === null
     const compiled = this.compileElements(targets, plans, at)
@@ -2359,6 +2386,23 @@ export class WebRuntime {
       new Map([[owner, { time: 0, paused: false, pending }]]),
     )
     owner.refresh(at)
+    if (feedback && !privateLayer)
+      owner.feedback = animationHaptics(
+        owner,
+        compiled.flatMap((c) => c.plans.map((p) => p.track)),
+        feedback,
+        this.effectHost(),
+        () =>
+          owner.complete &&
+          targets.every(
+            (t) =>
+              t.isConnected &&
+              t.ownerDocument === this.document &&
+              t.getClientRects().length > 0 &&
+              !t.closest('[inert],[hidden]') &&
+              this.view.getComputedStyle(t).visibility === 'visible',
+          ),
+      )
     return owner
   }
 
@@ -2397,6 +2441,9 @@ export class WebRuntime {
     if (this.presses.has(target))
       throw new Error('The surface already has press feedback.')
     validatePressState(options)
+    resolveHaptic(options.haptic)
+    if (options.haptic && typeof options.haptic !== 'string')
+      throw new TypeError('Press haptic must be light, medium, heavy or false.')
     if (
       !values ||
       !Object.keys(values).length ||
@@ -2437,6 +2484,10 @@ export class WebRuntime {
           this.transaction(new Map([[surface, state]]), this.now())
         }
         this.presses.delete(target)
+      },
+      () => {
+        const h = resolveHaptic(options.haptic)
+        if (h) this.haptic(h.style)
       },
     )
     this.presses.set(target, binding)
@@ -2512,6 +2563,43 @@ export class WebRuntime {
       ...this.effectHost(),
       sharedLayout: this.sharedLayout.bind(this),
     }
+  }
+  glass(target: HTMLElement, options: WebGlassOptions = {}) {
+    this.assert()
+    return createGlass(target, options, this.effectHost())
+  }
+  sensor(
+    kind: 'rotation',
+    options?: WebSensorOptions,
+  ): import('./sensors.js').WebRotationSensor
+  sensor(
+    kind: 'gravity',
+    options?: WebSensorOptions,
+  ): import('./sensors.js').WebGravitySensor
+  sensor(
+    kind: WebSensorKind,
+    options?: WebSensorOptions,
+  ): import('./sensors.js').WebRotationSensor | import('./sensors.js').WebGravitySensor
+  sensor(kind: WebSensorKind, options: WebSensorOptions = {}) {
+    this.assert()
+    return createSensor(kind, options, this.platformHost(), (initial) => {
+      const node = new SensorValueNode(this.scheduler, initial, this.report, () =>
+        this.values.delete(node),
+      )
+      return { node, value: this.valueHandle(node, node.readableHandle()) }
+    })
+  }
+  interactiveNavigation(target: HTMLElement, options: WebInteractiveNavigationOptions) {
+    this.assert()
+    return createInteractiveNavigation(target, options, this.platformHost())
+  }
+  sharedNavigationEntry(container: HTMLElement, options: WebNavigationEntryOptions) {
+    this.assert()
+    return createNavigationEntry(container, options, this.platformHost())
+  }
+  haptic(style: HapticStyle) {
+    this.assert()
+    return requestHaptic(style, this.effectHost())
   }
   onKeyboard(callback: (state: WebKeyboardState) => void) {
     this.assert()

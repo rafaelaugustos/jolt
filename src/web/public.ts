@@ -1,3 +1,25 @@
+export { resolveListTarget } from './return-target.js'
+export type {
+  WebReturnContext,
+  WebReturnTarget,
+  WebListTargetOptions,
+} from './return-target.js'
+export type { WebNavigationEntry, WebNavigationEntryOptions } from './navigation-entry.js'
+export type {
+  WebInteractiveNavigation,
+  WebInteractiveNavigationOptions,
+  WebNavigationState,
+} from './interactive-navigation.js'
+export type { WebGlass, WebGlassOptions } from './glass.js'
+export type {
+  WebSensorKind,
+  WebSensorStatus,
+  WebSensorOptions,
+  WebSensor,
+  WebRotationSensor,
+  WebGravitySensor,
+} from './sensors.js'
+export type { Haptic, HapticStyle, HapticOptions, WebHapticResult } from './haptics.js'
 export type {
   WebKeyboardState,
   WebKeyboardOptions,
@@ -225,6 +247,34 @@ export interface WebAnimation extends PlaybackAnimation {
 
 /** Experimental DOM context; platform/framework adapters are not public APIs. */
 export interface WebRuntime {
+  interactiveNavigation(
+    target: HTMLElement,
+    options: import('./interactive-navigation.js').WebInteractiveNavigationOptions,
+  ): import('./interactive-navigation.js').WebInteractiveNavigation
+  sharedNavigationEntry(
+    container: HTMLElement,
+    options: import('./navigation-entry.js').WebNavigationEntryOptions,
+  ): import('./navigation-entry.js').WebNavigationEntry
+  glass(
+    target: HTMLElement,
+    options?: import('./glass.js').WebGlassOptions,
+  ): import('./glass.js').WebGlass
+  sensor(
+    kind: 'rotation',
+    options?: import('./sensors.js').WebSensorOptions,
+  ): import('./sensors.js').WebRotationSensor
+  sensor(
+    kind: 'gravity',
+    options?: import('./sensors.js').WebSensorOptions,
+  ): import('./sensors.js').WebGravitySensor
+  sensor(
+    kind: import('./sensors.js').WebSensorKind,
+    options?: import('./sensors.js').WebSensorOptions,
+  ): import('./sensors.js').WebRotationSensor | import('./sensors.js').WebGravitySensor
+
+  haptic(
+    style: import('./haptics.js').HapticStyle,
+  ): import('./haptics.js').WebHapticResult
   onKeyboard(
     callback: (state: import('./keyboard.js').WebKeyboardState) => void,
   ): import('./keyboard.js').WebKeyboardSubscription
@@ -389,6 +439,11 @@ export function createWebRuntime(
   // Keep diagnostics, ownership internals and driver implementation off the
   // package API, including at runtime rather than only in the declarations.
   return {
+    interactiveNavigation: runtime.interactiveNavigation.bind(runtime),
+    sharedNavigationEntry: runtime.sharedNavigationEntry.bind(runtime),
+    glass: runtime.glass.bind(runtime),
+    sensor: runtime.sensor.bind(runtime) as WebRuntime['sensor'],
+    haptic: runtime.haptic.bind(runtime),
     onKeyboard: runtime.onKeyboard.bind(runtime),
     followKeyboard: runtime.followKeyboard.bind(runtime),
     bottomSheet: runtime.bottomSheet.bind(runtime),

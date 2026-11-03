@@ -78,3 +78,6 @@ benchmarks/web-surfaces/captures/
 
 benchmarks/web-platforms/results/
 benchmarks/web-platforms/captures/
+
+benchmarks/web-parity/results/
+benchmarks/web-parity/captures/

@@ -1,3 +1,4 @@
+import { resolveHaptic } from '../core/haptic.js'
 import {
   fitTransition,
   hasCurve,
@@ -45,6 +46,8 @@ const timing = new Set([
   'mass',
   'bounce',
   'velocity',
+  'acceleration',
+  'restitution',
   'delay',
   'repeat',
   'repeatType',
@@ -78,7 +81,7 @@ function normalize(options?: AnimateOptions | SpringName) {
         throw new TypeError(`Invalid transition for ${key}.`)
       overrides[key] = typeof value === 'string' ? spring(value) : (value as Transition)
     } else if (timing.has(key)) base[key] = value
-    else if (!['relative', 'stagger', 'layer'].includes(key))
+    else if (!['relative', 'stagger', 'layer', 'haptic'].includes(key))
       throw new TypeError(`Unsupported Web option "${key}".`)
   }
   if (options?.relative !== undefined && typeof options.relative !== 'boolean')
@@ -139,6 +142,8 @@ export function prepare(
     throw new TypeError('Expected numeric keyframes.')
   const own = normalize(preset?.transition),
     user = normalize(options)
+  resolveHaptic(typeof options === 'object' ? options.haptic : undefined)
+  resolveHaptic(preset?.transition?.haptic)
   const base = mergeTransitions(own.base, user.base)
   const overrides = hasCurve(user.base)
     ? user.overrides
@@ -185,8 +190,8 @@ export function prepare(
         frames.length,
       )
       const input = config as Record<string, unknown>
-      if (config.type === 'gravity' || Object.keys(input).some((key) => !timing.has(key)))
-        throw new TypeError('Only finite numeric tween/spring transitions are supported.')
+      if (Object.keys(input).some((key) => !timing.has(key)))
+        throw new TypeError('Unsupported Web transition option.')
       const transition = resolveTransition(config, coreProperty(property), frames.length)
       if ((user.layer ?? own.layer) !== undefined && !isTransform(property))
         throw new TypeError(

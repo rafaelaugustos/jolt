@@ -17,6 +17,10 @@ type Factories = Pick<
   | 'animate'
   | 'particles'
   | 'confetti'
+  | 'interactiveNavigation'
+  | 'sharedNavigationEntry'
+  | 'glass'
+  | 'sensor'
   | 'blur'
   | 'shape'
   | 'liquid'
@@ -262,6 +266,13 @@ export function createWebScope(
     animate: ownPlayback('animate'),
     particles: (...args) => start(() => runtime.particles(...args)),
     confetti: (...args) => start(() => runtime.confetti(...args)),
+    interactiveNavigation: (...args) =>
+      start(() => runtime.interactiveNavigation(...args)),
+    sharedNavigationEntry: (...args) =>
+      start(() => runtime.sharedNavigationEntry(...args)),
+    glass: (...args) => start(() => runtime.glass(...args)),
+    sensor: ((kind, options) =>
+      start(() => runtime.sensor(kind, options))) as WebMotionScope['sensor'],
     blur: (...args) => start(() => runtime.blur(...args)),
     shape: (...args) => start(() => runtime.shape(...args)),
     liquid: (...args) => start(() => runtime.liquid(...args)),
