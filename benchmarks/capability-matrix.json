@@ -467,7 +467,7 @@
       "webStatus": "partial",
       "counterpart": "configure / animate options",
       "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
-      "issues": [236],
+      "issues": [236, 386],
       "evidence": ["src/index.ts"]
     },
     {
@@ -607,7 +607,7 @@
       "webStatus": "partial",
       "counterpart": "configure / animate options",
       "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
-      "issues": [236],
+      "issues": [236, 386],
       "evidence": ["src/index.ts"]
     },
     {
@@ -617,7 +617,7 @@
       "webStatus": "partial",
       "counterpart": "configure / animate options",
       "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
-      "issues": [236],
+      "issues": [236, 386],
       "evidence": ["src/index.ts"]
     },
     {
@@ -647,7 +647,7 @@
       "webStatus": "partial",
       "counterpart": "configure / animate options",
       "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
-      "issues": [236],
+      "issues": [236, 386],
       "evidence": ["src/index.ts"]
     },
     {
@@ -667,7 +667,7 @@
       "webStatus": "partial",
       "counterpart": "configure / animate options",
       "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
-      "issues": [236],
+      "issues": [236, 386],
       "evidence": ["src/index.ts"]
     },
     {
@@ -777,7 +777,7 @@
       "webStatus": "partial",
       "counterpart": "configure / animate options",
       "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
-      "issues": [236],
+      "issues": [236, 386],
       "evidence": ["src/index.ts"]
     },
     {
@@ -917,7 +917,7 @@
       "webStatus": "partial",
       "counterpart": "useWebMotion",
       "contract": "Web useWebMotion owns browser resources/transitions; these individual native directives/hooks are not interchangeable DOM APIs.",
-      "issues": [236],
+      "issues": [236, 386],
       "evidence": ["src/vue/index.ts", "src/web/vue/index.ts"]
     },
     {
@@ -1496,8 +1496,8 @@
       "nativeStatus": "published",
       "webStatus": "partial",
       "counterpart": "sensor",
-      "contract": "Published rotation/gravity only; permission, timestamps and frequency differ. Four native vector sources are local/unpublished and need physical acceptance.",
-      "issues": [236, 256],
+      "contract": "Published Web rotation/gravity only; permission, timestamps and frequency differ. Four new native vectors passed the maintainer-selected emulator/simulator acceptance and remain local/unpublished. Equivalent Web kinds are pending with explicit availability/fallback required.",
+      "issues": [236, 256, 385],
       "evidence": ["src/sensors/index.ts", "src/web/public.ts"]
     },
     {
@@ -1832,6 +1832,24 @@
         "benchmarks/results/recipes/acceptance.json",
         "benchmarks/comparison.md"
       ]
+    },
+    {
+      "id": "sensor-web-vectors",
+      "issues": [236, 385],
+      "status": "pending",
+      "limit": "The new native proper/linear acceleration, gyroscope and magnetic-field kinds have no equivalent public Web kind/availability contract yet.",
+      "evidence": [
+        "src/core/sensor-kinds.ts",
+        "src/sensors/index.ts",
+        "src/web/sensors.ts"
+      ]
+    },
+    {
+      "id": "helpers-preferences",
+      "issues": [236, 386],
+      "status": "pending",
+      "limit": "Browser options support curves/presets and reduced motion, but reusable helper exports and scoped reduced-motion read/observation need an explicit portable public contract.",
+      "evidence": ["src/index.ts", "src/web/public.ts", "src/web/vue/index.ts"]
     }
   ]
 }
