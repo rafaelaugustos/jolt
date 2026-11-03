@@ -53,6 +53,11 @@ test('live reduced motion pauses liquid and clears a bounded emitter without a b
         filter: f.photo.style.filter,
         particles: particles.snapshot().particles,
       }
+      // Flush layout observers: a queued refresh may repaint the unchanged,
+      // reduced-motion surface once without restarting its animation clock.
+      await new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      )
       const frames = liquid.diagnostics.frames
       await new Promise((r) => setTimeout(r, 100))
       const idle = liquid.diagnostics.frames === frames

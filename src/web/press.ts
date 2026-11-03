@@ -6,6 +6,7 @@ export interface WebPressState {
   loading?: boolean
 }
 export interface WebPressOptions extends WebPressState {
+  haptic?: import('../core/haptic.js').HapticStyle | false
   transition?: Transition | SpringName
 }
 export interface WebPress {
@@ -30,6 +31,7 @@ export function createPress(
   options: WebPressOptions,
   animate: (values: Values) => NonNullable<WebPress['animation']>,
   remove: () => void,
+  feedback: () => void = () => {},
 ) {
   const view = target.ownerDocument.defaultView! as Window & typeof globalThis
   const document = target.ownerDocument
@@ -61,6 +63,7 @@ export function createPress(
     const nextAnimation = animate(next ? values : neutral)
     pressed = next
     animation = nextAnimation
+    if (next) feedback()
   }
   const cancel = () => {
     pointer = undefined

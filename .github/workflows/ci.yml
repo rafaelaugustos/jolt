@@ -41,6 +41,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm run web:parity:typecheck
       - run: npm run web:platforms:typecheck
       - run: npm run web:surfaces:typecheck
       - run: npm run web:effects:typecheck
@@ -64,6 +65,7 @@ jobs:
       - run: npm run web:support:test
       - run: npm run web:visual:test
       - run: npm run web:lifecycle:test
+      - run: npm run web:parity:test
       - run: npm run web:platforms:test
       - run: npm run web:surfaces:test
       - run: npm run web:effects:test
@@ -89,6 +91,7 @@ jobs:
             benchmarks/web-effects/results/
             benchmarks/web-surfaces/results/
             benchmarks/web-platforms/results/
+            benchmarks/web-parity/results/
   test:
     runs-on: ubuntu-latest
     steps:
@@ -115,6 +118,7 @@ jobs:
       - run: python3 benchmarks/live-spring-tests/test_solver.py
       - run: python3 benchmarks/verify-live-color.py
       - run: python3 benchmarks/verify-circle-math.py
+      - run: python3 benchmarks/verify-sensor-math.py --web
       - run: python3 -m unittest discover -s benchmarks -p 'test_sensor_*.py'
       - run: python3 -m unittest discover -s benchmarks -p 'test_scroll_header_text.py'
       - run: python3 -m unittest discover -s benchmarks -p 'test_scroll_header_accessibility.py'

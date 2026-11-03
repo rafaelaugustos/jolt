@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>Jolt · Web parity</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 28px;
+      background: #101625;
+      color: #eff6ff;
+      font: 16px system-ui;
+    }
+    main {
+      max-width: 920px;
+      margin: auto;
+    }
+    h1 {
+      font-size: 30px;
+      margin: 12px 0;
+    }
+    p {
+      line-height: 1.5;
+      color: #b7c7dc;
+    }
+    nav,
+    .controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 18px 0;
+    }
+    button,
+    input {
+      font: inherit;
+      color: inherit;
+      border: 1px solid #51637e;
+      border-radius: 9px;
+      background: #23304a;
+      padding: 10px 14px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #354b69;
+    }
+    button:focus-visible {
+      outline: 3px solid #a5edcf;
+    }
+    #stage {
+      height: 440px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      background: #1c2b40;
+      border: 1px solid #465772;
+    }
+    #status {
+      min-height: 52px;
+      color: #a5edcf;
+      font: 15px ui-monospace;
+      white-space: pre-wrap;
+    }
+    .card {
+      width: 150px;
+      height: 110px;
+      background: #a5edcf;
+      color: #142938;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+    }
+    .floor {
+      position: absolute;
+      bottom: 48px;
+      left: 35px;
+      right: 35px;
+      border-top: 2px dashed #7895ad;
+    }
+    .ball {
+      position: absolute;
+      top: 18px;
+      left: calc(50% - 45px);
+      width: 90px;
+      height: 90px;
+      border-radius: 45px;
+      background: #a5edcf;
+      display: grid;
+      place-items: center;
+      color: #142938;
+      font-size: 28px;
+    }
+    .scene {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(125deg, #d65ea4, #7658d5 40%, #218992 70%, #edbb67);
+      background-size: 200% 200%;
+    }
+    .orb {
+      position: absolute;
+      left: 35px;
+      top: 140px;
+      width: 190px;
+      height: 190px;
+      border-radius: 50%;
+      background: repeating-linear-gradient(45deg, #fff8 0 8px, #242457 8px 16px);
+    }
+    .glass {
+      position: absolute;
+      left: 20%;
+      top: 100px;
+      width: 60%;
+      height: 230px;
+      border-radius: 24px;
+      border: 1px solid #fff8;
+      display: grid;
+      place-content: center;
+      text-align: center;
+      gap: 12px;
+      z-index: 1;
+    }
+    .glass h2 {
+      margin: 0;
+    }
+    .route {
+      position: absolute;
+      inset: 0;
+      padding: 44px;
+      background: #345475;
+      border-radius: 16px;
+      touch-action: pan-y;
+    }
+    .list {
+      height: 100%;
+      overflow: auto;
+      position: relative;
+    }
+    .space {
+      height: 8000px;
+    }
+    .rows {
+      position: absolute;
+      left: 24px;
+      right: 24px;
+      top: 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .thumb {
+      height: 150px;
+      padding: 8px;
+    }
+    .thumb img {
+      width: 100%;
+      height: 110px;
+      object-fit: cover;
+      border-radius: 9px;
+      display: block;
+    }
+    .detail {
+      position: absolute;
+      inset: 0;
+      background: #14283d;
+    }
+    .viewport {
+      position: absolute;
+      left: 12%;
+      right: 12%;
+      top: 45px;
+      bottom: 35px;
+      overflow: hidden;
+    }
+    .viewport img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+    .detail button {
+      position: absolute;
+      top: 4px;
+      right: 12px;
+      z-index: 2;
+    }
+    .sensor-card {
+      position: absolute;
+      left: calc(50% - 75px);
+      top: 155px;
+    }
+  </style>
+  <main>
+    <small>JOLT / BROWSER RUNTIME</small>
+    <h1 id="title">Finite gravity</h1>
+    <p id="description"></p>
+    <nav id="modes"></nav>
+    <div id="stage"></div>
+    <div class="controls">
+      <button id="action">Run</button><button id="reverse">Return</button
+      ><button id="pause">Pause</button><button id="play">Resume</button
+      ><button id="dispose">Dispose</button>
+    </div>
+    <div id="status" aria-live="polite"></div>
+    <p>
+      Actual browser playback and input. Hardware availability is reported; desktop
+      recordings do not demonstrate physical sensors or tactile feedback.
+    </p>
+  </main>
+  <script type="module" src="/fixture.js"></script>
+</html>

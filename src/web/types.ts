@@ -1,4 +1,4 @@
-import type { Spring, Tween, SpringName } from '../core/transition.js'
+import type { Spring, Tween, Gravity, SpringName } from '../core/transition.js'
 import type { PlaybackAnimation } from '../core/playback.js'
 
 import {
@@ -12,10 +12,11 @@ export type { Property, KeyframeProperty, Scalar } from './properties.js'
 export type KeyframeValue = Scalar | readonly (Scalar | null)[]
 export type Keyframes = Partial<Record<KeyframeProperty, KeyframeValue>>
 export type Values = Partial<Record<KeyframeProperty, Scalar>>
-export type Transition = Tween | Spring
+export type Transition = Tween | Spring | Gravity
 export type Stagger = { each: number; from?: 'first' | 'last' | 'center' | number }
 export type AnimateOptions = Transition &
   Partial<Record<KeyframeProperty, Transition | SpringName>> & {
+    haptic?: import('../core/haptic.js').Haptic
     stagger?: number | Stagger
     relative?: boolean
     layer?: string

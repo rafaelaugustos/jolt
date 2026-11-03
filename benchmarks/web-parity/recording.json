@@ -1,0 +1,128 @@
+{
+  "reviewedOn": "2026-11-03",
+  "method": "Full-file H.264 decode plus chronological visual inspection across the complete recording at one frame per second; revised navigation reviewed at two frames per second. Actual browser/native recordings, original playback timing.",
+  "native": "Existing English native demo recordings reused unchanged; platforms and hardware limitations are stated in every localized caption.",
+  "web": "Actual Chromium interactions recorded by record.mjs, without injected sensor samples or vibration stubs. Desktop sensors intentionally demonstrate no-data/lifecycle status.",
+  "recordings": [
+    {
+      "name": "gravity-ios",
+      "sha256": "8469c5dddd4fe503573cad82af6d502cf2a9cdacaa3bc05133f4bac8a59db655",
+      "duration": 17.7,
+      "codec": "h264",
+      "width": 420,
+      "height": 914,
+      "language": "en",
+      "reviewed": true
+    },
+    {
+      "name": "haptics-android-device",
+      "sha256": "d4d8d57a3c70d20cbae448af1d96b1f83280e17de7d7cdce6cca3807b36d1367",
+      "duration": 26.0,
+      "codec": "h264",
+      "width": 540,
+      "height": 960,
+      "language": "en",
+      "reviewed": true
+    },
+    {
+      "name": "device-sensors-physical-ios",
+      "sha256": "617dd053b4979784a77e7e6755b9c40e7932e4038dd9e4df43c8bb2c71e3a8f7",
+      "duration": 23.983333,
+      "codec": "h264",
+      "width": 420,
+      "height": 914,
+      "language": "en",
+      "reviewed": true
+    },
+    {
+      "name": "glass-legacy-ios",
+      "sha256": "a5e92bcc6d20c29b4f63934ee9a9ed862a250f31d5de38a83408be597d89dfbd",
+      "duration": 13.666667,
+      "codec": "h264",
+      "width": 420,
+      "height": 912,
+      "language": "en",
+      "reviewed": true
+    },
+    {
+      "name": "interactive-navigation-ios",
+      "sha256": "cd31eadfa024d657a3ebcb2be2791a4a59488ab66446726a734cdbbfc0dab673",
+      "duration": 10.666667,
+      "codec": "h264",
+      "width": 420,
+      "height": 914,
+      "language": "en",
+      "reviewed": true
+    },
+    {
+      "name": "gallery-ios",
+      "sha256": "ade55b00c5b2e80c95ac24de1c765a48243a642296365b9a8aa8fd49c5d5b0b9",
+      "duration": 19.466667,
+      "codec": "h264",
+      "width": 420,
+      "height": 914,
+      "language": "en",
+      "reviewed": true
+    },
+    {
+      "name": "web-gallery-parity-chromium",
+      "sha256": "f0cfdf11d4d7b87ccb33e56ef0a548fb8831d1ca3965cfc9971da9ecf5d85c7d",
+      "duration": 16.0,
+      "codec": "h264",
+      "width": 1000,
+      "height": 960,
+      "language": "en",
+      "reviewed": true
+    },
+    {
+      "name": "web-glass-parity-chromium",
+      "sha256": "b4c6bebf9b5ae71457292150fe2479809a15352d234647f5af8a78e4208840c9",
+      "duration": 7.333333,
+      "codec": "h264",
+      "width": 1000,
+      "height": 960,
+      "language": "en",
+      "reviewed": true
+    },
+    {
+      "name": "web-gravity-parity-chromium",
+      "sha256": "644318e77c83312d5bcc351e9491de0ac3715d498edbdeee247d3c25e212e81e",
+      "duration": 6.9,
+      "codec": "h264",
+      "width": 1000,
+      "height": 960,
+      "language": "en",
+      "reviewed": true
+    },
+    {
+      "name": "web-haptics-parity-chromium",
+      "sha256": "ffd2f375c9e7692ac8d168b0f4989962f544ff08e42fdb37c3875b4e6d26cb48",
+      "duration": 6.633333,
+      "codec": "h264",
+      "width": 1000,
+      "height": 960,
+      "language": "en",
+      "reviewed": true
+    },
+    {
+      "name": "web-navigation-parity-chromium",
+      "sha256": "9ddeed977b7d6d7f5cf4860f923f36a927690bf4d5707adf35d711ab370476f5",
+      "duration": 7.1,
+      "codec": "h264",
+      "width": 1000,
+      "height": 960,
+      "language": "en",
+      "reviewed": true
+    },
+    {
+      "name": "web-sensors-parity-chromium",
+      "sha256": "10051d5c4f0ef866c4e868c78ab369658d936f78a371698d842391898fe5f586",
+      "duration": 9.5,
+      "codec": "h264",
+      "width": 1000,
+      "height": 960,
+      "language": "en",
+      "reviewed": true
+    }
+  ]
+}

@@ -26,7 +26,7 @@ def run(*args):
     return subprocess.run(args, check=True, text=True, capture_output=True, timeout=30).stdout
 
 
-def verify():
+def verify(include_web=False):
     cc = shutil.which('cc') or shutil.which('clang')
     javac = shutil.which('javac')
     java = shutil.which('java')
@@ -54,14 +54,20 @@ def verify():
         run(cc, '-I', str(ROOT / 'platforms/ios/src'), str(root / 'check.c'), '-lm', '-o', str(root / 'check'))
         run(javac, '-d', temporary, str(ROOT / 'platforms/android/java/org/rafaelaugusto/jolt/SensorMath.java'), str(root / 'SensorMathCheck.java'))
         outputs = {'ios_math': run(str(root / 'check')), 'android_math': run(java, '-cp', temporary, 'SensorMathCheck')}
+        if include_web:
+            payload = json.dumps({'rotations': CASES, 'vectors': VECTORS})
+            script = "import { rotationValues, interfaceVector } from './dist/web/sensors.js'; const cases = " + payload + "; for (const [q, angle] of cases.rotations) { const length=Math.hypot(...q); const out=rotationValues(q.map(v=>v/length),angle,[0,0,0,1]); console.log([out[0],out[1],out[2],out[6]].join(' ')); } for (const [angle] of cases.vectors) console.log(interfaceVector([3,4,-9],angle).join(' '));"
+            outputs['web_math'] = subprocess.run(['node', '--input-type=module', '-e', script], cwd=ROOT, check=True, text=True, capture_output=True).stdout
         for platform, output in outputs.items():
             rows = [[float(v) for v in row.split()] for row in output.strip().splitlines()]
-            assert len(rows) == len(expected)
-            for i, (got, want) in enumerate(zip(rows, expected)):
+            platform_expected = expected[:-1] if platform == 'web_math' else expected
+            assert len(rows) == len(platform_expected)
+            for i, (got, want) in enumerate(zip(rows, platform_expected)):
                 assert len(got) == len(want)
                 assert all(abs(a-b) < 1e-9 for a,b in zip(got,want)), (platform,i,got,want)
-        print(json.dumps({'casesPerPlatform': len(expected), 'platforms': list(outputs), 'passed': True}))
+        print(json.dumps({'casesPerPlatform': {platform: len(output.strip().splitlines()) for platform, output in outputs.items()}, 'platforms': list(outputs), 'passed': True}))
 
 
 if __name__ == '__main__':
-    verify()
+    import sys
+    verify(include_web='--web' in sys.argv)
