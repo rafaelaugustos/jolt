@@ -1,5 +1,7 @@
 # 模糊动画 {#animated-blur}
 
+实验性 Web 对应 API：[粒子、表面与图像](./web-surfaces)。开发版本，尚未包含在 RC.9 中。
+
 让背景柔和，同时模式、标题或按钮保持清晰。 `@rafaelaugusto/jolt/blur` 控制拥有的原生效果，其过渡和播放概念与 Jolt 的其余部分相同。自 **0.1.0-rc.1** 起可用；重建两个原生应用程序以包含其编译的帮助程序。
 
 <Clip name="blur-ios" caption="iOS 模拟器：真实的点击在清晰、柔和和完整的材质之间移动、中断动画、暂停/恢复往返并应用“减少运动”。英文界面；原始播放时序。" />
@@ -65,3 +67,5 @@ Android 句柄独占目标的 `RenderEffect` 插槽，并在处置时将其清�
 JavaScript 准备采样曲线并处理命令、生命周期和完成边界。原生代码更新每帧的效果。两个原生助手都使用 UI 线程；这并不是一个单独的线程、零分配或在 UI 线程被阻塞时不间断播放的承诺。模糊成本取决于视图大小、半径和设备。将效果限制在需要的区域。
 
 四语言**柔焦/慢板**预览是第72个示例。参见 [原生验证和复制](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/blur.md)。
+
+<Clip name="web-blur-surfaces-chromium" :width="900" caption="macOS 上的 Chromium，英文界面：真实点击展示播放、暂停/恢复、替换、减少动态效果和清理，保持原速。浏览器录制，不代表真机性能。" />

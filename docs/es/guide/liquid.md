@@ -1,5 +1,7 @@
 # Imágenes líquidas {#liquid-images}
 
+Equivalente Web experimental: [partículas, superficies e imágenes](./web-surfaces). Build de desarrollo, fuera de RC.9.
+
 `liquid()` le da a un iOS `Image` una deformación lenta y continua. Partes de la textura se mueven entre sí mientras que los límites de la imagen permanecen fijos.
 
 <Clip name="liquid-ios" caption="El orbe de voz se deforma, se pausa y se reanuda en el simulador iOS. La demostración también anima su escala y rotación generales." />
@@ -38,3 +40,5 @@ Este asistente acepta objetivos NativeScript `Image` y sus referencias de planti
 El efecto deforma la obra de arte existente. No genera nuevos pliegues ni simula un fluido, y no es una API de sombreado general para vistas arbitrarias. Ese trabajo se rastrea por separado en [#35](https://github.com/rafaelaugustos/jolt/issues/35).
 
 Consulte el [Pantalla de voz](https://github.com/rafaelaugustos/jolt/blob/main/demo/src/assistant/Voice.vue) del asistente para ver un ejemplo completo con pausa/reanudación y limpieza de desmontaje.
+
+<Clip name="web-liquid-surfaces-chromium" :width="900" caption="Chromium en macOS, interfaz inglesa: interacción real, pausa/reanudación, sustitución, movimiento reducido y limpieza a velocidad original. Captura de navegador, no de dispositivo físico." />

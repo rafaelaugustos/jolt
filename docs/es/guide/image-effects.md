@@ -1,5 +1,7 @@
 # Efectos de imagen {#image-effects}
 
+Equivalente Web experimental: [partículas, superficies e imágenes](./web-surfaces). Build de desarrollo, fuera de RC.9.
+
 `imageEffect()` agrega ondulación, distorsión táctil y disolución a un NativeScript `Image`. Estas API requieren una reconstrucción nativa después de instalar el paquete. Operan con imágenes rasterizadas cargadas, no con árboles de vistas arbitrarios, SVG, videos o imágenes animadas.
 
 <Clip name="image-effects-ios" caption="Ondula, toca distorsión y disuelve en un dispositivo rasterizado usando Metal en el simulador iOS." />
@@ -67,3 +69,5 @@ Descargar, ocultar, cambiar la fuente/estiramiento/tinte activo o cambiar el tam
 Cambiar el relleno, el ancho de los bordes o los radios de las esquinas también detiene un efecto activo, por lo que su superficie no puede retener la geometría de recorte obsoleta. Los bordes y fondos quedan fuera de la textura de desplazamiento.
 
 El laboratorio de imágenes [demostración](./demo) incluye orígenes de toque, arrastre nativo, reproducción, retroceso, desplazamiento, restauración, cuatro modos de estiramiento, bordes redondeados y controles de movimiento reducido. La fuente del paisaje se disuelve en un retrato con una esquina transparente.
+
+<Clip name="web-image-surfaces-chromium" :width="900" caption="Chromium en macOS, interfaz inglesa: interacción real, pausa/reanudación, sustitución, movimiento reducido y limpieza a velocidad original. Captura de navegador, no de dispositivo físico." />

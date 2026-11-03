@@ -1,5 +1,7 @@
 # Animated blur
 
+Experimental Web equivalent: see [Web particles, surfaces and images](./web-surfaces). Development build, not included in RC.9.
+
 Let the background soften while a modal, title or button stays sharp. `@rafaelaugusto/jolt/blur` controls an owned native effect with the same transition and playback concepts as the rest of Jolt. Available since **0.1.0-rc.1**; rebuild both native apps to include its compiled helpers.
 
 <Clip name="blur-ios" caption="iOS simulator: real taps move between clear, soft and full material, interrupt an animation, pause/resume a round trip and apply Reduce Motion. English UI; original playback timing." />
@@ -65,3 +67,5 @@ Reduce Motion applies new destinations immediately. Enabling it during an animat
 JavaScript prepares a sampled curve and handles commands, lifecycle and completion boundaries. Native code updates the effect each frame. Both native helpers use the UI thread; this is not a promise of a separate thread, zero allocation or uninterrupted playback while the UI thread is blocked. Blur cost depends on view size, radius and device. Limit the effect to the area that needs it.
 
 The four-language **Soft focus / Lento** preview is the 72nd example. See [native validation and reproduction](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/blur.md).
+
+<Clip name="web-blur-surfaces-chromium" :width="900" caption="Chromium on macOS, English UI: real clicks demonstrate playback, pause/resume, replacement, reduced motion and disposal at original speed. Browser capture; no physical-device performance claim." />

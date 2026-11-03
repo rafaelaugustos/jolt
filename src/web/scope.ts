@@ -15,6 +15,12 @@ type Controlled = {
 type Factories = Pick<
   WebRuntime,
   | 'animate'
+  | 'particles'
+  | 'confetti'
+  | 'blur'
+  | 'shape'
+  | 'liquid'
+  | 'imageEffect'
   | 'gradient'
   | 'reveal'
   | 'conceal'
@@ -247,6 +253,12 @@ export function createWebScope(
     },
     scope: (setup) => start(() => runtime.scope(setup)),
     animate: ownPlayback('animate'),
+    particles: (...args) => start(() => runtime.particles(...args)),
+    confetti: (...args) => start(() => runtime.confetti(...args)),
+    blur: (...args) => start(() => runtime.blur(...args)),
+    shape: (...args) => start(() => runtime.shape(...args)),
+    liquid: (...args) => start(() => runtime.liquid(...args)),
+    imageEffect: (...args) => start(() => runtime.imageEffect(...args)),
     gradient: (...args) => start(() => runtime.gradient(...args)),
     reveal: (...args) => start(() => runtime.reveal(...args)),
     conceal: (...args) => start(() => runtime.conceal(...args)),

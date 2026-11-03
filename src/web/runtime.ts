@@ -1,3 +1,17 @@
+import {
+  createParticles,
+  createConfetti,
+  type WebParticleOptions,
+  type WebConfettiOptions,
+} from './particles.js'
+import { createBlur, type WebBlurOptions } from './blur.js'
+import { createShape, type WebShapeOptions } from './shape.js'
+import { createLiquid, type WebLiquidOptions } from './liquid.js'
+import {
+  createImageEffect,
+  type WebImageEffectName,
+  type WebImageEffectOptions,
+} from './image-effect.js'
 import { createZoomable, type WebZoomableOptions } from './zoomable.js'
 import { createGradient, type WebGradientOptions } from './gradient.js'
 import {
@@ -2464,6 +2478,35 @@ export class WebRuntime {
         return () => this.groupVisibility.delete(callback)
       },
     }
+  }
+
+  particles(target: HTMLElement, options: WebParticleOptions = {}) {
+    this.assert()
+    return createParticles(target, options, this.effectHost())
+  }
+  confetti(target: HTMLElement, options: WebConfettiOptions = {}) {
+    this.assert()
+    return createConfetti(target, options, this.effectHost())
+  }
+  blur(target: HTMLElement, options: WebBlurOptions = {}) {
+    this.assert()
+    return createBlur(target, options, this.effectHost())
+  }
+  shape(target: HTMLElement, options: WebShapeOptions) {
+    this.assert()
+    return createShape(target, options, this.effectHost())
+  }
+  liquid(target: HTMLImageElement, options: WebLiquidOptions = {}) {
+    this.assert()
+    return createLiquid(target, options, this.effectHost())
+  }
+  imageEffect(
+    target: HTMLImageElement,
+    effect: WebImageEffectName,
+    options: WebImageEffectOptions = {},
+  ) {
+    this.assert()
+    return createImageEffect(target, effect, options, this.effectHost())
   }
 
   gradient(target: HTMLElement, options: WebGradientOptions) {

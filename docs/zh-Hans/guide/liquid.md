@@ -1,5 +1,7 @@
 # 液态图像 {#liquid-images}
 
+实验性 Web 对应 API：[粒子、表面与图像](./web-surfaces)。开发版本，尚未包含在 RC.9 中。
+
 `liquid()` 为 iOS `Image` 提供缓慢、连续的变形。纹理的某些部分相对于彼此移动，而图像的边界保持固定。
 
 <Clip name="liquid-ios" caption="语音球在 iOS 模拟器中变形、暂停和恢复。该演示还展示了其整体规模和旋转的动画。" />
@@ -38,3 +40,5 @@ Jolt 在 24 × 24 纹理网格上准备周期性位移场。 SpriteKit 通过原
 该效果使现有艺术品变形。它不会生成新的折叠或模拟流体，也不是用于任意视图的通用着色器 API。该工作在 [#35](https://github.com/rafaelaugustos/jolt/issues/35) 中单独跟踪。
 
 有关暂停/恢复和卸载清理的完整示例，请参阅助手的 [语音画面](https://github.com/rafaelaugustos/jolt/blob/main/demo/src/assistant/Voice.vue)。
+
+<Clip name="web-liquid-surfaces-chromium" :width="900" caption="macOS 上的 Chromium，英文界面：真实点击展示播放、暂停/恢复、替换、减少动态效果和清理，保持原速。浏览器录制，不代表真机性能。" />

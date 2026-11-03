@@ -172,7 +172,10 @@
     "web:gestures:test": "playwright test -c benchmarks/web-gestures/playwright.config.mjs",
     "web:effects": "node benchmarks/web-effects/server.mjs",
     "web:effects:typecheck": "tsc -p benchmarks/web-effects/tsconfig.json",
-    "web:effects:test": "playwright test -c benchmarks/web-effects/playwright.config.mjs"
+    "web:effects:test": "playwright test -c benchmarks/web-effects/playwright.config.mjs",
+    "web:surfaces": "node benchmarks/web-surfaces/server.mjs",
+    "web:surfaces:typecheck": "tsc -p benchmarks/web-surfaces/tsconfig.json",
+    "web:surfaces:test": "playwright test -c benchmarks/web-surfaces/playwright.config.mjs"
   },
   "peerDependencies": {
     "@nativescript/core": ">=8.9.0",

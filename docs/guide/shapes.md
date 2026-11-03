@@ -1,5 +1,7 @@
 # Shapes: draw and morph
 
+Experimental Web equivalent: see [Web particles, surfaces and images](./web-surfaces). Development build, not included in RC.9.
+
 Draw a checkmark, reveal a ring, or turn a play symbol into pause bars. The optional `@rafaelaugusto/jolt/shapes` entry paints an owned vector surface over a NativeScript view. Its `shape()` handle follows the same creation/animation pattern as gradients. Available since **0.1.0-rc.1**; rebuild Android to include the native renderer.
 
 <Clip name="shapes-ios" caption="iOS simulator: real taps draw a checkmark, ring and underline, interrupt a play/pause morph, pause/resume drawing and switch shapes under Reduce Motion. English UI; original playback timing." />
@@ -79,3 +81,5 @@ Android uses a compiled drawable, `Path`/`PathMeasure` and `ValueAnimator`. Path
 JavaScript parses geometry and prepares curves at setup/commands, then handles lifecycle and completion boundaries. It does not draw or update the path every frame. Android drawing and NativeScript JavaScript still share the UI thread. These APIs do not imply a separate render thread or physical-device performance guarantees.
 
 The four-language **Made of motion / Linework** preview is the 71st example. See [validation and reproduction](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/shapes.md).
+
+<Clip name="web-shape-surfaces-chromium" :width="900" caption="Chromium on macOS, English UI: real clicks demonstrate playback, pause/resume, replacement, reduced motion and disposal at original speed. Browser capture; no physical-device performance claim." />

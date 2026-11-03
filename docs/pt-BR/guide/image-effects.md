@@ -1,5 +1,7 @@
 # Efeitos de imagem
 
+Equivalente experimental na Web: consulte [partículas, superfícies e imagens](./web-surfaces). Build de desenvolvimento, ainda fora do RC.9.
+
 `imageEffect()` aplica ripple, distorção por toque e dissolve em uma `Image` do NativeScript. Recompile o aplicativo nativo depois da instalação. O alvo deve ser uma imagem raster carregada; árvores de views, SVG, vídeo e imagens animadas ficam fora deste contrato.
 
 <Clip name="image-effects-ios" caption="Ripple, distorção por toque e dissolve numa imagem de teste usando Metal no simulador iOS." />
@@ -67,3 +69,5 @@ Unload, ocultação, troca da origem/stretch/tint e mudança de tamanho encerram
 Mudar padding, largura das bordas ou raios dos cantos também encerra o efeito para evitar geometria antiga. Bordas e fundos ficam fora da textura deformada.
 
 O laboratório de imagens da [demo](./demo) inclui origem por toque, arraste nativo, pausa, reverse, scrub, restauração, quatro modos de stretch, bordas arredondadas e redução de movimento. A imagem horizontal se dissolve em uma imagem vertical com canto transparente.
+
+<Clip name="web-image-surfaces-chromium" :width="900" caption="Chromium no macOS, interface em inglês: cliques reais demonstram reprodução, pausa/retomada, substituição, movimento reduzido e descarte na velocidade original. Captura de navegador; sem alegação de desempenho em aparelho físico." />

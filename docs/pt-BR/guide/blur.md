@@ -1,5 +1,7 @@
 # Desfoque animado
 
+Equivalente experimental na Web: consulte [partículas, superfícies e imagens](./web-surfaces). Build de desenvolvimento, ainda fora do RC.9.
+
 Suavize o fundo enquanto um modal, título ou botão continua nítido. `@rafaelaugusto/jolt/blur` controla um efeito nativo com os mesmos conceitos de transição e reprodução do Jolt. Disponível desde a **0.1.0-rc.1**; recompile os dois aplicativos nativos para incluir os helpers.
 
 <Clip name="blur-ios" caption="Simulador iOS: toques reais alternam entre nítido, suave e material completo, interrompem uma animação, pausam/retomam a ida e volta e aplicam Reduzir Movimento. Interface em inglês; velocidade original." />
@@ -65,3 +67,5 @@ Reduzir Movimento aplica novos destinos imediatamente. Ativá-lo durante uma ani
 JavaScript prepara a curva amostrada e trata comandos, ciclo de vida e conclusão. O código nativo atualiza o efeito a cada frame. Os dois helpers usam a thread da UI; isso não promete outra thread, alocação zero nem reprodução durante bloqueio da UI. O custo depende do tamanho da view, raio e aparelho. Restrinja o efeito à área necessária.
 
 O preview **Foco suave / Lento**, em quatro idiomas, é o 72º exemplo. Veja a [validação nativa e reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/blur.md).
+
+<Clip name="web-blur-surfaces-chromium" :width="900" caption="Chromium no macOS, interface em inglês: cliques reais demonstram reprodução, pausa/retomada, substituição, movimento reduzido e descarte na velocidade original. Captura de navegador; sem alegação de desempenho em aparelho físico." />

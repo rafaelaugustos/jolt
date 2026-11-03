@@ -1,5 +1,7 @@
 # Partículas e confete
 
+Equivalente experimental na Web: consulte [partículas, superfícies e imagens](./web-surfaces). Build de desenvolvimento, ainda fora do RC.9.
+
 ## Confete
 
 <Clip name="particles" caption="A demonstração original de confete no iOS, emitido a partir de um ponto." />
@@ -146,3 +148,7 @@ O desenho é nativo, na **thread de UI**. No ASUS físico API 26, a neve comum (
 <Clip name="particles-android-device" caption="ASUS_Z017DC físico, Android 8 / API 26: toques reais através dos efeitos ativos, emissão contínua e finita, redimensionamento e movimento reduzido. Reprodução nativa na thread de UI, em tempo real; as medições de estresse são separadas desta demonstração comum." />
 
 <Clip name="particles-ios" caption="Simulador iPhone 17, iOS 26: mesma API de partículas, todas as formas/origens, passagem de toques, redimensionamento e movimento reduzido ao vivo, exercitados com toques do XCTest. A gravação anterior do iOS foi preservada acima." />
+
+<Clip name="web-particles-surfaces-chromium" :width="900" caption="Chromium no macOS, interface em inglês: cliques reais demonstram reprodução, pausa/retomada, substituição, movimento reduzido e descarte na velocidade original. Captura de navegador; sem alegação de desempenho em aparelho físico." />
+
+<Clip name="web-confetti-surfaces-chromium" :width="900" caption="Chromium no macOS, interface em inglês: cliques reais demonstram reprodução, pausa/retomada, substituição, movimento reduzido e descarte na velocidade original. Captura de navegador; sem alegação de desempenho em aparelho físico." />
