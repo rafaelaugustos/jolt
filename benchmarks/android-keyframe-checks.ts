@@ -34,6 +34,8 @@ export function runAndroidKeyframeChecks(view: View) {
           holders,
         )
         const bulk = factory.create(native, property, times, values, unit)
+        const compact = factory.createCompact(native, property, times, values, unit)
+        compact.setDuration(1000)
         for (const a of [legacy, bulk]) {
           a.setDuration(1000)
           a.setInterpolator(new android.view.animation.LinearInterpolator())
@@ -45,10 +47,24 @@ export function runAndroidKeyframeChecks(view: View) {
           const actual = Number(property.get(native))
           if (!Number.isFinite(actual) || actual !== expected)
             throw new Error(`${property.getName()} at ${time}: ${actual} != ${expected}`)
-          samples.push({ property: property.getName(), unit, time, actual, expected })
+          compact.setCurrentPlayTime(time)
+          const packed = Number(property.get(native))
+          if (packed !== expected)
+            throw new Error(
+              `Compact ${property.getName()} at ${time}: ${packed} != ${expected}`,
+            )
+          samples.push({
+            property: property.getName(),
+            unit,
+            time,
+            actual,
+            packed,
+            expected,
+          })
         }
         legacy.cancel()
         bulk.cancel()
+        compact.cancel()
       }
     } finally {
       property.set(native, original)

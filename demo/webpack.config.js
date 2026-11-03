@@ -6,6 +6,42 @@ module.exports = (env) => {
   webpack.init(env)
 
   webpack.chainWebpack((config) => {
+    config.plugin('jolt-playback-efficiency').use(require('webpack').DefinePlugin, [
+      {
+        __PLAYBACK_EFFICIENCY_BUILD__: JSON.stringify({
+          commit: execFileSync('git', ['rev-parse', 'HEAD'], {
+            cwd: __dirname,
+            encoding: 'utf8',
+          }).trim(),
+          dirty: !!execFileSync('git', ['status', '--porcelain'], {
+            cwd: __dirname,
+            encoding: 'utf8',
+          }).trim(),
+          jolt: require('../package.json').version,
+          core: require('@nativescript/core/package.json').version,
+          runtime: require(
+            env.android
+              ? '@nativescript/android/package.json'
+              : '@nativescript/ios/package.json',
+          ).version,
+          mode: config.get('mode'),
+          sourcesSha256: require('crypto')
+            .createHash('sha256')
+            .update(
+              [
+                '../src/engine.ts',
+                '../src/driver/android.ts',
+                '../platforms/android/java/org/rafaelaugusto/jolt/KeyframeFactory.java',
+                '../benchmarks/android-playback-efficiency.ts',
+                'native-fixture/platforms/android/java/org/rafaelaugusto/jolt/fixture/PlaybackEfficiencyProbe.java',
+              ]
+                .map((path) => require('fs').readFileSync(resolve(__dirname, path)))
+                .join('\n'),
+            )
+            .digest('hex'),
+        }),
+      },
+    ])
     config.resolve.alias
       .set('@rafaelaugusto/jolt/glass$', resolve(__dirname, '../dist/glass/index.js'))
       .set('@rafaelaugusto/jolt/blur$', resolve(__dirname, '../dist/blur/index.js'))

@@ -37,6 +37,13 @@ declare namespace org.rafaelaugusto.jolt {
     isSupported(): boolean
   }
   class KeyframeFactory {
+    static createCompact(
+      view: android.view.View,
+      property: android.util.Property<android.view.View, java.lang.Float>,
+      times: readonly number[],
+      values: readonly number[],
+      unit: number,
+    ): android.animation.ObjectAnimator
     static create(
       view: android.view.View,
       property: android.util.Property<android.view.View, java.lang.Float>,

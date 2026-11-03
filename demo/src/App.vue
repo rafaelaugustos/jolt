@@ -24,6 +24,7 @@ import BottomSheetLab from './components/BottomSheetLab.vue'
 import ReorderLab from './components/ReorderLab.vue'
 import InteractionReplayLab from './components/InteractionReplayLab.vue'
 import CurveSamplingLab from './components/CurveSamplingLab.vue'
+import PlaybackEfficiencyLab from './components/PlaybackEfficiencyLab.vue'
 import MotionInspectorLab from './components/MotionInspectorLab.vue'
 import SharedLayoutLab from './components/SharedLayoutLab.vue'
 import { launchArgument, onLaunch, runLaunchTaps } from './launch'
@@ -52,6 +53,7 @@ const reorderLab = ref(false)
 const sharedLayoutLab = ref(false)
 const interactionReplay = ref(false)
 const curveSampling = ref(false)
+const playbackEfficiency = ref(false)
 const motionInspector = ref(false)
 const autoplay = ref(false)
 const initialScreen = ref<Screen>('home')
@@ -61,6 +63,7 @@ onLaunch(() => {
   backgroundPlayback.value = launchArgument('background-playback') !== undefined
   motionInspector.value = launchArgument('motion-inspector') !== undefined
   curveSampling.value = launchArgument('curve-sampling') !== undefined
+  playbackEfficiency.value = launchArgument('playback-efficiency') !== undefined
   imageLab.value = launchArgument('image-lab') !== undefined
   dragLab.value = launchArgument('drag-lab') !== undefined
   dragValues.value = launchArgument('drag-values') !== undefined
@@ -136,6 +139,7 @@ defineExpose({ assistant })
       @loaded="pageLoaded"
     >
       <BackgroundPlayback v-if="launched && backgroundPlayback" />
+      <PlaybackEfficiencyLab v-else-if="launched && playbackEfficiency" />
       <MotionInspectorLab
         v-else-if="launched && motionInspector"
         @back="backToPlayground"
