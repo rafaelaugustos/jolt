@@ -30,14 +30,14 @@ class PresentationAnalysis(unittest.TestCase):
         self.assertIsNone(comparison.distribution([])['p50'])
 
 class HostAcceptance(unittest.TestCase):
-    def test_rejects_busy_compiler_even_before_load_average_rises(self):
-        with patch.object(comparison.os,'getloadavg',return_value=(2,2,2)), patch.object(comparison.os,'cpu_count',return_value=16), patch.object(comparison.subprocess,'check_output',return_value='PCPU COMM\n80 /toolchain/clang\n'):
+    def test_rejects_heavy_compilation_even_before_load_average_rises(self):
+        with patch.object(comparison.os,'getloadavg',return_value=(2,2,2)), patch.object(comparison.os,'cpu_count',return_value=16), patch.object(comparison.subprocess,'check_output',return_value='PCPU COMM\n500 /toolchain/clang\n'):
             result=comparison.host_observation()
         self.assertFalse(result['quiet'])
         self.assertEqual(result['busyCompilers'][0]['command'],'clang')
 
     def test_rejects_high_load_and_accepts_idle_host(self):
-        with patch.object(comparison.os,'cpu_count',return_value=16), patch.object(comparison.subprocess,'check_output',return_value='PCPU COMM\n2 /toolchain/clang\n'):
+        with patch.object(comparison.os,'cpu_count',return_value=16), patch.object(comparison.subprocess,'check_output',return_value='PCPU COMM\n80 /toolchain/clang\n'):
             with patch.object(comparison.os,'getloadavg',return_value=(20,20,20)):
                 self.assertFalse(comparison.host_observation()['quiet'])
             with patch.object(comparison.os,'getloadavg',return_value=(4,4,4)):

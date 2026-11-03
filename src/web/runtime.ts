@@ -143,6 +143,8 @@ import { compose, poseAt, formatPose, type Contribution, type Rest } from './com
 import { SpringValueNode, type WebSpringOptions } from './spring-value.js'
 import { FrameScheduler, type FrameTask } from './scheduler.js'
 import { numericMap, type NumericMapOptions } from '../core/numeric-map.js'
+import { ElementScrollRange, type WebElementScrollRange } from './scroll-range.js'
+import { surfaceConflict, type StyleConflict } from './surface-conflict.js'
 import {
   scrollAxis,
   type WebScrollValueOptions,
@@ -257,6 +259,7 @@ class Surface {
   >()
   private className: string
   private origin: string
+  private geometrySize: { width: string; height: string }
   private baseline: string
   private geometryObserver?: ResizeObserver
   private geometryLeases = new Set<object>()
@@ -347,6 +350,7 @@ class Surface {
       throw new TypeError('Important inline motion styles are unsupported.')
     this.baseline = baseline.toString()
     this.origin = css.transformOrigin
+    this.geometrySize = { width: css.width, height: css.height }
     this.className = target.className
     this.original = { transform: target.style.transform, opacity: target.style.opacity }
     this.written = { ...this.original }
@@ -413,28 +417,42 @@ class Surface {
     const ownsGeometry =
       this.geometryLeases.size > 0 ||
       [...this.paint.keys()].some((name) => name.endsWith('-width'))
-    if (
-      target.className !== this.className ||
-      (!allowGeometry && !ownsGeometry && css.transformOrigin !== this.origin) ||
-      [css.translate, css.rotate, css.scale].some((v) => v !== 'none') ||
-      target.getAnimations().some((a) => a !== this.effect) ||
-      (['transform', 'opacity'] as const).some(
-        (p) => target.style[p] !== this.written[p] || target.style.getPropertyPriority(p),
-      ) ||
-      [...this.paint].some(
-        ([name, held]) =>
-          target.style.getPropertyValue(name) !== held.written ||
-          target.style.getPropertyPriority(name),
+    const changes: StyleConflict[] = []
+    const changed = (property: string, previous: string, current: string) => {
+      if (previous !== current) changes.push({ property, previous, current })
+    }
+    changed('class', this.className, target.className)
+    if (!allowGeometry && !ownsGeometry && css.transformOrigin !== this.origin) {
+      changed('transform-origin', this.origin, css.transformOrigin)
+      changed('width', this.geometrySize.width, css.width)
+      changed('height', this.geometrySize.height, css.height)
+    }
+    for (const property of ['translate', 'rotate', 'scale'] as const)
+      changed(property, 'none', css[property])
+    const foreign = target
+      .getAnimations()
+      .filter((animation) => animation !== this.effect)
+    if (foreign.length)
+      changed(
+        'animations',
+        'none',
+        foreign.map((animation) => animation.id || animation.constructor.name).join(', '),
       )
-    )
-      throw new Error(
-        'External style changes require releasing and recreating the motion surface.',
-      )
+    for (const property of ['transform', 'opacity'] as const) {
+      changed(property, this.written[property], target.style[property])
+      changed(`${property} priority`, '', target.style.getPropertyPriority(property))
+    }
+    for (const [property, held] of this.paint) {
+      changed(property, held.written, target.style.getPropertyValue(property))
+      changed(`${property} priority`, '', target.style.getPropertyPriority(property))
+    }
+    if (changes.length) throw surfaceConflict(target, changes)
     if (ownsGeometry) {
       this.validateGeometry(css)
       // A live frame can run before ResizeObserver delivery. Accept only the
       // declared geometry change here; the other ownership guards still apply.
       this.origin = css.transformOrigin
+      this.geometrySize = { width: css.width, height: css.height }
     }
     return css
   }
@@ -455,6 +473,7 @@ class Surface {
     // The browser applies the new pivot to the existing transform effect. Its
     // keyframes, logical values, velocity and animation clock need no rebuild.
     this.origin = css.transformOrigin
+    this.geometrySize = { width: css.width, height: css.height }
   }
   observeGeometry(): WebBinding {
     this.refreshGeometry()
@@ -1564,7 +1583,21 @@ export class WebRuntime {
   ): WebScrollLink {
     this.assert()
     this.targets(target)
-    const plan = scrollPlan(frames, options)
+    const elementRange =
+      options?.range && !Array.isArray(options.range)
+        ? new ElementScrollRange(
+            this.document,
+            source,
+            scrollAxis({ axis: options.axis }),
+            options.range as WebElementScrollRange,
+            this.scheduler,
+          )
+        : undefined
+    if (elementRange && target.contains((options.range as WebElementScrollRange).element))
+      throw new TypeError(
+        'Use a separate layout anchor for element scroll ranges; animate its child or a sibling.',
+      )
+    const plan = scrollPlan(frames, options, elementRange?.measure())
     const scroll = this.scrollNode(source, plan.axis)
     const nodes = new Set<ScrollLinkedNode>()
     let binding: WebBinding | undefined
@@ -1588,6 +1621,7 @@ export class WebRuntime {
       }
       binding = this.bind(target, values)
     } catch (error) {
+      elementRange?.dispose()
       for (const node of nodes) node.dispose()
       scroll.dispose()
       throw error
@@ -1612,12 +1646,15 @@ export class WebRuntime {
         if (ended) return
         scroll.refresh()
         if (ended || scroll.disposed) return
+        const range = elementRange?.measure()
+        if (range) for (const node of nodes) node.setRange(range)
         surface.refreshGeometry()
         this.transaction(new Map([[surface, clone(surface.state)]]), this.now())
       },
       dispose: () => {
         if (ended) return
         ended = true
+        elementRange?.dispose()
         const links = this.scrollLinks.get(target)
         links?.delete(link)
         if (!links?.size) this.scrollLinks.delete(target)
@@ -1630,6 +1667,34 @@ export class WebRuntime {
     links.add(link)
     this.scrollLinks.set(target, links)
     scroll.onDispose(link.dispose)
+    try {
+      elementRange?.observe(
+        (range) => {
+          if (ended) return
+          if (!link.owns()) {
+            link.dispose()
+            return
+          }
+          if (
+            [...nodes].every(
+              (node) => node.range[0] === range[0] && node.range[1] === range[1],
+            )
+          )
+            return
+          scroll.refresh()
+          for (const node of nodes) node.setRange(range)
+          surface.refreshGeometry()
+          this.transaction(new Map([[surface, clone(surface.state)]]), this.now())
+        },
+        (error) => {
+          link.dispose()
+          this.report(error)
+        },
+      )
+    } catch (error) {
+      link.dispose()
+      throw error
+    }
     return link
   }
 

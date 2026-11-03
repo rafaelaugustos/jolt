@@ -18,6 +18,10 @@ Um controlador cuida do painel, handle, ScrollView aninhado, teclado e retorno d
 
 <Clip name="recipe-sheet-ios" caption="Simulador de iPhone 17 · iOS 26.2. Toques e arrastos reais de XCTest; interface em inglês, velocidade original. Abrir, redimensionar, adicionar conteúdo, digitar com o teclado virtual real, fechar/reabrir e rolar." />
 
+A Activity do demo Android usa `android:windowSoftInputMode="adjustResize"`: o teclado redimensiona o host sem deslocar a janela inteira. Aplique essa configuração no manifesto do seu app ao usar esta receita.
+
+<Clip name="recipe-sheet-android" caption="Emulador Pixel 7 Android API 36 · interface em inglês, velocidade original. Toques, digitação e gesto reais via ADB: conteúdo dinâmico, teclado com adjustResize, fechar/reabrir e scroll interno. Não é aparelho físico." />
+
 <<< @/../demo/src/recipes/sheet.ts
 
 ## Lista

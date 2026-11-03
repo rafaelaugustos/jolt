@@ -1850,6 +1850,19 @@
       "status": "pending",
       "limit": "Browser options support curves/presets and reduced motion, but reusable helper exports and scoped reduced-motion read/observation need an explicit portable public contract.",
       "evidence": ["src/index.ts", "src/web/public.ts", "src/web/vue/index.ts"]
+    },
+    {
+      "id": "web-layout-ergonomics",
+      "issues": [236],
+      "status": "local-unpublished",
+      "limit": "Web element-relative scroll ranges automatically track layout with explicit anchor/ancestor restrictions. Structured surface conflicts retain string details and geometry/recreation guidance. Native numeric scroll contracts remain unchanged. Mavis adoption is tracked separately in getcortexlabs/mavis-ui#262.",
+      "evidence": [
+        "src/web/scroll-range.ts",
+        "src/web/surface-conflict.ts",
+        "benchmarks/web-support/element-range.spec.ts",
+        "benchmarks/web-support/element-recording.json",
+        "docs/guide/web-support.md"
+      ]
     }
   ]
 }

@@ -67,7 +67,9 @@ def host_observation():
             if name in ('clang', 'clang++', 'swift-frontend', 'swift-test', 'cc1', 'rustc'):
                 busy.append({'command': name, 'cpuPercent': float(parts[0])})
     return {'hostTime': time.time(), 'loadAverage1m': load, 'logicalCpus': cpus,
-        'busyCompilers': busy, 'quiet': load <= cpus * .75 and not busy}
+        'busyCompilers': busy, 'compilerCpuPercent': sum(p['cpuPercent'] for p in busy),
+        'compilerCpuLimit': cpus * 25,
+        'quiet': load <= cpus * .75 and sum(p['cpuPercent'] for p in busy) <= cpus * 25}
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -105,7 +107,7 @@ def main():
         'host': platform.platform(), 'device': shell('getprop'), 'display': shell('dumpsys', 'display'),
         'processor': subprocess.check_output([processor, '--version'], text=True),
         'scenario': scenario, 'windowSeconds': seconds, 'repetitions': repetitions, 'packages': packages,
-        'screenRecording': False, 'hostAcceptance': '1-minute load <= 0.75 * logical CPUs and no sampled compiler using >10% CPU; sampled before/after and around input boundaries; not thermal or exclusive-host proof', 'runs': []}
+        'screenRecording': False, 'hostAcceptance': '1-minute load <= 0.75 * logical CPUs and aggregate sampled compiler CPU <= 25% of host capacity (100% is one logical CPU); sampled before/after and around input boundaries; not thermal or exclusive-host proof', 'runs': []}
     if (output/'metadata.json').exists():
         previous=json.loads((output/'metadata.json').read_text())
         for key in ('serial','packages','scenario','windowSeconds','repetitions','screenRecording','hostAcceptance'):

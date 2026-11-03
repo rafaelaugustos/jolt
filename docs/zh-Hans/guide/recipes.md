@@ -18,6 +18,10 @@
 
 <Clip name="recipe-sheet-ios" caption="iPhone 17 模拟器 · iOS 26.2。实际 XCTest 点击和拖动，英文界面，原速录像。打开、调整大小、添加内容、使用实际软件键盘输入、关闭/重新打开及滚动。" />
 
+Android 示例 Activity 使用 `android:windowSoftInputMode="adjustResize"`，使键盘调整宿主尺寸而不平移整个窗口。使用本示例时请在应用清单中设置该选项。
+
+<Clip name="recipe-sheet-android" caption="Pixel 7 Android API 36 模拟器 · 英文界面、原速。真实 ADB 点击、输入和滑动展示动态内容、adjustResize 键盘、关闭/重新打开和嵌套滚动；非真机。" />
+
 <<< @/../demo/src/recipes/sheet.ts
 
 ## 列表

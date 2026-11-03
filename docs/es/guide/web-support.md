@@ -81,3 +81,32 @@ Estos demos revisados muestran los mapeos y scroll nativos existentes, cuya impl
 <Clip name="scroll-values-android" caption="Demo existente en emulador Android, velocidad original: scroll real controla traslación, escala, opacidad y progreso del header. Referencia nativa." />
 
 Ejecuta `npm run web:support:typecheck` y `npm run web:support:test`: presentación CSS real en Chromium/Firefox/WebKit, auto/fallback, press, geometría, lifecycle, reposo, teclado/rueda y toque en Chromium. El tiempo oculto controla señales, no background físico. También se verifican consumidores empaquetados Web/Vue/SSR/nativos y las suites existentes. [Informe reproducible](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/web-support.md).
+
+## Scroll relativo a un elemento {#element-range}
+
+Pendiente para la próxima versión. Sustituye el cálculo manual y la recreación del vínculo por una sección de referencia:
+
+```ts
+const linked = motion.scrollLinked(
+  document,
+  ribbon,
+  { x: [0, -220] },
+  {
+    range: { element: section, start: 'start end', end: 'end start' },
+  },
+)
+// The defaults allow: range: { element: section }
+// Cleanup: linked.dispose() — useWebMotion scopes own this automatically.
+```
+
+El valor predeterminado es `start end` → `end start`: empieza cuando la sección entra en la viewport y termina cuando sale. Cada alineación nombra un borde del elemento y otro de la viewport; también admite `center`. El rango puede comenzar negativo. El eje horizontal respeta LTR/RTL.
+
+Los cambios de tamaño, texto, fuentes, hijos y estilos/clases relevantes actualizan el mismo vínculo mediante observadores agrupados, sin bucle de frames en reposo. `linked.refresh()` vuelve a medir. Disponer el vínculo, ámbito o runtime elimina los observadores; una referencia desmontada o inválida libera el vínculo y comunica un error.
+
+Usa una sección sin transformación ni sticky; anima un hijo u otro elemento. Debe permanecer dentro del origen sin atravesar otro contenedor de scroll. Los ancestros transformados/fixed/sticky, zoom y las transiciones animadas de layout quedan fuera del contrato. Para cambios de stylesheet/CSSOM sin cambios observables de caja o DOM, llama a `linked.refresh()`. Los rangos numéricos no cambian.
+
+<Clip name="web-element-range-chromium" caption="Chromium de escritorio · interfaz en inglés, velocidad original. Rueda y clics reales muestran entrada/salida, inserción, tamaño, diagnóstico y recuperación con observeGeometry. Grabación del navegador; la referencia nativa anterior usa su propia API." />
+
+## Diagnóstico de conflictos de superficie {#surface-diagnostics}
+
+Los conflictos informan `WebSurfaceConflictError`, un selector y entradas `changes` con `property`, `previous` y `current`, sin retener nodos DOM. Un cambio de origen causado por tamaño incluye las dimensiones y recomienda `observeGeometry()` antes del cambio o `refresh()` después de un cambio síncrono. Las escrituras externas siguen necesitando liberar y recrear la superficie.

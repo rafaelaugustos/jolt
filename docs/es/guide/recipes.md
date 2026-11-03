@@ -18,6 +18,10 @@ Un controlador posee el panel, handle, ScrollView anidado, seguimiento del tecla
 
 <Clip name="recipe-sheet-ios" caption="Simulador iPhone 17 · iOS 26.2. Toques y arrastres reales de XCTest; interfaz en inglés, velocidad original. Abrir, redimensionar, añadir contenido, escribir con el teclado real, cerrar/reabrir y desplazar." />
 
+La Activity Android usa `android:windowSoftInputMode="adjustResize"` para redimensionar el host sin desplazar toda la ventana. Aplica esta opción en el manifiesto de tu app.
+
+<Clip name="recipe-sheet-android" caption="Emulador Pixel 7 Android API 36 · interfaz en inglés, velocidad original. Toques, escritura y gesto reales: contenido dinámico, teclado con adjustResize, cerrar/reabrir y scroll interno. No es un dispositivo físico." />
+
 <<< @/../demo/src/recipes/sheet.ts
 
 ## Lista

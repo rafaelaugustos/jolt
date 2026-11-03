@@ -25,7 +25,7 @@
   "collection": {
     "warmupSeconds": 5,
     "windowSeconds": 30,
-    "repetitions": 5
+    "repetitions": 3
   },
   "versions": {
     "jolt": "0.1.0-rc.10 plus local candidate",

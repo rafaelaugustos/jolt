@@ -18,6 +18,10 @@ One controller owns the panel, handle, nested ScrollView, keyboard following and
 
 <Clip name="recipe-sheet-ios" caption="iPhone 17 simulator · iOS 26.2. Real XCTest taps and drags; English UI, original speed. Open, resize, add content, type with the real software keyboard, close/reopen and scroll." />
 
+The Android demo Activity uses `android:windowSoftInputMode="adjustResize"`, so the keyboard resizes the host rather than panning the whole window. Apply this setting in your app manifest when using this recipe.
+
+<Clip name="recipe-sheet-android" caption="Pixel 7 Android API 36 emulator · English UI, original speed. Real ADB taps, typing and swipe: dynamic content, keyboard with adjustResize, close/reopen and nested scroll. No physical-device claim." />
+
 <<< @/../demo/src/recipes/sheet.ts
 
 ## List

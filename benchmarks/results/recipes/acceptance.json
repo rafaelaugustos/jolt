@@ -36,6 +36,9 @@
     "scope": "Android emulator, actual ADB native input",
     "app": "org.nativescript.jolt.benchmark",
     "recipes": ["gallery", "sheet", "lists"],
-    "passed": true
+    "passed": true,
+    "windowSoftInputMode": "adjustResize",
+    "recording": "docs/public/media/recipe-sheet-android.mp4",
+    "recordingSha256": "00abab9ad3d6af7e2e0a29c5192fea5c415e1bec26b3a0a0b3e74a83a4566ae0"
   }
 }
