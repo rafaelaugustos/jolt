@@ -419,6 +419,14 @@ test('release transfers input position and nonzero velocity into the finite spri
   page,
 }) => {
   await page.evaluate(() => {
+    target.addEventListener(
+      'pointerdown',
+      (event) => {
+        target.dataset.pointer = String(event.pointerId)
+        target.dataset.downTime = String(event.timeStamp)
+      },
+      { once: true },
+    )
     drag = rt.drag(target, {
       axis: 'x',
       snap: { x: [200] },
@@ -427,13 +435,30 @@ test('release transfers input position and nonzero velocity into the finite spri
   })
   await page.mouse.move(90, 630)
   await page.mouse.down()
-  for (let i = 1; i <= 8; i++) {
-    await page.mouse.move(90 + i * 10, 630)
-    await page.waitForTimeout(12)
-  }
-  await page.mouse.up()
-  const state = await page.evaluate(() => rt.inspect(target)),
+  // Establish real pointer capture, then replay a timed sample sequence atomically.
+  // Browser-driver round trips on a busy CI runner can exceed the 80 ms velocity
+  // expiry window. That correctly produces zero velocity, but does not exercise
+  // this test's nonzero handoff contract. Real input is covered by the drag test.
+  const state = await page.evaluate(() => {
+      const pointerId = Number(target.dataset.pointer)
+      const downTime = Number(target.dataset.downTime)
+      for (let i = 1; i <= 9; i++) {
+        const event = new PointerEvent(i === 9 ? 'pointerup' : 'pointermove', {
+          pointerId,
+          pointerType: 'mouse',
+          isPrimary: true,
+          buttons: i === 9 ? 0 : 1,
+          clientX: 90 + Math.min(i, 8) * 10,
+          clientY: 630,
+          bubbles: true,
+        })
+        Object.defineProperty(event, 'timeStamp', { value: downTime + i * 12 })
+        target.dispatchEvent(event)
+      }
+      return rt.inspect(target)
+    }),
     track = state.tracks!.find((t) => t.property === 'x')!
+  await page.mouse.up()
   expect(track.from).toBeCloseTo(80, 3)
   expect(track.initialVelocity).toBeGreaterThan(100)
   expect(track.initialVelocity).toBeLessThanOrEqual(5001)
