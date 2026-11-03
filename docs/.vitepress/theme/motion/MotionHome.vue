@@ -10,6 +10,7 @@ import MotionEvidence from './MotionEvidence.vue'
 import RecipeGrid from './RecipeGrid.vue'
 import NativeVideo from './NativeVideo.vue'
 import MorrowFeature from './MorrowFeature.vue'
+import HexdropFeature from './HexdropFeature.vue'
 import { version } from '../../../../package.json'
 
 const { t, link } = useWords()
@@ -25,12 +26,12 @@ const driveCaption = [
 ] as const
 const featured = computed(() =>
   [
+    'hexdrop-drag',
     'drive-cockpit',
     'drive-cabin',
-    'drive-atmosphere',
+    'hexdrop-launch',
     'spring-feeling',
     'gradients',
-    'rolling-numbers',
   ].map((slug) => recipes.find((recipe) => recipe.slug === slug)!),
 )
 useMotion((runtime) => {
@@ -139,6 +140,8 @@ async function copyInstall() {
     </section>
 
     <MorrowFeature />
+
+    <HexdropFeature />
 
     <section id="collection" class="home-collection section-shell">
       <div class="section-heading" data-entrance>

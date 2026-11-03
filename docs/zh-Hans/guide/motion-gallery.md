@@ -37,3 +37,9 @@ Jolt Drive 展示链接到[公开仓库](https://github.com/rafaelaugustos/jolt-
 来自真实项目的四个配方：联动控制台、弹簧驱动的氛围选择、背景模糊的充电面板，以及进入座舱的镜头。每个配方都有原生录屏、已核对的代码和适配提示词。
 
 [探索 4 个配方](/zh-Hans/recipes/?q=Jolt%20Drive) · [阅读集成指南](./drive-recipes)
+
+## Hexdrop
+
+Hexdrop 展示将 Jolt Web 滚动动画与真实原生录屏相结合。[了解项目](./showcase#hexdrop)，或[适配其拖动配方](./hexdrop-recipes)。
+
+<Clip name="hexdrop-creator-ios" :autoplay="false" poster="/media/hexdrop-creator-ios.jpg" :width="280" caption="Hexdrop iOS 创作者录屏：动画开场、拖动、酿制、文档选择与重播。原始速度，无音频；省略最初 3.8 秒的系统主屏幕与启动转场。录制设备未说明。本地演示，不上传文件。" />

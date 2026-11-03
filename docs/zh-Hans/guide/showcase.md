@@ -18,7 +18,7 @@ next: false
 探索使用 Jolt 制作的原生应用。观看录屏，了解其中的功能，也分享你自己的作品。
 
 <a class="showcase-submit-link" href="#submit-app">提交你的应用 <span aria-hidden="true">↗</span></a>
-<nav class="showcase-index" aria-label="Showcase"><a href="#morrow"><span>01</span>Morrow ↗</a><a href="#jolt-drive"><span>02</span>Jolt Drive ↗</a><a href="#submit-app"><span>03</span>你的项目 ↗</a></nav>
+<nav class="showcase-index" aria-label="Showcase"><a href="#morrow"><span>01</span>Morrow ↗</a><a href="#jolt-drive"><span>02</span>Jolt Drive ↗</a><a href="#hexdrop"><span>03</span>Hexdrop ↗</a><a href="#submit-app"><span>04</span>你的项目 ↗</a></nav>
 </div>
 
 <section class="showcase-feature" aria-labelledby="morrow">
@@ -71,6 +71,20 @@ next: false
   <figure><img src="/media/jolt-drive-pickup.png" width="368" height="800" loading="lazy" alt="Jolt Drive 在奥斯汀模拟接驾，提供暂停与路线控件" /><figcaption><span>03</span>穿行奥斯汀</figcaption></figure>
 </div>
 <p class="showcase-note">来自已发布项目的界面。 <a href="https://github.com/rafaelaugustos/jolt-drive/blob/2d9cc4afeec1d1fa04b85e5dbe063db07e3db29f/README.md">来源与安装 ↗</a></p>
+
+<section class="showcase-feature" aria-labelledby="hexdrop">
+  <h2 id="hexdrop"><img class="hexdrop-app-icon" src="/media/hexdrop-icon.png" width="72" height="72" alt="" />Hexdrop<span>.</span></h2>
+  <div class="showcase-copy">
+    <p class="showcase-kicker">NATIVESCRIPT-VUE + JOLT RC.11 <span class="showcase-platform">iOS</span></p>
+    <p class="showcase-lead">一个文件，一点魔法。投下原料，唤醒绿色魔药，看小蜘蛛搭上摇摆的瓶塞。</p>
+    <p class="showcase-note">由 Rafael Augusto 使用 NativeScript-Vue 和 Jolt RC.11 构建。原生视图、矢量路径、渐变与粒子。这是本地交互演示，不上传文件。尚未验证 Android 运行。</p>
+    <div class="showcase-project-links"><a href="https://github.com/rafaelaugustos/hexdrop">查看项目 ↗</a><a href="/zh-Hans/recipes/hexdrop-drag">获取拖动配方 ↗</a><a href="/zh-Hans/recipes/hexdrop-launch">开场的小魔法。 ↗</a></div>
+    <button type="button" class="showcase-watch" data-watch="hexdrop">观看魔法 <span aria-hidden="true">↗</span></button>
+  </div>
+  <div class="showcase-stage">
+    <Clip name="hexdrop-creator-ios" :autoplay="false" poster="/media/hexdrop-creator-ios.jpg" :width="280" caption="Hexdrop iOS 创作者录屏：动画开场、拖动、酿制、文档选择与重播。原始速度，无音频；省略最初 3.8 秒的系统主屏幕与启动转场。录制设备未说明。本地演示，不上传文件。" />
+  </div>
+</section>
 
 <section class="showcase-archive">
 

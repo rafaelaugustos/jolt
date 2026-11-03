@@ -18,7 +18,7 @@ next: false
 Explora el movimiento en apps nativas hechas con Jolt. Mira las grabaciones, descubre los recursos y comparte lo que has creado.
 
 <a class="showcase-submit-link" href="#submit-app">Envía tu app <span aria-hidden="true">↗</span></a>
-<nav class="showcase-index" aria-label="Showcase"><a href="#morrow"><span>01</span>Morrow ↗</a><a href="#jolt-drive"><span>02</span>Jolt Drive ↗</a><a href="#submit-app"><span>03</span>Tu proyecto ↗</a></nav>
+<nav class="showcase-index" aria-label="Showcase"><a href="#morrow"><span>01</span>Morrow ↗</a><a href="#jolt-drive"><span>02</span>Jolt Drive ↗</a><a href="#hexdrop"><span>03</span>Hexdrop ↗</a><a href="#submit-app"><span>04</span>Tu proyecto ↗</a></nav>
 </div>
 
 <section class="showcase-feature" aria-labelledby="morrow">
@@ -71,6 +71,20 @@ Cuatro recetas del proyecto real: cockpit coordinado, selección de ambiente con
   <figure><img src="/media/jolt-drive-pickup.png" width="368" height="800" loading="lazy" alt="Recogida simulada de Jolt Drive por Austin, con controles de pausa y ruta" /><figcaption><span>03</span>Por Austin</figcaption></figure>
 </div>
 <p class="showcase-note">Pantallas del proyecto publicado. <a href="https://github.com/rafaelaugustos/jolt-drive/blob/2d9cc4afeec1d1fa04b85e5dbe063db07e3db29f/README.md">Fuente e instalación ↗</a></p>
+
+<section class="showcase-feature" aria-labelledby="hexdrop">
+  <h2 id="hexdrop"><img class="hexdrop-app-icon" src="/media/hexdrop-icon.png" width="72" height="72" alt="" />Hexdrop<span>.</span></h2>
+  <div class="showcase-copy">
+    <p class="showcase-kicker">NATIVESCRIPT-VUE + JOLT RC.11 <span class="showcase-platform">iOS</span></p>
+    <p class="showcase-lead">Un archivo. Un poco de magia. Suelta un ingrediente, despierta la poción verde y mira cómo una arañita viaja en el tapón.</p>
+    <p class="showcase-note">Creado por Rafael Augusto con NativeScript-Vue y Jolt RC.11. Vistas nativas, trazados vectoriales, gradientes y partículas. Es una demo local; no se sube ningún archivo. La ejecución en Android no se ha verificado.</p>
+    <div class="showcase-project-links"><a href="https://github.com/rafaelaugustos/hexdrop">Ver el proyecto ↗</a><a href="/es/recipes/hexdrop-drag">Obtener la receta del gesto ↗</a><a href="/es/recipes/hexdrop-launch">Un hechizo de apertura. ↗</a></div>
+    <button type="button" class="showcase-watch" data-watch="hexdrop">Ver la magia <span aria-hidden="true">↗</span></button>
+  </div>
+  <div class="showcase-stage">
+    <Clip name="hexdrop-creator-ios" :autoplay="false" poster="/media/hexdrop-creator-ios.jpg" :width="280" caption="Hexdrop en iOS: grabación del creador con apertura animada, arrastre, preparación, selector de documentos y repetición. Velocidad original, sin audio; se omiten los primeros 3,8 segundos de la pantalla de inicio y transición del sistema. Dispositivo no especificado. Demo local; no se suben archivos." />
+  </div>
+</section>
 
 <section class="showcase-archive">
 

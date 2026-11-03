@@ -37,3 +37,9 @@ El destacado de Jolt Drive enlaza al [repositorio público](https://github.com/r
 Cuatro recetas del proyecto real: cockpit coordinado, selección de ambiente con resorte, panel de carga con fondo desenfocado y cámara hacia la cabina. Cada una incluye vídeo nativo, código revisado y un prompt de adaptación.
 
 [Explora las 4 recetas](/es/recipes/?q=Jolt%20Drive) · [Lee la guía de integración](./drive-recipes)
+
+## Hexdrop
+
+Hexdrop combina animación de scroll con Jolt Web y grabación nativa real. [Conoce el proyecto](./showcase#hexdrop) o [adapta su receta de arrastre](./hexdrop-recipes).
+
+<Clip name="hexdrop-creator-ios" :autoplay="false" poster="/media/hexdrop-creator-ios.jpg" :width="280" caption="Hexdrop en iOS: grabación del creador con apertura animada, arrastre, preparación, selector de documentos y repetición. Velocidad original, sin audio; se omiten los primeros 3,8 segundos de la pantalla de inicio y transición del sistema. Dispositivo no especificado. Demo local; no se suben archivos." />

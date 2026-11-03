@@ -18,6 +18,7 @@ export interface Recipe {
     revision: string
     sha256: string
     joltVersion: string
+    showcaseAnchor: string
   }
   requirements?: Words
   guideAnchor?: string
@@ -48,6 +49,7 @@ const driveProject = {
   repository: 'rafaelaugustos/jolt-drive',
   revision: '2d9cc4afeec1d1fa04b85e5dbe063db07e3db29f',
   joltVersion: '0.1.0-rc.10',
+  showcaseAnchor: 'jolt-drive',
 }
 const driveCaption: Words = [
   'Jolt Drive · iPhone 17 Pro simulator, iOS 26.2. Real idb interaction in the native app, original speed. English UI; not a physical-device recording or performance measurement.',
@@ -62,7 +64,97 @@ export const categoryNames: Record<Category, Words> = {
   Type: ['Typography', 'Tipografia', 'Tipografía', '文字'],
   Layout: ['Layout', 'Layout', 'Layout', '布局'],
 }
+export const hexdropCaption: Words = [
+  'Hexdrop on iOS: creator-provided recording of the animated launch, dragging, brewing, document picker and replay. Original speed, no audio; the first 3.8 seconds of the system home and launch transition are omitted. Capture device unspecified. Local demo; no file is uploaded.',
+  'Hexdrop no iOS: gravação enviada pelo criador com abertura animada, arraste, preparo da poção, seletor de documentos e replay. Velocidade original, sem áudio; os primeiros 3,8 segundos da tela inicial e transição do sistema foram omitidos. Dispositivo não informado. Demo local; nenhum arquivo é enviado.',
+  'Hexdrop en iOS: grabación del creador con apertura animada, arrastre, preparación, selector de documentos y repetición. Velocidad original, sin audio; se omiten los primeros 3,8 segundos de la pantalla de inicio y transición del sistema. Dispositivo no especificado. Demo local; no se suben archivos.',
+  'Hexdrop iOS 创作者录屏：动画开场、拖动、酿制、文档选择与重播。原始速度，无音频；省略最初 3.8 秒的系统主屏幕与启动转场。录制设备未说明。本地演示，不上传文件。',
+]
 export const recipes: Recipe[] = [
+  {
+    slug: 'hexdrop-launch',
+    title: [
+      'A little opening spell.',
+      'Um feitiço de abertura.',
+      'Un hechizo de apertura.',
+      '开场的小魔法。',
+    ],
+    description: [
+      'A floating potion, a traced seal and a soft reveal into the app.',
+      'Uma poção flutua, o selo se desenha e o app aparece.',
+      'Una poción flotante, un sello que se dibuja y la entrada a la app.',
+      '魔药轻浮，印记绘出，柔和揭开应用。',
+    ],
+    category: 'Motion',
+    video: 'hexdrop-launch-ios',
+    guide: 'hexdrop-recipes',
+    guideAnchor: 'launch',
+    source: 'src/launch/launch-animation.ts',
+    color: '#c8dea1',
+    platform: 'iOS',
+    caption: [
+      'Hexdrop launch on iOS: the 3.8–7.0 second excerpt of the creator-provided recording. Floating mark, traced seal, particles, light wave and app reveal. English UI, original speed, no audio. Capture device unspecified; not a performance measurement.',
+      'Abertura do Hexdrop no iOS: trecho de 3,8 a 7,0 segundos da gravação enviada pelo criador. Marca flutuante, selo desenhado, partículas, onda de luz e revelação do app. Interface em inglês, velocidade original, sem áudio. Dispositivo não informado; não é medição de desempenho.',
+      'Apertura de Hexdrop en iOS: fragmento de 3,8 a 7,0 segundos de la grabación del creador. Marca flotante, sello trazado, partículas, onda de luz y revelación de la app. Interfaz en inglés, velocidad original, sin audio. Dispositivo no especificado; no mide rendimiento.',
+      'Hexdrop iOS 开场：创作者录屏中 3.8 至 7.0 秒的片段。悬浮图案、印记描边、粒子、光波与应用揭示。英文界面，原始速度，无音频。录制设备未说明；非性能测试。',
+    ],
+    project: {
+      name: 'Hexdrop',
+      repository: 'rafaelaugustos/hexdrop',
+      revision: 'ebdc02a2652051c982779ea43ba3d76cf99bb538',
+      joltVersion: '0.1.0-rc.11',
+      showcaseAnchor: 'hexdrop',
+      sha256: '23a0f5463b4e38c651707e1bbb956e86b0573bab9831b1b38bc0eb657fcd87bd',
+    },
+    requirements: [
+      'NativeScript-Vue 3 and Jolt RC.11. Supply the measured, mounted native GridLayout and child IDs from LaunchScreen.vue, its styles and hexdrop-mark.png. Keep drawing surfaces at fixed bounds and transform their containers. The reveal callback mounts app content and awaits nextTick before the overlay fades. Own the returned handle, await finished and call dispose on permanent unload; preserve the reduced-motion branch and failure fallback. The system launch screen is static; this timeline starts after NativeScript is ready. iOS simulator playback only.',
+      'NativeScript-Vue 3 e Jolt RC.11. Forneça o GridLayout nativo montado e medido, os IDs de LaunchScreen.vue, seus estilos e hexdrop-mark.png. Preserve as superfícies de desenho em tamanho fixo e transforme os contêineres. O callback reveal monta o conteúdo e aguarda nextTick antes do fade. Guarde o handle, aguarde finished e chame dispose no descarte permanente; preserve redução de movimento e fallback de falha. A tela de inicialização do sistema é estática; a timeline começa quando o NativeScript está pronto. Execução verificada no simulador iOS.',
+      'NativeScript-Vue 3 y Jolt RC.11. Proporciona el GridLayout nativo montado y medido, los IDs de LaunchScreen.vue, sus estilos y hexdrop-mark.png. Mantén las superficies de dibujo con tamaño fijo y transforma sus contenedores. reveal monta el contenido y espera nextTick antes del fade. Conserva el handle, espera finished y llama a dispose al descargar permanentemente; preserva movimiento reducido y recuperación de errores. La pantalla de inicio del sistema es estática; la timeline comienza cuando NativeScript está listo. Verificado en simulador iOS.',
+      '需要 NativeScript-Vue 3 和 Jolt RC.11。提供挂载并测量后的原生 GridLayout、LaunchScreen.vue 的子视图 ID、样式和 hexdrop-mark.png。绘图表面保持固定边界，变换其容器。reveal 回调挂载内容并等待 nextTick 后淡出遮罩。保留返回句柄，等待 finished，永久卸载时调用 dispose；保留减少动态效果和故障回退分支。系统启动屏是静态的；NativeScript 就绪后才播放此时间线。仅验证 iOS 模拟器。',
+    ],
+  },
+  {
+    slug: 'hexdrop-drag',
+    title: [
+      'Drop a little magic.',
+      'Solte um pouco de magia.',
+      'Suelta un poco de magia.',
+      '拖出一点魔法。',
+    ],
+    description: [
+      'A file card that tilts, springs home or disappears into a potion.',
+      'Um card que inclina, volta com spring ou desaparece em uma poção.',
+      'Una tarjeta que se inclina, vuelve con un resorte o desaparece en una poción.',
+      '文件卡片倾斜跟手，弹回原位，或融入魔药。',
+    ],
+    category: 'Touch',
+    video: 'hexdrop-native-ios',
+    guide: 'hexdrop-recipes',
+    guideAnchor: 'ingredient-drag',
+    source: 'src/composables/useIngredientDrag.ts',
+    color: '#d7c4ed',
+    platform: 'iOS',
+    caption: [
+      'Hexdrop · iPhone 17 Pro simulator, iOS 26.2. Real idb drags: spring return, accepted drop, ignition, fill and stopper swing. English UI, original speed, silent capture. Local interaction demo; no file is uploaded. Not a physical-device performance measurement.',
+      'Hexdrop · simulador iPhone 17 Pro, iOS 26.2. Arrastes reais via idb: retorno com spring, drop aceito, ignição, preenchimento e balanço da tampa. Interface em inglês, velocidade original, captura sem áudio. Demo local; nenhum arquivo é enviado. Não mede desempenho em aparelho físico.',
+      'Hexdrop · simulador iPhone 17 Pro, iOS 26.2. Arrastres reales mediante idb: retorno con resorte, drop aceptado, ignición, llenado y balanceo del tapón. Interfaz en inglés, velocidad original, captura sin audio. Demo local; no se sube ningún archivo. No mide rendimiento en dispositivo físico.',
+      'Hexdrop · iPhone 17 Pro 模拟器，iOS 26.2。真实 idb 拖动：弹回、成功投放、点火、填充和瓶塞摆动。英文界面，原始速度，无声录屏。仅为本地交互演示，不上传文件。非真机性能测试。',
+    ],
+    project: {
+      name: 'Hexdrop',
+      repository: 'rafaelaugustos/hexdrop',
+      revision: 'ebdc02a2652051c982779ea43ba3d76cf99bb538',
+      joltVersion: '0.1.0-rc.11',
+      showcaseAnchor: 'hexdrop',
+      sha256: '30c54e558f33fbd086f2e642c7ecc94598f8f1b07535cefaa30da2f2b1ccccaf',
+    },
+    requirements: [
+      'NativeScript-Vue 3 and Jolt RC.11. Call useIngredientDrag during setup; wire loaded and tap to the native card. Supply disabled, window-space target bounds, onStart, onHover and onDrop. Copy transformedRect, intersects and Rect from the pinned potion/geometry.ts. Keep gesture ownership separate from the feedback scope and preserve disposal/background guards. This hook does not draw the potion or upload files; the full scene lives in potion-view.ts. Only iOS simulator playback was verified.',
+      'NativeScript-Vue 3 e Jolt RC.11. Chame useIngredientDrag no setup; conecte loaded e tap ao card nativo. Forneça disabled, limites do alvo nas coordenadas da janela, onStart, onHover e onDrop. Copie transformedRect, intersects e Rect de potion/geometry.ts na revisão indicada. Mantenha o gesto separado do scope de feedback e preserve descarte e proteções de background. O hook não desenha a poção nem envia arquivos; a cena está em potion-view.ts. Execução verificada apenas no simulador iOS.',
+      'NativeScript-Vue 3 y Jolt RC.11. Llama a useIngredientDrag durante setup; conecta loaded y tap a la tarjeta nativa. Proporciona disabled, límites del destino en coordenadas de ventana, onStart, onHover y onDrop. Copia transformedRect, intersects y Rect del potion/geometry.ts fijado. Separa el gesto del scope de feedback y conserva limpieza y protecciones de segundo plano. El hook no dibuja la poción ni sube archivos; la escena está en potion-view.ts. Solo se verificó la ejecución en simulador iOS.',
+      '需要 NativeScript-Vue 3 和 Jolt RC.11。在 setup 中调用 useIngredientDrag，将 loaded 和 tap 连接到原生卡片。提供 disabled、窗口坐标系中的目标边界、onStart、onHover 和 onDrop。复制固定版本 potion/geometry.ts 中的 transformedRect、intersects 和 Rect。将手势所有权与反馈 scope 分开，保留清理和后台保护。此 hook 不绘制魔药，也不上传文件；完整场景在 potion-view.ts 中。仅验证了 iOS 模拟器运行。',
+    ],
+  },
   {
     slug: 'drive-cockpit',
     title: [
