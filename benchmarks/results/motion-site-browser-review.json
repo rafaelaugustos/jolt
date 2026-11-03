@@ -3,17 +3,19 @@
     {
       "browser": "chromium",
       "result": "passed",
-      "checks": "WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, Jolt Drive project links and native playback, preserved Jolt Car walkthrough, published project images, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, home and showcase in 4 locales × 4 widths, mobile navigation, reduced motion, remount"
+      "checks": "WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, four Jolt Drive recipes with snapshot, clipboard, pinned source, requirements and native playback in four locales, Jolt Drive project links and native playback, preserved Jolt Car walkthrough, published project images, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, home and showcase in 4 locales × 4 widths, mobile navigation, reduced motion, remount"
     },
     {
       "browser": "webkit",
       "result": "passed",
-      "checks": "WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, Jolt Drive project links and native playback, preserved Jolt Car walkthrough, published project images, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, home and showcase in 4 locales × 4 widths, mobile navigation, reduced motion, remount"
+      "checks": "WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, four Jolt Drive recipes with snapshot, clipboard, pinned source, requirements and native playback in four locales, Jolt Drive project links and native playback, preserved Jolt Car walkthrough, published project images, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, home and showcase in 4 locales × 4 widths, mobile navigation, reduced motion, remount"
     }
   ],
   "failures": [],
   "reviewDate": "2026-11-03",
   "baseCommit": "86ba72b59cbfe06062e3175e5708d5b11f4a4b0b",
-  "scope": "Built VitePress site on macOS arm64; real Playwright interaction in Chromium and WebKit. Viewports: 1440, 768, 390 and 320 CSS px; locales: en, pt-BR, es, zh-Hans. Includes the chrome WebGL sculpture, borrowed-value inertial drag, context-loss fallback, and scroll-linked Morrow phones. Validates default-cohort CPU/PSS/presentation figures, bar playback, the compact footer, and playback of the physical study recording. Includes Jolt Drive native playback, public project links, original screenshot loading, preserved prototype recordings, and showcase layouts at the same four widths and locales. Tablet documentation navigation is opened and closed through real clicks.",
-  "externalServices": "Analytics blocked; existing community-list endpoint uses an empty fixture because production CORS excludes localhost. Production community submission and backend behavior are outside this review."
+  "scope": "Built VitePress site on macOS arm64; real Playwright interaction in Chromium and WebKit. Viewports: 1440, 768, 390 and 320 CSS px; locales: en, pt-BR, es, zh-Hans. Includes the chrome WebGL sculpture, borrowed-value inertial drag, context-loss fallback, and scroll-linked Morrow phones. Validates default-cohort CPU/PSS/presentation figures, bar playback, the compact footer, and playback of the physical study recording. Includes Jolt Drive native playback, public project links, original screenshot loading, preserved prototype recordings, and showcase layouts at the same four widths and locales. Tablet documentation navigation is opened and closed through real clicks. Four Jolt Drive recipe snapshots, pinned source URLs, actual code/prompt clipboard contents, required context and native video playback; all four recipe pages in each language at four viewport widths. Dynamic release badge and exact versioned installation clipboard checked.",
+  "externalServices": "Analytics blocked; existing community-list endpoint uses an empty fixture because production CORS excludes localhost. Production community submission and backend behavior are outside this review.",
+  "siteVersion": "0.1.0-rc.11",
+  "integrationCommit": "da283fe3a0ece7b12a2f07be09126111be8e0327"
 }

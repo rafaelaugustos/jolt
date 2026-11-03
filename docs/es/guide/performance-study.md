@@ -1,6 +1,6 @@
 # Rendimiento, a la vista
 
-El [panel de la página principal](/es/#performance) presenta una instantánea fija del [PR #395](https://github.com/rafaelaugustos/jolt/pull/395), abierto al consultarlo el 3 de noviembre de 2026. Los datos se fijan al commit `c15b7f0da59168bcf1baa187daa7a622e9e5c19b`. Es un estudio exploratorio; no cambia el motor ni los valores predeterminados de Jolt. Las barras usan Jolt Web para mostrar mediciones almacenadas, no para ejecutar un benchmark en el navegador.
+El [panel de la página principal](/es/#performance) presenta una instantánea fija del [PR #395](https://github.com/rafaelaugustos/jolt/pull/395), integrado e incluido en RC.11 el 3 de noviembre de 2026. Los datos se fijan al commit `c15b7f0da59168bcf1baa187daa7a622e9e5c19b`. Es un estudio exploratorio; no cambia el motor ni los valores predeterminados de Jolt. Las barras usan Jolt Web para mostrar mediciones almacenadas, no para ejecutar un benchmark en el navegador.
 
 ## Qué se midió
 

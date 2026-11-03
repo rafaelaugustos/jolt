@@ -1,6 +1,15 @@
 # Historial de versiones
 
-## 0.1.0-rc.10: efectos Web, sensores y retorno completo de la galería {#release-candidate}
+## 0.1.0-rc.11: ajustes Web y reproducción nativa {#release-candidate}
+
+RC.11 ajusta el [teclado móvil](./web-platforms), los [rangos de scroll relativos al elemento](./web-support) y los diagnósticos de conflictos entre superficies. Añade adapters nativos opcionales, [sensores](./device-sensors), [shaders controlados por resortes/scroll, máscaras líquidas y vídeo local sin audio en iOS](./image-effects). La [reproducción Android](./android-performance) conserva menos datos al finalizar; el exportador de auditoría procesa informes en un worker. El [estudio en dispositivo físico](./performance-study) documenta CPU, memoria y presentación sin cambiar la configuración predeterminada.
+
+Las APIs Web siguen experimentales. El sitio ya usa el runtime Web para la escultura, el movimiento con scroll y el playground; los cambios de shaders/vídeo nativos no se aplican automáticamente al DOM. [Instala RC.11](./install), conserva el paquete nativo opcional en la misma versión y recompila las apps nativas. [Changelog de la versión](https://github.com/rafaelaugustos/jolt/blob/v0.1.0-rc.11/CHANGELOG.md).
+
+<Clip name="shader-inputs-liquid-mask-ios" caption="Simulador iPhone 17 Pro, iOS 26.2, interfaz en inglés. Taps y scroll reales mediante XCTest muestran entradas nativas, fusión/separación, transparencia, resize y descarte. Velocidad original; no es un dispositivo físico." />
+<Clip name="web-element-range-chromium" caption="Chromium de escritorio, interfaz en inglés. Rueda y clics reales muestran entrada/salida de la sección, inserción encima, resize, diagnóstico de geometría y recuperación. Grabación del navegador a velocidad original; no mide rendimiento nativo ni de un dispositivo físico." />
+
+## 0.1.0-rc.10: efectos Web, sensores y retorno completo de la galería {#rc-10}
 
 RC.10 añade [degradados, carga y texto](./web-effects), [partículas, blur, formas y efectos de imagen](./web-surfaces), [teclado, paneles, navegación, física e iconos](./web-platforms) y [gravedad, haptics, sensores, glass y retorno a miniaturas por clave](./web-parity). Las aplicaciones nativas ganan [headers de Core ScrollView](./scroll-header#retained-scrollview) y [reordenación de filas montadas](./reorder#retained-rows).
 

@@ -10,6 +10,7 @@ import MotionEvidence from './MotionEvidence.vue'
 import RecipeGrid from './RecipeGrid.vue'
 import NativeVideo from './NativeVideo.vue'
 import MorrowFeature from './MorrowFeature.vue'
+import { version } from '../../../../package.json'
 
 const { t, link } = useWords()
 const { frontmatter } = useData()
@@ -58,7 +59,7 @@ useMotion((runtime) => {
 })
 async function copyInstall() {
   try {
-    await navigator.clipboard.writeText('npm install @rafaelaugusto/jolt')
+    await navigator.clipboard.writeText(`npm install @rafaelaugusto/jolt@${version}`)
     copied.value = true
     copyFailed.value = false
   } catch {
@@ -83,7 +84,8 @@ async function copyInstall() {
             ])
           }}</span
         ><a :href="link('/guide/release-history')"
-          >RC.10 <span aria-hidden="true">↗</span></a
+          >{{ version.replace('0.1.0-', '').toUpperCase() }}
+          <span aria-hidden="true">↗</span></a
         >
       </div>
       <div class="hero-composition">
@@ -390,7 +392,7 @@ async function copyInstall() {
         </p>
         <div>
           <span class="install-dollar">$</span
-          ><code>npm install<br />@rafaelaugusto/jolt</code>
+          ><code>npm install<br />@rafaelaugusto/jolt@{{ version }}</code>
         </div>
         <button @click="copyInstall">
           {{

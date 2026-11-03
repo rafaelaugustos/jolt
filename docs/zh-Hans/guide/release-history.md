@@ -1,6 +1,15 @@
 # 版本历史
 
-## 0.1.0-rc.10：Web 效果、传感器与完整图库返回 {#release-candidate}
+## 0.1.0-rc.11: Web 改进与原生播放 {#release-candidate}
+
+RC.11 改进[移动键盘](./web-platforms)、[元素相对滚动区间](./web-support)和表面冲突诊断。原生功能包括可选框架适配器、[设备输入](./device-sensors)、[弹簧/滚动驱动的着色器、液态遮罩和 iOS 本地无声视频纹理](./image-effects)。[Android 播放](./android-performance)在动画结束后保留更少数据，审计导出在 worker 中处理报告。[真机研究](./performance-study)记录 CPU、内存及呈现方面的取舍，不改变应用默认设置。
+
+Web API 仍为实验性功能。网站已在雕塑、滚动响应和交互区中使用 Web runtime；原生着色器和视频变化不会自动应用到 DOM。[安装 RC.11](./install)，保持可选原生包版本一致并重新构建原生应用。[该版本更新日志](https://github.com/rafaelaugustos/jolt/blob/v0.1.0-rc.11/CHANGELOG.md)。
+
+<Clip name="shader-inputs-liquid-mask-ios" caption="iPhone 17 Pro 模拟器，iOS 26.2，英文界面。真实 XCTest 点击与滚动演示原生输入、融合/分离、透明度、尺寸变化和清理。原速；不是实体设备录像。" />
+<Clip name="web-element-range-chromium" caption="桌面 Chromium，英文界面。真实滚轮和点击演示区块进出、在区块上方插入内容、尺寸调整、几何诊断及恢复。原速浏览器录屏，不作为原生或真机性能证据。" />
+
+## 0.1.0-rc.10：Web 效果、传感器与完整图库返回 {#rc-10}
 
 RC.10 新增[渐变、加载与文字](./web-effects)、[粒子、模糊、形状与图像效果](./web-surfaces)、[键盘、面板、导航、物理与图标](./web-platforms)，以及[重力、触感、传感器、玻璃与按稳定标识返回缩略图](./web-parity)。原生应用新增 [Core ScrollView 页头](./scroll-header#retained-scrollview)和[已挂载行排序](./reorder#retained-rows)。
 

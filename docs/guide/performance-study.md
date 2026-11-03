@@ -1,6 +1,6 @@
 # Performance, in the open
 
-The [homepage performance panel](/#performance) visualizes a fixed research snapshot from [PR #395](https://github.com/rafaelaugustos/jolt/pull/395), open when inspected on 3 November 2026. The data is pinned to commit `c15b7f0da59168bcf1baa187daa7a622e9e5c19b`. This is an exploratory study, not a new engine optimization or a change to Jolt’s defaults. The animated bars use Jolt Web to display stored measurements; they do not run a benchmark in the browser.
+The [homepage performance panel](/#performance) visualizes a fixed research snapshot from [PR #395](https://github.com/rafaelaugustos/jolt/pull/395), merged and included in RC.11 on 3 November 2026. The data is pinned to commit `c15b7f0da59168bcf1baa187daa7a622e9e5c19b`. This is an exploratory study, not a new engine optimization or a change to Jolt’s defaults. The animated bars use Jolt Web to display stored measurements; they do not run a benchmark in the browser.
 
 ## What was measured
 

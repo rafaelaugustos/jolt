@@ -295,10 +295,10 @@ const width = (value: number) =>
         ↗</a
       ><a :href="study.pullRequest">{{
         t([
-          'Snapshot: 03 Nov 2026 · PR #395 open at capture',
-          'Retrato de 03 nov 2026 · PR #395 aberto na captura',
-          'Datos del 03 nov 2026 · PR #395 abierto al capturar',
-          '2026-11-03 快照 · 采集时 PR #395 尚未合并',
+          'Research: 03 Nov 2026 · included in RC.11',
+          'Pesquisa: 03 nov 2026 · incluída na RC.11',
+          'Estudio: 03 nov 2026 · incluido en RC.11',
+          '2026-11-03 研究 · 已收录于 RC.11',
         ])
       }}</a>
     </div>

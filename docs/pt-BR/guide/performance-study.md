@@ -1,6 +1,6 @@
 # Desempenho, às claras
 
-O [painel de desempenho da home](/pt-BR/#performance) apresenta um retrato fixo da pesquisa do [PR #395](https://github.com/rafaelaugustos/jolt/pull/395), aberto quando consultado em 3 de novembro de 2026. Os dados estão vinculados ao commit `c15b7f0da59168bcf1baa187daa7a622e9e5c19b`. É um estudo exploratório, não uma nova otimização do motor nem uma mudança nos padrões do Jolt. As barras usam Jolt Web para apresentar medições armazenadas; elas não executam um benchmark no navegador.
+O [painel de desempenho da home](/pt-BR/#performance) apresenta um retrato fixo da pesquisa do [PR #395](https://github.com/rafaelaugustos/jolt/pull/395), integrado e incluído na RC.11 em 3 de novembro de 2026. Os dados estão vinculados ao commit `c15b7f0da59168bcf1baa187daa7a622e9e5c19b`. É um estudo exploratório, não uma nova otimização do motor nem uma mudança nos padrões do Jolt. As barras usam Jolt Web para apresentar medições armazenadas; elas não executam um benchmark no navegador.
 
 ## O que foi medido
 

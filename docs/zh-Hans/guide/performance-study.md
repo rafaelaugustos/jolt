@@ -1,6 +1,6 @@
 # 性能，公开实测
 
-[首页性能面板](/zh-Hans/#performance)展示 [PR #395](https://github.com/rafaelaugustos/jolt/pull/395) 的固定研究快照；2026 年 11 月 3 日查看时，该 PR 尚未合并。数据固定于提交 `c15b7f0da59168bcf1baa187daa7a622e9e5c19b`。这是一项探索性研究，不是引擎优化或默认配置变更。Jolt Web 仅为已存储的数据制作柱状图动画，不会在浏览器运行基准测试。
+[首页性能面板](/zh-Hans/#performance)展示 [PR #395](https://github.com/rafaelaugustos/jolt/pull/395) 的固定研究快照；该 PR 已于 2026 年 11 月 3 日合并并收录于 RC.11。数据固定于提交 `c15b7f0da59168bcf1baa187daa7a622e9e5c19b`。这是一项探索性研究，不是引擎优化或默认配置变更。Jolt Web 仅为已存储的数据制作柱状图动画，不会在浏览器运行基准测试。
 
 ## 测量范围
 

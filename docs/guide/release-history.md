@@ -1,6 +1,15 @@
 # Release history
 
-## 0.1.0-rc.10: Web effects, device inputs and complete gallery return {#release-candidate}
+## 0.1.0-rc.11: Web refinement and native playback {#release-candidate}
+
+RC.11 refines [mobile keyboard handling](./web-platforms), [element-relative scroll ranges](./web-support) and surface-conflict diagnostics. Native additions include optional framework adapters, [device inputs](./device-sensors), [spring/scroll-driven shaders, liquid masks and silent local iOS video textures](./image-effects). [Android playback](./android-performance) retains less settled animation data; the audit exporter moves report work to a worker. The [physical-device study](./performance-study) records CPU, memory and presentation tradeoffs without changing application defaults.
+
+Web APIs remain experimental. The website already uses the Web runtime for its sculpture, scroll response and playground; the native shader/video changes do not automatically apply to the DOM. [Install RC.11](./install), match the optional native package version and rebuild native apps. [Versioned changelog](https://github.com/rafaelaugustos/jolt/blob/v0.1.0-rc.11/CHANGELOG.md).
+
+<Clip name="shader-inputs-liquid-mask-ios" caption="iPhone 17 Pro simulator, iOS 26.2, English. Actual XCTest taps and scroll gestures drive fusion/separation, paused and playing resize, and cleanup. The checkerboard shows transparent mask edges. Original speed; no physical-device claim." />
+<Clip name="web-element-range-chromium" caption="Chromium desktop, English. Real wheel and clicks show section entry/exit, insertion above the section, resizing, geometry diagnostics and recovery. Original-speed browser recording; not native or physical-device performance evidence." />
+
+## 0.1.0-rc.10: Web effects, device inputs and complete gallery return {#rc-10}
 
 RC.10 adds [gradients, loading and text](./web-effects), [particles, blur, shapes and image effects](./web-surfaces), [keyboard, sheets, navigation, physics and icons](./web-platforms), and [gravity, haptics, sensors, glass and keyed gallery return](./web-parity). Native apps gain [Core ScrollView headers](./scroll-header#retained-scrollview) and [reorder for mounted rows](./reorder#retained-rows).
 

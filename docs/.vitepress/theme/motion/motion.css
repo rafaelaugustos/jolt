@@ -923,6 +923,7 @@
   margin-top: 24px;
 }
 .install-card {
+  min-width: 0;
   align-self: center;
   border: 1px solid #ffffff29;
   padding: 28px 32px;
@@ -945,6 +946,8 @@
   font: 19px/1.7 var(--vp-font-family-mono);
 }
 .install-card code {
+  min-width: 0;
+  overflow-wrap: anywhere;
   font: 18px/1.7 var(--vp-font-family-mono);
   color: #dce5ca;
 }

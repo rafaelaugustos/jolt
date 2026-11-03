@@ -45,6 +45,9 @@ for (const [name, engine] of [
     await page.goto(base)
     await expect(page.locator('[data-motion-ready="true"]')).toHaveCount(2)
     await expect(page.locator('h1')).toContainText('FEEL')
+    await expect(page.locator('.hero-topline a')).toContainText(
+      version.replace('0.1.0-', '').toUpperCase(),
+    )
     await expect(page.locator('.hero-art')).toHaveAttribute('data-renderer', 'webgl')
     await expect(page.locator('#morrow-title')).toHaveText('Morrow.')
     await expect(page.locator('.morrow-phone video')).toHaveAttribute(
@@ -193,6 +196,11 @@ for (const [name, engine] of [
     await expect(page.locator('.drive-prototype video')).toBeVisible()
     await page.locator('.drive-prototype summary').click()
     await page.locator('.site-footer').scrollIntoViewIfNeeded()
+    await page.locator('.install-card button').click()
+    if (name === 'chromium')
+      expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+        `npm install @rafaelaugusto/jolt@${version}`,
+      )
     await expect(page.locator('.footer-wordmark, .motion-footer-top')).toHaveCount(0)
     await expect(page.locator('.footer-links a[href$="performance-study"]')).toBeVisible()
     await page.screenshot({ path: `${output}/${name}-footer.png` })

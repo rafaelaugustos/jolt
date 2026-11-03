@@ -10,7 +10,7 @@
 
 **Desde a RC.7:** [cores, bordas, pintura contínua, tamanho real, FLIP e cenas com seek](./web-visual) ampliam este runtime. As APIs Web continuam experimentais; a paridade completa segue na [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
-**A 0.1.0-rc.10 está disponível.** Os recursos nativos mantêm seus limites documentados enquanto a validação para a estável continua. As entradas Web são experimentais; publicá-las não conclui a integração Mavis nem estabelece paridade de todas as APIs entre native e Web.
+**A 0.1.0-rc.11 está disponível.** Os recursos nativos mantêm seus limites documentados enquanto a validação para a estável continua. As entradas Web são experimentais; publicá-las não conclui a integração Mavis nem estabelece paridade de todas as APIs entre native e Web.
 
 A RC.6 inclui [movimento contínuo na Web](./web-dynamic), com valores, followers e drag/snap, além de [mapeamentos numéricos, atualização de geometria e scroll vertical](./web-support). As APIs Web continuam experimentais.
 

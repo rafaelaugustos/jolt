@@ -126,16 +126,17 @@
   ],
   "browserRecording": {
     "file": "motion-site-chromium.mp4",
-    "duration": 67.0,
+    "duration": 77.76,
     "dimensions": [1440, 1000],
-    "sha256": "a36145c5406e29c0c1284df075e6ea0d4587aca38e01f6134ffc50a3a2c83394",
+    "sha256": "50699d1dde335996f65aa3acbe6086fc0def5c6a35a440a325a04fa172834661",
     "platform": "Chromium on macOS arm64",
     "input": "Real Playwright pointer and keyboard input",
-    "nativeFootage": "Labeled iOS simulator recipe videos, creator-supplied Morrow iOS footage and the published Jolt Drive entrance played inside the website",
+    "nativeFootage": "Reviewed iOS simulator Motion Studio and Jolt Drive recipes, creator-supplied Morrow iOS recording, and the published Jolt Drive entrance played inside the website",
     "originalTiming": true,
     "fullDecode": "passed",
-    "interaction": "Chrome sculpture with inertial drag; scroll-linked Morrow; native previews; spring interruption; stagger; drag/snap; CPU, memory and presentation metrics; compact footer and back-to-top; recipe filtering and clipboard actions. Jolt Drive entrance playback, project link to its showcase, original published screenshots and tablet documentation menu.",
-    "rendering": "Site-owned WebGL renderer, driven by existing Jolt Web motion values. Interactive SVG fallback on context loss."
+    "interaction": "Chrome sculpture with inertial drag; scroll-linked Morrow; native previews; spring interruption; stagger; drag/snap; CPU, memory and presentation metrics; compact footer and back-to-top; recipe filtering and clipboard actions. Jolt Drive entrance playback, project link to its showcase, original published screenshots and tablet documentation menu. Four Jolt Drive recipe results, complete source and AI-prompt copying, native cockpit playback; RC.11 homepage.",
+    "rendering": "Site-owned WebGL renderer, driven by existing Jolt Web motion values. Interactive SVG fallback on context loss.",
+    "siteVersion": "0.1.0-rc.11"
   },
   "physicalStudyImports": [
     {
@@ -288,5 +289,11 @@
         "originalTiming": true
       }
     ]
+  },
+  "integration": {
+    "mainCommit": "da283fe3a0ece7b12a2f07be09126111be8e0327",
+    "siteVersion": "0.1.0-rc.11",
+    "driveSourceVersion": "0.1.0-rc.10",
+    "versionNote": "Site uses the RC.11 repository runtime; Drive snapshots and captures retain the exact project revision and dependency version."
   }
 }
