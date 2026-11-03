@@ -12,6 +12,7 @@ import org.json.JSONObject;
 
 /** Demo-only comparison. Reflection is resolved before all measurement windows. */
 public final class PlaybackEfficiencyProbe {
+    private static final LinearInterpolator LINEAR = new LinearInterpolator();
     private final Method legacy, compact;
     private ObjectAnimator[] retained;
 
@@ -28,7 +29,7 @@ public final class PlaybackEfficiencyProbe {
             double[] times, double[] values, double unit) throws Exception {
         ObjectAnimator animator = (ObjectAnimator)(packed ? compact : legacy)
             .invoke(null, view, property, times, values, unit);
-        if (!packed) animator.setInterpolator(new LinearInterpolator());
+        if (!packed) animator.setInterpolator(LINEAR);
         animator.setDuration(1000);
         return animator;
     }

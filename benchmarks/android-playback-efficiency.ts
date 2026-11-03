@@ -29,6 +29,7 @@ const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, 
 
 /** Reference backend only for the two explicitly supplied demo targets. */
 export function legacyNumericDriver(views: readonly View[], base = getDriver()): Driver {
+  const linear = new android.view.animation.LinearInterpolator()
   return {
     ...base,
     play(view, track, startedAt, onEnd) {
@@ -45,7 +46,7 @@ export function legacyNumericDriver(views: readonly View[], base = getDriver()):
       )
       animator.setDuration(Math.max(1, track.duration))
       animator.setStartDelay(track.delay)
-      animator.setInterpolator(new android.view.animation.LinearInterpolator())
+      animator.setInterpolator(linear)
       if (track.repeat > 0) {
         animator.setRepeatCount(Number.isFinite(track.repeat) ? track.repeat : -1)
         animator.setRepeatMode(

@@ -10,6 +10,7 @@ import android.view.animation.LinearInterpolator;
 
 /** Builds a numeric track without creating a JavaScript proxy for every keyframe. */
 public final class KeyframeFactory {
+    private static final LinearInterpolator LINEAR = new LinearInterpolator();
     private KeyframeFactory() {}
 
     public static ObjectAnimator create(View view, Property<View, Float> property,
@@ -63,7 +64,7 @@ public final class KeyframeFactory {
     private static ObjectAnimator linear(View view, Property<View, Float> property,
             double[] times, double[] values, double unit) {
         ObjectAnimator animator = create(view, property, times, values, unit);
-        animator.setInterpolator(new LinearInterpolator());
+        animator.setInterpolator(LINEAR);
         return animator;
     }
 
