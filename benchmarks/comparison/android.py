@@ -55,7 +55,7 @@ def analyze_presentations(events):
             if key in queued and queued[key] <= value]),
         'presentationLimit': 'SurfaceFlinger buffer present fences on the dominant app layer; emulator timestamps, not physical scanout. Queue-to-present is buffer latency, not input latency.'}
 
-def host_observation():
+def host_observation(during_window=False):
     """Cheap boundary samples; rejects obvious shared-host contention, not thermal proof."""
     load = os.getloadavg()[0]
     cpus = os.cpu_count() or 1
@@ -68,8 +68,8 @@ def host_observation():
                 busy.append({'command': name, 'cpuPercent': float(parts[0])})
     return {'hostTime': time.time(), 'loadAverage1m': load, 'logicalCpus': cpus,
         'busyCompilers': busy, 'compilerCpuPercent': sum(p['cpuPercent'] for p in busy),
-        'compilerCpuLimit': cpus * 25,
-        'quiet': load <= cpus * .75 and sum(p['cpuPercent'] for p in busy) <= cpus * 25}
+        'compilerCpuLimit': cpus * 25, 'duringWindow': during_window,
+        'quiet': (during_window or load <= cpus * .75) and sum(p['cpuPercent'] for p in busy) <= cpus * 25}
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -107,7 +107,7 @@ def main():
         'host': platform.platform(), 'device': shell('getprop'), 'display': shell('dumpsys', 'display'),
         'processor': subprocess.check_output([processor, '--version'], text=True),
         'scenario': scenario, 'windowSeconds': seconds, 'repetitions': repetitions, 'packages': packages,
-        'screenRecording': False, 'hostAcceptance': '1-minute load <= 0.75 * logical CPUs and aggregate sampled compiler CPU <= 25% of host capacity (100% is one logical CPU); sampled before/after and around input boundaries; not thermal or exclusive-host proof', 'runs': []}
+        'screenRecording': False, 'hostAcceptance': 'Before launching the app: 1-minute load <= 0.75 * logical CPUs. All samples: aggregate compiler CPU <= 25% of host capacity (100% is one logical CPU). During playback, load is diagnostic only because it includes the measured emulator. Not thermal or exclusive-host proof.', 'runs': []}
     if (output/'metadata.json').exists():
         previous=json.loads((output/'metadata.json').read_text())
         for key in ('serial','packages','scenario','windowSeconds','repetitions','screenRecording','hostAcceptance'):
@@ -196,12 +196,12 @@ def main():
                         input_times = []
                         for fraction in (1/6, 1/2, 5/6):
                             time.sleep(max(0, start+seconds*fraction-time.monotonic()))
-                            observations.append(host_observation())
+                            observations.append(host_observation(during_window=True))
                             before = time.monotonic()
                             shell('input','tap',*map(str,buttons[key]))
                             input_times.append({'hostSecondsSinceTraceReady': before-start, 'button': key})
                         assert process.wait(timeout=20) == 0
-                    observations.append(host_observation())
+                    observations.append(host_observation(during_window=True))
                     (folder/'host.json').write_text(json.dumps(observations,indent=2)+'\n')
                     (folder/'memory-after.txt').write_text(shell('dumpsys','meminfo',package))
                     trace = folder/'trace.perfetto-trace'

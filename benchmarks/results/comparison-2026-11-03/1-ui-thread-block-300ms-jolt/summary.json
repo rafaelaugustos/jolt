@@ -1,0 +1,73 @@
+{
+  "app": "jolt",
+  "phase": "ui-thread-block-300ms",
+  "repetition": 1,
+  "layer": "dev.jolt.comparison.jolt/com.tns.NativeScriptActivity#2239",
+  "presentedFrames": 1747,
+  "presentationGapMs": {
+    "n": 1746,
+    "p50": 16.6718755,
+    "p95": 17.809905999999998,
+    "p99": 19.6565205,
+    "max": 304.477209
+  },
+  "queueToPresentMs": {
+    "n": 1747,
+    "p50": 16.592084,
+    "p95": 33.2920125,
+    "p99": 34.25181353999999,
+    "max": 37.656208
+  },
+  "presentationLimit": "SurfaceFlinger buffer present fences on the dominant app layer; emulator timestamps, not physical scanout. Queue-to-present is buffer latency, not input latency.",
+  "frameTimelineFrames": 1747,
+  "frameTimelineLayer": "TX - dev.jolt.comparison.jolt/com.tns.NativeScriptActivity#2239",
+  "inputActions": [
+    {
+      "hostSecondsSinceTraceReady": 5.039788625000028,
+      "button": "ui"
+    },
+    {
+      "hostSecondsSinceTraceReady": 15.03889204199993,
+      "button": "ui"
+    },
+    {
+      "hostSecondsSinceTraceReady": 25.039465542000016,
+      "button": "ui"
+    }
+  ],
+  "appFrameTimelineDurationMs": {
+    "n": 1747,
+    "p50": 6.488208,
+    "p95": 7.2363081,
+    "p99": 9.885865859999985,
+    "max": 25.709583
+  },
+  "frameTimelineLimit": "App interval ends at GPU completion/posting, not presentation. Unavailable for the tested Flutter SurfaceView; common cadence/latency metrics use buffer fences for every stack.",
+  "appDeadlineMissed": 3,
+  "droppedFrames": 0,
+  "inputHandlingMs": {
+    "n": 6,
+    "p50": 0.0822495,
+    "p95": 0.33437475,
+    "p99": 0.37954135,
+    "max": 0.390833
+  },
+  "inputAssociatedPresentMs": {
+    "n": 0,
+    "p50": null,
+    "p95": null,
+    "p99": null,
+    "max": null
+  },
+  "inputPresentLimit": "OS frame association; null means unavailable. This does not measure panel latency or identify the first changed tile pixel.",
+  "cpuSeconds": 7.898073,
+  "sampledRssBytes": {
+    "n": 31,
+    "p50": 184066048.0,
+    "p95": 184328192.0,
+    "p99": 184419942.4,
+    "max": 184459264.0
+  },
+  "traceWarnings": [],
+  "traceSha256": "4594d2ab37b4bce04e3e515e277c8039c9676f98d7c07acfc84eae3a5b2b0a89"
+}

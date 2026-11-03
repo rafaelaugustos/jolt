@@ -1,0 +1,47 @@
+[
+  {
+    "hostTime": 1793715094.1236842,
+    "loadAverage1m": 11.859375,
+    "logicalCpus": 16,
+    "busyCompilers": [],
+    "compilerCpuPercent": 0,
+    "compilerCpuLimit": 400,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793715107.949399,
+    "loadAverage1m": 10.89453125,
+    "logicalCpus": 16,
+    "busyCompilers": [],
+    "compilerCpuPercent": 0,
+    "compilerCpuLimit": 400,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793715117.950342,
+    "loadAverage1m": 9.68017578125,
+    "logicalCpus": 16,
+    "busyCompilers": [],
+    "compilerCpuPercent": 0,
+    "compilerCpuLimit": 400,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793715127.951231,
+    "loadAverage1m": 8.966796875,
+    "logicalCpus": 16,
+    "busyCompilers": [],
+    "compilerCpuPercent": 0,
+    "compilerCpuLimit": 400,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793715133.249014,
+    "loadAverage1m": 10.01025390625,
+    "logicalCpus": 16,
+    "busyCompilers": [],
+    "compilerCpuPercent": 0,
+    "compilerCpuLimit": 400,
+    "quiet": true
+  }
+]

@@ -1,0 +1,73 @@
+{
+  "app": "flutter",
+  "phase": "ui-thread-block-300ms",
+  "repetition": 1,
+  "layer": "fa49810 SurfaceView[dev.jolt.comparison.jolt_comparison/dev.jolt.comparison.jolt_comparison.MainActivity](BLAST)#2323",
+  "presentedFrames": 1745,
+  "presentationGapMs": {
+    "n": 1744,
+    "p50": 16.6560625,
+    "p95": 18.53126875,
+    "p99": 19.636951749999998,
+    "max": 315.914166
+  },
+  "queueToPresentMs": {
+    "n": 1745,
+    "p50": 16.259084,
+    "p95": 18.1378918,
+    "p99": 19.18995696,
+    "max": 23.173833
+  },
+  "presentationLimit": "SurfaceFlinger buffer present fences on the dominant app layer; emulator timestamps, not physical scanout. Queue-to-present is buffer latency, not input latency.",
+  "frameTimelineFrames": 0,
+  "frameTimelineLayer": null,
+  "inputActions": [
+    {
+      "hostSecondsSinceTraceReady": 5.03608112500001,
+      "button": "ui"
+    },
+    {
+      "hostSecondsSinceTraceReady": 15.03502924999998,
+      "button": "ui"
+    },
+    {
+      "hostSecondsSinceTraceReady": 25.04039475000002,
+      "button": "ui"
+    }
+  ],
+  "appFrameTimelineDurationMs": {
+    "n": 0,
+    "p50": null,
+    "p95": null,
+    "p99": null,
+    "max": null
+  },
+  "frameTimelineLimit": "App interval ends at GPU completion/posting, not presentation. Unavailable for the tested Flutter SurfaceView; common cadence/latency metrics use buffer fences for every stack.",
+  "appDeadlineMissed": null,
+  "droppedFrames": null,
+  "inputHandlingMs": {
+    "n": 6,
+    "p50": 0.2366875,
+    "p95": 0.40146824999999997,
+    "p99": 0.40802645,
+    "max": 0.409666
+  },
+  "inputAssociatedPresentMs": {
+    "n": 0,
+    "p50": null,
+    "p95": null,
+    "p99": null,
+    "max": null
+  },
+  "inputPresentLimit": "OS frame association; null means unavailable. This does not measure panel latency or identify the first changed tile pixel.",
+  "cpuSeconds": 12.673015,
+  "sampledRssBytes": {
+    "n": 30,
+    "p50": 170061824.0,
+    "p95": 170061824.0,
+    "p99": 170061824.0,
+    "max": 170061824.0
+  },
+  "traceWarnings": [],
+  "traceSha256": "ee8c26ee2cef9dd9724493161e0a52f962e5e42d99a408c0db9c0bccbc19c4d6"
+}

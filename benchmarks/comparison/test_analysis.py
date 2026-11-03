@@ -36,6 +36,13 @@ class HostAcceptance(unittest.TestCase):
         self.assertFalse(result['quiet'])
         self.assertEqual(result['busyCompilers'][0]['command'],'clang')
 
+    def test_workload_load_is_diagnostic_but_compilation_still_rejects(self):
+        with patch.object(comparison.os,'getloadavg',return_value=(20,20,20)), patch.object(comparison.os,'cpu_count',return_value=16):
+            with patch.object(comparison.subprocess,'check_output',return_value='PCPU COMM\n'):
+                self.assertTrue(comparison.host_observation(during_window=True)['quiet'])
+            with patch.object(comparison.subprocess,'check_output',return_value='PCPU COMM\n500 /toolchain/clang\n'):
+                self.assertFalse(comparison.host_observation(during_window=True)['quiet'])
+
     def test_rejects_high_load_and_accepts_idle_host(self):
         with patch.object(comparison.os,'cpu_count',return_value=16), patch.object(comparison.subprocess,'check_output',return_value='PCPU COMM\n80 /toolchain/clang\n'):
             with patch.object(comparison.os,'getloadavg',return_value=(20,20,20)):

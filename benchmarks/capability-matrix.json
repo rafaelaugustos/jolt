@@ -1825,12 +1825,13 @@
     {
       "id": "recipes-comparison",
       "issues": [66, 65],
-      "status": "pending",
+      "status": "validated-emulator-scope",
       "limit": "Exact compiled gallery/sheet/list recipes passed real iOS/Android interactions with reviewed recordings. The first matched release-app comparison has a reproducible protocol and retained per-run traces; see its result summary for scope and metrics. Local and unpublished.",
       "evidence": [
         "docs/guide/recipes.md",
         "benchmarks/results/recipes/acceptance.json",
-        "benchmarks/comparison.md"
+        "benchmarks/comparison.md",
+        "benchmarks/results/comparison-2026-11-03/summary.json"
       ]
     },
     {

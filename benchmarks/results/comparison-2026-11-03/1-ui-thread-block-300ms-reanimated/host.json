@@ -1,0 +1,37 @@
+[
+  {
+    "hostTime": 1793713887.047492,
+    "loadAverage1m": 8.2333984375,
+    "logicalCpus": 16,
+    "busyCompilers": [],
+    "quiet": true
+  },
+  {
+    "hostTime": 1793713900.575161,
+    "loadAverage1m": 7.26806640625,
+    "logicalCpus": 16,
+    "busyCompilers": [],
+    "quiet": true
+  },
+  {
+    "hostTime": 1793713910.575364,
+    "loadAverage1m": 7.50537109375,
+    "logicalCpus": 16,
+    "busyCompilers": [],
+    "quiet": true
+  },
+  {
+    "hostTime": 1793713920.5750961,
+    "loadAverage1m": 8.3916015625,
+    "logicalCpus": 16,
+    "busyCompilers": [],
+    "quiet": true
+  },
+  {
+    "hostTime": 1793713925.861753,
+    "loadAverage1m": 7.54931640625,
+    "logicalCpus": 16,
+    "busyCompilers": [],
+    "quiet": true
+  }
+]

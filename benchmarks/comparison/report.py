@@ -5,10 +5,10 @@ python3 benchmarks/comparison/report.py RESULTS_DIRECTORY
 import csv, gzip, hashlib, json, re, statistics, sys
 from pathlib import Path
 root=Path(sys.argv[1]); meta=json.loads((root/'metadata.json').read_text())
-assert meta['windowSeconds']==30 and meta['repetitions']==3 and meta['screenRecording'] is False
+assert meta['windowSeconds']==30 and meta['repetitions']==2 and meta['screenRecording'] is False
 apps=('jolt','reanimated','flutter'); phases=('normal','app-runtime-block-300ms','ui-thread-block-300ms')
-expected={(app,phase,r) for app in apps for phase in phases for r in range(1,4)}
-assert len(meta['runs'])==27 and {(r['app'],r['phase'],r['repetition']) for r in meta['runs']}==expected
+expected={(app,phase,r) for app in apps for phase in phases for r in range(1,3)}
+assert len(meta['runs'])==18 and {(r['app'],r['phase'],r['repetition']) for r in meta['runs']}==expected
 
 def spread(values):
     values=[v for v in values if v is not None]
@@ -21,7 +21,8 @@ for run in meta['runs']:
     folder=root/f"{run['repetition']}-{run['phase']}-{run['app']}"
     assert json.loads((folder/'summary.json').read_text())==run
     host=json.loads((folder/'host.json').read_text())
-    assert all(x['quiet'] and x['loadAverage1m'] <= x['logicalCpus']*.75 and sum(c['cpuPercent'] for c in x['busyCompilers']) <= x['logicalCpus']*25 for x in host), folder
+    assert host[0]['loadAverage1m'] <= host[0]['logicalCpus']*.75, folder
+    assert all(x['quiet'] and sum(c['cpuPercent'] for c in x['busyCompilers']) <= x['logicalCpus']*25 for x in host), folder
     archive=folder/'trace.perfetto-trace.gz'
     if archive.exists():
         with gzip.open(archive,'rb') as f:
@@ -36,20 +37,21 @@ rows=[]
 for phase in phases:
     for app in apps:
         runs=[r for r in meta['runs'] if r['phase']==phase and r['app']==app]
-        row={'app':app,'phase':phase,'runs':3}
+        row={'app':app,'phase':phase,'runs':2}
         for metric in ('presentationGapMs','queueToPresentMs','inputHandlingMs','inputAssociatedPresentMs','appFrameTimelineDurationMs','sampledRssBytes'):
             row[metric]={p:spread([r[metric][p] for r in runs]) for p in ('p50','p95','p99','max')}
         for metric in ('presentedFrames','cpuSeconds','pssBeforeMiB','pssAfterMiB','appDeadlineMissed','droppedFrames'):
             row[metric]=spread([r[metric] for r in runs])
         row['warnings']=[{'repetition':r['repetition'],'warnings':r['traceWarnings']} for r in runs if r['traceWarnings']]
         rows.append(row)
-result={'scope':meta['scope'],'windowSeconds':30,'repetitions':3,'aggregation':'Each value is the median and range of three run-level statistics. No pooled-frame percentile is presented as a per-run percentile.','rows':rows}
+result={'scope':meta['scope'],'windowSeconds':30,'repetitions':2,'hostAcceptance':meta['hostAcceptance'],'protocolHistory':meta.get('protocolHistory',[]),'hostAcceptanceHistory':meta.get('hostAcceptanceHistory',[]),'aggregation':'Each value is the median and range of two run-level statistics. No pooled-frame percentile is presented as a per-run percentile.','rows':rows}
 (root/'summary.json').write_text(json.dumps(result,indent=2)+'\n')
 def cell(value):
     if value['n']==0:return 'unavailable'
     return f"{value['median']:.2f} ({value['min']:.2f}–{value['max']:.2f})"
 lines=['# First comparison results','',
-'Android API 36 arm64 emulator; release builds; no screen recording during measurement. Each cell is the **median of three runs (minimum–maximum)**. Each run has five seconds of warmup and a 30-second trace. These are emulator baselines, not physical-device rankings.','',
+'Android API 36 arm64 emulator; release builds; no screen recording during measurement. Each cell is the **median of two runs (minimum–maximum)**. Each run has five seconds of warmup and a 30-second trace. These are emulator baselines, not physical-device rankings.','',
+'The collection protocol changed from five to three, then two complete repetitions at the maintainer’s request. Host admission rules were corrected during collection so the measured emulator’s own CPU load is not treated as unrelated contention. Earlier accepted runs also satisfy the final rule; rejected attempts were not promoted. The full history is in metadata.json. Treat this shared-host run as an exploratory baseline, not a controlled hardware ranking.', '',
 '| Phase | Stack | Presentation gap p95 (ms) | Maximum gap (ms) | Queue→present p95 (ms) | Input acknowledgement p95 (ms) | CPU seconds / 30 s | Post-run PSS (MiB) |',
 '| --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |']
 for r in rows:
@@ -58,4 +60,4 @@ lines+=['', 'Presentation is a SurfaceFlinger buffer fence on an emulated displa
 'NativeScript application JS shares Android’s main thread; Reanimated application JS is separate from UI worklets. Flutter’s Dart UI isolate and Android main thread are also separate. Read the two blocking phases as distinct experiments. Static controls exclude ripple/elevation animations that could keep submitting buffers while the tile stalls.', '',
 'Raw traces, hashes, configuration, package/APK metadata, source pins, input actions, frame/input/memory CSV and pre/post process dumps accompany these summaries. See `metadata.json`, each run directory and `summary.json`. Startup files retain `am start -W` activity timing; they do not measure first meaningful content. Process PSS includes runtime and caches; it is not texture memory. No regression budget is inferred from this single host/emulator baseline.']
 (root/'README.md').write_text('\n'.join(lines)+'\n')
-print('PASS 27 complete runs, retained trace integrity and per-run variability')
+print('PASS 18 complete runs, retained trace integrity and per-run variability')
