@@ -2,9 +2,9 @@
   "date": "2026-11-03",
   "releaseStatus": "Unpublished development work. No version bump, tag, npm publication or GitHub release authorized.",
   "browserTests": {
-    "startTime": "2026-11-03T05:05:50.081Z",
-    "duration": 26855.076,
-    "expected": 63,
+    "startTime": "2026-11-03T05:11:22.767Z",
+    "duration": 27812.219,
+    "expected": 66,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0
@@ -177,12 +177,12 @@
       "review": "Full decode, chronological visual inspection and actual browser video playback to ended at original speed."
     },
     {
-      "duration": 8.066667,
-      "position": 8.066667,
+      "duration": 9.3,
+      "position": 9.3,
       "width": 1000,
       "height": 920,
       "error": null,
-      "sha256": "00f0dfdaf2e14564279817f292fec90c1b0ec1e9e08b51985fb3d829a2a4e257",
+      "sha256": "686555d3c9c8e8c82edaa8d3a326dd42a2687fa752990de3e440a419160dab56",
       "path": "docs/public/media/web-symbols-platforms-chromium.mp4",
       "platform": "Chromium 156.0.8078.4 on macOS",
       "language": "en",

@@ -99,7 +99,7 @@ Bodies can use direct drag, a spring pointer tether, a fixed `attachment`, or 1â
 
 `{ replace: detachedIconElement }` replaces the wrapper's children with an application-owned decorative HTML/SVG element from the same document. The replacement remains after stop/dispose. Update the accessible name and application state yourself. Repeat and held scale have infinite logical duration and cannot seek; finite effects support progress, pause/play and boolean completion. Reduced motion skips decoration (`false`) while replacement still commits (`true`). Cancelled effects restore their owned animated properties; newer app state remains intact.
 
-<Clip name="web-symbols-platforms-chromium" :width="900" caption="Chromium on macOS, English UI: real clicks show bounce, pulse, per-layer opacity, pause/resume and retained icon replacement. Application-owned SVG artwork, not SF Symbols." />
+<Clip name="web-symbols-platforms-chromium" :width="900" caption="Chromium on macOS, English UI: real clicks show bounce, pulse, per-layer opacity, pause/resume, held scale and retained icon replacement. Application-owned SVG artwork, not SF Symbols." />
 <Clip name="symbols-reference-ios" caption="iOS simulator, English native demo: real SF Symbols effects on the native symbol image. Reviewed existing reference; original speed, not a physical device. Web artwork and rendering differ." />
 
 ## Lifecycle and validation {#validation}

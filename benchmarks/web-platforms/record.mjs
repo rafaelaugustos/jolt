@@ -100,6 +100,8 @@ try {
       await page.waitForTimeout(600)
       await page.locator('#play').click()
       await page.waitForTimeout(800)
+      await page.locator('#action').click()
+      await page.waitForTimeout(1200)
       await page.locator('#reverse').click()
     }
     await page.waitForTimeout(1200)

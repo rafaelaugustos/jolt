@@ -509,3 +509,36 @@ test('reentrant lifecycle callbacks cannot restart disposed input or reverse a r
     await page.locator('#dialog').evaluate((e) => (e as HTMLDialogElement).open),
   ).toBe(false)
 })
+
+test('held symbol scale survives unrelated DOM changes and pause/resume without replay', async ({
+  page,
+}) => {
+  await page.evaluate(() => {
+    const f = window.fixture
+    f.boot('symbols')
+    f.runtime.symbolEffect(f.el('symbol'), 'scale', { speed: 10 })
+  })
+  await expect
+    .poll(() => page.locator('#symbol').evaluate((e) => getComputedStyle(e).scale))
+    .toBe('1.2')
+  await page.evaluate(() => {
+    const node = document.createElement('span')
+    document.body.append(node)
+    node.remove()
+  })
+  await page.waitForTimeout(20)
+  expect(await page.locator('#symbol').evaluate((e) => getComputedStyle(e).scale)).toBe(
+    '1.2',
+  )
+  const result = await page.evaluate(async () => {
+    const f = window.fixture,
+      handle = f.runtime.symbolEffect(f.el('symbol'), 'scale', { speed: 10 })
+    await new Promise((resolve) => setTimeout(resolve, 100))
+    handle.pause()
+    handle.play()
+    const scale = getComputedStyle(f.el('symbol')).scale
+    handle.dispose()
+    return { scale, finished: await handle.finished }
+  })
+  expect(result).toEqual({ scale: '1.2', finished: false })
+})

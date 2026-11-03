@@ -103,7 +103,8 @@ export function createSymbolEffect(
     for (const animation of effects) {
       animation.pause()
       animation.currentTime = heldScale ? Math.min(cycle, clock.time()) : clock.time()
-      if (!held && !host.document.hidden) animation.play()
+      if (!held && !host.document.hidden && !(heldScale && clock.time() >= cycle))
+        animation.play()
     }
     if (!held && Number.isFinite(duration))
       clearTimer = host.after(Math.max(0, duration - clock.time()), () => finish(true))
