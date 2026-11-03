@@ -216,7 +216,7 @@ onUnmounted(() => {
         />
       </GridLayout>
     </GridLayout>
-    <GridLayout columns="*,*,*">
+    <GridLayout columns="*,*,*" rows="auto" height="52">
       <Button :text="text('Play', 'Reproduzir')" :isEnabled="!busy" @tap="play()" />
       <Button col="1" :text="text('Pause', 'Pausar')" :isEnabled="!busy" @tap="pause" />
       <Button
@@ -226,7 +226,7 @@ onUnmounted(() => {
         @tap="resume"
       />
     </GridLayout>
-    <GridLayout columns="*,*,*">
+    <GridLayout columns="*,*,*" rows="auto" height="52">
       <Button text="70%" :isEnabled="!busy" @tap="seek" />
       <Button
         col="1"
