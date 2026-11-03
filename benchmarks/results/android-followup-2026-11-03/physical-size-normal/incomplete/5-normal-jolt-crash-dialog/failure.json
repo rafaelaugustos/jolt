@@ -1,0 +1,5 @@
+{
+  "stage": "UI controls before timing",
+  "error": "Jolt crash dialog from prior EGL failure obscured native controls; am start reported ok. Dialog dismissed before resuming.",
+  "included": false
+}

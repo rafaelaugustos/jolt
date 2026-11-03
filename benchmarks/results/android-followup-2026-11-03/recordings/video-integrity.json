@@ -1,0 +1,32 @@
+[
+  {
+    "filename": "comparison-jolt-physical-android.mp4",
+    "sourceSha256": "14b4813e7b4815006bc71c4ecc2b81906afbc2a3edc4568e5cc30999c5524fc7",
+    "publishedFileSha256": "3ab1c9cee418be52feb61be9212d2cc4e0782da474fd618c88b3c58f30be75c7",
+    "frames": 913,
+    "durationSeconds": 18.411911,
+    "timestampsMatchNativeCapture": true,
+    "processing": "H.264 stream copy with faststart; no resampling, interpolation or speed change",
+    "fullDecode": "passed without errors"
+  },
+  {
+    "filename": "comparison-reanimated-physical-android.mp4",
+    "sourceSha256": "b9f0cca5e1d4d7eb2a402489ca39e6b33db19e2d2f62983f0c493775528100e0",
+    "publishedFileSha256": "b767041728b905eeacb8ea7c019a3dc29bed71fb359bcc3ecc803d39f712fbbe",
+    "frames": 930,
+    "durationSeconds": 19.024244,
+    "timestampsMatchNativeCapture": true,
+    "processing": "H.264 stream copy with faststart; no resampling, interpolation or speed change",
+    "fullDecode": "passed without errors"
+  },
+  {
+    "filename": "comparison-js-profile-physical-android.mp4",
+    "sourceSha256": "8b7d8983b7b3c89ced254611a31af29f8043688f4c603eafd580d3ba698ef59b",
+    "publishedFileSha256": "cd47b1a738e52406ed4d542a89e40b041c41c1c040c0b639aed8962000804f5a",
+    "frames": 19,
+    "durationSeconds": 10.062811,
+    "timestampsMatchNativeCapture": true,
+    "processing": "H.264 stream copy with faststart; no resampling, interpolation or speed change",
+    "fullDecode": "passed without errors"
+  }
+]

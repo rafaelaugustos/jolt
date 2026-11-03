@@ -48,3 +48,30 @@ These results are an exploratory emulator baseline. Host admission rules were co
 [Full per-run distributions, raw Perfetto traces, hashes, memory, CPU and reproduction](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/results/comparison-2026-11-03).
 
 One normal Reanimated run contains a 348 ms presentation gap outside the scripted input times; its cause is not isolated. It remains in the dataset. Two repetitions and a shared host do not establish a stable CPU/frame ranking.
+
+## Physical Android follow-up
+
+Five alternating pairs per configuration on a physical ASUS ZenFone 3, Android 8.0.0; 30 seconds per run after five seconds of warmup. The default and size-profile cohorts were collected sequentially. These medians describe one simple animation on one older phone, not a general framework ranking. Flutter was not repeated here.
+
+| Configuration                   | CPU seconds / 30 s | Post-run PSS (MiB) | Maximum frame gap, median (ms) |
+| ------------------------------- | -----------------: | -----------------: | -----------------------------: |
+| Jolt, default                   |               6.79 |              88.27 |                          17.04 |
+| Reanimated, default cohort      |              14.63 |              85.65 |                          17.25 |
+| Jolt, explicit V8 size profile  |               7.37 |              79.16 |                          50.15 |
+| Reanimated, size-profile cohort |              14.70 |              85.96 |                          17.06 |
+
+The optional `--optimize_for_size` runtime flag reduced post-run PSS, with higher CPU and longer maximum gaps than default Jolt. Before the motion window, size-profile Jolt still used 89.56 MiB versus 80.42 MiB for its Reanimated control. PSS is a snapshot, not peak memory. This is an application configuration experiment; Jolt’s engine and defaults did not change. Do not enable the flag solely to improve this table.
+
+Normal cadence p95 stayed near 16.9 ms. Median frame-ready→present time was 32.43 ms for default Jolt and 25.28 ms for its Reanimated control; the size cohort measured 30.03 and 25.31 ms. These physical SurfaceFlinger fence intervals are not the emulator’s queue→present metric, input latency or panel scanout. The extra wait and main-thread blocking remain unresolved. Cold launches also encountered an `EGL_NOT_INITIALIZED` graphics failure; unsuccessful attempts are retained, with no established root cause.
+
+Two additional runs per blocking phase used the size-profile Jolt APK and the same Reanimated control. Median maximum frame gaps were **309.13 vs 17.06 ms** when application JavaScript was blocked, and **300.85 vs 300.79 ms** when the UI thread was blocked. Lower PSS did not close the JavaScript-blocking gap. These phases contain three deliberate 300 ms blocks per run.
+
+<Clip name="comparison-jolt-physical-android" caption="Physical ASUS ZenFone 3, Android 8.0.0, English. Jolt with the explicit V8 size profile: real taps restart, block application JS, block the UI thread and stop. Original speed; recording is separate from measurement and adds work." />
+
+<Clip name="comparison-reanimated-physical-android" caption="Physical ASUS ZenFone 3, Android 8.0.0, English. Reanimated with real start/restart, application-JS block, UI-thread block and stop interactions. Original speed; recorded separately from timing." />
+
+In the separate JSON allocation probe, the two default runs took 421.61 and 417.33 ms per measured batch (medians); the size runs took 592.38 and 591.06 ms. Process CPU rose from 426/420 to 743/742 ms, while post-workload PSS fell from 120.57/121.15 to 102.51/102.06 MiB. Each fresh process excludes its first batch. This tradeoff is another reason to keep the flag experimental.
+
+<Clip name="comparison-js-profile-physical-android" caption="Physical ASUS ZenFone 3, Android 8.0.0, English. Separate JavaScript allocation probe, default runtime profile. Actual batch progress and checksum completion; this recording is visual evidence, not a timing sample or cross-framework comparison." />
+
+[Full ranges, raw physical samples, failed attempts, runtime-profile tradeoffs and reproduction](https://github.com/rafaelaugustos/jolt/tree/main/benchmarks/results/android-followup-2026-11-03).

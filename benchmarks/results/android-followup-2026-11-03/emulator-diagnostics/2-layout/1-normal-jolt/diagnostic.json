@@ -1,0 +1,10 @@
+{
+  "driver": "jolt",
+  "tileKind": "layout",
+  "layer": "none",
+  "startMode": "immediate",
+  "nativeClass": "org.nativescript.widgets.GridLayout",
+  "overlapping": true,
+  "processId": 12782,
+  "mainThreadId": 12782
+}

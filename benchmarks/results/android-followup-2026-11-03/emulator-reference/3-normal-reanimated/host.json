@@ -1,0 +1,62 @@
+[
+  {
+    "hostTime": 1793725061.869133,
+    "loadAverage1m": 11.65771484375,
+    "logicalCpus": 16,
+    "busyCompilers": [],
+    "compilerCpuPercent": 0,
+    "compilerCpuLimit": 400,
+    "duringWindow": false,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793725075.382124,
+    "loadAverage1m": 12.9765625,
+    "logicalCpus": 16,
+    "busyCompilers": [
+      {
+        "command": "rustc",
+        "cpuPercent": 100.0
+      }
+    ],
+    "compilerCpuPercent": 100.0,
+    "compilerCpuLimit": 400,
+    "duringWindow": true,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793725085.412111,
+    "loadAverage1m": 12.32958984375,
+    "logicalCpus": 16,
+    "busyCompilers": [
+      {
+        "command": "rustc",
+        "cpuPercent": 100.0
+      }
+    ],
+    "compilerCpuPercent": 100.0,
+    "compilerCpuLimit": 400,
+    "duringWindow": true,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793725095.396341,
+    "loadAverage1m": 11.0546875,
+    "logicalCpus": 16,
+    "busyCompilers": [],
+    "compilerCpuPercent": 0,
+    "compilerCpuLimit": 400,
+    "duringWindow": true,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793725100.725991,
+    "loadAverage1m": 10.48974609375,
+    "logicalCpus": 16,
+    "busyCompilers": [],
+    "compilerCpuPercent": 0,
+    "compilerCpuLimit": 400,
+    "duringWindow": true,
+    "quiet": true
+  }
+]

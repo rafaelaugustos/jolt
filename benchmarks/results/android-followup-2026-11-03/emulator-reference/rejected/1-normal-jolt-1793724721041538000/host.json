@@ -1,0 +1,86 @@
+[
+  {
+    "hostTime": 1793724676.0678139,
+    "loadAverage1m": 9.2880859375,
+    "logicalCpus": 16,
+    "busyCompilers": [
+      {
+        "command": "clang",
+        "cpuPercent": 87.9
+      }
+    ],
+    "compilerCpuPercent": 87.9,
+    "compilerCpuLimit": 400,
+    "duringWindow": false,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793724691.3195992,
+    "loadAverage1m": 18.61865234375,
+    "logicalCpus": 16,
+    "busyCompilers": [
+      {
+        "command": "clang",
+        "cpuPercent": 89.9
+      },
+      {
+        "command": "clang",
+        "cpuPercent": 91.6
+      },
+      {
+        "command": "clang",
+        "cpuPercent": 96.4
+      },
+      {
+        "command": "clang",
+        "cpuPercent": 93.9
+      },
+      {
+        "command": "clang",
+        "cpuPercent": 92.9
+      },
+      {
+        "command": "clang",
+        "cpuPercent": 92.5
+      },
+      {
+        "command": "clang",
+        "cpuPercent": 96.3
+      }
+    ],
+    "compilerCpuPercent": 653.4999999999999,
+    "compilerCpuLimit": 400,
+    "duringWindow": true,
+    "quiet": false
+  },
+  {
+    "hostTime": 1793724701.307688,
+    "loadAverage1m": 17.30908203125,
+    "logicalCpus": 16,
+    "busyCompilers": [],
+    "compilerCpuPercent": 0,
+    "compilerCpuLimit": 400,
+    "duringWindow": true,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793724711.300546,
+    "loadAverage1m": 22.533203125,
+    "logicalCpus": 16,
+    "busyCompilers": [],
+    "compilerCpuPercent": 0,
+    "compilerCpuLimit": 400,
+    "duringWindow": true,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793724716.697218,
+    "loadAverage1m": 21.44921875,
+    "logicalCpus": 16,
+    "busyCompilers": [],
+    "compilerCpuPercent": 0,
+    "compilerCpuLimit": 400,
+    "duringWindow": true,
+    "quiet": true
+  }
+]

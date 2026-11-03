@@ -1,0 +1,10 @@
+{
+  "profile": "size",
+  "v8Flags": "--expose_gc --optimize_for_size",
+  "apkSha256": "3818b74792b996abecb84ce0dc270d5d02ee011ef2c5daccf131624ec620c2c1",
+  "baseCommit": "86ba72b59cbfe06062e3175e5708d5b11f4a4b0b",
+  "changedEntriesFromDiagnosticApk": [
+    "assets/app/package.json"
+  ],
+  "sourcePatchSha256": "a9b888ca4ef03be8811ea09e061d5146a36afdd1f1528d973d007ef7b7c0ddf4"
+}

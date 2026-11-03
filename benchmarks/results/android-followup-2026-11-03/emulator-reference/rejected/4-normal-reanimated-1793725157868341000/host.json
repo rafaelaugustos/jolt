@@ -1,0 +1,224 @@
+[
+  {
+    "hostTime": 1793725110.9971561,
+    "loadAverage1m": 9.958984375,
+    "logicalCpus": 16,
+    "busyCompilers": [],
+    "compilerCpuPercent": 0,
+    "compilerCpuLimit": 400,
+    "duringWindow": false,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793725125.014961,
+    "loadAverage1m": 12.54443359375,
+    "logicalCpus": 16,
+    "busyCompilers": [
+      {
+        "command": "swift-test",
+        "cpuPercent": 308.2
+      }
+    ],
+    "compilerCpuPercent": 308.2,
+    "compilerCpuLimit": 400,
+    "duringWindow": true,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793725135.09225,
+    "loadAverage1m": 24.298828125,
+    "logicalCpus": 16,
+    "busyCompilers": [
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 35.2
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 29.8
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 34.3
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 27.7
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 23.2
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 26.2
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 23.5
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 23.1
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 25.9
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 32.0
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 26.2
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 29.9
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 29.2
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 20.5
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 35.5
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 20.5
+      }
+    ],
+    "compilerCpuPercent": 442.69999999999993,
+    "compilerCpuLimit": 400,
+    "duringWindow": true,
+    "quiet": false
+  },
+  {
+    "hostTime": 1793725144.97832,
+    "loadAverage1m": 44.251953125,
+    "logicalCpus": 16,
+    "busyCompilers": [
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 39.3
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 37.3
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 36.7
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 35.5
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 40.8
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 36.9
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 39.3
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 36.9
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 42.3
+      }
+    ],
+    "compilerCpuPercent": 345.0,
+    "compilerCpuLimit": 400,
+    "duringWindow": true,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793725150.839822,
+    "loadAverage1m": 42.8701171875,
+    "logicalCpus": 16,
+    "busyCompilers": [
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 25.2
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 25.6
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 25.0
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 25.0
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 27.0
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 29.9
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 24.7
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 27.9
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 25.9
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 24.7
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 23.5
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 27.9
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 26.4
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 25.6
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 27.5
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 32.1
+      }
+    ],
+    "compilerCpuPercent": 423.9,
+    "compilerCpuLimit": 400,
+    "duringWindow": true,
+    "quiet": false
+  }
+]

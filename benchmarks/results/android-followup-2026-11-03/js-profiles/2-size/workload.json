@@ -1,0 +1,42 @@
+{
+  "status": "complete",
+  "processId": 9847,
+  "v8Flags": "--expose_gc --optimize_for_size",
+  "rows": 4000,
+  "iterations": 10,
+  "warmupBatches": 1,
+  "samples": [
+    {
+      "wallMs": 566.746667,
+      "processCpuMs": 721,
+      "checksum": 81448900
+    },
+    {
+      "wallMs": 578.468906,
+      "processCpuMs": 814,
+      "checksum": 81448900
+    },
+    {
+      "wallMs": 594.114739,
+      "processCpuMs": 742,
+      "checksum": 81448900
+    },
+    {
+      "wallMs": 591.06177,
+      "processCpuMs": 728,
+      "checksum": 81448900
+    },
+    {
+      "wallMs": 565.172135,
+      "processCpuMs": 718,
+      "checksum": 81448900
+    },
+    {
+      "wallMs": 605.295677,
+      "processCpuMs": 749,
+      "checksum": 81448900
+    }
+  ],
+  "encodedCharacters": 723621,
+  "expectedChecksum": 81448900
+}

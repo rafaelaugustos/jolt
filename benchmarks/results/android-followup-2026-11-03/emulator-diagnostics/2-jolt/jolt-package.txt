@@ -1,0 +1,137 @@
+Activity Resolver Table:
+  Non-Data Actions:
+      android.intent.action.MAIN:
+        8684055 dev.jolt.comparison.jolt/com.tns.NativeScriptActivity filter ebb7a6a
+          Action: "android.intent.action.MAIN"
+          Category: "android.intent.category.LAUNCHER"
+
+Receiver Resolver Table:
+  Non-Data Actions:
+      androidx.profileinstaller.action.SAVE_PROFILE:
+        d1b9b5b dev.jolt.comparison.jolt/androidx.profileinstaller.ProfileInstallReceiver filter d0ed336
+          Action: "androidx.profileinstaller.action.SAVE_PROFILE"
+      androidx.profileinstaller.action.INSTALL_PROFILE:
+        d1b9b5b dev.jolt.comparison.jolt/androidx.profileinstaller.ProfileInstallReceiver filter 1790ff8
+          Action: "androidx.profileinstaller.action.INSTALL_PROFILE"
+      androidx.profileinstaller.action.SKIP_FILE:
+        d1b9b5b dev.jolt.comparison.jolt/androidx.profileinstaller.ProfileInstallReceiver filter 5398cd1
+          Action: "androidx.profileinstaller.action.SKIP_FILE"
+      androidx.profileinstaller.action.BENCHMARK_OPERATION:
+        d1b9b5b dev.jolt.comparison.jolt/androidx.profileinstaller.ProfileInstallReceiver filter 56e9237
+          Action: "androidx.profileinstaller.action.BENCHMARK_OPERATION"
+
+Domain verification status:
+
+Permissions:
+  Permission [dev.jolt.comparison.jolt.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION] (bc917e6):
+    sourcePackage=dev.jolt.comparison.jolt
+    uid=10215 gids=[] type=0 prot=signature
+    perm=PermissionInfo{3bf6157 dev.jolt.comparison.jolt.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION}
+    flags=0x0
+
+Registered ContentProviders:
+  dev.jolt.comparison.jolt/androidx.startup.InitializationProvider:
+    Provider{86f2444 dev.jolt.comparison.jolt/androidx.startup.InitializationProvider}
+
+ContentProvider Authorities:
+  [dev.jolt.comparison.jolt.androidx-startup]:
+    Provider{86f2444 dev.jolt.comparison.jolt/androidx.startup.InitializationProvider}
+      applicationInfo=ApplicationInfo{bcb7127 dev.jolt.comparison.jolt}
+
+Key Set Manager:
+  [dev.jolt.comparison.jolt]
+      Signing KeySets: 62
+
+Packages:
+  Package [dev.jolt.comparison.jolt] (d433fd4):
+    appId=10215
+    pkg=Package{16ebbf3 dev.jolt.comparison.jolt}
+    codePath=/data/app/~~KGypqifCx-7SDgYTTrmP7Q==/dev.jolt.comparison.jolt-NFvnYlfzL1hwMbGQZRX8cQ==
+    resourcePath=/data/app/~~KGypqifCx-7SDgYTTrmP7Q==/dev.jolt.comparison.jolt-NFvnYlfzL1hwMbGQZRX8cQ==
+    legacyNativeLibraryDir=/data/app/~~KGypqifCx-7SDgYTTrmP7Q==/dev.jolt.comparison.jolt-NFvnYlfzL1hwMbGQZRX8cQ==/lib
+    extractNativeLibs=false
+    primaryCpuAbi=arm64-v8a
+    secondaryCpuAbi=null
+    cpuAbiOverride=null
+    versionCode=1 minSdk=24 targetSdk=36
+    minExtensionVersions=[]
+    versionName=1.0.0
+    hiddenApiEnforcementPolicy=2
+    usesNonSdkApi=false
+    splits=[base]
+    apkSigningVersion=2
+    flags=[ HAS_CODE ALLOW_CLEAR_USER_DATA ALLOW_BACKUP ]
+    privateFlags=[ PRIVATE_FLAG_ACTIVITIES_RESIZE_MODE_RESIZEABLE_VIA_SDK_VERSION ALLOW_AUDIO_PLAYBACK_CAPTURE PRIVATE_FLAG_ALLOW_NATIVE_HEAP_POINTER_TAGGING ]
+    forceQueryable=false
+    pageSizeCompat=0
+    scannedAsStoppedSystemApp=false
+    supportsScreens=[small, medium, large, xlarge, resizeable, anyDensity]
+    timeStamp=2026-11-03 14:10:22
+    lastUpdateTime=2026-11-03 14:10:22
+    installerPackageName=null
+    installerPackageUid=-1
+    initiatingPackageName=com.android.shell
+    originatingPackageName=null
+    packageSource=1
+    appMetadataFilePath=null
+    appMetadataSource=0
+    signatures=PackageSignatures{a5c40b0 version:2, signatures:[4119c862], past signatures:[]}
+    installPermissionsFixed=false
+    pkgFlags=[ HAS_CODE ALLOW_CLEAR_USER_DATA ALLOW_BACKUP ]
+    privatePkgFlags=[ PRIVATE_FLAG_ACTIVITIES_RESIZE_MODE_RESIZEABLE_VIA_SDK_VERSION ALLOW_AUDIO_PLAYBACK_CAPTURE PRIVATE_FLAG_ALLOW_NATIVE_HEAP_POINTER_TAGGING ]
+    apexModuleName=null
+    declared permissions:
+      dev.jolt.comparison.jolt.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION: prot=signature
+    requested permissions:
+      android.permission.INTERNET
+      android.permission.READ_PHONE_STATE
+      dev.jolt.comparison.jolt.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+      android.permission.ACCESS_NETWORK_STATE
+    install permissions:
+      android.permission.INTERNET: granted=true
+      dev.jolt.comparison.jolt.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION: granted=true
+      android.permission.ACCESS_NETWORK_STATE: granted=true
+    User 0: ceDataInode=606300 deDataInode=401663 installed=true hidden=false suspended=false distractionFlags=0 stopped=true notLaunched=false enabled=0 instant=false virtual=false quarantined=false
+      installReason=0
+      dataDir=/data/user/0/dev.jolt.comparison.jolt
+      firstInstallTime=2026-11-03 14:10:22
+      uninstallReason=0
+      overlay paths:
+        /product/overlay/NavigationBarModeGestural/NavigationBarModeGesturalOverlay.apk
+        /data/resource-cache/com.android.systemui-neutral-zl5s.frro
+        /data/resource-cache/com.android.systemui-accent-bJxW.frro
+        /data/resource-cache/com.android.systemui-dynamic-jUdY.frro
+      legacy overlay paths:
+        /product/overlay/NavigationBarModeGestural/NavigationBarModeGesturalOverlay.apk
+      gids=[3003]
+      runtime permissions:
+        android.permission.READ_PHONE_STATE: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]
+
+Queries:
+  system apps queryable: false
+  queries via forceQueryable:
+  queries via package name:
+  queries via component:
+    com.google.android.as:
+      dev.jolt.comparison.jolt
+    com.google.android.settings.intelligence:
+      dev.jolt.comparison.jolt
+  queryable via interaction:
+    User 0:
+      [com.android.server.telecom,com.android.dynsystem,com.android.location.fused,com.android.emulator.multidisplay,com.android.inputdevices,com.android.settings,com.android.providers.settings,com.android.localtransport,com.android.keychain,android,com.android.DeviceAsWebcam]:
+        dev.jolt.comparison.jolt
+      com.google.android.gms:
+        dev.jolt.comparison.jolt
+      com.google.android.inputmethod.latin:
+        dev.jolt.comparison.jolt
+  queryable via uses-library:
+
+Dexopt state:
+  [dev.jolt.comparison.jolt]
+    path: /data/app/~~KGypqifCx-7SDgYTTrmP7Q==/dev.jolt.comparison.jolt-NFvnYlfzL1hwMbGQZRX8cQ==/base.apk
+      arm64: [status=verify] [reason=install] [primary-abi]
+        [location is /data/app/~~KGypqifCx-7SDgYTTrmP7Q==/dev.jolt.comparison.jolt-NFvnYlfzL1hwMbGQZRX8cQ==/oat/arm64/base.odex]
+
+Compiler stats:
+  [dev.jolt.comparison.jolt]
+     base.apk - 332
