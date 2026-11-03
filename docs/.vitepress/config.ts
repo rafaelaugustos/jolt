@@ -338,7 +338,7 @@ export default defineConfig({
   title: 'Jolt',
   appearance: 'dark',
   description:
-    'Native animations for NativeScript: presets, springs, keyframes and stagger, one call each.',
+    'Motion for NativeScript and the Web: presets, springs, keyframes, stagger and gestures for native views and HTML elements.',
   cleanUrls: true,
   lastUpdated: existsSync('.git'),
   sitemap: { hostname: site },
@@ -462,7 +462,7 @@ gtag('config', '${analytics}');`,
       lang: 'pt-BR',
       link: '/pt-BR/',
       description:
-        'Animações nativas para NativeScript: presets, springs, keyframes e stagger, uma chamada cada.',
+        'Movimento para NativeScript e Web: presets, springs, keyframes, stagger e gestos para views nativas e elementos HTML.',
       themeConfig: {
         nav: [
           { text: 'Receitas', link: '/pt-BR/recipes/' },

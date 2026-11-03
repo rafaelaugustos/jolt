@@ -197,7 +197,7 @@ export const zh = {
 export const spanish: LocaleSpecificConfig<DefaultTheme.Config> = {
   lang: 'es',
   description:
-    'Animaciones nativas para NativeScript: efectos predefinidos, resortes, fotogramas clave y secuencias escalonadas, con una sola llamada.',
+    'Movimiento para NativeScript y Web: presets, resortes, fotogramas clave, animaciones escalonadas y gestos para vistas nativas y elementos HTML.',
   themeConfig: {
     outline: { level: [2, 3], label: 'En esta página' },
     docFooter: { prev: 'Anterior', next: 'Siguiente' },
@@ -219,7 +219,7 @@ export const spanish: LocaleSpecificConfig<DefaultTheme.Config> = {
 export const chinese: LocaleSpecificConfig<DefaultTheme.Config> = {
   lang: 'zh-Hans',
   description:
-    '为 NativeScript 带来原生动画：预设、弹簧、关键帧和交错动画，一次调用即可实现。',
+    '为 NativeScript 和 Web 带来动效：面向原生视图和 HTML 元素的预设、弹簧、关键帧、交错动画和手势。',
   themeConfig: {
     outline: { level: [2, 3], label: '本页目录' },
     docFooter: { prev: '上一页', next: '下一页' },
