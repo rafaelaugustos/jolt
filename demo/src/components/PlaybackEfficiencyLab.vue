@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import {
-  Application,
-  knownFolders,
-  isAndroid,
-  type EventData,
-  type View,
-} from '@nativescript/core'
+import { Application, isAndroid, type EventData, type View } from '@nativescript/core'
 import { onUnmounted, ref } from 'nativescript-vue'
 import { animate, configure, type PlaybackAnimation } from '../../../dist/index.js'
 import { getDriver, setDriver } from '../../../dist/driver/index.js'
@@ -14,6 +8,8 @@ import {
   runPlaybackEfficiency,
 } from '../../../benchmarks/android-playback-efficiency'
 import { launchArgument } from '../launch'
+import { installResourceProfile } from '../../../benchmarks/android-resource-profile'
+import { PlaybackReportWriter } from '../playback-report-writer'
 
 const pt = launchArgument('lang') === 'pt'
 const text = (en: string, br: string) => (pt ? br : en)
@@ -29,12 +25,18 @@ let animations: PlaybackAnimation[] = []
 const base = getDriver()
 const signal = { aborted: false }
 let timer: ReturnType<typeof setTimeout> | undefined
+let disposeProfile: (() => void) | undefined
+let reportWriter: PlaybackReportWriter | undefined
 function loaded(event: EventData, lane: number) {
   if (lane === 0) original = event.object as View
   else compact = event.object as View
   if (!original || !compact || !isAndroid) return
   configure({ reducedMotion: 'never', timeScale: 1 })
   setDriver(legacyNumericDriver([original], base))
+  if (launchArgument('resource-profile') !== undefined && !disposeProfile)
+    timer = setTimeout(() => {
+      if (!signal.aborted) disposeProfile = installResourceProfile(compact, signal)
+    }, 500)
   if (launchArgument('efficiency-checks') !== undefined)
     timer = setTimeout(() => void audit(), 500)
 }
@@ -93,19 +95,15 @@ async function audit() {
     'Measuring on this Android device…',
     'Medindo neste dispositivo Android…',
   )
-  const save = (report: object) => {
-    const content = JSON.stringify(report, null, 2)
-    knownFolders
-      .documents()
-      .getFile('jolt-playback-efficiency.json')
-      .writeTextSync(content)
-    knownFolders
-      .externalDocuments()
-      .getFile('jolt-playback-efficiency.json')
-      .writeTextSync(content)
-  }
   try {
-    await runPlaybackEfficiency(compact, save, signal)
+    reportWriter = new PlaybackReportWriter()
+    const writer = reportWriter
+    const ready = await writer.ready
+    await runPlaybackEfficiency(compact, (event) => writer.send(event), signal, {
+      ...ready,
+      mainThreadId: android.os.Process.myTid(),
+      mode: 'incremental-worker; parsing and file writes outside playback windows',
+    })
     status.value = text(
       'Checks passed. Report saved.',
       'Verificações passaram. Relatório salvo.',
@@ -113,17 +111,22 @@ async function audit() {
   } catch (error) {
     status.value = String(error)
   } finally {
+    reportWriter?.dispose()
+    reportWriter = undefined
     busy.value = false
     if (!signal.aborted) setDriver(legacyNumericDriver([original], base))
   }
 }
 const suspend = () => {
   signal.aborted = true
+  reportWriter?.dispose()
   stop()
 }
 Application.on(Application.suspendEvent, suspend)
 onUnmounted(() => {
   signal.aborted = true
+  disposeProfile?.()
+  reportWriter?.dispose()
   clearTimeout(timer)
   stop()
   setDriver(base)
