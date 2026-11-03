@@ -33,3 +33,5 @@ Execute `npm run docs:check-media` e `npm run docs:build`. Inicie `npm run docs:
 `scripts/motion-recipe-captures.json` registra os vídeos originais e os intervalos exatos dos recortes. `node scripts/prepare-motion-recipe-media.mjs` reproduz os clipes e as capas com FFmpeg. `node scripts/record-motion-site.mjs` grava o site com interação real via Playwright; use o MP4 acima na revisão, sem substituir a gravação por capturas de tela.
 
 O site usa APIs Web já existentes no Jolt. Não adiciona capacidade ao motor nem altera código de aplicação do Mavis.
+
+A home inclui um [estudo exploratório em aparelho físico](./performance-study), com CPU, PSS após a execução e espera de apresentação no mesmo painel. As três métricas usam o grupo padrão; o gráfico anima medições armazenadas. O rodapé compacto reúne receitas, showcase, estudo, instalação e API, além dos controles de movimento reduzido e volta ao topo.

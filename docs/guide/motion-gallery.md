@@ -33,3 +33,5 @@ Run `npm run docs:check-media` and `npm run docs:build`. Start `npm run docs:pre
 `scripts/motion-recipe-captures.json` records the original source clips and exact trim ranges. `node scripts/prepare-motion-recipe-media.mjs` reproduces the derived native clips and posters with FFmpeg. `node scripts/record-motion-site.mjs` records the site with real Playwright input; use the captioned MP4 above for the review, not screenshots as a substitute.
 
 This site consumes existing Jolt Web APIs. It adds no engine capability and does not change Mavis application code.
+
+The homepage includes an [exploratory physical-device study](./performance-study), with CPU, post-run PSS and presentation waiting in the same panel. All three metrics use the default cohort; the chart animates stored measurements. Its compact footer links to recipes, the showcase, the study, installation and the API, alongside reduced motion and back-to-top controls.

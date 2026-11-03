@@ -6,6 +6,7 @@ import { recipes } from './recipes'
 import { useMotion } from './useMotion'
 import HeroSculpture from './HeroSculpture.vue'
 import MotionLab from './MotionLab.vue'
+import MotionEvidence from './MotionEvidence.vue'
 import RecipeGrid from './RecipeGrid.vue'
 import NativeVideo from './NativeVideo.vue'
 import MorrowFeature from './MorrowFeature.vue'
@@ -195,6 +196,8 @@ async function copyInstall() {
     </div>
 
     <MotionLab />
+
+    <MotionEvidence />
 
     <section class="native-feature section-shell">
       <div class="section-heading" data-entrance>

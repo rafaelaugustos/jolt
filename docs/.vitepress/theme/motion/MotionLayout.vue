@@ -106,23 +106,79 @@ function changeLanguage(event: Event) {
       </div>
     </header>
     <main id="main-content" tabindex="-1"><Content /></main>
-    <footer class="motion-footer">
-      <div class="motion-footer-top">
-        <p>
-          {{
+    <footer id="site-footer" class="site-footer">
+      <div class="footer-directory">
+        <div class="footer-identity">
+          <a :href="link('/')" class="footer-brand" aria-label="Jolt">
+            <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <path d="M18 2 5 18h10l-2 12L28 12H18l4-10Z" fill="currentColor" />
+            </svg>
+            jolt<span>.</span>
+          </a>
+          <p>
+            {{
+              t([
+                'Native motion. Open source.',
+                'Movimento nativo. Código aberto.',
+                'Movimiento nativo. Código abierto.',
+                '原生动效，开放源码。',
+              ])
+            }}
+          </p>
+          <span class="footer-made"
+            ><span class="live-dot"></span
+            >{{
+              t([
+                'This site moves with Jolt Web.',
+                'Este site se move com Jolt Web.',
+                'Este sitio se mueve con Jolt Web.',
+                '本网站动效由 Jolt Web 驱动。',
+              ])
+            }}</span
+          >
+        </div>
+        <nav
+          class="footer-links"
+          :aria-label="t(['Explore Jolt', 'Explore o Jolt', 'Explora Jolt', '探索 Jolt'])"
+        >
+          <span class="footer-column-title">{{
+            t(['EXPLORE', 'EXPLORE', 'EXPLORA', '探索'])
+          }}</span>
+          <a :href="link('/recipes/')">{{ t(labels.recipes) }}</a>
+          <a :href="link('/guide/showcase')">Showcase</a>
+          <a :href="link('/guide/performance-study')">{{
             t([
-              'Make something that moves someone.',
-              'Crie algo que faça alguém sentir.',
-              'Crea algo que haga sentir.',
-              '创造动人心弦的体验。',
+              'Performance study',
+              'Estudo de desempenho',
+              'Estudio de rendimiento',
+              '性能研究',
             ])
-          }}
-        </p>
-        <a :href="link('/guide/install')"
-          >{{ t(labels.start) }} <span aria-hidden="true">↗</span></a
+          }}</a>
+        </nav>
+        <nav
+          class="footer-links"
+          :aria-label="
+            t(['Build with Jolt', 'Crie com Jolt', 'Crea con Jolt', '使用 Jolt 构建'])
+          "
+        >
+          <span class="footer-column-title">{{
+            t(['BUILD', 'CRIE', 'CREA', '构建'])
+          }}</span>
+          <a :href="link('/guide/install')">{{
+            t(['Installation', 'Instalação', 'Instalación', '安装'])
+          }}</a>
+          <a :href="link('/guide/api')">{{
+            t(['API reference', 'Referência da API', 'Referencia de API', 'API 参考'])
+          }}</a>
+          <a href="https://github.com/rafaelaugustos/jolt"
+            >GitHub <span aria-hidden="true">↗</span></a
+          >
+        </nav>
+        <a class="footer-top-link" href="#main-content"
+          >{{ t(['Back to top', 'Voltar ao topo', 'Volver arriba', '返回顶部'])
+          }}<span aria-hidden="true">↑</span></a
         >
       </div>
-      <div class="footer-wordmark" aria-hidden="true">jolt<span>↗</span></div>
       <div class="motion-footer-bottom">
         <span>© {{ new Date().getFullYear() }} Jolt · Cortex Labs</span
         ><a href="https://github.com/rafaelaugustos/jolt/blob/main/LICENSE"

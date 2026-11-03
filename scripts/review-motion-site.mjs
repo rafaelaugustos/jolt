@@ -153,6 +153,34 @@ for (const [name, engine] of [
       )
       .toBeLessThan(2)
 
+    await page.locator('#performance').scrollIntoViewIfNeeded()
+    await expect(page.locator('[data-value="jolt"]')).toContainText('6.79')
+    await expect(page.locator('[data-value="reanimated"]')).toContainText('14.63')
+    await expect(page.locator('.study-delta')).toHaveText('−53.6%')
+    await page.locator('[data-metric="memory"]').click()
+    await expect(page.locator('[data-value="jolt"]')).toContainText('88.27')
+    await expect(page.locator('[data-value="reanimated"]')).toContainText('85.65')
+    await expect(page.locator('.study-delta')).toHaveText('+2.62')
+    await page.locator('[data-metric="presentation"]').click()
+    await expect(page.locator('[data-value="jolt"]')).toContainText('32.43')
+    await expect(page.locator('[data-value="reanimated"]')).toContainText('25.28')
+    await expect(page.locator('.study-delta')).toHaveText('+7.15')
+    await page.locator('[data-metric="cpu"]').click()
+    await expect
+      .poll(() =>
+        page
+          .locator('.study-bar.jolt')
+          .evaluate((el) => new DOMMatrixReadOnly(getComputedStyle(el).transform).m11),
+      )
+      .toBeGreaterThan(0.99)
+    await page.screenshot({ path: `${output}/${name}-performance.png` })
+    await page.locator('.site-footer').scrollIntoViewIfNeeded()
+    await expect(page.locator('.footer-wordmark, .motion-footer-top')).toHaveCount(0)
+    await expect(page.locator('.footer-links a[href$="performance-study"]')).toBeVisible()
+    await page.screenshot({ path: `${output}/${name}-footer.png` })
+    await page.locator('.footer-top-link').click()
+    await expect.poll(() => page.evaluate(() => scrollY)).toBeLessThan(120)
+
     await page.goto(`${base}/recipes/`)
     await expect(page.locator('.recipe-card')).toHaveCount(12)
     await page.getByRole('button', { name: 'Touch & gestures', exact: true }).click()
@@ -251,6 +279,14 @@ for (const [name, engine] of [
     await expect(page.locator('.VPDoc')).toBeVisible()
     await page.goto(`${base}/guide/showcase#morrow`)
     await expect(page.locator('#morrow')).toHaveText('Morrow.')
+    await page.goto(`${base}/guide/performance-study`)
+    const physicalVideo = page.locator('video[src*="comparison-jolt-physical-android"]')
+    await physicalVideo.scrollIntoViewIfNeeded()
+    await physicalVideo.evaluate((video) => video.play())
+    await expect
+      .poll(() => physicalVideo.evaluate((video) => video.currentTime))
+      .toBeGreaterThan(0.1)
+
     await page.goto(base)
     await expect(page.locator('[data-motion-ready="true"]')).toHaveCount(2)
     expect(errors).toEqual([])
@@ -258,7 +294,7 @@ for (const [name, engine] of [
       browser: name,
       result: 'passed',
       checks:
-        'WebGL sculpture, inertial sculpture drag, context-loss fallback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, 4 locales × 4 widths, mobile navigation, reduced motion, remount',
+        'WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, 4 locales × 4 widths, mobile navigation, reduced motion, remount',
     })
     console.log(`${name}: all interaction checks passed`)
   } catch (error) {

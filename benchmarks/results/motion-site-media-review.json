@@ -162,18 +162,54 @@
   ],
   "browserRecording": {
     "file": "motion-site-chromium.mp4",
-    "duration": 40.84,
+    "duration": 49.48,
     "dimensions": [
       1440,
       1000
     ],
-    "sha256": "3cfa5f8ad6774ba15466c1bc4a0e2f4f7f4d1aadb05e4845ccd3223011e40619",
+    "sha256": "44bbafc3f0257902fef7bd970bb5943dd2d6e033270717a19eebcfb241be8fc1",
     "platform": "Chromium on macOS arm64",
     "input": "Real Playwright pointer and keyboard input",
     "nativeFootage": "Previously recorded native clips and creator-supplied Morrow capture, played inside the browser",
     "originalTiming": true,
     "fullDecode": "passed",
-    "interaction": "Chrome sculpture with borrowed-value inertial drag; scroll-linked Morrow phones; native-video playback; spring interruption; stagger; drag/snap; recipe filtering and clipboard actions.",
+    "interaction": "Chrome sculpture with inertial drag; scroll-linked Morrow; native previews; spring interruption; stagger; drag/snap; CPU, memory and presentation metrics; compact footer and back-to-top; recipe filtering and clipboard actions.",
     "rendering": "Site-owned WebGL renderer, driven by existing Jolt Web motion values. Interactive SVG fallback on context loss."
-  }
+  },
+  "physicalStudyImports": [
+    {
+      "file": "comparison-jolt-physical-android.mp4",
+      "sourceCommit": "c15b7f0da59168bcf1baa187daa7a622e9e5c19b",
+      "gitBlob": "0aaaea0487dd5a14db43a89ae56d1aab533f4d87",
+      "sha256": "3ab1c9cee418be52feb61be9212d2cc4e0782da474fd618c88b3c58f30be75c7",
+      "duration": 18.411911,
+      "dimensions": [
+        720,
+        1280
+      ],
+      "platform": "Physical ASUS ZenFone 3 / Android 8.0.0",
+      "language": "English",
+      "profile": "explicit V8 size profile",
+      "sourceBytesUnchanged": true,
+      "decode": "passed with original demux timebase and timestamp passthrough",
+      "review": "Start/restart, application-JS block, UI-thread block and stop; recordings separate from measurements."
+    },
+    {
+      "file": "comparison-reanimated-physical-android.mp4",
+      "sourceCommit": "c15b7f0da59168bcf1baa187daa7a622e9e5c19b",
+      "gitBlob": "15f1db7c58f09d8145eb2d2705e878aa885b94af",
+      "sha256": "b767041728b905eeacb8ea7c019a3dc29bed71fb359bcc3ecc803d39f712fbbe",
+      "duration": 19.024244,
+      "dimensions": [
+        720,
+        1280
+      ],
+      "platform": "Physical ASUS ZenFone 3 / Android 8.0.0",
+      "language": "English",
+      "profile": "Reanimated reference",
+      "sourceBytesUnchanged": true,
+      "decode": "passed with original demux timebase and timestamp passthrough",
+      "review": "Start/restart, application-JS block, UI-thread block and stop; recordings separate from measurements."
+    }
+  ]
 }

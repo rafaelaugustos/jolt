@@ -25,3 +25,5 @@
 运行 `npm run docs:check-media` 和 `npm run docs:build`，启动 `npm run docs:preview -- --port 5181`，然后运行 `npm run docs:test-site`。检查覆盖 Chromium、WebKit、真实交互、MP4 播放、复制、筛选、四种语言、桌面与手机宽度、减少动态效果以及导航和重新挂载。结果位于 `/tmp/jolt-motion-site-review`。视觉检查屏蔽分析请求，并使用空列表模拟社区接口，不测试生产环境中的社区服务。
 
 `scripts/motion-recipe-captures.json` 记录来源与准确裁剪区间。使用 `node scripts/prepare-motion-recipe-media.mjs` 通过 FFmpeg 复现片段，使用 `node scripts/record-motion-site.mjs` 通过真实 Playwright 输入录制网站。此次网站改版使用已有 Web 能力，不修改 Mavis 应用代码。
+
+首页包含[真机探索性研究](./performance-study)，在同一面板展示 CPU、运行后 PSS 与呈现等待。三项指标均使用默认配置组；动画图表仅展示已存储的数据。精简页脚提供配方、作品、研究、安装及 API 链接，同时保留减少动态效果与返回顶部控件。
