@@ -1,0 +1,36 @@
+11-03 16:24:35.750  6483  6509 F libc    : Fatal signal 6 (SIGABRT), code -6 in tid 6509 (RenderThread)
+11-03 16:24:35.811  6513  6513 F DEBUG   : *** *** *** *** *** *** *** *** *** *** *** *** *** *** *** ***
+11-03 16:24:35.811  6513  6513 F DEBUG   : Build fingerprint: 'asus/WW_Phone/ASUS_Z017D_1:8.0.0/OPR1.170623.026/15.0410.1806.68-0:user/release-keys'
+11-03 16:24:35.811  6513  6513 F DEBUG   : Revision: '0'
+11-03 16:24:35.811  6513  6513 F DEBUG   : ABI: 'arm64'
+11-03 16:24:35.811  6513  6513 F DEBUG   : pid: 6483, tid: 6509, name: RenderThread  >>> dev.jolt.comparison.jolt <<<
+11-03 16:24:35.811  6513  6513 F DEBUG   : signal 6 (SIGABRT), code -6 (SI_TKILL), fault addr --------
+11-03 16:24:35.816  6513  6513 F DEBUG   : Abort message: 'Failed to choose config, error = EGL_NOT_INITIALIZED'
+11-03 16:24:35.816  6513  6513 F DEBUG   :     x0   0000000000000000  x1   000000000000196d  x2   0000000000000006  x3   0000000000000008
+11-03 16:24:35.816  6513  6513 F DEBUG   :     x4   1900000000000000  x5   1900000000000000  x6   1900000000000000  x7   0000000000008019
+11-03 16:24:35.816  6513  6513 F DEBUG   :     x8   0000000000000083  x9   55f8fb3a17953c67  x10  0000000000000000  x11  0000000000000001
+11-03 16:24:35.816  6513  6513 F DEBUG   :     x12  ffffffffffffffff  x13  0000000000000000  x14  0000000000000000  x15  0000007a8d4af000
+11-03 16:24:35.816  6513  6513 F DEBUG   :     x16  0000007a8bc902e8  x17  0000007a8bc31d00  x18  0000000000000026  x19  0000000000001953
+11-03 16:24:35.816  6513  6513 F DEBUG   :     x20  000000000000196d  x21  0000007a8aef20bc  x22  0000007a8aef2030  x23  0000007a8aef20bc
+11-03 16:24:35.816  6513  6513 F DEBUG   :     x24  0000007a8aef2030  x25  7fffffffffffffff  x26  0000007a1c89a328  x27  0000007a7c316cb0
+11-03 16:24:35.816  6513  6513 F DEBUG   :     x28  7fffffffffffffff  x29  0000007a1c899b50  x30  0000007a8bbe5e14
+11-03 16:24:35.816  6513  6513 F DEBUG   :     sp   0000007a1c899b10  pc   0000007a8bc31d08  pstate 0000000060000000
+11-03 16:24:35.848  6513  6513 F DEBUG   : 
+11-03 16:24:35.848  6513  6513 F DEBUG   : backtrace:
+11-03 16:24:35.848  6513  6513 F DEBUG   :     #00 pc 0000000000069d08  /system/lib64/libc.so (tgkill+8)
+11-03 16:24:35.848  6513  6513 F DEBUG   :     #01 pc 000000000001de10  /system/lib64/libc.so (abort+88)
+11-03 16:24:35.848  6513  6513 F DEBUG   :     #02 pc 0000000000007eec  /system/lib64/liblog.so (__android_log_assert+304)
+11-03 16:24:35.848  6513  6513 F DEBUG   :     #03 pc 000000000004d29c  /system/lib64/libhwui.so (_ZN7android10uirenderer12renderthread10EglManager10loadConfigEv+320)
+11-03 16:24:35.848  6513  6513 F DEBUG   :     #04 pc 000000000004d254  /system/lib64/libhwui.so (_ZN7android10uirenderer12renderthread10EglManager10loadConfigEv+248)
+11-03 16:24:35.848  6513  6513 F DEBUG   :     #05 pc 000000000004cdcc  /system/lib64/libhwui.so (_ZN7android10uirenderer12renderthread10EglManager10initializeEv+216)
+11-03 16:24:35.848  6513  6513 F DEBUG   :     #06 pc 000000000004d4b8  /system/lib64/libhwui.so (_ZN7android10uirenderer12renderthread10EglManager13createSurfaceEP13ANativeWindow+40)
+11-03 16:24:35.848  6513  6513 F DEBUG   :     #07 pc 000000000004bb50  /system/lib64/libhwui.so (_ZN7android10uirenderer12renderthread14OpenGLPipeline10setSurfaceEPNS_7SurfaceENS1_12SwapBehaviorE+64)
+11-03 16:24:35.848  6513  6513 F DEBUG   :     #08 pc 0000000000048958  /system/lib64/libhwui.so (_ZN7android10uirenderer12renderthread13CanvasContext10setSurfaceEPNS_7SurfaceE+140)
+11-03 16:24:35.848  6513  6513 F DEBUG   :     #09 pc 0000000000050444  /system/lib64/libhwui.so (_ZN7android10uirenderer12renderthreadL17Bridge_initializeEPNS1_14initializeArgsE+16)
+11-03 16:24:35.848  6513  6513 F DEBUG   :     #10 pc 0000000000052138  /system/lib64/libhwui.so (_ZN7android10uirenderer12renderthread22MethodInvokeRenderTask3runEv+24)
+11-03 16:24:35.848  6513  6513 F DEBUG   :     #11 pc 0000000000053090  /system/lib64/libhwui.so (_ZN7android10uirenderer12renderthread12RenderThread10threadLoopEv+348)
+11-03 16:24:35.848  6513  6513 F DEBUG   :     #12 pc 000000000001160c  /system/lib64/libutils.so (_ZN7android6Thread11_threadLoopEPv+280)
+11-03 16:24:35.848  6513  6513 F DEBUG   :     #13 pc 00000000000b7894  /system/lib64/libandroid_runtime.so (_ZN7android14AndroidRuntime15javaThreadShellEPv+136)
+11-03 16:24:35.848  6513  6513 F DEBUG   :     #14 pc 00000000000666a0  /system/lib64/libc.so (_ZL15__pthread_startPv+36)
+11-03 16:24:35.849  6513  6513 F DEBUG   :     #15 pc 000000000001f1a4  /system/lib64/libc.so (__start_thread+68)
+

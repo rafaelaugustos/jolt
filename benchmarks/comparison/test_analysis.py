@@ -2,10 +2,49 @@ import importlib.util
 from pathlib import Path
 import unittest
 from unittest.mock import patch
+import hashlib
+import tempfile
+from types import SimpleNamespace
 
 spec = importlib.util.spec_from_file_location('comparison', Path(__file__).with_name('android.py'))
 comparison = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(comparison)
+
+class TraceTransfer(unittest.TestCase):
+    def test_retries_a_truncated_successful_transfer(self):
+        payload=b'complete trace bytes'
+        expected=hashlib.sha256(payload).hexdigest()+'  /remote/trace\n'
+        with tempfile.TemporaryDirectory() as directory:
+            destination=Path(directory)/'trace'
+            copies=iter([payload[:4],payload])
+            def pull(*args,**kwargs):
+                destination.write_bytes(next(copies))
+                return SimpleNamespace(returncode=0,stdout='transfer complete')
+            with patch.object(comparison.subprocess,'check_output',return_value=expected), patch.object(comparison.subprocess,'run',side_effect=pull) as run:
+                comparison.retrieve_trace('test-device','/remote/trace',destination)
+            self.assertEqual(run.call_count,2)
+            self.assertEqual(destination.read_bytes(),payload)
+
+    def test_never_accepts_repeated_corruption(self):
+        with tempfile.TemporaryDirectory() as directory:
+            destination=Path(directory)/'trace'
+            destination.write_bytes(b'truncated')
+            with patch.object(comparison.subprocess,'check_output',return_value='expected /remote/trace'), patch.object(comparison.subprocess,'run',return_value=SimpleNamespace(returncode=0,stdout='')) as run:
+                with self.assertRaises(AssertionError):
+                    comparison.retrieve_trace('test-device','/remote/trace',destination)
+            self.assertEqual(run.call_count,3)
+
+class DiagnosticSelection(unittest.TestCase):
+    def test_rejects_typo_duplicate_and_static_motion_instead_of_mislabeling_a_run(self):
+        for values in (['diagnostic-drivr=native'], ['diagnostic-driver=static'],
+                       ['diagnostic-start=vsync', 'diagnostic-start=immediate'],
+                       ['diagnostic-tile'], ['diagnostic-layer=auto']):
+            with self.subTest(values=values), self.assertRaises(ValueError):
+                comparison.diagnostic_intents(values)
+
+    def test_preserves_explicit_controls(self):
+        self.assertEqual(comparison.diagnostic_intents(['diagnostic-driver=native', 'diagnostic-tile=layout']),
+                         {'diagnostic-driver':'native', 'diagnostic-tile':'layout'})
 
 class PresentationAnalysis(unittest.TestCase):
     def test_pairs_actual_fences_without_inventing_missing_presentation_or_latency(self):
@@ -36,12 +75,18 @@ class HostAcceptance(unittest.TestCase):
         self.assertFalse(result['quiet'])
         self.assertEqual(result['busyCompilers'][0]['command'],'clang')
 
-    def test_workload_load_is_diagnostic_but_compilation_still_rejects(self):
+    def test_allows_emulator_load_but_compilation_still_rejects(self):
         with patch.object(comparison.os,'getloadavg',return_value=(20,20,20)), patch.object(comparison.os,'cpu_count',return_value=16):
             with patch.object(comparison.subprocess,'check_output',return_value='PCPU COMM\n'):
                 self.assertTrue(comparison.host_observation(during_window=True)['quiet'])
             with patch.object(comparison.subprocess,'check_output',return_value='PCPU COMM\n500 /toolchain/clang\n'):
                 self.assertFalse(comparison.host_observation(during_window=True)['quiet'])
+
+    def test_rejects_extreme_non_compiler_contention_during_playback(self):
+        with patch.object(comparison.os,'getloadavg',return_value=(82,82,82)), patch.object(comparison.os,'cpu_count',return_value=16), patch.object(comparison.subprocess,'check_output',return_value='PCPU COMM\n'):
+            result=comparison.host_observation(during_window=True)
+        self.assertFalse(result['quiet'])
+        self.assertEqual(result['loadAverageLimit'],32)
 
     def test_rejects_high_load_and_accepts_idle_host(self):
         with patch.object(comparison.os,'cpu_count',return_value=16), patch.object(comparison.subprocess,'check_output',return_value='PCPU COMM\n80 /toolchain/clang\n'):

@@ -1,0 +1,19 @@
+{
+  "physicalDevice": true,
+  "deviceFingerprint": "asus/WW_Phone/ASUS_Z017D_1:8.0.0/OPR1.170623.026/15.0410.1806.68-0:user/release-keys",
+  "scope": "Real native playback, original speed; separate from measurements. Screen recording adds work.",
+  "runs": [
+    {
+      "app": "jolt",
+      "apkSha256": "3818b74792b996abecb84ce0dc270d5d02ee011ef2c5daccf131624ec620c2c1",
+      "videoSha256": "14b4813e7b4815006bc71c4ecc2b81906afbc2a3edc4568e5cc30999c5524fc7",
+      "filename": "comparison-jolt-physical-android.mp4"
+    },
+    {
+      "app": "reanimated",
+      "apkSha256": "a753c11c22d0ac02430d3a464b1f0ac4e8bad7ea5770747dcb87e7ff6ef297bb",
+      "videoSha256": "b9f0cca5e1d4d7eb2a402489ca39e6b33db19e2d2f62983f0c493775528100e0",
+      "filename": "comparison-reanimated-physical-android.mp4"
+    }
+  ]
+}

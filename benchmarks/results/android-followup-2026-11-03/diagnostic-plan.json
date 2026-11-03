@@ -1,0 +1,42 @@
+{
+  "created": "2026-11-03T17:05:41.299048+00:00",
+  "status": "exploratory, not a cross-stack ranking",
+  "seconds": 12,
+  "repetitions": 2,
+  "warmupSeconds": 5,
+  "order": "rotate variants one slot on second repetition",
+  "variants": {
+    "jolt": {
+      "diagnostic-driver": "jolt"
+    },
+    "native": {
+      "diagnostic-driver": "native"
+    },
+    "layout": {
+      "diagnostic-driver": "jolt",
+      "diagnostic-tile": "layout"
+    },
+    "hardware": {
+      "diagnostic-driver": "jolt",
+      "diagnostic-layer": "hardware"
+    },
+    "vsync": {
+      "diagnostic-driver": "jolt",
+      "diagnostic-start": "vsync"
+    }
+  },
+  "interpretation": "Same APK, one changed factor. Keep every accepted run and exclusions. A lower queue-to-present latency is not proof of lower input-to-first-changed-pixel latency. Confirm promising variants in five paired 30-second runs before proposing a production change. Default geometry, timings, warmup, host guards and measured inputs remain identical.",
+  "protocolHistory": [
+    {
+      "at": "2026-11-03T17:18:24.057952+00:00",
+      "change": "Restart all exploratory variants under diagnostics-v2; cap sampled host load during playback at twice logical CPU count (32 on this host). Old attempts remain under diagnostics.",
+      "reason": "Layout attempt admitted under previous rule then reached load82.2; host later exceeded250. No compiler was observed, so original compiler-only in-window guard missed this interference.",
+      "referenceAudit": "All ten accepted reference-normal windows had maximum sampled load <=14.6, below new limit. Their original metadata remains unchanged."
+    },
+    {
+      "at": "2026-11-03T17:24:36.320128+00:00",
+      "change": "Restart all exploratory variants under diagnostics-v3 with adb pull and device SHA-256 verification. Retain incomplete v2 attempt separately.",
+      "reason": "adb exec-out cat exited zero but delivered only153088 bytes; Perfetto and remote stat reported13984973. No presentations could be analyzed. No v2 run was accepted."
+    }
+  ]
+}

@@ -1,0 +1,236 @@
+Activity Resolver Table:
+  Non-Data Actions:
+      android.intent.action.MAIN:
+        e57acf4 dev.jolt.comparison.jolt/com.tns.NativeScriptActivity filter b095d05
+          Action: "android.intent.action.MAIN"
+          Category: "android.intent.category.LAUNCHER"
+
+Receiver Resolver Table:
+  Non-Data Actions:
+      androidx.profileinstaller.action.SAVE_PROFILE:
+        abf2c1d dev.jolt.comparison.jolt/androidx.profileinstaller.ProfileInstallReceiver filter 4615b6f
+          Action: "androidx.profileinstaller.action.SAVE_PROFILE"
+      androidx.profileinstaller.action.INSTALL_PROFILE:
+        abf2c1d dev.jolt.comparison.jolt/androidx.profileinstaller.ProfileInstallReceiver filter 3c3b549
+          Action: "androidx.profileinstaller.action.INSTALL_PROFILE"
+      androidx.profileinstaller.action.SKIP_FILE:
+        abf2c1d dev.jolt.comparison.jolt/androidx.profileinstaller.ProfileInstallReceiver filter b069e4e
+          Action: "androidx.profileinstaller.action.SKIP_FILE"
+      androidx.profileinstaller.action.BENCHMARK_OPERATION:
+        abf2c1d dev.jolt.comparison.jolt/androidx.profileinstaller.ProfileInstallReceiver filter e29f07c
+          Action: "androidx.profileinstaller.action.BENCHMARK_OPERATION"
+
+Permissions:
+  Permission [dev.jolt.comparison.jolt.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION] (995f3fe):
+    sourcePackage=dev.jolt.comparison.jolt
+    uid=10131 gids=null type=0 prot=signature
+    perm=Permission{e44ce92 dev.jolt.comparison.jolt.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION}
+    packageSetting=PackageSetting{9dff5ac dev.jolt.comparison.jolt/10131}
+
+Registered ContentProviders:
+  dev.jolt.comparison.jolt/androidx.startup.InitializationProvider:
+    Provider{128a063 dev.jolt.comparison.jolt/androidx.startup.InitializationProvider}
+
+ContentProvider Authorities:
+  [dev.jolt.comparison.jolt.androidx-startup]:
+    Provider{128a063 dev.jolt.comparison.jolt/androidx.startup.InitializationProvider}
+      applicationInfo=ApplicationInfo{ebca460 dev.jolt.comparison.jolt}
+
+Key Set Manager:
+  [dev.jolt.comparison.jolt]
+      Signing KeySets: 25
+
+Packages:
+  Package [dev.jolt.comparison.jolt] (9dff5ac):
+    userId=10131
+    pkg=Package{2a76d19 dev.jolt.comparison.jolt}
+    codePath=/data/app/dev.jolt.comparison.jolt-NNDqygZrGyJYQlJV4p8-Lg==
+    resourcePath=/data/app/dev.jolt.comparison.jolt-NNDqygZrGyJYQlJV4p8-Lg==
+    legacyNativeLibraryDir=/data/app/dev.jolt.comparison.jolt-NNDqygZrGyJYQlJV4p8-Lg==/lib
+    primaryCpuAbi=arm64-v8a
+    secondaryCpuAbi=null
+    versionCode=1 minSdk=24 targetSdk=36
+    versionName=1.0.0
+    splits=[base]
+    apkSigningVersion=2
+    applicationInfo=ApplicationInfo{ebca460 dev.jolt.comparison.jolt}
+    flags=[ HAS_CODE ALLOW_CLEAR_USER_DATA ALLOW_BACKUP ]
+    privateFlags=[ PRIVATE_FLAG_ACTIVITIES_RESIZE_MODE_RESIZEABLE_VIA_SDK_VERSION ]
+    dataDir=/data/user/0/dev.jolt.comparison.jolt
+    supportsScreens=[small, medium, large, xlarge, resizeable, anyDensity]
+    timeStamp=2026-11-03 16:09:47
+    firstInstallTime=2026-11-03 15:37:50
+    lastUpdateTime=2026-11-03 16:09:53
+    signatures=PackageSignatures{32cc098 [4119c862]}
+    installPermissionsFixed=true installStatus=1
+    pkgFlags=[ HAS_CODE ALLOW_CLEAR_USER_DATA ALLOW_BACKUP ]
+    declared permissions:
+      dev.jolt.comparison.jolt.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION: prot=signature, INSTALLED
+    requested permissions:
+      android.permission.READ_EXTERNAL_STORAGE
+      android.permission.WRITE_EXTERNAL_STORAGE
+      android.permission.INTERNET
+      android.permission.ACCESS_NETWORK_STATE
+      dev.jolt.comparison.jolt.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+      android.permission.READ_PHONE_STATE
+    install permissions:
+      android.permission.INTERNET: granted=true
+      dev.jolt.comparison.jolt.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION: granted=true
+      android.permission.ACCESS_NETWORK_STATE: granted=true
+    User 0: ceDataInode=1102017 installed=true hidden=false suspended=false stopped=false notLaunched=false enabled=0 instant=false
+      gids=[3003]
+      runtime permissions:
+
+Asus Customized Information:
+ASUS_Z017DC WW sku / Country Code:BR / CID:ASUS
+* Uninstall Preloaded Apps [enabled]
+ Configuration Lists:
+   --- Skipped System Packages ---
+      Babe.apk
+      FlipfontMFinanceTW.apk
+      FlipfontMYingHei.apk
+      FlipfontMYuppyTW.apk
+      Go2Pay.apk
+
+   --- Sticky System Packages ---
+      com.android.cellbroadcastreceiver
+      com.android.emergency
+      com.android.phone
+      com.android.providers.contacts
+      com.android.providers.media
+      com.android.providers.settings
+      com.android.server.telecom
+      com.android.systemui
+      com.asus.UpdateLauncher
+      com.asus.as
+      com.asus.asusincallui
+      com.asus.boostdozemodeservice
+      com.asus.camera
+      com.asus.configupdater
+      com.asus.dm
+      com.asus.filemanager
+      com.asus.fmservice
+      com.asus.focusapplistener
+      com.asus.gamewidget.service
+      com.asus.hardwarestub
+      com.asus.inputdevices
+      com.asus.keyboard
+      com.asus.laserruler
+      com.asus.livedemoservice
+      com.asus.lockscreen2
+      com.asus.loguploader
+      com.asus.loguploaderproxy
+      com.asus.maxxaudio
+      com.asus.mobilemanagerservice
+      com.asus.packageinstaller
+      com.asus.powersaver
+      com.asus.setupwizard
+      com.asus.shim
+      com.asus.splendidcommandagent
+      com.asus.stitchimage
+      com.asus.stitchimage.service
+      com.asus.sysdiagnostic
+      com.asus.system.api
+      com.asus.twinapps
+      com.facebook.appmanager
+      com.facebook.system
+      com.google.android.apps.docs.oem
+      com.google.android.packageinstaller
+      dk.icepower.icesound
+
+   --- Protected System Packages ---
+      com.amax.livewallpaper.parallaxwallpaper
+      com.android.chrome
+      com.android.providers.blockednumber
+      com.android.providers.downloads
+      com.android.vending
+      com.asus.DLNA
+      com.asus.asuszenuipcsuite
+      com.asus.brapp
+      com.asus.browsergenie
+      com.asus.calculator
+      com.asus.contacts
+      com.asus.deskclock
+      com.asus.easylauncher
+      com.asus.emergencyhelp
+      com.asus.ephotoburst
+      com.asus.flipcover3
+      com.asus.fmradio
+      com.asus.gallery
+      com.asus.gamewidget
+      com.asus.ia.asusapp
+      com.asus.ime
+      com.asus.kidslauncher
+      com.asus.launcher
+      com.asus.livedemo
+      com.asus.maxxaudio.audiowizard
+      com.asus.mobilemanager
+      com.asus.playto
+      com.asus.res.defaulttheme
+      com.asus.sensorapi.service
+      com.asus.soundrecorder
+      com.asus.splendid
+      com.asus.sysmonitor
+      com.asus.taskwidget
+      com.asus.textanalytics
+      com.asus.themeapp
+      com.asus.userfeedback
+      com.asus.weathertime
+      com.asus.zentalk
+      com.facebook.katana
+      com.facebook.orca
+      com.google.android.apps.docs
+      com.google.android.apps.maps
+      com.google.android.apps.messaging
+      com.google.android.apps.photos
+      com.google.android.backuptransport
+      com.google.android.calendar
+      com.google.android.configupdater
+      com.google.android.ext.services
+      com.google.android.ext.shared
+      com.google.android.feedback
+      com.google.android.gm
+      com.google.android.gms
+      com.google.android.googlequicksearchbox
+      com.google.android.gsf
+      com.google.android.marvin.talkback
+      com.google.android.music
+      com.google.android.onetimeinitializer
+      com.google.android.partnersetup
+      com.google.android.printservice.recommendation
+      com.google.android.setupwizard
+      com.google.android.syncadapters.calendar
+      com.google.android.syncadapters.contacts
+      com.google.android.talk
+      com.google.android.tts
+      com.google.android.videos
+      com.google.android.webview
+      com.google.android.youtube
+      com.instagram.android
+      google
+
+
+Package Changes:
+  Sequence number=75
+  User 0:
+    seq=3, package=com.google.android.gms
+    seq=37, package=com.facebook.orca
+    seq=46, package=com.facebook.katana
+    seq=66, package=com.google.android.apps.docs
+    seq=70, package=com.google.android.talk
+    seq=72, package=com.joltcomparison
+    seq=73, package=dev.jolt.comparison.jolt_comparison
+    seq=74, package=dev.jolt.comparison.jolt
+
+
+Dexopt state:
+  [dev.jolt.comparison.jolt]
+    Instruction Set: arm64
+      path: /data/app/dev.jolt.comparison.jolt-NNDqygZrGyJYQlJV4p8-Lg==/base.apk
+      status: /data/app/dev.jolt.comparison.jolt-NNDqygZrGyJYQlJV4p8-Lg==/oat/arm64/base.odex[status=kOatUpToDate, compi
+      lation_filter=quicken]
+
+
+Compiler stats:
+  [dev.jolt.comparison.jolt]
+     base.apk - 1751

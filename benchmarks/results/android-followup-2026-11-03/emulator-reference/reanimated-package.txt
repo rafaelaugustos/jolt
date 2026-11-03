@@ -1,0 +1,133 @@
+Activity Resolver Table:
+  Non-Data Actions:
+      android.intent.action.MAIN:
+        54fc53d com.joltcomparison/.MainActivity filter b3dc132
+          Action: "android.intent.action.MAIN"
+          Category: "android.intent.category.LAUNCHER"
+
+Receiver Resolver Table:
+  Non-Data Actions:
+      androidx.profileinstaller.action.SAVE_PROFILE:
+        8d4ae83 com.joltcomparison/androidx.profileinstaller.ProfileInstallReceiver filter b82be7e
+          Action: "androidx.profileinstaller.action.SAVE_PROFILE"
+      androidx.profileinstaller.action.INSTALL_PROFILE:
+        8d4ae83 com.joltcomparison/androidx.profileinstaller.ProfileInstallReceiver filter c0c6800
+          Action: "androidx.profileinstaller.action.INSTALL_PROFILE"
+      androidx.profileinstaller.action.SKIP_FILE:
+        8d4ae83 com.joltcomparison/androidx.profileinstaller.ProfileInstallReceiver filter 8f87839
+          Action: "androidx.profileinstaller.action.SKIP_FILE"
+      androidx.profileinstaller.action.BENCHMARK_OPERATION:
+        8d4ae83 com.joltcomparison/androidx.profileinstaller.ProfileInstallReceiver filter 29afdf
+          Action: "androidx.profileinstaller.action.BENCHMARK_OPERATION"
+
+Domain verification status:
+
+Permissions:
+  Permission [com.joltcomparison.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION] (20d0629):
+    sourcePackage=com.joltcomparison
+    uid=10212 gids=[] type=0 prot=signature
+    perm=PermissionInfo{4224dae com.joltcomparison.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION}
+    flags=0x0
+
+Registered ContentProviders:
+  com.joltcomparison/androidx.startup.InitializationProvider:
+    Provider{8da474f com.joltcomparison/androidx.startup.InitializationProvider}
+
+ContentProvider Authorities:
+  [com.joltcomparison.androidx-startup]:
+    Provider{8da474f com.joltcomparison/androidx.startup.InitializationProvider}
+      applicationInfo=ApplicationInfo{cc49edc com.joltcomparison}
+
+Key Set Manager:
+  [com.joltcomparison]
+      Signing KeySets: 60
+
+Packages:
+  Package [com.joltcomparison] (246dbe5):
+    appId=10212
+    pkg=Package{74996ba com.joltcomparison}
+    codePath=/data/app/~~mH9OBwe4N3yNPSTBWn6YUA==/com.joltcomparison-7A6rpeHCz-SFuJXKzHstrQ==
+    resourcePath=/data/app/~~mH9OBwe4N3yNPSTBWn6YUA==/com.joltcomparison-7A6rpeHCz-SFuJXKzHstrQ==
+    legacyNativeLibraryDir=/data/app/~~mH9OBwe4N3yNPSTBWn6YUA==/com.joltcomparison-7A6rpeHCz-SFuJXKzHstrQ==/lib
+    extractNativeLibs=false
+    primaryCpuAbi=arm64-v8a
+    secondaryCpuAbi=null
+    cpuAbiOverride=null
+    versionCode=1 minSdk=24 targetSdk=36
+    minExtensionVersions=[]
+    versionName=1.0
+    hiddenApiEnforcementPolicy=2
+    usesNonSdkApi=false
+    splits=[base]
+    apkSigningVersion=2
+    flags=[ HAS_CODE ALLOW_CLEAR_USER_DATA ]
+    privateFlags=[ PRIVATE_FLAG_ACTIVITIES_RESIZE_MODE_RESIZEABLE_VIA_SDK_VERSION ALLOW_AUDIO_PLAYBACK_CAPTURE PRIVATE_FLAG_ALLOW_NATIVE_HEAP_POINTER_TAGGING ]
+    forceQueryable=false
+    pageSizeCompat=0
+    scannedAsStoppedSystemApp=false
+    supportsScreens=[small, medium, large, xlarge, resizeable, anyDensity]
+    usesOptionalLibraries:
+      androidx.window.extensions
+      androidx.window.sidecar
+    usesLibraryFiles:
+      /system_ext/framework/androidx.window.extensions.jar
+      /system_ext/framework/androidx.window.sidecar.jar
+    timeStamp=2026-11-03 13:49:06
+    lastUpdateTime=2026-11-03 13:49:06
+    installerPackageName=null
+    installerPackageUid=-1
+    initiatingPackageName=com.android.shell
+    originatingPackageName=null
+    packageSource=1
+    appMetadataFilePath=null
+    appMetadataSource=0
+    signatures=PackageSignatures{41e096b version:2, signatures:[51ed3f60], past signatures:[]}
+    installPermissionsFixed=false
+    pkgFlags=[ HAS_CODE ALLOW_CLEAR_USER_DATA ]
+    privatePkgFlags=[ PRIVATE_FLAG_ACTIVITIES_RESIZE_MODE_RESIZEABLE_VIA_SDK_VERSION ALLOW_AUDIO_PLAYBACK_CAPTURE PRIVATE_FLAG_ALLOW_NATIVE_HEAP_POINTER_TAGGING ]
+    apexModuleName=null
+    declared permissions:
+      com.joltcomparison.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION: prot=signature
+    requested permissions:
+      com.joltcomparison.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+      android.permission.INTERNET
+    install permissions:
+      com.joltcomparison.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION: granted=true
+      android.permission.INTERNET: granted=true
+    User 0: ceDataInode=573634 deDataInode=401941 installed=true hidden=false suspended=false distractionFlags=0 stopped=true notLaunched=true enabled=0 instant=false virtual=false quarantined=false
+      installReason=0
+      dataDir=/data/user/0/com.joltcomparison
+      firstInstallTime=2026-11-03 13:49:06
+      uninstallReason=0
+      overlay paths:
+        /product/overlay/NavigationBarModeGestural/NavigationBarModeGesturalOverlay.apk
+        /data/resource-cache/com.android.systemui-neutral-zl5s.frro
+        /data/resource-cache/com.android.systemui-accent-bJxW.frro
+        /data/resource-cache/com.android.systemui-dynamic-jUdY.frro
+      legacy overlay paths:
+        /product/overlay/NavigationBarModeGestural/NavigationBarModeGesturalOverlay.apk
+      gids=[3003]
+      runtime permissions:
+
+Queries:
+  system apps queryable: false
+  queries via forceQueryable:
+  queries via package name:
+  queries via component:
+    com.google.android.as:
+      com.joltcomparison
+    com.google.android.settings.intelligence:
+      com.joltcomparison
+  queryable via interaction:
+    User 0:
+  queryable via uses-library:
+
+Dexopt state:
+  [com.joltcomparison]
+    path: /data/app/~~mH9OBwe4N3yNPSTBWn6YUA==/com.joltcomparison-7A6rpeHCz-SFuJXKzHstrQ==/base.apk
+      arm64: [status=verify] [reason=install] [primary-abi]
+        [location is /data/app/~~mH9OBwe4N3yNPSTBWn6YUA==/com.joltcomparison-7A6rpeHCz-SFuJXKzHstrQ==/oat/arm64/base.odex]
+
+Compiler stats:
+  [com.joltcomparison]
+     base.apk - 272

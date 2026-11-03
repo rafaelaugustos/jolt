@@ -1,0 +1,6 @@
+{
+  "at": "2026-11-03T18:06:25.744916+00:00",
+  "phase": "before measured window",
+  "failure": "am start -W timed out after60s; native HWUI RenderThread aborted during EGL initialization: Failed to choose config, error=EGL_NOT_INITIALIZED. Subsequent explicit launch succeeded. No measurement from this attempt was accepted.",
+  "rootCause": "Not isolated; retained as a failed cold launch, not attributed to a Jolt JS error."
+}

@@ -3,6 +3,7 @@ import {
   Button,
   Color,
   GridLayout,
+  knownFolders,
   Label,
   Page,
   StackLayout,
@@ -11,6 +12,19 @@ import { animate, configure, set, type PlaybackAnimation } from '@rafaelaugusto/
 configure({ timeScale: 1, reducedMotion: 'never' })
 Application.run({
   create: () => {
+    // Explicit diagnostic controls only. The default comparison stays unchanged.
+    const intent = Application.android.startActivity.getIntent()
+    const driver = intent.getStringExtra('diagnostic-driver') ?? 'jolt'
+    const tileKind = intent.getStringExtra('diagnostic-tile') ?? 'label'
+    const layer = intent.getStringExtra('diagnostic-layer') ?? 'none'
+    const startMode = intent.getStringExtra('diagnostic-start') ?? 'immediate'
+    if (
+      !['jolt', 'native', 'static'].includes(driver) ||
+      !['label', 'layout'].includes(tileKind) ||
+      !['none', 'hardware'].includes(layer) ||
+      !['immediate', 'vsync'].includes(startMode)
+    )
+      throw Error('Unknown frame diagnostic configuration')
     const page = new Page()
     page.actionBarHidden = true
     page.backgroundColor = new Color('#102922')
@@ -32,7 +46,7 @@ Application.run({
       horizontalAlignment: 'center',
     })
     root.addChild(stage)
-    const tile = new Label()
+    const tile = tileKind === 'layout' ? new GridLayout() : new Label()
     Object.assign(tile, {
       width: 48,
       height: 48,
@@ -43,10 +57,83 @@ Application.run({
     })
     stage.addChild(tile)
     let motion: PlaybackAnimation | undefined
+    let nativeMotion: android.animation.ObjectAnimator | undefined
+    let pending: android.view.Choreographer.FrameCallback | undefined
+    let previousLayer: number | undefined
     const stop = () => {
+      if (pending) android.view.Choreographer.getInstance().removeFrameCallback(pending)
+      pending = undefined
       motion?.stop()
       motion = undefined
+      nativeMotion?.cancel()
+      nativeMotion = undefined
+      if (previousLayer !== undefined) tile.android.setLayerType(previousLayer, null)
+      previousLayer = undefined
     }
+    const start = () => {
+      stop()
+      set(tile, { x: 0, opacity: 1 })
+      const play = () => {
+        pending = undefined
+        if (layer === 'hardware') {
+          previousLayer = tile.android.getLayerType()
+          tile.android.setLayerType(android.view.View.LAYER_TYPE_HARDWARE, null)
+        }
+        if (driver === 'native') {
+          const holders = Array.create(android.animation.PropertyValuesHolder, 2)
+          const x = Array.create('float', 2),
+            alpha = Array.create('float', 2)
+          x[0] = 0
+          x[1] = 240 * tile.android.getResources().getDisplayMetrics().density
+          alpha[0] = 1
+          alpha[1] = 0.4
+          holders[0] = android.animation.PropertyValuesHolder.ofFloat(
+            android.view.View.TRANSLATION_X,
+            x,
+          )
+          holders[1] = android.animation.PropertyValuesHolder.ofFloat(
+            android.view.View.ALPHA,
+            alpha,
+          )
+          nativeMotion = android.animation.ObjectAnimator.ofPropertyValuesHolder(
+            tile.android,
+            holders,
+          )
+          nativeMotion.setDuration(1000)
+          nativeMotion.setRepeatCount(-1)
+          nativeMotion.setRepeatMode(android.animation.ValueAnimator.REVERSE)
+          nativeMotion.setInterpolator(new android.view.animation.LinearInterpolator())
+          nativeMotion.start()
+        } else if (driver === 'jolt') {
+          motion = animate(
+            tile,
+            { x: [0, 240], opacity: [1, 0.4] },
+            { duration: 1000, ease: 'linear', repeat: Infinity, repeatType: 'reverse' },
+          )
+        }
+      }
+      if (startMode === 'vsync') {
+        pending = new android.view.Choreographer.FrameCallback({ doFrame: play })
+        android.view.Choreographer.getInstance().postFrameCallback(pending)
+      } else play()
+    }
+    page.on('loaded', () => {
+      knownFolders
+        .externalDocuments()
+        .getFile('jolt-frame-diagnostic.json')
+        .writeTextSync(
+          JSON.stringify({
+            driver,
+            tileKind,
+            layer,
+            startMode,
+            nativeClass: tile.android.getClass().getName(),
+            overlapping: tile.android.hasOverlappingRendering(),
+            processId: android.os.Process.myPid(),
+            mainThreadId: android.os.Process.myTid(),
+          }),
+        )
+    })
     const block = () => {
       const start = android.os.SystemClock.uptimeMillis()
       while (android.os.SystemClock.uptimeMillis() - start < 300) {
@@ -58,19 +145,7 @@ Application.run({
       )
     }
     for (const [text, id, action] of [
-      [
-        'Start',
-        'comparison-start',
-        () => {
-          stop()
-          set(tile, { x: 0, opacity: 1 })
-          motion = animate(
-            tile,
-            { x: [0, 240], opacity: [1, 0.4] },
-            { duration: 1000, ease: 'linear', repeat: Infinity, repeatType: 'reverse' },
-          )
-        },
-      ],
+      ['Start', 'comparison-start', start],
       ['Stop', 'comparison-stop', stop],
       ['Block app runtime · 300 ms', 'comparison-runtime-block', block],
       // NativeScript application JS already runs on the platform UI thread.

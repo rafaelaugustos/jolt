@@ -1,0 +1,9 @@
+{
+  "notes": [
+    {
+      "at": "2026-11-03T17:07:31.537239+00:00",
+      "event": "Collector suspended during host-admission wait after four accepted pairs. Build and fixture typecheck run while suspended; no accepted trace overlaps these checks. Resume after checks.",
+      "reason": "Shared host compiler contention repeatedly rejected fifth pair. Original reference APK remains installed."
+    }
+  ]
+}

@@ -1,0 +1,442 @@
+{
+  "scope": "Physical Android; on-device clock and input scheduling.",
+  "identity": {
+    "serialSha256": "cbeea894b1750226384fa1c2c1c854f92a302dceee509dad781c93419e6e9310",
+    "device": {
+      "ro.product.manufacturer": "asus",
+      "ro.product.model": "ASUS_Z017DC",
+      "ro.build.version.release": "8.0.0",
+      "ro.build.version.sdk": "26",
+      "ro.build.fingerprint": "asus/WW_Phone/ASUS_Z017D_1:8.0.0/OPR1.170623.026/15.0410.1806.68-0:user/release-keys",
+      "ro.product.cpu.abilist": "arm64-v8a,armeabi-v7a,armeabi",
+      "ro.board.platform": "msm8953"
+    },
+    "packages": {
+      "jolt": [
+        "3818b74792b996abecb84ce0dc270d5d02ee011ef2c5daccf131624ec620c2c1"
+      ],
+      "reanimated": [
+        "a753c11c22d0ac02430d3a464b1f0ac4e8bad7ea5770747dcb87e7ff6ef297bb"
+      ]
+    },
+    "probeSha256": "8c671556c101256f4301768af7e3d05ee6b876d6c53bbfd37ed8b9beb025871f",
+    "probeSourceSha256": "f08a7aab3fb5c8dbd33512ea81c68e1546a1c55cfce462efaa82364c7410623a",
+    "collectorSha256": "6efba63e78a153bd17ca74d87c7632fb2aea7150424c5097f05405e9af1f5318",
+    "selectedApps": [
+      "jolt",
+      "reanimated"
+    ],
+    "selectedPhases": [
+      "app-runtime-block-300ms",
+      "ui-thread-block-300ms"
+    ],
+    "repetitions": 2,
+    "windowSeconds": 30,
+    "joltIntents": {}
+  },
+  "aggregation": "Median and range of run-level statistics; no pooled frame percentile.",
+  "rows": [
+    {
+      "app": "jolt",
+      "phase": "app-runtime-block-300ms",
+      "runs": 2,
+      "cpuSecondsPer30Seconds": {
+        "n": 2,
+        "median": 8.134785237161367,
+        "min": 8.09973189644431,
+        "max": 8.169838577878426
+      },
+      "windowSeconds": {
+        "n": 2,
+        "median": 30.0002229835,
+        "min": 30.000160145,
+        "max": 30.000285822
+      },
+      "batteryBeforeC": {
+        "n": 2,
+        "median": 38.0,
+        "min": 38.0,
+        "max": 38.0
+      },
+      "batteryAfterC": {
+        "n": 2,
+        "median": 37.85,
+        "min": 37.7,
+        "max": 38.0
+      },
+      "presentedFrames": {
+        "n": 2,
+        "median": 1741.0,
+        "min": 1740,
+        "max": 1742
+      },
+      "pssAfterMiB": {
+        "n": 2,
+        "median": 81.5009765625,
+        "min": 81.416015625,
+        "max": 81.5859375
+      },
+      "pssBeforeMiB": {
+        "n": 2,
+        "median": 89.740234375,
+        "min": 89.6455078125,
+        "max": 89.8349609375
+      },
+      "presentationGapMs": {
+        "p50": {
+          "n": 2,
+          "median": 16.707969,
+          "min": 16.707761,
+          "max": 16.708177
+        },
+        "p95": {
+          "n": 2,
+          "median": 16.864232,
+          "min": 16.854323,
+          "max": 16.874140999999998
+        },
+        "p99": {
+          "n": 2,
+          "median": 16.95544173,
+          "min": 16.933364400000002,
+          "max": 16.97751906
+        },
+        "max": {
+          "n": 2,
+          "median": 309.13338550000003,
+          "min": 300.918646,
+          "max": 317.348125
+        }
+      },
+      "frameReadyToPresentMs": {
+        "p50": {
+          "n": 2,
+          "median": 28.3558335,
+          "min": 28.1344015,
+          "max": 28.5772655
+        },
+        "p95": {
+          "n": 2,
+          "median": 32.46221645,
+          "min": 32.3859168,
+          "max": 32.5385161
+        },
+        "p99": {
+          "n": 2,
+          "median": 32.710235355,
+          "min": 32.68521955,
+          "max": 32.735251160000004
+        },
+        "max": {
+          "n": 2,
+          "median": 40.766198,
+          "min": 40.067448,
+          "max": 41.464948
+        }
+      }
+    },
+    {
+      "app": "reanimated",
+      "phase": "app-runtime-block-300ms",
+      "runs": 2,
+      "cpuSecondsPer30Seconds": {
+        "n": 2,
+        "median": 15.419532639988514,
+        "min": 15.179626023095581,
+        "max": 15.659439256881445
+      },
+      "windowSeconds": {
+        "n": 2,
+        "median": 30.0004011605,
+        "min": 30.000135093,
+        "max": 30.000667228
+      },
+      "batteryBeforeC": {
+        "n": 2,
+        "median": 37.85,
+        "min": 37.7,
+        "max": 38.0
+      },
+      "batteryAfterC": {
+        "n": 2,
+        "median": 37.85,
+        "min": 37.7,
+        "max": 38.0
+      },
+      "presentedFrames": {
+        "n": 2,
+        "median": 1796.0,
+        "min": 1796,
+        "max": 1796
+      },
+      "pssAfterMiB": {
+        "n": 2,
+        "median": 85.6533203125,
+        "min": 85.58203125,
+        "max": 85.724609375
+      },
+      "pssBeforeMiB": {
+        "n": 2,
+        "median": 80.357421875,
+        "min": 80.341796875,
+        "max": 80.373046875
+      },
+      "presentationGapMs": {
+        "p50": {
+          "n": 2,
+          "median": 16.706484500000002,
+          "min": 16.706042,
+          "max": 16.706927
+        },
+        "p95": {
+          "n": 2,
+          "median": 16.858835749999997,
+          "min": 16.8570261,
+          "max": 16.8606454
+        },
+        "p99": {
+          "n": 2,
+          "median": 16.92896347,
+          "min": 16.91443568,
+          "max": 16.94349126
+        },
+        "max": {
+          "n": 2,
+          "median": 17.0625,
+          "min": 17.024584,
+          "max": 17.100416
+        }
+      },
+      "frameReadyToPresentMs": {
+        "p50": {
+          "n": 2,
+          "median": 25.336185,
+          "min": 25.323724,
+          "max": 25.348646
+        },
+        "p95": {
+          "n": 2,
+          "median": 30.496432249999998,
+          "min": 30.48658825,
+          "max": 30.50627625
+        },
+        "p99": {
+          "n": 2,
+          "median": 30.626572075,
+          "min": 30.609648949999997,
+          "max": 30.6434952
+        },
+        "max": {
+          "n": 2,
+          "median": 36.532057,
+          "min": 35.894896,
+          "max": 37.169218
+        }
+      }
+    },
+    {
+      "app": "jolt",
+      "phase": "ui-thread-block-300ms",
+      "runs": 2,
+      "cpuSecondsPer30Seconds": {
+        "n": 2,
+        "median": 8.084776060226277,
+        "min": 8.009849776602415,
+        "max": 8.159702343850139
+      },
+      "windowSeconds": {
+        "n": 2,
+        "median": 30.0002213685,
+        "min": 30.000141551,
+        "max": 30.000301186
+      },
+      "batteryBeforeC": {
+        "n": 2,
+        "median": 38.0,
+        "min": 38.0,
+        "max": 38.0
+      },
+      "batteryAfterC": {
+        "n": 2,
+        "median": 38.0,
+        "min": 38.0,
+        "max": 38.0
+      },
+      "presentedFrames": {
+        "n": 2,
+        "median": 1743.5,
+        "min": 1743,
+        "max": 1744
+      },
+      "pssAfterMiB": {
+        "n": 2,
+        "median": 81.79345703125,
+        "min": 81.767578125,
+        "max": 81.8193359375
+      },
+      "pssBeforeMiB": {
+        "n": 2,
+        "median": 89.85986328125,
+        "min": 89.8232421875,
+        "max": 89.896484375
+      },
+      "presentationGapMs": {
+        "p50": {
+          "n": 2,
+          "median": 16.708841,
+          "min": 16.708542,
+          "max": 16.709139999999998
+        },
+        "p95": {
+          "n": 2,
+          "median": 16.85889605,
+          "min": 16.8474844,
+          "max": 16.870307699999998
+        },
+        "p99": {
+          "n": 2,
+          "median": 16.932192885,
+          "min": 16.92503942,
+          "max": 16.93934635
+        },
+        "max": {
+          "n": 2,
+          "median": 300.8549735,
+          "min": 300.854323,
+          "max": 300.855624
+        }
+      },
+      "frameReadyToPresentMs": {
+        "p50": {
+          "n": 2,
+          "median": 29.40335925,
+          "min": 28.311146,
+          "max": 30.4955725
+        },
+        "p95": {
+          "n": 2,
+          "median": 32.636253625,
+          "min": 32.4883437,
+          "max": 32.78416355
+        },
+        "p99": {
+          "n": 2,
+          "median": 32.83428354,
+          "min": 32.7350415,
+          "max": 32.93352558
+        },
+        "max": {
+          "n": 2,
+          "median": 41.775364999999994,
+          "min": 36.766563,
+          "max": 46.784167
+        }
+      }
+    },
+    {
+      "app": "reanimated",
+      "phase": "ui-thread-block-300ms",
+      "runs": 2,
+      "cpuSecondsPer30Seconds": {
+        "n": 2,
+        "median": 14.199685524048402,
+        "min": 13.039675756291954,
+        "max": 15.35969529180485
+      },
+      "windowSeconds": {
+        "n": 2,
+        "median": 30.0001753795,
+        "min": 30.000139364,
+        "max": 30.000211395
+      },
+      "batteryBeforeC": {
+        "n": 2,
+        "median": 38.0,
+        "min": 38.0,
+        "max": 38.0
+      },
+      "batteryAfterC": {
+        "n": 2,
+        "median": 38.0,
+        "min": 38.0,
+        "max": 38.0
+      },
+      "presentedFrames": {
+        "n": 2,
+        "median": 1745.0,
+        "min": 1744,
+        "max": 1746
+      },
+      "pssAfterMiB": {
+        "n": 2,
+        "median": 85.41943359375,
+        "min": 85.3984375,
+        "max": 85.4404296875
+      },
+      "pssBeforeMiB": {
+        "n": 2,
+        "median": 80.5302734375,
+        "min": 80.2939453125,
+        "max": 80.7666015625
+      },
+      "presentationGapMs": {
+        "p50": {
+          "n": 2,
+          "median": 16.7081255,
+          "min": 16.707761,
+          "max": 16.70849
+        },
+        "p95": {
+          "n": 2,
+          "median": 16.88927345,
+          "min": 16.884932300000003,
+          "max": 16.8936146
+        },
+        "p99": {
+          "n": 2,
+          "median": 17.00107006,
+          "min": 16.99247496,
+          "max": 17.00966516
+        },
+        "max": {
+          "n": 2,
+          "median": 300.7887755,
+          "min": 300.729739,
+          "max": 300.847812
+        }
+      },
+      "frameReadyToPresentMs": {
+        "p50": {
+          "n": 2,
+          "median": 17.879856750000002,
+          "min": 17.0172915,
+          "max": 18.742422
+        },
+        "p95": {
+          "n": 2,
+          "median": 25.596166625,
+          "min": 25.358375,
+          "max": 25.83395825
+        },
+        "p99": {
+          "n": 2,
+          "median": 26.081934425,
+          "min": 25.895691499999998,
+          "max": 26.26817735
+        },
+        "max": {
+          "n": 2,
+          "median": 29.080495,
+          "min": 26.197604,
+          "max": 31.963386
+        }
+      }
+    }
+  ],
+  "failedAttempts": [
+    "incomplete/1-runtime-jolt-egl-startup/failure.json",
+    "incomplete/2-ui-jolt-egl-startup/failure.json"
+  ],
+  "temperatureGuard": "Battery temperature <=39 C before and <=40 C after; not proof of no CPU/GPU throttling.",
+  "method": "Process user+system CPU ticks; SurfaceFlinger 127-frame history polled every500ms with overlap verification. Observer work runs outside the measured app but may affect device scheduling."
+}

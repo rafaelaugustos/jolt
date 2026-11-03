@@ -1,0 +1,191 @@
+{
+  "app": "reanimated",
+  "phase": "normal",
+  "repetition": 4,
+  "layer": "com.joltcomparison/com.joltcomparison.MainActivity#325",
+  "presentedFrames": 1773,
+  "presentationGapMs": {
+    "n": 1772,
+    "p50": 16.671625,
+    "p95": 18.942595949999994,
+    "p99": 25.758104249999988,
+    "max": 49.182417
+  },
+  "queueToPresentMs": {
+    "n": 1773,
+    "p50": 16.474791,
+    "p95": 33.881508,
+    "p99": 41.34732847999997,
+    "max": 66.739084
+  },
+  "presentationLimit": "SurfaceFlinger buffer present fences on the dominant app layer; emulator timestamps, not physical scanout. Queue-to-present is buffer latency, not input latency.",
+  "frameTimelineFrames": 1774,
+  "frameTimelineLayer": "TX - com.joltcomparison/com.joltcomparison.MainActivity#325",
+  "inputActions": [
+    {
+      "hostSecondsSinceTraceReady": 5.049780542000008,
+      "button": "start"
+    },
+    {
+      "hostSecondsSinceTraceReady": 15.050131459,
+      "button": "start"
+    },
+    {
+      "hostSecondsSinceTraceReady": 25.100197624999964,
+      "button": "start"
+    }
+  ],
+  "appFrameTimelineDurationMs": {
+    "n": 1774,
+    "p50": 7.013999999999999,
+    "p95": 30.722229049999996,
+    "p99": 38.358462679999995,
+    "max": 76.071083
+  },
+  "frameTimelineLimit": "App interval ends at GPU completion/posting, not presentation. Unavailable for the tested Flutter SurfaceView; common cadence/latency metrics use buffer fences for every stack.",
+  "appDeadlineMissed": 7,
+  "bufferStuffingFrames": 499,
+  "predictionErrorFrames": 1710,
+  "droppedFrames": 0,
+  "inputHandlingMs": {
+    "n": 6,
+    "p50": 0.62275,
+    "p95": 4.1641562500000004,
+    "p99": 5.047631250000001,
+    "max": 5.2685
+  },
+  "inputAssociatedPresentMs": {
+    "n": 0,
+    "p50": null,
+    "p95": null,
+    "p99": null,
+    "max": null
+  },
+  "inputPresentLimit": "OS frame association; null means unavailable. This does not measure panel latency or identify the first changed tile pixel.",
+  "cpuSeconds": 10.945562,
+  "threadCpuMs": [
+    {
+      "name": "RenderThread",
+      "tid": "8664",
+      "is_main_thread": "0",
+      "cpuMs": 9022.187136
+    },
+    {
+      "name": ".joltcomparison",
+      "tid": "8650",
+      "is_main_thread": "1",
+      "cpuMs": 1591.712694
+    },
+    {
+      "name": "binder:8650_5",
+      "tid": "8751",
+      "is_main_thread": "0",
+      "cpuMs": 89.473466
+    },
+    {
+      "name": "GPU completion",
+      "tid": "8758",
+      "is_main_thread": "0",
+      "cpuMs": 58.494792
+    },
+    {
+      "name": "binder:8650_4",
+      "tid": "8679",
+      "is_main_thread": "0",
+      "cpuMs": 47.300504
+    },
+    {
+      "name": "binder:8650_1",
+      "tid": "8659",
+      "is_main_thread": "0",
+      "cpuMs": 36.863768
+    },
+    {
+      "name": "HWC release",
+      "tid": "8759",
+      "is_main_thread": "0",
+      "cpuMs": 26.28732
+    },
+    {
+      "name": "Jit thread pool",
+      "tid": "8654",
+      "is_main_thread": "0",
+      "cpuMs": 25.270251
+    },
+    {
+      "name": "HeapTaskDaemon",
+      "tid": "8655",
+      "is_main_thread": "0",
+      "cpuMs": 16.642834
+    },
+    {
+      "name": "binder:8650_4",
+      "tid": "8681",
+      "is_main_thread": "0",
+      "cpuMs": 16.157738
+    },
+    {
+      "name": "mqt_v_js",
+      "tid": "8669",
+      "is_main_thread": "0",
+      "cpuMs": 7.957842
+    },
+    {
+      "name": "HybridData Dest",
+      "tid": "8666",
+      "is_main_thread": "0",
+      "cpuMs": 5.364334
+    },
+    {
+      "name": "ReferenceQueueD",
+      "tid": "8656",
+      "is_main_thread": "0",
+      "cpuMs": 0.779625
+    },
+    {
+      "name": "mqt_v_native",
+      "tid": "8670",
+      "is_main_thread": "0",
+      "cpuMs": 0.354001
+    },
+    {
+      "name": "SharedPreferenc",
+      "tid": "8667",
+      "is_main_thread": "0",
+      "cpuMs": 0.285292
+    },
+    {
+      "name": "FinalizerWatchd",
+      "tid": "8658",
+      "is_main_thread": "0",
+      "cpuMs": 0.214708
+    },
+    {
+      "name": ".joltcomparison",
+      "tid": "8770",
+      "is_main_thread": "0",
+      "cpuMs": 0.113708
+    },
+    {
+      "name": "FinalizerDaemon",
+      "tid": "8657",
+      "is_main_thread": "0",
+      "cpuMs": 0.096167
+    },
+    {
+      "name": "Profile Saver",
+      "tid": "8663",
+      "is_main_thread": "0",
+      "cpuMs": 0.006167
+    }
+  ],
+  "sampledRssBytes": {
+    "n": 31,
+    "p50": 167038976.0,
+    "p95": 169144320.0,
+    "p99": 169301606.4,
+    "max": 169340928.0
+  },
+  "traceWarnings": [],
+  "traceSha256": "416072f1578d82a339c90c8c195b5790eb055758a635f5845e7eb553764b9a4f"
+}

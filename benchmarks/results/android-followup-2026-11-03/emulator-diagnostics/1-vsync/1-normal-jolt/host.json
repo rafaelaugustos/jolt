@@ -1,0 +1,136 @@
+[
+  {
+    "hostTime": 1793727283.692995,
+    "loadAverage1m": 11.02490234375,
+    "logicalCpus": 16,
+    "loadAverageLimit": 12.0,
+    "busyCompilers": [],
+    "compilerCpuPercent": 0,
+    "compilerCpuLimit": 400,
+    "duringWindow": false,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793727294.5883882,
+    "loadAverage1m": 13.2841796875,
+    "logicalCpus": 16,
+    "loadAverageLimit": 32,
+    "busyCompilers": [
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 95.3
+      }
+    ],
+    "compilerCpuPercent": 95.3,
+    "compilerCpuLimit": 400,
+    "duringWindow": true,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793727298.5878348,
+    "loadAverage1m": 13.2841796875,
+    "logicalCpus": 16,
+    "loadAverageLimit": 32,
+    "busyCompilers": [],
+    "compilerCpuPercent": 0,
+    "compilerCpuLimit": 400,
+    "duringWindow": true,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793727302.653099,
+    "loadAverage1m": 12.54052734375,
+    "logicalCpus": 16,
+    "loadAverageLimit": 32,
+    "busyCompilers": [
+      {
+        "command": "rustc",
+        "cpuPercent": 23.5
+      },
+      {
+        "command": "rustc",
+        "cpuPercent": 23.0
+      },
+      {
+        "command": "rustc",
+        "cpuPercent": 24.4
+      },
+      {
+        "command": "rustc",
+        "cpuPercent": 24.4
+      },
+      {
+        "command": "rustc",
+        "cpuPercent": 23.5
+      },
+      {
+        "command": "rustc",
+        "cpuPercent": 22.6
+      },
+      {
+        "command": "rustc",
+        "cpuPercent": 23.1
+      },
+      {
+        "command": "rustc",
+        "cpuPercent": 24.4
+      },
+      {
+        "command": "rustc",
+        "cpuPercent": 23.2
+      },
+      {
+        "command": "rustc",
+        "cpuPercent": 24.7
+      },
+      {
+        "command": "rustc",
+        "cpuPercent": 22.9
+      },
+      {
+        "command": "rustc",
+        "cpuPercent": 23.2
+      },
+      {
+        "command": "rustc",
+        "cpuPercent": 22.4
+      },
+      {
+        "command": "rustc",
+        "cpuPercent": 23.3
+      },
+      {
+        "command": "rustc",
+        "cpuPercent": 23.5
+      },
+      {
+        "command": "rustc",
+        "cpuPercent": 24.2
+      }
+    ],
+    "compilerCpuPercent": 376.29999999999995,
+    "compilerCpuLimit": 400,
+    "duringWindow": true,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793727305.034545,
+    "loadAverage1m": 13.2177734375,
+    "logicalCpus": 16,
+    "loadAverageLimit": 32,
+    "busyCompilers": [
+      {
+        "command": "rustc",
+        "cpuPercent": 72.9
+      },
+      {
+        "command": "rustc",
+        "cpuPercent": 64.9
+      }
+    ],
+    "compilerCpuPercent": 137.8,
+    "compilerCpuLimit": 400,
+    "duringWindow": true,
+    "quiet": true
+  }
+]

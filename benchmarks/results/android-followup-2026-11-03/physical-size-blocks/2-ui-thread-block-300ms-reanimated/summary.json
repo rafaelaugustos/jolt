@@ -1,0 +1,48 @@
+{
+  "windowSeconds": 30.000211395,
+  "cpuWindowSeconds": 30.000745978,
+  "cpuSeconds": 13.04,
+  "cpuSecondsPer30Seconds": 13.039675756291954,
+  "cpuTickSeconds": 0.01,
+  "presentedFrames": 1744,
+  "presentationGapMs": {
+    "n": 1743,
+    "p50": 16.70849,
+    "p95": 16.884932300000003,
+    "p99": 17.00966516,
+    "max": 300.847812
+  },
+  "frameReadyToPresentMs": {
+    "n": 1744,
+    "p50": 18.742422,
+    "p95": 25.358375,
+    "p99": 25.895691499999998,
+    "max": 26.197604
+  },
+  "queueToPresentMs": null,
+  "metricLimit": "SurfaceFlinger actual-present fence and frame-ready fence. Frame-ready is not queue time. Neither identifies input-to-first-changed-pixel or panel scanout. No FrameTimeline classifications on this device.",
+  "inputInvocationSeconds": [
+    5.000526248,
+    15.00025187,
+    25.000144366
+  ],
+  "inputLimit": "Device-clock invocation of Android input; not input delivery or acknowledgement.",
+  "pollDurationMs": {
+    "n": 61,
+    "p50": 33.103333,
+    "p95": 45.9375,
+    "p99": 50.30560459999999,
+    "max": 55.818542
+  },
+  "pollHistoryOverlapVerified": true,
+  "app": "reanimated",
+  "phase": "ui-thread-block-300ms",
+  "repetition": 2,
+  "layer": "com.joltcomparison/com.joltcomparison.MainActivity#0",
+  "probeOutputSha256": "c8204e5d007a41e436d6fcffd8f5d546f560b7fe24079ab4a7bd557acb834034",
+  "batteryBeforeC": 38.0,
+  "batteryAfterC": 38.0,
+  "pssBeforeKiB": 82705,
+  "pssAfterKiB": 87491,
+  "maxInputInvocationLatenessMs": 0.5262479999998959
+}

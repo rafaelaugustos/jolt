@@ -1,0 +1,7 @@
+Starting: Intent { cmp=com.joltcomparison/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: com.joltcomparison/.MainActivity
+TotalTime: 184
+WaitTime: 185
+Complete

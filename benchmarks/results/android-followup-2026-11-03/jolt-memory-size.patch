@@ -1,0 +1,435 @@
+diff --git a/benchmarks/comparison/android.py b/benchmarks/comparison/android.py
+index bbe1f3d..5013b93 100644
+--- a/benchmarks/comparison/android.py
++++ b/benchmarks/comparison/android.py
+@@ -1,7 +1,7 @@
+ """Collect equivalent release apps on ONE Android emulator, without screen recording.
+ 
+ python3 benchmarks/comparison/android.py emulator-5590 OUTPUT TRACE_PROCESSOR
+-The three installed apps must match scenario.json. Keep other builds/tests idle.
++Selected installed apps must match scenario.json. Keep other builds/tests idle.
+ Raw traces, CSV rows, package metadata, memory samples and per-run results are retained.
+ """
+ import argparse
+@@ -25,6 +25,39 @@ APPS = {
+     'flutter': ('dev.jolt.comparison.jolt_comparison', '.MainActivity'),
+ }
+ 
++DIAGNOSTIC_CHOICES = {
++    'diagnostic-driver': ('driver', ('jolt', 'native')),
++    'diagnostic-tile': ('tileKind', ('label', 'layout')),
++    'diagnostic-layer': ('layer', ('none', 'hardware')),
++    'diagnostic-start': ('startMode', ('immediate', 'vsync')),
++}
++
++def diagnostic_intents(values):
++    result = {}
++    for item in values:
++        key, separator, value = item.partition('=')
++        if not separator or key not in DIAGNOSTIC_CHOICES or value not in DIAGNOSTIC_CHOICES[key][1]:
++            raise ValueError('Unknown playback diagnostic: ' + item)
++        if key in result:
++            raise ValueError('Duplicate diagnostic: ' + key)
++        result[key] = value
++    return result
++
++def retrieve_trace(serial, remote, destination):
++    """Do not silently analyze an incomplete ADB transfer, even if it exits zero."""
++    expected = subprocess.check_output(['adb', '-s', serial, 'shell', 'sha256sum', remote], text=True, timeout=60).split()[0]
++    attempts = []
++    for attempt in range(3):
++        pulled = subprocess.run(['adb', '-s', serial, 'pull', remote, str(destination)],
++                                stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, timeout=60)
++        digest = hashlib.sha256(destination.read_bytes()).hexdigest() if destination.exists() else None
++        attempts.append({'attempt': attempt+1, 'exitCode': pulled.returncode, 'output': pulled.stdout,
++                         'expectedSha256': expected, 'receivedSha256': digest})
++        destination.with_name('pull.log').write_text(json.dumps(attempts, indent=2)+'\n')
++        if pulled.returncode == 0 and digest == expected:
++            return
++    raise AssertionError('ADB trace transfer did not match the device SHA-256')
++
+ def distribution(values):
+     if not values:
+         return {'n': 0, 'p50': None, 'p95': None, 'p99': None, 'max': None}
+@@ -66,10 +99,12 @@ def host_observation(during_window=False):
+             name = Path(parts[1]).name
+             if name in ('clang', 'clang++', 'swift-frontend', 'swift-test', 'cc1', 'rustc'):
+                 busy.append({'command': name, 'cpuPercent': float(parts[0])})
++    load_limit = cpus * (2 if during_window else .75)
+     return {'hostTime': time.time(), 'loadAverage1m': load, 'logicalCpus': cpus,
++        'loadAverageLimit': load_limit,
+         'busyCompilers': busy, 'compilerCpuPercent': sum(p['cpuPercent'] for p in busy),
+         'compilerCpuLimit': cpus * 25, 'duringWindow': during_window,
+-        'quiet': (during_window or load <= cpus * .75) and sum(p['cpuPercent'] for p in busy) <= cpus * 25}
++        'quiet': load <= load_limit and sum(p['cpuPercent'] for p in busy) <= cpus * 25}
+ 
+ def main():
+     parser = argparse.ArgumentParser(description=__doc__)
+@@ -77,7 +112,12 @@ def main():
+     parser.add_argument('output', type=Path)
+     parser.add_argument('processor', type=Path)
+     parser.add_argument('--repetitions', type=int)
+-    parser.add_argument('--app', choices=APPS)
++    selection = parser.add_mutually_exclusive_group()
++    selection.add_argument('--app', choices=APPS)
++    selection.add_argument('--apps', choices=APPS, nargs='+')
++    parser.add_argument('--phase', choices=['normal', 'app-runtime-block-300ms', 'ui-thread-block-300ms'], action='append')
++    parser.add_argument('--jolt-intent', action='append', default=[], metavar='KEY=VALUE',
++                        help='Explicit Jolt diagnostic launch extra; retained in metadata.')
+     parser.add_argument('--seconds', type=int)
+     args = parser.parse_args()
+     scenario = json.loads(Path(__file__).with_name('scenario.json').read_text())
+@@ -86,6 +126,14 @@ def main():
+     assert seconds >= 6 and repetitions > 0
+     output = args.output.resolve(); output.mkdir(parents=True, exist_ok=True)
+     processor = str(args.processor.resolve())
++    names = list(dict.fromkeys(args.apps or ([args.app] if args.app else APPS)))
++    selected_phases = list(dict.fromkeys(args.phase or ['normal', 'app-runtime-block-300ms', 'ui-thread-block-300ms']))
++    try:
++        jolt_intents = diagnostic_intents(args.jolt_intent)
++    except ValueError as error:
++        parser.error(str(error))
++    if jolt_intents and 'jolt' not in names:
++        parser.error('--jolt-intent requires selecting jolt')
+     def adb(*words):
+         return subprocess.check_output(['adb', '-s', args.serial, *words], text=True, timeout=60)
+     def shell(*words):
+@@ -95,7 +143,8 @@ def main():
+         assert float(shell('settings', 'get', 'global', setting).strip()) == 1, setting + ' must be 1x'
+     assert shell('settings', 'get', 'system', 'show_touches').strip() in ('0', 'null'), 'Disable touch overlays for primary measurements.'
+     packages = {}
+-    for name, (package, _) in APPS.items():
++    for name in names:
++        package, _ = APPS[name]
+         info = shell('dumpsys', 'package', package)
+         assert 'versionName=' in info and 'DEBUGGABLE' not in info, name + ' must be installed as a release build'
+         (output/(name+'-package.txt')).write_text(info)
+@@ -107,11 +156,15 @@ def main():
+         'host': platform.platform(), 'device': shell('getprop'), 'display': shell('dumpsys', 'display'),
+         'processor': subprocess.check_output([processor, '--version'], text=True),
+         'scenario': scenario, 'windowSeconds': seconds, 'repetitions': repetitions, 'packages': packages,
+-        'screenRecording': False, 'hostAcceptance': 'Before launching the app: 1-minute load <= 0.75 * logical CPUs. All samples: aggregate compiler CPU <= 25% of host capacity (100% is one logical CPU). During playback, load is diagnostic only because it includes the measured emulator. Not thermal or exclusive-host proof.', 'runs': []}
++        'selectedApps': names, 'selectedPhases': selected_phases,
++        'joltIntents': jolt_intents,
++        'collectorSha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
++        'screenRecording': False, 'hostAcceptance': 'Before launching the app: 1-minute load <= 0.75 * logical CPUs. During playback: load <= 2 * logical CPUs, allowing emulator work but rejecting extreme host contention. All samples: aggregate compiler CPU <= 25% of host capacity (100% is one logical CPU). Not thermal or exclusive-host proof.', 'runs': []}
+     if (output/'metadata.json').exists():
+         previous=json.loads((output/'metadata.json').read_text())
+-        for key in ('serial','packages','scenario','windowSeconds','repetitions','screenRecording','hostAcceptance'):
+-            assert previous[key]==metadata[key], 'Cannot resume changed configuration: '+key
++        for key in ('serial','packages','scenario','windowSeconds','repetitions','screenRecording','hostAcceptance','selectedApps','selectedPhases','joltIntents','collectorSha256'):
++            fallback = {} if key == 'joltIntents' else list(APPS) if key == 'selectedApps' else scenario['phases'] if key == 'selectedPhases' else None
++            assert previous.get(key, fallback)==metadata[key], 'Cannot resume changed configuration: '+key
+         metadata=previous
+     completed={(r['app'],r['phase'],r['repetition']) for r in metadata['runs']}
+     (output/'metadata.json').write_text(json.dumps(metadata, indent=2)+'\n')
+@@ -139,12 +192,10 @@ def main():
+             time.sleep(1)
+         raise AssertionError('Could not resolve actual native controls')
+ 
+-    names = [args.app] if args.app else list(APPS)
+     for repetition in range(repetitions):
+         # Rotate stack and phase ordering to expose order-related drift.
+         order = names[repetition % len(names):] + names[:repetition % len(names)]
+-        phases = ['normal', 'app-runtime-block-300ms', 'ui-thread-block-300ms']
+-        phases = phases[repetition % 3:] + phases[:repetition % 3]
++        phases = selected_phases[repetition % len(selected_phases):] + selected_phases[:repetition % len(selected_phases)]
+         for phase in phases:
+             for name in order:
+                 if (name,phase,repetition+1) in completed: continue
+@@ -158,10 +209,17 @@ def main():
+                         time.sleep(10)
+                         observations = [host_observation()]
+                     for other, _ in APPS.values(): shell('am', 'force-stop', other)
+-                    launch = shell('am', 'start', '-W', '-n', package+'/'+activity)
++                    extras = [word for key, value in jolt_intents.items() for word in ('--es', key, value)] if name == 'jolt' else []
++                    launch = shell('am', 'start', '-W', '-n', package+'/'+activity, *extras)
+                     (folder/'launch.txt').write_text(launch)
+                     time.sleep(1)
+                     buttons = controls()
++                    if name == 'jolt' and jolt_intents:
++                        actual = json.loads(shell('cat', '/sdcard/Android/data/'+package+'/files/jolt-frame-diagnostic.json'))
++                        assert str(actual['processId']) == shell('pidof', package).strip(), 'Stale diagnostic report'
++                        for key, value in jolt_intents.items():
++                            assert actual[DIAGNOSTIC_CHOICES[key][0]] == value, 'Diagnostic did not activate: '+key
++                        (folder/'diagnostic.json').write_text(json.dumps(actual, indent=2)+'\n')
+                     resumed = [line for line in shell('dumpsys', 'activity', 'activities').splitlines()
+                         if 'ResumedActivity' in line or 'Resumed:' in line]
+                     assert any(package+'/' in line for line in resumed), 'Benchmark app must have focus'
+@@ -205,10 +263,8 @@ def main():
+                     (folder/'host.json').write_text(json.dumps(observations,indent=2)+'\n')
+                     (folder/'memory-after.txt').write_text(shell('dumpsys','meminfo',package))
+                     trace = folder/'trace.perfetto-trace'
+-                    with trace.open('wb') as destination:
+-                        pulled = subprocess.run(['adb','-s',args.serial,'exec-out','cat',remote], stdout=destination, stderr=subprocess.PIPE, timeout=60)
+-                    (folder/'pull.log').write_text(pulled.stderr.decode())
+-                    assert pulled.returncode == 0 and trace.stat().st_size > 1000, 'Failed to retrieve trace'
++                    retrieve_trace(args.serial, remote, trace)
++                    assert trace.stat().st_size > 1000, 'Empty trace'
+                     if not all(sample['quiet'] for sample in observations):
+                         with trace.open('rb') as source, gzip.open(str(trace)+'.gz','wb') as archive:
+                             import shutil
+@@ -229,6 +285,7 @@ def main():
+                     frames = [row for row in rows if row['layer_name']==dominant]
+                     inputs = query(trace, f"INCLUDE PERFETTO MODULE android.input; SELECT * FROM android_input_events WHERE process_name='{package}'", folder/'input.csv')
+                     cpu = query(trace, f"SELECT sum(s.dur)/1e9 cpuSeconds FROM sched s JOIN thread t USING(utid) JOIN process p USING(upid) WHERE p.name='{package}' AND s.dur>0", folder/'cpu.csv')
++                    threads = query(trace, f"SELECT t.name,t.tid,t.is_main_thread,sum(s.dur)/1e6 cpuMs FROM sched s JOIN thread t USING(utid) JOIN process p USING(upid) WHERE p.name='{package}' AND s.dur>0 GROUP BY t.utid ORDER BY cpuMs DESC", folder/'threads.csv')
+                     memory = query(trace, f"SELECT c.ts,t.name,c.value FROM counter c JOIN process_counter_track t ON c.track_id=t.id JOIN process p USING(upid) WHERE p.name='{package}' ORDER BY c.ts", folder/'memory.csv')
+                     stats = query(trace,"SELECT name,idx,severity,value FROM stats WHERE value>0 AND severity IN ('error','data_loss')",folder/'trace-health.csv')
+                     assert not any('overrun' in r['name'] or 'buffer_discard' in r['name'] or 'packet_loss' in r['name'] for r in stats), stats
+@@ -238,11 +295,14 @@ def main():
+                         'appFrameTimelineDurationMs':distribution([int(r['dur'])/1e6 for r in frames]),
+                         'frameTimelineLimit':'App interval ends at GPU completion/posting, not presentation. Unavailable for the tested Flutter SurfaceView; common cadence/latency metrics use buffer fences for every stack.',
+                         'appDeadlineMissed':sum('App Deadline Missed' in r['jank_type'] for r in frames) if frames else None,
++                        'bufferStuffingFrames':sum('Buffer Stuffing' in r['jank_type'] for r in frames) if frames else None,
++                        'predictionErrorFrames':sum('Prediction Error' in r['jank_type'] for r in frames) if frames else None,
+                         'droppedFrames':sum(r['present_type']=='Dropped Frame' for r in frames) if frames else None,
+                         'inputHandlingMs':distribution(numeric('handling_latency_dur')),
+                         'inputAssociatedPresentMs':distribution(numeric('end_to_end_latency_dur')),
+                         'inputPresentLimit':'OS frame association; null means unavailable. This does not measure panel latency or identify the first changed tile pixel.',
+                         'cpuSeconds':float(cpu[0]['cpuSeconds']),
++                        'threadCpuMs':[{**row,'cpuMs':float(row['cpuMs'])} for row in threads],
+                         'sampledRssBytes':distribution([float(r['value']) for r in memory if r['name']=='mem.rss']),
+                         'traceWarnings':stats,'traceSha256':hashlib.sha256(trace.read_bytes()).hexdigest()}
+                     (folder/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
+diff --git a/benchmarks/comparison/jolt/app/main.ts b/benchmarks/comparison/jolt/app/main.ts
+index bc8a8cc..9885c9e 100644
+--- a/benchmarks/comparison/jolt/app/main.ts
++++ b/benchmarks/comparison/jolt/app/main.ts
+@@ -3,6 +3,7 @@ import {
+   Button,
+   Color,
+   GridLayout,
++  knownFolders,
+   Label,
+   Page,
+   StackLayout,
+@@ -11,6 +12,19 @@ import { animate, configure, set, type PlaybackAnimation } from '@rafaelaugusto/
+ configure({ timeScale: 1, reducedMotion: 'never' })
+ Application.run({
+   create: () => {
++    // Explicit diagnostic controls only. The default comparison stays unchanged.
++    const intent = Application.android.startActivity.getIntent()
++    const driver = intent.getStringExtra('diagnostic-driver') ?? 'jolt'
++    const tileKind = intent.getStringExtra('diagnostic-tile') ?? 'label'
++    const layer = intent.getStringExtra('diagnostic-layer') ?? 'none'
++    const startMode = intent.getStringExtra('diagnostic-start') ?? 'immediate'
++    if (
++      !['jolt', 'native', 'static'].includes(driver) ||
++      !['label', 'layout'].includes(tileKind) ||
++      !['none', 'hardware'].includes(layer) ||
++      !['immediate', 'vsync'].includes(startMode)
++    )
++      throw Error('Unknown frame diagnostic configuration')
+     const page = new Page()
+     page.actionBarHidden = true
+     page.backgroundColor = new Color('#102922')
+@@ -32,7 +46,7 @@ Application.run({
+       horizontalAlignment: 'center',
+     })
+     root.addChild(stage)
+-    const tile = new Label()
++    const tile = tileKind === 'layout' ? new GridLayout() : new Label()
+     Object.assign(tile, {
+       width: 48,
+       height: 48,
+@@ -43,10 +57,83 @@ Application.run({
+     })
+     stage.addChild(tile)
+     let motion: PlaybackAnimation | undefined
++    let nativeMotion: android.animation.ObjectAnimator | undefined
++    let pending: android.view.Choreographer.FrameCallback | undefined
++    let previousLayer: number | undefined
+     const stop = () => {
++      if (pending) android.view.Choreographer.getInstance().removeFrameCallback(pending)
++      pending = undefined
+       motion?.stop()
+       motion = undefined
++      nativeMotion?.cancel()
++      nativeMotion = undefined
++      if (previousLayer !== undefined) tile.android.setLayerType(previousLayer, null)
++      previousLayer = undefined
+     }
++    const start = () => {
++      stop()
++      set(tile, { x: 0, opacity: 1 })
++      const play = () => {
++        pending = undefined
++        if (layer === 'hardware') {
++          previousLayer = tile.android.getLayerType()
++          tile.android.setLayerType(android.view.View.LAYER_TYPE_HARDWARE, null)
++        }
++        if (driver === 'native') {
++          const holders = Array.create(android.animation.PropertyValuesHolder, 2)
++          const x = Array.create('float', 2),
++            alpha = Array.create('float', 2)
++          x[0] = 0
++          x[1] = 240 * tile.android.getResources().getDisplayMetrics().density
++          alpha[0] = 1
++          alpha[1] = 0.4
++          holders[0] = android.animation.PropertyValuesHolder.ofFloat(
++            android.view.View.TRANSLATION_X,
++            x,
++          )
++          holders[1] = android.animation.PropertyValuesHolder.ofFloat(
++            android.view.View.ALPHA,
++            alpha,
++          )
++          nativeMotion = android.animation.ObjectAnimator.ofPropertyValuesHolder(
++            tile.android,
++            holders,
++          )
++          nativeMotion.setDuration(1000)
++          nativeMotion.setRepeatCount(-1)
++          nativeMotion.setRepeatMode(android.animation.ValueAnimator.REVERSE)
++          nativeMotion.setInterpolator(new android.view.animation.LinearInterpolator())
++          nativeMotion.start()
++        } else if (driver === 'jolt') {
++          motion = animate(
++            tile,
++            { x: [0, 240], opacity: [1, 0.4] },
++            { duration: 1000, ease: 'linear', repeat: Infinity, repeatType: 'reverse' },
++          )
++        }
++      }
++      if (startMode === 'vsync') {
++        pending = new android.view.Choreographer.FrameCallback({ doFrame: play })
++        android.view.Choreographer.getInstance().postFrameCallback(pending)
++      } else play()
++    }
++    page.on('loaded', () => {
++      knownFolders
++        .externalDocuments()
++        .getFile('jolt-frame-diagnostic.json')
++        .writeTextSync(
++          JSON.stringify({
++            driver,
++            tileKind,
++            layer,
++            startMode,
++            nativeClass: tile.android.getClass().getName(),
++            overlapping: tile.android.hasOverlappingRendering(),
++            processId: android.os.Process.myPid(),
++            mainThreadId: android.os.Process.myTid(),
++          }),
++        )
++    })
+     const block = () => {
+       const start = android.os.SystemClock.uptimeMillis()
+       while (android.os.SystemClock.uptimeMillis() - start < 300) {
+@@ -58,19 +145,7 @@ Application.run({
+       )
+     }
+     for (const [text, id, action] of [
+-      [
+-        'Start',
+-        'comparison-start',
+-        () => {
+-          stop()
+-          set(tile, { x: 0, opacity: 1 })
+-          motion = animate(
+-            tile,
+-            { x: [0, 240], opacity: [1, 0.4] },
+-            { duration: 1000, ease: 'linear', repeat: Infinity, repeatType: 'reverse' },
+-          )
+-        },
+-      ],
++      ['Start', 'comparison-start', start],
+       ['Stop', 'comparison-stop', stop],
+       ['Block app runtime · 300 ms', 'comparison-runtime-block', block],
+       // NativeScript application JS already runs on the platform UI thread.
+diff --git a/benchmarks/comparison/jolt/nativescript.config.ts b/benchmarks/comparison/jolt/nativescript.config.ts
+index f471af5..b294387 100644
+--- a/benchmarks/comparison/jolt/nativescript.config.ts
++++ b/benchmarks/comparison/jolt/nativescript.config.ts
+@@ -1,5 +1,14 @@
++// Explicit experiment, not a library/runtime default. Measure JS-heavy work too:
++// V8's size profile favors memory over execution speed.
++const profile = process.env.JOLT_COMPARISON_MEMORY_PROFILE ?? 'default'
++if (!['default', 'size'].includes(profile))
++  throw Error('Unknown comparison memory profile')
++
+ export default {
+   id: 'dev.jolt.comparison.jolt',
+   appPath: 'app',
+   appResourcesPath: 'App_Resources',
++  ...(profile === 'size'
++    ? { android: { v8Flags: '--expose_gc --optimize_for_size' } }
++    : {}),
+ }
+diff --git a/benchmarks/comparison/test_analysis.py b/benchmarks/comparison/test_analysis.py
+index d4fbd97..0dfceed 100644
+--- a/benchmarks/comparison/test_analysis.py
++++ b/benchmarks/comparison/test_analysis.py
+@@ -2,11 +2,50 @@ import importlib.util
+ from pathlib import Path
+ import unittest
+ from unittest.mock import patch
++import hashlib
++import tempfile
++from types import SimpleNamespace
+ 
+ spec = importlib.util.spec_from_file_location('comparison', Path(__file__).with_name('android.py'))
+ comparison = importlib.util.module_from_spec(spec)
+ spec.loader.exec_module(comparison)
+ 
++class TraceTransfer(unittest.TestCase):
++    def test_retries_a_truncated_successful_transfer(self):
++        payload=b'complete trace bytes'
++        expected=hashlib.sha256(payload).hexdigest()+'  /remote/trace\n'
++        with tempfile.TemporaryDirectory() as directory:
++            destination=Path(directory)/'trace'
++            copies=iter([payload[:4],payload])
++            def pull(*args,**kwargs):
++                destination.write_bytes(next(copies))
++                return SimpleNamespace(returncode=0,stdout='transfer complete')
++            with patch.object(comparison.subprocess,'check_output',return_value=expected), patch.object(comparison.subprocess,'run',side_effect=pull) as run:
++                comparison.retrieve_trace('test-device','/remote/trace',destination)
++            self.assertEqual(run.call_count,2)
++            self.assertEqual(destination.read_bytes(),payload)
++
++    def test_never_accepts_repeated_corruption(self):
++        with tempfile.TemporaryDirectory() as directory:
++            destination=Path(directory)/'trace'
++            destination.write_bytes(b'truncated')
++            with patch.object(comparison.subprocess,'check_output',return_value='expected /remote/trace'), patch.object(comparison.subprocess,'run',return_value=SimpleNamespace(returncode=0,stdout='')) as run:
++                with self.assertRaises(AssertionError):
++                    comparison.retrieve_trace('test-device','/remote/trace',destination)
++            self.assertEqual(run.call_count,3)
++
++class DiagnosticSelection(unittest.TestCase):
++    def test_rejects_typo_duplicate_and_static_motion_instead_of_mislabeling_a_run(self):
++        for values in (['diagnostic-drivr=native'], ['diagnostic-driver=static'],
++                       ['diagnostic-start=vsync', 'diagnostic-start=immediate'],
++                       ['diagnostic-tile'], ['diagnostic-layer=auto']):
++            with self.subTest(values=values), self.assertRaises(ValueError):
++                comparison.diagnostic_intents(values)
++
++    def test_preserves_explicit_controls(self):
++        self.assertEqual(comparison.diagnostic_intents(['diagnostic-driver=native', 'diagnostic-tile=layout']),
++                         {'diagnostic-driver':'native', 'diagnostic-tile':'layout'})
++
+ class PresentationAnalysis(unittest.TestCase):
+     def test_pairs_actual_fences_without_inventing_missing_presentation_or_latency(self):
+         def row(name, frame, ts, layer='app'):
+@@ -36,13 +75,19 @@ class HostAcceptance(unittest.TestCase):
+         self.assertFalse(result['quiet'])
+         self.assertEqual(result['busyCompilers'][0]['command'],'clang')
+ 
+-    def test_workload_load_is_diagnostic_but_compilation_still_rejects(self):
++    def test_allows_emulator_load_but_compilation_still_rejects(self):
+         with patch.object(comparison.os,'getloadavg',return_value=(20,20,20)), patch.object(comparison.os,'cpu_count',return_value=16):
+             with patch.object(comparison.subprocess,'check_output',return_value='PCPU COMM\n'):
+                 self.assertTrue(comparison.host_observation(during_window=True)['quiet'])
+             with patch.object(comparison.subprocess,'check_output',return_value='PCPU COMM\n500 /toolchain/clang\n'):
+                 self.assertFalse(comparison.host_observation(during_window=True)['quiet'])
+ 
++    def test_rejects_extreme_non_compiler_contention_during_playback(self):
++        with patch.object(comparison.os,'getloadavg',return_value=(82,82,82)), patch.object(comparison.os,'cpu_count',return_value=16), patch.object(comparison.subprocess,'check_output',return_value='PCPU COMM\n'):
++            result=comparison.host_observation(during_window=True)
++        self.assertFalse(result['quiet'])
++        self.assertEqual(result['loadAverageLimit'],32)
++
+     def test_rejects_high_load_and_accepts_idle_host(self):
+         with patch.object(comparison.os,'cpu_count',return_value=16), patch.object(comparison.subprocess,'check_output',return_value='PCPU COMM\n80 /toolchain/clang\n'):
+             with patch.object(comparison.os,'getloadavg',return_value=(20,20,20)):

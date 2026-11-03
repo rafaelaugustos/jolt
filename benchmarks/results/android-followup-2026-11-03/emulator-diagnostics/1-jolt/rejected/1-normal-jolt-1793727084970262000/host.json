@@ -1,0 +1,119 @@
+[
+  {
+    "hostTime": 1793727063.067925,
+    "loadAverage1m": 11.85595703125,
+    "logicalCpus": 16,
+    "loadAverageLimit": 12.0,
+    "busyCompilers": [
+      {
+        "command": "swift-test",
+        "cpuPercent": 12.8
+      }
+    ],
+    "compilerCpuPercent": 12.8,
+    "compilerCpuLimit": 400,
+    "duringWindow": false,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793727074.235779,
+    "loadAverage1m": 20.44580078125,
+    "logicalCpus": 16,
+    "loadAverageLimit": 32,
+    "busyCompilers": [
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 60.4
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 50.1
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 59.6
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 49.9
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 71.0
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 51.2
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 60.3
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 67.4
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 49.3
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 49.6
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 50.4
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 71.8
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 53.7
+      },
+      {
+        "command": "swift-frontend",
+        "cpuPercent": 58.9
+      }
+    ],
+    "compilerCpuPercent": 803.5999999999999,
+    "compilerCpuLimit": 400,
+    "duringWindow": true,
+    "quiet": false
+  },
+  {
+    "hostTime": 1793727078.188738,
+    "loadAverage1m": 20.44580078125,
+    "logicalCpus": 16,
+    "loadAverageLimit": 32,
+    "busyCompilers": [],
+    "compilerCpuPercent": 0,
+    "compilerCpuLimit": 400,
+    "duringWindow": true,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793727082.186368,
+    "loadAverage1m": 19.04833984375,
+    "logicalCpus": 16,
+    "loadAverageLimit": 32,
+    "busyCompilers": [],
+    "compilerCpuPercent": 0,
+    "compilerCpuLimit": 400,
+    "duringWindow": true,
+    "quiet": true
+  },
+  {
+    "hostTime": 1793727084.468247,
+    "loadAverage1m": 17.68310546875,
+    "logicalCpus": 16,
+    "loadAverageLimit": 32,
+    "busyCompilers": [],
+    "compilerCpuPercent": 0,
+    "compilerCpuLimit": 400,
+    "duringWindow": true,
+    "quiet": true
+  }
+]

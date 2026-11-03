@@ -32,3 +32,14 @@ benchmarks/web-visual/captures/
 
 benchmarks/web-lifecycle/results/
 benchmarks/web-lifecycle/captures/
+
+# Generated native comparison output; never format built APK inputs.
+benchmarks/comparison/jolt/platforms/
+benchmarks/comparison/jolt/hooks/
+benchmarks/comparison/jolt/App_Resources/iOS/
+
+# Byte-preserved evidence, source snapshots and generated reports have SHA-256 identities.
+benchmarks/results/android-followup-2026-11-03/**
+!benchmarks/results/android-followup-2026-11-03/README.md
+!benchmarks/results/android-followup-2026-11-03/recordings/
+!benchmarks/results/android-followup-2026-11-03/recordings/README.md
