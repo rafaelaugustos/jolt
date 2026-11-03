@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+## 0.1.0-rc.11 (2026-11-03)
+
+- Publish matching core and optional native packages. Rebuild native applications after upgrading to include the updated Android playback and shader helpers. Web APIs remain experimental.
+- Add optional Angular, React NativeScript, Svelte Native and Solid adapters with native lifecycle acceptance, and native acceleration, linear acceleration, gyroscope and magnetic-field sources with explicit units and shared acquisition (#384). Include complete gallery, sheet and recycled-list recipes, mobile Web keyboard fixes, element-relative scroll ranges and actionable surface conflict diagnostics.
+- Reduce Android sampled playback work and release settled animation data (#387). Move audit report export work off the application runtime and retain reproducible CPU/PSS profiling (#393). This does not introduce a general RenderThread backend or remove the NativeScript main-thread blocking limitation.
+- Add native spring/scroll inputs for image shader parameters, reversible liquid masks, resize continuity and silent local iOS video textures (#392). Preserve interruption, pause state and resource cleanup; Android/Web video, streaming and audio are outside this release.
+- Include repeated physical Android measurements of frame latency and opt-in V8 memory profiles, with raw evidence and reviewed recordings (#395). The memory-saving profile remains a benchmark option, not an application default: its lower PSS trades off allocation throughput and does not eliminate frame stalls. Results from one device and the emulator comparison do not establish a universal advantage over Reanimated or Flutter.
+- Preserve reviewed native/browser recordings and platform limitations in English, Portuguese, Spanish and Simplified Chinese documentation. Allow tagged npm publication through the release workflow before creating a GitHub release.
+
 ## 0.1.0-rc.10 (2026-11-03)
 
 - Publish matching core and optional native packages with the four Web capability batches below and native Core ScrollView composition adapters. Rebuild native applications to include the new header/reorder helpers. Web APIs remain experimental; Mavis adoption and physical-device stable acceptance remain separate.
