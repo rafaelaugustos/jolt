@@ -48,3 +48,15 @@ Trate erros do worker e encerre trabalho pendente quando a tela for descartada; 
 Quando o trabalho não puder ir para um worker, divida-o em tarefas limitadas que devolvam o controle ao loop nativo, ou conclua-o antes de começar a animação. `Promise.resolve()` só cede para microtasks; colocar uma tarefa longa em `setTimeout()` apenas adia o mesmo bloqueio da UI thread.
 
 No iOS, os tracks do Core Animation já enviados pelo Jolt podem continuar no render server durante um bloqueio de JavaScript, mas input, novas animações e callbacks de conclusão em JavaScript ainda aguardam a thread principal.
+
+## Reprodução compacta e animações encerradas
+
+No Android, transforms numéricos e opacidade passam a guardar as curvas amostradas em arrays de floats, com interpolação nativa entre os pontos. O solver, os pontos amostrados, os tempos e a propriedade independente de cada canal permanecem iguais. Tracks de dois pontos usam a representação pequena existente; binários antigos do app continuam usando a factory anterior ou a construção em JavaScript até serem recompilados. Cores, decorações e live springs retidos têm drivers próprios.
+
+<Clip name="playback-efficiency-android" caption="Emulador Android 15 / API 35 ARM64, build de release. Toques reais comparam a mola nativa original e a compacta, pausa/retomada, seek, interrupção e parada na velocidade original. É uma demonstração de comportamento, não uma medição de desempenho em aparelho físico." />
+
+Handles de animações concluídas ou canceladas liberam seus tracks amostrados e handles de reprodução nativa. Uma animação pausada ou um passo de timeline ainda controlável mantém os dados necessários para retomar ou fazer seek. Guardar o objeto de uma animação encerrada deixa, portanto, de manter seus arrays de curva vivos.
+
+O [relatório de medições](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/android-playback-efficiency.md) separa CPU de preparação/avaliação nativa, heap Java retido, PSS do processo, reprodução por 30 segundos e retenção de JavaScript no computador. Inclui medições repetidas antes/depois e dados brutos. O microbenchmark nativo avalia posições sem renderização; sua redução de CPU não é uma promessa de FPS ou bateria. O PSS pertence ao processo inteiro e pode oscilar mesmo após liberar recursos.
+
+Isso reduz o trabalho na thread da UI; não permite que o `ObjectAnimator` avance com essa thread bloqueada. A comparação com worker acima continua sendo a mitigação prática para cálculos adequados do aplicativo. Um backend geral na RenderThread exigiria outro projeto para propriedades suportadas, interrupção e sincronização. A comparação independente com Reanimated e Flutter permanece na [#65](https://github.com/rafaelaugustos/jolt/issues/65); estas medições não substituem seus cenários em aparelhos físicos.

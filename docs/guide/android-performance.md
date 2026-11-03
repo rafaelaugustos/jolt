@@ -48,3 +48,15 @@ Handle worker errors and terminate pending work when its screen is disposed; the
 If work cannot move to a worker, split it into bounded tasks that yield to the native event loop, or complete it before starting the animation. `Promise.resolve()` only yields to microtasks; wrapping a long task in `setTimeout()` merely delays the same UI-thread block.
 
 On iOS, Jolt's submitted Core Animation tracks can keep playing in the render server during a JavaScript block, but input, new animation setup and JavaScript completion callbacks still wait for the main thread.
+
+## Compact playback and completed animations
+
+Android numeric transforms and opacity now keep sampled curves in primitive float arrays, with native interpolation between their points. The solver, sampled points, timing and independent property ownership stay the same. Two-point tracks use the existing small representation; older app binaries fall back to the previous factory or JavaScript construction until rebuilt. Colors, decorations and retained live springs have their own drivers.
+
+<Clip name="playback-efficiency-android" caption="Android 15 / API 35 ARM64 emulator, release build. Real taps compare original and compact native spring playback, pause/resume, seeking, interruption and stopping at original speed. This is a behavior recording, not a physical-device performance measurement." />
+
+Completed or cancelled animation handles release their sampled tracks and native playback handles. A paused animation or held timeline step retains the data it still needs to resume or seek. Keeping a finished animation object therefore no longer keeps its old curve arrays alive.
+
+The [measurement report](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/android-playback-efficiency.md) separates native setup/evaluation CPU, retained Java heap, process PSS, 30-second playback and host JavaScript retention. It includes repeated before/after measurements and raw data. The native microbenchmark evaluates sampled positions without rendering; its CPU reduction is not an FPS or battery-life claim. PSS belongs to the whole process and can fluctuate even after resources are released.
+
+This reduces work on the UI thread; it does not let `ObjectAnimator` advance through a blocked UI thread. The worker comparison above remains the practical mitigation for suitable application computation. A general RenderThread backend would need a separate design for supported properties, interruption and synchronization. The independent comparison with Reanimated and Flutter remains [#65](https://github.com/rafaelaugustos/jolt/issues/65); these measurements do not replace its physical-device scenarios.
