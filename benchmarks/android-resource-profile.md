@@ -6,7 +6,7 @@ The new production behavior is confined to the demo's audit tooling. Its report 
 
 ## Method and scope
 
-The final release APK comes from clean commit `a75a9205a43be0d0387beb4f563f48aa9c92e425`, source SHA-256 `bb0b6b966da946199bf72c171a243950893e3b1d7b306b520dac196fa3d35d5a`. It uses NativeScript Core 9.1.3, Android runtime 9.1.1, webpack 5.101.3 and NativeScript webpack 5.0.38. The dedicated Android 15 / API 35 ARM64 emulator uses SwiftShader, 60 Hz and Animator scale 1×. There was no physical Android device available. Other host development remains a source of variation; no build or recording was launched during playback measurement windows.
+The profiled release APK comes from clean commit `a75a9205a43be0d0387beb4f563f48aa9c92e425`, source SHA-256 `bb0b6b966da946199bf72c171a243950893e3b1d7b306b520dac196fa3d35d5a`. It uses NativeScript Core 9.1.3, Android runtime 9.1.1, webpack 5.101.3 and NativeScript webpack 5.0.38. The dedicated Android 15 / API 35 ARM64 emulator uses SwiftShader, 60 Hz and Animator scale 1×. There was no physical Android device available. Other host development remains a source of variation; no build or recording was launched during playback measurement windows.
 
 Each case starts a fresh release process. `android-resource-profile.py` records external Perfetto scheduler activity, `dumpsys meminfo`, and `/proc/PID/smaps` when permitted. The app places an async trace marker around the exact work window and reads process/thread CPU clocks at its boundaries. `android-resource-report.py` clips scheduled intervals to that marker and rejects missing markers or reported trace data loss. Scheduler occupancy and CPU clocks are separate observations; their numbers need not match under virtualization.
 
@@ -84,6 +84,12 @@ The [complete raw audit](results/resource-profile/2026-11-03-streamed-audit.json
 This validation keeps its results separate from the earlier non-streaming audit: an idle report worker and its accumulated history change whole-process memory residency. It is not a new controlled total-PSS comparison.
 
 References: [NativeScript worker isolation and lifecycle](https://docs.nativescript.org/guide/multithreading), [Android memory measurement](https://developer.android.com/tools/dumpsys#meminfo), and [Perfetto Trace Processor](https://perfetto.dev/docs/analysis/trace-processor).
+
+## Integration on current main
+
+The follow-up branch is based on main `86ba72b`, after #387 and #392 merged. The measured engine, Android curve factory, diagnostic and worker sources are unchanged from the profiled build. Release compilation and real native UI/worker export, output equality, completed-thread termination and cancellation were revalidated on clean commit `dafc1d6`; the [integration record](results/resource-profile/2026-11-03-main-integration.json) retains the APK identity and results. The current base also passed 1,691 tests in 112 files, library build, typechecks, portable-core, format, documentation media and documentation build checks.
+
+This is a behavior/integration check, not another controlled profile. Its observed callback gaps were larger than in the published visual run, so it does not strengthen a smooth-frame or total-performance claim. Earlier measurements retain their original build identity and are not pooled with this new APK.
 
 ## Português
 
