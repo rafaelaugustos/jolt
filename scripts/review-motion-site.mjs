@@ -200,9 +200,9 @@ for (const [name, engine] of [
     await expect.poll(() => page.evaluate(() => scrollY)).toBeLessThan(120)
 
     await page.goto(`${base}/recipes/`)
-    await expect(page.locator('.recipe-card')).toHaveCount(12)
+    await expect(page.locator('.recipe-card')).toHaveCount(16)
     await page.getByRole('button', { name: 'Touch & gestures', exact: true }).click()
-    await expect(page.locator('.recipe-card')).toHaveCount(3)
+    await expect(page.locator('.recipe-card')).toHaveCount(5)
     await page.locator('.recipe-card').first().hover()
     await expect
       .poll(() =>
@@ -215,15 +215,15 @@ for (const [name, engine] of [
       .toBeGreaterThan(0.1)
     await expect(page).toHaveURL(/category=Touch/)
     await page.reload()
-    await expect(page.locator('.recipe-card')).toHaveCount(3)
+    await expect(page.locator('.recipe-card')).toHaveCount(5)
     await page.getByRole('button', { name: 'All motion', exact: true }).click()
     await page.getByRole('searchbox').fill('nonsense-that-is-not-a-recipe')
     await expect(page.locator('.recipe-empty')).toBeVisible()
     await page.getByRole('button', { name: /Reset filters/ }).click()
-    await expect(page.locator('.recipe-card')).toHaveCount(12)
+    await expect(page.locator('.recipe-card')).toHaveCount(16)
     await page.getByRole('searchbox').fill('spring')
-    await expect(page.locator('.recipe-card')).toHaveCount(2)
-    await page.locator('.recipe-card').first().click()
+    await expect(page.locator('.recipe-card')).toHaveCount(3)
+    await page.locator('a.recipe-card[href="/recipes/spring-feeling"]').click()
     await expect(page.locator('.recipe-detail h1')).toContainText('spring')
     await expect(page.locator('.recipe-code')).toContainText('animate(')
     await page.getByRole('button', { name: /Copy AI prompt/ }).click()
@@ -248,6 +248,69 @@ for (const [name, engine] of [
     await expect(page).toHaveURL(/pt-BR\/recipes\/spring-feeling/)
     await expect(page.locator('h1')).toContainText('personalidade')
 
+    await page.goto(`${base}/recipes/?q=Jolt%20Drive`)
+    await expect(page.locator('.recipe-card')).toHaveCount(4)
+    await page.reload()
+    await expect(page.locator('.recipe-card')).toHaveCount(4)
+    await page.screenshot({ path: `${output}/${name}-drive-recipes.png`, fullPage: true })
+    for (const [slug, source] of [
+      ['cockpit', 'src/pages/Home/useCockpitGesture.ts'],
+      ['atmosphere', 'src/pages/Home/AtmosphereOption.vue'],
+      ['charge-sheet', 'src/pages/Home/EnergyPlan.vue'],
+      ['cabin', 'src/components/scene/Car3D.vue'],
+    ]) {
+      await page.goto(`${base}/recipes/drive-${slug}`)
+      const snapshot = await readFile(
+        new URL(
+          `../docs/recipes/sources/rafaelaugustos/jolt-drive/${source}.txt`,
+          import.meta.url,
+        ),
+        'utf8',
+      )
+      expect(await page.locator('.recipe-code pre code').textContent()).toBe(snapshot)
+      await expect(page.locator('.recipe-requirements')).toBeVisible()
+      await expect(page.locator('.recipe-actions a')).toHaveAttribute(
+        'href',
+        `https://github.com/rafaelaugustos/jolt-drive/blob/2d9cc4afeec1d1fa04b85e5dbe063db07e3db29f/${source}`,
+      )
+      await page.locator('.code-topline button').click()
+      if (name === 'chromium')
+        expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(snapshot)
+      await page.getByRole('button', { name: /Copy AI prompt/ }).click()
+      if (name === 'chromium') {
+        const prompt = await page.evaluate(() => navigator.clipboard.readText())
+        expect(prompt).toContain('2d9cc4afeec1d1fa04b85e5dbe063db07e3db29f')
+        expect(prompt).toContain('Required context:')
+        expect(prompt).toContain(snapshot)
+      } else await expect(page.locator('.copy-status')).toHaveText('Copied!')
+      const clip = page.locator('.recipe-full-screen video')
+      await clip.scrollIntoViewIfNeeded()
+      await expect(clip).toBeInViewport()
+      await clip.evaluate(async (video) => {
+        await new Promise(requestAnimationFrame)
+        video.muted = true
+        await video.play()
+      })
+      await expect
+        .poll(() => clip.evaluate((video) => video.currentTime))
+        .toBeGreaterThan(0.1)
+      await page.screenshot({ path: `${output}/${name}-drive-${slug}.png` })
+      for (const locale of ['', '/pt-BR', '/es', '/zh-Hans']) {
+        await page.goto(`${base}${locale}/recipes/drive-${slug}`)
+        await expect(page.locator('.recipe-code pre code')).toContainText(
+          snapshot.slice(0, 35),
+        )
+        for (const width of [1440, 768, 390, 320]) {
+          await page.setViewportSize({ width, height: 900 })
+          expect(
+            await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
+            `${name} ${locale} drive-${slug} overflow at ${width}`,
+          ).toBe(true)
+        }
+      }
+      await page.setViewportSize({ width: 1440, height: 1000 })
+    }
+
     for (const locale of ['', '/pt-BR', '/es', '/zh-Hans']) {
       await page.goto(`${base}${locale}/`)
       await expect(page.locator('[data-motion-ready="true"]')).toHaveCount(2)
@@ -261,7 +324,7 @@ for (const [name, engine] of [
       await page.locator('.motion-menu').click()
       await expect(page.locator('.motion-nav-links')).toBeVisible()
       await page.locator('.motion-nav-links a').first().click()
-      await expect(page.locator('.recipe-card')).toHaveCount(12)
+      await expect(page.locator('.recipe-card')).toHaveCount(16)
       expect(
         await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
       ).toBe(true)
@@ -350,7 +413,7 @@ for (const [name, engine] of [
       browser: name,
       result: 'passed',
       checks:
-        'WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, Jolt Drive project links and native playback, preserved Jolt Car walkthrough, published project images, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, home and showcase in 4 locales × 4 widths, mobile navigation, reduced motion, remount',
+        'WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, four Jolt Drive recipes with snapshot, clipboard, pinned source, requirements and native playback in four locales, Jolt Drive project links and native playback, preserved Jolt Car walkthrough, published project images, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, home and showcase in 4 locales × 4 widths, mobile navigation, reduced motion, remount',
     })
     console.log(`${name}: all interaction checks passed`)
   } catch (error) {

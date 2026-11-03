@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useData } from 'vitepress'
-import { recipes, categoryNames } from './recipes'
+import { recipes, categoryNames, recipeSourceUrl } from './recipes'
 import { data } from './recipes.data'
 import { labels, useWords } from './copy'
 import NativeVideo from './NativeVideo.vue'
@@ -26,6 +26,10 @@ const related = computed(() =>
 const copied = ref('')
 const fallback = ref('')
 const showPrompt = ref(false)
+const guidePath = computed(
+  () =>
+    `/guide/${recipe.value.guide}${recipe.value.guideAnchor ? `#${recipe.value.guideAnchor}` : ''}`,
+)
 const prompt = computed(
   () => `${t(['Adapt this Jolt motion recipe to my NativeScript Vue project.', 'Adapte esta receita de movimento do Jolt ao meu projeto NativeScript Vue.', 'Adapta esta receta de movimiento de Jolt a mi proyecto NativeScript Vue.', '将这个 Jolt 动效配方适配到我的 NativeScript Vue 项目。'])}
 
@@ -33,11 +37,12 @@ Recipe: ${t(recipe.value.title)}
 Jolt: @rafaelaugusto/jolt@${example.value.version}
 Framework: NativeScript Vue 3; native views, not HTML elements.
 Reference: https://jolt.rafaelaugusto.dev${link(`/recipes/${recipe.value.slug}`)}
-API guide: https://jolt.rafaelaugusto.dev${link(`/guide/${recipe.value.guide}`)}
-Full native demo: https://github.com/rafaelaugustos/jolt/blob/main/demo/src/${recipe.value.source}
+API guide: https://jolt.rafaelaugusto.dev${link(guidePath.value)}
+Full native demo: ${recipeSourceUrl(recipe.value)}
+${recipe.value.project ? `Source project: ${recipe.value.project.name}, revision ${recipe.value.project.revision}.\nRequired context: ${t(recipe.value.requirements!)}\nThis is the complete project source file, not a standalone component library. Inspect its imports, props and renderer dependencies before adapting it.` : ''}
 Recording platform: ${recipe.value.platform}. ${t(recipe.value.caption)}
 
-Core API example from the versioned guide (supply the mounted views and surrounding UI):
+${recipe.value.project ? 'Versioned source file from the project:' : 'Core API example from the versioned guide (supply the mounted views and surrounding UI):'}
 ${example.value.code}
 
 Inspect the project before editing. Use only documented APIs and the correct package entry points. Preserve existing styling and navigation. Match the interaction in the native recording. Use mounted NativeScript view refs; handle unload/remount and dispose owned animations, gesture controllers and effects on teardown. Respect reduced motion. Explain platform-specific limits and dependencies. Do not assume the native API and the experimental /web API are interchangeable. Validate actual input and interruption in the native demo, record the result, and document it in English and Portuguese. Respond in ${locale.value}.`,
@@ -65,6 +70,13 @@ async function copy(kind: 'code' | 'prompt') {
       </p>
       <h1>{{ t(recipe.title) }}</h1>
       <p>{{ t(recipe.description) }}</p>
+      <a
+        v-if="recipe.project"
+        class="recipe-project-link"
+        :href="link('/guide/showcase#jolt-drive')"
+        >{{ t(['From', 'Do projeto', 'Del proyecto', '来自']) }}
+        {{ recipe.project.name }} ↗</a
+      >
     </div>
     <div class="recipe-detail-grid">
       <figure class="recipe-full-video" :style="{ '--recipe-color': recipe.color }">
@@ -94,7 +106,17 @@ async function copy(kind: 'code' | 'prompt') {
           </h2>
           <span>Jolt {{ example.version }}</span>
         </div>
-        <p>
+        <p v-if="recipe.project">
+          {{
+            t([
+              'The complete source file from the project, pinned to the reviewed revision. Adapt it with the dependencies described below.',
+              'O arquivo completo do projeto, vinculado à revisão conferida. Adapte com as dependências descritas abaixo.',
+              'El archivo completo del proyecto, fijado a la revisión verificada. Adáptalo con las dependencias descritas abajo.',
+              '来自项目的完整源文件，固定到已核对的版本。请结合下面的依赖说明进行适配。',
+            ])
+          }}
+        </p>
+        <p v-else>
           {{
             t([
               'The core API example, taken directly from the guide. Use the full demo for the surrounding interface and controls.',
@@ -104,9 +126,12 @@ async function copy(kind: 'code' | 'prompt') {
             ])
           }}
         </p>
+        <p v-if="recipe.requirements" class="recipe-requirements">
+          {{ t(recipe.requirements) }}
+        </p>
         <div class="recipe-code">
           <div class="code-topline">
-            <span>TypeScript · NativeScript</span
+            <span>{{ example.fileName || 'TypeScript · NativeScript' }}</span
             ><button @click="copy('code')">
               {{ copied === 'code' ? t(labels.copied) : t(labels.copy) }} ⧉
             </button>
@@ -117,10 +142,7 @@ async function copy(kind: 'code' | 'prompt') {
           <button class="button-acid" @click="copy('prompt')">
             {{ copied === 'prompt' ? t(labels.copied) : t(labels.prompt) }}
             <span aria-hidden="true">↗</span></button
-          ><a
-            :href="`https://github.com/rafaelaugustos/jolt/blob/main/demo/src/${recipe.source}`"
-            >{{ t(labels.source) }} ↗</a
-          >
+          ><a :href="recipeSourceUrl(recipe)">{{ t(labels.source) }} ↗</a>
         </div>
         <p role="status" class="copy-status">{{ copied ? t(labels.copied) : '' }}</p>
         <label v-if="fallback" class="copy-fallback"
@@ -139,7 +161,7 @@ async function copy(kind: 'code' | 'prompt') {
           {{ showPrompt ? '−' : '+' }}
         </button>
         <pre v-if="showPrompt" class="prompt-preview">{{ prompt }}</pre>
-        <a class="recipe-guide-link" :href="link(`/guide/${recipe.guide}`)"
+        <a class="recipe-guide-link" :href="link(guidePath)"
           >{{
             t([
               'Read the full guide',

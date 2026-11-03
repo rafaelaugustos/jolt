@@ -1,5 +1,6 @@
-import { readFile, stat } from 'node:fs/promises'
+import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
+import { createHash } from 'node:crypto'
 import { transformWithOxc } from 'vite'
 
 const root = resolve(import.meta.dirname, '..')
@@ -26,10 +27,26 @@ for (const recipe of recipes) {
   for (const [path, kind] of [
     [`docs/public/media/${recipe.video}.mp4`, 'mp4'],
     [`docs/public/recipes/${recipe.video}.jpg`, 'jpg'],
-    [`demo/src/${recipe.source}`, 'source'],
+    [
+      recipe.project
+        ? `docs/recipes/sources/${recipe.project.repository}/${recipe.source}.txt`
+        : `demo/src/${recipe.source}`,
+      'source',
+    ],
   ]) {
     try {
       const data = await readFile(resolve(root, path))
+      if (kind === 'source' && recipe.project) {
+        if (
+          !/^[\w-]+\/[\w-]+$/.test(recipe.project.repository) ||
+          !/^[a-f0-9]{40}$/.test(recipe.project.revision)
+        )
+          throw new Error('Project source must name a repository and pinned commit')
+        if (createHash('sha256').update(data).digest('hex') !== recipe.project.sha256)
+          throw new Error('Project snapshot differs from reviewed source')
+        if (recipe.requirements?.length !== 4)
+          throw new Error('Project recipes require context in all four languages')
+      }
       if (
         kind === 'mp4' &&
         (data.length < 1024 || data.toString('ascii', 4, 8) !== 'ftyp')
@@ -43,7 +60,14 @@ for (const recipe of recipes) {
   }
   for (const locale of locales) {
     try {
-      await stat(resolve(root, 'docs', locale, 'guide', `${recipe.guide}.md`))
+      const guide = await readFile(
+        resolve(root, 'docs', locale, 'guide', `${recipe.guide}.md`),
+        'utf8',
+      )
+      if (recipe.guideAnchor && !guide.includes(`{#${recipe.guideAnchor}}`))
+        throw new Error('Missing guide anchor')
+      if (recipe.project && !guide.includes(`name="${recipe.video}"`))
+        throw new Error('Missing native recording in project guide')
       const page = await readFile(
         resolve(root, 'docs', locale, 'recipes', `${recipe.slug}.md`),
         'utf8',

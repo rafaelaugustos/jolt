@@ -4,6 +4,7 @@ import { useData, useRoute } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import OrbitSignature from '../OrbitSignature.vue'
 import { labels, useWords } from './copy'
+import { recipes } from './recipes'
 import { reduceMotionKey } from './preferences'
 
 const { frontmatter } = useData()
@@ -69,7 +70,7 @@ function changeLanguage(event: Event) {
         <a
           :href="link('/recipes/')"
           :aria-current="route.path.includes('/recipes') ? 'page' : undefined"
-          >{{ t(labels.recipes) }}<span class="nav-count">12</span></a
+          >{{ t(labels.recipes) }}<span class="nav-count">{{ recipes.length }}</span></a
         >
         <a :href="link('/#playground')">{{ t(labels.playground) }}</a>
         <a :href="link('/guide/')"

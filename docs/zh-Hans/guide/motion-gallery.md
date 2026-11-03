@@ -31,3 +31,9 @@
 Jolt Drive 展示链接到[公开仓库](https://github.com/rafaelaugustos/jolt-drive)和[作品展示](./showcase#jolt-drive)。入场预览保留了原始每帧时间戳。早期 Jolt Car 演示仍可在首页项目卡下方观看，原始录屏保持不变。
 
 <Clip name="jolt-drive-entrance-ios" :width="280" caption="Jolt Drive 的 iOS 车库入场：从项目发布的 GIF 转为 MP4，保留全部 113 帧及其时间戳。录制设备未说明；不用于衡量渲染性能。" />
+
+## 把动效带入你的应用
+
+来自真实项目的四个配方：联动控制台、弹簧驱动的氛围选择、背景模糊的充电面板，以及进入座舱的镜头。每个配方都有原生录屏、已核对的代码和适配提示词。
+
+[探索 4 个配方](/zh-Hans/recipes/?q=Jolt%20Drive) · [阅读集成指南](./drive-recipes)

@@ -47,6 +47,12 @@ next: false
   </div>
 </section>
 
+## 把动效带入你的应用
+
+来自真实项目的四个配方：联动控制台、弹簧驱动的氛围选择、背景模糊的充电面板，以及进入座舱的镜头。每个配方都有原生录屏、已核对的代码和适配提示词。
+
+[探索 4 个配方](/zh-Hans/recipes/?q=Jolt%20Drive) · [阅读集成指南](./drive-recipes)
+
 <div class="drive-screens">
   <figure><img src="/media/jolt-drive-garage.png" width="368" height="800" loading="lazy" alt="Jolt Drive 车库，展示 3D 汽车、续航与快捷控件" /><figcaption><span>01</span>车库</figcaption></figure>
   <figure><img src="/media/jolt-drive-cockpit.png" width="368" height="800" loading="lazy" alt="Jolt Drive 控制台，展示充电、空调与氛围选项" /><figcaption><span>02</span>控制台</figcaption></figure>

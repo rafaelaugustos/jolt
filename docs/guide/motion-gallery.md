@@ -39,3 +39,9 @@ The homepage includes an [exploratory physical-device study](./performance-study
 The Jolt Drive feature links to the public [project repository](https://github.com/rafaelaugustos/jolt-drive) and its [showcase](./showcase#jolt-drive). The published entrance preview keeps every source frame timestamp. The older Jolt Car walkthrough remains available below the homepage project card; its original recording is preserved.
 
 <Clip name="jolt-drive-entrance-ios" :width="280" caption="Jolt Drive on iOS: the garage entrance from the published project GIF, converted to MP4 preserving all 113 frames and their timestamps. Capture device unspecified; not a rendering-performance measurement." />
+
+## Take the motion with you
+
+Four recipes from the real project: coordinated cockpit, spring-driven atmosphere selection, a charge sheet with background blur, and the camera journey into the cabin. Each includes native playback, reviewed source and an adaptation prompt.
+
+[Explore the 4 recipes](/recipes/?q=Jolt%20Drive) · [Read the integration guide](./drive-recipes)

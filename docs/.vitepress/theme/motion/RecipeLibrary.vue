@@ -22,9 +22,13 @@ const filtered = computed(() =>
     (recipe) =>
       (category.value === 'All' || recipe.category === category.value) &&
       normalize(
-        [...recipe.title, ...recipe.description, recipe.category, recipe.platform].join(
-          ' ',
-        ),
+        [
+          ...recipe.title,
+          ...recipe.description,
+          recipe.category,
+          recipe.platform,
+          recipe.project?.name || '',
+        ].join(' '),
       ).includes(normalize(query.value.trim())),
   ),
 )
@@ -49,7 +53,9 @@ watch([query, category], () => {
 <template>
   <section class="recipe-library section-shell">
     <div class="library-intro">
-      <p class="eyebrow">THE JOLT COLLECTION / 001—012</p>
+      <p class="eyebrow">
+        THE JOLT COLLECTION / 001—{{ String(recipes.length).padStart(3, '0') }}
+      </p>
       <h1>
         {{
           t([

@@ -47,6 +47,12 @@ Explore motion in native apps built with Jolt. Watch the recordings, discover th
 </div>
 </section>
 
+## Take the motion with you
+
+Four recipes from the real project: coordinated cockpit, spring-driven atmosphere selection, a charge sheet with background blur, and the camera journey into the cabin. Each includes native playback, reviewed source and an adaptation prompt.
+
+[Explore the 4 recipes](/recipes/?q=Jolt%20Drive) · [Read the integration guide](./drive-recipes)
+
 <div class="drive-screens">
   <figure><img src="/media/jolt-drive-garage.png" width="368" height="800" loading="lazy" alt="Jolt Drive garage with a 3D car, range and quick controls" /><figcaption><span>01</span>The garage</figcaption></figure>
   <figure><img src="/media/jolt-drive-cockpit.png" width="368" height="800" loading="lazy" alt="Jolt Drive cockpit with charge targets, climate and atmosphere controls" /><figcaption><span>02</span>The cockpit</figcaption></figure>

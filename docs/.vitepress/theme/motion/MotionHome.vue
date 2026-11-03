@@ -22,14 +22,16 @@ const driveCaption = [
   'Jolt Drive en iOS: entrada del garaje del GIF publicado por el proyecto, convertido a MP4 conservando el tiempo de cada fotograma. Dispositivo no especificado; esta vista previa no mide rendimiento.',
   'Jolt Drive 的 iOS 车库入场：来自项目发布的 GIF，转为 MP4 并保留每帧时间戳。录制设备未说明；此预览不用于衡量渲染性能。',
 ] as const
-const featured = computed(() => [
-  recipes[0],
-  recipes[2],
-  recipes[5],
-  recipes[6],
-  recipes[8],
-  recipes[11],
-])
+const featured = computed(() =>
+  [
+    'drive-cockpit',
+    'drive-cabin',
+    'drive-atmosphere',
+    'spring-feeling',
+    'gradients',
+    'rolling-numbers',
+  ].map((slug) => recipes.find((recipe) => recipe.slug === slug)!),
+)
 useMotion((runtime) => {
   const headline = [...root.value!.querySelectorAll<HTMLElement>('h1 > span')]
   runtime.animate(
@@ -177,10 +179,10 @@ async function copyInstall() {
           <a class="text-link" :href="link('/recipes/')"
             >{{
               t([
-                'All 12 recipes',
-                'Todas as 12 receitas',
-                'Las 12 recetas',
-                '全部 12 个配方',
+                `All ${recipes.length} recipes`,
+                `Todas as ${recipes.length} receitas`,
+                `Las ${recipes.length} recetas`,
+                `全部 ${recipes.length} 个配方`,
               ])
             }}
             <span aria-hidden="true">↗</span></a
@@ -281,6 +283,17 @@ async function copyInstall() {
               }}
             </p>
             <div class="drive-actions">
+              <a class="text-link" :href="link('/recipes/?q=Jolt%20Drive')"
+                >{{
+                  t([
+                    'Get the 4 recipes',
+                    'Explore as 4 receitas',
+                    'Explora las 4 recetas',
+                    '探索 4 个配方',
+                  ])
+                }}
+                <span aria-hidden="true">↗</span></a
+              >
               <a class="text-link" :href="link('/guide/showcase#jolt-drive')"
                 >{{
                   t(['Explore the app', 'Conheça o app', 'Explora la app', '探索应用'])

@@ -30,6 +30,17 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
             )[prefix] ?? 'Motion collection',
           link: `${prefix}/guide/motion-gallery`,
         },
+        {
+          text:
+            (
+              {
+                '/pt-BR': 'Receitas do Jolt Drive',
+                '/es': 'Recetas de Jolt Drive',
+                '/zh-Hans': 'Jolt Drive 动效配方',
+              } as Record<string, string>
+            )[prefix] ?? 'Jolt Drive recipes',
+          link: `${prefix}/guide/drive-recipes`,
+        },
         page('install', 'install'),
         page('animating', 'animating'),
         page('demo', 'demo'),

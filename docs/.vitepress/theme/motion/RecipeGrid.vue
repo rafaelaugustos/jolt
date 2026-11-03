@@ -46,7 +46,10 @@ function setPlayer(slug: string, instance: unknown) {
       <div class="recipe-card-copy">
         <h3>{{ t(recipe.title) }}</h3>
         <p>{{ t(recipe.description) }}</p>
-        <span>{{ t(categoryNames[recipe.category]) }}</span>
+        <span
+          >{{ t(categoryNames[recipe.category])
+          }}<template v-if="recipe.project"> · {{ recipe.project.name }}</template></span
+        >
       </div>
     </a>
   </div>

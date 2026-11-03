@@ -31,3 +31,9 @@ La página principal incluye un [estudio exploratorio en un dispositivo físico]
 El destacado de Jolt Drive enlaza al [repositorio público](https://github.com/rafaelaugustos/jolt-drive) y su [showcase](./showcase#jolt-drive). La vista previa publicada conserva el tiempo de cada fotograma. El recorrido anterior de Jolt Car sigue disponible bajo la tarjeta de la página principal, con la grabación original preservada.
 
 <Clip name="jolt-drive-entrance-ios" :width="280" caption="Jolt Drive en iOS: entrada del garaje del GIF publicado por el proyecto, convertida a MP4 conservando los 113 fotogramas y sus tiempos. Dispositivo no especificado; no mide rendimiento de renderización." />
+
+## Lleva el movimiento a tu app
+
+Cuatro recetas del proyecto real: cockpit coordinado, selección de ambiente con resorte, panel de carga con fondo desenfocado y cámara hacia la cabina. Cada una incluye vídeo nativo, código revisado y un prompt de adaptación.
+
+[Explora las 4 recetas](/es/recipes/?q=Jolt%20Drive) · [Lee la guía de integración](./drive-recipes)

@@ -1182,10 +1182,23 @@
   letter-spacing: -0.06em;
   line-height: 1.1;
 }
-.recipe-detail-heading > p:last-child {
+.recipe-detail-heading > p:not(.eyebrow) {
   margin-top: 19px;
   font-size: 14px;
   color: #9da98b;
+}
+.recipe-project-link {
+  display: inline-block;
+  margin-top: 20px;
+  color: var(--acid) !important;
+  font-size: 12px;
+}
+.recipe-implementation {
+  min-width: 0;
+}
+.recipe-implementation > .recipe-requirements {
+  padding-left: 16px;
+  border-left: 2px solid #667449;
 }
 .recipe-detail-grid {
   display: grid;
@@ -1260,6 +1273,7 @@
   padding: 24px;
   font: 11px/1.9 var(--vp-font-family-mono);
   overflow-x: auto;
+  max-height: 520px;
   color: #d3dfbf;
   tab-size: 2;
 }

@@ -47,6 +47,12 @@ Explore o movimento em apps nativos feitos com Jolt. Veja as gravações, descub
 </div>
 </section>
 
+## Leve o movimento para o seu app
+
+Quatro receitas extraídas do projeto real: cockpit coordenado, seleção de atmosfera com spring, painel de carga com blur e câmera entrando na cabine. Cada uma tem vídeo nativo, código conferido e prompt de adaptação.
+
+[Explore as 4 receitas](/pt-BR/recipes/?q=Jolt%20Drive) · [Leia o guia de integração](./drive-recipes)
+
 <div class="drive-screens">
   <figure><img src="/media/jolt-drive-garage.png" width="368" height="800" loading="lazy" alt="Garagem do Jolt Drive com carro 3D, autonomia e controles rápidos" /><figcaption><span>01</span>A garagem</figcaption></figure>
   <figure><img src="/media/jolt-drive-cockpit.png" width="368" height="800" loading="lazy" alt="Cockpit do Jolt Drive com carga, climatização e opções de atmosfera" /><figcaption><span>02</span>O cockpit</figcaption></figure>
