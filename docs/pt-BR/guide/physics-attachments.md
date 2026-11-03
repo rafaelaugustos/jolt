@@ -119,7 +119,7 @@ No snapshot, `held` indica posse do gesto; `pointer` descreve a âncora temporá
 
 ## Desenvolvimento: molas entre corpos {#body-springs}
 
-A próxima versão nativa acrescenta molas entre os centros de corpos do mesmo mundo. As duas pontas respondem conforme suas próprias massas. Os limites de colisão e o relógio nativo de passos fixos a 240 Hz continuam valendo; não há observador JavaScript por frame.
+O Jolt oferece molas entre os centros de corpos do mesmo mundo. As duas pontas respondem conforme suas próprias massas. Os limites de colisão e o relógio nativo de passos fixos a 240 Hz continuam valendo; não há observador JavaScript por frame.
 
 ```ts
 const world = physicsWorld(board, bodies, {

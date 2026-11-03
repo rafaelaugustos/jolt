@@ -65,7 +65,7 @@ A referência de rotação é arbitrária e não magnética: `XArbitraryZVertica
 
 ## Coleta e ciclo de vida
 
-`interval` aceita `'auto'` (intervalo informado pelo display) ou 5–1000 milissegundos. A solicitação respeita limites do hardware e não garante cadência exata. Na RC.10, rotação/gravidade no iOS compartilham uma assinatura de Core Motion; as fontes adicionais abaixo usam grupos de hardware separados. o Android compartilha um listener nativo por tipo disponível. Consumidores compatíveis usam o menor intervalo solicitado, e cada fonte agrupa as leituras conforme seu intervalo e os frames do display. Vários bindings usam os mesmos valores retidos.
+`interval` aceita `'auto'` (intervalo informado pelo display) ou 5–1000 milissegundos. A solicitação respeita limites do hardware e não garante cadência exata. Rotação/gravidade no iOS compartilham uma assinatura de Core Motion; as fontes adicionais abaixo usam grupos de hardware separados. O Android compartilha um listener nativo por tipo disponível. Consumidores compatíveis usam o menor intervalo solicitado, e cada fonte agrupa as leituras conforme seu intervalo e os frames do display. Vários bindings usam os mesmos valores retidos.
 
 Ao ir para segundo plano, a coleta para nativamente e também pelos hooks de ciclo de vida do Jolt. `pause()` mantém os valores e interrompe a coleta daquela fonte; `play()` retoma e permite tentar uma assinatura que falhou novamente. `dispose()` é idempotente, desconecta bindings, libera valores e assinaturas. Outra fonte ativa pode manter o hardware compartilhado ligado.
 
@@ -91,9 +91,9 @@ Isso conclui o escopo inicial de rotação/gravidade da #114 sem mudar a API de 
 
 Contratos das plataformas: [Core Motion](https://developer.apple.com/documentation/coremotion/getting-processed-device-motion-data), [sensores de movimento Android](https://developer.android.com/develop/sensors-and-location/sensors/sensors_motion) e [coordenadas e limites Android](https://developer.android.com/develop/sensors-and-location/sensors/sensors_overview).
 
-## Fontes vetoriais adicionais (próxima versão) {#vector-sources}
+## Fontes vetoriais adicionais (RC.11) {#vector-sources}
 
-A próxima versão adiciona quatro fontes vetoriais nativas. A RC.10 ainda publica apenas rotação/gravidade. Cada fonte expõe `x`, `y`, `z` e `unit` somente para leitura e mantém os contratos de demanda, pausa/retomada, escopo, movimento reduzido, segundo plano e descarte. O aceite desta entrega usa simuladores/emuladores, conforme solicitado; precisão e custo em aparelhos físicos continuam sem validação.
+A **0.1.0-rc.11** adiciona quatro fontes vetoriais nativas, além de rotação e gravidade. Cada fonte expõe `x`, `y`, `z` e `unit` somente para leitura e mantém os contratos de demanda, pausa/retomada, escopo, movimento reduzido, segundo plano e descarte. O aceite desta entrega usa simuladores/emuladores, conforme solicitado; precisão e custo em aparelhos físicos continuam sem validação.
 
 | Fonte                | Unidade | Significado                                                                                                         |
 | -------------------- | ------- | ------------------------------------------------------------------------------------------------------------------- |

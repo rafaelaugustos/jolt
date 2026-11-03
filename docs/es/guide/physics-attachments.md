@@ -119,7 +119,7 @@ En el snapshot, `held` indica posesión del gesto, `pointer` describe el ancla t
 
 ## Desarrollo: resortes entre cuerpos {#body-springs}
 
-La próxima versión nativa añade resortes entre los centros de cuerpos del mismo mundo. Ambos extremos responden según sus masas. Se mantienen los límites de colisión y el reloj nativo de pasos fijos a 240 Hz, sin observador JavaScript por frame.
+Jolt ofrece resortes entre los centros de cuerpos del mismo mundo. Ambos extremos responden según sus masas. Se mantienen los límites de colisión y el reloj nativo de pasos fijos a 240 Hz, sin observador JavaScript por frame.
 
 ```ts
 const world = physicsWorld(board, bodies, {

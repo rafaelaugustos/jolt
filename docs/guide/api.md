@@ -40,7 +40,7 @@
 - [`set(target, values)`](./interrupting#setting-values-without-animating) — applies values at once and stops what animates them.
 - [`playbackProgress(animation)`](./playback) — read-only, observable progress on an existing animation’s clock.
 - [`timeline(steps)`](./sequences) — pause and resume active and pending steps together.
-- [`seekableTimeline(steps, { paused? })`](./sequences#seekable-scenes) — finite native scene seeking for explicit view/value tracks (next release).
+- [`seekableTimeline(steps, { paused? })`](./sequences#seekable-scenes) — finite native scene seeking for explicit view/value tracks.
 - [`@rafaelaugusto/jolt/native`](./native-properties) — optional property registry, native maps and SceneKit cameras, [lights and materials](./scene-lighting), and [camera FOV](./scene-camera).
 - [`sequence(steps)`](./sequences) — overlapping steps and fixed positions.
 - `press(target, pressed?, transition?)`
@@ -50,7 +50,7 @@
 - [`blur()`](./blur) — animate an owned native blur amount.
 - [`GlassContainer` / `GlassView`](./glass) — native iOS 26 Liquid Glass fusion using existing transform playback.
 - [`world.attach()` / `world.snapTo()`](./physics-attachments) — native anchor springs and release snap points.
-- [`world.spring(id, options | null)`](./physics-attachments#body-springs) — elastic links between circle centers (next release).
+- [`world.spring(id, options | null)`](./physics-attachments#body-springs) — elastic links between circle centers.
 - [`sensor(kind, options)`](./device-sensors) — optional native rotation/gravity sources for motion values, bindings and springs.
 - [`scrollHeader(list, options)`](./scroll-header) — native Core ListView composition: measured hero, parallax, title handoff, pinned section and stable item anchors. Optional native pull-to-refresh uses `onRefresh` and `ScrollHeaderSurface`.
 - [`scrollLinked(scrollView, target, keyframes, { range, axis? })`](./scroll-linked) — returns a cleanup function.

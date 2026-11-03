@@ -9,6 +9,8 @@ import './showcase.css'
 import './custom.css'
 import './motion/motion.css'
 import './motion/experience.css'
+import './motion/documentation.css'
+import './motion/showcase-experience.css'
 
 export default {
   extends: DefaultTheme,
@@ -16,6 +18,10 @@ export default {
   enhanceApp({ app }) {
     app.component('Clip', Clip)
     app.component('ShowcaseBoard', ShowcaseBoard)
+    app.component(
+      'ShowcaseExperience',
+      defineAsyncComponent(() => import('./motion/ShowcaseExperience.vue')),
+    )
     app.component(
       'MotionHome',
       defineAsyncComponent(() => import('./motion/MotionHome.vue')),

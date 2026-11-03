@@ -119,7 +119,7 @@ const world = physicsWorld(board, [
 
 ## 开发版：物体间弹簧 {#body-springs}
 
-下一原生版本增加同一圆形世界内的中心到中心弹簧，两端按各自质量响应。沿用碰撞边界和原生 240 Hz 固定步长时钟，无逐帧 JavaScript 观察者。
+Jolt 提供同一圆形世界内的中心到中心弹簧，两端按各自质量响应。沿用碰撞边界和原生 240 Hz 固定步长时钟，无逐帧 JavaScript 观察者。
 
 ```ts
 const world = physicsWorld(board, bodies, {

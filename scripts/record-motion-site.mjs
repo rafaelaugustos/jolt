@@ -20,14 +20,27 @@ const video = page.video()
 const errors = []
 page.on('pageerror', (error) => errors.push(error.message))
 await page.route(/googletagmanager|google-analytics/, (route) => route.abort())
-await page.route(
-  'https://manager.getcortexlabs.com/api/v1/public/forms/*/entries*',
-  (route) =>
-    route.fulfill({
-      json: { items: [] },
-      headers: { 'access-control-allow-origin': '*' },
-    }),
-)
+await context.addInitScript(() => {
+  // Fixture only the unchanged community listing; no cross-origin request to
+  // cancel while the visual review navigates between pages.
+  const originalFetch = window.fetch.bind(window)
+  window.fetch = (input, init) => {
+    const url = input instanceof Request ? input.url : String(input)
+    if (
+      /^https:\/\/manager\.getcortexlabs\.com\/api\/v1\/public\/forms\/[^/]+\/entries(?:\?|$)/.test(
+        url,
+      ) &&
+      (init?.method ?? (input instanceof Request ? input.method : 'GET')) === 'GET'
+    )
+      return Promise.resolve(
+        new Response(JSON.stringify({ items: [] }), {
+          status: 200,
+          headers: { 'content-type': 'application/json' },
+        }),
+      )
+    return originalFetch(input, init)
+  }
+})
 await page.goto(base)
 await expect(page.locator('[data-motion-ready="true"]')).toHaveCount(2)
 await page.waitForTimeout(1400)
@@ -94,12 +107,23 @@ await expect(page.locator('#jolt-drive')).toHaveText('Jolt Drive.')
 await page.waitForTimeout(1700)
 await page.locator('.drive-screens').scrollIntoViewIfNeeded()
 await page.waitForTimeout(2200)
-await page.setViewportSize({ width: 768, height: 1000 })
-await page.locator('.VPNavBarHamburger').click()
-await expect(page.locator('#VPNavScreen')).toBeVisible()
-await page.waitForTimeout(1600)
-await page.locator('.VPNavBarHamburger').click()
-await page.setViewportSize({ width: 1440, height: 1000 })
+await page.goto(`${base}/guide/showcase#morrow`)
+await expect(page.locator('[data-showcase-ready="true"]')).toBeVisible()
+await page.locator('[data-watch="morrow"]').click()
+await page.waitForTimeout(3500)
+await page.mouse.wheel(0, 240)
+await page.waitForTimeout(1300)
+await page.goto(`${base}/guide/frameworks`)
+await expect(page.locator('[data-doc-motion-ready="true"]')).toBeVisible()
+await page.waitForTimeout(4000)
+await page.locator('.VPSwitchAppearance').first().click()
+await page.waitForTimeout(2500)
+await page.locator('.VPSwitchAppearance').first().click()
+await page.mouse.wheel(0, 560)
+await page.waitForTimeout(1800)
+await page.goto(`${base}/guide/api`)
+await expect(page.locator('[data-doc-motion-ready="true"]')).toBeVisible()
+await page.waitForTimeout(1800)
 await page.goto(base)
 await expect(page.locator('[data-motion-ready="true"]')).toHaveCount(2)
 await page.locator('.site-footer').scrollIntoViewIfNeeded()

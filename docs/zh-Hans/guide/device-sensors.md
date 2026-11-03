@@ -66,7 +66,7 @@ scope.dispose()
 
 ## 采样和所有权 {#sampling-and-ownership}
 
-`interval` 接受 `'auto'`（显示器报告的间隔）或 5–1000 毫秒。该请求尊重硬件限制，并且不承诺确切的节奏。 RC.10 中的 iOS 旋转/重力共享一个 Core Motion 订阅；下文新增来源使用独立硬件组。 Android 每种可用传感器类型共享一个原生侦听器。兼容的消费者使用最快的请求间隔，每个源将读数合并到自己的间隔和显示帧。多个绑定使用相同的保留值。
+`interval` 接受 `'auto'`（显示器报告的间隔）或 5–1000 毫秒。该请求尊重硬件限制，并且不承诺确切的节奏。 iOS 旋转/重力共享一个 Core Motion 订阅；下文新增来源使用独立硬件组。 Android 每种可用传感器类型共享一个原生侦听器。兼容的消费者使用最快的请求间隔，每个源将读数合并到自己的间隔和显示帧。多个绑定使用相同的保留值。
 
 应用程序后台会原生以及通过 Jolt 的生命周期挂钩停止硬件收集。 `pause()` 保留该源的值并停止收集； `play()` 恢复并重试失败的订阅。 `dispose()` 是幂等的，断开绑定、删除原生值并释放订阅。另一个活动源可以使共享硬件保持运行。
 
@@ -92,9 +92,9 @@ scope.dispose()
 
 平台合约：[Apple 设备动作](https://developer.apple.com/documentation/coremotion/getting-processed-device-motion-data)、[Android 运动传感器](https://developer.android.com/develop/sensors-and-location/sensors/sensors_motion) 和 [Android 传感器坐标和限制](https://developer.android.com/develop/sensors-and-location/sensors/sensors_overview)。
 
-## 新增向量传感器（下一版本） {#vector-sources}
+## 新增向量传感器（RC.11） {#vector-sources}
 
-下一版本增加四种原生向量传感器。RC.10 仍仅发布旋转和重力。每个传感器提供只读的 `x`、`y`、`z` 和 `unit`，沿用按需采集、暂停/恢复、作用域、减少动态效果、后台处理和释放契约。维护者要求本次仅使用模拟器验收；真实设备精度和成本尚未验证。
+**0.1.0-rc.11** 在旋转和重力之外新增四种原生向量传感器。每个传感器提供只读的 `x`、`y`、`z` 和 `unit`，沿用按需采集、暂停/恢复、作用域、减少动态效果、后台处理和释放契约。维护者要求本次仅使用模拟器验收；真实设备精度和成本尚未验证。
 
 | 传感器               | 单位    | 含义                                                      |
 | -------------------- | ------- | --------------------------------------------------------- |

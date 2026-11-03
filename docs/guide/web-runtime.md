@@ -27,7 +27,7 @@ Pointer and keyboard input are now covered by [Web press feedback](./web-press);
 A runtime belongs to one document. Configuration, presets, ownership tokens, effects and cleanup belong to that context. Two contexts cannot simultaneously claim the same element. Importing the Web entry is safe without a DOM; creating a runtime requires a live document with WAAPI. There is no global driver installation.
 
 ```ts
-// Experimental entry from the locally packed candidate.
+// Published experimental Web entry.
 import { createWebRuntime } from '@rafaelaugusto/jolt/web'
 
 const motion = createWebRuntime(document)

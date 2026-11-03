@@ -1,6 +1,6 @@
 # Validación Web móvil
 
-El mantenedor eligió simuladores/emuladores para esta entrega. Las interacciones usan Safari y Chrome reales con sus teclados de software; no se inyectaron eventos de sensores. Las correcciones del teclado aún no están publicadas en RC.10.
+El mantenedor eligió simuladores/emuladores para esta entrega. Las interacciones usan Safari y Chrome reales con sus teclados de software; no se inyectaron eventos de sensores. Las correcciones del teclado descritas aquí están publicadas en **0.1.0-rc.11**.
 
 <Clip name="web-mobile-ios" caption="Safari 26.2 · simulador iPhone 17, iOS 26.2. Escritura real, rotación, permiso, pausa/reanudación y liberación. Se concede permiso de movimiento, pero no llegan lecturas: ambas fuentes quedan no disponibles. Haptics no disponibles. Interfaz en inglés, velocidad original." />
 

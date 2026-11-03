@@ -1,0 +1,32 @@
+{
+  "version": "0.1.0-rc.11",
+  "publishedSourceCommit": "da283fe3a0ece7b12a2f07be09126111be8e0327",
+  "reviewedMarkdownFiles": 448,
+  "scope": "Inventory of version, publication and release-status claims in every documentation Markdown file; semantic review of matched claims against RC.11 source and changelog. This is not a claim of executing every API example.",
+  "corrected": [
+    "frameworks: native adapters published in RC.11",
+    "device-sensors: vector sources published; retain simulator and physical-accuracy limits",
+    "mobile-web: keyboard fixes published in RC.11",
+    "web-support: element-relative scroll ranges published in RC.11",
+    "api and physics-attachments: remove obsolete next-release descriptions of shipped APIs",
+    "not-there-yet: current scope includes adapters and vector sensors; preserve physical acceptance gaps",
+    "install, release-history and README: published current candidate",
+    "motion-gallery: document motion on reference pages and showcase"
+  ],
+  "preserved": [
+    "Available since RC.10 and earlier introduction-version claims",
+    "Historical release notes, captures and snapshot versions",
+    "Jolt Drive examples recorded with RC.10",
+    "Experimental Web status and platform-specific limits"
+  ],
+  "sourceChecks": [
+    "package.json exports: /react, /svelte, /solid, /angular",
+    "src/index.ts: seekableTimeline export",
+    "src/physics/index.ts: PhysicsWorld.spring",
+    "src/sensors/index.ts: vector-source types and units",
+    "src/web/keyboard.ts: mobile keyboard backends",
+    "src/web/scroll-range.ts: element-relative scroll range contract"
+  ],
+  "reviewDate": "2026-11-03",
+  "remainingKnownStaleReleaseClaims": 0
+}

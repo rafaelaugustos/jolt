@@ -33,14 +33,27 @@ for (const [name, engine] of [
   await page.route(/googletagmanager|google-analytics/, (route) => route.abort())
   // The existing production community service does not allow every localhost origin.
   // This visual review exercises the showcase page, not its unchanged backend.
-  await page.route(
-    'https://manager.getcortexlabs.com/api/v1/public/forms/*/entries*',
-    (route) =>
-      route.fulfill({
-        json: { items: [] },
-        headers: { 'access-control-allow-origin': '*' },
-      }),
-  )
+  await context.addInitScript(() => {
+    // Fixture only the unchanged community listing; no cross-origin request to
+    // cancel while the visual review navigates between pages.
+    const originalFetch = window.fetch.bind(window)
+    window.fetch = (input, init) => {
+      const url = input instanceof Request ? input.url : String(input)
+      if (
+        /^https:\/\/manager\.getcortexlabs\.com\/api\/v1\/public\/forms\/[^/]+\/entries(?:\?|$)/.test(
+          url,
+        ) &&
+        (init?.method ?? (input instanceof Request ? input.method : 'GET')) === 'GET'
+      )
+        return Promise.resolve(
+          new Response(JSON.stringify({ items: [] }), {
+            status: 200,
+            headers: { 'content-type': 'application/json' },
+          }),
+        )
+      return originalFetch(input, init)
+    }
+  })
   try {
     await page.goto(base)
     await expect(page.locator('[data-motion-ready="true"]')).toHaveCount(2)
@@ -368,6 +381,7 @@ for (const [name, engine] of [
     await expect(page.locator('.VPDoc')).toBeVisible()
     await page.goto(`${base}/guide/showcase#morrow`)
     await expect(page.locator('#morrow')).toHaveText('Morrow.')
+    await expect(page.locator('[data-showcase-ready="true"]')).toBeVisible()
     for (const locale of ['', '/pt-BR', '/es', '/zh-Hans']) {
       await page.goto(`${base}${locale}/guide/showcase#jolt-drive`)
       await expect(page.locator('#jolt-drive')).toHaveText('Jolt Drive.')
@@ -383,12 +397,10 @@ for (const [name, engine] of [
           await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
           `${name} ${locale} showcase overflow at ${width}`,
         ).toBe(true)
-        if (width === 768) {
-          await page.locator('.VPNavBarHamburger').click()
-          await expect(page.locator('#VPNavScreen')).toBeVisible()
-          await expect(page.locator('#VPNavScreen a').first()).toBeVisible()
-          await page.locator('.VPNavBarHamburger').click()
-          await expect(page.locator('#VPNavScreen')).toHaveCount(0)
+        if (width === 390) {
+          await page.locator('.motion-menu').click()
+          await expect(page.locator('.motion-nav-links')).toBeVisible()
+          await page.locator('.motion-menu').click()
         }
       }
     }
@@ -414,6 +426,88 @@ for (const [name, engine] of [
       .poll(() => physicalVideo.evaluate((video) => video.currentTime))
       .toBeGreaterThan(0.1)
 
+    // Shared documentation shell: prose, API tables, code, clips and mobile navigation.
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    await page.evaluate(() => localStorage.removeItem('jolt-reduce-motion'))
+    for (const locale of ['', '/pt-BR', '/es', '/zh-Hans']) {
+      for (const slug of [
+        '',
+        'frameworks',
+        'api',
+        'install',
+        'device-sensors',
+        'web-support',
+        'image-effects',
+        'not-there-yet',
+      ]) {
+        await page.goto(`${base}${locale}/guide/${slug}`)
+        await expect(page.locator('[data-doc-motion-ready="true"]')).toBeVisible()
+        await expect(page.locator('.doc-context')).toContainText(version)
+        for (const width of [1440, 768, 390, 320]) {
+          await page.setViewportSize({ width, height: 1000 })
+          expect(
+            await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
+            `${name} ${locale} ${slug} docs overflow at ${width}`,
+          ).toBe(true)
+        }
+      }
+    }
+    await page.setViewportSize({ width: 1440, height: 1000 })
+    await page.goto(`${base}/pt-BR/guide/frameworks`)
+    await expect(page.locator('[data-doc-motion-ready="true"]')).toBeVisible()
+    await expect(page.locator('.vp-doc')).toContainText('Disponíveis desde a')
+    await expect(page.locator('.vp-doc')).not.toContainText('ainda não estão na RC.10')
+    const progress = page.locator('.doc-reading-progress')
+    const beforeProgress = await progress.evaluate(
+      (el) => new DOMMatrixReadOnly(getComputedStyle(el).transform).m11,
+    )
+    await page.mouse.wheel(0, 600)
+    await expect
+      .poll(() =>
+        progress.evaluate(
+          (el) => new DOMMatrixReadOnly(getComputedStyle(el).transform).m11,
+        ),
+      )
+      .toBeGreaterThan(beforeProgress)
+    await page.evaluate(() => scrollTo(0, 0))
+    await page.screenshot({ path: `${output}/${name}-documentation.png` })
+    const wasDark = await page
+      .locator('html')
+      .evaluate((el) => el.classList.contains('dark'))
+    await page.locator('.VPSwitchAppearance').first().click()
+    await expect
+      .poll(() => page.locator('html').evaluate((el) => el.classList.contains('dark')))
+      .toBe(!wasDark)
+    await page.screenshot({ path: `${output}/${name}-documentation-other-theme.png` })
+    await page.locator('.VPSwitchAppearance').first().click()
+    await page.setViewportSize({ width: 768, height: 1000 })
+    await page.locator('.VPNavBarHamburger').click()
+    await expect(page.locator('#VPNavScreen')).toBeVisible()
+    await page.locator('.VPNavBarHamburger').click()
+    await page.setViewportSize({ width: 1440, height: 1000 })
+    await page.goto(`${base}/guide/showcase#morrow`)
+    await expect(page.locator('[data-showcase-ready="true"]')).toBeVisible()
+    const morrow = page.locator('[aria-labelledby="morrow"] video')
+    await morrow.scrollIntoViewIfNeeded()
+    await expect.poll(() => morrow.evaluate((v) => v.currentTime)).toBeGreaterThan(0.1)
+    const stage = page.locator('[aria-labelledby="morrow"] .showcase-stage')
+    const stageBefore = await stage.evaluate((el) => getComputedStyle(el).transform)
+    await page.mouse.wheel(0, 100)
+    await expect
+      .poll(() => stage.evaluate((el) => getComputedStyle(el).transform))
+      .not.toBe(stageBefore)
+    await page.screenshot({ path: `${output}/${name}-morrow-showcase.png` })
+    await page.locator('.showcase-community').scrollIntoViewIfNeeded()
+    await expect.poll(() => morrow.evaluate((v) => v.paused)).toBe(true)
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await morrow.scrollIntoViewIfNeeded()
+    await expect.poll(() => morrow.evaluate((v) => v.paused)).toBe(true)
+    await page.locator('[data-watch="morrow"]').click()
+    await expect.poll(() => morrow.evaluate((v) => v.paused)).toBe(false)
+    await page.getByRole('combobox').selectOption('pt-BR')
+    await expect(page).toHaveURL(/pt-BR\/guide\/showcase#morrow/)
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+
     await page.goto(base)
     await expect(page.locator('[data-motion-ready="true"]')).toHaveCount(2)
     expect(errors).toEqual([])
@@ -421,11 +515,11 @@ for (const [name, engine] of [
       browser: name,
       result: 'passed',
       checks:
-        'WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, four Jolt Drive recipes with snapshot, clipboard, pinned source, requirements and native playback in four locales, Jolt Drive project links and native playback, preserved Jolt Car walkthrough, published project images, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, home and showcase in 4 locales × 4 widths, mobile navigation, reduced motion, remount',
+        'WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, global documentation shell with light/dark themes, reading progress and responsive API/guide pages; animated showcase with reduced-motion playback and preserved anchors; four Jolt Drive recipes with snapshot, clipboard, pinned source, requirements and native playback in four locales, Jolt Drive project links and native playback, preserved Jolt Car walkthrough, published project images, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, home and showcase in 4 locales × 4 widths, mobile navigation, reduced motion, remount',
     })
     console.log(`${name}: all interaction checks passed`)
   } catch (error) {
-    failures.push({ browser: name, error: String(error), errors })
+    failures.push({ browser: name, error: error.stack || String(error), errors })
     console.error(`${name}: ${String(error)}`)
     await page
       .screenshot({ path: `${output}/${name}-failure.png`, fullPage: true })

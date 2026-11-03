@@ -1,5 +1,7 @@
 # Release status and limits {#not-there-yet}
 
+**Current release: 0.1.0-rc.11.** Includes [native framework adapters](./frameworks), [additional sensor sources](./device-sensors#vector-sources), [mobile keyboard fixes](./mobile-web), [element-relative Web scroll ranges](./web-support#element-range), [native shader inputs and local iOS video textures](./image-effects), and [Android playback improvements](./android-performance). [Install matching packages](./install) and rebuild native applications. Web APIs remain experimental.
+
 **New in RC.10:** [Web gradients, loading and text](./web-effects), [particles, blur, shapes and image effects](./web-surfaces), [keyboard, sheets, navigation, physics and icons](./web-platforms), [gravity, haptics, sensors, glass and keyed gallery return](./web-parity), plus native [Core ScrollView headers](./scroll-header#retained-scrollview) and [mounted-row reorder](./reorder#retained-rows). Rebuild native apps. Mavis adoption remains separate.
 
 **New in RC.9:** [Web gestures, zoom, coordinated scroll/refresh and reorder](./web-gestures), plus [retained native paint channels and mixed ownership](./live-springs#extended-live-paint). Rebuild native apps after upgrading.
@@ -22,7 +24,7 @@ RC.4 composes rolling layer windows on native live nodes, continues Android shap
 
 The [binding/layer audit](./motion-values#binding-measurements) includes physical iPhone and Android preparation/playback measurements, automated input onset and repeated mount/unmount retention checks. Expensive composition boundaries, approximate allocation-counter failures and unavailable Android thermal telemetry remain explicit in the evidence. These results provide workload-specific guidance, not a universal capacity or presented-frame guarantee. Since RC.4, windowed compositions play on native composers with no boundary submissions; the remaining cost is the synchronous start of large keyframe batches, measured in the same audit.
 
-## Available in RC.10 {#available-in-rc-1}
+## Available in RC.11 {#available-in-rc-1}
 
 - Experimental [finite Web playback](./web-runtime), [press](./web-press) and [Vue DOM lifecycle](./web-vue), with optional framework/native peers and SSR-safe imports.
 - [Shared navigation](./shared-navigation), [shared gestures](./shared-gestures), [current-cell returns](./return-targets) and the [connected gallery](./gallery), for the documented Frame/ListView/static-image combinations.
@@ -34,7 +36,7 @@ The [binding/layer audit](./motion-values#binding-measurements) includes physica
 
 ## Current limits {#current-limits}
 
-- The Web APIs remain experimental. RC.10 extends the existing [gestures and coordinated scroll](./web-gestures) with [platform interactions](./web-platforms) and [device inputs/shared gallery return](./web-parity). Snapshot content, coordinate spaces, hardware availability and browser fallbacks retain explicit limits. Additional framework adapters and stable portable references remain separate work.
+- Web APIs remain experimental. Snapshot content, coordinate spaces, hardware availability and browser fallbacks retain explicit limits. [Native framework adapters](./frameworks) ship in RC.11; stable portable references remain separate work.
 - `animateSize()` supports StackLayout/GridLayout and direct children of non-wrapping row/column FlexboxLayout, including inside ScrollView. Flex main-axis children require `flexGrow=0` and `flexShrink=0`; parent allocation and cross-axis stretch remain authoritative. Measurement/layout runs in JavaScript per frame. Recycled cells and shared elements remain outside this API.
 - `drag()` does not provide general-purpose multi-finger composition. Use [`gestures()`](./gestures) for pan/pinch/rotation, or [photo zoom](./photo-zoom) for its dedicated pinch, pan and dismissal controller. The gesture handoff adapter supports vertical Core ScrollView; other list/container combinations require their own adapters and native validation.
 - External property adapters require `@rafaelaugusto/jolt-native`. The bundled SceneKit camera, light and material adapters are iOS-only; there is no bundled Android 3D renderer adapter. MapKit and MapLibre camera units are distinct.
@@ -50,12 +52,12 @@ The open acceptance issues below cover already-shipped APIs. Before stable, vali
 - **Scroll composition ([#116](https://github.com/rafaelaugustos/jolt/issues/116)):** reversal/fling, late layout changes, anchor preservation and cleanup with the supported Core ListView adapter.
 - Keep general, iOS and Android regression checks and their negative controls passing on the release commit. Verify matching package installation and a clean native rebuild, and resolve release-blocking regressions before tagging stable.
 
-Initial physical rotation/gravity acceptance is complete in [#114](https://github.com/rafaelaugustos/jolt/issues/114). The [sensor report](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md) records the tested scope and limits. Acceleration, gyroscope and magnetic-field sources remain separate work in [#256](https://github.com/rafaelaugustos/jolt/issues/256).
+Initial physical rotation/gravity acceptance is documented in [#114](https://github.com/rafaelaugustos/jolt/issues/114) and the [sensor report](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md). Acceleration, linear acceleration, gyroscope and magnetic-field sources ship in RC.11; [their simulator/emulator acceptance](./device-sensors#vector-sources) does not establish physical-device accuracy or cost.
 
 Gallery and scroll acceptance still require the remaining physical-device frame-pacing, input, memory and accessibility checks. See their [gallery](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md) and [scroll](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md) reports. Simulator/emulator recordings do not complete physical-device acceptance.
 
 ## After 0.1.0 {#after-0-1-0}
 
-Subsequent RCs focus on correctness, compatibility, accessibility, lifecycle cleanup and documentation. New capabilities belong after 0.1.0: additional framework adapters, arbitrary view shaders, more sensor types, additional physics joint types and general modal navigation.
+Subsequent RCs focus on correctness, compatibility, accessibility, lifecycle cleanup and documentation. Broader future work includes arbitrary-view shaders, additional physics joint types and wider cross-platform modal support. The documented native framework adapters and vector sensor sources are already included in RC.11.
 
 The [comparison project](https://github.com/rafaelaugustos/jolt/issues/65) is separate from shipping the current supported scope. Broader [feature issues](https://github.com/rafaelaugustos/jolt/issues) do not expand the stable release's supported combinations or change the documented platform fallbacks and JavaScript costs.

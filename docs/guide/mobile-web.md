@@ -1,6 +1,6 @@
 # Mobile Web acceptance
 
-The maintainer selected simulator/emulator acceptance for this delivery. These are actual Safari and Chrome interactions with their software keyboards; no synthetic sensor events were sent. The candidate keyboard fixes are not published in RC.10.
+The maintainer selected simulator/emulator acceptance for this delivery. These are actual Safari and Chrome interactions with their software keyboards; no synthetic sensor events were sent. The keyboard fixes described here are published in **0.1.0-rc.11**.
 
 <Clip name="web-mobile-ios" caption="Safari 26.2 · iPhone 17 simulator, iOS 26.2. Actual keyboard input, rotation, permission request, pause/resume and disposal. Motion permission is granted but no readings arrive, so both sources settle as unavailable. Haptics are unavailable. English UI, original speed." />
 

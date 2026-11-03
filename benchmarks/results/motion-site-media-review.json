@@ -126,17 +126,18 @@
   ],
   "browserRecording": {
     "file": "motion-site-chromium.mp4",
-    "duration": 77.76,
+    "duration": 93.36,
     "dimensions": [1440, 1000],
-    "sha256": "50699d1dde335996f65aa3acbe6086fc0def5c6a35a440a325a04fa172834661",
+    "sha256": "77fbcbde452e5e3661d962552d427ed0b6457282eef29b2b3f3fbb8623b52a73",
     "platform": "Chromium on macOS arm64",
     "input": "Real Playwright pointer and keyboard input",
     "nativeFootage": "Reviewed iOS simulator Motion Studio and Jolt Drive recipes, creator-supplied Morrow iOS recording, and the published Jolt Drive entrance played inside the website",
     "originalTiming": true,
     "fullDecode": "passed",
-    "interaction": "Chrome sculpture with inertial drag; scroll-linked Morrow; native previews; spring interruption; stagger; drag/snap; CPU, memory and presentation metrics; compact footer and back-to-top; recipe filtering and clipboard actions. Jolt Drive entrance playback, project link to its showcase, original published screenshots and tablet documentation menu. Four Jolt Drive recipe results, complete source and AI-prompt copying, native cockpit playback; RC.11 homepage.",
+    "interaction": "Chrome sculpture with inertial drag; scroll-linked Morrow; native previews; spring interruption; stagger; drag/snap; CPU, memory and presentation metrics; compact footer and back-to-top; recipe filtering and clipboard actions. Animated Morrow and Jolt Drive showcase, original published project screenshots, shared guide/API design, heading entrance, reading progress and light/dark themes. Four Jolt Drive recipes with complete source and AI-prompt copying and native cockpit playback.",
     "rendering": "Site-owned WebGL renderer, driven by existing Jolt Web motion values. Interactive SVG fallback on context loss.",
-    "siteVersion": "0.1.0-rc.11"
+    "siteVersion": "0.1.0-rc.11",
+    "review": "Full decode passed. Contact sheet inspected across the entire recording: project stages, native playback, guide/API layout, theme switching and recipe interactions."
   },
   "physicalStudyImports": [
     {
@@ -295,5 +296,28 @@
     "siteVersion": "0.1.0-rc.11",
     "driveSourceVersion": "0.1.0-rc.10",
     "versionNote": "Site uses the RC.11 repository runtime; Drive snapshots and captures retain the exact project revision and dependency version."
-  }
+  },
+  "showcasePosters": [
+    {
+      "file": "film-car-ios.jpg",
+      "source": "film-car-ios.mp4",
+      "sourceTimeSeconds": 4,
+      "width": 420,
+      "review": "Inspected real frame extracted from the preserved native recording."
+    },
+    {
+      "file": "film-impulse-cabin-ios.jpg",
+      "source": "film-impulse-cabin-ios.mp4",
+      "sourceTimeSeconds": 4,
+      "width": 420,
+      "review": "Inspected real frame extracted from the preserved native recording."
+    },
+    {
+      "file": "jolt-car-drive-ios.jpg",
+      "source": "jolt-car-drive-ios.mp4",
+      "sourceTimeSeconds": 4,
+      "width": 420,
+      "review": "Inspected real frame extracted from the preserved native recording."
+    }
+  ]
 }

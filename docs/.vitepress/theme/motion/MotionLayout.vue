@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed, onMounted, provide, ref, watch } from 'vue'
+import { computed, defineAsyncComponent, onMounted, provide, ref, watch } from 'vue'
 import { useData, useRoute } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import OrbitSignature from '../OrbitSignature.vue'
 import { labels, useWords } from './copy'
 import { recipes } from './recipes'
 import { reduceMotionKey } from './preferences'
+const DocsExperience = defineAsyncComponent(() => import('./DocsExperience.vue'))
 
 const { frontmatter } = useData()
 const route = useRoute()
@@ -39,7 +40,7 @@ const localizedPath = computed(() =>
 function changeLanguage(event: Event) {
   const language = (event.target as HTMLSelectElement).value
   window.location.assign(
-    `${language === 'en' ? '' : `/${language}`}${localizedPath.value}`,
+    `${language === 'en' ? '' : `/${language}`}${localizedPath.value}${window.location.search}${window.location.hash}`,
   )
 }
 </script>
@@ -200,7 +201,8 @@ function changeLanguage(event: Event) {
       <OrbitSignature />
     </footer>
   </div>
-  <DefaultTheme.Layout v-else
-    ><template #layout-bottom><OrbitSignature /></template
-  ></DefaultTheme.Layout>
+  <DefaultTheme.Layout v-else>
+    <template #doc-before><DocsExperience :key="route.path" /></template>
+    <template #layout-bottom><OrbitSignature /></template>
+  </DefaultTheme.Layout>
 </template>

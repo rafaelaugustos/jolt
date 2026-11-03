@@ -87,7 +87,7 @@ Run `npm run web:support:typecheck` and `npm run web:support:test`. The suite ch
 
 ## Element-relative scroll ranges {#element-range}
 
-Pending in the next release. Replace manual range calculations and observer-driven link recreation with a layout anchor:
+Available since **0.1.0-rc.11**. Replace manual range calculations and observer-driven link recreation with a layout anchor:
 
 ```ts
 const linked = motion.scrollLinked(
