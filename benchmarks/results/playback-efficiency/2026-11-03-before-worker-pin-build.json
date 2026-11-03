@@ -1,0 +1,8 @@
+{
+  "commit": "77eee202965e2ff303e2cf758d68ee730d31fa98",
+  "apkSha256": "8b4b41b700b4cd095472f6aef5c00d78f54cb7078dce6486c43e13fba773a906",
+  "build": "release / production / no HMR",
+  "physical": false,
+  "gpu": "swiftshader_indirect",
+  "capture": "Normal demo; performance collection excludes video recording."
+}

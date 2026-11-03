@@ -1,0 +1,601 @@
+{
+  "build": {
+    "commit": "77eee202965e2ff303e2cf758d68ee730d31fa98",
+    "dirty": false,
+    "jolt": "0.1.0-rc.10",
+    "core": "9.1.3",
+    "runtime": "9.1.1",
+    "mode": "production",
+    "sourcesSha256": "6ee587d6418396117744444154e9f984835f1d10ba2be8c77d0611154e7db922"
+  },
+  "environment": {
+    "physical": false,
+    "model": "Google sdk_gphone64_arm64",
+    "os": "15",
+    "osBuild": "google/sdk_gphone64_arm64/emu64a:15/AE3A.240806.043/12960925:userdebug/dev-keys",
+    "apiLevel": 35,
+    "thermalStatusAvailable": true,
+    "maximumRefreshHz": 60.000003814697266,
+    "animatorScale": 1,
+    "resources": {
+      "timeMs": 929741.241149,
+      "cpuMs": 376,
+      "memoryBytes": 185626624,
+      "memoryMetric": "rss",
+      "thermalState": 0,
+      "lowPowerMode": false
+    }
+  },
+  "checks": {
+    "comparisons": 240280,
+    "exact": true
+  },
+  "batches": [
+    {
+      "points": 2,
+      "compact": false,
+      "animators": 300,
+      "evaluations": 36000,
+      "setupMs": {
+        "median": 0.192542,
+        "min": 0.150542,
+        "max": 0.240666,
+        "runs": 5
+      },
+      "setupCpuMs": {
+        "median": 0.193875,
+        "min": 0.151416,
+        "max": 0.24225,
+        "runs": 5
+      },
+      "evaluationMs": {
+        "median": 1.014666,
+        "min": 0.751541,
+        "max": 1.065334,
+        "runs": 5
+      },
+      "evaluationCpuMs": {
+        "median": 0.998583,
+        "min": 0.751916,
+        "max": 1.058667,
+        "runs": 5
+      },
+      "retainedJavaDeltaBytes": {
+        "median": 143360,
+        "min": 40720,
+        "max": 143360,
+        "runs": 5
+      },
+      "retainedPssDeltaKiB": {
+        "median": 148,
+        "min": 97,
+        "max": 178,
+        "runs": 5
+      },
+      "releasedJavaDeltaBytes": {
+        "median": -4096,
+        "min": -143600,
+        "max": -4096,
+        "runs": 5
+      }
+    },
+    {
+      "points": 2,
+      "compact": true,
+      "animators": 300,
+      "evaluations": 36000,
+      "setupMs": {
+        "median": 0.205334,
+        "min": 0.145875,
+        "max": 0.240125,
+        "runs": 5
+      },
+      "setupCpuMs": {
+        "median": 0.203625,
+        "min": 0.146666,
+        "max": 0.218709,
+        "runs": 5
+      },
+      "evaluationMs": {
+        "median": 0.914833,
+        "min": 0.754209,
+        "max": 1.243375,
+        "runs": 5
+      },
+      "evaluationCpuMs": {
+        "median": 0.892,
+        "min": 0.725792,
+        "max": 1.224708,
+        "runs": 5
+      },
+      "retainedJavaDeltaBytes": {
+        "median": 143360,
+        "min": 143360,
+        "max": 176128,
+        "runs": 5
+      },
+      "retainedPssDeltaKiB": {
+        "median": 145,
+        "min": 136,
+        "max": 5037,
+        "runs": 5
+      },
+      "releasedJavaDeltaBytes": {
+        "median": -4096,
+        "min": -8192,
+        "max": -4096,
+        "runs": 5
+      }
+    },
+    {
+      "points": 41,
+      "compact": false,
+      "animators": 300,
+      "evaluations": 36000,
+      "setupMs": {
+        "median": 0.510959,
+        "min": 0.446375,
+        "max": 0.614833,
+        "runs": 5
+      },
+      "setupCpuMs": {
+        "median": 0.508333,
+        "min": 0.447792,
+        "max": 0.537209,
+        "runs": 5
+      },
+      "evaluationMs": {
+        "median": 3.593333,
+        "min": 2.886084,
+        "max": 3.874542,
+        "runs": 5
+      },
+      "evaluationCpuMs": {
+        "median": 3.536582,
+        "min": 2.840292,
+        "max": 3.828084,
+        "runs": 5
+      },
+      "retainedJavaDeltaBytes": {
+        "median": 598016,
+        "min": 598016,
+        "max": 598016,
+        "runs": 5
+      },
+      "retainedPssDeltaKiB": {
+        "median": 556,
+        "min": 548,
+        "max": 556,
+        "runs": 5
+      },
+      "releasedJavaDeltaBytes": {
+        "median": 0,
+        "min": -4096,
+        "max": 0,
+        "runs": 5
+      }
+    },
+    {
+      "points": 41,
+      "compact": true,
+      "animators": 300,
+      "evaluations": 36000,
+      "setupMs": {
+        "median": 0.162833,
+        "min": 0.13775,
+        "max": 0.512583,
+        "runs": 5
+      },
+      "setupCpuMs": {
+        "median": 0.16425,
+        "min": 0.138708,
+        "max": 0.513708,
+        "runs": 5
+      },
+      "evaluationMs": {
+        "median": 1.043041,
+        "min": 0.904,
+        "max": 1.179541,
+        "runs": 5
+      },
+      "evaluationCpuMs": {
+        "median": 1.000625,
+        "min": 0.904541,
+        "max": 1.18025,
+        "runs": 5
+      },
+      "retainedJavaDeltaBytes": {
+        "median": 290816,
+        "min": 286720,
+        "max": 319584,
+        "runs": 5
+      },
+      "retainedPssDeltaKiB": {
+        "median": 256,
+        "min": 256,
+        "max": 284,
+        "runs": 5
+      },
+      "releasedJavaDeltaBytes": {
+        "median": 0,
+        "min": -4096,
+        "max": 4096,
+        "runs": 5
+      }
+    },
+    {
+      "points": 241,
+      "compact": false,
+      "animators": 300,
+      "evaluations": 36000,
+      "setupMs": {
+        "median": 1.389625,
+        "min": 1.164791,
+        "max": 1.753625,
+        "runs": 5
+      },
+      "setupCpuMs": {
+        "median": 1.368499,
+        "min": 1.166458,
+        "max": 1.717916,
+        "runs": 5
+      },
+      "evaluationMs": {
+        "median": 13.096375,
+        "min": 12.579666,
+        "max": 13.32125,
+        "runs": 5
+      },
+      "evaluationCpuMs": {
+        "median": 12.795876,
+        "min": 12.409792,
+        "max": 13.09475,
+        "runs": 5
+      },
+      "retainedJavaDeltaBytes": {
+        "median": 2760704,
+        "min": 2760704,
+        "max": 2760704,
+        "runs": 5
+      },
+      "retainedPssDeltaKiB": {
+        "median": 2676,
+        "min": 2672,
+        "max": 2683,
+        "runs": 5
+      },
+      "releasedJavaDeltaBytes": {
+        "median": 0,
+        "min": 0,
+        "max": 0,
+        "runs": 5
+      }
+    },
+    {
+      "points": 241,
+      "compact": true,
+      "animators": 300,
+      "evaluations": 36000,
+      "setupMs": {
+        "median": 0.380083,
+        "min": 0.296541,
+        "max": 0.440375,
+        "runs": 5
+      },
+      "setupCpuMs": {
+        "median": 0.3815,
+        "min": 0.297917,
+        "max": 0.441792,
+        "runs": 5
+      },
+      "evaluationMs": {
+        "median": 1.572334,
+        "min": 1.400125,
+        "max": 1.794459,
+        "runs": 5
+      },
+      "evaluationCpuMs": {
+        "median": 1.478417,
+        "min": 1.339667,
+        "max": 1.669625,
+        "runs": 5
+      },
+      "retainedJavaDeltaBytes": {
+        "median": 770048,
+        "min": 770048,
+        "max": 770048,
+        "runs": 5
+      },
+      "retainedPssDeltaKiB": {
+        "median": 724,
+        "min": -7164,
+        "max": 724,
+        "runs": 5
+      },
+      "releasedJavaDeltaBytes": {
+        "median": 0,
+        "min": 0,
+        "max": 0,
+        "runs": 5
+      }
+    },
+    {
+      "points": 601,
+      "compact": false,
+      "animators": 300,
+      "evaluations": 36000,
+      "setupMs": {
+        "median": 2.415834,
+        "min": 2.000541,
+        "max": 2.861,
+        "runs": 5
+      },
+      "setupCpuMs": {
+        "median": 2.417416,
+        "min": 2.002125,
+        "max": 2.796708,
+        "runs": 5
+      },
+      "evaluationMs": {
+        "median": 29.350333,
+        "min": 26.882833,
+        "max": 29.94475,
+        "runs": 5
+      },
+      "evaluationCpuMs": {
+        "median": 28.080001,
+        "min": 25.89458,
+        "max": 28.552583,
+        "runs": 5
+      },
+      "retainedJavaDeltaBytes": {
+        "median": 6647808,
+        "min": 6647808,
+        "max": 6647808,
+        "runs": 5
+      },
+      "retainedPssDeltaKiB": {
+        "median": 6472,
+        "min": 6468,
+        "max": 6476,
+        "runs": 5
+      },
+      "releasedJavaDeltaBytes": {
+        "median": 0,
+        "min": 0,
+        "max": 0,
+        "runs": 5
+      }
+    },
+    {
+      "points": 601,
+      "compact": true,
+      "animators": 300,
+      "evaluations": 36000,
+      "setupMs": {
+        "median": 0.739,
+        "min": 0.570875,
+        "max": 0.896667,
+        "runs": 5
+      },
+      "setupCpuMs": {
+        "median": 0.740375,
+        "min": 0.57225,
+        "max": 0.838417,
+        "runs": 5
+      },
+      "evaluationMs": {
+        "median": 1.741459,
+        "min": 1.4235,
+        "max": 1.981875,
+        "runs": 5
+      },
+      "evaluationCpuMs": {
+        "median": 1.695167,
+        "min": 1.321792,
+        "max": 1.75675,
+        "runs": 5
+      },
+      "retainedJavaDeltaBytes": {
+        "median": 1634304,
+        "min": 1634304,
+        "max": 1634304,
+        "runs": 5
+      },
+      "retainedPssDeltaKiB": {
+        "median": 1568,
+        "min": 1568,
+        "max": 1568,
+        "runs": 5
+      },
+      "releasedJavaDeltaBytes": {
+        "median": 0,
+        "min": 0,
+        "max": 0,
+        "runs": 5
+      }
+    }
+  ],
+  "playback": [
+    {
+      "compact": false,
+      "trials": [
+        {
+          "round": 0,
+          "cpuMs": 6814,
+          "elapsedMs": 30012.690388999996,
+          "callbackGapMedianMs": 16.67954100004863,
+          "callbackGapP95Ms": 17.449499999987893,
+          "callbackGapMaxMs": 33.430667000007816,
+          "callbacks": 1799,
+          "idlePssKiB": 81283,
+          "releasedPssKiB": 80794,
+          "probeCpuWallMs": 71.8496529974509
+        },
+        {
+          "round": 1,
+          "cpuMs": 7024,
+          "elapsedMs": 30002.002305999864,
+          "callbackGapMedianMs": 16.68004100001417,
+          "callbackGapP95Ms": 17.0714999998454,
+          "callbackGapMaxMs": 19.377332999836653,
+          "callbacks": 1800,
+          "idlePssKiB": 85188,
+          "releasedPssKiB": 80823,
+          "probeCpuWallMs": 49.23063700203784
+        },
+        {
+          "round": 2,
+          "cpuMs": 7075,
+          "elapsedMs": 30003.526597999968,
+          "callbackGapMedianMs": 16.667625000001863,
+          "callbackGapP95Ms": 17.168667000019923,
+          "callbackGapMaxMs": 19.813374999910593,
+          "callbacks": 1800,
+          "idlePssKiB": 83739,
+          "releasedPssKiB": 81415,
+          "probeCpuWallMs": 51.36654300382361
+        }
+      ],
+      "cpuMs": {
+        "median": 7024,
+        "min": 6814,
+        "max": 7075,
+        "runs": 3
+      },
+      "maximumCallbackGapMs": {
+        "median": 19.813374999910593,
+        "min": 19.377332999836653,
+        "max": 33.430667000007816,
+        "runs": 3
+      }
+    },
+    {
+      "compact": true,
+      "trials": [
+        {
+          "round": 0,
+          "cpuMs": 7024,
+          "elapsedMs": 30003.366639000014,
+          "callbackGapMedianMs": 16.66925000003539,
+          "callbackGapP95Ms": 17.06574999995064,
+          "callbackGapMaxMs": 19.810667000012472,
+          "callbacks": 1800,
+          "idlePssKiB": 82570,
+          "releasedPssKiB": 80674,
+          "probeCpuWallMs": 49.08503700175788
+        },
+        {
+          "round": 1,
+          "cpuMs": 6474,
+          "elapsedMs": 30003.040513999993,
+          "callbackGapMedianMs": 16.667459000018425,
+          "callbackGapP95Ms": 17.334709000075236,
+          "callbackGapMaxMs": 20.55304100003559,
+          "callbacks": 1800,
+          "idlePssKiB": 83880,
+          "releasedPssKiB": 80816,
+          "probeCpuWallMs": 47.39284900214989
+        },
+        {
+          "round": 2,
+          "cpuMs": 6892,
+          "elapsedMs": 30002.789471999975,
+          "callbackGapMedianMs": 16.674124999903142,
+          "callbackGapP95Ms": 17.177957999985665,
+          "callbackGapMaxMs": 37.36779199982993,
+          "callbacks": 1798,
+          "idlePssKiB": 84651,
+          "releasedPssKiB": 81437,
+          "probeCpuWallMs": 48.79697300423868
+        }
+      ],
+      "cpuMs": {
+        "median": 6892,
+        "min": 6474,
+        "max": 7024,
+        "runs": 3
+      },
+      "maximumCallbackGapMs": {
+        "median": 20.55304100003559,
+        "min": 19.810667000012472,
+        "max": 37.36779199982993,
+        "runs": 3
+      }
+    }
+  ],
+  "retention": [
+    {
+      "round": 0,
+      "handles": 250,
+      "before": {
+        "javaUsedBytes": 3590400,
+        "nativeAllocatedBytes": 30287712,
+        "pssKiB": 84975
+      },
+      "after": {
+        "javaUsedBytes": 3754240,
+        "nativeAllocatedBytes": 30030816,
+        "pssKiB": 93583
+      }
+    },
+    {
+      "round": 1,
+      "handles": 500,
+      "before": {
+        "javaUsedBytes": 3619072,
+        "nativeAllocatedBytes": 29872736,
+        "pssKiB": 93519
+      },
+      "after": {
+        "javaUsedBytes": 3721472,
+        "nativeAllocatedBytes": 30228512,
+        "pssKiB": 98563
+      }
+    },
+    {
+      "round": 2,
+      "handles": 750,
+      "before": {
+        "javaUsedBytes": 3619072,
+        "nativeAllocatedBytes": 30062928,
+        "pssKiB": 98503
+      },
+      "after": {
+        "javaUsedBytes": 3721472,
+        "nativeAllocatedBytes": 30252448,
+        "pssKiB": 99047
+      }
+    },
+    {
+      "round": 3,
+      "handles": 1000,
+      "before": {
+        "javaUsedBytes": 3619072,
+        "nativeAllocatedBytes": 30085648,
+        "pssKiB": 98959
+      },
+      "after": {
+        "javaUsedBytes": 3721472,
+        "nativeAllocatedBytes": 30274144,
+        "pssKiB": 100683
+      }
+    },
+    {
+      "handles": 0,
+      "after": {
+        "javaUsedBytes": 3619072,
+        "nativeAllocatedBytes": 30114512,
+        "pssKiB": 100799
+      }
+    }
+  ],
+  "limits": [
+    "Emulator, release/production; not physical-device evidence.",
+    "Native evaluation benchmark excludes drawing and JS/native submission.",
+    "GC is requested; heap deltas are retained-memory observations, not allocation counts.",
+    "Memory snapshots are outside timing windows; PSS is whole-process memory.",
+    "Choreographer gaps are callback opportunities, not presented-frame deadlines.",
+    "The old/native reference and compact path share the same updated engine in playback trials."
+  ]
+}

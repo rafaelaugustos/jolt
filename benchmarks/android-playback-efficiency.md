@@ -57,34 +57,48 @@ Pinning the demo to the already-used fixture pair, `@nativescript/webpack` **5.0
 
 Re-run [android-busy.md](./android-busy.md) in a separately built release benchmark. Keep the intentional 300-ms main-runtime block and the identical worker computation as different modes. The existing lifecycle checks cancel a worker during startup and cancel active playback, verify the worker's distinct native thread ID and restore hardware layers. Worker startup remains outside playback timing, not free.
 
+The separate release run from clean commit `dc418aff1cdb162c7f71514d87f2df41b63d6b24` passed the existing startup cancellation, active cancellation and layer cleanup checks. All nine [raw reports and gfxinfo records](results/playback-efficiency/2026-11-03-busy.json.gz), the [summary](results/playback-efficiency/2026-11-03-busy-summary.json) and [build identity](results/playback-efficiency/2026-11-03-busy-build.json) are retained. Three trials per mode gave:
+
+| Mode                  | Largest UI-window vsync gap overlapping work | Native Jolt rotation during the work interval |
+| --------------------- | -------------------------------------------- | --------------------------------------------- |
+| Idle                  | 16.67 ms in all three trials                 | approximately 60°                             |
+| Main-runtime CPU loop | 300.00 / 316.67 / 316.67 ms                  | 0° in all three trials                        |
+| Worker CPU loop       | 16.67 ms in all three trials                 | approximately 60°                             |
+
+Every worker trial ran on a different native thread from the main runtime; `withLayer()` rotations showed the same progress/stall pattern. These are UI-window timing gaps, not presented FPS. This validates the existing app-level mitigation and the repaired worker build, not immunity to arbitrary main-thread blocks.
+
 Compact curves reduce the UI thread's work; they cannot make a blocked UI thread advance `ObjectAnimator`. The app still needs to offload suitable computation, return small results and apply expensive UI changes in bounded batches. Moving only the curve evaluator to another worker would leave native View updates waiting for the same UI thread. `withLayer()` caches drawing; it does not move general View-property playback to RenderThread.
 
 A general off-thread backend would require a separate supported-property and lifecycle design. Reanimated's separation between app JS and the UI runtime and Flutter's main Dart isolate are distinct configurations. No runtime rewrite, hidden Android API or new Web capability is introduced here. The physical-device cross-stack scenarios and app-code comparisons in #65 remain open.
 
 ## Results and recording review
 
-Captured on 2026-11-03 from clean commit `77eee202965e2ff303e2cf758d68ee730d31fa98`, source hash `6ee587d6418396117744444154e9f984835f1d10ba2be8c77d0611154e7db922`. The [build record](results/playback-efficiency/2026-11-03-build.json) retains the APK SHA-256. All **240,280 native comparisons passed exactly**. The complete [raw report](results/playback-efficiency/2026-11-03-android.json.gz), [summary with ranges](results/playback-efficiency/2026-11-03-summary.json) and [device identity](results/playback-efficiency/2026-11-03-device.json) are retained.
+Captured on 2026-11-03 from clean commit `7e9721e5e8b99ef124b43b3bf2dc21e5ab7e34b6`, source hash `6ee587d6418396117744444154e9f984835f1d10ba2be8c77d0611154e7db922`. The [build record](results/playback-efficiency/2026-11-03-build.json) retains the APK SHA-256. All **240,280 native comparisons passed exactly**. The complete [raw report](results/playback-efficiency/2026-11-03-android.json.gz), [summary with ranges](results/playback-efficiency/2026-11-03-summary.json) and [device identity](results/playback-efficiency/2026-11-03-device.json) are retained.
 
 Medians of five rounds, **300 retained animators** per batch; evaluation performs **36,000 native seeks**, without drawing. Java heap deltas below use decimal MB.
 
 | Points | Setup CPU, original → compact | Evaluation CPU, original → compact | Retained Java heap delta, original → compact |
 | ------ | ----------------------------- | ---------------------------------- | -------------------------------------------- |
-| 2      | 0.194 → 0.204 ms              | 0.999 → 0.892 ms                   | 0.143 → 0.143 MB                             |
-| 41     | 0.508 → 0.164 ms              | 3.537 → 1.001 ms                   | 0.598 → 0.291 MB                             |
-| 241    | 1.368 → 0.382 ms              | 12.796 → 1.478 ms                  | 2.761 → 0.770 MB                             |
-| 601    | 2.417 → 0.740 ms              | 28.080 → 1.695 ms                  | 6.648 → 1.634 MB                             |
+| 2      | 0.141 → 0.155 ms              | 0.713 → 0.709 ms                   | 0.143 → 0.143 MB                             |
+| 41     | 0.321 → 0.132 ms              | 2.978 → 0.891 ms                   | 0.598 → 0.291 MB                             |
+| 241    | 1.211 → 0.254 ms              | 14.498 → 1.271 ms                  | 2.761 → 0.770 MB                             |
+| 601    | 2.427 → 0.692 ms              | 28.498 → 1.886 ms                  | 6.648 → 1.634 MB                             |
 
-At 241 points, retained Java heap drops about 72% and native setup CPU about 72% in this workload. At two points, both paths use native keyframes and retain the same measured heap; the small timing differences do not establish a gain. Median PSS increases while retaining 300 241-point animators were 2,676 KiB and 724 KiB, but these process-wide deltas are noisier than the Java representation comparison.
+At 241 points, retained Java heap drops about 72% and native setup CPU about 79% in this workload. At two points, both paths use native keyframes and retain the same measured heap; the small timing differences do not establish a gain. Median PSS increases while retaining 300 241-point animators were 2,668 KiB and 724 KiB, but these process-wide deltas are noisier than the Java representation comparison.
 
-For the **30-second single-view loop**, original CPU was **7.024 s** (range 6.814–7.075), compact **6.892 s** (6.474–7.024). These overlapping ranges do not establish a meaningful total-process CPU improvement. Median worst callback gaps were 19.81 ms and 20.55 ms; the worst trials reached 33.43 ms and 37.37 ms. Both paths traversed the expected 160 DIP. This is not an FPS win or a claim of perfect frames.
+For the **30-second single-view loop**, original CPU was **9.007 s** (range 7.125–11.518), compact **7.979 s** (7.197–11.556). These overlapping ranges do not establish a meaningful total-process CPU improvement. Median worst callback gaps were 35.70 ms and 37.42 ms; the worst trials reached 122.27 ms and 105.35 ms. Both paths traversed the expected 160 DIP. This is not an FPS win or a claim of perfect frames. The wider ranges in this final run, while other development continued on the host, reinforce the emulator limitation.
 
 The host retention comparison keeps 1,000 finished/cancelled handles alive: [main](results/playback-efficiency/2026-11-03-retention-main.json) retains **3,000 tracks** and adds approximately **11.26 MB** of JS heap; [current](results/playback-efficiency/2026-11-03-retention-current.json) retains **zero tracks** and adds approximately **2.26 MB**. These are Node 22.23.3 results with a fake driver and requested GC, not Android memory savings. The regression test checks collectability, without a byte threshold.
 
-The device retention run kept 1,000 stopped handles and Java used heap stayed around 3.6–3.75 MB after requested collections. **Process PSS still increased**, from about 85 MB before those batches to about 101 MB after them, and remained around 101 MB after dropping the handles. Native allocated memory stayed around 30 MB. Runtime/allocator residency and the retained public JS objects remain in the process measurement; this audit does not claim to eliminate that PSS growth or explain the earlier cross-framework 104 MB result. A physical-device heap/allocator profile is still needed for that attribution.
+The device retention run kept 1,000 stopped handles and Java used heap stayed around 3.2–3.33 MB after requested collections. **Process PSS still increased**, from about 85 MB before those batches to about 101 MB after them, and remained around 101 MB after dropping the handles. Native allocated memory stayed around 30 MB. Runtime/allocator residency and the retained public JS objects remain in the process measurement; this audit does not claim to eliminate that PSS growth or explain the earlier cross-framework 104 MB result. A physical-device heap/allocator profile is still needed for that attribution.
+
+The [earlier clean run](results/playback-efficiency/2026-11-03-before-worker-pin-android.json.gz), its [summary](results/playback-efficiency/2026-11-03-before-worker-pin-summary.json), [device](results/playback-efficiency/2026-11-03-before-worker-pin-device.json) and [build record](results/playback-efficiency/2026-11-03-before-worker-pin-build.json) are preserved separately. It used the same core source hash before the worker-loader pin: the 241-point Java heap reduction was also 72%, but the 30-second CPU medians were 7.024 s and 6.892 s with overlapping ranges. It is not pooled with the final run.
 
 The [exploratory run](results/playback-efficiency/2026-11-03-exploratory.json.gz) is retained separately. It preceded shared linear-interpolator reuse and a viewport correction in the demo, and overlapped host builds. It is not combined with the final numbers or used as a before/after performance baseline.
 
 The English recording `playback-efficiency-android.mp4` shows real ADB taps on both native lanes: pause/hold, resume, a 70% seek, replacement toward the starting position, and stopping mid-flight. The complete source-timed H.264 was decoded without errors and frames across the clip were inspected; the lanes follow the same positions, controls remain readable and the final position stays held. It is embedded in EN/PT/ES/ZH guides with the Android 15 emulator label. Recording is separate from every measured run.
+
+The separate English recording `android-performance-compact.mp4` shows idle playback, an intentional main-runtime block and completed worker work using the fixed release bundle. It is embedded in all four guides with the Android 15 emulator label. Both the original source and compressed recording retain source timestamps; the complete H.264 decodes without errors and the three modes and final worker status were visually inspected. The earlier recording remains in the repository.
 
 ## Português
 
