@@ -49,6 +49,14 @@ If work cannot move to a worker, split it into bounded tasks that yield to the n
 
 On iOS, Jolt's submitted Core Animation tracks can keep playing in the render server during a JavaScript block, but input, new animation setup and JavaScript completion callbacks still wait for the main thread.
 
+## A measured example: exporting reports
+
+The playback audit now sends one acknowledged record at a time to a short-lived worker. That worker owns the growing report, parses native frame samples, serializes JSON and writes the files. The UI runtime keeps animation control and receives small acknowledgements. Startup/write errors, cancellation and screen disposal terminate the worker; a second write cannot queue behind an outstanding write.
+
+<Clip name="report-export-android" caption="Android 15 / API 35 ARM64 emulator, release build. Real taps export the same recorded report 20 times on the UI thread and in a worker, then cancel another run. The batch makes the pause visible; worker startup happens before playback. Original timing, not physical-device performance evidence." />
+
+This is an application/tooling change, not automatic offloading of arbitrary Jolt callbacks. A worker has its own runtime and consumes memory. The [CPU/PSS investigation](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/android-resource-profile.md) measures startup, main-thread CPU, process CPU and memory separately. It also checks idle playback, native thread activity, retained handles and repeated disposal. Lower UI-thread CPU does not establish lower total CPU or PSS.
+
 ## Compact playback and completed animations
 
 Android numeric transforms and opacity now keep sampled curves in primitive float arrays, with native interpolation between their points. The solver, sampled points, timing and independent property ownership stay the same. Two-point tracks use the existing small representation; older app binaries fall back to the previous factory or JavaScript construction until rebuilt. Colors, decorations and retained live springs have their own drivers.

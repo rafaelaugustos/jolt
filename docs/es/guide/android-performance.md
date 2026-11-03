@@ -49,6 +49,14 @@ Si el trabajo no puede pasar a un trabajador, divídalo en tareas limitadas que 
 
 En iOS, las pistas Core Animation enviadas por Jolt pueden seguir reproduciéndose en el servidor de renderizado durante un bloque JavaScript, pero la entrada, la nueva configuración de animación y las devoluciones de llamada de finalización de JavaScript aún esperan el hilo principal.
 
+## Un ejemplo medido: exportar informes {#a-measured-example-exporting-reports}
+
+La auditoría de reproducción ahora envía un registro a la vez a un worker temporal y espera su confirmación. El worker conserva el informe acumulado, interpreta las muestras nativas de frames, serializa el JSON y escribe los archivos. El runtime de la UI controla las animaciones y recibe confirmaciones pequeñas. Los errores de inicio o escritura, la cancelación y la salida de la pantalla terminan el worker; no se permite otra escritura mientras la anterior sigue pendiente.
+
+<Clip name="report-export-android" caption="Emulador Android 15 / API 35 ARM64, compilación de release. Toques reales exportan el mismo informe grabado 20 veces en el hilo de la UI y en un worker, y después cancelan otra ejecución. El lote hace visible la pausa; el worker arranca antes de la reproducción. Tiempo original, sin demostrar rendimiento en un dispositivo físico." />
+
+Este cambio pertenece a la aplicación y sus herramientas; no traslada automáticamente cualquier callback de Jolt. Cada worker tiene su propio runtime y consume memoria. La [investigación de CPU/PSS](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/android-resource-profile.md) mide por separado el inicio, la CPU del hilo principal, la CPU del proceso y la memoria. También comprueba reposo, reproducción, actividad de hilos nativos, handles retenidos y descarte repetido. Menos CPU en la UI no demuestra menor CPU total ni menor PSS.
+
 ## Reproducción compacta y animaciones terminadas
 
 En Android, las transformaciones numéricas y la opacidad guardan las curvas muestreadas en arrays de floats, con interpolación nativa. Se conservan el solver, los puntos, los tiempos y el control independiente de cada propiedad. Las curvas de dos puntos y los binarios antiguos mantienen las rutas anteriores. Colores, decoraciones y live springs tienen drivers propios.

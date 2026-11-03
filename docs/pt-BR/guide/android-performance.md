@@ -49,6 +49,14 @@ Quando o trabalho não puder ir para um worker, divida-o em tarefas limitadas qu
 
 No iOS, os tracks do Core Animation já enviados pelo Jolt podem continuar no render server durante um bloqueio de JavaScript, mas input, novas animações e callbacks de conclusão em JavaScript ainda aguardam a thread principal.
 
+## Um exemplo medido: exportação de relatórios
+
+A auditoria de reprodução agora envia um registro por vez a um worker temporário e espera a confirmação. O worker mantém o relatório acumulado, interpreta as amostras nativas de frames, serializa o JSON e grava os arquivos. O runtime da UI mantém o controle das animações e recebe confirmações pequenas. Erros de inicialização ou gravação, cancelamento e saída da tela encerram o worker; uma segunda gravação não pode entrar na fila enquanto a anterior está pendente.
+
+<Clip name="report-export-android" caption="Emulador Android 15 / API 35 ARM64, build de release. Toques reais exportam o mesmo relatório gravado 20 vezes na thread da UI e em um worker, depois cancelam outra execução. O lote torna a pausa visível; o worker inicia antes da reprodução. Tempo original, sem comprovar desempenho em aparelho físico." />
+
+Essa mudança pertence ao aplicativo e às ferramentas; ela não transfere automaticamente qualquer callback do Jolt. Cada worker tem seu próprio runtime e consome memória. A [investigação de CPU/PSS](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/android-resource-profile.md) mede separadamente inicialização, CPU da thread principal, CPU do processo e memória. Também verifica repouso, reprodução, atividade das threads nativas, handles retidos e descarte repetido. Menos CPU na UI não comprova redução da CPU total ou do PSS.
+
 ## Reprodução compacta e animações encerradas
 
 No Android, transforms numéricos e opacidade passam a guardar as curvas amostradas em arrays de floats, com interpolação nativa entre os pontos. O solver, os pontos amostrados, os tempos e a propriedade independente de cada canal permanecem iguais. Tracks de dois pontos usam a representação pequena existente; binários antigos do app continuam usando a factory anterior ou a construção em JavaScript até serem recompilados. Cores, decorações e live springs retidos têm drivers próprios.
