@@ -61,6 +61,13 @@ export type {
   ImageEffectName,
   ImageEffectOptions,
   ImageEffectDiagnostics,
+  ImageEffectParameter,
+  ImageEffectScroll,
+  ImageEffectVideo,
+  LiquidMaskPose,
+  LiquidCirclePose,
+  LiquidMaskShape,
+  LiquidMaskOptions,
 } from './image-effect.js'
 export { zoomable } from './zoomable.js'
 export type { Zoomable, ZoomableOptions, ZoomState, PhotoDismissal } from './zoomable.js'

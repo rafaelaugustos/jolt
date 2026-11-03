@@ -842,6 +842,7 @@ export function liveValueInput(value: DerivedValue) {
   const root = value.root
   return {
     node: root.node,
+    retain: () => root.retainConsumer(),
     changed: () => root.notify(),
     active(value: boolean) {
       root.externalActive = value

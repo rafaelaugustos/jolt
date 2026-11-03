@@ -156,6 +156,11 @@ public final class LiveSpring {
         binding.apply();
         return binding;
     }
+    public Binding bindImage(ImageEffect effect, String parameter) {
+        if (disposed) throw new IllegalStateException("Spring disposed");
+        Binding binding=new Binding(effect.targetView(),parameter,new Mapping[0]);
+        binding.imageEffect=new WeakReference<>(effect); bindings.add(binding); effect.retainBinding(binding); binding.apply(); return binding;
+    }
     private void apply() {
         for (int i = bindings.size() - 1; i >= 0; i--) {
             Binding binding = bindings.get(i);
@@ -203,6 +208,7 @@ public final class LiveSpring {
         private final Mapping[] mappings;
         private final float density;
         private boolean stopped;
+        private WeakReference<ImageEffect> imageEffect;
         private ColorTarget colorTarget;
         private DecorationTarget decorationTarget;
         private SampledInput[] layers = new SampledInput[0];
@@ -238,6 +244,7 @@ public final class LiveSpring {
         public void cancel() {
             if (stopped) return;
             stopped = true; bindings.remove(this);
+            if(imageEffect!=null){ImageEffect effect=imageEffect.get();if(effect!=null)effect.releaseBinding(this);imageEffect.clear();}
             if (decorationTarget != null) decorationTarget.release();
         }
         private void apply() {
@@ -248,6 +255,7 @@ public final class LiveSpring {
             double now = SystemClock.uptimeMillis();
             for (SampledInput layer : layers) composed = multiply ? composed * layer.value(now) : composed + layer.value(now);
             float value = (float)composed;
+            if(imageEffect != null) { ImageEffect effect=imageEffect.get(); if(effect!=null) effect.setParameter(property,value); return; }
             if(colorTarget != null) { colorTarget.setColor((int)(long)composed);return; }
             if(decorationTarget != null) { decorationTarget.setValue(value*density);return; }
             switch (property) {

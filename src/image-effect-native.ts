@@ -1,6 +1,22 @@
-import { Utils, isAndroid, isIOS, type Image, type ImageSource } from '@nativescript/core'
+import {
+  Utils,
+  isAndroid,
+  isIOS,
+  type Image,
+  type ImageSource,
+  type ScrollView,
+} from '@nativescript/core'
+
+import type {
+  ImageEffectParameter,
+  ImageEffectScroll,
+  ImageEffectVideo,
+  LiquidMaskOptions,
+} from './image-effect.js'
 
 export interface ImageEffectSettings {
+  mask?: LiquidMaskOptions
+  video?: ImageEffectVideo
   mode: number
   x: number
   y: number
@@ -14,10 +30,33 @@ export interface ImageEffectSettings {
 export interface ImageRenderer {
   readonly backend: 'metal' | 'agsl'
   readonly progress: number
+  readonly nativeParameterWrites: number
+  readonly renderCpuMs: number
+  readonly renderGpuMs: number
+  readonly videoFrames: number
+  readonly videoTime: number
+  readonly videoStatus: string
+  readonly resizeCount: number
+  readonly peakTextureBytes: number
   readonly frames: number
   readonly textureBytes: number
   readonly longestFrameMs: number
   readonly frameIntervalsMs: readonly number[]
+  resize(): void
+  set(parameter: ImageEffectParameter, value: number): void
+  bind(
+    parameter: ImageEffectParameter,
+    source: JoltLiveSpring | org.rafaelaugusto.jolt.LiveSpring,
+  ): () => void
+  bindScroll(
+    parameter: ImageEffectParameter,
+    scroll: ScrollView,
+    options: ImageEffectScroll,
+  ): () => void
+  setVideo(source: ImageEffectVideo | null): void
+  pauseVideo(): void
+  playVideo(): void
+  suspended(value: boolean): void
   play(endpoint: number): void
   pause(): void
   resume(): void
@@ -47,8 +86,71 @@ export function createImageRenderer(
         ended,
       )
     if (!native) return undefined
+    try {
+      if (settings.mask) native.configureMask(JSON.stringify(settings.mask))
+      if (settings.video) setVideo(settings.video)
+    } catch (error) {
+      native.stop()
+      throw error
+    }
+    function setVideo(video: ImageEffectVideo | null) {
+      if (
+        !native!.setVideoLoopPaused(
+          video?.src ?? null,
+          video?.loop ?? true,
+          video?.paused ?? false,
+        )
+      )
+        throw new Error('Unable to open the local iOS video source.')
+    }
     return {
       backend: 'metal',
+      get renderCpuMs() {
+        return native.renderCpuMs
+      },
+      get renderGpuMs() {
+        return native.renderGpuMs
+      },
+      get nativeParameterWrites() {
+        return native.nativeParameterWrites
+      },
+      get videoFrames() {
+        return native.videoFrames
+      },
+      get videoTime() {
+        return native.videoTime
+      },
+      get videoStatus() {
+        return native.videoStatus
+      },
+      get resizeCount() {
+        return native.resizeCount
+      },
+      get peakTextureBytes() {
+        return native.peakTextureBytes
+      },
+      resize: () => {
+        if (!native.resize())
+          throw new Error('Image surface exceeds the native texture budget.')
+      },
+      set: (parameter, value) => native.setParameterValue(parameter, value),
+      bind: (parameter, source) => {
+        const binding = (source as JoltLiveSpring).bindImageParameter(native, parameter)
+        return () => binding.cancel()
+      },
+      bindScroll: (parameter, scroll, options) => {
+        const binding = JoltImageScrollBinding.attachEffectScrollParameterConfiguration(
+          native,
+          scroll.nativeViewProtected,
+          parameter,
+          JSON.stringify(options),
+        )
+        return () => binding.cancel()
+      },
+      setVideo,
+      pauseVideo: () => native.pauseVideo(),
+      playVideo: () => native.playVideo(),
+      suspended: (value) => native.setSuspended(value),
       get progress() {
         return native.progress
       },
@@ -107,8 +209,54 @@ export function createImageRenderer(
       native.stop()
       throw new Error(reason)
     }
+    if (settings.mask) native.configureMask(JSON.stringify(settings.mask))
     return {
       backend: 'agsl',
+      renderCpuMs: 0,
+      renderGpuMs: 0,
+      get nativeParameterWrites() {
+        return native.getNativeParameterWrites()
+      },
+      videoFrames: 0,
+      videoTime: 0,
+      videoStatus: 'none',
+      get resizeCount() {
+        return native.getResizeCount()
+      },
+      get peakTextureBytes() {
+        return native.getPeakTextureBytes()
+      },
+      resize: () => {
+        const background = image.nativeViewProtected.getBackground()
+        corners.forEach((corner, i) => {
+          geometry[i + 2] = background?.[`getBorder${corner}Radius`]?.() ?? 0
+        })
+        if (!native.resize(geometry))
+          throw new Error('Image surface exceeds the native texture budget.')
+      },
+      set: (parameter, value) => native.setParameter(parameter, value),
+      bind: (parameter, source) => {
+        const binding = (source as org.rafaelaugusto.jolt.LiveSpring).bindImage(
+          native,
+          parameter,
+        )
+        return () => binding.cancel()
+      },
+      bindScroll: (parameter, scroll, options) => {
+        const binding = new org.rafaelaugusto.jolt.ImageEffect.ScrollBinding(
+          native,
+          scroll.nativeViewProtected,
+          parameter,
+          JSON.stringify(options),
+        )
+        return () => binding.cancel()
+      },
+      setVideo: () => {
+        throw new Error('Video textures require iOS.')
+      },
+      pauseVideo: () => {},
+      playVideo: () => {},
+      suspended: (value) => native.setSuspended(value),
       get progress() {
         return native.getProgress()
       },

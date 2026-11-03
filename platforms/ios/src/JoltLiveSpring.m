@@ -1,4 +1,5 @@
 #import "JoltLiveSpring.h"
+#import "JoltImageEffect.h"
 #import "JoltSpringState.h"
 #import "JoltColorMath.h"
 #import "JoltLivePaint.h"
@@ -131,6 +132,7 @@ static double mapped(double value, const JoltMapping *maps, NSUInteger count) {
     JoltSampled *_layers;
     NSUInteger _layerCount;
 }
+@property(nonatomic, weak) JoltImageEffect *imageEffect;
 @property(nonatomic) JoltLivePaint *paint;
 @property(nonatomic, weak) UIView *view;
 @property(nonatomic, weak) JoltLiveSpring *node;
@@ -305,6 +307,12 @@ static double previousFrame;
     [CATransaction begin]; [CATransaction setDisableActions:YES]; [binding apply]; [CATransaction commit];
     return binding;
 }
+- (JoltLiveSpringBinding *)bindImage:(JoltImageEffect *)effect parameter:(NSString *)parameter {
+    if (self.disposed) [NSException raise:NSInvalidArgumentException format:@"Spring disposed"];
+    JoltLiveSpringBinding *binding=[JoltLiveSpringBinding new];
+    binding.node=self; binding.view=effect.targetView; binding.imageEffect=effect; binding.property=parameter;
+    [self.bindings addObject:binding]; [effect retainBinding:binding]; [binding apply]; return binding;
+}
 - (void)apply {
     for (NSInteger i = self.bindings.count - 1; i >= 0; i--) {
         JoltLiveSpringBinding *binding = self.bindings[i];
@@ -353,7 +361,7 @@ static double previousFrame;
     for (NSUInteger i = 0; i < _layerCount; i++) if (sampledRunning(&_layers[i], self.layerAnchor, now)) return YES;
     return NO;
 }
-- (void)cancel { if(self.stopped)return; self.stopped = YES; [self.paint releaseProperty:self.property owner:self];self.paint=nil; [self.node.bindings removeObject:self]; }
+- (void)cancel { if(self.stopped)return; self.stopped = YES; [self.imageEffect releaseBinding:self]; self.imageEffect=nil; [self.paint releaseProperty:self.property owner:self];self.paint=nil; [self.node.bindings removeObject:self]; }
 - (void)apply {
     UIView *view = self.view;
     if (self.stopped || !view.window) return;
@@ -363,6 +371,7 @@ static double previousFrame;
         double part = sampledValue(&_layers[i], self.layerAnchor, now);
         value = self.multiply ? value * part : value + part;
     }
+    if (self.imageEffect) { [self.imageEffect setParameter:self.property value:value]; return; }
     if (self.alpha) { view.alpha = MAX(0, MIN(1, value)); return; }
     if (self.paint) { [self.paint write:value property:self.property owner:self]; return; }
     if (self.color) {

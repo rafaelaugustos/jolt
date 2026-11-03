@@ -1,6 +1,6 @@
 #import <UIKit/UIKit.h>
 NS_ASSUME_NONNULL_BEGIN
-@class JoltLiveSpringBinding;
+@class JoltLiveSpringBinding, JoltImageEffect;
 @interface JoltLiveSpring : NSObject
 + (instancetype)create:(double)initial stiffness:(double)stiffness damping:(double)damping mass:(double)mass
              restDelta:(double)restDelta restSpeed:(double)restSpeed reduced:(BOOL)reduced;
@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setReduced:(BOOL)value;
 - (void)setPaused:(BOOL)value;
 - (JoltLiveSpringBinding *)bind:(UIView *)view property:(NSString *)property mappings:(NSString *)mappings;
+- (JoltLiveSpringBinding *)bindImage:(JoltImageEffect *)effect parameter:(NSString *)parameter;
 - (void)dispose;
 @end
 @interface JoltLiveSpringBinding : NSObject

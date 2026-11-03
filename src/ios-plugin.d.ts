@@ -116,6 +116,7 @@ declare class JoltGestureSession extends NSObject {
   dispose(): void
 }
 declare class JoltLiveSpring extends NSObject {
+  bindImageParameter(effect: JoltImageEffect, parameter: string): JoltLiveSpringBinding
   static createStiffnessDampingMassRestDeltaRestSpeedReduced(
     initial: number,
     stiffness: number,
@@ -171,7 +172,32 @@ declare class JoltInteractiveAnimation extends NSObject {
   controlPaused(elapsed: number, paused: boolean): void
   cancel(): void
 }
+declare class JoltImageScrollBinding extends NSObject {
+  static attachEffectScrollParameterConfiguration(
+    effect: JoltImageEffect,
+    scroll: UIScrollView,
+    parameter: string,
+    config: string,
+  ): JoltImageScrollBinding
+  cancel(): void
+}
 declare class JoltImageEffect extends NSObject {
+  readonly nativeParameterWrites: number
+  readonly resizeCount: number
+  readonly peakTextureBytes: number
+  readonly videoFrames: number
+  readonly videoTime: number
+  readonly videoStatus: string
+  readonly renderCpuMs: number
+  readonly renderGpuMs: number
+  static processMemoryBytes(): number
+  resize(): boolean
+  configureMask(config: string): void
+  setParameterValue(parameter: string, value: number): void
+  setSuspended(value: boolean): void
+  setVideoLoopPaused(path: string | null, loop: boolean, paused: boolean): boolean
+  pauseVideo(): void
+  playVideo(): void
   stopPreservingImage(): void
   static createWithViewDestinationModeOriginXOriginYAmplitudeRadiusDurationSeedListener(
     image: UIImageView,

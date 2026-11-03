@@ -1,6 +1,7 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+@class JoltLiveSpringBinding;
 @interface JoltImageEffect : NSObject
 + (nullable instancetype)createWithView:(UIImageView *)view
                           destination:(nullable UIImage *)destination
@@ -15,6 +16,20 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly) double longestFrame;
 @property(nonatomic, readonly) NSArray<NSNumber *> *frameIntervalsMs;
 @property(nonatomic, readonly) NSUInteger textureBytes;
+@property(nonatomic, readonly) NSUInteger nativeParameterWrites, resizeCount, peakTextureBytes, videoFrames;
+@property(nonatomic, readonly) double videoTime, renderCpuMs, renderGpuMs;
++ (NSUInteger)processMemoryBytes;
+@property(nonatomic, readonly) NSString *videoStatus;
+@property(nonatomic, readonly, nullable) UIImageView *targetView;
+- (BOOL)resize;
+- (void)configureMask:(NSString *)configuration;
+- (void)setParameter:(NSString *)parameter value:(double)value;
+- (void)releaseBinding:(JoltLiveSpringBinding *)binding;
+- (void)retainBinding:(JoltLiveSpringBinding *)binding;
+- (void)setSuspended:(BOOL)suspended;
+- (BOOL)setVideo:(nullable NSString *)path loop:(BOOL)loop paused:(BOOL)paused;
+- (void)pauseVideo;
+- (void)playVideo;
 - (void)play:(double)endpoint;
 - (void)pause;
 - (void)resume;
@@ -22,5 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)finish:(double)endpoint;
 - (void)stop;
 - (void)stopPreservingImage;
+@end
+@interface JoltImageScrollBinding : NSObject
++ (instancetype)attachEffect:(JoltImageEffect *)effect scroll:(UIScrollView *)scroll parameter:(NSString *)parameter configuration:(NSString *)configuration;
+- (void)cancel;
 @end
 NS_ASSUME_NONNULL_END
