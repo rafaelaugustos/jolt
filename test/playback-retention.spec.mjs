@@ -10,7 +10,7 @@ it('collects completed and cancelled tracks while their public handles stay reac
     execFileSync(process.execPath, [script], { encoding: 'utf8', timeout: 30000 }),
   )
   expect(
-    report.rounds.map((round: { handles: number; liveTracks: number }) => ({
+    report.rounds.map((round) => ({
       handles: round.handles,
       liveTracks: round.liveTracks,
     })),

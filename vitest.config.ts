@@ -24,7 +24,7 @@ export default defineConfig({
   },
   test: {
     include: [
-      'test/**/*.spec.ts',
+      'test/**/*.spec.{ts,mjs}',
       'docs/.vitepress/theme/**/*.spec.ts',
       'benchmarks/web-lifecycle/*.unit.ts',
     ],

@@ -2,7 +2,7 @@
 
 Jolt calcula sus fotogramas clave una vez y los reproduce de forma nativa. Eso elimina el trabajo de JavaScript de cada cuadro de animación, pero `ObjectAnimator` de Android aún actualiza las propiedades de vista en el subproceso de la interfaz de usuario. En una aplicación NativeScript normal, el tiempo de ejecución principal JavaScript comparte ese hilo. Una tarea sincrónica larga puede detener las transformaciones, la opacidad y la reproducción del color hasta que la tarea regrese.
 
-<Clip name="android-performance" caption="Reproducción normal, un bloque JavaScript de 300 ms y el mismo trabajo en un trabajador en un emulador Android 16. Un diagnóstico visual, no una garantía de rendimiento del dispositivo." />
+<Clip name="android-performance-compact" caption="Reproducción normal, un bloque JavaScript de 300 ms y el mismo trabajo en un trabajador en un emulador Android 15. Un diagnóstico visual, no una garantía de rendimiento del dispositivo." />
 
 `ViewPropertyAnimator.withLayer()` no mueve este trabajo a RenderThread. Almacena en caché el dibujo de la vista en una capa de hardware, luego restaura la capa anterior y aún usa un `ValueAnimator` para actualizar las propiedades. La caché de capa de opacidad existente de Jolt reduce el trabajo de dibujo; no puede hacer que un hilo de UI bloqueado responda. Consulte la fuente Android para [`withLayer()` and property updates](https://android.googlesource.com/platform/frameworks/base/+/refs/heads/main/core/java/android/view/ViewPropertyAnimator.java).
 

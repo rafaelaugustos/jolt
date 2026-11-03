@@ -47,6 +47,12 @@ python3 benchmarks/playback-efficiency-record-android.py YOUR_SERIAL /tmp/jolt-e
 
 Generate missing demo Android resources from the pinned NativeScript template, keeping the repository manifest. Build/signing and recording requirements remain in [CONTRIBUTING.md](../CONTRIBUTING.md). The recorder uses real ADB taps for play, pause/resume, seek, interruption and stop; no synthetic footage or altered playback speed is used.
 
+## Worker build regression
+
+Fresh demo installs resolved `@nativescript/webpack` 5.0.39 through `~5.0.38`, while the demo explicitly uses webpack 5.101.3 and the repository root also installs webpack 5.112.0. The new worker loader first resolves webpack's newer `dependencies/worker/WorkerDependency` path. In this layout it finds the root's newer copy and patches that class, instead of the older compiler actually building the demo. The emitted worker constructor retained a `file:///app/...mjs` URL, and the Android demo reported “Failed to find module” after **Worker** was tapped. The recorder rejected that run; it is not published as a working demonstration.
+
+Pinning the demo to the already-used fixture pair, `@nativescript/webpack` **5.0.38** and webpack **5.101.3**, restores the native `~/...mjs` worker path. The runtime/source of the computation is unchanged. Build metadata now records both tool versions. The recording runner opens the current isolated `busy-js` showcase route, avoiding the old scrolling-playground coordinates. Actual startup, worker work and cleanup are revalidated below, not inferred from bundle text alone.
+
 ## Busy JavaScript and architectural limits
 
 Re-run [android-busy.md](./android-busy.md) in a separately built release benchmark. Keep the intentional 300-ms main-runtime block and the identical worker computation as different modes. The existing lifecycle checks cancel a worker during startup and cancel active playback, verify the worker's distinct native thread ID and restore hardware layers. Worker startup remains outside playback timing, not free.

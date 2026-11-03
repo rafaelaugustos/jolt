@@ -2,7 +2,7 @@
 
 Jolt 计算一次关键帧并在原生播放它们。这会从每个动画帧中删除 JavaScript 的工作，但 Android 的 `ObjectAnimator` 仍会更新 UI 线程上的 View 属性。在正常的 NativeScript 应用程序中，主运行时 JavaScript 共享该线程。长同步任务可以停止变换、不透明度和颜色播放，直到任务返回。
 
-<Clip name="android-performance" caption="正常播放，300 ms JavaScript 块，并且在 Android 16 模拟器上的工作人员中进行相同的工作。视觉诊断，而不是设备性能保证。" />
+<Clip name="android-performance-compact" caption="正常播放，300 ms JavaScript 块，并且在 Android 15 模拟器上的工作人员中进行相同的工作。视觉诊断，而不是设备性能保证。" />
 
 `ViewPropertyAnimator.withLayer()` 不会将此工作移至 RenderThread。它将视图的绘图缓存在硬件层中，然后恢复前一层，并且仍然使用 `ValueAnimator` 来更新属性。 Jolt现有的不透明层缓存减少了绘图工作；它无法使阻塞的 UI 线程做出响应。请参阅 [`withLayer()` and property updates](https://android.googlesource.com/platform/frameworks/base/+/refs/heads/main/core/java/android/view/ViewPropertyAnimator.java) 的 Android 源。
 
