@@ -24,6 +24,22 @@ const featured = computed(() => [
   recipes[11],
 ])
 useMotion((runtime) => {
+  const headline = [...root.value!.querySelectorAll<HTMLElement>('h1 > span')]
+  runtime.animate(
+    headline,
+    { y: [70, 0], opacity: [0, 1] },
+    { duration: 950, ease: 'easeOut', stagger: 120 },
+  )
+  headline.forEach((line) => runtime.observeGeometry(line))
+  const actionRegion = root.value!.querySelector<HTMLElement>('.hero-actions')!
+  const action = actionRegion.querySelector<HTMLElement>('.button-acid')!
+  const magnet = runtime.pointerFollow(actionRegion, {
+    range: { x: [-7, 7], y: [-5, 5] },
+    spring: { stiffness: 180, damping: 16 },
+  })
+  runtime.bind(action, { x: magnet.x, y: magnet.y })
+  runtime.press(action, { scale: 0.95 }, { transition: 'snappy' })
+  runtime.observeGeometry(action)
   const items = [...root.value!.querySelectorAll<HTMLElement>('[data-entrance]')]
   runtime.viewportEnter(items, {
     keyframes: { y: [36, 0], opacity: [0, 1] },
@@ -44,7 +60,7 @@ async function copyInstall() {
 </script>
 
 <template>
-  <div ref="root">
+  <div ref="root" class="motion-home">
     <section class="motion-hero section-shell">
       <div class="hero-topline">
         <span class="hero-release"
@@ -64,19 +80,21 @@ async function copyInstall() {
       <div class="hero-composition">
         <div class="hero-type">
           <h1>
-            <span>{{ t(['Make it', 'Faça', 'Hazlo', '让界面']) }}</span
-            ><span>{{ t(['move.', 'mover.', 'mover.', '动起来。']) }}</span
-            ><span class="hero-serif">{{
-              t(['Make it felt.', 'Faça sentir.', 'Hazlo sentir.', '让人心动。'])
+            <span class="hero-line-one"
+              >{{ t(['FEEL', 'SINTA', 'SIENTE', '感受'])
+              }}<span class="hero-type-star" aria-hidden="true">✳︎</span></span
+            >
+            <span class="hero-line-two">{{
+              t(['EVERY FRAME.', 'CADA FRAME.', 'CADA FRAME.', '每一帧。'])
             }}</span>
           </h1>
           <p class="hero-description">
             {{
               t([
-                'Springs, gestures and the little details that make an interface unforgettable. This is Jolt.',
-                'Springs, gestos e os pequenos detalhes que tornam uma interface inesquecível. Isso é Jolt.',
-                'Resortes, gestos y los pequeños detalles que hacen una interfaz inolvidable. Esto es Jolt.',
-                '弹簧、手势，以及让界面令人难忘的每个细节。这就是 Jolt。',
+                'The motion engine for interfaces you don’t just use. You feel. Built for NativeScript. Alive on the web.',
+                'O motor de animações para interfaces que você não só usa. Você sente. Feito para NativeScript. Vivo na web.',
+                'El motor de animación para interfaces que no solo usas. Las sientes. Creado para NativeScript. Vivo en la web.',
+                '不止于使用，更触动感官。为 NativeScript 打造的动效引擎，在 Web 同样鲜活。',
               ])
             }}
           </p>
@@ -128,18 +146,13 @@ async function copyInstall() {
           <h2>
             {{
               t([
-                'Small details.',
-                'Pequenos detalhes.',
-                'Pequeños detalles.',
-                '细微之处。',
+                'Steal the feeling.',
+                'Leve essa sensação.',
+                'Llévate la sensación.',
+                '把心动带走。',
               ])
             }}<br /><span class="muted-heading">{{
-              t([
-                'Big feelings.',
-                'Grandes sensações.',
-                'Grandes sensaciones.',
-                '无限感受。',
-              ])
+              t(['Make it yours.', 'Crie do seu jeito.', 'Hazla tuya.', '创造你的动效。'])
             }}</span>
           </h2>
         </div>

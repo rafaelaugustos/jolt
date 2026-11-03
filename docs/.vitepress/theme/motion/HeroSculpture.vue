@@ -1,15 +1,20 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { createChromeSculpture } from './chromeSculpture'
 import { useWords } from './copy'
 import { useMotion } from './useMotion'
-import type { WebRuntime } from '../../../../src/web/public'
+import type { WebRuntime, WebMotionValue } from '../../../../src/web/public'
 
 const { t } = useWords()
 const region = ref<HTMLElement>()
-const sculpture = ref<HTMLElement>()
+const fallback = ref<HTMLElement>()
 const turn = ref<HTMLElement>()
+const input = ref<HTMLElement>()
 let motion: WebRuntime | undefined
+const canvas = ref<HTMLCanvasElement>()
+const webgl = ref(false)
 let rotation = 0
+let spinValue: WebMotionValue | undefined
 // A projected toroidal spring. Vector geometry stays sharp at every screen size.
 const rings = Array.from({ length: 96 }, (_, i) => {
   const u = (i / 96) * Math.PI * 2
@@ -29,85 +34,163 @@ const rings = Array.from({ length: 96 }, (_, i) => {
   })
   return { id: i, depth: depth / 73, d: `M${points.join(' L')}Z` }
 }).sort((a, b) => a.depth - b.depth)
-const { ready } = useMotion((runtime) => {
+const { ready, reduced } = useMotion((runtime) => {
   motion = runtime
   const follow = runtime.pointerFollow(region.value!, {
-    range: { x: [-26, 26], y: [-22, 22] },
-    spring: { stiffness: 95, damping: 16 },
+    range: { x: [-0.38, 0.38], y: [-0.22, 0.22] },
+    spring: { stiffness: 75, damping: 18 },
   })
-  runtime.bind(sculpture.value!, { x: follow.x, y: follow.y })
-  runtime.observeGeometry(sculpture.value!)
-  runtime.press(turn.value!, { scale: 0.91 }, { transition: 'bouncy' })
+  runtime.press(turn.value!, { scale: 0.94 }, { transition: 'bouncy' })
   runtime.animate(
     turn.value!,
-    { scale: [0.78, 1], rotate: [-24, 0], opacity: [0, 1] },
-    { type: 'spring', bounce: 0.25, duration: 1400 },
+    { scale: [0.8, 1], opacity: [0, 1] },
+    { type: 'spring', bounce: 0.2, duration: 1500 },
   )
   runtime.observeGeometry(turn.value!)
+  spinValue = runtime.motionValue(-0.8)
+  runtime.animate(spinValue, 0, { type: 'spring', bounce: 0.12, duration: 2100 })
+  const dragAngle = runtime.motionValue(0)
+  runtime.drag(input.value!, {
+    axis: 'x',
+    value: dragAngle,
+    release: 'decay',
+    friction: 0.99,
+    onMove: () => {
+      if (input.value) input.value.dataset.dragPosition = String(dragAngle.get())
+    },
+  })
+  const scroll = runtime.scrollValue()
+  const sculptureRenderer = createChromeSculpture(canvas.value!, () => {
+    webgl.value = false
+    schedule()
+  })
+  webgl.value = !!sculptureRenderer
+  let visible = true
+  let frame = 0
+  const draw = () => {
+    frame = 0
+    if (!visible || document.hidden) return
+    const staticPose =
+      reduced.value || window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const x = staticPose ? 0 : follow.x.get()
+    const y = staticPose ? 0 : follow.y.get()
+    const travel = staticPose ? 0 : Math.min(scroll.get() / innerHeight, 1) * 0.45
+    if (!webgl.value && fallback.value)
+      fallback.value.style.transform = `rotate(${dragAngle.get() * 0.46 + x * 20}deg)`
+    sculptureRenderer?.render(
+      0.36 - y + travel,
+      -0.38 + x + spinValue!.get() + dragAngle.get() * 0.008,
+      -0.4,
+    )
+  }
+  const schedule = () => {
+    if (!frame && visible && !document.hidden) frame = requestAnimationFrame(draw)
+  }
+  const subscriptions = [follow.x, follow.y, spinValue, dragAngle, scroll].map((value) =>
+    value.subscribe(schedule),
+  )
+  const observer = new IntersectionObserver(([entry]) => {
+    visible = entry.isIntersecting
+    if (visible) schedule()
+  })
+  observer.observe(region.value!)
+  const resize = new ResizeObserver(schedule)
+  resize.observe(region.value!)
+  document.addEventListener('visibilitychange', schedule)
+  schedule()
+  return () => {
+    cancelAnimationFrame(frame)
+    subscriptions.forEach((unsubscribe) => unsubscribe())
+    observer.disconnect()
+    resize.disconnect()
+    document.removeEventListener('visibilitychange', schedule)
+    sculptureRenderer?.dispose()
+  }
 })
 function spin() {
-  rotation += 90
-  if (motion && turn.value)
+  rotation += 1
+  if (motion && turn.value && spinValue) {
+    motion.animate(spinValue, rotation * Math.PI * 0.85, {
+      type: 'spring',
+      bounce: 0.3,
+      duration: 1600,
+    })
     motion.animate(
       turn.value,
-      { rotate: rotation },
-      { type: 'spring', bounce: 0.45, duration: 1300 },
+      { rotate: rotation * 6 },
+      { type: 'spring', bounce: 0.3, duration: 1600 },
     )
+  }
 }
 </script>
 
 <template>
-  <div ref="region" class="hero-art" :data-motion-ready="ready">
+  <div
+    ref="region"
+    class="hero-art"
+    :data-motion-ready="ready"
+    :data-renderer="webgl ? 'webgl' : 'svg'"
+  >
     <div class="hero-art-grid" aria-hidden="true"></div>
     <span class="art-coordinate"
-      >FIG. 001 —
+      >OBJECT 001 —
       {{
-        t(['ELASTIC ENERGY', 'ENERGIA ELÁSTICA', 'ENERGÍA ELÁSTICA', '弹性能量'])
+        t(['IN A STATE OF FLOW', 'EM ESTADO DE FLUXO', 'EN ESTADO DE FLUJO', '流动不息'])
       }}</span
     >
-    <div ref="sculpture" class="hero-sculpture">
+    <div class="hero-sculpture">
       <button
-        ref="turn"
-        class="sculpture-turn"
+        ref="input"
+        class="sculpture-input"
         :aria-label="
           t([
-            'Spin the spring sculpture',
-            'Girar a escultura de spring',
-            'Girar la escultura de resorte',
-            '旋转弹簧雕塑',
+            'Drag or tap the sculpture to spin it',
+            'Arraste ou toque na escultura para girar',
+            'Arrastra o toca la escultura para girarla',
+            '拖动或点击，让雕塑旋转',
           ])
         "
         @click="spin"
       >
-        <svg viewBox="0 0 560 560" fill="none" aria-hidden="true">
-          <defs>
-            <linearGradient id="spring-wire" x1=".2" y1="0" x2=".8" y2="1">
-              <stop stop-color="#f6ffd0" />
-              <stop offset=".3" stop-color="#d9ff43" />
-              <stop offset=".6" stop-color="#87a51a" />
-              <stop offset=".85" stop-color="#e8ff91" />
-              <stop offset="1" stop-color="#485c0c" />
-            </linearGradient>
-          </defs>
-          <path
-            v-for="ring in rings"
-            :key="ring.id"
-            :d="ring.d"
-            stroke="url(#spring-wire)"
-            :stroke-width="ring.depth > 0 ? 2.15 : 1.45"
-            :opacity="0.5 + (ring.depth + 170) / 680"
+        <span ref="turn" class="sculpture-turn">
+          <canvas
+            ref="canvas"
+            class="chrome-canvas"
+            :class="{ rendered: webgl }"
+            aria-hidden="true"
           />
-        </svg>
+          <span ref="fallback" v-show="!webgl" class="sculpture-fallback">
+            <svg viewBox="0 0 560 560" fill="none" aria-hidden="true">
+              <defs>
+                <linearGradient id="spring-wire" x1=".2" y1="0" x2=".8" y2="1">
+                  <stop stop-color="#f6ffd0" />
+                  <stop offset=".3" stop-color="#d9ff43" />
+                  <stop offset=".6" stop-color="#87a51a" />
+                  <stop offset=".85" stop-color="#e8ff91" />
+                  <stop offset="1" stop-color="#485c0c" />
+                </linearGradient>
+              </defs>
+              <path
+                v-for="ring in rings"
+                :key="ring.id"
+                :d="ring.d"
+                stroke="url(#spring-wire)"
+                :stroke-width="ring.depth > 0 ? 2.15 : 1.45"
+                :opacity="0.5 + (ring.depth + 170) / 680"
+              />
+            </svg>
+          </span>
+        </span>
       </button>
     </div>
     <div class="art-caption">
       <span class="art-cross" aria-hidden="true">↖</span
       ><span>{{
         t([
-          'Go on. Give it a spin.',
-          'Vai. Dá uma girada.',
-          'Vamos. Dale una vuelta.',
-          '试试，让它转起来。',
+          'Drag it. Feel the momentum.',
+          'Arraste. Sinta a inércia.',
+          'Arrastra. Siente la inercia.',
+          '拖动，感受惯性。',
         ])
       }}</span>
     </div>

@@ -44,7 +44,8 @@ for (const [name, engine] of [
   try {
     await page.goto(base)
     await expect(page.locator('[data-motion-ready="true"]')).toHaveCount(2)
-    await expect(page.locator('h1')).toContainText('Make it')
+    await expect(page.locator('h1')).toContainText('FEEL')
+    await expect(page.locator('.hero-art')).toHaveAttribute('data-renderer', 'webgl')
     await expect(page.locator('#morrow-title')).toHaveText('Morrow.')
     await expect(page.locator('.morrow-phone video')).toHaveAttribute(
       'poster',
@@ -66,6 +67,15 @@ for (const [name, engine] of [
       'Controlled video keeps playing when the pointer leaves',
     ).toBe(false)
     await page.locator('.morrow-phone video').evaluate((video) => video.pause())
+    const phonePose = await page
+      .locator('.morrow-phone')
+      .evaluate((el) => getComputedStyle(el).transform)
+    await page.mouse.wheel(0, 180)
+    await expect
+      .poll(() =>
+        page.locator('.morrow-phone').evaluate((el) => getComputedStyle(el).transform),
+      )
+      .not.toBe(phonePose)
     await page.evaluate(() => window.scrollTo(0, 0))
     await expect(page.locator('.recipe-device video[src]')).toHaveCount(0)
     const sculpture = page.locator('.sculpture-turn')
@@ -76,6 +86,30 @@ for (const [name, engine] of [
       .not.toBe(before)
     await page.screenshot({ path: `${output}/${name}-home.png`, fullPage: true })
     await page.screenshot({ path: `${output}/${name}-hero.png` })
+    const sculptureInput = page.locator('.sculpture-input')
+    const sculptureBox = await sculptureInput.boundingBox()
+    await page.mouse.move(
+      sculptureBox.x + sculptureBox.width * 0.55,
+      sculptureBox.y + sculptureBox.height * 0.55,
+    )
+    await page.mouse.down()
+    await page.mouse.move(
+      sculptureBox.x + sculptureBox.width * 0.55 + 95,
+      sculptureBox.y + sculptureBox.height * 0.55,
+      { steps: 12 },
+    )
+    await page.mouse.up()
+    await expect
+      .poll(async () => Number(await sculptureInput.getAttribute('data-drag-position')))
+      .toBeGreaterThan(30)
+    // A lost GPU context must leave a visible, interactive vector fallback.
+    await page
+      .locator('.chrome-canvas')
+      .evaluate((canvas) =>
+        canvas.getContext('webgl').getExtension('WEBGL_lose_context').loseContext(),
+      )
+    await expect(page.locator('.hero-art')).toHaveAttribute('data-renderer', 'svg')
+    await expect(page.locator('.sculpture-fallback > svg')).toBeVisible()
 
     await page.locator('#playground').scrollIntoViewIfNeeded()
     await page.locator('.replay-button').click()
@@ -224,7 +258,7 @@ for (const [name, engine] of [
       browser: name,
       result: 'passed',
       checks:
-        'spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, 4 locales × 4 widths, mobile navigation, reduced motion, remount',
+        'WebGL sculpture, inertial sculpture drag, context-loss fallback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, 4 locales × 4 widths, mobile navigation, reduced motion, remount',
     })
     console.log(`${name}: all interaction checks passed`)
   } catch (error) {

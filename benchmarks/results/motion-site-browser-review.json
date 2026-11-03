@@ -3,17 +3,17 @@
     {
       "browser": "chromium",
       "result": "passed",
-      "checks": "spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, 4 locales \u00d7 4 widths, mobile navigation, reduced motion, remount"
+      "checks": "WebGL sculpture, inertial sculpture drag, context-loss fallback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, 4 locales \u00d7 4 widths, mobile navigation, reduced motion, remount"
     },
     {
       "browser": "webkit",
       "result": "passed",
-      "checks": "spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, 4 locales \u00d7 4 widths, mobile navigation, reduced motion, remount"
+      "checks": "WebGL sculpture, inertial sculpture drag, context-loss fallback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, 4 locales \u00d7 4 widths, mobile navigation, reduced motion, remount"
     }
   ],
   "failures": [],
   "reviewDate": "2026-11-03",
   "baseCommit": "86ba72b59cbfe06062e3175e5708d5b11f4a4b0b",
-  "scope": "Built VitePress site on macOS arm64; real Playwright interaction in Chromium and WebKit. Viewports: 1440, 768, 390 and 320 CSS px; locales: en, pt-BR, es, zh-Hans.",
+  "scope": "Built VitePress site on macOS arm64; real Playwright interaction in Chromium and WebKit. Viewports: 1440, 768, 390 and 320 CSS px; locales: en, pt-BR, es, zh-Hans. Includes the chrome WebGL sculpture, borrowed-value inertial drag, context-loss fallback, and scroll-linked Morrow phones.",
   "externalServices": "Analytics blocked; existing community-list endpoint uses an empty fixture because production CORS excludes localhost. Production community submission and backend behavior are outside this review."
 }

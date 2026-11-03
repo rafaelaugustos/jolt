@@ -1,9 +1,31 @@
 <script setup lang="ts">
 import { withBase } from 'vitepress'
+import { ref } from 'vue'
+import { useMotion } from './useMotion'
 import { useWords } from './copy'
 import NativeVideo from './NativeVideo.vue'
 
 const { t, link } = useWords()
+const section = ref<HTMLElement>()
+const still = ref<HTMLElement>()
+const phone = ref<HTMLElement>()
+useMotion((runtime) => {
+  const range = { element: section.value!, start: 'start end', end: 'end start' } as const
+  runtime.scrollLinked(
+    document,
+    still.value!,
+    { y: [65, -70], rotate: [-14, -6] },
+    { range },
+  )
+  runtime.scrollLinked(
+    document,
+    phone.value!,
+    { y: [-30, 55], rotate: [9, 3] },
+    { range },
+  )
+  runtime.observeGeometry(still.value!)
+  runtime.observeGeometry(phone.value!)
+})
 const caption = [
   'Morrow · NativeScript + Jolt. iOS recording provided by its creator: animated opening, artist page, vinyl player, seeking and video transition. Original playback timing; the first 2.4 seconds of the home screen are omitted. Capture device is unspecified.',
   'Morrow · NativeScript + Jolt. Gravação iOS enviada pelo criador: abertura animada, página da artista, player em vinil, busca na faixa e transição para vídeo. Velocidade original; os primeiros 2,4 segundos da tela inicial foram removidos. Dispositivo de captura não informado.',
@@ -13,7 +35,11 @@ const caption = [
 </script>
 
 <template>
-  <section class="morrow-section section-shell" aria-labelledby="morrow-title">
+  <section
+    ref="section"
+    class="morrow-section section-shell"
+    aria-labelledby="morrow-title"
+  >
     <div class="morrow-feature">
       <div class="morrow-copy">
         <p class="eyebrow">
@@ -59,6 +85,7 @@ const caption = [
       <div class="morrow-stage">
         <div class="morrow-orbit" aria-hidden="true"></div>
         <img
+          ref="still"
           class="morrow-still"
           :src="withBase('/media/morrow-artist-ios.jpg')"
           :alt="
@@ -73,7 +100,7 @@ const caption = [
           height="1044"
           loading="lazy"
         />
-        <div class="morrow-phone">
+        <div ref="phone" class="morrow-phone">
           <NativeVideo
             name="morrow-native-ios"
             poster="/media/morrow-native-ios.jpg"

@@ -162,16 +162,18 @@
   ],
   "browserRecording": {
     "file": "motion-site-chromium.mp4",
-    "duration": 40.44,
+    "duration": 40.84,
     "dimensions": [
       1440,
       1000
     ],
-    "sha256": "fcc68ef5289ccf02c2ca0e206515b0bc1ab7375815cca3902fbc150d66ccccef",
+    "sha256": "3cfa5f8ad6774ba15466c1bc4a0e2f4f7f4d1aadb05e4845ccd3223011e40619",
     "platform": "Chromium on macOS arm64",
     "input": "Real Playwright pointer and keyboard input",
     "nativeFootage": "Previously recorded native clips and creator-supplied Morrow capture, played inside the browser",
     "originalTiming": true,
-    "fullDecode": "passed"
+    "fullDecode": "passed",
+    "interaction": "Chrome sculpture with borrowed-value inertial drag; scroll-linked Morrow phones; native-video playback; spring interruption; stagger; drag/snap; recipe filtering and clipboard actions.",
+    "rendering": "Site-owned WebGL renderer, driven by existing Jolt Web motion values. Interactive SVG fallback on context loss."
   }
 }

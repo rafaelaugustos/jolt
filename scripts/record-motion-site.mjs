@@ -28,6 +28,11 @@ await page.locator('.sculpture-turn').click()
 await page.waitForTimeout(1700)
 await page.mouse.move(920, 480, { steps: 25 })
 await page.waitForTimeout(1000)
+await page.mouse.move(1100, 340)
+await page.mouse.down()
+await page.mouse.move(1240, 365, { steps: 22 })
+await page.mouse.up()
+await page.waitForTimeout(2100)
 await page.mouse.wheel(0, 820)
 await page.waitForTimeout(1000)
 await page.locator('.morrow-phone').scrollIntoViewIfNeeded()
@@ -130,7 +135,8 @@ await writeFile(
       language: 'English',
       originalTiming: true,
       input: 'Actual Playwright pointer and keyboard input',
-      nativeFootage: 'Existing labeled iOS simulator videos played inside the website',
+      nativeFootage:
+        'Labeled iOS simulator recipe videos and creator-supplied Morrow iOS footage played inside the website',
       duration: info.format.duration,
       dimensions: [info.streams[0].width, info.streams[0].height],
       decoded: true,

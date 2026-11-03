@@ -8,6 +8,7 @@ import MotionLayout from './motion/MotionLayout.vue'
 import './showcase.css'
 import './custom.css'
 import './motion/motion.css'
+import './motion/experience.css'
 
 export default {
   extends: DefaultTheme,
