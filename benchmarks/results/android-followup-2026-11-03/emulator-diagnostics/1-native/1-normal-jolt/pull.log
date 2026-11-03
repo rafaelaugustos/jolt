@@ -1,0 +1,9 @@
+[
+  {
+    "attempt": 1,
+    "exitCode": 0,
+    "output": "/data/misc/perfetto-traces/jolt-comparison.perfetto-trace: 1 file pulled, 0 skipped. 267.6 MB/s (14138701 bytes in 0.050s)\n",
+    "expectedSha256": "1737e30a4aea511940f0e6330db8df144939080400a32717cae9b530c15dce70",
+    "receivedSha256": "1737e30a4aea511940f0e6330db8df144939080400a32717cae9b530c15dce70"
+  }
+]

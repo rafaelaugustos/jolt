@@ -1,0 +1,7 @@
+# Preserve captured bytes and source-snapshot hashes on every checkout.
+* -text
+# Android dumps and retained patches contain intentional padding/blank lines.
+*.txt -whitespace
+*.log -whitespace
+*.pbtxt -whitespace
+*.patch -whitespace

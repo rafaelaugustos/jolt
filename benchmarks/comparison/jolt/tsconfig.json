@@ -9,5 +9,10 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "include": ["app", "../../src/ios-plugin.d.ts", "../../src/android-plugin.d.ts"]
+  "include": [
+    "app",
+    "workload",
+    "../../src/ios-plugin.d.ts",
+    "../../src/android-plugin.d.ts"
+  ]
 }

@@ -2,6 +2,7 @@ import { Application, isAndroid, type View } from '@nativescript/core'
 import { animate, configure, type Animation } from '../dist/index.js'
 import { getDriver, setDriver, type Driver } from '../dist/driver/index.js'
 import { androidPlayback } from '../dist/driver/android-playback.js'
+import type { PlaybackReportEvent } from './playback-report'
 
 declare const __PLAYBACK_EFFICIENCY_BUILD__: Record<string, unknown>
 declare global {
@@ -16,10 +17,12 @@ declare global {
       ): string
       release(): void
       static memory(): string
+      static memoryDetails(): string
     }
     class BudgetProbe {
       constructor(view: android.view.View)
       finish(): string
+      cancel(): void
       static environment(view: android.view.View): string
     }
   }
@@ -64,8 +67,9 @@ export function legacyNumericDriver(views: readonly View[], base = getDriver()):
 /** All memory snapshots happen outside timing/frame windows. */
 export async function runPlaybackEfficiency(
   view: View,
-  save: (report: object) => void,
+  save: (event: PlaybackReportEvent) => Promise<unknown>,
   signal: { aborted: boolean },
+  writer: object = {},
 ) {
   if (!isAndroid) throw Error('Android only')
   const native = view.android as android.view.View
@@ -85,9 +89,7 @@ export async function runPlaybackEfficiency(
     ),
     phase: 'checking',
     checks: {} as object,
-    batches: [] as object[],
-    playback: [] as object[],
-    retention: [] as object[],
+    writer,
     error: undefined as string | undefined,
   }
   const check = () => {
@@ -106,14 +108,16 @@ export async function runPlaybackEfficiency(
   try {
     check()
     configure({ reducedMotion: 'never', timeScale: 1 })
+    await save({ type: 'start', header: report })
     report.checks = JSON.parse(probe.verify(native))
-    save(report)
+    await save({ type: 'patch', value: { checks: report.checks } })
     // Warm both implementations before rotating their measurement order.
     for (const compact of [false, true]) {
       probe.measure(native, 241, 100, compact)
       probe.release()
     }
     report.phase = 'batches'
+    await save({ type: 'patch', value: { phase: report.phase } })
     for (const points of [2, 41, 241, 601]) {
       for (let round = 0; round < 5; round++) {
         for (const compact of round % 2 ? [true, false] : [false, true]) {
@@ -122,13 +126,17 @@ export async function runPlaybackEfficiency(
           const retained = await collect()
           probe.release()
           const released = await collect()
-          report.batches.push({ round, ...measurement, before, retained, released })
-          save(report)
+          await save({
+            type: 'append',
+            collection: 'batches',
+            value: { round, ...measurement, before, retained, released },
+          })
         }
       }
     }
     // A native callback recorder observes 30-second playback; no JS frame listener.
     report.phase = 'playback'
+    await save({ type: 'patch', value: { phase: report.phase } })
     for (let round = 0; round < 3; round++) {
       for (const compact of round % 2 ? [true, false] : [false, true]) {
         check()
@@ -145,17 +153,22 @@ export async function runPlaybackEfficiency(
         ]
         await wait(30_000)
         check()
-        const frames = JSON.parse(frameProbe.finish())
+        const framesJSON = frameProbe.finish()
         frameProbe = undefined
         animations.forEach((animation) => animation.stop())
         animations = []
         const released = await collect()
-        report.playback.push({ round, compact, before, released, frames })
-        save(report)
+        await save({
+          type: 'append',
+          collection: 'playback',
+          framesJSON,
+          value: { round, compact, before, released },
+        })
       }
     }
     setDriver(base)
     report.phase = 'retention'
+    await save({ type: 'patch', value: { phase: report.phase } })
     const retainedHandles: Animation[] = []
     for (let round = 0; round < 4; round++) {
       const before = await collect()
@@ -168,23 +181,30 @@ export async function runPlaybackEfficiency(
         animation.stop()
         retainedHandles.push(animation)
       }
-      report.retention.push({
-        round,
-        handles: retainedHandles.length,
-        before,
-        after: await collect(),
+      await save({
+        type: 'append',
+        collection: 'retention',
+        value: {
+          round,
+          handles: retainedHandles.length,
+          before,
+          after: await collect(),
+        },
       })
-      save(report)
     }
     retainedHandles.length = 0
-    report.retention.push({ handles: 0, after: await collect() })
+    await save({
+      type: 'append',
+      collection: 'retention',
+      value: { handles: 0, after: await collect() },
+    })
     report.phase = 'done'
-    save(report)
+    await save({ type: 'patch', value: { phase: report.phase } })
     return report
   } catch (error) {
     report.phase = 'error'
     report.error = String(error)
-    save(report)
+    await save({ type: 'patch', value: { phase: report.phase, error: report.error } })
     throw error
   } finally {
     frameProbe?.finish()

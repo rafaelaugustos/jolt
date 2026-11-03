@@ -1,9 +1,10 @@
 name: Release
 
-# Publishing a GitHub release publishes both packages to npm.
+# Publish both npm packages from a version tag, before or with a GitHub release.
 # Pre-releases go out under the `next` tag, and under `latest` too until a
 # stable version is out. Everything else goes out under `latest`.
 on:
+  workflow_dispatch:
   release:
     types: [published]
 
@@ -11,11 +12,17 @@ permissions:
   contents: read
   id-token: write
 
+concurrency:
+  group: npm-publish
+  cancel-in-progress: false
+
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.release.tag_name || github.ref }}
       - uses: actions/setup-node@v7
         with:
           node-version: 22
@@ -26,9 +33,16 @@ jobs:
       - run: npm ci && npm ci --prefix benchmarks/angular-tools
 
       - name: Check the tag matches both packages
+        id: version
         env:
-          TAG: ${{ github.event.release.tag_name }}
+          TAG: ${{ github.event.release.tag_name || github.ref_name }}
+          EVENT_NAME: ${{ github.event_name }}
+          REF_TYPE: ${{ github.ref_type }}
         run: |
+          if [ "$EVENT_NAME" = "workflow_dispatch" ] && [ "$REF_TYPE" != "tag" ]; then
+            echo "Manual npm publication requires a version tag, not a branch."
+            exit 1
+          fi
           version="v$(node -p "require('./package.json').version")"
           if [ "$TAG" != "$version" ]; then
             echo "Release tag $TAG doesn't match package.json ($version)"
@@ -40,6 +54,11 @@ jobs:
             exit 1
           fi
 
+          case "$version" in
+            *-*) echo "dist_tag=next" >> "$GITHUB_OUTPUT" ;;
+            *) echo "dist_tag=latest" >> "$GITHUB_OUTPUT" ;;
+          esac
+
       - run: npm run typecheck
       - run: npm test
       - run: npm run docs:check-media
@@ -48,5 +67,5 @@ jobs:
       - name: Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          DIST_TAG: ${{ github.event.release.prerelease && 'next' || 'latest' }}
+          DIST_TAG: ${{ steps.version.outputs.dist_tag }}
         run: node scripts/publish-packages.mjs

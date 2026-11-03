@@ -1,0 +1,17 @@
+{
+  "build": {
+    "commit": "a75a9205a43be0d0387beb4f563f48aa9c92e425",
+    "dirty": false,
+    "jolt": "0.1.0-rc.10",
+    "core": "9.1.3",
+    "webpack": "5.101.3",
+    "nativeScriptWebpack": "5.0.38",
+    "runtime": "9.1.1",
+    "mode": "production",
+    "sourcesSha256": "bb0b6b966da946199bf72c171a243950893e3b1d7b306b520dac196fa3d35d5a"
+  },
+  "apkSha256": "e2026a613bc23e2a29264d106425739cb3e200ce08c0b6077d77dba191bad012",
+  "inputSha256": "b45206424d7da241a57e782dff11a337dc00779eaa8546d9c4fdc15e0e30bc9f",
+  "inputBytes": 1834534,
+  "traceProcessor": "Perfetto v59.1-1e9c61e98 (1e9c61e9844affd7dccd3d42d9ea9f3a3d10cf6d)"
+}

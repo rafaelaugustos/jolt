@@ -1,7 +1,7 @@
 """Collect equivalent release apps on ONE Android emulator, without screen recording.
 
 python3 benchmarks/comparison/android.py emulator-5590 OUTPUT TRACE_PROCESSOR
-The three installed apps must match scenario.json. Keep other builds/tests idle.
+Selected installed apps must match scenario.json. Keep other builds/tests idle.
 Raw traces, CSV rows, package metadata, memory samples and per-run results are retained.
 """
 import argparse
@@ -24,6 +24,39 @@ APPS = {
     'reanimated': ('com.joltcomparison', '.MainActivity'),
     'flutter': ('dev.jolt.comparison.jolt_comparison', '.MainActivity'),
 }
+
+DIAGNOSTIC_CHOICES = {
+    'diagnostic-driver': ('driver', ('jolt', 'native')),
+    'diagnostic-tile': ('tileKind', ('label', 'layout')),
+    'diagnostic-layer': ('layer', ('none', 'hardware')),
+    'diagnostic-start': ('startMode', ('immediate', 'vsync')),
+}
+
+def diagnostic_intents(values):
+    result = {}
+    for item in values:
+        key, separator, value = item.partition('=')
+        if not separator or key not in DIAGNOSTIC_CHOICES or value not in DIAGNOSTIC_CHOICES[key][1]:
+            raise ValueError('Unknown playback diagnostic: ' + item)
+        if key in result:
+            raise ValueError('Duplicate diagnostic: ' + key)
+        result[key] = value
+    return result
+
+def retrieve_trace(serial, remote, destination):
+    """Do not silently analyze an incomplete ADB transfer, even if it exits zero."""
+    expected = subprocess.check_output(['adb', '-s', serial, 'shell', 'sha256sum', remote], text=True, timeout=60).split()[0]
+    attempts = []
+    for attempt in range(3):
+        pulled = subprocess.run(['adb', '-s', serial, 'pull', remote, str(destination)],
+                                stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True, timeout=60)
+        digest = hashlib.sha256(destination.read_bytes()).hexdigest() if destination.exists() else None
+        attempts.append({'attempt': attempt+1, 'exitCode': pulled.returncode, 'output': pulled.stdout,
+                         'expectedSha256': expected, 'receivedSha256': digest})
+        destination.with_name('pull.log').write_text(json.dumps(attempts, indent=2)+'\n')
+        if pulled.returncode == 0 and digest == expected:
+            return
+    raise AssertionError('ADB trace transfer did not match the device SHA-256')
 
 def distribution(values):
     if not values:
@@ -66,10 +99,12 @@ def host_observation(during_window=False):
             name = Path(parts[1]).name
             if name in ('clang', 'clang++', 'swift-frontend', 'swift-test', 'cc1', 'rustc'):
                 busy.append({'command': name, 'cpuPercent': float(parts[0])})
+    load_limit = cpus * (2 if during_window else .75)
     return {'hostTime': time.time(), 'loadAverage1m': load, 'logicalCpus': cpus,
+        'loadAverageLimit': load_limit,
         'busyCompilers': busy, 'compilerCpuPercent': sum(p['cpuPercent'] for p in busy),
         'compilerCpuLimit': cpus * 25, 'duringWindow': during_window,
-        'quiet': (during_window or load <= cpus * .75) and sum(p['cpuPercent'] for p in busy) <= cpus * 25}
+        'quiet': load <= load_limit and sum(p['cpuPercent'] for p in busy) <= cpus * 25}
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -77,7 +112,12 @@ def main():
     parser.add_argument('output', type=Path)
     parser.add_argument('processor', type=Path)
     parser.add_argument('--repetitions', type=int)
-    parser.add_argument('--app', choices=APPS)
+    selection = parser.add_mutually_exclusive_group()
+    selection.add_argument('--app', choices=APPS)
+    selection.add_argument('--apps', choices=APPS, nargs='+')
+    parser.add_argument('--phase', choices=['normal', 'app-runtime-block-300ms', 'ui-thread-block-300ms'], action='append')
+    parser.add_argument('--jolt-intent', action='append', default=[], metavar='KEY=VALUE',
+                        help='Explicit Jolt diagnostic launch extra; retained in metadata.')
     parser.add_argument('--seconds', type=int)
     args = parser.parse_args()
     scenario = json.loads(Path(__file__).with_name('scenario.json').read_text())
@@ -86,6 +126,14 @@ def main():
     assert seconds >= 6 and repetitions > 0
     output = args.output.resolve(); output.mkdir(parents=True, exist_ok=True)
     processor = str(args.processor.resolve())
+    names = list(dict.fromkeys(args.apps or ([args.app] if args.app else APPS)))
+    selected_phases = list(dict.fromkeys(args.phase or ['normal', 'app-runtime-block-300ms', 'ui-thread-block-300ms']))
+    try:
+        jolt_intents = diagnostic_intents(args.jolt_intent)
+    except ValueError as error:
+        parser.error(str(error))
+    if jolt_intents and 'jolt' not in names:
+        parser.error('--jolt-intent requires selecting jolt')
     def adb(*words):
         return subprocess.check_output(['adb', '-s', args.serial, *words], text=True, timeout=60)
     def shell(*words):
@@ -95,7 +143,8 @@ def main():
         assert float(shell('settings', 'get', 'global', setting).strip()) == 1, setting + ' must be 1x'
     assert shell('settings', 'get', 'system', 'show_touches').strip() in ('0', 'null'), 'Disable touch overlays for primary measurements.'
     packages = {}
-    for name, (package, _) in APPS.items():
+    for name in names:
+        package, _ = APPS[name]
         info = shell('dumpsys', 'package', package)
         assert 'versionName=' in info and 'DEBUGGABLE' not in info, name + ' must be installed as a release build'
         (output/(name+'-package.txt')).write_text(info)
@@ -107,11 +156,15 @@ def main():
         'host': platform.platform(), 'device': shell('getprop'), 'display': shell('dumpsys', 'display'),
         'processor': subprocess.check_output([processor, '--version'], text=True),
         'scenario': scenario, 'windowSeconds': seconds, 'repetitions': repetitions, 'packages': packages,
-        'screenRecording': False, 'hostAcceptance': 'Before launching the app: 1-minute load <= 0.75 * logical CPUs. All samples: aggregate compiler CPU <= 25% of host capacity (100% is one logical CPU). During playback, load is diagnostic only because it includes the measured emulator. Not thermal or exclusive-host proof.', 'runs': []}
+        'selectedApps': names, 'selectedPhases': selected_phases,
+        'joltIntents': jolt_intents,
+        'collectorSha256': hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        'screenRecording': False, 'hostAcceptance': 'Before launching the app: 1-minute load <= 0.75 * logical CPUs. During playback: load <= 2 * logical CPUs, allowing emulator work but rejecting extreme host contention. All samples: aggregate compiler CPU <= 25% of host capacity (100% is one logical CPU). Not thermal or exclusive-host proof.', 'runs': []}
     if (output/'metadata.json').exists():
         previous=json.loads((output/'metadata.json').read_text())
-        for key in ('serial','packages','scenario','windowSeconds','repetitions','screenRecording','hostAcceptance'):
-            assert previous[key]==metadata[key], 'Cannot resume changed configuration: '+key
+        for key in ('serial','packages','scenario','windowSeconds','repetitions','screenRecording','hostAcceptance','selectedApps','selectedPhases','joltIntents','collectorSha256'):
+            fallback = {} if key == 'joltIntents' else list(APPS) if key == 'selectedApps' else scenario['phases'] if key == 'selectedPhases' else None
+            assert previous.get(key, fallback)==metadata[key], 'Cannot resume changed configuration: '+key
         metadata=previous
     completed={(r['app'],r['phase'],r['repetition']) for r in metadata['runs']}
     (output/'metadata.json').write_text(json.dumps(metadata, indent=2)+'\n')
@@ -139,12 +192,10 @@ def main():
             time.sleep(1)
         raise AssertionError('Could not resolve actual native controls')
 
-    names = [args.app] if args.app else list(APPS)
     for repetition in range(repetitions):
         # Rotate stack and phase ordering to expose order-related drift.
         order = names[repetition % len(names):] + names[:repetition % len(names)]
-        phases = ['normal', 'app-runtime-block-300ms', 'ui-thread-block-300ms']
-        phases = phases[repetition % 3:] + phases[:repetition % 3]
+        phases = selected_phases[repetition % len(selected_phases):] + selected_phases[:repetition % len(selected_phases)]
         for phase in phases:
             for name in order:
                 if (name,phase,repetition+1) in completed: continue
@@ -158,10 +209,17 @@ def main():
                         time.sleep(10)
                         observations = [host_observation()]
                     for other, _ in APPS.values(): shell('am', 'force-stop', other)
-                    launch = shell('am', 'start', '-W', '-n', package+'/'+activity)
+                    extras = [word for key, value in jolt_intents.items() for word in ('--es', key, value)] if name == 'jolt' else []
+                    launch = shell('am', 'start', '-W', '-n', package+'/'+activity, *extras)
                     (folder/'launch.txt').write_text(launch)
                     time.sleep(1)
                     buttons = controls()
+                    if name == 'jolt' and jolt_intents:
+                        actual = json.loads(shell('cat', '/sdcard/Android/data/'+package+'/files/jolt-frame-diagnostic.json'))
+                        assert str(actual['processId']) == shell('pidof', package).strip(), 'Stale diagnostic report'
+                        for key, value in jolt_intents.items():
+                            assert actual[DIAGNOSTIC_CHOICES[key][0]] == value, 'Diagnostic did not activate: '+key
+                        (folder/'diagnostic.json').write_text(json.dumps(actual, indent=2)+'\n')
                     resumed = [line for line in shell('dumpsys', 'activity', 'activities').splitlines()
                         if 'ResumedActivity' in line or 'Resumed:' in line]
                     assert any(package+'/' in line for line in resumed), 'Benchmark app must have focus'
@@ -205,10 +263,8 @@ def main():
                     (folder/'host.json').write_text(json.dumps(observations,indent=2)+'\n')
                     (folder/'memory-after.txt').write_text(shell('dumpsys','meminfo',package))
                     trace = folder/'trace.perfetto-trace'
-                    with trace.open('wb') as destination:
-                        pulled = subprocess.run(['adb','-s',args.serial,'exec-out','cat',remote], stdout=destination, stderr=subprocess.PIPE, timeout=60)
-                    (folder/'pull.log').write_text(pulled.stderr.decode())
-                    assert pulled.returncode == 0 and trace.stat().st_size > 1000, 'Failed to retrieve trace'
+                    retrieve_trace(args.serial, remote, trace)
+                    assert trace.stat().st_size > 1000, 'Empty trace'
                     if not all(sample['quiet'] for sample in observations):
                         with trace.open('rb') as source, gzip.open(str(trace)+'.gz','wb') as archive:
                             import shutil
@@ -229,6 +285,7 @@ def main():
                     frames = [row for row in rows if row['layer_name']==dominant]
                     inputs = query(trace, f"INCLUDE PERFETTO MODULE android.input; SELECT * FROM android_input_events WHERE process_name='{package}'", folder/'input.csv')
                     cpu = query(trace, f"SELECT sum(s.dur)/1e9 cpuSeconds FROM sched s JOIN thread t USING(utid) JOIN process p USING(upid) WHERE p.name='{package}' AND s.dur>0", folder/'cpu.csv')
+                    threads = query(trace, f"SELECT t.name,t.tid,t.is_main_thread,sum(s.dur)/1e6 cpuMs FROM sched s JOIN thread t USING(utid) JOIN process p USING(upid) WHERE p.name='{package}' AND s.dur>0 GROUP BY t.utid ORDER BY cpuMs DESC", folder/'threads.csv')
                     memory = query(trace, f"SELECT c.ts,t.name,c.value FROM counter c JOIN process_counter_track t ON c.track_id=t.id JOIN process p USING(upid) WHERE p.name='{package}' ORDER BY c.ts", folder/'memory.csv')
                     stats = query(trace,"SELECT name,idx,severity,value FROM stats WHERE value>0 AND severity IN ('error','data_loss')",folder/'trace-health.csv')
                     assert not any('overrun' in r['name'] or 'buffer_discard' in r['name'] or 'packet_loss' in r['name'] for r in stats), stats
@@ -238,11 +295,14 @@ def main():
                         'appFrameTimelineDurationMs':distribution([int(r['dur'])/1e6 for r in frames]),
                         'frameTimelineLimit':'App interval ends at GPU completion/posting, not presentation. Unavailable for the tested Flutter SurfaceView; common cadence/latency metrics use buffer fences for every stack.',
                         'appDeadlineMissed':sum('App Deadline Missed' in r['jank_type'] for r in frames) if frames else None,
+                        'bufferStuffingFrames':sum('Buffer Stuffing' in r['jank_type'] for r in frames) if frames else None,
+                        'predictionErrorFrames':sum('Prediction Error' in r['jank_type'] for r in frames) if frames else None,
                         'droppedFrames':sum(r['present_type']=='Dropped Frame' for r in frames) if frames else None,
                         'inputHandlingMs':distribution(numeric('handling_latency_dur')),
                         'inputAssociatedPresentMs':distribution(numeric('end_to_end_latency_dur')),
                         'inputPresentLimit':'OS frame association; null means unavailable. This does not measure panel latency or identify the first changed tile pixel.',
                         'cpuSeconds':float(cpu[0]['cpuSeconds']),
+                        'threadCpuMs':[{**row,'cpuMs':float(row['cpuMs'])} for row in threads],
                         'sampledRssBytes':distribution([float(r['value']) for r in memory if r['name']=='mem.rss']),
                         'traceWarnings':stats,'traceSha256':hashlib.sha256(trace.read_bytes()).hexdigest()}
                     (folder/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')

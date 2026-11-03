@@ -1,0 +1,7 @@
+Starting: Intent { cmp=dev.jolt.comparison.jolt/com.tns.NativeScriptActivity }
+Status: ok
+Activity: dev.jolt.comparison.jolt/com.tns.NativeScriptActivity
+ThisTime: 1382
+TotalTime: 1382
+WaitTime: 1395
+Complete

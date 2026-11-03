@@ -1,0 +1,59 @@
+{
+  "serialSha256": "cbeea894b1750226384fa1c2c1c854f92a302dceee509dad781c93419e6e9310",
+  "deviceFingerprint": "asus/WW_Phone/ASUS_Z017D_1:8.0.0/OPR1.170623.026/15.0410.1806.68-0:user/release-keys",
+  "apkSha256": {
+    "default": "09bcfae004c0583d448130c7cf584b4c3ce8e002e0fe0ba9108fce4092c673b3",
+    "size": "75e5b8b8a410b72e5448589930049c9a92b0ae38bd68a6d9e59f961827e4fc09"
+  },
+  "differentApkEntries": [
+    "assets/app/package.json"
+  ],
+  "collectorSha256": "09380aef45f9c015b065292d6111c67b8d6c72f8a18b4520337b36e2dc536d1c",
+  "workloadSha256": "1f8569ca76ce02fe8a4f1a25f3f1e01522a6c99a72a54fea649c782d336bd3d9",
+  "warmupBatchesExcludedPerProcess": 1,
+  "aggregation": "Median of five measured batches per fresh process; report process-level medians separately.",
+  "scope": "Fixed JSON allocation workload, not a cross-framework JS benchmark or representative application mix.",
+  "screenRecording": false,
+  "runs": [
+    {
+      "profile": "default",
+      "repetition": 1,
+      "processId": 9459,
+      "medianWallMs": 421.613906,
+      "medianProcessCpuMs": 426,
+      "pssAfterMiB": 120.5712890625,
+      "batteryBeforeC": 38.0,
+      "batteryAfterC": 38.0
+    },
+    {
+      "profile": "size",
+      "repetition": 1,
+      "processId": 9676,
+      "medianWallMs": 592.379635,
+      "medianProcessCpuMs": 743,
+      "pssAfterMiB": 102.5107421875,
+      "batteryBeforeC": 38.0,
+      "batteryAfterC": 38.2
+    },
+    {
+      "profile": "size",
+      "repetition": 2,
+      "processId": 9847,
+      "medianWallMs": 591.06177,
+      "medianProcessCpuMs": 742,
+      "pssAfterMiB": 102.0556640625,
+      "batteryBeforeC": 38.0,
+      "batteryAfterC": 38.0
+    },
+    {
+      "profile": "default",
+      "repetition": 2,
+      "processId": 10016,
+      "medianWallMs": 417.332447,
+      "medianProcessCpuMs": 420,
+      "pssAfterMiB": 121.1484375,
+      "batteryBeforeC": 38.0,
+      "batteryAfterC": 38.0
+    }
+  ]
+}

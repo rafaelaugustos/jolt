@@ -1,0 +1,143 @@
+{
+  "app": "jolt",
+  "phase": "normal",
+  "repetition": 1,
+  "layer": "dev.jolt.comparison.jolt/com.tns.NativeScriptActivity#777",
+  "presentedFrames": 717,
+  "presentationGapMs": {
+    "n": 716,
+    "p50": 16.6723335,
+    "p95": 17.802145499999998,
+    "p99": 20.357087500000013,
+    "max": 21.651541
+  },
+  "queueToPresentMs": {
+    "n": 717,
+    "p50": 32.835375,
+    "p95": 34.094483000000004,
+    "p99": 36.11567300000001,
+    "max": 38.465333
+  },
+  "presentationLimit": "SurfaceFlinger buffer present fences on the dominant app layer; emulator timestamps, not physical scanout. Queue-to-present is buffer latency, not input latency.",
+  "frameTimelineFrames": 717,
+  "frameTimelineLayer": "TX - dev.jolt.comparison.jolt/com.tns.NativeScriptActivity#777",
+  "inputActions": [
+    {
+      "hostSecondsSinceTraceReady": 2.048447666999998,
+      "button": "start"
+    },
+    {
+      "hostSecondsSinceTraceReady": 6.066968666999998,
+      "button": "start"
+    },
+    {
+      "hostSecondsSinceTraceReady": 10.081585666999999,
+      "button": "start"
+    }
+  ],
+  "appFrameTimelineDurationMs": {
+    "n": 717,
+    "p50": 8.78525,
+    "p95": 12.137975199999993,
+    "p99": 20.845319720000003,
+    "max": 21.166542
+  },
+  "frameTimelineLimit": "App interval ends at GPU completion/posting, not presentation. Unavailable for the tested Flutter SurfaceView; common cadence/latency metrics use buffer fences for every stack.",
+  "appDeadlineMissed": 0,
+  "bufferStuffingFrames": 609,
+  "predictionErrorFrames": 717,
+  "droppedFrames": 0,
+  "inputHandlingMs": {
+    "n": 6,
+    "p50": 0.0892705,
+    "p95": 0.23010474999999997,
+    "p99": 0.24608815,
+    "max": 0.250084
+  },
+  "inputAssociatedPresentMs": {
+    "n": 0,
+    "p50": null,
+    "p95": null,
+    "p99": null,
+    "max": null
+  },
+  "inputPresentLimit": "OS frame association; null means unavailable. This does not measure panel latency or identify the first changed tile pixel.",
+  "cpuSeconds": 3.728497,
+  "threadCpuMs": [
+    {
+      "name": "RenderThread",
+      "tid": "12799",
+      "is_main_thread": "0",
+      "cpuMs": 3457.299252
+    },
+    {
+      "name": "comparison.jolt",
+      "tid": "12782",
+      "is_main_thread": "1",
+      "cpuMs": 183.926248
+    },
+    {
+      "name": "binder:12782_1",
+      "tid": "12791",
+      "is_main_thread": "0",
+      "cpuMs": 24.168797
+    },
+    {
+      "name": "GPU completion",
+      "tid": "12851",
+      "is_main_thread": "0",
+      "cpuMs": 18.902117
+    },
+    {
+      "name": "binder:12782_3",
+      "tid": "12793",
+      "is_main_thread": "0",
+      "cpuMs": 18.656763
+    },
+    {
+      "name": "HWC release",
+      "tid": "12850",
+      "is_main_thread": "0",
+      "cpuMs": 16.984251
+    },
+    {
+      "name": "binder:12782_3",
+      "tid": "12840",
+      "is_main_thread": "0",
+      "cpuMs": 7.242228
+    },
+    {
+      "name": "V8 DefaultWorke",
+      "tid": "12798",
+      "is_main_thread": "0",
+      "cpuMs": 1.161167
+    },
+    {
+      "name": "FinalizerWatchd",
+      "tid": "12790",
+      "is_main_thread": "0",
+      "cpuMs": 0.082625
+    },
+    {
+      "name": "HeapTaskDaemon",
+      "tid": "12787",
+      "is_main_thread": "0",
+      "cpuMs": 0.064499
+    },
+    {
+      "name": "binder:12782_4",
+      "tid": "12807",
+      "is_main_thread": "0",
+      "cpuMs": 0.008916
+    }
+  ],
+  "sampledRssBytes": {
+    "n": 12,
+    "p50": 180662272.0,
+    "p95": 180793344.0,
+    "p99": 180793344.0,
+    "max": 180793344.0
+  },
+  "traceWarnings": [],
+  "traceSha256": "851446a642dba85a93944dbebbdbc9a1e81985a94e771a6ddeadae2e6150d130"
+}

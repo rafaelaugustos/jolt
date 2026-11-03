@@ -1,0 +1,242 @@
+{
+  "scope": "Physical Android; on-device clock and input scheduling.",
+  "identity": {
+    "serialSha256": "cbeea894b1750226384fa1c2c1c854f92a302dceee509dad781c93419e6e9310",
+    "device": {
+      "ro.product.manufacturer": "asus",
+      "ro.product.model": "ASUS_Z017DC",
+      "ro.build.version.release": "8.0.0",
+      "ro.build.version.sdk": "26",
+      "ro.build.fingerprint": "asus/WW_Phone/ASUS_Z017D_1:8.0.0/OPR1.170623.026/15.0410.1806.68-0:user/release-keys",
+      "ro.product.cpu.abilist": "arm64-v8a,armeabi-v7a,armeabi",
+      "ro.board.platform": "msm8953"
+    },
+    "packages": {
+      "jolt": [
+        "bcef6d6cf4dd78f6d3788570f0583deb503e1c58df485e2f1fe377a70a54a5a0"
+      ],
+      "reanimated": [
+        "a753c11c22d0ac02430d3a464b1f0ac4e8bad7ea5770747dcb87e7ff6ef297bb"
+      ]
+    },
+    "probeSha256": "20de241ccf86dcccd9f795d9077a95a8c519fba48c0ddd0ca049404ff1537c35",
+    "probeSourceSha256": "f52eba39407cb07dbddf8e414c9c46f3ebab5c6cf609adb8aee54d5d2341e4d7",
+    "collectorSha256": "6efba63e78a153bd17ca74d87c7632fb2aea7150424c5097f05405e9af1f5318",
+    "selectedApps": [
+      "jolt",
+      "reanimated"
+    ],
+    "selectedPhases": [
+      "normal"
+    ],
+    "repetitions": 5,
+    "windowSeconds": 30,
+    "joltIntents": {}
+  },
+  "aggregation": "Median and range of run-level statistics; no pooled frame percentile.",
+  "rows": [
+    {
+      "app": "jolt",
+      "phase": "normal",
+      "runs": 5,
+      "cpuSecondsPer30Seconds": {
+        "n": 5,
+        "median": 6.789830079975695,
+        "min": 6.739756259635431,
+        "max": 7.269824176636686
+      },
+      "windowSeconds": {
+        "n": 5,
+        "median": 30.000316239,
+        "min": 30.000292384,
+        "max": 30.000332228
+      },
+      "batteryBeforeC": {
+        "n": 5,
+        "median": 38.7,
+        "min": 38.2,
+        "max": 39.0
+      },
+      "batteryAfterC": {
+        "n": 5,
+        "median": 38.7,
+        "min": 38.2,
+        "max": 38.7
+      },
+      "presentedFrames": {
+        "n": 5,
+        "median": 1795,
+        "min": 1794,
+        "max": 1796
+      },
+      "pssAfterMiB": {
+        "n": 5,
+        "median": 88.2705078125,
+        "min": 87.9814453125,
+        "max": 88.548828125
+      },
+      "pssBeforeMiB": {
+        "n": 5,
+        "median": 96.8232421875,
+        "min": 96.51171875,
+        "max": 97.1240234375
+      },
+      "presentationGapMs": {
+        "p50": {
+          "n": 5,
+          "median": 16.708177,
+          "min": 16.7079685,
+          "max": 16.708489
+        },
+        "p95": {
+          "n": 5,
+          "median": 16.8526768,
+          "min": 16.8438384,
+          "max": 16.86658315
+        },
+        "p99": {
+          "n": 5,
+          "median": 16.908606119999998,
+          "min": 16.89826717,
+          "max": 16.91331269
+        },
+        "max": {
+          "n": 5,
+          "median": 17.035729,
+          "min": 16.991666,
+          "max": 31.01573
+        }
+      },
+      "frameReadyToPresentMs": {
+        "p50": {
+          "n": 5,
+          "median": 32.427084,
+          "min": 27.768073,
+          "max": 32.4503125
+        },
+        "p95": {
+          "n": 5,
+          "median": 32.907057,
+          "min": 30.175776,
+          "max": 32.9303384
+        },
+        "p99": {
+          "n": 5,
+          "median": 33.01846095,
+          "min": 30.600069,
+          "max": 33.03052864
+        },
+        "max": {
+          "n": 5,
+          "median": 40.3225,
+          "min": 30.792187,
+          "max": 45.209167
+        }
+      }
+    },
+    {
+      "app": "reanimated",
+      "phase": "normal",
+      "runs": 5,
+      "cpuSecondsPer30Seconds": {
+        "n": 5,
+        "median": 14.628923179593674,
+        "min": 14.529641733905981,
+        "max": 14.679722798390479
+      },
+      "windowSeconds": {
+        "n": 5,
+        "median": 30.000310822,
+        "min": 30.000148426,
+        "max": 30.000470822
+      },
+      "batteryBeforeC": {
+        "n": 5,
+        "median": 38.7,
+        "min": 38.5,
+        "max": 39.0
+      },
+      "batteryAfterC": {
+        "n": 5,
+        "median": 39.0,
+        "min": 38.5,
+        "max": 39.5
+      },
+      "presentedFrames": {
+        "n": 5,
+        "median": 1796,
+        "min": 1795,
+        "max": 1796
+      },
+      "pssAfterMiB": {
+        "n": 5,
+        "median": 85.650390625,
+        "min": 85.373046875,
+        "max": 85.84765625
+      },
+      "pssBeforeMiB": {
+        "n": 5,
+        "median": 79.86328125,
+        "min": 79.4423828125,
+        "max": 80.01171875
+      },
+      "presentationGapMs": {
+        "p50": {
+          "n": 5,
+          "median": 16.706511,
+          "min": 16.705729,
+          "max": 16.709011
+        },
+        "p95": {
+          "n": 5,
+          "median": 16.874466,
+          "min": 16.8506097,
+          "max": 16.8847029
+        },
+        "p99": {
+          "n": 5,
+          "median": 16.94614688,
+          "min": 16.89929222,
+          "max": 17.00020426
+        },
+        "max": {
+          "n": 5,
+          "median": 17.249375,
+          "min": 17.084375,
+          "max": 17.720156
+        }
+      },
+      "frameReadyToPresentMs": {
+        "p50": {
+          "n": 5,
+          "median": 25.276302,
+          "min": 16.526641,
+          "max": 25.353802
+        },
+        "p95": {
+          "n": 5,
+          "median": 30.4800515,
+          "min": 25.818177,
+          "max": 30.4932705
+        },
+        "p99": {
+          "n": 5,
+          "median": 30.605414449999998,
+          "min": 26.181653849999996,
+          "max": 30.622403799999997
+        },
+        "max": {
+          "n": 5,
+          "median": 30.761666,
+          "min": 26.594844,
+          "max": 35.909322
+        }
+      }
+    }
+  ],
+  "failedAttempts": [
+    "incomplete/4-normal-jolt-egl-startup/failure.json"
+  ],
+  "temperatureGuard": "Battery temperature <=39 C before and <=40 C after; not proof of no CPU/GPU throttling.",
+  "method": "Process user+system CPU ticks; SurfaceFlinger 127-frame history polled every500ms with overlap verification. Observer work runs outside the measured app but may affect device scheduling."
+}

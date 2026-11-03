@@ -1,0 +1,12 @@
+buffers { size_kb: 65536 fill_policy: DISCARD }
+    duration_ms: 30000
+    data_sources { config { name: "android.surfaceflinger.frametimeline" } }
+    data_sources { config { name: "android.surfaceflinger.frame" } }
+    data_sources { config { name: "linux.ftrace" ftrace_config {
+      ftrace_events: "sched/sched_switch" ftrace_events: "sched/sched_waking"
+      atrace_categories: "gfx" atrace_categories: "view" atrace_categories: "input"
+      atrace_apps: "com.joltcomparison"
+    } } }
+    data_sources { config { name: "android.input.inputevent" android_input_event_config { mode: TRACE_MODE_TRACE_ALL } } }
+    data_sources { config { name: "linux.process_stats" process_stats_config { scan_all_processes_on_start: true proc_stats_poll_ms: 1000 } } }
+    

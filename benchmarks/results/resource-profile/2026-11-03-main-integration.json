@@ -1,0 +1,57 @@
+{
+  "commit": "dafc1d67ecaa1ec17f0eb2b8e2cd3385662a4c39",
+  "baseMain": "86ba72b",
+  "apkSha256": "288cadd3ec884acf6aae494cc18be958dd2f13f6e2d3c6d4fc0ddb0434d71257",
+  "purpose": "Native behavior revalidation after updating the base; not pooled with CPU/PSS profiles.",
+  "unchangedAuditedSources": [
+    "src/engine.ts",
+    "src/driver/android.ts",
+    "platforms/android/java/org/rafaelaugusto/jolt/KeyframeFactory.java",
+    "benchmarks/android-playback-efficiency.ts",
+    "benchmarks/android-resource-profile.ts",
+    "benchmarks/playback-report.ts",
+    "demo/src/components/ReportExportLab.vue",
+    "demo/src/playback-report-writer.ts",
+    "demo/src/workers/playback-report.worker.ts"
+  ],
+  "tests": {
+    "files": 112,
+    "passed": 1691
+  },
+  "native": {
+    "main": {
+      "phase": "done",
+      "mode": "main",
+      "exports": 20,
+      "characters": 1834534,
+      "mainCpuMs": 267.431055,
+      "maxGapMs": 414.90625,
+      "mainThreadId": 3121,
+      "start": 187314.996462,
+      "end": 187711.079129,
+      "nativeMovementPx": 0
+    },
+    "worker": {
+      "phase": "done",
+      "mode": "worker",
+      "exports": 20,
+      "characters": 1834534,
+      "mainCpuMs": 24.81379,
+      "maxGapMs": 85.20008300000336,
+      "worker": {
+        "threadId": 3457,
+        "startupMs": 29.153000000007523
+      },
+      "mainThreadId": 3121,
+      "start": 190851.403714,
+      "end": 192687.31559,
+      "nativeMovementPx": -113.40003967285156
+    },
+    "cancel": {
+      "result": {
+        "phase": "cancelled"
+      },
+      "completedWorkerTerminated": true
+    }
+  }
+}
