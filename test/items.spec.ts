@@ -191,6 +191,29 @@ describe('animateItems', () => {
     expect(row.translateX).not.toBe(40)
   })
 
+  it('releases an unloaded cell before list disposal and can rebind it', () => {
+    const list = createList()
+    const unlink = animateItems(list, 'fadeInUp', { once: true })
+    const row = createView()
+    list.realize(0, row)
+    driver.advance(30)
+    row.notify({ eventName: 'unloaded', object: row })
+    expect(row.opacity).toBe(1)
+    expect(row.translateY).toBe(0)
+    row.opacity = 0.4
+    unlink()
+    expect(row.opacity).toBe(0.4)
+
+    const again = animateItems(list, 'fadeInUp', { once: true })
+    list.realize(0, row)
+    driver.advance(30)
+    row.notify({ eventName: 'unloaded', object: row })
+    list.realize(0, row)
+    expect(row.opacity).toBe(1)
+    again()
+    expect(row.listenerCount('unloaded')).toBe(0)
+  })
+
   it('cleans up when the list unloads', () => {
     const list = createList()
     animateItems(list, 'fadeInUp')
@@ -202,6 +225,28 @@ describe('animateItems', () => {
     expect(driver.last('opacity').stopped).toBe(true)
     expect(row.opacity).toBe(1)
     expect(list.listenerCount('itemLoading')).toBe(0)
+  })
+
+  it('cancels deferred entrances when a row is rebound or released before load', async () => {
+    const list = createList()
+    const row = createView().unload()
+    const unlink = animateItems(list, 'fadeInUp')
+    list.realize(0, row)
+    list.realize(1, row)
+    row.load()
+    expect(playedFor(row)).toHaveLength(2)
+    unlink()
+
+    const pending = createView().unload()
+    const again = animateItems(list, 'fadeInUp')
+    list.realize(2, pending)
+    again()
+    pending.load()
+    await flush()
+    expect(playedFor(pending)).toHaveLength(0)
+    expect(pending.opacity).toBe(1)
+    expect(pending.translateY).toBe(0)
+    expect(pending.listenerCount('loaded')).toBe(0)
   })
 
   it('keeps other animations on a row and takes over only its own properties', () => {

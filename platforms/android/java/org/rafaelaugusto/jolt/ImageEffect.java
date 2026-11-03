@@ -49,6 +49,9 @@ public final class ImageEffect {
     private int pointer = -1;
     private float startX, startY, rawX, rawY;
     private long frames, lastFrame, longestFrame;
+    // Bounded native draw-callback samples; no bridge call or allocation per frame.
+    private final long[] frameIntervals = new long[512];
+    private int frameIntervalCount, frameIntervalCursor;
     private String failureReason="";
     private final Path contentClip=new Path();
 
@@ -151,6 +154,12 @@ public final class ImageEffect {
     public float getProgress() { return progress; }
     public long getFrames() { return frames; }
     public long getLongestFrameNanos() { return longestFrame; }
+    public double[] getFrameIntervalsMs() {
+        double[] result = new double[frameIntervalCount];
+        int start = (frameIntervalCursor - frameIntervalCount + frameIntervals.length) % frameIntervals.length;
+        for(int i=0;i<result.length;i++) result[i]=frameIntervals[(start+i)%frameIntervals.length]/1e6;
+        return result;
+    }
     public long getTextureBytes() { return source==null?0:(long)source.getAllocationByteCount()+(destination==null?0:destination.getAllocationByteCount())+(placeholderBitmap==null?0:placeholderBitmap.getAllocationByteCount()); }
     public boolean isPaused() { return paused; }
 
@@ -277,7 +286,12 @@ public final class ImageEffect {
         @Override public int getIntrinsicWidth(){return width;}
         @Override public int getIntrinsicHeight(){return height;}
         @Override public void draw(Canvas canvas){
-            long now=System.nanoTime(); if(lastFrame!=0 && animator!=null && !paused) longestFrame=Math.max(longestFrame,now-lastFrame);
+            long now=System.nanoTime(); if(lastFrame!=0 && animator!=null && !paused) {
+                long interval=now-lastFrame; longestFrame=Math.max(longestFrame,interval);
+                frameIntervals[frameIntervalCursor]=interval;
+                frameIntervalCursor=(frameIntervalCursor+1)%frameIntervals.length;
+                frameIntervalCount=Math.min(frameIntervalCount+1,frameIntervals.length);
+            }
             lastFrame=now; frames++;
             canvas.drawPath(contentClip,paint);
         }

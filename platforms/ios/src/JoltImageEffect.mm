@@ -39,7 +39,10 @@ typedef struct {
     float progress, amplitude, radius, seed, mode;
 } JoltImageParams;
 
-@interface JoltImageEffect () <MTKViewDelegate, UIGestureRecognizerDelegate>
+@interface JoltImageEffect () <MTKViewDelegate, UIGestureRecognizerDelegate> {
+    double _frameIntervals[512];
+    NSUInteger _frameIntervalCount, _frameIntervalCursor;
+}
 @property(nonatomic, weak) UIImageView *image;
 @property(nonatomic, strong) UIImage *original;
 @property(nonatomic, strong) MTKView *surface;
@@ -60,6 +63,12 @@ typedef struct {
 @end
 
 @implementation JoltImageEffect
+- (NSArray<NSNumber *> *)frameIntervalsMs {
+    NSMutableArray<NSNumber *> *result=[NSMutableArray arrayWithCapacity:_frameIntervalCount];
+    NSUInteger start=(_frameIntervalCursor+512-_frameIntervalCount)%512;
+    for(NSUInteger i=0;i<_frameIntervalCount;i++) [result addObject:@(_frameIntervals[(start+i)%512]*1000)];
+    return result;
+}
 + (instancetype)createWithView:(UIImageView *)view destination:(UIImage *)destination mode:(NSInteger)mode
                        originX:(double)x originY:(double)y amplitude:(double)amplitude radius:(double)radius
                       duration:(double)duration seed:(double)seed listener:(void (^)(BOOL,double))listener {
@@ -201,7 +210,13 @@ typedef struct {
 - (void)drawInMTKView:(MTKView *)view {
     if(self.disposed) return;
     double now=CACurrentMediaTime();
-    if(self.previousFrame>0 && self.playing) self.longestFrame=MAX(self.longestFrame,now-self.previousFrame);
+    if(self.previousFrame>0 && self.playing) {
+        double interval=now-self.previousFrame;
+        self.longestFrame=MAX(self.longestFrame,interval);
+        _frameIntervals[_frameIntervalCursor]=interval;
+        _frameIntervalCursor=(_frameIntervalCursor+1)%512;
+        _frameIntervalCount=MIN(_frameIntervalCount+1,512);
+    }
     self.previousFrame=now;self.frames++;
     [self advance:now];
     if(self.disposed) return;

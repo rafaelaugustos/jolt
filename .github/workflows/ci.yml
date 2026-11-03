@@ -18,10 +18,11 @@ jobs:
           cache-dependency-path: |
             package-lock.json
             benchmarks/native-app/package-lock.json
-      - run: npm ci
+      - run: npm ci && npm ci --prefix benchmarks/angular-tools
       - run: npm ci
         working-directory: benchmarks/native-app
       - run: npm run build
+      - run: npm run parity:check
       - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run package:check
       - run: npm run package:nuxt:check
@@ -39,7 +40,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
+      - run: npm ci && npm ci --prefix benchmarks/angular-tools
       - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run web:parity:typecheck
       - run: npm run web:platforms:typecheck
@@ -100,7 +101,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-      - run: npm ci
+      - run: npm ci && npm ci --prefix benchmarks/angular-tools
       - run: npm run docs:check-media
       - run: npm run format:check
       - run: npm run typecheck
@@ -119,6 +120,7 @@ jobs:
       - run: python3 benchmarks/verify-live-color.py
       - run: python3 benchmarks/verify-circle-math.py
       - run: python3 benchmarks/verify-sensor-math.py --web
+      - run: python3 -m unittest discover -s benchmarks/comparison -p 'test_*.py'
       - run: python3 -m unittest discover -s benchmarks -p 'test_sensor_*.py'
       - run: python3 -m unittest discover -s benchmarks -p 'test_scroll_header_text.py'
       - run: python3 -m unittest discover -s benchmarks -p 'test_scroll_header_accessibility.py'

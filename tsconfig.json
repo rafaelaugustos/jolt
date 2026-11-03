@@ -45,6 +45,7 @@
   },
   "include": ["src", "test"],
   "exclude": [
+    "src/angular",
     "test/fixtures/portable-consumer",
     "src/web",
     "test/fixtures/package-consumers"

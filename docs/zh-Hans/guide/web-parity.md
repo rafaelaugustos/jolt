@@ -1,5 +1,9 @@
 # Web 重力、触觉、传感器、玻璃与图库
 
+## RC.10 审计 {#rc10-audit}
+
+已发布的 RC.10 包含 PR #358、#365、#372 和 #379。[完整导出矩阵](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/capability-matrix.json)和[契约审计](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-web-audit.md)区分 API 可用性与功能对等性。`npm run parity:check` 检查所有运行时导出和关键帧属性。路径运动、3D 旋转、阴影/深度、回放/检查器及真实移动浏览器硬件验证仍存在差距。下方桌面录制不能证明真实设备验收已完成。
+
 **自 0.1.0-rc.10 起可用。** 本批次完成 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 下的 [#373–#378](https://github.com/rafaelaugustos/jolt/issues/373)，并推进 [#117](https://github.com/rafaelaugustos/jolt/issues/117) 的 Web 部分。SSR 可安全导入 `/web`；请在客户端创建 runtime 和已挂载的目标。通过 scope 创建的资源随其暂停、恢复与销毁。
 
 ```ts
@@ -153,3 +157,5 @@ backButton.onclick = () => {
 ## 验证与复现 {#validation}
 
 运行 `npm run web:parity:typecheck`、`npm run web:parity:test`、`npm run build`、`npm run core:check`、`npm run package:check`、`python3 benchmarks/verify-sensor-math.py --web`、`npm run docs:check-media` 与 `npm run docs:build`。浏览器测试覆盖 Chromium、Firefox 和 WebKit。注入的权限/传感器/振动输入仅为测试 fixture，不是物理设备证据。通过 `node benchmarks/web-parity/record.mjs` 复现真实浏览器录像；原生捕获见 `CONTRIBUTING.md`。Mavis 采用工作保持独立。
+
+[移动 Web 验证](mobile-web.md)

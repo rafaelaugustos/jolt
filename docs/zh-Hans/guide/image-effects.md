@@ -71,3 +71,9 @@ transition.finish() // completes at the current direction's endpoint
 [演示](./demo) 图像实验室包括点击原点、原生拖动、播放、反向、擦洗、恢复、四种拉伸模式、圆形边框和简化运动控件。风景源溶解成带有透明角的肖像艺术品。
 
 <Clip name="web-image-surfaces-chromium" :width="900" caption="macOS 上的 Chromium，英文界面：真实点击展示播放、暂停/恢复、替换、减少动态效果和清理，保持原速。浏览器录制，不代表真机性能。" />
+
+## 渲染范围与原生测量
+
+后端支持静态图片。应用生成的一次性快照保持冻结；此 API 不提供实时子树、连续快照、背景采样、视频/相机/WebView 或托管 SwiftUI 滤镜。[渲染报告](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/image-renderer.md)说明坐标、资源所有权、回退、绘制流程和复现方法。`diagnostics.frameIntervalsMs` 最多保留 512 个活动原生绘制回调间隔，单位毫秒，排除暂停空隙。它不测量 GPU 或实际呈现时间。
+
+<Clip name="image-profile-ios" caption="iPhone 17 模拟器，iOS 26.2，英文界面。实际点击触发涟漪、两个并发溶解和取消。原速录像；计时使用单独的不录屏运行，不代表物理设备性能。" />

@@ -111,3 +111,9 @@ The recordings cover 2.5× zoom, reset, closing while zoomed, return to the move
 <Clip name="gallery-large-text-talkback-android" caption="Android 16 / API 36 emulator, English: actual TalkBack with system font scale 2, reader traversal, two-finger panel scrolling, zoom/reset and four returns. Original-speed native recording without speech audio; native traces verify focus and text geometry. This is emulator correctness evidence, not physical Android or performance measurement." />
 
 [Reproduction and combined evidence](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md#screen-readers-with-enlarged-text-2026-11-01). Other font categories, landscape with a reader, locales, physical Android and the broader lifecycle/performance matrix remain in [#117](https://github.com/rafaelaugustos/jolt/issues/117).
+
+[Complete native recipes](recipes.md)
+
+## Current emulator acceptance {#current-emulator-acceptance}
+
+The 2026-11-03 candidate repeats interruption, return, rotation, enlarged-text and cleanup checks on iOS Simulator and Android Emulator, as requested by the maintainer. Repeated native interactions also retain process-memory samples. The 30-round scroll run shows allocation and collection rather than monotonic growth; finite samples do not prove absence of leaks. [Raw results and limits](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/results/acceptance-2026-11-03/README.md). Physical-device acceptance remains unverified for this candidate.

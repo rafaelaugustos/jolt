@@ -84,3 +84,32 @@ Os demos revisados abaixo mostram mapeamentos e composição de scroll nativos e
 <Clip name="scroll-values-android" caption="Demo existente no emulador Android, velocidade original: rolagem real controla translação, escala, opacidade e progresso do header. Referência nativa." />
 
 Execute `npm run web:support:typecheck` e `npm run web:support:test`. A suíte verifica CSS real em Chromium, Firefox e WebKit, modo automático/fallback, press, geometria, lifecycle, frames ociosos, teclado/roda e toque via Chromium. Testes de tempo oculto controlam o sinal de visibilidade/scheduler, sem medir background físico. Consumidores empacotados Web/Vue/SSR/nativos e suítes existentes continuam obrigatórios. Veja o [relatório](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/web-support.md).
+
+## Scroll relativo a um elemento {#element-range}
+
+Pendente para a próxima release. Substitua o cálculo manual da faixa e a recriação do vínculo por uma seção de referência:
+
+```ts
+const linked = motion.scrollLinked(
+  document,
+  ribbon,
+  { x: [0, -220] },
+  {
+    range: { element: section, start: 'start end', end: 'end start' },
+  },
+)
+// The defaults allow: range: { element: section }
+// Cleanup: linked.dispose() — useWebMotion scopes own this automatically.
+```
+
+O padrão é `start end` → `end start`: começa quando a seção entra na viewport e termina quando sai. Cada alinhamento indica uma borda do elemento e uma borda da viewport; `center` também é aceito. A faixa inicial pode ser negativa para uma seção já visível. Faixas horizontais respeitam a direção LTR/RTL da origem.
+
+Mudanças de tamanho, texto, fontes, inserção de filhos e estilos/classes relevantes atualizam o mesmo vínculo com observadores agrupados. Não há loop de frames em repouso. `linked.refresh()` também refaz a medida; descartar o vínculo, escopo ou runtime remove os observadores. Se a referência for desmontada ou ficar inválida, o vínculo é liberado e um erro é informado.
+
+Use uma seção sem transformação nem posição sticky como referência e anime um filho ou outro elemento. A referência deve permanecer dentro da origem escolhida, sem atravessar outro contêiner de scroll. Ancestrais transformados/fixed/sticky, zoom e transições animadas de layout ficam fora deste contrato. Para mudanças em stylesheet/CSSOM sem alteração observável de caixa ou DOM, chame `linked.refresh()`. Faixas numéricas mantêm o comportamento anterior.
+
+<Clip name="web-element-range-chromium" caption="Chromium desktop · interface em inglês, velocidade original. Scroll e cliques reais mostram entrada/saída da seção, inserção acima dela, redimensionamento, diagnóstico de geometria e recuperação com observeGeometry. Gravação do navegador; a referência nativa acima mostra composição por scroll com sua própria API." />
+
+## Diagnóstico de conflitos da superfície {#surface-diagnostics}
+
+Conflitos de propriedade agora informam `WebSurfaceConflictError`, um seletor do elemento e entradas `changes` com `property`, `previous` e `current`. Esses campos guardam strings, sem reter nós DOM. Uma mudança de origem causada pelo tamanho inclui as dimensões anteriores/atuais e orienta usar `observeGeometry()` antes do layout ou `refresh()` após uma mudança síncrona. Escritas externas de estilo continuam exigindo liberação/recriação; o diagnóstico não as aceita silenciosamente.

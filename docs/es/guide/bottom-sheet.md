@@ -63,3 +63,5 @@ El controlador proporciona `isOpen`, `snapPoint`, `visibleHeight`, `paused` y `d
 La descarga libera la sesión de gestos nativos, enlaces y suscripción de teclado; recargar se vuelve a adjuntar a las mismas vistas. Para una instantánea de contenido, el contenido medido se alinea en la parte superior para que una lista corta conserve su altura intrínseca. La eliminación restaura esa alineación y las otras propiedades de diseño/accesibilidad que posee la receta. No animes simultáneamente su panel Y o la opacidad del fondo con otro propietario.
 
 La primera versión admite un panel en la página y el núcleo vertical `ScrollView`. La presentación modal nativa, los complementos de lista virtualizados y la transferencia de desplazamiento entre ventanas necesitan adaptadores separados. Los controles nativos ejercen acciones personalizadas y manejo de enfoque; una auditoría completa de navegación VoiceOver/TalkBack en dispositivos físicos es independiente de estas grabaciones del simulador.
+
+[Recetas nativas completas](recipes.md)

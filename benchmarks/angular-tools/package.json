@@ -1,0 +1,10 @@
+{
+  "name": "jolt-angular-build-tools",
+  "private": true,
+  "type": "module",
+  "devDependencies": {
+    "@angular/compiler": "22.2.4",
+    "@angular/compiler-cli": "22.2.4",
+    "typescript": "6.0.3"
+  }
+}

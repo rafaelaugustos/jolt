@@ -63,3 +63,5 @@ The controller provides `isOpen`, `snapPoint`, `visibleHeight`, `paused` and `di
 Unloading releases the native gesture session, bindings and keyboard subscription; reloading reattaches to the same views. For a content snap, the measured content is aligned to the top so a short list retains its intrinsic height. Disposal restores that alignment and the other layout/accessibility properties the recipe owns. Do not simultaneously animate its panel Y or backdrop opacity with another owner.
 
 The first version supports an in-page panel and the core vertical `ScrollView`. Native modal presentation, virtualized list plugins and scroll handoff across windows need separate adapters. Native checks exercise custom actions and focus handling; a full VoiceOver/TalkBack navigation audit on physical devices is separate from these simulator recordings.
+
+[Complete native recipes](recipes.md)

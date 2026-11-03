@@ -17,6 +17,7 @@ export interface ImageRenderer {
   readonly frames: number
   readonly textureBytes: number
   readonly longestFrameMs: number
+  readonly frameIntervalsMs: readonly number[]
   play(endpoint: number): void
   pause(): void
   resume(): void
@@ -59,6 +60,10 @@ export function createImageRenderer(
       },
       get longestFrameMs() {
         return native.longestFrame * 1000
+      },
+      get frameIntervalsMs() {
+        const samples = native.frameIntervalsMs
+        return Array.from({ length: samples.count }, (_, i) => samples.objectAtIndex(i))
       },
       play: (p) => native.play(p),
       pause: () => native.pause(),
@@ -115,6 +120,10 @@ export function createImageRenderer(
       },
       get longestFrameMs() {
         return native.getLongestFrameNanos() / 1e6
+      },
+      get frameIntervalsMs() {
+        const samples = native.getFrameIntervalsMs()
+        return Array.from({ length: samples.length }, (_, i) => samples[i]!)
       },
       play: (p) => native.play(p),
       pause: () => native.pause(),

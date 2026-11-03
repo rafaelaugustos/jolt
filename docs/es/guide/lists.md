@@ -44,3 +44,7 @@ unlink() // stop listening and settle every row at its end values
 ```
 
 Descargar la lista también elimina el efecto, por lo que una página almacenada en caché necesita una nueva llamada cuando regresa. Las filas se detienen en los valores que muestran y luego se mueven a los valores finales que la animación habría alcanzado, de modo que ninguna fila quede medio desvanecida. Los valores finales que dependen de la vista, como los fotogramas clave `null`, las animaciones relativas y las rutas de movimiento, se dejan donde se detuvieron.
+
+[Recetas nativas completas](recipes.md)
+
+Cada fila libera su animación de entrada al descargarse y estabiliza sus propiedades. El vínculo no retiene celdas fuera de pantalla hasta descargar toda la lista.

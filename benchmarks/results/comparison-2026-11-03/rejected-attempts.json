@@ -1,0 +1,1375 @@
+{
+  "scope": "Exclusion records only. Rejected raw traces remain in the task workspace under .local/comparison-primary/rejected; accepted raw traces are committed beside their summaries. No rejected window was promoted into the primary set.",
+  "attempts": [
+    {
+      "attempt": "1-app-runtime-block-300ms-flutter-1793713758351245000",
+      "host": [
+        {
+          "hostTime": 1793713714.556809,
+          "loadAverage1m": 9.240234375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793713728.949837,
+          "loadAverage1m": 13.57666015625,
+          "logicalCpus": 16,
+          "busyCompilers": [
+            {
+              "command": "swift-test",
+              "cpuPercent": 27.5
+            }
+          ],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793713738.917637,
+          "loadAverage1m": 15.86083984375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793713748.914617,
+          "loadAverage1m": 14.6259765625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793713754.2687511,
+          "loadAverage1m": 14.97607421875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "04fd8614ea95e936dbc5a89e3f5d6ef5cd6ab3eeabaa3ef5e0d677c910a658de",
+      "compressedBytes": 6196338
+    },
+    {
+      "attempt": "1-app-runtime-block-300ms-jolt-1793713540205061000",
+      "host": [
+        {
+          "hostTime": 1793713497.7500238,
+          "loadAverage1m": 9.8359375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793713511.5886521,
+          "loadAverage1m": 8.39501953125,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793713521.5952158,
+          "loadAverage1m": 7.77978515625,
+          "logicalCpus": 16,
+          "busyCompilers": [
+            {
+              "command": "swift-test",
+              "cpuPercent": 12.7
+            }
+          ],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793713531.6057642,
+          "loadAverage1m": 9.66455078125,
+          "logicalCpus": 16,
+          "busyCompilers": [
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 33.4
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 34.6
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 32.6
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 35.9
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 34.3
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 34.3
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 33.6
+            }
+          ],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793713536.8993359,
+          "loadAverage1m": 10.251953125,
+          "logicalCpus": 16,
+          "busyCompilers": [
+            {
+              "command": "swift-test",
+              "cpuPercent": 88.8
+            }
+          ],
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "9aa6dfd1125ccf56d0cb4d92d036b20199b920de31054ceb16c282052a11d547",
+      "compressedBytes": 7633439
+    },
+    {
+      "attempt": "1-app-runtime-block-300ms-jolt-1793713581881077000",
+      "host": [
+        {
+          "hostTime": 1793713540.387038,
+          "loadAverage1m": 10.251953125,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793713554.246492,
+          "loadAverage1m": 11.3896484375,
+          "logicalCpus": 16,
+          "busyCompilers": [
+            {
+              "command": "swift-test",
+              "cpuPercent": 40.8
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 34.0
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 31.9
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 33.0
+            }
+          ],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793713564.245047,
+          "loadAverage1m": 10.4873046875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793713574.242659,
+          "loadAverage1m": 11.177734375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793713579.5264142,
+          "loadAverage1m": 11.5634765625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        }
+      ],
+      "compressedTraceSha256": "305e413adfe8df6606dab18cef04de56992606bcd88e1d9856d2c98c93921746",
+      "compressedBytes": 7625507
+    },
+    {
+      "attempt": "1-app-runtime-block-300ms-jolt-1793713623110681000",
+      "host": [
+        {
+          "hostTime": 1793713582.0002549,
+          "loadAverage1m": 10.79736328125,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793713595.53914,
+          "loadAverage1m": 9.6044921875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793713605.537365,
+          "loadAverage1m": 10.33740234375,
+          "logicalCpus": 16,
+          "busyCompilers": [
+            {
+              "command": "swift-test",
+              "cpuPercent": 98.8
+            }
+          ],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793713615.533138,
+          "loadAverage1m": 11.84814453125,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793713620.7832131,
+          "loadAverage1m": 11.21728515625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        }
+      ],
+      "compressedTraceSha256": "74a201ec411191e6cc4e09c0b46d6f39eb7bade54305c9775de9897fede6e412",
+      "compressedBytes": 7401844
+    },
+    {
+      "attempt": "1-normal-flutter-1793713254058933000",
+      "host": [
+        {
+          "hostTime": 1793713210.574686,
+          "loadAverage1m": 10.923828125,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793713224.774702,
+          "loadAverage1m": 9.84619140625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793713234.774234,
+          "loadAverage1m": 9.36669921875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793713244.79235,
+          "loadAverage1m": 8.6884765625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793713250.1584508,
+          "loadAverage1m": 8.55322265625,
+          "logicalCpus": 16,
+          "busyCompilers": [
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 92.7
+            }
+          ],
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "ee046736317afff1b780847c8fce793bf205c3093ce0dfdd6d30b7770791eb7e",
+      "compressedBytes": 6470182
+    },
+    {
+      "attempt": "1-normal-flutter-1793713298631677000",
+      "host": [
+        {
+          "hostTime": 1793713254.227217,
+          "loadAverage1m": 9.7099609375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793713268.397412,
+          "loadAverage1m": 16.41455078125,
+          "logicalCpus": 16,
+          "busyCompilers": [
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 69.9
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 70.3
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 71.2
+            }
+          ],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793713278.4102,
+          "loadAverage1m": 16.087890625,
+          "logicalCpus": 16,
+          "busyCompilers": [
+            {
+              "command": "swift-test",
+              "cpuPercent": 101.8
+            }
+          ],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793713288.410059,
+          "loadAverage1m": 17.73291015625,
+          "logicalCpus": 16,
+          "busyCompilers": [
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 57.7
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 61.7
+            }
+          ],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793713293.8367739,
+          "loadAverage1m": 19.99609375,
+          "logicalCpus": 16,
+          "busyCompilers": [
+            {
+              "command": "swift-test",
+              "cpuPercent": 88.3
+            }
+          ],
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "be0ba2fc34d660a510f8809ad7fcfc569ad84587f9d55d2303df74a33695fd2b",
+      "compressedBytes": 5473676
+    },
+    {
+      "attempt": "1-normal-flutter-1793713412147965000",
+      "host": [
+        {
+          "hostTime": 1793713369.102623,
+          "loadAverage1m": 11.58154296875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793713382.900373,
+          "loadAverage1m": 15.6982421875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793713392.901454,
+          "loadAverage1m": 18.31298828125,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793713402.902422,
+          "loadAverage1m": 19.30517578125,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793713408.231393,
+          "loadAverage1m": 18.0791015625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "9192d126193ce76a1693dc8e1e79bb076ee312aea52ec7bad7794b1648f31e8f",
+      "compressedBytes": 6268870
+    },
+    {
+      "attempt": "1-normal-reanimated-1793712738101057000",
+      "host": [
+        {
+          "hostTime": 1793712696.4087338,
+          "loadAverage1m": 10.35107421875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793712710.444431,
+          "loadAverage1m": 8.62353515625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793712720.445778,
+          "loadAverage1m": 8.6806640625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793712730.4431229,
+          "loadAverage1m": 12.0830078125,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793712735.708454,
+          "loadAverage1m": 12.796875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "5ee89a142918e3ce281417cd40a9b738aeb4d37ff4c1591239c4042258cc56f7",
+      "compressedBytes": 7747649
+    },
+    {
+      "attempt": "1-normal-reanimated-1793712962188272000",
+      "host": [
+        {
+          "hostTime": 1793712918.9017951,
+          "loadAverage1m": 10.3369140625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793712932.774571,
+          "loadAverage1m": 11.4599609375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793712942.7593448,
+          "loadAverage1m": 12.625,
+          "logicalCpus": 16,
+          "busyCompilers": [
+            {
+              "command": "swift-test",
+              "cpuPercent": 42.9
+            }
+          ],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793712952.7658088,
+          "loadAverage1m": 14.31884765625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793712958.112776,
+          "loadAverage1m": 13.412109375,
+          "logicalCpus": 16,
+          "busyCompilers": [
+            {
+              "command": "swift-test",
+              "cpuPercent": 98.9
+            }
+          ],
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "13c496579e77f55e8ba2e61a589c2f9cc636ba9b9eb6348e99231cb77f9d33c1",
+      "compressedBytes": 7750359
+    },
+    {
+      "attempt": "1-ui-thread-block-300ms-flutter-1793713974501157000",
+      "host": [
+        {
+          "hostTime": 1793713930.503113,
+          "loadAverage1m": 7.54931640625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793713944.344754,
+          "loadAverage1m": 9.60546875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793713954.3788958,
+          "loadAverage1m": 8.67578125,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793713964.366981,
+          "loadAverage1m": 12.837890625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793713969.721796,
+          "loadAverage1m": 13.6513671875,
+          "logicalCpus": 16,
+          "busyCompilers": [
+            {
+              "command": "swift-test",
+              "cpuPercent": 84.8
+            }
+          ],
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "b766f51cc1c09026a0b8d4c3c18d67e8980df54303bd2a14224b896078f48dec",
+      "compressedBytes": 6034851
+    },
+    {
+      "attempt": "2-app-runtime-block-300ms-jolt-1793715093963661000",
+      "host": [
+        {
+          "hostTime": 1793715051.970591,
+          "loadAverage1m": 11.1005859375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793715065.7864451,
+          "loadAverage1m": 12.21826171875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793715075.787222,
+          "loadAverage1m": 10.88720703125,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793715085.7892501,
+          "loadAverage1m": 10.7216796875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793715091.072253,
+          "loadAverage1m": 11.06396484375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        }
+      ],
+      "compressedTraceSha256": "d46b47414dd390753a44e7d08f7e519a617d534829d7c10b664659d66f81733d",
+      "compressedBytes": 7452920
+    },
+    {
+      "attempt": "2-app-runtime-block-300ms-reanimated-1793714092661636000",
+      "host": [
+        {
+          "hostTime": 1793714050.070173,
+          "loadAverage1m": 8.517578125,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793714064.206424,
+          "loadAverage1m": 9.84912109375,
+          "logicalCpus": 16,
+          "busyCompilers": [
+            {
+              "command": "swift-test",
+              "cpuPercent": 73.6
+            },
+            {
+              "command": "swift-test",
+              "cpuPercent": 16.7
+            }
+          ],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793714074.2081861,
+          "loadAverage1m": 9.90673828125,
+          "logicalCpus": 16,
+          "busyCompilers": [
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 72.9
+            }
+          ],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793714084.208608,
+          "loadAverage1m": 8.91796875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793714089.526484,
+          "loadAverage1m": 8.44384765625,
+          "logicalCpus": 16,
+          "busyCompilers": [
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 99.7
+            }
+          ],
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "66d093bd6acd47d0a068f2518d0f3ef366dccff51a819443e2ec751e4e8fabc7",
+      "compressedBytes": 7736422
+    },
+    {
+      "attempt": "2-app-runtime-block-300ms-reanimated-1793714156909128000",
+      "host": [
+        {
+          "hostTime": 1793714102.879811,
+          "loadAverage1m": 8.11865234375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793714116.779288,
+          "loadAverage1m": 6.87939453125,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793714126.844137,
+          "loadAverage1m": 11.0869140625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793714136.7950048,
+          "loadAverage1m": 15.7138671875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793714142.072575,
+          "loadAverage1m": 15.9765625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "d4b8c2122d203addcca1fbd6237ec565c0710e20e0397e246dfcbe3e545c7e4c",
+      "compressedBytes": 7321225
+    },
+    {
+      "attempt": "2-app-runtime-block-300ms-reanimated-1793714541513203000",
+      "host": [
+        {
+          "hostTime": 1793714499.719723,
+          "loadAverage1m": 10.8505859375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793714513.685738,
+          "loadAverage1m": 10.1572265625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "quiet": true
+        },
+        {
+          "hostTime": 1793714523.690222,
+          "loadAverage1m": 10.833984375,
+          "logicalCpus": 16,
+          "busyCompilers": [
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 62.2
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 60.5
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 64.8
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 55.0
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 60.9
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 64.2
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 63.7
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 59.1
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 56.6
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 30.9
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 28.0
+            }
+          ],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793714533.681622,
+          "loadAverage1m": 16.78466796875,
+          "logicalCpus": 16,
+          "busyCompilers": [
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 98.4
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 98.8
+            }
+          ],
+          "quiet": false
+        },
+        {
+          "hostTime": 1793714539.021678,
+          "loadAverage1m": 16.3212890625,
+          "logicalCpus": 16,
+          "busyCompilers": [
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 98.8
+            },
+            {
+              "command": "swift-frontend",
+              "cpuPercent": 98.7
+            }
+          ],
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "502ab7b85e2f58e30e2f59755ab8e692e8d05a1b6df0f8f4a9a4a0007697f7bd",
+      "compressedBytes": 7395221
+    },
+    {
+      "attempt": "2-app-runtime-block-300ms-reanimated-1793714915068470000",
+      "host": [
+        {
+          "hostTime": 1793714871.9245179,
+          "loadAverage1m": 10.74609375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793714885.961695,
+          "loadAverage1m": 9.955078125,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793714895.963828,
+          "loadAverage1m": 11.77783203125,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793714905.974259,
+          "loadAverage1m": 11.9013671875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793714911.5085921,
+          "loadAverage1m": 14.44677734375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "2289b25154efe770dedf289944e5a3fbfc1113df67703b452340f1d37f9eb723",
+      "compressedBytes": 7712619
+    },
+    {
+      "attempt": "2-normal-flutter-1793715491086264000",
+      "host": [
+        {
+          "hostTime": 1793715448.897095,
+          "loadAverage1m": 6.91162109375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793715463.380639,
+          "loadAverage1m": 24.83935546875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793715473.352882,
+          "loadAverage1m": 29.17822265625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793715483.30901,
+          "loadAverage1m": 27.8466796875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793715488.628717,
+          "loadAverage1m": 26.25732421875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "293b3750328d60a0c00bfd3a523b6274cc7893c7ca3ff86bccf30d1a92845bb8",
+      "compressedBytes": 5889372
+    },
+    {
+      "attempt": "2-normal-flutter-1793715622969567000",
+      "host": [
+        {
+          "hostTime": 1793715581.843895,
+          "loadAverage1m": 11.0224609375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793715595.815948,
+          "loadAverage1m": 15.80712890625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793715605.793327,
+          "loadAverage1m": 30.65966796875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793715615.795742,
+          "loadAverage1m": 29.7890625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793715621.086216,
+          "loadAverage1m": 29.1650390625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "7f62f16f3e94f7c96863a1aae870fef4e6f48237ce5d8de91b6400cfa6f430f9",
+      "compressedBytes": 5370242
+    },
+    {
+      "attempt": "2-normal-flutter-1793715724819101000",
+      "host": [
+        {
+          "hostTime": 1793715683.338363,
+          "loadAverage1m": 11.7353515625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793715697.12673,
+          "loadAverage1m": 12.26025390625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793715707.124414,
+          "loadAverage1m": 13.44970703125,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793715717.127394,
+          "loadAverage1m": 11.67626953125,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793715722.457515,
+          "loadAverage1m": 11.2216796875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        }
+      ],
+      "compressedTraceSha256": "7f21b36cb67ef3d39479ff9ca6ee627e3f5ede3e7884b83786213f12808c4b3e",
+      "compressedBytes": 6589312
+    },
+    {
+      "attempt": "2-normal-flutter-1793716211328653000",
+      "host": [
+        {
+          "hostTime": 1793716166.8088472,
+          "loadAverage1m": 11.3291015625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793716180.763287,
+          "loadAverage1m": 12.42822265625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793716190.799219,
+          "loadAverage1m": 12.64697265625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793716200.7919202,
+          "loadAverage1m": 14.9716796875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793716206.19195,
+          "loadAverage1m": 15.8544921875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "01f5a72b2dd10ff072a741cde56a505bb887423b5f4763e08ce3741a6e7adbdc",
+      "compressedBytes": 6552948
+    },
+    {
+      "attempt": "2-normal-flutter-1793716285001002000",
+      "host": [
+        {
+          "hostTime": 1793716241.7128608,
+          "loadAverage1m": 11.63330078125,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793716255.519549,
+          "loadAverage1m": 10.23828125,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793716265.517653,
+          "loadAverage1m": 11.75146484375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793716275.518355,
+          "loadAverage1m": 12.599609375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793716280.894528,
+          "loadAverage1m": 12.95166015625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "cb75befc49b0bec0439a4da5ca4be58da473fa1fe020869d9961451e6ee54c44",
+      "compressedBytes": 6686616
+    },
+    {
+      "attempt": "2-normal-flutter-1793716337665719000",
+      "host": [
+        {
+          "hostTime": 1793716295.2083101,
+          "loadAverage1m": 11.83056640625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793716308.985856,
+          "loadAverage1m": 12.40185546875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793716318.994303,
+          "loadAverage1m": 10.7158203125,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793716329.003922,
+          "loadAverage1m": 11.2841796875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793716334.332756,
+          "loadAverage1m": 12.06201171875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "aa019380bc866720a0d463ce1371539c16663b698bf9bfc9084b3e2d1c418e5e",
+      "compressedBytes": 6618547
+    },
+    {
+      "attempt": "2-normal-flutter-1793716400923116000",
+      "host": [
+        {
+          "hostTime": 1793716357.927361,
+          "loadAverage1m": 10.86669921875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793716371.727127,
+          "loadAverage1m": 12.84619140625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793716381.73775,
+          "loadAverage1m": 13.6640625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793716391.722999,
+          "loadAverage1m": 14.2568359375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793716397.086812,
+          "loadAverage1m": 13.35498046875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "7543fb7d626241ca730db5203417030f1b64afb1adc26bf05f27279d52f156e4",
+      "compressedBytes": 6664140
+    },
+    {
+      "attempt": "2-normal-flutter-1793716455969374000",
+      "host": [
+        {
+          "hostTime": 1793716411.1147158,
+          "loadAverage1m": 11.6884765625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793716424.8484921,
+          "loadAverage1m": 13.2890625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793716434.85696,
+          "loadAverage1m": 13.208984375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793716444.872629,
+          "loadAverage1m": 13.86474609375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793716450.25482,
+          "loadAverage1m": 14.43603515625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "3ee888531f6468b49c519840742157a490c27232dddb9c6dca1b0dd43de26d49",
+      "compressedBytes": 6668007
+    },
+    {
+      "attempt": "2-ui-thread-block-300ms-flutter-1793715230879306000",
+      "host": [
+        {
+          "hostTime": 1793715185.853024,
+          "loadAverage1m": 11.83154296875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793715200.105634,
+          "loadAverage1m": 13.326171875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793715210.106755,
+          "loadAverage1m": 12.0390625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793715220.10598,
+          "loadAverage1m": 12.759765625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793715225.4714549,
+          "loadAverage1m": 12.37841796875,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "cba2a7d82f9401c834810292c48e7996c924a29d6c0a2fb8d306a56a8a5e6a7f",
+      "compressedBytes": 6333155
+    },
+    {
+      "attempt": "2-ui-thread-block-300ms-flutter-1793715276021628000",
+      "host": [
+        {
+          "hostTime": 1793715231.099703,
+          "loadAverage1m": 11.947265625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": true
+        },
+        {
+          "hostTime": 1793715245.3887172,
+          "loadAverage1m": 14.4931640625,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793715255.3793201,
+          "loadAverage1m": 15.7333984375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793715265.3739069,
+          "loadAverage1m": 15.828125,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        },
+        {
+          "hostTime": 1793715270.705612,
+          "loadAverage1m": 16.162109375,
+          "logicalCpus": 16,
+          "busyCompilers": [],
+          "compilerCpuPercent": 0,
+          "compilerCpuLimit": 400,
+          "quiet": false
+        }
+      ],
+      "compressedTraceSha256": "4e87da58c262eb5a0b7ecfa7b0d09e9c412540ee06cebc9d85915ba753ae6bfd",
+      "compressedBytes": 6486105
+    }
+  ]
+}

@@ -3,6 +3,7 @@ import { DerivedValueNode, NumericValue, type WebReadableValue } from './value.j
 import { numericMap } from '../core/numeric-map.js'
 import type { TransformProperty } from './properties.js'
 import type { Point } from './curve.js'
+import type { WebElementScrollRange } from './scroll-range.js'
 
 export type WebScrollSource = Document | HTMLElement
 export interface WebScrollValueOptions {
@@ -16,8 +17,8 @@ export type WebScrollKeyframes = Partial<
   Record<TransformProperty | 'scale', readonly number[]>
 >
 export interface WebScrollOptions extends WebScrollValueOptions {
-  /** An increasing range of normalized CSS-pixel offsets on the selected axis. */
-  range: readonly [number, number]
+  /** Numeric CSS-pixel offsets, or layout edges updated when the anchor/viewport changes. */
+  range: readonly [number, number] | WebElementScrollRange
   /** Force the shared scheduler to validate or select fallback explicitly. */
   execution?: 'auto' | 'scheduler'
   /** Optional strictly increasing normalized offsets, from 0 to 1. */
@@ -207,7 +208,11 @@ export class ScrollValueNode extends NumericValue {
   }
 }
 
-export function scrollPlan(frames: WebScrollKeyframes, options: WebScrollOptions) {
+export function scrollPlan(
+  frames: WebScrollKeyframes,
+  options: WebScrollOptions,
+  measured?: readonly [number, number],
+) {
   if (
     !options ||
     typeof options !== 'object' ||
@@ -215,12 +220,12 @@ export function scrollPlan(frames: WebScrollKeyframes, options: WebScrollOptions
   )
     throw new TypeError('Scroll options support range, execution, times and axis.')
   const axis = scrollAxis({ axis: options.axis })
-  const range = options.range
+  const range = measured ?? options.range
   if (
     !Array.isArray(range) ||
     range.length !== 2 ||
     range.some((n) => !Number.isFinite(n)) ||
-    range[0]! < 0 ||
+    (!measured && range[0]! < 0) ||
     range[1]! <= range[0]! ||
     range[1]! > 1e9
   )
@@ -270,7 +275,7 @@ export class ScrollLinkedNode extends DerivedValueNode {
   constructor(
     readonly scroll: ScrollValueNode,
     readonly property: TransformProperty,
-    readonly range: readonly [number, number],
+    public range: readonly [number, number],
     readonly points: Point[],
     readonly native: boolean,
     input: readonly number[],
@@ -283,6 +288,17 @@ export class ScrollLinkedNode extends DerivedValueNode {
   }
   get spatiallyReduced() {
     return this.property !== 'opacity' && this.reduced()
+  }
+  setRange(range: readonly [number, number]) {
+    this.range = range
+    this.remap(
+      numericMap(
+        this.points.map(
+          (point) => range[0] + ((range[1] - range[0]) * point.time) / 1000,
+        ),
+        this.points.map((point) => point.value),
+      ),
+    )
   }
   override get() {
     return !this.disposed && this.spatiallyReduced

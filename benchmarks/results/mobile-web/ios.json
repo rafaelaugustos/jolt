@@ -1,0 +1,6238 @@
+{
+  "session": "1793708795765-zuz2yzzacz",
+  "userAgent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.2 Mobile/15E148 Safari/604.1",
+  "secure": true,
+  "scope": "simulator/emulator browser; no physical-device claim",
+  "events": [
+    {
+      "name": "ready",
+      "time": 1793708795766,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "permission-required",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "permission-required",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 2,
+          "framePending": true,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "rotate",
+                "kind": "value",
+                "owner": 6
+              },
+              {
+                "property": "x",
+                "kind": "value",
+                "owner": 8
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          }
+        ]
+      }
+    },
+    {
+      "name": "haptic",
+      "time": 1793708798529,
+      "extra": {
+        "backend": "none",
+        "status": "unavailable"
+      },
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "permission-required",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "permission-required",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "rotate",
+                "kind": "value",
+                "owner": 6
+              },
+              {
+                "property": "x",
+                "kind": "value",
+                "owner": 8
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          }
+        ]
+      }
+    },
+    {
+      "name": "haptic",
+      "time": 1793708799194,
+      "extra": {
+        "backend": "none",
+        "status": "unavailable"
+      },
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "permission-required",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "permission-required",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "rotate",
+                "kind": "value",
+                "owner": 6
+              },
+              {
+                "property": "x",
+                "kind": "value",
+                "owner": 8
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          }
+        ]
+      }
+    },
+    {
+      "name": "rotation-status",
+      "time": 1793708800543,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "starting",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "permission-required",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "rotate",
+                "kind": "value",
+                "owner": 6
+              },
+              {
+                "property": "x",
+                "kind": "value",
+                "owner": 8
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          }
+        ]
+      }
+    },
+    {
+      "name": "gravity-status",
+      "time": 1793708800544,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "starting",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "starting",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 1,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "rotate",
+                "kind": "value",
+                "owner": 6
+              },
+              {
+                "property": "x",
+                "kind": "value",
+                "owner": 8
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          }
+        ]
+      }
+    },
+    {
+      "name": "permission",
+      "time": 1793708800545,
+      "extra": ["granted", "granted"],
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "starting",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "starting",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 2,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "rotate",
+                "kind": "value",
+                "owner": 6
+              },
+              {
+                "property": "x",
+                "kind": "value",
+                "owner": 8
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          }
+        ]
+      }
+    },
+    {
+      "name": "rotation-status",
+      "time": 1793708802545,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "unavailable",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "starting",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 1,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "rotate",
+                "kind": "value",
+                "owner": 6
+              },
+              {
+                "property": "x",
+                "kind": "value",
+                "owner": 8
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          }
+        ]
+      }
+    },
+    {
+      "name": "gravity-status",
+      "time": 1793708802548,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "unavailable",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "unavailable",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "reason": "no-data",
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "rotate",
+                "kind": "value",
+                "owner": 6
+              },
+              {
+                "property": "x",
+                "kind": "value",
+                "owner": 8
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          }
+        ]
+      }
+    },
+    {
+      "name": "snapshot",
+      "time": 1793708807043,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "unavailable",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "unavailable",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "reason": "no-data",
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "rotate",
+                "kind": "value",
+                "owner": 6
+              },
+              {
+                "property": "x",
+                "kind": "value",
+                "owner": 8
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          }
+        ]
+      }
+    },
+    {
+      "name": "keyboard",
+      "time": 1793708807475,
+      "keyboard": {
+        "visible": true,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 377,
+          "right": 402,
+          "bottom": 377
+        }
+      },
+      "focused": "message",
+      "viewport": {
+        "width": 402,
+        "height": 377,
+        "visual": {
+          "width": 402,
+          "height": 377,
+          "top": 337
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "unavailable",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "unavailable",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "reason": "no-data",
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "rotate",
+                "kind": "value",
+                "owner": 6
+              },
+              {
+                "property": "x",
+                "kind": "value",
+                "owner": 8
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          }
+        ]
+      }
+    },
+    {
+      "name": "keyboard",
+      "time": 1793708812576,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 377,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "unavailable",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "unavailable",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "reason": "no-data",
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "rotate",
+                "kind": "value",
+                "owner": 6
+              },
+              {
+                "property": "x",
+                "kind": "value",
+                "owner": 8
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          }
+        ]
+      }
+    },
+    {
+      "name": "snapshot",
+      "time": 1793708812577,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 377,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "unavailable",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "unavailable",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "reason": "no-data",
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "rotate",
+                "kind": "value",
+                "owner": 6
+              },
+              {
+                "property": "x",
+                "kind": "value",
+                "owner": 8
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          }
+        ]
+      }
+    },
+    {
+      "name": "blur",
+      "time": 1793708813426,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "unavailable",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "unavailable",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "reason": "no-data",
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "rotate",
+                "kind": "value",
+                "owner": 6
+              },
+              {
+                "property": "x",
+                "kind": "value",
+                "owner": 8
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          }
+        ]
+      }
+    },
+    {
+      "name": "rotation-status",
+      "time": 1793708814776,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "paused",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "unavailable",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "reason": "no-data",
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "rotate",
+                "kind": "value",
+                "owner": 6
+              },
+              {
+                "property": "x",
+                "kind": "value",
+                "owner": 8
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          },
+          {
+            "sequence": 11,
+            "reason": "suspended",
+            "time": 19025.000000000004,
+            "scope": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "gravity-status",
+      "time": 1793708814777,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "paused",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "paused",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "reason": "no-data",
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "rotate",
+                "kind": "value",
+                "owner": 6
+              },
+              {
+                "property": "x",
+                "kind": "value",
+                "owner": 8
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          },
+          {
+            "sequence": 11,
+            "reason": "suspended",
+            "time": 19025.000000000004,
+            "scope": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "paused",
+      "time": 1793708814778,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "paused",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "paused",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "reason": "no-data",
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "finite",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          },
+          {
+            "sequence": 11,
+            "reason": "suspended",
+            "time": 19025.000000000004,
+            "scope": 1
+          },
+          {
+            "sequence": 12,
+            "reason": "released",
+            "time": 19027,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 13,
+            "reason": "released",
+            "time": 19027,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          }
+        ]
+      }
+    },
+    {
+      "name": "rotation-status",
+      "time": 1793708815126,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "idle",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "paused",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "reason": "no-data",
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "finite",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          },
+          {
+            "sequence": 11,
+            "reason": "suspended",
+            "time": 19025.000000000004,
+            "scope": 1
+          },
+          {
+            "sequence": 12,
+            "reason": "released",
+            "time": 19027,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 13,
+            "reason": "released",
+            "time": 19027,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 14,
+            "reason": "resumed",
+            "time": 19375,
+            "scope": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "gravity-status",
+      "time": 1793708815127,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "idle",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "idle",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "reason": "no-data",
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "finite",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          },
+          {
+            "sequence": 11,
+            "reason": "suspended",
+            "time": 19025.000000000004,
+            "scope": 1
+          },
+          {
+            "sequence": 12,
+            "reason": "released",
+            "time": 19027,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 13,
+            "reason": "released",
+            "time": 19027,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 14,
+            "reason": "resumed",
+            "time": 19375,
+            "scope": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "keyboard",
+      "time": 1793708815127,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "idle",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "idle",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "reason": "no-data",
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "finite",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          },
+          {
+            "sequence": 11,
+            "reason": "suspended",
+            "time": 19025.000000000004,
+            "scope": 1
+          },
+          {
+            "sequence": 12,
+            "reason": "released",
+            "time": 19027,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 13,
+            "reason": "released",
+            "time": 19027,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 14,
+            "reason": "resumed",
+            "time": 19375,
+            "scope": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "resumed",
+      "time": 1793708815127,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "idle",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "idle",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "reason": "no-data",
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "finite",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          },
+          {
+            "sequence": 11,
+            "reason": "suspended",
+            "time": 19025.000000000004,
+            "scope": 1
+          },
+          {
+            "sequence": 12,
+            "reason": "released",
+            "time": 19027,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 13,
+            "reason": "released",
+            "time": 19027,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 14,
+            "reason": "resumed",
+            "time": 19375,
+            "scope": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "keyboard",
+      "time": 1793708815402,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 338,
+          "right": 750,
+          "bottom": 338
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 750,
+        "height": 338,
+        "visual": {
+          "width": 750,
+          "height": 338,
+          "top": 0
+        }
+      },
+      "orientation": 90,
+      "rotation": {
+        "status": "idle",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "idle",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "reason": "no-data",
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "finite",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          },
+          {
+            "sequence": 11,
+            "reason": "suspended",
+            "time": 19025.000000000004,
+            "scope": 1
+          },
+          {
+            "sequence": 12,
+            "reason": "released",
+            "time": 19027,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 13,
+            "reason": "released",
+            "time": 19027,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 14,
+            "reason": "resumed",
+            "time": 19375,
+            "scope": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "snapshot",
+      "time": 1793708816560,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 338,
+          "right": 750,
+          "bottom": 338
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 750,
+        "height": 338,
+        "visual": {
+          "width": 750,
+          "height": 338,
+          "top": 0
+        }
+      },
+      "orientation": 90,
+      "rotation": {
+        "status": "idle",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "idle",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "reason": "no-data",
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "finite",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          },
+          {
+            "sequence": 11,
+            "reason": "suspended",
+            "time": 19025.000000000004,
+            "scope": 1
+          },
+          {
+            "sequence": 12,
+            "reason": "released",
+            "time": 19027,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 13,
+            "reason": "released",
+            "time": 19027,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 14,
+            "reason": "resumed",
+            "time": 19375,
+            "scope": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "keyboard",
+      "time": 1793708816832,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "idle",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "idle",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "reason": "no-data",
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 13,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 5,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 1,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 2
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "finite",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "scheduler",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "value",
+                "owner": 10
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          },
+          {
+            "sequence": 11,
+            "reason": "suspended",
+            "time": 19025.000000000004,
+            "scope": 1
+          },
+          {
+            "sequence": 12,
+            "reason": "released",
+            "time": 19027,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 13,
+            "reason": "released",
+            "time": 19027,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 14,
+            "reason": "resumed",
+            "time": 19375,
+            "scope": 1
+          }
+        ]
+      }
+    },
+    {
+      "name": "gravity-status",
+      "time": 1793708817993,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "idle",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "disposed",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "reason": "no-data",
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 7,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 1,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 0,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 1
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "finite",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "finite",
+            "channels": [
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          },
+          {
+            "sequence": 11,
+            "reason": "suspended",
+            "time": 19025.000000000004,
+            "scope": 1
+          },
+          {
+            "sequence": 12,
+            "reason": "released",
+            "time": 19027,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 13,
+            "reason": "released",
+            "time": 19027,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 14,
+            "reason": "resumed",
+            "time": 19375,
+            "scope": 1
+          },
+          {
+            "sequence": 15,
+            "reason": "disposed",
+            "time": 22242,
+            "scope": 1
+          },
+          {
+            "sequence": 16,
+            "reason": "released",
+            "time": 22242,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          }
+        ]
+      }
+    },
+    {
+      "name": "rotation-status",
+      "time": 1793708817993,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "disposed",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "disposed",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "reason": "no-data",
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": false,
+        "resources": {
+          "surfaces": 2,
+          "animations": 0,
+          "values": 0,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 1,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 0,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 1,
+          "geometryObservers": 0,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 0
+        },
+        "targets": [
+          {
+            "id": 7,
+            "execution": "finite",
+            "channels": [
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "x",
+                "kind": "rest"
+              }
+            ]
+          },
+          {
+            "id": 11,
+            "execution": "finite",
+            "channels": [
+              {
+                "property": "x",
+                "kind": "rest"
+              },
+              {
+                "property": "y",
+                "kind": "rest"
+              },
+              {
+                "property": "rotate",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleX",
+                "kind": "rest"
+              },
+              {
+                "property": "scaleY",
+                "kind": "rest"
+              },
+              {
+                "property": "opacity",
+                "kind": "rest"
+              }
+            ]
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          },
+          {
+            "sequence": 11,
+            "reason": "suspended",
+            "time": 19025.000000000004,
+            "scope": 1
+          },
+          {
+            "sequence": 12,
+            "reason": "released",
+            "time": 19027,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 13,
+            "reason": "released",
+            "time": 19027,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 14,
+            "reason": "resumed",
+            "time": 19375,
+            "scope": 1
+          },
+          {
+            "sequence": 15,
+            "reason": "disposed",
+            "time": 22242,
+            "scope": 1
+          },
+          {
+            "sequence": 16,
+            "reason": "released",
+            "time": 22242,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          }
+        ]
+      }
+    },
+    {
+      "name": "disposed",
+      "time": 1793708817994,
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "disposed",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "disposed",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "reason": "no-data",
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": true,
+        "resources": {
+          "surfaces": 0,
+          "animations": 0,
+          "values": 0,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 0,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 0,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 0,
+          "geometryObservers": 0,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 0
+        },
+        "targets": [],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          },
+          {
+            "sequence": 11,
+            "reason": "suspended",
+            "time": 19025.000000000004,
+            "scope": 1
+          },
+          {
+            "sequence": 12,
+            "reason": "released",
+            "time": 19027,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 13,
+            "reason": "released",
+            "time": 19027,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 14,
+            "reason": "resumed",
+            "time": 19375,
+            "scope": 1
+          },
+          {
+            "sequence": 15,
+            "reason": "disposed",
+            "time": 22242,
+            "scope": 1
+          },
+          {
+            "sequence": 16,
+            "reason": "released",
+            "time": 22242,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 17,
+            "reason": "released",
+            "time": 22243.000000000004,
+            "target": 7
+          },
+          {
+            "sequence": 18,
+            "reason": "released",
+            "time": 22243.000000000004,
+            "target": 11
+          },
+          {
+            "sequence": 19,
+            "reason": "disposed",
+            "time": 22243.000000000004
+          }
+        ]
+      }
+    },
+    {
+      "name": "visibility",
+      "time": 1793709483665,
+      "extra": "hidden",
+      "keyboard": {
+        "visible": false,
+        "height": 0,
+        "duration": 0,
+        "transition": {
+          "duration": 0
+        },
+        "backend": "visual-viewport",
+        "accuracy": "estimated",
+        "rect": {
+          "left": 0,
+          "top": 714,
+          "right": 402,
+          "bottom": 714
+        }
+      },
+      "focused": "",
+      "viewport": {
+        "width": 402,
+        "height": 714,
+        "visual": {
+          "width": 402,
+          "height": 714,
+          "top": 0
+        }
+      },
+      "orientation": 0,
+      "rotation": {
+        "status": "disposed",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0, 0, 0, 0, 1],
+        "reason": "no-data",
+        "backend": "device-orientation"
+      },
+      "gravity": {
+        "status": "disposed",
+        "available": false,
+        "timestamp": null,
+        "samples": 0,
+        "values": [0, 0, 0],
+        "reason": "no-data",
+        "backend": "device-motion"
+      },
+      "diagnostics": {
+        "disposed": true,
+        "resources": {
+          "surfaces": 0,
+          "animations": 0,
+          "values": 0,
+          "paths": 0,
+          "itemAnimations": 0,
+          "stateControllers": 0,
+          "groups": 0,
+          "timers": 0,
+          "scopes": 0,
+          "pointerFollowers": 0,
+          "viewportEntrances": 0,
+          "presses": 0,
+          "drags": 0,
+          "interactions": 0,
+          "sizes": 0,
+          "layouts": 0,
+          "sharedLayouts": 0,
+          "scrollSources": 0,
+          "observers": 0,
+          "geometryObservers": 0,
+          "frameTasks": 0,
+          "framePending": false,
+          "preferenceListeners": 0
+        },
+        "targets": [],
+        "events": [
+          {
+            "sequence": 1,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 2
+          },
+          {
+            "sequence": 2,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 3
+          },
+          {
+            "sequence": 3,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 4
+          },
+          {
+            "sequence": 4,
+            "reason": "adopted",
+            "time": 13.000000000000002,
+            "scope": 1,
+            "owner": 5
+          },
+          {
+            "sequence": 5,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 6,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 7,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 9
+          },
+          {
+            "sequence": 8,
+            "reason": "claimed",
+            "time": 14,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 9,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 12
+          },
+          {
+            "sequence": 10,
+            "reason": "adopted",
+            "time": 14,
+            "scope": 1,
+            "owner": 13
+          },
+          {
+            "sequence": 11,
+            "reason": "suspended",
+            "time": 19025.000000000004,
+            "scope": 1
+          },
+          {
+            "sequence": 12,
+            "reason": "released",
+            "time": 19027,
+            "owner": 6,
+            "target": 7,
+            "property": "rotate"
+          },
+          {
+            "sequence": 13,
+            "reason": "released",
+            "time": 19027,
+            "owner": 8,
+            "target": 7,
+            "property": "x"
+          },
+          {
+            "sequence": 14,
+            "reason": "resumed",
+            "time": 19375,
+            "scope": 1
+          },
+          {
+            "sequence": 15,
+            "reason": "disposed",
+            "time": 22242,
+            "scope": 1
+          },
+          {
+            "sequence": 16,
+            "reason": "released",
+            "time": 22242,
+            "owner": 10,
+            "target": 11,
+            "property": "y"
+          },
+          {
+            "sequence": 17,
+            "reason": "released",
+            "time": 22243.000000000004,
+            "target": 7
+          },
+          {
+            "sequence": 18,
+            "reason": "released",
+            "time": 22243.000000000004,
+            "target": 11
+          },
+          {
+            "sequence": 19,
+            "reason": "disposed",
+            "time": 22243.000000000004
+          }
+        ]
+      }
+    }
+  ]
+}

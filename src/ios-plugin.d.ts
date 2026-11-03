@@ -189,6 +189,7 @@ declare class JoltImageEffect extends NSObject {
   readonly paused: boolean
   readonly frames: number
   readonly longestFrame: number
+  readonly frameIntervalsMs: NSArray<number>
   readonly textureBytes: number
   play(endpoint: number): void
   pause(): void

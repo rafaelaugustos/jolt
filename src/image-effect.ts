@@ -39,6 +39,8 @@ export interface ImageEffectDiagnostics {
   peakTextureBytes: number
   preparationMs: number
   longestFrameMs: number
+  /** Last 512 active native draw-callback intervals, in milliseconds. Not GPU/presentation time. */
+  frameIntervalsMs: readonly number[]
 }
 export interface ImageEffect extends Animation {
   readonly effect: ImageEffectName
@@ -140,6 +142,7 @@ class Effect implements ImageEffect {
     peakTextureBytes: 0,
     preparationMs: 0,
     longestFrameMs: 0,
+    frameIntervalsMs: [],
   }
   private reduceObserver:
     ReturnType<typeof Application.ios.addNotificationObserver> | undefined
@@ -202,6 +205,7 @@ class Effect implements ImageEffect {
             frames: this.renderer.frames,
             textureBytes: this.renderer.textureBytes,
             longestFrameMs: this.renderer.longestFrameMs,
+            frameIntervalsMs: this.renderer.frameIntervalsMs,
           }
         : {}),
     }

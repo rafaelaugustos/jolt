@@ -1,0 +1,1869 @@
+{
+  "baseline": {
+    "version": "0.1.0-rc.10",
+    "commit": "9e4d8c868aa1d5aa912c0826738fce40b48507da",
+    "audited": "2026-11-03",
+    "scope": "Runtime exports, WebRuntime and native/Web keyframe properties. Type-only exports and nested options still need behavioral conformance; inventory coverage does not prove full parity.",
+    "acceptanceScope": "Maintainer selected simulators/emulators only for this delivery on 2026-11-03. Physical hardware remains unverified, not an access blocker."
+  },
+  "inventory": {
+    "modules": [
+      {
+        "entry": ".",
+        "file": "src/index.ts",
+        "exports": [
+          "ScrollHeaderSurface",
+          "animate",
+          "animateItems",
+          "animateLayout",
+          "animateSize",
+          "animateText",
+          "bind",
+          "conceal",
+          "confetti",
+          "configure",
+          "cubicBezier",
+          "decay",
+          "definePreset",
+          "drag",
+          "followKeyboard",
+          "gradient",
+          "imageEffect",
+          "interactionSurface",
+          "liquid",
+          "loader",
+          "motionScope",
+          "motionStates",
+          "motionValue",
+          "onKeyboard",
+          "onReducedMotion",
+          "origamiSpring",
+          "particles",
+          "playbackProgress",
+          "presets",
+          "press",
+          "reducedMotion",
+          "reveal",
+          "rollTo",
+          "scrollHeader",
+          "scrollLinked",
+          "scrollValue",
+          "seekableTimeline",
+          "sequence",
+          "set",
+          "shimmer",
+          "springValue",
+          "springs",
+          "stop",
+          "symbolEffect",
+          "timeline",
+          "toView",
+          "zoomable"
+        ]
+      },
+      {
+        "entry": "./vue",
+        "file": "src/vue/index.ts",
+        "exports": [
+          "JoltTransition",
+          "default",
+          "install",
+          "transitionHooks",
+          "useBinding",
+          "useKeyboard",
+          "useMotionScope",
+          "useMotionValue",
+          "useReducedMotion",
+          "useScrollValue",
+          "vAnimate",
+          "vGradient",
+          "vPress"
+        ]
+      },
+      {
+        "entry": "./gestures",
+        "file": "src/gestures/index.ts",
+        "exports": ["GestureSurface", "gestures"]
+      },
+      {
+        "entry": "./native",
+        "file": "src/native/index.ts",
+        "exports": [
+          "checkNativeProperty",
+          "mapKitCamera",
+          "mapKitCoordinate",
+          "mapLibreCamera",
+          "mapLibreCoordinate",
+          "registerNativeProperty",
+          "sceneKitEnvironmentIntensity",
+          "sceneKitFieldOfView",
+          "sceneKitLightColor",
+          "sceneKitLightIntensity",
+          "sceneKitMaterialDiffuse",
+          "sceneKitMaterialEmission",
+          "sceneKitMaterialTransparency",
+          "sceneKitPose",
+          "sceneKitUniform"
+        ]
+      },
+      {
+        "entry": "./bottom-sheet",
+        "file": "src/bottom-sheet/index.ts",
+        "exports": ["GestureSurface", "bottomSheet"]
+      },
+      {
+        "entry": "./reorder",
+        "file": "src/reorder/index.ts",
+        "exports": [
+          "ReorderHandle",
+          "ReorderSurface",
+          "coreListAdapter",
+          "realizedRowsAdapter",
+          "reorder"
+        ]
+      },
+      {
+        "entry": "./shared-layout",
+        "file": "src/shared-layout/index.ts",
+        "exports": ["sharedLayout"]
+      },
+      {
+        "entry": "./testing",
+        "file": "src/testing/index.ts",
+        "exports": [
+          "parseTrace",
+          "recordInteraction",
+          "replayInteraction",
+          "replayPlot",
+          "replaySensor",
+          "scrollHandoffTraceGraph",
+          "traceRandom"
+        ]
+      },
+      {
+        "entry": "./testing/native",
+        "file": "src/testing/native.ts",
+        "exports": [
+          "ReplayClock",
+          "motionTraceGraph",
+          "nativeScrollHandoffTraceGraph",
+          "nativeTracePosition",
+          "observeScrollHandoffInputs",
+          "observeTraceInputs",
+          "replayPan",
+          "replayWithDriver",
+          "traceMetadata",
+          "traceNow",
+          "traceSettings"
+        ]
+      },
+      {
+        "entry": "./inspector",
+        "file": "src/inspector/index.ts",
+        "exports": [
+          "createMotionInspector",
+          "inspectorPlot",
+          "inspectorSpring",
+          "springCode"
+        ]
+      },
+      {
+        "entry": "./shared-navigation",
+        "file": "src/shared-navigation/index.ts",
+        "exports": ["resolveListTarget", "sharedNavigation", "sharedNavigationEntry"]
+      },
+      {
+        "entry": "./interactive-navigation",
+        "file": "src/interactive-navigation/index.ts",
+        "exports": ["interactiveModal", "interactiveNavigation"]
+      },
+      {
+        "entry": "./predictive-back",
+        "file": "src/predictive-back/index.ts",
+        "exports": ["predictiveBack"]
+      },
+      {
+        "entry": "./sensors",
+        "file": "src/sensors/index.ts",
+        "exports": ["sensor"]
+      },
+      {
+        "entry": "./physics",
+        "file": "src/physics/index.ts",
+        "exports": ["physicsWorld"]
+      },
+      {
+        "entry": "./shapes",
+        "file": "src/shapes/index.ts",
+        "exports": ["shape"]
+      },
+      {
+        "entry": "./blur",
+        "file": "src/blur/index.ts",
+        "exports": ["blur"]
+      },
+      {
+        "entry": "./glass",
+        "file": "src/glass/index.ts",
+        "exports": ["GlassContainer", "GlassView", "supportsLiquidGlass"]
+      },
+      {
+        "entry": "./web",
+        "file": "src/web/public.ts",
+        "exports": ["createWebRuntime", "resolveListTarget"]
+      },
+      {
+        "entry": "./web/vue",
+        "file": "src/web/vue/index.ts",
+        "exports": ["createViewportEnterDirective", "useWebMotion"]
+      },
+      {
+        "entry": "./react",
+        "file": "src/react/index.ts",
+        "exports": ["useAnimate", "usePress"]
+      },
+      {
+        "entry": "./svelte",
+        "file": "src/svelte/index.ts",
+        "exports": ["animate", "press"]
+      },
+      {
+        "entry": "./solid",
+        "file": "src/solid/index.ts",
+        "exports": ["animate", "press"]
+      },
+      {
+        "entry": "./angular",
+        "file": "src/angular/index.ts",
+        "exports": ["JoltAnimateDirective", "JoltIfDirective", "JoltPressDirective"]
+      }
+    ],
+    "webRuntime": [
+      "animate",
+      "animateItems",
+      "animateLayout",
+      "animateSize",
+      "animateText",
+      "bind",
+      "blur",
+      "bottomSheet",
+      "conceal",
+      "confetti",
+      "configure",
+      "decay",
+      "definePreset",
+      "diagnostics",
+      "dispose",
+      "drag",
+      "drawPath",
+      "followKeyboard",
+      "gestures",
+      "glass",
+      "gradient",
+      "haptic",
+      "imageEffect",
+      "interactiveModal",
+      "interactiveNavigation",
+      "liquid",
+      "loader",
+      "motionStates",
+      "motionValue",
+      "observeGeometry",
+      "onKeyboard",
+      "particles",
+      "physicsWorld",
+      "playbackProgress",
+      "pointerFollow",
+      "press",
+      "refresh",
+      "release",
+      "reorder",
+      "reveal",
+      "rollTo",
+      "scope",
+      "scrollHeader",
+      "scrollLinked",
+      "scrollValue",
+      "seekableTimeline",
+      "sensor",
+      "sequence",
+      "set",
+      "shape",
+      "sharedLayout",
+      "sharedNavigation",
+      "sharedNavigationEntry",
+      "shimmer",
+      "springValue",
+      "stop",
+      "symbolEffect",
+      "timeline",
+      "viewportEnter",
+      "zoomable"
+    ],
+    "nativeKeyframes": [
+      "backgroundColor",
+      "borderColor",
+      "borderRadius",
+      "borderWidth",
+      "color",
+      "elevation",
+      "opacity",
+      "orient",
+      "path",
+      "rotate",
+      "rotateX",
+      "rotateY",
+      "scale",
+      "scaleX",
+      "scaleY",
+      "shadowOffsetX",
+      "shadowOffsetY",
+      "shadowOpacity",
+      "shadowRadius",
+      "translationZ",
+      "x",
+      "y"
+    ],
+    "webKeyframes": [
+      "backgroundColor",
+      "borderBottomColor",
+      "borderBottomLeftRadius",
+      "borderBottomLeftRadiusX",
+      "borderBottomLeftRadiusY",
+      "borderBottomRightRadius",
+      "borderBottomRightRadiusX",
+      "borderBottomRightRadiusY",
+      "borderBottomWidth",
+      "borderColor",
+      "borderLeftColor",
+      "borderLeftWidth",
+      "borderRadius",
+      "borderRightColor",
+      "borderRightWidth",
+      "borderTopColor",
+      "borderTopLeftRadius",
+      "borderTopLeftRadiusX",
+      "borderTopLeftRadiusY",
+      "borderTopRightRadius",
+      "borderTopRightRadiusX",
+      "borderTopRightRadiusY",
+      "borderTopWidth",
+      "borderWidth",
+      "color",
+      "opacity",
+      "rotate",
+      "scale",
+      "scaleX",
+      "scaleY",
+      "x",
+      "y"
+    ]
+  },
+  "exports": [
+    {
+      "entry": ".",
+      "symbol": "ScrollHeaderSurface",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/index.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "animate",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "animate",
+      "contract": "Shared numeric/color/decorative motion is published; native path/orient, rotateX/rotateY and shadow/depth properties are not all Web keyframes.",
+      "issues": [236],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "animateItems",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "animateItems",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "animateLayout",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "animateLayout",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "animateSize",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "animateSize",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "animateText",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "animateText",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "bind",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "bind",
+      "contract": "Shared numeric/color/decorative motion is published; native path/orient, rotateX/rotateY and shadow/depth properties are not all Web keyframes.",
+      "issues": [236],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "conceal",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "conceal",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "confetti",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "confetti",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "configure",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "configure",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "cubicBezier",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "configure / animate options",
+      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
+      "issues": [236, 386],
+      "evidence": ["src/index.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "decay",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "decay",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "definePreset",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "definePreset",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "drag",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "drag",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "followKeyboard",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "followKeyboard",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "gradient",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "gradient",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "imageEffect",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "imageEffect",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "interactionSurface",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "observeGeometry / refresh",
+      "contract": "Runtime-owned browser geometry differs from the native interactionSurface adapter, including transformed ancestor and overlay limits.",
+      "issues": [236],
+      "evidence": ["src/index.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "liquid",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "liquid",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "loader",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "loader",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "motionScope",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "scope",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "motionStates",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "motionStates",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "motionValue",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "motionValue",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "onKeyboard",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "onKeyboard",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "onReducedMotion",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "configure / animate options",
+      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
+      "issues": [236, 386],
+      "evidence": ["src/index.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "origamiSpring",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "configure / animate options",
+      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
+      "issues": [236, 386],
+      "evidence": ["src/index.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "particles",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "particles",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "playbackProgress",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "playbackProgress",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "presets",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "configure / animate options",
+      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
+      "issues": [236, 386],
+      "evidence": ["src/index.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "press",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "press",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "reducedMotion",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "configure / animate options",
+      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
+      "issues": [236, 386],
+      "evidence": ["src/index.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "reveal",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "reveal",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "rollTo",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "rollTo",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "scrollHeader",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "scrollHeader",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "scrollLinked",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "scrollLinked",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "scrollValue",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "scrollValue",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "seekableTimeline",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "seekableTimeline",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "sequence",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "sequence",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "set",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "set",
+      "contract": "Shared numeric/color/decorative motion is published; native path/orient, rotateX/rotateY and shadow/depth properties are not all Web keyframes.",
+      "issues": [236],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "shimmer",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "shimmer",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "springValue",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "springValue",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "springs",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "configure / animate options",
+      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
+      "issues": [236, 386],
+      "evidence": ["src/index.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "stop",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "stop",
+      "contract": "Shared numeric/color/decorative motion is published; native path/orient, rotateX/rotateY and shadow/depth properties are not all Web keyframes.",
+      "issues": [236],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "symbolEffect",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "symbolEffect",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "timeline",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "timeline",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "toView",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/index.ts"]
+    },
+    {
+      "entry": ".",
+      "symbol": "zoomable",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "zoomable",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": "./vue",
+      "symbol": "JoltTransition",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "useWebMotion",
+      "contract": "Web useWebMotion owns browser resources/transitions; these individual native directives/hooks are not interchangeable DOM APIs.",
+      "issues": [236],
+      "evidence": ["src/vue/index.ts", "src/web/vue/index.ts"]
+    },
+    {
+      "entry": "./vue",
+      "symbol": "default",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "useWebMotion",
+      "contract": "Web useWebMotion owns browser resources/transitions; these individual native directives/hooks are not interchangeable DOM APIs.",
+      "issues": [236],
+      "evidence": ["src/vue/index.ts", "src/web/vue/index.ts"]
+    },
+    {
+      "entry": "./vue",
+      "symbol": "install",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "useWebMotion",
+      "contract": "Web useWebMotion owns browser resources/transitions; these individual native directives/hooks are not interchangeable DOM APIs.",
+      "issues": [236],
+      "evidence": ["src/vue/index.ts", "src/web/vue/index.ts"]
+    },
+    {
+      "entry": "./vue",
+      "symbol": "transitionHooks",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "useWebMotion",
+      "contract": "Web useWebMotion owns browser resources/transitions; these individual native directives/hooks are not interchangeable DOM APIs.",
+      "issues": [236],
+      "evidence": ["src/vue/index.ts", "src/web/vue/index.ts"]
+    },
+    {
+      "entry": "./vue",
+      "symbol": "useBinding",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "useWebMotion",
+      "contract": "Web useWebMotion owns browser resources/transitions; these individual native directives/hooks are not interchangeable DOM APIs.",
+      "issues": [236],
+      "evidence": ["src/vue/index.ts", "src/web/vue/index.ts"]
+    },
+    {
+      "entry": "./vue",
+      "symbol": "useKeyboard",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "useWebMotion",
+      "contract": "Web useWebMotion owns browser resources/transitions; these individual native directives/hooks are not interchangeable DOM APIs.",
+      "issues": [236],
+      "evidence": ["src/vue/index.ts", "src/web/vue/index.ts"]
+    },
+    {
+      "entry": "./vue",
+      "symbol": "useMotionScope",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "useWebMotion",
+      "contract": "Web useWebMotion owns browser resources/transitions; these individual native directives/hooks are not interchangeable DOM APIs.",
+      "issues": [236],
+      "evidence": ["src/vue/index.ts", "src/web/vue/index.ts"]
+    },
+    {
+      "entry": "./vue",
+      "symbol": "useMotionValue",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "useWebMotion",
+      "contract": "Web useWebMotion owns browser resources/transitions; these individual native directives/hooks are not interchangeable DOM APIs.",
+      "issues": [236],
+      "evidence": ["src/vue/index.ts", "src/web/vue/index.ts"]
+    },
+    {
+      "entry": "./vue",
+      "symbol": "useReducedMotion",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "useWebMotion",
+      "contract": "Web useWebMotion owns browser resources/transitions; these individual native directives/hooks are not interchangeable DOM APIs.",
+      "issues": [236, 386],
+      "evidence": ["src/vue/index.ts", "src/web/vue/index.ts"]
+    },
+    {
+      "entry": "./vue",
+      "symbol": "useScrollValue",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "useWebMotion",
+      "contract": "Web useWebMotion owns browser resources/transitions; these individual native directives/hooks are not interchangeable DOM APIs.",
+      "issues": [236],
+      "evidence": ["src/vue/index.ts", "src/web/vue/index.ts"]
+    },
+    {
+      "entry": "./vue",
+      "symbol": "vAnimate",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "useWebMotion",
+      "contract": "Web useWebMotion owns browser resources/transitions; these individual native directives/hooks are not interchangeable DOM APIs.",
+      "issues": [236],
+      "evidence": ["src/vue/index.ts", "src/web/vue/index.ts"]
+    },
+    {
+      "entry": "./vue",
+      "symbol": "vGradient",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "useWebMotion",
+      "contract": "Web useWebMotion owns browser resources/transitions; these individual native directives/hooks are not interchangeable DOM APIs.",
+      "issues": [236],
+      "evidence": ["src/vue/index.ts", "src/web/vue/index.ts"]
+    },
+    {
+      "entry": "./vue",
+      "symbol": "vPress",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "useWebMotion",
+      "contract": "Web useWebMotion owns browser resources/transitions; these individual native directives/hooks are not interchangeable DOM APIs.",
+      "issues": [236],
+      "evidence": ["src/vue/index.ts", "src/web/vue/index.ts"]
+    },
+    {
+      "entry": "./gestures",
+      "symbol": "GestureSurface",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/gestures/index.ts"]
+    },
+    {
+      "entry": "./gestures",
+      "symbol": "gestures",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "gestures",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/gestures/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": "./native",
+      "symbol": "checkNativeProperty",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/native/index.ts"]
+    },
+    {
+      "entry": "./native",
+      "symbol": "mapKitCamera",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/native/index.ts"]
+    },
+    {
+      "entry": "./native",
+      "symbol": "mapKitCoordinate",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/native/index.ts"]
+    },
+    {
+      "entry": "./native",
+      "symbol": "mapLibreCamera",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/native/index.ts"]
+    },
+    {
+      "entry": "./native",
+      "symbol": "mapLibreCoordinate",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/native/index.ts"]
+    },
+    {
+      "entry": "./native",
+      "symbol": "registerNativeProperty",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/native/index.ts"]
+    },
+    {
+      "entry": "./native",
+      "symbol": "sceneKitEnvironmentIntensity",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/native/index.ts"]
+    },
+    {
+      "entry": "./native",
+      "symbol": "sceneKitFieldOfView",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/native/index.ts"]
+    },
+    {
+      "entry": "./native",
+      "symbol": "sceneKitLightColor",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/native/index.ts"]
+    },
+    {
+      "entry": "./native",
+      "symbol": "sceneKitLightIntensity",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/native/index.ts"]
+    },
+    {
+      "entry": "./native",
+      "symbol": "sceneKitMaterialDiffuse",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/native/index.ts"]
+    },
+    {
+      "entry": "./native",
+      "symbol": "sceneKitMaterialEmission",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/native/index.ts"]
+    },
+    {
+      "entry": "./native",
+      "symbol": "sceneKitMaterialTransparency",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/native/index.ts"]
+    },
+    {
+      "entry": "./native",
+      "symbol": "sceneKitPose",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/native/index.ts"]
+    },
+    {
+      "entry": "./native",
+      "symbol": "sceneKitUniform",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/native/index.ts"]
+    },
+    {
+      "entry": "./bottom-sheet",
+      "symbol": "GestureSurface",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/bottom-sheet/index.ts"]
+    },
+    {
+      "entry": "./bottom-sheet",
+      "symbol": "bottomSheet",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "bottomSheet",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/bottom-sheet/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": "./reorder",
+      "symbol": "ReorderHandle",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/reorder/index.ts"]
+    },
+    {
+      "entry": "./reorder",
+      "symbol": "ReorderSurface",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/reorder/index.ts"]
+    },
+    {
+      "entry": "./reorder",
+      "symbol": "coreListAdapter",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/reorder/index.ts"]
+    },
+    {
+      "entry": "./reorder",
+      "symbol": "realizedRowsAdapter",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/reorder/index.ts"]
+    },
+    {
+      "entry": "./reorder",
+      "symbol": "reorder",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "reorder",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/reorder/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": "./shared-layout",
+      "symbol": "sharedLayout",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "sharedLayout",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/shared-layout/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": "./testing",
+      "symbol": "parseTrace",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": null,
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/testing/index.ts"]
+    },
+    {
+      "entry": "./testing",
+      "symbol": "recordInteraction",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": null,
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/testing/index.ts"]
+    },
+    {
+      "entry": "./testing",
+      "symbol": "replayInteraction",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": null,
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/testing/index.ts"]
+    },
+    {
+      "entry": "./testing",
+      "symbol": "replayPlot",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": null,
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/testing/index.ts"]
+    },
+    {
+      "entry": "./testing",
+      "symbol": "replaySensor",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": null,
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/testing/index.ts"]
+    },
+    {
+      "entry": "./testing",
+      "symbol": "scrollHandoffTraceGraph",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": null,
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/testing/index.ts"]
+    },
+    {
+      "entry": "./testing",
+      "symbol": "traceRandom",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": null,
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/testing/index.ts"]
+    },
+    {
+      "entry": "./testing/native",
+      "symbol": "ReplayClock",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": null,
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/testing/native.ts"]
+    },
+    {
+      "entry": "./testing/native",
+      "symbol": "motionTraceGraph",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": null,
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/testing/native.ts"]
+    },
+    {
+      "entry": "./testing/native",
+      "symbol": "nativeScrollHandoffTraceGraph",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": null,
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/testing/native.ts"]
+    },
+    {
+      "entry": "./testing/native",
+      "symbol": "nativeTracePosition",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": null,
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/testing/native.ts"]
+    },
+    {
+      "entry": "./testing/native",
+      "symbol": "observeScrollHandoffInputs",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": null,
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/testing/native.ts"]
+    },
+    {
+      "entry": "./testing/native",
+      "symbol": "observeTraceInputs",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": null,
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/testing/native.ts"]
+    },
+    {
+      "entry": "./testing/native",
+      "symbol": "replayPan",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": null,
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/testing/native.ts"]
+    },
+    {
+      "entry": "./testing/native",
+      "symbol": "replayWithDriver",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": null,
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/testing/native.ts"]
+    },
+    {
+      "entry": "./testing/native",
+      "symbol": "traceMetadata",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": null,
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/testing/native.ts"]
+    },
+    {
+      "entry": "./testing/native",
+      "symbol": "traceNow",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": null,
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/testing/native.ts"]
+    },
+    {
+      "entry": "./testing/native",
+      "symbol": "traceSettings",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": null,
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/testing/native.ts"]
+    },
+    {
+      "entry": "./inspector",
+      "symbol": "createMotionInspector",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "diagnostics",
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/inspector/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": "./inspector",
+      "symbol": "inspectorPlot",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "diagnostics",
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/inspector/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": "./inspector",
+      "symbol": "inspectorSpring",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "diagnostics",
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/inspector/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": "./inspector",
+      "symbol": "springCode",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "diagnostics",
+      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
+      "issues": [236],
+      "evidence": ["src/inspector/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": "./shared-navigation",
+      "symbol": "resolveListTarget",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "resolveListTarget",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/shared-navigation/index.ts"]
+    },
+    {
+      "entry": "./shared-navigation",
+      "symbol": "sharedNavigation",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "sharedNavigation",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/shared-navigation/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": "./shared-navigation",
+      "symbol": "sharedNavigationEntry",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "sharedNavigationEntry",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/shared-navigation/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": "./interactive-navigation",
+      "symbol": "interactiveModal",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "interactiveModal",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/interactive-navigation/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": "./interactive-navigation",
+      "symbol": "interactiveNavigation",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "interactiveNavigation",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/interactive-navigation/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": "./predictive-back",
+      "symbol": "predictiveBack",
+      "nativeStatus": "published",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native view, platform service or list integration. DOM consumers use elements/browser adapters; this native target is not emulated.",
+      "issues": [],
+      "evidence": ["src/predictive-back/index.ts"]
+    },
+    {
+      "entry": "./sensors",
+      "symbol": "sensor",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "sensor",
+      "contract": "Published Web rotation/gravity only; permission, timestamps and frequency differ. Four new native vectors passed the maintainer-selected emulator/simulator acceptance and remain local/unpublished. Equivalent Web kinds are pending with explicit availability/fallback required.",
+      "issues": [236, 256, 385],
+      "evidence": ["src/sensors/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": "./physics",
+      "symbol": "physicsWorld",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "physicsWorld",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/physics/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": "./shapes",
+      "symbol": "shape",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "shape",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/shapes/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": "./blur",
+      "symbol": "blur",
+      "nativeStatus": "published",
+      "webStatus": "published",
+      "counterpart": "blur",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "issues": [],
+      "evidence": ["src/blur/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": "./glass",
+      "symbol": "GlassContainer",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "glass",
+      "contract": "Browser backdrop blur/transparency with explicit fallback; no UIKit Liquid Glass optical/container equivalence.",
+      "issues": [236],
+      "evidence": ["src/glass/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": "./glass",
+      "symbol": "GlassView",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "glass",
+      "contract": "Browser backdrop blur/transparency with explicit fallback; no UIKit Liquid Glass optical/container equivalence.",
+      "issues": [236],
+      "evidence": ["src/glass/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": "./glass",
+      "symbol": "supportsLiquidGlass",
+      "nativeStatus": "published",
+      "webStatus": "partial",
+      "counterpart": "glass",
+      "contract": "Browser backdrop blur/transparency with explicit fallback; no UIKit Liquid Glass optical/container equivalence.",
+      "issues": [236],
+      "evidence": ["src/glass/index.ts", "src/web/public.ts"]
+    },
+    {
+      "entry": "./web",
+      "symbol": "createWebRuntime",
+      "nativeStatus": "browser-only",
+      "webStatus": "published",
+      "counterpart": "createWebRuntime",
+      "contract": "Browser-specific public context or Vue lifecycle adapter published in RC.10; not a missing native export.",
+      "issues": [],
+      "evidence": ["src/web/public.ts"]
+    },
+    {
+      "entry": "./web",
+      "symbol": "resolveListTarget",
+      "nativeStatus": "browser-only",
+      "webStatus": "published",
+      "counterpart": "resolveListTarget",
+      "contract": "Browser-specific public context or Vue lifecycle adapter published in RC.10; not a missing native export.",
+      "issues": [],
+      "evidence": ["src/web/public.ts"]
+    },
+    {
+      "entry": "./web/vue",
+      "symbol": "createViewportEnterDirective",
+      "nativeStatus": "browser-only",
+      "webStatus": "published",
+      "counterpart": "createViewportEnterDirective",
+      "contract": "Browser-specific public context or Vue lifecycle adapter published in RC.10; not a missing native export.",
+      "issues": [],
+      "evidence": ["src/web/vue/index.ts"]
+    },
+    {
+      "entry": "./web/vue",
+      "symbol": "useWebMotion",
+      "nativeStatus": "browser-only",
+      "webStatus": "published",
+      "counterpart": "useWebMotion",
+      "contract": "Browser-specific public context or Vue lifecycle adapter published in RC.10; not a missing native export.",
+      "issues": [],
+      "evidence": ["src/web/vue/index.ts"]
+    },
+    {
+      "entry": "./react",
+      "symbol": "useAnimate",
+      "nativeStatus": "local-unpublished",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native framework lifecycle adapter, locally implemented and validated with packed consumers, actual iOS/Android framework interactions and reviewed recordings. Not yet merged or published; not a DOM framework entry.",
+      "issues": [44],
+      "evidence": [
+        "src/react/index.ts",
+        "benchmarks/results/frameworks/acceptance.json",
+        "docs/guide/frameworks.md"
+      ]
+    },
+    {
+      "entry": "./react",
+      "symbol": "usePress",
+      "nativeStatus": "local-unpublished",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native framework lifecycle adapter, locally implemented and validated with packed consumers, actual iOS/Android framework interactions and reviewed recordings. Not yet merged or published; not a DOM framework entry.",
+      "issues": [44],
+      "evidence": [
+        "src/react/index.ts",
+        "benchmarks/results/frameworks/acceptance.json",
+        "docs/guide/frameworks.md"
+      ]
+    },
+    {
+      "entry": "./svelte",
+      "symbol": "animate",
+      "nativeStatus": "local-unpublished",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native framework lifecycle adapter, locally implemented and validated with packed consumers, actual iOS/Android framework interactions and reviewed recordings. Not yet merged or published; not a DOM framework entry.",
+      "issues": [44],
+      "evidence": [
+        "src/svelte/index.ts",
+        "benchmarks/results/frameworks/acceptance.json",
+        "docs/guide/frameworks.md"
+      ]
+    },
+    {
+      "entry": "./svelte",
+      "symbol": "press",
+      "nativeStatus": "local-unpublished",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native framework lifecycle adapter, locally implemented and validated with packed consumers, actual iOS/Android framework interactions and reviewed recordings. Not yet merged or published; not a DOM framework entry.",
+      "issues": [44],
+      "evidence": [
+        "src/svelte/index.ts",
+        "benchmarks/results/frameworks/acceptance.json",
+        "docs/guide/frameworks.md"
+      ]
+    },
+    {
+      "entry": "./solid",
+      "symbol": "animate",
+      "nativeStatus": "local-unpublished",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native framework lifecycle adapter, locally implemented and validated with packed consumers, actual iOS/Android framework interactions and reviewed recordings. Not yet merged or published; not a DOM framework entry.",
+      "issues": [44],
+      "evidence": [
+        "src/solid/index.ts",
+        "benchmarks/results/frameworks/acceptance.json",
+        "docs/guide/frameworks.md"
+      ]
+    },
+    {
+      "entry": "./solid",
+      "symbol": "press",
+      "nativeStatus": "local-unpublished",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native framework lifecycle adapter, locally implemented and validated with packed consumers, actual iOS/Android framework interactions and reviewed recordings. Not yet merged or published; not a DOM framework entry.",
+      "issues": [44],
+      "evidence": [
+        "src/solid/index.ts",
+        "benchmarks/results/frameworks/acceptance.json",
+        "docs/guide/frameworks.md"
+      ]
+    },
+    {
+      "entry": "./angular",
+      "symbol": "JoltAnimateDirective",
+      "nativeStatus": "local-unpublished",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native framework lifecycle adapter, locally implemented and validated with packed consumers, actual iOS/Android framework interactions and reviewed recordings. Not yet merged or published; not a DOM framework entry.",
+      "issues": [43],
+      "evidence": [
+        "src/angular/index.ts",
+        "benchmarks/results/frameworks/acceptance.json",
+        "docs/guide/frameworks.md"
+      ]
+    },
+    {
+      "entry": "./angular",
+      "symbol": "JoltIfDirective",
+      "nativeStatus": "local-unpublished",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native framework lifecycle adapter, locally implemented and validated with packed consumers, actual iOS/Android framework interactions and reviewed recordings. Not yet merged or published; not a DOM framework entry.",
+      "issues": [43],
+      "evidence": [
+        "src/angular/index.ts",
+        "benchmarks/results/frameworks/acceptance.json",
+        "docs/guide/frameworks.md"
+      ]
+    },
+    {
+      "entry": "./angular",
+      "symbol": "JoltPressDirective",
+      "nativeStatus": "local-unpublished",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native framework lifecycle adapter, locally implemented and validated with packed consumers, actual iOS/Android framework interactions and reviewed recordings. Not yet merged or published; not a DOM framework entry.",
+      "issues": [43],
+      "evidence": [
+        "src/angular/index.ts",
+        "benchmarks/results/frameworks/acceptance.json",
+        "docs/guide/frameworks.md"
+      ]
+    }
+  ],
+  "contracts": [
+    {
+      "id": "motion-path",
+      "issues": [236, 380],
+      "status": "pending",
+      "limit": "Native path/orient drives translation/tangent orientation; Web drawPath animates a stroke and is not a motion-path equivalent.",
+      "evidence": ["src/types.ts", "src/web/types.ts", "src/web/public.ts"]
+    },
+    {
+      "id": "3d-rotation",
+      "issues": [236, 381],
+      "status": "pending",
+      "limit": "Native rotateX/rotateY have no Web keyframe/property support.",
+      "evidence": ["src/types.ts", "src/web/properties.ts"]
+    },
+    {
+      "id": "shadow-depth",
+      "issues": [236, 382],
+      "status": "pending",
+      "limit": "iOS shadow opacity/radius/offset and Android elevation/translationZ need explicit browser contract decisions; CSS shadow and Z transforms are not automatic semantic substitutes.",
+      "evidence": ["src/types.ts", "src/web/properties.ts"]
+    },
+    {
+      "id": "tooling",
+      "issues": [236, 383],
+      "status": "pending",
+      "limit": "Browser diagnostics do not provide equivalent published trace recording/replay or the editable native inspector.",
+      "evidence": ["src/testing/index.ts", "src/inspector/index.ts", "src/web/public.ts"]
+    },
+    {
+      "id": "physical-gallery",
+      "issues": [117],
+      "status": "validated-emulator-scope",
+      "limit": "Maintainer-selected simulator/emulator acceptance covers interruption, keyed/recycled/deleted return targets, rotation, large text, background/resume and zero terminal navigation resources. Physical hardware remains unverified for this candidate.",
+      "evidence": [
+        "benchmarks/results/acceptance-2026-11-03/gallery-android-lifecycle.json",
+        "benchmarks/results/acceptance-2026-11-03/gallery-ios-large-text.json",
+        "benchmarks/gallery.md"
+      ]
+    },
+    {
+      "id": "physical-scroll",
+      "issues": [116],
+      "status": "validated-emulator-scope",
+      "limit": "Maintainer-selected simulator/emulator acceptance covers fling, short pull/refresh/error retry, late layout/reload/rotation anchors, large text, short/empty content and terminal native-resource cleanup. Physical hardware remains unverified.",
+      "evidence": [
+        "benchmarks/results/acceptance-2026-11-03/scroll-android-refresh.json",
+        "benchmarks/results/acceptance-2026-11-03/scroll-ios-audit.json",
+        "benchmarks/scroll-header.md"
+      ]
+    },
+    {
+      "id": "mobile-browser-hardware",
+      "issues": [236],
+      "status": "local-unpublished",
+      "limit": "Actual Safari simulator and Chrome emulator keyboard/permission/source/lifecycle acceptance passed. Candidate keyboard corrections handle resized and panned viewports and inactive VirtualKeyboard. Emulated sensor readings and a vibration request do not prove physical output.",
+      "evidence": [
+        "benchmarks/web-mobile/README.md",
+        "benchmarks/results/mobile-web/ios.json",
+        "benchmarks/results/mobile-web/android.json",
+        "src/web/keyboard.ts"
+      ]
+    },
+    {
+      "id": "sensor-contract",
+      "issues": [256, 236],
+      "status": "local-unpublished",
+      "limit": "Published native/Web support is rotation/gravity. New native proper/linear acceleration, angular rate and magnetic field are local/unpublished; Web does not expose them. Native hardware timestamps/frequency differ from browser event timestamps/delivery throttling.",
+      "evidence": ["src/sensors/index.ts", "src/web/sensors.ts"]
+    },
+    {
+      "id": "glass-shaders",
+      "issues": [35, 236],
+      "status": "validated-emulator-scope",
+      "limit": "Static-image Metal/AGSL pixels, ownership and cold/warm native-draw/texture acceptance passed in the selected emulator/simulator scope. Browser rendering differs. Arbitrary live-view shaders and physical GPU performance are not supported claims.",
+      "evidence": [
+        "benchmarks/image-renderer.md",
+        "benchmarks/results/image-renderer/summary.json",
+        "src/image-effect.ts",
+        "src/web/image-effect.ts",
+        "src/web/glass.ts"
+      ]
+    },
+    {
+      "id": "framework-adapters",
+      "issues": [43, 44],
+      "status": "local-unpublished",
+      "limit": "Vue is published. Angular, React NativeScript, Svelte Native and Solid are local candidates with packed consumer checks, native iOS/Android lifecycle acceptance and reviewed iOS recordings; see pinned renderer compatibility limits.",
+      "evidence": [
+        "src/vue/index.ts",
+        "scripts/check-package-consumers.mjs",
+        "benchmarks/results/frameworks/acceptance.json",
+        "benchmarks/frameworks.md"
+      ]
+    },
+    {
+      "id": "recipes-comparison",
+      "issues": [66, 65],
+      "status": "validated-emulator-scope",
+      "limit": "Exact compiled gallery/sheet/list recipes passed real iOS/Android interactions with reviewed recordings. The first matched release-app comparison has a reproducible protocol and retained per-run traces; see its result summary for scope and metrics. Local and unpublished.",
+      "evidence": [
+        "docs/guide/recipes.md",
+        "benchmarks/results/recipes/acceptance.json",
+        "benchmarks/comparison.md",
+        "benchmarks/results/comparison-2026-11-03/summary.json"
+      ]
+    },
+    {
+      "id": "sensor-web-vectors",
+      "issues": [236, 385],
+      "status": "pending",
+      "limit": "The new native proper/linear acceleration, gyroscope and magnetic-field kinds have no equivalent public Web kind/availability contract yet.",
+      "evidence": [
+        "src/core/sensor-kinds.ts",
+        "src/sensors/index.ts",
+        "src/web/sensors.ts"
+      ]
+    },
+    {
+      "id": "helpers-preferences",
+      "issues": [236, 386],
+      "status": "pending",
+      "limit": "Browser options support curves/presets and reduced motion, but reusable helper exports and scoped reduced-motion read/observation need an explicit portable public contract.",
+      "evidence": ["src/index.ts", "src/web/public.ts", "src/web/vue/index.ts"]
+    },
+    {
+      "id": "web-layout-ergonomics",
+      "issues": [236],
+      "status": "local-unpublished",
+      "limit": "Web element-relative scroll ranges automatically track layout with explicit anchor/ancestor restrictions. Structured surface conflicts retain string details and geometry/recreation guidance. Native numeric scroll contracts remain unchanged. Mavis adoption is tracked separately in getcortexlabs/mavis-ui#262.",
+      "evidence": [
+        "src/web/scroll-range.ts",
+        "src/web/surface-conflict.ts",
+        "benchmarks/web-support/element-range.spec.ts",
+        "benchmarks/web-support/element-recording.json",
+        "docs/guide/web-support.md"
+      ]
+    }
+  ]
+}

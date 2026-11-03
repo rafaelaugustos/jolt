@@ -191,3 +191,7 @@ Conecte após as views carregarem e concluírem o layout. Aguarde a reconciliaç
 <Clip name="retained-scroll-ios" caption="Simulador de iPhone 17, iOS 26, demo Vue em inglês: scroll real por XCTest, inserção com chave e alturas distintas, arraste/drop nativo e pull-to-refresh protegido. Velocidade original; validação apenas em simulador." />
 
 <Clip name="retained-scroll-android" caption="Emulador Android 16 / API 36, demo Vue em inglês: toques reais do sistema mostram colapso, inserção ancorada, reordenação de linhas montadas e pull-to-refresh nativo. App debug com JavaScript de produção, velocidade original; sem medição de desempenho físico." />
+
+## Aceitação atual em emuladores {#current-emulator-acceptance}
+
+O candidato de 2026-11-03 repete as verificações de interrupção, retorno, rotação, texto ampliado e limpeza no iOS Simulator e Android Emulator, conforme solicitado. Interações nativas repetidas também registram amostras de memória do processo. Os 30 ciclos de scroll mostram alocação e coleta, sem crescimento monotônico; amostras finitas não provam ausência de vazamentos. [Resultados brutos e limites](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/results/acceptance-2026-11-03/README.md). Este candidato não tem aceitação verificada em aparelhos físicos.

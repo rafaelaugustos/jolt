@@ -84,3 +84,32 @@ The reviewed native demos below exercise existing mappings and scroll compositio
 <Clip name="scroll-values-android" caption="Existing Android emulator demo, original speed: actual list scrolling drives header translation, scale, opacity and progress. Native reference." />
 
 Run `npm run web:support:typecheck` and `npm run web:support:test`. The suite checks actual CSS presentation in Chromium, Firefox and WebKit, auto and forced fallback, press composition, geometry, lifecycle, idle frames, keyboard/wheel input and Chromium touch injection. Hidden-time tests control the visibility/scheduler signal rather than mobile backgrounding. Packed Web/Vue/SSR/native consumers and the existing suites remain required. See the [validation report](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/web-support.md).
+
+## Element-relative scroll ranges {#element-range}
+
+Pending in the next release. Replace manual range calculations and observer-driven link recreation with a layout anchor:
+
+```ts
+const linked = motion.scrollLinked(
+  document,
+  ribbon,
+  { x: [0, -220] },
+  {
+    range: { element: section, start: 'start end', end: 'end start' },
+  },
+)
+// The defaults allow: range: { element: section }
+// Cleanup: linked.dispose() — useWebMotion scopes own this automatically.
+```
+
+The default pair is `start end` → `end start`: start when the section enters the viewport and finish when it leaves. Each alignment names an element edge, then a viewport edge; `center` is also accepted. The initial range may be negative for a section already visible. Horizontal ranges follow the source’s LTR/RTL direction.
+
+Size, text, fonts, child insertion and relevant style/class changes update the existing link through batched observers. There is no idle frame loop. `linked.refresh()` also remeasures explicitly; link/scope/runtime disposal removes the observers. If the anchor detaches or becomes invalid, the link releases and reports an error.
+
+Use an untransformed, non-sticky section as the anchor and animate a child or a separate element. The anchor must remain inside the chosen source, without crossing another scroll container. Transformed/fixed/sticky ancestors, zoom and animated layout transitions are outside this contract. For stylesheet/CSSOM changes without observable box or DOM changes, call `linked.refresh()`. Numeric ranges retain their existing behavior.
+
+<Clip name="web-element-range-chromium" caption="Chromium desktop · English UI, original speed. Real wheel and clicks demonstrate section entry/exit, insertion above the section, resizing, explicit geometry diagnostics and observeGeometry recovery. Browser recording; the native reference above demonstrates scroll-driven composition with its own API." />
+
+## Surface conflict diagnostics {#surface-diagnostics}
+
+Ownership conflicts now report `WebSurfaceConflictError`, an element selector and `changes` entries containing `property`, `previous` and `current`. These fields contain strings, not retained DOM nodes. A size-induced origin change includes the old/new dimensions and suggests `observeGeometry()` before layout changes or `refresh()` after a synchronous change. External style writers still require release/recreation; diagnostics do not silently accept them.

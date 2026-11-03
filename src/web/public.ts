@@ -191,6 +191,11 @@ import type {
   WebScrollLink,
 } from './scroll.js'
 export type {
+  WebElementScrollRange,
+  WebScrollAlignment,
+  WebScrollEdge,
+} from './scroll-range.js'
+export type {
   WebScrollValueOptions,
   WebScrollSource,
   WebScrollValue,

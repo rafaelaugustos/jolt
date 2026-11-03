@@ -81,3 +81,32 @@ const progress = scroll.to([0, 400], [0, 1])
 <Clip name="scroll-values-android" caption="现有 Android 模拟器演示，原速：真实列表滚动控制 header 位移、缩放、透明度与进度。原生参考。" />
 
 运行 `npm run web:support:typecheck` 和 `npm run web:support:test`：在 Chromium/Firefox/WebKit 检查真实 CSS、自动/回退、按压、几何、生命周期、空闲、键盘/滚轮及 Chromium 触摸注入。隐藏时间测试控制信号，不测真机后台。还验证实际 Web/Vue/SSR/原生包消费者及现有测试。[复现报告](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/web-support.md)。
+
+## 相对于元素的滚动范围 {#element-range}
+
+计划在下一版本发布。使用布局锚点，替代手动范围计算和观察器驱动的绑定重建：
+
+```ts
+const linked = motion.scrollLinked(
+  document,
+  ribbon,
+  { x: [0, -220] },
+  {
+    range: { element: section, start: 'start end', end: 'end start' },
+  },
+)
+// The defaults allow: range: { element: section }
+// Cleanup: linked.dispose() — useWebMotion scopes own this automatically.
+```
+
+默认边缘为 `start end` → `end start`：元素进入视口时开始，完全离开时结束。每对参数先指定元素边缘，再指定视口边缘，也支持 `center`。初始范围可为负数；水平轴遵循滚动源的 LTR/RTL 方向。
+
+尺寸、文本、字体、子元素插入以及相关样式/类变化通过批量观察器更新同一绑定；空闲时没有帧循环。`linked.refresh()` 可显式重新测量。释放绑定、作用域或 runtime 会清理观察器；锚点卸载或失效时释放绑定并报告错误。
+
+锚点应是未变换、非 sticky 的布局区域；动画应用于子元素或独立元素。锚点必须留在所选滚动源内，且不能跨越其他滚动容器。不支持变换/fixed/sticky 祖先、zoom 或动态布局过渡。stylesheet/CSSOM 更改若没有可观察的盒或 DOM 变化，需要调用 `linked.refresh()`。数值范围行为保持不变。
+
+<Clip name="web-element-range-chromium" caption="桌面 Chromium · 英文界面、原速。真实滚轮和点击展示进入/离开、插入内容、调整尺寸、几何诊断和 observeGeometry 恢复。这是浏览器录制；前文原生参考使用其自身 API。" />
+
+## 表面冲突诊断 {#surface-diagnostics}
+
+所有权冲突现在提供 `WebSurfaceConflictError`、元素选择器和带有 `property`、`previous`、`current` 的 `changes`。字段仅存字符串，不保留 DOM 节点。尺寸引起的原点变化包含新旧尺寸，并建议变更前调用 `observeGeometry()` 或同步变更后调用 `refresh()`。外部样式写入仍需释放并重建表面。

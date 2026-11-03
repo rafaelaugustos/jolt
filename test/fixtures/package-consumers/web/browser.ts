@@ -2,6 +2,7 @@ import {
   createWebRuntime,
   type WebAnimation,
   type WebRuntime,
+  type WebElementScrollRange,
 } from '@rafaelaugusto/jolt/web'
 
 const surface = document.getElementById('card')!
@@ -29,6 +30,15 @@ void animation.finished.then((completed) => {
 // Check the experimental facade without publishing implementation/driver APIs.
 function typeBoundary(context: WebRuntime) {
   const effects = context.scope()
+  const range: WebElementScrollRange = {
+    element: surface,
+    start: 'start end',
+    end: 'end start',
+  }
+  const child = document.createElement('div')
+  effects.scrollLinked(document, child, { x: [0, -220] }, { range }).refresh()
+  // @ts-expect-error Alignments use element and viewport edges.
+  range.start = 'top bottom'
   const emitter = effects.particles(surface, {
     shape: 'ring',
     source: 'bottom',

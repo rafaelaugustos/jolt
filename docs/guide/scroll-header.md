@@ -191,3 +191,7 @@ Attach after the views have loaded and completed layout. Await renderer reconcil
 <Clip name="retained-scroll-ios" caption="iPhone 17 simulator, iOS 26, English Vue demo: actual XCTest scrolling, unequal-height keyed insertion, native handle drag/drop and guarded pull-to-refresh. Original speed; simulator correctness only." />
 
 <Clip name="retained-scroll-android" caption="Android 16 / API 36 emulator, English Vue demo: real OS touches demonstrate collapse, anchored insertion, retained-row reorder and native pull-to-refresh. Debug app with production JavaScript, original speed; no physical-device performance claim." />
+
+## Current emulator acceptance {#current-emulator-acceptance}
+
+The 2026-11-03 candidate repeats interruption, return, rotation, enlarged-text and cleanup checks on iOS Simulator and Android Emulator, as requested by the maintainer. Repeated native interactions also retain process-memory samples. The 30-round scroll run shows allocation and collection rather than monotonic growth; finite samples do not prove absence of leaks. [Raw results and limits](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/results/acceptance-2026-11-03/README.md). Physical-device acceptance remains unverified for this candidate.

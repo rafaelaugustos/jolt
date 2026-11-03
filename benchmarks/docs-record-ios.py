@@ -46,7 +46,32 @@ try:
             seen = cue['id']
             name = cue['name']
             assert name.replace('-', '').isalnum()
-            if cue['action'] == 'appearance':
+            if cue['action'] == 'open-url':
+                assert name == 'web-mobile'
+                subprocess.run(['xcrun', 'simctl', 'openurl', serial, 'http://127.0.0.1:4318/'], check=True)
+            elif cue['action'] == 'image-report':
+                container = subprocess.check_output(['xcrun', 'simctl', 'get_app_container', serial,
+                    'org.nativescript.jolt.benchmark', 'data'], text=True).strip()
+                report = json.loads((Path(container)/'Documents/jolt-image-profile.json').read_text())
+                assert report['session'] >= started_at, 'stale image profile'
+                (output/(name+'.json')).write_text(json.dumps(report, indent=2)+'\n')
+            elif cue['action'] in ('scroll-rotation', 'scroll-report'):
+                container = subprocess.check_output(['xcrun', 'simctl', 'get_app_container', serial,
+                    'org.nativescript.jolt.benchmark', 'data'], text=True).strip()
+                report = json.loads((Path(container)/'Documents/jolt-scroll-header.json').read_text())
+                assert report['events'][0]['time'] >= started_at, 'stale scroll report'
+                if cue['action'] == 'scroll-rotation':
+                    snapshots = [event for event in report['events'] if event['name'] == 'snapshot']
+                    before = next(event for event in report['events'] if event['name'] == 'reload-before')
+                    rotated = snapshots[-1]
+                    # XCTest's retained UITableView snapshot can keep its old rectangle
+                    # after remove/reinsert on iOS 26. Check actual UIKit geometry too.
+                    for key in ('frame', 'bounds', 'accessibilityFrame'):
+                        assert rotated['nativeList'][key][2] > before['nativeList'][key][2], (key, rotated)
+                    assert abs(rotated['nativeList']['bounds'][2] - rotated['viewport']['width']) < 1
+                else:
+                    (output/(name+'.json')).write_text(json.dumps(report, indent=2)+'\n')
+            elif cue['action'] == 'appearance':
                 assert name in ('light', 'dark')
                 subprocess.run(['xcrun', 'simctl', 'ui', serial, 'appearance', name], check=True)
             elif cue['action'] == 'content-size':
@@ -110,6 +135,17 @@ try:
             shutil.copy2(Path(container)/'Documents/sensors-audit.json', report)
             assert json.loads(report.read_text())['session'] >= started_at, 'stale sensor lifecycle report'
             subprocess.run([sys.executable, str(repo/'benchmarks/verify-sensor-lifecycle.py'), str(report)], check=True)
+        if 'testVectorSensors' in methods:
+            container = subprocess.check_output(['xcrun', 'simctl', 'get_app_container', serial,
+                'org.nativescript.jolt.benchmark', 'data'], text=True).strip()
+            report = output/'vector-sensors.json'
+            shutil.copy2(Path(container)/'Documents/vector-sensors.json', report)
+            assert json.loads(report.read_text())['session'] >= started_at, 'stale vector sensor report'
+            subprocess.run([sys.executable, str(repo/'benchmarks/verify-vector-sensors.py'), str(report)], check=True)
+        if 'testScrollHeaderChecks' in methods:
+            subprocess.run([sys.executable, str(repo/'benchmarks/verify-scroll-header.py'), str(output/'scroll-header-audit.json')], check=True)
+        if 'testScrollHeaderLifecycle' in methods:
+            subprocess.run([sys.executable, str(repo/'benchmarks/verify-scroll-header.py'), str(output/'scroll-header-disposed.json'), '--lifecycle', str(output/'scroll-header-reentry.json')], check=True)
         if 'testScrollHeaderLargeText' in methods:
             container = subprocess.check_output(['xcrun', 'simctl', 'get_app_container', serial,
                 'org.nativescript.jolt.benchmark', 'data'], text=True).strip()

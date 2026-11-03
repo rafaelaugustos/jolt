@@ -66,6 +66,10 @@ try {
     'platforms/android/java/',
     'dist/index.js',
     'dist/vue/index.js',
+    'dist/react/index.js',
+    'dist/svelte/index.js',
+    'dist/solid/index.js',
+    'dist/angular/index.js',
     'dist/native/index.js',
     'dist/web/public.js',
   ])
@@ -119,6 +123,10 @@ try {
       ['@rafaelaugusto/jolt/native', '/dist/native/index.js'],
       ['@rafaelaugusto/jolt/web', '/dist/web/public.js'],
       ['@rafaelaugusto/jolt/web/vue', '/dist/web/vue/index.js'],
+      ['@rafaelaugusto/jolt/react', '/dist/react/index.js'],
+      ['@rafaelaugusto/jolt/svelte', '/dist/svelte/index.js'],
+      ['@rafaelaugusto/jolt/solid', '/dist/solid/index.js'],
+      ['@rafaelaugusto/jolt/angular', '/dist/angular/index.js'],
     ]) assert(import.meta.resolve(specifier).endsWith(file));
     for (const suffix of ['/core', '/dist/core/index.js', '/src/web/runtime.js', '/web/react'])
       assert.throws(() => import.meta.resolve('@rafaelaugusto/jolt' + suffix), { code: 'ERR_PACKAGE_PATH_NOT_EXPORTED' });
@@ -416,6 +424,10 @@ try {
     'nativescript-vue',
     '@nativescript/types-ios',
     '@nativescript/types-android',
+    'react',
+    '@types/react',
+    'solid-js',
+    '@angular/core',
   ]
   const nativeTools = json(
     join(root, 'benchmarks/native-app/package.json'),
@@ -443,7 +455,15 @@ try {
   )
     .trim()
     .split(/\r?\n/)
-  for (const file of ['index.d.ts', 'vue/index.d.ts', 'native/index.d.ts'])
+  for (const file of [
+    'index.d.ts',
+    'vue/index.d.ts',
+    'native/index.d.ts',
+    'react/index.d.ts',
+    'svelte/index.d.ts',
+    'solid/index.d.ts',
+    'angular/index.d.ts',
+  ])
     assert(
       nativeFiles.includes(join(native, 'node_modules/@rafaelaugusto/jolt/dist', file)),
     )

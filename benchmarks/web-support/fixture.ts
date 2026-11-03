@@ -1,3 +1,4 @@
+import { elementDemo } from './element-demo.js'
 import { createWebRuntime, type WebRuntime } from '../../src/web/runtime.js'
 import type { WebReadableValue, WebMotionValue, WebBinding } from '../../src/web/value.js'
 import type { WebScrollLink, WebScrollValue } from '../../src/web/scroll.js'
@@ -36,7 +37,8 @@ declare global {
   }
 }
 Object.assign(window, { lab: { createWebRuntime, makeTarget, makeSource } })
-if (!location.search.includes('test')) {
+if (location.search.includes('element-range')) elementDemo()
+else if (!location.search.includes('test')) {
   const motion = createWebRuntime(document, { reducedMotion: 'never' })
   const card = document.querySelector<HTMLElement>('#mapped')!
   const input = motion.motionValue(35),

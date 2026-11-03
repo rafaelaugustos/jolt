@@ -341,6 +341,7 @@ declare namespace org.rafaelaugusto.jolt {
     getFrames(): number
     getTextureBytes(): number
     getLongestFrameNanos(): number
+    getFrameIntervalsMs(): native.Array<number>
     play(endpoint: number): void
     pause(): void
     resume(): void

@@ -1,0 +1,21 @@
+{
+  "recordedAt": "2026-11-03T14:24:14.652Z",
+  "browser": "156.0.8078.4",
+  "scope": "Desktop browser, English UI, actual wheel/click input, original speed",
+  "actions": [
+    "wheel scroll",
+    "insert content above anchor",
+    "resize anchor",
+    "scroll forward/back",
+    "show detailed geometry conflict",
+    "observe geometry and resize"
+  ],
+  "sources": {
+    "runtime": "436fdafbdbe5806f766ace47d87f53d4baee6b208ab2179b49df98daace938f8",
+    "scroll": "d023043493a16ba6f55fed3e788406ece4bef18f59e75fb8801b74b2a00dd0d8",
+    "scroll-range": "3540c407cfaf392e1bba1823393e9c8b82f278fa15a00d198115f061cc183cf2",
+    "surface-conflict": "deb62005e98d1c32db3046e84a6c27e79fef15184fbdc4f4b47b6fb202405b77"
+  },
+  "videoSHA256": "9fcee77fb3deb64e82be9e5c4dc05dc3b2ce650993d6843b43b47e954492941b",
+  "review": "Full decode passed; original-speed frames reviewed for scrolling, insertion/resize, detailed geometry error and successful observed resize. Capture preceded formatting-only changes and addition of custom-property invalidation, which does not change this fixture behavior."
+}

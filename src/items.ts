@@ -1,7 +1,7 @@
 import { ListView, View, type EventData, type ItemEventData } from '@nativescript/core'
 import { animate, endingValues, startingValues, toView } from './animate.js'
 import { getDriver } from './driver/index.js'
-import { stopView } from './engine.js'
+import { stopView, type Animation } from './engine.js'
 import type { PresetName } from './presets.js'
 import { writeValue } from './properties.js'
 import type { SpringName } from './transition.js'
@@ -57,6 +57,7 @@ export function animateItems(
   const ends = endingValues(animation, transition)
 
   const rows = new Set<Row>()
+  const owners = new WeakMap<Row, Animation>()
   const seenItems = new WeakSet<object>()
   const seenKeys = new Set<string>()
   const pending: Pending[] = []
@@ -64,21 +65,33 @@ export function animateItems(
   let disposed = false
 
   const settle = (row: Row) => {
+    owners.get(row)?.stop()
+    owners.delete(row)
     stopView(row, properties)
     for (const [property, value] of ends)
       if (value !== null) writeValue(row, property, value)
     getDriver().sync?.(row)
   }
+  const releaseRow = (row: Row) => {
+    if (!rows.delete(row)) return
+    row.off('unloaded', onRowUnloaded)
+    settle(row)
+  }
+  const onRowUnloaded = (event: EventData) => releaseRow(event.object as Row)
   const show = (row: Row, { item, key }: Pending) => {
-    rows.add(row)
+    if (!rows.has(row)) {
+      rows.add(row)
+      row.on('unloaded', onRowUnloaded)
+    }
     const tracked = typeof item === 'object' && item !== null
     const seen = tracked ? seenItems.has(item) : seenKeys.has(key)
     if (tracked) seenItems.add(item)
     else seenKeys.add(key)
     if (once && seen) settle(row)
     else {
+      owners.get(row)?.stop()
       stopView(row, properties)
-      animate(row, animation, transition)
+      owners.set(row, animate(row, animation, transition))
     }
   }
   const flush = () => {
@@ -91,7 +104,7 @@ export function animateItems(
       if (!rows.has(child)) fresh.push(child)
       return true
     })
-    for (const row of rows) if (!current.has(row)) rows.delete(row)
+    for (const row of rows) if (!current.has(row)) releaseRow(row)
     for (const entry of pending.splice(0)) {
       const row =
         fresh.find(
@@ -130,8 +143,7 @@ export function animateItems(
     source.off(ListView.itemLoadingEvent, onItemLoading)
     source.off('unloaded', cleanup)
     pending.length = 0
-    for (const row of rows) settle(row)
-    rows.clear()
+    for (const row of rows) releaseRow(row)
   }
 
   source.on(ListView.itemLoadingEvent, onItemLoading)

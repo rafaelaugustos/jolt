@@ -180,6 +180,37 @@ function audit(name: string, extra?: unknown) {
     geometry: g,
     ready: owner?.ready ?? false,
     viewport: list?.getActualSize(),
+    nativeList:
+      isIOS && list?.ios
+        ? {
+            frame: [
+              list.ios.frame.origin.x,
+              list.ios.frame.origin.y,
+              list.ios.frame.size.width,
+              list.ios.frame.size.height,
+            ],
+            bounds: [
+              list.ios.bounds.origin.x,
+              list.ios.bounds.origin.y,
+              list.ios.bounds.size.width,
+              list.ios.bounds.size.height,
+            ],
+            accessibilityFrame: [
+              list.ios.accessibilityFrame.origin.x,
+              list.ios.accessibilityFrame.origin.y,
+              list.ios.accessibilityFrame.size.width,
+              list.ios.accessibilityFrame.size.height,
+            ],
+            transform: [
+              list.ios.transform.a,
+              list.ios.transform.b,
+              list.ios.transform.c,
+              list.ios.transform.d,
+              list.ios.transform.tx,
+              list.ios.transform.ty,
+            ],
+          }
+        : undefined,
     host:
       isIOS && list?.parent?.ios ? { clips: list.parent.ios.clipsToBounds } : undefined,
     typography: {

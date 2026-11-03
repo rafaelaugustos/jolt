@@ -1,0 +1,183 @@
+{
+  "scope": "Simulator/emulator draw-callback intervals, not GPU or presentation time. Primary runs without screen recording.",
+  "platforms": {
+    "ios": {
+      "density": 3,
+      "imageDips": {
+        "width": 160,
+        "height": 220
+      },
+      "cases": [
+        {
+          "case": "initial-ripple",
+          "runs": 1,
+          "setupMs": {
+            "n": 1,
+            "p50": 52.0,
+            "p95": 52.0,
+            "p99": 52.0,
+            "max": 52
+          },
+          "drawIntervalMs": {
+            "n": 93,
+            "p50": 16.667249998135958,
+            "p95": 17.266966665920336,
+            "p99": 34.08625333220695,
+            "max": 49.43016666220501
+          },
+          "maxCombinedOwnedTextureBytes": 1267200,
+          "terminalOwnedTextureBytes": 0
+        },
+        {
+          "case": "warm-ripple",
+          "runs": 5,
+          "setupMs": {
+            "n": 5,
+            "p50": 4.0,
+            "p95": 5.0,
+            "p99": 5.0,
+            "max": 5
+          },
+          "drawIntervalMs": {
+            "n": 475,
+            "p50": 16.66645833029179,
+            "p95": 16.70779166815919,
+            "p99": 16.732552502217004,
+            "max": 16.759416670538485
+          },
+          "maxCombinedOwnedTextureBytes": 1267200,
+          "terminalOwnedTextureBytes": 0
+        },
+        {
+          "case": "first-two-dissolves",
+          "runs": 1,
+          "setupMs": {
+            "n": 2,
+            "p50": 7.0,
+            "p95": 7.9,
+            "p99": 7.98,
+            "max": 8
+          },
+          "drawIntervalMs": {
+            "n": 190,
+            "p50": 16.668520831444766,
+            "p95": 16.745456248827395,
+            "p99": 16.818062919192016,
+            "max": 17.280375002883375
+          },
+          "maxCombinedOwnedTextureBytes": 5068800,
+          "terminalOwnedTextureBytes": 0
+        },
+        {
+          "case": "warm-two-dissolves",
+          "runs": 5,
+          "setupMs": {
+            "n": 10,
+            "p50": 8.0,
+            "p95": 10.549999999999999,
+            "p99": 10.91,
+            "max": 11
+          },
+          "drawIntervalMs": {
+            "n": 952,
+            "p50": 16.66702083457494,
+            "p95": 16.768945832154714,
+            "p99": 17.27739833339001,
+            "max": 33.344625000609085
+          },
+          "maxCombinedOwnedTextureBytes": 5068800,
+          "terminalOwnedTextureBytes": 0
+        }
+      ]
+    },
+    "android": {
+      "density": 2.625,
+      "imageDips": {
+        "width": 160,
+        "height": 220.1904761904762
+      },
+      "cases": [
+        {
+          "case": "initial-ripple",
+          "runs": 1,
+          "setupMs": {
+            "n": 1,
+            "p50": 29.0,
+            "p95": 29.0,
+            "p99": 29.0,
+            "max": 29
+          },
+          "drawIntervalMs": {
+            "n": 84,
+            "p50": 16.699666999999998,
+            "p95": 20.422887399999986,
+            "p99": 74.5311196400001,
+            "max": 124.110167
+          },
+          "maxCombinedOwnedTextureBytes": 1213800,
+          "terminalOwnedTextureBytes": 0
+        },
+        {
+          "case": "warm-ripple",
+          "runs": 5,
+          "setupMs": {
+            "n": 5,
+            "p50": 1.0,
+            "p95": 1.7999999999999998,
+            "p99": 1.96,
+            "max": 2
+          },
+          "drawIntervalMs": {
+            "n": 475,
+            "p50": 16.669041,
+            "p95": 17.477571299999997,
+            "p99": 18.15694684,
+            "max": 22.4435
+          },
+          "maxCombinedOwnedTextureBytes": 1213800,
+          "terminalOwnedTextureBytes": 0
+        },
+        {
+          "case": "first-two-dissolves",
+          "runs": 1,
+          "setupMs": {
+            "n": 2,
+            "p50": 2.0,
+            "p95": 2.0,
+            "p99": 2.0,
+            "max": 2
+          },
+          "drawIntervalMs": {
+            "n": 190,
+            "p50": 16.6945205,
+            "p95": 17.451000299999997,
+            "p99": 18.486604359999998,
+            "max": 18.537833
+          },
+          "maxCombinedOwnedTextureBytes": 4369680,
+          "terminalOwnedTextureBytes": 0
+        },
+        {
+          "case": "warm-two-dissolves",
+          "runs": 5,
+          "setupMs": {
+            "n": 10,
+            "p50": 2.0,
+            "p95": 3.549999999999999,
+            "p99": 3.91,
+            "max": 4
+          },
+          "drawIntervalMs": {
+            "n": 950,
+            "p50": 16.6746245,
+            "p95": 17.416901749999994,
+            "p99": 18.47228633,
+            "max": 19.497125
+          },
+          "maxCombinedOwnedTextureBytes": 4369680,
+          "terminalOwnedTextureBytes": 0
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,1826 @@
+{
+  "scope": "Android emulator only; no physical-device ranking",
+  "windowSeconds": 30,
+  "repetitions": 2,
+  "hostAcceptance": "Before launching the app: 1-minute load <= 0.75 * logical CPUs. All samples: aggregate compiler CPU <= 25% of host capacity (100% is one logical CPU). During playback, load is diagnostic only because it includes the measured emulator. Not thermal or exclusive-host proof.",
+  "protocolHistory": [
+    {
+      "plannedRepetitions": 5,
+      "finalRepetitions": 3,
+      "windowSeconds": 30,
+      "changedAtHostTime": 1793714962.803852,
+      "reason": "Maintainer requested faster delivery. Existing complete 30-second windows are unchanged; report three-run variability as an initial emulator baseline."
+    },
+    {
+      "plannedRepetitions": 3,
+      "finalRepetitions": 2,
+      "windowSeconds": 30,
+      "changedAtHostTime": 1793716814.589757,
+      "acceptedRuns": 18,
+      "reason": "To complete the maintainer-requested first baseline promptly, stop at two complete balanced repetitions of all nine stack/phase combinations. The third repetition had no accepted windows and host admission was still waiting. Preserve every accepted run, report both values/range, and avoid statistical or hardware-ranking claims."
+    }
+  ],
+  "hostAcceptanceHistory": [
+    {
+      "policy": "1-minute load <= 0.75 * logical CPUs and no sampled compiler using >10% CPU; sampled before/after and around input boundaries; not thermal or exclusive-host proof",
+      "acceptedRuns": 9,
+      "note": "These accepted windows also satisfy the final aggregate-compiler threshold. Previously rejected windows remain rejected."
+    },
+    {
+      "policy": "1-minute load <= 0.75 * logical CPUs and aggregate sampled compiler CPU <= 25% of host capacity (100% is one logical CPU); sampled before/after and around input boundaries; not thermal or exclusive-host proof",
+      "changedAtHostTime": 1793714790.602289,
+      "reason": "A single compiler on a 16-CPU host was rejected even with about 65% measured aggregate CPU idle. Aggregate compilation load is the relevant coarse contention guard."
+    },
+    {
+      "policy": "Before launching the app: 1-minute load <= 0.75 * logical CPUs. All samples: aggregate compiler CPU <= 25% of host capacity (100% is one logical CPU). During playback, load is diagnostic only because it includes the measured emulator. Not thermal or exclusive-host proof.",
+      "changedAtHostTime": 1793716461.209454,
+      "acceptedRunsBeforeChange": 16,
+      "reason": "During repeated Flutter attempts the measured 5590 emulator itself used about 717% host CPU while unrelated processes were modest. Rejecting in-window load treats workload cost as external interference. Retain initial host admission and compiler guard; record in-window load diagnostically. Earlier accepted windows satisfy this final rule; previous rejected attempts remain separately retained."
+    }
+  ],
+  "aggregation": "Each value is the median and range of two run-level statistics. No pooled-frame percentile is presented as a per-run percentile.",
+  "rows": [
+    {
+      "app": "jolt",
+      "phase": "normal",
+      "runs": 2,
+      "presentationGapMs": {
+        "p50": {
+          "n": 2,
+          "median": 16.747781500000002,
+          "min": 16.660479000000002,
+          "max": 16.835084
+        },
+        "p95": {
+          "n": 2,
+          "median": 20.83351045,
+          "min": 18.1533125,
+          "max": 23.513708399999995
+        },
+        "p99": {
+          "n": 2,
+          "median": 23.439690569999996,
+          "min": 19.780262499999996,
+          "max": 27.09911864
+        },
+        "max": {
+          "n": 2,
+          "median": 34.637688,
+          "min": 22.415542,
+          "max": 46.859834
+        }
+      },
+      "queueToPresentMs": {
+        "p50": {
+          "n": 2,
+          "median": 33.120396,
+          "min": 33.036042,
+          "max": 33.204750000000004
+        },
+        "p95": {
+          "n": 2,
+          "median": 39.189821925,
+          "min": 34.647408399999996,
+          "max": 43.73223545
+        },
+        "p99": {
+          "n": 2,
+          "median": 42.215078825,
+          "min": 36.227083959999995,
+          "max": 48.203073690000004
+        },
+        "max": {
+          "n": 2,
+          "median": 51.1654165,
+          "min": 38.468458,
+          "max": 63.862375
+        }
+      },
+      "inputHandlingMs": {
+        "p50": {
+          "n": 2,
+          "median": 0.171031,
+          "min": 0.1157705,
+          "max": 0.2262915
+        },
+        "p95": {
+          "n": 2,
+          "median": 0.39227075,
+          "min": 0.35202075,
+          "max": 0.43252075
+        },
+        "p99": {
+          "n": 2,
+          "median": 0.42283735000000006,
+          "min": 0.37767055000000005,
+          "max": 0.46800415000000006
+        },
+        "max": {
+          "n": 2,
+          "median": 0.430479,
+          "min": 0.384083,
+          "max": 0.476875
+        }
+      },
+      "inputAssociatedPresentMs": {
+        "p50": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p95": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p99": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "max": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "appFrameTimelineDurationMs": {
+        "p50": {
+          "n": 2,
+          "median": 15.120375,
+          "min": 6.6165,
+          "max": 23.62425
+        },
+        "p95": {
+          "n": 2,
+          "median": 23.2342253,
+          "min": 7.738483799999998,
+          "max": 38.7299668
+        },
+        "p99": {
+          "n": 2,
+          "median": 28.6679247,
+          "min": 12.083906039999988,
+          "max": 45.25194336000001
+        },
+        "max": {
+          "n": 2,
+          "median": 41.622771,
+          "min": 22.552542,
+          "max": 60.693
+        }
+      },
+      "sampledRssBytes": {
+        "p50": {
+          "n": 2,
+          "median": 180000768.0,
+          "min": 179499008.0,
+          "max": 180502528.0
+        },
+        "p95": {
+          "n": 2,
+          "median": 180393984.0,
+          "min": 180023296.0,
+          "max": 180764672.0
+        },
+        "p99": {
+          "n": 2,
+          "median": 180393984.0,
+          "min": 180023296.0,
+          "max": 180764672.0
+        },
+        "max": {
+          "n": 2,
+          "median": 180393984.0,
+          "min": 180023296.0,
+          "max": 180764672.0
+        }
+      },
+      "presentedFrames": {
+        "n": 2,
+        "median": 1753.5,
+        "min": 1710,
+        "max": 1797
+      },
+      "cpuSeconds": {
+        "n": 2,
+        "median": 9.752977,
+        "min": 7.175806,
+        "max": 12.330148
+      },
+      "pssBeforeMiB": {
+        "n": 2,
+        "median": 100.56689453125,
+        "min": 99.6220703125,
+        "max": 101.51171875
+      },
+      "pssAfterMiB": {
+        "n": 2,
+        "median": 102.89013671875,
+        "min": 102.09765625,
+        "max": 103.6826171875
+      },
+      "appDeadlineMissed": {
+        "n": 2,
+        "median": 1.5,
+        "min": 0,
+        "max": 3
+      },
+      "droppedFrames": {
+        "n": 2,
+        "median": 0.0,
+        "min": 0,
+        "max": 0
+      },
+      "warnings": []
+    },
+    {
+      "app": "reanimated",
+      "phase": "normal",
+      "runs": 2,
+      "presentationGapMs": {
+        "p50": {
+          "n": 2,
+          "median": 16.671000499999998,
+          "min": 16.659917,
+          "max": 16.682084
+        },
+        "p95": {
+          "n": 2,
+          "median": 18.441075399999995,
+          "min": 18.1943672,
+          "max": 18.687783599999996
+        },
+        "p99": {
+          "n": 2,
+          "median": 21.862352389999998,
+          "min": 20.30175465999999,
+          "max": 23.422950120000003
+        },
+        "max": {
+          "n": 2,
+          "median": 192.033479,
+          "min": 35.801625,
+          "max": 348.265333
+        }
+      },
+      "queueToPresentMs": {
+        "p50": {
+          "n": 2,
+          "median": 16.49717725,
+          "min": 16.2950215,
+          "max": 16.699333000000003
+        },
+        "p95": {
+          "n": 2,
+          "median": 25.774432575,
+          "min": 17.743216999999998,
+          "max": 33.80564815
+        },
+        "p99": {
+          "n": 2,
+          "median": 27.884492655000006,
+          "min": 19.531853419999997,
+          "max": 36.237131890000015
+        },
+        "max": {
+          "n": 2,
+          "median": 195.479333,
+          "min": 43.257625,
+          "max": 347.701041
+        }
+      },
+      "inputHandlingMs": {
+        "p50": {
+          "n": 2,
+          "median": 0.45436449999999995,
+          "min": 0.28775,
+          "max": 0.620979
+        },
+        "p95": {
+          "n": 2,
+          "median": 1.8203545,
+          "min": 0.56864625,
+          "max": 3.07206275
+        },
+        "p99": {
+          "n": 2,
+          "median": 2.1371045000000004,
+          "min": 0.5995628500000001,
+          "max": 3.6746461500000005
+        },
+        "max": {
+          "n": 2,
+          "median": 2.216292,
+          "min": 0.607292,
+          "max": 3.825292
+        }
+      },
+      "inputAssociatedPresentMs": {
+        "p50": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p95": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p99": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "max": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "appFrameTimelineDurationMs": {
+        "p50": {
+          "n": 2,
+          "median": 7.2471875,
+          "min": 6.822,
+          "max": 7.672375
+        },
+        "p95": {
+          "n": 2,
+          "median": 16.0851748,
+          "min": 7.532733,
+          "max": 24.6376166
+        },
+        "p99": {
+          "n": 2,
+          "median": 19.24938027999999,
+          "min": 9.201831119999971,
+          "max": 29.296929440000007
+        },
+        "max": {
+          "n": 2,
+          "median": 28.372332999999998,
+          "min": 18.297375,
+          "max": 38.447291
+        }
+      },
+      "sampledRssBytes": {
+        "p50": {
+          "n": 2,
+          "median": 170416128.0,
+          "min": 170131456.0,
+          "max": 170700800.0
+        },
+        "p95": {
+          "n": 2,
+          "median": 172286361.6,
+          "min": 171954176.0,
+          "max": 172618547.2
+        },
+        "p99": {
+          "n": 2,
+          "median": 172503285.76,
+          "min": 172176998.4,
+          "max": 172829573.12
+        },
+        "max": {
+          "n": 2,
+          "median": 172541952.0,
+          "min": 172216320.0,
+          "max": 172867584.0
+        }
+      },
+      "presentedFrames": {
+        "n": 2,
+        "median": 1774.0,
+        "min": 1764,
+        "max": 1784
+      },
+      "cpuSeconds": {
+        "n": 2,
+        "median": 8.907603,
+        "min": 7.976653,
+        "max": 9.838553
+      },
+      "pssBeforeMiB": {
+        "n": 2,
+        "median": 81.59228515625,
+        "min": 81.2548828125,
+        "max": 81.9296875
+      },
+      "pssAfterMiB": {
+        "n": 2,
+        "median": 92.1962890625,
+        "min": 91.578125,
+        "max": 92.814453125
+      },
+      "appDeadlineMissed": {
+        "n": 2,
+        "median": 2.5,
+        "min": 1,
+        "max": 4
+      },
+      "droppedFrames": {
+        "n": 2,
+        "median": 0.0,
+        "min": 0,
+        "max": 0
+      },
+      "warnings": []
+    },
+    {
+      "app": "flutter",
+      "phase": "normal",
+      "runs": 2,
+      "presentationGapMs": {
+        "p50": {
+          "n": 2,
+          "median": 18.8940835,
+          "min": 16.655292,
+          "max": 21.132875
+        },
+        "p95": {
+          "n": 2,
+          "median": 24.720220399999995,
+          "min": 18.2362705,
+          "max": 31.20417029999999
+        },
+        "p99": {
+          "n": 2,
+          "median": 27.224801519999996,
+          "min": 19.402737979999998,
+          "max": 35.046865059999995
+        },
+        "max": {
+          "n": 2,
+          "median": 40.7757915,
+          "min": 32.738375,
+          "max": 48.813208
+        }
+      },
+      "queueToPresentMs": {
+        "p50": {
+          "n": 2,
+          "median": 30.926021000000002,
+          "min": 16.655188000000003,
+          "max": 45.196854
+        },
+        "p95": {
+          "n": 2,
+          "median": 45.24435832499999,
+          "min": 33.630083,
+          "max": 56.85863364999999
+        },
+        "p99": {
+          "n": 2,
+          "median": 49.474109175,
+          "min": 34.62625835,
+          "max": 64.32196
+        },
+        "max": {
+          "n": 2,
+          "median": 59.589937,
+          "min": 40.044708,
+          "max": 79.135166
+        }
+      },
+      "inputHandlingMs": {
+        "p50": {
+          "n": 2,
+          "median": 0.34548975,
+          "min": 0.2439795,
+          "max": 0.44699999999999995
+        },
+        "p95": {
+          "n": 2,
+          "median": 0.5001457500000001,
+          "min": 0.33242725,
+          "max": 0.66786425
+        },
+        "p99": {
+          "n": 2,
+          "median": 0.50896235,
+          "min": 0.34538545000000004,
+          "max": 0.67253925
+        },
+        "max": {
+          "n": 2,
+          "median": 0.5111665,
+          "min": 0.348625,
+          "max": 0.673708
+        }
+      },
+      "inputAssociatedPresentMs": {
+        "p50": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p95": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p99": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "max": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "appFrameTimelineDurationMs": {
+        "p50": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p95": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p99": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "max": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "sampledRssBytes": {
+        "p50": {
+          "n": 2,
+          "median": 168855552.0,
+          "min": 168153088.0,
+          "max": 169558016.0
+        },
+        "p95": {
+          "n": 2,
+          "median": 168921088.0,
+          "min": 168284160.0,
+          "max": 169558016.0
+        },
+        "p99": {
+          "n": 2,
+          "median": 168921088.0,
+          "min": 168284160.0,
+          "max": 169558016.0
+        },
+        "max": {
+          "n": 2,
+          "median": 168921088.0,
+          "min": 168284160.0,
+          "max": 169558016.0
+        }
+      },
+      "presentedFrames": {
+        "n": 2,
+        "median": 1558.0,
+        "min": 1320,
+        "max": 1796
+      },
+      "cpuSeconds": {
+        "n": 2,
+        "median": 15.7995065,
+        "min": 13.171313,
+        "max": 18.4277
+      },
+      "pssBeforeMiB": {
+        "n": 2,
+        "median": 84.2919921875,
+        "min": 83.1337890625,
+        "max": 85.4501953125
+      },
+      "pssAfterMiB": {
+        "n": 2,
+        "median": 93.8701171875,
+        "min": 93.0380859375,
+        "max": 94.7021484375
+      },
+      "appDeadlineMissed": {
+        "n": 0,
+        "median": null,
+        "min": null,
+        "max": null
+      },
+      "droppedFrames": {
+        "n": 0,
+        "median": null,
+        "min": null,
+        "max": null
+      },
+      "warnings": []
+    },
+    {
+      "app": "jolt",
+      "phase": "app-runtime-block-300ms",
+      "runs": 2,
+      "presentationGapMs": {
+        "p50": {
+          "n": 2,
+          "median": 16.6706455,
+          "min": 16.664375,
+          "max": 16.676916
+        },
+        "p95": {
+          "n": 2,
+          "median": 18.005457874999998,
+          "min": 17.92920775,
+          "max": 18.081708
+        },
+        "p99": {
+          "n": 2,
+          "median": 20.051266699999992,
+          "min": 19.689,
+          "max": 20.413533399999988
+        },
+        "max": {
+          "n": 2,
+          "median": 308.6848755,
+          "min": 300.547917,
+          "max": 316.821834
+        }
+      },
+      "queueToPresentMs": {
+        "p50": {
+          "n": 2,
+          "median": 16.663843999999997,
+          "min": 16.609959,
+          "max": 16.717729
+        },
+        "p95": {
+          "n": 2,
+          "median": 33.44393422500001,
+          "min": 33.289225,
+          "max": 33.598643450000004
+        },
+        "p99": {
+          "n": 2,
+          "median": 35.08688907,
+          "min": 34.04753836,
+          "max": 36.12623977999999
+        },
+        "max": {
+          "n": 2,
+          "median": 44.092332999999996,
+          "min": 36.437,
+          "max": 51.747666
+        }
+      },
+      "inputHandlingMs": {
+        "p50": {
+          "n": 2,
+          "median": 0.0819375,
+          "min": 0.080354,
+          "max": 0.083521
+        },
+        "p95": {
+          "n": 2,
+          "median": 0.17479687500000002,
+          "min": 0.1320315,
+          "max": 0.21756225
+        },
+        "p99": {
+          "n": 2,
+          "median": 0.179859375,
+          "min": 0.13283989999999998,
+          "max": 0.22687885000000002
+        },
+        "max": {
+          "n": 2,
+          "median": 0.18112499999999998,
+          "min": 0.133042,
+          "max": 0.229208
+        }
+      },
+      "inputAssociatedPresentMs": {
+        "p50": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p95": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p99": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "max": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "appFrameTimelineDurationMs": {
+        "p50": {
+          "n": 2,
+          "median": 6.652177249999999,
+          "min": 6.562625,
+          "max": 6.7417295
+        },
+        "p95": {
+          "n": 2,
+          "median": 11.108295724999778,
+          "min": 7.309145599999999,
+          "max": 14.907445849999556
+        },
+        "p99": {
+          "n": 2,
+          "median": 18.031034249999983,
+          "min": 9.65749749999999,
+          "max": 26.404570999999976
+        },
+        "max": {
+          "n": 2,
+          "median": 34.733334,
+          "min": 23.086709,
+          "max": 46.379959
+        }
+      },
+      "sampledRssBytes": {
+        "p50": {
+          "n": 2,
+          "median": 184207360.0,
+          "min": 183861248.0,
+          "max": 184553472.0
+        },
+        "p95": {
+          "n": 2,
+          "median": 184403968.0,
+          "min": 184123392.0,
+          "max": 184684544.0
+        },
+        "p99": {
+          "n": 2,
+          "median": 184403968.0,
+          "min": 184123392.0,
+          "max": 184684544.0
+        },
+        "max": {
+          "n": 2,
+          "median": 184403968.0,
+          "min": 184123392.0,
+          "max": 184684544.0
+        }
+      },
+      "presentedFrames": {
+        "n": 2,
+        "median": 1744.5,
+        "min": 1742,
+        "max": 1747
+      },
+      "cpuSeconds": {
+        "n": 2,
+        "median": 8.2096375,
+        "min": 7.913072,
+        "max": 8.506203
+      },
+      "pssBeforeMiB": {
+        "n": 2,
+        "median": 99.3154296875,
+        "min": 99.0673828125,
+        "max": 99.5634765625
+      },
+      "pssAfterMiB": {
+        "n": 2,
+        "median": 105.23828125,
+        "min": 105.0341796875,
+        "max": 105.4423828125
+      },
+      "appDeadlineMissed": {
+        "n": 2,
+        "median": 3.0,
+        "min": 3,
+        "max": 3
+      },
+      "droppedFrames": {
+        "n": 2,
+        "median": 0.0,
+        "min": 0,
+        "max": 0
+      },
+      "warnings": []
+    },
+    {
+      "app": "reanimated",
+      "phase": "app-runtime-block-300ms",
+      "runs": 2,
+      "presentationGapMs": {
+        "p50": {
+          "n": 2,
+          "median": 16.675062500000003,
+          "min": 16.67275,
+          "max": 16.677375
+        },
+        "p95": {
+          "n": 2,
+          "median": 17.8941875,
+          "min": 17.829791,
+          "max": 17.958584
+        },
+        "p99": {
+          "n": 2,
+          "median": 19.931033300000006,
+          "min": 19.820717200000008,
+          "max": 20.041349400000005
+        },
+        "max": {
+          "n": 2,
+          "median": 36.8088755,
+          "min": 36.592709,
+          "max": 37.025042
+        }
+      },
+      "queueToPresentMs": {
+        "p50": {
+          "n": 2,
+          "median": 16.30395825,
+          "min": 16.2825835,
+          "max": 16.325333
+        },
+        "p95": {
+          "n": 2,
+          "median": 18.42385222499999,
+          "min": 17.4181833,
+          "max": 19.42952114999998
+        },
+        "p99": {
+          "n": 2,
+          "median": 26.448998375000002,
+          "min": 19.586797290000003,
+          "max": 33.311199460000005
+        },
+        "max": {
+          "n": 2,
+          "median": 31.4394585,
+          "min": 26.59675,
+          "max": 36.282167
+        }
+      },
+      "inputHandlingMs": {
+        "p50": {
+          "n": 2,
+          "median": 0.3883335,
+          "min": 0.373792,
+          "max": 0.402875
+        },
+        "p95": {
+          "n": 2,
+          "median": 0.66399975,
+          "min": 0.56724975,
+          "max": 0.76074975
+        },
+        "p99": {
+          "n": 2,
+          "median": 0.67496635,
+          "min": 0.56941635,
+          "max": 0.78051635
+        },
+        "max": {
+          "n": 2,
+          "median": 0.677708,
+          "min": 0.569958,
+          "max": 0.785458
+        }
+      },
+      "inputAssociatedPresentMs": {
+        "p50": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p95": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p99": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "max": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "appFrameTimelineDurationMs": {
+        "p50": {
+          "n": 2,
+          "median": 6.8751875,
+          "min": 6.676167,
+          "max": 7.074208
+        },
+        "p95": {
+          "n": 2,
+          "median": 9.208762149999998,
+          "min": 7.613041299999996,
+          "max": 10.804483
+        },
+        "p99": {
+          "n": 2,
+          "median": 12.602893190000021,
+          "min": 10.569526380000001,
+          "max": 14.636260000000041
+        },
+        "max": {
+          "n": 2,
+          "median": 18.365021,
+          "min": 17.890459,
+          "max": 18.839583
+        }
+      },
+      "sampledRssBytes": {
+        "p50": {
+          "n": 2,
+          "median": 170240000.0,
+          "min": 170192896.0,
+          "max": 170287104.0
+        },
+        "p95": {
+          "n": 2,
+          "median": 172077056.0,
+          "min": 172056576.0,
+          "max": 172097536.0
+        },
+        "p99": {
+          "n": 2,
+          "median": 172326092.8,
+          "min": 172305612.8,
+          "max": 172346572.8
+        },
+        "max": {
+          "n": 2,
+          "median": 172404736.0,
+          "min": 172384256.0,
+          "max": 172425216.0
+        }
+      },
+      "presentedFrames": {
+        "n": 2,
+        "median": 1782.0,
+        "min": 1782,
+        "max": 1782
+      },
+      "cpuSeconds": {
+        "n": 2,
+        "median": 9.225963,
+        "min": 8.930668,
+        "max": 9.521258
+      },
+      "pssBeforeMiB": {
+        "n": 2,
+        "median": 80.9755859375,
+        "min": 80.42578125,
+        "max": 81.525390625
+      },
+      "pssAfterMiB": {
+        "n": 2,
+        "median": 91.40673828125,
+        "min": 90.8798828125,
+        "max": 91.93359375
+      },
+      "appDeadlineMissed": {
+        "n": 2,
+        "median": 1.0,
+        "min": 0,
+        "max": 2
+      },
+      "droppedFrames": {
+        "n": 2,
+        "median": 0.0,
+        "min": 0,
+        "max": 0
+      },
+      "warnings": []
+    },
+    {
+      "app": "flutter",
+      "phase": "app-runtime-block-300ms",
+      "runs": 2,
+      "presentationGapMs": {
+        "p50": {
+          "n": 2,
+          "median": 16.6600835,
+          "min": 16.655834,
+          "max": 16.664333
+        },
+        "p95": {
+          "n": 2,
+          "median": 18.436412500000003,
+          "min": 18.425259,
+          "max": 18.447566000000002
+        },
+        "p99": {
+          "n": 2,
+          "median": 19.877744675,
+          "min": 19.54398504,
+          "max": 20.21150431
+        },
+        "max": {
+          "n": 2,
+          "median": 316.49375,
+          "min": 316.262916,
+          "max": 316.724584
+        }
+      },
+      "queueToPresentMs": {
+        "p50": {
+          "n": 2,
+          "median": 16.5816565,
+          "min": 16.407167,
+          "max": 16.756146
+        },
+        "p95": {
+          "n": 2,
+          "median": 33.4524419,
+          "min": 33.1614668,
+          "max": 33.743417
+        },
+        "p99": {
+          "n": 2,
+          "median": 34.457387365,
+          "min": 34.09992648,
+          "max": 34.81484825
+        },
+        "max": {
+          "n": 2,
+          "median": 37.209188,
+          "min": 37.173959,
+          "max": 37.244417
+        }
+      },
+      "inputHandlingMs": {
+        "p50": {
+          "n": 2,
+          "median": 0.2824795,
+          "min": 0.2633335,
+          "max": 0.3016255
+        },
+        "p95": {
+          "n": 2,
+          "median": 0.38170325000000005,
+          "min": 0.33710450000000003,
+          "max": 0.426302
+        },
+        "p99": {
+          "n": 2,
+          "median": 0.39320745,
+          "min": 0.34188810000000003,
+          "max": 0.4445268
+        },
+        "max": {
+          "n": 2,
+          "median": 0.39608350000000003,
+          "min": 0.343084,
+          "max": 0.449083
+        }
+      },
+      "inputAssociatedPresentMs": {
+        "p50": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p95": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p99": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "max": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "appFrameTimelineDurationMs": {
+        "p50": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p95": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p99": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "max": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "sampledRssBytes": {
+        "p50": {
+          "n": 2,
+          "median": 169216000.0,
+          "min": 168771584.0,
+          "max": 169660416.0
+        },
+        "p95": {
+          "n": 2,
+          "median": 169314304.0,
+          "min": 168902656.0,
+          "max": 169725952.0
+        },
+        "p99": {
+          "n": 2,
+          "median": 169314304.0,
+          "min": 168902656.0,
+          "max": 169725952.0
+        },
+        "max": {
+          "n": 2,
+          "median": 169314304.0,
+          "min": 168902656.0,
+          "max": 169725952.0
+        }
+      },
+      "presentedFrames": {
+        "n": 2,
+        "median": 1745.5,
+        "min": 1745,
+        "max": 1746
+      },
+      "cpuSeconds": {
+        "n": 2,
+        "median": 13.225401999999999,
+        "min": 13.066338,
+        "max": 13.384466
+      },
+      "pssBeforeMiB": {
+        "n": 2,
+        "median": 84.091796875,
+        "min": 83.57421875,
+        "max": 84.609375
+      },
+      "pssAfterMiB": {
+        "n": 2,
+        "median": 93.5947265625,
+        "min": 92.935546875,
+        "max": 94.25390625
+      },
+      "appDeadlineMissed": {
+        "n": 0,
+        "median": null,
+        "min": null,
+        "max": null
+      },
+      "droppedFrames": {
+        "n": 0,
+        "median": null,
+        "min": null,
+        "max": null
+      },
+      "warnings": []
+    },
+    {
+      "app": "jolt",
+      "phase": "ui-thread-block-300ms",
+      "runs": 2,
+      "presentationGapMs": {
+        "p50": {
+          "n": 2,
+          "median": 16.67614625,
+          "min": 16.6718755,
+          "max": 16.680417
+        },
+        "p95": {
+          "n": 2,
+          "median": 18.116005,
+          "min": 17.809905999999998,
+          "max": 18.422104
+        },
+        "p99": {
+          "n": 2,
+          "median": 19.582579,
+          "min": 19.5086375,
+          "max": 19.6565205
+        },
+        "max": {
+          "n": 2,
+          "median": 302.4825425,
+          "min": 300.487876,
+          "max": 304.477209
+        }
+      },
+      "queueToPresentMs": {
+        "p50": {
+          "n": 2,
+          "median": 16.6181045,
+          "min": 16.592084,
+          "max": 16.644125
+        },
+        "p95": {
+          "n": 2,
+          "median": 33.267237449999996,
+          "min": 33.2424624,
+          "max": 33.2920125
+        },
+        "p99": {
+          "n": 2,
+          "median": 34.097643839999996,
+          "min": 33.94347414,
+          "max": 34.25181353999999
+        },
+        "max": {
+          "n": 2,
+          "median": 37.2005835,
+          "min": 36.744959,
+          "max": 37.656208
+        }
+      },
+      "inputHandlingMs": {
+        "p50": {
+          "n": 2,
+          "median": 0.08093700000000001,
+          "min": 0.0796245,
+          "max": 0.0822495
+        },
+        "p95": {
+          "n": 2,
+          "median": 0.227807125,
+          "min": 0.1212395,
+          "max": 0.33437475
+        },
+        "p99": {
+          "n": 2,
+          "median": 0.251277825,
+          "min": 0.1230143,
+          "max": 0.37954135
+        },
+        "max": {
+          "n": 2,
+          "median": 0.25714549999999997,
+          "min": 0.123458,
+          "max": 0.390833
+        }
+      },
+      "inputAssociatedPresentMs": {
+        "p50": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p95": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p99": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "max": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "appFrameTimelineDurationMs": {
+        "p50": {
+          "n": 2,
+          "median": 6.427208,
+          "min": 6.366208,
+          "max": 6.488208
+        },
+        "p95": {
+          "n": 2,
+          "median": 7.0869370499999995,
+          "min": 6.9375659999999995,
+          "max": 7.2363081
+        },
+        "p99": {
+          "n": 2,
+          "median": 9.93036219999999,
+          "min": 9.885865859999985,
+          "max": 9.974858539999996
+        },
+        "max": {
+          "n": 2,
+          "median": 23.3638125,
+          "min": 21.018042,
+          "max": 25.709583
+        }
+      },
+      "sampledRssBytes": {
+        "p50": {
+          "n": 2,
+          "median": 184035328.0,
+          "min": 184004608.0,
+          "max": 184066048.0
+        },
+        "p95": {
+          "n": 2,
+          "median": 184264704.0,
+          "min": 184201216.0,
+          "max": 184328192.0
+        },
+        "p99": {
+          "n": 2,
+          "median": 184343347.2,
+          "min": 184266752.0,
+          "max": 184419942.4
+        },
+        "max": {
+          "n": 2,
+          "median": 184363008.0,
+          "min": 184266752.0,
+          "max": 184459264.0
+        }
+      },
+      "presentedFrames": {
+        "n": 2,
+        "median": 1747.0,
+        "min": 1747,
+        "max": 1747
+      },
+      "cpuSeconds": {
+        "n": 2,
+        "median": 7.839290500000001,
+        "min": 7.780508,
+        "max": 7.898073
+      },
+      "pssBeforeMiB": {
+        "n": 2,
+        "median": 99.0302734375,
+        "min": 99.0078125,
+        "max": 99.052734375
+      },
+      "pssAfterMiB": {
+        "n": 2,
+        "median": 105.08203125,
+        "min": 105.0791015625,
+        "max": 105.0849609375
+      },
+      "appDeadlineMissed": {
+        "n": 2,
+        "median": 3.0,
+        "min": 3,
+        "max": 3
+      },
+      "droppedFrames": {
+        "n": 2,
+        "median": 0.0,
+        "min": 0,
+        "max": 0
+      },
+      "warnings": []
+    },
+    {
+      "app": "reanimated",
+      "phase": "ui-thread-block-300ms",
+      "runs": 2,
+      "presentationGapMs": {
+        "p50": {
+          "n": 2,
+          "median": 16.680771,
+          "min": 16.672667,
+          "max": 16.688875
+        },
+        "p95": {
+          "n": 2,
+          "median": 18.1737835,
+          "min": 18.040167,
+          "max": 18.307399999999994
+        },
+        "p99": {
+          "n": 2,
+          "median": 23.690325810000033,
+          "min": 22.62055790000005,
+          "max": 24.76009372000001
+        },
+        "max": {
+          "n": 2,
+          "median": 301.38656249999997,
+          "min": 301.056458,
+          "max": 301.716667
+        }
+      },
+      "queueToPresentMs": {
+        "p50": {
+          "n": 2,
+          "median": 16.413176999999997,
+          "min": 16.335479,
+          "max": 16.490875
+        },
+        "p95": {
+          "n": 2,
+          "median": 25.605900074999997,
+          "min": 17.682479349999994,
+          "max": 33.5293208
+        },
+        "p99": {
+          "n": 2,
+          "median": 27.614440535,
+          "min": 19.77623875,
+          "max": 35.45264232
+        },
+        "max": {
+          "n": 2,
+          "median": 38.4454375,
+          "min": 22.388958,
+          "max": 54.501917
+        }
+      },
+      "inputHandlingMs": {
+        "p50": {
+          "n": 2,
+          "median": 0.5146664999999999,
+          "min": 0.4301665,
+          "max": 0.5991664999999999
+        },
+        "p95": {
+          "n": 2,
+          "median": 3.278672125,
+          "min": 3.1395627500000005,
+          "max": 3.4177815
+        },
+        "p99": {
+          "n": 2,
+          "median": 3.9546180250000007,
+          "min": 3.7640461500000013,
+          "max": 4.1451899
+        },
+        "max": {
+          "n": 2,
+          "median": 4.1236045,
+          "min": 3.920167,
+          "max": 4.327042
+        }
+      },
+      "inputAssociatedPresentMs": {
+        "p50": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p95": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p99": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "max": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "appFrameTimelineDurationMs": {
+        "p50": {
+          "n": 2,
+          "median": 7.2521664999999995,
+          "min": 6.817,
+          "max": 7.687333
+        },
+        "p95": {
+          "n": 2,
+          "median": 16.50655425,
+          "min": 7.538275,
+          "max": 25.4748335
+        },
+        "p99": {
+          "n": 2,
+          "median": 19.40405802,
+          "min": 10.281286440000006,
+          "max": 28.5268296
+        },
+        "max": {
+          "n": 2,
+          "median": 32.543208,
+          "min": 17.172291,
+          "max": 47.914125
+        }
+      },
+      "sampledRssBytes": {
+        "p50": {
+          "n": 2,
+          "median": 170383360.0,
+          "min": 170287104.0,
+          "max": 170479616.0
+        },
+        "p95": {
+          "n": 2,
+          "median": 172647628.8,
+          "min": 172515328.0,
+          "max": 172779929.6
+        },
+        "p99": {
+          "n": 2,
+          "median": 172815400.96,
+          "min": 172698828.8,
+          "max": 172931973.12
+        },
+        "max": {
+          "n": 2,
+          "median": 172873728.0,
+          "min": 172777472.0,
+          "max": 172969984.0
+        }
+      },
+      "presentedFrames": {
+        "n": 2,
+        "median": 1731.0,
+        "min": 1730,
+        "max": 1732
+      },
+      "cpuSeconds": {
+        "n": 2,
+        "median": 9.672362499999998,
+        "min": 8.581653,
+        "max": 10.763072
+      },
+      "pssBeforeMiB": {
+        "n": 2,
+        "median": 81.37939453125,
+        "min": 81.3779296875,
+        "max": 81.380859375
+      },
+      "pssAfterMiB": {
+        "n": 2,
+        "median": 91.97314453125,
+        "min": 91.962890625,
+        "max": 91.9833984375
+      },
+      "appDeadlineMissed": {
+        "n": 2,
+        "median": 5.0,
+        "min": 3,
+        "max": 7
+      },
+      "droppedFrames": {
+        "n": 2,
+        "median": 0.0,
+        "min": 0,
+        "max": 0
+      },
+      "warnings": []
+    },
+    {
+      "app": "flutter",
+      "phase": "ui-thread-block-300ms",
+      "runs": 2,
+      "presentationGapMs": {
+        "p50": {
+          "n": 2,
+          "median": 16.65669775,
+          "min": 16.6560625,
+          "max": 16.657333
+        },
+        "p95": {
+          "n": 2,
+          "median": 18.528188375,
+          "min": 18.525108,
+          "max": 18.53126875
+        },
+        "p99": {
+          "n": 2,
+          "median": 19.727447055,
+          "min": 19.636951749999998,
+          "max": 19.817942359999996
+        },
+        "max": {
+          "n": 2,
+          "median": 317.0545205,
+          "min": 315.914166,
+          "max": 318.194875
+        }
+      },
+      "queueToPresentMs": {
+        "p50": {
+          "n": 2,
+          "median": 16.26244825,
+          "min": 16.259084,
+          "max": 16.2658125
+        },
+        "p95": {
+          "n": 2,
+          "median": 25.472389625,
+          "min": 18.1378918,
+          "max": 32.806887450000005
+        },
+        "p99": {
+          "n": 2,
+          "median": 26.45337876,
+          "min": 19.18995696,
+          "max": 33.71680056
+        },
+        "max": {
+          "n": 2,
+          "median": 29.4919375,
+          "min": 23.173833,
+          "max": 35.810042
+        }
+      },
+      "inputHandlingMs": {
+        "p50": {
+          "n": 2,
+          "median": 0.245948,
+          "min": 0.2366875,
+          "max": 0.2552085
+        },
+        "p95": {
+          "n": 2,
+          "median": 0.427322625,
+          "min": 0.40146824999999997,
+          "max": 0.45317700000000005
+        },
+        "p99": {
+          "n": 2,
+          "median": 0.44961412500000003,
+          "min": 0.40802645,
+          "max": 0.4912018000000001
+        },
+        "max": {
+          "n": 2,
+          "median": 0.455187,
+          "min": 0.409666,
+          "max": 0.500708
+        }
+      },
+      "inputAssociatedPresentMs": {
+        "p50": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p95": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p99": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "max": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "appFrameTimelineDurationMs": {
+        "p50": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p95": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "p99": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        },
+        "max": {
+          "n": 0,
+          "median": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "sampledRssBytes": {
+        "p50": {
+          "n": 2,
+          "median": 169984000.0,
+          "min": 169906176.0,
+          "max": 170061824.0
+        },
+        "p95": {
+          "n": 2,
+          "median": 169984000.0,
+          "min": 169906176.0,
+          "max": 170061824.0
+        },
+        "p99": {
+          "n": 2,
+          "median": 169984000.0,
+          "min": 169906176.0,
+          "max": 170061824.0
+        },
+        "max": {
+          "n": 2,
+          "median": 169984000.0,
+          "min": 169906176.0,
+          "max": 170061824.0
+        }
+      },
+      "presentedFrames": {
+        "n": 2,
+        "median": 1744.5,
+        "min": 1744,
+        "max": 1745
+      },
+      "cpuSeconds": {
+        "n": 2,
+        "median": 13.7809455,
+        "min": 12.673015,
+        "max": 14.888876
+      },
+      "pssBeforeMiB": {
+        "n": 2,
+        "median": 84.4931640625,
+        "min": 84.4345703125,
+        "max": 84.5517578125
+      },
+      "pssAfterMiB": {
+        "n": 2,
+        "median": 93.998046875,
+        "min": 93.9658203125,
+        "max": 94.0302734375
+      },
+      "appDeadlineMissed": {
+        "n": 0,
+        "median": null,
+        "min": null,
+        "max": null
+      },
+      "droppedFrames": {
+        "n": 0,
+        "median": null,
+        "min": null,
+        "max": null
+      },
+      "warnings": []
+    }
+  ]
+}

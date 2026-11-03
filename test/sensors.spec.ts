@@ -226,7 +226,50 @@ describe('native sensor sources', () => {
     expect(source.kind).toBe('gravity')
     expect('quaternion' in source).toBe(false)
   })
+  it.each([
+    ['acceleration', 'm/s²'],
+    ['linearAcceleration', 'm/s²'],
+    ['gyroscope', 'rad/s'],
+    ['magneticField', 'µT'],
+  ] as const)(
+    'keeps %s demand, units and replay independent of rotation',
+    (kind, unit) => {
+      const source = sensor(kind),
+        other = rotation()
+      sources.push(source)
+      expect(source.kind).toBe(kind)
+      expect(source.unit).toBe(unit)
+      expect(source.snapshot().values).toEqual([0, 0, 0])
+      expect('quaternion' in source).toBe(false)
+      const stop = bind(createView(), { x: source.x }),
+        stopOther = bind(createView(), { y: other.y })
+      expect(source.status).toBe('active')
+      source.pause()
+      expect(source.status).toBe('paused')
+      expect(other.status).toBe('active')
+      source.play()
+      const trace = [
+        { time: 0, values: [0, 0, 0] },
+        { time: 100, values: [1, -2, 3], orientation: 90 as const },
+      ]
+      replaySensor(source, trace)
+      expect(backends[0]!.replay).toHaveBeenCalledWith(JSON.stringify(trace))
+      expect(() =>
+        replaySensor(source, [
+          { time: 0, values: [0, 0, 0, 1] },
+          { time: 1, values: [0, 0, 0, 1] },
+        ]),
+      ).toThrow()
+      stop()
+      expect(source.status).toBe('idle')
+      expect(other.status).toBe('active')
+      source.dispose()
+      expect(backends[0]!.dispose).toHaveBeenCalledOnce()
+      stopOther()
+    },
+  )
   it('rejects invalid options before allocating native resources', () => {
+    expect(() => sensor('compass' as never)).toThrow()
     for (const interval of [0, -1, 4, Infinity, NaN, 1001])
       expect(() => rotation({ interval })).toThrow()
     expect(() => rotation({ coordinates: 'world' as never })).toThrow()

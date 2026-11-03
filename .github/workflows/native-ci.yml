@@ -42,7 +42,7 @@ jobs:
           cache-dependency-path: |
             package-lock.json
             benchmarks/native-app/package-lock.json
-      - run: npm ci && npm run build && npm run benchmark:typecheck
+      - run: npm ci && npm ci --prefix benchmarks/angular-tools && npm run build && npm run benchmark:typecheck
       - run: python3 -m unittest discover -s benchmarks -p 'test_native_ci.py'
       - run: npm ci && npm run prepare:resources
         working-directory: benchmarks/native-app
@@ -81,7 +81,7 @@ jobs:
         with:
           distribution: temurin
           java-version: 17
-      - run: npm ci && npm run build && npm run benchmark:typecheck
+      - run: npm ci && npm ci --prefix benchmarks/angular-tools && npm run build && npm run benchmark:typecheck
       - run: npm ci && npm run prepare:resources
         working-directory: benchmarks/native-app
       - name: Install compile SDK

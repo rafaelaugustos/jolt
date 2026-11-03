@@ -65,3 +65,5 @@ O unload libera sessão de gestos, bindings e assinatura do teclado; o reload re
 A primeira versão suporta painel dentro da página e o `ScrollView` vertical do core. Modal nativo, plugins de listas virtualizadas e transferência de scroll entre janelas exigem outros adaptadores. Os testes nativos exercitam ações de acessibilidade e foco; uma auditoria completa de navegação VoiceOver/TalkBack em aparelhos físicos é separada destas gravações em simulador.
 
 Com o snap `content`, a receita alinha o conteúdo ao topo para manter a altura intrínseca de listas curtas. `dispose()` restaura também esse alinhamento.
+
+[Receitas nativas completas](recipes.md)

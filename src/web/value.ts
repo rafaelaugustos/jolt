@@ -320,7 +320,7 @@ export class DerivedValueNode extends NumericValue {
   private readonly level: number
   constructor(
     private source: NumericValue,
-    private readonly map: ReturnType<typeof numericMap>,
+    private map: ReturnType<typeof numericMap>,
     report: (error: unknown) => void,
     forget: () => void,
   ) {
@@ -334,6 +334,11 @@ export class DerivedValueNode extends NumericValue {
   }
   override get depth() {
     return this.level
+  }
+  protected remap(map: ReturnType<typeof numericMap>) {
+    if (this.ended) return
+    this.map = map
+    this.publish(this.get(), this.getVelocity())
   }
   override get moving() {
     return !this.ended && this.source.moving
