@@ -49,6 +49,14 @@ self.onmessage = ({ data }) => {
 
 在 iOS 上，Jolt 提交的 Core Animation 轨道可以在 JavaScript 块期间在渲染服务器中继续播放，但输入、新动画设置和 JavaScript 完成回调仍然等待主线程。
 
+## 实测示例：导出报告 {#a-measured-example-exporting-reports}
+
+播放审计现在每次向临时 worker 发送一条记录，并等待确认。worker 保存不断累积的报告，解析原生帧样本，序列化 JSON 并写入文件。UI 运行时保留动画控制，只接收简短的确认消息。启动或写入错误、取消操作以及离开页面都会终止 worker；上一次写入未完成时，不允许提交下一次写入。
+
+<Clip name="report-export-android" caption="Android 15 / API 35 ARM64 模拟器，release 构建。通过真实点击，分别在 UI 线程和 worker 中将同一份实测报告导出 20 次，随后取消另一次运行。批量操作让停顿可见；worker 在播放前启动。保留原始时间，不代表实体设备性能。" />
+
+这是应用和工具层的改动，不会自动把任意 Jolt 回调转移到其他线程。worker 有独立的运行时，也会消耗内存。[CPU/PSS 调查](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/android-resource-profile.md) 分别测量启动时间、主线程 CPU、进程 CPU 和内存，同时检查空闲、播放、原生线程活动、保留句柄和重复释放。UI 线程 CPU 降低并不证明总 CPU 或 PSS 降低。
+
 ## 紧凑播放与已结束的动画
 
 Android 的数值变换和透明度现在用原生 float 数组保存采样曲线，并在原生代码中插值。求解器、采样点、时间和每个属性的独立控制保持不变。只有两个点的曲线以及旧版应用二进制文件继续使用原有路径。颜色、装饰属性和 live springs 使用各自的驱动。

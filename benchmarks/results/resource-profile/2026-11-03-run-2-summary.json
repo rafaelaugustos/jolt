@@ -1,0 +1,964 @@
+{
+  "cases": [
+    {
+      "mode": "playback",
+      "build": {
+        "commit": "a75a9205a43be0d0387beb4f563f48aa9c92e425",
+        "dirty": false,
+        "jolt": "0.1.0-rc.10",
+        "core": "9.1.3",
+        "webpack": "5.101.3",
+        "nativeScriptWebpack": "5.0.38",
+        "runtime": "9.1.1",
+        "mode": "production",
+        "sourcesSha256": "bb0b6b966da946199bf72c171a243950893e3b1d7b306b520dac196fa3d35d5a"
+      },
+      "window": {
+        "ts": "2099753782792",
+        "dur": "12012690380"
+      },
+      "processCpuMs": 3815,
+      "mainThreadCpuMs": 136.68661199999997,
+      "scheduledCpuMs": 4066.3204960000003,
+      "renderThreadShare": 0.9286178789189075,
+      "threads": [
+        {
+          "name": "RenderThread",
+          "tid": 8565,
+          "cpu_ms": 3776.057914
+        },
+        {
+          "name": ".jolt.benchmark",
+          "tid": 8546,
+          "cpu_ms": 168.199929
+        },
+        {
+          "name": "binder:8546_1",
+          "tid": 8556,
+          "cpu_ms": 48.775832
+        },
+        {
+          "name": "binder:8546_3",
+          "tid": 8558,
+          "cpu_ms": 29.509248
+        },
+        {
+          "name": "GPU completion",
+          "tid": 8603,
+          "cpu_ms": 20.549067
+        },
+        {
+          "name": "HWC release",
+          "tid": 8604,
+          "cpu_ms": 14.482534
+        },
+        {
+          "name": "binder:8546_1",
+          "tid": 8576,
+          "cpu_ms": 5.705432
+        },
+        {
+          "name": "Jit thread pool",
+          "tid": 8551,
+          "cpu_ms": 1.08125
+        },
+        {
+          "name": "pool-5-thread-1",
+          "tid": 8621,
+          "cpu_ms": 0.645332
+        },
+        {
+          "name": "Profile Saver",
+          "tid": 8560,
+          "cpu_ms": 0.388
+        },
+        {
+          "name": "V8 DefaultWorke",
+          "tid": 8561,
+          "cpu_ms": 0.257417
+        },
+        {
+          "name": "HeapTaskDaemon",
+          "tid": 8552,
+          "cpu_ms": 0.199958
+        },
+        {
+          "name": "FinalizerWatchd",
+          "tid": 8555,
+          "cpu_ms": 0.177999
+        },
+        {
+          "name": "V8 DefaultWorke",
+          "tid": 8562,
+          "cpu_ms": 0.145417
+        },
+        {
+          "name": "SharedPreferenc",
+          "tid": 8564,
+          "cpu_ms": 0.1385
+        },
+        {
+          "name": "V8 DefaultWorke",
+          "tid": 8563,
+          "cpu_ms": 0.006667
+        }
+      ],
+      "result": {},
+      "snapshots": [
+        {
+          "label": "before",
+          "javaUsedBytes": 3147904,
+          "nativeAllocatedBytes": 29601872,
+          "pssKiB": 93499,
+          "categoriesKiB": {
+            "summary.code": "25152",
+            "summary.stack": "432",
+            "summary.graphics": "0",
+            "summary.java-heap": "4676",
+            "summary.native-heap": "19916",
+            "summary.system": "10359",
+            "summary.total-pss": "93499",
+            "summary.private-other": "32964",
+            "summary.total-swap": "18656"
+          },
+          "gcCount": "3",
+          "gcAllocatedBytes": "7073392",
+          "gcFreedBytes": "3925488",
+          "handles": 0,
+          "trackedReferences": 0,
+          "liveTracks": 0
+        },
+        {
+          "label": "held",
+          "javaUsedBytes": 3164288,
+          "nativeAllocatedBytes": 29692720,
+          "pssKiB": 93065,
+          "categoriesKiB": {
+            "summary.code": "25160",
+            "summary.stack": "464",
+            "summary.graphics": "0",
+            "summary.java-heap": "4700",
+            "summary.native-heap": "20032",
+            "summary.system": "10405",
+            "summary.total-pss": "93065",
+            "summary.private-other": "32304",
+            "summary.total-swap": "18616"
+          },
+          "gcCount": "5",
+          "gcAllocatedBytes": "7630608",
+          "gcFreedBytes": "4466320",
+          "handles": 1,
+          "trackedReferences": 0,
+          "liveTracks": 0
+        },
+        {
+          "label": "released",
+          "javaUsedBytes": 3164288,
+          "nativeAllocatedBytes": 29693552,
+          "pssKiB": 93069,
+          "categoriesKiB": {
+            "summary.code": "25156",
+            "summary.stack": "464",
+            "summary.graphics": "0",
+            "summary.java-heap": "4700",
+            "summary.native-heap": "20032",
+            "summary.system": "10409",
+            "summary.total-pss": "93069",
+            "summary.private-other": "32308",
+            "summary.total-swap": "18616"
+          },
+          "gcCount": "7",
+          "gcAllocatedBytes": "7761712",
+          "gcFreedBytes": "4597424",
+          "handles": 0,
+          "trackedReferences": 0,
+          "liveTracks": 0
+        },
+        {
+          "label": "quiet",
+          "javaUsedBytes": 3164288,
+          "nativeAllocatedBytes": 29694896,
+          "pssKiB": 93106,
+          "categoriesKiB": {
+            "summary.code": "25204",
+            "summary.stack": "464",
+            "summary.graphics": "0",
+            "summary.java-heap": "4700",
+            "summary.native-heap": "20008",
+            "summary.system": "10422",
+            "summary.total-pss": "93106",
+            "summary.private-other": "32308",
+            "summary.total-swap": "18616"
+          },
+          "gcCount": "9",
+          "gcAllocatedBytes": "7892816",
+          "gcFreedBytes": "4728528",
+          "handles": 0,
+          "trackedReferences": 0,
+          "liveTracks": 0
+        }
+      ],
+      "pssMappingsBeforeKiB": {
+        "(anonymous rw-p)": 24960,
+        "base.apk": 17015,
+        "[anon:scudo:primary]": 11656,
+        "[anon:scudo:secondary]": 7932,
+        "base.vdex": 6324,
+        "[anon:dalvik-zygote space]": 5327,
+        "/system/framework/framework.jar": 2656,
+        "[anon:dalvik-/system/framework/boot-framework.art]": 1771,
+        "[anon:dalvik-/system/framework/boot-framework-adservices.art]": 1754,
+        "[anon:dalvik-main space]": 1256
+      },
+      "pssMappingsAfterKiB": {
+        "(anonymous rw-p)": 24668,
+        "base.apk": 17143,
+        "[anon:scudo:primary]": 12128,
+        "[anon:scudo:secondary]": 7936,
+        "base.vdex": 6388,
+        "[anon:dalvik-zygote space]": 5327,
+        "/system/framework/framework.jar": 2669,
+        "[anon:dalvik-/system/framework/boot-framework.art]": 1771,
+        "[anon:dalvik-/system/framework/boot-framework-adservices.art]": 1754,
+        "[anon:dalvik-main space]": 1248
+      },
+      "pssMappingDeltaKiB": {
+        "[anon:scudo:primary]": 472,
+        "base.apk": 128,
+        "base.vdex": 64,
+        "/apex/com.android.art/javalib/core-libart.jar": 49,
+        "[anon:dalvik-LinearAlloc]": 48,
+        "(anonymous rwxp)": 20,
+        "/memfd:jit-cache (deleted)": 16,
+        "/system/framework/framework.jar": 13,
+        "[anon:stack_and_tls:8604]": 12,
+        "[anon:stack_and_tls:8603]": 12
+      }
+    },
+    {
+      "mode": "playback-probe",
+      "build": {
+        "commit": "a75a9205a43be0d0387beb4f563f48aa9c92e425",
+        "dirty": false,
+        "jolt": "0.1.0-rc.10",
+        "core": "9.1.3",
+        "webpack": "5.101.3",
+        "nativeScriptWebpack": "5.0.38",
+        "runtime": "9.1.1",
+        "mode": "production",
+        "sourcesSha256": "bb0b6b966da946199bf72c171a243950893e3b1d7b306b520dac196fa3d35d5a"
+      },
+      "window": {
+        "ts": "2119148964884",
+        "dur": "12022229089"
+      },
+      "processCpuMs": 4014,
+      "mainThreadCpuMs": 189.53412200000002,
+      "scheduledCpuMs": 4318.851957,
+      "renderThreadShare": 0.9116400458271139,
+      "threads": [
+        {
+          "name": "RenderThread",
+          "tid": 8750,
+          "cpu_ms": 3937.238396
+        },
+        {
+          "name": ".jolt.benchmark",
+          "tid": 8730,
+          "cpu_ms": 247.172887
+        },
+        {
+          "name": "binder:8730_3",
+          "tid": 8742,
+          "cpu_ms": 55.398914
+        },
+        {
+          "name": "binder:8730_2",
+          "tid": 8741,
+          "cpu_ms": 29.403551
+        },
+        {
+          "name": "GPU completion",
+          "tid": 8791,
+          "cpu_ms": 26.068933
+        },
+        {
+          "name": "HWC release",
+          "tid": 8792,
+          "cpu_ms": 12.557547
+        },
+        {
+          "name": "binder:8730_3",
+          "tid": 8762,
+          "cpu_ms": 5.786853
+        },
+        {
+          "name": "Jit thread pool",
+          "tid": 8735,
+          "cpu_ms": 3.072126
+        },
+        {
+          "name": "pool-5-thread-1",
+          "tid": 8809,
+          "cpu_ms": 0.661875
+        },
+        {
+          "name": "V8 DefaultWorke",
+          "tid": 8747,
+          "cpu_ms": 0.409667
+        },
+        {
+          "name": "Profile Saver",
+          "tid": 8744,
+          "cpu_ms": 0.36875
+        },
+        {
+          "name": "V8 DefaultWorke",
+          "tid": 8745,
+          "cpu_ms": 0.236041
+        },
+        {
+          "name": "HeapTaskDaemon",
+          "tid": 8736,
+          "cpu_ms": 0.176416
+        },
+        {
+          "name": "SharedPreferenc",
+          "tid": 8749,
+          "cpu_ms": 0.154458
+        },
+        {
+          "name": "FinalizerWatchd",
+          "tid": 8739,
+          "cpu_ms": 0.125084
+        },
+        {
+          "name": "binder:8730_1",
+          "tid": 8740,
+          "cpu_ms": 0.013709
+        },
+        {
+          "name": "V8 DefaultWorke",
+          "tid": 8746,
+          "cpu_ms": 0.00675
+        }
+      ],
+      "result": {
+        "probeWorkMs": 35.19575100811198,
+        "callbacks": 689
+      },
+      "snapshots": [
+        {
+          "label": "before",
+          "javaUsedBytes": 3152000,
+          "nativeAllocatedBytes": 29613168,
+          "pssKiB": 92125,
+          "categoriesKiB": {
+            "summary.code": "25000",
+            "summary.stack": "452",
+            "summary.graphics": "0",
+            "summary.java-heap": "4680",
+            "summary.native-heap": "19904",
+            "summary.system": "10309",
+            "summary.total-pss": "92125",
+            "summary.private-other": "31780",
+            "summary.total-swap": "18656"
+          },
+          "gcCount": "3",
+          "gcAllocatedBytes": "7138928",
+          "gcFreedBytes": "3986928",
+          "handles": 0,
+          "trackedReferences": 0,
+          "liveTracks": 0
+        },
+        {
+          "label": "held",
+          "javaUsedBytes": 3164288,
+          "nativeAllocatedBytes": 29794064,
+          "pssKiB": 92622,
+          "categoriesKiB": {
+            "summary.code": "25180",
+            "summary.stack": "484",
+            "summary.graphics": "0",
+            "summary.java-heap": "4700",
+            "summary.native-heap": "19984",
+            "summary.system": "10374",
+            "summary.total-pss": "92622",
+            "summary.private-other": "31900",
+            "summary.total-swap": "18612"
+          },
+          "gcCount": "5",
+          "gcAllocatedBytes": "9285392",
+          "gcFreedBytes": "6121104",
+          "handles": 1,
+          "trackedReferences": 0,
+          "liveTracks": 0
+        },
+        {
+          "label": "released",
+          "javaUsedBytes": 3164288,
+          "nativeAllocatedBytes": 29794784,
+          "pssKiB": 92634,
+          "categoriesKiB": {
+            "summary.code": "25180",
+            "summary.stack": "484",
+            "summary.graphics": "0",
+            "summary.java-heap": "4700",
+            "summary.native-heap": "19992",
+            "summary.system": "10374",
+            "summary.total-pss": "92634",
+            "summary.private-other": "31904",
+            "summary.total-swap": "18612"
+          },
+          "gcCount": "7",
+          "gcAllocatedBytes": "9416496",
+          "gcFreedBytes": "6252208",
+          "handles": 0,
+          "trackedReferences": 0,
+          "liveTracks": 0
+        },
+        {
+          "label": "quiet",
+          "javaUsedBytes": 3164288,
+          "nativeAllocatedBytes": 29796128,
+          "pssKiB": 92642,
+          "categoriesKiB": {
+            "summary.code": "25180",
+            "summary.stack": "484",
+            "summary.graphics": "0",
+            "summary.java-heap": "4700",
+            "summary.native-heap": "19988",
+            "summary.system": "10382",
+            "summary.total-pss": "92642",
+            "summary.private-other": "31908",
+            "summary.total-swap": "18612"
+          },
+          "gcCount": "9",
+          "gcAllocatedBytes": "9547600",
+          "gcFreedBytes": "6383312",
+          "handles": 0,
+          "trackedReferences": 0,
+          "liveTracks": 0
+        }
+      ],
+      "pssMappingsBeforeKiB": {
+        "(anonymous rw-p)": 24176,
+        "base.apk": 16886,
+        "[anon:scudo:primary]": 11636,
+        "[anon:scudo:secondary]": 7932,
+        "base.vdex": 6324,
+        "[anon:dalvik-zygote space]": 5327,
+        "/system/framework/framework.jar": 2656,
+        "[anon:dalvik-/system/framework/boot-framework.art]": 1771,
+        "[anon:dalvik-/system/framework/boot-framework-adservices.art]": 1754,
+        "[anon:dalvik-main space]": 1256
+      },
+      "pssMappingsAfterKiB": {
+        "(anonymous rw-p)": 24244,
+        "base.apk": 17014,
+        "[anon:scudo:primary]": 12212,
+        "[anon:scudo:secondary]": 7836,
+        "base.vdex": 6452,
+        "[anon:dalvik-zygote space]": 5327,
+        "/system/framework/framework.jar": 2671,
+        "[anon:dalvik-/system/framework/boot-framework.art]": 1771,
+        "[anon:dalvik-/system/framework/boot-framework-adservices.art]": 1754,
+        "[anon:dalvik-main space]": 1248
+      },
+      "pssMappingDeltaKiB": {
+        "[anon:scudo:primary]": 576,
+        "base.apk": 128,
+        "base.vdex": 128,
+        "(anonymous rw-p)": 68,
+        "/apex/com.android.art/javalib/core-libart.jar": 49,
+        "[anon:dalvik-LinearAlloc]": 48,
+        "(anonymous rwxp)": 24,
+        "/memfd:jit-cache (deleted)": 22,
+        "[anon:thread signal stack]": 16,
+        "/system/framework/framework.jar": 15
+      }
+    },
+    {
+      "mode": "report",
+      "build": {
+        "commit": "a75a9205a43be0d0387beb4f563f48aa9c92e425",
+        "dirty": false,
+        "jolt": "0.1.0-rc.10",
+        "core": "9.1.3",
+        "webpack": "5.101.3",
+        "nativeScriptWebpack": "5.0.38",
+        "runtime": "9.1.1",
+        "mode": "production",
+        "sourcesSha256": "bb0b6b966da946199bf72c171a243950893e3b1d7b306b520dac196fa3d35d5a"
+      },
+      "window": {
+        "ts": "2091692829204",
+        "dur": "722774126"
+      },
+      "processCpuMs": 130,
+      "mainThreadCpuMs": 104.45329299999997,
+      "scheduledCpuMs": 132.741838,
+      "renderThreadShare": 0.0,
+      "threads": [
+        {
+          "name": ".jolt.benchmark",
+          "tid": 8433,
+          "cpu_ms": 106.7765
+        },
+        {
+          "name": "HeapTaskDaemon",
+          "tid": 8441,
+          "cpu_ms": 15.010333
+        },
+        {
+          "name": "V8 DefaultWorke",
+          "tid": 8450,
+          "cpu_ms": 5.414668
+        },
+        {
+          "name": "V8 DefaultWorke",
+          "tid": 8451,
+          "cpu_ms": 4.066002
+        },
+        {
+          "name": "V8 DefaultWorke",
+          "tid": 8449,
+          "cpu_ms": 1.245293
+        },
+        {
+          "name": "ReferenceQueueD",
+          "tid": 8442,
+          "cpu_ms": 0.134207
+        },
+        {
+          "name": "FinalizerDaemon",
+          "tid": 8443,
+          "cpu_ms": 0.094835
+        }
+      ],
+      "result": {
+        "exports": [
+          8.33699999975579, 7.849999999962165, 8.510999999998603, 8.117000000311236,
+          9.402000000136468, 8.131000000048516
+        ],
+        "writes": []
+      },
+      "snapshots": [
+        {
+          "label": "before",
+          "javaUsedBytes": 3152000,
+          "nativeAllocatedBytes": 29591184,
+          "pssKiB": 92913,
+          "categoriesKiB": {
+            "summary.code": "25028",
+            "summary.stack": "456",
+            "summary.graphics": "0",
+            "summary.java-heap": "4680",
+            "summary.native-heap": "19900",
+            "summary.system": "10341",
+            "summary.total-pss": "92913",
+            "summary.private-other": "32508",
+            "summary.total-swap": "18652"
+          },
+          "gcCount": "3",
+          "gcAllocatedBytes": "7138928",
+          "gcFreedBytes": "3986928",
+          "handles": 0,
+          "trackedReferences": 0,
+          "liveTracks": 0
+        },
+        {
+          "label": "held",
+          "javaUsedBytes": 3152000,
+          "nativeAllocatedBytes": 29840864,
+          "pssKiB": 107611,
+          "categoriesKiB": {
+            "summary.code": "28996",
+            "summary.stack": "472",
+            "summary.graphics": "0",
+            "summary.java-heap": "4680",
+            "summary.native-heap": "21996",
+            "summary.system": "10347",
+            "summary.total-pss": "107611",
+            "summary.private-other": "41120",
+            "summary.total-swap": "18620"
+          },
+          "gcCount": "9",
+          "gcAllocatedBytes": "44064688",
+          "gcFreedBytes": "40912688",
+          "handles": 0,
+          "trackedReferences": 0,
+          "liveTracks": 0
+        },
+        {
+          "label": "released",
+          "javaUsedBytes": 3152000,
+          "nativeAllocatedBytes": 29851920,
+          "pssKiB": 107615,
+          "categoriesKiB": {
+            "summary.code": "28996",
+            "summary.stack": "472",
+            "summary.graphics": "0",
+            "summary.java-heap": "4680",
+            "summary.native-heap": "21996",
+            "summary.system": "10347",
+            "summary.total-pss": "107615",
+            "summary.private-other": "41124",
+            "summary.total-swap": "18620"
+          },
+          "gcCount": "11",
+          "gcAllocatedBytes": "44195792",
+          "gcFreedBytes": "41043792",
+          "handles": 0,
+          "trackedReferences": 0,
+          "liveTracks": 0
+        },
+        {
+          "label": "quiet",
+          "javaUsedBytes": 3156096,
+          "nativeAllocatedBytes": 29852976,
+          "pssKiB": 107776,
+          "categoriesKiB": {
+            "summary.code": "28996",
+            "summary.stack": "480",
+            "summary.graphics": "0",
+            "summary.java-heap": "4692",
+            "summary.native-heap": "22012",
+            "summary.system": "10352",
+            "summary.total-pss": "107776",
+            "summary.private-other": "41244",
+            "summary.total-swap": "18620"
+          },
+          "gcCount": "13",
+          "gcAllocatedBytes": "44359760",
+          "gcFreedBytes": "41203664",
+          "handles": 0,
+          "trackedReferences": 0,
+          "liveTracks": 0
+        }
+      ],
+      "pssMappingsBeforeKiB": {
+        "(anonymous rw-p)": 24968,
+        "base.apk": 16998,
+        "[anon:scudo:primary]": 11680,
+        "[anon:scudo:secondary]": 7932,
+        "base.vdex": 6260,
+        "[anon:dalvik-zygote space]": 5327,
+        "/system/framework/framework.jar": 2657,
+        "[anon:dalvik-/system/framework/boot-framework.art]": 1771,
+        "[anon:dalvik-/system/framework/boot-framework-adservices.art]": 1754,
+        "[anon:dalvik-main space]": 1256
+      },
+      "pssMappingsAfterKiB": {
+        "(anonymous rw-p)": 33424,
+        "base.apk": 21094,
+        "[anon:scudo:primary]": 12394,
+        "[anon:scudo:secondary]": 9672,
+        "base.vdex": 6260,
+        "[anon:dalvik-zygote space]": 5327,
+        "/system/framework/framework.jar": 2660,
+        "[anon:dalvik-/system/framework/boot-framework.art]": 1771,
+        "[anon:dalvik-/system/framework/boot-framework-adservices.art]": 1754,
+        "[anon:dalvik-main space]": 1240
+      },
+      "pssMappingDeltaKiB": {
+        "(anonymous rw-p)": 8456,
+        "base.apk": 4096,
+        "[anon:scudo:secondary]": 1740,
+        "[anon:scudo:primary]": 714,
+        "[anon:.bss]": 80,
+        "[anon:dalvik-LinearAlloc]": 44,
+        "(anonymous rwxp)": 32,
+        "[anon:dalvik-large object free list space allocation info map]": 16,
+        "/system/lib64/libmeminfo.so": 11,
+        "/apex/com.android.art/javalib/core-oj.jar": 8
+      }
+    },
+    {
+      "mode": "report-worker",
+      "build": {
+        "commit": "a75a9205a43be0d0387beb4f563f48aa9c92e425",
+        "dirty": false,
+        "jolt": "0.1.0-rc.10",
+        "core": "9.1.3",
+        "webpack": "5.101.3",
+        "nativeScriptWebpack": "5.0.38",
+        "runtime": "9.1.1",
+        "mode": "production",
+        "sourcesSha256": "bb0b6b966da946199bf72c171a243950893e3b1d7b306b520dac196fa3d35d5a"
+      },
+      "window": {
+        "ts": "2083706361284",
+        "dur": "722370084"
+      },
+      "processCpuMs": 122,
+      "mainThreadCpuMs": 1.6921250000000327,
+      "scheduledCpuMs": 124.95125199999998,
+      "renderThreadShare": 0.0,
+      "threads": [
+        {
+          "name": "W1: /data/data/",
+          "tid": 8375,
+          "cpu_ms": 103.856461
+        },
+        {
+          "name": "HeapTaskDaemon",
+          "tid": 8324,
+          "cpu_ms": 15.228583
+        },
+        {
+          "name": "V8 DefaultWorke",
+          "tid": 8335,
+          "cpu_ms": 2.835709
+        },
+        {
+          "name": ".jolt.benchmark",
+          "tid": 8318,
+          "cpu_ms": 2.245706
+        },
+        {
+          "name": "V8 DefaultWorke",
+          "tid": 8334,
+          "cpu_ms": 0.473542
+        },
+        {
+          "name": "ReferenceQueueD",
+          "tid": 8325,
+          "cpu_ms": 0.186833
+        },
+        {
+          "name": "FinalizerDaemon",
+          "tid": 8326,
+          "cpu_ms": 0.107459
+        },
+        {
+          "name": "V8 DefaultWorke",
+          "tid": 8333,
+          "cpu_ms": 0.016959
+        }
+      ],
+      "result": {
+        "worker": {
+          "threadId": 8375,
+          "startupMs": 17.2139999999672,
+          "mainThreadId": 8318
+        },
+        "exports": [
+          65.6490000001213, 8.689999999660358, 8.427000000210683, 8.26599999982136,
+          8.366000000023632, 8.29199999998309
+        ],
+        "writes": [
+          {
+            "type": "saved",
+            "id": 1,
+            "threadId": 8375,
+            "elapsedMs": 8.733000000120228,
+            "readMs": 56.22700000003533,
+            "characters": 1834534
+          },
+          {
+            "type": "saved",
+            "id": 2,
+            "threadId": 8375,
+            "elapsedMs": 8.348000000296452,
+            "readMs": 0,
+            "characters": 1834534
+          },
+          {
+            "type": "saved",
+            "id": 3,
+            "threadId": 8375,
+            "elapsedMs": 8.092000000033295,
+            "readMs": 0,
+            "characters": 1834534
+          },
+          {
+            "type": "saved",
+            "id": 4,
+            "threadId": 8375,
+            "elapsedMs": 7.937000000310945,
+            "readMs": 0,
+            "characters": 1834534
+          },
+          {
+            "type": "saved",
+            "id": 5,
+            "threadId": 8375,
+            "elapsedMs": 7.969000000230153,
+            "readMs": 0,
+            "characters": 1834534
+          },
+          {
+            "type": "saved",
+            "id": 6,
+            "threadId": 8375,
+            "elapsedMs": 7.949000000280648,
+            "readMs": 0,
+            "characters": 1834534
+          }
+        ]
+      },
+      "snapshots": [
+        {
+          "label": "before",
+          "javaUsedBytes": 3147904,
+          "nativeAllocatedBytes": 29594992,
+          "pssKiB": 92963,
+          "categoriesKiB": {
+            "summary.code": "24872",
+            "summary.stack": "432",
+            "summary.graphics": "0",
+            "summary.java-heap": "4676",
+            "summary.native-heap": "19976",
+            "summary.system": "10319",
+            "summary.total-pss": "92963",
+            "summary.private-other": "32688",
+            "summary.total-swap": "18672"
+          },
+          "gcCount": "3",
+          "gcAllocatedBytes": "7073392",
+          "gcFreedBytes": "3925488",
+          "handles": 0,
+          "trackedReferences": 0,
+          "liveTracks": 0
+        },
+        {
+          "label": "worker-ready",
+          "javaUsedBytes": 3152000,
+          "nativeAllocatedBytes": 30960128,
+          "pssKiB": 97149,
+          "categoriesKiB": {
+            "summary.code": "24872",
+            "summary.stack": "472",
+            "summary.graphics": "0",
+            "summary.java-heap": "4680",
+            "summary.native-heap": "21280",
+            "summary.system": "10325",
+            "summary.total-pss": "97149",
+            "summary.private-other": "35520",
+            "summary.total-swap": "18640"
+          },
+          "gcCount": "5",
+          "gcAllocatedBytes": "7257744",
+          "gcFreedBytes": "4105744",
+          "handles": 0,
+          "trackedReferences": 0,
+          "liveTracks": 0
+        },
+        {
+          "label": "held",
+          "javaUsedBytes": 3221904,
+          "nativeAllocatedBytes": 31835920,
+          "pssKiB": 123688,
+          "categoriesKiB": {
+            "summary.code": "28648",
+            "summary.stack": "480",
+            "summary.graphics": "0",
+            "summary.java-heap": "4748",
+            "summary.native-heap": "23340",
+            "summary.system": "10324",
+            "summary.total-pss": "123688",
+            "summary.private-other": "56148",
+            "summary.total-swap": "18624"
+          },
+          "gcCount": "11",
+          "gcAllocatedBytes": "44339168",
+          "gcFreedBytes": "41117264",
+          "handles": 0,
+          "trackedReferences": 0,
+          "liveTracks": 0
+        },
+        {
+          "label": "released",
+          "javaUsedBytes": 3152000,
+          "nativeAllocatedBytes": 30201536,
+          "pssKiB": 115396,
+          "categoriesKiB": {
+            "summary.code": "28712",
+            "summary.stack": "440",
+            "summary.graphics": "0",
+            "summary.java-heap": "4680",
+            "summary.native-heap": "22996",
+            "summary.system": "10324",
+            "summary.total-pss": "115396",
+            "summary.private-other": "48244",
+            "summary.total-swap": "18624"
+          },
+          "gcCount": "13",
+          "gcAllocatedBytes": "44470272",
+          "gcFreedBytes": "41318272",
+          "handles": 0,
+          "trackedReferences": 0,
+          "liveTracks": 0
+        },
+        {
+          "label": "quiet",
+          "javaUsedBytes": 3160192,
+          "nativeAllocatedBytes": 30201120,
+          "pssKiB": 115384,
+          "categoriesKiB": {
+            "summary.code": "28716",
+            "summary.stack": "448",
+            "summary.graphics": "0",
+            "summary.java-heap": "4696",
+            "summary.native-heap": "22832",
+            "summary.system": "10328",
+            "summary.total-pss": "115384",
+            "summary.private-other": "48364",
+            "summary.total-swap": "18620"
+          },
+          "gcCount": "15",
+          "gcAllocatedBytes": "44634240",
+          "gcFreedBytes": "41474048",
+          "handles": 0,
+          "trackedReferences": 0,
+          "liveTracks": 0
+        }
+      ],
+      "pssMappingsBeforeKiB": {
+        "(anonymous rw-p)": 24964,
+        "base.apk": 16886,
+        "[anon:scudo:primary]": 11692,
+        "[anon:scudo:secondary]": 7932,
+        "base.vdex": 6196,
+        "[anon:dalvik-zygote space]": 5327,
+        "/system/framework/framework.jar": 2657,
+        "[anon:dalvik-/system/framework/boot-framework.art]": 1771,
+        "[anon:dalvik-/system/framework/boot-framework-adservices.art]": 1755,
+        "[anon:dalvik-main space]": 1256
+      },
+      "pssMappingsAfterKiB": {
+        "(anonymous rw-p)": 40544,
+        "base.apk": 20854,
+        "[anon:scudo:primary]": 13066,
+        "[anon:scudo:secondary]": 9824,
+        "base.vdex": 6196,
+        "[anon:dalvik-zygote space]": 5327,
+        "/system/framework/framework.jar": 2660,
+        "[anon:dalvik-/system/framework/boot-framework.art]": 1771,
+        "[anon:dalvik-/system/framework/boot-framework-adservices.art]": 1754,
+        "[anon:dalvik-main space]": 1244
+      },
+      "pssMappingDeltaKiB": {
+        "(anonymous rw-p)": 15580,
+        "base.apk": 3968,
+        "[anon:scudo:secondary]": 1892,
+        "[anon:scudo:primary]": 1374,
+        "[anon:.bss]": 92,
+        "[anon:dalvik-LinearAlloc]": 44,
+        "(anonymous rwxp)": 20,
+        "[anon:dalvik-large object free list space allocation info map]": 16,
+        "/system/lib64/libmeminfo.so": 11,
+        "[anon:stack_and_tls:8324]": 8
+      }
+    }
+  ],
+  "limits": [
+    "Emulator, release build; profiling results do not establish physical-device performance.",
+    "Scheduler occupancy and process/thread CPU clocks are different observations; virtualization adds variation.",
+    "Memory snapshots and requested GC are outside playback timing, but part of retention workloads.",
+    "Anonymous mappings do not identify individual V8 objects or prove that all growth is cache.",
+    "The diagnostic retains WeakRefs until the held checkpoint, then clears its own bookkeeping.",
+    "Worker startup is separately measured; the export interval excludes startup and includes its first input read."
+  ]
+}

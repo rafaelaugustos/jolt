@@ -1,0 +1,16 @@
+{
+  "phase": "done",
+  "mode": "worker",
+  "exports": 20,
+  "characters": 1834534,
+  "mainCpuMs": 8.517959,
+  "maxGapMs": 26.55483300006017,
+  "worker": {
+    "threadId": 9719,
+    "startupMs": 18.863000000237662
+  },
+  "mainThreadId": 9360,
+  "start": 2256487.4217,
+  "end": 2256861.560075,
+  "nativeMovementPx": 192.67498779296875
+}
