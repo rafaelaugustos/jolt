@@ -53,6 +53,13 @@ type Factories = Pick<
   | 'scrollLinked'
   | 'pointerFollow'
   | 'viewportEnter'
+  | 'onKeyboard'
+  | 'followKeyboard'
+  | 'bottomSheet'
+  | 'interactiveModal'
+  | 'sharedNavigation'
+  | 'physicsWorld'
+  | 'symbolEffect'
   | 'sharedLayout'
 >
 export interface WebMotionScope extends Factories {
@@ -294,6 +301,13 @@ export function createWebScope(
     scrollLinked: (...args) => start(() => runtime.scrollLinked(...args)),
     pointerFollow: (...args) => start(() => runtime.pointerFollow(...args)),
     viewportEnter: (...args) => start(() => runtime.viewportEnter(...args)),
+    onKeyboard: (...args) => start(() => runtime.onKeyboard(...args)),
+    followKeyboard: (...args) => start(() => runtime.followKeyboard(...args)),
+    bottomSheet: (...args) => start(() => runtime.bottomSheet(...args)),
+    interactiveModal: (...args) => start(() => runtime.interactiveModal(...args)),
+    sharedNavigation: (...args) => start(() => runtime.sharedNavigation(...args)),
+    physicsWorld: (...args) => start(() => runtime.physicsWorld(...args)),
+    symbolEffect: (...args) => start(() => runtime.symbolEffect(...args)),
     sharedLayout: (...args) => start(() => runtime.sharedLayout(...args)),
     map: ((
       source: WebReadableValue,

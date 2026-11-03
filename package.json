@@ -175,7 +175,10 @@
     "web:effects:test": "playwright test -c benchmarks/web-effects/playwright.config.mjs",
     "web:surfaces": "node benchmarks/web-surfaces/server.mjs",
     "web:surfaces:typecheck": "tsc -p benchmarks/web-surfaces/tsconfig.json",
-    "web:surfaces:test": "playwright test -c benchmarks/web-surfaces/playwright.config.mjs"
+    "web:surfaces:test": "playwright test -c benchmarks/web-surfaces/playwright.config.mjs",
+    "web:platforms": "node benchmarks/web-platforms/server.mjs",
+    "web:platforms:typecheck": "tsc -p benchmarks/web-platforms/tsconfig.json",
+    "web:platforms:test": "playwright test -c benchmarks/web-platforms/playwright.config.mjs"
   },
   "peerDependencies": {
     "@nativescript/core": ">=8.9.0",

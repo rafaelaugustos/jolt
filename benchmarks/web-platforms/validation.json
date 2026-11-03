@@ -1,0 +1,199 @@
+{
+  "date": "2026-11-03",
+  "releaseStatus": "Unpublished development work. No version bump, tag, npm publication or GitHub release authorized.",
+  "browserTests": {
+    "startTime": "2026-11-03T05:11:22.767Z",
+    "duration": 27812.219,
+    "expected": 66,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "unitTests": 1665,
+  "compiledKernelParity": {
+    "cases": 52,
+    "ports": ["C/iOS", "Java/Android", "TypeScript/Web"],
+    "maximumBodies": "bounded safety comparison; chaotic numeric trajectories need not match bitwise"
+  },
+  "existingBrowserRegressions": {
+    "gestures": {
+      "passed": 53,
+      "skipped": 4
+    },
+    "lifecycle": {
+      "passed": 129
+    },
+    "effects": {
+      "passed": 63
+    },
+    "surfaces": {
+      "passed": 63
+    }
+  },
+  "packageConsumers": "Actual packed declarations, dependency-free Web/SSR, Vite/Vue and NativeScript iOS/Android bundles passed.",
+  "recordings": [
+    {
+      "duration": 7.8,
+      "position": 7.8,
+      "width": 420,
+      "height": 914,
+      "error": null,
+      "sha256": "4cb1c4348335360aec01fd4d969488d0420e1cbb4eddd20cbc3bdc846f9e1273",
+      "path": "docs/public/media/keyboard-ios.mp4",
+      "platform": "iOS simulator (existing native reference)",
+      "language": "en",
+      "review": "Full decode, chronological visual inspection and actual browser video playback to ended at original speed."
+    },
+    {
+      "duration": 8.966667,
+      "position": 8.966667,
+      "width": 420,
+      "height": 914,
+      "error": null,
+      "sha256": "e59c5d8b09a84b4e4bb112efa3a5d630e362d4b62dd546add2b4ddc536549783",
+      "path": "docs/public/media/shared-navigation-ios.mp4",
+      "platform": "iOS simulator (existing native reference)",
+      "language": "en",
+      "review": "Full decode, chronological visual inspection and actual browser video playback to ended at original speed."
+    },
+    {
+      "duration": 12.8,
+      "position": 12.8,
+      "width": 720,
+      "height": 1566,
+      "error": null,
+      "sha256": "ee4d46118d58dacac41120a63ca7446f2f53418d3ff61ba55f9c3594da50c21b",
+      "path": "docs/public/media/interactive-modal-ios.mp4",
+      "platform": "iOS simulator (existing native reference)",
+      "language": "en",
+      "review": "Full decode, chronological visual inspection and actual browser video playback to ended at original speed."
+    },
+    {
+      "duration": 25.3,
+      "position": 25.3,
+      "width": 420,
+      "height": 914,
+      "error": null,
+      "sha256": "09fc363655e0860988d4dc3628b8c7c42f65673b97605421bec01727d772691c",
+      "path": "docs/public/media/bottom-sheet-ios.mp4",
+      "platform": "iOS simulator (existing native reference)",
+      "language": "en",
+      "review": "Full decode, chronological visual inspection and actual browser video playback to ended at original speed."
+    },
+    {
+      "duration": 6.466667,
+      "position": 6.466667,
+      "width": 1000,
+      "height": 920,
+      "error": null,
+      "sha256": "cd386ecb348bdc7013b70209179eac0f9fe10c8bb6fda69430bc610477a7b8b3",
+      "path": "docs/public/media/web-keyboard-platforms-chromium.mp4",
+      "platform": "Chromium 156.0.8078.4 on macOS",
+      "language": "en",
+      "review": "Full decode, chronological visual inspection and actual browser video playback to ended at original speed."
+    },
+    {
+      "duration": 9,
+      "position": 9,
+      "width": 420,
+      "height": 914,
+      "error": null,
+      "sha256": "56bb127ddb4414a93d7789eeef65cef9d0326d81da1f8d05f79b8c030ec9cecb",
+      "path": "docs/public/media/symbols-reference-ios.mp4",
+      "platform": "iOS simulator (existing native reference)",
+      "language": "en",
+      "review": "Full decode, chronological visual inspection and actual browser video playback to ended at original speed."
+    },
+    {
+      "duration": 15.933333,
+      "position": 15.933333,
+      "width": 420,
+      "height": 914,
+      "error": null,
+      "sha256": "b718dcb32bd2721db894f46045297d5ae95870b5038e1a350e06a691ce3d3e90",
+      "path": "docs/public/media/circle-physics-ios.mp4",
+      "platform": "iOS simulator (existing native reference)",
+      "language": "en",
+      "review": "Full decode, chronological visual inspection and actual browser video playback to ended at original speed."
+    },
+    {
+      "duration": 17.2,
+      "position": 17.2,
+      "width": 420,
+      "height": 914,
+      "error": null,
+      "sha256": "cf2b74da0023e5c56ad3f72b5fc406297c0416bd2bb7489b10b93a9b2d00078a",
+      "path": "docs/public/media/physics-attachments-ios.mp4",
+      "platform": "iOS simulator (existing native reference)",
+      "language": "en",
+      "review": "Full decode, chronological visual inspection and actual browser video playback to ended at original speed."
+    },
+    {
+      "duration": 6.8,
+      "position": 6.8,
+      "width": 1000,
+      "height": 920,
+      "error": null,
+      "sha256": "8548c5710612f1e3c38c2c4f450fc8896372c195960625eb299e3a4fddd813e9",
+      "path": "docs/public/media/web-navigation-platforms-chromium.mp4",
+      "platform": "Chromium 156.0.8078.4 on macOS",
+      "language": "en",
+      "review": "Full decode, chronological visual inspection and actual browser video playback to ended at original speed."
+    },
+    {
+      "duration": 7.666667,
+      "position": 7.666667,
+      "width": 1000,
+      "height": 920,
+      "error": null,
+      "sha256": "1100bab6fe97b752dce88c60b4125d7f3a3bcbc1f1ffdf7af4dd85a5c65474b1",
+      "path": "docs/public/media/web-physics-platforms-chromium.mp4",
+      "platform": "Chromium 156.0.8078.4 on macOS",
+      "language": "en",
+      "review": "Full decode, chronological visual inspection and actual browser video playback to ended at original speed."
+    },
+    {
+      "duration": 8.433333,
+      "position": 8.433333,
+      "width": 1000,
+      "height": 920,
+      "error": null,
+      "sha256": "2741dce804c898afa20fcd6727f96e4bab05a4145f9a84d427f7d112bba12e56",
+      "path": "docs/public/media/web-sheet-platforms-chromium.mp4",
+      "platform": "Chromium 156.0.8078.4 on macOS",
+      "language": "en",
+      "review": "Full decode, chronological visual inspection and actual browser video playback to ended at original speed."
+    },
+    {
+      "duration": 9.066667,
+      "position": 9.066667,
+      "width": 1000,
+      "height": 920,
+      "error": null,
+      "sha256": "017d7a1a827b8782ded620872324c26a77b6693e04bb1ca146cb22510f572d11",
+      "path": "docs/public/media/web-modal-platforms-chromium.mp4",
+      "platform": "Chromium 156.0.8078.4 on macOS",
+      "language": "en",
+      "review": "Full decode, chronological visual inspection and actual browser video playback to ended at original speed."
+    },
+    {
+      "duration": 9.3,
+      "position": 9.3,
+      "width": 1000,
+      "height": 920,
+      "error": null,
+      "sha256": "686555d3c9c8e8c82edaa8d3a326dd42a2687fa752990de3e440a419160dab56",
+      "path": "docs/public/media/web-symbols-platforms-chromium.mp4",
+      "platform": "Chromium 156.0.8078.4 on macOS",
+      "language": "en",
+      "review": "Full decode, chronological visual inspection and actual browser video playback to ended at original speed."
+    }
+  ],
+  "limits": [
+    "No physical-device performance claim.",
+    "Desktop Web keyboard video demonstrates actual focus and unavailable software keyboard; mobile Web keyboard following is not recorded. The real native keyboard reference is separately embedded.",
+    "Injected keyboard geometry is confined to browser tests.",
+    "Symbols native reference removes the original first 2.5 seconds of launcher/setup footage without changing playback speed; the original symbols.mp4 is preserved.",
+    "No Mavis implementation or release is included."
+  ]
+}

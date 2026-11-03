@@ -1,5 +1,7 @@
 # API
 
+[**Web keyboard, sheets, navigation, physics and icons (development build, unpublished).**](./web-platforms)
+
 **Web development build:** these effects are also available through runtime/scoped methods in [`/web`](./web-effects). They are not included in RC.9.
 
 - [**drag / gestures / zoomable / scrollHeader / reorder (Web)**](./web-gestures) — Web gestures, zoom, scroll/refresh and interactive reorder — available since RC.9.
