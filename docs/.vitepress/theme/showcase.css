@@ -115,6 +115,57 @@
   font-size: 12px;
   line-height: 1.7;
 }
+.vp-doc .showcase-project-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 24px;
+  margin-top: 28px;
+  font-size: 14px;
+}
+.vp-doc .showcase-project-links a {
+  text-underline-offset: 5px;
+}
+.vp-doc .drive-screens {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin: 32px 0 0;
+  padding: 36px;
+  border-radius: var(--showcase-radius);
+  background: #141a16;
+  color: #eef3e8;
+}
+.vp-doc .drive-screens figure {
+  min-width: 0;
+  margin: 0;
+}
+.vp-doc .drive-screens img {
+  width: 100%;
+  height: auto;
+  border: 1px solid #354034;
+  border-radius: 20px;
+}
+.vp-doc .drive-screens figcaption {
+  padding-top: 18px;
+  font-size: 14px;
+}
+.vp-doc .drive-screens figcaption span {
+  margin-right: 12px;
+  color: #b1cb6b;
+  font-family: var(--vp-font-family-mono);
+  font-size: 11px;
+}
+@media (max-width: 639px) {
+  .vp-doc .drive-screens {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+    padding: 24px;
+  }
+  .vp-doc .drive-screens figure {
+    width: min(100%, 280px);
+    margin-inline: auto;
+  }
+}
 .vp-doc .showcase-stage {
   padding: 32px 28px 24px;
   background: radial-gradient(ellipse at 50% 35%, #50562c 0%, #202327 45%, #11151a 85%);

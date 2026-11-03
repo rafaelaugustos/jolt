@@ -28,34 +28,47 @@ next: false
   </div>
 </section>
 
-<section class="showcase-feature" aria-labelledby="jolt-car">
+<section class="showcase-feature" aria-labelledby="jolt-drive">
   <div class="showcase-copy">
     <p class="showcase-kicker">精选应用 <span class="showcase-platform">iOS · SceneKit</span></p>
-    <h2 id="jolt-car">Jolt Car<span>.</span></h2>
+    <span id="jolt-car" aria-hidden="true"></span>
+    <h2 id="jolt-drive">Jolt Drive<span>.</span></h2>
     <p class="showcase-lead">走进一座可以探索的车库。转动车辆、进入驾驶舱，感受每个控件的响应。</p>
     <ul class="showcase-points">
       <li>使用<a href="./rolling">滚动数字</a>显示里程和百分比。</li>
       <li>使用 <a href="./scene-camera">SceneKit</a> 摄像机探索车辆、驾驶舱和街道。</li>
       <li>控件使用<a href="./press">按压反馈</a>和弹簧动画。</li>
     </ul>
-    <p class="showcase-note">这是本地示例。充电、空调和行驶过程都在手机上模拟。详细模型属于 <code>jolt-car</code> 预览，不包含在此仓库中。</p>
+    <p class="showcase-note">由 Rafael Augusto 使用 NativeScript-Vue、Jolt 和 Vue Router NS 构建。SceneKit 车库、原生控件与 MapKit 路线相结合。电池、空调和接驾均为模拟；应用不连接真实车辆。</p>
+    <div class="showcase-project-links"><a href="https://github.com/rafaelaugustos/jolt-drive">在 GitHub 查看 ↗</a><a href="https://github.com/rafaelaugustos/jolt-drive#run-it">运行项目 ↗</a></div>
   </div>
   <div class="showcase-stage">
-    <Clip name="film-car-ios" :width="260" caption="Jolt Car 在专用 iPhone 17 模拟器（iOS 26.2）中的录屏。通过 XCTest 执行真实点击和拖动，展示进入场景、摄像机环绕、驾驶舱、充电、温度和前灯。原始速度。本地示例界面，不连接任何真实车辆或服务。录屏无法传达触觉反馈。" />
+    <Clip name="jolt-drive-entrance-ios" :width="280" caption="Jolt Drive 的 iOS 车库入场：来自项目发布的 GIF，转为 MP4 并保留每帧时间戳。录制设备未说明；此预览不用于衡量渲染性能。" />
   </div>
 </section>
 
+<div class="drive-screens">
+  <figure><img src="/media/jolt-drive-garage.png" width="368" height="800" loading="lazy" alt="Jolt Drive 车库，展示 3D 汽车、续航与快捷控件" /><figcaption><span>01</span>车库</figcaption></figure>
+  <figure><img src="/media/jolt-drive-cockpit.png" width="368" height="800" loading="lazy" alt="Jolt Drive 控制台，展示充电、空调与氛围选项" /><figcaption><span>02</span>控制台</figcaption></figure>
+  <figure><img src="/media/jolt-drive-pickup.png" width="368" height="800" loading="lazy" alt="Jolt Drive 在奥斯汀模拟接驾，提供暂停与路线控件" /><figcaption><span>03</span>穿行奥斯汀</figcaption></figure>
+</div>
+<p class="showcase-note">来自已发布项目的界面。 <a href="https://github.com/rafaelaugustos/jolt-drive/blob/2d9cc4afeec1d1fa04b85e5dbe063db07e3db29f/README.md">来源与安装 ↗</a></p>
+
 ## 走进体验
 
-从摄像机到控件，看看细节如何动起来。
+以下保留的录屏展示早期 Jolt Car 版本。上方的入场动画与截图来自已发布的 Jolt Drive 项目。
 
 <div class="showcase-scenes">
   <article class="showcase-scene">
-    <div class="showcase-scene-heading"><span>01</span><h3>进入驾驶舱</h3><p>轻触控件，切换观察视角。</p></div>
+    <div class="showcase-scene-heading"><span>01</span><h3>车库与控件</h3><p>环绕汽车，体验原生控件。</p></div>
+    <Clip name="film-car-ios" :width="260" caption="Jolt Car 在专用 iPhone 17 模拟器（iOS 26.2）中的录屏。通过 XCTest 执行真实点击和拖动，展示进入场景、摄像机环绕、驾驶舱、充电、温度和前灯。原始速度。本地示例界面，不连接任何真实车辆或服务。录屏无法传达触觉反馈。" />
+  </article>
+  <article class="showcase-scene">
+    <div class="showcase-scene-heading"><span>02</span><h3>进入驾驶舱</h3><p>轻触控件，切换观察视角。</p></div>
     <Clip name="film-impulse-cabin-ios" caption="Jolt Car 在 iPhone 17 模拟器（iOS 26.2）中的录屏。XCTest 对空调控件的真实交互使原生 SceneKit 摄像机进入驾驶舱，再返回外部。无剪辑，原始速度。车辆是本地示例界面，不控制任何实体车辆。SceneKit 仅适用于 iOS；录屏无法传达触觉反馈。" />
   </article>
   <article class="showcase-scene">
-    <div class="showcase-scene-heading"><span>02</span><h3>沿着 Congress Avenue</h3><p>从驾驶位欣赏奥斯汀街景。</p></div>
+    <div class="showcase-scene-heading"><span>03</span><h3>沿着 Congress Avenue</h3><p>从驾驶位欣赏奥斯汀街景。</p></div>
     <Clip name="jolt-car-drive-ios" caption="Jolt Car iOS 应用录屏。空驾驶舱沿着预设路线向北行驶，经过奥斯汀的 Congress Avenue，并在 5th and Congress 路口等待。屏幕上的车速和到达时间持续更新。本地示例界面，不连接任何真实车辆或服务。这不是实体设备性能测量。" />
   </article>
 </div>

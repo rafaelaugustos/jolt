@@ -35,3 +35,7 @@ Run `npm run docs:check-media` and `npm run docs:build`. Start `npm run docs:pre
 This site consumes existing Jolt Web APIs. It adds no engine capability and does not change Mavis application code.
 
 The homepage includes an [exploratory physical-device study](./performance-study), with CPU, post-run PSS and presentation waiting in the same panel. All three metrics use the default cohort; the chart animates stored measurements. Its compact footer links to recipes, the showcase, the study, installation and the API, alongside reduced motion and back-to-top controls.
+
+The Jolt Drive feature links to the public [project repository](https://github.com/rafaelaugustos/jolt-drive) and its [showcase](./showcase#jolt-drive). The published entrance preview keeps every source frame timestamp. The older Jolt Car walkthrough remains available below the homepage project card; its original recording is preserved.
+
+<Clip name="jolt-drive-entrance-ios" :width="280" caption="Jolt Drive on iOS: the garage entrance from the published project GIF, converted to MP4 preserving all 113 frames and their timestamps. Capture device unspecified; not a rendering-performance measurement." />

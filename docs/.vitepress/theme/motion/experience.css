@@ -546,6 +546,46 @@
 .motion-site .motion-home .app-feature {
   border-radius: 22px;
 }
+.motion-site .drive-feature .app-feature-copy h3 {
+  font-size: clamp(38px, 4.2vw, 64px);
+  line-height: 0.95;
+}
+.motion-site .drive-description {
+  margin-top: 22px;
+  color: #c1c9b8;
+  font-size: 12px;
+  line-height: 1.65;
+}
+.motion-site .drive-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 24px;
+  margin-top: 24px;
+}
+.motion-site .drive-actions .text-link {
+  font-size: 12px;
+}
+.motion-site .drive-prototype {
+  margin-top: 28px;
+  border-top: 1px solid var(--line);
+}
+.motion-site .drive-prototype summary {
+  padding-block: 22px;
+  color: #c1c9b8;
+  cursor: pointer;
+  font-size: 13px;
+}
+.motion-site .drive-prototype summary span {
+  margin-left: 16px;
+  color: #929e82;
+  font-family: var(--vp-font-family-mono);
+  font-size: 10px;
+}
+.motion-site .drive-prototype > video {
+  display: block;
+  width: min(100%, 320px);
+  border-radius: 20px;
+}
 .motion-site .motion-home .build-section {
   padding-block: 100px;
 }

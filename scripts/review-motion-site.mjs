@@ -174,6 +174,24 @@ for (const [name, engine] of [
       )
       .toBeGreaterThan(0.99)
     await page.screenshot({ path: `${output}/${name}-performance.png` })
+    await page.locator('#jolt-drive').scrollIntoViewIfNeeded()
+    await expect(page.locator('#jolt-drive h3')).toHaveText('JoltDrive.')
+    await expect(
+      page.locator('#jolt-drive a[href="https://github.com/rafaelaugustos/jolt-drive"]'),
+    ).toBeVisible()
+    const driveVideo = page.locator('#jolt-drive video')
+    await driveVideo.evaluate(async (video) => {
+      video.muted = true
+      await video.play()
+    })
+    await expect
+      .poll(() => driveVideo.evaluate((video) => video.currentTime))
+      .toBeGreaterThan(0.1)
+    await page.screenshot({ path: `${output}/${name}-jolt-drive.png` })
+    await driveVideo.evaluate((video) => video.pause())
+    await page.locator('.drive-prototype summary').click()
+    await expect(page.locator('.drive-prototype video')).toBeVisible()
+    await page.locator('.drive-prototype summary').click()
     await page.locator('.site-footer').scrollIntoViewIfNeeded()
     await expect(page.locator('.footer-wordmark, .motion-footer-top')).toHaveCount(0)
     await expect(page.locator('.footer-links a[href$="performance-study"]')).toBeVisible()
@@ -279,6 +297,44 @@ for (const [name, engine] of [
     await expect(page.locator('.VPDoc')).toBeVisible()
     await page.goto(`${base}/guide/showcase#morrow`)
     await expect(page.locator('#morrow')).toHaveText('Morrow.')
+    for (const locale of ['', '/pt-BR', '/es', '/zh-Hans']) {
+      await page.goto(`${base}${locale}/guide/showcase#jolt-drive`)
+      await expect(page.locator('#jolt-drive')).toHaveText('Jolt Drive.')
+      await expect(page.locator('.showcase-project-links a').first()).toHaveAttribute(
+        'href',
+        'https://github.com/rafaelaugustos/jolt-drive',
+      )
+      await expect(page.locator('.drive-screens img')).toHaveCount(3)
+      await expect(page.locator('video[src*="film-car-ios"]')).toHaveCount(1)
+      for (const width of [1440, 768, 390, 320]) {
+        await page.setViewportSize({ width, height: 900 })
+        expect(
+          await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
+          `${name} ${locale} showcase overflow at ${width}`,
+        ).toBe(true)
+        if (width === 768) {
+          await page.locator('.VPNavBarHamburger').click()
+          await expect(page.locator('#VPNavScreen')).toBeVisible()
+          await expect(page.locator('#VPNavScreen a').first()).toBeVisible()
+          await page.locator('.VPNavBarHamburger').click()
+          await expect(page.locator('#VPNavScreen')).toHaveCount(0)
+        }
+      }
+    }
+    await page.setViewportSize({ width: 1440, height: 1000 })
+    await page.goto(`${base}/guide/showcase#jolt-drive`)
+    const publishedDrive = page.locator('video[src*="jolt-drive-entrance-ios"]')
+    await publishedDrive.scrollIntoViewIfNeeded()
+    await publishedDrive.evaluate((video) => video.play())
+    await expect
+      .poll(() => publishedDrive.evaluate((video) => video.currentTime))
+      .toBeGreaterThan(0.1)
+    await page.screenshot({ path: `${output}/${name}-drive-showcase.png` })
+    await page.locator('.drive-screens').scrollIntoViewIfNeeded()
+    for (const picture of await page.locator('.drive-screens img').all()) {
+      await expect.poll(() => picture.evaluate((img) => img.naturalWidth)).toBe(368)
+    }
+    await page.screenshot({ path: `${output}/${name}-drive-screens.png` })
     await page.goto(`${base}/guide/performance-study`)
     const physicalVideo = page.locator('video[src*="comparison-jolt-physical-android"]')
     await physicalVideo.scrollIntoViewIfNeeded()
@@ -294,7 +350,7 @@ for (const [name, engine] of [
       browser: name,
       result: 'passed',
       checks:
-        'WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, 4 locales × 4 widths, mobile navigation, reduced motion, remount',
+        'WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, Jolt Drive project links and native playback, preserved Jolt Car walkthrough, published project images, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, home and showcase in 4 locales × 4 widths, mobile navigation, reduced motion, remount',
     })
     console.log(`${name}: all interaction checks passed`)
   } catch (error) {

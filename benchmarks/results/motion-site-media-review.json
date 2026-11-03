@@ -162,18 +162,18 @@
   ],
   "browserRecording": {
     "file": "motion-site-chromium.mp4",
-    "duration": 49.48,
+    "duration": 67.0,
     "dimensions": [
       1440,
       1000
     ],
-    "sha256": "44bbafc3f0257902fef7bd970bb5943dd2d6e033270717a19eebcfb241be8fc1",
+    "sha256": "a36145c5406e29c0c1284df075e6ea0d4587aca38e01f6134ffc50a3a2c83394",
     "platform": "Chromium on macOS arm64",
     "input": "Real Playwright pointer and keyboard input",
-    "nativeFootage": "Previously recorded native clips and creator-supplied Morrow capture, played inside the browser",
+    "nativeFootage": "Labeled iOS simulator recipe videos, creator-supplied Morrow iOS footage and the published Jolt Drive entrance played inside the website",
     "originalTiming": true,
     "fullDecode": "passed",
-    "interaction": "Chrome sculpture with inertial drag; scroll-linked Morrow; native previews; spring interruption; stagger; drag/snap; CPU, memory and presentation metrics; compact footer and back-to-top; recipe filtering and clipboard actions.",
+    "interaction": "Chrome sculpture with inertial drag; scroll-linked Morrow; native previews; spring interruption; stagger; drag/snap; CPU, memory and presentation metrics; compact footer and back-to-top; recipe filtering and clipboard actions. Jolt Drive entrance playback, project link to its showcase, original published screenshots and tablet documentation menu.",
     "rendering": "Site-owned WebGL renderer, driven by existing Jolt Web motion values. Interactive SVG fallback on context loss."
   },
   "physicalStudyImports": [
@@ -211,5 +211,50 @@
       "decode": "passed with original demux timebase and timestamp passthrough",
       "review": "Start/restart, application-JS block, UI-thread block and stop; recordings separate from measurements."
     }
-  ]
+  ],
+  "joltDriveImport": {
+    "repository": "https://github.com/rafaelaugustos/jolt-drive",
+    "commit": "2d9cc4afeec1d1fa04b85e5dbe063db07e3db29f",
+    "assets": [
+      {
+        "path": "docs/media/garage.png",
+        "sha256": "d34c1837179ff15dcf0641585ae369d87dc41bbdfa72503496e8b3c7fce72fbc",
+        "gitBlob": "38feed6c0e44fc4d9238055889ae8813893c824b"
+      },
+      {
+        "path": "docs/media/cockpit.png",
+        "sha256": "42a1602986300299b2aa027838917e6d82711c81611f87badfc3bc42d7e7823a",
+        "gitBlob": "9337f1692047f37dddb1c887352afa7db29272c1"
+      },
+      {
+        "path": "docs/media/pickup.png",
+        "sha256": "a3d47a0928ca3f22bd897221510b3467ee5657958865eb1fd6b538a56c05cf4d",
+        "gitBlob": "544c3d7702b92385601193f9aa4b8f6fdb4f405d"
+      },
+      {
+        "path": "docs/media/entrance.gif",
+        "sha256": "604fc10bc0d16e59c0864a84eceea279506f4ad8b7c2e267ba0fd755f109e93d",
+        "gitBlob": "a124b92727cb0445ec679570a287711229f15c31"
+      }
+    ],
+    "screenshots": "Copied byte-for-byte from the public repository; displayed with localized alt text and captions.",
+    "recording": {
+      "file": "jolt-drive-entrance-ios.mp4",
+      "sha256": "bd6b0b441bfdeba7eb6c35ec03a741850b1c673d268050cb328ca4886308fa4c",
+      "duration": 9.41,
+      "frames": 113,
+      "dimensions": [
+        320,
+        696
+      ],
+      "platform": "iOS; capture device not specified by source",
+      "language": "English",
+      "source": "docs/media/entrance.gif",
+      "conversion": "H.264, yuv420p, CRF 18; timestamp passthrough at source 1/100 time base; no frame interpolation, trimming or speed change.",
+      "frameTimestamps": "All 113 decoded source and MP4 timestamps compared equal within 0.1 ms.",
+      "review": "Decoded in full and inspected across the complete clip: car entrance, rotation and cockpit reveal are visible.",
+      "limitation": "The published GIF has about 12 frames per second; it does not measure native rendering performance."
+    },
+    "preserved": "Original Jolt Car walkthrough and all three existing native showcase recordings remain available."
+  }
 }

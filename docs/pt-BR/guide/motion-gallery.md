@@ -35,3 +35,7 @@ Execute `npm run docs:check-media` e `npm run docs:build`. Inicie `npm run docs:
 O site usa APIs Web já existentes no Jolt. Não adiciona capacidade ao motor nem altera código de aplicação do Mavis.
 
 A home inclui um [estudo exploratório em aparelho físico](./performance-study), com CPU, PSS após a execução e espera de apresentação no mesmo painel. As três métricas usam o grupo padrão; o gráfico anima medições armazenadas. O rodapé compacto reúne receitas, showcase, estudo, instalação e API, além dos controles de movimento reduzido e volta ao topo.
+
+O destaque do Jolt Drive aponta para o [repositório público](https://github.com/rafaelaugustos/jolt-drive) e seu [showcase](./showcase#jolt-drive). A prévia de entrada publicada mantém o tempo de cada quadro da origem. O tour anterior do Jolt Car continua disponível abaixo do card na home, com sua gravação original preservada.
+
+<Clip name="jolt-drive-entrance-ios" :width="280" caption="Jolt Drive no iOS: entrada da garagem do GIF publicado pelo projeto, convertida para MP4 preservando os 113 quadros e seus tempos. Dispositivo de captura não informado; não mede desempenho de renderização." />

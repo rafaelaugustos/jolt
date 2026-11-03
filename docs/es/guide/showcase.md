@@ -28,34 +28,47 @@ Explora el movimiento en apps nativas hechas con Jolt. Mira las grabaciones, des
   </div>
 </section>
 
-<section class="showcase-feature" aria-labelledby="jolt-car">
+<section class="showcase-feature" aria-labelledby="jolt-drive">
   <div class="showcase-copy">
     <p class="showcase-kicker">APP DESTACADA <span class="showcase-platform">iOS · SceneKit</span></p>
-    <h2 id="jolt-car">Jolt Car<span>.</span></h2>
+    <span id="jolt-car" aria-hidden="true"></span>
+    <h2 id="jolt-drive">Jolt Drive<span>.</span></h2>
     <p class="showcase-lead">Un garaje en el que puedes entrar. Gira el coche, explora la cabina y siente cómo responde cada control.</p>
     <ul class="showcase-points">
       <li><a href="./rolling">Números animados</a> para las millas y el porcentaje.</li>
       <li>Una cámara <a href="./scene-camera">SceneKit</a> para el coche, la cabina y la calle.</li>
       <li><a href="./press">Pulsación</a> y resortes en los controles.</li>
     </ul>
-    <p class="showcase-note">Ejemplo local. La carga, el clima y el recorrido se ejecutan en el teléfono. El modelo detallado pertenece a la vista previa de <code>jolt-car</code> y no está incluido en este repositorio.</p>
+    <p class="showcase-note">Creado por Rafael Augusto con NativeScript-Vue, Jolt y Vue Router NS. Garaje en SceneKit, controles nativos y ruta en MapKit. La batería, el clima y la recogida son simulados; la app no se conecta a un vehículo real.</p>
+    <div class="showcase-project-links"><a href="https://github.com/rafaelaugustos/jolt-drive">Ver en GitHub ↗</a><a href="https://github.com/rafaelaugustos/jolt-drive#run-it">Ejecutar el proyecto ↗</a></div>
   </div>
   <div class="showcase-stage">
-    <Clip name="film-car-ios" :width="260" caption="Jolt Car en un simulador dedicado de iPhone 17, iOS 26.2. Toques y arrastre reales mediante XCTest: entrada, órbita de cámara, cabina, carga, temperatura y faros. Velocidad original. Interfaz de ejemplo local; no se contacta con ningún vehículo ni servicio real. La vibración no se puede sentir en una grabación." />
+    <Clip name="jolt-drive-entrance-ios" :width="280" caption="Jolt Drive en iOS: entrada del garaje del GIF publicado por el proyecto, convertido a MP4 conservando el tiempo de cada fotograma. Dispositivo no especificado; esta vista previa no mide rendimiento." />
   </div>
 </section>
 
+<div class="drive-screens">
+  <figure><img src="/media/jolt-drive-garage.png" width="368" height="800" loading="lazy" alt="Garaje de Jolt Drive con coche 3D, autonomía y controles rápidos" /><figcaption><span>01</span>El garaje</figcaption></figure>
+  <figure><img src="/media/jolt-drive-cockpit.png" width="368" height="800" loading="lazy" alt="Cockpit de Jolt Drive con carga, climatización y opciones de ambiente" /><figcaption><span>02</span>El cockpit</figcaption></figure>
+  <figure><img src="/media/jolt-drive-pickup.png" width="368" height="800" loading="lazy" alt="Recogida simulada de Jolt Drive por Austin, con controles de pausa y ruta" /><figcaption><span>03</span>Por Austin</figcaption></figure>
+</div>
+<p class="showcase-note">Pantallas del proyecto publicado. <a href="https://github.com/rafaelaugustos/jolt-drive/blob/2d9cc4afeec1d1fa04b85e5dbe063db07e3db29f/README.md">Fuente e instalación ↗</a></p>
+
 ## Dentro de la experiencia
 
-De la cámara a los controles: mira los detalles en movimiento.
+Estas grabaciones conservadas muestran versiones anteriores de Jolt Car. La entrada y las pantallas de arriba pertenecen al proyecto publicado como Jolt Drive.
 
 <div class="showcase-scenes">
   <article class="showcase-scene">
-    <div class="showcase-scene-heading"><span>01</span><h3>Entra en la cabina</h3><p>Una nueva perspectiva, guiada por el tacto.</p></div>
+    <div class="showcase-scene-heading"><span>01</span><h3>Garaje y controles</h3><p>Gira el coche y prueba los controles nativos.</p></div>
+    <Clip name="film-car-ios" :width="260" caption="Jolt Car en un simulador dedicado de iPhone 17, iOS 26.2. Toques y arrastre reales mediante XCTest: entrada, órbita de cámara, cabina, carga, temperatura y faros. Velocidad original. Interfaz de ejemplo local; no se contacta con ningún vehículo ni servicio real. La vibración no se puede sentir en una grabación." />
+  </article>
+  <article class="showcase-scene">
+    <div class="showcase-scene-heading"><span>02</span><h3>Entra en la cabina</h3><p>Una nueva perspectiva, guiada por el tacto.</p></div>
     <Clip name="film-impulse-cabin-ios" caption="Jolt Car en un simulador de iPhone 17, iOS 26.2. La interacción real de XCTest con el control del clima mueve la cámara nativa SceneKit al interior de la cabina y luego al exterior. Sin cortes, a velocidad original. El coche es una interfaz de ejemplo local y no controla ningún vehículo físico. SceneKit solo está disponible en iOS; la vibración no se puede sentir en una grabación." />
   </article>
   <article class="showcase-scene">
-    <div class="showcase-scene-heading"><span>02</span><h3>Por Congress Avenue</h3><p>Un paseo por Austin desde el asiento del conductor.</p></div>
+    <div class="showcase-scene-heading"><span>03</span><h3>Por Congress Avenue</h3><p>Un paseo por Austin desde el asiento del conductor.</p></div>
     <Clip name="jolt-car-drive-ios" caption="Grabación de la app iOS Jolt Car. La cabina vacía sigue una ruta programada hacia el norte por Congress Avenue, en Austin, y espera en 5th and Congress. La velocidad y la hora de llegada avanzan en pantalla. Interfaz de ejemplo local; no se contacta con ningún vehículo ni servicio real. No es una medición de rendimiento en un dispositivo físico." />
   </article>
 </div>

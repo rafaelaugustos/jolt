@@ -27,3 +27,7 @@ Ejecuta `npm run docs:check-media` y `npm run docs:build`, inicia `npm run docs:
 `scripts/motion-recipe-captures.json` registra las fuentes y los recortes exactos. `node scripts/prepare-motion-recipe-media.mjs` reproduce los clips con FFmpeg. `node scripts/record-motion-site.mjs` graba interacción real mediante Playwright. El sitio utiliza capacidades Web existentes y no cambia código de Mavis.
 
 La página principal incluye un [estudio exploratorio en un dispositivo físico](./performance-study), con CPU, PSS posterior y espera de presentación en el mismo panel. Las tres métricas usan el grupo predeterminado; el gráfico anima mediciones almacenadas. El pie compacto enlaza recetas, proyectos, estudio, instalación y API, junto a movimiento reducido y vuelta al inicio.
+
+El destacado de Jolt Drive enlaza al [repositorio público](https://github.com/rafaelaugustos/jolt-drive) y su [showcase](./showcase#jolt-drive). La vista previa publicada conserva el tiempo de cada fotograma. El recorrido anterior de Jolt Car sigue disponible bajo la tarjeta de la página principal, con la grabación original preservada.
+
+<Clip name="jolt-drive-entrance-ios" :width="280" caption="Jolt Drive en iOS: entrada del garaje del GIF publicado por el proyecto, convertida a MP4 conservando los 113 fotogramas y sus tiempos. Dispositivo no especificado; no mide rendimiento de renderización." />

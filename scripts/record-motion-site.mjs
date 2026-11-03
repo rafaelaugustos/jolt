@@ -20,6 +20,14 @@ const video = page.video()
 const errors = []
 page.on('pageerror', (error) => errors.push(error.message))
 await page.route(/googletagmanager|google-analytics/, (route) => route.abort())
+await page.route(
+  'https://manager.getcortexlabs.com/api/v1/public/forms/*/entries*',
+  (route) =>
+    route.fulfill({
+      json: { items: [] },
+      headers: { 'access-control-allow-origin': '*' },
+    }),
+)
 await page.goto(base)
 await expect(page.locator('[data-motion-ready="true"]')).toHaveCount(2)
 await page.waitForTimeout(1400)
@@ -75,6 +83,25 @@ await page.locator('[data-metric="presentation"]').click()
 await page.waitForTimeout(1700)
 await page.locator('[data-metric="cpu"]').click()
 await page.waitForTimeout(1200)
+await page.locator('#jolt-drive').scrollIntoViewIfNeeded()
+await page.locator('#jolt-drive video').evaluate(async (video) => {
+  video.muted = true
+  await video.play()
+})
+await page.waitForTimeout(9500)
+await page.locator('#jolt-drive a[href$="showcase#jolt-drive"]').click()
+await expect(page.locator('#jolt-drive')).toHaveText('Jolt Drive.')
+await page.waitForTimeout(1700)
+await page.locator('.drive-screens').scrollIntoViewIfNeeded()
+await page.waitForTimeout(2200)
+await page.setViewportSize({ width: 768, height: 1000 })
+await page.locator('.VPNavBarHamburger').click()
+await expect(page.locator('#VPNavScreen')).toBeVisible()
+await page.waitForTimeout(1600)
+await page.locator('.VPNavBarHamburger').click()
+await page.setViewportSize({ width: 1440, height: 1000 })
+await page.goto(base)
+await expect(page.locator('[data-motion-ready="true"]')).toHaveCount(2)
 await page.locator('.site-footer').scrollIntoViewIfNeeded()
 await page.waitForTimeout(2000)
 await page.locator('.footer-top-link').click()
@@ -147,7 +174,7 @@ await writeFile(
       originalTiming: true,
       input: 'Actual Playwright pointer and keyboard input',
       nativeFootage:
-        'Labeled iOS simulator recipe videos and creator-supplied Morrow iOS footage played inside the website',
+        'Labeled iOS simulator recipe videos, creator-supplied Morrow iOS footage and the published Jolt Drive entrance played inside the website',
       duration: info.format.duration,
       dimensions: [info.streams[0].width, info.streams[0].height],
       decoded: true,

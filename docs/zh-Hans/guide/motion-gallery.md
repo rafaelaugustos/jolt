@@ -27,3 +27,7 @@
 `scripts/motion-recipe-captures.json` 记录来源与准确裁剪区间。使用 `node scripts/prepare-motion-recipe-media.mjs` 通过 FFmpeg 复现片段，使用 `node scripts/record-motion-site.mjs` 通过真实 Playwright 输入录制网站。此次网站改版使用已有 Web 能力，不修改 Mavis 应用代码。
 
 首页包含[真机探索性研究](./performance-study)，在同一面板展示 CPU、运行后 PSS 与呈现等待。三项指标均使用默认配置组；动画图表仅展示已存储的数据。精简页脚提供配方、作品、研究、安装及 API 链接，同时保留减少动态效果与返回顶部控件。
+
+Jolt Drive 展示链接到[公开仓库](https://github.com/rafaelaugustos/jolt-drive)和[作品展示](./showcase#jolt-drive)。入场预览保留了原始每帧时间戳。早期 Jolt Car 演示仍可在首页项目卡下方观看，原始录屏保持不变。
+
+<Clip name="jolt-drive-entrance-ios" :width="280" caption="Jolt Drive 的 iOS 车库入场：从项目发布的 GIF 转为 MP4，保留全部 113 帧及其时间戳。录制设备未说明；不用于衡量渲染性能。" />

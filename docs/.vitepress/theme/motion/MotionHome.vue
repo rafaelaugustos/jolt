@@ -16,6 +16,12 @@ const { frontmatter } = useData()
 const root = ref<HTMLElement>()
 const copied = ref(false)
 const copyFailed = ref(false)
+const driveCaption = [
+  'Jolt Drive on iOS: the garage entrance from the project’s published GIF, converted to MP4 with every frame timestamp preserved. Capture device unspecified; this preview does not measure rendering performance.',
+  'Jolt Drive no iOS: entrada da garagem do GIF publicado pelo projeto, convertido para MP4 preservando o tempo de cada quadro. Dispositivo de captura não informado; esta prévia não mede desempenho de renderização.',
+  'Jolt Drive en iOS: entrada del garaje del GIF publicado por el proyecto, convertido a MP4 conservando el tiempo de cada fotograma. Dispositivo no especificado; esta vista previa no mide rendimiento.',
+  'Jolt Drive 的 iOS 车库入场：来自项目发布的 GIF，转为 MP4 并保留每帧时间戳。录制设备未说明；此预览不用于衡量渲染性能。',
+] as const
 const featured = computed(() => [
   recipes[0],
   recipes[2],
@@ -251,48 +257,68 @@ async function copyInstall() {
           </div>
           <p class="native-caption">{{ frontmatter.homeVideos.items[0].caption }}</p>
         </article>
-        <article class="app-feature">
+        <article id="jolt-drive" class="app-feature drive-feature">
           <div class="app-feature-copy">
             <p class="eyebrow">
               {{
                 t([
-                  'A NATIVE EXPERIENCE',
-                  'UMA EXPERIÊNCIA NATIVA',
-                  'UNA EXPERIENCIA NATIVA',
-                  '原生体验',
+                  'BUILT WITH JOLT · iOS',
+                  'FEITO COM JOLT · iOS',
+                  'HECHO CON JOLT · iOS',
+                  '使用 JOLT 构建 · iOS',
                 ])
               }}
             </p>
-            <h3>
-              {{ t(['Every touch.', 'Cada toque.', 'Cada toque.', '每一次触碰。'])
-              }}<br /><span>{{
-                t([
-                  'A little magic.',
-                  'Um pouco de mágica.',
-                  'Un poco de magia.',
-                  '都有一点魔法。',
-                ])
-              }}</span>
-            </h3>
-            <p>
+            <h3>Jolt<br /><span>Drive.</span></h3>
+            <p class="drive-description">
               {{
                 t([
-                  'A 3D garage. Tactile controls. A whole world of motion, made with Jolt.',
-                  'Uma garagem 3D. Controles que respondem. Um mundo de movimento, feito com Jolt.',
-                  'Un garaje 3D. Controles que responden. Un mundo de movimiento, hecho con Jolt.',
-                  '3D 车库，灵敏控件。用 Jolt 构建一个充满动感的世界。',
+                  'Orbit the car. Step into the cabin. Ride through Austin. Native views and a 3D world, moving together.',
+                  'Gire o carro. Entre na cabine. Passeie por Austin. Views nativas e um mundo 3D, em movimento juntos.',
+                  'Gira el coche. Entra en la cabina. Recorre Austin. Vistas nativas y un mundo 3D que se mueven juntos.',
+                  '环绕汽车，进入座舱，穿行奥斯汀。原生视图与 3D 世界，一起律动。',
                 ])
               }}
             </p>
+            <div class="drive-actions">
+              <a class="text-link" :href="link('/guide/showcase#jolt-drive')"
+                >{{
+                  t(['Explore the app', 'Conheça o app', 'Explora la app', '探索应用'])
+                }}
+                <span aria-hidden="true">↗</span></a
+              >
+              <a class="text-link" href="https://github.com/rafaelaugustos/jolt-drive"
+                >GitHub <span aria-hidden="true">↗</span></a
+              >
+            </div>
           </div>
           <NativeVideo
-            :name="frontmatter.homeVideos.items[1].name"
-            :poster="`/media/${frontmatter.homeVideos.items[1].name}.jpg`"
-            :caption="frontmatter.homeVideos.items[1].caption"
+            name="jolt-drive-entrance-ios"
+            poster="/media/jolt-drive-entrance-ios.jpg"
+            :caption="t(driveCaption)"
           />
-          <p class="native-caption">{{ frontmatter.homeVideos.items[1].caption }}</p>
+          <p class="native-caption">{{ t(driveCaption) }}</p>
         </article>
       </div>
+      <details class="drive-prototype">
+        <summary>
+          {{
+            t([
+              'Watch the earlier Jolt Car walkthrough',
+              'Veja o tour anterior do Jolt Car',
+              'Ver el recorrido anterior de Jolt Car',
+              '观看早期 Jolt Car 演示',
+            ])
+          }}
+          <span>02:04</span>
+        </summary>
+        <NativeVideo
+          :name="frontmatter.homeVideos.items[1].name"
+          :poster="`/media/${frontmatter.homeVideos.items[1].name}.jpg`"
+          :caption="frontmatter.homeVideos.items[1].caption"
+        />
+        <p class="native-caption">{{ frontmatter.homeVideos.items[1].caption }}</p>
+      </details>
     </section>
 
     <section class="build-section section-shell" data-entrance>
