@@ -35,6 +35,10 @@ module.exports = (env) => {
                 '../src/driver/android.ts',
                 '../platforms/android/java/org/rafaelaugusto/jolt/KeyframeFactory.java',
                 '../benchmarks/android-playback-efficiency.ts',
+                '../benchmarks/android-resource-profile.ts',
+                '../benchmarks/playback-report.ts',
+                'src/playback-report-writer.ts',
+                'src/workers/playback-report.worker.ts',
                 'native-fixture/platforms/android/java/org/rafaelaugusto/jolt/fixture/PlaybackEfficiencyProbe.java',
               ]
                 .map((path) => require('fs').readFileSync(resolve(__dirname, path)))

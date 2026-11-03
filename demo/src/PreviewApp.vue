@@ -37,6 +37,7 @@ onLaunch(() => {
     'scroll-handoff',
     'curve-sampling',
     'playback-efficiency',
+    'report-export',
     'motion-inspector',
   ].some((name) => launchArgument(name) !== undefined)
   enablePreviewLanguage(!legacy.value)

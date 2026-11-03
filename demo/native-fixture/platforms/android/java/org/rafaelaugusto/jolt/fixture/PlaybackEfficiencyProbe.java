@@ -131,6 +131,27 @@ public final class PlaybackEfficiencyProbe {
     }
 
     /** Explicitly outside CPU/frame measurements. GC is requested, not guaranteed. */
+    public static String memoryDetails() {
+        try {
+            android.os.Debug.MemoryInfo info = new android.os.Debug.MemoryInfo();
+            android.os.Debug.getMemoryInfo(info);
+            Runtime vm = Runtime.getRuntime();
+            JSONObject result = new JSONObject()
+                .put("javaUsedBytes", vm.totalMemory() - vm.freeMemory())
+                .put("nativeAllocatedBytes", Debug.getNativeHeapAllocatedSize())
+                .put("pssKiB", info.getTotalPss());
+            JSONObject categories = new JSONObject();
+            for (java.util.Map.Entry<String, String> entry : info.getMemoryStats().entrySet()) {
+                categories.put(entry.getKey(), entry.getValue());
+            }
+            result.put("categoriesKiB", categories);
+            result.put("gcCount", android.os.Debug.getRuntimeStat("art.gc.gc-count"));
+            result.put("gcAllocatedBytes", android.os.Debug.getRuntimeStat("art.gc.bytes-allocated"));
+            result.put("gcFreedBytes", android.os.Debug.getRuntimeStat("art.gc.bytes-freed"));
+            return result.toString();
+        } catch (Exception e) { throw new IllegalStateException(e); }
+    }
+
     public static String memory() {
         Runtime vm = Runtime.getRuntime();
         Debug.MemoryInfo memory = new Debug.MemoryInfo();
