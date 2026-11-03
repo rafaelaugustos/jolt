@@ -242,6 +242,27 @@ export function createSensor(
     rebase = true
     timestamp = null
   }
+  let rawGravity = [0, 0, 0]
+  const paint = () => {
+    const angle =
+      options.coordinates === 'device'
+        ? 0
+        : (view.screen.orientation?.angle ??
+          (view as unknown as { orientation?: number }).orientation ??
+          0)
+    values =
+      kind === 'rotation'
+        ? rotationValues(relative, angle, values.slice(3))
+        : interfaceVector(rawGravity, angle)
+    values.forEach((value, index) => {
+      if (!nodes[index]!.node.disposed) nodes[index]!.node.set(value)
+    })
+  }
+  const orientationChanged = () => {
+    // Screen orientation can change without another hardware reading. Remap the
+    // retained canonical sample without incrementing its count or timestamp.
+    if (state === 'active' && !ended && !held && !host.document.hidden) paint()
+  }
   const update = () => {
     if (ended) return
     if (!supported) {
@@ -292,12 +313,6 @@ export function createSensor(
       )
         return
       if (timestamp !== null && sample.timestamp - timestamp < interval) return
-      const angle =
-        options.coordinates === 'device'
-          ? 0
-          : (view.screen.orientation?.angle ??
-            (view as unknown as { orientation?: number }).orientation ??
-            0)
       if (kind === 'rotation') {
         const q = sample.values as Q
         if (rebase) {
@@ -307,17 +322,14 @@ export function createSensor(
           reset = false
         }
         relative = multiply(inverse(reference), q)
-        values = rotationValues(relative, angle, values.slice(3))
-      } else values = interfaceVector(sample.values, angle)
+      } else rawGravity = sample.values
       timestamp = sample.timestamp
       samples++
       available = true
       reason = undefined
       timeout?.()
       timeout = undefined
-      values.forEach((v, i) => {
-        if (!nodes[i]!.node.disposed) nodes[i]!.node.set(v)
-      })
+      paint()
       status('active')
     })
     timeout = host.after(2000, () => {
@@ -429,6 +441,12 @@ export function createSensor(
     },
   } as WebRotationSensor | WebGravitySensor
   try {
+    view.screen.orientation?.addEventListener('change', orientationChanged)
+    view.addEventListener('orientationchange', orientationChanged)
+    off.push(
+      () => view.screen.orientation?.removeEventListener('change', orientationChanged),
+      () => view.removeEventListener('orientationchange', orientationChanged),
+    )
     nodes.forEach(({ node }, i) => {
       node.demand = (active) => {
         if (active) demand.add(i)

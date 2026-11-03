@@ -92,6 +92,7 @@ test('gravity interruption inherits velocity and rejects invalid tracks transact
     return {
       before,
       after: new DOMMatrixReadOnly(getComputedStyle(ball).transform).m42,
+      handoff: a.progress * a.duration,
       failures,
       old: await a.finished,
     }
@@ -99,7 +100,10 @@ test('gravity interruption inherits velocity and rejects invalid tracks transact
   expect(result.failures).toEqual([true, true, true, true])
   expect(result.old).toBe(false)
   expect(result.before).toBeCloseTo(9, 0)
-  expect(result.after).toBeCloseTo(36, 0)
+  // Compilation and style reads take real time, especially on shared CI hosts.
+  // Compare the continued ballistic path at the actual interrupted clock time.
+  const expected = 0.5 * 1800 * (result.handoff / 1000 + 0.1) ** 2
+  expect(result.after).toBeCloseTo(expected, 0)
 })
 test('gravity numeric values, layers, reduced motion and stopped result', async ({
   page,
@@ -878,4 +882,37 @@ test('background and hidden surfaces suppress pending haptic cues', async ({ pag
   await page.evaluate(() => (window.fixture.el('pulse').hidden = true))
   await page.waitForTimeout(900)
   expect(await page.evaluate(() => (window as any).impacts)).toEqual([])
+})
+test('screen orientation remaps retained sensor samples without new hardware input', async ({
+  page,
+}) => {
+  await sensors(page)
+  const result = await page.evaluate(() => {
+    const f = window.fixture,
+      w = window as any
+    Object.defineProperty(screen.orientation, 'angle', { configurable: true, value: 0 })
+    const device = f.scope.sensor('gravity', { coordinates: 'device' })
+    f.scope.add(device.x.subscribe(() => {}))
+    w.orientation(0, 0, 0)
+    w.orientation(0, 30, 0)
+    w.motion({ x: -4, y: 0, z: 9 }, { x: 0, y: 0, z: 0 })
+    const before = f.gravity!.snapshot()
+    Object.defineProperty(screen.orientation, 'angle', { configurable: true, value: 90 })
+    screen.orientation.dispatchEvent(new Event('change'))
+    const after = f.gravity!.snapshot(),
+      rotation = f.sensor!.snapshot(),
+      deviceValues = device.snapshot().values
+    f.scope.suspend()
+    Object.defineProperty(screen.orientation, 'angle', { configurable: true, value: 180 })
+    window.dispatchEvent(new Event('orientationchange'))
+    const paused = f.gravity!.snapshot().values
+    return { before, after, rotation, deviceValues, paused }
+  })
+  expect(result.after.samples).toBe(result.before.samples)
+  expect(result.after.timestamp).toBe(result.before.timestamp)
+  expect(result.after.values[0]).toBeCloseTo(0, 6)
+  expect(result.after.values[1]).toBeCloseTo(-4, 6)
+  expect(result.rotation.values[1]).toBeCloseTo(-Math.PI / 6, 6)
+  expect(result.deviceValues).toEqual([4, 0, -9])
+  expect(result.paused).toEqual(result.after.values)
 })
