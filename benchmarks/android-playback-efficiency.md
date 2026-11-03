@@ -47,6 +47,12 @@ python3 benchmarks/playback-efficiency-record-android.py YOUR_SERIAL /tmp/jolt-e
 
 Generate missing demo Android resources from the pinned NativeScript template, keeping the repository manifest. Build/signing and recording requirements remain in [CONTRIBUTING.md](../CONTRIBUTING.md). The recorder uses real ADB taps for play, pause/resume, seek, interruption and stop; no synthetic footage or altered playback speed is used.
 
+## Follow-up: process attribution and report offload
+
+The [CPU/PSS investigation](android-resource-profile.md) profiles idle/playback threads, memory mappings, track collectability and 5,000 creation/disposal cycles before selecting the full report export for worker offload. The current audit sends incremental records to a bounded worker; frame JSON parsing, report accumulation, full serialization and file writes happen there, with acknowledgements outside measured playback windows. The worker is terminated after the audit or on cancellation/error. Startup and native thread IDs are recorded in the report.
+
+The historical results below retain their original method and build identity. The new streaming audit is a separate validation run because its worker changes whole-process memory residency; its PSS must not be pooled into the earlier before/after measurements. The follow-up report retains the new raw validation data and describes that memory cost.
+
 ## Worker build regression
 
 Fresh demo installs resolved `@nativescript/webpack` 5.0.39 through `~5.0.38`, while the demo explicitly uses webpack 5.101.3 and the repository root also installs webpack 5.112.0. The new worker loader first resolves webpack's newer `dependencies/worker/WorkerDependency` path. In this layout it finds the root's newer copy and patches that class, instead of the older compiler actually building the demo. The emitted worker constructor retained a `file:///app/...mjs` URL, and the Android demo reported “Failed to find module” after **Worker** was tapped. The recorder rejected that run; it is not published as a working demonstration.

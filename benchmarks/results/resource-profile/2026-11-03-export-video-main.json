@@ -1,0 +1,12 @@
+{
+  "phase": "done",
+  "mode": "main",
+  "exports": 20,
+  "characters": 1834534,
+  "mainCpuMs": 219.98949,
+  "maxGapMs": 305.50708400039,
+  "mainThreadId": 9360,
+  "start": 2253021.559615,
+  "end": 2253306.277573,
+  "nativeMovementPx": 0
+}
