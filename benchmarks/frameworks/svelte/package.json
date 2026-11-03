@@ -1,0 +1,14 @@
+{
+  "name": "jolt-native-svelte-consumer",
+  "private": true,
+  "version": "1.0.0",
+  "main": "app/main.js",
+  "dependencies": {
+    "@nativescript/core": "8.9.9",
+    "svelte": "4.2.20",
+    "svelte-native": "1.0.29"
+  },
+  "devDependencies": {
+    "svelte-loader": "3.2.4"
+  }
+}

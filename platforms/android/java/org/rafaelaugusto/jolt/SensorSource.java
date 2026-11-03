@@ -26,26 +26,34 @@ public final class SensorSource {
     private static final ArrayList<SensorSource> sources=new ArrayList<>();
     private static SensorManager manager;
     private static WindowManager window;
-    private static Sensor rotationHardware, gravityHardware;
+    private static final String[] kinds={"rotation","gravity","acceleration","linearAcceleration","gyroscope","magneticField"};
+    private static final int[] hardwareTypes={Sensor.TYPE_GAME_ROTATION_VECTOR,Sensor.TYPE_GRAVITY,
+        Sensor.TYPE_ACCELEROMETER,Sensor.TYPE_LINEAR_ACCELERATION,Sensor.TYPE_GYROSCOPE,Sensor.TYPE_MAGNETIC_FIELD};
+    private static final Sensor[] devices=new Sensor[kinds.length];
+    private static final int[] rates=new int[kinds.length];
     private static boolean scheduled, background;
-    private static int rotationRate, gravityRate;
     private static final Handler main=new Handler(Looper.getMainLooper());
     private static final SensorEventListener hardware=new SensorEventListener() {
         @Override public void onAccuracyChanged(Sensor sensor,int accuracy) {}
         @Override public void onSensorChanged(SensorEvent event) {
             if(background) return;
-            boolean rotation=event.sensor.getType()==Sensor.TYPE_GAME_ROTATION_VECTOR;
+            int kind=-1;
+            for(int i=0;i<hardwareTypes.length;i++)if(hardwareTypes[i]==event.sensor.getType()){kind=i;break;}
+            if(kind<0)return;
+            boolean rotation=kind==0;
             double[] values;
             if(rotation) {
                 if(event.values.length<4)return;
                 values=new double[]{event.values[0],event.values[1],event.values[2],event.values[3]};
             } else {
                 if(event.values.length<3)return;
-                // Android reports proper acceleration against gravity; canonical gravity points down.
-                values=new double[]{-event.values[0],-event.values[1],-event.values[2]};
+                // Only gravity changes sign: canonical gravity points down, while
+                // proper/linear acceleration, angular rate and magnetic field use
+                // Android's right-handed device axes without sign changes.
+                values=new double[]{SensorMath.acceleration(event.values[0],kind==1),SensorMath.acceleration(event.values[1],kind==1),SensorMath.acceleration(event.values[2],kind==1)};
             }
             for(SensorSource source:new ArrayList<>(sources))
-                if(source.enabled && source.trace==null && source.error==null && source.rotation==rotation)
+                if(source.enabled && source.trace==null && source.error==null && source.kind==kind)
                     source.receive(values,event.timestamp/1e6);
         }
     };
@@ -61,8 +69,7 @@ public final class SensorSource {
         Context app=context.getApplicationContext();
         manager=(SensorManager)app.getSystemService(Context.SENSOR_SERVICE);
         window=(WindowManager)app.getSystemService(Context.WINDOW_SERVICE);
-        rotationHardware=manager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
-        gravityHardware=manager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+        for(int i=0;i<hardwareTypes.length;i++)devices[i]=manager.getDefaultSensor(hardwareTypes[i]);
         if(app instanceof Application)((Application)app).registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override public void onActivityPaused(Activity activity) {
                 background=true;
@@ -93,21 +100,19 @@ public final class SensorSource {
     }
     private static void refresh() {
         if(manager==null)return;
-        int rotation=0, gravity=0;
+        int[] requested=new int[kinds.length];
         if(!background)for(SensorSource s:sources)if(s.enabled && s.trace==null && s.available && s.error==null) {
-            Sensor hardware=s.rotation?rotationHardware:gravityHardware;
+            Sensor hardware=devices[s.kind];
             int rate=Math.max(5000,Math.max(hardware.getMinDelay(),(int)(s.interval*1000)));
-            if(s.rotation)rotation=rotation==0?rate:Math.min(rotation,rate);
-            else gravity=gravity==0?rate:Math.min(gravity,rate);
+            requested[s.kind]=requested[s.kind]==0?rate:Math.min(requested[s.kind],rate);
         }
-        rotationRate=register(rotationHardware,rotationRate,rotation,true);
-        gravityRate=register(gravityHardware,gravityRate,gravity,false);
+        for(int i=0;i<kinds.length;i++)rates[i]=register(devices[i],rates[i],requested[i],i);
         schedule();
     }
-    private static int register(Sensor sensor,int previous,int next,boolean rotation) {
+    private static int register(Sensor sensor,int previous,int next,int kind) {
         if(previous==next)return previous;
         // A fusion implementation may reset its game-reference frame on re-registration.
-        if(rotation)for(SensorSource s:sources)if(s.rotation&&s.enabled&&s.trace==null)s.rebase=true;
+        if(kind==0)for(SensorSource s:sources)if(s.rotation&&s.enabled&&s.trace==null)s.rebase=true;
         if(previous>0)manager.unregisterListener(hardware,sensor);
         if(next==0)return 0;
         String error=null;
@@ -115,12 +120,13 @@ public final class SensorSource {
         catch(SecurityException denied){error="access-denied";}
         catch(RuntimeException failure){error="sensor-start-failed";}
         if(error==null)return next;
-        for(SensorSource s:new ArrayList<>(sources))if(s.rotation==rotation&&s.enabled&&s.trace==null){s.error=error;s.state("error");}
+        for(SensorSource s:new ArrayList<>(sources))if(s.kind==kind&&s.enabled&&s.trace==null){s.error=error;s.state("error");}
         return 0;
     }
-    public static int activeCount(){return (rotationRate>0?1:0)+(gravityRate>0?1:0);}
+    public static int activeCount(){int count=0;for(int rate:rates)if(rate>0)count++;return count;}
     public static int sourceCount(){return sources.size();}
     private final boolean rotation, interfaceCoordinates, available;
+    private final int kind;
     private final double interval;
     private final LiveSpring[] nodes;
     private Listener listener;
@@ -134,7 +140,9 @@ public final class SensorSource {
     private double replayStart,replayElapsed,replayOrientation;
     public SensorSource(Context context,String kind,String options,Listener listener) {
         initialize(context);
-        rotation=kind.equals("rotation");this.listener=listener;
+        int index=Arrays.asList(kinds).indexOf(kind);
+        if(index<0)throw new IllegalArgumentException("Unknown sensor kind.");
+        this.kind=index;rotation=index==0;this.listener=listener;
         try {
             JSONObject config=new JSONObject(options);
             interfaceCoordinates=config.optString("coordinates").equals("interface");
@@ -142,7 +150,7 @@ public final class SensorSource {
             if(requested==0)requested=1000/Math.max(60,window.getDefaultDisplay().getRefreshRate());
             interval=Math.max(5,Math.min(1000,requested));
         } catch(JSONException e){throw new IllegalArgumentException(e);}
-        available=(rotation?rotationHardware:gravityHardware)!=null;
+        available=devices[index]!=null;
         output=new double[rotation?7:3];if(rotation)output[6]=1;
         nodes=new LiveSpring[output.length];status=available?"idle":"unavailable";
         sources.add(this);

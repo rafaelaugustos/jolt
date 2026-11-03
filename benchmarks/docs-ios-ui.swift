@@ -3,7 +3,7 @@ import UIKit
 
 /// Real OS input against the installed normal demo. The host records each named interval.
 final class DocsTests: XCTestCase {
-    let app = XCUIApplication(bundleIdentifier: "org.nativescript.jolt.benchmark")
+    var app = XCUIApplication(bundleIdentifier: "org.nativescript.jolt.benchmark")
     let control = URL(fileURLWithPath: "/tmp/jolt-docs-recording-control-" + (ProcessInfo.processInfo.environment["SIMULATOR_UDID"] ?? "unknown"))
 
     func testRetainedScroll() throws {
@@ -64,7 +64,12 @@ final class DocsTests: XCTestCase {
     func record(_ name: String, _ body: () throws -> Void) throws {
         try cue("start", name)
         Thread.sleep(forTimeInterval: 0.7)
-        try body()
+        do {
+            try body()
+        } catch {
+            try cue("stop", name)
+            throw error
+        }
         Thread.sleep(forTimeInterval: 1)
         try cue("stop", name)
     }
@@ -483,6 +488,47 @@ final class DocsTests: XCTestCase {
         }
     }
     func testDeviceSensors() throws { try sensorDemo("en") }
+    func testVectorSensors() throws {
+        launch(["--showcase-example=device-sensors", "--sensors-vectors", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"], "vector-preview")
+        try record("vector-sensors-ios") {
+            tap("vector-preview", wait: 2)
+            tap("vector-snapshot", wait: 1)
+            tap("vector-pause", wait: 1)
+            tap("vector-snapshot")
+            tap("vector-resume", wait: 2)
+            tap("vector-snapshot")
+            tap("vector-live", wait: 1)
+            tap("vector-preview", wait: 2)
+        }
+        tap("vector-close")
+    }
+    func frameworkDemo(_ name: String) throws {
+        app = XCUIApplication(bundleIdentifier: "dev.jolt.framework." + name)
+        launch(["-AppleLanguages", "(en)", "-AppleLocale", "en_US"], "framework-interrupt")
+        let card = app.descendants(matching: .any)["framework-card"].firstMatch
+        XCTAssertTrue(card.exists, app.debugDescription)
+        let initial = card.frame.midX
+        try record("framework-" + name + "-ios") {
+            tap("framework-interrupt", wait: 0.25)
+            XCTAssertGreaterThan(card.frame.midX, initial + 8)
+            tap("framework-interrupt", wait: 0.8)
+            card.press(forDuration: 0.5)
+            Thread.sleep(forTimeInterval: 0.5)
+            tap("framework-toggle", wait: 1)
+            XCTAssertFalse(card.exists, app.debugDescription)
+            tap("framework-toggle", wait: 1)
+            XCTAssertTrue(card.exists, app.debugDescription)
+            tap("framework-replace", wait: 1)
+            XCTAssertTrue(card.exists, app.debugDescription)
+            tap("framework-interrupt", wait: 0.8)
+        }
+        tap("framework-toggle", wait: 1)
+        XCTAssertFalse(card.exists, app.debugDescription)
+    }
+    func testReactAdapter() throws { try frameworkDemo("react") }
+    func testSvelteAdapter() throws { try frameworkDemo("svelte") }
+    func testSolidAdapter() throws { try frameworkDemo("solid") }
+    func testAngularAdapter() throws { try frameworkDemo("angular") }
     func testDeviceSensorsPortuguese() throws { try sensorDemo("pt-BR") }
     func testDeviceSensorChecks() throws {
         languageLaunch("en", "sensor-lab", ["--showcase-example=device-sensors", "--sensors-audit"])
@@ -568,6 +614,7 @@ final class DocsTests: XCTestCase {
     func testScrollHeaderPortuguese() throws { try scrollHeaderDemo("pt-BR") }
 
     func testScrollHeaderLifecycle() throws {
+        XCUIDevice.shared.orientation = .portrait
         languageLaunch("en", "language-settings"); selectLanguage("system")
         languageLaunch("en", "scroll-header-list", ["--showcase-example=scroll-header", "--scroll-header-audit"])
         let list = app.descendants(matching: .any)["scroll-header-list"].firstMatch
@@ -576,10 +623,9 @@ final class DocsTests: XCTestCase {
             list.swipeUp(); Thread.sleep(forTimeInterval: 0.5)
             tap("scroll-header-cover")
             tap("scroll-header-reload")
-            let portraitWidth = list.frame.width
             XCUIDevice.shared.orientation = .landscapeLeft; Thread.sleep(forTimeInterval: 1)
-            XCTAssertGreaterThan(list.frame.width, portraitWidth)
             tap("scroll-header-snapshot")
+            try cue("scroll-rotation", "landscape")
             XCUIDevice.shared.orientation = .portrait; Thread.sleep(forTimeInterval: 1)
             tap("scroll-header-snapshot")
             let back = app.descendants(matching: .any)["Back to collection"].firstMatch.frame
@@ -587,10 +633,12 @@ final class DocsTests: XCTestCase {
             XCTAssertNil(JoltScrollAndLeave(start, list.frame.height * 0.45, CGPoint(x: back.midX, y: back.midY)))
             Thread.sleep(forTimeInterval: 0.6)
             XCTAssertFalse(list.exists)
+            try cue("scroll-report", "scroll-header-disposed")
             tap("Open Made to scroll")
             XCTAssertTrue(list.exists)
             list.swipeUp(); Thread.sleep(forTimeInterval: 0.5)
             tap("scroll-header-snapshot")
+            try cue("scroll-report", "scroll-header-reentry")
         }
     }
 
@@ -660,6 +708,8 @@ final class DocsTests: XCTestCase {
     }
 
     func testScrollHeaderChecks() throws {
+        XCUIDevice.shared.orientation = .portrait
+        defer { XCUIDevice.shared.orientation = .portrait }
         languageLaunch("en", "language-settings"); selectLanguage("system")
         languageLaunch("en", "scroll-header-list", ["--showcase-example=scroll-header", "--scroll-header-audit"])
         let list = app.descendants(matching: .any)["scroll-header-list"].firstMatch
@@ -677,10 +727,9 @@ final class DocsTests: XCTestCase {
         tap("scroll-header-snapshot")
         tap("scroll-header-reload", wait: 1)
         tap("scroll-header-snapshot")
-        let portraitWidth = list.frame.width
         XCUIDevice.shared.orientation = .landscapeLeft; Thread.sleep(forTimeInterval: 1)
-        XCTAssertGreaterThan(list.frame.width, portraitWidth)
         tap("scroll-header-snapshot")
+        try cue("scroll-rotation", "landscape")
         XCUIDevice.shared.orientation = .portrait; Thread.sleep(forTimeInterval: 1)
         tap("scroll-header-snapshot")
         XCUIDevice.shared.press(.home); Thread.sleep(forTimeInterval: 0.5); app.activate()
@@ -690,6 +739,7 @@ final class DocsTests: XCTestCase {
         tap("scroll-header-empty"); tap("scroll-header-jump"); tap("scroll-header-snapshot")
         tap("Back to collection")
         XCTAssertFalse(app.descendants(matching: .any)["scroll-header-list"].firstMatch.exists)
+        try cue("scroll-report", "scroll-header-audit")
     }
 
     func testInteractionReplayChecks() throws {
@@ -2709,6 +2759,130 @@ final class DocsTests: XCTestCase {
             XCTAssertTrue(app.staticTexts["idle · settled"].waitForExistence(timeout: 5))
         }
     }
+    func imageProfileSteps() {
+        for run in 1...6 {
+            tap("One ripple", wait: 2)
+            XCTAssertTrue(app.staticTexts["Finished \(run): true"].exists, app.debugDescription)
+        }
+        for run in 7...12 {
+            tap("Two dissolves", wait: 2)
+            XCTAssertTrue(app.staticTexts["Finished \(run): true"].exists, app.debugDescription)
+        }
+        tap("Two dissolves", wait: 0.2)
+        tap("Cancel effects", wait: 1)
+    }
+    func testImageProfile() throws {
+        XCUIDevice.shared.orientation = .portrait
+        launch(["--recipe=image-profile", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"], "One ripple")
+        try record("image-profile-ios") { imageProfileSteps() }
+    }
+    func testImageMeasurements() throws {
+        XCUIDevice.shared.orientation = .portrait
+        launch(["--recipe=image-profile", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"], "One ripple")
+        imageProfileSteps()
+        try cue("image-report", "image-profile-ios")
+    }
+    func testGalleryRecipe() throws {
+        XCUIDevice.shared.orientation = .portrait
+        launch(["--recipe=gallery", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"], "recipe-gallery-list")
+        try record("recipe-gallery-ios") {
+            tap("recipe-place-1", wait: 1)
+            tap("Zoom photo", wait: 1)
+            let photo = app.descendants(matching: .any)["recipe-detail-photo"].firstMatch
+            drag(photo, x: -50, y: 35)
+            tap("Reset photo", wait: 1)
+            drag(photo, x: 0, y: 25) // Below the dismissal threshold: settle back.
+            XCTAssertTrue(photo.exists)
+            tap("Move photo to end")
+            tap("Close photo", wait: 2)
+            XCTAssertTrue(app.descendants(matching: .any)["recipe-gallery-list"].firstMatch.exists, app.debugDescription)
+            let returned = app.descendants(matching: .any)["recipe-place-1"].firstMatch
+            XCTAssertTrue(returned.exists, app.debugDescription)
+            XCTAssertFalse(returned.frame.intersection(app.descendants(matching: .any)["recipe-gallery-list"].firstMatch.frame).isEmpty)
+            tap("recipe-place-1", wait: 1)
+            drag(app.descendants(matching: .any)["recipe-detail-photo"].firstMatch, x: 0, y: 240)
+            XCTAssertTrue(app.descendants(matching: .any)["recipe-gallery-list"].firstMatch.waitForExistence(timeout: 5))
+        }
+    }
+    func testSheetRecipe() throws {
+        XCUIDevice.shared.orientation = .portrait
+        launch(["--recipe=sheet", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"], "Open sheet")
+        try record("recipe-sheet-ios") {
+            tap("Open sheet", wait: 1)
+            drag(app.descendants(matching: .any)["recipe-sheet-handle"].firstMatch, x: 0, y: -180)
+            tap("Add content")
+            let field = app.textFields["Recipe message"].firstMatch
+            XCTAssertTrue(field.exists, app.debugDescription)
+            field.tap(); field.typeText("Hello Jolt")
+            XCTAssertTrue(app.keyboards.firstMatch.waitForExistence(timeout: 5))
+            Thread.sleep(forTimeInterval: 1)
+            tap("Close sheet", wait: 1)
+            tap("Open sheet", wait: 1)
+            drag(app.descendants(matching: .any)["recipe-sheet-handle"].firstMatch, x: 0, y: -180)
+            let start = app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.55))
+            start.press(forDuration: 0.1, thenDragTo: start.withOffset(CGVector(dx: 0, dy: -140)), withVelocity: .slow, thenHoldForDuration: 0.2)
+            Thread.sleep(forTimeInterval: 1)
+            XCTAssertEqual(app.state, .runningForeground)
+            drag(app.descendants(matching: .any)["recipe-sheet-handle"].firstMatch, x: 0, y: 150)
+            XCTAssertEqual(app.state, .runningForeground)
+        }
+    }
+    func testListRecipe() throws {
+        XCUIDevice.shared.orientation = .portrait
+        launch(["--recipe=lists", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"], "recipe-list")
+        try record("recipe-list-ios") {
+            let list = app.descendants(matching: .any)["recipe-list"].firstMatch
+            list.swipeUp(); Thread.sleep(forTimeInterval: 1)
+            XCTAssertTrue(app.staticTexts["Collection 0 · item 12"].exists, "A prefetched cell must retain its content")
+            list.swipeDown(); Thread.sleep(forTimeInterval: 1)
+            tap("Replace items", wait: 1)
+            XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "Collection 1")).firstMatch.exists)
+            list.swipeUp(); Thread.sleep(forTimeInterval: 1)
+            tap("Replace items", wait: 1)
+            XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label BEGINSWITH %@", "Collection 2")).firstMatch.exists)
+        }
+    }
+    func testMobileBrowser() throws {
+        XCUIDevice.shared.orientation = .portrait
+        defer { XCUIDevice.shared.orientation = .portrait }
+        app = XCUIApplication(bundleIdentifier: "com.apple.mobilesafari")
+        try cue("open-url", "web-mobile")
+        app.activate()
+        XCTAssertTrue(app.buttons["Request haptic"].waitForExistence(timeout: 15), app.debugDescription)
+        try record("web-mobile-ios") {
+            app.buttons["Request haptic"].tap()
+            Thread.sleep(forTimeInterval: 0.3)
+            app.buttons["Request haptic"].tap()
+            Thread.sleep(forTimeInterval: 1)
+            app.buttons["Enable sensors"].tap()
+            for _ in 0..<2 {
+                if app.alerts.firstMatch.waitForExistence(timeout: 2) {
+                    let allow = app.alerts.buttons["Allow"].firstMatch
+                    if allow.exists { allow.tap() }
+                }
+            }
+            Thread.sleep(forTimeInterval: 2)
+            app.buttons["Snapshot"].tap()
+            let field = app.textFields["Message"].firstMatch
+            XCTAssertTrue(field.exists, app.debugDescription)
+            field.tap(); field.typeText("Jolt mobile")
+            XCTAssertTrue(app.keyboards.firstMatch.waitForExistence(timeout: 5), app.debugDescription)
+            Thread.sleep(forTimeInterval: 3)
+            app.buttons["Snapshot"].tap()
+            app.buttons["Dismiss keyboard"].tap()
+            Thread.sleep(forTimeInterval: 1)
+            app.buttons["Pause"].tap(); app.buttons["Resume"].tap()
+            XCUIDevice.shared.orientation = .landscapeLeft
+            Thread.sleep(forTimeInterval: 1)
+            app.buttons["Snapshot"].tap()
+            XCUIDevice.shared.orientation = .portrait
+            Thread.sleep(forTimeInterval: 1)
+            app.buttons["Unmount"].tap()
+            XCTAssertFalse(field.exists)
+            Thread.sleep(forTimeInterval: 1.5) // Allow the final evidence request to reach the local collector.
+        }
+    }
+
     func testImageEffects() throws {
         launch(["--image-lab=effects"], "Ripple")
         try record("image-effects-ios") {

@@ -9,6 +9,7 @@ import { sensorAudit } from '../sensor-audit'
 import { launchArgument } from '../launch'
 import { sensorIntervalAudit } from '../sensor-interval-audit'
 import { sensorAcceptancePage } from '../sensor-acceptance-audit'
+import { vectorSensorAudit } from '../vector-sensor-audit'
 const { t } = usePreviewI18n()
 defineProps<{ embedded?: boolean }>()
 const stage = ref(),
@@ -27,6 +28,8 @@ const intervalState = ref('Ready'),
   intervalDetail = ref('Real motion sensors · automatic sampling audit')
 let intervals: ReturnType<typeof sensorIntervalAudit> | undefined
 let acceptanceOpened = false
+let vectors: ReturnType<typeof vectorSensorAudit> | undefined
+onUnmounted(() => vectors?.dispose())
 let owner: ReturnType<typeof motionScope> | undefined,
   rotation: ReturnType<typeof sensor> | undefined,
   gravity: ReturnType<typeof sensor> | undefined
@@ -98,6 +101,20 @@ function audit(name: string) {
   )
 }
 function loaded() {
+  if (launchArgument('sensors-vectors') !== undefined) {
+    if (!vectors) {
+      vectors = vectorSensorAudit()
+      setTimeout(
+        () =>
+          nativeView(stage).page.showModal(vectors!.page, {
+            fullscreen: true,
+            animated: false,
+          }),
+        100,
+      )
+    }
+    return
+  }
   if (
     launchArgument('sensors-acceptance') !== undefined ||
     launchArgument('sensors-recovery') !== undefined

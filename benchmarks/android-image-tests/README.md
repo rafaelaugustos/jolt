@@ -7,7 +7,7 @@ Build the package, then the demo with its usual NativeScript Android setup:
 ```sh
 npm run build
 cd demo
-ns build android --env.production --no-hmr
+JOLT_BENCHMARK=1 ns build android --env.production --no-hmr
 cd platforms/android
 ./gradlew :app:assembleAndroidTest -I ../../../../benchmarks/android-image-tests/init.gradle
 ```
@@ -17,7 +17,7 @@ Install both APKs on the same device (replace `SERIAL`):
 ```sh
 adb -s SERIAL install -r app/build/outputs/apk/debug/app-debug.apk
 adb -s SERIAL install -r app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
-adb -s SERIAL shell am instrument -w org.nativescript.jolt.test/org.rafaelaugusto.jolt.tests.ImageInteractionTest
+adb -s SERIAL shell am instrument -w org.nativescript.jolt.benchmark.test/org.rafaelaugusto.jolt.tests.ImageInteractionTest
 ```
 
 The app and instrumentation must use the same signing key. A release app signed with the local Android debug key can also be tested; this is a local validation artifact, not a distribution build. NativeScript metadata is generated during the build; after changing a Java bridge signature, force a rebuild if incremental metadata still describes the old class.
@@ -57,3 +57,7 @@ The agreed Android validation matrix is the physical ASUS Z017DC on Android 8 / 
 The image lab logs `JOLT_IMAGE_EFFECT` records with backend, preparation milliseconds, frame count, longest observed interval and current/peak texture bytes. These counters measure setup and draw scheduling, not GPU execution. The 4,194,304-output-pixel cap is an allocation guard. A controlled cold/warm benchmark with frame-time distributions and concurrent effects on physical Metal and API 33+ hardware is still required before choosing production performance limits.
 
 Follow-up visual coverage should record detailed iOS gesture/lifecycle and integrated-route results, transformed/scrolled tap origins, and viewport resizing under native input. Controlled performance measurements remain tracked by #65. Shared-element navigation adapters that take over the image transform belong to #24/#117; the included Frame example transitions an ancestor while the photo recipe holds its native pose.
+
+## Current candidate acceptance — 2026-11-03
+
+The maintainer selected emulator/simulator scope. All 27 Android checks passed again on the dedicated API 36 emulator with the candidate native diagnostics. The release app and instrumentation used the same local test signing key. iOS 26.2 simulator effect/gesture recordings and separate cold/warm/native-interval/texture measurements are documented in [image-renderer.md](../image-renderer.md). This does not upgrade historical physical-device evidence to a current physical run.

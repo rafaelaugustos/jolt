@@ -65,7 +65,7 @@ A referência de rotação é arbitrária e não magnética: `XArbitraryZVertica
 
 ## Coleta e ciclo de vida
 
-`interval` aceita `'auto'` (intervalo informado pelo display) ou 5–1000 milissegundos. A solicitação respeita limites do hardware e não garante cadência exata. O iOS compartilha uma assinatura de Core Motion; o Android compartilha um listener nativo por tipo disponível. Consumidores compatíveis usam o menor intervalo solicitado, e cada fonte agrupa as leituras conforme seu intervalo e os frames do display. Vários bindings usam os mesmos valores retidos.
+`interval` aceita `'auto'` (intervalo informado pelo display) ou 5–1000 milissegundos. A solicitação respeita limites do hardware e não garante cadência exata. Na RC.10, rotação/gravidade no iOS compartilham uma assinatura de Core Motion; as fontes adicionais abaixo usam grupos de hardware separados. o Android compartilha um listener nativo por tipo disponível. Consumidores compatíveis usam o menor intervalo solicitado, e cada fonte agrupa as leituras conforme seu intervalo e os frames do display. Vários bindings usam os mesmos valores retidos.
 
 Ao ir para segundo plano, a coleta para nativamente e também pelos hooks de ciclo de vida do Jolt. `pause()` mantém os valores e interrompe a coleta daquela fonte; `play()` retoma e permite tentar uma assinatura que falhou novamente. `dispose()` é idempotente, desconecta bindings, libera valores e assinaturas. Outra fonte ativa pode manter o hardware compartilhado ligado.
 
@@ -90,3 +90,27 @@ As auditorias em iPhone e Android físicos cobrem rotação e gravidade reais, a
 Isso conclui o escopo inicial de rotação/gravidade da #114 sem mudar a API de produção. Acelerômetro com gravidade, aceleração linear, giroscópio e campo magnético seguem na [#256](https://github.com/rafaelaugustos/jolt/issues/256). Os perfis curtos do processo incluem o custo do diagnóstico e não comprovam calibração dos eixos, FPS apresentado, latência entre entrada e exibição, bateria ou capacidade sustentada.
 
 Contratos das plataformas: [Core Motion](https://developer.apple.com/documentation/coremotion/getting-processed-device-motion-data), [sensores de movimento Android](https://developer.android.com/develop/sensors-and-location/sensors/sensors_motion) e [coordenadas e limites Android](https://developer.android.com/develop/sensors-and-location/sensors/sensors_overview).
+
+## Fontes vetoriais adicionais (próxima versão) {#vector-sources}
+
+A próxima versão adiciona quatro fontes vetoriais nativas. A RC.10 ainda publica apenas rotação/gravidade. Cada fonte expõe `x`, `y`, `z` e `unit` somente para leitura e mantém os contratos de demanda, pausa/retomada, escopo, movimento reduzido, segundo plano e descarte. O aceite desta entrega usa simuladores/emuladores, conforme solicitado; precisão e custo em aparelhos físicos continuam sem validação.
+
+| Fonte                | Unidade | Significado                                                                                                         |
+| -------------------- | ------- | ------------------------------------------------------------------------------------------------------------------- |
+| `acceleration`       | `m/s²`  | Aceleração própria incluindo a força de apoio: um telefone parado, com a tela para cima, tem Z próximo de +9,80665. |
+| `linearAcceleration` | `m/s²`  | Translação física sem gravidade; aproximadamente zero em repouso.                                                   |
+| `gyroscope`          | `rad/s` | Velocidade angular pela regra da mão direita, não um ângulo integrado.                                              |
+| `magneticField`      | `µT`    | Vetor do campo magnético do aparelho; sem garantia de rumo ou precisão de calibração.                               |
+
+A gravidade canônica aponta para baixo. Assim, `linearAcceleration = acceleration + gravity` para leituras simultâneas compatíveis; não subtraia novamente essa gravidade. As acelerações do Core Motion são convertidas de g com o sinal apropriado. Giroscópio e campo magnético preservam os eixos nativos da mão direita. O remapeamento dispositivo/interface vale para todos os vetores. Rotação, gravidade e aceleração linear compartilham o Core Motion processado; aceleração bruta, giroscópio e campo magnético têm demanda independente. O Android compartilha cada tipo disponível. Disponibilidade e erros continuam explícitos.
+
+```ts
+const owner = motionScope()
+const rate = sensor('gyroscope', { scope: owner })
+owner.use(() => bind(indicator, { x: rate.z.to([-4, 4], [-80, 80]) }))
+console.log(rate.unit) // rad/s
+owner.dispose()
+```
+
+<Clip name="vector-sensors-ios" caption="Simulador iOS 26.2, interface em inglês: seis fontes nativas usam amostras de teste identificadas na tela, com toques reais para pausar, retomar, recriar e mostrar a ausência de hardware. Tempo original; não comprova precisão ou desempenho de sensores físicos." />
+<Clip name="vector-sensors-android" caption="Emulador Android 16 / API 36, interface em inglês: toques reais por ADB exercitam seis fontes, reprodução nativa de entradas de teste, pausa/retomada e retorno aos serviços de sensores emulados. Timestamps originais do vídeo; não é evidência de aparelho físico." />

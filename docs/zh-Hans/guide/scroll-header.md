@@ -191,3 +191,7 @@ await headerMotion.preserveAnchor(async () => {
 <Clip name="retained-scroll-ios" caption="iPhone 17 模拟器，iOS 26，英文 Vue 演示：通过真实 XCTest 操作展示滚动、不同高度行的带键插入、原生手柄拖放及带提交保护的下拉刷新。原速播放；仅验证模拟器正确性。" />
 
 <Clip name="retained-scroll-android" caption="Android 16 / API 36 模拟器，英文 Vue 演示：真实系统触摸展示折叠、保持锚点的插入、已挂载行排序和原生下拉刷新。Debug 应用使用生产版 JavaScript，原速播放；不代表实体设备性能。" />
+
+## 当前模拟器验收 {#current-emulator-acceptance}
+
+根据维护者的要求，2026-11-03 候选版本在 iOS Simulator 和 Android Emulator 中重新验证中断、返回、旋转、大字体和资源清理。重复的原生交互还保留了进程内存样本。30 轮滚动显示分配与回收，而非单调增长；有限样本不能证明没有内存泄漏。[原始结果与限制](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/results/acceptance-2026-11-03/README.md)。此候选版本尚未通过物理设备验收。

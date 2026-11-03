@@ -1,0 +1,132 @@
+{
+  "scope": "Android emulator; warm process PSS includes runtime, decoded images and caches. No forced GC; five rounds do not prove no leak. Gfxinfo measures UI rendering, not physical presentation.",
+  "rounds": 30,
+  "samples": {
+    "scroll": [
+      {
+        "sample": "scroll-warm",
+        "pssKiB": 126223
+      },
+      {
+        "sample": "scroll-1",
+        "pssKiB": 132270
+      },
+      {
+        "sample": "scroll-2",
+        "pssKiB": 139847
+      },
+      {
+        "sample": "scroll-3",
+        "pssKiB": 144600
+      },
+      {
+        "sample": "scroll-4",
+        "pssKiB": 150002
+      },
+      {
+        "sample": "scroll-5",
+        "pssKiB": 155360
+      },
+      {
+        "sample": "scroll-6",
+        "pssKiB": 162145
+      },
+      {
+        "sample": "scroll-7",
+        "pssKiB": 167153
+      },
+      {
+        "sample": "scroll-8",
+        "pssKiB": 159145
+      },
+      {
+        "sample": "scroll-9",
+        "pssKiB": 165362
+      },
+      {
+        "sample": "scroll-10",
+        "pssKiB": 170583
+      },
+      {
+        "sample": "scroll-11",
+        "pssKiB": 174393
+      },
+      {
+        "sample": "scroll-12",
+        "pssKiB": 179609
+      },
+      {
+        "sample": "scroll-13",
+        "pssKiB": 185460
+      },
+      {
+        "sample": "scroll-14",
+        "pssKiB": 189965
+      },
+      {
+        "sample": "scroll-15",
+        "pssKiB": 195071
+      },
+      {
+        "sample": "scroll-16",
+        "pssKiB": 197902
+      },
+      {
+        "sample": "scroll-17",
+        "pssKiB": 202451
+      },
+      {
+        "sample": "scroll-18",
+        "pssKiB": 167951
+      },
+      {
+        "sample": "scroll-19",
+        "pssKiB": 141056
+      },
+      {
+        "sample": "scroll-20",
+        "pssKiB": 145021
+      },
+      {
+        "sample": "scroll-21",
+        "pssKiB": 150961
+      },
+      {
+        "sample": "scroll-22",
+        "pssKiB": 154144
+      },
+      {
+        "sample": "scroll-23",
+        "pssKiB": 157428
+      },
+      {
+        "sample": "scroll-24",
+        "pssKiB": 159595
+      },
+      {
+        "sample": "scroll-25",
+        "pssKiB": 166534
+      },
+      {
+        "sample": "scroll-26",
+        "pssKiB": 169198
+      },
+      {
+        "sample": "scroll-27",
+        "pssKiB": 174702
+      },
+      {
+        "sample": "scroll-28",
+        "pssKiB": 178167
+      },
+      {
+        "sample": "scroll-29",
+        "pssKiB": 184438
+      },
+      {
+        "sample": "scroll-30",
+        "pssKiB": 190027
+      }
+    ]
+  }
+}

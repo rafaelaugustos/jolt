@@ -1,0 +1,30 @@
+PASS programmatic zoom
+PASS reset
+PASS pinch
+PASS pan while zoomed
+PASS double tap toggles to minimum
+PASS small dismiss cancels
+PASS cancelled gesture restores viewer
+PASS vertical dismiss and cancel
+PASS horizontal movement at minimum
+PASS dismiss completes and reopens
+PASS repeated disposal
+PASS viewer route and system back
+PASS route accepts close after zoom reset
+PASS dissolve backend
+PASS reduced motion content update
+PASS identity pixels aspectFit
+PASS rounded image pixels aspectFit
+PASS identity pixels aspectFill
+PASS rounded image pixels aspectFill
+PASS identity pixels fill
+PASS rounded image pixels fill
+PASS identity pixels none
+PASS rounded image pixels none
+PASS source replacement during effect
+PASS paused dissolve
+PASS reverse from pause
+PASS native distortion
+
+PASS 27 native image checks: [programmatic zoom, reset, pinch, pan while zoomed, double tap toggles to minimum, small dismiss cancels, cancelled gesture restores viewer, vertical dismiss and cancel, horizontal movement at minimum, dismiss completes and reopens, repeated disposal, viewer route and system back, route accepts close after zoom reset, dissolve backend, reduced motion content update, identity pixels aspectFit, rounded image pixels aspectFit, identity pixels aspectFill, rounded image pixels aspectFill, identity pixels fill, rounded image pixels fill, identity pixels none, rounded image pixels none, source replacement during effect, paused dissolve, reverse from pause, native distortion]
+

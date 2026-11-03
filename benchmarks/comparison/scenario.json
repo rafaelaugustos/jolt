@@ -1,0 +1,39 @@
+{
+  "scenario": "linear-ping-pong-v1",
+  "tile": {
+    "width": 48,
+    "height": 48,
+    "color": "#D6E7B5"
+  },
+  "surface": {
+    "width": 288,
+    "height": 120,
+    "color": "#102922"
+  },
+  "motion": {
+    "x": [0, 240],
+    "opacity": [1, 0.4],
+    "legDurationMs": 1000,
+    "easing": "linear",
+    "repeat": "reverse",
+    "start": "explicit user tap",
+    "stop": "hold current pose",
+    "restart": "reset then repeat"
+  },
+  "acceptanceScope": "simulators/emulators only, as requested; no physical-device ranking",
+  "phases": ["normal", "app-runtime-block-300ms", "ui-thread-block-300ms"],
+  "collection": {
+    "warmupSeconds": 5,
+    "windowSeconds": 30,
+    "repetitions": 5
+  },
+  "versions": {
+    "jolt": "0.1.0-rc.10 plus local candidate",
+    "flutter": "3.47.9",
+    "flutterRevision": "c197ca5199e9ee5661e865596c9c07294dfab51c",
+    "reactNative": "0.88.1",
+    "react": "19.3.0",
+    "reanimated": "4.7.1",
+    "worklets": "0.13.0"
+  }
+}

@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, readonly) BOOL paused;
 @property(nonatomic, readonly) NSUInteger frames;
 @property(nonatomic, readonly) double longestFrame;
+@property(nonatomic, readonly) NSArray<NSNumber *> *frameIntervalsMs;
 @property(nonatomic, readonly) NSUInteger textureBytes;
 - (void)play:(double)endpoint;
 - (void)pause;

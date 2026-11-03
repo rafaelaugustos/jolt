@@ -28,6 +28,7 @@ export interface WebKeyboardSubscription {
 }
 interface VirtualKeyboard extends EventTarget {
   readonly boundingRect: DOMRectReadOnly
+  readonly overlaysContent?: boolean
 }
 const sources = new WeakMap<object, KeyboardSource>()
 function source(host: PlatformHost) {
@@ -49,6 +50,8 @@ class KeyboardSource {
   private listeners = new Set<(state: WebKeyboardState) => void>()
   private off: (() => void)[] = []
   private value: WebKeyboardState
+  private restingHeight = 0
+  private restingWidth = 0
   constructor(readonly host: PlatformHost) {
     this.value = this.measure()
   }
@@ -58,7 +61,15 @@ class KeyboardSource {
     const keyboard = (view.navigator as Navigator & { virtualKeyboard?: VirtualKeyboard })
       .virtualKeyboard
     const viewport = view.visualViewport,
-      height = view.innerHeight
+      height = view.innerHeight,
+      focused = editable(document)
+    // Some mobile browsers resize both viewports. Remember the unfocused
+    // height so visibility can still be estimated without lifting content twice.
+    // A width change invalidates the baseline (rotation / window resizing).
+    if (Math.abs(view.innerWidth - this.restingWidth) > 1) {
+      this.restingWidth = view.innerWidth
+      this.restingHeight = height
+    } else if (!focused) this.restingHeight = Math.max(this.restingHeight, height)
     let rect = { left: 0, top: height, right: view.innerWidth, bottom: height },
       covered = 0,
       visible = false
@@ -67,7 +78,8 @@ class KeyboardSource {
     if (
       keyboard &&
       typeof keyboard.addEventListener === 'function' &&
-      keyboard.boundingRect
+      keyboard.boundingRect &&
+      (keyboard.overlaysContent === true || keyboard.boundingRect.height > 0)
     ) {
       backend = 'virtual-keyboard'
       accuracy = 'exact'
@@ -84,10 +96,19 @@ class KeyboardSource {
       // Focus plus a substantial unscaled viewport reduction is only an estimate.
       // Do not double-count browsers that already resized the layout viewport.
       const gap = height - viewport.height - viewport.offsetTop
-      if (editable(document) && Math.abs(viewport.scale - 1) < 0.01 && gap > 80) {
-        visible = true
-        covered = Math.min(height, gap)
-        rect = { left: 0, top: height - covered, right: view.innerWidth, bottom: height }
+      if (focused && Math.abs(viewport.scale - 1) < 0.01) {
+        // Browser panning moves the visual viewport without closing the keyboard.
+        // Detect its reduction independently of the current viewport origin.
+        visible = height - viewport.height > 80 || this.restingHeight - height > 80
+        if (visible && gap > 0) {
+          covered = Math.min(height, gap)
+          rect = {
+            left: 0,
+            top: height - covered,
+            right: view.innerWidth,
+            bottom: height,
+          }
+        }
       }
     }
     return Object.freeze({

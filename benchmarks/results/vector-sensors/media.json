@@ -1,0 +1,42 @@
+{
+  "ios": {
+    "file": "docs/public/media/vector-sensors-ios.mp4",
+    "sha256": "eb30b8ce1e3054dc33b22b4042180ff1ce5ac5493a398e74fc85defb2fe04613",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 420,
+          "height": 914,
+          "avg_frame_rate": "30/1"
+        }
+      ],
+      "format": {
+        "duration": "17.966667"
+      }
+    },
+    "review": "Decoded full MP4 without errors; inspected frames across playback, pause/resume, source recreation and fallback. Native test input is visibly labelled; physical hardware behavior is not established."
+  },
+  "android": {
+    "file": "docs/public/media/vector-sensors-android.mp4",
+    "sha256": "55131274aeb05e90356005800259a6ae065f2bac6caf3b472bd73a4b9495c4a5",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 420,
+          "height": 934,
+          "avg_frame_rate": "30/1"
+        }
+      ],
+      "format": {
+        "duration": "8.433333"
+      }
+    },
+    "review": "Decoded full MP4 without errors; inspected frames across playback, pause/resume, source recreation and fallback. Native test input is visibly labelled; physical hardware behavior is not established."
+  }
+}

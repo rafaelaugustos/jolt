@@ -4,6 +4,11 @@
 #include <math.h>
 #include <stdbool.h>
 #include <string.h>
+// Core Motion accelerations are in g and point opposite physical translation.
+// Gravity already points down; proper and user acceleration need inversion.
+static inline double JoltSensorAcceleration(double value, bool gravity) {
+    return value * (gravity ? 9.80665 : -9.80665);
+}
 static inline bool JoltSensorNormalize(double *q) {
     double length = 0;
     for (int i = 0; i < 4; i++) { if (!isfinite(q[i])) return false; length += q[i]*q[i]; }

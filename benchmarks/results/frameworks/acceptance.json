@@ -1,0 +1,148 @@
+{
+  "scope": "Simulator/emulator functional acceptance only; no physical-device or release-performance claim",
+  "date": "2026-11-03",
+  "ios": {
+    "device": "iPhone 17 simulator",
+    "os": "26.2",
+    "cases": [
+      {
+        "framework": "react",
+        "test": "testReactAdapter",
+        "result": "Test Case '-[DocsTests.DocsTests testReactAdapter]' passed (18.370 seconds).",
+        "media": "docs/public/media/framework-react-ios.mp4",
+        "durationSeconds": 10.285188,
+        "sha256": "0587ed16da49c4f28cd784011f0e59827ebc8a81e7479e19ca36ef1312ed3c3d",
+        "review": "Full decode passed; sampled frames visually reviewed for interruption, press, removal/remount and replacement."
+      },
+      {
+        "framework": "svelte",
+        "test": "testSvelteAdapter",
+        "result": "Test Case '-[DocsTests.DocsTests testSvelteAdapter]' passed (18.532 seconds).",
+        "media": "docs/public/media/framework-svelte-ios.mp4",
+        "durationSeconds": 9.504679,
+        "sha256": "e8c714544d9c04893287900b454198de878b9df7c2c513f1e622bdc9a0c989ef",
+        "review": "Full decode passed; sampled frames visually reviewed for interruption, press, removal/remount and replacement."
+      },
+      {
+        "framework": "solid",
+        "test": "testSolidAdapter",
+        "result": "Test Case '-[DocsTests.DocsTests testSolidAdapter]' passed (18.351 seconds).",
+        "media": "docs/public/media/framework-solid-ios.mp4",
+        "durationSeconds": 9.650597,
+        "sha256": "a2e9ee29c0ad696032615b70c6b33a0030478adb004d9fc5632c159a3e00c581",
+        "review": "Full decode passed; sampled frames visually reviewed for interruption, press, removal/remount and replacement."
+      },
+      {
+        "framework": "angular",
+        "test": "testAngularAdapter",
+        "result": "Test Case '-[DocsTests.DocsTests testAngularAdapter]' passed (18.703 seconds).",
+        "media": "docs/public/media/framework-angular-ios.mp4",
+        "durationSeconds": 10.163163,
+        "sha256": "4619866ac10343e3bdcd7fc36bdc0a04017c0d6d40037339125c62139335d452",
+        "review": "Full decode passed; sampled frames visually reviewed for interruption, press, removal/remount and replacement."
+      }
+    ]
+  },
+  "android": {
+    "device": "JoltReview emulator, Android 16/API 36",
+    "cases": [
+      {
+        "framework": "react",
+        "passed": true,
+        "initialCenter": [342, 350],
+        "movedCenter": [736, 350],
+        "checks": [
+          "position interruption",
+          "real press",
+          "unmount/remount",
+          "ref/action/directive replacement or cancelled Angular exit",
+          "final removal"
+        ]
+      },
+      {
+        "framework": "svelte",
+        "passed": true,
+        "initialCenter": [342, 350],
+        "movedCenter": [736, 350],
+        "checks": [
+          "position interruption",
+          "real press",
+          "unmount/remount",
+          "ref/action/directive replacement or cancelled Angular exit",
+          "final removal"
+        ]
+      },
+      {
+        "framework": "solid",
+        "passed": true,
+        "initialCenter": [342, 350],
+        "movedCenter": [736, 350],
+        "checks": [
+          "position interruption",
+          "real press",
+          "unmount/remount",
+          "ref/action/directive replacement or cancelled Angular exit",
+          "final removal"
+        ]
+      },
+      {
+        "framework": "angular",
+        "passed": true,
+        "initialCenter": [342, 341],
+        "movedCenter": [736, 341],
+        "checks": [
+          "position interruption",
+          "real press",
+          "unmount/remount",
+          "ref/action/directive replacement or cancelled Angular exit",
+          "final removal"
+        ]
+      }
+    ]
+  },
+  "candidate": {
+    "react": {
+      "packedIntegrity": "sha512-eQlSs1J7/urH7sfuE7/1o2HFSvG+sNppWHF/98T8Pkw+RGHnax2EHFg6J5ghtdHqBS+sp29tyJwnFvflUTJapw==",
+      "dependencies": {
+        "@nativescript/core": "8.9.9",
+        "react": "16.14.0",
+        "react-nativescript": "4.0.1"
+      }
+    },
+    "svelte": {
+      "packedIntegrity": "sha512-eQlSs1J7/urH7sfuE7/1o2HFSvG+sNppWHF/98T8Pkw+RGHnax2EHFg6J5ghtdHqBS+sp29tyJwnFvflUTJapw==",
+      "dependencies": {
+        "@nativescript/core": "8.9.9",
+        "svelte": "4.2.20",
+        "svelte-native": "1.0.29"
+      }
+    },
+    "solid": {
+      "packedIntegrity": "sha512-eQlSs1J7/urH7sfuE7/1o2HFSvG+sNppWHF/98T8Pkw+RGHnax2EHFg6J5ghtdHqBS+sp29tyJwnFvflUTJapw==",
+      "dependencies": {
+        "@dominative/solid": "0.0.4-alpha.1",
+        "@nativescript/core": "8.9.9",
+        "dominative": "0.0.7-alpha.2",
+        "solid-js": "1.9.18",
+        "undom-ng": "1.0.10"
+      }
+    },
+    "angular": {
+      "packedIntegrity": "sha512-eQlSs1J7/urH7sfuE7/1o2HFSvG+sNppWHF/98T8Pkw+RGHnax2EHFg6J5ghtdHqBS+sp29tyJwnFvflUTJapw==",
+      "dependencies": {
+        "@angular/animations": "22.2.4",
+        "@angular/common": "22.2.4",
+        "@angular/compiler": "22.2.4",
+        "@angular/core": "22.2.4",
+        "@angular/forms": "22.2.4",
+        "@angular/platform-browser": "22.2.4",
+        "@angular/platform-browser-dynamic": "22.2.4",
+        "@angular/router": "22.2.4",
+        "@nativescript/angular": "22.0.2",
+        "@nativescript/core": "9.1.3",
+        "rxjs": "7.8.2",
+        "zone.js": "0.15.1"
+      }
+    }
+  }
+}

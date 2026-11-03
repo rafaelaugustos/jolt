@@ -71,3 +71,9 @@ Cambiar el relleno, el ancho de los bordes o los radios de las esquinas también
 El laboratorio de imágenes [demostración](./demo) incluye orígenes de toque, arrastre nativo, reproducción, retroceso, desplazamiento, restauración, cuatro modos de estiramiento, bordes redondeados y controles de movimiento reducido. La fuente del paisaje se disuelve en un retrato con una esquina transparente.
 
 <Clip name="web-image-surfaces-chromium" :width="900" caption="Chromium en macOS, interfaz inglesa: interacción real, pausa/reanudación, sustitución, movimiento reducido y limpieza a velocidad original. Captura de navegador, no de dispositivo físico." />
+
+## Alcance del renderer y mediciones nativas
+
+El backend admite imágenes estáticas. Las capturas de la aplicación permanecen congeladas; esta API no ofrece subárboles vivos, capturas continuas, muestreo de fondo, vídeo/cámara/WebView ni filtros SwiftUI alojados. El [informe del renderer](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/image-renderer.md) describe coordenadas, recursos, fallback, pasos y mediciones reproducibles. `diagnostics.frameIntervalsMs` conserva hasta 512 intervalos activos de dibujo nativo en milisegundos. Excluye pausas y no mide GPU ni presentación.
+
+<Clip name="image-profile-ios" caption="Simulador iPhone 17, iOS 26.2, interfaz en inglés. Toques reales ejecutan ripple, dos dissolves concurrentes y cancelación. Velocidad original; las mediciones usan otra ejecución sin grabación. No demuestra rendimiento físico." />

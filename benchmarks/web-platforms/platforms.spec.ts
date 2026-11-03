@@ -542,3 +542,120 @@ test('held symbol scale survives unrelated DOM changes and pause/resume without 
   })
   expect(result).toEqual({ scale: '1.2', finished: false })
 })
+
+test('resized layout viewport reports keyboard visibility without double coverage', async ({
+  page,
+}) => {
+  const result = await page.evaluate(() => {
+    Object.defineProperty(navigator, 'virtualKeyboard', {
+      configurable: true,
+      value: undefined,
+    })
+    let height = 740
+    let width = 920
+    const viewport = new EventTarget()
+    Object.defineProperties(viewport, {
+      height: { get: () => height },
+      width: { get: () => width },
+      offsetTop: { value: 0 },
+      scale: { value: 1 },
+    })
+    Object.defineProperty(window, 'visualViewport', {
+      configurable: true,
+      value: viewport,
+    })
+    Object.defineProperty(window, 'innerHeight', {
+      configurable: true,
+      get: () => height,
+    })
+    Object.defineProperty(window, 'innerWidth', { configurable: true, get: () => width })
+    window.fixture.boot('keyboard')
+    window.fixture.el('message').focus()
+    height = 400
+    viewport.dispatchEvent(new Event('resize'))
+    const open = window.fixture.keyboard.snapshot()
+    window.fixture.el('message').blur()
+    height = 740
+    viewport.dispatchEvent(new Event('resize'))
+    const closed = window.fixture.keyboard.snapshot()
+    // Rotation is not a software keyboard, even with an editable field focused.
+    window.fixture.el('message').focus()
+    width = 1100
+    height = 360
+    viewport.dispatchEvent(new Event('resize'))
+    return { open, closed, rotated: window.fixture.keyboard.snapshot() }
+  })
+  expect(result.open).toMatchObject({ visible: true, height: 0, accuracy: 'estimated' })
+  expect(result.closed.visible).toBe(false)
+  expect(result.rotated.visible).toBe(false)
+})
+
+test('inactive VirtualKeyboard API falls back to actual visual viewport geometry', async ({
+  page,
+}) => {
+  const result = await page.evaluate(() => {
+    const keyboard = Object.assign(new EventTarget(), {
+      boundingRect: new DOMRect(0, 0, 0, 0),
+      overlaysContent: false,
+    })
+    Object.defineProperty(navigator, 'virtualKeyboard', {
+      configurable: true,
+      value: keyboard,
+    })
+    const viewport = Object.assign(new EventTarget(), {
+      height: innerHeight,
+      width: innerWidth,
+      offsetTop: 0,
+      scale: 1,
+    })
+    Object.defineProperty(window, 'visualViewport', {
+      configurable: true,
+      value: viewport,
+    })
+    window.fixture.boot('keyboard')
+    window.fixture.el('message').focus()
+    viewport.height = innerHeight - 300
+    viewport.dispatchEvent(new Event('resize'))
+    return {
+      state: window.fixture.keyboard.snapshot(),
+      overlaysContent: keyboard.overlaysContent,
+    }
+  })
+  expect(result.state).toMatchObject({
+    visible: true,
+    height: 300,
+    backend: 'visual-viewport',
+    accuracy: 'estimated',
+  })
+  expect(result.overlaysContent).toBe(false)
+})
+
+test('panned visual viewport keeps the keyboard visible with current bottom coverage', async ({
+  page,
+}) => {
+  const result = await page.evaluate(() => {
+    const viewport = Object.assign(new EventTarget(), {
+      height: innerHeight,
+      width: innerWidth,
+      offsetTop: 0,
+      scale: 1,
+    })
+    Object.defineProperty(window, 'visualViewport', {
+      configurable: true,
+      value: viewport,
+    })
+    window.fixture.boot('keyboard')
+    document.querySelector('input')!.focus()
+    viewport.height = innerHeight - 300
+    viewport.offsetTop = 270
+    viewport.dispatchEvent(new Event('resize'))
+    const partial = window.fixture.keyboard.snapshot()
+    viewport.offsetTop = 300
+    viewport.dispatchEvent(new Event('scroll'))
+    return { partial, uncovered: window.fixture.keyboard.snapshot() }
+  })
+  expect(result.partial.visible).toBe(true)
+  expect(result.partial.height).toBe(30)
+  expect(result.uncovered.visible).toBe(true)
+  expect(result.uncovered.height).toBe(0)
+})

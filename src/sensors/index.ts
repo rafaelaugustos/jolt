@@ -9,8 +9,10 @@ import {
 } from '../motion-value.js'
 import type { MotionScope } from '../motion-scope.js'
 import { createSensorDriver, rememberSensorDriver, type SensorDriver } from './native.js'
+import { sensorKinds, sensorUnits } from '../core/sensor-kinds.js'
+import type { SensorKind, SensorUnit, VectorSensorKind } from '../core/sensor-kinds.js'
 
-export type SensorKind = 'rotation' | 'gravity'
+export type { SensorKind, SensorUnit, VectorSensorKind } from '../core/sensor-kinds.js'
 export type SensorStatus =
   | 'idle'
   | 'starting'
@@ -46,6 +48,7 @@ export interface SensorSnapshot {
 }
 interface SensorBase {
   readonly kind: SensorKind
+  readonly unit: SensorUnit
   readonly status: SensorStatus
   readonly available: boolean
   readonly paused: boolean
@@ -79,13 +82,31 @@ export interface GravitySensor extends SensorBase {
   readonly y: DerivedValue
   readonly z: DerivedValue
 }
-export type Sensor = RotationSensor | GravitySensor
+/**
+ * acceleration: proper acceleration, including the support force against gravity;
+ * a stationary face-up phone reports z ≈ +9.80665 m/s².
+ * linearAcceleration: physical acceleration excluding gravity, positive along the axis.
+ * gyroscope: right-handed angular velocity in rad/s; magneticField: field vector in µT.
+ * Magnetic field is not a compass heading or a calibrated north/accuracy guarantee.
+ */
+export interface VectorSensor<
+  K extends VectorSensorKind = VectorSensorKind,
+> extends SensorBase {
+  readonly kind: K
+  readonly x: DerivedValue
+  readonly y: DerivedValue
+  readonly z: DerivedValue
+}
+export type Sensor = RotationSensor | GravitySensor | VectorSensor
 export function sensor(kind: 'rotation', options?: SensorOptions): RotationSensor
 export function sensor(kind: 'gravity', options?: SensorOptions): GravitySensor
+export function sensor<K extends VectorSensorKind>(
+  kind: K,
+  options?: SensorOptions,
+): VectorSensor<K>
 export function sensor(kind: SensorKind, options?: SensorOptions): Sensor
 export function sensor(kind: SensorKind, options: SensorOptions = {}): Sensor {
-  if (kind !== 'rotation' && kind !== 'gravity')
-    throw new TypeError('sensor() supports rotation and gravity.')
+  if (!sensorKinds.includes(kind)) throw new TypeError('Unknown sensor kind.')
   if (!options || typeof options !== 'object')
     throw new TypeError('Expected sensor options.')
   const interval = options.interval ?? 'auto'
@@ -177,6 +198,7 @@ export function sensor(kind: SensorKind, options: SensorOptions = {}): Sensor {
     })
     const source = {
       kind,
+      unit: sensorUnits[kind],
       x: nodes[0]!,
       y: nodes[1]!,
       z: nodes[2]!,

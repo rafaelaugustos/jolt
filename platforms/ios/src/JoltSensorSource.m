@@ -8,6 +8,7 @@
     double reference[4], relative[4], output[7], pending[4];
 }
 @property(nonatomic) BOOL rotation, interfaceCoordinates, enabled, disposed, dirty, rebase, reset, available;
+@property(nonatomic) NSInteger kind;
 @property(nonatomic) double interval, timestamp, pendingTimestamp, receivedAt, committedAt, processingMs;
 @property(nonatomic) NSUInteger samples, frames, callbacks, replayIndex;
 @property(nonatomic) NSString *status, *error, *configurationError;
@@ -18,6 +19,8 @@
 - (void)receive:(const double *)values timestamp:(double)timestamp;
 - (void)frame:(double)now;
 - (void)state:(NSString *)state;
++ (void)failGroup:(NSInteger)group error:(NSError *)error;
++ (void)deliverGroup:(NSInteger)group values:(const double *)values timestamp:(double)timestamp;
 @end
 
 @implementation JoltSensorSource
@@ -25,7 +28,10 @@ static NSMutableArray<JoltSensorSource *> *sources;
 static CMMotionManager *manager;
 static CADisplayLink *sensorDisplayLink;
 static BOOL suspended;
-static double hardwareInterval;
+// Rotation, gravity and linear acceleration share fused device motion. Raw
+// accelerometer, gyroscope and magnetometer streams retain independent demand.
+static double hardwareIntervals[4];
+static NSInteger groupForKind(NSInteger kind) { return kind==2?1:kind==4?2:kind==5?3:0; }
 + (void)initialize {
     if (self != JoltSensorSource.class) return;
     sources = [NSMutableArray new];
@@ -43,55 +49,105 @@ static double hardwareInterval;
     [self refresh];
 }
 + (void)refresh {
-    double interval=INFINITY; BOOL ticking=NO;
+    double intervals[]={INFINITY,INFINITY,INFINITY,INFINITY}; BOOL ticking=NO;
     for(JoltSensorSource *s in sources) if(s.enabled && !s.disposed && !suspended) {
         if(s.trace) ticking=YES;
-        else if(s.available && !s.error) { interval=MIN(interval,s.interval); ticking=YES; }
+        else if(s.available && !s.error) {
+            NSInteger group=groupForKind(s.kind);
+            intervals[group]=MIN(intervals[group],s.interval); ticking=YES;
+        }
     }
-    if(isfinite(interval)) {
+    if(isfinite(intervals[0])) {
         // Updating a shared rate must not restart Core Motion's arbitrary heading reference.
-        if(manager.deviceMotionActive && hardwareInterval!=interval) {
-            hardwareInterval=interval; manager.deviceMotionUpdateInterval=interval/1000;
+        if(manager.deviceMotionActive && hardwareIntervals[0]!=intervals[0]) {
+            hardwareIntervals[0]=intervals[0]; manager.deviceMotionUpdateInterval=intervals[0]/1000;
         }
         if(!manager.deviceMotionActive) {
-            for(JoltSensorSource *s in sources) if(s.enabled && !s.trace) s.rebase=YES;
-            hardwareInterval=interval;
-            manager.deviceMotionUpdateInterval=interval/1000;
+            for(JoltSensorSource *s in sources) if(s.rotation && s.enabled && !s.trace) s.rebase=YES;
+            hardwareIntervals[0]=intervals[0];
+            manager.deviceMotionUpdateInterval=intervals[0]/1000;
             [manager startDeviceMotionUpdatesUsingReferenceFrame:CMAttitudeReferenceFrameXArbitraryZVertical toQueue:NSOperationQueue.mainQueue withHandler:^(CMDeviceMotion *motion,NSError *error){
                 if(suspended) return;
-                if(error) {
-                    for(JoltSensorSource *s in [sources copy]) if(s.enabled && !s.trace) { s.error=error.localizedDescription ?: @"motion-access-failed"; [s state:@"error"]; }
-                    [self refresh]; return;
-                }
+                if(error) { [self failGroup:0 error:error]; return; }
                 if(!motion) return;
                 CMQuaternion q=motion.attitude.quaternion;
                 // Core Motion reports reference-to-device attitude; canonical inputs are device-to-reference.
                 double rotation[]={-q.x,-q.y,-q.z,q.w};
-                double gravity[]={motion.gravity.x*9.80665,motion.gravity.y*9.80665,motion.gravity.z*9.80665};
-                for(JoltSensorSource *s in [sources copy]) if(s.enabled && !s.trace && !s.error)
-                    [s receive:s.rotation ? rotation : gravity timestamp:motion.timestamp*1000];
+                double gravity[]={JoltSensorAcceleration(motion.gravity.x,true),JoltSensorAcceleration(motion.gravity.y,true),JoltSensorAcceleration(motion.gravity.z,true)};
+                // Core Motion's acceleration convention points opposite physical
+                // translation. Normalize to the same positive axes as Android.
+                double linear[]={JoltSensorAcceleration(motion.userAcceleration.x,false),JoltSensorAcceleration(motion.userAcceleration.y,false),JoltSensorAcceleration(motion.userAcceleration.z,false)};
+                for(JoltSensorSource *s in [sources copy]) if(s.enabled && !s.trace && !s.error && groupForKind(s.kind)==0)
+                    [s receive:s.rotation ? rotation : s.kind==1 ? gravity : linear timestamp:motion.timestamp*1000];
             }];
         }
-    } else { [manager stopDeviceMotionUpdates]; hardwareInterval=0; }
+    } else { [manager stopDeviceMotionUpdates]; hardwareIntervals[0]=0; }
+    if(isfinite(intervals[1])) {
+        hardwareIntervals[1]=intervals[1]; manager.accelerometerUpdateInterval=intervals[1]/1000;
+        if(!manager.accelerometerActive)
+            [manager startAccelerometerUpdatesToQueue:NSOperationQueue.mainQueue withHandler:^(CMAccelerometerData *data,NSError *error){
+                if(suspended)return;
+                if(error){[self failGroup:1 error:error];return;}
+                if(!data)return;
+                double values[]={JoltSensorAcceleration(data.acceleration.x,false),JoltSensorAcceleration(data.acceleration.y,false),JoltSensorAcceleration(data.acceleration.z,false)};
+                [self deliverGroup:1 values:values timestamp:data.timestamp*1000];
+            }];
+    } else { [manager stopAccelerometerUpdates]; hardwareIntervals[1]=0; }
+    if(isfinite(intervals[2])) {
+        hardwareIntervals[2]=intervals[2]; manager.gyroUpdateInterval=intervals[2]/1000;
+        if(!manager.gyroActive)
+            [manager startGyroUpdatesToQueue:NSOperationQueue.mainQueue withHandler:^(CMGyroData *data,NSError *error){
+                if(suspended)return;
+                if(error){[self failGroup:2 error:error];return;}
+                if(!data)return;
+                double values[]={data.rotationRate.x,data.rotationRate.y,data.rotationRate.z};
+                [self deliverGroup:2 values:values timestamp:data.timestamp*1000];
+            }];
+    } else { [manager stopGyroUpdates]; hardwareIntervals[2]=0; }
+    if(isfinite(intervals[3])) {
+        hardwareIntervals[3]=intervals[3]; manager.magnetometerUpdateInterval=intervals[3]/1000;
+        if(!manager.magnetometerActive)
+            [manager startMagnetometerUpdatesToQueue:NSOperationQueue.mainQueue withHandler:^(CMMagnetometerData *data,NSError *error){
+                if(suspended)return;
+                if(error){[self failGroup:3 error:error];return;}
+                if(!data)return;
+                double values[]={data.magneticField.x,data.magneticField.y,data.magneticField.z};
+                [self deliverGroup:3 values:values timestamp:data.timestamp*1000];
+            }];
+    } else { [manager stopMagnetometerUpdates]; hardwareIntervals[3]=0; }
     if(ticking && !sensorDisplayLink) {
         sensorDisplayLink=[CADisplayLink displayLinkWithTarget:self selector:@selector(tick:)];
         [sensorDisplayLink addToRunLoop:NSRunLoop.mainRunLoop forMode:NSRunLoopCommonModes];
     } else if(!ticking && sensorDisplayLink) { [sensorDisplayLink invalidate]; sensorDisplayLink=nil; }
 }
++ (void)failGroup:(NSInteger)group error:(NSError *)error {
+    for(JoltSensorSource *s in [sources copy]) if(s.enabled && !s.trace && groupForKind(s.kind)==group) {
+        s.error=error.localizedDescription ?: @"motion-access-failed"; [s state:@"error"];
+    }
+    [self refresh];
+}
++ (void)deliverGroup:(NSInteger)group values:(const double *)values timestamp:(double)timestamp {
+    for(JoltSensorSource *s in [sources copy]) if(s.enabled && !s.trace && !s.error && groupForKind(s.kind)==group)
+        [s receive:values timestamp:timestamp];
+}
 + (void)tick:(CADisplayLink *)link {
     for(JoltSensorSource *s in [sources copy]) if(s.enabled && !suspended) [s frame:link.timestamp*1000];
 }
-+ (NSUInteger)activeCount { return manager.deviceMotionActive ? 1 : 0; }
++ (NSUInteger)activeCount { return manager.deviceMotionActive + manager.accelerometerActive + manager.gyroActive + manager.magnetometerActive; }
 + (NSUInteger)sourceCount { return sources.count; }
 + (instancetype)create:(NSString *)kind options:(NSString *)options onState:(void (^)(void))onState {
+    NSUInteger index=[@[@"rotation",@"gravity",@"acceleration",@"linearAcceleration",@"gyroscope",@"magneticField"] indexOfObject:kind];
+    if(index==NSNotFound) @throw [NSException exceptionWithName:NSInvalidArgumentException reason:@"Unknown sensor kind." userInfo:nil];
     if(!manager) manager=[CMMotionManager new];
     NSDictionary *config=[NSJSONSerialization JSONObjectWithData:[options dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
     JoltSensorSource *s=[self new];
-    s.rotation=[kind isEqual:@"rotation"]; s.interfaceCoordinates=[config[@"coordinates"] isEqual:@"interface"];
+    s.kind=index; s.rotation=index==0; s.interfaceCoordinates=[config[@"coordinates"] isEqual:@"interface"];
     s.interval=[config[@"interval"] doubleValue];
     if(s.interval==0) s.interval=1000.0/MAX(60,UIScreen.mainScreen.maximumFramesPerSecond);
     s.interval=MAX(5,MIN(1000,s.interval)); s.timestamp=-1;
-    s.available=manager.deviceMotionAvailable; s.nodes=[NSMutableArray new];
+    NSInteger group=groupForKind(index);
+    s.available=group==0?manager.deviceMotionAvailable:group==1?manager.accelerometerAvailable:group==2?manager.gyroAvailable:manager.magnetometerAvailable;
+    s.nodes=[NSMutableArray new];
     for(int i=0;i<(s.rotation?7:3);i++) [s.nodes addObject:NSNull.null];
     s->reference[3]=s->relative[3]=s->output[6]=1; s.rebase=YES;
     id usage=NSBundle.mainBundle.infoDictionary[@"NSMotionUsageDescription"];

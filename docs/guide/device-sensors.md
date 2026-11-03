@@ -66,7 +66,7 @@ Rotation uses an arbitrary, nonmagnetic reference: Core Motion's `XArbitraryZVer
 
 ## Sampling and ownership
 
-`interval` accepts `'auto'` (the display's reported interval) or 5–1000 milliseconds. The request respects hardware limits and does not promise an exact cadence. iOS shares one Core Motion subscription; Android shares one native listener per available sensor type. Compatible consumers use the fastest requested interval, with each source coalescing readings to its own interval and display frames. Multiple bindings use the same retained values.
+`interval` accepts `'auto'` (the display's reported interval) or 5–1000 milliseconds. The request respects hardware limits and does not promise an exact cadence. In RC.10, iOS rotation/gravity share one Core Motion subscription; the additional sources below use separate hardware groups. Android shares one native listener per available sensor type. Compatible consumers use the fastest requested interval, with each source coalescing readings to its own interval and display frames. Multiple bindings use the same retained values.
 
 Application backgrounding stops hardware collection natively as well as through Jolt's lifecycle hooks. `pause()` holds values and stops collection for that source; `play()` resumes and retries a failed subscription. `dispose()` is idempotent, disconnects bindings, drops native values and releases subscriptions. Another active source may keep the shared hardware running.
 
@@ -91,3 +91,27 @@ Physical iPhone and Android audits cover real rotation/gravity, shared acquisiti
 This completes the initial rotation/gravity scope of #114 without changing the production API. Accelerometer including gravity, linear acceleration, gyroscope and magnetic-field sources are tracked in [#256](https://github.com/rafaelaugustos/jolt/issues/256). The short process profiles include diagnostic overhead and do not establish calibrated axis accuracy, presented FPS, input-to-photon latency, battery use or sustained capacity.
 
 Platform contracts: [Apple device motion](https://developer.apple.com/documentation/coremotion/getting-processed-device-motion-data), [Android motion sensors](https://developer.android.com/develop/sensors-and-location/sensors/sensors_motion) and [Android sensor coordinates and limits](https://developer.android.com/develop/sensors-and-location/sensors/sensors_overview).
+
+## Additional vector sources (next release) {#vector-sources}
+
+The next release adds four native vector sources. RC.10 still publishes rotation/gravity only. Each source exposes read-only `x`, `y`, `z` and `unit`, and uses the same demand, pause/resume, scope, reduced-motion, background and disposal contract. Acceptance for this delivery uses simulators/emulators, as requested by the maintainer; physical-device accuracy and cost remain unverified.
+
+| Source               | Unit    | Meaning                                                                                                   |
+| -------------------- | ------- | --------------------------------------------------------------------------------------------------------- |
+| `acceleration`       | `m/s²`  | Proper acceleration including the support force: a stationary face-up phone has Z approximately +9.80665. |
+| `linearAcceleration` | `m/s²`  | Physical translation excluding gravity; approximately zero at rest.                                       |
+| `gyroscope`          | `rad/s` | Right-handed angular velocity, not an integrated angle.                                                   |
+| `magneticField`      | `µT`    | Device magnetic-field vector; no heading or calibration-accuracy guarantee.                               |
+
+Canonical gravity points down. Consequently, `linearAcceleration = acceleration + gravity` for compatible simultaneous readings; do not subtract the canonical gravity again. Core Motion accelerations are converted from g with the appropriate sign. Gyroscope and magnetic-field vectors keep native right-handed axes. Interface/device remapping applies to all vector types. Rotation, gravity and linear acceleration share fused Core Motion; raw acceleration, gyro and magnetic field have independent demand. Android shares each available sensor type. Hardware availability and errors remain explicit.
+
+```ts
+const owner = motionScope()
+const rate = sensor('gyroscope', { scope: owner })
+owner.use(() => bind(indicator, { x: rate.z.to([-4, 4], [-80, 80]) }))
+console.log(rate.unit) // rad/s
+owner.dispose()
+```
+
+<Clip name="vector-sensors-ios" caption="iOS 26.2 simulator, English: six native sources driven by visibly labelled test samples, with actual taps for pause/resume, recreation and unavailable-hardware fallback. Original playback timing; no physical sensor accuracy or performance claim." />
+<Clip name="vector-sensors-android" caption="Android 16 / API 36 emulator, English: real ADB taps exercise six sources, native test-input playback, pause/resume and return to emulated sensor services. Original video timestamps; emulated hardware is not physical-device evidence." />

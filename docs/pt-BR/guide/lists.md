@@ -44,3 +44,7 @@ unlink() // para de escutar e assenta cada linha nos valores finais
 ```
 
 Descarregar a lista também remove o efeito, então uma página em cache precisa de uma nova chamada quando volta. As linhas param nos valores que estão mostrando e vão para os valores finais que a animação alcançaria, para nenhuma linha ficar meio apagada. Valores finais que dependem da view, como keyframes `null`, animações relativas e caminhos, ficam onde pararam.
+
+[Receitas nativas completas](recipes.md)
+
+Cada linha também libera sua animação de entrada ao descarregar e estabiliza as propriedades que ela possui. O vínculo não retém células fora da tela até a lista inteira descarregar.

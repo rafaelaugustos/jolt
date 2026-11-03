@@ -71,3 +71,9 @@ Changing padding, border widths or corner radii also stops an active effect, so 
 The [demo](./demo) image lab includes tap origins, native drag, playback, reverse, scrub, restore, four stretch modes, rounded borders and reduced-motion controls. The landscape source dissolves into portrait artwork with a transparent corner.
 
 <Clip name="web-image-surfaces-chromium" :width="900" caption="Chromium on macOS, English UI: real clicks demonstrate playback, pause/resume, replacement, reduced motion and disposal at original speed. Browser capture; no physical-device performance claim." />
+
+## Renderer scope and native measurements
+
+The backend supports static images. One-time application snapshots stay frozen; live subtrees, refreshed snapshots, backdrop sampling, video/camera/WebView and hosted SwiftUI filters are not provided by this API. The design, input mapping, ownership, fallback, pass counts and reproducible measurements are documented in the [renderer report](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/image-renderer.md). `diagnostics.frameIntervalsMs` retains at most 512 active native draw-callback intervals in milliseconds. Paused gaps are excluded; these are not GPU or presentation times.
+
+<Clip name="image-profile-ios" caption="iPhone 17 simulator, iOS 26.2, English. Real taps run image ripple, two concurrent dissolves and cancellation. Original playback speed; timing measurements use a separate run without recording. No physical-device performance claim." />

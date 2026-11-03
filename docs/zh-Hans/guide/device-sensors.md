@@ -66,7 +66,7 @@ scope.dispose()
 
 ## 采样和所有权 {#sampling-and-ownership}
 
-`interval` 接受 `'auto'`（显示器报告的间隔）或 5–1000 毫秒。该请求尊重硬件限制，并且不承诺确切的节奏。 iOS 共享一份 Core Motion 认购； Android 每种可用传感器类型共享一个原生侦听器。兼容的消费者使用最快的请求间隔，每个源将读数合并到自己的间隔和显示帧。多个绑定使用相同的保留值。
+`interval` 接受 `'auto'`（显示器报告的间隔）或 5–1000 毫秒。该请求尊重硬件限制，并且不承诺确切的节奏。 RC.10 中的 iOS 旋转/重力共享一个 Core Motion 订阅；下文新增来源使用独立硬件组。 Android 每种可用传感器类型共享一个原生侦听器。兼容的消费者使用最快的请求间隔，每个源将读数合并到自己的间隔和显示帧。多个绑定使用相同的保留值。
 
 应用程序后台会原生以及通过 Jolt 的生命周期挂钩停止硬件收集。 `pause()` 保留该源的值并停止收集； `play()` 恢复并重试失败的订阅。 `dispose()` 是幂等的，断开绑定、删除原生值并释放订阅。另一个活动源可以使共享硬件保持运行。
 
@@ -91,3 +91,27 @@ scope.dispose()
 这完成了 #114 的初始旋转/重力范围，未更改生产 API。包含重力的加速度计、线性加速度、陀螺仪及磁场源由 [#256](https://github.com/rafaelaugustos/jolt/issues/256) 跟踪。短时进程分析包含诊断开销，不能证明校准后的轴精度、实际呈现 FPS、输入到显示的延迟、电池消耗或持续负载能力。
 
 平台合约：[Apple 设备动作](https://developer.apple.com/documentation/coremotion/getting-processed-device-motion-data)、[Android 运动传感器](https://developer.android.com/develop/sensors-and-location/sensors/sensors_motion) 和 [Android 传感器坐标和限制](https://developer.android.com/develop/sensors-and-location/sensors/sensors_overview)。
+
+## 新增向量传感器（下一版本） {#vector-sources}
+
+下一版本增加四种原生向量传感器。RC.10 仍仅发布旋转和重力。每个传感器提供只读的 `x`、`y`、`z` 和 `unit`，沿用按需采集、暂停/恢复、作用域、减少动态效果、后台处理和释放契约。维护者要求本次仅使用模拟器验收；真实设备精度和成本尚未验证。
+
+| 传感器               | 单位    | 含义                                                      |
+| -------------------- | ------- | --------------------------------------------------------- |
+| `acceleration`       | `m/s²`  | 包含支撑力的固有加速度：屏幕朝上静止时，Z 约为 +9.80665。 |
+| `linearAcceleration` | `m/s²`  | 不含重力的物理平移加速度；静止时约为零。                  |
+| `gyroscope`          | `rad/s` | 右手坐标系角速度，不是积分后的角度。                      |
+| `magneticField`      | `µT`    | 设备磁场向量；不保证航向或校准精度。                      |
+
+规范重力向下，因此兼容的同步读数满足 `linearAcceleration = acceleration + gravity`；不要再次减去规范重力。Core Motion 加速度从 g 转换，并使用相应符号。陀螺仪和磁场保留原生右手坐标轴。所有向量支持设备/界面坐标重映射。旋转、重力和线性加速度共享融合后的 Core Motion；原始加速度、陀螺仪和磁场各自按需采集。Android 按可用传感器类型共享采集。可用性和错误均明确报告。
+
+```ts
+const owner = motionScope()
+const rate = sensor('gyroscope', { scope: owner })
+owner.use(() => bind(indicator, { x: rate.z.to([-4, 4], [-80, 80]) }))
+console.log(rate.unit) // rad/s
+owner.dispose()
+```
+
+<Clip name="vector-sensors-ios" caption="iOS 26.2 模拟器，英文界面：六种原生传感器播放屏幕明确标注的测试样本，通过实际点击暂停、恢复、重建及展示硬件不可用状态。原始播放时序；不能证明真实传感器精度或性能。" />
+<Clip name="vector-sensors-android" caption="Android 16 / API 36 模拟器，英文界面：实际 ADB 点击验证六种传感器、原生测试输入播放、暂停/恢复及返回模拟传感器服务。保留原始视频时间戳；不是真实设备证据。" />

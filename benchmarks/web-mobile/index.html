@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jolt mobile browser acceptance</title>
+<style>
+  * { box-sizing: border-box }
+  body { margin: 0; padding: 18px; background: #102922; color: #eff5da; font: 16px system-ui }
+  h1 { font-size: 24px; margin: 8px 0 }
+  p { font-size: 13px; line-height: 1.4 }
+  button, input { font: inherit; padding: 12px; border: 1px solid #71967d; border-radius: 8px }
+  button { background: #254c3c; color: inherit; margin: 4px 0 }
+  nav { display: flex; flex-wrap: wrap; gap: 6px }
+  #card { width: 110px; height: 70px; background: #d6e7b5; color: #102922; border-radius: 12px; display: grid; place-items: center; margin: 16px auto }
+  #status { white-space: pre-wrap; font: 13px ui-monospace; min-height: 76px }
+  #bar { position: fixed; bottom: 12px; left: 18px; right: 18px; background: #254c3c; padding: 8px; border-radius: 10px }
+  input { width: 100%; background: #f4f0e7; color: #102922; min-height: 46px }
+</style>
+<h1>Mobile browser checks</h1>
+<p>Real browser input on a simulator/emulator. Vibration requests and sensor readings do not prove physical output.</p>
+<nav>
+  <button id="haptic">Request haptic</button><button id="sensors">Enable sensors</button>
+  <button id="pause">Pause</button><button id="resume">Resume</button>
+  <button id="snapshot">Snapshot</button><button id="blur">Dismiss keyboard</button><button id="unmount">Unmount</button>
+</nav>
+<div id="card">Device input</div>
+<output id="status" aria-live="polite">Starting</output>
+<div id="bar"><input id="message" aria-label="Message" placeholder="Open the software keyboard"></div>
+<script type="module" src="/fixture.js"></script>
+</html>

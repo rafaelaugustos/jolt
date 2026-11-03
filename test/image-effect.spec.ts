@@ -29,6 +29,7 @@ beforeEach(() => {
     frames: 4,
     textureBytes: 2048,
     longestFrameMs: 17,
+    frameIntervalsMs: [16, 17],
     play: vi.fn(),
     pause: vi.fn(),
     resume: vi.fn(),

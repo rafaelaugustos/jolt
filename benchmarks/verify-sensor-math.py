@@ -46,6 +46,20 @@ def verify(include_web=False):
             c += f'{{double v[]={{3,4,-9}},o[3];JoltSensorVector(v,{angle},o);printf("%.12f %.12f %.12f\\n",o[0],o[1],o[2]);}}\n'
             j += f'{{double[] o=SensorMath.vector(new double[]{{3,4,-9}},{angle});System.out.println(o[0]+" "+o[1]+" "+o[2]);}}\n'
             expected.append(vector)
+        web_expected = list(expected)
+        # Same physical situations, expressed in each platform's native units.
+        # Face up at rest: proper +g, gravity -g, linear zero. Translating +X:
+        # proper and linear +2 m/s². Free fall: proper zero, linear -g.
+        acceleration_cases = [(-1, 9.80665, False, 9.80665),
+                              (-1, 9.80665, True, -9.80665),
+                              (0, 0, False, 0),
+                              (-2 / 9.80665, 2, False, 2),
+                              (1, -9.80665, False, -9.80665)]
+        for apple, android, gravity, canonical in acceleration_cases:
+            flag = 'true' if gravity else 'false'
+            c += f'printf("%.12f\\n",JoltSensorAcceleration({apple},{flag}));\n'
+            j += f'System.out.println(SensorMath.acceleration({android},{flag}));\n'
+            expected.append([canonical])
         c += 'double zero[]={0,0,0,0},bad[]={NAN,0,0,1};printf("%d %d\\n",JoltSensorNormalize(zero),JoltSensorNormalize(bad));return 0;}\n'
         j += 'System.out.println((SensorMath.normalize(new double[]{0,0,0,0})?1:0)+" "+(SensorMath.normalize(new double[]{Double.NaN,0,0,1})?1:0));}}\n'
         expected.append([0, 0])
@@ -60,7 +74,7 @@ def verify(include_web=False):
             outputs['web_math'] = subprocess.run(['node', '--input-type=module', '-e', script], cwd=ROOT, check=True, text=True, capture_output=True).stdout
         for platform, output in outputs.items():
             rows = [[float(v) for v in row.split()] for row in output.strip().splitlines()]
-            platform_expected = expected[:-1] if platform == 'web_math' else expected
+            platform_expected = web_expected if platform == 'web_math' else expected
             assert len(rows) == len(platform_expected)
             for i, (got, want) in enumerate(zip(rows, platform_expected)):
                 assert len(got) == len(want)

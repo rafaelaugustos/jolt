@@ -71,3 +71,9 @@ Mudar padding, largura das bordas ou raios dos cantos também encerra o efeito p
 O laboratório de imagens da [demo](./demo) inclui origem por toque, arraste nativo, pausa, reverse, scrub, restauração, quatro modos de stretch, bordas arredondadas e redução de movimento. A imagem horizontal se dissolve em uma imagem vertical com canto transparente.
 
 <Clip name="web-image-surfaces-chromium" :width="900" caption="Chromium no macOS, interface em inglês: cliques reais demonstram reprodução, pausa/retomada, substituição, movimento reduzido e descarte na velocidade original. Captura de navegador; sem alegação de desempenho em aparelho físico." />
+
+## Escopo do renderer e medições nativas
+
+O backend suporta imagens estáticas. Snapshots feitos pelo app permanecem congelados; esta API não fornece subárvores vivas, captura contínua, amostragem de fundo, vídeo/câmera/WebView ou filtros SwiftUI hospedados. O [relatório do renderer](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/image-renderer.md) descreve desenho, coordenadas, ownership, fallback, passes e reprodução das medições. `diagnostics.frameIntervalsMs` mantém até 512 intervalos ativos de desenho nativo em milissegundos. Pausas são excluídas; não são tempos de GPU ou de apresentação.
+
+<Clip name="image-profile-ios" caption="Simulador de iPhone 17, iOS 26.2, interface em inglês. Toques reais executam ripple, dois dissolves simultâneos e cancelamento. Velocidade original; as medições usam uma execução separada sem gravação. Não comprova desempenho físico." />

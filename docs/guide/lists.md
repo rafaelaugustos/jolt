@@ -44,3 +44,7 @@ unlink() // stop listening and settle every row at its end values
 ```
 
 Unloading the list removes the effect too, so a cached page needs a new call when it comes back. Rows are stopped at the values they are showing, then moved to the end values the animation would have reached, so no row stays half-faded. End values that depend on the view, such as `null` keyframes, relative animations and motion paths, are left where they stopped.
+
+[Complete native recipes](recipes.md)
+
+Individual rows also release their entrance owner on unload and settle its properties. The binding does not retain off-screen native cells until the whole list unloads.

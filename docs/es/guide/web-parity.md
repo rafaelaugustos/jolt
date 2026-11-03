@@ -1,5 +1,9 @@
 # Gravedad, háptica, sensores, vidrio y galería Web
 
+## Auditoría de RC.10 {#rc10-audit}
+
+La RC.10 publicada incluye los PR #358, #365, #372 y #379. La [matriz completa de exports](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/capability-matrix.json) y la [auditoría de contratos](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-web-audit.md) distinguen disponibilidad de paridad funcional. `npm run parity:check` comprueba todos los exports de ejecución y las propiedades de keyframes. Quedan diferencias en movimiento por trayectorias, rotación 3D, sombras/profundidad, replay/inspector y validación del hardware en navegadores móviles reales. Las grabaciones de escritorio siguientes no acreditan esa aceptación física.
+
 **Disponible desde 0.1.0-rc.10.** El lote cubre [#373–#378](https://github.com/rafaelaugustos/jolt/issues/373) bajo [#236](https://github.com/rafaelaugustos/jolt/issues/236) y avanza la parte Web de [#117](https://github.com/rafaelaugustos/jolt/issues/117). Importe `/web` durante SSR y cree el runtime y sus elementos montados en el cliente. Los recursos del ámbito se suspenden, reanudan y eliminan con él.
 
 ```ts
@@ -153,3 +157,5 @@ backButton.onclick = () => {
 ## Validación y reproducción {#validation}
 
 Ejecute `npm run web:parity:typecheck`, `npm run web:parity:test`, `npm run build`, `npm run core:check`, `npm run package:check`, `python3 benchmarks/verify-sensor-math.py --web`, `npm run docs:check-media` y `npm run docs:build`. La suite cubre Chromium, Firefox y WebKit. Permisos/sensores/vibración inyectados son fixtures de prueba, no evidencia física. Reproduzca vídeos reales con `node benchmarks/web-parity/record.mjs`; la captura nativa sigue `CONTRIBUTING.md`. La adopción Mavis continúa por separado.
+
+[Validación Web móvil](mobile-web.md)

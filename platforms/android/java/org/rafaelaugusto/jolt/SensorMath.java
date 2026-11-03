@@ -2,6 +2,9 @@ package org.rafaelaugusto.jolt;
 /** Pure math shared by hardware and explicit test-input playback. Hamilton quaternions xyzw. */
 public final class SensorMath {
     private SensorMath() {}
+    // Android reports proper/linear acceleration in m/s². Its gravity sensor
+    // reports support acceleration, so only that source is inverted.
+    public static double acceleration(double value, boolean gravity) { return gravity ? -value : value; }
     public static boolean normalize(double[] q) {
         double length=0;
         for(double v:q) { if(!Double.isFinite(v)) return false; length+=v*v; }

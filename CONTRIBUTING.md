@@ -1,5 +1,7 @@
 # Contributing
 
+Repository builds require Node 22.22.3 or newer and `npm ci --prefix benchmarks/angular-tools` after the root `npm ci`. The optional Angular entry is compiled in Angular partial-library mode with its pinned TypeScript 6 toolchain; the root compiler remains independent. These are contributor build requirements, not additional dependencies for framework-free consumers.
+
 The [native CI probe](benchmarks/native-ci.md) runs real iOS/Android measurements and a negative control on pull requests. See its guide for local reproduction and diagnostic artifacts.
 
 Changes to the internal portable motion boundary also require `npm run build` followed by `npm run core:check`. This checks a dependency-free consumer of the compiled core without NativeScript mocks or DOM types. See [portable core verification](benchmarks/portable-core.md) for the frozen native baseline and the scope of this boundary.

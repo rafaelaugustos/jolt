@@ -1,0 +1,58 @@
+{
+  "scope": "Android emulator retained-memory baseline. No forced GC; five rounds do not prove no leak. Native builds/XCTest ran on the host concurrently, so gfxinfo is functional evidence, not controlled performance.",
+  "captureNote": "The first runner missed an accessibility label suffix on the final Back button. The ten completed round samples were retained; a real final Back tap completed cleanup without relaunching the app.",
+  "samples": {
+    "gallery": [
+      {
+        "sample": "gallery-warm",
+        "pssKiB": 143502
+      },
+      {
+        "sample": "gallery-1",
+        "pssKiB": 145499
+      },
+      {
+        "sample": "gallery-2",
+        "pssKiB": 148047
+      },
+      {
+        "sample": "gallery-3",
+        "pssKiB": 153242
+      },
+      {
+        "sample": "gallery-4",
+        "pssKiB": 151883
+      },
+      {
+        "sample": "gallery-5",
+        "pssKiB": 145032
+      }
+    ],
+    "scroll": [
+      {
+        "sample": "scroll-warm",
+        "pssKiB": 127796
+      },
+      {
+        "sample": "scroll-1",
+        "pssKiB": 132504
+      },
+      {
+        "sample": "scroll-2",
+        "pssKiB": 141428
+      },
+      {
+        "sample": "scroll-3",
+        "pssKiB": 146744
+      },
+      {
+        "sample": "scroll-4",
+        "pssKiB": 152259
+      },
+      {
+        "sample": "scroll-5",
+        "pssKiB": 159153
+      }
+    ]
+  }
+}

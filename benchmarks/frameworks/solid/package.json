@@ -1,0 +1,16 @@
+{
+  "name": "jolt-native-solid-consumer",
+  "private": true,
+  "version": "1.0.0",
+  "main": "app/main.jsx",
+  "dependencies": {
+    "@nativescript/core": "8.9.9",
+    "solid-js": "1.9.18",
+    "@dominative/solid": "0.0.4-alpha.1",
+    "dominative": "0.0.7-alpha.2",
+    "undom-ng": "1.0.10"
+  },
+  "devDependencies": {
+    "babel-preset-solid": "1.9.16"
+  }
+}

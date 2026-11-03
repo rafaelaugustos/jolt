@@ -1,0 +1,41 @@
+{
+  "scope": "iPhone 17 iOS 26.2 simulator and Pixel 7 API 36 Android emulator; actual native input; no physical-device claim",
+  "core": "9.1.3",
+  "iosRuntime": "9.1.0",
+  "androidRuntime": "9.1.1",
+  "cases": [
+    {
+      "scene": "gallery",
+      "nativeXCTest": "Test Case '-[DocsTests.DocsTests testGalleryRecipe]' passed (28.247 seconds).",
+      "media": "docs/public/media/recipe-gallery-ios.mp4",
+      "sha256": "dfd46e50c7e950c15b1916e283e1ccad1c0ee26e9befb2fb0d6c0deffd328e8b",
+      "durationSeconds": 18.487873,
+      "review": "Full decode passed; representative frames across original-speed actual interaction visually reviewed.",
+      "sourceSha256": "4160e734bace40a89740636e7b50ca3990cfc3f7e17b0e2c58fa3db736f1018c"
+    },
+    {
+      "scene": "sheet",
+      "nativeXCTest": "Test Case '-[DocsTests.DocsTests testSheetRecipe]' passed (26.519 seconds).",
+      "media": "docs/public/media/recipe-sheet-ios.mp4",
+      "sha256": "c383b4ca60fda1902df6aa0a56bc9ef291bfa3f9d1fc8062e92e63dbb27280c8",
+      "durationSeconds": 19.228333,
+      "review": "Full decode passed; representative frames across original-speed actual interaction visually reviewed.",
+      "sourceSha256": "6fe72ef50740fa094e8d89600d356f1c7137bcb4480578b043ac882e8e312f58"
+    },
+    {
+      "scene": "list",
+      "nativeXCTest": "Test Case '-[DocsTests.DocsTests testListRecipe]' passed (22.929 seconds).",
+      "media": "docs/public/media/recipe-list-ios.mp4",
+      "sha256": "087a3e521460b567b4553750388c05a4342cf6d828377dd7ca5b0a9d2da524ff",
+      "durationSeconds": 17.7,
+      "review": "Full decode passed; representative frames across original-speed actual interaction visually reviewed.",
+      "sourceSha256": "3059b434e09e7c985fda282601f19cffb8ce6f8063743fd1006b8682760c5005"
+    }
+  ],
+  "android": {
+    "scope": "Android emulator, actual ADB native input",
+    "app": "org.nativescript.jolt.benchmark",
+    "recipes": ["gallery", "sheet", "lists"],
+    "passed": true
+  }
+}

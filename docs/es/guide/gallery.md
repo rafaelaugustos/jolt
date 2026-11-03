@@ -111,3 +111,9 @@ Las grabaciones muestran zoom de 2,5×, restablecimiento, cierre con zoom, regre
 <Clip name="gallery-large-text-talkback-android" caption="Emulador Android 16 / API 36, interfaz en inglés: TalkBack real con escala de fuente 2, navegación del lector, desplazamiento del panel con dos dedos, zoom/restablecer y cuatro regresos. Grabación nativa a velocidad original, sin audio de voz; las trazas verifican foco y geometría del texto. Evidencia de corrección en emulador, no Android físico ni medición de rendimiento." />
 
 [Reproducción y evidencia combinada](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md#screen-readers-with-enlarged-text-2026-11-01). Otras categorías de fuente, orientación horizontal con lector, idiomas, Android físico y la matriz completa de ciclo de vida/rendimiento siguen en [#117](https://github.com/rafaelaugustos/jolt/issues/117).
+
+[Recetas nativas completas](recipes.md)
+
+## Aceptación actual en emuladores {#current-emulator-acceptance}
+
+El candidato del 2026-11-03 repite interrupción, retorno, rotación, texto ampliado y limpieza en iOS Simulator y Android Emulator, según lo solicitado. Las interacciones nativas repetidas incluyen muestras de memoria del proceso. Los 30 ciclos de scroll muestran asignación y recolección, sin crecimiento monótono; estas muestras no demuestran ausencia de fugas. [Resultados y límites](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/results/acceptance-2026-11-03/README.md). La validación física de este candidato sigue sin verificarse.
