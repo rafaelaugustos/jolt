@@ -51,6 +51,8 @@ while time.monotonic() < deadline:
             frames = run['frames']
             assert frames['overflow'] == 0 and len(frames['frames']) >= 600
             assert frames['after']['timeMs'] - frames['before']['timeMs'] >= 29000
+            positions = [row[3] for row in frames['frames']]
+            assert max(positions) - min(positions) > 100, 'Native position did not move'
         print('Complete release audit saved.', flush=True)
         break
 else:
