@@ -87,7 +87,7 @@ Execute `npm run web:support:typecheck` e `npm run web:support:test`. A suíte v
 
 ## Scroll relativo a um elemento {#element-range}
 
-Pendente para a próxima release. Substitua o cálculo manual da faixa e a recriação do vínculo por uma seção de referência:
+Disponível desde a **0.1.0-rc.11**. Substitua o cálculo manual da faixa e a recriação do vínculo por uma seção de referência:
 
 ```ts
 const linked = motion.scrollLinked(

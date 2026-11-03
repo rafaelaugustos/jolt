@@ -1,6 +1,10 @@
 # O que é o Jolt
 
-O Jolt anima views do [NativeScript](https://nativescript.org): presets, springs, keyframes e stagger, uma chamada cada.
+O Jolt leva movimento a aplicativos [NativeScript](https://nativescript.org) e à Web: presets, springs, keyframes, stagger e gestos, com APIs para views nativas e elementos HTML.
+
+## NativeScript
+
+Anime views nativas no iOS e no Android pela entrada principal do pacote:
 
 ```ts
 import { animate } from '@rafaelaugusto/jolt'
@@ -10,6 +14,25 @@ animate(button, { scale: 1.1 }, 'bouncy')
 animate(rows, 'fadeInUp', { stagger: 40 })
 ```
 
+## Web
+
+Use `@rafaelaugusto/jolt/web` para elementos HTML. Ele compartilha o compilador de movimento do Jolt e usa a Web Animations API (WAAPI), sem exigir NativeScript ou um framework de interface.
+
+```ts
+import { createWebRuntime } from '@rafaelaugusto/jolt/web'
+
+const motion = createWebRuntime(document)
+const card = document.querySelector<HTMLElement>('.card')
+
+if (card) {
+  motion.animate(card, 'fadeInUp')
+}
+```
+
+Crie o runtime após a montagem no navegador e chame `motion.dispose()` quando a aplicação ou o componente for desmontado. O [adaptador opcional `/web/vue`](./web-vue) gerencia os recursos pelo ciclo de vida do Vue. O import principal e `/vue` atendem ao NativeScript; eles não mudam automaticamente para o DOM.
+
+As APIs Web são **experimentais**. Comece pelo [runtime Web](./web-runtime), depois explore [movimento contínuo](./web-dynamic), [gestos e rolagem](./web-gestures) e [gradientes, carregamento e texto](./web-effects). Cada guia descreve os alvos compatíveis e seus limites.
+
 ## Por que não o `view.animate()`
 
 O `view.animate()` do NativeScript cobre o básico e para por aí: uma curva para todas as propriedades, uma curva `spring` sem ajustes, nenhum keyframe, e uma promise que rejeita quando a animação é cancelada. Qualquer coisa mais rica acaba virando código de plataforma.
@@ -17,6 +40,8 @@ O `view.animate()` do NativeScript cobre o básico e para por aí: uma curva par
 O Jolt calcula o movimento uma vez, em JavaScript, quando a animação começa, e entrega à plataforma como keyframes: Core Animation no iOS, `ObjectAnimator` no Android. As tracks padrão de views tocam sem JavaScript por frame. Layout com dimensões reais, assinaturas opcionais e entrada de gestos têm seus próprios [limites de execução](./how-it-works). Os springs seguem física de verdade, e uma animação que interrompe outra começa de onde a view está, na velocidade em que ia.
 
 ## O que ele cobre
+
+Os guias abaixo tratam de views do NativeScript. Para elementos HTML, use os guias Web acima.
 
 - [25 presets](./presets) para entrar, sair e chamar atenção: `fadeInUp`, `popIn`, `shake`, `heartbeat`...
 - [Springs](./transitions#springs) descritos pela sensação (`bouncy`), por `bounce` e `duration`, ou por rigidez, amortecimento e massa.
@@ -34,8 +59,8 @@ O Jolt calcula o movimento uma vez, em JavaScript, quando a animação começa, 
 
 ## Por onde começar
 
-1. [Instale](./install).
-2. Leia [Animando](./animating): o que é um alvo, quais propriedades se movem, e como os keyframes são escritos.
-3. Escolha uma [transição](./transitions) ou um [preset](./presets).
+1. [Instale o Jolt](./install) e escolha a entrada para sua plataforma.
+2. **NativeScript:** leia [Animando](./animating) e escolha uma [transição](./transitions) ou um [preset](./presets).
+3. **Web:** comece pelo [runtime Web](./web-runtime) ou pelo [adaptador Vue para DOM](./web-vue).
 
-Está em release candidate, publicado sob a tag `next`. Não depende de framework: recebe uma view, ou um elemento que contém uma.
+O Jolt está em release candidate; consulte a [instalação](./install) para a versão publicada. Os dois runtimes podem ser usados diretamente, com integrações opcionais para frameworks.

@@ -66,7 +66,7 @@ La rotación utiliza una referencia arbitraria y no magnética: Core Motion de `
 
 ## Muestreo y propiedad {#sampling-and-ownership}
 
-`interval` acepta `'auto'` (el intervalo informado de la pantalla) o de 5 a 1000 milisegundos. La solicitud respeta los límites del hardware y no promete una cadencia exacta. En RC.10, rotación/gravedad en iOS comparten una suscripción Core Motion; las fuentes adicionales descritas abajo usan grupos separados. Android comparte un oyente nativo por tipo de sensor disponible. Los consumidores compatibles utilizan el intervalo solicitado más rápido, y cada fuente fusiona lecturas en su propio intervalo y marcos de visualización. Varios enlaces utilizan los mismos valores retenidos.
+`interval` acepta `'auto'` (el intervalo informado de la pantalla) o de 5 a 1000 milisegundos. La solicitud respeta los límites del hardware y no promete una cadencia exacta. Rotación/gravedad en iOS comparten una suscripción Core Motion; las fuentes adicionales descritas abajo usan grupos separados. Android comparte un oyente nativo por tipo de sensor disponible. Los consumidores compatibles utilizan el intervalo solicitado más rápido, y cada fuente fusiona lecturas en su propio intervalo y marcos de visualización. Varios enlaces utilizan los mismos valores retenidos.
 
 La puesta en segundo plano de la aplicación detiene la recopilación de hardware de forma nativa y a través de los enlaces del ciclo de vida de Jolt. `pause()` retiene valores y detiene la recopilación para esa fuente; `play()` reanuda y vuelve a intentar una suscripción fallida. `dispose()` es idempotente, desconecta enlaces, elimina valores nativos y libera suscripciones. Otra fuente activa puede mantener en funcionamiento el hardware compartido.
 
@@ -92,9 +92,9 @@ Esto completa el alcance inicial de rotación/gravedad de #114 sin cambiar la AP
 
 Contratos de plataforma: [Movimiento del dispositivo Apple](https://developer.apple.com/documentation/coremotion/getting-processed-device-motion-data), [Sensores de movimiento Android](https://developer.android.com/develop/sensors-and-location/sensors/sensors_motion) y [Coordenadas y límites del sensor Android](https://developer.android.com/develop/sensors-and-location/sensors/sensors_overview).
 
-## Fuentes vectoriales adicionales (próxima versión) {#vector-sources}
+## Fuentes vectoriales adicionales (RC.11) {#vector-sources}
 
-La próxima versión añade cuatro fuentes vectoriales nativas. RC.10 sigue publicando solo rotación/gravedad. Cada fuente expone `x`, `y`, `z` y `unit` de solo lectura y conserva los contratos de demanda, pausa/reanudación, ámbito, movimiento reducido, segundo plano y liberación. La aceptación de esta entrega usa simuladores/emuladores por petición del mantenedor; la precisión y el coste en dispositivos físicos siguen sin verificar.
+**0.1.0-rc.11** añade cuatro fuentes vectoriales nativas además de rotación y gravedad. Cada fuente expone `x`, `y`, `z` y `unit` de solo lectura y conserva los contratos de demanda, pausa/reanudación, ámbito, movimiento reducido, segundo plano y liberación. La aceptación de esta entrega usa simuladores/emuladores por petición del mantenedor; la precisión y el coste en dispositivos físicos siguen sin verificar.
 
 | Fuente               | Unidad  | Significado                                                                                               |
 | -------------------- | ------- | --------------------------------------------------------------------------------------------------------- |

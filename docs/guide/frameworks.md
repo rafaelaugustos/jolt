@@ -1,6 +1,6 @@
 # Native framework adapters
 
-Implemented for the next release; these entries are not in RC.10. Import only the adapter your NativeScript app uses. They share Jolt playback and ownership with the imperative API.
+Available since **0.1.0-rc.11**. Import only the adapter your NativeScript app uses. They share Jolt playback and ownership with the imperative API.
 
 Every binding owns its animations and listeners. Native unload suspends work; load resumes it and applies the latest pending value. Framework destruction disposes it. A new value interrupts from the current pose. Equivalent inline values do not restart playback. Press feedback owns a separate layer, so it can coexist with entrance or position motion.
 

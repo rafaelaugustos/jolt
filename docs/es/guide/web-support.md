@@ -84,7 +84,7 @@ Ejecuta `npm run web:support:typecheck` y `npm run web:support:test`: presentaci
 
 ## Scroll relativo a un elemento {#element-range}
 
-Pendiente para la próxima versión. Sustituye el cálculo manual y la recreación del vínculo por una sección de referencia:
+Disponible desde **0.1.0-rc.11**. Sustituye el cálculo manual y la recreación del vínculo por una sección de referencia:
 
 ```ts
 const linked = motion.scrollLinked(

@@ -1,6 +1,10 @@
 # Qué es Jolt {#what-jolt-is}
 
-Jolt anima las vistas [NativeScript](https://nativescript.org): ajustes preestablecidos, resortes, fotogramas clave y escalonamiento, una llamada cada uno.
+Jolt lleva movimiento a aplicaciones [NativeScript](https://nativescript.org) y a la Web: presets, resortes, fotogramas clave, animaciones escalonadas y gestos, con APIs para vistas nativas y elementos HTML.
+
+## NativeScript
+
+Anima vistas nativas en iOS y Android desde la entrada principal del paquete:
 
 ```ts
 import { animate } from '@rafaelaugusto/jolt'
@@ -10,6 +14,25 @@ animate(button, { scale: 1.1 }, 'bouncy')
 animate(rows, 'fadeInUp', { stagger: 40 })
 ```
 
+## Web
+
+Usa `@rafaelaugusto/jolt/web` para elementos HTML. Comparte el compilador de movimiento de Jolt y utiliza Web Animations API (WAAPI), sin requerir NativeScript ni un framework de interfaz.
+
+```ts
+import { createWebRuntime } from '@rafaelaugusto/jolt/web'
+
+const motion = createWebRuntime(document)
+const card = document.querySelector<HTMLElement>('.card')
+
+if (card) {
+  motion.animate(card, 'fadeInUp')
+}
+```
+
+Crea el runtime después del montaje en el navegador y llama a `motion.dispose()` al desmontar su aplicación o componente. El [adaptador opcional `/web/vue`](./web-vue) gestiona los recursos mediante el ciclo de vida de Vue. La entrada principal y `/vue` corresponden a NativeScript; no cambian automáticamente al DOM.
+
+Las APIs Web son **experimentales**. Empieza por el [runtime Web](./web-runtime) y explora [movimiento continuo](./web-dynamic), [gestos y desplazamiento](./web-gestures) y [gradientes, carga y texto](./web-effects). Cada guía describe los elementos compatibles y sus límites.
+
 ## ¿Por qué no? `view.animate()` {#why-not-view-animate}
 
 `view.animate()` de NativeScript cubre lo básico y se detiene allí: una curva para cada propiedad, una curva `spring` sin configuraciones, sin fotogramas clave y una promesa que se rechaza cuando se cancela la animación. Cualquier cosa más rica termina como código de plataforma.
@@ -17,6 +40,8 @@ animate(rows, 'fadeInUp', { stagger: 40 })
 Jolt calcula el movimiento una vez, en JavaScript, al iniciar la animación, y lo entrega a la plataforma como fotogramas clave: Core Animation en iOS y `ObjectAnimator` en Android. Las pistas habituales de las vistas se reproducen sin JavaScript por fotograma. El diseño con dimensiones reales, las suscripciones opcionales y la entrada por gestos tienen sus propios [límites de ejecución](./how-it-works). Los resortes siguen leyes físicas, y una animación que interrumpe otra continúa desde la posición y la velocidad actuales de la vista.
 
 ## Qué cubre {#what-it-covers}
+
+Las siguientes guías cubren las vistas de NativeScript. Para elementos HTML, consulta las guías Web anteriores.
 
 - [25 preajustes](./presets) para entrar, salir y llamar la atención: `fadeInUp`, `popIn`, `shake`, `heartbeat`...
 - [Resortes](./transitions#springs) descrito por tacto (`bouncy`), por `bounce` y `duration`, o por rigidez, amortiguación y masa.
@@ -34,8 +59,8 @@ Jolt calcula el movimiento una vez, en JavaScript, al iniciar la animación, y l
 
 ## Por dónde empezar {#where-to-start}
 
-1. [Instalarlo](./install).
-2. Lea [Animando](./animating): qué es un objetivo, qué propiedades se mueven y cómo se escriben los fotogramas clave.
-3. Elija un [transición](./transitions) o un [preestablecido](./presets).
+1. [Instala Jolt](./install) y elige la entrada para tu plataforma.
+2. **NativeScript:** consulta [Animando](./animating) y elige una [transición](./transitions) o un [preset](./presets).
+3. **Web:** empieza por el [runtime Web](./web-runtime) o el [adaptador Vue para DOM](./web-vue).
 
-Es una versión candidata (RC), publicada con la etiqueta `next`. Es independiente del framework: recibe una vista o un elemento que la contiene.
+Jolt es una versión candidata; consulta [instalación](./install) para conocer la versión publicada. Ambos runtimes se pueden usar directamente, con integraciones opcionales para frameworks.

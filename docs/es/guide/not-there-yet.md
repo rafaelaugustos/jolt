@@ -1,5 +1,7 @@
 # Estado de la versión y límites {#not-there-yet}
 
+**Versión actual: 0.1.0-rc.11.** Incluye [adaptadores nativos](./frameworks), [fuentes adicionales de sensores](./device-sensors#vector-sources), [correcciones del teclado móvil](./mobile-web), [scroll Web relativo al elemento](./web-support#element-range), [entradas de shaders y vídeo local en iOS](./image-effects) y [mejoras de reproducción Android](./android-performance). [Instala paquetes de la misma versión](./install) y recompila las apps nativas. Las APIs Web siguen experimentales.
+
 **Novedades de RC.10:** [degradados, carga y texto Web](./web-effects), [partículas, blur, formas y efectos de imagen](./web-surfaces), [teclado, paneles, navegación, física e iconos](./web-platforms), [gravedad, haptics, sensores, glass y retorno a miniaturas por clave](./web-parity), además de [headers de Core ScrollView nativo](./scroll-header#retained-scrollview) y [reordenación de filas montadas](./reorder#retained-rows). Recompila las aplicaciones nativas. La adopción en Mavis sigue separada.
 
 **Novedades de RC.9:** [gestos Web, zoom, scroll/refresh coordinado y reorder](./web-gestures), además de [canales nativos de pintura retenida y composición de bindings](./live-springs#extended-live-paint). Recompila las aplicaciones nativas tras actualizar.
@@ -10,7 +12,7 @@
 
 **Desde RC.7:** [colores, bordes, pintura continua, tamaño real, FLIP y escenas con seek](./web-visual) amplían este runtime. Las APIs Web siguen experimentales; la paridad completa continúa en [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
-**0.1.0-rc.10 está disponible.** Las funciones nativas mantienen sus límites documentados mientras continúa la validación estable. Las entradas Web son experimentales; publicarlas no completa la integración Mavis ni establece paridad de todas las APIs entre native y Web.
+**0.1.0-rc.11 está disponible.** Las funciones nativas mantienen sus límites documentados mientras continúa la validación estable. Las entradas Web son experimentales; publicarlas no completa la integración Mavis ni establece paridad de todas las APIs entre native y Web.
 
 RC.6 incluye [movimiento continuo Web](./web-dynamic), con valores, followers y drag/snap, además de [mapeos numéricos, geometría y scroll vertical](./web-support). Las APIs Web siguen experimentales.
 
@@ -22,7 +24,7 @@ RC.4 compone las ventanas de capas en nodos nativos, reanuda las formas, gradien
 
 La [auditoría de bindings/capas](./motion-values#binding-measurements) incluye preparación/reproducción en iPhone y Android físicos, inicio de respuesta a entradas automáticas y retención en montajes/desmontajes repetidos. Los costes altos de las ventanas de composición, los fallos de contadores aproximados de asignación y la falta de telemetría térmica en Android siguen explícitos en las pruebas. Los resultados orientan los escenarios medidos; no garantizan capacidad universal ni frames presentados. Desde RC.4, las composiciones en ventana se reproducen en compositores nativos sin envíos de frontera; el coste restante es el inicio síncrono de lotes grandes de keyframes, medido en la misma auditoría.
 
-## Disponible en RC.10 {#available-in-rc-1}
+## Disponible en RC.11 {#available-in-rc-1}
 
 - [Playback Web finito](./web-runtime), [press](./web-press) y [lifecycle Vue DOM](./web-vue) experimentales, con peers nativos/framework opcionales e imports seguros en SSR.
 - [Navegación compartida](./shared-navigation), [gestos compartidos](./shared-gestures), [regreso a la celda actual](./return-targets) y [galería conectada](./gallery), para las combinaciones documentadas de Frame/ListView/imágenes estáticas.
@@ -34,7 +36,7 @@ La [auditoría de bindings/capas](./motion-values#binding-measurements) incluye 
 
 ## Límites actuales {#current-limits}
 
-- Las APIs Web siguen experimentales. RC.10 amplía los [gestos y scroll coordinado](./web-gestures) con [interacciones de plataforma](./web-platforms) y [sensores y retorno compartido de la galería](./web-parity). El contenido de snapshots, los espacios de coordenadas, la disponibilidad de hardware y las alternativas por navegador conservan límites explícitos. Otros adapters de frameworks y las referencias portátiles estables siguen siendo trabajos separados.
+- Las APIs Web siguen experimentales. Snapshots, coordenadas, disponibilidad de hardware y alternativas del navegador mantienen límites explícitos. Los [adaptadores nativos](./frameworks) están en RC.11; las referencias portátiles estables siguen siendo un trabajo separado.
 - `animateSize()` admite StackLayout/GridLayout y hijos directos de FlexboxLayout row/column sin wrap, incluso en ScrollView. El hijo animado en el eje principal necesita `flexGrow=0` y `flexShrink=0`; la asignación del padre y el stretch transversal siguen prevaleciendo. Medición/layout usa JavaScript por frame. Celdas recicladas y elementos compartidos quedan fuera.
 - `drag()` no ofrece composición genérica de gestos con varios dedos. Usa [`gestures()`](./gestures) para desplazamiento/pellizco/rotación, o [zoom de fotos](./photo-zoom) para su controlador específico de pellizco, desplazamiento y cierre. El adaptador de transferencia de gestos admite Core ScrollView vertical; otras combinaciones de listas/contenedores requieren sus propios adaptadores y validación nativa.
 - Los adaptadores de propiedades externas requieren `@rafaelaugusto/jolt-native`. Los adaptadores incluidos de cámara, luces y materiales de SceneKit son exclusivos de iOS; no se incluye un adaptador de renderizado 3D para Android. Las unidades de cámara de MapKit y MapLibre son distintas.
@@ -50,12 +52,12 @@ Las issues de aceptación abiertas que aparecen a continuación corresponden a A
 - **Composición de desplazamiento ([#116](https://github.com/rafaelaugustos/jolt/issues/116)):** inversión/inercia, cambios tardíos de diseño, conservación del anclaje y limpieza con el adaptador admitido de Core ListView.
 - Mantén las pruebas generales, de iOS y Android y sus controles negativos pasando en el commit de la versión. Comprueba la instalación de los paquetes correspondientes y una recompilación nativa limpia; resuelve las regresiones que bloquean la versión antes de etiquetar la estable.
 
-La aceptación física inicial de rotación/gravedad se completó en [#114](https://github.com/rafaelaugustos/jolt/issues/114). El [informe de sensores](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md) documenta el alcance probado y sus límites. Las fuentes de aceleración, giroscopio y campo magnético siguen como trabajo separado en [#256](https://github.com/rafaelaugustos/jolt/issues/256).
+La aceptación física inicial de rotación/gravedad está documentada en [#114](https://github.com/rafaelaugustos/jolt/issues/114) y el [informe de sensores](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/device-sensors.md). Aceleración, aceleración lineal, giroscopio y campo magnético están en RC.11; [su aceptación en simulador/emulador](./device-sensors#vector-sources) no demuestra precisión ni coste en dispositivos físicos.
 
 La aceptación de galería y scroll aún requiere las verificaciones físicas pendientes de regularidad de fotogramas, respuesta a la entrada, memoria y accesibilidad. Consulta los informes de [galería](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/gallery.md) y [scroll](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/scroll-header.md). Las grabaciones de simulador/emulador no completan la aceptación en dispositivos físicos.
 
 ## Después de 0.1.0 {#after-0-1-0}
 
-Las siguientes RC se centran en corrección, compatibilidad, accesibilidad, limpieza del ciclo de vida y documentación. Las capacidades nuevas quedan para después de 0.1.0: otros adaptadores de frameworks, shaders arbitrarios de vistas, más tipos de sensores, otros tipos de uniones físicas y navegación modal genérica.
+Las próximas RC se centran en corrección, compatibilidad, accesibilidad, ciclo de vida y documentación. El trabajo futuro incluye shaders de vistas arbitrarias, más articulaciones físicas y soporte modal más amplio entre plataformas. Los adaptadores nativos y las fuentes vectoriales documentados ya están en RC.11.
 
 El [proyecto comparativo](https://github.com/rafaelaugustos/jolt/issues/65) es independiente de la entrega del alcance actualmente admitido. Las [issues de funcionalidades más amplias](https://github.com/rafaelaugustos/jolt/issues) no amplían las combinaciones admitidas por la versión estable ni modifican las alternativas por plataforma y los costes de JavaScript documentados.

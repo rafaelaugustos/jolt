@@ -1,0 +1,323 @@
+{
+  "baseCommit": "86ba72b59cbfe06062e3175e5708d5b11f4a4b0b",
+  "reviewDate": "2026-11-03",
+  "records": [
+    {
+      "file": "motion-recipe-press-ios.mp4",
+      "duration": 5.666667,
+      "dimensions": [420, 914],
+      "sha256": "f09dd65ca065fe382bbb62dbc27aa4dfb09aa63ecc51980dcce65b03299baceb",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "motion-recipe-followers-ios.mp4",
+      "duration": 5.566667,
+      "dimensions": [420, 914],
+      "sha256": "85c0365fb2e54e8d768aeb0b829b33990d6f2b2a80c9e83308c7e73e27268b6d",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "motion-recipe-drag-ios.mp4",
+      "duration": 7.3,
+      "dimensions": [420, 914],
+      "sha256": "93fc7884d9b582c06bffac2799038c96177e87e5f5d87a64c187a988df79399e",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "motion-recipe-stagger-ios.mp4",
+      "duration": 4.6,
+      "dimensions": [420, 914],
+      "sha256": "3b3ce840d4511ed3785cf852370a58e9f90d38140dba1aeefd85ab1e7154bfbb",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "motion-recipe-paths-ios.mp4",
+      "duration": 8.1,
+      "dimensions": [420, 914],
+      "sha256": "b63c7889a5aacd75f5a36fa3cd17a2b359a395d550369803e67036be014c9a7b",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "motion-recipe-gradients-ios.mp4",
+      "duration": 6.533333,
+      "dimensions": [420, 914],
+      "sha256": "448d89515a17d6e5ea4274fea791d4d95666021537d99fcab5117fdd6f8c7199",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "motion-recipe-confetti-ios.mp4",
+      "duration": 6.8,
+      "dimensions": [420, 914],
+      "sha256": "2c951ccfe11227c09002ed658b936502c41a0fa8bb902723e9a3a7e1449b34cf",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "motion-recipe-reveal-ios.mp4",
+      "duration": 6.1,
+      "dimensions": [420, 914],
+      "sha256": "7c4e038813b92e4701c497268c47237abba870fa2f45b11af6330af1eb0941a4",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "motion-recipe-rolling-ios.mp4",
+      "duration": 4.5,
+      "dimensions": [420, 914],
+      "sha256": "a53d174be44146456e7a70eb39d7dfe09c1f32b02459cb8bb850b679588041cb",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "motion-recipe-layout-ios.mp4",
+      "duration": 5.433333,
+      "dimensions": [420, 914],
+      "sha256": "56626d8a2c0519a1aa6c974d191243adbe2fdd90f28c7b42e819f9dae7be469f",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "showcase-springs-ios.mp4",
+      "duration": 4.533333,
+      "dimensions": [420, 914],
+      "sha256": "a31b44835931aa7043a69072defc1e72c1ab08eff330f74a58266cc5a2403eb6",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "bottom-sheet-ios.mp4",
+      "duration": 25.3,
+      "dimensions": [420, 914],
+      "sha256": "09fc363655e0860988d4dc3628b8c7c42f65673b97605421bec01727d772691c",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "morrow-native-ios.mp4",
+      "sourceName": "Screen Recording MorrowDesign 03-11-2026 at 15.00.45.mp4",
+      "sourceSha256": "82422c3da43717fb5312ca5be209bc3ed45903a10db8855545d953af650f60ca",
+      "sha256": "1cfa25ddd250f9e9bb8d0e1aae1b3964cf8169cd075183ada68c68136b8a0531",
+      "trimStartSeconds": 2.4,
+      "duration": 68.15,
+      "outputFps": 60,
+      "originalTiming": true,
+      "platform": "iOS; capture device unspecified by creator",
+      "capture": "Creator-supplied actual NativeScript + Jolt application recording",
+      "review": "Animated opening, artist page, vinyl player, seeking and video transition; decoded successfully"
+    }
+  ],
+  "browserRecording": {
+    "file": "motion-site-chromium.mp4",
+    "duration": 93.36,
+    "dimensions": [1440, 1000],
+    "sha256": "77fbcbde452e5e3661d962552d427ed0b6457282eef29b2b3f3fbb8623b52a73",
+    "platform": "Chromium on macOS arm64",
+    "input": "Real Playwright pointer and keyboard input",
+    "nativeFootage": "Reviewed iOS simulator Motion Studio and Jolt Drive recipes, creator-supplied Morrow iOS recording, and the published Jolt Drive entrance played inside the website",
+    "originalTiming": true,
+    "fullDecode": "passed",
+    "interaction": "Chrome sculpture with inertial drag; scroll-linked Morrow; native previews; spring interruption; stagger; drag/snap; CPU, memory and presentation metrics; compact footer and back-to-top; recipe filtering and clipboard actions. Animated Morrow and Jolt Drive showcase, original published project screenshots, shared guide/API design, heading entrance, reading progress and light/dark themes. Four Jolt Drive recipes with complete source and AI-prompt copying and native cockpit playback.",
+    "rendering": "Site-owned WebGL renderer, driven by existing Jolt Web motion values. Interactive SVG fallback on context loss.",
+    "siteVersion": "0.1.0-rc.11",
+    "review": "Full decode passed. Contact sheet inspected across the entire recording: project stages, native playback, guide/API layout, theme switching and recipe interactions."
+  },
+  "physicalStudyImports": [
+    {
+      "file": "comparison-jolt-physical-android.mp4",
+      "sourceCommit": "c15b7f0da59168bcf1baa187daa7a622e9e5c19b",
+      "gitBlob": "0aaaea0487dd5a14db43a89ae56d1aab533f4d87",
+      "sha256": "3ab1c9cee418be52feb61be9212d2cc4e0782da474fd618c88b3c58f30be75c7",
+      "duration": 18.411911,
+      "dimensions": [720, 1280],
+      "platform": "Physical ASUS ZenFone 3 / Android 8.0.0",
+      "language": "English",
+      "profile": "explicit V8 size profile",
+      "sourceBytesUnchanged": true,
+      "decode": "passed with original demux timebase and timestamp passthrough",
+      "review": "Start/restart, application-JS block, UI-thread block and stop; recordings separate from measurements."
+    },
+    {
+      "file": "comparison-reanimated-physical-android.mp4",
+      "sourceCommit": "c15b7f0da59168bcf1baa187daa7a622e9e5c19b",
+      "gitBlob": "15f1db7c58f09d8145eb2d2705e878aa885b94af",
+      "sha256": "b767041728b905eeacb8ea7c019a3dc29bed71fb359bcc3ecc803d39f712fbbe",
+      "duration": 19.024244,
+      "dimensions": [720, 1280],
+      "platform": "Physical ASUS ZenFone 3 / Android 8.0.0",
+      "language": "English",
+      "profile": "Reanimated reference",
+      "sourceBytesUnchanged": true,
+      "decode": "passed with original demux timebase and timestamp passthrough",
+      "review": "Start/restart, application-JS block, UI-thread block and stop; recordings separate from measurements."
+    }
+  ],
+  "joltDriveImport": {
+    "repository": "https://github.com/rafaelaugustos/jolt-drive",
+    "commit": "2d9cc4afeec1d1fa04b85e5dbe063db07e3db29f",
+    "assets": [
+      {
+        "path": "docs/media/garage.png",
+        "sha256": "d34c1837179ff15dcf0641585ae369d87dc41bbdfa72503496e8b3c7fce72fbc",
+        "gitBlob": "38feed6c0e44fc4d9238055889ae8813893c824b"
+      },
+      {
+        "path": "docs/media/cockpit.png",
+        "sha256": "42a1602986300299b2aa027838917e6d82711c81611f87badfc3bc42d7e7823a",
+        "gitBlob": "9337f1692047f37dddb1c887352afa7db29272c1"
+      },
+      {
+        "path": "docs/media/pickup.png",
+        "sha256": "a3d47a0928ca3f22bd897221510b3467ee5657958865eb1fd6b538a56c05cf4d",
+        "gitBlob": "544c3d7702b92385601193f9aa4b8f6fdb4f405d"
+      },
+      {
+        "path": "docs/media/entrance.gif",
+        "sha256": "604fc10bc0d16e59c0864a84eceea279506f4ad8b7c2e267ba0fd755f109e93d",
+        "gitBlob": "a124b92727cb0445ec679570a287711229f15c31"
+      }
+    ],
+    "screenshots": "Copied byte-for-byte from the public repository; displayed with localized alt text and captions.",
+    "recording": {
+      "file": "jolt-drive-entrance-ios.mp4",
+      "sha256": "bd6b0b441bfdeba7eb6c35ec03a741850b1c673d268050cb328ca4886308fa4c",
+      "duration": 9.41,
+      "frames": 113,
+      "dimensions": [320, 696],
+      "platform": "iOS; capture device not specified by source",
+      "language": "English",
+      "source": "docs/media/entrance.gif",
+      "conversion": "H.264, yuv420p, CRF 18; timestamp passthrough at source 1/100 time base; no frame interpolation, trimming or speed change.",
+      "frameTimestamps": "All 113 decoded source and MP4 timestamps compared equal within 0.1 ms.",
+      "review": "Decoded in full and inspected across the complete clip: car entrance, rotation and cockpit reveal are visible.",
+      "limitation": "The published GIF has about 12 frames per second; it does not measure native rendering performance."
+    },
+    "preserved": "Original Jolt Car walkthrough and all three existing native showcase recordings remain available."
+  },
+  "joltDriveRecipes": {
+    "repository": "https://github.com/rafaelaugustos/jolt-drive",
+    "revision": "2d9cc4afeec1d1fa04b85e5dbe063db07e3db29f",
+    "platform": "Dedicated iPhone 17 Pro simulator, iOS 26.2",
+    "app": "org.nativescript.joltcar",
+    "language": "English",
+    "input": "Real idb accessibility-targeted taps and native drag/release",
+    "captureScript": "scripts/record-drive-recipes.py",
+    "encoding": "H.264, yuv420p, CRF 21, 420px width; original timestamps, no retiming or frame interpolation",
+    "runtimeSourceReview": [
+      {
+        "path": "src/pages/Home/useCockpitGesture.ts",
+        "sourceMatches": true,
+        "compiledScriptMatches": true
+      },
+      {
+        "path": "src/pages/Home/AtmosphereOption.vue",
+        "sourceMatches": true,
+        "compiledScriptMatches": true
+      },
+      {
+        "path": "src/pages/Home/EnergyPlan.vue",
+        "sourceMatches": false,
+        "compiledScriptMatches": true
+      },
+      {
+        "path": "src/components/scene/Car3D.vue",
+        "sourceMatches": true,
+        "compiledScriptMatches": true
+      },
+      {
+        "path": "src/components/scene/car-stage.ios.ts",
+        "sourceMatches": true,
+        "compiledScriptMatches": true
+      }
+    ],
+    "sourceNote": "EnergyPlan differs only in TypeScript types and type imports erased at runtime. Scripts transpile identically; other listed source files are identical. App copied to an isolated simulator before review.",
+    "records": [
+      {
+        "file": "drive-cockpit-ios.mp4",
+        "sha256": "3181c962358c75ac41e0448ca082703f848f012bf71421b2e01afcc4c8672bbd",
+        "sourceSha256": "4514a2cee876a0787bf2d9d8e8fd7761365e305ddc2f2a5ad34727c4ff06e665",
+        "duration": 10.876667,
+        "dimensions": [420, 914],
+        "review": "Real drag/release moves panel and camera together; both snap states and tap toggle visible.",
+        "fullDecode": "passed",
+        "originalTiming": true
+      },
+      {
+        "file": "drive-atmosphere-ios.mp4",
+        "sha256": "aa1641837289fe184e89f1b0ed4833947576e840f51e8da3ed6860ec4d7f33f3",
+        "sourceSha256": "4b49927230e5491842c2cf67511c60b1f93ca3b69d4b57fd68b79028968b1e35",
+        "duration": 8.518333,
+        "dimensions": [420, 914],
+        "review": "Repeated real taps change Electric, Glacier and Afterglow selection, border, shape and coordinated theme.",
+        "fullDecode": "passed",
+        "originalTiming": true
+      },
+      {
+        "file": "drive-charge-sheet-ios.mp4",
+        "sha256": "d3062d8d005a50899e07bfbaef0cf3d96287e15840920645ba45ed5e95b50eae",
+        "sourceSha256": "cf535aa58203421b22aec73317560670b5c491bb12c4bc7231469b25669a2ea7",
+        "duration": 9.053333,
+        "dimensions": [420, 914],
+        "review": "Opens over the blurred garage, selects 100% and 90%, expands via the grip and closes; the background becomes sharp again.",
+        "fullDecode": "passed",
+        "originalTiming": true
+      },
+      {
+        "file": "drive-cabin-ios.mp4",
+        "sha256": "055a7e14f8450cd0aaa187872e2ad9d4d1890b8ef425080e7254819dea39ebc7",
+        "sourceSha256": "4812d9333bdc3b9e51395dd558e414d3e86546406249d216fc400ce98fc176a7",
+        "duration": 12.681667,
+        "dimensions": [420, 914],
+        "review": "Climate opens the cabin camera journey, temperature changes and climate closes back to the exterior view.",
+        "fullDecode": "passed",
+        "originalTiming": true
+      }
+    ]
+  },
+  "integration": {
+    "mainCommit": "da283fe3a0ece7b12a2f07be09126111be8e0327",
+    "siteVersion": "0.1.0-rc.11",
+    "driveSourceVersion": "0.1.0-rc.10",
+    "versionNote": "Site uses the RC.11 repository runtime; Drive snapshots and captures retain the exact project revision and dependency version."
+  },
+  "showcasePosters": [
+    {
+      "file": "film-car-ios.jpg",
+      "source": "film-car-ios.mp4",
+      "sourceTimeSeconds": 4,
+      "width": 420,
+      "review": "Inspected real frame extracted from the preserved native recording."
+    },
+    {
+      "file": "film-impulse-cabin-ios.jpg",
+      "source": "film-impulse-cabin-ios.mp4",
+      "sourceTimeSeconds": 4,
+      "width": 420,
+      "review": "Inspected real frame extracted from the preserved native recording."
+    },
+    {
+      "file": "jolt-car-drive-ios.jpg",
+      "source": "jolt-car-drive-ios.mp4",
+      "sourceTimeSeconds": 4,
+      "width": 420,
+      "review": "Inspected real frame extracted from the preserved native recording."
+    }
+  ]
+}

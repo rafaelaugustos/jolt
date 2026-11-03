@@ -84,7 +84,7 @@ const progress = scroll.to([0, 400], [0, 1])
 
 ## 相对于元素的滚动范围 {#element-range}
 
-计划在下一版本发布。使用布局锚点，替代手动范围计算和观察器驱动的绑定重建：
+自 **0.1.0-rc.11** 起可用。使用布局锚点，替代手动范围计算和观察器驱动的绑定重建：
 
 ```ts
 const linked = motion.scrollLinked(

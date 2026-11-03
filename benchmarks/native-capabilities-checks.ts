@@ -24,6 +24,7 @@ import {
 } from '@rafaelaugusto/jolt'
 import { physicsWorld } from '@rafaelaugusto/jolt/physics'
 import { livePaintChecks } from './live-paint-checks'
+import { waitForLayoutProgress } from './native-layout-progress'
 
 const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms))
 const check = (condition: unknown, message: string) => {
@@ -345,7 +346,14 @@ export async function runNativeCapabilitiesChecks(
       const animation = keep(
         animateSize(first, { [axis]: end }, { duration: 700, ease: 'linear' }),
       )
-      await wait(280)
+      // animateSize starts its clock on the first layout frame, which can arrive
+      // late on shared runners. Observe native progress before testing pause.
+      const progress = await waitForLayoutProgress(
+        () => bounds(first)[axis],
+        start + 10,
+        end - 5,
+        `Flex ${direction}`,
+      )
       animation.pause()
       await wait(60)
       const middle = bounds(first)[axis]
@@ -366,6 +374,7 @@ export async function runNativeCapabilitiesChecks(
         flex: direction,
         start,
         middle,
+        progress,
         end: bounds(first),
         sibling: position,
       })

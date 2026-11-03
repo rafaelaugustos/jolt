@@ -1,0 +1,1605 @@
+/* The site is a motion exhibition: oversized type, tactile objects, changing rooms. */
+.motion-site {
+  --ink: #10110f;
+  --paper: #f2f1e8;
+  --acid: #deff00;
+}
+.motion-nav {
+  height: 92px;
+  padding-inline: 48px;
+  border-bottom: 0;
+  max-width: 1800px;
+}
+.motion-nav-links {
+  border: 1px solid #ffffff25;
+  border-radius: 40px;
+  padding: 12px 22px;
+  gap: 28px;
+  background: #ffffff04;
+}
+.motion-nav-links a {
+  font-size: 12px;
+}
+.motion-brand {
+  font-size: 40px;
+}
+.motion-site .motion-home .section-shell {
+  max-width: 1800px;
+  padding-inline: 48px;
+}
+.motion-site .motion-home .motion-hero {
+  padding-top: 12px;
+}
+.motion-site .motion-home .hero-topline {
+  font-size: 10px;
+  padding-block: 8px 20px;
+}
+.motion-site .motion-home .hero-composition {
+  display: block;
+  min-height: 730px;
+  height: min(780px, 82vw);
+  padding: 0;
+  isolation: isolate;
+}
+.motion-site .motion-home .hero-type {
+  position: static;
+}
+.motion-site .motion-home .hero-type h1 {
+  position: relative;
+  z-index: 2;
+  padding-top: 28px;
+  font-weight: 650;
+  letter-spacing: -0.085em;
+  line-height: 0.88;
+  pointer-events: none;
+}
+.motion-site .motion-home .hero-line-one {
+  font-size: clamp(120px, 17.3vw, 290px);
+}
+.motion-site .motion-home .hero-type h1 .hero-line-two {
+  display: block;
+  margin-top: 94px;
+  font-size: clamp(86px, 12.1vw, 211px);
+  white-space: nowrap;
+  letter-spacing: -0.082em;
+}
+.motion-site .motion-home .hero-type-star {
+  display: inline-block;
+  color: var(--acid);
+  font-size: 0.35em;
+  vertical-align: top;
+  margin: 30px 0 0 25px;
+  font-weight: 300;
+}
+.motion-site .motion-home .hero-description {
+  position: absolute;
+  bottom: 57px;
+  left: 0;
+  max-width: 340px;
+  padding: 0;
+  font-size: 15px;
+  line-height: 1.65;
+  z-index: 3;
+}
+.motion-site .motion-home .hero-actions {
+  position: absolute;
+  right: 0;
+  bottom: 64px;
+  margin: 0;
+  z-index: 4;
+}
+.motion-site .button-acid {
+  border-radius: 100px;
+  font-size: 13px;
+  gap: 30px;
+  padding: 18px 25px;
+}
+.motion-site .button-acid > span {
+  display: grid;
+  place-items: center;
+  background: #13150e;
+  color: var(--acid);
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  margin: -5px -10px -5px 0;
+  transition: transform 0.25s;
+}
+.motion-site .button-acid:hover > span {
+  transform: rotate(45deg);
+}
+.motion-site .motion-home .hero-art {
+  position: absolute;
+  z-index: 1;
+  width: min(64vw, 1030px);
+  aspect-ratio: 1;
+  margin: 0;
+  right: -70px;
+  top: -115px;
+}
+.motion-site .motion-home .hero-art-grid {
+  display: none;
+}
+.motion-site .motion-home .hero-art:before {
+  inset: 23%;
+  filter: blur(100px);
+  opacity: 0.45;
+}
+.motion-site .motion-home .hero-art:after {
+  content: '';
+  position: absolute;
+  width: 60%;
+  height: 8%;
+  left: 23%;
+  bottom: 20%;
+  border-radius: 50%;
+  background: #0008;
+  filter: blur(35px);
+  z-index: -1;
+}
+.chrome-canvas {
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+.chrome-canvas.rendered {
+  display: block;
+}
+.motion-site .motion-home .art-coordinate {
+  top: 19%;
+  left: auto;
+  right: 14%;
+  font-size: 8px;
+  color: #979a8a;
+}
+.motion-site .motion-home .art-caption {
+  bottom: 22%;
+  left: auto;
+  right: 6%;
+  font-size: 10px;
+  color: #f2f1e8;
+  border: 1px solid #ffffff35;
+  border-radius: 40px;
+  padding: 8px 14px;
+  background: #161813ba;
+  backdrop-filter: blur(14px);
+}
+.motion-site .motion-home .art-cross {
+  font-size: 17px;
+}
+.motion-site .motion-home .art-engine {
+  top: 32%;
+  left: 13%;
+  bottom: auto;
+  right: auto;
+  color: var(--acid);
+}
+.motion-site .motion-home .hero-bottomline {
+  padding-block: 24px;
+  border-bottom: 0;
+}
+.motion-site .motion-home .hero-bottomline > div {
+  font-size: 14px;
+  gap: 26px;
+}
+.motion-site .motion-home .hero-bottomline > span {
+  max-width: 180px;
+  font-size: 9px;
+}
+
+/* Full-bleed Morrow room. The native recording stays intact and controllable. */
+.motion-site .motion-home .morrow-section {
+  padding: 0;
+  margin-top: 56px;
+  max-width: none;
+}
+.motion-site .motion-home .morrow-feature {
+  display: block;
+  min-height: 1120px;
+  border-radius: 0;
+  background: #ecc9df;
+  color: #352032;
+  overflow: hidden;
+}
+.motion-site .motion-home .morrow-copy {
+  position: static;
+  padding: 0;
+}
+.motion-site .motion-home .morrow-copy .eyebrow {
+  position: absolute;
+  top: 34px;
+  left: 48px;
+  font-size: 10px;
+  z-index: 3;
+}
+.motion-site .motion-home .morrow-copy h2 {
+  position: relative;
+  margin: 0;
+  padding-top: 94px;
+  text-align: center;
+  font-size: clamp(110px, 23.2vw, 370px);
+  font-weight: 600;
+  letter-spacing: -0.09em;
+  line-height: 0.9;
+  z-index: 1;
+}
+.motion-site .motion-home .morrow-copy h2 > span {
+  color: #b3377d;
+}
+.motion-site .motion-home .morrow-tagline {
+  position: absolute;
+  bottom: 213px;
+  left: 48px;
+  font-size: 42px;
+  max-width: 350px;
+  z-index: 3;
+}
+.motion-site .motion-home .morrow-description {
+  position: absolute;
+  bottom: 108px;
+  left: 48px;
+  max-width: 300px;
+  font-size: 13px;
+  color: #78566d;
+  z-index: 3;
+}
+.motion-site .motion-home .morrow-link {
+  position: absolute;
+  right: 48px;
+  bottom: 175px;
+  font-size: 15px;
+  z-index: 3;
+  gap: 55px;
+}
+.motion-site .motion-home .morrow-stack {
+  position: absolute;
+  right: 48px;
+  bottom: 115px;
+  z-index: 3;
+}
+.motion-site .motion-home .morrow-stack > span {
+  font-size: 10px;
+}
+.motion-site .motion-home .morrow-stage {
+  position: absolute;
+  width: min(850px, 100%);
+  height: 700px;
+  min-height: 0;
+  top: 330px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.motion-site .motion-home .morrow-orbit {
+  width: 470px;
+  height: 470px;
+  left: 135px;
+  top: 100px;
+  border: 18px solid #242021;
+  background: repeating-radial-gradient(circle at 50%, #201d1f 0 2px, #363033 3px 4px);
+  box-shadow: 18px 25px 40px #71395135;
+}
+.motion-site .motion-home .morrow-orbit:after {
+  content: 'm';
+  position: absolute;
+  inset: 35%;
+  display: grid;
+  place-items: center;
+  background: #c93985;
+  color: #f4d1e5;
+  border-radius: 50%;
+  font-size: 70px;
+  font-weight: 800;
+  border: 4px solid #df8db8;
+}
+.motion-site .motion-home .morrow-still {
+  width: 235px;
+  left: 125px;
+  top: 15px;
+  rotate: none;
+  border-radius: 36px;
+  border-width: 6px;
+  box-shadow: 22px 45px 65px #6c294b55;
+}
+.motion-site .motion-home .morrow-phone {
+  width: 266px;
+  left: 435px;
+  top: -5px;
+  border-width: 6px;
+  border-radius: 40px;
+  box-shadow: 22px 45px 65px #6c294b55;
+}
+.motion-site .motion-home .morrow-video-label {
+  bottom: 70px;
+  left: 425px;
+  font-size: 10px;
+  white-space: nowrap;
+}
+.motion-site .motion-home .morrow-caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 25px 48px;
+  border-top: 1px solid #5b29431a;
+  font-size: 9px;
+  color: #80546f;
+}
+
+/* Six selected exhibits, with room for the actual native interface to breathe. */
+.motion-site .motion-home .home-collection {
+  background: #efeee7;
+  color: #1a1d17;
+  padding-block: 112px 120px;
+  max-width: none;
+}
+.motion-site .motion-home .section-heading h2 {
+  font-size: clamp(45px, 6.3vw, 96px);
+  line-height: 1;
+  letter-spacing: -0.065em;
+}
+.motion-site .motion-home .home-collection .section-heading {
+  max-width: 1500px;
+  margin: 0 auto 68px;
+}
+.motion-site .motion-home .home-collection .section-heading h2 {
+  font-size: clamp(44px, 5.5vw, 84px);
+}
+.motion-site .motion-home .home-collection .section-heading .eyebrow {
+  color: #6c715f;
+}
+.motion-site .motion-home .home-collection .section-heading-aside {
+  color: #696d5e;
+  font-size: 13px;
+}
+.motion-site .motion-home .home-collection .text-link {
+  color: #171b12 !important;
+  font-size: 13px;
+}
+.motion-site .motion-home .home-collection .text-link > span {
+  color: #333d1f;
+}
+.motion-site .motion-home .home-collection .muted-heading {
+  color: #929a81;
+}
+.motion-site .motion-home .home-collection .recipe-grid {
+  max-width: 1500px;
+  margin: auto;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 60px 25px;
+}
+.motion-site .recipe-card-stage {
+  border-radius: 18px;
+}
+.motion-site .motion-home .recipe-card-stage {
+  height: clamp(320px, 31vw, 470px);
+}
+.motion-site .motion-home .recipe-card:nth-child(3n + 2) {
+  padding-top: 65px;
+}
+.motion-site .motion-home .recipe-device {
+  width: 57%;
+  height: auto;
+  aspect-ratio: 420/914;
+  top: 80px;
+  margin: 0;
+  left: 22%;
+  border-radius: 32px;
+  box-shadow: 18px 28px 35px #0003;
+}
+.motion-site .motion-home .recipe-card:hover .recipe-device,
+.motion-site .motion-home .recipe-card:focus-visible .recipe-device {
+  top: 55px;
+}
+.motion-site .motion-home .recipe-card-copy h3 {
+  font-size: 24px;
+  color: #22271c;
+}
+.motion-site .motion-home .recipe-card-copy p {
+  color: #777d6e;
+  font-size: 12px;
+}
+.motion-site .motion-home .recipe-card-copy > span {
+  font-size: 9px;
+  color: #818872;
+}
+.motion-site .motion-home .recipe-card-index {
+  font-size: 9px;
+  top: 24px;
+  left: 24px;
+}
+.motion-site .motion-home .recipe-play {
+  width: 42px;
+  height: 42px;
+  font-size: 23px;
+}
+.motion-site .motion-home .motion-manifesto {
+  color: #172007;
+  background: var(--acid);
+  font-size: clamp(45px, 7vw, 110px);
+  font-weight: 600;
+  padding-block: 33px;
+  gap: 30px;
+  transform: rotate(-2deg) scale(1.03);
+  position: relative;
+  z-index: 2;
+  margin-block: -15px;
+  border: 0;
+}
+.motion-site .motion-home .manifesto-star {
+  color: #34430a;
+}
+
+/* A tactile instrument, not a code sample with a decorative square. */
+.motion-site .motion-home .motion-lab {
+  padding-block: 150px 120px;
+}
+.motion-site .motion-home .motion-lab .section-heading {
+  margin-bottom: 65px;
+}
+.motion-site .motion-home .motion-lab .section-heading > p {
+  font-size: 14px;
+}
+.motion-site .motion-home .lab-body {
+  grid-template-columns: 1.3fr 1fr;
+  border-radius: 24px;
+  border-color: #ffffff25;
+}
+.motion-site .motion-home .lab-interactive {
+  background: #cbd8b8;
+  color: #26301a;
+}
+.motion-site .motion-home .lab-tabs {
+  justify-content: center;
+  border-bottom-color: #24331820;
+  padding: 20px;
+}
+.motion-site .motion-home .lab-tabs button {
+  color: #566047;
+  font-size: 12px;
+  padding: 10px 20px;
+  border-radius: 30px;
+}
+.motion-site .motion-home .lab-tabs button[aria-pressed='true'] {
+  background: #26351b;
+  color: #f4f7e7;
+}
+.motion-site .motion-home .lab-stage {
+  height: 380px;
+  background-image: radial-gradient(#344c2622 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+.motion-site .motion-home .lab-tile {
+  width: 102px;
+  height: 102px;
+  border-radius: 28px;
+  background: linear-gradient(145deg, #efffd4, #b6ce96);
+  box-shadow:
+    14px 20px 32px #5c734a65,
+    inset 0 2px 3px #ffffffd9,
+    inset 0 -4px 9px #7c995366;
+  color: #3e5226;
+}
+.motion-site .motion-home .lab-tile svg {
+  width: 39px;
+  height: 39px;
+}
+.motion-site .motion-home .lab-axis {
+  background: #2e402329;
+}
+.motion-site .motion-home .lab-axis:before,
+.motion-site .motion-home .lab-axis:after {
+  background: #4a5e3a;
+}
+.motion-site .motion-home .lab-hint {
+  color: #566648;
+  font-size: 11px;
+  bottom: 28px;
+}
+.motion-site .motion-home .lab-controls {
+  border-top-color: #344c2622;
+  padding: 22px 30px;
+}
+.motion-site .motion-home .lab-controls label,
+.motion-site .motion-home .lab-live {
+  color: #4b5b3e;
+  font-size: 11px;
+}
+.motion-site .motion-home .lab-controls input[type='range'] {
+  accent-color: #344e20;
+}
+.motion-site .motion-home .replay-button {
+  border-color: #52624055;
+  border-radius: 30px;
+  font-size: 12px;
+  padding: 9px 16px;
+}
+.motion-site .motion-home .replay-button > span {
+  color: #30471e;
+}
+.motion-site .motion-home .stagger-block {
+  background: linear-gradient(90deg, #668446, #8daa6a);
+  border-radius: 14px;
+  box-shadow:
+    5px 8px 15px #698a434d,
+    inset 1px 1px 1px #b2cf91;
+  width: 35px;
+}
+.motion-site .motion-home .stagger-block:nth-child(2n) {
+  background: linear-gradient(90deg, #455a34, #6f8a51);
+}
+.motion-site .motion-home .lab-code {
+  justify-content: space-between;
+}
+.motion-site .motion-home .lab-code .code-content {
+  padding: 30px;
+}
+.motion-site .motion-home .lab-code pre {
+  font-size: 12px;
+}
+.motion-site .motion-home .native-feature {
+  padding-block: 20px 100px;
+}
+.motion-site .motion-home .native-feature-grid {
+  gap: 35px;
+}
+.motion-site .motion-home .film-poster,
+.motion-site .motion-home .app-feature {
+  border-radius: 22px;
+}
+.motion-site .drive-feature .app-feature-copy h3 {
+  font-size: clamp(38px, 4.2vw, 64px);
+  line-height: 0.95;
+}
+.motion-site .drive-description {
+  margin-top: 22px;
+  color: #c1c9b8;
+  font-size: 12px;
+  line-height: 1.65;
+}
+.motion-site .drive-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 24px;
+  margin-top: 24px;
+}
+.motion-site .drive-actions .text-link {
+  font-size: 12px;
+}
+.motion-site .drive-prototype {
+  margin-top: 28px;
+  border-top: 1px solid var(--line);
+}
+.motion-site .drive-prototype summary {
+  padding-block: 22px;
+  color: #c1c9b8;
+  cursor: pointer;
+  font-size: 13px;
+}
+.motion-site .drive-prototype summary span {
+  margin-left: 16px;
+  color: #929e82;
+  font-family: var(--vp-font-family-mono);
+  font-size: 10px;
+}
+.motion-site .drive-prototype > video {
+  display: block;
+  width: min(100%, 320px);
+  border-radius: 20px;
+}
+.motion-site .motion-home .build-section {
+  padding-block: 100px;
+}
+.motion-site .motion-home .build-section h2 {
+  font-size: clamp(56px, 6.2vw, 94px);
+}
+.motion-site .motion-footer {
+  border-radius: 40px 40px 0 0;
+}
+.motion-site .footer-wordmark {
+  letter-spacing: -0.09em;
+}
+.motion-site .recipe-library .library-intro h1 {
+  font-size: clamp(64px, 9vw, 134px);
+  line-height: 0.95;
+  letter-spacing: -0.075em;
+}
+.motion-site .recipe-filters button {
+  border-radius: 30px;
+  padding: 10px 16px;
+}
+.motion-site .recipe-full-video {
+  border-radius: 22px;
+}
+
+@media (min-width: 1700px) {
+  .motion-site .motion-home .hero-composition {
+    height: 900px;
+  }
+  .motion-site .motion-home .hero-art {
+    right: -20px;
+    top: -85px;
+  }
+  .motion-site .motion-home .morrow-feature {
+    min-height: 1250px;
+  }
+  .motion-site .motion-home .morrow-stage {
+    top: 410px;
+  }
+}
+@media (max-width: 1100px) {
+  .motion-nav,
+  .motion-site .motion-home .section-shell {
+    padding-inline: 32px;
+  }
+  .motion-site .motion-home .hero-composition {
+    min-height: 630px;
+  }
+  .motion-site .motion-home .hero-type h1 .hero-line-two {
+    margin-top: 110px;
+  }
+  .motion-site .motion-home .hero-art {
+    width: 76vw;
+    right: -100px;
+    top: -55px;
+  }
+  .motion-site .motion-home .hero-description {
+    max-width: 300px;
+    font-size: 14px;
+    bottom: 45px;
+  }
+  .motion-site .motion-home .hero-actions {
+    bottom: 45px;
+  }
+  .motion-site .motion-home .hero-actions .button-text {
+    display: none;
+  }
+  .motion-site .motion-home .art-caption {
+    bottom: 18%;
+    right: 20%;
+  }
+  .motion-site .motion-home .morrow-section {
+    padding-inline: 0;
+  }
+  .motion-site .motion-home .morrow-feature {
+    min-height: 1080px;
+  }
+  .motion-site .motion-home .morrow-stage {
+    top: 270px;
+  }
+  .motion-site .motion-home .morrow-tagline {
+    font-size: 34px;
+    bottom: 175px;
+  }
+  .motion-site .motion-home .morrow-description {
+    bottom: 85px;
+    font-size: 11px;
+    max-width: 280px;
+  }
+  .motion-site .motion-home .morrow-link {
+    bottom: 150px;
+    right: 32px;
+  }
+  .motion-site .motion-home .morrow-stack {
+    bottom: 100px;
+    right: 32px;
+  }
+  .motion-site .motion-home .morrow-caption {
+    padding-inline: 32px;
+  }
+  .motion-site .motion-home .home-collection .section-heading {
+    gap: 25px;
+  }
+  .motion-site .motion-home .home-collection .section-heading-aside {
+    max-width: 240px;
+  }
+  .motion-site .motion-home .home-collection .recipe-grid {
+    gap: 45px 18px;
+  }
+  .motion-site .motion-home .recipe-card-copy h3 {
+    font-size: 21px;
+  }
+  .motion-site .motion-home .recipe-device {
+    width: 64%;
+    left: 18%;
+    border-radius: 24px;
+  }
+  .motion-site .motion-home .lab-body {
+    grid-template-columns: 1fr 1fr;
+  }
+  .motion-site .motion-home .lab-tabs button {
+    padding-inline: 12px;
+  }
+  .motion-site .motion-home .lab-code pre {
+    font-size: 10px;
+  }
+}
+@media (max-width: 767px) {
+  .motion-nav {
+    height: 78px;
+    padding-inline: 22px;
+  }
+  .motion-nav-links {
+    border-radius: 16px;
+    padding: 22px;
+    background: #20241a;
+    gap: 22px;
+  }
+  .motion-nav-links a {
+    font-size: 16px;
+  }
+  .motion-brand {
+    font-size: 33px;
+  }
+  .motion-site .motion-home .section-shell {
+    padding-inline: 22px;
+  }
+  .motion-site .motion-home .motion-hero {
+    padding-top: 10px;
+  }
+  .motion-site .motion-home .hero-topline {
+    font-size: 7px;
+    gap: 15px;
+    padding-bottom: 0;
+  }
+  .motion-site .motion-home .hero-topline > a {
+    white-space: nowrap;
+  }
+  .motion-site .motion-home .hero-composition {
+    min-height: 645px;
+    height: 174vw;
+    max-height: 800px;
+  }
+  .motion-site .motion-home .hero-type h1 {
+    padding-top: 34px;
+  }
+  .motion-site .motion-home .hero-line-one {
+    font-size: 26vw;
+  }
+  .motion-site .motion-home .hero-type-star {
+    font-size: 0.35em;
+    margin: 12px 0 0 10px;
+  }
+  .motion-site .motion-home .hero-type h1 .hero-line-two {
+    font-size: 11.8vw;
+    margin-top: 260px;
+  }
+  .motion-site .motion-home .hero-art {
+    width: 115vw;
+    max-width: none;
+    right: -16vw;
+    top: 72px;
+  }
+  .motion-site .motion-home .art-coordinate {
+    top: 18%;
+    right: 15%;
+    font-size: 6px;
+  }
+  .motion-site .motion-home .art-engine {
+    left: 18%;
+    top: 72%;
+    font-size: 6px;
+  }
+  .motion-site .motion-home .art-caption {
+    right: 12%;
+    bottom: 15%;
+    font-size: 8px;
+    padding: 6px 10px;
+  }
+  .motion-site .motion-home .hero-description {
+    font-size: 12px;
+    max-width: 310px;
+    bottom: 103px;
+  }
+  .motion-site .motion-home .hero-actions {
+    left: 0;
+    right: auto;
+    bottom: 20px;
+  }
+  .motion-site .motion-home .hero-actions .button-text {
+    display: inline;
+    font-size: 10px;
+  }
+  .motion-site .button-acid {
+    font-size: 11px;
+    padding: 16px 20px;
+    gap: 20px;
+  }
+  .motion-site .motion-home .hero-bottomline {
+    padding-block: 20px;
+    gap: 15px;
+  }
+  .motion-site .motion-home .hero-bottomline > span,
+  .motion-site .motion-home .hero-bottomline > a {
+    display: none;
+  }
+  .motion-site .motion-home .hero-bottomline > div {
+    width: 100%;
+    justify-content: space-between;
+    font-size: 11px;
+    gap: 10px;
+  }
+  .motion-site .motion-home .morrow-section {
+    padding: 0;
+    margin-top: 28px;
+  }
+  .motion-site .motion-home .morrow-feature {
+    min-height: 930px;
+  }
+  .motion-site .motion-home .morrow-copy .eyebrow {
+    left: 22px;
+    top: 27px;
+    font-size: 8px;
+  }
+  .motion-site .motion-home .morrow-copy h2 {
+    padding-top: 92px;
+    font-size: 23vw;
+  }
+  .motion-site .motion-home .morrow-stage {
+    width: 100%;
+    height: 480px;
+    top: 235px;
+    margin-top: 0;
+  }
+  .motion-site .motion-home .morrow-orbit {
+    width: 300px;
+    height: 300px;
+    left: 1%;
+    top: 60px;
+    border-width: 12px;
+  }
+  .motion-site .motion-home .morrow-orbit:after {
+    font-size: 40px;
+  }
+  .motion-site .motion-home .morrow-still {
+    width: 40%;
+    left: 5%;
+    top: 12px;
+    border-radius: 25px;
+    border-width: 4px;
+  }
+  .motion-site .motion-home .morrow-phone {
+    width: 44%;
+    left: 49%;
+    top: -14px;
+    border-radius: 26px;
+    border-width: 4px;
+  }
+  .motion-site .motion-home .morrow-video-label {
+    left: auto;
+    right: 22px;
+    bottom: 25px;
+    font-size: 7px;
+  }
+  .motion-site .motion-home .morrow-tagline {
+    font-size: 31px;
+    bottom: 210px;
+    left: 22px;
+    max-width: 100%;
+  }
+  .motion-site .motion-home .morrow-description {
+    left: 22px;
+    bottom: 140px;
+    max-width: calc(100% - 44px);
+    font-size: 11px;
+    line-height: 1.65;
+  }
+  .motion-site .motion-home .morrow-link {
+    left: 22px;
+    right: auto;
+    bottom: 93px;
+    font-size: 12px;
+    margin: 0;
+    gap: 30px;
+  }
+  .motion-site .motion-home .morrow-stack {
+    right: 22px;
+    bottom: 96px;
+    gap: 4px;
+  }
+  .motion-site .motion-home .morrow-stack > span {
+    font-size: 7px;
+    padding: 4px;
+  }
+  .motion-site .motion-home .morrow-caption {
+    padding: 16px 22px;
+    font-size: 7px;
+  }
+  .motion-site .motion-home .home-collection {
+    padding-block: 75px;
+  }
+  .motion-site .motion-home .section-heading,
+  .motion-site .motion-home .home-collection .section-heading {
+    display: block;
+    margin-bottom: 34px;
+  }
+  .motion-site .motion-home .section-heading h2,
+  .motion-site .motion-home .home-collection .section-heading h2 {
+    font-size: 43px;
+  }
+  .motion-site .motion-home .home-collection .section-heading-aside {
+    max-width: 100%;
+    margin-top: 24px;
+    font-size: 12px;
+  }
+  .motion-site .motion-home .home-collection .recipe-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 30px 12px;
+  }
+  .motion-site .motion-home .recipe-card:nth-child(3n + 2) {
+    padding-top: 0;
+  }
+  .motion-site .motion-home .recipe-card:nth-child(even) {
+    padding-top: 40px;
+  }
+  .motion-site .motion-home .recipe-card-stage {
+    height: 245px;
+    border-radius: 12px;
+  }
+  .motion-site .motion-home .recipe-device {
+    width: 80%;
+    left: 10%;
+    top: 55px;
+    border-width: 3px;
+    border-radius: 18px;
+  }
+  .motion-site .motion-home .recipe-card-index {
+    top: 14px;
+    left: 12px;
+    font-size: 6px;
+  }
+  .motion-site .motion-home .recipe-card-copy {
+    padding-top: 13px;
+  }
+  .motion-site .motion-home .recipe-card-copy h3 {
+    font-size: 16px;
+  }
+  .motion-site .motion-home .recipe-card-copy p {
+    font-size: 10px;
+    line-height: 1.5;
+  }
+  .motion-site .motion-home .recipe-card-copy > span {
+    font-size: 7px;
+  }
+  .motion-site .motion-home .recipe-play {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+    right: 10px;
+    bottom: 12px;
+  }
+  .motion-site .motion-home .recipe-platform {
+    bottom: 12px;
+    left: 10px;
+    font-size: 7px;
+  }
+  .motion-site .motion-home .motion-manifesto {
+    font-size: 40px;
+    gap: 17px;
+    padding-block: 22px;
+  }
+  .motion-site .motion-home .motion-lab {
+    padding-block: 90px 70px;
+  }
+  .motion-site .motion-home .motion-lab .section-heading {
+    margin-bottom: 30px;
+  }
+  .motion-site .motion-home .motion-lab .section-heading > p {
+    font-size: 12px;
+    margin-top: 22px;
+  }
+  .motion-site .motion-home .lab-body {
+    grid-template-columns: 1fr;
+    border-radius: 18px;
+  }
+  .motion-site .motion-home .lab-stage {
+    height: 320px;
+  }
+  .motion-site .motion-home .lab-tabs {
+    padding: 15px 10px;
+  }
+  .motion-site .motion-home .lab-tabs button {
+    font-size: 11px;
+    padding: 10px 17px;
+  }
+  .motion-site .motion-home .lab-controls {
+    padding: 20px;
+  }
+  .motion-site .motion-home .lab-tile {
+    width: 92px;
+    height: 92px;
+  }
+  .motion-site .motion-home .lab-code {
+    display: flex;
+    border-left: 0;
+  }
+  .motion-site .motion-home .lab-code pre {
+    font-size: 10px;
+  }
+  .motion-site .motion-home .lab-footnote {
+    font-size: 8px;
+  }
+  .motion-site .motion-home .native-feature {
+    padding-block: 15px 60px;
+  }
+  .motion-site .motion-home .native-feature-grid {
+    gap: 28px;
+  }
+  .motion-site .motion-home .build-section {
+    padding-block: 65px;
+  }
+  .motion-site .motion-home .build-section h2 {
+    font-size: 51px;
+  }
+  .motion-site .recipe-library .library-intro h1 {
+    font-size: 60px;
+  }
+}
+@media (max-width: 374px) {
+  .motion-site .motion-home .hero-type h1 .hero-line-two {
+    margin-top: 245px;
+    font-size: 11.6vw;
+  }
+  .motion-site .motion-home .hero-composition {
+    min-height: 625px;
+  }
+  .motion-site .motion-home .hero-art {
+    top: 95px;
+  }
+  .motion-site .motion-home .hero-description {
+    bottom: 103px;
+    font-size: 11px;
+  }
+  .motion-site .motion-home .hero-actions {
+    gap: 15px;
+  }
+  .motion-site .motion-home .hero-actions .button-text {
+    font-size: 9px;
+  }
+  .motion-site .motion-home .recipe-card-stage {
+    height: 220px;
+  }
+  .motion-site .motion-home .recipe-card-copy h3 {
+    font-size: 14px;
+  }
+  .motion-site .motion-home .section-heading h2,
+  .motion-site .motion-home .home-collection .section-heading h2 {
+    font-size: 36px;
+  }
+  .motion-site .motion-home .morrow-feature {
+    min-height: 875px;
+  }
+  .motion-site .motion-home .morrow-stage {
+    top: 210px;
+    height: 440px;
+  }
+  .motion-site .motion-home .morrow-tagline {
+    font-size: 27px;
+  }
+  .motion-site .motion-home .morrow-description {
+    font-size: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .motion-site .motion-home .motion-manifesto {
+    transform: none;
+  }
+  .motion-site .button-acid > span {
+    transition: none;
+  }
+}
+
+/* Jolt owns the CTA transform; CSS transitions stay on its decorative child. */
+.motion-site .motion-home .hero-actions .button-acid {
+  transition: none;
+}
+.sculpture-input {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: grab !important;
+}
+.sculpture-input:active {
+  cursor: grabbing !important;
+}
+.sculpture-input:focus-visible {
+  outline-offset: -60px;
+  border-radius: 50%;
+}
+@media (max-width: 767px) {
+  html[lang='es'] .motion-home .hero-line-one {
+    font-size: 23vw;
+  }
+}
+
+.sculpture-fallback {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Research stays inspectable: every metric, source and limitation belongs together. */
+.motion-evidence {
+  padding-block: 80px 120px;
+}
+.evidence-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 50px;
+  margin-bottom: 44px;
+}
+.evidence-heading .eyebrow {
+  color: #9aab80;
+  margin-bottom: 25px;
+}
+.evidence-heading h2 {
+  font-size: clamp(48px, 6vw, 88px);
+  line-height: 0.98;
+  font-weight: 500;
+  letter-spacing: -0.065em;
+}
+.evidence-heading h2 em {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  color: #d5e6bd;
+}
+.evidence-intro {
+  max-width: 310px;
+  padding-bottom: 4px;
+}
+.study-badge {
+  display: inline-flex;
+  border: 1px solid #b2c09c45;
+  color: #bacba3;
+  border-radius: 25px;
+  padding: 7px 10px;
+  font: 8px var(--vp-font-family-mono);
+  letter-spacing: 0.08em;
+}
+.evidence-intro p {
+  margin-top: 17px;
+  color: #a3ab98;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.evidence-panel {
+  background: #1c211a;
+  border: 1px solid #d7ecc026;
+  border-radius: 22px;
+  overflow: hidden;
+}
+.study-tabs {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 21px 28px;
+  border-bottom: 1px solid #d7ecc01c;
+}
+.study-tabs button {
+  padding: 10px 17px;
+  font-size: 12px;
+  border-radius: 24px;
+  color: #aab39d;
+}
+.study-tabs button[aria-pressed='true'] {
+  color: #e7f2db;
+  background: #d5e6bd1a;
+}
+.study-tabs > span {
+  margin-left: auto;
+  font: 8px var(--vp-font-family-mono);
+  color: #8e9d7f;
+  letter-spacing: 0.08em;
+}
+.study-result {
+  display: grid;
+  grid-template-columns: 1fr 1.45fr;
+  gap: 40px;
+  padding: 52px 48px 44px;
+}
+.study-delta {
+  display: block;
+  font-size: clamp(54px, 7.3vw, 108px);
+  line-height: 1;
+  letter-spacing: -0.07em;
+  font-weight: 500;
+  color: #e4efce;
+  font-variant-numeric: tabular-nums;
+}
+.study-insight > p {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #c7d1ba;
+  max-width: 290px;
+}
+.study-comparison {
+  display: block;
+  margin-top: 29px;
+  color: #839273;
+  font: 9px/1.7 var(--vp-font-family-mono);
+}
+.study-chart {
+  margin: 0;
+  align-self: center;
+  min-width: 0;
+}
+.study-row + .study-row {
+  margin-top: 30px;
+}
+.study-row-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 13px;
+}
+.study-row-heading > span {
+  font-size: 12px;
+  color: #d0d8c4;
+}
+.study-row-heading strong {
+  font-size: 22px;
+  font-weight: 500;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.study-row-heading small {
+  font-size: 10px;
+  color: #8e9b7e;
+  margin-left: 4px;
+}
+.study-track {
+  height: 27px;
+  border-radius: 5px;
+  background: #0a100750;
+  overflow: hidden;
+}
+.study-bar {
+  height: 100%;
+  transform-origin: left center;
+  border-radius: 4px;
+}
+.study-bar.jolt {
+  background: #d7f16b;
+}
+.study-bar.reanimated {
+  background: #b5acd3;
+}
+.study-chart figcaption {
+  color: #8f9e80;
+  font-size: 10px;
+  line-height: 1.7;
+  margin-top: 25px;
+}
+.study-protocol {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  border-top: 1px solid #d7ecc01c;
+  padding: 17px 28px;
+  color: #a5b196;
+  font: 9px/1.6 var(--vp-font-family-mono);
+}
+.evidence-context {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  padding-top: 38px;
+}
+.evidence-context > div {
+  position: relative;
+  padding-left: 35px;
+}
+.context-index {
+  position: absolute;
+  left: 0;
+  top: 3px;
+  color: #6a7c54;
+  font: 10px var(--vp-font-family-mono);
+}
+.evidence-context h3 {
+  font-size: 16px;
+  font-weight: 500;
+  color: #cbd4c0;
+  margin-bottom: 10px;
+}
+.evidence-context p {
+  font-size: 12px;
+  line-height: 1.8;
+  color: #8f9b82;
+}
+.evidence-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px 35px;
+  margin-top: 32px;
+}
+.evidence-links a {
+  font-size: 11px;
+  color: #a8b497;
+}
+.evidence-links .study-primary-link {
+  font-size: 13px;
+  color: #e0efcb;
+  border-bottom: 1px solid #d7ecc048;
+  padding-block: 10px;
+}
+.study-primary-link > span {
+  margin-left: 22px;
+  color: var(--acid);
+}
+.evidence-links a:last-child {
+  margin-left: auto;
+  font: 8px var(--vp-font-family-mono);
+  color: #788868;
+}
+
+/* A quiet, useful ending replaces the repeated CTA and oversized wordmark. */
+.site-footer {
+  width: 100%;
+  padding: 60px 48px 0;
+  background: #eeeee6;
+  color: #282d21;
+}
+.site-footer :focus-visible {
+  outline-color: #586e24;
+}
+.footer-directory {
+  max-width: 1600px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr auto;
+  gap: 45px;
+  padding-bottom: 55px;
+}
+.footer-brand {
+  display: inline-flex;
+  align-items: center;
+  font-size: 47px;
+  line-height: 1;
+  letter-spacing: -0.07em;
+  font-weight: 700;
+  gap: 5px;
+}
+.footer-brand svg {
+  width: 29px;
+  height: 35px;
+  color: #657b26;
+  margin-right: 5px;
+}
+.footer-brand > span {
+  color: #657b26;
+  margin-left: -5px;
+}
+.footer-identity p {
+  color: #5d6750;
+  font-size: 13px;
+  margin-top: 16px;
+}
+.footer-made {
+  display: block;
+  font: 9px var(--vp-font-family-mono);
+  color: #7c856e;
+  margin-top: 25px;
+}
+.footer-made .live-dot {
+  width: 4px;
+  height: 4px;
+  background: #667e2b;
+  box-shadow: none;
+}
+.footer-links {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 12px;
+}
+.footer-column-title {
+  font: 9px var(--vp-font-family-mono);
+  color: #8b947d;
+  margin-bottom: 8px;
+  letter-spacing: 0.1em;
+}
+.footer-links a {
+  font-size: 13px;
+  color: #4e5840;
+}
+.footer-links a:hover {
+  color: #161d0e;
+  text-decoration: underline;
+  text-underline-offset: 5px;
+}
+.footer-top-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  font: 9px var(--vp-font-family-mono);
+  color: #727e62 !important;
+}
+.footer-top-link > span {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid #9da78d80;
+  border-radius: 50%;
+  font-size: 21px;
+}
+.site-footer .motion-footer-bottom {
+  max-width: 1600px;
+  margin: auto;
+  padding-block: 22px;
+  border-top: 1px solid #929d7e45;
+  border-bottom: 0;
+  font-size: 9px;
+  color: #7a856c;
+}
+.site-footer .motion-footer-bottom button {
+  color: #62744c;
+}
+.site-footer .motion-toggle {
+  background: #aeb79f;
+  border-color: #aeb79f;
+}
+.site-footer .motion-toggle.active {
+  background: #526b25;
+  border-color: #526b25;
+}
+.site-footer .motion-toggle:after {
+  background: #f5f6ed;
+}
+@media (max-width: 1100px) {
+  .site-footer {
+    padding-inline: 32px;
+  }
+  .footer-directory {
+    gap: 30px;
+    grid-template-columns: 1.4fr 1fr 1fr auto;
+  }
+  .study-result {
+    gap: 30px;
+    padding: 40px 30px;
+  }
+  .study-row-heading {
+    flex-wrap: wrap;
+    gap: 4px 14px;
+  }
+  .study-row-heading strong {
+    font-size: 20px;
+  }
+  .evidence-links a:last-child {
+    margin-left: 0;
+  }
+}
+@media (max-width: 767px) {
+  .motion-evidence {
+    padding-block: 35px 80px;
+  }
+  .evidence-heading {
+    display: block;
+    margin-bottom: 30px;
+  }
+  .evidence-heading h2 {
+    font-size: 53px;
+  }
+  .evidence-heading .eyebrow {
+    margin-bottom: 18px;
+  }
+  .evidence-intro {
+    max-width: 100%;
+    margin-top: 28px;
+  }
+  .evidence-intro p {
+    font-size: 12px;
+    margin-top: 12px;
+  }
+  .study-tabs {
+    padding: 12px;
+    gap: 2px;
+    flex-wrap: wrap;
+  }
+  .study-tabs button {
+    padding: 9px 11px;
+    font-size: 10px;
+  }
+  .study-tabs > span {
+    display: block;
+    width: 100%;
+    margin: 8px 7px 2px;
+    font-size: 7px;
+  }
+  .study-result {
+    grid-template-columns: 1fr;
+    padding: 30px 22px;
+    gap: 30px;
+  }
+  .study-delta {
+    font-size: 73px;
+  }
+  .study-insight > p {
+    font-size: 13px;
+    max-width: 100%;
+  }
+  .study-comparison {
+    margin-top: 15px;
+    font-size: 8px;
+  }
+  .study-row-heading {
+    gap: 8px;
+  }
+  .study-row-heading > span {
+    font-size: 11px;
+  }
+  .study-row-heading strong {
+    font-size: 19px;
+  }
+  .study-protocol {
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px 22px;
+    font-size: 8px;
+  }
+  .evidence-context {
+    grid-template-columns: 1fr;
+    gap: 25px;
+    padding-top: 28px;
+  }
+  .evidence-context p {
+    font-size: 11px;
+  }
+  .evidence-links {
+    gap: 18px 25px;
+  }
+  .evidence-links .study-primary-link {
+    font-size: 12px;
+  }
+  .evidence-links a:last-child {
+    font-size: 8px;
+    line-height: 1.8;
+  }
+  .site-footer {
+    padding: 40px 22px 0;
+  }
+  .footer-directory {
+    grid-template-columns: 1fr 1fr;
+    gap: 35px 25px;
+    padding-bottom: 35px;
+  }
+  .footer-identity {
+    grid-column: 1 / -1;
+  }
+  .footer-brand {
+    font-size: 38px;
+  }
+  .footer-identity p {
+    font-size: 12px;
+    margin-top: 13px;
+  }
+  .footer-made {
+    margin-top: 15px;
+    font-size: 8px;
+  }
+  .footer-links a {
+    font-size: 12px;
+  }
+  .footer-top-link {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    justify-self: end;
+  }
+  .footer-top-link > span {
+    width: 35px;
+    height: 35px;
+    font-size: 18px;
+  }
+  .site-footer .motion-footer-bottom {
+    gap: 20px 12px;
+    font-size: 8px;
+    padding-block: 24px;
+  }
+}

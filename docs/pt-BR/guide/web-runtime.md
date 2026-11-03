@@ -27,7 +27,7 @@ A entrada por ponteiro e teclado está em [Press na Web](./web-press); a gravaç
 Cada runtime pertence a um documento. Configuração, presets, tokens de ownership, efeitos e cleanup ficam nesse contexto. Dois contextos não podem controlar simultaneamente o mesmo elemento. A entrada Web pode ser importada sem DOM; criar o runtime exige um documento ativo com WAAPI. Não há instalação global de driver.
 
 ```ts
-// Entrada experimental do candidato empacotado localmente.
+// Entrada Web experimental publicada.
 import { createWebRuntime } from '@rafaelaugusto/jolt/web'
 
 const motion = createWebRuntime(document)

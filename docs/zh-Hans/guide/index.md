@@ -1,6 +1,10 @@
 # 认识 Jolt {#what-jolt-is}
 
-Jolt 对 [NativeScript](https://nativescript.org) 视图进行动画处理：预设、弹簧、关键帧和交错，每个调用一次。
+Jolt 为 [NativeScript](https://nativescript.org) 应用和 Web 带来动效：预设、弹簧、关键帧、交错动画和手势，分别提供面向原生视图和 HTML 元素的 API。
+
+## NativeScript
+
+通过包的主入口，为 iOS 和 Android 原生视图添加动画：
 
 ```ts
 import { animate } from '@rafaelaugusto/jolt'
@@ -10,6 +14,25 @@ animate(button, { scale: 1.1 }, 'bouncy')
 animate(rows, 'fadeInUp', { stagger: 40 })
 ```
 
+## Web
+
+使用 `@rafaelaugusto/jolt/web` 为 HTML 元素添加动画。它共享 Jolt 的运动编译器，并使用 Web Animations API（WAAPI），无需安装 NativeScript 或界面框架。
+
+```ts
+import { createWebRuntime } from '@rafaelaugusto/jolt/web'
+
+const motion = createWebRuntime(document)
+const card = document.querySelector<HTMLElement>('.card')
+
+if (card) {
+  motion.animate(card, 'fadeInUp')
+}
+```
+
+在浏览器挂载后创建运行时，并在应用或组件卸载时调用 `motion.dispose()`。[可选的 `/web/vue` 适配器](./web-vue)通过 Vue 生命周期管理资源。包的主入口和 `/vue` 面向 NativeScript，不会自动切换到 DOM。
+
+Web API 仍处于**实验阶段**。从 [Web 运行时](./web-runtime)开始，再了解[连续运动](./web-dynamic)、[手势与滚动](./web-gestures)以及[渐变、加载与文本](./web-effects)。各指南分别说明支持的目标和限制。
+
 ## 为什么不是`view.animate()` {#why-not-view-animate}
 
 NativeScript 的 `view.animate()` 涵盖了基础知识并就此止步：每个属性都有一条曲线，没有设置的 `spring` 曲线，没有关键帧，以及取消动画时拒绝的承诺。任何更丰富的东西最终都会成为平台代码。
@@ -17,6 +40,8 @@ NativeScript 的 `view.animate()` 涵盖了基础知识并就此止步：每个�
 动画启动时，Jolt 在 JavaScript 中计算一次运动曲线，再将关键帧交给平台：iOS 使用 Core Animation，Android 使用 `ObjectAnimator`。常规视图轨道无需每帧执行 JavaScript。实际尺寸布局、主动订阅和手势输入有各自的[执行边界](./how-it-works)。弹簧遵循物理规律；新动画中断旧动画时，会从视图当前的位置和速度继续。
 
 ## 它涵盖什么 {#what-it-covers}
+
+以下指南面向 NativeScript 视图。对于 HTML 元素，请阅读上面的 Web 指南。
 
 - [25 个预设](./presets)进入、退出并提醒注意：`fadeInUp`、`popIn`、`shake`、`heartbeat`...
 - [弹簧](./transitions#springs) 通过感觉 (`bouncy`)、`bounce` 和 `duration` 或通过刚度、阻尼和质量来描述。
@@ -34,8 +59,8 @@ NativeScript 的 `view.animate()` 涵盖了基础知识并就此止步：每个�
 
 ## 从哪里开始 {#where-to-start}
 
-1. [安装它](./install).
-2. 阅读 [动画](./animating)：目标是什么、哪些属性会移动以及关键帧是如何写入的。
-3. 选择 [过渡](./transitions) 或 [预设](./presets)。
+1. [安装 Jolt](./install)，并选择适合目标平台的入口。
+2. **NativeScript：**阅读[动画](./animating)，然后选择[过渡](./transitions)或[预设](./presets)。
+3. **Web：**从 [Web 运行时](./web-runtime)或 [Vue DOM 适配器](./web-vue)开始。
 
-目前是候选发布版本（RC），通过 `next` 标签发布。不依赖特定框架：接收视图或包含视图的元素即可。
+Jolt 目前是候选发布版本；已发布版本请参阅[安装](./install)。两个运行时都可直接使用，也提供可选的框架集成。

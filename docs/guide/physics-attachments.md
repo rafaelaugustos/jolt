@@ -119,7 +119,7 @@ A successful release removes the temporary anchor and preserves the **body's sim
 
 ## Development: springs between bodies {#body-springs}
 
-The next native release adds center-to-center springs within one circle world. Both endpoints respond according to their own mass. Existing collision limits and the native 240 Hz fixed-step clock still apply; there is no JavaScript frame observer.
+Jolt provides center-to-center springs within one circle world. Both endpoints respond according to their own mass. Existing collision limits and the native 240 Hz fixed-step clock still apply; there is no JavaScript frame observer.
 
 ```ts
 const world = physicsWorld(board, bodies, {

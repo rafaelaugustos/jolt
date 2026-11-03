@@ -1,6 +1,6 @@
 # Adapters para frameworks nativos
 
-Implementados para a próxima versão; estas entradas ainda não estão na RC.10. Importe apenas o adapter usado pelo seu app NativeScript. Todos compartilham o playback e a gestão de recursos do Jolt.
+Disponíveis desde a **0.1.0-rc.11**. Importe apenas o adapter usado pelo seu app NativeScript. Todos compartilham o playback e a gestão de recursos do Jolt.
 
 Cada binding cuida de suas animações e listeners. O unload nativo suspende o trabalho; o load retoma e aplica o último valor pendente. A destruição pelo framework libera os recursos. Um novo valor interrompe a partir da posição atual. Valores inline equivalentes não reiniciam a animação. O feedback de pressão usa uma camada separada e pode coexistir com a entrada ou o movimento de posição.
 

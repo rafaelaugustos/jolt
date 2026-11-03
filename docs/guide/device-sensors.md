@@ -66,7 +66,7 @@ Rotation uses an arbitrary, nonmagnetic reference: Core Motion's `XArbitraryZVer
 
 ## Sampling and ownership
 
-`interval` accepts `'auto'` (the display's reported interval) or 5–1000 milliseconds. The request respects hardware limits and does not promise an exact cadence. In RC.10, iOS rotation/gravity share one Core Motion subscription; the additional sources below use separate hardware groups. Android shares one native listener per available sensor type. Compatible consumers use the fastest requested interval, with each source coalescing readings to its own interval and display frames. Multiple bindings use the same retained values.
+`interval` accepts `'auto'` (the display's reported interval) or 5–1000 milliseconds. The request respects hardware limits and does not promise an exact cadence. On iOS, rotation/gravity share one Core Motion subscription; the additional sources below use separate hardware groups. Android shares one native listener per available sensor type. Compatible consumers use the fastest requested interval, with each source coalescing readings to its own interval and display frames. Multiple bindings use the same retained values.
 
 Application backgrounding stops hardware collection natively as well as through Jolt's lifecycle hooks. `pause()` holds values and stops collection for that source; `play()` resumes and retries a failed subscription. `dispose()` is idempotent, disconnects bindings, drops native values and releases subscriptions. Another active source may keep the shared hardware running.
 
@@ -92,9 +92,9 @@ This completes the initial rotation/gravity scope of #114 without changing the p
 
 Platform contracts: [Apple device motion](https://developer.apple.com/documentation/coremotion/getting-processed-device-motion-data), [Android motion sensors](https://developer.android.com/develop/sensors-and-location/sensors/sensors_motion) and [Android sensor coordinates and limits](https://developer.android.com/develop/sensors-and-location/sensors/sensors_overview).
 
-## Additional vector sources (next release) {#vector-sources}
+## Additional vector sources (RC.11) {#vector-sources}
 
-The next release adds four native vector sources. RC.10 still publishes rotation/gravity only. Each source exposes read-only `x`, `y`, `z` and `unit`, and uses the same demand, pause/resume, scope, reduced-motion, background and disposal contract. Acceptance for this delivery uses simulators/emulators, as requested by the maintainer; physical-device accuracy and cost remain unverified.
+**0.1.0-rc.11** adds four native vector sources alongside rotation and gravity. Each source exposes read-only `x`, `y`, `z` and `unit`, and uses the same demand, pause/resume, scope, reduced-motion, background and disposal contract. Acceptance for this delivery uses simulators/emulators, as requested by the maintainer; physical-device accuracy and cost remain unverified.
 
 | Source               | Unit    | Meaning                                                                                                   |
 | -------------------- | ------- | --------------------------------------------------------------------------------------------------------- |

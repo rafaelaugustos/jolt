@@ -1,8 +1,18 @@
 <script setup lang="ts">
-withDefaults(defineProps<{ name: string; caption?: string; width?: number }>(), {
-  caption: '',
-  width: 280,
-})
+withDefaults(
+  defineProps<{
+    name: string
+    caption?: string
+    width?: number
+    autoplay?: boolean
+    poster?: string
+  }>(),
+  {
+    caption: '',
+    width: 280,
+    autoplay: true,
+  },
+)
 </script>
 
 <template>
@@ -11,7 +21,8 @@ withDefaults(defineProps<{ name: string; caption?: string; width?: number }>(), 
       :src="`/media/${name}.mp4`"
       :width="width"
       controls
-      autoplay
+      :autoplay="autoplay"
+      :poster="poster"
       loop
       muted
       playsinline

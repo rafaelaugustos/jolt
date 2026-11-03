@@ -19,6 +19,28 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
       items: [
         page('introduction', ''),
         page('showcase', 'showcase'),
+        {
+          text:
+            (
+              {
+                '/pt-BR': 'Coleção de movimentos',
+                '/es': 'Colección de movimiento',
+                '/zh-Hans': '动效精选',
+              } as Record<string, string>
+            )[prefix] ?? 'Motion collection',
+          link: `${prefix}/guide/motion-gallery`,
+        },
+        {
+          text:
+            (
+              {
+                '/pt-BR': 'Receitas do Jolt Drive',
+                '/es': 'Recetas de Jolt Drive',
+                '/zh-Hans': 'Jolt Drive 动效配方',
+              } as Record<string, string>
+            )[prefix] ?? 'Jolt Drive recipes',
+          link: `${prefix}/guide/drive-recipes`,
+        },
         page('install', 'install'),
         page('animating', 'animating'),
         page('demo', 'demo'),
@@ -325,8 +347,9 @@ const socialImageAlt =
 
 export default defineConfig({
   title: 'Jolt',
+  appearance: 'dark',
   description:
-    'Native animations for NativeScript: presets, springs, keyframes and stagger, one call each.',
+    'Motion for NativeScript and the Web: presets, springs, keyframes, stagger and gestures for native views and HTML elements.',
   cleanUrls: true,
   lastUpdated: existsSync('.git'),
   sitemap: { hostname: site },
@@ -426,6 +449,7 @@ gtag('config', '${analytics}');`,
       lang: 'en',
       themeConfig: {
         nav: [
+          { text: 'Recipes', link: '/recipes/' },
           { text: 'Guide', link: '/guide/' },
           { text: 'Showcase', link: '/guide/showcase' },
           { text: 'API', link: '/guide/api' },
@@ -449,9 +473,10 @@ gtag('config', '${analytics}');`,
       lang: 'pt-BR',
       link: '/pt-BR/',
       description:
-        'Animações nativas para NativeScript: presets, springs, keyframes e stagger, uma chamada cada.',
+        'Movimento para NativeScript e Web: presets, springs, keyframes, stagger e gestos para views nativas e elementos HTML.',
       themeConfig: {
         nav: [
+          { text: 'Receitas', link: '/pt-BR/recipes/' },
           { text: 'Guia', link: '/pt-BR/guide/' },
           { text: 'Showcase', link: '/pt-BR/guide/showcase' },
           { text: 'API', link: '/pt-BR/guide/api' },
@@ -490,6 +515,7 @@ gtag('config', '${analytics}');`,
       themeConfig: {
         ...spanish.themeConfig,
         nav: [
+          { text: 'Recetas', link: '/es/recipes/' },
           { text: 'Guía', link: '/es/guide/' },
           { text: 'Proyectos', link: '/es/guide/showcase' },
           { text: 'API', link: '/es/guide/api' },
@@ -516,6 +542,7 @@ gtag('config', '${analytics}');`,
       themeConfig: {
         ...chinese.themeConfig,
         nav: [
+          { text: '动效配方', link: '/zh-Hans/recipes/' },
           { text: '指南', link: '/zh-Hans/guide/' },
           { text: '作品展示', link: '/zh-Hans/guide/showcase' },
           { text: 'API', link: '/zh-Hans/guide/api' },
