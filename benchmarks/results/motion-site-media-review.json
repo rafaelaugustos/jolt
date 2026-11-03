@@ -1,0 +1,177 @@
+{
+  "baseCommit": "86ba72b59cbfe06062e3175e5708d5b11f4a4b0b",
+  "reviewDate": "2026-11-03",
+  "records": [
+    {
+      "file": "motion-recipe-press-ios.mp4",
+      "duration": 5.666667,
+      "dimensions": [
+        420,
+        914
+      ],
+      "sha256": "f09dd65ca065fe382bbb62dbc27aa4dfb09aa63ecc51980dcce65b03299baceb",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "motion-recipe-followers-ios.mp4",
+      "duration": 5.566667,
+      "dimensions": [
+        420,
+        914
+      ],
+      "sha256": "85c0365fb2e54e8d768aeb0b829b33990d6f2b2a80c9e83308c7e73e27268b6d",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "motion-recipe-drag-ios.mp4",
+      "duration": 7.3,
+      "dimensions": [
+        420,
+        914
+      ],
+      "sha256": "93fc7884d9b582c06bffac2799038c96177e87e5f5d87a64c187a988df79399e",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "motion-recipe-stagger-ios.mp4",
+      "duration": 4.6,
+      "dimensions": [
+        420,
+        914
+      ],
+      "sha256": "3b3ce840d4511ed3785cf852370a58e9f90d38140dba1aeefd85ab1e7154bfbb",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "motion-recipe-paths-ios.mp4",
+      "duration": 8.1,
+      "dimensions": [
+        420,
+        914
+      ],
+      "sha256": "b63c7889a5aacd75f5a36fa3cd17a2b359a395d550369803e67036be014c9a7b",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "motion-recipe-gradients-ios.mp4",
+      "duration": 6.533333,
+      "dimensions": [
+        420,
+        914
+      ],
+      "sha256": "448d89515a17d6e5ea4274fea791d4d95666021537d99fcab5117fdd6f8c7199",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "motion-recipe-confetti-ios.mp4",
+      "duration": 6.8,
+      "dimensions": [
+        420,
+        914
+      ],
+      "sha256": "2c951ccfe11227c09002ed658b936502c41a0fa8bb902723e9a3a7e1449b34cf",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "motion-recipe-reveal-ios.mp4",
+      "duration": 6.1,
+      "dimensions": [
+        420,
+        914
+      ],
+      "sha256": "7c4e038813b92e4701c497268c47237abba870fa2f45b11af6330af1eb0941a4",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "motion-recipe-rolling-ios.mp4",
+      "duration": 4.5,
+      "dimensions": [
+        420,
+        914
+      ],
+      "sha256": "a53d174be44146456e7a70eb39d7dfe09c1f32b02459cb8bb850b679588041cb",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "motion-recipe-layout-ios.mp4",
+      "duration": 5.433333,
+      "dimensions": [
+        420,
+        914
+      ],
+      "sha256": "56626d8a2c0519a1aa6c974d191243adbe2fdd90f28c7b42e819f9dae7be469f",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "showcase-springs-ios.mp4",
+      "duration": 4.533333,
+      "dimensions": [
+        420,
+        914
+      ],
+      "sha256": "a31b44835931aa7043a69072defc1e72c1ab08eff330f74a58266cc5a2403eb6",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "bottom-sheet-ios.mp4",
+      "duration": 25.3,
+      "dimensions": [
+        420,
+        914
+      ],
+      "sha256": "09fc363655e0860988d4dc3628b8c7c42f65673b97605421bec01727d772691c",
+      "originalTiming": true,
+      "platform": "iOS 26 simulator",
+      "capture": "Existing native Motion Studio recording; exact source ranges in scripts/motion-recipe-captures.json for derived files"
+    },
+    {
+      "file": "morrow-native-ios.mp4",
+      "sourceName": "Screen Recording MorrowDesign 03-11-2026 at 15.00.45.mp4",
+      "sourceSha256": "82422c3da43717fb5312ca5be209bc3ed45903a10db8855545d953af650f60ca",
+      "sha256": "1cfa25ddd250f9e9bb8d0e1aae1b3964cf8169cd075183ada68c68136b8a0531",
+      "trimStartSeconds": 2.4,
+      "duration": 68.15,
+      "outputFps": 60,
+      "originalTiming": true,
+      "platform": "iOS; capture device unspecified by creator",
+      "capture": "Creator-supplied actual NativeScript + Jolt application recording",
+      "review": "Animated opening, artist page, vinyl player, seeking and video transition; decoded successfully"
+    }
+  ],
+  "browserRecording": {
+    "file": "motion-site-chromium.mp4",
+    "duration": 40.44,
+    "dimensions": [
+      1440,
+      1000
+    ],
+    "sha256": "fcc68ef5289ccf02c2ca0e206515b0bc1ab7375815cca3902fbc150d66ccccef",
+    "platform": "Chromium on macOS arm64",
+    "input": "Real Playwright pointer and keyboard input",
+    "nativeFootage": "Previously recorded native clips and creator-supplied Morrow capture, played inside the browser",
+    "originalTiming": true,
+    "fullDecode": "passed"
+  }
+}

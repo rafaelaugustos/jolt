@@ -19,6 +19,17 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
       items: [
         page('introduction', ''),
         page('showcase', 'showcase'),
+        {
+          text:
+            (
+              {
+                '/pt-BR': 'Coleção de movimentos',
+                '/es': 'Colección de movimiento',
+                '/zh-Hans': '动效精选',
+              } as Record<string, string>
+            )[prefix] ?? 'Motion collection',
+          link: `${prefix}/guide/motion-gallery`,
+        },
         page('install', 'install'),
         page('animating', 'animating'),
         page('demo', 'demo'),
@@ -325,6 +336,7 @@ const socialImageAlt =
 
 export default defineConfig({
   title: 'Jolt',
+  appearance: 'dark',
   description:
     'Native animations for NativeScript: presets, springs, keyframes and stagger, one call each.',
   cleanUrls: true,
@@ -426,6 +438,7 @@ gtag('config', '${analytics}');`,
       lang: 'en',
       themeConfig: {
         nav: [
+          { text: 'Recipes', link: '/recipes/' },
           { text: 'Guide', link: '/guide/' },
           { text: 'Showcase', link: '/guide/showcase' },
           { text: 'API', link: '/guide/api' },
@@ -452,6 +465,7 @@ gtag('config', '${analytics}');`,
         'Animações nativas para NativeScript: presets, springs, keyframes e stagger, uma chamada cada.',
       themeConfig: {
         nav: [
+          { text: 'Receitas', link: '/pt-BR/recipes/' },
           { text: 'Guia', link: '/pt-BR/guide/' },
           { text: 'Showcase', link: '/pt-BR/guide/showcase' },
           { text: 'API', link: '/pt-BR/guide/api' },
@@ -490,6 +504,7 @@ gtag('config', '${analytics}');`,
       themeConfig: {
         ...spanish.themeConfig,
         nav: [
+          { text: 'Recetas', link: '/es/recipes/' },
           { text: 'Guía', link: '/es/guide/' },
           { text: 'Proyectos', link: '/es/guide/showcase' },
           { text: 'API', link: '/es/guide/api' },
@@ -516,6 +531,7 @@ gtag('config', '${analytics}');`,
       themeConfig: {
         ...chinese.themeConfig,
         nav: [
+          { text: '动效配方', link: '/zh-Hans/recipes/' },
           { text: '指南', link: '/zh-Hans/guide/' },
           { text: '作品展示', link: '/zh-Hans/guide/showcase' },
           { text: 'API', link: '/zh-Hans/guide/api' },

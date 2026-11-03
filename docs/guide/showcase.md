@@ -16,6 +16,18 @@ Explore motion in native apps built with Jolt. Watch the recordings, discover th
 <a class="showcase-submit-link" href="#submit-app">Submit your app <span aria-hidden="true">↗</span></a>
 </div>
 
+<section class="showcase-feature" aria-labelledby="morrow">
+  <div class="showcase-copy">
+    <p class="showcase-kicker">FEATURED PROJECT <span class="showcase-platform">iOS · NativeScript + Jolt</span></p>
+    <h2 id="morrow">Morrow<span>.</span></h2>
+    <p class="showcase-lead">Music, with feeling. A tactile vinyl player, an expressive artist page and a transition into video.</p>
+    <p class="showcase-note">Built by Rafael Augusto with NativeScript and Jolt. The creator supplied this recording of the real application. Capture device and public availability are not specified.</p>
+  </div>
+  <div class="showcase-stage showcase-morrow-stage">
+    <Clip name="morrow-native-ios" :width="280" caption="Morrow on iOS: creator-provided recording of the animated opening, artist page, vinyl player, track seeking and video transition. Original playback timing, encoded at 60 fps; the first 2.4 seconds showing the system home screen are omitted. Capture device is unspecified; not a physical-device performance measurement." />
+  </div>
+</section>
+
 <section class="showcase-feature" aria-labelledby="jolt-car">
   <div class="showcase-copy">
     <p class="showcase-kicker">FEATURED APP <span class="showcase-platform">iOS · SceneKit</span></p>

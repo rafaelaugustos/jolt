@@ -16,6 +16,18 @@ next: false
 <a class="showcase-submit-link" href="#submit-app">提交你的应用 <span aria-hidden="true">↗</span></a>
 </div>
 
+<section class="showcase-feature" aria-labelledby="morrow">
+  <div class="showcase-copy">
+    <p class="showcase-kicker">精选项目 <span class="showcase-platform">iOS · NativeScript + Jolt</span></p>
+    <h2 id="morrow">Morrow<span>.</span></h2>
+    <p class="showcase-lead">让音乐触动人心。可触碰的唱片播放器、鲜活的艺人页面，以及进入视频的转场。</p>
+    <p class="showcase-note">由 Rafael Augusto 使用 NativeScript 和 Jolt 构建。创作者提供了真实应用录屏，录制设备与公开发布情况未说明。</p>
+  </div>
+  <div class="showcase-stage showcase-morrow-stage">
+    <Clip name="morrow-native-ios" :width="280" caption="iOS 上的 Morrow：创作者提供的录屏展示动画开场、艺人页面、唱片播放器、进度拖动与视频转场。保持原始时间，以 60 fps 编码；仅省略最初 2.4 秒的系统主屏幕。录制设备未说明，并非真机性能测试。" />
+  </div>
+</section>
+
 <section class="showcase-feature" aria-labelledby="jolt-car">
   <div class="showcase-copy">
     <p class="showcase-kicker">精选应用 <span class="showcase-platform">iOS · SceneKit</span></p>

@@ -1,23 +1,31 @@
-import OrbitSignature from './OrbitSignature.vue'
 import './orbit-signature.css'
-import { h } from 'vue'
 import DefaultTheme from 'vitepress/theme'
+import { defineAsyncComponent } from 'vue'
 import type { Theme } from 'vitepress'
 import Clip from './Clip.vue'
-import HomeVideos from './HomeVideos.vue'
 import ShowcaseBoard from './ShowcaseBoard.vue'
+import MotionLayout from './motion/MotionLayout.vue'
 import './showcase.css'
 import './custom.css'
+import './motion/motion.css'
 
 export default {
   extends: DefaultTheme,
-  Layout: () =>
-    h(DefaultTheme.Layout, null, {
-      'home-hero-after': () => h(HomeVideos),
-      'layout-bottom': () => h(OrbitSignature),
-    }),
+  Layout: MotionLayout,
   enhanceApp({ app }) {
     app.component('Clip', Clip)
     app.component('ShowcaseBoard', ShowcaseBoard)
+    app.component(
+      'MotionHome',
+      defineAsyncComponent(() => import('./motion/MotionHome.vue')),
+    )
+    app.component(
+      'RecipeLibrary',
+      defineAsyncComponent(() => import('./motion/RecipeLibrary.vue')),
+    )
+    app.component(
+      'RecipeDetail',
+      defineAsyncComponent(() => import('./motion/RecipeDetail.vue')),
+    )
   },
 } satisfies Theme
