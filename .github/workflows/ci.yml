@@ -101,6 +101,8 @@ jobs:
         with:
           node-version: 22
           cache: npm
+      # Match the dependency installation used by the publishing workflow.
+      - run: npm install --global npm@11
       - run: npm ci && npm ci --prefix benchmarks/angular-tools
       - run: npm run docs:check-media
       - run: npm run format:check
