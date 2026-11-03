@@ -19,6 +19,8 @@ module.exports = (env) => {
           }).trim(),
           jolt: require('../package.json').version,
           core: require('@nativescript/core/package.json').version,
+          webpack: require('webpack/package.json').version,
+          nativeScriptWebpack: require('@nativescript/webpack/package.json').version,
           runtime: require(
             env.android
               ? '@nativescript/android/package.json'
@@ -165,6 +167,8 @@ module.exports = (env) => {
             }).trim(),
             jolt: require('../package.json').version,
             core: require('@nativescript/core/package.json').version,
+            webpack: require('webpack/package.json').version,
+            nativeScriptWebpack: require('@nativescript/webpack/package.json').version,
             runtime: require(
               env.android
                 ? '@nativescript/android/package.json'
