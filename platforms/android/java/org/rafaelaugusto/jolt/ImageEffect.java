@@ -9,6 +9,10 @@ import android.os.Build;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import org.json.*;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import android.view.ViewTreeObserver;
 
 /** Image-only GPU effects. All animation and pointer samples stay in Java. */
 public final class ImageEffect {
@@ -17,7 +21,17 @@ public final class ImageEffect {
         "uniform shader source; uniform shader destination; uniform float2 size;" +
         "uniform float2 origin; uniform float2 displacement; uniform float progress;" +
         "uniform float amplitude; uniform float radius; uniform float seed; uniform float mode;" +
+        "uniform float4 shapes[24]; uniform float shapeCount; uniform float blend;" +
+        "float distanceToShape(float2 p,float4 shape,float radius,float kind) {" +
+        "float2 halfSize=kind>.5?float2(radius*min(size.x,size.y)):shape.zw*size*.5;" +
+        "float r=kind>.5?halfSize.x:min(radius*min(size.x,size.y),min(halfSize.x,halfSize.y));" +
+        "float2 q=abs(p-shape.xy*size)-halfSize+r; return length(max(q,0.))+min(max(q.x,q.y),0.)-r;}" +
         "half4 main(float2 p) { float2 uv=p/size; float2 q=p;" +
+        "if(mode>2.5){float d=1e9;for(int i=0;i<8;i++){if(float(i)>=shapeCount)break;" +
+        "float4 shape=mix(shapes[i*3],shapes[i*3+1],progress),meta=shapes[i*3+2];" +
+        "float next=distanceToShape(p,shape,mix(meta.x,meta.y,progress),meta.z);" +
+        "float h=blend>0.?max(blend-abs(d-next),0.)/blend:0.;d=min(d,next)-h*h*blend*.25;}" +
+        "return source.eval(p)*(1.-smoothstep(-.75,.75,d));}" +
         "if(mode<1.5){ float2 v=p-origin; float d=length(v);" +
         "float edge=clamp(min(min(p.x,size.x-p.x),min(p.y,size.y-p.y))/max(amplitude*2.,1.),0.,1.);" +
         "if(mode<.5){float wave=d-progress*length(size);" +
@@ -32,10 +46,16 @@ public final class ImageEffect {
     private final ImageView view;
     private final Listener listener;
     private final int mode;
-    private final float amplitude, radius;
+    private float amplitude, radius;
     private final long duration;
     private final Drawable original;
     private final Bitmap originalBitmap;
+    private final Bitmap destinationBitmap;
+    private float[] geometry;
+    private boolean suspended;
+    private long nativeParameterWrites, resizeCount, peakTextureBytes;
+    private final ArrayList<LiveSpring.Binding> inputBindings=new ArrayList<>();
+    private final ArrayList<ScrollBinding> scrollBindings=new ArrayList<>();
     private final ImageView.ScaleType originalScale;
     private final View.OnTouchListener previousTouch;
     private final boolean originalClickable;
@@ -62,7 +82,7 @@ public final class ImageEffect {
         this.amplitude=amplitude; this.radius=radius; this.duration=duration;
         this.x=x; this.y=y; this.previousTouch=previousTouch;
         original=view.getDrawable(); originalScale=view.getScaleType();
-        originalBitmap=from;
+        originalBitmap=from;destinationBitmap=to;this.geometry=geometry.clone();
         originalClickable=view.isClickable();
         if(Build.VERSION.SDK_INT<33 || !view.isHardwareAccelerated() || from==null || original==null || original instanceof Animatable) {
             failureReason="Requires API 33, hardware rendering and a static drawable ("+(original==null?"null":original.getClass().getName())+")";
@@ -90,6 +110,7 @@ public final class ImageEffect {
             shader.setFloatUniform("size",w,h); shader.setFloatUniform("mode",mode);
             shader.setFloatUniform("amplitude",amplitude); shader.setFloatUniform("radius",radius);
             shader.setFloatUniform("seed",seed);
+            shader.setFloatUniform("shapes",new float[96]);shader.setFloatUniform("shapeCount",0);shader.setFloatUniform("blend",0);
             drawable=new EffectDrawable(w,h);
             drawable.setBounds(0,0,w,h);
             update();
@@ -107,7 +128,7 @@ public final class ImageEffect {
             if(angle>45 && angle<135){int swap=pw;pw=ph;ph=swap;}
             placeholderBitmap=Bitmap.createBitmap(pw,ph,Bitmap.Config.ALPHA_8);
             view.setImageBitmap(placeholderBitmap);
-            placeholder=view.getDrawable();
+            placeholder=view.getDrawable();peakTextureBytes=getTextureBytes();
             if(mode==1) {
                 view.setClickable(true);
                 view.setOnTouchListener(this::touch);
@@ -147,6 +168,87 @@ public final class ImageEffect {
         paint.setShader(pixels);paint.setColorFilter(view.getColorFilter());
         canvas.drawRect(visible,paint);
         return result;
+    }
+
+    public ImageView targetView() { return view; }
+    public long getNativeParameterWrites() { return nativeParameterWrites; }
+    public long getResizeCount() { return resizeCount; }
+    public long getPeakTextureBytes() { return peakTextureBytes; }
+    public void retainBinding(LiveSpring.Binding binding) { inputBindings.add(binding); }
+    public void releaseBinding(LiveSpring.Binding binding) { inputBindings.remove(binding); }
+    public void setSuspended(boolean value) { suspended=value; }
+    public void setParameter(String parameter,double value) {
+        if(disposed || suspended || !Double.isFinite(value) || shader==null)return;
+        float density=view.getResources().getDisplayMetrics().density;
+        float next=(float)value;
+        switch(parameter) {
+            case "progress":if(mode==1)return;next=Math.max(0,Math.min(1,next));cancelAnimator();if(progress==next)return;progress=next;break;
+            case "amplitude":next=Math.max(0,Math.min(64,next))*density;if(amplitude==next)return;amplitude=next;shader.setFloatUniform("amplitude",amplitude);break;
+            case "radius":next=Math.max(.001f,next)*density;if(radius==next)return;radius=next;shader.setFloatUniform("radius",radius);break;
+            case "originX":next*=density;if(x==next)return;x=next;break;
+            case "originY":next*=density;if(y==next)return;y=next;break;
+            default:return;
+        }
+        nativeParameterWrites++;update();
+    }
+    public void configureMask(String configuration) {
+        try {
+            JSONObject config=new JSONObject(configuration);JSONArray shapes=config.getJSONArray("shapes");
+            float[] data=new float[96];
+            for(int i=0;i<shapes.length();i++) {
+                JSONObject shape=shapes.getJSONObject(i),a=shape.getJSONObject("from"),b=shape.getJSONObject("to");
+                String[] keys={"x","y","width","height"};
+                for(int j=0;j<4;j++){data[i*12+j]=(float)a.optDouble(keys[j],0);data[i*12+4+j]=(float)b.optDouble(keys[j],0);}
+                data[i*12+8]=(float)a.getDouble("radius");data[i*12+9]=(float)b.getDouble("radius");data[i*12+10]=shape.getString("kind").equals("circle")?1:0;
+            }
+            shader.setFloatUniform("shapes",data);shader.setFloatUniform("shapeCount",shapes.length());
+            shader.setFloatUniform("blend",(float)config.optDouble("blend",16)*view.getResources().getDisplayMetrics().density);update();
+        } catch(JSONException error){throw new IllegalArgumentException(error);}
+    }
+    public boolean resize(float[] nextGeometry) {
+        if(disposed || shader==null)return false;
+        int w=view.getWidth(),h=view.getHeight();if(w<=0 || h<=0 || (long)w*h>4194304)return false;
+        try {
+            Bitmap next=raster(originalBitmap,nextGeometry[0],w,h);
+            Bitmap dest=mode==2?raster(destinationBitmap,nextGeometry[1],w,h):null;
+            int pw=Math.max(1,w-view.getPaddingLeft()-view.getPaddingRight()),ph=Math.max(1,h-view.getPaddingTop()-view.getPaddingBottom());
+            float angle=Math.abs(nextGeometry[0]%180);if(angle>45 && angle<135){int swap=pw;pw=ph;ph=swap;}
+            Bitmap placeholderNext=Bitmap.createBitmap(pw,ph,Bitmap.Config.ALPHA_8);
+            peakTextureBytes=Math.max(peakTextureBytes,getTextureBytes()+next.getAllocationByteCount()+(dest==null?0:dest.getAllocationByteCount())+placeholderNext.getAllocationByteCount());
+            shader.setInputShader("source",new BitmapShader(next,Shader.TileMode.CLAMP,Shader.TileMode.CLAMP));
+            shader.setInputShader("destination",new BitmapShader(dest==null?next:dest,Shader.TileMode.CLAMP,Shader.TileMode.CLAMP));
+            shader.setFloatUniform("size",w,h);source=next;destination=dest;placeholderBitmap=placeholderNext;
+            view.setImageBitmap(placeholderNext);placeholder=view.getDrawable();geometry=nextGeometry.clone();
+            float left=view.getPaddingLeft(),top=view.getPaddingTop(),right=view.getPaddingRight(),bottom=view.getPaddingBottom();
+            float[] radii={Math.max(0,geometry[2]-left),Math.max(0,geometry[2]-top),Math.max(0,geometry[3]-right),Math.max(0,geometry[3]-top),Math.max(0,geometry[4]-right),Math.max(0,geometry[4]-bottom),Math.max(0,geometry[5]-left),Math.max(0,geometry[5]-bottom)};
+            contentClip.reset();contentClip.addRoundRect(new RectF(left,top,w-right,h-bottom),radii,Path.Direction.CW);
+            drawable.setBounds(0,0,w,h);resizeCount++;update();return true;
+        } catch(RuntimeException|OutOfMemoryError error){failureReason=error.toString();return false;}
+    }
+    /** The native observer is local to this binding and never replaces a scroll listener. */
+    public static final class ScrollBinding implements ViewTreeObserver.OnScrollChangedListener {
+        private final WeakReference<ImageEffect> effect;
+        private final WeakReference<View> scroll;
+        private final String parameter;
+        private final double start,end,low,high;
+        private final boolean horizontal;
+        private ViewTreeObserver observer;
+        public ScrollBinding(ImageEffect effect,View scroll,String parameter,String configuration) {
+            this.effect=new WeakReference<>(effect);this.scroll=new WeakReference<>(scroll);this.parameter=parameter;
+            try {JSONObject config=new JSONObject(configuration);JSONArray range=config.getJSONArray("range"),output=config.getJSONArray("output");
+                start=range.getDouble(0);end=range.getDouble(1);low=output.getDouble(0);high=output.getDouble(1);horizontal=config.optString("axis").equals("x");
+            } catch(JSONException error){throw new IllegalArgumentException(error);}
+            observer=scroll.getViewTreeObserver();observer.addOnScrollChangedListener(this);effect.scrollBindings.add(this);onScrollChanged();
+        }
+        @Override public void onScrollChanged() {
+            ImageEffect target=effect.get();View source=scroll.get();if(target==null || source==null)return;
+            double offset=(horizontal?source.getScrollX():source.getScrollY())/source.getResources().getDisplayMetrics().density;
+            double t=Math.max(0,Math.min(1,(offset-start)/(end-start)));target.setParameter(parameter,low+(high-low)*t);
+        }
+        public void cancel() {
+            if(observer!=null && observer.isAlive())observer.removeOnScrollChangedListener(this);observer=null;
+            ImageEffect target=effect.get();if(target!=null)target.scrollBindings.remove(this);effect.clear();scroll.clear();
+        }
     }
 
     public boolean isSupported() { return drawable!=null && !disposed; }
@@ -198,6 +300,8 @@ public final class ImageEffect {
     private void detach(boolean restoreImage) {
         if(disposed) return;
         disposed=true; cancelAnimator();
+        for(LiveSpring.Binding binding:new ArrayList<>(inputBindings))binding.cancel();inputBindings.clear();
+        for(ScrollBinding binding:new ArrayList<>(scrollBindings))binding.cancel();scrollBindings.clear();
         restore(restoreImage); shader=null; drawable=null; releaseBitmaps();
     }
     private void restore(boolean restoreImage) {
@@ -239,7 +343,7 @@ public final class ImageEffect {
                 if(suppressEnd || disposed) return;
                 animator=null;
                 if(settle) {dx=dy=0;update();}
-                else listener.onEnd(true,progress);
+                else if(mode!=3) listener.onEnd(true,progress);
             }
         });
         animator.start();

@@ -1,0 +1,33 @@
+{
+  "ios": {
+    "nativeInputJSFrameRequests": 0,
+    "nativeWrites": 84,
+    "observerControlJSFrameRequests": 68,
+    "resizeEvents": 13,
+    "terminalTextureBytes": 0,
+    "retainedApplicationSpringNodes": 1,
+    "video": {
+      "decodedFrames": 459,
+      "drawCallbacks": 1104,
+      "drawIntervalMedianMs": 16.66627083614003,
+      "drawIntervalP95Ms": 16.89391666877782,
+      "cpuDrawTotalMs": 676.4994586119428,
+      "completedMetalGpuTotalMs": 132.69591672724346,
+      "cpuMsPerDrawCallback": 0.6127712487427018,
+      "processFootprintBeforeVideoBytes": 128425856,
+      "maxSampledProcessFootprintBytes": 165912616,
+      "processFootprintAfterStopBytes": 140255344,
+      "knownTexturePeakEstimateBytes": 3916800,
+      "pausedFrameStableAcrossBackgroundAndResize": true,
+      "scope": "iOS simulator; draw/encoding and command-buffer times, not presentation latency. Process footprint includes decoder/framework caches; texture peak is an estimate."
+    }
+  },
+  "android": {
+    "nativeInputJSFrameRequests": 0,
+    "nativeWrites": 56,
+    "observerControlJSFrameRequests": 66,
+    "resizeEvents": 15,
+    "terminalTextureBytes": 0,
+    "retainedApplicationSpringNodes": 1
+  }
+}

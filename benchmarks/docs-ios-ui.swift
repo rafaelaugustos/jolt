@@ -3110,4 +3110,61 @@ final class DocsTests: XCTestCase {
             XCTAssertTrue(app.staticTexts["Haptics"].isHittable)
         }
     }
+
+    func testShaderTextures() throws {
+        launch(["--recipe=shader-textures"], "Spring merge")
+        try record("shader-inputs-liquid-mask-ios") {
+            tap("Spring merge", wait: 1.6)
+            tap("Reverse", wait: 1.4)
+            tap("Snapshot", wait: 0.3)
+            tap("Native scroll", wait: 0.4)
+            let scroll = app.scrollViews.firstMatch
+            scroll.swipeUp(velocity: .slow); Thread.sleep(forTimeInterval: 1)
+            tap("Snapshot", wait: 0.3)
+            scroll.swipeDown(velocity: .slow); Thread.sleep(forTimeInterval: 1)
+            tap("Scrub 50%", wait: 0.8)
+            tap("Resize", wait: 1)
+            tap("Resize", wait: 1)
+            tap("Play mask", wait: 0.3)
+            tap("Resize", wait: 1)
+            tap("Pause mask", wait: 0.4)
+            tap("Snapshot", wait: 0.3)
+            tap("Stop", wait: 0.8)
+        }
+        tap("JS control", wait: 1.5)
+        tap("Snapshot", wait: 0.3)
+        tap("Reset counters", wait: 0.3)
+        tap("Stop", wait: 0.3)
+        try record("shader-video-ios") {
+            tap("Video texture", wait: 3)
+            tap("Snapshot", wait: 0.3)
+            tap("Pause video", wait: 1.6)
+            tap("Resize", wait: 0.8)
+            tap("Snapshot", wait: 0.3)
+            tap("Pause video", wait: 2)
+            tap("Replace video", wait: 3)
+            tap("Snapshot", wait: 0.3)
+            tap("Remove video", wait: 1)
+            tap("Stop", wait: 0.6)
+        }
+    }
+
+    func testShaderTextureLifecycle() throws {
+        launch(["--recipe=shader-textures"], "Spring merge")
+        tap("Spring merge", wait: 1.4); tap("Reverse", wait: 1.3); tap("Snapshot", wait: 0.2)
+        tap("Native scroll", wait: 0.3)
+        app.scrollViews.firstMatch.swipeUp(velocity: .slow)
+        tap("Snapshot", wait: 0.2)
+        tap("Scrub 50%", wait: 0.3)
+        for _ in 0..<12 { tap("Resize", wait: 0.35) }
+        tap("Snapshot", wait: 0.2);tap("Stop", wait: 0.2)
+        tap("JS control", wait: 1.4);tap("Snapshot", wait: 0.2);tap("Reset counters", wait: 0.2);tap("Stop", wait: 0.2)
+        tap("Video texture", wait: 4);tap("Snapshot", wait: 0.2)
+        tap("Pause video", wait: 0.5);tap("Snapshot", wait: 0.2)
+        XCUIDevice.shared.press(.home);Thread.sleep(forTimeInterval: 2);app.activate()
+        tap("Snapshot", wait: 0.2);tap("Resize", wait: 0.4);tap("Snapshot", wait: 0.2)
+        tap("Pause video", wait: 2);tap("Snapshot", wait: 0.2)
+        for _ in 0..<6 { tap("Replace video", wait: 0.8) }
+        tap("Snapshot", wait: 0.2);tap("Stop", wait: 1);tap("Snapshot", wait: 0.2)
+    }
 }

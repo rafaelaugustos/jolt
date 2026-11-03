@@ -1,0 +1,1370 @@
+{
+  "session": 1793719970975,
+  "platform": "android",
+  "events": [
+    {
+      "name": "spring-start",
+      "time": 1793719975360,
+      "jsFrameRequests": 0,
+      "progress": 0,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "waiting",
+        "frames": 0,
+        "nativeParameterWrites": 0,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 0,
+        "textureBytes": 0,
+        "peakTextureBytes": 0,
+        "preparationMs": 0,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 188153856,
+      "nativeNodes": 2
+    },
+    {
+      "name": "spring-reverse",
+      "time": 1793719977089,
+      "jsFrameRequests": 0,
+      "progress": 1,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 27,
+        "nativeParameterWrites": 27,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 0,
+        "textureBytes": 2868600,
+        "peakTextureBytes": 2868600,
+        "preparationMs": 3,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 190954496,
+      "nativeNodes": 2
+    },
+    {
+      "name": "snapshot",
+      "time": 1793719978498,
+      "jsFrameRequests": 0,
+      "progress": 0,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 45,
+        "nativeParameterWrites": 45,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 0,
+        "textureBytes": 2868600,
+        "peakTextureBytes": 2868600,
+        "preparationMs": 3,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 191106048,
+      "nativeNodes": 2
+    },
+    {
+      "name": "scroll-bound",
+      "time": 1793719978886,
+      "jsFrameRequests": 0,
+      "progress": 0,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "waiting",
+        "frames": 0,
+        "nativeParameterWrites": 0,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 0,
+        "textureBytes": 0,
+        "peakTextureBytes": 0,
+        "preparationMs": 0,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 191281152,
+      "nativeNodes": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793719983945,
+      "jsFrameRequests": 0,
+      "progress": 1,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 57,
+        "nativeParameterWrites": 56,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 0,
+        "textureBytes": 2868600,
+        "peakTextureBytes": 2868600,
+        "preparationMs": 20,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 181791744,
+      "nativeNodes": 1
+    },
+    {
+      "name": "scrubbed",
+      "time": 1793719988696,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 119,
+        "nativeParameterWrites": 118,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 0,
+        "textureBytes": 2868600,
+        "peakTextureBytes": 2868600,
+        "preparationMs": 20,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 181780480,
+      "nativeNodes": 1
+    },
+    {
+      "name": "before-resize",
+      "time": 1793719989455,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 120,
+        "nativeParameterWrites": 118,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 0,
+        "textureBytes": 2868600,
+        "peakTextureBytes": 2868600,
+        "preparationMs": 20,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 181903360,
+      "nativeNodes": 1
+    },
+    {
+      "name": "resized",
+      "time": 1793719989779,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 121,
+        "nativeParameterWrites": 118,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 2,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 20,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 186290176,
+      "nativeNodes": 1
+    },
+    {
+      "name": "before-resize",
+      "time": 1793719990496,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 121,
+        "nativeParameterWrites": 118,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 2,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 20,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 186331136,
+      "nativeNodes": 1
+    },
+    {
+      "name": "resized",
+      "time": 1793719990848,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 122,
+        "nativeParameterWrites": 118,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 4,
+        "textureBytes": 2868600,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 20,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 190115840,
+      "nativeNodes": 1
+    },
+    {
+      "name": "mask-playing",
+      "time": 1793719991522,
+      "jsFrameRequests": 0,
+      "progress": 0,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "waiting",
+        "frames": 0,
+        "nativeParameterWrites": 0,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 0,
+        "textureBytes": 0,
+        "peakTextureBytes": 0,
+        "preparationMs": 0,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 190259200,
+      "nativeNodes": 1
+    },
+    {
+      "name": "before-resize",
+      "time": 1793719991961,
+      "jsFrameRequests": 0,
+      "progress": 0.1835000067949295,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 8,
+        "nativeParameterWrites": 0,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 0,
+        "textureBytes": 2868600,
+        "peakTextureBytes": 2868600,
+        "preparationMs": 5,
+        "longestFrameMs": 83.799417,
+        "frameIntervalsMs": [
+          62.1885, 29.483083, 83.799417, 35.965, 64.859917, 15.862125, 81.550541
+        ]
+      },
+      "processMemoryBytes": 192753664,
+      "nativeNodes": 1
+    },
+    {
+      "name": "resized",
+      "time": 1793719992318,
+      "jsFrameRequests": 0,
+      "progress": 0.38350000977516174,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 15,
+        "nativeParameterWrites": 0,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 2,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 114.099167,
+        "frameIntervalsMs": [
+          62.1885, 29.483083, 83.799417, 35.965, 64.859917, 15.862125, 81.550541,
+          114.099167, 44.976417, 43.937041, 36.817334, 76.706916, 3.443917, 74.495125
+        ]
+      },
+      "processMemoryBytes": 196528128,
+      "nativeNodes": 1
+    },
+    {
+      "name": "mask-paused",
+      "time": 1793719992871,
+      "jsFrameRequests": 0,
+      "progress": 0.6585000157356262,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 28,
+        "nativeParameterWrites": 0,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 2,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 114.099167,
+        "frameIntervalsMs": [
+          62.1885, 29.483083, 83.799417, 35.965, 64.859917, 15.862125, 81.550541,
+          114.099167, 44.976417, 43.937041, 36.817334, 76.706916, 3.443917, 74.495125,
+          35.186167, 47.684666, 23.810834, 78.252083, 13.8215, 50.197709, 36.189583,
+          52.252042, 19.940125, 68.851541, 49.917667, 18.957583, 54.307167
+        ]
+      },
+      "processMemoryBytes": 196712448,
+      "nativeNodes": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793719993246,
+      "jsFrameRequests": 0,
+      "progress": 0.6585000157356262,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 28,
+        "nativeParameterWrites": 0,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 2,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 114.099167,
+        "frameIntervalsMs": [
+          62.1885, 29.483083, 83.799417, 35.965, 64.859917, 15.862125, 81.550541,
+          114.099167, 44.976417, 43.937041, 36.817334, 76.706916, 3.443917, 74.495125,
+          35.186167, 47.684666, 23.810834, 78.252083, 13.8215, 50.197709, 36.189583,
+          52.252042, 19.940125, 68.851541, 49.917667, 18.957583, 54.307167
+        ]
+      },
+      "processMemoryBytes": 196814848,
+      "nativeNodes": 1
+    },
+    {
+      "name": "stopped",
+      "time": 1793719993618,
+      "jsFrameRequests": 0,
+      "progress": 0.6585000157356262,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 28,
+        "nativeParameterWrites": 0,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 2,
+        "textureBytes": 0,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 114.099167,
+        "frameIntervalsMs": [
+          62.1885, 29.483083, 83.799417, 35.965, 64.859917, 15.862125, 81.550541,
+          114.099167, 44.976417, 43.937041, 36.817334, 76.706916, 3.443917, 74.495125,
+          35.186167, 47.684666, 23.810834, 78.252083, 13.8215, 50.197709, 36.189583,
+          52.252042, 19.940125, 68.851541, 49.917667, 18.957583, 54.307167
+        ]
+      },
+      "processMemoryBytes": 197044224,
+      "nativeNodes": 1
+    },
+    {
+      "name": "negative-control",
+      "time": 1793720006963,
+      "jsFrameRequests": 1,
+      "progress": 0,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "waiting",
+        "frames": 0,
+        "nativeParameterWrites": 0,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 0,
+        "textureBytes": 0,
+        "peakTextureBytes": 0,
+        "preparationMs": 0,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 188657664,
+      "nativeNodes": 2
+    },
+    {
+      "name": "snapshot",
+      "time": 1793720008495,
+      "jsFrameRequests": 66,
+      "progress": 1,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 40,
+        "nativeParameterWrites": 40,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 0,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 1734128,
+        "preparationMs": 1,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 190906368,
+      "nativeNodes": 2
+    },
+    {
+      "name": "reset",
+      "time": 1793720008829,
+      "jsFrameRequests": 0,
+      "progress": 1,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 40,
+        "nativeParameterWrites": 40,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 0,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 1734128,
+        "preparationMs": 1,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 191098880,
+      "nativeNodes": 2
+    },
+    {
+      "name": "stopped",
+      "time": 1793720009180,
+      "jsFrameRequests": 0,
+      "progress": 1,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 40,
+        "nativeParameterWrites": 40,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 0,
+        "textureBytes": 0,
+        "peakTextureBytes": 1734128,
+        "preparationMs": 1,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 191250432,
+      "nativeNodes": 1
+    },
+    {
+      "name": "spring-start",
+      "time": 1793720009540,
+      "jsFrameRequests": 0,
+      "progress": 0,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "waiting",
+        "frames": 0,
+        "nativeParameterWrites": 0,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 0,
+        "textureBytes": 0,
+        "peakTextureBytes": 0,
+        "preparationMs": 0,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 191442944,
+      "nativeNodes": 2
+    },
+    {
+      "name": "scrubbed",
+      "time": 1793720011061,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 1,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 0,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 1734128,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 192933888,
+      "nativeNodes": 1
+    },
+    {
+      "name": "before-resize",
+      "time": 1793720011312,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 2,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 0,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 1734128,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 193335296,
+      "nativeNodes": 1
+    },
+    {
+      "name": "resized",
+      "time": 1793720011621,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 3,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 2,
+        "textureBytes": 2868600,
+        "peakTextureBytes": 4675880,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 197193728,
+      "nativeNodes": 1
+    },
+    {
+      "name": "before-resize",
+      "time": 1793720011779,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 3,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 2,
+        "textureBytes": 2868600,
+        "peakTextureBytes": 4675880,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 197322752,
+      "nativeNodes": 1
+    },
+    {
+      "name": "resized",
+      "time": 1793720012093,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 4,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 4,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 201213952,
+      "nativeNodes": 1
+    },
+    {
+      "name": "before-resize",
+      "time": 1793720012283,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 4,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 4,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 201357312,
+      "nativeNodes": 1
+    },
+    {
+      "name": "resized",
+      "time": 1793720012593,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 5,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 6,
+        "textureBytes": 2868600,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 176064512,
+      "nativeNodes": 1
+    },
+    {
+      "name": "before-resize",
+      "time": 1793720012826,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 5,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 6,
+        "textureBytes": 2868600,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 176124928,
+      "nativeNodes": 1
+    },
+    {
+      "name": "resized",
+      "time": 1793720013160,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 6,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 8,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 180262912,
+      "nativeNodes": 1
+    },
+    {
+      "name": "before-resize",
+      "time": 1793720013231,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 6,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 8,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 180348928,
+      "nativeNodes": 1
+    },
+    {
+      "name": "resized",
+      "time": 1793720013548,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 7,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 10,
+        "textureBytes": 2868600,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 184227840,
+      "nativeNodes": 1
+    },
+    {
+      "name": "before-resize",
+      "time": 1793720013760,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 7,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 10,
+        "textureBytes": 2868600,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 184313856,
+      "nativeNodes": 1
+    },
+    {
+      "name": "resized",
+      "time": 1793720014076,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 8,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 12,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 188192768,
+      "nativeNodes": 1
+    },
+    {
+      "name": "before-resize",
+      "time": 1793720014196,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 8,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 12,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 188303360,
+      "nativeNodes": 1
+    },
+    {
+      "name": "resized",
+      "time": 1793720014504,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 9,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 14,
+        "textureBytes": 2868600,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 192161792,
+      "nativeNodes": 1
+    },
+    {
+      "name": "before-resize",
+      "time": 1793720014661,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 9,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 14,
+        "textureBytes": 2868600,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 192268288,
+      "nativeNodes": 1
+    },
+    {
+      "name": "resized",
+      "time": 1793720014978,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 10,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 16,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 196134912,
+      "nativeNodes": 1
+    },
+    {
+      "name": "before-resize",
+      "time": 1793720015171,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 10,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 16,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 196249600,
+      "nativeNodes": 1
+    },
+    {
+      "name": "resized",
+      "time": 1793720015495,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 11,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 18,
+        "textureBytes": 2868600,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 200124416,
+      "nativeNodes": 1
+    },
+    {
+      "name": "before-resize",
+      "time": 1793720015647,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 11,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 18,
+        "textureBytes": 2868600,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 200230912,
+      "nativeNodes": 1
+    },
+    {
+      "name": "resized",
+      "time": 1793720015980,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 12,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 20,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 204105728,
+      "nativeNodes": 1
+    },
+    {
+      "name": "before-resize",
+      "time": 1793720016079,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 12,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 20,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 204204032,
+      "nativeNodes": 1
+    },
+    {
+      "name": "resized",
+      "time": 1793720016386,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 13,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 22,
+        "textureBytes": 2868600,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 179701760,
+      "nativeNodes": 1
+    },
+    {
+      "name": "before-resize",
+      "time": 1793720016590,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 320,
+        "height": 260.1904761904762
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 13,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 22,
+        "textureBytes": 2868600,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 179861504,
+      "nativeNodes": 1
+    },
+    {
+      "name": "resized",
+      "time": 1793720016905,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 14,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 24,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 184109056,
+      "nativeNodes": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793720017092,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 14,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 24,
+        "textureBytes": 1734128,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 184224768,
+      "nativeNodes": 1
+    },
+    {
+      "name": "stopped",
+      "time": 1793720017471,
+      "jsFrameRequests": 0,
+      "progress": 0.5,
+      "size": {
+        "width": 249.9047619047619,
+        "height": 209.9047619047619
+      },
+      "diagnostics": {
+        "backend": "agsl",
+        "frames": 14,
+        "nativeParameterWrites": 1,
+        "renderCpuMs": 0,
+        "renderGpuMs": 0,
+        "videoFrames": 0,
+        "videoTime": 0,
+        "videoStatus": "none",
+        "resizeCount": 24,
+        "textureBytes": 0,
+        "peakTextureBytes": 5643824,
+        "preparationMs": 5,
+        "longestFrameMs": 0,
+        "frameIntervalsMs": []
+      },
+      "processMemoryBytes": 184347648,
+      "nativeNodes": 1
+    }
+  ]
+}

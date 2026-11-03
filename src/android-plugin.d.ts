@@ -204,6 +204,7 @@ declare namespace org.rafaelaugusto.jolt {
     }
   }
   class LiveSpring {
+    bindImage(effect: ImageEffect, parameter: string): LiveSpring.Binding
     constructor(
       initial: number,
       stiffness: number,
@@ -326,7 +327,25 @@ declare namespace org.rafaelaugusto.jolt {
       })
     }
   }
+  namespace ImageEffect {
+    class ScrollBinding {
+      constructor(
+        effect: ImageEffect,
+        scroll: android.view.View,
+        parameter: string,
+        config: string,
+      )
+      cancel(): void
+    }
+  }
   class ImageEffect {
+    getNativeParameterWrites(): number
+    getResizeCount(): number
+    getPeakTextureBytes(): number
+    resize(geometry: native.Array<number>): boolean
+    configureMask(config: string): void
+    setParameter(parameter: string, value: number): void
+    setSuspended(value: boolean): void
     constructor(
       image: android.widget.ImageView,
       source: android.graphics.Bitmap | null,

@@ -42,3 +42,5 @@ O efeito deforma a arte existente. Ele não gera novas dobras nem simula um flui
 A [tela Voice do assistente](https://github.com/rafaelaugustos/jolt/blob/main/demo/src/assistant/Voice.vue) mostra o uso completo com pausa, retomada e limpeza ao desmontar.
 
 <Clip name="web-liquid-surfaces-chromium" :width="900" caption="Chromium no macOS, interface em inglês: cliques reais demonstram reprodução, pausa/retomada, substituição, movimento reduzido e descarte na velocidade original. Captura de navegador; sem alegação de desempenho em aparelho físico." />
+
+Para círculos e retângulos arredondados que se unem e se separam recortando uma imagem, use [`imageEffect(foto, 'liquid-mask', …)`](./image-effects#mascara-liquida-de-formas). O progresso nativo aceita scroll e molas retidas.

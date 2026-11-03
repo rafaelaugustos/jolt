@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Frame, type ContentView, type EventData } from '@nativescript/core'
+import { shaderTexturesRecipe } from '../recipes/shader-textures'
 import { galleryRecipe } from '../recipes/gallery'
 import { sheetRecipe } from '../recipes/sheet'
 import { listRecipe } from '../recipes/lists'
@@ -11,13 +12,15 @@ function loaded(event: EventData) {
   const frame = new Frame()
   frame.navigate({
     create: () =>
-      props.kind === 'gallery'
-        ? galleryRecipe(frame)
-        : props.kind === 'sheet'
-          ? sheetRecipe()
-          : props.kind === 'image-profile'
-            ? imageProfileRecipe()
-            : listRecipe(),
+      props.kind === 'shader-textures'
+        ? shaderTexturesRecipe()
+        : props.kind === 'gallery'
+          ? galleryRecipe(frame)
+          : props.kind === 'sheet'
+            ? sheetRecipe()
+            : props.kind === 'image-profile'
+              ? imageProfileRecipe()
+              : listRecipe(),
   })
   host.content = frame
 }

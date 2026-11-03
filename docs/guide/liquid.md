@@ -42,3 +42,5 @@ The effect deforms the existing artwork. It does not generate new folds or simul
 See the assistant's [Voice screen](https://github.com/rafaelaugustos/jolt/blob/main/demo/src/assistant/Voice.vue) for a complete example with pause/resume and unmount cleanup.
 
 <Clip name="web-liquid-surfaces-chromium" :width="900" caption="Chromium on macOS, English UI: real clicks demonstrate playback, pause/resume, replacement, reduced motion and disposal at original speed. Browser capture; no physical-device performance claim." />
+
+For circles and rounded rectangles that merge and separate while clipping an image, use [`imageEffect(photo, 'liquid-mask', …)`](./image-effects#liquid-shape-masks). Its native progress supports scroll and retained springs.
