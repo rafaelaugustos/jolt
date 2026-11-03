@@ -373,3 +373,31 @@ document.getElementById('effects')!.onclick = async () => {
   document.getElementById('effects-result')!.textContent =
     `${paint && hidden && shown && text && roll}:${target.querySelectorAll('[data-jolt-effect]').length}:${target.textContent}`
 }
+
+// Declaration-consumer coverage for all platform factories, including scoped handles.
+export function platformContracts(
+  panel: HTMLElement,
+  root: HTMLElement,
+  handle: HTMLElement,
+  dialog: HTMLDialogElement,
+  ball: HTMLElement,
+) {
+  const scope = motion.scope()
+  const keyboard = scope.onKeyboard((state) => void state.accuracy)
+  scope.followKeyboard(panel, { offset: 8 })
+  scope.bottomSheet(panel, { host: root, handle, snap: [160, '75%'] })
+  const modal = scope.interactiveModal(dialog)
+  const navigation = scope.sharedNavigation(root)
+  const detach = navigation.attach(panel, 'card')
+  const world = scope.physicsWorld(root, [
+    { id: 'ball', view: ball, radius: 24, x: 60, y: 60, drag: { type: 'spring' } },
+  ])
+  world.impulse('ball', { x: 20, y: -50 })
+  scope.symbolEffect(handle, 'bounce')
+  keyboard.pause()
+  modal.pause()
+  navigation.pause()
+  world.pause()
+  detach()
+  scope.dispose()
+}

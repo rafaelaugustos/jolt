@@ -85,11 +85,17 @@ with tempfile.TemporaryDirectory(prefix='jolt-circle-math-') as tmp:
     javac=str(jdk/'javac') if (jdk/'javac').exists() else 'javac'
     run(['clang','-std=c11','-Wall','-Wextra','-Werror','-O2','-I',str(ROOT/'platforms/ios/src'),str(p/'probe.c'),'-lm','-o',str(p/'probe')])
     run([javac,'-d',str(p),str(ROOT/'platforms/android/java/org/rafaelaugusto/jolt/CircleMath.java'),str(p/'CircleProbe.java')])
+    run([str(ROOT/'node_modules/.bin/esbuild'),str(ROOT/'benchmarks/circle-web-probe.mjs'),'--bundle','--platform=node','--format=esm',f'--outfile={p}/web-probe.mjs'])
     results={}
     def check(name,data):
-        c=run([str(p/'probe')],input=data); j=run([java,'-cp',str(p),'CircleProbe'],input=data)
+        c=run([str(p/'probe')],input=data); j=run([java,'-cp',str(p),'CircleProbe'],input=data); web=run(['node',str(p/'web-probe.mjs')],input=data)
         a=[[float(v) for v in line.split()] for line in c.splitlines()];b=[[float(v) for v in line.split()] for line in j.splitlines()]
-        assert len(a)==len(b)
+        w=[[float(v) for v in line.split()] for line in web.splitlines()]
+        assert len(a)==len(b)==len(w)
+        for ar,wr in zip(a,w):
+            for av,wv in zip(ar,wr):
+                if name!='maximum bodies':close(av,wv,1e-5)
+        if name=='maximum bodies':bounded(w[1:],600,600)
         for ar,br in zip(a,b):
             for av,bv in zip(ar,br):
                 if name!='maximum bodies':close(av,bv,1e-5)
@@ -203,4 +209,4 @@ with tempfile.TemporaryDirectory(prefix='jolt-circle-math-') as tmp:
     run(['clang','-std=c11','-O2','-I',str(p),str(p/'probe.c'),'-lm','-o',str(p/'negative-link')])
     negative=run([str(p/'negative-link')],input=fixture(pair,linked+'s 1')).splitlines()[1].split()
     assert abs(float(negative[2])-impulse)>10, 'Missing body spring negative control unexpectedly passed'
-    print(json.dumps({'passed':len(results),'ports':['C (iOS)','Java (Android)'],'negativeControl':'rejected missing pair impulses, fixed/body spring forces and kinematic pointer mass','results':results},indent=2))
+    print(json.dumps({'passed':len(results),'ports':['C (iOS)','Java (Android)','TypeScript (Web)'],'negativeControl':'rejected missing pair impulses, fixed/body spring forces and kinematic pointer mass','results':results},indent=2))

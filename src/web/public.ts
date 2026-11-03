@@ -1,3 +1,42 @@
+export type {
+  WebKeyboardState,
+  WebKeyboardOptions,
+  WebKeyboardSubscription,
+} from './keyboard.js'
+export type {
+  WebSheetSnap,
+  WebBottomSheetOptions,
+  WebBottomSheet,
+} from './bottom-sheet.js'
+export type {
+  WebModalState,
+  WebInteractiveModalOptions,
+  WebInteractiveModal,
+} from './interactive-modal.js'
+export type {
+  WebSharedNavigationOptions,
+  WebSharedNavigationRequest,
+  WebSharedNavigationResult,
+  WebSharedNavigationOperation,
+  WebSharedNavigation,
+} from './shared-navigation.js'
+export type {
+  WebPhysicsVector,
+  WebPhysicsLine,
+  WebPhysicsAttachment,
+  WebPhysicsSnap,
+  WebPhysicsDrag,
+  WebCircleBody,
+  WebPhysicsSpring,
+  WebPhysicsOptions,
+  WebPhysicsSnapshot,
+  WebPhysicsWorld,
+} from './physics.js'
+export type {
+  WebSymbolEffectName,
+  WebSymbolEffectOptions,
+  WebSymbolEffect,
+} from './symbol-effect.js'
 import type { WebParticles, WebParticleOptions, WebConfettiOptions } from './particles.js'
 import type { WebBlur, WebBlurOptions } from './blur.js'
 import type { WebShape, WebShapeOptions } from './shape.js'
@@ -186,6 +225,36 @@ export interface WebAnimation extends PlaybackAnimation {
 
 /** Experimental DOM context; platform/framework adapters are not public APIs. */
 export interface WebRuntime {
+  onKeyboard(
+    callback: (state: import('./keyboard.js').WebKeyboardState) => void,
+  ): import('./keyboard.js').WebKeyboardSubscription
+  followKeyboard(
+    target: HTMLElement,
+    options?: import('./keyboard.js').WebKeyboardOptions,
+  ): import('./keyboard.js').WebKeyboardSubscription
+  bottomSheet(
+    target: HTMLElement,
+    options: import('./bottom-sheet.js').WebBottomSheetOptions,
+  ): import('./bottom-sheet.js').WebBottomSheet
+  interactiveModal(
+    target: HTMLDialogElement,
+    options?: import('./interactive-modal.js').WebInteractiveModalOptions,
+  ): import('./interactive-modal.js').WebInteractiveModal
+  sharedNavigation(
+    container: HTMLElement,
+    options?: import('./shared-navigation.js').WebSharedNavigationOptions,
+  ): import('./shared-navigation.js').WebSharedNavigation
+  physicsWorld(
+    container: HTMLElement,
+    bodies: readonly import('./physics.js').WebCircleBody[],
+    options?: import('./physics.js').WebPhysicsOptions,
+  ): import('./physics.js').WebPhysicsWorld
+  symbolEffect(
+    target: HTMLElement,
+    effect: import('./symbol-effect.js').WebSymbolEffectName,
+    options?: import('./symbol-effect.js').WebSymbolEffectOptions,
+  ): import('./symbol-effect.js').WebSymbolEffect
+
   particles(target: HTMLElement, options?: WebParticleOptions): WebParticles
   confetti(target: HTMLElement, options?: WebConfettiOptions): WebParticles
   blur(target: HTMLElement, options?: WebBlurOptions): WebBlur
@@ -320,6 +389,13 @@ export function createWebRuntime(
   // Keep diagnostics, ownership internals and driver implementation off the
   // package API, including at runtime rather than only in the declarations.
   return {
+    onKeyboard: runtime.onKeyboard.bind(runtime),
+    followKeyboard: runtime.followKeyboard.bind(runtime),
+    bottomSheet: runtime.bottomSheet.bind(runtime),
+    interactiveModal: runtime.interactiveModal.bind(runtime),
+    sharedNavigation: runtime.sharedNavigation.bind(runtime),
+    physicsWorld: runtime.physicsWorld.bind(runtime),
+    symbolEffect: runtime.symbolEffect.bind(runtime),
     particles: runtime.particles.bind(runtime),
     confetti: runtime.confetti.bind(runtime),
     blur: runtime.blur.bind(runtime),

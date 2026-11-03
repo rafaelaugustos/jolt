@@ -1,5 +1,7 @@
 # API {#api}
 
+[**Web 键盘、面板、导航、物理与图标（开发中，尚未发布）。**](./web-platforms)
+
 **Web 开发版本：**这些效果也可通过 [`/web`](./web-effects) 的运行时和作用域方法使用，尚未包含在 RC.9 中。
 
 - [**drag / gestures / zoomable / scrollHeader / reorder (Web)**](./web-gestures) — Web 手势、缩放、滚动/刷新与交互排序 — 自 RC.9 起可用。

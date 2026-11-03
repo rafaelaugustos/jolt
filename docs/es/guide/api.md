@@ -1,5 +1,7 @@
 # API {#api}
 
+[**Teclado, paneles, navegación, física e iconos Web (desarrollo, no publicado).**](./web-platforms)
+
 **Build Web en desarrollo:** estos efectos también están disponibles mediante métodos del runtime y sus scopes en [`/web`](./web-effects). Todavía no están incluidos en RC.9.
 
 - [**drag / gestures / zoomable / scrollHeader / reorder (Web)**](./web-gestures) — Gestos Web, zoom, scroll/refresh y reorder interactivo — disponible desde RC.9.

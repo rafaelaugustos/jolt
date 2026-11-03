@@ -1,4 +1,30 @@
 import {
+  createKeyboardSubscription,
+  createKeyboardFollower,
+  type WebKeyboardState,
+  type WebKeyboardOptions,
+} from './keyboard.js'
+import { createBottomSheet, type WebBottomSheetOptions } from './bottom-sheet.js'
+import {
+  createInteractiveModal,
+  type WebInteractiveModalOptions,
+} from './interactive-modal.js'
+import {
+  createSharedNavigation,
+  type WebSharedNavigationOptions,
+} from './shared-navigation.js'
+import {
+  createPhysicsWorld,
+  type WebCircleBody,
+  type WebPhysicsOptions,
+} from './physics.js'
+import {
+  createSymbolEffect,
+  type WebSymbolEffectName,
+  type WebSymbolEffectOptions,
+} from './symbol-effect.js'
+import type { PlatformHost } from './platform-host.js'
+import {
   createParticles,
   createConfetti,
   type WebParticleOptions,
@@ -2480,6 +2506,49 @@ export class WebRuntime {
     }
   }
 
+  private platformHost(): PlatformHost {
+    return {
+      ...this.interactionHost(),
+      ...this.effectHost(),
+      sharedLayout: this.sharedLayout.bind(this),
+    }
+  }
+  onKeyboard(callback: (state: WebKeyboardState) => void) {
+    this.assert()
+    return createKeyboardSubscription(callback, this.platformHost())
+  }
+  followKeyboard(target: HTMLElement, options: WebKeyboardOptions = {}) {
+    this.assert()
+    return createKeyboardFollower(target, options, this.platformHost())
+  }
+  bottomSheet(target: HTMLElement, options: WebBottomSheetOptions) {
+    this.assert()
+    return createBottomSheet(target, options, this.platformHost())
+  }
+  interactiveModal(target: HTMLDialogElement, options: WebInteractiveModalOptions = {}) {
+    this.assert()
+    return createInteractiveModal(target, options, this.platformHost())
+  }
+  sharedNavigation(container: HTMLElement, options: WebSharedNavigationOptions = {}) {
+    this.assert()
+    return createSharedNavigation(container, options, this.platformHost())
+  }
+  physicsWorld(
+    container: HTMLElement,
+    bodies: readonly WebCircleBody[],
+    options: WebPhysicsOptions = {},
+  ) {
+    this.assert()
+    return createPhysicsWorld(container, bodies, options, this.platformHost())
+  }
+  symbolEffect(
+    target: HTMLElement,
+    effect: WebSymbolEffectName,
+    options: WebSymbolEffectOptions = {},
+  ) {
+    this.assert()
+    return createSymbolEffect(target, effect, options, this.platformHost())
+  }
   particles(target: HTMLElement, options: WebParticleOptions = {}) {
     this.assert()
     return createParticles(target, options, this.effectHost())
