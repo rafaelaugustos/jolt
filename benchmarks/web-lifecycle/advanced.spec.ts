@@ -253,44 +253,92 @@ test('shared card to detail uses inert copies, then restores the live destinatio
   await expect(page.locator('[data-jolt-shared-stage]')).toHaveCount(0)
 })
 
-test('shared reversal captures the currently presented copies and old cleanup stays obsolete', async ({
-  page,
-}) => {
-  await shared(page, 1000)
-  await expand(page)
-  await expect(page.locator('[data-jolt-shared-copy]')).toHaveCount(2)
-  await page.waitForTimeout(150)
-  const { before, after } = await page.evaluate(async () => {
-    // Sample during a rendering update so both reads use that frame's timeline
-    // time. WebKit can advance WAAPI between style reads in an ordinary task.
-    await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()))
-    const box = document.querySelector('[data-jolt-shared-copy]')!.getBoundingClientRect()
-    const before = { x: box.x, y: box.y, width: box.width }
-    const l = lifecycleLab
-    l.previousFlight = l.flight
-    l.flight = l.shared!.transition(() => {
-      l.detail!.remove()
-      l.region.append(l.target)
-      l.shared!.attach(l.target, 'card')
+for (const advanceBeforeCapture of [0, 40]) {
+  test(`shared reversal captures current copies after ${advanceBeforeCapture}ms advancement and keeps old cleanup obsolete`, async ({
+    page,
+  }) => {
+    await shared(page, 1000)
+    await expand(page)
+    await expect(page.locator('[data-jolt-shared-copy]')).toHaveCount(2)
+    await page.waitForTimeout(150)
+    const { captured, after, earlier, reads, advanced } = await page.evaluate(
+      (advance) => {
+        const source = document.querySelector<HTMLElement>('[data-jolt-shared-copy]')!
+        const geometry = (rect: DOMRect) => ({ x: rect.x, y: rect.y, width: rect.width })
+        const earlier = geometry(source.getBoundingClientRect())
+        let advanced = 0
+        // Reproduce the stale-sample case with the browser's real WAAPI timeline.
+        // Both copies keep running; only their playback position advances.
+        if (advance) {
+          for (const animation of document.getAnimations()) {
+            const target = (animation.effect as KeyframeEffect | null)?.target
+            if (
+              target instanceof HTMLElement &&
+              target.hasAttribute('data-jolt-shared-copy') &&
+              typeof animation.currentTime === 'number'
+            ) {
+              animation.currentTime += advance
+              advanced++
+            }
+          }
+        }
+        // Observe the actual browser rectangle consumed by snapshot(), without
+        // replacing its value. A separate pre-transition read can be older on
+        // WebKit even inside rAF. Missing this read must also fail the test.
+        const measure = source.getBoundingClientRect
+        const descriptor = Object.getOwnPropertyDescriptor(
+          source,
+          'getBoundingClientRect',
+        )
+        let captured: ReturnType<typeof geometry> | undefined
+        let reads = 0
+        source.getBoundingClientRect = () => {
+          const rect = measure.call(source)
+          captured = geometry(rect)
+          reads++
+          return rect
+        }
+        const l = lifecycleLab
+        l.previousFlight = l.flight
+        try {
+          l.flight = l.shared!.transition(() => {
+            l.detail!.remove()
+            l.region.append(l.target)
+            l.shared!.attach(l.target, 'card')
+          })
+        } finally {
+          if (descriptor)
+            Object.defineProperty(source, 'getBoundingClientRect', descriptor)
+          else Reflect.deleteProperty(source, 'getBoundingClientRect')
+        }
+        if (!captured)
+          throw new Error('Reversal did not measure the presented source copy')
+        const after = geometry(
+          document.querySelector('[data-jolt-shared-copy]')!.getBoundingClientRect(),
+        )
+        return { captured, after, earlier, reads, advanced }
+      },
+      advanceBeforeCapture,
+    )
+    expect(reads).toBe(1)
+    if (advanceBeforeCapture) {
+      expect(advanced).toBeGreaterThan(0)
+      expect(captured.x - earlier.x).toBeGreaterThan(5)
+    }
+    expect(after.x).toBeCloseTo(captured.x, 0)
+    expect(after.y).toBeCloseTo(captured.y, 0)
+    expect(after.width).toBeCloseTo(captured.width, 0)
+    expect(await page.evaluate(() => lifecycleLab.previousFlight!.finished)).toEqual({
+      status: 'cancelled',
+      reason: 'interrupted',
     })
-    const rect = document
-      .querySelector('[data-jolt-shared-copy]')!
-      .getBoundingClientRect()
-    return { before, after: { x: rect.x, y: rect.y, width: rect.width } }
+    expect(await page.evaluate(() => lifecycleLab.flight!.finished)).toEqual({
+      status: 'completed',
+    })
+    expect(await page.evaluate(() => lifecycleLab.read().opacity)).toBe(1)
+    await expect(page.locator('[data-jolt-shared-stage]')).toHaveCount(0)
   })
-  expect(after.x).toBeCloseTo(before.x, 0)
-  expect(after.y).toBeCloseTo(before.y, 0)
-  expect(after.width).toBeCloseTo(before.width, 0)
-  expect(await page.evaluate(() => lifecycleLab.previousFlight!.finished)).toEqual({
-    status: 'cancelled',
-    reason: 'interrupted',
-  })
-  expect(await page.evaluate(() => lifecycleLab.flight!.finished)).toEqual({
-    status: 'completed',
-  })
-  expect(await page.evaluate(() => lifecycleLab.read().opacity)).toBe(1)
-  await expect(page.locator('[data-jolt-shared-stage]')).toHaveCount(0)
-})
+}
 
 test('shared cancellation and reduced motion preserve application mutation and styles', async ({
   page,
