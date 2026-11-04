@@ -1,0 +1,112 @@
+{
+  "date": "2026-11-03",
+  "project": "https://github.com/rafaelaugustos/hexdrop",
+  "reviewedRevision": "ebdc02a2652051c982779ea43ba3d76cf99bb538",
+  "nativeBuild": "Release iOS simulator build passed for both initial and updated revisions; no Hexdrop source changes",
+  "creatorRecording": {
+    "originalFile": "Screen Recording Hexdrop 03-11-2026 at 19.27.04.mp4",
+    "originalSha256": "4a8e280575850429d8664998833fa96dd5453c55b9efa3b01e762389becad10d",
+    "platform": "iOS; creator did not specify capture device",
+    "fullClip": {
+      "file": "docs/public/media/hexdrop-creator-ios.mp4",
+      "sha256": "621d0781f213bb0f933d388b51d24e226ab5f0e7e9f283f081f9b26336c27edc",
+      "duration": 40.251121,
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 480,
+          "height": 1044
+        }
+      ]
+    },
+    "fullTrimStartSeconds": 3.8,
+    "launchClip": {
+      "file": "docs/public/media/hexdrop-launch-ios.mp4",
+      "sha256": "5f4c50a6207457db7fd156aa80317bbc82a525792c717810f97defdbef0f6b53",
+      "duration": 3.085665,
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 420,
+          "height": 914
+        }
+      ]
+    },
+    "launchSourceRangeSeconds": [3.8, 7.0],
+    "originalSpeed": true,
+    "audio": "Source has no audio stream",
+    "review": "Decoded complete files and inspected frames throughout the launch, drag, ignition, fill, stopper, document picker and replay"
+  },
+  "dragRecording": {
+    "file": "docs/public/media/hexdrop-native-ios.mp4",
+    "sha256": "c597fc5fd56594a7731e62bfe44108f0551d5e684ab74de1c0319f6564426630",
+    "duration": 19.4194,
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 420,
+        "height": 914
+      }
+    ],
+    "sourceRevision": "3502678b739d7811d1ba966d63f7967745ffa892",
+    "sourceComparison": "useIngredientDrag.ts and potion implementation are unchanged in ebdc02a2652051c982779ea43ba3d76cf99bb538",
+    "platform": "iPhone 17 Pro simulator, iOS 26.2",
+    "input": "Real idb swipes",
+    "review": "Decoded complete clip, inspected full-duration contact sheet and ignition sequence; rejected drop returns, accepted drop fills and swings the stopper",
+    "capture": {
+      "source": "3502678b739d7811d1ba966d63f7967745ffa892",
+      "simulator": "280B284F-DB5D-478C-8968-98BED7F55BAE",
+      "input": "real idb swipes",
+      "audio": false,
+      "events": [
+        {
+          "event": "outside drop returned",
+          "time": 5.514285708
+        },
+        {
+          "event": "accepted drop brewing",
+          "time": 7.165148583
+        },
+        {
+          "event": "potion complete",
+          "time": 16.398166625
+        }
+      ]
+    }
+  },
+  "icon": {
+    "source": "App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-180.png",
+    "copiedWithoutModification": true
+  },
+  "scope": "Website and documentation only. Native recordings demonstrate the source projects; the home and showcase use Jolt Web for scroll-linked decoration. No new Jolt engine capability.",
+  "siteRecording": {
+    "source": "/tmp/jolt-hexdrop-site-recording/page@e739cc7f721b8fa675ecf183704951c6.webm",
+    "destination": "/private/tmp/jolt-hexdrop-showcase/docs/public/media/hexdrop-site-chromium.mp4",
+    "browser": "Chromium",
+    "platform": "macOS arm64",
+    "language": "English",
+    "originalTiming": true,
+    "input": "Actual Playwright pointer and keyboard input",
+    "nativeFootage": "Creator-provided Hexdrop iOS recording (capture device unspecified); native drag recipe on iPhone 17 Pro / iOS 26.2 simulator",
+    "duration": "40.000000",
+    "dimensions": [1440, 1000],
+    "decoded": true,
+    "sha256": "b9909d8bcac7af3e67a3e5e5cca8a0b1430a08fdeb12ce1768cbf1e53f20c84f",
+    "review": "Decoded full 40 second recording; inspected representative frames across home, native playback, showcase, drag code/prompt and launch recipe."
+  },
+  "browserReview": {
+    "evidence": [
+      {
+        "browser": "chromium",
+        "result": "passed",
+        "checks": "Hexdrop home scroll animation, native playback, showcase, reduced motion, pinned source and clipboard prompt, project-specific backlink, localized home/showcase/recipe/guide in 4 locales × 4 widths; WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, global documentation shell with light/dark themes, reading progress and responsive API/guide pages; animated showcase with reduced-motion playback and preserved anchors; four Jolt Drive recipes with snapshot, clipboard, pinned source, requirements and native playback in four locales, Jolt Drive project links and native playback, preserved Jolt Car walkthrough, published project images, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, home and showcase in 4 locales × 4 widths, mobile navigation, reduced motion, remount"
+      },
+      {
+        "browser": "webkit",
+        "result": "passed",
+        "checks": "Hexdrop home scroll animation, native playback, showcase, reduced motion, pinned source and clipboard prompt, project-specific backlink, localized home/showcase/recipe/guide in 4 locales × 4 widths; WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, global documentation shell with light/dark themes, reading progress and responsive API/guide pages; animated showcase with reduced-motion playback and preserved anchors; four Jolt Drive recipes with snapshot, clipboard, pinned source, requirements and native playback in four locales, Jolt Drive project links and native playback, preserved Jolt Car walkthrough, published project images, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, home and showcase in 4 locales × 4 widths, mobile navigation, reduced motion, remount"
+      }
+    ],
+    "failures": []
+  }
+}

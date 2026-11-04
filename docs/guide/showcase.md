@@ -18,7 +18,7 @@ next: false
 Explore motion in native apps built with Jolt. Watch the recordings, discover the features, and share what you’ve made.
 
 <a class="showcase-submit-link" href="#submit-app">Submit your app <span aria-hidden="true">↗</span></a>
-<nav class="showcase-index" aria-label="Showcase"><a href="#morrow"><span>01</span>Morrow ↗</a><a href="#jolt-drive"><span>02</span>Jolt Drive ↗</a><a href="#submit-app"><span>03</span>Your project ↗</a></nav>
+<nav class="showcase-index" aria-label="Showcase"><a href="#morrow"><span>01</span>Morrow ↗</a><a href="#jolt-drive"><span>02</span>Jolt Drive ↗</a><a href="#hexdrop"><span>03</span>Hexdrop ↗</a><a href="#submit-app"><span>04</span>Your project ↗</a></nav>
 </div>
 
 <section class="showcase-feature" aria-labelledby="morrow">
@@ -71,6 +71,20 @@ Four recipes from the real project: coordinated cockpit, spring-driven atmospher
   <figure><img src="/media/jolt-drive-pickup.png" width="368" height="800" loading="lazy" alt="Jolt Drive simulated pickup through Austin, with pause and route controls" /><figcaption><span>03</span>Through Austin</figcaption></figure>
 </div>
 <p class="showcase-note">Screens from the published project. <a href="https://github.com/rafaelaugustos/jolt-drive/blob/2d9cc4afeec1d1fa04b85e5dbe063db07e3db29f/README.md">Source and setup ↗</a></p>
+
+<section class="showcase-feature" aria-labelledby="hexdrop">
+  <h2 id="hexdrop"><img class="hexdrop-app-icon" src="/media/hexdrop-icon.png" width="72" height="72" alt="" />Hexdrop<span>.</span></h2>
+  <div class="showcase-copy">
+    <p class="showcase-kicker">NATIVESCRIPT-VUE + JOLT RC.11 <span class="showcase-platform">iOS</span></p>
+    <p class="showcase-lead">One file. A little alchemy. Drop an ingredient, wake the green potion, and watch a tiny spider ride the swinging stopper.</p>
+    <p class="showcase-note">Built by Rafael Augusto with NativeScript-Vue and Jolt RC.11. Native views, vector paths, gradients and particles. This is a local interaction demo; no file is uploaded. Android playback has not been verified.</p>
+    <div class="showcase-project-links"><a href="https://github.com/rafaelaugustos/hexdrop">View the project ↗</a><a href="/recipes/hexdrop-drag">Get the drag recipe ↗</a><a href="/recipes/hexdrop-launch">A little opening spell. ↗</a></div>
+    <button type="button" class="showcase-watch" data-watch="hexdrop">Play the spell <span aria-hidden="true">↗</span></button>
+  </div>
+  <div class="showcase-stage">
+    <Clip name="hexdrop-creator-ios" :autoplay="false" poster="/media/hexdrop-creator-ios.jpg" :width="280" caption="Hexdrop on iOS: creator-provided recording of the animated launch, dragging, brewing, document picker and replay. Original speed, no audio; the first 3.8 seconds of the system home and launch transition are omitted. Capture device unspecified. Local demo; no file is uploaded." />
+  </div>
+</section>
 
 <section class="showcase-archive">
 

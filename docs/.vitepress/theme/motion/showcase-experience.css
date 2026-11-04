@@ -184,6 +184,48 @@
 .showcase-exhibit .showcase-points {
   margin-block: 24px;
 }
+.showcase-exhibit .showcase-feature[aria-labelledby='hexdrop'] {
+  background: #20162e;
+  color: #ece1f7;
+  --vp-c-text-1: #ece1f7;
+  --vp-c-text-2: #bba8c9;
+  --vp-c-brand-1: #b7f466;
+  --vp-c-divider: #a78ab938;
+}
+.showcase-exhibit [aria-labelledby='hexdrop'] > h2 span {
+  color: #b7f466;
+}
+.showcase-exhibit .hexdrop-app-icon {
+  display: block;
+  width: 64px;
+  height: 64px;
+  border-radius: 15px;
+  margin-bottom: 28px;
+}
+.showcase-exhibit [aria-labelledby='hexdrop'] .showcase-stage {
+  padding-left: 30px;
+}
+.showcase-exhibit [aria-labelledby='hexdrop'] .showcase-stage::before {
+  content: '';
+  position: absolute;
+  top: 90px;
+  left: -20px;
+  width: 95%;
+  aspect-ratio: 1;
+  border: 1px solid #a78ab940;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 30px #a78ab90a,
+    0 0 0 60px #a78ab905;
+}
+.showcase-exhibit [aria-labelledby='hexdrop'] .clip video {
+  border-color: #594568;
+  transform: rotate(-3deg);
+}
+.showcase-exhibit [aria-labelledby='hexdrop'] .showcase-watch {
+  background: #b7f466;
+  color: #20162e;
+}
 .showcase-exhibit .showcase-points li {
   font-size: 12px;
   padding-block: 10px;

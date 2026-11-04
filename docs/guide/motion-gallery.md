@@ -45,3 +45,9 @@ The Jolt Drive feature links to the public [project repository](https://github.c
 Four recipes from the real project: coordinated cockpit, spring-driven atmosphere selection, a charge sheet with background blur, and the camera journey into the cabin. Each includes native playback, reviewed source and an adaptation prompt.
 
 [Explore the 4 recipes](/recipes/?q=Jolt%20Drive) · [Read the integration guide](./drive-recipes)
+
+## Hexdrop
+
+The new Hexdrop feature pairs a Jolt Web scroll animation with real native footage. [Explore the project](./showcase#hexdrop) or [adapt its drag recipe](./hexdrop-recipes).
+
+<Clip name="hexdrop-creator-ios" :autoplay="false" poster="/media/hexdrop-creator-ios.jpg" :width="280" caption="Hexdrop on iOS: creator-provided recording of the animated launch, dragging, brewing, document picker and replay. Original speed, no audio; the first 3.8 seconds of the system home and launch transition are omitted. Capture device unspecified. Local demo; no file is uploaded." />

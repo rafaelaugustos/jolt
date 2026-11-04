@@ -73,7 +73,7 @@ async function copy(kind: 'code' | 'prompt') {
       <a
         v-if="recipe.project"
         class="recipe-project-link"
-        :href="link('/guide/showcase#jolt-drive')"
+        :href="link(`/guide/showcase#${recipe.project.showcaseAnchor}`)"
         >{{ t(['From', 'Do projeto', 'Del proyecto', '来自']) }}
         {{ recipe.project.name }} ↗</a
       >

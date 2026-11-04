@@ -41,6 +41,17 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
             )[prefix] ?? 'Jolt Drive recipes',
           link: `${prefix}/guide/drive-recipes`,
         },
+        {
+          text:
+            (
+              {
+                '/pt-BR': 'A receita do Hexdrop',
+                '/es': 'La receta de Hexdrop',
+                '/zh-Hans': 'Hexdrop 动效配方',
+              } as Record<string, string>
+            )[prefix] ?? 'The Hexdrop recipe',
+          link: `${prefix}/guide/hexdrop-recipes`,
+        },
         page('install', 'install'),
         page('animating', 'animating'),
         page('demo', 'demo'),

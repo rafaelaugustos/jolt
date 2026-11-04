@@ -221,9 +221,9 @@ for (const [name, engine] of [
     await expect.poll(() => page.evaluate(() => scrollY)).toBeLessThan(120)
 
     await page.goto(`${base}/recipes/`)
-    await expect(page.locator('.recipe-card')).toHaveCount(16)
+    await expect(page.locator('.recipe-card')).toHaveCount(18)
     await page.getByRole('button', { name: 'Touch & gestures', exact: true }).click()
-    await expect(page.locator('.recipe-card')).toHaveCount(5)
+    await expect(page.locator('.recipe-card')).toHaveCount(6)
     await page.locator('.recipe-card').first().hover()
     await expect
       .poll(() =>
@@ -236,14 +236,14 @@ for (const [name, engine] of [
       .toBeGreaterThan(0.1)
     await expect(page).toHaveURL(/category=Touch/)
     await page.reload()
-    await expect(page.locator('.recipe-card')).toHaveCount(5)
+    await expect(page.locator('.recipe-card')).toHaveCount(6)
     await page.getByRole('button', { name: 'All motion', exact: true }).click()
     await page.getByRole('searchbox').fill('nonsense-that-is-not-a-recipe')
     await expect(page.locator('.recipe-empty')).toBeVisible()
     await page.getByRole('button', { name: /Reset filters/ }).click()
-    await expect(page.locator('.recipe-card')).toHaveCount(16)
+    await expect(page.locator('.recipe-card')).toHaveCount(18)
     await page.getByRole('searchbox').fill('spring')
-    await expect(page.locator('.recipe-card')).toHaveCount(3)
+    await expect(page.locator('.recipe-card')).toHaveCount(4)
     await page.locator('a.recipe-card[href="/recipes/spring-feeling"]').click()
     await expect(page.locator('.recipe-detail h1')).toContainText('spring')
     await expect(page.locator('.recipe-code')).toContainText('animate(')
@@ -345,7 +345,7 @@ for (const [name, engine] of [
       await page.locator('.motion-menu').click()
       await expect(page.locator('.motion-nav-links')).toBeVisible()
       await page.locator('.motion-nav-links a').first().click()
-      await expect(page.locator('.recipe-card')).toHaveCount(16)
+      await expect(page.locator('.recipe-card')).toHaveCount(18)
       expect(
         await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
       ).toBe(true)
@@ -508,6 +508,128 @@ for (const [name, engine] of [
     await expect(page).toHaveURL(/pt-BR\/guide\/showcase#morrow/)
     await page.emulateMedia({ reducedMotion: 'no-preference' })
 
+    // A second source project must keep its own showcase, snapshot and lifecycle.
+    await page.goto(base)
+    await expect(page.locator('[data-hexdrop-ready="true"]')).toBeVisible()
+    await page.locator('.hexdrop-feature').scrollIntoViewIfNeeded()
+    const hexPhone = page.locator('.hexdrop-phone')
+    const hexPose = await hexPhone.evaluate((el) => getComputedStyle(el).transform)
+    await page.mouse.wheel(0, 140)
+    await expect
+      .poll(() => hexPhone.evaluate((el) => getComputedStyle(el).transform))
+      .not.toBe(hexPose)
+    const hexVideo = hexPhone.locator('video')
+    await hexVideo.evaluate(async (video) => {
+      video.muted = true
+      await video.play()
+    })
+    await expect.poll(() => hexVideo.evaluate((v) => v.currentTime)).toBeGreaterThan(0.1)
+    await page.screenshot({ path: `${output}/${name}-hexdrop-home.png` })
+    await page.locator('.hexdrop-primary').click()
+    await expect(page).toHaveURL(/guide\/showcase#hexdrop/)
+    await expect(page.locator('#hexdrop')).toHaveText('Hexdrop.')
+    await page.locator('[data-watch="hexdrop"]').click()
+    const hexNative = page.locator('[aria-labelledby="hexdrop"] video')
+    await expect.poll(() => hexNative.evaluate((v) => v.currentTime)).toBeGreaterThan(0.1)
+    await page.screenshot({ path: `${output}/${name}-hexdrop-showcase.png` })
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await expect.poll(() => hexNative.evaluate((v) => v.paused)).toBe(true)
+    await page.locator('[data-watch="hexdrop"]').click()
+    await expect.poll(() => hexNative.evaluate((v) => v.paused)).toBe(false)
+    await page.getByRole('combobox').selectOption('pt-BR')
+    await expect(page).toHaveURL(/pt-BR\/guide\/showcase#hexdrop/)
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    await page.goto(`${base}/recipes/?q=Hexdrop`)
+    await expect(page.locator('.recipe-card')).toHaveCount(2)
+    await page.locator('a[href="/recipes/hexdrop-drag"]').click()
+    await expect(page.locator('.recipe-project-link')).toHaveAttribute(
+      'href',
+      '/guide/showcase#hexdrop',
+    )
+    const hexSnapshot = await readFile(
+      new URL(
+        '../docs/recipes/sources/rafaelaugustos/hexdrop/src/composables/useIngredientDrag.ts.txt',
+        import.meta.url,
+      ),
+      'utf8',
+    )
+    expect(await page.locator('.recipe-code pre code').textContent()).toBe(hexSnapshot)
+    await page.locator('.code-topline button').click()
+    if (name === 'chromium')
+      expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(hexSnapshot)
+    await page.getByRole('button', { name: /Copy AI prompt/ }).click()
+    if (name === 'chromium') {
+      const prompt = await page.evaluate(() => navigator.clipboard.readText())
+      expect(prompt).toContain('ebdc02a2652051c982779ea43ba3d76cf99bb538')
+      expect(prompt).toContain('transformedRect')
+      expect(prompt).toContain('0.1.0-rc.11')
+      expect(prompt).toContain(hexSnapshot)
+    }
+    await expect(page.locator('.recipe-actions a')).toHaveAttribute(
+      'href',
+      'https://github.com/rafaelaugustos/hexdrop/blob/ebdc02a2652051c982779ea43ba3d76cf99bb538/src/composables/useIngredientDrag.ts',
+    )
+    await page.screenshot({ path: `${output}/${name}-hexdrop-recipe.png` })
+    await page.goto(`${base}/recipes/hexdrop-launch`)
+    const launchSnapshot = await readFile(
+      new URL(
+        '../docs/recipes/sources/rafaelaugustos/hexdrop/src/launch/launch-animation.ts.txt',
+        import.meta.url,
+      ),
+      'utf8',
+    )
+    expect(await page.locator('.recipe-code pre code').textContent()).toBe(launchSnapshot)
+    await expect(page.locator('.recipe-project-link')).toHaveAttribute(
+      'href',
+      '/guide/showcase#hexdrop',
+    )
+    await page.locator('.code-topline button').click()
+    if (name === 'chromium')
+      expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+        launchSnapshot,
+      )
+    await page.getByRole('button', { name: /Copy AI prompt/ }).click()
+    if (name === 'chromium') {
+      const prompt = await page.evaluate(() => navigator.clipboard.readText())
+      expect(prompt).toContain('LaunchScreen.vue')
+      expect(prompt).toContain('nextTick')
+      expect(prompt).toContain(launchSnapshot)
+    }
+    const launchVideo = page.locator('.recipe-full-screen video')
+    await launchVideo.scrollIntoViewIfNeeded()
+    await launchVideo.evaluate(async (video) => {
+      video.muted = true
+      await video.play()
+    })
+    await expect
+      .poll(() => launchVideo.evaluate((v) => v.currentTime))
+      .toBeGreaterThan(0.1)
+    await page.screenshot({ path: `${output}/${name}-hexdrop-launch.png` })
+    for (const locale of ['', '/pt-BR', '/es', '/zh-Hans']) {
+      for (const path of [
+        '/',
+        '/guide/showcase#hexdrop',
+        '/recipes/hexdrop-drag',
+        '/recipes/hexdrop-launch',
+        '/guide/hexdrop-recipes',
+      ]) {
+        await page.goto(`${base}${locale}${path}`)
+        for (const width of [1440, 768, 390, 320]) {
+          await page.setViewportSize({ width, height: 900 })
+          expect(
+            await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
+            `${name} ${locale}${path} overflow at ${width}`,
+          ).toBe(true)
+        }
+        if (path === '/') {
+          await page.locator('.hexdrop-feature').scrollIntoViewIfNeeded()
+          await page.screenshot({
+            path: `${output}/${name}-hexdrop-mobile-${locale.slice(1) || 'en'}.png`,
+          })
+        }
+      }
+    }
+    await page.setViewportSize({ width: 1440, height: 1000 })
     await page.goto(base)
     await expect(page.locator('[data-motion-ready="true"]')).toHaveCount(2)
     expect(errors).toEqual([])
@@ -515,7 +637,7 @@ for (const [name, engine] of [
       browser: name,
       result: 'passed',
       checks:
-        'WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, global documentation shell with light/dark themes, reading progress and responsive API/guide pages; animated showcase with reduced-motion playback and preserved anchors; four Jolt Drive recipes with snapshot, clipboard, pinned source, requirements and native playback in four locales, Jolt Drive project links and native playback, preserved Jolt Car walkthrough, published project images, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, home and showcase in 4 locales × 4 widths, mobile navigation, reduced motion, remount',
+        'Hexdrop home scroll animation, native playback, showcase, reduced motion, pinned source and clipboard prompt, project-specific backlink, localized home/showcase/recipe/guide in 4 locales × 4 widths; WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, global documentation shell with light/dark themes, reading progress and responsive API/guide pages; animated showcase with reduced-motion playback and preserved anchors; four Jolt Drive recipes with snapshot, clipboard, pinned source, requirements and native playback in four locales, Jolt Drive project links and native playback, preserved Jolt Car walkthrough, published project images, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, home and showcase in 4 locales × 4 widths, mobile navigation, reduced motion, remount',
     })
     console.log(`${name}: all interaction checks passed`)
   } catch (error) {
