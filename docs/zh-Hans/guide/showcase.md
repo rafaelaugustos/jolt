@@ -18,8 +18,23 @@ next: false
 探索使用 Jolt 制作的原生应用。观看录屏，了解其中的功能，也分享你自己的作品。
 
 <a class="showcase-submit-link" href="#submit-app">提交你的应用 <span aria-hidden="true">↗</span></a>
-<nav class="showcase-index" aria-label="Showcase"><a href="#morrow"><span>01</span>Morrow ↗</a><a href="#jolt-drive"><span>02</span>Jolt Drive ↗</a><a href="#hexdrop"><span>03</span>Hexdrop ↗</a><a href="#submit-app"><span>04</span>你的项目 ↗</a></nav>
+<nav class="showcase-index" aria-label="Showcase"><a href="#auralis"><span>01</span>Auralis ↗</a><a href="#morrow"><span>02</span>Morrow ↗</a><a href="#jolt-drive"><span>03</span>Jolt Drive ↗</a><a href="#hexdrop"><span>04</span>Hexdrop ↗</a><a href="#submit-app"><span>05</span>你的项目 ↗</a></nav>
 </div>
+
+<section class="showcase-feature" aria-labelledby="auralis">
+  <h2 id="auralis">Auralis<span>.</span></h2>
+  <div class="showcase-copy">
+    <p class="showcase-kicker">NATIVESCRIPT-VUE + JOLT RC.11 <span class="showcase-platform">iOS</span></p>
+    <p class="showcase-lead">用光塑造第一印象。悬浮玻璃卡片、虹彩文字，三个自然流转的场景。</p>
+    <p class="showcase-note">由 Rafael Augusto 使用 NativeScript-Vue 和 Jolt RC.11 构建。采用原生视图、矢量路径、渐变和粒子的引导演示。团队和服务仅为示意，不连接外部服务；未展示原生 Android 运行。</p>
+    <div class="showcase-project-links"><a href="https://github.com/rafaelaugustos/auralis">查看项目 ↗</a><a href="/zh-Hans/recipes/?q=Auralis">探索两个配方 ↗</a></div>
+    <button type="button" class="showcase-watch" data-watch="auralis">观看影片 <span aria-hidden="true">↗</span></button>
+  </div>
+  <div class="showcase-stage">
+    <div class="showcase-art" aria-hidden="true"><img src="/media/auralis-workspace.png" alt="" width="804" height="1748" /></div>
+    <Clip name="auralis-native-ios" :autoplay="false" poster="/media/auralis-native-ios.jpg" :width="280" caption="Auralis iOS 创作者录屏：动画开场、悬浮玻璃卡片、三个引导场景和页面控件。原始速度，无音频；省略最初 4.25 秒的系统主屏幕与启动转场。录制设备未说明；非性能测试。账户和服务均为示意。" />
+  </div>
+</section>
 
 <section class="showcase-feature" aria-labelledby="morrow">
   <h2 id="morrow">Morrow<span>.</span></h2>

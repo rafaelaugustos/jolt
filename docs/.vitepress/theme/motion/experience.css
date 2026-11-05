@@ -140,10 +140,11 @@
 .chrome-canvas {
   width: 100%;
   height: 100%;
-  display: none;
+  display: block;
+  visibility: hidden;
 }
 .chrome-canvas.rendered {
-  display: block;
+  visibility: visible;
 }
 .motion-site .motion-home .art-coordinate {
   top: 19%;
@@ -1115,9 +1116,19 @@
 }
 
 .sculpture-fallback {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
+}
+.hero-art[data-renderer='pending'] .sculpture-fallback {
+  visibility: hidden;
+}
+@media (scripting: none) {
+  .hero-art[data-renderer='pending'] .sculpture-fallback {
+    visibility: visible;
+  }
 }
 
 /* Research stays inspectable: every metric, source and limitation belongs together. */

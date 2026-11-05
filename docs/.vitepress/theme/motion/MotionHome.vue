@@ -11,6 +11,7 @@ import RecipeGrid from './RecipeGrid.vue'
 import NativeVideo from './NativeVideo.vue'
 import MorrowFeature from './MorrowFeature.vue'
 import HexdropFeature from './HexdropFeature.vue'
+import AuralisFeature from './AuralisFeature.vue'
 import { version } from '../../../../package.json'
 
 const { t, link } = useWords()
@@ -26,10 +27,10 @@ const driveCaption = [
 ] as const
 const featured = computed(() =>
   [
+    'auralis-cards',
+    'auralis-clock',
     'hexdrop-drag',
-    'drive-cockpit',
     'drive-cabin',
-    'hexdrop-launch',
     'spring-feeling',
     'gradients',
   ].map((slug) => recipes.find((recipe) => recipe.slug === slug)!),
@@ -138,6 +139,8 @@ async function copyInstall() {
         <a href="#collection" :aria-label="t(labels.explore)">↓</a>
       </div>
     </section>
+
+    <AuralisFeature />
 
     <MorrowFeature />
 

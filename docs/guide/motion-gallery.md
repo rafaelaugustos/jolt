@@ -8,6 +8,10 @@ The opening combines oversized type with a chrome sculpture that follows the poi
 
 <Clip name="motion-site-chromium" :width="960" caption="Chromium on macOS arm64: actual pointer and keyboard interaction with the Jolt website, including the chrome sculpture and inertial drag, scroll-linked Morrow phones and playback, native-video preview, spring interruption, stagger, drag/snap, recipe search and copy actions. Original-speed browser recording. Recipe videos come from the iOS simulator; Morrow is a creator-supplied iOS capture with an unspecified capture device. This browser recording is not native-performance evidence. Includes the animated Morrow and Jolt Drive showcase, shared documentation design, reading progress and light/dark themes." />
 
+The opening waits for the first painted WebGL frame before revealing the chrome sculpture, so the green fallback does not flash while JavaScript loads. The vector remains available when WebGL is unavailable or lost, and as static artwork with JavaScript disabled.
+
+<Clip name="motion-hero-startup-chromium" :width="960" caption="Chromium on macOS arm64: English homepage loading and reloading, pointer clicks, inertial drag and reduced motion. The homepage module is deliberately delayed by two seconds to expose startup behavior; playback is at original speed with no audio. Browser recording, not native performance evidence." />
+
 Each mounted interaction owns its runtime and disposes it when leaving the page. The sculpture observes geometry changes when the viewport resizes. The operating system's reduced-motion preference is respected; the footer also offers a persistent Reduce motion switch. Reduced motion prevents automatic recipe previews. Videos load on hover or focus and pause when leaving the card, viewport or document. Full recordings have standard playback controls.
 
 ## Native recordings
@@ -30,6 +34,8 @@ The collection and its detail pages are available in English, Brazilian Portugue
 
 Run `npm run docs:check-media` and `npm run docs:build`. Start `npm run docs:preview -- --port 5181`, then run `npm run docs:test-site`. The browser review covers Chromium and WebKit, actual interactions, native MP4 playback, clipboard actions, filtering, four locales, desktop/mobile widths, reduced motion and navigation/remounting. Browser review artifacts default to `/tmp/jolt-motion-site-review`. Analytics are blocked and the existing community-list endpoint returns an empty fixture during this visual review; it does not test the production community service.
 
+`node scripts/review-hero-startup.mjs` additionally checks delayed homepage hydration, the first WebGL frame, keyboard input, reduced motion, context loss, unavailable WebGL and static artwork without JavaScript in Chromium and WebKit. `node scripts/record-hero-startup.mjs` captures the startup recording above.
+
 `scripts/motion-recipe-captures.json` records the original source clips and exact trim ranges. `node scripts/prepare-motion-recipe-media.mjs` reproduces the derived native clips and posters with FFmpeg. `node scripts/record-motion-site.mjs` records the site with real Playwright input; use the captioned MP4 above for the review, not screenshots as a substitute.
 
 This site consumes existing Jolt Web APIs. It adds no engine capability and does not change Mavis application code.
@@ -51,3 +57,11 @@ Four recipes from the real project: coordinated cockpit, spring-driven atmospher
 The new Hexdrop feature pairs a Jolt Web scroll animation with real native footage. [Explore the project](./showcase#hexdrop) or [adapt its drag recipe](./hexdrop-recipes).
 
 <Clip name="hexdrop-creator-ios" :autoplay="false" poster="/media/hexdrop-creator-ios.jpg" :width="280" caption="Hexdrop on iOS: creator-provided recording of the animated launch, dragging, brewing, document picker and replay. Original speed, no audio; the first 3.8 seconds of the system home and launch transition are omitted. Capture device unspecified. Local demo; no file is uploaded." />
+
+## Auralis
+
+[Explore the two recipes](/recipes/?q=Auralis) · [Motion recipes from Auralis](./auralis-recipes)
+
+A first impression, made of light. Floating glass cards, iridescent lettering and three scenes that flow into each other.
+
+<Clip name="auralis-native-ios" :width="320" caption="Auralis on iOS: creator-provided recording of the animated launch, floating glass cards, three onboarding scenes and page controls. Original speed, no audio; the first 4.25 seconds of the system home and launch transition are omitted. Capture device unspecified; not a performance measurement. Accounts and services are illustrative." />

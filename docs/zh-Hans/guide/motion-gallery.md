@@ -6,6 +6,10 @@
 
 <Clip name="motion-site-chromium" :width="960" caption="macOS arm64 上的 Chromium：通过真实指针与键盘操作 Jolt 网站，展示镀铬雕塑与惯性拖动、随滚动移动的 Morrow 手机和视频播放、原生视频预览、弹簧打断、交错入场、拖动吸附、配方搜索和复制。浏览器原速录屏。配方视频来自 iOS 模拟器；Morrow 是创作者提供的 iOS 录屏，未指定录制设备。此次浏览器录屏并非原生性能测试。 包含 Morrow 和 Jolt Drive 动效展示、统一文档设计、阅读进度与浅色/深色主题。" />
 
+开场会等待 WebGL 绘制首帧后再显示镀铬雕塑，避免 JavaScript 加载期间闪现绿色备用图形。WebGL 不可用或上下文丢失时仍显示矢量版本；禁用 JavaScript 时保留静态图形。
+
+<Clip name="motion-hero-startup-chromium" :width="960" caption="macOS arm64 上的 Chromium：英文首页加载、重新加载、点击、惯性拖动与减少动态效果。故意将首页模块延迟两秒以展示初始化过程；原速播放，无音频。浏览器录屏，并非原生性能测试。" />
+
 网站遵循系统减少动态效果设置，页脚也提供持久保存的控制开关。预览在悬停或获得焦点时加载，离开卡片、视口或页面时暂停。减少动态效果时不自动播放预览。完整录屏提供标准播放控件。
 
 ## 原生录屏
@@ -43,3 +47,11 @@ Jolt Drive 展示链接到[公开仓库](https://github.com/rafaelaugustos/jolt-
 Hexdrop 展示将 Jolt Web 滚动动画与真实原生录屏相结合。[了解项目](./showcase#hexdrop)，或[适配其拖动配方](./hexdrop-recipes)。
 
 <Clip name="hexdrop-creator-ios" :autoplay="false" poster="/media/hexdrop-creator-ios.jpg" :width="280" caption="Hexdrop iOS 创作者录屏：动画开场、拖动、酿制、文档选择与重播。原始速度，无音频；省略最初 3.8 秒的系统主屏幕与启动转场。录制设备未说明。本地演示，不上传文件。" />
+
+## Auralis
+
+[探索两个配方](/zh-Hans/recipes/?q=Auralis) · [Auralis 动效配方](./auralis-recipes)
+
+用光塑造第一印象。悬浮玻璃卡片、虹彩文字，三个自然流转的场景。
+
+<Clip name="auralis-native-ios" :width="320" caption="Auralis iOS 创作者录屏：动画开场、悬浮玻璃卡片、三个引导场景和页面控件。原始速度，无音频；省略最初 4.25 秒的系统主屏幕与启动转场。录制设备未说明；非性能测试。账户和服务均为示意。" />

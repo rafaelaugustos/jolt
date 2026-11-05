@@ -15,6 +15,7 @@ concurrency:
 
 jobs:
   ios:
+    # Keep Apple Silicon: the Intel simulator crashes during NativeScript app startup.
     runs-on: macos-26
     timeout-minutes: 45
     steps:

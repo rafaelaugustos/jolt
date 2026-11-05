@@ -6,6 +6,10 @@ La apertura combina tipografía grande con una escultura cromada que sigue el pu
 
 <Clip name="motion-site-chromium" :width="960" caption="Chromium en macOS arm64: interacción real con puntero y teclado en el sitio Jolt, escultura cromada con inercia, teléfonos de Morrow vinculados al desplazamiento y reproducción, preview nativo, interrupción de spring, stagger, drag/snap, búsqueda y copia. Grabación del navegador a velocidad original. Los vídeos de recetas proceden del simulador iOS; Morrow es una captura iOS del creador sin dispositivo de captura especificado. Esta grabación del navegador no demuestra rendimiento nativo. Incluye el showcase animado de Morrow y Jolt Drive, el diseño compartido de la documentación, el progreso de lectura y los temas claro y oscuro." />
 
+La apertura espera el primer fotograma dibujado por WebGL antes de mostrar la escultura cromada, evitando el destello verde durante la carga de JavaScript. La versión vectorial sigue disponible si WebGL falla o pierde el contexto, y como imagen estática con JavaScript desactivado.
+
+<Clip name="motion-hero-startup-chromium" :width="960" caption="Chromium en macOS arm64: carga y recarga de la página principal en inglés, clics, arrastre con inercia y movimiento reducido. El módulo de la página se retrasa dos segundos deliberadamente para mostrar el inicio; velocidad original, sin audio. Grabación del navegador, no una medición de rendimiento nativo." />
+
 Se respeta la preferencia de movimiento reducido del sistema y el control persistente del pie de página. Los previews cargan al recibir el puntero o foco y se pausan al salir de la tarjeta, del área visible o del documento. Con movimiento reducido no se reproducen automáticamente. Las grabaciones completas tienen controles de reproducción.
 
 ## Grabaciones nativas
@@ -43,3 +47,11 @@ Cuatro recetas del proyecto real: cockpit coordinado, selección de ambiente con
 Hexdrop combina animación de scroll con Jolt Web y grabación nativa real. [Conoce el proyecto](./showcase#hexdrop) o [adapta su receta de arrastre](./hexdrop-recipes).
 
 <Clip name="hexdrop-creator-ios" :autoplay="false" poster="/media/hexdrop-creator-ios.jpg" :width="280" caption="Hexdrop en iOS: grabación del creador con apertura animada, arrastre, preparación, selector de documentos y repetición. Velocidad original, sin audio; se omiten los primeros 3,8 segundos de la pantalla de inicio y transición del sistema. Dispositivo no especificado. Demo local; no se suben archivos." />
+
+## Auralis
+
+[Explora las dos recetas](/es/recipes/?q=Auralis) · [Recetas de movimiento de Auralis](./auralis-recipes)
+
+Una primera impresión hecha de luz. Tarjetas de cristal flotantes, letras iridiscentes y tres escenas que fluyen entre sí.
+
+<Clip name="auralis-native-ios" :width="320" caption="Auralis en iOS: grabación del creador con apertura animada, tarjetas de cristal flotantes, tres escenas de onboarding y controles de página. Velocidad original, sin audio; se omiten los primeros 4,25 segundos de la pantalla de inicio y transición del sistema. Dispositivo no especificado; no mide rendimiento. Cuentas y servicios ilustrativos." />

@@ -8,6 +8,10 @@ A abertura combina tipografia grande com uma escultura cromada que acompanha o p
 
 <Clip name="motion-site-chromium" :width="960" caption="Chromium no macOS arm64: interação real de ponteiro e teclado com o site do Jolt, incluindo escultura cromada com inércia, aparelhos do Morrow ligados à rolagem e reprodução, preview nativo, interrupção de spring, stagger, drag/snap, busca e cópia. Gravação do navegador na velocidade original. Os vídeos das receitas vêm do simulador iOS; Morrow é uma captura iOS fornecida pelo criador, sem identificação do aparelho de captura. Esta gravação do navegador não comprova desempenho nativo. Inclui o showcase animado de Morrow e Jolt Drive, o visual compartilhado da documentação, progresso de leitura e temas claro e escuro." />
 
+A abertura espera o primeiro frame desenhado pelo WebGL antes de revelar a escultura cromada, evitando o flash verde durante o carregamento do JavaScript. A versão vetorial continua disponível se o WebGL falhar ou perder o contexto, e como imagem estática com JavaScript desativado.
+
+<Clip name="motion-hero-startup-chromium" :width="960" caption="Chromium no macOS arm64: carregamento e recarga da home em inglês, cliques, arraste com inércia e movimento reduzido. O módulo da home é atrasado deliberadamente em dois segundos para mostrar a inicialização; reprodução em velocidade original, sem áudio. Gravação do navegador, não uma medição de desempenho nativo." />
+
 Cada interação montada possui seu runtime e o descarta ao sair da página. A escultura acompanha mudanças de geometria ao redimensionar a janela. O site respeita a preferência de movimento reduzido do sistema; o rodapé também oferece um controle persistente de redução de movimento. Essa opção impede os previews automáticos. Vídeos carregam ao passar o ponteiro ou receber foco e pausam ao sair do card, da área visível ou do documento. As gravações completas possuem controles de reprodução.
 
 ## Gravações nativas
@@ -51,3 +55,11 @@ Quatro receitas extraídas do projeto real: cockpit coordenado, seleção de atm
 O novo destaque do Hexdrop combina animação de scroll com Jolt Web e gravação nativa real. [Conheça o projeto](./showcase#hexdrop) ou [adapte sua receita de arraste](./hexdrop-recipes).
 
 <Clip name="hexdrop-creator-ios" :autoplay="false" poster="/media/hexdrop-creator-ios.jpg" :width="280" caption="Hexdrop no iOS: gravação enviada pelo criador com abertura animada, arraste, preparo da poção, seletor de documentos e replay. Velocidade original, sem áudio; os primeiros 3,8 segundos da tela inicial e transição do sistema foram omitidos. Dispositivo não informado. Demo local; nenhum arquivo é enviado." />
+
+## Auralis
+
+[Explore as duas receitas](/pt-BR/recipes/?q=Auralis) · [Receitas de movimento do Auralis](./auralis-recipes)
+
+Uma primeira impressão feita de luz. Cards de vidro flutuantes, letras iridescentes e três cenas que fluem entre si.
+
+<Clip name="auralis-native-ios" :width="320" caption="Auralis no iOS: gravação enviada pelo criador com abertura animada, cards de vidro flutuantes, três cenas de onboarding e controles de página. Velocidade original, sem áudio; os primeiros 4,25 segundos da tela inicial e transição do sistema foram omitidos. Dispositivo não informado; não é medição de desempenho. Contas e serviços são ilustrativos." />

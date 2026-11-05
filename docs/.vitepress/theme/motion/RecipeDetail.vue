@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useData } from 'vitepress'
 import { recipes, categoryNames, recipeSourceUrl } from './recipes'
 import { data } from './recipes.data'
@@ -9,6 +9,10 @@ import RecipeGrid from './RecipeGrid.vue'
 
 const { frontmatter } = useData()
 const { t, link, locale } = useWords()
+const ready = ref(false)
+onMounted(() => {
+  ready.value = true
+})
 const recipe = computed(() =>
   recipes.find((item) => item.slug === frontmatter.value.recipe)!,
 )
@@ -61,7 +65,7 @@ async function copy(kind: 'code' | 'prompt') {
 </script>
 
 <template>
-  <article v-if="recipe" class="recipe-detail section-shell">
+  <article v-if="recipe" class="recipe-detail section-shell" :data-recipe-ready="ready">
     <a class="recipe-back" :href="link('/recipes/')">← {{ t(labels.recipes) }}</a>
     <div class="recipe-detail-heading">
       <p class="eyebrow">
@@ -132,14 +136,14 @@ async function copy(kind: 'code' | 'prompt') {
         <div class="recipe-code">
           <div class="code-topline">
             <span>{{ example.fileName || 'TypeScript · NativeScript' }}</span
-            ><button @click="copy('code')">
+            ><button :disabled="!ready" @click="copy('code')">
               {{ copied === 'code' ? t(labels.copied) : t(labels.copy) }} ⧉
             </button>
           </div>
           <pre><code>{{ example.code }}</code></pre>
         </div>
         <div class="recipe-actions">
-          <button class="button-acid" @click="copy('prompt')">
+          <button class="button-acid" :disabled="!ready" @click="copy('prompt')">
             {{ copied === 'prompt' ? t(labels.copied) : t(labels.prompt) }}
             <span aria-hidden="true">↗</span></button
           ><a :href="recipeSourceUrl(recipe)">{{ t(labels.source) }} ↗</a>

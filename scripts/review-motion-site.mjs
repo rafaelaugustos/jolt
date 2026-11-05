@@ -11,6 +11,12 @@ await mkdir(output, { recursive: true })
 const failures = []
 const evidence = []
 
+async function waitForHydration(page) {
+  // RecipeDetail is an async component, so the root app can mount before its
+  // server-rendered copy buttons acquire their handlers.
+  await expect(page.locator('[data-recipe-ready="true"]')).toBeVisible()
+}
+
 for (const [name, engine] of [
   ['chromium', chromium],
   ['webkit', webkit],
@@ -221,7 +227,7 @@ for (const [name, engine] of [
     await expect.poll(() => page.evaluate(() => scrollY)).toBeLessThan(120)
 
     await page.goto(`${base}/recipes/`)
-    await expect(page.locator('.recipe-card')).toHaveCount(18)
+    await expect(page.locator('.recipe-card')).toHaveCount(20)
     await page.getByRole('button', { name: 'Touch & gestures', exact: true }).click()
     await expect(page.locator('.recipe-card')).toHaveCount(6)
     await page.locator('.recipe-card').first().hover()
@@ -241,13 +247,15 @@ for (const [name, engine] of [
     await page.getByRole('searchbox').fill('nonsense-that-is-not-a-recipe')
     await expect(page.locator('.recipe-empty')).toBeVisible()
     await page.getByRole('button', { name: /Reset filters/ }).click()
-    await expect(page.locator('.recipe-card')).toHaveCount(18)
+    await expect(page.locator('.recipe-card')).toHaveCount(20)
     await page.getByRole('searchbox').fill('spring')
     await expect(page.locator('.recipe-card')).toHaveCount(4)
     await page.locator('a.recipe-card[href="/recipes/spring-feeling"]').click()
     await expect(page.locator('.recipe-detail h1')).toContainText('spring')
     await expect(page.locator('.recipe-code')).toContainText('animate(')
+    await waitForHydration(page)
     await page.getByRole('button', { name: /Copy AI prompt/ }).click()
+    await expect(page.locator('.recipe-actions button')).toContainText('Copied!')
     if (name === 'chromium') {
       const prompt = await page.evaluate(() => navigator.clipboard.readText())
       expect(prompt).toContain('NativeScript Vue 3')
@@ -294,10 +302,14 @@ for (const [name, engine] of [
         'href',
         `https://github.com/rafaelaugustos/jolt-drive/blob/2d9cc4afeec1d1fa04b85e5dbe063db07e3db29f/${source}`,
       )
+      await waitForHydration(page)
       await page.locator('.code-topline button').click()
+      await expect(page.locator('.code-topline button')).toContainText('Copied!')
       if (name === 'chromium')
         expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(snapshot)
+      await waitForHydration(page)
       await page.getByRole('button', { name: /Copy AI prompt/ }).click()
+      await expect(page.locator('.recipe-actions button')).toContainText('Copied!')
       if (name === 'chromium') {
         const prompt = await page.evaluate(() => navigator.clipboard.readText())
         expect(prompt).toContain('2d9cc4afeec1d1fa04b85e5dbe063db07e3db29f')
@@ -345,7 +357,7 @@ for (const [name, engine] of [
       await page.locator('.motion-menu').click()
       await expect(page.locator('.motion-nav-links')).toBeVisible()
       await page.locator('.motion-nav-links a').first().click()
-      await expect(page.locator('.recipe-card')).toHaveCount(18)
+      await expect(page.locator('.recipe-card')).toHaveCount(20)
       expect(
         await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
       ).toBe(true)
@@ -385,10 +397,9 @@ for (const [name, engine] of [
     for (const locale of ['', '/pt-BR', '/es', '/zh-Hans']) {
       await page.goto(`${base}${locale}/guide/showcase#jolt-drive`)
       await expect(page.locator('#jolt-drive')).toHaveText('Jolt Drive.')
-      await expect(page.locator('.showcase-project-links a').first()).toHaveAttribute(
-        'href',
-        'https://github.com/rafaelaugustos/jolt-drive',
-      )
+      await expect(
+        page.locator('[aria-labelledby="jolt-drive"] .showcase-project-links a').first(),
+      ).toHaveAttribute('href', 'https://github.com/rafaelaugustos/jolt-drive')
       await expect(page.locator('.drive-screens img')).toHaveCount(3)
       await expect(page.locator('video[src*="film-car-ios"]')).toHaveCount(1)
       for (const width of [1440, 768, 390, 320]) {
@@ -554,10 +565,14 @@ for (const [name, engine] of [
       'utf8',
     )
     expect(await page.locator('.recipe-code pre code').textContent()).toBe(hexSnapshot)
+    await waitForHydration(page)
     await page.locator('.code-topline button').click()
+    await expect(page.locator('.code-topline button')).toContainText('Copied!')
     if (name === 'chromium')
       expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(hexSnapshot)
+    await waitForHydration(page)
     await page.getByRole('button', { name: /Copy AI prompt/ }).click()
+    await expect(page.locator('.recipe-actions button')).toContainText('Copied!')
     if (name === 'chromium') {
       const prompt = await page.evaluate(() => navigator.clipboard.readText())
       expect(prompt).toContain('ebdc02a2652051c982779ea43ba3d76cf99bb538')
@@ -583,12 +598,16 @@ for (const [name, engine] of [
       'href',
       '/guide/showcase#hexdrop',
     )
+    await waitForHydration(page)
     await page.locator('.code-topline button').click()
+    await expect(page.locator('.code-topline button')).toContainText('Copied!')
     if (name === 'chromium')
       expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
         launchSnapshot,
       )
+    await waitForHydration(page)
     await page.getByRole('button', { name: /Copy AI prompt/ }).click()
+    await expect(page.locator('.recipe-actions button')).toContainText('Copied!')
     if (name === 'chromium') {
       const prompt = await page.evaluate(() => navigator.clipboard.readText())
       expect(prompt).toContain('LaunchScreen.vue')
@@ -632,12 +651,122 @@ for (const [name, engine] of [
     await page.setViewportSize({ width: 1440, height: 1000 })
     await page.goto(base)
     await expect(page.locator('[data-motion-ready="true"]')).toHaveCount(2)
+    await expect(page.locator('[data-auralis-ready="true"]')).toBeVisible()
+    await page.locator('.auralis-feature').scrollIntoViewIfNeeded()
+    const auralisPhone = page.locator('.auralis-phone')
+    const auralisPose = await auralisPhone.evaluate(
+      (el) => getComputedStyle(el).transform,
+    )
+    await page.mouse.wheel(0, 110)
+    await expect
+      .poll(() => auralisPhone.evaluate((el) => getComputedStyle(el).transform))
+      .not.toBe(auralisPose)
+    const auralisVideo = auralisPhone.locator('video')
+    await auralisVideo.evaluate(async (video) => {
+      video.muted = true
+      await video.play()
+    })
+    await expect
+      .poll(() => auralisVideo.evaluate((v) => v.currentTime))
+      .toBeGreaterThan(1)
+    await page.screenshot({ path: `${output}/${name}-auralis-home.png` })
+    await page.locator('.morrow-section').scrollIntoViewIfNeeded()
+    await expect.poll(() => auralisVideo.evaluate((v) => v.paused)).toBe(true)
+    await page.locator('.auralis-primary').click()
+    await expect(page).toHaveURL(/guide\/showcase#auralis/)
+    await expect(page.locator('#auralis')).toHaveText('Auralis.')
+    await page.locator('[data-watch="auralis"]').click()
+    const auralisNative = page.locator('[aria-labelledby="auralis"] video')
+    await expect
+      .poll(() => auralisNative.evaluate((v) => v.currentTime))
+      .toBeGreaterThan(1)
+    await page.screenshot({ path: `${output}/${name}-auralis-showcase.png` })
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await expect.poll(() => auralisNative.evaluate((v) => v.paused)).toBe(true)
+    await page.locator('[data-watch="auralis"]').click()
+    await expect.poll(() => auralisNative.evaluate((v) => v.paused)).toBe(false)
+    await page.getByRole('combobox').selectOption('pt-BR')
+    await expect(page).toHaveURL(/pt-BR\/guide\/showcase#auralis/)
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    await page.goto(`${base}/recipes/?q=Auralis`)
+    await expect(page.locator('.recipe-card')).toHaveCount(2)
+    for (const [slug, file] of [
+      ['cards', 'src/scene/choreography.ts'],
+      ['clock', 'src/composables/useCarouselClock.ts'],
+    ]) {
+      await page.goto(`${base}/recipes/auralis-${slug}`)
+      const snapshot = await readFile(
+        new URL(
+          `../docs/recipes/sources/rafaelaugustos/auralis/${file}.txt`,
+          import.meta.url,
+        ),
+        'utf8',
+      )
+      expect(await page.locator('.recipe-code pre code').textContent()).toBe(snapshot)
+      await expect(page.locator('.recipe-project-link')).toHaveAttribute(
+        'href',
+        '/guide/showcase#auralis',
+      )
+      await expect(page.locator('.recipe-actions a')).toHaveAttribute(
+        'href',
+        `https://github.com/rafaelaugustos/auralis/blob/e533eae13cbf5a78d59dcadc4e61f45f28de88f2/${file}`,
+      )
+      await waitForHydration(page)
+      await page.locator('.code-topline button').click()
+      await expect(page.locator('.code-topline button')).toContainText('Copied!')
+      if (name === 'chromium')
+        expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(snapshot)
+      await waitForHydration(page)
+      await page.getByRole('button', { name: /Copy AI prompt/ }).click()
+      await expect(page.locator('.recipe-actions button')).toContainText('Copied!')
+      if (name === 'chromium') {
+        const prompt = await page.evaluate(() => navigator.clipboard.readText())
+        expect(prompt).toContain(snapshot)
+        expect(prompt).toContain('e533eae13cbf5a78d59dcadc4e61f45f28de88f2')
+        expect(prompt).toContain('Required context:')
+      }
+      const clip = page.locator('.recipe-full-screen video')
+      await clip.scrollIntoViewIfNeeded()
+      await clip.evaluate(async (v) => {
+        v.muted = true
+        await v.play()
+      })
+      await expect.poll(() => clip.evaluate((v) => v.currentTime)).toBeGreaterThan(1)
+      await page.screenshot({ path: `${output}/${name}-auralis-${slug}.png` })
+    }
+    for (const locale of ['', '/pt-BR', '/es', '/zh-Hans']) {
+      for (const path of [
+        '/',
+        '/guide/showcase#auralis',
+        '/recipes/auralis-cards',
+        '/recipes/auralis-clock',
+        '/guide/auralis-recipes',
+      ]) {
+        await page.goto(`${base}${locale}${path}`)
+        for (const width of [1440, 768, 390, 320]) {
+          await page.setViewportSize({ width, height: 900 })
+          expect(
+            await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
+            `${name} ${locale}${path} overflow at ${width}`,
+          ).toBe(true)
+        }
+        if (path === '/') {
+          await page.locator('.auralis-feature').scrollIntoViewIfNeeded()
+          await page.locator('.auralis-feature').screenshot({
+            path: `${output}/${name}-auralis-mobile-${locale.slice(1) || 'en'}.png`,
+          })
+        }
+      }
+    }
+    await page.setViewportSize({ width: 1440, height: 1000 })
+    await page.goto(base)
+    await expect(page.locator('[data-auralis-ready="true"]')).toBeVisible()
     expect(errors).toEqual([])
     evidence.push({
       browser: name,
       result: 'passed',
       checks:
-        'Hexdrop home scroll animation, native playback, showcase, reduced motion, pinned source and clipboard prompt, project-specific backlink, localized home/showcase/recipe/guide in 4 locales × 4 widths; WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, global documentation shell with light/dark themes, reading progress and responsive API/guide pages; animated showcase with reduced-motion playback and preserved anchors; four Jolt Drive recipes with snapshot, clipboard, pinned source, requirements and native playback in four locales, Jolt Drive project links and native playback, preserved Jolt Car walkthrough, published project images, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, home and showcase in 4 locales × 4 widths, mobile navigation, reduced motion, remount',
+        'Auralis: home parallax, offscreen playback pause, showcase, reduced-motion manual play, anchor-preserving language switch, both source snapshots and prompts, project backlink, search, and home/showcase/2 recipes/guide in 4 locales × 4 widths. Hexdrop home scroll animation, native playback, showcase, reduced motion, pinned source and clipboard prompt, project-specific backlink, localized home/showcase/recipe/guide in 4 locales × 4 widths; WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, global documentation shell with light/dark themes, reading progress and responsive API/guide pages; animated showcase with reduced-motion playback and preserved anchors; four Jolt Drive recipes with snapshot, clipboard, pinned source, requirements and native playback in four locales, Jolt Drive project links and native playback, preserved Jolt Car walkthrough, published project images, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, home and showcase in 4 locales × 4 widths, mobile navigation, reduced motion, remount',
     })
     console.log(`${name}: all interaction checks passed`)
   } catch (error) {
