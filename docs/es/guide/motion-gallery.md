@@ -6,6 +6,10 @@ La apertura combina tipografía grande con una escultura cromada que sigue el pu
 
 <Clip name="motion-site-chromium" :width="960" caption="Chromium en macOS arm64: interacción real con puntero y teclado en el sitio Jolt, escultura cromada con inercia, teléfonos de Morrow vinculados al desplazamiento y reproducción, preview nativo, interrupción de spring, stagger, drag/snap, búsqueda y copia. Grabación del navegador a velocidad original. Los vídeos de recetas proceden del simulador iOS; Morrow es una captura iOS del creador sin dispositivo de captura especificado. Esta grabación del navegador no demuestra rendimiento nativo. Incluye el showcase animado de Morrow y Jolt Drive, el diseño compartido de la documentación, el progreso de lectura y los temas claro y oscuro." />
 
+La apertura espera el primer fotograma dibujado por WebGL antes de mostrar la escultura cromada, evitando el destello verde durante la carga de JavaScript. La versión vectorial sigue disponible si WebGL falla o pierde el contexto, y como imagen estática con JavaScript desactivado.
+
+<Clip name="motion-hero-startup-chromium" :width="960" caption="Chromium en macOS arm64: carga y recarga de la página principal en inglés, clics, arrastre con inercia y movimiento reducido. El módulo de la página se retrasa dos segundos deliberadamente para mostrar el inicio; velocidad original, sin audio. Grabación del navegador, no una medición de rendimiento nativo." />
+
 Se respeta la preferencia de movimiento reducido del sistema y el control persistente del pie de página. Los previews cargan al recibir el puntero o foco y se pausan al salir de la tarjeta, del área visible o del documento. Con movimiento reducido no se reproducen automáticamente. Las grabaciones completas tienen controles de reproducción.
 
 ## Grabaciones nativas

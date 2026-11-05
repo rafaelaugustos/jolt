@@ -12,7 +12,7 @@ const turn = ref<HTMLElement>()
 const input = ref<HTMLElement>()
 let motion: WebRuntime | undefined
 const canvas = ref<HTMLCanvasElement>()
-const webgl = ref(false)
+const renderer = ref<'pending' | 'webgl' | 'svg'>('pending')
 let rotation = 0
 let spinValue: WebMotionValue | undefined
 // A projected toroidal spring. Vector geometry stays sharp at every screen size.
@@ -61,10 +61,10 @@ const { ready, reduced } = useMotion((runtime) => {
   })
   const scroll = runtime.scrollValue()
   const sculptureRenderer = createChromeSculpture(canvas.value!, () => {
-    webgl.value = false
+    renderer.value = 'svg'
     schedule()
   })
-  webgl.value = !!sculptureRenderer
+  if (!sculptureRenderer) renderer.value = 'svg'
   let visible = true
   let frame = 0
   const draw = () => {
@@ -75,13 +75,14 @@ const { ready, reduced } = useMotion((runtime) => {
     const x = staticPose ? 0 : follow.x.get()
     const y = staticPose ? 0 : follow.y.get()
     const travel = staticPose ? 0 : Math.min(scroll.get() / innerHeight, 1) * 0.45
-    if (!webgl.value && fallback.value)
+    if (renderer.value === 'svg' && fallback.value)
       fallback.value.style.transform = `rotate(${dragAngle.get() * 0.46 + x * 20}deg)`
-    sculptureRenderer?.render(
+    const painted = sculptureRenderer?.render(
       0.36 - y + travel,
       -0.38 + x + spinValue!.get() + dragAngle.get() * 0.008,
       -0.4,
     )
+    if (painted && renderer.value === 'pending') renderer.value = 'webgl'
   }
   const schedule = () => {
     if (!frame && visible && !document.hidden) frame = requestAnimationFrame(draw)
@@ -125,12 +126,7 @@ function spin() {
 </script>
 
 <template>
-  <div
-    ref="region"
-    class="hero-art"
-    :data-motion-ready="ready"
-    :data-renderer="webgl ? 'webgl' : 'svg'"
-  >
+  <div ref="region" class="hero-art" :data-motion-ready="ready" :data-renderer="renderer">
     <div class="hero-art-grid" aria-hidden="true"></div>
     <span class="art-coordinate"
       >OBJECT 001 —
@@ -142,6 +138,7 @@ function spin() {
       <button
         ref="input"
         class="sculpture-input"
+        :disabled="renderer === 'pending'"
         :aria-label="
           t([
             'Drag or tap the sculpture to spin it',
@@ -156,10 +153,10 @@ function spin() {
           <canvas
             ref="canvas"
             class="chrome-canvas"
-            :class="{ rendered: webgl }"
+            :class="{ rendered: renderer === 'webgl' }"
             aria-hidden="true"
           />
-          <span ref="fallback" v-show="!webgl" class="sculpture-fallback">
+          <span ref="fallback" v-show="renderer !== 'webgl'" class="sculpture-fallback">
             <svg viewBox="0 0 560 560" fill="none" aria-hidden="true">
               <defs>
                 <linearGradient id="spring-wire" x1=".2" y1="0" x2=".8" y2="1">

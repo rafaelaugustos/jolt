@@ -141,11 +141,11 @@ export function createChromeSculpture(canvas: HTMLCanvasElement, onLost: () => v
   canvas.addEventListener('webglcontextlost', lost)
   return {
     render(x: number, y: number, z: number) {
-      if (disposed || gl.isContextLost()) return
+      if (disposed || gl.isContextLost()) return false
       const size = Math.min(1.75, window.devicePixelRatio || 1)
       const width = Math.round(canvas.clientWidth * size),
         height = Math.round(canvas.clientHeight * size)
-      if (!width || !height) return
+      if (!width || !height) return false
       if (canvas.width !== width || canvas.height !== height) {
         canvas.width = width
         canvas.height = height
@@ -155,6 +155,7 @@ export function createChromeSculpture(canvas: HTMLCanvasElement, onLost: () => v
       gl.uniform3f(rotation, x, y, z)
       gl.uniform1f(aspect, width / height)
       gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0)
+      return true
     },
     dispose() {
       disposed = true
