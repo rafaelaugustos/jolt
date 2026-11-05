@@ -15,7 +15,8 @@ concurrency:
 
 jobs:
   ios:
-    runs-on: macos-26
+    # Keep macOS 26/Xcode coverage without the constrained hosted ARM64 pool.
+    runs-on: macos-26-intel
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v7
