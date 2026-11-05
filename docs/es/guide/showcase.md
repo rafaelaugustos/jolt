@@ -18,8 +18,23 @@ next: false
 Explora el movimiento en apps nativas hechas con Jolt. Mira las grabaciones, descubre los recursos y comparte lo que has creado.
 
 <a class="showcase-submit-link" href="#submit-app">Envía tu app <span aria-hidden="true">↗</span></a>
-<nav class="showcase-index" aria-label="Showcase"><a href="#morrow"><span>01</span>Morrow ↗</a><a href="#jolt-drive"><span>02</span>Jolt Drive ↗</a><a href="#hexdrop"><span>03</span>Hexdrop ↗</a><a href="#submit-app"><span>04</span>Tu proyecto ↗</a></nav>
+<nav class="showcase-index" aria-label="Showcase"><a href="#auralis"><span>01</span>Auralis ↗</a><a href="#morrow"><span>02</span>Morrow ↗</a><a href="#jolt-drive"><span>03</span>Jolt Drive ↗</a><a href="#hexdrop"><span>04</span>Hexdrop ↗</a><a href="#submit-app"><span>05</span>Tu proyecto ↗</a></nav>
 </div>
+
+<section class="showcase-feature" aria-labelledby="auralis">
+  <h2 id="auralis">Auralis<span>.</span></h2>
+  <div class="showcase-copy">
+    <p class="showcase-kicker">NATIVESCRIPT-VUE + JOLT RC.11 <span class="showcase-platform">iOS</span></p>
+    <p class="showcase-lead">Una primera impresión hecha de luz. Tarjetas de cristal flotantes, letras iridiscentes y tres escenas que fluyen entre sí.</p>
+    <p class="showcase-note">Creado por Rafael Augusto con NativeScript-Vue y Jolt RC.11. Una demo de onboarding con vistas nativas, trazados, gradientes y partículas. Los equipos y servicios ilustrativos no realizan conexiones externas; no se demuestra ejecución nativa en Android.</p>
+    <div class="showcase-project-links"><a href="https://github.com/rafaelaugustos/auralis">Ver el proyecto ↗</a><a href="/es/recipes/?q=Auralis">Explora las dos recetas ↗</a></div>
+    <button type="button" class="showcase-watch" data-watch="auralis">Ver la película <span aria-hidden="true">↗</span></button>
+  </div>
+  <div class="showcase-stage">
+    <div class="showcase-art" aria-hidden="true"><img src="/media/auralis-workspace.png" alt="" width="804" height="1748" /></div>
+    <Clip name="auralis-native-ios" :autoplay="false" poster="/media/auralis-native-ios.jpg" :width="280" caption="Auralis en iOS: grabación del creador con apertura animada, tarjetas de cristal flotantes, tres escenas de onboarding y controles de página. Velocidad original, sin audio; se omiten los primeros 4,25 segundos de la pantalla de inicio y transición del sistema. Dispositivo no especificado; no mide rendimiento. Cuentas y servicios ilustrativos." />
+  </div>
+</section>
 
 <section class="showcase-feature" aria-labelledby="morrow">
   <h2 id="morrow">Morrow<span>.</span></h2>

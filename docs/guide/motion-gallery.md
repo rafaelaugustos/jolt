@@ -51,3 +51,11 @@ Four recipes from the real project: coordinated cockpit, spring-driven atmospher
 The new Hexdrop feature pairs a Jolt Web scroll animation with real native footage. [Explore the project](./showcase#hexdrop) or [adapt its drag recipe](./hexdrop-recipes).
 
 <Clip name="hexdrop-creator-ios" :autoplay="false" poster="/media/hexdrop-creator-ios.jpg" :width="280" caption="Hexdrop on iOS: creator-provided recording of the animated launch, dragging, brewing, document picker and replay. Original speed, no audio; the first 3.8 seconds of the system home and launch transition are omitted. Capture device unspecified. Local demo; no file is uploaded." />
+
+## Auralis
+
+[Explore the two recipes](/recipes/?q=Auralis) · [Motion recipes from Auralis](./auralis-recipes)
+
+A first impression, made of light. Floating glass cards, iridescent lettering and three scenes that flow into each other.
+
+<Clip name="auralis-native-ios" :width="320" caption="Auralis on iOS: creator-provided recording of the animated launch, floating glass cards, three onboarding scenes and page controls. Original speed, no audio; the first 4.25 seconds of the system home and launch transition are omitted. Capture device unspecified; not a performance measurement. Accounts and services are illustrative." />

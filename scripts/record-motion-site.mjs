@@ -132,7 +132,7 @@ await page.locator('.footer-top-link').click()
 
 await page.waitForTimeout(1000)
 await page.locator('.motion-nav-links a').first().click()
-await expect(page.locator('.recipe-card')).toHaveCount(18)
+await expect(page.locator('.recipe-card')).toHaveCount(20)
 await page.waitForTimeout(900)
 await page.getByRole('button', { name: 'Touch & gestures', exact: true }).click()
 await page.waitForTimeout(1100)

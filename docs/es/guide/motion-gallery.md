@@ -43,3 +43,11 @@ Cuatro recetas del proyecto real: cockpit coordinado, selección de ambiente con
 Hexdrop combina animación de scroll con Jolt Web y grabación nativa real. [Conoce el proyecto](./showcase#hexdrop) o [adapta su receta de arrastre](./hexdrop-recipes).
 
 <Clip name="hexdrop-creator-ios" :autoplay="false" poster="/media/hexdrop-creator-ios.jpg" :width="280" caption="Hexdrop en iOS: grabación del creador con apertura animada, arrastre, preparación, selector de documentos y repetición. Velocidad original, sin audio; se omiten los primeros 3,8 segundos de la pantalla de inicio y transición del sistema. Dispositivo no especificado. Demo local; no se suben archivos." />
+
+## Auralis
+
+[Explora las dos recetas](/es/recipes/?q=Auralis) · [Recetas de movimiento de Auralis](./auralis-recipes)
+
+Una primera impresión hecha de luz. Tarjetas de cristal flotantes, letras iridiscentes y tres escenas que fluyen entre sí.
+
+<Clip name="auralis-native-ios" :width="320" caption="Auralis en iOS: grabación del creador con apertura animada, tarjetas de cristal flotantes, tres escenas de onboarding y controles de página. Velocidad original, sin audio; se omiten los primeros 4,25 segundos de la pantalla de inicio y transición del sistema. Dispositivo no especificado; no mide rendimiento. Cuentas y servicios ilustrativos." />

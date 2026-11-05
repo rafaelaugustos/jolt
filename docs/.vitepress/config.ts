@@ -52,6 +52,17 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
             )[prefix] ?? 'The Hexdrop recipe',
           link: `${prefix}/guide/hexdrop-recipes`,
         },
+        {
+          text:
+            (
+              {
+                '/pt-BR': 'Receitas do Auralis',
+                '/es': 'Recetas de Auralis',
+                '/zh-Hans': 'Auralis 动效配方',
+              } as Record<string, string>
+            )[prefix] ?? 'Auralis recipes',
+          link: `${prefix}/guide/auralis-recipes`,
+        },
         page('install', 'install'),
         page('animating', 'animating'),
         page('demo', 'demo'),

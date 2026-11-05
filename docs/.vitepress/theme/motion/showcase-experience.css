@@ -184,6 +184,33 @@
 .showcase-exhibit .showcase-points {
   margin-block: 24px;
 }
+.showcase-exhibit .showcase-feature[aria-labelledby='auralis'] {
+  background: #e2e7f5;
+  color: #252b54;
+  --vp-c-text-1: #252b54;
+  --vp-c-text-2: #616888;
+  --vp-c-brand-1: #4d568f;
+  --vp-c-divider: #59608b30;
+}
+.showcase-exhibit [aria-labelledby='auralis'] > h2 span {
+  color: #8d91bc;
+}
+.showcase-exhibit [aria-labelledby='auralis'] .clip video,
+.showcase-exhibit [aria-labelledby='auralis'] .showcase-art img {
+  border-color: #414563;
+}
+.showcase-exhibit [aria-labelledby='auralis'] .showcase-watch {
+  background: #30365d;
+  color: #f1f1fa;
+}
+.showcase-exhibit [aria-labelledby='auralis'] .showcase-stage {
+  background: radial-gradient(
+    ellipse at 45% 40%,
+    #ffffffa0,
+    #c5d0ee40 50%,
+    transparent 70%
+  );
+}
 .showcase-exhibit .showcase-feature[aria-labelledby='hexdrop'] {
   background: #20162e;
   color: #ece1f7;

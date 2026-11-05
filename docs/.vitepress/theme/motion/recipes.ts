@@ -70,7 +70,82 @@ export const hexdropCaption: Words = [
   'Hexdrop en iOS: grabación del creador con apertura animada, arrastre, preparación, selector de documentos y repetición. Velocidad original, sin audio; se omiten los primeros 3,8 segundos de la pantalla de inicio y transición del sistema. Dispositivo no especificado. Demo local; no se suben archivos.',
   'Hexdrop iOS 创作者录屏：动画开场、拖动、酿制、文档选择与重播。原始速度，无音频；省略最初 3.8 秒的系统主屏幕与启动转场。录制设备未说明。本地演示，不上传文件。',
 ]
+export const auralisCaption: Words = [
+  'Auralis on iOS: creator-provided recording of the animated launch, floating glass cards, three onboarding scenes and page controls. Original speed, no audio; the first 4.25 seconds of the system home and launch transition are omitted. Capture device unspecified; not a performance measurement. Accounts and services are illustrative.',
+  'Auralis no iOS: gravação enviada pelo criador com abertura animada, cards de vidro flutuantes, três cenas de onboarding e controles de página. Velocidade original, sem áudio; os primeiros 4,25 segundos da tela inicial e transição do sistema foram omitidos. Dispositivo não informado; não é medição de desempenho. Contas e serviços são ilustrativos.',
+  'Auralis en iOS: grabación del creador con apertura animada, tarjetas de cristal flotantes, tres escenas de onboarding y controles de página. Velocidad original, sin audio; se omiten los primeros 4,25 segundos de la pantalla de inicio y transición del sistema. Dispositivo no especificado; no mide rendimiento. Cuentas y servicios ilustrativos.',
+  'Auralis iOS 创作者录屏：动画开场、悬浮玻璃卡片、三个引导场景和页面控件。原始速度，无音频；省略最初 4.25 秒的系统主屏幕与启动转场。录制设备未说明；非性能测试。账户和服务均为示意。',
+]
 export const recipes: Recipe[] = [
+  {
+    slug: 'auralis-cards',
+    title: ['Into the light.', 'Encontre a luz.', 'Hacia la luz.', '跃入光中。'],
+    description: [
+      'Cards tumble behind a curved horizon and rise into their next scene.',
+      'Cards mergulham atrás do horizonte curvo e surgem na próxima cena.',
+      'Las tarjetas caen tras un horizonte curvo y emergen en la siguiente escena.',
+      '卡片沉入曲面地平线，再升入下一个场景。',
+    ],
+    category: 'Motion',
+    source: 'src/scene/choreography.ts',
+    guideAnchor: 'cards',
+    color: '#d7def4',
+    requirements: [
+      'NativeScript-Vue 3 and Jolt RC.11. These functions return keyframes and options; AuroraView schedules them in a scoped timeline. Supply CardLayout, the lower of both scenes’ visible boundaries (the larger y coordinate), and card index/count. Geometry uses a 402-point canvas with center x=201: adapt or scale it for your scene. Keep transition transforms on card.view and idle motion on card.art. Preserve the renderer’s reduced-motion fades, lifecycle guards and scope disposal. The helpers do not draw glass, text or particles; read aurora-view.ts and artwork.ts. iOS is the recorded platform.',
+      'NativeScript-Vue 3 e Jolt RC.11. As funções retornam keyframes e opções; AuroraView as agenda em uma timeline com scope. Forneça CardLayout, o limite inferior entre as duas cenas (maior coordenada y) e índice/quantidade de cards. A geometria usa um canvas de 402 pontos com centro x=201: adapte ou escale para sua cena. Separe as transformações de transição em card.view do movimento contínuo em card.art. Preserve fades de movimento reduzido, proteções de ciclo de vida e descarte dos scopes. Os helpers não desenham vidro, texto ou partículas; veja aurora-view.ts e artwork.ts. A plataforma gravada é iOS.',
+      'NativeScript-Vue 3 y Jolt RC.11. Las funciones devuelven keyframes y opciones; AuroraView las programa en una timeline con scope. Proporciona CardLayout, el límite inferior de ambas escenas (mayor coordenada y) e índice/cantidad de tarjetas. La geometría usa un canvas de 402 puntos con centro x=201: adáptalo o escálalo. Separa transiciones en card.view y movimiento continuo en card.art. Conserva los fades de movimiento reducido, las protecciones de ciclo de vida y la limpieza de scopes. Los helpers no dibujan cristal, texto ni partículas; consulta aurora-view.ts y artwork.ts. La plataforma grabada es iOS.',
+      '需要 NativeScript-Vue 3 和 Jolt RC.11。函数返回关键帧与选项，由 AuroraView 放入作用域时间线。提供 CardLayout、两个场景中更低的边界（较大的 y 值）以及卡片索引和总数。几何基于 402 点画布、中心 x=201，需按场景调整或缩放。card.view 负责转场，card.art 负责持续漂浮。保留渲染器的减少动态淡入淡出、生命周期保护和 scope 清理。函数本身不绘制玻璃、文字或粒子，请结合 aurora-view.ts 与 artwork.ts。录屏平台为 iOS。',
+    ],
+    video: 'auralis-native-ios',
+    guide: 'auralis-recipes',
+    platform: 'iOS',
+    caption: auralisCaption,
+    project: {
+      name: 'Auralis',
+      repository: 'rafaelaugustos/auralis',
+      revision: 'e533eae13cbf5a78d59dcadc4e61f45f28de88f2',
+      joltVersion: '0.1.0-rc.11',
+      showcaseAnchor: 'auralis',
+      sha256: '493383cdbff48c8c4bb24f0ae565aaa2e0efffe2f09fc589198f00047d80acbd',
+    },
+  },
+  {
+    slug: 'auralis-clock',
+    title: [
+      'One clock. Every scene.',
+      'Um relógio. Todas as cenas.',
+      'Un reloj. Cada escena.',
+      '一个时钟，联动场景。',
+    ],
+    description: [
+      'The page indicator fills on the same clock that advances the onboarding.',
+      'O indicador preenche no mesmo relógio que avança o onboarding.',
+      'El indicador se llena con el mismo reloj que avanza el onboarding.',
+      '页面指示器与引导翻页共用同一个时钟。',
+    ],
+    category: 'Layout',
+    source: 'src/composables/useCarouselClock.ts',
+    guideAnchor: 'clock',
+    color: '#cbe8df',
+    requirements: [
+      'Call useCarouselClock during NativeScript-Vue setup with an async advance callback. Bind progress to the indicator’s scaleX with originX=0, as in PageIndicator.vue. Call hold before navigation and start after the scene settles; wire playing/toggle to a labeled control. The hook defaults to paused if reduced motion or a screen reader is enabled at setup. Keep its generation guard, motion scope and unmount cleanup. Pausing holds the current timer; manual navigation resets the next reading interval. This hook supplies no views, swipe navigation or changing-settings listener. Read useOnboarding.ts for coordination.',
+      'Chame useCarouselClock no setup do NativeScript-Vue com um callback advance assíncrono. Vincule progress ao scaleX do indicador com originX=0, como em PageIndicator.vue. Chame hold antes de navegar e start após a cena estabilizar; conecte playing/toggle a um controle rotulado. O hook começa pausado se movimento reduzido ou leitor de tela estiver ativo no setup. Preserve a proteção por geração, o motion scope e a limpeza no unmount. Pausar mantém o timer atual; navegar manualmente reinicia o intervalo de leitura. O hook não fornece views, navegação por swipe nem listener para alterações nas preferências. Veja useOnboarding.ts para coordenação.',
+      'Llama a useCarouselClock durante setup de NativeScript-Vue con un callback advance asíncrono. Vincula progress al scaleX del indicador con originX=0, como en PageIndicator.vue. Llama a hold antes de navegar y start cuando la escena se estabilice; conecta playing/toggle a un control etiquetado. Comienza pausado si hay movimiento reducido o lector de pantalla al iniciar setup. Conserva la protección por generación, el motion scope y la limpieza en unmount. Pausar conserva el timer; navegar manualmente reinicia el intervalo de lectura. El hook no aporta vistas, swipe ni un listener de cambios de preferencias. Consulta useOnboarding.ts.',
+      '在 NativeScript-Vue setup 中调用 useCarouselClock，并传入异步 advance 回调。参照 PageIndicator.vue，将 progress 绑定到指示器的 scaleX，originX 设为 0。导航前调用 hold，场景稳定后调用 start；将 playing/toggle 接到有标签的控件。在 setup 时检测到减少动态效果或屏幕阅读器则默认暂停。保留代次保护、motion scope 和卸载清理。暂停保留当前计时，手动导航重置下次阅读间隔。此 hook 不提供视图、滑动导航或偏好变更监听；协调方式见 useOnboarding.ts。',
+    ],
+    video: 'auralis-native-ios',
+    guide: 'auralis-recipes',
+    platform: 'iOS',
+    caption: auralisCaption,
+    project: {
+      name: 'Auralis',
+      repository: 'rafaelaugustos/auralis',
+      revision: 'e533eae13cbf5a78d59dcadc4e61f45f28de88f2',
+      joltVersion: '0.1.0-rc.11',
+      showcaseAnchor: 'auralis',
+      sha256: '8b1f11add7b63a13c0e069263e900ebe525c0e43b025557f12052bc090d91533',
+    },
+  },
   {
     slug: 'hexdrop-launch',
     title: [

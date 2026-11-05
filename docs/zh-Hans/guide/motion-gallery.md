@@ -43,3 +43,11 @@ Jolt Drive 展示链接到[公开仓库](https://github.com/rafaelaugustos/jolt-
 Hexdrop 展示将 Jolt Web 滚动动画与真实原生录屏相结合。[了解项目](./showcase#hexdrop)，或[适配其拖动配方](./hexdrop-recipes)。
 
 <Clip name="hexdrop-creator-ios" :autoplay="false" poster="/media/hexdrop-creator-ios.jpg" :width="280" caption="Hexdrop iOS 创作者录屏：动画开场、拖动、酿制、文档选择与重播。原始速度，无音频；省略最初 3.8 秒的系统主屏幕与启动转场。录制设备未说明。本地演示，不上传文件。" />
+
+## Auralis
+
+[探索两个配方](/zh-Hans/recipes/?q=Auralis) · [Auralis 动效配方](./auralis-recipes)
+
+用光塑造第一印象。悬浮玻璃卡片、虹彩文字，三个自然流转的场景。
+
+<Clip name="auralis-native-ios" :width="320" caption="Auralis iOS 创作者录屏：动画开场、悬浮玻璃卡片、三个引导场景和页面控件。原始速度，无音频；省略最初 4.25 秒的系统主屏幕与启动转场。录制设备未说明；非性能测试。账户和服务均为示意。" />
