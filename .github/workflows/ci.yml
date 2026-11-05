@@ -33,7 +33,9 @@ jobs:
           path: benchmarks/package-consumers/results/
   web-composition:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # Browser/OS setup and all 15 browser suites share this budget.
+    # Slow package mirrors must not cancel the final suite after the others pass.
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
