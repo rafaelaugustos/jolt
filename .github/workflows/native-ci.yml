@@ -15,8 +15,8 @@ concurrency:
 
 jobs:
   ios:
-    # Keep macOS 26/Xcode coverage without the constrained hosted ARM64 pool.
-    runs-on: macos-26-intel
+    # Keep Apple Silicon: the Intel simulator crashes during NativeScript app startup.
+    runs-on: macos-26
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v7

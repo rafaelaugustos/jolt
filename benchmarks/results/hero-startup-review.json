@@ -51,7 +51,9 @@
     "previousRunnerId": 0,
     "previousExecutedSteps": 0,
     "failure": "GitHub reported no hosted runner acquired after multiple attempts and macOS ARM64 capacity constraints.",
-    "runnerChange": "macos-26 to macos-26-intel",
+    "runner": "macos-26 (ARM64); retained after rejecting the Intel fallback",
+    "rejectedIntelJob": "https://github.com/rafaelaugustos/jolt/actions/runs/42075901371/job/127415881660",
+    "intelFailure": "Release build and simulator boot passed, but the x86_64 app crashed during UIApplicationMain / -[UIApplication setDelegate:] / objc_opt_respondsToSelector before producing a probe report. Keep the previously validated ARM64 environment and retry transient provisioning failures.",
     "helperTests": "7 passed; native build, measurements and negative control remain unchanged; hosted execution tracked in PR checks."
   },
   "checks": [
