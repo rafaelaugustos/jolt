@@ -1,4 +1,10 @@
-import { Color, type EventData, type TouchGestureEventData } from '@nativescript/core'
+import {
+  Application,
+  Color,
+  type EventData,
+  type TouchGestureEventData,
+} from '@nativescript/core'
+import { pressInput } from './press-input.js'
 import { isColorProperty } from './color.js'
 import { animate, startingValues, stop, toView } from './animate.js'
 import { identity } from './mixer.js'
@@ -31,6 +37,10 @@ export function press(
   let active: PlaybackAnimation | undefined
 
   const onTouch = (event: EventData) => {
+    if (Application.suspended) {
+      cancel()
+      return
+    }
     const { action } = event as TouchGestureEventData
     if (action === 'down' && !rest && view.isEnabled !== false) {
       rest = Object.fromEntries(
@@ -63,10 +73,10 @@ export function press(
     active = undefined
     rest = undefined
   }
-  view.on('touch', onTouch)
+  const detach = pressInput(view, onTouch)
   view.on('unloaded', cancel)
   return () => {
-    view.off('touch', onTouch)
+    detach()
     view.off('unloaded', cancel)
     cancel()
   }

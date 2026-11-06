@@ -1,0 +1,493 @@
+{
+  "platform": "ios",
+  "events": [
+    {
+      "name": "pointer",
+      "mode": "pointer",
+      "time": 1794000720319,
+      "suspended": false,
+      "scope": 10,
+      "available": true,
+      "active": false,
+      "x": 0,
+      "y": 0,
+      "presence": 0
+    },
+    {
+      "name": "pointer-ready",
+      "mode": "pointer",
+      "time": 1794000720320,
+      "suspended": false,
+      "scope": 12,
+      "available": true
+    },
+    {
+      "name": "setup",
+      "mode": "pointer",
+      "time": 1794000720320,
+      "suspended": false,
+      "scope": 12
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000724067,
+      "suspended": false,
+      "scope": 12,
+      "x": -0.7199999579067888,
+      "y": 0.35267123518318966,
+      "presence": 1
+    },
+    {
+      "name": "demand",
+      "mode": "pointer",
+      "time": 1794000724068,
+      "suspended": false,
+      "scope": 12,
+      "active": true
+    },
+    {
+      "name": "pointer",
+      "mode": "pointer",
+      "time": 1794000724068,
+      "suspended": false,
+      "scope": 12,
+      "available": true,
+      "active": true,
+      "x": -0.7199999579067888,
+      "y": 0.35267123518318966,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000724359,
+      "suspended": false,
+      "scope": 12,
+      "x": -0.5600000841864224,
+      "y": 0.570633881667565,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000724760,
+      "suspended": false,
+      "scope": 12,
+      "x": -0.4,
+      "y": 0,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000725159,
+      "suspended": false,
+      "scope": 12,
+      "x": -0.23999991581357757,
+      "y": -0.5706338816675647,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000725561,
+      "suspended": false,
+      "scope": 12,
+      "x": -0.08000004209321121,
+      "y": -0.35267123518318966,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000725959,
+      "suspended": false,
+      "scope": 12,
+      "x": 0.08000004209321082,
+      "y": 0.35267123518318966,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000726359,
+      "suspended": false,
+      "scope": 12,
+      "x": 0.23999991581357757,
+      "y": 0.570633881667565,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000726759,
+      "suspended": false,
+      "scope": 12,
+      "x": 0.4,
+      "y": 0,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000727158,
+      "suspended": false,
+      "scope": 12,
+      "x": 0.5600000841864224,
+      "y": -0.5706338816675647,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000727560,
+      "suspended": false,
+      "scope": 12,
+      "x": 0.7200001683728449,
+      "y": -0.35267123518318966,
+      "presence": 1
+    },
+    {
+      "name": "demand",
+      "mode": "pointer",
+      "time": 1794000728559,
+      "suspended": false,
+      "scope": 12,
+      "active": false
+    },
+    {
+      "name": "pointer",
+      "mode": "pointer",
+      "time": 1794000728560,
+      "suspended": false,
+      "scope": 12,
+      "available": true,
+      "active": false,
+      "x": 0,
+      "y": 0,
+      "presence": 0
+    },
+    {
+      "name": "tap",
+      "mode": "pointer",
+      "time": 1794000739487,
+      "suspended": false,
+      "scope": 12,
+      "taps": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000740544,
+      "suspended": false,
+      "scope": 12,
+      "x": -0.72,
+      "y": 0.352671142578125,
+      "presence": 1
+    },
+    {
+      "name": "demand",
+      "mode": "pointer",
+      "time": 1794000740545,
+      "suspended": false,
+      "scope": 12,
+      "active": true
+    },
+    {
+      "name": "pointer",
+      "mode": "pointer",
+      "time": 1794000740546,
+      "suspended": false,
+      "scope": 12,
+      "available": true,
+      "active": true,
+      "x": -0.72,
+      "y": 0.352671142578125,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000740842,
+      "suspended": false,
+      "scope": 12,
+      "x": -0.56,
+      "y": 0.5706337890624995,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000741243,
+      "suspended": false,
+      "scope": 12,
+      "x": -0.4,
+      "y": 0,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000741643,
+      "suspended": false,
+      "scope": 12,
+      "x": -0.24,
+      "y": -0.5706339111328125,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000742043,
+      "suspended": false,
+      "scope": 12,
+      "x": -0.08,
+      "y": -0.352671142578125,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000742443,
+      "suspended": false,
+      "scope": 12,
+      "x": 0.08000000000000046,
+      "y": 0.352671142578125,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000742842,
+      "suspended": false,
+      "scope": 12,
+      "x": 0.24,
+      "y": 0.5706337890624995,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000743243,
+      "suspended": false,
+      "scope": 12,
+      "x": 0.3999999999999995,
+      "y": 0,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000743642,
+      "suspended": false,
+      "scope": 12,
+      "x": 0.56,
+      "y": -0.5706339111328125,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000744042,
+      "suspended": false,
+      "scope": 12,
+      "x": 0.72,
+      "y": -0.352671142578125,
+      "presence": 1
+    },
+    {
+      "name": "demand",
+      "mode": "pointer",
+      "time": 1794000745042,
+      "suspended": false,
+      "scope": 12,
+      "active": false
+    },
+    {
+      "name": "pointer",
+      "mode": "pointer",
+      "time": 1794000745043,
+      "suspended": false,
+      "scope": 12,
+      "available": true,
+      "active": false,
+      "x": 0,
+      "y": 0,
+      "presence": 0
+    },
+    {
+      "name": "pointer",
+      "mode": "pointer",
+      "time": 1794000751196,
+      "suspended": false,
+      "scope": 10,
+      "available": true,
+      "active": false,
+      "x": 0,
+      "y": 0,
+      "presence": 0
+    },
+    {
+      "name": "pointer-ready",
+      "mode": "pointer",
+      "time": 1794000751197,
+      "suspended": false,
+      "scope": 12,
+      "available": true
+    },
+    {
+      "name": "setup",
+      "mode": "pointer",
+      "time": 1794000751197,
+      "suspended": false,
+      "scope": 12
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000751626,
+      "suspended": false,
+      "scope": 12,
+      "x": -0.72,
+      "y": 0.352671142578125,
+      "presence": 1
+    },
+    {
+      "name": "demand",
+      "mode": "pointer",
+      "time": 1794000751627,
+      "suspended": false,
+      "scope": 12,
+      "active": true
+    },
+    {
+      "name": "pointer",
+      "mode": "pointer",
+      "time": 1794000751627,
+      "suspended": false,
+      "scope": 12,
+      "available": true,
+      "active": true,
+      "x": -0.72,
+      "y": 0.352671142578125,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000751942,
+      "suspended": false,
+      "scope": 12,
+      "x": -0.56,
+      "y": 0.5706337890624995,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000752326,
+      "suspended": false,
+      "scope": 12,
+      "x": -0.4,
+      "y": 0,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000752742,
+      "suspended": false,
+      "scope": 12,
+      "x": -0.24,
+      "y": -0.5706339111328125,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000753143,
+      "suspended": false,
+      "scope": 12,
+      "x": -0.08,
+      "y": -0.352671142578125,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000753543,
+      "suspended": false,
+      "scope": 12,
+      "x": 0.08000000000000046,
+      "y": 0.352671142578125,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000753943,
+      "suspended": false,
+      "scope": 12,
+      "x": 0.24,
+      "y": 0.5706337890624995,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000754342,
+      "suspended": false,
+      "scope": 12,
+      "x": 0.3999999999999995,
+      "y": 0,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000754743,
+      "suspended": false,
+      "scope": 12,
+      "x": 0.56,
+      "y": -0.5706339111328125,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794000755143,
+      "suspended": false,
+      "scope": 12,
+      "x": 0.72,
+      "y": -0.352671142578125,
+      "presence": 1
+    },
+    {
+      "name": "demand",
+      "mode": "pointer",
+      "time": 1794000756142,
+      "suspended": false,
+      "scope": 12,
+      "active": false
+    },
+    {
+      "name": "pointer",
+      "mode": "pointer",
+      "time": 1794000756143,
+      "suspended": false,
+      "scope": 12,
+      "available": true,
+      "active": false,
+      "x": 0,
+      "y": 0,
+      "presence": 0
+    }
+  ],
+  "evidence": {
+    "device": "iPad Pro 11-inch (M4) simulator",
+    "os": "iPadOS 26.2",
+    "input": "XCTest continuous OS mouse event path, test-runner-only; no physical accessory",
+    "video": "docs/public/media/portable-pointer-ipados.mp4"
+  }
+}

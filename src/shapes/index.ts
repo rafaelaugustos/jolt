@@ -1,4 +1,13 @@
 import { Application, type View } from '@nativescript/core'
+export { drawBatch, drawingLimits } from './drawing.js'
+export type {
+  Drawing,
+  DrawingOptions,
+  DrawingValues,
+  DrawingItem,
+  DrawingStyle,
+  DrawingSnapshot,
+} from './drawing.js'
 import { toView } from '../animate.js'
 import { parseColor } from '../color.js'
 import { onReducedMotion, reducedMotion } from '../config.js'

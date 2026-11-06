@@ -83,3 +83,7 @@ JavaScript 解析几何图形并在设置/命令时准备曲线，然后处理�
 四语言 **由运动/线条制成** 预览是第 71 个示例。参见 [验证和复制](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/shapes.md)。
 
 <Clip name="web-shape-surfaces-chromium" :width="900" caption="macOS 上的 Chromium，英文界面：真实点击展示播放、暂停/恢复、替换、减少动态效果和清理，保持原速。浏览器录制，不代表真机性能。" />
+
+## 可移植基础（RC.12 工作）
+
+[可移植基础（RC.12 工作）](./portable-foundations): 指针存在状态、属性组、渲染活动、有界绘图与原生 press/shape 修复。

@@ -1,0 +1,249 @@
+{
+  "platform": "ios",
+  "events": [
+    {
+      "name": "setup",
+      "time": 1793994381296,
+      "mode": "shape",
+      "variant": "plain",
+      "taps": 0,
+      "suspended": false,
+      "generation": 1,
+      "scope": 0,
+      "geometry": {
+        "actual": {
+          "width": 402,
+          "height": 874
+        },
+        "frame": [
+          0,
+          0,
+          402,
+          874
+        ],
+        "bounds": [
+          0,
+          0,
+          402,
+          874
+        ],
+        "drawing": [
+          0,
+          0,
+          402,
+          874
+        ]
+      }
+    },
+    {
+      "name": "resume",
+      "time": 1793994381340,
+      "mode": "shape",
+      "variant": "plain",
+      "taps": 0,
+      "suspended": false,
+      "generation": 1,
+      "scope": 0,
+      "geometry": {
+        "actual": {
+          "width": 220,
+          "height": 220
+        },
+        "frame": [
+          67,
+          52.33333333333334,
+          220,
+          220
+        ],
+        "bounds": [
+          0,
+          0,
+          220,
+          220
+        ],
+        "drawing": [
+          0,
+          0,
+          220,
+          220
+        ]
+      }
+    },
+    {
+      "name": "baseline",
+      "time": 1793994381698,
+      "mode": "shape",
+      "variant": "plain",
+      "taps": 0,
+      "suspended": false,
+      "generation": 1,
+      "scope": 0,
+      "geometry": {
+        "actual": {
+          "width": 220,
+          "height": 220
+        },
+        "frame": [
+          67,
+          52.33333333333334,
+          220,
+          220
+        ],
+        "bounds": [
+          0,
+          0,
+          220,
+          220
+        ],
+        "drawing": [
+          0,
+          0,
+          220,
+          220
+        ]
+      }
+    },
+    {
+      "name": "transformed-layout",
+      "time": 1793994382051,
+      "mode": "shape",
+      "variant": "plain",
+      "taps": 0,
+      "suspended": false,
+      "generation": 1,
+      "scope": 0,
+      "geometry": {
+        "actual": {
+          "width": 300,
+          "height": 300
+        },
+        "frame": [
+          27,
+          22.333333333333343,
+          300,
+          300
+        ],
+        "bounds": [
+          0,
+          0,
+          240,
+          240
+        ],
+        "drawing": [
+          0,
+          0,
+          240,
+          240
+        ]
+      },
+      "scale": 1.25,
+      "rotate": 0
+    },
+    {
+      "name": "transformed-layout",
+      "time": 1793994382404,
+      "mode": "shape",
+      "variant": "plain",
+      "taps": 0,
+      "suspended": false,
+      "generation": 1,
+      "scope": 0,
+      "geometry": {
+        "actual": {
+          "width": 306.6666666666667,
+          "height": 306.6666666666667
+        },
+        "frame": [
+          23.799867129595835,
+          9.133200462929182,
+          306.4002657408083,
+          306.4002657408083
+        ],
+        "bounds": [
+          0,
+          0,
+          220,
+          220
+        ],
+        "drawing": [
+          0,
+          0,
+          220,
+          220
+        ]
+      },
+      "scale": 1,
+      "rotate": 35
+    },
+    {
+      "name": "transformed-layout",
+      "time": 1793994382757,
+      "mode": "shape",
+      "variant": "plain",
+      "taps": 0,
+      "suspended": false,
+      "generation": 1,
+      "scope": 0,
+      "geometry": {
+        "actual": {
+          "width": 418,
+          "height": 418
+        },
+        "frame": [
+          -31.90927209600567,
+          -36.57593876267234,
+          417.81854419201136,
+          417.81854419201136
+        ],
+        "bounds": [
+          0,
+          0,
+          240,
+          240
+        ],
+        "drawing": [
+          0,
+          0,
+          240,
+          240
+        ]
+      },
+      "scale": 1.25,
+      "rotate": 35
+    },
+    {
+      "name": "probe-complete",
+      "time": 1793994383059,
+      "mode": "shape",
+      "variant": "plain",
+      "taps": 0,
+      "suspended": false,
+      "generation": 1,
+      "scope": 0,
+      "geometry": {
+        "actual": {
+          "width": 220,
+          "height": 220
+        },
+        "frame": [
+          67,
+          52.33333333333334,
+          220,
+          220
+        ],
+        "bounds": [
+          0,
+          0,
+          220,
+          220
+        ],
+        "drawing": [
+          0,
+          0,
+          220,
+          220
+        ]
+      }
+    }
+  ]
+}

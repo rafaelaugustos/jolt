@@ -83,3 +83,7 @@ JavaScript parses geometry and prepares curves at setup/commands, then handles l
 The four-language **Made of motion / Linework** preview is the 71st example. See [validation and reproduction](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/shapes.md).
 
 <Clip name="web-shape-surfaces-chromium" :width="900" caption="Chromium on macOS, English UI: real clicks demonstrate playback, pause/resume, replacement, reduced motion and disposal at original speed. Browser capture; no physical-device performance claim." />
+
+## Portable foundations (RC.12 work)
+
+[Portable foundations (RC.12 work)](./portable-foundations): Pointer presence, coordinated property groups, renderer activity, bounded drawings and native press/shape fixes.

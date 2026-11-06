@@ -1,0 +1,137 @@
+{
+  "platform": "android",
+  "events": [
+    {
+      "name": "setup",
+      "time": 1794001918015,
+      "mode": "shape",
+      "variant": "plain",
+      "taps": 0,
+      "suspended": false,
+      "generation": 1,
+      "scope": 0,
+      "geometry": {
+        "actual": {
+          "width": 0,
+          "height": 0
+        },
+        "width": 0,
+        "height": 0
+      }
+    },
+    {
+      "name": "resume",
+      "time": 1794001918152,
+      "mode": "shape",
+      "variant": "plain",
+      "taps": 0,
+      "suspended": false,
+      "generation": 1,
+      "scope": 0,
+      "geometry": {
+        "actual": {
+          "width": 0,
+          "height": 0
+        },
+        "width": 0,
+        "height": 0
+      }
+    },
+    {
+      "name": "baseline",
+      "time": 1794001918428,
+      "mode": "shape",
+      "variant": "plain",
+      "taps": 0,
+      "suspended": false,
+      "generation": 1,
+      "scope": 0,
+      "geometry": {
+        "actual": {
+          "width": 220,
+          "height": 220
+        },
+        "width": 660,
+        "height": 660
+      }
+    },
+    {
+      "name": "transformed-layout",
+      "time": 1794001918795,
+      "mode": "shape",
+      "variant": "plain",
+      "taps": 0,
+      "suspended": false,
+      "generation": 1,
+      "scope": 0,
+      "geometry": {
+        "actual": {
+          "width": 240,
+          "height": 240
+        },
+        "width": 720,
+        "height": 720
+      },
+      "scale": 1.25,
+      "rotate": 0
+    },
+    {
+      "name": "transformed-layout",
+      "time": 1794001919156,
+      "mode": "shape",
+      "variant": "plain",
+      "taps": 0,
+      "suspended": false,
+      "generation": 1,
+      "scope": 0,
+      "geometry": {
+        "actual": {
+          "width": 220,
+          "height": 220
+        },
+        "width": 660,
+        "height": 660
+      },
+      "scale": 1,
+      "rotate": 35
+    },
+    {
+      "name": "transformed-layout",
+      "time": 1794001919532,
+      "mode": "shape",
+      "variant": "plain",
+      "taps": 0,
+      "suspended": false,
+      "generation": 1,
+      "scope": 0,
+      "geometry": {
+        "actual": {
+          "width": 240,
+          "height": 240
+        },
+        "width": 720,
+        "height": 720
+      },
+      "scale": 1.25,
+      "rotate": 35
+    },
+    {
+      "name": "probe-complete",
+      "time": 1794001919853,
+      "mode": "shape",
+      "variant": "plain",
+      "taps": 0,
+      "suspended": false,
+      "generation": 1,
+      "scope": 0,
+      "geometry": {
+        "actual": {
+          "width": 220,
+          "height": 220
+        },
+        "width": 660,
+        "height": 660
+      }
+    }
+  ]
+}

@@ -106,3 +106,7 @@ O que `animate()`, `decay()`, `sequence()` e os passos de uma sequência retorna
 ## Tipos
 
 - [Ambiente e parâmetros de shader SceneKit](./scene-shaders) — iluminação nativa e uniforms escalares/vetoriais tipados.
+
+## Bases portáveis (trabalho da RC.12)
+
+[Bases portáveis (trabalho da RC.12)](./portable-foundations): Presença do ponteiro, grupos de propriedades, atividade do renderer, desenhos com limites e correções nativas de press/shape.

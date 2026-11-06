@@ -56,6 +56,10 @@ type Factories = Pick<
   | 'scrollValue'
   | 'scrollLinked'
   | 'pointerFollow'
+  | 'renderActivity'
+  | 'property'
+  | 'propertyGroup'
+  | 'drawBatch'
   | 'viewportEnter'
   | 'onKeyboard'
   | 'followKeyboard'
@@ -275,6 +279,7 @@ export function createWebScope(
       start(() => runtime.sensor(kind, options))) as WebMotionScope['sensor'],
     blur: (...args) => start(() => runtime.blur(...args)),
     shape: (...args) => start(() => runtime.shape(...args)),
+    drawBatch: (...args) => start(() => runtime.drawBatch(...args), true),
     liquid: (...args) => start(() => runtime.liquid(...args)),
     imageEffect: (...args) => start(() => runtime.imageEffect(...args)),
     gradient: (...args) => start(() => runtime.gradient(...args)),
@@ -311,6 +316,9 @@ export function createWebScope(
     scrollValue: (...args) => start(() => runtime.scrollValue(...args)),
     scrollLinked: (...args) => start(() => runtime.scrollLinked(...args)),
     pointerFollow: (...args) => start(() => runtime.pointerFollow(...args)),
+    renderActivity: (...args) => start(() => runtime.renderActivity(...args), true),
+    property: (...args) => start(() => runtime.property(...args), true),
+    propertyGroup: (...args) => start(() => runtime.propertyGroup(...args), true),
     viewportEnter: (...args) => start(() => runtime.viewportEnter(...args)),
     onKeyboard: (...args) => start(() => runtime.onKeyboard(...args)),
     followKeyboard: (...args) => start(() => runtime.followKeyboard(...args)),

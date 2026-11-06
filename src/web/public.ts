@@ -62,6 +62,16 @@ export type {
 import type { WebParticles, WebParticleOptions, WebConfettiOptions } from './particles.js'
 import type { WebBlur, WebBlurOptions } from './blur.js'
 import type { WebShape, WebShapeOptions } from './shape.js'
+import type { Drawing, DrawingOptions } from '../core/drawing.js'
+export type {
+  Drawing,
+  DrawingOptions,
+  DrawingValues,
+  DrawingItem,
+  DrawingStyle,
+  DrawingSnapshot,
+} from '../core/drawing.js'
+export { drawingLimits } from '../core/drawing.js'
 import type { WebLiquid, WebLiquidOptions } from './liquid.js'
 import type {
   WebImageEffect,
@@ -160,6 +170,15 @@ export type {
   WebDiagnosticTarget,
 } from './diagnostics.js'
 import type { WebPointerFollow, WebPointerOptions } from './pointer.js'
+import type { RenderActivity, RenderActivityAdapter } from '../core/render-activity.js'
+import type { WebProperty, WebPropertyDefinition, WebPropertyGroup } from './property.js'
+export type {
+  WebProperty,
+  WebPropertyDefinition,
+  WebPropertyGroup,
+  WebGroupValues,
+} from './property.js'
+export type { RenderActivity, RenderActivityAdapter } from '../core/render-activity.js'
 import type { WebViewportEntrance, WebViewportOptions } from './viewport.js'
 import type { WebItem, WebItemsOptions, WebItemsAnimation } from './items.js'
 export type { WebItem, WebItemKey, WebItemsOptions, WebItemsAnimation } from './items.js'
@@ -314,6 +333,7 @@ export interface WebRuntime {
   confetti(target: HTMLElement, options?: WebConfettiOptions): WebParticles
   blur(target: HTMLElement, options?: WebBlurOptions): WebBlur
   shape(target: HTMLElement, options: WebShapeOptions): WebShape
+  drawBatch(target: HTMLElement, options: DrawingOptions): Drawing
   liquid(target: HTMLImageElement, options?: WebLiquidOptions): WebLiquid
   imageEffect(
     target: HTMLImageElement,
@@ -368,6 +388,11 @@ export interface WebRuntime {
   sharedLayout(container: HTMLElement, options?: WebSharedLayoutOptions): WebSharedLayout
   diagnostics(options: WebDiagnosticsOptions): WebDiagnostics
   scope(setup?: (scope: WebMotionScope) => void): WebMotionScope
+  renderActivity(adapter: RenderActivityAdapter): RenderActivity
+  property<T>(target: object, definition: WebPropertyDefinition<T>): WebProperty<T>
+  propertyGroup<const P extends Record<string, WebProperty<any>>>(
+    properties: P,
+  ): WebPropertyGroup<P>
   pointerFollow(region: HTMLElement, options?: WebPointerOptions): WebPointerFollow
   viewportEnter(
     target: HTMLElement | readonly HTMLElement[],
@@ -460,6 +485,7 @@ export function createWebRuntime(
     confetti: runtime.confetti.bind(runtime),
     blur: runtime.blur.bind(runtime),
     shape: runtime.shape.bind(runtime),
+    drawBatch: runtime.drawBatch.bind(runtime),
     liquid: runtime.liquid.bind(runtime),
     imageEffect: runtime.imageEffect.bind(runtime),
     gradient: runtime.gradient.bind(runtime),
@@ -480,6 +506,9 @@ export function createWebRuntime(
     diagnostics: runtime.diagnostics.bind(runtime),
     scope: runtime.scope.bind(runtime),
     pointerFollow: runtime.pointerFollow.bind(runtime),
+    renderActivity: runtime.renderActivity.bind(runtime),
+    property: runtime.property.bind(runtime),
+    propertyGroup: runtime.propertyGroup.bind(runtime),
     viewportEnter: runtime.viewportEnter.bind(runtime),
     animateSize: runtime.animateSize.bind(runtime),
     animateLayout: runtime.animateLayout.bind(runtime),

@@ -28,5 +28,10 @@ for (const name of [
 const entry = process.argv[2] ?? '@rafaelaugusto/jolt/web'
 const module = await import(entry)
 if (module.render) assert.equal(module.render(), '<main data-motion="function"></main>')
-else assert.deepEqual(Object.keys(module), ['createWebRuntime', 'resolveListTarget'])
+else
+  assert.deepEqual(Object.keys(module), [
+    'createWebRuntime',
+    'drawingLimits',
+    'resolveListTarget',
+  ])
 console.log('PASS: SSR import without platform globals, timers or listeners')

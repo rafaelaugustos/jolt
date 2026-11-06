@@ -83,3 +83,7 @@ JavaScript analiza la geometría y prepara curvas en la configuración/comandos,
 La vista previa del **Hecho de movimiento / Linework** en cuatro idiomas es el ejemplo número 71. Ver [validación y reproducción](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/shapes.md).
 
 <Clip name="web-shape-surfaces-chromium" :width="900" caption="Chromium en macOS, interfaz inglesa: interacción real, pausa/reanudación, sustitución, movimiento reducido y limpieza a velocidad original. Captura de navegador, no de dispositivo físico." />
+
+## Bases portables (trabajo de RC.12)
+
+[Bases portables (trabajo de RC.12)](./portable-foundations): Presencia del puntero, grupos de propiedades, actividad del renderer, dibujos acotados y correcciones nativas de press/shape.

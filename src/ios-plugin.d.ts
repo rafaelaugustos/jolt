@@ -1,3 +1,25 @@
+declare class JoltPointerInput extends NSObject {
+  static attachChange(
+    view: UIView,
+    change: (
+      x: number,
+      y: number,
+      width: number,
+      height: number,
+      active: boolean,
+    ) => void,
+  ): JoltPointerInput | null
+  refresh(): void
+  dispose(): void
+}
+declare class JoltBatchDrawing extends CALayer {
+  static attach(view: UIView): JoltBatchDrawing
+  static liveCount(): number
+  readonly lastError: string
+  apply(program: string): boolean
+  resize(): void
+  dispose(): void
+}
 declare class JoltBlur extends NSObject {
   static attachOptions(view: UIView, options: string): JoltBlur
   static liveCount(): number
@@ -431,4 +453,8 @@ declare class JoltCircleWorld extends NSObject {
 declare class JoltLivePaint extends NSObject {
   static configureConfigBorder(view: UIView, config: string, border: CALayer | null): void
   static refreshConfigBorder(view: UIView, config: string, border: CALayer | null): void
+}
+declare class JoltPressInput extends UIGestureRecognizer {
+  static attachChange(view: UIView, change: (action: string) => void): JoltPressInput
+  dispose(): void
 }

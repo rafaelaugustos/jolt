@@ -1,4 +1,32 @@
 declare namespace org.rafaelaugusto.jolt {
+  class BatchDrawing extends android.graphics.drawable.Drawable {
+    constructor()
+    static liveCount(): number
+    apply(program: string, points: native.Array<number>): void
+    dispose(): void
+  }
+  class PointerInput {
+    constructor(
+      activity: android.app.Activity,
+      view: android.view.View,
+      listener: PointerInput.Listener,
+    )
+    refresh(): void
+    dispose(): void
+  }
+  namespace PointerInput {
+    class Listener {
+      constructor(callbacks: {
+        onPoint(
+          x: number,
+          y: number,
+          width: number,
+          height: number,
+          active: boolean,
+        ): void
+      })
+    }
+  }
   class TextGradient extends android.graphics.drawable.Drawable {
     constructor(view: android.widget.TextView, options: string)
     static liveCount(): number

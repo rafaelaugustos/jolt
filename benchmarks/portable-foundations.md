@@ -1,0 +1,104 @@
+# RC.12 portable foundations: acceptance and measurements
+
+This branch implements #400, #401, #412, #413, #414 and #416. It is review work for RC.12, not a release or a claim that RC.11.1 contains these APIs. Native and browser acceptance are recorded separately. The existing performance investigations #405/#406 remain deferred.
+
+The measured benefit depends on the workload. On physical Android, the batch drawing updates fewer native objects and updates geometry faster, but consumes more CPU than the multi-host baseline. Renderer activity avoids extra rendering after playback ends when compared with a guessed stop timer. Property groups provide coordinated ownership/cancellation; their three-property measurements do not establish a CPU or latency improvement.
+
+## Acceptance evidence
+
+| Issue                   | Native evidence                                                                                                                                                                                                                                                                                                                                                                  | Web equivalent and evidence                                                                                                                                                                                                                |
+| ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| #400 shape geometry     | iPhone simulator transformed layout reproduces an incorrect 418-DIP internal size for a 240-DIP local host before the fix. Reading `UIView.bounds` retains 240-DIP geometry after the fix, including direct and parent transforms.                                                                                                                                               | Existing SVG layout remains local at 240 CSS px after transformed resize; asserted in Chromium/Firefox/WebKit. No browser defect was invented.                                                                                             |
+| #401 press observation  | Four real taps previously fired eight actions with press; candidate fires four. Scoped press, background/foreground, held input and remount are covered. The original action-during-suspension symptom was not independently reproduced.                                                                                                                                         | Existing press preserves exactly one application click in all three browsers.                                                                                                                                                              |
+| #412 pointer input      | iPadOS simulator: continuous OS mouse paths, native follower + actual SceneKit uniform binding, enter/move/exit, tap, resize and remount. Physical Android: native Window.Callback mouse-event injection and real ADB taps. Unit coverage includes hidden/disabled/background/reduced motion, transformed/zero-sized coordinates, native target replacement and stale callbacks. | Existing pointerFollow now exposes numeric presence. Real browser movement/clicks plus touch suppression, resize/zero-sized targets and disposal pass in all three engines.                                                                |
+| #413 grouped properties | Compiled custom-property players on physical Android and UIKit + actual SceneKit material uniforms on iOS simulator. Invalid commands preserve valid playback; member replacement cancels the group; rollback/setup failure, seek/pause, reduced motion, borrowed ownership and bounded samples have tests.                                                                      | Explicit custom-property adapters and one scheduler task per group; actual WebGL uniforms and DOM properties in real browsers. Transactional validation, rollback, interruption and cleanup tested. Ordinary WAAPI execution is unchanged. |
+| #414 retained drawing   | One native layer/drawable with 259-dot and segmented-indicator recipes, targeted updates and remount. Physical workloads at 259/512/1,024 items. Tests cover ordering, payload limits, invalid update preservation, suspension and unload/reload.                                                                                                                                | One SVG surface, one path per item; stable unchanged nodes, ordered targeted changes, payload limits and disposal. Same recipe recorded in Chromium and tested in three engines.                                                           |
+| #416 renderer activity  | Ownership follows actual playback boundaries and independent holds without polling. Real SceneKit renderer integration on simulator; physical Canvas demand probe compares timer policy with completion tracking. Unit coverage includes child owners, delay, pause, seek, manual pause, completion, background and disposal.                                                    | Actual WebGL uniform playback stops its renderer counter at idle in all three engines. Shared ownership tests cover recurring teardown, independent holds and cancellation.                                                                |
+
+No physical iPad or mouse/trackpad accessory was available. iPad pointer evidence uses XCTest OS input injection; Android hover uses a clearly labeled demo-only native injector. This validates the event route and native behavior, not accessory compatibility. iPhone reports hover unavailable. Native hover callbacks cross into JavaScript; there is no new general RenderThread backend or blocked-JS guarantee.
+
+The iOS XCTest helper `JoltPointerTrace` dynamically uses XCTest's pointer event-path classes **inside the test runner only**. It is not part of the published plugin or demo. Separate single-point XCTest hover calls reset the simulator cursor; the continuous OS trajectory supplies usable entry/movement/exit evidence.
+
+## Device and build identity
+
+- Physical Android: ASUS ZenFone 3, `ASUS_Z017DC`, Android 8.0.0 / API 26, approximately 60 Hz. Full OS build and animation scale are in every raw report. Thermal status is unavailable on this API; this is not a thermally controlled laboratory run.
+- Native build: NativeScript demo with production JavaScript in a **debug APK**, optional native plugin and benchmark fixture. Base commit `c50d207`; implementation was collected from this uncommitted feature branch. Final Android reports record APK SHA-256 and hashes of working-tree sources at collection. Those hashes are not a signed build provenance record; the APK hash identifies the installed candidate artifact.
+- iOS: iPhone 17 Pro and iPad Pro 11-inch (M4) simulators, iOS/iPadOS 26.2. Native recordings establish behavior, not physical iOS performance.
+- Browsers: Playwright Chromium, Firefox and WebKit on macOS arm64. Exact versions, host identity and source hashes are in the browser reports. Engines use different callback pacing and timer precision; do not rank them by these headless timings.
+
+The baseline/candidate workloads run in the same built app and alternate order. They compare application strategies using the same geometry and duration, not entire old/new releases. No screen recorder, UI automation or screenshots run during timed collection. Instrumentation still has overhead; raw native reports include probe work, memory sampling and overflow state.
+
+## Workloads and metrics
+
+One warmup per variant and five measured repetitions per density are retained. No measured outliers are discarded. [Generated tables](portable-foundations-results.md) contain medians and observed ranges; raw per-frame samples are under [results/portable-foundations](results/portable-foundations).
+
+- **Groups:** three scalar properties, 1,200 ms linear motion. Baseline issues three separate playback commands; candidate issues one group command. First-write skew is the difference between the three native setter timestamps or browser JS writes, not visual/GPU synchronization. Android CPU medians were 554 ms baseline and 589 ms candidate; native first-write skew was 0.18 and 0.17 ms. These ranges do not justify a performance win.
+- **Drawing:** 259, 512 and 1,024 circles. Baseline packs 32 circles into each ordinary shape host to respect its path budget; candidate retains one batch. Both animate the host for 1,200 ms and perform five targeted 37-item updates at 160 ms intervals. At 259 items, Android update medians were 50.65 → 21.06 ms, CPU 930 → 1,137 ms and native views 10 → 1 (including the common host). At 1,024 items, CPU was 1,080 → 1,695 ms and p95 callback intervals were about 50 ms in both variants. Fewer hosts and shorter setters do not establish lower total work.
+- **Activity:** identical 900 ms group motion followed by 800 ms observation. Baseline keeps a small renderer active with a 1,300 ms guessed timer; candidate tracks actual completion. Android Canvas callback medians were 79 → 54; active time 1,302 → 905 ms; CPU 672 → 528 ms. This demonstrates removal of timer overrun for this policy. An application could also stop its renderer manually on completion. It is not a physical SceneKit benchmark or a universal CPU reduction.
+
+Android process CPU comes from native process counters around the workload. Choreographer intervals are **callback opportunities**, not presented frames or end-to-end input latency. RSS is resident memory, not PSS. ART counters cover managed memory only; two drawing variant/density sets contain a decreasing allocation counter, so their allocation summaries are marked unavailable rather than interpreting negative bytes as savings. All raw samples remain available.
+
+Chromium `TaskDuration` measures browser main-thread task time, and `JSHeapUsedSize` measures observed retained JS heap; neither is whole-browser CPU, total allocation volume or PSS. Firefox/WebKit expose no equivalent counters in this runner. Browser RAF intervals are also callback opportunities. SVG batch uses **more** DOM nodes than compound-path hosts, even when setup/updates are faster. Browser fixture counters and actual WebGL acceptance counters serve different purposes and are labeled separately.
+
+Earlier Android drawing candidates are preserved as `physical-android-drawing-first-candidate.json` and `physical-android-drawing-path-candidate.json`. They used the same workload during investigation but different implementations; they are excluded from the final tables. The final candidate uses direct Canvas primitives for circles/rectangles. This improves parts of the path but does not remove the reported CPU regression.
+
+## Recordings and review
+
+The [English guide](../docs/guide/portable-foundations.md) and its PT-BR, ES and ZH-Hans translations embed the reviewed native and Chromium clips. English UI recordings are reused across translated captions and the PR. Native capture uses real app playback and real taps; pointer injection is identified explicitly. H.264 files preserve elapsed playback time, were decoded, sampled across their full duration and checked for readable controls, visible motion and errors. Video playback is checked separately from timed measurements.
+
+| Recording                                                                        | Platform and coverage                                                                                        |
+| -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| portable-press-ios                                                               | iPhone simulator: one tap/one action, background/foreground and remount                                      |
+| portable-shape-ios                                                               | iPhone simulator: scale, rotation and combined transforms using local geometry                               |
+| portable-pointer-ipados                                                          | iPad simulator: continuous injected OS hover, follower/SceneKit, tap, resize and remount                     |
+| portable-pointer-android                                                         | Physical ASUS: injected native mouse events and preserved real tap                                           |
+| portable-groups-ios / portable-groups-android                                    | iOS simulator UIKit/SceneKit and physical Android compiled properties; pause/resume, replacement and remount |
+| portable-drawing-ios / portable-drawing-android                                  | Native layer/Canvas drawing, targeted updates, chart/indicator and lifecycle                                 |
+| portable-pointer-chromium / portable-groups-chromium / portable-drawing-chromium | Real Chromium mouse/clicks, WebGL uniforms, SVG drawing and teardown                                         |
+
+## Reproduction
+
+Use a dedicated checkout and keep native builds sequential: they share generated assets. Install root, demo and `benchmarks/angular-tools` dependencies, the optional native plugin fixture, and Playwright browsers. The local environment used Node 22, Java 17 and the configured Android SDK. Preserve device animation settings and keep the app foreground/unlocked.
+
+```sh
+npm run build
+npm test
+npm run typecheck
+npm run benchmark:typecheck
+npm run core:check
+npm run web:portable:typecheck
+npm run web:portable:test
+npm run web:check
+npm run package:check
+npm run parity:check
+npm run docs:check-media
+npm run docs:build
+
+# In demo/, with JOLT_BENCHMARK=1:
+ns build android --env.production --no-hmr
+# In demo/platforms/android/, after adding Java fixture APIs:
+./gradlew :app:assembleDebug --rerun-tasks --console=plain
+# Regenerates NativeScript metadata; a cached app otherwise may not expose new Java APIs.
+
+# Back at repository root; use your ADB port/serial:
+adb -s SERIAL install -r demo/platforms/android/app/build/outputs/apk/debug/app-debug.apk
+python3 benchmarks/portable-android-measure.py SERIAL benchmarks/results/portable-foundations
+python3 benchmarks/portable-android-regressions.py SERIAL benchmarks/results/portable-foundations
+node benchmarks/web-portable/measure.mjs
+python3 benchmarks/portable-summarize.py
+
+# Capture only after timed collection:
+python3 benchmarks/portable-android-record.py SERIAL /tmp/JoltPortableAndroid
+# In demo/, build/install to a dedicated iPhone/iPad simulator:
+ns build ios --for-device false --release --env.production --no-hmr
+# Back at root, after installing the demo to SIMULATOR_UUID:
+python3 benchmarks/portable-ios-run.py IPHONE_UUID /tmp/JoltPortableIOS testPropertyGroups testDrawingBatch testShapeBounds testPressRecording
+python3 benchmarks/portable-ios-run.py IPAD_UUID /tmp/JoltPortableIPad testPointerHover
+node benchmarks/web-portable/record.mjs /tmp/JoltPortableBrowser
+```
+
+Run `testPointerHover` on an iPad simulator; do not infer hover support from iPhone tests. The iOS runner accepts individual test methods. The Android measure/record/regression runners accept `--port` for an existing dedicated ADB server. The browser fixture can also be inspected with `npm run web:portable`.
+
+## Mavis adoption
+
+Audited Mavis main `bb53e7fd91e1115f634524cf1b683ff1d496fb44`, including open/closed issues, native/Web motion surfaces, shared contracts and ChartPlot implementations. [Mavis #294](https://github.com/getcortexlabs/mavis-ui/issues/294) tracks replacement of the static native pointer fallback plus shared/Web presence. Existing [Mavis #246](https://github.com/getcortexlabs/mavis-ui/issues/246) gains bounded chart/drawing adoption, with explicit performance gates and lifecycle/accessibility requirements. Both describe the new upstream APIs as pending review and unpublished. No current custom-uniform renderer consumer justified separate group/activity adoption issues. Mavis implementation stays separate.

@@ -1,0 +1,203 @@
+{
+  "platform": "android",
+  "events": [
+    {
+      "name": "setup",
+      "mode": "groups",
+      "time": 1794001326512,
+      "suspended": false,
+      "scope": 5
+    },
+    {
+      "name": "demand",
+      "mode": "groups",
+      "time": 1794001330068,
+      "suspended": false,
+      "scope": 5,
+      "active": true
+    },
+    {
+      "name": "group-start",
+      "mode": "groups",
+      "time": 1794001330074,
+      "suspended": false,
+      "scope": 5,
+      "setupMs": 65.85200000063196
+    },
+    {
+      "name": "demand",
+      "mode": "groups",
+      "time": 1794001331264,
+      "suspended": false,
+      "scope": 5,
+      "active": false
+    },
+    {
+      "name": "pause",
+      "mode": "groups",
+      "time": 1794001331274,
+      "suspended": false,
+      "scope": 5
+    },
+    {
+      "name": "demand",
+      "mode": "groups",
+      "time": 1794001332732,
+      "suspended": false,
+      "scope": 5,
+      "active": true
+    },
+    {
+      "name": "resume",
+      "mode": "groups",
+      "time": 1794001332737,
+      "suspended": false,
+      "scope": 5
+    },
+    {
+      "name": "demand",
+      "mode": "groups",
+      "time": 1794001333367,
+      "suspended": false,
+      "scope": 5,
+      "active": false
+    },
+    {
+      "name": "group-end",
+      "mode": "groups",
+      "time": 1794001333376,
+      "suspended": false,
+      "scope": 5,
+      "completed": true,
+      "values": {
+        "a": 0.8,
+        "b": 0.4,
+        "c": 1
+      }
+    },
+    {
+      "name": "demand",
+      "mode": "groups",
+      "time": 1794001335020,
+      "suspended": false,
+      "scope": 5,
+      "active": true
+    },
+    {
+      "name": "group-start",
+      "mode": "groups",
+      "time": 1794001335026,
+      "suspended": false,
+      "scope": 5,
+      "setupMs": 24.972999999590684
+    },
+    {
+      "name": "demand",
+      "mode": "groups",
+      "time": 1794001336269,
+      "suspended": false,
+      "scope": 5,
+      "active": false
+    },
+    {
+      "name": "demand",
+      "mode": "groups",
+      "time": 1794001336290,
+      "suspended": false,
+      "scope": 5,
+      "active": true
+    },
+    {
+      "name": "group-start",
+      "mode": "groups",
+      "time": 1794001336295,
+      "suspended": false,
+      "scope": 5,
+      "setupMs": 39.66500000024098
+    },
+    {
+      "name": "group-end",
+      "mode": "groups",
+      "time": 1794001336300,
+      "suspended": false,
+      "scope": 5,
+      "completed": false,
+      "values": {
+        "a": 0.432080199930403,
+        "b": 0.8011413138707479,
+        "c": 0.6657155717743768
+      }
+    },
+    {
+      "name": "demand",
+      "mode": "groups",
+      "time": 1794001338091,
+      "suspended": false,
+      "scope": 5,
+      "active": false
+    },
+    {
+      "name": "group-end",
+      "mode": "groups",
+      "time": 1794001338108,
+      "suspended": false,
+      "scope": 5,
+      "completed": true,
+      "values": {
+        "a": 0.8,
+        "b": 0.4,
+        "c": 1
+      }
+    },
+    {
+      "name": "setup",
+      "mode": "groups",
+      "time": 1794001339079,
+      "suspended": false,
+      "scope": 5
+    },
+    {
+      "name": "demand",
+      "mode": "groups",
+      "time": 1794001340738,
+      "suspended": false,
+      "scope": 5,
+      "active": true
+    },
+    {
+      "name": "group-start",
+      "mode": "groups",
+      "time": 1794001340742,
+      "suspended": false,
+      "scope": 5,
+      "setupMs": 23.065999999744236
+    },
+    {
+      "name": "demand",
+      "mode": "groups",
+      "time": 1794001342561,
+      "suspended": false,
+      "scope": 5,
+      "active": false
+    },
+    {
+      "name": "group-end",
+      "mode": "groups",
+      "time": 1794001342580,
+      "suspended": false,
+      "scope": 5,
+      "completed": true,
+      "values": {
+        "a": 0.8,
+        "b": 0.4,
+        "c": 1
+      }
+    }
+  ],
+  "evidence": {
+    "device": "ASUS ZenFone 3 / ASUS_Z017DC physical device",
+    "os": "Android 8.0.0 / API26",
+    "input": "Real ADB taps; pointer hover injected through native Window.Callback, no connected mouse",
+    "video": "docs/public/media/portable-groups-android.mp4"
+  }
+}

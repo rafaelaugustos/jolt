@@ -5,6 +5,7 @@ import { effectExperiments } from './effects'
 import { typeExperiments } from './typography'
 import { navigationExperiments } from './navigation'
 import { deviceExperiments } from './device'
+import { portableExperiments } from './portable'
 
 export const experiments = [
   ...motionExperiments,
@@ -14,6 +15,7 @@ export const experiments = [
   ...typeExperiments,
   ...navigationExperiments,
   ...deviceExperiments,
+  ...portableExperiments,
 ]
 
 /** Infrastructure used by the playground host, not independent visual effects. */

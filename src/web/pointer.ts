@@ -2,6 +2,7 @@ import type { WebRuntime } from './public.js'
 import type { FrameScheduler, FrameTask } from './scheduler.js'
 import type { WebReadableValue } from './value.js'
 import type { WebSpringOptions } from './spring-value.js'
+import { pointerPoint, resolvePointerOptions } from '../core/pointer.js'
 import { renderedAncestors } from './geometry.js'
 
 export interface WebPointerOptions {
@@ -17,6 +18,7 @@ export interface WebPointerOptions {
 export interface WebPointerFollow {
   readonly x: WebReadableValue
   readonly y: WebReadableValue
+  readonly presence: WebReadableValue
   readonly active: boolean
   readonly disposed: boolean
   readonly suspended: boolean
@@ -39,35 +41,8 @@ export function createPointerFollow(
   input: WebPointerOptions,
   host: PointerHost,
 ): WebPointerFollow {
-  if (!input || typeof input !== 'object')
-    throw new TypeError('Expected pointer options.')
-  const axis = input.axis ?? 'both',
-    coordinates = input.coordinates ?? 'normalized'
-  if (
-    !['x', 'y', 'both'].includes(axis) ||
-    !['normalized', 'pixels'].includes(coordinates)
-  )
-    throw new TypeError('Invalid pointer axis or coordinate mode.')
-  if (input.disabled !== undefined && typeof input.disabled !== 'boolean')
-    throw new TypeError('disabled must be boolean.')
-  const range = {
-    x: input.range?.x && [...input.range.x],
-    y: input.range?.y && [...input.range.y],
-  }
-  const rest = { x: input.rest?.x ?? 0, y: input.rest?.y ?? 0 }
-  for (const axis of ['x', 'y'] as const) {
-    const bounds = range[axis]
-    if (
-      !Number.isFinite(rest[axis]) ||
-      (bounds &&
-        (bounds.length !== 2 ||
-          !bounds.every(Number.isFinite) ||
-          bounds[0]! >= bounds[1]! ||
-          rest[axis] < bounds[0]! ||
-          rest[axis] > bounds[1]!))
-    )
-      throw new RangeError('Pointer ranges must be finite, increasing and contain rest.')
-  }
+  const options = resolvePointerOptions(input)
+  const { rest } = options
   const document = region.ownerDocument,
     view = document.defaultView! as Window & typeof globalThis
   const ancestors = () => {
@@ -109,10 +84,15 @@ export function createPointerFollow(
   let raw: {
     x: ReturnType<WebRuntime['motionValue']>
     y: ReturnType<WebRuntime['motionValue']>
+    presence: ReturnType<WebRuntime['motionValue']>
   }
   let output: { x: WebReadableValue; y: WebReadableValue }
   try {
-    raw = { x: resources.motionValue(rest.x), y: resources.motionValue(rest.y) }
+    raw = {
+      x: resources.motionValue(rest.x),
+      y: resources.motionValue(rest.y),
+      presence: resources.motionValue(0),
+    }
     output =
       input.spring === false
         ? raw
@@ -144,6 +124,7 @@ export function createPointerFollow(
   const reset = (immediate = false) => {
     latest = undefined
     active = false
+    if (!raw.presence.disposed) raw.presence.set(0)
     host.scheduler.remove(task)
     for (const axis of ['x', 'y'] as const) {
       if (!raw[axis].disposed) raw[axis].set(rest[axis])
@@ -179,28 +160,21 @@ export function createPointerFollow(
         reset()
         return
       }
-      const point = {
-        x: latest.x - rectangle.left - rectangle.width / 2,
-        y: latest.y - rectangle.top - rectangle.height / 2,
-      }
-      if (
-        Math.abs(point.x) > rectangle.width / 2 ||
-        Math.abs(point.y) > rectangle.height / 2
-      ) {
+      const point = pointerPoint(
+        latest.x - rectangle.left - rectangle.width / 2,
+        latest.y - rectangle.top - rectangle.height / 2,
+        rectangle.width,
+        rectangle.height,
+        options,
+      )
+      if (!point) {
         reset()
         return
       }
       active = true
-      for (const channel of ['x', 'y'] as const) {
-        let value = point[channel]
-        const bounds = range[channel]
-        if (coordinates === 'normalized') {
-          value /= (channel === 'x' ? rectangle.width : rectangle.height) / 2
-          if (bounds) value = bounds[0]! + ((value + 1) * (bounds[1]! - bounds[0]!)) / 2
-        }
-        if (bounds) value = Math.max(bounds[0]!, Math.min(bounds[1]!, value))
-        raw[channel].set(axis === 'both' || axis === channel ? value : rest[channel])
-      }
+      raw.presence.set(1)
+      raw.x.set(point.x)
+      raw.y.set(point.y)
     },
   }
   const invalidate = () => {
@@ -282,6 +256,7 @@ export function createPointerFollow(
   const controller: WebPointerFollow = {
     x: output.x,
     y: output.y,
+    presence: raw.presence,
     get active() {
       return active
     },
@@ -316,6 +291,7 @@ export function createPointerFollow(
     },
     dispose() {
       if (disposed) return
+      reset(true)
       disposed = true
       detach()
       unwatch()

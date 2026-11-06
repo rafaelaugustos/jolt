@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><title>Jolt · portable foundations</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: #101828;
+      color: #ecf4ff;
+      font: 17px system-ui;
+    }
+    main {
+      max-width: 860px;
+      margin: 32px auto;
+      padding: 24px;
+    }
+    h1 {
+      font-size: 30px;
+      margin: 0 0 8px;
+    }
+    p {
+      color: #aabbd4;
+      line-height: 1.5;
+    }
+    nav {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    button {
+      font: inherit;
+      padding: 12px 16px;
+      border: 1px solid #435773;
+      background: #263a57;
+      color: inherit;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    #stage {
+      position: relative;
+      height: 330px;
+      margin: 22px 0;
+      border: 1px solid #3b526c;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #16273c;
+    }
+    #region {
+      position: absolute;
+      inset: 24px;
+      border: 1px dashed #6886a9;
+      border-radius: 12px;
+    }
+    #dot {
+      position: absolute;
+      left: calc(50% - 17px);
+      top: calc(50% - 17px);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #63e3c2;
+      pointer-events: none;
+    }
+    #status {
+      white-space: pre-wrap;
+      font: 15px monospace;
+      color: #a4f0db;
+      min-height: 48px;
+    }
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .bars {
+      display: flex;
+      gap: 20px;
+      align-items: flex-end;
+      justify-content: center;
+      height: 100%;
+      padding: 35px;
+    }
+    .bar {
+      width: 80px;
+      height: 35px;
+      background: #63e3c2;
+      border-radius: 10px;
+    }
+  </style>
+  <main>
+    <h1>Portable motion foundations</h1>
+    <p id="description">
+      Shared ownership, explicit renderer activity and retained drawings.
+    </p>
+    <nav>
+      <button data-mode="groups">Property groups</button
+      ><button data-mode="pointer">Pointer</button
+      ><button data-mode="drawing">Drawing batch</button>
+    </nav>
+    <div id="stage"></div>
+    <nav>
+      <button id="run">Run</button><button id="variant">Chart / indicator</button
+      ><button id="pause">Pause</button><button id="resume">Resume</button
+      ><button id="reset">Remount</button>
+    </nav>
+    <p id="status"></p>
+  </main>
+  <script type="module" src="/fixture.js"></script>
+</html>

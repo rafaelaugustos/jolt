@@ -128,3 +128,7 @@ El ejemplo compilado se encuentra en `demo/native-fixture` y su suite reutilizab
 Para migrar desde `value.subscribe(n => nativeTarget.setValue(n))`, registre un receptor compilado y use `property.bind(value, n => n)`. Mantenga y llame a la función de lanzamiento en el mismo límite del ciclo de vida que la cancelación de suscripción anterior.
 
 El contenedor conserva la identidad del objetivo hasta `dispose()`, que también publica su referencia JavaScript. El sumidero nativo utiliza una referencia débil. Deseche antes de destruir el objeto SDK; la recolección de basura no reemplaza la propiedad explícita del ciclo de vida.
+
+## Bases portables (trabajo de RC.12)
+
+[Bases portables (trabajo de RC.12)](./portable-foundations): Presencia del puntero, grupos de propiedades, actividad del renderer, dibujos acotados y correcciones nativas de press/shape.

@@ -83,3 +83,7 @@ JavaScript interpreta a geometria e prepara curvas na criação e nos comandos, 
 O preview **Feito de movimento / Linework**, em quatro idiomas, é o 71º exemplo. Veja [validação e reprodução](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/shapes.md).
 
 <Clip name="web-shape-surfaces-chromium" :width="900" caption="Chromium no macOS, interface em inglês: cliques reais demonstram reprodução, pausa/retomada, substituição, movimento reduzido e descarte na velocidade original. Captura de navegador; sem alegação de desempenho em aparelho físico." />
+
+## Bases portáveis (trabalho da RC.12)
+
+[Bases portáveis (trabalho da RC.12)](./portable-foundations): Presença do ponteiro, grupos de propriedades, atividade do renderer, desenhos com limites e correções nativas de press/shape.

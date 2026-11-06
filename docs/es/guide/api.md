@@ -106,3 +106,7 @@ Lo que devuelve `animate()`, `decay()`, `sequence()` y los pasos de una secuenci
 ## Tipos {#types-1}
 
 - [SceneKit entorno y entradas de sombreado](./scene-shaders) — iluminación nativa y uniformes escalares/vectoriales tipificados.
+
+## Bases portables (trabajo de RC.12)
+
+[Bases portables (trabajo de RC.12)](./portable-foundations): Presencia del puntero, grupos de propiedades, actividad del renderer, dibujos acotados y correcciones nativas de press/shape.

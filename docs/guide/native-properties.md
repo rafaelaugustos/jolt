@@ -128,3 +128,7 @@ The compiled example lives in `demo/native-fixture`, and its reusable suite in `
 To migrate from `value.subscribe(n => nativeTarget.setValue(n))`, register a compiled sink and use `property.bind(value, n => n)`. Keep and call the release function at the same lifecycle boundary as the previous unsubscribe.
 
 The wrapper preserves target identity until `dispose()`, which also releases its JavaScript reference. The native sink uses a weak reference. Dispose before destroying the SDK object; garbage collection is not a replacement for explicit lifecycle ownership.
+
+## Portable foundations (RC.12 work)
+
+[Portable foundations (RC.12 work)](./portable-foundations): Pointer presence, coordinated property groups, renderer activity, bounded drawings and native press/shape fixes.

@@ -106,3 +106,7 @@ What `animate()`, `decay()`, `sequence()` and the steps of a sequence return: `a
 ## Types
 
 - [SceneKit environment and shader inputs](./scene-shaders) — native illumination and typed scalar/vector uniforms.
+
+## Portable foundations (RC.12 work)
+
+[Portable foundations (RC.12 work)](./portable-foundations): Pointer presence, coordinated property groups, renderer activity, bounded drawings and native press/shape fixes.

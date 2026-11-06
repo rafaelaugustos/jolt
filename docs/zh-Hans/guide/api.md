@@ -106,3 +106,7 @@
 ## 类型 {#types-1}
 
 - [SceneKit 环境和着色器输入](./scene-shaders) — 原生照明和类型标量/矢量uniform 参数。
+
+## 可移植基础（RC.12 工作）
+
+[可移植基础（RC.12 工作）](./portable-foundations): 指针存在状态、属性组、渲染活动、有界绘图与原生 press/shape 修复。

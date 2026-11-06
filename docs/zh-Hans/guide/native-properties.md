@@ -128,3 +128,7 @@ amount.animate(1, 'snappy')
 要从 `value.subscribe(n => nativeTarget.setValue(n))` 迁移，请注册已编译的接收器并使用 `property.bind(value, n => n)`。在与之前取消订阅相同的生命周期边界处保留并调用释放函数。
 
 包装器保留目标身份直到 `dispose()`，这也释放其 JavaScript 引用。原生接收器使用弱引用。在销毁SDK对象之前进行Dispose；垃圾收集不能替代显式生命周期所有权。
+
+## 可移植基础（RC.12 工作）
+
+[可移植基础（RC.12 工作）](./portable-foundations): 指针存在状态、属性组、渲染活动、有界绘图与原生 press/shape 修复。
