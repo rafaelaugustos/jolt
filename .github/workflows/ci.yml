@@ -70,7 +70,8 @@ jobs:
     # includes browsers and OS libraries, avoiding slow per-run Ubuntu mirrors.
     container:
       image: mcr.microsoft.com/playwright:v1.64.1-noble
-      options: --ipc=host
+      # Match the runner-owned workspace/home; Firefox rejects root in that session.
+      options: --ipc=host --user pwuser
     # All browser suites share this budget, including container/dependency setup.
     timeout-minutes: 30
     steps:
