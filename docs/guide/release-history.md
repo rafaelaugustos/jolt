@@ -1,6 +1,14 @@
 # Release history
 
-## 0.1.0-rc.11: Web refinement and native playback {#release-candidate}
+## 0.1.0-rc.11.1: Native resource lifetime and composition {#release-candidate}
+
+RC.11.1 adds [retained resources and Vue drawing ownership, behavior priorities, articulated 2D parts, gradient text and named timeline effects](./native-composition). These native APIs include interruption, reduced motion and lifecycle controls for their documented use cases.
+
+[Install RC.11.1](./install), keep the optional native package at the matching version and rebuild native apps. Latency and process-memory investigations remain technical debt (#405, #406); this release does not claim new performance gains or playback through blocked application JavaScript.
+
+<Clip name="native-text-android" caption="Physical ASUS ZenFone 3, Android 8, English UI: real native taps show gradient glyphs, moving light, text replacement, pause/resume and reduced motion. Original speed; not a performance measurement." />
+
+## 0.1.0-rc.11: Web refinement and native playback {#rc-11}
 
 RC.11 refines [mobile keyboard handling](./web-platforms), [element-relative scroll ranges](./web-support) and surface-conflict diagnostics. Native additions include optional framework adapters, [device inputs](./device-sensors), [spring/scroll-driven shaders, liquid masks and silent local iOS video textures](./image-effects). [Android playback](./android-performance) retains less settled animation data; the audit exporter moves report work to a worker. The [physical-device study](./performance-study) records CPU, memory and presentation tradeoffs without changing application defaults.
 

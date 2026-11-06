@@ -1,6 +1,14 @@
 # Historial de versiones
 
-## 0.1.0-rc.11: ajustes Web y reproducción nativa {#release-candidate}
+## 0.1.0-rc.11.1: Ciclo de vida y composición nativa {#release-candidate}
+
+RC.11.1 añade [recursos retenidos y dibujos con ciclo de vida Vue, prioridades de comportamientos, partes 2D articuladas, texto con degradado y eventos con nombre en timelines](./native-composition). Las APIs nativas incluyen interrupción, movimiento reducido y controles de ciclo de vida para los usos documentados.
+
+[Instala RC.11.1](./install), conserva el paquete nativo opcional en la misma versión y recompila las apps. Las investigaciones de latencia y memoria siguen como deuda técnica (#405, #406); esta versión no afirma nuevas mejoras de rendimiento ni reproducción durante bloqueos del JavaScript de la aplicación.
+
+<Clip name="native-text-android" caption="ASUS ZenFone 3 físico, Android 8, interfaz en inglés: taps nativos reales muestran letras con degradado, luz en movimiento, reemplazo de texto, pausa/reanudación y movimiento reducido. Velocidad original; no es una medición de rendimiento." />
+
+## 0.1.0-rc.11: ajustes Web y reproducción nativa {#rc-11}
 
 RC.11 ajusta el [teclado móvil](./web-platforms), los [rangos de scroll relativos al elemento](./web-support) y los diagnósticos de conflictos entre superficies. Añade adapters nativos opcionales, [sensores](./device-sensors), [shaders controlados por resortes/scroll, máscaras líquidas y vídeo local sin audio en iOS](./image-effects). La [reproducción Android](./android-performance) conserva menos datos al finalizar; el exportador de auditoría procesa informes en un worker. El [estudio en dispositivo físico](./performance-study) documenta CPU, memoria y presentación sin cambiar la configuración predeterminada.
 

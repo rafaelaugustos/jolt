@@ -6,18 +6,18 @@ npm install @rafaelaugusto/jolt@next
 
 A RC.6 inclui [movimento contínuo na Web](./web-dynamic), com valores, followers e drag/snap, além de [mapeamentos numéricos, atualização de geometria e scroll vertical](./web-support). As APIs Web continuam experimentais.
 
-A **candidata a release 0.1.0-rc.11** é publicada sob a tag `next`. O escopo nativo da 0.1.0 está congelado enquanto continuam as validações de compatibilidade e de release. Consumidores NativeScript exigem `@nativescript/core` 8.9 ou mais novo. Não depende de framework: recebe uma view, ou um elemento que contém uma, então funciona com NativeScript-Vue, Angular, Svelte ou NativeScript puro. Apps NativeScript-Vue também podem importar `@rafaelaugusto/jolt/vue` para [diretivas e um componente de transição](./vue).
+A **candidata a release 0.1.0-rc.11.1** é publicada sob a tag `next`. O escopo nativo da 0.1.0 está congelado enquanto continuam as validações de compatibilidade e de release. Consumidores NativeScript exigem `@nativescript/core` 8.9 ou mais novo. Não depende de framework: recebe uma view, ou um elemento que contém uma, então funciona com NativeScript-Vue, Angular, Svelte ou NativeScript puro. Apps NativeScript-Vue também podem importar `@rafaelaugusto/jolt/vue` para [diretivas e um componente de transição](./vue).
 
 O Jolt inclui helpers nativos no iOS e no Android. Recompile o app nativo após instalar ou atualizar o Jolt; uma atualização só de JavaScript não instala código nativo.
 
-A candidata atual é **0.1.0-rc.11**. Para fixá-la, use `npm install @rafaelaugusto/jolt@0.1.0-rc.11`. Para [adaptadores de propriedades nativas externas](./native-properties), instale também `@rafaelaugusto/jolt-native@0.1.0-rc.11` e recompile o aplicativo nativo.
+A candidata atual é **0.1.0-rc.11.1**. Para fixá-la, use `npm install @rafaelaugusto/jolt@0.1.0-rc.11.1`. Para [adaptadores de propriedades nativas externas](./native-properties), instale também `@rafaelaugusto/jolt-native@0.1.0-rc.11.1` e recompile o aplicativo nativo.
 
 ## Entradas Web experimentais {#experimental-web-candidate}
 
 A partir da **0.1.0-rc.5**, o pacote inclui as entradas experimentais `/web` e `/web/vue`. Instale a candidata publicada diretamente; adicione Vue somente ao usar o adapter Vue DOM. O import raiz e `/vue` continuam sendo entradas nativas.
 
 ```sh
-npm install @rafaelaugusto/jolt@0.1.0-rc.11
+npm install @rafaelaugusto/jolt@0.1.0-rc.11.1
 # Somente para o adapter Vue DOM opcional:
 npm install vue@^3.5.0
 ```
