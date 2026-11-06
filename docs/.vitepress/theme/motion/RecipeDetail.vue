@@ -94,6 +94,12 @@ async function copy(kind: 'code' | 'prompt') {
         <figcaption>
           <span>{{ t(labels.native) }} · {{ recipe.platform }}</span
           >{{ t(recipe.caption) }}
+          <a
+            v-if="recipe.attribution"
+            :href="link(recipe.attribution.guide)"
+            class="recipe-attribution"
+            >{{ recipe.attribution.label }} ↗</a
+          >
         </figcaption>
       </figure>
       <div class="recipe-implementation">

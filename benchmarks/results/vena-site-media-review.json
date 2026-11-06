@@ -1,0 +1,97 @@
+{
+  "date": "2026-11-06",
+  "project": "https://github.com/rafaelaugustos/vena-ns",
+  "reviewedRevision": "9b4b41948d14ef5168f91ec7c9805df5a046daec",
+  "joltVersion": "0.1.0-rc.11",
+  "sourceValidation": "Inspected the pinned app source and verified byte-identical recipe snapshots. No native build or app source changes in this workstream; native demonstration uses the creator-provided English recording.",
+  "creatorRecording": {
+    "originalFile": "Screen Recording Vena 05-11-2026 at 23.27.07 - 60fps.mp4",
+    "originalSha256": "ae5acf1c4248750d8f9840d80f4d9ac7d483a6d126c4d80a66532ece10764efa",
+    "platform": "iOS; capture device not specified by the creator",
+    "trimStartSeconds": 3.25,
+    "originalSpeed": true,
+    "audio": "No audio stream",
+    "export": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 804,
+          "height": 1748,
+          "r_frame_rate": "60/1"
+        }
+      ],
+      "format": {
+        "duration": "32.416667",
+        "size": "22782472"
+      }
+    },
+    "sha256": "20f7fb49557730dab301661321a5d90a040e60ffd0bfe2c6b45fcfea17b93ab7",
+    "review": "Decoded the complete clip and inspected frame sequences across opening, signal path, particle heartbeat, rhythm collection and heart focus. System home and launch transition omitted. Export timing retained; 60 fps describes the supplied file, not measured app performance.",
+    "limits": "Illustrative BPM only. Pointer helper, suspension/resume, reduced motion and unloading were inspected in source, not individually demonstrated by this recording. The particle renderer is iOS-only."
+  },
+  "recipes": [
+    {
+      "source": "src/motion/entrance.ts",
+      "sha256": "fd2a99354f60427559e39d6f44276c2a2787f516765c0566b19ddcb760d421a1",
+      "snapshotMatchesSource": true
+    },
+    {
+      "source": "src/scene/scene-view.ios.ts",
+      "sha256": "7a079185cc0d9eab39d4fe1779b9735ec6461723cdaacf72ad971bcc561cf5e1",
+      "snapshotMatchesSource": true
+    }
+  ],
+  "assets": [
+    {
+      "file": "docs/public/media/vena-heart.jpg",
+      "source": "Frame at 28 seconds in the supplied 60 fps recording; crop 1000:1600:103:300, resized to 600×960.",
+      "sha256": "ff0c150f65bd3b1c9f682620dde5854e417f5b968453c238bb7ffe03adb93fec"
+    },
+    {
+      "file": "docs/public/media/vena-native-ios.jpg",
+      "source": "Frame at 12.75 seconds in the supplied recording, resized to 804×1748. Also copied to docs/public/recipes/vena-native-ios.jpg.",
+      "sha256": "a128e194fcb28c017d4d1afa6a23319add4456b4b60ae6400164ae3843919446"
+    }
+  ],
+  "attribution": "docs/public/media/vena-attribution.txt preserves BodyParts3D / DBCLS CC BY 4.0, OrganUI preparation, Vena modifications, MakeHuman CC0 and website media transformations. Credits are linked from home, showcase, recipe details and guides.",
+  "scope": "Website and documentation only. Existing Jolt Web scroll-linked APIs decorate the site. No new engine capability or Mavis implementation.",
+  "siteRecording": {
+    "source": "/tmp/jolt-vena-site-recording/page@6e6449530effa9880f156e662b27e815.webm",
+    "destination": "/private/tmp/jolt-vena-showcase/docs/public/media/vena-site-chromium.mp4",
+    "browser": "Chromium",
+    "platform": "macOS arm64",
+    "language": "English",
+    "originalTiming": true,
+    "input": "Playwright pointer clicks and wheel input; home video started with HTMLMediaElement.play()",
+    "nativeFootage": "Creator-provided Vena iOS recording; capture device unspecified",
+    "duration": "48.520000",
+    "dimensions": [1440, 1000],
+    "decoded": true,
+    "sha256": "2d3e858c712362723835f78886cacdae789e7b389f3063143809df22d6b559e6",
+    "review": "Decoded the complete English browser recording and inspected representative frames across home scroll motion, native playback, showcase, both recipes and code/prompt copying."
+  },
+  "pointClouds": {
+    "uniqueSurfacePoints": {
+      "torso": 160000,
+      "heart": 40000
+    },
+    "additionalDrawPass": "The heart cloud is rendered again for glow."
+  },
+  "browserReview": {
+    "evidence": [
+      {
+        "browser": "chromium",
+        "result": "passed",
+        "checks": "Vena: home scroll motion, native playback, reduced-motion manual play, pinned source/clipboard/attribution and all four locales at four widths. Auralis: home parallax, offscreen playback pause, showcase, reduced-motion manual play, anchor-preserving language switch, both source snapshots and prompts, project backlink, search, and home/showcase/2 recipes/guide in 4 locales × 4 widths. Hexdrop home scroll animation, native playback, showcase, reduced motion, pinned source and clipboard prompt, project-specific backlink, localized home/showcase/recipe/guide in 4 locales × 4 widths; WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, global documentation shell with light/dark themes, reading progress and responsive API/guide pages; animated showcase with reduced-motion playback and preserved anchors; four Jolt Drive recipes with snapshot, clipboard, pinned source, requirements and native playback in four locales, Jolt Drive project links and native playback, preserved Jolt Car walkthrough, published project images, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, home and showcase in 4 locales × 4 widths, mobile navigation, reduced motion, remount"
+      },
+      {
+        "browser": "webkit",
+        "result": "passed",
+        "checks": "Vena: home scroll motion, native playback, reduced-motion manual play, pinned source/clipboard/attribution and all four locales at four widths. Auralis: home parallax, offscreen playback pause, showcase, reduced-motion manual play, anchor-preserving language switch, both source snapshots and prompts, project backlink, search, and home/showcase/2 recipes/guide in 4 locales × 4 widths. Hexdrop home scroll animation, native playback, showcase, reduced motion, pinned source and clipboard prompt, project-specific backlink, localized home/showcase/recipe/guide in 4 locales × 4 widths; WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, global documentation shell with light/dark themes, reading progress and responsive API/guide pages; animated showcase with reduced-motion playback and preserved anchors; four Jolt Drive recipes with snapshot, clipboard, pinned source, requirements and native playback in four locales, Jolt Drive project links and native playback, preserved Jolt Car walkthrough, published project images, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, home and showcase in 4 locales × 4 widths, mobile navigation, reduced motion, remount"
+      }
+    ],
+    "failures": []
+  }
+}

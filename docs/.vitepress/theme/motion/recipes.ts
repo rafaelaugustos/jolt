@@ -20,6 +20,7 @@ export interface Recipe {
     joltVersion: string
     showcaseAnchor: string
   }
+  attribution?: { label: string; guide: string }
   requirements?: Words
   guideAnchor?: string
 }
@@ -76,7 +77,95 @@ export const auralisCaption: Words = [
   'Auralis en iOS: grabación del creador con apertura animada, tarjetas de cristal flotantes, tres escenas de onboarding y controles de página. Velocidad original, sin audio; se omiten los primeros 4,25 segundos de la pantalla de inicio y transición del sistema. Dispositivo no especificado; no mide rendimiento. Cuentas y servicios ilustrativos.',
   'Auralis iOS 创作者录屏：动画开场、悬浮玻璃卡片、三个引导场景和页面控件。原始速度，无音频；省略最初 4.25 秒的系统主屏幕与启动转场。录制设备未说明；非性能测试。账户和服务均为示意。',
 ]
+export const venaCaption: Words = [
+  'Vena on iOS: creator-provided English recording of the opening, particle heartbeat, rhythm collection and heart focus. Original speed, 60 fps export, no audio; the first 3.25 seconds of system home and launch are omitted. Capture device unspecified; not a performance measurement. BPM readings are illustrative.',
+  'Vena no iOS: gravação enviada pelo criador, com interface em inglês, abertura, coração de partículas, coleção de ritmos e foco no coração. Velocidade original, exportação a 60 fps, sem áudio; os primeiros 3,25 segundos da tela inicial e abertura do sistema foram omitidos. Dispositivo não informado; não é medição de desempenho. Leituras de BPM ilustrativas.',
+  'Vena en iOS: grabación del creador, con interfaz en inglés, apertura, corazón de partículas, colección de ritmos y enfoque del corazón. Velocidad original, exportación a 60 fps, sin audio; se omiten los primeros 3,25 segundos del inicio del sistema. Dispositivo no especificado; no mide rendimiento. Valores de BPM ilustrativos.',
+  'Vena iOS 创作者录屏：英文界面、开场、粒子心跳、节奏收藏与心脏聚焦。原始速度，60 fps 导出，无音频；省略最初 3.25 秒的系统主屏幕与启动。录制设备未说明；非性能测试。BPM 数值仅为示意。',
+]
 export const recipes: Recipe[] = [
+  {
+    slug: 'vena-opening',
+    title: [
+      'A rhythm of your own.',
+      'Um ritmo só seu.',
+      'Un ritmo propio.',
+      '属于你的节奏。',
+    ],
+    description: [
+      'A traced signal, a quiet title and a staggered entrance into Vena.',
+      'Um sinal traçado, um título suave e a entrada em sequência do Vena.',
+      'Una señal trazada, un título suave y la entrada escalonada de Vena.',
+      '描绘信号、轻柔标题与依次展开的 Vena 界面。',
+    ],
+    category: 'Motion',
+    source: 'src/motion/entrance.ts',
+    guideAnchor: 'opening',
+    color: '#30202a',
+    requirements: [
+      'NativeScript-Vue 3 and Jolt RC.11. Call opening with four loaded native views; title, caption and skip start at opacity 0. The rule hosts a 190×30 vector path. WelcomeOverlay.vue shows the completion/skip guard and disposal. revealInterface takes an owned MotionScope and four mounted views. Dispose the returned opening handle and your interface scope on unload. This file animates text, the path and interface entrance; the particle heart needs HeartScene and its assets. Preserve reduced-motion handling. iOS is the recorded platform.',
+      'NativeScript-Vue 3 e Jolt RC.11. Chame opening com quatro views nativas carregadas; title, caption e skip começam com opacity 0. rule recebe um traçado de 190×30. WelcomeOverlay.vue mostra a proteção ao concluir/pular e o descarte. revealInterface recebe um MotionScope próprio e quatro views montadas. Descarte o handle de opening e o scope da interface ao sair. Este arquivo anima texto, traçado e entrada da interface; o coração de partículas depende de HeartScene e seus assets. Preserve movimento reduzido. A gravação é iOS.',
+      'NativeScript-Vue 3 y Jolt RC.11. Llama a opening con cuatro vistas nativas cargadas; title, caption y skip comienzan con opacity 0. rule aloja un trazado de 190×30. WelcomeOverlay.vue muestra la protección al terminar/saltar y la limpieza. revealInterface recibe un MotionScope propio y cuatro vistas montadas. Libera el handle de opening y el scope al salir. Este archivo anima texto, trazado y entrada; el corazón necesita HeartScene y sus recursos. Conserva el movimiento reducido. Grabación en iOS.',
+      '需要 NativeScript-Vue 3 和 Jolt RC.11。向 opening 传入四个已加载的原生视图；title、caption、skip 初始 opacity 为 0。rule 承载 190×30 路径。WelcomeOverlay.vue 展示完成、跳过和清理保护。revealInterface 接收自有 MotionScope 及四个已挂载视图。卸载时清理 opening 返回对象和界面 scope。此文件只负责文字、路径与界面入场；粒子心脏需要 HeartScene 及其资源。保留减少动态处理。录屏平台为 iOS。',
+    ],
+    video: 'vena-native-ios',
+    guide: 'vena-recipes',
+    platform: 'iOS',
+    caption: venaCaption,
+    attribution: {
+      label: 'BodyParts3D © DBCLS · CC BY 4.0 / MakeHuman · CC0',
+      guide: '/guide/vena-recipes#credits',
+    },
+    project: {
+      name: 'Vena',
+      repository: 'rafaelaugustos/vena-ns',
+      revision: '9b4b41948d14ef5168f91ec7c9805df5a046daec',
+      joltVersion: '0.1.0-rc.11',
+      showcaseAnchor: 'vena',
+      sha256: 'fd2a99354f60427559e39d6f44276c2a2787f516765c0566b19ddcb760d421a1',
+    },
+  },
+  {
+    slug: 'vena-heart',
+    title: [
+      'A heart made of light.',
+      'Um coração feito de luz.',
+      'Un corazón hecho de luz.',
+      '光点织成的心脏。',
+    ],
+    description: [
+      'Native shader uniforms bring the particle heart, focus and touch response to life.',
+      'Uniforms nativos dão vida ao coração de partículas, ao foco e à resposta ao toque.',
+      'Uniforms nativos animan el corazón de partículas, el enfoque y la respuesta al toque.',
+      '原生着色器参数驱动粒子心脏、聚焦与触控响应。',
+    ],
+    category: 'Visual',
+    source: 'src/scene/scene-view.ios.ts',
+    guideAnchor: 'heart',
+    color: '#30202a',
+    requirements: [
+      'iOS only: NativeScript-Vue 3, Jolt RC.11, its native companion and SceneKit. This complete HeartScene class depends on shaders.ts, anatomy.ts, cloud-data.ts, heart-space.ts, pointer.ios.ts, simulator-pointer.ios.ts and bundled torso.bin/heart.bin. See the pinned repository for view registration and sceneReady wiring. Jolt drives typed float/float2/float3 shader uniforms, while SceneKit renders the cloud. Preserve hit testing in the animated pose, independent heartbeat/tap clocks, rendering gates, reduced motion, suspend/resume, listener removal and property/scope disposal. Simulator hover uses a development-only Swift helper; it is not phone touch input. Preserve BodyParts3D © DBCLS CC BY 4.0 attribution and MakeHuman CC0 provenance. No Android or Web renderer is supplied by this recipe.',
+      'Somente iOS: NativeScript-Vue 3, Jolt RC.11, seu pacote nativo e SceneKit. A classe HeartScene depende de shaders.ts, anatomy.ts, cloud-data.ts, heart-space.ts, pointer.ios.ts, simulator-pointer.ios.ts e torso.bin/heart.bin. Veja o repositório fixado para registro da view e conexão de sceneReady. O Jolt controla uniforms float/float2/float3; o SceneKit renderiza a nuvem. Preserve hit testing na pose animada, relógios separados de pulsação/toque, condições de renderização, movimento reduzido, suspensão/retorno, remoção de listeners e descarte de propriedades/scopes. Hover no simulador usa um helper Swift de desenvolvimento; não é toque no celular. Preserve os créditos BodyParts3D © DBCLS CC BY 4.0 e MakeHuman CC0. Esta receita não fornece renderizador Android ou Web.',
+      'Solo iOS: NativeScript-Vue 3, Jolt RC.11, su paquete nativo y SceneKit. HeartScene depende de shaders.ts, anatomy.ts, cloud-data.ts, heart-space.ts, pointer.ios.ts, simulator-pointer.ios.ts y torso.bin/heart.bin. Consulta el repositorio fijado para registrar la vista y conectar sceneReady. Jolt controla uniforms float/float2/float3; SceneKit renderiza la nube. Conserva detección en la pose animada, relojes separados de latido/toque, condiciones de renderizado, movimiento reducido, suspensión/reanudación y limpieza de listeners, propiedades y scopes. Hover en simulador usa un helper Swift de desarrollo; no es entrada táctil de teléfono. Conserva BodyParts3D © DBCLS CC BY 4.0 y MakeHuman CC0. La receta no incluye renderizador Android ni Web.',
+      '仅限 iOS：NativeScript-Vue 3、Jolt RC.11、其原生配套包及 SceneKit。完整 HeartScene 类依赖 shaders.ts、anatomy.ts、cloud-data.ts、heart-space.ts、pointer.ios.ts、simulator-pointer.ios.ts 和 torso.bin/heart.bin。视图注册及 sceneReady 接线见固定提交的仓库。Jolt 控制 float/float2/float3 着色器参数，SceneKit 渲染点云。保留动态姿态命中检测、独立心跳与点击时钟、渲染开关、减少动态、挂起/恢复以及监听器、属性、scope 清理。模拟器悬停依赖仅开发时使用的 Swift 工具，并非手机触控。保留 BodyParts3D © DBCLS CC BY 4.0 署名与 MakeHuman CC0 来源。此配方不提供 Android 或 Web 渲染器。',
+    ],
+    video: 'vena-native-ios',
+    guide: 'vena-recipes',
+    platform: 'iOS',
+    caption: venaCaption,
+    attribution: {
+      label: 'BodyParts3D © DBCLS · CC BY 4.0 / MakeHuman · CC0',
+      guide: '/guide/vena-recipes#credits',
+    },
+    project: {
+      name: 'Vena',
+      repository: 'rafaelaugustos/vena-ns',
+      revision: '9b4b41948d14ef5168f91ec7c9805df5a046daec',
+      joltVersion: '0.1.0-rc.11',
+      showcaseAnchor: 'vena',
+      sha256: '7a079185cc0d9eab39d4fe1779b9735ec6461723cdaacf72ad971bcc561cf5e1',
+    },
+  },
   {
     slug: 'auralis-cards',
     title: ['Into the light.', 'Encontre a luz.', 'Hacia la luz.', '跃入光中。'],

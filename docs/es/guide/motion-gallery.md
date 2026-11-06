@@ -55,3 +55,13 @@ Hexdrop combina animación de scroll con Jolt Web y grabación nativa real. [Con
 Una primera impresión hecha de luz. Tarjetas de cristal flotantes, letras iridiscentes y tres escenas que fluyen entre sí.
 
 <Clip name="auralis-native-ios" :width="320" caption="Auralis en iOS: grabación del creador con apertura animada, tarjetas de cristal flotantes, tres escenas de onboarding y controles de página. Velocidad original, sin audio; se omiten los primeros 4,25 segundos de la pantalla de inicio y transición del sistema. Dispositivo no especificado; no mide rendimiento. Cuentas y servicios ilustrativos." />
+
+## Vena
+
+[Explora las dos recetas](/es/recipes/?q=Vena) · [Ver el proyecto](https://github.com/rafaelaugustos/vena-ns) · [Recetas de movimiento de Vena](./vena-recipes)
+
+Un corazón hecho de luz. Doscientos mil puntos forman un cuerpo que responde, late y te invita a acercarte.
+
+<Clip name="vena-native-ios" :autoplay="false" poster="/media/vena-native-ios.jpg" :width="320" caption="Vena en iOS: grabación del creador, con interfaz en inglés, apertura, corazón de partículas, colección de ritmos y enfoque del corazón. Velocidad original, exportación a 60 fps, sin audio; se omiten los primeros 3,25 segundos del inicio del sistema. Dispositivo no especificado; no mide rendimiento. Valores de BPM ilustrativos." />
+
+[BodyParts3D © DBCLS · CC BY 4.0 / MakeHuman · CC0](./vena-recipes#credits)

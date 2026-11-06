@@ -192,6 +192,36 @@
   --vp-c-brand-1: #4d568f;
   --vp-c-divider: #59608b30;
 }
+.showcase-exhibit .showcase-feature[aria-labelledby='vena'] {
+  background: #090709;
+  color: #f9edf1;
+  --vp-c-text-1: #f9edf1;
+  --vp-c-text-2: #bfaab4;
+  --vp-c-brand-1: #ff829b;
+  --vp-c-divider: #f69cb52b;
+}
+.showcase-exhibit [aria-labelledby='vena'] > h2 span {
+  color: #ff4d73;
+}
+.showcase-exhibit [aria-labelledby='vena'] .clip video {
+  border-color: #30212a;
+  box-shadow: 15px 30px 70px #ff174315;
+}
+.showcase-exhibit [aria-labelledby='vena'] .showcase-art {
+  width: 360px;
+  max-width: 65%;
+  left: -60px;
+  top: 5%;
+}
+.showcase-exhibit [aria-labelledby='vena'] .showcase-art img {
+  border: 0;
+  box-shadow: none;
+  border-radius: 0;
+  mask-image: radial-gradient(ellipse, black 20%, transparent 68%);
+}
+.showcase-exhibit [aria-labelledby='vena'] .showcase-watch {
+  border-color: #f69cb55c;
+}
 .showcase-exhibit [aria-labelledby='auralis'] > h2 span {
   color: #8d91bc;
 }
