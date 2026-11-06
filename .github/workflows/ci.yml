@@ -66,8 +66,12 @@ jobs:
           path: benchmarks/package-consumers/results/
   web-composition:
     runs-on: ubuntu-latest
-    # Browser/OS setup and all 15 browser suites share this budget.
-    # Slow package mirrors must not cancel the final suite after the others pass.
+    # Keep this version aligned with @playwright/test in package.json. The image
+    # includes browsers and OS libraries, avoiding slow per-run Ubuntu mirrors.
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --ipc=host
+    # All browser suites share this budget, including container/dependency setup.
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
@@ -76,7 +80,6 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci && npm ci --prefix benchmarks/angular-tools
-      - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run web:portable:typecheck
       - run: npm run web:parity:typecheck
       - run: npm run web:platforms:typecheck
