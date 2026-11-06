@@ -66,8 +66,13 @@ jobs:
           path: benchmarks/package-consumers/results/
   web-composition:
     runs-on: ubuntu-latest
-    # Browser/OS setup and all 15 browser suites share this budget.
-    # Slow package mirrors must not cancel the final suite after the others pass.
+    # Keep this version aligned with @playwright/test in package.json. The image
+    # includes browsers and OS libraries, avoiding slow per-run Ubuntu mirrors.
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      # Match the runner-owned workspace/home; Firefox rejects root in that session.
+      options: --ipc=host --user pwuser
+    # All browser suites share this budget, including container/dependency setup.
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
@@ -76,7 +81,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci && npm ci --prefix benchmarks/angular-tools
-      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm run web:portable:typecheck
       - run: npm run web:parity:typecheck
       - run: npm run web:platforms:typecheck
       - run: npm run web:surfaces:typecheck
@@ -108,6 +113,9 @@ jobs:
       - run: npm run web:gestures:test
       - run: npm run web:attachment:test
       - run: npm run web:orchestration:test
+      # Firefox on Linux needs a display for the actual WebGL adapter fixture.
+      # Keep WebGL assertions enabled; Xvfb provides the CI display, not a mock.
+      - run: xvfb-run --auto-servernum npm run web:portable:test -- --headed
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -128,6 +136,7 @@ jobs:
             benchmarks/web-surfaces/results/
             benchmarks/web-platforms/results/
             benchmarks/web-parity/results/
+            benchmarks/web-portable/results/
   test:
     runs-on: ubuntu-latest
     steps:

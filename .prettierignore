@@ -43,3 +43,8 @@ benchmarks/results/android-followup-2026-11-03/**
 !benchmarks/results/android-followup-2026-11-03/README.md
 !benchmarks/results/android-followup-2026-11-03/recordings/
 !benchmarks/results/android-followup-2026-11-03/recordings/README.md
+
+benchmarks/web-portable/results/
+benchmarks/web-portable/captures/
+# Raw measurements and source identities are byte-preserved evidence.
+benchmarks/results/portable-foundations/**

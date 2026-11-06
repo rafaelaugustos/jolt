@@ -1,0 +1,368 @@
+{
+  "platform": "android",
+  "events": [
+    {
+      "name": "pointer",
+      "mode": "pointer",
+      "time": 1794001371020,
+      "suspended": false,
+      "scope": 4,
+      "available": true,
+      "active": false,
+      "x": 0,
+      "y": 0,
+      "presence": 0
+    },
+    {
+      "name": "pointer-ready",
+      "mode": "pointer",
+      "time": 1794001371033,
+      "suspended": false,
+      "scope": 6,
+      "available": true
+    },
+    {
+      "name": "setup",
+      "mode": "pointer",
+      "time": 1794001371038,
+      "suspended": false,
+      "scope": 6
+    },
+    {
+      "name": "injected-mouse-start",
+      "mode": "pointer",
+      "time": 1794001374538,
+      "suspended": false,
+      "scope": 6
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001374551,
+      "suspended": false,
+      "scope": 6,
+      "x": -0.9,
+      "y": 0,
+      "presence": 1
+    },
+    {
+      "name": "demand",
+      "mode": "pointer",
+      "time": 1794001374557,
+      "suspended": false,
+      "scope": 6,
+      "active": true
+    },
+    {
+      "name": "pointer",
+      "mode": "pointer",
+      "time": 1794001374562,
+      "suspended": false,
+      "scope": 6,
+      "available": true,
+      "active": true,
+      "x": -0.9,
+      "y": 0,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001374804,
+      "suspended": false,
+      "scope": 6,
+      "x": -0.86273158281699,
+      "y": 0.07783483746408046,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001375072,
+      "suspended": false,
+      "scope": 6,
+      "x": -0.7369595933234555,
+      "y": 0.32333381038972697,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001375336,
+      "suspended": false,
+      "scope": 6,
+      "x": -0.5351461476293103,
+      "y": 0.5736934267241379,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001375588,
+      "suspended": false,
+      "scope": 6,
+      "x": -0.2956378103672773,
+      "y": 0.5149871475395116,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001375854,
+      "suspended": false,
+      "scope": 6,
+      "x": -0.010874500493893678,
+      "y": 0.022770041980962646,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001376104,
+      "suspended": false,
+      "scope": 6,
+      "x": 0.25735101809446836,
+      "y": -0.4693707345545977,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001376356,
+      "suspended": false,
+      "scope": 6,
+      "x": 0.5022713496767242,
+      "y": -0.5900400446749281,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001376620,
+      "suspended": false,
+      "scope": 6,
+      "x": 0.7131344850035919,
+      "y": -0.3642015479076868,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001376875,
+      "suspended": false,
+      "scope": 6,
+      "x": 0.8441838406968392,
+      "y": -0.11616281092852013,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001377140,
+      "suspended": false,
+      "scope": 6,
+      "x": 0.8995894508800286,
+      "y": -0.0008598239942528736,
+      "presence": 1
+    },
+    {
+      "name": "demand",
+      "mode": "pointer",
+      "time": 1794001377177,
+      "suspended": false,
+      "scope": 6,
+      "active": false
+    },
+    {
+      "name": "pointer",
+      "mode": "pointer",
+      "time": 1794001377184,
+      "suspended": false,
+      "scope": 6,
+      "available": true,
+      "active": false,
+      "x": 0,
+      "y": 0,
+      "presence": 0
+    },
+    {
+      "name": "tap",
+      "mode": "pointer",
+      "time": 1794001378444,
+      "suspended": false,
+      "scope": 6,
+      "taps": 1
+    },
+    {
+      "name": "injected-mouse-start",
+      "mode": "pointer",
+      "time": 1794001379714,
+      "suspended": false,
+      "scope": 6
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001379723,
+      "suspended": false,
+      "scope": 6,
+      "x": -0.9,
+      "y": 0,
+      "presence": 1
+    },
+    {
+      "name": "demand",
+      "mode": "pointer",
+      "time": 1794001379728,
+      "suspended": false,
+      "scope": 6,
+      "active": true
+    },
+    {
+      "name": "pointer",
+      "mode": "pointer",
+      "time": 1794001379732,
+      "suspended": false,
+      "scope": 6,
+      "available": true,
+      "active": true,
+      "x": -0.9,
+      "y": 0,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001379989,
+      "suspended": false,
+      "scope": 6,
+      "x": -0.8592487905217313,
+      "y": 0.0850616805854885,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001380240,
+      "suspended": false,
+      "scope": 6,
+      "x": -0.740685473913434,
+      "y": 0.31673317394037354,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001380490,
+      "suspended": false,
+      "scope": 6,
+      "x": -0.5550469760237069,
+      "y": 0.5601130343031608,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001380741,
+      "suspended": false,
+      "scope": 6,
+      "x": -0.31812730109554593,
+      "y": 0.5375457412895115,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001380991,
+      "suspended": false,
+      "scope": 6,
+      "x": -0.05325506802262931,
+      "y": 0.11089596803160919,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001381246,
+      "suspended": false,
+      "scope": 6,
+      "x": 0.2164397842582615,
+      "y": -0.4113994028376437,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001381509,
+      "suspended": false,
+      "scope": 6,
+      "x": 0.4822442416487069,
+      "y": -0.59620361328125,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001381775,
+      "suspended": false,
+      "scope": 6,
+      "x": 0.6982893318965517,
+      "y": -0.3884103358477011,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001382025,
+      "suspended": false,
+      "scope": 6,
+      "x": 0.8355923356681034,
+      "y": -0.13376128098060344,
+      "presence": 1
+    },
+    {
+      "name": "pointer-move",
+      "mode": "pointer",
+      "time": 1794001382277,
+      "suspended": false,
+      "scope": 6,
+      "x": 0.8972256364493535,
+      "y": -0.005810546875,
+      "presence": 1
+    },
+    {
+      "name": "demand",
+      "mode": "pointer",
+      "time": 1794001382344,
+      "suspended": false,
+      "scope": 6,
+      "active": false
+    },
+    {
+      "name": "pointer",
+      "mode": "pointer",
+      "time": 1794001382351,
+      "suspended": false,
+      "scope": 6,
+      "available": true,
+      "active": false,
+      "x": 0,
+      "y": 0,
+      "presence": 0
+    },
+    {
+      "name": "tap",
+      "mode": "pointer",
+      "time": 1794001383600,
+      "suspended": false,
+      "scope": 6,
+      "taps": 2
+    }
+  ],
+  "evidence": {
+    "device": "ASUS ZenFone 3 / ASUS_Z017DC physical device",
+    "os": "Android 8.0.0 / API26",
+    "input": "Real ADB taps; pointer hover injected through native Window.Callback, no connected mouse",
+    "video": "docs/public/media/portable-pointer-android.mp4"
+  }
+}

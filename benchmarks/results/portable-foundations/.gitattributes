@@ -1,0 +1,2 @@
+# Raw evidence stays available; GitHub collapses generated samples during code review.
+*.json linguist-generated=true

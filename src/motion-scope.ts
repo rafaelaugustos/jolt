@@ -1,4 +1,6 @@
 import { Application } from '@nativescript/core'
+import { renderActivity } from './render-activity.js'
+import { pointerFollow } from './pointer.js'
 import { animate, decay } from './animate.js'
 import { press } from './press.js'
 import { drag } from './drag.js'
@@ -41,6 +43,8 @@ export interface MotionScope {
   readonly suspended: boolean
   /** Owned handles/subscriptions, including suspended subscription factories. */
   readonly size: number
+  renderActivity: typeof renderActivity
+  pointerFollow: typeof pointerFollow
   animateLayout: typeof animateLayout
   animateSize: typeof animateSize
   animate: typeof animate
@@ -260,6 +264,9 @@ export function motionScope(): MotionScope {
     }
   }
   const scope: MotionScope = {
+    renderActivity: (adapter) => scope.resource(() => renderActivity(adapter)),
+    pointerFollow: (target, options) =>
+      scope.resource(() => pointerFollow(target, options)),
     get disposed() {
       return disposed
     },

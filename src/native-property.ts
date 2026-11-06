@@ -1,5 +1,10 @@
 import { isAndroid, Trace } from '@nativescript/core'
-import { reducedMotion } from './config.js'
+import {
+  propertyLimits,
+  checkPropertySamples,
+  checkPropertyGroupSamples,
+} from './core/property-limits.js'
+import { onReducedMotion, reducedMotion } from './config.js'
 import type { DerivedValue } from './motion-value.js'
 import { valuePlayback } from './motion-value.js'
 import type { PlaybackAnimation } from './playback.js'
@@ -49,6 +54,26 @@ interface Owner {
   stop(): void
   velocity(): readonly number[]
 }
+interface PreparedProperty {
+  spatial: boolean
+  sink: NativeSink
+  track: Track
+  samples: readonly (readonly number[])[]
+  final: readonly number[]
+  velocity(time: number): readonly number[]
+  claim(owner: Owner): void
+  release(owner: Owner): void
+  alive(): void
+}
+const internals = new WeakMap<
+  object,
+  {
+    target: object
+    name: string
+    prepare(value: unknown, options: Transition | SpringName): PreparedProperty
+    prepareSet(value: unknown): { commit(): void; rollback(): void }
+  }
+>()
 const definitions = new Set<string>()
 const owners = new WeakMap<object, Map<string, Owner>>()
 
@@ -68,6 +93,7 @@ function validateDefinition<T>(definition: NativePropertyDefinition<T>) {
     throw new TypeError('Native property names must be namespaced: plugin/property.')
   if (
     !definition.units.length ||
+    definition.units.length > propertyLimits.components ||
     definition.units.some((unit) => typeof unit !== 'string' || !unit)
   )
     throw new TypeError('Describe the units of every native property component.')
@@ -118,6 +144,27 @@ class PropertyTarget<T> implements NativeProperty<T> {
       } catch {}
       throw error
     }
+    internals.set(this, {
+      target,
+      name: this.name,
+      prepare: (value, options) => this.prepare(value as T, options),
+      prepareSet: (value) => {
+        this.alive()
+        const next = this.vector(value as T),
+          previous = nativePropertyDriver().read(this.sink)
+        return {
+          commit: () => {
+            this.alive()
+            this.owner()?.stop()
+            nativePropertyDriver().write(this.sink, next)
+          },
+          rollback: () => {
+            if (nativePropertyDriver().alive(this.sink))
+              nativePropertyDriver().write(this.sink, previous)
+          },
+        }
+      },
+    })
   }
   private alive() {
     if (this.disposed) throw new Error(`${this.name} has been disposed.`)
@@ -161,6 +208,9 @@ class PropertyTarget<T> implements NativeProperty<T> {
     this.owned.delete(owner)
   }
   animate(to: T, options: Transition | SpringName = {}): PlaybackAnimation {
+    return playProperties([this.prepare(to, options)])
+  }
+  private prepare(to: T, options: Transition | SpringName): PreparedProperty {
     this.alive()
     const from = this.get(),
       first = this.vector(from),
@@ -194,58 +244,23 @@ class PropertyTarget<T> implements NativeProperty<T> {
           ? this.definition.interpolate(from, to, fraction)
           : this.definition.decode(first.map((v, i) => v + delta[i]! * fraction)),
       )
+    checkPropertySamples(track.values.length, first.length)
     const samples = track.values.map(at)
     const final = at(track.to)
-    let player: NativePlayer | undefined
-    const animation = new TimedAnimation(
-      track.end,
-      track.arrival,
-      (time, paused) => {
-        player?.control(time, paused)
-      },
-      (completed) => {
-        try {
-          if (completed && nativePropertyDriver().alive(this.sink))
-            nativePropertyDriver().write(this.sink, final)
-        } finally {
-          player?.cancel()
-          player = undefined
-          this.release(owner)
-        }
-      },
-    )
-    const owner: Owner = {
-      stop: () => animation.stop(),
-      velocity: () =>
-        animation.paused
-          ? first.map(() => 0)
-          : at(track.valueAt(animation.time + 0.5)).map(
-              (v, i) => (v - at(track.valueAt(animation.time - 0.5))[i]!) * 1000,
-            ),
+    return {
+      sink: this.sink,
+      track,
+      samples,
+      final,
+      spatial: !!this.definition.spatial,
+      velocity: (time) =>
+        at(track.valueAt(time + 0.5)).map(
+          (v, i) => (v - at(track.valueAt(time - 0.5))[i]!) * 1000,
+        ),
+      claim: (owner) => this.claim(owner),
+      release: (owner) => this.release(owner),
+      alive: () => this.alive(),
     }
-    this.claim(owner)
-    try {
-      if (track.end > 0) {
-        player = nativePropertyDriver().play(
-          this.sink,
-          track,
-          samples,
-          final,
-          (completed) => {
-            if (!completed) animation.stop()
-          },
-        )
-        if (animation.done) {
-          player.cancel()
-          player = undefined
-        } else player.control(animation.time, false)
-      }
-      animation.start()
-    } catch (error) {
-      animation.stop()
-      throw error
-    }
-    return animation
   }
   bind(value: DerivedValue, map: (value: number) => T): () => void {
     this.alive()
@@ -258,6 +273,7 @@ class PropertyTarget<T> implements NativeProperty<T> {
     const prepare = () => {
       const state = source.snapshot()
       state.track = dense(state.track)
+      checkPropertySamples(state.track.values.length, this.definition.units.length)
       const spatial = this.definition.spatial && reducedMotion()
       const samples = state.track.values.map((v) => this.vector(map(v)))
       const current = this.vector(map(spatial ? state.track.to : state.value))
@@ -326,9 +342,255 @@ class PropertyTarget<T> implements NativeProperty<T> {
     if (this.disposed) return
     this.stop()
     this.disposed = true
+    internals.delete(this)
     nativePropertyDriver().dispose(this.sink)
     this.target = undefined
   }
+}
+
+/** All members have been validated/sampled before the first ownership change.
+ * One Jolt clock controls all native players. Cross-renderer GPU atomicity is not implied. */
+function playProperties(plans: PreparedProperty[]): PlaybackAnimation {
+  plans.forEach((plan) => plan.alive())
+  const players: (NativePlayer | undefined)[] = []
+  const claimed = new Set<number>()
+  let offReduced = () => {}
+  const duration = Math.max(...plans.map((plan) => plan.track.end))
+  const animation = new TimedAnimation(
+    duration,
+    Math.max(...plans.map((plan) => plan.track.arrival)),
+    (time, paused) => {
+      try {
+        players.forEach((player) => player?.control(time, paused))
+      } catch (error) {
+        animation.stop()
+        throw error
+      }
+    },
+    (completed) => {
+      offReduced()
+      const errors: unknown[] = []
+      plans.forEach((plan, i) => {
+        try {
+          if (completed) {
+            plan.alive()
+            nativePropertyDriver().write(plan.sink, plan.final)
+          }
+        } catch (error) {
+          errors.push(error)
+        } finally {
+          try {
+            players[i]?.cancel()
+          } catch (error) {
+            errors.push(error)
+          }
+          if (claimed.has(i)) plan.release(owners[i]!)
+        }
+      })
+      players.length = 0
+      plans = []
+      owners.length = 0
+      claimed.clear()
+      if (errors.length)
+        throw new AggregateError(errors, 'Property group cleanup failed.')
+    },
+  )
+  const owners = plans.map((plan): Owner => ({
+    stop: () => animation.stop(),
+    velocity: () =>
+      animation.paused ? plan.final.map(() => 0) : plan.velocity(animation.time),
+  }))
+  try {
+    plans.forEach((plan, i) => {
+      plan.claim(owners[i]!)
+      claimed.add(i)
+    })
+    for (let i = 0; i < plans.length && !animation.done; i++) {
+      const plan = plans[i]!
+      if (plan.track.end > 0) {
+        const player = nativePropertyDriver().play(
+          plan.sink,
+          plan.track,
+          plan.samples,
+          plan.final,
+          (completed) => {
+            if (!completed) animation.stop()
+          },
+        )
+        if (animation.done) player.cancel()
+        else players[i] = player
+      } else nativePropertyDriver().write(plan.sink, plan.final)
+    }
+    // Each native control receives the elapsed position of the same clock,
+    // compensating for setup time rather than starting unrelated animations.
+    players.forEach((player) => player?.control(animation.time, false))
+    animation.start()
+    if (!animation.done && plans.some((plan) => plan.spatial))
+      offReduced = onReducedMotion((reduced) => {
+        if (!reduced || animation.done) return
+        // A group is one playback unit. Stop spatial motion together, including endless loops.
+        if (Number.isFinite(duration)) animation.progress = 1
+        else {
+          try {
+            plans.forEach((plan) => nativePropertyDriver().write(plan.sink, plan.final))
+          } finally {
+            animation.stop()
+          }
+        }
+      })
+  } catch (error) {
+    animation.stop()
+    throw error
+  }
+  return animation
+}
+
+export type NativeGroupValues<P extends Record<string, NativeProperty<any>>> = {
+  [K in keyof P]: ReturnType<P[K]['get']>
+}
+export interface NativePropertyGroup<P extends Record<string, NativeProperty<any>>> {
+  readonly disposed: boolean
+  readonly suspended: boolean
+  get(): NativeGroupValues<P>
+  set(values: NativeGroupValues<P>): void
+  animate(
+    values: NativeGroupValues<P>,
+    options?: Transition | SpringName,
+  ): PlaybackAnimation
+  stop(): void
+  suspend(): void
+  resume(): void
+  /** Stops this group's work; borrowed member adapters remain owned by the caller. */
+  dispose(): void
+}
+
+/** Replacing any member cancels the whole running group, leaving unrelated channels alone. */
+export function propertyGroup<const P extends Record<string, NativeProperty<any>>>(
+  properties: P,
+): NativePropertyGroup<P> {
+  if (!properties || typeof properties !== 'object' || Array.isArray(properties))
+    throw new TypeError('Expected named property adapters.')
+  let entries = Object.entries(properties)
+  if (!entries.length || entries.length > 64)
+    throw new RangeError('Property groups contain 1..64 members.')
+  const identities = new Map<object, Set<string>>()
+  for (const [, property] of entries) {
+    const internal = internals.get(property)
+    if (!internal)
+      throw new TypeError(
+        'Groups require live native property adapters; mixed backends are unsupported.',
+      )
+    const keys = identities.get(internal.target) ?? new Set<string>()
+    if (keys.has(internal.name))
+      throw new Error('A property channel cannot appear twice in one group.')
+    keys.add(internal.name)
+    identities.set(internal.target, keys)
+  }
+  let disposed = false,
+    suspended = false
+  const active = new Set<PlaybackAnimation>(),
+    resume = new Set<PlaybackAnimation>()
+  const alive = () => {
+    if (disposed) throw new Error('Property group is disposed.')
+  }
+  const validate = (values: NativeGroupValues<P>) => {
+    alive()
+    if (
+      !values ||
+      typeof values !== 'object' ||
+      Array.isArray(values) ||
+      Object.keys(values).length !== entries.length ||
+      entries.some(([key]) => !Object.hasOwn(values, key))
+    )
+      throw new TypeError('Supply exactly one value for every property group member.')
+    return entries.map(([key, property]) => {
+      const internal = internals.get(property)
+      if (!internal) throw new Error('A property group member was disposed.')
+      return { internal, value: values[key] }
+    })
+  }
+  const group: NativePropertyGroup<P> = {
+    get disposed() {
+      return disposed
+    },
+    get suspended() {
+      return suspended
+    },
+    get() {
+      alive()
+      return Object.fromEntries(
+        entries.map(([key, property]) => [key, property.get()]),
+      ) as NativeGroupValues<P>
+    },
+    set(values) {
+      const plans = validate(values).map(({ internal, value }) =>
+        internal.prepareSet(value),
+      )
+      let committed = 0
+      try {
+        for (const plan of plans) {
+          committed++
+          plan.commit()
+        }
+      } catch (error) {
+        const errors = [error]
+        for (let i = committed - 1; i >= 0; i--)
+          try {
+            plans[i]!.rollback()
+          } catch (error) {
+            errors.push(error)
+          }
+        throw new AggregateError(
+          errors,
+          'Property group set failed; started owners remain cancelled.',
+        )
+      }
+    },
+    animate(values, options = {}) {
+      if (suspended)
+        throw new Error('Resume the property group before starting playback.')
+      const plans = validate(values).map(({ internal, value }) =>
+        internal.prepare(value, options),
+      )
+      checkPropertyGroupSamples(
+        plans.reduce((sum, plan) => sum + plan.samples.length * plan.final.length, 0),
+      )
+      const animation = playProperties(plans)
+      active.add(animation)
+      void animation.finished.then(() => {
+        active.delete(animation)
+        resume.delete(animation)
+      })
+      return animation
+    },
+    stop() {
+      for (const animation of [...active]) animation.stop()
+      active.clear()
+      resume.clear()
+    },
+    suspend() {
+      if (disposed || suspended) return
+      suspended = true
+      for (const animation of active)
+        if (!animation.paused) {
+          resume.add(animation)
+          animation.pause()
+        }
+    },
+    resume() {
+      if (disposed || !suspended) return
+      suspended = false
+      for (const animation of resume) animation.play()
+      resume.clear()
+    },
+    dispose() {
+      if (disposed) return
+      disposed = true
+      group.stop()
+      entries = []
+    },
+  }
+  return group
 }
 
 /** Reusable conformance checks for setup/command behavior; frame/lifecycle checks require a native app. */

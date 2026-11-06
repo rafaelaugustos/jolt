@@ -206,7 +206,10 @@
     "web:parity:test": "playwright test -c benchmarks/web-parity/playwright.config.mjs",
     "build:angular": "node benchmarks/angular-tools/node_modules/@angular/compiler-cli/bundles/src/bin/ngc.js -p tsconfig.angular.json",
     "docs:check-playground": "tsc -p tsconfig.playground.json && node scripts/check-playground.mjs",
-    "docs:test-playground": "node scripts/review-playground.mjs"
+    "docs:test-playground": "node scripts/review-playground.mjs",
+    "web:portable": "node benchmarks/web-portable/server.mjs",
+    "web:portable:typecheck": "tsc -p benchmarks/web-portable/tsconfig.json",
+    "web:portable:test": "playwright test -c benchmarks/web-portable/playwright.config.mjs"
   },
   "peerDependencies": {
     "@nativescript/core": ">=8.9.0",

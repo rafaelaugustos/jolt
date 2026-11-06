@@ -1,4 +1,6 @@
 export { registerNativeProperty, checkNativeProperty } from '../native-property.js'
+export { propertyGroup } from '../native-property.js'
+export type { NativePropertyGroup, NativeGroupValues } from '../native-property.js'
 export type { NativeProperty, NativePropertyDefinition } from '../native-property.js'
 export type { NativeSink } from '../native-property-driver.js'
 export { sceneKitFieldOfView } from '../scene-camera.js'

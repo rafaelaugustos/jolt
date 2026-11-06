@@ -1,0 +1,91 @@
+{
+  "platform": "android",
+  "events": [
+    {
+      "name": "drawing-ready",
+      "mode": "drawing",
+      "time": 1794001348031,
+      "suspended": false,
+      "scope": 2,
+      "items": 259,
+      "styles": 2,
+      "commands": 1554,
+      "components": 6734,
+      "geometryBytes": 53872,
+      "attached": true
+    },
+    {
+      "name": "setup",
+      "mode": "drawing",
+      "time": 1794001348042,
+      "suspended": false,
+      "scope": 2
+    },
+    {
+      "name": "draw-update",
+      "mode": "drawing",
+      "time": 1794001351479,
+      "suspended": false,
+      "scope": 3,
+      "items": 259,
+      "styles": 2,
+      "commands": 1554,
+      "components": 6734,
+      "geometryBytes": 53872,
+      "attached": true
+    },
+    {
+      "name": "pause",
+      "mode": "drawing",
+      "time": 1794001356453,
+      "suspended": false,
+      "scope": 2
+    },
+    {
+      "name": "resume",
+      "mode": "drawing",
+      "time": 1794001359296,
+      "suspended": false,
+      "scope": 2
+    },
+    {
+      "name": "drawing-ready",
+      "mode": "drawing",
+      "time": 1794001361405,
+      "suspended": false,
+      "scope": 2,
+      "items": 259,
+      "styles": 2,
+      "commands": 1554,
+      "components": 6734,
+      "geometryBytes": 53872,
+      "attached": true
+    },
+    {
+      "name": "setup",
+      "mode": "drawing",
+      "time": 1794001361410,
+      "suspended": false,
+      "scope": 2
+    },
+    {
+      "name": "draw-update",
+      "mode": "drawing",
+      "time": 1794001362989,
+      "suspended": false,
+      "scope": 3,
+      "items": 259,
+      "styles": 2,
+      "commands": 1554,
+      "components": 6734,
+      "geometryBytes": 53872,
+      "attached": true
+    }
+  ],
+  "evidence": {
+    "device": "ASUS ZenFone 3 / ASUS_Z017DC physical device",
+    "os": "Android 8.0.0 / API26",
+    "input": "Real ADB taps; pointer hover injected through native Window.Callback, no connected mouse",
+    "video": "docs/public/media/portable-drawing-android.mp4"
+  }
+}

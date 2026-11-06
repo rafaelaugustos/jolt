@@ -77,9 +77,17 @@ export const iosShape: ShapeFactory = (view: View, style, initial) => {
   }
   const resize = () =>
     transaction(() => {
-      const { width, height } = view.getActualSize(),
+      // NativeScript's getActualSize() derives UIView.frame, whose bounding
+      // rectangle includes the host transform. Painting into that size applies
+      // scale/rotation twice after a layout pass. A sublayer uses local bounds.
+      const { width, height } = native.bounds.size,
         [x, y, w, h] = style.viewBox
-      root.frame = CGRectMake(0, 0, Math.max(0, width), Math.max(0, height))
+      root.frame = CGRectMake(
+        native.bounds.origin.x,
+        native.bounds.origin.y,
+        Math.max(0, width),
+        Math.max(0, height),
+      )
       layer.bounds = CGRectMake(x, y, w, h)
       layer.position = CGPointMake(width / 2, height / 2)
       const scale = Math.max(0, Math.min(width / w, height / h))

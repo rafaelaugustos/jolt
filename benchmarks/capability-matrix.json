@@ -42,9 +42,11 @@
           "origamiSpring",
           "particles",
           "playbackProgress",
+          "pointerFollow",
           "presets",
           "press",
           "reducedMotion",
+          "renderActivity",
           "reveal",
           "rollTo",
           "scrollHeader",
@@ -98,6 +100,7 @@
           "mapKitCoordinate",
           "mapLibreCamera",
           "mapLibreCoordinate",
+          "propertyGroup",
           "registerNativeProperty",
           "sceneKitEnvironmentIntensity",
           "sceneKitFieldOfView",
@@ -199,7 +202,7 @@
       {
         "entry": "./shapes",
         "file": "src/shapes/index.ts",
-        "exports": ["shape"]
+        "exports": ["drawBatch", "drawingLimits", "shape"]
       },
       {
         "entry": "./rig",
@@ -219,7 +222,7 @@
       {
         "entry": "./web",
         "file": "src/web/public.ts",
-        "exports": ["createWebRuntime", "resolveListTarget"]
+        "exports": ["createWebRuntime", "drawingLimits", "resolveListTarget"]
       },
       {
         "entry": "./web/vue",
@@ -264,6 +267,7 @@
       "diagnostics",
       "dispose",
       "drag",
+      "drawBatch",
       "drawPath",
       "followKeyboard",
       "gestures",
@@ -284,8 +288,11 @@
       "playbackProgress",
       "pointerFollow",
       "press",
+      "property",
+      "propertyGroup",
       "refresh",
       "release",
+      "renderActivity",
       "reorder",
       "reveal",
       "rollTo",
@@ -475,7 +482,7 @@
       "nativeStatus": "published",
       "webStatus": "partial",
       "counterpart": "configure / animate options",
-      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
+      "contract": "Named springs/presets, Bézier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
       "issues": [236, 386],
       "evidence": ["src/index.ts"]
     },
@@ -615,7 +622,7 @@
       "nativeStatus": "published",
       "webStatus": "partial",
       "counterpart": "configure / animate options",
-      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
+      "contract": "Named springs/presets, Bézier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
       "issues": [236, 386],
       "evidence": ["src/index.ts"]
     },
@@ -625,7 +632,7 @@
       "nativeStatus": "published",
       "webStatus": "partial",
       "counterpart": "configure / animate options",
-      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
+      "contract": "Named springs/presets, Bézier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
       "issues": [236, 386],
       "evidence": ["src/index.ts"]
     },
@@ -655,7 +662,7 @@
       "nativeStatus": "published",
       "webStatus": "partial",
       "counterpart": "configure / animate options",
-      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
+      "contract": "Named springs/presets, Bézier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
       "issues": [236, 386],
       "evidence": ["src/index.ts"]
     },
@@ -675,7 +682,7 @@
       "nativeStatus": "published",
       "webStatus": "partial",
       "counterpart": "configure / animate options",
-      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
+      "contract": "Named springs/presets, Bézier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
       "issues": [236, 386],
       "evidence": ["src/index.ts"]
     },
@@ -785,7 +792,7 @@
       "nativeStatus": "published",
       "webStatus": "partial",
       "counterpart": "configure / animate options",
-      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
+      "contract": "Named springs/presets, Bézier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
       "issues": [236, 386],
       "evidence": ["src/index.ts"]
     },
@@ -1784,6 +1791,84 @@
       "contract": "Native iOS/Android implementation proposed for RC.12; not published in RC.11. This entry does not introduce a Web counterpart or claim renderer isolation.",
       "issues": [408],
       "evidence": ["src/rig/index.ts", "docs/guide/native-composition.md"]
+    },
+    {
+      "entry": ".",
+      "symbol": "pointerFollow",
+      "nativeStatus": "local-unpublished",
+      "webStatus": "pending",
+      "counterpart": "runtime.pointerFollow / scope.pointerFollow",
+      "contract": "Native local-DIP hover plus existing Web pointer source and immediate presence. iPhone unavailable; browser coordinates are viewport CSS bounds. Each native hover crosses JS. Implemented in RC.12 work; merge/publication remains pending.",
+      "issues": [412],
+      "evidence": [
+        "docs/guide/portable-foundations.md",
+        "benchmarks/web-portable/portable.spec.ts"
+      ]
+    },
+    {
+      "entry": ".",
+      "symbol": "renderActivity",
+      "nativeStatus": "local-unpublished",
+      "webStatus": "pending",
+      "counterpart": "runtime.renderActivity / scope.renderActivity",
+      "contract": "Explicit renderer demand from borrowed playback and application holds; independent child owners, visibility and final redraw. No implicit renderer or permanent polling. Implemented in RC.12 work; merge/publication remains pending.",
+      "issues": [416],
+      "evidence": [
+        "docs/guide/portable-foundations.md",
+        "benchmarks/web-portable/portable.spec.ts"
+      ]
+    },
+    {
+      "entry": "./native",
+      "symbol": "propertyGroup",
+      "nativeStatus": "local-unpublished",
+      "webStatus": "pending",
+      "counterpart": "runtime.propertyGroup / scope.propertyGroup",
+      "contract": "Prepare all members before replacing playback; one logical clock, whole-group cancellation on any member replacement. Native compiled players; Web explicit main-thread custom adapters. Implemented in RC.12 work; merge/publication remains pending.",
+      "issues": [413],
+      "evidence": [
+        "docs/guide/portable-foundations.md",
+        "benchmarks/web-portable/portable.spec.ts"
+      ]
+    },
+    {
+      "entry": "./shapes",
+      "symbol": "drawBatch",
+      "nativeStatus": "local-unpublished",
+      "webStatus": "pending",
+      "counterpart": "runtime.drawBatch / scope.drawBatch",
+      "contract": "Bounded retained drawing, stable item identity and shared styles. One native layer/drawable versus one SVG path per browser item; static geometry only. Implemented in RC.12 work; merge/publication remains pending.",
+      "issues": [414],
+      "evidence": [
+        "docs/guide/portable-foundations.md",
+        "benchmarks/web-portable/portable.spec.ts"
+      ]
+    },
+    {
+      "entry": "./shapes",
+      "symbol": "drawingLimits",
+      "nativeStatus": "local-unpublished",
+      "webStatus": "pending",
+      "counterpart": "drawingLimits from /web",
+      "contract": "Shared geometry/item/source budgets; no per-item sampled animation. Implemented in RC.12 work; merge/publication remains pending.",
+      "issues": [414],
+      "evidence": [
+        "docs/guide/portable-foundations.md",
+        "benchmarks/web-portable/portable.spec.ts"
+      ]
+    },
+    {
+      "entry": "./web",
+      "symbol": "drawingLimits",
+      "nativeStatus": "local-unpublished",
+      "webStatus": "pending",
+      "counterpart": "drawingLimits from /shapes",
+      "contract": "Shared bounded drawing limits; differing native and browser renderer costs. Implemented in RC.12 work; merge/publication remains pending.",
+      "issues": [414],
+      "evidence": [
+        "docs/guide/portable-foundations.md",
+        "benchmarks/web-portable/portable.spec.ts"
+      ]
     }
   ],
   "contracts": [
@@ -1922,6 +2007,17 @@
         "benchmarks/web-support/element-range.spec.ts",
         "benchmarks/web-support/element-recording.json",
         "docs/guide/web-support.md"
+      ]
+    },
+    {
+      "id": "portable-foundations-rc12",
+      "issues": [400, 401, 412, 413, 414, 416],
+      "status": "local-unpublished",
+      "limit": "iPadOS hover API and Android mouse/hovering stylus only; physical pointer accessory unverified. Android pointer replay is explicitly injected. Web custom adapters execute JS per frame. Retained native drawing reduces host count but did not beat the equivalent compound-path baseline in CPU or allocations on the measured ASUS device. This work is not in RC.11.1.",
+      "evidence": [
+        "docs/guide/portable-foundations.md",
+        "benchmarks/web-portable/portable.spec.ts",
+        "benchmarks/results/portable-foundations/physical-android-drawing.json"
       ]
     }
   ]

@@ -5,6 +5,8 @@
 // test-runner interfaces are discovered dynamically and never linked into Jolt.
 @interface NSObject (JoltTestInput)
 - (instancetype)initForTouchAtPoint:(CGPoint)point offset:(double)offset;
+- (instancetype)initForMouseEventsAtLocation:(CGPoint)point;
+- (void)moveMouseToPoint:(CGPoint)point atOffset:(double)offset duration:(double)duration;
 - (void)moveToPoint:(CGPoint)point atOffset:(double)offset;
 - (void)liftUpAtOffset:(double)offset;
 - (instancetype)initWithName:(NSString *)name interfaceOrientation:(NSInteger)orientation;
@@ -150,4 +152,23 @@ NSString *JoltSheetInterrupt(CGPoint handle) {
     [record addPointerEventPath:first]; [record addPointerEventPath:second];
     NSError *error = nil;
     return [record synthesizeWithError:&error] ? nil : error.localizedDescription ?: @"XCTest event synthesis failed";
+}
+
+// Test-runner-only continuous mouse path. It delivers OS pointer input, never
+// application callbacks. Useful when separate hover() calls reset the simulator
+// cursor between commands. No private API is shipped in the library or demo.
+NSString *JoltPointerTrace(CGRect region) {
+    Class paths=NSClassFromString(@"XCPointerEventPath"), records=NSClassFromString(@"XCSynthesizedEventRecord");
+    if(!paths || !records) return @"XCTest mouse paths unavailable";
+    if(![paths instancesRespondToSelector:@selector(initForMouseEventsAtLocation:)]) return @"XCTest mouse path constructor unavailable";
+    CGPoint start=CGPointMake(CGRectGetMinX(region)-20,CGRectGetMidY(region));
+    id path=[[paths alloc]initForMouseEventsAtLocation:start];
+    for(int i=1;i<=20;i++){
+        double t=i/20.0;
+        [path moveMouseToPoint:CGPointMake(CGRectGetMinX(region)+region.size.width*(.1+.8*t),CGRectGetMinY(region)+region.size.height*(.5+.3*sin(t*M_PI*4))) atOffset:.1+(i-1)*.2 duration:.1];
+    }
+    [path moveMouseToPoint:CGPointMake(CGRectGetMaxX(region)+20,CGRectGetMidY(region)) atOffset:4.5 duration:.3];
+    id record=[[records alloc]initWithName:@"Jolt continuous mouse hover" interfaceOrientation:UIInterfaceOrientationPortrait];
+    [record addPointerEventPath:path];
+    NSError *error=nil;return [record synthesizeWithError:&error]?nil:error.localizedDescription?:@"XCTest mouse synthesis failed";
 }

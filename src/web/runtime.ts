@@ -3,6 +3,13 @@ import {
   type WebInteractiveNavigationOptions,
 } from './interactive-navigation.js'
 import {
+  PropertyTarget,
+  createPropertyGroup,
+  type WebProperty,
+  type WebPropertyDefinition,
+  type WebPropertyGroup,
+} from './property.js'
+import {
   createNavigationEntry,
   type WebNavigationEntryOptions,
 } from './navigation-entry.js'
@@ -49,6 +56,8 @@ import {
 } from './particles.js'
 import { createBlur, type WebBlurOptions } from './blur.js'
 import { createShape, type WebShapeOptions } from './shape.js'
+import { createDrawing } from './drawing.js'
+import type { DrawingOptions } from '../core/drawing.js'
 import { createLiquid, type WebLiquidOptions } from './liquid.js'
 import {
   createImageEffect,
@@ -924,6 +933,8 @@ export class WebRuntime {
   private readonly scopes = new Set<WebMotionScope>()
   private readonly resourceOwners = new WeakMap<WebMotionResource, object>()
   private readonly pointerFollowers = new Set<WebPointerFollow>()
+  private readonly renderActivities = new Set<RenderActivity>()
+  private readonly propertyResources = new Set<{ dispose(): void }>()
   private readonly viewportEntrances = new Set<WebViewportEntrance>()
   private readonly preferenceListeners = new Set<() => void>()
   readonly view: Realm
@@ -2622,6 +2633,45 @@ export class WebRuntime {
     }
   }
 
+  renderActivity(adapter: RenderActivityAdapter): RenderActivity {
+    if (this.disposed) throw new Error('Web runtime is disposed.')
+    const activity = createRenderActivity(adapter, {
+      hidden: () => this.document.hidden,
+      visibility: (callback) => {
+        this.groupVisibility.add(callback)
+        return () => {
+          this.groupVisibility.delete(callback)
+        }
+      },
+      error: (error) => this.interactionHost().error(error),
+      disposed: () => {
+        this.renderActivities.delete(activity)
+      },
+    })
+    this.renderActivities.add(activity)
+    return activity
+  }
+
+  property<T>(target: object, definition: WebPropertyDefinition<T>): WebProperty<T> {
+    this.assert()
+    const property = new PropertyTarget(target, definition, this.effectHost(), () => {
+      this.propertyResources.delete(property)
+    })
+    this.propertyResources.add(property)
+    return property
+  }
+
+  propertyGroup<const P extends Record<string, WebProperty<any>>>(
+    properties: P,
+  ): WebPropertyGroup<P> {
+    this.assert()
+    const group = createPropertyGroup(properties, this.effectHost(), () => {
+      this.propertyResources.delete(group)
+    })
+    this.propertyResources.add(group)
+    return group
+  }
+
   private platformHost(): PlatformHost {
     return {
       ...this.interactionHost(),
@@ -2717,6 +2767,10 @@ export class WebRuntime {
   shape(target: HTMLElement, options: WebShapeOptions) {
     this.assert()
     return createShape(target, options, this.effectHost())
+  }
+  drawBatch(target: HTMLElement, options: DrawingOptions) {
+    this.assert()
+    return createDrawing(target, options, this.effectHost())
   }
   liquid(target: HTMLImageElement, options: WebLiquidOptions = {}) {
     this.assert()
@@ -3502,6 +3556,8 @@ export class WebRuntime {
       ...this.itemAnimations,
       ...this.paths.values(),
       ...this.pointerFollowers,
+      ...this.renderActivities,
+      ...this.propertyResources,
       ...this.viewportEntrances,
       ...this.sharedLayouts.values(),
     ]) {
@@ -3516,6 +3572,8 @@ export class WebRuntime {
     this.itemAnimations.clear()
     this.scopes.clear()
     this.pointerFollowers.clear()
+    this.renderActivities.clear()
+    this.propertyResources.clear()
     this.viewportEntrances.clear()
     this.preferenceListeners.clear()
     this.preference.removeEventListener('change', this.preferenceChanged)
@@ -3540,3 +3598,8 @@ export class WebRuntime {
 
 export const createWebRuntime = (document: Document, options?: RuntimeOptions) =>
   new WebRuntime(document, options)
+import {
+  createRenderActivity,
+  type RenderActivity,
+  type RenderActivityAdapter,
+} from '../core/render-activity.js'
