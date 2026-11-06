@@ -2,6 +2,7 @@ import { existsSync } from 'node:fs'
 import { defineConfig, type DefaultTheme } from 'vitepress'
 import { version } from '../../package.json'
 import { es, zh, spanish, chinese, searchTranslations } from './translations'
+import { outlineLifecycle } from './outline-lifecycle'
 
 const site = 'https://jolt.rafaelaugusto.dev'
 const repo = 'https://github.com/rafaelaugustos/jolt'
@@ -73,6 +74,17 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
               } as Record<string, string>
             )[prefix] ?? 'Vena recipes',
           link: `${prefix}/guide/vena-recipes`,
+        },
+        {
+          text:
+            (
+              {
+                '/pt-BR': 'Playground Web',
+                '/es': 'Playground Web',
+                '/zh-Hans': 'Web 互动体验',
+              } as Record<string, string>
+            )[prefix] ?? 'Web playground',
+          link: `${prefix}/guide/web-playground`,
         },
         page('install', 'install'),
         page('animating', 'animating'),
@@ -382,6 +394,7 @@ const socialImageAlt =
   'Jolt. Make NativeScript move. Presets, springs, keyframes and stagger, with the lightning logo among floating native controls.'
 
 export default defineConfig({
+  vite: { plugins: [outlineLifecycle()] },
   title: 'Jolt',
   appearance: 'dark',
   description:

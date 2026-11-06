@@ -30,9 +30,11 @@ for (const [name, engine] of [
     await context.grantPermissions(['clipboard-read', 'clipboard-write'])
   const page = await context.newPage()
   const errors = []
-  page.on('pageerror', (error) => errors.push(error.message))
+  page.on('pageerror', (error) =>
+    errors.push(`${page.url()}: ${error.stack || error.message}`),
+  )
   page.on('console', (message) => {
-    if (message.type() === 'error' && message.text().includes('[Jolt site]'))
+    if (message.type() === 'error' && /\[Jolt (site|playground)\]/.test(message.text()))
       errors.push(message.text())
   })
   // Do not contact analytics while reviewing a local site.
@@ -142,7 +144,7 @@ for (const [name, engine] of [
           .evaluate((el) => new DOMMatrixReadOnly(getComputedStyle(el).transform).m41),
       )
       .toBeGreaterThan(30)
-    await page.locator('.lab-tabs button').filter({ hasText: 'Stagger' }).click()
+    await page.locator('[data-experiment="stagger"]').click()
     await page.locator('.replay-button').click()
     await expect(page.locator('.stagger-block')).toHaveCount(7)
     await expect
@@ -153,7 +155,7 @@ for (const [name, engine] of [
           .evaluate((el) => Number(getComputedStyle(el).opacity)),
       )
       .toBeGreaterThan(0.9)
-    await page.locator('.lab-tabs button').filter({ hasText: 'Drag & snap' }).click()
+    await page.locator('[data-experiment="drag"]').click()
     const tile = page.locator('.lab-tile')
     const box = await tile.boundingBox()
     await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2)

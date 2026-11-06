@@ -6,6 +6,39 @@ on:
   pull_request:
 
 jobs:
+  docs-playground:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium webkit
+      - run: npm run docs:check-media
+      - run: npm run docs:build
+      - name: Review every Web playground experiment
+        env:
+          JOLT_SITE_URL: http://127.0.0.1:5184
+          JOLT_PLAYGROUND_ARTIFACTS: /tmp/jolt-playground-review
+        run: |
+          npm run docs:preview -- --host 127.0.0.1 --port 5184 > /tmp/jolt-playground-preview.log 2>&1 &
+          preview_pid=$!
+          trap 'kill "$preview_pid"' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent "$JOLT_SITE_URL" > /dev/null; then break; fi
+            sleep 1
+          done
+          npm run docs:test-playground
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: docs-playground-review
+          path: |
+            /tmp/jolt-playground-review/
+            /tmp/jolt-playground-preview.log
   package-consumers:
     runs-on: ubuntu-latest
     timeout-minutes: 15

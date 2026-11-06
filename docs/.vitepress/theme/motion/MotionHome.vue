@@ -54,6 +54,8 @@ useMotion((runtime) => {
   runtime.press(action, { scale: 0.95 }, { transition: 'snappy' })
   runtime.observeGeometry(action)
   const items = [...root.value!.querySelectorAll<HTMLElement>('[data-entrance]')]
+  runtime.set(items, { y: 0 })
+  items.forEach((item) => runtime.observeGeometry(item))
   runtime.viewportEnter(items, {
     keyframes: { y: [36, 0], opacity: [0, 1] },
     transition: { duration: 700, ease: 'easeOut' },

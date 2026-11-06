@@ -156,7 +156,7 @@
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
     "prepack": "npm run build",
-    "docs:check-media": "node scripts/check-docs-media.mjs && node scripts/check-motion-recipes.mjs",
+    "docs:check-media": "node scripts/check-docs-media.mjs && node scripts/check-motion-recipes.mjs && npm run docs:check-playground",
     "docs:test-site": "node scripts/review-motion-site.mjs",
     "web:typecheck": "tsc -p tsconfig.web.json --noEmit",
     "web:runtime": "node benchmarks/web-runtime/server.mjs",
@@ -204,7 +204,9 @@
     "web:parity": "node benchmarks/web-parity/server.mjs",
     "web:parity:typecheck": "tsc -p benchmarks/web-parity/tsconfig.json",
     "web:parity:test": "playwright test -c benchmarks/web-parity/playwright.config.mjs",
-    "build:angular": "node benchmarks/angular-tools/node_modules/@angular/compiler-cli/bundles/src/bin/ngc.js -p tsconfig.angular.json"
+    "build:angular": "node benchmarks/angular-tools/node_modules/@angular/compiler-cli/bundles/src/bin/ngc.js -p tsconfig.angular.json",
+    "docs:check-playground": "tsc -p tsconfig.playground.json && node scripts/check-playground.mjs",
+    "docs:test-playground": "node scripts/review-playground.mjs"
   },
   "peerDependencies": {
     "@nativescript/core": ">=8.9.0",
