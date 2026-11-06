@@ -1,0 +1,14 @@
+{
+  "platform": "android",
+  "events": [
+    {
+      "name": "setup",
+      "time": 1793934153499,
+      "mode": "cues",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Ready",
+      "scope": 0
+    }
+  ]
+}

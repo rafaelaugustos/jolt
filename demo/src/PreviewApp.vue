@@ -3,12 +3,15 @@ import { ref } from 'nativescript-vue'
 import Legacy from './App.vue'
 import Showcase from './showcase/Showcase.vue'
 import MinimalRecipes from './components/MinimalRecipes.vue'
+import NativeMotionLab from './components/NativeMotionLab.vue'
 import { enablePreviewLanguage } from './showcase/i18n'
 import { launchArgument, onLaunch } from './launch'
 const ready = ref(false),
+  nativeMotion = ref(false),
   legacy = ref(false),
   recipe = ref<string>()
 onLaunch(() => {
+  nativeMotion.value = launchArgument('native-motion') !== undefined
   recipe.value = launchArgument('recipe')
   // Existing isolated recordings/probes retain their entry points. A normal
   // launch, including tapping the installed icon, always opens the collection.
@@ -50,8 +53,9 @@ onLaunch(() => {
 <template>
   <GridLayout backgroundColor="#F6F5F0" iosOverflowSafeArea="true">
     <!-- Keep a native root while Android resolves its launch arguments. -->
-    <MinimalRecipes v-if="ready && recipe" :kind="recipe" /><Legacy
-      v-else-if="ready && legacy"
-    /><Showcase v-else-if="ready" />
+    <NativeMotionLab v-if="ready && nativeMotion" /><MinimalRecipes
+      v-else-if="ready && recipe"
+      :kind="recipe"
+    /><Legacy v-else-if="ready && legacy" /><Showcase v-else-if="ready" />
   </GridLayout>
 </template>

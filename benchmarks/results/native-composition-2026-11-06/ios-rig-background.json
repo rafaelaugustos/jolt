@@ -1,0 +1,133 @@
+{
+  "platform": "ios",
+  "events": [
+    {
+      "name": "setup",
+      "time": 1793935153571,
+      "mode": "rig",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Ready",
+      "rig": {
+        "paused": false,
+        "grip": {
+          "x": 201,
+          "y": 1092.5
+        }
+      },
+      "scope": 2
+    },
+    {
+      "name": "wave",
+      "time": 1793935156964,
+      "mode": "rig",
+      "created": 0,
+      "destroyed": 0,
+      "status": "wave",
+      "rig": {
+        "paused": false,
+        "grip": {
+          "x": 133.66905550239832,
+          "y": 338.74999995995415
+        }
+      },
+      "scope": 2
+    },
+    {
+      "name": "Paused",
+      "time": 1793935157412,
+      "mode": "rig",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Paused",
+      "rig": {
+        "paused": true,
+        "grip": {
+          "x": 188.6762005627179,
+          "y": 312.7825979879599
+        }
+      },
+      "scope": 2
+    },
+    {
+      "name": "snapshot",
+      "time": 1793935157844,
+      "mode": "rig",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Paused",
+      "rig": {
+        "paused": true,
+        "grip": {
+          "x": 188.6762005627179,
+          "y": 312.7825979879599
+        }
+      },
+      "scope": 2
+    },
+    {
+      "name": "snapshot",
+      "time": 1793935161277,
+      "mode": "rig",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Paused",
+      "rig": {
+        "paused": true,
+        "grip": {
+          "x": 188.6762005627179,
+          "y": 312.7825979879599
+        }
+      },
+      "scope": 2
+    },
+    {
+      "name": "Resumed",
+      "time": 1793935161712,
+      "mode": "rig",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Resumed",
+      "rig": {
+        "paused": false,
+        "grip": {
+          "x": 188.73267136178606,
+          "y": 312.71390966192916
+        }
+      },
+      "scope": 2
+    },
+    {
+      "name": "snapshot",
+      "time": 1793935162161,
+      "mode": "rig",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Resumed",
+      "rig": {
+        "paused": false,
+        "grip": {
+          "x": 193.8091559717791,
+          "y": 305.7026632603597
+        }
+      },
+      "scope": 2
+    },
+    {
+      "name": "snapshot",
+      "time": 1793935165194,
+      "mode": "rig",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Resumed",
+      "rig": {
+        "paused": false,
+        "grip": {
+          "x": 192.03124982225734,
+          "y": 308.36732109001207
+        }
+      },
+      "scope": 2
+    }
+  ]
+}

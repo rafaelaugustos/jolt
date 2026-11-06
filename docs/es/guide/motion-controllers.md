@@ -1,5 +1,7 @@
 # Ámbitos y estados {#motion-scopes-and-states}
 
+[Escenas nativas y recursos retenidos](./native-composition#resources): `retain()`, `resource()`, `release()` / Vue `useShape()`.
+
 Utilice `motionScope()` para darle a una página, componente o elemento reciclado un propietario para sus animaciones y suscripciones. Utilice `motionStates()` para mover varias vistas entre estados visuales interrumpibles y con nombre. Ambos utilizan los controladores de animación nativos existentes; ninguno agrega un bucle de cuadro JavaScript. La propiedad del alcance no cambia la ejecución: recursos como [`animateSize()`](./size) conservan su costo de diseño JS por cuadro documentado.
 
 <Clip name="motion-controllers-ios" caption="Estados de carga, error, reintento y éxito, controles de alcance y desmontaje/remontaje en el simulador iOS." />

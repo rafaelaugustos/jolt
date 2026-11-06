@@ -92,6 +92,10 @@
       "types": "./dist/shapes/index.d.ts",
       "default": "./dist/shapes/index.js"
     },
+    "./rig": {
+      "types": "./dist/rig/index.d.ts",
+      "default": "./dist/rig/index.js"
+    },
     "./blur": {
       "types": "./dist/blur/index.d.ts",
       "default": "./dist/blur/index.js"

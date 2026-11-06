@@ -48,6 +48,12 @@ function resolve(base: ShapeFrame, values: ShapeValues): ShapeFrame {
 export function shape(target: Target, options: ShapeOptions): Shape {
   if (!options || typeof options !== 'object')
     throw new TypeError('Shape options are required.')
+  if (
+    options.unload !== undefined &&
+    options.unload !== 'stop' &&
+    options.unload !== 'pause'
+  )
+    throw new TypeError('Shape unload must be stop or pause.')
   const frame = resolve(
     { path: shapePath(options.d), start: 0, end: 1 },
     { strokeStart: options.strokeStart, strokeEnd: options.strokeEnd },
@@ -79,7 +85,7 @@ export function shape(target: Target, options: ShapeOptions): Shape {
   const view = toView(target)
   if (owners.has(view))
     throw new Error('This view already owns a shape. Dispose it first.')
-  return new ShapeOwner(view, style, frame)
+  return new ShapeOwner(view, style, frame, options.unload === 'pause')
 }
 class ShapeOwner implements Shape {
   disposed = false
@@ -92,13 +98,15 @@ class ShapeOwner implements Shape {
     to: ShapeFrame
     started: boolean
   }
-  private suspended = false
-  private backgrounded = false
+  private resumePlayback = false
+  private manualSuspension = false
+  private backgrounded = Application.suspended
   private offReduced: () => void
   constructor(
     private readonly view: View,
     private readonly style: ShapeStyle,
     private frame: ShapeFrame,
+    private readonly retainOnUnload = false,
   ) {
     if (view.isLoaded && view.nativeViewProtected) this.attach()
     owners.set(view, this)
@@ -135,9 +143,9 @@ class ShapeOwner implements Shape {
       }
     }
     this.painter!.resize()
-    if (!this.backgrounded && this.suspended) {
+    if (!this.suspended && this.resumePlayback) {
       this.active?.animation.play()
-      this.suspended = false
+      this.resumePlayback = false
     }
   }
   private begin() {
@@ -151,9 +159,12 @@ class ShapeOwner implements Shape {
       this.painter!.paint(to)
     }
     animation.start()
+    if (this.suspended) this.holdPlayback()
   }
   private unload = () => {
-    if (this.backgrounded && this.active) this.frame = this.painter?.read() ?? this.frame
+    if (this.retainOnUnload) this.holdPlayback()
+    if ((this.suspended || this.resumePlayback || this.retainOnUnload) && this.active)
+      this.frame = this.painter?.read() ?? this.frame
     else this.stop()
     this.painter?.dispose()
     this.painter = undefined
@@ -161,16 +172,38 @@ class ShapeOwner implements Shape {
   }
   private background = () => {
     if (this.backgrounded) return
+    const held = this.suspended
     this.backgrounded = true
-    this.suspended = !!this.active && !this.active.animation.paused
-    if (this.suspended) this.active!.animation.pause()
+    if (!held) this.holdPlayback()
   }
   private foreground = () => {
     this.backgrounded = false
-    if (this.painter) {
-      if (this.suspended) this.active?.animation.play()
-      this.suspended = false
+    this.resumeIfReady()
+  }
+  get suspended() {
+    return this.manualSuspension || this.backgrounded
+  }
+  private holdPlayback() {
+    if (this.resumePlayback) return
+    this.resumePlayback = !!this.active && !this.active.animation.paused
+    if (this.resumePlayback) this.active!.animation.pause()
+  }
+  private resumeIfReady() {
+    if (!this.suspended && this.painter) {
+      if (this.resumePlayback) this.active?.animation.play()
+      this.resumePlayback = false
     }
+  }
+  suspend() {
+    if (this.disposed || this.manualSuspension) return
+    const held = this.suspended
+    this.manualSuspension = true
+    if (!held) this.holdPlayback()
+  }
+  resume() {
+    if (this.disposed) return
+    this.manualSuspension = false
+    this.resumeIfReady()
   }
   snapshot() {
     this.frame = this.painter?.read() ?? this.frame
@@ -241,17 +274,17 @@ class ShapeOwner implements Shape {
     )
     this.active = { animation, track, from, to, started: !!this.painter }
     try {
-      if (!this.painter) return animation
+      if (!this.painter) {
+        if (this.suspended) this.holdPlayback()
+        return animation
+      }
       if (track.end > 0) this.painter.play(from, to, track)
       else {
         this.frame = to
         this.painter.paint(to)
       }
       animation.start()
-      if (this.backgrounded && this.active) {
-        this.suspended = true
-        animation.pause()
-      }
+      if (this.suspended && this.active) this.holdPlayback()
     } catch (e) {
       animation.stop()
       throw e
@@ -260,7 +293,7 @@ class ShapeOwner implements Shape {
   }
   stop() {
     this.active?.animation.stop()
-    this.suspended = false
+    this.resumePlayback = false
   }
   dispose() {
     if (this.disposed) return

@@ -9,6 +9,8 @@ export interface ShapeValues {
   strokeEnd?: number
 }
 export interface ShapeOptions extends ShapeValues {
+  /** Default 'stop'. 'pause' retains playback across a temporary native detach (e.g. KeepAlive). */
+  unload?: 'stop' | 'pause'
   d: string
   /** minX, minY, width, height. Centered aspect-fit; stroke scales with this box. */
   viewBox: readonly [number, number, number, number]
@@ -22,6 +24,10 @@ export interface ShapeOptions extends ShapeValues {
 }
 export interface Shape {
   readonly disposed: boolean
+  /** Resource suspension holds the drawing and any playback until resume. */
+  readonly suspended: boolean
+  suspend(): void
+  resume(): void
   animate(values: ShapeValues, transition?: Transition | SpringName): PlaybackAnimation
   /** Replace geometry/trim immediately, including a different path topology. */
   set(values: ShapeValues): void

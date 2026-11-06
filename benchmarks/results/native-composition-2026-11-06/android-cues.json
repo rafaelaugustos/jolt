@@ -1,0 +1,80 @@
+{
+  "platform": "android",
+  "mode": "cues",
+  "startedAt": 1793934704809,
+  "elapsedMs": 2485.759999036789,
+  "measurements": [
+    {
+      "iteration": 0,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 10
+    },
+    {
+      "iteration": 1,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 11
+    },
+    {
+      "iteration": 2,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 10
+    },
+    {
+      "iteration": 3,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 11
+    },
+    {
+      "iteration": 4,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 10
+    },
+    {
+      "iteration": 5,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 10
+    },
+    {
+      "iteration": 6,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 10
+    },
+    {
+      "iteration": 7,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 11
+    },
+    {
+      "iteration": 8,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 11
+    },
+    {
+      "iteration": 9,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 10
+    },
+    {
+      "iteration": 10,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 10
+    },
+    {
+      "iteration": 11,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 11
+    }
+  ]
+}

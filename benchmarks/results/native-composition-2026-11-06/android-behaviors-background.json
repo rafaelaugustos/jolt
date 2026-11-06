@@ -1,0 +1,120 @@
+{
+  "platform": "android",
+  "events": [
+    {
+      "name": "setup",
+      "time": 1793935655786,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Ready",
+      "behavior": {
+        "paused": false
+      },
+      "scope": 1
+    },
+    {
+      "name": "touch",
+      "time": 1793935660075,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "touch",
+      "behavior": {
+        "current": "touch",
+        "paused": false
+      },
+      "scope": 1
+    },
+    {
+      "name": "Paused",
+      "time": 1793935660787,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Paused",
+      "behavior": {
+        "current": "touch",
+        "paused": true
+      },
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793935661568,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Paused",
+      "behavior": {
+        "current": "touch",
+        "paused": true
+      },
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793935668553,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Paused",
+      "behavior": {
+        "current": "touch",
+        "paused": true
+      },
+      "scope": 1
+    },
+    {
+      "name": "Resumed",
+      "time": 1793935669907,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Resumed",
+      "behavior": {
+        "current": "touch",
+        "paused": false
+      },
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793935670741,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Resumed",
+      "behavior": {
+        "current": "touch",
+        "paused": false
+      },
+      "scope": 1
+    },
+    {
+      "name": "touch:completed",
+      "time": 1793935671025,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Rest",
+      "behavior": {
+        "current": "rest",
+        "paused": false
+      },
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793935674821,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Rest",
+      "behavior": {
+        "paused": false
+      },
+      "scope": 1
+    }
+  ]
+}

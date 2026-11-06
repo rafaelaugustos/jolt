@@ -1,0 +1,12 @@
+{
+  "platform": "android",
+  "mode": "behaviors",
+  "startedAt": 1793934722576,
+  "elapsedMs": 2564.600677013397,
+  "measurements": [
+    {
+      "disposed": true,
+      "scope": 0
+    }
+  ]
+}

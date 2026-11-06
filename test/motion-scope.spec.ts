@@ -214,3 +214,84 @@ describe('scope reentrancy', () => {
     expect(cleanup).toHaveBeenCalledOnce()
   })
 })
+
+describe('retained resources', () => {
+  it('keeps static surfaces and settled handles owned until explicit teardown', async () => {
+    const scope = motionScope(),
+      dispose = vi.fn()
+    const surface = scope.resource(() => ({ dispose }))
+    const playback = scope.retain(animate(createView(), { x: 10 }, { duration: 20 }))
+    driver.advance(20)
+    await playback.finished
+    await flush()
+    expect(scope.size).toBe(2)
+    scope.suspend()
+    scope.suspend()
+    scope.resume()
+    expect(dispose).not.toHaveBeenCalled()
+    scope.release(surface)
+    scope.release(surface)
+    scope.dispose()
+    expect(dispose).toHaveBeenCalledOnce()
+    expect(scope.size).toBe(0)
+  })
+  it('retains while suspended and resumes only resources it suspended', () => {
+    const scope = motionScope()
+    const make = (held = false) => ({
+      suspended: held,
+      suspend: vi.fn(function (this: { suspended: boolean }) {
+        this.suspended = true
+      }),
+      resume: vi.fn(function (this: { suspended: boolean }) {
+        this.suspended = false
+      }),
+      dispose: vi.fn(),
+    })
+    const manual = scope.retain(make(true))
+    scope.suspend()
+    const active = scope.resource(() => make())
+    expect(active.suspend).toHaveBeenCalledOnce()
+    scope.resume()
+    expect(active.resume).toHaveBeenCalledOnce()
+    expect(manual.resume).not.toHaveBeenCalled()
+    scope.dispose()
+    expect(active.dispose).toHaveBeenCalledOnce()
+  })
+  it('rejects conflicting ownership, and cleans construction invalidated reentrantly', () => {
+    const a = motionScope(),
+      b = motionScope(),
+      dispose = vi.fn()
+    const resource = a.retain({ dispose })
+    expect(a.retain(resource)).toBe(resource)
+    expect(() => b.resource(() => resource)).toThrow(/another scope/)
+    b.release(resource)
+    expect(dispose).not.toHaveBeenCalled()
+    const failed = vi.fn()
+    expect(() =>
+      b.resource(() => {
+        b.dispose()
+        return { dispose: failed }
+      }),
+    ).toThrow(/disposed/)
+    expect(failed).toHaveBeenCalledOnce()
+    a.dispose()
+    expect(dispose).toHaveBeenCalledOnce()
+  })
+  it('cleans once when suspension fails, without leaking the rest of the scope', () => {
+    const scope = motionScope(),
+      dispose = vi.fn()
+    scope.suspend()
+    expect(() =>
+      scope.resource(() => ({
+        dispose,
+        suspend() {
+          throw Error('failed')
+        },
+        resume() {},
+      })),
+    ).toThrow(/failed/)
+    expect(scope.size).toBe(0)
+    scope.dispose()
+    expect(dispose).toHaveBeenCalledOnce()
+  })
+})

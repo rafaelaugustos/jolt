@@ -1,0 +1,117 @@
+{
+  "platform": "ios",
+  "events": [
+    {
+      "name": "setup",
+      "time": 1793935167643,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Ready",
+      "text": {
+        "attached": true,
+        "maskBytes": 0,
+        "playing": false
+      },
+      "scope": 1
+    },
+    {
+      "name": "sheen",
+      "time": 1793935171045,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Native glyph sheen",
+      "text": {
+        "attached": true,
+        "maskBytes": 566568,
+        "playing": true
+      },
+      "scope": 1
+    },
+    {
+      "name": "Paused",
+      "time": 1793935171478,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Paused",
+      "text": {
+        "attached": true,
+        "maskBytes": 566568,
+        "playing": false
+      },
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793935171911,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Paused",
+      "text": {
+        "attached": true,
+        "maskBytes": 566568,
+        "playing": false
+      },
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793935175344,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Paused",
+      "text": {
+        "attached": true,
+        "maskBytes": 566568,
+        "playing": false
+      },
+      "scope": 1
+    },
+    {
+      "name": "Resumed",
+      "time": 1793935175795,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Resumed",
+      "text": {
+        "attached": true,
+        "maskBytes": 566568,
+        "playing": true
+      },
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793935176227,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Resumed",
+      "text": {
+        "attached": true,
+        "maskBytes": 566568,
+        "playing": true
+      },
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793935179261,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Resumed",
+      "text": {
+        "attached": true,
+        "maskBytes": 566568,
+        "playing": false
+      },
+      "scope": 1
+    }
+  ]
+}

@@ -86,6 +86,8 @@ export type {
   SymbolEffectOptions,
 } from './symbol-effect.js'
 export { gradient } from './gradient.js'
+export { gradientText } from './gradient-text/index.js'
+export type { GradientText, GradientTextOptions } from './gradient-text/index.js'
 export type {
   Gradient,
   GradientOptions,
@@ -116,6 +118,18 @@ export type { ColorValue, ColorKeyframes } from './color.js'
 export type * from './types.js'
 export { motionScope } from './motion-scope.js'
 export type { MotionScope, MotionResource } from './motion-scope.js'
+export { motionBehaviors } from './motion-behaviors.js'
+export { withTimelineCues } from './timeline-cues.js'
+export type { TimelineCue, TimelineCueOptions, CuedTimeline } from './timeline-cues.js'
+export type {
+  MotionBehavior,
+  MotionBehaviors,
+  MotionBehaviorsOptions,
+  BehaviorContext,
+  BehaviorRun,
+  BehaviorResult,
+  BehaviorStatus,
+} from './motion-behaviors.js'
 export { motionStates } from './motion-states.js'
 export type {
   MotionStates,

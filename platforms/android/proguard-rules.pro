@@ -14,6 +14,8 @@
 -keep class org.rafaelaugusto.jolt.KeyboardObserver { *; }
 -keep class org.rafaelaugusto.jolt.KeyboardObserver$* { *; }
 -keep class org.rafaelaugusto.jolt.TextReveal { *; }
+-keep class org.rafaelaugusto.jolt.TextGradient { *; }
+-keep class org.rafaelaugusto.jolt.TextGradient$* { *; }
 -keep class org.rafaelaugusto.jolt.TextReveal$* { *; }
 -keep class org.rafaelaugusto.jolt.NumberRoll { *; }
 -keep class org.rafaelaugusto.jolt.NumberRoll$* { *; }

@@ -1,0 +1,145 @@
+{
+  "platform": "ios",
+  "events": [
+    {
+      "name": "setup",
+      "time": 1793932834286,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Ready",
+      "text": {
+        "attached": true,
+        "maskBytes": 0,
+        "playing": false
+      },
+      "scope": 1
+    },
+    {
+      "name": "sheen",
+      "time": 1793932839221,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Native glyph sheen",
+      "text": {
+        "attached": true,
+        "maskBytes": 566568,
+        "playing": true
+      },
+      "scope": 1
+    },
+    {
+      "name": "sheen",
+      "time": 1793932842303,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Native glyph sheen",
+      "text": {
+        "attached": true,
+        "maskBytes": 566568,
+        "playing": true
+      },
+      "scope": 1
+    },
+    {
+      "name": "Paused",
+      "time": 1793932843186,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Paused",
+      "text": {
+        "attached": true,
+        "maskBytes": 566568,
+        "playing": false
+      },
+      "scope": 1
+    },
+    {
+      "name": "Resumed",
+      "time": 1793932844286,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Resumed",
+      "text": {
+        "attached": true,
+        "maskBytes": 566568,
+        "playing": true
+      },
+      "scope": 1
+    },
+    {
+      "name": "reduced",
+      "time": 1793932846168,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Resumed",
+      "text": {
+        "attached": true,
+        "maskBytes": 566568,
+        "playing": false
+      },
+      "scope": 1
+    },
+    {
+      "name": "sheen",
+      "time": 1793932846753,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Native glyph sheen",
+      "text": {
+        "attached": true,
+        "maskBytes": 566568,
+        "playing": false
+      },
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793932847735,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Native glyph sheen",
+      "text": {
+        "attached": true,
+        "maskBytes": 566568,
+        "playing": false
+      },
+      "scope": 1
+    },
+    {
+      "name": "reduced",
+      "time": 1793932848335,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Native glyph sheen",
+      "text": {
+        "attached": true,
+        "maskBytes": 566568,
+        "playing": false
+      },
+      "scope": 1
+    },
+    {
+      "name": "sheen",
+      "time": 1793932849503,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Native glyph sheen",
+      "text": {
+        "attached": true,
+        "maskBytes": 566568,
+        "playing": true
+      },
+      "scope": 1
+    }
+  ]
+}

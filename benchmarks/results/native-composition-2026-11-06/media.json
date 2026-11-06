@@ -1,0 +1,172 @@
+[
+  {
+    "name": "native-resources-ios",
+    "source": "/private/tmp/jolt-rc12-validation/ios/native-resources-ios.mov",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 420,
+        "height": 914
+      }
+    ],
+    "format": {
+      "duration": "11.166667",
+      "size": "97622"
+    }
+  },
+  {
+    "name": "native-behaviors-ios",
+    "source": "/private/tmp/jolt-rc12-validation/ios/native-behaviors-ios.mov",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 420,
+        "height": 914
+      }
+    ],
+    "format": {
+      "duration": "6.700000",
+      "size": "64178"
+    }
+  },
+  {
+    "name": "native-rig-ios",
+    "source": "/private/tmp/jolt-rc12-validation/ios/native-rig-ios.mov",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 420,
+        "height": 914
+      }
+    ],
+    "format": {
+      "duration": "9.133333",
+      "size": "78471"
+    }
+  },
+  {
+    "name": "native-text-ios",
+    "source": "/private/tmp/jolt-rc12-validation/ios/native-text-ios.mov",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 420,
+        "height": 914
+      }
+    ],
+    "format": {
+      "duration": "13.333333",
+      "size": "87084"
+    }
+  },
+  {
+    "name": "native-cues-ios",
+    "source": "/private/tmp/jolt-rc12-validation/ios/native-cues-ios.mov",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 420,
+        "height": 914
+      }
+    ],
+    "format": {
+      "duration": "11.133333",
+      "size": "63667"
+    }
+  },
+  {
+    "name": "native-resources-android",
+    "source": "/private/tmp/jolt-rc12-validation/android-resources/native-resources-android.mp4",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 420,
+        "height": 746
+      }
+    ],
+    "format": {
+      "duration": "16.766667",
+      "size": "122983"
+    }
+  },
+  {
+    "name": "native-behaviors-android",
+    "source": "/private/tmp/jolt-rc12-validation/android-behaviors/native-behaviors-android.mp4",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 420,
+        "height": 746
+      }
+    ],
+    "format": {
+      "duration": "9.800000",
+      "size": "106046"
+    }
+  },
+  {
+    "name": "native-rig-android",
+    "source": "/private/tmp/jolt-rc12-validation/android-rig/native-rig-android.mp4",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 420,
+        "height": 746
+      }
+    ],
+    "format": {
+      "duration": "13.366667",
+      "size": "107006"
+    }
+  },
+  {
+    "name": "native-text-android",
+    "source": "/private/tmp/jolt-rc12-validation/android-text/native-text-android.mp4",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 420,
+        "height": 746
+      }
+    ],
+    "format": {
+      "duration": "19.700000",
+      "size": "121223"
+    }
+  },
+  {
+    "name": "native-cues-android",
+    "source": "/private/tmp/jolt-rc12-validation/android-cues/native-cues-android.mp4",
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 420,
+        "height": 746
+      }
+    ],
+    "format": {
+      "duration": "14.600000",
+      "size": "77580"
+    }
+  }
+]

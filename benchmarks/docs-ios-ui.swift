@@ -6,6 +6,83 @@ final class DocsTests: XCTestCase {
     var app = XCUIApplication(bundleIdentifier: "org.nativescript.jolt.benchmark")
     let control = URL(fileURLWithPath: "/tmp/jolt-docs-recording-control-" + (ProcessInfo.processInfo.environment["SIMULATOR_UDID"] ?? "unknown"))
 
+    func testNativeMotionBackground() throws {
+        for mode in ["resources", "behaviors", "rig", "text", "cues"] {
+            launch(["--native-motion=" + mode, "--native-motion-audit", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"], "motion-snapshot")
+            let start = ["behaviors": "behavior-touch", "rig": "rig-wave", "text": "text-sheen", "cues": "cue-play"][mode]
+            var points: [String: CGPoint] = [:]
+            for name in [start, "motion-pause", "motion-snapshot"].compactMap({ $0 }) {
+                let element = app.descendants(matching: .any)[name].firstMatch
+                XCTAssertTrue(element.exists)
+                points[name] = CGPoint(x: element.frame.midX, y: element.frame.midY)
+            }
+            func touch(_ name: String, _ wait: Double = 0.15) {
+                XCTAssertNil(JoltNativeTap(points[name]!))
+                Thread.sleep(forTimeInterval: wait)
+            }
+            if let name = start { touch(name) }
+            touch("motion-pause"); touch("motion-snapshot")
+            XCUIDevice.shared.press(.home)
+            Thread.sleep(forTimeInterval: 2)
+            app.activate()
+            Thread.sleep(forTimeInterval: 0.5)
+            touch("motion-snapshot")
+            touch("motion-pause"); touch("motion-snapshot")
+            Thread.sleep(forTimeInterval: 2.6)
+            touch("motion-snapshot")
+            try cue("native-motion-report", "native-" + mode + "-ios")
+        }
+    }
+
+    func testNativeMotion() throws {
+        let modes = ["resources", "behaviors", "rig", "text", "cues"]
+        let names = ["motion-pause", "motion-reduce", "motion-snapshot", "resource-cache", "resource-mount", "behavior-touch", "behavior-dress", "behavior-eat", "rig-rest", "rig-wave", "rig-reach", "text-sheen", "text-change", "cue-play", "cue-cancel"]
+        for mode in modes {
+            launch(["--native-motion=" + mode, "--native-motion-audit", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"], "motion-snapshot")
+            var points: [String: CGPoint] = [:]
+            for name in names {
+                let element = app.descendants(matching: .any)[name].firstMatch
+                if element.exists { points[name] = CGPoint(x: element.frame.midX, y: element.frame.midY) }
+            }
+            func touch(_ name: String, _ wait: Double = 0.3) {
+                XCTAssertNotNil(points[name], "Missing " + name)
+                if let point = points[name] { XCTAssertNil(JoltNativeTap(point)) }
+                Thread.sleep(forTimeInterval: wait)
+            }
+            try record("native-" + mode + "-ios") {
+                switch mode {
+                case "resources":
+                    touch("motion-pause", 0.8); touch("motion-snapshot")
+                    touch("motion-pause", 1)
+                    touch("resource-cache", 0.8); touch("resource-cache", 1)
+                    touch("motion-snapshot"); touch("resource-mount", 0.8)
+                    touch("resource-mount", 1); touch("motion-snapshot")
+                case "behaviors":
+                    touch("behavior-touch", 0.35); touch("behavior-dress", 0.3)
+                    touch("behavior-touch", 0.4); touch("behavior-eat", 0.3)
+                    touch("behavior-dress", 2.2); touch("motion-snapshot")
+                case "rig":
+                    touch("rig-wave", 0.35); touch("rig-reach", 0.3)
+                    touch("rig-wave", 1.4); touch("motion-snapshot")
+                    touch("rig-reach", 1.4); touch("motion-snapshot")
+                    touch("rig-rest", 1.3); touch("motion-snapshot")
+                case "text":
+                    touch("text-sheen", 2); touch("text-change", 0.5)
+                    touch("text-sheen", 0.6); touch("motion-pause", 0.8)
+                    touch("motion-pause", 1.6); touch("motion-reduce")
+                    touch("text-sheen", 0.7); touch("motion-snapshot")
+                    touch("motion-reduce"); touch("text-change"); touch("text-sheen", 2)
+                default:
+                    touch("cue-play", 0.2); touch("cue-cancel", 1.3)
+                    touch("cue-play", 2.6); touch("cue-play", 0.25)
+                    touch("motion-pause", 0.7); touch("motion-pause", 2.6)
+                    touch("motion-snapshot")
+                }
+            }
+            try cue("native-motion-report", "native-" + mode + "-ios")
+        }
+    }
+
     func testRetainedScroll() throws {
         launch(["--showcase-example=retained-scroll", "--showcase-audit", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"], "retained-scroll")
         let scroll = app.descendants(matching: .any)["retained-scroll"].firstMatch

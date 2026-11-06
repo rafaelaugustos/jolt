@@ -46,7 +46,13 @@ try:
             seen = cue['id']
             name = cue['name']
             assert name.replace('-', '').isalnum()
-            if cue['action'] == 'open-url':
+            if cue['action'] == 'native-motion-report':
+                container = subprocess.check_output(['xcrun', 'simctl', 'get_app_container', serial,
+                    'org.nativescript.jolt.benchmark', 'data'], text=True).strip()
+                report = json.loads((Path(container)/'Documents/native-motion.json').read_text())
+                assert report['events'][0]['time'] >= started_at, 'stale native motion report'
+                (output/(name+'.json')).write_text(json.dumps(report, indent=2)+'\n')
+            elif cue['action'] == 'open-url':
                 assert name == 'web-mobile'
                 subprocess.run(['xcrun', 'simctl', 'openurl', serial, 'http://127.0.0.1:4318/'], check=True)
             elif cue['action'] == 'image-report':

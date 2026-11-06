@@ -1,0 +1,61 @@
+{
+  "platform": "android",
+  "events": [
+    {
+      "name": "setup",
+      "time": 1793935339737,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Ready",
+      "text": {
+        "attached": true,
+        "maskBytes": 0,
+        "playing": false
+      },
+      "scope": 1
+    },
+    {
+      "name": "sheen",
+      "time": 1793935343817,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Native glyph sheen",
+      "text": {
+        "attached": true,
+        "maskBytes": 122472,
+        "playing": true
+      },
+      "scope": 1
+    },
+    {
+      "name": "Paused",
+      "time": 1793935344581,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Paused",
+      "text": {
+        "attached": true,
+        "maskBytes": 122472,
+        "playing": false
+      },
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793935345347,
+      "mode": "text",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Paused",
+      "text": {
+        "attached": true,
+        "maskBytes": 122472,
+        "playing": false
+      },
+      "scope": 1
+    }
+  ]
+}
