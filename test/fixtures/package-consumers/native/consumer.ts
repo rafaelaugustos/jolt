@@ -1,7 +1,14 @@
 import { Label } from '@nativescript/core'
 import { animate, motionValue, type PlaybackAnimation } from '@rafaelaugusto/jolt'
 import { mapKitCoordinate } from '@rafaelaugusto/jolt/native'
-import { useMotionScope, vPress } from '@rafaelaugusto/jolt/vue'
+import { rig2d } from '@rafaelaugusto/jolt/rig'
+import {
+  gradientText,
+  motionBehaviors,
+  withTimelineCues,
+  motionScope,
+} from '@rafaelaugusto/jolt'
+import { useMotionScope, useShape, vPress } from '@rafaelaugusto/jolt/vue'
 import { useAnimate, usePress } from '@rafaelaugusto/jolt/react'
 import {
   animate as svelteAnimate,
@@ -40,5 +47,16 @@ animation.progress = 0.5
 animate(motionValue(0), 100)
 mapKitCoordinate({}).animate({ latitude: 1, longitude: 2 })
 void [useMotionScope, vPress]
+const resources = motionScope()
+resources.resource(() => gradientText(new Label(), { colors: ['red', 'blue'] }))
+resources.retain(rig2d({ parts: { arm: {} }, poses: { wave: { arm: { rotate: 20 } } } }))
+resources.retain(motionBehaviors({ idle: { run() {} } }, { rest: 'idle' }))
+resources.add(
+  withTimelineCues(animate(new Label(), { x: 10 }, { duration: 500 }), [
+    { name: 'impact', at: 200, effect() {} },
+  ]),
+)
+void useShape
+resources.dispose()
 // @ts-expect-error Existing native coordinate contract is preserved.
 mapKitCoordinate({}).set({ latitude: 1 })

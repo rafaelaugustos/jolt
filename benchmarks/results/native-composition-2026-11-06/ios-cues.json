@@ -1,0 +1,80 @@
+{
+  "platform": "ios",
+  "mode": "cues",
+  "startedAt": 1793934763887,
+  "elapsedMs": 2178.1594583392143,
+  "measurements": [
+    {
+      "iteration": 0,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 0.01616668701171875
+    },
+    {
+      "iteration": 1,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 0.4165833592414856
+    },
+    {
+      "iteration": 2,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 0.03887501358985901
+    },
+    {
+      "iteration": 3,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 0.016333341598510742
+    },
+    {
+      "iteration": 4,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 0.002291649580001831
+    },
+    {
+      "iteration": 5,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 0.014958351850509644
+    },
+    {
+      "iteration": 6,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 0.0036249756813049316
+    },
+    {
+      "iteration": 7,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 0.2529999911785126
+    },
+    {
+      "iteration": 8,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 0.04708331823348999
+    },
+    {
+      "iteration": 9,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 0.005124986171722412
+    },
+    {
+      "iteration": 10,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 0.1108333170413971
+    },
+    {
+      "iteration": 11,
+      "name": "sample",
+      "pass": 0,
+      "lateBy": 0.002333343029022217
+    }
+  ]
+}

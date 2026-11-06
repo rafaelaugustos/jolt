@@ -28,10 +28,12 @@
           "drag",
           "followKeyboard",
           "gradient",
+          "gradientText",
           "imageEffect",
           "interactionSurface",
           "liquid",
           "loader",
+          "motionBehaviors",
           "motionScope",
           "motionStates",
           "motionValue",
@@ -58,6 +60,7 @@
           "symbolEffect",
           "timeline",
           "toView",
+          "withTimelineCues",
           "zoomable"
         ]
       },
@@ -75,6 +78,7 @@
           "useMotionValue",
           "useReducedMotion",
           "useScrollValue",
+          "useShape",
           "vAnimate",
           "vGradient",
           "vPress"
@@ -196,6 +200,11 @@
         "entry": "./shapes",
         "file": "src/shapes/index.ts",
         "exports": ["shape"]
+      },
+      {
+        "entry": "./rig",
+        "file": "src/rig/index.ts",
+        "exports": ["rig2d"]
       },
       {
         "entry": "./blur",
@@ -566,9 +575,9 @@
       "nativeStatus": "published",
       "webStatus": "published",
       "counterpart": "scope",
-      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits.",
+      "contract": "Published API availability in RC.10. Matching names do not establish identical options, rendering or hardware support; see contract limits. Native retained-resource retain/resource/release methods are proposed after RC.11; the Web scope does not gain those methods in this change.",
       "issues": [],
-      "evidence": ["src/index.ts", "src/web/public.ts"]
+      "evidence": ["src/index.ts", "src/web/public.ts", "src/motion-scope.ts"]
     },
     {
       "entry": ".",
@@ -1725,6 +1734,56 @@
         "benchmarks/results/frameworks/acceptance.json",
         "docs/guide/frameworks.md"
       ]
+    },
+    {
+      "entry": ".",
+      "symbol": "gradientText",
+      "nativeStatus": "pending",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native iOS/Android implementation proposed for RC.12; not published in RC.11. This entry does not introduce a Web counterpart or claim renderer isolation.",
+      "issues": [409],
+      "evidence": ["src/gradient-text/index.ts", "docs/guide/native-composition.md"]
+    },
+    {
+      "entry": ".",
+      "symbol": "motionBehaviors",
+      "nativeStatus": "pending",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native iOS/Android implementation proposed for RC.12; not published in RC.11. This entry does not introduce a Web counterpart or claim renderer isolation.",
+      "issues": [407],
+      "evidence": ["src/motion-behaviors.ts", "docs/guide/native-composition.md"]
+    },
+    {
+      "entry": ".",
+      "symbol": "withTimelineCues",
+      "nativeStatus": "pending",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native iOS/Android implementation proposed for RC.12; not published in RC.11. This entry does not introduce a Web counterpart or claim renderer isolation.",
+      "issues": [411],
+      "evidence": ["src/timeline-cues.ts", "docs/guide/native-composition.md"]
+    },
+    {
+      "entry": "./vue",
+      "symbol": "useShape",
+      "nativeStatus": "pending",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native iOS/Android implementation proposed for RC.12; not published in RC.11. This entry does not introduce a Web counterpart or claim renderer isolation.",
+      "issues": [410],
+      "evidence": ["src/vue/index.ts", "docs/guide/native-composition.md"]
+    },
+    {
+      "entry": "./rig",
+      "symbol": "rig2d",
+      "nativeStatus": "pending",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Native iOS/Android implementation proposed for RC.12; not published in RC.11. This entry does not introduce a Web counterpart or claim renderer isolation.",
+      "issues": [408],
+      "evidence": ["src/rig/index.ts", "docs/guide/native-composition.md"]
     }
   ],
   "contracts": [

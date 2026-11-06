@@ -1,0 +1,23 @@
+{
+  "platform": "ios",
+  "events": [
+    {
+      "name": "setup",
+      "time": 1793934150232,
+      "mode": "cues",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Ready",
+      "scope": 0
+    },
+    {
+      "name": "probe-complete",
+      "time": 1793934153108,
+      "mode": "cues",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Validation complete",
+      "scope": 0
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "platform": "android",
+  "events": [
+    {
+      "name": "setup",
+      "time": 1793936185575,
+      "mode": "cues",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Ready",
+      "scope": 0
+    },
+    {
+      "name": "cue-play",
+      "time": 1793936189935,
+      "mode": "cues",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Approaching cue",
+      "cue": {
+        "paused": false
+      },
+      "scope": 1
+    },
+    {
+      "name": "Paused",
+      "time": 1793936190673,
+      "mode": "cues",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Paused",
+      "cue": {
+        "paused": true
+      },
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793936191439,
+      "mode": "cues",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Paused",
+      "cue": {
+        "paused": true
+      },
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793936198805,
+      "mode": "cues",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Paused",
+      "cue": {
+        "paused": true
+      },
+      "scope": 1
+    },
+    {
+      "name": "Resumed",
+      "time": 1793936200214,
+      "mode": "cues",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Resumed",
+      "cue": {
+        "paused": false
+      },
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793936201046,
+      "mode": "cues",
+      "created": 0,
+      "destroyed": 0,
+      "status": "impact: particles + haptic",
+      "cue": {
+        "paused": false
+      },
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793936205105,
+      "mode": "cues",
+      "created": 0,
+      "destroyed": 0,
+      "status": "impact: particles + haptic",
+      "cue": {
+        "paused": false
+      },
+      "scope": 0
+    }
+  ]
+}

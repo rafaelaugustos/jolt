@@ -43,6 +43,8 @@ import {
 import { isDerived } from '../motion-value.js'
 import { prepareGradient, type GradientValues } from '../gradient.js'
 import { currentKeyboard } from '../keyboard.js'
+import { toView } from '../animate.js'
+import { shape, type Shape, type ShapeOptions } from '../shapes/index.js'
 
 type Host = NSVElement
 type Options = AnimateOptions | SpringName
@@ -295,6 +297,39 @@ export function useMotionScope(): MotionScope {
   onDeactivated(() => scope.suspend())
   onActivated(() => scope.resume())
   return scope
+}
+
+/** A retained drawing bound through a template ref; replace/unmount disposes its owner. */
+export function useShape(options: ShapeOptions): {
+  readonly current: Shape | null
+  ref(target: Target | null): void
+} {
+  const scope = useMotionScope()
+  let current: Shape | null = null
+  let view: ReturnType<typeof toView> | null = null
+  onUnmounted(() => {
+    current = null
+    view = null
+  })
+  return {
+    get current() {
+      return current
+    },
+    ref(target) {
+      if (scope.disposed) return
+      const next = target ? toView(target) : null
+      if (next === view) return
+      if (current) scope.release(current)
+      current = null
+      view = null
+      if (next) {
+        current = scope.resource(() =>
+          shape(next, { ...options, unload: options.unload ?? 'pause' }),
+        )
+        view = next
+      }
+    },
+  }
 }
 
 /** Call in setup(): whether motion is reduced, kept up to date until the component unmounts. */

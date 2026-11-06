@@ -459,6 +459,7 @@ try {
     'index.d.ts',
     'vue/index.d.ts',
     'native/index.d.ts',
+    'rig/index.d.ts',
     'react/index.d.ts',
     'svelte/index.d.ts',
     'solid/index.d.ts',

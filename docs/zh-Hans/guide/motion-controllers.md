@@ -1,5 +1,7 @@
 # 作用域与状态 {#motion-scopes-and-states}
 
+[原生场景与保留资源](./native-composition#resources): `retain()`, `resource()`, `release()` / Vue `useShape()`.
+
 使用 `motionScope()` 为页面、组件或回收项目提供其动画和订阅的一个所有者。使用 `motionStates()` 在命名的、可中断的视觉状态之间移动多个视图。两者都使用现有的原生动画驱动程序；两者都没有添加 JavaScript 帧循环。范围所有权不会改变执行：[`animateSize()`](./size) 等资源保留其记录的每帧 JS 布局成本。
 
 <Clip name="motion-controllers-ios" caption="iOS 模拟器中的上传、错误、重试和成功状态、范围控制和卸载/重新安装。" />

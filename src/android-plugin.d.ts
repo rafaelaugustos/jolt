@@ -1,4 +1,21 @@
 declare namespace org.rafaelaugusto.jolt {
+  class TextGradient extends android.graphics.drawable.Drawable {
+    constructor(view: android.widget.TextView, options: string)
+    static liveCount(): number
+    refresh(): void
+    maskBytes(): number
+    play(
+      times: native.Array<number>,
+      values: native.Array<number>,
+      duration: number,
+      delay: number,
+      repeats: number,
+      reverse: boolean,
+    ): void
+    control(time: number, paused: boolean): void
+    stop(): void
+    dispose(): void
+  }
   class RealizedReorder {
     constructor(
       scroll: androidx.core.widget.NestedScrollView,

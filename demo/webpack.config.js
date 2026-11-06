@@ -49,6 +49,7 @@ module.exports = (env) => {
       },
     ])
     config.resolve.alias
+      .set('@rafaelaugusto/jolt/rig$', resolve(__dirname, '../dist/rig/index.js'))
       .set('@rafaelaugusto/jolt/glass$', resolve(__dirname, '../dist/glass/index.js'))
       .set('@rafaelaugusto/jolt/blur$', resolve(__dirname, '../dist/blur/index.js'))
       .set('@rafaelaugusto/jolt/shapes$', resolve(__dirname, '../dist/shapes/index.js'))

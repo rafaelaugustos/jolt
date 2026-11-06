@@ -1,0 +1,192 @@
+{
+  "platform": "android",
+  "mode": "rig",
+  "startedAt": 1793934693374,
+  "elapsedMs": 5545.695935964584,
+  "measurements": [
+    {
+      "iteration": 0,
+      "setupMs": 58.99239605665207,
+      "angle": 70,
+      "scope": 2
+    },
+    {
+      "iteration": 1,
+      "setupMs": 13.77640700340271,
+      "angle": -55,
+      "scope": 2
+    },
+    {
+      "iteration": 2,
+      "setupMs": 14.619740009307861,
+      "angle": 70,
+      "scope": 2
+    },
+    {
+      "iteration": 3,
+      "setupMs": 15.28286498785019,
+      "angle": -55,
+      "scope": 2
+    },
+    {
+      "iteration": 4,
+      "setupMs": 9.440729022026062,
+      "angle": 70,
+      "scope": 2
+    },
+    {
+      "iteration": 5,
+      "setupMs": 10.496510982513428,
+      "angle": -55,
+      "scope": 2
+    },
+    {
+      "iteration": 6,
+      "setupMs": 9.37901097536087,
+      "angle": 70,
+      "scope": 2
+    },
+    {
+      "iteration": 7,
+      "setupMs": 11.617187023162842,
+      "angle": -55,
+      "scope": 2
+    },
+    {
+      "iteration": 8,
+      "setupMs": 9.616302013397217,
+      "angle": 70,
+      "scope": 2
+    },
+    {
+      "iteration": 9,
+      "setupMs": 9.780728995800018,
+      "angle": -55,
+      "scope": 2
+    },
+    {
+      "iteration": 10,
+      "setupMs": 9.648124992847443,
+      "angle": 70,
+      "scope": 2
+    },
+    {
+      "iteration": 11,
+      "setupMs": 9.963333010673523,
+      "angle": -55,
+      "scope": 2
+    },
+    {
+      "iteration": 12,
+      "setupMs": 9.033541977405548,
+      "angle": 70,
+      "scope": 2
+    },
+    {
+      "iteration": 13,
+      "setupMs": 9.489063024520874,
+      "angle": -55,
+      "scope": 2
+    },
+    {
+      "iteration": 14,
+      "setupMs": 11.018229007720947,
+      "angle": 70,
+      "scope": 2
+    },
+    {
+      "iteration": 15,
+      "setupMs": 9.013125002384186,
+      "angle": -55,
+      "scope": 2
+    },
+    {
+      "iteration": 16,
+      "setupMs": 10.605417013168335,
+      "angle": 70,
+      "scope": 2
+    },
+    {
+      "iteration": 17,
+      "setupMs": 8.970209002494812,
+      "angle": -55,
+      "scope": 2
+    },
+    {
+      "iteration": 18,
+      "setupMs": 8.633436977863312,
+      "angle": 70,
+      "scope": 2
+    },
+    {
+      "iteration": 19,
+      "setupMs": 5.974740028381348,
+      "angle": -55,
+      "scope": 2
+    },
+    {
+      "iteration": 20,
+      "setupMs": 8.587917029857635,
+      "angle": 70,
+      "scope": 2
+    },
+    {
+      "iteration": 21,
+      "setupMs": 9.376146018505096,
+      "angle": -55,
+      "scope": 2
+    },
+    {
+      "iteration": 22,
+      "setupMs": 12.779947996139526,
+      "angle": 70,
+      "scope": 2
+    },
+    {
+      "iteration": 23,
+      "setupMs": 10.89182299375534,
+      "angle": -55,
+      "scope": 2
+    },
+    {
+      "iteration": 24,
+      "setupMs": 9.918072044849396,
+      "angle": 70,
+      "scope": 2
+    },
+    {
+      "iteration": 25,
+      "setupMs": 10.780209004878998,
+      "angle": -55,
+      "scope": 2
+    },
+    {
+      "iteration": 26,
+      "setupMs": 4.30177104473114,
+      "angle": 70,
+      "scope": 2
+    },
+    {
+      "iteration": 27,
+      "setupMs": 4.020573019981384,
+      "angle": -55,
+      "scope": 2
+    },
+    {
+      "iteration": 28,
+      "setupMs": 10.860624969005585,
+      "angle": 70,
+      "scope": 2
+    },
+    {
+      "iteration": 29,
+      "setupMs": 11.47333300113678,
+      "angle": -55,
+      "scope": 2
+    },
+    {
+      "disposed": true,
+      "scope": 0
+    }
+  ]
+}

@@ -46,6 +46,7 @@
 - `press(target, pressed?, transition?)`
 - [`drag(target, options?)`](./drag) — 使用 `value`，手势驱动 [动画值](./motion-values#dragging) 而不是视图。
 - [`physicsWorld(container, bodies, options)`](./circle-physics) — 原生圆碰撞、拖动/释放和生命周期所有权。
+- [`motionBehaviors()`, `gradientText()`, `withTimelineCues()`, `/rig` / `rig2d()`](./native-composition) — 原生场景与保留资源.
 - [`shape()`](./shapes) — 原生 SVG 笔画绘制和匹配路径变形。
 - [`blur()`](./blur) — 对拥有的原生模糊量进行动画处理。
 - [`GlassContainer` / `GlassView`](./glass) — 使用现有变换播放的原生 iOS 26 Liquid Glass 融合。

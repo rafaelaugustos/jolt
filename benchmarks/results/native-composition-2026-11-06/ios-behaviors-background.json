@@ -1,0 +1,86 @@
+{
+  "platform": "ios",
+  "events": [
+    {
+      "name": "setup",
+      "time": 1793935139533,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Ready",
+      "scope": 1
+    },
+    {
+      "name": "touch",
+      "time": 1793935142963,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "touch",
+      "scope": 1
+    },
+    {
+      "name": "Paused",
+      "time": 1793935143395,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Paused",
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793935143827,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Paused",
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793935147245,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Paused",
+      "scope": 1
+    },
+    {
+      "name": "Resumed",
+      "time": 1793935147694,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Resumed",
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793935148127,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Resumed",
+      "scope": 1
+    },
+    {
+      "name": "touch:completed",
+      "time": 1793935149084,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Rest",
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793935151160,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Rest",
+      "scope": 1
+    }
+  ]
+}

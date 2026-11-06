@@ -46,6 +46,7 @@
 - `press(target, pressed?, transition?)`
 - [`drag(target, options?)`](./drag) — com `value`, o gesto controla um [valor de movimento](./motion-values#arrastando) em vez da view.
 - [`physicsWorld(container, bodies, options)`](./circle-physics) — círculos nativos com colisões, arraste/soltura e ciclo de vida.
+- [`motionBehaviors()`, `gradientText()`, `withTimelineCues()`, `/rig` / `rig2d()`](./native-composition) — Cenas nativas e recursos retidos.
 - [`shape()`](./shapes) — desenho nativo de traços SVG e morph entre caminhos compatíveis.
 - [`blur()`](./blur) — anime a intensidade de um desfoque nativo.
 - [`GlassContainer` / `GlassView`](./glass) — união nativa com Liquid Glass no iOS 26 usando a animação de transforms existente.

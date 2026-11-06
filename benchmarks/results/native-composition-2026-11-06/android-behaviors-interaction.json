@@ -1,0 +1,113 @@
+{
+  "platform": "android",
+  "events": [
+    {
+      "name": "setup",
+      "time": 1793933318148,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Ready",
+      "scope": 1
+    },
+    {
+      "name": "touch",
+      "time": 1793933324041,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "touch",
+      "scope": 1
+    },
+    {
+      "name": "dress",
+      "time": 1793933325091,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "dress",
+      "scope": 1
+    },
+    {
+      "name": "touch:interrupted",
+      "time": 1793933325095,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "dress",
+      "scope": 1
+    },
+    {
+      "name": "touch",
+      "time": 1793933326118,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Blocked during dress",
+      "scope": 1
+    },
+    {
+      "name": "touch:blocked",
+      "time": 1793933326125,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Blocked during dress",
+      "scope": 1
+    },
+    {
+      "name": "dress:completed",
+      "time": 1793933326919,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Rest",
+      "scope": 1
+    },
+    {
+      "name": "eat",
+      "time": 1793933327813,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "eat",
+      "scope": 1
+    },
+    {
+      "name": "dress",
+      "time": 1793933328856,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Blocked during eat",
+      "scope": 1
+    },
+    {
+      "name": "dress:blocked",
+      "time": 1793933328864,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Blocked during eat",
+      "scope": 1
+    },
+    {
+      "name": "eat:completed",
+      "time": 1793933329636,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Rest",
+      "scope": 1
+    },
+    {
+      "name": "snapshot",
+      "time": 1793933331996,
+      "mode": "behaviors",
+      "created": 0,
+      "destroyed": 0,
+      "status": "Rest",
+      "scope": 1
+    }
+  ]
+}

@@ -23,11 +23,15 @@ type Controlled = {
   play?: () => void
   readonly paused?: boolean
   readonly finished?: Promise<unknown>
+  suspend?: () => void
+  resume?: () => void
+  readonly suspended?: boolean
 }
 interface Entry {
   resource?: MotionResource
   setup?: () => MotionResource
   resume: boolean
+  retained?: boolean
 }
 const owners = new WeakMap<object, object>()
 
@@ -57,6 +61,12 @@ export interface MotionScope {
   ): MotionStates<Extract<keyof S, string>, Extract<keyof T, string>>
   /** Adopt an existing handle. Completed animations are released automatically. */
   add<T extends MotionResource>(resource: T): T
+  /** Keep ownership until reset/disposal, including static resources and settled playback. */
+  retain<T extends MotionResource>(resource: T): T
+  /** Construct once and retain; disposes a newly created resource if adoption fails. */
+  resource<T extends MotionResource>(setup: () => T): T
+  /** Dispose one owned resource. Unowned resources are left alone. */
+  release(resource: MotionResource): void
   /** Attach a subscription, detach on suspension, and recreate on resume. */
   use(setup: () => MotionResource): () => void
   /** Pause playable handles; cancel non-playable ones; detach subscriptions. */
@@ -144,7 +154,7 @@ export function motionScope(): MotionScope {
     adopted.set(resource, entry)
     owners.set(resource, identity)
     const finished = (resource as Controlled).finished
-    if (!entry.setup && finished) {
+    if (!entry.setup && !entry.retained && finished) {
       const settled = () => {
         if (entry.resource !== resource) return
         forget(entry)
@@ -184,10 +194,20 @@ export function motionScope(): MotionScope {
       return
     }
     const resource = entry.resource as Controlled | undefined
-    if (typeof resource?.pause === 'function' && typeof resource.play === 'function') {
+    if (
+      entry.retained &&
+      typeof resource?.suspend === 'function' &&
+      typeof resource.resume === 'function'
+    ) {
+      entry.resume = resource.suspended !== true
+      if (entry.resume) resource.suspend()
+    } else if (
+      typeof resource?.pause === 'function' &&
+      typeof resource.play === 'function'
+    ) {
       entry.resume = resource.paused !== true
       if (entry.resume) resource.pause()
-    } else remove(entry)
+    } else if (!entry.retained) remove(entry)
   }
   // App events and explicit/KeepAlive suspension must not clear each other.
   const synchronize = () => {
@@ -201,7 +221,14 @@ export function motionScope(): MotionScope {
         if (entry.setup) startSubscription(entry)
         else if (entry.resume) {
           entry.resume = false
-          ;(entry.resource as Controlled).play?.()
+          const resource = entry.resource as Controlled
+          if (
+            entry.retained &&
+            typeof resource.resume === 'function' &&
+            typeof resource.suspend === 'function'
+          )
+            resource.resume()
+          else resource.play?.()
         }
       })
   }
@@ -308,6 +335,43 @@ export function motionScope(): MotionScope {
       entries.add(entry)
       if (suspended) hold(entry)
       return resource
+    },
+    retain(resource) {
+      assertAlive()
+      validate(resource)
+      const existing = adopted.get(resource)
+      if (existing) {
+        if (!existing.retained)
+          throw new Error('Resource already adopted with a different lifetime.')
+        return resource
+      }
+      const entry: Entry = { resume: false, retained: true }
+      attach(entry, resource)
+      try {
+        watch()
+        entries.add(entry)
+        if (suspended) hold(entry)
+      } catch (error) {
+        remove(entry)
+        throw error
+      }
+      return resource
+    },
+    resource(setup) {
+      assertAlive()
+      const made = setup()
+      try {
+        assertAlive()
+        validate(made)
+      } catch (error) {
+        if (!owners.has(made)) disposeResource(made)
+        throw error
+      }
+      return scope.retain(made)
+    },
+    release(resource) {
+      const entry = adopted.get(resource)
+      if (entry) remove(entry)
     },
     use(setup) {
       assertAlive()
