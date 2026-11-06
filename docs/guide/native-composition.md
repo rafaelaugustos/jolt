@@ -1,6 +1,6 @@
 # Native scenes and resource ownership
 
-Development API: these additions are not included in published `0.1.0-rc.11`. Build the implementation branch until a version containing them is released.
+Available in `0.1.0-rc.11.1`. Install the matching package version and rebuild native applications; Android gradient text requires the new compiled helper.
 
 These APIs compose native iOS and Android motion: retained drawings, behavior priorities, articulated parts, gradient text and named timeline effects. They are native entry points; no equivalent Web contract is introduced here. Application rules, assets and SDK targets remain application-owned. See [scopes and visual states](./motion-controllers) for the existing foundations.
 

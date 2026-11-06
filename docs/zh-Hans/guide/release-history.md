@@ -1,6 +1,14 @@
 # 版本历史
 
-## 0.1.0-rc.11: Web 改进与原生播放 {#release-candidate}
+## 0.1.0-rc.11.1: 原生资源生命周期与组合 {#release-candidate}
+
+RC.11.1 新增[保留资源与 Vue 绘图生命周期、行为优先级、二维关节部件、渐变文字和命名时间线事件](./native-composition)。这些原生 API 在文档所述场景中支持中断、减少动态效果和生命周期控制。
+
+[安装 RC.11.1](./install)，保持可选原生包版本一致，并重新构建原生应用。延迟与进程内存研究仍作为技术债务跟踪（#405、#406）；本版本不宣称新的性能提升，也不支持在应用 JavaScript 阻塞期间持续播放。
+
+<Clip name="native-text-android" caption="实体 ASUS ZenFone 3，Android 8，英文界面：真实原生点击演示渐变字形、移动高光、文字替换、暂停/恢复和减少动态效果。原速；不是性能测量。" />
+
+## 0.1.0-rc.11: Web 改进与原生播放 {#rc-11}
 
 RC.11 改进[移动键盘](./web-platforms)、[元素相对滚动区间](./web-support)和表面冲突诊断。原生功能包括可选框架适配器、[设备输入](./device-sensors)、[弹簧/滚动驱动的着色器、液态遮罩和 iOS 本地无声视频纹理](./image-effects)。[Android 播放](./android-performance)在动画结束后保留更少数据，审计导出在 worker 中处理报告。[真机研究](./performance-study)记录 CPU、内存及呈现方面的取舍，不改变应用默认设置。
 

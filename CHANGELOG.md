@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+## 0.1.0-rc.11.1 (2026-11-06)
+
+- Publish matching core and optional native packages with the native composition additions from #418. Rebuild native applications after upgrading, including the new Android gradient-text helper.
+- Add retained scope resources and Vue `useShape()` ownership, with drawing lifetime independent from playback, KeepAlive suspension and unmount cleanup (#410).
+- Add `motionBehaviors()` for priority, interruption, conditions, exclusions and restoration to rest (#407), plus the optional `/rig` entry with `rig2d()` for articulated native parts, sockets, rotation limits and pose blending (#408).
+- Add `gradientText()` for native Label gradients and moving light on iOS and Android, preserving accessible text and reduced-motion fill (#409). Formatted spans remain unsupported.
+- Add `withTimelineCues()` for named effects on an existing playback clock, with cancellation and late-delivery policy (#411). Effect callbacks still run in JavaScript; audio remains application-adapted.
+- Include reviewed English recordings from physical Android and the iOS simulator, embedded in all four documentation languages. Latency and process-memory investigations (#405, #406) remain deferred technical debt; their experimental branch is not included, and this release makes no new CPU/PSS or blocked-JavaScript performance claim.
+
 ## 0.1.0-rc.11 (2026-11-03)
 
 - Publish matching core and optional native packages. Rebuild native applications after upgrading to include the updated Android playback and shader helpers. Web APIs remain experimental.

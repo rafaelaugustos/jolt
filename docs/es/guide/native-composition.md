@@ -1,6 +1,6 @@
 # Escenas nativas y ciclo de vida de recursos
 
-API en desarrollo: estas incorporaciones no están en la versión publicada `0.1.0-rc.11`. Usa una build de la rama de implementación hasta que se publique una versión que las incluya.
+Disponible en `0.1.0-rc.11.1`. Instala la versión correspondiente y recompila las aplicaciones nativas; el texto con degradado en Android requiere el nuevo helper compilado.
 
 Estas APIs componen movimiento nativo en iOS y Android: dibujos retenidos, prioridades de comportamiento, partes articuladas, texto con gradiente y efectos con nombre en timelines. Son entradas nativas; esta entrega no añade un contrato Web equivalente. Las reglas, los assets y los objetos de SDK siguen perteneciendo a la aplicación. Consulta la base en [scopes y estados visuales](./motion-controllers).
 

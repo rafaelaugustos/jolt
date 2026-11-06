@@ -1,6 +1,8 @@
 # 发布状态与限制 {#not-there-yet}
 
-**当前版本：0.1.0-rc.11。**包含[原生框架适配器](./frameworks)、[新增传感器来源](./device-sensors#vector-sources)、[移动键盘修复](./mobile-web)、[元素相对 Web 滚动区间](./web-support#element-range)、[原生着色器输入与 iOS 本地视频纹理](./image-effects)，以及 [Android 播放改进](./android-performance)。[安装版本一致的软件包](./install)并重新构建原生应用。Web API 仍为实验性功能。
+RC.11.1 新增[保留资源与 Vue 绘图生命周期、行为优先级、二维关节部件、渐变文字和命名时间线事件](./native-composition)。这些原生 API 在文档所述场景中支持中断、减少动态效果和生命周期控制。
+
+**当前版本：0.1.0-rc.11.1。**包含[原生框架适配器](./frameworks)、[新增传感器来源](./device-sensors#vector-sources)、[移动键盘修复](./mobile-web)、[元素相对 Web 滚动区间](./web-support#element-range)、[原生着色器输入与 iOS 本地视频纹理](./image-effects)，以及 [Android 播放改进](./android-performance)。[安装版本一致的软件包](./install)并重新构建原生应用。Web API 仍为实验性功能。
 
 **RC.10 新增：**[Web 渐变、加载与文字](./web-effects)、[粒子、模糊、形状与图像效果](./web-surfaces)、[键盘、面板、导航、物理与图标](./web-platforms)、[重力、触感、传感器、玻璃与按稳定标识返回缩略图](./web-parity)，以及原生 [Core ScrollView 页头](./scroll-header#retained-scrollview)和[已挂载行排序](./reorder#retained-rows)。请重新构建原生应用。Mavis 的采用工作单独进行。
 
@@ -12,7 +14,7 @@
 
 **自 RC.7 起：**[颜色、边框、连续绘制、真实尺寸、FLIP 与可定位场景](./web-visual)扩展此运行时。Web API 仍为实验性功能；完整对等由 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 跟踪。
 
-**0.1.0-rc.11 已发布。** 原生功能保留各自文档中说明的平台限制，正式版验收仍在进行。Web 入口仍为实验性功能；发布并不表示 Mavis 集成完成，也不保证所有原生/Web API 完全一致。
+**0.1.0-rc.11.1 已发布。** 原生功能保留各自文档中说明的平台限制，正式版验收仍在进行。Web 入口仍为实验性功能；发布并不表示 Mavis 集成完成，也不保证所有原生/Web API 完全一致。
 
 RC.6 包含[Web 连续动画](./web-dynamic)：数值、跟随弹簧及拖动/吸附，以及[数值映射、几何刷新和垂直滚动](./web-support)。Web API 仍为实验性功能。
 

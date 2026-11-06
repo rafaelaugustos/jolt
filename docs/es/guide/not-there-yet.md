@@ -1,6 +1,8 @@
 # Estado de la versión y límites {#not-there-yet}
 
-**Versión actual: 0.1.0-rc.11.** Incluye [adaptadores nativos](./frameworks), [fuentes adicionales de sensores](./device-sensors#vector-sources), [correcciones del teclado móvil](./mobile-web), [scroll Web relativo al elemento](./web-support#element-range), [entradas de shaders y vídeo local en iOS](./image-effects) y [mejoras de reproducción Android](./android-performance). [Instala paquetes de la misma versión](./install) y recompila las apps nativas. Las APIs Web siguen experimentales.
+RC.11.1 añade [recursos retenidos y dibujos con ciclo de vida Vue, prioridades de comportamientos, partes 2D articuladas, texto con degradado y eventos con nombre en timelines](./native-composition). Las APIs nativas incluyen interrupción, movimiento reducido y controles de ciclo de vida para los usos documentados.
+
+**Versión actual: 0.1.0-rc.11.1.** Incluye [adaptadores nativos](./frameworks), [fuentes adicionales de sensores](./device-sensors#vector-sources), [correcciones del teclado móvil](./mobile-web), [scroll Web relativo al elemento](./web-support#element-range), [entradas de shaders y vídeo local en iOS](./image-effects) y [mejoras de reproducción Android](./android-performance). [Instala paquetes de la misma versión](./install) y recompila las apps nativas. Las APIs Web siguen experimentales.
 
 **Novedades de RC.10:** [degradados, carga y texto Web](./web-effects), [partículas, blur, formas y efectos de imagen](./web-surfaces), [teclado, paneles, navegación, física e iconos](./web-platforms), [gravedad, haptics, sensores, glass y retorno a miniaturas por clave](./web-parity), además de [headers de Core ScrollView nativo](./scroll-header#retained-scrollview) y [reordenación de filas montadas](./reorder#retained-rows). Recompila las aplicaciones nativas. La adopción en Mavis sigue separada.
 
@@ -12,7 +14,7 @@
 
 **Desde RC.7:** [colores, bordes, pintura continua, tamaño real, FLIP y escenas con seek](./web-visual) amplían este runtime. Las APIs Web siguen experimentales; la paridad completa continúa en [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
-**0.1.0-rc.11 está disponible.** Las funciones nativas mantienen sus límites documentados mientras continúa la validación estable. Las entradas Web son experimentales; publicarlas no completa la integración Mavis ni establece paridad de todas las APIs entre native y Web.
+**0.1.0-rc.11.1 está disponible.** Las funciones nativas mantienen sus límites documentados mientras continúa la validación estable. Las entradas Web son experimentales; publicarlas no completa la integración Mavis ni establece paridad de todas las APIs entre native y Web.
 
 RC.6 incluye [movimiento continuo Web](./web-dynamic), con valores, followers y drag/snap, además de [mapeos numéricos, geometría y scroll vertical](./web-support). Las APIs Web siguen experimentales.
 
