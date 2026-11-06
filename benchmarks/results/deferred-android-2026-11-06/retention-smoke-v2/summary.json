@@ -1,0 +1,120 @@
+{
+  "apkSha256": {
+    "baseline": "a25f87ff739cc08484b118a7624b42469fdf60aa11084be24e5dbe5ebdd7b3dd",
+    "candidate": "5da588486ed298441864c7fcb55a34528417f1e2d0eb0a189995b9ce27740e33"
+  },
+  "changedApkEntries": [
+    "assets/app/bundle.mjs"
+  ],
+  "deviceFingerprint": "asus/WW_Phone/ASUS_Z017D_1:8.0.0/OPR1.170623.026/15.0410.1806.68-0:user/release-keys",
+  "collectorSha256": "e44cba34bd8e8c35882ae17af88aef0917af68d198be2fa6b6875072730ff782",
+  "repetitions": 1,
+  "configurations": [
+    "baseline",
+    "candidate"
+  ],
+  "screenRecording": false,
+  "scope": "16 detached views with the existing 4,000-record JSON model per view; eight natural completions and eight cancellations. Public animation handles survive at held checkpoint. Equal explicit collection requests outside workload timing. Not the single-tile comparison or a general app-memory claim.",
+  "runs": [
+    {
+      "configuration": "baseline",
+      "repetition": 1,
+      "snapshots": [
+        {
+          "phase": "before",
+          "pssKiB": 83676,
+          "privateDirtyKiB": 57324,
+          "nativeHeapAllocatedBytes": 36795832,
+          "handles": 0,
+          "liveViews": 0,
+          "liveModels": 0
+        },
+        {
+          "phase": "held",
+          "pssKiB": 103290,
+          "privateDirtyKiB": 76452,
+          "nativeHeapAllocatedBytes": 37670248,
+          "handles": 16,
+          "liveViews": 16,
+          "liveModels": 16
+        },
+        {
+          "phase": "held-again",
+          "pssKiB": 91612,
+          "privateDirtyKiB": 65804,
+          "nativeHeapAllocatedBytes": 28866648,
+          "handles": 16,
+          "liveViews": 16,
+          "liveModels": 16
+        },
+        {
+          "phase": "released",
+          "pssKiB": 91260,
+          "privateDirtyKiB": 65452,
+          "nativeHeapAllocatedBytes": 28699992,
+          "handles": 0,
+          "liveViews": 1,
+          "liveModels": 1
+        }
+      ],
+      "workload": {
+        "wallMs": 3261.975311,
+        "cpuMs": 2620,
+        "recordsPerView": 4000,
+        "settledHandles": 16
+      },
+      "batteryBeforeC": 33.2,
+      "batteryAfterC": 33.2
+    },
+    {
+      "configuration": "candidate",
+      "repetition": 1,
+      "snapshots": [
+        {
+          "phase": "before",
+          "pssKiB": 83551,
+          "privateDirtyKiB": 57184,
+          "nativeHeapAllocatedBytes": 36492232,
+          "handles": 0,
+          "liveViews": 0,
+          "liveModels": 0
+        },
+        {
+          "phase": "held",
+          "pssKiB": 103507,
+          "privateDirtyKiB": 76656,
+          "nativeHeapAllocatedBytes": 37535336,
+          "handles": 16,
+          "liveViews": 16,
+          "liveModels": 16
+        },
+        {
+          "phase": "held-again",
+          "pssKiB": 86864,
+          "privateDirtyKiB": 61052,
+          "nativeHeapAllocatedBytes": 28729096,
+          "handles": 16,
+          "liveViews": 0,
+          "liveModels": 0
+        },
+        {
+          "phase": "released",
+          "pssKiB": 86808,
+          "privateDirtyKiB": 60992,
+          "nativeHeapAllocatedBytes": 28711640,
+          "handles": 0,
+          "liveViews": 0,
+          "liveModels": 0
+        }
+      ],
+      "workload": {
+        "wallMs": 3530.149582,
+        "cpuMs": 2939,
+        "recordsPerView": 4000,
+        "settledHandles": 16
+      },
+      "batteryBeforeC": 33.2,
+      "batteryAfterC": 33.2
+    }
+  ]
+}

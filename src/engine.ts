@@ -60,6 +60,13 @@ const revisions = createOwnership<View, Property>()
 
 const running = new WeakMap<View, Map<string, Entry>>()
 export class ViewAnimation implements PlaybackAnimation {
+  private target: View | undefined
+  /** Only live/held entries access their target. Settled public handles keep
+   * their result and clock without retaining a detached native view tree. */
+  get view(): View {
+    if (!this.target) throw new Error('A settled animation no longer owns its view.')
+    return this.target
+  }
   readonly finished: Promise<boolean>
   private resolve!: (finished: boolean) => void
   private readonly entries: Entry[] = []
@@ -264,11 +271,12 @@ export class ViewAnimation implements PlaybackAnimation {
   }
 
   constructor(
-    readonly view: View,
+    view: View,
     plans: readonly Plan[],
     private readonly haptic?: HapticOptions,
     private held = false,
   ) {
+    this.target = view
     this.endless = plans.some(
       (plan) =>
         !Number.isFinite(plan.transition.repeat) ||
@@ -485,6 +493,7 @@ export class ViewAnimation implements PlaybackAnimation {
     // must not retain its sampled tracks and native animators. Held timeline steps
     // keep their entries until releaseGroup() actually settles them.
     this.entries.length = 0
+    this.target = undefined
     this.arrive()
     this.resolve(this.complete)
     this.timingChanged()

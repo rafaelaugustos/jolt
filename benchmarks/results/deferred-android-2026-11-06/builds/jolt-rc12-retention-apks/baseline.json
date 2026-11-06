@@ -1,0 +1,7 @@
+{
+  "apkSha256": "8c674f253671bde737fc44e97158e5dd753bef4419d141a090b19e43038e9ed5",
+  "engineSha256": "a4803432560739d234bf95805f5b535af4f451935932fd387739bc24baeb0191",
+  "base": "bedbabbab0228b163d9e56f3ed5d6fb8f2551d81",
+  "engineSource": "HEAD; built dist before candidate edit",
+  "workloadSha256": "f926f6c89480e389e7fed3dc7cde4921f46dc1ce06176ae5e9572777e9046d40"
+}

@@ -1,0 +1,8 @@
+{
+  "apkSha256": "142e54a31163a1b0ad77ff91563e47c7d88d777aa705cc4dbd47e8aec34ce5a3",
+  "engineSha256": "ad66d03723162b17e55760a94b5317892f40f1d57d5076f1eb28c004232dbab6",
+  "workloadSha256": "f926f6c89480e389e7fed3dc7cde4921f46dc1ce06176ae5e9572777e9046d40",
+  "changedApkEntries": [
+    "assets/app/bundle.mjs"
+  ]
+}

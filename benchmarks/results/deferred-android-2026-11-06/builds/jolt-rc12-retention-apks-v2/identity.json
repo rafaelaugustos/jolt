@@ -1,0 +1,11 @@
+{
+  "apks": {
+    "baseline": "a25f87ff739cc08484b118a7624b42469fdf60aa11084be24e5dbe5ebdd7b3dd",
+    "candidate": "5da588486ed298441864c7fcb55a34528417f1e2d0eb0a189995b9ce27740e33"
+  },
+  "source": "5bc3a970cfd8a2cb41492bfd13c3ec5aede3f15e1a04398c48dcacad3101ae03",
+  "method": "Only dist/engine.js swapped using TypeScript 6 transpileModule ES2022/ESNext; all other built modules identical. Same diagnostic source in both APKs.",
+  "changedApkEntries": [
+    "assets/app/bundle.mjs"
+  ]
+}

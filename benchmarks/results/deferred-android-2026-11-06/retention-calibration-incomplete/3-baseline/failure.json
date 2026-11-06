@@ -1,0 +1,3 @@
+{
+  "error": "Command '['adb', '-P', '5041', '-s', 'GBAZB601C153X5P', 'shell', 'am start -W -n dev.jolt.comparison.retention/com.tns.NativeScriptActivity']' timed out after 60 seconds"
+}

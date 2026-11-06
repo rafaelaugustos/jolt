@@ -1,0 +1,11 @@
+{
+  "apks": {
+    "baseline": "65b41a8fe349f7d0a2822c81ff86e4e69b3c13a644324ffbc2808c858f76785a",
+    "candidate": "60687056777f4eb7e584cf743ee47c115bc8274252c0eb77f93523b477c1fefc"
+  },
+  "changedApkEntries": [
+    "assets/app/bundle.mjs"
+  ],
+  "engineSourceBaseline": "a4803432560739d234bf95805f5b535af4f451935932fd387739bc24baeb0191",
+  "engineSourceCandidate": "ad66d03723162b17e55760a94b5317892f40f1d57d5076f1eb28c004232dbab6"
+}

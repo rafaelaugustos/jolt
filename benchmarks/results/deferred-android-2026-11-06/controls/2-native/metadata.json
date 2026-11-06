@@ -1,0 +1,89 @@
+{
+  "identity": {
+    "serialSha256": "cbeea894b1750226384fa1c2c1c854f92a302dceee509dad781c93419e6e9310",
+    "device": {
+      "ro.product.manufacturer": "asus",
+      "ro.product.model": "ASUS_Z017DC",
+      "ro.build.version.release": "8.0.0",
+      "ro.build.version.sdk": "26",
+      "ro.build.fingerprint": "asus/WW_Phone/ASUS_Z017D_1:8.0.0/OPR1.170623.026/15.0410.1806.68-0:user/release-keys",
+      "ro.product.cpu.abilist": "arm64-v8a,armeabi-v7a,armeabi",
+      "ro.board.platform": "msm8953"
+    },
+    "packages": {
+      "jolt": [
+        "bcef6d6cf4dd78f6d3788570f0583deb503e1c58df485e2f1fe377a70a54a5a0"
+      ]
+    },
+    "probeSha256": "8c671556c101256f4301768af7e3d05ee6b876d6c53bbfd37ed8b9beb025871f",
+    "probeSourceSha256": "f08a7aab3fb5c8dbd33512ea81c68e1546a1c55cfce462efaa82364c7410623a",
+    "collectorSha256": "6efba63e78a153bd17ca74d87c7632fb2aea7150424c5097f05405e9af1f5318",
+    "selectedApps": [
+      "jolt"
+    ],
+    "selectedPhases": [
+      "normal"
+    ],
+    "repetitions": 1,
+    "windowSeconds": 30,
+    "joltIntents": {
+      "diagnostic-driver": "native"
+    }
+  },
+  "scope": "Physical Android; on-device clock and input scheduling.",
+  "screenRecording": false,
+  "warmupSeconds": 5,
+  "cooldownSeconds": 10,
+  "temperatureGuard": "Battery temperature <=39 C before and <=40 C after; not proof of no CPU/GPU throttling.",
+  "method": "Process user+system CPU ticks; SurfaceFlinger 127-frame history polled every500ms with overlap verification. Observer work runs outside the measured app but may affect device scheduling.",
+  "runs": [
+    {
+      "windowSeconds": 30.000134676,
+      "cpuWindowSeconds": 30.000977384,
+      "cpuSeconds": 6.95,
+      "cpuSecondsPer30Seconds": 6.949773580083307,
+      "cpuTickSeconds": 0.01,
+      "presentedFrames": 1796,
+      "presentationGapMs": {
+        "n": 1795,
+        "p50": 16.707396,
+        "p95": 16.865244699999998,
+        "p99": 16.94100134,
+        "max": 17.097812
+      },
+      "frameReadyToPresentMs": {
+        "n": 1796,
+        "p50": 32.4321875,
+        "p95": 32.90388025,
+        "p99": 33.06516675,
+        "max": 33.208125
+      },
+      "queueToPresentMs": null,
+      "metricLimit": "SurfaceFlinger actual-present fence and frame-ready fence. Frame-ready is not queue time. Neither identifies input-to-first-changed-pixel or panel scanout. No FrameTimeline classifications on this device.",
+      "inputInvocationSeconds": [
+        5.0001138,
+        15.000301036,
+        25.000284365
+      ],
+      "inputLimit": "Device-clock invocation of Android input; not input delivery or acknowledgement.",
+      "pollDurationMs": {
+        "n": 61,
+        "p50": 56.799688,
+        "p95": 60.476146,
+        "p99": 63.7012182,
+        "max": 64.153593
+      },
+      "pollHistoryOverlapVerified": true,
+      "app": "jolt",
+      "phase": "normal",
+      "repetition": 1,
+      "layer": "dev.jolt.comparison.jolt/com.tns.NativeScriptActivity#0",
+      "probeOutputSha256": "77123e85f165b752268fea0db27d2891fee51be68b8fb2c2f1d483e80f89b6d3",
+      "batteryBeforeC": 32.7,
+      "batteryAfterC": 32.7,
+      "pssBeforeKiB": 100039,
+      "pssAfterKiB": 90265,
+      "maxInputInvocationLatenessMs": 0.3010359999997547
+    }
+  ]
+}

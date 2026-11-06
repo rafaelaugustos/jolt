@@ -1,0 +1,51 @@
+{
+  "state": "complete",
+  "processId": 18616,
+  "snapshots": [
+    {
+      "phase": "before",
+      "pssKiB": 83816,
+      "privateDirtyKiB": 57444,
+      "nativeHeapAllocatedBytes": 36723648,
+      "handles": 0,
+      "liveViews": 0,
+      "liveModels": 0
+    },
+    {
+      "phase": "held",
+      "pssKiB": 103646,
+      "privateDirtyKiB": 76784,
+      "nativeHeapAllocatedBytes": 36932608,
+      "handles": 16,
+      "liveViews": 16,
+      "liveModels": 16
+    },
+    {
+      "phase": "held-again",
+      "pssKiB": 93174,
+      "privateDirtyKiB": 67360,
+      "nativeHeapAllocatedBytes": 28250512,
+      "handles": 16,
+      "liveViews": 16,
+      "liveModels": 16
+    },
+    {
+      "phase": "released",
+      "pssKiB": 92818,
+      "privateDirtyKiB": 67004,
+      "nativeHeapAllocatedBytes": 28204016,
+      "handles": 0,
+      "liveViews": 1,
+      "liveModels": 1
+    }
+  ],
+  "workload": {
+    "wallMs": 3614.777342,
+    "cpuMs": 3088,
+    "recordsPerView": 4000,
+    "settledHandles": 16
+  },
+  "gcRequested": true,
+  "jsGcAvailable": true,
+  "recording": false
+}

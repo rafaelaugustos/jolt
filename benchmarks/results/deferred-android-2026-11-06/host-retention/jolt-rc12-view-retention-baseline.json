@@ -1,0 +1,36 @@
+{
+  "node": "v22.23.3",
+  "before": 4220352,
+  "rounds": [
+    {
+      "round": 0,
+      "handles": 250,
+      "heapUsed": 5204408,
+      "liveTracks": 0,
+      "liveViews": 250
+    },
+    {
+      "round": 1,
+      "handles": 500,
+      "heapUsed": 6219680,
+      "liveTracks": 0,
+      "liveViews": 500
+    },
+    {
+      "round": 2,
+      "handles": 750,
+      "heapUsed": 7255384,
+      "liveTracks": 0,
+      "liveViews": 750
+    },
+    {
+      "round": 3,
+      "handles": 1000,
+      "heapUsed": 8239440,
+      "liveTracks": 0,
+      "liveViews": 1000
+    }
+  ],
+  "released": 4729056,
+  "notes": "Host JS heap with a non-retaining fake driver and explicit GC. Each animation owns a distinct view. Natural completion and cancellation alternate. Not Android PSS or native memory."
+}

@@ -1,0 +1,72 @@
+{
+  "kind": "diagnostic screening; no optimized candidate has been selected",
+  "createdAt": "2026-11-06T03:48:07.264879+00:00",
+  "order": [
+    [
+      1,
+      "jolt"
+    ],
+    [
+      1,
+      "native"
+    ],
+    [
+      1,
+      "reanimated"
+    ],
+    [
+      2,
+      "native"
+    ],
+    [
+      2,
+      "reanimated"
+    ],
+    [
+      2,
+      "jolt"
+    ],
+    [
+      3,
+      "reanimated"
+    ],
+    [
+      3,
+      "jolt"
+    ],
+    [
+      3,
+      "native"
+    ],
+    [
+      4,
+      "jolt"
+    ],
+    [
+      4,
+      "native"
+    ],
+    [
+      4,
+      "reanimated"
+    ],
+    [
+      5,
+      "native"
+    ],
+    [
+      5,
+      "reanimated"
+    ],
+    [
+      5,
+      "jolt"
+    ]
+  ],
+  "windowSeconds": 30,
+  "collectorSha256": "6efba63e78a153bd17ca74d87c7632fb2aea7150424c5097f05405e9af1f5318",
+  "runnerSha256": "0c82e00fe0eec09cef5c8b4b5edc4f2a6c7f9c67904a96907983e592679777f9",
+  "question": "Does bypassing Jolt while retaining the same NativeScript view tree remove the presentation wait or process memory cost?",
+  "limits": "Native control still imports Jolt. This isolates active animation construction/playback, not import/runtime baseline. Frame-ready to presentation is not input latency. No forced GC or screen recording.",
+  "candidateAcceptance": "Not applicable to this diagnostic. Any future optimization needs separately declared tolerances based on this baseline and at least five paired baseline/candidate runs."
+}

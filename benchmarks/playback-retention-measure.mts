@@ -8,6 +8,7 @@ import { setImmediate } from 'node:timers/promises'
 
 type Handle = { track: Track; done: () => void }
 const tracks: WeakRef<Track>[] = []
+const views: WeakRef<NativeView>[] = []
 const active = new Set<Handle>()
 const driver: Driver = {
   now: () => 1000,
@@ -28,7 +29,6 @@ const driver: Driver = {
 }
 setDriver(driver)
 configure({ reducedMotion: 'never', timeScale: 1 })
-const view = new View() as unknown as NativeView
 const retained: ReturnType<typeof animate>[] = []
 async function collect() {
   // WeakRefs keep their target alive until the end of the current job.
@@ -40,6 +40,8 @@ async function collect() {
 }
 function batch(count: number, complete: boolean) {
   for (let i = 0; i < count; i++) {
+    const view = new View() as unknown as NativeView
+    views.push(new WeakRef(view))
     const animation = animate(
       view,
       { x: [0, 200, 0], scale: [1, 1.5, 1] },
@@ -60,6 +62,7 @@ function batch(count: number, complete: boolean) {
 batch(100, false)
 retained.length = 0
 tracks.length = 0
+views.length = 0
 const before = await collect()
 const rounds = []
 for (let round = 0; round < 4; round++) {
@@ -70,13 +73,17 @@ for (let round = 0; round < 4; round++) {
     handles: retained.length,
     heapUsed,
     liveTracks: tracks.filter((ref) => ref.deref() !== undefined).length,
+    liveViews: views.filter((ref) => ref.deref() !== undefined).length,
   })
 }
 if (active.size) throw Error('The driver still owns an active track')
 const liveTracks = rounds.at(-1)!.liveTracks
+const liveViews = rounds.at(-1)!.liveViews
 // The source comparison intentionally measures the old retention behavior too.
 if (!process.env.JOLT_RETENTION_BASELINE && liveTracks !== 0)
   throw Error(`${liveTracks} settled tracks remain reachable through finished handles`)
+if (!process.env.JOLT_RETENTION_BASELINE && liveViews !== 0)
+  throw Error(`${liveViews} settled views remain reachable through finished handles`)
 for (const animation of retained) {
   const result = await animation
   animation.pause()
@@ -94,7 +101,7 @@ console.log(
       rounds,
       released,
       notes:
-        'Host JS heap with a non-retaining fake driver and explicit GC. Natural completion and cancellation alternate. Not Android PSS or native memory.',
+        'Host JS heap with a non-retaining fake driver and explicit GC. Each animation owns a distinct view. Natural completion and cancellation alternate. Not Android PSS or native memory.',
     },
     null,
     2,

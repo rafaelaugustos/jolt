@@ -1,0 +1,10 @@
+{
+  "driver": "jolt",
+  "tileKind": "label",
+  "layer": "none",
+  "startMode": "immediate",
+  "nativeClass": "org.nativescript.widgets.StyleableTextView",
+  "overlapping": true,
+  "processId": 17018,
+  "mainThreadId": 17018
+}
