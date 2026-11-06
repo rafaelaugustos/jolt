@@ -1867,3 +1867,10 @@
     padding: 7px;
   }
 }
+
+.recipe-attribution {
+  display: block;
+  margin-top: 12px;
+  font-size: 10px;
+  line-height: 1.6;
+}

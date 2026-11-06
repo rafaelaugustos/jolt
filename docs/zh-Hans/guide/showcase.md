@@ -18,8 +18,24 @@ next: false
 探索使用 Jolt 制作的原生应用。观看录屏，了解其中的功能，也分享你自己的作品。
 
 <a class="showcase-submit-link" href="#submit-app">提交你的应用 <span aria-hidden="true">↗</span></a>
-<nav class="showcase-index" aria-label="Showcase"><a href="#auralis"><span>01</span>Auralis ↗</a><a href="#morrow"><span>02</span>Morrow ↗</a><a href="#jolt-drive"><span>03</span>Jolt Drive ↗</a><a href="#hexdrop"><span>04</span>Hexdrop ↗</a><a href="#submit-app"><span>05</span>你的项目 ↗</a></nav>
+<nav class="showcase-index" aria-label="Showcase"><a href="#vena"><span>01</span>Vena ↗</a><a href="#auralis"><span>02</span>Auralis ↗</a><a href="#morrow"><span>03</span>Morrow ↗</a><a href="#jolt-drive"><span>04</span>Jolt Drive ↗</a><a href="#hexdrop"><span>05</span>Hexdrop ↗</a><a href="#submit-app"><span>06</span>你的项目 ↗</a></nav>
 </div>
+
+<section class="showcase-feature" aria-labelledby="vena">
+  <h2 id="vena">Vena<span>.</span></h2>
+  <div class="showcase-copy">
+    <p class="showcase-kicker">NATIVESCRIPT-VUE + JOLT RC.11 <span class="showcase-platform">iOS · SceneKit</span></p>
+    <p class="showcase-lead">光点织成心脏。二十万个点构成会回应、会跳动的身体，邀你靠近。</p>
+    <p class="showcase-note">Rafael Augusto 使用 NativeScript-Vue 与 Jolt RC.11 创作。SceneKit 绘制 16 万个躯干点与 4 万个心脏点，并增加心脏辉光层。Jolt 控制着色器参数、聚焦和界面动效。粒子场景仅支持 iOS。节奏为示例，不测量心率，也不连接 HealthKit。</p>
+    <div class="showcase-project-links"><a href="https://github.com/rafaelaugustos/vena-ns">查看项目 ↗</a><a href="/zh-Hans/recipes/?q=Vena">探索两个配方 ↗</a></div>
+    <button type="button" class="showcase-watch" data-watch="vena">播放视频 <span aria-hidden="true">↗</span></button>
+    <p class="showcase-note"><a href="/zh-Hans/guide/vena-recipes#credits">BodyParts3D © DBCLS · CC BY 4.0 / MakeHuman · CC0 ↗</a></p>
+  </div>
+  <div class="showcase-stage">
+    <div class="showcase-art" aria-hidden="true"><img src="/media/vena-heart.jpg" alt="" width="600" height="960" /></div>
+    <Clip name="vena-native-ios" :autoplay="false" poster="/media/vena-native-ios.jpg" :width="320" caption="Vena iOS 创作者录屏：英文界面、开场、粒子心跳、节奏收藏与心脏聚焦。原始速度，60 fps 导出，无音频；省略最初 3.25 秒的系统主屏幕与启动。录制设备未说明；非性能测试。BPM 数值仅为示意。" />
+  </div>
+</section>
 
 <section class="showcase-feature" aria-labelledby="auralis">
   <h2 id="auralis">Auralis<span>.</span></h2>

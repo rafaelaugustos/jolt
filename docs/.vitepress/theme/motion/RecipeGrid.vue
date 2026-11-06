@@ -50,6 +50,9 @@ function setPlayer(slug: string, instance: unknown) {
           >{{ t(categoryNames[recipe.category])
           }}<template v-if="recipe.project"> · {{ recipe.project.name }}</template></span
         >
+        <small v-if="recipe.attribution" class="recipe-attribution">{{
+          recipe.attribution.label
+        }}</small>
       </div>
     </a>
   </div>

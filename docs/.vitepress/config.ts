@@ -63,6 +63,17 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
             )[prefix] ?? 'Auralis recipes',
           link: `${prefix}/guide/auralis-recipes`,
         },
+        {
+          text:
+            (
+              {
+                '/pt-BR': 'Receitas do Vena',
+                '/es': 'Recetas de Vena',
+                '/zh-Hans': 'Vena 动效配方',
+              } as Record<string, string>
+            )[prefix] ?? 'Vena recipes',
+          link: `${prefix}/guide/vena-recipes`,
+        },
         page('install', 'install'),
         page('animating', 'animating'),
         page('demo', 'demo'),

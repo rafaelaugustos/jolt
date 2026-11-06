@@ -227,7 +227,7 @@ for (const [name, engine] of [
     await expect.poll(() => page.evaluate(() => scrollY)).toBeLessThan(120)
 
     await page.goto(`${base}/recipes/`)
-    await expect(page.locator('.recipe-card')).toHaveCount(20)
+    await expect(page.locator('.recipe-card')).toHaveCount(22)
     await page.getByRole('button', { name: 'Touch & gestures', exact: true }).click()
     await expect(page.locator('.recipe-card')).toHaveCount(6)
     await page.locator('.recipe-card').first().hover()
@@ -247,7 +247,7 @@ for (const [name, engine] of [
     await page.getByRole('searchbox').fill('nonsense-that-is-not-a-recipe')
     await expect(page.locator('.recipe-empty')).toBeVisible()
     await page.getByRole('button', { name: /Reset filters/ }).click()
-    await expect(page.locator('.recipe-card')).toHaveCount(20)
+    await expect(page.locator('.recipe-card')).toHaveCount(22)
     await page.getByRole('searchbox').fill('spring')
     await expect(page.locator('.recipe-card')).toHaveCount(4)
     await page.locator('a.recipe-card[href="/recipes/spring-feeling"]').click()
@@ -357,7 +357,7 @@ for (const [name, engine] of [
       await page.locator('.motion-menu').click()
       await expect(page.locator('.motion-nav-links')).toBeVisible()
       await page.locator('.motion-nav-links a').first().click()
-      await expect(page.locator('.recipe-card')).toHaveCount(20)
+      await expect(page.locator('.recipe-card')).toHaveCount(22)
       expect(
         await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
       ).toBe(true)
@@ -760,13 +760,125 @@ for (const [name, engine] of [
     }
     await page.setViewportSize({ width: 1440, height: 1000 })
     await page.goto(base)
+    await expect(page.locator('[data-motion-ready="true"]')).toHaveCount(2)
+    await expect(page.locator('[data-vena-ready="true"]')).toBeVisible()
+    await page.locator('.vena-feature').scrollIntoViewIfNeeded()
+    // Keep wheel input over the page, outside WebKit's native video controls.
+    await page.locator('.vena-kicker').hover()
+    const venaPhone = page.locator('.vena-phone')
+    const venaPose = await venaPhone.evaluate((el) => getComputedStyle(el).transform)
+    const venaScroll = await page.evaluate(() => scrollY)
+    await page.mouse.wheel(0, 110)
+    await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(venaScroll)
+    await expect
+      .poll(() => venaPhone.evaluate((el) => getComputedStyle(el).transform))
+      .not.toBe(venaPose)
+    const venaVideo = venaPhone.locator('video')
+    await venaVideo.evaluate(async (video) => {
+      video.muted = true
+      await video.play()
+    })
+    await expect.poll(() => venaVideo.evaluate((v) => v.currentTime)).toBeGreaterThan(1)
+    await page.screenshot({ path: `${output}/${name}-vena-home.png` })
+    await page.locator('.morrow-section').scrollIntoViewIfNeeded()
+    await expect.poll(() => venaVideo.evaluate((v) => v.paused)).toBe(true)
+    await page.locator('.vena-primary').click()
+    await expect(page).toHaveURL(/guide\/showcase#vena/)
+    await expect(page.locator('#vena')).toHaveText('Vena.')
+    await page.locator('[data-watch="vena"]').click()
+    const venaNative = page.locator('[aria-labelledby="vena"] video')
+    await expect.poll(() => venaNative.evaluate((v) => v.currentTime)).toBeGreaterThan(1)
+    await page.screenshot({ path: `${output}/${name}-vena-showcase.png` })
+    await page.emulateMedia({ reducedMotion: 'reduce' })
+    await expect.poll(() => venaNative.evaluate((v) => v.paused)).toBe(true)
+    await page.locator('[data-watch="vena"]').click()
+    await expect.poll(() => venaNative.evaluate((v) => v.paused)).toBe(false)
+    await page.getByRole('combobox').selectOption('pt-BR')
+    await expect(page).toHaveURL(/pt-BR\/guide\/showcase#vena/)
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    await page.goto(`${base}/recipes/?q=Vena`)
+    await expect(page.locator('.recipe-card')).toHaveCount(2)
+    for (const [slug, file] of [
+      ['opening', 'src/motion/entrance.ts'],
+      ['heart', 'src/scene/scene-view.ios.ts'],
+    ]) {
+      await page.goto(`${base}/recipes/vena-${slug}`)
+      const snapshot = await readFile(
+        new URL(
+          `../docs/recipes/sources/rafaelaugustos/vena-ns/${file}.txt`,
+          import.meta.url,
+        ),
+        'utf8',
+      )
+      expect(await page.locator('.recipe-code pre code').textContent()).toBe(snapshot)
+      await expect(page.locator('.recipe-project-link')).toHaveAttribute(
+        'href',
+        '/guide/showcase#vena',
+      )
+      await expect(page.locator('.recipe-actions a')).toHaveAttribute(
+        'href',
+        `https://github.com/rafaelaugustos/vena-ns/blob/9b4b41948d14ef5168f91ec7c9805df5a046daec/${file}`,
+      )
+      await expect(page.locator('figcaption .recipe-attribution')).toHaveAttribute(
+        'href',
+        '/guide/vena-recipes#credits',
+      )
+      await waitForHydration(page)
+      await page.locator('.code-topline button').click()
+      await expect(page.locator('.code-topline button')).toContainText('Copied!')
+      if (name === 'chromium')
+        expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(snapshot)
+      await waitForHydration(page)
+      await page.getByRole('button', { name: /Copy AI prompt/ }).click()
+      await expect(page.locator('.recipe-actions button')).toContainText('Copied!')
+      if (name === 'chromium') {
+        const prompt = await page.evaluate(() => navigator.clipboard.readText())
+        expect(prompt).toContain(snapshot)
+        expect(prompt).toContain('9b4b41948d14ef5168f91ec7c9805df5a046daec')
+        expect(prompt).toContain('Required context:')
+      }
+      const clip = page.locator('.recipe-full-screen video')
+      await clip.scrollIntoViewIfNeeded()
+      await clip.evaluate(async (v) => {
+        v.muted = true
+        await v.play()
+      })
+      await expect.poll(() => clip.evaluate((v) => v.currentTime)).toBeGreaterThan(1)
+      await page.screenshot({ path: `${output}/${name}-vena-${slug}.png` })
+    }
+    for (const locale of ['', '/pt-BR', '/es', '/zh-Hans']) {
+      for (const path of [
+        '/',
+        '/guide/showcase#vena',
+        '/recipes/vena-opening',
+        '/recipes/vena-heart',
+        '/guide/vena-recipes',
+      ]) {
+        await page.goto(`${base}${locale}${path}`)
+        for (const width of [1440, 768, 390, 320]) {
+          await page.setViewportSize({ width, height: 900 })
+          expect(
+            await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth),
+            `${name} ${locale}${path} overflow at ${width}`,
+          ).toBe(true)
+        }
+        if (path === '/') {
+          await page.locator('.vena-feature').scrollIntoViewIfNeeded()
+          await page.locator('.vena-feature').screenshot({
+            path: `${output}/${name}-vena-mobile-${locale.slice(1) || 'en'}.png`,
+          })
+        }
+      }
+    }
+    await page.setViewportSize({ width: 1440, height: 1000 })
+    await page.goto(base)
     await expect(page.locator('[data-auralis-ready="true"]')).toBeVisible()
     expect(errors).toEqual([])
     evidence.push({
       browser: name,
       result: 'passed',
       checks:
-        'Auralis: home parallax, offscreen playback pause, showcase, reduced-motion manual play, anchor-preserving language switch, both source snapshots and prompts, project backlink, search, and home/showcase/2 recipes/guide in 4 locales × 4 widths. Hexdrop home scroll animation, native playback, showcase, reduced motion, pinned source and clipboard prompt, project-specific backlink, localized home/showcase/recipe/guide in 4 locales × 4 widths; WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, global documentation shell with light/dark themes, reading progress and responsive API/guide pages; animated showcase with reduced-motion playback and preserved anchors; four Jolt Drive recipes with snapshot, clipboard, pinned source, requirements and native playback in four locales, Jolt Drive project links and native playback, preserved Jolt Car walkthrough, published project images, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, home and showcase in 4 locales × 4 widths, mobile navigation, reduced motion, remount',
+        'Vena: home scroll motion, native playback, reduced-motion manual play, pinned source/clipboard/attribution and all four locales at four widths. Auralis: home parallax, offscreen playback pause, showcase, reduced-motion manual play, anchor-preserving language switch, both source snapshots and prompts, project backlink, search, and home/showcase/2 recipes/guide in 4 locales × 4 widths. Hexdrop home scroll animation, native playback, showcase, reduced motion, pinned source and clipboard prompt, project-specific backlink, localized home/showcase/recipe/guide in 4 locales × 4 widths; WebGL sculpture, inertial sculpture drag, context-loss fallback, three-metric performance panel, global documentation shell with light/dark themes, reading progress and responsive API/guide pages; animated showcase with reduced-motion playback and preserved anchors; four Jolt Drive recipes with snapshot, clipboard, pinned source, requirements and native playback in four locales, Jolt Drive project links and native playback, preserved Jolt Car walkthrough, published project images, footer navigation, physical evidence playback, spring, stagger, drag/snap, filtering, search, deep links, clipboard, native video playback, home and showcase in 4 locales × 4 widths, mobile navigation, reduced motion, remount',
     })
     console.log(`${name}: all interaction checks passed`)
   } catch (error) {

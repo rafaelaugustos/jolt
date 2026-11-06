@@ -55,3 +55,13 @@ Hexdrop 展示将 Jolt Web 滚动动画与真实原生录屏相结合。[了解�
 用光塑造第一印象。悬浮玻璃卡片、虹彩文字，三个自然流转的场景。
 
 <Clip name="auralis-native-ios" :width="320" caption="Auralis iOS 创作者录屏：动画开场、悬浮玻璃卡片、三个引导场景和页面控件。原始速度，无音频；省略最初 4.25 秒的系统主屏幕与启动转场。录制设备未说明；非性能测试。账户和服务均为示意。" />
+
+## Vena
+
+[探索两个配方](/zh-Hans/recipes/?q=Vena) · [查看项目](https://github.com/rafaelaugustos/vena-ns) · [Vena 动效配方](./vena-recipes)
+
+光点织成心脏。二十万个点构成会回应、会跳动的身体，邀你靠近。
+
+<Clip name="vena-native-ios" :autoplay="false" poster="/media/vena-native-ios.jpg" :width="320" caption="Vena iOS 创作者录屏：英文界面、开场、粒子心跳、节奏收藏与心脏聚焦。原始速度，60 fps 导出，无音频；省略最初 3.25 秒的系统主屏幕与启动。录制设备未说明；非性能测试。BPM 数值仅为示意。" />
+
+[BodyParts3D © DBCLS · CC BY 4.0 / MakeHuman · CC0](./vena-recipes#credits)

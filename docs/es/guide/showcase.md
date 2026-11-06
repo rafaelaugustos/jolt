@@ -18,8 +18,24 @@ next: false
 Explora el movimiento en apps nativas hechas con Jolt. Mira las grabaciones, descubre los recursos y comparte lo que has creado.
 
 <a class="showcase-submit-link" href="#submit-app">Envía tu app <span aria-hidden="true">↗</span></a>
-<nav class="showcase-index" aria-label="Showcase"><a href="#auralis"><span>01</span>Auralis ↗</a><a href="#morrow"><span>02</span>Morrow ↗</a><a href="#jolt-drive"><span>03</span>Jolt Drive ↗</a><a href="#hexdrop"><span>04</span>Hexdrop ↗</a><a href="#submit-app"><span>05</span>Tu proyecto ↗</a></nav>
+<nav class="showcase-index" aria-label="Showcase"><a href="#vena"><span>01</span>Vena ↗</a><a href="#auralis"><span>02</span>Auralis ↗</a><a href="#morrow"><span>03</span>Morrow ↗</a><a href="#jolt-drive"><span>04</span>Jolt Drive ↗</a><a href="#hexdrop"><span>05</span>Hexdrop ↗</a><a href="#submit-app"><span>06</span>Tu proyecto ↗</a></nav>
 </div>
+
+<section class="showcase-feature" aria-labelledby="vena">
+  <h2 id="vena">Vena<span>.</span></h2>
+  <div class="showcase-copy">
+    <p class="showcase-kicker">NATIVESCRIPT-VUE + JOLT RC.11 <span class="showcase-platform">iOS · SceneKit</span></p>
+    <p class="showcase-lead">Un corazón hecho de luz. Doscientos mil puntos forman un cuerpo que responde, late y te invita a acercarte.</p>
+    <p class="showcase-note">Creado por Rafael Augusto con NativeScript-Vue y Jolt RC.11. SceneKit dibuja 160 mil puntos del torso y 40 mil del corazón, con una capa extra de brillo. Jolt controla uniforms, enfoque y movimiento de la interfaz. La escena de partículas es exclusiva de iOS. Ritmos de ejemplo; sin medición cardíaca ni conexión con HealthKit.</p>
+    <div class="showcase-project-links"><a href="https://github.com/rafaelaugustos/vena-ns">Ver el proyecto ↗</a><a href="/es/recipes/?q=Vena">Explora las dos recetas ↗</a></div>
+    <button type="button" class="showcase-watch" data-watch="vena">Ver el vídeo <span aria-hidden="true">↗</span></button>
+    <p class="showcase-note"><a href="/es/guide/vena-recipes#credits">BodyParts3D © DBCLS · CC BY 4.0 / MakeHuman · CC0 ↗</a></p>
+  </div>
+  <div class="showcase-stage">
+    <div class="showcase-art" aria-hidden="true"><img src="/media/vena-heart.jpg" alt="" width="600" height="960" /></div>
+    <Clip name="vena-native-ios" :autoplay="false" poster="/media/vena-native-ios.jpg" :width="320" caption="Vena en iOS: grabación del creador, con interfaz en inglés, apertura, corazón de partículas, colección de ritmos y enfoque del corazón. Velocidad original, exportación a 60 fps, sin audio; se omiten los primeros 3,25 segundos del inicio del sistema. Dispositivo no especificado; no mide rendimiento. Valores de BPM ilustrativos." />
+  </div>
+</section>
 
 <section class="showcase-feature" aria-labelledby="auralis">
   <h2 id="auralis">Auralis<span>.</span></h2>
