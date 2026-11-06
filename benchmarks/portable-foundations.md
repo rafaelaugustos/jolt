@@ -60,6 +60,8 @@ The [English guide](../docs/guide/portable-foundations.md) and its PT-BR, ES and
 
 Use a dedicated checkout and keep native builds sequential: they share generated assets. Install root, demo and `benchmarks/angular-tools` dependencies, the optional native plugin fixture, and Playwright browsers. The local environment used Node 22, Java 17 and the configured Android SDK. Preserve device animation settings and keep the app foreground/unlocked.
 
+On Linux, run the portable browser acceptance suite with `xvfb-run --auto-servernum npm run web:portable:test -- --headed`. Firefox needs a display for the real WebGL fixture in this environment. CI uses a virtual X display following the [Playwright headed-run guidance](https://playwright.dev/docs/ci#running-headed); WebGL availability, uniform values and renderer-idle assertions remain required. This acceptance run does not replace or add performance samples to the macOS measurements above.
+
 ```sh
 npm run build
 npm test

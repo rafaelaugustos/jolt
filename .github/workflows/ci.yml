@@ -109,7 +109,9 @@ jobs:
       - run: npm run web:gestures:test
       - run: npm run web:attachment:test
       - run: npm run web:orchestration:test
-      - run: npm run web:portable:test
+      # Firefox on Linux needs a display for the actual WebGL adapter fixture.
+      # Keep WebGL assertions enabled; Xvfb provides the CI display, not a mock.
+      - run: xvfb-run --auto-servernum npm run web:portable:test -- --headed
       - uses: actions/upload-artifact@v7
         if: always()
         with:
