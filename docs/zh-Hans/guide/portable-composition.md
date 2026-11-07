@@ -38,7 +38,7 @@ const drawing = useShape({
 <template><div :ref="drawing.ref" style="width: 120px; height: 120px" /></template>
 ```
 
-<Clip name="composition-lifecycle-web" caption="保留资源的生命周期: macOS 上的 Chromium：真实控件交互和浏览器播放。" />
+<Clip name="composition-lifecycle-web" :width="900" caption="保留资源的生命周期: macOS 上的 Chromium：真实控件交互和浏览器播放。" />
 
 <Clip name="composition-resources-ios" caption="保留资源的生命周期: iOS 26.2 模拟器：真实原生演示及 XCTest 交互。" />
 
@@ -68,7 +68,7 @@ actions.request('touch')
 actions.request('dress')
 ```
 
-<Clip name="composition-behaviors-web" caption="行为协调: macOS 上的 Chromium：真实控件交互和浏览器播放。" />
+<Clip name="composition-behaviors-web" :width="900" caption="行为协调: macOS 上的 Chromium：真实控件交互和浏览器播放。" />
 
 <Clip name="composition-behaviors-ios" caption="行为协调: iOS 26.2 模拟器：真实原生演示及 XCTest 交互。" />
 
@@ -90,7 +90,7 @@ title.resume()
 title.stop()
 ```
 
-<Clip name="composition-text-web" caption="渐变文字: macOS 上的 Chromium：真实控件交互和浏览器播放。" />
+<Clip name="composition-text-web" :width="900" caption="渐变文字: macOS 上的 Chromium：真实控件交互和浏览器播放。" />
 
 <Clip name="composition-text-ios" caption="渐变文字: iOS 26.2 模拟器：真实原生演示及 XCTest 交互。" />
 
@@ -129,7 +129,7 @@ character.blend([
 ])
 ```
 
-<Clip name="composition-rig-web" caption="关节式 2D 角色: macOS 上的 Chromium：真实控件交互和浏览器播放。" />
+<Clip name="composition-rig-web" :width="900" caption="关节式 2D 角色: macOS 上的 Chromium：真实控件交互和浏览器播放。" />
 
 <Clip name="composition-rig-ios" caption="关节式 2D 角色: iOS 26.2 模拟器：真实原生演示及 XCTest 交互。" />
 
@@ -153,7 +153,7 @@ scope.animate(
 // const reduced = useReducedMotion(motion)
 ```
 
-<Clip name="composition-preferences-web" caption="辅助函数与动态效果偏好: macOS 上的 Chromium：真实控件交互和浏览器播放。" />
+<Clip name="composition-preferences-web" :width="900" caption="辅助函数与动态效果偏好: macOS 上的 Chromium：真实控件交互和浏览器播放。" />
 
 <Clip name="composition-text-ios" caption="辅助函数与动态效果偏好: iOS 26.2 模拟器：真实原生演示及 XCTest 交互。" />
 
@@ -173,7 +173,7 @@ scope.bind(card, { rotate: scope.map(sensor.z, [-Math.PI, Math.PI], [-45, 45]) }
 console.log(sensor.snapshot())
 ```
 
-<Clip name="composition-sensors-web" caption="macOS 上的 Chromium：明确注入的 DeviceMotion 事件、暂停/继续和磁场不可用状态；不代表物理传感器测量。" />
+<Clip name="composition-sensors-web" :width="900" caption="macOS 上的 Chromium：明确注入的 DeviceMotion 事件、暂停/继续和磁场不可用状态；不代表物理传感器测量。" />
 
 <Clip name="composition-sensors-ios" caption="iOS 26.2 模拟器：原生向量预览和生命周期控件；预览数据不能证明物理传感器可用。" />
 

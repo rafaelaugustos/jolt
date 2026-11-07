@@ -38,7 +38,7 @@ const drawing = useShape({
 <template><div :ref="drawing.ref" style="width: 120px; height: 120px" /></template>
 ```
 
-<Clip name="composition-lifecycle-web" caption="Recursos retenidos: Chromium en macOS: controles reales y reproducción del navegador." />
+<Clip name="composition-lifecycle-web" :width="900" caption="Recursos retenidos: Chromium en macOS: controles reales y reproducción del navegador." />
 
 <Clip name="composition-resources-ios" caption="Recursos retenidos: Simulador iOS 26.2: demo nativa real e interacción XCTest." />
 
@@ -68,7 +68,7 @@ actions.request('touch')
 actions.request('dress')
 ```
 
-<Clip name="composition-behaviors-web" caption="Coordinación de comportamientos: Chromium en macOS: controles reales y reproducción del navegador." />
+<Clip name="composition-behaviors-web" :width="900" caption="Coordinación de comportamientos: Chromium en macOS: controles reales y reproducción del navegador." />
 
 <Clip name="composition-behaviors-ios" caption="Coordinación de comportamientos: Simulador iOS 26.2: demo nativa real e interacción XCTest." />
 
@@ -90,7 +90,7 @@ title.resume()
 title.stop()
 ```
 
-<Clip name="composition-text-web" caption="Texto con degradado: Chromium en macOS: controles reales y reproducción del navegador." />
+<Clip name="composition-text-web" :width="900" caption="Texto con degradado: Chromium en macOS: controles reales y reproducción del navegador." />
 
 <Clip name="composition-text-ios" caption="Texto con degradado: Simulador iOS 26.2: demo nativa real e interacción XCTest." />
 
@@ -129,7 +129,7 @@ character.blend([
 ])
 ```
 
-<Clip name="composition-rig-web" caption="Rigs 2D articulados: Chromium en macOS: controles reales y reproducción del navegador." />
+<Clip name="composition-rig-web" :width="900" caption="Rigs 2D articulados: Chromium en macOS: controles reales y reproducción del navegador." />
 
 <Clip name="composition-rig-ios" caption="Rigs 2D articulados: Simulador iOS 26.2: demo nativa real e interacción XCTest." />
 
@@ -153,7 +153,7 @@ scope.animate(
 // const reduced = useReducedMotion(motion)
 ```
 
-<Clip name="composition-preferences-web" caption="Helpers y preferencias de movimiento: Chromium en macOS: controles reales y reproducción del navegador." />
+<Clip name="composition-preferences-web" :width="900" caption="Helpers y preferencias de movimiento: Chromium en macOS: controles reales y reproducción del navegador." />
 
 <Clip name="composition-text-ios" caption="Helpers y preferencias de movimiento: Simulador iOS 26.2: demo nativa real e interacción XCTest." />
 
@@ -173,7 +173,7 @@ scope.bind(card, { rotate: scope.map(sensor.z, [-Math.PI, Math.PI], [-45, 45]) }
 console.log(sensor.snapshot())
 ```
 
-<Clip name="composition-sensors-web" caption="Chromium en macOS: eventos DeviceMotion explícitamente inyectados, pausa/reanudación e indisponibilidad magnética. Sin medición de sensores físicos." />
+<Clip name="composition-sensors-web" :width="900" caption="Chromium en macOS: eventos DeviceMotion explícitamente inyectados, pausa/reanudación e indisponibilidad magnética. Sin medición de sensores físicos." />
 
 <Clip name="composition-sensors-ios" caption="Simulador iOS 26.2: vista previa vectorial nativa y ciclo de vida. Los datos de vista previa no demuestran disponibilidad de sensores físicos." />
 
