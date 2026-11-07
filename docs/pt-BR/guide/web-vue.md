@@ -1,6 +1,6 @@
 # Movimento Vue na Web
 
-A [composição portável candidata à próxima versão](./portable-composition) adiciona equivalentes Web viáveis e preserva estes contratos nativos publicados. As adições não estão na RC.12.
+A [composição portável](./portable-composition), disponível em `0.1.0-rc.12.1`, adiciona equivalentes Web viáveis com definições e ciclo de vida compartilhados. A validação de sensores no navegador físico segue pendente na #385.
 
 **Também na RC.7:** [escopos, ponteiro/viewport e configuração contínua no Vue](./web-lifecycle), além de [geometria de overlays, elementos compartilhados, receitas e diagnóstico](./web-interactions). A adoção no Mavis permanece separada.
 

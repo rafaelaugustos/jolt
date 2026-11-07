@@ -1,6 +1,6 @@
 # Native scenes and resource ownership
 
-The next-version [portable composition candidate](./portable-composition) adds feasible Web equivalents while preserving these published native contracts. These additions are not included in RC.12.
+[Portable composition](./portable-composition), available in `0.1.0-rc.12.1`, adds feasible Web equivalents with shared definitions and lifecycle. Physical browser sensor validation remains pending in #385.
 
 Available in `0.1.0-rc.11.1`. Install the matching package version and rebuild native applications; Android gradient text requires the new compiled helper.
 

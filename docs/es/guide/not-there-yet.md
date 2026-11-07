@@ -1,10 +1,14 @@
 # Estado de la versión y límites {#not-there-yet}
 
+RC.12.1 añade [recursos Web retenidos y ownership de shapes en Vue, coordinación de comportamientos, texto con degradado, rigs 2D, helpers compartidos y observación de la preferencia efectiva de movimiento reducido](./portable-composition). Los adaptadores de vectores del navegador comparten adquisición y unidades compatibles con el nativo; el campo magnético informa explícitamente que no está disponible. Instala paquetes de la misma versión y recompila las apps nativas. Las APIs Web siguen experimentales.
+
+La entrega y precisión de sensores en un navegador físico siguen pendientes en #385. La validación usa simuladores/emuladores y lecturas inyectadas, identificadas como tales. La publicación no demuestra nuevas mejoras de rendimiento ni reproducción durante bloqueos de JavaScript.
+
 RC.12 añade [presencia del puntero, propiedades coordinadas, actividad del renderer y dibujo acotado](./portable-foundations), además de [drop targets, audio/cues opcionales, inspección/replay y paths, rotación 3D y sombras Web](./interaction-depth). Recompila las apps nativas con paquetes de la misma versión. Las entradas Web siguen experimentales.
 
 La validación con un accesorio físico de puntero, el modo silencioso del iPhone y nuevas mediciones de inspector/rendimiento en un Android más reciente siguen pendientes. El teléfono antiguo solo aporta evidencia de compatibilidad. Latencia/PSS (#405, #406) siguen como deuda técnica; publicar no demuestra superioridad de rendimiento ni reproducción durante bloqueos de JavaScript.
 
-**Versión actual: 0.1.0-rc.12.** Incluye [adaptadores nativos](./frameworks), [fuentes adicionales de sensores](./device-sensors#vector-sources), [correcciones del teclado móvil](./mobile-web), [scroll Web relativo al elemento](./web-support#element-range), [entradas de shaders y vídeo local en iOS](./image-effects) y [mejoras de reproducción Android](./android-performance). [Instala paquetes de la misma versión](./install) y recompila las apps nativas. Las APIs Web siguen experimentales.
+**Versión actual: 0.1.0-rc.12.1.** Incluye [adaptadores nativos](./frameworks), [fuentes adicionales de sensores](./device-sensors#vector-sources), [correcciones del teclado móvil](./mobile-web), [scroll Web relativo al elemento](./web-support#element-range), [entradas de shaders y vídeo local en iOS](./image-effects) y [mejoras de reproducción Android](./android-performance). [Instala paquetes de la misma versión](./install) y recompila las apps nativas. Las APIs Web siguen experimentales.
 
 **Novedades de RC.10:** [degradados, carga y texto Web](./web-effects), [partículas, blur, formas y efectos de imagen](./web-surfaces), [teclado, paneles, navegación, física e iconos](./web-platforms), [gravedad, haptics, sensores, glass y retorno a miniaturas por clave](./web-parity), además de [headers de Core ScrollView nativo](./scroll-header#retained-scrollview) y [reordenación de filas montadas](./reorder#retained-rows). Recompila las aplicaciones nativas. La adopción en Mavis sigue separada.
 
@@ -16,7 +20,7 @@ La validación con un accesorio físico de puntero, el modo silencioso del iPhon
 
 **Desde RC.7:** [colores, bordes, pintura continua, tamaño real, FLIP y escenas con seek](./web-visual) amplían este runtime. Las APIs Web siguen experimentales; la paridad completa continúa en [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
-**0.1.0-rc.12 está disponible.** Las funciones nativas mantienen sus límites documentados mientras continúa la validación estable. Las entradas Web son experimentales; publicarlas no completa la integración Mavis ni establece paridad de todas las APIs entre native y Web.
+**0.1.0-rc.12.1 está disponible.** Las funciones nativas mantienen sus límites documentados mientras continúa la validación estable. Las entradas Web son experimentales; publicarlas no completa la integración Mavis ni establece paridad de todas las APIs entre native y Web.
 
 RC.6 incluye [movimiento continuo Web](./web-dynamic), con valores, followers y drag/snap, además de [mapeos numéricos, geometría y scroll vertical](./web-support). Las APIs Web siguen experimentales.
 

@@ -1,6 +1,6 @@
 # Portable composition
 
-Candidate APIs for the next release, tracked in #424–#427, #386 and #385. These Web additions are **not included in published RC.12**. Native implementations already exist; shared definitions, policies and lifecycle now have browser adapters. Use the containing PR tarball until a containing version is published.
+Available in `0.1.0-rc.12.1`, from [PR #428](https://github.com/rafaelaugustos/jolt/pull/428) (#424–#427, #386 and #385). Existing native contracts share definitions, policy and lifecycle with browser adapters. Install matching package versions and rebuild native apps. Web APIs remain experimental; physical browser sensor delivery and accuracy remain pending in #385.
 
 ## Retained ownership {#lifecycle}
 

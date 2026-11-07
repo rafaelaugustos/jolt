@@ -1,6 +1,6 @@
 # Composição portável
 
-APIs candidatas à próxima versão, acompanhadas em #424–#427, #386 e #385. Estas adições Web **não estão na RC.12 publicada**. As implementações nativas já existem; definições, políticas e ciclo de vida compartilhados ganham adaptadores de navegador. Use o tarball do PR até a publicação de uma versão que as inclua.
+Disponível em `0.1.0-rc.12.1`, pelo [PR #428](https://github.com/rafaelaugustos/jolt/pull/428) (#424–#427, #386 e #385). Os contratos nativos existentes compartilham definições, políticas e ciclo de vida com adaptadores de navegador. Instale os pacotes na mesma versão e recompile os apps nativos. As APIs Web continuam experimentais; entrega e precisão de sensores no navegador físico seguem pendentes na #385.
 
 ## Recursos retidos {#lifecycle}
 
