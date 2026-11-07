@@ -51,6 +51,8 @@ Only use a device explicitly available for testing; do not resume the old-phone 
 
 The separate Web tooling recording uses actual button input over the optional public inspector/testing entries: pause, seek, application-owned spring tuning, copyable code, and an explicit target-change trace replayed twice with matching checkpoints and no remaining replay resources. Existing reviewed native inspector and replay recordings are reused alongside it. These recordings do not claim automatic OS input interception.
 
+Linux CI runs these interaction tests headlessly so concurrent native windows do not cancel drag through focus loss. Firefox needs an available audio service: CI uses real decoding/playback through a [PulseAudio clocked null sink](https://wiki.freedesktop.org/www/Software/PulseAudio/Documentation/User/Modules/#module-null-sink), which discards output samples without mocking HTMLAudio. All 57 cases also passed in the retained Linux arm64 Docker reproduction; that environment differs from the GitHub x64/Node22 runner and is not a physical-speaker or performance test.
+
 ## Mavis adoption audit
 
 Audited Mavis main `e46d2bd6a6d0cad17c425dd6cb6b12d0905eaf3e`, including current source plus open/closed issues. Follow-ups:

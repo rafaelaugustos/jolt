@@ -9,13 +9,19 @@ test('real local audio prepares and supports pause, mute, replacement and dispos
   page,
 }) => {
   await page.evaluate(async () => {
-    const cue = window.depth.audioCue(document, '/cue.wav')
+    const errors: string[] = []
+    const cue = window.depth.audioCue(document, '/cue.wav', {
+      onError(error) {
+        const media = error as { name?: string; code?: number; message?: string }
+        errors.push(`${media.name ?? 'MediaError'}: ${media.code ?? ''} ${media.message}`)
+      },
+    })
     if (!(await cue.ready)) throw new Error('Audio preparation failed')
     const button = document.createElement('button')
     button.id = 'audio-play'
     button.textContent = 'Play cue'
     document.body.append(button)
-    Object.assign(window, { audioTest: { cue, voice: undefined } })
+    Object.assign(window, { audioTest: { cue, voice: undefined, errors } })
     button.onclick = () => {
       const state = (window as any).audioTest
       state.voice = cue.play()
@@ -24,7 +30,7 @@ test('real local audio prepares and supports pause, mute, replacement and dispos
   await page.click('#audio-play')
   await page.waitForTimeout(120)
   const result = await page.evaluate(async () => {
-    const { cue, voice } = (window as any).audioTest
+    const { cue, voice, errors } = (window as any).audioTest
     voice.pause()
     const paused = voice.paused
     cue.muted = true
@@ -40,8 +46,10 @@ test('real local audio prepares and supports pause, mute, replacement and dispos
       stopped: await next.finished,
       disposed: cue.status,
       duration: cue.duration,
+      errors,
     }
   })
+  expect(result.errors).toEqual([])
   expect(result.paused).toBe(true)
   expect(result.replaced).toBe(false)
   expect(result.stopped).toBe(false)
