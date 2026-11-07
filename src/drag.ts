@@ -195,10 +195,27 @@ function settings(options: DragOptions | DragValueOptions): Settings {
 export function drag(target: Target, options: DragValueOptions): Drag
 export function drag(target: Target, options?: DragOptions): Drag
 export function drag(target: Target, options: DragOptions | DragValueOptions = {}): Drag {
+  return createDrag(target, options)
+}
+
+/** Internal adapter hook: inspect the final input before native release motion changes model values. */
+export function dragBeforeRelease(
+  target: Target,
+  options: DragOptions,
+  beforeRelease: () => void,
+): Drag {
+  return createDrag(target, options, beforeRelease)
+}
+
+function createDrag(
+  target: Target,
+  options: DragOptions | DragValueOptions,
+  beforeRelease?: () => void,
+): Drag {
   const view = toView(target)
   const config = settings(options) // Invalid replacements leave the existing owner intact.
   const previous = owners.get(view)
-  const controller = new DragController(view, config)
+  const controller = new DragController(view, config, beforeRelease)
   owners.set(view, controller)
   // onCancel may synchronously install another drag. The most recent owner wins.
   try {
@@ -226,6 +243,7 @@ class DragController implements Drag {
   constructor(
     private view: View,
     private config: Settings,
+    private beforeRelease?: () => void,
   ) {
     view.on('loaded', this.attach)
     view.on('unloaded', this.unload)
@@ -396,7 +414,11 @@ class DragController implements Drag {
         this.emit(() => this.config.callbacks.onMove?.({ ...this.last }))
     }
     if (!this.active || generation !== this.generation) return
-    if (event.state === 3) this.emit(() => this.finish())
+    if (event.state === 3)
+      this.emit(() => {
+        this.beforeRelease?.()
+        if (this.active && generation === this.generation) this.finish()
+      })
   }
   private emit(callback: () => void) {
     try {

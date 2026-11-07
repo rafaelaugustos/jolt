@@ -1,4 +1,8 @@
 declare namespace org.rafaelaugusto.jolt {
+  class DropGeometry {
+    constructor()
+    bounds(view: android.view.View): native.Array<number> | null
+  }
   class BatchDrawing extends android.graphics.drawable.Drawable {
     constructor()
     static liveCount(): number

@@ -1,3 +1,4 @@
+import { interactionExperiments } from './interaction'
 import { motionExperiments } from './motion'
 import { touchExperiments } from './touch'
 import { layoutExperiments } from './layout'
@@ -16,6 +17,7 @@ export const experiments = [
   ...navigationExperiments,
   ...deviceExperiments,
   ...portableExperiments,
+  ...interactionExperiments,
 ]
 
 /** Infrastructure used by the playground host, not independent visual effects. */

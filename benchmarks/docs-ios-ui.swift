@@ -6,6 +6,74 @@ final class DocsTests: XCTestCase {
     var app = XCUIApplication(bundleIdentifier: "org.nativescript.jolt.benchmark")
     let control = URL(fileURLWithPath: "/tmp/jolt-docs-recording-control-" + (ProcessInfo.processInfo.environment["SIMULATOR_UDID"] ?? "unknown"))
 
+    func testInteractionDepth() throws {
+        for mode in ["drop", "audio", "inspector", "path", "depth", "shadow"] {
+            launch(["--interaction-depth=" + mode, "--depth-audit", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"], "depth-play")
+            var points: [String: CGPoint] = [:]
+            for id in ["play", "replace", "pause", "seek", "inspect", "reset"] {
+                let element = app.descendants(matching: .any)["depth-" + id].firstMatch
+                XCTAssertTrue(element.exists)
+                points[id] = CGPoint(x: element.frame.midX, y: element.frame.midY)
+            }
+            func touch(_ id: String, _ wait: Double = 0.4) {
+                XCTAssertNil(JoltNativeTap(points[id]!))
+                Thread.sleep(forTimeInterval: wait)
+            }
+            func drag(_ id: String) {
+                let source = app.descendants(matching: .any)["depth-card"].firstMatch
+                let target = app.descendants(matching: .any)["depth-" + id].firstMatch
+                source.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).press(forDuration: 0.1, thenDragTo: target.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)), withVelocity: .slow, thenHoldForDuration: 0.2)
+                Thread.sleep(forTimeInterval: 1.2)
+            }
+            try record("interaction-" + mode + "-ios") {
+                if mode == "drop" {
+                    drag("reject"); drag("accept")
+                    touch("reset", 0.7); touch("play", 0.9)
+                    touch("pause", 0.5); touch("pause")
+                } else {
+                    touch("play", 0.45); touch("pause", 0.7)
+                    touch("seek", 0.6); touch("pause", 1.6)
+                    touch("play", 0.5); touch("replace", 2.8)
+                    touch("inspect", 0.8); touch("reset", 0.7)
+                    touch("play", 3.4); touch("inspect", 0.7)
+                }
+            }
+            try cue("interaction-depth-report", "interaction-" + mode + "-ios")
+        }
+    }
+
+    func testInteractionDepthLifecycle() throws {
+        for mode in ["audio", "inspector"] {
+            launch(["--interaction-depth=" + mode, "--depth-audit", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"], "depth-play")
+            var points: [String: CGPoint] = [:]
+            for id in ["play", "pause", "inspect", "reset"] {
+                let element = app.descendants(matching: .any)["depth-" + id].firstMatch
+                points[id] = CGPoint(x: element.frame.midX, y: element.frame.midY)
+            }
+            func touch(_ id: String, _ wait: Double = 0.3) {
+                if id == "inspect" {
+                    let element = app.descendants(matching: .any)["depth-inspect"].firstMatch
+                    points[id] = CGPoint(x: element.frame.midX, y: element.frame.midY)
+                }
+                XCTAssertNil(JoltNativeTap(points[id]!)); Thread.sleep(forTimeInterval: wait)
+            }
+            try record("interaction-" + mode + "-lifecycle-ios") {
+            touch("play", 0.4); touch("pause"); touch("inspect")
+            XCUIDevice.shared.press(.home); Thread.sleep(forTimeInterval: 1)
+            app.activate(); Thread.sleep(forTimeInterval: 0.4)
+            for id in ["play", "pause", "inspect", "reset"] {
+                let element = app.descendants(matching: .any)["depth-" + id].firstMatch
+                points[id] = CGPoint(x: element.frame.midX, y: element.frame.midY)
+            }
+            touch("inspect")
+            touch("pause", 3.5); touch("inspect")
+            for _ in 0..<3 { touch("reset", 0.5); touch("play", 0.2); touch("reset", 0.5) }
+            touch("inspect")
+            }
+            try cue("interaction-depth-report", "interaction-" + mode + "-lifecycle-ios")
+        }
+    }
+
     func testNativeMotionBackground() throws {
         for mode in ["resources", "behaviors", "rig", "text", "cues"] {
             launch(["--native-motion=" + mode, "--native-motion-audit", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"], "motion-snapshot")

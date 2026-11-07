@@ -28,7 +28,17 @@ for (const name of [
 const entry = process.argv[2] ?? '@rafaelaugusto/jolt/web'
 const module = await import(entry)
 if (module.render) assert.equal(module.render(), '<main data-motion="function"></main>')
-else
+else if (entry.endsWith('/web/audio')) assert.deepEqual(Object.keys(module), ['audioCue'])
+else if (entry.endsWith('/web/inspector'))
+  assert.deepEqual(Object.keys(module), [
+    'createMotionInspector',
+    'inspectorSpring',
+    'springCode',
+  ])
+else if (entry.endsWith('/web/testing')) {
+  for (const name of ['recordInteraction', 'replayInteraction', 'parseTrace'])
+    assert.equal(typeof module[name], 'function')
+} else
   assert.deepEqual(Object.keys(module), [
     'createWebRuntime',
     'drawingLimits',

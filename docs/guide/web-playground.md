@@ -2,7 +2,7 @@
 
 [Open the playground](/#playground)
 
-53 experiments, seven categories, one live demo at a time. Search by name or API, choose a demo, interact with it, and copy its core code. The selected experiment stays in the URL and survives language switching.
+58 experiments, seven categories, one live demo at a time. Search by name or API, choose a demo, interact with it, and copy its core code. The selected experiment stays in the URL and survives language switching.
 
 ## Explore
 

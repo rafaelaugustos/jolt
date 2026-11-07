@@ -4,6 +4,9 @@ import { identity, multiplicative, properties, type Property } from './types.js'
 import {
   isColor,
   isRadius,
+  isShadow,
+  clampPaint,
+  shadowProperties,
   isTransform,
   colorCSS,
   cssName,
@@ -26,6 +29,8 @@ const tolerance: Pose = {
   x: 0.05,
   y: 0.05,
   rotate: 0.02,
+  rotateX: 0.02,
+  rotateY: 0.02,
   scaleX: 0.0002,
   scaleY: 0.0002,
   opacity: 0.0002,
@@ -38,10 +43,18 @@ export function poseAt(
   future = 0,
   side: 'left' | 'right' = 'right',
 ): Pose {
-  const pose: Pose = { x: 0, y: 0, rotate: 0, scaleX: 1, scaleY: 1, opacity: 1 }
+  const pose: Pose = {
+    x: 0,
+    y: 0,
+    rotate: 0,
+    rotateX: 0,
+    rotateY: 0,
+    scaleX: 1,
+    scaleY: 1,
+    opacity: 1,
+  }
   const add = (property: Property, value: number) => {
-    if (!isTransform(property))
-      pose[property] = isColor(property) ? value : Math.max(0, value)
+    if (!isTransform(property)) pose[property] = clampPaint(property, value)
     else if (multiplicative(property)) pose[property] *= value
     else pose[property] += value
   }
@@ -66,8 +79,20 @@ export function formatPose(p: Pose, baseline: string) {
   const paint: Record<string, string> = {}
   for (const [name, value] of Object.entries(p)) {
     const property = name as Property
-    if (value === undefined || isTransform(property) || isRadius(property)) continue
+    if (
+      value === undefined ||
+      isTransform(property) ||
+      isRadius(property) ||
+      isShadow(property)
+    )
+      continue
     paint[cssName(property)] = isColor(property) ? colorCSS(value) : `${value}px`
+  }
+  if (shadowProperties.some((property) => p[property] !== undefined)) {
+    const color = p.shadowColor ?? 0xff000000
+    const alpha = ((color >>> 24) / 255) * (p.shadowOpacity ?? 0)
+    paint['box-shadow'] =
+      `${p.shadowOffsetX ?? 0}px ${p.shadowOffsetY ?? 0}px ${(p.shadowRadius ?? 0) * 2}px 0px rgba(${(color >>> 16) & 255}, ${(color >>> 8) & 255}, ${color & 255}, ${alpha})`
   }
   for (const radius of radiusProperties) {
     const x = p[`${radius}X`],
@@ -76,10 +101,19 @@ export function formatPose(p: Pose, baseline: string) {
       paint[cssName(radius)] = `${x ?? 0}px ${y ?? x ?? 0}px`
   }
   return {
-    transform: `${baseline} translate(${p.x}px, ${p.y}px) rotate(${p.rotate}deg) scale(${p.scaleX}, ${p.scaleY})`,
+    transform: transformPose(p, baseline),
     opacity: String(p.opacity),
     paint,
   }
+}
+
+/** Preserve the existing 2D string when both new axes are zero. CSS applies right-to-left. */
+function transformPose(p: Pose, baseline: string, force3D = false) {
+  const depth =
+    force3D || p.rotateX || p.rotateY
+      ? ` rotateY(${p.rotateY}deg) rotateX(${p.rotateX}deg)`
+      : ''
+  return `${baseline} translate(${p.x}px, ${p.y}px) rotate(${p.rotate}deg)${depth} scale(${p.scaleX}, ${p.scaleY})`
 }
 
 export function compose(
@@ -92,8 +126,18 @@ export function compose(
     0,
     ...entries.filter((e) => !e.paused).map((e) => e.points.at(-1)!.time - e.time),
   )
-  const transform = (p: Pose) =>
-    `${baseline} translate(${p.x}px, ${p.y}px) rotate(${p.rotate}deg) scale(${p.scaleX}, ${p.scaleY})`
+  // Keep matching transform-function lists throughout a 3D animation, including
+  // zero-angle frames. Otherwise browsers interpolate a decomposed matrix.
+  const force3D =
+    entries.some(
+      (entry) => entry.property === 'rotateX' || entry.property === 'rotateY',
+    ) ||
+    rest.some(
+      (entry) =>
+        (entry.property === 'rotateX' || entry.property === 'rotateY') &&
+        entry.value !== 0,
+    )
+  const transform = (p: Pose) => transformPose(p, baseline, force3D)
   const frame = (t: number, side: 'left' | 'right'): Keyframe => {
     const p = poseAt(entries, rest, t, side)
     return {

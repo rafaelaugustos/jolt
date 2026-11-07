@@ -5,6 +5,7 @@ import Showcase from './showcase/Showcase.vue'
 import MinimalRecipes from './components/MinimalRecipes.vue'
 import NativeMotionLab from './components/NativeMotionLab.vue'
 import PortableLab from './components/PortableLab.vue'
+import InteractionDepth from './components/InteractionDepth.vue'
 import PortableFoundations from './components/PortableFoundations.vue'
 import { enablePreviewLanguage } from './showcase/i18n'
 import { launchArgument, onLaunch } from './launch'
@@ -12,9 +13,11 @@ const ready = ref(false),
   nativeMotion = ref(false),
   portable = ref(false),
   foundations = ref(false),
+  depth = ref(false),
   legacy = ref(false),
   recipe = ref<string>()
 onLaunch(() => {
+  depth.value = launchArgument('interaction-depth') !== undefined
   nativeMotion.value = launchArgument('native-motion') !== undefined
   portable.value = launchArgument('portable-lab') !== undefined
   foundations.value = ['groups', 'pointer', 'drawing'].includes(
@@ -61,11 +64,12 @@ onLaunch(() => {
 <template>
   <GridLayout backgroundColor="#F6F5F0" iosOverflowSafeArea="true">
     <!-- Keep a native root while Android resolves its launch arguments. -->
-    <PortableFoundations v-if="ready && foundations" /><PortableLab
-      v-else-if="ready && portable"
-    /><NativeMotionLab v-else-if="ready && nativeMotion" /><MinimalRecipes
-      v-else-if="ready && recipe"
-      :kind="recipe"
-    /><Legacy v-else-if="ready && legacy" /><Showcase v-else-if="ready" />
+    <InteractionDepth v-if="ready && depth" /><PortableFoundations
+      v-else-if="ready && foundations"
+    /><PortableLab v-else-if="ready && portable" /><NativeMotionLab
+      v-else-if="ready && nativeMotion"
+    /><MinimalRecipes v-else-if="ready && recipe" :kind="recipe" /><Legacy
+      v-else-if="ready && legacy"
+    /><Showcase v-else-if="ready" />
   </GridLayout>
 </template>

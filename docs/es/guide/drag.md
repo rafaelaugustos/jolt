@@ -1,5 +1,7 @@
 # Arrastrar, lanzar y ajustar {#drag-fling-and-snap}
 
+El [candidato de interacción y profundidad](./interaction-depth) para RC.12 añade drop zones, audio/cues, inspección y contratos Web de paths, 3D y sombras. Todavía no forma parte de RC.11.1.
+
 `drag()` sigue un solo dedo, restringe la traducción y lleva la velocidad de liberación a una animación nativa. Agregado en beta.8.
 
 <Clip name="drag-ios" caption="Arrastre real con liberación limitada, banda elástica y tres puntos de ajuste del panel en el simulador iOS." />

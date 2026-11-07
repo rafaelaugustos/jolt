@@ -1,0 +1,62 @@
+[
+  {
+    "browser": "chromium",
+    "experiment": "drop-zones",
+    "passed": true
+  },
+  {
+    "browser": "chromium",
+    "experiment": "timeline-cues",
+    "passed": true
+  },
+  {
+    "browser": "chromium",
+    "experiment": "motion-path",
+    "passed": true
+  },
+  {
+    "browser": "chromium",
+    "experiment": "rotate-3d",
+    "passed": true
+  },
+  {
+    "browser": "chromium",
+    "experiment": "shadow-channels",
+    "passed": true
+  },
+  {
+    "browser": "chromium",
+    "videosPlayed": 18,
+    "errors": []
+  },
+  {
+    "browser": "webkit",
+    "experiment": "drop-zones",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "experiment": "timeline-cues",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "experiment": "motion-path",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "experiment": "rotate-3d",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "experiment": "shadow-channels",
+    "passed": true
+  },
+  {
+    "browser": "webkit",
+    "videosPlayed": 18,
+    "errors": []
+  }
+]

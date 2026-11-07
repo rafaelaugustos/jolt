@@ -82,6 +82,7 @@ jobs:
           cache: npm
       - run: npm ci && npm ci --prefix benchmarks/angular-tools
       - run: npm run web:portable:typecheck
+      - run: npm run web:interaction-depth:typecheck
       - run: npm run web:parity:typecheck
       - run: npm run web:platforms:typecheck
       - run: npm run web:surfaces:typecheck
@@ -116,6 +117,7 @@ jobs:
       # Firefox on Linux needs a display for the actual WebGL adapter fixture.
       # Keep WebGL assertions enabled; Xvfb provides the CI display, not a mock.
       - run: xvfb-run --auto-servernum npm run web:portable:test -- --headed
+      - run: xvfb-run --auto-servernum npm run web:interaction-depth:test -- --headed
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -137,6 +139,7 @@ jobs:
             benchmarks/web-platforms/results/
             benchmarks/web-parity/results/
             benchmarks/web-portable/results/
+            benchmarks/web-interaction-depth/results/
   test:
     runs-on: ubuntu-latest
     steps:

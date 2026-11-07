@@ -46,7 +46,27 @@ try:
             seen = cue['id']
             name = cue['name']
             assert name.replace('-', '').isalnum()
-            if cue['action'] == 'native-motion-report':
+            if cue['action'] == 'interaction-depth-report':
+                container = subprocess.check_output(['xcrun', 'simctl', 'get_app_container', serial,
+                    'org.nativescript.jolt.benchmark', 'data'], text=True).strip()
+                report = json.loads((Path(container)/'Documents/interaction-depth.json').read_text())
+                assert report['events'][0]['time'] >= started_at, 'stale interaction report'
+                assert not any(e['name'].endswith('-error') for e in report['events']), report
+                if name == 'interaction-drop-ios':
+                    assert any(e['name']=='accepted' and e['method']=='drag' for e in report['events']), report
+                if name == 'interaction-audio-ios':
+                    assert any(e['name']=='audio-finish' and e['completed'] for e in report['events']), report
+                if name.endswith('-lifecycle-ios'):
+                    snapshots = [e for e in report['events'] if e['name'] in ('snapshot', 'inspection')]
+                    if 'audio' in name:
+                        assert snapshots[0]['paused'] and snapshots[1]['paused'], report
+                        assert snapshots[-1]['scope'] == 1, report
+                    else:
+                        paused = [e for e in snapshots if e.get('snapshot', {}).get('properties') and all(p.get('paused') for p in e['snapshot']['properties'])]
+                        assert len(paused) >= 3, report
+                        assert all(p.get('owner') is None for p in snapshots[-1]['snapshot']['properties']), report
+                (output/(name+'.json')).write_text(json.dumps(report, indent=2)+'\n')
+            elif cue['action'] == 'native-motion-report':
                 container = subprocess.check_output(['xcrun', 'simctl', 'get_app_container', serial,
                     'org.nativescript.jolt.benchmark', 'data'], text=True).strip()
                 report = json.loads((Path(container)/'Documents/native-motion.json').read_text())

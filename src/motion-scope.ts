@@ -4,6 +4,7 @@ import { pointerFollow } from './pointer.js'
 import { animate, decay } from './animate.js'
 import { press } from './press.js'
 import { drag } from './drag.js'
+import { dropZones } from './drop-zones.js'
 import { gradient } from './gradient.js'
 import { animateLayout, type LayoutOptions } from './layout.js'
 import { animateSize, type SizeDimensions, type SizeOptions } from './size.js'
@@ -53,6 +54,7 @@ export interface MotionScope {
   timeline: typeof timeline
   press: typeof press
   drag: typeof drag
+  dropZones: typeof dropZones
   /** Removed with the scope; suspension holds bindings until resume and stops concrete playback. */
   gradient: typeof gradient
   states<
@@ -315,6 +317,9 @@ export function motionScope(): MotionScope {
     },
     drag(...args) {
       return startOwned(() => drag(...args))
+    },
+    dropZones(...args) {
+      return startOwned(() => dropZones(...args))
     },
     gradient(target, options) {
       assertActive()

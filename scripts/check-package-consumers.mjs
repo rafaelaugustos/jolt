@@ -96,8 +96,8 @@ try {
   const manifest = json(join(installed, 'package.json'))
   assert.deepEqual(
     Object.keys(manifest.exports).filter((k) => k.startsWith('./web')),
-    ['./web', './web/vue'],
-    'Add a packed framework consumer when introducing another Web entry',
+    ['./web', './web/vue', './web/audio', './web/inspector', './web/testing'],
+    'Add a packed consumer when introducing another Web entry',
   )
   for (const [entry, path] of [
     ['.', './dist/index.js'],
@@ -122,6 +122,10 @@ try {
       ['@rafaelaugusto/jolt/vue', '/dist/vue/index.js'],
       ['@rafaelaugusto/jolt/native', '/dist/native/index.js'],
       ['@rafaelaugusto/jolt/web', '/dist/web/public.js'],
+      ['@rafaelaugusto/jolt/audio', '/dist/audio/index.js'],
+      ['@rafaelaugusto/jolt/web/audio', '/dist/web/audio.js'],
+      ['@rafaelaugusto/jolt/web/inspector', '/dist/web/inspector.js'],
+      ['@rafaelaugusto/jolt/web/testing', '/dist/web/testing.js'],
       ['@rafaelaugusto/jolt/web/vue', '/dist/web/vue/index.js'],
       ['@rafaelaugusto/jolt/react', '/dist/react/index.js'],
       ['@rafaelaugusto/jolt/svelte', '/dist/svelte/index.js'],
@@ -186,7 +190,8 @@ try {
     )
     assert(input.imports.every((i) => !i.external))
   }
-  run(process.execPath, ['ssr-probe.mjs'], web)
+  for (const entry of ['web', 'web/audio', 'web/inspector', 'web/testing'])
+    run(process.execPath, ['ssr-probe.mjs', '@rafaelaugusto/jolt/' + entry], web)
   passed(
     'packed runtime graph is Web/core only; direct SSR import does not touch platform globals or schedule work',
   )
@@ -255,6 +260,7 @@ try {
       'drag',
       'drawBatch',
       'drawPath',
+      'dropZones',
       'followKeyboard',
       'gestures',
       'glass',
@@ -300,6 +306,7 @@ try {
       'symbolEffect',
       'timeline',
       'viewportEnter',
+      'withTimelineCues',
       'zoomable',
     ])
     assert.deepEqual(errors, [])

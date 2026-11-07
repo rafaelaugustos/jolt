@@ -38,6 +38,7 @@ type Factories = Pick<
   | 'motionStates'
   | 'sequence'
   | 'timeline'
+  | 'withTimelineCues'
   | 'set'
   | 'animateSize'
   | 'animateLayout'
@@ -48,6 +49,7 @@ type Factories = Pick<
   | 'bind'
   | 'press'
   | 'drag'
+  | 'dropZones'
   | 'gestures'
   | 'zoomable'
   | 'scrollHeader'
@@ -295,6 +297,7 @@ export function createWebScope(
       start(() => runtime.motionStates(targets, definitions, options)),
     sequence: (...args) => start(() => runtime.sequence(...args)),
     timeline: (...args) => start(() => runtime.timeline(...args)),
+    withTimelineCues: (...args) => start(() => runtime.withTimelineCues(...args)),
     decay: (...args) => start(() => runtime.decay(...args)),
     set: ownPlayback('set'),
     animateSize: (...args) => start(() => runtime.animateSize(...args)),
@@ -312,6 +315,7 @@ export function createWebScope(
     reorder: (container, options) => start(() => runtime.reorder(container, options)),
     gestures: (...args) => start(() => runtime.gestures(...args)),
     drag: (...args) => start(() => runtime.drag(...args)),
+    dropZones: (...args) => start(() => runtime.dropZones(...args)),
     observeGeometry: (...args) => start(() => runtime.observeGeometry(...args)),
     scrollValue: (...args) => start(() => runtime.scrollValue(...args)),
     scrollLinked: (...args) => start(() => runtime.scrollLinked(...args)),

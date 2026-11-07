@@ -1,0 +1,28 @@
+{
+  "base": "d4a63ecfffa8d99afec998072a497bbcc5c5ba31",
+  "branch": "feat/rc12-interaction-depth",
+  "nativeBuild": "Production JavaScript, debug native package",
+  "sources": {
+    "src/core/adapter-inspection.ts": "6aaf8aa1dfe15638c9b4f50341b43feaeded8098e2e1a14e3836e8a4b6ca702e",
+    "src/core/audio.ts": "7e6cd05836fad54b6f473c32159e27d75ffd9dfa03c7bf0df38ebf4b102a1b79",
+    "src/native-property.ts": "ca09d88b6d71d07f11a11a7c71811117465e1010ba485f0ff4f3ca8365df96f0",
+    "src/drop-zones.ts": "560315f5ddee321964c9bfa193a8f2cdd2e1ab97a60f9029456c5dee8b4201c6",
+    "src/drag.ts": "90da1b729011a7100f3f057daf4b17c23b3aa188812d1c6804ffe7d843533889",
+    "demo/src/inspection-audit.ts": "234bb77d84931430d4752d1bb74ba5fa106bb254baae97f0ab187a72c1341a3d",
+    "demo/src/portable-audit.ts": "e94ffc7cf87ced7590c7629485907e53b50c65cbaa2e46515f7ca5e3b917c93e",
+    "demo/src/components/InteractionDepth.vue": "a4de0ab6917fbc03a5588b913420f0cc4349be26adf62e82777a364ab6efece6",
+    "demo/native-fixture/platforms/android/java/org/rafaelaugusto/jolt/fixture/RenderingProbe.java": "a8f6679c1190196d75815aa1179b91334857ad07a901332c603ac92bc1ad7d7e",
+    "demo/native-fixture/platforms/android/java/org/rafaelaugusto/jolt/fixture/BudgetRetention.java": "9c25f09983dd508583f9d8deec23492fb3957a1d704d828edd2e897846dfb2d4",
+    "demo/native-fixture/platforms/android/java/org/rafaelaugusto/jolt/fixture/RevealView.java": "c906c3630cc2412f59817191ed33e433f28ea080e3ba5f79b2269a9fc6309f8f",
+    "demo/native-fixture/platforms/android/java/org/rafaelaugusto/jolt/fixture/HapticProbeView.java": "a204d8ddf79f958b8f0e3b2a5f55d84ff8f1e85c0517ed371ab4053776755b7d",
+    "demo/native-fixture/platforms/android/java/org/rafaelaugusto/jolt/fixture/SensorFaultProbe.java": "f5eede26d3b4c1a09764bb3cbd5c2886193f8012904163a1b26e80ff8e05d9fc",
+    "demo/native-fixture/platforms/android/java/org/rafaelaugusto/jolt/fixture/PointerReplay.java": "acd1ce5dce6d79e07462d8a76d6f7bff57e73b125fd42201bc74f4f2a5e7c13a",
+    "demo/native-fixture/platforms/android/java/org/rafaelaugusto/jolt/fixture/ParticleProbe.java": "02f2ee5d95731f12cee0ad244bf42f224906e02c3f8de4244f0f5553c2e694d8",
+    "demo/native-fixture/platforms/android/java/org/rafaelaugusto/jolt/fixture/PlaybackEfficiencyProbe.java": "cb7cf4a18e4457a93a07903505bde844c57cb0de5e342bb04b28a69ccb765d5d",
+    "demo/native-fixture/platforms/android/java/org/rafaelaugusto/jolt/fixture/BudgetInputProbe.java": "fce017fc397356f3b731182900b9ceab3c2f0222562009cc6d56703519091c2f",
+    "demo/native-fixture/platforms/android/java/org/rafaelaugusto/jolt/fixture/BudgetProbe.java": "afcacf6f4f102218077acde9820afe691db7774962994c1205c9acb608267ee9"
+  },
+  "apkSha256": "6a82aef7e745b9e5ed8d64bf0abac399e23f22e807151279f5e463a9f8d37f9a",
+  "fixtureFollowup": "After physical-device collection stopped, the native inspector demo changed its owner from scope.add(cleanup) to scope.resource(factory), preserving it on background. Verified on iOS 26.2 only; existing Android recordings show the unchanged foreground behavior.",
+  "finalInspectorFixtureSha256": "17d0a040bb82dd02eba496996ae91c41cc53c7a48be60128a34c732ad7701364"
+}

@@ -1,5 +1,7 @@
 # Web gravity, haptics, sensors, glass and gallery
 
+The pending RC.12 [interaction and depth candidate](./interaction-depth) adds portable drop zones, optional audio/cues, adapter inspection and Web path/3D/shadow contracts. It is not part of RC.11.1.
+
 ## RC.10 audit {#rc10-audit}
 
 The published RC.10 baseline includes PRs #358, #365, #372 and #379. The [complete export matrix](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/capability-matrix.json) and [contract audit](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-web-audit.md) distinguish availability from functional parity. `npm run parity:check` checks all runtime exports and keyframe property sets. Remaining differences include path motion, 3D rotations, shadow/depth contracts, replay/inspector tooling and real mobile browser hardware acceptance. Desktop recordings below do not establish that physical acceptance.

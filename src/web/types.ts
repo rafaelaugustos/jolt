@@ -10,12 +10,15 @@ import {
 export { properties }
 export type { Property, KeyframeProperty, Scalar } from './properties.js'
 export type KeyframeValue = Scalar | readonly (Scalar | null)[]
-export type Keyframes = Partial<Record<KeyframeProperty, KeyframeValue>>
+export type Keyframes = Partial<Record<KeyframeProperty, KeyframeValue>> & {
+  path?: string
+  orient?: boolean
+}
 export type Values = Partial<Record<KeyframeProperty, Scalar>>
 export type Transition = Tween | Spring | Gravity
 export type Stagger = { each: number; from?: 'first' | 'last' | 'center' | number }
 export type AnimateOptions = Transition &
-  Partial<Record<KeyframeProperty, Transition | SpringName>> & {
+  Partial<Record<KeyframeProperty | 'path', Transition | SpringName>> & {
     haptic?: import('../core/haptic.js').Haptic
     stagger?: number | Stagger
     relative?: boolean

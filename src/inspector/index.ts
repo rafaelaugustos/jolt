@@ -1,3 +1,12 @@
+import {
+  createAdapterInspector,
+  type AdapterInspector,
+  type AdapterInspectionSnapshot,
+} from '../core/adapter-inspection.js'
+export type {
+  AdapterInspector,
+  AdapterInspectionSnapshot,
+} from '../core/adapter-inspection.js'
 import { Application, isIOS, type View } from '@nativescript/core'
 import { getDriver, setDriver, type Driver } from '../driver/index.js'
 import { inspectViewMotion, type Animation } from '../engine.js'
@@ -52,6 +61,7 @@ export interface InspectorNode {
   mappings: { input: number[]; output: number[]; clamp: boolean }[]
 }
 export interface InspectorSnapshot {
+  adapters: AdapterInspectionSnapshot
   selected: string | null
   property: Property
   properties: InspectorProperty[]
@@ -70,6 +80,7 @@ export interface InspectorSnapshot {
   }
 }
 export interface MotionInspector {
+  readonly adapters: AdapterInspector
   watch(view: View, id: string): () => void
   select(id: string, property?: Property): void
   label(animation: Animation | DerivedValue, label: string): void
@@ -121,6 +132,11 @@ export function createMotionInspector(options: {
   )
     throw new RangeError('Inspector capacity is 8–600 and hertz is 1–120.')
   const base = getDriver()
+  const adapters = createAdapterInspector({
+    development: true,
+    capacity,
+    now: inspectorCostTime,
+  })
   const views = new Map<string, View>(),
     releases = new Map<string, () => void>()
   const identities = new WeakMap<object, string>(),
@@ -309,6 +325,7 @@ export function createMotionInspector(options: {
     input: node.input ? graph(node.input) : undefined,
   })
   const result: MotionInspector = {
+    adapters,
     watch(view, id) {
       assertOpen()
       if (!id || id.length > 100 || views.has(id) || views.size >= 32)
@@ -402,6 +419,7 @@ export function createMotionInspector(options: {
     label(animation, label) {
       assertOpen()
       if (!label || label.length > 100) throw new Error('Use a short nonempty label.')
+      adapters.label(animation, label)
       labels.set(animation, label)
       names.set(identity(animation), label)
       if (names.size > capacity) names.delete(names.keys().next().value!)
@@ -470,6 +488,7 @@ export function createMotionInspector(options: {
       overhead.reads++
       overhead.jsReadMs += inspectorCostTime() - begin
       return {
+        adapters: adapters.read(),
         selected,
         property,
         properties,
@@ -502,6 +521,7 @@ export function createMotionInspector(options: {
       } else animation[command]()
     },
     dispose() {
+      adapters.dispose()
       if (disposed) return
       disposed = true
       halt()

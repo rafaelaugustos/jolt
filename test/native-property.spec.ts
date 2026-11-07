@@ -8,6 +8,7 @@ import {
 } from '../src/native-property-driver.js'
 import type { Track } from '../src/track.js'
 import { createView, driver } from './helpers.js'
+import { createAdapterInspector } from '../src/core/adapter-inspection.js'
 
 type Sink = { values: number[]; alive: boolean }
 const plays: {
@@ -63,6 +64,43 @@ afterEach(() => {
 })
 
 describe('native property contract', () => {
+  it('reports explicit adapter ownership, replacement, controls and disposal without periodic work', async () => {
+    const property = scalar()({ values: [0], alive: true })
+    const inspector = createAdapterInspector({
+      development: true,
+      now: () => driver.now(),
+    })
+    inspector.watch(property, 'material')
+    const first = property.animate(1, { duration: 1000 })
+    inspector.label(first, 'hover')
+    first.pause()
+    first.progress = 0.4
+    first.play()
+    const second = property.animate(2, { duration: 1000 })
+    inspector.label(second, 'click')
+    expect(await first.finished).toBe(false)
+    const snapshot = inspector.read()
+    expect(snapshot.properties[0]!.ownerLabel).toBe('click')
+    expect(snapshot.events.find((e) => e.kind === 'replace')).toMatchObject({
+      previousLabel: 'hover',
+      ownerLabel: 'click',
+    })
+    expect(snapshot.events.map((e) => e.kind)).toEqual(
+      expect.arrayContaining([
+        'prepare',
+        'start',
+        'pause',
+        'seek',
+        'play',
+        'cancel',
+        'replace',
+      ]),
+    )
+    inspector.dispose()
+    expect(second.paused).toBe(false)
+    property.dispose()
+    expect(await second.finished).toBe(false)
+  })
   it('releases a native player that reports a synchronous setup failure', async () => {
     const cancel = vi.fn()
     vi.spyOn(native, 'play').mockImplementation(

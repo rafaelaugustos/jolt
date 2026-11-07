@@ -1,0 +1,204 @@
+{
+  "platform": "ios",
+  "events": [
+    {
+      "name": "mounted",
+      "time": 1794013420123,
+      "mode": "audio",
+      "scope": 1
+    },
+    {
+      "name": "audio-ready",
+      "time": 1794013420132,
+      "mode": "audio",
+      "scope": 1,
+      "ready": true,
+      "duration": 1000
+    },
+    {
+      "name": "play",
+      "time": 1794013425132,
+      "mode": "audio",
+      "scope": 3
+    },
+    {
+      "name": "audio-start",
+      "time": 1794013425332,
+      "mode": "audio",
+      "scope": 3,
+      "muted": false
+    },
+    {
+      "name": "pause",
+      "time": 1794013425896,
+      "mode": "audio",
+      "scope": 3,
+      "paused": true
+    },
+    {
+      "name": "seek",
+      "time": 1794013426857,
+      "mode": "audio",
+      "scope": 3
+    },
+    {
+      "name": "audio-finish",
+      "time": 1794013426858,
+      "mode": "audio",
+      "scope": 3,
+      "cue": "entry",
+      "completed": false
+    },
+    {
+      "name": "pause",
+      "time": 1794013427745,
+      "mode": "audio",
+      "scope": 3,
+      "paused": false
+    },
+    {
+      "name": "finished",
+      "time": 1794013428706,
+      "mode": "audio",
+      "scope": 1,
+      "complete": true
+    },
+    {
+      "name": "play",
+      "time": 1794013429632,
+      "mode": "audio",
+      "scope": 3
+    },
+    {
+      "name": "audio-start",
+      "time": 1794013429832,
+      "mode": "audio",
+      "scope": 3,
+      "muted": false
+    },
+    {
+      "name": "mute",
+      "time": 1794013430428,
+      "mode": "audio",
+      "scope": 3,
+      "muted": true
+    },
+    {
+      "name": "audio-finish",
+      "time": 1794013430878,
+      "mode": "audio",
+      "scope": 3,
+      "cue": "entry",
+      "completed": true
+    },
+    {
+      "name": "audio-start",
+      "time": 1794013430932,
+      "mode": "audio",
+      "scope": 3,
+      "muted": true
+    },
+    {
+      "name": "audio-finish",
+      "time": 1794013431978,
+      "mode": "audio",
+      "scope": 3,
+      "cue": "complete",
+      "completed": true
+    },
+    {
+      "name": "finished",
+      "time": 1794013432030,
+      "mode": "audio",
+      "scope": 1,
+      "complete": true
+    },
+    {
+      "name": "snapshot",
+      "time": 1794013433511,
+      "mode": "audio",
+      "scope": 1,
+      "status": "Completed",
+      "detail": "",
+      "paused": false,
+      "progress": 1,
+      "audio": "ready",
+      "accepted": 0
+    },
+    {
+      "name": "remount",
+      "time": 1794013434615,
+      "mode": "audio",
+      "scope": 0
+    },
+    {
+      "name": "mounted",
+      "time": 1794013434629,
+      "mode": "audio",
+      "scope": 1
+    },
+    {
+      "name": "audio-ready",
+      "time": 1794013434630,
+      "mode": "audio",
+      "scope": 1,
+      "ready": true,
+      "duration": 1000
+    },
+    {
+      "name": "play",
+      "time": 1794013435594,
+      "mode": "audio",
+      "scope": 3
+    },
+    {
+      "name": "audio-start",
+      "time": 1794013435794,
+      "mode": "audio",
+      "scope": 3,
+      "muted": false
+    },
+    {
+      "name": "audio-finish",
+      "time": 1794013436831,
+      "mode": "audio",
+      "scope": 3,
+      "cue": "entry",
+      "completed": true
+    },
+    {
+      "name": "audio-start",
+      "time": 1794013436895,
+      "mode": "audio",
+      "scope": 3,
+      "muted": false
+    },
+    {
+      "name": "audio-finish",
+      "time": 1794013437951,
+      "mode": "audio",
+      "scope": 3,
+      "cue": "complete",
+      "completed": true
+    },
+    {
+      "name": "finished",
+      "time": 1794013437995,
+      "mode": "audio",
+      "scope": 1,
+      "complete": true
+    },
+    {
+      "name": "snapshot",
+      "time": 1794013439277,
+      "mode": "audio",
+      "scope": 1,
+      "status": "Completed",
+      "detail": "",
+      "paused": false,
+      "progress": 1,
+      "audio": "ready",
+      "accepted": 0
+    }
+  ]
+}

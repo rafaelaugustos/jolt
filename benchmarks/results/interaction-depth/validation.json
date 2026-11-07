@@ -1,0 +1,41 @@
+{
+  "unit": {
+    "passed": 1776,
+    "files": 126
+  },
+  "browser": {
+    "newCases": 57,
+    "engines": [
+      "Chromium",
+      "Firefox",
+      "WebKit"
+    ],
+    "runtime": 54,
+    "orchestration": 111,
+    "portable": 21,
+    "dynamic": {
+      "passed": 49,
+      "existingSkips": 2
+    }
+  },
+  "checks": [
+    "native/Web/benchmark typechecks",
+    "build",
+    "core:check",
+    "web:check",
+    "parity:check",
+    "inspector-production",
+    "actual tarball native/Web consumers",
+    "docs:check-media",
+    "docs:build"
+  ],
+  "recordings": 20,
+  "physicalDevice": "Old ASUS Android 8: compatibility only. Further performance acceptance deferred by maintainer until newer hardware; device collection stopped.",
+  "iOS": "26.2 simulator: actual input, audio completion, retained inspector/manual pause across background and repeated teardown. Physical silent switch unverified.",
+  "mavisIssues": [
+    296,
+    297,
+    298
+  ],
+  "release": "Not merged/published; package version intentionally unchanged."
+}

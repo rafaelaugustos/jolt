@@ -1,5 +1,7 @@
 # API
 
+O [candidato de interação e profundidade](./interaction-depth) para RC.12 acrescenta drop zones, áudio/cues, inspeção e contratos Web de paths, 3D e sombras. Ainda não faz parte da RC.11.1.
+
 - [**Gravidade, haptics, sensores, glass e retorno da galeria Web**](./web-parity) — disponível desde a RC.10.
 
 [**Teclado, sheets, navegação, física e ícones Web (disponível desde a RC.10).**](./web-platforms)

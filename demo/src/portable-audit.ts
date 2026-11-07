@@ -35,13 +35,13 @@ const androidProbe = () =>
 
 const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms))
 const native = (view: View) => view.nativeViewProtected
-const probe = (view: View) =>
+export const probe = (view: View) =>
   isIOS ? JoltBudgetProbe.start(native(view)) : new (androidProbe())(native(view))
-const environment = (view: View) =>
+export const environment = (view: View) =>
   JSON.parse(
     isIOS ? JoltBudgetProbe.environment() : androidProbe().environment(native(view)),
   )
-const resources = (view: View) =>
+export const resources = (view: View) =>
   JSON.parse(isIOS ? JoltBudgetProbe.resources() : androidProbe().resources(native(view)))
 function counts(view: View) {
   if (!isIOS) {

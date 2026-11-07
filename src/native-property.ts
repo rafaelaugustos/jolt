@@ -1,3 +1,9 @@
+import {
+  adapterEvent,
+  adapterMeasure,
+  registerAdapterInspection,
+  type AdapterEventKind,
+} from './core/adapter-inspection.js'
 import { isAndroid, Trace } from '@nativescript/core'
 import {
   propertyLimits,
@@ -51,10 +57,14 @@ export interface NativeProperty<T> {
 }
 
 interface Owner {
+  handle?: PlaybackAnimation
+  binding?: boolean
   stop(): void
   velocity(): readonly number[]
 }
 interface PreparedProperty {
+  write(value: readonly number[]): void
+  event(kind: AdapterEventKind, owner?: object): void
   spatial: boolean
   sink: NativeSink
   track: Track
@@ -144,6 +154,22 @@ class PropertyTarget<T> implements NativeProperty<T> {
       } catch {}
       throw error
     }
+    registerAdapterInspection(this, {
+      name: this.name,
+      units: [...definition.units],
+      target,
+      platform,
+      read: () => {
+        const owner = this.owner()
+        return {
+          alive: !this.disposed && nativePropertyDriver().alive(this.sink),
+          values: this.disposed ? null : nativePropertyDriver().read(this.sink),
+          owner: owner?.handle ?? owner,
+          binding: !!owner?.binding,
+          paused: owner?.handle?.paused,
+        }
+      },
+    })
     internals.set(this, {
       target,
       name: this.name,
@@ -156,11 +182,10 @@ class PropertyTarget<T> implements NativeProperty<T> {
           commit: () => {
             this.alive()
             this.owner()?.stop()
-            nativePropertyDriver().write(this.sink, next)
+            this.write(next)
           },
           rollback: () => {
-            if (nativePropertyDriver().alive(this.sink))
-              nativePropertyDriver().write(this.sink, previous)
+            if (nativePropertyDriver().alive(this.sink)) this.write(previous)
           },
         }
       },
@@ -191,13 +216,28 @@ class PropertyTarget<T> implements NativeProperty<T> {
     this.alive()
     const vector = this.vector(value)
     this.owner()?.stop()
-    nativePropertyDriver().write(this.sink, vector)
+    this.write(vector)
+  }
+  private write(value: readonly number[]) {
+    const measured = adapterMeasure(this, 'write')
+    try {
+      nativePropertyDriver().write(this.sink, value)
+    } finally {
+      measured?.()
+    }
   }
   private owner() {
     return this.target ? owners.get(this.target)?.get(this.name) : undefined
   }
   private claim(owner: Owner) {
-    this.owner()?.stop()
+    const previous = this.owner()
+    previous?.stop()
+    adapterEvent(
+      this,
+      previous ? 'replace' : owner.binding ? 'bind' : 'start',
+      owner.handle ?? owner,
+      previous?.handle ?? previous,
+    )
     let map = owners.get(this.target!)
     if (!map) owners.set(this.target!, (map = new Map()))
     map.set(this.name, owner)
@@ -211,6 +251,7 @@ class PropertyTarget<T> implements NativeProperty<T> {
     return playProperties([this.prepare(to, options)])
   }
   private prepare(to: T, options: Transition | SpringName): PreparedProperty {
+    const measured = adapterMeasure(this, 'prepare')
     this.alive()
     const from = this.get(),
       first = this.vector(from),
@@ -247,7 +288,10 @@ class PropertyTarget<T> implements NativeProperty<T> {
     checkPropertySamples(track.values.length, first.length)
     const samples = track.values.map(at)
     const final = at(track.to)
+    measured?.(samples.length * first.length)
     return {
+      write: (value) => this.write(value),
+      event: (kind, owner) => adapterEvent(this, kind, owner),
       sink: this.sink,
       track,
       samples,
@@ -282,12 +326,14 @@ class PropertyTarget<T> implements NativeProperty<T> {
     }
     const initial = prepare() // Validate all samples before interrupting another owner.
     const owner: Owner = {
+      binding: true,
       stop: () => {
         if (stopped) return
         stopped = true
         off()
         player?.cancel()
         player = undefined
+        adapterEvent(this, 'cancel', owner)
         this.release(owner)
       },
       velocity: () => this.definition.units.map(() => 0),
@@ -295,7 +341,7 @@ class PropertyTarget<T> implements NativeProperty<T> {
     const apply = (state: ReturnType<typeof prepare>) => {
       player?.cancel()
       player = undefined
-      if (!state.running) nativePropertyDriver().write(this.sink, state.current)
+      if (!state.running) this.write(state.current)
       else {
         player = nativePropertyDriver().play(
           this.sink,
@@ -342,6 +388,7 @@ class PropertyTarget<T> implements NativeProperty<T> {
     if (this.disposed) return
     this.stop()
     this.disposed = true
+    adapterEvent(this, 'dispose')
     internals.delete(this)
     nativePropertyDriver().dispose(this.sink)
     this.target = undefined
@@ -359,8 +406,9 @@ function playProperties(plans: PreparedProperty[]): PlaybackAnimation {
   const animation = new TimedAnimation(
     duration,
     Math.max(...plans.map((plan) => plan.track.arrival)),
-    (time, paused) => {
+    (time, paused, command) => {
       try {
+        plans.forEach((plan) => plan.event(command, animation))
         players.forEach((player) => player?.control(time, paused))
       } catch (error) {
         animation.stop()
@@ -374,7 +422,7 @@ function playProperties(plans: PreparedProperty[]): PlaybackAnimation {
         try {
           if (completed) {
             plan.alive()
-            nativePropertyDriver().write(plan.sink, plan.final)
+            plan.write(plan.final)
           }
         } catch (error) {
           errors.push(error)
@@ -384,7 +432,10 @@ function playProperties(plans: PreparedProperty[]): PlaybackAnimation {
           } catch (error) {
             errors.push(error)
           }
-          if (claimed.has(i)) plan.release(owners[i]!)
+          if (claimed.has(i)) {
+            plan.event(completed ? 'complete' : 'cancel', animation)
+            plan.release(owners[i]!)
+          }
         }
       })
       players.length = 0
@@ -396,6 +447,7 @@ function playProperties(plans: PreparedProperty[]): PlaybackAnimation {
     },
   )
   const owners = plans.map((plan): Owner => ({
+    handle: animation,
     stop: () => animation.stop(),
     velocity: () =>
       animation.paused ? plan.final.map(() => 0) : plan.velocity(animation.time),
@@ -419,7 +471,7 @@ function playProperties(plans: PreparedProperty[]): PlaybackAnimation {
         )
         if (animation.done) player.cancel()
         else players[i] = player
-      } else nativePropertyDriver().write(plan.sink, plan.final)
+      } else plan.write(plan.final)
     }
     // Each native control receives the elapsed position of the same clock,
     // compensating for setup time rather than starting unrelated animations.
@@ -432,7 +484,7 @@ function playProperties(plans: PreparedProperty[]): PlaybackAnimation {
         if (Number.isFinite(duration)) animation.progress = 1
         else {
           try {
-            plans.forEach((plan) => nativePropertyDriver().write(plan.sink, plan.final))
+            plans.forEach((plan) => plan.write(plan.final))
           } finally {
             animation.stop()
           }

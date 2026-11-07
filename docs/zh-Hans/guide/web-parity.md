@@ -1,5 +1,7 @@
 # Web 重力、触觉、传感器、玻璃与图库
 
+RC.12 [交互与深度候选实现](./interaction-depth)新增放置目标、音频提示、检查器以及 Web 路径、3D 和阴影契约，尚未包含在 RC.11.1 中。
+
 ## RC.10 审计 {#rc10-audit}
 
 已发布的 RC.10 包含 PR #358、#365、#372 和 #379。[完整导出矩阵](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/capability-matrix.json)和[契约审计](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-web-audit.md)区分 API 可用性与功能对等性。`npm run parity:check` 检查所有运行时导出和关键帧属性。路径运动、3D 旋转、阴影/深度、回放/检查器及真实移动浏览器硬件验证仍存在差距。下方桌面录制不能证明真实设备验收已完成。

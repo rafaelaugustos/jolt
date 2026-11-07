@@ -65,6 +65,11 @@ module.exports = (env) => {
         '@rafaelaugusto/jolt/bottom-sheet$',
         resolve(__dirname, '../dist/bottom-sheet/index.js'),
       )
+      .set('@rafaelaugusto/jolt/audio$', resolve(__dirname, '../dist/audio/index.js'))
+      .set(
+        '@rafaelaugusto/jolt/inspector$',
+        resolve(__dirname, '../dist/inspector/index.js'),
+      )
       .set('@rafaelaugusto/jolt/native$', resolve(__dirname, '../dist/native/index.js'))
       .set('@rafaelaugusto/jolt/reorder$', resolve(__dirname, '../dist/reorder/index.js'))
       .set(

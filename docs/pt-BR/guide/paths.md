@@ -1,5 +1,7 @@
 # Movimento ao longo de um caminho
 
+O [candidato de interação e profundidade](./interaction-depth) para RC.12 acrescenta drop zones, áudio/cues, inspeção e contratos Web de paths, 3D e sombras. Ainda não faz parte da RC.11.1.
+
 ```ts
 animate(
   plane,

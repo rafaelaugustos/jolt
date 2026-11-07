@@ -1,5 +1,7 @@
 # Esquinas, bordes y sombras {#corners-borders-and-shadows}
 
+El [candidato de interacción y profundidad](./interaction-depth) para RC.12 añade drop zones, audio/cues, inspección y contratos Web de paths, 3D y sombras. Todavía no forma parte de RC.11.1.
+
 Los bordes uniformes utilizan la misma API `animate()` en iOS y Android:
 
 <Clip name="decorations" caption="Radio de esquina, borde y sombra transformándose juntos." />

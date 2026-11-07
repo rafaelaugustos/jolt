@@ -1,4 +1,21 @@
+import type {
+  TimelineCue,
+  TimelineCueOptions,
+  CuedTimeline,
+} from '../core/timeline-cues.js'
+export type {
+  TimelineCue,
+  TimelineCueOptions,
+  CuedTimeline,
+} from '../core/timeline-cues.js'
 export { resolveListTarget } from './return-target.js'
+export type {
+  WebDropZoneOptions,
+  DropZones,
+  DropTarget,
+  DropEvent,
+  DropEffect,
+} from './drop-zones.js'
 export type {
   WebReturnContext,
   WebReturnTarget,
@@ -386,6 +403,11 @@ export interface WebRuntime {
   ): WebAnimation
   playbackProgress(animation: import('../core/playback.js').Animation): WebReadableValue
   sharedLayout(container: HTMLElement, options?: WebSharedLayoutOptions): WebSharedLayout
+  withTimelineCues(
+    animation: import('../core/sequence.js').PlayableAnimation,
+    cues: readonly TimelineCue[],
+    options?: TimelineCueOptions,
+  ): CuedTimeline
   diagnostics(options: WebDiagnosticsOptions): WebDiagnostics
   scope(setup?: (scope: WebMotionScope) => void): WebMotionScope
   renderActivity(adapter: RenderActivityAdapter): RenderActivity
@@ -394,6 +416,10 @@ export interface WebRuntime {
     properties: P,
   ): WebPropertyGroup<P>
   pointerFollow(region: HTMLElement, options?: WebPointerOptions): WebPointerFollow
+  dropZones(
+    source: HTMLElement,
+    options: import('./drop-zones.js').WebDropZoneOptions,
+  ): import('./drop-zones.js').DropZones
   viewportEnter(
     target: HTMLElement | readonly HTMLElement[],
     options?: WebViewportOptions,
@@ -503,6 +529,7 @@ export function createWebRuntime(
     decay: runtime.decay.bind(runtime),
     playbackProgress: runtime.playbackProgress.bind(runtime),
     sharedLayout: runtime.sharedLayout.bind(runtime),
+    withTimelineCues: runtime.withTimelineCues.bind(runtime),
     diagnostics: runtime.diagnostics.bind(runtime),
     scope: runtime.scope.bind(runtime),
     pointerFollow: runtime.pointerFollow.bind(runtime),
@@ -522,6 +549,7 @@ export function createWebRuntime(
     reorder: runtime.reorder.bind(runtime),
     gestures: runtime.gestures.bind(runtime),
     drag: runtime.drag.bind(runtime),
+    dropZones: runtime.dropZones.bind(runtime),
     motionValue: runtime.motionValue.bind(runtime),
     springValue: runtime.springValue.bind(runtime),
     bind: runtime.bind.bind(runtime),

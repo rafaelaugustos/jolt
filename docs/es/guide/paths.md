@@ -1,5 +1,7 @@
 # Movimiento sobre una trayectoria {#motion-along-a-path}
 
+El [candidato de interacción y profundidad](./interaction-depth) para RC.12 añade drop zones, audio/cues, inspección y contratos Web de paths, 3D y sombras. Todavía no forma parte de RC.11.1.
+
 ```ts
 animate(
   plane,

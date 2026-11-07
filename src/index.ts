@@ -23,6 +23,14 @@ export { press } from './press.js'
 export { interactionSurface } from './interaction-surface.js'
 export type { InteractionSurface } from './interaction-surface.js'
 export { drag } from './drag.js'
+export { dropZones } from './drop-zones.js'
+export type {
+  DropZoneOptions,
+  DropZones,
+  DropTarget,
+  DropEvent,
+  DropEffect,
+} from './drop-zones.js'
 export type {
   Drag,
   DragOptions,

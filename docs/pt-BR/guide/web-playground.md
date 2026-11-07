@@ -2,7 +2,7 @@
 
 [Abrir o playground](/pt-BR/#playground)
 
-53 experimentos, sete categorias e uma demo ativa por vez. Busque pelo nome ou pela API, escolha, interaja e copie o código principal. O experimento selecionado fica na URL e acompanha a troca de idioma.
+58 experimentos, sete categorias e uma demo ativa por vez. Busque pelo nome ou pela API, escolha, interaja e copie o código principal. O experimento selecionado fica na URL e acompanha a troca de idioma.
 
 ## Explore
 

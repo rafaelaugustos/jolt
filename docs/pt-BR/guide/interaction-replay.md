@@ -1,5 +1,7 @@
 # Gravar e reproduzir uma interação
 
+O [candidato de interação e profundidade](./interaction-depth) para RC.12 acrescenta drop zones, áudio/cues, inspeção e contratos Web de paths, 3D e sombras. Ainda não faz parte da RC.11.1.
+
 Guarde as entradas que reproduziram um bug, fixe o movimento esperado e teste o próximo build com elas. A entrada opcional **@rafaelaugusto/jolt/testing** oferece trace numérico versionado, gravação explícita e runner com adaptadores. **@rafaelaugusto/jolt/testing/native** adiciona relógio controlado do Jolt, captura de pan do Core e leitura da apresentação nativa.
 
 ::: warning Ferramentas de desenvolvimento

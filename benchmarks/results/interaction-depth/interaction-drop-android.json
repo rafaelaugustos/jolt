@@ -1,0 +1,73 @@
+{
+  "platform": "android",
+  "events": [
+    {
+      "name": "mounted",
+      "time": 1794013912870,
+      "mode": "drop",
+      "scope": 1
+    },
+    {
+      "name": "enter",
+      "time": 1794013917148,
+      "mode": "drop",
+      "scope": 1,
+      "id": "reject"
+    },
+    {
+      "name": "rejected",
+      "time": 1794013917388,
+      "mode": "drop",
+      "scope": 1
+    },
+    {
+      "name": "enter",
+      "time": 1794013920171,
+      "mode": "drop",
+      "scope": 1,
+      "id": "accept"
+    },
+    {
+      "name": "accepted",
+      "time": 1794013920411,
+      "mode": "drop",
+      "scope": 1,
+      "method": "drag",
+      "count": 1
+    },
+    {
+      "name": "remount",
+      "time": 1794013922546,
+      "mode": "drop",
+      "scope": 0
+    },
+    {
+      "name": "mounted",
+      "time": 1794013922594,
+      "mode": "drop",
+      "scope": 1
+    },
+    {
+      "name": "accepted",
+      "time": 1794013923998,
+      "mode": "drop",
+      "scope": 1,
+      "method": "request",
+      "count": 2
+    },
+    {
+      "name": "pause",
+      "time": 1794013925563,
+      "mode": "drop",
+      "scope": 1,
+      "paused": true
+    },
+    {
+      "name": "pause",
+      "time": 1794013926820,
+      "mode": "drop",
+      "scope": 1,
+      "paused": false
+    }
+  ]
+}

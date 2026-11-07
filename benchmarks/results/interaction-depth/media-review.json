@@ -1,0 +1,382 @@
+[
+  {
+    "file": "docs/public/media/interaction-audio-ios.mp4",
+    "sha256": "03bb63443aac4df5c452a709705988d8b2c70c3a8c85e06e5c1d6240fe29c386",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 540,
+          "height": 1174
+        }
+      ],
+      "format": {
+        "duration": "15.983333"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames across recorded interaction. Real input and playback, no fabricated motion or audio."
+  },
+  {
+    "file": "docs/public/media/interaction-depth-ios.mp4",
+    "sha256": "44ba8c774bce49625fa511e05761bae9a84f4100da29cb56a202cb7c5cdafb61",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 540,
+          "height": 1174
+        }
+      ],
+      "format": {
+        "duration": "15.688277"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames across recorded interaction. Real input and playback, no fabricated motion or audio."
+  },
+  {
+    "file": "docs/public/media/interaction-drop-ios.mp4",
+    "sha256": "aafd50da29d3982f288b87f10325176472d70b4ba0e97818eaffa40b073511d1",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 540,
+          "height": 1174
+        }
+      ],
+      "format": {
+        "duration": "9.665425"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames across recorded interaction. Real input and playback, no fabricated motion or audio."
+  },
+  {
+    "file": "docs/public/media/interaction-inspector-ios.mp4",
+    "sha256": "ca864cf8451cf255bd0f992bc2305dac8d9401e554f673b90735958f02d98417",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 540,
+          "height": 1174
+        }
+      ],
+      "format": {
+        "duration": "14.930000"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames across recorded interaction. Real input and playback, no fabricated motion or audio."
+  },
+  {
+    "file": "docs/public/media/interaction-path-ios.mp4",
+    "sha256": "81062f29863298a82573cf2a10fe6d233fe570a0ce3fa5541f99153a0afa3ec1",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 540,
+          "height": 1174
+        }
+      ],
+      "format": {
+        "duration": "15.757101"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames across recorded interaction. Real input and playback, no fabricated motion or audio."
+  },
+  {
+    "file": "docs/public/media/interaction-shadow-ios.mp4",
+    "sha256": "5798beab109f8034aaa1caac198b1f9a210d8f3d0a1270d14d9cd2b950dbcf0c",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 540,
+          "height": 1174
+        }
+      ],
+      "format": {
+        "duration": "15.823124"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames across recorded interaction. Real input and playback, no fabricated motion or audio."
+  },
+  {
+    "file": "docs/public/media/interaction-audio-android.mp4",
+    "sha256": "e0020fe09b76b34bff563690787a42cf6dab1fd9dc16689f961dd1cebab5e0cc",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 540,
+          "height": 960
+        }
+      ],
+      "format": {
+        "duration": "20.453767"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames across recorded interaction. Real input and playback, no fabricated motion or audio."
+  },
+  {
+    "file": "docs/public/media/interaction-depth-android.mp4",
+    "sha256": "32e7c3509c678d6bf6a6b377ea97bc886365a7f9173aeaf91a84bf1f361535e1",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 540,
+          "height": 960
+        }
+      ],
+      "format": {
+        "duration": "20.086733"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames across recorded interaction. Real input and playback, no fabricated motion or audio."
+  },
+  {
+    "file": "docs/public/media/interaction-drop-android.mp4",
+    "sha256": "3a758c412c0f8b311ca67a83d82f94e16cb8dd33c994e3ac80515e8789624d19",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 540,
+          "height": 960
+        }
+      ],
+      "format": {
+        "duration": "11.561550"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames across recorded interaction. Real input and playback, no fabricated motion or audio."
+  },
+  {
+    "file": "docs/public/media/interaction-inspector-android.mp4",
+    "sha256": "c900cb2a5e6d31156a1d0df8ef86b2091ea100e24137acc5acd9e10456a9e586",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 540,
+          "height": 960
+        }
+      ],
+      "format": {
+        "duration": "19.252567"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames across recorded interaction. Real input and playback, no fabricated motion or audio."
+  },
+  {
+    "file": "docs/public/media/interaction-path-android.mp4",
+    "sha256": "43c301eab6f335f14f402f3fea7c23190867dc6f4aeff2edf21d69ba3f1b0b6a",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 540,
+          "height": 960
+        }
+      ],
+      "format": {
+        "duration": "20.170150"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames across recorded interaction. Real input and playback, no fabricated motion or audio."
+  },
+  {
+    "file": "docs/public/media/interaction-shadow-android.mp4",
+    "sha256": "7e32364b781a1c3d165de8e88eceb5c271d9e4a04a6bb63c8499855a3914333f",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 540,
+          "height": 960
+        }
+      ],
+      "format": {
+        "duration": "20.286933"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames across recorded interaction. Real input and playback, no fabricated motion or audio."
+  },
+  {
+    "file": "docs/public/media/interaction-audio-web.mp4",
+    "sha256": "f8bfb78be2aa59d2ff0ba3b24e18f866baa5d7b522bc0dc7eb32657578c3be22",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 920,
+          "height": 740
+        }
+      ],
+      "format": {
+        "duration": "15.160000"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames across recorded interaction. Real input and playback, no fabricated motion or audio."
+  },
+  {
+    "file": "docs/public/media/interaction-depth-web.mp4",
+    "sha256": "3e00389d9415e27422dcfcffe88f3977f879754a13e42775752469992b28e5c2",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 920,
+          "height": 740
+        }
+      ],
+      "format": {
+        "duration": "15.040000"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames across recorded interaction. Real input and playback, no fabricated motion or audio."
+  },
+  {
+    "file": "docs/public/media/interaction-drop-web.mp4",
+    "sha256": "48980225c7f4ee734f0d005bd83f4561cd3bf9e5e2d0707df57e5a6956ec5365",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 920,
+          "height": 740
+        }
+      ],
+      "format": {
+        "duration": "10.200000"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames across recorded interaction. Real input and playback, no fabricated motion or audio."
+  },
+  {
+    "file": "docs/public/media/interaction-inspector-web.mp4",
+    "sha256": "9d8efd148842ed82bdb570fbddb05d067ced3ef0cea40bcb3ce6a13c817bbf58",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 920,
+          "height": 740
+        }
+      ],
+      "format": {
+        "duration": "14.840000"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames across recorded interaction. Real input and playback, no fabricated motion or audio."
+  },
+  {
+    "file": "docs/public/media/interaction-path-web.mp4",
+    "sha256": "6dca47598680184ef5d3579ac48b3a4707b9cb22c6d07497ec58de2d46612dda",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 920,
+          "height": 740
+        }
+      ],
+      "format": {
+        "duration": "15.040000"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames across recorded interaction. Real input and playback, no fabricated motion or audio."
+  },
+  {
+    "file": "docs/public/media/interaction-shadow-web.mp4",
+    "sha256": "5e0beed36d260c1ea0d66a5aff30c3955d5fe0666e4a2678e2babc267d076a61",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 920,
+          "height": 740
+        }
+      ],
+      "format": {
+        "duration": "15.040000"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames across recorded interaction. Real input and playback, no fabricated motion or audio."
+  },
+  {
+    "file": "docs/public/media/interaction-inspector-lifecycle-ios.mp4",
+    "sha256": "23ad99566a31ca074dd17e7e1db7b7e513d34c65ab70c4d71b33f8fbc88fd7f0",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 540,
+          "height": 1174
+        }
+      ],
+      "format": {
+        "duration": "14.284961"
+      }
+    },
+    "review": "Full decode and chronological visual review; real XCTest background/foreground and remount."
+  },
+  {
+    "file": "docs/public/media/interaction-audio-lifecycle-ios.mp4",
+    "sha256": "36f37e0d460293549d2757f8a88e96996a0abf6bfb5a83ae2bb2ec32dbc18a3c",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 540,
+          "height": 1174
+        }
+      ],
+      "format": {
+        "duration": "16.763066"
+      }
+    },
+    "review": "Full decode and chronological visual review; real XCTest background/foreground and remount."
+  }
+]

@@ -10,9 +10,11 @@ const result = await build({
   write: false,
 })
 if (
-  /JoltMotionProbe|MotionProbe|createMotionInspector|inspectViewMotion|inspectViewBindings/.test(
+  /JoltMotionProbe|MotionProbe|createAdapterInspector|createMotionInspector|inspectViewMotion|inspectViewBindings/.test(
     result.outputFiles[0].text,
   )
 )
   throw new Error('Development inspector code leaked into the production core bundle.')
-console.log('PASS: production core bundle excludes inspector hooks, probe bridge and UI.')
+console.log(
+  'PASS: production core bundle excludes inspector collectors, probe bridge and UI; passive adapter hooks remain.',
+)
