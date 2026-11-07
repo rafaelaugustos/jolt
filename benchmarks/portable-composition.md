@@ -22,7 +22,7 @@ The maintainer selected **emulator/simulator only** for this round. Physical sen
 - [x] Real native and browser recordings, inspected and embedded in EN/PT/ES/ZH guides with platform/limits captions.
 - [x] `npm run docs:check-media` and `npm run docs:build`.
 - [x] Inspect current Mavis implementation and open/closed issues; update concrete adoption work with upstream state and dependencies.
-Delivery PR attachment/player verification and CI are recorded in the owning issues after the PR is created.
+      Delivery PR attachment/player verification and CI are recorded in the owning issues after the PR is created.
 
 ## Evidence
 
