@@ -1,8 +1,10 @@
 # Release status and limits {#not-there-yet}
 
-RC.11.1 adds [retained resources and Vue drawing ownership, behavior priorities, articulated 2D parts, gradient text and named timeline effects](./native-composition). These native APIs include interruption, reduced motion and lifecycle controls for their documented use cases.
+RC.12 adds [pointer presence, coordinated properties, renderer activity and bounded drawing](./portable-foundations), plus [drop targets, optional audio/cues, inspection/replay and Web paths, 3D rotation and shadows](./interaction-depth). Rebuild native apps with matching package versions. Web entries remain experimental.
 
-**Current release: 0.1.0-rc.11.1.** Includes [native framework adapters](./frameworks), [additional sensor sources](./device-sensors#vector-sources), [mobile keyboard fixes](./mobile-web), [element-relative Web scroll ranges](./web-support#element-range), [native shader inputs and local iOS video textures](./image-effects), and [Android playback improvements](./android-performance). [Install matching packages](./install) and rebuild native applications. Web APIs remain experimental.
+Physical pointer-accessory acceptance, the iPhone silent switch and further inspector/performance validation on a newer Android remain open. The old phone supplies compatibility evidence only. Latency/PSS work (#405, #406) remains technical debt; publication does not establish performance superiority or playback through blocked application JavaScript.
+
+**Current release: 0.1.0-rc.12.** Includes [native framework adapters](./frameworks), [additional sensor sources](./device-sensors#vector-sources), [mobile keyboard fixes](./mobile-web), [element-relative Web scroll ranges](./web-support#element-range), [native shader inputs and local iOS video textures](./image-effects), and [Android playback improvements](./android-performance). [Install matching packages](./install) and rebuild native applications. Web APIs remain experimental.
 
 **New in RC.10:** [Web gradients, loading and text](./web-effects), [particles, blur, shapes and image effects](./web-surfaces), [keyboard, sheets, navigation, physics and icons](./web-platforms), [gravity, haptics, sensors, glass and keyed gallery return](./web-parity), plus native [Core ScrollView headers](./scroll-header#retained-scrollview) and [mounted-row reorder](./reorder#retained-rows). Rebuild native apps. Mavis adoption remains separate.
 
@@ -14,7 +16,7 @@ RC.11.1 adds [retained resources and Vue drawing ownership, behavior priorities,
 
 **Since RC.7:** [colors, borders, continuous paint, real size, FLIP and seekable scenes](./web-visual) extend this runtime. The Web APIs remain experimental; full parity is tracked in [#236](https://github.com/rafaelaugustos/jolt/issues/236).
 
-**0.1.0-rc.11.1 is available.** Native features retain their documented platform limits while stable-release validation continues. The Web entries are experimental; publication does not complete Mavis integration or establish native/Web parity for every API.
+**0.1.0-rc.12 is available.** Native features retain their documented platform limits while stable-release validation continues. The Web entries are experimental; publication does not complete Mavis integration or establish native/Web parity for every API.
 
 RC.6 includes [continuous Web motion](./web-dynamic), with values, followers and drag/snap, plus [numeric mappings, geometry refresh and vertical scroll](./web-support). The Web APIs remain experimental.
 

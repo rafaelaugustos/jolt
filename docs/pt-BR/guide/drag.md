@@ -1,6 +1,6 @@
 # Arrastar, desacelerar e encaixar
 
-O [candidato de interação e profundidade](./interaction-depth) para RC.12 acrescenta drop zones, áudio/cues, inspeção e contratos Web de paths, 3D e sombras. Ainda não faz parte da RC.11.1.
+Disponível na RC.12: [interação e profundidade](./interaction-depth) acrescenta drop zones, áudio/cues opcionais, inspeção e contratos Web de paths, 3D e sombras.
 
 `drag()` acompanha um dedo, limita a translação e usa a velocidade da soltura em uma animação nativa. Adicionado na beta.8.
 

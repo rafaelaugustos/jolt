@@ -1,6 +1,6 @@
 # 交互回放 {#record-and-replay-an-interaction}
 
-RC.12 [交互与深度候选实现](./interaction-depth)新增放置目标、音频提示、检查器以及 Web 路径、3D 和阴影契约，尚未包含在 RC.11.1 中。
+RC.12 已提供[交互与深度](./interaction-depth)：可移植放置目标、可选音频提示、检查器以及 Web 路径、3D 和阴影契约。
 
 保留重现错误的输入，冻结其预期运动，并在下一个构建中重播它们。可选的 **@rafaelaugusto/jolt/testing** 条目提供版本化数字跟踪、选择加入记录器和基于适配器的运行器。 **@rafaelaugusto/jolt/testing/native** 添加了受控的 Jolt 驱动程序、核心平移捕获和原生演示读取。
 

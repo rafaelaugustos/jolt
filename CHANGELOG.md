@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## 0.1.0-rc.12 (2026-11-07)
+
+- Publish matching core and optional native packages with the portable capability batches from #421 and #422. Rebuild native applications after upgrading. Web entries remain experimental.
+- Add native pointer position/presence and extend the existing Web pointer source, coordinated custom-property groups, explicit renderer activity and bounded retained drawing surfaces (#412, #413, #414, #416). Fix iOS shape sizing under transformed layout and duplicate press touch forwarding (#400, #401); the original action-while-already-suspended report remains unconfirmed.
+- Add native/Web in-app drop targets with priorities, synchronous acceptance, accessible requests, owned effects and final-input geometry before return motion (#399).
+- Add optional local one-shot audio through `/audio` and `/web/audio`, plus shared named timeline cues with cancellation, pause/mute and scope lifecycle (#402). Audio has one voice per cue, fixed rate 1 and no seeking or streaming; seeking the visual timeline cancels effects without firing at the destination.
+- Add bounded, opt-in adapter ownership and JS-cost inspection, optional Web playback editing and semantic replay through application-owned adapters/clocks (#415, #383). This does not measure native sampling, GPU time or total allocations.
+- Add Web motion paths with tangent orientation, rotateX/Y with explicit parent CSS perspective, and one outer zero-spread shadow with color/radius/offset channels (#380, #381, #382). Android elevation/translationZ remain native-specific; projective baselines and 3D FLIP are unsupported.
+- Include reviewed native/browser recordings in EN/PT/ES/ZH guides, 60 Web playground experiments, 1,776 unit tests, packed consumers, native builds and cross-browser acceptance. Linux audio checks use real decoding/playback through a clocked virtual output.
+- Keep physical pointer-accessory acceptance, physical iPhone silent-switch behavior and further inspector/performance validation on newer Android hardware open. The old ASUS device is compatibility evidence only. Latency/PSS work (#405, #406) remains deferred; this release makes no general CPU/PSS, presented-frame latency, blocked-JavaScript or Reanimated superiority claim.
+
 ## 0.1.0-rc.11.1 (2026-11-06)
 
 - Publish matching core and optional native packages with the native composition additions from #418. Rebuild native applications after upgrading, including the new Android gradient-text helper.

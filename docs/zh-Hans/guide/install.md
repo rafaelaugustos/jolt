@@ -6,18 +6,18 @@ npm install @rafaelaugusto/jolt@next
 
 RC.6 包含[Web 连续动画](./web-dynamic)：数值、跟随弹簧及拖动/吸附，以及[数值映射、几何刷新和垂直滚动](./web-support)。Web API 仍为实验性功能。
 
-**候选版本 0.1.0-rc.11.1** 通过 `next` 标签发布。原生 0.1.0 的功能范围已冻结，目前正在验证兼容性并准备正式版。NativeScript 消费者要求 `@nativescript/core` 8.9 或更高版本。Jolt 不依赖特定框架：它接收视图或包含视图的元素，因此可用于 NativeScript-Vue、Angular、Svelte 或纯 NativeScript。NativeScript-Vue 应用还可以从 `@rafaelaugusto/jolt/vue` 导入[指令和过渡组件](./vue)。
+**候选版本 0.1.0-rc.12** 通过 `next` 标签发布。原生 0.1.0 的功能范围已冻结，目前正在验证兼容性并准备正式版。NativeScript 消费者要求 `@nativescript/core` 8.9 或更高版本。Jolt 不依赖特定框架：它接收视图或包含视图的元素，因此可用于 NativeScript-Vue、Angular、Svelte 或纯 NativeScript。NativeScript-Vue 应用还可以从 `@rafaelaugusto/jolt/vue` 导入[指令和过渡组件](./vue)。
 
 Jolt 包含 iOS 和 Android 原生辅助代码。安装或升级 Jolt 后，请重新编译原生应用；仅更新 JavaScript 无法安装原生代码。
 
-当前候选版本为 **0.1.0-rc.11.1**。如需固定版本，请使用 `npm install @rafaelaugusto/jolt@0.1.0-rc.11.1`。使用[外部原生属性适配器](./native-properties)时，还需安装对应版本的 `@rafaelaugusto/jolt-native@0.1.0-rc.11.1`，然后重新编译原生应用。
+当前候选版本为 **0.1.0-rc.12**。如需固定版本，请使用 `npm install @rafaelaugusto/jolt@0.1.0-rc.12`。使用[外部原生属性适配器](./native-properties)时，还需安装对应版本的 `@rafaelaugusto/jolt-native@0.1.0-rc.12`，然后重新编译原生应用。
 
 ## 实验性 Web 入口 {#experimental-web-candidate}
 
 从 **0.1.0-rc.5** 起，包中包含实验性 `/web` 和 `/web/vue` 入口。可直接安装已发布的候选版本；仅在使用 Vue DOM 适配器时添加 Vue。根入口和 `/vue` 仍用于原生环境。
 
 ```sh
-npm install @rafaelaugusto/jolt@0.1.0-rc.11.1
+npm install @rafaelaugusto/jolt@0.1.0-rc.12
 # 仅供可选 Vue DOM 适配器使用：
 npm install vue@^3.5.0
 ```
