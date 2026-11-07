@@ -1,5 +1,7 @@
 # 圆角、边框与阴影 {#corners-borders-and-shadows}
 
+RC.12 [交互与深度候选实现](./interaction-depth)新增放置目标、音频提示、检查器以及 Web 路径、3D 和阴影契约，尚未包含在 RC.11.1 中。
+
 统一边框在 iOS 和 Android 上使用相同的 `animate()` API：
 
 <Clip name="decorations" caption="圆角半径、边框和阴影一起变形。" />

@@ -1,3 +1,6 @@
+import { audioCue } from '@rafaelaugusto/jolt/web/audio'
+import { createMotionInspector, springCode } from '@rafaelaugusto/jolt/web/inspector'
+import { recordInteraction, replayInteraction } from '@rafaelaugusto/jolt/web/testing'
 import {
   createWebRuntime,
   type WebAnimation,
@@ -61,8 +64,24 @@ function typeBoundary(context: WebRuntime) {
   effects.dispose()
   // @ts-expect-error Diagnostics are internal, not part of the package API.
   context.inspect(surface)
-  // @ts-expect-error Native-only properties are not Web capabilities.
-  context.animate(surface, { rotateX: 20 })
+  context.animate(surface, { rotateX: 20, rotateY: -30, shadowRadius: 12 })
+  context.animate(surface, { path: 'M0 0 L20 20', orient: true })
+  const drop = effects.dropZones(surface, { targets: [{ id: 'zone', target: child }] })
+  drop.request('zone')
+  effects.withTimelineCues(context.animate(surface, { x: 30 }), [
+    { name: 'cue', at: 0, effect: () => {} },
+  ])
+  const audio = audioCue(document, '/cue.wav')
+  effects.add(audio)
+  effects.add(audio.play())
+  const inspector = createMotionInspector(document, context, { development: true })
+  inspector.watch(surface, 'card')
+  inspector.dispose()
+  springCode({ to: 10, spring: { duration: 400, bounce: 0.2 } })
+  void recordInteraction
+  void replayInteraction
+  // @ts-expect-error Native elevation is not CSS shadow or ordering.
+  context.animate(surface, { elevation: 20 })
   // @ts-expect-error A target must be an actual HTMLElement.
   context.animate({ nativeView: {} }, { x: 10 })
   // @ts-expect-error Stroke drawing requires SVG geometry, not an HTML surface.

@@ -6,6 +6,7 @@ import {
   withTimelineCues,
 } from '@rafaelaugusto/jolt'
 import { rig2d } from '@rafaelaugusto/jolt/rig'
+import { audioCue } from '@rafaelaugusto/jolt/audio'
 import { mapKitCoordinate } from '@rafaelaugusto/jolt/native'
 import { install } from '@rafaelaugusto/jolt/vue'
 
@@ -20,4 +21,5 @@ globalThis.__JOLT_PACKED_NATIVE__ = {
   motionBehaviors,
   withTimelineCues,
   rig2d,
+  audioCue,
 }

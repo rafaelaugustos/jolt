@@ -1,0 +1,110 @@
+{
+  "platform": "ios",
+  "events": [
+    {
+      "name": "mounted",
+      "time": 1794013468284,
+      "mode": "path",
+      "scope": 0
+    },
+    {
+      "name": "play",
+      "time": 1794013473072,
+      "mode": "path",
+      "scope": 1
+    },
+    {
+      "name": "pause",
+      "time": 1794013473796,
+      "mode": "path",
+      "scope": 1,
+      "paused": true
+    },
+    {
+      "name": "seek",
+      "time": 1794013474778,
+      "mode": "path",
+      "scope": 1
+    },
+    {
+      "name": "pause",
+      "time": 1794013475661,
+      "mode": "path",
+      "scope": 1,
+      "paused": false
+    },
+    {
+      "name": "finished",
+      "time": 1794013476719,
+      "mode": "path",
+      "scope": 0,
+      "complete": true
+    },
+    {
+      "name": "play",
+      "time": 1794013477549,
+      "mode": "path",
+      "scope": 1
+    },
+    {
+      "name": "replace",
+      "time": 1794013478345,
+      "mode": "path",
+      "scope": 2
+    },
+    {
+      "name": "finished",
+      "time": 1794013480945,
+      "mode": "path",
+      "scope": 0,
+      "complete": true
+    },
+    {
+      "name": "snapshot",
+      "time": 1794013481427,
+      "mode": "path",
+      "scope": 0,
+      "status": "Completed",
+      "detail": "",
+      "paused": false,
+      "progress": 1,
+      "accepted": 0
+    },
+    {
+      "name": "remount",
+      "time": 1794013482513,
+      "mode": "path",
+      "scope": 0
+    },
+    {
+      "name": "mounted",
+      "time": 1794013482516,
+      "mode": "path",
+      "scope": 0
+    },
+    {
+      "name": "play",
+      "time": 1794013483519,
+      "mode": "path",
+      "scope": 1
+    },
+    {
+      "name": "finished",
+      "time": 1794013486119,
+      "mode": "path",
+      "scope": 0,
+      "complete": true
+    },
+    {
+      "name": "snapshot",
+      "time": 1794013487194,
+      "mode": "path",
+      "scope": 0,
+      "status": "Completed",
+      "detail": "",
+      "paused": false,
+      "progress": 1,
+      "accepted": 0
+    }
+  ]
+}

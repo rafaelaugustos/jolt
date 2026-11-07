@@ -1,0 +1,2081 @@
+{
+  "platform": "android",
+  "events": [
+    {
+      "name": "mounted",
+      "time": 1794013974109,
+      "mode": "inspector",
+      "scope": 6
+    },
+    {
+      "name": "renderer",
+      "time": 1794013977820,
+      "mode": "inspector",
+      "scope": 7,
+      "active": true
+    },
+    {
+      "name": "inspection",
+      "time": 1794013977829,
+      "mode": "inspector",
+      "scope": 7,
+      "snapshot": {
+        "version": 1,
+        "properties": [
+          {
+            "id": "bar0",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 2,
+            "values": [
+              0
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar1",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 3,
+            "values": [
+              0
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar2",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 4,
+            "values": [
+              0
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "activities": [
+          {
+            "id": "scene",
+            "active": true,
+            "suspended": false,
+            "references": 1
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "at": 17493210.967387,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 15.072032000869513,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 2,
+            "at": 17493214.943273,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 3.643697999417782,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 3,
+            "at": 17493218.893481,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 3.7282299995422363,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 4,
+            "at": 17493226.076658,
+            "target": "bar0",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 5,
+            "at": 17493226.253168,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 6,
+            "at": 17493226.299835,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "cost": {
+          "reads": 1,
+          "readMs": 1.869532000273466,
+          "prepareMs": 22.44395999982953,
+          "updateMs": 0,
+          "writes": 0,
+          "preparedComponents": 471,
+          "droppedEvents": 0
+        },
+        "unavailable": [
+          "gpuTime",
+          "nativeSamplingTime",
+          "allocatedBytes"
+        ]
+      }
+    },
+    {
+      "name": "renderer",
+      "time": 1794013978974,
+      "mode": "inspector",
+      "scope": 7,
+      "active": false
+    },
+    {
+      "name": "pause",
+      "time": 1794013978981,
+      "mode": "inspector",
+      "scope": 7,
+      "paused": true
+    },
+    {
+      "name": "inspection",
+      "time": 1794013978991,
+      "mode": "inspector",
+      "scope": 7,
+      "snapshot": {
+        "version": 1,
+        "properties": [
+          {
+            "id": "bar0",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 2,
+            "values": [
+              0.5785371096983881
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": true,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar1",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 3,
+            "values": [
+              0.5785371096983881
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": true,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar2",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 4,
+            "values": [
+              0.5785371096983881
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": true,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "activities": [
+          {
+            "id": "scene",
+            "active": false,
+            "suspended": false,
+            "references": 1
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "at": 17493210.967387,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 15.072032000869513,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 2,
+            "at": 17493214.943273,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 3.643697999417782,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 3,
+            "at": 17493218.893481,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 3.7282299995422363,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 4,
+            "at": 17493226.076658,
+            "target": "bar0",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 5,
+            "at": 17493226.253168,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 6,
+            "at": 17493226.299835,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 7,
+            "at": 17494399.667699,
+            "target": "bar0",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 8,
+            "at": 17494399.759001,
+            "target": "bar1",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 9,
+            "at": 17494399.844418,
+            "target": "bar2",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "cost": {
+          "reads": 2,
+          "readMs": 3.4463550001382828,
+          "prepareMs": 22.44395999982953,
+          "updateMs": 0,
+          "writes": 0,
+          "preparedComponents": 471,
+          "droppedEvents": 0
+        },
+        "unavailable": [
+          "gpuTime",
+          "nativeSamplingTime",
+          "allocatedBytes"
+        ]
+      }
+    },
+    {
+      "name": "seek",
+      "time": 1794013980351,
+      "mode": "inspector",
+      "scope": 7
+    },
+    {
+      "name": "inspection",
+      "time": 1794013980358,
+      "mode": "inspector",
+      "scope": 7,
+      "snapshot": {
+        "version": 1,
+        "properties": [
+          {
+            "id": "bar0",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 2,
+            "values": [
+              0.7458750184314468
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": true,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar1",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 3,
+            "values": [
+              0.7458750184314468
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": true,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar2",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 4,
+            "values": [
+              0.7458750184314468
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": true,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "activities": [
+          {
+            "id": "scene",
+            "active": false,
+            "suspended": false,
+            "references": 1
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "at": 17493210.967387,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 15.072032000869513,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 2,
+            "at": 17493214.943273,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 3.643697999417782,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 3,
+            "at": 17493218.893481,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 3.7282299995422363,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 4,
+            "at": 17493226.076658,
+            "target": "bar0",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 5,
+            "at": 17493226.253168,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 6,
+            "at": 17493226.299835,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 7,
+            "at": 17494399.667699,
+            "target": "bar0",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 8,
+            "at": 17494399.759001,
+            "target": "bar1",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 9,
+            "at": 17494399.844418,
+            "target": "bar2",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 10,
+            "at": 17495777.55874,
+            "target": "bar0",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 11,
+            "at": 17495777.686449,
+            "target": "bar1",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 12,
+            "at": 17495777.720042,
+            "target": "bar2",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "cost": {
+          "reads": 3,
+          "readMs": 5.086458999663591,
+          "prepareMs": 22.44395999982953,
+          "updateMs": 0,
+          "writes": 0,
+          "preparedComponents": 471,
+          "droppedEvents": 0
+        },
+        "unavailable": [
+          "gpuTime",
+          "nativeSamplingTime",
+          "allocatedBytes"
+        ]
+      }
+    },
+    {
+      "name": "renderer",
+      "time": 1794013981624,
+      "mode": "inspector",
+      "scope": 7,
+      "active": true
+    },
+    {
+      "name": "pause",
+      "time": 1794013981630,
+      "mode": "inspector",
+      "scope": 7,
+      "paused": false
+    },
+    {
+      "name": "inspection",
+      "time": 1794013981638,
+      "mode": "inspector",
+      "scope": 7,
+      "snapshot": {
+        "version": 1,
+        "properties": [
+          {
+            "id": "bar0",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 2,
+            "values": [
+              0.7458750184314468
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar1",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 3,
+            "values": [
+              0.7458750184314468
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar2",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 4,
+            "values": [
+              0.7458750184314468
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "activities": [
+          {
+            "id": "scene",
+            "active": true,
+            "suspended": false,
+            "references": 1
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "at": 17493210.967387,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 15.072032000869513,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 2,
+            "at": 17493214.943273,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 3.643697999417782,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 3,
+            "at": 17493218.893481,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 3.7282299995422363,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 4,
+            "at": 17493226.076658,
+            "target": "bar0",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 5,
+            "at": 17493226.253168,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 6,
+            "at": 17493226.299835,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 7,
+            "at": 17494399.667699,
+            "target": "bar0",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 8,
+            "at": 17494399.759001,
+            "target": "bar1",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 9,
+            "at": 17494399.844418,
+            "target": "bar2",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 10,
+            "at": 17495777.55874,
+            "target": "bar0",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 11,
+            "at": 17495777.686449,
+            "target": "bar1",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 12,
+            "at": 17495777.720042,
+            "target": "bar2",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 13,
+            "at": 17497047.514052,
+            "target": "bar0",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 14,
+            "at": 17497047.555823,
+            "target": "bar1",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 15,
+            "at": 17497047.600042,
+            "target": "bar2",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "cost": {
+          "reads": 4,
+          "readMs": 6.717708997428417,
+          "prepareMs": 22.44395999982953,
+          "updateMs": 0,
+          "writes": 0,
+          "preparedComponents": 471,
+          "droppedEvents": 0
+        },
+        "unavailable": [
+          "gpuTime",
+          "nativeSamplingTime",
+          "allocatedBytes"
+        ]
+      }
+    },
+    {
+      "name": "renderer",
+      "time": 1794013982708,
+      "mode": "inspector",
+      "scope": 7,
+      "active": false
+    },
+    {
+      "name": "renderer",
+      "time": 1794013983909,
+      "mode": "inspector",
+      "scope": 7,
+      "active": true
+    },
+    {
+      "name": "inspection",
+      "time": 1794013983916,
+      "mode": "inspector",
+      "scope": 7,
+      "snapshot": {
+        "version": 1,
+        "properties": [
+          {
+            "id": "bar0",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 2,
+            "values": [
+              0.95
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 5,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar1",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 3,
+            "values": [
+              0.95
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 5,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar2",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 4,
+            "values": [
+              0.95
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 5,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "activities": [
+          {
+            "id": "scene",
+            "active": true,
+            "suspended": false,
+            "references": 1
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "at": 17493210.967387,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 15.072032000869513,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 2,
+            "at": 17493214.943273,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 3.643697999417782,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 3,
+            "at": 17493218.893481,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 3.7282299995422363,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 4,
+            "at": 17493226.076658,
+            "target": "bar0",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 5,
+            "at": 17493226.253168,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 6,
+            "at": 17493226.299835,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 7,
+            "at": 17494399.667699,
+            "target": "bar0",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 8,
+            "at": 17494399.759001,
+            "target": "bar1",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 9,
+            "at": 17494399.844418,
+            "target": "bar2",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 10,
+            "at": 17495777.55874,
+            "target": "bar0",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 11,
+            "at": 17495777.686449,
+            "target": "bar1",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 12,
+            "at": 17495777.720042,
+            "target": "bar2",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 13,
+            "at": 17497047.514052,
+            "target": "bar0",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 14,
+            "at": 17497047.555823,
+            "target": "bar1",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 15,
+            "at": 17497047.600042,
+            "target": "bar2",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 16,
+            "at": 17498130.927385,
+            "target": "bar0",
+            "kind": "write",
+            "jsMs": 1.8257820010185242,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 17,
+            "at": 17498131.743896,
+            "target": "bar0",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 18,
+            "at": 17498133.327385,
+            "target": "bar1",
+            "kind": "write",
+            "jsMs": 0.9071349985897541,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 19,
+            "at": 17498133.675719,
+            "target": "bar1",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 20,
+            "at": 17498134.804937,
+            "target": "bar2",
+            "kind": "write",
+            "jsMs": 0.8564059995114803,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 21,
+            "at": 17498135.012073,
+            "target": "bar2",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 22,
+            "at": 17499317.465927,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 2.3627079986035824,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 23,
+            "at": 17499320.140041,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 2.465312998741865,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 24,
+            "at": 17499322.626812,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 2.3676050007343292,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 25,
+            "at": 17499323.887541,
+            "target": "bar0",
+            "kind": "start",
+            "owner": 5,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 26,
+            "at": 17499323.948531,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 5,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 27,
+            "at": 17499323.973999,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 5,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "cost": {
+          "reads": 5,
+          "readMs": 8.211563996970654,
+          "prepareMs": 29.639585997909307,
+          "updateMs": 3.5893229991197586,
+          "writes": 3,
+          "preparedComponents": 942,
+          "droppedEvents": 0
+        },
+        "unavailable": [
+          "gpuTime",
+          "nativeSamplingTime",
+          "allocatedBytes"
+        ]
+      }
+    },
+    {
+      "name": "renderer",
+      "time": 1794013985133,
+      "mode": "inspector",
+      "scope": 7,
+      "active": false
+    },
+    {
+      "name": "renderer",
+      "time": 1794013985154,
+      "mode": "inspector",
+      "scope": 8,
+      "active": true
+    },
+    {
+      "name": "inspection",
+      "time": 1794013985161,
+      "mode": "inspector",
+      "scope": 8,
+      "snapshot": {
+        "version": 1,
+        "properties": [
+          {
+            "id": "bar0",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 2,
+            "values": [
+              0.9407099728641265
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 6,
+            "ownerLabel": "click"
+          },
+          {
+            "id": "bar1",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 3,
+            "values": [
+              0.940226859202276
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 6,
+            "ownerLabel": "click"
+          },
+          {
+            "id": "bar2",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 4,
+            "values": [
+              0.940226859202276
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 6,
+            "ownerLabel": "click"
+          }
+        ],
+        "activities": [
+          {
+            "id": "scene",
+            "active": true,
+            "suspended": false,
+            "references": 1
+          }
+        ],
+        "events": [
+          {
+            "sequence": 5,
+            "at": 17493226.253168,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 6,
+            "at": 17493226.299835,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 7,
+            "at": 17494399.667699,
+            "target": "bar0",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 8,
+            "at": 17494399.759001,
+            "target": "bar1",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 9,
+            "at": 17494399.844418,
+            "target": "bar2",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 10,
+            "at": 17495777.55874,
+            "target": "bar0",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 11,
+            "at": 17495777.686449,
+            "target": "bar1",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 12,
+            "at": 17495777.720042,
+            "target": "bar2",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 13,
+            "at": 17497047.514052,
+            "target": "bar0",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 14,
+            "at": 17497047.555823,
+            "target": "bar1",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 15,
+            "at": 17497047.600042,
+            "target": "bar2",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 16,
+            "at": 17498130.927385,
+            "target": "bar0",
+            "kind": "write",
+            "jsMs": 1.8257820010185242,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 17,
+            "at": 17498131.743896,
+            "target": "bar0",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 18,
+            "at": 17498133.327385,
+            "target": "bar1",
+            "kind": "write",
+            "jsMs": 0.9071349985897541,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 19,
+            "at": 17498133.675719,
+            "target": "bar1",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 20,
+            "at": 17498134.804937,
+            "target": "bar2",
+            "kind": "write",
+            "jsMs": 0.8564059995114803,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 21,
+            "at": 17498135.012073,
+            "target": "bar2",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 22,
+            "at": 17499317.465927,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 2.3627079986035824,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 23,
+            "at": 17499320.140041,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 2.465312998741865,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 24,
+            "at": 17499322.626812,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 2.3676050007343292,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 25,
+            "at": 17499323.887541,
+            "target": "bar0",
+            "kind": "start",
+            "owner": 5,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 26,
+            "at": 17499323.948531,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 5,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 27,
+            "at": 17499323.973999,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 5,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 28,
+            "at": 17500552.758374,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 4.3274480029940605,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 29,
+            "at": 17500555.733791,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 2.770312000066042,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 30,
+            "at": 17500558.370509,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 2.4046349972486496,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 31,
+            "at": 17500560.637384,
+            "target": "bar0",
+            "kind": "cancel",
+            "owner": 5,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 32,
+            "at": 17500560.785041,
+            "target": "bar1",
+            "kind": "cancel",
+            "owner": 5,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 33,
+            "at": 17500560.889051,
+            "target": "bar2",
+            "kind": "cancel",
+            "owner": 5,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 34,
+            "at": 17500567.419259,
+            "target": "bar0",
+            "kind": "replace",
+            "owner": 6,
+            "ownerLabel": "click",
+            "previous": 5,
+            "previousLabel": "pulse"
+          },
+          {
+            "sequence": 35,
+            "at": 17500567.632176,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 6,
+            "ownerLabel": "click"
+          },
+          {
+            "sequence": 36,
+            "at": 17500567.69478,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 6,
+            "ownerLabel": "click"
+          }
+        ],
+        "cost": {
+          "reads": 6,
+          "readMs": 9.406720999628305,
+          "prepareMs": 39.14198099821806,
+          "updateMs": 3.5893229991197586,
+          "writes": 3,
+          "preparedComponents": 1413,
+          "droppedEvents": 4
+        },
+        "unavailable": [
+          "gpuTime",
+          "nativeSamplingTime",
+          "allocatedBytes"
+        ]
+      }
+    },
+    {
+      "name": "renderer",
+      "time": 1794013987762,
+      "mode": "inspector",
+      "scope": 7,
+      "active": false
+    },
+    {
+      "name": "inspection",
+      "time": 1794013988598,
+      "mode": "inspector",
+      "scope": 6,
+      "snapshot": {
+        "version": 1,
+        "properties": [
+          {
+            "id": "bar0",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 2,
+            "values": [
+              0.19999999999999996
+            ],
+            "observation": "adapter-read",
+            "binding": false
+          },
+          {
+            "id": "bar1",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 3,
+            "values": [
+              0.19999999999999996
+            ],
+            "observation": "adapter-read",
+            "binding": false
+          },
+          {
+            "id": "bar2",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 4,
+            "values": [
+              0.19999999999999996
+            ],
+            "observation": "adapter-read",
+            "binding": false
+          }
+        ],
+        "activities": [
+          {
+            "id": "scene",
+            "active": false,
+            "suspended": false,
+            "references": 0
+          }
+        ],
+        "events": [
+          {
+            "sequence": 11,
+            "at": 17495777.686449,
+            "target": "bar1",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 12,
+            "at": 17495777.720042,
+            "target": "bar2",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 13,
+            "at": 17497047.514052,
+            "target": "bar0",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 14,
+            "at": 17497047.555823,
+            "target": "bar1",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 15,
+            "at": 17497047.600042,
+            "target": "bar2",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 16,
+            "at": 17498130.927385,
+            "target": "bar0",
+            "kind": "write",
+            "jsMs": 1.8257820010185242,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 17,
+            "at": 17498131.743896,
+            "target": "bar0",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 18,
+            "at": 17498133.327385,
+            "target": "bar1",
+            "kind": "write",
+            "jsMs": 0.9071349985897541,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 19,
+            "at": 17498133.675719,
+            "target": "bar1",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 20,
+            "at": 17498134.804937,
+            "target": "bar2",
+            "kind": "write",
+            "jsMs": 0.8564059995114803,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 21,
+            "at": 17498135.012073,
+            "target": "bar2",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 22,
+            "at": 17499317.465927,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 2.3627079986035824,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 23,
+            "at": 17499320.140041,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 2.465312998741865,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 24,
+            "at": 17499322.626812,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 2.3676050007343292,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 25,
+            "at": 17499323.887541,
+            "target": "bar0",
+            "kind": "start",
+            "owner": 5,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 26,
+            "at": 17499323.948531,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 5,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 27,
+            "at": 17499323.973999,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 5,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 28,
+            "at": 17500552.758374,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 4.3274480029940605,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 29,
+            "at": 17500555.733791,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 2.770312000066042,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 30,
+            "at": 17500558.370509,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 2.4046349972486496,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 31,
+            "at": 17500560.637384,
+            "target": "bar0",
+            "kind": "cancel",
+            "owner": 5,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 32,
+            "at": 17500560.785041,
+            "target": "bar1",
+            "kind": "cancel",
+            "owner": 5,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 33,
+            "at": 17500560.889051,
+            "target": "bar2",
+            "kind": "cancel",
+            "owner": 5,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 34,
+            "at": 17500567.419259,
+            "target": "bar0",
+            "kind": "replace",
+            "owner": 6,
+            "ownerLabel": "click",
+            "previous": 5,
+            "previousLabel": "pulse"
+          },
+          {
+            "sequence": 35,
+            "at": 17500567.632176,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 6,
+            "ownerLabel": "click"
+          },
+          {
+            "sequence": 36,
+            "at": 17500567.69478,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 6,
+            "ownerLabel": "click"
+          },
+          {
+            "sequence": 37,
+            "at": 17503186.931133,
+            "target": "bar0",
+            "kind": "write",
+            "jsMs": 0.8761980012059212,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 38,
+            "at": 17503187.220092,
+            "target": "bar0",
+            "kind": "complete",
+            "owner": 6,
+            "ownerLabel": "click"
+          },
+          {
+            "sequence": 39,
+            "at": 17503188.295977,
+            "target": "bar1",
+            "kind": "write",
+            "jsMs": 0.8095310032367706,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 40,
+            "at": 17503188.53629,
+            "target": "bar1",
+            "kind": "complete",
+            "owner": 6,
+            "ownerLabel": "click"
+          },
+          {
+            "sequence": 41,
+            "at": 17503189.637019,
+            "target": "bar2",
+            "kind": "write",
+            "jsMs": 0.7938020005822182,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 42,
+            "at": 17503189.876602,
+            "target": "bar2",
+            "kind": "complete",
+            "owner": 6,
+            "ownerLabel": "click"
+          }
+        ],
+        "cost": {
+          "reads": 7,
+          "readMs": 10.722032997757196,
+          "prepareMs": 39.14198099821806,
+          "updateMs": 6.068854004144669,
+          "writes": 6,
+          "preparedComponents": 1413,
+          "droppedEvents": 10
+        },
+        "unavailable": [
+          "gpuTime",
+          "nativeSamplingTime",
+          "allocatedBytes"
+        ]
+      }
+    },
+    {
+      "name": "remount",
+      "time": 1794013990062,
+      "mode": "inspector",
+      "scope": 0
+    },
+    {
+      "name": "mounted",
+      "time": 1794013990087,
+      "mode": "inspector",
+      "scope": 6
+    },
+    {
+      "name": "renderer",
+      "time": 1794013991538,
+      "mode": "inspector",
+      "scope": 7,
+      "active": true
+    },
+    {
+      "name": "inspection",
+      "time": 1794013991546,
+      "mode": "inspector",
+      "scope": 7,
+      "snapshot": {
+        "version": 1,
+        "properties": [
+          {
+            "id": "bar0",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 2,
+            "values": [
+              0
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar1",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 3,
+            "values": [
+              0
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar2",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 4,
+            "values": [
+              0
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "activities": [
+          {
+            "id": "scene",
+            "active": true,
+            "suspended": false,
+            "references": 1
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "at": 17506948.418476,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 2.0012500025331974,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 2,
+            "at": 17506950.186913,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 1.6409370005130768,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 3,
+            "at": 17506951.848111,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 1.582447998225689,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 4,
+            "at": 17506953.228788,
+            "target": "bar0",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 5,
+            "at": 17506953.308424,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 6,
+            "at": 17506953.333267,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "cost": {
+          "reads": 1,
+          "readMs": 1.0078130029141903,
+          "prepareMs": 5.224635001271963,
+          "updateMs": 0,
+          "writes": 0,
+          "preparedComponents": 471,
+          "droppedEvents": 0
+        },
+        "unavailable": [
+          "gpuTime",
+          "nativeSamplingTime",
+          "allocatedBytes"
+        ]
+      }
+    },
+    {
+      "name": "renderer",
+      "time": 1794013994177,
+      "mode": "inspector",
+      "scope": 7,
+      "active": false
+    },
+    {
+      "name": "inspection",
+      "time": 1794013995590,
+      "mode": "inspector",
+      "scope": 6,
+      "snapshot": {
+        "version": 1,
+        "properties": [
+          {
+            "id": "bar0",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 2,
+            "values": [
+              0.95
+            ],
+            "observation": "adapter-read",
+            "binding": false
+          },
+          {
+            "id": "bar1",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 3,
+            "values": [
+              0.95
+            ],
+            "observation": "adapter-read",
+            "binding": false
+          },
+          {
+            "id": "bar2",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "android",
+            "target": 4,
+            "values": [
+              0.95
+            ],
+            "observation": "adapter-read",
+            "binding": false
+          }
+        ],
+        "activities": [
+          {
+            "id": "scene",
+            "active": false,
+            "suspended": false,
+            "references": 0
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "at": 17506948.418476,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 2.0012500025331974,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 2,
+            "at": 17506950.186913,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 1.6409370005130768,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 3,
+            "at": 17506951.848111,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 1.582447998225689,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 4,
+            "at": 17506953.228788,
+            "target": "bar0",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 5,
+            "at": 17506953.308424,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 6,
+            "at": 17506953.333267,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 7,
+            "at": 17509603.275558,
+            "target": "bar0",
+            "kind": "write",
+            "jsMs": 0.7811979986727238,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 8,
+            "at": 17509603.5891,
+            "target": "bar0",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 9,
+            "at": 17509604.447537,
+            "target": "bar1",
+            "kind": "write",
+            "jsMs": 0.5350000001490116,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 10,
+            "at": 17509604.611027,
+            "target": "bar1",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 11,
+            "at": 17509605.338214,
+            "target": "bar2",
+            "kind": "write",
+            "jsMs": 0.49317700043320656,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 12,
+            "at": 17509605.511287,
+            "target": "bar2",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "cost": {
+          "reads": 2,
+          "readMs": 2.005729004740715,
+          "prepareMs": 5.224635001271963,
+          "updateMs": 1.809374999254942,
+          "writes": 3,
+          "preparedComponents": 471,
+          "droppedEvents": 0
+        },
+        "unavailable": [
+          "gpuTime",
+          "nativeSamplingTime",
+          "allocatedBytes"
+        ]
+      }
+    }
+  ]
+}

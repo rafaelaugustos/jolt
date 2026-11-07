@@ -127,6 +127,22 @@
     "./angular": {
       "types": "./dist/angular/index.d.ts",
       "default": "./dist/angular/index.js"
+    },
+    "./audio": {
+      "types": "./dist/audio/index.d.ts",
+      "default": "./dist/audio/index.js"
+    },
+    "./web/audio": {
+      "types": "./dist/web/audio.d.ts",
+      "default": "./dist/web/audio.js"
+    },
+    "./web/inspector": {
+      "types": "./dist/web/inspector.d.ts",
+      "default": "./dist/web/inspector.js"
+    },
+    "./web/testing": {
+      "types": "./dist/web/testing.d.ts",
+      "default": "./dist/web/testing.js"
     }
   },
   "files": [
@@ -209,7 +225,10 @@
     "docs:test-playground": "node scripts/review-playground.mjs",
     "web:portable": "node benchmarks/web-portable/server.mjs",
     "web:portable:typecheck": "tsc -p benchmarks/web-portable/tsconfig.json",
-    "web:portable:test": "playwright test -c benchmarks/web-portable/playwright.config.mjs"
+    "web:portable:test": "playwright test -c benchmarks/web-portable/playwright.config.mjs",
+    "web:interaction-depth": "node benchmarks/web-interaction-depth/server.mjs",
+    "web:interaction-depth:typecheck": "tsc -p benchmarks/web-interaction-depth/tsconfig.json",
+    "web:interaction-depth:test": "playwright test -c benchmarks/web-interaction-depth/playwright.config.mjs"
   },
   "peerDependencies": {
     "@nativescript/core": ">=8.9.0",

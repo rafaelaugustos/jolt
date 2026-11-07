@@ -1,5 +1,7 @@
 # 拖动、惯性与吸附 {#drag-fling-and-snap}
 
+RC.12 [交互与深度候选实现](./interaction-depth)新增放置目标、音频提示、检查器以及 Web 路径、3D 和阴影契约，尚未包含在 RC.11.1 中。
+
 `drag()` 跟随单个手指，限制平移并将释放速度带入原生动画。在 beta.8 中添加。
 
 <Clip name="drag-ios" caption="iOS 模拟器中具有有限释放、橡皮筋和三个面板捕捉点的真实拖动。" />

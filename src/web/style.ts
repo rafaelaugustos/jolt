@@ -3,6 +3,9 @@ import {
   isTransform,
   isColor,
   isRadius,
+  isShadow,
+  clampPaint,
+  type ShadowProperty,
   type Property,
   type KeyframeProperty,
   type Scalar,
@@ -113,6 +116,43 @@ function length(
     parent.remove()
   }
 }
+/** One outer shadow, matching the existing iOS parameter contract. No silent list flattening. */
+export function readShadow(
+  target: HTMLElement,
+  css = target.ownerDocument.defaultView!.getComputedStyle(target),
+): Record<ShadowProperty, number> {
+  if (css.boxShadow === 'none')
+    return {
+      shadowColor: 0xff000000,
+      shadowOpacity: 0,
+      shadowRadius: 0,
+      shadowOffsetX: 0,
+      shadowOffsetY: 0,
+    }
+  const parts = components(css.boxShadow)
+  const lengths = parts
+    .filter((value) => /^-?(?:\d*\.)?\d+px$/.test(value))
+    .map(parseFloat)
+  const colors = parts.filter((value) => !/^-?(?:\d*\.)?\d+px$/.test(value))
+  if (
+    colors.length !== 1 ||
+    parts.includes('inset') ||
+    lengths.length < 2 ||
+    lengths.length > 4 ||
+    (lengths[3] ?? 0) !== 0
+  )
+    throw new TypeError(
+      'Shadow channels require one outer box-shadow with zero spread. Use a separate wrapper for other shadow styles.',
+    )
+  const color = parseColor(target.ownerDocument, colors[0]!)
+  return {
+    shadowColor: (color | 0xff000000) >>> 0,
+    shadowOpacity: (color >>> 24) / 255,
+    shadowRadius: (lengths[2] ?? 0) / 2,
+    shadowOffsetX: lengths[0]!,
+    shadowOffsetY: lengths[1]!,
+  }
+}
 export function readProperty(
   target: HTMLElement,
   p: Property,
@@ -120,6 +160,7 @@ export function readProperty(
 ): number {
   if (isTransform(p))
     return p === 'opacity' ? Number(css.opacity) : p.startsWith('scale') ? 1 : 0
+  if (isShadow(p)) return readShadow(target, css)[p]
   if (isColor(p))
     return parseColor(target.ownerDocument, css.getPropertyValue(cssName(p)))
   if (isRadius(p)) {
@@ -151,8 +192,10 @@ export function resolveProperty(
   if (typeof value === 'number') {
     if (!Number.isFinite(value)) throw new TypeError(`${p} requires finite values.`)
     if (isColor(p)) return value >>> 0
-    return Math.max(0, value)
+    return clampPaint(p, value)
   }
+  if (p === 'shadowColor') return parseColor(target.ownerDocument, value)
+  if (isShadow(p)) throw new TypeError(`${p} requires finite numbers.`)
   const name =
     source.endsWith('RadiusX') || source.endsWith('RadiusY')
       ? cssName(source.slice(0, -1))

@@ -1,0 +1,57 @@
+{
+  "android": {
+    "off": {
+      "runs": 5,
+      "medianRunSetterBurstMs": 40.902,
+      "medianRunPreparationMs": 11.637,
+      "callbackGapMs": {
+        "0.5": 16.733,
+        "0.95": 53.792,
+        "0.99": 71.503,
+        "1": 135.943
+      },
+      "medianProcessCpuMs": 768,
+      "medianArtAllocatedBytes": 339968
+    },
+    "on": {
+      "runs": 5,
+      "medianRunSetterBurstMs": 52.444,
+      "medianRunPreparationMs": 10.738,
+      "callbackGapMs": {
+        "0.5": 16.732,
+        "0.95": 61.057,
+        "0.99": 81.174,
+        "1": 86.573
+      },
+      "medianProcessCpuMs": 807,
+      "medianArtAllocatedBytes": 323584,
+      "medianCollectedJsUpdateMs": 191.95
+    }
+  },
+  "chromium": {
+    "off": {
+      "runs": 5,
+      "medianRunSetterBurstMs": 0,
+      "medianRunPreparationMs": 0.4,
+      "callbackGapMs": {
+        "0.5": 16.6,
+        "0.95": 17.5,
+        "0.99": 17.6,
+        "1": 17.7
+      }
+    },
+    "on": {
+      "runs": 5,
+      "medianRunSetterBurstMs": 0.1,
+      "medianRunPreparationMs": 0.3,
+      "callbackGapMs": {
+        "0.5": 16.6,
+        "0.95": 17.5,
+        "0.99": 17.6,
+        "1": 17.7
+      },
+      "medianCollectedJsUpdateMs": 0.5
+    }
+  },
+  "acceptance": "Exploratory only. Old ASUS Android 8 hardware; user stopped further physical work pending a newer device. No general performance claim. Chromium uses software WebGL."
+}

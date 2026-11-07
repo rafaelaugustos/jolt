@@ -1,0 +1,3042 @@
+{
+  "platform": "ios",
+  "events": [
+    {
+      "name": "mounted",
+      "time": 1794013444343,
+      "mode": "inspector",
+      "scope": 9
+    },
+    {
+      "name": "renderer",
+      "time": 1794013449054,
+      "mode": "inspector",
+      "scope": 10,
+      "active": true
+    },
+    {
+      "name": "inspection",
+      "time": 1794013449055,
+      "mode": "inspector",
+      "scope": 10,
+      "snapshot": {
+        "version": 1,
+        "properties": [
+          {
+            "id": "shader0",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 2,
+            "values": [
+              0.10078579099925226
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "shader1",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 3,
+            "values": [
+              0.10081060716041963
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "shader2",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 4,
+            "values": [
+              0.10082203228868104
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar0",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 5,
+            "values": [
+              0.0009310459869936296
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar1",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 6,
+            "values": [
+              0.0009348716014650634
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar2",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 7,
+            "values": [
+              0.0009376890954628634
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "activities": [
+          {
+            "id": "scene",
+            "active": true,
+            "suspended": false,
+            "references": 1
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "at": 188844672.14408335,
+            "target": "shader0",
+            "kind": "prepare",
+            "jsMs": 2.202041655778885,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 2,
+            "at": 188844673.31712505,
+            "target": "shader1",
+            "kind": "prepare",
+            "jsMs": 1.126291662454605,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 3,
+            "at": 188844674.2112917,
+            "target": "shader2",
+            "kind": "prepare",
+            "jsMs": 0.8762083351612091,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 4,
+            "at": 188844674.92562503,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 0.6978749632835388,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 5,
+            "at": 188844675.57979172,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 0.6432500183582306,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 6,
+            "at": 188844676.11208338,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 0.5218749940395355,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 7,
+            "at": 188844676.57183337,
+            "target": "shader0",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 8,
+            "at": 188844676.59625003,
+            "target": "shader1",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 9,
+            "at": 188844676.60625005,
+            "target": "shader2",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 10,
+            "at": 188844676.61570835,
+            "target": "bar0",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 11,
+            "at": 188844676.62325004,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 12,
+            "at": 188844676.62679172,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "cost": {
+          "reads": 1,
+          "readMs": 0.2199583351612091,
+          "prepareMs": 6.067541629076004,
+          "updateMs": 0,
+          "writes": 0,
+          "preparedComponents": 942,
+          "droppedEvents": 0
+        },
+        "unavailable": [
+          "gpuTime",
+          "nativeSamplingTime",
+          "allocatedBytes"
+        ]
+      }
+    },
+    {
+      "name": "renderer",
+      "time": 1794013449794,
+      "mode": "inspector",
+      "scope": 10,
+      "active": false
+    },
+    {
+      "name": "pause",
+      "time": 1794013449795,
+      "mode": "inspector",
+      "scope": 10,
+      "paused": true
+    },
+    {
+      "name": "inspection",
+      "time": 1794013449796,
+      "mode": "inspector",
+      "scope": 10,
+      "snapshot": {
+        "version": 1,
+        "properties": [
+          {
+            "id": "shader0",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 2,
+            "values": [
+              0.4618466264192226
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": true,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "shader1",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 3,
+            "values": [
+              0.4618466264192226
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": true,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "shader2",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 4,
+            "values": [
+              0.4618466264192226
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": true,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar0",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 5,
+            "values": [
+              0.4044168177626605
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": true,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar1",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 6,
+            "values": [
+              0.4044168177626605
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": true,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar2",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 7,
+            "values": [
+              0.4044168177626605
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": true,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "activities": [
+          {
+            "id": "scene",
+            "active": false,
+            "suspended": false,
+            "references": 1
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "at": 188844672.14408335,
+            "target": "shader0",
+            "kind": "prepare",
+            "jsMs": 2.202041655778885,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 2,
+            "at": 188844673.31712505,
+            "target": "shader1",
+            "kind": "prepare",
+            "jsMs": 1.126291662454605,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 3,
+            "at": 188844674.2112917,
+            "target": "shader2",
+            "kind": "prepare",
+            "jsMs": 0.8762083351612091,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 4,
+            "at": 188844674.92562503,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 0.6978749632835388,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 5,
+            "at": 188844675.57979172,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 0.6432500183582306,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 6,
+            "at": 188844676.11208338,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 0.5218749940395355,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 7,
+            "at": 188844676.57183337,
+            "target": "shader0",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 8,
+            "at": 188844676.59625003,
+            "target": "shader1",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 9,
+            "at": 188844676.60625005,
+            "target": "shader2",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 10,
+            "at": 188844676.61570835,
+            "target": "bar0",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 11,
+            "at": 188844676.62325004,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 12,
+            "at": 188844676.62679172,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 13,
+            "at": 188845418.1837084,
+            "target": "shader0",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 14,
+            "at": 188845418.19670838,
+            "target": "shader1",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 15,
+            "at": 188845418.19979173,
+            "target": "shader2",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 16,
+            "at": 188845418.20200002,
+            "target": "bar0",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 17,
+            "at": 188845418.20408338,
+            "target": "bar1",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 18,
+            "at": 188845418.20587504,
+            "target": "bar2",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "cost": {
+          "reads": 2,
+          "readMs": 0.4438333213329315,
+          "prepareMs": 6.067541629076004,
+          "updateMs": 0,
+          "writes": 0,
+          "preparedComponents": 942,
+          "droppedEvents": 0
+        },
+        "unavailable": [
+          "gpuTime",
+          "nativeSamplingTime",
+          "allocatedBytes"
+        ]
+      }
+    },
+    {
+      "name": "seek",
+      "time": 1794013450777,
+      "mode": "inspector",
+      "scope": 10
+    },
+    {
+      "name": "inspection",
+      "time": 1794013450778,
+      "mode": "inspector",
+      "scope": 10,
+      "snapshot": {
+        "version": 1,
+        "properties": [
+          {
+            "id": "shader0",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 2,
+            "values": [
+              0.7673618585965577
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": true,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "shader1",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 3,
+            "values": [
+              0.7673618585965577
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": true,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "shader2",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 4,
+            "values": [
+              0.7673618585965577
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": true,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar0",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 5,
+            "values": [
+              0.7458750184314468
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": true,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar1",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 6,
+            "values": [
+              0.7458750184314468
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": true,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar2",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 7,
+            "values": [
+              0.7458750184314468
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": true,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "activities": [
+          {
+            "id": "scene",
+            "active": false,
+            "suspended": false,
+            "references": 1
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "at": 188844672.14408335,
+            "target": "shader0",
+            "kind": "prepare",
+            "jsMs": 2.202041655778885,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 2,
+            "at": 188844673.31712505,
+            "target": "shader1",
+            "kind": "prepare",
+            "jsMs": 1.126291662454605,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 3,
+            "at": 188844674.2112917,
+            "target": "shader2",
+            "kind": "prepare",
+            "jsMs": 0.8762083351612091,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 4,
+            "at": 188844674.92562503,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 0.6978749632835388,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 5,
+            "at": 188844675.57979172,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 0.6432500183582306,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 6,
+            "at": 188844676.11208338,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 0.5218749940395355,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 7,
+            "at": 188844676.57183337,
+            "target": "shader0",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 8,
+            "at": 188844676.59625003,
+            "target": "shader1",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 9,
+            "at": 188844676.60625005,
+            "target": "shader2",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 10,
+            "at": 188844676.61570835,
+            "target": "bar0",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 11,
+            "at": 188844676.62325004,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 12,
+            "at": 188844676.62679172,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 13,
+            "at": 188845418.1837084,
+            "target": "shader0",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 14,
+            "at": 188845418.19670838,
+            "target": "shader1",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 15,
+            "at": 188845418.19979173,
+            "target": "shader2",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 16,
+            "at": 188845418.20200002,
+            "target": "bar0",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 17,
+            "at": 188845418.20408338,
+            "target": "bar1",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 18,
+            "at": 188845418.20587504,
+            "target": "bar2",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 19,
+            "at": 188846401.37525004,
+            "target": "shader0",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 20,
+            "at": 188846401.38245836,
+            "target": "shader1",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 21,
+            "at": 188846401.38595837,
+            "target": "shader2",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 22,
+            "at": 188846401.38991672,
+            "target": "bar0",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 23,
+            "at": 188846401.39208338,
+            "target": "bar1",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 24,
+            "at": 188846401.39412504,
+            "target": "bar2",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "cost": {
+          "reads": 3,
+          "readMs": 0.6257500052452087,
+          "prepareMs": 6.067541629076004,
+          "updateMs": 0,
+          "writes": 0,
+          "preparedComponents": 942,
+          "droppedEvents": 0
+        },
+        "unavailable": [
+          "gpuTime",
+          "nativeSamplingTime",
+          "allocatedBytes"
+        ]
+      }
+    },
+    {
+      "name": "renderer",
+      "time": 1794013451661,
+      "mode": "inspector",
+      "scope": 10,
+      "active": true
+    },
+    {
+      "name": "pause",
+      "time": 1794013451662,
+      "mode": "inspector",
+      "scope": 10,
+      "paused": false
+    },
+    {
+      "name": "inspection",
+      "time": 1794013451663,
+      "mode": "inspector",
+      "scope": 10,
+      "snapshot": {
+        "version": 1,
+        "properties": [
+          {
+            "id": "shader0",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 2,
+            "values": [
+              0.7673628252181226
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "shader1",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 3,
+            "values": [
+              0.7673628252181226
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "shader2",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 4,
+            "values": [
+              0.7673628252181226
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar0",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 5,
+            "values": [
+              0.7458760987731958
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar1",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 6,
+            "values": [
+              0.7458760987731958
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar2",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 7,
+            "values": [
+              0.7458760987731958
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "activities": [
+          {
+            "id": "scene",
+            "active": true,
+            "suspended": false,
+            "references": 1
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "at": 188844672.14408335,
+            "target": "shader0",
+            "kind": "prepare",
+            "jsMs": 2.202041655778885,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 2,
+            "at": 188844673.31712505,
+            "target": "shader1",
+            "kind": "prepare",
+            "jsMs": 1.126291662454605,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 3,
+            "at": 188844674.2112917,
+            "target": "shader2",
+            "kind": "prepare",
+            "jsMs": 0.8762083351612091,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 4,
+            "at": 188844674.92562503,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 0.6978749632835388,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 5,
+            "at": 188844675.57979172,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 0.6432500183582306,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 6,
+            "at": 188844676.11208338,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 0.5218749940395355,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 7,
+            "at": 188844676.57183337,
+            "target": "shader0",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 8,
+            "at": 188844676.59625003,
+            "target": "shader1",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 9,
+            "at": 188844676.60625005,
+            "target": "shader2",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 10,
+            "at": 188844676.61570835,
+            "target": "bar0",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 11,
+            "at": 188844676.62325004,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 12,
+            "at": 188844676.62679172,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 13,
+            "at": 188845418.1837084,
+            "target": "shader0",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 14,
+            "at": 188845418.19670838,
+            "target": "shader1",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 15,
+            "at": 188845418.19979173,
+            "target": "shader2",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 16,
+            "at": 188845418.20200002,
+            "target": "bar0",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 17,
+            "at": 188845418.20408338,
+            "target": "bar1",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 18,
+            "at": 188845418.20587504,
+            "target": "bar2",
+            "kind": "pause",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 19,
+            "at": 188846401.37525004,
+            "target": "shader0",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 20,
+            "at": 188846401.38245836,
+            "target": "shader1",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 21,
+            "at": 188846401.38595837,
+            "target": "shader2",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 22,
+            "at": 188846401.38991672,
+            "target": "bar0",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 23,
+            "at": 188846401.39208338,
+            "target": "bar1",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 24,
+            "at": 188846401.39412504,
+            "target": "bar2",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 25,
+            "at": 188847284.8124584,
+            "target": "shader0",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 26,
+            "at": 188847284.81937507,
+            "target": "shader1",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 27,
+            "at": 188847284.82154173,
+            "target": "shader2",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 28,
+            "at": 188847284.82337505,
+            "target": "bar0",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 29,
+            "at": 188847284.82520837,
+            "target": "bar1",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 30,
+            "at": 188847284.82700005,
+            "target": "bar2",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "cost": {
+          "reads": 4,
+          "readMs": 0.8297083377838135,
+          "prepareMs": 6.067541629076004,
+          "updateMs": 0,
+          "writes": 0,
+          "preparedComponents": 942,
+          "droppedEvents": 0
+        },
+        "unavailable": [
+          "gpuTime",
+          "nativeSamplingTime",
+          "allocatedBytes"
+        ]
+      }
+    },
+    {
+      "name": "renderer",
+      "time": 1794013452702,
+      "mode": "inspector",
+      "scope": 10,
+      "active": false
+    },
+    {
+      "name": "renderer",
+      "time": 1794013453551,
+      "mode": "inspector",
+      "scope": 10,
+      "active": true
+    },
+    {
+      "name": "inspection",
+      "time": 1794013453552,
+      "mode": "inspector",
+      "scope": 10,
+      "snapshot": {
+        "version": 1,
+        "properties": [
+          {
+            "id": "shader0",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 2,
+            "values": [
+              0.95
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "shader1",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 3,
+            "values": [
+              0.95
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "shader2",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 4,
+            "values": [
+              0.95
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar0",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 5,
+            "values": [
+              0.95
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar1",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 6,
+            "values": [
+              0.95
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar2",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 7,
+            "values": [
+              0.95
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 8,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "activities": [
+          {
+            "id": "scene",
+            "active": true,
+            "suspended": false,
+            "references": 1
+          }
+        ],
+        "events": [
+          {
+            "sequence": 23,
+            "at": 188846401.39208338,
+            "target": "bar1",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 24,
+            "at": 188846401.39412504,
+            "target": "bar2",
+            "kind": "seek",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 25,
+            "at": 188847284.8124584,
+            "target": "shader0",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 26,
+            "at": 188847284.81937507,
+            "target": "shader1",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 27,
+            "at": 188847284.82154173,
+            "target": "shader2",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 28,
+            "at": 188847284.82337505,
+            "target": "bar0",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 29,
+            "at": 188847284.82520837,
+            "target": "bar1",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 30,
+            "at": 188847284.82700005,
+            "target": "bar2",
+            "kind": "play",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 31,
+            "at": 188848325.4330417,
+            "target": "shader0",
+            "kind": "write",
+            "jsMs": 0.1707499921321869,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 32,
+            "at": 188848325.5147917,
+            "target": "shader0",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 33,
+            "at": 188848325.6286667,
+            "target": "shader1",
+            "kind": "write",
+            "jsMs": 0.058750003576278687,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 34,
+            "at": 188848325.65370837,
+            "target": "shader1",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 35,
+            "at": 188848325.72541672,
+            "target": "shader2",
+            "kind": "write",
+            "jsMs": 0.05379167199134827,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 36,
+            "at": 188848325.73658338,
+            "target": "shader2",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 37,
+            "at": 188848325.79387504,
+            "target": "bar0",
+            "kind": "write",
+            "jsMs": 0.03575003147125244,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 38,
+            "at": 188848325.80195838,
+            "target": "bar0",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 39,
+            "at": 188848325.8280417,
+            "target": "bar1",
+            "kind": "write",
+            "jsMs": 0.017583340406417847,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 40,
+            "at": 188848325.83525002,
+            "target": "bar1",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 41,
+            "at": 188848325.8582084,
+            "target": "bar2",
+            "kind": "write",
+            "jsMs": 0.01637500524520874,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 42,
+            "at": 188848325.8708334,
+            "target": "bar2",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 43,
+            "at": 188849170.13770837,
+            "target": "shader0",
+            "kind": "prepare",
+            "jsMs": 1.397875040769577,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 44,
+            "at": 188849170.94133338,
+            "target": "shader1",
+            "kind": "prepare",
+            "jsMs": 0.7685833275318146,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 45,
+            "at": 188849171.87200004,
+            "target": "shader2",
+            "kind": "prepare",
+            "jsMs": 0.9127083420753479,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 46,
+            "at": 188849172.48983338,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 0.6011250019073486,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 47,
+            "at": 188849173.1161667,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 0.617000013589859,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 48,
+            "at": 188849173.67758337,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 0.5508333444595337,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 49,
+            "at": 188849173.74966672,
+            "target": "shader0",
+            "kind": "start",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 50,
+            "at": 188849173.7561667,
+            "target": "shader1",
+            "kind": "start",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 51,
+            "at": 188849173.7597917,
+            "target": "shader2",
+            "kind": "start",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 52,
+            "at": 188849173.76587504,
+            "target": "bar0",
+            "kind": "start",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 53,
+            "at": 188849173.7705417,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 54,
+            "at": 188849173.77304173,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "cost": {
+          "reads": 5,
+          "readMs": 0.9470833241939545,
+          "prepareMs": 10.915666699409485,
+          "updateMs": 0.35300004482269287,
+          "writes": 6,
+          "preparedComponents": 1884,
+          "droppedEvents": 22
+        },
+        "unavailable": [
+          "gpuTime",
+          "nativeSamplingTime",
+          "allocatedBytes"
+        ]
+      }
+    },
+    {
+      "name": "renderer",
+      "time": 1794013454349,
+      "mode": "inspector",
+      "scope": 10,
+      "active": false
+    },
+    {
+      "name": "renderer",
+      "time": 1794013454350,
+      "mode": "inspector",
+      "scope": 11,
+      "active": true
+    },
+    {
+      "name": "inspection",
+      "time": 1794013454351,
+      "mode": "inspector",
+      "scope": 11,
+      "snapshot": {
+        "version": 1,
+        "properties": [
+          {
+            "id": "shader0",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 2,
+            "values": [
+              0.9494352797260116
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 9,
+            "ownerLabel": "click"
+          },
+          {
+            "id": "shader1",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 3,
+            "values": [
+              0.9494275659204299
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 9,
+            "ownerLabel": "click"
+          },
+          {
+            "id": "shader2",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 4,
+            "values": [
+              0.9494227702950744
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 9,
+            "ownerLabel": "click"
+          },
+          {
+            "id": "bar0",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 5,
+            "values": [
+              0.949418627701727
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 9,
+            "ownerLabel": "click"
+          },
+          {
+            "id": "bar1",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 6,
+            "values": [
+              0.9494174440994575
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 9,
+            "ownerLabel": "click"
+          },
+          {
+            "id": "bar2",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 7,
+            "values": [
+              0.949416648214873
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 9,
+            "ownerLabel": "click"
+          }
+        ],
+        "activities": [
+          {
+            "id": "scene",
+            "active": true,
+            "suspended": false,
+            "references": 1
+          }
+        ],
+        "events": [
+          {
+            "sequence": 41,
+            "at": 188848325.8582084,
+            "target": "bar2",
+            "kind": "write",
+            "jsMs": 0.01637500524520874,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 42,
+            "at": 188848325.8708334,
+            "target": "bar2",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 43,
+            "at": 188849170.13770837,
+            "target": "shader0",
+            "kind": "prepare",
+            "jsMs": 1.397875040769577,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 44,
+            "at": 188849170.94133338,
+            "target": "shader1",
+            "kind": "prepare",
+            "jsMs": 0.7685833275318146,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 45,
+            "at": 188849171.87200004,
+            "target": "shader2",
+            "kind": "prepare",
+            "jsMs": 0.9127083420753479,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 46,
+            "at": 188849172.48983338,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 0.6011250019073486,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 47,
+            "at": 188849173.1161667,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 0.617000013589859,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 48,
+            "at": 188849173.67758337,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 0.5508333444595337,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 49,
+            "at": 188849173.74966672,
+            "target": "shader0",
+            "kind": "start",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 50,
+            "at": 188849173.7561667,
+            "target": "shader1",
+            "kind": "start",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 51,
+            "at": 188849173.7597917,
+            "target": "shader2",
+            "kind": "start",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 52,
+            "at": 188849173.76587504,
+            "target": "bar0",
+            "kind": "start",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 53,
+            "at": 188849173.7705417,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 54,
+            "at": 188849173.77304173,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 55,
+            "at": 188849969.5568334,
+            "target": "shader0",
+            "kind": "prepare",
+            "jsMs": 0.9541666507720947,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 56,
+            "at": 188849970.68241674,
+            "target": "shader1",
+            "kind": "prepare",
+            "jsMs": 1.10508331656456,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 57,
+            "at": 188849971.4329167,
+            "target": "shader2",
+            "kind": "prepare",
+            "jsMs": 0.7394166588783264,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 58,
+            "at": 188849972.2252917,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 0.784416675567627,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 59,
+            "at": 188849972.8125417,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 0.5790000259876251,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 60,
+            "at": 188849973.50212502,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 0.6819582879543304,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 61,
+            "at": 188849973.66437504,
+            "target": "shader0",
+            "kind": "cancel",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 62,
+            "at": 188849973.67100003,
+            "target": "shader1",
+            "kind": "cancel",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 63,
+            "at": 188849973.67712504,
+            "target": "shader2",
+            "kind": "cancel",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 64,
+            "at": 188849973.68350005,
+            "target": "bar0",
+            "kind": "cancel",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 65,
+            "at": 188849973.68808338,
+            "target": "bar1",
+            "kind": "cancel",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 66,
+            "at": 188849973.69437504,
+            "target": "bar2",
+            "kind": "cancel",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 67,
+            "at": 188849974.2236667,
+            "target": "shader0",
+            "kind": "replace",
+            "owner": 9,
+            "ownerLabel": "click",
+            "previous": 8,
+            "previousLabel": "pulse"
+          },
+          {
+            "sequence": 68,
+            "at": 188849974.2418334,
+            "target": "shader1",
+            "kind": "start",
+            "owner": 9,
+            "ownerLabel": "click"
+          },
+          {
+            "sequence": 69,
+            "at": 188849974.2436667,
+            "target": "shader2",
+            "kind": "start",
+            "owner": 9,
+            "ownerLabel": "click"
+          },
+          {
+            "sequence": 70,
+            "at": 188849974.24500003,
+            "target": "bar0",
+            "kind": "start",
+            "owner": 9,
+            "ownerLabel": "click"
+          },
+          {
+            "sequence": 71,
+            "at": 188849974.24641672,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 9,
+            "ownerLabel": "click"
+          },
+          {
+            "sequence": 72,
+            "at": 188849974.24870837,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 9,
+            "ownerLabel": "click"
+          }
+        ],
+        "cost": {
+          "reads": 6,
+          "readMs": 1.0001250207424164,
+          "prepareMs": 15.759708315134048,
+          "updateMs": 0.35300004482269287,
+          "writes": 6,
+          "preparedComponents": 2826,
+          "droppedEvents": 40
+        },
+        "unavailable": [
+          "gpuTime",
+          "nativeSamplingTime",
+          "allocatedBytes"
+        ]
+      }
+    },
+    {
+      "name": "renderer",
+      "time": 1794013456950,
+      "mode": "inspector",
+      "scope": 10,
+      "active": false
+    },
+    {
+      "name": "inspection",
+      "time": 1794013457427,
+      "mode": "inspector",
+      "scope": 9,
+      "snapshot": {
+        "version": 1,
+        "properties": [
+          {
+            "id": "shader0",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 2,
+            "values": [
+              0.19999999999999996
+            ],
+            "observation": "adapter-read",
+            "binding": false
+          },
+          {
+            "id": "shader1",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 3,
+            "values": [
+              0.19999999999999996
+            ],
+            "observation": "adapter-read",
+            "binding": false
+          },
+          {
+            "id": "shader2",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 4,
+            "values": [
+              0.19999999999999996
+            ],
+            "observation": "adapter-read",
+            "binding": false
+          },
+          {
+            "id": "bar0",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 5,
+            "values": [
+              0.19999999999999996
+            ],
+            "observation": "adapter-read",
+            "binding": false
+          },
+          {
+            "id": "bar1",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 6,
+            "values": [
+              0.19999999999999996
+            ],
+            "observation": "adapter-read",
+            "binding": false
+          },
+          {
+            "id": "bar2",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 7,
+            "values": [
+              0.19999999999999996
+            ],
+            "observation": "adapter-read",
+            "binding": false
+          }
+        ],
+        "activities": [
+          {
+            "id": "scene",
+            "active": false,
+            "suspended": false,
+            "references": 0
+          }
+        ],
+        "events": [
+          {
+            "sequence": 53,
+            "at": 188849173.7705417,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 54,
+            "at": 188849173.77304173,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 55,
+            "at": 188849969.5568334,
+            "target": "shader0",
+            "kind": "prepare",
+            "jsMs": 0.9541666507720947,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 56,
+            "at": 188849970.68241674,
+            "target": "shader1",
+            "kind": "prepare",
+            "jsMs": 1.10508331656456,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 57,
+            "at": 188849971.4329167,
+            "target": "shader2",
+            "kind": "prepare",
+            "jsMs": 0.7394166588783264,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 58,
+            "at": 188849972.2252917,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 0.784416675567627,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 59,
+            "at": 188849972.8125417,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 0.5790000259876251,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 60,
+            "at": 188849973.50212502,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 0.6819582879543304,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 61,
+            "at": 188849973.66437504,
+            "target": "shader0",
+            "kind": "cancel",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 62,
+            "at": 188849973.67100003,
+            "target": "shader1",
+            "kind": "cancel",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 63,
+            "at": 188849973.67712504,
+            "target": "shader2",
+            "kind": "cancel",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 64,
+            "at": 188849973.68350005,
+            "target": "bar0",
+            "kind": "cancel",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 65,
+            "at": 188849973.68808338,
+            "target": "bar1",
+            "kind": "cancel",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 66,
+            "at": 188849973.69437504,
+            "target": "bar2",
+            "kind": "cancel",
+            "owner": 8,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 67,
+            "at": 188849974.2236667,
+            "target": "shader0",
+            "kind": "replace",
+            "owner": 9,
+            "ownerLabel": "click",
+            "previous": 8,
+            "previousLabel": "pulse"
+          },
+          {
+            "sequence": 68,
+            "at": 188849974.2418334,
+            "target": "shader1",
+            "kind": "start",
+            "owner": 9,
+            "ownerLabel": "click"
+          },
+          {
+            "sequence": 69,
+            "at": 188849974.2436667,
+            "target": "shader2",
+            "kind": "start",
+            "owner": 9,
+            "ownerLabel": "click"
+          },
+          {
+            "sequence": 70,
+            "at": 188849974.24500003,
+            "target": "bar0",
+            "kind": "start",
+            "owner": 9,
+            "ownerLabel": "click"
+          },
+          {
+            "sequence": 71,
+            "at": 188849974.24641672,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 9,
+            "ownerLabel": "click"
+          },
+          {
+            "sequence": 72,
+            "at": 188849974.24870837,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 9,
+            "ownerLabel": "click"
+          },
+          {
+            "sequence": 73,
+            "at": 188852573.6594167,
+            "target": "shader0",
+            "kind": "write",
+            "jsMs": 0.16554167866706848,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 74,
+            "at": 188852573.69050005,
+            "target": "shader0",
+            "kind": "complete",
+            "owner": 9,
+            "ownerLabel": "click"
+          },
+          {
+            "sequence": 75,
+            "at": 188852573.7639584,
+            "target": "shader1",
+            "kind": "write",
+            "jsMs": 0.05104166269302368,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 76,
+            "at": 188852573.77258337,
+            "target": "shader1",
+            "kind": "complete",
+            "owner": 9,
+            "ownerLabel": "click"
+          },
+          {
+            "sequence": 77,
+            "at": 188852573.83987504,
+            "target": "shader2",
+            "kind": "write",
+            "jsMs": 0.04616665840148926,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 78,
+            "at": 188852573.8474167,
+            "target": "shader2",
+            "kind": "complete",
+            "owner": 9,
+            "ownerLabel": "click"
+          },
+          {
+            "sequence": 79,
+            "at": 188852574.12933338,
+            "target": "bar0",
+            "kind": "write",
+            "jsMs": 0.2680416405200958,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 80,
+            "at": 188852574.1574167,
+            "target": "bar0",
+            "kind": "complete",
+            "owner": 9,
+            "ownerLabel": "click"
+          },
+          {
+            "sequence": 81,
+            "at": 188852574.34887502,
+            "target": "bar1",
+            "kind": "write",
+            "jsMs": 0.1730000078678131,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 82,
+            "at": 188852574.36479172,
+            "target": "bar1",
+            "kind": "complete",
+            "owner": 9,
+            "ownerLabel": "click"
+          },
+          {
+            "sequence": 83,
+            "at": 188852574.47812507,
+            "target": "bar2",
+            "kind": "write",
+            "jsMs": 0.10254168510437012,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 84,
+            "at": 188852574.4941667,
+            "target": "bar2",
+            "kind": "complete",
+            "owner": 9,
+            "ownerLabel": "click"
+          }
+        ],
+        "cost": {
+          "reads": 7,
+          "readMs": 1.17145836353302,
+          "prepareMs": 15.759708315134048,
+          "updateMs": 1.1593333780765533,
+          "writes": 12,
+          "preparedComponents": 2826,
+          "droppedEvents": 52
+        },
+        "unavailable": [
+          "gpuTime",
+          "nativeSamplingTime",
+          "allocatedBytes"
+        ]
+      }
+    },
+    {
+      "name": "remount",
+      "time": 1794013458515,
+      "mode": "inspector",
+      "scope": 0
+    },
+    {
+      "name": "mounted",
+      "time": 1794013458522,
+      "mode": "inspector",
+      "scope": 9
+    },
+    {
+      "name": "renderer",
+      "time": 1794013459518,
+      "mode": "inspector",
+      "scope": 10,
+      "active": true
+    },
+    {
+      "name": "inspection",
+      "time": 1794013459521,
+      "mode": "inspector",
+      "scope": 10,
+      "snapshot": {
+        "version": 1,
+        "properties": [
+          {
+            "id": "shader0",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 2,
+            "values": [
+              0.10073911905560315
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "shader1",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 3,
+            "values": [
+              0.10077334822117366
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "shader2",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 4,
+            "values": [
+              0.10078509716515034
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar0",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 5,
+            "values": [
+              0.0008891968681497012
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar1",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 6,
+            "values": [
+              0.0008924021022133961
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "id": "bar2",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 7,
+            "values": [
+              0.0008945992527803846
+            ],
+            "observation": "adapter-read",
+            "binding": false,
+            "paused": false,
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "activities": [
+          {
+            "id": "scene",
+            "active": true,
+            "suspended": false,
+            "references": 1
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "at": 188855137.13808337,
+            "target": "shader0",
+            "kind": "prepare",
+            "jsMs": 1.623708337545395,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 2,
+            "at": 188855137.96550003,
+            "target": "shader1",
+            "kind": "prepare",
+            "jsMs": 0.8068332970142365,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 3,
+            "at": 188855138.9967084,
+            "target": "shader2",
+            "kind": "prepare",
+            "jsMs": 1.0192083418369293,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 4,
+            "at": 188855139.63470837,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 0.6285416781902313,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 5,
+            "at": 188855140.33258337,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 0.6916666328907013,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 6,
+            "at": 188855140.8810417,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 0.542333334684372,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 7,
+            "at": 188855141.0029584,
+            "target": "shader0",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 8,
+            "at": 188855141.02000004,
+            "target": "shader1",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 9,
+            "at": 188855141.02262503,
+            "target": "shader2",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 10,
+            "at": 188855141.02620837,
+            "target": "bar0",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 11,
+            "at": 188855141.02883336,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 12,
+            "at": 188855141.03133336,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "cost": {
+          "reads": 1,
+          "readMs": 0.21366667747497559,
+          "prepareMs": 5.312291622161865,
+          "updateMs": 0,
+          "writes": 0,
+          "preparedComponents": 942,
+          "droppedEvents": 0
+        },
+        "unavailable": [
+          "gpuTime",
+          "nativeSamplingTime",
+          "allocatedBytes"
+        ]
+      }
+    },
+    {
+      "name": "renderer",
+      "time": 1794013462118,
+      "mode": "inspector",
+      "scope": 10,
+      "active": false
+    },
+    {
+      "name": "inspection",
+      "time": 1794013463194,
+      "mode": "inspector",
+      "scope": 9,
+      "snapshot": {
+        "version": 1,
+        "properties": [
+          {
+            "id": "shader0",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 2,
+            "values": [
+              0.95
+            ],
+            "observation": "adapter-read",
+            "binding": false
+          },
+          {
+            "id": "shader1",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 3,
+            "values": [
+              0.95
+            ],
+            "observation": "adapter-read",
+            "binding": false
+          },
+          {
+            "id": "shader2",
+            "name": "jolt.scenekit/uniform-glow",
+            "units": [
+              "intensity"
+            ],
+            "platform": "ios",
+            "target": 4,
+            "values": [
+              0.95
+            ],
+            "observation": "adapter-read",
+            "binding": false
+          },
+          {
+            "id": "bar0",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 5,
+            "values": [
+              0.95
+            ],
+            "observation": "adapter-read",
+            "binding": false
+          },
+          {
+            "id": "bar1",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 6,
+            "values": [
+              0.95
+            ],
+            "observation": "adapter-read",
+            "binding": false
+          },
+          {
+            "id": "bar2",
+            "name": "jolt.demo/portable-reveal",
+            "units": [
+              "fraction"
+            ],
+            "platform": "ios",
+            "target": 7,
+            "values": [
+              0.95
+            ],
+            "observation": "adapter-read",
+            "binding": false
+          }
+        ],
+        "activities": [
+          {
+            "id": "scene",
+            "active": false,
+            "suspended": false,
+            "references": 0
+          }
+        ],
+        "events": [
+          {
+            "sequence": 1,
+            "at": 188855137.13808337,
+            "target": "shader0",
+            "kind": "prepare",
+            "jsMs": 1.623708337545395,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 2,
+            "at": 188855137.96550003,
+            "target": "shader1",
+            "kind": "prepare",
+            "jsMs": 0.8068332970142365,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 3,
+            "at": 188855138.9967084,
+            "target": "shader2",
+            "kind": "prepare",
+            "jsMs": 1.0192083418369293,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 4,
+            "at": 188855139.63470837,
+            "target": "bar0",
+            "kind": "prepare",
+            "jsMs": 0.6285416781902313,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 5,
+            "at": 188855140.33258337,
+            "target": "bar1",
+            "kind": "prepare",
+            "jsMs": 0.6916666328907013,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 6,
+            "at": 188855140.8810417,
+            "target": "bar2",
+            "kind": "prepare",
+            "jsMs": 0.542333334684372,
+            "preparedComponents": 157
+          },
+          {
+            "sequence": 7,
+            "at": 188855141.0029584,
+            "target": "shader0",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 8,
+            "at": 188855141.02000004,
+            "target": "shader1",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 9,
+            "at": 188855141.02262503,
+            "target": "shader2",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 10,
+            "at": 188855141.02620837,
+            "target": "bar0",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 11,
+            "at": 188855141.02883336,
+            "target": "bar1",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 12,
+            "at": 188855141.03133336,
+            "target": "bar2",
+            "kind": "start",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 13,
+            "at": 188857741.2649167,
+            "target": "shader0",
+            "kind": "write",
+            "jsMs": 0.156083345413208,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 14,
+            "at": 188857741.2924167,
+            "target": "shader0",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 15,
+            "at": 188857741.36762506,
+            "target": "shader1",
+            "kind": "write",
+            "jsMs": 0.05662497878074646,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 16,
+            "at": 188857741.37983337,
+            "target": "shader1",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 17,
+            "at": 188857741.43487504,
+            "target": "shader2",
+            "kind": "write",
+            "jsMs": 0.04287499189376831,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 18,
+            "at": 188857741.44395837,
+            "target": "shader2",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 19,
+            "at": 188857741.68191668,
+            "target": "bar0",
+            "kind": "write",
+            "jsMs": 0.2277500331401825,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 20,
+            "at": 188857741.70187503,
+            "target": "bar0",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 21,
+            "at": 188857741.8547917,
+            "target": "bar1",
+            "kind": "write",
+            "jsMs": 0.13904166221618652,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 22,
+            "at": 188857741.8662917,
+            "target": "bar1",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          },
+          {
+            "sequence": 23,
+            "at": 188857741.98020837,
+            "target": "bar2",
+            "kind": "write",
+            "jsMs": 0.10520833730697632,
+            "preparedComponents": 0
+          },
+          {
+            "sequence": 24,
+            "at": 188857741.99395835,
+            "target": "bar2",
+            "kind": "complete",
+            "owner": 1,
+            "ownerLabel": "pulse"
+          }
+        ],
+        "cost": {
+          "reads": 2,
+          "readMs": 0.3936249911785126,
+          "prepareMs": 5.312291622161865,
+          "updateMs": 0.7275833487510681,
+          "writes": 6,
+          "preparedComponents": 942,
+          "droppedEvents": 0
+        },
+        "unavailable": [
+          "gpuTime",
+          "nativeSamplingTime",
+          "allocatedBytes"
+        ]
+      }
+    }
+  ]
+}

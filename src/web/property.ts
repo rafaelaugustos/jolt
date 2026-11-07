@@ -1,3 +1,9 @@
+import {
+  adapterEvent,
+  adapterMeasure,
+  registerAdapterInspection,
+  type AdapterEventKind,
+} from '../core/adapter-inspection.js'
 import { createClock, registerPlayback, validateProgress } from '../core/playback.js'
 import {
   propertyLimits,
@@ -52,6 +58,7 @@ export interface WebPropertyGroup<P extends Record<string, WebProperty<any>>> {
   dispose(): void
 }
 interface Owner {
+  handle?: WebAnimation
   stop(): void
   velocity(): readonly number[]
 }
@@ -98,6 +105,23 @@ export class PropertyTarget<T> implements WebProperty<T> {
     this.alive()
     this.vector(this.get())
     members.set(this, this)
+    registerAdapterInspection(this, {
+      name: this.name,
+      units: [...definition.units],
+      platform: 'web',
+      target,
+      read: () => {
+        this.alive()
+        const owner = this.owner()
+        return {
+          alive: !this.ended,
+          values: this.vector(this.get()),
+          owner: owner?.handle ?? owner,
+          binding: false,
+          paused: owner?.handle?.paused,
+        }
+      },
+    })
   }
   get disposed() {
     return this.ended
@@ -138,14 +162,26 @@ export class PropertyTarget<T> implements WebProperty<T> {
   }
   write(value: readonly number[]) {
     this.alive()
-    this.schema!.write(this.target!, this.schema!.decode(value))
+    const measured = adapterMeasure(this, 'write')
+    try {
+      this.schema!.write(this.target!, this.schema!.decode(value))
+    } finally {
+      measured?.()
+    }
   }
   owner() {
     return this.target ? ownership.get(this.target)?.get(this.name) : undefined
   }
   claim(owner: Owner) {
     this.alive()
-    this.owner()?.stop()
+    const previous = this.owner()
+    previous?.stop()
+    adapterEvent(
+      this,
+      previous ? 'replace' : 'start',
+      owner.handle ?? owner,
+      previous?.handle ?? previous,
+    )
     let channels = ownership.get(this.target!)
     if (!channels) ownership.set(this.target!, (channels = new Map()))
     channels.set(this.name, owner)
@@ -163,6 +199,7 @@ export class PropertyTarget<T> implements WebProperty<T> {
     this.write(vector)
   }
   prepare(to: T, options: Transition | SpringName): Plan {
+    const measured = adapterMeasure(this, 'prepare')
     this.alive()
     const from = this.get(),
       first = this.vector(from),
@@ -228,6 +265,7 @@ export class PropertyTarget<T> implements WebProperty<T> {
       const fraction = span ? Math.max(0, Math.min(1, (phase - times[low]!) / span)) : 1
       return samples[low]!.map((v, i) => v + (samples[high]![i]! - v) * fraction)
     }
+    measured?.(times.length * first.length)
     return { member: this, track, final, value, components: times.length * first.length }
   }
   animate(value: T, options: Transition | SpringName = {}) {
@@ -240,6 +278,7 @@ export class PropertyTarget<T> implements WebProperty<T> {
     if (this.ended) return
     this.stop()
     this.ended = true
+    adapterEvent(this, 'dispose')
     members.delete(this)
     this.target = undefined
     this.schema = undefined
@@ -287,6 +326,7 @@ class PropertyAnimation implements WebAnimation {
       completed: this.completed,
     }))
     this.owners = plans.map((plan) => ({
+      handle: this,
       stop: () => this.stop(),
       velocity: () =>
         this.held
@@ -327,6 +367,7 @@ class PropertyAnimation implements WebAnimation {
   set progress(value: number) {
     validateProgress(value, this.duration)
     if (this.ended) return
+    this.plans.forEach((plan) => adapterEvent(plan.member, 'seek', this))
     this.clock.seek(value * this.duration)
     this.paint()
     this.sync()
@@ -378,6 +419,7 @@ class PropertyAnimation implements WebAnimation {
         errors.push(error)
         this.completed = false
       } finally {
+        adapterEvent(plan.member, completed ? 'complete' : 'cancel', this)
         plan.member.release(this.owners[i]!)
       }
     })
@@ -397,6 +439,7 @@ class PropertyAnimation implements WebAnimation {
   }
   pause() {
     if (this.ended || this.held) return
+    this.plans.forEach((plan) => adapterEvent(plan.member, 'pause', this))
     this.clock.pause()
     this.held = true
     this.paint()
@@ -405,6 +448,7 @@ class PropertyAnimation implements WebAnimation {
   }
   play() {
     if (this.ended || !this.held) return
+    this.plans.forEach((plan) => adapterEvent(plan.member, 'play', this))
     this.clock.play()
     this.held = false
     this.sync()

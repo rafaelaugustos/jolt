@@ -242,7 +242,19 @@ export function scrollPlan(
     { input: number[]; output: number[]; points: Point[] }
   >()
   for (const [name, output] of Object.entries(frames)) {
-    if (!['x', 'y', 'rotate', 'scale', 'scaleX', 'scaleY', 'opacity'].includes(name))
+    if (
+      ![
+        'x',
+        'y',
+        'rotate',
+        'rotateX',
+        'rotateY',
+        'scale',
+        'scaleX',
+        'scaleY',
+        'opacity',
+      ].includes(name)
+    )
       throw new TypeError('Scroll playback supports 2D transforms and opacity.')
     if (!Array.isArray(output))
       throw new TypeError('Scroll frames must be explicit numeric arrays.')

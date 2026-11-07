@@ -258,8 +258,21 @@ test('symbols animate pixels, pause loops, retain replacement and restore styles
 }) => {
   await page.evaluate(() => window.fixture.boot('symbols'))
   const original = await page.locator('#stage').screenshot()
+  // Hold a meaningful pose inside the actual click dispatch. On a busy runner,
+  // screenshot capture can finish after the 700 ms bounce returns to its origin.
+  await page.evaluate(() => {
+    window.fixture.el('action').addEventListener(
+      'click',
+      () => {
+        window.fixture.symbol.pause()
+        window.fixture.symbol.progress = 0.35
+      },
+      { once: true },
+    )
+  })
   await page.locator('#action').click()
-  await page.waitForTimeout(200)
+  expect(await page.evaluate(() => window.fixture.symbol.paused)).toBe(true)
+  expect(await page.evaluate(() => window.fixture.symbol.progress)).toBeCloseTo(0.35)
   expect(await page.locator('#stage').screenshot()).not.toEqual(original)
   await page.evaluate(() => {
     window.fixture.runtime.symbolEffect(window.fixture.el('symbol'), 'pulse', {

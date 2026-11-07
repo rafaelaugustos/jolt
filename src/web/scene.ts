@@ -53,10 +53,15 @@ export function sceneSteps(
           'target' in entry === 'value' in entry
         )
           throw new TypeError('A scene track needs one target or numeric motion value.')
+        const hasPath = 'target' in entry && entry.keyframes?.path !== undefined
         const frames =
-          'value' in entry ? [entry.keyframes] : Object.values(entry.keyframes ?? {})
+          'value' in entry
+            ? [entry.keyframes]
+            : Object.entries(entry.keyframes ?? {})
+                .filter(([key]) => key !== 'path' && key !== 'orient')
+                .map(([, value]) => value)
         if (
-          !frames.length ||
+          (!frames.length && !hasPath) ||
           frames.some(
             (v) =>
               !Array.isArray(v) ||

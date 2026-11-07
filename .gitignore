@@ -84,3 +84,6 @@ benchmarks/web-parity/captures/
 
 benchmarks/web-portable/results/
 benchmarks/web-portable/captures/
+
+benchmarks/web-interaction-depth/results/
+benchmarks/web-interaction-depth/captures/

@@ -1,0 +1,110 @@
+{
+  "platform": "android",
+  "events": [
+    {
+      "name": "mounted",
+      "time": 1794014035368,
+      "mode": "depth",
+      "scope": 0
+    },
+    {
+      "name": "play",
+      "time": 1794014039069,
+      "mode": "depth",
+      "scope": 1
+    },
+    {
+      "name": "pause",
+      "time": 1794014040225,
+      "mode": "depth",
+      "scope": 1,
+      "paused": true
+    },
+    {
+      "name": "seek",
+      "time": 1794014041635,
+      "mode": "depth",
+      "scope": 1
+    },
+    {
+      "name": "pause",
+      "time": 1794014042905,
+      "mode": "depth",
+      "scope": 1,
+      "paused": false
+    },
+    {
+      "name": "finished",
+      "time": 1794014043880,
+      "mode": "depth",
+      "scope": 0,
+      "complete": true
+    },
+    {
+      "name": "play",
+      "time": 1794014045183,
+      "mode": "depth",
+      "scope": 1
+    },
+    {
+      "name": "replace",
+      "time": 1794014046363,
+      "mode": "depth",
+      "scope": 2
+    },
+    {
+      "name": "finished",
+      "time": 1794014048778,
+      "mode": "depth",
+      "scope": 0,
+      "complete": true
+    },
+    {
+      "name": "snapshot",
+      "time": 1794014049809,
+      "mode": "depth",
+      "scope": 0,
+      "status": "Completed",
+      "detail": "",
+      "paused": false,
+      "progress": 1,
+      "accepted": 0
+    },
+    {
+      "name": "remount",
+      "time": 1794014051275,
+      "mode": "depth",
+      "scope": 0
+    },
+    {
+      "name": "mounted",
+      "time": 1794014051301,
+      "mode": "depth",
+      "scope": 0
+    },
+    {
+      "name": "play",
+      "time": 1794014052726,
+      "mode": "depth",
+      "scope": 1
+    },
+    {
+      "name": "finished",
+      "time": 1794014055141,
+      "mode": "depth",
+      "scope": 0,
+      "complete": true
+    },
+    {
+      "name": "snapshot",
+      "time": 1794014056788,
+      "mode": "depth",
+      "scope": 0,
+      "status": "Completed",
+      "detail": "",
+      "paused": false,
+      "progress": 1,
+      "accepted": 0
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 # Drag, fling and snap
 
+The pending RC.12 [interaction and depth candidate](./interaction-depth) adds portable drop zones, optional audio/cues, adapter inspection and Web path/3D/shadow contracts. It is not part of RC.11.1.
+
 `drag()` follows a single finger, constrains translation and carries release velocity into a native animation. Added in beta.8.
 
 <Clip name="drag-ios" caption="Real drags with bounded release, rubberband and three panel snap points in the iOS simulator." />

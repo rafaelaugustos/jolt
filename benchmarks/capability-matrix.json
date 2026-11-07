@@ -26,6 +26,7 @@
           "decay",
           "definePreset",
           "drag",
+          "dropZones",
           "followKeyboard",
           "gradient",
           "gradientText",
@@ -248,6 +249,32 @@
         "entry": "./angular",
         "file": "src/angular/index.ts",
         "exports": ["JoltAnimateDirective", "JoltIfDirective", "JoltPressDirective"]
+      },
+      {
+        "entry": "./audio",
+        "file": "src/audio/index.ts",
+        "exports": ["audioCue"]
+      },
+      {
+        "entry": "./web/audio",
+        "file": "src/web/audio.ts",
+        "exports": ["audioCue"]
+      },
+      {
+        "entry": "./web/inspector",
+        "file": "src/web/inspector.ts",
+        "exports": ["createMotionInspector", "inspectorSpring", "springCode"]
+      },
+      {
+        "entry": "./web/testing",
+        "file": "src/web/testing.ts",
+        "exports": [
+          "parseTrace",
+          "recordInteraction",
+          "replayInteraction",
+          "replayPlot",
+          "traceRandom"
+        ]
       }
     ],
     "webRuntime": [
@@ -269,6 +296,7 @@
       "drag",
       "drawBatch",
       "drawPath",
+      "dropZones",
       "followKeyboard",
       "gestures",
       "glass",
@@ -314,6 +342,7 @@
       "symbolEffect",
       "timeline",
       "viewportEnter",
+      "withTimelineCues",
       "zoomable"
     ],
     "nativeKeyframes": [
@@ -367,10 +396,19 @@
       "borderWidth",
       "color",
       "opacity",
+      "orient",
+      "path",
       "rotate",
+      "rotateX",
+      "rotateY",
       "scale",
       "scaleX",
       "scaleY",
+      "shadowColor",
+      "shadowOffsetX",
+      "shadowOffsetY",
+      "shadowOpacity",
+      "shadowRadius",
       "x",
       "y"
     ]
@@ -392,9 +430,15 @@
       "nativeStatus": "published",
       "webStatus": "partial",
       "counterpart": "animate",
-      "contract": "Shared numeric/color/decorative motion is published; native path/orient, rotateX/rotateY and shadow/depth properties are not all Web keyframes.",
+      "contract": "Shared numeric/color motion remains published. This pending RC.12 candidate adds Web paths/tangent orientation, rotateX/Y with parent CSS perspective and one outer zero-spread CSS shadow. Android elevation/translationZ remain native-specific; no pixel/performance equivalence is implied.",
       "issues": [236],
-      "evidence": ["src/index.ts", "src/web/public.ts"]
+      "evidence": [
+        "src/index.ts",
+        "src/web/public.ts",
+        "benchmarks/web-interaction-depth/path.spec.ts",
+        "benchmarks/web-interaction-depth/depth.spec.ts",
+        "benchmarks/web-interaction-depth/shadow.spec.ts"
+      ]
     },
     {
       "entry": ".",
@@ -442,9 +486,15 @@
       "nativeStatus": "published",
       "webStatus": "partial",
       "counterpart": "bind",
-      "contract": "Shared numeric/color/decorative motion is published; native path/orient, rotateX/rotateY and shadow/depth properties are not all Web keyframes.",
+      "contract": "Shared numeric/color motion remains published. This pending RC.12 candidate adds Web paths/tangent orientation, rotateX/Y with parent CSS perspective and one outer zero-spread CSS shadow. Android elevation/translationZ remain native-specific; no pixel/performance equivalence is implied.",
       "issues": [236],
-      "evidence": ["src/index.ts", "src/web/public.ts"]
+      "evidence": [
+        "src/index.ts",
+        "src/web/public.ts",
+        "benchmarks/web-interaction-depth/path.spec.ts",
+        "benchmarks/web-interaction-depth/depth.spec.ts",
+        "benchmarks/web-interaction-depth/shadow.spec.ts"
+      ]
     },
     {
       "entry": ".",
@@ -482,7 +532,7 @@
       "nativeStatus": "published",
       "webStatus": "partial",
       "counterpart": "configure / animate options",
-      "contract": "Named springs/presets, Bézier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
+      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
       "issues": [236, 386],
       "evidence": ["src/index.ts"]
     },
@@ -622,7 +672,7 @@
       "nativeStatus": "published",
       "webStatus": "partial",
       "counterpart": "configure / animate options",
-      "contract": "Named springs/presets, Bézier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
+      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
       "issues": [236, 386],
       "evidence": ["src/index.ts"]
     },
@@ -632,7 +682,7 @@
       "nativeStatus": "published",
       "webStatus": "partial",
       "counterpart": "configure / animate options",
-      "contract": "Named springs/presets, Bézier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
+      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
       "issues": [236, 386],
       "evidence": ["src/index.ts"]
     },
@@ -662,7 +712,7 @@
       "nativeStatus": "published",
       "webStatus": "partial",
       "counterpart": "configure / animate options",
-      "contract": "Named springs/presets, Bézier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
+      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
       "issues": [236, 386],
       "evidence": ["src/index.ts"]
     },
@@ -682,7 +732,7 @@
       "nativeStatus": "published",
       "webStatus": "partial",
       "counterpart": "configure / animate options",
-      "contract": "Named springs/presets, Bézier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
+      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
       "issues": [236, 386],
       "evidence": ["src/index.ts"]
     },
@@ -762,9 +812,15 @@
       "nativeStatus": "published",
       "webStatus": "partial",
       "counterpart": "set",
-      "contract": "Shared numeric/color/decorative motion is published; native path/orient, rotateX/rotateY and shadow/depth properties are not all Web keyframes.",
+      "contract": "Shared numeric/color motion remains published. This pending RC.12 candidate adds Web paths/tangent orientation, rotateX/Y with parent CSS perspective and one outer zero-spread CSS shadow. Android elevation/translationZ remain native-specific; no pixel/performance equivalence is implied.",
       "issues": [236],
-      "evidence": ["src/index.ts", "src/web/public.ts"]
+      "evidence": [
+        "src/index.ts",
+        "src/web/public.ts",
+        "benchmarks/web-interaction-depth/path.spec.ts",
+        "benchmarks/web-interaction-depth/depth.spec.ts",
+        "benchmarks/web-interaction-depth/shadow.spec.ts"
+      ]
     },
     {
       "entry": ".",
@@ -792,7 +848,7 @@
       "nativeStatus": "published",
       "webStatus": "partial",
       "counterpart": "configure / animate options",
-      "contract": "Named springs/presets, Bézier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
+      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
       "issues": [236, 386],
       "evidence": ["src/index.ts"]
     },
@@ -802,9 +858,15 @@
       "nativeStatus": "published",
       "webStatus": "partial",
       "counterpart": "stop",
-      "contract": "Shared numeric/color/decorative motion is published; native path/orient, rotateX/rotateY and shadow/depth properties are not all Web keyframes.",
+      "contract": "Shared numeric/color motion remains published. This pending RC.12 candidate adds Web paths/tangent orientation, rotateX/Y with parent CSS perspective and one outer zero-spread CSS shadow. Android elevation/translationZ remain native-specific; no pixel/performance equivalence is implied.",
       "issues": [236],
-      "evidence": ["src/index.ts", "src/web/public.ts"]
+      "evidence": [
+        "src/index.ts",
+        "src/web/public.ts",
+        "benchmarks/web-interaction-depth/path.spec.ts",
+        "benchmarks/web-interaction-depth/depth.spec.ts",
+        "benchmarks/web-interaction-depth/shadow.spec.ts"
+      ]
     },
     {
       "entry": ".",
@@ -1231,30 +1293,39 @@
       "symbol": "parseTrace",
       "nativeStatus": "published",
       "webStatus": "pending",
-      "counterpart": null,
-      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
-      "issues": [236],
-      "evidence": ["src/testing/index.ts"]
+      "counterpart": "./web/testing",
+      "contract": "Pending RC.12 versioned bounded semantic traces and replay through an explicit application adapter/clock. Not automatic OS gesture or sensor injection.",
+      "issues": [383],
+      "evidence": [
+        "src/web/testing.ts",
+        "benchmarks/web-interaction-depth/inspector.spec.ts"
+      ]
     },
     {
       "entry": "./testing",
       "symbol": "recordInteraction",
       "nativeStatus": "published",
       "webStatus": "pending",
-      "counterpart": null,
-      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
-      "issues": [236],
-      "evidence": ["src/testing/index.ts"]
+      "counterpart": "./web/testing",
+      "contract": "Pending RC.12 versioned bounded semantic traces and replay through an explicit application adapter/clock. Not automatic OS gesture or sensor injection.",
+      "issues": [383],
+      "evidence": [
+        "src/web/testing.ts",
+        "benchmarks/web-interaction-depth/inspector.spec.ts"
+      ]
     },
     {
       "entry": "./testing",
       "symbol": "replayInteraction",
       "nativeStatus": "published",
       "webStatus": "pending",
-      "counterpart": null,
-      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
-      "issues": [236],
-      "evidence": ["src/testing/index.ts"]
+      "counterpart": "./web/testing",
+      "contract": "Pending RC.12 versioned bounded semantic traces and replay through an explicit application adapter/clock. Not automatic OS gesture or sensor injection.",
+      "issues": [383],
+      "evidence": [
+        "src/web/testing.ts",
+        "benchmarks/web-interaction-depth/inspector.spec.ts"
+      ]
     },
     {
       "entry": "./testing",
@@ -1411,10 +1482,14 @@
       "symbol": "createMotionInspector",
       "nativeStatus": "published",
       "webStatus": "pending",
-      "counterpart": "diagnostics",
-      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
-      "issues": [236],
-      "evidence": ["src/inspector/index.ts", "src/web/public.ts"]
+      "counterpart": "./web/inspector",
+      "contract": "Pending RC.12 optional pull-only Web editing and adapter ownership/cost collection. Application owns playback; no native sampling/GPU/total allocation estimates.",
+      "issues": [383, 415],
+      "evidence": [
+        "src/web/inspector.ts",
+        "src/core/adapter-inspection.ts",
+        "benchmarks/web-interaction-depth/inspector.spec.ts"
+      ]
     },
     {
       "entry": "./inspector",
@@ -1431,20 +1506,28 @@
       "symbol": "inspectorSpring",
       "nativeStatus": "published",
       "webStatus": "pending",
-      "counterpart": "diagnostics",
-      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
-      "issues": [236],
-      "evidence": ["src/inspector/index.ts", "src/web/public.ts"]
+      "counterpart": "./web/inspector",
+      "contract": "Pending RC.12 optional pull-only Web editing and adapter ownership/cost collection. Application owns playback; no native sampling/GPU/total allocation estimates.",
+      "issues": [383, 415],
+      "evidence": [
+        "src/web/inspector.ts",
+        "src/core/adapter-inspection.ts",
+        "benchmarks/web-interaction-depth/inspector.spec.ts"
+      ]
     },
     {
       "entry": "./inspector",
       "symbol": "springCode",
       "nativeStatus": "published",
       "webStatus": "pending",
-      "counterpart": "diagnostics",
-      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
-      "issues": [236],
-      "evidence": ["src/inspector/index.ts", "src/web/public.ts"]
+      "counterpart": "./web/inspector",
+      "contract": "Pending RC.12 optional pull-only Web editing and adapter ownership/cost collection. Application owns playback; no native sampling/GPU/total allocation estimates.",
+      "issues": [383, 415],
+      "evidence": [
+        "src/web/inspector.ts",
+        "src/core/adapter-inspection.ts",
+        "benchmarks/web-interaction-depth/inspector.spec.ts"
+      ]
     },
     {
       "entry": "./shared-navigation",
@@ -1766,11 +1849,14 @@
       "entry": ".",
       "symbol": "withTimelineCues",
       "nativeStatus": "pending",
-      "webStatus": "platform-specific",
-      "counterpart": null,
-      "contract": "Native iOS/Android implementation proposed for RC.12; not published in RC.11. This entry does not introduce a Web counterpart or claim renderer isolation.",
-      "issues": [411],
-      "evidence": ["src/timeline-cues.ts", "docs/guide/native-composition.md"]
+      "webStatus": "pending",
+      "counterpart": "WebRuntime.withTimelineCues",
+      "contract": "Pending RC.12 shared named cues. Seeking cancels effects without firing them; reduced motion suppresses cues. Timer boundaries are not sample-accurate audio synchronization.",
+      "issues": [402],
+      "evidence": [
+        "src/core/timeline-cues.ts",
+        "benchmarks/web-interaction-depth/audio.spec.ts"
+      ]
     },
     {
       "entry": "./vue",
@@ -1869,36 +1955,153 @@
         "docs/guide/portable-foundations.md",
         "benchmarks/web-portable/portable.spec.ts"
       ]
+    },
+    {
+      "entry": ".",
+      "symbol": "dropZones",
+      "webStatus": "pending",
+      "counterpart": "WebRuntime.dropZones",
+      "issues": [399],
+      "contract": "Pending RC.12; supported in the interaction-depth candidate, not published. In-app AABB targets with synchronous acceptance, accessible request and owned effects; no cross-window/file import.",
+      "evidence": ["src/index.ts", "docs/guide/interaction-depth.md"]
+    },
+    {
+      "entry": "./audio",
+      "symbol": "audioCue",
+      "webStatus": "pending",
+      "counterpart": "./web/audio",
+      "issues": [402],
+      "contract": "Pending RC.12; supported in the interaction-depth candidate, not published. Optional local one-shot audio, one voice per cue; no seeking/rate/mixer/streaming.",
+      "evidence": ["src/audio/index.ts", "docs/guide/interaction-depth.md"]
+    },
+    {
+      "entry": "./web/audio",
+      "symbol": "audioCue",
+      "webStatus": "pending",
+      "counterpart": "./web/audio",
+      "issues": [402],
+      "contract": "Pending RC.12; supported in the interaction-depth candidate, not published. Optional local one-shot audio, one voice per cue; no seeking/rate/mixer/streaming.",
+      "evidence": ["src/web/audio.ts", "docs/guide/interaction-depth.md"]
+    },
+    {
+      "entry": "./web/inspector",
+      "symbol": "createMotionInspector",
+      "webStatus": "pending",
+      "counterpart": "./web/inspector",
+      "issues": [383, 415],
+      "contract": "Pending RC.12; supported in the interaction-depth candidate, not published. Optional bounded explicit inspection or semantic replay; application retains ownership and supplies replay adapters.",
+      "evidence": ["src/web/inspector.ts", "docs/guide/interaction-depth.md"]
+    },
+    {
+      "entry": "./web/inspector",
+      "symbol": "inspectorSpring",
+      "webStatus": "pending",
+      "counterpart": "./web/inspector",
+      "issues": [383, 415],
+      "contract": "Pending RC.12; supported in the interaction-depth candidate, not published. Optional bounded explicit inspection or semantic replay; application retains ownership and supplies replay adapters.",
+      "evidence": ["src/web/inspector.ts", "docs/guide/interaction-depth.md"]
+    },
+    {
+      "entry": "./web/inspector",
+      "symbol": "springCode",
+      "webStatus": "pending",
+      "counterpart": "./web/inspector",
+      "issues": [383, 415],
+      "contract": "Pending RC.12; supported in the interaction-depth candidate, not published. Optional bounded explicit inspection or semantic replay; application retains ownership and supplies replay adapters.",
+      "evidence": ["src/web/inspector.ts", "docs/guide/interaction-depth.md"]
+    },
+    {
+      "entry": "./web/testing",
+      "symbol": "parseTrace",
+      "webStatus": "pending",
+      "counterpart": "./web/testing",
+      "issues": [383, 415],
+      "contract": "Pending RC.12; supported in the interaction-depth candidate, not published. Optional bounded explicit inspection or semantic replay; application retains ownership and supplies replay adapters.",
+      "evidence": ["src/web/testing.ts", "docs/guide/interaction-depth.md"]
+    },
+    {
+      "entry": "./web/testing",
+      "symbol": "recordInteraction",
+      "webStatus": "pending",
+      "counterpart": "./web/testing",
+      "issues": [383, 415],
+      "contract": "Pending RC.12; supported in the interaction-depth candidate, not published. Optional bounded explicit inspection or semantic replay; application retains ownership and supplies replay adapters.",
+      "evidence": ["src/web/testing.ts", "docs/guide/interaction-depth.md"]
+    },
+    {
+      "entry": "./web/testing",
+      "symbol": "replayInteraction",
+      "webStatus": "pending",
+      "counterpart": "./web/testing",
+      "issues": [383, 415],
+      "contract": "Pending RC.12; supported in the interaction-depth candidate, not published. Optional bounded explicit inspection or semantic replay; application retains ownership and supplies replay adapters.",
+      "evidence": ["src/web/testing.ts", "docs/guide/interaction-depth.md"]
+    },
+    {
+      "entry": "./web/testing",
+      "symbol": "replayPlot",
+      "webStatus": "pending",
+      "counterpart": "./web/testing",
+      "issues": [383, 415],
+      "contract": "Pending RC.12; supported in the interaction-depth candidate, not published. Optional bounded explicit inspection or semantic replay; application retains ownership and supplies replay adapters.",
+      "evidence": ["src/web/testing.ts", "docs/guide/interaction-depth.md"]
+    },
+    {
+      "entry": "./web/testing",
+      "symbol": "traceRandom",
+      "webStatus": "pending",
+      "counterpart": "./web/testing",
+      "issues": [383, 415],
+      "contract": "Pending RC.12; supported in the interaction-depth candidate, not published. Optional bounded explicit inspection or semantic replay; application retains ownership and supplies replay adapters.",
+      "evidence": ["src/web/testing.ts", "docs/guide/interaction-depth.md"]
     }
   ],
   "contracts": [
     {
       "id": "motion-path",
       "issues": [236, 380],
-      "status": "pending",
-      "limit": "Native path/orient drives translation/tangent orientation; Web drawPath animates a stroke and is not a motion-path equivalent.",
-      "evidence": ["src/types.ts", "src/web/types.ts", "src/web/public.ts"]
+      "status": "local-unpublished",
+      "limit": "Shared numeric/color motion remains published. This pending RC.12 candidate adds Web paths/tangent orientation, rotateX/Y with parent CSS perspective and one outer zero-spread CSS shadow. Android elevation/translationZ remain native-specific; no pixel/performance equivalence is implied.",
+      "evidence": [
+        "src/types.ts",
+        "src/web/types.ts",
+        "src/web/public.ts",
+        "docs/guide/interaction-depth.md"
+      ]
     },
     {
       "id": "3d-rotation",
       "issues": [236, 381],
-      "status": "pending",
-      "limit": "Native rotateX/rotateY have no Web keyframe/property support.",
-      "evidence": ["src/types.ts", "src/web/properties.ts"]
+      "status": "local-unpublished",
+      "limit": "Pending RC.12 supports Web rotateX/Y with application-owned parent perspective. Authored projective target baselines and 3D FLIP/layout remain unsupported; native pixels may differ.",
+      "evidence": [
+        "src/types.ts",
+        "src/web/properties.ts",
+        "benchmarks/web-interaction-depth/depth.spec.ts"
+      ]
     },
     {
       "id": "shadow-depth",
       "issues": [236, 382],
-      "status": "pending",
-      "limit": "iOS shadow opacity/radius/offset and Android elevation/translationZ need explicit browser contract decisions; CSS shadow and Z transforms are not automatic semantic substitutes.",
-      "evidence": ["src/types.ts", "src/web/properties.ts"]
+      "status": "local-unpublished",
+      "limit": "Shared numeric/color motion remains published. This pending RC.12 candidate adds Web paths/tangent orientation, rotateX/Y with parent CSS perspective and one outer zero-spread CSS shadow. Android elevation/translationZ remain native-specific; no pixel/performance equivalence is implied.",
+      "evidence": [
+        "src/types.ts",
+        "src/web/properties.ts",
+        "docs/guide/interaction-depth.md"
+      ]
     },
     {
       "id": "tooling",
       "issues": [236, 383],
-      "status": "pending",
-      "limit": "Browser diagnostics do not provide equivalent published trace recording/replay or the editable native inspector.",
-      "evidence": ["src/testing/index.ts", "src/inspector/index.ts", "src/web/public.ts"]
+      "status": "local-unpublished",
+      "limit": "Pending RC.12 optional Web inspector with explicit application handles and shared bounded semantic replay. App supplies replay adapter/clock. No automatic OS gesture/sensor injection, GPU or native sampling measurements.",
+      "evidence": [
+        "src/testing/index.ts",
+        "src/inspector/index.ts",
+        "src/web/public.ts",
+        "benchmarks/web-interaction-depth/inspector.spec.ts"
+      ]
     },
     {
       "id": "physical-gallery",
@@ -2018,6 +2221,17 @@
         "docs/guide/portable-foundations.md",
         "benchmarks/web-portable/portable.spec.ts",
         "benchmarks/results/portable-foundations/physical-android-drawing.json"
+      ]
+    },
+    {
+      "id": "interaction-depth-rc12",
+      "issues": [399, 402, 415, 383, 380, 381, 382],
+      "status": "local-unpublished",
+      "limit": "Pending review and publication. Audio runs at fixed rate 1 and does not seek. Native screen recordings have no audio; physical iOS silent-switch behavior remains unverified. Inspector timings cover JS work, not native rendering or GPU.",
+      "evidence": [
+        "docs/guide/interaction-depth.md",
+        "benchmarks/web-interaction-depth/inspector.spec.ts",
+        "test/drop-policy.spec.ts"
       ]
     }
   ]

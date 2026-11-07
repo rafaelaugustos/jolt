@@ -2,6 +2,7 @@ import { Application, type PanGestureEventData } from '@nativescript/core'
 import { describe, expect, it, vi } from 'vitest'
 import { animate, configure, drag, motionScope, type DragRelease } from '../src/index.js'
 import { DragInput } from '../src/drag-input.js'
+import { dragBeforeRelease } from '../src/drag.js'
 import { resistDrag, solveDragRelease, type DragCurve } from '../src/drag-physics.js'
 import { createView, driver, flush } from './helpers.js'
 
@@ -27,6 +28,36 @@ const base: DragCurve = {
 }
 
 describe('drag release physics', () => {
+  it('lets a drop consume the final input before release motion claims model values', () => {
+    const view = createView(),
+      released = vi.fn()
+    let finalX = 0
+    const controller = dragBeforeRelease(view, { snap: [0], onRelease: released }, () => {
+      finalX = view.translateX
+      controller.cancel()
+    })
+    begin(view)
+    pan(view, 2, 30, 10)
+    pan(view, 3, 80, 20)
+    expect(finalX).toBe(80)
+    expect(released).not.toHaveBeenCalled()
+    expect(controller.settling).toBe(false)
+    controller.dispose()
+  })
+  it('keeps the normal return spring when the drop does not consume release', () => {
+    const view = createView(),
+      released = vi.fn()
+    const controller = dragBeforeRelease(
+      view,
+      { snap: [0], onRelease: released },
+      () => {},
+    )
+    begin(view)
+    pan(view, 3, 80, 20)
+    expect(released).toHaveBeenCalledTimes(1)
+    expect(controller.settling).toBe(true)
+    controller.dispose()
+  })
   it('coasts until the boundary with no hard-bound overshoot', () => {
     const motion = solveDragRelease(40, base)
     expect(motion.to).toBe(200)

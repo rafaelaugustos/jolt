@@ -48,3 +48,7 @@ benchmarks/web-portable/results/
 benchmarks/web-portable/captures/
 # Raw measurements and source identities are byte-preserved evidence.
 benchmarks/results/portable-foundations/**
+
+benchmarks/web-interaction-depth/results/
+benchmarks/web-interaction-depth/captures/
+benchmarks/results/interaction-depth/**

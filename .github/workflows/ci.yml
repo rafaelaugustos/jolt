@@ -64,6 +64,33 @@ jobs:
         with:
           name: package-consumers
           path: benchmarks/package-consumers/results/
+  web-interaction-depth:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium firefox webkit
+      # Firefox needs a real audio service even when no physical speaker exists.
+      # Decode/play through PulseAudio's clocked null sink; do not mock HTMLAudio.
+      - run: sudo apt-get install -y --no-install-recommends pulseaudio pulseaudio-utils
+      - run: npm run web:interaction-depth:typecheck
+      - name: Verify interaction and audio in all browsers
+        run: |
+          pulseaudio --start --exit-idle-time=-1
+          trap 'pulseaudio --kill' EXIT
+          pactl load-module module-null-sink sink_name=jolt-ci
+          pactl set-default-sink jolt-ci
+          npm run web:interaction-depth:test
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: web-interaction-depth-results
+          path: benchmarks/web-interaction-depth/results/
   web-composition:
     runs-on: ubuntu-latest
     # Keep this version aligned with @playwright/test in package.json. The image

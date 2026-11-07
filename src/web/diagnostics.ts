@@ -39,6 +39,8 @@ export interface WebDiagnosticSnapshot {
   events: WebDiagnosticEvent[]
 }
 export interface WebDiagnostics {
+  /** Stable numeric identity, with no retained target or DOM content. */
+  identify(value: object): number
   /** Pull-only snapshot: no timers, observers or frame callbacks are installed. */
   snapshot(): WebDiagnosticSnapshot
   clear(): void
@@ -108,6 +110,7 @@ export class DiagnosticCollector {
   }
   handle(): WebDiagnostics {
     return {
+      identify: (value) => this.id(value),
       snapshot: () => this.snapshot(),
       clear: () => {
         this.events = []

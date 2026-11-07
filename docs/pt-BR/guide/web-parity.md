@@ -1,5 +1,7 @@
 # Gravidade, haptics, sensores, glass e galeria na Web
 
+O [candidato de interação e profundidade](./interaction-depth) para RC.12 acrescenta drop zones, áudio/cues, inspeção e contratos Web de paths, 3D e sombras. Ainda não faz parte da RC.11.1.
+
 ## Auditoria da RC.10 {#rc10-audit}
 
 A RC.10 publicada inclui os PRs #358, #365, #372 e #379. A [matriz completa de exports](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/capability-matrix.json) e a [auditoria de contratos](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/native-web-audit.md) distinguem disponibilidade de paridade funcional. `npm run parity:check` verifica todos os exports de execução e as propriedades de keyframes. Ainda há diferenças em movimento por caminho, rotação 3D, sombras/profundidade, replay/inspector e validação de hardware em navegadores móveis reais. As gravações desktop abaixo não comprovam esse aceite físico.

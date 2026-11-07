@@ -1,0 +1,110 @@
+{
+  "platform": "android",
+  "events": [
+    {
+      "name": "mounted",
+      "time": 1794014004700,
+      "mode": "path",
+      "scope": 0
+    },
+    {
+      "name": "play",
+      "time": 1794014008409,
+      "mode": "path",
+      "scope": 1
+    },
+    {
+      "name": "pause",
+      "time": 1794014009523,
+      "mode": "path",
+      "scope": 1,
+      "paused": true
+    },
+    {
+      "name": "seek",
+      "time": 1794014010951,
+      "mode": "path",
+      "scope": 1
+    },
+    {
+      "name": "pause",
+      "time": 1794014012214,
+      "mode": "path",
+      "scope": 1,
+      "paused": false
+    },
+    {
+      "name": "finished",
+      "time": 1794014013277,
+      "mode": "path",
+      "scope": 0,
+      "complete": true
+    },
+    {
+      "name": "play",
+      "time": 1794014014510,
+      "mode": "path",
+      "scope": 1
+    },
+    {
+      "name": "replace",
+      "time": 1794014015765,
+      "mode": "path",
+      "scope": 2
+    },
+    {
+      "name": "finished",
+      "time": 1794014018383,
+      "mode": "path",
+      "scope": 0,
+      "complete": true
+    },
+    {
+      "name": "snapshot",
+      "time": 1794014019226,
+      "mode": "path",
+      "scope": 0,
+      "status": "Completed",
+      "detail": "",
+      "paused": false,
+      "progress": 1,
+      "accepted": 0
+    },
+    {
+      "name": "remount",
+      "time": 1794014020696,
+      "mode": "path",
+      "scope": 0
+    },
+    {
+      "name": "mounted",
+      "time": 1794014020723,
+      "mode": "path",
+      "scope": 0
+    },
+    {
+      "name": "play",
+      "time": 1794014022169,
+      "mode": "path",
+      "scope": 1
+    },
+    {
+      "name": "finished",
+      "time": 1794014024784,
+      "mode": "path",
+      "scope": 0,
+      "complete": true
+    },
+    {
+      "name": "snapshot",
+      "time": 1794014026223,
+      "mode": "path",
+      "scope": 0,
+      "status": "Completed",
+      "detail": "",
+      "paused": false,
+      "progress": 1,
+      "accepted": 0
+    }
+  ]
+}

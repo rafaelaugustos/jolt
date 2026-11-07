@@ -1,0 +1,357 @@
+{
+  "environment": "Docker Linux arm64, Playwright v1.64.1-noble, Node 26.13.0; minimal exact-version fixture dependencies and repository TypeScript configuration. This is not the GitHub x64/Node22 runner or a device performance measurement.",
+  "libraryCommit": "269f32fd3537867c75b353d2560f008f8dbc1067",
+  "audio": "Real browser decoding and playback through PulseAudio 16.1 with a clocked null output; no physical speaker or mocked HTMLAudio API.",
+  "stats": {
+    "startTime": "2026-11-07T02:33:58.572Z",
+    "duration": 11126.202,
+    "expected": 57,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "cases": [
+    {
+      "file": "audio.spec.ts",
+      "case": "real local audio prepares and supports pause, mute, replacement and disposal",
+      "project": "chromium",
+      "status": "expected"
+    },
+    {
+      "file": "audio.spec.ts",
+      "case": "missing audio and unsupported origins do not prevent visual completion",
+      "project": "chromium",
+      "status": "expected"
+    },
+    {
+      "file": "audio.spec.ts",
+      "case": "named browser cues fire once, pause their effects and seek silently",
+      "project": "chromium",
+      "status": "expected"
+    },
+    {
+      "file": "audio.spec.ts",
+      "case": "real local audio prepares and supports pause, mute, replacement and disposal",
+      "project": "firefox",
+      "status": "expected"
+    },
+    {
+      "file": "audio.spec.ts",
+      "case": "missing audio and unsupported origins do not prevent visual completion",
+      "project": "firefox",
+      "status": "expected"
+    },
+    {
+      "file": "audio.spec.ts",
+      "case": "named browser cues fire once, pause their effects and seek silently",
+      "project": "firefox",
+      "status": "expected"
+    },
+    {
+      "file": "audio.spec.ts",
+      "case": "real local audio prepares and supports pause, mute, replacement and disposal",
+      "project": "webkit",
+      "status": "expected"
+    },
+    {
+      "file": "audio.spec.ts",
+      "case": "missing audio and unsupported origins do not prevent visual completion",
+      "project": "webkit",
+      "status": "expected"
+    },
+    {
+      "file": "audio.spec.ts",
+      "case": "named browser cues fire once, pause their effects and seek silently",
+      "project": "webkit",
+      "status": "expected"
+    },
+    {
+      "file": "depth.spec.ts",
+      "case": "rotateX/Y compose in a declared order with existing 2D transforms and authored perspective",
+      "project": "chromium",
+      "status": "expected"
+    },
+    {
+      "file": "depth.spec.ts",
+      "case": "axis replacement preserves unrelated rotation and reduced motion settles spatial tracks",
+      "project": "chromium",
+      "status": "expected"
+    },
+    {
+      "file": "depth.spec.ts",
+      "case": "numeric bindings support both 3D axes and tear down without idle frames",
+      "project": "chromium",
+      "status": "expected"
+    },
+    {
+      "file": "depth.spec.ts",
+      "case": "3D motion rejects a 2D FLIP inverse without stopping the application owner",
+      "project": "chromium",
+      "status": "expected"
+    },
+    {
+      "file": "depth.spec.ts",
+      "case": "rotateX/Y compose in a declared order with existing 2D transforms and authored perspective",
+      "project": "firefox",
+      "status": "expected"
+    },
+    {
+      "file": "depth.spec.ts",
+      "case": "axis replacement preserves unrelated rotation and reduced motion settles spatial tracks",
+      "project": "firefox",
+      "status": "expected"
+    },
+    {
+      "file": "depth.spec.ts",
+      "case": "numeric bindings support both 3D axes and tear down without idle frames",
+      "project": "firefox",
+      "status": "expected"
+    },
+    {
+      "file": "depth.spec.ts",
+      "case": "3D motion rejects a 2D FLIP inverse without stopping the application owner",
+      "project": "firefox",
+      "status": "expected"
+    },
+    {
+      "file": "depth.spec.ts",
+      "case": "rotateX/Y compose in a declared order with existing 2D transforms and authored perspective",
+      "project": "webkit",
+      "status": "expected"
+    },
+    {
+      "file": "depth.spec.ts",
+      "case": "axis replacement preserves unrelated rotation and reduced motion settles spatial tracks",
+      "project": "webkit",
+      "status": "expected"
+    },
+    {
+      "file": "depth.spec.ts",
+      "case": "numeric bindings support both 3D axes and tear down without idle frames",
+      "project": "webkit",
+      "status": "expected"
+    },
+    {
+      "file": "depth.spec.ts",
+      "case": "3D motion rejects a 2D FLIP inverse without stopping the application owner",
+      "project": "webkit",
+      "status": "expected"
+    },
+    {
+      "file": "drop.spec.ts",
+      "case": "real mouse drop accepts once and rejection retains the return spring",
+      "project": "chromium",
+      "status": "expected"
+    },
+    {
+      "file": "drop.spec.ts",
+      "case": "release hit testing includes an unpainted final input sample and fresh target layout",
+      "project": "chromium",
+      "status": "expected"
+    },
+    {
+      "file": "drop.spec.ts",
+      "case": "keyboard alternative, pause, removed targets and repeated scope teardown remain bounded",
+      "project": "chromium",
+      "status": "expected"
+    },
+    {
+      "file": "drop.spec.ts",
+      "case": "real mouse drop accepts once and rejection retains the return spring",
+      "project": "firefox",
+      "status": "expected"
+    },
+    {
+      "file": "drop.spec.ts",
+      "case": "release hit testing includes an unpainted final input sample and fresh target layout",
+      "project": "firefox",
+      "status": "expected"
+    },
+    {
+      "file": "drop.spec.ts",
+      "case": "keyboard alternative, pause, removed targets and repeated scope teardown remain bounded",
+      "project": "firefox",
+      "status": "expected"
+    },
+    {
+      "file": "drop.spec.ts",
+      "case": "real mouse drop accepts once and rejection retains the return spring",
+      "project": "webkit",
+      "status": "expected"
+    },
+    {
+      "file": "drop.spec.ts",
+      "case": "release hit testing includes an unpainted final input sample and fresh target layout",
+      "project": "webkit",
+      "status": "expected"
+    },
+    {
+      "file": "drop.spec.ts",
+      "case": "keyboard alternative, pause, removed targets and repeated scope teardown remain bounded",
+      "project": "webkit",
+      "status": "expected"
+    },
+    {
+      "file": "inspector.spec.ts",
+      "case": "adapter inspection identifies replacement, updates, renderer demand and teardown",
+      "project": "chromium",
+      "status": "expected"
+    },
+    {
+      "file": "inspector.spec.ts",
+      "case": "editing uses existing application handles and borrows diagnostics without claiming motion",
+      "project": "chromium",
+      "status": "expected"
+    },
+    {
+      "file": "inspector.spec.ts",
+      "case": "bounded public semantic traces replay drag inputs and a large time jump with real browser playback",
+      "project": "chromium",
+      "status": "expected"
+    },
+    {
+      "file": "inspector.spec.ts",
+      "case": "adapter inspection identifies replacement, updates, renderer demand and teardown",
+      "project": "firefox",
+      "status": "expected"
+    },
+    {
+      "file": "inspector.spec.ts",
+      "case": "editing uses existing application handles and borrows diagnostics without claiming motion",
+      "project": "firefox",
+      "status": "expected"
+    },
+    {
+      "file": "inspector.spec.ts",
+      "case": "bounded public semantic traces replay drag inputs and a large time jump with real browser playback",
+      "project": "firefox",
+      "status": "expected"
+    },
+    {
+      "file": "inspector.spec.ts",
+      "case": "adapter inspection identifies replacement, updates, renderer demand and teardown",
+      "project": "webkit",
+      "status": "expected"
+    },
+    {
+      "file": "inspector.spec.ts",
+      "case": "editing uses existing application handles and borrows diagnostics without claiming motion",
+      "project": "webkit",
+      "status": "expected"
+    },
+    {
+      "file": "inspector.spec.ts",
+      "case": "bounded public semantic traces replay drag inputs and a large time jump with real browser playback",
+      "project": "webkit",
+      "status": "expected"
+    },
+    {
+      "file": "path.spec.ts",
+      "case": "path follows authored local coordinates through transformed ancestors, seeking and refresh",
+      "project": "chromium",
+      "status": "expected"
+    },
+    {
+      "file": "path.spec.ts",
+      "case": "relative reverse paths, repeat holds and reduced motion keep coordinated endpoints",
+      "project": "chromium",
+      "status": "expected"
+    },
+    {
+      "file": "path.spec.ts",
+      "case": "scene paths scrub in sync and invalid descriptors retain the previous ownership",
+      "project": "chromium",
+      "status": "expected"
+    },
+    {
+      "file": "path.spec.ts",
+      "case": "path follows authored local coordinates through transformed ancestors, seeking and refresh",
+      "project": "firefox",
+      "status": "expected"
+    },
+    {
+      "file": "path.spec.ts",
+      "case": "relative reverse paths, repeat holds and reduced motion keep coordinated endpoints",
+      "project": "firefox",
+      "status": "expected"
+    },
+    {
+      "file": "path.spec.ts",
+      "case": "scene paths scrub in sync and invalid descriptors retain the previous ownership",
+      "project": "firefox",
+      "status": "expected"
+    },
+    {
+      "file": "path.spec.ts",
+      "case": "path follows authored local coordinates through transformed ancestors, seeking and refresh",
+      "project": "webkit",
+      "status": "expected"
+    },
+    {
+      "file": "path.spec.ts",
+      "case": "relative reverse paths, repeat holds and reduced motion keep coordinated endpoints",
+      "project": "webkit",
+      "status": "expected"
+    },
+    {
+      "file": "path.spec.ts",
+      "case": "scene paths scrub in sync and invalid descriptors retain the previous ownership",
+      "project": "webkit",
+      "status": "expected"
+    },
+    {
+      "file": "shadow.spec.ts",
+      "case": "shadow channels compose with color and retain unrelated coordinates when interrupted",
+      "project": "chromium",
+      "status": "expected"
+    },
+    {
+      "file": "shadow.spec.ts",
+      "case": "unsupported shadows and native-only depth fail before replacing existing motion",
+      "project": "chromium",
+      "status": "expected"
+    },
+    {
+      "file": "shadow.spec.ts",
+      "case": "bindings keep signed offsets, reduced motion settles numeric shadows, and release preserves external edits",
+      "project": "chromium",
+      "status": "expected"
+    },
+    {
+      "file": "shadow.spec.ts",
+      "case": "shadow channels compose with color and retain unrelated coordinates when interrupted",
+      "project": "firefox",
+      "status": "expected"
+    },
+    {
+      "file": "shadow.spec.ts",
+      "case": "unsupported shadows and native-only depth fail before replacing existing motion",
+      "project": "firefox",
+      "status": "expected"
+    },
+    {
+      "file": "shadow.spec.ts",
+      "case": "bindings keep signed offsets, reduced motion settles numeric shadows, and release preserves external edits",
+      "project": "firefox",
+      "status": "expected"
+    },
+    {
+      "file": "shadow.spec.ts",
+      "case": "shadow channels compose with color and retain unrelated coordinates when interrupted",
+      "project": "webkit",
+      "status": "expected"
+    },
+    {
+      "file": "shadow.spec.ts",
+      "case": "unsupported shadows and native-only depth fail before replacing existing motion",
+      "project": "webkit",
+      "status": "expected"
+    },
+    {
+      "file": "shadow.spec.ts",
+      "case": "bindings keep signed offsets, reduced motion settles numeric shadows, and release preserves external edits",
+      "project": "webkit",
+      "status": "expected"
+    }
+  ]
+}

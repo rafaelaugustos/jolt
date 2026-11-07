@@ -1,7 +1,15 @@
 import {
+  createTimelineCues,
+  type TimelineCue,
+  type TimelineCueOptions,
+} from '../core/timeline-cues.js'
+import { compilePath, type PathProperty } from '../core/path-track.js'
+import type { MotionPath } from '../core/svg-path.js'
+import {
   createInteractiveNavigation,
   type WebInteractiveNavigationOptions,
 } from './interactive-navigation.js'
+import { createDropZones, type WebDropZoneOptions } from './drop-zones.js'
 import {
   PropertyTarget,
   createPropertyGroup,
@@ -191,6 +199,8 @@ import {
   expand,
   isColor,
   isRadius,
+  isShadow,
+  shadowProperties,
   isTransform,
   keyframeProperties,
   transformProperties,
@@ -387,6 +397,8 @@ class Surface {
   }
   layoutBasis() {
     const view = this.runtime.view
+    if (!new view.DOMMatrix(view.getComputedStyle(this.target).transform).is2D)
+      throw new Error('A surface with 3D rotation does not have a 2D FLIP inverse.')
     let matrix = new view.DOMMatrix()
     for (const parent of renderedAncestors(this.target)) {
       if (parent === this.target) continue
@@ -1169,6 +1181,8 @@ export class WebRuntime {
         timers: this.timers.size,
         scopes: this.scopes.size,
         pointerFollowers: this.pointerFollowers.size,
+        propertyResources: this.propertyResources.size,
+        renderActivities: this.renderActivities.size,
         viewportEntrances: this.viewportEntrances.size,
         presses: this.presses.size,
         drags: this.drags.size,
@@ -1492,6 +1506,41 @@ export class WebRuntime {
     this.layouts.set(container, operation)
     this.observe()
     return operation
+  }
+
+  withTimelineCues(
+    animation: import('../core/sequence.js').PlayableAnimation,
+    cues: readonly TimelineCue[],
+    options: TimelineCueOptions = {},
+  ) {
+    this.assert()
+    if (!this.playbacks.has(animation))
+      throw new TypeError('Expected a playback handle from this runtime.')
+    const controller = createTimelineCues(animation, cues, options, {
+      timeScale: this.settings.timeScale,
+      reduced: () => this.reduced(),
+      after: (ms, callback) => this.timers.after(ms, callback),
+      scope: () => this.scope(),
+    })
+    this.groups.add(controller)
+    let held = false
+    const visibility = () => {
+      if (this.document.hidden && !controller.paused) {
+        held = true
+        controller.pause()
+      } else if (!this.document.hidden && held) {
+        held = false
+        controller.play()
+      }
+    }
+    this.groupVisibility.add(visibility)
+    visibility()
+    const done = () => {
+      this.groups.delete(controller)
+      this.groupVisibility.delete(visibility)
+    }
+    void controller.finished.then(done, done)
+    return controller
   }
 
   rememberPlayback(animation: MotionAnimation) {
@@ -1897,7 +1946,12 @@ export class WebRuntime {
                 plan.source.endsWith('RadiusX') || plan.source.endsWith('RadiusY')
                   ? plan.source.slice(0, -1)
                   : plan.source
-              if (!this.view.CSS.supports(cssName(property), value))
+              if (
+                !this.view.CSS.supports(
+                  property === 'shadowColor' ? 'color' : cssName(property),
+                  value,
+                )
+              )
                 throw new TypeError(`Invalid ${property}: ${value}`)
             }
         return () => {
@@ -1980,6 +2034,7 @@ export class WebRuntime {
             initial.push({
               ...plan,
               frames: [first, first],
+              path: undefined,
               transition: {
                 curve: {
                   type: 'tween',
@@ -2103,6 +2158,7 @@ export class WebRuntime {
       const target = surface?.target ?? source!
       let keys = claimed.get(target)
       if (!keys) claimed.set(target, (keys = new Set()))
+      const paths = new Map<MotionPath, ReturnType<typeof compilePath>>()
       for (const plan of plans) {
         const key = keyOf(plan.property, plan.layer)
         if (keys.has(key))
@@ -2119,13 +2175,20 @@ export class WebRuntime {
             throw new TypeError('Scene value tracks require finite numbers.')
           return v
         })
-        const track = createTrack(
-          coreProperty(plan.property),
-          values,
-          plan.transition,
-          0,
-          { timeScale: this.settings.timeScale, reducedMotion: this.reduced() },
-        )
+        if (plan.path && !paths.has(plan.path))
+          paths.set(
+            plan.path,
+            compilePath(plan.path, plan.transition, {
+              timeScale: this.settings.timeScale,
+              reducedMotion: this.reduced(),
+            }),
+          )
+        const track = plan.path
+          ? paths.get(plan.path)!(plan.property as PathProperty, 0, plan.transition.delay)
+          : createTrack(coreProperty(plan.property), values, plan.transition, 0, {
+              timeScale: this.settings.timeScale,
+              reducedMotion: this.reduced(),
+            })
         prepared.push({
           surface,
           source,
@@ -2360,6 +2423,7 @@ export class WebRuntime {
       const element = targets[i]!
       const surface = this.surfaces.get(element) ?? new Surface(this, element)
       surface.assert()
+      const paths = new Map<MotionPath, ReturnType<typeof compilePath>>()
       const tracks = plans[i]!.map((plan) => {
         const key = keyOf(plan.property, plan.layer),
           old = surface.state.entries.get(key)
@@ -2389,16 +2453,20 @@ export class WebRuntime {
                 : from + value
               : value
         })
-        const track = createTrack(
-          coreProperty(plan.property),
-          values,
-          plan.transition,
-          velocity,
-          {
-            timeScale: this.settings.timeScale,
-            reducedMotion: this.reduced(),
-          },
-        )
+        if (plan.path && !paths.has(plan.path))
+          paths.set(
+            plan.path,
+            compilePath(plan.path, plan.transition, {
+              timeScale: this.settings.timeScale,
+              reducedMotion: this.reduced(),
+            }),
+          )
+        const track = plan.path
+          ? paths.get(plan.path)!(plan.property as PathProperty, plan.relative ? from : 0)
+          : createTrack(coreProperty(plan.property), values, plan.transition, velocity, {
+              timeScale: this.settings.timeScale,
+              reducedMotion: this.reduced(),
+            })
         return { plan, track, points: flatten(track, this.maxKeyframes) }
       })
       compiled.push({ surface, plans: tracks })
@@ -2960,6 +3028,23 @@ export class WebRuntime {
     return drag.handle
   }
 
+  dropZones(source: HTMLElement, options: WebDropZoneOptions) {
+    this.assert()
+    this.targets(source)
+    for (const entry of options?.targets ?? []) this.targets(entry.target)
+    return createDropZones(
+      source,
+      options,
+      this.interactionHost(),
+      this.drag.bind(this),
+      () => {
+        // Drop hit testing includes the final pointer-up sample, before the next RAF.
+        const surface = this.surfaces.get(source)
+        if (surface?.state.bindings.size) surface.render(this.now())
+      },
+    )
+  }
+
   private dragValue(target: HTMLElement, config: ReturnType<typeof dragOptions>) {
     const source = this.mutable(config.value!)
     const axis = config.axis as 'x' | 'y'
@@ -3048,6 +3133,17 @@ export class WebRuntime {
   }
 
   private ensureRadius(state: State, surface: Surface, property: Property) {
+    if (isShadow(property)) {
+      for (const sibling of shadowProperties) {
+        const key = keyOf(sibling)
+        if (!state.rest.has(key) && !state.entries.has(key) && !state.bindings.has(key))
+          state.rest.set(key, {
+            property: sibling,
+            value: readProperty(surface.target, sibling),
+          })
+      }
+      return
+    }
     if (!isRadius(property)) return
     const sibling =
       `${property.slice(0, -1)}${property.endsWith('X') ? 'Y' : 'X'}` as Property

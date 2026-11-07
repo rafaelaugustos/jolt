@@ -1,3 +1,4 @@
+import { parsePath, type MotionPath } from '../core/svg-path.js'
 import { resolveHaptic } from '../core/haptic.js'
 import {
   fitTransition,
@@ -28,6 +29,7 @@ import {
 
 export interface Plan {
   property: Property
+  path?: MotionPath
   frames: (Scalar | null)[]
   source: KeyframeProperty
   transition: ResolvedTransition
@@ -73,7 +75,7 @@ function normalize(options?: AnimateOptions | SpringName) {
     throw new TypeError('Animation options must be an object or spring name.')
   for (const [key, value] of Object.entries(options ?? {})) {
     if (value === undefined) continue
-    if (allowed.has(key)) {
+    if (allowed.has(key) || key === 'path') {
       if (
         typeof value !== 'string' &&
         (value === null || typeof value !== 'object' || Array.isArray(value))
@@ -148,8 +150,36 @@ export function prepare(
   const overrides = hasCurve(user.base)
     ? user.overrides
     : { ...own.overrides, ...user.overrides }
+  if (keyframes.orient !== undefined && typeof keyframes.orient !== 'boolean')
+    throw new TypeError('Path orient must be a boolean.')
+  if (keyframes.orient !== undefined && keyframes.path === undefined)
+    throw new TypeError('orient requires a path.')
+  const geometry = keyframes.path === undefined ? undefined : parsePath(keyframes.path)
+  if (geometry) {
+    if (
+      keyframes.x !== undefined ||
+      keyframes.y !== undefined ||
+      (keyframes.orient && keyframes.rotate !== undefined)
+    )
+      throw new TypeError('A path owns x/y and an oriented path also owns rotate.')
+    if (overrides.x || overrides.y || (keyframes.orient && overrides.rotate))
+      throw new TypeError('Use the path transition to time its coordinates together.')
+    if ((user.layer ?? own.layer) !== undefined)
+      throw new TypeError('Paths own base coordinates and cannot use a named layer.')
+  }
+  const pathProperties: Property[] = geometry
+    ? keyframes.orient
+      ? ['x', 'y', 'rotate']
+      : ['x', 'y']
+    : []
   const expanded: [Property, (Scalar | null)[], KeyframeProperty][] = []
+  if (geometry)
+    for (const property of pathProperties) {
+      const axis = property as 'x' | 'y' | 'rotate'
+      expanded.push([property, [geometry.at(0)[axis], geometry.at(1)[axis]], property])
+    }
   for (const [key, value] of Object.entries(keyframes)) {
+    if (key === 'path' || key === 'orient') continue
     if (value === undefined) continue
     if (!allowed.has(key)) throw new TypeError(`Unsupported Web property "${key}".`)
     if (typeof value !== 'number' && typeof value !== 'string' && !Array.isArray(value))
@@ -184,7 +214,8 @@ export function prepare(
   const seed = Math.random()
   return Array.from({ length: count }, (_, index) =>
     expanded.map(([property, frames, source]) => {
-      const override = overrides[property] ?? overrides[source]
+      const path = pathProperties.includes(property) ? geometry : undefined
+      const override = path ? overrides.path : (overrides[property] ?? overrides[source])
       const config = fitTransition(
         override ? mergeTransitions(base, override) : base,
         frames.length,
@@ -192,7 +223,11 @@ export function prepare(
       const input = config as Record<string, unknown>
       if (Object.keys(input).some((key) => !timing.has(key)))
         throw new TypeError('Unsupported Web transition option.')
-      const transition = resolveTransition(config, coreProperty(property), frames.length)
+      const transition = resolveTransition(
+        config,
+        path ? 'opacity' : coreProperty(property),
+        frames.length,
+      )
       if ((user.layer ?? own.layer) !== undefined && !isTransform(property))
         throw new TypeError(
           'Named layers compose transforms and opacity; paint properties have independent base ownership.',
@@ -215,6 +250,7 @@ export function prepare(
       if (transition.seed !== undefined) transition.seed = seed
       return {
         property,
+        path,
         source,
         frames: [...frames],
         transition,

@@ -2,6 +2,7 @@ import { Label } from '@nativescript/core'
 import { animate, motionValue, type PlaybackAnimation } from '@rafaelaugusto/jolt'
 import { mapKitCoordinate } from '@rafaelaugusto/jolt/native'
 import { rig2d } from '@rafaelaugusto/jolt/rig'
+import { audioCue } from '@rafaelaugusto/jolt/audio'
 import {
   gradientText,
   motionBehaviors,
@@ -48,6 +49,7 @@ animate(motionValue(0), 100)
 mapKitCoordinate({}).animate({ latitude: 1, longitude: 2 })
 void [useMotionScope, vPress]
 const resources = motionScope()
+resources.resource(() => audioCue('~/assets/cue.wav', { iosSession: 'ambient' }))
 resources.resource(() => gradientText(new Label(), { colors: ['red', 'blue'] }))
 resources.retain(rig2d({ parts: { arm: {} }, poses: { wave: { arm: { rotate: 20 } } } }))
 resources.retain(motionBehaviors({ idle: { run() {} } }, { rest: 'idle' }))

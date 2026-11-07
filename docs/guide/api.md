@@ -1,5 +1,7 @@
 # API
 
+The pending RC.12 [interaction and depth candidate](./interaction-depth) adds portable drop zones, optional audio/cues, adapter inspection and Web path/3D/shadow contracts. It is not part of RC.11.1.
+
 - [**Web gravity, haptics, sensors, glass and gallery return**](./web-parity) — available since RC.10.
 
 [**Web keyboard, sheets, navigation, physics and icons (available since RC.10).**](./web-platforms)

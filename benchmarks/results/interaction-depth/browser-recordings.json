@@ -1,0 +1,32 @@
+[
+  {
+    "mode": "drop",
+    "status": "Ready",
+    "errors": []
+  },
+  {
+    "mode": "audio",
+    "status": "Cue: complete · playing",
+    "errors": []
+  },
+  {
+    "mode": "inspector",
+    "status": "material1: complete / material2: write / material2: complete\nRenderer: idle · 474 observed JS writes",
+    "errors": []
+  },
+  {
+    "mode": "path",
+    "status": "Playing",
+    "errors": []
+  },
+  {
+    "mode": "depth",
+    "status": "Playing",
+    "errors": []
+  },
+  {
+    "mode": "shadow",
+    "status": "Playing",
+    "errors": []
+  }
+]
