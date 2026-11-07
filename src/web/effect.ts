@@ -150,8 +150,10 @@ export class EffectAnimation implements WebAnimation, WebInteraction {
     frames: readonly EffectFrames[],
     private readonly render: ((elapsed: number) => void) | undefined,
     private readonly settle: (completed: boolean, elapsed: number) => void,
+    private readonly terminalTime = duration,
   ) {
-    finiteOption(duration, 'Effect duration')
+    if (duration !== Infinity) finiteOption(duration, 'Effect duration')
+    finiteOption(terminalTime, 'Effect terminal time')
     this.finished = new Promise((resolve) => {
       this.resolve = resolve
     })
@@ -203,6 +205,8 @@ export class EffectAnimation implements WebAnimation, WebInteraction {
     return Math.min(this.duration, Math.max(0, this.clock.time()))
   }
   get progress() {
+    if (!Number.isFinite(this.duration))
+      throw new RangeError('Progress requires a finite animation.')
     return this.duration ? this.time() / this.duration : 1
   }
   set progress(value: number) {
@@ -250,14 +254,15 @@ export class EffectAnimation implements WebAnimation, WebInteraction {
     }
     if (!this.held) {
       if (this.render) this.host.scheduler.add(this.task)
-      this.cancelTimer = this.host.after(Math.max(0, this.duration - this.time()), () =>
-        this.finish(true),
-      )
+      if (Number.isFinite(this.duration))
+        this.cancelTimer = this.host.after(Math.max(0, this.duration - this.time()), () =>
+          this.finish(true),
+        )
     }
   }
   finish(completed: boolean) {
     if (this.ended) return
-    const time = completed ? this.duration : this.time()
+    const time = completed ? this.terminalTime : this.time()
     this.clock.seek(time)
     this.clock.cancel()
     this.ended = true

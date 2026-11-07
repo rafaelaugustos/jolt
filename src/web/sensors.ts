@@ -1,9 +1,16 @@
+import {
+  sensorKinds,
+  sensorUnits,
+  type SensorKind,
+  type VectorSensorKind,
+  type SensorUnit,
+} from '../core/sensor-kinds.js'
 import { effectOptions, type Realm } from './effect.js'
 import type { PlatformHost } from './platform-host.js'
 import { NumericValue, type WebReadableValue } from './value.js'
 import type { WebInteraction } from './interaction.js'
 
-export type WebSensorKind = 'rotation' | 'gravity'
+export type WebSensorKind = SensorKind
 export type WebSensorStatus =
   | 'idle'
   | 'permission-required'
@@ -21,6 +28,7 @@ export interface WebSensorOptions {
 }
 export interface WebSensor extends WebInteraction {
   readonly kind: WebSensorKind
+  readonly unit: SensorUnit
   readonly status: WebSensorStatus
   /** True only after a valid reading, never inferred from the presence of an API. */
   readonly available: boolean
@@ -30,6 +38,7 @@ export interface WebSensor extends WebInteraction {
   /** Call directly from a user gesture. Never prompts during construction/resume. */
   requestPermission(): Promise<'granted' | 'denied' | 'unavailable'>
   snapshot(): {
+    unit: SensorUnit
     status: WebSensorStatus
     available: boolean
     timestamp: number | null
@@ -50,9 +59,12 @@ export interface WebRotationSensor extends WebSensor {
   }>
   recenter(): void
 }
-export interface WebGravitySensor extends WebSensor {
-  readonly kind: 'gravity'
+export interface WebVectorSensor<
+  K extends VectorSensorKind = VectorSensorKind,
+> extends WebSensor {
+  readonly kind: K
 }
+export interface WebGravitySensor extends WebVectorSensor<'gravity'> {}
 export class SensorValueNode extends NumericValue {
   demand?: (active: boolean) => void
   protected override demandChanged() {
@@ -112,63 +124,72 @@ interface Sample {
   values: number[]
   timestamp: number
 }
-// One DOM listener for each hardware event per document, across runtimes/subscribers.
+/** DeviceMotion vectors follow the native contract: m/s², downward gravity, radians/s. */
+export function motionVector(
+  kind: Exclude<WebSensorKind, 'rotation'>,
+  event: DeviceMotionEvent,
+): number[] | undefined {
+  const xyz = (value: DeviceMotionEventAcceleration | null) =>
+    value && [value.x, value.y, value.z]
+  let values: (number | null)[] | null | undefined
+  if (kind === 'acceleration') values = xyz(event.accelerationIncludingGravity)
+  else if (kind === 'linearAcceleration') values = xyz(event.acceleration)
+  else if (kind === 'gyroscope') {
+    const rate = event.rotationRate
+    // DeviceMotion alpha/beta/gamma are rates about Z/X/Y, in degrees/s.
+    values = rate && [rate.beta, rate.gamma, rate.alpha]
+  } else if (kind === 'gravity') {
+    const linear = xyz(event.acceleration),
+      total = xyz(event.accelerationIncludingGravity)
+    if (linear?.every(finite) && total?.every(finite))
+      values = linear.map((v, i) => v! - total[i]!)
+  }
+  if (!values?.every(finite)) return
+  return (values as number[]).map((v) => (kind === 'gyroscope' ? (v * Math.PI) / 180 : v))
+}
+const finite = (v: unknown): v is number => typeof v === 'number' && Number.isFinite(v)
+// One DOM listener per actual hardware event per document, even across kinds/runtimes.
+type HardwareEvent = 'deviceorientation' | 'devicemotion'
 const hubs = new WeakMap<
   Document,
-  Map<WebSensorKind, { listeners: Set<(s: Sample) => void>; stop(): void }>
+  Map<HardwareEvent, { listeners: Set<(event: Event) => void>; stop(): void }>
 >()
 function subscribe(
   document: Document,
   kind: WebSensorKind,
   listener: (s: Sample) => void,
 ) {
+  const name: HardwareEvent = kind === 'rotation' ? 'deviceorientation' : 'devicemotion'
   let map = hubs.get(document)
   if (!map) hubs.set(document, (map = new Map()))
-  let hub = map.get(kind)
+  let hub = map.get(name)
   if (!hub) {
     const view = document.defaultView!,
-      listeners = new Set<(s: Sample) => void>()
-    const name = kind === 'rotation' ? 'deviceorientation' : 'devicemotion'
+      listeners = new Set<(event: Event) => void>()
     const read = (event: Event) => {
-      let values: number[]
-      if (kind === 'rotation') {
-        const e = event as DeviceOrientationEvent
-        if (
-          ![e.alpha, e.beta, e.gamma].every(
-            (v) => typeof v === 'number' && Number.isFinite(v),
-          )
-        )
-          return
-        values = orientationQuaternion(e.alpha!, e.beta!, e.gamma!)
-      } else {
-        const e = event as DeviceMotionEvent,
-          total = e.accelerationIncludingGravity,
-          linear = e.acceleration
-        // Specific force includes +g on a face-up device; Jolt exposes downward gravity.
-        if (
-          !total ||
-          !linear ||
-          ![total.x, total.y, total.z, linear.x, linear.y, linear.z].every(
-            (v) => typeof v === 'number' && Number.isFinite(v),
-          )
-        )
-          return
-        values = [linear.x! - total.x!, linear.y! - total.y!, linear.z! - total.z!]
-      }
-      if (!Number.isFinite(event.timeStamp)) return
-      for (const fn of [...listeners]) fn({ values, timestamp: event.timeStamp })
+      for (const fn of [...listeners]) fn(event)
     }
     view.addEventListener(name, read)
     hub = { listeners, stop: () => view.removeEventListener(name, read) }
-    map.set(kind, hub)
+    map.set(name, hub)
   }
-  hub.listeners.add(listener)
+  const read = (event: Event) => {
+    if (!finite(event.timeStamp)) return
+    let values: number[] | undefined
+    if (kind === 'rotation') {
+      const e = event as DeviceOrientationEvent
+      if ([e.alpha, e.beta, e.gamma].every(finite))
+        values = orientationQuaternion(e.alpha!, e.beta!, e.gamma!)
+    } else values = motionVector(kind, event as DeviceMotionEvent)
+    if (values) listener({ values, timestamp: event.timeStamp })
+  }
+  hub.listeners.add(read)
   const source = hub
   return () => {
-    source.listeners.delete(listener)
+    source.listeners.delete(read)
     if (!source.listeners.size) {
       source.stop()
-      map!.delete(kind)
+      map!.delete(name)
     }
   }
 }
@@ -178,10 +199,9 @@ export function createSensor(
   options: WebSensorOptions,
   host: PlatformHost,
   makeValue: (initial: number) => { node: SensorValueNode; value: WebReadableValue },
-): WebRotationSensor | WebGravitySensor {
+): WebRotationSensor | WebVectorSensor {
   effectOptions(options, ['interval', 'coordinates', 'reducedMotion', 'onStatus'])
-  if (!['rotation', 'gravity'].includes(kind))
-    throw new TypeError('sensor supports rotation and gravity.')
+  if (!sensorKinds.includes(kind)) throw new TypeError(`Unknown sensor kind: ${kind}`)
   const interval =
     options.interval === 'auto' || options.interval === undefined ? 0 : options.interval
   if (
@@ -203,7 +223,9 @@ export function createSensor(
   const constructor = (
     kind === 'rotation' ? view.DeviceOrientationEvent : view.DeviceMotionEvent
   ) as (Function & { requestPermission?: () => Promise<string> }) | undefined
-  const supported = view.isSecureContext && typeof constructor === 'function'
+  // DeviceMotion exposes no magnetic vector. Do not synthesize one from orientation.
+  const supported =
+    kind !== 'magneticField' && view.isSecureContext && typeof constructor === 'function'
   let permission: 'granted' | 'denied' | 'required' = constructor?.requestPermission
     ? 'required'
     : 'granted'
@@ -242,7 +264,7 @@ export function createSensor(
     rebase = true
     timestamp = null
   }
-  let rawGravity = [0, 0, 0]
+  let rawVector = [0, 0, 0]
   const paint = () => {
     const angle =
       options.coordinates === 'device'
@@ -253,7 +275,7 @@ export function createSensor(
     values =
       kind === 'rotation'
         ? rotationValues(relative, angle, values.slice(3))
-        : interfaceVector(rawGravity, angle)
+        : interfaceVector(rawVector, angle)
     values.forEach((value, index) => {
       if (!nodes[index]!.node.disposed) nodes[index]!.node.set(value)
     })
@@ -266,7 +288,11 @@ export function createSensor(
   const update = () => {
     if (ended) return
     if (!supported) {
-      reason = view.isSecureContext ? 'missing-api' : 'insecure-context'
+      reason = !view.isSecureContext
+        ? 'insecure-context'
+        : kind === 'magneticField'
+          ? 'unsupported-kind'
+          : 'missing-api'
       stop()
       status('unavailable')
       return
@@ -322,7 +348,7 @@ export function createSensor(
           reset = false
         }
         relative = multiply(inverse(reference), q)
-      } else rawGravity = sample.values
+      } else rawVector = sample.values
       timestamp = sample.timestamp
       samples++
       available = true
@@ -339,6 +365,7 @@ export function createSensor(
   }
   const handle = {
     kind,
+    unit: sensorUnits[kind],
     x: nodes[0]!.value,
     y: nodes[1]!.value,
     z: nodes[2]!.value,
@@ -401,6 +428,7 @@ export function createSensor(
       return pending!
     },
     snapshot: () => ({
+      unit: sensorUnits[kind],
       status: state,
       available: available && !ended,
       timestamp,
@@ -439,7 +467,7 @@ export function createSensor(
         .forEach((fn) => fn())
       status('disposed')
     },
-  } as WebRotationSensor | WebGravitySensor
+  } as WebRotationSensor | WebVectorSensor
   try {
     view.screen.orientation?.addEventListener('change', orientationChanged)
     view.addEventListener('orientationchange', orientationChanged)

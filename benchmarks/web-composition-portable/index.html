@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" /><meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  />
+  <title>Jolt · Portable composition</title>
+  <script>
+    const selectedScene = new URL(location.href).searchParams.get('scene')
+    if (
+      ['lifecycle', 'behaviors', 'text', 'preferences', 'rig', 'sensors'].includes(
+        selectedScene,
+      )
+    ) {
+      const style = document.createElement('style')
+      style.textContent = `section[data-scene]{opacity:0}section[data-scene="${selectedScene}"]{opacity:1}`
+      document.head.append(style)
+    }
+  </script>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: #10111c;
+      color: #edf0ff;
+      font: 17px system-ui;
+    }
+    main {
+      max-width: 900px;
+      margin: auto;
+      padding: 32px;
+    }
+    h1 {
+      font-size: 36px;
+      letter-spacing: -1px;
+      margin: 8px 0;
+    }
+    p {
+      color: #b7bbd0;
+      line-height: 1.5;
+    }
+    section {
+      border: 1px solid #393d55;
+      border-radius: 24px;
+      padding: 26px;
+      margin-top: 24px;
+      background: #191c2d;
+    }
+    h2 {
+      margin-top: 0;
+    }
+    button {
+      font: inherit;
+      color: inherit;
+      background: #303650;
+      border: 1px solid #555c7d;
+      padding: 10px 16px;
+      border-radius: 10px;
+      margin: 5px 5px 5px 0;
+      cursor: pointer;
+    }
+    button:focus-visible {
+      outline: 3px solid #e8aef7;
+    }
+    .stage {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 220px;
+      background: #111522;
+      border-radius: 18px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+    .card {
+      width: 100px;
+      height: 100px;
+      background: #a99aff;
+      border-radius: 24px;
+      display: grid;
+      place-items: center;
+      font-size: 34px;
+    }
+    .shape-host {
+      width: 200px;
+      height: 200px;
+      position: relative;
+    }
+    output {
+      display: block;
+      min-height: 28px;
+      color: #cfc5ff;
+      margin-top: 12px;
+    }
+    .hidden {
+      display: none !important;
+    }
+  </style>
+  <main>
+    <small>JOLT / NATIVE + WEB CONTRACTS</small>
+    <h1>Portable composition</h1>
+    <p>Real browser playback · scoped ownership · explicit controls</p>
+    <section data-scene="lifecycle">
+      <h2>A drawing, one lifetime</h2>
+      <p>
+        Keep the drawing while playback pauses. Cache the component, then bring it back.
+      </p>
+      <div class="stage" id="vue-stage"></div>
+      <div id="lifecycle-controls"></div>
+      <output id="lifecycle-status"></output>
+    </section>
+    <section data-scene="behaviors">
+      <h2>Actions with priorities</h2>
+      <p>Dress interrupts touch. Eat blocks both. Each action returns to rest.</p>
+      <div class="stage"><div class="card" id="behavior-card">✦</div></div>
+      <div id="behavior-controls"></div>
+      <output id="behavior-status">Resting</output>
+    </section>
+    <section data-scene="text">
+      <h2>Light through real text</h2>
+      <p>Selectable text, a static gradient and a moving band clipped by the letters.</p>
+      <div class="stage">
+        <h3
+          id="gradient-title"
+          style="font-size: 52px; line-height: 1.25; text-align: center; max-width: 600px"
+        >
+          A little more<br class="hidden" />
+          wonder
+        </h3>
+      </div>
+      <div id="text-controls"></div>
+      <output id="text-status">Static gradient · original accessible text</output>
+    </section>
+    <section data-scene="preferences">
+      <h2>Respect motion preferences</h2>
+      <p>
+        Reusable curves and presets. Preferences belong to this runtime and update with
+        the system.
+      </p>
+      <div class="stage"><div class="card" id="preference-card">✧</div></div>
+      <div id="preference-controls"></div>
+      <output id="preference-status"></output>
+    </section>
+    <section data-scene="rig">
+      <h2>One character, shared poses</h2>
+      <p>Blend poses, interrupt a gesture, and keep the flower attached to the hand.</p>
+      <div class="stage" id="rig-stage" style="position: relative; height: 310px">
+        <div
+          id="rig-body"
+          style="
+            position: absolute;
+            left: 330px;
+            top: 115px;
+            width: 140px;
+            height: 150px;
+            background: #bba6ed;
+            border-radius: 55px;
+          "
+        >
+          <div
+            id="rig-head"
+            style="
+              position: absolute;
+              left: 15px;
+              top: -70px;
+              width: 110px;
+              height: 100px;
+              background: #d6c5ff;
+              border-radius: 45px;
+              display: grid;
+              place-items: center;
+              color: #2a1847;
+              font-size: 34px;
+            "
+          >
+            •ᴗ•
+          </div>
+          <div
+            id="rig-hand"
+            style="
+              position: absolute;
+              left: 115px;
+              top: 8px;
+              width: 30px;
+              height: 110px;
+              background: #d6c5ff;
+              border-radius: 18px;
+            "
+          >
+            <div
+              id="rig-flower"
+              aria-label="Flower held in hand"
+              style="
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 30px;
+                height: 30px;
+                color: #ffcc72;
+                display: grid;
+                place-items: center;
+                font-size: 38px;
+              "
+            >
+              ✿
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="rig-controls"></div>
+      <output id="rig-status">Rest · flower attached</output>
+    </section>
+    <section data-scene="sensors">
+      <h2>Motion vectors, explicit availability</h2>
+      <p id="sensor-caption">
+        Enable a compatible device or choose explicitly injected events.
+      </p>
+      <div class="stage"><div class="card" id="sensor-card">◎</div></div>
+      <div id="sensor-controls"></div>
+      <output id="sensor-status">Waiting for activation</output>
+    </section>
+  </main>
+  <script type="module" src="/fixture.js"></script>
+</html>

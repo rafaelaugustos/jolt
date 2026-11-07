@@ -1,5 +1,7 @@
 # Web gravity, haptics, sensors, glass and gallery
 
+The next-version [portable composition candidate](./portable-composition) adds feasible Web equivalents while preserving these published native contracts. These additions are not included in RC.12.
+
 Available in RC.12: [interaction and depth](./interaction-depth) adds portable drop zones, optional audio/cues, adapter inspection and Web path/3D/shadow contracts.
 
 ## RC.10 audit {#rc10-audit}

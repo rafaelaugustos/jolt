@@ -1,0 +1,205 @@
+{
+  "platform": "android",
+  "mode": "text",
+  "startedAt": 1794039426350,
+  "elapsedMs": 6407.494293999975,
+  "measurements": [
+    {
+      "iteration": 0,
+      "setupMs": 1.4404170000343584,
+      "attached": true,
+      "maskBytes": 88740,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 1,
+      "setupMs": 3.0747919999994338,
+      "attached": true,
+      "maskBytes": 170578,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 2,
+      "setupMs": 0.9778329999535345,
+      "attached": true,
+      "maskBytes": 88740,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 3,
+      "setupMs": 1.2851249999948777,
+      "attached": true,
+      "maskBytes": 170578,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 4,
+      "setupMs": 0.8547079999698326,
+      "attached": true,
+      "maskBytes": 88740,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 5,
+      "setupMs": 0.963166999979876,
+      "attached": true,
+      "maskBytes": 170578,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 6,
+      "setupMs": 1.0711250000167638,
+      "attached": true,
+      "maskBytes": 88740,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 7,
+      "setupMs": 1.2901249999995343,
+      "attached": true,
+      "maskBytes": 170578,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 8,
+      "setupMs": 0.9942080000182614,
+      "attached": true,
+      "maskBytes": 88740,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 9,
+      "setupMs": 1.2351660000276752,
+      "attached": true,
+      "maskBytes": 170578,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 10,
+      "setupMs": 0.9881249999743886,
+      "attached": true,
+      "maskBytes": 88740,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 11,
+      "setupMs": 0.8894999999902211,
+      "attached": true,
+      "maskBytes": 170578,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 12,
+      "setupMs": 0.9911670000292361,
+      "attached": true,
+      "maskBytes": 88740,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 13,
+      "setupMs": 0.8103750000009313,
+      "attached": true,
+      "maskBytes": 170578,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 14,
+      "setupMs": 0.7969579999917187,
+      "attached": true,
+      "maskBytes": 88740,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 15,
+      "setupMs": 1.067250000021886,
+      "attached": true,
+      "maskBytes": 170578,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 16,
+      "setupMs": 0.8329999999841675,
+      "attached": true,
+      "maskBytes": 88740,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 17,
+      "setupMs": 0.8784999999916181,
+      "attached": true,
+      "maskBytes": 170578,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 18,
+      "setupMs": 1.0247080000117421,
+      "attached": true,
+      "maskBytes": 88740,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 19,
+      "setupMs": 1.5002499999827705,
+      "attached": true,
+      "maskBytes": 170578,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 20,
+      "setupMs": 0.8922500000335276,
+      "attached": true,
+      "maskBytes": 88740,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 21,
+      "setupMs": 0.9256249999743886,
+      "attached": true,
+      "maskBytes": 170578,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 22,
+      "setupMs": 0.8105409999843687,
+      "attached": true,
+      "maskBytes": 88740,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "iteration": 23,
+      "setupMs": 1.2179159999941476,
+      "attached": true,
+      "maskBytes": 170578,
+      "playing": false,
+      "nativeCount": 1
+    },
+    {
+      "disposed": true,
+      "nativeCount": 0,
+      "scope": 0
+    }
+  ]
+}

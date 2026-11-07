@@ -1,3 +1,12 @@
+import { createGradientText, type WebGradientTextOptions } from './gradient-text.js'
+import { limitRigTrack, type RigChannel, type RigDefinition } from '../core/rig.js'
+import { createRig, type WebRig } from './rig.js'
+import {
+  createMotionBehaviors,
+  type MotionBehaviors,
+  type MotionBehaviorsOptions,
+} from '../core/motion-behaviors.js'
+import type { WebMotionBehavior } from './behaviors.js'
 import {
   createTimelineCues,
   type TimelineCue,
@@ -978,6 +987,8 @@ export class WebRuntime {
   private readonly playbacks = new WeakSet<MotionAnimation>()
   private readonly paths = new Map<SVGGeometryElement, StrokeSurface>()
   private readonly itemAnimations = new Set<WebItemsAnimation>()
+  private readonly behaviorControllers = new Set<MotionBehaviors>()
+  private readonly rigControllers = new Set<WebRig>()
   private readonly stateControllers = new Set<WebMotionStates>()
   private readonly groups = new Set<MotionAnimation>()
   private readonly groupVisibility = new Set<() => void>()
@@ -1062,6 +1073,23 @@ export class WebRuntime {
       (this.settings.reducedMotion === 'user' && this.preference.matches)
     )
   }
+  reducedMotion() {
+    this.assert()
+    return this.reduced()
+  }
+  onReducedMotion(listener: (reduced: boolean) => void) {
+    this.assert()
+    if (typeof listener !== 'function')
+      throw new TypeError('Expected a reduced-motion listener.')
+    const changed = () => {
+      try {
+        listener(this.reduced())
+      } catch (error) {
+        this.report(error)
+      }
+    }
+    return this.watchPreference(changed)
+  }
   private validate(
     options: WebConfig,
     current: Required<WebConfig>,
@@ -1080,6 +1108,27 @@ export class WebRuntime {
     this.assert()
     this.settings = this.validate(options, this.settings)
     this.preferenceChanged()
+  }
+  motionBehaviors<const D extends Record<string, WebMotionBehavior>>(
+    definitions: D,
+    options: MotionBehaviorsOptions<Extract<keyof D, string>> = {},
+  ): MotionBehaviors<Extract<keyof D, string>> {
+    this.assert()
+    const controller: MotionBehaviors<Extract<keyof D, string>> = createMotionBehaviors(
+      definitions,
+      options,
+      {
+        scope: () => this.scope(),
+        hidden: () => this.document.hidden,
+        visibility: (callback) => {
+          this.groupVisibility.add(callback)
+          return () => this.groupVisibility.delete(callback)
+        },
+        disposed: () => this.behaviorControllers.delete(controller),
+      },
+    )
+    this.behaviorControllers.add(controller)
+    return controller
   }
   scope(setup?: (scope: WebMotionScope) => void): WebMotionScope {
     this.assert()
@@ -2467,7 +2516,8 @@ export class WebRuntime {
               timeScale: this.settings.timeScale,
               reducedMotion: this.reduced(),
             })
-        return { plan, track, points: flatten(track, this.maxKeyframes) }
+        const bounded = limitRigTrack(track, plan.range)
+        return { plan, track: bounded, points: flatten(bounded, this.maxKeyframes) }
       })
       compiled.push({ surface, plans: tracks })
     }
@@ -2755,14 +2805,14 @@ export class WebRuntime {
     kind: 'rotation',
     options?: WebSensorOptions,
   ): import('./sensors.js').WebRotationSensor
-  sensor(
-    kind: 'gravity',
+  sensor<K extends import('../core/sensor-kinds.js').VectorSensorKind>(
+    kind: K,
     options?: WebSensorOptions,
-  ): import('./sensors.js').WebGravitySensor
+  ): import('./sensors.js').WebVectorSensor<K>
   sensor(
     kind: WebSensorKind,
     options?: WebSensorOptions,
-  ): import('./sensors.js').WebRotationSensor | import('./sensors.js').WebGravitySensor
+  ): import('./sensors.js').WebRotationSensor | import('./sensors.js').WebVectorSensor
   sensor(kind: WebSensorKind, options: WebSensorOptions = {}) {
     this.assert()
     return createSensor(kind, options, this.platformHost(), (initial) => {
@@ -2853,6 +2903,60 @@ export class WebRuntime {
     return createImageEffect(target, effect, options, this.effectHost())
   }
 
+  gradientText(target: HTMLElement, options: WebGradientTextOptions) {
+    this.assert()
+    return createGradientText(target, options, this.effectHost())
+  }
+  rig2d(
+    definition: RigDefinition,
+    targets: Record<string, HTMLElement | null> = {},
+  ): WebRig {
+    this.assert()
+    const read = (target: HTMLElement, property: RigChannel, model = false): number => {
+      const surface = this.surfaces.get(target),
+        key = keyOf(property),
+        entry = surface?.state.entries.get(key)
+      return entry
+        ? model
+          ? entry.track.to
+          : sampled(entry.points, entry.owner.time(this.now()))
+        : (surface?.state.bindings.get(key)?.source.get() ??
+            surface?.state.rest.get(key)?.value ??
+            readProperty(target, property))
+    }
+    let rig: WebRig | undefined
+    rig = createRig(definition, targets, {
+      document: this.document,
+      scope: () => this.scope(),
+      validate: (target) => {
+        this.targets(target)
+        ;(this.surfaces.get(target) ?? new Surface(this, target)).assert()
+      },
+      read,
+      revision: (target, property) => this.ownership.get(target, keyOf(property)),
+      set: (target, values) => {
+        this.set(target, values)
+      },
+      refresh: (target) => {
+        if (this.surfaces.has(target)) this.refresh(target)
+      },
+      animate: (batch, transition) => {
+        const elements = batch.map((item) => item.target)
+        const plans = batch.map((item) =>
+          prepare(item.values, transition, this.presets, 1)[0]!.map((plan) => ({
+            ...plan,
+            range: plan.property === 'rotate' ? item.rotation : undefined,
+          })),
+        )
+        return this.play(elements, {}, undefined, undefined, plans)
+      },
+      forget: () => {
+        if (rig) this.rigControllers.delete(rig)
+      },
+    })
+    this.rigControllers.add(rig)
+    return rig
+  }
   gradient(target: HTMLElement, options: WebGradientOptions) {
     this.assert()
     return createGradient(target, options, this.effectHost())
@@ -3502,7 +3606,7 @@ export class WebRuntime {
               target.ownerDocument !== this.document ||
               !target.getClientRects().length
             )
-              this.release(target)
+              this.release(target, true)
           for (const entries of [...this.interactions.values()])
             for (const refresh of [...entries.values()]) refresh()
           for (const press of this.presses.values()) press.refresh()
@@ -3526,12 +3630,12 @@ export class WebRuntime {
       }
   }
 
-  release(target: HTMLElement) {
+  release(target: HTMLElement, detached = false) {
     const surface = this.surfaces.get(target)
     // Mark first: controller cleanup can dispose bound values and re-enter unbind.
     if (surface) surface.disposed = true
     for (const resource of [...(this.interactions.get(target)?.keys() ?? [])])
-      resource.dispose()
+      if (!detached || !resource.retainDetached?.()) resource.dispose()
     if (this.surfaces.has(target)) this.diagnosticEvent('released', undefined, target)
     this.layouts.get(target)?.stop()
     this.layouts.delete(target)
@@ -3645,6 +3749,8 @@ export class WebRuntime {
     this.disposed = true
     const errors: unknown[] = []
     for (const resource of [
+      ...this.behaviorControllers,
+      ...this.rigControllers,
       ...this.scopes,
       ...[...this.interactions.values()].flatMap((entries) => [...entries.keys()]),
       ...[...this.drags.values()].map((drag) => drag.handle),
@@ -3664,6 +3770,8 @@ export class WebRuntime {
       }
     }
     this.paths.clear()
+    this.behaviorControllers.clear()
+    this.rigControllers.clear()
     this.stateControllers.clear()
     this.itemAnimations.clear()
     this.scopes.clear()

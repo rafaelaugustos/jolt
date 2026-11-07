@@ -27,6 +27,7 @@ export default defineConfig({
       'test/**/*.spec.{ts,mjs}',
       'docs/.vitepress/theme/**/*.spec.ts',
       'benchmarks/web-lifecycle/*.unit.ts',
+      'benchmarks/web-composition-portable/*.unit.ts',
     ],
   },
 })

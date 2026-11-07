@@ -28,6 +28,8 @@ import {
 } from './properties.js'
 
 export interface Plan {
+  /** Internal rig constraint; applied to every sample before WAAPI compilation. */
+  range?: readonly [number, number]
   property: Property
   path?: MotionPath
   frames: (Scalar | null)[]

@@ -2,13 +2,8 @@ import { isAndroid, type Label } from '@nativescript/core'
 import type { Track } from '../track.js'
 import { iosGradientText } from './ios.js'
 import { androidGradientText } from './android.js'
-export interface TextPaint {
-  colors: number[]
-  stops: number[]
-  angle: number
-  sheen: number
-  width: number
-}
+import type { TextPaint } from '../core/gradient-text.js'
+export type { TextPaint } from '../core/gradient-text.js'
 export interface TextPainter {
   refresh(): void
   play(track: Track): void

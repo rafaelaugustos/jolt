@@ -1,3 +1,22 @@
+export type { WebRig, RigDefinition, RigPart, RigSocket, RigTransform } from './rig.js'
+export type { WebGradientText, WebGradientTextOptions } from './gradient-text.js'
+import type {
+  WebMotionBehavior,
+  MotionBehaviorsOptions,
+  MotionBehaviors,
+} from './behaviors.js'
+export { cubicBezier } from '../core/easing.js'
+export { origamiSpring, springs } from '../core/transition.js'
+export { presets } from '../core/presets.js'
+export type {
+  WebBehaviorContext,
+  WebMotionBehavior,
+  BehaviorRun,
+  BehaviorResult,
+  BehaviorStatus,
+  MotionBehaviorsOptions,
+  MotionBehaviors,
+} from './behaviors.js'
 import type {
   TimelineCue,
   TimelineCueOptions,
@@ -35,6 +54,7 @@ export type {
   WebSensor,
   WebRotationSensor,
   WebGravitySensor,
+  WebVectorSensor,
 } from './sensors.js'
 export type { Haptic, HapticStyle, HapticOptions, WebHapticResult } from './haptics.js'
 export type {
@@ -288,6 +308,22 @@ export interface WebAnimation extends PlaybackAnimation {
 
 /** Experimental DOM context; platform/framework adapters are not public APIs. */
 export interface WebRuntime {
+  rig2d(
+    definition: import('./rig.js').RigDefinition,
+    targets?: Record<string, HTMLElement | null>,
+  ): import('./rig.js').WebRig
+  gradientText(
+    target: HTMLElement,
+    options: import('./gradient-text.js').WebGradientTextOptions,
+  ): import('./gradient-text.js').WebGradientText
+  /** Effective preference for this document/runtime, including configure overrides. */
+  reducedMotion(): boolean
+  /** Observe effective changes; read reducedMotion() for the initial value. */
+  onReducedMotion(listener: (reduced: boolean) => void): () => void
+  motionBehaviors<const D extends Record<string, WebMotionBehavior>>(
+    definitions: D,
+    options?: MotionBehaviorsOptions<Extract<keyof D, string>>,
+  ): MotionBehaviors<Extract<keyof D, string>>
   interactiveNavigation(
     target: HTMLElement,
     options: import('./interactive-navigation.js').WebInteractiveNavigationOptions,
@@ -304,14 +340,14 @@ export interface WebRuntime {
     kind: 'rotation',
     options?: import('./sensors.js').WebSensorOptions,
   ): import('./sensors.js').WebRotationSensor
-  sensor(
-    kind: 'gravity',
+  sensor<K extends import('../core/sensor-kinds.js').VectorSensorKind>(
+    kind: K,
     options?: import('./sensors.js').WebSensorOptions,
-  ): import('./sensors.js').WebGravitySensor
+  ): import('./sensors.js').WebVectorSensor<K>
   sensor(
     kind: import('./sensors.js').WebSensorKind,
     options?: import('./sensors.js').WebSensorOptions,
-  ): import('./sensors.js').WebRotationSensor | import('./sensors.js').WebGravitySensor
+  ): import('./sensors.js').WebRotationSensor | import('./sensors.js').WebVectorSensor
 
   haptic(
     style: import('./haptics.js').HapticStyle,
@@ -495,9 +531,12 @@ export function createWebRuntime(
   // Keep diagnostics, ownership internals and driver implementation off the
   // package API, including at runtime rather than only in the declarations.
   return {
+    reducedMotion: runtime.reducedMotion.bind(runtime),
+    onReducedMotion: runtime.onReducedMotion.bind(runtime),
     interactiveNavigation: runtime.interactiveNavigation.bind(runtime),
     sharedNavigationEntry: runtime.sharedNavigationEntry.bind(runtime),
     glass: runtime.glass.bind(runtime),
+    motionBehaviors: runtime.motionBehaviors.bind(runtime),
     sensor: runtime.sensor.bind(runtime) as WebRuntime['sensor'],
     haptic: runtime.haptic.bind(runtime),
     onKeyboard: runtime.onKeyboard.bind(runtime),
@@ -515,6 +554,8 @@ export function createWebRuntime(
     liquid: runtime.liquid.bind(runtime),
     imageEffect: runtime.imageEffect.bind(runtime),
     gradient: runtime.gradient.bind(runtime),
+    gradientText: runtime.gradientText.bind(runtime),
+    rig2d: runtime.rig2d.bind(runtime),
     reveal: runtime.reveal.bind(runtime),
     conceal: runtime.conceal.bind(runtime),
     animateText: runtime.animateText.bind(runtime),

@@ -21,13 +21,26 @@ const module = await import(process.argv[2] ?? '@rafaelaugusto/jolt/web/vue')
 if (module.render)
   assert.equal(await module.render(), '<main data-motion="function">SSR</main>')
 else {
-  assert.deepEqual(Object.keys(module), ['createViewportEnterDirective', 'useWebMotion'])
+  assert.deepEqual(Object.keys(module), [
+    'createViewportEnterDirective',
+    'useReducedMotion',
+    'useShape',
+    'useWebMotion',
+  ])
   const directive = module.createViewportEnterDirective()
   assert.deepEqual(directive.getSSRProps(), {})
   const app = createSSRApp(
     defineComponent({
       setup() {
         const motion = module.useWebMotion(shallowRef(null))
+        const reduced = module.useReducedMotion()
+        assert.equal(reduced.value, false)
+        const drawing = module.useShape({
+          d: 'M0 0 L10 10',
+          viewBox: [0, 0, 10, 10],
+          stroke: '#000',
+        })
+        assert.equal(drawing.current, undefined)
         const remove = motion.use(() => {
           throw new Error('Motion setup ran during SSR')
         })

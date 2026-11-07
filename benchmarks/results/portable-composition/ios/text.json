@@ -1,0 +1,180 @@
+{
+  "platform": "ios",
+  "mode": "text",
+  "startedAt": 1794038999496,
+  "elapsedMs": 5661.023791640997,
+  "measurements": [
+    {
+      "iteration": 0,
+      "setupMs": 1.2461250126361847,
+      "attached": true,
+      "maskBytes": 456768,
+      "playing": false
+    },
+    {
+      "iteration": 1,
+      "setupMs": 2.1233749985694885,
+      "attached": true,
+      "maskBytes": 724680,
+      "playing": false
+    },
+    {
+      "iteration": 2,
+      "setupMs": 1.1119999885559082,
+      "attached": true,
+      "maskBytes": 456768,
+      "playing": false
+    },
+    {
+      "iteration": 3,
+      "setupMs": 2.4600833654403687,
+      "attached": true,
+      "maskBytes": 724680,
+      "playing": false
+    },
+    {
+      "iteration": 4,
+      "setupMs": 1.4156250059604645,
+      "attached": true,
+      "maskBytes": 456768,
+      "playing": false
+    },
+    {
+      "iteration": 5,
+      "setupMs": 3.1601250171661377,
+      "attached": true,
+      "maskBytes": 724680,
+      "playing": false
+    },
+    {
+      "iteration": 6,
+      "setupMs": 1.398125022649765,
+      "attached": true,
+      "maskBytes": 456768,
+      "playing": false
+    },
+    {
+      "iteration": 7,
+      "setupMs": 3.3092500269412994,
+      "attached": true,
+      "maskBytes": 724680,
+      "playing": false
+    },
+    {
+      "iteration": 8,
+      "setupMs": 1.3929166495800018,
+      "attached": true,
+      "maskBytes": 456768,
+      "playing": false
+    },
+    {
+      "iteration": 9,
+      "setupMs": 2.830083340406418,
+      "attached": true,
+      "maskBytes": 724680,
+      "playing": false
+    },
+    {
+      "iteration": 10,
+      "setupMs": 1.2654999792575836,
+      "attached": true,
+      "maskBytes": 456768,
+      "playing": false
+    },
+    {
+      "iteration": 11,
+      "setupMs": 2.403500020503998,
+      "attached": true,
+      "maskBytes": 724680,
+      "playing": false
+    },
+    {
+      "iteration": 12,
+      "setupMs": 1.2151666581630707,
+      "attached": true,
+      "maskBytes": 456768,
+      "playing": false
+    },
+    {
+      "iteration": 13,
+      "setupMs": 2.3680833280086517,
+      "attached": true,
+      "maskBytes": 724680,
+      "playing": false
+    },
+    {
+      "iteration": 14,
+      "setupMs": 1.2169583141803741,
+      "attached": true,
+      "maskBytes": 456768,
+      "playing": false
+    },
+    {
+      "iteration": 15,
+      "setupMs": 2.3212499916553497,
+      "attached": true,
+      "maskBytes": 724680,
+      "playing": false
+    },
+    {
+      "iteration": 16,
+      "setupMs": 1.1771666407585144,
+      "attached": true,
+      "maskBytes": 456768,
+      "playing": false
+    },
+    {
+      "iteration": 17,
+      "setupMs": 2.4888333678245544,
+      "attached": true,
+      "maskBytes": 724680,
+      "playing": false
+    },
+    {
+      "iteration": 18,
+      "setupMs": 1.234458327293396,
+      "attached": true,
+      "maskBytes": 456768,
+      "playing": false
+    },
+    {
+      "iteration": 19,
+      "setupMs": 2.8532083332538605,
+      "attached": true,
+      "maskBytes": 724680,
+      "playing": false
+    },
+    {
+      "iteration": 20,
+      "setupMs": 1.2004583477973938,
+      "attached": true,
+      "maskBytes": 456768,
+      "playing": false
+    },
+    {
+      "iteration": 21,
+      "setupMs": 2.379375010728836,
+      "attached": true,
+      "maskBytes": 724680,
+      "playing": false
+    },
+    {
+      "iteration": 22,
+      "setupMs": 1.2791250050067902,
+      "attached": true,
+      "maskBytes": 456768,
+      "playing": false
+    },
+    {
+      "iteration": 23,
+      "setupMs": 2.357333332300186,
+      "attached": true,
+      "maskBytes": 724680,
+      "playing": false
+    },
+    {
+      "disposed": true,
+      "scope": 0
+    }
+  ]
+}

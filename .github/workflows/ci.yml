@@ -108,6 +108,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci && npm ci --prefix benchmarks/angular-tools
+      - run: npm run web:composition-portable:typecheck
       - run: npm run web:portable:typecheck
       - run: npm run web:parity:typecheck
       - run: npm run web:platforms:typecheck
@@ -133,6 +134,7 @@ jobs:
       - run: npm run web:support:test
       - run: npm run web:visual:test
       - run: npm run web:lifecycle:test
+      - run: npm run web:composition-portable:test
       - run: npm run web:parity:test
       - run: npm run web:platforms:test
       - run: npm run web:surfaces:test
@@ -164,6 +166,7 @@ jobs:
             benchmarks/web-platforms/results/
             benchmarks/web-parity/results/
             benchmarks/web-portable/results/
+            benchmarks/web-composition-portable/results/
   test:
     runs-on: ubuntu-latest
     steps:

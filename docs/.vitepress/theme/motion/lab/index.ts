@@ -1,3 +1,4 @@
+import { compositionExperiments } from './composition'
 import { interactionExperiments } from './interaction'
 import { motionExperiments } from './motion'
 import { touchExperiments } from './touch'
@@ -9,6 +10,7 @@ import { deviceExperiments } from './device'
 import { portableExperiments } from './portable'
 
 export const experiments = [
+  ...compositionExperiments,
   ...motionExperiments,
   ...touchExperiments,
   ...layoutExperiments,

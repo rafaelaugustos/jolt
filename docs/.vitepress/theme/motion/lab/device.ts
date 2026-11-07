@@ -1,21 +1,41 @@
 import type { WebSensorKind, WebSensor } from '../../../../../src/web/public'
 import { type Experiment, element, tile, action, travel, onRun } from './types'
 
-const sensors: Experiment[] = (['rotation', 'gravity'] as const).map(
+const sensorTitles = {
+  rotation: ['Rotation sensor', 'Sensor de rotação', 'Sensor de rotación', '旋转传感器'],
+  gravity: ['Gravity sensor', 'Sensor de gravidade', 'Sensor de gravedad', '重力传感器'],
+  acceleration: [
+    'Proper acceleration',
+    'Aceleração própria',
+    'Aceleración propia',
+    '固有加速度',
+  ],
+  linearAcceleration: [
+    'Linear acceleration',
+    'Aceleração linear',
+    'Aceleración lineal',
+    '线性加速度',
+  ],
+  gyroscope: ['Angular rate', 'Velocidade angular', 'Velocidad angular', '角速度'],
+  magneticField: [
+    'Magnetic availability',
+    'Disponibilidade magnética',
+    'Disponibilidad magnética',
+    '磁场可用性',
+  ],
+} as const
+const sensors: Experiment[] = (Object.keys(sensorTitles) as WebSensorKind[]).map(
   (kind: WebSensorKind): Experiment => ({
     id: `sensor-${kind}`,
     family: 'device',
-    title:
-      kind === 'rotation'
-        ? ['Rotation sensor', 'Sensor de rotação', 'Sensor de rotación', '旋转传感器']
-        : ['Gravity sensor', 'Sensor de gravidade', 'Sensor de gravedad', '重力传感器'],
+    title: [...sensorTitles[kind]],
     hint: [
       'Enable on a compatible phone, then tilt it. No simulated readings.',
       'Ative em um celular compatível e incline. Sem leituras simuladas.',
       'Actívalo en un móvil compatible e inclínalo. Sin lecturas simuladas.',
       '在兼容手机上启用后倾斜设备，使用真实读数。',
     ],
-    guide: 'web-parity#sensors',
+    guide: 'portable-composition#sensors',
     apis: ['sensor', 'bind'],
     manual: true,
     runLabel: ['Enable sensor', 'Ativar sensor', 'Activar sensor', '启用传感器'],
@@ -37,7 +57,7 @@ const sensors: Experiment[] = (['rotation', 'gravity'] as const).map(
       const update = () => {
         if (!sensor || !ctx.alive()) return
         const s = sensor.snapshot()
-        readout.textContent = `${s.status} · ${s.samples} ${ctx.t(['samples', 'amostras', 'muestras', '次采样'])}${s.reason ? ` · ${s.reason}` : ''}`
+        readout.textContent = `${s.status} · ${s.unit} · ${s.samples} ${ctx.t(['samples', 'amostras', 'muestras', '次采样'])}${s.reason ? ` · ${s.reason}` : ''}`
       }
       const run = () => {
         if (!sensor) {

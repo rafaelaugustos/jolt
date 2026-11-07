@@ -7,6 +7,8 @@ export interface OwnedBinding extends WebBinding {
   owns(): boolean
 }
 export interface WebInteraction {
+  /** An explicitly retained renderer may pause through temporary DOM removal. */
+  retainDetached?(): boolean
   readonly disposed: boolean
   readonly paused: boolean
   pause(): void

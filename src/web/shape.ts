@@ -31,6 +31,8 @@ export interface WebShapeOptions extends WebShapeValues {
   lineCap?: 'butt' | 'round' | 'square'
   lineJoin?: 'miter' | 'round' | 'bevel'
   fillRule?: 'nonzero' | 'evenodd'
+  /** Default stop/dispose on DOM removal; pause retains the drawing for reattachment. */
+  unload?: 'stop' | 'pause'
 }
 export interface WebShape {
   readonly disposed: boolean
@@ -61,6 +63,7 @@ export function createShape(
   effectTarget(target, host)
   effectOptions(options, [
     'd',
+    'unload',
     'viewBox',
     'stroke',
     'fill',
@@ -71,6 +74,12 @@ export function createShape(
     'strokeStart',
     'strokeEnd',
   ])
+  if (
+    options.unload !== undefined &&
+    options.unload !== 'stop' &&
+    options.unload !== 'pause'
+  )
+    throw new TypeError('Invalid shape unload policy.')
   let frame = resolve(
     { path: shapePath(options.d), start: 0, end: 1 },
     { strokeStart: options.strokeStart, strokeEnd: options.strokeEnd },
@@ -114,6 +123,7 @@ export function createShape(
   layer.append(svg)
   let ended = false,
     held = false,
+    detached = false,
     restart = false
   let active: EffectAnimation | undefined
   const off: (() => void)[] = []
@@ -142,14 +152,32 @@ export function createShape(
     layer.remove()
     for (const release of off.splice(0).reverse()) release()
   }
-  const valid = () =>
-    target.isConnected &&
+  const intact = () =>
     target.ownerDocument === host.document &&
     layer.parentNode === target &&
     svg.parentNode === layer
+  const valid = () => target.isConnected && intact()
+  const hold = () => {
+    if (active && !active.paused) {
+      restart = true
+      active.pause()
+    }
+  }
+  const continuePlayback = () => {
+    if (held || detached || ended) return
+    if (restart) active?.play()
+    restart = false
+  }
+  const retainDetached = () => {
+    if (ended || options.unload !== 'pause' || target.isConnected || !intact())
+      return false
+    detached = true
+    hold()
+    return true
+  }
   const assert = () => {
     if (ended || !valid()) {
-      dispose()
+      if (!retainDetached()) dispose()
       throw new Error('Shape is disposed or detached.')
     }
   }
@@ -194,7 +222,7 @@ export function createShape(
         render(completed ? track.end : time)
         active = undefined
       })
-      if (held) {
+      if (held || detached) {
         active.pause()
         restart = true
       }
@@ -217,14 +245,13 @@ export function createShape(
     suspend() {
       if (held || ended) return
       held = true
-      restart = !!active && !active.paused
-      active?.pause()
+      hold()
     },
     resume() {
       if (!held || ended) return
       held = false
-      if (restart) active?.play()
-      restart = false
+      if (valid()) detached = false
+      continuePlayback()
     },
     dispose,
   }
@@ -246,9 +273,15 @@ export function createShape(
           play: handle.resume,
           cancel: stop,
           dispose,
+          retainDetached,
         },
         () => {
-          if (!valid()) dispose()
+          if (!valid()) {
+            if (!retainDetached()) dispose()
+          } else if (detached) {
+            detached = false
+            continuePlayback()
+          }
         },
       ),
     )
