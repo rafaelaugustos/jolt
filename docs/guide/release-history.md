@@ -1,6 +1,18 @@
 # Release history
 
-## 0.1.0-rc.11.1: Native resource lifetime and composition {#release-candidate}
+## 0.1.0-rc.12: Portable interaction, drawing and depth {#release-candidate}
+
+RC.12 adds [pointer presence, coordinated properties, renderer activity and bounded drawing](./portable-foundations), plus [drop targets, optional audio/cues, inspection/replay and Web paths, 3D rotation and shadows](./interaction-depth). Rebuild native apps with matching package versions. Web entries remain experimental.
+
+Physical pointer-accessory acceptance, the iPhone silent switch and further inspector/performance validation on a newer Android remain open. The old phone supplies compatibility evidence only. Latency/PSS work (#405, #406) remains technical debt; publication does not establish performance superiority or playback through blocked application JavaScript.
+
+<Clip :autoplay="false" name="portable-groups-ios" caption="iOS 26.2 simulator, English UI: coordinated native properties and SceneKit uniforms, pause/resume, replacement and remount. Reused reviewed recording; not physical-device performance evidence." />
+
+<Clip :autoplay="false" name="interaction-drop-android" caption="Physical ASUS ZenFone 3, Android 8, English UI: real drag rejection and acceptance, followed by scoped remount. Reused reviewed compatibility recording." />
+
+<Clip :autoplay="false" name="interaction-tools-web" caption="Chromium, English UI: edit application-owned playback and replay a numeric trace twice with endpoint checks and no remaining replay resources. Real browser input; no OS input capture." />
+
+## 0.1.0-rc.11.1: Native resource lifetime and composition {#rc-11-1}
 
 RC.11.1 adds [retained resources and Vue drawing ownership, behavior priorities, articulated 2D parts, gradient text and named timeline effects](./native-composition). These native APIs include interruption, reduced motion and lifecycle controls for their documented use cases.
 

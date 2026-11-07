@@ -1,6 +1,6 @@
 # Drop, cues and depth
 
-This RC.12 candidate adds six connected capabilities on native and Web. It is **not in RC.11.1**. The examples use explicit owners; dispose the scope on unmount. Browser imports remain optional and SSR-safe; create runtimes and resolve targets only after mounting.
+Available in `0.1.0-rc.12`. The examples use explicit owners; dispose the scope on unmount. Browser imports remain optional and SSR-safe; create runtimes and resolve targets only after mounting.
 
 The old Android is used for compatibility only. Further physical performance acceptance is deferred until a newer phone is available, at the maintainer’s request; these recordings and exploratory measurements do not establish a CPU/PSS advantage.
 

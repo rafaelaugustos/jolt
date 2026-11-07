@@ -1,6 +1,18 @@
 # Histórico de versões
 
-## 0.1.0-rc.11.1: Ciclo de vida e composição nativa {#release-candidate}
+## 0.1.0-rc.12: Interação, desenho e profundidade portáveis {#release-candidate}
+
+A RC.12 adiciona [presença do ponteiro, propriedades coordenadas, atividade do renderer e desenho com limites](./portable-foundations), além de [drop targets, áudio/cues opcionais, inspeção/replay e paths, rotação 3D e sombras na Web](./interaction-depth). Recompile os apps nativos com pacotes na mesma versão. As entradas Web continuam experimentais.
+
+A validação com acessório físico de ponteiro, o modo silencioso do iPhone e novas medições de inspector/desempenho em um Android mais recente seguem pendentes. O celular antigo fornece apenas evidência de compatibilidade. Latência/PSS (#405, #406) continuam como débito técnico; a publicação não comprova superioridade de desempenho nem reprodução durante bloqueios do JavaScript.
+
+<Clip :autoplay="false" name="portable-groups-ios" caption="Simulador iOS 26.2, interface em inglês: propriedades nativas e uniforms SceneKit coordenados, pausa/retomada, substituição e remontagem. Gravação revisada reutilizada; não mede desempenho em aparelho físico." />
+
+<Clip :autoplay="false" name="interaction-drop-android" caption="ASUS ZenFone 3 físico, Android 8, interface em inglês: arraste real com rejeição e aceitação, seguido de remontagem do scope. Gravação revisada de compatibilidade reutilizada." />
+
+<Clip :autoplay="false" name="interaction-tools-web" caption="Chromium, interface em inglês: edição da animação do aplicativo e dois replays de um trace numérico, com validação do destino e nenhum recurso restante. Interação real; sem captura de entradas do sistema." />
+
+## 0.1.0-rc.11.1: Ciclo de vida e composição nativa {#rc-11-1}
 
 A RC.11.1 adiciona [recursos retidos e desenhos com ciclo de vida Vue, prioridades de comportamentos, partes 2D articuladas, texto com gradiente e eventos nomeados em timelines](./native-composition). As APIs nativas incluem interrupção, movimento reduzido e controle de ciclo de vida nos usos documentados.
 

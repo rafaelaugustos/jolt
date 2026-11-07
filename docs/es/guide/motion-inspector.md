@@ -1,6 +1,6 @@
 # Inspector de movimiento {#inspect-motion-on-a-running-device}
 
-El [candidato de interacción y profundidad](./interaction-depth) para RC.12 añade drop zones, audio/cues, inspección y contratos Web de paths, 3D y sombras. Todavía no forma parte de RC.11.1.
+Disponible en RC.12: [interacción y profundidad](./interaction-depth) añade drop zones, audio/cues opcionales, inspección y contratos Web de paths, 3D y sombras.
 
 Seleccione una vista, vea qué animación posee sus propiedades y compare la curva esperada con las observaciones nativas. El experimento **59 — Inspector de movimiento** también afina un resorte, lo reproduce y copia el TypeScript necesario para reproducirlo.
 

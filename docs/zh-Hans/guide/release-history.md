@@ -1,6 +1,18 @@
 # 版本历史
 
-## 0.1.0-rc.11.1: 原生资源生命周期与组合 {#release-candidate}
+## 0.1.0-rc.12: 可移植交互、绘图与深度 {#release-candidate}
+
+RC.12 新增[指针存在状态、协调属性组、渲染活动与有界绘图](./portable-foundations)，以及[放置目标、可选音频提示、检查/重放与 Web 路径、3D 旋转和阴影](./interaction-depth)。请安装版本一致的软件包并重新构建原生应用。Web 入口仍为实验性功能。
+
+实体指针配件、iPhone 静音开关及较新 Android 设备上的检查器与性能验证仍待完成。旧手机仅提供兼容性证据。延迟/PSS（#405、#406）仍作为技术债务跟踪；发布不证明性能优势，也不解决应用 JavaScript 阻塞。
+
+<Clip :autoplay="false" name="portable-groups-ios" caption="iOS 26.2 模拟器，英语界面：协调原生属性与 SceneKit uniforms、暂停/恢复、替换和重新挂载。复用已审查录像；不是实机性能测量。" />
+
+<Clip :autoplay="false" name="interaction-drop-android" caption="实体 ASUS ZenFone 3，Android 8，英语界面：真实拖动展示拒绝与接受，然后重新挂载 scope。复用已审查的兼容性录像。" />
+
+<Clip :autoplay="false" name="interaction-tools-web" caption="Chromium，英语界面：编辑应用拥有的动画，并两次重放数值轨迹，验证终点且剩余资源为零。真实浏览器交互；不捕获操作系统输入。" />
+
+## 0.1.0-rc.11.1: 原生资源生命周期与组合 {#rc-11-1}
 
 RC.11.1 新增[保留资源与 Vue 绘图生命周期、行为优先级、二维关节部件、渐变文字和命名时间线事件](./native-composition)。这些原生 API 在文档所述场景中支持中断、减少动态效果和生命周期控制。
 

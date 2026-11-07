@@ -1,6 +1,6 @@
 # Puntero, grupos de propiedades y superficies de dibujo
 
-Este trabajo apunta a RC.12; todavía no forma parte de RC.11.1. NativeScript y el runtime Web experimental comparten validación y ciclo de vida, con ejecución específica por plataforma. Recompila las aplicaciones nativas con paquetes Jolt compatibles.
+Disponible en `0.1.0-rc.12`. NativeScript y el runtime Web experimental comparten validación y ciclo de vida, con ejecución específica por plataforma. Recompila las aplicaciones nativas con paquetes Jolt compatibles.
 
 ## Posición y presencia del puntero
 

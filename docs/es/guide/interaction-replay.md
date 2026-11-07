@@ -1,6 +1,6 @@
 # Reproducción de interacciones {#record-and-replay-an-interaction}
 
-El [candidato de interacción y profundidad](./interaction-depth) para RC.12 añade drop zones, audio/cues, inspección y contratos Web de paths, 3D y sombras. Todavía no forma parte de RC.11.1.
+Disponible en RC.12: [interacción y profundidad](./interaction-depth) añade drop zones, audio/cues opcionales, inspección y contratos Web de paths, 3D y sombras.
 
 Mantenga las entradas que reprodujeron un error, congele su movimiento esperado y reprodúzcalas en la siguiente compilación. La entrada opcional **@rafaelaugusto/jolt/pruebas** proporciona un seguimiento numérico versionado, un registrador opcional y un corredor basado en adaptador. **@rafaelaugusto/jolt/testing/nativo** agrega un controlador Jolt controlado, captura de panorámica central y lecturas de presentación nativas.
 

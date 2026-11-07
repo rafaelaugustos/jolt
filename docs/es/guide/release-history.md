@@ -1,6 +1,18 @@
 # Historial de versiones
 
-## 0.1.0-rc.11.1: Ciclo de vida y composición nativa {#release-candidate}
+## 0.1.0-rc.12: Interacción, dibujo y profundidad portables {#release-candidate}
+
+RC.12 añade [presencia del puntero, propiedades coordinadas, actividad del renderer y dibujo acotado](./portable-foundations), además de [drop targets, audio/cues opcionales, inspección/replay y paths, rotación 3D y sombras Web](./interaction-depth). Recompila las apps nativas con paquetes de la misma versión. Las entradas Web siguen experimentales.
+
+La validación con un accesorio físico de puntero, el modo silencioso del iPhone y nuevas mediciones de inspector/rendimiento en un Android más reciente siguen pendientes. El teléfono antiguo solo aporta evidencia de compatibilidad. Latencia/PSS (#405, #406) siguen como deuda técnica; publicar no demuestra superioridad de rendimiento ni reproducción durante bloqueos de JavaScript.
+
+<Clip :autoplay="false" name="portable-groups-ios" caption="Simulador iOS 26.2, interfaz en inglés: propiedades nativas y uniforms SceneKit coordinados, pausa/reanudación, sustitución y remontaje. Grabación revisada reutilizada; no mide rendimiento de un dispositivo físico." />
+
+<Clip :autoplay="false" name="interaction-drop-android" caption="ASUS ZenFone 3 físico, Android 8, interfaz en inglés: arrastre real con rechazo y aceptación, seguido de remontaje del scope. Grabación revisada de compatibilidad reutilizada." />
+
+<Clip :autoplay="false" name="interaction-tools-web" caption="Chromium, interfaz en inglés: edición de animación de la aplicación y dos replays de una traza numérica, verificando el destino y cero recursos restantes. Interacción real; sin captura de entradas del sistema." />
+
+## 0.1.0-rc.11.1: Ciclo de vida y composición nativa {#rc-11-1}
 
 RC.11.1 añade [recursos retenidos y dibujos con ciclo de vida Vue, prioridades de comportamientos, partes 2D articuladas, texto con degradado y eventos con nombre en timelines](./native-composition). Las APIs nativas incluyen interrupción, movimiento reducido y controles de ciclo de vida para los usos documentados.
 

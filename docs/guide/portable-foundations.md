@@ -1,6 +1,6 @@
 # Pointer, property groups and drawing surfaces
 
-This work targets RC.12. It is not included in RC.11.1. The APIs share ownership and validation rules across NativeScript and the experimental Web runtime; their execution backends differ. Rebuild native applications after installing matching Jolt packages.
+Available in `0.1.0-rc.12`. The APIs share ownership and validation rules across NativeScript and the experimental Web runtime; their execution backends differ. Rebuild native applications after installing matching Jolt packages.
 
 ## Pointer position and presence
 

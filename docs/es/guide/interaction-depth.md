@@ -1,6 +1,6 @@
 # Drop, cues y profundidad
 
-Candidato a RC.12, **todavía fuera de RC.11.1**. Las seis capacidades tienen contratos nativos y Web explícitos. Destruye el scope al desmontar. Las entradas Web opcionales son seguras para SSR; crea el runtime y resuelve destinos después de montar.
+Disponible en `0.1.0-rc.12`. Las seis capacidades tienen contratos nativos y Web explícitos. Destruye el scope al desmontar. Las entradas Web opcionales son seguras para SSR; crea el runtime y resuelve destinos después de montar.
 
 El Android antiguo sirve para compatibilidad. A petición del mantenedor, la validación física de rendimiento queda pendiente de un teléfono más reciente; estos vídeos y datos exploratorios no demuestran ventajas de CPU/PSS.
 

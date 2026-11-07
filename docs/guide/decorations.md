@@ -1,6 +1,6 @@
 # Corners, borders and shadows
 
-The pending RC.12 [interaction and depth candidate](./interaction-depth) adds portable drop zones, optional audio/cues, adapter inspection and Web path/3D/shadow contracts. It is not part of RC.11.1.
+Available in RC.12: [interaction and depth](./interaction-depth) adds portable drop zones, optional audio/cues, adapter inspection and Web path/3D/shadow contracts.
 
 Uniform borders use the same `animate()` API on iOS and Android:
 

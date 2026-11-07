@@ -1,6 +1,6 @@
 # Ponteiro, grupos de propriedades e superfícies de desenho
 
-Este trabalho tem como alvo a RC.12 e ainda não faz parte da RC.11.1. NativeScript e o runtime Web experimental compartilham regras de validação e ciclo de vida, com execução própria em cada plataforma. Recompile os apps nativos com versões compatíveis dos pacotes Jolt.
+Disponível em `0.1.0-rc.12`. NativeScript e o runtime Web experimental compartilham regras de validação e ciclo de vida, com execução própria em cada plataforma. Recompile os apps nativos com versões compatíveis dos pacotes Jolt.
 
 ## Posição e presença do ponteiro
 

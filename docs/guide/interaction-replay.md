@@ -1,6 +1,6 @@
 # Record and replay an interaction
 
-The pending RC.12 [interaction and depth candidate](./interaction-depth) adds portable drop zones, optional audio/cues, adapter inspection and Web path/3D/shadow contracts. It is not part of RC.11.1.
+Available in RC.12: [interaction and depth](./interaction-depth) adds portable drop zones, optional audio/cues, adapter inspection and Web path/3D/shadow contracts.
 
 Keep the inputs that reproduced a bug, freeze their expected motion, and replay them against the next build. The optional **@rafaelaugusto/jolt/testing** entry provides a versioned numeric trace, an opt-in recorder and an adapter-based runner. **@rafaelaugusto/jolt/testing/native** adds a controlled Jolt driver, Core pan capture and native presentation reads.
 
