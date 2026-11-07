@@ -2,14 +2,14 @@
 
 [Open the playground](/#playground)
 
-58 experiments, seven categories, one live demo at a time. Search by name or API, choose a demo, interact with it, and copy its core code. The selected experiment stays in the URL and survives language switching.
+60 experiments, seven categories, one live demo at a time. Search by name or API, choose a demo, interact with it, and copy its core code. The selected experiment stays in the URL and survives language switching.
 
 ## Explore
 
-- [Motion & physics · 12](/?play=spring#playground): Springs, stagger, keyframes, presets, gravity, decay, timelines, sequences, seeking, states, values and circle physics.
-- [Touch & gestures · 7](/?play=gestures#playground): Press, drag/snap, inertia, simultaneous gestures, pointer following, image zoom and reorder.
+- [Motion & physics · 16](/?play=spring#playground): Springs, stagger, keyframes, presets, gravity, decay, timelines, sequences, seeking, states, values and circle physics.
+- [Touch & gestures · 8](/?play=gestures#playground): Press, drag/snap, inertia, simultaneous gestures, pointer following, image zoom and reorder.
 - [Scroll & layout · 9](/?play=scroll#playground): Vertical and horizontal/RTL scroll, viewport entrances, keyed items, layout, automatic size, shared layout, collapsing headers and nested scrolling.
-- [Visual effects · 12](/?play=gradient#playground): Linear/radial/conic gradients, particles, confetti, blur, glass, shapes, SVG drawing, liquid images, image effects, reveal/conceal, shimmer and loaders.
+- [Visual effects · 14](/?play=gradient#playground): Linear/radial/conic gradients, particles, confetti, blur, glass, shapes, SVG drawing, liquid images, image effects, reveal/conceal, shimmer and loaders.
 - [Type & symbols · 3](/?play=text#playground): Word/letter animation, rolling numbers and layered symbol effects.
 - [Surfaces & navigation · 5](/?play=sheet#playground): Bottom sheets, interactive dialogs, shared navigation, interactive back and gallery return, including a removed thumbnail.
 - [Device & browser · 5](/?play=sensor-rotation#playground): Rotation and gravity sensors, haptics, keyboard observation/following and playback/lifecycle inspection.
@@ -18,7 +18,7 @@
 
 All previews use the existing experimental Jolt Web runtime. Only the selected experiment is mounted. Leaving the viewport suspends its scope; returning recreates it. Switching demos or leaving the page disposes listeners, effects and DOM ownership. Resizing rebuilds geometry-dependent bounds. The site and operating system reduced-motion preferences remain respected.
 
-Code snippets show the core integration and assume mounted DOM refs. The linked API guide supplies markup requirements, lifecycle details and limitations. Shared navigation changes a local demo scene; the application still owns its routes. The Vue adapter is documented in [Web integration](./web-vue). No engine capability or native API changed in this site update.
+Code snippets show the core integration and assume mounted DOM refs. The linked API guide supplies markup requirements, lifecycle details and limitations. Shared navigation changes a local demo scene; the application still owns its routes. The Vue adapter is documented in [Web integration](./web-vue). Drop targets, named cues, motion paths, 3D rotation and shadow channels are covered in [Interaction and depth](./interaction-depth); property groups and drawing batches are covered in [Portable foundation](./portable-foundations).
 
 Sensors request permission only after an explicit action and require real readings before reporting active. Unsupported or denied devices stay clearly labeled. Haptic requests report browser acceptance, not proof of vibration. A desktop keyboard normally reports zero covered pixels; try the keyboard demo on a compatible phone. Glass and image effects expose their real rendering backend. Reduced motion may suppress playback.
 
