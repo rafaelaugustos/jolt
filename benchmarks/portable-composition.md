@@ -1,7 +1,7 @@
 # Portable composition delivery plan
 
 Base: `v0.1.0-rc.12` (`f1f2ec2`). Branch: `feat/portable-composition`.
-All six capabilities are implemented in this candidate. Local acceptance is recorded below; physical browser sensor acceptance remains pending in #385. This work does not publish a release.
+Merged in [PR #428](https://github.com/rafaelaugustos/jolt/pull/428), commit `e6dbf10`, and included in `0.1.0-rc.12.1`. Five capabilities have native/browser acceptance; overall physical browser sensor acceptance remains pending in #385. The results below preserve the original pre-publication validation context.
 
 | Capability                               | Issue                          | Native acceptance                                                          | Web acceptance                                                                              |
 | ---------------------------------------- | ------------------------------ | -------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
@@ -30,7 +30,7 @@ See the validation and media sections below. Delivery PR/CI evidence will be lin
 
 ## Implemented contract and validation
 
-The six candidate APIs are implemented. Five capabilities have local native/browser acceptance; #385 remains open for physical browser sensor delivery/accuracy. No version/tag/package was published. The native API history in RC.11.1/RC.12 remains unchanged.
+The six APIs are implemented and included in RC.12.1. Five capabilities have native/browser acceptance; #385 remains open for physical browser sensor delivery/accuracy. The original local acceptance run did not publish a version; raw evidence retains that historical state. The native API history in RC.11.1/RC.12 remains unchanged.
 
 - Retained Web scopes and Vue shape refs reuse the existing SVG renderer and ownership boundary. Transient `add()` behavior stays compatible; cached shapes opt into retained detachment.
 - Behavior coordination, gradient-text definitions, rig validation/pose math and rotation bounds are shared with native. Browser execution uses existing runtime scopes, playback and DOM adapters.

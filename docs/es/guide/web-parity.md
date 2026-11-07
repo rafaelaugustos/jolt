@@ -1,6 +1,6 @@
 # Gravedad, háptica, sensores, vidrio y galería Web
 
-La [composición portable candidata a la próxima versión](./portable-composition) incorpora equivalentes Web viables y conserva estos contratos nativos publicados. Las incorporaciones no están en RC.12.
+La [composición portable](./portable-composition), disponible en `0.1.0-rc.12.1`, añade equivalentes Web viables con definiciones y ciclo de vida compartidos. La validación de sensores en un navegador físico sigue pendiente en #385.
 
 Disponible en RC.12: [interacción y profundidad](./interaction-depth) añade drop zones, audio/cues opcionales, inspección y contratos Web de paths, 3D y sombras.
 

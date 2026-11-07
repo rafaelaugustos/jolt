@@ -1,6 +1,16 @@
 # 版本历史
 
-## 0.1.0-rc.12: 可移植交互、绘图与深度 {#release-candidate}
+## 0.1.0-rc.12.1: 跨平台组合与偏好 {#release-candidate}
+
+RC.12.1 新增 [Web 保留资源与 Vue shape 所有权、行为协调、渐变文字、2D rig、共用辅助函数及有效减少动态效果偏好观察](./portable-composition)。浏览器向量适配器共用采集机制并采用与原生兼容的单位；磁场输入明确报告不可用。请安装版本一致的软件包并重新构建原生应用。Web API 仍为实验性功能。
+
+实体设备浏览器的传感器交付和精度验证仍在 #385 中跟踪。验收使用模拟器和明确标注的浏览器注入读数。发布不证明新的性能优势，也不证明应用 JavaScript 阻塞时仍可播放。
+
+<Clip :autoplay="false" name="composition-behaviors-ios" caption="iOS 26.2 模拟器，英文界面：经审查的原生和浏览器行为中断、优先级及恢复静止状态录像。真实 XCTest/Playwright 交互；不代表实体设备。" />
+
+<Clip :autoplay="false" name="composition-behaviors-web" caption="macOS 上的 Chromium，英文界面：经审查的原生和浏览器行为中断、优先级及恢复静止状态录像。真实 XCTest/Playwright 交互；不代表实体设备。" />
+
+## 0.1.0-rc.12: 可移植交互、绘图与深度 {#rc-12}
 
 RC.12 新增[指针存在状态、协调属性组、渲染活动与有界绘图](./portable-foundations)，以及[放置目标、可选音频提示、检查/重放与 Web 路径、3D 旋转和阴影](./interaction-depth)。请安装版本一致的软件包并重新构建原生应用。Web 入口仍为实验性功能。
 

@@ -1,6 +1,16 @@
 # Historial de versiones
 
-## 0.1.0-rc.12: Interacción, dibujo y profundidad portables {#release-candidate}
+## 0.1.0-rc.12.1: Composición portable y preferencias {#release-candidate}
+
+RC.12.1 añade [recursos Web retenidos y ownership de shapes en Vue, coordinación de comportamientos, texto con degradado, rigs 2D, helpers compartidos y observación de la preferencia efectiva de movimiento reducido](./portable-composition). Los adaptadores de vectores del navegador comparten adquisición y unidades compatibles con el nativo; el campo magnético informa explícitamente que no está disponible. Instala paquetes de la misma versión y recompila las apps nativas. Las APIs Web siguen experimentales.
+
+La entrega y precisión de sensores en un navegador físico siguen pendientes en #385. La validación usa simuladores/emuladores y lecturas inyectadas, identificadas como tales. La publicación no demuestra nuevas mejoras de rendimiento ni reproducción durante bloqueos de JavaScript.
+
+<Clip :autoplay="false" name="composition-behaviors-ios" caption="Simulador iOS 26.2, interfaz en inglés: grabaciones revisadas de interrupción, prioridades y regreso al reposo en nativo y navegador. Interacción real con XCTest/Playwright; no representa un dispositivo físico." />
+
+<Clip :autoplay="false" name="composition-behaviors-web" caption="Chromium en macOS, interfaz en inglés: grabaciones revisadas de interrupción, prioridades y regreso al reposo en nativo y navegador. Interacción real con XCTest/Playwright; no representa un dispositivo físico." />
+
+## 0.1.0-rc.12: Interacción, dibujo y profundidad portables {#rc-12}
 
 RC.12 añade [presencia del puntero, propiedades coordinadas, actividad del renderer y dibujo acotado](./portable-foundations), además de [drop targets, audio/cues opcionales, inspección/replay y paths, rotación 3D y sombras Web](./interaction-depth). Recompila las apps nativas con paquetes de la misma versión. Las entradas Web siguen experimentales.
 

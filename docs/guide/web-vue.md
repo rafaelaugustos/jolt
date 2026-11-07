@@ -1,6 +1,6 @@
 # Vue Web motion
 
-The next-version [portable composition candidate](./portable-composition) adds feasible Web equivalents while preserving these published native contracts. These additions are not included in RC.12.
+[Portable composition](./portable-composition), available in `0.1.0-rc.12.1`, adds feasible Web equivalents with shared definitions and lifecycle. Physical browser sensor validation remains pending in #385.
 
 **Also in RC.7:** [resource scopes, pointer/viewport helpers and continuous Vue setup](./web-lifecycle), plus [overlay geometry, shared elements, complete recipes and diagnostics](./web-interactions). Mavis adoption remains separate.
 

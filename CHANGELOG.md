@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+## 0.1.0-rc.12.1 (2026-11-07)
+
+- Publish matching core and optional native packages with portable composition from #428. Rebuild native applications after upgrading. Web APIs remain experimental.
+- Add retained Web scope resources and Vue `useShape` ownership, including KeepAlive suspension, ref replacement and final cleanup (#424).
+- Share `motionBehaviors` priority/interruption/rest policy, `gradientText` definitions and `rig2d` pose math between native and Web adapters (#425, #426, #427). Browser text remains selectable and accessible; rigs have explicit 2D DOM hierarchy and geometry limits.
+- Export existing easing/spring/preset helpers on Web and add runtime-aware reduced-motion observers, including Vue/SSR lifecycle (#386).
+- Add browser acceleration, linear acceleration and gyroscope event adapters with native-compatible units and shared acquisition. Magnetic-field input reports unavailable. Physical browser sensor delivery and accuracy remain pending in #385; injected recordings do not validate hardware.
+- Include 11 reviewed native/browser recordings in EN/PT/ES/ZH guides, 1,780 unit tests, cross-browser acceptance, packed consumers, native CI and playground validation. Native evidence uses an iOS simulator and Android emulator; this release makes no new CPU/PSS, rendering-isolation or performance-superiority claim.
+
 ## 0.1.0-rc.12 (2026-11-07)
 
 - Publish matching core and optional native packages with the portable capability batches from #421 and #422. Rebuild native applications after upgrading. Web entries remain experimental.

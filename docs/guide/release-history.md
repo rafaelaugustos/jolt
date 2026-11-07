@@ -1,6 +1,16 @@
 # Release history
 
-## 0.1.0-rc.12: Portable interaction, drawing and depth {#release-candidate}
+## 0.1.0-rc.12.1: Portable composition and preferences {#release-candidate}
+
+RC.12.1 adds [retained Web resources and Vue shape ownership, behavior coordination, gradient text, 2D rigs, shared helpers and effective reduced-motion observation](./portable-composition). Browser vector adapters share acquisition and native-compatible units; magnetic-field input explicitly reports unavailable. Install matching packages and rebuild native apps. Web APIs remain experimental.
+
+Physical browser sensor delivery and accuracy remain pending in #385. Acceptance uses simulators/emulators and labeled injected browser readings. Publication makes no new performance or blocked-JavaScript playback claim.
+
+<Clip :autoplay="false" name="composition-behaviors-ios" caption="iOS 26.2 simulator, English UI: reviewed native and browser behavior interruption, priorities and return to rest. Actual XCTest/Playwright interaction; no physical-device claim." />
+
+<Clip :autoplay="false" name="composition-behaviors-web" caption="Chromium on macOS, English UI: reviewed native and browser behavior interruption, priorities and return to rest. Actual XCTest/Playwright interaction; no physical-device claim." />
+
+## 0.1.0-rc.12: Portable interaction, drawing and depth {#rc-12}
 
 RC.12 adds [pointer presence, coordinated properties, renderer activity and bounded drawing](./portable-foundations), plus [drop targets, optional audio/cues, inspection/replay and Web paths, 3D rotation and shadows](./interaction-depth). Rebuild native apps with matching package versions. Web entries remain experimental.
 
