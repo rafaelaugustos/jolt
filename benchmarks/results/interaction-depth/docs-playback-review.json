@@ -26,7 +26,7 @@
   },
   {
     "browser": "chromium",
-    "videosPlayed": 20,
+    "videosPlayed": 23,
     "errors": []
   },
   {
@@ -56,7 +56,7 @@
   },
   {
     "browser": "webkit",
-    "videosPlayed": 20,
+    "videosPlayed": 23,
     "errors": []
   }
 ]

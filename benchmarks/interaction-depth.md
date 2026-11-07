@@ -44,9 +44,12 @@ Build the library, then the native demo separately per platform with production 
 python3 benchmarks/docs-record-ios.py SIMULATOR_UUID OUTPUT_DIR testInteractionDepth
 python3 benchmarks/record-interaction-android.py SERIAL OUTPUT_DIR ADB_PORT
 node benchmarks/web-interaction-depth/record.mjs OUTPUT_DIR
+node benchmarks/web-interaction-depth/record-tools.mjs OUTPUT_DIR
 ```
 
 Only use a device explicitly available for testing; do not resume the old-phone collection without a new instruction. Android recording restores its previous touch-indicator setting. The scripts assert scene-specific drop acceptance/audio completion and fail on interaction errors. Native inspector clips distinguish iOS SceneKit uniforms from Android non-shader drawing adapters. The browser fixture exercises real WebGL uniforms; no renderer/GPU cost is inferred from the video.
+
+The separate Web tooling recording uses actual button input over the optional public inspector/testing entries: pause, seek, application-owned spring tuning, copyable code, and an explicit target-change trace replayed twice with matching checkpoints and no remaining replay resources. Existing reviewed native inspector and replay recordings are reused alongside it. These recordings do not claim automatic OS input interception.
 
 ## Mavis adoption audit
 

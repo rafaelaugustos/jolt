@@ -46,6 +46,10 @@ Retenha o inspector nativo com `scope.resource(() => inspector)`. Na Web, `scope
 <Clip :autoplay="false" name="interaction-inspector-android" caption="ASUS ZenFone 3 físico, Android 8: reprodução nativa com toques reais via ADB. Troca de proprietário, inspeção sob demanda e remount; não mede GPU." />
 <Clip :autoplay="false" name="interaction-inspector-web" caption="Chromium: interação real no navegador; o inspector usa WebGL por software. Troca de proprietário, inspeção sob demanda e remount; não mede GPU." />
 
+<Clip :autoplay="false" name="interaction-tools-web" caption="Chromium: cliques reais pausam e buscam a animação do aplicativo, editam a mola e mostram código copiável. Um trace numérico explícito de mudança de destino é reproduzido duas vezes, validando o destino e zero recursos restantes do replay; não captura entradas do sistema operacional." />
+<Clip :autoplay="false" name="motion-inspector-ios" caption="Simulador iOS, inspector nativo existente: toques reais do XCTest inspecionam interrupção, ajustam uma mola, pausam a reprodução e copiam TypeScript. Gravação reutilizada da contraparte nativa; não mede desempenho em aparelho físico." />
+<Clip :autoplay="false" name="interaction-replay-ios" caption="Simulador iOS, replay nativo existente: toques e arraste reais do XCTest gravam e reproduzem mola/arraste e detectam um checkpoint propositalmente errado. Contraparte nativa reutilizada; o replay usa tempo lógico." />
+
 ## Paths e orientação tangente
 
 `scope.animate(card, { path: 'M0 0 C40 -150 160 90 190 -80', orient: true }, { duration: 2600, ease: 'linear' })` compartilha geometria e uma trilha de progresso entre nativo e Web. As unidades são DIPs/pixels CSS e graus. Pause, seek, repeat, reverse, intervalos de repetição, Reduce Motion e substituição seguem o playback normal; sequences e cenas Web também aceitam paths.

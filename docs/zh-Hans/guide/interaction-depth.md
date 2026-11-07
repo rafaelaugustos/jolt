@@ -46,6 +46,10 @@ Web watch(element,id) 读取计算后的 transform/opacity；track(playback,id) 
 <Clip :autoplay="false" name="interaction-inspector-android" caption="实体 ASUS ZenFone 3，Android 8：通过 ADB 注入真实触摸。 拥有者替换、按需检查与重新挂载；不测量 GPU。" />
 <Clip :autoplay="false" name="interaction-inspector-web" caption="Chromium：真实浏览器输入；检查器使用软件 WebGL。 拥有者替换、按需检查与重新挂载；不测量 GPU。" />
 
+<Clip :autoplay="false" name="interaction-tools-web" caption="Chromium：真实按钮交互暂停和定位应用拥有的动画，调整弹簧并显示可复制代码。显式数值目标变更轨迹重放两次，验证终点且重放资源清零；不捕获操作系统输入。" />
+<Clip :autoplay="false" name="motion-inspector-ios" caption="iOS 模拟器，现有原生检查器：真实 XCTest 点击检查中断、调整弹簧、暂停播放并复制 TypeScript。复用原生对应功能录像；不是物理设备性能测量。" />
+<Clip :autoplay="false" name="interaction-replay-ios" caption="iOS 模拟器，现有原生重放：真实 XCTest 点击和拖动记录并重放弹簧与拖动，检测故意错误的检查点。复用原生对应功能录像；重放使用逻辑时间。" />
+
 ## 路径与切线方向
 
 `scope.animate(card, { path: 'M0 0 C40 -150 160 90 190 -80', orient: true }, { duration: 2600, ease: 'linear' })` 在原生和 Web 共享几何与进度轨道。单位为 DIP/CSS 像素及角度。暂停、seek、重复、反向、重复间隔、减少动态效果和替换使用常规控制；Web sequence 与可拖动时间线也支持路径。

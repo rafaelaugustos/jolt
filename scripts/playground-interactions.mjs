@@ -130,7 +130,7 @@ export async function reviewPlaygroundShell(page, base, engine) {
   await expect(page.locator('.lab-empty')).toBeVisible()
   await page.locator('.lab-search input').fill('')
   await page.locator('[data-family=effects]').click()
-  await expect(page.locator('[data-experiment]')).toHaveCount(13)
+  await expect(page.locator('[data-experiment]')).toHaveCount(14)
   await page.locator('[data-experiment=gradient]').click()
   await page.locator('.lab-families button').first().click()
   if (engine === 'chromium') {

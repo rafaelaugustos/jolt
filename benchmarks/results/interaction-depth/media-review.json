@@ -378,5 +378,62 @@
       }
     },
     "review": "Full decode and chronological visual review; real XCTest background/foreground and remount."
+  },
+  {
+    "file": "docs/public/media/interaction-tools-web.mp4",
+    "sha256": "7e1c530f302b8bb42abb94d4523993fc35ba62a23cbd38116e4fb380afe4a11e",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 920,
+          "height": 740
+        }
+      ],
+      "format": {
+        "duration": "11.520000"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames showing real browser controls, pause/seek, application-owned tuning, copyable code and two successful semantic replays. No fabricated motion or audio."
+  },
+  {
+    "file": "docs/public/media/motion-inspector-ios.mp4",
+    "sha256": "22b0e5df9176e82245b8b129ef74c95d524bb4d227aa7980b4b75fa67274ed8d",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 420,
+          "height": 914
+        }
+      ],
+      "format": {
+        "duration": "12.100000"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames showing real controls, motion and reported outcome. Existing native counterparts reused without modification."
+  },
+  {
+    "file": "docs/public/media/interaction-replay-ios.mp4",
+    "sha256": "e168d00f4cfa965487c4cee5f3421b6c7922b3e56e0e6ff3f672b65570d78ece",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 420,
+          "height": 914
+        }
+      ],
+      "format": {
+        "duration": "17.366667"
+      }
+    },
+    "review": "Decoded entire clip; inspected chronological frames showing real controls, motion and reported outcome. Existing native counterparts reused without modification."
   }
 ]

@@ -94,6 +94,10 @@ Native inspection should be retained with `scope.resource(() => inspector)`. Web
 <Clip :autoplay="false" name="interaction-inspector-android" caption="Physical ASUS ZenFone 3, Android 8: three native drawing-property adapters, ownership replacement, inspection and remount. This Android fixture has no shader adapter." />
 <Clip :autoplay="false" name="interaction-inspector-web" caption="Chromium with software WebGL: three real material uniforms, replacement and pull-only inspection. This demonstrates behavior, not GPU performance." />
 
+<Clip :autoplay="false" name="interaction-tools-web" caption="Chromium: real button input pauses and seeks application-owned playback, edits spring settings and shows copyable code. An explicit numeric target-change trace replays twice with endpoint assertions and zero remaining replay resources; this is not OS input capture." />
+<Clip :autoplay="false" name="motion-inspector-ios" caption="iOS simulator, existing native inspector: real XCTest taps inspect interruption, tune a spring, hold playback and copy TypeScript. Reused native counterpart recording; not a physical-device performance measurement." />
+<Clip :autoplay="false" name="interaction-replay-ios" caption="iOS simulator, existing native replay: real XCTest taps and drag record and replay spring/drag takes and detect a deliberately wrong checkpoint. Reused native counterpart; replay uses logical time." />
+
 ## Paths and tangent orientation
 
 ```ts

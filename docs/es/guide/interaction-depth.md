@@ -46,6 +46,10 @@ Retén el inspector nativo con `scope.resource(() => inspector)`. Web scope.add 
 <Clip :autoplay="false" name="interaction-inspector-android" caption="ASUS ZenFone 3 físico, Android 8: toques reales mediante ADB. Reemplazo de propietario, inspección bajo demanda y remontaje; no mide GPU." />
 <Clip :autoplay="false" name="interaction-inspector-web" caption="Chromium: interacción real; el inspector utiliza WebGL por software. Reemplazo de propietario, inspección bajo demanda y remontaje; no mide GPU." />
 
+<Clip :autoplay="false" name="interaction-tools-web" caption="Chromium: clics reales pausan y buscan la animación de la aplicación, editan el resorte y muestran código copiable. Una traza numérica explícita de cambio de destino se reproduce dos veces, verificando el destino y cero recursos restantes; no captura entradas del sistema operativo." />
+<Clip :autoplay="false" name="motion-inspector-ios" caption="Simulador iOS, inspector nativo existente: toques reales de XCTest inspeccionan interrupción, ajustan un resorte, pausan la reproducción y copian TypeScript. Grabación reutilizada de la contraparte nativa; no mide rendimiento en un dispositivo físico." />
+<Clip :autoplay="false" name="interaction-replay-ios" caption="Simulador iOS, replay nativo existente: toques y arrastre reales de XCTest graban y reproducen resorte/arrastre y detectan un checkpoint deliberadamente incorrecto. Contraparte nativa reutilizada; el replay usa tiempo lógico." />
+
 ## Paths y orientación tangente
 
 `scope.animate(card, { path: 'M0 0 C40 -150 160 90 190 -80', orient: true }, { duration: 2600, ease: 'linear' })` comparte geometría y progreso entre nativo/Web. Unidades: DIPs/píxeles CSS y grados. Pause, seek, repeat, reverse, esperas, Reduce Motion y reemplazo conservan el contrato habitual; secuencias y escenas Web también aceptan paths.

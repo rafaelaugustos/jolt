@@ -29,7 +29,7 @@
     "docs:check-media",
     "docs:build"
   ],
-  "recordings": 20,
+  "recordings": 23,
   "physicalDevice": "Old ASUS Android 8: compatibility only. Further performance acceptance deferred by maintainer until newer hardware; device collection stopped.",
   "iOS": "26.2 simulator: actual input, audio completion, retained inspector/manual pause across background and repeated teardown. Physical silent switch unverified.",
   "mavisIssues": [
@@ -37,5 +37,7 @@
     297,
     298
   ],
-  "release": "Not merged/published; package version intentionally unchanged."
+  "release": "Not merged/published; package version intentionally unchanged.",
+  "reusedNativeRecordings": 2,
+  "toolingCapture": "Real browser button input, inspector edits, copyable code, two equal target-change semantic replays with no remaining replay resources."
 }

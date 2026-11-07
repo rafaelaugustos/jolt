@@ -1,0 +1,108 @@
+{
+  "trace": {
+    "version": 1,
+    "seed": 7,
+    "settings": {
+      "timeScale": 1,
+      "reducedMotion": false
+    },
+    "metadata": {
+      "platform": "web",
+      "os": "browser",
+      "model": "fixture",
+      "refreshRate": 60,
+      "density": 1,
+      "width": 920,
+      "height": 740
+    },
+    "motions": [
+      {
+        "id": "card",
+        "kind": "spring",
+        "axis": "x",
+        "initial": 0,
+        "stiffness": 100,
+        "damping": 20,
+        "mass": 1,
+        "min": 0,
+        "max": 300,
+        "snap": [
+          0,
+          300
+        ]
+      }
+    ],
+    "entries": [
+      {
+        "at": 0.09999999403953552,
+        "input": {
+          "type": "target",
+          "id": "card",
+          "value": 300
+        }
+      },
+      {
+        "at": 966.4000000059605,
+        "id": "card",
+        "expected": {
+          "position": 300,
+          "velocity": 0,
+          "settled": true
+        },
+        "tolerance": {
+          "position": 3,
+          "velocity": 30
+        }
+      }
+    ]
+  },
+  "reports": [
+    {
+      "passed": true,
+      "remainingResources": 0,
+      "observations": [
+        {
+          "at": 966.4000000059605,
+          "id": "card",
+          "expected": {
+            "position": 300,
+            "velocity": 0,
+            "settled": true
+          },
+          "observed": {
+            "position": 300,
+            "velocity": 0,
+            "settled": true
+          },
+          "positionError": 0,
+          "velocityError": 0,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "passed": true,
+      "remainingResources": 0,
+      "observations": [
+        {
+          "at": 966.4000000059605,
+          "id": "card",
+          "expected": {
+            "position": 300,
+            "velocity": 0,
+            "settled": true
+          },
+          "observed": {
+            "position": 300,
+            "velocity": 0,
+            "settled": true
+          },
+          "positionError": 0,
+          "velocityError": 0,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "errors": []
+}

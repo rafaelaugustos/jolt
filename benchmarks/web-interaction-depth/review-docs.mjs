@@ -38,7 +38,7 @@ for (const [name, engine] of [
     }
     await page.goto(base + '/guide/interaction-depth')
     const videos = page.locator('video')
-    await expect(videos).toHaveCount(20)
+    await expect(videos).toHaveCount(23)
     // Play every reviewed artifact through an actual browser decoder, at normal speed.
     await page.evaluate(async () => {
       const videos = [...document.querySelectorAll('video')]
@@ -79,12 +79,12 @@ for (const [name, engine] of [
       )
     })
     if (errors.length) throw new Error(errors.join('\n'))
-    report.push({ browser: name, videosPlayed: 20, errors })
+    report.push({ browser: name, videosPlayed: 23, errors })
   } finally {
     await browser.close()
   }
 }
 await writeFile(`${output}/report.json`, JSON.stringify(report, null, 2) + '\n')
 console.log(
-  'Five playground experiments and all 20 videos passed in Chromium and WebKit.',
+  'Five playground experiments and all 23 videos passed in Chromium and WebKit.',
 )
