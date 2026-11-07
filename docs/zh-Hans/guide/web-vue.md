@@ -1,5 +1,7 @@
 # Vue Web 动画
 
+下一版本的[跨平台组合候选实现](./portable-composition)增加可行的 Web 对应能力，同时保留这些已发布的原生契约。新增能力尚未包含在 RC.12 中。
+
 **RC.7 同时提供：**[作用域、指针/视口与 Vue 持续配置](./web-lifecycle)，以及[浮层几何、共享元素、完整示例与诊断](./web-interactions)。Mavis 集成另行推进。
 
 **自 RC.7 起：**[颜色、边框、连续绘制、真实尺寸、FLIP 与可定位场景](./web-visual)扩展此运行时。Web API 仍为实验性功能；完整对等由 [#236](https://github.com/rafaelaugustos/jolt/issues/236) 跟踪。

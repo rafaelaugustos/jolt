@@ -5,8 +5,11 @@ import {
   onActivated,
   onDeactivated,
   onScopeDispose,
+  shallowRef,
+  readonly,
   watch,
   type Ref,
+  type ComponentPublicInstance,
 } from 'vue'
 import {
   createWebRuntime,
@@ -26,6 +29,8 @@ import {
   type WebLayoutOptions,
   type WebMotionScope,
   type WebMotionResource,
+  type WebShape,
+  type WebShapeOptions,
 } from '../public.js'
 import { observeConnection } from './attachment.js'
 export { createViewportEnterDirective } from './viewport-directive.js'
@@ -49,8 +54,13 @@ export function useWebMotion(
   const contexts = new Map<Document, WebRuntime>()
   const scopes = new Map<HTMLElement, WebMotionScope>()
   const handles = new Map<HTMLElement, Set<WebAnimation>>()
-  type Setup = (scope: WebMotionScope, target: HTMLElement) => void | WebMotionResource
-  const setups = new Map<Setup, { scope?: WebMotionScope; target?: HTMLElement }>()
+  type Setup = (
+    scope: WebMotionScope,
+    target: HTMLElement,
+    runtime: WebRuntime,
+  ) => void | WebMotionResource
+  type SetupRecord = { scope?: WebMotionScope; target?: HTMLElement; retained?: boolean }
+  const setups = new Map<Setup, SetupRecord>()
   const instance = getCurrentInstance()
   let mounted = !instance,
     active = true
@@ -106,10 +116,18 @@ export function useWebMotion(
     })
     return handle
   }
-  function clearSetups(keep?: HTMLElement | null) {
+  function clearSetups(keep?: HTMLElement | null, suspension = false) {
     const errors: unknown[] = []
     for (const record of setups.values()) {
       if (keep && record.target === keep) continue
+      if (suspension && record.retained) {
+        try {
+          record.scope?.suspend()
+        } catch (error) {
+          errors.push(error)
+        }
+        continue
+      }
       const scope = record.scope
       record.scope = undefined
       record.target = undefined
@@ -140,18 +158,23 @@ export function useWebMotion(
     pending = undefined
     for (const [setup, record] of setups) {
       if (record.scope?.disposed) record.scope = undefined
-      if (record.scope) continue
+      if (record.scope) {
+        if (record.retained) record.scope.resume()
+        continue
+      }
       // Register the owner before user code, including reentrant unmount.
       const scope = context(el).scope()
       record.scope = scope
       record.target = el
       try {
-        const resource = setup(scope, el)
+        const resource = setup(scope, el, context(el))
         if (resource !== undefined) {
           if (typeof (resource as { then?: unknown }).then === 'function')
             throw new TypeError('Vue Web motion setup must be synchronous.')
-          if (!scope.disposed) scope.add(resource)
-          else if (typeof resource === 'function') resource()
+          if (!scope.disposed) {
+            if (record.retained) scope.retain(resource)
+            else scope.add(resource)
+          } else if (typeof resource === 'function') resource()
           else if ('dispose' in resource) resource.dispose()
           else resource.stop()
         }
@@ -252,7 +275,7 @@ export function useWebMotion(
       pending?.dispose()
       pending = undefined
       for (const [el, operation] of operations) if (operation.attachment) cancel(el)
-      clearSetups()
+      clearSetups(undefined, true)
       for (const scope of scopes.values()) scope.suspend()
     })
     onActivated(() => {
@@ -287,31 +310,34 @@ export function useWebMotion(
     contexts.clear()
     if (errors.length) throw new AggregateError(errors, 'Vue Web motion cleanup failed.')
   })
+  function register(setup: Setup, retained = false) {
+    if (disposed) throw new Error('Web motion scope has been disposed.')
+    if (typeof setup !== 'function') throw new TypeError('Expected motion setup.')
+    if (setups.has(setup)) throw new Error('Motion setup is already registered.')
+    const record: SetupRecord = { retained }
+    setups.set(setup, record)
+    try {
+      startSetups()
+    } catch (error) {
+      setups.delete(setup)
+      throw error
+    }
+    return () => {
+      if (!setups.delete(setup)) return
+      record.scope?.dispose()
+      record.scope = undefined
+      record.target = undefined
+      if (!setups.size) {
+        pending?.dispose()
+        pending = undefined
+      }
+    }
+  }
   return {
     /** Run after mount; rebuild on ref replacement and KeepAlive reactivation. */
-    use(setup: Setup) {
-      if (disposed) throw new Error('Web motion scope has been disposed.')
-      if (typeof setup !== 'function') throw new TypeError('Expected motion setup.')
-      if (setups.has(setup)) throw new Error('Motion setup is already registered.')
-      const record: { scope?: WebMotionScope; target?: HTMLElement } = {}
-      setups.set(setup, record)
-      try {
-        startSetups()
-      } catch (error) {
-        setups.delete(setup)
-        throw error
-      }
-      return () => {
-        if (!setups.delete(setup)) return
-        record.scope?.dispose()
-        record.scope = undefined
-        record.target = undefined
-        if (!setups.size) {
-          pending?.dispose()
-          pending = undefined
-        }
-      }
-    },
+    use: (setup: Setup) => register(setup),
+    /** Retain the returned resource through KeepAlive; replace/dispose with the ref. */
+    resource: (setup: Setup) => register(setup, true),
     /** Bind to <Transition v-bind="motion.transition">; keep user hooks on Vue. */
     transition: {
       css: false as const,
@@ -361,4 +387,69 @@ export function useWebMotion(
       settings = { ...settings, ...config }
     },
   }
+}
+
+/** Retained DOM drawing; borrows an optional runtime without disposing its owner. */
+export function useShape(options: WebShapeOptions, context: WebMotionOptions = {}) {
+  const target = shallowRef<HTMLElement | null>(null)
+  const motion = useWebMotion(target, context)
+  let drawing: WebShape | undefined
+  motion.resource((_scope, element, runtime) => {
+    drawing = runtime.shape(element, { ...options, unload: options.unload ?? 'pause' })
+    return drawing
+  })
+  return {
+    ref(element: Element | ComponentPublicInstance | null) {
+      const node = element && ('$el' in element ? element.$el : element)
+      if (node) {
+        const view = node.ownerDocument?.defaultView as
+          (Window & typeof globalThis) | undefined
+        if (!view || !(node instanceof view.HTMLElement))
+          throw new TypeError(
+            'useShape needs an HTMLElement or a component with one root HTMLElement.',
+          )
+      }
+      target.value = node as HTMLElement | null
+    },
+    get current(): WebShape | undefined {
+      return drawing?.disposed ? undefined : drawing
+    },
+  }
+}
+
+/** SSR starts at false; after mount observe the effective preference of one runtime. */
+export function useReducedMotion(borrowed?: WebRuntime): Readonly<Ref<boolean>> {
+  if (!getCurrentScope()) throw new Error('useReducedMotion requires a Vue setup scope.')
+  const instance = getCurrentInstance()
+  if (!instance && !borrowed)
+    throw new Error('Pass a runtime outside a mounted Vue component.')
+  const value = shallowRef(borrowed?.reducedMotion() ?? false)
+  let owned: WebRuntime | undefined,
+    off: (() => void) | undefined,
+    disposed = false
+  const start = () => {
+    if (disposed) return
+    off?.()
+    const runtime =
+      borrowed ??
+      (owned ??= createWebRuntime(instance!.vnode.el?.ownerDocument ?? document))
+    value.value = runtime.reducedMotion()
+    off = runtime.onReducedMotion((reduced) => {
+      value.value = reduced
+    })
+  }
+  if (instance) {
+    onMounted(start)
+    onActivated(start)
+    onDeactivated(() => {
+      off?.()
+      off = undefined
+    })
+  } else start()
+  onScopeDispose(() => {
+    disposed = true
+    off?.()
+    owned?.dispose()
+  })
+  return readonly(value)
 }

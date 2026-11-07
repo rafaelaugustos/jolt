@@ -41,7 +41,11 @@ else if (entry.endsWith('/web/testing')) {
 } else
   assert.deepEqual(Object.keys(module), [
     'createWebRuntime',
+    'cubicBezier',
     'drawingLimits',
+    'origamiSpring',
+    'presets',
     'resolveListTarget',
+    'springs',
   ])
 console.log('PASS: SSR import without platform globals, timers or listeners')

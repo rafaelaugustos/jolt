@@ -1,3 +1,7 @@
+import {
+  resolveGradientText,
+  type GradientTextDefinition,
+} from '../core/gradient-text.js'
 import { Application, Label } from '@nativescript/core'
 import { toView } from '../animate.js'
 import { parseColor, type ColorValue } from '../color.js'
@@ -7,15 +11,9 @@ import { createTrack } from '../track.js'
 import { resolveTransition, type Transition } from '../transition.js'
 import type { Target } from '../types.js'
 import type { PlaybackAnimation } from '../playback.js'
-import { createTextPainter, type TextPaint, type TextPainter } from './native.js'
+import { createTextPainter, type TextPainter } from './native.js'
 
-export interface GradientTextOptions {
-  colors: readonly ColorValue[]
-  stops?: readonly number[]
-  /** Degrees clockwise from left-to-right; default 0. */
-  angle?: number
-  sheen?: { color?: ColorValue; width?: number; direction?: 'left' | 'right' }
-}
+export interface GradientTextOptions extends GradientTextDefinition<ColorValue> {}
 export interface GradientText {
   readonly disposed: boolean
   readonly suspended: boolean
@@ -51,41 +49,7 @@ export function gradientText(target: Target, options: GradientTextOptions): Grad
   if (view.formattedText)
     throw new TypeError('gradientText does not support formattedText spans.')
   if (owners.has(view)) throw new Error('This label already owns gradient text.')
-  if (
-    !Array.isArray(options.colors) ||
-    options.colors.length < 2 ||
-    options.colors.length > 8
-  )
-    throw new TypeError('Gradient text needs 2..8 colors.')
-  const colors = options.colors.map(parseColor),
-    stops = options.stops
-      ? [...options.stops]
-      : colors.map((_, i) => i / (colors.length - 1))
-  if (
-    stops.length !== colors.length ||
-    stops.some(
-      (stop, i) =>
-        !Number.isFinite(stop) || stop < 0 || stop > 1 || (i > 0 && stop < stops[i - 1]!),
-    )
-  )
-    throw new TypeError('Gradient stops must be ordered in 0..1 and match colors.')
-  const paint: TextPaint = {
-    colors,
-    stops,
-    angle: options.angle ?? 0,
-    sheen: parseColor(options.sheen?.color ?? '#BFFFFFFF'),
-    width: options.sheen?.width ?? 0.3,
-  }
-  const direction = options.sheen?.direction ?? 'right'
-  if (direction !== 'left' && direction !== 'right')
-    throw new TypeError('Invalid text sheen direction.')
-  if (
-    !Number.isFinite(paint.angle) ||
-    !Number.isFinite(paint.width) ||
-    paint.width <= 0 ||
-    paint.width > 1
-  )
-    throw new TypeError('Invalid text gradient angle or sheen width.')
+  const { paint, direction } = resolveGradientText(options, parseColor)
   let disposed = false,
     suspended = false,
     background = Application.suspended,

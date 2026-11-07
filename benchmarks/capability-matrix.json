@@ -223,12 +223,25 @@
       {
         "entry": "./web",
         "file": "src/web/public.ts",
-        "exports": ["createWebRuntime", "drawingLimits", "resolveListTarget"]
+        "exports": [
+          "createWebRuntime",
+          "cubicBezier",
+          "drawingLimits",
+          "origamiSpring",
+          "presets",
+          "resolveListTarget",
+          "springs"
+        ]
       },
       {
         "entry": "./web/vue",
         "file": "src/web/vue/index.ts",
-        "exports": ["createViewportEnterDirective", "useWebMotion"]
+        "exports": [
+          "createViewportEnterDirective",
+          "useReducedMotion",
+          "useShape",
+          "useWebMotion"
+        ]
       },
       {
         "entry": "./react",
@@ -301,16 +314,19 @@
       "gestures",
       "glass",
       "gradient",
+      "gradientText",
       "haptic",
       "imageEffect",
       "interactiveModal",
       "interactiveNavigation",
       "liquid",
       "loader",
+      "motionBehaviors",
       "motionStates",
       "motionValue",
       "observeGeometry",
       "onKeyboard",
+      "onReducedMotion",
       "particles",
       "physicsWorld",
       "playbackProgress",
@@ -318,11 +334,13 @@
       "press",
       "property",
       "propertyGroup",
+      "reducedMotion",
       "refresh",
       "release",
       "renderActivity",
       "reorder",
       "reveal",
+      "rig2d",
       "rollTo",
       "scope",
       "scrollHeader",
@@ -530,11 +548,11 @@
       "entry": ".",
       "symbol": "cubicBezier",
       "nativeStatus": "published",
-      "webStatus": "partial",
-      "counterpart": "configure / animate options",
-      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
-      "issues": [236, 386],
-      "evidence": ["src/index.ts"]
+      "webStatus": "pending",
+      "counterpart": "cubicBezier",
+      "contract": "Native availability is unchanged. The portable-composition candidate adds the feasible browser contract; not merged or published. See platform properties, units, accessibility and ownership limits in the delivery plan.",
+      "issues": [386],
+      "evidence": ["src/index.ts", "benchmarks/portable-composition.md"]
     },
     {
       "entry": ".",
@@ -670,21 +688,21 @@
       "entry": ".",
       "symbol": "onReducedMotion",
       "nativeStatus": "published",
-      "webStatus": "partial",
-      "counterpart": "configure / animate options",
-      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
-      "issues": [236, 386],
-      "evidence": ["src/index.ts"]
+      "webStatus": "pending",
+      "counterpart": "WebRuntime.onReducedMotion",
+      "contract": "Native availability is unchanged. The portable-composition candidate adds the feasible browser contract; not merged or published. See platform properties, units, accessibility and ownership limits in the delivery plan.",
+      "issues": [386],
+      "evidence": ["src/index.ts", "benchmarks/portable-composition.md"]
     },
     {
       "entry": ".",
       "symbol": "origamiSpring",
       "nativeStatus": "published",
-      "webStatus": "partial",
-      "counterpart": "configure / animate options",
-      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
-      "issues": [236, 386],
-      "evidence": ["src/index.ts"]
+      "webStatus": "pending",
+      "counterpart": "origamiSpring",
+      "contract": "Native availability is unchanged. The portable-composition candidate adds the feasible browser contract; not merged or published. See platform properties, units, accessibility and ownership limits in the delivery plan.",
+      "issues": [386],
+      "evidence": ["src/index.ts", "benchmarks/portable-composition.md"]
     },
     {
       "entry": ".",
@@ -710,11 +728,11 @@
       "entry": ".",
       "symbol": "presets",
       "nativeStatus": "published",
-      "webStatus": "partial",
-      "counterpart": "configure / animate options",
-      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
-      "issues": [236, 386],
-      "evidence": ["src/index.ts"]
+      "webStatus": "pending",
+      "counterpart": "presets",
+      "contract": "Native availability is unchanged. The portable-composition candidate adds the feasible browser contract; not merged or published. See platform properties, units, accessibility and ownership limits in the delivery plan.",
+      "issues": [386],
+      "evidence": ["src/index.ts", "benchmarks/portable-composition.md"]
     },
     {
       "entry": ".",
@@ -730,11 +748,11 @@
       "entry": ".",
       "symbol": "reducedMotion",
       "nativeStatus": "published",
-      "webStatus": "partial",
-      "counterpart": "configure / animate options",
-      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
-      "issues": [236, 386],
-      "evidence": ["src/index.ts"]
+      "webStatus": "pending",
+      "counterpart": "WebRuntime.reducedMotion",
+      "contract": "Native availability is unchanged. The portable-composition candidate adds the feasible browser contract; not merged or published. See platform properties, units, accessibility and ownership limits in the delivery plan.",
+      "issues": [386],
+      "evidence": ["src/index.ts", "benchmarks/portable-composition.md"]
     },
     {
       "entry": ".",
@@ -846,11 +864,11 @@
       "entry": ".",
       "symbol": "springs",
       "nativeStatus": "published",
-      "webStatus": "partial",
-      "counterpart": "configure / animate options",
-      "contract": "Named springs/presets, B\u00e9zier easing and reduced-motion execution are supported through browser options, but these standalone helpers/observers are not browser exports.",
-      "issues": [236, 386],
-      "evidence": ["src/index.ts"]
+      "webStatus": "pending",
+      "counterpart": "springs",
+      "contract": "Native availability is unchanged. The portable-composition candidate adds the feasible browser contract; not merged or published. See platform properties, units, accessibility and ownership limits in the delivery plan.",
+      "issues": [386],
+      "evidence": ["src/index.ts", "benchmarks/portable-composition.md"]
     },
     {
       "entry": ".",
@@ -992,11 +1010,15 @@
       "entry": "./vue",
       "symbol": "useReducedMotion",
       "nativeStatus": "published",
-      "webStatus": "partial",
-      "counterpart": "useWebMotion",
-      "contract": "Web useWebMotion owns browser resources/transitions; these individual native directives/hooks are not interchangeable DOM APIs.",
-      "issues": [236, 386],
-      "evidence": ["src/vue/index.ts", "src/web/vue/index.ts"]
+      "webStatus": "pending",
+      "counterpart": "useReducedMotion",
+      "contract": "Native availability is unchanged. The portable-composition candidate adds the feasible browser contract; not merged or published. See platform properties, units, accessibility and ownership limits in the delivery plan.",
+      "issues": [386],
+      "evidence": [
+        "src/vue/index.ts",
+        "src/web/vue/index.ts",
+        "benchmarks/portable-composition.md"
+      ]
     },
     {
       "entry": "./vue",
@@ -1829,21 +1851,29 @@
       "entry": ".",
       "symbol": "gradientText",
       "nativeStatus": "published",
-      "webStatus": "platform-specific",
-      "counterpart": null,
-      "contract": "Native iOS/Android API available since RC.11.1. This entry does not introduce a Web counterpart or claim renderer isolation.",
-      "issues": [409],
-      "evidence": ["src/gradient-text/index.ts", "docs/guide/native-composition.md"]
+      "webStatus": "pending",
+      "counterpart": "WebRuntime.gradientText",
+      "contract": "Native availability is unchanged. The portable-composition candidate adds the feasible browser contract; not merged or published. See platform properties, units, accessibility and ownership limits in the delivery plan.",
+      "issues": [426],
+      "evidence": [
+        "src/gradient-text/index.ts",
+        "docs/guide/native-composition.md",
+        "benchmarks/portable-composition.md"
+      ]
     },
     {
       "entry": ".",
       "symbol": "motionBehaviors",
       "nativeStatus": "published",
-      "webStatus": "platform-specific",
-      "counterpart": null,
-      "contract": "Native iOS/Android API available since RC.11.1. This entry does not introduce a Web counterpart or claim renderer isolation.",
-      "issues": [407],
-      "evidence": ["src/motion-behaviors.ts", "docs/guide/native-composition.md"]
+      "webStatus": "pending",
+      "counterpart": "WebRuntime.motionBehaviors",
+      "contract": "Native availability is unchanged. The portable-composition candidate adds the feasible browser contract; not merged or published. See platform properties, units, accessibility and ownership limits in the delivery plan.",
+      "issues": [425],
+      "evidence": [
+        "src/motion-behaviors.ts",
+        "docs/guide/native-composition.md",
+        "benchmarks/portable-composition.md"
+      ]
     },
     {
       "entry": ".",
@@ -1862,21 +1892,29 @@
       "entry": "./vue",
       "symbol": "useShape",
       "nativeStatus": "published",
-      "webStatus": "platform-specific",
-      "counterpart": null,
-      "contract": "Native iOS/Android API available since RC.11.1. This entry does not introduce a Web counterpart or claim renderer isolation.",
-      "issues": [410],
-      "evidence": ["src/vue/index.ts", "docs/guide/native-composition.md"]
+      "webStatus": "pending",
+      "counterpart": "useShape",
+      "contract": "Native availability is unchanged. The portable-composition candidate adds the feasible browser contract; not merged or published. See platform properties, units, accessibility and ownership limits in the delivery plan.",
+      "issues": [424],
+      "evidence": [
+        "src/vue/index.ts",
+        "docs/guide/native-composition.md",
+        "benchmarks/portable-composition.md"
+      ]
     },
     {
       "entry": "./rig",
       "symbol": "rig2d",
       "nativeStatus": "published",
-      "webStatus": "platform-specific",
-      "counterpart": null,
-      "contract": "Native iOS/Android API available since RC.11.1. This entry does not introduce a Web counterpart or claim renderer isolation.",
-      "issues": [408],
-      "evidence": ["src/rig/index.ts", "docs/guide/native-composition.md"]
+      "webStatus": "pending",
+      "counterpart": "WebRuntime.rig2d",
+      "contract": "Native availability is unchanged. The portable-composition candidate adds the feasible browser contract; not merged or published. See platform properties, units, accessibility and ownership limits in the delivery plan.",
+      "issues": [427],
+      "evidence": [
+        "src/rig/index.ts",
+        "docs/guide/native-composition.md",
+        "benchmarks/portable-composition.md"
+      ]
     },
     {
       "entry": ".",
@@ -2054,6 +2092,66 @@
       "issues": [383, 415],
       "contract": "Available in 0.1.0-rc.12. Optional bounded explicit inspection or semantic replay; application retains ownership and supplies replay adapters.",
       "evidence": ["src/web/testing.ts", "docs/guide/interaction-depth.md"]
+    },
+    {
+      "entry": "./web",
+      "symbol": "cubicBezier",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "cubicBezier",
+      "contract": "Native availability is unchanged. The portable-composition candidate adds the feasible browser contract; not merged or published. See platform properties, units, accessibility and ownership limits in the delivery plan.",
+      "issues": [386],
+      "evidence": ["benchmarks/portable-composition.md", "src/web/public.ts"]
+    },
+    {
+      "entry": "./web",
+      "symbol": "origamiSpring",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "origamiSpring",
+      "contract": "Native availability is unchanged. The portable-composition candidate adds the feasible browser contract; not merged or published. See platform properties, units, accessibility and ownership limits in the delivery plan.",
+      "issues": [386],
+      "evidence": ["benchmarks/portable-composition.md", "src/web/public.ts"]
+    },
+    {
+      "entry": "./web",
+      "symbol": "presets",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "presets",
+      "contract": "Native availability is unchanged. The portable-composition candidate adds the feasible browser contract; not merged or published. See platform properties, units, accessibility and ownership limits in the delivery plan.",
+      "issues": [386],
+      "evidence": ["benchmarks/portable-composition.md", "src/web/public.ts"]
+    },
+    {
+      "entry": "./web",
+      "symbol": "springs",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "springs",
+      "contract": "Native availability is unchanged. The portable-composition candidate adds the feasible browser contract; not merged or published. See platform properties, units, accessibility and ownership limits in the delivery plan.",
+      "issues": [386],
+      "evidence": ["benchmarks/portable-composition.md", "src/web/public.ts"]
+    },
+    {
+      "entry": "./web/vue",
+      "symbol": "useReducedMotion",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "useReducedMotion",
+      "contract": "Native availability is unchanged. The portable-composition candidate adds the feasible browser contract; not merged or published. See platform properties, units, accessibility and ownership limits in the delivery plan.",
+      "issues": [386],
+      "evidence": ["benchmarks/portable-composition.md", "src/web/vue/index.ts"]
+    },
+    {
+      "entry": "./web/vue",
+      "symbol": "useShape",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "useShape",
+      "contract": "Native availability is unchanged. The portable-composition candidate adds the feasible browser contract; not merged or published. See platform properties, units, accessibility and ownership limits in the delivery plan.",
+      "issues": [424],
+      "evidence": ["benchmarks/portable-composition.md", "src/web/vue/index.ts"]
     }
   ],
   "contracts": [
@@ -2232,6 +2330,17 @@
         "docs/guide/interaction-depth.md",
         "benchmarks/web-interaction-depth/inspector.spec.ts",
         "test/drop-policy.spec.ts"
+      ]
+    },
+    {
+      "id": "portable-composition-candidate",
+      "status": "local-unpublished",
+      "issues": [424, 425, 426, 427, 386, 385],
+      "limit": "Retained ownership, behavior coordination, glyph-clipped text, articulated 2D boxes and preference helpers are candidate Web APIs. Sensors use browser events; magneticField reports unavailable. Physical sensor delivery remains pending; emulator/injected readings do not prove hardware support.",
+      "evidence": [
+        "benchmarks/portable-composition.md",
+        "benchmarks/web-composition-portable/sensors.spec.ts",
+        "benchmarks/web-composition-portable/rig.spec.ts"
       ]
     }
   ]

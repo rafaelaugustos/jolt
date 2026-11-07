@@ -26,6 +26,8 @@ type Factories = Pick<
   | 'liquid'
   | 'imageEffect'
   | 'gradient'
+  | 'gradientText'
+  | 'rig2d'
   | 'reveal'
   | 'conceal'
   | 'animateText'
@@ -36,6 +38,7 @@ type Factories = Pick<
   | 'decay'
   | 'drawPath'
   | 'motionStates'
+  | 'motionBehaviors'
   | 'sequence'
   | 'timeline'
   | 'withTimelineCues'
@@ -78,6 +81,12 @@ export interface WebMotionScope extends Factories {
   readonly size: number
   /** Idempotent adoption. Non-playable resources are disposed on suspension. */
   add<T extends WebMotionResource>(resource: T): T
+  /** Keep static resources and settled playback until explicit release/reset/disposal. */
+  retain<T extends WebMotionResource>(resource: T): T
+  /** Construct once and retain; clean up newly created resources if adoption fails. */
+  resource<T extends WebMotionResource>(setup: () => T): T
+  /** Dispose one owned resource; leave borrowed/unowned resources alone. */
+  release(resource: WebMotionResource): void
   /** Document a borrowed resource. It is never paused, stopped or disposed here. */
   borrow<T extends WebMotionResource>(resource: T): T
   scope(setup?: (scope: WebMotionScope) => void): WebMotionScope
@@ -184,14 +193,21 @@ export function createWebScope(
   const adopt = <T extends WebMotionResource>(resource: T, retain = false): T => {
     assert(true)
     validate(resource)
-    if (adopted.has(resource)) return resource
+    const existing = adopted.get(resource)
+    if (existing) {
+      if (retain && !existing.retain)
+        throw new Error(
+          'Resource already belongs to this scope with a different lifetime.',
+        )
+      return resource
+    }
     const entry: Entry = { resource, retain }
     adopted.set(resource, entry)
     owners.set(resource, identity)
     entries.add(entry)
     trace?.('adopted', resource)
     const finished = (resource as Controlled).finished
-    if (finished) {
+    if (!retain && finished) {
       const settled = () => {
         if (entry.resource !== resource) return
         detach(entry)
@@ -263,6 +279,12 @@ export function createWebScope(
       return entries.size
     },
     add: (resource) => adopt(resource),
+    retain: (resource) => adopt(resource, true),
+    resource: (setup) => start(setup, true),
+    release(resource) {
+      const entry = adopted.get(resource)
+      if (entry) remove(entry)
+    },
     borrow(resource) {
       assert()
       validateBorrow(resource)
@@ -277,13 +299,17 @@ export function createWebScope(
     sharedNavigationEntry: (...args) =>
       start(() => runtime.sharedNavigationEntry(...args)),
     glass: (...args) => start(() => runtime.glass(...args)),
-    sensor: ((kind, options) =>
-      start(() => runtime.sensor(kind, options))) as WebMotionScope['sensor'],
+    sensor: ((
+      kind: import('./sensors.js').WebSensorKind,
+      options?: import('./sensors.js').WebSensorOptions,
+    ) => start(() => runtime.sensor(kind, options))) as WebMotionScope['sensor'],
     blur: (...args) => start(() => runtime.blur(...args)),
     shape: (...args) => start(() => runtime.shape(...args)),
     drawBatch: (...args) => start(() => runtime.drawBatch(...args), true),
     liquid: (...args) => start(() => runtime.liquid(...args)),
     imageEffect: (...args) => start(() => runtime.imageEffect(...args)),
+    rig2d: (...args) => start(() => runtime.rig2d(...args)),
+    gradientText: (...args) => start(() => runtime.gradientText(...args)),
     gradient: (...args) => start(() => runtime.gradient(...args)),
     reveal: (...args) => start(() => runtime.reveal(...args)),
     conceal: (...args) => start(() => runtime.conceal(...args)),
@@ -293,6 +319,8 @@ export function createWebScope(
     loader: (...args) => start(() => runtime.loader(...args)),
     animateItems: (...args) => start(() => runtime.animateItems(...args)),
     drawPath: (...args) => start(() => runtime.drawPath(...args)),
+    motionBehaviors: (definitions, options) =>
+      start(() => runtime.motionBehaviors(definitions, options)),
     motionStates: (targets, definitions, options) =>
       start(() => runtime.motionStates(targets, definitions, options)),
     sequence: (...args) => start(() => runtime.sequence(...args)),

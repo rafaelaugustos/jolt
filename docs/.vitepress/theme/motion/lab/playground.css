@@ -951,3 +951,56 @@
     font-size: 32px;
   }
 }
+
+.lab-composition-title {
+  font-size: clamp(30px, 5vw, 54px);
+  line-height: 1.2;
+  text-align: center;
+}
+.lab-composition-rig {
+  position: relative;
+  width: 270px;
+  height: 250px;
+}
+.lab-rig-body {
+  position: absolute;
+  left: 80px;
+  top: 105px;
+  width: 100px;
+  height: 120px;
+  border-radius: 40px;
+  background: #bba6ed;
+}
+.lab-rig-head {
+  position: absolute;
+  left: 10px;
+  top: -60px;
+  width: 80px;
+  height: 75px;
+  border-radius: 32px;
+  background: #d6c5ff;
+  color: #291c42;
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+}
+.lab-rig-hand {
+  position: absolute;
+  left: 85px;
+  top: 8px;
+  width: 24px;
+  height: 85px;
+  border-radius: 14px;
+  background: #d6c5ff;
+}
+.lab-rig-flower {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  color: #a56406;
+  font-size: 32px;
+}

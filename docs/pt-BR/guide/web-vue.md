@@ -1,5 +1,7 @@
 # Movimento Vue na Web
 
+A [composição portável candidata à próxima versão](./portable-composition) adiciona equivalentes Web viáveis e preserva estes contratos nativos publicados. As adições não estão na RC.12.
+
 **Também na RC.7:** [escopos, ponteiro/viewport e configuração contínua no Vue](./web-lifecycle), além de [geometria de overlays, elementos compartilhados, receitas e diagnóstico](./web-interactions). A adoção no Mavis permanece separada.
 
 **Desde a RC.7:** [cores, bordas, pintura contínua, tamanho real, FLIP e cenas com seek](./web-visual) ampliam este runtime. As APIs Web continuam experimentais; a paridade completa segue na [#236](https://github.com/rafaelaugustos/jolt/issues/236).

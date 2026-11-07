@@ -228,7 +228,10 @@
     "web:portable:test": "playwright test -c benchmarks/web-portable/playwright.config.mjs",
     "web:interaction-depth": "node benchmarks/web-interaction-depth/server.mjs",
     "web:interaction-depth:typecheck": "tsc -p benchmarks/web-interaction-depth/tsconfig.json",
-    "web:interaction-depth:test": "playwright test -c benchmarks/web-interaction-depth/playwright.config.mjs"
+    "web:interaction-depth:test": "playwright test -c benchmarks/web-interaction-depth/playwright.config.mjs",
+    "web:composition-portable": "node benchmarks/web-composition-portable/server.mjs",
+    "web:composition-portable:typecheck": "tsc -p benchmarks/web-composition-portable/tsconfig.json",
+    "web:composition-portable:test": "playwright test -c benchmarks/web-composition-portable/playwright.config.mjs"
   },
   "peerDependencies": {
     "@nativescript/core": ">=8.9.0",

@@ -1,0 +1,123 @@
+[
+  {
+    "file": "docs/public/media/composition-behaviors-ios.mp4",
+    "sha256": "01b08e232174bf376fd620ae96c367a1f282f1896ecd73380e62136a674b5ce9",
+    "duration": 6.733333,
+    "codec": "h264",
+    "width": 420,
+    "height": 914,
+    "platform": "iPhone 17 Pro simulator, iOS 26.2",
+    "review": "Decoded the complete H.264 stream; inspected nine representative frames across the recording. Controls and intended changes are visible.",
+    "sensorEvidence": null
+  },
+  {
+    "file": "docs/public/media/composition-behaviors-web.mp4",
+    "sha256": "87ff2006e840ea9a798e2f35ffc03a1c9015754471909ef1522eded41c1bfe4e",
+    "duration": 8.466667,
+    "codec": "h264",
+    "width": 720,
+    "height": 666,
+    "platform": "Chromium 156.0.8078.4 on macOS",
+    "review": "Decoded the complete H.264 stream; inspected nine representative frames across the recording. Controls and intended changes are visible.",
+    "sensorEvidence": null
+  },
+  {
+    "file": "docs/public/media/composition-lifecycle-web.mp4",
+    "sha256": "6b44b5fe0565f416dc3bbdfefb2f36c55cded0b24091bfea960779657c9e524b",
+    "duration": 9.066667,
+    "codec": "h264",
+    "width": 720,
+    "height": 666,
+    "platform": "Chromium 156.0.8078.4 on macOS",
+    "review": "Decoded the complete H.264 stream; inspected nine representative frames across the recording. Controls and intended changes are visible.",
+    "sensorEvidence": null
+  },
+  {
+    "file": "docs/public/media/composition-preferences-web.mp4",
+    "sha256": "2bb7d5206bda54ceff6e54ea26b34853403cb6f9963511b985f9c2815b528c28",
+    "duration": 7.4,
+    "codec": "h264",
+    "width": 720,
+    "height": 666,
+    "platform": "Chromium 156.0.8078.4 on macOS",
+    "review": "Decoded the complete H.264 stream; inspected nine representative frames across the recording. Controls and intended changes are visible.",
+    "sensorEvidence": null
+  },
+  {
+    "file": "docs/public/media/composition-resources-ios.mp4",
+    "sha256": "c2fb2b4436f8419f10d7b2e6791a593b47303f9f2b07efaf9b1a92875557206f",
+    "duration": 11.233333,
+    "codec": "h264",
+    "width": 420,
+    "height": 914,
+    "platform": "iPhone 17 Pro simulator, iOS 26.2",
+    "review": "Decoded the complete H.264 stream; inspected nine representative frames across the recording. Controls and intended changes are visible.",
+    "sensorEvidence": null
+  },
+  {
+    "file": "docs/public/media/composition-rig-ios.mp4",
+    "sha256": "0bcf81ed72c6821ca329ec6f71599e7a689bddbadece1982227422ab2fa9a1e0",
+    "duration": 9.266667,
+    "codec": "h264",
+    "width": 420,
+    "height": 914,
+    "platform": "iPhone 17 Pro simulator, iOS 26.2",
+    "review": "Decoded the complete H.264 stream; inspected nine representative frames across the recording. Controls and intended changes are visible.",
+    "sensorEvidence": null
+  },
+  {
+    "file": "docs/public/media/composition-rig-web.mp4",
+    "sha256": "07b85724cc18a6144dc190ec734b6371f9453544f1143060f3f7b347313ae362",
+    "duration": 10.166667,
+    "codec": "h264",
+    "width": 720,
+    "height": 666,
+    "platform": "Chromium 156.0.8078.4 on macOS",
+    "review": "Decoded the complete H.264 stream; inspected nine representative frames across the recording. Controls and intended changes are visible.",
+    "sensorEvidence": null
+  },
+  {
+    "file": "docs/public/media/composition-sensors-ios.mp4",
+    "sha256": "aacd403f787d90d2394fe6dd8f46efa5a32030c86f26793bc0f7395757b16115",
+    "duration": 18.033333,
+    "codec": "h264",
+    "width": 420,
+    "height": 914,
+    "platform": "iPhone 17 Pro simulator, iOS 26.2",
+    "review": "Decoded the complete H.264 stream; inspected nine representative frames across the recording. Controls and intended changes are visible.",
+    "sensorEvidence": "Explicit preview/injected input; no physical readings."
+  },
+  {
+    "file": "docs/public/media/composition-sensors-web.mp4",
+    "sha256": "000990efcfedd76dad414e772768ff7607ffa57d78eac8ee7915db2902ac43b9",
+    "duration": 7.6,
+    "codec": "h264",
+    "width": 720,
+    "height": 666,
+    "platform": "Chromium 156.0.8078.4 on macOS",
+    "review": "Decoded the complete H.264 stream; inspected nine representative frames across the recording. Controls and intended changes are visible.",
+    "sensorEvidence": "Explicit preview/injected input; no physical readings."
+  },
+  {
+    "file": "docs/public/media/composition-text-ios.mp4",
+    "sha256": "213893b5c792c689daaf024dca8582ecf51bcb921ce2c3ab59c8617ac9339982",
+    "duration": 16.0,
+    "codec": "h264",
+    "width": 420,
+    "height": 914,
+    "platform": "iPhone 17 Pro simulator, iOS 26.2",
+    "review": "Decoded the complete H.264 stream; inspected nine representative frames across the recording. Controls and intended changes are visible.",
+    "sensorEvidence": null
+  },
+  {
+    "file": "docs/public/media/composition-text-web.mp4",
+    "sha256": "a248459e15ddb40e2e9a0c526c389f50b8a7473524ec210f9484d1812758ee19",
+    "duration": 7.866667,
+    "codec": "h264",
+    "width": 720,
+    "height": 666,
+    "platform": "Chromium 156.0.8078.4 on macOS",
+    "review": "Decoded the complete H.264 stream; inspected nine representative frames across the recording. Controls and intended changes are visible.",
+    "sensorEvidence": null
+  }
+]

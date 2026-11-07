@@ -19,6 +19,7 @@ import {
 } from './effect.js'
 import { valuePlan, valueTrack } from './value-playback.js'
 import { colorCSS } from './properties.js'
+import { linearGradientCSS } from './gradient-css.js'
 import { parseColor } from './style.js'
 import type { NumericValue, WebReadableValue, WebColorValue } from './value.js'
 import type { WebAnimation } from './public.js'
@@ -252,7 +253,7 @@ class Gradient implements WebGradient {
     const center = `${frame.x * 100}% ${frame.y * 100}%`
     const image =
       this.type === 'linear'
-        ? `linear-gradient(${frame.angle}deg,${stops})`
+        ? linearGradientCSS(frame.angle, frame.colors, frame.stops)
         : this.type === 'conic'
           ? `conic-gradient(from ${frame.angle}deg at ${center},${stops})`
           : `radial-gradient(circle ${Math.max(0.001, Math.min(this.target.clientWidth, this.target.clientHeight) * frame.radius)}px at ${center},${stops})`

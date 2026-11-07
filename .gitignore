@@ -87,3 +87,6 @@ benchmarks/web-portable/captures/
 
 benchmarks/web-interaction-depth/results/
 benchmarks/web-interaction-depth/captures/
+
+benchmarks/web-composition-portable/results/
+benchmarks/web-composition-portable/captures/

@@ -1,5 +1,7 @@
 # Escenas nativas y ciclo de vida de recursos
 
+La [composición portable candidata a la próxima versión](./portable-composition) incorpora equivalentes Web viables y conserva estos contratos nativos publicados. Las incorporaciones no están en RC.12.
+
 Disponible en `0.1.0-rc.11.1`. Instala la versión correspondiente y recompila las aplicaciones nativas; el texto con degradado en Android requiere el nuevo helper compilado.
 
 Estas APIs componen movimiento nativo en iOS y Android: dibujos retenidos, prioridades de comportamiento, partes articuladas, texto con gradiente y efectos con nombre en timelines. Son entradas nativas; esta entrega no añade un contrato Web equivalente. Las reglas, los assets y los objetos de SDK siguen perteneciendo a la aplicación. Consulta la base en [scopes y estados visuales](./motion-controllers).

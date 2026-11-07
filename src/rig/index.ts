@@ -5,7 +5,7 @@ import { getDriver } from '../driver/index.js'
 import { motionScope } from '../motion-scope.js'
 import { readValue } from '../properties.js'
 import type { TimelineAnimation } from '../sequence.js'
-import { createTrack, type Track } from '../track.js'
+import { createTrack } from '../track.js'
 import {
   resolveTransition,
   springs,
@@ -14,29 +14,18 @@ import {
 } from '../transition.js'
 import type { Target } from '../types.js'
 
-const channels = ['x', 'y', 'scaleX', 'scaleY', 'rotate'] as const
-type Channel = (typeof channels)[number]
-export type RigTransform = Partial<Record<Channel, number>>
-export interface RigPart {
-  parent?: string
-  /** Fractions of the native part's size, like NativeScript originX/Y. */
-  pivot?: { x: number; y: number }
-  rest?: RigTransform
-  /** Degrees; the entire sampled rotation, including spring overshoot, is bounded. */
-  rotation?: readonly [number, number]
-}
-export interface RigSocket {
-  part: string
-  /** Local DIPs, or fractions when units is 'relative'. */
-  x: number
-  y: number
-  units?: 'dip' | 'relative'
-}
-export interface RigDefinition {
-  parts: Record<string, RigPart>
-  poses: Record<string, Record<string, RigTransform>>
-  sockets?: Record<string, RigSocket>
-}
+import {
+  rigChannels as channels,
+  resolveRigDefinition,
+  rigDestination,
+  limitRigTrack,
+  type RigChannel as Channel,
+  type RigDefinition,
+  type RigPart,
+  type RigSocket,
+  type RigTransform,
+} from '../core/rig.js'
+export type { RigDefinition, RigPart, RigSocket, RigTransform } from '../core/rig.js'
 export interface Rig {
   readonly disposed: boolean
   readonly paused: boolean
@@ -59,78 +48,13 @@ export interface Rig {
   dispose(): void
 }
 const owners = new WeakMap<View, object>()
-const shortest = (angle: number) => ((((angle + 180) % 360) + 360) % 360) - 180
-const finite = (n: unknown): n is number => typeof n === 'number' && Number.isFinite(n)
 
 /** Native view articulation, with no JavaScript frame loop or asset ownership. */
 export function rig2d(
   definition: RigDefinition,
   targets: Record<string, Target | null> = {},
 ): Rig {
-  const parts = new Map(
-    Object.entries(definition.parts).map(([name, part]) => [
-      name,
-      {
-        ...part,
-        pivot: part.pivot && { ...part.pivot },
-        rest: { ...part.rest },
-        rotation: part.rotation && ([...part.rotation] as [number, number]),
-      },
-    ]),
-  )
-  if (!parts.size || parts.size > 64) throw new RangeError('A rig supports 1..64 parts.')
-  const validateTransform = (values: RigTransform) => {
-    for (const [key, value] of Object.entries(values))
-      if (!channels.includes(key as Channel) || !finite(value))
-        throw new TypeError('Invalid rig transform.')
-  }
-  const used = new Map<string, Set<Channel>>()
-  for (const [name, part] of parts) {
-    validateTransform(part.rest)
-    used.set(name, new Set(Object.keys(part.rest) as Channel[]))
-    if (part.pivot && (!finite(part.pivot.x) || !finite(part.pivot.y)))
-      throw new TypeError('Invalid rig pivot.')
-    if (
-      part.rotation &&
-      (part.rotation.length !== 2 ||
-        !part.rotation.every(finite) ||
-        part.rotation[0] > part.rotation[1])
-    )
-      throw new TypeError('Invalid rotation limits.')
-    const visited = new Set([name])
-    let parent = part.parent
-    while (parent !== undefined) {
-      if (!parts.has(parent) || visited.has(parent))
-        throw new TypeError('Rig hierarchy contains a cycle or missing parent.')
-      visited.add(parent)
-      parent = parts.get(parent)!.parent
-    }
-  }
-  const poses = new Map(
-    Object.entries(definition.poses).map(([name, pose]) => [
-      name,
-      Object.fromEntries(
-        Object.entries(pose).map(([part, values]) => {
-          if (!parts.has(part)) throw new TypeError(`Unknown rig part "${part}".`)
-          validateTransform(values)
-          Object.keys(values).forEach((key) => used.get(part)!.add(key as Channel))
-          return [part, { ...values }]
-        }),
-      ),
-    ]),
-  )
-  const sockets = new Map(
-    Object.entries(definition.sockets ?? {}).map(([name, socket]) => {
-      if (
-        !parts.has(socket.part) ||
-        !finite(socket.x) ||
-        !finite(socket.y) ||
-        (socket.units !== undefined && !['dip', 'relative'].includes(socket.units))
-      )
-        throw new TypeError('Invalid rig socket.')
-      return [name, { ...socket }]
-    }),
-  )
+  const { parts, used, sockets, select } = resolveRigDefinition(definition)
   const scope = motionScope(),
     identity = {}
   type Binding = {
@@ -235,49 +159,26 @@ export function rig2d(
     blend(layers, transition = 'smooth') {
       alive()
       if (paused) throw new Error('Resume the rig before starting a pose.')
-      const selected = layers.map((layer) => {
-        if (!finite(layer.weight) || layer.weight < 0 || !poses.has(layer.pose))
-          throw new TypeError('Unknown pose or invalid blend weight.')
-        return { pose: poses.get(layer.pose)!, weight: layer.weight }
-      })
+      const selected = select(layers)
       const settings = typeof transition === 'string' ? springs[transition] : transition
       if (!settings) throw new TypeError('Unknown rig transition.')
       const prepared = [...bound].map(([name, binding]) => {
         const part = parts.get(name)!
         const plans = [...used.get(name)!].map((property): Plan => {
           const rest = binding.rest[property]!
-          let total = 0,
-            offset = 0
-          for (const layer of selected) {
-            const value = layer.pose[name]?.[property]
-            if (value === undefined) continue
-            total += layer.weight
-            offset +=
-              (property === 'rotate' && !part.rotation
-                ? shortest(value - rest)
-                : value - rest) * layer.weight
-          }
-          let destination = rest + offset / Math.max(1, total)
           const current = currentValue(binding.view, property)
-          if (property === 'rotate' && !part.rotation)
-            destination = current + shortest(destination - current)
+          const destination = rigDestination(
+            part,
+            name,
+            property,
+            rest,
+            current,
+            selected,
+          )
           const resolved = resolveTransition(settings, property, 2)
           const original = createTrack(property, [current, destination], resolved, 0)
-          let track = original
-          if (property === 'rotate' && part.rotation) {
-            const [min, max] = part.rotation,
-              clamp = (value: number) => Math.max(min, Math.min(max, value))
-            track = {
-              ...original,
-              values: original.values.map(clamp),
-              to: clamp(original.to),
-              valueAt: (time) => clamp(original.valueAt(time)),
-              velocityAt: (time) =>
-                original.valueAt(time) <= min || original.valueAt(time) >= max
-                  ? 0
-                  : original.velocityAt(time),
-            } satisfies Track
-          }
+          const track =
+            property === 'rotate' ? limitRigTrack(original, part.rotation) : original
           return {
             property,
             keyframes: [current, destination],

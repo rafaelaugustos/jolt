@@ -1,0 +1,69 @@
+{
+  "base": "f1f2ec2f90248840fca6dd6f08205be03ba695bd",
+  "branch": "feat/portable-composition",
+  "published": false,
+  "unit": {
+    "files": 127,
+    "passed": 1780
+  },
+  "browser": {
+    "composition": {
+      "passed": 44,
+      "skipped": 1,
+      "reason": "WebKit cannot emulate OS forced-colors mode."
+    },
+    "existingParity": 96,
+    "existingEffects": 63,
+    "existingPortable": 21,
+    "existingLifecycle": 132,
+    "engines": ["Chromium", "Firefox", "WebKit"]
+  },
+  "packageConsumers": [
+    "actual tarball installs only Jolt; native root, /vue and /native exports retain their meanings",
+    "missing native peers are named in resolution errors; core and unimplemented framework entries stay private",
+    "strict packed declarations resolve with NodeNext and Bundler without native ambient types",
+    "packed runtime graph is Web/core only; direct SSR import does not touch platform globals or schedule work",
+    "Vite SSR production output evaluates safely with external and bundled Jolt",
+    "Vite development + production consumers play real WAAPI motion and composed press using only the public facade",
+    "packed optional Vue consumer: strict NodeNext/Bundler, direct + Vite SSR, real dev/production enter/leave + press without native peers",
+    "packed native root, /vue and /native declarations preserve contracts without DOM types",
+    "native declarations also compile with the production fixture TypeScript version",
+    "NativeScript ios production bundle resolves packed root, /vue and /native without Jolt aliases",
+    "NativeScript android production bundle resolves packed root, /vue and /native without Jolt aliases"
+  ],
+  "nuxt": "Passed Chromium, Firefox and WebKit real hydration/KeepAlive/navigation consumers.",
+  "native": {
+    "ios": {
+      "device": "iPhone 17 Pro simulator",
+      "os": "26.2",
+      "build": "Release, production JavaScript, normal Vue demo"
+    },
+    "android": {
+      "device": "dedicated API 36 arm64 emulator, copy-on-write AVD",
+      "build": "Debug APK, production JavaScript, normal Vue demo"
+    },
+    "checks": [
+      "12 cache/unmount cycles preserve one live drawing",
+      "30 behavior cycles dispose to zero scope resources",
+      "30 bounded pose transitions and held socket coordinates",
+      "24 text ownership/pause/resume cycles; Android helper count returns to zero"
+    ]
+  },
+  "limits": [
+    "Real browser sensor delivery/accuracy remains pending in #385.",
+    "Magnetic Web vectors are explicitly unavailable.",
+    "No physical-device performance, CPU/PSS or rendering-isolation claim."
+  ],
+  "mavis": {
+    "main": "e46d2bd6a6d0cad17c425dd6cb6b12d0905eaf3e",
+    "issuesAudited": 248,
+    "updated": [246, 242, 256],
+    "created": [306],
+    "rigAndBehavior": "No current articulated-parts consumer or exclusive behavior-policy requirement found in shared regions/components; no speculative duplicate adoption issues opened."
+  },
+  "playground": {
+    "engines": ["Chromium", "WebKit"],
+    "failures": [],
+    "coverage": "All experiments, actual replay/actions, gesture input and shell navigation passed."
+  }
+}
