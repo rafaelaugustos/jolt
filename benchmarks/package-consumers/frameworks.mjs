@@ -58,9 +58,9 @@ export async function prepareFrameworks({ root, scratch, artifact, run }) {
     writeFileSync(join(consumer, `solid-${generate}.js`), output.code)
   }
   const servers = {
-    react: `import React from 'react'; import {renderToString} from 'react-dom/server'; import {Tree} from './react.jsx'; const html=renderToString(React.createElement(Tree));`,
-    svelte: `import {render} from 'svelte/server'; import App from './svelte-server.js'; const html=render(App).body;`,
-    solid: `import {renderToString,generateHydrationScript} from 'solid-js/web'; import {App} from './solid-ssr.js'; const html=generateHydrationScript()+renderToString(()=>App({}));`,
+    react: `import React from 'react'; import {renderToString} from 'react-dom/server'; import {Tree} from './react.jsx'; const absent=renderToString(React.createElement(Tree,{initialPresence:false})); if(absent.includes('data-card')) throw Error('React SSR retained initially absent content'); const html=renderToString(React.createElement(Tree));`,
+    svelte: `import {render} from 'svelte/server'; import App from './svelte-server.js'; const absent=render(App,{props:{initialPresence:false}}).body; if(absent.includes('data-card')) throw Error('Svelte SSR retained initially absent content'); const html=render(App).body;`,
+    solid: `import {renderToString,generateHydrationScript} from 'solid-js/web'; import {App} from './solid-ssr.js'; const absent=renderToString(()=>App({initialPresence:false})); if(absent.includes('data-card')) throw Error('Solid SSR retained initially absent content'); const html=generateHydrationScript()+renderToString(()=>App({}));`,
     angular: `import '@angular/compiler'; import {renderApplication} from '@angular/platform-server'; import {bootstrapApplication,provideClientHydration} from '@angular/platform-browser'; import {App,provideZonelessChangeDetection} from './angular.js'; const html=await renderApplication(context=>bootstrapApplication(App,{providers:[provideZonelessChangeDetection(),provideClientHydration()]},context),{document:'<!doctype html><html><head></head><body><app-root></app-root></body></html>',url:'http://localhost/angular',allowedHosts:['localhost']});`,
   }
   const clients = {
@@ -95,7 +95,7 @@ export async function prepareFrameworks({ root, scratch, artifact, run }) {
     const entry = join(consumer, `${name}-client-entry.js`)
     writeFileSync(
       entry,
-      `import {createWebRuntime} from '@rafaelaugusto/jolt/web'; const runtime=createWebRuntime(document); ${clients[name]} window.fixture={runtime,unmount,dispose(){unmount();runtime.dispose()}, diagnostics:runtime.diagnostics({development:true})};`,
+      `import {createWebRuntime} from '@rafaelaugusto/jolt/web'; const runtime=createWebRuntime(document); const diagnostics=runtime.diagnostics({development:true}); window.expansionDiagnostics=diagnostics; ${clients[name]} window.fixture={runtime,unmount,dispose(){unmount();runtime.dispose()},diagnostics};`,
     )
     const bundle = await build({
       entryPoints: [entry],

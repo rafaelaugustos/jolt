@@ -102,3 +102,17 @@ function Card() {
 <Clip name="framework-solid-ios" caption="Equivalente NativeScript existente: ejecución nativa real y toques XCTest en el simulador iOS 26.2. Esos adaptadores nativos ya fueron publicados; las entradas nuevas usan elementos DOM." />
 
 Consumidores de tarball validados: React 19.3.1 con Strict Mode, Angular 22.2.4 con biblioteca parcialmente compilada e hidratación real, Svelte 5.57.3 y Solid 1.9.18 con JSX cliente/servidor. TypeScript NodeNext/Bundler y Chromium/Firefox/WebKit verifican imports, hidratación, cambios, accesibilidad y destrucción. Esto no valida Next, todas las versiones anteriores ni todos los modos Angular.
+
+## Recursos propios y presencia retenida
+
+Setup síncrono estable: useMotion(ref, setup) en React; JoltMotionDirective con [joltMotion]="setup" en Angular; use:motion={setup} en Svelte/Solid. Recibe (scope, element, runtime). Adopte recursos mediante scope o devuelva un recurso descartable; limpie listeners con scope.add(). Desanexar destruye el grafo; reconectar lo reconstruye. Memorice setup con useCallback en React. El app conserva runtimes prestados.
+
+React usePresence devuelve la bandera de renderizado retenido. Svelte createPresence(initial, options) devuelve store, set() y action presence; cree durante inicialización y use {#if $owner}. Solid createPresence(accessor, options) devuelve show y presence para Show/directive. Angular conserva joltIf; Vue sus transiciones existentes. Preserve una raíz e identidad y renderice según presencia retenida. Salir aplica inert/aria-hidden; reentrada/limpieza los restaura. SSR respeta presencia inicial sin reloj. Options acepta enter/leave; presets personalizados interrumpidos necesitan keyframes explícitos.
+
+<Clip name="web-expansion-react" caption="Chromium en macOS, React DOM: interacción y recursos reales. El mismo contrato se prueba en cuatro frameworks." />
+
+<Clip name="web-expansion-angular" caption="Chromium en macOS, Angular DOM: interacción y recursos reales. El mismo contrato se prueba en cuatro frameworks." />
+
+<Clip name="web-expansion-svelte" caption="Chromium en macOS, Svelte DOM: interacción y recursos reales. El mismo contrato se prueba en cuatro frameworks." />
+
+<Clip name="web-expansion-solid" caption="Chromium en macOS, Solid DOM: interacción y recursos reales. El mismo contrato se prueba en cuatro frameworks." />

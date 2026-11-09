@@ -5,24 +5,26 @@ Requires generated Xcode project; records only the dedicated simulator or demo M
 from pathlib import Path
 import shutil, signal, subprocess, sys, time, re
 
-device, output = sys.argv[1:]
+device, output = sys.argv[1:3]
+scene = sys.argv[3] if len(sys.argv)>3 else "standalone"
 root = Path(__file__).resolve().parents[2]
 output = Path(output).resolve(); output.mkdir(parents=True,exist_ok=True)
 control = Path('/tmp/jolt-swiftui-recording-control-' + device)
 control.mkdir()  # Exclusive ownership, never attach to another capture.
 mac = device == 'macos'
-name = 'swiftui-macos' if mac else 'swiftui-ios'
+name = 'swiftui-' + ('' if scene == 'standalone' else scene + '-') + ('macos' if mac else 'ios')
+method = {'standalone':'testStandaloneMacMotionAndLifecycle' if mac else 'testStandaloneMotionAndLifecycle','interaction':'testInteractionExpansion','composition':'testCompositionExpansion','scroll':'testScrollExpansion'}[scene]
 scheme = 'JoltSwiftUIMac' if mac else 'JoltSwiftUIDemo'
 recorder = runner = None
 try:
     command = ['xcodebuild','test','-project',str(root/'benchmarks/swiftui-demo/JoltSwiftUIDemo.xcodeproj'),'-scheme',scheme,
         '-destination','platform=macOS,arch=arm64' if mac else 'platform=iOS Simulator,id='+device,
         '-parallel-testing-enabled','NO','-derivedDataPath',str(output/'build'),
-        '-resultBundlePath',str(output/'result.xcresult')]
+        '-resultBundlePath',str(output/'result.xcresult'),'-only-testing:'+scheme+'UITests/SwiftUIAcceptance/'+method]
     if not mac: command.append('CODE_SIGNING_ALLOWED=NO')
     with (output/'xctest.log').open('w') as log, (output/'record.log').open('w') as recording:
         runner = subprocess.Popen(command,stdout=log,stderr=subprocess.STDOUT)
-        last = None; deadline = time.monotonic()+300
+        last = None; deadline = time.monotonic()+600
         while runner.poll() is None:
             if time.monotonic()>deadline: raise RuntimeError('Native capture timed out')
             ack = control/'ack'

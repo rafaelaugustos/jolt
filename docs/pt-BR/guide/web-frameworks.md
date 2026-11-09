@@ -102,3 +102,17 @@ function Card() {
 <Clip name="framework-solid-ios" caption="Equivalente NativeScript existente: execução nativa real e toques XCTest no simulador iOS 26.2. Esses adaptadores nativos já foram publicados; as novas entradas atendem elementos DOM." />
 
 Consumidores de tarball validados: React 19.3.1 com Strict Mode, Angular 22.2.4 com biblioteca parcialmente compilada e hidratação real, Svelte 5.57.3 e Solid 1.9.18 com JSX cliente/servidor. TypeScript NodeNext/Bundler e Chromium/Firefox/WebKit verificam imports, hidratação, atualização, substituição, acessibilidade e destruição. Isso não comprova Next, todas as versões antigas ou todos os modos de renderização Angular.
+
+## Recursos próprios e presença retida
+
+Use um setup síncrono e estável: useMotion(ref, setup) no React; [joltMotion]="setup" com JoltMotionDirective no Angular; use:motion={setup} no Svelte/Solid. Recebe (scope, element, runtime). Adote recursos pelos métodos do scope ou retorne um recurso descartável; registre limpeza de listeners em scope.add(). Desanexar destrói o grafo; reconectar recria o setup atual. Memorize setup no React com useCallback. Runtimes emprestados continuam pertencendo ao app.
+
+usePresence(ref, present, options) do React retorna a flag que deve controlar a renderização. createPresence(initial, options) do Svelte fornece store legível, set() e action presence; crie durante a inicialização e use {#if $owner}. No Solid, createPresence(accessor, options) retorna show e presence para Show e directive. Angular mantém joltIf; Vue mantém seu suporte de transição. Preserve uma raiz e sua identidade durante a saída; use a flag retida, não o pedido original, para renderizar. A raiz fica inert e aria-hidden durante a saída, restaurados na reentrada/limpeza. SSR segue a presença inicial sem relógios. Options aceita enter/leave; presets personalizados interrompidos precisam de keyframes explícitos.
+
+<Clip name="web-expansion-react" caption="Chromium no macOS, React DOM: ponteiro, arraste, presença, valores, eventos, layout e scroll reais. O mesmo contrato é testado nos quatro frameworks." />
+
+<Clip name="web-expansion-angular" caption="Chromium no macOS, Angular DOM: ponteiro, arraste, presença, valores, eventos, layout e scroll reais. O mesmo contrato é testado nos quatro frameworks." />
+
+<Clip name="web-expansion-svelte" caption="Chromium no macOS, Svelte DOM: ponteiro, arraste, presença, valores, eventos, layout e scroll reais. O mesmo contrato é testado nos quatro frameworks." />
+
+<Clip name="web-expansion-solid" caption="Chromium no macOS, Solid DOM: ponteiro, arraste, presença, valores, eventos, layout e scroll reais. O mesmo contrato é testado nos quatro frameworks." />

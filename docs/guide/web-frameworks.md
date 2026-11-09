@@ -102,3 +102,17 @@ function Card() {
 <Clip name="framework-solid-ios" caption="Existing NativeScript counterpart: actual iOS 26.2 simulator playback and XCTest touches. These native adapters were already published; the new entries target DOM elements." />
 
 Validated packed consumers: React 19.3.1 (Strict Mode), Angular 22.2.4 (partial library compilation and actual hydration), Svelte 5.57.3 and Solid 1.9.18 (compiled client/server JSX). TypeScript NodeNext/Bundler and Chromium/Firefox/WebKit exercise imports, hydration, updates, replacement, Reduced Motion and teardown. This does not establish Next, every older framework version or every Angular rendering mode.
+
+## Owned resources and retained presence
+
+Use a stable synchronous setup: useMotion(ref, setup) in React, [joltMotion]="setup" with JoltMotionDirective in Angular, use:motion={setup} in Svelte and use:motion={setup} in Solid. It receives (scope, element, runtime). Adopt resources through scope methods or return a disposable resource; register listener cleanup with scope.add(). Detachment destroys the graph; reconnection rebuilds it from the latest setup. Memoize React setup with useCallback. Borrowed runtimes remain application-owned.
+
+React usePresence(ref, present, options) returns the retained render flag. Svelte createPresence(initial, options) returns a readable store with set() and a presence action; create during component initialization and use {#if $owner}. Solid createPresence(accessor, options) returns show and presence; use Show and its directive. Angular uses the existing joltIf; Vue keeps its existing transition support. Preserve one root and identity during exit; never condition rendering directly on the requested presence when using retention. Exiting roots become inert and aria-hidden, restored on reentry/cleanup. Server rendering follows initial presence without clocks. Options accept enter/leave recipes, with explicit keyframes for interrupted custom presets.
+
+<Clip name="web-expansion-react" caption="Chromium on macOS, React DOM: actual pointer, drag, presence, scoped values, cues, layout and scroll. The same resource contract is tested in all four framework adapters." />
+
+<Clip name="web-expansion-angular" caption="Chromium on macOS, Angular DOM: actual pointer, drag, presence, scoped values, cues, layout and scroll. The same resource contract is tested in all four framework adapters." />
+
+<Clip name="web-expansion-svelte" caption="Chromium on macOS, Svelte DOM: actual pointer, drag, presence, scoped values, cues, layout and scroll. The same resource contract is tested in all four framework adapters." />
+
+<Clip name="web-expansion-solid" caption="Chromium on macOS, Solid DOM: actual pointer, drag, presence, scoped values, cues, layout and scroll. The same resource contract is tested in all four framework adapters." />

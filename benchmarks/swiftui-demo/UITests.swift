@@ -1,112 +1,268 @@
 import XCTest
 
 final class SwiftUIAcceptance: XCTestCase {
-    #if os(iOS)
+  #if os(iOS)
     @MainActor func testStandaloneMotionAndLifecycle() {
-        continueAfterFailure = false
-        let app = XCUIApplication()
-        app.launchArguments = ["-AppleLanguages","(en)","-AppleLocale","en_US"]
-        app.launch()
-        let card = app.buttons["motion-card"]
-        XCTAssertTrue(card.waitForExistence(timeout:10))
-        cue("start")
-        let origin = card.frame.midX
-        app.buttons["move"].tap()
-        Thread.sleep(forTimeInterval:0.16)
-        app.buttons["interrupt"].tap()
-        XCTAssertTrue(wait { card.frame.midX < origin - 40 })
-        app.buttons["reset"].tap()
-        XCTAssertTrue(wait { abs(card.frame.midX-origin) < 3 })
-        card.tap()
-        XCTAssertTrue(wait { String(describing:app.staticTexts["counts"].value ?? app.staticTexts["counts"].label).contains("Actions: 1") },app.staticTexts["counts"].debugDescription)
-        app.buttons["replace"].tap()
-        XCTAssertTrue(card.exists)
-        app.buttons["toggle"].tap()
-        XCTAssertFalse(card.exists)
-        app.buttons["toggle"].tap()
-        XCTAssertTrue(card.waitForExistence(timeout:3))
-        app.switches["reduce"].tap()
-        app.buttons["move"].tap()
-        XCTAssertTrue(wait { card.frame.midX > origin + 60 })
-        XCUIDevice.shared.press(.home)
-        Thread.sleep(forTimeInterval:0.6)
-        app.activate()
-        XCTAssertTrue(card.waitForExistence(timeout:5))
-        XCTAssertTrue(wait { String(describing:app.staticTexts["counts"].value ?? app.staticTexts["counts"].label).contains("Actions: 1") },app.staticTexts["counts"].debugDescription)
-        app.buttons["reset"].tap()
-        app.swipeUp()
-        app.buttons["preset-play"].tap()
-        Thread.sleep(forTimeInterval:0.8)
-        app.buttons["preset-start"].tap()
-        Thread.sleep(forTimeInterval:0.7)
-        app.buttons["preset-play"].tap()
-        app.buttons["details"].tap()
-        XCTAssertTrue(app.navigationBars["Lifecycle"].waitForExistence(timeout:3))
-        app.navigationBars.buttons.element(boundBy:0).tap()
-        app.swipeDown()
-        XCTAssertTrue(card.waitForExistence(timeout:3))
-        cue("stop")
+      continueAfterFailure = false
+      let app = XCUIApplication()
+      app.launchArguments = [
+        "-AppleLanguages", "(en)", "-AppleLocale", "en_US", "-ApplePersistenceIgnoreState", "YES",
+      ]
+      app.launch()
+      let card = app.buttons["motion-card"]
+      XCTAssertTrue(card.waitForExistence(timeout: 10))
+      cue("start")
+      let origin = card.frame.midX
+      app.buttons["move"].tap()
+      Thread.sleep(forTimeInterval: 0.16)
+      app.buttons["interrupt"].tap()
+      XCTAssertTrue(wait { card.frame.midX < origin - 40 })
+      app.buttons["reset"].tap()
+      XCTAssertTrue(wait { abs(card.frame.midX - origin) < 3 })
+      card.tap()
+      XCTAssertTrue(
+        wait { self.label(app, "counts").contains("Actions: 1") },
+        app.staticTexts["counts"].debugDescription)
+      app.buttons["replace"].tap()
+      XCTAssertTrue(card.exists)
+      app.buttons["toggle"].tap()
+      XCTAssertFalse(card.exists)
+      app.buttons["toggle"].tap()
+      XCTAssertTrue(card.waitForExistence(timeout: 3))
+      app.switches["reduce"].tap()
+      app.buttons["move"].tap()
+      XCTAssertTrue(wait { card.frame.midX > origin + 60 })
+      XCUIDevice.shared.press(.home)
+      Thread.sleep(forTimeInterval: 0.6)
+      app.activate()
+      XCTAssertTrue(card.waitForExistence(timeout: 5))
+      XCTAssertTrue(
+        wait { self.label(app, "counts").contains("Actions: 1") },
+        app.staticTexts["counts"].debugDescription)
+      app.buttons["reset"].tap()
+      app.swipeUp()
+      app.buttons["preset-play"].tap()
+      Thread.sleep(forTimeInterval: 0.8)
+      app.buttons["preset-start"].tap()
+      Thread.sleep(forTimeInterval: 0.7)
+      app.buttons["preset-play"].tap()
+      app.buttons["details"].tap()
+      XCTAssertTrue(app.navigationBars["Lifecycle"].waitForExistence(timeout: 3))
+      app.navigationBars.buttons.element(boundBy: 0).tap()
+      app.swipeDown()
+      XCTAssertTrue(card.waitForExistence(timeout: 3))
+      cue("stop")
     }
-    #else
+  #else
     @MainActor func testStandaloneMacMotionAndLifecycle() {
-        continueAfterFailure = false
-        let app = XCUIApplication()
-        app.launchArguments = ["-AppleLanguages","(en)","-AppleLocale","en_US"]
-        app.launch()
-        let card = app.buttons["motion-card"]
-        XCTAssertTrue(card.waitForExistence(timeout:10))
-        cue("start")
-        let origin = card.frame.midX
-        app.buttons["move"].click()
-        app.buttons["interrupt"].click()
-        XCTAssertTrue(wait { card.frame.midX < origin - 40 })
-        app.buttons["reset"].click()
-        XCTAssertTrue(wait { abs(card.frame.midX-origin) < 3 })
-        card.click()
-        XCTAssertTrue(wait { String(describing:app.staticTexts["counts"].value ?? app.staticTexts["counts"].label).contains("Actions: 1") },app.staticTexts["counts"].debugDescription)
-        app.buttons["replace"].click()
-        app.buttons["toggle"].click()
-        XCTAssertFalse(card.exists)
-        app.buttons["toggle"].click()
-        XCTAssertTrue(card.waitForExistence(timeout:3))
-        app.checkBoxes["reduce"].click()
-        app.buttons["move"].click()
-        XCTAssertTrue(wait { card.frame.midX > origin + 60 })
-        app.buttons["reset"].click()
-        app.buttons["preset-play"].click()
-        Thread.sleep(forTimeInterval:0.7)
-        app.buttons["preset-start"].click()
-        Thread.sleep(forTimeInterval:0.7)
-        app.buttons["preset-play"].click()
-        Thread.sleep(forTimeInterval:0.8)
-        cue("stop")
+      continueAfterFailure = false
+      let app = XCUIApplication()
+      app.launchArguments = [
+        "-AppleLanguages", "(en)", "-AppleLocale", "en_US", "-ApplePersistenceIgnoreState", "YES",
+      ]
+      app.launch()
+      let card = app.buttons["motion-card"]
+      XCTAssertTrue(card.waitForExistence(timeout: 10))
+      cue("start")
+      let origin = card.frame.midX
+      app.buttons["move"].click()
+      app.buttons["interrupt"].click()
+      XCTAssertTrue(wait { card.frame.midX < origin - 40 })
+      app.buttons["reset"].click()
+      XCTAssertTrue(wait { abs(card.frame.midX - origin) < 3 })
+      card.click()
+      XCTAssertTrue(
+        wait { self.label(app, "counts").contains("Actions: 1") },
+        app.staticTexts["counts"].debugDescription)
+      app.buttons["replace"].click()
+      app.buttons["toggle"].click()
+      XCTAssertFalse(card.exists)
+      app.buttons["toggle"].click()
+      XCTAssertTrue(card.waitForExistence(timeout: 3))
+      app.checkBoxes["reduce"].click()
+      app.buttons["move"].click()
+      XCTAssertTrue(wait { card.frame.midX > origin + 60 })
+      app.buttons["reset"].click()
+      app.buttons["preset-play"].click()
+      Thread.sleep(forTimeInterval: 0.7)
+      app.buttons["preset-start"].click()
+      Thread.sleep(forTimeInterval: 0.7)
+      app.buttons["preset-play"].click()
+      Thread.sleep(forTimeInterval: 0.8)
+      cue("stop")
     }
+  #endif
+  @MainActor private func click(_ element: XCUIElement) {
+    #if os(macOS)
+      element.click()
+    #else
+      element.tap()
     #endif
-    private func cue(_ action: String) {
-        let device = ProcessInfo.processInfo.environment["SIMULATOR_UDID"] ?? "macos"
-        let directory = URL(fileURLWithPath:"/tmp/jolt-swiftui-recording-control-" + device)
-        guard FileManager.default.fileExists(atPath:directory.path) else { return }
-        #if os(macOS)
-        // The macOS XCTest runner is sandboxed. Handshake inside its own temp directory.
-        let ack = FileManager.default.temporaryDirectory.appendingPathComponent("jolt-recording-ack")
-        #else
-        let ack = directory.appendingPathComponent("ack")
-        #endif
-        try? FileManager.default.removeItem(at:ack)
-        #if os(macOS)
-        print("JOLT_CAPTURE_\(action) \(ack.path)")
-        #else
-        do { try action.write(to:directory.appendingPathComponent("request"),atomically:true,encoding:.utf8) }
-        catch { XCTFail("Recorder cue failed: \(error)"); return }
-        #endif
-        let deadline = Date().addingTimeInterval(30)
-        while Date() < deadline {
-            if (try? String(contentsOf:ack,encoding:.utf8)) == action { return }
-            Thread.sleep(forTimeInterval:0.05)
-        }
-        XCTFail("Recorder did not acknowledge " + action)
+  }
+  @MainActor private func label(_ app: XCUIApplication, _ id: String) -> String {
+    let element = app.staticTexts[id]
+    return element.label + " " + String(describing: element.value ?? "")
+  }
+  @MainActor private func scrollProgress(_ app: XCUIApplication) -> Double {
+    let text = label(app, "scroll-status")
+    guard let start = text.range(of: "Progress: ") else { return -1 }
+    return Double(text[start.upperBound...].prefix { $0 != " " && $0 != "·" }) ?? -1
+  }
+  @MainActor private func lab(_ argument: String) -> XCUIApplication {
+    continueAfterFailure = false
+    let app = XCUIApplication()
+    app.launchArguments = [
+      "-AppleLanguages", "(en)", "-AppleLocale", "en_US", "-ApplePersistenceIgnoreState", "YES",
+      argument,
+    ]
+    app.launch()
+    #if os(macOS)
+      if app.windows.count == 0 { app.typeKey("n", modifierFlags: .command) }
+    #endif
+    return app
+  }
+  @MainActor func testInteractionExpansion() {
+    let app = lab("--interaction-lab")
+    let card = app.buttons["presence-card"]
+    XCTAssertTrue(card.waitForExistence(timeout: 10))
+    Thread.sleep(forTimeInterval: 0.7)
+    cue("start")
+    click(card)
+    XCTAssertTrue(
+      wait { self.label(app, "presence-count").contains("Actions: 1") },
+      label(app, "presence-count"))
+    click(app.buttons["press-disable"])
+    XCTAssertFalse(card.isEnabled)
+    click(app.buttons["press-disable"])
+    let identity = String(describing: card.value)
+    click(app.buttons["presence-interrupt"])
+    XCTAssertTrue(card.waitForExistence(timeout: 2))
+    Thread.sleep(forTimeInterval: 0.8)
+    XCTAssertTrue(card.exists)
+    XCTAssertEqual(String(describing: card.value), identity)
+    click(card)
+    XCTAssertTrue(wait { self.label(app, "presence-count").contains("Actions: 2") })
+    click(app.buttons["presence-toggle"])
+    XCTAssertTrue(wait { !card.exists })
+    click(app.buttons["presence-toggle"])
+    XCTAssertTrue(card.waitForExistence(timeout: 2))
+    #if os(macOS)
+      let region = app.otherElements["pointer-region"].firstMatch
+      region.coordinate(withNormalizedOffset: CGVector(dx: 0.85, dy: 0.2)).hover()
+      XCTAssertTrue(wait { self.label(app, "pointer-status").contains("active") })
+      app.buttons["presence-toggle"].hover()
+      XCTAssertTrue(wait { self.label(app, "pointer-status").contains("centered") })
+    #else
+      XCTAssertTrue(label(app, "pointer-status").contains("centered"))
+    #endif
+    let drag = app.descendants(matching: .any)["drag-card"].firstMatch
+    XCTAssertTrue(drag.exists)
+    let origin = drag.frame.midX
+    let start = drag.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+    let end = start.withOffset(CGVector(dx: 75, dy: 0))
+    start.press(forDuration: 0.1, thenDragTo: end)
+    XCTAssertTrue(wait { drag.frame.midX > origin + 85 })
+    click(app.buttons["drag-left"])
+    XCTAssertTrue(wait { drag.frame.midX < origin - 85 })
+    click(app.buttons["drag-right"])
+    XCTAssertTrue(wait { drag.frame.midX > origin + 85 })
+    #if os(macOS)
+      click(app.checkBoxes["lab-reduce"])
+    #else
+      click(app.switches["lab-reduce"])
+    #endif
+    click(app.buttons["drag-left"])
+    XCTAssertTrue(wait { drag.frame.midX < origin - 85 })
+    cue("stop")
+  }
+  @MainActor func testCompositionExpansion() {
+    let app = lab("--composition-lab")
+    let card = app.descendants(matching: .any)["value-card"].firstMatch
+    XCTAssertTrue(card.waitForExistence(timeout: 10))
+    cue("start")
+    let origin = card.frame.midX
+    click(app.buttons["value-right"])
+    XCTAssertTrue(wait { card.frame.midX > origin + 60 })
+    click(app.buttons["value-left"])
+    XCTAssertTrue(wait { card.frame.midX < origin - 90 })
+    click(app.buttons["stagger-play"])
+    XCTAssertTrue(wait { self.label(app, "cue-status").contains("Events: 1") })
+    click(app.buttons["timeline-cancel"])
+    Thread.sleep(forTimeInterval: 3.5)
+    XCTAssertTrue(label(app, "cue-status").contains("Events: 1"), label(app, "cue-status"))
+    click(app.buttons["stagger-play"])
+    XCTAssertTrue(
+      wait { self.label(app, "cue-status").contains("Events: 2") }, label(app, "cue-status"))
+    click(app.buttons["sequence-play"])
+    Thread.sleep(forTimeInterval: 1.5)
+    click(app.buttons["layout-toggle"])
+    Thread.sleep(forTimeInterval: 0.8)
+    XCTAssertTrue(app.staticTexts["Expanded"].exists)
+    click(app.buttons["layout-toggle"])
+    Thread.sleep(forTimeInterval: 0.8)
+    XCTAssertTrue(app.staticTexts["Card"].exists)
+    #if os(iOS)
+      app.swipeUp()
+    #endif
+    XCTAssertTrue(app.descendants(matching: .any)["inspector-panel"].firstMatch.exists)
+    cue("stop")
+  }
+  @MainActor func testScrollExpansion() {
+    let app = lab("--scroll-lab")
+    XCTAssertTrue(app.staticTexts["scroll-status"].waitForExistence(timeout: 10))
+    cue("start")
+    let header = app.descendants(matching: .any)["scroll-header"].firstMatch
+    let initial = header.frame.height
+    let scroll = app.scrollViews["motion-scroll"].firstMatch
+    #if os(macOS)
+      scroll.scroll(byDeltaX: 0, deltaY: -380)
+    #else
+      scroll.swipeUp()
+    #endif
+    XCTAssertTrue(wait { self.scrollProgress(app) > 0.5 }, label(app, "scroll-status"))
+    XCTAssertTrue(wait { header.frame.height < initial - 4 })
+    #if os(macOS)
+      click(app.checkBoxes["lab-reduce"])
+      scroll.scroll(byDeltaX: 0, deltaY: 380)
+    #else
+      click(app.switches["lab-reduce"])
+      scroll.swipeDown()
+    #endif
+    XCTAssertTrue(wait { header.frame.height >= initial - 2 })
+    cue("stop")
+  }
+  private func cue(_ action: String) {
+    let device = ProcessInfo.processInfo.environment["SIMULATOR_UDID"] ?? "macos"
+    let directory = URL(fileURLWithPath: "/tmp/jolt-swiftui-recording-control-" + device)
+    guard FileManager.default.fileExists(atPath: directory.path) else { return }
+    #if os(macOS)
+      // The macOS XCTest runner is sandboxed. Handshake inside its own temp directory.
+      let ack = FileManager.default.temporaryDirectory.appendingPathComponent("jolt-recording-ack")
+    #else
+      let ack = directory.appendingPathComponent("ack")
+    #endif
+    try? FileManager.default.removeItem(at: ack)
+    #if os(macOS)
+      print("JOLT_CAPTURE_\(action) \(ack.path)")
+    #else
+      do {
+        try action.write(
+          to: directory.appendingPathComponent("request"), atomically: true, encoding: .utf8)
+      } catch {
+        XCTFail("Recorder cue failed: \(error)")
+        return
+      }
+    #endif
+    let deadline = Date().addingTimeInterval(30)
+    while Date() < deadline {
+      if (try? String(contentsOf: ack, encoding: .utf8)) == action { return }
+      Thread.sleep(forTimeInterval: 0.05)
     }
-    private func wait(_ condition: @escaping () -> Bool) -> Bool {
-        XCTWaiter.wait(for:[XCTNSPredicateExpectation(predicate:NSPredicate { _,_ in condition() },object:nil)],timeout:4) == .completed
-    }
+    XCTFail("Recorder did not acknowledge " + action)
+  }
+  private func wait(_ condition: @escaping () -> Bool) -> Bool {
+    XCTWaiter.wait(
+      for: [XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in condition() }, object: nil)],
+      timeout: 6) == .completed
+  }
 }

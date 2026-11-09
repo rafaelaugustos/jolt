@@ -46,6 +46,7 @@ else if (entry.endsWith('/web/testing')) {
     assert.equal(typeof module[name], 'function')
 } else
   assert.deepEqual(Object.keys(module), [
+    'createPreset',
     'createWebRuntime',
     'cubicBezier',
     'drawingLimits',

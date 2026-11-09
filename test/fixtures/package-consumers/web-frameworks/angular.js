@@ -10,13 +10,16 @@ import {
   JoltAnimateDirective,
   JoltPressDirective,
   JoltIfDirective,
+  JoltMotionDirective,
 } from '@rafaelaugusto/jolt/web/angular'
+import { resourceSetup } from './resources.js'
 export const MOTION = new InjectionToken('fixture.motion', {
   providedIn: 'root',
   factory: () => undefined,
 })
 export class App {
   runtime = inject(MOTION)
+  resourceSetup = resourceSetup
   x = signal(0)
   visible = signal(true)
   generation = signal(0)
@@ -32,7 +35,12 @@ export class App {
 Component({
   selector: 'app-root',
   standalone: true,
-  imports: [JoltAnimateDirective, JoltPressDirective, JoltIfDirective],
+  imports: [
+    JoltAnimateDirective,
+    JoltPressDirective,
+    JoltIfDirective,
+    JoltMotionDirective,
+  ],
   template: `<main><div class="badge">JOLT · ANGULAR DOM</div><h1>Motion follows your component</h1>
     <p>Interrupt, replace or remove the card. Each component owns its motion.</p>
     <div class="controls">
@@ -46,6 +54,7 @@ Component({
       }
     </div>
     <div class="status"><span>Actions <output data-taps>{{taps()}}</output></span><span>Renders <output data-renders>{{renders()}}</output></span><span>Identity <output>{{generation()}}</output></span></div>
+    <section data-resources [joltMotion]="resourceSetup" [joltRuntime]="runtime"></section>
   </main>`,
 })(App)
 export { provideZonelessChangeDetection }

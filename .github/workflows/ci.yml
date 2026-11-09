@@ -211,7 +211,7 @@ jobs:
 
   swiftui:
     runs-on: macos-15
-    timeout-minutes: 15
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -222,8 +222,10 @@ jobs:
       - run: npm run build && npm run swiftui:check
       - run: swift test
       - run: gem install xcodeproj --no-document --user-install
-      - name: Build standalone iOS and macOS apps
-        run: |
-          ruby benchmarks/swiftui-demo/project.rb
-          xcodebuild -project benchmarks/swiftui-demo/JoltSwiftUIDemo.xcodeproj -scheme JoltSwiftUIDemo -destination 'generic/platform=iOS Simulator' build-for-testing CODE_SIGNING_ALLOWED=NO
-          xcodebuild -project benchmarks/swiftui-demo/JoltSwiftUIDemo.xcodeproj -scheme JoltSwiftUIMac -destination 'platform=macOS' build-for-testing
+      - name: Interact with standalone iOS and macOS apps
+        run: python3 benchmarks/swiftui-demo/ci.py
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: swiftui-native-interaction
+          path: benchmarks/swiftui-demo/results/

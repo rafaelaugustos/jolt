@@ -10,15 +10,23 @@ import {
   type OnChanges,
   type OnDestroy,
 } from '@angular/core'
-import { presets, type WebRuntime, type Keyframes } from '../public.js'
+import { type WebRuntime } from '../public.js'
 import {
   animateBinding,
+  fromCurrent,
+  motionBinding,
+  type MotionSetup,
   pressBinding,
   type AnimateValue,
   type PressValue,
   type BindingOptions,
 } from '../frameworks/binding.js'
-export type { AnimateValue, PressValue, BindingOptions } from '../frameworks/binding.js'
+export type {
+  AnimateValue,
+  PressValue,
+  BindingOptions,
+  MotionSetup,
+} from '../frameworks/binding.js'
 
 @Directive({ selector: '[joltAnimate]', standalone: true })
 export class JoltAnimateDirective implements OnDestroy {
@@ -136,24 +144,28 @@ export class JoltIfDirective implements OnChanges, OnDestroy {
   }
 }
 
-function fromCurrent(value: AnimateValue): AnimateValue {
-  const [definition, options] = Array.isArray(value) ? value : [value, undefined]
-  if (typeof definition === 'string' && !Object.hasOwn(presets, definition))
-    throw new TypeError(
-      'Interrupted joltIf presets must be built-in or explicit keyframes.',
-    )
-  const preset =
-    typeof definition === 'string'
-      ? presets[definition as keyof typeof presets]
-      : undefined
-  const frames = preset?.keyframes ?? (definition as Keyframes)
-  return [
-    Object.fromEntries(
-      Object.entries(frames).map(([key, v]) => [
-        key,
-        Array.isArray(v) ? [null, ...v.slice(1)] : v,
-      ]),
-    ) as Keyframes,
-    options ?? preset?.transition,
-  ]
+/** Set up existing runtime resources after render, with transactional scope cleanup. */
+@Directive({ selector: '[joltMotion]', standalone: true })
+export class JoltMotionDirective implements OnDestroy {
+  @Input({ required: true }) joltMotion!: MotionSetup
+  @Input() joltRuntime?: WebRuntime
+  private readonly element = inject<ElementRef<HTMLElement>>(ElementRef)
+  private binding?: ReturnType<typeof motionBinding>
+  private runtime?: WebRuntime
+  private readonly render = afterEveryRender(() => {
+    if (this.binding && (this.runtime !== this.joltRuntime || this.binding.disposed)) {
+      this.binding.destroy()
+      this.binding = undefined
+    }
+    if (!this.binding) {
+      this.runtime = this.joltRuntime
+      this.binding = motionBinding(this.element.nativeElement, this.joltMotion, {
+        runtime: this.runtime,
+      })
+    } else this.binding.update(this.joltMotion)
+  })
+  ngOnDestroy() {
+    this.render.destroy()
+    this.binding?.destroy()
+  }
 }

@@ -22,6 +22,7 @@
           "conceal",
           "confetti",
           "configure",
+          "createPreset",
           "cubicBezier",
           "decay",
           "definePreset",
@@ -224,6 +225,7 @@
         "entry": "./web",
         "file": "src/web/public.ts",
         "exports": [
+          "createPreset",
           "createWebRuntime",
           "cubicBezier",
           "drawingLimits",
@@ -298,22 +300,27 @@
       {
         "entry": "./web/react",
         "file": "src/web/react/index.ts",
-        "exports": ["useAnimate", "usePress"]
+        "exports": ["useAnimate", "useMotion", "usePresence", "usePress"]
       },
       {
         "entry": "./web/angular",
         "file": "src/web/angular/index.ts",
-        "exports": ["JoltAnimateDirective", "JoltIfDirective", "JoltPressDirective"]
+        "exports": [
+          "JoltAnimateDirective",
+          "JoltIfDirective",
+          "JoltMotionDirective",
+          "JoltPressDirective"
+        ]
       },
       {
         "entry": "./web/svelte",
         "file": "src/web/svelte/index.ts",
-        "exports": ["animate", "createActions", "press"]
+        "exports": ["animate", "createActions", "createPresence", "motion", "press"]
       },
       {
         "entry": "./web/solid",
         "file": "src/web/solid/index.ts",
-        "exports": ["animate", "createDirectives", "press"]
+        "exports": ["animate", "createDirectives", "createPresence", "motion", "press"]
       }
     ],
     "webRuntime": [
@@ -2377,6 +2384,141 @@
         "benchmarks/web-frameworks-swiftui.md",
         "docs/guide/web-frameworks.md"
       ]
+    },
+    {
+      "entry": ".",
+      "symbol": "createPreset",
+      "nativeStatus": "pending",
+      "webStatus": "pending",
+      "counterpart": "createPreset",
+      "contract": "Unpublished PR #436 candidate. Pure finite parameter recipes shared with generated Swift fixtures; explicit platform units and finite duration override.",
+      "issues": [441],
+      "evidence": [
+        "src/index.ts",
+        "benchmarks/swiftui-expansion.md",
+        "benchmarks/web-frameworks/expansion.spec.ts",
+        "test/preset-recipe.spec.ts"
+      ]
+    },
+    {
+      "entry": "./web",
+      "symbol": "createPreset",
+      "nativeStatus": "pending",
+      "webStatus": "pending",
+      "counterpart": "createPreset",
+      "contract": "Unpublished PR #436 candidate. Pure finite parameter recipes shared with generated Swift fixtures; explicit platform units and finite duration override.",
+      "issues": [441],
+      "evidence": [
+        "src/web/public.ts",
+        "benchmarks/swiftui-expansion.md",
+        "benchmarks/web-frameworks/expansion.spec.ts",
+        "test/preset-recipe.spec.ts"
+      ]
+    },
+    {
+      "entry": "./web/react",
+      "symbol": "useMotion",
+      "nativeStatus": "browser-only",
+      "webStatus": "pending",
+      "counterpart": "Existing scoped runtime / SwiftUI scope and presence",
+      "contract": "Unpublished PR #436 candidate. Framework-owned DOM setup/presence using existing Web runtime; SSR-safe acquisition, retained exit identity and transactional cleanup. Native and SwiftUI use their own scope/view adapters.",
+      "issues": [439, 440],
+      "evidence": [
+        "src/web/react/index.ts",
+        "benchmarks/swiftui-expansion.md",
+        "benchmarks/web-frameworks/expansion.spec.ts",
+        "test/preset-recipe.spec.ts"
+      ]
+    },
+    {
+      "entry": "./web/react",
+      "symbol": "usePresence",
+      "nativeStatus": "browser-only",
+      "webStatus": "pending",
+      "counterpart": "Existing scoped runtime / SwiftUI scope and presence",
+      "contract": "Unpublished PR #436 candidate. Framework-owned DOM setup/presence using existing Web runtime; SSR-safe acquisition, retained exit identity and transactional cleanup. Native and SwiftUI use their own scope/view adapters.",
+      "issues": [437],
+      "evidence": [
+        "src/web/react/index.ts",
+        "benchmarks/swiftui-expansion.md",
+        "benchmarks/web-frameworks/expansion.spec.ts",
+        "test/preset-recipe.spec.ts"
+      ]
+    },
+    {
+      "entry": "./web/angular",
+      "symbol": "JoltMotionDirective",
+      "nativeStatus": "browser-only",
+      "webStatus": "pending",
+      "counterpart": "Existing scoped runtime / SwiftUI scope and presence",
+      "contract": "Unpublished PR #436 candidate. Framework-owned DOM setup/presence using existing Web runtime; SSR-safe acquisition, retained exit identity and transactional cleanup. Native and SwiftUI use their own scope/view adapters.",
+      "issues": [439, 440],
+      "evidence": [
+        "src/web/angular/index.ts",
+        "benchmarks/swiftui-expansion.md",
+        "benchmarks/web-frameworks/expansion.spec.ts",
+        "test/preset-recipe.spec.ts"
+      ]
+    },
+    {
+      "entry": "./web/svelte",
+      "symbol": "createPresence",
+      "nativeStatus": "browser-only",
+      "webStatus": "pending",
+      "counterpart": "Existing scoped runtime / SwiftUI scope and presence",
+      "contract": "Unpublished PR #436 candidate. Framework-owned DOM setup/presence using existing Web runtime; SSR-safe acquisition, retained exit identity and transactional cleanup. Native and SwiftUI use their own scope/view adapters.",
+      "issues": [437],
+      "evidence": [
+        "src/web/svelte/index.ts",
+        "benchmarks/swiftui-expansion.md",
+        "benchmarks/web-frameworks/expansion.spec.ts",
+        "test/preset-recipe.spec.ts"
+      ]
+    },
+    {
+      "entry": "./web/svelte",
+      "symbol": "motion",
+      "nativeStatus": "browser-only",
+      "webStatus": "pending",
+      "counterpart": "Existing scoped runtime / SwiftUI scope and presence",
+      "contract": "Unpublished PR #436 candidate. Framework-owned DOM setup/presence using existing Web runtime; SSR-safe acquisition, retained exit identity and transactional cleanup. Native and SwiftUI use their own scope/view adapters.",
+      "issues": [439, 440],
+      "evidence": [
+        "src/web/svelte/index.ts",
+        "benchmarks/swiftui-expansion.md",
+        "benchmarks/web-frameworks/expansion.spec.ts",
+        "test/preset-recipe.spec.ts"
+      ]
+    },
+    {
+      "entry": "./web/solid",
+      "symbol": "createPresence",
+      "nativeStatus": "browser-only",
+      "webStatus": "pending",
+      "counterpart": "Existing scoped runtime / SwiftUI scope and presence",
+      "contract": "Unpublished PR #436 candidate. Framework-owned DOM setup/presence using existing Web runtime; SSR-safe acquisition, retained exit identity and transactional cleanup. Native and SwiftUI use their own scope/view adapters.",
+      "issues": [437],
+      "evidence": [
+        "src/web/solid/index.ts",
+        "benchmarks/swiftui-expansion.md",
+        "benchmarks/web-frameworks/expansion.spec.ts",
+        "test/preset-recipe.spec.ts"
+      ]
+    },
+    {
+      "entry": "./web/solid",
+      "symbol": "motion",
+      "nativeStatus": "browser-only",
+      "webStatus": "pending",
+      "counterpart": "Existing scoped runtime / SwiftUI scope and presence",
+      "contract": "Unpublished PR #436 candidate. Framework-owned DOM setup/presence using existing Web runtime; SSR-safe acquisition, retained exit identity and transactional cleanup. Native and SwiftUI use their own scope/view adapters.",
+      "issues": [439, 440],
+      "evidence": [
+        "src/web/solid/index.ts",
+        "benchmarks/swiftui-expansion.md",
+        "benchmarks/web-frameworks/expansion.spec.ts",
+        "test/preset-recipe.spec.ts"
+      ]
     }
   ],
   "contracts": [
@@ -2577,6 +2719,19 @@
         "packages/swiftui/Sources/JoltSwiftUI/JoltMotion.swift",
         "benchmarks/swiftui-demo/UITests.swift",
         "docs/guide/swiftui.md"
+      ]
+    },
+    {
+      "id": "swiftui-expansion",
+      "issues": [
+        437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452,
+        453, 454, 455, 456, 457, 458, 459, 460
+      ],
+      "limit": "Standalone iOS 17/macOS 14 source candidate. Apple uses points, native uses DIP, Web uses CSS pixels. Implicit SwiftUI motion and explicit sampled values have different execution costs; no hardware/threading/performance parity is claimed. First expansion has local correctness and real interaction evidence; documentation/media, CI and second expansion are pending.",
+      "evidence": [
+        "Package.swift",
+        "packages/swiftui/Sources/JoltSwiftUI/JoltValue.swift",
+        "benchmarks/swiftui-expansion.md"
       ]
     }
   ]

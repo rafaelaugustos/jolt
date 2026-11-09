@@ -1,12 +1,24 @@
 import React, { StrictMode, useRef, useState } from 'react'
-import { useAnimate, usePress } from '@rafaelaugusto/jolt/web/react'
-export function App({ runtime }) {
+import {
+  useAnimate,
+  usePress,
+  usePresence,
+  useMotion,
+} from '@rafaelaugusto/jolt/web/react'
+import { resourceSetup } from './resources.js'
+export function App({ runtime, initialPresence = true }) {
   const [x, setX] = useState(0),
-    [visible, show] = useState(true),
+    [visible, show] = useState(initialPresence),
     [generation, replace] = useState(0)
   const [renders, rerender] = useState(0),
     [taps, tap] = useState(0)
-  const ref = useRef(null)
+  const ref = useRef(null),
+    resources = useRef(null)
+  const retained = usePresence(ref, visible, {
+    runtime,
+    leave: ['fadeOut', { duration: 400 }],
+  })
+  useMotion(resources, resourceSetup, { runtime })
   useAnimate(ref, [{ x }, { duration: 650, ease: 'linear' }], { runtime })
   usePress(ref, { scale: 0.92 }, { runtime })
   return (
@@ -25,7 +37,7 @@ export function App({ runtime }) {
         </button>
       </div>
       <div className="stage">
-        {visible && (
+        {retained && (
           <button
             key={generation}
             ref={ref}
@@ -48,6 +60,7 @@ export function App({ runtime }) {
           Identity <output>{generation}</output>
         </span>
       </div>
+      <section ref={resources} data-resources />
     </main>
   )
 }

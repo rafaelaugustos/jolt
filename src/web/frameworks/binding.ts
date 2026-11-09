@@ -1,5 +1,6 @@
 import {
   createWebRuntime,
+  presets,
   type WebRuntime,
   type WebAnimation,
   type WebPress,
@@ -8,6 +9,8 @@ import {
   type Values,
   type AnimateOptions,
   type SpringName,
+  type WebMotionScope,
+  type WebMotionResource,
 } from '../public.js'
 import { observeConnection } from '../vue/attachment.js'
 
@@ -113,6 +116,49 @@ function owner(
     get disposed() {
       return disposed
     },
+  }
+}
+
+export type MotionSetup = (
+  scope: WebMotionScope,
+  node: HTMLElement,
+  runtime: WebRuntime,
+) => void | WebMotionResource
+
+/** Transactional setup uses existing scope factories. Disconnect tears down and reconnect rebuilds it. */
+export function motionBinding(
+  node: HTMLElement,
+  initial: MotionSetup,
+  options: BindingOptions = {},
+) {
+  let setup = initial
+  if (typeof setup !== 'function') throw new TypeError('Motion setup must be a function.')
+  const binding = owner(node, options, () => {})
+  let release: (() => void) | undefined
+  function install(next: MotionSetup) {
+    if (typeof next !== 'function')
+      throw new TypeError('Motion setup must be a function.')
+    // Scope.use owns transactional setup, resource adoption and reentrant cleanup.
+    const nextRelease = binding.scope.use((scope) => next(scope, node, binding.runtime))
+    release?.()
+    release = nextRelease
+    setup = next
+  }
+  try {
+    if (!node.isConnected) binding.scope.suspend()
+    install(setup)
+  } catch (error) {
+    binding.destroy()
+    throw error
+  }
+  return {
+    get disposed() {
+      return binding.disposed
+    },
+    update(next: MotionSetup) {
+      if (!binding.disposed && next !== setup) install(next)
+    },
+    destroy: binding.destroy,
   }
 }
 
@@ -236,5 +282,127 @@ export function pressBinding(
       }
     },
     destroy: binding.destroy,
+  }
+}
+
+export interface PresenceOptions extends BindingOptions {
+  enter?: AnimateValue
+  leave?: AnimateValue
+}
+/** Resolve only explicit/built-in recipes: custom registry lookup remains runtime-private. */
+export function fromCurrent(value: AnimateValue): AnimateValue {
+  const [definition, options] = Array.isArray(value) ? value : [value, undefined]
+  if (typeof definition === 'string' && !Object.hasOwn(presets, definition))
+    throw new TypeError(
+      'Interrupted presence presets must be built-in or explicit keyframes.',
+    )
+  const preset =
+    typeof definition === 'string'
+      ? presets[definition as keyof typeof presets]
+      : undefined
+  const frames = preset?.keyframes ?? (definition as Keyframes)
+  return [
+    Object.fromEntries(
+      Object.entries(frames).map(([key, v]) => [
+        key,
+        Array.isArray(v) ? [null, ...v.slice(1)] : v,
+      ]),
+    ) as Keyframes,
+    options ?? preset?.transition,
+  ]
+}
+/** The framework retains/removes its own node; this owner only reports completed exits. */
+export function presenceBinding(
+  node: HTMLElement,
+  initial: boolean,
+  onExit: () => void,
+  options: PresenceOptions = {},
+) {
+  let present = initial,
+    enter = snapshot(options.enter ?? 'fadeIn'),
+    leave = snapshot(options.leave ?? 'fadeOut')
+  let pending = true,
+    entered = false,
+    epoch = 0,
+    exiting = false
+  let restore: (() => void) | undefined
+  const binding = owner(node, options, (connected) => {
+    if (connected) run()
+    else {
+      epoch++
+      pending = true
+    }
+  })
+  function accessibility() {
+    if (!present && !exiting) {
+      const hidden = node.getAttribute('aria-hidden'),
+        inert = node.inert
+      node.setAttribute('aria-hidden', 'true')
+      node.inert = true
+      restore = () => {
+        if (hidden === null) node.removeAttribute('aria-hidden')
+        else node.setAttribute('aria-hidden', hidden)
+        node.inert = inert
+      }
+      exiting = true
+    } else if (present && exiting) {
+      restore?.()
+      restore = undefined
+      exiting = false
+    }
+  }
+  function run() {
+    if (binding.disposed || !node.isConnected || !pending) return
+    const value = present ? enter : leave
+    const input = entered || !present ? fromCurrent(value) : value
+    const [definition, transition] = Array.isArray(input) ? input : [input, undefined]
+    const animation = binding.scope.animate(
+      node,
+      definition as string | Keyframes,
+      transition as AnimateOptions | SpringName | undefined,
+    )
+    const generation = ++epoch
+    pending = false
+    entered = true
+    accessibility()
+    if (!present)
+      void animation.finished.then((completed) => {
+        if (completed && !binding.disposed && generation === epoch && !present) onExit()
+      })
+  }
+  try {
+    run()
+  } catch (error) {
+    binding.destroy()
+    throw error
+  }
+  return {
+    get disposed() {
+      return binding.disposed
+    },
+    update(next: boolean, settings: PresenceOptions = options) {
+      if (binding.disposed) return
+      const nextEnter = snapshot(settings.enter ?? 'fadeIn'),
+        nextLeave = snapshot(settings.leave ?? 'fadeOut')
+      if (next === present && same(enter, nextEnter) && same(leave, nextLeave)) return
+      const previous = { present, enter, leave }
+      present = next
+      enter = nextEnter
+      leave = nextLeave
+      pending = true
+      try {
+        run()
+      } catch (error) {
+        ;({ present, enter, leave } = previous)
+        pending = false
+        throw error
+      }
+    },
+    destroy() {
+      epoch++
+      restore?.()
+      restore = undefined
+      binding.destroy()
+    },
   }
 }

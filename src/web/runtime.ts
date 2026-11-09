@@ -1081,9 +1081,13 @@ export class WebRuntime {
     this.assert()
     if (typeof listener !== 'function')
       throw new TypeError('Expected a reduced-motion listener.')
+    let previous = this.reduced()
     const changed = () => {
+      const next = this.reduced()
+      if (next === previous) return
+      previous = next
       try {
-        listener(this.reduced())
+        listener(next)
       } catch (error) {
         this.report(error)
       }
@@ -3493,10 +3497,14 @@ export class WebRuntime {
   private preferenceChanged = () => {
     if (this.disposed) return
     const reduced = this.reduced()
-    if (reduced === this.reported) return
+    const changed = reduced !== this.reported
     this.reported = reduced
-    if (reduced) this.diagnosticEvent('reduced-motion')
+    // A resource can attach after MediaQueryList.matches changes but before its
+    // queued change event. Reconcile it even when rapid changes end at the last
+    // reported preference; otherwise a newly paused sensor can remain paused.
     for (const listener of [...this.preferenceListeners]) listener()
+    if (!changed) return
+    if (reduced) this.diagnosticEvent('reduced-motion')
     for (const value of this.values)
       if (value instanceof SpringValueNode) value.preferenceChanged()
     for (const size of this.sizes.values()) size.reduced()

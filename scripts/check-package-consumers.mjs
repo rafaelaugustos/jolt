@@ -147,7 +147,7 @@ try {
     ]) assert(import.meta.resolve(specifier).endsWith(file));
     for (const suffix of ['/core', '/dist/core/index.js', '/src/web/runtime.js'])
       assert.throws(() => import.meta.resolve('@rafaelaugusto/jolt' + suffix), { code: 'ERR_PACKAGE_PATH_NOT_EXPORTED' });
-    for (const [entry, peer] of [['', '@nativescript/core'], ['/vue', 'nativescript-vue'], ['/web/vue', 'vue'], ['/web/react', 'react'], ['/web/angular', '@angular/core'], ['/web/solid', 'solid-js']]) {
+    for (const [entry, peer] of [['', '@nativescript/core'], ['/vue', 'nativescript-vue'], ['/web/vue', 'vue'], ['/web/react', 'react'], ['/web/angular', '@angular/core'], ['/web/solid', 'solid-js'], ['/web/svelte', 'svelte']]) {
       try { await import('@rafaelaugusto/jolt' + entry); throw new Error('Unexpected native import success'); }
       catch (error) { assert.equal(error.code, 'ERR_MODULE_NOT_FOUND'); assert(error.message.includes(peer), error.message); console.log(error.message); }
     }

@@ -102,3 +102,17 @@ function Card() {
 <Clip name="framework-solid-ios" caption="现有 NativeScript 对应实现：iOS 26.2 模拟器上的真实原生播放和 XCTest 触摸。这些原生适配器已发布，新入口面向 DOM 元素。" />
 
 已验证实际 tarball 消费应用：React 19.3.1 Strict Mode、Angular 22.2.4 部分编译库和真实 hydration、Svelte 5.57.3、Solid 1.9.18 客户端/服务端 JSX。TypeScript NodeNext/Bundler 及 Chromium/Firefox/WebKit 覆盖导入、hydration、更新、替换、无障碍和销毁。这不代表 Next、所有旧版框架或所有 Angular 渲染模式均已验证。
+
+## 资源所有权与保留退出
+
+使用稳定的同步 setup：React useMotion(ref, setup)、Angular JoltMotionDirective 的 [joltMotion]="setup"、Svelte/Solid 的 use:motion={setup}。参数为 (scope, element, runtime)。通过 scope 方法拥有资源，或返回可销毁资源；scope.add() 注册监听清理。脱离 DOM 会销毁资源图，重新连接时用最新 setup 重建。React 用 useCallback 保持 setup 稳定。借用的 runtime 仍由应用拥有。
+
+React usePresence 返回应控制渲染的保留标志。Svelte createPresence(initial, options) 返回可读 store、set() 和 presence action；在组件初始化时创建，配合 {#if $owner}。Solid createPresence(accessor, options) 返回 show 和 presence，配合 Show/directive。Angular 继续使用 joltIf，Vue 使用原有过渡。退出时保持单一根与身份，并根据保留状态而非原始请求渲染。退出根使用 inert/aria-hidden，重入或清理恢复。SSR 遵循初始状态且不创建时钟。Options 支持 enter/leave；可中断的自定义预设需显式 keyframes。
+
+<Clip name="web-expansion-react" caption="macOS 上的 Chromium / React DOM：真实交互与资源生命周期。同一合同在四个框架中验证。" />
+
+<Clip name="web-expansion-angular" caption="macOS 上的 Chromium / Angular DOM：真实交互与资源生命周期。同一合同在四个框架中验证。" />
+
+<Clip name="web-expansion-svelte" caption="macOS 上的 Chromium / Svelte DOM：真实交互与资源生命周期。同一合同在四个框架中验证。" />
+
+<Clip name="web-expansion-solid" caption="macOS 上的 Chromium / Solid DOM：真实交互与资源生命周期。同一合同在四个框架中验证。" />

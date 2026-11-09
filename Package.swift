@@ -8,6 +8,7 @@ let package = Package(
     targets: [
         .target(name: "JoltCore", path: "packages/swiftui/Sources/JoltCore", resources: [.process("Resources")]),
         .target(name: "JoltSwiftUI", dependencies: ["JoltCore"], path: "packages/swiftui/Sources/JoltSwiftUI"),
-        .testTarget(name: "JoltCoreTests", dependencies: ["JoltCore"], path: "packages/swiftui/Tests/JoltCoreTests")
+        .testTarget(name: "JoltSwiftUITests", dependencies: ["JoltSwiftUI"], path: "packages/swiftui/Tests/JoltSwiftUITests"),
+        .testTarget(name: "JoltCoreTests", dependencies: ["JoltCore"], path: "packages/swiftui/Tests/JoltCoreTests", resources: [.process("Fixtures")])
     ]
 )
