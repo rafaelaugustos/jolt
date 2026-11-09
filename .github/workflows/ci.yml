@@ -59,11 +59,14 @@ jobs:
       - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run package:check
       - run: npm run package:nuxt:check
+      - run: npm run web:frameworks:test
       - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: package-consumers
-          path: benchmarks/package-consumers/results/
+          path: |
+            benchmarks/package-consumers/results/
+            benchmarks/web-frameworks/results/
   web-interaction-depth:
     runs-on: ubuntu-latest
     timeout-minutes: 15
@@ -205,3 +208,22 @@ jobs:
       - run: python3 -m unittest discover -s benchmarks -p 'test_gallery_text.py'
       - run: python3 -m unittest discover -s benchmarks -p 'test_gallery_accessibility.py'
       - run: python3 -m unittest discover -s benchmarks -p 'test_interactive_modal.py'
+
+  swiftui:
+    runs-on: macos-15
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci && npm ci --prefix benchmarks/angular-tools
+      - run: npm run build && npm run swiftui:check
+      - run: swift test
+      - run: gem install xcodeproj --no-document --user-install
+      - name: Build standalone iOS and macOS apps
+        run: |
+          ruby benchmarks/swiftui-demo/project.rb
+          xcodebuild -project benchmarks/swiftui-demo/JoltSwiftUIDemo.xcodeproj -scheme JoltSwiftUIDemo -destination 'generic/platform=iOS Simulator' build-for-testing CODE_SIGNING_ALLOWED=NO
+          xcodebuild -project benchmarks/swiftui-demo/JoltSwiftUIDemo.xcodeproj -scheme JoltSwiftUIMac -destination 'platform=macOS' build-for-testing

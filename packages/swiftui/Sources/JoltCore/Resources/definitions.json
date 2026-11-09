@@ -1,0 +1,424 @@
+{
+  "schema": 1,
+  "units": {
+    "translation": "points on Apple / DIP native / CSS px Web",
+    "rotation": "degrees",
+    "duration": "milliseconds"
+  },
+  "curves": {
+    "linear": [
+      0,
+      0,
+      1,
+      1
+    ],
+    "ease": [
+      0.25,
+      0.1,
+      0.25,
+      1
+    ],
+    "easeIn": [
+      0.42,
+      0,
+      1,
+      1
+    ],
+    "easeOut": [
+      0,
+      0,
+      0.58,
+      1
+    ],
+    "easeInOut": [
+      0.42,
+      0,
+      0.58,
+      1
+    ]
+  },
+  "springs": {
+    "smooth": {
+      "kind": "spring",
+      "stiffness": 157.91367041742973,
+      "damping": 25.132741228718345,
+      "mass": 1
+    },
+    "snappy": {
+      "kind": "spring",
+      "stiffness": 246.74011002723395,
+      "damping": 26.70353755551324,
+      "mass": 1
+    },
+    "bouncy": {
+      "kind": "spring",
+      "stiffness": 130.5071656342394,
+      "damping": 13.708767942937277,
+      "mass": 1
+    }
+  },
+  "presets": {
+    "fadeIn": [
+      {
+        "property": "opacity",
+        "from": 0,
+        "to": 1,
+        "transition": {
+          "kind": "tween",
+          "milliseconds": 300,
+          "curve": [
+            0,
+            0,
+            0.58,
+            1
+          ]
+        }
+      }
+    ],
+    "fadeInUp": [
+      {
+        "property": "opacity",
+        "from": 0,
+        "to": 1,
+        "transition": {
+          "kind": "tween",
+          "milliseconds": 300,
+          "curve": [
+            0,
+            0,
+            0.58,
+            1
+          ]
+        }
+      },
+      {
+        "property": "y",
+        "from": 24,
+        "to": 0,
+        "transition": {
+          "kind": "spring",
+          "stiffness": 157.91367041742973,
+          "damping": 25.132741228718345,
+          "mass": 1
+        }
+      }
+    ],
+    "fadeInDown": [
+      {
+        "property": "opacity",
+        "from": 0,
+        "to": 1,
+        "transition": {
+          "kind": "tween",
+          "milliseconds": 300,
+          "curve": [
+            0,
+            0,
+            0.58,
+            1
+          ]
+        }
+      },
+      {
+        "property": "y",
+        "from": -24,
+        "to": 0,
+        "transition": {
+          "kind": "spring",
+          "stiffness": 157.91367041742973,
+          "damping": 25.132741228718345,
+          "mass": 1
+        }
+      }
+    ],
+    "fadeInLeft": [
+      {
+        "property": "opacity",
+        "from": 0,
+        "to": 1,
+        "transition": {
+          "kind": "tween",
+          "milliseconds": 300,
+          "curve": [
+            0,
+            0,
+            0.58,
+            1
+          ]
+        }
+      },
+      {
+        "property": "x",
+        "from": -24,
+        "to": 0,
+        "transition": {
+          "kind": "spring",
+          "stiffness": 157.91367041742973,
+          "damping": 25.132741228718345,
+          "mass": 1
+        }
+      }
+    ],
+    "fadeInRight": [
+      {
+        "property": "opacity",
+        "from": 0,
+        "to": 1,
+        "transition": {
+          "kind": "tween",
+          "milliseconds": 300,
+          "curve": [
+            0,
+            0,
+            0.58,
+            1
+          ]
+        }
+      },
+      {
+        "property": "x",
+        "from": 24,
+        "to": 0,
+        "transition": {
+          "kind": "spring",
+          "stiffness": 157.91367041742973,
+          "damping": 25.132741228718345,
+          "mass": 1
+        }
+      }
+    ],
+    "zoomIn": [
+      {
+        "property": "opacity",
+        "from": 0,
+        "to": 1,
+        "transition": {
+          "kind": "tween",
+          "milliseconds": 300,
+          "curve": [
+            0,
+            0,
+            0.58,
+            1
+          ]
+        }
+      },
+      {
+        "property": "scale",
+        "from": 0.85,
+        "to": 1,
+        "transition": {
+          "kind": "spring",
+          "stiffness": 157.91367041742973,
+          "damping": 25.132741228718345,
+          "mass": 1
+        }
+      }
+    ],
+    "popIn": [
+      {
+        "property": "opacity",
+        "from": 0,
+        "to": 1,
+        "transition": {
+          "kind": "tween",
+          "milliseconds": 150,
+          "curve": [
+            0,
+            0,
+            0.58,
+            1
+          ]
+        }
+      },
+      {
+        "property": "scale",
+        "from": 0.5,
+        "to": 1,
+        "transition": {
+          "kind": "spring",
+          "stiffness": 130.5071656342394,
+          "damping": 13.708767942937277,
+          "mass": 1
+        }
+      }
+    ],
+    "fadeOut": [
+      {
+        "property": "opacity",
+        "from": null,
+        "to": 0,
+        "transition": {
+          "kind": "tween",
+          "milliseconds": 200,
+          "curve": [
+            0.42,
+            0,
+            1,
+            1
+          ]
+        }
+      }
+    ],
+    "fadeOutUp": [
+      {
+        "property": "opacity",
+        "from": null,
+        "to": 0,
+        "transition": {
+          "kind": "tween",
+          "milliseconds": 200,
+          "curve": [
+            0.42,
+            0,
+            1,
+            1
+          ]
+        }
+      },
+      {
+        "property": "y",
+        "from": null,
+        "to": -24,
+        "transition": {
+          "kind": "tween",
+          "milliseconds": 200,
+          "curve": [
+            0.42,
+            0,
+            1,
+            1
+          ]
+        }
+      }
+    ],
+    "fadeOutDown": [
+      {
+        "property": "opacity",
+        "from": null,
+        "to": 0,
+        "transition": {
+          "kind": "tween",
+          "milliseconds": 200,
+          "curve": [
+            0.42,
+            0,
+            1,
+            1
+          ]
+        }
+      },
+      {
+        "property": "y",
+        "from": null,
+        "to": 24,
+        "transition": {
+          "kind": "tween",
+          "milliseconds": 200,
+          "curve": [
+            0.42,
+            0,
+            1,
+            1
+          ]
+        }
+      }
+    ],
+    "fadeOutLeft": [
+      {
+        "property": "opacity",
+        "from": null,
+        "to": 0,
+        "transition": {
+          "kind": "tween",
+          "milliseconds": 200,
+          "curve": [
+            0.42,
+            0,
+            1,
+            1
+          ]
+        }
+      },
+      {
+        "property": "x",
+        "from": null,
+        "to": -24,
+        "transition": {
+          "kind": "tween",
+          "milliseconds": 200,
+          "curve": [
+            0.42,
+            0,
+            1,
+            1
+          ]
+        }
+      }
+    ],
+    "fadeOutRight": [
+      {
+        "property": "opacity",
+        "from": null,
+        "to": 0,
+        "transition": {
+          "kind": "tween",
+          "milliseconds": 200,
+          "curve": [
+            0.42,
+            0,
+            1,
+            1
+          ]
+        }
+      },
+      {
+        "property": "x",
+        "from": null,
+        "to": 24,
+        "transition": {
+          "kind": "tween",
+          "milliseconds": 200,
+          "curve": [
+            0.42,
+            0,
+            1,
+            1
+          ]
+        }
+      }
+    ],
+    "zoomOut": [
+      {
+        "property": "opacity",
+        "from": null,
+        "to": 0,
+        "transition": {
+          "kind": "tween",
+          "milliseconds": 200,
+          "curve": [
+            0.42,
+            0,
+            1,
+            1
+          ]
+        }
+      },
+      {
+        "property": "scale",
+        "from": null,
+        "to": 0.85,
+        "transition": {
+          "kind": "tween",
+          "milliseconds": 200,
+          "curve": [
+            0.42,
+            0,
+            1,
+            1
+          ]
+        }
+      }
+    ]
+  }
+}

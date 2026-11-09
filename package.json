@@ -143,6 +143,22 @@
     "./web/testing": {
       "types": "./dist/web/testing.d.ts",
       "default": "./dist/web/testing.js"
+    },
+    "./web/react": {
+      "types": "./dist/web/react/index.d.ts",
+      "default": "./dist/web/react/index.js"
+    },
+    "./web/angular": {
+      "types": "./dist/web/angular/index.d.ts",
+      "default": "./dist/web/angular/index.js"
+    },
+    "./web/svelte": {
+      "types": "./dist/web/svelte/index.d.ts",
+      "default": "./dist/web/svelte/index.js"
+    },
+    "./web/solid": {
+      "types": "./dist/web/solid/index.d.ts",
+      "default": "./dist/web/solid/index.js"
     }
   },
   "files": [
@@ -220,7 +236,7 @@
     "web:parity": "node benchmarks/web-parity/server.mjs",
     "web:parity:typecheck": "tsc -p benchmarks/web-parity/tsconfig.json",
     "web:parity:test": "playwright test -c benchmarks/web-parity/playwright.config.mjs",
-    "build:angular": "node benchmarks/angular-tools/node_modules/@angular/compiler-cli/bundles/src/bin/ngc.js -p tsconfig.angular.json",
+    "build:angular": "node benchmarks/angular-tools/node_modules/@angular/compiler-cli/bundles/src/bin/ngc.js -p tsconfig.angular.json && node benchmarks/angular-tools/node_modules/@angular/compiler-cli/bundles/src/bin/ngc.js -p tsconfig.angular-web.json",
     "docs:check-playground": "tsc -p tsconfig.playground.json && node scripts/check-playground.mjs",
     "docs:test-playground": "node scripts/review-playground.mjs",
     "web:portable": "node benchmarks/web-portable/server.mjs",
@@ -231,14 +247,19 @@
     "web:interaction-depth:test": "playwright test -c benchmarks/web-interaction-depth/playwright.config.mjs",
     "web:composition-portable": "node benchmarks/web-composition-portable/server.mjs",
     "web:composition-portable:typecheck": "tsc -p benchmarks/web-composition-portable/tsconfig.json",
-    "web:composition-portable:test": "playwright test -c benchmarks/web-composition-portable/playwright.config.mjs"
+    "web:composition-portable:test": "playwright test -c benchmarks/web-composition-portable/playwright.config.mjs",
+    "web:frameworks": "node benchmarks/web-frameworks/server.mjs",
+    "web:frameworks:test": "playwright test -c benchmarks/web-frameworks/playwright.config.mjs",
+    "swiftui:generate": "node scripts/generate-swiftui-definitions.mjs",
+    "swiftui:check": "node scripts/generate-swiftui-definitions.mjs --check",
+    "swiftui:test": "swift test"
   },
   "peerDependencies": {
     "@nativescript/core": ">=8.9.0",
     "nativescript-vue": ">=3.0.0",
     "vue": "^3.5.0",
     "@angular/core": "^22.2.4",
-    "react": "^16.14.0 || ^18.2.0",
+    "react": "^16.14.0 || ^18.2.0 || ^19.0.0",
     "solid-js": "^1.9.18"
   },
   "peerDependenciesMeta": {

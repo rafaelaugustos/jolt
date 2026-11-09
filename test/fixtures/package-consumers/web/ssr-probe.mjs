@@ -32,11 +32,17 @@ else if (entry.endsWith('/web/audio')) assert.deepEqual(Object.keys(module), ['a
 else if (entry.endsWith('/web/inspector'))
   assert.deepEqual(Object.keys(module), [
     'createMotionInspector',
+    'inspectorPlot',
     'inspectorSpring',
     'springCode',
   ])
 else if (entry.endsWith('/web/testing')) {
-  for (const name of ['recordInteraction', 'replayInteraction', 'parseTrace'])
+  for (const name of [
+    'recordInteraction',
+    'replayInteraction',
+    'replaySensor',
+    'parseTrace',
+  ])
     assert.equal(typeof module[name], 'function')
 } else
   assert.deepEqual(Object.keys(module), [

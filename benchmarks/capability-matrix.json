@@ -276,7 +276,12 @@
       {
         "entry": "./web/inspector",
         "file": "src/web/inspector.ts",
-        "exports": ["createMotionInspector", "inspectorSpring", "springCode"]
+        "exports": [
+          "createMotionInspector",
+          "inspectorPlot",
+          "inspectorSpring",
+          "springCode"
+        ]
       },
       {
         "entry": "./web/testing",
@@ -286,8 +291,29 @@
           "recordInteraction",
           "replayInteraction",
           "replayPlot",
+          "replaySensor",
           "traceRandom"
         ]
+      },
+      {
+        "entry": "./web/react",
+        "file": "src/web/react/index.ts",
+        "exports": ["useAnimate", "usePress"]
+      },
+      {
+        "entry": "./web/angular",
+        "file": "src/web/angular/index.ts",
+        "exports": ["JoltAnimateDirective", "JoltIfDirective", "JoltPressDirective"]
+      },
+      {
+        "entry": "./web/svelte",
+        "file": "src/web/svelte/index.ts",
+        "exports": ["animate", "createActions", "press"]
+      },
+      {
+        "entry": "./web/solid",
+        "file": "src/web/solid/index.ts",
+        "exports": ["animate", "createDirectives", "press"]
       }
     ],
     "webRuntime": [
@@ -1364,10 +1390,14 @@
       "symbol": "replaySensor",
       "nativeStatus": "published",
       "webStatus": "pending",
-      "counterpart": null,
-      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
-      "issues": [236],
-      "evidence": ["src/testing/index.ts"]
+      "counterpart": "./web/testing",
+      "contract": "Native equivalent published; portable Web candidate validated but not merged or published. Synthetic replay never establishes physical sensor availability.",
+      "issues": [434, 385],
+      "evidence": [
+        "src/core/sensor-replay.ts",
+        "src/web/sensor-replay.ts",
+        "benchmarks/web-frameworks/tools.spec.ts"
+      ]
     },
     {
       "entry": "./testing",
@@ -1518,10 +1548,14 @@
       "symbol": "inspectorPlot",
       "nativeStatus": "published",
       "webStatus": "pending",
-      "counterpart": "diagnostics",
-      "contract": "Equivalent public browser interaction replay/sensor injection or editable inspector contract is pending. Runtime diagnostics are only a partial substitute.",
-      "issues": [236],
-      "evidence": ["src/inspector/index.ts", "src/web/public.ts"]
+      "counterpart": "./web/inspector",
+      "contract": "Shared bounded SVG with null observation gaps and semantic markers; browser computed-style observations differ from native observations. No automatic sampling or physical overhead claim.",
+      "issues": [415],
+      "evidence": [
+        "src/core/inspection-plot.ts",
+        "src/web/inspector.ts",
+        "benchmarks/web-frameworks/tools.spec.ts"
+      ]
     },
     {
       "entry": "./inspector",
@@ -1724,127 +1758,136 @@
     {
       "entry": "./react",
       "symbol": "useAnimate",
-      "nativeStatus": "local-unpublished",
-      "webStatus": "platform-specific",
-      "counterpart": null,
-      "contract": "Native framework lifecycle adapter, locally implemented and validated with packed consumers, actual iOS/Android framework interactions and reviewed recordings. Not yet merged or published; not a DOM framework entry.",
-      "issues": [44],
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/react",
+      "contract": "Native adapter already published since RC.11. A separate DOM adapter now exists in this source candidate with actual packed SSR/hydration, lifecycle and browser validation; merge/publication pending. Do not import native entries in DOM applications.",
+      "issues": [430],
       "evidence": [
         "src/react/index.ts",
-        "benchmarks/results/frameworks/acceptance.json",
-        "docs/guide/frameworks.md"
+        "src/web/react/index.ts",
+        "benchmarks/web-frameworks/frameworks.spec.ts",
+        "docs/guide/web-frameworks.md"
       ]
     },
     {
       "entry": "./react",
       "symbol": "usePress",
-      "nativeStatus": "local-unpublished",
-      "webStatus": "platform-specific",
-      "counterpart": null,
-      "contract": "Native framework lifecycle adapter, locally implemented and validated with packed consumers, actual iOS/Android framework interactions and reviewed recordings. Not yet merged or published; not a DOM framework entry.",
-      "issues": [44],
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/react",
+      "contract": "Native adapter already published since RC.11. A separate DOM adapter now exists in this source candidate with actual packed SSR/hydration, lifecycle and browser validation; merge/publication pending. Do not import native entries in DOM applications.",
+      "issues": [430],
       "evidence": [
         "src/react/index.ts",
-        "benchmarks/results/frameworks/acceptance.json",
-        "docs/guide/frameworks.md"
+        "src/web/react/index.ts",
+        "benchmarks/web-frameworks/frameworks.spec.ts",
+        "docs/guide/web-frameworks.md"
       ]
     },
     {
       "entry": "./svelte",
       "symbol": "animate",
-      "nativeStatus": "local-unpublished",
-      "webStatus": "platform-specific",
-      "counterpart": null,
-      "contract": "Native framework lifecycle adapter, locally implemented and validated with packed consumers, actual iOS/Android framework interactions and reviewed recordings. Not yet merged or published; not a DOM framework entry.",
-      "issues": [44],
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/svelte",
+      "contract": "Native adapter already published since RC.11. A separate DOM adapter now exists in this source candidate with actual packed SSR/hydration, lifecycle and browser validation; merge/publication pending. Do not import native entries in DOM applications.",
+      "issues": [432],
       "evidence": [
         "src/svelte/index.ts",
-        "benchmarks/results/frameworks/acceptance.json",
-        "docs/guide/frameworks.md"
+        "src/web/svelte/index.ts",
+        "benchmarks/web-frameworks/frameworks.spec.ts",
+        "docs/guide/web-frameworks.md"
       ]
     },
     {
       "entry": "./svelte",
       "symbol": "press",
-      "nativeStatus": "local-unpublished",
-      "webStatus": "platform-specific",
-      "counterpart": null,
-      "contract": "Native framework lifecycle adapter, locally implemented and validated with packed consumers, actual iOS/Android framework interactions and reviewed recordings. Not yet merged or published; not a DOM framework entry.",
-      "issues": [44],
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/svelte",
+      "contract": "Native adapter already published since RC.11. A separate DOM adapter now exists in this source candidate with actual packed SSR/hydration, lifecycle and browser validation; merge/publication pending. Do not import native entries in DOM applications.",
+      "issues": [432],
       "evidence": [
         "src/svelte/index.ts",
-        "benchmarks/results/frameworks/acceptance.json",
-        "docs/guide/frameworks.md"
+        "src/web/svelte/index.ts",
+        "benchmarks/web-frameworks/frameworks.spec.ts",
+        "docs/guide/web-frameworks.md"
       ]
     },
     {
       "entry": "./solid",
       "symbol": "animate",
-      "nativeStatus": "local-unpublished",
-      "webStatus": "platform-specific",
-      "counterpart": null,
-      "contract": "Native framework lifecycle adapter, locally implemented and validated with packed consumers, actual iOS/Android framework interactions and reviewed recordings. Not yet merged or published; not a DOM framework entry.",
-      "issues": [44],
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/solid",
+      "contract": "Native adapter already published since RC.11. A separate DOM adapter now exists in this source candidate with actual packed SSR/hydration, lifecycle and browser validation; merge/publication pending. Do not import native entries in DOM applications.",
+      "issues": [433],
       "evidence": [
         "src/solid/index.ts",
-        "benchmarks/results/frameworks/acceptance.json",
-        "docs/guide/frameworks.md"
+        "src/web/solid/index.ts",
+        "benchmarks/web-frameworks/frameworks.spec.ts",
+        "docs/guide/web-frameworks.md"
       ]
     },
     {
       "entry": "./solid",
       "symbol": "press",
-      "nativeStatus": "local-unpublished",
-      "webStatus": "platform-specific",
-      "counterpart": null,
-      "contract": "Native framework lifecycle adapter, locally implemented and validated with packed consumers, actual iOS/Android framework interactions and reviewed recordings. Not yet merged or published; not a DOM framework entry.",
-      "issues": [44],
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/solid",
+      "contract": "Native adapter already published since RC.11. A separate DOM adapter now exists in this source candidate with actual packed SSR/hydration, lifecycle and browser validation; merge/publication pending. Do not import native entries in DOM applications.",
+      "issues": [433],
       "evidence": [
         "src/solid/index.ts",
-        "benchmarks/results/frameworks/acceptance.json",
-        "docs/guide/frameworks.md"
+        "src/web/solid/index.ts",
+        "benchmarks/web-frameworks/frameworks.spec.ts",
+        "docs/guide/web-frameworks.md"
       ]
     },
     {
       "entry": "./angular",
       "symbol": "JoltAnimateDirective",
-      "nativeStatus": "local-unpublished",
-      "webStatus": "platform-specific",
-      "counterpart": null,
-      "contract": "Native framework lifecycle adapter, locally implemented and validated with packed consumers, actual iOS/Android framework interactions and reviewed recordings. Not yet merged or published; not a DOM framework entry.",
-      "issues": [43],
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/angular",
+      "contract": "Native adapter already published since RC.11. A separate DOM adapter now exists in this source candidate with actual packed SSR/hydration, lifecycle and browser validation; merge/publication pending. Do not import native entries in DOM applications.",
+      "issues": [431],
       "evidence": [
         "src/angular/index.ts",
-        "benchmarks/results/frameworks/acceptance.json",
-        "docs/guide/frameworks.md"
+        "src/web/angular/index.ts",
+        "benchmarks/web-frameworks/frameworks.spec.ts",
+        "docs/guide/web-frameworks.md"
       ]
     },
     {
       "entry": "./angular",
       "symbol": "JoltIfDirective",
-      "nativeStatus": "local-unpublished",
-      "webStatus": "platform-specific",
-      "counterpart": null,
-      "contract": "Native framework lifecycle adapter, locally implemented and validated with packed consumers, actual iOS/Android framework interactions and reviewed recordings. Not yet merged or published; not a DOM framework entry.",
-      "issues": [43],
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/angular",
+      "contract": "Native adapter already published since RC.11. A separate DOM adapter now exists in this source candidate with actual packed SSR/hydration, lifecycle and browser validation; merge/publication pending. Do not import native entries in DOM applications.",
+      "issues": [431],
       "evidence": [
         "src/angular/index.ts",
-        "benchmarks/results/frameworks/acceptance.json",
-        "docs/guide/frameworks.md"
+        "src/web/angular/index.ts",
+        "benchmarks/web-frameworks/frameworks.spec.ts",
+        "docs/guide/web-frameworks.md"
       ]
     },
     {
       "entry": "./angular",
       "symbol": "JoltPressDirective",
-      "nativeStatus": "local-unpublished",
-      "webStatus": "platform-specific",
-      "counterpart": null,
-      "contract": "Native framework lifecycle adapter, locally implemented and validated with packed consumers, actual iOS/Android framework interactions and reviewed recordings. Not yet merged or published; not a DOM framework entry.",
-      "issues": [43],
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/angular",
+      "contract": "Native adapter already published since RC.11. A separate DOM adapter now exists in this source candidate with actual packed SSR/hydration, lifecycle and browser validation; merge/publication pending. Do not import native entries in DOM applications.",
+      "issues": [431],
       "evidence": [
         "src/angular/index.ts",
-        "benchmarks/results/frameworks/acceptance.json",
-        "docs/guide/frameworks.md"
+        "src/web/angular/index.ts",
+        "benchmarks/web-frameworks/frameworks.spec.ts",
+        "docs/guide/web-frameworks.md"
       ]
     },
     {
@@ -2152,6 +2195,188 @@
       "contract": "Available in 0.1.0-rc.12.1: feasible browser equivalent with shared definitions, policies and lifecycle. Native availability is unchanged. See platform properties, units, accessibility and ownership limits in docs/guide/portable-composition.md.",
       "issues": [424],
       "evidence": ["benchmarks/portable-composition.md", "src/web/vue/index.ts"]
+    },
+    {
+      "entry": "./web/inspector",
+      "symbol": "inspectorPlot",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/inspector",
+      "contract": "Source candidate with explicit lifecycle, validated packed/browser acceptance and reviewed native/Web recordings. Merge/publication pending; see the capability-specific contract.",
+      "issues": [415],
+      "evidence": [
+        "src/web/inspector.ts",
+        "benchmarks/web-frameworks-swiftui.md",
+        "docs/guide/portable-tools.md"
+      ]
+    },
+    {
+      "entry": "./web/testing",
+      "symbol": "replaySensor",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/testing",
+      "contract": "Source candidate with explicit lifecycle, validated packed/browser acceptance and reviewed native/Web recordings. Merge/publication pending; see the capability-specific contract.",
+      "issues": [434],
+      "evidence": [
+        "src/web/testing.ts",
+        "benchmarks/web-frameworks-swiftui.md",
+        "docs/guide/portable-tools.md"
+      ]
+    },
+    {
+      "entry": "./web/react",
+      "symbol": "useAnimate",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/react",
+      "contract": "Source candidate with explicit lifecycle, validated packed/browser acceptance and reviewed native/Web recordings. Merge/publication pending; see the capability-specific contract.",
+      "issues": [430],
+      "evidence": [
+        "src/web/react/index.ts",
+        "benchmarks/web-frameworks-swiftui.md",
+        "docs/guide/web-frameworks.md"
+      ]
+    },
+    {
+      "entry": "./web/react",
+      "symbol": "usePress",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/react",
+      "contract": "Source candidate with explicit lifecycle, validated packed/browser acceptance and reviewed native/Web recordings. Merge/publication pending; see the capability-specific contract.",
+      "issues": [430],
+      "evidence": [
+        "src/web/react/index.ts",
+        "benchmarks/web-frameworks-swiftui.md",
+        "docs/guide/web-frameworks.md"
+      ]
+    },
+    {
+      "entry": "./web/angular",
+      "symbol": "JoltAnimateDirective",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/angular",
+      "contract": "Source candidate with explicit lifecycle, validated packed/browser acceptance and reviewed native/Web recordings. Merge/publication pending; see the capability-specific contract.",
+      "issues": [431],
+      "evidence": [
+        "src/web/angular/index.ts",
+        "benchmarks/web-frameworks-swiftui.md",
+        "docs/guide/web-frameworks.md"
+      ]
+    },
+    {
+      "entry": "./web/angular",
+      "symbol": "JoltIfDirective",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/angular",
+      "contract": "Source candidate with explicit lifecycle, validated packed/browser acceptance and reviewed native/Web recordings. Merge/publication pending; see the capability-specific contract.",
+      "issues": [431],
+      "evidence": [
+        "src/web/angular/index.ts",
+        "benchmarks/web-frameworks-swiftui.md",
+        "docs/guide/web-frameworks.md"
+      ]
+    },
+    {
+      "entry": "./web/angular",
+      "symbol": "JoltPressDirective",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/angular",
+      "contract": "Source candidate with explicit lifecycle, validated packed/browser acceptance and reviewed native/Web recordings. Merge/publication pending; see the capability-specific contract.",
+      "issues": [431],
+      "evidence": [
+        "src/web/angular/index.ts",
+        "benchmarks/web-frameworks-swiftui.md",
+        "docs/guide/web-frameworks.md"
+      ]
+    },
+    {
+      "entry": "./web/svelte",
+      "symbol": "animate",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/svelte",
+      "contract": "Source candidate with explicit lifecycle, validated packed/browser acceptance and reviewed native/Web recordings. Merge/publication pending; see the capability-specific contract.",
+      "issues": [432],
+      "evidence": [
+        "src/web/svelte/index.ts",
+        "benchmarks/web-frameworks-swiftui.md",
+        "docs/guide/web-frameworks.md"
+      ]
+    },
+    {
+      "entry": "./web/svelte",
+      "symbol": "createActions",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/svelte",
+      "contract": "Source candidate with explicit lifecycle, validated packed/browser acceptance and reviewed native/Web recordings. Merge/publication pending; see the capability-specific contract.",
+      "issues": [432],
+      "evidence": [
+        "src/web/svelte/index.ts",
+        "benchmarks/web-frameworks-swiftui.md",
+        "docs/guide/web-frameworks.md"
+      ]
+    },
+    {
+      "entry": "./web/svelte",
+      "symbol": "press",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/svelte",
+      "contract": "Source candidate with explicit lifecycle, validated packed/browser acceptance and reviewed native/Web recordings. Merge/publication pending; see the capability-specific contract.",
+      "issues": [432],
+      "evidence": [
+        "src/web/svelte/index.ts",
+        "benchmarks/web-frameworks-swiftui.md",
+        "docs/guide/web-frameworks.md"
+      ]
+    },
+    {
+      "entry": "./web/solid",
+      "symbol": "animate",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/solid",
+      "contract": "Source candidate with explicit lifecycle, validated packed/browser acceptance and reviewed native/Web recordings. Merge/publication pending; see the capability-specific contract.",
+      "issues": [433],
+      "evidence": [
+        "src/web/solid/index.ts",
+        "benchmarks/web-frameworks-swiftui.md",
+        "docs/guide/web-frameworks.md"
+      ]
+    },
+    {
+      "entry": "./web/solid",
+      "symbol": "createDirectives",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/solid",
+      "contract": "Source candidate with explicit lifecycle, validated packed/browser acceptance and reviewed native/Web recordings. Merge/publication pending; see the capability-specific contract.",
+      "issues": [433],
+      "evidence": [
+        "src/web/solid/index.ts",
+        "benchmarks/web-frameworks-swiftui.md",
+        "docs/guide/web-frameworks.md"
+      ]
+    },
+    {
+      "entry": "./web/solid",
+      "symbol": "press",
+      "nativeStatus": "published",
+      "webStatus": "pending",
+      "counterpart": "./web/solid",
+      "contract": "Source candidate with explicit lifecycle, validated packed/browser acceptance and reviewed native/Web recordings. Merge/publication pending; see the capability-specific contract.",
+      "issues": [433],
+      "evidence": [
+        "src/web/solid/index.ts",
+        "benchmarks/web-frameworks-swiftui.md",
+        "docs/guide/web-frameworks.md"
+      ]
     }
   ],
   "contracts": [
@@ -2257,14 +2482,13 @@
     },
     {
       "id": "framework-adapters",
-      "issues": [43, 44],
-      "status": "local-unpublished",
-      "limit": "Vue is published. Angular, React NativeScript, Svelte Native and Solid are local candidates with packed consumer checks, native iOS/Android lifecycle acceptance and reviewed iOS recordings; see pinned renderer compatibility limits.",
+      "issues": [430, 431, 432, 433],
+      "status": "candidate-unpublished",
+      "limit": "Native adapters published since RC.11. New DOM entries reuse the Web runtime; actual React 19 Strict Mode, Angular 22 hydration, Svelte 5 and Solid 1 consumers validated. Candidate not merged/published; renderer/version boundaries stay explicit.",
       "evidence": [
-        "src/vue/index.ts",
-        "scripts/check-package-consumers.mjs",
-        "benchmarks/results/frameworks/acceptance.json",
-        "benchmarks/frameworks.md"
+        "benchmarks/frameworks.md",
+        "benchmarks/web-frameworks-swiftui.md",
+        "docs/guide/web-frameworks.md"
       ]
     },
     {
@@ -2341,6 +2565,18 @@
         "benchmarks/portable-composition.md",
         "benchmarks/web-composition-portable/sensors.spec.ts",
         "benchmarks/web-composition-portable/rig.spec.ts"
+      ]
+    },
+    {
+      "id": "swiftui-initial-subset",
+      "issues": [435],
+      "status": "candidate-unpublished",
+      "limit": "Standalone source Swift Package, iOS 17+/macOS 14+. Finite poses and 13 generated recipes; real iOS simulator and macOS application acceptance. SwiftUI executes transitions; no JS/NativeScript or full engine, controls, sensors, drawing or performance parity. Web recipes reused and recorded.",
+      "evidence": [
+        "Package.swift",
+        "packages/swiftui/Sources/JoltSwiftUI/JoltMotion.swift",
+        "benchmarks/swiftui-demo/UITests.swift",
+        "docs/guide/swiftui.md"
       ]
     }
   ]

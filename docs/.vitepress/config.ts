@@ -163,7 +163,26 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
     },
     {
       text: t.frameworks,
-      items: [page('vue', 'vue'), page('nativeAdapters', 'frameworks')],
+      items: [
+        page('vue', 'vue'),
+        page('nativeAdapters', 'frameworks'),
+        {
+          text: 'React · Angular · Svelte · Solid (Web)',
+          link: `${prefix}/guide/web-frameworks`,
+        },
+        { text: 'SwiftUI', link: `${prefix}/guide/swiftui` },
+        {
+          text:
+            (
+              {
+                '/pt-BR': 'Inspeção e replay',
+                '/es': 'Inspección y replay',
+                '/zh-Hans': '检查与重播',
+              } as Record<string, string>
+            )[prefix] ?? 'Inspection and replay',
+          link: `${prefix}/guide/portable-tools`,
+        },
+      ],
     },
     {
       text: t.reference,

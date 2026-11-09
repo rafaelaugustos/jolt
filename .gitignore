@@ -90,3 +90,10 @@ benchmarks/web-interaction-depth/captures/
 
 benchmarks/web-composition-portable/results/
 benchmarks/web-composition-portable/captures/
+
+benchmarks/web-frameworks/results/
+benchmarks/web-frameworks/captures/
+benchmarks/swiftui-demo/*.xcodeproj/
+benchmarks/swiftui-demo/results/
+.build/
+.swiftpm/

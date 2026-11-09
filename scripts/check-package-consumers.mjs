@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { prepareFrameworks } from '../benchmarks/package-consumers/frameworks.mjs'
 import { checkVue } from '../benchmarks/package-consumers/vue.mjs'
 import { execFileSync } from 'node:child_process'
 import {
@@ -82,6 +83,8 @@ try {
     integrity: packed.integrity,
     size: packed.size,
   }
+  report.frameworks = (await prepareFrameworks({ root, scratch, artifact, run })).results
+  passed('React/Angular/Svelte/Solid packed types, server rendering and browser bundles')
   const web = join(scratch, 'web')
   cpSync(join(root, 'test/fixtures/package-consumers/web'), web, { recursive: true })
   // No --omit=peer/optional, --legacy-peer-deps, aliases or source mocks.
@@ -96,7 +99,17 @@ try {
   const manifest = json(join(installed, 'package.json'))
   assert.deepEqual(
     Object.keys(manifest.exports).filter((k) => k.startsWith('./web')),
-    ['./web', './web/vue', './web/audio', './web/inspector', './web/testing'],
+    [
+      './web',
+      './web/vue',
+      './web/audio',
+      './web/inspector',
+      './web/testing',
+      './web/react',
+      './web/angular',
+      './web/svelte',
+      './web/solid',
+    ],
     'Add a packed consumer when introducing another Web entry',
   )
   for (const [entry, path] of [
@@ -132,9 +145,9 @@ try {
       ['@rafaelaugusto/jolt/solid', '/dist/solid/index.js'],
       ['@rafaelaugusto/jolt/angular', '/dist/angular/index.js'],
     ]) assert(import.meta.resolve(specifier).endsWith(file));
-    for (const suffix of ['/core', '/dist/core/index.js', '/src/web/runtime.js', '/web/react'])
+    for (const suffix of ['/core', '/dist/core/index.js', '/src/web/runtime.js'])
       assert.throws(() => import.meta.resolve('@rafaelaugusto/jolt' + suffix), { code: 'ERR_PACKAGE_PATH_NOT_EXPORTED' });
-    for (const [entry, peer] of [['', '@nativescript/core'], ['/vue', 'nativescript-vue'], ['/web/vue', 'vue']]) {
+    for (const [entry, peer] of [['', '@nativescript/core'], ['/vue', 'nativescript-vue'], ['/web/vue', 'vue'], ['/web/react', 'react'], ['/web/angular', '@angular/core'], ['/web/solid', 'solid-js']]) {
       try { await import('@rafaelaugusto/jolt' + entry); throw new Error('Unexpected native import success'); }
       catch (error) { assert.equal(error.code, 'ERR_MODULE_NOT_FOUND'); assert(error.message.includes(peer), error.message); console.log(error.message); }
     }
@@ -144,7 +157,7 @@ try {
   )
   report.nativeMissingPeerDiagnostics = resolution.trim().split('\n')
   passed(
-    'missing native peers are named in resolution errors; core and unimplemented framework entries stay private',
+    'missing native peers are named in resolution errors; portable core internals stay private',
   )
 
   const tsc = join(root, 'node_modules/typescript/bin/tsc')

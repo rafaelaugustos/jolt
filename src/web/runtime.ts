@@ -1165,7 +1165,7 @@ export class WebRuntime {
   diagnostics(options: WebDiagnosticsOptions): WebDiagnostics {
     this.assert()
     if (this.diagnostic) throw new Error('This runtime already has a diagnostics owner.')
-    const collector = new DiagnosticCollector(
+    const collector: DiagnosticCollector = new DiagnosticCollector(
       options,
       () => this.diagnosticSnapshot(collector),
       () => {
