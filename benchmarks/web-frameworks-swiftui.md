@@ -29,10 +29,11 @@ Objective: deliver the six authorized Web/tooling tasks and start experimental S
 - [x] Implement the initial Swift Package and standalone iOS/macOS demos.
 - [x] Validate actual packed/SSR consumers, framework hydration/lifecycle and supported browser engines.
 - [x] Validate native references and actual SwiftUI interactions on a dedicated simulator and this Mac; no old-phone stress collection.
-- [ ] Inspect real native/browser recordings; embed in EN/PT/ES/ZH and playable English PR attachments.
-- [ ] Build/core/parity, package/Nuxt, unit, media/docs and appropriate native checks.
-- [ ] Audit current Mavis main and all open/closed issues; update concrete downstream work without implementing Mavis.
-- [ ] Open reviewable PR(s), verify video players and CI, update issue evidence. Keep incomplete acceptance open.
+- [x] Inspect real native/browser recordings; embed in EN/PT/ES/ZH and playable English PR attachments.
+- [x] Build/core/parity, package/Nuxt, unit, media/docs and appropriate native checks.
+- [x] Audit current Mavis main and all open/closed issues; update concrete downstream work without implementing Mavis.
+- [x] Open PR #436, verify 14 labeled English video players and update owning/adoption issues.
+- [ ] Final CI completion and review readiness are tracked live on PR #436. Keep incomplete physical acceptance open.
 
 ## Implementation checkpoint (unverified delivery)
 
@@ -50,7 +51,7 @@ Next steps: finish packed framework hydration/lifecycle tests; add real browser 
 - Packed DOM consumers: NodeNext/Bundler declarations, real SSR/hydration and all four framework lifecycle fixtures pass. The expanded Chromium/Firefox/WebKit suite passed 48 tests, including Angular interrupted-exit identity retention. Native packed declarations/bundles and the actual Nuxt consumer also pass.
 - Existing native/shared regressions: 128 unit files / 1783 tests pass; existing browser sensor suite passes 9 tests. These are correctness results, not CPU/PSS benchmarks.
 - New real recordings: `swiftui-ios`, `swiftui-macos`, `web-react`, `web-angular`, `web-svelte`, `web-solid`, `web-tools`, `web-preset`. H.264 files decode fully. Reviewed representative frames across playback, motion targets, visible controls and ownership transitions. macOS capture is restricted to the demo window; iOS is clearly labeled a simulator. Existing native framework/inspector/sensor reference recordings were decoded and visually reviewed again. All are embedded in EN/PT/ES/ZH guides.
-- Media check passes for 105 guides and a homepage in four languages. Documentation build and final integration/CI review remain in progress.
-- Mavis audit: current main `c4063f57ebf2ece353f4a0d3b07fe26b00d99bf5`; inspected package baseline, shared motion, Web runtime owner/diagnostics and all open/closed adoption issues. Current implementation still uses Vue and Jolt RC.12.1. Reuse adoption issues #145/#152/#153/#154 for future framework ownership, #297 for plots, #256 for synthetic sensor conformance. No duplicate issue or Mavis implementation is needed; updates will identify this Jolt candidate as pending merge/publication.
+- Media check passes for 105 guides and a homepage in four languages. Documentation build passed; final hosted CI review is tracked on PR #436.
+- Mavis audit: current main `c4063f57ebf2ece353f4a0d3b07fe26b00d99bf5`; inspected package baseline, shared motion, Web runtime owner/diagnostics and all open/closed adoption issues. Current implementation still uses Vue and Jolt RC.12.1. Reuse adoption issues #145/#152/#153/#154 for future framework ownership, #297 for plots, #256 for synthetic sensor conformance. No duplicate issue or Mavis implementation is needed; all six existing adoption issues were updated with PR #436, explicit pending merge/publication status, dependencies and acceptance criteria.
 
-Remaining: final interrupted-exit check, formatter/core/parity/docs checks, update issue evidence, create PR with direct English video players, verify CI and published attachments. #415 physical overhead and #385 physical browser sensor acceptance stay open. No release or merge is authorized by this work.
+PR #436 now contains the implementation and 14 direct English video players, verified in the published HTML. The six owning feature issues and #415 include local evidence; the Mavis follow-ups are updated. Interrupted-exit, formatter/core/parity/docs and clean SPM consumer checks passed. Hosted SwiftUI, package-consumer, general-test, interaction and documentation jobs passed on the initial implementation commit; final hosted suites and review readiness remain visible on the PR. #415 physical overhead and #385 physical browser sensor acceptance stay open. No release or merge is authorized by this work.

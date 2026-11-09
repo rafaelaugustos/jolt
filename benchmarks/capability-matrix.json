@@ -2311,10 +2311,10 @@
     {
       "entry": "./web/svelte",
       "symbol": "createActions",
-      "nativeStatus": "published",
+      "nativeStatus": "browser-only",
       "webStatus": "pending",
       "counterpart": "./web/svelte",
-      "contract": "Source candidate with explicit lifecycle, validated packed/browser acceptance and reviewed native/Web recordings. Merge/publication pending; see the capability-specific contract.",
+      "contract": "Browser-only factory for borrowing an application Web runtime. Native bindings use their existing native ownership contract without this factory. Source candidate validated through packed consumers and all three browsers; merge/publication pending.",
       "issues": [432],
       "evidence": [
         "src/web/svelte/index.ts",
@@ -2353,10 +2353,10 @@
     {
       "entry": "./web/solid",
       "symbol": "createDirectives",
-      "nativeStatus": "published",
+      "nativeStatus": "browser-only",
       "webStatus": "pending",
       "counterpart": "./web/solid",
-      "contract": "Source candidate with explicit lifecycle, validated packed/browser acceptance and reviewed native/Web recordings. Merge/publication pending; see the capability-specific contract.",
+      "contract": "Browser-only factory for borrowing an application Web runtime. Native bindings use their existing native ownership contract without this factory. Source candidate validated through packed consumers and all three browsers; merge/publication pending.",
       "issues": [433],
       "evidence": [
         "src/web/solid/index.ts",
