@@ -4,7 +4,7 @@ import XCTest
 
 final class OwnershipTests: XCTestCase {
   @MainActor func testPauseSuspensionAndIdleClock() async throws {
-    let clock = JoltClock(manual: true)
+    let clock = JoltClock.testClock()
     let scope = JoltScope()
     let value = try scope.value(0, clock: clock)
     try value.animate(to: 100, transition: .tween(milliseconds: 1000, ease: .linear))
@@ -27,7 +27,7 @@ final class OwnershipTests: XCTestCase {
     XCTAssertTrue(value.disposed)
   }
   @MainActor func testInvalidReplacementAndVelocityContinuity() async throws {
-    let clock = JoltClock(manual: true)
+    let clock = JoltClock.testClock()
     let value = try JoltMotionValue(0, clock: clock)
     var completed: [Bool] = []
     try value.animate(to: 100, completion: { completed.append($0) })
@@ -46,7 +46,7 @@ final class OwnershipTests: XCTestCase {
     XCTAssertEqual(clock.activeCount, 0)
   }
   @MainActor func testScopeOwnershipAndFollowerCleanup() async throws {
-    let clock = JoltClock(manual: true)
+    let clock = JoltClock.testClock()
     let scope = JoltScope()
     let other = JoltScope()
     let source = try scope.value(0, clock: clock)
@@ -73,7 +73,7 @@ final class OwnershipTests: XCTestCase {
     XCTAssertEqual(clock.activeCount, 0)
   }
   @MainActor func testTimelineCuesCancellationAndReplacement() async throws {
-    let clock = JoltClock(manual: true)
+    let clock = JoltClock.testClock()
     let value = try JoltMotionValue(0, clock: clock)
     var cues: [String] = []
     var effects = 0
@@ -111,7 +111,7 @@ final class OwnershipTests: XCTestCase {
     XCTAssertEqual(clock.activeCount, 0)
   }
   @MainActor func testCueCanDisposeItsOwnTimeline() async throws {
-    let clock = JoltClock(manual: true)
+    let clock = JoltClock.testClock()
     let value = try JoltMotionValue(0, clock: clock)
     var timeline: JoltTimeline?
     var effects = 0
@@ -135,7 +135,7 @@ final class OwnershipTests: XCTestCase {
     XCTAssertEqual(clock.activeCount, 0)
   }
   @MainActor func testSequenceAndStaggerSettleAndValidateBeforeOwnership() async throws {
-    let clock = JoltClock(manual: true)
+    let clock = JoltClock.testClock()
     let a = try JoltMotionValue(0, clock: clock)
     let b = try JoltMotionValue(0, clock: clock)
     let tween = try JoltTransition.tween(milliseconds: 100, ease: .linear)
@@ -163,7 +163,7 @@ final class OwnershipTests: XCTestCase {
     XCTAssertEqual(stagger.state, .completed)
   }
   @MainActor func testDragBoundsSnapAndInterruptedPresentation() async throws {
-    let clock = JoltClock(manual: true)
+    let clock = JoltClock.testClock()
     let bounds = try JoltDragBounds(x: -100...100, y: 0...0)
     let drag = try JoltDragModel(
       bounds: bounds, snaps: [.init(x: -100, y: 0), .zero, .init(x: 100, y: 0)], clock: clock)
@@ -203,7 +203,7 @@ final class OwnershipTests: XCTestCase {
 
 extension OwnershipTests {
   @MainActor func testReducedTimelineSettlesWithoutSideEffectsOrClock() async throws {
-    let clock = JoltClock(manual: true)
+    let clock = JoltClock.testClock()
     let value = try JoltMotionValue(0, clock: clock)
     var cues = 0
     let timeline = try JoltTimeline(
@@ -220,7 +220,7 @@ extension OwnershipTests {
     XCTAssertEqual(clock.activeCount, 0)
   }
   @MainActor func testLateCuePolicyAndUniqueNames() async throws {
-    let clock = JoltClock(manual: true)
+    let clock = JoltClock.testClock()
     let value = try JoltMotionValue(0, clock: clock)
     var cues = 0
     let cue = JoltTimelineCue("bite", at: 100) { _ in
@@ -240,7 +240,7 @@ extension OwnershipTests {
     XCTAssertEqual(catchUp.state, .completed)
   }
   @MainActor func testReentrantReplacementKeepsNewestCompletion() async throws {
-    let clock = JoltClock(manual: true)
+    let clock = JoltClock.testClock()
     let value = try JoltMotionValue(0, clock: clock)
     var completed: [String] = []
     try value.animate(

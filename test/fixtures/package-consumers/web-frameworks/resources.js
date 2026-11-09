@@ -1,8 +1,11 @@
+import { advancedSetup } from './advanced.js'
 import { createPreset } from '@rafaelaugusto/jolt/web'
 import { createMotionInspector } from '@rafaelaugusto/jolt/web/inspector'
 
 /** The actual framework owns this host; its scoped setup owns this adapter-generated scene. */
 export function resourceSetup(scope, host, runtime) {
+  if (new URLSearchParams(location.search).has('advanced'))
+    return advancedSetup(scope, host, runtime)
   host.innerHTML = `<h2>Portable interaction lab</h2><p>One framework owner, existing Web runtime resources.</p>
   <div class="controls"><button data-value-right>Spring right</button><button data-value-left>Interrupt left</button><button data-preset>Parameterized preset</button></div>
   <div class="resource-stage"><div class="resource-card" data-value>VALUE</div></div>
@@ -61,7 +64,7 @@ export function resourceSetup(scope, host, runtime) {
       bars.map((bar, index) => [
         bar,
         { opacity: 1, scale: 1 },
-        { duration: 700, at: index * 250 },
+        { duration: 700, at: index * 1500 },
       ]),
     )
     timeline = scope.withTimelineCues(
@@ -78,7 +81,7 @@ export function resourceSetup(scope, host, runtime) {
         },
         {
           name: 'rest',
-          at: 950,
+          at: 3500,
           effect: () => {
             cueCount++
             query('[data-cues]').textContent = `Events: ${cueCount}`

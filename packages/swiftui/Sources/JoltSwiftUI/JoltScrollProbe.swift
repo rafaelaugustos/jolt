@@ -4,7 +4,7 @@ import SwiftUI
 // local origin of zero while NSClipView/UIScrollView moves its presentation.
 #if os(macOS)
   import AppKit
-  private final class NotificationTokens: @unchecked Sendable {
+  final class NativeNotificationTokens: @unchecked Sendable {
     let tokens: [NSObjectProtocol]
     init(_ tokens: [NSObjectProtocol]) { self.tokens = tokens }
     deinit { for token in tokens { NotificationCenter.default.removeObserver(token) } }
@@ -20,8 +20,9 @@ import SwiftUI
     @MainActor final class Probe: NSView {
       var update: @MainActor (Double, Double) -> Void
       private weak var scroll: NSScrollView?
-      private var notifications: NotificationTokens?
-      private var previousBounds = false, previousFrame = false
+      private var notifications: NativeNotificationTokens?
+      private var previousFrame = false
+      private var boundsLease: NativeBoundsLease?
       private var queued = false
       init(update: @escaping @MainActor (Double, Double) -> Void) {
         self.update = update
@@ -56,14 +57,13 @@ import SwiftUI
         if scroll !== found {
           detach()
           scroll = found
-          previousBounds = found.contentView.postsBoundsChangedNotifications
+          boundsLease = NativeBoundsLease(found.contentView)
           previousFrame = found.documentView?.postsFrameChangedNotifications ?? false
-          found.contentView.postsBoundsChangedNotifications = true
           found.documentView?.postsFrameChangedNotifications = true
           let notify: @Sendable (Notification) -> Void = { [weak self] _ in
             MainActor.assumeIsolated { self?.schedule() }
           }
-          notifications = NotificationTokens([
+          notifications = NativeNotificationTokens([
             NotificationCenter.default.addObserver(
               forName: NSView.boundsDidChangeNotification, object: found.contentView, queue: .main,
               using: notify),
@@ -93,9 +93,9 @@ import SwiftUI
       func detach() {
         notifications = nil
         if let scroll {
-          scroll.contentView.postsBoundsChangedNotifications = previousBounds
           scroll.documentView?.postsFrameChangedNotifications = previousFrame
         }
+        boundsLease = nil
         scroll = nil
       }
     }

@@ -56,6 +56,15 @@ public enum JoltCueLatePolicy: Sendable { case skip, catchUp }
   private let cueTolerance: Double
   private let identity = UUID()
   private var effects: [any JoltResource] = []
+  private var frameObservers: [UUID: @MainActor () -> Void] = [:]
+  func observeFrame(_ callback: @escaping @MainActor () -> Void) -> JoltObservation {
+    let key = UUID()
+    frameObservers[key] = callback
+    return JoltObservation { [weak self] in self?.frameObservers.removeValue(forKey: key) }
+  }
+  private func notifyFrame() {
+    for (key, callback) in Array(frameObservers) where frameObservers[key] != nil { callback() }
+  }
   private var fired = Set<Int>()
   private var subscription: ClockSubscription?
   private var started = 0.0
@@ -104,11 +113,16 @@ public enum JoltCueLatePolicy: Sendable { case skip, catchUp }
     }.map(\.element)
     self.duration = total
     self.clock = clock
-    self.reducedMotion = reducedMotion || JoltAccessibility.reducedMotion
+    self.reducedMotion = reducedMotion || clock.reducedMotion
     self.completion = completion
     self.cueLatePolicy = cueLatePolicy
     self.cueTolerance = cueTolerance
-    if autoplay { play() }
+    if autoplay {
+      play()
+    } else {
+      paused = true
+      state = .paused
+    }
   }
   /// Sequential stages use each solved duration, rather than guessed spring delays.
   public static func sequence(
@@ -140,6 +154,57 @@ public enum JoltCueLatePolicy: Sendable { case skip, catchUp }
         .init($0.element, to: to, at: Double($0.offset) * interval, transition: transition)
       }, clock: clock, reducedMotion: reducedMotion)
   }
+  public var progress: Double { duration == 0 ? (state == .completed ? 1 : 0) : elapsed / duration }
+  /// Seek pauses playback and cleans active effects without firing cues. Forward playback rearms later cues.
+  /// A completed timeline can be explicitly sought again; a cancelled/disposed timeline cannot.
+  public func seek(to progress: Double) throws {
+    guard !disposed, state != .cancelled, progress.isFinite, (0...1).contains(progress),
+      values.allSatisfy({ !$0.disposed })
+    else { throw JoltError.invalidTimeline }
+    if claimed && state != .completed && !values.allSatisfy({ $0.lease == identity }) {
+      throw JoltError.invalidTimeline
+    }
+    subscription?.cancel()
+    subscription = nil
+    paused = true
+    state = suspended ? .suspended : .paused
+    if !claimed || values.contains(where: { $0.lease != identity }) {
+      claimed = true
+      for value in values {
+        value.claim(identity)
+        guard !disposed, state == .paused || state == .suspended else {
+          throw JoltError.invalidTimeline
+        }
+      }
+    }
+    let old = effects
+    effects.removeAll()
+    for effect in old { effect.dispose() }
+    guard !disposed, state == .paused || state == .suspended else {
+      throw JoltError.invalidTimeline
+    }
+    elapsed = progress * duration
+    baseline = elapsed
+    fired = Set(cues.indices.filter { cues[$0].at <= elapsed })
+    var latest: [ObjectIdentifier: Track] = [:]
+    var first: [ObjectIdentifier: Track] = [:]
+    for track in tracks {
+      let id = ObjectIdentifier(track.value)
+      if first[id] == nil { first[id] = track }
+      if track.at <= elapsed { latest[id] = track }
+    }
+    for value in values {
+      let id = ObjectIdentifier(value)
+      let track = latest[id] ?? first[id]!
+      let time = latest[id] == nil ? 0 : elapsed - track.at
+      value.sample(track.motion.sample(at: time), target: track.motion.to, owner: identity)
+      value.markLeasePaused(identity, suspended: suspended)
+      guard !disposed, values.allSatisfy({ $0.lease == identity }),
+        state == .paused || state == .suspended
+      else { throw JoltError.invalidTimeline }
+    }
+    notifyFrame()
+  }
   public func play() {
     guard !disposed, state != .completed, state != .cancelled else { return }
     paused = false
@@ -149,6 +214,7 @@ public enum JoltCueLatePolicy: Sendable { case skip, catchUp }
     guard !disposed else { return }
     freeze()
     paused = true
+    for value in values { value.markLeasePaused(identity, suspended: suspended) }
     for effect in effects { effect.pause() }
     updateState()
   }
@@ -156,6 +222,7 @@ public enum JoltCueLatePolicy: Sendable { case skip, catchUp }
     guard !disposed else { return }
     freeze()
     suspended = true
+    for value in values { value.markLeasePaused(identity, suspended: true) }
     for effect in effects { effect.suspend() }
     updateState()
   }
@@ -181,7 +248,10 @@ public enum JoltCueLatePolicy: Sendable { case skip, catchUp }
     guard !paused, !suspended, subscription == nil else { return }
     if !claimed {
       claimed = true
-      for value in values { value.claim(identity) }
+      for value in values {
+        value.claim(identity)
+        guard !disposed, state == .running else { return }
+      }
     }
     for effect in effects { effect.play() }
     baseline = elapsed
@@ -203,7 +273,7 @@ public enum JoltCueLatePolicy: Sendable { case skip, catchUp }
       finish(false)
       return
     }
-    let reduced = reducedMotion || JoltAccessibility.reducedMotion
+    let reduced = reducedMotion || clock.reducedMotion
     elapsed = reduced ? duration : min(duration, milliseconds)
     // Only the latest started track for each value writes; completed earlier tracks cannot rewind it.
     var latest: [ObjectIdentifier: Track] = [:]
@@ -217,6 +287,8 @@ public enum JoltCueLatePolicy: Sendable { case skip, catchUp }
         return
       }
     }
+    notifyFrame()
+    guard !disposed, state == .running else { return }
     for (index, cue) in cues.enumerated() where cue.at <= elapsed && !fired.contains(index) {
       fired.insert(index)
       if reduced || (cueLatePolicy == .skip && elapsed - cue.at > cueTolerance) { continue }

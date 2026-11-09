@@ -1,9 +1,19 @@
 import JoltSwiftUI
 import SwiftUI
 
+#if os(macOS)
+  import AppKit
+#endif
+
 @main struct JoltSwiftUIDemo: App {
   @ViewBuilder private var root: some View {
-    if ProcessInfo.processInfo.arguments.contains("--interaction-lab") {
+    if ProcessInfo.processInfo.arguments.contains("--dynamics-lab") {
+      DynamicsLab()
+    } else if ProcessInfo.processInfo.arguments.contains("--graphics-lab") {
+      GraphicsLab()
+    } else if ProcessInfo.processInfo.arguments.contains("--viewport-lab") {
+      ViewportLab()
+    } else if ProcessInfo.processInfo.arguments.contains("--interaction-lab") {
       InteractionLab()
     } else if ProcessInfo.processInfo.arguments.contains("--composition-lab") {
       CompositionLab()
@@ -16,7 +26,7 @@ import SwiftUI
   var body: some Scene {
     WindowGroup {
       #if os(macOS)
-        root.frame(width: 560, height: 850)
+        root.frame(width: 560, height: min(850, (NSScreen.main?.visibleFrame.height ?? 866) - 16))
       #else
         root
       #endif
@@ -110,6 +120,9 @@ struct Demo: View {
           NavigationLink("Interaction lab") { InteractionLab() }
           NavigationLink("Composition lab") { CompositionLab() }
           NavigationLink("Scroll lab") { ScrollLab() }
+          NavigationLink("Dynamics lab") { DynamicsLab() }
+          NavigationLink("Graphics lab") { GraphicsLab() }
+          NavigationLink("Viewport lab") { ViewportLab() }
           Text(phase == .active ? "Scene active" : "Scene inactive").font(.caption).foregroundStyle(
             .secondary
           ).accessibilityIdentifier("phase")

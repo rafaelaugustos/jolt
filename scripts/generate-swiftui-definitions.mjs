@@ -144,3 +144,95 @@ if (process.argv.includes('--check')) {
   mkdirSync(new URL('.', fixtureFile), { recursive: true })
   writeFileSync(fixtureFile, fixtureData)
 }
+
+const { numericMap } = await import('../dist/core/numeric-map.js')
+const { colorMixer } = await import('../dist/core/color.js')
+const { solveDecay } = await import('../dist/core/decay.js')
+const { parsePath } = await import('../dist/core/svg-path.js')
+const math = {
+  maps: [
+    { input: [0, 1], output: [-100, 100] },
+    { input: [1, 0.5, 0], output: [20, -10, 5] },
+    { input: [-10, 0, 10], output: [4, 9, -3] },
+  ].flatMap((data) =>
+    [true, false].map((clamp) => ({
+      ...data,
+      clamp,
+      samples: [-20, -1, 0, 0.25, 0.5, 0.75, 1, 10, 20].map((input) => ({
+        input,
+        ...numericMap(data.input, data.output, { clamp }).sample(input),
+      })),
+    })),
+  ),
+  colors: [
+    [0xffff0000, 0xff0000ff],
+    [0x00ff0000, 0xff00ff00],
+    [0x800044ff, 0x4000ff44],
+    [0x00000000, 0x00ffffff],
+  ].map(([from, to]) => ({
+    from,
+    to,
+    samples: [-0.1, 0, 0.25, 0.5, 0.75, 1, 1.1].map((progress) => ({
+      progress,
+      argb: colorMixer(from, to)(progress),
+    })),
+  })),
+  decays: [-800, 0, 800].flatMap((velocity) =>
+    [0.995, 0.998].map((friction) => {
+      const from = 30,
+        precision = 0.001,
+        motion = solveDecay(from, velocity, friction, precision)
+      return {
+        from,
+        velocity,
+        friction,
+        precision,
+        to: motion.to,
+        duration: motion.duration,
+        samples: [0, 16, 100, 500, 1000, 5000, 10000].map((at) => ({
+          at,
+          position: motion.position(at),
+          velocity: motion.velocity(at),
+        })),
+      }
+    }),
+  ),
+  paths: [
+    [
+      [0, 0],
+      [100, 0],
+      [100, 100],
+    ],
+    [
+      [20, 30],
+      [20, 30],
+    ],
+    [
+      [0, 0],
+      [-30, 20],
+      [-30, -20],
+      [0, 0],
+    ],
+  ].map((points) => {
+    const path = parsePath(
+      points.map(([x, y], i) => (i ? 'L' : 'M') + x + ' ' + y).join(' '),
+    )
+    return {
+      points,
+      length: path.length,
+      samples: [-0.1, 0, 0.25, 0.5, 0.75, 1, 1.1].map((progress) => ({
+        progress,
+        ...path.at(progress),
+      })),
+    }
+  }),
+}
+const mathFile = new URL(
+  '../packages/swiftui/Tests/JoltCoreTests/Fixtures/math.json',
+  import.meta.url,
+)
+const mathData = JSON.stringify(math, null, 2) + '\n'
+if (process.argv.includes('--check')) {
+  if (readFileSync(mathFile, 'utf8') !== mathData)
+    throw Error('Swift mapping/color/decay/path fixtures are stale.')
+} else writeFileSync(mathFile, mathData)

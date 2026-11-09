@@ -65,3 +65,5 @@ Validação: fixtures geradas de molas/receitas; testes de propriedade, interrup
 <Clip name="swiftui-scroll-macos" caption="Aplicativo macOS: roda do mouse e leitura nativa do deslocamento; movimento reduzido mantém o cabeçalho estável. Interface em inglês." />
 
 <Clip name="web-expansion-react" caption="Chromium no macOS, React DOM: ponteiro, arraste, presença, valores, eventos, layout e scroll reais. O mesmo contrato é testado nos quatro frameworks." />
+
+[Movimento derivado e gráficos retidos](./swiftui-advanced)

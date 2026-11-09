@@ -231,6 +231,108 @@ final class SwiftUIAcceptance: XCTestCase {
     XCTAssertTrue(wait { header.frame.height >= initial - 2 })
     cue("stop")
   }
+  @MainActor func testDynamicsExpansion() {
+    let app = lab("--dynamics-lab")
+    let mapped = app.descendants(matching: .any)["mapped-card"].firstMatch
+    XCTAssertTrue(mapped.waitForExistence(timeout: 10))
+    XCTAssertTrue(label(app, "seek-status").contains("0.00"))
+    cue("start")
+    let origin = mapped.frame.midX
+    click(app.buttons["map-right"])
+    XCTAssertTrue(wait { mapped.frame.midX > origin + 180 })
+    click(app.buttons["map-left"])
+    XCTAssertTrue(wait { abs(mapped.frame.midX - origin) < 3 })
+    let group = app.descendants(matching: .any)["group-card"].firstMatch
+    let center = group.frame.midX
+    click(app.buttons["state-focus"])
+    XCTAssertTrue(wait { group.frame.midX > center + 70 && group.frame.width > 70 })
+    click(app.buttons["state-rest"])
+    XCTAssertTrue(wait { abs(group.frame.midX - center) < 3 })
+    click(app.buttons["behavior-pet"])
+    click(app.buttons["behavior-dress"])
+    click(app.buttons["behavior-eat"])
+    XCTAssertTrue(
+      label(app, "request-status").contains("eat: blocked"), label(app, "request-status"))
+    XCTAssertTrue(
+      wait { self.label(app, "behavior-status").contains("rest") }, label(app, "behavior-status"))
+    XCTAssertTrue(wait { abs(group.frame.midX - center) < 3 })
+    click(app.buttons["seek-quarter"])
+    XCTAssertTrue(label(app, "seek-status").contains("0.25"))
+    click(app.buttons["seek-threequarters"])
+    XCTAssertTrue(label(app, "seek-status").contains("0.75"))
+    XCTAssertTrue(label(app, "activity-status").contains("idle"))
+    click(app.buttons["seek-play"])
+    XCTAssertTrue(wait { self.label(app, "seek-status").contains("completed") })
+    XCTAssertTrue(wait { self.label(app, "activity-status").contains("idle") })
+    cue("stop")
+  }
+  @MainActor func testGraphicsExpansion() {
+    let app = lab("--graphics-lab")
+    XCTAssertTrue(app.staticTexts["gradient-title"].waitForExistence(timeout: 10))
+    cue("start")
+    let marker = app.descendants(matching: .any)["path-marker"].firstMatch
+    let origin = marker.frame.midX
+    click(app.buttons["graphics-play"])
+    XCTAssertTrue(wait { marker.frame.midX > origin + 40 })
+    click(app.buttons["graphics-pause"])
+    let frozen = marker.frame.midX
+    Thread.sleep(forTimeInterval: 0.5)
+    XCTAssertEqual(marker.frame.midX, frozen, accuracy: 2)
+    XCTAssertTrue(label(app, "drawing-status").contains("21"))
+    click(app.buttons["graphics-pause"])
+    XCTAssertTrue(wait { marker.frame.midX > origin + 240 })
+    XCTAssertTrue(wait { self.label(app, "activity-status").contains("idle") })
+    let drag = app.descendants(matching: .any)["inertia-card"].firstMatch
+    let center = drag.frame.midX
+    let start = drag.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+    start.press(forDuration: 0.1, thenDragTo: start.withOffset(CGVector(dx: 70, dy: 0)))
+    XCTAssertTrue(wait { drag.frame.midX > center + 60 })
+    Thread.sleep(forTimeInterval: 0.6)
+    XCTAssertLessThanOrEqual(drag.frame.midX, center + 117)
+    click(app.buttons["graphics-play"])
+    Thread.sleep(forTimeInterval: 0.8)
+    click(app.buttons["graphics-clear"])
+    XCTAssertTrue(label(app, "drawing-status").contains("0"))
+    cue("stop")
+  }
+  @MainActor func testViewportExpansion() {
+    let app = lab("--viewport-lab")
+    XCTAssertTrue(app.staticTexts["viewport-status"].waitForExistence(timeout: 10))
+    XCTAssertTrue(
+      label(app, "viewport-status").contains("Once: 0 · Replay: 0"), label(app, "viewport-status"))
+    cue("start")
+    let scroll = app.scrollViews["viewport-scroll"].firstMatch
+    #if os(macOS)
+      scroll.scroll(byDeltaX: 0, deltaY: -560)
+    #else
+      scroll.swipeUp()
+    #endif
+    XCTAssertTrue(
+      wait { self.label(app, "viewport-status").contains("Once: 1 · Replay: 1") },
+      label(app, "viewport-status"))
+    Thread.sleep(forTimeInterval: 0.8)
+    #if os(macOS)
+      scroll.scroll(byDeltaX: 0, deltaY: 560)
+    #else
+      scroll.swipeDown()
+    #endif
+    Thread.sleep(forTimeInterval: 0.5)
+    #if os(macOS)
+      scroll.scroll(byDeltaX: 0, deltaY: -560)
+    #else
+      scroll.swipeUp()
+    #endif
+    XCTAssertTrue(
+      wait { self.label(app, "viewport-status").contains("Once: 1 · Replay: 2") },
+      label(app, "viewport-status"))
+    click(app.buttons["viewport-toggle"])
+    XCTAssertFalse(app.staticTexts["viewport-once"].exists)
+    click(app.buttons["viewport-toggle"])
+    XCTAssertTrue(
+      wait { self.label(app, "viewport-status").contains("Once: 1 · Replay: 3") },
+      label(app, "viewport-status"))
+    cue("stop")
+  }
   private func cue(_ action: String) {
     let device = ProcessInfo.processInfo.environment["SIMULATOR_UDID"] ?? "macos"
     let directory = URL(fileURLWithPath: "/tmp/jolt-swiftui-recording-control-" + device)

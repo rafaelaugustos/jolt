@@ -65,3 +65,5 @@ Validación: fixtures compartidas de resortes/recetas, propiedad/interrupción/e
 <Clip name="swiftui-scroll-macos" caption="App macOS: rueda real y desplazamiento nativo; movimiento reducido mantiene la cabecera estable. Interfaz en inglés." />
 
 <Clip name="web-expansion-react" caption="Chromium en macOS, React DOM: interacción y recursos reales. El mismo contrato se prueba en cuatro frameworks." />
+
+[Movimiento derivado y gráficos retenidos](./swiftui-advanced)

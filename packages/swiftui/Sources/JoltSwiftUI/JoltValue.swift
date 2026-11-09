@@ -23,7 +23,17 @@ public enum JoltPlaybackState: String, Sendable {
   public private(set) var paused = false
   public private(set) var suspended = false
   public let clock: JoltClock
-  private var motion: JoltScalarMotion?
+  private enum Trajectory {
+    case scalar(JoltScalarMotion)
+    case decay(JoltDecayMotion)
+    func sample(at time: Double) -> JoltScalarSample {
+      switch self {
+      case .scalar(let motion): motion.sample(at: time)
+      case .decay(let motion): motion.sample(at: time)
+      }
+    }
+  }
+  private var motion: Trajectory?
   private var elapsed = 0.0
   private var started = 0.0
   private var subscription: ClockSubscription?
@@ -64,7 +74,7 @@ public enum JoltPlaybackState: String, Sendable {
     generation += 1
     lease = nil
     let epoch = generation
-    motion = candidate
+    motion = .scalar(candidate)
     elapsed = 0
     started = clock.now
     target = next
@@ -76,11 +86,39 @@ public enum JoltPlaybackState: String, Sendable {
       publish(sample.position)
     }
     guard !disposed, generation == epoch else { return }
-    if reducedMotion || JoltAccessibility.reducedMotion || candidate.duration == 0 {
+    if reducedMotion || clock.reducedMotion || candidate.duration == 0 {
       settle()
     } else {
       start()
     }
+  }
+  /// Finite exponential release, clamped at the first bound. Invalid parameters preserve current motion.
+  public func decay(
+    velocity initialVelocity: Double, friction: Double = 0.998, bounds: ClosedRange<Double>? = nil,
+    reducedMotion: Bool = false, completion: (@MainActor (Bool) -> Void)? = nil
+  ) throws {
+    guard !disposed else { throw JoltError.disposed }
+    let sample = currentSample()
+    let candidate = try JoltDecayMotion(
+      from: sample?.position ?? value, velocity: initialVelocity, friction: friction, bounds: bounds
+    )
+    let old = detachMotion()
+    generation += 1
+    lease = nil
+    let epoch = generation
+    motion = .decay(candidate)
+    elapsed = 0
+    started = clock.now
+    target = candidate.to
+    if let completion { finishers[UUID()] = completion }
+    for callback in old { callback(false) }
+    guard !disposed, generation == epoch else { return }
+    if let sample {
+      velocity = sample.velocity
+      publish(sample.position)
+    }
+    guard !disposed, generation == epoch else { return }
+    if reducedMotion || clock.reducedMotion || candidate.duration == 0 { settle() } else { start() }
   }
   public func cancel() {
     guard !disposed else { return }
@@ -142,8 +180,10 @@ public enum JoltPlaybackState: String, Sendable {
     return JoltObservation { [weak self] in self?.observers.removeValue(forKey: id) }
   }
   func claim(_ owner: UUID) {
+    let epoch = generation
     cancel()
-    if !disposed { lease = owner }
+    // A cancellation callback can synchronously install a newer owner.
+    if !disposed, generation == epoch + 1, motion == nil { lease = owner }
   }
   func sample(_ sample: JoltScalarSample, target next: Double, owner: UUID) {
     guard !disposed, lease == owner else { return }
@@ -152,6 +192,11 @@ public enum JoltPlaybackState: String, Sendable {
     let nextState: JoltPlaybackState = sample.completed ? .completed : .running
     if state != nextState { state = nextState }
     publish(sample.position)
+  }
+  func markLeasePaused(_ owner: UUID, suspended: Bool) {
+    guard lease == owner else { return }
+    velocity = 0
+    state = suspended ? .suspended : .paused
   }
   func relinquish(_ owner: UUID, cancelled: Bool) {
     guard lease == owner else { return }
@@ -206,7 +251,7 @@ public enum JoltPlaybackState: String, Sendable {
     started = clock.now
     subscription = clock.subscribe { [weak self] now in
       guard let self, let motion = self.motion else { return }
-      if JoltAccessibility.reducedMotion {
+      if self.clock.reducedMotion {
         self.settle()
         return
       }

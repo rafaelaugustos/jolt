@@ -4,7 +4,7 @@ import XCTest
 
 final class InspectorTests: XCTestCase {
   @MainActor func testOptInBoundedHistoryAndBorrowedCleanup() async throws {
-    let clock = JoltClock(manual: true)
+    let clock = JoltClock.testClock()
     let scope = JoltScope()
     let value = try scope.value(0, clock: clock)
     let disabled = try JoltInspector(clock: clock)

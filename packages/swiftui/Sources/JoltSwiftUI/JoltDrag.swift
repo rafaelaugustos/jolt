@@ -19,6 +19,11 @@ public struct JoltDragBounds: Equatable, Sendable {
       y: min(y.upperBound, max(y.lowerBound, point.y)))
   }
 }
+public enum JoltDragRelease: Sendable {
+  case snap
+  case inertia(friction: Double = 0.998)
+}
+
 /// Direct manipulation uses points; spring settlement is sampled, so a new drag starts at the visible position.
 @MainActor public final class JoltDragModel: ObservableObject, JoltResource {
   @Published public private(set) var position: CGPoint
@@ -32,13 +37,21 @@ public struct JoltDragBounds: Equatable, Sendable {
   private var observations: [JoltObservation] = []
   private var origin = CGPoint.zero
   public let transition: JoltTransition
+  public let release: JoltDragRelease
   public init(
     at position: CGPoint = .zero, bounds: JoltDragBounds, snaps: [CGPoint] = [],
-    transition: JoltTransition = .spring(.snappy), clock: JoltClock = .shared
+    transition: JoltTransition = .spring(.snappy), release: JoltDragRelease = .snap,
+    clock: JoltClock = .shared
   ) throws {
     guard position.x.isFinite, position.y.isFinite, snaps.count <= 10_000,
       snaps.allSatisfy({ $0.x.isFinite && $0.y.isFinite && bounds.clamp($0) == $0 })
     else { throw JoltError.invalidMotion }
+    if case .inertia(let friction) = release {
+      guard snaps.isEmpty, friction.isFinite, friction > 0, friction < 1 else {
+        throw JoltError.invalidMotion
+      }
+    }
+    self.release = release
     self.bounds = bounds
     self.snaps = snaps
     self.transition = transition
@@ -55,6 +68,7 @@ public struct JoltDragBounds: Equatable, Sendable {
     guard !disposed, snaps.count <= 10_000,
       snaps.allSatisfy({ $0.x.isFinite && $0.y.isFinite && next.clamp($0) == $0 })
     else { throw JoltError.invalidMotion }
+    if case .inertia = release { guard snaps.isEmpty else { throw JoltError.invalidMotion } }
     self.bounds = next
     self.snaps = snaps
     dragging = false
@@ -77,10 +91,20 @@ public struct JoltDragBounds: Equatable, Sendable {
     try? x.set(point.x)
     try? y.set(point.y)
   }
-  public func end(cancelled: Bool = false, reducedMotion: Bool = false) {
+  public func end(cancelled: Bool = false, reducedMotion: Bool = false, velocity: CGSize = .zero) {
     guard dragging else { return }
     dragging = false
     guard !cancelled, !disposed, !paused, !suspended else { return }
+    if case .inertia(let friction) = release {
+      guard velocity.width.isFinite, velocity.height.isFinite else { return }
+      try? x.decay(
+        velocity: velocity.width, friction: friction, bounds: bounds.x, reducedMotion: reducedMotion
+      )
+      try? y.decay(
+        velocity: velocity.height, friction: friction, bounds: bounds.y,
+        reducedMotion: reducedMotion)
+      return
+    }
     let target =
       snaps.min {
         hypot($0.x - position.x, $0.y - position.y) < hypot($1.x - position.x, $1.y - position.y)
@@ -163,7 +187,9 @@ private struct DragModifier: ViewModifier {
           guard enabled, phase == .active else { return }
           if !model.dragging { model.begin() }
           model.update(translation: event.translation)
-        }.onEnded { _ in model.end(reducedMotion: reduced || appReduced) }
+        }.onEnded { event in
+          model.end(reducedMotion: reduced || appReduced, velocity: event.velocity)
+        }
       )
       .accessibilityValue("\(Int(model.position.x)), \(Int(model.position.y))")
       .accessibilityAdjustableAction { direction in

@@ -144,3 +144,58 @@ output {
   padding: 28px;
   background: repeating-linear-gradient(0deg, #ffffff08 0 60px, transparent 60px 90px);
 }
+
+.advanced-drawing {
+  position: relative;
+  width: 320px;
+  height: 185px;
+  margin: 20px auto;
+  background: #ffffff09;
+  border-radius: 20px;
+}
+.advanced-drawing > [data-vectors],
+.advanced-drawing > [data-stroke] {
+  position: absolute;
+  inset: 0;
+}
+[data-path] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 24px;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  color: white;
+}
+.advanced-viewport {
+  height: 280px;
+  overflow: auto;
+  border: 1px solid #ffffff30;
+  padding: 12px;
+  margin-top: 18px;
+}
+.viewport-spacer {
+  height: 380px;
+  padding: 30px;
+  color: #b4b9c6;
+}
+.viewport-card {
+  height: 100px;
+  margin-bottom: 20px;
+  background: #dbff7a;
+  color: #101722;
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  font-weight: 800;
+  border-radius: 20px;
+}
+.viewport-card.pointer {
+  background: #7766ff;
+  color: white;
+}
+[data-gradient] {
+  font-size: 32px;
+  font-weight: 800;
+}

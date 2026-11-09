@@ -12,6 +12,9 @@ import QuartzCore
 @MainActor public final class JoltClock: ObservableObject {
   public static let shared = JoltClock()
   public let manual: Bool
+  // Internal deterministic test policy; production clocks always consult the system preference.
+  var testingReducedMotion: Bool?
+  var reducedMotion: Bool { testingReducedMotion ?? JoltAccessibility.reducedMotion }
   public private(set) var time: Double = 0
   @Published public private(set) var activeCount = 0
   private var callbacks: [UUID: @MainActor (Double) -> Void] = [:]

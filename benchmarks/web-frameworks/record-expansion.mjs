@@ -89,7 +89,7 @@ try {
     await click('Stagger + cues')
     await expect(page.locator('[data-cues]')).toHaveText('Events: 1')
     await page.getByRole('button', { name: 'Cancel timeline', exact: true }).click()
-    await pause(1100)
+    await pause(3600)
     await click('Stagger + cues')
     await expect(page.locator('[data-cues]')).toHaveText('Events: 2')
     await pause(800)

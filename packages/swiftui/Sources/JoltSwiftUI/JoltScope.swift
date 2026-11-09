@@ -74,8 +74,10 @@ import SwiftUI
     let old = resources
     Task { @MainActor in
       for (key, resource) in old {
-        if Self.owners[key]?.value == nil { Self.owners.removeValue(forKey: key) }
-        resource.dispose()
+        if Self.owners[key]?.value == nil {
+          Self.owners.removeValue(forKey: key)
+          resource.dispose()
+        }
       }
     }
   }

@@ -33,3 +33,5 @@ NativeScript 与 Web 共享 createPreset(name, parameters)；Apple 的 JoltPrese
 <Clip name="swiftui-macos" caption="本机独立 SwiftUI macOS 应用，使用真实 XCTest 鼠标点击：目标、按压、身份替换、重新挂载、减少动态效果和共享 preset。仅录制 demo 窗口，不是性能基准。" />
 
 <Clip name="web-preset" caption="macOS Chromium 中真实播放现有 Web popIn 配方。Swift Package 从相同定义生成，渲染引擎和单位仍然不同。" />
+
+[派生运动与保留式图形](./swiftui-advanced)

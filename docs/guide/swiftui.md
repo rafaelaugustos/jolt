@@ -33,3 +33,5 @@ createPreset(name, parameters) is shared by NativeScript and Web. JoltPreset.rec
 <Clip name="swiftui-macos" caption="Standalone SwiftUI macOS app on this Mac, driven by actual XCTest mouse clicks: target changes, press, identity replacement, remount, Reduced Motion and shared presets. Only the demo window is recorded; no performance benchmark." />
 
 <Clip name="web-preset" caption="Chromium on macOS: the existing Web popIn recipe plays with real browser execution. The Swift Package derives the same recipe definitions; the rendering engines and units differ." />
+
+[Derived motion and retained graphics](./swiftui-advanced)

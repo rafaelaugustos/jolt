@@ -2713,7 +2713,7 @@
       "id": "swiftui-initial-subset",
       "issues": [435],
       "status": "candidate-unpublished",
-      "limit": "Standalone source Swift Package, iOS 17+/macOS 14+. Finite poses and 13 generated recipes; real iOS simulator and macOS application acceptance. SwiftUI executes transitions; no JS/NativeScript or full engine, controls, sensors, drawing or performance parity. Web recipes reused and recorded.",
+      "limit": "Standalone source Swift Package, iOS 17+/macOS 14+. Initial finite poses and 13 generated recipes, extended by the swiftui-expansion candidate below. Actual iOS simulator/macOS acceptance, no JavaScript/NativeScript or performance parity. Web recipes reused and recorded.",
       "evidence": [
         "Package.swift",
         "packages/swiftui/Sources/JoltSwiftUI/JoltMotion.swift",
@@ -2727,12 +2727,18 @@
         437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452,
         453, 454, 455, 456, 457, 458, 459, 460
       ],
-      "limit": "Standalone iOS 17/macOS 14 source candidate. Apple uses points, native uses DIP, Web uses CSS pixels. Implicit SwiftUI motion and explicit sampled values have different execution costs; no hardware/threading/performance parity is claimed. First expansion has local correctness and real interaction evidence; documentation/media, CI and second expansion are pending.",
+      "limit": "Standalone iOS 17+/macOS 14+ source candidate covering scoped sampled motion, native interaction, composition and retained graphics. Apple points/native DIP/Web CSS pixels; platform rendering and event timing differ. Polyline paths only, finite property-target behaviors, bounded retained Canvas, no sensors or hardware/performance parity. Native and Web local acceptance and EN/PT/ES/ZH recordings are provided; merge/publication pending.",
       "evidence": [
         "Package.swift",
-        "packages/swiftui/Sources/JoltSwiftUI/JoltValue.swift",
-        "benchmarks/swiftui-expansion.md"
-      ]
+        "packages/swiftui/Tests/JoltCoreTests/MathTests.swift",
+        "packages/swiftui/Tests/JoltSwiftUITests/ExpansionTests.swift",
+        "benchmarks/swiftui-demo/UITests.swift",
+        "benchmarks/web-frameworks/advanced.spec.ts",
+        "benchmarks/swiftui-expansion.md",
+        "docs/guide/swiftui-motion.md",
+        "docs/guide/swiftui-advanced.md"
+      ],
+      "status": "candidate-unpublished"
     }
   ]
 }

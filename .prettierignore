@@ -64,3 +64,5 @@ benchmarks/web-frameworks/captures/
 packages/swiftui/Sources/JoltCore/Resources/definitions.json
 
 packages/swiftui/Tests/JoltCoreTests/Fixtures/portable.json
+
+packages/swiftui/Tests/JoltCoreTests/Fixtures/math.json

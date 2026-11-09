@@ -65,7 +65,7 @@ for (const framework of ['react', 'angular', 'svelte', 'solid']) {
     await page.locator('[data-stagger]').click()
     await expect(page.locator('[data-cues]')).toHaveText('Events: 1')
     await page.locator('[data-cancel]').click()
-    await page.waitForTimeout(1000)
+    await page.waitForTimeout(3600)
     await expect(page.locator('[data-cues]')).toHaveText('Cancelled · Events: 1')
     await page.locator('[data-stagger]').click()
     await expect(page.locator('[data-cues]')).toHaveText('Events: 2')

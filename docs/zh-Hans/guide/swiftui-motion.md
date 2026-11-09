@@ -65,3 +65,5 @@ Web 已有 motionValue、springValue、map、pointerFollow、drag、scrollLinked
 <Clip name="swiftui-scroll-macos" caption="macOS 应用：真实滚轮与原生偏移观察；减少动态效果稳定标题。英文界面。" />
 
 <Clip name="web-expansion-react" caption="macOS 上的 Chromium / React DOM：真实交互与资源生命周期。同一合同在四个框架中验证。" />
+
+[派生运动与保留式图形](./swiftui-advanced)
