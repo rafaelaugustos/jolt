@@ -31,9 +31,13 @@ struct InteractionLab: View {
   @State private var reduced = false
   @State private var enabled = true
   @State private var pointer: JoltPointerSample = .center
-  @StateObject private var drag = try! JoltDragModel(
-    bounds: JoltDragBounds(x: -100...100, y: 0...0),
-    snaps: [.init(x: -100, y: 0), .zero, .init(x: 100, y: 0)])
+  @StateObject private var drag = InteractionLab.makeDrag()
+  // Keep throwing setup out of StateObject's autoclosure: Swift 6.1 crashes lowering it.
+  @MainActor private static func makeDrag() -> JoltDragModel {
+    let bounds = try! JoltDragBounds(x: -100...100, y: 0...0)
+    return try! JoltDragModel(
+      bounds: bounds, snaps: [.init(x: -100, y: 0), .zero, .init(x: 100, y: 0)])
+  }
   private var entry: JoltSwiftUI.JoltRecipe {
     JoltPreset.fadeInUp.recipe(try! .init(distance: 45, duration: 500))
   }
@@ -243,7 +247,10 @@ struct CompositionLab: View {
   }
 }
 struct ScrollLab: View {
-  @StateObject private var progress = try! JoltScrollProgress(range: 0...450)
+  @StateObject private var progress = ScrollLab.makeProgress()
+  @MainActor private static func makeProgress() -> JoltScrollProgress {
+    try! JoltScrollProgress(range: 0...450)
+  }
   @State private var reduced = false
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {

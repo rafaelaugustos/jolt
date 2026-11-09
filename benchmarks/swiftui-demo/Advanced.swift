@@ -274,8 +274,11 @@ struct GraphicsLab: View {
   }
 }
 struct ViewportLab: View {
-  @StateObject private var once = try! JoltViewportEntry(threshold: 0.5)
-  @StateObject private var replay = try! JoltViewportEntry(threshold: 0.5, once: false)
+  @StateObject private var once = ViewportLab.makeEntry(once: true)
+  @StateObject private var replay = ViewportLab.makeEntry(once: false)
+  @MainActor private static func makeEntry(once: Bool) -> JoltViewportEntry {
+    try! JoltViewportEntry(threshold: 0.5, once: once)
+  }
   @State private var shown = true
   var body: some View {
     VStack(alignment: .leading, spacing: 14) {

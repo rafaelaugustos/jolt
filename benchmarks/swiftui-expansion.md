@@ -77,3 +77,5 @@ Mavis main remains c4063f57ebf2ece353f4a0d3b07fe26b00d99bf5. The 250 open/closed
 Local validation now also passes all 1,787 TypeScript tests, packed/native production consumers, Nuxt across three browser engines, formatting, parity, generated Swift definitions, media coverage and docs build. PR #436 contains 38 verified English video players and 30 closing references (initial six plus these 24).
 
 Next: verify hosted CI and update each owning issue with acceptance. No merge, tag, npm publication or release is authorized by this task. Current source and execution results take precedence over this recovery note. Cortex remains unavailable.
+
+Hosted CI confirmed the 37 Swift tests, 99 framework tests, package/Nuxt consumers, documentation/playground and Android native checks. The Xcode 16.4 / Swift 6.1.2 demo build exposed a compiler crash lowering a throwing StateObject initializer. Nonthrowing lazy factory functions now contain that validated demo setup; execution and recordings are unchanged. Native interaction and the remaining hosted gates are being revalidated on the final PR commit.
