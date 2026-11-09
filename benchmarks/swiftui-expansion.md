@@ -2,7 +2,7 @@
 
 Objective: implement the 24 additional capabilities authorized by the maintainer in the existing PR #436, isolated in `feat/web-frameworks-swiftui`. No release or merge is requested.
 
-Status: all 24 implementations and their native/Web demonstrations are present. Final package/docs checks and hosted CI are being verified before review handoff. Cortex tools are unavailable; this is a repository delivery checkpoint, not a Cortex save.
+Status: all 24 implementations and their native/Web demonstrations are present. Local package/docs/native checks pass. All 38 published PR players and 30 closing references were verified; hosted CI is being verified before review handoff. Cortex tools are unavailable; this is a repository delivery checkpoint, not a Cortex save.
 
 | Capability                                                             | Issue | Priority |
 | ---------------------------------------------------------------------- | ----- | -------- |
@@ -74,4 +74,6 @@ Review exposed and fixed reentrant timeline ownership, final-frame renderer deli
 
 Mavis main remains c4063f57ebf2ece353f4a0d3b07fe26b00d99bf5. The 250 open/closed issues were checked again; existing #145/#152/#153/#154 adoption issues now cover these contracts and pending merge/publication dependencies. Existing seek/drawing/path adoption issues are linked, with no duplicate issues or Mavis implementation in this PR.
 
-Next: complete final package/docs checks, publish this commit and all English video players in PR #436, verify CI, and update each owning issue with acceptance. No merge, tag, npm publication or release is authorized by this task. Current source and execution results take precedence over this recovery note. Cortex remains unavailable.
+Local validation now also passes all 1,787 TypeScript tests, packed/native production consumers, Nuxt across three browser engines, formatting, parity, generated Swift definitions, media coverage and docs build. PR #436 contains 38 verified English video players and 30 closing references (initial six plus these 24).
+
+Next: verify hosted CI and update each owning issue with acceptance. No merge, tag, npm publication or release is authorized by this task. Current source and execution results take precedence over this recovery note. Cortex remains unavailable.

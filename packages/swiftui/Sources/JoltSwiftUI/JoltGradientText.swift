@@ -22,14 +22,15 @@ public struct JoltTextPaint: Sendable {
   }
   fileprivate func gradient(in size: CGSize) -> LinearGradient {
     let radians = angle.truncatingRemainder(dividingBy: 360) * Double.pi / 180
-    let width = max(1, size.width)
-    let height = max(1, size.height)
+    let width = max(1, Double(size.width))
+    let height = max(1, Double(size.height))
     let length = abs(width * cos(radians)) + abs(height * sin(radians))
     let dx = cos(radians) * length / (2 * width)
     let dy = sin(radians) * length / (2 * height)
     return LinearGradient(
       stops: zip(colors, stops).map { .init(color: $0.swiftUIColor, location: $1) },
-      startPoint: .init(x: 0.5 - dx, y: 0.5 - dy), endPoint: .init(x: 0.5 + dx, y: 0.5 + dy))
+      startPoint: .init(x: CGFloat(0.5 - dx), y: CGFloat(0.5 - dy)),
+      endPoint: .init(x: CGFloat(0.5 + dx), y: CGFloat(0.5 + dy)))
   }
 }
 /// Accessible real text with a glyph-clipped optional sheen. The caller owns the finite progress animation.
