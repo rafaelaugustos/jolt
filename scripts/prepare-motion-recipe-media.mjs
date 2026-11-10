@@ -7,9 +7,10 @@ const captures = JSON.parse(
   readFileSync(resolve(import.meta.dirname, 'motion-recipe-captures.json'), 'utf8'),
 )
 mkdirSync(resolve(root, 'docs/public/recipes'), { recursive: true })
+mkdirSync(resolve(root, '.local/media'), { recursive: true })
 for (const clip of captures) {
-  const source = resolve(root, 'docs/public/media', `${clip.source}.mp4`)
-  const output = resolve(root, 'docs/public/media', `${clip.output}.mp4`)
+  const source = resolve(root, '.local/media', `${clip.source}.mp4`)
+  const output = resolve(root, '.local/media', `${clip.output}.mp4`)
   // Trim existing reviewed simulator footage. Do not retime, synthesize or replace it.
   execFileSync('ffmpeg', [
     '-v',

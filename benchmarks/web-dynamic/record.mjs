@@ -7,6 +7,7 @@ import { chromium } from '@playwright/test'
 const root = fileURLToPath(new URL('../../', import.meta.url)),
   dir = fileURLToPath(new URL('./captures/', import.meta.url))
 mkdirSync(dir, { recursive: true })
+mkdirSync(`${root}.local/media`, { recursive: true })
 const server = spawn(process.execPath, ['benchmarks/web-dynamic/server.mjs'], {
   cwd: root,
   stdio: ['ignore', 'pipe', 'inherit'],
@@ -80,7 +81,7 @@ try {
   await context.close()
   const raw = dir + 'web-dynamic-chromium.webm'
   await video.saveAs(raw)
-  const output = root + 'docs/public/media/web-dynamic-chromium.mp4'
+  const output = root + '.local/media/web-dynamic-chromium.mp4'
   execFileSync(
     'ffmpeg',
     [

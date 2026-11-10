@@ -5,6 +5,7 @@ import { createHash } from 'node:crypto'
 import { chromium } from '@playwright/test'
 const dir = 'benchmarks/web-support/captures/'
 mkdirSync(dir, { recursive: true })
+mkdirSync('.local/media', { recursive: true })
 const server = spawn(process.execPath, ['benchmarks/web-support/server.mjs'], {
   stdio: ['ignore', 'pipe', 'inherit'],
 })
@@ -51,7 +52,7 @@ try {
   const video = page.video()
   await context.close()
   await video.saveAs(dir + 'web-element-range-chromium.webm')
-  const output = 'docs/public/media/web-element-range-chromium.mp4'
+  const output = '.local/media/web-element-range-chromium.mp4'
   execFileSync(
     'ffmpeg',
     [

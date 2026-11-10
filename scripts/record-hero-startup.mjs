@@ -7,6 +7,7 @@ const base = process.argv[2] || 'http://127.0.0.1:5181'
 const root = resolve(import.meta.dirname, '..')
 const output = '/tmp/jolt-hero-startup-recording'
 await mkdir(output, { recursive: true })
+await mkdir(resolve(root, '.local/media'), { recursive: true })
 const browser = await chromium.launch()
 const context = await browser.newContext({
   viewport: { width: 1440, height: 1000 },
@@ -51,7 +52,7 @@ expect(errors).toEqual([])
 await context.close()
 const source = await video.path()
 await browser.close()
-const destination = resolve(root, 'docs/public/media/motion-hero-startup-chromium.mp4')
+const destination = resolve(root, '.local/media/motion-hero-startup-chromium.mp4')
 execFileSync('ffmpeg', [
   '-v',
   'error',

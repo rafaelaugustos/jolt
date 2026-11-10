@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url'
 const root = fileURLToPath(new URL('../../', import.meta.url)),
   capture = root + 'benchmarks/web-orchestration/captures'
 mkdirSync(capture, { recursive: true })
+mkdirSync(`${root}.local/media`, { recursive: true })
 const server = spawn(process.execPath, ['benchmarks/web-orchestration/server.mjs'], {
   cwd: root,
   stdio: ['ignore', 'pipe', 'inherit'],
@@ -90,7 +91,7 @@ try {
     const raw = await page.video().path()
     await context.close()
     assert.deepEqual(errors, [])
-    const output = `${root}docs/public/media/web-orchestration-${mode}-chromium.mp4`
+    const output = `${root}.local/media/web-orchestration-${mode}-chromium.mp4`
     execFileSync('ffmpeg', [
       '-y',
       '-v',
