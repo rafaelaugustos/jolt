@@ -1,6 +1,7 @@
 name: Release
 
-# Publish both npm packages from a version tag, before or with a GitHub release.
+# Publish both npm packages from a version tag, before or with a GitHub release,
+# then the Swift package to rafaelaugustos/jolt-swift with the same tag.
 # Pre-releases go out under the `next` tag, and under `latest` too until a
 # stable version is out. Everything else goes out under `latest`.
 on:
@@ -70,3 +71,11 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           DIST_TAG: ${{ steps.version.outputs.dist_tag }}
         run: node scripts/publish-packages.mjs
+
+  swift:
+    needs: publish
+    uses: ./.github/workflows/swift-package.yml
+    with:
+      tag: ${{ github.event.release.tag_name || github.ref_name }}
+    secrets:
+      JOLT_SWIFT_DEPLOY_KEY: ${{ secrets.JOLT_SWIFT_DEPLOY_KEY }}

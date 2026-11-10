@@ -11,6 +11,13 @@ npm run build
 npm run swiftui:check
 ```
 
+To build the apps against the package SwiftPM users download, generate it and point the project at it. CI and the Release workflow run the UI cases this way:
+
+```sh
+npm run swift:package -- /tmp/jolt-swift
+JOLT_SWIFT_PACKAGE=/tmp/jolt-swift ruby benchmarks/swiftui-demo/project.rb
+```
+
 Run XCTest against an explicitly selected simulator or the Mac:
 
 ```sh

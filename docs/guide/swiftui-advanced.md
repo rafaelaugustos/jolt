@@ -1,6 +1,6 @@
 # SwiftUI: derived motion and retained graphics
 
-Available in **0.1.0-rc.13 (Beta)** for iOS 17+ and macOS 14+, without NativeScript or JavaScript. Install the `JoltSwiftUI` product from the repository tag `v0.1.0-rc.13`. See [installation](./swiftui), [ownership](./swiftui-motion) and [interaction/geometry](./swiftui-geometry) for platform limits.
+Available in **0.1.0-rc.13 (Beta)** for iOS 17+ and macOS 14+, without NativeScript or JavaScript. Install the `JoltSwiftUI` product from the [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) package repository, tag `v0.1.0-rc.13`. See [installation](./swiftui), [ownership](./swiftui-motion) and [interaction/geometry](./swiftui-geometry) for platform limits.
 
 JoltNumericMap accepts 2–1024 finite pairs with strictly monotonic input. Descending inputs are reversed. Clamp is the default; clamp:false extends the endpoint segments. sample returns value and slope, using the left derivative at an interior knot. JoltMappedValue borrows a scalar source and owns only its observation; pause freezes it, resume catches up, disposal detaches. Overflow marks valid=false and preserves the last finite output. No extra frame clock is created. The mapped view binding supports x/y, scale/scaleX/scaleY, rotate and opacity; decorative transforms remain at identity under Reduced Motion.
 

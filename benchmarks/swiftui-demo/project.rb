@@ -1,8 +1,10 @@
+require 'pathname'
 require 'xcodeproj'
 root = File.expand_path(__dir__)
 project = Xcodeproj::Project.new(File.join(root, 'JoltSwiftUIDemo.xcodeproj'))
 reference = project.new(Xcodeproj::Project::Object::XCLocalSwiftPackageReference)
-reference.relative_path = '../..'
+package = File.expand_path(ENV.fetch('JOLT_SWIFT_PACKAGE', File.join(root, '../..')))
+reference.relative_path = Pathname.new(package).relative_path_from(Pathname.new(root)).to_s
 project.root_object.package_references << reference
 sources = %w[App.swift UITests.swift Expansion.swift Advanced.swift Characters.swift Panels.swift].map { |name| project.main_group.new_file(name) }
 [[:ios, '17.0', 'JoltSwiftUIDemo'], [:osx, '14.0', 'JoltSwiftUIMac']].each do |platform, version, name|

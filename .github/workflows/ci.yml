@@ -256,8 +256,11 @@ jobs:
       - run: npm ci && npm ci --prefix benchmarks/angular-tools
       - run: npm run build && npm run swiftui:check
       - run: swift test
+      - run: node scripts/swift-package.mjs "$RUNNER_TEMP/jolt-swift"
       - run: gem install xcodeproj --no-document --user-install
-      - name: Interact with standalone iOS and macOS apps
+      - name: Interact with standalone iOS and macOS apps through the generated package
+        env:
+          JOLT_SWIFT_PACKAGE: ${{ runner.temp }}/jolt-swift
         run: python3 benchmarks/swiftui-demo/ci.py
       - uses: actions/upload-artifact@v7
         if: always()
