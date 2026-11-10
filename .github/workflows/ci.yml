@@ -18,6 +18,7 @@ jobs:
       - run: npm ci
       - run: npx playwright install --with-deps chromium webkit
       - run: npm run docs:check-media
+      - run: npm run media:verify
       - run: npm run docs:build
       - name: Review every Web playground experiment
         env:

@@ -62,6 +62,7 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run docs:check-media
+      - run: npm run media:verify
       - run: npm run docs:build
 
       - name: Publish
