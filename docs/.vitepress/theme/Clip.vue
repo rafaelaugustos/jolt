@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { videoUrl } from './media'
+
 withDefaults(
   defineProps<{
     name: string
@@ -18,7 +20,7 @@ withDefaults(
 <template>
   <figure class="clip" :style="{ width: `${width}px` }">
     <video
-      :src="`/media/${name}.mp4`"
+      :src="videoUrl(name)"
       :width="width"
       controls
       :autoplay="autoplay"
