@@ -406,15 +406,15 @@
     },
     {
       "path": "docs/public/media/swiftui-key-gesture-macos.mp4",
-      "sha256": "963ca5dbabf80570763704b6fab99dc54cb272006c14768e861652b1ab461d18",
-      "bytes": 167589,
-      "seconds": 19.225,
+      "sha256": "b629f3bd40029c62187bf9928fe7b4354614b9ece7e010b70a9289def7add134",
+      "bytes": 138413,
+      "seconds": 19.336474,
       "stream": {
         "codec_name": "h264",
         "width": 572,
         "height": 900
       },
-      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS 27 simulator; macOS 26.6.2 native window; browser is Chromium on macOS. No physical-device performance acceptance."
+      "review": "Recaptured after macOS gesture priority fix. Full decode and visible frames reviewed: drag, accessible zoom/rotation, normal clicks before/after remount and reduced motion. Native macOS 26.6.2 window; English UI. No physical trackpad acceptance."
     },
     {
       "path": "docs/public/media/swiftui-transfer-ios.mp4",

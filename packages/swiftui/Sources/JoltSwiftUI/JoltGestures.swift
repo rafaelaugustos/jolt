@@ -244,7 +244,9 @@ private struct PlatformGesture<Input: Gesture>: ViewModifier {
     #if os(iOS)
       content
     #else
-      content.gesture(input)
+      // A Button's own gesture can consume drag on older macOS versions.
+      // The composed gesture wins once drag/pinch/rotation recognizes; taps remain available.
+      content.highPriorityGesture(input)
     #endif
   }
 }

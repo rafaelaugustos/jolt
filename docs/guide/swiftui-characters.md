@@ -34,7 +34,7 @@ let gesture = try scope.retain(JoltGestureModel(
 try gesture.settle(to: .init(), reducedMotion: false)
 ```
 
-Direct input interrupts sampled settlement. Cancel keeps the current transform; settle animates a validated target. Disabling, removal and inactive scenes cancel contacts and suspend motion. Manual pause survives resume. The modifier supplies accessibility zoom, rotate and reset actions; applications may expose visible buttons, as in the demo. macOS footage demonstrates mouse drag and buttons, not physical trackpad validation. Web reuses `scope.gestures` with pointer contacts, `settleTo`, bounds and explicit accessible controls; browser input delivery differs.
+On macOS, recognized drag/pinch/rotation takes priority over a wrapped control’s gesture; ordinary clicks remain available. Direct input interrupts sampled settlement. Cancel keeps the current transform; settle animates a validated target. Disabling, removal and inactive scenes cancel contacts and suspend motion. Manual pause survives resume. The modifier supplies accessibility zoom, rotate and reset actions; applications may expose visible buttons, as in the demo. macOS footage demonstrates mouse drag and buttons, not physical trackpad validation. Web reuses `scope.gestures` with pointer contacts, `settleTo`, bounds and explicit accessible controls; browser input delivery differs.
 
 <Clip name="swiftui-key-gesture-ios" caption="iOS simulator, native SwiftUI: finite keyframes, pause/resume, actual touch drag/pinch/rotation, reset and reduced motion. Not a physical-device recording." />
 <Clip name="swiftui-key-gesture-macos" caption="macOS native SwiftUI: keyframes, mouse drag and visible zoom/rotation controls. Physical trackpad gestures are not validated by this recording." />
