@@ -44,7 +44,7 @@
   },
   "swift": {
     "coreTests": 17,
-    "nativeInteraction": "24 actual XCTest cases are configured: 12 on iOS and 12 on macOS. Four new panel/geometry scenes were recorded successfully on iOS 27 simulator and native macOS 26.6.2; all 12 local iOS regression tests passed. Full macOS/exact-commit CI results are required for PR readiness. No physical iOS/trackpad acceptance.",
+    "nativeInteraction": "All 24 actual XCTest regression cases passed: 12 on iOS 27 simulator and 12 on native macOS 26.6.2. The panel suspension/remount/focus regression was then revalidated and recorded on both platforms. No physical iOS/trackpad acceptance.",
     "deploymentMinimum": {
       "iOS": "17",
       "macOS": "14"
@@ -54,7 +54,7 @@
     "ownershipTests": 47,
     "configurations": ["Debug", "Release"],
     "gestureCompatibility": "The actual keyframe/drag/pinch/rotation/tap/remount/reduced-motion interaction also passed on iOS 18.6 simulator. Coordinate taps avoid XCTest AX hit-point lookup on the custom-action wrapper while retaining Button-delivery assertions.",
-    "measuredGeometry": "Four new native XCTest scenes passed (panel + geometry, iOS 27 simulator and macOS 26.6.2). Full native regression is included in CI; inspect current run before accepting PR readiness."
+    "measuredGeometry": "Four native panel/geometry scenes passed on iOS 27 simulator and macOS 26.6.2. Full native regression passed locally and on CI at 879db8b; current exact-head CI is required for readiness."
   },
   "media": [
     {
@@ -515,27 +515,27 @@
     },
     {
       "path": "docs/public/media/swiftui-panel-ios.mp4",
-      "sha256": "aa7b740ae44f7d2e2dbb0000ac8dc10ffd6602b509b0ce0ffa090f4b828fa1ec",
-      "bytes": 581322,
-      "seconds": 24.683984,
+      "sha256": "8626f1106123d89dbcf6724acbdf952a5251aaf6763f9484497526abeaf57d85",
+      "bytes": 714038,
+      "seconds": 27.966992,
       "stream": {
         "codec_name": "h264",
         "width": 414,
         "height": 900
       },
-      "review": "Full decode checked and representative frames reviewed across actual native/browser playback. English UI. Panels: drag, nested scroll, input/focus, dismissal and remount; geometry: quadratic/cubic travel and tangent, reverse/cancel, measured reorder and changed text. iOS 27 simulator; macOS 26.6.2 native window; Web Chromium desktop. No physical iPhone/trackpad, mobile-browser keyboard or performance equivalence."
+      "review": "Refreshed after suspension/remount focus correction. Full decode and representative frames reviewed: drag, nested scroll, input/focus, dismissal, hide during motion, suspended retained model, resume to snap on remount, Escape on macOS and reduced motion. English UI; iOS 27 simulator or native macOS 26.6.2 app window. No physical-device performance acceptance."
     },
     {
       "path": "docs/public/media/swiftui-panel-macos.mp4",
-      "sha256": "82bec5d527398929b3987eb4d8ced537f52d5640396e4fd3f185091160d827cf",
-      "bytes": 484967,
-      "seconds": 21.058333,
+      "sha256": "59a2420cfd7f109fdd6557b38be69d884777d282b096649578ae97544264f03f",
+      "bytes": 586893,
+      "seconds": 25.133333,
       "stream": {
         "codec_name": "h264",
         "width": 572,
         "height": 900
       },
-      "review": "Full decode checked and representative frames reviewed across actual native/browser playback. English UI. Panels: drag, nested scroll, input/focus, dismissal and remount; geometry: quadratic/cubic travel and tangent, reverse/cancel, measured reorder and changed text. iOS 27 simulator; macOS 26.6.2 native window; Web Chromium desktop. No physical iPhone/trackpad, mobile-browser keyboard or performance equivalence."
+      "review": "Refreshed after suspension/remount focus correction. Full decode and representative frames reviewed: drag, nested scroll, input/focus, dismissal, hide during motion, suspended retained model, resume to snap on remount, Escape on macOS and reduced motion. English UI; iOS 27 simulator or native macOS 26.6.2 app window. No physical-device performance acceptance."
     },
     {
       "path": "docs/public/media/swiftui-geometry-ios.mp4",
@@ -608,6 +608,30 @@
         "height": 800
       },
       "review": "Full decode checked and representative frames reviewed across actual native/browser playback. English UI. Panels: drag, nested scroll, input/focus, dismissal and remount; geometry: quadratic/cubic travel and tangent, reverse/cancel, measured reorder and changed text. iOS 27 simulator; macOS 26.6.2 native window; Web Chromium desktop. No physical iPhone/trackpad, mobile-browser keyboard or performance equivalence."
+    },
+    {
+      "path": "docs/public/media/docs-navigation-desktop.mp4",
+      "sha256": "1eeb52e6706e9b3375795f7ed70db88f0afcc6e1e93fc8c2b927fa1488466a33",
+      "bytes": 764060,
+      "seconds": 13.36,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1320,
+        "height": 900
+      },
+      "review": "Full decode and visible frames reviewed. Real Chromium on macOS, English UI: New/Updated/Beta, actual keyboard or emulated touch navigation and light/dark themes. Mobile is browser viewport emulation, not a physical phone. Initial mobile browser startup trimmed by 2 seconds; playback speed preserved. Documentation UI has no native counterpart."
+    },
+    {
+      "path": "docs/public/media/docs-navigation-mobile.mp4",
+      "sha256": "1bf68f7424612c894407e1579a74ee3bb811c337d6010b0c622f89dcc2132c31",
+      "bytes": 1060520,
+      "seconds": 15.16,
+      "stream": {
+        "codec_name": "h264",
+        "width": 390,
+        "height": 844
+      },
+      "review": "Full decode and visible frames reviewed. Real Chromium on macOS, English UI: New/Updated/Beta, actual keyboard or emulated touch navigation and light/dark themes. Mobile is browser viewport emulation, not a physical phone. Initial mobile browser startup trimmed by 2 seconds; playback speed preserved. Documentation UI has no native counterpart."
     }
   ],
   "limits": [
@@ -630,7 +654,7 @@
     "initialIssues": [430, 431, 432, 433, 434, 435],
     "additionalIssues": [
       437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452, 453,
-      454, 455, 456, 457, 458, 459, 460, 461, 462, 463, 464, 465, 466
+      454, 455, 456, 457, 458, 459, 460, 461, 462, 463, 464, 465, 466, 467, 468, 469
     ],
     "pullRequest": 436
   },
@@ -639,5 +663,11 @@
     "issuesInspected": 250,
     "updated": [234, 237, 298],
     "status": "Existing Sheet/reorder adapters reused; shared path recipes remain open. Jolt SwiftUI and Web idle-row geometry fix pending merge/publication. No Mavis implementation."
+  },
+  "documentationNavigation": {
+    "locales": ["en", "pt-BR", "es", "zh-Hans"],
+    "viewports": ["desktop 1320x900", "mobile 390x844"],
+    "validation": "Chromium, Firefox and WebKit: localized accessible labels, no horizontal sidebar overflow, hydration, keyboard navigation and plain previous/next passed in 24 locale/viewport combinations. Light/dark screenshots reviewed. Edition expiration, persistent Beta, source availability and escaped labels checked directly.",
+    "mavisPattern": "Inspected existing catalog.mjs, navigation.mjs and custom.css; reused the centralized status approach without adding a Mavis runtime adoption issue."
   }
 }

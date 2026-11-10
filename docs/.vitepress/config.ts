@@ -3,6 +3,7 @@ import { defineConfig, type DefaultTheme } from 'vitepress'
 import { version } from '../../package.json'
 import { es, zh, spanish, chinese, searchTranslations } from './translations'
 import { outlineLifecycle } from './outline-lifecycle'
+import { withNavigationStatus } from './navigation-status'
 
 const site = 'https://jolt.rafaelaugusto.dev'
 const repo = 'https://github.com/rafaelaugustos/jolt'
@@ -14,7 +15,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
     text: t[key],
     link: `${prefix}/guide/${path}`,
   })
-  return [
+  const items: DefaultTheme.SidebarItem[] = [
     {
       text: t.start,
       items: [
@@ -216,6 +217,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
       ],
     },
   ]
+  return withNavigationStatus(items, prefix, version)
 }
 
 const en = {

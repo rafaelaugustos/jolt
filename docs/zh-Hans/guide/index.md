@@ -33,6 +33,10 @@ if (card) {
 
 Web API 仍处于**实验阶段**。从 [Web 运行时](./web-runtime)开始，再了解[连续运动](./web-dynamic)、[手势与滚动](./web-gestures)以及[渐变、加载与文本](./web-effects)。各指南分别说明支持的目标和限制。
 
+## SwiftUI（测试版）{#swiftui-beta}
+
+对于用 Swift 编写的应用，[独立 SwiftUI 包](./swiftui)支持 iOS 17+ 和 macOS 14+，无需 NativeScript 或 JavaScript。这是 [PR #436](https://github.com/rafaelaugustos/jolt/pull/436) 中的实验性源码候选，尚待合并和发布；这些 API 不包含在 RC.12.1 中。
+
 ## 为什么不是`view.animate()` {#why-not-view-animate}
 
 NativeScript 的 `view.animate()` 涵盖了基础知识并就此止步：每个属性都有一条曲线，没有设置的 `spring` 曲线，没有关键帧，以及取消动画时拒绝的承诺。任何更丰富的东西最终都会成为平台代码。
@@ -64,3 +68,17 @@ NativeScript 的 `view.animate()` 涵盖了基础知识并就此止步：每个�
 3. **Web：**从 [Web 运行时](./web-runtime)或 [Vue DOM 适配器](./web-vue)开始。
 
 Jolt 目前是候选发布版本；已发布版本请参阅[安装](./install)。两个运行时都可直接使用，也提供可选的框架集成。
+
+## 如何阅读菜单 {#reading-the-menu}
+
+侧栏用三种标签标记功能：
+
+- **新增：**在本文档版本中引入。
+- **已更新：**现有功能有实质性变化。
+- **测试版：**实验性 API 或适配器，接口约定可能变化。
+
+文档版本变化后，新增和已更新标签自动失效。测试版标签保留到 API 稳定。标签说明会区分已发布功能与源码候选；指南会说明尚待合并或发布的部分。仅有标签并不意味着功能已经发布。
+
+<Clip name="docs-navigation-desktop" caption="macOS 上的 Chromium，桌面视口：侧栏中的 New、Updated 和 Beta 标签、键盘导航与明暗主题。展示的是文档导航，并非原生应用。" />
+
+<Clip name="docs-navigation-mobile" caption="macOS 上的 Chromium，模拟移动视口：打开菜单并访问带标签的条目。浏览器模拟，并非实体手机录制。" />

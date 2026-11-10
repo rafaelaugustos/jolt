@@ -33,6 +33,10 @@ Crie o runtime após a montagem no navegador e chame `motion.dispose()` quando a
 
 As APIs Web são **experimentais**. Comece pelo [runtime Web](./web-runtime), depois explore [movimento contínuo](./web-dynamic), [gestos e rolagem](./web-gestures) e [gradientes, carregamento e texto](./web-effects). Cada guia descreve os alvos compatíveis e seus limites.
 
+## SwiftUI (Beta)
+
+Para apps escritos em Swift, o [pacote SwiftUI independente](./swiftui) atende iOS 17+ e macOS 14+, sem NativeScript ou JavaScript. É um candidato experimental no [PR #436](https://github.com/rafaelaugustos/jolt/pull/436), ainda pendente de merge e publicação; essas APIs não estão na RC.12.1.
+
 ## Por que não o `view.animate()`
 
 O `view.animate()` do NativeScript cobre o básico e para por aí: uma curva para todas as propriedades, uma curva `spring` sem ajustes, nenhum keyframe, e uma promise que rejeita quando a animação é cancelada. Qualquer coisa mais rica acaba virando código de plataforma.
@@ -64,3 +68,17 @@ Os guias abaixo tratam de views do NativeScript. Para elementos HTML, use os gui
 3. **Web:** comece pelo [runtime Web](./web-runtime) ou pelo [adaptador Vue para DOM](./web-vue).
 
 O Jolt está em release candidate; consulte a [instalação](./install) para a versão publicada. Os dois runtimes podem ser usados diretamente, com integrações opcionais para frameworks.
+
+## Como ler o menu {#reading-the-menu}
+
+O menu lateral destaca recursos com três selos:
+
+- **Novo:** introduzido na edição documentada.
+- **Atualizado:** mudança relevante em um recurso existente.
+- **Beta:** API ou adaptador experimental cujo contrato pode mudar.
+
+Novo e Atualizado expiram quando a versão documentada muda. Beta permanece até a estabilização da API. A descrição do selo diferencia um recurso publicado de um candidato em código; o guia informa as pendências de merge ou publicação. O selo sozinho não significa que o recurso já foi lançado.
+
+<Clip name="docs-navigation-desktop" caption="Chromium no macOS, viewport de desktop: New, Updated e Beta no menu, navegação por teclado e temas claro/escuro. Demonstra a navegação da documentação, não um app nativo." />
+
+<Clip name="docs-navigation-mobile" caption="Chromium no macOS, viewport móvel emulado: abertura do menu e navegação pelos itens com selo. Emulação no navegador, não gravação em celular físico." />

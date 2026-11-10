@@ -1,5 +1,7 @@
 # Motion along a path
 
+The standalone SwiftUI candidate now supports [typed quadratic/cubic paths](./swiftui-geometry#quadratic-and-cubic-paths). It remains pending merge/publication; NativeScript/Web path support keeps its existing release history.
+
 Available in RC.12: [interaction and depth](./interaction-depth) adds portable drop zones, optional audio/cues, adapter inspection and Web path/3D/shadow contracts.
 
 ```ts

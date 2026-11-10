@@ -61,3 +61,11 @@ ffmpeg -v error -i docs/public/media/layout-ios.mp4 -f null -
 ```
 
 Use `ffprobe` to check duration, dimensions and codec. Watch the full clip and sample frames across its duration before committing. Never generate simulated animation footage, accelerate a performance comparison, or label simulator captures as physical-device recordings.
+
+## Documentation menu status
+
+`docs/.vitepress/navigation-status.ts` owns the sidebar markers for all four languages. Use **New** for a capability introduced in the documented edition, **Updated** for a material capability change, and **Beta** for an experimental API/adapter. These are curated capability labels, not file modification dates. Beta takes the single badge slot for experimental entries; other badges do not promise API stability.
+
+New/Updated entries carry the exact package edition and disappear automatically when its version changes. Review the map at every release, retiring old change markers and updating explicit `source` versus `published` availability. Do not mark source candidates as published because the documentation builds or a PR merges. Beta persists until its contract is intentionally stabilized. Keep status descriptions localized, accessible, and separate from the plain-text previous/next page labels. Inspect desktop/mobile and light/dark navigation after changing badge styles; site navigation has no native renderer counterpart.
+
+After building the docs, start a dedicated preview with `npm run docs:preview -- --host 127.0.0.1 --port 5187`. Run `node benchmarks/docs-navigation/record.mjs` to capture actual desktop and emulated mobile menu interaction in English. `JOLT_DOCS_URL` and `JOLT_DOCS_CAPTURE_DIR` override the preview and output directory. Review the output, trim only startup frames when needed without changing playback speed, and copy the reviewed MP4s to `docs/public/media/`. Label mobile footage as browser emulation.
