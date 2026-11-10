@@ -8,6 +8,16 @@ Changes to the internal portable motion boundary also require `npm run build` fo
 
 Changes to package exports, peer dependencies or Web/framework entries also require `npm run package:check` after building. Install the pinned native build tools with `npm ci --prefix benchmarks/native-app` and Chromium with `npx playwright install chromium` first. The check installs the actual tarball into clean consumers, verifies Vite/SSR and declarations, and builds iOS/Android production JavaScript with NativeScript's resolver. It prints the retained candidate path for local consumers such as Mavis. See [package consumer verification](benchmarks/package-consumers.md). Add a packed framework consumer when a new Web framework entry is introduced; the check deliberately rejects an unverified entry.
 
+## Documentation build resources
+
+`npm run docs:build` gives the VitePress process a 1,280 MiB old-space heap and limits page rendering/search indexing to four concurrent pages. The build is validated in a Linux container with 2 GiB of memory, no swap, and two CPUs. The heap limit covers only V8 old space: native allocations, esbuild and filesystem cache also use the container budget. Smaller build containers are not validated. Increasing Node's heap without increasing container memory can cause an OOM kill.
+
+VitePress 1.6.4 still depends on Vite 5. The scoped `package.json` override pins its build tool to Vite 6.4.6 (supported by the bundled Vue plugin), including a patched esbuild. Keep this override until a stable VitePress release supplies a patched dependency; validate both the static build and browser hydration/search before changing it. The root Vitest/Vite toolchain is separate. Use `npm ci` to retain the reviewed dependency versions.
+
+The four locale-specific local-search indexes exceed Vite's default 500 kB chunk warning. They are already loaded on demand, one language at a time when search opens. This warning is informational and is kept visible; it is not an OOM diagnostic. Preserve full-text and Chinese tokenization when evaluating future search changes.
+
+For a failed hosted build, inspect its final exit status and memory diagnostics. A V8 heap failure, a cgroup OOM kill and CPU quota throttling are different conditions. CPU throttling alone does not mean the build failed. Record the configured build memory/CPU limits as well as the Node version before comparing runs. See [the measured build investigation](benchmarks/docs-build-resources.md).
+
 ## A visual feature is complete only with a recording
 
 For each new visual feature or visible behavior change:
