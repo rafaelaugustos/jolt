@@ -8,6 +8,30 @@ import SwiftUI
   @Published public private(set) var destination: Int?
   public private(set) var disposed = false
   public let rowHeight: Double, spacing: Double
+  public let measuresRows: Bool
+  @Published private var measuredHeights: [String: Double] = [:]
+  private var dragGeometry: JoltReorderGeometry?
+  private var grabOffset = 0.0
+  public func height(for key: String) -> Double {
+    measuresRows ? measuredHeights[key] ?? rowHeight : rowHeight
+  }
+  public func updateMeasurements(_ heights: [String: Double]) throws {
+    guard !disposed else { throw JoltError.disposed }
+    let known = Set(keys)
+    guard heights.count <= 1000, heights.keys.allSatisfy(known.contains),
+      heights.values.allSatisfy({ $0.isFinite && $0 >= 24 && $0 <= 10000 })
+    else { throw JoltError.invalidMotion }
+    guard measuresRows else { return }
+    guard heights.contains(where: { abs((measuredHeights[$0.key] ?? rowHeight) - $0.value) > 0.5 })
+    else { return }
+    cancel()
+    measuredHeights.merge(heights) { _, next in next }
+  }
+  public func index(at offset: Double, inPreview: Bool = false) -> Int? {
+    try? JoltReorderGeometry(
+      heights: (inPreview ? preview : keys).map { height(for: $0) }, spacing: spacing
+    ).index(at: offset)
+  }
   private let clock: JoltClock
   private let onMove: @MainActor (JoltReorderMove) -> Void
   private var paused = false, suspended = false
@@ -25,7 +49,7 @@ import SwiftUI
     return copy
   }
   public init(
-    _ keys: [String], rowHeight: Double = 64, spacing: Double = 8,
+    _ keys: [String], rowHeight: Double = 64, spacing: Double = 8, measuresRows: Bool = false,
     clock: JoltClock = .shared, onMove: @escaping @MainActor (JoltReorderMove) -> Void = { _ in }
   ) throws {
     try Self.validate(keys)
@@ -33,6 +57,7 @@ import SwiftUI
       (0...100).contains(spacing)
     else { throw JoltError.invalidMotion }
     self.keys = keys
+    self.measuresRows = measuresRows
     self.rowHeight = rowHeight
     self.spacing = spacing
     self.clock = clock
@@ -48,20 +73,35 @@ import SwiftUI
     guard !disposed else { throw JoltError.disposed }
     cancel()
     self.keys = keys
+    measuredHeights = measuredHeights.filter { keys.contains($0.key) }
   }
-  public func begin(_ key: String) {
+  public func begin(_ key: String, pointerY: Double? = nil, scrollOffset: Double = 0) {
     guard !disposed, !paused, !suspended, keys.contains(key) else { return }
+    guard scrollOffset.isFinite, pointerY?.isFinite != false else { return }
     cancel()
     active = key
     destination = keys.firstIndex(of: key)
+    if measuresRows, let from = destination,
+      let geometry = try? JoltReorderGeometry(
+        heights: keys.map { height(for: $0) }, spacing: spacing)
+    {
+      dragGeometry = geometry
+      let center = geometry.starts[from] + geometry.heights[from] / 2
+      grabOffset = pointerY.map { $0 + scrollOffset - center } ?? 0
+    }
   }
   public func move(viewportY: Double, scrollOffset: Double, viewportHeight: Double) {
     guard active != nil, !disposed, !paused, !suspended,
       [viewportY, scrollOffset, viewportHeight].allSatisfy(\.isFinite), viewportHeight > 0
     else { return }
-    destination = min(
-      keys.count - 1,
-      max(0, Int(min(Double(keys.count), max(0, (viewportY + scrollOffset) / stride)))))
+    if measuresRows, let active, let from = keys.firstIndex(of: active), let dragGeometry {
+      destination = dragGeometry.destination(
+        from: from, center: viewportY + scrollOffset - grabOffset)
+    } else {
+      destination = min(
+        keys.count - 1,
+        max(0, Int(min(Double(keys.count), max(0, (viewportY + scrollOffset) / stride)))))
+    }
     let edge =
       viewportY < min(42, viewportHeight / 4)
       ? -1 : viewportY > viewportHeight - min(42, viewportHeight / 4) ? 1 : 0
@@ -112,6 +152,8 @@ import SwiftUI
     stopEdge()
     active = nil
     destination = nil
+    dragGeometry = nil
+    grabOffset = 0
   }
   public func pause() {
     paused = true
@@ -131,7 +173,7 @@ import SwiftUI
   }
 }
 
-/// Fixed-height, realized vertical rows. The handle drags; row bodies retain normal scroll behavior.
+/// Realized vertical rows. Opt into measured heights on the model; only handles initiate reorder.
 public struct JoltReorderList<Row: View>: View {
   @ObservedObject private var model: JoltReorderModel
   private let row: (String) -> Row
@@ -139,6 +181,7 @@ public struct JoltReorderList<Row: View>: View {
   @State private var coordinate = UUID()
   @State private var pointerY = 0.0
   @State private var edgeIndex = 0
+  @State private var gestureKey: String?
   @GestureState private var dragging = false
   @Environment(\.scenePhase) private var phase
   @Environment(\.isEnabled) private var enabled
@@ -151,6 +194,23 @@ public struct JoltReorderList<Row: View>: View {
   private func adjust(_ key: String, _ step: Int) {
     if let index = model.keys.firstIndex(of: key) { model.move(key, to: index + step) }
   }
+  private func connectEdge(_ proxy: ScrollViewProxy, height: Double) {
+    model.edgeScroll = { [weak model] direction in
+      guard let model, model.active != nil else { return false }
+      let visibleEdge =
+        model.index(at: max(0, scroll.offset + (direction > 0 ? height : 0)), inPreview: true) ?? 0
+      let next = min(
+        model.keys.count - 1,
+        max(
+          0,
+          direction > 0 ? max(edgeIndex + 1, visibleEdge) : min(edgeIndex - 1, visibleEdge)))
+      guard model.keys.indices.contains(next), next != edgeIndex else { return false }
+      edgeIndex = next
+      proxy.scrollTo(model.preview[next], anchor: direction > 0 ? .bottom : .top)
+      return true
+    }
+  }
+
   public var body: some View {
     GeometryReader { geometry in
       ScrollViewReader { proxy in
@@ -158,54 +218,62 @@ public struct JoltReorderList<Row: View>: View {
           VStack(spacing: model.spacing) {
             ForEach(model.preview, id: \.self) { key in
               HStack {
-                row(key).frame(maxWidth: .infinity, alignment: .leading)
-                Image(systemName: "line.3.horizontal").frame(width: 44, height: model.rowHeight)
-                  .contentShape(Rectangle()).accessibilityLabel("Move \(key)")
-                  .accessibilityIdentifier("jolt-reorder-handle-" + key)
-                  .highPriorityGesture(
-                    DragGesture(minimumDistance: 4, coordinateSpace: .named(coordinate))
-                      .updating($dragging) { _, state, _ in state = true }
-                      .onChanged { event in
-                        if model.active == nil {
-                          model.begin(key)
-                          edgeIndex = model.keys.firstIndex(of: key) ?? 0
-                        }
-                        pointerY = event.location.y
-                        model.move(
-                          viewportY: pointerY, scrollOffset: scroll.offset,
-                          viewportHeight: geometry.size.height)
-                      }.onEnded { _ in model.end() })
-              }.frame(height: model.rowHeight).background(
-                model.active == key ? Color.accentColor.opacity(0.15) : .clear
-              )
-              .accessibilityElement(children: .contain)
-              .accessibilityValue(
-                "Position \((model.keys.firstIndex(of:key) ?? 0)+1) of \(model.keys.count)"
-              )
-              .accessibilityAction(named: Text("Move up")) { adjust(key, -1) }
-              .accessibilityAction(named: Text("Move down")) { adjust(key, 1) }
-              .modifier(ReorderKeyboard(up: { adjust(key, -1) }, down: { adjust(key, 1) }))
-              .id(key)
+                row(key).frame(maxWidth: .infinity, alignment: .leading).fixedSize(
+                  horizontal: false, vertical: model.measuresRows)
+                Image(systemName: "line.3.horizontal").frame(
+                  width: 44, height: model.measuresRows ? 44 : model.rowHeight
+                )
+                .contentShape(Rectangle()).accessibilityLabel("Move \(key)")
+                .accessibilityIdentifier("jolt-reorder-handle-" + key)
+                .highPriorityGesture(
+                  DragGesture(minimumDistance: 4, coordinateSpace: .named(coordinate))
+                    .updating($dragging) { _, state, _ in state = true }
+                    .onChanged { event in
+                      if gestureKey == nil {
+                        gestureKey = key
+                        model.begin(
+                          key, pointerY: event.startLocation.y, scrollOffset: scroll.offset)
+                        edgeIndex = model.keys.firstIndex(of: key) ?? 0
+                      }
+                      pointerY = event.location.y
+                      model.move(
+                        viewportY: pointerY, scrollOffset: scroll.offset,
+                        viewportHeight: geometry.size.height)
+                    }.onEnded { _ in
+                      model.end()
+                      gestureKey = nil
+                    })
+              }.modifier(ReorderRowSize(measured: model.measuresRows, fixed: model.rowHeight))
+                .background {
+                  if model.measuresRows {
+                    GeometryReader { rowGeometry in
+                      Color.clear.preference(
+                        key: ReorderHeightsKey.self, value: [key: rowGeometry.size.height])
+                    }
+                  }
+                }.background(
+                  model.active == key ? Color.accentColor.opacity(0.15) : .clear
+                )
+                .accessibilityElement(children: .contain)
+                .accessibilityValue(
+                  "Position \((model.keys.firstIndex(of:key) ?? 0)+1) of \(model.keys.count)"
+                )
+                .accessibilityAction(named: Text("Move up")) { adjust(key, -1) }
+                .accessibilityAction(named: Text("Move down")) { adjust(key, 1) }
+                .modifier(ReorderKeyboard(up: { adjust(key, -1) }, down: { adjust(key, 1) }))
+                .id(key)
             }
+          }.onPreferenceChange(ReorderHeightsKey.self) { heights in
+            try? model.updateMeasurements(heights.filter { model.keys.contains($0.key) })
           }.animation(reduced || appReduced ? nil : .easeOut(duration: 0.15), value: model.preview)
         }.coordinateSpace(name: coordinate)
           .onAppear {
             if phase == .active && enabled { model.resume() } else { model.suspend() }
-            model.edgeScroll = { [weak model] direction in
-              guard let model, model.active != nil else { return false }
-              let visibleEdge = Int(
-                max(0, scroll.offset + (direction > 0 ? geometry.size.height : 0)) / model.stride)
-              let next = min(
-                model.keys.count - 1,
-                max(
-                  0,
-                  direction > 0 ? max(edgeIndex + 1, visibleEdge) : min(edgeIndex - 1, visibleEdge))
-              )
-              guard model.keys.indices.contains(next), next != edgeIndex else { return false }
-              edgeIndex = next
-              proxy.scrollTo(model.preview[next], anchor: direction > 0 ? .bottom : .top)
-              return true
-            }
+            connectEdge(proxy, height: geometry.size.height)
+          }
+          .onChange(of: geometry.size) { _, next in
+            model.cancel()
+            connectEdge(proxy, height: next.height)
           }
           .onDisappear {
             model.suspend()
@@ -222,7 +290,12 @@ public struct JoltReorderList<Row: View>: View {
               viewportY: pointerY, scrollOffset: scroll.offset, viewportHeight: geometry.size.height
             )
           }
-          .onChange(of: dragging) { _, next in if !next && model.active != nil { model.cancel() } }
+          .onChange(of: dragging) { _, next in
+            if !next {
+              if model.active != nil { model.cancel() }
+              gestureKey = nil
+            }
+          }
       }
     }
   }
@@ -242,3 +315,21 @@ private struct ReorderKeyboard: ViewModifier {
 }
 
 @MainActor private func makeReorderScroll() -> JoltScrollProgress { try! .init() }
+
+private struct ReorderHeightsKey: PreferenceKey {
+  static let defaultValue: [String: Double] = [:]
+  static func reduce(value: inout [String: Double], nextValue: () -> [String: Double]) {
+    value.merge(nextValue()) { _, next in next }
+  }
+}
+private struct ReorderRowSize: ViewModifier {
+  let measured: Bool
+  let fixed: Double
+  func body(content: Content) -> some View {
+    if measured {
+      content.frame(minHeight: 44, maxHeight: 10000).clipped()
+    } else {
+      content.frame(height: fixed)
+    }
+  }
+}

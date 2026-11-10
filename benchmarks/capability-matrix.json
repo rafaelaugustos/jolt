@@ -2727,7 +2727,7 @@
         437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452,
         453, 454, 455, 456, 457, 458, 459, 460
       ],
-      "limit": "Standalone iOS 17+/macOS 14+ source candidate covering scoped sampled motion, native interaction, composition and retained graphics. Apple points/native DIP/Web CSS pixels; platform rendering and event timing differ. Polyline paths only, finite property-target behaviors, bounded retained Canvas, no sensors or hardware/performance parity. Native and Web local acceptance and EN/PT/ES/ZH recordings are provided; merge/publication pending.",
+      "limit": "Standalone iOS 17+/macOS 14+ source candidate covering scoped sampled motion, native interaction, composition and retained graphics. Apple points/native DIP/Web CSS pixels; platform rendering and event timing differ. Initial polyline paths extended by swiftui-measured-geometry below; finite property-target behaviors, bounded retained Canvas, no sensors or hardware/performance parity. Native and Web local acceptance and EN/PT/ES/ZH recordings are provided; merge/publication pending.",
       "evidence": [
         "Package.swift",
         "packages/swiftui/Tests/JoltCoreTests/MathTests.swift",
@@ -2744,7 +2744,7 @@
       "id": "swiftui-interaction-characters",
       "issues": [461, 462, 463, 464, 465, 466],
       "status": "candidate-unpublished",
-      "limit": "Standalone iOS 17+/macOS 14+ source candidate: finite scalar keyframes, focal gestures, fixed-height realized reorder, owned in-app drop zones, bounded Canvas particles and articulated symbol rigs. Existing Web APIs reused in packed framework consumers. Apple points and CSS pixels, platform input/rendering differences, no virtualization, OS file drop, mesh/IK or performance parity; merge/publication pending.",
+      "limit": "Standalone iOS 17+/macOS 14+ source candidate: finite scalar keyframes, focal gestures, fixed-height realized reorder (measured opt-in added by swiftui-measured-geometry below), owned in-app drop zones, bounded Canvas particles and articulated symbol rigs. Existing Web APIs reused in packed framework consumers. Apple points and CSS pixels, platform input/rendering differences, no virtualization, OS file drop, mesh/IK or performance parity; merge/publication pending.",
       "evidence": [
         "packages/swiftui/Sources/JoltSwiftUI/NativeGestureInput.swift",
         "packages/swiftui/Tests/JoltCoreTests/InteractionTests.swift",
@@ -2754,6 +2754,23 @@
         "benchmarks/web-frameworks/characters.spec.ts",
         "benchmarks/swiftui-next-six.md",
         "docs/guide/swiftui-characters.md"
+      ]
+    },
+    {
+      "id": "swiftui-measured-geometry",
+      "issues": [467, 468, 469],
+      "status": "candidate-unpublished",
+      "limit": "Standalone iOS 17+/macOS 14+: in-app snap panels with host-relative keyboard overlap, measured realized reorder and bounded typed quadratic/cubic paths. Existing Web backends reused; Web reorder retains geometry observation between drags after FLIP. No system modal/focus trap, virtualizer, full SVG importer/morphing, continuous scroll-to-spring momentum handoff or physical-device/performance parity. Merge/publication pending.",
+      "evidence": [
+        "packages/swiftui/Sources/JoltSwiftUI/JoltSheetView.swift",
+        "packages/swiftui/Tests/JoltCoreTests/GeometryTests.swift",
+        "packages/swiftui/Tests/JoltSwiftUITests/PanelGeometryTests.swift",
+        "src/web/reorder.ts",
+        "benchmarks/swiftui-demo/Panels.swift",
+        "benchmarks/swiftui-demo/UITests.swift",
+        "benchmarks/web-frameworks/geometry.spec.ts",
+        "benchmarks/swiftui-next-three.md",
+        "docs/guide/swiftui-geometry.md"
       ]
     }
   ]

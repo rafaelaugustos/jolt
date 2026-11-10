@@ -55,6 +55,8 @@ JoltMotionValue.decay 使用共享指数方程，速度为点/秒，friction 为
 
 JoltPath 接受 ±1,000,000 内的 2–1024 个点，移除连续重复点，按折线弧长采样，限制进度并展开切线角度。退化路径停在原点且旋转为零。joltPath 借用进度绑定位置与可选方向。首版不解析通用 SVG 曲线，也不做路径 morph；Web 保留更广 SVG 语法。共享 fixtures 验证位置和切线。
 
+折线示例仍然有效。类型化二次/三次曲线及其限制见[测量几何](./swiftui-geometry)。
+
 JoltDrawing 保留最多 1024 个形状与 8192 个点/几何单元。路径、矩形、椭圆使用局部点，fill/stroke 用 JoltColor，线宽 0…1000。整体更新先验证再替换。JoltDrawingView 用一个 Canvas 与借用的描边进度，暂停仍保留填充与几何，dispose 清空。首版共享描边进度，不提供逐项点击、SVG parser 或自动 viewBox 适配；有意义的图形需提供辅助功能标签。
 
 JoltTextPaint 验证 2–8 种颜色、0…1 有序 stops、顺时针角度和 (0,1] 光带宽度。JoltGradientText 保留真正可访问的 Text，把有限可选光带裁剪到字形。应用拥有进度，动画 0→1 或 1→0，并通过 scope 暂停/取消/销毁；不会创建无限循环。减少动态效果或非活跃场景隐藏光带，保留可读渐变文字。字体、换行与光栅化由平台决定。

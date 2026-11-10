@@ -43,6 +43,8 @@ On macOS, recognized drag/pinch/rotation takes priority over a wrapped control�
 
 `JoltReorderModel` owns up to 1,000 unique stable string IDs (1–128 characters). `JoltReorderList` realizes fixed-height vertical rows: 24–500 points high, with 0–100 points spacing. It is not a virtualizer. Only the handle starts drag; row content retains normal scrolling. Preview leaves committed keys unchanged until release; `onMove` receives the stable key, final index and `beforeKey`. Application persistence remains the caller's responsibility. `replace` validates all keys before cancelling input. Edge scrolling runs only during an active edge drag and stops at the boundary or cancellation.
 
+Fixed height remains the default. Opt into [measured row heights](./swiftui-geometry#realized-rows-with-measured-heights) with `measuresRows: true`; the list is still realized.
+
 ```swift
 let order = try scope.retain(JoltReorderModel(["one", "two", "three"]) { move in
     // Persist the controlled application order using move.key / move.beforeKey.

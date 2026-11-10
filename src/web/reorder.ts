@@ -2,6 +2,7 @@ import {
   itemKeys,
   sameKeys,
   moveAt,
+  reorderDestination,
   type ReorderKey,
   type ReorderMove,
 } from '../core/reorder.js'
@@ -179,6 +180,9 @@ export function createReorder<K extends ReorderKey>(
       throw new TypeError('Reorder rows need unique descendant elements.')
     return items
   }
+  // A completed FLIP retains row surfaces. Keep their measured geometry current
+  // while idle so later text/size changes do not invalidate the next drag.
+  const geometry = new Map<HTMLElement, { dispose(): void }>()
   const cleanupPreview = () => {
     const owned = preview,
       restore = restoreDrag
@@ -296,6 +300,14 @@ export function createReorder<K extends ReorderKey>(
         let binding: OwnedBinding
         try {
           binding = host.bindLayer(entry.target, { [axis]: value }, layer)
+          try {
+            const lease = host.geometry(entry.target)
+            geometry.get(entry.target)?.dispose()
+            geometry.set(entry.target, lease)
+          } catch (error) {
+            binding.dispose()
+            throw error
+          }
         } catch (error) {
           value.dispose()
           throw error
@@ -387,9 +399,7 @@ export function createReorder<K extends ReorderKey>(
         entry = preview[from]!
       entry.value.set(delta)
       const center = entry.start + delta + entry.size / 2
-      const index = preview.filter(
-        (row, i) => i !== from && center > row.start + row.size / 2,
-      ).length
+      const index = reorderDestination(preview, from, center) ?? from
       if (index !== to) {
         reorderPreview(index)
         announce(active, to, 'moved')
@@ -430,6 +440,12 @@ export function createReorder<K extends ReorderKey>(
       }
     })
     for (const row of previous.values()) row.restore()
+    const retained = new Set(rows.map((row) => row.target))
+    for (const [target, lease] of geometry)
+      if (!retained.has(target)) {
+        lease.dispose()
+        geometry.delete(target)
+      }
     observeRows()
   }
   events.on(container, 'pointerdown', (event: PointerEvent) => {
@@ -699,6 +715,8 @@ export function createReorder<K extends ReorderKey>(
       layout = undefined
       events.dispose()
       resize.disconnect()
+      for (const lease of geometry.values()) lease.dispose()
+      geometry.clear()
       for (const row of rows) row.restore()
       rows = []
       live.remove()

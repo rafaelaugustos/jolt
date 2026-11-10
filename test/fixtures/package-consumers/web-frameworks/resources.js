@@ -1,3 +1,4 @@
+import { geometrySetup } from './geometry.js'
 import { characterSetup } from './characters.js'
 import { advancedSetup } from './advanced.js'
 import { createPreset } from '@rafaelaugusto/jolt/web'
@@ -5,6 +6,8 @@ import { createMotionInspector } from '@rafaelaugusto/jolt/web/inspector'
 
 /** The actual framework owns this host; its scoped setup owns this adapter-generated scene. */
 export function resourceSetup(scope, host, runtime) {
+  if (new URLSearchParams(location.search).has('geometry'))
+    return geometrySetup(scope, host, runtime)
   if (new URLSearchParams(location.search).has('characters'))
     return characterSetup(scope, host, runtime)
   if (new URLSearchParams(location.search).has('advanced'))

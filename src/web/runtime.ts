@@ -2697,6 +2697,7 @@ export class WebRuntime {
       motionValue: this.motionValue.bind(this),
       animate: this.animate.bind(this),
       bindLayer: this.bindInLayer.bind(this),
+      geometry: this.geometryLease.bind(this),
       layer: (name) => `jolt:interaction:${name}:${++this.nextInteraction}`,
       gestures: this.gestures.bind(this),
       bind: this.bind.bind(this),

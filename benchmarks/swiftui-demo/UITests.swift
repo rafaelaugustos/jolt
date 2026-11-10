@@ -486,6 +486,126 @@ final class SwiftUIAcceptance: XCTestCase {
     XCTAssertTrue(label(app, "particle-status").contains("0"))
     cue("stop")
   }
+  @MainActor func testPanelExpansion() {
+    let app = lab("--panel-lab")
+    let open = app.buttons["panel-open"]
+    XCTAssertTrue(open.waitForExistence(timeout: 10))
+    cue("start")
+    click(open)
+    let handle = app.descendants(matching: .any)["jolt-sheet-handle"].firstMatch
+    XCTAssertTrue(wait { self.label(app, "panel-status").contains("230 pt") })
+    let compactY = handle.frame.midY
+    click(app.buttons["panel-expand"])
+    XCTAssertTrue(wait { handle.frame.midY < compactY - 100 })
+    click(app.buttons["panel-expand"])
+    Thread.sleep(forTimeInterval: 0.5)
+    let expandedY = handle.frame.midY
+    let firstStop = app.descendants(matching: .any)["panel-stop-1"].firstMatch
+    let firstStopY = firstStop.frame.midY
+    #if os(iOS)
+      let scroll = app.scrollViews["jolt-sheet-scroll"].firstMatch
+      let scrollStart = scroll.coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.82))
+      scrollStart.press(
+        forDuration: 0.05,
+        thenDragTo: scroll.coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.25)),
+        withVelocity: .slow, thenHoldForDuration: 0.1)
+      XCTAssertTrue(wait { firstStop.frame.midY < firstStopY - 40 })
+      XCTAssertEqual(handle.frame.midY, expandedY, accuracy: 4)
+      scroll.swipeDown()
+    #else
+      app.scrollViews["jolt-sheet-scroll"].firstMatch.scroll(byDeltaX: 0, deltaY: -180)
+      XCTAssertTrue(wait { firstStop.frame.midY < firstStopY - 40 })
+      XCTAssertEqual(handle.frame.midY, expandedY, accuracy: 4)
+      app.scrollViews["jolt-sheet-scroll"].firstMatch.scroll(byDeltaX: 0, deltaY: 600)
+    #endif
+    let field = app.textFields["panel-note"]
+    XCTAssertTrue(field.waitForExistence(timeout: 3))
+    click(field)
+    field.typeText("Bring a camera")
+    #if os(iOS)
+      XCTAssertTrue(app.keyboards.firstMatch.waitForExistence(timeout: 3))
+      XCTAssertLessThan(field.frame.maxY, app.keyboards.firstMatch.frame.minY)
+      app.keyboards.buttons["Done"].tap()
+    #else
+      click(app.buttons["panel-done"])
+    #endif
+    click(app.buttons["panel-compact"])
+    XCTAssertTrue(wait { abs(handle.frame.midY - compactY) < 4 })
+    let start = handle.coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.5))
+    start.press(
+      forDuration: 0.15, thenDragTo: start.withOffset(.init(dx: 0, dy: -180)), withVelocity: .slow,
+      thenHoldForDuration: 0.2)
+    XCTAssertTrue(wait { handle.frame.midY < compactY - 80 })
+    #if os(macOS)
+      // The handle keeps focus during pointer input; Escape dismisses and returns focus.
+      handle.typeKey(.escape, modifierFlags: [])
+    #else
+      click(app.buttons["panel-close"])
+    #endif
+    XCTAssertTrue(wait { self.label(app, "panel-status").contains("closed") })
+    XCTAssertTrue(wait { self.label(app, "panel-focus").contains("1") })
+    #if os(macOS)
+      click(app.checkBoxes["panel-reduce"])
+    #else
+      app.switches["panel-reduce"].coordinate(withNormalizedOffset: .init(dx: 0.94, dy: 0.5)).tap()
+    #endif
+    click(open)
+    XCTAssertTrue(wait { self.label(app, "panel-status").contains("230 pt") })
+    click(app.buttons["panel-mount"])
+    XCTAssertFalse(handle.exists)
+    click(app.buttons["panel-mount"])
+    XCTAssertTrue(handle.waitForExistence(timeout: 3))
+    click(app.buttons["panel-close"])
+    cue("stop")
+  }
+  @MainActor func testGeometryExpansion() {
+    let app = lab("--geometry-lab")
+    let marker = app.descendants(matching: .any)["curve-marker"].firstMatch
+    XCTAssertTrue(marker.waitForExistence(timeout: 10))
+    cue("start")
+    let origin = marker.frame.midX
+    click(app.buttons["curve-play"])
+    XCTAssertTrue(wait { self.label(app, "curve-status").contains("1.00") })
+    XCTAssertGreaterThan(marker.frame.midX, origin + 220)
+    click(app.buttons["curve-reverse"])
+    Thread.sleep(forTimeInterval: 0.6)
+    click(app.buttons["curve-cancel"])
+    let frozen = marker.frame.midX
+    Thread.sleep(forTimeInterval: 0.4)
+    XCTAssertEqual(marker.frame.midX, frozen, accuracy: 1)
+    click(app.buttons["curve-reverse"])
+    XCTAssertTrue(wait { abs(marker.frame.midX - origin) < 3 })
+    let first = app.descendants(matching: .any)["jolt-reorder-handle-Stop 1"].firstMatch
+    let second = app.descendants(matching: .any)["jolt-reorder-handle-Stop 2"].firstMatch
+    let third = app.descendants(matching: .any)["jolt-reorder-handle-Stop 3"].firstMatch
+    XCTAssertGreaterThan(
+      third.frame.midY - second.frame.midY, second.frame.midY - first.frame.midY - 10)
+    first.coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.5)).press(
+      forDuration: 0.15,
+      thenDragTo: third.coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.5)).withOffset(
+        .init(dx: 0, dy: 12)))
+    XCTAssertTrue(
+      wait { self.label(app, "measured-status").contains("Stop 2, Stop 3, Stop 1") },
+      label(app, "measured-status"))
+    click(app.buttons["measured-reset"])
+    let height = app.descendants(matching: .any)["measured-Stop 2"].firstMatch.frame.height
+    click(app.buttons["measured-resize"])
+    XCTAssertTrue(
+      wait {
+        app.descendants(matching: .any)["measured-Stop 2"].firstMatch.frame.height > height + 20
+      })
+    click(app.buttons["measured-resize"])
+    #if os(macOS)
+      click(app.checkBoxes["geometry-reduce"])
+    #else
+      app.switches["geometry-reduce"].coordinate(withNormalizedOffset: .init(dx: 0.94, dy: 0.5))
+        .tap()
+    #endif
+    click(app.buttons["curve-play"])
+    XCTAssertTrue(wait { marker.frame.midX > origin + 220 })
+    click(app.buttons["measured-reset"])
+    cue("stop")
+  }
   private func cue(_ action: String) {
     let device = ProcessInfo.processInfo.environment["SIMULATOR_UDID"] ?? "macos"
     let directory = URL(fileURLWithPath: "/tmp/jolt-swiftui-recording-control-" + device)

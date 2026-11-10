@@ -68,3 +68,5 @@ packages/swiftui/Tests/JoltCoreTests/Fixtures/portable.json
 packages/swiftui/Tests/JoltCoreTests/Fixtures/math.json
 
 packages/swiftui/Tests/JoltCoreTests/Fixtures/interactions.json
+
+packages/swiftui/Tests/JoltCoreTests/Fixtures/geometry.json

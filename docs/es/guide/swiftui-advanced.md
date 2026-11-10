@@ -55,6 +55,8 @@ JoltMotionValue.decay usa velocidad en puntos/segundo y fricción exponencial po
 
 JoltPath acepta 2–1024 puntos dentro de ±1.000.000, elimina duplicados consecutivos y muestrea una polilínea por longitud. Limita progreso y mantiene continuidad angular. Caminos degenerados quedan en su punto con rotación cero. joltPath vincula posición/orientación a progreso prestado. No incluye parser SVG general ni morph; Web conserva su gramática SVG más amplia. Fixtures compartidas verifican posiciones y tangentes.
 
+El ejemplo de polilínea sigue siendo válido. Para segmentos cuadráticos/cúbicos tipados y sus límites, consulta [geometría medida](./swiftui-geometry).
+
 JoltDrawing retiene hasta 1024 formas y 8192 puntos/unidades geométricas. Paths, rectángulos y elipses usan puntos locales, colores JoltColor y grosor 0…1000. Valida una actualización completa antes de aplicarla. JoltDrawingView usa un Canvas y progreso de trazo prestado; pausar conserva dibujo/relleno. dispose limpia. Primera versión con progreso compartido, sin hit testing por elemento, parser SVG o ajuste viewBox automático. Proporcione etiqueta accesible.
 
 JoltTextPaint valida 2–8 colores, stops ordenados 0…1, ángulo horario y ancho de brillo (0,1]. JoltGradientText mantiene Text real accesible y recorta el brillo en los glifos. La aplicación posee progreso: anime 0→1 o 1→0 y controle pausa/cancelación/dispose por scope. No crea bucle infinito. Movimiento reducido e inactividad ocultan brillo y conservan texto legible. Fuentes/rasterización/saltos de línea son propios de cada plataforma.

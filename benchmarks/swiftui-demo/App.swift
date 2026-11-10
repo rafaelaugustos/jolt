@@ -7,7 +7,11 @@ import SwiftUI
 
 @main struct JoltSwiftUIDemo: App {
   @ViewBuilder private var root: some View {
-    if ProcessInfo.processInfo.arguments.contains("--key-gesture-lab") {
+    if ProcessInfo.processInfo.arguments.contains("--panel-lab") {
+      PanelLab()
+    } else if ProcessInfo.processInfo.arguments.contains("--geometry-lab") {
+      GeometryLab()
+    } else if ProcessInfo.processInfo.arguments.contains("--key-gesture-lab") {
       KeyGestureLab()
     } else if ProcessInfo.processInfo.arguments.contains("--transfer-lab") {
       TransferLab()

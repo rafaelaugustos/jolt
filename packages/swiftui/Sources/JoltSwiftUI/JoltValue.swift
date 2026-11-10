@@ -62,13 +62,15 @@ public enum JoltPlaybackState: String, Sendable {
   }
   /// Replacement springs inherit sampled velocity. Completion reports false on cancellation/replacement.
   public func animate(
-    to next: Double, transition: JoltTransition = .spring(.smooth), reducedMotion: Bool = false,
+    to next: Double, transition: JoltTransition = .spring(.smooth),
+    velocity initialVelocity: Double? = nil, reducedMotion: Bool = false,
     completion: (@MainActor (Bool) -> Void)? = nil
   ) throws {
     guard !disposed else { throw JoltError.disposed }
     let sample = currentSample()
     let candidate = try JoltScalarMotion(
-      from: sample?.position ?? value, to: next, velocity: sample?.velocity ?? velocity,
+      from: sample?.position ?? value, to: next,
+      velocity: initialVelocity ?? sample?.velocity ?? velocity,
       transition: transition)
     let oldFinishers = detachMotion()
     generation += 1

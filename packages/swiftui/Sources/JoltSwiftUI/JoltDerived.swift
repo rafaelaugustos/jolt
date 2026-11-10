@@ -5,6 +5,7 @@ public typealias JoltNumericMap = JoltCore.JoltNumericMap
 public typealias JoltColor = JoltCore.JoltColor
 public typealias JoltPoint = JoltCore.JoltPoint
 public typealias JoltPath = JoltCore.JoltPath
+public typealias JoltPathSegment = JoltCore.JoltPathSegment
 
 /// Borrows its source. Pausing freezes the mapping; resuming catches up without a new clock.
 @MainActor public final class JoltMappedValue: ObservableObject, JoltResource {

@@ -44,6 +44,8 @@ try gesture.settle(to: .init(), reducedMotion: false)
 
 JoltReorderModel posee hasta 1.000 IDs string únicos y estables de 1–128 caracteres. JoltReorderList realiza filas verticales de altura fija de 24–500 puntos y separación de 0–100; no virtualiza. Solo el asa inicia arrastre; el contenido conserva el desplazamiento. La vista previa no modifica keys hasta soltar. onMove recibe key, índice final y beforeKey; la aplicación persiste sus datos. replace valida antes de cancelar la entrada. El desplazamiento de borde solo trabaja durante el arrastre activo y se detiene al alcanzar el límite.
 
+Altura fija sigue siendo el valor predeterminado. Usa `measuresRows: true` para [alturas medidas](./swiftui-geometry); la lista sigue realizada.
+
 Cada fila expone posición y acciones accesibles para subir/bajar; macOS acepta flechas con foco. Movimiento reducido elimina animación de la vista previa sin impedir la operación. Pausa, deshabilitación, background, nuevos datos y descarte cancelan sin commit. Web reutiliza scope.reorder, filas DOM realizadas, teclado y desplazamiento de borde. Sus filas variables no implican virtualización SwiftUI.
 
 ```swift

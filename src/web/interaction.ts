@@ -34,6 +34,8 @@ export interface InteractionHost extends Pick<
     values: import('./value.js').WebBindings,
     layer: string,
   ): OwnedBinding
+  /** Retain size/origin tracking across idle periods between interactions. */
+  geometry(target: HTMLElement): WebBinding
   layer(name: string): string
   scheduler: FrameScheduler
   error(error: unknown): void

@@ -51,3 +51,26 @@ export function moveAt<K extends ReorderKey>(
     toIndex,
   }
 }
+
+/** Destination in a measured, realized layout. The caller supplies the dragged row's center. */
+export function reorderDestination(
+  rows: readonly { start: number; size: number }[],
+  from: number,
+  center: number,
+): number | undefined {
+  if (
+    !Number.isInteger(from) ||
+    from < 0 ||
+    from >= rows.length ||
+    !Number.isFinite(center)
+  )
+    return undefined
+  let destination = 0
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i]!
+    if (!Number.isFinite(row.start) || !Number.isFinite(row.size) || row.size < 0)
+      return undefined
+    if (i !== from && center > row.start + row.size / 2) destination++
+  }
+  return destination
+}

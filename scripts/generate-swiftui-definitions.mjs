@@ -297,3 +297,198 @@ if (process.argv.includes('--check')) {
   if (readFileSync(interactionsFile, 'utf8') !== interactionsData)
     throw Error('Swift interaction/character fixtures are stale.')
 } else writeFileSync(interactionsFile, interactionsData)
+
+const { sheetGeometry, releaseStop } = await import('../dist/core/sheet-geometry.js')
+const { reorderDestination } = await import('../dist/core/reorder.js')
+const curveRecipes = [
+  {
+    start: [0, 0],
+    segments: [
+      {
+        kind: 'quadratic',
+        points: [
+          [50, 100],
+          [100, 0],
+        ],
+      },
+    ],
+  },
+  {
+    start: [0, 0],
+    segments: [
+      {
+        kind: 'cubic',
+        points: [
+          [30, -120],
+          [100, 120],
+          [180, 0],
+        ],
+      },
+    ],
+  },
+  {
+    start: [0, 0],
+    segments: [
+      {
+        kind: 'cubic',
+        points: [
+          [200, 200],
+          [-200, 200],
+          [0, 0],
+        ],
+      },
+    ],
+  },
+  {
+    start: [0, 0],
+    segments: [
+      {
+        kind: 'cubic',
+        points: [
+          [1, 0],
+          [99, 0],
+          [100, 0],
+        ],
+      },
+    ],
+  },
+  {
+    start: [3, 4],
+    segments: [
+      {
+        kind: 'quadratic',
+        points: [
+          [3, 4],
+          [3, 4],
+        ],
+      },
+    ],
+  },
+  {
+    start: [0, 0],
+    segments: [
+      { kind: 'line', points: [[40, 20]] },
+      {
+        kind: 'quadratic',
+        points: [
+          [80, -40],
+          [120, 30],
+        ],
+      },
+      {
+        kind: 'cubic',
+        points: [
+          [140, 100],
+          [60, 180],
+          [-20, 80],
+        ],
+      },
+    ],
+  },
+]
+const geometryFixtures = {
+  sheets: [
+    [800, 900, 1000, 0, 24, 34, 420, true],
+    [800, 900, 1000, 300, 24, 34, 420, true],
+    [500, 700, 1000, 300, 24, 34, 800, true],
+    [600, 600, 600, 100, 0, 34, 300, false],
+    [100, 100, 100, 100, 30, 34, 300, true],
+  ].map(
+    ([
+      hostHeight,
+      hostBottom,
+      windowHeight,
+      keyboardHeight,
+      safeTop,
+      safeBottom,
+      contentHeight,
+      extendable,
+    ]) => {
+      const snaps = [120, '50%', 'content']
+      const geometry = sheetGeometry(
+        snaps,
+        hostHeight,
+        hostBottom,
+        windowHeight,
+        keyboardHeight,
+        safeTop,
+        safeBottom,
+        contentHeight,
+        extendable,
+      )
+      return {
+        snaps,
+        hostHeight,
+        safeTop,
+        safeBottom,
+        contentHeight,
+        extendable,
+        keyboardOverlap: Math.max(
+          0,
+          Math.min(hostHeight, hostBottom - (windowHeight - keyboardHeight)),
+        ),
+        geometry,
+        releases: [false, true].flatMap((dismissible) =>
+          [0, 200, 650].flatMap((y) =>
+            [-6000, 0, 1800].map((velocity) => ({
+              y,
+              velocity,
+              dismissible,
+              index: geometry.stops.indexOf(
+                releaseStop(geometry, y, velocity, dismissible),
+              ),
+            })),
+          ),
+        ),
+      }
+    },
+  ),
+  reorder: [0, 1, 2, 3].flatMap((from) =>
+    [-10, 0, 22, 80, 150, 300, 600].map((center) => {
+      const heights = [44, 130, 72, 210],
+        spacing = 8
+      let start = 0
+      const rows = heights.map((size) => {
+        const row = { start, size }
+        start += size + spacing
+        return row
+      })
+      return {
+        heights,
+        spacing,
+        from,
+        center,
+        destination: reorderDestination(rows, from, center),
+      }
+    }),
+  ),
+  curves: curveRecipes.map((recipe) => {
+    const data =
+      'M' +
+      recipe.start.join(' ') +
+      recipe.segments
+        .map(
+          (segment) =>
+            ({ line: 'L', quadratic: 'Q', cubic: 'C' })[segment.kind] +
+            segment.points.flat().join(' '),
+        )
+        .join(' ')
+    const path = parsePath(data)
+    return {
+      ...recipe,
+      length: path.length,
+      samples: [-0.1, 0, 0.001, 0.1, 0.25, 0.5, 0.75, 0.9, 0.999, 1, 1.1].map(
+        (progress) => ({ progress, ...path.at(progress) }),
+      ),
+    }
+  }),
+}
+const geometryFile = new URL(
+  '../packages/swiftui/Tests/JoltCoreTests/Fixtures/geometry.json',
+  import.meta.url,
+)
+const geometryData = JSON.stringify(geometryFixtures, null, 2) + '\n'
+if (process.argv.includes('--check')) {
+  if (readFileSync(geometryFile, 'utf8') !== geometryData)
+    throw Error('Swift panel/measured geometry fixtures are stale.')
+} else writeFileSync(geometryFile, geometryData)

@@ -44,6 +44,8 @@ try gesture.settle(to: .init(), reducedMotion: false)
 
 JoltReorderModel 拥有最多 1,000 个唯一稳定字符串 ID，长度 1–128。JoltReorderList 实例化固定高度的竖直行：24–500 点，间距 0–100；不提供虚拟列表。只有拖柄启动拖动，行内容仍可滚动。预览直到释放才提交 keys；onMove 返回稳定 key、最终索引及 beforeKey，数据持久化由应用负责。replace 先验证所有 ID 再取消输入。边缘滚动仅在有效拖动期间工作，到达边界或取消时停止。
 
+固定高度仍为默认值。使用 `measuresRows: true` 启用[测量行高](./swiftui-geometry)，列表仍实现所有行。
+
 每行提供位置说明和上移/下移无障碍动作；macOS 聚焦行也支持方向键。减少动态效果仅取消预览动画，不阻止重排。暂停、禁用、后台、替换数据和销毁均取消且不提交。Web 复用 scope.reorder、已实例化 DOM 行、键盘拾取/提交/取消及边缘滚动；Web 可变行尺寸不代表 SwiftUI 虚拟化。
 
 ```swift
