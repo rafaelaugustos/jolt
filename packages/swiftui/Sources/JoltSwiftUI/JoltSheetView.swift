@@ -158,11 +158,12 @@ public struct JoltBottomSheet<Background: View, Content: View>: View {
         visible = true
         synchronize()
         measure(geometry)
+        handleFocused = model.isOpen
+        accessibilityFocused = model.isOpen
       }
       .onDisappear {
         visible = false
         synchronize()
-        model.cancel()
       }
       .onChange(of: geometry.size) { _, _ in measure(geometry) }
       .onChange(of: geometry.safeAreaInsets) { _, _ in measure(geometry) }

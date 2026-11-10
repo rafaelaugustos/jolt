@@ -53,6 +53,20 @@ final class PanelGeometryTests: XCTestCase {
     XCTAssertEqual(sheet.position, 600)
     sheet.dispose()
     XCTAssertThrowsError(try sheet.open())
+    let retained = try JoltSheetModel(snaps: [.points(180), .fraction(0.8)], clock: clock)
+    try retained.updateLayout(height: 600, contentHeight: 320)
+    try retained.open(.fraction(0.8))
+    try clock.advance(by: 30)
+    retained.suspend()
+    let suspendedAt = retained.position
+    try clock.advance(by: 1000)
+    XCTAssertEqual(retained.position, suspendedAt)
+    XCTAssertEqual(clock.activeCount, 0)
+    retained.resume()
+    try clock.advance(by: 3000)
+    XCTAssertEqual(retained.position, 120, accuracy: 1e-6)
+    XCTAssertEqual(retained.state, .completed)
+    retained.dispose()
   }
   @MainActor func testSheetKeyboardRemeasureAndInvalidLayoutKeepTheLogicalStop() async throws {
     let clock = JoltClock.testClock()

@@ -537,13 +537,30 @@ final class SwiftUIAcceptance: XCTestCase {
       thenHoldForDuration: 0.2)
     XCTAssertTrue(wait { handle.frame.midY < compactY - 80 })
     #if os(macOS)
-      // The handle keeps focus during pointer input; Escape dismisses and returns focus.
+      // Drag focuses the handle; Escape dismisses and returns focus.
       handle.typeKey(.escape, modifierFlags: [])
     #else
       click(app.buttons["panel-close"])
     #endif
     XCTAssertTrue(wait { self.label(app, "panel-status").contains("closed") })
     XCTAssertTrue(wait { self.label(app, "panel-focus").contains("1") })
+    click(open)
+    XCTAssertTrue(wait { self.label(app, "panel-status").contains("230 pt") })
+    click(app.buttons["panel-mount"])
+    XCTAssertFalse(handle.exists)
+    XCTAssertTrue(self.label(app, "panel-status").contains("suspended"), label(app, "panel-status"))
+    click(app.buttons["panel-mount"])
+    XCTAssertTrue(handle.waitForExistence(timeout: 3))
+    XCTAssertTrue(
+      wait {
+        handle.frame.midY < compactY - 80 && self.label(app, "panel-status").contains("completed")
+      })
+    #if os(macOS)
+      app.typeKey(.escape, modifierFlags: [])
+    #else
+      click(app.buttons["panel-close"])
+    #endif
+    XCTAssertTrue(wait { self.label(app, "panel-status").contains("closed") })
     #if os(macOS)
       click(app.checkBoxes["panel-reduce"])
     #else
@@ -551,10 +568,6 @@ final class SwiftUIAcceptance: XCTestCase {
     #endif
     click(open)
     XCTAssertTrue(wait { self.label(app, "panel-status").contains("230 pt") })
-    click(app.buttons["panel-mount"])
-    XCTAssertFalse(handle.exists)
-    click(app.buttons["panel-mount"])
-    XCTAssertTrue(handle.waitForExistence(timeout: 3))
     click(app.buttons["panel-close"])
     cue("stop")
   }

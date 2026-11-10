@@ -73,7 +73,10 @@ struct PanelLab: View {
       .font(.caption.monospacedDigit()).accessibilityIdentifier("panel-status")
       HStack {
         Toggle("Reduce motion", isOn: $reduced).accessibilityIdentifier("panel-reduce")
-        Button(mounted ? "Unmount" : "Remount") { mounted.toggle() }.accessibilityIdentifier(
+        Button(mounted ? "Hide mid-motion" : "Remount") {
+          if mounted && sheet.isOpen { try! sheet.snapTo(.fraction(0.85)) }
+          mounted.toggle()
+        }.accessibilityIdentifier(
           "panel-mount")
       }
       Text("In-app panel · Apple points · no system sheet presentation").font(.caption2)
