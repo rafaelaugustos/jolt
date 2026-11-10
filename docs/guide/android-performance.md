@@ -68,3 +68,5 @@ Completed or cancelled animation handles release their sampled tracks and native
 The [measurement report](https://github.com/rafaelaugustos/jolt/blob/main/benchmarks/android-playback-efficiency.md) separates native setup/evaluation CPU, retained Java heap, process PSS, 30-second playback and host JavaScript retention. It includes repeated before/after measurements and raw data. The native microbenchmark evaluates sampled positions without rendering; its CPU reduction is not an FPS or battery-life claim. PSS belongs to the whole process and can fluctuate even after resources are released.
 
 This reduces work on the UI thread; it does not let `ObjectAnimator` advance through a blocked UI thread. The worker comparison above remains the practical mitigation for suitable application computation. A general RenderThread backend would need a separate design for supported properties, interruption and synchronization. The independent comparison with Reanimated and Flutter remains [#65](https://github.com/rafaelaugustos/jolt/issues/65); these measurements do not replace its physical-device scenarios.
+
+Path filter check.
