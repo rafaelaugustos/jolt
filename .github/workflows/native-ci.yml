@@ -14,7 +14,27 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      native: ${{ github.event_name != 'pull_request' || steps.filter.outputs.native == 'true' }}
+    steps:
+      - uses: actions/checkout@v7
+        if: github.event_name == 'pull_request'
+        with:
+          sparse-checkout: .github
+      - uses: dorny/paths-filter@v4
+        id: filter
+        if: github.event_name == 'pull_request'
+        with:
+          filters: .github/path-filters.yml
+
   ios:
+    needs: changes
+    if: needs.changes.outputs.native == 'true'
     # Keep Apple Silicon: the Intel simulator crashes during NativeScript app startup.
     runs-on: macos-26
     timeout-minutes: 45
@@ -67,6 +87,8 @@ jobs:
           path: benchmarks/native-app/results/
 
   android:
+    needs: changes
+    if: needs.changes.outputs.native == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 35
     steps:

@@ -5,8 +5,34 @@ on:
     branches: [main]
   pull_request:
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      docs: ${{ github.event_name != 'pull_request' || steps.filter.outputs.docs == 'true' }}
+      packages: ${{ github.event_name != 'pull_request' || steps.filter.outputs.packages == 'true' }}
+      swiftui: ${{ github.event_name != 'pull_request' || steps.filter.outputs.swiftui == 'true' }}
+      web: ${{ github.event_name != 'pull_request' || steps.filter.outputs.web == 'true' }}
+    steps:
+      - uses: actions/checkout@v7
+        if: github.event_name == 'pull_request'
+        with:
+          sparse-checkout: .github
+      - uses: dorny/paths-filter@v4
+        id: filter
+        if: github.event_name == 'pull_request'
+        with:
+          filters: .github/path-filters.yml
   docs-playground:
+    needs: changes
+    if: needs.changes.outputs.docs == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -40,6 +66,8 @@ jobs:
             /tmp/jolt-playground-review/
             /tmp/jolt-playground-preview.log
   package-consumers:
+    needs: changes
+    if: needs.changes.outputs.packages == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -68,6 +96,8 @@ jobs:
             benchmarks/package-consumers/results/
             benchmarks/web-frameworks/results/
   web-interaction-depth:
+    needs: changes
+    if: needs.changes.outputs.web == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -95,6 +125,8 @@ jobs:
           name: web-interaction-depth-results
           path: benchmarks/web-interaction-depth/results/
   web-composition:
+    needs: changes
+    if: needs.changes.outputs.web == 'true'
     runs-on: ubuntu-latest
     # Keep this version aligned with @playwright/test in package.json. The image
     # includes browsers and OS libraries, avoiding slow per-run Ubuntu mirrors.
@@ -210,6 +242,8 @@ jobs:
       - run: python3 -m unittest discover -s benchmarks -p 'test_interactive_modal.py'
 
   swiftui:
+    needs: changes
+    if: needs.changes.outputs.swiftui == 'true'
     runs-on: macos-15
     timeout-minutes: 35
     steps:
