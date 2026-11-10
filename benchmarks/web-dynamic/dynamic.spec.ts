@@ -9,12 +9,13 @@ test.beforeEach(async ({ page }) => {
   errors.set(page, seen)
   page.on('pageerror', (e) => seen.push(String(e)))
   await page.goto('/')
-  await page.evaluate(() => {
-    window.rt = lab.createWebRuntime(document, { reducedMotion: 'never' })
-    window.target = lab.makeTarget()
-    window.values = {}
-  })
+  await page.evaluate(setup)
 })
+function setup() {
+  window.rt = lab.createWebRuntime(document, { reducedMotion: 'never' })
+  window.target = lab.makeTarget()
+  window.values = {}
+}
 
 test('numeric bindings coexist with finite channels and stale unbind cannot reclaim a replacement', async ({
   page,
@@ -328,26 +329,35 @@ test('a drag suppresses only its generated click, while taps and keyboard clicks
 test('hidden-time policy freezes continuous state and resumes without a catch-up jump', async ({
   page,
 }) => {
-  const state = await page.evaluate(async () => {
+  await page.clock.install()
+  await page.goto('/')
+  await page.clock.pauseAt(await page.evaluate(() => Date.now() + 1000))
+  await page.evaluate(setup)
+  await page.evaluate(() => {
     values.x = rt.motionValue(0)
     spring = rt.springValue(values.x, { stiffness: 100, damping: 10 })
     rt.bind(target, { x: spring })
     values.x.set(150)
-    await new Promise((r) => setTimeout(r, 70))
+  })
+  await page.clock.runFor(70)
+  const held = await page.evaluate(() => {
     Object.defineProperty(document, 'hidden', { configurable: true, get: () => true })
     document.dispatchEvent(new Event('visibilitychange'))
-    const held = spring.get()
-    await new Promise((r) => setTimeout(r, 120))
+    return spring.get()
+  })
+  await page.clock.runFor(120)
+  const state = await page.evaluate(() => {
     const after = spring.get(),
       pending = rt.inspect(target).scheduler.pending
     Object.defineProperty(document, 'hidden', { configurable: true, get: () => false })
     document.dispatchEvent(new Event('visibilitychange'))
-    const resumed = spring.get()
-    return { held, after, resumed, pending }
+    return { after, pending, resumed: spring.get() }
   })
-  expect(state.after).toBe(state.held)
+  expect(held).toBeGreaterThan(0)
+  expect(held).toBeLessThan(150)
+  expect(state.after).toBe(held)
   expect(state.pending).toBe(false)
-  expect(Math.abs(state.resumed - state.held)).toBeLessThan(2)
+  expect(state.resumed).toBe(held)
 })
 test('repeated bindings and spring disposal leave no retained context work', async ({
   page,
