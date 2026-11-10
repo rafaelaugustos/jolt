@@ -8,6 +8,7 @@ const base = process.env.JOLT_SITE_URL || 'http://127.0.0.1:5184'
 const output = '/tmp/jolt-playground-recording'
 const root = resolve(import.meta.dirname, '..')
 await mkdir(output, { recursive: true })
+await mkdir(resolve(root, '.local/media'), { recursive: true })
 const browser = await chromium.launch()
 const captures = []
 for (const [group, families] of [
@@ -97,7 +98,7 @@ for (const [group, families] of [
   expect(errors).toEqual([])
   await context.close()
   const source = await video.path(),
-    destination = resolve(root, `docs/public/media/web-playground-${group}-chromium.mp4`)
+    destination = resolve(root, `.local/media/web-playground-${group}-chromium.mp4`)
   execFileSync('ffmpeg', [
     '-v',
     'error',

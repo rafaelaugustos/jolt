@@ -2,6 +2,7 @@
 import { inject, onMounted, onUnmounted, ref, watch } from 'vue'
 import { withBase } from 'vitepress'
 import { reduceMotionKey } from './preferences'
+import { videoUrl } from '../media'
 
 const props = withDefaults(
   defineProps<{
@@ -64,7 +65,7 @@ defineExpose({ play, leave })
 <template>
   <video
     ref="element"
-    :src="loaded ? withBase(`/media/${name}.mp4`) : undefined"
+    :src="loaded ? videoUrl(name) : undefined"
     :poster="withBase(poster || `/recipes/${name}.jpg`)"
     :aria-label="caption"
     :controls="controls"

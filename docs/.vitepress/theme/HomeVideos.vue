@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useData, withBase } from 'vitepress'
+import { videoUrl } from './media'
 
 const { frontmatter } = useData()
 </script>
@@ -30,7 +31,7 @@ const { frontmatter } = useData()
           </header>
           <figure>
             <video
-              :src="withBase(`/media/${video.name}.mp4`)"
+              :src="videoUrl(video.name)"
               :poster="withBase(`/media/${video.name}.jpg`)"
               :width="video.width"
               :height="video.height"

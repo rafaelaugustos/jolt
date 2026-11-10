@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url'
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const capture = root + 'benchmarks/web-visual/captures'
 mkdirSync(capture, { recursive: true })
+mkdirSync(`${root}.local/media`, { recursive: true })
 const server = spawn(process.execPath, ['benchmarks/web-visual/server.mjs'], {
   cwd: root,
   stdio: ['ignore', 'pipe', 'inherit'],
@@ -85,7 +86,7 @@ try {
     await page.close()
     await context.close()
     const raw = await video.path(),
-      output = `${root}docs/public/media/web-${mode}-chromium.mp4`
+      output = `${root}.local/media/web-${mode}-chromium.mp4`
     execFileSync('ffmpeg', [
       '-y',
       '-v',

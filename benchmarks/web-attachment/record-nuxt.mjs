@@ -8,6 +8,7 @@ const { directory } = JSON.parse(
 )
 const captures = root + 'benchmarks/web-attachment/captures'
 mkdirSync(captures, { recursive: true })
+mkdirSync(`${root}.local/media`, { recursive: true })
 const server = spawn(process.execPath, ['.output/server/index.mjs'], {
   cwd: directory,
   env: { ...process.env, PORT: '4396', HOST: '127.0.0.1' },
@@ -46,7 +47,7 @@ try {
   const raw = await page.video().path()
   await context.close()
   if (errors.length) throw new Error(errors.join('\n'))
-  const output = root + 'docs/public/media/web-nuxt-attachment-chromium.mp4'
+  const output = root + '.local/media/web-nuxt-attachment-chromium.mp4'
   execFileSync('ffmpeg', [
     '-y',
     '-v',

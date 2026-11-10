@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url'
 const root = fileURLToPath(new URL('../../', import.meta.url))
 const capture = root + 'benchmarks/web-lifecycle/captures'
 mkdirSync(capture, { recursive: true })
+mkdirSync(`${root}.local/media`, { recursive: true })
 const server = spawn(process.execPath, ['benchmarks/web-lifecycle/server.mjs'], {
   cwd: root,
   env: { ...process.env, JOLT_LIFECYCLE_PORT: '4290' },
@@ -171,7 +172,7 @@ try {
     await page.close()
     await context.close()
     const raw = await video.path(),
-      output = `${root}docs/public/media/web-lifecycle-${mode}-chromium.mp4`
+      output = `${root}.local/media/web-lifecycle-${mode}-chromium.mp4`
     execFileSync('ffmpeg', [
       '-y',
       '-v',

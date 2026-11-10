@@ -14,18 +14,22 @@ const { code: compiled } = await transformWithOxc(source, 'recipes.ts', {
 const { recipes } = await import(
   `data:text/javascript;base64,${Buffer.from(compiled).toString('base64')}`
 )
+const media = JSON.parse(
+  await readFile(resolve(root, 'docs/.vitepress/media.json'), 'utf8'),
+)
 const locales = ['', 'pt-BR', 'es', 'zh-Hans']
 const slugs = new Set()
 const errors = []
 for (const recipe of recipes) {
   if (slugs.has(recipe.slug)) errors.push(`Duplicate recipe: ${recipe.slug}`)
   slugs.add(recipe.slug)
+  if (!media.files[`${recipe.video}.mp4`])
+    errors.push(`${recipe.slug}: ${recipe.video}.mp4 is not published`)
   for (const field of ['title', 'description', 'caption']) {
     if (recipe[field]?.length !== 4 || recipe[field].some((value) => !value.trim()))
       errors.push(`${recipe.slug}: ${field} needs four translations`)
   }
   for (const [path, kind] of [
-    [`docs/public/media/${recipe.video}.mp4`, 'mp4'],
     [`docs/public/recipes/${recipe.video}.jpg`, 'jpg'],
     [
       recipe.project
@@ -47,11 +51,6 @@ for (const recipe of recipes) {
         if (recipe.requirements?.length !== 4)
           throw new Error('Project recipes require context in all four languages')
       }
-      if (
-        kind === 'mp4' &&
-        (data.length < 1024 || data.toString('ascii', 4, 8) !== 'ftyp')
-      )
-        throw new Error('Invalid MP4')
       if (kind === 'jpg' && (data.length < 1024 || data[0] !== 0xff || data[1] !== 0xd8))
         throw new Error('Invalid JPEG')
     } catch (error) {

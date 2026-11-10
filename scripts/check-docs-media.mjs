@@ -1,4 +1,4 @@
-import { readdir, readFile, stat } from 'node:fs/promises'
+import { readdir, readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { createMarkdownRenderer } from 'vitepress'
 
@@ -11,6 +11,9 @@ const pages = new Map()
 const errors = []
 const clips = new Set()
 const posters = new Set()
+const media = JSON.parse(
+  await readFile(resolve(root, 'docs/.vitepress/media.json'), 'utf8'),
+)
 const markdownRenderer = await createMarkdownRenderer(root, { highlight: () => '' })
 for (const locale of locales) {
   const inventory = new Map()
@@ -78,15 +81,14 @@ for (const locale of locales.slice(1)) {
   }
 }
 for (const name of clips) {
-  const path = resolve(root, 'docs/public/media', `${name}.mp4`)
-  try {
-    const info = await stat(path)
-    const data = await readFile(path)
-    if (!info.isFile() || info.size < 1024 || data.toString('ascii', 4, 8) !== 'ftyp')
-      errors.push(`${name}: expected a nonempty MP4 file`)
-  } catch {
-    errors.push(`${name}: missing docs/public/media/${name}.mp4`)
-  }
+  if (!media.files[`${name}.mp4`])
+    errors.push(`${name}: not published; run npm run media:upload -- <file>`)
+}
+for (const file of await readdir(resolve(root, 'docs/public'), { recursive: true })) {
+  if (file.endsWith('.mp4'))
+    errors.push(
+      `docs/public/${file}: videos are served from R2; run npm run media:upload`,
+    )
 }
 for (const name of posters) {
   try {

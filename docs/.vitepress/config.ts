@@ -1,6 +1,7 @@
 import { existsSync } from 'node:fs'
 import { defineConfig, type DefaultTheme } from 'vitepress'
 import { version } from '../../package.json'
+import { origin as mediaOrigin } from './media.json'
 import { es, zh, spanish, chinese, searchTranslations } from './translations'
 import { outlineLifecycle } from './outline-lifecycle'
 import { withNavigationStatus } from './navigation-status'
@@ -448,6 +449,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','${tagManager}');`,
     ],
+    ['link', { rel: 'preconnect', href: mediaOrigin }],
     ['link', { rel: 'icon', type: 'image/png', href: '/icon.png' }],
     ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }],
     ['meta', { name: 'theme-color', content: '#dcf71d' }],
