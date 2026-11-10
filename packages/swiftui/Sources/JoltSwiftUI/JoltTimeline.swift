@@ -5,14 +5,16 @@ import JoltCore
 @MainActor public struct JoltTimelineTrack {
   public let value: JoltMotionValue
   public let to: Double
+  public let from: Double?
   public let at: Double
   public let transition: JoltTransition
   public init(
-    _ value: JoltMotionValue, to: Double, at milliseconds: Double = 0,
+    _ value: JoltMotionValue, to: Double, from: Double? = nil, at milliseconds: Double = 0,
     transition: JoltTransition = .spring(.smooth)
   ) {
     self.value = value
     self.to = to
+    self.from = from
     self.at = milliseconds
     self.transition = transition
   }
@@ -86,14 +88,17 @@ public enum JoltCueLatePolicy: Sendable { case skip, catchUp }
     for item in tracks.enumerated().sorted(by: {
       $0.element.at == $1.element.at ? $0.offset < $1.offset : $0.element.at < $1.element.at
     }).map(\.element) {
-      guard !item.value.disposed, item.at.isFinite, item.at >= 0, item.at <= 60_000 else {
+      guard !item.value.disposed, item.value.clock === clock,
+        item.at.isFinite, item.at >= 0, item.at <= 60_000
+      else {
         throw JoltError.invalidTimeline
       }
       let key = ObjectIdentifier(item.value)
       let previous = endpoints[key]
       guard item.at >= (previous?.1 ?? 0) else { throw JoltError.invalidTimeline }
       let motion = try JoltScalarMotion(
-        from: previous?.0 ?? item.value.value, to: item.to, transition: item.transition)
+        from: item.from ?? previous?.0 ?? item.value.value, to: item.to, transition: item.transition
+      )
       let end = item.at + motion.duration
       guard end <= 60_000 else { throw JoltError.invalidTimeline }
       endpoints[key] = (item.to, end)
@@ -136,8 +141,10 @@ public enum JoltCueLatePolicy: Sendable { case skip, catchUp }
     for step in steps {
       let id = ObjectIdentifier(step.value)
       let motion = try JoltScalarMotion(
-        from: endpoints[id] ?? step.value.value, to: step.to, transition: step.transition)
-      tracks.append(.init(step.value, to: step.to, at: time, transition: step.transition))
+        from: step.from ?? endpoints[id] ?? step.value.value, to: step.to,
+        transition: step.transition)
+      tracks.append(
+        .init(step.value, to: step.to, from: step.from, at: time, transition: step.transition))
       endpoints[id] = step.to
       time += motion.duration + gap
     }

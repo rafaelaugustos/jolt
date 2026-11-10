@@ -236,3 +236,64 @@ if (process.argv.includes('--check')) {
   if (readFileSync(mathFile, 'utf8') !== mathData)
     throw Error('Swift mapping/color/decay/path fixtures are stale.')
 } else writeFileSync(mathFile, mathData)
+
+// Numerical contracts consumed by the Swift adapter and existing browser runtime.
+const { dropHits } = await import('../dist/core/drop.js')
+const { moveAt } = await import('../dist/core/reorder.js')
+const { rigDestination } = await import('../dist/core/rig.js')
+const { sampleParticle } = await import('../dist/core/particle-motion.js')
+const interactions = {
+  drops: [-20, 0, 15, 20, 30].flatMap((x) =>
+    ['center', 'overlap'].map((policy) => {
+      const source = { x, y: 0, width: 20, height: 20 },
+        target = { x: 20, y: 5, width: 10, height: 10 }
+      return {
+        source,
+        target,
+        overlap: policy === 'overlap',
+        hit: dropHits(source, target, policy),
+      }
+    }),
+  ),
+  moves: [0, 1, 2, 3].flatMap((from) =>
+    [0, 1, 2, 3].map((to) => ({
+      from,
+      to,
+      result: moveAt(['a', 'b', 'c', 'd'], from, to) ?? null,
+    })),
+  ),
+  particles: [false, true].flatMap((fadeOut) =>
+    [0, 16, 500, 1500, 2000].map((at) => ({
+      at,
+      fadeOut,
+      ...sampleParticle(20, 30, 40, -100, 420, Math.PI, 1500, at, fadeOut),
+    })),
+  ),
+  rigs: [false, true].flatMap((bounded) =>
+    [0, 0.25, 1, 2].map((weight) => {
+      const part = bounded ? { rotation: [-90, 90] } : {},
+        rest = 170,
+        current = -160
+      const raw = rigDestination(part, 'arm', 'rotate', rest, current, [
+        { pose: { arm: { rotate: -170 } }, weight },
+        { pose: { arm: { rotate: 20 } }, weight: 0.4 },
+      ])
+      return {
+        bounded,
+        weight,
+        rest,
+        current,
+        value: bounded ? Math.max(-90, Math.min(90, raw)) : raw,
+      }
+    }),
+  ),
+}
+const interactionsFile = new URL(
+  '../packages/swiftui/Tests/JoltCoreTests/Fixtures/interactions.json',
+  import.meta.url,
+)
+const interactionsData = JSON.stringify(interactions, null, 2) + '\n'
+if (process.argv.includes('--check')) {
+  if (readFileSync(interactionsFile, 'utf8') !== interactionsData)
+    throw Error('Swift interaction/character fixtures are stale.')
+} else writeFileSync(interactionsFile, interactionsData)

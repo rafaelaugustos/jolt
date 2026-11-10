@@ -199,3 +199,114 @@ output {
   font-size: 32px;
   font-weight: 800;
 }
+.character-gesture {
+  height: 260px;
+  touch-action: none;
+}
+.transfer-stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 200px;
+  max-width: 400px;
+}
+[data-gift] {
+  width: 70px;
+  height: 60px;
+  background: #dbff7a;
+  color: #10151f;
+  z-index: 2;
+}
+.drop-targets {
+  display: grid;
+  gap: 12px;
+}
+.drop-targets > div {
+  display: grid;
+  place-items: center;
+  width: 130px;
+  height: 65px;
+  background: #7766ff;
+  border-radius: 14px;
+}
+[data-locked] {
+  background: #66344d !important;
+}
+.character-list {
+  height: 220px;
+  overflow: auto;
+  position: relative;
+  max-width: 400px;
+  overscroll-behavior: contain;
+}
+.character-row {
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 12px;
+  margin-bottom: 4px;
+  background: #202633;
+  border-radius: 10px;
+}
+.character-row button {
+  width: 48px;
+  height: 48px;
+  touch-action: none;
+}
+.character-canvas {
+  width: 320px;
+  height: 330px;
+  position: relative;
+  background: #1d2430;
+  border-radius: 20px;
+}
+[data-body],
+[data-head],
+[data-arm],
+[data-flower] {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+[data-body] {
+  width: 110px;
+  height: 130px;
+  border-radius: 35px;
+  background: #7766ff;
+}
+[data-head] {
+  width: 100px;
+  height: 95px;
+  border-radius: 35px;
+  background: #dbff7a;
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  justify-content: center;
+}
+[data-head] i {
+  width: 9px;
+  height: 13px;
+  background: #10151f;
+  border-radius: 50%;
+}
+[data-arm] {
+  width: 95px;
+  height: 28px;
+  background: #dbff7a;
+  border-radius: 14px;
+}
+[data-flower] {
+  color: #ff9dce;
+  font-size: 42px;
+  line-height: 1;
+}
+
+[data-gesture] {
+  width: 110px;
+  height: 110px;
+  white-space: normal;
+  font-size: 12px;
+}

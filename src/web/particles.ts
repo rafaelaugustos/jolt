@@ -1,3 +1,4 @@
+import { sampleParticle } from '../core/particle-motion.js'
 import {
   decorativeLayer,
   effectOptions,
@@ -292,16 +293,21 @@ function start(
         })
       }
       for (const p of population) {
-        const age = Math.max(0, time - p.born) / 1000
-        context.save()
-        context.translate(
-          p.x + p.vx * age,
-          p.y + p.vy * age + (options.gravity * age * age) / 2,
+        const sample = sampleParticle(
+          p.x,
+          p.y,
+          p.vx,
+          p.vy,
+          options.gravity,
+          p.spin,
+          options.lifetime,
+          time - p.born,
+          options.fadeOut,
         )
-        context.rotate(p.spin * age)
-        context.globalAlpha = options.fadeOut
-          ? Math.max(0, 1 - (age * 1000) / options.lifetime)
-          : 1
+        context.save()
+        context.translate(sample.x, sample.y)
+        context.rotate(sample.rotation)
+        context.globalAlpha = sample.opacity
         context.fillStyle = context.strokeStyle = p.color
         const size = options.size
         if (options.shape === 'rectangle')

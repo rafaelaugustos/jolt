@@ -13,13 +13,13 @@ control = Path('/tmp/jolt-swiftui-recording-control-' + device)
 control.mkdir()  # Exclusive ownership, never attach to another capture.
 mac = device == 'macos'
 name = 'swiftui-' + ('' if scene == 'standalone' else scene + '-') + ('macos' if mac else 'ios')
-method = {'standalone':'testStandaloneMacMotionAndLifecycle' if mac else 'testStandaloneMotionAndLifecycle','interaction':'testInteractionExpansion','composition':'testCompositionExpansion','scroll':'testScrollExpansion','dynamics':'testDynamicsExpansion','graphics':'testGraphicsExpansion','viewport':'testViewportExpansion'}[scene]
+method = {'standalone':'testStandaloneMacMotionAndLifecycle' if mac else 'testStandaloneMotionAndLifecycle','interaction':'testInteractionExpansion','composition':'testCompositionExpansion','scroll':'testScrollExpansion','dynamics':'testDynamicsExpansion','graphics':'testGraphicsExpansion','viewport':'testViewportExpansion','key-gesture':'testKeyGestureExpansion','transfer':'testTransferExpansion','character':'testCharacterExpansion'}[scene]
 scheme = 'JoltSwiftUIMac' if mac else 'JoltSwiftUIDemo'
 recorder = runner = None
 try:
     command = ['xcodebuild','test','-project',str(root/'benchmarks/swiftui-demo/JoltSwiftUIDemo.xcodeproj'),'-scheme',scheme,
         '-destination','platform=macOS,arch=arm64' if mac else 'platform=iOS Simulator,id='+device,
-        '-parallel-testing-enabled','NO','-derivedDataPath',str(output/'build'),
+        '-parallel-testing-enabled','NO','-collect-test-diagnostics','never','-derivedDataPath',str(output/'build'),
         '-resultBundlePath',str(output/'result.xcresult'),'-only-testing:'+scheme+'UITests/SwiftUIAcceptance/'+method]
     if not mac: command.append('CODE_SIGNING_ALLOWED=NO')
     with (output/'xctest.log').open('w') as log, (output/'record.log').open('w') as recording:

@@ -333,6 +333,147 @@ final class SwiftUIAcceptance: XCTestCase {
       label(app, "viewport-status"))
     cue("stop")
   }
+  @MainActor func testKeyGestureExpansion() {
+    let app = lab("--key-gesture-lab")
+    let card = app.descendants(matching: .any)["gesture-card"].firstMatch
+    XCTAssertTrue(card.waitForExistence(timeout: 10))
+    cue("start")
+    click(app.buttons["key-play"])
+    Thread.sleep(forTimeInterval: 0.5)
+    click(app.buttons["key-pause"])
+    XCTAssertTrue(label(app, "key-status").contains("paused"))
+    let marker = app.descendants(matching: .any)["key-marker"].firstMatch
+    let frozen = marker.frame.midX
+    Thread.sleep(forTimeInterval: 0.4)
+    XCTAssertEqual(marker.frame.midX, frozen, accuracy: 2)
+    click(app.buttons["key-resume"])
+    XCTAssertTrue(wait { self.label(app, "key-status").contains("completed") })
+    let origin = card.frame.midX
+    let start = card.coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.5))
+    start.press(forDuration: 0.1, thenDragTo: start.withOffset(.init(dx: 60, dy: 15)))
+    XCTAssertTrue(wait { card.frame.midX > origin + 35 }, label(app, "gesture-status"))
+    click(app.buttons["gesture-reset"])
+    XCTAssertTrue(wait { abs(card.frame.midX - origin) < 3 })
+    #if os(iOS)
+      card.pinch(withScale: 1.5, velocity: 1)
+      XCTAssertTrue(wait { card.frame.width > 130 }, label(app, "gesture-status"))
+      click(app.buttons["gesture-reset"])
+      XCTAssertTrue(wait { self.label(app, "gesture-status").contains("scale 1.00 · angle 0") })
+      card.rotate(.pi / 3, withVelocity: 0.5)
+      XCTAssertFalse(label(app, "gesture-status").contains("angle 0"), label(app, "gesture-status"))
+    #else
+      click(app.buttons["gesture-zoom"])
+      click(app.buttons["gesture-turn"])
+      XCTAssertTrue(wait { self.label(app, "gesture-status").contains("angle 30") })
+    #endif
+    click(app.buttons["gesture-reset"])
+    XCTAssertTrue(wait { self.label(app, "gesture-status").contains("scale 1.00 · angle 0") })
+    click(card)
+    XCTAssertTrue(label(app, "gesture-taps").contains("Taps: 1"))
+    click(app.buttons["gesture-toggle"])
+    XCTAssertFalse(card.exists)
+    click(app.buttons["gesture-toggle"])
+    XCTAssertTrue(card.waitForExistence(timeout: 3))
+    click(card)
+    XCTAssertTrue(label(app, "gesture-taps").contains("Taps: 2"))
+    #if os(macOS)
+      click(app.checkBoxes["character-reduce"])
+    #else
+      let reduce = app.switches["character-reduce"]
+      reduce.coordinate(withNormalizedOffset: .init(dx: 0.94, dy: 0.5)).tap()
+      XCTAssertEqual(reduce.value as? String, "1")
+    #endif
+    click(app.buttons["key-play"])
+    XCTAssertTrue(wait { self.label(app, "key-status").contains("completed") })
+    cue("stop")
+  }
+  @MainActor func testTransferExpansion() {
+    let app = lab("--transfer-lab")
+    let source = app.descendants(matching: .any)["drop-source"].firstMatch
+    XCTAssertTrue(source.waitForExistence(timeout: 10))
+    cue("start")
+    let origin = source.frame.midX
+    let locked = app.descendants(matching: .any)["drop-locked"].firstMatch
+    source.coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.5)).press(
+      forDuration: 0.1,
+      thenDragTo: locked.coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.5)))
+    XCTAssertTrue(
+      wait { self.label(app, "drop-status").contains("rejected") }, label(app, "drop-status"))
+    XCTAssertTrue(wait { abs(source.frame.midX - origin) < 3 })
+    let basket = app.descendants(matching: .any)["drop-basket"].firstMatch
+    source.coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.5)).press(
+      forDuration: 0.1,
+      thenDragTo: basket.coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.5)))
+    XCTAssertTrue(
+      wait { self.label(app, "drop-status").contains("accepted · basket · effects 1") },
+      label(app, "drop-status"))
+    click(app.buttons["drop-return"])
+    XCTAssertTrue(wait { self.label(app, "drop-status").contains("returned · effects 0") })
+    click(app.buttons["drop-send"])
+    XCTAssertTrue(label(app, "drop-status").contains("effects 1"))
+    click(app.buttons["drop-return"])
+    let first = app.descendants(matching: .any)["jolt-reorder-handle-Item 1"].firstMatch
+    let third = app.descendants(matching: .any)["jolt-reorder-handle-Item 3"].firstMatch
+    first.coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.5)).press(
+      forDuration: 0.2,
+      thenDragTo: third.coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.5)))
+    XCTAssertTrue(
+      wait { self.label(app, "order-status").contains("Item 2, Item 3, Item 1") },
+      label(app, "order-status"))
+    click(app.buttons["order-reset"])
+    click(app.buttons["order-down"])
+    XCTAssertTrue(label(app, "order-status").contains("Item 2, Item 1, Item 3"))
+    click(app.buttons["order-reset"])
+    let start = first.coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.5))
+    start.press(
+      forDuration: 0.2, thenDragTo: start.withOffset(.init(dx: 0, dy: 180)), withVelocity: .slow,
+      thenHoldForDuration: 1)
+    XCTAssertFalse(
+      label(app, "order-status").contains("Order: Item 1,"), label(app, "order-status"))
+    click(app.buttons["order-reset"])
+    cue("stop")
+  }
+  @MainActor func testCharacterExpansion() {
+    let app = lab("--character-lab")
+    let flower = app.descendants(matching: .any)["rig-flower"].firstMatch
+    XCTAssertTrue(flower.waitForExistence(timeout: 10))
+    cue("start")
+    let origin = flower.frame.midY
+    click(app.buttons["rig-wave"])
+    XCTAssertTrue(wait { flower.frame.midY < origin - 40 })
+    click(app.buttons["rig-blend"])
+    Thread.sleep(forTimeInterval: 0.9)
+    XCTAssertTrue(flower.frame.midY < origin - 10)
+    click(app.buttons["rig-rest"])
+    XCTAssertTrue(wait { abs(flower.frame.midY - origin) < 3 })
+    click(app.buttons["particle-burst"])
+    XCTAssertTrue(wait { self.label(app, "particle-status").contains("100 · running") })
+    Thread.sleep(forTimeInterval: 0.7)
+    click(app.buttons["particle-cancel"])
+    XCTAssertTrue(label(app, "particle-status").contains("0 · cancelled"))
+    click(app.buttons["particle-burst"])
+    XCTAssertTrue(wait { self.label(app, "particle-status").contains("100 · running") })
+    XCTAssertTrue(wait { self.label(app, "particle-status").contains("0 · completed") })
+    click(app.buttons["particle-emit"])
+    XCTAssertTrue(
+      wait {
+        self.label(app, "particle-status").contains("running")
+          && !self.label(app, "particle-status").contains("Particles: 0")
+      })
+    XCTAssertTrue(wait { self.label(app, "particle-status").contains("0 · completed") })
+    #if os(macOS)
+      click(app.checkBoxes["character-reduce"])
+    #else
+      let reduce = app.switches["character-reduce"]
+      reduce.coordinate(withNormalizedOffset: .init(dx: 0.94, dy: 0.5)).tap()
+      XCTAssertEqual(reduce.value as? String, "1")
+    #endif
+    click(app.buttons["rig-wave"])
+    click(app.buttons["particle-burst"])
+    XCTAssertTrue(wait { flower.frame.midY < origin - 40 })
+    XCTAssertTrue(label(app, "particle-status").contains("0"))
+    cue("stop")
+  }
   private func cue(_ action: String) {
     let device = ProcessInfo.processInfo.environment["SIMULATOR_UDID"] ?? "macos"
     let directory = URL(fileURLWithPath: "/tmp/jolt-swiftui-recording-control-" + device)

@@ -35,3 +35,5 @@ createPreset(name, parameters) se comparte entre NativeScript y Web; JoltPreset.
 <Clip name="web-preset" caption="Chromium en macOS: ejecución real del preset Web popIn existente. El paquete Swift deriva las mismas definiciones; motores y unidades difieren." />
 
 [Movimiento derivado y gráficos retenidos](./swiftui-advanced)
+
+[SwiftUI · Keyframes / gestures / characters](./swiftui-characters)

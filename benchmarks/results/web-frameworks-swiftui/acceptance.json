@@ -1,5 +1,5 @@
 {
-  "date": "2026-11-09",
+  "date": "2026-11-10",
   "base": "b3a37d0be9a01d1be0621911384499561a8206c7",
   "status": "source candidate, not merged or published",
   "unit": {
@@ -9,7 +9,7 @@
   },
   "browser": {
     "engines": ["Chromium", "Firefox", "WebKit"],
-    "tests": 99,
+    "tests": 123,
     "failed": 0,
     "frameworks": {
       "React": "19.3.1 Strict Mode",
@@ -43,15 +43,15 @@
     "nuxt": "All three browser engines passed actual SSR, hydration, KeepAlive and route teardown"
   },
   "swift": {
-    "coreTests": 10,
-    "nativeInteraction": "14 actual XCTest interactions passed: 7 on iOS 27.0 simulator and 7 on macOS 26.6.2. Earlier clean external Swift Package consumer passed; no physical iOS device acceptance.",
+    "coreTests": 13,
+    "nativeInteraction": "20 actual XCTest interactions passed: 10 on iOS 27.0 simulator and 10 on macOS 26.6.2. No physical iOS device or macOS trackpad acceptance.",
     "deploymentMinimum": {
       "iOS": "17",
       "macOS": "14"
     },
     "swift": "6.4",
     "xcode": "27.0",
-    "ownershipTests": 27,
+    "ownershipTests": 40,
     "configurations": ["Debug", "Release"]
   },
   "media": [
@@ -390,25 +390,149 @@
         "height": 740
       },
       "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/swiftui-key-gesture-ios.mp4",
+      "sha256": "4d0d8a952292b320370201fb95ddd6dfb6f5bc2290f352009964f7c151842ccd",
+      "bytes": 204616,
+      "seconds": 21.9,
+      "stream": {
+        "codec_name": "h264",
+        "width": 414,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS 27 simulator; macOS 26.6.2 native window; browser is Chromium on macOS. No physical-device performance acceptance."
+    },
+    {
+      "path": "docs/public/media/swiftui-key-gesture-macos.mp4",
+      "sha256": "963ca5dbabf80570763704b6fab99dc54cb272006c14768e861652b1ab461d18",
+      "bytes": 167589,
+      "seconds": 19.225,
+      "stream": {
+        "codec_name": "h264",
+        "width": 572,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS 27 simulator; macOS 26.6.2 native window; browser is Chromium on macOS. No physical-device performance acceptance."
+    },
+    {
+      "path": "docs/public/media/swiftui-transfer-ios.mp4",
+      "sha256": "48d9c854a238647ed3ab57fef6e8ccd6c4cd02f4de62ba02093e23adbe02b337",
+      "bytes": 120858,
+      "seconds": 14.1,
+      "stream": {
+        "codec_name": "h264",
+        "width": 414,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS 27 simulator; macOS 26.6.2 native window; browser is Chromium on macOS. No physical-device performance acceptance."
+    },
+    {
+      "path": "docs/public/media/swiftui-transfer-macos.mp4",
+      "sha256": "d30c81d5e8eb0ea075aa0a200c636c78185eaf23f839d1140daaf014a53fe99a",
+      "bytes": 176955,
+      "seconds": 16.758333,
+      "stream": {
+        "codec_name": "h264",
+        "width": 572,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS 27 simulator; macOS 26.6.2 native window; browser is Chromium on macOS. No physical-device performance acceptance."
+    },
+    {
+      "path": "docs/public/media/swiftui-character-ios.mp4",
+      "sha256": "f1418fce903e10c74e452bc5a5faf13d0da56860dca995f264276070167f0ece",
+      "bytes": 428031,
+      "seconds": 17.875,
+      "stream": {
+        "codec_name": "h264",
+        "width": 414,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS 27 simulator; macOS 26.6.2 native window; browser is Chromium on macOS. No physical-device performance acceptance."
+    },
+    {
+      "path": "docs/public/media/swiftui-character-macos.mp4",
+      "sha256": "127baa665b42e45282d4cc2e09d6492d39a8cd08a4069f91220ce2c2588ceb1f",
+      "bytes": 317424,
+      "seconds": 19.908333,
+      "stream": {
+        "codec_name": "h264",
+        "width": 572,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS 27 simulator; macOS 26.6.2 native window; browser is Chromium on macOS. No physical-device performance acceptance."
+    },
+    {
+      "path": "docs/public/media/web-characters-react.mp4",
+      "sha256": "bafa0e9528eb025edd0acdd8dcb6bf5d5bc54d0461e7d61c8ca9c96fa41b54ac",
+      "bytes": 435278,
+      "seconds": 31.36,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 800
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS 27 simulator; macOS 26.6.2 native window; browser is Chromium on macOS. No physical-device performance acceptance."
+    },
+    {
+      "path": "docs/public/media/web-characters-angular.mp4",
+      "sha256": "b6cb4658d2851cdc08997014a7c4904570fa81794b73d44232fca8bcb7c80160",
+      "bytes": 445644,
+      "seconds": 32.12,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 800
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS 27 simulator; macOS 26.6.2 native window; browser is Chromium on macOS. No physical-device performance acceptance."
+    },
+    {
+      "path": "docs/public/media/web-characters-svelte.mp4",
+      "sha256": "95d28ac1abdcd8079d32171b91358f313ebbc11b2fced829d94a16f8c67864ce",
+      "bytes": 435479,
+      "seconds": 31.96,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 800
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS 27 simulator; macOS 26.6.2 native window; browser is Chromium on macOS. No physical-device performance acceptance."
+    },
+    {
+      "path": "docs/public/media/web-characters-solid.mp4",
+      "sha256": "8f5a501fd73c9ec201b989bc35bb5e1a30a9b59a2debed588fd3ce65965e0ba8",
+      "bytes": 440850,
+      "seconds": 31.56,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 800
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS 27 simulator; macOS 26.6.2 native window; browser is Chromium on macOS. No physical-device performance acceptance."
     }
   ],
   "limits": [
     "No physical browser sensor acceptance; #385 remains open.",
     "No physical inspector overhead claim; #415 remains open.",
     "No CPU/PSS or blocked-JavaScript superiority claim.",
-    "SwiftUI is a bounded standalone adapter: finite property-target behaviors, polyline paths, retained Canvas and demand-driven sampled motion. No arbitrary async behavior workflows, SVG curve parser/morph, per-shape hit testing or sensors."
+    "SwiftUI is a bounded standalone adapter: finite property-target behaviors, polyline paths, retained Canvas and demand-driven sampled motion. No arbitrary async behavior workflows, SVG curve parser/morph, per-shape hit testing or sensors.",
+    "SwiftUI reorder realizes fixed-height rows; no virtualization. Drop zones are in-app only.",
+    "macOS gesture footage validates mouse and accessible controls, not physical trackpad gestures. iOS recognizers filter region rectangles; disable covered input regions under SwiftUI overlays.",
+    "Particles are finite, bounded Canvas rendering. Rigs have articulated transforms and sockets, without IK, mesh deformation or per-part hit testing."
   ],
   "mavis": {
     "auditedMain": "c4063f57ebf2ece353f4a0d3b07fe26b00d99bf5",
-    "adoptionIssues": [145, 152, 153, 154, 297, 256, 298, 306],
+    "adoptionIssues": [42, 145, 152, 153, 154, 235, 237, 244, 256, 296, 297, 298, 306],
     "implementationIncluded": false,
-    "openClosedIssueCountExcludingPullRequests": 250
+    "openClosedIssueCountExcludingPullRequests": 250,
+    "interactionAudit": "Existing MParticleField/MConfetti are implemented; reuse them. Updated #235/#237/#296/#244/#42 with SwiftUI source-candidate dependencies and shared lifecycle acceptance; no duplicate issues or Mavis implementation."
   },
   "scope": {
     "initialIssues": [430, 431, 432, 433, 434, 435],
     "additionalIssues": [
       437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452, 453,
-      454, 455, 456, 457, 458, 459, 460
+      454, 455, 456, 457, 458, 459, 460, 461, 462, 463, 464, 465, 466
     ],
     "pullRequest": 436
   }

@@ -2739,6 +2739,22 @@
         "docs/guide/swiftui-advanced.md"
       ],
       "status": "candidate-unpublished"
+    },
+    {
+      "id": "swiftui-interaction-characters",
+      "issues": [461, 462, 463, 464, 465, 466],
+      "status": "candidate-unpublished",
+      "limit": "Standalone iOS 17+/macOS 14+ source candidate: finite scalar keyframes, focal gestures, fixed-height realized reorder, owned in-app drop zones, bounded Canvas particles and articulated symbol rigs. Existing Web APIs reused in packed framework consumers. Apple points and CSS pixels, platform input/rendering differences, no virtualization, OS file drop, mesh/IK or performance parity; merge/publication pending.",
+      "evidence": [
+        "packages/swiftui/Sources/JoltSwiftUI/NativeGestureInput.swift",
+        "packages/swiftui/Tests/JoltCoreTests/InteractionTests.swift",
+        "packages/swiftui/Tests/JoltSwiftUITests/InteractionCharacterTests.swift",
+        "benchmarks/swiftui-demo/Characters.swift",
+        "benchmarks/swiftui-demo/UITests.swift",
+        "benchmarks/web-frameworks/characters.spec.ts",
+        "benchmarks/swiftui-next-six.md",
+        "docs/guide/swiftui-characters.md"
+      ]
     }
   ]
 }

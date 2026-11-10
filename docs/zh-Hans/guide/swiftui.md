@@ -35,3 +35,5 @@ NativeScript 与 Web 共享 createPreset(name, parameters)；Apple 的 JoltPrese
 <Clip name="web-preset" caption="macOS Chromium 中真实播放现有 Web popIn 配方。Swift Package 从相同定义生成，渲染引擎和单位仍然不同。" />
 
 [派生运动与保留式图形](./swiftui-advanced)
+
+[SwiftUI · Keyframes / gestures / characters](./swiftui-characters)
