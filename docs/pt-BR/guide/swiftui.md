@@ -1,14 +1,14 @@
 # SwiftUI
 
-Disponível na **0.1.0-rc.13 (Beta)** para iOS 17+ e macOS 14+, sem NativeScript ou JavaScript. Instale o produto `JoltSwiftUI` pela tag `v0.1.0-rc.13` do repositório. Consulte [instalação](./swiftui), [ciclo de vida](./swiftui-motion) e [interação/geometria](./swiftui-geometry) para os limites.
+Disponível na **0.1.0-rc.13 (Beta)** para iOS 17+ e macOS 14+, sem NativeScript ou JavaScript. Instale o produto `JoltSwiftUI` pela tag `v0.1.0-rc.13` do repositório de pacote [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Consulte [instalação](./swiftui), [ciclo de vida](./swiftui-motion) e [interação/geometria](./swiftui-geometry) para os limites.
 
-Adicione o repositório como Swift Package no Xcode e selecione a versão exata `0.1.0-rc.13`. Um checkout local também funciona. Poses finitas usam interpolação SwiftUI; valores amostrados usam um relógio nativo ativado sob demanda.
+Adicione `https://github.com/rafaelaugustos/jolt-swift` como Swift Package no Xcode e selecione a versão exata `0.1.0-rc.13`. Ele contém só o pacote Swift, gerado a partir do repositório do Jolt a cada release, então o SwiftPM não baixa as mídias da documentação nem os resultados de benchmark. Projetos que já usam `https://github.com/rafaelaugustos/jolt.git` continuam resolvendo `0.1.0-rc.13`, e um checkout local do repositório do Jolt também funciona. Poses finitas usam interpolação SwiftUI; valores amostrados usam um relógio nativo ativado sob demanda.
 
 ```swift
 // Package.swift
-.package(url: "https://github.com/rafaelaugustos/jolt.git", exact: "0.1.0-rc.13")
+.package(url: "https://github.com/rafaelaugustos/jolt-swift.git", exact: "0.1.0-rc.13")
 // Application target dependencies:
-.product(name: "JoltSwiftUI", package: "jolt")
+.product(name: "JoltSwiftUI", package: "jolt-swift")
 ```
 
 ```swift

@@ -1,6 +1,6 @@
 # SwiftUI: movimento derivado e gráficos retidos
 
-Disponível na **0.1.0-rc.13 (Beta)** para iOS 17+ e macOS 14+, sem NativeScript ou JavaScript. Instale o produto `JoltSwiftUI` pela tag `v0.1.0-rc.13` do repositório. Consulte [instalação](./swiftui), [ciclo de vida](./swiftui-motion) e [interação/geometria](./swiftui-geometry) para os limites.
+Disponível na **0.1.0-rc.13 (Beta)** para iOS 17+ e macOS 14+, sem NativeScript ou JavaScript. Instale o produto `JoltSwiftUI` pela tag `v0.1.0-rc.13` do repositório de pacote [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Consulte [instalação](./swiftui), [ciclo de vida](./swiftui-motion) e [interação/geometria](./swiftui-geometry) para os limites.
 
 JoltNumericMap aceita 2–1024 pares finitos com entradas estritamente monotônicas. Entradas decrescentes são invertidas. Clamp é o padrão; clamp:false estende os segmentos extremos. sample retorna valor e inclinação, usando a derivada à esquerda nos nós internos. JoltMappedValue usa uma origem escalar emprestada e possui apenas sua observação: pausa congela, retomada atualiza e dispose desconecta. Overflow define valid=false e preserva o último resultado finito. Não cria outro relógio. O binding aceita x/y, scale/scaleX/scaleY, rotate e opacity; transformações decorativas ficam na identidade com movimento reduzido.
 
