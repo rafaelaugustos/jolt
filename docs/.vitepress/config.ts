@@ -428,6 +428,8 @@ const socialImageAlt =
   'Jolt. Make NativeScript move. Presets, springs, keyframes and stagger, with the lightning logo among floating native controls.'
 
 export default defineConfig({
+  // Bound search indexing and SSR work on memory-constrained build containers.
+  buildConcurrency: 4,
   vite: { plugins: [outlineLifecycle()] },
   title: 'Jolt',
   appearance: 'dark',
