@@ -1,6 +1,6 @@
 # Reordenar listas {#reorder-a-list}
 
-El candidato corrige la geometría Web tras FLIP y cambio de altura del texto, y añade [filas SwiftUI medidas](./swiftui-geometry). Estas novedades no están en RC.12.1.
+RC.13 corrige la geometría Web tras FLIP seguido de cambios de altura del texto y añade [filas SwiftUI medidas](./swiftui-geometry).
 
 Sostenga un identificador de fila, muévalo a través de una lista y suéltelo. Los vecinos hacen espacio mientras la lista se desplaza cerca de sus bordes. La fila elevada permanece en una instantánea nativa incluso después de que su celda original abandone la ventana gráfica reciclada.
 

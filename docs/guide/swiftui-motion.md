@@ -1,6 +1,6 @@
 # SwiftUI values, interaction and composition
 
-Source candidate for iOS 17+ and macOS 14+, without NativeScript or JavaScript. These APIs extend the finite pose modifiers; they are not in RC.12.1. [Installation](./swiftui).
+Available in **0.1.0-rc.13 (Beta)** for iOS 17+ and macOS 14+, without NativeScript or JavaScript. Install the `JoltSwiftUI` product from the repository tag `v0.1.0-rc.13`. See [installation](./swiftui), [ownership](./swiftui-motion) and [interaction/geometry](./swiftui-geometry) for platform limits.
 
 JoltScope retains owned resources. Use .joltScope(scope) on one view boundary to suspend while offscreen or inactive, then resume. Suspension preserves manual pause. The model owns disposal: dispose() destroys resources; reset() clears them while leaving the scope reusable. A resource has one scope owner. Bindings and followers borrow their values; disposing a follower never destroys its source. Keep owners in @StateObject, not inside body.
 

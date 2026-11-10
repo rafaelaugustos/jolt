@@ -1,5 +1,11 @@
 # Histórico de versões
 
+## 0.1.0-rc.13: SwiftUI e ciclo de vida dos frameworks Web {#rc-13}
+
+A RC.13 adiciona [SwiftUI independente para iOS 17+/macOS 14+](./swiftui), [adaptadores Web React/Angular/Svelte/Solid](./web-frameworks), [inspeção e replay portáteis](./portable-tools) e [painéis, reorder medido e curvas Bézier tipadas](./swiftui-geometry), pelo PR #436 (39 tasks). Web e SwiftUI continuam experimentais. Instale os pacotes npm na mesma versão e recompile apps NativeScript; use a tag `v0.1.0-rc.13` no Swift Package Manager. Os guias nos quatro idiomas incluem gravações nativas e Web revisadas. Sensores físicos, custo do inspector e comparações gerais de desempenho continuam separados.
+
+[0.1.0-rc.13](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.13)
+
 ## 0.1.0-rc.12.1: Composição portável e preferências {#release-candidate}
 
 A RC.12.1 adiciona [recursos Web retidos e ownership de shapes no Vue, coordenação de comportamentos, texto com gradiente, rigs 2D, helpers compartilhados e observação da preferência efetiva de movimento reduzido](./portable-composition). Os adaptadores de vetores do navegador compartilham aquisição e unidades compatíveis com o nativo; o campo magnético informa indisponibilidade explicitamente. Instale os pacotes na mesma versão e recompile os apps nativos. As APIs Web continuam experimentais.

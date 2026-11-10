@@ -1,6 +1,6 @@
 # SwiftUI: panels and measured geometry
 
-Source candidate for iOS 17+/macOS 14+, pending merge/publication in [PR #436](https://github.com/rafaelaugustos/jolt/pull/436). These Swift APIs are not in RC.12.1. Start with [installation](./swiftui), [ownership](./swiftui-motion) and [interaction](./swiftui-characters). Web reuses the published `bottomSheet`, `reorder` and motion-path backends.
+Available in **0.1.0-rc.13 (Beta)** for iOS 17+ and macOS 14+, without NativeScript or JavaScript. Install the `JoltSwiftUI` product from the repository tag `v0.1.0-rc.13`. See [installation](./swiftui), [ownership](./swiftui-motion) and [interaction/geometry](./swiftui-geometry) for platform limits.
 
 ## In-app snap panels
 
@@ -80,7 +80,7 @@ The packed React/Angular/Svelte/Solid consumers use `scope.bottomSheet`, `scope.
 
 Web reorder now retains size/origin observation between drags after a completed FLIP. Changing text then dragging again remains valid; a size change during a drag still cancels without a commit. Removed rows/controller disposal release those geometry leases. Existing transform ownership checks remain in force. Web variable-size rows use the same center-comparison helper as the Swift numerical fixtures.
 
-Actual XCTest interactions cover iOS simulator and native macOS; browser tests cover Chromium, Firefox and WebKit. The recordings show interactions and lifecycle, not physical iPhone/trackpad or performance equivalence. Mavis already has Sheet/reorder adapters; existing adoption [#234](https://github.com/getcortexlabs/mavis-ui/issues/234), [#237](https://github.com/getcortexlabs/mavis-ui/issues/237) and path recipes [#298](https://github.com/getcortexlabs/mavis-ui/issues/298) track the remaining integration/acceptance. SwiftUI merge and publication remain pending.
+Actual XCTest interactions cover iOS simulator and native macOS; browser tests cover Chromium, Firefox and WebKit. The recordings show interactions and lifecycle, not physical iPhone/trackpad or performance equivalence. Mavis already has Sheet/reorder adapters; existing adoption [#234](https://github.com/getcortexlabs/mavis-ui/issues/234), [#237](https://github.com/getcortexlabs/mavis-ui/issues/237) and path recipes [#298](https://github.com/getcortexlabs/mavis-ui/issues/298) track the remaining integration/acceptance. SwiftUI is included in v0.1.0-rc.13.
 
 <Clip name="web-geometry-react" caption="Chromium desktop, packed React consumer: panel, nested scroll/focus, Bézier travel and variable-height reorder. Existing Web backends; no mobile keyboard evidence." />
 

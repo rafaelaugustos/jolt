@@ -1,6 +1,6 @@
 # Adaptadores para frameworks Web
 
-APIs candidatas para React DOM, Angular, Svelte e Solid, sobre o runtime Web existente. Ainda não fazem parte do pacote publicado RC.12.1.
+Disponível na **0.1.0-rc.13 (Beta)**: adaptadores React DOM, Angular, Svelte e Solid sobre o runtime Web existente. Instale a versão npm correspondente; as entradas dos frameworks nativos mantêm seu significado.
 
 Os bindings começam após a renderização no cliente; a renderização no servidor não cria runtime. Declarações equivalentes não reiniciam o movimento. Um novo valor substitui a animação a partir da pose atual. Elementos desconectados guardam a declaração mais recente para a reconexão; a destruição encerra animações próprias e listeners de feedback. A pausa manual sobrevive à desconexão. Use um dono por propriedade; o feedback de pressão compõe uma camada independente.
 

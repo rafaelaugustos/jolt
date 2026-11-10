@@ -1,6 +1,6 @@
 # Reorder a list
 
-The pending source candidate also fixes Web row geometry after FLIP followed by a text-height change, and adds [measured SwiftUI rows](./swiftui-geometry#realized-rows-with-measured-heights). These additions are not in RC.12.1.
+RC.13 fixes Web row geometry after FLIP followed by a text-height change and adds [measured SwiftUI rows](./swiftui-geometry#realized-rows-with-measured-heights).
 
 Hold a row handle, move it through a list, and let go. Neighbours make room while the list scrolls near its edges. The lifted row stays in a native snapshot even after its original cell leaves the recycled viewport.
 

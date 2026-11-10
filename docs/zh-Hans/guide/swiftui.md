@@ -1,12 +1,12 @@
 # SwiftUI
 
-面向 iOS 17+ 和 macOS 14+ 的源码候选版，不依赖 NativeScript 或 JavaScript。这些 API 扩展了有限姿态动画，尚未发布到 RC.12.1。
+**0.1.0-rc.13（测试版）**支持 iOS 17+ 和 macOS 14+，无需 NativeScript 或 JavaScript。从仓库标签 `v0.1.0-rc.13` 安装 `JoltSwiftUI` 产品。平台限制请参阅[安装](./swiftui)、[生命周期](./swiftui-motion)和[交互与几何](./swiftui-geometry)。
 
-在 Xcode 中把审核后的源码作为本地 Swift Package 添加。发布后选用包含 Package.swift 的已审核标签/提交；旧 npm 包不提供独立包。有限姿态使用 SwiftUI 插值；显式采样值使用按需启动的原生时钟。所有权和平台限制见[数值、交互与编排](./swiftui-motion)。
+在 Xcode 中将仓库添加为 Swift Package，并选择精确版本 `0.1.0-rc.13`。也可使用本地检出。有限姿态采用 SwiftUI 插值；采样值采用按需运行的原生时钟。
 
 ```swift
 // Package.swift
-.package(path: "../jolt")
+.package(url: "https://github.com/rafaelaugustos/jolt.git", exact: "0.1.0-rc.13")
 // Application target dependencies:
 .product(name: "JoltSwiftUI", package: "jolt")
 ```

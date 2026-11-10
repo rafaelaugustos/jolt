@@ -6,18 +6,18 @@ npm install @rafaelaugusto/jolt@next
 
 RC.6 incluye [movimiento continuo Web](./web-dynamic), con valores, followers y drag/snap, además de [mapeos numéricos, geometría y scroll vertical](./web-support). Las APIs Web siguen experimentales.
 
-La **versión candidata 0.1.0-rc.12.1** se publica con la etiqueta `next`. El alcance nativo de 0.1.0 está congelado mientras se valida la compatibilidad y se prepara la versión estable. Los consumidores NativeScript requieren `@nativescript/core` 8.9 o posterior. Es independiente del framework: recibe una vista o un elemento que la contiene, por lo que funciona con NativeScript-Vue, Angular, Svelte o NativeScript sin framework. Las aplicaciones NativeScript-Vue también pueden importar `@rafaelaugusto/jolt/vue` para usar [directivas y un componente de transición](./vue).
+La **versión candidata 0.1.0-rc.13** se publica con la etiqueta `next`. El alcance nativo de 0.1.0 está congelado mientras se valida la compatibilidad y se prepara la versión estable. Los consumidores NativeScript requieren `@nativescript/core` 8.9 o posterior. Es independiente del framework: recibe una vista o un elemento que la contiene, por lo que funciona con NativeScript-Vue, Angular, Svelte o NativeScript sin framework. Las aplicaciones NativeScript-Vue también pueden importar `@rafaelaugusto/jolt/vue` para usar [directivas y un componente de transición](./vue).
 
 Jolt incluye código auxiliar nativo en iOS y Android. Vuelve a compilar la aplicación nativa después de instalar o actualizar Jolt; una actualización de JavaScript por sí sola no puede instalar código nativo.
 
-La versión candidata actual es **0.1.0-rc.12.1**. Para fijar esa versión, usa `npm install @rafaelaugusto/jolt@0.1.0-rc.12.1`. Si utilizas [adaptadores de propiedades nativas externas](./native-properties), instala también `@rafaelaugusto/jolt-native@0.1.0-rc.12.1` y vuelve a compilar la aplicación nativa.
+La versión candidata actual es **0.1.0-rc.13**. Para fijar esa versión, usa `npm install @rafaelaugusto/jolt@0.1.0-rc.13`. Si utilizas [adaptadores de propiedades nativas externas](./native-properties), instala también `@rafaelaugusto/jolt-native@0.1.0-rc.13` y vuelve a compilar la aplicación nativa.
 
 ## Entradas Web experimentales {#experimental-web-candidate}
 
 Desde **0.1.0-rc.5**, el paquete incluye las entradas experimentales `/web` y `/web/vue`. Instala directamente la candidata publicada; añade Vue solo para el adapter Vue DOM. La raíz y `/vue` siguen siendo entradas nativas.
 
 ```sh
-npm install @rafaelaugusto/jolt@0.1.0-rc.12.1
+npm install @rafaelaugusto/jolt@0.1.0-rc.13
 # Solo para el adapter Vue DOM opcional:
 npm install vue@^3.5.0
 ```

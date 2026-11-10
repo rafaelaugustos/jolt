@@ -1,6 +1,6 @@
 # Inspección portátil y replay de sensores
 
-Adiciones candidatas a las entradas opcionales Web inspector/testing: gráficos acotados de valores esperados/observados y replay canónico de sensores. Los equivalentes nativos ya existen. Las APIs Web nuevas no están publicadas en RC.12.1.
+Disponible en **0.1.0-rc.13 (Beta)**: gráficos limitados de valores esperados/observados y replay sintético canónico de sensores en las entradas opcionales Web de inspector/testing. Los equivalentes nativos ya existen; el replay no acredita sensores físicos.
 
 ```ts
 import { createMotionInspector } from '@rafaelaugusto/jolt/web/inspector'

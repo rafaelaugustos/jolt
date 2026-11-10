@@ -1,6 +1,6 @@
 # Movimento ao longo de um caminho
 
-O candidato SwiftUI independente agora suporta [curvas quadráticas/cúbicas tipadas](./swiftui-geometry). Ainda depende de merge/publicação; trajetórias NativeScript/Web mantêm seu histórico de versões.
+A RC.13 adiciona [curvas quadráticas/cúbicas tipadas no SwiftUI](./swiftui-geometry). Trajetórias NativeScript/Web mantêm seu histórico de versões.
 
 Disponível na RC.12: [interação e profundidade](./interaction-depth) acrescenta drop zones, áudio/cues opcionais, inspeção e contratos Web de paths, 3D e sombras.
 

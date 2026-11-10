@@ -1,6 +1,6 @@
 # SwiftUI: keyframes, interaction and characters
 
-Source candidate for iOS 17+ and macOS 14+, pending merge/publication in [PR #436](https://github.com/rafaelaugustos/jolt/pull/436). These Swift APIs are not in RC.12.1. Start with [installation](./swiftui), [ownership](./swiftui-motion) and [property groups](./swiftui-advanced). SwiftUI runs without NativeScript or JavaScript; Web uses the existing public runtime.
+Available in **0.1.0-rc.13 (Beta)** for iOS 17+ and macOS 14+, without NativeScript or JavaScript. Install the `JoltSwiftUI` product from the repository tag `v0.1.0-rc.13`. See [installation](./swiftui), [ownership](./swiftui-motion) and [interaction/geometry](./swiftui-geometry) for platform limits.
 
 ## Finite keyframes
 

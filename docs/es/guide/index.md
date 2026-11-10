@@ -35,7 +35,7 @@ Las APIs Web son **experimentales**. Empieza por el [runtime Web](./web-runtime)
 
 ## SwiftUI (Beta)
 
-Para aplicaciones escritas en Swift, el [paquete SwiftUI independiente](./swiftui) admite iOS 17+ y macOS 14+, sin NativeScript ni JavaScript. Es un candidato experimental en el [PR #436](https://github.com/rafaelaugustos/jolt/pull/436), pendiente de integración y publicación; estas APIs no están incluidas en RC.12.1.
+Disponible en **0.1.0-rc.13 (Beta)** para iOS 17+ y macOS 14+, sin NativeScript ni JavaScript. Instale el producto `JoltSwiftUI` desde la etiqueta `v0.1.0-rc.13` del repositorio. Consulte [instalación](./swiftui), [ciclo de vida](./swiftui-motion) e [interacción/geometría](./swiftui-geometry) para los límites.
 
 ## ¿Por qué no? `view.animate()` {#why-not-view-animate}
 
@@ -79,6 +79,6 @@ El menú lateral destaca capacidades con tres etiquetas:
 
 Nuevo y Actualizado caducan cuando cambia la versión documentada. Beta permanece hasta estabilizar la API. La descripción de la etiqueta distingue una capacidad publicada de un candidato en código; la guía indica cualquier integración o publicación pendiente. La etiqueta por sí sola no significa que la función se haya publicado.
 
-<Clip name="docs-navigation-desktop" caption="Chromium en macOS, viewport de escritorio: New, Updated y Beta en el menú, navegación por teclado y temas claro/oscuro. Muestra la navegación de la documentación, no una app nativa." />
+<Clip name="docs-navigation-desktop" caption="Chromium en macOS, viewport de escritorio: Etiquetas de la edición actual en el menú, navegación por teclado y temas claro/oscuro. Muestra la navegación de la documentación, no una app nativa." />
 
 <Clip name="docs-navigation-mobile" caption="Chromium en macOS, viewport móvil emulado: abrir el menú y seguir entradas etiquetadas. Emulación del navegador, no grabación en un teléfono físico." />
