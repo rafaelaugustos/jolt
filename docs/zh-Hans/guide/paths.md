@@ -1,6 +1,6 @@
 # 沿路径运动 {#motion-along-a-path}
 
-独立 SwiftUI 源码候选现支持[类型化二次/三次曲线](./swiftui-geometry)，仍待合并和发布。NativeScript/Web 路径保持原有发布历史。
+RC.13 添加 [SwiftUI 类型化二次/三次曲线](./swiftui-geometry)。NativeScript/Web 轨迹保持原有发布历史。
 
 RC.12 已提供[交互与深度](./interaction-depth)：可移植放置目标、可选音频提示、检查器以及 Web 路径、3D 和阴影契约。
 

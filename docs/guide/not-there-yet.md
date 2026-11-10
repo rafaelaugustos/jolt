@@ -1,5 +1,7 @@
 # Release status and limits {#not-there-yet}
 
+RC.13 adds [standalone SwiftUI for iOS 17+/macOS 14+](./swiftui), [React/Angular/Svelte/Solid Web adapters](./web-frameworks), [portable inspection and replay](./portable-tools), and [snap panels, measured reorder and typed Bézier paths](./swiftui-geometry), from PR #436 (39 tasks). Web and SwiftUI remain experimental. Install matching npm packages and rebuild NativeScript apps; use tag `v0.1.0-rc.13` for Swift Package Manager. Reviewed native/browser recordings are embedded in all four documentation languages. Physical sensor delivery, inspector overhead and general performance comparisons remain separate.
+
 RC.12.1 adds [retained Web resources and Vue shape ownership, behavior coordination, gradient text, 2D rigs, shared helpers and effective reduced-motion observation](./portable-composition). Browser vector adapters share acquisition and native-compatible units; magnetic-field input explicitly reports unavailable. Install matching packages and rebuild native apps. Web APIs remain experimental.
 
 Physical browser sensor delivery and accuracy remain pending in #385. Acceptance uses simulators/emulators and labeled injected browser readings. Publication makes no new performance or blocked-JavaScript playback claim.

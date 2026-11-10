@@ -1,5 +1,11 @@
 # 版本历史
 
+## 0.1.0-rc.13: SwiftUI 与 Web 框架生命周期 {#rc-13}
+
+RC.13 包含 PR #436 的 39 项任务：[iOS 17+/macOS 14+ 独立 SwiftUI](./swiftui)、[React/Angular/Svelte/Solid Web 适配器](./web-frameworks)、[跨平台检查与回放](./portable-tools)及[面板、实测行高排序和类型化 Bézier 曲线](./swiftui-geometry)。Web 与 SwiftUI 仍为实验性 API。安装匹配的 npm 版本并重新编译 NativeScript 应用；Swift Package Manager 使用标签 `v0.1.0-rc.13`。四种语言的指南均包含已审阅的原生/浏览器录像。实体传感器、检查器开销及一般性能比较仍需独立验证。
+
+[0.1.0-rc.13](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.13)
+
 ## 0.1.0-rc.12.1: 跨平台组合与偏好 {#release-candidate}
 
 RC.12.1 新增 [Web 保留资源与 Vue shape 所有权、行为协调、渐变文字、2D rig、共用辅助函数及有效减少动态效果偏好观察](./portable-composition)。浏览器向量适配器共用采集机制并采用与原生兼容的单位；磁场输入明确报告不可用。请安装版本一致的软件包并重新构建原生应用。Web API 仍为实验性功能。

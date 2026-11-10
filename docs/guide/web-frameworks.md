@@ -1,6 +1,6 @@
 # Web framework adapters
 
-Candidate APIs for React DOM, Angular, Svelte and Solid. These entries use the existing Web runtime. They are not included in the published RC.12.1 package.
+Available in **0.1.0-rc.13 (Beta)**: React DOM, Angular, Svelte and Solid adapters over the existing Web runtime. Install the matching npm version; native framework entries retain their existing meaning.
 
 Bindings start after client rendering; server rendering does not create a runtime. Equivalent declarations do not restart motion. A new value replaces motion from the current pose. A detached element keeps the latest declaration for reconnection; destruction stops owned animations and removes feedback listeners. Manual pause survives detachment. Use one binding per property owner; press feedback composes on its own layer.
 

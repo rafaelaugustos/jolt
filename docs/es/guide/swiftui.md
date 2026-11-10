@@ -1,12 +1,12 @@
 # SwiftUI
 
-Candidato en código fuente para iOS 17+ y macOS 14+, sin NativeScript ni JavaScript. Estas APIs amplían las poses finitas; no están en RC.12.1.
+Disponible en **0.1.0-rc.13 (Beta)** para iOS 17+ y macOS 14+, sin NativeScript ni JavaScript. Instale el producto `JoltSwiftUI` desde la etiqueta `v0.1.0-rc.13` del repositorio. Consulte [instalación](./swiftui), [ciclo de vida](./swiftui-motion) e [interacción/geometría](./swiftui-geometry) para los límites.
 
-Añada el checkout revisado como Swift Package local en Xcode. Tras publicar, seleccione un tag/commit con Package.swift; versiones npm antiguas no incluyen el paquete independiente. Las poses usan interpolación SwiftUI; los valores muestreados usan reloj nativo bajo demanda. Consulte [valores, interacción y composición](./swiftui-motion).
+Añada el repositorio como Swift Package en Xcode y seleccione la versión exacta `0.1.0-rc.13`. También funciona un checkout local. Las poses finitas usan interpolación SwiftUI; los valores muestreados usan un reloj nativo bajo demanda.
 
 ```swift
 // Package.swift
-.package(path: "../jolt")
+.package(url: "https://github.com/rafaelaugustos/jolt.git", exact: "0.1.0-rc.13")
 // Application target dependencies:
 .product(name: "JoltSwiftUI", package: "jolt")
 ```

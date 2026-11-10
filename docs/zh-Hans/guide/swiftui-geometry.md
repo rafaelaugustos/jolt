@@ -1,6 +1,6 @@
 # SwiftUI：面板与测量几何
 
-适用于 iOS 17+/macOS 14+ 的源码候选，仍待 [PR #436](https://github.com/rafaelaugustos/jolt/pull/436) 合并和发布；RC.12.1 不包含这些 Swift API。参见[安装](./swiftui)、[生命周期](./swiftui-motion)和[交互](./swiftui-characters)。Web 复用现有 `bottomSheet`、`reorder` 和路径后端。
+**0.1.0-rc.13（测试版）**支持 iOS 17+ 和 macOS 14+，无需 NativeScript 或 JavaScript。从仓库标签 `v0.1.0-rc.13` 安装 `JoltSwiftUI` 产品。平台限制请参阅[安装](./swiftui)、[生命周期](./swiftui-motion)和[交互与几何](./swiftui-geometry)。
 
 ## 应用内停靠面板
 
@@ -80,7 +80,7 @@ try progress.animate(to: 1,
 
 Web reorder 在 FLIP 完成后的空闲期保留尺寸/原点观察，因此改变文本后可再次拖动；拖动时改变高度仍会取消且不提交。删除行或销毁控制器释放观察，外部 transform 所有权检查保持不变。中心比较与 Swift fixtures 共用规则。
 
-XCTest 验证 iOS 模拟器和原生 macOS，Web 验证 Chromium、Firefox、WebKit。录制不证明实体 iPhone/触控板或性能等价。Mavis 已有 Sheet/reorder 适配器；现有 [#234](https://github.com/getcortexlabs/mavis-ui/issues/234)、[#237](https://github.com/getcortexlabs/mavis-ui/issues/237)、[#298](https://github.com/getcortexlabs/mavis-ui/issues/298) 跟踪集成与验收。SwiftUI 仍待合并发布。
+XCTest 验证 iOS 模拟器和原生 macOS，Web 验证 Chromium、Firefox、WebKit。录制不证明实体 iPhone/触控板或性能等价。Mavis 已有 Sheet/reorder 适配器；现有 [#234](https://github.com/getcortexlabs/mavis-ui/issues/234)、[#237](https://github.com/getcortexlabs/mavis-ui/issues/237)、[#298](https://github.com/getcortexlabs/mavis-ui/issues/298) 跟踪集成与验收。SwiftUI 包含在 v0.1.0-rc.13 中。
 
 <Clip name="web-geometry-react" caption="桌面 Chromium，打包的 React：面板、滚动/焦点、曲线与不同行高排序。复用 Web 后端，不验证移动键盘。" />
 

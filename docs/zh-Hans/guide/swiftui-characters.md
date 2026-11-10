@@ -1,6 +1,6 @@
 # SwiftUI：关键帧、交互与角色
 
-适用于 iOS 17+ 和 macOS 14+ 的源码候选版本，等待 [PR #436](https://github.com/rafaelaugustos/jolt/pull/436) 合并与发布。这些 Swift API 不包含在 RC.12.1 中。请先阅读[安装](./swiftui)、[资源所有权](./swiftui-motion)和[属性组](./swiftui-advanced)。SwiftUI 无需 NativeScript 或 JavaScript；Web 复用现有公共运行时。
+**0.1.0-rc.13（测试版）**支持 iOS 17+ 和 macOS 14+，无需 NativeScript 或 JavaScript。从仓库标签 `v0.1.0-rc.13` 安装 `JoltSwiftUI` 产品。平台限制请参阅[安装](./swiftui)、[生命周期](./swiftui-motion)和[交互与几何](./swiftui-geometry)。
 
 ## 有限关键帧
 

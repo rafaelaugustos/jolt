@@ -44,8 +44,10 @@ try {
       ['reorder', 'Updated'],
       ['swiftui-geometry', 'Beta'],
     ]) {
-      if (mobile) await page.locator('.VPLocalNav .menu').tap()
       const link = sidebar.locator(`a[href="/guide/${path}"]`)
+      // New/Updated expire at a release boundary; only capture active markers.
+      if (!(await link.locator('.jolt-nav-status').count())) continue
+      if (mobile) await page.locator('.VPLocalNav .menu').tap()
       await link.scrollIntoViewIfNeeded()
       await expect(link.locator('.jolt-nav-status')).toHaveText(label)
       await page.waitForTimeout(1100)

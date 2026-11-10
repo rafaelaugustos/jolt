@@ -1,6 +1,6 @@
 # SwiftUI: paneles y geometría medida
 
-Candidato de código para iOS 17+/macOS 14+, pendiente de merge/publicación en [PR #436](https://github.com/rafaelaugustos/jolt/pull/436); estas APIs Swift no están en RC.12.1. Consulta [instalación](./swiftui), [ciclo de vida](./swiftui-motion) e [interacción](./swiftui-characters). Web reutiliza `bottomSheet`, `reorder` y trayectorias existentes.
+Disponible en **0.1.0-rc.13 (Beta)** para iOS 17+ y macOS 14+, sin NativeScript ni JavaScript. Instale el producto `JoltSwiftUI` desde la etiqueta `v0.1.0-rc.13` del repositorio. Consulte [instalación](./swiftui), [ciclo de vida](./swiftui-motion) e [interacción/geometría](./swiftui-geometry) para los límites.
 
 ## Paneles con posiciones de parada
 
@@ -80,7 +80,7 @@ React/Angular/Svelte/Solid empaquetados reutilizan `scope.bottomSheet`, `scope.r
 
 Web reorder conserva observación de tamaño/origen entre arrastres tras FLIP: texto nuevo permite otro arrastre y cambiar altura durante contacto cancela sin commit. Retirada/disposal libera observaciones; continúa la protección de transform. La comparación de centros comparte fixtures Swift.
 
-XCTest valida simulador iOS/macOS nativo; Web usa Chromium, Firefox y WebKit. Sin evidencia de iPhone/trackpad físico ni equivalencia de rendimiento. Mavis ya tiene adaptadores Sheet/reorder; [#234](https://github.com/getcortexlabs/mavis-ui/issues/234), [#237](https://github.com/getcortexlabs/mavis-ui/issues/237) y [#298](https://github.com/getcortexlabs/mavis-ui/issues/298) conservan seguimiento de integración/validación. SwiftUI sigue pendiente de merge/publicación.
+XCTest valida simulador iOS/macOS nativo; Web usa Chromium, Firefox y WebKit. Sin evidencia de iPhone/trackpad físico ni equivalencia de rendimiento. Mavis ya tiene adaptadores Sheet/reorder; [#234](https://github.com/getcortexlabs/mavis-ui/issues/234), [#237](https://github.com/getcortexlabs/mavis-ui/issues/237) y [#298](https://github.com/getcortexlabs/mavis-ui/issues/298) conservan seguimiento de integración/validación. SwiftUI está incluido en v0.1.0-rc.13.
 
 <Clip name="web-geometry-react" caption="Chromium desktop, consumidor React empaquetado: panel, scroll/foco, curvas y filas variables. Backends Web existentes; sin evidencia de teclado móvil." />
 

@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## 0.1.0-rc.13 (2026-11-10)
+
+- Publish matching core and optional native packages from #436 (39 tasks: #430–#435 and #437–#469). Rebuild NativeScript apps after upgrading. Web and SwiftUI APIs remain experimental.
+- Add standalone `JoltSwiftUI` through Swift Package Manager for iOS 17+ and macOS 14+, without NativeScript or JavaScript. The version tag contains the Swift package; npm supplies the JavaScript packages.
+- Add React DOM, Angular, Svelte and Solid lifecycle adapters over the existing Web runtime, with SSR-safe mounting, shared runtime ownership, cancellation, retained resources and disposal.
+- Add SwiftUI values/springs, presence, press/hover/pointer, bounded drag/inertia, scroll, composition/cues/seeking, shared layout, mappings/colors, property groups, motion states, priority behaviors, paths, retained drawing, gradient text, viewport and rendering activity.
+- Add finite keyframes, composed gestures, accessible realized-row reorder, in-app drop targets, finite particles and articulated 2D rigs with sockets and pose blending. Add snap panels with host-relative keyboard overlap, nested scrolling, focus/Escape and suspension/resume; measured row heights; and typed quadratic/cubic paths with bounded arc-length sampling.
+- Add portable inspector plots and canonical synthetic sensor replay. Fix Web row geometry observation after FLIP plus text-height changes, reduced-motion reconciliation and retained panel focus/settlement after remount.
+- Add localized New/Updated/Beta documentation navigation. Preserve reviewed native/browser recordings and guides in English, Portuguese, Spanish and Simplified Chinese.
+- Validate 1,789 TypeScript tests, 64 Swift Debug/Release tests, 147 packed framework browser cases and 24 native UI cases across iOS simulator/macOS. Physical sensor delivery (#385), inspector overhead (#415) and latency/PSS investigations (#405/#406) remain separate; this release establishes no general performance superiority. SwiftUI does not include full SVG parsing/morphing, virtualized lists or system-modal presentation.
+
 ## 0.1.0-rc.12.1 (2026-11-07)
 
 - Publish matching core and optional native packages with portable composition from #428. Rebuild native applications after upgrading. Web APIs remain experimental.

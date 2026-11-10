@@ -1,6 +1,6 @@
 # Portable inspection and sensor replay
 
-Candidate additions to the optional Web inspector/testing entries: bounded expected/observed plots and canonical sensor replay. Native equivalents already exist. These new Web APIs are not published in RC.12.1.
+Available in **0.1.0-rc.13 (Beta)**: bounded inspector plots of expected/observed values and canonical synthetic sensor replay through the optional Web inspector/testing entries. Native equivalents already exist; replay does not establish physical sensor availability.
 
 ```ts
 import { createMotionInspector } from '@rafaelaugusto/jolt/web/inspector'

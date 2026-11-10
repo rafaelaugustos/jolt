@@ -1,6 +1,6 @@
 # 可移植检查与传感器重播
 
-可选 Web inspector/testing 入口的候选扩展：有界预期/观测曲线和标准传感器重播。原生对应能力已存在，新增 Web API 尚未包含在 RC.12.1。
+**0.1.0-rc.13（测试版）**通过可选 Web inspector/testing 入口提供有界预期/观测值图表和标准化合成传感器回放。原生对应功能已存在；回放不能证明实体传感器可用性。
 
 ```ts
 import { createMotionInspector } from '@rafaelaugusto/jolt/web/inspector'

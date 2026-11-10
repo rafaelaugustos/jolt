@@ -611,27 +611,27 @@
     },
     {
       "path": "docs/public/media/docs-navigation-desktop.mp4",
-      "sha256": "1eeb52e6706e9b3375795f7ed70db88f0afcc6e1e93fc8c2b927fa1488466a33",
-      "bytes": 764060,
-      "seconds": 13.36,
+      "sha256": "1de8b83802f7540fb0777f023af0a956de7feaa357cb4b5c43c1a8e59623eafe",
+      "bytes": 644353,
+      "seconds": 9.48,
       "stream": {
         "codec_name": "h264",
         "width": 1320,
         "height": 900
       },
-      "review": "Full decode and visible frames reviewed. Real Chromium on macOS, English UI: New/Updated/Beta, actual keyboard or emulated touch navigation and light/dark themes. Mobile is browser viewport emulation, not a physical phone. Initial mobile browser startup trimmed by 2 seconds; playback speed preserved. Documentation UI has no native counterpart."
+      "review": "RC.13 documentation edition recapture: expired New marker is absent; Updated/Beta remain, availability describes the release. Full decode and sampled interaction frames reviewed; original speed, English Chromium on macOS, desktop or emulated mobile viewport. No physical phone claim."
     },
     {
       "path": "docs/public/media/docs-navigation-mobile.mp4",
-      "sha256": "1bf68f7424612c894407e1579a74ee3bb811c337d6010b0c622f89dcc2132c31",
-      "bytes": 1060520,
-      "seconds": 15.16,
+      "sha256": "927a058b674503782bee839bec5ad09fec1a38121c0ed95b27638847e725d2c0",
+      "bytes": 886553,
+      "seconds": 11.72,
       "stream": {
         "codec_name": "h264",
         "width": 390,
         "height": 844
       },
-      "review": "Full decode and visible frames reviewed. Real Chromium on macOS, English UI: New/Updated/Beta, actual keyboard or emulated touch navigation and light/dark themes. Mobile is browser viewport emulation, not a physical phone. Initial mobile browser startup trimmed by 2 seconds; playback speed preserved. Documentation UI has no native counterpart."
+      "review": "RC.13 documentation edition recapture: expired New marker is absent; Updated/Beta remain, availability describes the release. Full decode and sampled interaction frames reviewed; original speed, English Chromium on macOS, desktop or emulated mobile viewport. No physical phone claim."
     }
   ],
   "limits": [

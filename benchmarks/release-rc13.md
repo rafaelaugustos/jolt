@@ -1,0 +1,11 @@
+# RC.13 publication checkpoint
+
+Objective: publish v0.1.0-rc.13 from approved main 778bc18, npm first and GitHub Release afterward. User authorized publication and its preparation/merge. Work is isolated in release/v0.1.0-rc.13; the separate user's working checkout must stay untouched. Cortex tools are unavailable; this repository checkpoint does not claim a Cortex save.
+
+Release architecture: package.json and packages/native/package.json must match the version tag; the plugin peer requires >= that version. Release workflow dispatch requires a tag. scripts/publish-packages.mjs prepares both tarballs before publishing the native plugin, then core, with provenance. It rejects existing versions with different integrity and preserves a stable latest tag. SwiftUI ships through the repository's Package.swift and the same Git tag, not npm. Reuse the reviewed #436 native/browser evidence; only release metadata and current-edition menu recordings change here.
+
+Verified preparation: 1,789 unit tests, type check, two-package publication dry run and capability inventory passed. Four-language release/install/feature documentation, menu availability, changelog and versions are updated. New/Updated expiry remains version-bound; Beta remains experimental. Current-edition desktop/mobile browser recordings were fully decoded and visually reviewed. Original native clips remain unchanged.
+
+Next: finish media/build/format checks, verify exact release-PR CI, merge and tag the accepted commit, dispatch Release for npm, verify both registry artifacts and dist-tags, create the GitHub prerelease, verify its idempotent workflow and update existing Mavis adoption issues. Publication is not complete until registry/release evidence confirms it. Current GitHub workflow status takes precedence over this checkpoint.
+
+Dependencies: .github/workflows/{ci,native-ci,release}.yml; scripts/publish-packages.mjs; package{,-lock}.json; packages/native/package.json; Package.swift; CHANGELOG.md; README.md; docs/.vitepress/navigation-status.ts; docs/*/guide; benchmarks/{capability-matrix.json,results/web-frameworks-swiftui/acceptance.json,docs-navigation/record.mjs}. Mavis source and all 250 issues were audited at c4063f5; update the 14 existing #436 adoption issues after actual publication, without creating duplicates or implementing Mavis.

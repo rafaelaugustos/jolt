@@ -1,6 +1,6 @@
 # SwiftUI: keyframes, interacción y personajes
 
-Candidato en código para iOS 17+ y macOS 14+, pendiente de merge/publicación en el [PR #436](https://github.com/rafaelaugustos/jolt/pull/436). Estas APIs Swift no están en RC.12.1. Consulte [instalación](./swiftui), [propiedad](./swiftui-motion) y [grupos](./swiftui-advanced). SwiftUI funciona sin NativeScript ni JavaScript; Web reutiliza el runtime público existente.
+Disponible en **0.1.0-rc.13 (Beta)** para iOS 17+ y macOS 14+, sin NativeScript ni JavaScript. Instale el producto `JoltSwiftUI` desde la etiqueta `v0.1.0-rc.13` del repositorio. Consulte [instalación](./swiftui), [ciclo de vida](./swiftui-motion) e [interacción/geometría](./swiftui-geometry) para los límites.
 
 ## Keyframes finitos
 

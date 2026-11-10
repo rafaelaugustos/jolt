@@ -1,6 +1,6 @@
 # SwiftUI: painéis e geometria medida
 
-Candidato de código para iOS 17+/macOS 14+, pendente de merge/publicação no [PR #436](https://github.com/rafaelaugustos/jolt/pull/436). Essas APIs Swift não estão na RC.12.1. Veja [instalação](./swiftui), [ciclo de vida](./swiftui-motion) e [interação](./swiftui-characters). A Web reutiliza os backends publicados de `bottomSheet`, `reorder` e trajetórias.
+Disponível na **0.1.0-rc.13 (Beta)** para iOS 17+ e macOS 14+, sem NativeScript ou JavaScript. Instale o produto `JoltSwiftUI` pela tag `v0.1.0-rc.13` do repositório. Consulte [instalação](./swiftui), [ciclo de vida](./swiftui-motion) e [interação/geometria](./swiftui-geometry) para os limites.
 
 ## Painéis com pontos de parada
 
@@ -80,7 +80,7 @@ Consumidores empacotados de React/Angular/Svelte/Solid usam `scope.bottomSheet`,
 
 A reordenação Web mantém observação de tamanho/origem entre arrastos após FLIP. Mudar texto e arrastar novamente funciona; mudar tamanho durante o arrasto cancela sem commit. Remover linhas ou destruir o controlador libera as observações. A proteção contra alterações externas de transform permanece. A comparação de centros alimenta as fixtures Swift.
 
-XCTest usa simulador iOS e macOS nativo; testes Web usam Chromium, Firefox e WebKit. Vídeos não comprovam desempenho nem interação em iPhone/trackpad físico. O Mavis já possui adaptadores de Sheet/reorder; as issues existentes [#234](https://github.com/getcortexlabs/mavis-ui/issues/234), [#237](https://github.com/getcortexlabs/mavis-ui/issues/237) e [#298](https://github.com/getcortexlabs/mavis-ui/issues/298) acompanham integração/validação restante. Merge e publicação SwiftUI continuam pendentes.
+XCTest usa simulador iOS e macOS nativo; testes Web usam Chromium, Firefox e WebKit. Vídeos não comprovam desempenho nem interação em iPhone/trackpad físico. O Mavis já possui adaptadores de Sheet/reorder; as issues existentes [#234](https://github.com/getcortexlabs/mavis-ui/issues/234), [#237](https://github.com/getcortexlabs/mavis-ui/issues/237) e [#298](https://github.com/getcortexlabs/mavis-ui/issues/298) acompanham integração/validação restante. SwiftUI está incluído na v0.1.0-rc.13.
 
 <Clip name="web-geometry-react" caption="Chromium desktop, consumidor React empacotado: painel, scroll/foco, curvas e linhas de alturas variadas. Backends Web existentes; sem teclado móvel." />
 
