@@ -23,6 +23,10 @@ Ten reviewed English-UI recordings demonstrate the new native/browser behavior i
 
 Mavis main c4063f57ebf2ece353f4a0d3b07fe26b00d99bf5 and open/closed issues were inspected. Existing MParticleField/MConfetti implementations are reused. Adoption #235/#237/#296/#244/#42 now document pending SwiftUI merge/publication and shared app/lifecycle acceptance. No Mavis implementation or duplicate component issues.
 
+## XCTest compatibility
+
+The first CI run for d4b8edf passed seven jobs but iOS XCTest could not compute an accessibility hit point for the gesture card after reset. Drag, pinch and rotation had already passed. The test now touches the visible center and still asserts actual Button delivery before and after remount. This targeted interaction passed on a dedicated iOS 18.6 simulator. Runtime, rendered behavior and reviewed recordings are unchanged; the updated commit must pass CI.
+
 ## Handoff
 
 Evidence and video hashes: benchmarks/results/web-frameworks-swiftui/acceptance.json. Guides: docs/{,pt-BR/,es/,zh-Hans/}guide/swiftui-characters.md. Delivery remains in PR #436 with closing references #461–#466. PR readiness requires the committed source to pass CI and all ten new English recordings to render as players while preserving the earlier 38 attachments; verify live PR status for those final checks. Merge and publication remain pending; RC.12.1 does not include these Swift additions. No merge or release is requested.

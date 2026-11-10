@@ -368,13 +368,25 @@ final class SwiftUIAcceptance: XCTestCase {
     #endif
     click(app.buttons["gesture-reset"])
     XCTAssertTrue(wait { self.label(app, "gesture-status").contains("scale 1.00 · angle 0") })
-    click(card)
+    #if os(iOS)
+      // Custom accessibility actions wrap the Button as "Other" on iOS 18.
+      // Touch its visible center; the tap counter still verifies real Button delivery.
+      card.coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.5)).tap()
+    #else
+      click(card)
+    #endif
     XCTAssertTrue(label(app, "gesture-taps").contains("Taps: 1"))
     click(app.buttons["gesture-toggle"])
     XCTAssertFalse(card.exists)
     click(app.buttons["gesture-toggle"])
     XCTAssertTrue(card.waitForExistence(timeout: 3))
-    click(card)
+    #if os(iOS)
+      // Custom accessibility actions wrap the Button as "Other" on iOS 18.
+      // Touch its visible center; the tap counter still verifies real Button delivery.
+      card.coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.5)).tap()
+    #else
+      click(card)
+    #endif
     XCTAssertTrue(label(app, "gesture-taps").contains("Taps: 2"))
     #if os(macOS)
       click(app.checkBoxes["character-reduce"])

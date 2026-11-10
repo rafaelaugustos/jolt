@@ -52,7 +52,8 @@
     "swift": "6.4",
     "xcode": "27.0",
     "ownershipTests": 40,
-    "configurations": ["Debug", "Release"]
+    "configurations": ["Debug", "Release"],
+    "gestureCompatibility": "The actual keyframe/drag/pinch/rotation/tap/remount/reduced-motion interaction also passed on iOS 18.6 simulator. Coordinate taps avoid XCTest AX hit-point lookup on the custom-action wrapper while retaining Button-delivery assertions."
   },
   "media": [
     {
