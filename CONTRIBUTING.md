@@ -25,11 +25,19 @@ For each new visual feature or visible behavior change:
 1. Implement and validate it in the native demo.
 2. Record the real app. Include the interaction that explains the feature: drag/release, interruption, resizing, scrolling, pause/resume or another relevant action.
 3. Watch the clip and inspect representative frames. Confirm the effect is visible, the controls are readable, and the recording does not show errors or unrelated setup. Tests and screenshots are supporting evidence, not replacements for a video.
-4. Save a compact H.264 MP4 in `docs/public/media/` and embed it with `<Clip name="..." caption="..." />` in the matching English, Portuguese, Spanish and Simplified Chinese guides. Translate captions; reuse the same recordings. Captions identify the behavior and platform. Clearly identify slow motion and effects video cannot convey, such as haptics.
-5. Run `npm run docs:check-media` and `npm run docs:build`. Do not close the issue or prepare the release before the clips are included. Keep existing recordings current when the visible behavior changes.
-6. Attach only the reviewed English-language recordings directly to the PR description with playable video players, labeled by platform and behavior. Do not record or attach Portuguese versions for a PR. Use `gh pr edit YOUR_PR --attach ./docs/public/media/YOUR_RECORDING.mp4` (repeat `--attach` for multiple platforms), then verify the published description. A link to the repository file alone does not meet this review requirement. Leave existing PR attachments as they are unless asked to change them.
+4. Save a compact H.264 MP4 in `.local/media/`, publish it with `npm run media:upload -- .local/media/YOUR_RECORDING.mp4` and embed it with `<Clip name="..." caption="..." />` in the matching English, Portuguese, Spanish and Simplified Chinese guides. Translate captions; reuse the same recordings. Captions identify the behavior and platform. Clearly identify slow motion and effects video cannot convey, such as haptics.
+5. Run `npm run docs:check-media`, `npm run media:verify` and `npm run docs:build`. Do not close the issue or prepare the release before the clips are included. Keep existing recordings current when the visible behavior changes.
+6. Attach only the reviewed English-language recordings directly to the PR description with playable video players, labeled by platform and behavior. Do not record or attach Portuguese versions for a PR. Use `gh pr edit YOUR_PR --attach ./.local/media/YOUR_RECORDING.mp4` (repeat `--attach` for multiple platforms; `npm run media:pull -- YOUR_RECORDING` downloads a published clip), then verify the published description. A link to the published file alone does not meet this review requirement. Leave existing PR attachments as they are unless asked to change them.
 
-The CI media check requires every visual guide in all four languages to have a captioned clip, verifies the referenced MP4 files, and checks page and recording parity, including the homepages. Its explicit exemptions cover setup, architecture, API navigation and planned work. A new guide requires media by default. This check cannot judge whether a video actually demonstrates the feature; human/agent visual review remains required.
+The CI media check requires every visual guide in all four languages to have a captioned clip, checks that each referenced MP4 is published, and checks page and recording parity, including the homepages. Its explicit exemptions cover setup, architecture, API navigation and planned work. A new guide requires media by default. This check cannot judge whether a video actually demonstrates the feature; human/agent visual review remains required.
+
+## Documentation videos
+
+Documentation MP4s are served from Cloudflare R2 at `https://media.rafaelaugusto.dev/jolt/`, not from the repository or the site build. `docs/.vitepress/media.json` lists every published recording with its size and SHA-256; the `Clip`, `NativeVideo` and homepage components build their URLs from it. Posters and other images stay in `docs/public/`.
+
+`npm run media:upload -- FILES` uploads with Wrangler (log in once with `npx wrangler login`) and records each file in the manifest. Commit the manifest change with the guide that uses the recording. An unchanged file is skipped. A different file with an existing name is rejected unless you pass `--replace`, which is reserved for a reviewed recording of the same behavior; the edge cache can serve the previous version for up to a day. `npm run media:verify` checks that every manifest entry is published with the expected size and type. `npm run media:pull -- NAMES` downloads published recordings into `.local/media/` and checks their hashes, for example before `scripts/prepare-motion-recipe-media.mjs` cuts a recipe clip from a source recording. `docs:check-media` rejects MP4 files under `docs/public/`.
+
+Recording notes written before November 2026 refer to `docs/public/media/`; those files are now the published copies with the same names.
 
 ## Documentation languages
 
@@ -66,8 +74,8 @@ Compress while keeping the source playback timing (the interruption demo explici
 ```sh
 ffmpeg -i /tmp/JoltDocsRecordings/layout-ios.mov \
   -vf 'fps=30,scale=420:-2' -c:v libx264 -preset slow -crf 24 \
-  -pix_fmt yuv420p -movflags +faststart -an docs/public/media/layout-ios.mp4
-ffmpeg -v error -i docs/public/media/layout-ios.mp4 -f null -
+  -pix_fmt yuv420p -movflags +faststart -an .local/media/layout-ios.mp4
+ffmpeg -v error -i .local/media/layout-ios.mp4 -f null -
 ```
 
 Use `ffprobe` to check duration, dimensions and codec. Watch the full clip and sample frames across its duration before committing. Never generate simulated animation footage, accelerate a performance comparison, or label simulator captures as physical-device recordings.
@@ -78,4 +86,4 @@ Use `ffprobe` to check duration, dimensions and codec. Watch the full clip and s
 
 New/Updated entries carry the exact package edition and disappear automatically when its version changes. Review the map at every release, retiring old change markers and updating explicit `source` versus `published` availability. Do not mark source candidates as published because the documentation builds or a PR merges. Beta persists until its contract is intentionally stabilized. Keep status descriptions localized, accessible, and separate from the plain-text previous/next page labels. Inspect desktop/mobile and light/dark navigation after changing badge styles; site navigation has no native renderer counterpart.
 
-After building the docs, start a dedicated preview with `npm run docs:preview -- --host 127.0.0.1 --port 5187`. Run `node benchmarks/docs-navigation/record.mjs` to capture actual desktop and emulated mobile menu interaction in English. `JOLT_DOCS_URL` and `JOLT_DOCS_CAPTURE_DIR` override the preview and output directory. Review the output, trim only startup frames when needed without changing playback speed, and copy the reviewed MP4s to `docs/public/media/`. Label mobile footage as browser emulation.
+After building the docs, start a dedicated preview with `npm run docs:preview -- --host 127.0.0.1 --port 5187`. Run `node benchmarks/docs-navigation/record.mjs` to capture actual desktop and emulated mobile menu interaction in English. `JOLT_DOCS_URL` and `JOLT_DOCS_CAPTURE_DIR` override the preview and output directory. Review the output, trim only startup frames when needed without changing playback speed, and publish the reviewed MP4s with `npm run media:upload`. Label mobile footage as browser emulation.

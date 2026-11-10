@@ -8,7 +8,7 @@ Include the demonstration directly in each visual feature or behavior-change PR 
 
 PR descriptions use English-language recordings only. Do not record or attach Portuguese versions for a PR; reuse the reviewed English recordings. This preference applies to future PRs; leave existing PR attachments as they are unless asked to change them. Documentation still needs coverage in both English and Portuguese.
 
-Run `npm run docs:check-media` and `npm run docs:build`. See `CONTRIBUTING.md` for the capture workflow. Preserve existing media unless replacing it with a reviewed recording of the same behavior.
+Documentation MP4s are published to R2 with `npm run media:upload`, never committed under `docs/public/`. Run `npm run docs:check-media`, `npm run media:verify` and `npm run docs:build`. See `CONTRIBUTING.md` for the capture and publishing workflow. Preserve existing media unless replacing it with a reviewed recording of the same behavior.
 
 # Mavis adoption follow-ups
 
