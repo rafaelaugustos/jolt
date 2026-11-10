@@ -1,0 +1,100 @@
+name: Swift package
+
+on:
+  workflow_call:
+    inputs:
+      tag:
+        type: string
+        required: true
+    secrets:
+      JOLT_SWIFT_DEPLOY_KEY:
+        required: true
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to publish, for example v0.1.0-rc.13
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: macos-15
+    timeout-minutes: 45
+    concurrency:
+      group: swift-package
+      cancel-in-progress: false
+    env:
+      TAG: ${{ inputs.tag }}
+      PACKAGE: ${{ github.workspace }}/../jolt-swift
+      REPOSITORY: rafaelaugustos/jolt-swift
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.tag }}
+          path: source
+          sparse-checkout: packages/swiftui
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Check the tag matches the package version
+        run: |
+          version="v$(node -p "require('./source/package.json').version")"
+          if [ "$TAG" != "$version" ]; then
+            echo "Tag $TAG doesn't match package.json ($version)"
+            exit 1
+          fi
+
+      - name: Generate the package from the tag
+        run: |
+          git clone --quiet "https://github.com/$REPOSITORY.git" "$PACKAGE"
+          node scripts/swift-package.mjs "$PACKAGE" --source source
+
+      - run: swift test --package-path "$PACKAGE" --scratch-path "$RUNNER_TEMP/swift-debug"
+      - run: swift test -c release -Xswiftc -enable-testing --package-path "$PACKAGE" --scratch-path "$RUNNER_TEMP/swift-release"
+      - run: gem install xcodeproj --no-document --user-install
+      - name: Interact with standalone iOS and macOS apps
+        env:
+          JOLT_SWIFT_PACKAGE: ${{ env.PACKAGE }}
+        run: python3 benchmarks/swiftui-demo/ci.py
+
+      - name: Publish
+        env:
+          DEPLOY_KEY: ${{ secrets.JOLT_SWIFT_DEPLOY_KEY }}
+        working-directory: ${{ env.PACKAGE }}
+        run: |
+          git add -A
+          if git rev-parse -q --verify "refs/tags/$TAG" > /dev/null; then
+            if git diff --cached --quiet "$TAG"; then
+              echo "$REPOSITORY already has $TAG with these contents."
+              exit 0
+            fi
+            echo "$REPOSITORY already has $TAG with different contents."
+            git diff --cached --stat "$TAG"
+            exit 1
+          fi
+          if [ -z "$DEPLOY_KEY" ]; then
+            echo "Add the JOLT_SWIFT_DEPLOY_KEY secret: a deploy key with write access to $REPOSITORY."
+            exit 1
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit --quiet --allow-empty -m "Jolt ${TAG#v}" \
+            -m "Generated from rafaelaugustos/jolt@$(git -C "$GITHUB_WORKSPACE/source" rev-parse HEAD)."
+          git tag -a "$TAG" -m "Jolt ${TAG#v}"
+          mkdir -p ~/.ssh
+          echo 'github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl' >> ~/.ssh/known_hosts
+          eval "$(ssh-agent -s)" > /dev/null
+          trap 'ssh-agent -k > /dev/null' EXIT
+          ssh-add -q - <<< "$DEPLOY_KEY"
+          git push --atomic "git@github.com:$REPOSITORY.git" HEAD:refs/heads/main "refs/tags/$TAG"
+          echo "Published https://github.com/$REPOSITORY/tree/$TAG"
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: swift-package-interaction
+          path: benchmarks/swiftui-demo/results/

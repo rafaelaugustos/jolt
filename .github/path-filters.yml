@@ -24,6 +24,7 @@ swiftui:
   - packages/swiftui/**
   - benchmarks/swiftui-demo/**
   - scripts/generate-swiftui-definitions.mjs
+  - scripts/swift-package.mjs
 
 web:
   - *shared
