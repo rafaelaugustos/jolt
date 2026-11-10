@@ -33,6 +33,10 @@ Crea el runtime después del montaje en el navegador y llama a `motion.dispose()
 
 Las APIs Web son **experimentales**. Empieza por el [runtime Web](./web-runtime) y explora [movimiento continuo](./web-dynamic), [gestos y desplazamiento](./web-gestures) y [gradientes, carga y texto](./web-effects). Cada guía describe los elementos compatibles y sus límites.
 
+## SwiftUI (Beta)
+
+Para aplicaciones escritas en Swift, el [paquete SwiftUI independiente](./swiftui) admite iOS 17+ y macOS 14+, sin NativeScript ni JavaScript. Es un candidato experimental en el [PR #436](https://github.com/rafaelaugustos/jolt/pull/436), pendiente de integración y publicación; estas APIs no están incluidas en RC.12.1.
+
 ## ¿Por qué no? `view.animate()` {#why-not-view-animate}
 
 `view.animate()` de NativeScript cubre lo básico y se detiene allí: una curva para cada propiedad, una curva `spring` sin configuraciones, sin fotogramas clave y una promesa que se rechaza cuando se cancela la animación. Cualquier cosa más rica termina como código de plataforma.
@@ -64,3 +68,17 @@ Las siguientes guías cubren las vistas de NativeScript. Para elementos HTML, co
 3. **Web:** empieza por el [runtime Web](./web-runtime) o el [adaptador Vue para DOM](./web-vue).
 
 Jolt es una versión candidata; consulta [instalación](./install) para conocer la versión publicada. Ambos runtimes se pueden usar directamente, con integraciones opcionales para frameworks.
+
+## Cómo leer el menú {#reading-the-menu}
+
+El menú lateral destaca capacidades con tres etiquetas:
+
+- **Nuevo:** introducido en la edición documentada.
+- **Actualizado:** un cambio relevante en una capacidad existente.
+- **Beta:** una API o un adaptador experimental cuyo contrato puede cambiar.
+
+Nuevo y Actualizado caducan cuando cambia la versión documentada. Beta permanece hasta estabilizar la API. La descripción de la etiqueta distingue una capacidad publicada de un candidato en código; la guía indica cualquier integración o publicación pendiente. La etiqueta por sí sola no significa que la función se haya publicado.
+
+<Clip name="docs-navigation-desktop" caption="Chromium en macOS, viewport de escritorio: New, Updated y Beta en el menú, navegación por teclado y temas claro/oscuro. Muestra la navegación de la documentación, no una app nativa." />
+
+<Clip name="docs-navigation-mobile" caption="Chromium en macOS, viewport móvil emulado: abrir el menú y seguir entradas etiquetadas. Emulación del navegador, no grabación en un teléfono físico." />

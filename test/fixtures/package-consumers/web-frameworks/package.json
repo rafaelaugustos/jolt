@@ -1,0 +1,22 @@
+{
+  "name": "jolt-web-framework-consumers",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "svelte": "5.57.3",
+    "solid-js": "1.9.18",
+    "@angular/core": "22.2.4",
+    "@angular/common": "22.2.4",
+    "@angular/compiler": "22.2.4",
+    "@angular/platform-browser": "22.2.4",
+    "@angular/platform-server": "22.2.4",
+    "rxjs": "7.8.2",
+    "@babel/core": "7.29.13",
+    "babel-preset-solid": "1.9.16"
+  }
+}

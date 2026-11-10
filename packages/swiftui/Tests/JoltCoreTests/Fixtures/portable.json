@@ -1,0 +1,2167 @@
+{
+  "springs": [
+    {
+      "physics": {
+        "mass": 1,
+        "stiffness": 170,
+        "damping": 26
+      },
+      "from": -20,
+      "to": 80,
+      "velocity": 0,
+      "precision": 0.001,
+      "duration": 1101,
+      "samples": [
+        {
+          "at": 0,
+          "position": -20,
+          "velocity": -0.018416744012483832
+        },
+        {
+          "at": 16,
+          "position": -18.10349320907183,
+          "velocity": 220.89747825782524
+        },
+        {
+          "at": 100,
+          "position": 17.512859019533636,
+          "velocity": 462.5305043980461
+        },
+        {
+          "at": 250,
+          "position": 63.77235854410196,
+          "velocity": 163.0796227482989
+        },
+        {
+          "at": 500,
+          "position": 78.93103750983052,
+          "velocity": 12.253442937423475
+        },
+        {
+          "at": 1000,
+          "position": 79.99740527178523,
+          "velocity": 0.032334231252400224
+        },
+        {
+          "at": 5000,
+          "position": 80,
+          "velocity": 0
+        },
+        {
+          "at": 11000,
+          "position": 80,
+          "velocity": 0
+        }
+      ]
+    },
+    {
+      "physics": {
+        "mass": 1,
+        "stiffness": 170,
+        "damping": 26
+      },
+      "from": -20,
+      "to": 80,
+      "velocity": 120,
+      "precision": 0.001,
+      "duration": 1092,
+      "samples": [
+        {
+          "at": 0,
+          "position": -20,
+          "velocity": 119.98411326480607
+        },
+        {
+          "at": 16,
+          "position": -16.544122233733702,
+          "velocity": 298.0799391641398
+        },
+        {
+          "at": 100,
+          "position": 20.77779262475024,
+          "velocity": 452.6271923296008
+        },
+        {
+          "at": 250,
+          "position": 64.92350564824505,
+          "velocity": 152.62295932956425
+        },
+        {
+          "at": 500,
+          "position": 79.01753196721275,
+          "velocity": 11.287337594453106
+        },
+        {
+          "at": 1000,
+          "position": 79.99763351197868,
+          "velocity": 0.02951364264758803
+        },
+        {
+          "at": 5000,
+          "position": 80,
+          "velocity": 0
+        },
+        {
+          "at": 11000,
+          "position": 80,
+          "velocity": 0
+        }
+      ]
+    },
+    {
+      "physics": {
+        "mass": 1,
+        "stiffness": 100,
+        "damping": 20
+      },
+      "from": -20,
+      "to": 80,
+      "velocity": 0,
+      "precision": 0.001,
+      "duration": 1425,
+      "samples": [
+        {
+          "at": 0,
+          "position": -20,
+          "velocity": -0.008333354173828411
+        },
+        {
+          "at": 16,
+          "position": -18.84867952008051,
+          "velocity": 136.33647311517905
+        },
+        {
+          "at": 100,
+          "position": 6.42411176571153,
+          "velocity": 367.877908334691
+        },
+        {
+          "at": 250,
+          "position": 51.270250481635415,
+          "velocity": 205.21266756951562
+        },
+        {
+          "at": 500,
+          "position": 75.95723180054873,
+          "velocity": 33.68981921979586
+        },
+        {
+          "at": 1000,
+          "position": 79.95006007726127,
+          "velocity": 0.4540008109571586
+        },
+        {
+          "at": 5000,
+          "position": 80,
+          "velocity": 0
+        },
+        {
+          "at": 11000,
+          "position": 80,
+          "velocity": 0
+        }
+      ]
+    },
+    {
+      "physics": {
+        "mass": 1,
+        "stiffness": 100,
+        "damping": 20
+      },
+      "from": -20,
+      "to": 80,
+      "velocity": 120,
+      "precision": 0.001,
+      "duration": 1417,
+      "samples": [
+        {
+          "at": 0,
+          "position": -20,
+          "velocity": 119.99316664895332
+        },
+        {
+          "at": 16,
+          "position": -17.21256344526539,
+          "velocity": 222.2337770897269
+        },
+        {
+          "at": 100,
+          "position": 10.838665059768843,
+          "velocity": 367.87827621505187
+        },
+        {
+          "at": 250,
+          "position": 53.732800440352385,
+          "velocity": 190.43738833858725
+        },
+        {
+          "at": 500,
+          "position": 76.36150862049385,
+          "velocity": 30.455597922288025
+        },
+        {
+          "at": 1000,
+          "position": 79.95550806883277,
+          "velocity": 0.4049687279137973
+        },
+        {
+          "at": 5000,
+          "position": 80,
+          "velocity": 0
+        },
+        {
+          "at": 11000,
+          "position": 80,
+          "velocity": 0
+        }
+      ]
+    },
+    {
+      "physics": {
+        "mass": 1,
+        "stiffness": 100,
+        "damping": 8
+      },
+      "from": -20,
+      "to": 80,
+      "velocity": 0,
+      "precision": 0.001,
+      "duration": 2901,
+      "samples": [
+        {
+          "at": 0,
+          "position": -20,
+          "velocity": -0.003333327668997299
+        },
+        {
+          "at": 16,
+          "position": -18.775502526841777,
+          "velocity": 149.53997155406284
+        },
+        {
+          "at": 100,
+          "position": 15.991504925246886,
+          "velocity": 580.335800395062
+        },
+        {
+          "at": 250,
+          "position": 92.20552945348808,
+          "velocity": 301.636660838696
+        },
+        {
+          "at": 500,
+          "position": 87.60872077505503,
+          "velocity": -146.42000298009793
+        },
+        {
+          "at": 1000,
+          "position": 81.56496926775534,
+          "velocity": 5.1303301698741866
+        },
+        {
+          "at": 5000,
+          "position": 80,
+          "velocity": 0
+        },
+        {
+          "at": 11000,
+          "position": 80,
+          "velocity": 0
+        }
+      ]
+    },
+    {
+      "physics": {
+        "mass": 1,
+        "stiffness": 100,
+        "damping": 8
+      },
+      "from": -20,
+      "to": 80,
+      "velocity": 120,
+      "precision": 0.001,
+      "duration": 2892,
+      "samples": [
+        {
+          "at": 0,
+          "position": -20,
+          "velocity": 119.99648667199381
+        },
+        {
+          "at": 16,
+          "position": -16.980980666271606,
+          "velocity": 253.71430325708388
+        },
+        {
+          "at": 100,
+          "position": 22.95557057945917,
+          "velocity": 601.4336697396416
+        },
+        {
+          "at": 250,
+          "position": 95.82516993081933,
+          "velocity": 258.03308773609325
+        },
+        {
+          "at": 500,
+          "position": 85.8516750602373,
+          "velocity": -141.4941681485775
+        },
+        {
+          "at": 1000,
+          "position": 81.6265326961525,
+          "velocity": 2.759865229213787
+        },
+        {
+          "at": 5000,
+          "position": 80,
+          "velocity": 0
+        },
+        {
+          "at": 11000,
+          "position": 80,
+          "velocity": 0
+        }
+      ]
+    },
+    {
+      "physics": {
+        "mass": 2,
+        "stiffness": 100,
+        "damping": 50
+      },
+      "from": -20,
+      "to": 80,
+      "velocity": 0,
+      "precision": 0.001,
+      "duration": 5300,
+      "samples": [
+        {
+          "at": 0,
+          "position": -20,
+          "velocity": -0.005208367483078291
+        },
+        {
+          "at": 16,
+          "position": -19.438022965613783,
+          "velocity": 65.79218795089048
+        },
+        {
+          "at": 100,
+          "position": -7.767913576256504,
+          "velocity": 170.00176721406035
+        },
+        {
+          "at": 250,
+          "position": 16.08128466812444,
+          "velocity": 139.39282306127865
+        },
+        {
+          "at": 500,
+          "position": 43.03004954088274,
+          "velocity": 81.04442531253397
+        },
+        {
+          "at": 1000,
+          "position": 67.64586688113359,
+          "velocity": 27.083179976779448
+        },
+        {
+          "at": 5000,
+          "position": 79.99807908389965,
+          "velocity": 0.004211102148401558
+        },
+        {
+          "at": 11000,
+          "position": 80,
+          "velocity": 0
+        }
+      ]
+    },
+    {
+      "physics": {
+        "mass": 2,
+        "stiffness": 100,
+        "damping": 50
+      },
+      "from": -20,
+      "to": 80,
+      "velocity": 120,
+      "precision": 0.001,
+      "duration": 5275,
+      "samples": [
+        {
+          "at": 0,
+          "position": -20,
+          "velocity": 119.99766665120148
+        },
+        {
+          "at": 16,
+          "position": -17.858923989274217,
+          "velocity": 145.64233638752455
+        },
+        {
+          "at": 100,
+          "position": -3.6878592044461556,
+          "velocity": 173.32219625998846
+        },
+        {
+          "at": 250,
+          "position": 19.42671216912484,
+          "velocity": 132.45960206697305
+        },
+        {
+          "at": 500,
+          "position": 44.97511536028649,
+          "velocity": 76.78171955657831
+        },
+        {
+          "at": 1000,
+          "position": 68.29586307041751,
+          "velocity": 25.658234701982252
+        },
+        {
+          "at": 5000,
+          "position": 79.99818015033097,
+          "velocity": 0.003989540641368512
+        },
+        {
+          "at": 11000,
+          "position": 80,
+          "velocity": 0
+        }
+      ]
+    }
+  ],
+  "recipes": [
+    {
+      "name": "fadeIn",
+      "parameters": {},
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeIn",
+      "parameters": {
+        "distance": 0
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeIn",
+      "parameters": {
+        "distance": 48,
+        "scale": 0.7
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 0.7,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeIn",
+      "parameters": {
+        "direction": "up",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 36,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeIn",
+      "parameters": {
+        "direction": "down",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": -36,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeIn",
+      "parameters": {
+        "direction": "left",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": -36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeIn",
+      "parameters": {
+        "direction": "right",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInUp",
+      "parameters": {},
+      "from": {
+        "x": 0,
+        "y": 24,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInUp",
+      "parameters": {
+        "distance": 0
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInUp",
+      "parameters": {
+        "distance": 48,
+        "scale": 0.7
+      },
+      "from": {
+        "x": 0,
+        "y": 48,
+        "scale": 0.7,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInUp",
+      "parameters": {
+        "direction": "up",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 36,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInUp",
+      "parameters": {
+        "direction": "down",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": -36,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInUp",
+      "parameters": {
+        "direction": "left",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": -36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInUp",
+      "parameters": {
+        "direction": "right",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInDown",
+      "parameters": {},
+      "from": {
+        "x": 0,
+        "y": -24,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInDown",
+      "parameters": {
+        "distance": 0
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInDown",
+      "parameters": {
+        "distance": 48,
+        "scale": 0.7
+      },
+      "from": {
+        "x": 0,
+        "y": -48,
+        "scale": 0.7,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInDown",
+      "parameters": {
+        "direction": "up",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 36,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInDown",
+      "parameters": {
+        "direction": "down",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": -36,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInDown",
+      "parameters": {
+        "direction": "left",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": -36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInDown",
+      "parameters": {
+        "direction": "right",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInLeft",
+      "parameters": {},
+      "from": {
+        "x": -24,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInLeft",
+      "parameters": {
+        "distance": 0
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInLeft",
+      "parameters": {
+        "distance": 48,
+        "scale": 0.7
+      },
+      "from": {
+        "x": -48,
+        "y": 0,
+        "scale": 0.7,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInLeft",
+      "parameters": {
+        "direction": "up",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 36,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInLeft",
+      "parameters": {
+        "direction": "down",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": -36,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInLeft",
+      "parameters": {
+        "direction": "left",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": -36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInLeft",
+      "parameters": {
+        "direction": "right",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInRight",
+      "parameters": {},
+      "from": {
+        "x": 24,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInRight",
+      "parameters": {
+        "distance": 0
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInRight",
+      "parameters": {
+        "distance": 48,
+        "scale": 0.7
+      },
+      "from": {
+        "x": 48,
+        "y": 0,
+        "scale": 0.7,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInRight",
+      "parameters": {
+        "direction": "up",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 36,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInRight",
+      "parameters": {
+        "direction": "down",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": -36,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInRight",
+      "parameters": {
+        "direction": "left",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": -36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeInRight",
+      "parameters": {
+        "direction": "right",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "zoomIn",
+      "parameters": {},
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 0.85,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "zoomIn",
+      "parameters": {
+        "distance": 0
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 0.85,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "zoomIn",
+      "parameters": {
+        "distance": 48,
+        "scale": 0.7
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 0.7,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "zoomIn",
+      "parameters": {
+        "direction": "up",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 36,
+        "scale": 0.85,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "zoomIn",
+      "parameters": {
+        "direction": "down",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": -36,
+        "scale": 0.85,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "zoomIn",
+      "parameters": {
+        "direction": "left",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": -36,
+        "y": 0,
+        "scale": 0.85,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "zoomIn",
+      "parameters": {
+        "direction": "right",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 36,
+        "y": 0,
+        "scale": 0.85,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "popIn",
+      "parameters": {},
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 0.5,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "popIn",
+      "parameters": {
+        "distance": 0
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 0.5,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "popIn",
+      "parameters": {
+        "distance": 48,
+        "scale": 0.7
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 0.7,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "popIn",
+      "parameters": {
+        "direction": "up",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 36,
+        "scale": 0.5,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "popIn",
+      "parameters": {
+        "direction": "down",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": -36,
+        "scale": 0.5,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "popIn",
+      "parameters": {
+        "direction": "left",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": -36,
+        "y": 0,
+        "scale": 0.5,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "popIn",
+      "parameters": {
+        "direction": "right",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 36,
+        "y": 0,
+        "scale": 0.5,
+        "opacity": 0
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      }
+    },
+    {
+      "name": "fadeOut",
+      "parameters": {},
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOut",
+      "parameters": {
+        "distance": 0
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOut",
+      "parameters": {
+        "distance": 48,
+        "scale": 0.7
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 0.7,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOut",
+      "parameters": {
+        "direction": "up",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": -36,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOut",
+      "parameters": {
+        "direction": "down",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": 36,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOut",
+      "parameters": {
+        "direction": "left",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": -36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOut",
+      "parameters": {
+        "direction": "right",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutUp",
+      "parameters": {},
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": -24,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutUp",
+      "parameters": {
+        "distance": 0
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutUp",
+      "parameters": {
+        "distance": 48,
+        "scale": 0.7
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": -48,
+        "scale": 0.7,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutUp",
+      "parameters": {
+        "direction": "up",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": -36,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutUp",
+      "parameters": {
+        "direction": "down",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": 36,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutUp",
+      "parameters": {
+        "direction": "left",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": -36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutUp",
+      "parameters": {
+        "direction": "right",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutDown",
+      "parameters": {},
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": 24,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutDown",
+      "parameters": {
+        "distance": 0
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutDown",
+      "parameters": {
+        "distance": 48,
+        "scale": 0.7
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": 48,
+        "scale": 0.7,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutDown",
+      "parameters": {
+        "direction": "up",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": -36,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutDown",
+      "parameters": {
+        "direction": "down",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": 36,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutDown",
+      "parameters": {
+        "direction": "left",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": -36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutDown",
+      "parameters": {
+        "direction": "right",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutLeft",
+      "parameters": {},
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": -24,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutLeft",
+      "parameters": {
+        "distance": 0
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutLeft",
+      "parameters": {
+        "distance": 48,
+        "scale": 0.7
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": -48,
+        "y": 0,
+        "scale": 0.7,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutLeft",
+      "parameters": {
+        "direction": "up",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": -36,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutLeft",
+      "parameters": {
+        "direction": "down",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": 36,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutLeft",
+      "parameters": {
+        "direction": "left",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": -36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutLeft",
+      "parameters": {
+        "direction": "right",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutRight",
+      "parameters": {},
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 24,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutRight",
+      "parameters": {
+        "distance": 0
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutRight",
+      "parameters": {
+        "distance": 48,
+        "scale": 0.7
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 48,
+        "y": 0,
+        "scale": 0.7,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutRight",
+      "parameters": {
+        "direction": "up",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": -36,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutRight",
+      "parameters": {
+        "direction": "down",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": 36,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutRight",
+      "parameters": {
+        "direction": "left",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": -36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "fadeOutRight",
+      "parameters": {
+        "direction": "right",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "zoomOut",
+      "parameters": {},
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 0.85,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "zoomOut",
+      "parameters": {
+        "distance": 0
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 0.85,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "zoomOut",
+      "parameters": {
+        "distance": 48,
+        "scale": 0.7
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 0.7,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "zoomOut",
+      "parameters": {
+        "direction": "up",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": -36,
+        "scale": 0.85,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "zoomOut",
+      "parameters": {
+        "direction": "down",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 0,
+        "y": 36,
+        "scale": 0.85,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "zoomOut",
+      "parameters": {
+        "direction": "left",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": -36,
+        "y": 0,
+        "scale": 0.85,
+        "opacity": 0
+      }
+    },
+    {
+      "name": "zoomOut",
+      "parameters": {
+        "direction": "right",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1
+      },
+      "to": {
+        "x": 36,
+        "y": 0,
+        "scale": 0.85,
+        "opacity": 0
+      }
+    }
+  ]
+}

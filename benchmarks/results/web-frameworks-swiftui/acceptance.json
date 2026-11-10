@@ -1,0 +1,673 @@
+{
+  "date": "2026-11-10",
+  "base": "4c584e352d120a119eb0b3fddf9edbd2760bd62c",
+  "status": "source candidate, not merged or published",
+  "unit": {
+    "files": 130,
+    "tests": 1789,
+    "failed": 0
+  },
+  "browser": {
+    "engines": ["Chromium", "Firefox", "WebKit"],
+    "tests": 147,
+    "failed": 0,
+    "frameworks": {
+      "React": "19.3.1 Strict Mode",
+      "Angular": "22.2.4",
+      "Svelte": "5.57.3",
+      "Solid": "1.9.18"
+    },
+    "sensorRegressionTests": 9
+  },
+  "packedConsumers": {
+    "toolVersions": {
+      "vite": "8.3.4",
+      "typescript": "7.0.2",
+      "@playwright/test": "1.64.1",
+      "nativeTypescript": "6.0.3"
+    },
+    "checks": [
+      "React/Angular/Svelte/Solid packed types, server rendering and browser bundles",
+      "actual tarball installs only Jolt; native root, /vue and /native exports retain their meanings",
+      "missing native peers are named in resolution errors; portable core internals stay private",
+      "strict packed declarations resolve with NodeNext and Bundler without native ambient types",
+      "packed runtime graph is Web/core only; direct SSR import does not touch platform globals or schedule work",
+      "Vite SSR production output evaluates safely with external and bundled Jolt",
+      "Vite development + production consumers play real WAAPI motion and composed press using only the public facade",
+      "packed optional Vue consumer: strict NodeNext/Bundler, direct + Vite SSR, real dev/production enter/leave + press without native peers",
+      "packed native root, /vue and /native declarations preserve contracts without DOM types",
+      "native declarations also compile with the production fixture TypeScript version",
+      "NativeScript ios production bundle resolves packed root, /vue and /native without Jolt aliases",
+      "NativeScript android production bundle resolves packed root, /vue and /native without Jolt aliases"
+    ],
+    "nuxt": "All three browser engines passed actual SSR, hydration, KeepAlive and route teardown"
+  },
+  "swift": {
+    "coreTests": 17,
+    "nativeInteraction": "All 24 actual XCTest regression cases passed: 12 on iOS 27 simulator and 12 on native macOS 26.6.2. The panel suspension/remount/focus regression was then revalidated and recorded on both platforms. No physical iOS/trackpad acceptance.",
+    "deploymentMinimum": {
+      "iOS": "17",
+      "macOS": "14"
+    },
+    "swift": "6.4",
+    "xcode": "27.0",
+    "ownershipTests": 47,
+    "configurations": ["Debug", "Release"],
+    "gestureCompatibility": "The actual keyframe/drag/pinch/rotation/tap/remount/reduced-motion interaction also passed on iOS 18.6 simulator. Coordinate taps avoid XCTest AX hit-point lookup on the custom-action wrapper while retaining Button-delivery assertions.",
+    "measuredGeometry": "Four native panel/geometry scenes passed on iOS 27 simulator and macOS 26.6.2. Full native regression passed locally and on CI at 879db8b; current exact-head CI is required for readiness."
+  },
+  "media": [
+    {
+      "path": "docs/public/media/swiftui-composition-ios.mp4",
+      "sha256": "54a75320a1a769af52bad2a03683737f483d4209844fbaa9db377b0e48169a42",
+      "bytes": 252315,
+      "seconds": 18.4,
+      "stream": {
+        "codec_name": "h264",
+        "width": 414,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/swiftui-composition-macos.mp4",
+      "sha256": "60bb374f8252cdd9abf75808bfb6f730cc433a9fbf2d9acf3796adbe034643b3",
+      "bytes": 185160,
+      "seconds": 19.3,
+      "stream": {
+        "codec_name": "h264",
+        "width": 572,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/swiftui-dynamics-ios.mp4",
+      "sha256": "c17ee2a8765841a8cf6380eb724e52a9277b7f388fd25dcb762838c224bb91e3",
+      "bytes": 149844,
+      "seconds": 13.516992,
+      "stream": {
+        "codec_name": "h264",
+        "width": 414,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/swiftui-dynamics-macos.mp4",
+      "sha256": "e8251df3911cc7f6c11e9aa649d83ce018c84a559e60710c709349f14daaae9b",
+      "bytes": 141303,
+      "seconds": 17.428456,
+      "stream": {
+        "codec_name": "h264",
+        "width": 572,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/swiftui-graphics-ios.mp4",
+      "sha256": "18a1986c74179eb660ae34b53bf4e6b1b3c2a7e11c4808fecbce686b904bcb7b",
+      "bytes": 66549,
+      "seconds": 8.694406,
+      "stream": {
+        "codec_name": "h264",
+        "width": 414,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/swiftui-graphics-macos.mp4",
+      "sha256": "db5301c47d66959ab23705861f548169b823d1a39aa742bc1a7797f7b50d1b64",
+      "bytes": 98712,
+      "seconds": 10.625,
+      "stream": {
+        "codec_name": "h264",
+        "width": 572,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/swiftui-interaction-ios.mp4",
+      "sha256": "bf42af598b02079fa605a19154518c0b8d0df06f9659efd694c4b1db9e73aaf8",
+      "bytes": 154737,
+      "seconds": 16.166992,
+      "stream": {
+        "codec_name": "h264",
+        "width": 414,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/swiftui-interaction-macos.mp4",
+      "sha256": "9395fdafc6bfb6625a6690236104132922edf78238161ec6d0eccbc715c16534",
+      "bytes": 189762,
+      "seconds": 21.05,
+      "stream": {
+        "codec_name": "h264",
+        "width": 572,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/swiftui-ios.mp4",
+      "sha256": "4e08a71e9647186947988b5eb2aff24877b01a0e7c301ed81838e55c2dfa2410",
+      "bytes": 642472,
+      "seconds": 20.216667,
+      "stream": {
+        "codec_name": "h264",
+        "width": 414,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/swiftui-macos.mp4",
+      "sha256": "2a54785e74c11bcdde71ae665a5f8560ea576132fe4c375d9bb049ece4205ce8",
+      "bytes": 156025,
+      "seconds": 15.6,
+      "stream": {
+        "codec_name": "h264",
+        "width": 918,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/swiftui-scroll-ios.mp4",
+      "sha256": "c61e7bf86c23f1388f1015a21f162e273ead1d377fe9d47b55917cc5e3246bfb",
+      "bytes": 163365,
+      "seconds": 9.19213,
+      "stream": {
+        "codec_name": "h264",
+        "width": 414,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/swiftui-scroll-macos.mp4",
+      "sha256": "9145e303b5a5d734dfc4c1c755d18fef7cf6db4ab5ef6c27bc0369cb37980d65",
+      "bytes": 51511,
+      "seconds": 5.219034,
+      "stream": {
+        "codec_name": "h264",
+        "width": 572,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/swiftui-viewport-ios.mp4",
+      "sha256": "0d898958b46309968769230fe692ff7599bfe48a0fb8abcc1451eec0bc1ad1cf",
+      "bytes": 284099,
+      "seconds": 13.26325,
+      "stream": {
+        "codec_name": "h264",
+        "width": 414,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/swiftui-viewport-macos.mp4",
+      "sha256": "9890897d118c0068dd573e7981cd64997af90039d441f8d4c8826994e9a66719",
+      "bytes": 102374,
+      "seconds": 7.754118,
+      "stream": {
+        "codec_name": "h264",
+        "width": 572,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/web-advanced-angular.mp4",
+      "sha256": "51e55cb3e7b50b6df0e91210fe8e686ece565f5e8b1d33d8bcc0e80870cfb56b",
+      "bytes": 280394,
+      "seconds": 27.48,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 800
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/web-advanced-react.mp4",
+      "sha256": "836da223efc3e8eb0887ec0d7bd4075060f85ae95f00c6eda8104c4a888f9631",
+      "bytes": 278337,
+      "seconds": 27.48,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 800
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/web-advanced-solid.mp4",
+      "sha256": "c3bea198e0bf65f7104b7142bf7d70074a50e66b24736d5a8a43bedc7d391bef",
+      "bytes": 292931,
+      "seconds": 27.44,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 800
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/web-advanced-svelte.mp4",
+      "sha256": "752099f413052e879172affc0c86e19fc7e873d55ac6a505546faada9521f95d",
+      "bytes": 280165,
+      "seconds": 27.4,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 800
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/web-angular.mp4",
+      "sha256": "f9e89630c3a3727dcf572013e48b277e69ce64a0c965b74a8ef6b765927042d9",
+      "bytes": 67431,
+      "seconds": 8.0,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 740
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/web-expansion-angular.mp4",
+      "sha256": "d809ecc880f6ad9827ef3b9e3883915f341b1ed01e2a3cd5262e1e5f154654ff",
+      "bytes": 215808,
+      "seconds": 24.24,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 800
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/web-expansion-react.mp4",
+      "sha256": "00585807577868f3630125f90e0ddffc346bf2056dac17db2e82fd61b4ed8dec",
+      "bytes": 223431,
+      "seconds": 25.48,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 800
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/web-expansion-solid.mp4",
+      "sha256": "4d38e806cf18a0ac25271012f3e39ad9497b7b99bde1f63c0f678d037c24aa4f",
+      "bytes": 223849,
+      "seconds": 24.24,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 800
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/web-expansion-svelte.mp4",
+      "sha256": "fb8ffd37d10cbcf1e35438beeb48da3f239a0c2fbeec548a707daacc837187cd",
+      "bytes": 216799,
+      "seconds": 24.2,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 800
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/web-preset.mp4",
+      "sha256": "b60298ba8627833737524e3844271019c1831fb061d2564ee432104f2e8d3886",
+      "bytes": 63999,
+      "seconds": 5.52,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 740
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/web-react.mp4",
+      "sha256": "fe25b3c95d2c6c59b6762cfa35d439dc883b84ed8e68d20d9da4bfbf9728148d",
+      "bytes": 62111,
+      "seconds": 9.16,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 740
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/web-solid.mp4",
+      "sha256": "84517509383f2ae0901017d0eb937ee08ad4e431923e09c8a495770d418e8737",
+      "bytes": 59175,
+      "seconds": 7.92,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 740
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/web-svelte.mp4",
+      "sha256": "5e5f86f7b7bf6f2b1af76c55e31e20c4f0c7add47560cc22cd15c44eb08ac3f7",
+      "bytes": 59585,
+      "seconds": 7.92,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 740
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/web-tools.mp4",
+      "sha256": "45bed13c7b43cc029517cc0192d41c00f4dca0856031d6aafcd0dfd0118c8545",
+      "bytes": 93762,
+      "seconds": 6.96,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 740
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS footage is simulator; macOS footage is app window only; browser footage is Chromium on macOS."
+    },
+    {
+      "path": "docs/public/media/swiftui-key-gesture-ios.mp4",
+      "sha256": "4d0d8a952292b320370201fb95ddd6dfb6f5bc2290f352009964f7c151842ccd",
+      "bytes": 204616,
+      "seconds": 21.9,
+      "stream": {
+        "codec_name": "h264",
+        "width": 414,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS 27 simulator; macOS 26.6.2 native window; browser is Chromium on macOS. No physical-device performance acceptance."
+    },
+    {
+      "path": "docs/public/media/swiftui-key-gesture-macos.mp4",
+      "sha256": "b629f3bd40029c62187bf9928fe7b4354614b9ece7e010b70a9289def7add134",
+      "bytes": 138413,
+      "seconds": 19.336474,
+      "stream": {
+        "codec_name": "h264",
+        "width": 572,
+        "height": 900
+      },
+      "review": "Recaptured after macOS gesture priority fix. Full decode and visible frames reviewed: drag, accessible zoom/rotation, normal clicks before/after remount and reduced motion. Native macOS 26.6.2 window; English UI. No physical trackpad acceptance."
+    },
+    {
+      "path": "docs/public/media/swiftui-transfer-ios.mp4",
+      "sha256": "48d9c854a238647ed3ab57fef6e8ccd6c4cd02f4de62ba02093e23adbe02b337",
+      "bytes": 120858,
+      "seconds": 14.1,
+      "stream": {
+        "codec_name": "h264",
+        "width": 414,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS 27 simulator; macOS 26.6.2 native window; browser is Chromium on macOS. No physical-device performance acceptance."
+    },
+    {
+      "path": "docs/public/media/swiftui-transfer-macos.mp4",
+      "sha256": "d30c81d5e8eb0ea075aa0a200c636c78185eaf23f839d1140daaf014a53fe99a",
+      "bytes": 176955,
+      "seconds": 16.758333,
+      "stream": {
+        "codec_name": "h264",
+        "width": 572,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS 27 simulator; macOS 26.6.2 native window; browser is Chromium on macOS. No physical-device performance acceptance."
+    },
+    {
+      "path": "docs/public/media/swiftui-character-ios.mp4",
+      "sha256": "f1418fce903e10c74e452bc5a5faf13d0da56860dca995f264276070167f0ece",
+      "bytes": 428031,
+      "seconds": 17.875,
+      "stream": {
+        "codec_name": "h264",
+        "width": 414,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS 27 simulator; macOS 26.6.2 native window; browser is Chromium on macOS. No physical-device performance acceptance."
+    },
+    {
+      "path": "docs/public/media/swiftui-character-macos.mp4",
+      "sha256": "127baa665b42e45282d4cc2e09d6492d39a8cd08a4069f91220ce2c2588ceb1f",
+      "bytes": 317424,
+      "seconds": 19.908333,
+      "stream": {
+        "codec_name": "h264",
+        "width": 572,
+        "height": 900
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS 27 simulator; macOS 26.6.2 native window; browser is Chromium on macOS. No physical-device performance acceptance."
+    },
+    {
+      "path": "docs/public/media/web-characters-react.mp4",
+      "sha256": "bafa0e9528eb025edd0acdd8dcb6bf5d5bc54d0461e7d61c8ca9c96fa41b54ac",
+      "bytes": 435278,
+      "seconds": 31.36,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 800
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS 27 simulator; macOS 26.6.2 native window; browser is Chromium on macOS. No physical-device performance acceptance."
+    },
+    {
+      "path": "docs/public/media/web-characters-angular.mp4",
+      "sha256": "b6cb4658d2851cdc08997014a7c4904570fa81794b73d44232fca8bcb7c80160",
+      "bytes": 445644,
+      "seconds": 32.12,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 800
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS 27 simulator; macOS 26.6.2 native window; browser is Chromium on macOS. No physical-device performance acceptance."
+    },
+    {
+      "path": "docs/public/media/web-characters-svelte.mp4",
+      "sha256": "95d28ac1abdcd8079d32171b91358f313ebbc11b2fced829d94a16f8c67864ce",
+      "bytes": 435479,
+      "seconds": 31.96,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 800
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS 27 simulator; macOS 26.6.2 native window; browser is Chromium on macOS. No physical-device performance acceptance."
+    },
+    {
+      "path": "docs/public/media/web-characters-solid.mp4",
+      "sha256": "8f5a501fd73c9ec201b989bc35bb5e1a30a9b59a2debed588fd3ce65965e0ba8",
+      "bytes": 440850,
+      "seconds": 31.56,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 800
+      },
+      "review": "Fully decoded; representative frames reviewed across actual playback and interaction. English UI. iOS 27 simulator; macOS 26.6.2 native window; browser is Chromium on macOS. No physical-device performance acceptance."
+    },
+    {
+      "path": "docs/public/media/swiftui-panel-ios.mp4",
+      "sha256": "8626f1106123d89dbcf6724acbdf952a5251aaf6763f9484497526abeaf57d85",
+      "bytes": 714038,
+      "seconds": 27.966992,
+      "stream": {
+        "codec_name": "h264",
+        "width": 414,
+        "height": 900
+      },
+      "review": "Refreshed after suspension/remount focus correction. Full decode and representative frames reviewed: drag, nested scroll, input/focus, dismissal, hide during motion, suspended retained model, resume to snap on remount, Escape on macOS and reduced motion. English UI; iOS 27 simulator or native macOS 26.6.2 app window. No physical-device performance acceptance."
+    },
+    {
+      "path": "docs/public/media/swiftui-panel-macos.mp4",
+      "sha256": "59a2420cfd7f109fdd6557b38be69d884777d282b096649578ae97544264f03f",
+      "bytes": 586893,
+      "seconds": 25.133333,
+      "stream": {
+        "codec_name": "h264",
+        "width": 572,
+        "height": 900
+      },
+      "review": "Refreshed after suspension/remount focus correction. Full decode and representative frames reviewed: drag, nested scroll, input/focus, dismissal, hide during motion, suspended retained model, resume to snap on remount, Escape on macOS and reduced motion. English UI; iOS 27 simulator or native macOS 26.6.2 app window. No physical-device performance acceptance."
+    },
+    {
+      "path": "docs/public/media/swiftui-geometry-ios.mp4",
+      "sha256": "fac4e1c0bc4b18e12e1ea9efb8962dfd94bfebdb3bf048d961d4fd3aca7f2e40",
+      "bytes": 185181,
+      "seconds": 17.158984,
+      "stream": {
+        "codec_name": "h264",
+        "width": 414,
+        "height": 900
+      },
+      "review": "Full decode checked and representative frames reviewed across actual native/browser playback. English UI. Panels: drag, nested scroll, input/focus, dismissal and remount; geometry: quadratic/cubic travel and tangent, reverse/cancel, measured reorder and changed text. iOS 27 simulator; macOS 26.6.2 native window; Web Chromium desktop. No physical iPhone/trackpad, mobile-browser keyboard or performance equivalence."
+    },
+    {
+      "path": "docs/public/media/swiftui-geometry-macos.mp4",
+      "sha256": "335f5276016c413c4b3f996263795c0d9056e9e5b4d0557ca2918fec501028f8",
+      "bytes": 176298,
+      "seconds": 18.266667,
+      "stream": {
+        "codec_name": "h264",
+        "width": 572,
+        "height": 900
+      },
+      "review": "Full decode checked and representative frames reviewed across actual native/browser playback. English UI. Panels: drag, nested scroll, input/focus, dismissal and remount; geometry: quadratic/cubic travel and tangent, reverse/cancel, measured reorder and changed text. iOS 27 simulator; macOS 26.6.2 native window; Web Chromium desktop. No physical iPhone/trackpad, mobile-browser keyboard or performance equivalence."
+    },
+    {
+      "path": "docs/public/media/web-geometry-react.mp4",
+      "sha256": "c2299cd56cb920113357b34fd0888287089cace63777f3e32eef8761fb006221",
+      "bytes": 399670,
+      "seconds": 23.64,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 800
+      },
+      "review": "Full decode checked and representative frames reviewed across actual native/browser playback. English UI. Panels: drag, nested scroll, input/focus, dismissal and remount; geometry: quadratic/cubic travel and tangent, reverse/cancel, measured reorder and changed text. iOS 27 simulator; macOS 26.6.2 native window; Web Chromium desktop. No physical iPhone/trackpad, mobile-browser keyboard or performance equivalence."
+    },
+    {
+      "path": "docs/public/media/web-geometry-angular.mp4",
+      "sha256": "8b273be03c326f028d94ce82869eb99d693b52e04c130c0317be52f752192630",
+      "bytes": 389285,
+      "seconds": 23.64,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 800
+      },
+      "review": "Full decode checked and representative frames reviewed across actual native/browser playback. English UI. Panels: drag, nested scroll, input/focus, dismissal and remount; geometry: quadratic/cubic travel and tangent, reverse/cancel, measured reorder and changed text. iOS 27 simulator; macOS 26.6.2 native window; Web Chromium desktop. No physical iPhone/trackpad, mobile-browser keyboard or performance equivalence."
+    },
+    {
+      "path": "docs/public/media/web-geometry-svelte.mp4",
+      "sha256": "4f3488653f269b35fc652058b01b409f9ec349581b7db845208c1148bdc983a1",
+      "bytes": 371216,
+      "seconds": 23.56,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 800
+      },
+      "review": "Full decode checked and representative frames reviewed across actual native/browser playback. English UI. Panels: drag, nested scroll, input/focus, dismissal and remount; geometry: quadratic/cubic travel and tangent, reverse/cancel, measured reorder and changed text. iOS 27 simulator; macOS 26.6.2 native window; Web Chromium desktop. No physical iPhone/trackpad, mobile-browser keyboard or performance equivalence."
+    },
+    {
+      "path": "docs/public/media/web-geometry-solid.mp4",
+      "sha256": "aaab70ce53b1e552ee6759052b9ae50099f6abc24e895910379ca77e0b170280",
+      "bytes": 380019,
+      "seconds": 23.56,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1000,
+        "height": 800
+      },
+      "review": "Full decode checked and representative frames reviewed across actual native/browser playback. English UI. Panels: drag, nested scroll, input/focus, dismissal and remount; geometry: quadratic/cubic travel and tangent, reverse/cancel, measured reorder and changed text. iOS 27 simulator; macOS 26.6.2 native window; Web Chromium desktop. No physical iPhone/trackpad, mobile-browser keyboard or performance equivalence."
+    },
+    {
+      "path": "docs/public/media/docs-navigation-desktop.mp4",
+      "sha256": "1eeb52e6706e9b3375795f7ed70db88f0afcc6e1e93fc8c2b927fa1488466a33",
+      "bytes": 764060,
+      "seconds": 13.36,
+      "stream": {
+        "codec_name": "h264",
+        "width": 1320,
+        "height": 900
+      },
+      "review": "Full decode and visible frames reviewed. Real Chromium on macOS, English UI: New/Updated/Beta, actual keyboard or emulated touch navigation and light/dark themes. Mobile is browser viewport emulation, not a physical phone. Initial mobile browser startup trimmed by 2 seconds; playback speed preserved. Documentation UI has no native counterpart."
+    },
+    {
+      "path": "docs/public/media/docs-navigation-mobile.mp4",
+      "sha256": "1bf68f7424612c894407e1579a74ee3bb811c337d6010b0c622f89dcc2132c31",
+      "bytes": 1060520,
+      "seconds": 15.16,
+      "stream": {
+        "codec_name": "h264",
+        "width": 390,
+        "height": 844
+      },
+      "review": "Full decode and visible frames reviewed. Real Chromium on macOS, English UI: New/Updated/Beta, actual keyboard or emulated touch navigation and light/dark themes. Mobile is browser viewport emulation, not a physical phone. Initial mobile browser startup trimmed by 2 seconds; playback speed preserved. Documentation UI has no native counterpart."
+    }
+  ],
+  "limits": [
+    "No physical browser sensor acceptance; #385 remains open.",
+    "No physical inspector overhead claim; #415 remains open.",
+    "No CPU/PSS or blocked-JavaScript superiority claim.",
+    "SwiftUI is a bounded standalone adapter: finite property-target behaviors, polyline paths, retained Canvas and demand-driven sampled motion. No arbitrary async behavior workflows, SVG curve parser/morph, per-shape hit testing or sensors.",
+    "SwiftUI reorder realizes fixed-height rows; no virtualization. Drop zones are in-app only.",
+    "macOS gesture footage validates mouse and accessible controls, not physical trackpad gestures. iOS recognizers filter region rectangles; disable covered input regions under SwiftUI overlays.",
+    "Particles are finite, bounded Canvas rendering. Rigs have articulated transforms and sockets, without IK, mesh deformation or per-part hit testing."
+  ],
+  "mavis": {
+    "auditedMain": "c4063f57ebf2ece353f4a0d3b07fe26b00d99bf5",
+    "adoptionIssues": [42, 145, 152, 153, 154, 235, 237, 244, 256, 296, 297, 298, 306],
+    "implementationIncluded": false,
+    "openClosedIssueCountExcludingPullRequests": 250,
+    "interactionAudit": "Existing MParticleField/MConfetti are implemented; reuse them. Updated #235/#237/#296/#244/#42 with SwiftUI source-candidate dependencies and shared lifecycle acceptance; no duplicate issues or Mavis implementation."
+  },
+  "scope": {
+    "initialIssues": [430, 431, 432, 433, 434, 435],
+    "additionalIssues": [
+      437, 438, 439, 440, 441, 442, 443, 444, 445, 446, 447, 448, 449, 450, 451, 452, 453,
+      454, 455, 456, 457, 458, 459, 460, 461, 462, 463, 464, 465, 466, 467, 468, 469
+    ],
+    "pullRequest": 436
+  },
+  "mavisMeasuredGeometry": {
+    "main": "c4063f57ebf2ece353f4a0d3b07fe26b00d99bf5",
+    "issuesInspected": 250,
+    "updated": [234, 237, 298],
+    "status": "Existing Sheet/reorder adapters reused; shared path recipes remain open. Jolt SwiftUI and Web idle-row geometry fix pending merge/publication. No Mavis implementation."
+  },
+  "documentationNavigation": {
+    "locales": ["en", "pt-BR", "es", "zh-Hans"],
+    "viewports": ["desktop 1320x900", "mobile 390x844"],
+    "validation": "Chromium, Firefox and WebKit: localized accessible labels, no horizontal sidebar overflow, hydration, keyboard navigation and plain previous/next passed in 24 locale/viewport combinations. Light/dark screenshots reviewed. Edition expiration, persistent Beta, source availability and escaped labels checked directly.",
+    "mavisPattern": "Inspected existing catalog.mjs, navigation.mjs and custom.css; reused the centralized status approach without adding a Mavis runtime adoption issue."
+  }
+}

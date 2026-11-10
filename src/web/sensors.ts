@@ -9,6 +9,7 @@ import { effectOptions, type Realm } from './effect.js'
 import type { PlatformHost } from './platform-host.js'
 import { NumericValue, type WebReadableValue } from './value.js'
 import type { WebInteraction } from './interaction.js'
+import { registerSensorReplay, type SensorReplaySession } from './sensor-replay-bridge.js'
 
 export type WebSensorKind = SensorKind
 export type WebSensorStatus =
@@ -45,7 +46,9 @@ export interface WebSensor extends WebInteraction {
     samples: number
     values: number[]
     reason?: string
-    backend: 'device-orientation' | 'device-motion' | 'none'
+    backend: 'device-orientation' | 'device-motion' | 'replay' | 'none'
+    /** Describes the retained values, including after a replay has finished. */
+    sampleSource: 'device-event' | 'replay' | 'none'
   }
 }
 export interface WebRotationSensor extends WebSensor {
@@ -234,6 +237,8 @@ export function createSensor(
     held = false,
     available = false,
     reason: string | undefined
+  let replay: { session: SensorReplaySession; orientation: number } | undefined
+  let sampleSource: 'device-event' | 'replay' | 'none' = 'none'
   let timestamp: number | null = null,
     samples = 0,
     reference = identity(),
@@ -269,9 +274,11 @@ export function createSensor(
     const angle =
       options.coordinates === 'device'
         ? 0
-        : (view.screen.orientation?.angle ??
-          (view as unknown as { orientation?: number }).orientation ??
-          0)
+        : replay
+          ? replay.orientation
+          : (view.screen.orientation?.angle ??
+            (view as unknown as { orientation?: number }).orientation ??
+            0)
     values =
       kind === 'rotation'
         ? rotationValues(relative, angle, values.slice(3))
@@ -287,6 +294,31 @@ export function createSensor(
   }
   const update = () => {
     if (ended) return
+    if (replay) {
+      const current = replay
+      detach?.()
+      detach = undefined
+      timeout?.()
+      timeout = undefined
+      available = false
+      reason = 'synthetic-replay'
+      const paused =
+        held ||
+        host.document.hidden ||
+        (options.reducedMotion !== 'continue' && host.reduced())
+      const active = !paused && demand.size > 0
+      status(
+        paused
+          ? 'paused'
+          : !demand.size
+            ? 'idle'
+            : sampleSource === 'replay'
+              ? 'active'
+              : 'starting',
+      )
+      if (!ended && replay === current) current.session.allowed(active)
+      return
+    }
     if (!supported) {
       reason = !view.isSecureContext
         ? 'insecure-context'
@@ -352,6 +384,7 @@ export function createSensor(
       timestamp = sample.timestamp
       samples++
       available = true
+      sampleSource = 'device-event'
       reason = undefined
       timeout?.()
       timeout = undefined
@@ -435,11 +468,14 @@ export function createSensor(
       samples,
       values: [...values],
       reason,
-      backend: !supported
-        ? ('none' as const)
-        : kind === 'rotation'
-          ? ('device-orientation' as const)
-          : ('device-motion' as const),
+      sampleSource,
+      backend: replay
+        ? ('replay' as const)
+        : !supported
+          ? ('none' as const)
+          : kind === 'rotation'
+            ? ('device-orientation' as const)
+            : ('device-motion' as const),
     }),
     pause() {
       if (!ended) {
@@ -459,6 +495,8 @@ export function createSensor(
     dispose() {
       if (ended) return
       ended = true
+      replay?.session.dispose()
+      replay = undefined
       stop()
       nodes.forEach((n) => n.node.dispose())
       off
@@ -469,6 +507,62 @@ export function createSensor(
     },
   } as WebRotationSensor | WebVectorSensor
   try {
+    off.push(
+      registerSensorReplay(handle, (session) => {
+        if (ended) throw new Error('Sensor is disposed.')
+        replay?.session.dispose()
+        if (ended) throw new Error('Sensor was disposed during replay replacement.')
+        stop()
+        const current = { session, orientation: 0 }
+        replay = current
+        available = false
+        sampleSource = 'none'
+        rebase = true
+        reset = true
+        update()
+        return {
+          now: () => host.scheduler.now(),
+          after: (ms, action) => host.after(ms, action),
+          inject(sample) {
+            if (
+              ended ||
+              replay !== current ||
+              held ||
+              !demand.size ||
+              host.document.hidden ||
+              (options.reducedMotion !== 'continue' && host.reduced())
+            )
+              return
+            current.orientation = sample.orientation ?? 0
+            if (kind === 'rotation') {
+              const length = Math.hypot(...sample.values)
+              const q = sample.values.map((v) => v / length) as Q
+              if (rebase) {
+                if (reset) relative = identity()
+                reference = multiply(q, inverse(relative))
+                rebase = false
+                reset = false
+              }
+              relative = multiply(inverse(reference), q)
+            } else rawVector = [...sample.values]
+            timestamp = sample.time
+            samples++
+            sampleSource = 'replay'
+            available = false
+            reason = 'synthetic-replay'
+            paint()
+            status('active')
+          },
+          end() {
+            if (replay !== current) return
+            replay = undefined
+            available = false
+            stop()
+            update()
+          },
+        }
+      }),
+    )
     view.screen.orientation?.addEventListener('change', orientationChanged)
     view.addEventListener('orientationchange', orientationChanged)
     off.push(

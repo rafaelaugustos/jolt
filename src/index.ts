@@ -106,6 +106,12 @@ export type {
 export { configure, onReducedMotion, reducedMotion } from './config.js'
 export type { JoltConfig } from './config.js'
 export { definePreset, presets } from './presets.js'
+export { createPreset } from './core/preset-recipe.js'
+export type {
+  PortablePresetName,
+  PresetParameters,
+  PresetRecipe,
+} from './core/preset-recipe.js'
 export type { Preset, PresetName, Presets } from './presets.js'
 export { origamiSpring, springs } from './transition.js'
 export type {

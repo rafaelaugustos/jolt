@@ -1,0 +1,54 @@
+/* SSR-rendered labels: the same semantic text is available before hydration. */
+.VPSidebarItem > .item > .link > .text:has(.jolt-nav-status) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.jolt-nav-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.jolt-nav-status {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  margin-left: auto;
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 650;
+  line-height: 18px;
+  white-space: nowrap;
+}
+.jolt-nav-status.new {
+  color: #35551a;
+  background: #e3efd4;
+}
+.jolt-nav-status.updated {
+  color: #205b93;
+  background: #e2edf8;
+}
+.jolt-nav-status.beta {
+  color: #785015;
+  background: #f6eaca;
+}
+.dark .jolt-nav-status.new {
+  color: #c5e69a;
+  background: #283a1d;
+}
+.dark .jolt-nav-status.updated {
+  color: #a8d2f7;
+  background: #1c3045;
+}
+.dark .jolt-nav-status.beta {
+  color: #f0d29a;
+  background: #3c301b;
+}
+@media (forced-colors: active) {
+  .jolt-nav-status {
+    color: CanvasText;
+    background: Canvas;
+    border: 1px solid CanvasText;
+  }
+}

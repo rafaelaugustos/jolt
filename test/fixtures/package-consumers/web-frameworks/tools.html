@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main>
+      <div class="badge">JOLT · PORTABLE TOOLS</div>
+      <h1>Replay inputs. Inspect motion.</h1>
+      <p>
+        Deterministic sensor samples and explicit inspector observations. Missing data
+        stays missing.
+      </p>
+      <div class="controls">
+        <button data-replay>Replay samples</button><button data-pause>Pause</button
+        ><button data-resume>Resume</button><button data-sample>Sample now</button
+        ><button data-interrupt>Interrupt motion</button
+        ><button data-dispose>Dispose</button
+        ><button data-preset>Play shared preset</button>
+      </div>
+      <div class="stage"><button class="card" data-card>JOLT</button></div>
+      <p data-status>Synthetic inputs only. No physical sensor claim.</p>
+      <div data-plot></div>
+      <p>
+        Green: supplied expectation · Pink: computed CSS observation<br />Markers:
+        explicit events · Gaps: no observation
+      </p>
+    </main>
+    <script type="module" src="/tools.js"></script>
+  </body>
+</html>

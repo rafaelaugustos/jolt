@@ -86,12 +86,20 @@ const family = <N extends string>(name: N, easeIn: EasingFunction) =>
     [`${name}InOut`]: mirror(easeIn),
   }) as Record<`${N}${'In' | 'Out' | 'InOut'}`, EasingFunction>
 
+/** Canonical control points also consumed by the standalone SwiftUI adapter generator. */
+export const timingCurves = {
+  linear: [0, 0, 1, 1],
+  ease: [0.25, 0.1, 0.25, 1],
+  easeIn: [0.42, 0, 1, 1],
+  easeOut: [0, 0, 0.58, 1],
+  easeInOut: [0.42, 0, 0.58, 1],
+} as const
 const easings: Record<EasingName, EasingFunction> = {
   linear,
-  ease: cubicBezier(0.25, 0.1, 0.25, 1),
-  easeIn: cubicBezier(0.42, 0, 1, 1),
-  easeOut: cubicBezier(0, 0, 0.58, 1),
-  easeInOut: cubicBezier(0.42, 0, 0.58, 1),
+  ease: cubicBezier(...timingCurves.ease),
+  easeIn: cubicBezier(...timingCurves.easeIn),
+  easeOut: cubicBezier(...timingCurves.easeOut),
+  easeInOut: cubicBezier(...timingCurves.easeInOut),
   circIn,
   circOut: reverse(circIn),
   circInOut: mirror(circIn),

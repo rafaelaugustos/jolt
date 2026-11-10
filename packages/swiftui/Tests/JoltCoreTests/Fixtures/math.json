@@ -1,0 +1,955 @@
+{
+  "maps": [
+    {
+      "input": [
+        0,
+        1
+      ],
+      "output": [
+        -100,
+        100
+      ],
+      "clamp": true,
+      "samples": [
+        {
+          "input": -20,
+          "value": -100,
+          "slope": 0
+        },
+        {
+          "input": -1,
+          "value": -100,
+          "slope": 0
+        },
+        {
+          "input": 0,
+          "value": -100,
+          "slope": 0
+        },
+        {
+          "input": 0.25,
+          "value": -50,
+          "slope": 200
+        },
+        {
+          "input": 0.5,
+          "value": 0,
+          "slope": 200
+        },
+        {
+          "input": 0.75,
+          "value": 50,
+          "slope": 200
+        },
+        {
+          "input": 1,
+          "value": 100,
+          "slope": 0
+        },
+        {
+          "input": 10,
+          "value": 100,
+          "slope": 0
+        },
+        {
+          "input": 20,
+          "value": 100,
+          "slope": 0
+        }
+      ]
+    },
+    {
+      "input": [
+        0,
+        1
+      ],
+      "output": [
+        -100,
+        100
+      ],
+      "clamp": false,
+      "samples": [
+        {
+          "input": -20,
+          "value": -4100,
+          "slope": 200
+        },
+        {
+          "input": -1,
+          "value": -300,
+          "slope": 200
+        },
+        {
+          "input": 0,
+          "value": -100,
+          "slope": 200
+        },
+        {
+          "input": 0.25,
+          "value": -50,
+          "slope": 200
+        },
+        {
+          "input": 0.5,
+          "value": 0,
+          "slope": 200
+        },
+        {
+          "input": 0.75,
+          "value": 50,
+          "slope": 200
+        },
+        {
+          "input": 1,
+          "value": 100,
+          "slope": 200
+        },
+        {
+          "input": 10,
+          "value": 1900,
+          "slope": 200
+        },
+        {
+          "input": 20,
+          "value": 3900,
+          "slope": 200
+        }
+      ]
+    },
+    {
+      "input": [
+        1,
+        0.5,
+        0
+      ],
+      "output": [
+        20,
+        -10,
+        5
+      ],
+      "clamp": true,
+      "samples": [
+        {
+          "input": -20,
+          "value": 5,
+          "slope": 0
+        },
+        {
+          "input": -1,
+          "value": 5,
+          "slope": 0
+        },
+        {
+          "input": 0,
+          "value": 5,
+          "slope": 0
+        },
+        {
+          "input": 0.25,
+          "value": -2.5,
+          "slope": -30
+        },
+        {
+          "input": 0.5,
+          "value": -10,
+          "slope": -30
+        },
+        {
+          "input": 0.75,
+          "value": 5,
+          "slope": 60
+        },
+        {
+          "input": 1,
+          "value": 20,
+          "slope": 0
+        },
+        {
+          "input": 10,
+          "value": 20,
+          "slope": 0
+        },
+        {
+          "input": 20,
+          "value": 20,
+          "slope": 0
+        }
+      ]
+    },
+    {
+      "input": [
+        1,
+        0.5,
+        0
+      ],
+      "output": [
+        20,
+        -10,
+        5
+      ],
+      "clamp": false,
+      "samples": [
+        {
+          "input": -20,
+          "value": 605,
+          "slope": -30
+        },
+        {
+          "input": -1,
+          "value": 35,
+          "slope": -30
+        },
+        {
+          "input": 0,
+          "value": 5,
+          "slope": -30
+        },
+        {
+          "input": 0.25,
+          "value": -2.5,
+          "slope": -30
+        },
+        {
+          "input": 0.5,
+          "value": -10,
+          "slope": -30
+        },
+        {
+          "input": 0.75,
+          "value": 5,
+          "slope": 60
+        },
+        {
+          "input": 1,
+          "value": 20,
+          "slope": 60
+        },
+        {
+          "input": 10,
+          "value": 560,
+          "slope": 60
+        },
+        {
+          "input": 20,
+          "value": 1160,
+          "slope": 60
+        }
+      ]
+    },
+    {
+      "input": [
+        -10,
+        0,
+        10
+      ],
+      "output": [
+        4,
+        9,
+        -3
+      ],
+      "clamp": true,
+      "samples": [
+        {
+          "input": -20,
+          "value": 4,
+          "slope": 0
+        },
+        {
+          "input": -1,
+          "value": 8.5,
+          "slope": 0.5
+        },
+        {
+          "input": 0,
+          "value": 9,
+          "slope": 0.5
+        },
+        {
+          "input": 0.25,
+          "value": 8.7,
+          "slope": -1.2
+        },
+        {
+          "input": 0.5,
+          "value": 8.4,
+          "slope": -1.2
+        },
+        {
+          "input": 0.75,
+          "value": 8.1,
+          "slope": -1.2
+        },
+        {
+          "input": 1,
+          "value": 7.8,
+          "slope": -1.2
+        },
+        {
+          "input": 10,
+          "value": -3,
+          "slope": 0
+        },
+        {
+          "input": 20,
+          "value": -3,
+          "slope": 0
+        }
+      ]
+    },
+    {
+      "input": [
+        -10,
+        0,
+        10
+      ],
+      "output": [
+        4,
+        9,
+        -3
+      ],
+      "clamp": false,
+      "samples": [
+        {
+          "input": -20,
+          "value": -1,
+          "slope": 0.5
+        },
+        {
+          "input": -1,
+          "value": 8.5,
+          "slope": 0.5
+        },
+        {
+          "input": 0,
+          "value": 9,
+          "slope": 0.5
+        },
+        {
+          "input": 0.25,
+          "value": 8.7,
+          "slope": -1.2
+        },
+        {
+          "input": 0.5,
+          "value": 8.4,
+          "slope": -1.2
+        },
+        {
+          "input": 0.75,
+          "value": 8.1,
+          "slope": -1.2
+        },
+        {
+          "input": 1,
+          "value": 7.8,
+          "slope": -1.2
+        },
+        {
+          "input": 10,
+          "value": -3,
+          "slope": -1.2
+        },
+        {
+          "input": 20,
+          "value": -15,
+          "slope": -1.2
+        }
+      ]
+    }
+  ],
+  "colors": [
+    {
+      "from": 4294901760,
+      "to": 4278190335,
+      "samples": [
+        {
+          "progress": -0.1,
+          "argb": 4294901760
+        },
+        {
+          "progress": 0,
+          "argb": 4294901760
+        },
+        {
+          "progress": 0.25,
+          "argb": 4291185005
+        },
+        {
+          "progress": 0.5,
+          "argb": 4287386530
+        },
+        {
+          "progress": 0.75,
+          "argb": 4283516882
+        },
+        {
+          "progress": 1,
+          "argb": 4278190335
+        },
+        {
+          "progress": 1.1,
+          "argb": 4278190335
+        }
+      ]
+    },
+    {
+      "from": 16711680,
+      "to": 4278255360,
+      "samples": [
+        {
+          "progress": -0.1,
+          "argb": 16711680
+        },
+        {
+          "progress": 0,
+          "argb": 16711680
+        },
+        {
+          "progress": 0.25,
+          "argb": 1073807104
+        },
+        {
+          "progress": 0.5,
+          "argb": 2147548928
+        },
+        {
+          "progress": 0.75,
+          "argb": 3204513536
+        },
+        {
+          "progress": 1,
+          "argb": 4278255360
+        },
+        {
+          "progress": 1.1,
+          "argb": 4278255360
+        }
+      ]
+    },
+    {
+      "from": 2147501311,
+      "to": 1073807172,
+      "samples": [
+        {
+          "progress": -0.1,
+          "argb": 2147501311
+        },
+        {
+          "progress": 0,
+          "argb": 2147501311
+        },
+        {
+          "progress": 0.25,
+          "argb": 1879076592
+        },
+        {
+          "progress": 0.5,
+          "argb": 1610651097
+        },
+        {
+          "progress": 0.75,
+          "argb": 1342227379
+        },
+        {
+          "progress": 1,
+          "argb": 1073807172
+        },
+        {
+          "progress": 1.1,
+          "argb": 1073807172
+        }
+      ]
+    },
+    {
+      "from": 0,
+      "to": 16777215,
+      "samples": [
+        {
+          "progress": -0.1,
+          "argb": 0
+        },
+        {
+          "progress": 0,
+          "argb": 0
+        },
+        {
+          "progress": 0.25,
+          "argb": 0
+        },
+        {
+          "progress": 0.5,
+          "argb": 0
+        },
+        {
+          "progress": 0.75,
+          "argb": 0
+        },
+        {
+          "progress": 1,
+          "argb": 16777215
+        },
+        {
+          "progress": 1.1,
+          "argb": 16777215
+        }
+      ]
+    }
+  ],
+  "decays": [
+    {
+      "from": 30,
+      "velocity": -800,
+      "friction": 0.995,
+      "precision": 0.001,
+      "to": -129.5996658306849,
+      "duration": 2391,
+      "samples": [
+        {
+          "at": 0,
+          "position": 30,
+          "velocity": -800
+        },
+        {
+          "at": 16,
+          "position": 17.699833140341614,
+          "velocity": -738.3448991793889
+        },
+        {
+          "at": 100,
+          "position": -32.91890659665659,
+          "velocity": -484.61634919258233
+        },
+        {
+          "at": 500,
+          "position": -116.58082400362954,
+          "velocity": -65.25748915222265
+        },
+        {
+          "at": 1000,
+          "position": -128.53769466905544,
+          "velocity": -5.323174863065571
+        },
+        {
+          "at": 5000,
+          "position": -129.5996658306849,
+          "velocity": 0
+        },
+        {
+          "at": 10000,
+          "position": -129.5996658306849,
+          "velocity": 0
+        }
+      ]
+    },
+    {
+      "from": 30,
+      "velocity": -800,
+      "friction": 0.998,
+      "precision": 0.001,
+      "to": -369.5998665331638,
+      "duration": 6443,
+      "samples": [
+        {
+          "at": 0,
+          "position": 30,
+          "velocity": -800
+        },
+        {
+          "at": 16,
+          "position": 17.402833580170455,
+          "velocity": -774.7804391845881
+        },
+        {
+          "at": 100,
+          "position": -42.50068063118974,
+          "velocity": -654.8534437507421
+        },
+        {
+          "at": 500,
+          "position": -222.7424181428077,
+          "velocity": -294.0090038857268
+        },
+        {
+          "at": 1000,
+          "position": -315.6281013901036,
+          "velocity": -108.05161795734665
+        },
+        {
+          "at": 5000,
+          "position": -369.58190548111673,
+          "velocity": -0.03595807416634844
+        },
+        {
+          "at": 10000,
+          "position": -369.5998665331638,
+          "velocity": 0
+        }
+      ]
+    },
+    {
+      "from": 30,
+      "velocity": 0,
+      "friction": 0.995,
+      "precision": 0.001,
+      "to": 30,
+      "duration": 0,
+      "samples": [
+        {
+          "at": 0,
+          "position": 30,
+          "velocity": 0
+        },
+        {
+          "at": 16,
+          "position": 30,
+          "velocity": 0
+        },
+        {
+          "at": 100,
+          "position": 30,
+          "velocity": 0
+        },
+        {
+          "at": 500,
+          "position": 30,
+          "velocity": 0
+        },
+        {
+          "at": 1000,
+          "position": 30,
+          "velocity": 0
+        },
+        {
+          "at": 5000,
+          "position": 30,
+          "velocity": 0
+        },
+        {
+          "at": 10000,
+          "position": 30,
+          "velocity": 0
+        }
+      ]
+    },
+    {
+      "from": 30,
+      "velocity": 0,
+      "friction": 0.998,
+      "precision": 0.001,
+      "to": 30,
+      "duration": 0,
+      "samples": [
+        {
+          "at": 0,
+          "position": 30,
+          "velocity": 0
+        },
+        {
+          "at": 16,
+          "position": 30,
+          "velocity": 0
+        },
+        {
+          "at": 100,
+          "position": 30,
+          "velocity": 0
+        },
+        {
+          "at": 500,
+          "position": 30,
+          "velocity": 0
+        },
+        {
+          "at": 1000,
+          "position": 30,
+          "velocity": 0
+        },
+        {
+          "at": 5000,
+          "position": 30,
+          "velocity": 0
+        },
+        {
+          "at": 10000,
+          "position": 30,
+          "velocity": 0
+        }
+      ]
+    },
+    {
+      "from": 30,
+      "velocity": 800,
+      "friction": 0.995,
+      "precision": 0.001,
+      "to": 189.5996658306849,
+      "duration": 2391,
+      "samples": [
+        {
+          "at": 0,
+          "position": 30,
+          "velocity": 800
+        },
+        {
+          "at": 16,
+          "position": 42.30016685965839,
+          "velocity": 738.3448991793889
+        },
+        {
+          "at": 100,
+          "position": 92.9189065966566,
+          "velocity": 484.61634919258233
+        },
+        {
+          "at": 500,
+          "position": 176.58082400362954,
+          "velocity": 65.25748915222265
+        },
+        {
+          "at": 1000,
+          "position": 188.53769466905544,
+          "velocity": 5.323174863065571
+        },
+        {
+          "at": 5000,
+          "position": 189.5996658306849,
+          "velocity": 0
+        },
+        {
+          "at": 10000,
+          "position": 189.5996658306849,
+          "velocity": 0
+        }
+      ]
+    },
+    {
+      "from": 30,
+      "velocity": 800,
+      "friction": 0.998,
+      "precision": 0.001,
+      "to": 429.5998665331638,
+      "duration": 6443,
+      "samples": [
+        {
+          "at": 0,
+          "position": 30,
+          "velocity": 800
+        },
+        {
+          "at": 16,
+          "position": 42.59716641982955,
+          "velocity": 774.7804391845881
+        },
+        {
+          "at": 100,
+          "position": 102.50068063118974,
+          "velocity": 654.8534437507421
+        },
+        {
+          "at": 500,
+          "position": 282.7424181428077,
+          "velocity": 294.0090038857268
+        },
+        {
+          "at": 1000,
+          "position": 375.6281013901036,
+          "velocity": 108.05161795734665
+        },
+        {
+          "at": 5000,
+          "position": 429.58190548111673,
+          "velocity": 0.03595807416634844
+        },
+        {
+          "at": 10000,
+          "position": 429.5998665331638,
+          "velocity": 0
+        }
+      ]
+    }
+  ],
+  "paths": [
+    {
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          100,
+          0
+        ],
+        [
+          100,
+          100
+        ]
+      ],
+      "length": 200,
+      "samples": [
+        {
+          "progress": -0.1,
+          "x": 0,
+          "y": 0,
+          "rotate": 0
+        },
+        {
+          "progress": 0,
+          "x": 0,
+          "y": 0,
+          "rotate": 0
+        },
+        {
+          "progress": 0.25,
+          "x": 50,
+          "y": 0,
+          "rotate": 0
+        },
+        {
+          "progress": 0.5,
+          "x": 100,
+          "y": 0,
+          "rotate": 90
+        },
+        {
+          "progress": 0.75,
+          "x": 100,
+          "y": 50,
+          "rotate": 90
+        },
+        {
+          "progress": 1,
+          "x": 100,
+          "y": 100,
+          "rotate": 90
+        },
+        {
+          "progress": 1.1,
+          "x": 100,
+          "y": 100,
+          "rotate": 90
+        }
+      ]
+    },
+    {
+      "points": [
+        [
+          20,
+          30
+        ],
+        [
+          20,
+          30
+        ]
+      ],
+      "length": 0,
+      "samples": [
+        {
+          "progress": -0.1,
+          "x": 20,
+          "y": 30,
+          "rotate": 0
+        },
+        {
+          "progress": 0,
+          "x": 20,
+          "y": 30,
+          "rotate": 0
+        },
+        {
+          "progress": 0.25,
+          "x": 20,
+          "y": 30,
+          "rotate": 0
+        },
+        {
+          "progress": 0.5,
+          "x": 20,
+          "y": 30,
+          "rotate": 0
+        },
+        {
+          "progress": 0.75,
+          "x": 20,
+          "y": 30,
+          "rotate": 0
+        },
+        {
+          "progress": 1,
+          "x": 20,
+          "y": 30,
+          "rotate": 0
+        },
+        {
+          "progress": 1.1,
+          "x": 20,
+          "y": 30,
+          "rotate": 0
+        }
+      ]
+    },
+    {
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          -30,
+          20
+        ],
+        [
+          -30,
+          -20
+        ],
+        [
+          0,
+          0
+        ]
+      ],
+      "length": 112.11102550927978,
+      "samples": [
+        {
+          "progress": -0.1,
+          "x": 0,
+          "y": 0,
+          "rotate": 146.30993247402023
+        },
+        {
+          "progress": 0,
+          "x": 0,
+          "y": 0,
+          "rotate": 146.30993247402023
+        },
+        {
+          "progress": 0.25,
+          "x": -23.320502943378436,
+          "y": 15.547001962252292,
+          "rotate": 146.30993247402023
+        },
+        {
+          "progress": 0.5,
+          "x": -30,
+          "y": 0,
+          "rotate": 270
+        },
+        {
+          "progress": 0.75,
+          "x": -23.320502943378436,
+          "y": -15.547001962252292,
+          "rotate": 393.69006752597977
+        },
+        {
+          "progress": 1,
+          "x": 0,
+          "y": 0,
+          "rotate": 393.69006752597977
+        },
+        {
+          "progress": 1.1,
+          "x": 0,
+          "y": 0,
+          "rotate": 393.69006752597977
+        }
+      ]
+    }
+  ]
+}

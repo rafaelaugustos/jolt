@@ -33,6 +33,10 @@ Create the runtime after browser mounting and call `motion.dispose()` when its a
 
 The Web APIs are **experimental**. Start with the [Web runtime](./web-runtime), then explore [continuous motion](./web-dynamic), [gestures and scroll](./web-gestures), and [gradients, loading and text](./web-effects). Each guide documents its supported targets and limits.
 
+## SwiftUI (Beta)
+
+For apps written in Swift, the [standalone SwiftUI package](./swiftui) targets iOS 17+ and macOS 14+ without NativeScript or JavaScript. It is an experimental source candidate in [PR #436](https://github.com/rafaelaugustos/jolt/pull/436), pending merge and publication; these APIs are not included in RC.12.1.
+
 ## Why not `view.animate()`
 
 NativeScript's `view.animate()` covers the basics and stops there: one curve for every property, a `spring` curve with no settings, no keyframes, and a promise that rejects when the animation is cancelled. Anything richer ends up as platform code.
@@ -64,3 +68,17 @@ The following guides cover NativeScript views. For HTML elements, use the Web gu
 3. **Web:** start with the [Web runtime](./web-runtime) or [Vue DOM adapter](./web-vue).
 
 Jolt is a release candidate; see [installation](./install) for the published version. Both runtimes can be used directly, with optional framework integrations.
+
+## Reading the menu
+
+The sidebar highlights capabilities with three labels:
+
+- **New:** introduced in the documented edition.
+- **Updated:** a material change to an existing capability.
+- **Beta:** an experimental API or adapter whose contract may change.
+
+New and Updated expire when the documented version changes. Beta stays until the API is stabilized. The label description distinguishes a published capability from a source candidate; the guide states any pending merge or publication. A badge alone does not mean a feature has been released.
+
+<Clip name="docs-navigation-desktop" caption="Chromium on macOS, desktop viewport: New, Updated and Beta in the sidebar, keyboard navigation and light/dark themes. This demonstrates documentation navigation, not a native app." />
+
+<Clip name="docs-navigation-mobile" caption="Chromium on macOS, emulated mobile viewport: opening the menu and following labeled entries. Browser emulation, not a physical phone recording." />

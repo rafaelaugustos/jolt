@@ -8,6 +8,12 @@ import type {
 export { cubicBezier } from '../core/easing.js'
 export { origamiSpring, springs } from '../core/transition.js'
 export { presets } from '../core/presets.js'
+export { createPreset } from '../core/preset-recipe.js'
+export type {
+  PortablePresetName,
+  PresetParameters,
+  PresetRecipe,
+} from '../core/preset-recipe.js'
 export type {
   WebBehaviorContext,
   WebMotionBehavior,

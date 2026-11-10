@@ -16,5 +16,6 @@
     "rootDir": "src",
     "outDir": "dist"
   },
-  "include": ["src/web"]
+  "include": ["src/web"],
+  "exclude": ["src/web/angular"]
 }

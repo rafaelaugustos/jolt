@@ -1,5 +1,7 @@
 # Reordenar listas
 
+O candidato de código também corrige a geometria Web após FLIP seguido de mudança na altura do texto e adiciona [linhas SwiftUI medidas](./swiftui-geometry). Essas novidades não estão na RC.12.1.
+
 Segure a alça de uma linha, mova pela lista e solte. Os vizinhos abrem espaço enquanto a lista rola perto das bordas. A linha levantada permanece em uma cópia nativa mesmo depois que sua célula original sai da área visível e é reciclada.
 
 Disponível desde a **0.1.0-beta.17**, no pacote principal. Instale `@rafaelaugusto/jolt@0.1.0-rc.2` e recompile o app para incluir as classes de entrada e renderização. Não exige o plugin opcional de propriedades nativas.

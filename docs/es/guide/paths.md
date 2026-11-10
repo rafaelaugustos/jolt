@@ -1,5 +1,7 @@
 # Movimiento sobre una trayectoria {#motion-along-a-path}
 
+El candidato SwiftUI independiente admite [curvas cuadráticas/cúbicas tipadas](./swiftui-geometry). Sigue pendiente de merge/publicación; las trayectorias NativeScript/Web conservan su historial.
+
 Disponible en RC.12: [interacción y profundidad](./interaction-depth) añade drop zones, audio/cues opcionales, inspección y contratos Web de paths, 3D y sombras.
 
 ```ts
