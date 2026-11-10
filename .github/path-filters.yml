@@ -1,0 +1,49 @@
+shared: &shared
+  - .github/**
+  - package.json
+  - package-lock.json
+  - tsconfig*.json
+  - src/core/**
+  - benchmarks/angular-tools/**
+
+native:
+  - *shared
+  - src/**
+  - platforms/**
+  - packages/native/**
+  - demo/src/**
+  - benchmarks/*.ts
+  - benchmarks/native-ci.py
+  - benchmarks/test_native_ci.py
+  - benchmarks/native-app/**
+  - benchmarks/traces/**
+
+swiftui:
+  - *shared
+  - Package.swift
+  - packages/swiftui/**
+  - benchmarks/swiftui-demo/**
+  - scripts/generate-swiftui-definitions.mjs
+
+web:
+  - *shared
+  - src/**
+  - demo/src/**
+  - test/fixtures/**
+  - benchmarks/web-*/**
+
+packages:
+  - *shared
+  - src/**
+  - packages/**
+  - scripts/check-*.mjs
+  - benchmarks/capability-matrix.json
+  - benchmarks/package-consumers/**
+  - benchmarks/web-frameworks/**
+  - benchmarks/native-app/package*.json
+
+docs:
+  - *shared
+  - src/**
+  - docs/**
+  - scripts/**
