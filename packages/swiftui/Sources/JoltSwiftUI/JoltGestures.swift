@@ -4,6 +4,7 @@ import SwiftUI
 public typealias JoltGesturePosition = JoltCore.JoltGesturePosition
 public typealias JoltReorderMove = JoltCore.JoltReorderMove
 public typealias JoltDropRect = JoltCore.JoltDropRect
+public typealias JoltDropPadding = JoltCore.JoltDropPadding
 public enum JoltGestureContact: Hashable, Sendable { case pan, pinch, rotation }
 
 /// Incremental contact updates preserve the focal point. Bounds may intentionally limit that preservation.

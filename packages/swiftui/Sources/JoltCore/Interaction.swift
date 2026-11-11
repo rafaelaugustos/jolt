@@ -42,6 +42,25 @@ public struct JoltReorderMove: Equatable, Sendable {
       fromIndex: from, toIndex: to)
   }
 }
+/// Extra hit area outside a drop target's frame, per edge, in points (0...1,000).
+public struct JoltDropPadding: Equatable, Sendable {
+  public static let zero = try! JoltDropPadding(0)
+  public static let maximum = 1000.0
+  public let top: Double, right: Double, bottom: Double, left: Double
+  public init(top: Double = 0, right: Double = 0, bottom: Double = 0, left: Double = 0) throws {
+    guard [top, right, bottom, left].allSatisfy({ $0.isFinite && (0...Self.maximum).contains($0) })
+    else {
+      throw JoltError.invalidMotion
+    }
+    self.top = top
+    self.right = right
+    self.bottom = bottom
+    self.left = left
+  }
+  public init(_ all: Double) throws {
+    try self.init(top: all, right: all, bottom: all, left: all)
+  }
+}
 public struct JoltDropRect: Equatable, Sendable {
   public let x: Double, y: Double, width: Double, height: Double
   public init(x: Double, y: Double, width: Double, height: Double) throws {
@@ -54,14 +73,18 @@ public struct JoltDropRect: Equatable, Sendable {
     self.width = width
     self.height = height
   }
-  public func hits(_ target: Self, overlap: Bool = false) -> Bool {
+  /// Padding extends the target before either policy, matching the TypeScript `dropHits`.
+  public func hits(_ target: Self, overlap: Bool = false, padding: JoltDropPadding = .zero) -> Bool
+  {
+    let left = target.x - padding.left
+    let top = target.y - padding.top
+    let right = target.x + target.width + padding.right
+    let bottom = target.y + target.height + padding.bottom
     if overlap {
-      return min(x + width, target.x + target.width) > max(x, target.x)
-        && min(y + height, target.y + target.height) > max(y, target.y)
+      return min(x + width, right) > max(x, left) && min(y + height, bottom) > max(y, top)
     }
     let px = x + width / 2
     let py = y + height / 2
-    return px >= target.x && px <= target.x + target.width && py >= target.y
-      && py <= target.y + target.height
+    return px >= left && px <= right && py >= top && py <= bottom
   }
 }

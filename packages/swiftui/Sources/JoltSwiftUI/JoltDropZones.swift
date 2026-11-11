@@ -3,14 +3,17 @@ import SwiftUI
 
 @MainActor public struct JoltDropTarget {
   public let id: String, label: String, priority: Double
+  /// Extra hit area outside the reported frame, per edge, in points.
+  public let padding: JoltDropPadding
   public let accepts: @MainActor () -> Bool
   public init(
-    _ id: String, label: String? = nil, priority: Double = 0,
+    _ id: String, label: String? = nil, priority: Double = 0, padding: JoltDropPadding = .zero,
     accepts: @escaping @MainActor () -> Bool = { true }
   ) {
     self.id = id
     self.label = label ?? id
     self.priority = priority
+    self.padding = padding
     self.accepts = accepts
   }
 }
@@ -25,11 +28,12 @@ public struct JoltDropEvent: Equatable, Sendable {
   @Published public private(set) var accepted: String?
   @Published public private(set) var dragging = false
   @Published public private(set) var offset = CGSize.zero
+  @Published private(set) var handles = 0
   public private(set) var disposed = false
   private var paused = false, suspended = false, generation = 0
   private var frames: [String: JoltDropRect] = [:]
   private var source: JoltDropRect?
-  private var start = CGSize.zero
+  private var start = CGSize.zero, translation = CGSize.zero
   private let x: JoltMotionValue, y: JoltMotionValue, group: JoltPropertyGroup
   private var observations: [JoltObservation] = []
   private var effect: (any JoltResource)?
@@ -61,14 +65,34 @@ public struct JoltDropEvent: Equatable, Sendable {
     ]
   }
   private var available: Bool { !disposed && !paused && !suspended && source != nil }
+  /// The source's visual frame, including the current offset, in the targets' coordinate space.
   public func sourceBounds(_ rect: CGRect?) {
-    guard !disposed else { return }
-    source = rect.flatMap {
-      try? .init(
-        x: $0.minX - offset.width, y: $0.minY - offset.height, width: $0.width, height: $0.height)
-    }
-    if source == nil { cancel() } else { refresh() }
+    layoutBounds(rect.map { $0.offsetBy(dx: -offset.width, dy: -offset.height) })
   }
+  /// The source's layout frame without the drag offset. A change during a drag re-anchors it.
+  func layoutBounds(_ rect: CGRect?) {
+    guard !disposed else { return }
+    let previous = source
+    source = rect.flatMap {
+      try? .init(x: $0.minX, y: $0.minY, width: $0.width, height: $0.height)
+    }
+    guard let source else {
+      cancel()
+      return
+    }
+    if dragging, let previous {
+      let dx = source.x + source.width / 2 - previous.x - previous.width / 2
+      let dy = source.y + source.height / 2 - previous.y - previous.height / 2
+      if abs(dx) > 0.01 || abs(dy) > 0.01 {
+        start.width -= dx
+        start.height -= dy
+        place()
+      }
+    }
+    refresh()
+  }
+  func attachHandle() { handles += 1 }
+  func detachHandle() { handles = max(0, handles - 1) }
   public func targetBounds(_ id: String, _ rect: CGRect?) throws {
     guard !disposed, targets.contains(where: { $0.id == id }) else { throw JoltError.invalidMotion }
     if let rect {
@@ -87,6 +111,7 @@ public struct JoltDropEvent: Equatable, Sendable {
     guard generation == epoch, available else { return }
     group.cancel()
     start = offset
+    translation = .zero
     dragging = true
     refresh()
   }
@@ -94,12 +119,16 @@ public struct JoltDropEvent: Equatable, Sendable {
     guard available, dragging, translation.width.isFinite, translation.height.isFinite else {
       return
     }
+    self.translation = translation
+    place()
+    refresh()
+  }
+  private func place() {
     let px = start.width + translation.width
     let py = start.height + translation.height
     guard abs(px) <= 1e6, abs(py) <= 1e6 else { return }
     try? x.set(px)
     try? y.set(py)
-    refresh()
   }
   public func refresh() {
     guard available, dragging, let source,
@@ -111,7 +140,8 @@ public struct JoltDropEvent: Equatable, Sendable {
       return
     }
     hovered =
-      targets.first { target in frames[target.id].map { rect.hits($0, overlap: overlap) } ?? false
+      targets.first { target in
+        frames[target.id].map { rect.hits($0, overlap: overlap, padding: target.padding) } ?? false
       }?.id
   }
   @discardableResult public func end(reducedMotion: Bool = false) -> Bool {
@@ -211,6 +241,34 @@ private struct DropGeometry: View {
     }.allowsHitTesting(false).accessibilityHidden(true)
   }
 }
+@MainActor private func dropDrag(
+  _ model: JoltDropZones, active: GestureState<Bool>, reducedMotion: Bool
+) -> some Gesture {
+  DragGesture(minimumDistance: 3, coordinateSpace: .global).updating(active) { _, state, _ in
+    state = true
+  }
+  .onChanged { event in
+    if !model.dragging { model.begin() }
+    model.move(event.translation)
+  }
+  .onEnded { _ in model.end(reducedMotion: reducedMotion) }
+}
+private struct DropActions: ViewModifier {
+  @ObservedObject var model: JoltDropZones
+  let shown: Bool, reducedMotion: Bool
+  func body(content: Content) -> some View {
+    content.accessibilityActions {
+      if shown {
+        ForEach(model.targets, id: \.id) { target in
+          Button("Move to \(target.label)") {
+            _ = try? model.request(target.id, reducedMotion: reducedMotion)
+          }
+        }
+        Button("Return to origin") { model.cancel() }
+      }
+    }
+  }
+}
 private struct DropSource: ViewModifier {
   @ObservedObject var model: JoltDropZones
   @JoltSceneActivity private var sceneActive
@@ -223,25 +281,15 @@ private struct DropSource: ViewModifier {
     if visible && enabled && sceneActive { model.resume() } else { model.suspend() }
   }
   func body(content: Content) -> some View {
-    content.background(DropGeometry(update: model.sourceBounds)).offset(model.offset)
+    // Measured outside the offset: the layout frame, so a change re-anchors the drag.
+    content.offset(model.offset).background(DropGeometry(update: model.layoutBounds))
       .gesture(
-        DragGesture(minimumDistance: 3, coordinateSpace: .global).updating($active) { _, state, _ in
-          state = true
-        }
-        .onChanged { event in
-          if !model.dragging { model.begin() }
-          model.move(event.translation)
-        }
-        .onEnded { _ in model.end(reducedMotion: reduced || appReduced) }
+        dropDrag(model, active: $active, reducedMotion: reduced || appReduced),
+        including: model.handles > 0 ? .subviews : .all
       )
-      .accessibilityActions {
-        ForEach(model.targets, id: \.id) { target in
-          Button("Move to \(target.label)") {
-            _ = try? model.request(target.id, reducedMotion: reduced || appReduced)
-          }
-        }
-        Button("Return to origin") { model.cancel() }
-      }
+      .modifier(
+        DropActions(model: model, shown: model.handles == 0, reducedMotion: reduced || appReduced)
+      )
       .onAppear {
         visible = true
         sync()
@@ -251,12 +299,35 @@ private struct DropSource: ViewModifier {
       }
       .onChange(of: sceneActive) { _, _ in sync() }.onChange(of: enabled) { _, _ in sync() }
       .onChange(of: active) { _, next in if !next && model.dragging { model.cancel() } }
-    .modifier(JoltActivityProvider($sceneActive))
+      .modifier(JoltActivityProvider($sceneActive))
+  }
+}
+private struct DropHandle: ViewModifier {
+  @ObservedObject var model: JoltDropZones
+  @JoltSceneActivity private var sceneActive
+  @Environment(\.accessibilityReduceMotion) private var reduced
+  @Environment(\.joltReduceMotion) private var appReduced
+  @GestureState private var active = false
+  func body(content: Content) -> some View {
+    content.contentShape(Rectangle())
+      .highPriorityGesture(
+        dropDrag(model, active: $active, reducedMotion: reduced || appReduced),
+        including: sceneActive ? .all : .subviews
+      )
+      .modifier(DropActions(model: model, shown: true, reducedMotion: reduced || appReduced))
+      .onAppear { model.attachHandle() }.onDisappear { model.detachHandle() }
+      .onChange(of: active) { _, next in if !next && model.dragging { model.cancel() } }
+      .modifier(JoltActivityProvider($sceneActive))
   }
 }
 extension View {
   public func joltDropSource(_ zones: JoltDropZones) -> some View {
     modifier(DropSource(model: zones))
+  }
+  /// Starts the drag from this view only. Apply it inside the `joltDropSource` view: the source
+  /// still moves, and while a handle is on screen the rest of the source keeps its own gestures.
+  public func joltDropHandle(_ zones: JoltDropZones) -> some View {
+    modifier(DropHandle(model: zones))
   }
   public func joltDropTarget(_ id: String, in zones: JoltDropZones) -> some View {
     background(DropGeometry { rect in try? zones.targetBounds(id, rect) })
