@@ -201,7 +201,7 @@ final class SwiftUIAcceptance: XCTestCase {
     guard let start = text.range(of: "legs ") else { return -1 }
     return Int(text[start.upperBound...].prefix { $0.isNumber }) ?? -1
   }
-  private func note(_ name: String, _ lines: [String]) {
+  @MainActor private func note(_ name: String, _ lines: [String]) {
     let text = lines.joined(separator: "\n")
     print("JOLT_ACTIVITY \(name): " + lines.joined(separator: " | "))
     XCTContext.runActivity(named: name) { activity in
