@@ -200,9 +200,12 @@ test('pointer presence follows real mouse entry/exit, keeps clicks and suppresse
   await expect(page.locator('#status')).toContainText('Presence 0')
   await page.locator('#inside').click()
   await expect(page.locator('#inside')).toHaveAttribute('data-actions', '1')
+  // Away from the real cursor on #inside, whose late events under load would reach #region.
   const result = await page.evaluate(async () => {
     const runtime = window.portable.runtime,
-      region = document.getElementById('region')!
+      region = document.createElement('div')
+    region.style.cssText = 'position:fixed;left:0;bottom:0;width:200px;height:80px'
+    document.body.append(region)
     const pointer = runtime.pointerFollow(region, { spring: false })
     const b = region.getBoundingClientRect()
     const send = (type: string) =>
@@ -233,6 +236,7 @@ test('pointer presence follows real mouse entry/exit, keeps clicks and suppresse
     await frame()
     const zero = pointer.presence.get()
     pointer.dispose()
+    region.remove()
     return { touch, mouse, paused, zero }
   })
   expect(result.touch).toBe(0)
