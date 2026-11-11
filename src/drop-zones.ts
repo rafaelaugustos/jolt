@@ -1,6 +1,6 @@
 import { Application, Trace, isIOS, type View } from '@nativescript/core'
 import { toView } from './animate.js'
-import { dragBeforeRelease, type Drag, type DragOptions } from './drag.js'
+import { dragBeforeRelease, type AnchoredDrag, type DragOptions } from './drag.js'
 import {
   createDropPolicy,
   type DropOptions,
@@ -9,7 +9,15 @@ import {
 } from './core/drop.js'
 import type { Target } from './types.js'
 
-export type { DropEvent, DropTarget, DropZones, DropEffect } from './core/drop.js'
+export type {
+  DropEvent,
+  DropMoveEvent,
+  DropPadding,
+  DropRect,
+  DropTarget,
+  DropZones,
+  DropEffect,
+} from './core/drop.js'
 export interface DropZoneOptions extends DropOptions<View> {
   drag?: Omit<DragOptions, 'onStart' | 'onMove' | 'onRelease' | 'onCancel' | 'onSettle'>
 }
@@ -27,7 +35,7 @@ export function dropZones(target: Target, options: DropZoneOptions): DropZones {
     'value' in inputOptions
   )
     throw new TypeError('Drop zones own drag callbacks and move the source view itself.')
-  let input: Drag | undefined,
+  let input: AnchoredDrag | undefined,
     handoff = false,
     background = Application.suspended
   const geometry = isIOS ? undefined : new org.rafaelaugusto.jolt.DropGeometry()
@@ -80,6 +88,8 @@ export function dropZones(target: Target, options: DropZoneOptions): DropZones {
       bounds,
       enabled: () => !background,
       cancelDrag: cancelInput,
+      translation: () => input?.position ?? { x: 0, y: 0 },
+      shift: (x, y) => input?.shift(x, y),
       error: (error) =>
         Trace.write(String(error), Trace.categories.Error, Trace.messageType.error),
     },

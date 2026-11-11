@@ -26,6 +26,8 @@ export interface WebDragOptions {
   rubberband?: boolean
   /** Drive a borrowed numeric value instead of the input element's translation. */
   value?: WebMotionValue
+  /** Element inside the dragged element that alone starts the drag; it may be a button. */
+  handle?: HTMLElement
   onStart?: (event: WebDragEvent) => void
   onMove?: (event: WebDragEvent) => void
   onRelease?: (event: WebDragRelease) => void
@@ -86,6 +88,7 @@ export function dragOptions(options: WebDragOptions) {
         'friction',
         'rubberband',
         'value',
+        'handle',
         'onStart',
         'onMove',
         'onRelease',
@@ -197,14 +200,33 @@ export function assertDragSpace(target: HTMLElement, baselineIdentity: boolean) 
   }
 }
 
+const shifts = new WeakMap<WebDrag, (delta: DragPoint) => void>()
+/** Internal adapter hook: offset an active contact without moving it under the pointer. */
+export function shiftDrag(drag: WebDrag, delta: DragPoint) {
+  shifts.get(drag)?.(delta)
+}
+const contains = (target: HTMLElement, handle: HTMLElement) => {
+  for (const node of renderedAncestors(handle))
+    if (node === target) return handle !== target
+  return false
+}
+
 export function createDrag(target: HTMLElement, input: WebDragOptions, host: DragHost) {
   const options = dragOptions(input)
   const document = target.ownerDocument
   const view = document.defaultView! as Window & typeof globalThis
+  const handle = options.handle ?? target
+  if (
+    options.handle !== undefined &&
+    (!(handle instanceof view.HTMLElement) ||
+      handle.ownerDocument !== document ||
+      !contains(target, handle))
+  )
+    throw new TypeError('A drag handle must be an element inside the dragged element.')
   const abort = new view.AbortController()
-  const originalTouch = target.style.touchAction
+  const originalTouch = handle.style.touchAction
   const touch = options.axis === 'x' ? 'pan-y' : options.axis === 'y' ? 'pan-x' : 'none'
-  target.style.touchAction = touch
+  handle.style.touchAction = touch
   let pointer: number | undefined,
     disabled = options.disabled ?? false,
     disposed = false,
@@ -251,10 +273,11 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
       disposed ||
       !target.isConnected ||
       target.ownerDocument !== document ||
-      target.matches(':disabled')
+      target.matches(':disabled') ||
+      (handle !== target && (handle.matches(':disabled') || !contains(target, handle)))
     )
       return true
-    for (const node of renderedAncestors(target)) {
+    for (const node of renderedAncestors(handle)) {
       if (
         node.hasAttribute('inert') ||
         node.getAttribute('aria-disabled') === 'true' ||
@@ -285,7 +308,7 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     notify('onMove', velocity(samples.at(-1)?.time ?? 0))
   }
   const releaseCapture = (id: number) => {
-    if (target.hasPointerCapture(id)) target.releasePointerCapture(id)
+    if (handle.hasPointerCapture(id)) handle.releasePointerCapture(id)
   }
   const stopRelease = () => {
     const current = animation
@@ -363,7 +386,7 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
       passive,
       capture: captureEvent,
     })
-  listen(target, 'pointerdown', (event: PointerEvent) => {
+  listen(handle, 'pointerdown', (event: PointerEvent) => {
     if (
       disposed ||
       pointer !== undefined ||
@@ -374,7 +397,7 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     )
       return
     for (const node of event.composedPath()) {
-      if (node === target) break
+      if (node === handle) break
       if (
         node instanceof view.Element &&
         node.matches(
@@ -404,7 +427,7 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     samples = []
     capture(event)
     try {
-      target.setPointerCapture(pointer)
+      handle.setPointerCapture(pointer)
       notify('onStart')
     } catch (error) {
       cancel()
@@ -494,7 +517,7 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
   }
   watchRoot()
   listen(
-    target,
+    handle,
     'dragstart',
     (event) => {
       if (pointer !== undefined) event.preventDefault()
@@ -502,7 +525,7 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     false,
   )
   listen(
-    target,
+    handle,
     'click',
     (event: MouseEvent) => {
       if (event.detail > 0 && view.performance.now() < suppressUntil) {
@@ -525,10 +548,22 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     scrollRoot = undefined
     if (stopAnimation && target.isConnected && target.ownerDocument === document)
       animation?.stop()
-    if (target.style.touchAction === touch) target.style.touchAction = originalTouch
+    if (handle.style.touchAction === touch) handle.style.touchAction = originalTouch
     host.dispose()
   }
-  return {
+  const shift = (delta: DragPoint) => {
+    if (pointer === undefined || disposed) return
+    const before = position()
+    origin = { x: origin.x + delta.x, y: origin.y + delta.y }
+    const after = position()
+    samples = samples.map((sample) => ({
+      ...sample,
+      x: sample.x + after.x - before.x,
+      y: sample.y + after.y - before.y,
+    }))
+    host.write(after, velocity(samples.at(-1)?.time ?? 0))
+  }
+  const controller = {
     handle: {
       get dragging() {
         return pointer !== undefined
@@ -580,4 +615,6 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     },
     detach: () => dispose(!!options.value),
   }
+  shifts.set(controller.handle, shift)
+  return controller
 }

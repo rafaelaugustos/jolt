@@ -54,6 +54,8 @@ export interface DragOptions {
   rubberband?: boolean
   /** Decay retention per millisecond. Defaults to 0.998. */
   friction?: number
+  /** A descendant view that alone receives the pan; the dragged view still moves. */
+  handle?: Target
   onStart?: (event: DragEvent) => void
   onMove?: (event: DragEvent) => void
   onRelease?: (event: DragRelease) => void
@@ -92,6 +94,7 @@ interface Settings {
   axes: Axis[]
   curves: Record<Axis, DragCurve>
   value: Root | undefined
+  handle: View | undefined
   callbacks: Pick<DragOptions, 'onStart' | 'onMove' | 'onCancel' | 'onSettle'> & {
     onRelease?: (event: DragRelease<Animation>) => void
   }
@@ -185,7 +188,13 @@ function settings(options: DragOptions | DragValueOptions): Settings {
   for (const callback of Object.values(callbacks))
     if (callback !== undefined && typeof callback !== 'function')
       throw new TypeError('Drag callbacks must be functions.')
-  return { axes, curves, value: value && asRoot(value), callbacks }
+  const handle = options.handle === undefined ? undefined : toView(options.handle)
+  return { axes, curves, value: value && asRoot(value), handle, callbacks }
+}
+function inside(view: View, handle: View) {
+  for (let node = handle.parent as View | undefined; node; node = node.parent as View)
+    if (node === view) return true
+  return false
 }
 
 /**
@@ -198,12 +207,16 @@ export function drag(target: Target, options: DragOptions | DragValueOptions = {
   return createDrag(target, options)
 }
 
+export interface AnchoredDrag extends Drag {
+  /** Offset an active contact's translation in DIPs without moving it under the finger. */
+  shift(x: number, y: number): void
+}
 /** Internal adapter hook: inspect the final input before native release motion changes model values. */
 export function dragBeforeRelease(
   target: Target,
   options: DragOptions,
   beforeRelease: () => void,
-): Drag {
+): AnchoredDrag {
   return createDrag(target, options, beforeRelease)
 }
 
@@ -211,9 +224,11 @@ function createDrag(
   target: Target,
   options: DragOptions | DragValueOptions,
   beforeRelease?: () => void,
-): Drag {
+): AnchoredDrag {
   const view = toView(target)
   const config = settings(options) // Invalid replacements leave the existing owner intact.
+  if (config.handle && !inside(view, config.handle))
+    throw new TypeError('A drag handle must be a descendant of the dragged view.')
   const previous = owners.get(view)
   const controller = new DragController(view, config, beforeRelease)
   owners.set(view, controller)
@@ -227,7 +242,7 @@ function createDrag(
   return controller
 }
 
-class DragController implements Drag {
+class DragController implements AnchoredDrag {
   private active = false
   private disabled = false
   private destroyed = false
@@ -238,15 +253,20 @@ class DragController implements Drag {
   private release: Animation | undefined
   private input = new DragInput()
   private origin = { x: 0, y: 0 }
+  private delta = { x: 0, y: 0, velocityX: 0, velocityY: 0 }
   private last: DragEvent = { x: 0, y: 0, velocityX: 0, velocityY: 0 }
   private lengths = { x: 200, y: 200 }
+  private surface: View
   constructor(
     private view: View,
     private config: Settings,
     private beforeRelease?: () => void,
   ) {
-    view.on('loaded', this.attach)
-    view.on('unloaded', this.unload)
+    this.surface = config.handle ?? view
+    for (const node of new Set([view, this.surface])) {
+      node.on('loaded', this.attach)
+      node.on('unloaded', this.unload)
+    }
     Application.on(Application.suspendEvent, this.suspend)
     Application.on(Application.resumeEvent, this.resume)
     this.attach()
@@ -293,8 +313,10 @@ class DragController implements Drag {
   dispose = () => {
     if (this.destroyed) return
     this.destroyed = true
-    this.view.off('loaded', this.attach)
-    this.view.off('unloaded', this.unload)
+    for (const node of new Set([this.view, this.surface])) {
+      node.off('loaded', this.attach)
+      node.off('unloaded', this.unload)
+    }
     Application.off(Application.suspendEvent, this.suspend)
     Application.off(Application.resumeEvent, this.resume)
     if (owners.get(this.view) === this) owners.delete(this.view)
@@ -306,19 +328,26 @@ class DragController implements Drag {
       this.destroyed ||
       this.disabled ||
       this.background ||
-      !this.view.isLoaded
+      !this.view.isLoaded ||
+      !this.surface.isLoaded
     )
       return
     this.blocked = false
     this.attached = true
-    this.view.on('touch', this.touch)
-    this.view.on('pan', this.pan)
+    this.surface.on('touch', this.touch)
+    this.surface.on('pan', this.pan)
   }
   private detach = () => {
     this.attached = false
-    this.view.off('touch', this.touch)
-    this.view.off('pan', this.pan)
+    this.surface.off('touch', this.touch)
+    this.surface.off('pan', this.pan)
     this.cancel()
+  }
+  shift = (x: number, y: number) => {
+    if (!this.active || this.destroyed || !Number.isFinite(x) || !Number.isFinite(y))
+      return
+    this.origin = { x: this.origin.x + x, y: this.origin.y + y }
+    this.place()
   }
   private unload = () => this.detach()
   private suspend = () => {
@@ -339,7 +368,11 @@ class DragController implements Drag {
   private pan = (data: EventData) => {
     const event = data as PanGestureEventData
     if (!this.attached || this.destroyed || this.disabled || this.background) return
-    if (this.view.isEnabled === false) {
+    if (
+      this.view.isEnabled === false ||
+      this.surface.isEnabled === false ||
+      (this.surface !== this.view && !inside(this.view, this.surface))
+    ) {
       this.cancel()
       return
     }
@@ -385,31 +418,13 @@ class DragController implements Drag {
     if (!this.active) return
     const generation = this.generation
     if (Number.isFinite(input.x) && Number.isFinite(input.y)) {
-      const position = { x: this.last.x, y: this.last.y }
-      let vx = 0,
-        vy = 0
-      for (const axis of this.config.axes) {
-        const curve = this.config.curves[axis]
-        const raw = this.origin[axis] + input[axis]
-        const distance = raw - clampDrag(raw, curve.bounds)
-        const resistance =
-          distance === 0
-            ? 1
-            : curve.rubberband
-              ? 0.55 / (1 + Math.abs(distance) / this.lengths[axis]) ** 2
-              : 0
-        position[axis] = curve.rubberband
-          ? resistDrag(raw, curve.bounds, this.lengths[axis])
-          : clampDrag(raw, curve.bounds)
-        if (axis === 'x') vx = input.velocityX * resistance
-        else vy = input.velocityY * resistance
-        if (this.config.value) this.config.value.setBase(position[axis])
-        else {
-          stopBase(this.view, [axis])
-          setBase(this.view, axis, position[axis])
-        }
+      this.delta = {
+        x: input.x,
+        y: input.y,
+        velocityX: input.velocityX,
+        velocityY: input.velocityY,
       }
-      this.last = { ...position, velocityX: vx, velocityY: vy }
+      this.place()
       if (event.state !== 3)
         this.emit(() => this.config.callbacks.onMove?.({ ...this.last }))
     }
@@ -419,6 +434,34 @@ class DragController implements Drag {
         this.beforeRelease?.()
         if (this.active && generation === this.generation) this.finish()
       })
+  }
+  private place() {
+    const input = this.delta
+    const position = { x: this.last.x, y: this.last.y }
+    let vx = 0,
+      vy = 0
+    for (const axis of this.config.axes) {
+      const curve = this.config.curves[axis]
+      const raw = this.origin[axis] + input[axis]
+      const distance = raw - clampDrag(raw, curve.bounds)
+      const resistance =
+        distance === 0
+          ? 1
+          : curve.rubberband
+            ? 0.55 / (1 + Math.abs(distance) / this.lengths[axis]) ** 2
+            : 0
+      position[axis] = curve.rubberband
+        ? resistDrag(raw, curve.bounds, this.lengths[axis])
+        : clampDrag(raw, curve.bounds)
+      if (axis === 'x') vx = input.velocityX * resistance
+      else vy = input.velocityY * resistance
+      if (this.config.value) this.config.value.setBase(position[axis])
+      else {
+        stopBase(this.view, [axis])
+        setBase(this.view, axis, position[axis])
+      }
+    }
+    this.last = { ...position, velocityX: vx, velocityY: vy }
   }
   private emit(callback: () => void) {
     try {
