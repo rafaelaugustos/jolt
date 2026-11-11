@@ -54,6 +54,16 @@ enum Definitions {
         .init(.opacity, from: 0, to: 1, .tween(milliseconds: 150, curve: [0, 0, 0.58, 1])),
         .init(.scale, from: 0.5, to: 1, .spring(mass: 1, stiffness: 130.5071656342394, damping: 13.708767942937277)),
       ]
+    case .flipInX:
+      [
+        .init(.opacity, from: 0, to: 1, .tween(milliseconds: 200, curve: [0, 0, 0.58, 1])),
+        .init(.rotateX, from: -90, to: 0, .spring(mass: 1, stiffness: 109.6622711232151, damping: 15.707963267948966)),
+      ]
+    case .flipInY:
+      [
+        .init(.opacity, from: 0, to: 1, .tween(milliseconds: 200, curve: [0, 0, 0.58, 1])),
+        .init(.rotateY, from: 90, to: 0, .spring(mass: 1, stiffness: 109.6622711232151, damping: 15.707963267948966)),
+      ]
     case .fadeOut:
       [
         .init(.opacity, from: nil, to: 0, .tween(milliseconds: 200, curve: [0.42, 0, 1, 1])),
@@ -86,7 +96,7 @@ enum Definitions {
     }
   }
   struct Channel: Sendable {
-    enum Property: Sendable { case x, y, scale, opacity }
+    enum Property: Sendable { case x, y, scale, rotateX, rotateY, opacity }
     let property: Property
     let from: Double?
     let to: Double

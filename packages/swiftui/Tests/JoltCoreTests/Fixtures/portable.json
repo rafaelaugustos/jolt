@@ -1366,6 +1366,300 @@
       }
     },
     {
+      "name": "flipInX",
+      "parameters": {},
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0,
+        "rotateX": -90
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1,
+        "rotateX": 0
+      }
+    },
+    {
+      "name": "flipInX",
+      "parameters": {
+        "distance": 0
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0,
+        "rotateX": -90
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1,
+        "rotateX": 0
+      }
+    },
+    {
+      "name": "flipInX",
+      "parameters": {
+        "distance": 48,
+        "scale": 0.7
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 0.7,
+        "opacity": 0,
+        "rotateX": -90
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1,
+        "rotateX": 0
+      }
+    },
+    {
+      "name": "flipInX",
+      "parameters": {
+        "direction": "up",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 36,
+        "scale": 1,
+        "opacity": 0,
+        "rotateX": -90
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1,
+        "rotateX": 0
+      }
+    },
+    {
+      "name": "flipInX",
+      "parameters": {
+        "direction": "down",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": -36,
+        "scale": 1,
+        "opacity": 0,
+        "rotateX": -90
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1,
+        "rotateX": 0
+      }
+    },
+    {
+      "name": "flipInX",
+      "parameters": {
+        "direction": "left",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": -36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0,
+        "rotateX": -90
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1,
+        "rotateX": 0
+      }
+    },
+    {
+      "name": "flipInX",
+      "parameters": {
+        "direction": "right",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0,
+        "rotateX": -90
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1,
+        "rotateX": 0
+      }
+    },
+    {
+      "name": "flipInY",
+      "parameters": {},
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0,
+        "rotateY": 90
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1,
+        "rotateY": 0
+      }
+    },
+    {
+      "name": "flipInY",
+      "parameters": {
+        "distance": 0
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0,
+        "rotateY": 90
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1,
+        "rotateY": 0
+      }
+    },
+    {
+      "name": "flipInY",
+      "parameters": {
+        "distance": 48,
+        "scale": 0.7
+      },
+      "from": {
+        "x": 0,
+        "y": 0,
+        "scale": 0.7,
+        "opacity": 0,
+        "rotateY": 90
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1,
+        "rotateY": 0
+      }
+    },
+    {
+      "name": "flipInY",
+      "parameters": {
+        "direction": "up",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": 36,
+        "scale": 1,
+        "opacity": 0,
+        "rotateY": 90
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1,
+        "rotateY": 0
+      }
+    },
+    {
+      "name": "flipInY",
+      "parameters": {
+        "direction": "down",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 0,
+        "y": -36,
+        "scale": 1,
+        "opacity": 0,
+        "rotateY": 90
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1,
+        "rotateY": 0
+      }
+    },
+    {
+      "name": "flipInY",
+      "parameters": {
+        "direction": "left",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": -36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0,
+        "rotateY": 90
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1,
+        "rotateY": 0
+      }
+    },
+    {
+      "name": "flipInY",
+      "parameters": {
+        "direction": "right",
+        "distance": 36,
+        "duration": 180
+      },
+      "from": {
+        "x": 36,
+        "y": 0,
+        "scale": 1,
+        "opacity": 0,
+        "rotateY": 90
+      },
+      "to": {
+        "x": 0,
+        "y": 0,
+        "scale": 1,
+        "opacity": 1,
+        "rotateY": 0
+      }
+    },
+    {
       "name": "fadeOut",
       "parameters": {},
       "from": {

@@ -27,8 +27,7 @@ public struct JoltPresence<Content: View>: View {
   public var body: some View {
     Group {
       if retained {
-        content().scaleEffect(x: pose.scaleX, y: pose.scaleY).rotationEffect(.degrees(pose.rotate))
-          .offset(x: pose.x, y: pose.y)
+        content().modifier(JoltDepthModifier(channels: .init(pose)))
           .opacity(pose.opacity)
           .animation(
             sceneActive ? (isPresent ? enter : leave).opacityTransition.animation : nil,

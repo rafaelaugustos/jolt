@@ -323,7 +323,17 @@ public enum JoltPlaybackState: String, Sendable {
 }
 
 public enum JoltValueProperty: String, CaseIterable, Sendable {
-  case x, y, scale, scaleX, scaleY, rotate, opacity
+  case x, y, scale, scaleX, scaleY, rotate, rotateX, rotateY, opacity
+}
+extension JoltValueProperty {
+  var tilts: Bool { self == .rotateX || self == .rotateY }
+  func channels(_ scalar: Double) -> JoltDepthChannels {
+    .init(
+      x: self == .x ? scalar : 0, y: self == .y ? scalar : 0,
+      scaleX: self == .scale || self == .scaleX ? scalar : 1,
+      scaleY: self == .scale || self == .scaleY ? scalar : 1, rotate: self == .rotate ? scalar : 0,
+      rotateX: self == .rotateX ? scalar : 0, rotateY: self == .rotateY ? scalar : 0)
+  }
 }
 private struct ValueModifier: ViewModifier {
   @ObservedObject var value: JoltMotionValue
@@ -335,18 +345,18 @@ private struct ValueModifier: ViewModifier {
   }
   func body(content: Content) -> some View {
     content
-      .offset(x: property == .x ? scalar : 0, y: property == .y ? scalar : 0)
-      .scaleEffect(
-        x: property == .scale || property == .scaleX ? scalar : 1,
-        y: property == .scale || property == .scaleY ? scalar : 1
+      .modifier(
+        JoltDepthModifier(
+          channels: property == .opacity ? .init() : property.channels(scalar),
+          consumes: property.tilts)
       )
-      .rotationEffect(.degrees(property == .rotate ? scalar : 0))
       .opacity(property == .opacity ? min(1, max(0, scalar)) : 1)
       .transaction { $0.animation = nil }
   }
 }
 extension View {
   /// Bind a sampled value without applying a second implicit interpolation. Scope owns its lifecycle.
+  /// rotateX/rotateY project under the nearest `joltPerspective`; bind both axes with one call.
   public func joltBind(_ property: JoltValueProperty, to value: JoltMotionValue) -> some View {
     modifier(ValueModifier(value: value, property: property))
   }

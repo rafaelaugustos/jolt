@@ -34,6 +34,8 @@ import SwiftUI
       ScrollLab()
     } else if ProcessInfo.processInfo.arguments.contains("--text-lab") {
       TypographyLab()
+    } else if ProcessInfo.processInfo.arguments.contains("--depth-lab") {
+      DepthLab()
     } else {
       Demo()
     }
@@ -155,6 +157,7 @@ struct Demo: View {
           NavigationLink("Viewport lab") { ViewportLab() }
           NavigationLink("Activity lab") { ActivityLab() }
           NavigationLink("Text lab") { TypographyLab() }
+          NavigationLink("Depth lab") { DepthLab() }
           Text(phase == .active ? "Scene active" : "Scene inactive").font(.caption).foregroundStyle(
             .secondary
           ).accessibilityIdentifier("phase")

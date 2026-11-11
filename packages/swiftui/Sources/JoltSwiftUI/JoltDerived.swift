@@ -96,15 +96,11 @@ private struct MappedModifier: ViewModifier {
   @Environment(\.joltReduceMotion) private var appReduced
   func body(content: Content) -> some View {
     let scalar = value.value
-    let transform = !(reduced || appReduced)
-    content.offset(
-      x: transform && property == .x ? scalar : 0, y: transform && property == .y ? scalar : 0
+    let transform = !(reduced || appReduced) && property != .opacity
+    content.modifier(
+      JoltDepthModifier(
+        channels: transform ? property.channels(scalar) : .init(), consumes: property.tilts)
     )
-    .scaleEffect(
-      x: transform && (property == .scale || property == .scaleX) ? scalar : 1,
-      y: transform && (property == .scale || property == .scaleY) ? scalar : 1
-    )
-    .rotationEffect(.degrees(transform && property == .rotate ? scalar : 0))
     .opacity(property == .opacity ? min(1, max(0, scalar)) : 1).transaction { $0.animation = nil }
   }
 }

@@ -10,6 +10,8 @@ export type PortablePresetName =
   | 'fadeInRight'
   | 'zoomIn'
   | 'popIn'
+  | 'flipInX'
+  | 'flipInY'
   | 'fadeOut'
   | 'fadeOutUp'
   | 'fadeOutDown'
@@ -24,7 +26,7 @@ export interface PresetParameters {
   /** Override all channels with a finite tween in milliseconds (including zero). */
   duration?: number
 }
-type Channel = 'x' | 'y' | 'scale' | 'opacity'
+type Channel = 'x' | 'y' | 'scale' | 'rotateX' | 'rotateY' | 'opacity'
 export interface PresetRecipe {
   keyframes: Partial<Record<Channel, number | readonly number[]>>
   transition: Transition & Partial<Record<Channel, Transition>>
@@ -37,6 +39,8 @@ const names = new Set<string>([
   'fadeInRight',
   'zoomIn',
   'popIn',
+  'flipInX',
+  'flipInY',
   'fadeOut',
   'fadeOutUp',
   'fadeOutDown',
@@ -76,7 +80,7 @@ export function createPreset(
     ]),
   ) as PresetRecipe['keyframes']
   const transition = { ...original.transition } as PresetRecipe['transition']
-  for (const channel of ['x', 'y', 'scale', 'opacity'] as const)
+  for (const channel of ['x', 'y', 'scale', 'rotateX', 'rotateY', 'opacity'] as const)
     if (transition[channel]) transition[channel] = { ...transition[channel] }
   const entering = !name.includes('Out')
   const direction = parameters.direction

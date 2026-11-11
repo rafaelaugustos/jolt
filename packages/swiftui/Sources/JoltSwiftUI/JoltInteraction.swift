@@ -6,13 +6,15 @@ public struct JoltPressStyle: ButtonStyle {
   public var pressed: JoltPose
   public var hovered: JoltPose
   public var transition: JoltTransition
+  public var shadowColor: Color
   public init(
     pressed: JoltPose = try! .init(scale: 0.96), hovered: JoltPose = try! .init(scale: 1.03),
-    transition: JoltTransition = .spring(.snappy)
+    transition: JoltTransition = .spring(.snappy), shadowColor: Color = .black
   ) {
     self.pressed = pressed
     self.hovered = hovered
     self.transition = transition
+    self.shadowColor = shadowColor
   }
   public func makeBody(configuration: Configuration) -> some View {
     configuration.label.modifier(PressContent(isPressed: configuration.isPressed, style: self))
@@ -27,7 +29,10 @@ public struct JoltPressStyle: ButtonStyle {
       content.contentShape(Rectangle()).joltMotion(
         to: enabled && sceneActive
           ? (isPressed ? style.pressed : hovering ? style.hovered : .identity) : .identity,
-        transition: style.transition
+        transition: style.transition, shadowColor: style.shadowColor,
+        consumesPerspective: [style.pressed, style.hovered].contains {
+          $0.rotateX != 0 || $0.rotateY != 0
+        }
       )
       .onHover { hovering = $0 && enabled && sceneActive }
       .onChange(of: sceneActive) { _, _ in hovering = false }
