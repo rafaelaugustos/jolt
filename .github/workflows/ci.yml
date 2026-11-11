@@ -194,7 +194,9 @@ jobs:
       - run: npm run web:orchestration:test
       # Firefox on Linux needs a display for the actual WebGL adapter fixture.
       # Keep WebGL assertions enabled; Xvfb provides the CI display, not a mock.
-      - run: xvfb-run --auto-servernum npm run web:portable:test -- --headed
+      # The X pointer starts at the screen centre. On a larger screen it stays off the browser
+      # windows, whose stacking changes would otherwise send real button-less moves into a test.
+      - run: xvfb-run --auto-servernum --server-args='-screen 0 3200x2400x24' npm run web:portable:test -- --headed
       - uses: actions/upload-artifact@v7
         if: always()
         with:
