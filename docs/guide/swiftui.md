@@ -37,3 +37,5 @@ createPreset(name, parameters) is shared by NativeScript and Web. JoltPreset.rec
 [Derived motion and retained graphics](./swiftui-advanced)
 
 [SwiftUI · Keyframes / gestures / characters](./swiftui-characters)
+
+[SwiftUI · Text entrance and rolling numbers](./swiftui-text)
