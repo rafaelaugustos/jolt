@@ -653,4 +653,76 @@ final class SwiftUIAcceptance: XCTestCase {
       for: [XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in condition() }, object: nil)],
       timeout: 6) == .completed
   }
+  @MainActor func testTextExpansion() {
+    let app = lab("--text-lab")
+    let sentence = app.descendants(matching: .any)["text-sentence"].firstMatch
+    XCTAssertTrue(sentence.waitForExistence(timeout: 10))
+    let spoken = { (element: XCUIElement) in
+      element.label + " " + String(describing: element.value ?? "")
+    }
+    let words = "Motion should feel like it belongs to the words it carries."
+    cue("start")
+    XCTAssertTrue(spoken(sentence).contains(words), spoken(sentence))
+    XCTAssertTrue(
+      spoken(app.descendants(matching: .any)["text-rtl"].firstMatch).contains("שלום עולם"))
+    XCTAssertTrue(wait { self.label(app, "text-status").contains("word · completed") })
+    let frame = sentence.frame
+    let below = app.buttons["text-word"].frame
+    click(app.buttons["text-letter"])
+    XCTAssertTrue(label(app, "text-status").contains("letter"), label(app, "text-status"))
+    XCTAssertTrue(spoken(sentence).contains(words), spoken(sentence))
+    XCTAssertEqual(sentence.frame.minY, frame.minY)
+    XCTAssertEqual(sentence.frame.width, frame.width)
+    XCTAssertEqual(app.buttons["text-word"].frame, below)
+    XCTAssertTrue(wait { self.label(app, "text-status").contains("letter · completed") })
+    XCTAssertEqual(sentence.frame, frame)
+    click(app.buttons["text-word"])
+    Thread.sleep(forTimeInterval: 0.5)
+    click(app.buttons["text-replay"])
+    XCTAssertTrue(wait { self.label(app, "text-status").contains("word · completed") })
+    let balance = app.descendants(matching: .any)["roll-balance"].firstMatch
+    XCTAssertTrue(spoken(balance).contains("$1,249.90"), spoken(balance))
+    let width = balance.frame.width
+    let right = balance.frame.maxX
+    click(app.buttons["roll-up"])
+    XCTAssertTrue(spoken(balance).contains("$12,980.60"), spoken(balance))
+    XCTAssertTrue(wait { self.label(app, "roll-status").contains("completed · $12,980.60") })
+    XCTAssertGreaterThan(balance.frame.width, width + 10)
+    XCTAssertEqual(balance.frame.maxX, right, accuracy: 1)
+    click(app.buttons["roll-down"])
+    click(app.buttons["roll-reset"])
+    XCTAssertTrue(spoken(balance).contains("$1,249.90"), spoken(balance))
+    XCTAssertTrue(wait { self.label(app, "roll-status").contains("completed · $1,249.90") })
+    XCTAssertEqual(balance.frame.width, width, accuracy: 1)
+    let share = app.descendants(matching: .any)["roll-share"].firstMatch
+    click(app.buttons["share-up"])
+    XCTAssertTrue(spoken(share).contains("87.5%"), spoken(share))
+    click(app.buttons["share-down"])
+    XCTAssertTrue(spoken(share).contains("9.8%"), spoken(share))
+    XCTAssertTrue(wait { self.label(app, "roll-status").contains("completed") })
+    #if os(macOS)
+      click(app.checkBoxes["text-reduce"])
+    #else
+      app.switches["text-reduce"].coordinate(withNormalizedOffset: .init(dx: 0.94, dy: 0.5)).tap()
+    #endif
+    click(app.buttons["roll-down"])
+    XCTAssertTrue(
+      label(app, "roll-status").contains("completed · $980.40"), label(app, "roll-status"))
+    click(app.buttons["text-letter"])
+    XCTAssertTrue(
+      label(app, "text-status").contains("letter · completed"), label(app, "text-status"))
+    XCTAssertTrue(spoken(sentence).contains(words), spoken(sentence))
+    #if os(macOS)
+      click(app.checkBoxes["text-reduce"])
+    #else
+      app.switches["text-reduce"].coordinate(withNormalizedOffset: .init(dx: 0.94, dy: 0.5)).tap()
+      let compact = sentence.frame.height
+      app.switches["text-large"].coordinate(withNormalizedOffset: .init(dx: 0.94, dy: 0.5)).tap()
+      XCTAssertTrue(wait { sentence.frame.height > compact + 20 })
+    #endif
+    click(app.buttons["text-word"])
+    XCTAssertTrue(spoken(sentence).contains(words), spoken(sentence))
+    XCTAssertTrue(wait { self.label(app, "text-status").contains("word · completed") })
+    cue("stop")
+  }
 }

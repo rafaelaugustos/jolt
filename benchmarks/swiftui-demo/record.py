@@ -13,7 +13,7 @@ control = Path('/tmp/jolt-swiftui-recording-control-' + device)
 control.mkdir()  # Exclusive ownership, never attach to another capture.
 mac = device == 'macos'
 name = 'swiftui-' + ('' if scene == 'standalone' else scene + '-') + ('macos' if mac else 'ios')
-method = {'standalone':'testStandaloneMacMotionAndLifecycle' if mac else 'testStandaloneMotionAndLifecycle','interaction':'testInteractionExpansion','composition':'testCompositionExpansion','scroll':'testScrollExpansion','dynamics':'testDynamicsExpansion','graphics':'testGraphicsExpansion','viewport':'testViewportExpansion','key-gesture':'testKeyGestureExpansion','transfer':'testTransferExpansion','character':'testCharacterExpansion','panel':'testPanelExpansion','geometry':'testGeometryExpansion'}[scene]
+method = {'standalone':'testStandaloneMacMotionAndLifecycle' if mac else 'testStandaloneMotionAndLifecycle','interaction':'testInteractionExpansion','composition':'testCompositionExpansion','scroll':'testScrollExpansion','dynamics':'testDynamicsExpansion','graphics':'testGraphicsExpansion','viewport':'testViewportExpansion','key-gesture':'testKeyGestureExpansion','transfer':'testTransferExpansion','character':'testCharacterExpansion','panel':'testPanelExpansion','geometry':'testGeometryExpansion','text':'testTextExpansion'}[scene]
 scheme = 'JoltSwiftUIMac' if mac else 'JoltSwiftUIDemo'
 recorder = runner = None
 try:
