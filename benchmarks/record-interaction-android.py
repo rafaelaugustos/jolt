@@ -1,8 +1,9 @@
 """Real Android touches; optional dedicated ADB port. No audio is captured by screenrecord.
 Usage: python3 benchmarks/record-interaction-android.py SERIAL OUTPUT_DIR [PORT]
+JOLT_INTERACTION_MODES=board,drop limits the run to those scenes.
 """
 from pathlib import Path
-import json, re, subprocess, sys, time
+import json, os, re, subprocess, sys, time
 import xml.etree.ElementTree as ET
 serial, destination, *ports = sys.argv[1:]
 adb = ['adb', '-P', ports[0] if ports else '5037', '-s', serial]
@@ -33,7 +34,8 @@ previous = command('shell', 'settings', 'get', 'system', 'show_touches').strip()
 recorder = None
 try:
     command('shell', 'settings', 'put', 'system', 'show_touches', '1')
-    for mode in ['drop', 'board', 'audio', 'inspector', 'path', 'depth', 'shadow']:
+    only = [m for m in os.environ.get('JOLT_INTERACTION_MODES', '').split(',') if m]
+    for mode in [m for m in ['drop', 'board', 'audio', 'inspector', 'path', 'depth', 'shadow'] if not only or m in only]:
         started = time.time()*1000
         for attempt in range(3):
             command('shell', 'am', 'force-stop', package)
@@ -58,8 +60,13 @@ try:
             tap('reset', .8); tap('play', .9); tap('pause', .6); tap('pause')
         elif mode == 'board':
             def grip():
-                l,t,r,b = controls(mode) and edges['grip']
-                return str(round((l+r)/2)), str(round((t+b)/2))
+                for _ in range(10):
+                    controls(mode)
+                    if 'grip' in edges:
+                        l,t,r,b = edges['grip']
+                        return str(round((l+r)/2)), str(round((t+b)/2))
+                    time.sleep(.3)
+                raise RuntimeError('The board card has no grip')
             def at(name, fx, fy):
                 l,t,r,b = edges[name]
                 return str(round(l+(r-l)*fx)), str(round(t+(b-t)*fy))

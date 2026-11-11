@@ -78,7 +78,7 @@ function board() {
     targets: [
       { id: 'backlog', target: target('depth-backlog'), padding: { bottom: 60 } },
       { id: 'done', target: target('depth-done'), padding: { bottom: 60 } },
-      { id: 'locked', target: target('depth-locked'), accept: () => false },
+      { id: 'locked', target: target('depth-locked'), priority: 1, accept: () => false },
     ],
     drag: { handle: target('depth-grip'), snap: [0] },
     onMove: ({ id, bounds }) => {
@@ -156,14 +156,18 @@ function inspect() {
     })
 }
 function unclip(event: { object: View }) {
-  if (!isIOS) (event.object.android as android.view.ViewGroup).setClipChildren(false)
+  if (isIOS) return
+  const layout = event.object.android as android.view.ViewGroup
+  layout.setClipChildren(false)
+  layout.setClipToPadding(false)
 }
 function setup() {
   if (initialized || disposed || !target('depth-stage')?.isLoaded) return
   initialized = true
   try {
     if (mode === 'board') {
-      unclip({ object: target('depth-stage') })
+      for (const id of ['depth-stage', 'depth-backlog', 'depth-done'])
+        unclip({ object: target(id) })
       board()
     } else if (mode === 'drop') {
       drop = scope.dropZones(target('depth-card'), {
@@ -491,7 +495,6 @@ onUnmounted(() => {
             :automationText="`depth-${column}`"
             :left="10 + columns.indexOf(column) * 155"
             clipToBounds="false"
-            @loaded="unclip"
             top="10"
             width="145"
             padding="6"
