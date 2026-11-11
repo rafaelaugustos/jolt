@@ -391,6 +391,18 @@ function pause() {
   audit('pause', { paused: playback?.paused })
   if (inspector) inspect()
 }
+function snap() {
+  const card = target('depth-card')
+  if (!card) return
+  request++
+  playback = scope.animate(card, { x: 0, y: 0, rotate: 0 }, { duration: 0 })
+  const native = isIOS
+    ? (card.ios as UIView).layer.valueForKeyPath('transform.translation.y')
+    : (card.android as android.view.View).getTranslationY() /
+      (card.android as android.view.View).getResources().getDisplayMetrics().density
+  status.value = `Snapped back · native y ${Number(native).toFixed(1)} DIP`
+  audit('snap', { y: Number(native) })
+}
 function seek() {
   if (playback && 'progress' in playback) {
     playback.progress = 0.6
@@ -649,7 +661,7 @@ onUnmounted(() => {
         textWrap="true"
         marginBottom="8"
       />
-      <GridLayout columns="*,*,*" rows="44,44" marginTop="4">
+      <GridLayout columns="*,*,*" rows="44,44,auto" marginTop="4">
         <Button
           backgroundColor="#263A57"
           color="#ECF4FF"
@@ -731,6 +743,21 @@ onUnmounted(() => {
           text="Remount"
           automationText="depth-reset"
           @tap="reset"
+        />
+        <Button
+          v-if="mode === 'path'"
+          backgroundColor="#263A57"
+          color="#ECF4FF"
+          fontSize="12"
+          borderRadius="8"
+          margin="3"
+          col="0"
+          row="2"
+          colSpan="3"
+          height="44"
+          text="Snap back now"
+          automationText="depth-snap"
+          @tap="snap"
         />
       </GridLayout>
     </StackLayout>

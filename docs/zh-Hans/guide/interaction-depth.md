@@ -94,6 +94,10 @@ Web watch(element,id) 读取计算后的 transform/opacity；track(playback,id) 
 <Clip :autoplay="false" name="interaction-path-android" caption="实体 ASUS ZenFone 3，Android 8：通过 ADB 注入真实触摸。 三次曲线路径、切线方向、暂停、seek 与替换。" />
 <Clip :autoplay="false" name="interaction-path-web" caption="Chromium：真实浏览器输入；检查器使用软件 WebGL。 三次曲线路径、切线方向、暂停、seek 与替换。" />
 
+立即执行的 `animate` 或 `set` 替换正在运行或已暂停的路径时，会把它指定的每个通道同时写入原生视图和模型。在 #479 修复之前，如果路径终点的 `y` 与目标相同，Android 会把 `translationY` 停在被取消路径的最后一帧。
+
+<Clip :autoplay="false" name="interaction-path-snap-android" caption="Android 模拟器：先是在中途暂停的路径，再是正在运行的路径，用零时长的 animate 立即回到原点；状态显示从原生视图读取的 y。不是实体设备录制。" />
+
 ## 三轴旋转
 
 Web 支持角度单位的 rotateX/Y。顺序为初始 2D 变换、平移、rotateZ、rotateY、rotateX、缩放。需要投影时在父级设置 `container.style.perspective = '700px'`，动画作用于子元素。不支持目标的初始投影变换或 3D layout/FLIP。原生契约保持不变，不保证相同投影像素。暂停、seek、替换保留独立通道。

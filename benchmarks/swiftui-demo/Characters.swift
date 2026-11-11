@@ -245,13 +245,26 @@ struct TransferLab: View {
     particles.cancel()
     status = "Effect: cancelled"
   }
+  func celebrateThenCancel(reduced: Bool) {
+    celebrate(reduced: reduced)
+    let pending = timeline
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [weak self] in
+      guard let self, self.timeline === pending else { return }
+      self.cancel()
+    }
+  }
 }
 private struct ParticleStatus: View {
   @ObservedObject var model: JoltParticles
+  @State private var peak = 0
   var body: some View {
-    Text("Particles: \(model.particles.count) · \(model.state.rawValue)").font(
+    Text("Particles: \(model.particles.count) · \(model.state.rawValue) · peak \(peak)").font(
       .caption.monospacedDigit()
     ).accessibilityIdentifier("particle-status")
+      .onChange(of: model.state) { old, new in
+        if new == .running && old != .running { peak = model.particles.count }
+      }
+      .onChange(of: model.particles.count) { _, count in peak = max(peak, count) }
   }
 }
 struct CharacterLab: View {
@@ -292,6 +305,8 @@ struct CharacterLab: View {
         Button("Celebrate") { model.celebrate(reduced: reduced) }.accessibilityIdentifier(
           "particle-burst")
         Button("Cancel effect") { model.cancel() }.accessibilityIdentifier("particle-cancel")
+        Button("Celebrate, cancel") { model.celebrateThenCancel(reduced: reduced) }
+          .accessibilityIdentifier("particle-burst-cancel")
         Button("Emit") { model.emit(reduced: reduced) }.accessibilityIdentifier("particle-emit")
       }.buttonStyle(.bordered)
       ParticleStatus(model: model.particles)

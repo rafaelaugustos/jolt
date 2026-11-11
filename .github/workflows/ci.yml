@@ -194,7 +194,9 @@ jobs:
       - run: npm run web:orchestration:test
       # Firefox on Linux needs a display for the actual WebGL adapter fixture.
       # Keep WebGL assertions enabled; Xvfb provides the CI display, not a mock.
-      - run: xvfb-run --auto-servernum npm run web:portable:test -- --headed
+      # The X pointer starts at the screen centre. On a larger screen it stays off the browser
+      # windows, whose stacking changes would otherwise send real button-less moves into a test.
+      - run: xvfb-run --auto-servernum --server-args='-screen 0 3200x2400x24' npm run web:portable:test -- --headed
       - uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -259,29 +261,39 @@ jobs:
   swiftui:
     needs: changes
     if: needs.changes.outputs.swiftui == 'true'
+    # iOS and macOS UI cases run side by side; the package checks run with macOS.
+    name: swiftui (${{ matrix.platform }})
     runs-on: macos-15
     timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ios, macos]
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
-      - run: npm ci && npm ci --prefix benchmarks/angular-tools
-      - run: npm run build && npm run swiftui:check
-      - run: swift test
+      - if: matrix.platform == 'macos'
+        run: npm ci && npm ci --prefix benchmarks/angular-tools
+      - if: matrix.platform == 'macos'
+        run: npm run build && npm run swiftui:check
+      - if: matrix.platform == 'macos'
+        run: swift test
       - run: node scripts/swift-package.mjs "$RUNNER_TEMP/jolt-swift"
       - name: Run a command-line consumer alone, without the package's build directory
+        if: matrix.platform == 'macos'
         env:
           JOLT_SWIFT_PACKAGE: ${{ runner.temp }}/jolt-swift
         run: benchmarks/swiftui-demo/cli/run.sh
       - run: gem install xcodeproj --no-document --user-install
-      - name: Interact with standalone iOS and macOS apps through the generated package
+      - name: Interact with the standalone ${{ matrix.platform }} app through the generated package
         env:
           JOLT_SWIFT_PACKAGE: ${{ runner.temp }}/jolt-swift
-        run: python3 benchmarks/swiftui-demo/ci.py
+        run: python3 benchmarks/swiftui-demo/ci.py ${{ matrix.platform }}
       - uses: actions/upload-artifact@v7
         if: always()
         with:
-          name: swiftui-native-interaction
+          name: swiftui-native-interaction-${{ matrix.platform }}
           path: benchmarks/swiftui-demo/results/

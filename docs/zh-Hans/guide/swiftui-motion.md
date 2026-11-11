@@ -26,6 +26,8 @@ JoltMotionValue 在主 actor 上发布采样值、目标、速度和状态。ani
 
 JoltPresence 在退出中保留身份，禁用点击与辅助功能，并在重新进入时取消过期删除。joltPreset 的 active 仅选择端点。JoltPressStyle 保留原生 Button 的键盘、禁用和辅助功能语义。joltPointerFollow 输出局部 −1…1 坐标；放在未变换的区域上，动画作用于子视图。离开、后台和减少动态效果会居中；纯触摸设备保持居中。JoltDragModel 限制直接拖动和吸附目标，弹簧收敛时可能暂时越界。再次拖动从采样位置开始。辅助功能调整动作在吸附点间移动；暂停、挂起和销毁取消手势。
 
+仅在源码中，0.1.0-rc.13 不包含：与 NativeScript 和 Web 一致，joltPointerFollow 对禁用的视图以及本地边界外的位置也会报告居中的非活动采样；此前它会把这些位置限制到边缘并保持活动。该修饰符没有 `available` 标志，也不区分配件断开与悬停结束。
+
 JoltTimeline 用一个时钟订阅运行有限轨道：最多 60 秒、10,000 条轨道和 1,024 个唯一命名事件。同一数值轨道不可重叠。sequence 使用求解时长；stagger 错开起点。属性被替换时取消整个运行。事件可返回 JoltEffect，适配应用的音频、触觉或粒子，并转发暂停、恢复和清理；不会隐式获取硬件。默认跳过迟到超过 50 ms 的事件，catchUp 需显式选择。减少动态效果直接应用目标且跳过副作用；取消后不会再触发事件，包括重入回调。
 
 joltSharedLayout 在同一个 Namespace 内使用稳定 ID；joltLayout(value:) 动画化结构变化。不跨窗口或独立视图树。JoltScrollView 读取真实原生滚动偏移；JoltScrollProgress 可指定点单位范围。joltScrollLinked 直接映射姿态，无第二层插值。它按共享顺序组合（scale、rotateX、rotateY、rotate，最后平移），与 joltMotion 和 Web 一致；0.1.0-rc.13 及之前它先平移再缩放，因此同时带有两者的姿态会移动“平移 × 缩放”的距离。减少动态效果时装饰变换保持 from，透明度仍跟随进度。卸载时移除原生观察。

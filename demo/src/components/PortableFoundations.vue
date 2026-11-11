@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Application, File, isIOS, knownFolders, type View } from '@nativescript/core'
 import { ref, nextTick, onUnmounted, registerElement } from 'nativescript-vue'
-import { bind, motionScope, type PlaybackAnimation } from '@rafaelaugusto/jolt'
+import { bind, motionScope, set, type PlaybackAnimation } from '@rafaelaugusto/jolt'
 import { drawBatch } from '@rafaelaugusto/jolt/shapes'
 import { propertyGroup } from '@rafaelaugusto/jolt/native'
 import { PortableReveal, portableReveal } from '../portable-reveal'
@@ -20,6 +20,7 @@ const status = ref('Ready'),
 let scope = motionScope(),
   run = () => {},
   indicator = () => {},
+  transform = () => {},
   measuring = false,
   disposed = false,
   playback: PlaybackAnimation | undefined
@@ -171,6 +172,16 @@ function setup() {
       size.value = size.value === 290 ? 250 : 290
       pointer.refresh()
       status.value = 'Input region resized · move and re-enter'
+    }
+    let transformed = false
+    transform = () => {
+      transformed = !transformed
+      set(stage, transformed ? { rotate: 12, scale: 0.85 } : { rotate: 0, scale: 1 })
+      pointer.refresh()
+      status.value = transformed
+        ? 'Region rotated 12° and scaled 0.85 · local coordinates'
+        : 'Region untransformed'
+      audit('pointer-transform', { transformed })
     }
     status.value = pointer.available
       ? 'Hover API ready · requires mouse or hovering pen'
@@ -331,6 +342,12 @@ onUnmounted(() => {
         text="Injected mouse test"
         automationText="foundation-inject"
         @tap="injectMouse"
+      />
+      <Button
+        v-if="mode === 'pointer'"
+        text="Rotate and scale region"
+        automationText="foundation-transform"
+        @tap="transform"
       />
       <Button
         v-if="mode === 'pointer'"

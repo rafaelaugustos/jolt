@@ -19,6 +19,8 @@ try progress.animate(to: 1, transition: .tween(milliseconds: 1000))
 
 JoltPropertyGroup 借用 1–1024 个唯一命名且共享 JoltClock 的标量。先验证全部目标，再取消旧任务并用一个 timeline 启动。未知键、非有限值、已销毁成员不会造成部分修改。替换、取消、挂起共同协调；过期取消回调不能覆盖新任务。允许部分目标字典。组拥有 playback，不拥有数值；每组属性使用单一协调器。
 
+部分字典中未列出的成员保持其采样值。仅在源码中，0.1.0-rc.13 不包含：当其他写入方接管某个成员（该值自己的 `animate`、`set`、`decay`、`cancel` 或 `dispose`、另一个组或 timeline）时，整个运行会立即取消，暂停中也一样，完成回调只报告一次 `false`。在 0.1.0-rc.13 中，运行中的组要到下一帧才发现，暂停的组要到 `play()` 才发现。完成后再调用 `cancel()` 会保持 `.completed`。NativeScript 与 Web 的组接受 1–64 个成员，并要求每个命令提供全部成员；SwiftUI 组最多接受 1024 个标量值，并允许部分字典。
+
 JoltMotionStates 保存命名目标，从当前采样位置替换。JoltBehaviors 增加优先级、when、blocks、同优先级替换策略和显式 rest。更高优先级在未被阻挡时中断，默认拒绝同优先级。request 返回带 status/cancel() 的运行；旧运行不能取消新运行。完成/取消恢复 rest，stop() 不恢复。手动暂停与挂起独立。SwiftUI 子集协调有限属性目标，不执行任意异步业务流程；NativeScript/Web 保留更广的异步上下文。
 
 ```swift

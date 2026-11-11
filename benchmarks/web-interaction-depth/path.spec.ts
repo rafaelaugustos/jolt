@@ -163,3 +163,44 @@ test('scene paths scrub in sync and invalid descriptors retain the previous owne
   expect(result.final).toEqual([120, 60])
   expect(result.resources.frameTasks).toBe(0)
 })
+
+test('an immediate animate replacing a running or paused path settles the rendered transform', async ({
+  page,
+}) => {
+  const result = await page.evaluate(async () => {
+    const runtime = window.depth.runtime
+    const path = 'M 0 0 Q 36 -76 88 -12 C 128 36 172 -64 196 0'
+    const rendered = (target: HTMLElement) => {
+      const m = new DOMMatrix(getComputedStyle(target).transform)
+      return [m.e, m.f, (Math.atan2(m.b, m.a) * 180) / Math.PI].map(
+        (n) => Math.round(n * 10) / 10 || 0,
+      )
+    }
+    const results: Record<string, number[][]> = {}
+    for (const phase of ['running', 'paused'] as const) {
+      const target = document.createElement('div')
+      target.style.cssText = 'width:40px;height:30px;background:teal'
+      document.getElementById('stage')!.append(target)
+      const animation = runtime.animate(
+        target,
+        { path, orient: true },
+        { duration: 1400, ease: 'easeInOut' },
+      )
+      await animation.ready
+      animation.pause()
+      animation.progress = 0.43
+      if (phase === 'running') animation.play()
+      const before = rendered(target)
+      runtime.animate(target, { x: 0, y: 0, rotate: 0 }, { duration: 0 })
+      await new Promise((resolve) => requestAnimationFrame(() => resolve(undefined)))
+      results[phase] = [before, rendered(target)]
+      runtime.release(target)
+      target.remove()
+    }
+    return results
+  })
+  for (const [before, after] of Object.values(result)) {
+    expect(Math.abs(before![1]!)).toBeGreaterThan(5)
+    expect(after).toEqual([0, 0, 0])
+  }
+})

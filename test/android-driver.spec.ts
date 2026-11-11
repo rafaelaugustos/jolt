@@ -641,6 +641,42 @@ function target(perspective = 1000) {
   return { view, native }
 }
 
+describe('Android zero-duration replacement of a path', () => {
+  const path = 'M 0 0 Q 36 -76 88 -12 C 128 36 172 -64 196 0'
+  it.each(['running', 'paused'] as const)(
+    'writes the settled translation natively when a %s path is replaced (#479)',
+    (phase) => {
+      const { view, native } = target()
+      configure({ reducedMotion: 'never' })
+      const handle = animate(view, { path, orient: true }, { duration: 1400 })
+      // The path's own animators move the native view; its model stays at the endpoint.
+      native.translationX = 67.2 * 3
+      native.translationY = -32.4 * 3
+      native.rotation = 35.8
+      if (phase === 'paused') handle.pause()
+      animate(view, { x: 0, y: 0, rotate: 0 }, { duration: 0 })
+      expect([native.translationX, native.translationY, native.rotation]).toEqual([
+        0, 0, 0,
+      ])
+      expect([view.translateX, view.translateY, view.rotate]).toEqual([0, 0, 0])
+    },
+  )
+
+  it('settles only the named channels and leaves the path rotation running', () => {
+    const { view, native } = target()
+    configure({ reducedMotion: 'never' })
+    const handle = animate(view, { path, orient: true }, { duration: 1400 })
+    native.translationX = 91.7 * 3
+    native.translationY = -8 * 3
+    native.rotation = 44.3
+    handle.pause()
+    animate(view, { x: 0, y: 0 }, { duration: 0 })
+    expect([native.translationX, native.translationY]).toEqual([0, 0])
+    expect(native.rotation).toBe(44.3)
+    handle.stop()
+  })
+})
+
 describe('Android settled layer presentation', () => {
   it.each(['never', 'always', 'user'] as const)(
     'commits only the removed layer property after a release (%s)',
