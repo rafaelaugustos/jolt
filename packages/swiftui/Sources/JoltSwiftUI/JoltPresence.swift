@@ -10,7 +10,7 @@ public struct JoltPresence<Content: View>: View {
   @State private var retained: Bool
   @State private var pose: JoltPose
   @State private var epoch = UUID()
-  @Environment(\.scenePhase) private var phase
+  @JoltSceneActivity private var sceneActive
   @Environment(\.accessibilityReduceMotion) private var reduced
   @Environment(\.joltReduceMotion) private var appReduced
   public init(
@@ -27,11 +27,10 @@ public struct JoltPresence<Content: View>: View {
   public var body: some View {
     Group {
       if retained {
-        content().scaleEffect(x: pose.scaleX, y: pose.scaleY).rotationEffect(.degrees(pose.rotate))
-          .offset(x: pose.x, y: pose.y)
+        content().modifier(JoltDepthModifier(channels: .init(pose)))
           .opacity(pose.opacity)
           .animation(
-            phase == .active ? (isPresent ? enter : leave).opacityTransition.animation : nil,
+            sceneActive ? (isPresent ? enter : leave).opacityTransition.animation : nil,
             value: pose.opacity
           )
           .allowsHitTesting(isPresent).accessibilityHidden(!isPresent)
@@ -39,9 +38,10 @@ public struct JoltPresence<Content: View>: View {
     }
     .onAppear { reconcile() }
     .onChange(of: isPresent) { _, _ in reconcile() }
-    .onChange(of: phase) { _, new in if new != .active { reconcile() } }
+    .onChange(of: sceneActive) { _, next in if !next { reconcile() } }
     .onChange(of: reduced || appReduced) { _, _ in reconcile() }
     .onDisappear { epoch = UUID() }
+    .modifier(JoltActivityProvider($sceneActive))
   }
   private func reconcile() {
     let token = UUID()
@@ -57,7 +57,7 @@ public struct JoltPresence<Content: View>: View {
     }
     guard retained else { return }
     let target = recipe.to
-    if phase != .active || reduced || appReduced {
+    if !sceneActive || reduced || appReduced {
       var transaction = Transaction(animation: nil)
       transaction.disablesAnimations = true
       withTransaction(transaction) {

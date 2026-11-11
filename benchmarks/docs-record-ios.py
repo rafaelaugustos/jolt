@@ -54,6 +54,10 @@ try:
                 assert not any(e['name'].endswith('-error') for e in report['events']), report
                 if name == 'interaction-drop-ios':
                     assert any(e['name']=='accepted' and e['method']=='drag' for e in report['events']), report
+                if name == 'interaction-depth-drop-ios':
+                    assert sum(e['name']=='accepted' and e['method']=='drag' for e in report['events']) >= 2, report
+                    assert any(e['name']=='rejected' and e.get('id')=='locked' for e in report['events']), report
+                    assert any(e['name']=='move' and e.get('id')=='done' for e in report['events']), report
                 if name == 'interaction-audio-ios':
                     assert any(e['name']=='audio-finish' and e['completed'] for e in report['events']), report
                 if name.endswith('-lifecycle-ios'):

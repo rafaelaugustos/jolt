@@ -1,0 +1,4312 @@
+{
+  "maximumGraphemes": 256,
+  "texts": [
+    {
+      "text": "Motion that moves.",
+      "dictionary": false,
+      "letter": [
+        {
+          "text": "M",
+          "start": 0,
+          "end": 1,
+          "group": 0
+        },
+        {
+          "text": "o",
+          "start": 1,
+          "end": 2,
+          "group": 1
+        },
+        {
+          "text": "t",
+          "start": 2,
+          "end": 3,
+          "group": 2
+        },
+        {
+          "text": "i",
+          "start": 3,
+          "end": 4,
+          "group": 3
+        },
+        {
+          "text": "o",
+          "start": 4,
+          "end": 5,
+          "group": 4
+        },
+        {
+          "text": "n",
+          "start": 5,
+          "end": 6,
+          "group": 5
+        },
+        {
+          "text": " ",
+          "start": 6,
+          "end": 7,
+          "group": 6
+        },
+        {
+          "text": "t",
+          "start": 7,
+          "end": 8,
+          "group": 7
+        },
+        {
+          "text": "h",
+          "start": 8,
+          "end": 9,
+          "group": 8
+        },
+        {
+          "text": "a",
+          "start": 9,
+          "end": 10,
+          "group": 9
+        },
+        {
+          "text": "t",
+          "start": 10,
+          "end": 11,
+          "group": 10
+        },
+        {
+          "text": " ",
+          "start": 11,
+          "end": 12,
+          "group": 11
+        },
+        {
+          "text": "m",
+          "start": 12,
+          "end": 13,
+          "group": 12
+        },
+        {
+          "text": "o",
+          "start": 13,
+          "end": 14,
+          "group": 13
+        },
+        {
+          "text": "v",
+          "start": 14,
+          "end": 15,
+          "group": 14
+        },
+        {
+          "text": "e",
+          "start": 15,
+          "end": 16,
+          "group": 15
+        },
+        {
+          "text": "s",
+          "start": 16,
+          "end": 17,
+          "group": 16
+        },
+        {
+          "text": ".",
+          "start": 17,
+          "end": 18,
+          "group": 17
+        }
+      ],
+      "word": [
+        {
+          "text": "Motion",
+          "start": 0,
+          "end": 6,
+          "group": 0
+        },
+        {
+          "text": " ",
+          "start": 6,
+          "end": 7,
+          "group": 1
+        },
+        {
+          "text": "that",
+          "start": 7,
+          "end": 11,
+          "group": 2
+        },
+        {
+          "text": " ",
+          "start": 11,
+          "end": 12,
+          "group": 3
+        },
+        {
+          "text": "moves",
+          "start": 12,
+          "end": 17,
+          "group": 4
+        },
+        {
+          "text": ".",
+          "start": 17,
+          "end": 18,
+          "group": 5
+        }
+      ]
+    },
+    {
+      "text": "Wait — “really?” Yes, (twice)!",
+      "dictionary": false,
+      "letter": [
+        {
+          "text": "W",
+          "start": 0,
+          "end": 1,
+          "group": 0
+        },
+        {
+          "text": "a",
+          "start": 1,
+          "end": 2,
+          "group": 1
+        },
+        {
+          "text": "i",
+          "start": 2,
+          "end": 3,
+          "group": 2
+        },
+        {
+          "text": "t",
+          "start": 3,
+          "end": 4,
+          "group": 3
+        },
+        {
+          "text": " ",
+          "start": 4,
+          "end": 5,
+          "group": 4
+        },
+        {
+          "text": "—",
+          "start": 5,
+          "end": 6,
+          "group": 5
+        },
+        {
+          "text": " ",
+          "start": 6,
+          "end": 7,
+          "group": 6
+        },
+        {
+          "text": "“",
+          "start": 7,
+          "end": 8,
+          "group": 7
+        },
+        {
+          "text": "r",
+          "start": 8,
+          "end": 9,
+          "group": 8
+        },
+        {
+          "text": "e",
+          "start": 9,
+          "end": 10,
+          "group": 9
+        },
+        {
+          "text": "a",
+          "start": 10,
+          "end": 11,
+          "group": 10
+        },
+        {
+          "text": "l",
+          "start": 11,
+          "end": 12,
+          "group": 11
+        },
+        {
+          "text": "l",
+          "start": 12,
+          "end": 13,
+          "group": 12
+        },
+        {
+          "text": "y",
+          "start": 13,
+          "end": 14,
+          "group": 13
+        },
+        {
+          "text": "?",
+          "start": 14,
+          "end": 15,
+          "group": 14
+        },
+        {
+          "text": "”",
+          "start": 15,
+          "end": 16,
+          "group": 15
+        },
+        {
+          "text": " ",
+          "start": 16,
+          "end": 17,
+          "group": 16
+        },
+        {
+          "text": "Y",
+          "start": 17,
+          "end": 18,
+          "group": 17
+        },
+        {
+          "text": "e",
+          "start": 18,
+          "end": 19,
+          "group": 18
+        },
+        {
+          "text": "s",
+          "start": 19,
+          "end": 20,
+          "group": 19
+        },
+        {
+          "text": ",",
+          "start": 20,
+          "end": 21,
+          "group": 20
+        },
+        {
+          "text": " ",
+          "start": 21,
+          "end": 22,
+          "group": 21
+        },
+        {
+          "text": "(",
+          "start": 22,
+          "end": 23,
+          "group": 22
+        },
+        {
+          "text": "t",
+          "start": 23,
+          "end": 24,
+          "group": 23
+        },
+        {
+          "text": "w",
+          "start": 24,
+          "end": 25,
+          "group": 24
+        },
+        {
+          "text": "i",
+          "start": 25,
+          "end": 26,
+          "group": 25
+        },
+        {
+          "text": "c",
+          "start": 26,
+          "end": 27,
+          "group": 26
+        },
+        {
+          "text": "e",
+          "start": 27,
+          "end": 28,
+          "group": 27
+        },
+        {
+          "text": ")",
+          "start": 28,
+          "end": 29,
+          "group": 28
+        },
+        {
+          "text": "!",
+          "start": 29,
+          "end": 30,
+          "group": 29
+        }
+      ],
+      "word": [
+        {
+          "text": "Wait",
+          "start": 0,
+          "end": 4,
+          "group": 0
+        },
+        {
+          "text": " ",
+          "start": 4,
+          "end": 5,
+          "group": 1
+        },
+        {
+          "text": "—",
+          "start": 5,
+          "end": 6,
+          "group": 2
+        },
+        {
+          "text": " ",
+          "start": 6,
+          "end": 7,
+          "group": 3
+        },
+        {
+          "text": "“",
+          "start": 7,
+          "end": 8,
+          "group": 4
+        },
+        {
+          "text": "really",
+          "start": 8,
+          "end": 14,
+          "group": 5
+        },
+        {
+          "text": "?",
+          "start": 14,
+          "end": 15,
+          "group": 6
+        },
+        {
+          "text": "”",
+          "start": 15,
+          "end": 16,
+          "group": 7
+        },
+        {
+          "text": " ",
+          "start": 16,
+          "end": 17,
+          "group": 8
+        },
+        {
+          "text": "Yes",
+          "start": 17,
+          "end": 20,
+          "group": 9
+        },
+        {
+          "text": ",",
+          "start": 20,
+          "end": 21,
+          "group": 10
+        },
+        {
+          "text": " ",
+          "start": 21,
+          "end": 22,
+          "group": 11
+        },
+        {
+          "text": "(",
+          "start": 22,
+          "end": 23,
+          "group": 12
+        },
+        {
+          "text": "twice",
+          "start": 23,
+          "end": 28,
+          "group": 13
+        },
+        {
+          "text": ")",
+          "start": 28,
+          "end": 29,
+          "group": 14
+        },
+        {
+          "text": "!",
+          "start": 29,
+          "end": 30,
+          "group": 15
+        }
+      ]
+    },
+    {
+      "text": "Team 👩‍👩‍👧‍👦 🇧🇷 👍🏽 done",
+      "dictionary": false,
+      "letter": [
+        {
+          "text": "T",
+          "start": 0,
+          "end": 1,
+          "group": 0
+        },
+        {
+          "text": "e",
+          "start": 1,
+          "end": 2,
+          "group": 1
+        },
+        {
+          "text": "a",
+          "start": 2,
+          "end": 3,
+          "group": 2
+        },
+        {
+          "text": "m",
+          "start": 3,
+          "end": 4,
+          "group": 3
+        },
+        {
+          "text": " ",
+          "start": 4,
+          "end": 5,
+          "group": 4
+        },
+        {
+          "text": "👩‍👩‍👧‍👦",
+          "start": 5,
+          "end": 16,
+          "group": 5
+        },
+        {
+          "text": " ",
+          "start": 16,
+          "end": 17,
+          "group": 6
+        },
+        {
+          "text": "🇧🇷",
+          "start": 17,
+          "end": 21,
+          "group": 7
+        },
+        {
+          "text": " ",
+          "start": 21,
+          "end": 22,
+          "group": 8
+        },
+        {
+          "text": "👍🏽",
+          "start": 22,
+          "end": 26,
+          "group": 9
+        },
+        {
+          "text": " ",
+          "start": 26,
+          "end": 27,
+          "group": 10
+        },
+        {
+          "text": "d",
+          "start": 27,
+          "end": 28,
+          "group": 11
+        },
+        {
+          "text": "o",
+          "start": 28,
+          "end": 29,
+          "group": 12
+        },
+        {
+          "text": "n",
+          "start": 29,
+          "end": 30,
+          "group": 13
+        },
+        {
+          "text": "e",
+          "start": 30,
+          "end": 31,
+          "group": 14
+        }
+      ],
+      "word": [
+        {
+          "text": "Team",
+          "start": 0,
+          "end": 4,
+          "group": 0
+        },
+        {
+          "text": " ",
+          "start": 4,
+          "end": 5,
+          "group": 1
+        },
+        {
+          "text": "👩‍👩‍👧‍👦",
+          "start": 5,
+          "end": 16,
+          "group": 2
+        },
+        {
+          "text": " ",
+          "start": 16,
+          "end": 17,
+          "group": 3
+        },
+        {
+          "text": "🇧🇷",
+          "start": 17,
+          "end": 21,
+          "group": 4
+        },
+        {
+          "text": " ",
+          "start": 21,
+          "end": 22,
+          "group": 5
+        },
+        {
+          "text": "👍🏽",
+          "start": 22,
+          "end": 26,
+          "group": 6
+        },
+        {
+          "text": " ",
+          "start": 26,
+          "end": 27,
+          "group": 7
+        },
+        {
+          "text": "done",
+          "start": 27,
+          "end": 31,
+          "group": 8
+        }
+      ]
+    },
+    {
+      "text": "Crème brûlée, été ñ",
+      "dictionary": false,
+      "letter": [
+        {
+          "text": "C",
+          "start": 0,
+          "end": 1,
+          "group": 0
+        },
+        {
+          "text": "r",
+          "start": 1,
+          "end": 2,
+          "group": 1
+        },
+        {
+          "text": "è",
+          "start": 2,
+          "end": 3,
+          "group": 2
+        },
+        {
+          "text": "m",
+          "start": 3,
+          "end": 4,
+          "group": 3
+        },
+        {
+          "text": "e",
+          "start": 4,
+          "end": 5,
+          "group": 4
+        },
+        {
+          "text": " ",
+          "start": 5,
+          "end": 6,
+          "group": 5
+        },
+        {
+          "text": "b",
+          "start": 6,
+          "end": 7,
+          "group": 6
+        },
+        {
+          "text": "r",
+          "start": 7,
+          "end": 8,
+          "group": 7
+        },
+        {
+          "text": "û",
+          "start": 8,
+          "end": 9,
+          "group": 8
+        },
+        {
+          "text": "l",
+          "start": 9,
+          "end": 10,
+          "group": 9
+        },
+        {
+          "text": "é",
+          "start": 10,
+          "end": 11,
+          "group": 10
+        },
+        {
+          "text": "e",
+          "start": 11,
+          "end": 12,
+          "group": 11
+        },
+        {
+          "text": ",",
+          "start": 12,
+          "end": 13,
+          "group": 12
+        },
+        {
+          "text": " ",
+          "start": 13,
+          "end": 14,
+          "group": 13
+        },
+        {
+          "text": "é",
+          "start": 14,
+          "end": 16,
+          "group": 14
+        },
+        {
+          "text": "t",
+          "start": 16,
+          "end": 17,
+          "group": 15
+        },
+        {
+          "text": "é",
+          "start": 17,
+          "end": 19,
+          "group": 16
+        },
+        {
+          "text": " ",
+          "start": 19,
+          "end": 20,
+          "group": 17
+        },
+        {
+          "text": "ñ",
+          "start": 20,
+          "end": 21,
+          "group": 18
+        }
+      ],
+      "word": [
+        {
+          "text": "Crème",
+          "start": 0,
+          "end": 5,
+          "group": 0
+        },
+        {
+          "text": " ",
+          "start": 5,
+          "end": 6,
+          "group": 1
+        },
+        {
+          "text": "brûlée",
+          "start": 6,
+          "end": 12,
+          "group": 2
+        },
+        {
+          "text": ",",
+          "start": 12,
+          "end": 13,
+          "group": 3
+        },
+        {
+          "text": " ",
+          "start": 13,
+          "end": 14,
+          "group": 4
+        },
+        {
+          "text": "été",
+          "start": 14,
+          "end": 19,
+          "group": 5
+        },
+        {
+          "text": " ",
+          "start": 19,
+          "end": 20,
+          "group": 6
+        },
+        {
+          "text": "ñ",
+          "start": 20,
+          "end": 21,
+          "group": 7
+        }
+      ]
+    },
+    {
+      "text": "欢迎使用，世界。",
+      "dictionary": true,
+      "letter": [
+        {
+          "text": "欢",
+          "start": 0,
+          "end": 1,
+          "group": 0
+        },
+        {
+          "text": "迎",
+          "start": 1,
+          "end": 2,
+          "group": 1
+        },
+        {
+          "text": "使",
+          "start": 2,
+          "end": 3,
+          "group": 2
+        },
+        {
+          "text": "用",
+          "start": 3,
+          "end": 4,
+          "group": 3
+        },
+        {
+          "text": "，",
+          "start": 4,
+          "end": 5,
+          "group": 4
+        },
+        {
+          "text": "世",
+          "start": 5,
+          "end": 6,
+          "group": 5
+        },
+        {
+          "text": "界",
+          "start": 6,
+          "end": 7,
+          "group": 6
+        },
+        {
+          "text": "。",
+          "start": 7,
+          "end": 8,
+          "group": 7
+        }
+      ],
+      "word": [
+        {
+          "text": "欢迎",
+          "start": 0,
+          "end": 2,
+          "group": 0
+        },
+        {
+          "text": "使用",
+          "start": 2,
+          "end": 4,
+          "group": 1
+        },
+        {
+          "text": "，",
+          "start": 4,
+          "end": 5,
+          "group": 2
+        },
+        {
+          "text": "世界",
+          "start": 5,
+          "end": 7,
+          "group": 3
+        },
+        {
+          "text": "。",
+          "start": 7,
+          "end": 8,
+          "group": 4
+        }
+      ]
+    },
+    {
+      "text": "你好世界",
+      "dictionary": true,
+      "letter": [
+        {
+          "text": "你",
+          "start": 0,
+          "end": 1,
+          "group": 0
+        },
+        {
+          "text": "好",
+          "start": 1,
+          "end": 2,
+          "group": 1
+        },
+        {
+          "text": "世",
+          "start": 2,
+          "end": 3,
+          "group": 2
+        },
+        {
+          "text": "界",
+          "start": 3,
+          "end": 4,
+          "group": 3
+        }
+      ],
+      "word": [
+        {
+          "text": "你好",
+          "start": 0,
+          "end": 2,
+          "group": 0
+        },
+        {
+          "text": "世界",
+          "start": 2,
+          "end": 4,
+          "group": 1
+        }
+      ]
+    },
+    {
+      "text": "한국어 텍스트",
+      "dictionary": false,
+      "letter": [
+        {
+          "text": "한",
+          "start": 0,
+          "end": 1,
+          "group": 0
+        },
+        {
+          "text": "국",
+          "start": 1,
+          "end": 2,
+          "group": 1
+        },
+        {
+          "text": "어",
+          "start": 2,
+          "end": 3,
+          "group": 2
+        },
+        {
+          "text": " ",
+          "start": 3,
+          "end": 4,
+          "group": 3
+        },
+        {
+          "text": "텍",
+          "start": 4,
+          "end": 5,
+          "group": 4
+        },
+        {
+          "text": "스",
+          "start": 5,
+          "end": 6,
+          "group": 5
+        },
+        {
+          "text": "트",
+          "start": 6,
+          "end": 7,
+          "group": 6
+        }
+      ],
+      "word": [
+        {
+          "text": "한국어",
+          "start": 0,
+          "end": 3,
+          "group": 0
+        },
+        {
+          "text": " ",
+          "start": 3,
+          "end": 4,
+          "group": 1
+        },
+        {
+          "text": "텍스트",
+          "start": 4,
+          "end": 7,
+          "group": 2
+        }
+      ]
+    },
+    {
+      "text": "مرحبا بالعالم",
+      "dictionary": false,
+      "letter": [
+        {
+          "text": "م",
+          "start": 0,
+          "end": 1,
+          "group": 0
+        },
+        {
+          "text": "ر",
+          "start": 1,
+          "end": 2,
+          "group": 1
+        },
+        {
+          "text": "ح",
+          "start": 2,
+          "end": 3,
+          "group": 2
+        },
+        {
+          "text": "ب",
+          "start": 3,
+          "end": 4,
+          "group": 3
+        },
+        {
+          "text": "ا",
+          "start": 4,
+          "end": 5,
+          "group": 4
+        },
+        {
+          "text": " ",
+          "start": 5,
+          "end": 6,
+          "group": 5
+        },
+        {
+          "text": "ب",
+          "start": 6,
+          "end": 7,
+          "group": 6
+        },
+        {
+          "text": "ا",
+          "start": 7,
+          "end": 8,
+          "group": 7
+        },
+        {
+          "text": "ل",
+          "start": 8,
+          "end": 9,
+          "group": 8
+        },
+        {
+          "text": "ع",
+          "start": 9,
+          "end": 10,
+          "group": 9
+        },
+        {
+          "text": "ا",
+          "start": 10,
+          "end": 11,
+          "group": 10
+        },
+        {
+          "text": "ل",
+          "start": 11,
+          "end": 12,
+          "group": 11
+        },
+        {
+          "text": "م",
+          "start": 12,
+          "end": 13,
+          "group": 12
+        }
+      ],
+      "word": [
+        {
+          "text": "مرحبا",
+          "start": 0,
+          "end": 5,
+          "group": 0
+        },
+        {
+          "text": " ",
+          "start": 5,
+          "end": 6,
+          "group": 1
+        },
+        {
+          "text": "بالعالم",
+          "start": 6,
+          "end": 13,
+          "group": 2
+        }
+      ]
+    },
+    {
+      "text": "שלום עולם 2025",
+      "dictionary": false,
+      "letter": [
+        {
+          "text": "ש",
+          "start": 0,
+          "end": 1,
+          "group": 0
+        },
+        {
+          "text": "ל",
+          "start": 1,
+          "end": 2,
+          "group": 1
+        },
+        {
+          "text": "ו",
+          "start": 2,
+          "end": 3,
+          "group": 2
+        },
+        {
+          "text": "ם",
+          "start": 3,
+          "end": 4,
+          "group": 3
+        },
+        {
+          "text": " ",
+          "start": 4,
+          "end": 5,
+          "group": 4
+        },
+        {
+          "text": "ע",
+          "start": 5,
+          "end": 6,
+          "group": 5
+        },
+        {
+          "text": "ו",
+          "start": 6,
+          "end": 7,
+          "group": 6
+        },
+        {
+          "text": "ל",
+          "start": 7,
+          "end": 8,
+          "group": 7
+        },
+        {
+          "text": "ם",
+          "start": 8,
+          "end": 9,
+          "group": 8
+        },
+        {
+          "text": " ",
+          "start": 9,
+          "end": 10,
+          "group": 9
+        },
+        {
+          "text": "2",
+          "start": 10,
+          "end": 11,
+          "group": 10
+        },
+        {
+          "text": "0",
+          "start": 11,
+          "end": 12,
+          "group": 11
+        },
+        {
+          "text": "2",
+          "start": 12,
+          "end": 13,
+          "group": 12
+        },
+        {
+          "text": "5",
+          "start": 13,
+          "end": 14,
+          "group": 13
+        }
+      ],
+      "word": [
+        {
+          "text": "שלום",
+          "start": 0,
+          "end": 4,
+          "group": 0
+        },
+        {
+          "text": " ",
+          "start": 4,
+          "end": 5,
+          "group": 1
+        },
+        {
+          "text": "עולם",
+          "start": 5,
+          "end": 9,
+          "group": 2
+        },
+        {
+          "text": " ",
+          "start": 9,
+          "end": 10,
+          "group": 3
+        },
+        {
+          "text": "2025",
+          "start": 10,
+          "end": 14,
+          "group": 4
+        }
+      ]
+    },
+    {
+      "text": "$1,249.90 or 3.5% of 10k",
+      "dictionary": false,
+      "letter": [
+        {
+          "text": "$",
+          "start": 0,
+          "end": 1,
+          "group": 0
+        },
+        {
+          "text": "1",
+          "start": 1,
+          "end": 2,
+          "group": 1
+        },
+        {
+          "text": ",",
+          "start": 2,
+          "end": 3,
+          "group": 2
+        },
+        {
+          "text": "2",
+          "start": 3,
+          "end": 4,
+          "group": 3
+        },
+        {
+          "text": "4",
+          "start": 4,
+          "end": 5,
+          "group": 4
+        },
+        {
+          "text": "9",
+          "start": 5,
+          "end": 6,
+          "group": 5
+        },
+        {
+          "text": ".",
+          "start": 6,
+          "end": 7,
+          "group": 6
+        },
+        {
+          "text": "9",
+          "start": 7,
+          "end": 8,
+          "group": 7
+        },
+        {
+          "text": "0",
+          "start": 8,
+          "end": 9,
+          "group": 8
+        },
+        {
+          "text": " ",
+          "start": 9,
+          "end": 10,
+          "group": 9
+        },
+        {
+          "text": "o",
+          "start": 10,
+          "end": 11,
+          "group": 10
+        },
+        {
+          "text": "r",
+          "start": 11,
+          "end": 12,
+          "group": 11
+        },
+        {
+          "text": " ",
+          "start": 12,
+          "end": 13,
+          "group": 12
+        },
+        {
+          "text": "3",
+          "start": 13,
+          "end": 14,
+          "group": 13
+        },
+        {
+          "text": ".",
+          "start": 14,
+          "end": 15,
+          "group": 14
+        },
+        {
+          "text": "5",
+          "start": 15,
+          "end": 16,
+          "group": 15
+        },
+        {
+          "text": "%",
+          "start": 16,
+          "end": 17,
+          "group": 16
+        },
+        {
+          "text": " ",
+          "start": 17,
+          "end": 18,
+          "group": 17
+        },
+        {
+          "text": "o",
+          "start": 18,
+          "end": 19,
+          "group": 18
+        },
+        {
+          "text": "f",
+          "start": 19,
+          "end": 20,
+          "group": 19
+        },
+        {
+          "text": " ",
+          "start": 20,
+          "end": 21,
+          "group": 20
+        },
+        {
+          "text": "1",
+          "start": 21,
+          "end": 22,
+          "group": 21
+        },
+        {
+          "text": "0",
+          "start": 22,
+          "end": 23,
+          "group": 22
+        },
+        {
+          "text": "k",
+          "start": 23,
+          "end": 24,
+          "group": 23
+        }
+      ],
+      "word": [
+        {
+          "text": "$",
+          "start": 0,
+          "end": 1,
+          "group": 0
+        },
+        {
+          "text": "1,249.90",
+          "start": 1,
+          "end": 9,
+          "group": 1
+        },
+        {
+          "text": " ",
+          "start": 9,
+          "end": 10,
+          "group": 2
+        },
+        {
+          "text": "or",
+          "start": 10,
+          "end": 12,
+          "group": 3
+        },
+        {
+          "text": " ",
+          "start": 12,
+          "end": 13,
+          "group": 4
+        },
+        {
+          "text": "3.5",
+          "start": 13,
+          "end": 16,
+          "group": 5
+        },
+        {
+          "text": "%",
+          "start": 16,
+          "end": 17,
+          "group": 6
+        },
+        {
+          "text": " ",
+          "start": 17,
+          "end": 18,
+          "group": 7
+        },
+        {
+          "text": "of",
+          "start": 18,
+          "end": 20,
+          "group": 8
+        },
+        {
+          "text": " ",
+          "start": 20,
+          "end": 21,
+          "group": 9
+        },
+        {
+          "text": "10k",
+          "start": 21,
+          "end": 24,
+          "group": 10
+        }
+      ]
+    },
+    {
+      "text": "a  b\tc",
+      "dictionary": false,
+      "letter": [
+        {
+          "text": "a",
+          "start": 0,
+          "end": 1,
+          "group": 0
+        },
+        {
+          "text": " ",
+          "start": 1,
+          "end": 2,
+          "group": 1
+        },
+        {
+          "text": " ",
+          "start": 2,
+          "end": 3,
+          "group": 2
+        },
+        {
+          "text": "b",
+          "start": 3,
+          "end": 4,
+          "group": 3
+        },
+        {
+          "text": "\t",
+          "start": 4,
+          "end": 5,
+          "group": 4
+        },
+        {
+          "text": "c",
+          "start": 5,
+          "end": 6,
+          "group": 5
+        }
+      ],
+      "word": [
+        {
+          "text": "a",
+          "start": 0,
+          "end": 1,
+          "group": 0
+        },
+        {
+          "text": "  ",
+          "start": 1,
+          "end": 3,
+          "group": 1
+        },
+        {
+          "text": "b",
+          "start": 3,
+          "end": 4,
+          "group": 2
+        },
+        {
+          "text": "\t",
+          "start": 4,
+          "end": 5,
+          "group": 3
+        },
+        {
+          "text": "c",
+          "start": 5,
+          "end": 6,
+          "group": 4
+        }
+      ]
+    },
+    {
+      "text": "",
+      "dictionary": false,
+      "letter": [],
+      "word": []
+    }
+  ],
+  "entrances": [
+    {
+      "text": "Hello, world!",
+      "by": "letter",
+      "duration": 400,
+      "stagger": 35,
+      "delay": 0,
+      "pieces": [
+        {
+          "group": 0,
+          "start": 0,
+          "end": 400,
+          "samples": [
+            {
+              "at": -10,
+              "progress": 0
+            },
+            {
+              "at": 0,
+              "progress": 0
+            },
+            {
+              "at": 100,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 200,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 360,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 1,
+          "start": 35,
+          "end": 435,
+          "samples": [
+            {
+              "at": 25,
+              "progress": 0
+            },
+            {
+              "at": 35,
+              "progress": 0
+            },
+            {
+              "at": 135,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 235,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 395,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 2,
+          "start": 70,
+          "end": 470,
+          "samples": [
+            {
+              "at": 60,
+              "progress": 0
+            },
+            {
+              "at": 70,
+              "progress": 0
+            },
+            {
+              "at": 170,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 270,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 430,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 3,
+          "start": 105,
+          "end": 505,
+          "samples": [
+            {
+              "at": 95,
+              "progress": 0
+            },
+            {
+              "at": 105,
+              "progress": 0
+            },
+            {
+              "at": 205,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 305,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 465,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 4,
+          "start": 140,
+          "end": 540,
+          "samples": [
+            {
+              "at": 130,
+              "progress": 0
+            },
+            {
+              "at": 140,
+              "progress": 0
+            },
+            {
+              "at": 240,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 340,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 500,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 5,
+          "start": 175,
+          "end": 575,
+          "samples": [
+            {
+              "at": 165,
+              "progress": 0
+            },
+            {
+              "at": 175,
+              "progress": 0
+            },
+            {
+              "at": 275,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 375,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 535,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 7,
+          "start": 245,
+          "end": 645,
+          "samples": [
+            {
+              "at": 235,
+              "progress": 0
+            },
+            {
+              "at": 245,
+              "progress": 0
+            },
+            {
+              "at": 345,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 445,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 605,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 8,
+          "start": 280,
+          "end": 680,
+          "samples": [
+            {
+              "at": 270,
+              "progress": 0
+            },
+            {
+              "at": 280,
+              "progress": 0
+            },
+            {
+              "at": 380,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 480,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 640,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 9,
+          "start": 315,
+          "end": 715,
+          "samples": [
+            {
+              "at": 305,
+              "progress": 0
+            },
+            {
+              "at": 315,
+              "progress": 0
+            },
+            {
+              "at": 415,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 515,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 675,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 10,
+          "start": 350,
+          "end": 750,
+          "samples": [
+            {
+              "at": 340,
+              "progress": 0
+            },
+            {
+              "at": 350,
+              "progress": 0
+            },
+            {
+              "at": 450,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 550,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 710,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 11,
+          "start": 385,
+          "end": 785,
+          "samples": [
+            {
+              "at": 375,
+              "progress": 0
+            },
+            {
+              "at": 385,
+              "progress": 0
+            },
+            {
+              "at": 485,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 585,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 745,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 12,
+          "start": 420,
+          "end": 820,
+          "samples": [
+            {
+              "at": 410,
+              "progress": 0
+            },
+            {
+              "at": 420,
+              "progress": 0
+            },
+            {
+              "at": 520,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 620,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 780,
+              "progress": 0.9829733892343941
+            }
+          ]
+        }
+      ],
+      "total": 820
+    },
+    {
+      "text": "Hello, world!",
+      "by": "letter",
+      "duration": 250,
+      "stagger": 60,
+      "delay": 100,
+      "pieces": [
+        {
+          "group": 0,
+          "start": 100,
+          "end": 350,
+          "samples": [
+            {
+              "at": 90,
+              "progress": 0
+            },
+            {
+              "at": 100,
+              "progress": 0
+            },
+            {
+              "at": 162.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 225,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 325,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 1,
+          "start": 160,
+          "end": 410,
+          "samples": [
+            {
+              "at": 150,
+              "progress": 0
+            },
+            {
+              "at": 160,
+              "progress": 0
+            },
+            {
+              "at": 222.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 285,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 385,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 2,
+          "start": 220,
+          "end": 470,
+          "samples": [
+            {
+              "at": 210,
+              "progress": 0
+            },
+            {
+              "at": 220,
+              "progress": 0
+            },
+            {
+              "at": 282.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 345,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 445,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 3,
+          "start": 280,
+          "end": 530,
+          "samples": [
+            {
+              "at": 270,
+              "progress": 0
+            },
+            {
+              "at": 280,
+              "progress": 0
+            },
+            {
+              "at": 342.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 405,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 505,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 4,
+          "start": 340,
+          "end": 590,
+          "samples": [
+            {
+              "at": 330,
+              "progress": 0
+            },
+            {
+              "at": 340,
+              "progress": 0
+            },
+            {
+              "at": 402.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 465,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 565,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 5,
+          "start": 400,
+          "end": 650,
+          "samples": [
+            {
+              "at": 390,
+              "progress": 0
+            },
+            {
+              "at": 400,
+              "progress": 0
+            },
+            {
+              "at": 462.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 525,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 625,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 7,
+          "start": 520,
+          "end": 770,
+          "samples": [
+            {
+              "at": 510,
+              "progress": 0
+            },
+            {
+              "at": 520,
+              "progress": 0
+            },
+            {
+              "at": 582.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 645,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 745,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 8,
+          "start": 580,
+          "end": 830,
+          "samples": [
+            {
+              "at": 570,
+              "progress": 0
+            },
+            {
+              "at": 580,
+              "progress": 0
+            },
+            {
+              "at": 642.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 705,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 805,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 9,
+          "start": 640,
+          "end": 890,
+          "samples": [
+            {
+              "at": 630,
+              "progress": 0
+            },
+            {
+              "at": 640,
+              "progress": 0
+            },
+            {
+              "at": 702.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 765,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 865,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 10,
+          "start": 700,
+          "end": 950,
+          "samples": [
+            {
+              "at": 690,
+              "progress": 0
+            },
+            {
+              "at": 700,
+              "progress": 0
+            },
+            {
+              "at": 762.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 825,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 925,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 11,
+          "start": 760,
+          "end": 1010,
+          "samples": [
+            {
+              "at": 750,
+              "progress": 0
+            },
+            {
+              "at": 760,
+              "progress": 0
+            },
+            {
+              "at": 822.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 885,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 985,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 12,
+          "start": 820,
+          "end": 1070,
+          "samples": [
+            {
+              "at": 810,
+              "progress": 0
+            },
+            {
+              "at": 820,
+              "progress": 0
+            },
+            {
+              "at": 882.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 945,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 1045,
+              "progress": 0.9829733892343941
+            }
+          ]
+        }
+      ],
+      "total": 1070
+    },
+    {
+      "text": "Hello, world!",
+      "by": "letter",
+      "duration": 0,
+      "stagger": 35,
+      "delay": 20,
+      "pieces": [
+        {
+          "group": 0,
+          "start": 20,
+          "end": 20,
+          "samples": [
+            {
+              "at": 10,
+              "progress": 1
+            },
+            {
+              "at": 20,
+              "progress": 1
+            },
+            {
+              "at": 20,
+              "progress": 1
+            },
+            {
+              "at": 20,
+              "progress": 1
+            },
+            {
+              "at": 20,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 1,
+          "start": 55,
+          "end": 55,
+          "samples": [
+            {
+              "at": 45,
+              "progress": 1
+            },
+            {
+              "at": 55,
+              "progress": 1
+            },
+            {
+              "at": 55,
+              "progress": 1
+            },
+            {
+              "at": 55,
+              "progress": 1
+            },
+            {
+              "at": 55,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 2,
+          "start": 90,
+          "end": 90,
+          "samples": [
+            {
+              "at": 80,
+              "progress": 1
+            },
+            {
+              "at": 90,
+              "progress": 1
+            },
+            {
+              "at": 90,
+              "progress": 1
+            },
+            {
+              "at": 90,
+              "progress": 1
+            },
+            {
+              "at": 90,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 3,
+          "start": 125,
+          "end": 125,
+          "samples": [
+            {
+              "at": 115,
+              "progress": 1
+            },
+            {
+              "at": 125,
+              "progress": 1
+            },
+            {
+              "at": 125,
+              "progress": 1
+            },
+            {
+              "at": 125,
+              "progress": 1
+            },
+            {
+              "at": 125,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 4,
+          "start": 160,
+          "end": 160,
+          "samples": [
+            {
+              "at": 150,
+              "progress": 1
+            },
+            {
+              "at": 160,
+              "progress": 1
+            },
+            {
+              "at": 160,
+              "progress": 1
+            },
+            {
+              "at": 160,
+              "progress": 1
+            },
+            {
+              "at": 160,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 5,
+          "start": 195,
+          "end": 195,
+          "samples": [
+            {
+              "at": 185,
+              "progress": 1
+            },
+            {
+              "at": 195,
+              "progress": 1
+            },
+            {
+              "at": 195,
+              "progress": 1
+            },
+            {
+              "at": 195,
+              "progress": 1
+            },
+            {
+              "at": 195,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 7,
+          "start": 265,
+          "end": 265,
+          "samples": [
+            {
+              "at": 255,
+              "progress": 1
+            },
+            {
+              "at": 265,
+              "progress": 1
+            },
+            {
+              "at": 265,
+              "progress": 1
+            },
+            {
+              "at": 265,
+              "progress": 1
+            },
+            {
+              "at": 265,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 8,
+          "start": 300,
+          "end": 300,
+          "samples": [
+            {
+              "at": 290,
+              "progress": 1
+            },
+            {
+              "at": 300,
+              "progress": 1
+            },
+            {
+              "at": 300,
+              "progress": 1
+            },
+            {
+              "at": 300,
+              "progress": 1
+            },
+            {
+              "at": 300,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 9,
+          "start": 335,
+          "end": 335,
+          "samples": [
+            {
+              "at": 325,
+              "progress": 1
+            },
+            {
+              "at": 335,
+              "progress": 1
+            },
+            {
+              "at": 335,
+              "progress": 1
+            },
+            {
+              "at": 335,
+              "progress": 1
+            },
+            {
+              "at": 335,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 10,
+          "start": 370,
+          "end": 370,
+          "samples": [
+            {
+              "at": 360,
+              "progress": 1
+            },
+            {
+              "at": 370,
+              "progress": 1
+            },
+            {
+              "at": 370,
+              "progress": 1
+            },
+            {
+              "at": 370,
+              "progress": 1
+            },
+            {
+              "at": 370,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 11,
+          "start": 405,
+          "end": 405,
+          "samples": [
+            {
+              "at": 395,
+              "progress": 1
+            },
+            {
+              "at": 405,
+              "progress": 1
+            },
+            {
+              "at": 405,
+              "progress": 1
+            },
+            {
+              "at": 405,
+              "progress": 1
+            },
+            {
+              "at": 405,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 12,
+          "start": 440,
+          "end": 440,
+          "samples": [
+            {
+              "at": 430,
+              "progress": 1
+            },
+            {
+              "at": 440,
+              "progress": 1
+            },
+            {
+              "at": 440,
+              "progress": 1
+            },
+            {
+              "at": 440,
+              "progress": 1
+            },
+            {
+              "at": 440,
+              "progress": 1
+            }
+          ]
+        }
+      ],
+      "total": 440
+    },
+    {
+      "text": "Hello, world!",
+      "by": "word",
+      "duration": 400,
+      "stagger": 35,
+      "delay": 0,
+      "pieces": [
+        {
+          "group": 0,
+          "start": 0,
+          "end": 400,
+          "samples": [
+            {
+              "at": -10,
+              "progress": 0
+            },
+            {
+              "at": 0,
+              "progress": 0
+            },
+            {
+              "at": 100,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 200,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 360,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 1,
+          "start": 35,
+          "end": 435,
+          "samples": [
+            {
+              "at": 25,
+              "progress": 0
+            },
+            {
+              "at": 35,
+              "progress": 0
+            },
+            {
+              "at": 135,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 235,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 395,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 3,
+          "start": 105,
+          "end": 505,
+          "samples": [
+            {
+              "at": 95,
+              "progress": 0
+            },
+            {
+              "at": 105,
+              "progress": 0
+            },
+            {
+              "at": 205,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 305,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 465,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 4,
+          "start": 140,
+          "end": 540,
+          "samples": [
+            {
+              "at": 130,
+              "progress": 0
+            },
+            {
+              "at": 140,
+              "progress": 0
+            },
+            {
+              "at": 240,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 340,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 500,
+              "progress": 0.9829733892343941
+            }
+          ]
+        }
+      ],
+      "total": 540
+    },
+    {
+      "text": "Hello, world!",
+      "by": "word",
+      "duration": 250,
+      "stagger": 60,
+      "delay": 100,
+      "pieces": [
+        {
+          "group": 0,
+          "start": 100,
+          "end": 350,
+          "samples": [
+            {
+              "at": 90,
+              "progress": 0
+            },
+            {
+              "at": 100,
+              "progress": 0
+            },
+            {
+              "at": 162.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 225,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 325,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 1,
+          "start": 160,
+          "end": 410,
+          "samples": [
+            {
+              "at": 150,
+              "progress": 0
+            },
+            {
+              "at": 160,
+              "progress": 0
+            },
+            {
+              "at": 222.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 285,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 385,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 3,
+          "start": 280,
+          "end": 530,
+          "samples": [
+            {
+              "at": 270,
+              "progress": 0
+            },
+            {
+              "at": 280,
+              "progress": 0
+            },
+            {
+              "at": 342.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 405,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 505,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 4,
+          "start": 340,
+          "end": 590,
+          "samples": [
+            {
+              "at": 330,
+              "progress": 0
+            },
+            {
+              "at": 340,
+              "progress": 0
+            },
+            {
+              "at": 402.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 465,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 565,
+              "progress": 0.9829733892343941
+            }
+          ]
+        }
+      ],
+      "total": 590
+    },
+    {
+      "text": "Hello, world!",
+      "by": "word",
+      "duration": 0,
+      "stagger": 35,
+      "delay": 20,
+      "pieces": [
+        {
+          "group": 0,
+          "start": 20,
+          "end": 20,
+          "samples": [
+            {
+              "at": 10,
+              "progress": 1
+            },
+            {
+              "at": 20,
+              "progress": 1
+            },
+            {
+              "at": 20,
+              "progress": 1
+            },
+            {
+              "at": 20,
+              "progress": 1
+            },
+            {
+              "at": 20,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 1,
+          "start": 55,
+          "end": 55,
+          "samples": [
+            {
+              "at": 45,
+              "progress": 1
+            },
+            {
+              "at": 55,
+              "progress": 1
+            },
+            {
+              "at": 55,
+              "progress": 1
+            },
+            {
+              "at": 55,
+              "progress": 1
+            },
+            {
+              "at": 55,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 3,
+          "start": 125,
+          "end": 125,
+          "samples": [
+            {
+              "at": 115,
+              "progress": 1
+            },
+            {
+              "at": 125,
+              "progress": 1
+            },
+            {
+              "at": 125,
+              "progress": 1
+            },
+            {
+              "at": 125,
+              "progress": 1
+            },
+            {
+              "at": 125,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 4,
+          "start": 160,
+          "end": 160,
+          "samples": [
+            {
+              "at": 150,
+              "progress": 1
+            },
+            {
+              "at": 160,
+              "progress": 1
+            },
+            {
+              "at": 160,
+              "progress": 1
+            },
+            {
+              "at": 160,
+              "progress": 1
+            },
+            {
+              "at": 160,
+              "progress": 1
+            }
+          ]
+        }
+      ],
+      "total": 160
+    },
+    {
+      "text": "שלום 👩‍👩‍👧‍👦 2025",
+      "by": "letter",
+      "duration": 400,
+      "stagger": 35,
+      "delay": 0,
+      "pieces": [
+        {
+          "group": 0,
+          "start": 0,
+          "end": 400,
+          "samples": [
+            {
+              "at": -10,
+              "progress": 0
+            },
+            {
+              "at": 0,
+              "progress": 0
+            },
+            {
+              "at": 100,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 200,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 360,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 1,
+          "start": 35,
+          "end": 435,
+          "samples": [
+            {
+              "at": 25,
+              "progress": 0
+            },
+            {
+              "at": 35,
+              "progress": 0
+            },
+            {
+              "at": 135,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 235,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 395,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 2,
+          "start": 70,
+          "end": 470,
+          "samples": [
+            {
+              "at": 60,
+              "progress": 0
+            },
+            {
+              "at": 70,
+              "progress": 0
+            },
+            {
+              "at": 170,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 270,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 430,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 3,
+          "start": 105,
+          "end": 505,
+          "samples": [
+            {
+              "at": 95,
+              "progress": 0
+            },
+            {
+              "at": 105,
+              "progress": 0
+            },
+            {
+              "at": 205,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 305,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 465,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 5,
+          "start": 175,
+          "end": 575,
+          "samples": [
+            {
+              "at": 165,
+              "progress": 0
+            },
+            {
+              "at": 175,
+              "progress": 0
+            },
+            {
+              "at": 275,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 375,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 535,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 7,
+          "start": 245,
+          "end": 645,
+          "samples": [
+            {
+              "at": 235,
+              "progress": 0
+            },
+            {
+              "at": 245,
+              "progress": 0
+            },
+            {
+              "at": 345,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 445,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 605,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 8,
+          "start": 280,
+          "end": 680,
+          "samples": [
+            {
+              "at": 270,
+              "progress": 0
+            },
+            {
+              "at": 280,
+              "progress": 0
+            },
+            {
+              "at": 380,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 480,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 640,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 9,
+          "start": 315,
+          "end": 715,
+          "samples": [
+            {
+              "at": 305,
+              "progress": 0
+            },
+            {
+              "at": 315,
+              "progress": 0
+            },
+            {
+              "at": 415,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 515,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 675,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 10,
+          "start": 350,
+          "end": 750,
+          "samples": [
+            {
+              "at": 340,
+              "progress": 0
+            },
+            {
+              "at": 350,
+              "progress": 0
+            },
+            {
+              "at": 450,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 550,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 710,
+              "progress": 0.9829733892343941
+            }
+          ]
+        }
+      ],
+      "total": 750
+    },
+    {
+      "text": "שלום 👩‍👩‍👧‍👦 2025",
+      "by": "letter",
+      "duration": 250,
+      "stagger": 60,
+      "delay": 100,
+      "pieces": [
+        {
+          "group": 0,
+          "start": 100,
+          "end": 350,
+          "samples": [
+            {
+              "at": 90,
+              "progress": 0
+            },
+            {
+              "at": 100,
+              "progress": 0
+            },
+            {
+              "at": 162.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 225,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 325,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 1,
+          "start": 160,
+          "end": 410,
+          "samples": [
+            {
+              "at": 150,
+              "progress": 0
+            },
+            {
+              "at": 160,
+              "progress": 0
+            },
+            {
+              "at": 222.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 285,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 385,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 2,
+          "start": 220,
+          "end": 470,
+          "samples": [
+            {
+              "at": 210,
+              "progress": 0
+            },
+            {
+              "at": 220,
+              "progress": 0
+            },
+            {
+              "at": 282.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 345,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 445,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 3,
+          "start": 280,
+          "end": 530,
+          "samples": [
+            {
+              "at": 270,
+              "progress": 0
+            },
+            {
+              "at": 280,
+              "progress": 0
+            },
+            {
+              "at": 342.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 405,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 505,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 5,
+          "start": 400,
+          "end": 650,
+          "samples": [
+            {
+              "at": 390,
+              "progress": 0
+            },
+            {
+              "at": 400,
+              "progress": 0
+            },
+            {
+              "at": 462.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 525,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 625,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 7,
+          "start": 520,
+          "end": 770,
+          "samples": [
+            {
+              "at": 510,
+              "progress": 0
+            },
+            {
+              "at": 520,
+              "progress": 0
+            },
+            {
+              "at": 582.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 645,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 745,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 8,
+          "start": 580,
+          "end": 830,
+          "samples": [
+            {
+              "at": 570,
+              "progress": 0
+            },
+            {
+              "at": 580,
+              "progress": 0
+            },
+            {
+              "at": 642.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 705,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 805,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 9,
+          "start": 640,
+          "end": 890,
+          "samples": [
+            {
+              "at": 630,
+              "progress": 0
+            },
+            {
+              "at": 640,
+              "progress": 0
+            },
+            {
+              "at": 702.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 765,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 865,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 10,
+          "start": 700,
+          "end": 950,
+          "samples": [
+            {
+              "at": 690,
+              "progress": 0
+            },
+            {
+              "at": 700,
+              "progress": 0
+            },
+            {
+              "at": 762.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 825,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 925,
+              "progress": 0.9829733892343941
+            }
+          ]
+        }
+      ],
+      "total": 950
+    },
+    {
+      "text": "שלום 👩‍👩‍👧‍👦 2025",
+      "by": "letter",
+      "duration": 0,
+      "stagger": 35,
+      "delay": 20,
+      "pieces": [
+        {
+          "group": 0,
+          "start": 20,
+          "end": 20,
+          "samples": [
+            {
+              "at": 10,
+              "progress": 1
+            },
+            {
+              "at": 20,
+              "progress": 1
+            },
+            {
+              "at": 20,
+              "progress": 1
+            },
+            {
+              "at": 20,
+              "progress": 1
+            },
+            {
+              "at": 20,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 1,
+          "start": 55,
+          "end": 55,
+          "samples": [
+            {
+              "at": 45,
+              "progress": 1
+            },
+            {
+              "at": 55,
+              "progress": 1
+            },
+            {
+              "at": 55,
+              "progress": 1
+            },
+            {
+              "at": 55,
+              "progress": 1
+            },
+            {
+              "at": 55,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 2,
+          "start": 90,
+          "end": 90,
+          "samples": [
+            {
+              "at": 80,
+              "progress": 1
+            },
+            {
+              "at": 90,
+              "progress": 1
+            },
+            {
+              "at": 90,
+              "progress": 1
+            },
+            {
+              "at": 90,
+              "progress": 1
+            },
+            {
+              "at": 90,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 3,
+          "start": 125,
+          "end": 125,
+          "samples": [
+            {
+              "at": 115,
+              "progress": 1
+            },
+            {
+              "at": 125,
+              "progress": 1
+            },
+            {
+              "at": 125,
+              "progress": 1
+            },
+            {
+              "at": 125,
+              "progress": 1
+            },
+            {
+              "at": 125,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 5,
+          "start": 195,
+          "end": 195,
+          "samples": [
+            {
+              "at": 185,
+              "progress": 1
+            },
+            {
+              "at": 195,
+              "progress": 1
+            },
+            {
+              "at": 195,
+              "progress": 1
+            },
+            {
+              "at": 195,
+              "progress": 1
+            },
+            {
+              "at": 195,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 7,
+          "start": 265,
+          "end": 265,
+          "samples": [
+            {
+              "at": 255,
+              "progress": 1
+            },
+            {
+              "at": 265,
+              "progress": 1
+            },
+            {
+              "at": 265,
+              "progress": 1
+            },
+            {
+              "at": 265,
+              "progress": 1
+            },
+            {
+              "at": 265,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 8,
+          "start": 300,
+          "end": 300,
+          "samples": [
+            {
+              "at": 290,
+              "progress": 1
+            },
+            {
+              "at": 300,
+              "progress": 1
+            },
+            {
+              "at": 300,
+              "progress": 1
+            },
+            {
+              "at": 300,
+              "progress": 1
+            },
+            {
+              "at": 300,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 9,
+          "start": 335,
+          "end": 335,
+          "samples": [
+            {
+              "at": 325,
+              "progress": 1
+            },
+            {
+              "at": 335,
+              "progress": 1
+            },
+            {
+              "at": 335,
+              "progress": 1
+            },
+            {
+              "at": 335,
+              "progress": 1
+            },
+            {
+              "at": 335,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 10,
+          "start": 370,
+          "end": 370,
+          "samples": [
+            {
+              "at": 360,
+              "progress": 1
+            },
+            {
+              "at": 370,
+              "progress": 1
+            },
+            {
+              "at": 370,
+              "progress": 1
+            },
+            {
+              "at": 370,
+              "progress": 1
+            },
+            {
+              "at": 370,
+              "progress": 1
+            }
+          ]
+        }
+      ],
+      "total": 370
+    },
+    {
+      "text": "שלום 👩‍👩‍👧‍👦 2025",
+      "by": "word",
+      "duration": 400,
+      "stagger": 35,
+      "delay": 0,
+      "pieces": [
+        {
+          "group": 0,
+          "start": 0,
+          "end": 400,
+          "samples": [
+            {
+              "at": -10,
+              "progress": 0
+            },
+            {
+              "at": 0,
+              "progress": 0
+            },
+            {
+              "at": 100,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 200,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 360,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 2,
+          "start": 70,
+          "end": 470,
+          "samples": [
+            {
+              "at": 60,
+              "progress": 0
+            },
+            {
+              "at": 70,
+              "progress": 0
+            },
+            {
+              "at": 170,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 270,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 430,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 4,
+          "start": 140,
+          "end": 540,
+          "samples": [
+            {
+              "at": 130,
+              "progress": 0
+            },
+            {
+              "at": 140,
+              "progress": 0
+            },
+            {
+              "at": 240,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 340,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 500,
+              "progress": 0.9829733892343941
+            }
+          ]
+        }
+      ],
+      "total": 540
+    },
+    {
+      "text": "שלום 👩‍👩‍👧‍👦 2025",
+      "by": "word",
+      "duration": 250,
+      "stagger": 60,
+      "delay": 100,
+      "pieces": [
+        {
+          "group": 0,
+          "start": 100,
+          "end": 350,
+          "samples": [
+            {
+              "at": 90,
+              "progress": 0
+            },
+            {
+              "at": 100,
+              "progress": 0
+            },
+            {
+              "at": 162.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 225,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 325,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 2,
+          "start": 220,
+          "end": 470,
+          "samples": [
+            {
+              "at": 210,
+              "progress": 0
+            },
+            {
+              "at": 220,
+              "progress": 0
+            },
+            {
+              "at": 282.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 345,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 445,
+              "progress": 0.9829733892343941
+            }
+          ]
+        },
+        {
+          "group": 4,
+          "start": 340,
+          "end": 590,
+          "samples": [
+            {
+              "at": 330,
+              "progress": 0
+            },
+            {
+              "at": 340,
+              "progress": 0
+            },
+            {
+              "at": 402.5,
+              "progress": 0.378138130826099
+            },
+            {
+              "at": 465,
+              "progress": 0.6846431874941069
+            },
+            {
+              "at": 565,
+              "progress": 0.9829733892343941
+            }
+          ]
+        }
+      ],
+      "total": 590
+    },
+    {
+      "text": "שלום 👩‍👩‍👧‍👦 2025",
+      "by": "word",
+      "duration": 0,
+      "stagger": 35,
+      "delay": 20,
+      "pieces": [
+        {
+          "group": 0,
+          "start": 20,
+          "end": 20,
+          "samples": [
+            {
+              "at": 10,
+              "progress": 1
+            },
+            {
+              "at": 20,
+              "progress": 1
+            },
+            {
+              "at": 20,
+              "progress": 1
+            },
+            {
+              "at": 20,
+              "progress": 1
+            },
+            {
+              "at": 20,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 2,
+          "start": 90,
+          "end": 90,
+          "samples": [
+            {
+              "at": 80,
+              "progress": 1
+            },
+            {
+              "at": 90,
+              "progress": 1
+            },
+            {
+              "at": 90,
+              "progress": 1
+            },
+            {
+              "at": 90,
+              "progress": 1
+            },
+            {
+              "at": 90,
+              "progress": 1
+            }
+          ]
+        },
+        {
+          "group": 4,
+          "start": 160,
+          "end": 160,
+          "samples": [
+            {
+              "at": 150,
+              "progress": 1
+            },
+            {
+              "at": 160,
+              "progress": 1
+            },
+            {
+              "at": 160,
+              "progress": 1
+            },
+            {
+              "at": 160,
+              "progress": 1
+            },
+            {
+              "at": 160,
+              "progress": 1
+            }
+          ]
+        }
+      ],
+      "total": 160
+    }
+  ],
+  "rolls": [
+    {
+      "previous": "99",
+      "next": "100",
+      "stagger": 40,
+      "delay": 10,
+      "changes": [
+        {
+          "next": {
+            "text": "0",
+            "start": 2,
+            "end": 3
+          },
+          "previous": {
+            "text": "9",
+            "start": 1,
+            "end": 2
+          },
+          "start": 10
+        },
+        {
+          "next": {
+            "text": "0",
+            "start": 1,
+            "end": 2
+          },
+          "previous": {
+            "text": "9",
+            "start": 0,
+            "end": 1
+          },
+          "start": 50
+        },
+        {
+          "next": {
+            "text": "1",
+            "start": 0,
+            "end": 1
+          },
+          "previous": null,
+          "start": 90
+        }
+      ],
+      "removed": []
+    },
+    {
+      "previous": "100",
+      "next": "99",
+      "stagger": 40,
+      "delay": 10,
+      "changes": [
+        {
+          "next": {
+            "text": "9",
+            "start": 1,
+            "end": 2
+          },
+          "previous": {
+            "text": "0",
+            "start": 2,
+            "end": 3
+          },
+          "start": 10
+        },
+        {
+          "next": {
+            "text": "9",
+            "start": 0,
+            "end": 1
+          },
+          "previous": {
+            "text": "0",
+            "start": 1,
+            "end": 2
+          },
+          "start": 50
+        }
+      ],
+      "removed": [
+        {
+          "piece": {
+            "text": "1",
+            "start": 0,
+            "end": 1
+          },
+          "start": 90
+        }
+      ]
+    },
+    {
+      "previous": "1249.9",
+      "next": "1250.0",
+      "stagger": 40,
+      "delay": 10,
+      "changes": [
+        {
+          "next": {
+            "text": "0",
+            "start": 5,
+            "end": 6
+          },
+          "previous": {
+            "text": "9",
+            "start": 5,
+            "end": 6
+          },
+          "start": 10
+        },
+        {
+          "next": {
+            "text": "0",
+            "start": 3,
+            "end": 4
+          },
+          "previous": {
+            "text": "9",
+            "start": 3,
+            "end": 4
+          },
+          "start": 50
+        },
+        {
+          "next": {
+            "text": "5",
+            "start": 2,
+            "end": 3
+          },
+          "previous": {
+            "text": "4",
+            "start": 2,
+            "end": 3
+          },
+          "start": 90
+        }
+      ],
+      "removed": []
+    },
+    {
+      "previous": "$1,249.90",
+      "next": "$12,980.60",
+      "stagger": 40,
+      "delay": 10,
+      "changes": [
+        {
+          "next": {
+            "text": "6",
+            "start": 8,
+            "end": 9
+          },
+          "previous": {
+            "text": "9",
+            "start": 7,
+            "end": 8
+          },
+          "start": 10
+        },
+        {
+          "next": {
+            "text": "0",
+            "start": 6,
+            "end": 7
+          },
+          "previous": {
+            "text": "9",
+            "start": 5,
+            "end": 6
+          },
+          "start": 50
+        },
+        {
+          "next": {
+            "text": "8",
+            "start": 5,
+            "end": 6
+          },
+          "previous": {
+            "text": "4",
+            "start": 4,
+            "end": 5
+          },
+          "start": 90
+        },
+        {
+          "next": {
+            "text": "9",
+            "start": 4,
+            "end": 5
+          },
+          "previous": {
+            "text": "2",
+            "start": 3,
+            "end": 4
+          },
+          "start": 130
+        },
+        {
+          "next": {
+            "text": "2",
+            "start": 2,
+            "end": 3
+          },
+          "previous": {
+            "text": "1",
+            "start": 1,
+            "end": 2
+          },
+          "start": 170
+        },
+        {
+          "next": {
+            "text": "1",
+            "start": 1,
+            "end": 2
+          },
+          "previous": {
+            "text": "$",
+            "start": 0,
+            "end": 1
+          },
+          "start": 210
+        },
+        {
+          "next": {
+            "text": "$",
+            "start": 0,
+            "end": 1
+          },
+          "previous": null,
+          "start": 250
+        }
+      ],
+      "removed": []
+    },
+    {
+      "previous": "42",
+      "next": "42",
+      "stagger": 40,
+      "delay": 10,
+      "changes": [],
+      "removed": []
+    },
+    {
+      "previous": "9.5%",
+      "next": "10.0%",
+      "stagger": 40,
+      "delay": 10,
+      "changes": [
+        {
+          "next": {
+            "text": "0",
+            "start": 3,
+            "end": 4
+          },
+          "previous": {
+            "text": "5",
+            "start": 2,
+            "end": 3
+          },
+          "start": 10
+        },
+        {
+          "next": {
+            "text": "0",
+            "start": 1,
+            "end": 2
+          },
+          "previous": {
+            "text": "9",
+            "start": 0,
+            "end": 1
+          },
+          "start": 50
+        },
+        {
+          "next": {
+            "text": "1",
+            "start": 0,
+            "end": 1
+          },
+          "previous": null,
+          "start": 90
+        }
+      ],
+      "removed": []
+    },
+    {
+      "previous": "café",
+      "next": "café",
+      "stagger": 40,
+      "delay": 10,
+      "changes": [
+        {
+          "next": {
+            "text": "é",
+            "start": 3,
+            "end": 5
+          },
+          "previous": {
+            "text": "é",
+            "start": 3,
+            "end": 4
+          },
+          "start": 10
+        }
+      ],
+      "removed": []
+    },
+    {
+      "previous": "👍🏽 1",
+      "next": "👍🏿 2",
+      "stagger": 40,
+      "delay": 10,
+      "changes": [
+        {
+          "next": {
+            "text": "2",
+            "start": 5,
+            "end": 6
+          },
+          "previous": {
+            "text": "1",
+            "start": 5,
+            "end": 6
+          },
+          "start": 10
+        },
+        {
+          "next": {
+            "text": "👍🏿",
+            "start": 0,
+            "end": 4
+          },
+          "previous": {
+            "text": "👍🏽",
+            "start": 0,
+            "end": 4
+          },
+          "start": 50
+        }
+      ],
+      "removed": []
+    },
+    {
+      "previous": "١٢٣",
+      "next": "١٢٤",
+      "stagger": 40,
+      "delay": 10,
+      "changes": [
+        {
+          "next": {
+            "text": "٤",
+            "start": 2,
+            "end": 3
+          },
+          "previous": {
+            "text": "٣",
+            "start": 2,
+            "end": 3
+          },
+          "start": 10
+        }
+      ],
+      "removed": []
+    },
+    {
+      "previous": "",
+      "next": "5",
+      "stagger": 40,
+      "delay": 10,
+      "changes": [
+        {
+          "next": {
+            "text": "5",
+            "start": 0,
+            "end": 1
+          },
+          "previous": null,
+          "start": 10
+        }
+      ],
+      "removed": []
+    },
+    {
+      "previous": "5",
+      "next": "",
+      "stagger": 40,
+      "delay": 10,
+      "changes": [],
+      "removed": [
+        {
+          "piece": {
+            "text": "5",
+            "start": 0,
+            "end": 1
+          },
+          "start": 10
+        }
+      ]
+    }
+  ],
+  "springs": [
+    {
+      "duration": 600,
+      "bounce": 0.2,
+      "stiffness": 109.6622711232151,
+      "damping": 16.755160819145566,
+      "mass": 1
+    },
+    {
+      "duration": 400,
+      "bounce": 0,
+      "stiffness": 246.74011002723395,
+      "damping": 31.41592653589793,
+      "mass": 1
+    },
+    {
+      "duration": 500,
+      "bounce": -0.5,
+      "stiffness": 157.91367041742973,
+      "damping": 50.26548245743669,
+      "mass": 1
+    },
+    {
+      "duration": 300,
+      "bounce": 1,
+      "stiffness": 438.6490844928604,
+      "damping": 0.41887902047863945,
+      "mass": 1
+    },
+    {
+      "duration": 800,
+      "bounce": -1,
+      "stiffness": 61.68502750680849,
+      "damping": 1570.7963267948953,
+      "mass": 1
+    }
+  ]
+}

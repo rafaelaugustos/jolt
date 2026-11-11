@@ -76,6 +76,25 @@ The next interaction, target removal, pause/background or disposal clears the ac
 <Clip name="swiftui-transfer-ios" caption="iOS simulator, native SwiftUI: rejected and accepted touch drops, return/effect cleanup, keyed reorder and edge scrolling in 12 realized rows." />
 <Clip name="swiftui-transfer-macos" caption="macOS native SwiftUI: mouse drops, accessible button alternatives, keyed handle reorder and edge scrolling. No virtualized-list claim." />
 
+Pending merge and publication in [PR #488](https://github.com/rafaelaugustos/jolt/pull/488); not in 0.1.0-rc.13. For ordered insertion, `joltDropHandle(zones)` puts the drag on a view inside the `joltDropSource` view, such as a grip; the source still moves. While a handle is on screen, the source's own drag is limited to its subviews, so the rest of the source keeps its buttons, gestures and scrolling, and the "Move to …" and "Return to origin" accessibility actions move from the source to the handle. `JoltDropTarget` takes `padding: JoltDropPadding`, which extends the reported frame per edge in points (0–1,000; other values throw before the target exists). Center and overlap both use the padded frame, through the same JoltCore hit test that the generated fixtures check against the TypeScript `dropHits`.
+
+```swift
+let board = try scope.retain(JoltDropZones([
+    .init("backlog", label: "Backlog", padding: try .init(bottom: 60)),
+    .init("done", label: "Done", padding: try .init(bottom: 60)),
+], onDrop: { event in
+    // Move the card's data into event.id; after this callback, board.cancel() clears the offset.
+    nil
+}))
+// card.joltDropSource(board), with grip.joltDropHandle(board) inside the card
+// column.joltDropTarget("done", in: board)
+```
+
+The position while moving is already published: `offset`, `hovered` and `dragging` let the application place a gap without a gesture of its own. The source's layout frame is measured outside the drag offset; when it changes during a drag, for example because a gap opens above the source, the offset is compensated so the source stays under the finger or pointer. A source view replaced while its container changes keeps the drop zones live: the newest view owns the frame, and the drop zones suspend only when no source view is visible, enabled and in an active scene. Cancellation returns the offset to zero, and reduced motion returns a rejected release at once. Web and NativeScript use the same contract through `drag.handle`, `onMove` and `padding` in [drop, cues and depth](./interaction-depth).
+
+<Clip name="swiftui-character-handle-ios" caption="iOS simulator, native SwiftUI: actual touch input. The card body keeps its button, the grip drags, a gap opens above the card while it stays under the finger, a release below Done hits its 60 pt padding, the locked target rejects and reduced motion returns at once. Not a physical-device recording." />
+<Clip name="swiftui-character-handle-macos" caption="macOS native SwiftUI: the same drop handle board with mouse drags and the Send button, captured from the native window. Physical trackpad gestures are not validated by this recording." />
+
 ## Finite particles and articulated rigs
 
 `JoltParticles` is an optional Canvas renderer, with 1–2,000 live particles, 1–32 colors, 1–60,000 ms lifetime and 1–128 point size. `burst` and finite `emit` replace the current emission; rate is at most 1,000/second and emission plus lifetime is at most 60 seconds. Excess live population is rejected before replacement. Speed/range is 0–10,000 points/second, gravity ±10,000 points/second², spin ±3,600 degrees/second and spin range 0–3,600. Shape is circle, rectangle or ring; origin is center/top/bottom. A deterministic seed supports repeatable tests; it does not promise the same random sequence as Web.

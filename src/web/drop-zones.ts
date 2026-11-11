@@ -1,7 +1,20 @@
 import { createDropPolicy, type DropOptions, type DropZones } from '../core/drop.js'
-import type { WebDrag, WebDragOptions } from './drag.js'
+import {
+  beforeDragRelease,
+  shiftDrag,
+  type WebDrag,
+  type WebDragOptions,
+} from './drag.js'
 import { inputBlocked, inputEvents, type InteractionHost } from './interaction.js'
-export type { DropEvent, DropTarget, DropZones, DropEffect } from '../core/drop.js'
+export type {
+  DropEvent,
+  DropMoveEvent,
+  DropPadding,
+  DropRect,
+  DropTarget,
+  DropZones,
+  DropEffect,
+} from '../core/drop.js'
 export interface WebDropZoneOptions extends DropOptions<HTMLElement> {
   drag?: Omit<
     WebDragOptions,
@@ -46,6 +59,12 @@ export function createDropZones(
     enabled: () => !document.hidden && !inputOptions.disabled,
     cancelDrag: cancelInput,
     error: host.error,
+    translation: () => input?.position ?? { x: 0, y: 0 },
+    shift: (x, y) => {
+      if (!input) return
+      shiftDrag(input, { x, y })
+      flushSource()
+    },
   })
   const releases: (() => void)[] = []
   const controller: DropZones = {
@@ -65,7 +84,11 @@ export function createDropZones(
       return policy.handle.disposed
     },
     request: (id) => policy.handle.request(id),
-    refresh: () => policy.handle.refresh(),
+    refresh: () => {
+      // Measure the painted translation, not a newer unrendered input sample.
+      if (policy.handle.dragging) flushSource()
+      policy.handle.refresh()
+    },
     cancel() {
       try {
         policy.handle.cancel()
@@ -104,12 +127,14 @@ export function createDropZones(
         flushSource()
         policy.move()
       },
-      onRelease: () => {
-        policy.release()
-      },
       onCancel: () => {
         if (!handoff) policy.handle.cancel()
       },
+    })
+    // Commit before the return motion starts; reduced motion would settle it at once.
+    beforeDragRelease(input, (moved) => {
+      if (moved) policy.release()
+      else policy.handle.cancel()
     })
     releases.push(host.register(source, controller, controller.refresh))
     // A removed accepting target cancels its owned effect.

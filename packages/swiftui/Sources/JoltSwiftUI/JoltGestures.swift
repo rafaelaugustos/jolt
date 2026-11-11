@@ -4,6 +4,7 @@ import SwiftUI
 public typealias JoltGesturePosition = JoltCore.JoltGesturePosition
 public typealias JoltReorderMove = JoltCore.JoltReorderMove
 public typealias JoltDropRect = JoltCore.JoltDropRect
+public typealias JoltDropPadding = JoltCore.JoltDropPadding
 public enum JoltGestureContact: Hashable, Sendable { case pan, pinch, rotation }
 
 /// Incremental contact updates preserve the focal point. Bounds may intentionally limit that preservation.
@@ -132,7 +133,7 @@ public enum JoltGestureContact: Hashable, Sendable { case pan, pinch, rotation }
 }
 private struct GestureMotion: ViewModifier {
   @ObservedObject var model: JoltGestureModel
-  @Environment(\.scenePhase) private var phase
+  @JoltSceneActivity private var sceneActive
   @Environment(\.isEnabled) private var enabled
   @Environment(\.accessibilityReduceMotion) private var reduced
   @Environment(\.joltReduceMotion) private var appReduced
@@ -143,7 +144,7 @@ private struct GestureMotion: ViewModifier {
   @State private var visible = false
   @State private var size = CGSize.zero
   private func sync() {
-    if visible && enabled && phase == .active {
+    if visible && enabled && sceneActive {
       model.resume()
     } else {
       model.suspend()
@@ -234,8 +235,9 @@ private struct GestureMotion: ViewModifier {
       visible = false
       sync()
     }
-    .onChange(of: phase) { _, _ in sync() }.onChange(of: enabled) { _, _ in sync() }
+    .onChange(of: sceneActive) { _, _ in sync() }.onChange(of: enabled) { _, _ in sync() }
     .onChange(of: active) { _, next in if !next { reset() } }
+    .modifier(JoltActivityProvider($sceneActive))
   }
 }
 private struct PlatformGesture<Input: Gesture>: ViewModifier {

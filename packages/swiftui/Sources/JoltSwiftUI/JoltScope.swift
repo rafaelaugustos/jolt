@@ -84,10 +84,10 @@ import SwiftUI
 }
 private struct ScopeModifier: ViewModifier {
   let scope: JoltScope
-  @Environment(\.scenePhase) private var phase
+  @JoltSceneActivity private var sceneActive
   @State private var visible = false
   private func synchronize() {
-    if visible && phase == .active { scope.resume() } else { scope.suspend() }
+    if visible && sceneActive { scope.resume() } else { scope.suspend() }
   }
   func body(content: Content) -> some View {
     content.onAppear {
@@ -98,7 +98,8 @@ private struct ScopeModifier: ViewModifier {
       visible = false
       synchronize()
     }
-    .onChange(of: phase) { _, _ in synchronize() }
+    .onChange(of: sceneActive) { _, _ in synchronize() }
+    .modifier(JoltActivityProvider($sceneActive))
   }
 }
 extension View {

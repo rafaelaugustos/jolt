@@ -479,6 +479,18 @@
       "bytes": 134569,
       "sha256": "32e7c3509c678d6bf6a6b377ea97bc886365a7f9173aeaf91a84bf1f361535e1"
     },
+    "interaction-depth-drop-android.mp4": {
+      "bytes": 154994,
+      "sha256": "f20bd1fe910b88479441135affd2e1a5fd8fb2b9f398cef2272e82c4c6e60a09"
+    },
+    "interaction-depth-drop-ios.mp4": {
+      "bytes": 184392,
+      "sha256": "2358353859550adb4b28ae24ddd6725592a1c2f0922c3536c2e195802f751a8c"
+    },
+    "interaction-depth-drop-web.mp4": {
+      "bytes": 279519,
+      "sha256": "b5dd03869019da9c4decbfa53200b703f32c0024352ec0e199cf765e278e5c6a"
+    },
     "interaction-depth-ios.mp4": {
       "bytes": 78879,
       "sha256": "44ba8c774bce49625fa511e05761bae9a84f4100da29cb56a202cb7c5cdafb61"
@@ -1335,6 +1347,18 @@
       "bytes": 66361,
       "sha256": "7aa5cf308eb74eb035cdcb9e4687131c032d728b286b6b10250e2c39b9a616d2"
     },
+    "swiftui-activity-macos.mp4": {
+      "bytes": 288921,
+      "sha256": "73263d5c78d17843c8695278972536b3cc7d71ae8c76b3a6d946e3c889e0c5da"
+    },
+    "swiftui-character-handle-ios.mp4": {
+      "bytes": 114253,
+      "sha256": "42909fde8b65735329c4b909a223b6cdfd94fd1572565f5ac11b32d4a46ab949"
+    },
+    "swiftui-character-handle-macos.mp4": {
+      "bytes": 196495,
+      "sha256": "a82cde2e34fa89ec35f869537100aff0cc3195c572d4d731e6578841f4c56309"
+    },
     "swiftui-character-ios.mp4": {
       "bytes": 428031,
       "sha256": "f1418fce903e10c74e452bc5a5faf13d0da56860dca995f264276070167f0ece"
@@ -1351,6 +1375,14 @@
       "bytes": 185160,
       "sha256": "60bb374f8252cdd9abf75808bfb6f730cc433a9fbf2d9acf3796adbe034643b3"
     },
+    "swiftui-depth-ios.mp4": {
+      "bytes": 311734,
+      "sha256": "9ea8c8038e5fc20df2c21ae469a595c1d47e23b5b3d5dee578b7ec0e4fefa39c"
+    },
+    "swiftui-depth-macos.mp4": {
+      "bytes": 355442,
+      "sha256": "9ad762373ab0147d42e855f711cf580d491e9e37a08a787c4ea72861bbb706a9"
+    },
     "swiftui-dynamics-ios.mp4": {
       "bytes": 149844,
       "sha256": "c17ee2a8765841a8cf6380eb724e52a9277b7f388fd25dcb762838c224bb91e3"
@@ -1358,6 +1390,14 @@
     "swiftui-dynamics-macos.mp4": {
       "bytes": 141303,
       "sha256": "e8251df3911cc7f6c11e9aa649d83ce018c84a559e60710c709349f14daaae9b"
+    },
+    "swiftui-effects-ios.mp4": {
+      "bytes": 987975,
+      "sha256": "fc70f241505aa0603891b589c142554c852905555fae9ebbb14fb057cc8ad231"
+    },
+    "swiftui-effects-macos.mp4": {
+      "bytes": 717632,
+      "sha256": "6735f75493a4ba1a989436eb45894458f3463302fa8304593048ef9772ee79dd"
     },
     "swiftui-geometry-ios.mp4": {
       "bytes": 185181,
@@ -1411,9 +1451,25 @@
       "bytes": 163365,
       "sha256": "c61e7bf86c23f1388f1015a21f162e273ead1d377fe9d47b55917cc5e3246bfb"
     },
+    "swiftui-scroll-linked-ios.mp4": {
+      "bytes": 281510,
+      "sha256": "004dda85ef80746800e6055b07a67a8bb3009acba736632717914aff8abe6637"
+    },
+    "swiftui-scroll-linked-macos.mp4": {
+      "bytes": 72130,
+      "sha256": "05a563c3cf4f6756990d804ae70b9c501a505e18fa19c21a192eed07d26d30fe"
+    },
     "swiftui-scroll-macos.mp4": {
       "bytes": 51511,
       "sha256": "9145e303b5a5d734dfc4c1c755d18fef7cf6db4ab5ef6c27bc0369cb37980d65"
+    },
+    "swiftui-text-ios.mp4": {
+      "bytes": 318862,
+      "sha256": "8de91c43320c23e94de4c7ade9e1ab2630eba657fc6571db48d8542550b4e6a4"
+    },
+    "swiftui-text-macos.mp4": {
+      "bytes": 255220,
+      "sha256": "f32b44d529db77a483cb315f2d2c4c421976512d922c3676dfc3c829e9b92a28"
     },
     "swiftui-transfer-ios.mp4": {
       "bytes": 120858,

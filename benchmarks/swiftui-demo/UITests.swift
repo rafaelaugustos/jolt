@@ -1,5 +1,9 @@
 import XCTest
 
+#if os(macOS)
+  import CoreGraphics
+#endif
+
 final class SwiftUIAcceptance: XCTestCase {
   #if os(iOS)
     @MainActor func testStandaloneMotionAndLifecycle() {
@@ -92,6 +96,120 @@ final class SwiftUIAcceptance: XCTestCase {
       cue("stop")
     }
   #endif
+  @MainActor func testActivityExpansion() {
+    let app = lab("--activity-lab")
+    let main = app.staticTexts["activity-Main"]
+    XCTAssertTrue(main.waitForExistence(timeout: 10))
+    cue("start")
+    XCTAssertTrue(wait { self.legs(app, "Main") >= 1 }, self.label(app, "activity-Main"))
+    #if os(macOS)
+      click(app.buttons["open-second"])
+      let second = app.staticTexts["activity-Second"]
+      XCTAssertTrue(second.waitForExistence(timeout: 5))
+      let mainLegs = legs(app, "Main")
+      XCTAssertTrue(wait { self.legs(app, "Main") > mainLegs }, self.label(app, "activity-Main"))
+      XCTAssertTrue(label(app, "activity-Main").contains("jolt active"))
+      note("Second key", [label(app, "activity-Main"), label(app, "activity-Second")])
+      main.click()
+      let secondLegs = legs(app, "Second")
+      XCTAssertTrue(
+        wait { self.legs(app, "Second") > secondLegs }, self.label(app, "activity-Second"))
+      XCTAssertTrue(label(app, "activity-Second").contains("jolt active"))
+      note("Main key", [label(app, "activity-Main"), label(app, "activity-Second")])
+      let window = app.windows.containing(.staticText, identifier: "activity-Second").firstMatch
+      window.buttons[XCUIIdentifierMinimizeWindow].click()
+      XCTAssertTrue(
+        wait { self.label(app, "activity-log").contains("Second inactive") },
+        self.label(app, "activity-log"))
+      let frozen = legs(app, "Main")
+      XCTAssertTrue(wait { self.legs(app, "Main") > frozen }, self.label(app, "activity-Main"))
+      note("Second minimized", [label(app, "activity-Main"), label(app, "activity-log")])
+      for (button, host) in [
+        ("open-hosting-view", "NSHostingView"), ("open-hosting-controller", "NSHostingController"),
+      ] {
+        click(app.buttons[button])
+        XCTAssertTrue(app.staticTexts["activity-\(host)"].waitForExistence(timeout: 5))
+        let start = legs(app, host)
+        XCTAssertTrue(wait { self.legs(app, host) > start }, self.label(app, "activity-\(host)"))
+        XCTAssertTrue(label(app, "activity-\(host)").contains("jolt active"))
+        note(host, [label(app, "activity-\(host)")])
+      }
+      click(app.buttons["cover-hosted"])
+      XCTAssertTrue(
+        wait {
+          let log = self.label(app, "activity-log")
+          return log.contains("NSHostingView inactive") && log.contains("NSHostingController inactive")
+        }, self.label(app, "activity-log"))
+      note("Hosted windows covered", [label(app, "activity-log")])
+      click(app.buttons["uncover-hosted"])
+      XCTAssertTrue(
+        wait { self.label(app, "activity-log").hasSuffix("active") }, self.label(app, "activity-log"))
+      app.typeKey(",", modifierFlags: .command)
+      XCTAssertTrue(app.staticTexts["activity-Settings"].waitForExistence(timeout: 5))
+      let settings = legs(app, "Settings")
+      XCTAssertTrue(
+        wait { self.legs(app, "Settings") > settings }, self.label(app, "activity-Settings"))
+      note("Settings", [label(app, "activity-Settings")])
+      app.typeKey("w", modifierFlags: .command)
+      let bars = app.menuBars
+      if bars.count > 1 {
+        bars.element(boundBy: bars.count - 1).click()
+        XCTAssertTrue(app.staticTexts["activity-Menu bar"].waitForExistence(timeout: 5))
+        let menu = legs(app, "Menu bar")
+        XCTAssertTrue(
+          wait { self.legs(app, "Menu bar") > menu }, self.label(app, "activity-Menu bar"))
+        note("MenuBarExtra", [label(app, "activity-Menu bar")])
+        app.typeKey(.escape, modifierFlags: [])
+      } else {
+        XCTFail("The MenuBarExtra status item is not in the accessibility hierarchy")
+      }
+      let area = app.descendants(matching: .any)["activity-pointer-area"].frame
+      let finder = XCUIApplication(bundleIdentifier: "com.apple.finder")
+      finder.activate()
+      XCTAssertTrue(finder.wait(for: .runningForeground, timeout: 5))
+      CGEvent(
+        mouseEventSource: nil, mouseType: .mouseMoved,
+        mouseCursorPosition: .init(x: area.minX + area.width * 0.9, y: area.midY),
+        mouseButton: .left)?.post(tap: .cghidEventTap)
+      Thread.sleep(forTimeInterval: 0.6)
+      note(
+        "Pointer while another app is active",
+        [
+          label(app, "activity-pointer"), label(app, "activity-Main"),
+          "Finder state \(finder.state.rawValue), demo state \(app.state.rawValue)",
+        ])
+      app.activate()
+      app.descendants(matching: .any)["activity-pointer-area"]
+        .coordinate(withNormalizedOffset: .init(dx: 0.1, dy: 0.5)).hover()
+      XCTAssertTrue(wait { self.label(app, "activity-pointer").contains("active -0.") })
+      note("Pointer while active", [label(app, "activity-pointer")])
+    #else
+      XCUIDevice.shared.press(.home)
+      Thread.sleep(forTimeInterval: 1)
+      app.activate()
+      XCTAssertTrue(
+        wait { self.label(app, "activity-log").contains("Main inactive") },
+        self.label(app, "activity-log"))
+      let resumed = legs(app, "Main")
+      XCTAssertTrue(wait { self.legs(app, "Main") > resumed }, self.label(app, "activity-Main"))
+      note("Background and back", [label(app, "activity-Main"), label(app, "activity-log")])
+    #endif
+    cue("stop")
+  }
+  @MainActor private func legs(_ app: XCUIApplication, _ host: String) -> Int {
+    let text = label(app, "activity-\(host)")
+    guard let start = text.range(of: "legs ") else { return -1 }
+    return Int(text[start.upperBound...].prefix { $0.isNumber }) ?? -1
+  }
+  @MainActor private func note(_ name: String, _ lines: [String]) {
+    let text = lines.joined(separator: "\n")
+    print("JOLT_ACTIVITY \(name): " + lines.joined(separator: " | "))
+    XCTContext.runActivity(named: name) { activity in
+      let attachment = XCTAttachment(string: text)
+      attachment.lifetime = .keepAlways
+      activity.add(attachment)
+    }
+  }
   @MainActor private func click(_ element: XCUIElement) {
     #if os(macOS)
       element.click()
@@ -619,6 +737,64 @@ final class SwiftUIAcceptance: XCTestCase {
     click(app.buttons["measured-reset"])
     cue("stop")
   }
+  @MainActor func testCharacterHandleExpansion() {
+    let app = lab("--character-handle-lab")
+    let grip = app.descendants(matching: .any)["handle-grip"].firstMatch
+    XCTAssertTrue(grip.waitForExistence(timeout: 10))
+    let card = app.descendants(matching: .any)["handle-card"].firstMatch
+    let backlog = app.descendants(matching: .any)["handle-backlog"].firstMatch
+    let done = app.descendants(matching: .any)["handle-done"].firstMatch
+    let locked = app.descendants(matching: .any)["handle-locked"].firstMatch
+    func drag(to target: XCUIElement, _ dx: Double, _ dy: Double, hold: Double = 0.4) {
+      grip.coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.5)).press(
+        forDuration: 0.15,
+        thenDragTo: target.coordinate(withNormalizedOffset: .init(dx: dx, dy: dy)),
+        withVelocity: .slow, thenHoldForDuration: hold)
+    }
+    cue("start")
+    let origin = card.frame
+    click(app.buttons["handle-open"])
+    XCTAssertTrue(wait { app.buttons["handle-open"].label.contains("Open · 1") })
+    let body = card.coordinate(withNormalizedOffset: .init(dx: 0.85, dy: 0.2))
+    body.press(forDuration: 0.15, thenDragTo: body.withOffset(.init(dx: 140, dy: 60)))
+    Thread.sleep(forTimeInterval: 0.4)
+    XCTAssertEqual(card.frame.midX, origin.midX, accuracy: 2)
+    XCTAssertEqual(card.frame.midY, origin.midY, accuracy: 2)
+    XCTAssertFalse(label(app, "handle-status").contains("Dropped"), label(app, "handle-status"))
+    drag(to: backlog, 0.3, 0.06, hold: 0.8)
+    XCTAssertTrue(
+      wait { self.label(app, "handle-status").contains("Dropped in backlog · drag") },
+      label(app, "handle-status"))
+    XCTAssertTrue(
+      wait { abs(card.frame.midY - origin.midY) < 3 }, "\(card.frame) \(origin) \(label(app, "handle-status"))")
+    let short = done.frame
+    drag(to: done, 0.3, 1 + 30 / short.height)
+    XCTAssertTrue(
+      wait { self.label(app, "handle-status").contains("Dropped in done · drag") },
+      label(app, "handle-status"))
+    XCTAssertTrue(wait { card.frame.midX > short.minX && card.frame.midX < short.maxX })
+    let settled = card.frame
+    drag(to: locked, 0.3, 0.5)
+    XCTAssertTrue(
+      wait { self.label(app, "handle-status").contains("Rejected by locked") },
+      label(app, "handle-status"))
+    XCTAssertTrue(wait { abs(card.frame.midY - settled.midY) < 3 })
+    #if os(macOS)
+      click(app.checkBoxes["handle-reduce"])
+    #else
+      let reduce = app.switches["handle-reduce"]
+      reduce.coordinate(withNormalizedOffset: .init(dx: 0.94, dy: 0.5)).tap()
+      XCTAssertEqual(reduce.value as? String, "1")
+    #endif
+    drag(to: locked, 0.3, 0.5, hold: 0.2)
+    XCTAssertTrue(abs(card.frame.midY - settled.midY) < 3, "Reduced motion did not return at once")
+    click(app.buttons["handle-send"])
+    XCTAssertTrue(
+      wait { self.label(app, "handle-status").contains("Dropped in backlog · request") },
+      label(app, "handle-status"))
+    XCTAssertTrue(wait { abs(card.frame.midX - origin.midX) < 3 })
+    cue("stop")
+  }
   private func cue(_ action: String) {
     let device = ProcessInfo.processInfo.environment["SIMULATOR_UDID"] ?? "macos"
     let directory = URL(fileURLWithPath: "/tmp/jolt-swiftui-recording-control-" + device)
@@ -652,5 +828,283 @@ final class SwiftUIAcceptance: XCTestCase {
     XCTWaiter.wait(
       for: [XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in condition() }, object: nil)],
       timeout: 6) == .completed
+  }
+  @MainActor func testTextExpansion() {
+    let app = lab("--text-lab")
+    let sentence = app.descendants(matching: .any)["text-sentence"].firstMatch
+    XCTAssertTrue(sentence.waitForExistence(timeout: 10))
+    let spoken = { (element: XCUIElement) in
+      element.label + " " + String(describing: element.value ?? "")
+    }
+    let words = "Motion should feel like it belongs to the words it carries."
+    cue("start")
+    XCTAssertTrue(spoken(sentence).contains(words), spoken(sentence))
+    XCTAssertTrue(
+      spoken(app.descendants(matching: .any)["text-rtl"].firstMatch).contains("שלום עולם"))
+    XCTAssertTrue(wait { self.label(app, "text-status").contains("word · completed") })
+    let frame = sentence.frame
+    let below = app.buttons["text-word"].frame
+    click(app.buttons["text-letter"])
+    XCTAssertTrue(label(app, "text-status").contains("letter"), label(app, "text-status"))
+    XCTAssertTrue(spoken(sentence).contains(words), spoken(sentence))
+    XCTAssertEqual(sentence.frame.minY, frame.minY)
+    XCTAssertEqual(sentence.frame.width, frame.width)
+    XCTAssertEqual(app.buttons["text-word"].frame, below)
+    XCTAssertTrue(wait { self.label(app, "text-status").contains("letter · completed") })
+    XCTAssertEqual(sentence.frame, frame)
+    click(app.buttons["text-word"])
+    Thread.sleep(forTimeInterval: 0.5)
+    click(app.buttons["text-replay"])
+    XCTAssertTrue(wait { self.label(app, "text-status").contains("word · completed") })
+    let balance = app.descendants(matching: .any)["roll-balance"].firstMatch
+    XCTAssertTrue(spoken(balance).contains("$1,249.90"), spoken(balance))
+    let width = balance.frame.width
+    let right = balance.frame.maxX
+    click(app.buttons["roll-up"])
+    XCTAssertTrue(spoken(balance).contains("$12,980.60"), spoken(balance))
+    XCTAssertTrue(wait { self.label(app, "roll-status").contains("completed · $12,980.60") })
+    XCTAssertGreaterThan(balance.frame.width, width + 10)
+    XCTAssertEqual(balance.frame.maxX, right, accuracy: 1)
+    click(app.buttons["roll-down"])
+    click(app.buttons["roll-reset"])
+    XCTAssertTrue(spoken(balance).contains("$1,249.90"), spoken(balance))
+    XCTAssertTrue(wait { self.label(app, "roll-status").contains("completed · $1,249.90") })
+    XCTAssertEqual(balance.frame.width, width, accuracy: 1)
+    let share = app.descendants(matching: .any)["roll-share"].firstMatch
+    click(app.buttons["share-up"])
+    XCTAssertTrue(spoken(share).contains("87.5%"), spoken(share))
+    click(app.buttons["share-down"])
+    XCTAssertTrue(spoken(share).contains("9.8%"), spoken(share))
+    XCTAssertTrue(wait { self.label(app, "roll-status").contains("completed") })
+    #if os(macOS)
+      click(app.checkBoxes["text-reduce"])
+    #else
+      app.switches["text-reduce"].coordinate(withNormalizedOffset: .init(dx: 0.94, dy: 0.5)).tap()
+    #endif
+    click(app.buttons["roll-down"])
+    XCTAssertTrue(
+      label(app, "roll-status").contains("completed · $980.40"), label(app, "roll-status"))
+    click(app.buttons["text-letter"])
+    XCTAssertTrue(
+      label(app, "text-status").contains("letter · completed"), label(app, "text-status"))
+    XCTAssertTrue(spoken(sentence).contains(words), spoken(sentence))
+    #if os(macOS)
+      click(app.checkBoxes["text-reduce"])
+    #else
+      app.switches["text-reduce"].coordinate(withNormalizedOffset: .init(dx: 0.94, dy: 0.5)).tap()
+      let compact = sentence.frame.height
+      app.switches["text-large"].coordinate(withNormalizedOffset: .init(dx: 0.94, dy: 0.5)).tap()
+      XCTAssertTrue(wait { sentence.frame.height > compact + 20 })
+    #endif
+    click(app.buttons["text-word"])
+    XCTAssertTrue(spoken(sentence).contains(words), spoken(sentence))
+    XCTAssertTrue(wait { self.label(app, "text-status").contains("word · completed") })
+    cue("stop")
+  }
+  @MainActor func testDepthExpansion() {
+    let app = lab("--depth-lab")
+    let card = app.buttons["tilt-card"]
+    XCTAssertTrue(card.waitForExistence(timeout: 10))
+    let layout = app.descendants(matching: .any)["tilt-frame"].firstMatch.frame
+    XCTAssertEqual(card.frame.width, 180, accuracy: 1)
+    func angle(_ axis: String) -> Double {
+      let text = label(app, "tilt-status")
+      guard let start = text.range(of: axis + " ") else { return .nan }
+      return Double(text[start.upperBound...].prefix { $0 != " " }) ?? .nan
+    }
+    func taps() -> String {
+      String(label(app, "tilt-status").split(separator: "Taps ").last ?? "")
+        .trimmingCharacters(in: .whitespaces)
+    }
+    func press(_ dx: CGFloat, _ dy: CGFloat) {
+      let window = app.windows.firstMatch
+      let point = window.coordinate(withNormalizedOffset: .zero).withOffset(
+        CGVector(
+          dx: layout.midX + dx - window.frame.minX, dy: layout.midY + dy - window.frame.minY))
+      #if os(macOS)
+        point.click()
+      #else
+        point.tap()
+      #endif
+      Thread.sleep(forTimeInterval: 0.4)
+    }
+    func toggle(_ id: String) {
+      #if os(macOS)
+        click(app.checkBoxes[id])
+      #else
+        app.switches[id].coordinate(withNormalizedOffset: .init(dx: 0.94, dy: 0.5)).tap()
+      #endif
+    }
+    cue("start")
+    click(app.buttons["tilt-y"])
+    XCTAssertTrue(wait { angle("rotateY") == -55 }, label(app, "tilt-status"))
+    Thread.sleep(forTimeInterval: 1)
+    let near = card.frame
+    XCTAssertEqual(near.width, 109.9, accuracy: 1.5)
+    XCTAssertGreaterThan(near.maxY, layout.maxY + 10)
+    click(app.buttons["tilt-x"])
+    Thread.sleep(forTimeInterval: 0.25)
+    XCTAssertGreaterThan(angle("rotateX"), 5)
+    XCTAssertEqual(angle("rotateY"), -55)
+    click(app.buttons["level-x"])
+    XCTAssertEqual(angle("rotateY"), -55)
+    XCTAssertTrue(wait { angle("rotateX") == 0 }, label(app, "tilt-status"))
+    Thread.sleep(forTimeInterval: 1.2)
+    XCTAssertEqual(angle("rotateX"), 0)
+    XCTAssertEqual(angle("rotateY"), -55)
+    XCTAssertEqual(card.frame.width, near.width, accuracy: 1)
+    press(0, 0)
+    XCTAssertEqual(taps(), "1")
+    press(-70, 0)
+    XCTAssertEqual(taps(), "1", "Inside the layout frame, outside the projected card")
+    press(60, -70)
+    XCTAssertEqual(taps(), "2", "Outside the layout frame, inside the projected card")
+    click(app.buttons["depth-far"])
+    XCTAssertTrue(wait { abs(card.frame.width - 103.9) < 1.5 }, "\(card.frame)")
+    XCTAssertLessThan(card.frame.height, near.height - 10)
+    XCTAssertGreaterThan(card.frame.height, layout.height + 2)
+    click(app.buttons["depth-flat"])
+    XCTAssertTrue(wait { abs(card.frame.width - 103.2) < 1.5 }, "\(card.frame)")
+    XCTAssertEqual(card.frame.height, 120, accuracy: 1)
+    click(app.buttons["depth-near"])
+    let lift = app.descendants(matching: .any)["lift-card"].firstMatch
+    let rest = lift.frame.midY
+    click(app.buttons["lift-raise"])
+    XCTAssertTrue(
+      wait {
+        self.label(app, "lift-status").contains(
+          "y -18.0 · shadow 0.42 · radius 18.0 · offset 16.0 · bound")
+      }, label(app, "lift-status"))
+    XCTAssertEqual(lift.frame.midY, rest - 18, accuracy: 1)
+    click(app.buttons["lift-bind"])
+    XCTAssertTrue(
+      wait {
+        self.label(app, "lift-status").contains(
+          "y -18.0 · shadow 0.20 · radius 3.0 · offset 2.0 · rest")
+      }, label(app, "lift-status"))
+    click(app.buttons["lift-bind"])
+    click(app.buttons["lift-rest"])
+    XCTAssertTrue(wait { self.label(app, "lift-status").contains("y 0.0 · shadow 0.20") })
+    XCTAssertTrue(wait { abs(lift.frame.midY - rest) < 1 })
+    toggle("depth-reduce")
+    click(app.buttons["tilt-x"])
+    XCTAssertEqual(angle("rotateX"), 45, label(app, "tilt-status"))
+    XCTAssertTrue(wait { card.frame.height < near.height - 20 }, "\(card.frame)")
+    click(app.buttons["lift-raise"])
+    XCTAssertTrue(label(app, "lift-status").contains("y -18.0 · shadow 0.42"))
+    XCTAssertTrue(wait { abs(lift.frame.midY - (rest - 18)) < 1 })
+    toggle("depth-dark")
+    click(app.buttons["tilt-reset"])
+    click(app.buttons["lift-rest"])
+    XCTAssertEqual(angle("rotateX"), 0)
+    XCTAssertEqual(angle("rotateY"), 0)
+    XCTAssertTrue(wait { abs(card.frame.width - 180) < 1 }, "\(card.frame)")
+    Thread.sleep(forTimeInterval: 0.8)
+    cue("stop")
+  }
+  @MainActor func testEffectsExpansion() {
+    let app = lab("--effects-lab")
+    let press = { (element: XCUIElement, dx: Double, dy: Double) in
+      let point = element.coordinate(withNormalizedOffset: CGVector(dx: dx, dy: dy))
+      #if os(macOS)
+        point.click()
+      #else
+        point.tap()
+      #endif
+    }
+    let toggle = { (id: String) in
+      #if os(macOS)
+        app.checkBoxes[id].click()
+      #else
+        app.switches[id].coordinate(withNormalizedOffset: .init(dx: 0.94, dy: 0.5)).tap()
+      #endif
+    }
+    let scroll = { (down: Bool) in
+      #if os(macOS)
+        app.scrollViews["effects-scroll"].firstMatch.scroll(byDeltaX: 0, deltaY: down ? -600 : 600)
+      #else
+        if down { app.swipeUp() } else { app.swipeDown() }
+      #endif
+    }
+    XCTAssertTrue(app.staticTexts["shimmer-status"].waitForExistence(timeout: 10))
+    XCTAssertTrue(
+      wait { self.label(app, "shimmer-status").contains("running") },
+      label(app, "shimmer-status"))
+    cue("start")
+    Thread.sleep(forTimeInterval: 1.6)
+    click(app.buttons["skeleton-toggle"])
+    XCTAssertTrue(
+      app.descendants(matching: .any)["skeleton-content"].firstMatch.waitForExistence(timeout: 3))
+    XCTAssertTrue(wait { !self.label(app, "shimmer-status").contains("running") })
+    click(app.buttons["skeleton-toggle"])
+    XCTAssertTrue(wait { self.label(app, "shimmer-status").contains("running") })
+    for style in ["dots", "bars", "ring"] {
+      click(app.buttons["busy-" + style])
+      XCTAssertTrue(
+        wait { self.label(app, "loader-status").contains(style + " running") },
+        label(app, "loader-status"))
+    }
+    XCTAssertEqual(app.buttons["busy-ring"].label, "Saving with ring")
+    Thread.sleep(forTimeInterval: 1.5)
+    for style in ["dots", "bars", "ring"] { click(app.buttons["busy-" + style]) }
+    XCTAssertTrue(
+      wait { !self.label(app, "loader-status").contains("running") }, label(app, "loader-status"))
+    let area = app.descendants(matching: .any)["reveal-area"].firstMatch
+    let surface = app.descendants(matching: .any)["reveal-surface"].firstMatch
+    XCTAssertFalse(surface.exists)
+    XCTAssertTrue(label(app, "reveal-status").contains("concealed"), label(app, "reveal-status"))
+    press(area, 0.2, 0.3)
+    XCTAssertTrue(
+      wait { self.label(app, "reveal-status").contains("revealing") }, label(app, "reveal-status"))
+    Thread.sleep(forTimeInterval: 0.3)
+    click(app.buttons["reveal-conceal"])
+    XCTAssertTrue(
+      wait { self.label(app, "reveal-status").contains("concealing") }, label(app, "reveal-status"))
+    XCTAssertTrue(
+      label(app, "reveal-status").contains("interrupted 1"), label(app, "reveal-status"))
+    XCTAssertTrue(
+      wait { self.label(app, "reveal-status").contains("Reveal: concealed") },
+      label(app, "reveal-status"))
+    XCTAssertFalse(surface.exists)
+    press(area, 0.8, 0.7)
+    XCTAssertTrue(surface.waitForExistence(timeout: 4))
+    XCTAssertTrue(label(app, "reveal-status").contains("revealed"), label(app, "reveal-status"))
+    XCTAssertEqual(surface.frame.height, area.frame.height, accuracy: 2)
+    XCTAssertEqual(surface.frame.width, area.frame.width, accuracy: 2)
+    Thread.sleep(forTimeInterval: 0.5)
+    press(surface, 0.5, 0.5)
+    XCTAssertTrue(
+      wait { self.label(app, "reveal-status").contains("Reveal: concealed") },
+      label(app, "reveal-status"))
+    XCTAssertFalse(surface.exists)
+    scroll(true)
+    XCTAssertTrue(label(app, "gradient-status").contains("135°"), label(app, "gradient-status"))
+    click(app.buttons["gradient-sweep"])
+    XCTAssertTrue(
+      wait { self.label(app, "gradient-status").contains("315°") }, label(app, "gradient-status"))
+    XCTAssertTrue(label(app, "gradient-status").contains("0.75"), label(app, "gradient-status"))
+    toggle("blur-toggle")
+    XCTAssertTrue(
+      wait { self.label(app, "blur-status").contains("24.0 pt") }, label(app, "blur-status"))
+    Thread.sleep(forTimeInterval: 0.6)
+    scroll(false)
+    toggle("effects-reduce")
+    XCTAssertTrue(
+      wait { self.label(app, "shimmer-status").contains("idle · reduced motion") },
+      label(app, "shimmer-status"))
+    click(app.buttons["busy-ring"])
+    XCTAssertTrue(
+      wait { self.label(app, "loader-status").contains("ring idle") }, label(app, "loader-status"))
+    press(area, 0.5, 0.5)
+    XCTAssertTrue(surface.waitForExistence(timeout: 1))
+    click(app.buttons["busy-ring"])
+    scroll(true)
+    click(app.buttons["gradient-sweep"])
+    Thread.sleep(forTimeInterval: 0.3)
+    XCTAssertTrue(label(app, "gradient-status").contains("135°"), label(app, "gradient-status"))
+    toggle("blur-toggle")
+    Thread.sleep(forTimeInterval: 0.2)
+    XCTAssertTrue(label(app, "blur-status").contains("0.0 pt"), label(app, "blur-status"))
+    cue("stop")
   }
 }

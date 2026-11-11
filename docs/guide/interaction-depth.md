@@ -29,6 +29,40 @@ The accepted effect is owned until completion, cancellation, regrab, pause, targ
 <Clip :autoplay="false" name="interaction-drop-android" caption="Physical ASUS ZenFone 3, Android 8: real ADB swipes, rejection, acceptance and scoped remount." />
 <Clip :autoplay="false" name="interaction-drop-web" caption="Chromium: real mouse input and keyboard acceptance. No OS file drag is involved." />
 
+### Ordered insertion
+
+Pending merge and publication in [PR #488](https://github.com/rafaelaugustos/jolt/pull/488); not in 0.1.0-rc.13. A board that reorders cards inside columns needs more than a drop onto a column: a grip that starts the drag, the card's position while it moves, columns that are easy to hit when short, and a card that stays under the pointer while the board opens a gap. The Web and NativeScript share one contract for this:
+
+```ts
+const drop = scope.dropZones(card, {
+  targets: [
+    { id: 'todo', target: todo, padding: { bottom: 60 } },
+    { id: 'done', target: done, padding: { bottom: 60 } },
+  ],
+  drag: { handle: grip, snap: [0] },
+  // Place the gap before the first card whose midpoint is below the card's center.
+  onMove: ({ id, bounds }) => showGap(id, bounds.y + bounds.height / 2),
+  onLeave: () => hideGap(),
+  onDrop: ({ id }) => moveCard(id),
+})
+```
+
+**Handle.** `drag.handle`, also accepted by `drag()`, takes the input from an element inside the source on the Web (it may be a `<button>`, which keeps its own keyboard handling) or from a descendant view on NativeScript. Only the handle starts the drag, and the source moves. On the Web only the handle gets `touch-action` and pointer capture, so the rest of the source keeps its clicks, controls and touch scrolling; interactive elements inside the handle still do not start a drag, and a click on the handle right after a drag is suppressed. On NativeScript only the handle gets the pan recognizer, so the rest of the source keeps its taps and a surrounding scroll view can take its touches. A handle that is not inside the source, or is the source itself, throws `TypeError` before any input changes. A handle that leaves the source, is disabled or becomes inert cancels the contact.
+
+**Position while moving.** `onMove({ id, source, bounds, method: 'drag' })` runs on every drag move after hit testing: `id` is the hovered target or `undefined`, and `bounds` is a copy of the source's visual bounds in the targets' coordinates. The application can place an insertion point without pointer listeners of its own. `request()`, `refresh()` and the release do not report a move, and nothing is reported after cancellation, pause, suspension or disposal. NativeScript also reports the pan's first sample. An error thrown from `onMove` cancels the drag, like the other callbacks.
+
+**Hit padding.** A target's `padding` extends its hit bounds by one number or per edge (`{ top, right, bottom, left }`): CSS pixels on the Web, DIPs on NativeScript. Each edge must be finite and 0–1,000; other values throw `RangeError` when the drop zones are created. Both `center` and `overlap` use the padded rectangle, and a target with empty bounds still never hits. Padding is invisible; draw it when users need to see it. The exported `dropHits(source, target, policy, padding)` applies the same rule.
+
+**Crossing containers.** The source has to stay visible while it moves, and NativeScript layouts clip their children by default. On iOS set `clipToBounds = false` on the containers the source crosses, or it moves out of sight. On Android `clipToBounds` has no effect: call `setClipChildren(false)` and `setClipToPadding(false)` on those `ViewGroup`s and on their parents, because Android treats a source clipped by an ancestor as hidden and Jolt then cancels the drag. Views drawn later cover the source, so draw the container that holds it last, as the demo board does. On the Web, raise the source with `z-index` when later content would cover it.
+
+**Re-anchoring.** During a drag, every move and every `refresh()` compares the source's layout center (its visual center without the drag translation) with the one from the start of the drag, and offsets the drag translation by the change. A gap inserted above the card therefore leaves it under the pointer. The Web refreshes on its own after DOM insertions, removals and the attribute changes Jolt observes; NativeScript after the source's `layoutChanged`, which fires when its frame moves inside its parent. Changes made only through styles on the Web, and moves of an ancestor on NativeScript, are compensated on the next move; call `refresh()` right after them to avoid a one-frame jump. Only dragged axes are compensated, drag `bounds` still clamp the translation, and scaling the source about a non-center origin during a drag counts as a layout change. Velocity samples are shifted with the translation, so a re-anchor does not turn into a fling.
+
+**Release, cancellation and reduced motion.** The drop is decided from the final input before the return motion starts, on both platforms. Cancellation (`cancel()`, pause, a hidden document, window blur or a scroll on the Web, application suspension on NativeScript) freezes the source where it is, stops move reports and calls `onLeave` for the hovered target, so the application can remove its gap; layout it changes after that is not compensated. Reduced motion keeps direct tracking; a rejected or untargeted release returns without animation. Keep keyboard moves in application controls, as the demo grip does with the arrow keys and `request()`.
+
+<Clip :autoplay="false" name="interaction-depth-drop-web" caption="Chromium: real mouse and keyboard input. The card body keeps its button and scrolling, the grip button drags, a gap opens above the card while it stays under the pointer, a release below the short Done column hits its 60 px padding, the locked target rejects and an arrow key sends the card back." />
+<Clip :autoplay="false" name="interaction-depth-drop-ios" caption="iOS simulator: real XCTest touches on the native board. Only the 36 DIP grip drags, the gap above the card re-anchors it, the padded Done column accepts, the locked target rejects, and reduced motion returns at once. Not a physical-device recording." />
+<Clip :autoplay="false" name="interaction-depth-drop-android" caption="Android emulator: real ADB touches on the same native board: grip-only drag, gap re-anchoring, padded acceptance, rejection and reduced motion. Not a physical-device recording." />
+
 ## Optional one-shot audio and timeline cues
 
 ```ts

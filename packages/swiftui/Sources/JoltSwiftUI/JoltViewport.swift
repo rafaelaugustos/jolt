@@ -83,39 +83,45 @@ private struct ViewportMotion: ViewModifier {
   @ObservedObject var controller: JoltViewportEntry
   @ObservedObject var progress: JoltMotionValue
   let from: JoltPose, to: JoltPose
-  @Environment(\.scenePhase) private var phase
+  let shadowColor: Color
+  @JoltSceneActivity private var sceneActive
   @Environment(\.accessibilityReduceMotion) private var reduced
   @Environment(\.joltReduceMotion) private var appReduced
   func body(content: Content) -> some View {
     let p = min(1, max(0, progress.value))
     let transform = reduced || appReduced ? 1 : p
-    func mix(_ a: Double, _ b: Double, _ p: Double) -> Double { a + (b - a) * p }
-    return content.scaleEffect(
-      x: mix(from.scaleX, to.scaleX, transform), y: mix(from.scaleY, to.scaleY, transform)
+    return content.modifier(
+      JoltShadowEffect(
+        channels: JoltShadowChannels(from.shadow).mixed(with: .init(to.shadow), transform),
+        color: shadowColor)
     )
-    .rotationEffect(.degrees(mix(from.rotate, to.rotate, transform)))
-    .offset(x: mix(from.x, to.x, transform), y: mix(from.y, to.y, transform))
-    .opacity(mix(from.opacity, to.opacity, p)).transaction { $0.animation = nil }
+    .modifier(
+      JoltDepthModifier(channels: JoltDepthChannels(from).mixed(with: .init(to), transform))
+    )
+    .opacity(from.opacity + (to.opacity - from.opacity) * p).transaction { $0.animation = nil }
     .background(ViewportProbe { controller.update(visibleFraction: $0) })
     .onAppear {
       controller.reducedMotion(reduced || appReduced)
-      if phase == .active { controller.resume() } else { controller.suspend() }
+      if sceneActive { controller.resume() } else { controller.suspend() }
     }
     .onDisappear { controller.detach() }
-    .onChange(of: phase) { _, phase in
-      if phase == .active { controller.resume() } else { controller.suspend() }
+    .onChange(of: sceneActive) { _, next in
+      if next { controller.resume() } else { controller.suspend() }
     }
     .onChange(of: reduced || appReduced) { _, next in controller.reducedMotion(next) }
+    .modifier(JoltActivityProvider($sceneActive))
   }
 }
 extension View {
   /// Observes geometric intersection with the native window and clipping ancestors; opacity is not occlusion.
   public func joltViewportEnter(
     _ controller: JoltViewportEntry, from: JoltPose = try! .init(y: 24, opacity: 0),
-    to: JoltPose = .identity
+    to: JoltPose = .identity, shadowColor: Color = .black
   ) -> some View {
     modifier(
-      ViewportMotion(controller: controller, progress: controller.progress, from: from, to: to))
+      ViewportMotion(
+        controller: controller, progress: controller.progress, from: from, to: to,
+        shadowColor: shadowColor))
   }
 }
 

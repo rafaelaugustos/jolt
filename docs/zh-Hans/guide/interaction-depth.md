@@ -16,6 +16,40 @@
 <Clip :autoplay="false" name="interaction-drop-android" caption="实体 ASUS ZenFone 3，Android 8：通过 ADB 注入真实触摸。 拒绝、接受、按钮替代与重新挂载。" />
 <Clip :autoplay="false" name="interaction-drop-web" caption="Chromium：真实浏览器输入；检查器使用软件 WebGL。 拒绝、接受、按钮替代与重新挂载。" />
 
+### 有序插入 {#ordered-insertion}
+
+等待 [PR #488](https://github.com/rafaelaugustos/jolt/pull/488) 合并并发布；0.1.0-rc.13 尚未包含。 在列内重排卡片的看板，仅能放到某一列还不够：需要由拖柄开始拖动、在移动过程中知道卡片位置、让较短的列也容易命中，并在看板插入空位时让卡片保持在指针下。Web 与 NativeScript 共用同一契约：
+
+```ts
+const drop = scope.dropZones(card, {
+  targets: [
+    { id: 'todo', target: todo, padding: { bottom: 60 } },
+    { id: 'done', target: done, padding: { bottom: 60 } },
+  ],
+  drag: { handle: grip, snap: [0] },
+  // 把空位放在第一张中点低于卡片中心的卡片之前。
+  onMove: ({ id, bounds }) => showGap(id, bounds.y + bounds.height / 2),
+  onLeave: () => hideGap(),
+  onDrop: ({ id }) => moveCard(id),
+})
+```
+
+**拖柄。** `drag.handle`（`drag()` 同样支持）在 Web 上从源内部的元素接收输入（可以是保留自身键盘处理的 `<button>`），在 NativeScript 上从后代视图接收输入。只有拖柄能开始拖动，移动的仍是源。Web 上只有拖柄获得 `touch-action` 和指针捕获，因此源的其余部分保留点击、控件和触摸滚动；拖柄内的交互元素仍不会开始拖动，拖动后紧接着落在拖柄上的点击会被抑制。NativeScript 上只有拖柄获得 pan 识别器，因此源的其余部分保留点按，外层 ScrollView 也能接收触摸。拖柄不在源内部或就是源本身时，会在改变任何输入之前抛出 `TypeError`。拖柄离开源、被禁用或变为 inert 时会取消当前接触。
+
+**移动中的位置。** `onMove({ id, source, bounds, method: 'drag' })` 在每次拖动移动、完成命中测试之后调用：`id` 是悬停的目标或 `undefined`，`bounds` 是源在目标坐标系中视觉边界的副本。应用无需自行监听指针即可放置插入点。`request()`、`refresh()` 和松手不会报告移动；取消、暂停、挂起或销毁之后也不会再报告。NativeScript 还会报告 pan 的第一个采样。`onMove` 抛出的错误会像其他回调一样取消拖动。
+
+**命中内边距。** 目标的 `padding` 用一个数值或按边（`{ top, right, bottom, left }`）扩大命中范围：Web 为 CSS 像素，NativeScript 为 DIP。每条边必须为 0–1,000 的有限值；其他值会在创建放置区域时抛出 `RangeError`。`center` 与 `overlap` 都使用扩大后的矩形，边界为空的目标仍不会命中。内边距不可见；需要让用户看到时请自行绘制。导出的 `dropHits(source, target, policy, padding)` 使用相同规则。
+
+**跨越容器。** 源在移动时必须保持可见，而 NativeScript 布局默认会裁剪子视图。在 iOS 上，对源经过的容器设置 `clipToBounds = false`，否则它会移出视野。在 Android 上 `clipToBounds` 不起作用：对这些 `ViewGroup` 及其父视图调用 `setClipChildren(false)` 和 `setClipToPadding(false)`，因为 Android 会把被祖先裁剪的源视为隐藏，Jolt 随即取消拖动。之后绘制的视图会盖住源，因此请最后绘制包含源的容器，就像 demo 看板那样。在 Web 上，当后面的内容会盖住源时，用 `z-index` 提升它。
+
+**重新锚定。** 拖动期间，每次移动和每次 `refresh()` 都会把源的布局中心（去掉拖动位移后的视觉中心）与拖动开始时比较，并按差值补偿拖动位移。因此在卡片上方插入空位时，卡片仍留在指针下。Web 会在 DOM 插入、移除以及 Jolt 观察的属性变化后自动刷新；NativeScript 会在源的 `layoutChanged`（其 frame 在父视图内变化时触发）后刷新。Web 上仅通过样式造成的变化，以及 NativeScript 上祖先视图的移动，会在下一次移动时补偿；在这些变化后立即调用 `refresh()` 可避免一帧跳动。只补偿正在拖动的轴，拖动 `bounds` 仍会限制位移；拖动中围绕非中心原点缩放源也会被视为布局变化。速度采样随位移一起平移，重新锚定不会变成甩动。
+
+**松手、取消与减少动态效果。** 两个平台都在回弹开始之前根据最终输入决定放置。取消（`cancel()`、暂停、文档隐藏、窗口失焦或 Web 上的滚动、NativeScript 上的应用挂起）会把源冻结在当前位置、停止移动报告，并对悬停目标调用 `onLeave`，以便应用移除空位；此后的布局变化不会再补偿。减少动态效果时仍直接跟随；被拒绝或未命中目标的松手会无动画返回。键盘移动请放在应用控件中，例如演示中的拖柄用方向键调用 `request()`。
+
+<Clip :autoplay="false" name="interaction-depth-drop-web" caption="Chromium：真实鼠标与键盘输入。卡片主体保留按钮和滚动，拖柄（按钮）负责拖动，卡片上方打开空位时卡片仍在指针下，在较短的 Done 列下方松手命中 60 px 内边距，锁定目标拒绝，方向键把卡片送回。" />
+<Clip :autoplay="false" name="interaction-depth-drop-ios" caption="iOS 模拟器：原生看板上的真实 XCTest 触摸。只有 36 DIP 拖柄能拖动，卡片上方的空位触发重新锚定，带内边距的 Done 列接受，锁定目标拒绝，减少动态效果时立即返回。非实体设备录制。" />
+<Clip :autoplay="false" name="interaction-depth-drop-android" caption="Android 模拟器：同一原生看板上的真实 ADB 触摸：仅拖柄拖动、空位重新锚定、内边距接受、拒绝与减少动态效果。非实体设备录制。" />
+
 ## 可选音频与时间线提示
 
 从 `@rafaelaugusto/jolt/audio` 或 `@rafaelaugusto/jolt/web/audio` 导入 audioCue。原生用 `scope.resource(() => audioCue('~/assets/cue.wav'))`，Web 用 `scope.add(audioCue(document, '/cue.wav'))`。原生只支持本地文件；Web 支持同源 HTTP(S) 资源或本地 blob。等待 ready，并在用户操作后播放。失败返回 false、通知 onError，不阻断视觉动画。

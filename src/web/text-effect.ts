@@ -1,4 +1,11 @@
 import { graphemes, diffFromEnd } from '../core/roll-diff.js'
+import {
+  MAX_TEXT_GRAPHEMES,
+  isVisiblePiece,
+  staggeredStart,
+  textPieces as pieces,
+  type TextPiece as Piece,
+} from '../core/text-pieces.js'
 import { createTrack, type Track } from '../core/track.js'
 import { resolveTransition } from '../core/transition.js'
 import { flatten } from './curve.js'
@@ -31,7 +38,6 @@ export interface WebRollOptions {
   direction?: 'auto' | 'up' | 'down'
   tabular?: boolean
 }
-type Piece = { start: number; end: number; text: string; group: number }
 type Fragment = { element: HTMLElement; start: number; text: string; group: number }
 type Copy = { layer: HTMLElement; fragments: Fragment[]; width: number; height: number }
 type Active = { host: EffectHost; animation: EffectAnimation; snapshot(): HTMLElement }
@@ -115,20 +121,9 @@ function source(target: HTMLElement, host: EffectHost) {
   if (old && old.host.identity !== host.identity)
     throw new Error('Text belongs to another motion context.')
   const text = (nodes[0] as Text | undefined)?.data ?? ''
-  if (graphemes(text).length > 256)
+  if (graphemes(text).length > MAX_TEXT_GRAPHEMES)
     throw new RangeError('Text effects support at most 256 graphemes.')
   return { view, css, node: nodes[0] as Text | undefined, text, old }
-}
-
-function pieces(text: string, by: 'letter' | 'word'): Piece[] {
-  if (by === 'letter') return graphemes(text).map((part, group) => ({ ...part, group }))
-  const segmenter = new Intl.Segmenter(undefined, { granularity: 'word' })
-  return [...segmenter.segment(text)].map(({ segment, index }, group) => ({
-    text: segment,
-    start: index,
-    end: index + segment.length,
-    group,
-  }))
 }
 
 /** Each piece clips a complete shaped copy, preserving ligatures, bidi and line wrapping. */
@@ -156,7 +151,7 @@ function copy(
   if (!node) return { layer, fragments, width, height }
   const range = host.document.createRange()
   for (const piece of parts) {
-    if (!piece.text.trim()) continue
+    if (!isVisiblePiece(piece)) continue
     range.setStart(node, piece.start)
     range.setEnd(node, piece.end)
     for (const rect of range.getClientRects()) {
@@ -321,7 +316,11 @@ export function createTextAnimation(
       'x',
       [0, 1],
       resolveTransition(
-        { duration, delay: delay + fragment.group * stagger, ease: 'easeOut' },
+        {
+          duration,
+          delay: staggeredStart(fragment.group, stagger, delay),
+          ease: 'easeOut',
+        },
         'x',
         2,
       ),
@@ -375,7 +374,7 @@ export function createRoll(
   )
     throw new TypeError('Roll value must be finite or a string.')
   const text = typeof value === 'string' ? value : (options.format ?? String)(value)
-  if (typeof text !== 'string' || graphemes(text).length > 256)
+  if (typeof text !== 'string' || graphemes(text).length > MAX_TEXT_GRAPHEMES)
     throw new RangeError('Roll formatting must produce at most 256 graphemes.')
   const initial = source(target, host)
   const previous = lastValues.get(target) ?? Number(initial.text)
@@ -419,7 +418,11 @@ export function createRoll(
     createTrack(
       'x',
       [0, 1],
-      resolveTransition({ duration, bounce, delay: delay + index * stagger }, 'x', 2),
+      resolveTransition(
+        { duration, bounce, delay: staggeredStart(index, stagger, delay) },
+        'x',
+        2,
+      ),
       0,
       host.settings(),
     )

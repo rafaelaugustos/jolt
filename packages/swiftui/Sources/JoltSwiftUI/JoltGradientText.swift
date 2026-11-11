@@ -61,10 +61,10 @@ public struct JoltGradientText: View {
     @ObservedObject var progress: JoltMotionValue
     @Environment(\.accessibilityReduceMotion) private var reduced
     @Environment(\.joltReduceMotion) private var appReduced
-    @Environment(\.scenePhase) private var phase
+    @JoltSceneActivity private var sceneActive
     var body: some View {
       GeometryReader { geometry in
-        if !reduced && !appReduced && phase == .active {
+        if !reduced && !appReduced && sceneActive {
           let width = max(1, geometry.size.width) * paint.width
           let p = min(1, max(0, progress.value))
           LinearGradient(
@@ -74,6 +74,7 @@ public struct JoltGradientText: View {
           .frame(width: width).offset(x: -width + (geometry.size.width + width) * p)
         }
       }.mask(Text(text).font(font)).transaction { $0.animation = nil }
+      .modifier(JoltActivityProvider($sceneActive))
     }
   }
 }

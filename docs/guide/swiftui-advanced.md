@@ -99,3 +99,68 @@ Validation includes generated numeric/color/decay/path fixtures from the existin
 <Clip name="web-advanced-svelte" caption="Chromium on macOS: actual Svelte component owns mappings/color, groups, states/behaviors, seek/cues, drawing, sheen, inertia, viewport and rendering activity. English UI; existing Web backends." />
 
 <Clip name="web-advanced-solid" caption="Chromium on macOS: actual Solid component owns mappings/color, groups, states/behaviors, seek/cues, drawing, sheen, inertia, viewport and rendering activity. English UI; existing Web backends." />
+
+## Shimmer, loaders and circular reveal
+
+Pending merge and publication in [PR #488](https://github.com/rafaelaugustos/jolt/pull/488); not in 0.1.0-rc.13. Durations and geometry come from the same shared definition as the NativeScript and Web adapters (`src/core/loading.ts`, compiled into `JoltCore` and checked with generated fixtures).
+
+JoltShimmer(duration:) takes a positive finite sweep in milliseconds, at most 60 000, default 1500, including the band entering and leaving the view. joltShimmer paints the Web's band: CSS angle 100°, white at opacity 0, 0.55 and 0 at 15, 50 and 85 %, moving linearly from one width left of the view to one width right. The band is composited with the view in one compositing group (`sourceAtop`), so it paints only where the content is opaque and is weighted by its alpha: translucent placeholders get a weaker sweep. Apply it to a container to sweep all of its skeleton shapes with one band; several views can show one shimmer in step. Use it on placeholder shapes rather than live platform views, which render inside that group.
+
+JoltLoader(style:color:size:duration:) draws the geometry of the NativeScript iOS loader. Defaults: `.dots`, `#71717a`, 48 points, 1200 ms per cycle. Size must be in (0, 16 384] points and duration in (0, 60 000] milliseconds. JoltLoaderView centres a square whose side is the smaller of `size` and the space it is offered. Dots: three dots of 0.2 × side scaling 0.35 → 1 → 0.35 at 0, 30 and 60 % of the cycle. Bars: five bars 0.12 × side wide and 0.75 × side high, scaling vertically on the same keys. Ring: twelve dots of 0.16 × side fading from 1 to 0.2. Copies start `duration / 5` apart (dots, bars) or `duration / 12` (ring). Without `accessibilityLabel`, the loader is hidden from accessibility; label the busy control instead, for example "Saving".
+
+Both are JoltResource objects; retain them in a JoltScope. They subscribe to JoltClock only while at least one view shows them in an active scene (iOS: the scene is active; macOS: the hosting window is visible) with full motion, and while neither paused nor suspended. There is no TimelineView and no idle timer. Leaving the screen, an inactive scene, `pause()` or scope suspension hold the current phase; showing it again continues. Under reduced motion (the system setting or `joltReduceMotion`) the shimmer band is hidden and loader copies keep a static pose: full-size dots and bars, ring dots at opacity 0.35. `state` reports `running`, `paused`, `suspended`, `idle` or `disposed`. Disposal releases the clock, the views draw nothing and later calls are ignored; tests check that the clock's `activeCount` returns to zero.
+
+```swift
+let scope = JoltScope()
+let shimmer = try scope.retain(JoltShimmer())
+let saving = try scope.retain(JoltLoader(.ring, size: 28))
+let details = try scope.retain(JoltReveal(revealed: false))
+// SkeletonRows().joltShimmer(shimmer)
+// Text("Save").opacity(busy ? 0 : 1).overlay { if busy { JoltLoaderView(saving) } }
+// Details().joltReveal(details)
+try details.reveal(from: JoltPoint(40, 40)) { finished in
+    // Move focus into the details here.
+}
+try details.conceal(to: JoltPoint(40, 40))
+```
+
+JoltReveal(revealed:) runs `reveal(from:duration:reducedMotion:completion:)` and `conceal(to:...)` on one surface shown with joltReveal. Origins are points in the view's local space from its top-left corner, the space a `.local` tap gesture reports, within ±1 000 000. Without an origin the circle is centred on the view, or keeps the current circle's centre while interrupting. A reveal grows to the farthest corner and a conceal shrinks to zero, ease-in-out over 0 to 60 000 milliseconds (default 400); zero applies the end state at once. A new call starts from the circle on screen, so a conceal can reverse a reveal mid-way; the replaced call completes with `false`. Concealing a concealed surface completes with `true` at once. `cancel()` stops and restores the phase from before the interrupted chain. A resize retargets the farthest corner.
+
+When a reveal ends, the circular clip is removed: the modifier keeps a non-clipping placeholder so the content keeps its identity and state, and shadows or overflow are no longer clipped. When a conceal ends, the view becomes transparent and keeps its layout space. Leaving the screen, an inactive scene, `pause()` and suspension hold the circle; showing it again continues. Under reduced motion, or with `reducedMotion: true`, the end state applies immediately and completion reports `true`.
+
+Only a fully revealed surface (`interactive == true`, phase `.revealed`) receives hits and appears to accessibility. While revealing, concealing or concealed, the content is `accessibilityHidden` and not hit-testable, so taps reach the views behind it. Jolt never moves focus: the application moves VoiceOver or keyboard focus into the content after a reveal completes, and out of it before calling `conceal`, for example with `@AccessibilityFocusState` or `@FocusState`. SwiftUI exposes hidden descendants of an explicit `.accessibilityElement(children: .contain)` container (observed on the iOS 27 simulator), so do not wrap the surface in one.
+
+Platform differences: the NativeScript iOS shimmer masks the target so content outside the band dims to opacity 0.35, and the Web paints its band over the whole element box; SwiftUI paints the Web's band over opaque content only. The Web loader draws CSS boxes with its own proportions (dots 20 %, bars 12 × 65 %, a rotating 75 % arc) and an eased pulse, kept in the same shared definition; SwiftUI follows the native geometry. NativeScript and Web cancel a reveal when the view unloads or detaches; SwiftUI holds it off screen. The Web centres an interrupting reveal without an origin on the element; NativeScript and SwiftUI keep the current centre. NativeScript keeps the rectangular touch area during playback; SwiftUI ignores hits until fully revealed. These effects remain no-ops on NativeScript Android.
+
+## Gradient surfaces and blur
+
+Pending merge and publication in [PR #488](https://github.com/rafaelaugustos/jolt/pull/488); not in 0.1.0-rc.13. JoltGradient(colors:stops:angle:) paints a linear gradient with the Web's limits: 2–8 colours, one stop per colour, constant stops in 0...1 and in order, a finite CSS angle in degrees (default 180 runs top to bottom, 90 left to right). The line crosses the centre and is long enough for the corners to receive the first and last colours; bands stay square to the angle in points on boxes of any shape. Each component is a constant or a borrowed source: `JoltNumberSource.value(JoltMotionValue)` for stops and the angle, `JoltColorSource.value(JoltColorValue)` for colours. Animate the gradient by animating those values, with their transitions, springs, interruption, pause and completion; the gradient has no tracks of its own. Bound stops are clamped to 0...1 and kept in order without reordering colours, like the portable gradient projection. `update(colors:stops:angle:)` validates every component before replacing any and keeps the colour count; create a new gradient to change it.
+
+`joltGradient(_:in:)` paints the gradient behind the view inside the shape you pass (default `Rectangle()`); the content itself is not clipped. The paint is not hit-testable and is hidden from accessibility. `frame` holds the painted colours, projected stops and angle.
+
+JoltBlur(amount:radius:) has the Web's meaning: the applied radius is `amount × radius` points, with `amount` in 0...1 (a constant, or a bound value clamped to 0...1) and `radius` in 1...64, default 24. joltBlur applies SwiftUI's `blur(radius:opaque: false)` to the view and its descendants, so edges fade into transparency. SwiftUI owns the kernel; pixels are not identical to CSS `filter: blur()`.
+
+Gradients and blur follow their sources only while a view shows them in an active scene and neither is paused or suspended. Leaving the screen, an inactive scene, `pause()` or suspension hold the last frame; showing or resuming catches up. Neither subscribes to JoltClock; the bound values own their playback. Under reduced motion, bound angles, stops and blur amounts show their motion value's target, while colours keep following their values. Disposal stops following, removes the paint from every view and rejects later updates. Sources are borrowed and never disposed by the paint.
+
+```swift
+let angle = try scope.value(135), stop = try scope.value(0.3), tone = try scope.value(0)
+let tint = try scope.retain(JoltColorValue(tone,
+    from: .init(argb: 0xff7766ff), to: .init(argb: 0xffff9dce)))
+let aurora = try scope.retain(JoltGradient(
+    colors: [.constant(.init(argb: 0xff1b1f3a)), .value(tint), .constant(.init(argb: 0xffdbff7a))],
+    stops: [0, .value(stop), 1], angle: .value(angle)))
+let focus = try scope.value(0)
+let soft = try scope.retain(JoltBlur(amount: .value(focus), radius: 24))
+// Card().joltGradient(aurora, in: RoundedRectangle(cornerRadius: 22))
+// Photo().joltBlur(soft)
+try angle.animate(to: 315, transition: .tween(milliseconds: 1600))
+try focus.animate(to: 1, transition: .tween(milliseconds: 700))
+```
+
+Platform differences: the Web and NativeScript gradients also have radial and conic types with a centre and radius, and their own `animate()`, `set()` and `bind()`; SwiftUI provides the linear surface, driven by bound values and `update()`. Under reduced motion the Web holds bound geometry instead of showing its target, and NativeScript jumps the angle to its end while colours and stops still fade. Backdrop blur is not provided: SwiftUI has no radius-controlled filter over the content behind a view, and its materials apply a system-defined blur and tint rather than `amount × radius`. Blur a dedicated background view instead, as with Android's content blur. The NativeScript iOS blur is a `UIVisualEffectView` material where 0.5 is half of the material transition; SwiftUI and the Web use a radius.
+
+Validation includes fixtures generated from the TypeScript core for loader geometry, shimmer offsets, reveal radii, easing and stop projection; deterministic resource tests for clock ownership, suspension, reduced motion, interruption and disposal; rendering tests for the gradient corners, the shimmer's alpha mask and the reveal clip; and XCTest interaction on iOS and macOS.
+
+<Clip name="swiftui-effects-ios" caption="iOS simulator, native SwiftUI: XCTest taps sweep skeleton rows, run dots, bars and ring loaders in busy buttons, reveal a surface from tapped points and conceal it mid-way, sweep a bound gradient, blur a card and switch on reduced motion. English UI. Not a physical-device recording." />
+
+<Clip name="swiftui-effects-macos" caption="macOS app, native SwiftUI: real clicks drive the same effects lab, including the interrupted reveal and reduced motion. Only the app window; English UI. No performance claim." />

@@ -8,13 +8,14 @@ import {
   type EffectHost,
 } from './effect.js'
 import { parseColor } from './style.js'
+import { loaderDefinition, shimmerDefinition, type LoaderStyle } from '../core/loading.js'
 import type { WebInteraction } from './interaction.js'
 
 export interface WebShimmerOptions {
   duration?: number
 }
 export interface WebLoaderOptions {
-  style?: 'dots' | 'bars' | 'ring'
+  style?: LoaderStyle
   color?: string
   size?: number
   duration?: number
@@ -35,17 +36,26 @@ export function createShimmer(
   effectTarget(target, host)
   effectOptions(options, ['duration'])
   const duration =
-    finiteOption(options.duration ?? 1500, 'Shimmer duration', 0, false) /
-    host.settings().timeScale
+    finiteOption(
+      options.duration ?? shimmerDefinition.duration,
+      'Shimmer duration',
+      0,
+      false,
+    ) / host.settings().timeScale
+  const { angle, stops, opacity, travel } = shimmerDefinition.highlight
+  const band = stops
+    .map((stop, i) =>
+      opacity[i] ? `rgba(255,255,255,${opacity[i]}) ${stop}%` : `transparent ${stop}%`,
+    )
+    .join(',')
   return loading(target, 'shimmer', host, (layer) => {
     const beam = host.document.createElement('span')
-    beam.style.cssText =
-      'display:block;position:absolute;inset:0;background:linear-gradient(100deg,transparent 15%,rgba(255,255,255,.55) 50%,transparent 85%);'
+    beam.style.cssText = `display:block;position:absolute;inset:0;background:linear-gradient(${angle}deg,${band});`
     layer.append(beam)
     return [
       {
         target: beam,
-        frames: [{ transform: 'translateX(-100%)' }, { transform: 'translateX(100%)' }],
+        frames: travel.map((x) => ({ transform: `translateX(${x * 100}%)` })),
         timing: { duration },
       },
     ]
@@ -59,17 +69,27 @@ export function createLoader(
 ) {
   effectTarget(target, host)
   effectOptions(options, ['style', 'color', 'size', 'duration'])
-  const style = options.style ?? 'dots',
-    color = options.color ?? '#71717a'
+  const style = options.style ?? loaderDefinition.style,
+    color = options.color ?? loaderDefinition.color
   if (!['dots', 'bars', 'ring'].includes(style))
     throw new TypeError('Unknown loader style.')
   if (typeof color !== 'string')
     throw new TypeError('Loader color must be a resolved CSS color.')
   parseColor(host.document, color)
-  const size = finiteOption(options.size ?? 48, 'Loader size', 0, false)
+  const size = finiteOption(
+    options.size ?? loaderDefinition.size,
+    'Loader size',
+    0,
+    false,
+  )
   const duration =
-    finiteOption(options.duration ?? 1200, 'Loader duration', 0, false) /
-    host.settings().timeScale
+    finiteOption(
+      options.duration ?? loaderDefinition.duration,
+      'Loader duration',
+      0,
+      false,
+    ) / host.settings().timeScale
+  const css = loaderDefinition.css
   return loading(target, 'loader', host, (layer) => {
     layer.style.display = 'grid'
     layer.style.placeItems = 'center'
@@ -78,7 +98,7 @@ export function createLoader(
     layer.append(box)
     if (style === 'ring') {
       const ring = host.document.createElement('span')
-      ring.style.cssText = `display:block;width:75%;aspect-ratio:1;box-sizing:border-box;border:3px solid ${color};border-right-color:transparent;border-radius:50%;`
+      ring.style.cssText = `display:block;width:${css.ring.diameter}%;aspect-ratio:1;box-sizing:border-box;border:${css.ring.border}px solid ${color};border-right-color:transparent;border-radius:50%;`
       box.append(ring)
       return [
         {
@@ -88,18 +108,19 @@ export function createLoader(
         },
       ]
     }
-    return Array.from({ length: style === 'dots' ? 3 : 5 }, (_, i) => {
+    const shape = css[style]
+    return Array.from({ length: loaderDefinition.kinds[style].count }, (_, i) => {
       const item = host.document.createElement('span')
-      item.style.cssText = `display:block;background:${color};width:${style === 'dots' ? 20 : 12}%;height:${style === 'dots' ? 20 : 65}%;border-radius:${style === 'dots' ? '50%' : '3px'};`
+      item.style.cssText = `display:block;background:${color};width:${shape.width}%;height:${shape.height}%;border-radius:${shape.radius};`
       box.append(item)
       return {
         target: item,
         frames: [
-          { transform: 'scaleY(.45)', opacity: 0.45 },
+          { transform: `scaleY(${css.pulse})`, opacity: css.pulse },
           { transform: 'scaleY(1)', opacity: 1 },
-          { transform: 'scaleY(.45)', opacity: 0.45 },
+          { transform: `scaleY(${css.pulse})`, opacity: css.pulse },
         ],
-        timing: { duration, delay: (i * duration) / 7, easing: 'ease-in-out' },
+        timing: { duration, delay: (i * duration) / css.stagger, easing: css.ease },
       }
     })
   })

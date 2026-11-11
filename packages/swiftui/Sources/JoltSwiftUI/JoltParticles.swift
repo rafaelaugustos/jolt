@@ -234,7 +234,7 @@ public struct JoltParticle: Identifiable, Sendable {
 }
 public struct JoltParticlesView: View {
   @ObservedObject private var model: JoltParticles
-  @Environment(\.scenePhase) private var phase
+  @JoltSceneActivity private var sceneActive
   @Environment(\.accessibilityReduceMotion) private var reduced
   @Environment(\.joltReduceMotion) private var appReduced
   public init(_ model: JoltParticles) { self.model = model }
@@ -264,15 +264,16 @@ public struct JoltParticlesView: View {
       }.onAppear {
         model.reduceMotion(reduced || appReduced)
         try? model.resize(width: geometry.size.width, height: geometry.size.height)
-        if phase == .active { model.resume() } else { model.suspend() }
+        if sceneActive { model.resume() } else { model.suspend() }
       }.onChange(of: geometry.size) { _, size in
         try? model.resize(width: size.width, height: size.height)
       }
     }.allowsHitTesting(false).accessibilityHidden(true)
       .onDisappear { model.suspend() }
-      .onChange(of: phase) { _, next in
-        if next == .active { model.resume() } else { model.suspend() }
+      .onChange(of: sceneActive) { _, next in
+        if next { model.resume() } else { model.suspend() }
       }
       .onChange(of: reduced || appReduced) { _, next in model.reduceMotion(next) }
+    .modifier(JoltActivityProvider($sceneActive))
   }
 }

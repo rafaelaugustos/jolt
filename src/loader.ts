@@ -2,8 +2,9 @@ import { Application, Color, isIOS, type View } from '@nativescript/core'
 import { toView } from './animate.js'
 import type { Target } from './types.js'
 import { reducedMotion } from './config.js'
+import { loaderDefinition, type LoaderStyle } from './core/loading.js'
 
-export type LoaderStyle = 'dots' | 'bars' | 'ring'
+export type { LoaderStyle }
 
 export interface LoaderOptions {
   /** Defaults to 'dots'. */
@@ -26,10 +27,10 @@ const key = 'jolt:loader'
  */
 export function loader(target: Target, options: LoaderOptions = {}): () => void {
   const settings: Required<LoaderOptions> = {
-    style: options.style ?? 'dots',
-    color: options.color ?? '#71717a',
-    size: options.size ?? 48,
-    duration: options.duration ?? 1200,
+    style: options.style ?? loaderDefinition.style,
+    color: options.color ?? loaderDefinition.color,
+    size: options.size ?? loaderDefinition.size,
+    duration: options.duration ?? loaderDefinition.duration,
   }
   if (!['dots', 'bars', 'ring'].includes(settings.style))
     throw new TypeError('Unknown loader style.')
@@ -136,22 +137,28 @@ class Loader {
       const layer = this.layer
       const item = this.item!
       const { style, duration } = this.settings
+      const kind = loaderDefinition.kinds[style]
       layer.bounds = CGRectMake(0, 0, size, size)
       layer.position = CGPointMake(
         bounds.origin.x + bounds.size.width / 2,
         bounds.origin.y + bounds.size.height / 2,
       )
-      layer.instanceCount = style === 'dots' ? 3 : style === 'bars' ? 5 : 12
-      layer.instanceDelay = duration / 1000 / (style === 'ring' ? 12 : 5)
+      layer.instanceCount = kind.count
+      layer.instanceDelay = duration / 1000 / kind.stagger
       if (style === 'ring') {
-        const diameter = size * 0.16
+        const diameter = size * kind.width
         item.bounds = CGRectMake(0, 0, diameter, diameter)
         item.position = CGPointMake(size / 2, diameter / 2)
         item.cornerRadius = diameter / 2
-        layer.instanceTransform = CATransform3DMakeRotation((2 * Math.PI) / 12, 0, 0, 1)
+        layer.instanceTransform = CATransform3DMakeRotation(
+          (2 * Math.PI) / kind.count,
+          0,
+          0,
+          1,
+        )
       } else {
-        const width = size * (style === 'dots' ? 0.2 : 0.12)
-        const height = style === 'dots' ? width : size * 0.75
+        const width = size * kind.width
+        const height = size * kind.height
         item.bounds = CGRectMake(0, 0, width, height)
         item.position = CGPointMake(width / 2, size / 2)
         item.cornerRadius = width / 2
@@ -162,24 +169,20 @@ class Loader {
         )
       }
       const reduced = reducedMotion()
-      item.opacity = style === 'ring' ? 0.35 : 1
+      item.opacity = kind.rest
       if (reduced && this.animating) {
         item.removeAnimationForKey(key)
         this.animating = false
       } else if (!reduced && !this.animating) {
         const animation = CAKeyframeAnimation.animationWithKeyPath(
-          style === 'ring'
+          kind.property === 'opacity'
             ? 'opacity'
-            : style === 'bars'
+            : kind.property === 'scaleY'
               ? 'transform.scale.y'
               : 'transform.scale',
         )
-        animation.values = NSArray.arrayWithArray(
-          style === 'ring' ? [1, 0.2] : [0.35, 1, 0.35, 0.35],
-        )
-        animation.keyTimes = NSArray.arrayWithArray(
-          style === 'ring' ? [0, 1] : [0, 0.3, 0.6, 1],
-        )
+        animation.values = NSArray.arrayWithArray([...kind.values])
+        animation.keyTimes = NSArray.arrayWithArray([...kind.times])
         animation.duration = duration / 1000
         animation.repeatCount = Infinity
         // Start one cycle in so every delayed copy is already participating.

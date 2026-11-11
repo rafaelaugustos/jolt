@@ -29,6 +29,9 @@ export type {
   DropZones,
   DropTarget,
   DropEvent,
+  DropMoveEvent,
+  DropPadding,
+  DropRect,
   DropEffect,
 } from './drop-zones.js'
 export type {

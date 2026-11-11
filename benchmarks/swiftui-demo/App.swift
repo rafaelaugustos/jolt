@@ -6,8 +6,11 @@ import SwiftUI
 #endif
 
 @main struct JoltSwiftUIDemo: App {
+  private let activityLab = ProcessInfo.processInfo.arguments.contains("--activity-lab")
   @ViewBuilder private var root: some View {
-    if ProcessInfo.processInfo.arguments.contains("--panel-lab") {
+    if activityLab {
+      ActivityLab()
+    } else if ProcessInfo.processInfo.arguments.contains("--panel-lab") {
       PanelLab()
     } else if ProcessInfo.processInfo.arguments.contains("--geometry-lab") {
       GeometryLab()
@@ -17,6 +20,8 @@ import SwiftUI
       TransferLab()
     } else if ProcessInfo.processInfo.arguments.contains("--character-lab") {
       CharacterLab()
+    } else if ProcessInfo.processInfo.arguments.contains("--character-handle-lab") {
+      CharacterHandleLab()
     } else if ProcessInfo.processInfo.arguments.contains("--dynamics-lab") {
       DynamicsLab()
     } else if ProcessInfo.processInfo.arguments.contains("--graphics-lab") {
@@ -29,6 +34,12 @@ import SwiftUI
       CompositionLab()
     } else if ProcessInfo.processInfo.arguments.contains("--scroll-lab") {
       ScrollLab()
+    } else if ProcessInfo.processInfo.arguments.contains("--text-lab") {
+      TypographyLab()
+    } else if ProcessInfo.processInfo.arguments.contains("--depth-lab") {
+      DepthLab()
+    } else if ProcessInfo.processInfo.arguments.contains("--effects-lab") {
+      EffectsLab()
     } else {
       Demo()
     }
@@ -43,6 +54,21 @@ import SwiftUI
     }
     #if os(macOS)
       .windowResizability(.contentSize)
+    #endif
+    #if os(macOS)
+      WindowGroup("Second", id: "second") {
+        ActivityProbe(host: "Second").frame(width: 300, height: 150)
+          .background(Color(red: 0.06, green: 0.08, blue: 0.12)).preferredColorScheme(.dark)
+      }
+      .windowResizability(.contentSize)
+      .defaultPosition(.topTrailing)
+      Settings {
+        ActivityProbe(host: "Settings").frame(width: 300, height: 150)
+      }
+      MenuBarExtra("Jolt activity", systemImage: "bolt.circle", isInserted: .constant(activityLab)) {
+        ActivityProbe(host: "Menu bar").frame(width: 300, height: 150)
+      }
+      .menuBarExtraStyle(.window)
     #endif
   }
 }
@@ -133,6 +159,11 @@ struct Demo: View {
           NavigationLink("Dynamics lab") { DynamicsLab() }
           NavigationLink("Graphics lab") { GraphicsLab() }
           NavigationLink("Viewport lab") { ViewportLab() }
+          NavigationLink("Activity lab") { ActivityLab() }
+          NavigationLink("Text lab") { TypographyLab() }
+          NavigationLink("Depth lab") { DepthLab() }
+          NavigationLink("Effects lab") { EffectsLab() }
+          NavigationLink("Drop handle lab") { CharacterHandleLab() }
           Text(phase == .active ? "Scene active" : "Scene inactive").font(.caption).foregroundStyle(
             .secondary
           ).accessibilityIdentifier("phase")
