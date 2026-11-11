@@ -4,6 +4,7 @@ import { mkdir, rename, writeFile } from 'node:fs/promises'
 import { spawn } from 'node:child_process'
 import { resolve } from 'node:path'
 const output = resolve(process.argv[2] || '/tmp/jolt-interaction-browser')
+const only = process.argv[3]
 await mkdir(output, { recursive: true })
 const server = spawn(process.execPath, ['benchmarks/web-interaction-depth/server.mjs'], {
   stdio: 'ignore',
@@ -20,7 +21,8 @@ try {
   browser = await chromium.launch({
     args: ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader'],
   })
-  for (const mode of ['drop', 'audio', 'inspector', 'path', 'depth', 'shadow']) {
+  const modes = ['drop', 'board', 'audio', 'inspector', 'path', 'depth', 'shadow']
+  for (const mode of only ? [only] : modes) {
     const context = await browser.newContext({
       viewport: { width: 920, height: 740 },
       recordVideo: { dir: output, size: { width: 920, height: 740 } },
@@ -62,6 +64,59 @@ try {
       await wait(900)
       await click('pause')
       await click('pause')
+    } else if (mode === 'board') {
+      const center = async (id) => {
+        const box = await page.locator('#' + id).boundingBox()
+        return { x: box.x + box.width / 2, y: box.y + box.height / 2, box }
+      }
+      const glide = async (from, to, steps = 30, hold = 300) => {
+        await page.mouse.move(from.x, from.y)
+        await page.mouse.down()
+        for (let step = 1; step <= steps; step++) {
+          await page.mouse.move(
+            from.x + ((to.x - from.x) * step) / steps,
+            from.y + ((to.y - from.y) * step) / steps,
+          )
+          await wait(25)
+        }
+        await wait(hold)
+        await page.mouse.up()
+        await wait(1100)
+      }
+      await click('open', 600)
+      const body = await center('notes')
+      await glide(
+        { x: body.x - 40, y: body.y - 24 },
+        { x: body.x + 120, y: body.y + 40 },
+        15,
+        100,
+      )
+      await page.mouse.move(body.x, body.y)
+      await page.mouse.wheel(0, 50)
+      await wait(500)
+      let grip = await center('grip')
+      const spec = await center('spec'),
+        card = await center('card')
+      await glide(grip, { x: grip.x + 6, y: spec.box.y + 4 - (card.y - grip.y) }, 30, 700)
+      await expect(page.locator('#status')).toContainText('Dropped in todo')
+      grip = await center('grip')
+      const done = (await center('done')).box,
+        offset = (await center('card')).x - grip.x
+      await glide(grip, {
+        x: done.x + done.width / 2 - offset,
+        y: done.y + done.height + 40,
+      })
+      await expect(page.locator('#status')).toContainText('Dropped in done')
+      grip = await center('grip')
+      const locked = await center('locked')
+      await glide(grip, { x: locked.x - offset, y: locked.y }, 25, 300)
+      await expect(page.locator('#status')).toContainText('Rejected by locked')
+      await wait(600)
+      await page.locator('#grip').focus()
+      await page.keyboard.press('ArrowLeft')
+      await wait(1100)
+      await click('pause', 600)
+      await click('pause', 600)
     } else {
       await click('request', 450)
       await click('pause', 700)
@@ -79,7 +134,8 @@ try {
     report.push({ mode, status: await page.locator('#status').innerText(), errors })
     const video = page.video()
     await context.close()
-    await rename(await video.path(), resolve(output, 'interaction-' + mode + '-web.webm'))
+    const clip = mode === 'board' ? 'interaction-depth-drop' : 'interaction-' + mode
+    await rename(await video.path(), resolve(output, clip + '-web.webm'))
     console.log('Recorded ' + mode)
   }
   await writeFile(resolve(output, 'report.json'), JSON.stringify(report, null, 2))
