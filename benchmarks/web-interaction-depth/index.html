@@ -85,6 +85,108 @@
       background: #2c5764;
       border-style: solid;
     }
+    #board {
+      position: absolute;
+      inset: 0;
+    }
+    .column {
+      position: absolute;
+      top: 18px;
+      width: 236px;
+      padding: 10px;
+      border: 2px solid #3b526c;
+      border-radius: 14px;
+      background: #1b3048;
+    }
+    #todo {
+      left: 18px;
+    }
+    #done {
+      left: 276px;
+    }
+    .column[data-hover] {
+      border-color: #63e3c2;
+    }
+    .column h2 {
+      margin: 0 0 8px;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #aabbd4;
+    }
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .card {
+      position: relative;
+      min-height: 44px;
+      padding: 12px 12px 12px 50px;
+      border-radius: 12px;
+      background: #2a4060;
+    }
+    #card {
+      z-index: 2;
+      display: flex;
+      background: #63e3c2;
+      color: #102c34;
+    }
+    .grip {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 38px;
+      padding: 0;
+      border: 0;
+      border-radius: 12px 0 0 12px;
+      background: #3fb89a;
+      color: #102c34;
+      cursor: grab;
+    }
+    .body {
+      display: grid;
+      gap: 6px;
+      width: 100%;
+    }
+    #notes {
+      max-height: 40px;
+      margin: 0;
+      padding-left: 18px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+    #open {
+      padding: 6px 10px;
+      font-size: 14px;
+      background: #102c34;
+      color: #63e3c2;
+    }
+    .gap {
+      height: 56px;
+      border: 2px dashed #63e3c2;
+      border-radius: 12px;
+    }
+    .padding {
+      position: absolute;
+      left: 276px;
+      width: 260px;
+      height: 60px;
+      border: 1px dashed #70a9b9;
+      border-radius: 0 0 14px 14px;
+      color: #70a9b9;
+      font-size: 13px;
+      display: grid;
+      place-items: center;
+    }
+    #locked {
+      right: 24px;
+      top: 18px;
+      width: 150px;
+      height: 96px;
+      border-color: #e1a692;
+    }
     #status {
       white-space: pre-wrap;
       color: #a4f0db;
