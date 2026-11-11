@@ -60,9 +60,9 @@ Validación: fixtures compartidas de resortes/recetas, propiedad/interrupción/e
 
 <Clip name="swiftui-composition-macos" caption="App macOS: valores, limpieza de eventos, secuencias, layout e inspector; clics reales, sin benchmark de CPU/GPU." />
 
-<Clip name="swiftui-scroll-ios" caption="Simulador iOS 27.0: scroll real cambia progreso/cabecera; movimiento reducido estabiliza transformaciones. Interfaz en inglés." />
+<Clip name="swiftui-scroll-linked-ios" caption="Simulador iOS 27.0: scroll real cambia progreso/cabecera; movimiento reducido estabiliza transformaciones. Interfaz en inglés." />
 
-<Clip name="swiftui-scroll-macos" caption="App macOS: rueda real y desplazamiento nativo; movimiento reducido mantiene la cabecera estable. Interfaz en inglés." />
+<Clip name="swiftui-scroll-linked-macos" caption="App macOS: rueda real y desplazamiento nativo; movimiento reducido mantiene la cabecera estable. Interfaz en inglés." />
 
 <Clip name="web-expansion-react" caption="Chromium en macOS, React DOM: interacción y recursos reales. El mismo contrato se prueba en cuatro frameworks." />
 

@@ -60,9 +60,9 @@ Validação: fixtures geradas de molas/receitas; testes de propriedade, interrup
 
 <Clip name="swiftui-composition-macos" caption="Aplicativo macOS: valores, limpeza de eventos, sequências/stagger, layout e inspector. Cliques reais; não é benchmark de CPU/GPU." />
 
-<Clip name="swiftui-scroll-ios" caption="Simulador iOS 27.0: scroll real altera o progresso/cabeçalho; movimento reduzido remove as transformações decorativas. Interface em inglês." />
+<Clip name="swiftui-scroll-linked-ios" caption="Simulador iOS 27.0: scroll real altera o progresso/cabeçalho; movimento reduzido remove as transformações decorativas. Interface em inglês." />
 
-<Clip name="swiftui-scroll-macos" caption="Aplicativo macOS: roda do mouse e leitura nativa do deslocamento; movimento reduzido mantém o cabeçalho estável. Interface em inglês." />
+<Clip name="swiftui-scroll-linked-macos" caption="Aplicativo macOS: roda do mouse e leitura nativa do deslocamento; movimento reduzido mantém o cabeçalho estável. Interface em inglês." />
 
 <Clip name="web-expansion-react" caption="Chromium no macOS, React DOM: ponteiro, arraste, presença, valores, eventos, layout e scroll reais. O mesmo contrato é testado nos quatro frameworks." />
 

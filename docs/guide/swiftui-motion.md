@@ -60,9 +60,9 @@ Acceptance: shared generated spring/recipe fixtures; ownership, interruption, cu
 
 <Clip name="swiftui-composition-macos" caption="macOS app: sampled values, cue cleanup, sequential/staggered motion, shared layout and inspector. Actual clicks; no GPU or CPU benchmark." />
 
-<Clip name="swiftui-scroll-ios" caption="iOS 27.0 simulator: real scrolling changes progress/header, then Reduced Motion removes decorative transforms. English UI." />
+<Clip name="swiftui-scroll-linked-ios" caption="iOS 27.0 simulator: real scrolling changes progress/header, then Reduced Motion removes decorative transforms. English UI." />
 
-<Clip name="swiftui-scroll-macos" caption="macOS app: actual scroll-wheel input and native offset observation; Reduced Motion keeps the header stable. English UI." />
+<Clip name="swiftui-scroll-linked-macos" caption="macOS app: actual scroll-wheel input and native offset observation; Reduced Motion keeps the header stable. English UI." />
 
 <Clip name="web-expansion-react" caption="Chromium on macOS, React DOM: actual pointer, drag, presence, scoped values, cues, layout and scroll. The same resource contract is tested in all four framework adapters." />
 

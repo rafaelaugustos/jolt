@@ -60,9 +60,9 @@ Web 已有 motionValue、springValue、map、pointerFollow、drag、scrollLinked
 
 <Clip name="swiftui-composition-macos" caption="macOS 应用：采样值、事件清理、编排、布局与诊断。真实点击；不是 CPU/GPU 基准。" />
 
-<Clip name="swiftui-scroll-ios" caption="iOS 27.0 模拟器：真实滚动改变进度与标题；减少动态效果稳定装饰变换。英文界面。" />
+<Clip name="swiftui-scroll-linked-ios" caption="iOS 27.0 模拟器：真实滚动改变进度与标题；减少动态效果稳定装饰变换。英文界面。" />
 
-<Clip name="swiftui-scroll-macos" caption="macOS 应用：真实滚轮与原生偏移观察；减少动态效果稳定标题。英文界面。" />
+<Clip name="swiftui-scroll-linked-macos" caption="macOS 应用：真实滚轮与原生偏移观察；减少动态效果稳定标题。英文界面。" />
 
 <Clip name="web-expansion-react" caption="macOS 上的 Chromium / React DOM：真实交互与资源生命周期。同一合同在四个框架中验证。" />
 

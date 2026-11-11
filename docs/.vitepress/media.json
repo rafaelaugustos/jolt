@@ -1448,12 +1448,20 @@
       "sha256": "59a2420cfd7f109fdd6557b38be69d884777d282b096649578ae97544264f03f"
     },
     "swiftui-scroll-ios.mp4": {
+      "bytes": 163365,
+      "sha256": "c61e7bf86c23f1388f1015a21f162e273ead1d377fe9d47b55917cc5e3246bfb"
+    },
+    "swiftui-scroll-linked-ios.mp4": {
       "bytes": 281510,
       "sha256": "004dda85ef80746800e6055b07a67a8bb3009acba736632717914aff8abe6637"
     },
-    "swiftui-scroll-macos.mp4": {
+    "swiftui-scroll-linked-macos.mp4": {
       "bytes": 72130,
       "sha256": "05a563c3cf4f6756990d804ae70b9c501a505e18fa19c21a192eed07d26d30fe"
+    },
+    "swiftui-scroll-macos.mp4": {
+      "bytes": 51511,
+      "sha256": "9145e303b5a5d734dfc4c1c755d18fef7cf6db4ab5ef6c27bc0369cb37980d65"
     },
     "swiftui-text-ios.mp4": {
       "bytes": 318862,
