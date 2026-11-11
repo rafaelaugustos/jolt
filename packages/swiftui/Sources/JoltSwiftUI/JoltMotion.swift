@@ -84,7 +84,7 @@ extension View {
   }
   /// A supported shared Jolt recipe. `active` selects its endpoint, not structural presence.
   public func joltPreset(
-    _ preset: JoltPreset, active: Bool, parameters: JoltPresetParameters = try! .init()
+    _ preset: JoltPreset, active: Bool, parameters: JoltPresetParameters = .none
   ) -> some View {
     let recipe = preset.recipe(parameters)
     return modifier(

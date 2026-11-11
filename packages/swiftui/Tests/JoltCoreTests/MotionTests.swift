@@ -4,10 +4,13 @@ import XCTest
 
 final class MotionTests: XCTestCase {
   func testPortableRecipeInventoryAndUnits() throws {
-    XCTAssertEqual(Definitions.shared.schema, 1)
-    XCTAssertEqual(Set(Definitions.shared.presets.keys), Set(JoltPreset.allCases.map(\.rawValue)))
-    XCTAssertEqual(Set(Definitions.shared.springs.keys), Set(JoltSpring.allCases.map(\.rawValue)))
-    XCTAssertEqual(Set(Definitions.shared.curves.keys), Set(JoltEase.allCases.map(\.rawValue)))
+    for preset in JoltPreset.allCases {
+      XCTAssertEqual(Definitions.channels(preset).filter { $0.property == .opacity }.count, 1)
+    }
+    for spring in JoltSpring.allCases {
+      guard case .spring = Definitions.spring(spring) else { return XCTFail("\(spring)") }
+    }
+    for ease in JoltEase.allCases { XCTAssertEqual(Definitions.curve(ease).count, 4) }
     XCTAssertEqual(JoltPreset.fadeInUp.pose(active: false).y, 24)
     XCTAssertEqual(JoltPreset.fadeInUp.pose(active: true), .identity)
     XCTAssertEqual(JoltPreset.popIn.pose(active: false).scaleX, 0.5)

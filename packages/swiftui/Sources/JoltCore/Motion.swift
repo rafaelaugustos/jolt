@@ -17,7 +17,7 @@ public struct JoltPose: Equatable, Sendable {
   public let scaleY: Double
   public let rotate: Double
   public let opacity: Double
-  public static let identity = try! JoltPose()
+  public static let identity = JoltPose(unchecked: 0, 0, 1, 1, 0, 1)
 
   public init(
     x: Double = 0, y: Double = 0, scaleX: Double = 1, scaleY: Double = 1, rotate: Double = 0,
@@ -38,6 +38,17 @@ public struct JoltPose: Equatable, Sendable {
     try self.init(x: x, y: y, scaleX: scale, scaleY: scale, rotate: rotate, opacity: opacity)
   }
   public var transform: [Double] { [x, y, scaleX, scaleY, rotate] }
+  init(
+    unchecked x: Double, _ y: Double, _ scaleX: Double, _ scaleY: Double, _ rotate: Double,
+    _ opacity: Double
+  ) {
+    self.x = x
+    self.y = y
+    self.scaleX = scaleX
+    self.scaleY = scaleY
+    self.rotate = rotate
+    self.opacity = opacity
+  }
 }
 
 public enum JoltSpring: String, CaseIterable, Sendable { case smooth, snappy, bouncy }
@@ -53,7 +64,7 @@ public struct JoltTransition: Equatable, Sendable {
   }
   public let kind: Kind
   public static func tween(milliseconds: Double = 300, ease: JoltEase = .easeOut) throws -> Self {
-    try cubicBezier(milliseconds: milliseconds, points: Definitions.shared.curves[ease.rawValue]!)
+    try cubicBezier(milliseconds: milliseconds, points: Definitions.curve(ease))
   }
   public static func cubicBezier(milliseconds: Double, points: [Double]) throws -> Self {
     guard milliseconds.isFinite, milliseconds >= 0, milliseconds <= 60_000,
@@ -62,9 +73,7 @@ public struct JoltTransition: Equatable, Sendable {
     else { throw JoltError.invalidTransition }
     return Self(kind: .tween(milliseconds: milliseconds, curve: points))
   }
-  public static func spring(_ name: JoltSpring) -> Self {
-    Definitions.shared.springs[name.rawValue]!.value
-  }
+  public static func spring(_ name: JoltSpring) -> Self { Self(kind: Definitions.spring(name)) }
   public static func spring(mass: Double = 1, stiffness: Double, damping: Double) throws -> Self {
     guard [mass, stiffness, damping].allSatisfy(\.isFinite), mass > 0, stiffness > 0, damping > 0
     else { throw JoltError.invalidTransition }
@@ -77,50 +86,26 @@ public enum JoltPreset: String, CaseIterable, Sendable {
   case fadeOut, fadeOutUp, fadeOutDown, fadeOutLeft, fadeOutRight, zoomOut
   /// False is the explicit recipe start; true is its endpoint. This does not remove a view.
   public func pose(active: Bool) -> JoltPose {
-    var values: [String: Double] = ["x": 0, "y": 0, "scale": 1, "opacity": 1]
-    for channel in Definitions.shared.presets[rawValue]! {
-      values[channel.property] = active ? channel.to : channel.from ?? values[channel.property]!
+    var x = 0.0, y = 0.0, scale = 1.0, opacity = 1.0
+    for channel in Definitions.channels(self) {
+      let value = active ? channel.to : channel.from
+      switch channel.property {
+      case .x: x = value ?? x
+      case .y: y = value ?? y
+      case .scale: scale = value ?? scale
+      case .opacity: opacity = value ?? opacity
+      }
     }
-    return try! JoltPose(
-      x: values["x"]!, y: values["y"]!, scale: values["scale"]!, opacity: values["opacity"]!)
+    return JoltPose(unchecked: x, y, scale, scale, 0, opacity)
   }
   public var transformTransition: JoltTransition {
-    Definitions.shared.presets[rawValue]!.first(where: { $0.property != "opacity" })?.transition
-      .value ?? .spring(.smooth)
+    Definitions.channels(self).first(where: { $0.property != .opacity }).map {
+      JoltTransition(kind: $0.kind)
+    } ?? .spring(.smooth)
   }
   public var opacityTransition: JoltTransition {
-    Definitions.shared.presets[rawValue]!.first(where: { $0.property == "opacity" })!.transition
-      .value
-  }
-}
-
-struct Definitions: Decodable, Sendable {
-  let schema: Int
-  let curves: [String: [Double]]
-  let springs: [String: TransitionDefinition]
-  let presets: [String: [Channel]]
-  static let shared: Definitions = {
-    let url = Bundle.module.url(forResource: "definitions", withExtension: "json")!
-    return try! JSONDecoder().decode(Definitions.self, from: Data(contentsOf: url))
-  }()
-  struct Channel: Decodable, Sendable {
-    let property: String
-    let from: Double?
-    let to: Double
-    let transition: TransitionDefinition
-  }
-  struct TransitionDefinition: Decodable, Sendable {
-    let kind: String
-    let milliseconds: Double?
-    let curve: [Double]?
-    let stiffness: Double?
-    let damping: Double?
-    let mass: Double?
-    var value: JoltTransition {
-      if kind == "spring" {
-        return try! .spring(mass: mass!, stiffness: stiffness!, damping: damping!)
-      }
-      return try! .cubicBezier(milliseconds: milliseconds!, points: curve!)
-    }
+    Definitions.channels(self).first(where: { $0.property == .opacity }).map {
+      JoltTransition(kind: $0.kind)
+    } ?? .spring(.smooth)
   }
 }

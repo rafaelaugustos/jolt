@@ -257,6 +257,10 @@ jobs:
       - run: npm run build && npm run swiftui:check
       - run: swift test
       - run: node scripts/swift-package.mjs "$RUNNER_TEMP/jolt-swift"
+      - name: Run a command-line consumer alone, without the package's build directory
+        env:
+          JOLT_SWIFT_PACKAGE: ${{ runner.temp }}/jolt-swift
+        run: benchmarks/swiftui-demo/cli/run.sh
       - run: gem install xcodeproj --no-document --user-install
       - name: Interact with standalone iOS and macOS apps through the generated package
         env:

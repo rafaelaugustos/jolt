@@ -144,6 +144,13 @@ public struct JoltPresetParameters: Equatable, Sendable {
     self.direction = direction
     self.duration = duration
   }
+  public static let none = Self(unchecked: ())
+  private init(unchecked: Void) {
+    distance = nil
+    scale = nil
+    direction = nil
+    duration = nil
+  }
 }
 public struct JoltRecipe: Equatable, Sendable {
   public let from: JoltPose
@@ -152,7 +159,7 @@ public struct JoltRecipe: Equatable, Sendable {
   public let opacityTransition: JoltTransition
 }
 extension JoltPreset {
-  public func recipe(_ parameters: JoltPresetParameters = try! .init()) -> JoltRecipe {
+  public func recipe(_ parameters: JoltPresetParameters = .none) -> JoltRecipe {
     let entering = !rawValue.contains("Out")
     let originalFrom = pose(active: false)
     let originalTo = pose(active: true)
@@ -175,11 +182,12 @@ extension JoltPreset {
       y = y == 0 ? 0 : (y < 0 ? -distance : distance)
     }
     let scale = parameters.scale ?? (entering ? start.scaleX : end.scaleX)
-    let adjusted = try! JoltPose(
-      x: x, y: y, scale: scale, opacity: entering ? start.opacity : end.opacity)
+    let adjusted = JoltPose(
+      unchecked: x, y, scale, scale, 0, entering ? start.opacity : end.opacity)
     if entering { start = adjusted } else { end = adjusted }
     let custom = parameters.duration.map {
-      try! JoltTransition.tween(milliseconds: $0, ease: entering ? .easeOut : .easeIn)
+      JoltTransition(
+        kind: .tween(milliseconds: $0, curve: Definitions.curve(entering ? .easeOut : .easeIn)))
     }
     return .init(
       from: start, to: end, transformTransition: custom ?? transformTransition,
