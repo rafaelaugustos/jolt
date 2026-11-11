@@ -34,6 +34,9 @@ jobs:
     needs: changes
     if: needs.changes.outputs.docs == 'true'
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --ipc=host --user pwuser
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
@@ -42,7 +45,6 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium webkit
       - run: npm run docs:check-media
       - run: npm run media:verify
       - run: npm run docs:build
@@ -70,6 +72,9 @@ jobs:
     needs: changes
     if: needs.changes.outputs.packages == 'true'
     runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --ipc=host --user pwuser
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
@@ -85,7 +90,6 @@ jobs:
         working-directory: benchmarks/native-app
       - run: npm run build
       - run: npm run parity:check
-      - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run package:check
       - run: npm run package:nuxt:check
       - run: npm run web:frameworks:test
@@ -100,6 +104,10 @@ jobs:
     needs: changes
     if: needs.changes.outputs.web == 'true'
     runs-on: ubuntu-latest
+    # Root installs PulseAudio; the browsers run as pwuser in the last step.
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble
+      options: --ipc=host
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
@@ -108,18 +116,24 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - run: npx playwright install --with-deps chromium firefox webkit
       # Firefox needs a real audio service even when no physical speaker exists.
       # Decode/play through PulseAudio's clocked null sink; do not mock HTMLAudio.
-      - run: sudo apt-get install -y --no-install-recommends pulseaudio pulseaudio-utils
+      # The image's Azure Ubuntu hosts stop resolving at times; kernel.org is an official mirror.
+      - name: Install PulseAudio
+        run: |
+          sed -i -E 's#http://[a-z.]*ubuntu\.com/ubuntu/#http://mirrors.edge.kernel.org/ubuntu/#' /etc/apt/sources.list.d/ubuntu.sources
+          apt-get update -qq
+          apt-get install -y -qq --no-install-recommends pulseaudio pulseaudio-utils
       - run: npm run web:interaction-depth:typecheck
       - name: Verify interaction and audio in all browsers
         run: |
-          pulseaudio --start --exit-idle-time=-1
-          trap 'pulseaudio --kill' EXIT
-          pactl load-module module-null-sink sink_name=jolt-ci
-          pactl set-default-sink jolt-ci
-          npm run web:interaction-depth:test
+          chown -R pwuser:pwuser "$GITHUB_WORKSPACE"
+          runuser -u pwuser -- env "PATH=$PATH" bash -ec '
+            pulseaudio --start --exit-idle-time=-1
+            trap "pulseaudio --kill" EXIT
+            pactl load-module module-null-sink sink_name=jolt-ci
+            pactl set-default-sink jolt-ci
+            npm run web:interaction-depth:test'
       - uses: actions/upload-artifact@v7
         if: always()
         with:
