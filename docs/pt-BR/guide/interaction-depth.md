@@ -16,6 +16,38 @@ O efeito aceito termina ao concluir, cancelar, pegar novamente, pausar, remover 
 <Clip :autoplay="false" name="interaction-drop-android" caption="ASUS ZenFone 3 físico, Android 8: reprodução nativa com toques reais via ADB. Rejeição, aceitação, alternativa por botão e remount." />
 <Clip :autoplay="false" name="interaction-drop-web" caption="Chromium: interação real no navegador; o inspector usa WebGL por software. Rejeição, aceitação, alternativa por botão e remount." />
 
+### Inserção ordenada
+
+Um quadro que reordena cards dentro de colunas precisa de mais do que soltar sobre uma coluna: uma alça que inicia o arrasto, a posição do card enquanto ele se move, colunas fáceis de acertar mesmo quando curtas e um card que continua sob o ponteiro enquanto o quadro abre um espaço. A Web e o NativeScript compartilham o mesmo contrato:
+
+```ts
+const drop = scope.dropZones(card, {
+  targets: [
+    { id: 'todo', target: todo, padding: { bottom: 60 } },
+    { id: 'done', target: done, padding: { bottom: 60 } },
+  ],
+  drag: { handle: grip, snap: [0] },
+  // Coloque o espaço antes do primeiro card cujo ponto médio fica abaixo do centro do card.
+  onMove: ({ id, bounds }) => showGap(id, bounds.y + bounds.height / 2),
+  onLeave: () => hideGap(),
+  onDrop: ({ id }) => moveCard(id),
+})
+```
+
+**Alça.** `drag.handle`, aceito também por `drag()`, recebe a entrada de um elemento dentro da origem na Web (pode ser um `<button>`, que mantém o próprio tratamento de teclado) ou de uma view descendente no NativeScript. Só a alça inicia o arrasto, e a origem se move. Na Web, só a alça recebe `touch-action` e captura de ponteiro, então o resto da origem mantém cliques, controles e rolagem por toque; elementos interativos dentro da alça continuam sem iniciar arrasto, e um clique na alça logo após um arrasto é suprimido. No NativeScript, só a alça recebe o reconhecedor de pan, então o resto da origem mantém seus toques e uma ScrollView ao redor pode receber o gesto. Uma alça fora da origem, ou a própria origem, lança `TypeError` antes de qualquer mudança de entrada. Uma alça que sai da origem, fica desabilitada ou inerte cancela o contato.
+
+**Posição durante o movimento.** `onMove({ id, source, bounds, method: 'drag' })` é chamado a cada movimento do arrasto, depois do teste de acerto: `id` é o alvo sob a origem ou `undefined`, e `bounds` é uma cópia dos limites visuais da origem nas coordenadas dos alvos. A aplicação posiciona o ponto de inserção sem listeners de ponteiro próprios. `request()`, `refresh()` e a soltura não relatam movimento, e nada é relatado depois de cancelamento, pausa, suspensão ou descarte. O NativeScript também relata a primeira amostra do pan. Um erro lançado em `onMove` cancela o arrasto, como nos outros callbacks.
+
+**Padding de acerto.** O `padding` de um alvo amplia sua área de acerto com um número ou por borda (`{ top, right, bottom, left }`): pixels CSS na Web, DIPs no NativeScript. Cada borda deve ser finita e de 0 a 1.000; outros valores lançam `RangeError` ao criar as drop zones. `center` e `overlap` usam o retângulo ampliado, e um alvo com limites vazios continua sem acerto. O padding é invisível; desenhe-o quando o usuário precisar vê-lo. O `dropHits(source, target, policy, padding)` exportado aplica a mesma regra.
+
+**Reancoragem.** Durante o arrasto, cada movimento e cada `refresh()` comparam o centro de layout da origem (o centro visual sem a translação do arrasto) com o do início do arrasto e compensam a translação pela diferença. Um espaço inserido acima do card o mantém sob o ponteiro. A Web atualiza sozinha depois de inserções e remoções no DOM e das mudanças de atributo que o Jolt observa; o NativeScript, depois do `layoutChanged` da origem, emitido quando o frame dela muda dentro do pai. Mudanças feitas só por estilo na Web e deslocamentos de um ancestral no NativeScript são compensados no movimento seguinte; chame `refresh()` logo depois delas para evitar um salto de um frame. Só os eixos arrastados são compensados, os `bounds` do arrasto continuam limitando a translação, e escalar a origem em torno de um ponto que não é o centro durante o arrasto conta como mudança de layout. As amostras de velocidade acompanham a translação, então a reancoragem não vira um arremesso.
+
+**Soltura, cancelamento e movimento reduzido.** Nas duas plataformas, o drop é decidido pela entrada final antes de o movimento de retorno começar. O cancelamento (`cancel()`, pausa, documento oculto, perda de foco da janela ou rolagem na Web, suspensão do aplicativo no NativeScript) congela a origem onde está, interrompe os relatórios de movimento e chama `onLeave` para o alvo sob a origem, para a aplicação remover o espaço; layout alterado depois disso não é compensado. O movimento reduzido mantém o acompanhamento direto; uma soltura rejeitada ou fora de alvos retorna sem animação. Mantenha movimentos por teclado em controles da aplicação, como a alça do demo faz com as setas e `request()`.
+
+<Clip :autoplay="false" name="interaction-depth-drop-web" caption="Chromium: mouse e teclado reais. O corpo do card mantém botão e rolagem, a alça (um botão) arrasta, um espaço se abre acima do card enquanto ele segue sob o ponteiro, soltar abaixo da coluna Done curta acerta o padding de 60 px, o alvo bloqueado rejeita e uma seta devolve o card." />
+<Clip :autoplay="false" name="interaction-depth-drop-ios" caption="Simulador iOS: toques reais via XCTest no quadro nativo. Só a alça de 36 DIP arrasta, o espaço acima do card o reancora, a coluna Done com padding aceita, o alvo bloqueado rejeita e o movimento reduzido retorna na hora. Não é gravação em aparelho físico." />
+<Clip :autoplay="false" name="interaction-depth-drop-android" caption="Emulador Android: toques reais via ADB no mesmo quadro nativo: arrasto só pela alça, reancoragem com o espaço, aceitação com padding, rejeição e movimento reduzido. Não é gravação em aparelho físico." />
+
 ## Áudio opcional e eventos na timeline
 
 Importe `audioCue` de `@rafaelaugusto/jolt/audio` no nativo e de `@rafaelaugusto/jolt/web/audio` na Web. Nativo: `scope.resource(() => audioCue('~/assets/cue.wav'))`. Web: `scope.add(audioCue(document, '/cue.wav'))`. Arquivos nativos são locais; URLs Web precisam ser da mesma origem ou blobs locais. Aguarde `ready` e inicie por uma ação do usuário. Falha retorna `false`, chama `onError` e não impede a animação visual.

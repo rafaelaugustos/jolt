@@ -80,6 +80,26 @@ zones.cancel()
 
 <Clip name="swiftui-transfer-macos" caption="macOS, SwiftUI nativo: ratón, botones accesibles, reordenación por asa y desplazamiento de borde. Sin virtualización." />
 
+Para la inserción ordenada, `joltDropHandle(zones)` pone el arrastre en una vista dentro de la vista con `joltDropSource`, como un asa; el origen sigue moviéndose. Mientras haya un asa en pantalla, el arrastre del propio origen se limita a sus subvistas, así que el resto del origen conserva botones, gestos y desplazamiento, y las acciones de accesibilidad "Move to …" y "Return to origin" pasan del origen al asa. `JoltDropTarget` acepta `padding: JoltDropPadding`, que amplía el frame informado por borde, en puntos (0 a 1.000; otros valores lanzan un error antes de crear el destino). El centro y overlap usan el frame ampliado, con la misma prueba de acierto de JoltCore que las fixtures generadas comparan con `dropHits` en TypeScript.
+
+```swift
+let board = try scope.retain(JoltDropZones([
+    .init("backlog", label: "Backlog", padding: try .init(bottom: 60)),
+    .init("done", label: "Done", padding: try .init(bottom: 60)),
+], onDrop: { event in
+    // Mueve los datos de la tarjeta a event.id; después de este callback, board.cancel() pone el offset a cero.
+    nil
+}))
+// card.joltDropSource(board), with grip.joltDropHandle(board) inside the card
+// column.joltDropTarget("done", in: board)
+```
+
+La posición durante el movimiento ya se publica: `offset`, `hovered` y `dragging` permiten colocar un hueco sin un gesto propio. El frame de layout del origen se mide fuera del offset del arrastre; si cambia durante el arrastre, por ejemplo porque se abre un hueco encima del origen, el offset se compensa y el origen sigue bajo el dedo o el puntero. Una vista de origen reemplazada al cambiar de contenedor mantiene activas las zonas: la vista más reciente es dueña del frame, y las zonas solo se suspenden cuando ninguna vista de origen está visible, habilitada y en una escena activa. La cancelación pone el offset a cero, y con movimiento reducido una suelta rechazada vuelve al instante. La Web y NativeScript usan el mismo contrato con `drag.handle`, `onMove` y `padding` en [drop, cues y profundidad](./interaction-depth).
+
+<Clip name="swiftui-character-handle-ios" caption="Simulador iOS, SwiftUI nativo: toques reales. El cuerpo de la tarjeta conserva su botón, el asa arrastra, se abre un hueco encima de la tarjeta mientras sigue bajo el dedo, soltar bajo Done acierta su margen de 60 pt, el destino bloqueado rechaza y el movimiento reducido vuelve al instante. No es una grabación en un dispositivo físico." />
+
+<Clip name="swiftui-character-handle-macos" caption="macOS, SwiftUI nativo: el mismo tablero con asa, arrastres con ratón y el botón Send, capturado de la ventana nativa. Esta grabación no valida gestos físicos de trackpad." />
+
 ## Partículas finitas
 
 JoltParticles es un Canvas opcional: 1–2.000 partículas vivas, 1–32 colores, vida de 1–60.000 ms y tamaño de 1–128 puntos. burst y emit finito reemplazan la emisión actual. Tasa máxima: 1.000/s; emisión más vida: 60 s. Una población excesiva se rechaza antes de reemplazar. Velocidad/variación: 0–10.000 puntos/s; gravedad: ±10.000 puntos/s²; giro: ±3.600 grados/s; variación del giro: 0–3.600. Formas: círculo, rectángulo o anillo; origen: centro, arriba o abajo. La semilla permite repetir pruebas, sin prometer la misma secuencia aleatoria Web.
