@@ -20,11 +20,12 @@ extension View {
 }
 private struct LayoutModifier<Value: Equatable>: ViewModifier {
   let value: Value, transition: JoltTransition
-  @Environment(\.scenePhase) private var phase
+  @JoltSceneActivity private var sceneActive
   @Environment(\.accessibilityReduceMotion) private var reduced
   @Environment(\.joltReduceMotion) private var appReduced
   func body(content: Content) -> some View {
     content.animation(
-      phase == .active && !reduced && !appReduced ? transition.animation : nil, value: value)
+      sceneActive && !reduced && !appReduced ? transition.animation : nil, value: value)
+    .modifier(JoltActivityProvider($sceneActive))
   }
 }

@@ -169,14 +169,14 @@ public enum JoltDragRelease: Sendable {
 }
 private struct DragModifier: ViewModifier {
   @ObservedObject var model: JoltDragModel
-  @Environment(\.scenePhase) private var phase
+  @JoltSceneActivity private var sceneActive
   @Environment(\.isEnabled) private var enabled
   @Environment(\.accessibilityReduceMotion) private var reduced
   @Environment(\.joltReduceMotion) private var appReduced
   @GestureState private var gestureActive = false
   @State private var visible = false
   private func synchronize() {
-    if visible && enabled && phase == .active { model.resume() } else { model.suspend() }
+    if visible && enabled && sceneActive { model.resume() } else { model.suspend() }
   }
   func body(content: Content) -> some View {
     content.offset(x: model.position.x, y: model.position.y).transaction { $0.animation = nil }
@@ -184,7 +184,7 @@ private struct DragModifier: ViewModifier {
         DragGesture(minimumDistance: 1, coordinateSpace: .global).updating($gestureActive) {
           _, state, _ in state = true
         }.onChanged { event in
-          guard enabled, phase == .active else { return }
+          guard enabled, sceneActive else { return }
           if !model.dragging { model.begin() }
           model.update(translation: event.translation)
         }.onEnded { event in
@@ -203,7 +203,8 @@ private struct DragModifier: ViewModifier {
         visible = false
         synchronize()
       }
-      .onChange(of: phase) { _, _ in synchronize() }.onChange(of: enabled) { _, _ in synchronize() }
+      .onChange(of: sceneActive) { _, _ in synchronize() }.onChange(of: enabled) { _, _ in synchronize() }
+    .modifier(JoltActivityProvider($sceneActive))
   }
 }
 extension View {

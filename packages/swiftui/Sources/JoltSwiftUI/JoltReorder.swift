@@ -183,7 +183,7 @@ public struct JoltReorderList<Row: View>: View {
   @State private var edgeIndex = 0
   @State private var gestureKey: String?
   @GestureState private var dragging = false
-  @Environment(\.scenePhase) private var phase
+  @JoltSceneActivity private var sceneActive
   @Environment(\.isEnabled) private var enabled
   @Environment(\.accessibilityReduceMotion) private var reduced
   @Environment(\.joltReduceMotion) private var appReduced
@@ -268,7 +268,7 @@ public struct JoltReorderList<Row: View>: View {
           }.animation(reduced || appReduced ? nil : .easeOut(duration: 0.15), value: model.preview)
         }.coordinateSpace(name: coordinate)
           .onAppear {
-            if phase == .active && enabled { model.resume() } else { model.suspend() }
+            if sceneActive && enabled { model.resume() } else { model.suspend() }
             connectEdge(proxy, height: geometry.size.height)
           }
           .onChange(of: geometry.size) { _, next in
@@ -279,11 +279,11 @@ public struct JoltReorderList<Row: View>: View {
             model.suspend()
             model.edgeScroll = nil
           }
-          .onChange(of: phase) { _, next in
-            if next == .active && enabled { model.resume() } else { model.suspend() }
+          .onChange(of: sceneActive) { _, next in
+            if next && enabled { model.resume() } else { model.suspend() }
           }
           .onChange(of: enabled) { _, next in
-            if next && phase == .active { model.resume() } else { model.suspend() }
+            if next && sceneActive { model.resume() } else { model.suspend() }
           }
           .onChange(of: scroll.offset) { _, _ in
             model.move(
@@ -298,6 +298,7 @@ public struct JoltReorderList<Row: View>: View {
           }
       }
     }
+    .modifier(JoltActivityProvider($sceneActive))
   }
 }
 private struct ReorderKeyboard: ViewModifier {

@@ -213,14 +213,14 @@ private struct DropGeometry: View {
 }
 private struct DropSource: ViewModifier {
   @ObservedObject var model: JoltDropZones
-  @Environment(\.scenePhase) private var phase
+  @JoltSceneActivity private var sceneActive
   @Environment(\.isEnabled) private var enabled
   @Environment(\.accessibilityReduceMotion) private var reduced
   @Environment(\.joltReduceMotion) private var appReduced
   @GestureState private var active = false
   @State private var visible = false
   private func sync() {
-    if visible && enabled && phase == .active { model.resume() } else { model.suspend() }
+    if visible && enabled && sceneActive { model.resume() } else { model.suspend() }
   }
   func body(content: Content) -> some View {
     content.background(DropGeometry(update: model.sourceBounds)).offset(model.offset)
@@ -249,8 +249,9 @@ private struct DropSource: ViewModifier {
         visible = false
         sync()
       }
-      .onChange(of: phase) { _, _ in sync() }.onChange(of: enabled) { _, _ in sync() }
+      .onChange(of: sceneActive) { _, _ in sync() }.onChange(of: enabled) { _, _ in sync() }
       .onChange(of: active) { _, next in if !next && model.dragging { model.cancel() } }
+    .modifier(JoltActivityProvider($sceneActive))
   }
 }
 extension View {

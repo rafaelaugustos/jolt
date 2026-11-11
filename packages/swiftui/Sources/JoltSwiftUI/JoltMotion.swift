@@ -52,7 +52,7 @@ private struct MotionModifier: ViewModifier {
   let transition: JoltTransition
   let opacityTransition: JoltTransition
   @Environment(\.accessibilityReduceMotion) private var reduced
-  @Environment(\.scenePhase) private var phase
+  @JoltSceneActivity private var sceneActive
   @Environment(\.joltReduceMotion) private var appReduced
   func body(content: Content) -> some View {
     content
@@ -60,11 +60,12 @@ private struct MotionModifier: ViewModifier {
       .rotationEffect(.degrees(pose.rotate))
       .offset(x: pose.x, y: pose.y)
       .animation(
-        reduced || appReduced || phase != .active ? nil : transition.animation,
+        reduced || appReduced || !sceneActive ? nil : transition.animation,
         value: pose.transform
       )
       .opacity(pose.opacity)
-      .animation(phase == .active ? opacityTransition.animation : nil, value: pose.opacity)
+      .animation(sceneActive ? opacityTransition.animation : nil, value: pose.opacity)
+    .modifier(JoltActivityProvider($sceneActive))
   }
 }
 

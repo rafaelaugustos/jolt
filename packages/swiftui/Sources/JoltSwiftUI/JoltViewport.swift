@@ -83,7 +83,7 @@ private struct ViewportMotion: ViewModifier {
   @ObservedObject var controller: JoltViewportEntry
   @ObservedObject var progress: JoltMotionValue
   let from: JoltPose, to: JoltPose
-  @Environment(\.scenePhase) private var phase
+  @JoltSceneActivity private var sceneActive
   @Environment(\.accessibilityReduceMotion) private var reduced
   @Environment(\.joltReduceMotion) private var appReduced
   func body(content: Content) -> some View {
@@ -99,13 +99,14 @@ private struct ViewportMotion: ViewModifier {
     .background(ViewportProbe { controller.update(visibleFraction: $0) })
     .onAppear {
       controller.reducedMotion(reduced || appReduced)
-      if phase == .active { controller.resume() } else { controller.suspend() }
+      if sceneActive { controller.resume() } else { controller.suspend() }
     }
     .onDisappear { controller.detach() }
-    .onChange(of: phase) { _, phase in
-      if phase == .active { controller.resume() } else { controller.suspend() }
+    .onChange(of: sceneActive) { _, next in
+      if next { controller.resume() } else { controller.suspend() }
     }
     .onChange(of: reduced || appReduced) { _, next in controller.reducedMotion(next) }
+    .modifier(JoltActivityProvider($sceneActive))
   }
 }
 extension View {

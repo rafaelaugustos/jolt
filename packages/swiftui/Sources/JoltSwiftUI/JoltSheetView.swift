@@ -24,7 +24,7 @@ public struct JoltBottomSheet<Background: View, Content: View>: View {
   @GestureState private var contentActive = false
   @FocusState private var handleFocused: Bool
   @AccessibilityFocusState private var accessibilityFocused: Bool
-  @Environment(\.scenePhase) private var phase
+  @JoltSceneActivity private var sceneActive
   @Environment(\.isEnabled) private var enabled
   @Environment(\.accessibilityReduceMotion) private var reduced
   @Environment(\.joltReduceMotion) private var appReduced
@@ -42,7 +42,7 @@ public struct JoltBottomSheet<Background: View, Content: View>: View {
   }
   private func synchronize() {
     model.setReducedMotion(reduced || appReduced)
-    if visible && enabled && phase == .active { model.resume() } else { model.suspend() }
+    if visible && enabled && sceneActive { model.resume() } else { model.suspend() }
   }
   private func measure(_ geometry: GeometryProxy) {
     guard geometry.size.height > 0, !model.disposed else { return }
@@ -136,7 +136,7 @@ public struct JoltBottomSheet<Background: View, Content: View>: View {
           .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 18))
           .clipShape(RoundedRectangle(cornerRadius: 18))
           .offset(y: layout.top + model.position)
-          .allowsHitTesting(model.isOpen && enabled && phase == .active)
+          .allowsHitTesting(model.isOpen && enabled && sceneActive)
           .accessibilityHidden(!model.isOpen)
         }
       }
@@ -144,7 +144,7 @@ public struct JoltBottomSheet<Background: View, Content: View>: View {
       .transaction { $0.animation = nil }
       .modifier(SheetExit(model: model))
       .background(
-        SheetKeyboardProbe(active: visible && enabled && phase == .active && !model.disposed) {
+        SheetKeyboardProbe(active: visible && enabled && sceneActive && !model.disposed) {
           keyboardOverlap = $0
         }.allowsHitTesting(false).accessibilityHidden(true)
       )
@@ -173,7 +173,7 @@ public struct JoltBottomSheet<Background: View, Content: View>: View {
         accessibilityFocused = next
         if !next { returnFocus() }
       }
-      .onChange(of: phase) { _, _ in synchronize() }
+      .onChange(of: sceneActive) { _, _ in synchronize() }
       .onChange(of: enabled) { _, _ in synchronize() }
       .onChange(of: reduced) { _, _ in synchronize() }
       .onChange(of: appReduced) { _, _ in synchronize() }
@@ -190,6 +190,7 @@ public struct JoltBottomSheet<Background: View, Content: View>: View {
         }
       }
     }
+    .modifier(JoltActivityProvider($sceneActive))
   }
 }
 private struct SheetKeys: ViewModifier {

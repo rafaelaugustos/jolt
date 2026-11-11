@@ -30,13 +30,13 @@ public struct JoltScrollView<Content: View>: View {
   @State private var offset = 0.0
   @State private var extent = 0.0
   @State private var visible = false
-  @Environment(\.scenePhase) private var phase
+  @JoltSceneActivity private var sceneActive
   public init(progress: JoltScrollProgress, @ViewBuilder content: @escaping () -> Content) {
     self.progress = progress
     self.content = content
   }
   private func publish() {
-    if visible && phase == .active { progress.update(offset: offset, extent: extent) }
+    if visible && sceneActive { progress.update(offset: offset, extent: extent) }
   }
   public var body: some View {
     ScrollView {
@@ -51,7 +51,8 @@ public struct JoltScrollView<Content: View>: View {
       visible = true
       publish()
     }.onDisappear { visible = false }
-    .onChange(of: phase) { _, _ in publish() }
+    .onChange(of: sceneActive) { _, _ in publish() }
+    .modifier(JoltActivityProvider($sceneActive))
   }
 }
 private struct ScrollMotion: ViewModifier {

@@ -102,7 +102,7 @@ public typealias JoltAffine = JoltCore.JoltAffine
 public struct JoltRigView<Part: View>: View {
   @ObservedObject private var rig: JoltRig
   private let part: (String) -> Part, label: String
-  @Environment(\.scenePhase) private var phase
+  @JoltSceneActivity private var sceneActive
   @Environment(\.accessibilityReduceMotion) private var reduced
   @Environment(\.joltReduceMotion) private var appReduced
   public init(
@@ -133,11 +133,12 @@ public struct JoltRigView<Part: View>: View {
     .accessibilityLabel(label).accessibilityElement(children: .ignore)
     .onAppear {
       rig.reduceMotion(reduced || appReduced)
-      if phase == .active { rig.resume() } else { rig.suspend() }
+      if sceneActive { rig.resume() } else { rig.suspend() }
     }
     .onDisappear { rig.suspend() }
-    .onChange(of: phase) { _, next in if next == .active { rig.resume() } else { rig.suspend() } }
+    .onChange(of: sceneActive) { _, next in if next { rig.resume() } else { rig.suspend() } }
     .onChange(of: reduced || appReduced) { _, next in rig.reduceMotion(next) }
+    .modifier(JoltActivityProvider($sceneActive))
   }
 }
 private struct RigSocketMotion: ViewModifier {
