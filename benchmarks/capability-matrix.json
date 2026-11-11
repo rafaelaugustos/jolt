@@ -2783,7 +2783,7 @@
       "id": "drop-ordered-insertion",
       "issues": [480],
       "status": "local-unpublished",
-      "limit": "Source only. Drop handles, move reports, per-edge hit padding and re-anchoring share one contract on the Web, NativeScript and SwiftUI. Chromium/Firefox/WebKit board checks, NativeScript adapter unit tests and the iOS SwiftUI UI case pass; the Native CI drop group and the NativeScript iOS/Android and macOS recordings still need device validation. Re-anchoring follows the source's layout center: Web style-only changes and NativeScript ancestor moves wait for the next move or refresh(); scaling about a non-center origin counts as layout. Padding is not drawn.",
+      "limit": "Source only. Drop handles, move reports, per-edge hit padding and re-anchoring share one contract on the Web, NativeScript and SwiftUI. Chromium/Firefox/WebKit board checks, NativeScript adapter unit tests, the Native CI drop group on an iOS 27 simulator and an Android 16 emulator, and the SwiftUI iOS/macOS UI cases pass; reviewed recordings cover Chromium, the NativeScript board on both simulators/emulators and SwiftUI on iOS/macOS. Physical devices are not validated. On Android a source clipped by an ancestor counts as hidden and cancels the drag; containers it crosses need setClipChildren(false) and setClipToPadding(false). Re-anchoring follows the source's layout center: Web style-only changes and NativeScript ancestor moves wait for the next move or refresh(); scaling about a non-center origin counts as layout. Padding is not drawn.",
       "evidence": [
         "src/core/drop.ts",
         "test/drop-policy.spec.ts",
