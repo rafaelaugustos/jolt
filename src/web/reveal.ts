@@ -1,5 +1,6 @@
 import { createTrack } from '../core/track.js'
 import { resolveTransition } from '../core/transition.js'
+import { revealDefinition, revealRadius } from '../core/loading.js'
 import { flatten, sampled } from './curve.js'
 import { borderBox } from './style.js'
 import {
@@ -31,7 +32,10 @@ export function createReveal(
 ) {
   const view = effectTarget(target, host)
   effectOptions(options, [opening ? 'from' : 'to', 'duration'])
-  const duration = finiteOption(options.duration ?? 400, 'Reveal duration')
+  const duration = finiteOption(
+    options.duration ?? revealDefinition.duration,
+    'Reveal duration',
+  )
   const point = opening
     ? (options as WebRevealOptions).from
     : (options as WebConcealOptions).to
@@ -46,18 +50,13 @@ export function createReveal(
   const bounds = borderBox(target),
     x = point?.x ?? bounds.width / 2,
     y = point?.y ?? bounds.height / 2
-  const radius = Math.max(
-    Math.hypot(x, y),
-    Math.hypot(bounds.width - x, y),
-    Math.hypot(x, bounds.height - y),
-    Math.hypot(bounds.width - x, bounds.height - y),
-  )
+  const radius = revealRadius(bounds.width, bounds.height, x, y)
   const initial = before?.circle() ?? { x, y, radius: opening ? 0 : radius }
   const destination = { x, y, radius: opening ? radius : 0 }
   const track = createTrack(
     'x',
     [0, 1],
-    resolveTransition({ duration, ease: 'easeInOut' }, 'x', 2),
+    resolveTransition({ duration, ease: revealDefinition.ease }, 'x', 2),
     0,
     host.settings(),
   )

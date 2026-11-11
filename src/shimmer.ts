@@ -2,6 +2,7 @@ import { Application, isIOS, type View } from '@nativescript/core'
 import { toView } from './animate.js'
 import type { Target } from './types.js'
 import { reducedMotion } from './config.js'
+import { shimmerDefinition } from './core/loading.js'
 
 export interface ShimmerOptions {
   /** Milliseconds per sweep. Defaults to 1500. */
@@ -21,7 +22,7 @@ type MaskedView = UIView & { originalMask?: CALayer | null }
  */
 export function shimmer(target: Target, options: ShimmerOptions = {}): () => void {
   const view = toView(target)
-  const duration = options.duration ?? 1500
+  const duration = options.duration ?? shimmerDefinition.duration
   if (!Number.isFinite(duration) || duration <= 0)
     throw new RangeError('Shimmer duration must be a positive finite number.')
   running.get(view)?.()
@@ -138,15 +139,16 @@ class Shimmer {
 
   private createGradient(): CAGradientLayer {
     const gradient = CAGradientLayer.new()
-    const dim = UIColor.colorWithWhiteAlpha(1, 0.35).CGColor
+    const { mask } = shimmerDefinition
+    const dim = UIColor.colorWithWhiteAlpha(1, mask.opacity).CGColor
     gradient.colors = NSArray.arrayWithArray([dim, UIColor.whiteColor.CGColor, dim])
     gradient.startPoint = CGPointMake(0, 0.5)
     gradient.endPoint = CGPointMake(1, 0.5)
 
     // A three-width mask lets the band enter and leave while every stop stays
     // within the documented 0...1 range for CAGradientLayer.locations.
-    const from = NSArray.arrayWithArray([0, 0.125, 0.25])
-    const to = NSArray.arrayWithArray([0.75, 0.875, 1])
+    const from = NSArray.arrayWithArray([...mask.from])
+    const to = NSArray.arrayWithArray([...mask.to])
     gradient.locations = from
     const animation = CABasicAnimation.animationWithKeyPath('locations')
     animation.fromValue = from

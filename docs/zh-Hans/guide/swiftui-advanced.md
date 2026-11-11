@@ -99,3 +99,68 @@ Web 已有数值/颜色 value.to()/scope.map、propertyGroup、motionStates、mo
 <Clip name="web-advanced-svelte" caption="macOS 上的 Chromium：真实 Svelte 组件拥有映射/颜色、组、状态/行为、seek/事件、绘图、光带、惯性、viewport 与渲染需求。英文界面；使用现有 Web 后端。" />
 
 <Clip name="web-advanced-solid" caption="macOS 上的 Chromium：真实 Solid 组件拥有映射/颜色、组、状态/行为、seek/事件、绘图、光带、惯性、viewport 与渲染需求。英文界面；使用现有 Web 后端。" />
+
+## 微光、加载指示器与圆形揭示 {#shimmer-loaders-and-circular-reveal}
+
+在 `v0.1.0-rc.13` 之后加入：在下一个 `jolt-swift` 标签之前，这些 API 只能从仓库源码获取。时长与几何来自 NativeScript 和 Web 适配器共用的同一份定义（`src/core/loading.ts`，编译进 `JoltCore`，并用生成的 fixture 校验）。
+
+JoltShimmer(duration:) 接受一个正的有限扫过时长（毫秒），最多 60 000，默认 1500，包含光带进入和离开视图。joltShimmer 绘制 Web 的光带：CSS 角度 100°，在 15、50、85 % 处为不透明度 0、0.55、0 的白色，从视图左侧一个宽度处线性移动到右侧一个宽度处。光带与视图在同一个合成组中合成（`sourceAtop`），因此只在内容不透明的地方绘制，并按其 alpha 加权：半透明的占位符得到较弱的扫光。把它应用到容器上，就能用一条光带扫过所有骨架形状；多个视图可以同步显示同一个微光。请用在占位形状上，而不是正在使用的原生平台视图上，它们会在该合成组内渲染。
+
+JoltLoader(style:color:size:duration:) 绘制 NativeScript iOS 加载指示器的几何。默认值：`.dots`、`#71717a`、48 点、每个周期 1200 ms。尺寸必须在 (0, 16 384] 点内，时长在 (0, 60 000] 毫秒内。JoltLoaderView 居中绘制一个正方形，边长取 `size` 与所给空间中较小者。圆点：三个 0.2 × 边长的圆点，在周期的 0、30、60 % 处缩放 0.35 → 1 → 0.35。条形：五根宽 0.12 × 边长、高 0.75 × 边长的条，按相同关键帧纵向缩放。圆环：十二个 0.16 × 边长的圆点，从 1 淡到 0.2。各副本依次相隔 `duration / 5`（圆点、条形）或 `duration / 12`（圆环）启动。没有 `accessibilityLabel` 时，加载指示器对辅助功能隐藏；请为忙碌中的控件加标签，例如“正在保存”。
+
+两者都是 JoltResource；请用 JoltScope 持有。只有当至少一个视图在活跃场景中（iOS：场景处于活跃状态；macOS：宿主窗口可见）以完整动效显示它们，且未暂停、未挂起时，它们才订阅 JoltClock。没有 TimelineView，也没有空闲定时器。离开屏幕、场景不活跃、`pause()` 或作用域挂起都会保持当前相位；再次显示时继续。减少动态效果时（系统设置或 `joltReduceMotion`），微光光带隐藏，加载副本保持静态姿态：圆点和条形为完整尺寸，圆环圆点不透明度为 0.35。`state` 报告 `running`、`paused`、`suspended`、`idle` 或 `disposed`。释放后会交还时钟，视图不再绘制，之后的调用被忽略；测试会检查时钟的 `activeCount` 回到零。
+
+```swift
+let scope = JoltScope()
+let shimmer = try scope.retain(JoltShimmer())
+let saving = try scope.retain(JoltLoader(.ring, size: 28))
+let details = try scope.retain(JoltReveal(revealed: false))
+// SkeletonRows().joltShimmer(shimmer)
+// Text("Save").opacity(busy ? 0 : 1).overlay { if busy { JoltLoaderView(saving) } }
+// Details().joltReveal(details)
+try details.reveal(from: JoltPoint(40, 40)) { finished in
+    // 在这里把焦点移到详情内容。
+}
+try details.conceal(to: JoltPoint(40, 40))
+```
+
+JoltReveal(revealed:) 在用 joltReveal 显示的一个表面上执行 `reveal(from:duration:reducedMotion:completion:)` 和 `conceal(to:...)`。原点是视图本地空间中的点，从左上角起算，也就是 `.local` 点按手势报告的坐标空间，范围在 ±1 000 000 内。不给原点时，圆以视图为中心；打断时则保留当前圆的圆心。揭示会扩展到最远的角，隐藏会收缩到零，使用 ease-in-out，时长 0 到 60 000 毫秒（默认 400）；为零时立即应用最终状态。新的调用从屏幕上的当前圆开始，所以隐藏可以在中途反转揭示；被替换的调用以 `false` 完成。隐藏一个已隐藏的表面会立即以 `true` 完成。`cancel()` 停止并恢复被打断的这串调用开始前的阶段。尺寸改变时会重新计算最远的角。
+
+揭示结束时会移除圆形裁剪：修饰符保留一个不裁剪的占位，让内容保持其标识与状态，阴影或溢出内容不再被裁剪。隐藏结束时，视图变为透明并保留其布局空间。离开屏幕、场景不活跃、`pause()` 和挂起都会保持圆；再次显示时继续。减少动态效果时，或传入 `reducedMotion: true` 时，立即应用最终状态，完成回调报告 `true`。
+
+只有完全揭示的表面（`interactive == true`，阶段 `.revealed`）才接收点按并对辅助功能可见。揭示中、隐藏中或已隐藏时，内容处于 `accessibilityHidden` 且不参与命中测试，点按会传给它后面的视图。Jolt 从不移动焦点：应用应在揭示完成后把 VoiceOver 或键盘焦点移入内容，并在调用 `conceal` 之前把焦点移出，例如使用 `@AccessibilityFocusState` 或 `@FocusState`。SwiftUI 会暴露显式 `.accessibilityElement(children: .contain)` 容器中被隐藏的后代（在 iOS 27 模拟器上观察到），因此不要用这种容器包裹该表面。
+
+平台差异：NativeScript iOS 的微光会遮罩目标，使光带外的内容变暗到不透明度 0.35，Web 在整个元素盒上绘制光带；SwiftUI 只在不透明内容上绘制 Web 的光带。Web 加载指示器用 CSS 盒绘制，有自己的比例（20 % 的圆点、12 × 65 % 的条形、旋转的 75 % 圆弧）和缓动脉冲，这些数值也保存在同一份共享定义中；SwiftUI 采用原生几何。NativeScript 和 Web 在视图卸载或分离时取消揭示；SwiftUI 在离屏时保持它。没有原点而打断揭示时，Web 以元素中心为圆心；NativeScript 和 SwiftUI 保留当前圆心。NativeScript 在播放期间保留矩形点按区域；SwiftUI 在完全揭示之前忽略点按。这些效果在 NativeScript Android 上仍然没有作用。
+
+## 渐变表面与模糊 {#gradient-surfaces-and-blur}
+
+JoltGradient(colors:stops:angle:) 以 Web 的限制绘制线性渐变：2–8 种颜色，每种颜色一个色标，常量色标在 0...1 内且有序，有限的 CSS 角度（度；默认 180 从上到下，90 从左到右）。渐变线穿过中心，长度足以让各角得到第一种和最后一种颜色；在任意形状的盒子上，色带都按点坐标与角度保持垂直。每个分量是常量或借用的来源：色标和角度用 `JoltNumberSource.value(JoltMotionValue)`，颜色用 `JoltColorSource.value(JoltColorValue)`。通过为这些值做动画来驱动渐变，可使用它们的过渡、弹簧、打断、暂停和完成回调；渐变自身没有轨道。绑定的色标被限制在 0...1 内并保持顺序，不会重新排列颜色，与可移植的渐变投影一致。`update(colors:stops:angle:)` 会先校验所有分量再替换，并保持颜色数量；要改变数量请创建新的渐变。
+
+`joltGradient(_:in:)` 在视图背后、你传入的形状内绘制渐变（默认 `Rectangle()`）；内容本身不被裁剪。该绘制不参与命中测试，并对辅助功能隐藏。`frame` 保存绘制中的颜色、投影后的色标与角度。
+
+JoltBlur(amount:radius:) 与 Web 含义相同：实际半径为 `amount × radius` 点，`amount` 在 0...1 内（常量，或被限制在 0...1 的绑定值），`radius` 在 1...64 内，默认 24。joltBlur 对视图及其子视图应用 SwiftUI 的 `blur(radius:opaque: false)`，边缘淡入透明。卷积核由 SwiftUI 决定；像素与 CSS `filter: blur()` 并不相同。
+
+渐变与模糊只有在某个视图于活跃场景中显示它们、且未暂停未挂起时才跟随来源。离开屏幕、场景不活跃、`pause()` 或挂起都会保持最后一帧；再次显示或恢复时追上当前值。两者都不订阅 JoltClock；播放由绑定的值负责。减少动态效果时，绑定的角度、色标和模糊量显示其 motion value 的目标值，颜色仍然跟随其值。释放后停止跟随，从所有视图移除绘制，并拒绝之后的更新。来源是借用的，绘制从不释放它们。
+
+```swift
+let angle = try scope.value(135), stop = try scope.value(0.3), tone = try scope.value(0)
+let tint = try scope.retain(JoltColorValue(tone,
+    from: .init(argb: 0xff7766ff), to: .init(argb: 0xffff9dce)))
+let aurora = try scope.retain(JoltGradient(
+    colors: [.constant(.init(argb: 0xff1b1f3a)), .value(tint), .constant(.init(argb: 0xffdbff7a))],
+    stops: [0, .value(stop), 1], angle: .value(angle)))
+let focus = try scope.value(0)
+let soft = try scope.retain(JoltBlur(amount: .value(focus), radius: 24))
+// Card().joltGradient(aurora, in: RoundedRectangle(cornerRadius: 22))
+// Photo().joltBlur(soft)
+try angle.animate(to: 315, transition: .tween(milliseconds: 1600))
+try focus.animate(to: 1, transition: .tween(milliseconds: 700))
+```
+
+平台差异：Web 和 NativeScript 的渐变还有带中心与半径的径向、锥形类型，以及各自的 `animate()`、`set()`、`bind()`；SwiftUI 提供线性表面，由绑定值和 `update()` 驱动。减少动态效果时，Web 保持绑定的几何而不显示目标值，NativeScript 让角度跳到终点，颜色和色标仍会渐变。不提供背景（backdrop）模糊：SwiftUI 没有可按半径控制、作用于视图背后内容的滤镜，其材质使用系统定义的模糊与色调，而不是 `amount × radius`。请改为模糊一个专用的背景视图，与 Android 的内容模糊相同。NativeScript iOS 的模糊是 `UIVisualEffectView` 材质，0.5 表示材质过渡的一半；SwiftUI 和 Web 使用半径。
+
+验证包括：由 TypeScript 核心生成的 fixture，覆盖加载指示器几何、微光偏移、揭示半径、缓动与色标投影；关于时钟所有权、挂起、减少动态效果、打断与释放的确定性资源测试；针对渐变角点、微光 alpha 遮罩与揭示裁剪的渲染测试；以及 iOS 和 macOS 上的 XCTest 交互。
+
+<Clip name="swiftui-effects-ios" caption="iOS 模拟器，原生 SwiftUI：XCTest 点按让骨架行扫光，在忙碌按钮中运行圆点、条形和圆环加载指示器，从点按位置揭示表面并在中途隐藏，扫动绑定的渐变，模糊卡片并开启减少动态效果。英文界面。不是实体设备录制。" />
+
+<Clip name="swiftui-effects-macos" caption="macOS 应用，原生 SwiftUI：真实点击操作同一个效果实验页，包括被打断的揭示和减少动态效果。仅应用窗口；英文界面。不涉及性能结论。" />

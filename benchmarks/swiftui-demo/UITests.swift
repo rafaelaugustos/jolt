@@ -944,4 +944,109 @@ final class SwiftUIAcceptance: XCTestCase {
     Thread.sleep(forTimeInterval: 0.8)
     cue("stop")
   }
+  @MainActor func testEffectsExpansion() {
+    let app = lab("--effects-lab")
+    let press = { (element: XCUIElement, dx: Double, dy: Double) in
+      let point = element.coordinate(withNormalizedOffset: CGVector(dx: dx, dy: dy))
+      #if os(macOS)
+        point.click()
+      #else
+        point.tap()
+      #endif
+    }
+    let toggle = { (id: String) in
+      #if os(macOS)
+        app.checkBoxes[id].click()
+      #else
+        app.switches[id].coordinate(withNormalizedOffset: .init(dx: 0.94, dy: 0.5)).tap()
+      #endif
+    }
+    let scroll = { (down: Bool) in
+      #if os(macOS)
+        app.scrollViews["effects-scroll"].firstMatch.scroll(byDeltaX: 0, deltaY: down ? -600 : 600)
+      #else
+        if down { app.swipeUp() } else { app.swipeDown() }
+      #endif
+    }
+    XCTAssertTrue(app.staticTexts["shimmer-status"].waitForExistence(timeout: 10))
+    XCTAssertTrue(
+      wait { self.label(app, "shimmer-status").contains("running") },
+      label(app, "shimmer-status"))
+    cue("start")
+    Thread.sleep(forTimeInterval: 1.6)
+    click(app.buttons["skeleton-toggle"])
+    XCTAssertTrue(
+      app.descendants(matching: .any)["skeleton-content"].firstMatch.waitForExistence(timeout: 3))
+    XCTAssertTrue(wait { !self.label(app, "shimmer-status").contains("running") })
+    click(app.buttons["skeleton-toggle"])
+    XCTAssertTrue(wait { self.label(app, "shimmer-status").contains("running") })
+    for style in ["dots", "bars", "ring"] {
+      click(app.buttons["busy-" + style])
+      XCTAssertTrue(
+        wait { self.label(app, "loader-status").contains(style + " running") },
+        label(app, "loader-status"))
+    }
+    XCTAssertEqual(app.buttons["busy-ring"].label, "Saving with ring")
+    Thread.sleep(forTimeInterval: 1.5)
+    for style in ["dots", "bars", "ring"] { click(app.buttons["busy-" + style]) }
+    XCTAssertTrue(
+      wait { !self.label(app, "loader-status").contains("running") }, label(app, "loader-status"))
+    let area = app.descendants(matching: .any)["reveal-area"].firstMatch
+    let surface = app.descendants(matching: .any)["reveal-surface"].firstMatch
+    XCTAssertFalse(surface.exists)
+    XCTAssertTrue(label(app, "reveal-status").contains("concealed"), label(app, "reveal-status"))
+    press(area, 0.2, 0.3)
+    XCTAssertTrue(
+      wait { self.label(app, "reveal-status").contains("revealing") }, label(app, "reveal-status"))
+    Thread.sleep(forTimeInterval: 0.3)
+    click(app.buttons["reveal-conceal"])
+    XCTAssertTrue(
+      wait { self.label(app, "reveal-status").contains("concealing") }, label(app, "reveal-status"))
+    XCTAssertTrue(
+      label(app, "reveal-status").contains("interrupted 1"), label(app, "reveal-status"))
+    XCTAssertTrue(
+      wait { self.label(app, "reveal-status").contains("Reveal: concealed") },
+      label(app, "reveal-status"))
+    XCTAssertFalse(surface.exists)
+    press(area, 0.8, 0.7)
+    XCTAssertTrue(surface.waitForExistence(timeout: 4))
+    XCTAssertTrue(label(app, "reveal-status").contains("revealed"), label(app, "reveal-status"))
+    XCTAssertEqual(surface.frame.height, area.frame.height, accuracy: 2)
+    XCTAssertEqual(surface.frame.width, area.frame.width, accuracy: 2)
+    Thread.sleep(forTimeInterval: 0.5)
+    press(surface, 0.5, 0.5)
+    XCTAssertTrue(
+      wait { self.label(app, "reveal-status").contains("Reveal: concealed") },
+      label(app, "reveal-status"))
+    XCTAssertFalse(surface.exists)
+    scroll(true)
+    XCTAssertTrue(label(app, "gradient-status").contains("135°"), label(app, "gradient-status"))
+    click(app.buttons["gradient-sweep"])
+    XCTAssertTrue(
+      wait { self.label(app, "gradient-status").contains("315°") }, label(app, "gradient-status"))
+    XCTAssertTrue(label(app, "gradient-status").contains("0.75"), label(app, "gradient-status"))
+    toggle("blur-toggle")
+    XCTAssertTrue(
+      wait { self.label(app, "blur-status").contains("24.0 pt") }, label(app, "blur-status"))
+    Thread.sleep(forTimeInterval: 0.6)
+    scroll(false)
+    toggle("effects-reduce")
+    XCTAssertTrue(
+      wait { self.label(app, "shimmer-status").contains("idle · reduced motion") },
+      label(app, "shimmer-status"))
+    click(app.buttons["busy-ring"])
+    XCTAssertTrue(
+      wait { self.label(app, "loader-status").contains("ring idle") }, label(app, "loader-status"))
+    press(area, 0.5, 0.5)
+    XCTAssertTrue(surface.waitForExistence(timeout: 1))
+    click(app.buttons["busy-ring"])
+    scroll(true)
+    click(app.buttons["gradient-sweep"])
+    Thread.sleep(forTimeInterval: 0.3)
+    XCTAssertTrue(label(app, "gradient-status").contains("135°"), label(app, "gradient-status"))
+    toggle("blur-toggle")
+    Thread.sleep(forTimeInterval: 0.2)
+    XCTAssertTrue(label(app, "blur-status").contains("0.0 pt"), label(app, "blur-status"))
+    cue("stop")
+  }
 }
