@@ -1,5 +1,9 @@
 import XCTest
 
+#if os(macOS)
+  import CoreGraphics
+#endif
+
 final class SwiftUIAcceptance: XCTestCase {
   #if os(iOS)
     @MainActor func testStandaloneMotionAndLifecycle() {
@@ -92,6 +96,120 @@ final class SwiftUIAcceptance: XCTestCase {
       cue("stop")
     }
   #endif
+  @MainActor func testActivityExpansion() {
+    let app = lab("--activity-lab")
+    let main = app.staticTexts["activity-Main"]
+    XCTAssertTrue(main.waitForExistence(timeout: 10))
+    cue("start")
+    XCTAssertTrue(wait { self.legs(app, "Main") >= 1 }, self.label(app, "activity-Main"))
+    #if os(macOS)
+      click(app.buttons["open-second"])
+      let second = app.staticTexts["activity-Second"]
+      XCTAssertTrue(second.waitForExistence(timeout: 5))
+      let mainLegs = legs(app, "Main")
+      XCTAssertTrue(wait { self.legs(app, "Main") > mainLegs }, self.label(app, "activity-Main"))
+      XCTAssertTrue(label(app, "activity-Main").contains("jolt active"))
+      note("Second key", [label(app, "activity-Main"), label(app, "activity-Second")])
+      main.click()
+      let secondLegs = legs(app, "Second")
+      XCTAssertTrue(
+        wait { self.legs(app, "Second") > secondLegs }, self.label(app, "activity-Second"))
+      XCTAssertTrue(label(app, "activity-Second").contains("jolt active"))
+      note("Main key", [label(app, "activity-Main"), label(app, "activity-Second")])
+      let window = app.windows.containing(.staticText, identifier: "activity-Second").firstMatch
+      window.buttons[XCUIIdentifierMinimizeWindow].click()
+      XCTAssertTrue(
+        wait { self.label(app, "activity-log").contains("Second inactive") },
+        self.label(app, "activity-log"))
+      let frozen = legs(app, "Main")
+      XCTAssertTrue(wait { self.legs(app, "Main") > frozen }, self.label(app, "activity-Main"))
+      note("Second minimized", [label(app, "activity-Main"), label(app, "activity-log")])
+      for (button, host) in [
+        ("open-hosting-view", "NSHostingView"), ("open-hosting-controller", "NSHostingController"),
+      ] {
+        click(app.buttons[button])
+        XCTAssertTrue(app.staticTexts["activity-\(host)"].waitForExistence(timeout: 5))
+        let start = legs(app, host)
+        XCTAssertTrue(wait { self.legs(app, host) > start }, self.label(app, "activity-\(host)"))
+        XCTAssertTrue(label(app, "activity-\(host)").contains("jolt active"))
+        note(host, [label(app, "activity-\(host)")])
+      }
+      click(app.buttons["cover-hosted"])
+      XCTAssertTrue(
+        wait {
+          let log = self.label(app, "activity-log")
+          return log.contains("NSHostingView inactive") && log.contains("NSHostingController inactive")
+        }, self.label(app, "activity-log"))
+      note("Hosted windows covered", [label(app, "activity-log")])
+      click(app.buttons["uncover-hosted"])
+      XCTAssertTrue(
+        wait { self.label(app, "activity-log").hasSuffix("active") }, self.label(app, "activity-log"))
+      app.typeKey(",", modifierFlags: .command)
+      XCTAssertTrue(app.staticTexts["activity-Settings"].waitForExistence(timeout: 5))
+      let settings = legs(app, "Settings")
+      XCTAssertTrue(
+        wait { self.legs(app, "Settings") > settings }, self.label(app, "activity-Settings"))
+      note("Settings", [label(app, "activity-Settings")])
+      app.typeKey("w", modifierFlags: .command)
+      let bars = app.menuBars
+      if bars.count > 1 {
+        bars.element(boundBy: bars.count - 1).click()
+        XCTAssertTrue(app.staticTexts["activity-Menu bar"].waitForExistence(timeout: 5))
+        let menu = legs(app, "Menu bar")
+        XCTAssertTrue(
+          wait { self.legs(app, "Menu bar") > menu }, self.label(app, "activity-Menu bar"))
+        note("MenuBarExtra", [label(app, "activity-Menu bar")])
+        app.typeKey(.escape, modifierFlags: [])
+      } else {
+        XCTFail("The MenuBarExtra status item is not in the accessibility hierarchy")
+      }
+      let area = app.descendants(matching: .any)["activity-pointer-area"].frame
+      let finder = XCUIApplication(bundleIdentifier: "com.apple.finder")
+      finder.activate()
+      XCTAssertTrue(finder.wait(for: .runningForeground, timeout: 5))
+      CGEvent(
+        mouseEventSource: nil, mouseType: .mouseMoved,
+        mouseCursorPosition: .init(x: area.minX + area.width * 0.9, y: area.midY),
+        mouseButton: .left)?.post(tap: .cghidEventTap)
+      Thread.sleep(forTimeInterval: 0.6)
+      note(
+        "Pointer while another app is active",
+        [
+          label(app, "activity-pointer"), label(app, "activity-Main"),
+          "Finder state \(finder.state.rawValue), demo state \(app.state.rawValue)",
+        ])
+      app.activate()
+      app.descendants(matching: .any)["activity-pointer-area"]
+        .coordinate(withNormalizedOffset: .init(dx: 0.1, dy: 0.5)).hover()
+      XCTAssertTrue(wait { self.label(app, "activity-pointer").contains("active -0.") })
+      note("Pointer while active", [label(app, "activity-pointer")])
+    #else
+      XCUIDevice.shared.press(.home)
+      Thread.sleep(forTimeInterval: 1)
+      app.activate()
+      XCTAssertTrue(
+        wait { self.label(app, "activity-log").contains("Main inactive") },
+        self.label(app, "activity-log"))
+      let resumed = legs(app, "Main")
+      XCTAssertTrue(wait { self.legs(app, "Main") > resumed }, self.label(app, "activity-Main"))
+      note("Background and back", [label(app, "activity-Main"), label(app, "activity-log")])
+    #endif
+    cue("stop")
+  }
+  @MainActor private func legs(_ app: XCUIApplication, _ host: String) -> Int {
+    let text = label(app, "activity-\(host)")
+    guard let start = text.range(of: "legs ") else { return -1 }
+    return Int(text[start.upperBound...].prefix { $0.isNumber }) ?? -1
+  }
+  private func note(_ name: String, _ lines: [String]) {
+    let text = lines.joined(separator: "\n")
+    print("JOLT_ACTIVITY \(name): " + lines.joined(separator: " | "))
+    XCTContext.runActivity(named: name) { activity in
+      let attachment = XCTAttachment(string: text)
+      attachment.lifetime = .keepAlways
+      activity.add(attachment)
+    }
+  }
   @MainActor private func click(_ element: XCUIElement) {
     #if os(macOS)
       element.click()

@@ -88,6 +88,7 @@ extension View {
       private var observed: NSWindow?
       private var tokens: [NSObjectProtocol] = []
       private var last: Bool?
+      private var shown = false
       override var isOpaque: Bool { false }
       override func hitTest(_ point: NSPoint) -> NSView? { nil }
       override func viewDidMoveToWindow() {
@@ -98,14 +99,30 @@ extension View {
       func publish() {
         let visible = JoltWindows.visible(window)
         JoltWindows.shared.update(self, window: window, visible: visible)
+        if visible { shown = true }
+        // Ordering a window in or out does not always change its occlusion state.
+        poll(!visible && window != nil)
+        if !visible, !shown, let window, !window.isMiniaturized { return }
         guard visible != last else { return }
         last = visible
         report?(visible)
       }
       func detach() {
         observe(nil)
+        poll(false)
         JoltWindows.shared.remove(self)
         report = nil
+      }
+      private var update: NSObjectProtocol?
+      private func poll(_ enabled: Bool) {
+        if !enabled, let update {
+          NotificationCenter.default.removeObserver(update)
+          self.update = nil
+        } else if enabled, update == nil {
+          update = NotificationCenter.default.addObserver(
+            forName: NSApplication.didUpdateNotification, object: nil, queue: .main
+          ) { [weak self] _ in MainActor.assumeIsolated { self?.publish() } }
+        }
       }
       private func observe(_ next: NSWindow?) {
         guard observed !== next else { return }

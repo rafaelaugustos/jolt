@@ -34,6 +34,24 @@ NativeScript 与 Web 共享 createPreset(name, parameters)；Apple 的 JoltPrese
 
 <Clip name="web-preset" caption="macOS Chromium 中真实播放现有 Web popIn 配方。Swift Package 从相同定义生成，渲染引擎和单位仍然不同。" />
 
+## 活动状态、挂起与时钟
+
+所有 Jolt 视图和修饰符都读取同一个活动值 `joltActive`。在 iOS 上，场景处于活动状态时它为真。在 macOS 上，承载该视图的窗口在屏幕上时它为真：窗口可见、未最小化、未被完全遮挡，无论它是否为关键窗口、应用是否在最前面。它为假时，运动保持不动，输入接触被取消；它恢复后两者都会继续。在自己的视图中使用 `joltActivity()` 读取同一个值：
+
+```swift
+struct Status: View {
+    @Environment(\.joltActive) private var active
+    var body: some View { Text(active ? "运行中" : "已暂停") }
+}
+// Container().joltActivity()
+```
+
+在 macOS 26.6.2 上用 demo 的活动实验室（`testActivityExpansion`）测得：另一个窗口成为关键窗口时，`WindowGroup` 窗口仍读到 `scenePhase == .active`；由 `NSHostingView` 或 `NSHostingController` 承载的窗口即使可见也读到 `.background`。因此 Mac 不再跟随场景阶段。运动在这些窗口中都会运行，也会在 `Settings` 场景和 `MenuBarExtra` 窗口（`.window` 样式）中运行；窗口被最小化或被其他窗口完全遮挡时保持不动。不在窗口中的 `NSHostingView` 里的视图，或从未显示过的窗口里的视图，不会驱动时钟。
+
+共享的 `JoltClock` 为每个显示着可见 Jolt 窗口的显示器保留一个 display link。位于 120 Hz 显示器上的窗口按该显示器的刷新率推进，移到另一台显示器的窗口会随之切换；demo 在 120 Hz 内建显示器上测得每秒 103–113 次更新，在 iOS 模拟器上为 59 次。所有承载 Jolt 的窗口都隐藏、最小化或被遮挡时，link 停止；在任何 Jolt 视图被承载之前，它使用主显示器。这些检查没有两台不同刷新率的显示器可用，因此显示器选择只由单元测试覆盖。
+
+`joltPointerFollow` 只在应用处于活动状态时接收悬停。在不在最前面的应用的可见窗口中，它保持居中，应用被激活后重新跟随指针；该窗口中的运动继续运行。
+
 [派生运动与保留式图形](./swiftui-advanced)
 
 [SwiftUI · Keyframes / gestures / characters](./swiftui-characters)
