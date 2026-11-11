@@ -653,4 +653,105 @@ final class SwiftUIAcceptance: XCTestCase {
       for: [XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in condition() }, object: nil)],
       timeout: 6) == .completed
   }
+  @MainActor func testDepthExpansion() {
+    let app = lab("--depth-lab")
+    let card = app.buttons["tilt-card"]
+    XCTAssertTrue(card.waitForExistence(timeout: 10))
+    let layout = app.descendants(matching: .any)["tilt-frame"].firstMatch.frame
+    XCTAssertEqual(card.frame.width, 180, accuracy: 1)
+    func angle(_ axis: String) -> Double {
+      let text = label(app, "tilt-status")
+      guard let start = text.range(of: axis + " ") else { return .nan }
+      return Double(text[start.upperBound...].prefix { $0 != " " }) ?? .nan
+    }
+    func taps() -> String {
+      String(label(app, "tilt-status").split(separator: "Taps ").last ?? "")
+        .trimmingCharacters(in: .whitespaces)
+    }
+    func press(_ dx: CGFloat, _ dy: CGFloat) {
+      let window = app.windows.firstMatch
+      let point = window.coordinate(withNormalizedOffset: .zero).withOffset(
+        CGVector(
+          dx: layout.midX + dx - window.frame.minX, dy: layout.midY + dy - window.frame.minY))
+      #if os(macOS)
+        point.click()
+      #else
+        point.tap()
+      #endif
+      Thread.sleep(forTimeInterval: 0.4)
+    }
+    func toggle(_ id: String) {
+      #if os(macOS)
+        click(app.checkBoxes[id])
+      #else
+        app.switches[id].coordinate(withNormalizedOffset: .init(dx: 0.94, dy: 0.5)).tap()
+      #endif
+    }
+    cue("start")
+    click(app.buttons["tilt-y"])
+    XCTAssertTrue(wait { angle("rotateY") == -55 }, label(app, "tilt-status"))
+    Thread.sleep(forTimeInterval: 1)
+    let near = card.frame
+    XCTAssertEqual(near.width, 109.9, accuracy: 1.5)
+    XCTAssertGreaterThan(near.maxY, layout.maxY + 10)
+    click(app.buttons["tilt-x"])
+    Thread.sleep(forTimeInterval: 0.25)
+    XCTAssertGreaterThan(angle("rotateX"), 5)
+    XCTAssertEqual(angle("rotateY"), -55)
+    click(app.buttons["level-x"])
+    XCTAssertEqual(angle("rotateY"), -55)
+    XCTAssertTrue(wait { angle("rotateX") == 0 }, label(app, "tilt-status"))
+    Thread.sleep(forTimeInterval: 1.2)
+    XCTAssertEqual(angle("rotateX"), 0)
+    XCTAssertEqual(angle("rotateY"), -55)
+    XCTAssertEqual(card.frame.width, near.width, accuracy: 1)
+    press(0, 0)
+    XCTAssertEqual(taps(), "1")
+    press(-70, 0)
+    XCTAssertEqual(taps(), "1", "Inside the layout frame, outside the projected card")
+    press(60, -70)
+    XCTAssertEqual(taps(), "2", "Outside the layout frame, inside the projected card")
+    click(app.buttons["depth-far"])
+    XCTAssertTrue(wait { abs(card.frame.width - 103.9) < 1.5 }, "\(card.frame)")
+    XCTAssertLessThan(card.frame.height, near.height - 10)
+    XCTAssertGreaterThan(card.frame.height, layout.height + 2)
+    click(app.buttons["depth-flat"])
+    XCTAssertTrue(wait { abs(card.frame.width - 103.2) < 1.5 }, "\(card.frame)")
+    XCTAssertEqual(card.frame.height, 120, accuracy: 1)
+    click(app.buttons["depth-near"])
+    let lift = app.descendants(matching: .any)["lift-card"].firstMatch
+    let rest = lift.frame.midY
+    click(app.buttons["lift-raise"])
+    XCTAssertTrue(
+      wait {
+        self.label(app, "lift-status").contains(
+          "y -18.0 · shadow 0.42 · radius 18.0 · offset 16.0 · bound")
+      }, label(app, "lift-status"))
+    XCTAssertEqual(lift.frame.midY, rest - 18, accuracy: 1)
+    click(app.buttons["lift-bind"])
+    XCTAssertTrue(
+      wait {
+        self.label(app, "lift-status").contains(
+          "y -18.0 · shadow 0.20 · radius 3.0 · offset 2.0 · rest")
+      }, label(app, "lift-status"))
+    click(app.buttons["lift-bind"])
+    click(app.buttons["lift-rest"])
+    XCTAssertTrue(wait { self.label(app, "lift-status").contains("y 0.0 · shadow 0.20") })
+    XCTAssertTrue(wait { abs(lift.frame.midY - rest) < 1 })
+    toggle("depth-reduce")
+    click(app.buttons["tilt-x"])
+    XCTAssertEqual(angle("rotateX"), 45, label(app, "tilt-status"))
+    XCTAssertTrue(wait { card.frame.height < near.height - 20 }, "\(card.frame)")
+    click(app.buttons["lift-raise"])
+    XCTAssertTrue(label(app, "lift-status").contains("y -18.0 · shadow 0.42"))
+    XCTAssertTrue(wait { abs(lift.frame.midY - (rest - 18)) < 1 })
+    toggle("depth-dark")
+    click(app.buttons["tilt-reset"])
+    click(app.buttons["lift-rest"])
+    XCTAssertEqual(angle("rotateX"), 0)
+    XCTAssertEqual(angle("rotateY"), 0)
+    XCTAssertTrue(wait { abs(card.frame.width - 180) < 1 }, "\(card.frame)")
+    Thread.sleep(forTimeInterval: 0.8)
+    cue("stop")
+  }
 }
