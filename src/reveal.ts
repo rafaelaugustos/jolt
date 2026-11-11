@@ -4,6 +4,7 @@ import { resolveEasing } from './easing.js'
 import type { Animation } from './engine.js'
 import type { Target } from './types.js'
 import { reducedMotion } from './config.js'
+import { revealDefinition } from './core/loading.js'
 
 export interface RevealOptions {
   /** Circle origin in DIPs from the target's top-left corner. Defaults to its center. */
@@ -24,18 +25,18 @@ type MaskedView = UIView & { originalMask?: CALayer | null; maskType?: unknown }
 type Snapshot = { circle: Circle; native: UIView; bounds: CGRect }
 const running = new WeakMap<View, CircularAnimation>()
 const callbacks = new WeakMap<NSObject, (finished: boolean) => void>()
-const ease = resolveEasing('easeInOut')
+const ease = resolveEasing(revealDefinition.ease)
 const key = 'jolt:reveal'
 let Delegate: typeof NSObject | undefined
 
 /** Reveals an iOS view through an expanding circle, then removes the temporary mask. */
 export function reveal(target: Target, options: RevealOptions = {}): Animation {
-  return start(target, true, options.from, options.duration ?? 400)
+  return start(target, true, options.from, options.duration ?? revealDefinition.duration)
 }
 
 /** Contracts an iOS view to a point, then sets visibility to 'hidden' without collapsing layout. */
 export function conceal(target: Target, options: ConcealOptions = {}): Animation {
-  return start(target, false, options.to, options.duration ?? 400)
+  return start(target, false, options.to, options.duration ?? revealDefinition.duration)
 }
 
 function start(
