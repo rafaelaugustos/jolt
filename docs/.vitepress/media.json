@@ -535,6 +535,10 @@
       "bytes": 101907,
       "sha256": "81062f29863298a82573cf2a10fe6d233fe570a0ce3fa5541f99153a0afa3ec1"
     },
+    "interaction-path-snap-android.mp4": {
+      "bytes": 40376,
+      "sha256": "ffe929334c7b1ee22ade1a319b43aa595139089e1ae5ae510c48f62fb7a33224"
+    },
     "interaction-path-web.mp4": {
       "bytes": 102123,
       "sha256": "6dca47598680184ef5d3579ac48b3a4707b9cb22c6d07497ec58de2d46612dda"
@@ -930,6 +934,10 @@
     "portable-pointer-ipados.mp4": {
       "bytes": 99213,
       "sha256": "e9edee449c8f288efa43a4c3f14244b9cbdb11dd091be9f518f775d3a8d1f27b"
+    },
+    "portable-pointer-transformed-android.mp4": {
+      "bytes": 52410,
+      "sha256": "f5f928b70de830141f67da1afeeaec3b51c35312d826b11532805af8763e8a93"
     },
     "portable-press-ios.mp4": {
       "bytes": 189855,
