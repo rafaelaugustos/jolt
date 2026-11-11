@@ -94,6 +94,10 @@ Un m inicial relativo suma la pose actual; M absoluto selecciona el origen decla
 <Clip :autoplay="false" name="interaction-path-android" caption="ASUS ZenFone 3 físico, Android 8: toques reales mediante ADB. Path cúbico, orientación tangente, pause, seek y reemplazo." />
 <Clip :autoplay="false" name="interaction-path-web" caption="Chromium: interacción real; el inspector utiliza WebGL por software. Path cúbico, orientación tangente, pause, seek y reemplazo." />
 
+Un `animate` inmediato o un `set` que sustituye un path en marcha o en pausa aplica cada canal que nombra en la vista nativa, además del modelo. Antes de la corrección de #479, Android dejaba `translationY` en el último fotograma del path cancelado cuando el path terminaba en la misma `y`.
+
+<Clip :autoplay="false" name="interaction-path-snap-android" caption="Emulador Android: un path pausado a mitad y luego uno en marcha vuelven al instante con un animate de duración cero; el estado lee la y de la vista nativa. No es una grabación en un dispositivo físico." />
+
 ## Rotación en tres ejes
 
 Web acepta rotateX/Y en grados. Orden: baseline 2D, traslación, rotateZ, rotateY, rotateX, escala. Usa `container.style.perspective = '700px'` en el padre si necesitas proyección; anima el hijo. No se acepta baseline proyectivo del destino ni layout/FLIP 3D. Nativo mantiene su contrato; los píxeles proyectados pueden diferir. Pause, seek y reemplazo conservan canales independientes.

@@ -151,6 +151,10 @@ Native and Web use shared parsed geometry and a coordinated progress track. Tran
 <Clip :autoplay="false" name="interaction-path-android" caption="Physical ASUS ZenFone 3, Android 8: the same native path contract with real playback controls." />
 <Clip :autoplay="false" name="interaction-path-web" caption="Chromium: the shared path definition drives translation and orientation with one timeline." />
 
+An immediate `animate` or `set` that replaces a running or paused path settles every channel it names on the native view as well as in the model. Before the fix for #479, Android left `translationY` at the cancelled path's last frame when the path ended at the same `y`.
+
+<Clip :autoplay="false" name="interaction-path-snap-android" caption="Android emulator: a path paused halfway, then a running one, snaps back with a zero-duration animate; the status reads y from the native view. Not a physical-device recording." />
+
 ## Rotation in three axes
 
 Web now accepts `rotateX` and `rotateY` in degrees. Compose order is authored 2D baseline, translation, rotateZ, rotateY, rotateX, scale. Set CSS `perspective` on an application-owned parent when projection is wanted. Jolt does not accept a projective authored target transform or claim 3D layout/FLIP support. Keep perspective separate from the animated child. Native rotateX/Y preserve their existing platform contract and do not promise identical projection pixels.

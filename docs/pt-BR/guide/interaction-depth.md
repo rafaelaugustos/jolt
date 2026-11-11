@@ -94,6 +94,10 @@ Retenha o inspector nativo com `scope.resource(() => inspector)`. Na Web, `scope
 <Clip :autoplay="false" name="interaction-path-android" caption="ASUS ZenFone 3 físico, Android 8: reprodução nativa com toques reais via ADB. Path cúbico, orientação tangente, pause, seek e substituição." />
 <Clip :autoplay="false" name="interaction-path-web" caption="Chromium: interação real no navegador; o inspector usa WebGL por software. Path cúbico, orientação tangente, pause, seek e substituição." />
 
+Um `animate` imediato ou um `set` que substitui um path rodando ou pausado aplica cada canal que nomeia na view nativa, além do modelo. Antes da correção da #479, o Android deixava `translationY` no último quadro do path cancelado quando o path terminava no mesmo `y`.
+
+<Clip :autoplay="false" name="interaction-path-snap-android" caption="Emulador Android: um path pausado no meio e depois um em andamento voltam na hora com um animate de duração zero; o status lê o y da view nativa. Não é gravação em aparelho físico." />
+
 ## Rotação em três eixos
 
 Web aceita `rotateX` e `rotateY` em graus. Ordem: transformação 2D inicial, translação, rotateZ, rotateY, rotateX, escala. Para projeção, aplique `container.style.perspective = '700px'` no pai e anime o filho. Não há suporte a baseline projetivo no alvo nem a layout/FLIP 3D. O contrato nativo existente permanece; a projeção não promete pixels idênticos. Pause, seek e substituição preservam os canais independentes.
