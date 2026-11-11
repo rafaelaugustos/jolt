@@ -22,6 +22,7 @@ CHECKS = [
     "live native spring followers and layers",
     "native gesture values and scroll delegate lifecycle",
     "drop zone handle move reports padding and re-anchoring",
+    "pointer source transformed mapping and cleanup",
     "recorded interaction replay and negative control",
     "real dimensions in StackLayout and GridLayout",
     "live paint seekable scenes flex reflow and body springs",
