@@ -2,6 +2,18 @@
 
 ## Unreleased
 
+## 0.1.0-rc.14 (2026-11-11)
+
+- Publish matching core and optional native packages with #488 and #491, and the matching `JoltSwiftUI` tag in [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Rebuild NativeScript apps after upgrading. Web and SwiftUI APIs remain experimental.
+- Add drop handles, `onMove` with the source's visual bounds and hovered target, per-edge target `padding` and re-anchoring when layout moves the source during a drag, on Web, NativeScript and SwiftUI (#480). The Web now decides a drop before creating the return motion, so an accepted drop under reduced motion no longer hit-tests the source at its origin. On Android a drop source clipped by an ancestor counts as hidden and cancels the drag; containers need `setClipChildren(false)` and `setClipToPadding(false)`.
+- Add SwiftUI `rotateX`/`rotateY` with `joltPerspective`, animated and bound shadows, shimmer, loaders and circular reveal, linear gradients and blur, text entrance and rolling numbers (#481–#485). `flipInX`/`flipInY` now come from the shared recipes, so `createPreset` accepts them on Web and NativeScript. `joltScrollLinked` composes in the shared order (scale, rotation, then translation); up to 0.1.0-rc.13 translation was scaled.
+- Generate `JoltCore/Definitions.swift` instead of loading a resource bundle (#486). On macOS, the JoltSwiftUI clock and suspension follow the hosting window instead of the main screen and focus, and apps can read the same value through `joltActive` and `joltActivity()` (#487).
+- Fix an immediate `animate` or `set` that replaced a running or paused path on Android leaving the native view at the path's last frame (#479).
+- Close the remaining #412/#413 gaps after an acceptance audit: Web pointer `available`, presence that returns to rest when hover capability or the Android input device goes away, Android hover over rotated and scaled targets, SwiftUI groups and timelines that cancel as soon as another writer takes a member, and `joltPointerFollow` returning the centered inactive sample when disabled or outside its bounds.
+- Distribute JoltSwiftUI from `jolt-swift`, generated and tagged by the release workflow (#476); `jolt.git` keeps resolving the same tags. Serve documentation recordings from object storage (#474), bound the docs build memory and patch vulnerable tooling (#471).
+- Run only the CI suites a pull request can affect, run browser jobs in the Playwright image and split SwiftUI CI into iOS and macOS legs (#472, #489, #491). Stabilize hidden-time spring and synthetic pointer tests (#478, #490).
+- Validate 1,818 TypeScript tests, 115 Swift Debug/Release tests, Playwright interaction-depth, effects and portable suites in Chromium, Firefox and WebKit, Native CI on an iOS 27 simulator and Android 16 emulator, and 17 standalone SwiftUI UI cases on iOS 27 and macOS 26.6.2. Physical pointer accessories remain unverified (#492); simulator, emulator and injected input are not physical-device evidence, and this release makes no performance claim.
+
 ## 0.1.0-rc.13 (2026-11-10)
 
 - Publish matching core and optional native packages from #436 (39 tasks: #430–#435 and #437–#469). Rebuild NativeScript apps after upgrading. Web and SwiftUI APIs remain experimental.

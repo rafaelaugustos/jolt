@@ -32,7 +32,7 @@ Web 使用 `runtime.scope().pointerFollow(element, options)` 和 `scope.bind()`�
 
 指针输入不会让目标获得焦点，不调用 `preventDefault()`，也不阻止其他识别器和监听器；无关的点击、触摸和拖动照常工作。在 `motionBehaviors` 某次运行的私有 scope 中创建的指针会随该通道一起挂起，运行被打断时销毁，之后到达的输入会被忽略。
 
-仅在源码中，`0.1.0-rc.13` 不包含：Web 的 `available` 表示在指针源监听且未被阻止时，浏览器支持 Pointer Events 且 `(any-hover: hover)` 成立；悬停期间该查询不再成立时，presence 回到静止。之后的鼠标事件仍会被跟随：该查询只是浏览器提示，不检测设备是否连接。Android 在活动指针的输入设备被移除时回到静止，并且现在会跟随旋转目标和缩放小于 1 的目标上的悬停，此前这些情况会被拒绝。
+自 `0.1.0-rc.14` 起：Web 的 `available` 表示在指针源监听且未被阻止时，浏览器支持 Pointer Events 且 `(any-hover: hover)` 成立；悬停期间该查询不再成立时，presence 回到静止。之后的鼠标事件仍会被跟随：该查询只是浏览器提示，不检测设备是否连接。Android 在活动指针的输入设备被移除时回到静止，并且现在会跟随旋转目标和缩放小于 1 的目标上的悬停，此前这些情况会被拒绝。
 
 硬件限制：没有实体 iPad、鼠标、触控板、Apple Pencil 或 Android 指针配件。配件悬停、悬停笔、悬停时断开设备，以及实体设备上的指针时序和成本均未验证。iPad 证据使用 XCTest 系统注入，Android 使用应用内注入的鼠标事件，浏览器使用 Playwright 输入；`(any-hover: hover)` 的变化通过替换的 media query 测试，而不是真实的设备变化。
 

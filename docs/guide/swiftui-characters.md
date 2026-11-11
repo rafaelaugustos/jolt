@@ -1,6 +1,6 @@
 # SwiftUI: keyframes, interaction and characters
 
-Available in **0.1.0-rc.13 (Beta)** for iOS 17+ and macOS 14+, without NativeScript or JavaScript. Install the `JoltSwiftUI` product from the [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) package repository, tag `v0.1.0-rc.13`. See [installation](./swiftui), [ownership](./swiftui-motion) and [interaction/geometry](./swiftui-geometry) for platform limits.
+Available in **0.1.0-rc.14 (Beta)** for iOS 17+ and macOS 14+, without NativeScript or JavaScript. Install the `JoltSwiftUI` product from the [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) package repository, tag `v0.1.0-rc.14`. See [installation](./swiftui), [ownership](./swiftui-motion) and [interaction/geometry](./swiftui-geometry) for platform limits.
 
 ## Finite keyframes
 
@@ -76,7 +76,7 @@ The next interaction, target removal, pause/background or disposal clears the ac
 <Clip name="swiftui-transfer-ios" caption="iOS simulator, native SwiftUI: rejected and accepted touch drops, return/effect cleanup, keyed reorder and edge scrolling in 12 realized rows." />
 <Clip name="swiftui-transfer-macos" caption="macOS native SwiftUI: mouse drops, accessible button alternatives, keyed handle reorder and edge scrolling. No virtualized-list claim." />
 
-Pending merge and publication in [PR #488](https://github.com/rafaelaugustos/jolt/pull/488); not in 0.1.0-rc.13. For ordered insertion, `joltDropHandle(zones)` puts the drag on a view inside the `joltDropSource` view, such as a grip; the source still moves. While a handle is on screen, the source's own drag is limited to its subviews, so the rest of the source keeps its buttons, gestures and scrolling, and the "Move to …" and "Return to origin" accessibility actions move from the source to the handle. `JoltDropTarget` takes `padding: JoltDropPadding`, which extends the reported frame per edge in points (0–1,000; other values throw before the target exists). Center and overlap both use the padded frame, through the same JoltCore hit test that the generated fixtures check against the TypeScript `dropHits`.
+Since **0.1.0-rc.14** ([PR #488](https://github.com/rafaelaugustos/jolt/pull/488)). For ordered insertion, `joltDropHandle(zones)` puts the drag on a view inside the `joltDropSource` view, such as a grip; the source still moves. While a handle is on screen, the source's own drag is limited to its subviews, so the rest of the source keeps its buttons, gestures and scrolling, and the "Move to …" and "Return to origin" accessibility actions move from the source to the handle. `JoltDropTarget` takes `padding: JoltDropPadding`, which extends the reported frame per edge in points (0–1,000; other values throw before the target exists). Center and overlap both use the padded frame, through the same JoltCore hit test that the generated fixtures check against the TypeScript `dropHits`.
 
 ```swift
 let board = try scope.retain(JoltDropZones([

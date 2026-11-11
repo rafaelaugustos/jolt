@@ -1,5 +1,7 @@
 # Motion along a path
 
+RC.14 fixes an immediate `animate` or `set` that replaces a running or paused path on Android: the native view now settles at the new value instead of the path's last frame (#479). See [paths and tangent orientation](./interaction-depth#paths-and-tangent-orientation).
+
 RC.13 adds [typed quadratic/cubic SwiftUI paths](./swiftui-geometry#quadratic-and-cubic-paths). NativeScript/Web paths retain their existing release history.
 
 Available in RC.12: [interaction and depth](./interaction-depth) adds portable drop zones, optional audio/cues, adapter inspection and Web path/3D/shadow contracts.

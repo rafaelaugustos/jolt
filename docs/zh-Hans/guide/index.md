@@ -35,7 +35,7 @@ Web API 仍处于**实验阶段**。从 [Web 运行时](./web-runtime)开始，�
 
 ## SwiftUI（测试版）{#swiftui-beta}
 
-**0.1.0-rc.13（测试版）**支持 iOS 17+ 和 macOS 14+，无需 NativeScript 或 JavaScript。从软件包仓库 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的标签 `v0.1.0-rc.13` 安装 `JoltSwiftUI` 产品。平台限制请参阅[安装](./swiftui)、[生命周期](./swiftui-motion)和[交互与几何](./swiftui-geometry)。
+**0.1.0-rc.14（测试版）**支持 iOS 17+ 和 macOS 14+，无需 NativeScript 或 JavaScript。从软件包仓库 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的标签 `v0.1.0-rc.14` 安装 `JoltSwiftUI` 产品。平台限制请参阅[安装](./swiftui)、[生命周期](./swiftui-motion)和[交互与几何](./swiftui-geometry)。
 
 ## 为什么不是`view.animate()` {#why-not-view-animate}
 
@@ -79,6 +79,6 @@ Jolt 目前是候选发布版本；已发布版本请参阅[安装](./install)�
 
 文档版本变化后，新增和已更新标签自动失效。测试版标签保留到 API 稳定。标签说明会区分已发布功能与源码候选；指南会说明尚待合并或发布的部分。仅有标签并不意味着功能已经发布。
 
-<Clip name="docs-navigation-desktop" caption="macOS 上的 Chromium，桌面视口：侧栏中的当前版本标签、键盘导航与明暗主题。展示的是文档导航，并非原生应用。" />
+<Clip name="docs-navigation-rc14-desktop" caption="macOS 上的 Chromium，桌面视口：侧栏中的当前版本标签、键盘导航与明暗主题。展示的是文档导航，并非原生应用。" />
 
-<Clip name="docs-navigation-mobile" caption="macOS 上的 Chromium，模拟移动视口：打开菜单并访问带标签的条目。浏览器模拟，并非实体手机录制。" />
+<Clip name="docs-navigation-rc14-mobile" caption="macOS 上的 Chromium，模拟移动视口：打开菜单并访问带标签的条目。浏览器模拟，并非实体手机录制。" />

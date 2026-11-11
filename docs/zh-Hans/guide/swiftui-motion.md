@@ -1,6 +1,6 @@
 # SwiftUI：数值、交互与编排
 
-**0.1.0-rc.13（测试版）**支持 iOS 17+ 和 macOS 14+，无需 NativeScript 或 JavaScript。从软件包仓库 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的标签 `v0.1.0-rc.13` 安装 `JoltSwiftUI` 产品。平台限制请参阅[安装](./swiftui)、[生命周期](./swiftui-motion)和[交互与几何](./swiftui-geometry)。
+**0.1.0-rc.14（测试版）**支持 iOS 17+ 和 macOS 14+，无需 NativeScript 或 JavaScript。从软件包仓库 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的标签 `v0.1.0-rc.14` 安装 `JoltSwiftUI` 产品。平台限制请参阅[安装](./swiftui)、[生命周期](./swiftui-motion)和[交互与几何](./swiftui-geometry)。
 
 JoltScope 保留其拥有的资源。在一个视图边界上使用 .joltScope(scope)，在离屏或场景不活跃时挂起，恢复时保留手动暂停状态。模型负责 dispose() 销毁；reset() 清空后可重用。每个资源只能有一个 scope 所有者。绑定和跟随器借用数值，销毁跟随器不会销毁源。使用 @StateObject 保存所有者，不要在 body 中创建。
 
@@ -26,7 +26,7 @@ JoltMotionValue 在主 actor 上发布采样值、目标、速度和状态。ani
 
 JoltPresence 在退出中保留身份，禁用点击与辅助功能，并在重新进入时取消过期删除。joltPreset 的 active 仅选择端点。JoltPressStyle 保留原生 Button 的键盘、禁用和辅助功能语义。joltPointerFollow 输出局部 −1…1 坐标；放在未变换的区域上，动画作用于子视图。离开、后台和减少动态效果会居中；纯触摸设备保持居中。JoltDragModel 限制直接拖动和吸附目标，弹簧收敛时可能暂时越界。再次拖动从采样位置开始。辅助功能调整动作在吸附点间移动；暂停、挂起和销毁取消手势。
 
-仅在源码中，0.1.0-rc.13 不包含：与 NativeScript 和 Web 一致，joltPointerFollow 对禁用的视图以及本地边界外的位置也会报告居中的非活动采样；此前它会把这些位置限制到边缘并保持活动。该修饰符没有 `available` 标志，也不区分配件断开与悬停结束。
+自 0.1.0-rc.14 起：与 NativeScript 和 Web 一致，joltPointerFollow 对禁用的视图以及本地边界外的位置也会报告居中的非活动采样；此前它会把这些位置限制到边缘并保持活动。该修饰符没有 `available` 标志，也不区分配件断开与悬停结束。
 
 JoltTimeline 用一个时钟订阅运行有限轨道：最多 60 秒、10,000 条轨道和 1,024 个唯一命名事件。同一数值轨道不可重叠。sequence 使用求解时长；stagger 错开起点。属性被替换时取消整个运行。事件可返回 JoltEffect，适配应用的音频、触觉或粒子，并转发暂停、恢复和清理；不会隐式获取硬件。默认跳过迟到超过 50 ms 的事件，catchUp 需显式选择。减少动态效果直接应用目标且跳过副作用；取消后不会再触发事件，包括重入回调。
 
@@ -70,7 +70,7 @@ Web 已有 motionValue、springValue、map、pointerFollow、drag、scrollLinked
 
 ## 深度与阴影 {#depth-and-shadow}
 
-等待 [PR #488](https://github.com/rafaelaugustos/jolt/pull/488) 合并并发布；0.1.0-rc.13 尚未包含。 `JoltPose` 在 `rotate` 之外接受以度为单位的 `rotateX` 和 `rotateY`，校验方式相同（必须为有限值）。每个 Jolt 视图都按 Web 的顺序组合：缩放、rotateX、rotateY、rotate，最后平移，围绕其未变换框架的中心。动画一个轴时保留另一个轴的角度；被中断的轴从采样值继续。`joltBind` 接受 `.rotateX` 和 `.rotateY`；`joltBind([.rotateX: rx, .rotateY: ry])` 在同一个投影下绑定多个值，`scale` 与 `scaleX`/`scaleY` 相乘。请在这一次调用中绑定两个轴：两个独立的深度绑定会投影两次，内层变为正交投影。属性组、状态和关键帧驱动这些绑定值。`JoltPreset.flipInX` 和 `flipInY` 由共享配方生成，Web 和 NativeScript 的 `createPreset` 也以相同参数接受它们。
+自 **0.1.0-rc.14** 起提供（[PR #488](https://github.com/rafaelaugustos/jolt/pull/488)）。`JoltPose` 在 `rotate` 之外接受以度为单位的 `rotateX` 和 `rotateY`，校验方式相同（必须为有限值）。每个 Jolt 视图都按 Web 的顺序组合：缩放、rotateX、rotateY、rotate，最后平移，围绕其未变换框架的中心。动画一个轴时保留另一个轴的角度；被中断的轴从采样值继续。`joltBind` 接受 `.rotateX` 和 `.rotateY`；`joltBind([.rotateX: rx, .rotateY: ry])` 在同一个投影下绑定多个值，`scale` 与 `scaleX`/`scaleY` 相乘。请在这一次调用中绑定两个轴：两个独立的深度绑定会投影两次，内层变为正交投影。属性组、状态和关键帧驱动这些绑定值。`JoltPreset.flipInX` 和 `flipInY` 由共享配方生成，Web 和 NativeScript 的 `createPreset` 也以相同参数接受它们。
 
 `.joltPerspective(600)` 声明以点为单位的距离，范围 1–100,000；`JoltPerspective(distance:)` 校验计算得到的值并抛出错误，超出范围的字面量会触发 precondition。该距离作用于其下方最近的、可以绕 X 或 Y 旋转的 Jolt 视图（`joltMotion`、`joltPreset`、`JoltPresence`、`joltScrollLinked`、`joltViewportEnter`、多值 `joltBind`，以及单个或映射的 rotateX/rotateY 绑定）。该视图用它投影，并对自己的内容隐藏它，因此倾斜的子视图在未自行声明时为正交投影。其他绑定，以及姿态中没有 rotateX/rotateY 的 `JoltPressStyle`，会把距离继续向下传递。消失点是每个视图自身未变换框架的中心，与 NativeScript 相同。在 Web 上它是设置了 CSS `perspective` 的容器中心，所以视图在容器中居中时两者重合；平移让表面相对这个固定点移动，与 Web 一致。未声明透视时，rotateX 和 rotateY 为正交投影，与没有 `perspective` 的 Web 相同：rotateY 60° 时视图显示为一半宽度。距离不做动画，修改在下一帧生效。不支持近端边缘到达眼睛位置的表面：CSS 会裁剪它，`JoltProjection.corners` 会抛出错误，Jolt 不定义 SwiftUI 的绘制结果。
 

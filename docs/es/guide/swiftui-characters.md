@@ -1,6 +1,6 @@
 # SwiftUI: keyframes, interacción y personajes
 
-Disponible en **0.1.0-rc.13 (Beta)** para iOS 17+ y macOS 14+, sin NativeScript ni JavaScript. Instale el producto `JoltSwiftUI` desde la etiqueta `v0.1.0-rc.13` del repositorio de paquete [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Consulte [instalación](./swiftui), [ciclo de vida](./swiftui-motion) e [interacción/geometría](./swiftui-geometry) para los límites.
+Disponible en **0.1.0-rc.14 (Beta)** para iOS 17+ y macOS 14+, sin NativeScript ni JavaScript. Instale el producto `JoltSwiftUI` desde la etiqueta `v0.1.0-rc.14` del repositorio de paquete [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Consulte [instalación](./swiftui), [ciclo de vida](./swiftui-motion) e [interacción/geometría](./swiftui-geometry) para los límites.
 
 ## Keyframes finitos
 
@@ -80,7 +80,7 @@ zones.cancel()
 
 <Clip name="swiftui-transfer-macos" caption="macOS, SwiftUI nativo: ratón, botones accesibles, reordenación por asa y desplazamiento de borde. Sin virtualización." />
 
-Pendiente de merge y publicación en el [PR #488](https://github.com/rafaelaugustos/jolt/pull/488); no está en 0.1.0-rc.13. Para la inserción ordenada, `joltDropHandle(zones)` pone el arrastre en una vista dentro de la vista con `joltDropSource`, como un asa; el origen sigue moviéndose. Mientras haya un asa en pantalla, el arrastre del propio origen se limita a sus subvistas, así que el resto del origen conserva botones, gestos y desplazamiento, y las acciones de accesibilidad "Move to …" y "Return to origin" pasan del origen al asa. `JoltDropTarget` acepta `padding: JoltDropPadding`, que amplía el frame informado por borde, en puntos (0 a 1.000; otros valores lanzan un error antes de crear el destino). El centro y overlap usan el frame ampliado, con la misma prueba de acierto de JoltCore que las fixtures generadas comparan con `dropHits` en TypeScript.
+Desde **0.1.0-rc.14** ([PR #488](https://github.com/rafaelaugustos/jolt/pull/488)). Para la inserción ordenada, `joltDropHandle(zones)` pone el arrastre en una vista dentro de la vista con `joltDropSource`, como un asa; el origen sigue moviéndose. Mientras haya un asa en pantalla, el arrastre del propio origen se limita a sus subvistas, así que el resto del origen conserva botones, gestos y desplazamiento, y las acciones de accesibilidad "Move to …" y "Return to origin" pasan del origen al asa. `JoltDropTarget` acepta `padding: JoltDropPadding`, que amplía el frame informado por borde, en puntos (0 a 1.000; otros valores lanzan un error antes de crear el destino). El centro y overlap usan el frame ampliado, con la misma prueba de acierto de JoltCore que las fixtures generadas comparan con `dropHits` en TypeScript.
 
 ```swift
 let board = try scope.retain(JoltDropZones([

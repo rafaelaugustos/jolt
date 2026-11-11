@@ -1,6 +1,6 @@
 # SwiftUI：关键帧、交互与角色
 
-**0.1.0-rc.13（测试版）**支持 iOS 17+ 和 macOS 14+，无需 NativeScript 或 JavaScript。从软件包仓库 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的标签 `v0.1.0-rc.13` 安装 `JoltSwiftUI` 产品。平台限制请参阅[安装](./swiftui)、[生命周期](./swiftui-motion)和[交互与几何](./swiftui-geometry)。
+**0.1.0-rc.14（测试版）**支持 iOS 17+ 和 macOS 14+，无需 NativeScript 或 JavaScript。从软件包仓库 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的标签 `v0.1.0-rc.14` 安装 `JoltSwiftUI` 产品。平台限制请参阅[安装](./swiftui)、[生命周期](./swiftui-motion)和[交互与几何](./swiftui-geometry)。
 
 ## 有限关键帧
 
@@ -80,7 +80,7 @@ zones.cancel()
 
 <Clip name="swiftui-transfer-macos" caption="macOS 原生 SwiftUI：鼠标放置、按钮替代、拖柄重排及边缘滚动；不包含虚拟列表。" />
 
-等待 [PR #488](https://github.com/rafaelaugustos/jolt/pull/488) 合并并发布；0.1.0-rc.13 尚未包含。 用于有序插入时，`joltDropHandle(zones)` 把拖动放到 `joltDropSource` 视图内部的某个视图上（例如拖柄），移动的仍是源。拖柄在屏幕上时，源自身的拖动只作用于子视图，因此源的其余部分保留按钮、手势和滚动，“Move to …”与“Return to origin”无障碍操作也从源移到拖柄。`JoltDropTarget` 接受 `padding: JoltDropPadding`，按边以点为单位扩大上报的 frame（0–1,000；其他值会在创建目标前抛出错误）。中心与 overlap 都使用扩大后的 frame，所用的 JoltCore 命中测试与生成的 fixtures 中 TypeScript `dropHits` 的结果一致。
+自 **0.1.0-rc.14** 起提供（[PR #488](https://github.com/rafaelaugustos/jolt/pull/488)）。用于有序插入时，`joltDropHandle(zones)` 把拖动放到 `joltDropSource` 视图内部的某个视图上（例如拖柄），移动的仍是源。拖柄在屏幕上时，源自身的拖动只作用于子视图，因此源的其余部分保留按钮、手势和滚动，“Move to …”与“Return to origin”无障碍操作也从源移到拖柄。`JoltDropTarget` 接受 `padding: JoltDropPadding`，按边以点为单位扩大上报的 frame（0–1,000；其他值会在创建目标前抛出错误）。中心与 overlap 都使用扩大后的 frame，所用的 JoltCore 命中测试与生成的 fixtures 中 TypeScript `dropHits` 的结果一致。
 
 ```swift
 let board = try scope.retain(JoltDropZones([

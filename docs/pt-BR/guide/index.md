@@ -35,7 +35,7 @@ As APIs Web são **experimentais**. Comece pelo [runtime Web](./web-runtime), de
 
 ## SwiftUI (Beta)
 
-Disponível na **0.1.0-rc.13 (Beta)** para iOS 17+ e macOS 14+, sem NativeScript ou JavaScript. Instale o produto `JoltSwiftUI` pela tag `v0.1.0-rc.13` do repositório de pacote [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Consulte [instalação](./swiftui), [ciclo de vida](./swiftui-motion) e [interação/geometria](./swiftui-geometry) para os limites.
+Disponível na **0.1.0-rc.14 (Beta)** para iOS 17+ e macOS 14+, sem NativeScript ou JavaScript. Instale o produto `JoltSwiftUI` pela tag `v0.1.0-rc.14` do repositório de pacote [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Consulte [instalação](./swiftui), [ciclo de vida](./swiftui-motion) e [interação/geometria](./swiftui-geometry) para os limites.
 
 ## Por que não o `view.animate()`
 
@@ -79,6 +79,6 @@ O menu lateral destaca recursos com três selos:
 
 Novo e Atualizado expiram quando a versão documentada muda. Beta permanece até a estabilização da API. A descrição do selo diferencia um recurso publicado de um candidato em código; o guia informa as pendências de merge ou publicação. O selo sozinho não significa que o recurso já foi lançado.
 
-<Clip name="docs-navigation-desktop" caption="Chromium no macOS, viewport de desktop: Selos da edição atual no menu, navegação por teclado e temas claro/escuro. Demonstra a navegação da documentação, não um app nativo." />
+<Clip name="docs-navigation-rc14-desktop" caption="Chromium no macOS, viewport de desktop: Selos da edição atual no menu, navegação por teclado e temas claro/escuro. Demonstra a navegação da documentação, não um app nativo." />
 
-<Clip name="docs-navigation-mobile" caption="Chromium no macOS, viewport móvel emulado: abertura do menu e navegação pelos itens com selo. Emulação no navegador, não gravação em celular físico." />
+<Clip name="docs-navigation-rc14-mobile" caption="Chromium no macOS, viewport móvel emulado: abertura do menu e navegação pelos itens com selo. Emulação no navegador, não gravação em celular físico." />

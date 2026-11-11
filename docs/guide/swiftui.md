@@ -1,12 +1,12 @@
 # SwiftUI
 
-Available in **0.1.0-rc.13 (Beta)** for iOS 17+ and macOS 14+, without NativeScript or JavaScript. Install the `JoltSwiftUI` product from the [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) package repository, tag `v0.1.0-rc.13`. See [installation](./swiftui), [ownership](./swiftui-motion) and [interaction/geometry](./swiftui-geometry) for platform limits.
+Available in **0.1.0-rc.14 (Beta)** for iOS 17+ and macOS 14+, without NativeScript or JavaScript. Install the `JoltSwiftUI` product from the [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) package repository, tag `v0.1.0-rc.14`. See [installation](./swiftui), [ownership](./swiftui-motion) and [interaction/geometry](./swiftui-geometry) for platform limits.
 
-Add `https://github.com/rafaelaugustos/jolt-swift` as a Swift Package in Xcode and select exact version `0.1.0-rc.13`. It contains only the Swift package, generated from the Jolt repository at each release, so SwiftPM does not download the documentation media and benchmark results. Projects that already use `https://github.com/rafaelaugustos/jolt.git` keep resolving `0.1.0-rc.13`, and a local checkout of the Jolt repository also works. Finite poses use SwiftUI interpolation; sampled values use a native clock activated on demand.
+Add `https://github.com/rafaelaugustos/jolt-swift` as a Swift Package in Xcode and select exact version `0.1.0-rc.14`. It contains only the Swift package, generated from the Jolt repository at each release, so SwiftPM does not download the documentation media and benchmark results. Projects that already use `https://github.com/rafaelaugustos/jolt.git` keep resolving the same release tags, and a local checkout of the Jolt repository also works. Finite poses use SwiftUI interpolation; sampled values use a native clock activated on demand.
 
 ```swift
 // Package.swift
-.package(url: "https://github.com/rafaelaugustos/jolt-swift.git", exact: "0.1.0-rc.13")
+.package(url: "https://github.com/rafaelaugustos/jolt-swift.git", exact: "0.1.0-rc.14")
 // Application target dependencies:
 .product(name: "JoltSwiftUI", package: "jolt-swift")
 ```
@@ -36,7 +36,7 @@ createPreset(name, parameters) is shared by NativeScript and Web. JoltPreset.rec
 
 ## Activity, suspension and the clock
 
-Pending merge and publication in [PR #488](https://github.com/rafaelaugustos/jolt/pull/488); not in 0.1.0-rc.13. Every Jolt view and modifier reads one activity value, `joltActive`. On iOS it is true while the scene is active. On macOS it is true while the window that hosts the view is on screen: visible, not minimized and not fully covered, whether or not it is key and whether or not the app is frontmost. While it is false, motion holds and input contacts cancel; both resume when it returns. Apply `joltActivity()` to read the same value in your own views:
+Since **0.1.0-rc.14** ([PR #488](https://github.com/rafaelaugustos/jolt/pull/488)). Every Jolt view and modifier reads one activity value, `joltActive`. On iOS it is true while the scene is active. On macOS it is true while the window that hosts the view is on screen: visible, not minimized and not fully covered, whether or not it is key and whether or not the app is frontmost. While it is false, motion holds and input contacts cancel; both resume when it returns. Apply `joltActivity()` to read the same value in your own views:
 
 ```swift
 struct Status: View {
