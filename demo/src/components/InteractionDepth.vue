@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Application, File, isIOS, knownFolders, type View } from '@nativescript/core'
-import { ref, nextTick, onUnmounted, registerElement } from 'nativescript-vue'
+import { computed, ref, nextTick, onUnmounted, registerElement } from 'nativescript-vue'
 import {
   configure,
   motionScope,
@@ -65,6 +65,7 @@ let activity: ReturnType<typeof scope.renderActivity> | undefined
 const events: object[] = []
 const target = (id: string): View => root.value?.nativeView.getViewById(id)
 const columns = ['backlog', 'done'] as const
+const drawOrder = computed(() => [...columns].sort((a) => (a === home.value ? 1 : -1)))
 let hovered: string | undefined,
   moves = 0
 function outline() {
@@ -154,12 +155,17 @@ function inspect() {
       accepted: count,
     })
 }
+function unclip(event: { object: View }) {
+  if (!isIOS) (event.object.android as android.view.ViewGroup).setClipChildren(false)
+}
 function setup() {
   if (initialized || disposed || !target('depth-stage')?.isLoaded) return
   initialized = true
   try {
-    if (mode === 'board') board()
-    else if (mode === 'drop') {
+    if (mode === 'board') {
+      unclip({ object: target('depth-stage') })
+      board()
+    } else if (mode === 'drop') {
       drop = scope.dropZones(target('depth-card'), {
         targets: [
           { id: 'accept', target: target('depth-accept') },
@@ -442,6 +448,7 @@ onUnmounted(() => {
       <AbsoluteLayout
         v-if="mounted"
         id="depth-stage"
+        :clipToBounds="mode !== 'board'"
         width="320"
         height="300"
         backgroundColor="#16273C"
@@ -478,11 +485,13 @@ onUnmounted(() => {
         </template>
         <template v-if="mode === 'board'">
           <StackLayout
-            v-for="(column, index) in columns"
+            v-for="column in drawOrder"
             :key="column"
             :id="`depth-${column}`"
             :automationText="`depth-${column}`"
-            :left="10 + index * 155"
+            :left="10 + columns.indexOf(column) * 155"
+            clipToBounds="false"
+            @loaded="unclip"
             top="10"
             width="145"
             padding="6"

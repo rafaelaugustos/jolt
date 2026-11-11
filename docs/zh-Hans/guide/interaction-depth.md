@@ -40,6 +40,8 @@ const drop = scope.dropZones(card, {
 
 **命中内边距。** 目标的 `padding` 用一个数值或按边（`{ top, right, bottom, left }`）扩大命中范围：Web 为 CSS 像素，NativeScript 为 DIP。每条边必须为 0–1,000 的有限值；其他值会在创建放置区域时抛出 `RangeError`。`center` 与 `overlap` 都使用扩大后的矩形，边界为空的目标仍不会命中。内边距不可见；需要让用户看到时请自行绘制。导出的 `dropHits(source, target, policy, padding)` 使用相同规则。
 
+**跨越容器。** 源在移动时必须保持可见，而 NativeScript 布局默认会裁剪子视图。在 iOS 上，对源经过的容器设置 `clipToBounds = false`，否则它会移出视野。在 Android 上 `clipToBounds` 不起作用：对这些 `ViewGroup` 及其父视图调用 `setClipChildren(false)`，因为 Android 会把被祖先裁剪的源视为隐藏，Jolt 随即取消拖动。之后绘制的视图会盖住源，因此请最后绘制包含源的容器，就像 demo 看板那样。在 Web 上，当后面的内容会盖住源时，用 `z-index` 提升它。
+
 **重新锚定。** 拖动期间，每次移动和每次 `refresh()` 都会把源的布局中心（去掉拖动位移后的视觉中心）与拖动开始时比较，并按差值补偿拖动位移。因此在卡片上方插入空位时，卡片仍留在指针下。Web 会在 DOM 插入、移除以及 Jolt 观察的属性变化后自动刷新；NativeScript 会在源的 `layoutChanged`（其 frame 在父视图内变化时触发）后刷新。Web 上仅通过样式造成的变化，以及 NativeScript 上祖先视图的移动，会在下一次移动时补偿；在这些变化后立即调用 `refresh()` 可避免一帧跳动。只补偿正在拖动的轴，拖动 `bounds` 仍会限制位移；拖动中围绕非中心原点缩放源也会被视为布局变化。速度采样随位移一起平移，重新锚定不会变成甩动。
 
 **松手、取消与减少动态效果。** 两个平台都在回弹开始之前根据最终输入决定放置。取消（`cancel()`、暂停、文档隐藏、窗口失焦或 Web 上的滚动、NativeScript 上的应用挂起）会把源冻结在当前位置、停止移动报告，并对悬停目标调用 `onLeave`，以便应用移除空位；此后的布局变化不会再补偿。减少动态效果时仍直接跟随；被拒绝或未命中目标的松手会无动画返回。键盘移动请放在应用控件中，例如演示中的拖柄用方向键调用 `request()`。

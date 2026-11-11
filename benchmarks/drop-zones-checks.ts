@@ -68,6 +68,7 @@ export async function runDropZonesChecks(host: StackLayout) {
     body = new Label(),
     column = new StackLayout()
   spacer.height = 0
+  list.clipToBounds = false
   card.columns = '36,*'
   card.height = 60
   card.backgroundColor = '#61E4C2' as never
@@ -86,6 +87,9 @@ export async function runDropZonesChecks(host: StackLayout) {
   board.addChild(list)
   board.addChild(column)
   host.addChild(board)
+  if (!isIOS)
+    for (const layout of [board, list])
+      (layout.android as android.view.ViewGroup).setClipChildren(false)
   const moves: DropMoveEvent<View>[] = []
   let dropped = 0,
     rejected = 0
@@ -157,7 +161,10 @@ export async function runDropZonesChecks(host: StackLayout) {
     begin(grip)
     pan(grip, 2, point.x, point.y)
     await wait(60)
-    assert(zones.hovered === 'column', 'Bottom padding did not extend the target')
+    assert(
+      zones.hovered === 'column',
+      `Bottom padding did not extend the target: ${JSON.stringify({ moved: point, card: located(card), column: located(column), report: moves.at(-1)?.bounds })}`,
+    )
     assert(moves.at(-1)?.id === 'column', 'Move report missed the padded target')
     pan(grip, 3, point.x, point.y)
     await wait(60)
