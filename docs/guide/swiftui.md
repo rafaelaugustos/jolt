@@ -55,3 +55,5 @@ The shared `JoltClock` keeps one display link per display that shows a visible J
 [Derived motion and retained graphics](./swiftui-advanced)
 
 [SwiftUI · Keyframes / gestures / characters](./swiftui-characters)
+
+[SwiftUI · Text entrance and rolling numbers](./swiftui-text)

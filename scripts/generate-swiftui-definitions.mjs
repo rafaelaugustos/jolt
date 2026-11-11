@@ -526,3 +526,129 @@ if (process.argv.includes('--check')) {
   if (readFileSync(geometryFile, 'utf8') !== geometryData)
     throw Error('Swift panel/measured geometry fixtures are stale.')
 } else writeFileSync(geometryFile, geometryData)
+
+// Text entrance and rolling numbers: the Web split, stagger timing and roll alignment.
+const { textPieces, isVisiblePiece, staggeredStart } =
+  await import('../dist/core/text-pieces.js')
+const { diffFromEnd } = await import('../dist/core/roll-diff.js')
+const { createTrack } = await import('../dist/core/track.js')
+const { resolveTransition } = await import('../dist/core/transition.js')
+// ICU segments these scripts with a dictionary; Apple's tokenizer uses its own lexicon.
+const dictionary =
+  /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Thai}\p{Script=Lao}\p{Script=Khmer}\p{Script=Myanmar}]/u
+const textSamples = [
+  'Motion that moves.',
+  'Wait — “really?” Yes, (twice)!',
+  'Team 👩‍👩‍👧‍👦 🇧🇷 👍🏽 done',
+  'Crème brûlée, été ñ',
+  '欢迎使用，世界。',
+  '你好世界',
+  '한국어 텍스트',
+  'مرحبا بالعالم',
+  'שלום עולם 2025',
+  '$1,249.90 or 3.5% of 10k',
+  'a  b\tc',
+  '',
+]
+const pieceData = ({ text, start, end, group }) => ({ text, start, end, group })
+const settings = { timeScale: 1, reducedMotion: false }
+const textFixtures = {
+  maximumGraphemes: 256,
+  texts: textSamples.map((text) => ({
+    text,
+    dictionary: dictionary.test(text),
+    letter: textPieces(text, 'letter').map(pieceData),
+    word: textPieces(text, 'word').map(pieceData),
+  })),
+  entrances: ['Hello, world!', 'שלום 👩‍👩‍👧‍👦 2025'].flatMap((text) =>
+    ['letter', 'word'].flatMap((by) =>
+      [
+        [400, 35, 0],
+        [250, 60, 100],
+        [0, 35, 20],
+      ].map(([duration, stagger, delay]) => {
+        const pieces = textPieces(text, by).filter(isVisiblePiece)
+        const timed = pieces.map((piece) => {
+          const start = staggeredStart(piece.group, stagger, delay)
+          const track = createTrack(
+            'x',
+            [0, 1],
+            resolveTransition({ duration, delay: start, ease: 'easeOut' }, 'x', 2),
+            0,
+            settings,
+          )
+          return {
+            group: piece.group,
+            start,
+            end: track.end,
+            samples: [-10, 0, 0.25, 0.5, 0.9].map((fraction) => {
+              const at = fraction < 0 ? start + fraction : start + duration * fraction
+              return { at, progress: track.valueAt(at) }
+            }),
+          }
+        })
+        return {
+          text,
+          by,
+          duration,
+          stagger,
+          delay,
+          pieces: timed,
+          total: Math.max(0, ...timed.map((piece) => piece.end)),
+        }
+      }),
+    ),
+  ),
+  rolls: [
+    ['99', '100'],
+    ['100', '99'],
+    ['1249.9', '1250.0'],
+    ['$1,249.90', '$12,980.60'],
+    ['42', '42'],
+    ['9.5%', '10.0%'],
+    ['café', 'café'],
+    ['👍🏽 1', '👍🏿 2'],
+    ['١٢٣', '١٢٤'],
+    ['', '5'],
+    ['5', ''],
+  ].map(([previous, next]) => {
+    const stagger = 40,
+      delay = 10
+    const { changes, removed } = diffFromEnd(previous, next)
+    return {
+      previous,
+      next,
+      stagger,
+      delay,
+      changes: changes.map((change, index) => ({
+        next: change.next,
+        previous: change.previous ?? null,
+        start: staggeredStart(index, stagger, delay),
+      })),
+      removed: removed.map((piece, index) => ({
+        piece,
+        start: staggeredStart(changes.length + index, stagger, delay),
+      })),
+    }
+  }),
+  springs: [
+    [600, 0.2],
+    [400, 0],
+    [500, -0.5],
+    [300, 1],
+    [800, -1],
+  ].map(([duration, bounce]) => ({
+    duration,
+    bounce,
+    ...springPhysics({ duration, bounce }),
+  })),
+}
+const textFile = new URL(
+  '../packages/swiftui/Tests/JoltCoreTests/Fixtures/text.json',
+  import.meta.url,
+)
+const textData = JSON.stringify(textFixtures, null, 2) + '\n'
+if (process.argv.includes('--check')) {
+  if (readFileSync(textFile, 'utf8') !== textData)
+    throw Error('Swift text split, stagger and roll fixtures are stale.')
+} else writeFileSync(textFile, textData)

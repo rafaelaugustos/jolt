@@ -55,3 +55,5 @@ struct Status: View {
 [派生运动与保留式图形](./swiftui-advanced)
 
 [SwiftUI · Keyframes / gestures / characters](./swiftui-characters)
+
+[SwiftUI · 文字入场与滚动数字](./swiftui-text)

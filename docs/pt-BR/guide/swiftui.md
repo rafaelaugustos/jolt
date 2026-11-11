@@ -55,3 +55,5 @@ O `JoltClock` compartilhado mantém um display link por tela que mostra uma jane
 [Movimento derivado e gráficos retidos](./swiftui-advanced)
 
 [SwiftUI · Keyframes / gestures / characters](./swiftui-characters)
+
+[SwiftUI · Entrada de texto e números rolantes](./swiftui-text)

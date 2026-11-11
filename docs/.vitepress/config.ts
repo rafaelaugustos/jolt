@@ -177,6 +177,7 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         { text: 'SwiftUI · Graphics', link: `${prefix}/guide/swiftui-advanced` },
         { text: 'SwiftUI · Characters', link: `${prefix}/guide/swiftui-characters` },
         { text: 'SwiftUI · Geometry', link: `${prefix}/guide/swiftui-geometry` },
+        { text: 'SwiftUI · Text', link: `${prefix}/guide/swiftui-text` },
         {
           text:
             (

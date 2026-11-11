@@ -32,6 +32,8 @@ import SwiftUI
       CompositionLab()
     } else if ProcessInfo.processInfo.arguments.contains("--scroll-lab") {
       ScrollLab()
+    } else if ProcessInfo.processInfo.arguments.contains("--text-lab") {
+      TypographyLab()
     } else {
       Demo()
     }
@@ -152,6 +154,7 @@ struct Demo: View {
           NavigationLink("Graphics lab") { GraphicsLab() }
           NavigationLink("Viewport lab") { ViewportLab() }
           NavigationLink("Activity lab") { ActivityLab() }
+          NavigationLink("Text lab") { TypographyLab() }
           Text(phase == .active ? "Scene active" : "Scene inactive").font(.caption).foregroundStyle(
             .secondary
           ).accessibilityIdentifier("phase")
