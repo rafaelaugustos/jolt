@@ -33,6 +33,7 @@ public struct JoltDropEvent: Equatable, Sendable {
   private var paused = false, suspended = false, generation = 0
   private var frames: [String: JoltDropRect] = [:]
   private var source: JoltDropRect?
+  private var reporter: UUID?, presenters = Set<UUID>()
   private var start = CGSize.zero, translation = CGSize.zero
   private let x: JoltMotionValue, y: JoltMotionValue, group: JoltPropertyGroup
   private var observations: [JoltObservation] = []
@@ -69,6 +70,16 @@ public struct JoltDropEvent: Equatable, Sendable {
   public func sourceBounds(_ rect: CGRect?) {
     layoutBounds(rect.map { $0.offsetBy(dx: -offset.width, dy: -offset.height) })
   }
+  /// The latest source view to report owns the frame; a replaced view's removal cannot clear it.
+  func layoutBounds(_ rect: CGRect?, reporter id: UUID) {
+    if rect == nil {
+      guard reporter == id else { return }
+      reporter = nil
+    } else {
+      reporter = id
+    }
+    layoutBounds(rect)
+  }
   /// The source's layout frame without the drag offset. A change during a drag re-anchors it.
   func layoutBounds(_ rect: CGRect?) {
     guard !disposed else { return }
@@ -90,6 +101,11 @@ public struct JoltDropEvent: Equatable, Sendable {
       }
     }
     refresh()
+  }
+  /// Suspends only when no source view remains visible, enabled and in an active scene.
+  func present(_ id: UUID, _ active: Bool) {
+    if active { presenters.insert(id) } else { presenters.remove(id) }
+    if presenters.isEmpty { suspend() } else if active { resume() }
   }
   func attachHandle() { handles += 1 }
   func detachHandle() { handles = max(0, handles - 1) }
@@ -277,12 +293,12 @@ private struct DropSource: ViewModifier {
   @Environment(\.joltReduceMotion) private var appReduced
   @GestureState private var active = false
   @State private var visible = false
-  private func sync() {
-    if visible && enabled && sceneActive { model.resume() } else { model.suspend() }
-  }
+  @State private var reporter = UUID()
+  private func sync() { model.present(reporter, visible && enabled && sceneActive) }
   func body(content: Content) -> some View {
     // Measured outside the offset: the layout frame, so a change re-anchors the drag.
-    content.offset(model.offset).background(DropGeometry(update: model.layoutBounds))
+    content.offset(model.offset).background(
+      DropGeometry { [reporter] rect in model.layoutBounds(rect, reporter: reporter) })
       .gesture(
         dropDrag(model, active: $active, reducedMotion: reduced || appReduced),
         including: model.handles > 0 ? .subviews : .all
