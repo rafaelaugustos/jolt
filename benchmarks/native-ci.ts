@@ -188,6 +188,30 @@ async function run(view: Label, other: Label, host: StackLayout, status: Label) 
   pass()
 
   await reset()
+  stage = 'an immediate set replaces a running or paused path natively'
+  const path = 'M 0 0 Q 36 -76 88 -12 C 128 36 172 -64 196 0'
+  for (const variant of ['running', 'paused', 'axes', 'timed'] as const) {
+    const travelling = own(
+      animate(view, { path, orient: true }, { duration: 1400, ease: 'easeInOut' }),
+    )
+    await wait(600)
+    if (variant === 'paused' || variant === 'axes') travelling.pause()
+    check(Math.abs(read(view, 'y')) > 5, `${variant}: the path did not move y`)
+    const turned = read(view, 'rotate')
+    const target = variant === 'axes' ? { x: 0, y: 0 } : { x: 0, y: 0, rotate: 0 }
+    const settled = own(
+      animate(view, target, { duration: variant === 'timed' ? 300 : 0 }),
+    )
+    check(await settled, `${variant}: the replacement did not finish`)
+    await wait(400)
+    near(`${variant} x`, read(view, 'x'), 0, 1)
+    near(`${variant} y`, read(view, 'y'), 0, 1)
+    near(`${variant} rotate`, read(view, 'rotate'), variant === 'axes' ? turned : 0, 1)
+    await reset()
+  }
+  pass()
+
+  await reset()
   stage = 'one motion value coordinates native bindings'
   const value = motionValue(0)
   const release = bind(view, { x: value.to([0, 1], [0, 120]) })

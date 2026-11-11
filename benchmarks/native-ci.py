@@ -15,6 +15,7 @@ CHECKS = [
     "live intermediate native position",
     "pause holds and resume completes",
     "interruption starts at visible position",
+    "an immediate set replaces a running or paused path natively",
     "one motion value coordinates native bindings",
     "scope disposal cancels native work",
     "unload and reload release the old animation",
