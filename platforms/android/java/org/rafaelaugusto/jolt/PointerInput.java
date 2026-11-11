@@ -64,7 +64,7 @@ public final class PointerInput {
         if (!forward.invert(inverse)) { reset(); return; }
         float[] point = {x, y}; inverse.mapPoints(point);
         Rect visible = new Rect();
-        if (view.getWidth() <= 0 || view.getHeight() <= 0 || !view.getLocalVisibleRect(visible) || !visible.contains((int)point[0], (int)point[1]) || point[0] < 0 || point[1] < 0 || point[0] > view.getWidth() || point[1] > view.getHeight()) { reset(); return; }
+        if (view.getWidth() <= 0 || view.getHeight() <= 0 || !view.getGlobalVisibleRect(visible) || !visible.contains((int)x, (int)y) || point[0] < 0 || point[1] < 0 || point[0] > view.getWidth() || point[1] > view.getHeight()) { reset(); return; }
         double density = view.getResources().getDisplayMetrics().density;
         active = true;
         listener.onPoint((point[0] - view.getWidth()/2.0)/density, (point[1] - view.getHeight()/2.0)/density, view.getWidth()/density, view.getHeight()/density, true);
