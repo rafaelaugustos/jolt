@@ -25,7 +25,7 @@ xcodebuild test -project benchmarks/swiftui-demo/JoltSwiftUIDemo.xcodeproj -sche
 xcodebuild test -project benchmarks/swiftui-demo/JoltSwiftUIDemo.xcodeproj -scheme JoltSwiftUIMac -destination 'platform=macOS,arch=arm64' -parallel-testing-enabled NO
 ```
 
-The Mac uses local ad-hoc signing. Its sandboxed test runner exchanges recorder acknowledgements in its own temporary directory. Capture actual test interaction after launch, with a unique output directory:
+`python3 benchmarks/swiftui-demo/ci.py ios` or `macos` runs one platform the way CI does: a disposable simulator for iOS, the Mac for macOS; without an argument it runs both. The Mac uses local ad-hoc signing. Its sandboxed test runner exchanges recorder acknowledgements in its own temporary directory. Capture actual test interaction after launch, with a unique output directory:
 
 ```sh
 python3 benchmarks/swiftui-demo/record.py YOUR_UUID /tmp/jolt-swiftui-ios-review
