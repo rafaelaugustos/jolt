@@ -320,3 +320,26 @@ it('a member losing its native target cancels every member and frees the channel
   group.dispose()
   props.forEach((p) => p.dispose())
 })
+
+it('rejects foreign, disposed and out-of-range members before claiming any channel', () => {
+  const { props } = make(),
+    running = props[0]!.animate(5, { duration: 1000 })
+  expect(() => propertyGroup({ a: props[0]!, b: {} as (typeof props)[0] })).toThrow(
+    /mixed backends/,
+  )
+  expect(() => propertyGroup({})).toThrow(RangeError)
+  expect(() =>
+    propertyGroup(
+      Object.fromEntries(Array.from({ length: 65 }, (_, i) => [i, props[1]!])),
+    ),
+  ).toThrow(RangeError)
+  const group = propertyGroup({ a: props[0]!, b: props[1]! })
+  props[1]!.dispose()
+  expect(() => group.animate({ a: 1, b: 1 }, { duration: 100 })).toThrow(/disposed/)
+  expect(() => group.set({ a: 1, b: 1 })).toThrow(/disposed/)
+  expect(players).toHaveLength(1)
+  expect(players[0]!.cancelled).toBe(false)
+  running.stop()
+  group.dispose()
+  props.forEach((p) => p.dispose())
+})

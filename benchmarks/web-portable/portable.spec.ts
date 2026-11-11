@@ -708,7 +708,19 @@ test('overlapping groups, partial replacement and a lost target settle each run 
     second.dispose()
     second.dispose()
     ;[a, b, c].forEach((property) => property!.dispose())
+    const refused: string[] = []
+    const foreign = [{ a: a!, x: {} }, { b: b! }] as unknown as Record<
+      string,
+      NonNullable<typeof a>
+    >[]
+    for (const members of foreign)
+      try {
+        runtime.propertyGroup(members)
+      } catch (error) {
+        refused.push((error as Error).message)
+      }
     return {
+      refused,
       olderResult,
       untouched,
       newerResult,
@@ -737,6 +749,8 @@ test('overlapping groups, partial replacement and a lost target settle each run 
   })
   expect(result.afterNewer).toEqual([-10, -10])
   expect(result.final).toEqual([1, 2])
+  expect(result.refused).toHaveLength(2)
+  for (const message of result.refused) expect(message).toMatch(/live property adapters/)
   expect(result.rejected).toMatch(/lost its target/)
   expect(result.errors).toHaveLength(1)
   expect(result.errors[0]).toMatch(/lost its target/)
