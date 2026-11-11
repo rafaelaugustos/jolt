@@ -18,7 +18,7 @@
 
 ### 有序插入 {#ordered-insertion}
 
-在列内重排卡片的看板，仅能放到某一列还不够：需要由拖柄开始拖动、在移动过程中知道卡片位置、让较短的列也容易命中，并在看板插入空位时让卡片保持在指针下。Web 与 NativeScript 共用同一契约：
+等待 [PR #488](https://github.com/rafaelaugustos/jolt/pull/488) 合并并发布；0.1.0-rc.13 尚未包含。 在列内重排卡片的看板，仅能放到某一列还不够：需要由拖柄开始拖动、在移动过程中知道卡片位置、让较短的列也容易命中，并在看板插入空位时让卡片保持在指针下。Web 与 NativeScript 共用同一契约：
 
 ```ts
 const drop = scope.dropZones(card, {

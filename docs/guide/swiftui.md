@@ -36,7 +36,7 @@ createPreset(name, parameters) is shared by NativeScript and Web. JoltPreset.rec
 
 ## Activity, suspension and the clock
 
-Every Jolt view and modifier reads one activity value, `joltActive`. On iOS it is true while the scene is active. On macOS it is true while the window that hosts the view is on screen: visible, not minimized and not fully covered, whether or not it is key and whether or not the app is frontmost. While it is false, motion holds and input contacts cancel; both resume when it returns. Apply `joltActivity()` to read the same value in your own views:
+Pending merge and publication in [PR #488](https://github.com/rafaelaugustos/jolt/pull/488); not in 0.1.0-rc.13. Every Jolt view and modifier reads one activity value, `joltActive`. On iOS it is true while the scene is active. On macOS it is true while the window that hosts the view is on screen: visible, not minimized and not fully covered, whether or not it is key and whether or not the app is frontmost. While it is false, motion holds and input contacts cancel; both resume when it returns. Apply `joltActivity()` to read the same value in your own views:
 
 ```swift
 struct Status: View {

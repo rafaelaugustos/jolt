@@ -1,6 +1,6 @@
 # SwiftUI：文字入场与滚动数字
 
-**尚未发布。** 这些 API 将在 **0.1.0-rc.13（测试版）**之后的版本中提供，支持 iOS 17+ 和 macOS 14+，无需 NativeScript 或 JavaScript。在该标签发布之前，请基于 Jolt 仓库的本地检出构建。平台限制请参阅[安装](./swiftui)、[生命周期](./swiftui-motion)和[交互与几何](./swiftui-geometry)。它们沿用 Web 的 [`animateText` 与 `rollTo`](./web-effects#text)，并通过可移植核心共享拆分、错开和对齐规则。
+等待 [PR #488](https://github.com/rafaelaugustos/jolt/pull/488) 合并并发布；0.1.0-rc.13 尚未包含。 支持 iOS 17+ 和 macOS 14+，无需 NativeScript 或 JavaScript。平台限制请参阅[安装](./swiftui)、[生命周期](./swiftui-motion)和[交互与几何](./swiftui-geometry)。它们沿用 Web 的 [`animateText` 与 `rollTo`](./web-effects#text)，并通过可移植核心共享拆分、错开和对齐规则。
 
 <Clip name="swiftui-text-ios" caption="iOS 模拟器，原生 SwiftUI：一句话按词和按字母入场并可重播，一行希伯来文按从右到左的顺序入场，货币和百分比数值上下滚动并被中途打断，以及“减弱动态效果”和更大的动态字体。不是实体设备录制。" />
 

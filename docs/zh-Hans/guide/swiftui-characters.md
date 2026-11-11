@@ -80,7 +80,7 @@ zones.cancel()
 
 <Clip name="swiftui-transfer-macos" caption="macOS 原生 SwiftUI：鼠标放置、按钮替代、拖柄重排及边缘滚动；不包含虚拟列表。" />
 
-用于有序插入时，`joltDropHandle(zones)` 把拖动放到 `joltDropSource` 视图内部的某个视图上（例如拖柄），移动的仍是源。拖柄在屏幕上时，源自身的拖动只作用于子视图，因此源的其余部分保留按钮、手势和滚动，“Move to …”与“Return to origin”无障碍操作也从源移到拖柄。`JoltDropTarget` 接受 `padding: JoltDropPadding`，按边以点为单位扩大上报的 frame（0–1,000；其他值会在创建目标前抛出错误）。中心与 overlap 都使用扩大后的 frame，所用的 JoltCore 命中测试与生成的 fixtures 中 TypeScript `dropHits` 的结果一致。
+等待 [PR #488](https://github.com/rafaelaugustos/jolt/pull/488) 合并并发布；0.1.0-rc.13 尚未包含。 用于有序插入时，`joltDropHandle(zones)` 把拖动放到 `joltDropSource` 视图内部的某个视图上（例如拖柄），移动的仍是源。拖柄在屏幕上时，源自身的拖动只作用于子视图，因此源的其余部分保留按钮、手势和滚动，“Move to …”与“Return to origin”无障碍操作也从源移到拖柄。`JoltDropTarget` 接受 `padding: JoltDropPadding`，按边以点为单位扩大上报的 frame（0–1,000；其他值会在创建目标前抛出错误）。中心与 overlap 都使用扩大后的 frame，所用的 JoltCore 命中测试与生成的 fixtures 中 TypeScript `dropHits` 的结果一致。
 
 ```swift
 let board = try scope.retain(JoltDropZones([

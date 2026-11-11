@@ -36,7 +36,7 @@ NativeScript 与 Web 共享 createPreset(name, parameters)；Apple 的 JoltPrese
 
 ## 活动状态、挂起与时钟
 
-所有 Jolt 视图和修饰符都读取同一个活动值 `joltActive`。在 iOS 上，场景处于活动状态时它为真。在 macOS 上，承载该视图的窗口在屏幕上时它为真：窗口可见、未最小化、未被完全遮挡，无论它是否为关键窗口、应用是否在最前面。它为假时，运动保持不动，输入接触被取消；它恢复后两者都会继续。在自己的视图中使用 `joltActivity()` 读取同一个值：
+等待 [PR #488](https://github.com/rafaelaugustos/jolt/pull/488) 合并并发布；0.1.0-rc.13 尚未包含。 所有 Jolt 视图和修饰符都读取同一个活动值 `joltActive`。在 iOS 上，场景处于活动状态时它为真。在 macOS 上，承载该视图的窗口在屏幕上时它为真：窗口可见、未最小化、未被完全遮挡，无论它是否为关键窗口、应用是否在最前面。它为假时，运动保持不动，输入接触被取消；它恢复后两者都会继续。在自己的视图中使用 `joltActivity()` 读取同一个值：
 
 ```swift
 struct Status: View {

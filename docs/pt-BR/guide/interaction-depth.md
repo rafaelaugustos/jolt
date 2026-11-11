@@ -18,7 +18,7 @@ O efeito aceito termina ao concluir, cancelar, pegar novamente, pausar, remover 
 
 ### Inserção ordenada
 
-Um quadro que reordena cards dentro de colunas precisa de mais do que soltar sobre uma coluna: uma alça que inicia o arrasto, a posição do card enquanto ele se move, colunas fáceis de acertar mesmo quando curtas e um card que continua sob o ponteiro enquanto o quadro abre um espaço. A Web e o NativeScript compartilham o mesmo contrato:
+Aguardando merge e publicação no [PR #488](https://github.com/rafaelaugustos/jolt/pull/488); não está na 0.1.0-rc.13. Um quadro que reordena cards dentro de colunas precisa de mais do que soltar sobre uma coluna: uma alça que inicia o arrasto, a posição do card enquanto ele se move, colunas fáceis de acertar mesmo quando curtas e um card que continua sob o ponteiro enquanto o quadro abre um espaço. A Web e o NativeScript compartilham o mesmo contrato:
 
 ```ts
 const drop = scope.dropZones(card, {

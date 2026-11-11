@@ -18,7 +18,7 @@ El efecto se cancela al volver a arrastrar, pausar, eliminar el destino o destru
 
 ### Inserción ordenada {#ordered-insertion}
 
-Un tablero que reordena tarjetas dentro de columnas necesita algo más que soltar sobre una columna: un asa que inicie el arrastre, la posición de la tarjeta mientras se mueve, columnas fáciles de alcanzar aunque sean cortas y una tarjeta que siga bajo el puntero mientras el tablero abre un hueco. La Web y NativeScript comparten el mismo contrato:
+Pendiente de merge y publicación en el [PR #488](https://github.com/rafaelaugustos/jolt/pull/488); no está en 0.1.0-rc.13. Un tablero que reordena tarjetas dentro de columnas necesita algo más que soltar sobre una columna: un asa que inicie el arrastre, la posición de la tarjeta mientras se mueve, columnas fáciles de alcanzar aunque sean cortas y una tarjeta que siga bajo el puntero mientras el tablero abre un hueco. La Web y NativeScript comparten el mismo contrato:
 
 ```ts
 const drop = scope.dropZones(card, {

@@ -102,7 +102,7 @@ Web 已有数值/颜色 value.to()/scope.map、propertyGroup、motionStates、mo
 
 ## 微光、加载指示器与圆形揭示 {#shimmer-loaders-and-circular-reveal}
 
-在 `v0.1.0-rc.13` 之后加入：在下一个 `jolt-swift` 标签之前，这些 API 只能从仓库源码获取。时长与几何来自 NativeScript 和 Web 适配器共用的同一份定义（`src/core/loading.ts`，编译进 `JoltCore`，并用生成的 fixture 校验）。
+等待 [PR #488](https://github.com/rafaelaugustos/jolt/pull/488) 合并并发布；0.1.0-rc.13 尚未包含。时长与几何来自 NativeScript 和 Web 适配器共用的同一份定义（`src/core/loading.ts`，编译进 `JoltCore`，并用生成的 fixture 校验）。
 
 JoltShimmer(duration:) 接受一个正的有限扫过时长（毫秒），最多 60 000，默认 1500，包含光带进入和离开视图。joltShimmer 绘制 Web 的光带：CSS 角度 100°，在 15、50、85 % 处为不透明度 0、0.55、0 的白色，从视图左侧一个宽度处线性移动到右侧一个宽度处。光带与视图在同一个合成组中合成（`sourceAtop`），因此只在内容不透明的地方绘制，并按其 alpha 加权：半透明的占位符得到较弱的扫光。把它应用到容器上，就能用一条光带扫过所有骨架形状；多个视图可以同步显示同一个微光。请用在占位形状上，而不是正在使用的原生平台视图上，它们会在该合成组内渲染。
 
@@ -134,7 +134,7 @@ JoltReveal(revealed:) 在用 joltReveal 显示的一个表面上执行 `reveal(f
 
 ## 渐变表面与模糊 {#gradient-surfaces-and-blur}
 
-JoltGradient(colors:stops:angle:) 以 Web 的限制绘制线性渐变：2–8 种颜色，每种颜色一个色标，常量色标在 0...1 内且有序，有限的 CSS 角度（度；默认 180 从上到下，90 从左到右）。渐变线穿过中心，长度足以让各角得到第一种和最后一种颜色；在任意形状的盒子上，色带都按点坐标与角度保持垂直。每个分量是常量或借用的来源：色标和角度用 `JoltNumberSource.value(JoltMotionValue)`，颜色用 `JoltColorSource.value(JoltColorValue)`。通过为这些值做动画来驱动渐变，可使用它们的过渡、弹簧、打断、暂停和完成回调；渐变自身没有轨道。绑定的色标被限制在 0...1 内并保持顺序，不会重新排列颜色，与可移植的渐变投影一致。`update(colors:stops:angle:)` 会先校验所有分量再替换，并保持颜色数量；要改变数量请创建新的渐变。
+等待 [PR #488](https://github.com/rafaelaugustos/jolt/pull/488) 合并并发布；0.1.0-rc.13 尚未包含。 JoltGradient(colors:stops:angle:) 以 Web 的限制绘制线性渐变：2–8 种颜色，每种颜色一个色标，常量色标在 0...1 内且有序，有限的 CSS 角度（度；默认 180 从上到下，90 从左到右）。渐变线穿过中心，长度足以让各角得到第一种和最后一种颜色；在任意形状的盒子上，色带都按点坐标与角度保持垂直。每个分量是常量或借用的来源：色标和角度用 `JoltNumberSource.value(JoltMotionValue)`，颜色用 `JoltColorSource.value(JoltColorValue)`。通过为这些值做动画来驱动渐变，可使用它们的过渡、弹簧、打断、暂停和完成回调；渐变自身没有轨道。绑定的色标被限制在 0...1 内并保持顺序，不会重新排列颜色，与可移植的渐变投影一致。`update(colors:stops:angle:)` 会先校验所有分量再替换，并保持颜色数量；要改变数量请创建新的渐变。
 
 `joltGradient(_:in:)` 在视图背后、你传入的形状内绘制渐变（默认 `Rectangle()`）；内容本身不被裁剪。该绘制不参与命中测试，并对辅助功能隐藏。`frame` 保存绘制中的颜色、投影后的色标与角度。
 

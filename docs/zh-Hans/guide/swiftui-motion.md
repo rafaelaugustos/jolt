@@ -68,7 +68,7 @@ Web 已有 motionValue、springValue、map、pointerFollow、drag、scrollLinked
 
 ## 深度与阴影 {#depth-and-shadow}
 
-`JoltPose` 在 `rotate` 之外接受以度为单位的 `rotateX` 和 `rotateY`，校验方式相同（必须为有限值）。每个 Jolt 视图都按 Web 的顺序组合：缩放、rotateX、rotateY、rotate，最后平移，围绕其未变换框架的中心。动画一个轴时保留另一个轴的角度；被中断的轴从采样值继续。`joltBind` 接受 `.rotateX` 和 `.rotateY`；`joltBind([.rotateX: rx, .rotateY: ry])` 在同一个投影下绑定多个值，`scale` 与 `scaleX`/`scaleY` 相乘。请在这一次调用中绑定两个轴：两个独立的深度绑定会投影两次，内层变为正交投影。属性组、状态和关键帧驱动这些绑定值。`JoltPreset.flipInX` 和 `flipInY` 由共享配方生成，Web 和 NativeScript 的 `createPreset` 也以相同参数接受它们。
+等待 [PR #488](https://github.com/rafaelaugustos/jolt/pull/488) 合并并发布；0.1.0-rc.13 尚未包含。 `JoltPose` 在 `rotate` 之外接受以度为单位的 `rotateX` 和 `rotateY`，校验方式相同（必须为有限值）。每个 Jolt 视图都按 Web 的顺序组合：缩放、rotateX、rotateY、rotate，最后平移，围绕其未变换框架的中心。动画一个轴时保留另一个轴的角度；被中断的轴从采样值继续。`joltBind` 接受 `.rotateX` 和 `.rotateY`；`joltBind([.rotateX: rx, .rotateY: ry])` 在同一个投影下绑定多个值，`scale` 与 `scaleX`/`scaleY` 相乘。请在这一次调用中绑定两个轴：两个独立的深度绑定会投影两次，内层变为正交投影。属性组、状态和关键帧驱动这些绑定值。`JoltPreset.flipInX` 和 `flipInY` 由共享配方生成，Web 和 NativeScript 的 `createPreset` 也以相同参数接受它们。
 
 `.joltPerspective(600)` 声明以点为单位的距离，范围 1–100,000；`JoltPerspective(distance:)` 校验计算得到的值并抛出错误，超出范围的字面量会触发 precondition。该距离作用于其下方最近的、可以绕 X 或 Y 旋转的 Jolt 视图（`joltMotion`、`joltPreset`、`JoltPresence`、`joltScrollLinked`、`joltViewportEnter`、多值 `joltBind`，以及单个或映射的 rotateX/rotateY 绑定）。该视图用它投影，并对自己的内容隐藏它，因此倾斜的子视图在未自行声明时为正交投影。其他绑定，以及姿态中没有 rotateX/rotateY 的 `JoltPressStyle`，会把距离继续向下传递。消失点是每个视图自身未变换框架的中心，与 NativeScript 相同。在 Web 上它是设置了 CSS `perspective` 的容器中心，所以视图在容器中居中时两者重合；平移让表面相对这个固定点移动，与 Web 一致。未声明透视时，rotateX 和 rotateY 为正交投影，与没有 `perspective` 的 Web 相同：rotateY 60° 时视图显示为一半宽度。距离不做动画，修改在下一帧生效。不支持近端边缘到达眼睛位置的表面：CSS 会裁剪它，`JoltProjection.corners` 会抛出错误，Jolt 不定义 SwiftUI 的绘制结果。
 

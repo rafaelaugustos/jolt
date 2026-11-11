@@ -36,7 +36,7 @@ createPreset(name, parameters) é compartilhado por NativeScript e Web. JoltPres
 
 ## Atividade, suspensão e relógio
 
-Toda view e todo modificador da Jolt leem um único valor de atividade, `joltActive`. No iOS ele é verdadeiro enquanto a cena está ativa. No macOS ele é verdadeiro enquanto a janela que hospeda a view está na tela: visível, não minimizada e não totalmente coberta, esteja ela em foco ou não e esteja o app na frente ou não. Enquanto ele é falso, o movimento fica parado e os contatos de entrada são cancelados; os dois retomam quando ele volta. Aplique `joltActivity()` para ler o mesmo valor nas suas próprias views:
+Aguardando merge e publicação no [PR #488](https://github.com/rafaelaugustos/jolt/pull/488); não está na 0.1.0-rc.13. Toda view e todo modificador da Jolt leem um único valor de atividade, `joltActive`. No iOS ele é verdadeiro enquanto a cena está ativa. No macOS ele é verdadeiro enquanto a janela que hospeda a view está na tela: visível, não minimizada e não totalmente coberta, esteja ela em foco ou não e esteja o app na frente ou não. Enquanto ele é falso, o movimento fica parado e os contatos de entrada são cancelados; os dois retomam quando ele volta. Aplique `joltActivity()` para ler o mesmo valor nas suas próprias views:
 
 ```swift
 struct Status: View {

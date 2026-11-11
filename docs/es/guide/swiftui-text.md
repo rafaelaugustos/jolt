@@ -1,6 +1,6 @@
 # SwiftUI: entrada de texto y números rodantes
 
-**Aún no publicado.** Estas API llegan en la versión siguiente a **0.1.0-rc.13 (Beta)**, para iOS 17+ y macOS 14+, sin NativeScript ni JavaScript. Hasta que exista esa etiqueta, compile contra una copia local del repositorio Jolt. Consulte [instalación](./swiftui), [ciclo de vida](./swiftui-motion) e [interacción/geometría](./swiftui-geometry) para los límites. Siguen a [`animateText` y `rollTo`](./web-effects#text) de la Web y comparten la división, el escalonado y la alineación a través del núcleo portable.
+Pendiente de merge y publicación en el [PR #488](https://github.com/rafaelaugustos/jolt/pull/488); no está en 0.1.0-rc.13. Para iOS 17+ y macOS 14+, sin NativeScript ni JavaScript. Consulte [instalación](./swiftui), [ciclo de vida](./swiftui-motion) e [interacción/geometría](./swiftui-geometry) para los límites. Siguen a [`animateText` y `rollTo`](./web-effects#text) de la Web y comparten la división, el escalonado y la alineación a través del núcleo portable.
 
 <Clip name="swiftui-text-ios" caption="Simulador de iOS, SwiftUI nativo: una frase que entra por palabra y por letra con repetición, una línea en hebreo de derecha a izquierda, valores de moneda y porcentaje que ruedan hacia arriba y hacia abajo con interrupción, Reducir movimiento y Dynamic Type más grande. No es una grabación en un dispositivo físico." />
 
