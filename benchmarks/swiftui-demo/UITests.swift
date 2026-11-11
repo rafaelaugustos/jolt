@@ -619,6 +619,64 @@ final class SwiftUIAcceptance: XCTestCase {
     click(app.buttons["measured-reset"])
     cue("stop")
   }
+  @MainActor func testCharacterHandleExpansion() {
+    let app = lab("--character-handle-lab")
+    let grip = app.descendants(matching: .any)["handle-grip"].firstMatch
+    XCTAssertTrue(grip.waitForExistence(timeout: 10))
+    let card = app.descendants(matching: .any)["handle-card"].firstMatch
+    let backlog = app.descendants(matching: .any)["handle-backlog"].firstMatch
+    let done = app.descendants(matching: .any)["handle-done"].firstMatch
+    let locked = app.descendants(matching: .any)["handle-locked"].firstMatch
+    func drag(to target: XCUIElement, _ dx: Double, _ dy: Double, hold: Double = 0.4) {
+      grip.coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.5)).press(
+        forDuration: 0.15,
+        thenDragTo: target.coordinate(withNormalizedOffset: .init(dx: dx, dy: dy)),
+        withVelocity: .slow, thenHoldForDuration: hold)
+    }
+    cue("start")
+    let origin = card.frame
+    click(app.buttons["handle-open"])
+    XCTAssertTrue(wait { app.buttons["handle-open"].label.contains("Open · 1") })
+    let body = card.coordinate(withNormalizedOffset: .init(dx: 0.85, dy: 0.2))
+    body.press(forDuration: 0.15, thenDragTo: body.withOffset(.init(dx: 140, dy: 60)))
+    Thread.sleep(forTimeInterval: 0.4)
+    XCTAssertEqual(card.frame.midX, origin.midX, accuracy: 2)
+    XCTAssertEqual(card.frame.midY, origin.midY, accuracy: 2)
+    XCTAssertFalse(label(app, "handle-status").contains("Dropped"), label(app, "handle-status"))
+    drag(to: backlog, 0.3, 0.06, hold: 0.8)
+    XCTAssertTrue(
+      wait { self.label(app, "handle-status").contains("Dropped in backlog · drag") },
+      label(app, "handle-status"))
+    XCTAssertTrue(
+      wait { abs(card.frame.midY - origin.midY) < 3 }, "\(card.frame) \(origin) \(label(app, "handle-status"))")
+    let short = done.frame
+    drag(to: done, 0.3, 1 + 30 / short.height)
+    XCTAssertTrue(
+      wait { self.label(app, "handle-status").contains("Dropped in done · drag") },
+      label(app, "handle-status"))
+    XCTAssertTrue(wait { card.frame.midX > short.minX && card.frame.midX < short.maxX })
+    let settled = card.frame
+    drag(to: locked, 0.3, 0.5)
+    XCTAssertTrue(
+      wait { self.label(app, "handle-status").contains("Rejected by locked") },
+      label(app, "handle-status"))
+    XCTAssertTrue(wait { abs(card.frame.midY - settled.midY) < 3 })
+    #if os(macOS)
+      click(app.checkBoxes["handle-reduce"])
+    #else
+      let reduce = app.switches["handle-reduce"]
+      reduce.coordinate(withNormalizedOffset: .init(dx: 0.94, dy: 0.5)).tap()
+      XCTAssertEqual(reduce.value as? String, "1")
+    #endif
+    drag(to: locked, 0.3, 0.5, hold: 0.2)
+    XCTAssertTrue(abs(card.frame.midY - settled.midY) < 3, "Reduced motion did not return at once")
+    click(app.buttons["handle-send"])
+    XCTAssertTrue(
+      wait { self.label(app, "handle-status").contains("Dropped in backlog · request") },
+      label(app, "handle-status"))
+    XCTAssertTrue(wait { abs(card.frame.midX - origin.midX) < 3 })
+    cue("stop")
+  }
   private func cue(_ action: String) {
     let device = ProcessInfo.processInfo.environment["SIMULATOR_UDID"] ?? "macos"
     let directory = URL(fileURLWithPath: "/tmp/jolt-swiftui-recording-control-" + device)
