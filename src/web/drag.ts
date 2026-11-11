@@ -200,10 +200,19 @@ export function assertDragSpace(target: HTMLElement, baselineIdentity: boolean) 
   }
 }
 
-const shifts = new WeakMap<WebDrag, (delta: DragPoint) => void>()
+interface DragAdapter {
+  shift(delta: DragPoint): void
+  beforeRelease?: (moved: boolean) => void
+}
+const adapters = new WeakMap<WebDrag, DragAdapter>()
 /** Internal adapter hook: offset an active contact without moving it under the pointer. */
 export function shiftDrag(drag: WebDrag, delta: DragPoint) {
-  shifts.get(drag)?.(delta)
+  adapters.get(drag)?.shift(delta)
+}
+/** Internal adapter hook: inspect the final input before release motion changes values. */
+export function beforeDragRelease(drag: WebDrag, callback: (moved: boolean) => void) {
+  const adapter = adapters.get(drag)
+  if (adapter) adapter.beforeRelease = callback
 }
 const contains = (target: HTMLElement, handle: HTMLElement) => {
   for (const node of renderedAncestors(handle))
@@ -459,6 +468,15 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
       capture(event)
       flush()
       if (pointer === undefined) return
+      const hook = adapter.beforeRelease
+      if (hook) {
+        try {
+          hook(moved)
+        } catch (error) {
+          host.error(error)
+        }
+        if (pointer === undefined) return
+      }
       const p = position(),
         id = pointer
       pointer = undefined
@@ -551,6 +569,9 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     if (handle.style.touchAction === touch) handle.style.touchAction = originalTouch
     host.dispose()
   }
+  const adapter: DragAdapter = {
+    shift: (delta) => shift(delta),
+  }
   const shift = (delta: DragPoint) => {
     if (pointer === undefined || disposed) return
     const before = position()
@@ -615,6 +636,6 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     },
     detach: () => dispose(!!options.value),
   }
-  shifts.set(controller.handle, shift)
+  adapters.set(controller.handle, adapter)
   return controller
 }

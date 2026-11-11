@@ -1,5 +1,10 @@
 import { createDropPolicy, type DropOptions, type DropZones } from '../core/drop.js'
-import { shiftDrag, type WebDrag, type WebDragOptions } from './drag.js'
+import {
+  beforeDragRelease,
+  shiftDrag,
+  type WebDrag,
+  type WebDragOptions,
+} from './drag.js'
 import { inputBlocked, inputEvents, type InteractionHost } from './interaction.js'
 export type {
   DropEvent,
@@ -122,12 +127,14 @@ export function createDropZones(
         flushSource()
         policy.move()
       },
-      onRelease: () => {
-        policy.release()
-      },
       onCancel: () => {
         if (!handoff) policy.handle.cancel()
       },
+    })
+    // Commit before the return motion starts; reduced motion would settle it at once.
+    beforeDragRelease(input, (moved) => {
+      if (moved) policy.release()
+      else policy.handle.cancel()
     })
     releases.push(host.register(source, controller, controller.refresh))
     // A removed accepting target cancels its owned effect.
