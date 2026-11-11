@@ -67,4 +67,16 @@ final class EffectRenderTests: XCTestCase {
     XCTAssertNil(reveal.circle)
     XCTAssertEqual(render(surface, width: 100, height: 100)(95, 95).alpha, 255)
   }
+  @MainActor func testLoaderDrawsItsStaticPoseCentredInTheOfferedSpace() throws {
+    let loader = try JoltLoader(.dots, color: .init(argb: 0xff00_00ff), clock: .testClock())
+    let pixel = render(JoltLoaderView(loader).joltReduceMotion(true), width: 100, height: 60)
+    XCTAssertEqual(pixel(50, 30).alpha, 255)
+    XCTAssertEqual(pixel(50, 30).blue, 255)
+    XCTAssertEqual(pixel(31, 30).alpha, 255)
+    XCTAssertEqual(pixel(69, 30).alpha, 255)
+    XCTAssertEqual(pixel(40, 30).alpha, 0)
+    XCTAssertEqual(pixel(5, 5).alpha, 0)
+    loader.dispose()
+    XCTAssertEqual(render(JoltLoaderView(loader), width: 100, height: 60)(50, 30).alpha, 0)
+  }
 }
