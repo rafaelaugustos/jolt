@@ -393,13 +393,18 @@ export class ViewAnimation implements PlaybackAnimation {
     for (const { previous } of made) if (previous) release(previous, now, false)
     const tracks = made.map(({ track }) => track)
 
-    for (const { track, layer } of made) {
+    for (const { track, layer, previous } of made) {
       const mix =
         layer !== undefined
           ? mixing(this.view, track.property)
           : mixOf(this.view, track.property)
-      if (!mix) writeValue(this.view, track.property, track.to)
-      else if (track.end === 0) mix.setRest(layer ?? BASE, track.to)
+      if (!mix) {
+        writeValue(this.view, track.property, track.to)
+        // Core skips the native setter when the model already holds the value, which
+        // leaves the cancelled animator's last frame on screen.
+        if (previous && track.end === 0)
+          driver.commit?.(this.view, track.property, track.to)
+      } else if (track.end === 0) mix.setRest(layer ?? BASE, track.to)
     }
     driver.sync?.(this.view)
 
