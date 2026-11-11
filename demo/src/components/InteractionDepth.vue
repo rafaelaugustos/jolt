@@ -2,6 +2,7 @@
 import { Application, File, isIOS, knownFolders, type View } from '@nativescript/core'
 import { ref, nextTick, onUnmounted, registerElement } from 'nativescript-vue'
 import {
+  configure,
   motionScope,
   set,
   withTimelineCues,
@@ -23,6 +24,7 @@ registerElement('PortableScene', () => PortableScene)
 const mode = launchArgument('interaction-depth') || 'drop'
 const titles: Record<string, string> = {
   drop: 'Drop with intent',
+  board: 'Drop into order',
   audio: 'Sound on the timeline',
   inspector: 'Who owns this motion?',
   path: 'One path, one clock',
@@ -33,7 +35,12 @@ const root = ref(),
   mounted = ref(true),
   status = ref('Preparing'),
   detail = ref(''),
-  muted = ref(false)
+  muted = ref(false),
+  home = ref<'backlog' | 'done'>('backlog'),
+  gap = ref<{ column: 'backlog' | 'done'; top: boolean }>(),
+  opened = ref(0),
+  reduced = ref(false),
+  paddingTop = ref(110)
 let scope = motionScope(),
   initialized = false,
   disposed = false,
@@ -57,6 +64,64 @@ let group:
 let activity: ReturnType<typeof scope.renderActivity> | undefined
 const events: object[] = []
 const target = (id: string): View => root.value?.nativeView.getViewById(id)
+const columns = ['backlog', 'done'] as const
+let hovered: string | undefined,
+  moves = 0
+function outline() {
+  const done = target('depth-done')
+  if (done) paddingTop.value = 10 + done.getActualSize().height
+}
+function board() {
+  const card = target('depth-card')
+  drop = scope.dropZones(card, {
+    targets: [
+      { id: 'backlog', target: target('depth-backlog'), padding: { bottom: 60 } },
+      { id: 'done', target: target('depth-done'), padding: { bottom: 60 } },
+      { id: 'locked', target: target('depth-locked'), accept: () => false },
+    ],
+    drag: { handle: target('depth-grip'), snap: [0] },
+    onMove: ({ id, bounds }) => {
+      moves++
+      const column = id === 'backlog' || id === 'done' ? id : undefined
+      const first = column && target(`depth-first-${column}`)
+      const point = first?.getLocationInWindow()
+      const top =
+        !!first &&
+        !!point &&
+        bounds.y + bounds.height / 2 < point.y + first.getActualSize().height / 2
+      if (gap.value?.column !== column || gap.value?.top !== top)
+        gap.value = column ? { column, top } : undefined
+      status.value = `Over ${id ?? 'nothing'} · y ${Math.round(bounds.y)} DIP · ${moves} moves`
+      if (id !== hovered) {
+        hovered = id
+        audit('move', { id, bounds, moves })
+      }
+    },
+    onLeave: () => {
+      gap.value = undefined
+    },
+    onReject: (event) => {
+      status.value = event
+        ? `Rejected by ${event.id} · spring returns`
+        : 'No target · returned'
+      audit('rejected', { id: event?.id })
+    },
+    onDrop: ({ id, method }) => {
+      count++
+      const column = id === 'done' ? 'done' : 'backlog'
+      status.value = `Dropped in ${column} · ${method}`
+      audit('accepted', { id, method, count, moves })
+      const pulse = scope.animate(card, { scale: [1, 0.92, 1] }, { duration: 320 })
+      void pulse.finished.then((complete) => {
+        if (!complete || disposed) return
+        home.value = column
+        void reset(false)
+      })
+      return pulse
+    },
+  })
+  status.value = 'Drag the grip; the card body keeps its button'
+}
 function audit(name: string, data: object = {}) {
   events.push({ name, time: Date.now(), mode, scope: scope.size, ...data, name })
   if (events.length > 1000) events.shift()
@@ -93,7 +158,8 @@ function setup() {
   if (initialized || disposed || !target('depth-stage')?.isLoaded) return
   initialized = true
   try {
-    if (mode === 'drop') {
+    if (mode === 'board') board()
+    else if (mode === 'drop') {
       drop = scope.dropZones(target('depth-card'), {
         targets: [
           { id: 'accept', target: target('depth-accept') },
@@ -200,6 +266,19 @@ function setup() {
 }
 function play(replace = false) {
   try {
+    if (mode === 'board' && replace) {
+      reduced.value = !reduced.value
+      configure({ reducedMotion: reduced.value ? 'always' : 'user' })
+      status.value = reduced.value
+        ? 'Reduced motion: drops return at once'
+        : 'Motion: user'
+      audit('reduced', { reduced: reduced.value })
+      return
+    }
+    if (mode === 'board') {
+      drop?.request(home.value === 'done' ? 'backlog' : 'done')
+      return
+    }
     if (mode === 'drop') {
       drop?.request('accept')
       return
@@ -289,7 +368,7 @@ function play(replace = false) {
   }
 }
 function pause() {
-  if (mode === 'drop') {
+  if (mode === 'drop' || mode === 'board') {
     if (drop?.paused) drop.play()
     else drop?.pause()
     status.value = drop?.paused ? 'Paused · owned effect cancelled' : 'Ready'
@@ -316,9 +395,11 @@ function mute() {
   status.value = muted.value ? 'Muted · audio clock continues' : 'Unmuted'
   audit('mute', { muted: muted.value })
 }
-async function reset() {
+async function reset(log = true) {
   request++
   muted.value = false
+  gap.value = undefined
+  hovered = undefined
   scope.dispose()
   inspector = undefined
   scope = motionScope()
@@ -329,17 +410,21 @@ async function reset() {
   initialized = false
   await nextTick()
   mounted.value = true
-  audit('remount')
+  if (log) audit('remount')
 }
 onUnmounted(() => {
   disposed = true
+  if (reduced.value) configure({ reducedMotion: 'user' })
   request++
   scope.dispose()
   audit('disposed')
 })
 </script>
 <template>
-  <ScrollView :isScrollEnabled="mode !== 'drop'" backgroundColor="#0C1424">
+  <ScrollView
+    :isScrollEnabled="mode !== 'drop' && mode !== 'board'"
+    backgroundColor="#0C1424"
+  >
     <StackLayout ref="root" padding="20" color="#E8F0FF">
       <Label
         :text="titles[mode]"
@@ -391,6 +476,117 @@ onUnmounted(() => {
             borderRadius="14"
           />
         </template>
+        <template v-if="mode === 'board'">
+          <StackLayout
+            v-for="(column, index) in columns"
+            :key="column"
+            :id="`depth-${column}`"
+            :automationText="`depth-${column}`"
+            :left="10 + index * 155"
+            top="10"
+            width="145"
+            padding="6"
+            backgroundColor="#1B3048"
+            borderRadius="12"
+            @layoutChanged="column === 'done' && outline()"
+          >
+            <Label
+              :text="column === 'done' ? 'DONE' : 'BACKLOG'"
+              fontSize="11"
+              color="#A5B7D1"
+              margin="2 4 6"
+            />
+            <Label
+              :height="gap?.column === column && gap.top ? 44 : 0"
+              backgroundColor="#2C5764"
+              borderRadius="10"
+            />
+            <Label
+              :id="`depth-first-${column}`"
+              :text="column === 'done' ? 'Ship' : 'Spec'"
+              height="40"
+              padding="0 10"
+              backgroundColor="#2A4060"
+              borderRadius="10"
+              marginBottom="6"
+            />
+            <GridLayout
+              v-if="home === column"
+              id="depth-card"
+              automationText="depth-card"
+              columns="36,*"
+              rows="auto,auto"
+              backgroundColor="#61E4C2"
+              borderRadius="10"
+              marginBottom="6"
+            >
+              <Label
+                id="depth-grip"
+                automationText="depth-grip"
+                rowSpan="2"
+                text="⋮⋮"
+                color="#102C35"
+                fontSize="18"
+                textAlignment="center"
+                verticalTextAlignment="center"
+                backgroundColor="#3FB89A"
+                borderRadius="10 0 0 10"
+              />
+              <Label
+                col="1"
+                text="Launch notes"
+                color="#102C35"
+                fontWeight="bold"
+                fontSize="13"
+                margin="8 8 2"
+              />
+              <Button
+                col="1"
+                row="1"
+                :text="`Open · ${opened}`"
+                automationText="depth-open"
+                fontSize="11"
+                height="30"
+                margin="0 8 8"
+                color="#61E4C2"
+                backgroundColor="#102C35"
+                @tap="opened++"
+              />
+            </GridLayout>
+            <Label
+              :height="gap?.column === column && !gap.top ? 44 : 0"
+              backgroundColor="#2C5764"
+              borderRadius="10"
+            />
+          </StackLayout>
+          <Label
+            text="+60 DIP hit padding"
+            left="165"
+            :top="paddingTop"
+            width="145"
+            height="60"
+            fontSize="11"
+            color="#70A9B9"
+            textAlignment="center"
+            verticalTextAlignment="center"
+            borderWidth="1"
+            borderColor="#70A9B9"
+            borderRadius="0 0 12 12"
+          />
+          <Label
+            id="depth-locked"
+            automationText="depth-locked"
+            text="LOCKED"
+            left="165"
+            top="230"
+            width="145"
+            height="60"
+            textAlignment="center"
+            verticalTextAlignment="center"
+            backgroundColor="#8B3C49"
+            borderRadius="12"
+          />
+        </template>
         <template v-if="mode === 'inspector'">
           <PortableScene id="depth-scene" left="0" top="0" width="320" height="130" />
           <PortableReveal
@@ -405,7 +601,7 @@ onUnmounted(() => {
           />
         </template>
         <GridLayout
-          v-else
+          v-else-if="mode !== 'board'"
           id="depth-card"
           automationText="depth-card"
           :left="mode === 'shadow' || mode === 'depth' ? 110 : 20"
@@ -450,7 +646,7 @@ onUnmounted(() => {
           margin="3"
           col="0"
           row="0"
-          :text="mode === 'drop' ? 'Accept' : 'Play'"
+          :text="mode === 'board' ? 'Send' : mode === 'drop' ? 'Accept' : 'Play'"
           automationText="depth-play"
           @tap="play(false)"
         />
@@ -462,7 +658,17 @@ onUnmounted(() => {
           margin="3"
           col="1"
           row="0"
-          :text="mode === 'audio' ? (muted ? 'Unmute' : 'Mute') : 'Replace'"
+          :text="
+            mode === 'audio'
+              ? muted
+                ? 'Unmute'
+                : 'Mute'
+              : mode === 'board'
+                ? reduced
+                  ? 'Motion'
+                  : 'Reduce'
+                : 'Replace'
+          "
           automationText="depth-replace"
           @tap="mode === 'audio' ? mute() : play(true)"
         />

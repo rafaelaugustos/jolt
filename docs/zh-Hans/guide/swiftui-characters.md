@@ -80,6 +80,26 @@ zones.cancel()
 
 <Clip name="swiftui-transfer-macos" caption="macOS 原生 SwiftUI：鼠标放置、按钮替代、拖柄重排及边缘滚动；不包含虚拟列表。" />
 
+用于有序插入时，`joltDropHandle(zones)` 把拖动放到 `joltDropSource` 视图内部的某个视图上（例如拖柄），移动的仍是源。拖柄在屏幕上时，源自身的拖动只作用于子视图，因此源的其余部分保留按钮、手势和滚动，“Move to …”与“Return to origin”无障碍操作也从源移到拖柄。`JoltDropTarget` 接受 `padding: JoltDropPadding`，按边以点为单位扩大上报的 frame（0–1,000；其他值会在创建目标前抛出错误）。中心与 overlap 都使用扩大后的 frame，所用的 JoltCore 命中测试与生成的 fixtures 中 TypeScript `dropHits` 的结果一致。
+
+```swift
+let board = try scope.retain(JoltDropZones([
+    .init("backlog", label: "Backlog", padding: try .init(bottom: 60)),
+    .init("done", label: "Done", padding: try .init(bottom: 60)),
+], onDrop: { event in
+    // 把卡片数据移到 event.id；此回调之后调用 board.cancel() 将 offset 归零。
+    nil
+}))
+// card.joltDropSource(board), with grip.joltDropHandle(board) inside the card
+// column.joltDropTarget("done", in: board)
+```
+
+移动中的位置本已发布：应用可借助 `offset`、`hovered` 和 `dragging` 放置空位，无需自己的手势。源的布局 frame 在拖动 offset 之外测量；拖动期间它发生变化时（例如源上方打开空位），会补偿 offset，使源留在手指或指针下。源视图因更换容器而被替换时，放置区域保持可用：最新的视图拥有 frame，只有当没有任何源视图可见、启用且处于活动场景时才会挂起。取消会把 offset 归零；减少动态效果时，被拒绝的松手立即返回。Web 与 NativeScript 通过 `drag.handle`、`onMove` 和 `padding` 使用相同契约，见[放置目标、音频提示与深度](./interaction-depth)。
+
+<Clip name="swiftui-character-handle-ios" caption="iOS 模拟器，原生 SwiftUI：真实触摸输入。卡片主体保留按钮，拖柄负责拖动，卡片上方打开空位时卡片仍在手指下，在 Done 下方松手命中 60 pt 内边距，锁定目标拒绝，减少动态效果时立即返回。非实体设备录制。" />
+
+<Clip name="swiftui-character-handle-macos" caption="macOS 原生 SwiftUI：同一拖柄看板，使用鼠标拖动和 Send 按钮，从原生窗口捕获。此录制不验证实体触控板手势。" />
+
 ## 有限粒子
 
 JoltParticles 是可选 Canvas 渲染器：1–2,000 个存活粒子、1–32 色、寿命 1–60,000 毫秒、尺寸 1–128 点。burst 与有限 emit 替换当前发射；最高 1,000 个/秒，发射时间加寿命最多 60 秒。超过存活预算会在替换前拒绝。速度及变化范围 0–10,000 点/秒，重力 ±10,000 点/秒²，旋转速度 ±3,600 度/秒，旋转变化范围 0–3,600。形状为圆、矩形、环；起点为中心、顶部、底部。seed 可重复测试，但不保证与 Web 相同随机序列。

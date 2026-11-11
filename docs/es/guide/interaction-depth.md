@@ -16,6 +16,38 @@ El efecto se cancela al volver a arrastrar, pausar, eliminar el destino o destru
 <Clip :autoplay="false" name="interaction-drop-android" caption="ASUS ZenFone 3 físico, Android 8: toques reales mediante ADB. Rechazo, aceptación, botón alternativo y remontaje." />
 <Clip :autoplay="false" name="interaction-drop-web" caption="Chromium: interacción real; el inspector utiliza WebGL por software. Rechazo, aceptación, botón alternativo y remontaje." />
 
+### Inserción ordenada {#ordered-insertion}
+
+Un tablero que reordena tarjetas dentro de columnas necesita algo más que soltar sobre una columna: un asa que inicie el arrastre, la posición de la tarjeta mientras se mueve, columnas fáciles de alcanzar aunque sean cortas y una tarjeta que siga bajo el puntero mientras el tablero abre un hueco. La Web y NativeScript comparten el mismo contrato:
+
+```ts
+const drop = scope.dropZones(card, {
+  targets: [
+    { id: 'todo', target: todo, padding: { bottom: 60 } },
+    { id: 'done', target: done, padding: { bottom: 60 } },
+  ],
+  drag: { handle: grip, snap: [0] },
+  // Coloca el hueco antes de la primera tarjeta cuyo punto medio quede bajo el centro de la tarjeta.
+  onMove: ({ id, bounds }) => showGap(id, bounds.y + bounds.height / 2),
+  onLeave: () => hideGap(),
+  onDrop: ({ id }) => moveCard(id),
+})
+```
+
+**Asa.** `drag.handle`, que también acepta `drag()`, toma la entrada de un elemento dentro del origen en la Web (puede ser un `<button>`, que conserva su propio manejo de teclado) o de una vista descendiente en NativeScript. Solo el asa inicia el arrastre, y el origen se mueve. En la Web solo el asa recibe `touch-action` y la captura del puntero, así que el resto del origen conserva sus clics, controles y desplazamiento táctil; los elementos interactivos dentro del asa siguen sin iniciar arrastres, y un clic en el asa justo después de arrastrar se suprime. En NativeScript solo el asa recibe el reconocedor de pan, así que el resto del origen conserva sus toques y un ScrollView alrededor puede recibir el gesto. Un asa fuera del origen, o el propio origen, lanza `TypeError` antes de cambiar la entrada. Un asa que sale del origen, se desactiva o queda inerte cancela el contacto.
+
+**Posición durante el movimiento.** `onMove({ id, source, bounds, method: 'drag' })` se llama en cada movimiento del arrastre, después de la prueba de acierto: `id` es el destino bajo el origen o `undefined`, y `bounds` es una copia de los límites visuales del origen en las coordenadas de los destinos. La aplicación coloca el punto de inserción sin listeners de puntero propios. `request()`, `refresh()` y la suelta no informan movimientos, y no se informa nada después de cancelar, pausar, suspender o destruir. NativeScript también informa la primera muestra del pan. Un error lanzado en `onMove` cancela el arrastre, como en los demás callbacks.
+
+**Margen de acierto.** El `padding` de un destino amplía su área de acierto con un número o por borde (`{ top, right, bottom, left }`): píxeles CSS en la Web, DIPs en NativeScript. Cada borde debe ser finito y de 0 a 1.000; otros valores lanzan `RangeError` al crear las zonas. `center` y `overlap` usan el rectángulo ampliado, y un destino con límites vacíos sigue sin acierto. El margen es invisible; dibújalo cuando el usuario necesite verlo. El `dropHits(source, target, policy, padding)` exportado aplica la misma regla.
+
+**Reanclaje.** Durante el arrastre, cada movimiento y cada `refresh()` comparan el centro de layout del origen (su centro visual sin la traslación del arrastre) con el del inicio y compensan la traslación con la diferencia. Un hueco insertado encima de la tarjeta la deja bajo el puntero. La Web se actualiza sola tras inserciones y eliminaciones en el DOM y los cambios de atributos que Jolt observa; NativeScript, tras el `layoutChanged` del origen, que se emite cuando su frame cambia dentro del padre. Los cambios hechos solo con estilos en la Web y los desplazamientos de un ancestro en NativeScript se compensan en el siguiente movimiento; llama a `refresh()` justo después para evitar un salto de un frame. Solo se compensan los ejes arrastrados, los `bounds` del arrastre siguen limitando la traslación, y escalar el origen alrededor de un punto que no es el centro durante el arrastre cuenta como cambio de layout. Las muestras de velocidad se desplazan con la traslación, así que un reanclaje no se convierte en un lanzamiento.
+
+**Suelta, cancelación y movimiento reducido.** En ambas plataformas el drop se decide con la entrada final antes de que empiece el movimiento de retorno. La cancelación (`cancel()`, pausa, documento oculto, pérdida de foco de la ventana o desplazamiento en la Web, suspensión de la aplicación en NativeScript) congela el origen donde está, detiene los informes de movimiento y llama a `onLeave` para el destino bajo el origen, para que la aplicación quite el hueco; el layout que cambie después no se compensa. El movimiento reducido mantiene el seguimiento directo; una suelta rechazada o fuera de destinos vuelve sin animación. Mantén los movimientos por teclado en controles de la aplicación, como hace el asa del ejemplo con las flechas y `request()`.
+
+<Clip :autoplay="false" name="interaction-depth-drop-web" caption="Chromium: ratón y teclado reales. El cuerpo de la tarjeta conserva su botón y desplazamiento, el asa (un botón) arrastra, se abre un hueco encima de la tarjeta mientras sigue bajo el puntero, soltar bajo la columna Done corta acierta su margen de 60 px, el destino bloqueado rechaza y una flecha devuelve la tarjeta." />
+<Clip :autoplay="false" name="interaction-depth-drop-ios" caption="Simulador iOS: toques XCTest reales en el tablero nativo. Solo el asa de 36 DIP arrastra, el hueco encima de la tarjeta la reancla, la columna Done con margen acepta, el destino bloqueado rechaza y el movimiento reducido vuelve al instante. No es una grabación en un dispositivo físico." />
+<Clip :autoplay="false" name="interaction-depth-drop-android" caption="Emulador Android: toques ADB reales en el mismo tablero nativo: arrastre solo por el asa, reanclaje con el hueco, aceptación con margen, rechazo y movimiento reducido. No es una grabación en un dispositivo físico." />
+
 ## Audio opcional y cues
 
 `audioCue` se importa de `@rafaelaugusto/jolt/audio` o `@rafaelaugusto/jolt/web/audio`. Nativo: `scope.resource(() => audioCue('~/assets/cue.wav'))`; Web: `scope.add(audioCue(document, '/cue.wav'))`. Archivos locales en nativo; misma procedencia HTTP(S) o blob local en Web. Espera `ready` e inicia desde una acción del usuario. Fallos devuelven false y notifican onError sin impedir la animación visual.

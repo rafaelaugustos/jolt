@@ -20,6 +20,8 @@ import SwiftUI
       TransferLab()
     } else if ProcessInfo.processInfo.arguments.contains("--character-lab") {
       CharacterLab()
+    } else if ProcessInfo.processInfo.arguments.contains("--character-handle-lab") {
+      CharacterHandleLab()
     } else if ProcessInfo.processInfo.arguments.contains("--dynamics-lab") {
       DynamicsLab()
     } else if ProcessInfo.processInfo.arguments.contains("--graphics-lab") {
@@ -161,6 +163,7 @@ struct Demo: View {
           NavigationLink("Text lab") { TypographyLab() }
           NavigationLink("Depth lab") { DepthLab() }
           NavigationLink("Effects lab") { EffectsLab() }
+          NavigationLink("Drop handle lab") { CharacterHandleLab() }
           Text(phase == .active ? "Scene active" : "Scene inactive").font(.caption).foregroundStyle(
             .secondary
           ).accessibilityIdentifier("phase")

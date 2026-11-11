@@ -42,6 +42,41 @@ final class DocsTests: XCTestCase {
         }
     }
 
+    func testInteractionDepthDrop() throws {
+        launch(["--interaction-depth=board", "--depth-audit", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"], "depth-grip")
+        func element(_ id: String) -> XCUIElement {
+            let element = app.descendants(matching: .any)["depth-" + id].firstMatch
+            XCTAssertTrue(element.waitForExistence(timeout: 5), app.debugDescription)
+            return element
+        }
+        func drag(to id: String, _ dx: CGFloat, _ dy: CGFloat, hold: Double = 0.5) {
+            let grip = element("grip").coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+            let target = element(id).coordinate(withNormalizedOffset: CGVector(dx: dx, dy: dy))
+            grip.press(forDuration: 0.15, thenDragTo: target, withVelocity: .slow, thenHoldForDuration: hold)
+            Thread.sleep(forTimeInterval: 1.2)
+        }
+        func touch(_ id: String, _ wait: Double = 0.6) {
+            let frame = element(id).frame
+            XCTAssertNil(JoltNativeTap(CGPoint(x: frame.midX, y: frame.midY)))
+            Thread.sleep(forTimeInterval: wait)
+        }
+        try record("interaction-depth-drop-ios") {
+            touch("open")
+            let body = element("card").coordinate(withNormalizedOffset: CGVector(dx: 0.7, dy: 0.25))
+            body.press(forDuration: 0.15, thenDragTo: body.withOffset(CGVector(dx: 120, dy: 60)))
+            Thread.sleep(forTimeInterval: 0.6)
+            drag(to: "backlog", 0.5, 0.12, hold: 0.8)
+            drag(to: "done", 0.5, 1.35)
+            drag(to: "locked", 0.5, 0.5)
+            touch("replace")
+            drag(to: "locked", 0.5, 0.5)
+            touch("replace")
+            touch("play", 1.4)
+            touch("pause"); touch("pause")
+        }
+        try cue("interaction-depth-report", "interaction-depth-drop-ios")
+    }
+
     func testInteractionDepthLifecycle() throws {
         for mode in ["audio", "inspector"] {
             launch(["--interaction-depth=" + mode, "--depth-audit", "-AppleLanguages", "(en)", "-AppleLocale", "en_US"], "depth-play")

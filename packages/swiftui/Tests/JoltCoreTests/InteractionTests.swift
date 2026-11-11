@@ -8,7 +8,15 @@ final class InteractionTests: XCTestCase {
       let x: Double, y: Double, width: Double, height: Double
       func value() throws -> JoltDropRect { try .init(x: x, y: y, width: width, height: height) }
     }
-    struct Drop: Decodable { let source: Rect, target: Rect, overlap: Bool, hit: Bool }
+    struct Padding: Decodable {
+      let top: Double, right: Double, bottom: Double, left: Double
+      func value() throws -> JoltDropPadding {
+        try .init(top: top, right: right, bottom: bottom, left: left)
+      }
+    }
+    struct Drop: Decodable {
+      let source: Rect, target: Rect, padding: Padding, overlap: Bool, hit: Bool
+    }
     struct Move: Decodable {
       struct Result: Decodable { let key: String, beforeKey: String?, fromIndex: Int, toIndex: Int }
       let from: Int, to: Int, result: Result?
@@ -28,10 +36,20 @@ final class InteractionTests: XCTestCase {
     )
   }
   func testDropGeometryAndStableKeyMovesMatchPortableCore() throws {
-    for test in try fixtures().drops {
+    let drops = try fixtures().drops
+    XCTAssertEqual(drops.count, 60)
+    XCTAssertTrue(drops.contains { $0.hit && $0.padding.bottom > 0 })
+    for test in drops {
       XCTAssertEqual(
-        try test.source.value().hits(test.target.value(), overlap: test.overlap), test.hit)
+        try test.source.value().hits(
+          test.target.value(), overlap: test.overlap, padding: test.padding.value()),
+        test.hit, "\(test)")
     }
+    for invalid in [-1, 1001, .nan, .infinity] {
+      XCTAssertThrowsError(try JoltDropPadding(invalid))
+      XCTAssertThrowsError(try JoltDropPadding(bottom: invalid))
+    }
+    XCTAssertEqual(try JoltDropPadding(60), try JoltDropPadding(top: 60, right: 60, bottom: 60, left: 60))
     for test in try fixtures().moves {
       let result = JoltReorderMove.resolve(["a", "b", "c", "d"], from: test.from, to: test.to)
       XCTAssertEqual(result?.key, test.result?.key)
