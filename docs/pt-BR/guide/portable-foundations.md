@@ -39,6 +39,8 @@ Limites de hardware: não havia iPad, mouse, trackpad, Apple Pencil nem acessór
 
 <Clip name="portable-pointer-ipados" :width="720" caption="Simulador iPad Pro de 11 polegadas (M4), iPadOS 26.2, interface em inglês: hover contínuo injetado no sistema move o elemento nativo e uniforms SceneKit, preserva um toque, redimensiona e remonta. Tempo original; não testamos mouse nem iPad físicos." />
 <Clip name="portable-pointer-android" caption="ASUS ZenFone 3 físico, Android 8, interface em inglês: eventos nativos de mouse injetados movem o elemento, a saída restaura o repouso e o toque real continua funcionando. Tempo original; não testamos acessório físico de mouse." />
+
+<Clip name="portable-pointer-transformed-android" caption="Emulador Android, interface em inglês: eventos nativos de mouse injetados sobre a região normal e depois sobre a região girada 12° e escalada para 0,85; o elemento segue o ponto local. Antes desta correção o Android rejeitava hover sobre alvos girados ou com escala menor que 1. Não é um mouse físico." />
 <Clip name="portable-pointer-chromium" :width="900" caption="Chromium no macOS, interface em inglês: entrada, movimento e saída do mouse, clique preservado, resize, pausa/retomada e remontagem. Interação real, tempo original; toque comum não simula hover." />
 
 ## Uma operação para propriedades relacionadas

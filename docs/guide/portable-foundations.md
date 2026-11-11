@@ -42,6 +42,8 @@ Hardware limits: no physical iPad, mouse, trackpad, Apple Pencil or Android poin
 
 <Clip name="portable-pointer-ipados" :width="720" caption="iPad Pro 11-inch (M4) simulator, iPadOS 26.2, English UI: OS-injected continuous hover drives a native follower and SceneKit uniforms, preserves a tap, then resizes and remounts. Original timing; no physical mouse or iPad was tested." />
 <Clip name="portable-pointer-android" caption="Physical ASUS ZenFone 3, Android 8, English UI: injected native mouse events move the follower, exit restores rest, and a real tap remains actionable. Original timing; no physical mouse accessory was tested." />
+
+<Clip name="portable-pointer-transformed-android" caption="Android emulator, English UI: injected native mouse events over the plain region, then over the region rotated 12° and scaled to 0.85; the follower keeps the local point. Before this fix Android rejected hover over rotated targets or targets scaled below 1. Not a physical mouse." />
 <Clip name="portable-pointer-chromium" :width="900" caption="Chromium on macOS, English UI: mouse entry/movement/exit, a preserved button click, resize, pause/resume and remount. Real browser interaction at original timing; ordinary touch does not become hover." />
 
 ## One operation for related properties

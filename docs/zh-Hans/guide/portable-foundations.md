@@ -38,6 +38,8 @@ Web 使用 `runtime.scope().pointerFollow(element, options)` 和 `scope.bind()`�
 
 <Clip name="portable-pointer-ipados" :width="720" caption="iPad Pro 11 英寸 (M4) 模拟器，iPadOS 26.2，英文界面：向系统注入连续悬停事件，驱动原生跟随元素与 SceneKit uniforms，保留点击，并验证尺寸调整和重新挂载。原始时序；未测试实体鼠标或 iPad。" />
 <Clip name="portable-pointer-android" caption="ASUS ZenFone 3 实体设备，Android 8，英文界面：注入原生鼠标事件以移动跟随元素，离开时恢复静止，真实点击保持有效。原始时序；未测试实体鼠标配件。" />
+
+<Clip name="portable-pointer-transformed-android" caption="Android 模拟器，英文界面：先在普通区域注入原生鼠标事件，再在旋转 12° 并缩放到 0.85 的区域上注入；跟随元素保持本地坐标点。修复之前，Android 会拒绝旋转或缩放小于 1 的目标上的悬停。不是实体鼠标。" />
 <Clip name="portable-pointer-chromium" :width="900" caption="macOS Chromium，英文界面：真实鼠标进入、移动、离开，保留按钮点击，调整尺寸、暂停/恢复及重新挂载。原始时序；普通触摸不会变成悬停。" />
 
 ## 用一个操作协调相关属性
