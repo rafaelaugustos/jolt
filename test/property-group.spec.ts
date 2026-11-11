@@ -4,7 +4,8 @@ import {
   setNativePropertyDriver,
   type NativePropertyDriver,
 } from '../src/native-property-driver.js'
-import { configure, motionScope } from '../src/index.js'
+import { configure, motionScope, motionValue } from '../src/index.js'
+import { createAdapterInspector } from '../src/core/adapter-inspection.js'
 import { driver } from './helpers.js'
 
 type Sink = { value: number; alive: boolean }
@@ -194,4 +195,151 @@ it('rejects excessive sampled vectors before native playback or interruption', (
   expect(players[0]!.cancelled).toBe(false)
   valid.stop()
   property.dispose()
+})
+
+function inspect(props: object[]) {
+  let tick = 0
+  const inspector = createAdapterInspector({
+    development: true,
+    capacity: 512,
+    now: () => tick++,
+  })
+  props.forEach((property, i) => inspector.watch(property, `p${i}`))
+  const count = (kind: string) =>
+    props.map(
+      (_, i) =>
+        inspector.read().events.filter((e) => e.target === `p${i}` && e.kind === kind)
+          .length,
+    )
+  return { inspector, count }
+}
+
+it('an overlapping group cancels the whole older group once and leaves it reusable', async () => {
+  const { props, sinks } = make(),
+    { inspector, count } = inspect(props)
+  const first = propertyGroup({ a: props[0]!, b: props[1]! }),
+    second = propertyGroup({ b: props[1]!, c: props[2]! })
+  const older = first.animate({ a: 10, b: 20 }, { duration: 1000 }),
+    settled = vi.fn()
+  void older.finished.then(settled)
+  driver.advance(200)
+  const newer = second.animate({ b: 30, c: 40 }, { duration: 1000 })
+  await expect(older.finished).resolves.toBe(false)
+  expect(players.map((p) => p.cancelled)).toEqual([true, true, false, false])
+  expect(sinks[0]!.value).toBe(0)
+  first.stop()
+  expect(players[2]!.cancelled || players[3]!.cancelled).toBe(false)
+  driver.advance(1000)
+  await expect(newer.finished).resolves.toBe(true)
+  expect(second.get()).toEqual({ b: 30, c: 40 })
+  const back = first.animate({ a: 1, b: 2 }, { duration: 500 })
+  driver.advance(500)
+  await expect(back.finished).resolves.toBe(true)
+  expect(sinks.map((s) => s.value)).toEqual([1, 2, 40])
+  expect(settled).toHaveBeenCalledOnce()
+  expect(count('cancel')).toEqual([1, 1, 0])
+  expect(count('complete')).toEqual([1, 2, 1])
+  expect(count('replace')).toEqual([0, 1, 0])
+  inspector.dispose()
+  first.dispose()
+  second.dispose()
+  props.forEach((p) => p.dispose())
+})
+
+it('set() or bind() on one member cancels the group without writing the other members', async () => {
+  const { props, sinks } = make(),
+    group = propertyGroup({ a: props[0]!, b: props[1]!, c: props[2]! })
+  const first = group.animate({ a: 1, b: 2, c: 3 }, { duration: 1000 })
+  props[1]!.set(7)
+  await expect(first.finished).resolves.toBe(false)
+  expect(sinks.map((s) => s.value)).toEqual([0, 7, 0])
+  expect(players.every((p) => p.cancelled)).toBe(true)
+  const second = group.animate({ a: 1, b: 2, c: 3 }, { duration: 1000 })
+  const unbind = props[2]!.bind(motionValue(5), (value) => value)
+  await expect(second.finished).resolves.toBe(false)
+  expect(sinks.map((s) => s.value)).toEqual([0, 7, 5])
+  expect(players.every((p) => p.cancelled)).toBe(true)
+  driver.advance(2000)
+  expect(sinks.map((s) => s.value)).toEqual([0, 7, 5])
+  unbind()
+  group.dispose()
+  props.forEach((p) => p.dispose())
+})
+
+it('ignores repeated and late native end callbacks and completes each run once', async () => {
+  const { props } = make(),
+    { inspector, count } = inspect(props.slice(0, 2)),
+    group = propertyGroup({ a: props[0]!, b: props[1]! })
+  const settled = vi.fn()
+  const lost = group.animate({ a: 1, b: 2 }, { duration: 1000 })
+  void lost.finished.then(settled)
+  const [a, b] = players
+  a!.end(false)
+  a!.end(false)
+  b!.end(true)
+  await expect(lost.finished).resolves.toBe(false)
+  expect(b!.cancelled).toBe(true)
+  const next = group.animate({ a: 3, b: 4 }, { duration: 1000 })
+  void next.finished.then(settled)
+  a!.end(false)
+  b!.end(false)
+  driver.advance(400)
+  next.progress = 1
+  driver.advance(1000)
+  players[2]!.end(true)
+  players[3]!.end(false)
+  next.stop()
+  group.stop()
+  await expect(next.finished).resolves.toBe(true)
+  expect(settled.mock.calls).toEqual([[false], [true]])
+  expect(group.get()).toEqual({ a: 3, b: 4 })
+  expect(count('cancel')).toEqual([1, 1])
+  expect(count('complete')).toEqual([1, 1])
+  expect(driver.frames.size).toBe(0)
+  inspector.dispose()
+  group.dispose()
+  group.dispose()
+  props.forEach((p) => p.dispose())
+})
+
+it('a member losing its native target cancels every member and frees the channels', async () => {
+  const { props, sinks } = make(),
+    group = propertyGroup({ a: props[0]!, b: props[1]!, c: props[2]! })
+  const run = group.animate({ a: 1, b: 2, c: 3 }, { duration: 1000 })
+  driver.advance(300)
+  sinks[1]!.alive = false
+  players[1]!.end(false)
+  await expect(run.finished).resolves.toBe(false)
+  expect(players.every((p) => p.cancelled)).toBe(true)
+  expect(() => group.animate({ a: 1, b: 2, c: 3 })).toThrow(/lost its native target/)
+  expect(players).toHaveLength(3)
+  const alone = props[0]!.animate(9, { duration: 100 })
+  driver.advance(100)
+  await expect(alone.finished).resolves.toBe(true)
+  expect(sinks[0]!.value).toBe(9)
+  group.dispose()
+  props.forEach((p) => p.dispose())
+})
+
+it('rejects foreign, disposed and out-of-range members before claiming any channel', () => {
+  const { props } = make(),
+    running = props[0]!.animate(5, { duration: 1000 })
+  expect(() => propertyGroup({ a: props[0]!, b: {} as (typeof props)[0] })).toThrow(
+    /mixed backends/,
+  )
+  expect(() => propertyGroup({})).toThrow(RangeError)
+  expect(() =>
+    propertyGroup(
+      Object.fromEntries(Array.from({ length: 65 }, (_, i) => [i, props[1]!])),
+    ),
+  ).toThrow(RangeError)
+  const group = propertyGroup({ a: props[0]!, b: props[1]! })
+  props[1]!.dispose()
+  expect(() => group.animate({ a: 1, b: 1 }, { duration: 100 })).toThrow(/disposed/)
+  expect(() => group.set({ a: 1, b: 1 })).toThrow(/disposed/)
+  expect(players).toHaveLength(1)
+  expect(players[0]!.cancelled).toBe(false)
+  running.stop()
+  group.dispose()
+  props.forEach((p) => p.dispose())
 })

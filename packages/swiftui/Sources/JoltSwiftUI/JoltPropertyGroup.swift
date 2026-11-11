@@ -58,8 +58,9 @@ import SwiftUI
   }
   public func cancel() {
     let epoch = generation
+    let completed = state == .completed || timeline?.state == .completed
     timeline?.cancel()
-    if !disposed && generation == epoch { state = .cancelled }
+    if !disposed && generation == epoch && !completed { state = .cancelled }
   }
   public func pause() {
     guard !disposed else { return }

@@ -44,29 +44,30 @@ public struct JoltPressStyle: ButtonStyle {
 }
 
 public struct JoltPointerSample: Equatable, Sendable {
-  /// -1...1, relative to the untransformed source's local bounds. Origin is top-left.
+  /// -1...1 across the untransformed source's local bounds: (-1, -1) is the top-left corner.
   public let x: Double
   public let y: Double
   public let active: Bool
   public static let center = Self(x: 0, y: 0, active: false)
+  static func resolve(_ location: CGPoint?, in size: CGSize, enabled: Bool) -> Self {
+    guard enabled, size.width > 0, size.height > 0, let location,
+      (0...size.width).contains(location.x), (0...size.height).contains(location.y)
+    else { return .center }
+    return .init(
+      x: location.x / size.width * 2 - 1, y: location.y / size.height * 2 - 1, active: true)
+  }
 }
 private struct PointerModifier: ViewModifier {
   let update: @MainActor (JoltPointerSample) -> Void
   @State private var size: CGSize = .zero
   @State private var location: CGPoint?
   @JoltSceneActivity private var sceneActive
+  @Environment(\.isEnabled) private var enabled
   @Environment(\.accessibilityReduceMotion) private var reduced
   @Environment(\.joltReduceMotion) private var appReduced
   private func publish() {
-    guard sceneActive, !reduced, !appReduced, size.width > 0, size.height > 0, let location
-    else {
-      update(.center)
-      return
-    }
     update(
-      .init(
-        x: min(1, max(-1, location.x / size.width * 2 - 1)),
-        y: min(1, max(-1, location.y / size.height * 2 - 1)), active: true))
+      .resolve(location, in: size, enabled: enabled && sceneActive && !reduced && !appReduced))
   }
   func body(content: Content) -> some View {
     content.background(
@@ -89,7 +90,7 @@ private struct PointerModifier: ViewModifier {
       location = nil
       publish()
     }
-    .onChange(of: reduced || appReduced) { _, _ in publish() }
+    .onChange(of: reduced || appReduced || !enabled) { _, _ in publish() }
     .onDisappear {
       location = nil
       update(.center)

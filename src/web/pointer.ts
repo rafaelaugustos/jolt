@@ -20,6 +20,8 @@ export interface WebPointerFollow {
   readonly y: WebReadableValue
   readonly presence: WebReadableValue
   readonly active: boolean
+  /** Pointer Events plus `(any-hover: hover)` while the source is listening; not a connected-device check. */
+  readonly available: boolean
   readonly disposed: boolean
   readonly suspended: boolean
   update(state: { disabled: boolean }): void
@@ -110,6 +112,10 @@ export function createPointerFollow(
     active = false
   let dirty = false,
     latest: { x: number; y: number; id: number } | undefined
+  const hover =
+    typeof view.PointerEvent === 'function'
+      ? view.matchMedia?.('(any-hover: hover)')
+      : undefined
   let abort: AbortController | undefined
   let observer: MutationObserver | undefined
   let resize: ResizeObserver | undefined
@@ -204,6 +210,10 @@ export function createPointerFollow(
     if (document.hidden) reset(true)
     else invalidate()
   }
+  const capability = () => {
+    if (!hover?.matches) reset()
+    else invalidate()
+  }
   const detach = () => {
     abort?.abort()
     abort = undefined
@@ -222,6 +232,7 @@ export function createPointerFollow(
     region.addEventListener('pointercancel', leave, options)
     view.addEventListener('blur', () => reset(true), options)
     document.addEventListener('visibilitychange', visibility, options)
+    hover?.addEventListener?.('change', capability, options)
     document.addEventListener('scroll', invalidate, { ...options, capture: true })
     view.addEventListener('resize', invalidate, options)
     document.fonts?.addEventListener('loadingdone', invalidate, options)
@@ -259,6 +270,9 @@ export function createPointerFollow(
     presence: raw.presence,
     get active() {
       return active
+    },
+    get available() {
+      return !disposed && !suspended && !!hover?.matches && !blocked()
     },
     get disposed() {
       return disposed

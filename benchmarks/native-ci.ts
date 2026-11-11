@@ -32,6 +32,7 @@ import { runGestureLifecycleChecks } from './gesture-lifecycle-checks'
 import { runAndroidKeyframeChecks } from './android-keyframe-checks'
 import { runLayerCleanupChecks } from './layer-cleanup-checks'
 import { runDropZonesChecks } from './drop-zones-checks'
+import { runPointerChecks } from './pointer-checks'
 
 declare const __NATIVE_CI_BUILD__: Record<string, unknown>
 const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms))
@@ -278,6 +279,10 @@ async function run(view: Label, other: Label, host: StackLayout, status: Label) 
 
   stage = 'drop zone handle move reports padding and re-anchoring'
   samples.push(await runDropZonesChecks(host))
+  pass()
+
+  stage = 'pointer source transformed mapping and cleanup'
+  samples.push(await runPointerChecks(host))
   pass()
 
   stage = 'recorded interaction replay and negative control'

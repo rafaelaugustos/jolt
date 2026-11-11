@@ -1,8 +1,10 @@
 package org.rafaelaugusto.jolt;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.Rect;
+import android.hardware.input.InputManager;
 import android.view.*;
 import android.view.accessibility.AccessibilityEvent;
 import java.lang.ref.WeakReference;
@@ -18,6 +20,7 @@ public final class PointerInput {
     private Listener listener;
     private Hub hub;
     private boolean active;
+    private int device = -1;
     private float lastX, lastY;
     public PointerInput(Activity activity, View target, Listener listener) {
         Window window = activity.getWindow();
@@ -27,16 +30,19 @@ public final class PointerInput {
         }
         this.target = new WeakReference<>(target); this.listener = listener; this.hub = current;
         current.inputs.add(this);
+        current.watch();
     }
     private void reset() {
         if (active && listener != null) listener.onPoint(0, 0, 0, 0, false);
         active = false;
+        device = -1;
     }
     private void observe(MotionEvent event) {
         if (listener == null) return;
         int tool = event.getToolType(0), action = event.getActionMasked();
         if (tool != MotionEvent.TOOL_TYPE_MOUSE && tool != MotionEvent.TOOL_TYPE_STYLUS) { reset(); return; }
         if (action == MotionEvent.ACTION_HOVER_EXIT || action == MotionEvent.ACTION_CANCEL || (tool == MotionEvent.TOOL_TYPE_STYLUS && action != MotionEvent.ACTION_HOVER_MOVE && action != MotionEvent.ACTION_HOVER_ENTER)) { reset(); return; }
+        device = event.getDeviceId();
         lastX = event.getX(); lastY = event.getY();
         sample(lastX, lastY);
     }
@@ -58,7 +64,7 @@ public final class PointerInput {
         if (!forward.invert(inverse)) { reset(); return; }
         float[] point = {x, y}; inverse.mapPoints(point);
         Rect visible = new Rect();
-        if (view.getWidth() <= 0 || view.getHeight() <= 0 || !view.getLocalVisibleRect(visible) || !visible.contains((int)point[0], (int)point[1]) || point[0] < 0 || point[1] < 0 || point[0] > view.getWidth() || point[1] > view.getHeight()) { reset(); return; }
+        if (view.getWidth() <= 0 || view.getHeight() <= 0 || !view.getGlobalVisibleRect(visible) || !visible.contains((int)x, (int)y) || point[0] < 0 || point[1] < 0 || point[0] > view.getWidth() || point[1] > view.getHeight()) { reset(); return; }
         double density = view.getResources().getDisplayMetrics().density;
         active = true;
         listener.onPoint((point[0] - view.getWidth()/2.0)/density, (point[1] - view.getHeight()/2.0)/density, view.getWidth()/density, view.getHeight()/density, true);
@@ -69,6 +75,7 @@ public final class PointerInput {
         if (previous == null) return;
         previous.inputs.remove(this);
         if (previous.inputs.isEmpty()) {
+            previous.release();
             Window window = previous.window.get();
             if (window != null) {
                 if (window.getCallback() == previous) window.setCallback(previous.delegate);
@@ -76,11 +83,26 @@ public final class PointerInput {
             }
         }
     }
-    private static final class Hub implements Window.Callback {
+    private static final class Hub implements Window.Callback, InputManager.InputDeviceListener {
         final WeakReference<Window> window;
         final Window.Callback delegate;
         final List<PointerInput> inputs = new ArrayList<>();
+        private InputManager devices;
         Hub(Window window) { this.window = new WeakReference<>(window); this.delegate = window.getCallback(); }
+        void watch() {
+            Window current = window.get();
+            if (devices != null || inputs.isEmpty() || current == null) return;
+            devices = (InputManager)current.getContext().getSystemService(Context.INPUT_SERVICE);
+            if (devices != null) devices.registerInputDeviceListener(this, null);
+        }
+        void release() {
+            if (devices != null) devices.unregisterInputDeviceListener(this);
+            devices = null;
+        }
+        private void lost(int id) { for (PointerInput input : new ArrayList<>(inputs)) if (input.device == id) input.reset(); }
+        public void onInputDeviceAdded(int id) {}
+        public void onInputDeviceRemoved(int id) { lost(id); }
+        public void onInputDeviceChanged(int id) { if (InputDevice.getDevice(id) == null) lost(id); }
         void observe(MotionEvent event) {
             for (PointerInput input : new ArrayList<>(inputs)) {
                 try { input.observe(event); }
@@ -101,8 +123,8 @@ public final class PointerInput {
         public void onWindowAttributesChanged(WindowManager.LayoutParams params) { delegate.onWindowAttributesChanged(params); }
         public void onContentChanged() { delegate.onContentChanged(); }
         public void onWindowFocusChanged(boolean focus) { if (!focus) for (PointerInput input : new ArrayList<>(inputs)) input.reset(); delegate.onWindowFocusChanged(focus); }
-        public void onAttachedToWindow() { delegate.onAttachedToWindow(); }
-        public void onDetachedFromWindow() { for (PointerInput input : new ArrayList<>(inputs)) input.reset(); delegate.onDetachedFromWindow(); }
+        public void onAttachedToWindow() { watch(); delegate.onAttachedToWindow(); }
+        public void onDetachedFromWindow() { release(); for (PointerInput input : new ArrayList<>(inputs)) input.reset(); delegate.onDetachedFromWindow(); }
         public void onPanelClosed(int id, Menu menu) { delegate.onPanelClosed(id, menu); }
         public boolean onSearchRequested() { return delegate.onSearchRequested(); }
         public boolean onSearchRequested(SearchEvent event) { return delegate.onSearchRequested(event); }

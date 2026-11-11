@@ -178,7 +178,7 @@ public enum JoltCueLatePolicy: Sendable { case skip, catchUp }
     if !claimed || values.contains(where: { $0.lease != identity }) {
       claimed = true
       for value in values {
-        value.claim(identity)
+        value.claim(identity, lost: leaseLost)
         guard !disposed, state == .paused || state == .suspended else {
           throw JoltError.invalidTimeline
         }
@@ -256,7 +256,7 @@ public enum JoltCueLatePolicy: Sendable { case skip, catchUp }
     if !claimed {
       claimed = true
       for value in values {
-        value.claim(identity)
+        value.claim(identity, lost: leaseLost)
         guard !disposed, state == .running else { return }
       }
     }
@@ -268,6 +268,13 @@ public enum JoltCueLatePolicy: Sendable { case skip, catchUp }
     subscription = clock.subscribe { [weak self] now in
       guard let self else { return }
       self.apply(self.baseline + max(0, now - self.started))
+    }
+  }
+  private var leaseLost: @MainActor () -> Void {
+    { [weak self] in
+      guard let self, !self.disposed, self.state != .completed, self.state != .cancelled
+      else { return }
+      self.finish(false)
     }
   }
   private func updateState() {
