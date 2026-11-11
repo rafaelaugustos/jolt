@@ -841,6 +841,8 @@ final class SwiftUIAcceptance: XCTestCase {
     click(app.buttons["text-word"])
     XCTAssertTrue(spoken(sentence).contains(words), spoken(sentence))
     XCTAssertTrue(wait { self.label(app, "text-status").contains("word · completed") })
+    cue("stop")
+  }
   @MainActor func testDepthExpansion() {
     let app = lab("--depth-lab")
     let card = app.buttons["tilt-card"]
