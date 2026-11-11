@@ -12,6 +12,8 @@ const names = [
   'fadeInRight',
   'zoomIn',
   'popIn',
+  'flipInX',
+  'flipInY',
   'fadeOut',
   'fadeOutUp',
   'fadeOutDown',
@@ -68,7 +70,7 @@ ${cases(
     const recipe = presets[name]
     const channels = Object.entries(recipe.keyframes).map(([property, frame]) => {
       if (
-        !['x', 'y', 'scale', 'opacity'].includes(property) ||
+        !['x', 'y', 'scale', 'rotateX', 'rotateY', 'opacity'].includes(property) ||
         (Array.isArray(frame) && frame.length !== 2)
       )
         throw Error('Unsupported SwiftUI preset channel')
@@ -82,7 +84,7 @@ ${cases(
     }
   }
   struct Channel: Sendable {
-    enum Property: Sendable { case x, y, scale, opacity }
+    enum Property: Sendable { case x, y, scale, rotateX, rotateY, opacity }
     let property: Property
     let from: Double?
     let to: Double
@@ -526,3 +528,143 @@ if (process.argv.includes('--check')) {
   if (readFileSync(geometryFile, 'utf8') !== geometryData)
     throw Error('Swift panel/measured geometry fixtures are stale.')
 } else writeFileSync(geometryFile, geometryData)
+
+// Projected corners under the Web's composition order, seen through a parent CSS perspective
+// whose origin is the surface's centre. A corner at or behind the viewer is null: CSS clips it.
+const radians = (degrees) => (degrees * Math.PI) / 180
+const product = (...matrices) =>
+  matrices.reduce((a, b) =>
+    a.map((row) =>
+      b[0].map((_, j) => row.reduce((sum, value, k) => sum + value * b[k][j], 0)),
+    ),
+  )
+const translation = (x, y) => [
+  [1, 0, 0, x],
+  [0, 1, 0, y],
+  [0, 0, 1, 0],
+  [0, 0, 0, 1],
+]
+const scaling = (x, y) => [
+  [x, 0, 0, 0],
+  [0, y, 0, 0],
+  [0, 0, 1, 0],
+  [0, 0, 0, 1],
+]
+const turn = (axis, degrees) => {
+  const c = Math.cos(radians(degrees)),
+    s = Math.sin(radians(degrees))
+  if (axis === 'x')
+    return [
+      [1, 0, 0, 0],
+      [0, c, -s, 0],
+      [0, s, c, 0],
+      [0, 0, 0, 1],
+    ]
+  if (axis === 'y')
+    return [
+      [c, 0, s, 0],
+      [0, 1, 0, 0],
+      [-s, 0, c, 0],
+      [0, 0, 0, 1],
+    ]
+  return [
+    [c, -s, 0, 0],
+    [s, c, 0, 0],
+    [0, 0, 1, 0],
+    [0, 0, 0, 1],
+  ]
+}
+const eye = (distance) => [
+  [1, 0, 0, 0],
+  [0, 1, 0, 0],
+  [0, 0, 1, 0],
+  [0, 0, distance === null ? 0 : -1 / distance, 1],
+]
+const surfaces = [
+  [180, 120],
+  [120, 200],
+  [64, 64],
+]
+const depthPoses = [
+  {},
+  { rotateX: 30 },
+  { rotateY: -45 },
+  { rotateX: 35, rotateY: -50 },
+  { rotateX: -60, rotateY: 20 },
+  { rotateX: 75 },
+  { rotateX: 20, rotateY: 40, rotate: 15, scaleX: 1.2, scaleY: 1.2 },
+  { rotateX: -25, rotateY: -30, scaleX: 0.8, scaleY: 1.3, x: 24, y: -16 },
+].map((pose) => ({
+  x: 0,
+  y: 0,
+  scaleX: 1,
+  scaleY: 1,
+  rotate: 0,
+  rotateX: 0,
+  rotateY: 0,
+  ...pose,
+}))
+const projectedCorners = (width, height, pose, perspective) => {
+  const cx = width / 2,
+    cy = height / 2
+  const view = product(
+    translation(cx, cy),
+    eye(perspective),
+    translation(-cx, -cy),
+    translation(cx, cy),
+    translation(pose.x, pose.y),
+    turn('z', pose.rotate),
+    turn('y', pose.rotateY),
+    turn('x', pose.rotateX),
+    scaling(pose.scaleX, pose.scaleY),
+    translation(-cx, -cy),
+  )
+  const points = [
+    [0, 0],
+    [width, 0],
+    [width, height],
+    [0, height],
+  ].map(([x, y]) => view.map((row) => row[0] * x + row[1] * y + row[3]))
+  return points.every((point) => point[3] > 1e-9)
+    ? points.map((point) => [point[0] / point[3], point[1] / point[3]])
+    : null
+}
+const depth = {
+  projections: [
+    ...surfaces.flatMap(([width, height]) =>
+      depthPoses.flatMap((pose) =>
+        [null, 300, 800, 2400].map((perspective) => ({
+          width,
+          height,
+          pose,
+          perspective,
+          corners: projectedCorners(width, height, pose, perspective),
+        })),
+      ),
+    ),
+    ...[
+      [400, 120, 80, 100],
+      [300, 300, 89, 120],
+    ].map(([width, height, rotateY, perspective]) => {
+      const pose = { ...depthPoses[0], rotateY }
+      return {
+        width,
+        height,
+        pose,
+        perspective,
+        corners: projectedCorners(width, height, pose, perspective),
+      }
+    }),
+  ],
+}
+if (depth.projections.some((entry) => entry.corners === null) !== true)
+  throw Error('Depth fixtures must include a surface that passes the viewer.')
+const depthFile = new URL(
+  '../packages/swiftui/Tests/JoltCoreTests/Fixtures/depth.json',
+  import.meta.url,
+)
+const depthData = JSON.stringify(depth, null, 2) + '\n'
+if (process.argv.includes('--check')) {
+  if (readFileSync(depthFile, 'utf8') !== depthData)
+    throw Error('Swift depth projection fixtures are stale.')
+} else writeFileSync(depthFile, depthData)

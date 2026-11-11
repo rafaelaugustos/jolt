@@ -58,25 +58,30 @@ public struct JoltScrollView<Content: View>: View {
 private struct ScrollMotion: ViewModifier {
   @ObservedObject var source: JoltScrollProgress
   let from: JoltPose, to: JoltPose
+  let shadowColor: Color
   @Environment(\.accessibilityReduceMotion) private var reduced
   @Environment(\.joltReduceMotion) private var appReduced
   func body(content: Content) -> some View {
     let p = source.progress
     let transform = reduced || appReduced ? 0 : p
-    func mix(_ a: Double, _ b: Double, _ p: Double) -> Double { a + (b - a) * p }
-    return content.offset(x: mix(from.x, to.x, transform), y: mix(from.y, to.y, transform))
-      .scaleEffect(
-        x: mix(from.scaleX, to.scaleX, transform), y: mix(from.scaleY, to.scaleY, transform)
-      )
-      .rotationEffect(.degrees(mix(from.rotate, to.rotate, transform)))
-      .opacity(mix(from.opacity, to.opacity, p)).transaction { $0.animation = nil }
+    return content.modifier(
+      JoltShadowEffect(
+        channels: JoltShadowChannels(from.shadow).mixed(with: .init(to.shadow), transform),
+        color: shadowColor)
+    )
+    .modifier(
+      JoltDepthModifier(channels: JoltDepthChannels(from).mixed(with: .init(to), transform))
+    )
+    .opacity(from.opacity + (to.opacity - from.opacity) * p).transaction { $0.animation = nil }
   }
 }
 extension View {
-  /// Declarative progress mapping; decorative transforms stay at `from` under Reduce Motion.
+  /// Declarative progress mapping; decorative transforms and the shadow stay at `from` under
+  /// Reduce Motion. Channels compose in the shared order: scale, rotateX, rotateY, rotate, translation.
   public func joltScrollLinked(
-    _ source: JoltScrollProgress, from: JoltPose = .identity, to: JoltPose
+    _ source: JoltScrollProgress, from: JoltPose = .identity, to: JoltPose,
+    shadowColor: Color = .black
   ) -> some View {
-    modifier(ScrollMotion(source: source, from: from, to: to))
+    modifier(ScrollMotion(source: source, from: from, to: to, shadowColor: shadowColor))
   }
 }

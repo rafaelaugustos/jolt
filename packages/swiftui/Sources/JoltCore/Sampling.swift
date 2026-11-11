@@ -181,9 +181,11 @@ extension JoltPreset {
       x = x == 0 ? 0 : (x < 0 ? -distance : distance)
       y = y == 0 ? 0 : (y < 0 ? -distance : distance)
     }
-    let scale = parameters.scale ?? (entering ? start.scaleX : end.scaleX)
+    let base = entering ? start : end
+    let scale = parameters.scale ?? base.scaleX
     let adjusted = JoltPose(
-      unchecked: x, y, scale, scale, 0, entering ? start.opacity : end.opacity)
+      unchecked: x, y, scale, scale, 0, base.opacity, rotateX: base.rotateX,
+      rotateY: base.rotateY)
     if entering { start = adjusted } else { end = adjusted }
     let custom = parameters.duration.map {
       JoltTransition(

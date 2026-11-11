@@ -51,21 +51,23 @@ private struct MotionModifier: ViewModifier {
   let pose: JoltPose
   let transition: JoltTransition
   let opacityTransition: JoltTransition
+  var shadowColor: Color = .black
+  var consumesPerspective = true
   @Environment(\.accessibilityReduceMotion) private var reduced
   @JoltSceneActivity private var sceneActive
   @Environment(\.joltReduceMotion) private var appReduced
   func body(content: Content) -> some View {
+    let shadow = JoltShadowChannels(pose.shadow)
     content
-      .scaleEffect(x: pose.scaleX, y: pose.scaleY)
-      .rotationEffect(.degrees(pose.rotate))
-      .offset(x: pose.x, y: pose.y)
+      .modifier(JoltShadowEffect(channels: shadow, color: shadowColor))
+      .modifier(JoltDepthModifier(channels: .init(pose), consumes: consumesPerspective))
       .animation(
         reduced || appReduced || !sceneActive ? nil : transition.animation,
-        value: pose.transform
+        value: pose.transform + (0..<4).map { shadow.storage[$0] }
       )
       .opacity(pose.opacity)
       .animation(sceneActive ? opacityTransition.animation : nil, value: pose.opacity)
-    .modifier(JoltActivityProvider($sceneActive))
+      .modifier(JoltActivityProvider($sceneActive))
   }
 }
 
@@ -76,12 +78,24 @@ extension View {
   }
 
   /// Finite state-driven motion. SwiftUI owns interruption and removal; Jolt adds no timer or JS runtime.
-  /// Transforms settle immediately under Reduce Motion; opacity retains its finite transition.
+  /// Transforms and the shadow settle immediately under Reduce Motion; opacity keeps its transition.
+  /// The pose's shadow is drawn in `shadowColor`, whose alpha multiplies the shadow's opacity.
   public func joltMotion(
-    to pose: JoltPose, transition: JoltTransition = .spring(.smooth), opacity: JoltTransition? = nil
+    to pose: JoltPose, transition: JoltTransition = .spring(.smooth),
+    opacity: JoltTransition? = nil, shadowColor: Color = .black
   ) -> some View {
     modifier(
-      MotionModifier(pose: pose, transition: transition, opacityTransition: opacity ?? transition))
+      MotionModifier(
+        pose: pose, transition: transition, opacityTransition: opacity ?? transition,
+        shadowColor: shadowColor))
+  }
+  func joltMotion(
+    to pose: JoltPose, transition: JoltTransition, shadowColor: Color, consumesPerspective: Bool
+  ) -> some View {
+    modifier(
+      MotionModifier(
+        pose: pose, transition: transition, opacityTransition: transition,
+        shadowColor: shadowColor, consumesPerspective: consumesPerspective))
   }
   /// A supported shared Jolt recipe. `active` selects its endpoint, not structural presence.
   public func joltPreset(

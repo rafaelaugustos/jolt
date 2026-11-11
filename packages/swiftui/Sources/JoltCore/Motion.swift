@@ -10,44 +10,53 @@ public enum JoltError: Error, Equatable {
 }
 
 /// Immutable target values: points, scale factors, degrees and opacity 0...1.
+/// `rotateX`/`rotateY` turn around the view's centre; `shadow` is one outer shadow.
 public struct JoltPose: Equatable, Sendable {
   public let x: Double
   public let y: Double
   public let scaleX: Double
   public let scaleY: Double
   public let rotate: Double
+  public let rotateX: Double
+  public let rotateY: Double
   public let opacity: Double
+  public let shadow: JoltShadow?
   public static let identity = JoltPose(unchecked: 0, 0, 1, 1, 0, 1)
 
   public init(
     x: Double = 0, y: Double = 0, scaleX: Double = 1, scaleY: Double = 1, rotate: Double = 0,
-    opacity: Double = 1
+    rotateX: Double = 0, rotateY: Double = 0, opacity: Double = 1, shadow: JoltShadow? = nil
   ) throws {
-    guard [x, y, scaleX, scaleY, rotate, opacity].allSatisfy(\.isFinite), (0...1).contains(opacity)
+    guard [x, y, scaleX, scaleY, rotate, rotateX, rotateY, opacity].allSatisfy(\.isFinite),
+      (0...1).contains(opacity)
     else { throw JoltError.invalidPose }
-    self.x = x
-    self.y = y
-    self.scaleX = scaleX
-    self.scaleY = scaleY
-    self.rotate = rotate
-    self.opacity = opacity
+    self.init(
+      unchecked: x, y, scaleX, scaleY, rotate, opacity, rotateX: rotateX, rotateY: rotateY,
+      shadow: shadow)
   }
-  public init(x: Double = 0, y: Double = 0, scale: Double, rotate: Double = 0, opacity: Double = 1)
-    throws
-  {
-    try self.init(x: x, y: y, scaleX: scale, scaleY: scale, rotate: rotate, opacity: opacity)
+  public init(
+    x: Double = 0, y: Double = 0, scale: Double, rotate: Double = 0, rotateX: Double = 0,
+    rotateY: Double = 0, opacity: Double = 1, shadow: JoltShadow? = nil
+  ) throws {
+    try self.init(
+      x: x, y: y, scaleX: scale, scaleY: scale, rotate: rotate, rotateX: rotateX,
+      rotateY: rotateY, opacity: opacity, shadow: shadow)
   }
-  public var transform: [Double] { [x, y, scaleX, scaleY, rotate] }
+  /// Transform channels in order: x, y, scaleX, scaleY, rotate, rotateX, rotateY.
+  public var transform: [Double] { [x, y, scaleX, scaleY, rotate, rotateX, rotateY] }
   init(
     unchecked x: Double, _ y: Double, _ scaleX: Double, _ scaleY: Double, _ rotate: Double,
-    _ opacity: Double
+    _ opacity: Double, rotateX: Double = 0, rotateY: Double = 0, shadow: JoltShadow? = nil
   ) {
     self.x = x
     self.y = y
     self.scaleX = scaleX
     self.scaleY = scaleY
     self.rotate = rotate
+    self.rotateX = rotateX
+    self.rotateY = rotateY
     self.opacity = opacity
+    self.shadow = shadow
   }
 }
 
@@ -82,21 +91,23 @@ public struct JoltTransition: Equatable, Sendable {
 }
 
 public enum JoltPreset: String, CaseIterable, Sendable {
-  case fadeIn, fadeInUp, fadeInDown, fadeInLeft, fadeInRight, zoomIn, popIn
+  case fadeIn, fadeInUp, fadeInDown, fadeInLeft, fadeInRight, zoomIn, popIn, flipInX, flipInY
   case fadeOut, fadeOutUp, fadeOutDown, fadeOutLeft, fadeOutRight, zoomOut
   /// False is the explicit recipe start; true is its endpoint. This does not remove a view.
   public func pose(active: Bool) -> JoltPose {
-    var x = 0.0, y = 0.0, scale = 1.0, opacity = 1.0
+    var x = 0.0, y = 0.0, scale = 1.0, rotateX = 0.0, rotateY = 0.0, opacity = 1.0
     for channel in Definitions.channels(self) {
       let value = active ? channel.to : channel.from
       switch channel.property {
       case .x: x = value ?? x
       case .y: y = value ?? y
       case .scale: scale = value ?? scale
+      case .rotateX: rotateX = value ?? rotateX
+      case .rotateY: rotateY = value ?? rotateY
       case .opacity: opacity = value ?? opacity
       }
     }
-    return JoltPose(unchecked: x, y, scale, scale, 0, opacity)
+    return JoltPose(unchecked: x, y, scale, scale, 0, opacity, rotateX: rotateX, rotateY: rotateY)
   }
   public var transformTransition: JoltTransition {
     Definitions.channels(self).first(where: { $0.property != .opacity }).map {
