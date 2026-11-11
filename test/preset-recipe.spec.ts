@@ -33,6 +33,23 @@ describe('portable parameter recipes', () => {
     })
     expect(createPreset('fadeInRight', { distance: 0 }).keyframes.x).toEqual([0, 0])
   })
+  it('parameterizes the flip entrances and keeps their rotation channel', () => {
+    expect(createPreset('flipInX')).toEqual(presets.flipInX)
+    const recipe = createPreset('flipInY', { direction: 'up', distance: 30, scale: 0.8 })
+    expect(recipe.keyframes).toEqual({
+      opacity: [0, 1],
+      rotateY: [90, 0],
+      y: [30, 0],
+      scale: [0.8, 1],
+    })
+    ;(recipe.keyframes.rotateY as number[])[0] = 10
+    expect(presets.flipInY.keyframes.rotateY).toEqual([90, 0])
+    expect(createPreset('flipInX', { duration: 240 }).transition).toEqual({
+      type: 'tween',
+      duration: 240,
+      ease: 'easeOut',
+    })
+  })
   it('rejects invalid requests before touching the registry or shared definitions', () => {
     for (const options of [
       { distance: NaN },

@@ -39,6 +39,8 @@ final class PortableTests: XCTestCase {
         XCTAssertEqual(pose.y, expected["y"]!, fixture["name"] as! String)
         XCTAssertEqual(pose.scaleX, expected["scale"]!, fixture["name"] as! String)
         XCTAssertEqual(pose.opacity, expected["opacity"]!, fixture["name"] as! String)
+        XCTAssertEqual(pose.rotateX, expected["rotateX"] ?? 0, fixture["name"] as! String)
+        XCTAssertEqual(pose.rotateY, expected["rotateY"] ?? 0, fixture["name"] as! String)
       }
     }
   }
