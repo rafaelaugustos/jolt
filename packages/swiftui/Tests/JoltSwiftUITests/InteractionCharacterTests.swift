@@ -185,6 +185,46 @@ final class InteractionCharacterTests: XCTestCase {
     model.dispose()
     XCTAssertEqual(clock.activeCount, 0)
   }
+  @MainActor func testDropPaddingHandlesAndReanchoring() async throws {
+    let clock = JoltClock.testClock()
+    var rejects = 0
+    let model = try JoltDropZones(
+      [.init("column", padding: try .init(bottom: 25))], clock: clock,
+      onReject: { _ in rejects += 1 })
+    XCTAssertThrowsError(try JoltDropPadding(bottom: -1))
+    XCTAssertEqual(model.targets[0].padding.bottom, 25)
+    model.layoutBounds(.init(x: 0, y: 100, width: 20, height: 20))
+    try model.targetBounds("column", .init(x: 100, y: 0, width: 40, height: 60))
+    model.begin()
+    model.move(.init(width: 110, height: -10))
+    XCTAssertNil(model.hovered)
+    model.move(.init(width: 110, height: -30))
+    XCTAssertEqual(model.hovered, "column")
+    model.layoutBounds(.init(x: 0, y: 150, width: 20, height: 20))
+    XCTAssertEqual(model.offset, .init(width: 110, height: -80))
+    XCTAssertEqual(model.hovered, "column")
+    model.move(.init(width: 110, height: -20))
+    XCTAssertEqual(model.offset.height, -70)
+    XCTAssertNil(model.hovered)
+    model.sourceBounds(.init(x: 110, y: 50, width: 20, height: 20))
+    XCTAssertEqual(model.offset.height, -40)
+    model.sourceBounds(.init(x: 110, y: 80, width: 20, height: 20))
+    XCTAssertEqual(model.offset.height, -40)
+    XCTAssertFalse(model.end(reducedMotion: true))
+    XCTAssertEqual(rejects, 1)
+    XCTAssertEqual(model.offset, .zero)
+    XCTAssertEqual(clock.activeCount, 0)
+    model.layoutBounds(.init(x: 0, y: 10, width: 20, height: 20))
+    XCTAssertEqual(model.offset, .zero)
+    model.attachHandle()
+    model.attachHandle()
+    XCTAssertEqual(model.handles, 2)
+    model.detachHandle()
+    model.detachHandle()
+    model.detachHandle()
+    XCTAssertEqual(model.handles, 0)
+    model.dispose()
+  }
   @MainActor func testDropCallbacksCannotResurrectDisposedOrOverwriteReplacement() async throws {
     let clock = JoltClock.testClock()
     var model: JoltDropZones!

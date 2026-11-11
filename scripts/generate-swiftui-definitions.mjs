@@ -277,17 +277,26 @@ const { moveAt } = await import('../dist/core/reorder.js')
 const { rigDestination } = await import('../dist/core/rig.js')
 const { sampleParticle } = await import('../dist/core/particle-motion.js')
 const interactions = {
-  drops: [-20, 0, 15, 20, 30].flatMap((x) =>
-    ['center', 'overlap'].map((policy) => {
-      const source = { x, y: 0, width: 20, height: 20 },
-        target = { x: 20, y: 5, width: 10, height: 10 }
-      return {
-        source,
-        target,
-        overlap: policy === 'overlap',
-        hit: dropHits(source, target, policy),
-      }
-    }),
+  drops: [
+    { top: 0, right: 0, bottom: 0, left: 0 },
+    { top: 0, right: 0, bottom: 25, left: 0 },
+    { top: 4, right: 12, bottom: 0, left: 30 },
+  ].flatMap((padding) =>
+    [-20, 0, 15, 20, 30].flatMap((x) =>
+      [0, 18].flatMap((y) =>
+        ['center', 'overlap'].map((policy) => {
+          const source = { x, y, width: 20, height: 20 },
+            target = { x: 20, y: 5, width: 10, height: 10 }
+          return {
+            source,
+            target,
+            padding,
+            overlap: policy === 'overlap',
+            hit: dropHits(source, target, policy, padding),
+          }
+        }),
+      ),
+    ),
   ),
   moves: [0, 1, 2, 3].flatMap((from) =>
     [0, 1, 2, 3].map((to) => ({
