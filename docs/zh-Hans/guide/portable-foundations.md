@@ -21,14 +21,20 @@ scope.dispose()
 
 Web 使用 `runtime.scope().pointerFollow(element, options)` 和 `scope.bind()`。两端提供 `x`、`y`、`presence`、`active`、`available`、`disposed`、`suspended`、`update({ disabled })`、`refresh()`、`suspend()`、`resume()`、`dispose()`。`presence` 是即时数值。原生 `spring: false` 输出可供外部属性编译绑定使用的原始 motion values。默认弹簧会平滑跟随，但现有外部属性绑定采样器不接受这些弹簧节点；请使用原始值或明确归属的 JS 订阅。
 
-| 契约     | NativeScript                                     | Web                                   |
-| -------- | ------------------------------------------------ | ------------------------------------- |
-| 像素坐标 | 经过目标变换转换后的本地 DIP                     | 目标在视口中的轴对齐矩形内的 CSS 像素 |
-| 默认值   | 中心为原点，归一化到 −1…1                        | 相同映射                              |
-| 支持条件 | iPadOS 悬停；Android 鼠标或悬停笔；iPhone 不支持 | Pointer Events 与浏览器悬停能力       |
-| 成本     | 每个送达的原生悬停事件触发一次 JS 回调           | 浏览器合并指针更新                    |
+| 契约     | NativeScript                                     | Web                                    |
+| -------- | ------------------------------------------------ | -------------------------------------- |
+| 像素坐标 | 经过目标变换转换后的本地 DIP                     | 目标在视口中的轴对齐矩形内的 CSS 像素  |
+| 默认值   | 中心为原点，归一化到 −1…1                        | 相同映射                               |
+| 支持条件 | iPadOS 悬停；Android 鼠标或悬停笔；iPhone 不支持 | Pointer Events 与 `(any-hover: hover)` |
+| 成本     | 每个送达的原生悬停事件触发一次 JS 回调           | 浏览器合并指针更新                     |
 
 选项包括 `axis`、`coordinates`、`range`、`rest`、`spring`、`disabled`。`range` 映射归一化输入或限制像素值，`rest` 必须位于声明的范围内。零尺寸目标不会产生有效位置。暂停、后台、卸载、禁用和减少动态效果会恢复静止值并清零 presence。尺寸变化会被观察；应用主动改变坐标后可调用 `refresh()`。`available` 表示 API 支持，不检测配件是否连接。装饰性跟随元素应禁用交互。三维投影和覆盖层输入策略由应用负责。Android 观察窗口输入并转交原 callback；这些接口不承诺在应用 JavaScript 阻塞时继续运行。
+
+指针输入不会让目标获得焦点，不调用 `preventDefault()`，也不阻止其他识别器和监听器；无关的点击、触摸和拖动照常工作。在 `motionBehaviors` 某次运行的私有 scope 中创建的指针会随该通道一起挂起，运行被打断时销毁，之后到达的输入会被忽略。
+
+仅在源码中，`0.1.0-rc.13` 不包含：Web 的 `available` 表示在指针源监听且未被阻止时，浏览器支持 Pointer Events 且 `(any-hover: hover)` 成立；悬停期间该查询不再成立时，presence 回到静止。之后的鼠标事件仍会被跟随：该查询只是浏览器提示，不检测设备是否连接。Android 在活动指针的输入设备被移除时回到静止，并且现在会跟随旋转目标和缩放小于 1 的目标上的悬停，此前这些情况会被拒绝。
+
+硬件限制：没有实体 iPad、鼠标、触控板、Apple Pencil 或 Android 指针配件。配件悬停、悬停笔、悬停时断开设备，以及实体设备上的指针时序和成本均未验证。iPad 证据使用 XCTest 系统注入，Android 使用应用内注入的鼠标事件，浏览器使用 Playwright 输入；`(any-hover: hover)` 的变化通过替换的 media query 测试，而不是真实的设备变化。
 
 <Clip name="portable-pointer-ipados" :width="720" caption="iPad Pro 11 英寸 (M4) 模拟器，iPadOS 26.2，英文界面：向系统注入连续悬停事件，驱动原生跟随元素与 SceneKit uniforms，保留点击，并验证尺寸调整和重新挂载。原始时序；未测试实体鼠标或 iPad。" />
 <Clip name="portable-pointer-android" caption="ASUS ZenFone 3 实体设备，Android 8，英文界面：注入原生鼠标事件以移动跟随元素，离开时恢复静止，真实点击保持有效。原始时序；未测试实体鼠标配件。" />
@@ -47,7 +53,7 @@ motion.play()
 
 成员是已有的类型化 adapters。组借用 1–64 个不同的目标/通道，每个命令必须提供全部成员。目标、分量、值和过渡会在打断有效播放前准备好；重复通道和混合后端会被拒绝。API 包括 `get`、`set`、`animate`、`stop`、`suspend`、`resume`、`dispose`。销毁组不会销毁借用的 adapters。
 
-替换任一成员会取消整个正在运行的组，保留无关通道。重新定向读取当前呈现状态，并为弹簧投影当前速度。`finished` 只结算一次；取消时为 `false`。`set()` 写入失败会尝试恢复已写值并汇总回滚错误，不会重启动画。原生播放准备部分失败时会取消已创建的 players，但无法撤销外部 renderer 的副作用。共享逻辑时钟不代表跨 renderer 的 GPU 原子提交。
+替换任一成员会取消整个正在运行的组，保留无关通道。这包括共享成员的另一个组、对某个成员调用 `set()` 或 `bind()`，以及原生 player 报告目标丢失的成员：所有成员只取消一次，通道被释放，旧组之后可以重新开始。运行结算后迟到的原生结束回调、`stop()` 和 `progress = 1` 都不会改变其结果。重新定向读取当前呈现状态，并为弹簧投影当前速度。`finished` 只结算一次；取消时为 `false`。`set()` 写入失败会尝试恢复已写值并汇总回滚错误，不会重启动画。原生播放准备部分失败时会取消已创建的 players，但无法撤销外部 renderer 的副作用。共享逻辑时钟不代表跨 renderer 的 GPU 原子提交。
 
 原生需要可选的 `@rafaelaugusto/jolt-native` 插件，使用一个逻辑时钟协调编译的成员 players，并在 setup 后同步时间位置。Web 使用 `scope.property(target, definition)`，定义含 `name`、`units`、`read`、`write`、`encode`、`decode`，可选 `alive`、`spatial`、`validate`、`interpolate`。`scope.propertyGroup()` 接受同一 runtime/document 的 adapters，在浏览器主线程的一个 scheduler task 中写入；普通 WAAPI 路径不变。DOM 目标必须保持连接。外部资源使用 `alive()`，释放资源前先销毁 adapter。减少动态效果会让空间属性组到达目标；scope 暂停会保留手动暂停状态。
 
