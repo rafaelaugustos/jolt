@@ -352,3 +352,392 @@ test('actual WebGL uniforms reach their destination and the renderer stops at id
   await page.waitForTimeout(250)
   expect(await page.evaluate(() => window.portable.sceneFrames())).toBe(before.frames)
 })
+
+test('pointer availability follows hover capability; losing it while active or stale input after suspension and disposal returns to rest', async ({
+  page,
+}) => {
+  const result = await page.evaluate(async () => {
+    const runtime = window.portable.runtime,
+      native = window.matchMedia.bind(window)
+    const reported = native('(any-hover: hover)').matches
+    const probe = document.createElement('div')
+    probe.style.cssText = 'position:fixed;right:0;top:0;width:40px;height:40px'
+    document.body.append(probe)
+    const plain = runtime.pointerFollow(probe, { spring: false })
+    const untouched = plain.available === reported
+    plain.dispose()
+    probe.remove()
+    const hover = Object.assign(new EventTarget(), {
+      matches: true,
+      media: '(any-hover: hover)',
+    })
+    let listeners = 0
+    const add = hover.addEventListener.bind(hover)
+    hover.addEventListener = (
+      type: string,
+      listener: EventListenerOrEventListenerObject | null,
+      options?: boolean | AddEventListenerOptions,
+    ) => {
+      listeners++
+      if (typeof options === 'object')
+        options.signal?.addEventListener('abort', () => listeners--)
+      add(type, listener, options)
+    }
+    window.matchMedia = ((query: string) =>
+      query === hover.media ? hover : native(query)) as typeof window.matchMedia
+    const region = document.createElement('div')
+    region.style.cssText = 'position:fixed;left:0;bottom:0;width:200px;height:80px'
+    document.body.append(region)
+    let pointer: ReturnType<typeof runtime.pointerFollow>
+    try {
+      pointer = runtime.pointerFollow(region, { spring: false })
+    } finally {
+      window.matchMedia = native
+    }
+    const b = region.getBoundingClientRect()
+    const send = (fraction = 0.75) =>
+      region.dispatchEvent(
+        new PointerEvent('pointermove', {
+          pointerType: 'mouse',
+          clientX: b.left + b.width * fraction,
+          clientY: b.top + b.height / 2,
+          bubbles: true,
+        }),
+      )
+    const frame = () =>
+      new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      )
+    const read = () => [pointer.active, pointer.presence.get(), pointer.x.get()]
+    const change = (matches: boolean) => {
+      hover.matches = matches
+      hover.dispatchEvent(new Event('change'))
+    }
+    const available = [pointer.available]
+    send()
+    await frame()
+    const active = read()
+    change(false)
+    const lost = [...read(), pointer.available]
+    send(0.25)
+    await frame()
+    const later = read()
+    change(true)
+    available.push(pointer.available)
+    send()
+    pointer.suspend()
+    await frame()
+    const suspended = [...read(), pointer.available, listeners]
+    pointer.resume()
+    send()
+    await frame()
+    const resumed = read()
+    send(0.25)
+    pointer.dispose()
+    await frame()
+    send()
+    change(false)
+    await frame()
+    const disposed = [...read(), pointer.available, listeners]
+    region.remove()
+    const diagnostics = runtime.diagnostics({ development: true })
+    const resources = diagnostics.snapshot().resources
+    diagnostics.dispose()
+    return {
+      untouched,
+      available,
+      active,
+      lost,
+      later,
+      suspended,
+      resumed,
+      disposed,
+      followers: resources.pointerFollowers,
+      frameTasks: resources.frameTasks,
+    }
+  })
+  expect(result).toEqual({
+    untouched: true,
+    available: [true, true],
+    active: [true, 1, 0.5],
+    lost: [false, 0, 0, false],
+    later: [true, 1, -0.5],
+    suspended: [false, 0, 0, false, 0],
+    resumed: [true, 1, 0.5],
+    disposed: [false, 0, 0, false, 0],
+    followers: 0,
+    frameTasks: 0,
+  })
+})
+
+test('real pointer movement keeps application focus and an unrelated drag; Reduced Motion and teardown leave rest', async ({
+  page,
+}) => {
+  await page.evaluate(() => {
+    window.portable.boot('pointer')
+    const field = document.createElement('input')
+    field.id = 'field'
+    field.style.cssText = 'position:fixed;right:8px;top:8px'
+    document.body.append(field)
+    field.focus()
+    const knob = document.createElement('div')
+    knob.id = 'knob'
+    knob.style.cssText =
+      'position:absolute;left:24px;top:24px;width:56px;height:56px;background:#ffc572'
+    document.getElementById('region')!.append(knob)
+    const log: string[] = []
+    Object.assign(window, { gestureLog: log })
+    window.portable.scope.drag(knob, {
+      onStart: () => log.push('start'),
+      onRelease: (event) => log.push(`release ${Math.round(event.x)}`),
+    })
+  })
+  const knob = (await page.locator('#knob').boundingBox())!
+  await page.mouse.move(knob.x + knob.width / 2, knob.y + knob.height / 2, { steps: 4 })
+  await expect(page.locator('#status')).toContainText('Presence 1')
+  expect(await page.evaluate(() => document.activeElement?.id)).toBe('field')
+  await page.mouse.down()
+  await page.mouse.move(knob.x + knob.width / 2 + 60, knob.y + knob.height / 2, {
+    steps: 6,
+  })
+  await page.mouse.up()
+  await expect(page.locator('#status')).toContainText('Presence 1')
+  const log = await page.evaluate(
+    () => (window as unknown as { gestureLog: string[] }).gestureLog,
+  )
+  expect(log[0]).toBe('start')
+  expect(log[1]).toMatch(/^release (5[0-9]|6[0-9])$/)
+  const reduced = await page.evaluate(async () => {
+    const { runtime, scope } = window.portable
+    const region = document.getElementById('region')!
+    const pointer = scope.pointerFollow(region, { spring: false })
+    const b = region.getBoundingClientRect()
+    const send = () =>
+      region.dispatchEvent(
+        new PointerEvent('pointermove', {
+          pointerType: 'mouse',
+          clientX: b.left + b.width * 0.75,
+          clientY: b.top + b.height / 2,
+          bubbles: true,
+        }),
+      )
+    const frame = () =>
+      new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      )
+    send()
+    await frame()
+    const before = [pointer.presence.get(), pointer.available]
+    runtime.configure({ reducedMotion: 'always' })
+    const after = [pointer.presence.get(), pointer.x.get(), pointer.available]
+    send()
+    await frame()
+    const ignored = pointer.presence.get()
+    runtime.configure({ reducedMotion: 'never' })
+    send()
+    await frame()
+    const restored = pointer.presence.get()
+    for (let i = 0; i < 25; i++) {
+      const child = runtime.scope()
+      child.pointerFollow(region, { spring: i % 2 ? false : undefined })
+      child.dispose()
+    }
+    scope.dispose()
+    const diagnostics = runtime.diagnostics({ development: true })
+    const resources = diagnostics.snapshot().resources
+    diagnostics.dispose()
+    return {
+      before,
+      after,
+      ignored,
+      restored,
+      disposed: pointer.disposed,
+      followers: resources.pointerFollowers,
+      values: resources.values,
+    }
+  })
+  expect(reduced).toEqual({
+    before: [1, true],
+    after: [0, 0, false],
+    ignored: 0,
+    restored: 1,
+    disposed: true,
+    followers: 0,
+    values: 0,
+  })
+})
+
+test('a behavior run owns its pointer: the lane suspends it and interruption disposes it', async ({
+  page,
+}) => {
+  const result = await page.evaluate(async () => {
+    const runtime = window.portable.runtime,
+      region = document.createElement('div')
+    region.style.cssText = 'position:fixed;left:0;bottom:0;width:200px;height:80px'
+    document.body.append(region)
+    let pointer!: ReturnType<typeof runtime.pointerFollow>
+    const behaviors = runtime.motionBehaviors({
+      hover: {
+        run(context) {
+          pointer = context.scope.pointerFollow(region, { spring: false })
+          return context.wait(new Promise(() => {}))
+        },
+      },
+      press: { priority: 1, run: () => undefined },
+    })
+    const b = region.getBoundingClientRect()
+    const send = () =>
+      region.dispatchEvent(
+        new PointerEvent('pointermove', {
+          pointerType: 'mouse',
+          clientX: b.left + b.width * 0.75,
+          clientY: b.top + b.height / 2,
+          bubbles: true,
+        }),
+      )
+    const frame = () =>
+      new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve())),
+      )
+    const hover = behaviors.request('hover')
+    send()
+    await frame()
+    const active = pointer.presence.get()
+    behaviors.pause()
+    const paused = [pointer.suspended, pointer.presence.get()]
+    send()
+    await frame()
+    const ignored = pointer.presence.get()
+    behaviors.play()
+    send()
+    await frame()
+    const resumed = [pointer.suspended, pointer.presence.get()]
+    behaviors.request('press')
+    const status = (await hover.finished).status
+    send()
+    await frame()
+    const after = [pointer.disposed, pointer.presence.get()]
+    behaviors.dispose()
+    region.remove()
+    return { active, paused, ignored, resumed, status, after }
+  })
+  expect(result).toEqual({
+    active: 1,
+    paused: [true, 0],
+    ignored: 0,
+    resumed: [false, 1],
+    status: 'interrupted',
+    after: [true, 0],
+  })
+})
+
+test('overlapping groups, partial replacement and a lost target settle each run exactly once', async ({
+  page,
+}) => {
+  const result = await page.evaluate(async () => {
+    const runtime = window.portable.runtime
+    const targets = [0, 1, 2].map(() => ({ value: 0, alive: true }))
+    const writes = [0, 0, 0]
+    const definition = {
+      name: 'test/overlap',
+      units: ['number'],
+      read: (t: object) => (t as (typeof targets)[number]).value,
+      write: (t: object, n: number) => {
+        const target = t as (typeof targets)[number]
+        target.value = n
+        writes[targets.indexOf(target)]!++
+      },
+      alive: (t: object) => (t as (typeof targets)[number]).alive,
+      encode: (n: number) => [n],
+      decode: (v: readonly number[]) => v[0]!,
+    }
+    const errors: string[] = []
+    const report = (event: ErrorEvent) => {
+      event.preventDefault()
+      errors.push(String(event.error?.message ?? event.message))
+    }
+    window.addEventListener('error', report)
+    const frames = async (count = 3) => {
+      for (let i = 0; i < count; i++)
+        await new Promise((resolve) => requestAnimationFrame(resolve))
+    }
+    const [a, b, c] = targets.map((target) => runtime.property(target, definition))
+    const first = runtime.propertyGroup({ a: a!, b: b! }),
+      second = runtime.propertyGroup({ b: b!, c: c! })
+    const settled: string[] = []
+    const older = first.animate({ a: 10, b: 10 }, { duration: 1000, ease: 'linear' })
+    void older.then((done) => settled.push(`older ${done}`))
+    await frames()
+    const newer = second.animate({ b: -10, c: -10 }, { duration: 300, ease: 'linear' })
+    void newer.then((done) => settled.push(`newer ${done}`))
+    const olderResult = await older.finished
+    const frozen = [targets[0]!.value, writes[0]]
+    first.stop()
+    const newerResult = await newer.finished
+    const afterNewer = targets.slice(1).map((target) => target.value)
+    newer.stop()
+    newer.progress = 1
+    await frames()
+    const untouched = targets[0]!.value === frozen[0] && writes[0] === frozen[1]
+    const settledWrites = writes.slice()
+    await frames()
+    const idle = writes.every((count, i) => count === settledWrites[i])
+    const third = first.animate({ a: 5, b: 5 }, { duration: 1000 })
+    void third.then((done) => settled.push(`third ${done}`))
+    a!.animate(1, { duration: 50 })
+    const thirdResult = await third.finished
+    const lost = second.animate({ b: 4, c: 4 }, { duration: 1000 })
+    void lost.then((done) => settled.push(`lost ${done}`))
+    await frames()
+    targets[2]!.alive = false
+    const beforeLoss = targets[1]!.value
+    await frames()
+    const lostResult = await lost.finished
+    await frames()
+    const memberFrozen = targets[1]!.value === beforeLoss
+    let rejected = ''
+    try {
+      second.animate({ b: 0, c: 0 })
+    } catch (error) {
+      rejected = (error as Error).message
+    }
+    const reusable = b!.animate(2, { duration: 50 })
+    const reusableResult = await reusable.finished
+    window.removeEventListener('error', report)
+    first.dispose()
+    second.dispose()
+    second.dispose()
+    ;[a, b, c].forEach((property) => property!.dispose())
+    return {
+      olderResult,
+      untouched,
+      newerResult,
+      idle,
+      afterNewer,
+      final: targets.slice(0, 2).map((target) => target.value),
+      thirdResult,
+      lostResult,
+      memberFrozen,
+      rejected,
+      reusableResult,
+      settled,
+      errors,
+    }
+  })
+  expect(result).toMatchObject({
+    olderResult: false,
+    untouched: true,
+    newerResult: true,
+    idle: true,
+    thirdResult: false,
+    lostResult: false,
+    memberFrozen: true,
+    reusableResult: true,
+    settled: ['older false', 'newer true', 'third false', 'lost false'],
+  })
+  expect(result.afterNewer).toEqual([-10, -10])
+  expect(result.final).toEqual([1, 2])
+  expect(result.rejected).toMatch(/lost its target/)
+  expect(result.errors).toHaveLength(1)
+  expect(result.errors[0]).toMatch(/lost its target/)
+})

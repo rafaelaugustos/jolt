@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, expect, it, vi } from 'vitest'
 import { Application } from './shims/core.js'
-import { configure, motionScope, pointerFollow } from '../src/index.js'
+import { configure, motionBehaviors, motionScope, pointerFollow } from '../src/index.js'
 import { pointerPoint, resolvePointerOptions } from '../src/core/pointer.js'
 import { setLiveSpringDriver, type LiveNode } from '../src/live-spring-driver.js'
 import { createView, driver } from './helpers.js'
@@ -153,4 +153,77 @@ it('replaces the native observer when a loaded target receives a new native view
   callbacks[1]!(10, 0, 100, 100, true)
   expect(pointer.x.get()).toBe(0.2)
   pointer.dispose()
+})
+
+it('returns to rest when the native source reports lost hover while active', () => {
+  const view = createView(),
+    pointer = pointerFollow(view, { spring: false, rest: { x: 0.25 } })
+  callbacks[0]!(25, 10, 100, 100, true)
+  expect([pointer.active, pointer.presence.get()]).toEqual([true, 1])
+  callbacks[0]!(0, 0, 0, 0, false)
+  expect([pointer.active, pointer.x.get(), pointer.y.get()]).toEqual([false, 0.25, 0])
+  expect(pointer.presence.get()).toBe(0)
+  expect(pointer.available).toBe(true)
+  callbacks[0]!(-25, 0, 100, 100, true)
+  expect(pointer.x.get()).toBe(-0.5)
+  pointer.dispose()
+})
+
+it('observes without focusing the target or adding gesture listeners', () => {
+  const view = createView(),
+    focus = vi.fn()
+  ;(view as any).focus = focus
+  const gestures = ['tap', 'doubleTap', 'pan', 'swipe', 'pinch', 'rotation', 'longPress']
+  const touch = vi.fn()
+  view.on('touch', touch)
+  const pointer = pointerFollow(view, { spring: false })
+  callbacks[0]!(10, 10, 100, 100, true)
+  pointer.refresh()
+  expect(focus).not.toHaveBeenCalled()
+  expect(gestures.map((name) => view.listenerCount(name))).toEqual(gestures.map(() => 0))
+  expect(view.listenerCount('touch')).toBe(1)
+  pointer.dispose()
+  expect(view.listenerCount('touch')).toBe(1)
+})
+
+it('composes with behavior lanes: a run-owned pointer suspends with the lane and ignores input once interrupted', async () => {
+  const view = createView()
+  let pointer!: ReturnType<typeof pointerFollow>
+  const behaviors = motionBehaviors({
+    hover: {
+      run(context) {
+        pointer = context.scope.pointerFollow(view, { spring: false })
+        return context.wait(new Promise(() => {}))
+      },
+    },
+    press: { priority: 1, run: () => undefined },
+  })
+  const hover = behaviors.request('hover')
+  callbacks[0]!(10, 0, 100, 100, true)
+  expect(pointer.presence.get()).toBe(1)
+  behaviors.pause()
+  expect([pointer.suspended, pointer.active, pointer.presence.get()]).toEqual([
+    true,
+    false,
+    0,
+  ])
+  expect(observers[0]!.dispose).toHaveBeenCalledOnce()
+  callbacks[0]!(20, 0, 100, 100, true)
+  expect(pointer.presence.get()).toBe(0)
+  behaviors.play()
+  expect(pointer.suspended).toBe(false)
+  callbacks[1]!(20, 0, 100, 100, true)
+  expect([pointer.x.get(), pointer.presence.get()]).toEqual([0.4, 1])
+  behaviors.request('press')
+  await expect(hover.finished).resolves.toEqual({ status: 'interrupted' })
+  expect([pointer.disposed, pointer.presence.get()]).toEqual([true, 0])
+  callbacks[1]!(30, 0, 100, 100, true)
+  expect([pointer.x.get(), pointer.presence.get()]).toEqual([0, 0])
+  expect(observers.every((observer) => observer.dispose.mock.calls.length === 1)).toBe(
+    true,
+  )
+  expect(
+    ['loaded', 'unloaded', 'layoutChanged'].map((e) => view.listenerCount(e)),
+  ).toEqual([0, 0, 0])
+  behaviors.dispose()
 })
