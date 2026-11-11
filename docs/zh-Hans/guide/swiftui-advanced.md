@@ -128,7 +128,7 @@ JoltReveal(revealed:) 在用 joltReveal 显示的一个表面上执行 `reveal(f
 
 揭示结束时会移除圆形裁剪：修饰符保留一个不裁剪的占位，让内容保持其标识与状态，阴影或溢出内容不再被裁剪。隐藏结束时，视图变为透明并保留其布局空间。离开屏幕、场景不活跃、`pause()` 和挂起都会保持圆；再次显示时继续。减少动态效果时，或传入 `reducedMotion: true` 时，立即应用最终状态，完成回调报告 `true`。
 
-只有完全揭示的表面（`interactive == true`，阶段 `.revealed`）才接收点按并对辅助功能可见。揭示中、隐藏中或已隐藏时，内容处于 `accessibilityHidden` 且不参与命中测试，点按会传给它后面的视图。Jolt 从不移动焦点：应用应在揭示完成后把 VoiceOver 或键盘焦点移入内容，并在调用 `conceal` 之前把焦点移出，例如使用 `@AccessibilityFocusState` 或 `@FocusState`。
+只有完全揭示的表面（`interactive == true`，阶段 `.revealed`）才接收点按并对辅助功能可见。揭示中、隐藏中或已隐藏时，内容处于 `accessibilityHidden` 且不参与命中测试，点按会传给它后面的视图。Jolt 从不移动焦点：应用应在揭示完成后把 VoiceOver 或键盘焦点移入内容，并在调用 `conceal` 之前把焦点移出，例如使用 `@AccessibilityFocusState` 或 `@FocusState`。SwiftUI 会暴露显式 `.accessibilityElement(children: .contain)` 容器中被隐藏的后代（在 iOS 27 模拟器上观察到），因此不要用这种容器包裹该表面。
 
 平台差异：NativeScript iOS 的微光会遮罩目标，使光带外的内容变暗到不透明度 0.35，Web 在整个元素盒上绘制光带；SwiftUI 只在不透明内容上绘制 Web 的光带。Web 加载指示器用 CSS 盒绘制，有自己的比例（20 % 的圆点、12 × 65 % 的条形、旋转的 75 % 圆弧）和缓动脉冲，这些数值也保存在同一份共享定义中；SwiftUI 采用原生几何。NativeScript 和 Web 在视图卸载或分离时取消揭示；SwiftUI 在离屏时保持它。没有原点而打断揭示时，Web 以元素中心为圆心；NativeScript 和 SwiftUI 保留当前圆心。NativeScript 在播放期间保留矩形点按区域；SwiftUI 在完全揭示之前忽略点按。这些效果在 NativeScript Android 上仍然没有作用。
 
