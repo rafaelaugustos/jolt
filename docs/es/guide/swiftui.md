@@ -52,6 +52,8 @@ El `JoltClock` compartido mantiene un display link por pantalla que muestra una 
 
 `joltPointerFollow` recibe hover solo mientras la app está activa. En una ventana visible de una app que no está al frente se queda centrado, y vuelve a seguir el puntero cuando la app se activa; el movimiento sigue corriendo en esa ventana.
 
+<Clip name="swiftui-activity-macos" caption="macOS 26.6.2, SwiftUI nativo, conducido por XCTest: la ventana principal sigue animando mientras una segunda ventana, ventanas con NSHostingView y NSHostingController, Settings y una ventana de MenuBarExtra reciben el foco; el registro anota cada ventana que se detiene al minimizarse o quedar cubierta y que se reanuda. Solo se graba la ventana principal." />
+
 [Movimiento derivado y gráficos retenidos](./swiftui-advanced)
 
 [SwiftUI · Keyframes / gestures / characters](./swiftui-characters)

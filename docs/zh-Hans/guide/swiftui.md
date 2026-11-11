@@ -52,6 +52,8 @@ struct Status: View {
 
 `joltPointerFollow` 只在应用处于活动状态时接收悬停。在不在最前面的应用的可见窗口中，它保持居中，应用被激活后重新跟随指针；该窗口中的运动继续运行。
 
+<Clip name="swiftui-activity-macos" caption="macOS 26.6.2，原生 SwiftUI，由 XCTest 驱动：第二个窗口、NSHostingView 与 NSHostingController 窗口、Settings 和 MenuBarExtra 窗口获得焦点时，主窗口继续动画；日志记录每个窗口在最小化或被遮挡时暂停、之后恢复。只录制主窗口。" />
+
 [派生运动与保留式图形](./swiftui-advanced)
 
 [SwiftUI · Keyframes / gestures / characters](./swiftui-characters)
