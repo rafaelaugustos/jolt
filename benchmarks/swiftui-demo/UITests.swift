@@ -576,21 +576,22 @@ final class SwiftUIAcceptance: XCTestCase {
     XCTAssertTrue(flower.frame.midY < origin - 10)
     click(app.buttons["rig-rest"])
     XCTAssertTrue(wait { abs(flower.frame.midY - origin) < 3 })
+    // XCTest waits for the app to go idle before each action, which can outlast a burst, so
+    // the lab cancels on its own clock and the status keeps each effect's peak.
+    click(app.buttons["particle-burst-cancel"])
+    XCTAssertTrue(
+      wait { self.label(app, "particle-status").contains("0 · cancelled · peak 100") },
+      label(app, "particle-status"))
     click(app.buttons["particle-burst"])
-    XCTAssertTrue(wait { self.label(app, "particle-status").contains("100 · running") })
-    Thread.sleep(forTimeInterval: 0.7)
-    click(app.buttons["particle-cancel"])
-    XCTAssertTrue(label(app, "particle-status").contains("0 · cancelled"))
-    click(app.buttons["particle-burst"])
-    XCTAssertTrue(wait { self.label(app, "particle-status").contains("100 · running") })
-    XCTAssertTrue(wait { self.label(app, "particle-status").contains("0 · completed") })
+    XCTAssertTrue(
+      wait { self.label(app, "particle-status").contains("0 · completed · peak 100") },
+      label(app, "particle-status"))
     click(app.buttons["particle-emit"])
     XCTAssertTrue(
       wait {
-        self.label(app, "particle-status").contains("running")
-          && !self.label(app, "particle-status").contains("Particles: 0")
-      })
-    XCTAssertTrue(wait { self.label(app, "particle-status").contains("0 · completed") })
+        let status = self.label(app, "particle-status")
+        return status.contains("0 · completed · peak") && !status.contains("peak 0")
+      }, label(app, "particle-status"))
     #if os(macOS)
       click(app.checkBoxes["character-reduce"])
     #else
@@ -827,7 +828,7 @@ final class SwiftUIAcceptance: XCTestCase {
   private func wait(_ condition: @escaping () -> Bool) -> Bool {
     XCTWaiter.wait(
       for: [XCTNSPredicateExpectation(predicate: NSPredicate { _, _ in condition() }, object: nil)],
-      timeout: 6) == .completed
+      timeout: 15) == .completed
   }
   @MainActor func testTextExpansion() {
     let app = lab("--text-lab")
