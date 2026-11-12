@@ -31,7 +31,7 @@ The accepted effect is owned until completion, cancellation, regrab, pause, targ
 
 ### Ordered insertion
 
-Pending merge and publication in [PR #488](https://github.com/rafaelaugustos/jolt/pull/488); not in 0.1.0-rc.13. A board that reorders cards inside columns needs more than a drop onto a column: a grip that starts the drag, the card's position while it moves, columns that are easy to hit when short, and a card that stays under the pointer while the board opens a gap. The Web and NativeScript share one contract for this:
+Since **0.1.0-rc.14** ([PR #488](https://github.com/rafaelaugustos/jolt/pull/488)). A board that reorders cards inside columns needs more than a drop onto a column: a grip that starts the drag, the card's position while it moves, columns that are easy to hit when short, and a card that stays under the pointer while the board opens a gap. The Web and NativeScript share one contract for this:
 
 ```ts
 const drop = scope.dropZones(card, {

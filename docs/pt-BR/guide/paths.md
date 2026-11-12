@@ -1,5 +1,7 @@
 # Movimento ao longo de um caminho
 
+A RC.14 corrige um `animate` imediato ou um `set` que substitui um path rodando ou pausado no Android: a view nativa agora para no novo valor, e não no último frame do path (#479). Consulte [paths e orientação tangente](./interaction-depth).
+
 A RC.13 adiciona [curvas quadráticas/cúbicas tipadas no SwiftUI](./swiftui-geometry). Trajetórias NativeScript/Web mantêm seu histórico de versões.
 
 Disponível na RC.12: [interação e profundidade](./interaction-depth) acrescenta drop zones, áudio/cues opcionais, inspeção e contratos Web de paths, 3D e sombras.

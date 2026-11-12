@@ -35,7 +35,7 @@ The Web APIs are **experimental**. Start with the [Web runtime](./web-runtime), 
 
 ## SwiftUI (Beta)
 
-Available in **0.1.0-rc.13 (Beta)** for iOS 17+ and macOS 14+, without NativeScript or JavaScript. Install the `JoltSwiftUI` product from the [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) package repository, tag `v0.1.0-rc.13`. See [installation](./swiftui), [ownership](./swiftui-motion) and [interaction/geometry](./swiftui-geometry) for platform limits.
+Available in **0.1.0-rc.14 (Beta)** for iOS 17+ and macOS 14+, without NativeScript or JavaScript. Install the `JoltSwiftUI` product from the [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) package repository, tag `v0.1.0-rc.14`. See [installation](./swiftui), [ownership](./swiftui-motion) and [interaction/geometry](./swiftui-geometry) for platform limits.
 
 ## Why not `view.animate()`
 
@@ -79,6 +79,6 @@ The sidebar highlights capabilities with three labels:
 
 New and Updated expire when the documented version changes. Beta stays until the API is stabilized. The label description distinguishes a published capability from a source candidate; the guide states any pending merge or publication. A badge alone does not mean a feature has been released.
 
-<Clip name="docs-navigation-desktop" caption="Chromium on macOS, desktop viewport: Current-edition sidebar labels, keyboard navigation and light/dark themes. This demonstrates documentation navigation, not a native app." />
+<Clip name="docs-navigation-rc14-desktop" caption="Chromium on macOS, desktop viewport: Current-edition sidebar labels, keyboard navigation and light/dark themes. This demonstrates documentation navigation, not a native app." />
 
-<Clip name="docs-navigation-mobile" caption="Chromium on macOS, emulated mobile viewport: opening the menu and following labeled entries. Browser emulation, not a physical phone recording." />
+<Clip name="docs-navigation-rc14-mobile" caption="Chromium on macOS, emulated mobile viewport: opening the menu and following labeled entries. Browser emulation, not a physical phone recording." />

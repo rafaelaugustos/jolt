@@ -1,12 +1,12 @@
 # SwiftUI
 
-**0.1.0-rc.13（测试版）**支持 iOS 17+ 和 macOS 14+，无需 NativeScript 或 JavaScript。从软件包仓库 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的标签 `v0.1.0-rc.13` 安装 `JoltSwiftUI` 产品。平台限制请参阅[安装](./swiftui)、[生命周期](./swiftui-motion)和[交互与几何](./swiftui-geometry)。
+**0.1.0-rc.14（测试版）**支持 iOS 17+ 和 macOS 14+，无需 NativeScript 或 JavaScript。从软件包仓库 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的标签 `v0.1.0-rc.14` 安装 `JoltSwiftUI` 产品。平台限制请参阅[安装](./swiftui)、[生命周期](./swiftui-motion)和[交互与几何](./swiftui-geometry)。
 
-在 Xcode 中将 `https://github.com/rafaelaugustos/jolt-swift` 添加为 Swift Package，并选择精确版本 `0.1.0-rc.13`。该仓库只包含 Swift 软件包，每次发布时从 Jolt 仓库生成，因此 SwiftPM 不会下载文档媒体和基准测试结果。已使用 `https://github.com/rafaelaugustos/jolt.git` 的项目仍可解析 `0.1.0-rc.13`，也可使用 Jolt 仓库的本地检出。有限姿态采用 SwiftUI 插值；采样值采用按需运行的原生时钟。
+在 Xcode 中将 `https://github.com/rafaelaugustos/jolt-swift` 添加为 Swift Package，并选择精确版本 `0.1.0-rc.14`。该仓库只包含 Swift 软件包，每次发布时从 Jolt 仓库生成，因此 SwiftPM 不会下载文档媒体和基准测试结果。已使用 `https://github.com/rafaelaugustos/jolt.git` 的项目仍可解析相同的发布标签，也可使用 Jolt 仓库的本地检出。有限姿态采用 SwiftUI 插值；采样值采用按需运行的原生时钟。
 
 ```swift
 // Package.swift
-.package(url: "https://github.com/rafaelaugustos/jolt-swift.git", exact: "0.1.0-rc.13")
+.package(url: "https://github.com/rafaelaugustos/jolt-swift.git", exact: "0.1.0-rc.14")
 // Application target dependencies:
 .product(name: "JoltSwiftUI", package: "jolt-swift")
 ```
@@ -36,7 +36,7 @@ NativeScript 与 Web 共享 createPreset(name, parameters)；Apple 的 JoltPrese
 
 ## 活动状态、挂起与时钟
 
-等待 [PR #488](https://github.com/rafaelaugustos/jolt/pull/488) 合并并发布；0.1.0-rc.13 尚未包含。 所有 Jolt 视图和修饰符都读取同一个活动值 `joltActive`。在 iOS 上，场景处于活动状态时它为真。在 macOS 上，承载该视图的窗口在屏幕上时它为真：窗口可见、未最小化、未被完全遮挡，无论它是否为关键窗口、应用是否在最前面。它为假时，运动保持不动，输入接触被取消；它恢复后两者都会继续。在自己的视图中使用 `joltActivity()` 读取同一个值：
+自 **0.1.0-rc.14** 起提供（[PR #488](https://github.com/rafaelaugustos/jolt/pull/488)）。所有 Jolt 视图和修饰符都读取同一个活动值 `joltActive`。在 iOS 上，场景处于活动状态时它为真。在 macOS 上，承载该视图的窗口在屏幕上时它为真：窗口可见、未最小化、未被完全遮挡，无论它是否为关键窗口、应用是否在最前面。它为假时，运动保持不动，输入接触被取消；它恢复后两者都会继续。在自己的视图中使用 `joltActivity()` 读取同一个值：
 
 ```swift
 struct Status: View {

@@ -40,8 +40,8 @@ try {
     await page.waitForTimeout(900)
     const sidebar = page.locator('.VPSidebar')
     for (const [path, label] of [
-      ['portable-composition', 'New'],
-      ['reorder', 'Updated'],
+      ['swiftui-text', 'New'],
+      ['interaction-depth', 'Updated'],
       ['swiftui-geometry', 'Beta'],
     ]) {
       const link = sidebar.locator(`a[href="/guide/${path}"]`)

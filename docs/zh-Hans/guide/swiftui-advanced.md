@@ -1,6 +1,6 @@
 # SwiftUI：派生运动与保留式图形
 
-**0.1.0-rc.13（测试版）**支持 iOS 17+ 和 macOS 14+，无需 NativeScript 或 JavaScript。从软件包仓库 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的标签 `v0.1.0-rc.13` 安装 `JoltSwiftUI` 产品。平台限制请参阅[安装](./swiftui)、[生命周期](./swiftui-motion)和[交互与几何](./swiftui-geometry)。
+**0.1.0-rc.14（测试版）**支持 iOS 17+ 和 macOS 14+，无需 NativeScript 或 JavaScript。从软件包仓库 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的标签 `v0.1.0-rc.14` 安装 `JoltSwiftUI` 产品。平台限制请参阅[安装](./swiftui)、[生命周期](./swiftui-motion)和[交互与几何](./swiftui-geometry)。
 
 JoltNumericMap 接受 2–1024 对有限数值，输入必须严格单调；递减输入会反转。默认 clamp，clamp:false 外推端点线段。sample 返回数值与斜率，内部节点使用左导数。JoltMappedValue 借用标量，仅拥有观察：暂停冻结，恢复追上，dispose 解除。溢出令 valid=false 并保留最后有限值，不创建额外时钟。绑定支持 x/y、scale/scaleX/scaleY、rotate、opacity；减少动态效果时装饰变换保持单位状态。
 
@@ -19,7 +19,7 @@ try progress.animate(to: 1, transition: .tween(milliseconds: 1000))
 
 JoltPropertyGroup 借用 1–1024 个唯一命名且共享 JoltClock 的标量。先验证全部目标，再取消旧任务并用一个 timeline 启动。未知键、非有限值、已销毁成员不会造成部分修改。替换、取消、挂起共同协调；过期取消回调不能覆盖新任务。允许部分目标字典。组拥有 playback，不拥有数值；每组属性使用单一协调器。
 
-部分字典中未列出的成员保持其采样值。仅在源码中，0.1.0-rc.13 不包含：当其他写入方接管某个成员（该值自己的 `animate`、`set`、`decay`、`cancel` 或 `dispose`、另一个组或 timeline）时，整个运行会立即取消，暂停中也一样，完成回调只报告一次 `false`。在 0.1.0-rc.13 中，运行中的组要到下一帧才发现，暂停的组要到 `play()` 才发现。完成后再调用 `cancel()` 会保持 `.completed`。NativeScript 与 Web 的组接受 1–64 个成员，并要求每个命令提供全部成员；SwiftUI 组最多接受 1024 个标量值，并允许部分字典。
+部分字典中未列出的成员保持其采样值。自 0.1.0-rc.14 起：当其他写入方接管某个成员（该值自己的 `animate`、`set`、`decay`、`cancel` 或 `dispose`、另一个组或 timeline）时，整个运行会立即取消，暂停中也一样，完成回调只报告一次 `false`。在 0.1.0-rc.13 中，运行中的组要到下一帧才发现，暂停的组要到 `play()` 才发现。完成后再调用 `cancel()` 会保持 `.completed`。NativeScript 与 Web 的组接受 1–64 个成员，并要求每个命令提供全部成员；SwiftUI 组最多接受 1024 个标量值，并允许部分字典。
 
 JoltMotionStates 保存命名目标，从当前采样位置替换。JoltBehaviors 增加优先级、when、blocks、同优先级替换策略和显式 rest。更高优先级在未被阻挡时中断，默认拒绝同优先级。request 返回带 status/cancel() 的运行；旧运行不能取消新运行。完成/取消恢复 rest，stop() 不恢复。手动暂停与挂起独立。SwiftUI 子集协调有限属性目标，不执行任意异步业务流程；NativeScript/Web 保留更广的异步上下文。
 
@@ -104,7 +104,7 @@ Web 已有数值/颜色 value.to()/scope.map、propertyGroup、motionStates、mo
 
 ## 微光、加载指示器与圆形揭示 {#shimmer-loaders-and-circular-reveal}
 
-等待 [PR #488](https://github.com/rafaelaugustos/jolt/pull/488) 合并并发布；0.1.0-rc.13 尚未包含。时长与几何来自 NativeScript 和 Web 适配器共用的同一份定义（`src/core/loading.ts`，编译进 `JoltCore`，并用生成的 fixture 校验）。
+自 **0.1.0-rc.14** 起提供（[PR #488](https://github.com/rafaelaugustos/jolt/pull/488)）。时长与几何来自 NativeScript 和 Web 适配器共用的同一份定义（`src/core/loading.ts`，编译进 `JoltCore`，并用生成的 fixture 校验）。
 
 JoltShimmer(duration:) 接受一个正的有限扫过时长（毫秒），最多 60 000，默认 1500，包含光带进入和离开视图。joltShimmer 绘制 Web 的光带：CSS 角度 100°，在 15、50、85 % 处为不透明度 0、0.55、0 的白色，从视图左侧一个宽度处线性移动到右侧一个宽度处。光带与视图在同一个合成组中合成（`sourceAtop`），因此只在内容不透明的地方绘制，并按其 alpha 加权：半透明的占位符得到较弱的扫光。把它应用到容器上，就能用一条光带扫过所有骨架形状；多个视图可以同步显示同一个微光。请用在占位形状上，而不是正在使用的原生平台视图上，它们会在该合成组内渲染。
 
@@ -136,7 +136,7 @@ JoltReveal(revealed:) 在用 joltReveal 显示的一个表面上执行 `reveal(f
 
 ## 渐变表面与模糊 {#gradient-surfaces-and-blur}
 
-等待 [PR #488](https://github.com/rafaelaugustos/jolt/pull/488) 合并并发布；0.1.0-rc.13 尚未包含。 JoltGradient(colors:stops:angle:) 以 Web 的限制绘制线性渐变：2–8 种颜色，每种颜色一个色标，常量色标在 0...1 内且有序，有限的 CSS 角度（度；默认 180 从上到下，90 从左到右）。渐变线穿过中心，长度足以让各角得到第一种和最后一种颜色；在任意形状的盒子上，色带都按点坐标与角度保持垂直。每个分量是常量或借用的来源：色标和角度用 `JoltNumberSource.value(JoltMotionValue)`，颜色用 `JoltColorSource.value(JoltColorValue)`。通过为这些值做动画来驱动渐变，可使用它们的过渡、弹簧、打断、暂停和完成回调；渐变自身没有轨道。绑定的色标被限制在 0...1 内并保持顺序，不会重新排列颜色，与可移植的渐变投影一致。`update(colors:stops:angle:)` 会先校验所有分量再替换，并保持颜色数量；要改变数量请创建新的渐变。
+自 **0.1.0-rc.14** 起提供（[PR #488](https://github.com/rafaelaugustos/jolt/pull/488)）。JoltGradient(colors:stops:angle:) 以 Web 的限制绘制线性渐变：2–8 种颜色，每种颜色一个色标，常量色标在 0...1 内且有序，有限的 CSS 角度（度；默认 180 从上到下，90 从左到右）。渐变线穿过中心，长度足以让各角得到第一种和最后一种颜色；在任意形状的盒子上，色带都按点坐标与角度保持垂直。每个分量是常量或借用的来源：色标和角度用 `JoltNumberSource.value(JoltMotionValue)`，颜色用 `JoltColorSource.value(JoltColorValue)`。通过为这些值做动画来驱动渐变，可使用它们的过渡、弹簧、打断、暂停和完成回调；渐变自身没有轨道。绑定的色标被限制在 0...1 内并保持顺序，不会重新排列颜色，与可移植的渐变投影一致。`update(colors:stops:angle:)` 会先校验所有分量再替换，并保持颜色数量；要改变数量请创建新的渐变。
 
 `joltGradient(_:in:)` 在视图背后、你传入的形状内绘制渐变（默认 `Rectangle()`）；内容本身不被裁剪。该绘制不参与命中测试，并对辅助功能隐藏。`frame` 保存绘制中的颜色、投影后的色标与角度。
 

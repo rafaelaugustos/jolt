@@ -1,5 +1,11 @@
 # Historial de versiones
 
+## 0.1.0-rc.14: Drop ordenado y paridad de SwiftUI {#rc-14}
+
+RC.14 incorpora [asas de arrastre, posición durante el movimiento, destinos con padding y reanclaje](./interaction-depth) en Web, NativeScript y SwiftUI, y lleva a SwiftUI [rotación 3D y sombras](./swiftui-motion), [shimmer, loaders, reveal, degradados y blur](./swiftui-advanced), [entrada de texto y números rodantes](./swiftui-text) y [actividad por ventana en macOS](./swiftui), del PR #488. El PR #491 corrige un set inmediato que sustituye un path en Android (#479) y cierra los huecos de [puntero](./portable-foundations) y de grupos SwiftUI de #412/#413. Web y SwiftUI siguen siendo experimentales. Instale versiones npm coincidentes y recompile apps NativeScript; use la etiqueta `v0.1.0-rc.14` de [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) para Swift Package Manager. Las guías en cuatro idiomas incluyen grabaciones nativas/Web revisadas. Los accesorios de puntero físicos siguen sin verificar (#492): la evidencia de puntero usa simulador, emulador y entrada inyectada.
+
+[0.1.0-rc.14](https://github.com/rafaelaugustos/jolt/releases/tag/v0.1.0-rc.14)
+
 ## 0.1.0-rc.13: SwiftUI y ciclo de vida de frameworks Web {#rc-13}
 
 RC.13 incorpora [SwiftUI independiente para iOS 17+/macOS 14+](./swiftui), [adaptadores Web React/Angular/Svelte/Solid](./web-frameworks), [inspección y replay portátiles](./portable-tools) y [paneles, reorder medido y curvas Bézier tipadas](./swiftui-geometry), del PR #436 (39 tareas). Web y SwiftUI siguen siendo experimentales. Instale versiones npm coincidentes y recompile apps NativeScript; use la etiqueta `v0.1.0-rc.13` para Swift Package Manager. Las guías en cuatro idiomas incluyen grabaciones nativas/Web revisadas. Sensores físicos, coste del inspector y comparaciones generales de rendimiento siguen separados.

@@ -1,5 +1,7 @@
 # 沿路径运动 {#motion-along-a-path}
 
+RC.14 修复了 Android 上立即执行的 `animate` 或 `set` 替换正在运行或已暂停路径的问题：原生视图现在停在新值，而不是路径的最后一帧（#479）。请参阅[路径与切线方向](./interaction-depth)。
+
 RC.13 添加 [SwiftUI 类型化二次/三次曲线](./swiftui-geometry)。NativeScript/Web 轨迹保持原有发布历史。
 
 RC.12 已提供[交互与深度](./interaction-depth)：可移植放置目标、可选音频提示、检查器以及 Web 路径、3D 和阴影契约。

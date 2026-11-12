@@ -223,13 +223,13 @@
       "bytes": 444179,
       "sha256": "617dd053b4979784a77e7e6755b9c40e7932e4038dd9e4df43c8bb2c71e3a8f7"
     },
-    "docs-navigation-desktop.mp4": {
-      "bytes": 644353,
-      "sha256": "1de8b83802f7540fb0777f023af0a956de7feaa357cb4b5c43c1a8e59623eafe"
+    "docs-navigation-rc14-desktop.mp4": {
+      "bytes": 803232,
+      "sha256": "11c52dd6059f4e49aa7f1201b276eaf5a867348ec1bca38baef9234c253f6118"
     },
-    "docs-navigation-mobile.mp4": {
-      "bytes": 886553,
-      "sha256": "927a058b674503782bee839bec5ad09fec1a38121c0ed95b27638847e725d2c0"
+    "docs-navigation-rc14-mobile.mp4": {
+      "bytes": 1117461,
+      "sha256": "da7eeb156734455d43fa8ccc82789b7d75a5ad4327cb5fb03fdaa01f12cd45a0"
     },
     "drag-ios.mp4": {
       "bytes": 64794,

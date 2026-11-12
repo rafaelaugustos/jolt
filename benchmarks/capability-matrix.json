@@ -1972,7 +1972,7 @@
       "nativeStatus": "published",
       "webStatus": "published",
       "counterpart": "runtime.pointerFollow / scope.pointerFollow",
-      "contract": "Native local-DIP hover plus existing Web pointer source and immediate presence. iPhone unavailable; browser coordinates are viewport CSS bounds. Each native hover crosses JS. Available in 0.1.0-rc.12.",
+      "contract": "Native local-DIP hover plus existing Web pointer source and immediate presence. iPhone unavailable; browser coordinates are viewport CSS bounds. Each native hover crosses JS. Available in 0.1.0-rc.12. Since 0.1.0-rc.14 (#491): Web available follows Pointer Events with (any-hover: hover), presence returns to rest when that capability or the Android input device goes away, and Android hover follows rotated and scaled targets.",
       "issues": [412],
       "evidence": [
         "docs/guide/portable-foundations.md",
@@ -2050,7 +2050,7 @@
       "webStatus": "published",
       "counterpart": "WebRuntime.dropZones",
       "issues": [399, 480],
-      "contract": "Available in 0.1.0-rc.12. In-app AABB targets with synchronous acceptance, accessible request and owned effects; no cross-window/file import. Source (#480, unpublished): drag.handle, onMove after hit testing, per-edge target padding 0-1,000 CSS px/DIP and re-anchoring on refresh/moves, with the same SwiftUI handle/padding contract.",
+      "contract": "Available in 0.1.0-rc.12. In-app AABB targets with synchronous acceptance, accessible request and owned effects; no cross-window/file import. Since 0.1.0-rc.14 (#480): drag.handle, onMove after hit testing, per-edge target padding 0-1,000 CSS px/DIP and re-anchoring on refresh/moves, with the same SwiftUI handle/padding contract.",
       "evidence": [
         "src/index.ts",
         "docs/guide/interaction-depth.md",
@@ -2686,7 +2686,7 @@
       "id": "portable-foundations-rc12",
       "issues": [400, 401, 412, 413, 414, 416],
       "status": "published-with-limits",
-      "limit": "iPadOS hover API and Android mouse/hovering stylus only; physical pointer accessory unverified. Android pointer replay is explicitly injected. Web custom adapters execute JS per frame. Retained native drawing reduces host count but did not beat the equivalent compound-path baseline in CPU or allocations on the measured ASUS device. Available in 0.1.0-rc.12; physical accessory acceptance remains open.",
+      "limit": "iPadOS hover API and Android mouse/hovering stylus only; physical pointer accessory unverified. Android pointer replay is explicitly injected. Web custom adapters execute JS per frame. Retained native drawing reduces host count but did not beat the equivalent compound-path baseline in CPU or allocations on the measured ASUS device. Available in 0.1.0-rc.12; 0.1.0-rc.14 closes the audited #412/#413 code gaps (benchmarks/portable-foundations.md). Physical accessory acceptance remains open in #492.",
       "evidence": [
         "docs/guide/portable-foundations.md",
         "benchmarks/web-portable/portable.spec.ts",
@@ -2782,8 +2782,8 @@
     {
       "id": "drop-ordered-insertion",
       "issues": [480],
-      "status": "local-unpublished",
-      "limit": "Source only. Drop handles, move reports, per-edge hit padding and re-anchoring share one contract on the Web, NativeScript and SwiftUI. Chromium/Firefox/WebKit board checks, NativeScript adapter unit tests, the Native CI drop group on an iOS 27 simulator and an Android 16 emulator, and the SwiftUI iOS/macOS UI cases pass; reviewed recordings cover Chromium, the NativeScript board on both simulators/emulators and SwiftUI on iOS/macOS. Physical devices are not validated. On Android a source clipped by an ancestor counts as hidden and cancels the drag; containers it crosses need setClipChildren(false) and setClipToPadding(false). Re-anchoring follows the source's layout center: Web style-only changes and NativeScript ancestor moves wait for the next move or refresh(); scaling about a non-center origin counts as layout. Padding is not drawn.",
+      "status": "published-with-limits",
+      "limit": "Available in 0.1.0-rc.14. Drop handles, move reports, per-edge hit padding and re-anchoring share one contract on the Web, NativeScript and SwiftUI. Chromium/Firefox/WebKit board checks, NativeScript adapter unit tests, the Native CI drop group on an iOS 27 simulator and an Android 16 emulator, and the SwiftUI iOS/macOS UI cases pass; reviewed recordings cover Chromium, the NativeScript board on both simulators/emulators and SwiftUI on iOS/macOS. Physical devices are not validated. On Android a source clipped by an ancestor counts as hidden and cancels the drag; containers it crosses need setClipChildren(false) and setClipToPadding(false). Re-anchoring follows the source's layout center: Web style-only changes and NativeScript ancestor moves wait for the next move or refresh(); scaling about a non-center origin counts as layout. Padding is not drawn.",
       "evidence": [
         "src/core/drop.ts",
         "test/drop-policy.spec.ts",
