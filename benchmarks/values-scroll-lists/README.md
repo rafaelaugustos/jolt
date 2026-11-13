@@ -17,7 +17,7 @@ The four language guides include native/browser coverage, supported properties/u
 
 ## Validation performed
 
-- TypeScript: 1,869 tests in 138 files.
+- TypeScript: 1,871 tests in 139 files, including Android accessibility-focus restoration and a regression ensuring an update cannot steal focus after the user leaves the list. These adapter tests do not replace full TalkBack traversal.
 - Swift: 92 JoltSwiftUI and 35 JoltCore tests, plus the real standalone iOS/macOS `testValuesScrollExpansion` UI test.
 - New Web acceptance: 27 checks across Chromium, Firefox and WebKit.
 - Existing dynamic Web regression: 49 passed, two existing platform-specific skips. Existing Web lifecycle/shared-layout regression: 132 passed.

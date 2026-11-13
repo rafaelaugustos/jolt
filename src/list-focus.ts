@@ -72,12 +72,26 @@ export function captureListFocus<K>(
           return
         native.becomeFirstResponder()
       }
-    } else if (saved.accessibility)
+    } else if (saved.accessibility) {
+      const focused = (view: any): any => {
+        if (view.isAccessibilityFocused()) return view
+        const count = typeof view.getChildCount === 'function' ? view.getChildCount() : 0
+        for (let i = 0; i < count; i++) {
+          const current = focused(view.getChildAt(i))
+          if (current) return current
+        }
+      }
+      const current = focused(host.getRootView())
+      if (current && current !== saved.native) {
+        let ancestor = current
+        while (ancestor && ancestor !== host) ancestor = ancestor.getParent?.()
+        if (ancestor !== host) return
+      }
       native.performAccessibilityAction(
         android.view.accessibility.AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS,
         null,
       )
-    else {
+    } else {
       const current = host.getRootView().findFocus()
       if (current && current !== saved.native && current !== host) return
       native.requestFocus()
