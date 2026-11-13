@@ -1,8 +1,6 @@
 # Mudanças de layout
 
-Candidato de código: veja [valores combinados, scroll nativo, saídas e listas por chave](./values-scroll-lists) para as adições da próxima RC e limites por plataforma.
-
-Os demais exemplos desta página descrevem a base publicada RC.14, salvo quando marcados como candidatos de código.
+RC.15 (Beta): veja [valores combinados, scroll nativo, saídas e listas por chave](./values-scroll-lists) para as adições e os limites por plataforma.
 
 `animateLayout(container)` anima a próxima mudança de layout dos filhos diretos de um container. Uma linha nova abre espaço, remover um card fecha a lacuna e reorganizar views existentes move cada uma até sua nova posição. Adicionado na beta.9.
 
@@ -34,7 +32,7 @@ await animation
 
 Cada chamada cobre um layout; não instala um observador permanente. Busque ou aguarde os dados **antes** da chamada. Callbacks assíncronos são rejeitados. Mesmo sem mudanças, a API solicita um layout e conclui sem depender de um timer fixo. Um container descarregado ou com `collapse` executa a mutação imediatamente e conclui sem guardar trabalho para uma carga futura.
 
-Só os filhos diretos são acompanhados. Para mover os vizinhos de um container que cresce, chame `animateLayout` no pai dele. Containers internos podem receber suas próprias chamadas. Por padrão, views removidas saem imediatamente e as restantes fecham o espaço. O candidato da próxima RC acrescenta [cópias de saída com orçamento](./values-scroll-lists).
+Só os filhos diretos são acompanhados. Para mover os vizinhos de um container que cresce, chame `animateLayout` no pai dele. Containers internos podem receber suas próprias chamadas. Por padrão, views removidas saem imediatamente e as restantes fecham o espaço. A RC.15 acrescenta [cópias de saída com orçamento](./values-scroll-lists).
 
 ## Tamanho e conteúdo
 

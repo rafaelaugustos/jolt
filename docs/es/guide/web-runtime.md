@@ -1,8 +1,6 @@
 # Runtime Web finito
 
-Candidato de código: consulte [valores combinados, scroll nativo, salidas y listas por clave](./values-scroll-lists) para las adiciones de la próxima RC y sus límites.
-
-Los demás ejemplos describen la base publicada RC.14, salvo cuando se marcan como candidatos de código.
+RC.15 (Beta): consulte [valores combinados, scroll nativo, salidas y listas por clave](./values-scroll-lists) para las adiciones y sus límites.
 
 Equivalente Web experimental: [partículas, superficies e imágenes](./web-surfaces). Disponible desde RC.10.
 

@@ -11,30 +11,25 @@ type Marker = {
 // Curated capability changes, not page edit timestamps. Review at each release.
 // Beta describes API maturity and does not expire with a release badge.
 const markers: Record<string, Marker> = {
-  'values-scroll-lists': { status: 'beta', availability: 'source' },
-  'portable-composition': {
-    status: 'new',
-    edition: '0.1.0-rc.12.1',
-    availability: 'published',
-  },
-  'swiftui-text': { status: 'new', edition: '0.1.0-rc.14', availability: 'published' },
-  'interaction-depth': {
+  'values-scroll-lists': { status: 'beta', availability: 'published' },
+  'motion-values': {
     status: 'updated',
-    edition: '0.1.0-rc.14',
+    edition: '0.1.0-rc.15',
     availability: 'published',
   },
-  'portable-foundations': {
+  'scroll-linked': {
     status: 'updated',
-    edition: '0.1.0-rc.14',
+    edition: '0.1.0-rc.15',
     availability: 'published',
   },
-  paths: { status: 'updated', edition: '0.1.0-rc.14', availability: 'published' },
+  layout: { status: 'updated', edition: '0.1.0-rc.15', availability: 'published' },
+  lists: { status: 'updated', edition: '0.1.0-rc.15', availability: 'published' },
+  'swiftui-motion': { status: 'beta', availability: 'published' },
+  'swiftui-advanced': { status: 'beta', availability: 'published' },
   'web-frameworks': { status: 'beta', availability: 'published' },
   'portable-tools': { status: 'beta', availability: 'published' },
   'web-runtime': { status: 'beta', availability: 'published' },
   swiftui: { status: 'beta', availability: 'published' },
-  'swiftui-motion': { status: 'beta', availability: 'published' },
-  'swiftui-advanced': { status: 'beta', availability: 'published' },
   'swiftui-characters': { status: 'beta', availability: 'published' },
   'swiftui-geometry': { status: 'beta', availability: 'published' },
 }

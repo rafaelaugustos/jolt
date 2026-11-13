@@ -1,8 +1,6 @@
 # Scroll-linked animations
 
-Source candidate: see [combined values, native scroll, layout exits and keyed lists](./values-scroll-lists) for the next-RC additions and platform limits.
-
-The remaining examples on this page describe the published RC.14 baseline unless explicitly marked as source candidates.
+RC.15 (Beta): see [combined values, native scroll, layout exits and keyed lists](./values-scroll-lists) for the additions and platform limits.
 
 Build an animation once, then let a `ScrollView` choose its frame:
 

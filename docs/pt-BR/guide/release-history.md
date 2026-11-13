@@ -1,5 +1,11 @@
 # Histórico de versões
 
+## 0.1.0-rc.15: Valores combinados, scroll e listas por chave {#rc-15}
+
+A RC.15 adiciona [valores de movimento combinados, bindings de scroll nativo, saídas de layout, listas por chave e cabeçalhos SwiftUI](./values-scroll-lists), pelo [PR #506](https://github.com/rafaelaugustos/jolt/pull/506). A documentação organiza seus 109 links em 16 tópicos. Instale core/plugin nativo na mesma versão e recompile apps NativeScript; use `v0.1.0-rc.15` do [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) no Swift Package Manager. As novas capacidades, a Web e o SwiftUI continuam experimentais.
+
+Continuam pendentes as medições de alocações/tempo por frame em Android físico (#494), a matriz completa de scroll horizontal/RTL/bounce/CollectionView de terceiros e o custo comparável por evento (#495), além da navegação e do foco completos com VoiceOver/TalkBack nativos (#498/#499). Essas issues permanecem abertas. As transições de Core ListView exigem linhas simples de altura fixa; transições de CollectionView, seções, grids e movimentos entre listas ficam fora deste primeiro adaptador. Evidências em simulador/emulador não comprovam menor CPU/PSS do app nem superioridade sobre Reanimated.
+
 ## 0.1.0-rc.14: Drop ordenado e paridade do SwiftUI {#rc-14}
 
 A RC.14 adiciona [alças de arrasto, posição durante o movimento, alvos com padding e reancoragem](./interaction-depth) na Web, no NativeScript e no SwiftUI, e leva ao SwiftUI [rotação 3D e sombras](./swiftui-motion), [shimmer, loaders, reveal, gradientes e blur](./swiftui-advanced), [entrada de texto e números rolantes](./swiftui-text) e [atividade por janela no macOS](./swiftui), pelo PR #488. O PR #491 corrige um set imediato que substitui um path no Android (#479) e fecha as lacunas de [ponteiro](./portable-foundations) e de grupos SwiftUI das #412/#413. Web e SwiftUI continuam experimentais. Instale os pacotes npm na mesma versão e recompile apps NativeScript; use a tag `v0.1.0-rc.14` do [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) no Swift Package Manager. Os guias nos quatro idiomas incluem gravações nativas e Web revisadas. Acessórios de ponteiro físicos continuam sem verificação (#492): a evidência de ponteiro usa simulador, emulador e entrada injetada.

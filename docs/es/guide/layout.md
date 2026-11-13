@@ -1,8 +1,6 @@
 # Cambios de diseño {#layout-changes}
 
-Candidato de código: consulte [valores combinados, scroll nativo, salidas y listas por clave](./values-scroll-lists) para las adiciones de la próxima RC y sus límites.
-
-Los demás ejemplos describen la base publicada RC.14, salvo cuando se marcan como candidatos de código.
+RC.15 (Beta): consulte [valores combinados, scroll nativo, salidas y listas por clave](./values-scroll-lists) para las adiciones y sus límites.
 
 `animateLayout(container)` anima el siguiente cambio de diseño de los hijos directos de un contenedor. Una nueva fila deja espacio, quitar una tarjeta cierra el espacio y reordenar las vistas existentes las mueve a sus nuevas posiciones. Agregado en beta.9.
 
@@ -34,7 +32,7 @@ await animation
 
 Una llamada cubre un pase de diseño; no es un observador permanente. Obtener o esperar datos **antes** llamándolo. Se rechazan las devoluciones de llamada asíncronas. Una operación no operativa aún solicita una aprobación de diseño y se resuelve sin un retraso fijo. Un contenedor descargado o colapsado aplica la mutación inmediatamente y se resuelve sin retener el trabajo para animarlo en una carga posterior.
 
-Solo se realiza un seguimiento de los hijos directos. Para mover a los vecinos de un contenedor cuando crece, llame a `animateLayout` en su padre. Los cambios anidados pueden utilizar llamadas independientes en sus propios contenedores. Por defecto las vistas eliminadas salen inmediatamente y las restantes cierran el espacio. El candidato de la próxima RC añade [copias de salida limitadas](./values-scroll-lists).
+Solo se realiza un seguimiento de los hijos directos. Para mover a los vecinos de un contenedor cuando crece, llame a `animateLayout` en su padre. Los cambios anidados pueden utilizar llamadas independientes en sus propios contenedores. Por defecto las vistas eliminadas salen inmediatamente y las restantes cierran el espacio. RC.15 añade [copias de salida limitadas](./values-scroll-lists).
 
 ## Tamaño y contenido {#size-and-content}
 

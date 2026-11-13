@@ -66,8 +66,8 @@ try {
     if (mobile) await page.locator('.VPBackdrop').tap({ position: { x: 370, y: 400 } })
     for (const [path, label] of [
       ['values-scroll-lists', 'Beta'],
-      ['swiftui-text', 'New'],
-      ['interaction-depth', 'Updated'],
+      ['motion-values', 'Updated'],
+      ['scroll-linked', 'Updated'],
       ['swiftui-geometry', 'Beta'],
     ]) {
       const link = sidebar.locator(`a[href="/guide/${path}"]`)

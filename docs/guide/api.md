@@ -1,6 +1,6 @@
 # API
 
-Next-RC source candidate: [combined values, native scroll, layout exits, keyed lists and SwiftUI headers](./values-scroll-lists). Not yet published.
+RC.15 (Beta): see [combined values, native scroll, layout exits and keyed lists](./values-scroll-lists) for the additions and platform limits.
 
 Available in RC.12: [interaction and depth](./interaction-depth) adds portable drop zones, optional audio/cues, adapter inspection and Web path/3D/shadow contracts.
 

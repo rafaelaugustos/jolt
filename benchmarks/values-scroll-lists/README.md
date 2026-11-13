@@ -1,6 +1,6 @@
 # Combined values, scroll, layout exits and keyed lists
 
-Unpublished source candidate for Jolt #494, #495, #498, #499, #500 and #501, based on RC.14. The implementation lives in the isolated `feat/rc15-values-scroll-lists` branch. This is an implementation/acceptance report, not release approval or a performance comparison with Reanimated.
+RC.15 implementation/acceptance report for Jolt #494, #495, #498, #499, #500 and #501, delivered by PR #506. The release contains the documented tested subset; the remaining acceptance below stays open. This is not a performance comparison with Reanimated.
 
 ## Delivery plan and evidence
 

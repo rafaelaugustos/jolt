@@ -35,7 +35,7 @@ The Web APIs are **experimental**. Start with the [Web runtime](./web-runtime), 
 
 ## SwiftUI (Beta)
 
-Available in **0.1.0-rc.14 (Beta)** for iOS 17+ and macOS 14+, without NativeScript or JavaScript. Install the `JoltSwiftUI` product from the [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) package repository, tag `v0.1.0-rc.14`. See [installation](./swiftui), [ownership](./swiftui-motion) and [interaction/geometry](./swiftui-geometry) for platform limits.
+Available in **0.1.0-rc.15 (Beta)** for iOS 17+ and macOS 14+, without NativeScript or JavaScript. Install the `JoltSwiftUI` product from the [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) package repository, tag `v0.1.0-rc.15`. See [installation](./swiftui), [ownership](./swiftui-motion) and [interaction/geometry](./swiftui-geometry) for platform limits.
 
 ## Why not `view.animate()`
 
@@ -81,6 +81,6 @@ The sidebar highlights capabilities with three labels:
 
 New and Updated expire when the documented version changes. Beta stays until the API is stabilized. The label description distinguishes a published capability from a source candidate; the guide states any pending merge or publication. A badge alone does not mean a feature has been released.
 
-<Clip name="docs-topics-desktop" caption="Chromium on macOS, desktop viewport: topic groups, page counts, keyboard navigation, release badges and light/dark themes. Documentation navigation, not a native app." />
+<Clip name="docs-topics-rc15-desktop" caption="Chromium on macOS, desktop viewport: topic groups, page counts, keyboard navigation, release badges and light/dark themes. Documentation navigation, not a native app." />
 
-<Clip name="docs-topics-mobile" caption="Chromium on macOS, emulated mobile viewport: opening topic groups and following links by touch. Browser emulation, not a physical phone recording." />
+<Clip name="docs-topics-rc15-mobile" caption="Chromium on macOS, emulated mobile viewport: opening topic groups and following links by touch. Browser emulation, not a physical phone recording." />

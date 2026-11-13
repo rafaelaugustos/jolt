@@ -1,6 +1,6 @@
 # API
 
-Candidato para a próxima RC: [valores combinados, scroll nativo, saídas, listas por chave e cabeçalhos SwiftUI](./values-scroll-lists). Ainda não publicado.
+RC.15 (Beta): veja [valores combinados, scroll nativo, saídas e listas por chave](./values-scroll-lists) para as adições e os limites por plataforma.
 
 Disponível na RC.12: [interação e profundidade](./interaction-depth) acrescenta drop zones, áudio/cues opcionais, inspeção e contratos Web de paths, 3D e sombras.
 

@@ -1,6 +1,8 @@
 # Valores combinados, scroll y listas por clave
 
-**Candidato para la próxima RC; no publicado en RC.14.** Cubre #494, #495, #498, #499, #500 y #501. Recompile las aplicaciones nativas. Los vídeos muestran interacción real en simuladores, emulador y navegador; no prueban rendimiento en un dispositivo físico.
+**Disponible en 0.1.0-rc.15 (Beta).** Recompile las aplicaciones nativas tras actualizar. Los vídeos muestran interacción real en las plataformas indicadas; simuladores/emuladores no prueban rendimiento en un dispositivo físico.
+
+Siguen pendientes las mediciones de asignaciones/tiempo por frame en Android físico (#494), la matriz completa de scroll horizontal/RTL/bounce/CollectionView de terceros y el coste comparable por evento (#495), y la navegación y el foco completos con VoiceOver/TalkBack nativos (#498/#499). Esas issues permanecen abiertas. Las transiciones de Core ListView requieren filas planas de altura fija; transiciones de CollectionView, secciones, grids y movimientos entre listas quedan fuera de este primer adaptador. La evidencia de simulador/emulador no demuestra menor CPU/PSS del app ni superioridad sobre Reanimated.
 
 ## Valores numéricos
 

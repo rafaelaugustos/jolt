@@ -1,8 +1,6 @@
 # Layout changes
 
-Source candidate: see [combined values, native scroll, layout exits and keyed lists](./values-scroll-lists) for the next-RC additions and platform limits.
-
-The remaining examples on this page describe the published RC.14 baseline unless explicitly marked as source candidates.
+RC.15 (Beta): see [combined values, native scroll, layout exits and keyed lists](./values-scroll-lists) for the additions and platform limits.
 
 `animateLayout(container)` animates the next layout change of a container's direct children. A new row makes room, removing a card closes the gap, and reordering existing views moves them into their new positions. Added in beta.9.
 
@@ -34,7 +32,7 @@ await animation
 
 One call covers one layout pass; it is not a permanent observer. Fetch or await data **before** calling it. Async callbacks are rejected. A no-op still requests a layout pass and resolves without a fixed-delay fallback. An unloaded or collapsed container applies the mutation immediately and resolves without retaining work to animate on a later load.
 
-Only direct children are tracked. To move a container's neighbours when it grows, call `animateLayout` on its parent. Nested changes can use separate calls on their own containers. By default removed views leave immediately and remaining views close the gap. The next-RC candidate adds opt-in [bounded exit copies](./values-scroll-lists#exits-and-vue-groups).
+Only direct children are tracked. To move a container's neighbours when it grows, call `animateLayout` on its parent. Nested changes can use separate calls on their own containers. By default removed views leave immediately and remaining views close the gap. RC.15 adds opt-in [bounded exit copies](./values-scroll-lists#exits-and-vue-groups).
 
 ## Size and content
 
