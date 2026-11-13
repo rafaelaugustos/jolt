@@ -1084,15 +1084,14 @@ final class SwiftUIAcceptance: XCTestCase {
     let surface = app.descendants(matching: .any)["reveal-surface"].firstMatch
     XCTAssertFalse(surface.exists)
     XCTAssertTrue(label(app, "reveal-status").contains("concealed"), label(app, "reveal-status"))
+    // Keep the two input events adjacent. Accessibility queries and XCTest's idle waits
+    // can consume the entire 2.4 s reveal on a CI simulator. The persistent interruption
+    // count below proves replacement of a live reveal without racing a transient phase.
     press(area, 0.2, 0.3)
-    XCTAssertTrue(
-      wait { self.label(app, "reveal-status").contains("revealing") }, label(app, "reveal-status"))
-    Thread.sleep(forTimeInterval: 0.3)
     click(app.buttons["reveal-conceal"])
     XCTAssertTrue(
-      wait { self.label(app, "reveal-status").contains("concealing") }, label(app, "reveal-status"))
-    XCTAssertTrue(
-      label(app, "reveal-status").contains("interrupted 1"), label(app, "reveal-status"))
+      wait { self.label(app, "reveal-status").contains("interrupted 1") },
+      label(app, "reveal-status"))
     XCTAssertTrue(
       wait { self.label(app, "reveal-status").contains("Reveal: concealed") },
       label(app, "reveal-status"))
