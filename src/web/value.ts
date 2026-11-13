@@ -1,10 +1,16 @@
 import type { FrameScheduler, FrameTask } from './scheduler.js'
 import { numericMap, type NumericMapOptions } from '../core/numeric-map.js'
 import { colorMixer } from '../core/color.js'
+import {
+  scalarSample,
+  type ScalarOperation,
+  type ScalarOperations,
+  type ScalarSample,
+} from '../core/scalar.js'
 import { colorCSS, type KeyframeProperty, type ColorProperty } from './properties.js'
 export type { NumericMapOptions as WebMapOptions } from '../core/numeric-map.js'
 
-export interface WebReadableValue {
+export interface WebReadableValue extends ScalarOperations<WebReadableValue> {
   to(
     input: readonly number[],
     output: readonly number[],
@@ -95,6 +101,10 @@ export class NumericValue {
   get depth() {
     return 0
   }
+  activity(cache = new Map<NumericValue, boolean>()): boolean {
+    if (!cache.has(this)) cache.set(this, this.moving)
+    return cache.get(this)!
+  }
   protected get demanded() {
     return !!(this.listeners.size || this.observers.size)
   }
@@ -104,6 +114,14 @@ export class NumericValue {
   }
   getVelocity() {
     return this.ended ? 0 : this.speed
+  }
+  sample(cache = new Map<NumericValue, ScalarSample>()): ScalarSample {
+    let sample = cache.get(this)
+    if (!sample) {
+      sample = { value: this.get(), velocity: this.getVelocity() }
+      cache.set(this, sample)
+    }
+    return sample
   }
   protected assert() {
     if (this.ended) throw new Error('The motion value is disposed.')
@@ -184,7 +202,7 @@ export class NumericValue {
     this.observers.clear()
     this.forget()
   }
-  readableHandle(): Omit<WebReadableValue, 'to'> {
+  readableHandle(): WebValueHandle {
     const node = this
     return {
       get: () => node.get(),
@@ -196,10 +214,128 @@ export class NumericValue {
       dispose: () => node.dispose(),
     }
   }
-  handle(): Omit<WebMotionValue, 'to'> {
+  handle(): WebValueHandle & Pick<WebMotionValue, 'set'> {
     return Object.assign(this.readableHandle(), {
       set: (value: number) => this.set(value),
     })
+  }
+}
+
+export type WebValueHandle = Omit<
+  WebReadableValue,
+  'to' | keyof ScalarOperations<WebReadableValue>
+>
+
+/** Multi-input reads stay lazy. All consumers see the final source samples in the write phase. */
+export class ArithmeticValueNode extends NumericValue {
+  private sources: NumericValue[]
+  private unlisten: (() => void)[] = []
+  private sourceEndings: (() => void)[] = []
+  private readonly level: number
+  constructor(
+    private left: NumericValue,
+    private readonly op: ScalarOperation,
+    private right: NumericValue | number | undefined,
+    private readonly maximum: number | undefined,
+    report: (error: unknown) => void,
+    forget: () => void,
+  ) {
+    const sources = [
+      ...new Set([left, ...(right instanceof NumericValue ? [right] : [])]),
+    ]
+    if (
+      sources.some(
+        (source) =>
+          source.disposed ||
+          source.kind !== 'number' ||
+          source.depth >= 32 ||
+          source.scheduler !== left.scheduler,
+      )
+    )
+      throw new TypeError(
+        'Scalar operations need live numeric values from the same runtime within 32 levels.',
+      )
+    if (typeof right === 'number') finite(right)
+    const cache = new Map<NumericValue, ScalarSample>()
+    const a = left.sample(cache),
+      b =
+        right instanceof NumericValue
+          ? right.sample(cache)
+          : { value: right ?? 0, velocity: 0 }
+    super(
+      left.scheduler,
+      scalarSample(op, a.value, a.velocity, b.value, b.velocity, maximum).value,
+      report,
+      forget,
+    )
+    this.sources = sources
+    this.level = Math.max(...sources.map((source) => source.depth)) + 1
+    this.sourceEndings = sources.map((source) => source.onDispose(() => this.dispose()))
+  }
+  override get depth() {
+    return this.level
+  }
+  override get moving() {
+    return this.activity()
+  }
+  override activity(cache = new Map<NumericValue, boolean>()): boolean {
+    if (!cache.has(this))
+      cache.set(
+        this,
+        !this.ended && this.sources.some((source) => source.activity(cache)),
+      )
+    return cache.get(this)!
+  }
+  override sample(cache = new Map<NumericValue, ScalarSample>()): ScalarSample {
+    const cached = cache.get(this)
+    if (cached) return cached
+    if (this.ended) return { value: this.position, velocity: 0 }
+    const a = this.left.sample(cache)
+    const b =
+      this.right instanceof NumericValue
+        ? this.right.sample(cache)
+        : { value: this.right ?? 0, velocity: 0 }
+    const result = scalarSample(
+      this.op,
+      a.value,
+      a.velocity,
+      b.value,
+      b.velocity,
+      this.maximum,
+    )
+    cache.set(this, result)
+    return result
+  }
+  override get() {
+    return this.ended ? this.position : this.sample().value
+  }
+  override getVelocity() {
+    return this.ended ? 0 : this.sample().velocity
+  }
+  protected override demandChanged() {
+    if (this.ended) return
+    if (this.demanded && !this.unlisten.length)
+      this.unlisten = this.sources.map((source) =>
+        source.listen(() => {
+          const sample = this.sample()
+          this.publish(sample.value, sample.velocity)
+        }),
+      )
+    else if (!this.demanded) {
+      for (const stop of this.unlisten) stop()
+      this.unlisten = []
+    }
+  }
+  override dispose() {
+    if (this.ended) return
+    this.position = this.get()
+    for (const stop of this.unlisten) stop()
+    for (const stop of this.sourceEndings) stop()
+    this.unlisten = this.sourceEndings = []
+    super.dispose()
+    this.sources = []
+    this.left = undefined!
+    this.right = undefined
   }
 }
 
@@ -267,7 +403,11 @@ export class ColorMappedNode extends NumericValue {
     return this.source.depth + 1
   }
   override get moving() {
-    return !this.ended && this.source.moving
+    return this.activity()
+  }
+  override activity(cache = new Map<NumericValue, boolean>()): boolean {
+    if (!cache.has(this)) cache.set(this, !this.ended && this.source.activity(cache))
+    return cache.get(this)!
   }
   override get() {
     if (this.ended) return this.position
@@ -335,24 +475,39 @@ export class DerivedValueNode extends NumericValue {
   override get depth() {
     return this.level
   }
+  get mapping() {
+    return { source: this.source, map: this.map }
+  }
   protected remap(map: ReturnType<typeof numericMap>) {
     if (this.ended) return
     this.map = map
     this.publish(this.get(), this.getVelocity())
   }
   override get moving() {
-    return !this.ended && this.source.moving
+    return this.activity()
+  }
+  override activity(cache = new Map<NumericValue, boolean>()): boolean {
+    if (!cache.has(this)) cache.set(this, !this.ended && this.source.activity(cache))
+    return cache.get(this)!
+  }
+  override sample(cache = new Map<NumericValue, ScalarSample>()): ScalarSample {
+    const cached = cache.get(this)
+    if (cached) return cached
+    if (this.ended) return { value: this.position, velocity: 0 }
+    const source = this.source.sample(cache),
+      mapped = this.map.sample(source.value)
+    const result = {
+      value: mapped.value,
+      velocity: finite(mapped.slope * source.velocity, 'mapped velocity'),
+    }
+    cache.set(this, result)
+    return result
   }
   override get() {
-    return this.ended ? this.position : this.map.sample(this.source.get()).value
+    return this.sample().value
   }
   override getVelocity() {
-    return this.ended
-      ? 0
-      : finite(
-          this.map.sample(this.source.get()).slope * this.source.getVelocity(),
-          'mapped velocity',
-        )
+    return this.sample().velocity
   }
   protected override demandChanged() {
     if (this.ended) return

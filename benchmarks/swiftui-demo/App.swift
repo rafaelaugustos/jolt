@@ -8,7 +8,9 @@ import SwiftUI
 @main struct JoltSwiftUIDemo: App {
   private let activityLab = ProcessInfo.processInfo.arguments.contains("--activity-lab")
   @ViewBuilder private var root: some View {
-    if activityLab {
+    if ProcessInfo.processInfo.arguments.contains("--values-scroll-lab") {
+      ValuesScrollLab()
+    } else if activityLab {
       ActivityLab()
     } else if ProcessInfo.processInfo.arguments.contains("--panel-lab") {
       PanelLab()

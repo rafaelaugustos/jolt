@@ -427,7 +427,7 @@ function plan(
 ): Plan[] {
   if (layer !== undefined && path)
     throw new Error("A path owns x and y; it can't play on a layer.")
-  return expand(keyframes, path).map(([property, frames]) => {
+  return expandKeyframes(keyframes, path).map(([property, frames]) => {
     if (layer !== undefined && !layerable(property))
       throw new Error(
         `Layers apply to x, y, scale, rotation and opacity; "${property}" has a single owner.`,
@@ -469,9 +469,9 @@ export function startingValues(
   const { keyframes, relative, path, layer } = prepare(animation, options)
   if (!keyframes) throw new Error(`Unknown preset "${animation}".`)
   if (layer !== undefined)
-    return new Map(expand(keyframes, path).map(([property]) => [property, null]))
+    return new Map(expandKeyframes(keyframes, path).map(([property]) => [property, null]))
   return new Map(
-    expand(keyframes, path).map(([property, [first]]) => [
+    expandKeyframes(keyframes, path).map(([property, [first]]) => [
       property,
       relative && !isColorProperty(property) ? null : first!,
     ]),
@@ -497,7 +497,7 @@ export function endingValues(
   )
 }
 
-function expand(
+export function expandKeyframes(
   keyframes: Keyframes,
   path?: PreparedPath,
 ): [Property, (number | null)[]][] {

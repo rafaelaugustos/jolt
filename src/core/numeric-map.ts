@@ -54,5 +54,5 @@ export function numericMap(
     if (!Number.isFinite(mapped)) throw new RangeError('Mapped output overflowed.')
     return { value: mapped, slope: slopes[i]! }
   }
-  return { sample }
+  return { sample, input: x as readonly number[], output: y as readonly number[], clamp }
 }

@@ -1,3 +1,4 @@
+import type { ScalarOperations } from '../core/scalar.js'
 import { springPhysics, springTrajectory, type SpringParams } from '../core/spring.js'
 import { NumericValue, finite, type WebReadableValue } from './value.js'
 import type { FrameScheduler, FrameTask } from './scheduler.js'
@@ -97,7 +98,7 @@ export class SpringValueNode extends NumericValue {
   get paused() {
     return this.held
   }
-  private sample(at: number) {
+  private springSample(at: number) {
     if (!this.trajectory || this.held || this.ended)
       return { position: this.position, velocity: this.speed }
     const elapsed = Math.max(0, at - this.epoch) * this.rate
@@ -108,14 +109,14 @@ export class SpringValueNode extends NumericValue {
     }
   }
   override get() {
-    return this.sample(this.scheduler.now()).position
+    return this.springSample(this.scheduler.now()).position
   }
   override getVelocity() {
-    return this.ended ? 0 : this.sample(this.scheduler.now()).velocity
+    return this.ended ? 0 : this.springSample(this.scheduler.now()).velocity
   }
   private advance(at: number) {
     if (this.ended || this.held || !this.active) return
-    const next = this.sample(at)
+    const next = this.springSample(at)
     if (
       Math.abs(next.position - this.destination) <= this.delta &&
       Math.abs(next.velocity) <= this.restSpeed
@@ -185,7 +186,7 @@ export class SpringValueNode extends NumericValue {
   }
   override dispose() {
     if (this.ended) return
-    const sampled = this.sample(this.scheduler.now())
+    const sampled = this.springSample(this.scheduler.now())
     this.position = sampled.position
     this.trajectory = undefined
     this.active = false
@@ -193,7 +194,7 @@ export class SpringValueNode extends NumericValue {
     this.scheduler.remove(this.task)
     super.dispose()
   }
-  springHandle(): Omit<WebSpringValue, 'to'> {
+  springHandle(): Omit<WebSpringValue, 'to' | keyof ScalarOperations<WebReadableValue>> {
     const node = this
     return {
       get: () => node.get(),

@@ -1,4 +1,10 @@
+import type { Animation } from '../../core/playback.js'
+import type { LayoutExit } from '../../core/layout-exit.js'
 import {
+  defineComponent,
+  h,
+  onBeforeUpdate,
+  type PropType,
   getCurrentInstance,
   getCurrentScope,
   onMounted,
@@ -13,6 +19,7 @@ import {
 } from 'vue'
 import {
   createWebRuntime,
+  springs,
   type AnimateOptions,
   type Keyframes,
   type Preset,
@@ -453,3 +460,47 @@ export function useReducedMotion(borrowed?: WebRuntime): Readonly<Ref<boolean>> 
   })
   return readonly(value)
 }
+
+/** DOM counterpart to the native group; children must have stable Vue keys. */
+export const JoltTransitionGroup = defineComponent({
+  name: 'JoltTransitionGroup',
+  inheritAttrs: false,
+  props: {
+    tag: { type: String, default: 'div' },
+    runtime: Object as PropType<WebRuntime>,
+    enter: { type: Boolean, default: true },
+    leave: {
+      type: [String, Object, Boolean] as PropType<LayoutExit>,
+      default: 'fadeOut',
+    },
+    move: {
+      type: [String, Object] as PropType<SpringName | WebLayoutOptions>,
+      default: 'snappy',
+    },
+  },
+  setup(props, { slots, attrs }) {
+    const host = shallowRef<HTMLElement | null>(null)
+    let owned: WebRuntime | undefined, animation: Animation | undefined
+    const stop = () => {
+      animation?.stop()
+      animation = undefined
+    }
+    onBeforeUpdate(() => {
+      if (!host.value?.isConnected) return
+      const runtime =
+        props.runtime ?? (owned ??= createWebRuntime(host.value.ownerDocument))
+      const move = typeof props.move === 'string' ? springs[props.move] : props.move
+      animation = runtime.animateLayout(host.value, {
+        ...move,
+        enter: props.enter,
+        exit: props.leave,
+      })
+    })
+    onDeactivated(stop)
+    onScopeDispose(() => {
+      stop()
+      owned?.dispose()
+    })
+    return () => h(props.tag, { ...attrs, ref: host }, slots.default?.())
+  },
+})

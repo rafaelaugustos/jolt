@@ -10,10 +10,12 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSUInteger)activeCount;
 + (NSUInteger)nodeCount;
 + (void)sync:(UIView *)view;
+- (void)compute:(NSArray<JoltLiveSpring *> *)sources program:(NSString *)program;
 - (void)follow:(JoltLiveSpring *)source mappings:(NSString *)mappings;
 - (void)updateInput:(NSString *)snapshot;
 - (void)setInputs:(NSString *)snapshots rest:(double)rest;
 - (void)setSensorInput:(double)value;
+- (void)setDataInput:(double)value velocity:(double)velocity;
 - (void)setTarget:(double)value;
 - (void)holdInput:(double)value velocity:(double)velocity;
 - (void)releaseInput:(double)target velocity:(double)velocity;

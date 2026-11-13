@@ -1,5 +1,7 @@
 # API {#api}
 
+Candidato para la próxima RC: [valores combinados, scroll nativo, salidas, listas por clave y encabezados SwiftUI](./values-scroll-lists). Todavía no publicado.
+
 Disponible en RC.12: [interacción y profundidad](./interaction-depth) añade drop zones, audio/cues opcionales, inspección y contratos Web de paths, 3D y sombras.
 
 - [**Gravedad, haptics, sensores, glass y retorno de galería Web**](./web-parity) — disponible desde RC.10.

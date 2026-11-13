@@ -12,6 +12,7 @@ export type {
   MapOptions,
   MotionValue,
   ScrollValue,
+  ScrollValueOptions,
   SpringValue,
   SpringValueOptions,
   ValueAnimationOptions,
@@ -164,3 +165,7 @@ export { renderActivity } from './render-activity.js'
 export { pointerFollow } from './pointer.js'
 export type { PointerFollow, PointerOptions } from './pointer.js'
 export type { RenderActivity, RenderActivityAdapter } from './render-activity.js'
+
+export type { LayoutExit } from './core/layout-exit.js'
+
+export { listChanges, type ListChanges, type ListChangesOptions } from './list-changes.js'

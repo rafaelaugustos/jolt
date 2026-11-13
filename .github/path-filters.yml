@@ -16,6 +16,7 @@ native:
   - benchmarks/native-ci.py
   - benchmarks/test_native_ci.py
   - benchmarks/native-app/**
+  - benchmarks/values-scroll-lists/**
   - benchmarks/traces/**
 
 swiftui:
@@ -32,6 +33,7 @@ web:
   - demo/src/**
   - test/fixtures/**
   - benchmarks/web-*/**
+  - benchmarks/values-scroll-lists/**
 
 packages:
   - *shared

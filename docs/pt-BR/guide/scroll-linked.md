@@ -1,5 +1,9 @@
 # Animações ligadas ao scroll
 
+Candidato de código: veja [valores combinados, scroll nativo, saídas e listas por chave](./values-scroll-lists) para as adições da próxima RC e limites por plataforma.
+
+Os demais exemplos desta página descrevem a base publicada RC.14, salvo quando marcados como candidatos de código.
+
 Crie a animação uma vez e deixe um `ScrollView` escolher o frame:
 
 <Clip name="scroll-linked-ios" caption="A rolagem recolhe o cabeçalho, revela o título compacto e depois restaura o estado inicial. Simulador iOS." />

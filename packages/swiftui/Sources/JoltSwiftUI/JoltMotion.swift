@@ -41,10 +41,13 @@ private struct JoltReduceMotionKey: EnvironmentKey {
   static let defaultValue = false
 }
 extension EnvironmentValues {
-  var joltReduceMotion: Bool {
+  /// Application preference; the system preference still takes precedence.
+  public var joltReduceMotion: Bool {
     get { self[JoltReduceMotionKey.self] }
     set { self[JoltReduceMotionKey.self] = newValue }
   }
+  /// Effective setting for custom scrolling/interaction: app OR system Reduce Motion.
+  public var joltEffectiveReduceMotion: Bool { accessibilityReduceMotion || joltReduceMotion }
 }
 
 private struct MotionModifier: ViewModifier {

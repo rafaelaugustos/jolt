@@ -39,19 +39,28 @@ public enum JoltPlaybackState: String, Sendable {
   private var subscription: ClockSubscription?
   private var observers: [UUID: @MainActor (Double) -> Void] = [:]
   private var finishers: [UUID: @MainActor (Bool) -> Void] = [:]
+  private var scalarObservers: [UUID: @MainActor () -> Void] = [:]
+  func observeScalar(_ callback: @escaping @MainActor () -> Void) -> JoltObservation {
+    let id=UUID(); scalarObservers[id]=callback
+    return JoltObservation { [weak self] in self?.scalarObservers.removeValue(forKey: id) }
+  }
+  private func scalarChanged() {
+    for (id, callback) in Array(scalarObservers) where scalarObservers[id] != nil { callback() }
+  }
   private var generation = 0
   private(set) var lease: UUID?
   private var leaseLost: (@MainActor () -> Void)?
   public init(_ initial: Double, clock: JoltClock = .shared) throws {
-    guard initial.isFinite, abs(initial) <= 1e12 else { throw JoltError.invalidMotion }
+    guard initial.isFinite, Swift.abs(initial) <= 1e12 else { throw JoltError.invalidMotion }
     value = initial
     target = initial
     self.clock = clock
   }
   /// Jump cancels the previous motion. Invalid input leaves it running.
   public func set(_ next: Double) throws {
+    defer { scalarChanged() }
     guard !disposed else { throw JoltError.disposed }
-    guard next.isFinite, abs(next) <= 1e12 else { throw JoltError.invalidMotion }
+    guard next.isFinite, Swift.abs(next) <= 1e12 else { throw JoltError.invalidMotion }
     let callbacks = detachMotion()
     generation += 1
     let lost = dropLease()
@@ -127,6 +136,7 @@ public enum JoltPlaybackState: String, Sendable {
     if reducedMotion || clock.reducedMotion || candidate.duration == 0 { settle() } else { start() }
   }
   public func cancel() {
+    defer { scalarChanged() }
     guard !disposed else { return }
     let sample = currentSample()
     let callbacks = detachMotion()
@@ -139,28 +149,33 @@ public enum JoltPlaybackState: String, Sendable {
     lost?()
   }
   public func pause() {
+    defer { scalarChanged() }
     guard !disposed, !paused else { return }
     freeze()
     paused = true
     updateState()
   }
   public func play() {
+    defer { scalarChanged() }
     guard !disposed else { return }
     paused = false
     start()
   }
   public func suspend() {
+    defer { scalarChanged() }
     guard !disposed, !suspended else { return }
     freeze()
     suspended = true
     updateState()
   }
   public func resume() {
+    defer { scalarChanged() }
     guard !disposed else { return }
     suspended = false
     start()
   }
   public func dispose() {
+    defer { scalarChanged() }
     guard !disposed else { return }
     let callbacks = detachMotion()
     generation += 1
@@ -169,6 +184,8 @@ public enum JoltPlaybackState: String, Sendable {
     velocity = 0
     state = .disposed
     observers.removeAll()
+    scalarChanged()
+    scalarObservers.removeAll()
     for callback in callbacks { callback(false) }
     lost?()
   }
@@ -197,6 +214,7 @@ public enum JoltPlaybackState: String, Sendable {
     }
   }
   func sample(_ sample: JoltScalarSample, target next: Double, owner: UUID) {
+    defer { scalarChanged() }
     guard !disposed, lease == owner else { return }
     if target != next { target = next }
     if velocity != sample.velocity { velocity = sample.velocity }
@@ -205,11 +223,13 @@ public enum JoltPlaybackState: String, Sendable {
     publish(sample.position)
   }
   func markLeasePaused(_ owner: UUID, suspended: Bool) {
+    defer { scalarChanged() }
     guard lease == owner else { return }
     velocity = 0
     state = suspended ? .suspended : .paused
   }
   func relinquish(_ owner: UUID, cancelled: Bool) {
+    defer { scalarChanged() }
     guard lease == owner else { return }
     lease = nil
     leaseLost = nil
@@ -228,7 +248,7 @@ public enum JoltPlaybackState: String, Sendable {
     for (id, callback) in Array(observers) where observers[id] != nil { callback(next) }
   }
   private func currentSample() -> JoltScalarSample? {
-    motion?.sample(at: elapsed + (subscription == nil ? 0 : max(0, clock.now - started)))
+    motion?.sample(at: elapsed + (subscription == nil ? 0 : Swift.max(0, clock.now - started)))
   }
   private func detachMotion() -> [@MainActor (Bool) -> Void] {
     subscription?.cancel()
@@ -239,6 +259,7 @@ public enum JoltPlaybackState: String, Sendable {
     return callbacks
   }
   private func settle() {
+    defer { scalarChanged() }
     let final = target
     let callbacks = detachMotion()
     generation += 1
@@ -249,7 +270,7 @@ public enum JoltPlaybackState: String, Sendable {
   }
   private func freeze() {
     if let subscription {
-      let time = max(0, clock.now - started)
+      let time = Swift.max(0, clock.now - started)
       elapsed += time
       subscription.cancel()
       self.subscription = nil
@@ -273,12 +294,13 @@ public enum JoltPlaybackState: String, Sendable {
         self.settle()
         return
       }
-      let sample = motion.sample(at: self.elapsed + max(0, now - self.started))
+      let sample = motion.sample(at: self.elapsed + Swift.max(0, now - self.started))
       if sample.completed {
         self.settle()
       } else {
         self.velocity = sample.velocity
         self.publish(sample.position)
+        self.scalarChanged()
       }
     }
   }
@@ -366,7 +388,7 @@ private struct ValueModifier: ViewModifier {
           channels: property == .opacity ? .init() : property.channels(scalar),
           consumes: property.tilts)
       )
-      .opacity(property == .opacity ? min(1, max(0, scalar)) : 1)
+      .opacity(property == .opacity ? Swift.min(1, Swift.max(0, scalar)) : 1)
       .transaction { $0.animation = nil }
   }
 }

@@ -31,3 +31,6 @@ export const onActivated = (callback: () => void) => activateHooks.push(callback
 export const onDeactivated = (callback: () => void) => deactivateHooks.push(callback)
 export const shallowRef = <T>(value: T) => ({ value })
 export const readonly = <T>(value: T) => value
+
+export const beforeUpdateHooks: (() => void)[] = []
+export const onBeforeUpdate = (callback: () => void) => beforeUpdateHooks.push(callback)

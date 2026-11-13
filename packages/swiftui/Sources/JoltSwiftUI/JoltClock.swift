@@ -18,6 +18,11 @@ import QuartzCore
   public private(set) var time: Double = 0
   @Published public private(set) var activeCount = 0
   private var callbacks: [UUID: @MainActor (Double) -> Void] = [:]
+  private var deriving = false
+  private var derived: [ObjectIdentifier: @MainActor () -> Void] = [:]
+  func derive(_ owner: ObjectIdentifier, _ callback: @escaping @MainActor () -> Void) {
+    if deriving { derived[owner]=callback } else { callback() }
+  }
   private var proxy: ClockProxy?
   public init(manual: Bool = false) {
     self.manual = manual
@@ -44,8 +49,14 @@ import QuartzCore
     // Several displays can report the same vsync; time never moves backwards.
     guard timestamp > time || manual else { return }
     time = timestamp
+    deriving=true
     // A callback may cancel another callback or subscribe replacement work.
     for (id, callback) in Array(callbacks) where callbacks[id] != nil { callback(timestamp) }
+    while !derived.isEmpty {
+      let pending=derived; derived.removeAll()
+      for callback in pending.values { callback() }
+    }
+    deriving=false
   }
   #if os(macOS)
     private var links: [CGDirectDisplayID: CADisplayLink] = [:]

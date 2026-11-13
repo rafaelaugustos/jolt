@@ -18,7 +18,7 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
     private Bitmap source, target, pageBitmap;
     private RectF pageFrame;
-    private boolean fading, clippedImage;
+    private boolean fading, clippedImage, exiting;
     private float sourceWidth, sourceHeight, targetWidth, targetHeight;
     private boolean sourceImage, targetImage, disposed, running, navigationImage, borrowedTarget;
     private double[] interactiveStart, interactiveEnd;
@@ -220,6 +220,12 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
         source=bitmap; target=null; sourceWidth=(float)pose[2]*density; sourceHeight=(float)pose[3]*density; sourceImage=false; pose[5]=0;
         destination=null; invalidate(); return true;
     }
+    /** A leaving snapshot has no destination and must not hide a recycled source. */
+    public void prepareExit() {
+        exiting=true;
+        for(Map.Entry<View,Integer> entry:hidden.entrySet()) if(entry.getKey().getVisibility()==INVISIBLE)entry.getKey().setVisibility(entry.getValue());
+        hidden.clear();
+    }
     public void play(String json, Listener callback) {
         if(disposed) return;
         try {
@@ -249,7 +255,7 @@ public final class SharedLayoutFlight extends View implements Choreographer.Fram
         if(!running || disposed)return;
         if(fading){double p=Math.min(1,(android.os.SystemClock.uptimeMillis()-started)/duration);setAlpha((float)(1-p));if(p>=1)end(true);else Choreographer.getInstance().postFrameCallback(this);return;}
         RectF frame=geometry(destination);
-        if(root.getWidth()!=rootWidth || root.getHeight()!=rootHeight || frame==null || Math.abs(frame.left-destinationFrame.left)>1 || Math.abs(frame.top-destinationFrame.top)>1 || Math.abs(frame.width()-destinationFrame.width())>1 || Math.abs(frame.height()-destinationFrame.height())>1) { end(false); return; }
+        if(root.getWidth()!=rootWidth || root.getHeight()!=rootHeight || (!exiting && (frame==null || Math.abs(frame.left-destinationFrame.left)>1 || Math.abs(frame.top-destinationFrame.top)>1 || Math.abs(frame.width()-destinationFrame.width())>1 || Math.abs(frame.height()-destinationFrame.height())>1))) { end(false); return; }
         double now=android.os.SystemClock.uptimeMillis(); evaluate(now); invalidate();
         if(now-started>=duration)end(true); else Choreographer.getInstance().postFrameCallback(this);
     }

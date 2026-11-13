@@ -1,5 +1,9 @@
 # Animaciones vinculadas al desplazamiento {#scroll-linked-animations}
 
+Candidato de código: consulte [valores combinados, scroll nativo, salidas y listas por clave](./values-scroll-lists) para las adiciones de la próxima RC y sus límites.
+
+Los demás ejemplos describen la base publicada RC.14, salvo cuando se marcan como candidatos de código.
+
 Crea una animación una vez, luego deja que un `ScrollView` elija su fotograma:
 
 <Clip name="scroll-linked-ios" caption="El desplazamiento real colapsa el encabezado grande y revela el título compacto, luego lo restaura. Simulador iOS." />

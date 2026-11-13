@@ -126,6 +126,17 @@ function sidebar(prefix: string, t: Record<string, string>): DefaultTheme.Sideba
         page('size', 'size'),
         page('sequences', 'sequences'),
         page('motionValues', 'motion-values'),
+        {
+          text:
+            (
+              {
+                '/pt-BR': 'Valores, scroll e listas',
+                '/es': 'Valores, scroll y listas',
+                '/zh-Hans': '组合值、滚动与列表',
+              } as Record<string, string>
+            )[prefix] ?? 'Values, scroll and lists',
+          link: `${prefix}/guide/values-scroll-lists`,
+        },
         page('liveSprings', 'live-springs'),
         page('nativeProperties', 'native-properties'),
         page('sceneLighting', 'scene-lighting'),

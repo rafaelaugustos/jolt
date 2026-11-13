@@ -1,5 +1,9 @@
 # 滚动联动动画 {#scroll-linked-animations}
 
+源码候选：下一版 RC 的新增功能和平台限制请见[组合值、原生滚动、退场与按键列表](./values-scroll-lists)。
+
+除明确标为源码候选的内容外，本页其余示例描述已发布的 RC.14 基线。
+
 构建一次动画，然后让 `ScrollView` 选择其框架：
 
 <Clip name="scroll-linked-ios" caption="真正的滚动会折叠大标题并显示紧凑标题，然后将其恢复。 iOS simulator." />

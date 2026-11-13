@@ -22,6 +22,7 @@ if (module.render)
   assert.equal(await module.render(), '<main data-motion="function">SSR</main>')
 else {
   assert.deepEqual(Object.keys(module), [
+    'JoltTransitionGroup',
     'createViewportEnterDirective',
     'useReducedMotion',
     'useShape',

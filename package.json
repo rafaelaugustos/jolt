@@ -256,7 +256,8 @@
     "swiftui:generate": "node scripts/generate-swiftui-definitions.mjs",
     "swiftui:check": "node scripts/generate-swiftui-definitions.mjs --check",
     "swiftui:test": "swift test",
-    "swift:package": "node scripts/swift-package.mjs"
+    "swift:package": "node scripts/swift-package.mjs",
+    "web:values:test": "playwright test -c benchmarks/values-scroll-lists/playwright.config.mjs"
   },
   "peerDependencies": {
     "@angular/core": "^22.2.4",

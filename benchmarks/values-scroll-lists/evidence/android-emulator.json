@@ -1,0 +1,320 @@
+{
+  "platform": "android",
+  "events": [
+    {
+      "name": "scene-values",
+      "time": 1794536527435
+    },
+    {
+      "name": "values-start",
+      "time": 1794536530264
+    },
+    {
+      "name": "values-interrupt",
+      "time": 1794536530663
+    },
+    {
+      "name": "values-start",
+      "time": 1794536531891
+    },
+    {
+      "name": "values-audit",
+      "time": 1794536535605,
+      "sum": 270,
+      "x": 175.5,
+      "scroll": {
+        "offset": 262.4761904761905,
+        "updates": 44,
+        "callbacks": 0
+      }
+    },
+    {
+      "name": "values-audit",
+      "time": 1794536537121,
+      "sum": 270,
+      "x": 175.5,
+      "scroll": {
+        "offset": 18.666666666666668,
+        "updates": 83,
+        "callbacks": 0
+      }
+    },
+    {
+      "name": "scene-layout",
+      "time": 1794536537849
+    },
+    {
+      "name": "layout-mutation",
+      "time": 1794536541080,
+      "synchronousMs": 9.435999999823252
+    },
+    {
+      "name": "layout-settled",
+      "time": 1794536541954,
+      "done": true
+    },
+    {
+      "name": "layout-mutation",
+      "time": 1794536542305,
+      "synchronousMs": 1.1009999998350395
+    },
+    {
+      "name": "layout-mutation",
+      "time": 1794536542490,
+      "synchronousMs": 1.6340000001946464
+    },
+    {
+      "name": "layout-settled",
+      "time": 1794536542505,
+      "done": false
+    },
+    {
+      "name": "layout-settled",
+      "time": 1794536543377,
+      "done": true
+    },
+    {
+      "name": "layout-mutation",
+      "time": 1794536544360,
+      "synchronousMs": 1.641999999719701
+    },
+    {
+      "name": "layout-cancel",
+      "time": 1794536544572
+    },
+    {
+      "name": "layout-settled",
+      "time": 1794536544573,
+      "done": false
+    },
+    {
+      "name": "layout-mutation",
+      "time": 1794536545824,
+      "synchronousMs": 1.3469999998960702
+    },
+    {
+      "name": "layout-settled",
+      "time": 1794536546703,
+      "done": false
+    },
+    {
+      "name": "reduced-motion",
+      "time": 1794536547054,
+      "reduced": true
+    },
+    {
+      "name": "layout-mutation",
+      "time": 1794536547694,
+      "synchronousMs": 1.4059999998607964
+    },
+    {
+      "name": "reduced-motion",
+      "time": 1794536548327,
+      "reduced": false
+    },
+    {
+      "name": "layout-settled",
+      "time": 1794536548570,
+      "done": true
+    },
+    {
+      "name": "exit-costs",
+      "time": 1794536549130,
+      "snapshotSetupMs": [
+        0.31300000000555883, 0.28699999984382885, 0.27399999999033753, 0.3179999998792482,
+        0.32799999962662696
+      ],
+      "rawNativeReparentRoundTripMs": [
+        0.02499999982319423, 0.01900000006571645, 0.017999999727180693,
+        0.018000000181928044, 0.019999999949504854
+      ],
+      "limitations": "Five warm samples; raw reparent excludes NativeScript removal/teardown and is not a supported retained-view exit implementation."
+    },
+    {
+      "name": "scene-list",
+      "time": 1794536549880
+    },
+    {
+      "name": "list-audit",
+      "time": 1794536553988,
+      "scroll": {
+        "offset": 260.1904761904762,
+        "updates": 43,
+        "callbacks": 0
+      }
+    },
+    {
+      "name": "list-prepend",
+      "time": 1794536554630,
+      "count": 201,
+      "before": {
+        "key": 4,
+        "index": 4,
+        "top": -18.666666666666668
+      }
+    },
+    {
+      "name": "list-prepend-settled",
+      "time": 1794536554657,
+      "done": true,
+      "after": {
+        "key": 4,
+        "index": 5,
+        "top": -18.666666666666668
+      }
+    },
+    {
+      "name": "list-delete",
+      "time": 1794536555740,
+      "count": 200,
+      "before": {
+        "key": 4,
+        "index": 5,
+        "top": -18.666666666666668
+      }
+    },
+    {
+      "name": "list-delete-settled",
+      "time": 1794536556487,
+      "done": true,
+      "after": {
+        "key": 4,
+        "index": 5,
+        "top": -18.666666666666668
+      }
+    },
+    {
+      "name": "list-sort",
+      "time": 1794536556872,
+      "count": 200,
+      "before": {
+        "key": 4,
+        "index": 5,
+        "top": -18.666666666666668
+      }
+    },
+    {
+      "name": "list-filter",
+      "time": 1794536557043,
+      "count": 99,
+      "before": {
+        "key": 8,
+        "index": 191,
+        "top": -51.42857142857143
+      }
+    },
+    {
+      "name": "list-sort-settled",
+      "time": 1794536557043,
+      "done": false,
+      "after": {
+        "index": 191,
+        "top": -51.42857142857143
+      }
+    },
+    {
+      "name": "list-filter-settled",
+      "time": 1794536557787,
+      "done": true,
+      "after": {
+        "key": 18,
+        "index": 90,
+        "top": -51.42857142857143
+      }
+    },
+    {
+      "name": "list-reset",
+      "time": 1794536558272,
+      "count": 200,
+      "before": {
+        "key": 18,
+        "index": 90,
+        "top": -51.42857142857143
+      }
+    },
+    {
+      "name": "list-reset-settled",
+      "time": 1794536559025,
+      "done": true,
+      "after": {
+        "key": 18,
+        "index": 18,
+        "top": -51.42857142857143
+      }
+    },
+    {
+      "name": "list-delete",
+      "time": 1794536560191,
+      "count": 199,
+      "before": {
+        "key": 14,
+        "index": 14,
+        "top": -49.142857142857146
+      }
+    },
+    {
+      "name": "list-prepend",
+      "time": 1794536560425,
+      "count": 200,
+      "before": {
+        "key": 14,
+        "index": 14,
+        "top": -49.142857142857146
+      }
+    },
+    {
+      "name": "list-delete-settled",
+      "time": 1794536560425,
+      "done": false,
+      "after": {
+        "key": 13,
+        "index": 14,
+        "top": -49.142857142857146
+      }
+    },
+    {
+      "name": "list-prepend-settled",
+      "time": 1794536561170,
+      "done": true,
+      "after": {
+        "key": 14,
+        "index": 15,
+        "top": -49.142857142857146
+      }
+    },
+    {
+      "name": "reduced-motion",
+      "time": 1794536561454,
+      "reduced": true
+    },
+    {
+      "name": "list-sort",
+      "time": 1794536562072,
+      "count": 200,
+      "before": {
+        "key": 14,
+        "index": 15,
+        "top": -49.142857142857146
+      }
+    },
+    {
+      "name": "list-sort-settled",
+      "time": 1794536562106,
+      "done": true,
+      "after": {
+        "key": 14,
+        "index": 184,
+        "top": -49.142857142857146
+      }
+    },
+    {
+      "name": "list-audit",
+      "time": 1794536562705,
+      "scroll": {
+        "offset": 11159.238095238095,
+        "updates": 100,
+        "callbacks": 0
+      }
+    }
+  ]
+}

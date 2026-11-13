@@ -8,6 +8,7 @@
 @property(nonatomic) UIImage *pageImage;
 @property(nonatomic) CGRect pageFrame;
 @property(nonatomic,weak) UIWindow *host;
+@property(nonatomic) BOOL exiting;
 @property(nonatomic,weak) UIView *destination;
 @property(nonatomic) NSMapTable<UIView *, NSNumber *> *hiddenViews;
 @property(nonatomic) UIImage *sourceImage, *targetImage;
@@ -174,6 +175,11 @@ static BOOL JoltSharedUnsupportedContent(UIView *view, BOOL allowScrolling) {
     UIImage *image=[renderer imageWithActions:^(UIGraphicsImageRendererContext *context) { CGContextTranslateCTM(context.CGContext,-self->_pose[0],-self->_pose[1]); [self render]; }];
     self.sourceImage=image; self.targetImage=nil; self.sourceSize=size; self.sourceScales=NO; self.destination=nil; _pose[5]=0; [self setNeedsDisplay]; return YES;
 }
+- (void)prepareExit {
+    self.exiting=YES;
+    for(UIView *view in self.hiddenViews)if(view.hidden)view.hidden=[[self.hiddenViews objectForKey:view]boolValue];
+    [self.hiddenViews removeAllObjects];
+}
 - (void)play:(NSString *)configuration onEnd:(void (^)(BOOL))onEnd {
     if(self.disposed)return;
     NSDictionary *config=[NSJSONSerialization JSONObjectWithData:[configuration dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
@@ -217,7 +223,7 @@ static BOOL JoltSharedUnsupportedContent(UIView *view, BOOL allowScrolling) {
 - (void)tick:(CADisplayLink *)clock {
     if(self.fading){double p=MIN(1,(CACurrentMediaTime()*1000-self.started)/self.duration);self.alpha=1-p;if(p>=1)[self end:YES];return;}
     CGRect frame=[self geometry:self.destination presentation:NO]; CGRect target=self.targetFrame;
-    if(!CGSizeEqualToSize(self.host.bounds.size,self.viewport) || CGRectIsNull(frame) || fabs(frame.origin.x-target.origin.x)>1 || fabs(frame.origin.y-target.origin.y)>1 || fabs(frame.size.width-target.size.width)>1 || fabs(frame.size.height-target.size.height)>1) { [self end:NO]; return; }
+    if(!CGSizeEqualToSize(self.host.bounds.size,self.viewport) || (!self.exiting && (CGRectIsNull(frame) || fabs(frame.origin.x-target.origin.x)>1 || fabs(frame.origin.y-target.origin.y)>1 || fabs(frame.size.width-target.size.width)>1 || fabs(frame.size.height-target.size.height)>1))) { [self end:NO]; return; }
     double now=CACurrentMediaTime()*1000; [self evaluate:now]; [self setNeedsDisplay]; if(now-self.started>=self.duration)[self end:YES];
 }
 - (void)end:(BOOL)completed { void (^callback)(BOOL)=self.onEnd; self.onEnd=nil; [self.clock invalidate]; self.clock=nil; if(callback)callback(completed); }

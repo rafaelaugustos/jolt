@@ -1,5 +1,9 @@
 # List rows
 
+Source candidate: see [combined values, native scroll, layout exits and keyed lists](./values-scroll-lists) for the next-RC additions and platform limits.
+
+The remaining examples on this page describe the published RC.14 baseline unless explicitly marked as source candidates.
+
 Play an entrance on each row of a `ListView` as it scrolls into view:
 
 <Clip name="lists-android" caption="Rows fading in as the list scrolls, on Android." />

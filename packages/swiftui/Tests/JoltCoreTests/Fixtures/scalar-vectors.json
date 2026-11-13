@@ -1,0 +1,862 @@
+[
+  {
+    "name": "sum",
+    "sources": [
+      {
+        "value": 3,
+        "velocity": 2
+      },
+      {
+        "value": 4,
+        "velocity": -1
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "add",
+        "a": 0,
+        "b": 1,
+        "maximum": 0
+      }
+    ],
+    "expected": {
+      "value": 7,
+      "velocity": 1
+    }
+  },
+  {
+    "name": "difference",
+    "sources": [
+      {
+        "value": 3,
+        "velocity": 2
+      },
+      {
+        "value": 4,
+        "velocity": -1
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "sub",
+        "a": 0,
+        "b": 1,
+        "maximum": 0
+      }
+    ],
+    "expected": {
+      "value": -1,
+      "velocity": 3
+    }
+  },
+  {
+    "name": "product rule",
+    "sources": [
+      {
+        "value": 3,
+        "velocity": 2
+      },
+      {
+        "value": 4,
+        "velocity": -1
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "mul",
+        "a": 0,
+        "b": 1,
+        "maximum": 0
+      }
+    ],
+    "expected": {
+      "value": 12,
+      "velocity": 5
+    }
+  },
+  {
+    "name": "quotient rule",
+    "sources": [
+      {
+        "value": 3,
+        "velocity": 2
+      },
+      {
+        "value": 4,
+        "velocity": -1
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "div",
+        "a": 0,
+        "b": 1,
+        "maximum": 0
+      }
+    ],
+    "expected": {
+      "value": 0.75,
+      "velocity": 0.6875
+    }
+  },
+  {
+    "name": "division by zero",
+    "sources": [
+      {
+        "value": 3,
+        "velocity": 2
+      },
+      {
+        "value": 0,
+        "velocity": 10
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "div",
+        "a": 0,
+        "b": 1,
+        "maximum": 0
+      }
+    ],
+    "expected": {
+      "value": 0,
+      "velocity": 0
+    }
+  },
+  {
+    "name": "nonfinite result",
+    "sources": [
+      {
+        "value": 1e308,
+        "velocity": 2
+      },
+      {
+        "value": 10,
+        "velocity": 0
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "mul",
+        "a": 0,
+        "b": 1,
+        "maximum": 0
+      }
+    ],
+    "expected": {
+      "value": 0,
+      "velocity": 0
+    }
+  },
+  {
+    "name": "minimum left",
+    "sources": [
+      {
+        "value": 3,
+        "velocity": 2
+      },
+      {
+        "value": 4,
+        "velocity": -1
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "min",
+        "a": 0,
+        "b": 1,
+        "maximum": 0
+      }
+    ],
+    "expected": {
+      "value": 3,
+      "velocity": 2
+    }
+  },
+  {
+    "name": "minimum right",
+    "sources": [
+      {
+        "value": 4,
+        "velocity": 2
+      },
+      {
+        "value": 3,
+        "velocity": -1
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "min",
+        "a": 0,
+        "b": 1,
+        "maximum": 0
+      }
+    ],
+    "expected": {
+      "value": 3,
+      "velocity": -1
+    }
+  },
+  {
+    "name": "minimum tie",
+    "sources": [
+      {
+        "value": 3,
+        "velocity": 2
+      },
+      {
+        "value": 3,
+        "velocity": -1
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "min",
+        "a": 0,
+        "b": 1,
+        "maximum": 0
+      }
+    ],
+    "expected": {
+      "value": 3,
+      "velocity": 0
+    }
+  },
+  {
+    "name": "maximum left",
+    "sources": [
+      {
+        "value": 4,
+        "velocity": 2
+      },
+      {
+        "value": 3,
+        "velocity": -1
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "max",
+        "a": 0,
+        "b": 1,
+        "maximum": 0
+      }
+    ],
+    "expected": {
+      "value": 4,
+      "velocity": 2
+    }
+  },
+  {
+    "name": "maximum right",
+    "sources": [
+      {
+        "value": 3,
+        "velocity": 2
+      },
+      {
+        "value": 4,
+        "velocity": -1
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "max",
+        "a": 0,
+        "b": 1,
+        "maximum": 0
+      }
+    ],
+    "expected": {
+      "value": 4,
+      "velocity": -1
+    }
+  },
+  {
+    "name": "maximum tie",
+    "sources": [
+      {
+        "value": 3,
+        "velocity": 2
+      },
+      {
+        "value": 3,
+        "velocity": -1
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "max",
+        "a": 0,
+        "b": 1,
+        "maximum": 0
+      }
+    ],
+    "expected": {
+      "value": 3,
+      "velocity": 0
+    }
+  },
+  {
+    "name": "clamp interior",
+    "sources": [
+      {
+        "value": 1,
+        "velocity": 10
+      },
+      {
+        "value": 0,
+        "velocity": 0
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "clamp",
+        "a": 0,
+        "b": 1,
+        "maximum": 2
+      }
+    ],
+    "expected": {
+      "value": 1,
+      "velocity": 10
+    }
+  },
+  {
+    "name": "clamp start",
+    "sources": [
+      {
+        "value": 0,
+        "velocity": 10
+      },
+      {
+        "value": 0,
+        "velocity": 0
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "clamp",
+        "a": 0,
+        "b": 1,
+        "maximum": 2
+      }
+    ],
+    "expected": {
+      "value": 0,
+      "velocity": 0
+    }
+  },
+  {
+    "name": "clamp end",
+    "sources": [
+      {
+        "value": 2,
+        "velocity": 10
+      },
+      {
+        "value": 0,
+        "velocity": 0
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "clamp",
+        "a": 0,
+        "b": 1,
+        "maximum": 2
+      }
+    ],
+    "expected": {
+      "value": 2,
+      "velocity": 0
+    }
+  },
+  {
+    "name": "clamp overflow",
+    "sources": [
+      {
+        "value": 3,
+        "velocity": 10
+      },
+      {
+        "value": 0,
+        "velocity": 0
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "clamp",
+        "a": 0,
+        "b": 1,
+        "maximum": 2
+      }
+    ],
+    "expected": {
+      "value": 2,
+      "velocity": 0
+    }
+  },
+  {
+    "name": "absolute negative",
+    "sources": [
+      {
+        "value": -4,
+        "velocity": 2
+      },
+      {
+        "value": 0,
+        "velocity": 0
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "abs",
+        "a": 0,
+        "b": 1,
+        "maximum": 0
+      }
+    ],
+    "expected": {
+      "value": 4,
+      "velocity": -2
+    }
+  },
+  {
+    "name": "absolute cusp",
+    "sources": [
+      {
+        "value": 0,
+        "velocity": 2
+      },
+      {
+        "value": 0,
+        "velocity": 0
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "abs",
+        "a": 0,
+        "b": 1,
+        "maximum": 0
+      }
+    ],
+    "expected": {
+      "value": 0,
+      "velocity": 0
+    }
+  },
+  {
+    "name": "sine at zero",
+    "sources": [
+      {
+        "value": 0,
+        "velocity": 2
+      },
+      {
+        "value": 0,
+        "velocity": 0
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "sin",
+        "a": 0,
+        "b": 1,
+        "maximum": 0
+      }
+    ],
+    "expected": {
+      "value": 0,
+      "velocity": 2
+    }
+  },
+  {
+    "name": "cosine at zero",
+    "sources": [
+      {
+        "value": 0,
+        "velocity": 2
+      },
+      {
+        "value": 0,
+        "velocity": 0
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "cos",
+        "a": 0,
+        "b": 1,
+        "maximum": 0
+      }
+    ],
+    "expected": {
+      "value": 1,
+      "velocity": 0
+    }
+  },
+  {
+    "name": "velocity source",
+    "sources": [
+      {
+        "value": 4,
+        "velocity": 10
+      },
+      {
+        "value": 0,
+        "velocity": 0
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "velocity",
+        "a": 0,
+        "b": 1,
+        "maximum": 0
+      }
+    ],
+    "expected": {
+      "value": 10,
+      "velocity": 0
+    }
+  },
+  {
+    "name": "velocity at rest",
+    "sources": [
+      {
+        "value": 4,
+        "velocity": 0
+      },
+      {
+        "value": 0,
+        "velocity": 0
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "input",
+        "a": 1
+      },
+      {
+        "op": "velocity",
+        "a": 0,
+        "b": 1,
+        "maximum": 0
+      }
+    ],
+    "expected": {
+      "value": 0,
+      "velocity": 0
+    }
+  },
+  {
+    "name": "tilt program",
+    "sources": [
+      {
+        "value": 100,
+        "velocity": 3600
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "constant",
+        "value": 0.04
+      },
+      {
+        "op": "mul",
+        "a": 0,
+        "b": 1
+      },
+      {
+        "op": "velocity",
+        "a": 0
+      },
+      {
+        "op": "constant",
+        "value": 1800
+      },
+      {
+        "op": "div",
+        "a": 3,
+        "b": 4
+      },
+      {
+        "op": "constant",
+        "value": -6
+      },
+      {
+        "op": "clamp",
+        "a": 5,
+        "b": 6,
+        "maximum": 6
+      },
+      {
+        "op": "add",
+        "a": 2,
+        "b": 7
+      }
+    ],
+    "expected": {
+      "value": 6,
+      "velocity": 144
+    }
+  },
+  {
+    "name": "mapped 0",
+    "sources": [
+      {
+        "value": 0,
+        "velocity": 2
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "map",
+        "a": 0,
+        "input": [0, 2],
+        "output": [10, 30],
+        "clamp": true
+      }
+    ],
+    "expected": {
+      "value": 10,
+      "velocity": 0
+    }
+  },
+  {
+    "name": "mapped 1",
+    "sources": [
+      {
+        "value": 1,
+        "velocity": 2
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "map",
+        "a": 0,
+        "input": [0, 2],
+        "output": [10, 30],
+        "clamp": true
+      }
+    ],
+    "expected": {
+      "value": 20,
+      "velocity": 20
+    }
+  },
+  {
+    "name": "mapped 2",
+    "sources": [
+      {
+        "value": 2,
+        "velocity": 2
+      }
+    ],
+    "program": [
+      {
+        "op": "input",
+        "a": 0
+      },
+      {
+        "op": "map",
+        "a": 0,
+        "input": [0, 2],
+        "output": [10, 30],
+        "clamp": true
+      }
+    ],
+    "expected": {
+      "value": 30,
+      "velocity": 0
+    }
+  }
+]

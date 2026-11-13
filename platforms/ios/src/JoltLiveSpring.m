@@ -1,4 +1,5 @@
 #import "JoltLiveSpring.h"
+#import "JoltScalarProgram.h"
 #import "JoltImageEffect.h"
 #import "JoltSpringState.h"
 #import "JoltColorMath.h"
@@ -110,6 +111,7 @@ static double mapped(double value, const JoltMapping *maps, NSUInteger count) {
 
 @interface JoltLiveSpring () {
     JoltSpringState _state;
+    double *_graphValues, *_graphVelocities;
     JoltSampled *_inputs;
     NSUInteger _inputCount;
     JoltMapping *_sourceMaps;
@@ -118,8 +120,11 @@ static double mapped(double value, const JoltMapping *maps, NSUInteger count) {
 @property(nonatomic) double stiffness, damping, mass, restDelta, restSpeed;
 @property(nonatomic, readwrite) BOOL moving;
 @property(nonatomic) BOOL reduced, paused, disposed, direct, inputHeld, sensorDriven;
-@property(nonatomic) double targetValue;
+@property(nonatomic) double targetValue, dataTime;
+@property(nonatomic) BOOL dataInput;
 @property(nonatomic, nullable) JoltLiveSpring *source;
+@property(nonatomic) NSArray<JoltLiveSpring *> *graphSources;
+@property(nonatomic) JoltScalarProgram *graph;
 @property(nonatomic) double inputRest, anchor;
 @property(nonatomic) NSMutableArray<JoltLiveSpringBinding *> *bindings;
 - (void)step:(double)now seconds:(double)seconds;
@@ -192,6 +197,7 @@ static double previousFrame;
     return node;
 }
 - (void)dealloc {
+    free(_graphValues); free(_graphVelocities);
     freeSampled(_inputs, _inputCount);
     freeMappings(_sourceMaps, _sourceMapCount);
 }
@@ -210,6 +216,15 @@ static double previousFrame;
     freeMappings(_sourceMaps, _sourceMapCount);
     _sourceMaps = decodeMappings(mappings, &_sourceMapCount);
     self.source = source; [self wake];
+}
+- (void)compute:(NSArray<JoltLiveSpring *> *)sources program:(NSString *)program {
+    for (JoltLiveSpring *parent in sources)
+        if (parent.disposed || [nodes indexOfObject:parent] >= [nodes indexOfObject:self])
+            [NSException raise:NSInvalidArgumentException format:@"Scalar inputs must precede their output"];
+    JoltScalarProgram *next = [[JoltScalarProgram alloc] initWithJSON:program sources:sources.count];
+    free(_graphValues); free(_graphVelocities);
+    _graphValues=calloc(sources.count, sizeof(double)); _graphVelocities=calloc(sources.count, sizeof(double));
+    self.graphSources=[sources copy]; self.graph=next; [self wake];
 }
 - (void)updateInput:(NSString *)snapshot {
     if (self.disposed) return;
@@ -232,9 +247,15 @@ static double previousFrame;
     for (NSUInteger i = 0; i < _inputCount; i++) if (sampledRunning(&_inputs[i], self.anchor, now)) return YES;
     return NO;
 }
+- (void)setDataInput:(double)value velocity:(double)velocity {
+    if(self.disposed || !isfinite(value) || !isfinite(velocity))return;
+    self.dataInput=YES; self.dataTime=CACurrentMediaTime()*1000; self.sensorDriven=YES; self.inputHeld=YES; self.direct=YES;
+    [self replaceInputs:@[] rest:0]; self.targetValue=value;
+    _state=(JoltSpringState){value,velocity}; self.moving=velocity!=0; [JoltLiveSpring schedule];
+}
 - (void)setSensorInput:(double)value {
     if (self.disposed || !isfinite(value) || (self.sensorDriven && self.inputHeld && _state.position == value)) return;
-    self.sensorDriven = YES; self.inputHeld = YES; self.direct = YES; self.targetValue = value;
+    self.dataInput=NO; self.sensorDriven = YES; self.inputHeld = YES; self.direct = YES; self.targetValue = value;
     [self replaceInputs:@[] rest:0];
     _state = (JoltSpringState){value, 0}; self.moving = NO;
     [JoltLiveSpring schedule];
@@ -247,7 +268,7 @@ static double previousFrame;
 }
 - (void)holdInput:(double)value velocity:(double)velocity {
     if (self.disposed) return;
-    self.sensorDriven = NO; self.inputHeld = YES; self.direct = YES; self.targetValue = value;
+    self.dataInput=NO; self.sensorDriven = NO; self.inputHeld = YES; self.direct = YES; self.targetValue = value;
     [self replaceInputs:@[] rest:0];
     _state = (JoltSpringState){value, velocity}; self.moving = YES;
     [CATransaction begin]; [CATransaction setDisableActions:YES]; [self apply]; [CATransaction commit];
@@ -273,10 +294,35 @@ static double previousFrame;
     [JoltLiveSpring schedule];
 }
 - (void)step:(double)now seconds:(double)seconds {
-    if (self.disposed || self.paused || self.inputHeld) return;
+    if(self.disposed || self.paused)return;
+    if(self.inputHeld) {
+        if(self.dataInput && now-self.dataTime>=100) { _state.velocity=0; self.moving=NO; }
+        return;
+    }
+    if (self.graph) {
+        BOOL active=NO;
+        for (NSUInteger i=0; i<self.graphSources.count; i++) {
+            JoltLiveSpring *input=self.graphSources[i];
+            _graphValues[i]=input.position; _graphVelocities[i]=input.disposed||input.paused?0:input.velocity; active |= input.moving;
+        }
+        [self.graph evaluateValues:_graphValues velocities:_graphVelocities];
+        _state=(JoltSpringState){self.graph.value,self.graph.velocity}; self.moving=active; return;
+    }
     double target = self.source ? mapped(self.source.position, _sourceMaps, _sourceMapCount) : (self.direct ? self.targetValue : [self inputValue:now]);
     BOOL inputMoving = self.source ? self.source.moving : (!self.direct && [self inputMoving:now]);
-    if (self.reduced) _state = (JoltSpringState){target, 0};
+    if (self.reduced) {
+        double velocity=0;
+        if (self.source) {
+            double value=self.source.position; velocity=self.source.velocity;
+            for (NSUInteger m=0; m<_sourceMapCount; m++) {
+                const JoltMapping *mapping=&_sourceMaps[m];
+                if (mapping->colors || (mapping->clamp && (value<=mapping->input[0] || value>=mapping->input[mapping->count-1]))) velocity=0;
+                else { NSUInteger k=0; while(k<mapping->count-2 && value>mapping->input[k+1]) k++; velocity *= (mapping->output[k+1]-mapping->output[k])/(mapping->input[k+1]-mapping->input[k]); }
+                value=mapped(value,mapping,1);
+            }
+        } else if (!self.direct) velocity=([self inputValue:now+.5]-[self inputValue:now-.5])*1000;
+        _state = (JoltSpringState){target, isfinite(velocity)?velocity:0};
+    }
     else _state = JoltSpringAdvance(_state, target, self.stiffness, self.damping, self.mass, seconds);
     BOOL rest = fabs(_state.position - target) <= self.restDelta && fabs(_state.velocity) <= self.restSpeed;
     if (rest && !inputMoving) _state = (JoltSpringState){target, 0};
@@ -332,7 +378,7 @@ static double previousFrame;
     for (JoltLiveSpring *child in nodes) if (child.source == self) {
         child.source = nil; [child setTarget:mapped(self.position, child->_sourceMaps, child->_sourceMapCount)];
     }
-    self.source = nil;
+    self.source = nil; self.graph = nil; self.graphSources = nil;
     if (!nodes.count) { [displayLink invalidate]; displayLink = nil; previousFrame = 0; }
 }
 @end

@@ -325,6 +325,36 @@ final class SwiftUIAcceptance: XCTestCase {
     XCTAssertTrue(app.descendants(matching: .any)["inspector-panel"].firstMatch.exists)
     cue("stop")
   }
+  @MainActor func testValuesScrollExpansion() {
+    let app = lab("--values-scroll-lab")
+    XCTAssertTrue(app.staticTexts["values-scroll-status"].waitForExistence(timeout: 10))
+    cue("start")
+    click(app.buttons["combine-values"])
+    XCTAssertTrue(wait { self.label(app, "combined-status").contains("146.2") || self.label(app, "combined-status").contains("146.3") })
+    click(app.buttons["interrupt-values"])
+    XCTAssertTrue(wait { self.label(app, "combined-status").contains("0.0") })
+    click(app.buttons["header-scroll"])
+    XCTAssertTrue(wait { self.label(app, "values-scroll-status").contains("Offset 240") })
+    click(app.buttons["header-prepend"])
+    XCTAssertTrue(wait { self.label(app, "values-scroll-status").contains("Offset 292") })
+    click(app.buttons["header-top"])
+    XCTAssertTrue(wait { self.label(app, "values-scroll-status").contains("Offset 0") })
+    let scroll=app.scrollViews.firstMatch
+    #if os(macOS)
+      scroll.scroll(byDeltaX:0,deltaY:-260)
+      click(app.checkBoxes["values-reduce"])
+    #else
+      scroll.swipeUp()
+      app.switches["values-reduce"].coordinate(withNormalizedOffset: CGVector(dx: 0.92, dy: 0.5)).tap()
+    #endif
+    XCTAssertTrue(wait { self.label(app, "values-scroll-status").contains("reduced on") }, label(app,"values-scroll-status"))
+    click(app.buttons["header-top"])
+    XCTAssertTrue(wait { self.label(app, "values-scroll-status").contains("Offset 0") })
+    click(app.buttons["header-scroll"])
+    XCTAssertTrue(wait { self.label(app, "values-scroll-status").contains("Offset 240") })
+    XCTAssertTrue(app.descendants(matching: .any)["header-compact"].firstMatch.exists, app.debugDescription)
+    cue("stop")
+  }
   @MainActor func testScrollExpansion() {
     let app = lab("--scroll-lab")
     XCTAssertTrue(app.staticTexts["scroll-status"].waitForExistence(timeout: 10))

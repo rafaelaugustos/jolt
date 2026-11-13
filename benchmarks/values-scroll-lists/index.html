@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="UTF-8" /><meta
+    name="viewport"
+    content="width=device-width,initial-scale=1"
+  /><title>Jolt · Values, scroll & lists</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      background: #0c1222;
+      color: #e7ecf5;
+      font: 16px system-ui;
+      padding: 28px;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 24px;
+      margin: 0;
+    }
+    small {
+      color: #99acc8;
+    }
+    nav,
+    .controls {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 14px 0;
+    }
+    button {
+      font: inherit;
+      border: 1px solid #425577;
+      background: #19263e;
+      color: inherit;
+      border-radius: 8px;
+      padding: 9px 13px;
+      cursor: pointer;
+    }
+    button:focus-visible {
+      outline: 3px solid #67e4bf;
+    }
+    section {
+      display: none;
+    }
+    section.active {
+      display: block;
+    }
+    .panel {
+      background: #142039;
+      border: 1px solid #2b3d59;
+      border-radius: 16px;
+      padding: 18px;
+    }
+    #scalar-stage {
+      height: 220px;
+      position: relative;
+      overflow: hidden;
+    }
+    #orb {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: #67e4bf;
+      position: absolute;
+      left: 35px;
+      top: 78px;
+    }
+    #meter {
+      height: 6px;
+      width: 100%;
+      transform-origin: left;
+      background: #67e4bf;
+    }
+    #scroll {
+      height: 280px;
+      overflow: auto;
+      overscroll-behavior: contain;
+    }
+    .scroll-content {
+      height: 1100px;
+      background: repeating-linear-gradient(#18283e 0px, #18283e 59px, #2d4261 60px);
+    }
+    .scroll-content p {
+      height: 60px;
+      margin: 0;
+      padding: 16px;
+    }
+    .cards {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      min-height: 120px;
+    }
+    .card {
+      width: 150px;
+      height: 100px;
+      padding: 16px;
+      border-radius: 12px;
+      background: #295482;
+      border: 1px solid #4d8ac2;
+    }
+    .card b {
+      display: block;
+      margin-bottom: 10px;
+    }
+    #list {
+      height: 360px;
+      overflow: auto;
+      overflow-anchor: none;
+      border-radius: 12px;
+      border: 1px solid #344a6b;
+    }
+    #list .row {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 18px;
+      border-bottom: 1px solid #324661;
+      background: #1a2a44;
+    }
+    #list .row span {
+      width: 36px;
+      color: #67e4bf;
+    }
+    #list .row button {
+      margin-left: auto;
+      padding: 4px 12px;
+    }
+    output {
+      display: block;
+      min-height: 24px;
+      margin-top: 14px;
+      color: #b6c7df;
+    }
+    footer {
+      margin-top: 18px;
+      color: #96aac6;
+      font-size: 13px;
+    }
+  </style>
+  <header>
+    <h1>Jolt <small>Values, scroll & lists</small></h1>
+    <small>Browser · actual playback</small>
+  </header>
+  <nav>
+    <button data-scene="values">Combined values</button
+    ><button data-scene="scroll">Scroll source</button
+    ><button data-scene="layout">Layout exits</button
+    ><button data-scene="list">Keyed lists · 200 rows</button
+    ><button data-scene="group">Vue group</button>
+  </nav>
+  <section id="values" class="active">
+    <div class="panel">
+      <h2>One graph, three channels</h2>
+      <p>x = (a + b) × 1.4 · rotation = sin(a / 70) × 30</p>
+      <div id="scalar-stage"><div id="orb"></div></div>
+      <button id="combine">Animate both sources</button
+      ><button id="interrupt-values">Interrupt</button
+      ><output id="value-status"
+        >Add, multiply, clamp and sine share the same inputs.</output
+      >
+    </div>
+  </section>
+  <section id="scroll-scene">
+    <div class="panel">
+      <h2>Scroll drives the progress bar</h2>
+      <div id="meter"></div>
+      <div id="scroll"><div class="scroll-content"></div></div>
+      <output>Transform binding · browser ScrollTimeline where available</output>
+    </div>
+  </section>
+  <section id="layout">
+    <div class="panel">
+      <h2>The removed card fades while its neighbors move</h2>
+      <div class="controls">
+        <button id="mutate">Remove + insert + reorder</button
+        ><button id="remove">Remove another</button
+        ><button id="cancel">Cancel exit</button><button id="reset-layout">Reset</button>
+      </div>
+      <div id="cards" class="cards"></div>
+      <output id="layout-status">Leaving copies ignore input and accessibility.</output>
+    </div>
+  </section>
+  <section id="list-scene">
+    <div class="panel">
+      <h2>Stable keys through recycling and data changes</h2>
+      <div class="controls">
+        <button id="delete-row">Delete visible row</button
+        ><button id="prepend">Insert above viewport</button
+        ><button id="sort">Reverse order</button
+        ><button id="filter">Filter even keys</button
+        ><button id="reset-list">Reset 200</button>
+      </div>
+      <div id="list"></div>
+      <output id="list-status">Scroll to any row, then change the data.</output>
+    </div>
+  </section>
+  <section id="group">
+    <div class="panel">
+      <h2>Vue keyed transition group</h2>
+      <div id="vue"></div>
+    </div>
+  </section>
+  <footer>
+    No device-performance claims. Motion preference changes settle active transitions.
+  </footer>
+  <script type="module" src="/fixture.js"></script>
+</html>
