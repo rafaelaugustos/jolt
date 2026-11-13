@@ -49,12 +49,16 @@ public final class LiveSpring {
     private final double stiffness, damping, mass, restDelta, restSpeed;
     private final ArrayList<Binding> bindings = new ArrayList<>();
     private LiveSpring source;
+    private LiveSpring[] graphSources;
+    private ScalarProgram graph;
+    private double[] graphValues, graphVelocities;
     private Mapping[] sourceMaps = new Mapping[0];
     private static final SampledInput[] NONE = new SampledInput[0];
     private SampledInput[] inputs = NONE;
     private double inputRest;
     private boolean direct = true;
-    private double targetValue;
+    private double targetValue, dataTime;
+    private boolean dataInput;
     private boolean moving, reduced, disposed, paused, inputHeld, sensorInput;
 
     public LiveSpring(double initial, double stiffness, double damping, double mass,
@@ -76,6 +80,14 @@ public final class LiveSpring {
             throw new IllegalArgumentException("A spring can only follow an existing live node");
         sourceMaps = maps(mappings);
         source = parent;
+        wake();
+    }
+    public void compute(LiveSpring[] sources, String program) {
+        for (LiveSpring parent : sources)
+            if (parent == null || parent.disposed || nodes.indexOf(parent) >= nodes.indexOf(this))
+                throw new IllegalArgumentException("Scalar inputs must precede their output");
+        ScalarProgram next = new ScalarProgram(program, sources.length);
+        graphSources = sources.clone(); graphValues = new double[sources.length]; graphVelocities = new double[sources.length]; graph = next;
         wake();
     }
     public void updateInput(String snapshot) {
@@ -106,9 +118,14 @@ public final class LiveSpring {
         for (SampledInput input : inputs) if (input.running(now)) return true;
         return false;
     }
+    public void setDataInput(double value, double velocity) {
+        if(disposed || !Double.isFinite(value) || !Double.isFinite(velocity))return;
+        dataInput=true; dataTime=SystemClock.uptimeMillis(); sensorInput=true; inputHeld=true; direct=true; inputs=NONE;
+        targetValue=value; state.position=value; state.velocity=velocity; moving=velocity!=0; schedule();
+    }
     public void setSensorInput(double value) {
         if (disposed || !Double.isFinite(value) || (sensorInput && inputHeld && state.position == value)) return;
-        sensorInput = true; inputHeld = true; direct = true; targetValue = value; inputs = NONE;
+        dataInput = false; sensorInput = true; inputHeld = true; direct = true; targetValue = value; inputs = NONE;
         state.position = value; state.velocity = 0; moving = false;
         schedule();
     }
@@ -119,7 +136,7 @@ public final class LiveSpring {
     }
     public void holdInput(double value, double velocity) {
         if (disposed) return;
-        sensorInput = false; inputHeld = true; direct = true; targetValue = value; inputs = NONE;
+        dataInput = false; sensorInput = false; inputHeld = true; direct = true; targetValue = value; inputs = NONE;
         state.position = value; state.velocity = velocity; moving = true;
         apply(); schedule();
     }
@@ -140,10 +157,28 @@ public final class LiveSpring {
         schedule();
     }
     private void step(double now, double dt) {
-        if (disposed || paused || inputHeld) return;
+        if (disposed || paused) return;
+        if (inputHeld) {
+            if(dataInput && now-dataTime>=100) { state.velocity=0; moving=false; }
+            return;
+        }
+        if (graph != null) {
+            boolean active = false;
+            for (int i=0; i<graphSources.length; i++) {
+                LiveSpring input = graphSources[i];
+                graphValues[i] = input.state.position; graphVelocities[i] = input.disposed || input.paused ? 0 : input.state.velocity;
+                active |= input.moving;
+            }
+            graph.evaluate(graphValues, graphVelocities);
+            state.position = graph.value(); state.velocity = graph.velocity(); moving = active;
+            return;
+        }
         double target = source == null ? (direct ? targetValue : inputValue(now)) : map(source.state.position, sourceMaps);
         boolean inputMoving = source == null ? !direct && inputMoving(now) : source.moving;
-        if (reduced) { state.position = target; state.velocity = 0; }
+        if (reduced) {
+            state.position = target;
+            state.velocity = source == null ? (direct ? 0 : (inputValue(now + .5) - inputValue(now - .5)) * 1000) : mapVelocity(source.state.position, source.state.velocity, sourceMaps);
+        }
         else state.advance(target, stiffness, damping, mass, dt);
         boolean rest = Math.abs(state.position - target) <= restDelta && Math.abs(state.velocity) <= restSpeed;
         if (rest && !inputMoving) { state.position = target; state.velocity = 0; }
@@ -195,7 +230,7 @@ public final class LiveSpring {
                 child.setTarget(map(state.position, child.sourceMaps));
             }
         }
-        source = null;
+        source = null; graph = null; graphSources = null; graphValues = graphVelocities = null;
         if (nodes.isEmpty() && scheduled) {
             Choreographer.getInstance().removeFrameCallback(clock);
             scheduled = false; previousFrame = 0;
@@ -303,6 +338,17 @@ public final class LiveSpring {
     private static double map(double value, Mapping[] maps) {
         for (Mapping mapping : maps) value = mapping.value(value);
         return value;
+    }
+    private static double mapVelocity(double value, double velocity, Mapping[] maps) {
+        for (Mapping mapping : maps) {
+            if (mapping.colors != null || (mapping.clamp && (value<=mapping.input[0] || value>=mapping.input[mapping.input.length-1]))) velocity=0;
+            else {
+                int k=0; while(k<mapping.input.length-2 && value>mapping.input[k+1]) k++;
+                velocity *= (mapping.output[k+1]-mapping.output[k])/(mapping.input[k+1]-mapping.input[k]);
+            }
+            value = mapping.value(value);
+        }
+        return Double.isFinite(velocity)?velocity:0;
     }
     private static double[] array(JSONArray input) throws JSONException {
         double[] result = new double[input.length()];

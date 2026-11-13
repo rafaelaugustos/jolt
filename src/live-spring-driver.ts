@@ -1,3 +1,4 @@
+import type { ScalarInstruction } from './core/scalar-program.js'
 import { isAndroid, type View } from '@nativescript/core'
 import type { NumericProperty } from './properties.js'
 import { isLivePaint, livePaintConfig, type LiveEdge } from './live-paint.js'
@@ -43,6 +44,7 @@ export interface LiveBinding {
   cancel(): void
 }
 export interface LiveNode {
+  compute?(sources: readonly LiveNode[], program: readonly ScalarInstruction[]): void
   position(): number
   velocity(): number
   moving(): boolean
@@ -152,6 +154,13 @@ const nativeDriver: LiveSpringDriver = {
         reduced,
       )
       const node: LiveNode = {
+        compute: (sources, program) => {
+          const inputs = Array.create(org.rafaelaugusto.jolt.LiveSpring, sources.length)
+          sources.forEach((source, i) => {
+            inputs[i] = handles.get(source) as org.rafaelaugusto.jolt.LiveSpring
+          })
+          native.compute(inputs, JSON.stringify(program))
+        },
         position: () => native.getPosition(),
         velocity: () => native.getVelocity(),
         moving: () => native.isMoving(),
@@ -194,6 +203,15 @@ const nativeDriver: LiveSpringDriver = {
       reduced,
     )
     const node: LiveNode = {
+      compute: (sources, program) => {
+        const inputs = NSMutableArray.alloc().initWithCapacity(
+          sources.length,
+        ) as NSMutableArray<JoltLiveSpring>
+        sources.forEach((source) =>
+          inputs.addObject(handles.get(source) as JoltLiveSpring),
+        )
+        native.computeProgram(inputs, JSON.stringify(program))
+      },
       position: () => native.position,
       velocity: () => native.velocity,
       moving: () => native.moving,

@@ -11,6 +11,7 @@ type Marker = {
 // Curated capability changes, not page edit timestamps. Review at each release.
 // Beta describes API maturity and does not expire with a release badge.
 const markers: Record<string, Marker> = {
+  'values-scroll-lists': { status: 'beta', availability: 'source' },
   'portable-composition': {
     status: 'new',
     edition: '0.1.0-rc.12.1',

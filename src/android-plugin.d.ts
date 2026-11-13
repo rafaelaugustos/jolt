@@ -269,6 +269,7 @@ declare namespace org.rafaelaugusto.jolt {
     getPosition(): number
     getVelocity(): number
     isMoving(): boolean
+    compute(sources: native.Array<LiveSpring>, program: string): void
     follow(source: LiveSpring, mappings: string): void
     updateInput(snapshot: string): void
     setInputs(rest: number, snapshots: string): void
@@ -610,6 +611,7 @@ declare namespace org.rafaelaugusto.jolt {
 
 declare namespace org.rafaelaugusto.jolt {
   class SharedLayoutFlight extends android.view.View {
+    prepareExit(): void
     holdPage(page: android.view.View, maxPixels: number): boolean
     fade(duration: number, listener: SharedLayoutFlight.Listener): void
     static captureNavigationImage(
@@ -732,5 +734,28 @@ declare namespace org.rafaelaugusto.jolt {
     resize(): void
     snapshot(): string
     dispose(): void
+  }
+}
+
+declare namespace org.rafaelaugusto.jolt {
+  class ScrollSource {
+    constructor(
+      source: android.view.View,
+      node: LiveSpring,
+      horizontal: boolean,
+      rowHeight: number,
+      listener: ScrollSource.Listener,
+    )
+    static activeCount(): number
+    setEnabled(value: boolean): void
+    setObserving(value: boolean): void
+    refresh(): void
+    snapshot(): string
+    dispose(): void
+  }
+  namespace ScrollSource {
+    class Listener {
+      constructor(callbacks: { changed(): void })
+    }
   }
 }

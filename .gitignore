@@ -97,3 +97,6 @@ benchmarks/swiftui-demo/*.xcodeproj/
 benchmarks/swiftui-demo/results/
 .build/
 .swiftpm/
+
+benchmarks/values-scroll-lists/results/
+benchmarks/values-scroll-lists/captures/

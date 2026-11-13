@@ -1,5 +1,9 @@
 # SwiftUI：派生运动与保留式图形
 
+源码候选：下一版 RC 的新增功能和平台限制请见[组合值、原生滚动、退场与按键列表](./values-scroll-lists)。
+
+除明确标为源码候选的内容外，本页其余示例描述已发布的 RC.14 基线。
+
 **0.1.0-rc.14（测试版）**支持 iOS 17+ 和 macOS 14+，无需 NativeScript 或 JavaScript。从软件包仓库 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的标签 `v0.1.0-rc.14` 安装 `JoltSwiftUI` 产品。平台限制请参阅[安装](./swiftui)、[生命周期](./swiftui-motion)和[交互与几何](./swiftui-geometry)。
 
 JoltNumericMap 接受 2–1024 对有限数值，输入必须严格单调；递减输入会反转。默认 clamp，clamp:false 外推端点线段。sample 返回数值与斜率，内部节点使用左导数。JoltMappedValue 借用标量，仅拥有观察：暂停冻结，恢复追上，dispose 解除。溢出令 valid=false 并保留最后有限值，不创建额外时钟。绑定支持 x/y、scale/scaleX/scaleY、rotate、opacity；减少动态效果时装饰变换保持单位状态。

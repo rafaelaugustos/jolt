@@ -1,3 +1,5 @@
+import { layoutExit, exitBudget, type LayoutExit } from '../core/layout-exit.js'
+import { captureDOMExit, watchDOMRemovals, type DOMExitCopy } from './layout-exit.js'
 import type { Animation, PlaybackAnimation } from '../core/playback.js'
 import type { FrameScheduler, FrameTask } from './scheduler.js'
 import type { WebBinding } from './value.js'
@@ -8,7 +10,12 @@ import { prepare } from './plan.js'
 export type WebLayoutOptions = DistributiveOmit<
   AnimateOptions,
   'relative' | 'layer' | 'stagger' | 'repeat' | 'repeatType' | 'repeatDelay'
-> & { size?: 'scale' | false; enter?: boolean }
+> & {
+  size?: 'scale' | false
+  enter?: boolean
+  exit?: LayoutExit
+  maxSnapshotPixels?: number
+}
 interface Snapshot {
   rect: DOMRect
   width: number
@@ -16,6 +23,9 @@ interface Snapshot {
 }
 export interface LayoutHost {
   scheduler: FrameScheduler
+  reduced(): boolean
+  preference(callback: () => void): () => void
+  release(target: HTMLElement): void
   geometry(target: HTMLElement): WebBinding
   basis(target: HTMLElement): DOMMatrix
   scale(target: HTMLElement): { x: number; y: number }
@@ -37,6 +47,8 @@ export function validateLayout(change: unknown, options?: WebLayoutOptions | Spr
   const {
     size = 'scale',
     enter = true,
+    exit: exitInput,
+    maxSnapshotPixels,
     ...motion
   } = typeof options === 'object' ? options : {}
   if ((size !== 'scale' && size !== false) || typeof enter !== 'boolean')
@@ -52,7 +64,13 @@ export function validateLayout(change: unknown, options?: WebLayoutOptions | Spr
     )
   const transition = typeof options === 'string' ? options : motion
   prepare({ x: [0, 1] }, transition, new Map(), 1)
-  return { size, enter, transition }
+  return {
+    size,
+    enter,
+    transition,
+    exit: layoutExit(exitInput),
+    budget: exitBudget(maxSnapshotPixels),
+  }
 }
 export class LayoutOperation implements Animation {
   readonly finished: Promise<boolean>
@@ -62,6 +80,18 @@ export class LayoutOperation implements Animation {
   private before = new Map<HTMLElement, Snapshot>()
   private leases = new Map<HTMLElement, WebBinding>()
   private targets = new Set<HTMLElement>()
+  private exits = new Map<
+    HTMLElement,
+    { copy: DOMExitCopy; animation?: PlaybackAnimation }
+  >()
+  private stopRemovals?: () => void
+  private stopPreference?: () => void
+  private reinsert?: MutationObserver
+  private pixels = 0
+  private readonly hidden = () => {
+    if (this.container.ownerDocument.hidden) this.stop()
+  }
+  private readonly resized = () => this.stop()
   private options: ReturnType<typeof validateLayout>
   private task: FrameTask = { read: () => this.run() }
   constructor(
@@ -93,6 +123,25 @@ export class LayoutOperation implements Animation {
     try {
       for (const target of this.before.keys())
         this.leases.set(target, host.geometry(target))
+      if (this.options.exit && !host.reduced()) {
+        this.stopRemovals = watchDOMRemovals(container, (target) =>
+          this.captureExit(target),
+        )
+        const view = container.ownerDocument.defaultView! as Window & typeof globalThis
+        this.reinsert = new view.MutationObserver(() => {
+          for (const [target, exit] of this.exits)
+            if (target.isConnected) this.dropExit(target, exit)
+        })
+        this.reinsert.observe(container.ownerDocument.documentElement, {
+          childList: true,
+          subtree: true,
+        })
+        this.stopPreference = host.preference(() => {
+          if (host.reduced()) this.stop()
+        })
+        container.ownerDocument.addEventListener('visibilitychange', this.hidden)
+        view.addEventListener('resize', this.resized)
+      }
       const result = change?.() as unknown
       if (result && typeof (result as PromiseLike<unknown>).then === 'function')
         throw new TypeError('A layout mutation must not return a promise.')
@@ -102,6 +151,28 @@ export class LayoutOperation implements Animation {
       this.fail(error)
       throw error
     }
+  }
+  private captureExit(target: HTMLElement) {
+    if (
+      !this.before.has(target) ||
+      this.exits.has(target) ||
+      this.pixels >= this.options.budget
+    )
+      return
+    const copy = captureDOMExit(target, this.options.budget - this.pixels)
+    if (copy) {
+      this.pixels += copy.pixels
+      this.exits.set(target, { copy })
+    }
+  }
+  private dropExit(
+    target: HTMLElement,
+    exit: { copy: DOMExitCopy; animation?: PlaybackAnimation },
+  ) {
+    this.exits.delete(target)
+    exit.animation?.stop()
+    this.host.release(exit.copy.element)
+    exit.copy.dispose()
   }
   private children() {
     const view = this.container.ownerDocument.defaultView! as Window & typeof globalThis
@@ -117,6 +188,8 @@ export class LayoutOperation implements Animation {
   }
   private run() {
     if (this.ended) return
+    this.stopRemovals?.()
+    this.stopRemovals = undefined
     if (!this.container.isConnected) {
       this.finish(false)
       return
@@ -128,6 +201,25 @@ export class LayoutOperation implements Animation {
         before: this.before.get(target),
       }))
       const handles: PlaybackAnimation[] = []
+      for (const [target, exit] of this.exits) {
+        if (target.isConnected || this.host.reduced()) {
+          this.dropExit(target, exit)
+          continue
+        }
+        const motion = this.options.exit!
+        exit.animation = this.host.animate(
+          exit.copy.element,
+          {
+            x: motion.x,
+            y: motion.y,
+            scaleX: motion.scale,
+            scaleY: motion.scale,
+            opacity: motion.opacity,
+          },
+          this.options.transition,
+        )
+        handles.push(exit.animation)
+      }
       for (const { target, after, before } of entries) {
         if (!after) continue
         if (!this.leases.has(target)) this.leases.set(target, this.host.geometry(target))
@@ -173,6 +265,15 @@ export class LayoutOperation implements Animation {
     }
   }
   private cleanup() {
+    this.stopRemovals?.()
+    this.stopRemovals = undefined
+    this.stopPreference?.()
+    this.stopPreference = undefined
+    this.reinsert?.disconnect()
+    this.reinsert = undefined
+    this.container.ownerDocument.removeEventListener('visibilitychange', this.hidden)
+    this.container.ownerDocument.defaultView?.removeEventListener('resize', this.resized)
+    for (const [target, exit] of this.exits) this.dropExit(target, exit)
     this.host.scheduler.remove(this.task)
     for (const target of this.targets) this.host.clear(target)
     this.targets.clear()

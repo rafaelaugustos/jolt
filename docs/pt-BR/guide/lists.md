@@ -1,5 +1,9 @@
 # Linhas de lista
 
+Candidato de código: veja [valores combinados, scroll nativo, saídas e listas por chave](./values-scroll-lists) para as adições da próxima RC e limites por plataforma.
+
+Os demais exemplos desta página descrevem a base publicada RC.14, salvo quando marcados como candidatos de código.
+
 Toque uma entrada em cada linha de uma `ListView` conforme ela aparece no scroll:
 
 <Clip name="lists-android" caption="Linhas aparecendo com fade enquanto a lista rola, no Android." />

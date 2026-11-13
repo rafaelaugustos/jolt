@@ -1,5 +1,9 @@
 # Motion values
 
+Source candidate: see [combined values, native scroll, layout exits and keyed lists](./values-scroll-lists) for the next-RC additions and platform limits.
+
+The remaining examples on this page describe the published RC.14 baseline unless explicitly marked as source candidates.
+
 For a retained spring that follows a changing value, see [`springValue()`](./live-springs).
 
 A motion value is a number that animates natively and drives every view property bound to it. One value can move a sheet, darken a backdrop and shrink the page behind it, all on one native clock:

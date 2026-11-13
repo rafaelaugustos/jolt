@@ -72,3 +72,6 @@ packages/swiftui/Tests/JoltCoreTests/Fixtures/geometry.json
 packages/swiftui/Tests/JoltCoreTests/Fixtures/depth.json
 
 packages/swiftui/Tests/JoltCoreTests/Fixtures/effects.json
+
+benchmarks/values-scroll-lists/results/
+benchmarks/values-scroll-lists/captures/

@@ -20,6 +20,7 @@ module.exports = (env) => {
       .set('@nativescript/core', resolve(__dirname, 'node_modules/@nativescript/core'))
     config.plugin('jolt-native-ci').use(require('webpack').DefinePlugin, [
       {
+        __JOLT_VALUES_LAB__: JSON.stringify(!!env.valuesLab),
         __NATIVE_CI_BUILD__: JSON.stringify({
           commit: execFileSync('git', ['rev-parse', 'HEAD'], {
             cwd: __dirname,

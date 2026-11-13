@@ -1,0 +1,321 @@
+{
+  "platform": "ios",
+  "events": [
+    {
+      "name": "scene-values",
+      "time": 1794536987774
+    },
+    {
+      "name": "values-start",
+      "time": 1794536994387
+    },
+    {
+      "name": "values-interrupt",
+      "time": 1794536995126
+    },
+    {
+      "name": "values-start",
+      "time": 1794536996604
+    },
+    {
+      "name": "values-audit",
+      "time": 1794537002249,
+      "sum": 270,
+      "x": 175.5,
+      "scroll": {
+        "offset": 681.6666666666666,
+        "updates": 146,
+        "callbacks": 0
+      }
+    },
+    {
+      "name": "values-audit",
+      "time": 1794537006066,
+      "sum": 270,
+      "x": 175.5,
+      "scroll": {
+        "offset": 0.6666666666666666,
+        "updates": 289,
+        "callbacks": 0
+      }
+    },
+    {
+      "name": "scene-layout",
+      "time": 1794537008325
+    },
+    {
+      "name": "layout-mutation",
+      "time": 1794537015409,
+      "synchronousMs": 9.741000016219914
+    },
+    {
+      "name": "layout-settled",
+      "time": 1794537016266,
+      "done": true
+    },
+    {
+      "name": "layout-mutation",
+      "time": 1794537017002,
+      "synchronousMs": 2.9699999722652137
+    },
+    {
+      "name": "layout-mutation",
+      "time": 1794537017434,
+      "synchronousMs": 1.610000035725534
+    },
+    {
+      "name": "layout-settled",
+      "time": 1794537017437,
+      "done": false
+    },
+    {
+      "name": "layout-settled",
+      "time": 1794537018299,
+      "done": true
+    },
+    {
+      "name": "layout-mutation",
+      "time": 1794537019802,
+      "synchronousMs": 3.2919999794103205
+    },
+    {
+      "name": "layout-cancel",
+      "time": 1794537020300
+    },
+    {
+      "name": "layout-settled",
+      "time": 1794537020300,
+      "done": false
+    },
+    {
+      "name": "layout-mutation",
+      "time": 1794537022269,
+      "synchronousMs": 2.862999972421676
+    },
+    {
+      "name": "layout-settled",
+      "time": 1794537023132,
+      "done": false
+    },
+    {
+      "name": "reduced-motion",
+      "time": 1794537024716,
+      "reduced": true
+    },
+    {
+      "name": "layout-mutation",
+      "time": 1794537025619,
+      "synchronousMs": 3.0929999775253236
+    },
+    {
+      "name": "layout-settled",
+      "time": 1794537026482,
+      "done": true
+    },
+    {
+      "name": "reduced-motion",
+      "time": 1794537027749,
+      "reduced": false
+    },
+    {
+      "name": "exit-costs",
+      "time": 1794537029896,
+      "snapshotSetupMs": [
+        1.33200001437217, 1.3779999571852386, 1.0889999684877694, 0.6649999995715916,
+        0.5619999719783664
+      ],
+      "rawNativeReparentRoundTripMs": [
+        0.13400003081187606, 0.1449999981559813, 0.09200000204145908,
+        0.058999983593821526, 0.05200004670768976
+      ],
+      "limitations": "Five warm samples; raw reparent excludes NativeScript removal/teardown and is not a supported retained-view exit implementation."
+    },
+    {
+      "name": "scene-list",
+      "time": 1794537031941
+    },
+    {
+      "name": "list-audit",
+      "time": 1794537042916,
+      "scroll": {
+        "offset": 683.3333333333334,
+        "updates": 150,
+        "callbacks": 0
+      }
+    },
+    {
+      "name": "list-prepend",
+      "time": 1794537043802,
+      "count": 201,
+      "before": {
+        "key": 11,
+        "index": 11,
+        "top": -23.33333333333337
+      }
+    },
+    {
+      "name": "list-prepend-settled",
+      "time": 1794537044517,
+      "done": true,
+      "after": {
+        "key": 11,
+        "index": 12,
+        "top": -23.33333333333337
+      }
+    },
+    {
+      "name": "list-delete",
+      "time": 1794537045204,
+      "count": 200,
+      "before": {
+        "key": 11,
+        "index": 12,
+        "top": -23.33333333333337
+      }
+    },
+    {
+      "name": "list-delete-settled",
+      "time": 1794537045916,
+      "done": true,
+      "after": {
+        "key": 11,
+        "index": 12,
+        "top": -23.33333333333337
+      }
+    },
+    {
+      "name": "list-sort",
+      "time": 1794537046585,
+      "count": 200,
+      "before": {
+        "key": 11,
+        "index": 12,
+        "top": -23.33333333333337
+      }
+    },
+    {
+      "name": "list-sort-settled",
+      "time": 1794537046600,
+      "done": true,
+      "after": {
+        "key": 11,
+        "index": 187,
+        "top": -23.33333333333394
+      }
+    },
+    {
+      "name": "list-filter",
+      "time": 1794537047042,
+      "count": 100,
+      "before": {
+        "key": 11,
+        "index": 187,
+        "top": -23.33333333333394
+      }
+    },
+    {
+      "name": "list-filter-settled",
+      "time": 1794537047766,
+      "done": true,
+      "after": {
+        "key": 16,
+        "index": 91,
+        "top": -27.66666666666697
+      }
+    },
+    {
+      "name": "list-reset",
+      "time": 1794537048523,
+      "count": 200,
+      "before": {
+        "key": 16,
+        "index": 91,
+        "top": -27.66666666666697
+      }
+    },
+    {
+      "name": "list-reset-settled",
+      "time": 1794537049252,
+      "done": true,
+      "after": {
+        "key": 16,
+        "index": 16,
+        "top": -27.66666666666663
+      }
+    },
+    {
+      "name": "list-delete",
+      "time": 1794537052574,
+      "count": 199,
+      "before": {
+        "key": 4,
+        "index": 4,
+        "top": -44.666666666666686
+      }
+    },
+    {
+      "name": "list-prepend",
+      "time": 1794537053068,
+      "count": 200,
+      "before": {
+        "key": 4,
+        "index": 4,
+        "top": -44.666666666666686
+      }
+    },
+    {
+      "name": "list-delete-settled",
+      "time": 1794537053069,
+      "done": false,
+      "after": {
+        "key": 3,
+        "index": 4,
+        "top": -16.666666666666686
+      }
+    },
+    {
+      "name": "list-prepend-settled",
+      "time": 1794537053783,
+      "done": true,
+      "after": {
+        "key": 4,
+        "index": 5,
+        "top": -44.666666666666686
+      }
+    },
+    {
+      "name": "reduced-motion",
+      "time": 1794537055400,
+      "reduced": true
+    },
+    {
+      "name": "list-sort",
+      "time": 1794537056287,
+      "count": 200,
+      "before": {
+        "key": 4,
+        "index": 5,
+        "top": -44.666666666666686
+      }
+    },
+    {
+      "name": "list-sort-settled",
+      "time": 1794537056303,
+      "done": true,
+      "after": {
+        "key": 8,
+        "index": 191,
+        "top": -27.66666666666606
+      }
+    },
+    {
+      "name": "list-audit",
+      "time": 1794537057383,
+      "scroll": {
+        "offset": 11487.666666666666,
+        "updates": 331,
+        "callbacks": 0
+      }
+    }
+  ]
+}

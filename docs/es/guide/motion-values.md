@@ -1,5 +1,9 @@
 # Valores de movimiento {#motion-values}
 
+Candidato de código: consulte [valores combinados, scroll nativo, salidas y listas por clave](./values-scroll-lists) para las adiciones de la próxima RC y sus límites.
+
+Los demás ejemplos describen la base publicada RC.14, salvo cuando se marcan como candidatos de código.
+
 Para un resorte retenido que sigue un valor cambiante, consulte [`springValue()`](./live-springs).
 
 Un valor de movimiento es un número que se anima de forma nativa y controla todas las propiedades de vista vinculadas a él. Un valor puede mover una hoja, oscurecer un fondo y reducir la página detrás de él, todo en un reloj nativo:

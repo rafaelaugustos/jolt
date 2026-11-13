@@ -325,6 +325,36 @@ final class SwiftUIAcceptance: XCTestCase {
     XCTAssertTrue(app.descendants(matching: .any)["inspector-panel"].firstMatch.exists)
     cue("stop")
   }
+  @MainActor func testValuesScrollExpansion() {
+    let app = lab("--values-scroll-lab")
+    XCTAssertTrue(app.staticTexts["values-scroll-status"].waitForExistence(timeout: 10))
+    cue("start")
+    click(app.buttons["combine-values"])
+    XCTAssertTrue(wait { self.label(app, "combined-status").contains("146.2") || self.label(app, "combined-status").contains("146.3") })
+    click(app.buttons["interrupt-values"])
+    XCTAssertTrue(wait { self.label(app, "combined-status").contains("0.0") })
+    click(app.buttons["header-scroll"])
+    XCTAssertTrue(wait { self.label(app, "values-scroll-status").contains("Offset 240") })
+    click(app.buttons["header-prepend"])
+    XCTAssertTrue(wait { self.label(app, "values-scroll-status").contains("Offset 292") })
+    click(app.buttons["header-top"])
+    XCTAssertTrue(wait { self.label(app, "values-scroll-status").contains("Offset 0") })
+    let scroll=app.scrollViews.firstMatch
+    #if os(macOS)
+      scroll.scroll(byDeltaX:0,deltaY:-260)
+      click(app.checkBoxes["values-reduce"])
+    #else
+      scroll.swipeUp()
+      app.switches["values-reduce"].coordinate(withNormalizedOffset: CGVector(dx: 0.92, dy: 0.5)).tap()
+    #endif
+    XCTAssertTrue(wait { self.label(app, "values-scroll-status").contains("reduced on") }, label(app,"values-scroll-status"))
+    click(app.buttons["header-top"])
+    XCTAssertTrue(wait { self.label(app, "values-scroll-status").contains("Offset 0") })
+    click(app.buttons["header-scroll"])
+    XCTAssertTrue(wait { self.label(app, "values-scroll-status").contains("Offset 240") })
+    XCTAssertTrue(app.descendants(matching: .any)["header-compact"].firstMatch.exists, app.debugDescription)
+    cue("stop")
+  }
   @MainActor func testScrollExpansion() {
     let app = lab("--scroll-lab")
     XCTAssertTrue(app.staticTexts["scroll-status"].waitForExistence(timeout: 10))
@@ -1039,30 +1069,48 @@ final class SwiftUIAcceptance: XCTestCase {
     XCTAssertTrue(wait { !self.label(app, "shimmer-status").contains("running") })
     click(app.buttons["skeleton-toggle"])
     XCTAssertTrue(wait { self.label(app, "shimmer-status").contains("running") })
+    let toggleLoader = { (style: String) in
+      let button = app.buttons["busy-" + style]
+      #if os(macOS)
+        button.click()
+      #else
+        // The CI recording showed a 50 ms synthesized tap highlight the button
+        // without activating it. Keep the contact down for 150 ms, then require
+        // the observable state change below; do not retry a missed activation.
+        button.press(forDuration: 0.15)
+      #endif
+    }
     for style in ["dots", "bars", "ring"] {
-      click(app.buttons["busy-" + style])
+      toggleLoader(style)
       XCTAssertTrue(
         wait { self.label(app, "loader-status").contains(style + " running") },
         label(app, "loader-status"))
     }
     XCTAssertEqual(app.buttons["busy-ring"].label, "Saving with ring")
     Thread.sleep(forTimeInterval: 1.5)
-    for style in ["dots", "bars", "ring"] { click(app.buttons["busy-" + style]) }
+    for style in ["dots", "bars", "ring"] {
+      toggleLoader(style)
+      XCTAssertTrue(
+        wait { app.buttons["busy-" + style].label == "Save with " + style },
+        app.buttons["busy-" + style].label)
+      XCTAssertTrue(
+        wait { self.label(app, "loader-status").contains(style + " suspended") },
+        label(app, "loader-status"))
+    }
     XCTAssertTrue(
       wait { !self.label(app, "loader-status").contains("running") }, label(app, "loader-status"))
     let area = app.descendants(matching: .any)["reveal-area"].firstMatch
     let surface = app.descendants(matching: .any)["reveal-surface"].firstMatch
     XCTAssertFalse(surface.exists)
     XCTAssertTrue(label(app, "reveal-status").contains("concealed"), label(app, "reveal-status"))
+    // Keep the two input events adjacent. Accessibility queries and XCTest's idle waits
+    // can consume the entire 2.4 s reveal on a CI simulator. The persistent interruption
+    // count below proves replacement of a live reveal without racing a transient phase.
     press(area, 0.2, 0.3)
-    XCTAssertTrue(
-      wait { self.label(app, "reveal-status").contains("revealing") }, label(app, "reveal-status"))
-    Thread.sleep(forTimeInterval: 0.3)
     click(app.buttons["reveal-conceal"])
     XCTAssertTrue(
-      wait { self.label(app, "reveal-status").contains("concealing") }, label(app, "reveal-status"))
-    XCTAssertTrue(
-      label(app, "reveal-status").contains("interrupted 1"), label(app, "reveal-status"))
+      wait { self.label(app, "reveal-status").contains("interrupted 1") },
+      label(app, "reveal-status"))
     XCTAssertTrue(
       wait { self.label(app, "reveal-status").contains("Reveal: concealed") },
       label(app, "reveal-status"))

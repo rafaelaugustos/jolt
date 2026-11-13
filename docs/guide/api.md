@@ -1,5 +1,7 @@
 # API
 
+Next-RC source candidate: [combined values, native scroll, layout exits, keyed lists and SwiftUI headers](./values-scroll-lists). Not yet published.
+
 Available in RC.12: [interaction and depth](./interaction-depth) adds portable drop zones, optional audio/cues, adapter inspection and Web path/3D/shadow contracts.
 
 - [**Web gravity, haptics, sensors, glass and gallery return**](./web-parity) — available since RC.10.

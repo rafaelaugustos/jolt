@@ -1,5 +1,19 @@
 import {
+  createNativeScrollSource,
+  nativeScrollAvailable,
+  type NativeScrollSource,
+} from './scroll-source.js'
+import {
+  scalarOperations,
+  type ScalarOperation,
+  type ScalarOperations,
+  type ScalarSample,
+} from './core/scalar.js'
+import { scalarProgram, type ScalarInstruction } from './core/scalar-program.js'
+import { numericMap } from './core/numeric-map.js'
+import {
   Application,
+  isIOS,
   Color,
   ScrollView,
   type EventData,
@@ -62,7 +76,12 @@ import {
 import type { KeyframeProperty, Target } from './types.js'
 import { playbackSource, type PlaybackAnimation, type PlaybackClock } from './playback.js'
 import { TimedAnimation } from './timed-animation.js'
-import { compositionSpan, valueTrack } from './value-track.js'
+import {
+  compositionSpan,
+  valueTrack,
+  sampledValueTrack,
+  type ValuePart,
+} from './value-track.js'
 import {
   ValueObservers,
   type SubscribeOptions,
@@ -80,7 +99,10 @@ export type ValueAnimationOptions = Transition & { layer?: string }
 declare const motionValueBrand: unique symbol
 
 /** A number derived from a motion value, ready to bind to a view. */
-export interface DerivedValue {
+export interface DerivedValue extends ScalarOperations<DerivedValue> {
+  getVelocity(): number
+  readonly disposed: boolean
+  dispose(): void
   /** The value now, while it animates too. */
   get(): number
   /** Observe changes in JavaScript on the native frame clock. Unsubscribe when finished. */
@@ -137,31 +159,114 @@ type Presentation = Pick<Run, 'track' | 'base' | 'span' | 'startedAt' | 'clock'>
 
 const bound = new WeakMap<View, Map<Property, Binding>>()
 
+interface Derived extends ScalarOperations<DerivedValue> {}
 class Derived {
+  private disposedMapping = false
+  private frozenMapping: number | undefined
+  private releases = new Set<() => void>()
+  private readonly endings = new Set<() => void>()
+  get disposed(): boolean {
+    return this.disposedMapping || (this.source?.disposed ?? false)
+  }
+  onDispose(callback: () => void) {
+    this.endings.add(callback)
+    return () => {
+      this.endings.delete(callback)
+    }
+  }
+  dispose() {
+    this.finishDerived()
+  }
+  protected finishDerived() {
+    if (this.disposedMapping) return
+    if (this.source) this.frozenMapping = this.read(this.root.raw())
+    this.disposedMapping = true
+    for (const stop of this.releases) stop()
+    this.releases.clear()
+    for (const binding of [...this.root.bindings])
+      if (binding.source === this) release(binding)
+    for (const callback of [...this.endings]) callback()
+    this.endings.clear()
+  }
+  getVelocity(): number {
+    if (this.color || this.disposed) return 0
+    let value = this.root.raw(),
+      velocity = this.root.rawVelocity()
+    for (const map of this.mappings) {
+      const last = map.input.length - 1
+      if (map.clamp && value <= map.input[0]!) {
+        value = map.output[0]!
+        velocity = 0
+        continue
+      }
+      if (map.clamp && value >= map.input[last]!) {
+        value = map.output[last]!
+        velocity = 0
+        continue
+      }
+      let i = 0
+      while (i < last - 1 && value > map.input[i + 1]!) i++
+      const span = map.input[i + 1]! - map.input[i]!,
+        slope = span > 0 ? (map.output[i + 1]! - map.output[i]!) / span : 0
+      const fraction =
+        span > 0 ? (value - map.input[i]!) / span : value < map.input[i]! ? 0 : 1
+      value = map.output[i]! + (map.output[i + 1]! - map.output[i]!) * fraction
+      velocity *= slope
+    }
+    return velocity
+  }
   constructor(
     private readonly source: Root | undefined,
     readonly read: (value: number) => number,
     readonly color: boolean,
     readonly mappings: readonly LiveMapping[] = [],
-  ) {}
+  ) {
+    Object.assign(
+      this,
+      scalarOperations<DerivedValue>((op, operand, maximum) => {
+        if (this.color || this.disposed)
+          throw new TypeError('Scalar operations require a live numeric source.')
+        if (
+          operand !== undefined &&
+          !(operand instanceof Derived) &&
+          (typeof operand !== 'number' || !Number.isFinite(operand))
+        )
+          throw new TypeError('Expected a finite number or a Jolt numeric value.')
+        return new GraphRoot(
+          this,
+          op,
+          operand as Derived | number | undefined,
+          maximum,
+        ) as unknown as DerivedValue
+      }),
+    )
+  }
+
+  get depth(): number {
+    return this.source ? this.source.depth + this.mappings.length : 0
+  }
 
   get root(): Root {
     return this.source ?? (this as unknown as Root)
   }
 
   get(): number | Color {
-    const value = this.read(this.root.raw())
+    const value = this.frozenMapping ?? this.read(this.root.raw())
     return this.color ? new Color(value) : value
   }
 
   subscribe(listener: ValueListener<number | Color>, options?: SubscribeOptions) {
-    const release = this.root.retainConsumer()
+    if (this.disposed) throw new Error('The value is disposed.')
+    const release = this.root.retainObservation()
     try {
       const stop = this.root.observers.subscribe(this.read, this.color, listener, options)
-      return () => {
+      const cleanup = () => {
         stop()
         release()
+        this.releases.delete(cleanup)
       }
+      this.releases.add(cleanup)
+      return cleanup
     } catch (error) {
       release()
       throw error
@@ -174,6 +279,7 @@ class Derived {
     options?: MapOptions,
   ): Derived {
     if (this.color) throw new TypeError('A color cannot be mapped again.')
+    if (this.disposed) throw new Error('The value is disposed.')
     const map = mapping(input, output, options)
     const read = this.read
     return new Derived(this.root, (value) => map.read(read(value)), map.color, [
@@ -188,7 +294,49 @@ class Derived {
   }
 }
 
+function retainAll<T>(
+  values: readonly T[],
+  retain: (value: T) => () => void,
+): (() => void)[] {
+  const releases: (() => void)[] = []
+  try {
+    for (const value of values) releases.push(retain(value))
+    return releases
+  } catch (error) {
+    for (const release of releases.reverse()) release()
+    throw error
+  }
+}
 class Root extends Derived {
+  private observations = 0
+  readonly observationListeners = new Set<() => void>()
+  get observed() {
+    return this.observations > 0
+  }
+  protected observationDemandChanged() {
+    for (const callback of [...this.observationListeners]) callback()
+  }
+  retainObservation() {
+    if (this.disposed) throw new Error('The value is disposed.')
+    this.observations++
+    let release: () => void
+    try {
+      this.observationDemandChanged()
+      release = this.retainConsumer()
+    } catch (error) {
+      this.observations--
+      this.observationDemandChanged()
+      throw error
+    }
+    let ended = false
+    return () => {
+      if (ended) return
+      ended = true
+      release()
+      this.observations--
+      this.observationDemandChanged()
+    }
+  }
   private consumers = 0
   readonly demandListeners = new Set<(active: boolean) => void>()
   get demanded() {
@@ -242,6 +390,42 @@ class Root extends Derived {
     return result
   }
 
+  rawVelocity(): number {
+    return this.disposed
+      ? 0
+      : [...this.runs.keys()].reduce((sum, key) => sum + this.channelVelocity(key), 0)
+  }
+  snapshot(): { rest: number; parts: ValuePart[] } {
+    const now = getDriver().now()
+    let rest = 0
+    const parts: ValuePart[] = []
+    for (const [key, value] of this.rests) if (!this.runs.has(key)) rest += value
+    for (const [key, run] of this.runs) {
+      if (run.animation.paused) rest += this.part(key, now)
+      else
+        parts.push({
+          track: run.track,
+          base: run.base,
+          span: run.span,
+          elapsed: this.runTime(run, now),
+        })
+    }
+    return { rest, parts }
+  }
+  override dispose() {
+    if (this.disposed) return
+    this.stop()
+    for (const binding of [...this.bindings]) release(binding)
+    this.cancelPresentation?.()
+    this.composer?.dispose()
+    this.composer = undefined
+    this.observers.clear()
+    super.dispose()
+    for (const listener of [...this.listeners]) listener()
+    this.listeners.clear()
+    this.demandListeners.clear()
+  }
+
   /** Drag input owns only the base; bounds and snap points stay in base units. */
   base(): number {
     return this.part('')
@@ -261,13 +445,16 @@ class Root extends Derived {
   /** Internal development snapshot; reading it installs no observers. */
   inspect() {
     return {
-      velocity: [...this.runs.keys()].reduce((sum, key) => sum + this.velocity(key), 0),
+      velocity: [...this.runs.keys()].reduce(
+        (sum, key) => sum + this.channelVelocity(key),
+        0,
+      ),
       resources:
         this.bindings.size + this.listeners.size + this.observers.size + this.runs.size,
     }
   }
 
-  private velocity(key: string): number {
+  private channelVelocity(key: string): number {
     const run = this.runs.get(key)
     if (!run || run.animation.paused) return 0
     return run.span * run.track.velocityAt(this.runTime(run))
@@ -279,6 +466,7 @@ class Root extends Derived {
   ): PlaybackAnimation {
     const options: ValueAnimationOptions =
       typeof transition === 'string' ? springOf(transition) : transition
+    if (this.disposed) throw new Error('The value is disposed.')
     const key = options.layer === undefined ? '' : layerName(options.layer)
     const from = this.part(key)
     const frames = (typeof target === 'number' ? [null, target] : [...target]).map(
@@ -290,7 +478,7 @@ class Root extends Derived {
     const resolved = resolveTransition(options, 'x', frames.length)
     const base = Math.min(...frames)
     const span = Math.max(...frames) - base
-    const velocity = this.velocity(key)
+    const velocity = this.channelVelocity(key)
     if (resolved.curve.type === 'gravity') {
       // Acceleration and velocity belong to the value's units, not normalized progress.
       const track = createTrack('x', frames, resolved, velocity)
@@ -375,6 +563,7 @@ class Root extends Derived {
   }
 
   set(value: number) {
+    if (this.disposed) throw new Error('The value is disposed.')
     if (!Number.isFinite(value))
       throw new RangeError(`A motion value takes a finite number, got ${value}.`)
     for (const key of [...this.runs.keys()]) this.halt(key)
@@ -438,7 +627,7 @@ class Root extends Derived {
   }
 
   /** Every run as a native input on its own clock; rests and paused runs stand still. */
-  private inputs(now: number) {
+  inputs(now: number) {
     let rest = 0
     for (const [key, value] of this.rests) if (!this.runs.has(key)) rest += value
     const inputs: LiveInput[] = []
@@ -631,6 +820,16 @@ export interface SpringValue extends DerivedValue {
 }
 
 class SpringRoot extends Root {
+  private observerSource?: () => void
+  protected override observationDemandChanged() {
+    if (this.observed && !this.observerSource)
+      this.observerSource = this.input.root.retainObservation()
+    else if (!this.observed) {
+      this.observerSource?.()
+      this.observerSource = undefined
+    }
+    super.observationDemandChanged()
+  }
   private releaseDemand: (() => void) | undefined
   externalActive = false
   protected override demandChanged() {
@@ -699,13 +898,15 @@ class SpringRoot extends Root {
     if (options.bounce !== undefined && !Number.isFinite(options.bounce))
       throw new RangeError('springValue bounce must be finite.')
     super(initial)
-    this.node = liveSpringDriver().create(initial, physics, instant || reducedMotion())
     const root = source.root
+    const graphLease =
+      root instanceof GraphRoot && root.live ? root.nativeLease() : undefined
+    this.node = liveSpringDriver().create(initial, physics, instant || reducedMotion())
     try {
       let update: () => void
-      if (root instanceof SpringRoot) {
+      if (root instanceof SpringRoot || graphLease) {
         if (root.disposed) throw new Error('Cannot follow a disposed spring value.')
-        this.node.follow(root.node, source.mappings)
+        this.node.follow(graphLease?.node ?? (root as SpringRoot).node, source.mappings)
         update = () => this.notify()
       } else {
         const playback = valuePlayback(source as unknown as DerivedValue)
@@ -745,6 +946,7 @@ class SpringRoot extends Root {
       root.listeners.add(update)
       this.releaseSource = () => {
         root.listeners.delete(update)
+        graphLease?.release()
       }
       this.releaseReduced = onReducedMotion((reduced) => {
         this.node.reduced(instant || reduced)
@@ -772,7 +974,7 @@ class SpringRoot extends Root {
   get moving(): boolean {
     return this.running
   }
-  get disposed(): boolean {
+  override get disposed(): boolean {
     return this.ended
   }
   override get paused(): boolean {
@@ -795,8 +997,11 @@ class SpringRoot extends Root {
     this.demandChanged()
     this.notify()
   }
-  getVelocity(): number {
-    return this.ended ? 0 : this.node.velocity()
+  override getVelocity(): number {
+    return this.rawVelocity()
+  }
+  override rawVelocity(): number {
+    return this.ended || this.held || this.background ? 0 : this.node.velocity()
   }
   override plan(): Plan {
     throw new TypeError(
@@ -807,17 +1012,20 @@ class SpringRoot extends Root {
     this.observers.changed(this.running)
     for (const listener of [...this.listeners]) listener()
   }
-  dispose() {
+  override dispose() {
     if (this.ended) return
     this.ended = true
     this.demandChanged()
     this.releaseSource()
+    this.observerSource?.()
+    this.observerSource = undefined
     this.releaseReduced()
     Application.off(Application.suspendEvent, this.suspend)
     Application.off(Application.resumeEvent, this.resume)
     for (const binding of [...this.bindings]) release(binding)
     this.node.dispose()
     this.observers.clear()
+    this.finishDerived()
     for (const listener of [...this.listeners]) listener()
     this.listeners.clear()
   }
@@ -858,6 +1066,299 @@ export function liveValueInput(value: DerivedValue) {
   }
 }
 
+/** Compile finite sources once; live sources stay in the native evaluator's ordered frame batch. */
+class GraphRoot extends Root {
+  readonly level: number
+  readonly sources: Root[]
+  readonly program: ScalarInstruction[]
+  readonly live: boolean
+  private readonly evaluate: ReturnType<typeof scalarProgram>
+  private stops: (() => void)[] = []
+  private demandStops: (() => void)[] = []
+  private observerStops: (() => void)[] = []
+  private graphNode?: LiveNode
+  private bridges: { root: Root; node: LiveNode }[] = []
+  private leases = 0
+  private cached?: { track: Track; started: number }
+  private last: ScalarSample
+  private readonly suspendGraph = () => this.graphNode?.paused(true)
+  private readonly resumeGraph = () => this.graphNode?.paused(false)
+  constructor(
+    readonly left: Derived,
+    readonly operation: ScalarOperation,
+    readonly right?: Derived | number,
+    readonly maximum?: number,
+  ) {
+    const sources = [...new Set([left, ...(right instanceof Derived ? [right] : [])])]
+    if (sources.some((source) => source.color || source.disposed || source.depth >= 32))
+      throw new TypeError('Scalar operations need live numeric sources within 32 levels.')
+    const graph = compileGraph(left, operation, right, maximum)
+    const evaluate = scalarProgram(graph.program, graph.sources.length)
+    const initial = evaluate(
+      graph.sources.map((root) => ({ value: root.raw(), velocity: root.rawVelocity() })),
+    )
+    super(initial.value)
+    this.last = initial
+    this.sources = graph.sources
+    this.program = graph.program
+    this.evaluate = evaluate
+    this.level = Math.max(...sources.map((source) => source.depth)) + 1
+    this.live = this.sources.some((root) => root instanceof SpringRoot)
+    const update = () => {
+      if (this.disposed) return
+      if (
+        sources.some((source) => source.disposed) ||
+        this.sources.some((root) => root.disposed)
+      ) {
+        this.dispose()
+        return
+      }
+      this.cached = undefined
+      for (const { root, node } of this.bridges) {
+        const snapshot = root.inputs(getDriver().now())
+        node.inputs(snapshot.rest, snapshot.inputs)
+      }
+      this.changed()
+    }
+    for (const root of this.sources) {
+      root.listeners.add(update)
+      this.stops.push(() => root.listeners.delete(update))
+    }
+    for (const source of sources) this.stops.push(source.onDispose(() => this.dispose()))
+    Application.on(Application.suspendEvent, this.suspendGraph)
+    Application.on(Application.resumeEvent, this.resumeGraph)
+  }
+  override get depth() {
+    return this.level ?? 0
+  }
+  override raw() {
+    if (this.disposed) return this.last.value
+    return this.evaluate(
+      this.sources.map((root) => ({ value: root.raw(), velocity: root.rawVelocity() })),
+    ).value
+  }
+  override rawVelocity() {
+    return this.disposed
+      ? 0
+      : this.evaluate(
+          this.sources.map((root) => ({
+            value: root.raw(),
+            velocity: root.rawVelocity(),
+          })),
+        ).velocity
+  }
+  override get running() {
+    return !this.disposed && this.sources.some((root) => root.running)
+  }
+  protected override demandChanged() {
+    const active = !this.disposed && (this.demanded || this.leases > 0)
+    if (active && !this.demandStops.length)
+      this.demandStops = retainAll(this.sources, (root) => root.retainConsumer())
+    else if (!active) {
+      for (const stop of this.demandStops) stop()
+      this.demandStops = []
+    }
+    super.demandChanged()
+  }
+  protected override observationDemandChanged() {
+    if (this.observed && !this.observerStops.length)
+      this.observerStops = retainAll(this.sources, (root) => root.retainObservation())
+    else if (!this.observed) {
+      for (const stop of this.observerStops) stop()
+      this.observerStops = []
+    }
+    super.observationDemandChanged()
+  }
+  private timeline() {
+    return this.sources.map((root) => root.snapshot())
+  }
+  override composerNode(): LiveNode | undefined {
+    const snapshots = this.timeline()
+    if (
+      !this.live &&
+      !compositionSpan(snapshots.flatMap((snapshot) => snapshot.parts))?.windowed
+    )
+      return undefined
+    return this.ensureNode()
+  }
+  nativeLease() {
+    const node = this.ensureNode()
+    this.leases++
+    try {
+      this.demandChanged()
+    } catch (error) {
+      this.leases--
+      this.demandChanged()
+      this.settle()
+      throw error
+    }
+    let released = false
+    return {
+      node,
+      release: () => {
+        if (released) return
+        released = true
+        this.leases--
+        this.demandChanged()
+        this.settle()
+      },
+    }
+  }
+  private ensureNode(): LiveNode {
+    if (this.graphNode) return this.graphNode
+    const driver = liveSpringDriver()
+    try {
+      const inputs = this.sources.map((root) => {
+        if (root instanceof SpringRoot) return root.node
+        const node = driver.create(root.raw(), stillPhysics, true)
+        this.bridges.push({ root, node })
+        const snapshot = root.inputs(getDriver().now())
+        node.inputs(snapshot.rest, snapshot.inputs)
+        return node
+      })
+      const node = driver.create(this.raw(), stillPhysics, true)
+      this.graphNode = node
+      if (!node.compute)
+        throw new Error('Combined live values need rebuilt Jolt native classes.')
+      node.compute(inputs, this.program)
+      return node
+    } catch (error) {
+      this.clearNode()
+      throw error
+    }
+  }
+  private clearNode() {
+    this.graphNode?.dispose()
+    this.graphNode = undefined
+    for (const { node } of this.bridges) node.dispose()
+    this.bridges = []
+  }
+  override settle() {
+    if (!this.demanded && !this.leases) this.clearNode()
+  }
+  private presentationTrack() {
+    if (this.cached) return this.cached
+    const snapshots = this.timeline()
+    const at = (time: number) =>
+      this.evaluate(
+        snapshots.map((snapshot) => ({
+          value: snapshot.parts.reduce(
+            (sum, part) =>
+              sum + part.base + part.span * part.track.valueAt(part.elapsed + time),
+            snapshot.rest,
+          ),
+          velocity: snapshot.parts.reduce(
+            (sum, part) => sum + part.span * part.track.velocityAt(part.elapsed + time),
+            0,
+          ),
+        })),
+      ).value
+    const { track } = sampledValueTrack(
+      snapshots.flatMap((snapshot) => snapshot.parts),
+      at,
+    )
+    return (this.cached = { track, started: getDriver().now() })
+  }
+  override plan(binding: Binding): Plan {
+    const source = this.presentationTrack().track
+    const at = (value: number) =>
+      isDecorationProperty(binding.property)
+        ? clampDecoration(binding.property, binding.read(value))
+        : binding.read(value)
+    return {
+      property: binding.property,
+      keyframes: [],
+      transition: still,
+      track: () => {
+        if (
+          reducedMotion() &&
+          binding.property !== 'opacity' &&
+          !isColorProperty(binding.property)
+        )
+          return instantTrack(binding.property, at(source.to))
+        return {
+          ...source,
+          property: binding.property,
+          values: source.values.map(at),
+          to: at(source.to),
+          valueAt: (time: number) => at(source.valueAt(time)),
+          velocityAt: (time: number) =>
+            (at(source.valueAt(time + 0.5)) - at(source.valueAt(time - 0.5))) * 1000,
+        }
+      },
+    }
+  }
+  override elapsed() {
+    return getDriver().now() - this.presentationTrack().started
+  }
+  override captureTime() {
+    const start = this.presentationTrack().started
+    return () => getDriver().now() - start
+  }
+  override dispose() {
+    if (this.disposed) return
+    this.last = { value: this.raw(), velocity: 0 }
+    for (const stop of this.stops) stop()
+    this.stops = []
+    for (const stop of this.observerStops) stop()
+    this.observerStops = []
+    for (const stop of this.demandStops) stop()
+    this.demandStops = []
+    Application.off(Application.suspendEvent, this.suspendGraph)
+    Application.off(Application.resumeEvent, this.resumeGraph)
+    super.dispose()
+    this.clearNode()
+  }
+}
+
+function compileGraph(
+  left: Derived,
+  operation: ScalarOperation,
+  right?: Derived | number,
+  maximum?: number,
+) {
+  const sources: Root[] = [],
+    program: ScalarInstruction[] = []
+  const known = new Map<Derived, number>()
+  const append = (node: ScalarInstruction) => {
+    program.push(node)
+    return program.length - 1
+  }
+  const walk = (value: Derived | number): number => {
+    if (typeof value === 'number') return append({ op: 'constant', value })
+    const cached = known.get(value)
+    if (cached !== undefined) return cached
+    const root = value.root
+    let index: number
+    if (root instanceof GraphRoot) {
+      const a = walk(root.left),
+        b = root.right === undefined ? undefined : walk(root.right)
+      index = append({ op: root.operation, a, b, maximum: root.maximum })
+    } else {
+      let input = sources.indexOf(root)
+      if (input < 0) {
+        input = sources.length
+        sources.push(root)
+      }
+      index = append({ op: 'input', a: input })
+    }
+    for (const map of value.mappings)
+      index = append({
+        op: 'map',
+        a: index,
+        input: map.input,
+        output: map.output,
+        clamp: map.clamp,
+      })
+    known.set(value, index)
+    return index
+  }
+  const a = walk(left),
+    b = right === undefined ? undefined : walk(right)
+  append({ op: operation, a, b, maximum })
+  return { sources, program }
+}
+
 function layerName(name: string): string {
   if (typeof name !== 'string' || !name.length)
     throw new TypeError('A layer is named by a nonempty string.')
@@ -885,7 +1386,11 @@ export function motionValue(initial = 0): MotionValue {
 }
 
 export function isMotionValue(target: unknown): target is MotionValue {
-  return target instanceof Root && !(target instanceof SpringRoot)
+  return (
+    target instanceof Root &&
+    !(target instanceof SpringRoot) &&
+    !(target instanceof GraphRoot)
+  )
 }
 
 export function asRoot(value: MotionValue): Root {
@@ -907,6 +1412,8 @@ export function bind(target: Target | readonly Target[], bindings: Bindings): ()
   const entries: [Property, Derived][] = []
   for (const [key, source] of Object.entries(bindings)) {
     if (source === undefined) continue
+    if (source instanceof Derived && source.disposed)
+      throw new Error('The value is disposed.')
     if (!(source instanceof Derived))
       throw new TypeError(`"${key}" needs a motion value, got ${String(source)}.`)
     const properties: Property[] =
@@ -970,12 +1477,16 @@ function attach(view: View, property: Property, source: Derived) {
     return attachSpring(view, property as LiveProperty, source, root)
   let native: LiveBinding | undefined, composer: LiveNode | undefined
   let releaseMix: (() => void) | undefined
+  let releaseDemand: (() => void) | undefined
   const detach = () => {
     if (!native) return
     native.cancel()
     releaseMix?.()
     releaseMix = undefined
     native = composer = undefined
+    releaseDemand?.()
+    releaseDemand = undefined
+    root.settle()
     syncLiveSprings(view)
   }
   const binding: Binding = {
@@ -986,16 +1497,20 @@ function attach(view: View, property: Property, source: Derived) {
     read: source.read,
     sync() {
       if (!view.isLoaded || !view.nativeViewProtected) return
-      const node = layerable(property) && !source.color ? root.composerNode() : undefined
+      const node =
+        root instanceof GraphRoot || (layerable(property) && !source.color)
+          ? root.composerNode()
+          : undefined
       if (node) {
         if (composer === node) return
         detach()
         binding.animation?.stop()
         binding.animation = undefined
         stopBase(view, [property])
-        const handle = node.bind(view, property as NumericProperty, source.mappings)
+        const handle = node.bind(view, property as LiveProperty, source.mappings)
         native = handle
         composer = node
+        releaseDemand = root.retainConsumer()
         releaseMix = mixFor(view, property).attachLive({
           read: () => handle.value(),
           layers: (layers) => handle.layers(layers),
@@ -1437,56 +1952,180 @@ function springOf(name: SpringName): Transition {
   return springs[name]
 }
 
-/** A number that follows a scroll view's offset. Bind it like a motion value. */
+/** Scroll offsets in DIPs/points. iOS includes the adjusted leading inset; bounce stays negative. */
 export interface ScrollValue extends DerivedValue {
-  /** Follows this scroll view instead, or none with `null`. Stable, so it works as a template ref. */
   readonly ref: (scrollView: Target | null) => void
-  /** Stops following; bound views stay where they are. */
-  dispose(): void
+  readonly execution: 'native' | 'javascript'
+  refresh(): void
+}
+export interface ScrollValueOptions {
+  axis?: 'x' | 'y'
+  /** auto uses rebuilt native classes; javascript preserves the observable ScrollView fallback. */
+  execution?: 'auto' | 'native' | 'javascript'
+  /** Required on Android virtualized lists: fixed row height; horizontal CollectionView uses item stride. */
+  rowHeight?: number
+}
+const scrollDiagnostics = new WeakMap<
+  object,
+  () => { offset: number; updates: number; callbacks: number }
+>()
+/** Development audit; counts Jolt callbacks, not events emitted independently by NativeScript Core. */
+export function inspectScrollValue(value: ScrollValue) {
+  return scrollDiagnostics.get(value)?.()
 }
 
-/**
- * The scroll offset of a ScrollView, in DIPs, as a value that bindings follow.
- *
- * ```ts
- * const offset = scrollValue(scroll)
- * bind(header, { y: offset.to([0, 120], [0, -60]), opacity: offset.to([0, 80], [1, 0]) })
- * ```
- */
 export function scrollValue(
   scrollView?: Target | null,
-  options: { axis?: 'x' | 'y' } = {},
+  options: ScrollValueOptions = {},
 ): ScrollValue {
-  const axis = options.axis ?? 'y'
+  if (
+    !options ||
+    typeof options !== 'object' ||
+    Object.keys(options).some((key) => !['axis', 'execution', 'rowHeight'].includes(key))
+  )
+    throw new TypeError('Expected scroll value options.')
+  const axis = options.axis ?? 'y',
+    execution = options.execution ?? 'auto',
+    rowHeight = options.rowHeight ?? 0
   if (axis !== 'x' && axis !== 'y') throw new TypeError('Scroll axis must be "x" or "y".')
-  const root = new Root(0)
-  let source: ScrollView | undefined
+  if (
+    !['auto', 'native', 'javascript'].includes(execution) ||
+    !Number.isFinite(rowHeight) ||
+    rowHeight < 0
+  )
+    throw new TypeError(
+      'Expected a valid execution path and a nonnegative fixed rowHeight.',
+    )
+  const native = execution !== 'javascript' && nativeScrollAvailable()
+  if (!native && execution === 'native')
+    throw new Error('Native scroll values need rebuilt Jolt classes.')
+  const initial = new Root(0),
+    root: Root = native ? new SpringRoot(initial, { duration: 0 }) : initial
+  const disposeRoot = root.dispose.bind(root)
+  let source: View | undefined,
+    handle: NativeScrollSource | undefined,
+    ended = false,
+    background = false
+  let updates = 0,
+    callbacks = 0
+  const adjusted = (offset: number) => {
+    const inset = isIOS ? source?.nativeViewProtected?.adjustedContentInset : undefined
+    return offset + (inset ? (axis === 'x' ? inset.left : inset.top) : 0)
+  }
   const read = () => {
-    if (!source) return
-    const offset = axis === 'x' ? source.horizontalOffset : source.verticalOffset
-    if (Number.isFinite(offset) && offset !== root.raw()) root.set(offset)
+    if (handle) {
+      handle.refresh()
+      return
+    }
+    if (!(source instanceof ScrollView) || native) return
+    const offset = adjusted(
+      axis === 'x' ? source.horizontalOffset : source.verticalOffset,
+    )
+    if (Number.isFinite(offset) && offset !== root.raw()) {
+      updates++
+      root.set(offset)
+    }
   }
   const onScroll = (event: EventData) => {
-    const { scrollX, scrollY } = event as ScrollEventData
-    const offset = axis === 'x' ? scrollX : scrollY
-    if (Number.isFinite(offset) && offset !== root.raw()) root.set(offset)
+    if (ended || background) return
+    callbacks++
+    const scroll = event as ScrollEventData,
+      offset = adjusted(axis === 'x' ? scroll.scrollX : scroll.scrollY)
+    if (Number.isFinite(offset) && offset !== root.raw()) {
+      updates++
+      root.set(offset)
+    }
+  }
+  const observe = () => handle?.observe(root.observed)
+  const detachNative = () => {
+    handle?.dispose()
+    handle = undefined
+  }
+  const attach = () => {
+    if (ended || background) return
+    if (!native) {
+      read()
+      return
+    }
+    if (handle || !source?.isLoaded || !source.nativeViewProtected) return
+    handle = createNativeScrollSource(
+      source,
+      (root as SpringRoot).node,
+      axis,
+      rowHeight,
+      () => (root as SpringRoot).notify(),
+    )
+    observe()
+    ;(root as SpringRoot).notify()
+  }
+  const suspend = () => {
+    background = true
+    handle?.enabled(false)
+  }
+  const resume = () => {
+    background = false
+    attach()
+    handle?.enabled(true)
+    read()
   }
   const detach = () => {
+    detachNative()
     source?.off(ScrollView.scrollEvent, onScroll)
-    source?.off('loaded', read)
+    source?.off('loaded', attach)
+    source?.off('unloaded', detachNative)
     source = undefined
   }
   const ref = (target: Target | null) => {
+    if (ended) {
+      if (target === null) return
+      throw new Error('The scroll value is disposed.')
+    }
     const next = target === null ? undefined : toViews(target)[0]
     if (next === source) return
-    if (next !== undefined && !(next instanceof ScrollView))
-      throw new TypeError('scrollValue() follows a NativeScript ScrollView.')
+    if (next && !native && !(next instanceof ScrollView))
+      throw new TypeError(
+        'JavaScript scroll values require a NativeScript ScrollView; native list input needs rebuilt classes.',
+      )
     detach()
     source = next
-    source?.on(ScrollView.scrollEvent, onScroll)
-    source?.on('loaded', read)
-    read()
+    if (!native) source?.on(ScrollView.scrollEvent, onScroll)
+    source?.on('loaded', attach)
+    source?.on('unloaded', detachNative)
+    try {
+      attach()
+    } catch (error) {
+      detach()
+      throw error
+    }
   }
-  if (scrollView) ref(scrollView)
-  return Object.assign(root as unknown as DerivedValue, { ref, dispose: detach })
+  const dispose = () => {
+    if (ended) return
+    ended = true
+    detach()
+    root.observationListeners.delete(observe)
+    Application.off(Application.suspendEvent, suspend)
+    Application.off(Application.resumeEvent, resume)
+    disposeRoot()
+    if (native) initial.dispose()
+  }
+  root.observationListeners.add(observe)
+  Application.on(Application.suspendEvent, suspend)
+  Application.on(Application.resumeEvent, resume)
+  const result = Object.assign(root as unknown as DerivedValue, {
+    ref,
+    dispose,
+    refresh: read,
+    execution: native ? ('native' as const) : ('javascript' as const),
+  })
+  scrollDiagnostics.set(
+    result,
+    () => handle?.snapshot() ?? { offset: root.raw(), updates, callbacks },
+  )
+  try {
+    if (scrollView) ref(scrollView)
+  } catch (error) {
+    dispose()
+    throw error
+  }
+  return result
 }

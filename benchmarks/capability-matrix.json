@@ -34,6 +34,7 @@
           "imageEffect",
           "interactionSurface",
           "liquid",
+          "listChanges",
           "loader",
           "motionBehaviors",
           "motionScope",
@@ -73,6 +74,7 @@
         "file": "src/vue/index.ts",
         "exports": [
           "JoltTransition",
+          "JoltTransitionGroup",
           "default",
           "install",
           "transitionHooks",
@@ -239,6 +241,7 @@
         "entry": "./web/vue",
         "file": "src/web/vue/index.ts",
         "exports": [
+          "JoltTransitionGroup",
           "createViewportEnterDirective",
           "useReducedMotion",
           "useShape",
@@ -353,6 +356,7 @@
       "interactiveModal",
       "interactiveNavigation",
       "liquid",
+      "listChanges",
       "loader",
       "motionBehaviors",
       "motionStates",
@@ -2525,6 +2529,51 @@
         "benchmarks/web-frameworks/expansion.spec.ts",
         "test/preset-recipe.spec.ts"
       ]
+    },
+    {
+      "entry": ".",
+      "symbol": "listChanges",
+      "nativeStatus": "pending",
+      "webStatus": "pending",
+      "counterpart": "listChanges",
+      "contract": "Next-RC source candidate, not published. Keyed Core ListView/explicit DOM adapters or Vue layout groups share lifecycle semantics; fixed-row native limits and bounded static exits apply.",
+      "issues": [499],
+      "evidence": [
+        "docs/guide/values-scroll-lists.md",
+        "benchmarks/values-scroll-lists/web.spec.ts",
+        "src/list-changes.ts",
+        "src/web/list-changes.ts"
+      ]
+    },
+    {
+      "entry": "./vue",
+      "symbol": "JoltTransitionGroup",
+      "nativeStatus": "pending",
+      "webStatus": "pending",
+      "counterpart": "JoltTransitionGroup",
+      "contract": "Next-RC source candidate, not published. Keyed Core ListView/explicit DOM adapters or Vue layout groups share lifecycle semantics; fixed-row native limits and bounded static exits apply.",
+      "issues": [498],
+      "evidence": [
+        "docs/guide/values-scroll-lists.md",
+        "benchmarks/values-scroll-lists/web.spec.ts",
+        "src/list-changes.ts",
+        "src/web/list-changes.ts"
+      ]
+    },
+    {
+      "entry": "./web/vue",
+      "symbol": "JoltTransitionGroup",
+      "nativeStatus": "pending",
+      "webStatus": "pending",
+      "counterpart": "JoltTransitionGroup",
+      "contract": "Next-RC source candidate, not published. Keyed Core ListView/explicit DOM adapters or Vue layout groups share lifecycle semantics; fixed-row native limits and bounded static exits apply.",
+      "issues": [498],
+      "evidence": [
+        "docs/guide/values-scroll-lists.md",
+        "benchmarks/values-scroll-lists/web.spec.ts",
+        "src/list-changes.ts",
+        "src/web/list-changes.ts"
+      ]
     }
   ],
   "contracts": [
@@ -2795,6 +2844,16 @@
         "benchmarks/swiftui-demo/CharacterHandle.swift",
         "docs/guide/interaction-depth.md",
         "docs/guide/swiftui-characters.md"
+      ]
+    },
+    {
+      "id": "rc15-values-scroll-lists",
+      "issues": [494, 495, 498, 499, 500, 501],
+      "limit": "Unpublished candidate: combined scalar programs, native scroll, static exits, keyed flat fixed-height Core ListView and explicit Web adapters, SwiftUI scroll header/ranges. #494 physical allocation/frame measurement pending; emulator results do not establish CPU/PSS improvement. CollectionView transitions remain deferred.",
+      "evidence": [
+        "docs/guide/values-scroll-lists.md",
+        "benchmarks/values-scroll-lists/web.spec.ts",
+        "packages/swiftui/Tests/JoltSwiftUITests/ScrollControllerTests.swift"
       ]
     }
   ]

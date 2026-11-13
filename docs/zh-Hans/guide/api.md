@@ -1,5 +1,7 @@
 # API {#api}
 
+下一版 RC 源码候选：[组合值、原生滚动、退场、按键列表和 SwiftUI 标题栏](./values-scroll-lists)，尚未发布。
+
 RC.12 已提供[交互与深度](./interaction-depth)：可移植放置目标、可选音频提示、检查器以及 Web 路径、3D 和阴影契约。
 
 - [**Web 重力、触感、传感器、玻璃与图库返回**](./web-parity) — 自 RC.10 起可用。

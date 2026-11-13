@@ -2,6 +2,100 @@ import { type Experiment, element, action, resetWords } from './types'
 
 export const layoutExperiments: Experiment[] = [
   {
+    id: 'list-changes',
+    family: 'layout',
+    title: [
+      'Keyed list updates',
+      'Atualizações por chave',
+      'Actualizaciones por clave',
+      '按键更新列表',
+    ],
+    hint: [
+      'Scroll, then insert above or remove a row. The visible anchor stays in place.',
+      'Role e insira acima ou remova uma linha. A âncora visível mantém sua posição.',
+      'Desplázate e inserta arriba o elimina una fila. El ancla visible conserva su posición.',
+      '滚动后在上方插入或删除行，保留可见锚点。',
+    ],
+    guide: 'values-scroll-lists',
+    apis: ['listChanges'],
+    runLabel: [
+      'Remove visible row',
+      'Remover linha visível',
+      'Eliminar fila visible',
+      '删除可见行',
+    ],
+    code: `const changes = motion.listChanges(viewport, {
+  key: item => item.id, exit: 'fadeOut', move: 'snappy',
+  adapter: { items: () => items, render: reconcileKeyedDOM, rows: realizedRows }
+})
+scope.add(changes)
+changes.update(nextItems)`,
+    mount(ctx) {
+      const list = element(ctx.host, 'div', 'lab-scroll-window lab-entrance-window')
+      list.tabIndex = 0
+      let items = Array.from({ length: 36 }, (_, id) => ({ id })),
+        next = -1
+      const nodes = new Map<number, HTMLElement>()
+      const render = (data: readonly { id: number }[]) => {
+        items = [...data]
+        const keys = new Set(items.map((item) => item.id))
+        for (const [key, node] of nodes)
+          if (!keys.has(key)) {
+            node.remove()
+            nodes.delete(key)
+          }
+        items.forEach((item, index) => {
+          let node = nodes.get(item.id)
+          if (!node) {
+            node = element(list, 'div', 'lab-entrance-card', String(item.id))
+            node.dataset.key = String(item.id)
+            node.style.height = '48px'
+            node.style.minHeight = '48px'
+            nodes.set(item.id, node)
+          }
+          if (list.children[index] !== node)
+            list.insertBefore(node, list.children[index] ?? null)
+        })
+      }
+      render(items)
+      const changes = ctx.motion.listChanges(list, {
+        key: (item) => item.id,
+        exit: 'fadeOut',
+        move: { duration: 650 },
+        adapter: {
+          items: () => items,
+          render,
+          rows: () =>
+            items.map((item) => ({ key: item.id, target: nodes.get(item.id)! })),
+        },
+      })
+      ctx.scope.add(changes)
+      return {
+        run() {
+          const top = list.getBoundingClientRect().top
+          const visible = items.filter(
+            (item) => nodes.get(item.id)!.getBoundingClientRect().bottom > top,
+          )
+          const item = visible[1]
+          if (item) return changes.update(items.filter((row) => row.id !== item.id))
+        },
+        actions: [
+          action(
+            'insert',
+            ['Insert above', 'Inserir acima', 'Insertar arriba', '上方插入'],
+            () => changes.update([{ id: next-- }, ...items]),
+          ),
+          action('reverse', ['Reverse', 'Inverter', 'Invertir', '反转'], () =>
+            changes.update([...items].reverse()),
+          ),
+          action('reset', resetWords, () =>
+            changes.update(Array.from({ length: 36 }, (_, id) => ({ id }))),
+          ),
+        ],
+      }
+    },
+  },
+  {
     id: 'scroll',
     family: 'layout',
     title: [

@@ -284,6 +284,7 @@ try {
       'interactiveModal',
       'interactiveNavigation',
       'liquid',
+      'listChanges',
       'loader',
       'motionBehaviors',
       'motionStates',

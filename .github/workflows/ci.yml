@@ -181,6 +181,7 @@ jobs:
       - run: npm run web:press:test
       - run: npm run web:integration:test
       - run: npm run web:dynamic:test
+      - run: npm run web:values:test
       - run: npm run web:support:test
       - run: npm run web:visual:test
       - run: npm run web:lifecycle:test
@@ -207,6 +208,7 @@ jobs:
             benchmarks/web-press/results/
             benchmarks/web-integration/results/
             benchmarks/web-dynamic/results/
+            benchmarks/values-scroll-lists/results/
             benchmarks/web-support/results/
             benchmarks/web-visual/results/
             benchmarks/web-lifecycle/results/

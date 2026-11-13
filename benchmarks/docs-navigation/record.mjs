@@ -39,7 +39,33 @@ try {
     await theme(false)
     await page.waitForTimeout(900)
     const sidebar = page.locator('.VPSidebar')
+    const openGroup = async (path) => {
+      const group = sidebar.locator(
+        `.VPSidebarItem.level-0:has(a[href="/guide/${path}"])`,
+      )
+      const heading = group.locator(':scope > .item')
+      if (await group.evaluate((node) => node.classList.contains('collapsed'))) {
+        await heading.scrollIntoViewIfNeeded()
+        if (mobile) await heading.tap()
+        else {
+          await heading.focus()
+          await page.keyboard.press('Enter')
+        }
+      }
+      await expect(group).not.toHaveClass(/collapsed/)
+    }
+    if (mobile) await page.locator('.VPLocalNav .menu').tap()
+    await expect(sidebar.locator('.jolt-nav-topic')).toHaveCount(16)
+    await expect(sidebar.locator('.jolt-nav-count')).toHaveCount(16)
+    // Show the compact catalog before opening a topic with real keyboard/touch input.
+    await sidebar.locator('a[href="/guide/install"]').scrollIntoViewIfNeeded()
+    await page.screenshot({
+      path: join(output, `topics-${mobile ? 'mobile' : 'desktop'}.png`),
+    })
+    await page.waitForTimeout(1400)
+    if (mobile) await page.locator('.VPBackdrop').tap({ position: { x: 370, y: 400 } })
     for (const [path, label] of [
+      ['values-scroll-lists', 'Beta'],
       ['swiftui-text', 'New'],
       ['interaction-depth', 'Updated'],
       ['swiftui-geometry', 'Beta'],
@@ -48,6 +74,7 @@ try {
       // New/Updated expire at a release boundary; only capture active markers.
       if (!(await link.locator('.jolt-nav-status').count())) continue
       if (mobile) await page.locator('.VPLocalNav .menu').tap()
+      await openGroup(path)
       await link.scrollIntoViewIfNeeded()
       await expect(link.locator('.jolt-nav-status')).toHaveText(label)
       await page.waitForTimeout(1100)
@@ -66,12 +93,13 @@ try {
     await theme(true)
     if (mobile) await page.locator('.VPLocalNav .menu').tap()
     await expect(page.locator('html')).toHaveClass(/dark/)
+    await openGroup('swiftui-geometry')
     await sidebar.locator('a[href="/guide/swiftui-geometry"]').scrollIntoViewIfNeeded()
     await page.waitForTimeout(1600)
     const video = page.video()
     await context.close()
     if (errors.length) throw new Error(errors.join('\n'))
-    const target = join(output, `docs-navigation-${mobile ? 'mobile' : 'desktop'}.mp4`)
+    const target = join(output, `docs-topics-${mobile ? 'mobile' : 'desktop'}.mp4`)
     execFileSync(
       'ffmpeg',
       [

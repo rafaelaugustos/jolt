@@ -321,3 +321,44 @@ export class ScrollLinkedNode extends DerivedValueNode {
     return this.spatiallyReduced ? 0 : super.getVelocity()
   }
 }
+
+/** Eligible one-source mappings share the existing ScrollTimeline backend. Algebra stays on the scheduler. */
+export interface NativeScrollBinding {
+  scroll: ScrollValueNode
+  range: readonly [number, number]
+  points: Point[]
+  property: TransformProperty
+  native: boolean
+  spatiallyReduced: boolean
+  get(): number
+}
+export function nativeScrollBinding(
+  source: NumericValue,
+  property: string,
+): NativeScrollBinding | undefined {
+  if (source instanceof ScrollLinkedNode) return source
+  if (
+    !(source instanceof DerivedValueNode) ||
+    !['x', 'y', 'scaleX', 'scaleY', 'rotate', 'rotateX', 'rotateY', 'opacity'].includes(
+      property,
+    )
+  )
+    return undefined
+  const { source: scroll, map } = source.mapping
+  if (!(scroll instanceof ScrollValueNode) || !map.clamp) return undefined
+  const start = map.input[0]!,
+    end = map.input.at(-1)!
+  if (start < 0) return undefined
+  return {
+    scroll,
+    range: [start, end],
+    native: true,
+    spatiallyReduced: false,
+    property: property as TransformProperty,
+    points: map.input.map((value, i) => ({
+      time: ((value - start) / (end - start)) * 1000,
+      value: map.output[i]!,
+    })),
+    get: () => source.get(),
+  }
+}

@@ -1,3 +1,10 @@
+import type { ListChanges } from '../core/list-changes.js'
+import type { WebListChangesOptions } from './list-changes.js'
+export type {
+  ListChanges,
+  WebListChangesOptions,
+  WebListAdapter,
+} from './list-changes.js'
 export type { WebRig, RigDefinition, RigPart, RigSocket, RigTransform } from './rig.js'
 export type { WebGradientText, WebGradientTextOptions } from './gradient-text.js'
 import type {
@@ -413,6 +420,10 @@ export interface WebRuntime {
   ): WebAnimation
   shimmer(target: HTMLElement, options?: WebShimmerOptions): WebLoadingEffect
   loader(target: HTMLElement, options?: WebLoaderOptions): WebLoadingEffect
+  listChanges<T, K extends ReorderKey = ReorderKey>(
+    container: HTMLElement,
+    options: WebListChangesOptions<T, K>,
+  ): ListChanges<T>
   animateItems(
     items: readonly WebItem[],
     animation?: Keyframes | string,
@@ -571,6 +582,7 @@ export function createWebRuntime(
     rollTo: runtime.rollTo.bind(runtime),
     shimmer: runtime.shimmer.bind(runtime),
     loader: runtime.loader.bind(runtime),
+    listChanges: runtime.listChanges.bind(runtime),
     animateItems: runtime.animateItems.bind(runtime),
     drawPath: runtime.drawPath.bind(runtime),
     motionStates: runtime.motionStates.bind(runtime),
@@ -613,3 +625,5 @@ export function createWebRuntime(
     dispose: runtime.dispose.bind(runtime),
   }
 }
+
+export type { LayoutExit } from '../core/layout-exit.js'

@@ -6,7 +6,7 @@ reference = project.new(Xcodeproj::Project::Object::XCLocalSwiftPackageReference
 package = File.expand_path(ENV.fetch('JOLT_SWIFT_PACKAGE', File.join(root, '../..')))
 reference.relative_path = Pathname.new(package).relative_path_from(Pathname.new(root)).to_s
 project.root_object.package_references << reference
-sources = %w[App.swift UITests.swift Expansion.swift Advanced.swift Characters.swift Panels.swift Activity.swift Typography.swift Depth.swift Effects.swift CharacterHandle.swift].map { |name| project.main_group.new_file(name) }
+sources = %w[App.swift UITests.swift Expansion.swift Advanced.swift Characters.swift Panels.swift Activity.swift Typography.swift Depth.swift Effects.swift CharacterHandle.swift ValuesScroll.swift].map { |name| project.main_group.new_file(name) }
 [[:ios, '17.0', 'JoltSwiftUIDemo'], [:osx, '14.0', 'JoltSwiftUIMac']].each do |platform, version, name|
   app = project.new_target(:application, name, platform, version)
   tests = project.new_target(:ui_test_bundle, name + 'UITests', platform, version)

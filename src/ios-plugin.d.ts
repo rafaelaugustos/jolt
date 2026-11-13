@@ -154,6 +154,7 @@ declare class JoltLiveSpring extends NSObject {
   readonly position: number
   readonly velocity: number
   readonly moving: boolean
+  computeProgram(sources: NSArray<JoltLiveSpring>, program: string): void
   followMappings(source: JoltLiveSpring, mappings: string): void
   updateInput(snapshot: string): void
   setInputsRest(snapshots: string, rest: number): void
@@ -339,6 +340,7 @@ declare class JoltSceneShaderProperties extends NSObject {
 }
 
 declare class JoltSharedLayoutFlight extends UIView {
+  prepareExit(): void
   holdPageMaxPixels(page: UIView, maxPixels: number): boolean
   fadeOnEnd(duration: number, onEnd: (completed: boolean) => void): void
   static captureNavigationImageRadiusMaxPixels(
@@ -456,5 +458,20 @@ declare class JoltLivePaint extends NSObject {
 }
 declare class JoltPressInput extends UIGestureRecognizer {
   static attachChange(view: UIView, change: (action: string) => void): JoltPressInput
+  dispose(): void
+}
+
+declare class JoltScrollSource extends NSObject {
+  static attachNodeHorizontalChanged(
+    source: UIScrollView,
+    node: JoltLiveSpring,
+    horizontal: boolean,
+    changed: () => void,
+  ): JoltScrollSource
+  static activeCount(): number
+  setEnabled(value: boolean): void
+  setObserving(value: boolean): void
+  refresh(): void
+  snapshot(): string
   dispose(): void
 }

@@ -15,6 +15,13 @@ export function valueTrack(parts: readonly ValuePart[], rest: number) {
         sum + part.base + part.span * part.track.valueAt(part.elapsed + time),
       rest,
     )
+  return sampledValueTrack(parts, value)
+}
+
+export function sampledValueTrack(
+  parts: readonly Pick<ValuePart, 'track' | 'elapsed'>[],
+  value: (time: number) => number,
+) {
   const span = compositionSpan(parts)
   if (!span) return { track: instantTrack('x', value(0)), windowed: false }
   const { duration, endless, windowed } = span

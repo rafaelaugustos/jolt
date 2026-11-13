@@ -6,6 +6,7 @@ module JoltMotion {
     header "JoltCircleWorld.h"
     header "JoltSensorSource.h"
     header "JoltScrollHeader.h"
+    header "JoltScrollSource.h"
     header "JoltImageEffect.h"
     header "JoltPhotoZoom.h"
     header "JoltInteractiveAnimation.h"

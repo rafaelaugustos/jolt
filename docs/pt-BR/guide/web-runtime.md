@@ -1,5 +1,9 @@
 # Runtime Web finito
 
+Candidato de código: veja [valores combinados, scroll nativo, saídas e listas por chave](./values-scroll-lists) para as adições da próxima RC e limites por plataforma.
+
+Os demais exemplos desta página descrevem a base publicada RC.14, salvo quando marcados como candidatos de código.
+
 Equivalente experimental na Web: consulte [partículas, superfícies e imagens](./web-surfaces). Disponível desde a RC.10.
 
 **Suporte Web desde a RC.10:** estes efeitos também estão disponíveis nos métodos do runtime e dos escopos de [`/web`](./web-effects). Estas APIs estão incluídas na RC.10.

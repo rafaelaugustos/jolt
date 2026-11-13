@@ -1,3 +1,6 @@
+import { createWebListChanges, type WebListChangesOptions } from './list-changes.js'
+import type { ListChanges } from '../core/list-changes.js'
+import { scalarOperations } from '../core/scalar.js'
 import { createGradientText, type WebGradientTextOptions } from './gradient-text.js'
 import { limitRigTrack, type RigChannel, type RigDefinition } from '../core/rig.js'
 import { createRig, type WebRig } from './rig.js'
@@ -176,6 +179,8 @@ import {
   type WebScrollValueOptions,
   ScrollValueNode,
   ScrollLinkedNode,
+  nativeScrollBinding,
+  type NativeScrollBinding,
   scrollPlan,
   type WebScrollSource,
   type WebScrollValue,
@@ -188,6 +193,8 @@ import {
   MotionInputNode,
   DerivedValueNode,
   ColorMappedNode,
+  ArithmeticValueNode,
+  type WebValueHandle,
   type WebReadableValue,
   type WebBindings,
   type WebBinding,
@@ -559,7 +566,9 @@ class Surface {
         poseAt(this.snapshot(state, at, controls), this.rest(state)),
         this.baseline,
       )
-      const nodes = [...state.bindings.values()].map((e) => e.source)
+      const nodes = [...state.bindings.values()].map((e) =>
+        nativeScrollBinding(e.source, e.property),
+      )
       const first = nodes[0]
       const Timeline = (
         this.runtime.view as unknown as {
@@ -572,12 +581,15 @@ class Surface {
       if (
         Timeline &&
         this.runtime.view.CSS.supports('animation-range-start', '1px') &&
-        first instanceof ScrollLinkedNode &&
-        first.native &&
+        first?.native &&
         nodes.every(
           (n) =>
-            n instanceof ScrollLinkedNode &&
-            n.native &&
+            n?.native &&
+            // Singular scale endpoints fail to interpolate on WebKit's scroll timeline.
+            // Keep these mappings on the existing scheduler, including signed scales.
+            !(
+              n.property.startsWith('scale') && n.points.some((point) => point.value <= 0)
+            ) &&
             n.scroll === first.scroll &&
             n.range[0] === first.range[0] &&
             n.range[1] === first.range[1],
@@ -587,7 +599,7 @@ class Surface {
           return c ? c.paused || c.pending : e.owner.paused || e.owner.pending
         })
       ) {
-        const values = nodes as ScrollLinkedNode[]
+        const values = nodes as NativeScrollBinding[]
         const rests = [
           ...state.rest.values(),
           ...values
@@ -986,6 +998,7 @@ export class WebRuntime {
   private readonly values = new Set<NumericValue>()
   private readonly playbacks = new WeakSet<MotionAnimation>()
   private readonly paths = new Map<SVGGeometryElement, StrokeSurface>()
+  private readonly listControllers = new Map<HTMLElement, ListChanges<unknown>>()
   private readonly itemAnimations = new Set<WebItemsAnimation>()
   private readonly behaviorControllers = new Set<MotionBehaviors>()
   private readonly rigControllers = new Set<WebRig>()
@@ -1396,6 +1409,74 @@ export class WebRuntime {
     this.itemAnimations.add(controller)
     return controller
   }
+  listChanges<T, K extends ReorderKey = ReorderKey>(
+    container: HTMLElement,
+    options: WebListChangesOptions<T, K>,
+  ): ListChanges<T> {
+    this.assert()
+    this.targets(container)
+    if (this.listControllers.has(container))
+      throw new Error('This container already has a listChanges controller.')
+    const transition = options.move ?? 'snappy'
+    validateLayout(undefined, transition)
+    const layer = `jolt:list:${++this.nextLayout}`
+    const clear = (target: HTMLElement) => {
+      const surface = this.surfaces.get(target)
+      if (!surface || surface.disposed) return
+      const state = clone(surface.state)
+      for (const property of properties) {
+        state.entries.delete(keyOf(property, layer))
+        state.rest.delete(keyOf(property, layer))
+      }
+      this.transaction(new Map([[surface, state]]), this.now())
+    }
+    const controller = createWebListChanges(container, options, {
+      scheduler: this.scheduler,
+      reduced: () => this.reduced(),
+      preference: this.watchPreference,
+      animate: (target, x, y, enter) => {
+        const lease = this.geometryLease(target),
+          basis = this.surfaces.get(target)!.layoutBasis().inverse()
+        const animation = this.play(
+          target,
+          {
+            x: [basis.a * x + basis.c * y, 0],
+            y: [basis.b * x + basis.d * y, 0],
+            ...(enter ? { opacity: [0, 1] } : {}),
+          },
+          transition,
+          layer,
+        )
+        let ended = false
+        return {
+          animation,
+          dispose: () => {
+            if (ended) return
+            ended = true
+            animation.stop()
+            clear(target)
+            lease.dispose()
+          },
+        }
+      },
+      exit: (target, pose) =>
+        this.play(
+          target,
+          {
+            x: pose.x,
+            y: pose.y,
+            scaleX: pose.scale,
+            scaleY: pose.scale,
+            opacity: pose.opacity,
+          },
+          transition,
+        ),
+      release: (target) => this.release(target),
+      forget: () => this.listControllers.delete(container),
+    })
+    this.listControllers.set(container, controller)
+    return controller
+  }
   private copyPreset(preset: Preset): Preset {
     const copy = (v: unknown): unknown =>
       Array.isArray(v)
@@ -1511,6 +1592,9 @@ export class WebRuntime {
       config,
       {
         scheduler: this.scheduler,
+        reduced: () => this.reduced(),
+        preference: this.watchPreference,
+        release: (target) => this.release(target),
         geometry: (target) => this.geometryLease(target),
         basis: (target) => this.surfaces.get(target)!.layoutBasis(),
         scale: (target) => {
@@ -1617,11 +1701,33 @@ export class WebRuntime {
     return this.valueHandle(node, node.handle())
   }
 
-  private valueHandle<T extends Omit<WebReadableValue, 'to'>>(
+  private valueHandle<T extends WebValueHandle>(
     node: NumericValue,
     handle: T,
-  ) {
-    const result = Object.assign(handle, {
+  ): T & WebReadableValue {
+    const operations = scalarOperations<WebReadableValue>((op, operand, maximum) => {
+      this.assert()
+      const right =
+        typeof operand === 'object' && operand !== null
+          ? this.nodes.get(operand)
+          : operand
+      if (
+        operand !== undefined &&
+        !(right instanceof NumericValue) &&
+        (typeof operand !== 'number' || !Number.isFinite(operand))
+      )
+        throw new TypeError('Scalar operands must belong to this runtime.')
+      const derived = new ArithmeticValueNode(
+        node,
+        op,
+        right as NumericValue | number | undefined,
+        maximum,
+        this.report,
+        () => this.values.delete(derived),
+      )
+      return this.valueHandle(derived, derived.readableHandle())
+    })
+    const result = Object.assign(handle, operations, {
       to: ((
         input: readonly number[],
         output: readonly number[] | readonly string[],
@@ -3754,6 +3860,7 @@ export class WebRuntime {
   }
 
   dispose() {
+    for (const controller of [...this.listControllers.values()]) controller.dispose()
     if (this.disposed) return
     this.disposed = true
     const errors: unknown[] = []

@@ -3,6 +3,7 @@ import {
   defineComponent,
   h,
   onUnmounted,
+  onBeforeUpdate,
   onActivated,
   onDeactivated,
   readonly,
@@ -15,6 +16,10 @@ import {
   type Ref,
 } from 'nativescript-vue'
 import {
+  animateLayout,
+  type LayoutOptions,
+  type Animation,
+  springs,
   gradient,
   press,
   motionScope,
@@ -40,6 +45,7 @@ import {
   type GradientOptions,
   type Transition,
 } from '../index.js'
+import type { LayoutExit } from '../core/layout-exit.js'
 import { isDerived } from '../motion-value.js'
 import { prepareGradient, type GradientValues } from '../gradient.js'
 import { currentKeyboard } from '../keyboard.js'
@@ -280,12 +286,57 @@ export const JoltTransition = defineComponent({
   },
 })
 
+/** Keyed direct children; fades entrances, snapshots removals, and moves survivors. */
+export const JoltTransitionGroup = defineComponent({
+  name: 'JoltTransitionGroup',
+  inheritAttrs: false,
+  props: {
+    tag: { type: String, default: 'StackLayout' },
+    enter: { type: Boolean, default: true },
+    leave: {
+      type: [String, Object, Boolean] as PropType<LayoutExit>,
+      default: 'fadeOut',
+    },
+    move: {
+      type: [String, Object] as PropType<SpringName | LayoutOptions>,
+      default: 'snappy',
+    },
+  },
+  setup(props, { slots, attrs }) {
+    let host: Target | null = null,
+      animation: Animation | undefined
+    const stop = () => {
+      animation?.stop()
+      animation = undefined
+    }
+    onBeforeUpdate(() => {
+      if (!host) return
+      const move = typeof props.move === 'string' ? springs[props.move] : props.move
+      animation = animateLayout(host, { ...move, enter: props.enter, exit: props.leave })
+    })
+    onDeactivated(stop)
+    onUnmounted(stop)
+    return () =>
+      h(
+        props.tag,
+        {
+          ...attrs,
+          ref: (value: unknown) => {
+            host = value as Target | null
+          },
+        },
+        slots.default?.(),
+      )
+  },
+})
+
 /** Registers `v-animate`, `v-press`, `v-gradient` and `JoltTransition` on the app. */
 export function install(app: App) {
   app.directive('animate', vAnimate)
   app.directive('press', vPress)
   app.directive('gradient', vGradient)
   app.component('JoltTransition', JoltTransition)
+  app.component('JoltTransitionGroup', JoltTransitionGroup)
 }
 
 export default { install }

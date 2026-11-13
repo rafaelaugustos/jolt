@@ -1,3 +1,11 @@
+import { layoutExit, exitBudget, type LayoutExit } from './core/layout-exit.js'
+import {
+  captureExit,
+  watchRemovals,
+  requireExitCapture,
+  type ExitCapture,
+} from './layout-exit.js'
+import { reducedMotion, onReducedMotion } from './config.js'
 import { Application, type View } from '@nativescript/core'
 import { prepareAnimation, toView } from './animate.js'
 import { getDriver, type LayoutFrame } from './driver/index.js'
@@ -20,6 +28,10 @@ export type LayoutOptions = (
   size?: 'scale' | false
   /** Fade new children from zero to their configured opacity. Default: true. */
   enter?: boolean
+  /** Snapshot only removed children; copies are noninteractive and inaccessible. */
+  exit?: LayoutExit
+  /** Shared budget for concurrent leaving children. Excess/unsupported copies leave immediately. */
+  maxSnapshotPixels?: number
 }
 
 type Geometry = 'x' | 'y' | 'scaleX' | 'scaleY'
@@ -63,6 +75,8 @@ export function animateLayout(
   const {
     size = 'scale',
     enter = true,
+    exit: exitInput,
+    maxSnapshotPixels,
     ...transition
   } = normalize(input as LayoutOptions | SpringName | undefined)
   // Validate the complete transition before changing children or cancelling an earlier request.
@@ -71,9 +85,12 @@ export function animateLayout(
     { x: [0, 1], y: [0, 1], scaleX: [1, 2], scaleY: [1, 2], opacity: [0, 1] },
     transition,
   )
+  const exit = layoutExit(exitInput),
+    budget = exitBudget(maxSnapshotPixels)
   const driver = getDriver()
   const before = new Map<View, Snapshot>()
   const ready = laidOut(host)
+  if (ready && exit && !reducedMotion()) requireExitCapture()
   if (ready)
     for (const child of childrenOf(host)) {
       const frame = frameOf(child)
@@ -103,9 +120,19 @@ export function animateLayout(
   let arrive!: () => void
   const arrival = new Promise<void>((done) => (arrive = done))
   const owned: Owned[] = []
+  const exits = new Map<View, ExitCapture>(),
+    exitAnimations: Animation[] = []
+  let detachRemovals: (() => void) | undefined, releaseReduced: (() => void) | undefined
+  let pixels = 0
   let settled = false
   let detach: (() => void) | undefined
   const cleanup = () => {
+    detachRemovals?.()
+    detachRemovals = undefined
+    releaseReduced?.()
+    releaseReduced = undefined
+    for (const exit of exits.values()) exit.dispose()
+    exits.clear()
     detach?.()
     detach = undefined
     host.off('unloaded', stop)
@@ -153,6 +180,8 @@ export function animateLayout(
   setArrival(handle, arrival)
   const run = () => {
     if (settled) return
+    detachRemovals?.()
+    detachRemovals = undefined
     detach?.()
     detach = undefined
     if (!laidOut(host)) {
@@ -178,6 +207,12 @@ export function animateLayout(
             frames,
             start: prepareAnimation(child, frames, transition),
           })
+      }
+      for (const [view, capture] of exits) {
+        if (view.parent || !exit || reducedMotion()) {
+          capture.dispose()
+          exits.delete(view)
+        } else exitAnimations.push(capture.play(exit, transition))
       }
       before.clear()
       // Selection lasts only for starting these tracks; their native geometry driver stays until completion.
@@ -213,7 +248,10 @@ export function animateLayout(
       // Replacements start before old handles stop so the engine can transfer velocity.
       for (const old of previous) old.stop()
       void Promise.all(owned.map(({ handle }) => arrivalOf(handle))).then(arrive)
-      void Promise.all(owned.map(({ handle }) => handle.finished)).then(
+      void Promise.all([
+        ...owned.map(({ handle }) => handle.finished),
+        ...exitAnimations.map((handle) => handle.finished),
+      ]).then(
         (results) => complete(results.every(Boolean)),
         (error) => {
           restore()
@@ -231,6 +269,20 @@ export function animateLayout(
   host.on('unloaded', stop)
   Application.on(Application.suspendEvent, stop)
   try {
+    if (ready && exit && !reducedMotion()) {
+      detachRemovals = watchRemovals(host, (view) => {
+        if (!before.has(view) || exits.has(view) || pixels >= budget || !host.isLoaded)
+          return
+        const captured = captureExit(view, budget - pixels)
+        if (captured) {
+          pixels += captured.pixels()
+          exits.set(view, captured)
+        }
+      })
+      releaseReduced = onReducedMotion((value) => {
+        if (value) stop()
+      })
+    }
     const result = change?.() as unknown
     if (result && typeof (result as PromiseLike<unknown>).then === 'function') {
       void Promise.resolve(result).catch(() => {})
@@ -277,6 +329,8 @@ function normalize(input: LayoutOptions | SpringName | undefined): LayoutOptions
     'delay',
     'size',
     'enter',
+    'exit',
+    'maxSnapshotPixels',
   ])
   for (const key of Object.keys(input))
     if (!allowed.has(key)) throw new TypeError(`Unsupported layout option "${key}".`)
@@ -321,6 +375,8 @@ function normalize(input: LayoutOptions | SpringName | undefined): LayoutOptions
     throw new RangeError(
       'A duration-based layout spring must have positive duration; use a zero-duration tween to settle immediately.',
     )
+  layoutExit(input.exit)
+  exitBudget(input.maxSnapshotPixels)
   const result = { ...input }
   if ('ease' in result && Array.isArray(result.ease)) result.ease = [...result.ease]
   if ('times' in result && result.times) result.times = [...result.times]

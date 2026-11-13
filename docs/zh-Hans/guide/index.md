@@ -71,6 +71,8 @@ Jolt 目前是候选发布版本；已发布版本请参阅[安装](./install)�
 
 ## 如何阅读菜单 {#reading-the-menu}
 
+侧栏按主题组织指南，并为 SwiftUI、Web、示例和工具提供独立分组。展开分组即可浏览页面，标题旁的数字表示页面数量。当前页面所在的分组会自动展开，直接访问链接时也如此。
+
 侧栏用三种标签标记功能：
 
 - **新增：**在本文档版本中引入。
@@ -79,6 +81,6 @@ Jolt 目前是候选发布版本；已发布版本请参阅[安装](./install)�
 
 文档版本变化后，新增和已更新标签自动失效。测试版标签保留到 API 稳定。标签说明会区分已发布功能与源码候选；指南会说明尚待合并或发布的部分。仅有标签并不意味着功能已经发布。
 
-<Clip name="docs-navigation-rc14-desktop" caption="macOS 上的 Chromium，桌面视口：侧栏中的当前版本标签、键盘导航与明暗主题。展示的是文档导航，并非原生应用。" />
+<Clip name="docs-topics-desktop" caption="macOS 上的 Chromium，桌面视口：主题分组、页面数量、键盘导航、版本标签与明暗主题。展示文档导航，并非原生应用。" />
 
-<Clip name="docs-navigation-rc14-mobile" caption="macOS 上的 Chromium，模拟移动视口：打开菜单并访问带标签的条目。浏览器模拟，并非实体手机录制。" />
+<Clip name="docs-topics-mobile" caption="macOS 上的 Chromium，模拟移动视口：通过触摸展开主题分组并访问链接。浏览器模拟，并非实体手机录制。" />

@@ -1,6 +1,7 @@
 import { isIOS, type View } from '@nativescript/core'
 
 export interface Flight {
+  prepareExit?(): void
   pixels(): number
   state(): string
   prepare(view: View, image: boolean, radius: number, budget: number): string | null
@@ -27,6 +28,7 @@ export function capture(
     )
     if (!flight) return
     return {
+      prepareExit: () => flight.prepareExit(),
       holdPage: (page, budget) =>
         flight.holdPageMaxPixels(page.nativeViewProtected, budget),
       fade: (duration, done) => flight.fadeOnEnd(duration, done),
@@ -49,6 +51,7 @@ export function capture(
   const flight = Native.capture(view.nativeViewProtected, image, radius, budget)
   if (!flight) return
   return {
+    prepareExit: () => flight.prepareExit(),
     holdPage: (page, budget) => flight.holdPage(page.nativeViewProtected, budget),
     fade: (duration, done) =>
       flight.fade(

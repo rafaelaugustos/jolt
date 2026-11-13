@@ -1,5 +1,9 @@
 # 列表行 {#list-rows}
 
+源码候选：下一版 RC 的新增功能和平台限制请见[组合值、原生滚动、退场与按键列表](./values-scroll-lists)。
+
+除明确标为源码候选的内容外，本页其余示例描述已发布的 RC.14 基线。
+
 在每行设置一个入口 `ListView` 当它滚动到视图中时：
 
 <Clip name="lists-android" caption="Android 上的行随着列表滚动而淡入。" />
