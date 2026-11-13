@@ -1,6 +1,8 @@
 # Combined values, scroll and keyed updates
 
-**Source candidate for the next RC; not published in RC.14.** This work covers #494, #495, #498, #499, #500 and #501. Rebuild native applications after upgrading. The recordings below show actual interaction; simulators and the emulator are not physical-device performance evidence.
+**Available in 0.1.0-rc.15 (Beta).** Rebuild native applications after upgrading. The recordings below show actual interaction on the labeled platforms; simulators/emulators are not physical-device performance evidence.
+
+Validation remains open: physical Android allocation/frame-time measurements (#494); the complete horizontal/RTL/bounce/third-party CollectionView scroll matrix and matched per-event cost (#495); and full native VoiceOver/TalkBack traversal and focus acceptance (#498/#499). Those issues remain open. Core list transitions require flat fixed-height rows; CollectionView transitions, sections, grids and cross-list moves are outside this first adapter. Simulator/emulator evidence does not establish lower application CPU/PSS or superiority over Reanimated.
 
 ## Combine numeric values
 

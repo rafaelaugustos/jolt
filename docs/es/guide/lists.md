@@ -1,8 +1,6 @@
 # Filas de listas {#list-rows}
 
-Candidato de código: consulte [valores combinados, scroll nativo, salidas y listas por clave](./values-scroll-lists) para las adiciones de la próxima RC y sus límites.
-
-Los demás ejemplos describen la base publicada RC.14, salvo cuando se marcan como candidatos de código.
+RC.15 (Beta): consulte [valores combinados, scroll nativo, salidas y listas por clave](./values-scroll-lists) para las adiciones y sus límites.
 
 Reproduzca una entrada en cada fila de un `ListView` a medida que se desplaza a la vista:
 

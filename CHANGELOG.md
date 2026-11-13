@@ -2,6 +2,17 @@
 
 ## Unreleased
 
+## 0.1.0-rc.15 (2026-11-13)
+
+- Publish matching core/native npm packages and the matching `jolt-swift` tag from #506. Rebuild NativeScript apps after upgrading. The new capabilities, Web and SwiftUI remain experimental.
+- Add arithmetic, velocity and math graphs over motion values on NativeScript, Web and SwiftUI, sharing evaluator vectors and native live execution (#494).
+- Drive eligible view bindings and paused tracks from native scroll sources; eligible mapped Web bindings use ScrollTimeline with an explicit fallback (#495). This does not isolate NativeScript's UI thread from application JavaScript.
+- Add bounded static exit copies and Vue transition groups on native/Web (#498), plus keyed flat fixed-height Core ListView changes and explicit Web DOM/virtualizer adapters (#499). Preserve visible anchors and avoid stealing accessibility focus after the user leaves the list. CollectionView transitions, sections, grids and cross-list moves are outside this first adapter.
+- Add SwiftUI scroll-header controllers, programmatic scroll, remeasurement and anchor preservation (#500), independent scroll ranges, structural reduced-motion roles and the effective app/system preference (#501).
+- Organize all 109 documentation links into 16 localized topic groups, with page counts, current-page expansion, release badges and reviewed desktop/mobile browser recordings.
+- Validate 1,871 TypeScript tests, 127 Swift tests, 26 shared evaluator vectors, browser and packed-consumer suites, Native CI and 18 standalone SwiftUI UI scenarios. All 11 checks passed on the merged feature PR. Keep XCTest interruption inputs adjacent and confirm each loader activation without retrying missed input.
+- Keep #494 physical Android allocations/frame-time measurements, #495 horizontal/RTL/bounce/third-party CollectionView matrix and matched event cost, and #498/#499 full native VoiceOver/TalkBack traversal/focus open. Simulator/emulator evidence is not physical-device proof. No claim of lower application CPU/PSS or superiority over Reanimated.
+
 ## 0.1.0-rc.14 (2026-11-11)
 
 - Publish matching core and optional native packages with #488 and #491, and the matching `JoltSwiftUI` tag in [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Rebuild NativeScript apps after upgrading. Web and SwiftUI APIs remain experimental.

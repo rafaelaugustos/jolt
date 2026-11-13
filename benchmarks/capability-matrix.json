@@ -2849,7 +2849,7 @@
     {
       "id": "rc15-values-scroll-lists",
       "issues": [494, 495, 498, 499, 500, 501],
-      "limit": "Unpublished candidate: combined scalar programs, native scroll, static exits, keyed flat fixed-height Core ListView and explicit Web adapters, SwiftUI scroll header/ranges. #494 physical allocation/frame measurement pending; emulator results do not establish CPU/PSS improvement. CollectionView transitions remain deferred.",
+      "limit": "Available in 0.1.0-rc.15 (Beta): combined scalar programs, native scroll, static exits, keyed flat fixed-height Core ListView and explicit Web adapters, SwiftUI scroll header/ranges. #494 physical allocation/frame measurement pending; emulator results do not establish CPU/PSS improvement. CollectionView transitions remain deferred. #495 full scroll matrix and matched cost, and #498/#499 full native screen-reader acceptance remain open.",
       "evidence": [
         "docs/guide/values-scroll-lists.md",
         "benchmarks/values-scroll-lists/web.spec.ts",

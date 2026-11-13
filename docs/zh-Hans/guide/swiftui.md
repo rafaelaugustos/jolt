@@ -1,12 +1,12 @@
 # SwiftUI
 
-**0.1.0-rc.14（测试版）**支持 iOS 17+ 和 macOS 14+，无需 NativeScript 或 JavaScript。从软件包仓库 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的标签 `v0.1.0-rc.14` 安装 `JoltSwiftUI` 产品。平台限制请参阅[安装](./swiftui)、[生命周期](./swiftui-motion)和[交互与几何](./swiftui-geometry)。
+**0.1.0-rc.15（测试版）**支持 iOS 17+ 和 macOS 14+，无需 NativeScript 或 JavaScript。从软件包仓库 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的标签 `v0.1.0-rc.15` 安装 `JoltSwiftUI` 产品。平台限制请参阅[安装](./swiftui)、[生命周期](./swiftui-motion)和[交互与几何](./swiftui-geometry)。
 
-在 Xcode 中将 `https://github.com/rafaelaugustos/jolt-swift` 添加为 Swift Package，并选择精确版本 `0.1.0-rc.14`。该仓库只包含 Swift 软件包，每次发布时从 Jolt 仓库生成，因此 SwiftPM 不会下载文档媒体和基准测试结果。已使用 `https://github.com/rafaelaugustos/jolt.git` 的项目仍可解析相同的发布标签，也可使用 Jolt 仓库的本地检出。有限姿态采用 SwiftUI 插值；采样值采用按需运行的原生时钟。
+在 Xcode 中将 `https://github.com/rafaelaugustos/jolt-swift` 添加为 Swift Package，并选择精确版本 `0.1.0-rc.15`。该仓库只包含 Swift 软件包，每次发布时从 Jolt 仓库生成，因此 SwiftPM 不会下载文档媒体和基准测试结果。已使用 `https://github.com/rafaelaugustos/jolt.git` 的项目仍可解析相同的发布标签，也可使用 Jolt 仓库的本地检出。有限姿态采用 SwiftUI 插值；采样值采用按需运行的原生时钟。
 
 ```swift
 // Package.swift
-.package(url: "https://github.com/rafaelaugustos/jolt-swift.git", exact: "0.1.0-rc.14")
+.package(url: "https://github.com/rafaelaugustos/jolt-swift.git", exact: "0.1.0-rc.15")
 // Application target dependencies:
 .product(name: "JoltSwiftUI", package: "jolt-swift")
 ```

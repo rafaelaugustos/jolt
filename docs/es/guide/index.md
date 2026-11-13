@@ -35,7 +35,7 @@ Las APIs Web son **experimentales**. Empieza por el [runtime Web](./web-runtime)
 
 ## SwiftUI (Beta)
 
-Disponible en **0.1.0-rc.14 (Beta)** para iOS 17+ y macOS 14+, sin NativeScript ni JavaScript. Instale el producto `JoltSwiftUI` desde la etiqueta `v0.1.0-rc.14` del repositorio de paquete [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Consulte [instalación](./swiftui), [ciclo de vida](./swiftui-motion) e [interacción/geometría](./swiftui-geometry) para los límites.
+Disponible en **0.1.0-rc.15 (Beta)** para iOS 17+ y macOS 14+, sin NativeScript ni JavaScript. Instale el producto `JoltSwiftUI` desde la etiqueta `v0.1.0-rc.15` del repositorio de paquete [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Consulte [instalación](./swiftui), [ciclo de vida](./swiftui-motion) e [interacción/geometría](./swiftui-geometry) para los límites.
 
 ## ¿Por qué no? `view.animate()` {#why-not-view-animate}
 
@@ -81,6 +81,6 @@ El menú lateral destaca capacidades con tres etiquetas:
 
 Nuevo y Actualizado caducan cuando cambia la versión documentada. Beta permanece hasta estabilizar la API. La descripción de la etiqueta distingue una capacidad publicada de un candidato en código; la guía indica cualquier integración o publicación pendiente. La etiqueta por sí sola no significa que la función se haya publicado.
 
-<Clip name="docs-topics-desktop" caption="Chromium en macOS, vista de escritorio: grupos por tema, cantidad de páginas, navegación por teclado, etiquetas y temas claro/oscuro. Navegación de la documentación, no una app nativa." />
+<Clip name="docs-topics-rc15-desktop" caption="Chromium en macOS, vista de escritorio: grupos por tema, cantidad de páginas, navegación por teclado, etiquetas y temas claro/oscuro. Navegación de la documentación, no una app nativa." />
 
-<Clip name="docs-topics-mobile" caption="Chromium en macOS, vista móvil emulada: apertura de grupos y navegación táctil por sus enlaces. Emulación del navegador, no una grabación de un teléfono físico." />
+<Clip name="docs-topics-rc15-mobile" caption="Chromium en macOS, vista móvil emulada: apertura de grupos y navegación táctil por sus enlaces. Emulación del navegador, no una grabación de un teléfono físico." />

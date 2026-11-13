@@ -1,8 +1,6 @@
 # Motion values
 
-Source candidate: see [combined values, native scroll, layout exits and keyed lists](./values-scroll-lists) for the next-RC additions and platform limits.
-
-The remaining examples on this page describe the published RC.14 baseline unless explicitly marked as source candidates.
+RC.15 (Beta): see [combined values, native scroll, layout exits and keyed lists](./values-scroll-lists) for the additions and platform limits.
 
 For a retained spring that follows a changing value, see [`springValue()`](./live-springs).
 

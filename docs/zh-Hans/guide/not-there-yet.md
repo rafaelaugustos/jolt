@@ -1,5 +1,9 @@
 # 发布状态与限制 {#not-there-yet}
 
+RC.15 通过 [PR #506](https://github.com/rafaelaugustos/jolt/pull/506) 新增[组合运动值、原生滚动绑定、布局退场、按键更新列表和 SwiftUI 标题栏](./values-scroll-lists)。文档将 109 个链接整理为 16 个主题。请安装相同版本的 npm 核心包与原生插件，并重新编译 NativeScript 应用；Swift Package Manager 使用 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的 `v0.1.0-rc.15`。新增功能、Web 和 SwiftUI 仍为实验性。
+
+尚待验证：Android 实体设备上的分配与帧耗时（#494）；完整的水平/RTL/回弹/第三方 CollectionView 滚动矩阵及可比较的每事件成本（#495）；原生 VoiceOver/TalkBack 的完整遍历与焦点验收（#498/#499）。这些 issue 保持开放。Core ListView 过渡仅支持扁平、固定行高列表；CollectionView 过渡、分区、网格和跨列表移动不在首版适配器范围内。模拟器证据不能证明应用 CPU/PSS 更低或优于 Reanimated。
+
 RC.14 通过 PR #488 在 Web、NativeScript 和 SwiftUI 上添加[拖柄、移动中的位置、带内边距的目标和重新锚定](./interaction-depth)，并为 SwiftUI 带来[三维旋转与阴影](./swiftui-motion)、[闪光、加载器、揭示、渐变与模糊](./swiftui-advanced)、[文字入场与滚动数字](./swiftui-text)以及[macOS 上按窗口判断的活动状态](./swiftui)。PR #491 修复了 Android 上立即 set 替换路径的问题（#479），并补齐 #412/#413 中[指针](./portable-foundations)与 SwiftUI 组的缺口。Web 与 SwiftUI 仍为实验性 API。安装匹配的 npm 版本并重新编译 NativeScript 应用；Swift Package Manager 使用 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的标签 `v0.1.0-rc.14`。四种语言的指南均包含已审阅的原生/浏览器录像。实体指针配件仍未验证（#492）：指针证据来自模拟器、仿真器和注入输入。
 
 RC.13 包含 PR #436 的 39 项任务：[iOS 17+/macOS 14+ 独立 SwiftUI](./swiftui)、[React/Angular/Svelte/Solid Web 适配器](./web-frameworks)、[跨平台检查与回放](./portable-tools)及[面板、实测行高排序和类型化 Bézier 曲线](./swiftui-geometry)。Web 与 SwiftUI 仍为实验性 API。安装匹配的 npm 版本并重新编译 NativeScript 应用；Swift Package Manager 使用标签 `v0.1.0-rc.13`。四种语言的指南均包含已审阅的原生/浏览器录像。实体传感器、检查器开销及一般性能比较仍需独立验证。
