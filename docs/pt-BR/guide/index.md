@@ -71,6 +71,8 @@ O Jolt está em release candidate; consulte a [instalação](./install) para a v
 
 ## Como ler o menu {#reading-the-menu}
 
+O menu lateral organiza os guias por assunto, com seções próprias para SwiftUI, Web, exemplos e ferramentas. Expanda um grupo para ver suas páginas; o número ao lado do título indica a quantidade. O grupo da página atual abre automaticamente, inclusive ao acessar um link direto.
+
 O menu lateral destaca recursos com três selos:
 
 - **Novo:** introduzido na edição documentada.
@@ -79,6 +81,6 @@ O menu lateral destaca recursos com três selos:
 
 Novo e Atualizado expiram quando a versão documentada muda. Beta permanece até a estabilização da API. A descrição do selo diferencia um recurso publicado de um candidato em código; o guia informa as pendências de merge ou publicação. O selo sozinho não significa que o recurso já foi lançado.
 
-<Clip name="docs-navigation-rc14-desktop" caption="Chromium no macOS, viewport de desktop: Selos da edição atual no menu, navegação por teclado e temas claro/escuro. Demonstra a navegação da documentação, não um app nativo." />
+<Clip name="docs-topics-desktop" caption="Chromium no macOS, viewport de desktop: grupos por assunto, contagem de páginas, navegação por teclado, selos e temas claro/escuro. Navegação da documentação, não um app nativo." />
 
-<Clip name="docs-navigation-rc14-mobile" caption="Chromium no macOS, viewport móvel emulado: abertura do menu e navegação pelos itens com selo. Emulação no navegador, não gravação em celular físico." />
+<Clip name="docs-topics-mobile" caption="Chromium no macOS, viewport móvel emulado: abertura dos grupos e navegação pelos links com toque. Emulação no navegador, não gravação em celular físico." />

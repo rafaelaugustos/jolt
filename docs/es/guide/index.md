@@ -71,6 +71,8 @@ Jolt es una versión candidata; consulta [instalación](./install) para conocer 
 
 ## Cómo leer el menú {#reading-the-menu}
 
+El menú lateral organiza las guías por tema, con secciones propias para SwiftUI, Web, ejemplos y herramientas. Expande un grupo para ver sus páginas; el número junto al título indica la cantidad. El grupo de la página actual se abre automáticamente, incluso al seguir un enlace directo.
+
 El menú lateral destaca capacidades con tres etiquetas:
 
 - **Nuevo:** introducido en la edición documentada.
@@ -79,6 +81,6 @@ El menú lateral destaca capacidades con tres etiquetas:
 
 Nuevo y Actualizado caducan cuando cambia la versión documentada. Beta permanece hasta estabilizar la API. La descripción de la etiqueta distingue una capacidad publicada de un candidato en código; la guía indica cualquier integración o publicación pendiente. La etiqueta por sí sola no significa que la función se haya publicado.
 
-<Clip name="docs-navigation-rc14-desktop" caption="Chromium en macOS, viewport de escritorio: Etiquetas de la edición actual en el menú, navegación por teclado y temas claro/oscuro. Muestra la navegación de la documentación, no una app nativa." />
+<Clip name="docs-topics-desktop" caption="Chromium en macOS, vista de escritorio: grupos por tema, cantidad de páginas, navegación por teclado, etiquetas y temas claro/oscuro. Navegación de la documentación, no una app nativa." />
 
-<Clip name="docs-navigation-rc14-mobile" caption="Chromium en macOS, viewport móvil emulado: abrir el menú y seguir entradas etiquetadas. Emulación del navegador, no grabación en un teléfono físico." />
+<Clip name="docs-topics-mobile" caption="Chromium en macOS, vista móvil emulada: apertura de grupos y navegación táctil por sus enlaces. Emulación del navegador, no una grabación de un teléfono físico." />

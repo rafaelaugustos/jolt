@@ -71,6 +71,8 @@ Jolt is a release candidate; see [installation](./install) for the published ver
 
 ## Reading the menu
 
+The sidebar groups guides by topic, with dedicated sections for SwiftUI, the Web, examples and tools. Expand a group to browse its pages; the number next to its title is the page count. The group containing the current page opens automatically, including when you follow a direct link.
+
 The sidebar highlights capabilities with three labels:
 
 - **New:** introduced in the documented edition.
@@ -79,6 +81,6 @@ The sidebar highlights capabilities with three labels:
 
 New and Updated expire when the documented version changes. Beta stays until the API is stabilized. The label description distinguishes a published capability from a source candidate; the guide states any pending merge or publication. A badge alone does not mean a feature has been released.
 
-<Clip name="docs-navigation-rc14-desktop" caption="Chromium on macOS, desktop viewport: Current-edition sidebar labels, keyboard navigation and light/dark themes. This demonstrates documentation navigation, not a native app." />
+<Clip name="docs-topics-desktop" caption="Chromium on macOS, desktop viewport: topic groups, page counts, keyboard navigation, release badges and light/dark themes. Documentation navigation, not a native app." />
 
-<Clip name="docs-navigation-rc14-mobile" caption="Chromium on macOS, emulated mobile viewport: opening the menu and following labeled entries. Browser emulation, not a physical phone recording." />
+<Clip name="docs-topics-mobile" caption="Chromium on macOS, emulated mobile viewport: opening topic groups and following links by touch. Browser emulation, not a physical phone recording." />
