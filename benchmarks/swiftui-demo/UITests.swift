@@ -1069,15 +1069,34 @@ final class SwiftUIAcceptance: XCTestCase {
     XCTAssertTrue(wait { !self.label(app, "shimmer-status").contains("running") })
     click(app.buttons["skeleton-toggle"])
     XCTAssertTrue(wait { self.label(app, "shimmer-status").contains("running") })
+    let toggleLoader = { (style: String) in
+      let button = app.buttons["busy-" + style]
+      #if os(macOS)
+        button.click()
+      #else
+        // The CI recording showed a 50 ms synthesized tap highlight the button
+        // without activating it. Keep the contact down for 150 ms, then require
+        // the observable state change below; do not retry a missed activation.
+        button.press(forDuration: 0.15)
+      #endif
+    }
     for style in ["dots", "bars", "ring"] {
-      click(app.buttons["busy-" + style])
+      toggleLoader(style)
       XCTAssertTrue(
         wait { self.label(app, "loader-status").contains(style + " running") },
         label(app, "loader-status"))
     }
     XCTAssertEqual(app.buttons["busy-ring"].label, "Saving with ring")
     Thread.sleep(forTimeInterval: 1.5)
-    for style in ["dots", "bars", "ring"] { click(app.buttons["busy-" + style]) }
+    for style in ["dots", "bars", "ring"] {
+      toggleLoader(style)
+      XCTAssertTrue(
+        wait { app.buttons["busy-" + style].label == "Save with " + style },
+        app.buttons["busy-" + style].label)
+      XCTAssertTrue(
+        wait { self.label(app, "loader-status").contains(style + " suspended") },
+        label(app, "loader-status"))
+    }
     XCTAssertTrue(
       wait { !self.label(app, "loader-status").contains("running") }, label(app, "loader-status"))
     let area = app.descendants(matching: .any)["reveal-area"].firstMatch
