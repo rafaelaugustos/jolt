@@ -18,6 +18,7 @@ export function nativeGestureEndpoints(
   let disposed = false
   const cache = new Map<GestureRecognizerKind, NativeEndpoint>()
   class NativeEndpoint implements GestureEndpoint {
+    readonly links = new Set<() => void>()
     constructor(readonly native: UIGestureRecognizer | AndroidPeer) {}
     get disposed() {
       return disposed || (!isIOS && (this.native as AndroidPeer).isDisposed())
@@ -41,7 +42,17 @@ export function nativeGestureEndpoints(
             kind,
           )
         : (this.native as AndroidPeer).connect(peer.native as AndroidPeer, kind)
-      return () => link.dispose()
+      let released = false
+      const release = () => {
+        if (released) return
+        released = true
+        this.links.delete(release)
+        peer.links.delete(release)
+        link.dispose()
+      }
+      this.links.add(release)
+      peer.links.add(release)
+      return release
     }
     readonly [nativeBrand] = true
   }
@@ -58,6 +69,7 @@ export function nativeGestureEndpoints(
     dispose() {
       disposed = true
       for (const peer of cache.values()) {
+        for (const release of [...peer.links]) release()
         if (isIOS) JoltGestureLink.detach(peer.native as UIGestureRecognizer)
         forgetGestureEndpoint(peer)
       }
