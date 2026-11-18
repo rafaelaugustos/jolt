@@ -1,5 +1,7 @@
 # 动画值 {#motion-values}
 
+下文描述已发布的 0.1.0-rc.15 行为。尚未发布的连续性与手势扩展见[动效约定](./motion-contracts)。
+
 RC.15（测试版）：新增功能和平台限制请见[组合值、原生滚动、退场与按键列表](./values-scroll-lists)。
 
 对于跟随变化值的保持弹簧，请参见 [`springValue()`](./live-springs)。

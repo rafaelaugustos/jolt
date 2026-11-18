@@ -257,7 +257,10 @@
     "swiftui:check": "node scripts/generate-swiftui-definitions.mjs --check",
     "swiftui:test": "swift test",
     "swift:package": "node scripts/swift-package.mjs",
-    "web:values:test": "playwright test -c benchmarks/values-scroll-lists/playwright.config.mjs"
+    "web:values:test": "playwright test -c benchmarks/values-scroll-lists/playwright.config.mjs",
+    "web:motion-contracts": "node benchmarks/web-motion-contracts/server.mjs",
+    "web:motion-contracts:typecheck": "tsc -p benchmarks/web-motion-contracts/tsconfig.json",
+    "web:motion-contracts:test": "playwright test -c benchmarks/web-motion-contracts/playwright.config.mjs"
   },
   "peerDependencies": {
     "@angular/core": "^22.2.4",

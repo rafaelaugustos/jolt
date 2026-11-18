@@ -2,6 +2,8 @@ import { isIOS, type View, type ScrollView } from '@nativescript/core'
 import { liveValueInput, type DerivedValue } from './motion-value.js'
 import { nativeLiveNode } from './live-spring-driver.js'
 import { retainScrollDelegate } from './driver/ios-scroll-delegate.js'
+import { nativeGestureEndpoints } from './gesture-relations-native.js'
+import type { GestureEndpoint, GestureRecognizerKind } from './core/gesture-relations.js'
 
 export interface GestureSettings {
   axis: number
@@ -20,6 +22,7 @@ export interface GestureSettings {
   maxScale: number
 }
 export interface GestureDriver {
+  endpoint?(kind?: GestureRecognizerKind): GestureEndpoint
   readonly active: boolean
   cancel(): void
   enabled(value: boolean): void
@@ -70,7 +73,9 @@ export function createGestureDriver(
     const releaseDelegate = scroll
       ? retainScrollDelegate(scroll, () => native.refreshScrollDelegate())
       : () => {}
+    const peers = nativeGestureEndpoints((kind) => native.recognizer(kind))
     return {
+      endpoint: peers.endpoint,
       get active() {
         return native.active
       },
@@ -94,6 +99,7 @@ export function createGestureDriver(
           settings.maxY,
         ),
       dispose: () => {
+        peers.dispose()
         releaseDelegate()
         native.dispose()
       },
@@ -122,7 +128,9 @@ export function createGestureDriver(
     json,
     new org.rafaelaugusto.jolt.GestureSession.Listener({ onState: changed }),
   )
+  const peers = nativeGestureEndpoints((kind) => native.recognizer(kind))
   return {
+    endpoint: peers.endpoint,
     get active() {
       return native.isActive()
     },
@@ -134,6 +142,9 @@ export function createGestureDriver(
     },
     bounds: (settings) =>
       native.updateBounds(settings.minX, settings.maxX, settings.minY, settings.maxY),
-    dispose: () => native.dispose(),
+    dispose: () => {
+      peers.dispose()
+      native.dispose()
+    },
   }
 }

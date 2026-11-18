@@ -17,3 +17,5 @@ if (!xml.includes('CADisableMinimumFrameDurationOnPhone'))
     '<dict>\n<key>CADisableMinimumFrameDurationOnPhone</key><true/>',
   )
 writeFileSync(plist, xml)
+
+cpSync(root + '../../demo/src/assets/image-target.png', root + 'app/motion-photo.png')

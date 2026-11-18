@@ -1,3 +1,5 @@
+import { GestureArbiter, registerGestureEndpoints } from '../core/gesture-relations.js'
+import { coordinateTouch, coordinatedCapture } from './gesture-coordination.js'
 import type { FrameScheduler, FrameTask } from './scheduler.js'
 import { finite, type WebMotionValue } from './value.js'
 import { DEFAULT_FRICTION } from '../core/decay.js'
@@ -10,7 +12,7 @@ import {
 import type { Plan } from './plan.js'
 import type { PlaybackAnimation } from './types.js'
 import type { SpringParams } from '../core/spring.js'
-import { renderedAncestors, identityTransform } from './geometry.js'
+import { renderedAncestors, identityTransform, translationTransform } from './geometry.js'
 
 export interface WebDragOptions {
   axis?: 'x' | 'y' | 'both'
@@ -183,7 +185,11 @@ export function dragPlans(
 }
 
 /** Validate only ancestors participating in this rendered coordinate space. */
-export function assertDragSpace(target: HTMLElement, baselineIdentity: boolean) {
+export function assertDragSpace(
+  target: HTMLElement,
+  baselineIdentity: boolean,
+  translatedAncestors = false,
+) {
   if (!baselineIdentity)
     throw new TypeError('Drag requires an identity static CSS transform baseline.')
   const view = target.ownerDocument.defaultView!
@@ -192,7 +198,10 @@ export function assertDragSpace(target: HTMLElement, baselineIdentity: boolean) 
     if (
       (css.zoom && css.zoom !== '1' && css.zoom !== 'normal') ||
       css.perspective !== 'none' ||
-      (node !== target && !identityTransform(node, css))
+      (node !== target &&
+        !(translatedAncestors
+          ? translationTransform(node, css)
+          : identityTransform(node, css)))
     )
       throw new TypeError(
         'Drag does not support transformed or zoomed ancestors inside its rendered coordinate root. Use an untransformed drag surface inside a modal dialog/popover, or remove the affecting transform.',
@@ -248,6 +257,12 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     suppressUntil = 0
   let samples: { x: number; y: number; time: number }[] = []
   let animation: WebDrag['animation']
+  let admitted = false
+  let releaseShared: (() => void) | undefined
+  const peer = new GestureArbiter(
+    () => cancel(),
+    () => coordinateTouch(target),
+  )
   const initial = host.read()
   let resistance = { x: 200, y: 200 }
   const notify = (
@@ -309,6 +324,31 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     return { x: axis('x'), y: axis('y') }
   }
   const flush = () => {
+    if (!admitted) {
+      const dx = latest.x - start.x,
+        dy = latest.y - start.y
+      if (
+        options.axis !== 'both' &&
+        Math.abs(options.axis === 'x' ? dy : dx) > 12 &&
+        Math.abs(options.axis === 'x' ? dx : dy) < 8
+      ) {
+        peer.fail()
+        cancel()
+        return
+      }
+      if (Math.hypot(options.axis === 'y' ? 0 : dx, options.axis === 'x' ? 0 : dy) < 8)
+        return
+      if (
+        !peer.request(() => {
+          admitted = true
+          host.begin()
+          notify('onStart')
+          host.scheduler.add(task)
+        })
+      )
+        return
+      if (pointer === undefined) return
+    }
     if (blocked() || !host.owns()) {
       cancel()
       return
@@ -317,6 +357,11 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     notify('onMove', velocity(samples.at(-1)?.time ?? 0))
   }
   const releaseCapture = (id: number) => {
+    if (releaseShared) {
+      releaseShared()
+      releaseShared = undefined
+      return
+    }
     if (handle.hasPointerCapture(id)) handle.releasePointerCapture(id)
   }
   const stopRelease = () => {
@@ -334,6 +379,8 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     }
     const id = pointer
     pointer = undefined
+    admitted = false
+    peer.fail()
     host.scheduler.remove(task)
     try {
       host.cancel()
@@ -429,15 +476,18 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
         resistance[axis] = next.length
       }
     start = latest = { x: event.clientX, y: event.clientY }
-    host.begin()
+    admitted = !peer.coordinated
+    if (admitted) host.begin()
     pointer = event.pointerId
+    peer.begin(pointer)
     moved = false
     suppressUntil = 0
     samples = []
     capture(event)
     try {
-      handle.setPointerCapture(pointer)
-      notify('onStart')
+      if (peer.coordinated) releaseShared = coordinatedCapture(document, pointer)
+      else handle.setPointerCapture(pointer)
+      if (admitted) notify('onStart')
     } catch (error) {
       cancel()
       throw error
@@ -468,6 +518,11 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
       capture(event)
       flush()
       if (pointer === undefined) return
+      if (!admitted) {
+        cancel()
+        return
+      }
+      peer.finish()
       const hook = adapter.beforeRelease
       if (hook) {
         try {
@@ -513,7 +568,15 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
       view,
       type,
       (event: PointerEvent) => {
-        if (event.pointerId === pointer) cancel()
+        if (
+          event.pointerId === pointer &&
+          !(
+            event.type === 'lostpointercapture' &&
+            releaseShared &&
+            document.documentElement.hasPointerCapture(event.pointerId)
+          )
+        )
+          cancel()
       },
       true,
       true,
@@ -559,6 +622,7 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     if (disposed) return
     if (!stopAnimation) animation = undefined
     cancel()
+    peer.dispose()
     disposed = true
     abort.abort()
     host.scheduler.remove(task)
@@ -587,7 +651,7 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
   const controller = {
     handle: {
       get dragging() {
-        return pointer !== undefined
+        return pointer !== undefined && admitted
       },
       get settling() {
         return settling
@@ -636,6 +700,10 @@ export function createDrag(target: HTMLElement, input: WebDragOptions, host: Dra
     },
     detach: () => dispose(!!options.value),
   }
+  registerGestureEndpoints(controller.handle, (kind = 'pan') => {
+    if (kind !== 'pan') throw new TypeError('Drag exposes a pan recognizer.')
+    return peer
+  })
   adapters.set(controller.handle, adapter)
   return controller
 }

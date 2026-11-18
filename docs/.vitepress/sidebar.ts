@@ -58,6 +58,15 @@ export function sidebar(
           page('sequences', 'sequences'),
           page('motionValues', 'motion-values'),
           page('liveSprings', 'live-springs'),
+          localized(
+            [
+              'Motion contracts',
+              'Contratos de movimento',
+              'Contratos de movimiento',
+              '动效约定',
+            ],
+            'motion-contracts',
+          ),
           page('layers', 'layers'),
           page('interrupting', 'interrupting'),
           page('playback', 'playback'),

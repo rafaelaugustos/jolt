@@ -11,6 +11,11 @@ public final class PhotoZoom implements View.OnTouchListener, View.OnLayoutChang
         void onDismiss(float x,float y,float scale,float velocity,float progress);
         void onSettled(float x,float y,float scale);
     }
+    private final GesturePeer panPeer=new GesturePeer(()->cancelContact());
+    private final GesturePeer pinchPeer=new GesturePeer(()->cancelContact());
+    private final GesturePeer tapPeer=new GesturePeer(()->{});
+    public GesturePeer recognizer(String kind){return kind.equals("pan")?panPeer:kind.equals("pinch")?pinchPeer:kind.equals("tap")?tapPeer:null;}
+    private void cancelContact(){endTouch();mode=3;vx=vy=0;settle(false);panPeer.fail();pinchPeer.fail();tapPeer.fail();}
     private final ImageView image;
     private final View viewport,backdrop,chrome;
     private final Listener listener;
@@ -51,11 +56,13 @@ public final class PhotoZoom implements View.OnTouchListener, View.OnLayoutChang
         pinch=new ScaleGestureDetector(image.getContext(),new ScaleGestureDetector.SimpleOnScaleGestureListener(){
             @Override public boolean onScaleBegin(ScaleGestureDetector detector){
                 if(pending || disposed) return false;
+                if(!pinchPeer.request(()->{}))return false;
                 cancelAnimation();mode=1;pinchFloor=Math.min(minimum,scale);
                 lastFocusX=detector.getFocusX();lastFocusY=detector.getFocusY();
                 disallow(true);return true;
             }
             @Override public boolean onScale(ScaleGestureDetector detector){
+                if(!pinchPeer.request(()->{}))return false;
                 float next=clamp(scale*detector.getScaleFactor(),pinchFloor,maximum);
                 float fx=detector.getFocusX(),fy=detector.getFocusY();
                 x=fx-anchorX-(lastFocusX-anchorX-x)*next/scale;
@@ -69,10 +76,10 @@ public final class PhotoZoom implements View.OnTouchListener, View.OnLayoutChang
         taps=new GestureDetector(image.getContext(),new GestureDetector.SimpleOnGestureListener(){
             @Override public boolean onDown(MotionEvent e){return true;}
             @Override public boolean onDoubleTap(MotionEvent e){
-                if(!pending) zoom(scale>minimum+.01f?minimum:Math.min(maximum,doubleTap),e.getX(),e.getY(),true);
+                if(!pending) tapPeer.request(()->{zoom(scale>minimum+.01f?minimum:Math.min(maximum,doubleTap),e.getX(),e.getY(),true);tapPeer.finish();});
                 return true;
             }
-            @Override public boolean onSingleTapConfirmed(MotionEvent e){viewport.performClick();return true;}
+            @Override public boolean onSingleTapConfirmed(MotionEvent e){tapPeer.request(()->{viewport.performClick();tapPeer.finish();});return true;}
         });
         viewport.setClickable(true);viewport.setOnTouchListener(this);
         image.setClickable(true);image.setOnTouchListener((v,event)->{
@@ -114,6 +121,7 @@ public final class PhotoZoom implements View.OnTouchListener, View.OnLayoutChang
     }
     public void stop(){
         if(disposed)return;
+        panPeer.dispose();pinchPeer.dispose();tapPeer.dispose();
         disposed=true;cancelAnimation();endTouch();
         viewport.setOnTouchListener(previousTouch);viewport.setClickable(originalClickable);
         image.setOnTouchListener(previousImageTouch);image.setClickable(originalImageClickable);
@@ -192,6 +200,7 @@ public final class PhotoZoom implements View.OnTouchListener, View.OnLayoutChang
         if(disposed || !active || pending)return false;
         int action=event.getActionMasked();
         if(action==MotionEvent.ACTION_DOWN){
+            panPeer.begin(event.getDownTime());pinchPeer.begin(event.getDownTime());tapPeer.begin(event.getDownTime());
             cancelAnimation();mode=0;vx=vy=0;
             pointer=event.getPointerId(0);lastX=downX=event.getX();lastY=downY=event.getY();
             rebasePan();
@@ -205,9 +214,10 @@ public final class PhotoZoom implements View.OnTouchListener, View.OnLayoutChang
             if(mode==0 && Math.hypot(totalX,totalY)>slop){
                 if(scale<=minimum+.001f){
                     if(dismiss && Math.abs(totalY)>Math.abs(totalX)*1.2f)mode=2;
-                    else {mode=3;disallow(false);return false;}
+                    else {panPeer.fail();mode=3;disallow(false);return false;}
                 }else mode=1;
             }
+            if((mode==1 || mode==2) && !panPeer.request(()->{}))return true;
             if(mode==1){
                 float[] b=bounds(scale);
                 rawPanX+=px-lastX;rawPanY+=py-lastY;
@@ -228,6 +238,8 @@ public final class PhotoZoom implements View.OnTouchListener, View.OnLayoutChang
             boolean commit=action==MotionEvent.ACTION_UP && mode==2 && (progress>.35f || (Math.abs(vy)>1000*density && y*vy>0));
             boolean wasAnimation=animation!=null;
             endTouch();
+            if(action==MotionEvent.ACTION_UP){panPeer.finish();pinchPeer.finish();}
+            else {panPeer.fail();pinchPeer.fail();tapPeer.fail();}
             if(commit)emitDismiss(vy);
             else if(mode!=3 && !wasAnimation)settle(true);
         }

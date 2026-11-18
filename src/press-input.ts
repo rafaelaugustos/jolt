@@ -1,3 +1,5 @@
+import { registerGestureEndpoints } from './core/gesture-relations.js'
+import { nativeGestureEndpoints } from './gesture-relations-native.js'
 import { isIOS, type EventData, type View } from '@nativescript/core'
 
 /** Keep feedback input observational: NativeScript's iOS touch recognizer also
@@ -5,13 +7,48 @@ import { isIOS, type EventData, type View } from '@nativescript/core'
 export function pressInput(view: View, change: (event: EventData) => void): () => void {
   if (!isIOS || typeof UIView === 'undefined') {
     view.on('touch', change)
-    return () => view.off('touch', change)
+    let gate: org.rafaelaugusto.jolt.GestureInput | undefined
+    let peers: ReturnType<typeof nativeGestureEndpoints> | undefined
+    let disposed = false
+    const detach = () => {
+      peers?.dispose()
+      gate?.dispose()
+      peers = undefined
+      gate = undefined
+    }
+    view.on('unloaded', detach)
+    const dispose = () => {
+      if (disposed) return
+      disposed = true
+      detach()
+      view.off('unloaded', detach)
+      view.off('touch', change)
+    }
+    registerGestureEndpoints(dispose, (kind = 'tap') => {
+      if (disposed || !view.isLoaded || kind !== 'tap')
+        throw new TypeError('Press needs a mounted tap recognizer.')
+      if (!gate) {
+        gate = new org.rafaelaugusto.jolt.GestureInput(
+          view.nativeViewProtected,
+          (view as View & { touchListener?: android.view.View.OnTouchListener })
+            .touchListener ?? null,
+          'tap',
+          'both',
+        )
+        peers = nativeGestureEndpoints(() => gate!.recognizer())
+      }
+      return peers!.endpoint(kind)
+    })
+    return dispose
   }
   let input: JoltPressInput | undefined
+  let peers: ReturnType<typeof nativeGestureEndpoints> | undefined
   let disposed = false
   let generation = 0
   const detach = () => {
     generation++
+    peers?.dispose()
+    peers = undefined
     input?.dispose()
     input = undefined
   }
@@ -34,11 +71,18 @@ export function pressInput(view: View, change: (event: EventData) => void): () =
     view.off('unloaded', detach)
     throw error
   }
-  return () => {
+  const dispose = () => {
     if (disposed) return
     disposed = true
     view.off('loaded', attach)
     view.off('unloaded', detach)
     detach()
   }
+  registerGestureEndpoints(dispose, (kind = 'tap') => {
+    if (kind !== 'tap' || !input || disposed)
+      throw new TypeError('Press needs a mounted tap recognizer.')
+    peers ??= nativeGestureEndpoints(() => input!)
+    return peers.endpoint(kind)
+  })
+  return dispose
 }

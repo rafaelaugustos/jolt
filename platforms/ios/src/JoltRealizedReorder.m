@@ -1,3 +1,4 @@
+#import "JoltGestureLink.h"
 #import "JoltRealizedReorder.h"
 #import <QuartzCore/QuartzCore.h>
 
@@ -144,5 +145,6 @@ static NSInteger JoltRealizedReorderActive=0;
 - (void)cancel{[self finish:NO geometry:NO];}
 - (void)setEnabled:(BOOL)value{_enabled=value;if(!value)[self cancel];self.press.enabled=value;}
 - (void)setReducedMotion:(BOOL)value{self.reduced=value;}
-- (void)dispose{if(self.disposed)return;[self cancel];self.disposed=YES;[self.scroll removeGestureRecognizer:self.press];self.press.delegate=nil;self.press=nil;self.rows=nil;self.handles=nil;self.onState=nil;}
+- (UIGestureRecognizer *)recognizer:(NSString *)kind { return [kind isEqual:@"longPress"] ? self.press : nil; }
+- (void)dispose{[JoltGestureLink detach:self.press];if(self.disposed)return;[self cancel];self.disposed=YES;[self.scroll removeGestureRecognizer:self.press];self.press.delegate=nil;self.press=nil;self.rows=nil;self.handles=nil;self.onState=nil;}
 @end

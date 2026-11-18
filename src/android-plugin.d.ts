@@ -49,6 +49,7 @@ declare namespace org.rafaelaugusto.jolt {
     dispose(): void
   }
   class RealizedReorder {
+    recognizer(kind: string): GesturePeer | null
     constructor(
       scroll: androidx.core.widget.NestedScrollView,
       container: android.view.ViewGroup,
@@ -199,6 +200,7 @@ declare namespace org.rafaelaugusto.jolt {
     }
   }
   class ReorderSession {
+    recognizer(kind: string): GesturePeer | null
     constructor(
       surface: ReorderSurface,
       list: android.widget.ListView,
@@ -224,6 +226,7 @@ declare namespace org.rafaelaugusto.jolt {
     hasSession(): boolean
   }
   class GestureSession {
+    recognizer(kind: string): GesturePeer | null
     static supportsContactEvents(): boolean
     static supportsScrollReplay(): boolean
     replayScroll(phase: number, delta: number, velocity: number): void
@@ -335,6 +338,7 @@ declare namespace org.rafaelaugusto.jolt {
     }
   }
   class PhotoZoom {
+    recognizer(kind: string): GesturePeer | null
     constructor(
       image: android.widget.ImageView,
       viewport: android.view.View,
@@ -569,6 +573,23 @@ declare namespace org.rafaelaugusto.jolt {
     class Callback {
       constructor(implementation: { onEnd(finished: boolean): void })
     }
+  }
+}
+declare namespace org.rafaelaugusto.jolt {
+  class GestureInput extends java.lang.Object {
+    constructor(
+      view: android.view.View,
+      previous: android.view.View.OnTouchListener | null,
+      kind: string,
+      axis: string,
+    )
+    recognizer(): GesturePeer
+    dispose(): void
+  }
+  class GesturePeer {
+    isActive(): boolean
+    isDisposed(): boolean
+    connect(other: GesturePeer, kind: string): { dispose(): void }
   }
 }
 

@@ -1,3 +1,4 @@
+import { registerGestureEndpoints } from '../core/gesture-relations.js'
 import { Application, ListView, LayoutBase, Trace, type View } from '@nativescript/core'
 import {
   realizedRowsAdapter,
@@ -268,5 +269,10 @@ export function reorder<T, K extends ReorderKey = ReorderKey>(
     result.dispose()
     throw error
   }
+  registerGestureEndpoints(result, (kind = 'longPress') => {
+    if (!driver?.endpoint)
+      throw new TypeError('The mounted reorder adapter must expose native recognizers.')
+    return driver.endpoint(kind)
+  })
   return result
 }

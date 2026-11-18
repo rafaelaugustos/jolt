@@ -1,3 +1,5 @@
+import { GestureArbiter, registerGestureEndpoints } from '../core/gesture-relations.js'
+import { coordinateTouch, coordinatedCapture } from './gesture-coordination.js'
 import {
   itemKeys,
   sameKeys,
@@ -146,6 +148,12 @@ export function createReorder<K extends ReorderKey>(
     viewport: DOMRect | undefined,
     scrollVelocity = 0,
     moveTime = 0
+  const peer = new GestureArbiter(
+    () => cancel(),
+    () => coordinateTouch(container),
+  )
+  let releaseShared: (() => void) | undefined
+  let crossStart = 0
   const position = (event: PointerEvent) => (axis === 'x' ? event.clientX : event.clientY)
   const scrollOffset = () => (axis === 'x' ? source.scrollLeft : source.scrollTop)
   const notify = (fn: (() => void) | undefined) => {
@@ -203,7 +211,11 @@ export function createReorder<K extends ReorderKey>(
     scroll.stop()
     const id = pointer
     pointer = undefined
-    if (id !== undefined) releasePointer(container, id)
+    if (releaseShared) {
+      releaseShared()
+      releaseShared = undefined
+    } else if (id !== undefined) releasePointer(container, id)
+    peer.fail()
     scrolling = false
     keyboard = false
     active = undefined
@@ -469,23 +481,26 @@ export function createReorder<K extends ReorderKey>(
       return
     if (active !== undefined) cancel()
     pointer = event.pointerId
+    peer.begin(pointer)
+    crossStart = axis === 'x' ? event.clientY : event.clientX
     start = latest = last = position(event)
     moveTime = event.timeStamp
     scrollVelocity = 0
     scrolling = false
     scroll.begin(event)
     try {
-      container.setPointerCapture(pointer)
+      if (peer.coordinated) releaseShared = coordinatedCapture(document, pointer)
+      else container.setPointerCapture(pointer)
     } catch (error) {
       reset()
       host.error(error)
       return
     }
-    if (event.pointerType === 'mouse') begin(row)
+    if (event.pointerType === 'mouse') peer.request(() => begin(row))
     else
       cancelDelay = host.after(delay, () => {
         cancelDelay = undefined
-        if (pointer !== undefined && !scrolling) begin(row)
+        if (pointer !== undefined && !scrolling) peer.request(() => begin(row))
       })
   })
   events.on(
@@ -501,7 +516,13 @@ export function createReorder<K extends ReorderKey>(
       last = next
       moveTime = event.timeStamp
       if (active === undefined) {
-        if (Math.abs(next - start) > 8) {
+        if (
+          Math.hypot(
+            next - start,
+            (axis === 'x' ? event.clientY : event.clientX) - crossStart,
+          ) > 8
+        ) {
+          peer.fail()
           cancelDelay?.()
           cancelDelay = undefined
           scrolling = true
@@ -522,6 +543,7 @@ export function createReorder<K extends ReorderKey>(
         task.read?.(host.scheduler.now())
         task.update?.(host.scheduler.now())
         suppressUntil = view.performance.now() + 500
+        peer.finish()
         commit()
       } else {
         const coast = scrolling,
@@ -544,7 +566,15 @@ export function createReorder<K extends ReorderKey>(
       view,
       type,
       (event: PointerEvent) => {
-        if (event.pointerId === pointer) cancel()
+        if (
+          event.pointerId === pointer &&
+          !(
+            event.type === 'lostpointercapture' &&
+            releaseShared &&
+            document.documentElement.hasPointerCapture(event.pointerId)
+          )
+        )
+          cancel()
       },
       true,
       true,
@@ -711,6 +741,7 @@ export function createReorder<K extends ReorderKey>(
       if (disposed) return
       disposed = true
       cancel('disposed')
+      peer.dispose()
       layout?.stop()
       layout = undefined
       events.dispose()
@@ -732,5 +763,10 @@ export function createReorder<K extends ReorderKey>(
     handle.dispose()
     throw error
   }
+  registerGestureEndpoints(handle, (kind = 'longPress') => {
+    if (kind !== 'longPress')
+      throw new TypeError('Reorder exposes a longPress recognizer.')
+    return peer
+  })
   return handle
 }

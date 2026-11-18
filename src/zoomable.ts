@@ -1,3 +1,4 @@
+import { registerGestureEndpoints } from './core/gesture-relations.js'
 import { Application, Image, isIOS, type View } from '@nativescript/core'
 import { stop, toView } from './animate.js'
 import { reducedMotion } from './config.js'
@@ -129,6 +130,13 @@ class Photo implements Zoomable {
     },
   ) {
     this.latest = { x: 0, y: 0, scale: options.scale[0], progress: 0, pending: false }
+    registerGestureEndpoints(this, (kind) => {
+      if (!this.driver?.endpoint)
+        throw new TypeError(
+          'The photo must be ready before declaring gesture relationships.',
+        )
+      return this.driver.endpoint(kind)
+    })
     this.releaseOwnership = ownImage(image, this.dispose)
     stop(image, ['x', 'y', 'scaleX', 'scaleY'])
     for (const view of [image, viewport]) {

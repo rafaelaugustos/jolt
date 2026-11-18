@@ -16,6 +16,8 @@ import {
 } from './interaction.js'
 import { createGestureScroll, type WebGestureScrollOptions } from './gesture-scroll.js'
 import type { FrameTask } from './scheduler.js'
+import { GestureArbiter, registerGestureEndpoints } from '../core/gesture-relations.js'
+import { coordinateTouch, coordinatedCapture } from './gesture-coordination.js'
 
 export interface WebGesturePosition {
   x: number
@@ -90,6 +92,11 @@ function readBounds(input: WebGestureBounds = {}) {
     throw new RangeError('Gesture bounds must be ordered.')
   return result
 }
+const panPolicies = new WeakMap<WebGestures, () => boolean>()
+/** A photo at minimum zoom can fail its pan while retaining pinch recognition. */
+export function setGesturePanPolicy(controller: WebGestures, accepts: () => boolean) {
+  panPolicies.set(controller, accepts)
+}
 export function createGestures(
   target: HTMLElement,
   options: WebGesturesOptions,
@@ -154,7 +161,7 @@ export function createGestures(
     initial.scale > max
   )
     throw new RangeError('Initial gesture position must be within bounds.')
-  assertDragSpace(target, true)
+  assertDragSpace(target, true, true)
   if (
     options.scroll &&
     (!options.pan ||
@@ -193,6 +200,25 @@ export function createGestures(
   const restoreTouch = ownStyle(target, 'touch-action', touch)
   const restoreSelect = ownStyle(target, 'user-select', 'none')
   const pointers = new Map<number, { x: number; y: number }>()
+  const captures = new Map<number, () => void>()
+  const peers = {
+    pan: new GestureArbiter(
+      () => cancel(),
+      () => coordinateTouch(target),
+    ),
+    pinch: new GestureArbiter(
+      () => cancel(),
+      () => coordinateTouch(target),
+    ),
+    rotate: new GestureArbiter(
+      () => cancel(),
+      () => coordinateTouch(target),
+    ),
+    tap: new GestureArbiter(
+      () => cancel(),
+      () => coordinateTouch(target),
+    ),
+  }
   const destinations = new Map<(typeof keys)[number], number>()
   const animations = new Map<(typeof keys)[number], WebAnimation>()
   let disposed = false,
@@ -291,7 +317,7 @@ export function createGestures(
       return
     }
     try {
-      assertDragSpace(target, true)
+      assertDragSpace(target, true, true)
     } catch (error) {
       cancel()
       host.error(error)
@@ -309,6 +335,7 @@ export function createGestures(
       ) {
         rejected = true
         clearTap()
+        peers.pan.fail()
         return
       }
       if (
@@ -316,11 +343,35 @@ export function createGestures(
         (options.pan &&
           Math.hypot(axis === 'y' ? 0 : dx, axis === 'x' ? 0 : dy) >= threshold)
       ) {
-        active = true
-        clearTap()
-        notify('onStart')
+        const peer =
+          pointers.size > 1 && options.pinch
+            ? peers.pinch
+            : pointers.size > 1 && options.rotate
+              ? peers.rotate
+              : peers.pan
+        if (peer === peers.pan && panPolicies.get(handle)?.() === false) {
+          peers.pan.fail()
+          return
+        }
+        if (
+          !peer.request(() => {
+            if (!allowed() || !pointers.size) return
+            active = true
+            clearTap()
+            notify('onStart')
+            host.scheduler.add(task)
+          })
+        )
+          return
         if (!allowed() || !pointers.size) return
       } else return
+    }
+    if (pointers.size > 1) {
+      for (const peer of [
+        ...(options.pinch ? [peers.pinch] : []),
+        ...(options.rotate ? [peers.rotate] : []),
+      ])
+        if (!peer.request(() => {})) return
     }
     rotation += angleDelta(geometry.angle, previous.angle)
     const scale =
@@ -374,7 +425,13 @@ export function createGestures(
     host.scheduler.remove(task)
     stop()
     clearTap()
-    for (const id of ids) releasePointer(target, id)
+    for (const id of ids) {
+      if (captures.has(id)) {
+        captures.get(id)!()
+        captures.delete(id)
+      } else releasePointer(target, id)
+    }
+    for (const peer of Object.values(peers)) peer.fail()
     if (wasActive) notify('onCancel')
     if (contact) notify('onContactEnd')
     samples = []
@@ -390,7 +447,7 @@ export function createGestures(
     )
       return
     if (pointers.size >= 2) return
-    assertDragSpace(target, true)
+    assertDragSpace(target, true, true)
     if (!pointers.size) {
       stop()
       active = false
@@ -398,6 +455,7 @@ export function createGestures(
       hadMultiple = false
       downAt = e.timeStamp
       suppressUntil = 0
+      for (const peer of Object.values(peers)) peer.begin(e.pointerId)
     } else {
       flush()
       hadMultiple = true
@@ -407,7 +465,9 @@ export function createGestures(
     rebase()
     sample(e.timeStamp)
     try {
-      target.setPointerCapture(e.pointerId)
+      if (Object.values(peers).some((peer) => peer.coordinated))
+        captures.set(e.pointerId, coordinatedCapture(document, e.pointerId))
+      else target.setPointerCapture(e.pointerId)
     } catch (error) {
       cancel()
       host.error(error)
@@ -447,7 +507,10 @@ export function createGestures(
       if (!pointers.has(e.pointerId)) return
       speed = velocity(e.timeStamp)
       pointers.delete(e.pointerId)
-      releasePointer(target, e.pointerId)
+      if (captures.has(e.pointerId)) {
+        captures.get(e.pointerId)!()
+        captures.delete(e.pointerId)
+      } else releasePointer(target, e.pointerId)
       if (pointers.size) {
         rebase()
         return
@@ -455,7 +518,9 @@ export function createGestures(
       host.scheduler.remove(task)
       const wasActive = active
       active = false
+      for (const peer of [peers.pan, peers.pinch, peers.rotate]) peer.finish()
       if (wasActive) {
+        peers.tap.fail()
         suppressUntil = events.view.performance.now() + 500
         if (scroll) {
           const axis = scroll.axis
@@ -471,29 +536,32 @@ export function createGestures(
       } else if (!hadMultiple && !rejected && e.timeStamp - downAt < 400) {
         const data = event(),
           now = host.scheduler.now()
-        if (options.onDoubleTap) {
-          if (
-            tapped &&
-            now - tapped.time < 300 &&
-            Math.hypot(
-              data.clientX - tapped.event.clientX,
-              data.clientY - tapped.event.clientY,
-            ) < 24
-          ) {
-            clearTap()
-            notify('onDoubleTap', data)
-          } else {
-            if (tapped) notify('onTap', tapped.event)
-            clearTap()
-            tapped = { event: data, time: now }
-            cancelTap = host.after(300, () => {
-              const pending = tapped
+        peers.tap.request(() => {
+          if (options.onDoubleTap) {
+            if (
+              tapped &&
+              now - tapped.time < 300 &&
+              Math.hypot(
+                data.clientX - tapped.event.clientX,
+                data.clientY - tapped.event.clientY,
+              ) < 24
+            ) {
               clearTap()
-              if (pending && allowed()) notify('onTap', pending.event)
-            })
-          }
-        } else notify('onTap', data)
-      }
+              notify('onDoubleTap', data)
+            } else {
+              if (tapped) notify('onTap', tapped.event)
+              clearTap()
+              tapped = { event: data, time: now }
+              cancelTap = host.after(300, () => {
+                const pending = tapped
+                clearTap()
+                if (pending && allowed()) notify('onTap', pending.event)
+              })
+            }
+          } else notify('onTap', data)
+          peers.tap.finish()
+        })
+      } else peers.tap.fail()
       notify('onContactEnd')
       samples = []
     },
@@ -520,7 +588,15 @@ export function createGestures(
       events.view,
       type,
       (e: PointerEvent) => {
-        if (pointers.has(e.pointerId)) cancel()
+        if (
+          pointers.has(e.pointerId) &&
+          !(
+            e.type === 'lostpointercapture' &&
+            captures.has(e.pointerId) &&
+            document.documentElement.hasPointerCapture(e.pointerId)
+          )
+        )
+          cancel()
       },
       true,
       true,
@@ -650,6 +726,8 @@ export function createGestures(
         restoreSelect,
         unregister,
         removePreference,
+        unregisterPeers,
+        ...Object.values(peers).map((peer) => () => peer.dispose()),
         ...Object.values(outputs).map((value) => () => value.dispose()),
         ...Object.values(values).map((value) => () => value.dispose()),
       ])
@@ -663,5 +741,16 @@ export function createGestures(
     if (Object.keys(next).length) notify('onSettled')
   })
   const unregister = host.register(target, handle, refresh)
+  const unregisterPeers = registerGestureEndpoints(handle, (kind = 'pan') => {
+    if (
+      kind === 'longPress' ||
+      (kind === 'pan' && !options.pan) ||
+      (kind === 'pinch' && !options.pinch) ||
+      (kind === 'rotate' && !options.rotate) ||
+      (kind === 'tap' && !options.onTap && !options.onDoubleTap)
+    )
+      throw new TypeError(`This controller does not enable ${kind}.`)
+    return peers[kind]
+  })
   return handle
 }

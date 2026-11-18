@@ -164,6 +164,7 @@ jobs:
       - run: npm run web:platforms:typecheck
       - run: npm run web:surfaces:typecheck
       - run: npm run web:effects:typecheck
+      - run: npm run web:motion-contracts:typecheck
       - run: npm run web:gestures:typecheck
       - run: npm run web:attachment:typecheck
       - run: npm run web:orchestration:typecheck
@@ -190,6 +191,7 @@ jobs:
       - run: npm run web:platforms:test
       - run: npm run web:surfaces:test
       - run: npm run web:effects:test
+      - run: npm run web:motion-contracts:test
       - run: npm run web:gestures:test
       - run: npm run web:attachment:test
       - run: npm run web:orchestration:test
@@ -214,6 +216,7 @@ jobs:
             benchmarks/web-lifecycle/results/
             benchmarks/web-orchestration/results/
             benchmarks/web-attachment/results/
+            benchmarks/web-motion-contracts/results/
             benchmarks/web-gestures/results/
             benchmarks/web-effects/results/
             benchmarks/web-surfaces/results/

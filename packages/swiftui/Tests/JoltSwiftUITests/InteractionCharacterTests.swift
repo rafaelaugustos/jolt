@@ -104,10 +104,11 @@ final class InteractionCharacterTests: XCTestCase {
     let model = try JoltReorderModel(
       ["a", "b", "c", "d"], rowHeight: 50, spacing: 0, clock: clock, onMove: { moves.append($0) })
     var scrolls = 0
-    model.edgeScroll = { _ in
+    let connection = try model.connectEdgeScroll { _ in
       scrolls += 1
       return true
     }
+    defer { connection.dispose() }
     model.begin("a")
     model.move(viewportY: 98, scrollOffset: 50, viewportHeight: 100)
     XCTAssertEqual(model.keys, ["a", "b", "c", "d"])
@@ -142,7 +143,8 @@ final class InteractionCharacterTests: XCTestCase {
   @MainActor func testReorderStopsClockWhenScrollBoundaryReached() async throws {
     let clock = JoltClock.testClock()
     let model = try JoltReorderModel(["a", "b"], clock: clock)
-    model.edgeScroll = { _ in false }
+    let connection = try model.connectEdgeScroll { _ in false }
+    defer { connection.dispose() }
     model.begin("a")
     model.move(viewportY: 99, scrollOffset: 0, viewportHeight: 100)
     XCTAssertEqual(clock.activeCount, 1)
@@ -216,7 +218,8 @@ final class InteractionCharacterTests: XCTestCase {
     XCTAssertEqual(clock.activeCount, 0)
     model.layoutBounds(.init(x: 0, y: 10, width: 20, height: 20))
     XCTAssertEqual(model.offset, .zero)
-    let old = UUID(), replacement = UUID()
+    let old = UUID()
+    let replacement = UUID()
     model.present(old, true)
     model.layoutBounds(.init(x: 0, y: 10, width: 20, height: 20), reporter: old)
     model.present(replacement, true)

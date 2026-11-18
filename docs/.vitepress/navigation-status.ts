@@ -11,6 +11,7 @@ type Marker = {
 // Curated capability changes, not page edit timestamps. Review at each release.
 // Beta describes API maturity and does not expire with a release badge.
 const markers: Record<string, Marker> = {
+  'motion-contracts': { status: 'beta', availability: 'source' },
   'values-scroll-lists': { status: 'beta', availability: 'published' },
   'motion-values': {
     status: 'updated',

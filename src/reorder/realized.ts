@@ -1,3 +1,5 @@
+import { nativeGestureEndpoints } from '../gesture-relations-native.js'
+import type { GestureRecognizerKind } from '../core/gesture-relations.js'
 import { LayoutBase, ScrollView, View, isIOS, Trace } from '@nativescript/core'
 import { sheetActions } from '../bottom-sheet/native.js'
 import { getDriver } from '../driver/index.js'
@@ -100,6 +102,9 @@ export function realizedRowsAdapter<K extends ReorderKey>(
       let refreshRelease: (() => void) | undefined
       const releases: (() => void)[] = []
       let native: {
+        recognizer(
+          kind: string,
+        ): UIGestureRecognizer | org.rafaelaugusto.jolt.GesturePeer | null
         setEnabled(value: boolean): void
         setReducedMotion(value: boolean): void
         cancel(): void
@@ -279,7 +284,9 @@ export function realizedRowsAdapter<K extends ReorderKey>(
           else complete()
         })
       }
+      const peers = nativeGestureEndpoints((kind) => native.recognizer(kind))
       const result = {
+        endpoint: (kind: GestureRecognizerKind = 'longPress') => peers.endpoint(kind),
         refresh,
         cancel: () => native.cancel(),
         setEnabled: (value: boolean) => native.setEnabled(value),
@@ -290,6 +297,7 @@ export function realizedRowsAdapter<K extends ReorderKey>(
           layoutRelease?.()
           refreshRelease?.()
           for (const release of releases.splice(0)) release()
+          peers.dispose()
           native.dispose()
         },
       }

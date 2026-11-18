@@ -81,6 +81,7 @@ declare class JoltReorderHandle extends UIButton {
   onMove: ((direction: number) => void) | null
 }
 declare class JoltRealizedReorder extends NSObject {
+  recognizer(kind: string): UIGestureRecognizer | null
   static attachContainerOptionsOnState(
     scroll: UIScrollView,
     container: UIView,
@@ -95,6 +96,7 @@ declare class JoltRealizedReorder extends NSObject {
   dispose(): void
 }
 declare class JoltReorderSession extends NSObject {
+  recognizer(kind: string): UIGestureRecognizer | null
   static attachOptionsOnState(
     list: UITableView,
     options: string,
@@ -108,6 +110,7 @@ declare class JoltReorderSession extends NSObject {
   dispose(): void
 }
 declare class JoltGestureSession extends NSObject {
+  recognizer(kind: string): UIGestureRecognizer | null
   static supportsContactEvents(): boolean
   static supportsScrollReplay(): boolean
   static hasSession(surface: UIView): boolean
@@ -135,6 +138,15 @@ declare class JoltGestureSession extends NSObject {
     animated: boolean,
   ): void
   updateLeftRightTopBottom(left: number, right: number, top: number, bottom: number): void
+  dispose(): void
+}
+declare class JoltGestureLink extends NSObject {
+  static connectOtherRelation(
+    first: UIGestureRecognizer,
+    second: UIGestureRecognizer,
+    relation: string,
+  ): JoltGestureLink
+  static detach(recognizer: UIGestureRecognizer): void
   dispose(): void
 }
 declare class JoltLiveSpring extends NSObject {
@@ -248,6 +260,7 @@ declare class JoltImageEffect extends NSObject {
   stop(): void
 }
 declare class JoltPhotoZoom extends NSObject {
+  recognizer(kind: string): UIGestureRecognizer | null
   static attachImageViewportMinimumMaximumDoubleTapDismissReducedBackdropChromeOnDismissOnSettled(
     image: UIImageView,
     viewport: UIView,

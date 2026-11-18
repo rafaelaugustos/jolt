@@ -1,5 +1,7 @@
 # SwiftUI: movimento derivado e gráficos retidos
 
+O comportamento publicado em 0.1.0-rc.15 está descrito abaixo. As adições ainda não publicadas de continuidade e gestos estão em [contratos de movimento](./motion-contracts).
+
 RC.15 (Beta): veja [valores combinados, scroll nativo, saídas e listas por chave](./values-scroll-lists) para as adições e os limites por plataforma.
 
 Disponível na **0.1.0-rc.15 (Beta)** para iOS 17+ e macOS 14+, sem NativeScript ou JavaScript. Instale o produto `JoltSwiftUI` pela tag `v0.1.0-rc.15` do repositório de pacote [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Consulte [instalação](./swiftui), [ciclo de vida](./swiftui-motion) e [interação/geometria](./swiftui-geometry) para os limites.

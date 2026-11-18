@@ -5,6 +5,55 @@ import XCTest
 #endif
 
 final class SwiftUIAcceptance: XCTestCase {
+  @MainActor func testMotionContractsExpansion() {
+    let app = lab("--motion-contracts-lab")
+    XCTAssertTrue(app.buttons["contract-spring"].waitForExistence(timeout: 10))
+    cue("start")
+    click(app.buttons["contract-emit"])
+    click(app.buttons["contract-spring"])
+    Thread.sleep(forTimeInterval: 0.2)
+    click(app.buttons["contract-replace"])
+    Thread.sleep(forTimeInterval: 1.5)
+    click(app.buttons["contract-morph"])
+    Thread.sleep(forTimeInterval: 0.7)
+    click(app.buttons["contract-morph"])
+    click(app.buttons["contract-trim"])
+    Thread.sleep(forTimeInterval: 1.8)
+    click(app.buttons["contract-pause"])
+    let held = label(app, "contract-particles-status")
+    Thread.sleep(forTimeInterval: 0.5)
+    XCTAssertEqual(label(app, "contract-particles-status"), held)
+    click(app.buttons["contract-pause"])
+    // Record the real emitter crossing 60 seconds; no accelerated clock in this app.
+    let deadline = Date().addingTimeInterval(70)
+    while Date() < deadline {
+      let seconds =
+        Double(label(app, "contract-particles-status").split(separator: " ").first ?? "0") ?? 0
+      if seconds >= 61 { break }
+      Thread.sleep(forTimeInterval: 0.5)
+    }
+    XCTAssertTrue(label(app, "contract-particles-status").contains("running"))
+    XCTAssertGreaterThanOrEqual(
+      Double(label(app, "contract-particles-status").split(separator: " ").first ?? "0") ?? 0, 61)
+    click(app.buttons["contract-clear"])
+    #if os(macOS)
+      click(app.radioButtons["Custom grip"])
+    #else
+      click(app.buttons["Custom grip"])
+    #endif
+    let grip = app.descendants(matching: .any)["contract-grip-Track 1"].firstMatch
+    XCTAssertTrue(grip.waitForExistence(timeout: 5))
+    click(app.buttons["contract-row-Track 1"])
+    XCTAssertTrue(label(app, "contract-order").contains("actions 1"))
+    let list = app.descendants(matching: .any)["contract-list"].firstMatch
+    grip.coordinate(withNormalizedOffset: .init(dx: 0.5, dy: 0.5)).press(
+      forDuration: 0.2,
+      thenDragTo: list.coordinate(withNormalizedOffset: .init(dx: 0.12, dy: 0.97)),
+      withVelocity: .slow, thenHoldForDuration: 1.2)
+    XCTAssertFalse(
+      label(app, "contract-order").contains("First: Track 1 ·"), label(app, "contract-order"))
+    cue("stop")
+  }
   #if os(iOS)
     @MainActor func testStandaloneMotionAndLifecycle() {
       continueAfterFailure = false
@@ -138,12 +187,14 @@ final class SwiftUIAcceptance: XCTestCase {
       XCTAssertTrue(
         wait {
           let log = self.label(app, "activity-log")
-          return log.contains("NSHostingView inactive") && log.contains("NSHostingController inactive")
+          return log.contains("NSHostingView inactive")
+            && log.contains("NSHostingController inactive")
         }, self.label(app, "activity-log"))
       note("Hosted windows covered", [label(app, "activity-log")])
       click(app.buttons["uncover-hosted"])
       XCTAssertTrue(
-        wait { self.label(app, "activity-log").hasSuffix("active") }, self.label(app, "activity-log"))
+        wait { self.label(app, "activity-log").hasSuffix("active") },
+        self.label(app, "activity-log"))
       app.typeKey(",", modifierFlags: .command)
       XCTAssertTrue(app.staticTexts["activity-Settings"].waitForExistence(timeout: 5))
       let settings = legs(app, "Settings")
@@ -330,7 +381,11 @@ final class SwiftUIAcceptance: XCTestCase {
     XCTAssertTrue(app.staticTexts["values-scroll-status"].waitForExistence(timeout: 10))
     cue("start")
     click(app.buttons["combine-values"])
-    XCTAssertTrue(wait { self.label(app, "combined-status").contains("146.2") || self.label(app, "combined-status").contains("146.3") })
+    XCTAssertTrue(
+      wait {
+        self.label(app, "combined-status").contains("146.2")
+          || self.label(app, "combined-status").contains("146.3")
+      })
     click(app.buttons["interrupt-values"])
     XCTAssertTrue(wait { self.label(app, "combined-status").contains("0.0") })
     click(app.buttons["header-scroll"])
@@ -339,20 +394,24 @@ final class SwiftUIAcceptance: XCTestCase {
     XCTAssertTrue(wait { self.label(app, "values-scroll-status").contains("Offset 292") })
     click(app.buttons["header-top"])
     XCTAssertTrue(wait { self.label(app, "values-scroll-status").contains("Offset 0") })
-    let scroll=app.scrollViews.firstMatch
+    let scroll = app.scrollViews.firstMatch
     #if os(macOS)
-      scroll.scroll(byDeltaX:0,deltaY:-260)
+      scroll.scroll(byDeltaX: 0, deltaY: -260)
       click(app.checkBoxes["values-reduce"])
     #else
       scroll.swipeUp()
-      app.switches["values-reduce"].coordinate(withNormalizedOffset: CGVector(dx: 0.92, dy: 0.5)).tap()
+      app.switches["values-reduce"].coordinate(withNormalizedOffset: CGVector(dx: 0.92, dy: 0.5))
+        .tap()
     #endif
-    XCTAssertTrue(wait { self.label(app, "values-scroll-status").contains("reduced on") }, label(app,"values-scroll-status"))
+    XCTAssertTrue(
+      wait { self.label(app, "values-scroll-status").contains("reduced on") },
+      label(app, "values-scroll-status"))
     click(app.buttons["header-top"])
     XCTAssertTrue(wait { self.label(app, "values-scroll-status").contains("Offset 0") })
     click(app.buttons["header-scroll"])
     XCTAssertTrue(wait { self.label(app, "values-scroll-status").contains("Offset 240") })
-    XCTAssertTrue(app.descendants(matching: .any)["header-compact"].firstMatch.exists, app.debugDescription)
+    XCTAssertTrue(
+      app.descendants(matching: .any)["header-compact"].firstMatch.exists, app.debugDescription)
     cue("stop")
   }
   @MainActor func testScrollExpansion() {
@@ -797,7 +856,8 @@ final class SwiftUIAcceptance: XCTestCase {
       wait { self.label(app, "handle-status").contains("Dropped in backlog · drag") },
       label(app, "handle-status"))
     XCTAssertTrue(
-      wait { abs(card.frame.midY - origin.midY) < 3 }, "\(card.frame) \(origin) \(label(app, "handle-status"))")
+      wait { abs(card.frame.midY - origin.midY) < 3 },
+      "\(card.frame) \(origin) \(label(app, "handle-status"))")
     let short = done.frame
     drag(to: done, 0.3, 1 + 30 / short.height)
     XCTAssertTrue(

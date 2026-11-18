@@ -1,3 +1,5 @@
+import { nativeGestureEndpoints } from '../gesture-relations-native.js'
+import type { GestureRecognizerKind } from '../core/gesture-relations.js'
 import {
   ListView,
   isIOS,
@@ -74,6 +76,9 @@ export function coreListAdapter<T>(list: ListView): ReorderAdapter<T> {
         }
       }
       let native: {
+        recognizer(
+          kind: string,
+        ): UIGestureRecognizer | org.rafaelaugusto.jolt.GesturePeer | null
         registerHandle(view: any): void
         setEnabled(value: boolean): void
         setReducedMotion(value: boolean): void
@@ -232,7 +237,9 @@ export function coreListAdapter<T>(list: ListView): ReorderAdapter<T> {
           native.registerHandle(handle.nativeViewProtected)
         }, 0)
       }
+      const peers = nativeGestureEndpoints((kind) => native.recognizer(kind))
       const driver = {
+        endpoint: (kind: GestureRecognizerKind = 'longPress') => peers.endpoint(kind),
         cancel: () => native.cancel(),
         setEnabled: (value: boolean) => native.setEnabled(value),
         setReducedMotion: (value: boolean) => native.setReducedMotion(value),
@@ -246,6 +253,7 @@ export function coreListAdapter<T>(list: ListView): ReorderAdapter<T> {
             row.release()
           }
           rows.clear()
+          peers.dispose()
           native.dispose()
         },
       }

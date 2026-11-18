@@ -4,6 +4,7 @@
 NS_ASSUME_NONNULL_BEGIN
 @interface JoltGestureSession : NSObject
 @property(nonatomic, readonly) BOOL active;
+- (nullable UIGestureRecognizer *)recognizer:(NSString *)kind;
 + (BOOL)supportsContactEvents;
 // Development-only semantic input. Requires the isolated "replay" option.
 + (BOOL)supportsScrollReplay;

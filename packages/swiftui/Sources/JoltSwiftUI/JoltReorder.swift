@@ -37,7 +37,25 @@ import SwiftUI
   private var paused = false, suspended = false
   private var edgeSubscription: ClockSubscription?
   private var edgeDirection = 0, lastEdge = 0.0
-  var edgeScroll: (@MainActor (Int) -> Bool)?
+  private var edgeScroll: (@MainActor (Int) -> Bool)?
+  private var edgeOwner: UUID?
+  /// Connect a viewport to Jolt's edge clock. Direction is -1 (up) or 1 (down).
+  /// Return false at a boundary. Retain the observation while mounted; disposal detaches only this owner.
+  public func connectEdgeScroll(_ scroll: @escaping @MainActor (Int) -> Bool) throws
+    -> JoltObservation
+  {
+    guard !disposed else { throw JoltError.disposed }
+    cancel()
+    let owner = UUID()
+    edgeOwner = owner
+    edgeScroll = scroll
+    return JoltObservation { [weak self] in
+      guard let self, self.edgeOwner == owner else { return }
+      self.cancel()
+      self.edgeOwner = nil
+      self.edgeScroll = nil
+    }
+  }
   public var stride: Double { rowHeight + spacing }
   public var preview: [String] {
     guard let active, let from = keys.firstIndex(of: active), let to = destination else {
@@ -115,7 +133,9 @@ import SwiftUI
       guard let self, self.active != nil, !self.paused, !self.suspended else { return }
       if time - self.lastEdge >= 120 {
         self.lastEdge = time
-        if self.edgeScroll?(self.edgeDirection) != true { self.stopEdge() }
+        let owner = self.edgeOwner
+        let consumed = self.edgeScroll?(self.edgeDirection)
+        if self.edgeOwner == owner, consumed != true { self.stopEdge() }
       }
     }
   }
@@ -170,6 +190,7 @@ import SwiftUI
     disposed = true
     cancel()
     edgeScroll = nil
+    edgeOwner = nil
   }
 }
 
@@ -182,6 +203,7 @@ public struct JoltReorderList<Row: View>: View {
   @State private var pointerY = 0.0
   @State private var edgeIndex = 0
   @State private var gestureKey: String?
+  @State private var edgeConnection: JoltObservation?
   @GestureState private var dragging = false
   @JoltSceneActivity private var sceneActive
   @Environment(\.isEnabled) private var enabled
@@ -195,7 +217,8 @@ public struct JoltReorderList<Row: View>: View {
     if let index = model.keys.firstIndex(of: key) { model.move(key, to: index + step) }
   }
   private func connectEdge(_ proxy: ScrollViewProxy, height: Double) {
-    model.edgeScroll = { [weak model] direction in
+    edgeConnection?.dispose()
+    edgeConnection = try? model.connectEdgeScroll { [weak model] direction in
       guard let model, model.active != nil else { return false }
       let visibleEdge =
         model.index(at: max(0, scroll.offset + (direction > 0 ? height : 0)), inPreview: true) ?? 0
@@ -277,7 +300,8 @@ public struct JoltReorderList<Row: View>: View {
           }
           .onDisappear {
             model.suspend()
-            model.edgeScroll = nil
+            edgeConnection?.dispose()
+            edgeConnection = nil
           }
           .onChange(of: sceneActive) { _, next in
             if next && enabled { model.resume() } else { model.suspend() }

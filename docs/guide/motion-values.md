@@ -1,5 +1,7 @@
 # Motion values
 
+The published 0.1.0-rc.15 behavior is described below. For the unpublished continuity and gesture additions, see [motion contracts](./motion-contracts).
+
 RC.15 (Beta): see [combined values, native scroll, layout exits and keyed lists](./values-scroll-lists) for the additions and platform limits.
 
 For a retained spring that follows a changing value, see [`springValue()`](./live-springs).

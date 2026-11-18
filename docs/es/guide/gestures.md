@@ -1,5 +1,7 @@
 # Gestos nativos {#native-gestures-and-scroll-handoff}
 
+A continuación se describe el comportamiento publicado en 0.1.0-rc.15. Las adiciones aún no publicadas de continuidad y gestos están en [contratos de movimiento](./motion-contracts).
+
 Disponible desde **0.1.0-beta.16**, en el paquete principal. Reconstruya la aplicación nativa después de la actualización. No se necesita ningún complemento opcional de propiedad nativa.
 
 `gestures()` compone panorámica, pellizco y rotación en un `GestureSurface`, un NativeScript `GridLayout` con un límite de entrada nativo. Sus salidas de solo lectura funcionan con `bind()`, asignaciones numéricas `to()` y `springValue()`. El reconocimiento, el seguimiento del puntero y las actualizaciones de salida vinculada no requieren devoluciones de llamada JavaScript para cada movimiento.

@@ -50,6 +50,7 @@ else if (entry.endsWith('/web/testing')) {
     'createWebRuntime',
     'cubicBezier',
     'drawingLimits',
+    'gestureRelations',
     'origamiSpring',
     'presets',
     'resolveListTarget',

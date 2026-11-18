@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setReduced:(BOOL)reduced;
 - (void)setActive:(BOOL)active;
 - (void)layout;
+- (nullable UIGestureRecognizer *)recognizer:(NSString *)kind;
 - (void)stop;
 @end
 NS_ASSUME_NONNULL_END

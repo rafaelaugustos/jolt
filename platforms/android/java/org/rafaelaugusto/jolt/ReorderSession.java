@@ -36,7 +36,9 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
     private final float density, edgeSize, edgeSpeed, slop;
     private final long longPress;
     private final boolean handlesOnly;
-    private final Runnable activate = () -> begin();
+    private final GesturePeer peer=new GesturePeer(()->cancel());
+    public GesturePeer recognizer(String kind){return kind.equals("longPress")?peer:null;}
+    private final Runnable activate = () -> peer.request(()->begin());
     private boolean enabled = true, disposed, active, settling, pending, reduced;
     private int from, target, count, generation, width, height;
     private float downX, downY, pointerX, pointerY, grabOffset, rowHeight, remainder;
@@ -80,7 +82,7 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
         if (disposed) return false;
         int action = event.getActionMasked();
         if (action == MotionEvent.ACTION_DOWN) {
-            cancel();
+            cancel(); peer.begin(event.getDownTime());
             downX = pointerX = event.getX(); downY = pointerY = event.getY();
             if (enabled && list.isEnabled() && inHandle(downX, downY) && list.pointToPosition((int)downX, (int)downY) >= 0) {
                 pending = true; list.postDelayed(activate, longPress);
@@ -89,12 +91,12 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
         if (event.getPointerCount() > 1) { boolean handled = active; cancel(); return handled; }
         if (action == MotionEvent.ACTION_MOVE) {
             pointerX = event.getX(); pointerY = event.getY();
-            if (pending && Math.hypot(pointerX - downX, pointerY - downY) > slop) clearPending();
+            if (pending && Math.hypot(pointerX - downX, pointerY - downY) > slop) { clearPending(); peer.fail(); }
             if (active && !settling) update(0);
         }
         boolean owned = active;
-        if (action == MotionEvent.ACTION_UP) { clearPending(); if (active && !settling) drop(); }
-        else if (action == MotionEvent.ACTION_CANCEL) { clearPending(); if (active) finish(false, 0); }
+        if (action == MotionEvent.ACTION_UP) { peer.finish(); clearPending(); if (active && !settling) drop(); }
+        else if (action == MotionEvent.ACTION_CANCEL) { peer.fail(); clearPending(); if (active) finish(false, 0); }
         if (owned) return true;
         return false;
     }
@@ -206,7 +208,7 @@ public final class ReorderSession implements View.OnTouchListener, Choreographer
     @Override public void onViewAttachedToWindow(View view) {}
     public void dispose() {
         if (disposed) return;
-        cancel(); disposed = true; surface.setSession(null);
+        peer.dispose(); cancel(); disposed = true; surface.setSession(null);
         list.removeOnLayoutChangeListener(this); list.removeOnAttachStateChangeListener(this);
         handles.clear();
     }

@@ -1,5 +1,7 @@
 # Valores de movimiento {#motion-values}
 
+A continuación se describe el comportamiento publicado en 0.1.0-rc.15. Las adiciones aún no publicadas de continuidad y gestos están en [contratos de movimiento](./motion-contracts).
+
 RC.15 (Beta): consulte [valores combinados, scroll nativo, salidas y listas por clave](./values-scroll-lists) para las adiciones y sus límites.
 
 Para un resorte retenido que sigue un valor cambiante, consulte [`springValue()`](./live-springs).

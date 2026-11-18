@@ -36,7 +36,9 @@ public final class RealizedReorder implements ScrollInput.Listener, Choreographe
     private final Listener listener;
     private final float edgeSize,edgeSpeed,slop;
     private final long longPress;
-    private final Runnable activate=()->begin();
+    private final GesturePeer peer=new GesturePeer(()->cancel());
+    public GesturePeer recognizer(String kind){return kind.equals("longPress")?peer:null;}
+    private final Runnable activate=()->peer.request(()->begin());
     private ScrollInput input;
     private View[] rows=new View[0],handles=new View[0];
     private final ArrayList<Row> copies=new ArrayList<>();
@@ -64,6 +66,7 @@ public final class RealizedReorder implements ScrollInput.Listener, Choreographe
         if(disposed)return false;
         int action=event.getActionMasked();
         if(action==MotionEvent.ACTION_DOWN){
+            peer.begin(event.getDownTime());
             cancel();downX=pointerX=event.getRawX();downY=pointerY=event.getRawY();
             boolean handle=false;for(View view:handles)if(ScrollInput.contains(view,event)){handle=true;break;}
             if(enabled && handle && ScrollInput.contains(scroll,event) && rowAt(pointerX,pointerY)>=0){pending=true;scroll.postDelayed(activate,longPress);}
@@ -71,12 +74,12 @@ public final class RealizedReorder implements ScrollInput.Listener, Choreographe
         if(event.getPointerCount()>1){boolean owned=active;cancel();return owned;}
         if(action==MotionEvent.ACTION_MOVE){
             pointerX=event.getRawX();pointerY=event.getRawY();
-            if(pending && Math.hypot(pointerX-downX,pointerY-downY)>slop)clearPending();
+            if(pending && Math.hypot(pointerX-downX,pointerY-downY)>slop){clearPending();peer.fail();}
             if(active && !settling)update(0);
         }
         boolean owned=active;
-        if(action==MotionEvent.ACTION_UP){clearPending();if(active && !settling)drop();}
-        else if(action==MotionEvent.ACTION_CANCEL)cancel();
+        if(action==MotionEvent.ACTION_UP){peer.finish();clearPending();if(active && !settling)drop();}
+        else if(action==MotionEvent.ACTION_CANCEL){peer.fail();cancel();}
         return owned;
     }
     private void clearPending(){pending=false;scroll.removeCallbacks(activate);}
@@ -157,5 +160,5 @@ public final class RealizedReorder implements ScrollInput.Listener, Choreographe
     public void setReducedMotion(boolean value){reduced=value;}
     @Override public void onViewDetachedFromWindow(View view){cancel();}
     @Override public void onViewAttachedToWindow(View view){}
-    public void dispose(){if(disposed)return;cancel();disposed=true;input.dispose();input=null;scroll.removeOnAttachStateChangeListener(this);rows=handles=new View[0];}
+    public void dispose(){if(disposed)return;peer.dispose();cancel();disposed=true;input.dispose();input=null;scroll.removeOnAttachStateChangeListener(this);rows=handles=new View[0];}
 }
