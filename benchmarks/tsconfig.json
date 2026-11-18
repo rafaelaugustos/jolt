@@ -9,6 +9,7 @@
   },
   "include": [
     "*.ts",
+    "motion-contracts/native.ts",
     "../src/android-plugin.d.ts",
     "../src/ios-plugin.d.ts",
     "../demo/src/sensor-interval-audit.ts",

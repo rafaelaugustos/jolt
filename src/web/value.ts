@@ -156,6 +156,10 @@ export class NumericValue {
     this.position = value
     this.speed = velocity
     if (!changed) return
+    this.changed()
+  }
+  /** Public samples can change on lifecycle boundaries without losing retained momentum. */
+  protected changed() {
     for (const listener of [...this.listeners])
       if (!this.ended && this.listeners.has(listener)) listener()
     if (this.observers.size) this.scheduler.add(this.notify)

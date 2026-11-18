@@ -41,7 +41,8 @@ public enum JoltPlaybackState: String, Sendable {
   private var finishers: [UUID: @MainActor (Bool) -> Void] = [:]
   private var scalarObservers: [UUID: @MainActor () -> Void] = [:]
   func observeScalar(_ callback: @escaping @MainActor () -> Void) -> JoltObservation {
-    let id=UUID(); scalarObservers[id]=callback
+    let id = UUID()
+    scalarObservers[id] = callback
     return JoltObservation { [weak self] in self?.scalarObservers.removeValue(forKey: id) }
   }
   private func scalarChanged() {
@@ -249,6 +250,15 @@ public enum JoltPlaybackState: String, Sendable {
   }
   private func currentSample() -> JoltScalarSample? {
     motion?.sample(at: elapsed + (subscription == nil ? 0 : Swift.max(0, clock.now - started)))
+  }
+  /// Command-time snapshot for a replacing owner; frozen public derivatives are zero.
+  func replacementSample() -> (position: Double, velocity: Double) {
+    let sample = currentSample()
+    return (
+      sample?.position ?? value,
+      paused || suspended || state == .paused || state == .suspended
+        ? 0 : sample?.velocity ?? velocity
+    )
   }
   private func detachMotion() -> [@MainActor (Bool) -> Void] {
     subscription?.cancel()

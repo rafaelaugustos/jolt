@@ -368,3 +368,14 @@ export const Utils = {
   },
   android: { getApplicationContext: () => ({ getContentResolver: () => 'resolver' }) },
 }
+export const GestureEvents = { gestureAttached: 'gestureAttached' }
+export const GestureTypes = {
+  tap: 1,
+  doubleTap: 2,
+  pinch: 4,
+  pan: 8,
+  swipe: 16,
+  rotation: 32,
+  longPress: 64,
+  touch: 128,
+}

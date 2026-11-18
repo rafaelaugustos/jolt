@@ -1,5 +1,7 @@
 # SwiftUI: painéis e geometria medida
 
+O comportamento publicado em 0.1.0-rc.15 está descrito abaixo. As adições ainda não publicadas de continuidade e gestos estão em [contratos de movimento](./motion-contracts).
+
 Disponível na **0.1.0-rc.15 (Beta)** para iOS 17+ e macOS 14+, sem NativeScript ou JavaScript. Instale o produto `JoltSwiftUI` pela tag `v0.1.0-rc.15` do repositório de pacote [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Consulte [instalação](./swiftui), [ciclo de vida](./swiftui-motion) e [interação/geometria](./swiftui-geometry) para os limites.
 
 ## Painéis com pontos de parada

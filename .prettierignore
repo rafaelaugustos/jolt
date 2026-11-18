@@ -75,3 +75,7 @@ packages/swiftui/Tests/JoltCoreTests/Fixtures/effects.json
 
 benchmarks/values-scroll-lists/results/
 benchmarks/values-scroll-lists/captures/
+
+packages/swiftui/Tests/JoltCoreTests/Fixtures/svg-paths.json
+benchmarks/web-motion-contracts/results/
+benchmarks/web-motion-contracts/captures/

@@ -15,6 +15,7 @@ module JoltMotion {
     header "JoltLiveSpring.h"
     header "JoltLivePaint.h"
     header "JoltGestureSession.h"
+    header "JoltGestureLink.h"
     header "JoltReorderSession.h"
     header "JoltRealizedReorder.h"
     header "JoltSharedLayoutFlight.h"

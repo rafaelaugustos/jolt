@@ -1,4 +1,7 @@
 import { Application, GridLayout, ScrollView, Trace, isAndroid } from '@nativescript/core'
+import { registerGestureEndpoints } from '../core/gesture-relations.js'
+export { gestureRelations } from '../core/gesture-relations.js'
+export type { GestureRelation, GestureRelations } from '../core/gesture-relations.js'
 import {
   createGestureDriver,
   type GestureDriver,
@@ -347,6 +350,19 @@ export function gestures(
   }
   owners.get(surface)?.dispose()
   owners.set(surface, control)
+  registerGestureEndpoints(control, (kind = 'pan') => {
+    if (!driver?.endpoint || ended)
+      throw new Error('Load the gesture surface before declaring relationships.')
+    if (
+      (kind === 'pan' && !options.pan) ||
+      (kind === 'pinch' && !options.pinch) ||
+      (kind === 'rotate' && !options.rotate) ||
+      (kind === 'tap' && !options.onTap && !options.onDoubleTap) ||
+      kind === 'longPress'
+    )
+      throw new TypeError(`This controller does not enable ${kind}.`)
+    return driver.endpoint(kind)
+  })
   surface.on('loaded', attach)
   surface.on('unloaded', detach)
   surface.on('isEnabledChange', refreshEnabled)

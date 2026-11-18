@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest'
 import { FrameScheduler } from '../src/web/scheduler.js'
-import { NumericValue } from '../src/web/value.js'
+import { ArithmeticValueNode, NumericValue } from '../src/web/value.js'
 import { SpringValueNode } from '../src/web/spring-value.js'
 
 function scene(rate = 1) {
@@ -113,6 +113,57 @@ it('holds manual pause and hidden time without a catch-up jump', () => {
   s.scheduler.hidden(false)
   s.frame(10010)
   expect(s.spring.get()).toBeGreaterThan(held)
+})
+it('publishes zero graph velocity while paused or hidden and preserves resume momentum', () => {
+  const s = scene()
+  const report = (error: unknown) => {
+    throw error
+  }
+  const doubled = new ArithmeticValueNode(s.spring, 'mul', 2, undefined, report, () => {})
+  const speed = new ArithmeticValueNode(
+    doubled,
+    'velocity',
+    undefined,
+    undefined,
+    report,
+    () => {},
+  )
+  const changes: number[] = []
+  const stop = speed.listen(() => changes.push(speed.get()))
+  s.source.set(100)
+  s.frame(100)
+  const position = s.spring.get(),
+    velocity = s.spring.getVelocity()
+  expect(velocity).toBeGreaterThan(0)
+  expect(speed.get()).toBeCloseTo(velocity * 2)
+  s.spring.pause()
+  expect(s.spring.getVelocity()).toBe(0)
+  expect(speed.get()).toBe(0)
+  expect(changes.at(-1)).toBe(0)
+  s.time(1000)
+  s.source.set(200)
+  expect(s.spring.get()).toBe(position)
+  s.spring.play()
+  expect(s.spring.getVelocity()).toBeCloseTo(velocity)
+  expect(changes.at(-1)).toBeCloseTo(velocity * 2)
+  s.scheduler.hidden(true)
+  expect(speed.get()).toBe(0)
+  expect(changes.at(-1)).toBe(0)
+  s.time(10000)
+  expect(s.spring.get()).toBe(position)
+  s.scheduler.hidden(false)
+  expect(speed.get()).toBeCloseTo(velocity * 2)
+  s.spring.pause()
+  s.scheduler.hidden(true)
+  s.scheduler.hidden(false)
+  expect(speed.get()).toBe(0)
+  s.spring.stop()
+  s.spring.play()
+  expect(speed.get()).toBe(0)
+  stop()
+  s.source.dispose()
+  expect(speed.disposed).toBe(true)
+  expect(s.scheduler.size).toBe(0)
 })
 it('settles live reduced motion and detaches followers when their input is disposed', () => {
   const s = scene()

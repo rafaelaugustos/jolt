@@ -10,6 +10,7 @@
 - (void)setEnabled:(BOOL)enabled;
 - (void)setReducedMotion:(BOOL)reduced;
 - (void)cancel;
+- (UIGestureRecognizer *)recognizer:(NSString *)kind;
 - (void)dispose;
 @property(nonatomic, readonly) BOOL active;
 @end

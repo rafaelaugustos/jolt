@@ -23,6 +23,15 @@ public final class GestureSession {
     private double downX, downY, lastX, lastY, lastSpan, lastAngle, velocityX, velocityY, replayRemainder;
     private boolean enabled = true, disposed, active, rejected, fromScroll, contact, ending;
     private VelocityTracker velocity;
+    private final GesturePeer panPeer = new GesturePeer(this::cancel);
+    private final GesturePeer pinchPeer = new GesturePeer(this::cancel);
+    private final GesturePeer rotatePeer = new GesturePeer(this::cancel);
+    private final GesturePeer tapPeer = new GesturePeer(this::cancel);
+    public GesturePeer recognizer(String kind) {
+        switch(kind) { case "pan": return panPeer; case "pinch": return pinchPeer;
+            case "rotate": return rotatePeer; case "tap": return tapPeer; default: return null; }
+    }
+    private void tap(int state) { tapPeer.request(() -> { emit(state); tapPeer.finish(); }); }
 
     public GestureSession(GestureSurface surface, View scroll, LiveSpring x, LiveSpring y, LiveSpring scale, LiveSpring rotation, String options, Listener listener) {
         if (scroll != null && !(scroll instanceof androidx.core.view.NestedScrollingChild3))
@@ -41,9 +50,9 @@ public final class GestureSession {
         } catch (JSONException error) { throw new IllegalArgumentException(error); }
         taps = new GestureDetector(surface.getContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override public boolean onDown(MotionEvent event) { return true; }
-            @Override public boolean onSingleTapUp(MotionEvent event) { if (tapEnabled && !doubleEnabled) emit(4); return true; }
-            @Override public boolean onSingleTapConfirmed(MotionEvent event) { if (tapEnabled) emit(4); return true; }
-            @Override public boolean onDoubleTapEvent(MotionEvent event) { if (event.getActionMasked() == MotionEvent.ACTION_UP) emit(5); return true; }
+            @Override public boolean onSingleTapUp(MotionEvent event) { if (tapEnabled && !doubleEnabled) tap(4); return true; }
+            @Override public boolean onSingleTapConfirmed(MotionEvent event) { if (tapEnabled) tap(4); return true; }
+            @Override public boolean onDoubleTapEvent(MotionEvent event) { if (event.getActionMasked() == MotionEvent.ACTION_UP) tap(5); return true; }
         });
         if (!doubleEnabled) taps.setOnDoubleTapListener(null);
         if (replayOnly && surface.hasSession())
@@ -52,11 +61,17 @@ public final class GestureSession {
     }
     public static boolean supportsContactEvents() { return true; }
     public boolean isActive() { return active; }
-    boolean intercepts() { return enabled && active && !fromScroll; }
+    boolean intercepts() { return enabled && active && !fromScroll && !panPeer.isCoordinated() && !pinchPeer.isCoordinated() && !rotatePeer.isCoordinated(); }
     boolean accepts(View target) { return enabled && !disposed && target == scroll; }
     private static double clamp(double value, double min, double max) { return Math.max(min, Math.min(max, value)); }
     private void emit(int state) { if (!disposed && listener != null) listener.onState(state, velocityX, velocityY); }
     private void begin() {
+        begin(panPeer);
+    }
+    private void begin(GesturePeer peer) {
+        if (peer.isCoordinated()) peer.request(this::activate); else activate();
+    }
+    private void activate() {
         if (active || !enabled || disposed) return;
         active = true;
         x.holdInput(x.getPosition(), 0); y.holdInput(y.getPosition(), 0);
@@ -71,6 +86,7 @@ public final class GestureSession {
         if (action == MotionEvent.ACTION_DOWN) {
             cancel(); if (disposed || !enabled) return;
             contact = true; rejected = false; velocityX = velocityY = 0;
+            for (GesturePeer peer : new GesturePeer[]{panPeer,pinchPeer,rotatePeer,tapPeer}) peer.begin(event.getDownTime());
             velocity = VelocityTracker.obtain();
             fromScroll = false;
             if (scroll != null) {
@@ -97,7 +113,7 @@ public final class GestureSession {
             rebase(event, action == MotionEvent.ACTION_POINTER_UP ? event.getActionIndex() : -1);
             if (!active) { downX = lastX; downY = lastY; }
             if (velocity != null) velocity.clear();
-            if (!fromScroll && (pinch || rotate) && event.getPointerCount() >= 2 && action == MotionEvent.ACTION_POINTER_DOWN) begin();
+            if (!fromScroll && (pinch || rotate) && event.getPointerCount() >= 2 && action == MotionEvent.ACTION_POINTER_DOWN) begin(pinch ? pinchPeer : rotatePeer);
             return;
         }
         if (action != MotionEvent.ACTION_MOVE) return;
@@ -112,7 +128,7 @@ public final class GestureSession {
         }
         if (!active && !fromScroll && !rejected) {
             double dx = Math.abs(cx - downX), dy = Math.abs(cy - downY);
-            if (axis == 1 && dy > failOffset || axis == 2 && dx > failOffset) rejected = true;
+            if (axis == 1 && dy > failOffset || axis == 2 && dx > failOffset) { rejected = true; panPeer.fail(); }
             else if (axis != 0 && (axis == 1 ? dx : axis == 2 ? dy : Math.hypot(dx, dy)) >= threshold) begin();
         }
         if (active && !fromScroll && !disposed) {
@@ -162,6 +178,10 @@ public final class GestureSession {
     private void finish(boolean cancelled) {
         boolean hadContact = contact;
         contact = false;
+        for (GesturePeer peer : new GesturePeer[]{panPeer,pinchPeer,rotatePeer}) {
+            if (cancelled) peer.fail(); else peer.finish();
+        }
+        if (cancelled) tapPeer.fail();
         if (velocity != null) { velocity.recycle(); velocity = null; }
         if (!active) { if (hadContact && contactEvents) emit(7); return; }
         active = false;
@@ -221,6 +241,7 @@ public final class GestureSession {
     public void dispose() {
         if (disposed) return;
         cancel(); disposed = true; surface.setSession(null);
+        for (GesturePeer peer : new GesturePeer[]{panPeer,pinchPeer,rotatePeer,tapPeer}) peer.dispose();
         MotionEvent cancel = MotionEvent.obtain(0, 0, MotionEvent.ACTION_CANCEL, 0, 0, 0);
         taps.onTouchEvent(cancel); cancel.recycle();
     }

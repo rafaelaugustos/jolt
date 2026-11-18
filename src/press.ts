@@ -1,3 +1,4 @@
+import { gestureEndpoint, registerGestureEndpoints } from './core/gesture-relations.js'
 import {
   Application,
   Color,
@@ -75,9 +76,11 @@ export function press(
   }
   const detach = pressInput(view, onTouch)
   view.on('unloaded', cancel)
-  return () => {
+  const dispose = () => {
     detach()
     view.off('unloaded', cancel)
     cancel()
   }
+  registerGestureEndpoints(dispose, (kind) => gestureEndpoint(detach, kind))
+  return dispose
 }

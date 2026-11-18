@@ -627,3 +627,9 @@ export function createWebRuntime(
 }
 
 export type { LayoutExit } from '../core/layout-exit.js'
+export { gestureRelations } from '../core/gesture-relations.js'
+export type {
+  GestureRelation,
+  GestureRelations,
+  GestureRecognizerKind,
+} from '../core/gesture-relations.js'

@@ -8,7 +8,9 @@ import SwiftUI
 @main struct JoltSwiftUIDemo: App {
   private let activityLab = ProcessInfo.processInfo.arguments.contains("--activity-lab")
   @ViewBuilder private var root: some View {
-    if ProcessInfo.processInfo.arguments.contains("--values-scroll-lab") {
+    if ProcessInfo.processInfo.arguments.contains("--motion-contracts-lab") {
+      MotionContractsLab()
+    } else if ProcessInfo.processInfo.arguments.contains("--values-scroll-lab") {
       ValuesScrollLab()
     } else if activityLab {
       ActivityLab()
@@ -67,7 +69,8 @@ import SwiftUI
       Settings {
         ActivityProbe(host: "Settings").frame(width: 300, height: 150)
       }
-      MenuBarExtra("Jolt activity", systemImage: "bolt.circle", isInserted: .constant(activityLab)) {
+      MenuBarExtra("Jolt activity", systemImage: "bolt.circle", isInserted: .constant(activityLab))
+      {
         ActivityProbe(host: "Menu bar").frame(width: 300, height: 150)
       }
       .menuBarExtraStyle(.window)

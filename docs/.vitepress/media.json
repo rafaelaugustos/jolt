@@ -395,6 +395,18 @@
       "bytes": 179639,
       "sha256": "9e222abed5a81f294b9c41946ff3d76911cefb35ab66d9c85b71765bd73d6a0d"
     },
+    "gesture-relations-android.mp4": {
+      "bytes": 725241,
+      "sha256": "5e143535174ca4b1d185d5cd6dbb214ee0280d9b0ab50f4eeed79ae5425a8c2e"
+    },
+    "gesture-relations-ios.mp4": {
+      "bytes": 689817,
+      "sha256": "971d3abad0a528b368b6ebbd64b051be5c853dc2ae43be16f289cb51d722a793"
+    },
+    "gesture-relations-web.mp4": {
+      "bytes": 358270,
+      "sha256": "6f7bb6402423764bfccd203904062e266697caf5b66dd0dfd6ae4904c26f4364"
+    },
     "glass-android.mp4": {
       "bytes": 155237,
       "sha256": "9943f468229a4c5320c07a3e9c426629ac094edd17de8e2970c421216d913f8c"
@@ -1387,6 +1399,18 @@
       "bytes": 585050,
       "sha256": "5555bfd432eaf2e6730ba755f04072b00f55b4d4fc1d6cedbbeed2fc23cc441c"
     },
+    "spring-velocity-android.mp4": {
+      "bytes": 44914,
+      "sha256": "52e6af433d828c8d519ddc0b9fb259840ec2473cad438a416187d38a61dce285"
+    },
+    "spring-velocity-ios.mp4": {
+      "bytes": 94969,
+      "sha256": "95b811d5b4eaaaf4218910e4e30673929ce9d7c3f8fd21d4a865cbca2ec659bc"
+    },
+    "spring-velocity-web.mp4": {
+      "bytes": 88286,
+      "sha256": "6b685b950df921270075abd00074abf009c200814c58b2a7f267e028413b6ebc"
+    },
     "springs.mp4": {
       "bytes": 99575,
       "sha256": "48293fd2de2adff7f9aaf189f7897d5b1c18c4ec38c5d7a35feea2c82123256c"
@@ -1494,6 +1518,14 @@
     "swiftui-macos.mp4": {
       "bytes": 156025,
       "sha256": "2a54785e74c11bcdde71ae665a5f8560ea576132fe4c375d9bb049ece4205ce8"
+    },
+    "swiftui-motion-contracts-ios.mp4": {
+      "bytes": 2043028,
+      "sha256": "9fa744ea92e54eddb1348b3ad5f34081d3839b5d316805eb01ec34fd02d80e2b"
+    },
+    "swiftui-motion-contracts-macos.mp4": {
+      "bytes": 1301356,
+      "sha256": "96fbfe3c7fb5694ac2cc4199466d41e4992c6b90266a54ce6efccb9745155329"
     },
     "swiftui-panel-ios.mp4": {
       "bytes": 714038,

@@ -30,6 +30,7 @@ export class SpringValueNode extends NumericValue {
   private held = false
   private active = false
   private unsubscribe: () => void
+  private unobserveVisibility: () => void
   private task: FrameTask = {
     update: (at) => {
       this.advance(at)
@@ -87,6 +88,10 @@ export class SpringValueNode extends NumericValue {
       () => this.retarget(),
       () => this.dispose(),
     )
+    this.unobserveVisibility = scheduler.observeVisibility(() => {
+      this.advance(scheduler.now())
+      this.changed()
+    })
     this.retarget()
   }
   override get moving() {
@@ -112,7 +117,9 @@ export class SpringValueNode extends NumericValue {
     return this.springSample(this.scheduler.now()).position
   }
   override getVelocity() {
-    return this.ended ? 0 : this.springSample(this.scheduler.now()).velocity
+    return this.ended || this.held || this.scheduler.suspended
+      ? 0
+      : this.springSample(this.scheduler.now()).velocity
   }
   private advance(at: number) {
     if (this.ended || this.held || !this.active) return
@@ -163,6 +170,7 @@ export class SpringValueNode extends NumericValue {
     this.advance(this.scheduler.now())
     this.held = true
     this.scheduler.remove(this.task)
+    this.changed()
   }
   play() {
     this.assert()
@@ -170,6 +178,7 @@ export class SpringValueNode extends NumericValue {
       this.held = false
       this.trajectory = undefined
       this.retarget()
+      this.changed()
     }
   }
   stop() {
@@ -191,6 +200,7 @@ export class SpringValueNode extends NumericValue {
     this.trajectory = undefined
     this.active = false
     this.unsubscribe?.()
+    this.unobserveVisibility?.()
     this.scheduler.remove(this.task)
     super.dispose()
   }

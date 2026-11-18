@@ -1,3 +1,4 @@
+#import "JoltGestureLink.h"
 #import "JoltPhotoZoom.h"
 #import <QuartzCore/QuartzCore.h>
 
@@ -108,7 +109,14 @@ static double JoltRubber(double v,double lo,double hi,double size){
     if(CGSizeEqualToSize(self.viewportSize,self.viewport.bounds.size) && CGSizeEqualToSize(self.imageSize,self.image.bounds.size))return;
     [self cancelAnimation];self.dismissPending=NO;[self measure];self.vx=0;self.vy=0;self.mode=0;[self settle:NO];
 }
+- (UIGestureRecognizer *)recognizer:(NSString *)kind {
+    if ([kind isEqual:@"pan"]) return self.pan;
+    if ([kind isEqual:@"pinch"]) return self.pinch;
+    if ([kind isEqual:@"tap"]) return self.tap;
+    return nil;
+}
 - (void)stop {
+    [JoltGestureLink detach:self.pan]; [JoltGestureLink detach:self.pinch]; [JoltGestureLink detach:self.tap];
     if(self.disposed)return;
     self.disposed=YES;[self cancelAnimation];
     [self.viewport removeGestureRecognizer:self.pan];[self.viewport removeGestureRecognizer:self.pinch];[self.viewport removeGestureRecognizer:self.tap];

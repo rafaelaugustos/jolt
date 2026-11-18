@@ -1,5 +1,7 @@
 # SwiftUI：面板与测量几何
 
+下文描述已发布的 0.1.0-rc.15 行为。尚未发布的连续性与手势扩展见[动效约定](./motion-contracts)。
+
 **0.1.0-rc.15（测试版）**支持 iOS 17+ 和 macOS 14+，无需 NativeScript 或 JavaScript。从软件包仓库 [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift) 的标签 `v0.1.0-rc.15` 安装 `JoltSwiftUI` 产品。平台限制请参阅[安装](./swiftui)、[生命周期](./swiftui-motion)和[交互与几何](./swiftui-geometry)。
 
 ## 应用内停靠面板

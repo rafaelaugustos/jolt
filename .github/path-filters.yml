@@ -13,6 +13,7 @@ native:
   - packages/native/**
   - demo/src/**
   - benchmarks/*.ts
+  - benchmarks/motion-contracts/**
   - benchmarks/native-ci.py
   - benchmarks/test_native_ci.py
   - benchmarks/native-app/**

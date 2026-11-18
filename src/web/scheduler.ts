@@ -18,6 +18,7 @@ export class FrameScheduler {
   private hiddenAt?: number
   private offset = 0
   private ended = false
+  private visibilityListeners = new Set<() => void>()
   frames = 0
   constructor(private readonly host: FrameHost) {}
   now() {
@@ -28,6 +29,15 @@ export class FrameScheduler {
   }
   get size() {
     return this.tasks.size
+  }
+  get suspended() {
+    return this.hiddenAt !== undefined
+  }
+  observeVisibility(listener: () => void) {
+    this.visibilityListeners.add(listener)
+    return () => {
+      this.visibilityListeners.delete(listener)
+    }
   }
   add(task: FrameTask) {
     if (this.ended) return
@@ -49,6 +59,8 @@ export class FrameScheduler {
       this.hiddenAt = undefined
       this.schedule()
     }
+    for (const listener of [...this.visibilityListeners])
+      if (!this.ended && this.visibilityListeners.has(listener)) listener()
   }
   private cancelIdle() {
     if (!this.tasks.size && this.frame !== undefined) {
@@ -100,6 +112,7 @@ export class FrameScheduler {
   }
   dispose() {
     this.ended = true
+    this.visibilityListeners.clear()
     this.tasks.clear()
     this.cancelIdle()
   }

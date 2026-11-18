@@ -1,3 +1,4 @@
+import type { GestureEndpoint, GestureRecognizerKind } from '../core/gesture-relations.js'
 import type { View } from '@nativescript/core'
 
 export type ReorderKey = string | number
@@ -54,6 +55,7 @@ export type ReorderNativeEvent =
   | { type: 'cancel'; geometryChanged?: boolean }
 
 export interface ReorderAdapterDriver {
+  endpoint?(kind?: GestureRecognizerKind): GestureEndpoint
   /** Reconcile targets after a host commit; retain the moved key's focus when supplied. */
   refresh?(movedKey?: ReorderKey): void
   cancel(): void

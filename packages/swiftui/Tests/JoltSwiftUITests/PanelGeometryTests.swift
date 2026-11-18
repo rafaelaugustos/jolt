@@ -147,7 +147,8 @@ final class PanelGeometryTests: XCTestCase {
     XCTAssertEqual(model.keys, ["a", "b", "c"])
     XCTAssertEqual(model.end()?.toIndex, 2)
     XCTAssertEqual(moves.count, 1)
-    model.edgeScroll = { _ in true }
+    let connection = try model.connectEdgeScroll { _ in true }
+    defer { connection.dispose() }
     model.begin("a", pointerY: 20)
     model.move(viewportY: 299, scrollOffset: 0, viewportHeight: 300)
     XCTAssertEqual(clock.activeCount, 1)

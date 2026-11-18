@@ -38,3 +38,25 @@ export function identityTransform(element: Element, css: CSSStyleDeclaration): b
     (css.scale === 'none' || css.scale.split(/\s+/).every((v) => Number(v) === 1))
   )
 }
+
+/** Pure 2D translations preserve the viewport's distances and angles. */
+export function translationTransform(
+  element: Element,
+  css: CSSStyleDeclaration,
+): boolean {
+  const view = element.ownerDocument.defaultView! as Window & typeof globalThis
+  const matrix = new view.DOMMatrixReadOnly(
+    css.transform === 'none' ? undefined : css.transform,
+  )
+  const translation = css.translate === 'none' ? [] : css.translate.split(/\s+/)
+  return (
+    matrix.is2D &&
+    matrix.a === 1 &&
+    matrix.b === 0 &&
+    matrix.c === 0 &&
+    matrix.d === 1 &&
+    (translation.length < 3 || parseFloat(translation[2]!) === 0) &&
+    (css.rotate === 'none' || /^(?:z\s+)?0(?:deg|rad|turn|grad)?$/.test(css.rotate)) &&
+    (css.scale === 'none' || css.scale.split(/\s+/).every((v) => Number(v) === 1))
+  )
+}

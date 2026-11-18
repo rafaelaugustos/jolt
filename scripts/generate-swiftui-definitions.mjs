@@ -952,3 +952,23 @@ if (process.argv.includes('--check')) {
   if (readFileSync(effectsFile, 'utf8') !== effectsData)
     throw Error('Swift loading/reveal/gradient fixtures are stale.')
 } else writeFileSync(effectsFile, effectsData)
+
+// Shape topology uses the same portable normal form as the NativeScript/Web painters.
+const { shapePath } = await import('../dist/core/shape-path.js')
+const svgPaths = [
+  'm10 10h20v20h-20z m5 5 10 0 0 10z',
+  'M0 0q10 20 20 0t20 0c1 2 3 4 5 6s3 4 5 6',
+  'M0 10a10 10 0 1 0 20 0a10 10 0 1 0-20 0z',
+  'M12 -4 A20 10 35 0 1 65 30 L25 60Z M20 20L30 20L25 30Z',
+  'M1e1-.5 L.25 4.5 8-9z',
+  'M0 0a0 10 0 0 1 20 0a2 2 0 0 1 0 0L0 10Z',
+].map((svg) => ({ svg, ...shapePath(svg) }))
+const svgFile = new URL(
+  '../packages/swiftui/Tests/JoltCoreTests/Fixtures/svg-paths.json',
+  import.meta.url,
+)
+const svgData = JSON.stringify(svgPaths, null, 2) + '\n'
+if (process.argv.includes('--check')) {
+  if (readFileSync(svgFile, 'utf8') !== svgData)
+    throw Error('Swift SVG fixtures are stale.')
+} else writeFileSync(svgFile, svgData)

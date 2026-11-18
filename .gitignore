@@ -100,3 +100,7 @@ benchmarks/swiftui-demo/results/
 
 benchmarks/values-scroll-lists/results/
 benchmarks/values-scroll-lists/captures/
+
+benchmarks/web-motion-contracts/results/
+benchmarks/web-motion-contracts/captures/
+benchmarks/native-app/app/motion-photo.png

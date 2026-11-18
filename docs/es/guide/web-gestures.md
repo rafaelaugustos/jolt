@@ -1,5 +1,7 @@
 # Gestos, zoom y scroll Web
 
+A continuación se describe el comportamiento publicado en 0.1.0-rc.15. Las adiciones aún no publicadas de continuidad y gestos están en [contratos de movimiento](./motion-contracts).
+
 Funciones experimentales disponibles desde **0.1.0-rc.9**, seguidas en #340–#345. Las seis capacidades comparten el runtime del documento y sus ámbitos. La entrada Web no depende de NativeScript ni de frameworks. Los vídeos nativos son referencias conservadas, no grabaciones de esta implementación Web.
 
 Crea el runtime después del montaje. Las coordenadas usan píxeles CSS, la rotación grados y la velocidad unidades por segundo. Mantén la superficie de entrada sin transforms y anima un hijo; se conserva la frontera de coordenadas renderizadas/top-layer. La aplicación controla marcado, semántica, datos y navegación.

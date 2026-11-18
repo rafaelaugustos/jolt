@@ -29,6 +29,7 @@
           "drag",
           "dropZones",
           "followKeyboard",
+          "gestureRelations",
           "gradient",
           "gradientText",
           "imageEffect",
@@ -40,6 +41,7 @@
           "motionScope",
           "motionStates",
           "motionValue",
+          "nativeGestureRecognizer",
           "onKeyboard",
           "onReducedMotion",
           "origamiSpring",
@@ -93,7 +95,7 @@
       {
         "entry": "./gestures",
         "file": "src/gestures/index.ts",
-        "exports": ["GestureSurface", "gestures"]
+        "exports": ["GestureSurface", "gestureRelations", "gestures"]
       },
       {
         "entry": "./native",
@@ -231,6 +233,7 @@
           "createWebRuntime",
           "cubicBezier",
           "drawingLimits",
+          "gestureRelations",
           "origamiSpring",
           "presets",
           "resolveListTarget",
@@ -2574,6 +2577,64 @@
         "src/list-changes.ts",
         "src/web/list-changes.ts"
       ]
+    },
+    {
+      "entry": ".",
+      "symbol": "gestureRelations",
+      "nativeStatus": "pending",
+      "webStatus": "pending",
+      "counterpart": "gestureRelations",
+      "contract": "Unpublished source candidate: setup-time simultaneous, waitFor and preemptive block between mounted idle Jolt recognizers. Native decisions stay in UIKit/Android; Web uses Pointer Events and pre-contact touch-action. Cycles reject; disposal cancels input and removes links. See motion-contracts for channels and navigation limits.",
+      "issues": [497],
+      "evidence": [
+        "src/core/gesture-relations.ts",
+        "src/gesture-relations-native.ts",
+        "src/web/gesture-coordination.ts",
+        "benchmarks/motion-contracts/README.md",
+        "docs/guide/motion-contracts.md"
+      ]
+    },
+    {
+      "entry": "./gestures",
+      "symbol": "gestureRelations",
+      "nativeStatus": "pending",
+      "webStatus": "pending",
+      "counterpart": "gestureRelations",
+      "contract": "Unpublished source candidate: setup-time simultaneous, waitFor and preemptive block between mounted idle Jolt recognizers. Native decisions stay in UIKit/Android; Web uses Pointer Events and pre-contact touch-action. Cycles reject; disposal cancels input and removes links. See motion-contracts for channels and navigation limits.",
+      "issues": [497],
+      "evidence": [
+        "src/core/gesture-relations.ts",
+        "src/gesture-relations-native.ts",
+        "src/web/gesture-coordination.ts",
+        "benchmarks/motion-contracts/README.md",
+        "docs/guide/motion-contracts.md"
+      ]
+    },
+    {
+      "entry": "./web",
+      "symbol": "gestureRelations",
+      "nativeStatus": "pending",
+      "webStatus": "pending",
+      "counterpart": "gestureRelations",
+      "contract": "Unpublished source candidate: setup-time simultaneous, waitFor and preemptive block between mounted idle Jolt recognizers. Native decisions stay in UIKit/Android; Web uses Pointer Events and pre-contact touch-action. Cycles reject; disposal cancels input and removes links. See motion-contracts for channels and navigation limits.",
+      "issues": [497],
+      "evidence": [
+        "src/core/gesture-relations.ts",
+        "src/gesture-relations-native.ts",
+        "src/web/gesture-coordination.ts",
+        "benchmarks/motion-contracts/README.md",
+        "docs/guide/motion-contracts.md"
+      ]
+    },
+    {
+      "entry": ".",
+      "symbol": "nativeGestureRecognizer",
+      "nativeStatus": "pending",
+      "webStatus": "platform-specific",
+      "counterpart": null,
+      "contract": "Unpublished native-only optional endpoint for an app-owned UIKit recognizer or Android Jolt GesturePeer. Disposing removes Jolt links without destroying the app recognizer; no arbitrary Android detector/OS navigation adapter. Web applications coordinate Jolt pointer controllers.",
+      "issues": [497],
+      "evidence": ["src/gesture-relations-native.ts", "docs/guide/motion-contracts.md"]
     }
   ],
   "contracts": [
@@ -2854,6 +2915,20 @@
         "docs/guide/values-scroll-lists.md",
         "benchmarks/values-scroll-lists/web.spec.ts",
         "packages/swiftui/Tests/JoltSwiftUITests/ScrollControllerTests.swift"
+      ]
+    },
+    {
+      "id": "motion-contracts-first-six",
+      "issues": [497, 502, 503, 504, 505, 508],
+      "status": "pending",
+      "limit": "Unpublished source candidate after RC.15; no version bump. NativeScript iOS/Android and Web recognition relations; Web paused/hidden derivative propagation matches native. SwiftUI construction-time timeline velocity, public custom-grip edge scrolling, bounded continuous particles and compatible SVG path morph/style/trim reuse existing Web counterparts. Validated on dedicated iOS simulator/Android emulator, native macOS and Chromium; Firefox/WebKit mouse/pause cases pass, trusted multitouch Chromium-only. No new accessibility or hardware/performance acceptance.",
+      "evidence": [
+        "benchmarks/motion-contracts/README.md",
+        "benchmarks/motion-contracts/NativeTests.swift",
+        "benchmarks/motion-contracts/record-android.py",
+        "benchmarks/web-motion-contracts/contracts.spec.ts",
+        "packages/swiftui/Tests/JoltSwiftUITests/MotionContractsTests.swift",
+        "docs/guide/motion-contracts.md"
       ]
     }
   ]

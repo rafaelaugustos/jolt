@@ -1,5 +1,13 @@
+import { nativeGestureEndpoints } from './gesture-relations-native.js'
+import {
+  registerGestureEndpoints,
+  type GestureRecognizerKind,
+} from './core/gesture-relations.js'
 import {
   Application,
+  isIOS,
+  GestureEvents,
+  GestureTypes,
   type EventData,
   type PanGestureEventData,
   type TouchGestureEventData,
@@ -256,6 +264,9 @@ class DragController implements AnchoredDrag {
   private delta = { x: 0, y: 0, velocityX: 0, velocityY: 0 }
   private last: DragEvent = { x: 0, y: 0, velocityX: 0, velocityY: 0 }
   private lengths = { x: 200, y: 200 }
+  private relationPeers?: ReturnType<typeof nativeGestureEndpoints>
+  private inputGate?: org.rafaelaugusto.jolt.GestureInput
+  private panRecognizer?: UIGestureRecognizer
   private surface: View
   constructor(
     private view: View,
@@ -263,6 +274,7 @@ class DragController implements AnchoredDrag {
     private beforeRelease?: () => void,
   ) {
     this.surface = config.handle ?? view
+    registerGestureEndpoints(this, (kind = 'pan') => this.endpoint(kind))
     for (const node of new Set([view, this.surface])) {
       node.on('loaded', this.attach)
       node.on('unloaded', this.unload)
@@ -335,9 +347,38 @@ class DragController implements AnchoredDrag {
     this.blocked = false
     this.attached = true
     this.surface.on('touch', this.touch)
+    this.surface.on(GestureEvents.gestureAttached, this.gestureAttached)
     this.surface.on('pan', this.pan)
+    this.surface.off(GestureEvents.gestureAttached, this.gestureAttached)
+  }
+  private gestureAttached = (event: EventData) => {
+    const attached = event as EventData & { type: number; ios?: UIGestureRecognizer }
+    if (attached.type === GestureTypes.pan) this.panRecognizer = attached.ios
+  }
+  private endpoint(kind: GestureRecognizerKind) {
+    if (kind !== 'pan' || !this.attached)
+      throw new TypeError('Drag needs a mounted pan recognizer.')
+    if (!this.relationPeers) {
+      if (!isIOS)
+        this.inputGate = new org.rafaelaugusto.jolt.GestureInput(
+          this.surface.nativeViewProtected,
+          (this.surface as View & { touchListener?: android.view.View.OnTouchListener })
+            .touchListener ?? null,
+          'pan',
+          this.config.axes.length === 2 ? 'both' : this.config.axes[0]!,
+        )
+      this.relationPeers = nativeGestureEndpoints(() =>
+        isIOS ? (this.panRecognizer ?? null) : this.inputGate!.recognizer(),
+      )
+    }
+    return this.relationPeers.endpoint(kind)
   }
   private detach = () => {
+    this.relationPeers?.dispose()
+    this.relationPeers = undefined
+    this.inputGate?.dispose()
+    this.inputGate = undefined
+    this.panRecognizer = undefined
     this.attached = false
     this.surface.off('touch', this.touch)
     this.surface.off('pan', this.pan)

@@ -1,4 +1,5 @@
 #import "JoltPressInput.h"
+#import "JoltGestureLink.h"
 
 @interface JoltPressInput ()
 @property(nonatomic, copy, nullable) void (^change)(NSString *);
@@ -9,6 +10,7 @@
 + (instancetype)attach:(UIView *)view change:(void (^)(NSString *))change {
     JoltPressInput *input = [[self alloc] initWithTarget:nil action:nil];
     input.change = change;
+    [input addTarget:input action:@selector(recognized:)];
     input.cancelsTouchesInView = NO;
     input.delaysTouchesBegan = NO;
     input.delaysTouchesEnded = NO;
@@ -28,9 +30,11 @@
 }
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {}
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    self.state = UIGestureRecognizerStateRecognized;
+}
+- (void)recognized:(UIGestureRecognizer *)recognizer {
     if (self.contact && self.change) self.change(@"up");
     self.contact = NO;
-    self.state = UIGestureRecognizerStateFailed;
 }
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     if (self.contact && self.change) self.change(@"cancel");
@@ -44,6 +48,7 @@
 }
 - (void)dispose {
     // Detaching a recognizer can synchronously reset it. Clear callbacks first.
+    [JoltGestureLink detach:self];
     self.change = nil;
     self.contact = NO;
     [self.view removeGestureRecognizer:self];

@@ -1,3 +1,5 @@
+import { nativeGestureEndpoints } from './gesture-relations-native.js'
+import type { GestureEndpoint, GestureRecognizerKind } from './core/gesture-relations.js'
 import { Utils, isIOS, type Image, type View } from '@nativescript/core'
 
 export interface ZoomSnapshot {
@@ -8,6 +10,7 @@ export interface ZoomSnapshot {
   pending: boolean
 }
 export interface ZoomDriver {
+  endpoint?(kind?: GestureRecognizerKind): GestureEndpoint
   readonly native: object
   readonly state: ZoomSnapshot
   zoom(scale: number, x: number, y: number, animated: boolean): void
@@ -57,7 +60,9 @@ export function createZoomDriver(
         dismiss,
         settled,
       )
+    const peers = nativeGestureEndpoints((kind) => native.recognizer(kind))
     return {
+      endpoint: peers.endpoint,
       native,
       get state() {
         return {
@@ -74,7 +79,10 @@ export function createZoomDriver(
       setReduced: (r) => native.setReduced(r),
       setActive: (a) => native.setActive(a),
       layout: () => native.layout(),
-      stop: () => native.stop(),
+      stop: () => {
+        peers.dispose()
+        native.stop()
+      },
     }
   }
   const density = Utils.layout.getDisplayDensity()
@@ -102,7 +110,9 @@ export function createZoomDriver(
       onSettled: settled,
     }),
   )
+  const peers = nativeGestureEndpoints((kind) => native.recognizer(kind))
   return {
+    endpoint: peers.endpoint,
     native,
     get state() {
       return {
@@ -119,6 +129,9 @@ export function createZoomDriver(
     setReduced: (r) => native.setReduced(r),
     setActive: (a) => native.setActive(a),
     layout: () => {},
-    stop: () => native.stop(),
+    stop: () => {
+      peers.dispose()
+      native.stop()
+    },
   }
 }

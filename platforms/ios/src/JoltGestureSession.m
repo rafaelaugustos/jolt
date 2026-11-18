@@ -1,4 +1,5 @@
 #import "JoltGestureSession.h"
+#import "JoltGestureLink.h"
 #import <UIKit/UIGestureRecognizerSubclass.h>
 
 static double clamp(double value, double minimum, double maximum) { return MAX(minimum, MIN(maximum, value)); }
@@ -77,6 +78,13 @@ static double clamp(double value, double minimum, double maximum) { return MAX(m
 @end
 
 @implementation JoltGestureSession
+- (UIGestureRecognizer *)recognizer:(NSString *)kind {
+    if ([kind isEqual:@"pan"]) return self.pan;
+    if ([kind isEqual:@"pinch"]) return self.pinch;
+    if ([kind isEqual:@"rotate"]) return self.rotate;
+    if ([kind isEqual:@"tap"]) return self.tap;
+    return nil;
+}
 + (BOOL)supportsContactEvents { return YES; }
 + (BOOL)hasSession:(UIView *)surface {
     for (UIGestureRecognizer *g in surface.gestureRecognizers) if ([g isKindOfClass:JoltAxisPan.class]) return YES;
@@ -244,7 +252,9 @@ static double clamp(double value, double minimum, double maximum) { return MAX(m
 - (void)dispose {
     if (self.disposed) return;
     [self cancel]; self.disposed = YES;
-    for (UIGestureRecognizer *g in @[self.pan, self.pinch, self.rotate, self.tap, self.doubleTap]) [self.surface removeGestureRecognizer:g];
+    for (UIGestureRecognizer *g in @[self.pan, self.pinch, self.rotate, self.tap, self.doubleTap]) {
+        [JoltGestureLink detach:g]; [self.surface removeGestureRecognizer:g];
+    }
     if (self.scroll.delegate == self) self.scroll.delegate = self.previousDelegate;
     self.previousDelegate = nil; self.onState = nil;
 }

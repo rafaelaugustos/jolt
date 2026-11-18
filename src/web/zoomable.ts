@@ -1,3 +1,5 @@
+import { setGesturePanPolicy } from './gestures.js'
+import { gestureEndpoint, registerGestureEndpoints } from '../core/gesture-relations.js'
 import { constrain } from '../core/gesture-math.js'
 import type { WebGestures, WebGestureEvent } from './gestures.js'
 import {
@@ -273,6 +275,10 @@ export function createZoomable(
           notify()
         },
       })
+      setGesturePanPolicy(
+        gesture,
+        () => gesture!.position.scale > min + 0.001 || options.dismiss !== false,
+      )
       bindings.push(
         host.bindLayer(
           image,
@@ -517,5 +523,6 @@ export function createZoomable(
     handle.dispose()
     throw reason
   }
+  registerGestureEndpoints(handle, (kind) => gestureEndpoint(gesture, kind))
   return handle
 }

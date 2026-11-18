@@ -1,3 +1,4 @@
+#import "JoltGestureLink.h"
 #import "JoltReorderSession.h"
 
 @implementation JoltReorderHandle
@@ -197,7 +198,9 @@
 }
 - (void)setEnabled:(BOOL)value { _enabled = value; if (!value) [self cancel]; }
 - (void)setReducedMotion:(BOOL)value { self.reduced = value; }
+- (UIGestureRecognizer *)recognizer:(NSString *)kind { return [kind isEqual:@"longPress"] ? self.press : nil; }
 - (void)dispose {
+    [JoltGestureLink detach:self.press];
     if (self.disposed) return;
     [self cancel]; self.disposed = YES; [self.list removeGestureRecognizer:self.press]; self.onState = nil;
     [self.handles removeAllObjects];

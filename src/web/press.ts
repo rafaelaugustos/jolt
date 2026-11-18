@@ -1,3 +1,5 @@
+import { coordinateTouch } from './gesture-coordination.js'
+import { GestureArbiter, registerGestureEndpoints } from '../core/gesture-relations.js'
 import type { PlaybackAnimation, SpringName, Transition, Values } from './types.js'
 import { renderedAncestors } from './geometry.js'
 
@@ -46,6 +48,10 @@ export function createPress(
   let disposed = false
   let animation: WebPress['animation']
 
+  const peer = new GestureArbiter(
+    () => cancel(),
+    () => coordinateTouch(target),
+  )
   const blocked = () =>
     state.disabled ||
     state.loading ||
@@ -69,6 +75,7 @@ export function createPress(
     pointer = undefined
     key = undefined
     change(false)
+    peer.fail()
   }
   const listen = <E extends Event>(
     node: EventTarget,
@@ -104,11 +111,15 @@ export function createPress(
       )
         return
     }
+    peer.begin(event.pointerId)
     change(true)
     pointer = event.pointerId
   })
   const endPointer = (event: PointerEvent) => {
-    if (event.pointerId === pointer) cancel()
+    if (event.pointerId === pointer) {
+      if (event.type === 'pointerup') peer.request(() => peer.finish())
+      cancel()
+    }
   }
   // No explicit pointer capture: preserve native click hit-testing on release.
   // Touch's implicit capture and scroll cancellation remain the browser's job.
@@ -177,6 +188,7 @@ export function createPress(
   watchRoot()
 
   const detach = () => {
+    peer.dispose()
     disposed = true
     pressed = false
     pointer = undefined
@@ -204,6 +216,10 @@ export function createPress(
       detach()
     },
   }
+  registerGestureEndpoints(handle, (kind = 'tap') => {
+    if (kind !== 'tap') throw new TypeError('Press exposes a tap recognizer.')
+    return peer
+  })
   return {
     handle,
     detach,

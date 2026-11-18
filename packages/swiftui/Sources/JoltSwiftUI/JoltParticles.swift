@@ -48,7 +48,7 @@ public struct JoltParticle: Identifiable, Sendable {
   public let id: Int, color: JoltColor
   public let x: Double, y: Double, rotation: Double, opacity: Double
 }
-/// Optional finite Canvas emitter. Late frames skip expired births without allocating a backlog.
+/// Bounded Canvas emitter. Late frames skip expired births without allocating a backlog.
 @MainActor public final class JoltParticles: ObservableObject, JoltResource {
   public let options: JoltParticleOptions
   public let clock: JoltClock
@@ -57,8 +57,10 @@ public struct JoltParticle: Identifiable, Sendable {
   public private(set) var disposed = false
   public private(set) var elapsed = 0.0
   private var paused = false, suspended = false, reduced = false, viewReduced = false, armed = false
-  private var width = 300.0, height = 180.0, rate = 0.0, duration = 0.0, started = 0.0,
+  private var width = 300.0, height = 180.0, rate = 0.0, started = 0.0,
     baseline = 0.0
+  private var duration: Double? = 0
+  public var continuous: Bool { duration == nil }
   private var burstCount = 0, seed: UInt64 = 1
   private var subscription: ClockSubscription?
   private struct Birth {
@@ -86,11 +88,11 @@ public struct JoltParticle: Identifiable, Sendable {
     start()
   }
   public func emit(
-    rate: Double = 30, duration: Double = 2000, seed: UInt64 = 1,
+    rate: Double = 30, duration: Double? = 2000, seed: UInt64 = 1,
     reducedMotion: Bool = false
   ) throws {
-    guard !disposed, rate.isFinite, rate > 0, rate <= 1000, duration.isFinite,
-      duration > 0, duration + options.lifetime <= 60_000,
+    guard !disposed, rate.isFinite, rate > 0, rate <= 1000,
+      duration.map({ $0.isFinite && $0 > 0 && $0 + options.lifetime <= 60_000 }) ?? true,
       ceil(rate * options.lifetime / 1000) <= Double(options.capacity)
     else { throw JoltError.invalidMotion }
     reset(seed: seed, reduced: reducedMotion)
@@ -143,8 +145,9 @@ public struct JoltParticle: Identifiable, Sendable {
       x: x, y: y, vx: cos(angle) * speed, vy: sin(angle) * speed, spin: spin, color: color)
   }
   private func sample(_ time: Double) {
-    elapsed = min(duration + options.lifetime, time)
-    if reduced || viewReduced || clock.reducedMotion || elapsed >= duration + options.lifetime {
+    let end = duration.map { $0 + options.lifetime } ?? .infinity
+    elapsed = min(end, time)
+    if reduced || viewReduced || clock.reducedMotion || elapsed >= end {
       subscription?.cancel()
       subscription = nil
       armed = false
@@ -153,7 +156,8 @@ public struct JoltParticle: Identifiable, Sendable {
       state = .completed
       return
     }
-    let last = burstCount > 0 ? burstCount : Int(floor(min(elapsed, duration) * rate / 1000))
+    let last =
+      burstCount > 0 ? burstCount : Int(floor(min(elapsed, duration ?? elapsed) * rate / 1000))
     let first = burstCount > 0 ? 0 : max(0, Int(floor((elapsed - options.lifetime) * rate / 1000)))
     var next: [JoltParticle] = []
     var live: [Int: Birth] = [:]
@@ -274,6 +278,6 @@ public struct JoltParticlesView: View {
         if next { model.resume() } else { model.suspend() }
       }
       .onChange(of: reduced || appReduced) { _, next in model.reduceMotion(next) }
-    .modifier(JoltActivityProvider($sceneActive))
+      .modifier(JoltActivityProvider($sceneActive))
   }
 }

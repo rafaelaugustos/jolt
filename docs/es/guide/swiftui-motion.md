@@ -1,5 +1,7 @@
 # SwiftUI: valores, interacción y composición
 
+A continuación se describe el comportamiento publicado en 0.1.0-rc.15. Las adiciones aún no publicadas de continuidad y gestos están en [contratos de movimiento](./motion-contracts).
+
 Disponible en **0.1.0-rc.15 (Beta)** para iOS 17+ y macOS 14+, sin NativeScript ni JavaScript. Instale el producto `JoltSwiftUI` desde la etiqueta `v0.1.0-rc.15` del repositorio de paquete [`jolt-swift`](https://github.com/rafaelaugustos/jolt-swift). Consulte [instalación](./swiftui), [ciclo de vida](./swiftui-motion) e [interacción/geometría](./swiftui-geometry) para los límites.
 
 JoltScope retiene sus recursos. .joltScope(scope) vincula un único límite de vista a la suspensión fuera de pantalla o con la escena inactiva. La pausa manual se conserva al reanudar. El modelo destruye mediante dispose(); reset() vacía un scope reutilizable. Cada recurso tiene un propietario. Bindings y seguidores usan valores prestados: destruir el seguidor no destruye su origen. Conserve propietarios en @StateObject, no en body.

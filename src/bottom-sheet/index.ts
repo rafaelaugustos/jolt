@@ -1,3 +1,4 @@
+import { gestureEndpoint, registerGestureEndpoints } from '../core/gesture-relations.js'
 import {
   Application,
   GridLayout,
@@ -606,5 +607,6 @@ export function bottomSheet(
     control.dispose()
     throw error
   }
+  registerGestureEndpoints(control, (kind) => gestureEndpoint(input, kind))
   return control
 }

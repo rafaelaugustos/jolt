@@ -1,3 +1,4 @@
+import { gestureEndpoint, registerGestureEndpoints } from '../core/gesture-relations.js'
 import {
   releaseStop,
   sheetGeometry,
@@ -350,6 +351,7 @@ export function createBottomSheet(
     )
     remeasure()
     display()
+    registerGestureEndpoints(control, (kind) => gestureEndpoint(gesture, kind))
     return control
   } catch (error) {
     dispose()

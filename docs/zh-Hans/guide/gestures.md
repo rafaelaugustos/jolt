@@ -1,5 +1,7 @@
 # 原生手势 {#native-gestures-and-scroll-handoff}
 
+下文描述已发布的 0.1.0-rc.15 行为。尚未发布的连续性与手势扩展见[动效约定](./motion-contracts)。
+
 自 **0.1.0-beta.16** 起在核心包中可用。升级后重建原生应用程序。不需要可选的原生属性插件。
 
 `gestures()` 在具有原生输入边界的 `GestureSurface`、NativeScript `GridLayout` 上组合平移、捏合和旋转。其只读输出可与 `bind()`、数字 `to()` 映射和 `springValue()` 配合使用。识别、指针跟踪和绑定输出更新不需要每次移动都有 JavaScript 回调。
