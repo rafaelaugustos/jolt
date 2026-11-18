@@ -104,7 +104,8 @@ public struct JoltVectorShape: Sendable {
   public var state: JoltPlaybackState { disposed ? .disposed : motion?.state ?? lastState }
   private var motion: JoltMotionValue?
   private var observation: JoltObservation?
-  private var morph: (index: Int, from: JoltSVGPath, to: JoltSVGPath)?
+  private typealias Morph = (index: Int, from: JoltSVGPath, to: JoltSVGPath)
+  private var morph: Morph?
   private var paused = false, suspended = false, viewReduced = false
   private var lastState: JoltPlaybackState = .idle
   public init(_ shapes: [JoltVectorShape], clock: JoltClock = .shared) throws {
@@ -146,20 +147,25 @@ public struct JoltVectorShape: Sendable {
     observation = try progress.subscribe { [weak self] amount in self?.paintMorph(amount) }
     try progress.animate(to: 1, transition: transition, reducedMotion: reducedMotion || viewReduced)
   }
-  private func paintMorph(_ progress: Double) {
-    guard !disposed, let morph, shapes.indices.contains(morph.index) else { return }
+  private func paintMorph(_ progress: Double, sampled: Morph? = nil) {
+    guard !disposed, let morph = sampled ?? morph, shapes.indices.contains(morph.index) else {
+      return
+    }
     let geometry = try! morph.from.interpolated(to: morph.to, progress: progress)
     shapes[morph.index] = shapes[morph.index].replacing(.svg(geometry))
   }
   public func cancel() {
-    if let motion { paintMorph(motion.replacementSample().position) }
+    let old = motion
+    let sampled = morph
+    let position = old?.replacementSample().position
     observation?.dispose()
     observation = nil
-    let old = motion
     motion = nil
     morph = nil
-    old?.dispose()
     lastState = .cancelled
+    old?.dispose()
+    // Release ownership before publishing the sampled scene: observers may cancel again.
+    if let position, let sampled { paintMorph(position, sampled: sampled) }
   }
   func reduceMotion(_ reduced: Bool) {
     viewReduced = reduced
@@ -185,8 +191,8 @@ public struct JoltVectorShape: Sendable {
   }
   public func dispose() {
     guard !disposed else { return }
-    cancel()
     disposed = true
+    cancel()
     shapes.removeAll()
   }
 }

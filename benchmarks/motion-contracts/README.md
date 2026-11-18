@@ -42,7 +42,7 @@ For SwiftUI, use `benchmarks/swiftui-demo/record.py` with `motion-contracts` and
 ## Verification
 
 - TypeScript: 1,879 tests in 141 files; root and benchmark type checks.
-- Swift: 39 JoltCore and 99 JoltSwiftUI tests, including generated SVG fixtures and seven motion contract cases.
+- Swift: 39 JoltCore and 100 JoltSwiftUI tests, including generated SVG fixtures and eight motion contract cases.
 - Browser motion contracts: 14 passed, four documented non-Chromium multi-touch skips. Existing Web gestures: 53 passed, four documented skips.
 - Both native production builds and native input runners; SwiftUI iOS/macOS input runners.
 - Portable core, packed consumers (types/SSR/browser/native production resolver), capability inventory and generated Swift definitions.

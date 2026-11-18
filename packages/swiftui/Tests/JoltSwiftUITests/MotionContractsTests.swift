@@ -1,3 +1,4 @@
+import Combine
 import XCTest
 
 @testable import JoltSwiftUI
@@ -44,6 +45,25 @@ final class MotionContractsTests: XCTestCase {
     drawing.dispose()
     XCTAssertTrue(drawing.shapes.isEmpty)
     XCTAssertThrowsError(try drawing.morphPath(at: 0, to: a))
+  }
+  @MainActor func testDrawingCancellationCanBeRepeatedFromSceneObservation() async throws {
+    let clock = JoltClock.testClock()
+    let drawing = try JoltDrawing(
+      [.init(.svg(.init("M0 0L20 20Z")), stroke: .init(argb: 0xffff_0000))], clock: clock)
+    try drawing.morphPath(at: 0, to: .init("M20 0L80 20Z"))
+    try clock.advance(by: 100)
+    var notifications = 0
+    let observation = drawing.$shapes.dropFirst().sink { _ in
+      notifications += 1
+      if notifications < 8 { drawing.cancel() }
+    }
+    drawing.cancel()
+    XCTAssertEqual(notifications, 1)
+    XCTAssertEqual(drawing.state, .cancelled)
+    XCTAssertEqual(clock.activeCount, 0)
+    observation.cancel()
+    drawing.dispose()
+    XCTAssertTrue(drawing.shapes.isEmpty)
   }
   @MainActor func testTimelineInheritsCommandTimeVelocityAndExplicitOverride() async throws {
     let clock = JoltClock.testClock()
